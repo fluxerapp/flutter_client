@@ -150,6 +150,9 @@ ProfileMenuCapabilities resolveProfileMenuCapabilities({
     showRemoveTimeout: canTimeout && targetIsTimedOut,
     canKick: canKick,
     canBan: canBan,
-    showManageRoles: hasGuildMember && hasAssignableRoles,
+    showManageRoles:
+        hasGuildMember &&
+        hasAssignableRoles &&
+        hasPermission(viewerPermissions, Permission.manageRoles),
   );
 }

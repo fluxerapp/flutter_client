@@ -7603,23 +7603,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Odhlásit se';
 
   @override
-  String get betaWarningTitle => 'Beta software';
-
-  @override
-  String get betaWarningMessage =>
-      'Toto je beta software. Ještě ne vše je hotové nebo přidané.';
-
-  @override
-  String get betaWarningReportIssues =>
-      'Jakékoli nalezené problémy prosím nahlaste komunitě Fluxer Mobile (pro vstup do komunity momentálně potřebujete Plutonium).';
-
-  @override
-  String get betaWarningRepoLink => 'Zobrazit zdroj na GitHubu';
-
-  @override
-  String get betaWarningGotIt => 'Rozumím';
-
-  @override
   String get quickSwitcherTabSearch => 'Hledat';
 
   @override

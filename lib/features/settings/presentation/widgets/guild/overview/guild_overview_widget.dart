@@ -167,7 +167,6 @@ class _GuildOverviewWidgetState extends ConsumerState<GuildOverviewWidget> {
       onSave: _save,
       child: SingleChildScrollView(
         controller: widget.scrollController,
-        physics: const AlwaysScrollableScrollPhysics(),
         padding: guildSettingsScrollPadding(context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

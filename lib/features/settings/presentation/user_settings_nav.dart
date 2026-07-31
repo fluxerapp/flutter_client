@@ -130,7 +130,7 @@ const _userSettingsDesktopNavBeforeStaffOnly = [
   // ),
   UserSettingsDesktopNavEntry.link(
     UserSettingsSection.languageAndTime,
-    icon: PhosphorIconsFill.translate,
+    icon: PhosphorIconsBold.translate,
   ),
   UserSettingsDesktopNavEntry.link(
     UserSettingsSection.advanced,
@@ -139,7 +139,7 @@ const _userSettingsDesktopNavBeforeStaffOnly = [
   UserSettingsDesktopNavEntry.separator(UserSettingsNavGroup.developer),
   UserSettingsDesktopNavEntry.link(
     UserSettingsSection.applications,
-    icon: PhosphorIconsFill.code,
+    icon: PhosphorIconsBold.code,
   ),
 ];
 
@@ -225,14 +225,14 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
         ),
         link(UserSettingsSection.chat, PhosphorIconsFill.chatCircle),
         link(UserSettingsSection.audioAndVideo, PhosphorIconsFill.microphone),
-        link(UserSettingsSection.languageAndTime, PhosphorIconsFill.translate),
+        link(UserSettingsSection.languageAndTime, PhosphorIconsBold.translate),
         link(UserSettingsSection.advanced, PhosphorIconsFill.flask),
       ],
     ),
     FluxerSettingsNavGroup(
       label: userSettingsNavGroupLabel(l10n, UserSettingsNavGroup.developer),
       items: [
-        link(UserSettingsSection.applications, PhosphorIconsFill.code),
+        link(UserSettingsSection.applications, PhosphorIconsBold.code),
         FluxerSettingsNavItem(
           label: l10n.userSettingsNavAppLogs,
           icon: PhosphorIconsFill.list,

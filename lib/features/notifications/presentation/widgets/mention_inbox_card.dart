@@ -8,10 +8,12 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
 import 'package:fluxer_app/features/notifications/domain/mention_header.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_icon_avatar.dart';
+import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kMentionActionButtonSize = 28;
+const double _kMessageLoaderHeight = 48;
 const String _kFallbackTitle = '…';
 
 /// Single row in the mentions feed: header (server avatar + channel/guild
@@ -24,12 +26,14 @@ class MentionInboxCard extends ConsumerWidget {
     required this.previewGuildId,
     required this.onJump,
     required this.onRemove,
+    this.isMessageLoading = false,
     this.removeTooltip,
     super.key,
   });
 
   final String messageId;
   final Message? message;
+  final bool isMessageLoading;
   final MentionHeader? header;
   final String? previewGuildId;
   final ValueChanged<Message> onJump;
@@ -148,6 +152,12 @@ class MentionInboxCard extends ConsumerWidget {
     final colors = context.colors;
     final textStyles = context.textStyles;
     final Message? msg = message;
+    if (isMessageLoading) {
+      return SizedBox(
+        height: _kMessageLoaderHeight,
+        child: Center(child: FluxerLoadingSpinner(color: colors.brandPrimary)),
+      );
+    }
     if (msg == null) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),

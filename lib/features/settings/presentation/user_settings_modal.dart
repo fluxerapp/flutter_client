@@ -116,10 +116,10 @@ class UserSettingsModal extends ConsumerStatefulWidget {
     UserSettingsSection? initialSection,
     String? guildId,
   }) async {
-    await FluxerBottomSheet.showScrollable<void>(
+    await FluxerPageSheet.showScrollable<void>(
       context,
       title: 'Settings',
-      useRootNavigator: true,
+      presentation: FluxerPageSheetPresentation.root,
       builder: (sheetContext, scrollController, close) =>
           _MobileSettingsNavBody(
             onClose: close,
@@ -316,7 +316,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal> {
 }
 
 // ---------------------------------------------------------------------------
-// Mobile settings — stacked bottom sheets
+// Mobile settings — page sheets
 // ---------------------------------------------------------------------------
 
 class _MobileSettingsNavBody extends ConsumerStatefulWidget {
@@ -400,10 +400,9 @@ class _MobileSettingsNavBodyState
     final l10n = FluxerLocalizations.of(context);
     final canDismiss = ValueNotifier<bool>(true);
     unawaited(
-      FluxerBottomSheet.showScrollable<void>(
+      FluxerPageSheet.showScrollable<void>(
         context,
         title: userSettingsSectionLabel(l10n, section),
-        useRootNavigator: true,
         canDismissNotifier: canDismiss,
         builder: (sheetContext, scrollController, close) =>
             _MobileSettingsContentBody(
@@ -603,7 +602,6 @@ Widget _buildUserSettingsPlaceholder(
   }
   return CustomScrollView(
     controller: scrollController,
-    physics: const AlwaysScrollableScrollPhysics(),
     slivers: [SliverFillRemaining(hasScrollBody: false, child: child)],
   );
 }

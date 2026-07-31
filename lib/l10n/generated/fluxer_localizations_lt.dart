@@ -7665,23 +7665,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Atsijungti';
 
   @override
-  String get betaWarningTitle => 'Beta versijos programinė įranga';
-
-  @override
-  String get betaWarningMessage =>
-      'Tai beta versijos programinė įranga. Dar ne viskas baigta ar pridėta.';
-
-  @override
-  String get betaWarningReportIssues =>
-      'Prašome pranešti apie visus rastus problemas Fluxer Mobile bendruomenei (šiuo metu, kad galėtumėte prisijungti prie bendruomenės, turite turėti Plutonium).';
-
-  @override
-  String get betaWarningRepoLink => 'Peržiūrėti šaltinį „GitHub“';
-
-  @override
-  String get betaWarningGotIt => 'Supratau';
-
-  @override
   String get quickSwitcherTabSearch => 'Ieškoti';
 
   @override

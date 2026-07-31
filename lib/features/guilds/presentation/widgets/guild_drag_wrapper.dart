@@ -273,7 +273,10 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper> {
                     ),
                   ),
             onDragStarted: (double? anchorGlobalCenterX) {
-              if (useLongPressDrag) {
+              final bool hasLongPressOverlayHost =
+                  widget.peekMenu != null ||
+                  widget.onFolderLongPressMenu != null;
+              if (useLongPressDrag && !hasLongPressOverlayHost) {
                 unawaited(HapticFeedback.mediumImpact());
               }
               ref

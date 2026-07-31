@@ -6619,26 +6619,6 @@
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."
     },
-    "betaWarningTitle": "ベータ版ソフトウェア",
-    "@betaWarningTitle": {
-        "description": "Title on the beta warning bottom sheet shown on first launch and after each build update."
-    },
-    "betaWarningMessage": "これはベータ版ソフトウェアです。まだ完了していない、または追加されていない機能があります。",
-    "@betaWarningMessage": {
-        "description": "Main warning message on the beta warning bottom sheet."
-    },
-    "betaWarningReportIssues": "見つかった問題は、Fluxer Mobileコミュニティに報告してください（現在、コミュニティに参加するにはPlutoniumが必要です）。",
-    "@betaWarningReportIssues": {
-        "description": "Secondary message on the beta warning sheet about reporting issues."
-    },
-    "betaWarningRepoLink": "GitHubでソースを表示",
-    "@betaWarningRepoLink": {
-        "description": "Link label on the beta warning sheet to the open-source repository."
-    },
-    "betaWarningGotIt": "了解しました",
-    "@betaWarningGotIt": {
-        "description": "Primary button on the beta warning sheet to acknowledge the message."
-    },
     "quickSwitcherTabSearch": "検索",
     "@quickSwitcherTabSearch": {
         "description": "Quick switcher bottom sheet tab for search results."

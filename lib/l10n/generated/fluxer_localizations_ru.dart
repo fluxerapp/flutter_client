@@ -7624,23 +7624,6 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Выйти';
 
   @override
-  String get betaWarningTitle => 'Бета-версия';
-
-  @override
-  String get betaWarningMessage =>
-      'Это бета-версия. Еще не все готово или добавлено.';
-
-  @override
-  String get betaWarningReportIssues =>
-      'Пожалуйста, сообщайте о любых найденных проблемах в сообщество Fluxer Mobile (для этого вам понадобится Plutonium, чтобы присоединиться к сообществу в настоящее время).';
-
-  @override
-  String get betaWarningRepoLink => 'Посмотреть исходный код на GitHub';
-
-  @override
-  String get betaWarningGotIt => 'Понял';
-
-  @override
   String get quickSwitcherTabSearch => 'Поиск';
 
   @override

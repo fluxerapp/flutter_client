@@ -6619,26 +6619,6 @@
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."
     },
-    "betaWarningTitle": "Beta software",
-    "@betaWarningTitle": {
-        "description": "Title on the beta warning bottom sheet shown on first launch and after each build update."
-    },
-    "betaWarningMessage": "Toto je beta software. Ještě ne vše je hotové nebo přidané.",
-    "@betaWarningMessage": {
-        "description": "Main warning message on the beta warning bottom sheet."
-    },
-    "betaWarningReportIssues": "Jakékoli nalezené problémy prosím nahlaste komunitě Fluxer Mobile (pro vstup do komunity momentálně potřebujete Plutonium).",
-    "@betaWarningReportIssues": {
-        "description": "Secondary message on the beta warning sheet about reporting issues."
-    },
-    "betaWarningRepoLink": "Zobrazit zdroj na GitHubu",
-    "@betaWarningRepoLink": {
-        "description": "Link label on the beta warning sheet to the open-source repository."
-    },
-    "betaWarningGotIt": "Rozumím",
-    "@betaWarningGotIt": {
-        "description": "Primary button on the beta warning sheet to acknowledge the message."
-    },
     "quickSwitcherTabSearch": "Hledat",
     "@quickSwitcherTabSearch": {
         "description": "Quick switcher bottom sheet tab for search results."

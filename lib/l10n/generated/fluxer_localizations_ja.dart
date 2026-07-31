@@ -7376,23 +7376,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'ログアウト';
 
   @override
-  String get betaWarningTitle => 'ベータ版ソフトウェア';
-
-  @override
-  String get betaWarningMessage =>
-      'これはベータ版ソフトウェアです。まだ完了していない、または追加されていない機能があります。';
-
-  @override
-  String get betaWarningReportIssues =>
-      '見つかった問題は、Fluxer Mobileコミュニティに報告してください（現在、コミュニティに参加するにはPlutoniumが必要です）。';
-
-  @override
-  String get betaWarningRepoLink => 'GitHubでソースを表示';
-
-  @override
-  String get betaWarningGotIt => '了解しました';
-
-  @override
   String get quickSwitcherTabSearch => '検索';
 
   @override

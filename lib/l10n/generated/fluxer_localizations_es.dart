@@ -7664,23 +7664,6 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Cerrar sesión';
 
   @override
-  String get betaWarningTitle => 'Software beta';
-
-  @override
-  String get betaWarningMessage =>
-      'Esto es software beta. Aún no todo está terminado o añadido.';
-
-  @override
-  String get betaWarningReportIssues =>
-      'Por favor, informa de cualquier problema que encuentres a la comunidad de Fluxer Mobile (actualmente, debes tener Plutonium para poder unirte a la comunidad).';
-
-  @override
-  String get betaWarningRepoLink => 'Ver código fuente en GitHub';
-
-  @override
-  String get betaWarningGotIt => 'Entendido';
-
-  @override
   String get quickSwitcherTabSearch => 'Buscar';
 
   @override
@@ -16266,23 +16249,6 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get userSettingsNavLogOut => 'Cerrar sesión';
-
-  @override
-  String get betaWarningTitle => 'Software en versión beta';
-
-  @override
-  String get betaWarningMessage =>
-      'Este software está en versión beta. No todo está terminado o añadido todavía.';
-
-  @override
-  String get betaWarningReportIssues =>
-      'Por favor, informa de cualquier problema que encuentres a la comunidad de Fluxer Mobile (debes tener Plutonium para poder unirte a la comunidad actualmente).';
-
-  @override
-  String get betaWarningRepoLink => 'Ver código fuente en GitHub';
-
-  @override
-  String get betaWarningGotIt => 'Entendido';
 
   @override
   String get quickSwitcherTabSearch => 'Buscar';

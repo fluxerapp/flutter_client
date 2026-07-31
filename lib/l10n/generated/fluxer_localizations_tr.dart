@@ -7604,23 +7604,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Oturumu Kapat';
 
   @override
-  String get betaWarningTitle => 'Beta yazılım';
-
-  @override
-  String get betaWarningMessage =>
-      'Bu beta yazılımdır. Henüz her şey tamamlanmadı veya eklenmedi.';
-
-  @override
-  String get betaWarningReportIssues =>
-      'Lütfen bulduğunuz sorunları Fluxer Mobil topluluğuna bildirin (şu anda topluluğa katılabilmek için Plutonium\'a sahip olmanız gerekir).';
-
-  @override
-  String get betaWarningRepoLink => 'GitHub\'da kaynak kodunu görüntüle';
-
-  @override
-  String get betaWarningGotIt => 'Anladım';
-
-  @override
   String get quickSwitcherTabSearch => 'Ara';
 
   @override

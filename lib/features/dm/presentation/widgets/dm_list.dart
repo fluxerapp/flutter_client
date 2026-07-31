@@ -337,24 +337,44 @@ class _DMListState extends ConsumerState<DMList> {
 
   Widget _buildComposeFab(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    return Semantics(
-      label: l10n.createDmNewMessage,
-      button: true,
-      child: SizedBox(
-        width: 56,
-        height: 56,
-        child: FloatingActionButton(
-          onPressed: () => unawaited(CreateDmFlow.show(context)),
-          backgroundColor: context.colors.brandPrimary,
-          elevation: 4,
-          shape: const CircleBorder(),
+    return FluxerTappable(
+      onTap: () => unawaited(CreateDmFlow.show(context)),
+      semanticLabel: l10n.createDmNewMessage,
+      builder: (context, states) {
+        final colors = context.colors;
+        final motion = context.motion;
+        final isHovered = states.contains(WidgetState.hovered);
+
+        return AnimatedContainer(
+          duration: motion.fast,
+          curve: motion.curve,
+          width: 56,
+          height: 56,
+          decoration: BoxDecoration(
+            color: isHovered ? colors.brandSecondary : colors.brandPrimary,
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: FluxerButtonVariant.primary.borderColor(
+                colors,
+                hovered: isHovered,
+              )!,
+            ),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x33000000),
+                blurRadius: 4,
+                offset: Offset(0, 2),
+              ),
+            ],
+          ),
+          alignment: Alignment.center,
           child: PhosphorIcon(
             PhosphorIconsFill.paperPlane,
             size: 24,
-            color: context.colors.textOnBrandPrimary,
+            color: colors.textOnBrandPrimary,
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -476,28 +496,48 @@ class _DMListState extends ConsumerState<DMList> {
     ),
   );
 
-  Widget _buildCircleButton(
+  Widget _buildDmListSurfaceButton(
     BuildContext context, {
-    required IconData icon,
     required VoidCallback onTap,
-    double iconSize = 18,
-  }) => GestureDetector(
-    onTap: onTap,
-    child: Container(
-      width: 32,
-      height: 32,
-      decoration: BoxDecoration(
-        color: context.colors.guildListForeground,
-        shape: BoxShape.circle,
-      ),
-      alignment: Alignment.center,
-      child: PhosphorIcon(
-        icon,
-        size: iconSize,
-        color: context.colors.textPrimary,
-      ),
-    ),
-  );
+    required Widget child,
+    BorderRadius borderRadius = const BorderRadius.all(Radius.circular(999)),
+    EdgeInsetsGeometry? padding,
+    double? width,
+    double? height,
+    String? semanticLabel,
+  }) {
+    return FluxerTappable(
+      onTap: onTap,
+      semanticLabel: semanticLabel,
+      builder: (context, states) {
+        final colors = context.colors;
+        final motion = context.motion;
+        final isHovered = states.contains(WidgetState.hovered);
+
+        return AnimatedContainer(
+          duration: motion.fast,
+          curve: motion.curve,
+          width: width,
+          height: height,
+          padding: padding,
+          decoration: BoxDecoration(
+            color: isHovered
+                ? colors.backgroundSecondaryAlt
+                : colors.guildListForeground,
+            borderRadius: borderRadius,
+            border: Border.all(
+              color: FluxerButtonVariant.secondary.borderColor(
+                colors,
+                hovered: isHovered,
+              )!,
+            ),
+          ),
+          alignment: width != null || height != null ? Alignment.center : null,
+          child: child,
+        );
+      },
+    );
+  }
 
   Widget _buildMobileHeader(BuildContext context) {
     final l10n = FluxerLocalizations.of(context);
@@ -520,77 +560,77 @@ class _DMListState extends ConsumerState<DMList> {
               ),
             ),
           ),
-          _buildCircleButton(
+          _buildDmListSurfaceButton(
             context,
-            icon: PhosphorIconsBold.magnifyingGlass,
-            iconSize: 20,
             onTap: () => unawaited(QuickSwitcherBottomSheet.show(context, ref)),
+            width: 32,
+            height: 32,
+            borderRadius: BorderRadius.circular(16),
+            child: PhosphorIcon(
+              PhosphorIconsBold.magnifyingGlass,
+              size: 20,
+              color: context.colors.textPrimary,
+            ),
           ),
           const SizedBox(width: 8),
-          InkWell(
-            onTap: () => AddFriendSheet.show(context),
-            borderRadius: BorderRadius.circular(999),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: context.colors.guildListForeground,
-                    borderRadius: BorderRadius.circular(999),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      PhosphorIcon(
-                        PhosphorIconsFill.userPlus,
-                        size: 16,
-                        color: context.colors.textPrimary,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        l10n.dmAddFriends,
-                        style: TextStyle(
-                          color: context.colors.textPrimary,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          height: 20 / 14,
-                        ),
-                      ),
-                    ],
-                  ),
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              _buildDmListSurfaceButton(
+                context,
+                onTap: () => AddFriendSheet.show(context),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
                 ),
-                if (pendingCount > 0)
-                  Positioned(
-                    top: -4,
-                    right: -4,
-                    child: Container(
-                      constraints: const BoxConstraints(
-                        minWidth: 20,
-                        minHeight: 20,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    PhosphorIcon(
+                      PhosphorIconsFill.userPlus,
+                      size: 16,
+                      color: context.colors.textPrimary,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      l10n.dmAddFriends,
+                      style: TextStyle(
+                        color: context.colors.textPrimary,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        height: 20 / 14,
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      decoration: BoxDecoration(
-                        color: context.colors.statusDanger,
-                        shape: BoxShape.circle,
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        '$pendingCount',
-                        style: TextStyle(
-                          color: context.colors.textPrimary,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                          height: 16 / 12,
-                        ),
+                    ),
+                  ],
+                ),
+              ),
+              if (pendingCount > 0)
+                Positioned(
+                  top: -4,
+                  right: -4,
+                  child: Container(
+                    constraints: const BoxConstraints(
+                      minWidth: 20,
+                      minHeight: 20,
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    decoration: BoxDecoration(
+                      color: context.colors.statusDanger,
+                      shape: BoxShape.circle,
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      '$pendingCount',
+                      style: TextStyle(
+                        color: context.colors.textPrimary,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                        height: 16 / 12,
                       ),
                     ),
                   ),
-              ],
-            ),
+                ),
+            ],
           ),
         ],
       ),

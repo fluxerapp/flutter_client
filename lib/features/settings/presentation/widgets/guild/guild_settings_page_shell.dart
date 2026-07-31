@@ -111,7 +111,6 @@ class GuildSettingsAsyncBody<T> extends StatelessWidget {
     }
     return SingleChildScrollView(
       controller: scrollController,
-      physics: const AlwaysScrollableScrollPhysics(),
       padding: EdgeInsets.all(layout.s4),
       child: content,
     );

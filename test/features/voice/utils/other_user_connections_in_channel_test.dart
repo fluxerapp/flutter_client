@@ -1,5 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/features/voice/domain/voice_connect_failed_target.dart';
+import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_dart/gateway.dart';
 
 void main() {
@@ -119,6 +122,87 @@ void main() {
       expect(dmOthers.single.connectionId, 'conn-dm');
       expect(guildOthers, hasLength(1));
       expect(guildOthers.single.connectionId, 'conn-guild');
+    });
+  });
+
+  group('partitionSelfVoiceConnectionsForJoin', () {
+    test('treats same-platform ghosts as stale when session is inactive', () {
+      final Map<String, VoiceState> map = <String, VoiceState>{
+        'conn-stale': voiceState(
+          userId: 'self',
+          channelId: 'voice-1',
+          guildId: 'g1',
+          connectionId: 'conn-stale',
+        ),
+      };
+
+      final SelfVoiceConnectionsForJoin partitioned =
+          partitionSelfVoiceConnectionsForJoin(
+            voiceStates: map,
+            guildId: 'g1',
+            channelId: 'voice-1',
+            currentUserId: 'self',
+            session: const VoiceSessionState(),
+          );
+
+      expect(partitioned.stale, hasLength(1));
+      expect(partitioned.stale.single.connectionId, 'conn-stale');
+      expect(partitioned.otherDevices, isEmpty);
+    });
+
+    test('keeps different-platform connections as other devices', () {
+      final Map<String, VoiceState> map = <String, VoiceState>{
+        'conn-other': VoiceState(
+          userId: 'self',
+          channelId: 'voice-1',
+          guildId: 'g1',
+          connectionId: 'conn-other',
+          isMobile: !isFluxerMobileOs,
+        ),
+      };
+
+      final SelfVoiceConnectionsForJoin partitioned =
+          partitionSelfVoiceConnectionsForJoin(
+            voiceStates: map,
+            guildId: 'g1',
+            channelId: 'voice-1',
+            currentUserId: 'self',
+            session: const VoiceSessionState(),
+          );
+
+      expect(partitioned.stale, isEmpty);
+      expect(partitioned.otherDevices, hasLength(1));
+      expect(partitioned.otherDevices.single.connectionId, 'conn-other');
+    });
+
+    test('treats failed join remnants as stale regardless of platform', () {
+      final Map<String, VoiceState> map = <String, VoiceState>{
+        'conn-stale': VoiceState(
+          userId: 'self',
+          channelId: 'voice-1',
+          guildId: 'g1',
+          connectionId: 'conn-stale',
+          isMobile: !isFluxerMobileOs,
+        ),
+      };
+
+      final SelfVoiceConnectionsForJoin partitioned =
+          partitionSelfVoiceConnectionsForJoin(
+            voiceStates: map,
+            guildId: 'g1',
+            channelId: 'voice-1',
+            currentUserId: 'self',
+            session: const VoiceSessionState(
+              connectFailed: true,
+              connectFailedTarget: VoiceConnectFailedTarget(
+                channelId: 'voice-1',
+                guildId: 'g1',
+              ),
+            ),
+          );
+
+      expect(partitioned.stale, hasLength(1));
+      expect(partitioned.otherDevices, isEmpty);
     });
   });
 }

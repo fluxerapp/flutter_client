@@ -126,7 +126,6 @@ class _GuildDiscoverySettingsWidgetState
     return FluxerSettingsSheet(
       child: SingleChildScrollView(
         controller: _scrollController,
-        physics: const AlwaysScrollableScrollPhysics(),
         padding: EdgeInsets.fromLTRB(
           context.layout.s4,
           context.layout.s4,

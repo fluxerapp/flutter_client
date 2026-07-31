@@ -9702,26 +9702,6 @@
   "@userSettingsNavLogOut": {
     "description": "User settings navigation item to sign out of the account."
   },
-  "betaWarningTitle": "Beta software",
-  "@betaWarningTitle": {
-    "description": "Title on the beta warning bottom sheet shown on first launch and after each build update."
-  },
-  "betaWarningMessage": "This is beta software. Not everything is finished or added yet.",
-  "@betaWarningMessage": {
-    "description": "Main warning message on the beta warning bottom sheet."
-  },
-  "betaWarningReportIssues": "Please report any issues you find to the Fluxer Mobile community (you must have Plutonium to be able to join the community currently).",
-  "@betaWarningReportIssues": {
-    "description": "Secondary message on the beta warning sheet about reporting issues."
-  },
-  "betaWarningRepoLink": "View source on GitHub",
-  "@betaWarningRepoLink": {
-    "description": "Link label on the beta warning sheet to the open-source repository."
-  },
-  "betaWarningGotIt": "Got it",
-  "@betaWarningGotIt": {
-    "description": "Primary button on the beta warning sheet to acknowledge the message."
-  },
   "quickSwitcherTabSearch": "Search",
   "@quickSwitcherTabSearch": {
     "description": "Quick switcher bottom sheet tab for search results."

@@ -27,61 +27,67 @@ class UserBlockedUsers extends ConsumerWidget {
 
     final Widget body = blockedAsync.when(
       loading: () => const Center(child: FluxerLoadingSpinner()),
-      error: (_, _) => Padding(
-        padding: EdgeInsets.all(layout.s4),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            PhosphorIcon(
-              PhosphorIconsFill.networkSlash,
-              size: 48,
-              color: colors.textPrimaryMuted,
-            ),
-            SizedBox(height: layout.s3),
-            Text(
-              l10n.blockedUsersLoadError,
-              style: context.textStyles.bodySmall.copyWith(
+      error: (_, _) => Center(
+        child: Padding(
+          padding: EdgeInsets.all(layout.s4),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              PhosphorIcon(
+                PhosphorIconsFill.networkSlash,
+                size: 48,
                 color: colors.textPrimaryMuted,
               ),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: layout.s4),
-            FluxerButton.primary(
-              label: l10n.retry,
-              onPressed: () => ref.invalidate(blockedUsersViewModelProvider),
-            ),
-          ],
+              SizedBox(height: layout.s3),
+              Text(
+                l10n.blockedUsersLoadError,
+                style: context.textStyles.bodySmall.copyWith(
+                  color: colors.textPrimaryMuted,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: layout.s4),
+              FluxerButton.primary(
+                label: l10n.retry,
+                onPressed: () => ref.invalidate(blockedUsersViewModelProvider),
+              ),
+            ],
+          ),
         ),
       ),
       data: (blocked) {
         if (blocked.isEmpty) {
-          return Padding(
-            padding: EdgeInsets.all(layout.s4),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                PhosphorIcon(
-                  PhosphorIconsFill.prohibit,
-                  size: 48,
-                  color: colors.textPrimaryMuted,
-                ),
-                SizedBox(height: layout.s3),
-                Text(
-                  l10n.blockedUsersEmptyTitle,
-                  style: context.textStyles.heading.copyWith(
-                    color: colors.textPrimary,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: layout.s1),
-                Text(
-                  l10n.blockedUsersEmptyDescription,
-                  style: context.textStyles.bodySmall.copyWith(
+          return Center(
+            child: Padding(
+              padding: EdgeInsets.all(layout.s4),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  PhosphorIcon(
+                    PhosphorIconsFill.prohibit,
+                    size: 48,
                     color: colors.textPrimaryMuted,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
+                  SizedBox(height: layout.s3),
+                  Text(
+                    l10n.blockedUsersEmptyTitle,
+                    style: context.textStyles.heading.copyWith(
+                      color: colors.textPrimary,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: layout.s1),
+                  Text(
+                    l10n.blockedUsersEmptyDescription,
+                    style: context.textStyles.bodySmall.copyWith(
+                      color: colors.textPrimaryMuted,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
             ),
           );
         }
@@ -112,13 +118,19 @@ class UserBlockedUsers extends ConsumerWidget {
       },
     );
 
-    return SingleChildScrollView(
-      controller: scrollController,
-      physics: const AlwaysScrollableScrollPhysics(),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 1),
-        child: body,
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final minHeight = constraints.hasBoundedHeight
+            ? constraints.maxHeight
+            : 0.0;
+        return SingleChildScrollView(
+          controller: scrollController,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: minHeight),
+            child: body,
+          ),
+        );
+      },
     );
   }
 

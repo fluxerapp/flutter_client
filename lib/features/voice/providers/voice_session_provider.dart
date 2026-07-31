@@ -277,11 +277,14 @@ class VoiceSession extends _$VoiceSession {
       if (!state.isConnecting || state.isConnected) {
         return;
       }
+      final String? channelId = _expectedChannelId;
+      final String? guildId = _expectedGuildId;
+      final String? connectionId = state.activeConnectionId;
       talker.warning(
         '[Voice] Join timed out after '
         '${_kVoiceJoinWatchdogDuration.inSeconds}s '
-        '(generation=$generation, channelId=$_expectedChannelId, '
-        'guildId=$_expectedGuildId).',
+        '(generation=$generation, channelId=$channelId, '
+        'guildId=$guildId).',
       );
       _connectGeneration++;
       _expectedGuildId = null;
@@ -290,7 +293,12 @@ class VoiceSession extends _$VoiceSession {
       _pendingRingSilently = false;
       _outboundRingRecipients = null;
       _resetPendingSelfAudioFlags();
-      _clearOutgoingCallInitiator(_expectedChannelId);
+      _clearOutgoingCallInitiator(channelId);
+      if (connectionId != null && guildId != null) {
+        _sendVoiceDisconnectState(guildId: guildId, connectionId: connectionId);
+      } else if (channelId != null) {
+        _sendVoiceLeaveChannelState(guildId: guildId);
+      }
       _detachLocalParticipantListener();
       unawaited(_disconnectRoomOnly());
       state = state.copyWith(

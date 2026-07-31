@@ -1639,13 +1639,16 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
         builder: (BuildContext sheetContext, VoidCallback close) {
           final FluxerLocalizations l10n = FluxerLocalizations.of(sheetContext);
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: FluxerBottomSheet.scrollViewPadding(
+              sheetContext,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+            ),
             child: FluxerBottomSheetGroupColumn(
               children: [
                 FluxerMenuGroup(
                   children: [
                     FluxerBottomSheetMenuItem(
-                      icon: PhosphorIconsBold.images,
+                      icon: PhosphorIconsFill.image,
                       label: l10n.chatAttachmentSourceGallery,
                       onTap: () async {
                         close();
@@ -1670,7 +1673,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
                       },
                     ),
                     FluxerBottomSheetMenuItem(
-                      icon: PhosphorIconsBold.camera,
+                      icon: PhosphorIconsFill.camera,
                       label: l10n.chatAttachmentSourceCamera,
                       onTap: () async {
                         close();
@@ -1694,7 +1697,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
                       },
                     ),
                     FluxerBottomSheetMenuItem(
-                      icon: PhosphorIconsBold.folderOpen,
+                      icon: PhosphorIconsFill.folder,
                       label: l10n.chatAttachmentSourceBrowse,
                       onTap: () async {
                         close();

@@ -7650,23 +7650,6 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Αποσύνδεση';
 
   @override
-  String get betaWarningTitle => 'Λογισμικό Beta';
-
-  @override
-  String get betaWarningMessage =>
-      'Αυτό είναι λογισμικό beta. Δεν είναι όλα ολοκληρωμένα ή προστιθέμενα ακόμα.';
-
-  @override
-  String get betaWarningReportIssues =>
-      'Παρακαλούμε αναφέρετε τυχόν προβλήματα που θα βρείτε στην κοινότητα Fluxer Mobile (πρέπει να έχετε Plutonium για να μπορείτε να συμμετάσχετε στην κοινότητα αυτή τη στιγμή).';
-
-  @override
-  String get betaWarningRepoLink => 'Προβολή πηγαίου κώδικα στο GitHub';
-
-  @override
-  String get betaWarningGotIt => 'Το κατάλαβα';
-
-  @override
   String get quickSwitcherTabSearch => 'Αναζήτηση';
 
   @override

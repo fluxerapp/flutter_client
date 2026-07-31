@@ -7635,23 +7635,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Kijelentkezés';
 
   @override
-  String get betaWarningTitle => 'Béta szoftver';
-
-  @override
-  String get betaWarningMessage =>
-      'Ez egy béta szoftver. Még nem minden funkció készült el vagy lett hozzáadva.';
-
-  @override
-  String get betaWarningReportIssues =>
-      'Kérjük, jelentsd az esetleges problémákat a Fluxer Mobile közösségnek (jelenleg Plutoniummal tudsz csak csatlakozni a közösséghez).';
-
-  @override
-  String get betaWarningRepoLink => 'Forrás megtekintése a GitHubon';
-
-  @override
-  String get betaWarningGotIt => 'Értettem';
-
-  @override
   String get quickSwitcherTabSearch => 'Keresés';
 
   @override

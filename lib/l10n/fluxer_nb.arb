@@ -6619,26 +6619,6 @@
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."
     },
-    "betaWarningTitle": "Betaprogramvare",
-    "@betaWarningTitle": {
-        "description": "Title on the beta warning bottom sheet shown on first launch and after each build update."
-    },
-    "betaWarningMessage": "Dette er betaprogramvare. Ikke alt er ferdig eller lagt til ennå.",
-    "@betaWarningMessage": {
-        "description": "Main warning message on the beta warning bottom sheet."
-    },
-    "betaWarningReportIssues": "Vennligst rapporter eventuelle problemer du finner til Fluxer Mobile-fellesskapet (du må ha Plutonium for å kunne bli med i fellesskapet for øyeblikket).",
-    "@betaWarningReportIssues": {
-        "description": "Secondary message on the beta warning sheet about reporting issues."
-    },
-    "betaWarningRepoLink": "Se kildekode på GitHub",
-    "@betaWarningRepoLink": {
-        "description": "Link label on the beta warning sheet to the open-source repository."
-    },
-    "betaWarningGotIt": "Forstått",
-    "@betaWarningGotIt": {
-        "description": "Primary button on the beta warning sheet to acknowledge the message."
-    },
     "quickSwitcherTabSearch": "Søk",
     "@quickSwitcherTabSearch": {
         "description": "Quick switcher bottom sheet tab for search results."

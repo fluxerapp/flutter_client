@@ -11,6 +11,9 @@ import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/favorites/utils/favorites_shell_navigation.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button_variant.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_channel_chat_sheet.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_chat_unread_badge.dart';
 import 'package:fluxer_app/features/voice/providers/screen_share_capability_provider.dart';
@@ -478,50 +481,27 @@ class ChatButton extends ConsumerWidget {
       l10n: l10n,
       unread: unread,
     );
-    return GestureDetector(
-      onTap: () {
-        unawaited(
-          showVoiceChannelChatSheet(
-            context,
-            channelId: channelId,
-            channelName: channelName,
-          ),
-        );
-      },
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: <Widget>[
-          Semantics(
-            button: true,
-            label: semanticsLabel,
-            child: Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: context.colors.backgroundFloating.withValues(
-                  alpha: 0.85,
-                ),
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.15),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
+    return Stack(
+      clipBehavior: Clip.none,
+      children: <Widget>[
+        FluxerButton.circle(
+          icon: PhosphorIconsFill.chatTeardrop,
+          variant: FluxerButtonVariant.secondary,
+          size: FluxerButtonSize.small,
+          iconSize: 20,
+          semanticLabel: semanticsLabel,
+          onPressed: () {
+            unawaited(
+              showVoiceChannelChatSheet(
+                context,
+                channelId: channelId,
+                channelName: channelName,
               ),
-              child: Center(
-                child: PhosphorIcon(
-                  PhosphorIconsFill.chatTeardrop,
-                  size: 20,
-                  color: context.colors.textPrimary,
-                ),
-              ),
-            ),
-          ),
-          VoiceChatUnreadBadge(channelId: channelId),
-        ],
-      ),
+            );
+          },
+        ),
+        VoiceChatUnreadBadge(channelId: channelId),
+      ],
     );
   }
 }

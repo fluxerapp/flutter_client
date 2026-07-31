@@ -144,6 +144,38 @@ Future<void> _showVoiceJoinFailedModal(
   );
 }
 
+Future<bool> _disconnectSelfConnections({
+  required ProviderContainer container,
+  required String? guildId,
+  required String channelId,
+  required String currentUserId,
+  required List<VoiceState> connections,
+}) async {
+  final Set<String> connectionIdsToClear = <String>{};
+  for (final VoiceState vs in connections) {
+    final String? connectionId = vs.connectionId;
+    if (connectionId == null) {
+      continue;
+    }
+    connectionIdsToClear.add(connectionId);
+    sendVoiceStateDisconnect(
+      container,
+      guildId: guildId,
+      connectionId: connectionId,
+    );
+  }
+  if (connectionIdsToClear.isEmpty) {
+    return true;
+  }
+  return _waitForOtherConnectionsCleared(
+    container: container,
+    guildId: guildId,
+    channelId: channelId,
+    currentUserId: currentUserId,
+    connectionIdsToClear: connectionIdsToClear,
+  );
+}
+
 Future<bool> _waitForOtherConnectionsCleared({
   required ProviderContainer container,
   required String? guildId,
@@ -230,19 +262,34 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
     }
     return VoiceJoinResult.succeeded;
   }
-  final String? localConnectionId = container
-      .read(voiceSessionProvider)
-      .activeConnectionId;
+  final VoiceSessionState session = container.read(voiceSessionProvider);
   final Map<String, VoiceState> voiceStates = container.read(
     voiceStatesMapProvider,
   );
-  final List<VoiceState> others = otherUserConnectionsInChannel(
-    voiceStates: voiceStates,
-    guildId: guildId,
-    channelId: channelId,
-    currentUserId: currentUserId,
-    localConnectionId: localConnectionId,
-  );
+  final SelfVoiceConnectionsForJoin partitioned =
+      partitionSelfVoiceConnectionsForJoin(
+        voiceStates: voiceStates,
+        guildId: guildId,
+        channelId: channelId,
+        currentUserId: currentUserId,
+        session: session,
+      );
+  if (partitioned.stale.isNotEmpty) {
+    final bool cleared = await _disconnectSelfConnections(
+      container: container,
+      guildId: guildId,
+      channelId: channelId,
+      currentUserId: currentUserId,
+      connections: partitioned.stale,
+    );
+    if (!cleared) {
+      talker.warning(
+        '[Voice] Timed out clearing stale voice connections before join '
+        '(channelId=$channelId, connections=${partitioned.stale.length}).',
+      );
+    }
+  }
+  final List<VoiceState> others = partitioned.otherDevices;
   if (others.isEmpty) {
     final bool joined = await _connectToVoiceChannel(
       container: container,
@@ -283,37 +330,23 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
   }
   const bool forceJoin = true;
   if (choice == VoiceConnectionConfirmResult.switchToThisDevice) {
-    final Set<String> connectionIdsToClear = <String>{};
-    for (final VoiceState vs in others) {
-      final String? cid = vs.connectionId;
-      if (cid != null) {
-        connectionIdsToClear.add(cid);
-        sendVoiceStateDisconnect(
-          container,
-          guildId: guildId,
-          connectionId: cid,
-        );
-      }
-    }
-    if (connectionIdsToClear.isNotEmpty) {
-      final bool cleared = await _waitForOtherConnectionsCleared(
-        container: container,
-        guildId: guildId,
-        channelId: channelId,
-        currentUserId: currentUserId,
-        connectionIdsToClear: connectionIdsToClear,
+    final bool cleared = await _disconnectSelfConnections(
+      container: container,
+      guildId: guildId,
+      channelId: channelId,
+      currentUserId: currentUserId,
+      connections: others,
+    );
+    if (!cleared) {
+      talker.warning(
+        '[Voice] Timed out waiting for other devices to disconnect '
+        '(channelId=$channelId, devices=${others.length}).',
       );
-      if (!cleared) {
-        talker.warning(
-          '[Voice] Timed out waiting for other devices to disconnect '
-          '(channelId=$channelId, devices=${connectionIdsToClear.length}).',
-        );
-        container
-            .read(voiceSessionProvider.notifier)
-            .reportJoinError(kVoiceSessionErrorMultiDeviceDisconnectFailed);
-        await _showJoinFailureIfNeeded(container, null);
-        return VoiceJoinResult.failed;
-      }
+      container
+          .read(voiceSessionProvider.notifier)
+          .reportJoinError(kVoiceSessionErrorMultiDeviceDisconnectFailed);
+      await _showJoinFailureIfNeeded(container, null);
+      return VoiceJoinResult.failed;
     }
     await _prepareForVoiceJoinAfterDeviceSwitch(
       container: container,

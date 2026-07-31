@@ -7367,23 +7367,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get userSettingsNavLogOut => '로그아웃';
 
   @override
-  String get betaWarningTitle => '베타 소프트웨어';
-
-  @override
-  String get betaWarningMessage =>
-      '이것은 베타 소프트웨어입니다. 아직 모든 것이 완료되거나 추가되지 않았습니다.';
-
-  @override
-  String get betaWarningReportIssues =>
-      '문제가 발견되면 Fluxer 모바일 커뮤니티에 보고해 주세요(현재 커뮤니티에 가입하려면 Plutonium이 있어야 합니다).';
-
-  @override
-  String get betaWarningRepoLink => 'GitHub에서 소스 보기';
-
-  @override
-  String get betaWarningGotIt => '알겠습니다';
-
-  @override
   String get quickSwitcherTabSearch => '검색';
 
   @override

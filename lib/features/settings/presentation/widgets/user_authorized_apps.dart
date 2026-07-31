@@ -123,7 +123,6 @@ class _UserAuthorizedAppsState extends ConsumerState<UserAuthorizedApps> {
 
     return SingleChildScrollView(
       controller: widget.scrollController,
-      physics: const AlwaysScrollableScrollPhysics(),
       child: ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 1),
         child: body,

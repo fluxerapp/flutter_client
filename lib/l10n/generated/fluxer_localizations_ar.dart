@@ -7557,23 +7557,6 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'تسجيل الخروج';
 
   @override
-  String get betaWarningTitle => 'برنامج تجريبي';
-
-  @override
-  String get betaWarningMessage =>
-      'هذا برنامج تجريبي. لم يكتمل كل شيء أو تتم إضافته بعد.';
-
-  @override
-  String get betaWarningReportIssues =>
-      'يرجى الإبلاغ عن أي مشاكل تجدها لمجتمع Fluxer Mobile (يجب أن يكون لديك Plutonium لتتمكن من الانضمام إلى المجتمع حاليًا).';
-
-  @override
-  String get betaWarningRepoLink => 'عرض المصدر على GitHub';
-
-  @override
-  String get betaWarningGotIt => 'فهمت';
-
-  @override
   String get quickSwitcherTabSearch => 'بحث';
 
   @override

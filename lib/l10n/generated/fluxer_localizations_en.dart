@@ -7572,23 +7572,6 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Log Out';
 
   @override
-  String get betaWarningTitle => 'Beta software';
-
-  @override
-  String get betaWarningMessage =>
-      'This is beta software. Not everything is finished or added yet.';
-
-  @override
-  String get betaWarningReportIssues =>
-      'Please report any issues you find to the Fluxer Mobile community (you must have Plutonium to be able to join the community currently).';
-
-  @override
-  String get betaWarningRepoLink => 'View source on GitHub';
-
-  @override
-  String get betaWarningGotIt => 'Got it';
-
-  @override
   String get quickSwitcherTabSearch => 'Search';
 
   @override
@@ -15878,23 +15861,6 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get userSettingsNavLogOut => 'Log Out';
 
   @override
-  String get betaWarningTitle => 'Beta software';
-
-  @override
-  String get betaWarningMessage =>
-      'This is beta software. Not everything is finished or added yet.';
-
-  @override
-  String get betaWarningReportIssues =>
-      'Please report any issues you find to the Fluxer Mobile community (you must have Plutonium to be able to join the community currently).';
-
-  @override
-  String get betaWarningRepoLink => 'View source on GitHub';
-
-  @override
-  String get betaWarningGotIt => 'Got it';
-
-  @override
   String get quickSwitcherTabSearch => 'Search';
 
   @override
@@ -22952,23 +22918,6 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get userSettingsNavLogOut => 'Log Out';
-
-  @override
-  String get betaWarningTitle => 'Beta software';
-
-  @override
-  String get betaWarningMessage =>
-      'This is beta software. Not everything is finished or added yet.';
-
-  @override
-  String get betaWarningReportIssues =>
-      'Please report any issues you find to the Fluxer Mobile community (you must have Plutonium to be able to join the community currently).';
-
-  @override
-  String get betaWarningRepoLink => 'View source on GitHub';
-
-  @override
-  String get betaWarningGotIt => 'Got it';
 
   @override
   String get quickSwitcherTabSearch => 'Search';

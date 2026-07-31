@@ -7553,23 +7553,6 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'ออกจากระบบ';
 
   @override
-  String get betaWarningTitle => 'ซอฟต์แวร์เบต้า';
-
-  @override
-  String get betaWarningMessage =>
-      'นี่คือซอฟต์แวร์เบต้า ยังมีบางอย่างที่ยังไม่เสร็จหรือยังไม่ได้เพิ่ม';
-
-  @override
-  String get betaWarningReportIssues =>
-      'โปรดรายงานปัญหาใดๆ ที่คุณพบไปยังชุมชน Fluxer Mobile (ปัจจุบันคุณต้องมี Plutonium จึงจะสามารถเข้าร่วมชุมชนได้)';
-
-  @override
-  String get betaWarningRepoLink => 'ดูซอร์สโค้ดบน GitHub';
-
-  @override
-  String get betaWarningGotIt => 'เข้าใจแล้ว';
-
-  @override
   String get quickSwitcherTabSearch => 'ค้นหา';
 
   @override

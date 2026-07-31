@@ -71,7 +71,6 @@ class _UserLinkedDevicesState extends ConsumerState<UserLinkedDevices> {
             : 0.0;
         return SingleChildScrollView(
           controller: widget.scrollController,
-          physics: const AlwaysScrollableScrollPhysics(),
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: minHeight),
             child: body,

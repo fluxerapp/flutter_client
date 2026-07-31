@@ -6619,26 +6619,6 @@
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."
     },
-    "betaWarningTitle": "Beta-ohjelmisto",
-    "@betaWarningTitle": {
-        "description": "Title on the beta warning bottom sheet shown on first launch and after each build update."
-    },
-    "betaWarningMessage": "Tämä on beta-ohjelmisto. Kaikki ei ole vielä valmista tai lisätty.",
-    "@betaWarningMessage": {
-        "description": "Main warning message on the beta warning bottom sheet."
-    },
-    "betaWarningReportIssues": "Ilmoita löytämistäsi ongelmista Fluxer Mobile -yhteisölle (sinulla on oltava Plutonium voidaksesi liittyä yhteisöön tällä hetkellä).",
-    "@betaWarningReportIssues": {
-        "description": "Secondary message on the beta warning sheet about reporting issues."
-    },
-    "betaWarningRepoLink": "Katso lähdekoodi GitHubissa",
-    "@betaWarningRepoLink": {
-        "description": "Link label on the beta warning sheet to the open-source repository."
-    },
-    "betaWarningGotIt": "Selvä",
-    "@betaWarningGotIt": {
-        "description": "Primary button on the beta warning sheet to acknowledge the message."
-    },
     "quickSwitcherTabSearch": "Haku",
     "@quickSwitcherTabSearch": {
         "description": "Quick switcher bottom sheet tab for search results."

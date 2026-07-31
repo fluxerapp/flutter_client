@@ -24,7 +24,6 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_e2ee_display.dart';
-import 'package:fluxer_app/features/voice/voice_session_errors.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_dart/gateway.dart';
@@ -151,13 +150,6 @@ class _ChannelHeaderLeftSectionState
                   ),
                 ),
               ),
-            ),
-          ],
-          if (widget.channel != null) ...[
-            const SizedBox(width: 8),
-            _VoiceConnectionStatus(
-              channel: widget.channel!,
-              highContrast: widget.highContrast,
             ),
           ],
         ],
@@ -303,76 +295,5 @@ class _ChannelHeaderLeftSectionState
       size: 20,
       color: context.colors.interactiveNormal,
     );
-  }
-}
-
-class _VoiceConnectionStatus extends ConsumerWidget {
-  const _VoiceConnectionStatus({
-    required this.channel,
-    required this.highContrast,
-  });
-
-  final Channel channel;
-  final bool highContrast;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    if (channel.type != ChannelType.guildVoice) {
-      return const SizedBox.shrink();
-    }
-    final VoiceSessionState voice = ref.watch(voiceSessionProvider);
-    if (!_matches(voice)) {
-      return const SizedBox.shrink();
-    }
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final bool hasError = voice.errorMessage != null;
-    final IconData icon;
-    final Color color;
-    final String label;
-    if (hasError) {
-      icon = PhosphorIconsFill.cellSignalSlash;
-      color = highContrast ? Colors.white : context.colors.statusDanger;
-      label = l10n.voiceChannelStatusError;
-    } else if (voice.isConnected) {
-      icon = PhosphorIconsFill.cellSignalFull;
-      color = highContrast ? Colors.white : context.colors.statusOnline;
-      label = l10n.voiceChannelStatusConnected;
-    } else {
-      icon = PhosphorIconsFill.cellSignalMedium;
-      color = highContrast ? Colors.white : context.colors.statusIdle;
-      label = l10n.voiceChannelStatusConnecting;
-    }
-    final String tip = hasError
-        ? resolveVoiceSessionErrorMessage(voice.errorMessage!, l10n)
-        : label;
-    return Tooltip(
-      message: tip,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          PhosphorIcon(icon, size: 17, color: color),
-          const SizedBox(width: 4),
-          Text(
-            label,
-            style: context.textStyles.bodySmall.copyWith(
-              color: color,
-              fontWeight: FontWeight.w500,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ),
-    );
-  }
-
-  bool _matches(VoiceSessionState voice) {
-    if (!voice.isInVoice) {
-      return false;
-    }
-    if (voice.channelId != channel.id) {
-      return false;
-    }
-    return voice.guildId == channel.guildId;
   }
 }

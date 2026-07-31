@@ -12858,36 +12858,6 @@ abstract class FluxerLocalizations {
   /// **'Log Out'**
   String get userSettingsNavLogOut;
 
-  /// Title on the beta warning bottom sheet shown on first launch and after each build update.
-  ///
-  /// In en, this message translates to:
-  /// **'Beta software'**
-  String get betaWarningTitle;
-
-  /// Main warning message on the beta warning bottom sheet.
-  ///
-  /// In en, this message translates to:
-  /// **'This is beta software. Not everything is finished or added yet.'**
-  String get betaWarningMessage;
-
-  /// Secondary message on the beta warning sheet about reporting issues.
-  ///
-  /// In en, this message translates to:
-  /// **'Please report any issues you find to the Fluxer Mobile community (you must have Plutonium to be able to join the community currently).'**
-  String get betaWarningReportIssues;
-
-  /// Link label on the beta warning sheet to the open-source repository.
-  ///
-  /// In en, this message translates to:
-  /// **'View source on GitHub'**
-  String get betaWarningRepoLink;
-
-  /// Primary button on the beta warning sheet to acknowledge the message.
-  ///
-  /// In en, this message translates to:
-  /// **'Got it'**
-  String get betaWarningGotIt;
-
   /// Quick switcher bottom sheet tab for search results.
   ///
   /// In en, this message translates to:

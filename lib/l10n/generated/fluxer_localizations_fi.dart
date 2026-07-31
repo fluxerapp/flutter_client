@@ -7614,23 +7614,6 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Kirjaudu ulos';
 
   @override
-  String get betaWarningTitle => 'Beta-ohjelmisto';
-
-  @override
-  String get betaWarningMessage =>
-      'Tämä on beta-ohjelmisto. Kaikki ei ole vielä valmista tai lisätty.';
-
-  @override
-  String get betaWarningReportIssues =>
-      'Ilmoita löytämistäsi ongelmista Fluxer Mobile -yhteisölle (sinulla on oltava Plutonium voidaksesi liittyä yhteisöön tällä hetkellä).';
-
-  @override
-  String get betaWarningRepoLink => 'Katso lähdekoodi GitHubissa';
-
-  @override
-  String get betaWarningGotIt => 'Selvä';
-
-  @override
   String get quickSwitcherTabSearch => 'Haku';
 
   @override

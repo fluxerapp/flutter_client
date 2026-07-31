@@ -41,7 +41,6 @@ import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/call_actions.dart';
 import 'package:fluxer_app/features/voice/utils/voice_camera_platform.dart';
 import 'package:fluxer_app/features/voice/utils/voice_e2ee_display.dart';
-import 'package:fluxer_app/features/voice/voice_session_errors.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_dart/gateway.dart';
@@ -300,15 +299,6 @@ class ChannelHeader extends ConsumerWidget {
                         const SizedBox(width: 6),
                         FluxerUserTag(isSystem: dm.isSystem),
                       ],
-                      if (channel != null) ...[
-                        const SizedBox(width: 4),
-                        _buildMobileVoiceConnectionStatus(
-                          context,
-                          ref,
-                          l10n,
-                          channel,
-                        ),
-                      ],
                       const SizedBox(width: 4),
                       PhosphorIcon(
                         PhosphorIconsBold.caretRight,
@@ -321,82 +311,86 @@ class ChannelHeader extends ConsumerWidget {
               ),
             ),
           ),
-          if (showMessageActions &&
-              showFavorites &&
-              !isPersonalNotes &&
-              targetChannelId != null) ...[
-            GestureDetector(
-              onLongPress: () => _showFavoriteActions(context, ref),
-              child: FluxerButton.circle(
-                icon: isFavorite
-                    ? PhosphorIconsFill.star
-                    : PhosphorIconsBold.star,
-                variant: isFavorite
-                    ? FluxerButtonVariant.primary
-                    : FluxerButtonVariant.secondary,
-                size: FluxerButtonSize.small,
-                iconSize: 20,
-                onPressedAsync: () => _toggleFavorite(
-                  context,
-                  ref,
-                  channel: channel,
-                  dm: dm,
-                  isFavorite: isFavorite,
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 8,
+            children: [
+              if (showMessageActions &&
+                  showFavorites &&
+                  !isPersonalNotes &&
+                  targetChannelId != null)
+                GestureDetector(
+                  onLongPress: () => _showFavoriteActions(context, ref),
+                  child: FluxerButton.circle(
+                    icon: isFavorite
+                        ? PhosphorIconsFill.star
+                        : PhosphorIconsBold.star,
+                    variant: isFavorite
+                        ? FluxerButtonVariant.primary
+                        : FluxerButtonVariant.secondary,
+                    size: FluxerButtonSize.small,
+                    iconSize: 20,
+                    onPressedAsync: () => _toggleFavorite(
+                      context,
+                      ref,
+                      channel: channel,
+                      dm: dm,
+                      isFavorite: isFavorite,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            const SizedBox(width: 8),
-          ],
-          if (dm != null && canStartDmCall(dm)) ...[
-            FluxerButton.circle(
-              icon: PhosphorIconsFill.phone,
-              variant: FluxerButtonVariant.secondary,
-              size: FluxerButtonSize.small,
-              iconSize: 20,
-              onPressed: () =>
-                  _executeOutboundDmCall(ref: ref, context: context, dm: dm),
-            ),
-            const SizedBox(width: 8),
-            FluxerButton.circle(
-              icon: PhosphorIconsFill.videoCamera,
-              variant: FluxerButtonVariant.secondary,
-              size: FluxerButtonSize.small,
-              iconSize: 20,
-              onPressed: () => _executeOutboundDmCall(
-                ref: ref,
-                context: context,
-                dm: dm,
-                startWithVideo: true,
-              ),
-            ),
-          ],
-          if (showMessageActions && dm == null && channel != null)
-            FluxerButton.circle(
-              icon: PhosphorIconsBold.magnifyingGlass,
-              variant: FluxerButtonVariant.secondary,
-              size: FluxerButtonSize.small,
-              iconSize: 20,
-              onPressed: () => unawaited(
-                showChannelSearchSheetAndJump(
-                  context,
-                  container: ref.container,
+              if (dm != null && canStartDmCall(dm)) ...[
+                FluxerButton.circle(
+                  icon: PhosphorIconsFill.phone,
+                  variant: FluxerButtonVariant.secondary,
+                  size: FluxerButtonSize.small,
+                  iconSize: 20,
+                  onPressed: () => _executeOutboundDmCall(
+                    ref: ref,
+                    context: context,
+                    dm: dm,
+                  ),
+                ),
+                FluxerButton.circle(
+                  icon: PhosphorIconsFill.videoCamera,
+                  variant: FluxerButtonVariant.secondary,
+                  size: FluxerButtonSize.small,
+                  iconSize: 20,
+                  onPressed: () => _executeOutboundDmCall(
+                    ref: ref,
+                    context: context,
+                    dm: dm,
+                    startWithVideo: true,
+                  ),
+                ),
+              ],
+              if (showMessageActions && dm == null && channel != null)
+                FluxerButton.circle(
+                  icon: PhosphorIconsBold.magnifyingGlass,
+                  variant: FluxerButtonVariant.secondary,
+                  size: FluxerButtonSize.small,
+                  iconSize: 20,
+                  onPressed: () => unawaited(
+                    showChannelSearchSheetAndJump(
+                      context,
+                      container: ref.container,
+                      channelId: channel.id,
+                      guildId: channel.guildId,
+                      title: channel.name,
+                      channel: channel,
+                    ),
+                  ),
+                ),
+              if (channel != null &&
+                  channel.type == ChannelType.guildVoice) ...[
+                ChatButton(
                   channelId: channel.id,
-                  guildId: channel.guildId,
-                  title: channel.name,
-                  channel: channel,
+                  channelName: channel.name.isNotEmpty ? channel.name : null,
                 ),
-              ),
-            ),
-          if (channel != null && channel.type == ChannelType.guildVoice) ...[
-            ChatButton(
-              channelId: channel.id,
-              channelName: channel.name.isNotEmpty ? channel.name : null,
-            ),
-            if (isMobileVoiceCameraPlatform()) ...[
-              const SizedBox(width: 8),
-              const FlipCameraButton(),
+                if (isMobileVoiceCameraPlatform()) const FlipCameraButton(),
+              ],
             ],
-          ],
+          ),
         ],
       ),
     );
@@ -507,66 +501,6 @@ class ChannelHeader extends ConsumerWidget {
       size: 20,
       color: context.colors.interactiveNormal,
     );
-  }
-
-  Widget _buildMobileVoiceConnectionStatus(
-    BuildContext context,
-    WidgetRef ref,
-    FluxerLocalizations l10n,
-    Channel channel,
-  ) {
-    if (channel.type != ChannelType.guildVoice) {
-      return const SizedBox.shrink();
-    }
-    final VoiceSessionState voice = ref.watch(voiceSessionProvider);
-    if (!_mobileVoiceSessionMatches(
-      voice: voice,
-      channelId: channel.id,
-      guildId: channel.guildId,
-    )) {
-      return const SizedBox.shrink();
-    }
-    final bool hasError = voice.errorMessage != null;
-    final IconData icon;
-    final Color color;
-    final String label;
-    if (hasError) {
-      icon = PhosphorIconsFill.cellSignalSlash;
-      color = context.colors.statusDanger;
-      label = l10n.voiceChannelStatusError;
-    } else if (voice.isConnected) {
-      icon = PhosphorIconsFill.cellSignalFull;
-      color = context.colors.statusOnline;
-      label = l10n.voiceChannelStatusConnected;
-    } else {
-      icon = PhosphorIconsFill.cellSignalMedium;
-      color = context.colors.statusIdle;
-      label = l10n.voiceChannelStatusConnecting;
-    }
-    final String tip = hasError
-        ? resolveVoiceSessionErrorMessage(voice.errorMessage!, l10n)
-        : label;
-    return Tooltip(
-      message: tip,
-      child: Semantics(
-        label: tip,
-        child: PhosphorIcon(icon, size: 15, color: color),
-      ),
-    );
-  }
-
-  bool _mobileVoiceSessionMatches({
-    required VoiceSessionState voice,
-    required String channelId,
-    required String guildId,
-  }) {
-    if (!voice.isInVoice) {
-      return false;
-    }
-    if (voice.channelId != channelId) {
-      return false;
-    }
-    return voice.guildId == guildId;
   }
 
   void _openDetails(

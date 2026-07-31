@@ -6619,26 +6619,6 @@
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."
     },
-    "betaWarningTitle": "베타 소프트웨어",
-    "@betaWarningTitle": {
-        "description": "Title on the beta warning bottom sheet shown on first launch and after each build update."
-    },
-    "betaWarningMessage": "이것은 베타 소프트웨어입니다. 아직 모든 것이 완료되거나 추가되지 않았습니다.",
-    "@betaWarningMessage": {
-        "description": "Main warning message on the beta warning bottom sheet."
-    },
-    "betaWarningReportIssues": "문제가 발견되면 Fluxer 모바일 커뮤니티에 보고해 주세요(현재 커뮤니티에 가입하려면 Plutonium이 있어야 합니다).",
-    "@betaWarningReportIssues": {
-        "description": "Secondary message on the beta warning sheet about reporting issues."
-    },
-    "betaWarningRepoLink": "GitHub에서 소스 보기",
-    "@betaWarningRepoLink": {
-        "description": "Link label on the beta warning sheet to the open-source repository."
-    },
-    "betaWarningGotIt": "알겠습니다",
-    "@betaWarningGotIt": {
-        "description": "Primary button on the beta warning sheet to acknowledge the message."
-    },
     "quickSwitcherTabSearch": "검색",
     "@quickSwitcherTabSearch": {
         "description": "Quick switcher bottom sheet tab for search results."

@@ -7284,22 +7284,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get userSettingsNavLogOut => '退出登录';
 
   @override
-  String get betaWarningTitle => 'Beta 版软件';
-
-  @override
-  String get betaWarningMessage => '这是 Beta 版软件。并非所有功能都已完成或添加。';
-
-  @override
-  String get betaWarningReportIssues =>
-      '请将你发现的任何问题报告给 Fluxer 移动社区（目前你必须拥有 Plutonium 才能加入该社区）。';
-
-  @override
-  String get betaWarningRepoLink => '在 GitHub 上查看源代码';
-
-  @override
-  String get betaWarningGotIt => '知道了';
-
-  @override
   String get quickSwitcherTabSearch => '搜索';
 
   @override
@@ -15130,22 +15114,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get userSettingsNavLogOut => '登出';
-
-  @override
-  String get betaWarningTitle => '測試版軟體';
-
-  @override
-  String get betaWarningMessage => '這是測試版軟體。尚未完成或加入所有功能。';
-
-  @override
-  String get betaWarningReportIssues =>
-      '請將您發現的任何問題回報給 Fluxer Mobile 社群 (目前必須擁有 Plutonium 才能加入社群)。';
-
-  @override
-  String get betaWarningRepoLink => '在 GitHub 上檢視原始碼';
-
-  @override
-  String get betaWarningGotIt => '知道了';
 
   @override
   String get quickSwitcherTabSearch => '搜尋';

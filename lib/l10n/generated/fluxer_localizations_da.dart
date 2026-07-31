@@ -7593,23 +7593,6 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Log ud';
 
   @override
-  String get betaWarningTitle => 'Beta-software';
-
-  @override
-  String get betaWarningMessage =>
-      'Dette er beta-software. Ikke alt er færdigt eller tilføjet endnu.';
-
-  @override
-  String get betaWarningReportIssues =>
-      'Rapporter venligst eventuelle problemer, du finder, til Fluxer Mobile-fællesskabet (du skal have Plutonium for at kunne deltage i fællesskabet i øjeblikket).';
-
-  @override
-  String get betaWarningRepoLink => 'Se kildekode på GitHub';
-
-  @override
-  String get betaWarningGotIt => 'Forstået';
-
-  @override
   String get quickSwitcherTabSearch => 'Søg';
 
   @override

@@ -223,7 +223,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byType(FloatingActionButton));
+      await tester.tap(find.bySemanticsLabel('New message'));
       await tester.pumpAndSettle();
 
       expect(find.text('Select friends'), findsOneWidget);

@@ -60,7 +60,6 @@ class _UserConnectionsState extends ConsumerState<UserConnections>
 
     return SingleChildScrollView(
       controller: widget.scrollController,
-      physics: const AlwaysScrollableScrollPhysics(),
       padding: EdgeInsets.all(layout.s4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -340,6 +340,50 @@ void main() {
       expect(toSelf.canTransfer, isFalse);
     });
 
+    test(
+      'manage roles requires manage roles permission and assignable roles',
+      () {
+        final withoutPermission = resolveProfileMenuCapabilities(
+          isCurrentUser: false,
+          hasGuildMember: true,
+          targetIsTimedOut: false,
+          targetIsBot: false,
+          viewerIsOwner: false,
+          viewerPermissions: _perms(<Permission>[Permission.kickMembers]),
+          canManageTarget: true,
+          targetHasAdministrator: false,
+          hasAssignableRoles: true,
+        );
+        expect(withoutPermission.showManageRoles, isFalse);
+
+        final withPermission = resolveProfileMenuCapabilities(
+          isCurrentUser: false,
+          hasGuildMember: true,
+          targetIsTimedOut: false,
+          targetIsBot: false,
+          viewerIsOwner: false,
+          viewerPermissions: _perms(<Permission>[Permission.manageRoles]),
+          canManageTarget: true,
+          targetHasAdministrator: false,
+          hasAssignableRoles: true,
+        );
+        expect(withPermission.showManageRoles, isTrue);
+
+        final withoutAssignableRoles = resolveProfileMenuCapabilities(
+          isCurrentUser: false,
+          hasGuildMember: true,
+          targetIsTimedOut: false,
+          targetIsBot: false,
+          viewerIsOwner: false,
+          viewerPermissions: _perms(<Permission>[Permission.manageRoles]),
+          canManageTarget: true,
+          targetHasAdministrator: false,
+          hasAssignableRoles: false,
+        );
+        expect(withoutAssignableRoles.showManageRoles, isFalse);
+      },
+    );
+
     test('transfer requires owning the guild', () {
       final caps = resolveProfileMenuCapabilities(
         isCurrentUser: false,

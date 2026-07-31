@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:clock/clock.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_connection_voice_state.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -94,6 +96,45 @@ List<VoiceState> otherUserConnectionsInChannel({
             matchesGuild(vs),
       )
       .toList();
+}
+
+typedef SelfVoiceConnectionsForJoin = ({
+  List<VoiceState> stale,
+  List<VoiceState> otherDevices,
+});
+
+/// Splits same user voice connections into stale ghosts (this client, no live
+/// session) vs connections that should trigger the multi device join modal.
+SelfVoiceConnectionsForJoin partitionSelfVoiceConnectionsForJoin({
+  required Map<String, VoiceState> voiceStates,
+  required String? guildId,
+  required String channelId,
+  required String currentUserId,
+  required VoiceSessionState session,
+}) {
+  final List<VoiceState> candidates = otherUserConnectionsInChannel(
+    voiceStates: voiceStates,
+    guildId: guildId,
+    channelId: channelId,
+    currentUserId: currentUserId,
+    localConnectionId: session.activeConnectionId,
+  );
+  if (session.isInVoice || candidates.isEmpty) {
+    return (stale: const <VoiceState>[], otherDevices: candidates);
+  }
+  final bool recoveringFromFailedJoin =
+      session.connectFailed &&
+      session.connectFailedTarget?.channelId == channelId;
+  final List<VoiceState> stale = <VoiceState>[];
+  final List<VoiceState> otherDevices = <VoiceState>[];
+  for (final VoiceState vs in candidates) {
+    if (recoveringFromFailedJoin || vs.isMobile == isFluxerMobileOs) {
+      stale.add(vs);
+    } else {
+      otherDevices.add(vs);
+    }
+  }
+  return (stale: stale, otherDevices: otherDevices);
 }
 
 const Duration kTypingExpiry = Duration(seconds: 10);

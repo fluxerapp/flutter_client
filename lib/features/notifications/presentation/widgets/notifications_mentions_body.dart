@@ -58,20 +58,34 @@ class _NotificationsMentionsBodyState
   void initState() {
     super.initState();
     _scroll.addListener(_onScrollNearEnd);
-    ref.listenManual<AsyncValue<List<drift_db.NotificationMentionFeedData>>>(
-      notificationMentionFeedStreamProvider,
-      (
-        AsyncValue<List<drift_db.NotificationMentionFeedData>>? previous,
-        AsyncValue<List<drift_db.NotificationMentionFeedData>> next,
+    ref
+      ..listenManual<AsyncValue<List<drift_db.NotificationMentionFeedData>>>(
+        notificationMentionFeedStreamProvider,
+        (
+          AsyncValue<List<drift_db.NotificationMentionFeedData>>? previous,
+          AsyncValue<List<drift_db.NotificationMentionFeedData>> next,
+        ) {
+          final List<drift_db.NotificationMentionFeedData>? data =
+              next.asData?.value;
+          if (data != null && mounted) {
+            unawaited(_reconcile(data));
+          }
+        },
+        fireImmediately: true,
+      )
+      ..listenManual<MentionFeedUiState>(mentionFeedCoordinatorProvider, (
+        MentionFeedUiState? previous,
+        MentionFeedUiState next,
       ) {
-        final List<drift_db.NotificationMentionFeedData>? data =
-            next.asData?.value;
-        if (data != null && mounted) {
-          unawaited(_reconcile(data));
+        if ((previous?.busy ?? false) && !next.busy && mounted) {
+          final List<drift_db.NotificationMentionFeedData>? data = ref
+              .read(notificationMentionFeedStreamProvider)
+              .value;
+          if (data != null) {
+            unawaited(_reconcile(data));
+          }
         }
-      },
-      fireImmediately: true,
-    );
+      });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       widget.onOpenFilterInvokerChanged(_openMentionFilters);
       unawaited(_bootstrapFromPrefsIfUnfetched());
@@ -109,6 +123,10 @@ class _NotificationsMentionsBodyState
   }
 
   Future<void> _bootstrapFromPrefs() async {
+    if (mounted) {
+      _resetCachesLocal();
+      setState(() {});
+    }
     final drift_db.NotificationMentionPref? prefs = await _readPrefs();
     await ref
         .read(mentionFeedCoordinatorProvider.notifier)
@@ -118,7 +136,6 @@ class _NotificationsMentionsBodyState
           includeGuilds: prefs?.includeGuilds ?? true,
         );
     if (mounted) {
-      _resetCachesLocal();
       setState(() {});
     }
   }
@@ -145,10 +162,10 @@ class _NotificationsMentionsBodyState
     List<drift_db.NotificationMentionFeedData> rows,
   ) async {
     final int ticket = ++_hydrateGeneration;
-    final bool shouldHydrate = rows.isNotEmpty;
-    if (shouldHydrate != _feedHydrationPending) {
-      _feedHydrationPending = shouldHydrate;
-      if (mounted) {
+    if (rows.isNotEmpty) {
+      final bool wasPending = _feedHydrationPending;
+      _feedHydrationPending = true;
+      if (!wasPending && mounted) {
         setState(() {});
       }
     }
@@ -164,7 +181,7 @@ class _NotificationsMentionsBodyState
       final Set<String> retainedChannelIds = <String>{};
 
       for (final drift_db.NotificationMentionFeedData r in rows) {
-        if (!_messageById.containsKey(r.messageId)) {
+        if (_messageById[r.messageId] == null) {
           final drift_db.Message? row = await db.messageDao.getMessage(
             r.messageId,
           );
@@ -317,7 +334,14 @@ class _NotificationsMentionsBodyState
         !_skippedMessageIds.contains(r.messageId),
   );
 
-  Widget _buildMentionTile(drift_db.NotificationMentionFeedData row) {
+  bool _isMessageLoading(MentionFeedUiState sync) {
+    return sync.busy || _feedHydrationPending;
+  }
+
+  Widget _buildMentionTile(
+    drift_db.NotificationMentionFeedData row,
+    MentionFeedUiState sync,
+  ) {
     final Message? msg = _messageById[row.messageId];
     final String channelKey = msg != null && msg.channelId.isNotEmpty
         ? msg.channelId
@@ -325,6 +349,7 @@ class _NotificationsMentionsBodyState
     return MentionInboxCard(
       messageId: row.messageId,
       message: msg,
+      isMessageLoading: _isMessageLoading(sync),
       header: _mentionHeaderByChannelId[channelKey],
       previewGuildId: _guildIdPreviewByChannelId[channelKey],
       onJump: (Message m) => unawaited(_jumpToMessage(context, m)),
@@ -445,7 +470,12 @@ class _NotificationsMentionsBodyState
     if (sync.busy && visible.isEmpty) {
       return _buildLoading(colors);
     }
-    if (_feedHydrationPending && rows.isNotEmpty) {
+    if (_feedHydrationPending &&
+        rows.isNotEmpty &&
+        visible.every(
+          (drift_db.NotificationMentionFeedData row) =>
+              !_messageById.containsKey(row.messageId),
+        )) {
       return _buildLoading(colors);
     }
     if (sync.fetched &&
@@ -479,7 +509,7 @@ class _NotificationsMentionsBodyState
           delegate: SliverChildBuilderDelegate(
             (BuildContext _, int index) {
               if (index < visible.length) {
-                return _buildMentionTile(visible[index]);
+                return _buildMentionTile(visible[index], sync);
               }
               int rest = index - visible.length;
               if (showLoadBusy) {

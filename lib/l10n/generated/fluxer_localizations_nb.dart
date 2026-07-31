@@ -7594,23 +7594,6 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Logg ut';
 
   @override
-  String get betaWarningTitle => 'Betaprogramvare';
-
-  @override
-  String get betaWarningMessage =>
-      'Dette er betaprogramvare. Ikke alt er ferdig eller lagt til ennå.';
-
-  @override
-  String get betaWarningReportIssues =>
-      'Vennligst rapporter eventuelle problemer du finner til Fluxer Mobile-fellesskapet (du må ha Plutonium for å kunne bli med i fellesskapet for øyeblikket).';
-
-  @override
-  String get betaWarningRepoLink => 'Se kildekode på GitHub';
-
-  @override
-  String get betaWarningGotIt => 'Forstått';
-
-  @override
   String get quickSwitcherTabSearch => 'Søk';
 
   @override

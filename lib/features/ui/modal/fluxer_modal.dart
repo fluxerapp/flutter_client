@@ -55,6 +55,7 @@ class FluxerModal {
         final layout = dialogContext.layout;
         final dialogTheme = DialogTheme.of(dialogContext);
         final mediaQuery = MediaQuery.of(dialogContext);
+        final double keyboardInset = mediaQuery.viewInsets.bottom;
         final isMobile = isMobileLayout(dialogContext);
         final useMobileFullscreen = isMobile && !centered;
 
@@ -92,7 +93,8 @@ class FluxerModal {
               maxHeight:
                   mediaQuery.size.height -
                   mediaQuery.viewPadding.top -
-                  layout.s2,
+                  layout.s2 -
+                  keyboardInset,
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -122,6 +124,18 @@ class FluxerModal {
           );
         }
 
+        final Widget centeredDialog = Dialog(
+          insetPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 24,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: layout.radiusXxl,
+            side: themeShape?.side ?? BorderSide.none,
+          ),
+          child: buildModalContent(mobileFullscreen: false),
+        );
+
         return wrapFluxerOverlayBackHandler(
           canDismiss: true,
           onBack: onBack,
@@ -145,43 +159,42 @@ class FluxerModal {
               AnimatedPadding(
                 duration: dialogContext.motion.normal,
                 curve: dialogContext.motion.curve,
-                padding: EdgeInsets.only(bottom: mediaQuery.viewInsets.bottom),
-                child: useMobileFullscreen
-                    ? SafeArea(
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: layout.s2,
-                            ),
-                            child: Material(
-                              color: dialogTheme.backgroundColor,
-                              surfaceTintColor: Colors.transparent,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: layout.radiusXxl.topLeft,
-                                ),
-                                side: themeShape?.side ?? BorderSide.none,
+                padding: EdgeInsets.only(bottom: keyboardInset),
+                child: MediaQuery.removeViewInsets(
+                  context: dialogContext,
+                  removeBottom: true,
+                  child: useMobileFullscreen
+                      ? SafeArea(
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: layout.s2,
                               ),
-                              clipBehavior: Clip.antiAlias,
-                              child: buildModalContent(mobileFullscreen: true),
+                              child: Material(
+                                color: dialogTheme.backgroundColor,
+                                surfaceTintColor: Colors.transparent,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                    top: layout.radiusXxl.topLeft,
+                                  ),
+                                  side: themeShape?.side ?? BorderSide.none,
+                                ),
+                                clipBehavior: Clip.antiAlias,
+                                child: buildModalContent(
+                                  mobileFullscreen: true,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      )
-                    : Center(
-                        child: Dialog(
-                          insetPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 24,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: layout.radiusXxl,
-                            side: themeShape?.side ?? BorderSide.none,
-                          ),
-                          child: buildModalContent(mobileFullscreen: false),
-                        ),
-                      ),
+                        )
+                      : keyboardInset > 0
+                      ? Align(
+                          alignment: Alignment.bottomCenter,
+                          child: centeredDialog,
+                        )
+                      : Center(child: centeredDialog),
+                ),
               ),
             ],
           ),
