@@ -12,6 +12,8 @@ import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart
 import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_mentions_body.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_unreads_body.dart';
 import 'package:fluxer_app/features/notifications/providers/notifications_providers.dart';
+import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
+import 'package:fluxer_app/features/ui/settings/fluxer_settings_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -215,6 +217,28 @@ class _InboxPopoutState extends ConsumerState<InboxPopout> {
     });
   }
 
+  Future<void> _confirmAndMarkAllAsRead() async {
+    final bool skipConfirmation = ref.read(
+      advancedPreferencesProvider.select(
+        (state) => state.skipMarkAllAsReadConfirmation,
+      ),
+    );
+    if (!skipConfirmation) {
+      final bool? confirmed = await showFluxerSettingsConfirmSheet(
+        context,
+        title: FluxerLocalizations.of(context).notificationsMarkAsRead,
+        description: FluxerLocalizations.of(
+          context,
+        ).advancedSettingSkipMarkAllAsReadDescription,
+        confirmLabel: FluxerLocalizations.of(context).notificationsMarkAsRead,
+      );
+      if (confirmed != true || !mounted) {
+        return;
+      }
+    }
+    await _markAllAsRead();
+  }
+
   Future<void> _markAllAsRead() async {
     final List<UnreadInboxEntry> entries = await ref.read(
       unreadInboxChannelListProvider.future,
@@ -301,7 +325,7 @@ class _InboxPopoutState extends ConsumerState<InboxPopout> {
                         icon: PhosphorIconsBold.check,
                         tooltip: l10n.notificationsMarkAsRead,
                         onPressed: canMarkAllRead
-                            ? () => unawaited(_markAllAsRead())
+                            ? () => unawaited(_confirmAndMarkAllAsRead())
                             : null,
                       ),
                     ),

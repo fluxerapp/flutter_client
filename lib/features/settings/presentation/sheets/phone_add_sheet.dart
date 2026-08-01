@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/auth/presentation/widgets/phone_verification
 import 'package:fluxer_app/features/auth/providers/phone_verification_view_model.dart';
 import 'package:fluxer_app/features/auth/utils/phone_verification_error_l10n.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/resend_timer_mixin.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
@@ -103,7 +104,7 @@ class _PhoneAddSheetState extends ConsumerState<PhoneAddSheet>
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final PhoneVerificationViewState state = ref.watch(_provider);
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: context.layout.s4),
+      padding: settingsSheetScrollPadding(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

@@ -22,7 +22,9 @@ const int _kMaxVisibleAvatars = 5;
 
 /// Floating pill shown over the chat area when other users are typing.
 class TypingIndicatorBar extends ConsumerWidget {
-  const TypingIndicatorBar({super.key});
+  const TypingIndicatorBar({this.compact = false, super.key});
+
+  final bool compact;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -51,14 +53,17 @@ class TypingIndicatorBar extends ConsumerWidget {
     if (activeUserIds.isEmpty) {
       return const SizedBox.shrink();
     }
-    return IgnorePointer(child: _TypingPill(userIds: activeUserIds));
+    return IgnorePointer(
+      child: _TypingPill(userIds: activeUserIds, compact: compact),
+    );
   }
 }
 
 class _TypingPill extends ConsumerWidget {
-  const _TypingPill({required this.userIds});
+  const _TypingPill({required this.userIds, required this.compact});
 
   final List<String> userIds;
+  final bool compact;
 
   GuildUserDisplay _resolveTypingUserDisplay({
     required WidgetRef ref,
@@ -119,6 +124,38 @@ class _TypingPill extends ConsumerWidget {
       ));
     }
     final total = userIds.length;
+    final Widget content = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ChatLoadingSpinner(
+          reason: ChatSpinnerReason.typing,
+          color: colors.textSecondary,
+        ),
+        const SizedBox(width: 8),
+        FluxerAvatarStack(
+          size: _kAvatarSize,
+          maxVisible: _kMaxVisibleAvatars,
+          avatars: [
+            for (final user in resolvedUsers)
+              FluxerAvatar.user(
+                userId: user.userId,
+                imageUrl: user.display.avatarUrl,
+                fallbackText: user.display.displayName,
+                avatarColor: user.display.avatarColor,
+                size: _kAvatarSize,
+                showStatus: false,
+              ),
+          ],
+        ),
+        const SizedBox(width: 8),
+        Flexible(
+          child: _buildText(context, ref, total, resolvedUsers, guildId),
+        ),
+      ],
+    );
+    if (compact) {
+      return content;
+    }
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
@@ -133,35 +170,7 @@ class _TypingPill extends ConsumerWidget {
           ),
         ],
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ChatLoadingSpinner(
-            reason: ChatSpinnerReason.typing,
-            color: colors.textSecondary,
-          ),
-          const SizedBox(width: 8),
-          FluxerAvatarStack(
-            size: _kAvatarSize,
-            maxVisible: _kMaxVisibleAvatars,
-            avatars: [
-              for (final user in resolvedUsers)
-                FluxerAvatar.user(
-                  userId: user.userId,
-                  imageUrl: user.display.avatarUrl,
-                  fallbackText: user.display.displayName,
-                  avatarColor: user.display.avatarColor,
-                  size: _kAvatarSize,
-                  showStatus: false,
-                ),
-            ],
-          ),
-          const SizedBox(width: 8),
-          Flexible(
-            child: _buildText(context, ref, total, resolvedUsers, guildId),
-          ),
-        ],
-      ),
+      child: content,
     );
   }
 

@@ -66,6 +66,22 @@ Widget defaultFluxerAlertBuilder(
   );
 }
 
+Widget wrapFluxerMarkdownSelectable({
+  required Widget body,
+  required bool selectable,
+  required FluxerMarkdownConfig config,
+}) {
+  if (!selectable) {
+    return body;
+  }
+  final FluxerSelectionContextMenuBuilder? menuBuilder =
+      config.selectionContextMenuBuilder;
+  if (menuBuilder == null) {
+    return SelectionArea(child: body);
+  }
+  return SelectionArea(contextMenuBuilder: menuBuilder, child: body);
+}
+
 Widget buildFluxerMarkdownAst({
   required BuildContext context,
   required List<md.Node> nodes,
@@ -87,11 +103,11 @@ Widget buildFluxerMarkdownAst({
     overflow: overflow,
   ).build(nodes);
 
-  if (!selectable) {
-    return body;
-  }
-
-  return SelectionArea(child: body);
+  return wrapFluxerMarkdownSelectable(
+    body: body,
+    selectable: selectable,
+    config: config,
+  );
 }
 
 final MarkdownParseCache<(String, FluxerMarkdownFeatures), List<md.Node>>
@@ -184,10 +200,11 @@ Widget buildFluxerMarkdownTextFlow({
   final Widget body = trailingInlineWidget != null
       ? SizedBox(width: double.infinity, child: richText)
       : richText;
-  if (!selectable) {
-    return body;
-  }
-  return SelectionArea(child: body);
+  return wrapFluxerMarkdownSelectable(
+    body: body,
+    selectable: selectable,
+    config: config,
+  );
 }
 
 Widget buildFluxerBlockSpoiler({

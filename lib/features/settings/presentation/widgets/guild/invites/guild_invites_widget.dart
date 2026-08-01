@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/guild/invites/
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/invites/guild_invites_empty_state.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/invites/guild_invites_error_state.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/invites/guild_invites_list_item.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_invites_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
 import 'package:fluxer_app/features/settings/utils/guild_invites_utils.dart';
@@ -134,7 +135,7 @@ class _GuildInvitesWidgetState extends ConsumerState<GuildInvitesWidget> {
             context.layout.s4,
             0,
             context.layout.s4,
-            context.layout.s4,
+            kSettingsScrollBottomPadding,
           ),
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate((

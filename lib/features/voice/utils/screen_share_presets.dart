@@ -54,6 +54,17 @@ int _clampFrameRate(int frameRate) {
   return frameRate;
 }
 
+String preferredScreenShareVideoCodec(ScreenShareCodecPreference preference) {
+  return switch (preference) {
+    ScreenShareCodecPreference.auto => 'vp8',
+    ScreenShareCodecPreference.av1 => 'av1',
+    ScreenShareCodecPreference.h265 => 'h265',
+    ScreenShareCodecPreference.vp9 => 'vp9',
+    ScreenShareCodecPreference.h264 => 'h264',
+    ScreenShareCodecPreference.vp8 => 'vp8',
+  };
+}
+
 bool isHigherVideoQualityFrameRate(int frameRate) {
   return frameRate > 30;
 }

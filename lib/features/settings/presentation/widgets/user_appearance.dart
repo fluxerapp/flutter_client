@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class UserAppearance extends ConsumerWidget {
@@ -20,7 +21,12 @@ class UserAppearance extends ConsumerWidget {
     final themePref = ref.watch(themePreferenceProvider);
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(40),
+      padding: const EdgeInsets.fromLTRB(
+        40,
+        40,
+        40,
+        kSettingsScrollBottomPadding,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

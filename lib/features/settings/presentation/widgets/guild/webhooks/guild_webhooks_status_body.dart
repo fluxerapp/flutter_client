@@ -20,10 +20,7 @@ class GuildWebhooksStatusBody extends StatelessWidget {
       padding: EdgeInsets.zero,
       children: <Widget>[
         const GuildWebhooksHeader(),
-        Padding(
-          padding: guildSettingsScrollPadding(context, bottom: 16),
-          child: child,
-        ),
+        Padding(padding: settingsScrollPadding(context), child: child),
       ],
     );
   }

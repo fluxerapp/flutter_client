@@ -23,8 +23,9 @@ Future<List<QuickReactionItem>?> loadQuickReactionItems(
         ref.read(
           instanceFeatureEnabledProvider(LimitKeys.featureGlobalExpressions),
         ) &&
-        channelMessagePermissionsForComposer(
-          ref.read(channelMessagePermissionsProvider(channelId)),
+        readChannelMessagePermissionsForComposer(
+          ref,
+          channelId,
         ).canUseExternalEmojis;
 
     final resolved = <QuickReactionItem>[];

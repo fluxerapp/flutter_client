@@ -3,13 +3,18 @@ import 'package:fluxer_app/core/synced_preferences/engine/synced_field_adapter.d
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/preferences.pb.dart'
     as pb;
+import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class PrivacyLocalState {
-  const PrivacyLocalState({required this.showActiveNow});
+  const PrivacyLocalState({
+    required this.showActiveNow,
+    required this.advanced,
+  });
 
   final bool showActiveNow;
+  final AdvancedPrivacyLocalState advanced;
 }
 
 class PrivacySyncedField extends SyncedFieldAdapter<PrivacyLocalState> {
@@ -23,7 +28,14 @@ class PrivacySyncedField extends SyncedFieldAdapter<PrivacyLocalState> {
   @override
   PrivacyLocalState readLocal() {
     final appearance = _ref.read(appearancePreferencesProvider);
-    return PrivacyLocalState(showActiveNow: appearance.showActiveNow);
+    final advanced = _ref.read(advancedPreferencesProvider);
+    return PrivacyLocalState(
+      showActiveNow: appearance.showActiveNow,
+      advanced: AdvancedPrivacyLocalState(
+        preuploadMessageAttachments: advanced.preuploadMessageAttachments,
+        disableStreamPreviews: advanced.disableStreamPreviews,
+      ),
+    );
   }
 
   @override
@@ -31,6 +43,9 @@ class PrivacySyncedField extends SyncedFieldAdapter<PrivacyLocalState> {
     await _ref
         .read(appearancePreferencesProvider.notifier)
         .applySyncedPrivacy(value);
+    await _ref
+        .read(advancedPreferencesProvider.notifier)
+        .applySyncedPrivacy(value.advanced);
   }
 
   @override
@@ -38,10 +53,17 @@ class PrivacySyncedField extends SyncedFieldAdapter<PrivacyLocalState> {
     if (!message.hasPrivacy()) {
       return null;
     }
-    if (!message.privacy.hasShowActiveNow()) {
-      return null;
-    }
-    return PrivacyLocalState(showActiveNow: message.privacy.showActiveNow);
+    final privacy = message.privacy;
+    return PrivacyLocalState(
+      showActiveNow: !privacy.hasShowActiveNow() || privacy.showActiveNow,
+      advanced: AdvancedPrivacyLocalState(
+        preuploadMessageAttachments:
+            !privacy.hasPreuploadMessageAttachments() ||
+            privacy.preuploadMessageAttachments,
+        disableStreamPreviews:
+            privacy.hasDisableStreamPreviews() && privacy.disableStreamPreviews,
+      ),
+    );
   }
 
   @override
@@ -67,7 +89,10 @@ class PrivacySyncedField extends SyncedFieldAdapter<PrivacyLocalState> {
 
   @override
   bool statesEqual(PrivacyLocalState a, PrivacyLocalState b) {
-    return a.showActiveNow == b.showActiveNow;
+    return a.showActiveNow == b.showActiveNow &&
+        a.advanced.preuploadMessageAttachments ==
+            b.advanced.preuploadMessageAttachments &&
+        a.advanced.disableStreamPreviews == b.advanced.disableStreamPreviews;
   }
 
   @override
@@ -92,6 +117,8 @@ class PrivacySyncedField extends SyncedFieldAdapter<PrivacyLocalState> {
     return (wireBase != null
           ? (pb.PrivacyPreferences()..mergeFromMessage(wireBase))
           : pb.PrivacyPreferences())
-      ..showActiveNow = local.showActiveNow;
+      ..showActiveNow = local.showActiveNow
+      ..preuploadMessageAttachments = local.advanced.preuploadMessageAttachments
+      ..disableStreamPreviews = local.advanced.disableStreamPreviews;
   }
 }

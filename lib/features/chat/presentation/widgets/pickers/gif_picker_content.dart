@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/chat/utils/gif_category_grid_layout.dart';
 import 'package:fluxer_app/features/chat/utils/gif_preview_playback_policy.dart';
 import 'package:fluxer_app/features/chat/utils/klipy_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media_proxy_url.dart';
+import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
@@ -439,7 +440,14 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
       if (favorite != null) {
         await repository.deleteFavoriteMeme(favorite);
       } else {
-        await repository.createFromGif(gif);
+        await repository.createFromGif(
+          gif,
+          saveAsSavedMedia: ref.read(
+            advancedPreferencesProvider.select(
+              (state) => state.saveGifFavoritesAsSavedMedia,
+            ),
+          ),
+        );
       }
     } on Object {
       ref

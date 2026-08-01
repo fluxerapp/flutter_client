@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as database;
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
@@ -718,12 +719,15 @@ class _VoiceChannelParticipantGridState
       isActiveScreenShare: isActiveScreenShare,
       isFocusMain: isFocusMain,
       isFilmstrip: isFilmstrip,
-      streamPreviewUrl: buildViewerStreamPreviewUrl(
-        baseUrl: baseUrl,
-        voice: tile.data.voice,
-        isScreenShareTile:
-            tile.source == VoiceParticipantTileSource.screenShare,
-      ),
+      streamPreviewUrl:
+          ref.watch(advancedPreferencesProvider).disableStreamPreviews
+          ? null
+          : buildViewerStreamPreviewUrl(
+              baseUrl: baseUrl,
+              voice: tile.data.voice,
+              isScreenShareTile:
+                  tile.source == VoiceParticipantTileSource.screenShare,
+            ),
       authToken: authToken,
       onTap: () => _onTileTap(tile, isFocusMain),
       onContextMenu: (Offset position) =>
@@ -873,6 +877,10 @@ class _VoiceParticipantCard extends ConsumerWidget {
                 isFilmstrip: isFilmstrip,
                 streamPreviewUrl: streamPreviewUrl,
                 authToken: authToken,
+                isTileFocused: isFocusMain,
+                pauseOwnScreenSharePreviewOnUnfocus: ref
+                    .watch(voiceSettingsProvider)
+                    .pauseOwnScreenSharePreviewOnUnfocus,
                 mirrorCamera: ref
                     .watch(voiceSettingsProvider)
                     .shouldMirrorOwnCamera,

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/utils/user_settings_domain_actions.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_link_utils.dart';
 import 'package:fluxer_dart/export.dart';
-
-enum _HideMutedChoice { applyAll, newOnly }
 
 class UserMessagesMedia extends ConsumerWidget {
   const UserMessagesMedia({super.key, this.scrollController});
@@ -39,7 +39,7 @@ class UserMessagesMedia extends ConsumerWidget {
 
     return SingleChildScrollView(
       controller: scrollController,
-      padding: EdgeInsets.all(layout.s4),
+      padding: settingsScrollPadding(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -222,7 +222,7 @@ class UserMessagesMedia extends ConsumerWidget {
                 ),
                 value: state.trustAllDomains,
                 onChanged: (value) =>
-                    _handleTrustAllChange(context, ref, value),
+                    handleTrustAllDomainsChange(context, ref, value),
               ),
               FluxerSettingsSwitchItem(
                 label: l10n.externalLinkStripTrackingLabel,
@@ -243,174 +243,12 @@ class UserMessagesMedia extends ConsumerWidget {
                     l10n.messagesMediaDefaultHideMutedChannelsDescription,
                 value: state.defaultHideMutedChannels,
                 onChanged: (value) =>
-                    _handleDefaultHideMutedChannelsChange(context, ref, value),
+                    handleDefaultHideMutedChannelsChange(context, ref, value),
               ),
             ],
           ),
         ],
       ),
-    );
-  }
-
-  Future<void> _handleTrustAllChange(
-    BuildContext context,
-    WidgetRef ref,
-    bool value,
-  ) async {
-    final notifier = ref.read(userSettingsViewModelProvider.notifier);
-    final l10n = FluxerLocalizations.of(context);
-
-    if (value) {
-      final confirmed = await _showTrustConfirmSheet(
-        context,
-        title: l10n.externalLinkTrustAllConfirmTitle,
-        description: l10n.externalLinkTrustAllConfirmDescription,
-        confirmLabel: l10n.externalLinkTrustAllConfirmAction,
-        isDanger: true,
-      );
-
-      if (confirmed != true) {
-        return;
-      }
-
-      await notifier.setTrustAllDomains(trustAll: true);
-      return;
-    }
-
-    final confirmed = await _showTrustConfirmSheet(
-      context,
-      title: l10n.externalLinkStopTrustingAllTitle,
-      description: l10n.externalLinkStopTrustingAllDescription,
-      confirmLabel: l10n.externalLinkStopTrustingAllAction,
-    );
-
-    if (confirmed != true) {
-      return;
-    }
-
-    await notifier.setTrustAllDomains(trustAll: false);
-  }
-
-  Future<void> _handleDefaultHideMutedChannelsChange(
-    BuildContext context,
-    WidgetRef ref,
-    bool value,
-  ) async {
-    final notifier = ref.read(userSettingsViewModelProvider.notifier);
-    final choice = await _showHideMutedChannelsConfirmSheet(
-      context,
-      value: value,
-    );
-
-    if (choice == null) {
-      return;
-    }
-
-    await notifier.setDefaultHideMutedChannels(value: value);
-
-    if (choice == _HideMutedChoice.applyAll) {
-      await notifier.applyDefaultHideMutedChannelsToExistingGuilds(
-        value: value,
-      );
-    }
-  }
-
-  Future<bool?> _showTrustConfirmSheet(
-    BuildContext context, {
-    required String title,
-    required String description,
-    required String confirmLabel,
-    bool isDanger = false,
-  }) {
-    return FluxerBottomSheet.show<bool>(
-      context,
-      title: title,
-      builder: (sheetContext, close) {
-        final layout = sheetContext.layout;
-        final colors = sheetContext.colors;
-
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: layout.s4),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                description,
-                style: sheetContext.textStyles.bodySmall.copyWith(
-                  color: colors.textSecondary,
-                  height: 1.4,
-                ),
-              ),
-              SizedBox(height: layout.s5),
-              if (isDanger)
-                FluxerButton.dangerPrimary(
-                  onPressed: () => Navigator.of(sheetContext).pop(true),
-                  label: confirmLabel,
-                )
-              else
-                FluxerButton.primary(
-                  onPressed: () => Navigator.of(sheetContext).pop(true),
-                  label: confirmLabel,
-                ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Future<_HideMutedChoice?> _showHideMutedChannelsConfirmSheet(
-    BuildContext context, {
-    required bool value,
-  }) {
-    final l10n = FluxerLocalizations.of(context);
-    final title = value
-        ? l10n.messagesMediaDefaultHideMutedChannelsEnableTitle
-        : l10n.messagesMediaDefaultHideMutedChannelsDisableTitle;
-    final description = value
-        ? l10n.messagesMediaDefaultHideMutedChannelsEnableDescription
-        : l10n.messagesMediaDefaultHideMutedChannelsDisableDescription;
-    final primaryLabel = value
-        ? l10n.messagesMediaDefaultHideMutedChannelsApplyAllAction
-        : l10n.messagesMediaDefaultHideMutedChannelsShowAllAction;
-
-    return FluxerBottomSheet.show<_HideMutedChoice>(
-      context,
-      title: title,
-      builder: (sheetContext, close) {
-        final layout = sheetContext.layout;
-        final colors = sheetContext.colors;
-
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: layout.s4),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                description,
-                style: sheetContext.textStyles.bodySmall.copyWith(
-                  color: colors.textSecondary,
-                  height: 1.4,
-                ),
-              ),
-              SizedBox(height: layout.s5),
-              FluxerButton.primary(
-                onPressed: () =>
-                    Navigator.of(sheetContext).pop(_HideMutedChoice.applyAll),
-                label: primaryLabel,
-              ),
-              SizedBox(height: layout.s2),
-              FluxerButton.secondary(
-                onPressed: () =>
-                    Navigator.of(sheetContext).pop(_HideMutedChoice.newOnly),
-                label: l10n.messagesMediaDefaultHideMutedChannelsNewOnlyAction,
-              ),
-            ],
-          ),
-        );
-      },
     );
   }
 }

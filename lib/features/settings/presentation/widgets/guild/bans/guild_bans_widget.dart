@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/settings/presentation/sheets/guild_ban_actio
 import 'package:fluxer_app/features/settings/presentation/sheets/guild_ban_details_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/bans/guild_bans_empty_state.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/bans/guild_bans_list_item.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_bans_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/action_menu/fluxer_action_menu.dart';
@@ -88,7 +89,7 @@ class _GuildBansWidgetState extends ConsumerState<GuildBansWidget> {
       slivers: <Widget>[
         SliverToBoxAdapter(child: _buildHeader(context, l10n)),
         SliverPadding(
-          padding: EdgeInsets.only(bottom: context.layout.s4),
+          padding: const EdgeInsets.only(bottom: kSettingsScrollBottomPadding),
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate((
               BuildContext context,

@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/chat/presentation/'
     'widgets/message_actions/message_bottom_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
 import 'package:fluxer_app/features/chat/utils/message_action_permissions.dart';
+import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -183,13 +184,18 @@ class _ContextMenuPage extends ConsumerWidget {
     );
 
     return [
-      QuickReactionRow(
-        items: quickItems ?? kQuickReactionDefaults,
-        onReaction: (item) {
-          onQuickReaction?.call(item);
-          Navigator.of(context).pop();
-        },
-      ),
+      if (ref.watch(
+        advancedPreferencesProvider.select(
+          (state) => state.showMessageActionBarQuickReactions,
+        ),
+      ))
+        QuickReactionRow(
+          items: quickItems ?? kQuickReactionDefaults,
+          onReaction: (item) {
+            onQuickReaction?.call(item);
+            Navigator.of(context).pop();
+          },
+        ),
       _MenuItem(
         label: l10n.chatMessageAddReaction,
         icon: PhosphorIconsBold.smiley,

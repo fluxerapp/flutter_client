@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/prefere
     as prefs;
 import 'package:fluxer_app/core/theme/custom_theme_css.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
+import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
 
@@ -23,6 +24,7 @@ class AccessibilityLocalState {
     required this.compactMessageGroupSpacing,
     required this.saturationFactor,
     required this.customThemeCss,
+    required this.advanced,
     this.showMediaDeleteButton = true,
     this.showMediaDownloadButton = true,
     this.showMediaFavoriteButton = true,
@@ -42,6 +44,7 @@ class AccessibilityLocalState {
   final double compactMessageGroupSpacing;
   final double saturationFactor;
   final String? customThemeCss;
+  final AdvancedAccessibilityLocalState advanced;
   final bool showMediaDeleteButton;
   final bool showMediaDownloadButton;
   final bool showMediaFavoriteButton;
@@ -62,6 +65,7 @@ class AccessibilitySyncedField
   @override
   AccessibilityLocalState readLocal() {
     final appearance = _ref.read(appearancePreferencesProvider);
+    final advanced = _ref.read(advancedPreferencesProvider);
     final theme = _ref.read(themePreferenceProvider);
     return AccessibilityLocalState(
       hideKeyboardHints: appearance.hideKeyboardHints,
@@ -80,6 +84,28 @@ class AccessibilitySyncedField
       showMediaDownloadButton: appearance.showMediaDownloadButton,
       showMediaFavoriteButton: appearance.showMediaFavoriteButton,
       showSuppressEmbedsButton: appearance.showSuppressEmbedsButton,
+      advanced: AdvancedAccessibilityLocalState(
+        enableTextSelection: advanced.enableTextSelection,
+        voiceChannelJoinRequiresDoubleClick:
+            advanced.voiceChannelJoinRequiresDoubleClick,
+        confirmBeforeJoiningVoiceChannels:
+            advanced.confirmBeforeJoiningVoiceChannels,
+        showGifIndicator: advanced.showGifIndicator,
+        showAttachmentExpiryIndicator: advanced.showAttachmentExpiryIndicator,
+        showMessageActionBar: advanced.showMessageActionBar,
+        showMessageActionBarQuickReactions:
+            advanced.showMessageActionBarQuickReactions,
+        showMessageActionBarShiftExpand:
+            advanced.showMessageActionBarShiftExpand,
+        showMessageActionBarOnlyMoreButton:
+            advanced.showMessageActionBarOnlyMoreButton,
+        showGifButton: advanced.showGifButton,
+        showMemesButton: advanced.showMemesButton,
+        showStickersButton: advanced.showStickersButton,
+        showEmojiButton: advanced.showEmojiButton,
+        showMessageSendButton: advanced.showMessageSendButton,
+        scrollToBottomOnMessageSend: advanced.scrollToBottomOnMessageSend,
+      ),
     );
   }
 
@@ -88,8 +114,10 @@ class AccessibilitySyncedField
     final appearanceNotifier = _ref.read(
       appearancePreferencesProvider.notifier,
     );
+    final advancedNotifier = _ref.read(advancedPreferencesProvider.notifier);
     final themeNotifier = _ref.read(themePreferenceProvider.notifier);
     await appearanceNotifier.applySyncedAccessibility(value);
+    await advancedNotifier.applySyncedAccessibility(value.advanced);
     await themeNotifier.applySyncedThemeCustomization(
       saturationFactor: value.saturationFactor,
       customThemeCss: value.customThemeCss,
@@ -146,7 +174,34 @@ class AccessibilitySyncedField
         a.showMediaFavoriteButton == b.showMediaFavoriteButton &&
         a.showSuppressEmbedsButton == b.showSuppressEmbedsButton &&
         normalizeCustomThemeCss(a.customThemeCss) ==
-            normalizeCustomThemeCss(b.customThemeCss);
+            normalizeCustomThemeCss(b.customThemeCss) &&
+        _advancedStatesEqual(a.advanced, b.advanced);
+  }
+
+  static bool _advancedStatesEqual(
+    AdvancedAccessibilityLocalState a,
+    AdvancedAccessibilityLocalState b,
+  ) {
+    return a.enableTextSelection == b.enableTextSelection &&
+        a.voiceChannelJoinRequiresDoubleClick ==
+            b.voiceChannelJoinRequiresDoubleClick &&
+        a.confirmBeforeJoiningVoiceChannels ==
+            b.confirmBeforeJoiningVoiceChannels &&
+        a.showGifIndicator == b.showGifIndicator &&
+        a.showAttachmentExpiryIndicator == b.showAttachmentExpiryIndicator &&
+        a.showMessageActionBar == b.showMessageActionBar &&
+        a.showMessageActionBarQuickReactions ==
+            b.showMessageActionBarQuickReactions &&
+        a.showMessageActionBarShiftExpand ==
+            b.showMessageActionBarShiftExpand &&
+        a.showMessageActionBarOnlyMoreButton ==
+            b.showMessageActionBarOnlyMoreButton &&
+        a.showGifButton == b.showGifButton &&
+        a.showMemesButton == b.showMemesButton &&
+        a.showStickersButton == b.showStickersButton &&
+        a.showEmojiButton == b.showEmojiButton &&
+        a.showMessageSendButton == b.showMessageSendButton &&
+        a.scrollToBottomOnMessageSend == b.scrollToBottomOnMessageSend;
   }
 
   @override
@@ -176,6 +231,7 @@ class AccessibilitySyncedField
       showMediaDownloadButton: remote.showMediaDownloadButton,
       showMediaFavoriteButton: remote.showMediaFavoriteButton,
       showSuppressEmbedsButton: remote.showSuppressEmbedsButton,
+      advanced: remote.advanced,
       hasSaturationFactorInProto:
           remote.hasSaturationFactorInProto || local.hasSaturationFactorInProto,
       hasCustomThemeCssInProto:
@@ -237,6 +293,42 @@ class AccessibilitySyncedField
       showSuppressEmbedsButton:
           !proto.hasShowSuppressEmbedsButton() ||
           proto.showSuppressEmbedsButton,
+      advanced: AdvancedAccessibilityLocalState(
+        enableTextSelection:
+            proto.hasEnableTextSelection() && proto.enableTextSelection,
+        voiceChannelJoinRequiresDoubleClick:
+            proto.hasVoiceChannelJoinRequiresDoubleClick() &&
+            proto.voiceChannelJoinRequiresDoubleClick,
+        confirmBeforeJoiningVoiceChannels:
+            proto.hasConfirmBeforeJoiningVoiceChannels() &&
+            proto.confirmBeforeJoiningVoiceChannels,
+        showGifIndicator:
+            !proto.hasShowGifIndicator() || proto.showGifIndicator,
+        showAttachmentExpiryIndicator:
+            !proto.hasShowAttachmentExpiryIndicator() ||
+            proto.showAttachmentExpiryIndicator,
+        showMessageActionBar:
+            !proto.hasShowMessageActionBar() || proto.showMessageActionBar,
+        showMessageActionBarQuickReactions:
+            !proto.hasShowMessageActionBarQuickReactions() ||
+            proto.showMessageActionBarQuickReactions,
+        showMessageActionBarShiftExpand:
+            !proto.hasShowMessageActionBarShiftExpand() ||
+            proto.showMessageActionBarShiftExpand,
+        showMessageActionBarOnlyMoreButton:
+            proto.hasShowMessageActionBarOnlyMoreButton() &&
+            proto.showMessageActionBarOnlyMoreButton,
+        showGifButton: !proto.hasShowGifButton() || proto.showGifButton,
+        showMemesButton: !proto.hasShowMemesButton() || proto.showMemesButton,
+        showStickersButton:
+            !proto.hasShowStickersButton() || proto.showStickersButton,
+        showEmojiButton: !proto.hasShowEmojiButton() || proto.showEmojiButton,
+        showMessageSendButton:
+            proto.hasShowMessageSendButton() && proto.showMessageSendButton,
+        scrollToBottomOnMessageSend:
+            !proto.hasScrollToBottomOnMessageSend() ||
+            proto.scrollToBottomOnMessageSend,
+      ),
       hasSaturationFactorInProto: proto.hasSaturationFactor(),
       hasCustomThemeCssInProto: proto.hasCustomThemeCss(),
     );
@@ -271,6 +363,7 @@ class AccessibilitySyncedField
           ..showMediaDownloadButton = local.showMediaDownloadButton
           ..showMediaFavoriteButton = local.showMediaFavoriteButton
           ..showSuppressEmbedsButton = local.showSuppressEmbedsButton;
+    _applyAdvancedToProto(settings, local.advanced);
     if (effectiveCss != null) {
       return settings..customThemeCss = effectiveCss;
     }
@@ -298,10 +391,38 @@ class AccessibilitySyncedField
       showMediaFavoriteButton: local.showMediaFavoriteButton,
       showSuppressEmbedsButton: local.showSuppressEmbedsButton,
     );
+    _applyAdvancedToProto(settings, local.advanced);
     if (effectiveCss != null) {
       settings.customThemeCss = effectiveCss;
     }
     return settings;
+  }
+
+  static void _applyAdvancedToProto(
+    pb.AccessibilitySettings settings,
+    AdvancedAccessibilityLocalState advanced,
+  ) {
+    settings
+      ..enableTextSelection = advanced.enableTextSelection
+      ..voiceChannelJoinRequiresDoubleClick =
+          advanced.voiceChannelJoinRequiresDoubleClick
+      ..confirmBeforeJoiningVoiceChannels =
+          advanced.confirmBeforeJoiningVoiceChannels
+      ..showGifIndicator = advanced.showGifIndicator
+      ..showAttachmentExpiryIndicator = advanced.showAttachmentExpiryIndicator
+      ..showMessageActionBar = advanced.showMessageActionBar
+      ..showMessageActionBarQuickReactions =
+          advanced.showMessageActionBarQuickReactions
+      ..showMessageActionBarShiftExpand =
+          advanced.showMessageActionBarShiftExpand
+      ..showMessageActionBarOnlyMoreButton =
+          advanced.showMessageActionBarOnlyMoreButton
+      ..showGifButton = advanced.showGifButton
+      ..showMemesButton = advanced.showMemesButton
+      ..showStickersButton = advanced.showStickersButton
+      ..showEmojiButton = advanced.showEmojiButton
+      ..showMessageSendButton = advanced.showMessageSendButton
+      ..scrollToBottomOnMessageSend = advanced.scrollToBottomOnMessageSend;
   }
 
   static ChannelTypingIndicatorMode _fromProtoTypingMode(

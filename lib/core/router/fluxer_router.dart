@@ -42,6 +42,7 @@ import 'package:fluxer_app/features/settings/presentation/pages/guild/settings_c
 import 'package:fluxer_app/features/settings/presentation/pages/guild/settings_discovery_page.dart';
 import 'package:fluxer_app/features/settings/presentation/pages/guild/settings_emoji_page.dart';
 import 'package:fluxer_app/features/settings/presentation/pages/guild/settings_invites_page.dart';
+import 'package:fluxer_app/features/settings/presentation/pages/guild/settings_members_page.dart';
 import 'package:fluxer_app/features/settings/presentation/pages/guild/settings_moderation_page.dart';
 import 'package:fluxer_app/features/settings/presentation/pages/guild/settings_overview_page.dart';
 import 'package:fluxer_app/features/settings/presentation/pages/guild/settings_roles_page.dart';
@@ -381,6 +382,18 @@ GoRouter fluxerRouter(Ref ref) {
           context: context,
           key: state.pageKey,
           child: SettingsBansPage(
+            guildId: state.pathParameters['guildId'] ?? '',
+          ),
+        ),
+      ),
+      GoRoute(
+        path: '/settings/guild/:guildId/members',
+        name: RouteNames.guildSettingsMembers,
+        parentNavigatorKey: rootNavigatorKey,
+        pageBuilder: (context, state) => shellMobileRootPushTransitionPage(
+          context: context,
+          key: state.pageKey,
+          child: SettingsMembersPage(
             guildId: state.pathParameters['guildId'] ?? '',
           ),
         ),

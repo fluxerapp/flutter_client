@@ -29,6 +29,7 @@ import 'package:fluxer_app/features/ui/ui.dart';
 const double _kChannelChatStatusRailMinHeight = 32;
 const double _kChannelChatStatusMessageInset =
     _kChannelChatStatusRailMinHeight / 2;
+const double _kChannelChatNekoVerticalOffset = -4;
 
 void listenChatViewModelErrors(WidgetRef ref) {
   ref.listen<String?>(
@@ -76,6 +77,35 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
     _composerAutocompletePanelScroll.dispose();
     _composerAutocompletePanelHost.dispose();
     super.dispose();
+  }
+
+  Widget _buildComposerSection({
+    required bool isMobile,
+    required bool showNeko,
+    required bool showInlineEmojiPicker,
+  }) {
+    final Widget composer = ChatComposerColumn(
+      autocompletePanelHost: _composerAutocompletePanelHost,
+      autocompletePanelScrollController: _composerAutocompletePanelScroll,
+      showInlineEmojiPicker: showInlineEmojiPicker,
+    );
+    if (isMobile && !showNeko) {
+      return composer;
+    }
+    return ChannelChatComposerBoundary(
+      composer: composer,
+      leadingStatus: isMobile
+          ? const SizedBox.shrink()
+          : const TypingIndicatorBar(),
+      trailingStatuses: <Widget>[
+        if (showNeko)
+          Transform.translate(
+            offset: const Offset(0, _kChannelChatNekoVerticalOffset),
+            child: const NekoSprite(),
+          ),
+        if (!isMobile) SlowmodeIndicator(leadingSpacing: showNeko ? 8 : 0),
+      ],
+    );
   }
 
   @override
@@ -183,7 +213,8 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                           channelId: listChannelId,
                           loadMessages: widget.loadMessages,
                           onClose: onClose,
-                          showSlowmodeIndicator: showSlowmodeIndicator,
+                          showSlowmodeIndicator:
+                              showSlowmodeIndicator && !isMobile,
                         ),
                         Positioned(
                           left: 0,
@@ -197,18 +228,10 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                       ],
                     ),
                   ),
-                  ChannelChatComposerBoundary(
-                    composer: ChatComposerColumn(
-                      autocompletePanelHost: _composerAutocompletePanelHost,
-                      autocompletePanelScrollController:
-                          _composerAutocompletePanelScroll,
-                      showInlineEmojiPicker: widget.showInlineEmojiPicker,
-                    ),
-                    leadingStatus: const TypingIndicatorBar(),
-                    trailingStatuses: <Widget>[
-                      if (showNeko) const NekoSprite(),
-                      SlowmodeIndicator(leadingSpacing: showNeko ? 8 : 0),
-                    ],
+                  _buildComposerSection(
+                    isMobile: isMobile,
+                    showNeko: showNeko,
+                    showInlineEmojiPicker: widget.showInlineEmojiPicker,
                   ),
                 ],
               ),

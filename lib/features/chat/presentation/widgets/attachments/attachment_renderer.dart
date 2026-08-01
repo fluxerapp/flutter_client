@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_audio.dart';
@@ -13,11 +14,12 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_o
 import 'package:fluxer_app/features/chat/utils/uploading_attachment_utils.dart';
 import 'package:fluxer_app/features/chat/utils/voice_message_attachment.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
+import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:intl/intl.dart';
 
-class AttachmentRenderer extends StatelessWidget {
+class AttachmentRenderer extends ConsumerWidget {
   const AttachmentRenderer({
     required this.attachment,
     required this.inlineAttachmentMedia,
@@ -46,12 +48,15 @@ class AttachmentRenderer extends StatelessWidget {
   final MessageMediaActionScope? mediaActionScope;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final AdvancedPreferencesState advanced = ref.watch(
+      advancedPreferencesProvider,
+    );
     final AttachmentRenderState renderState = buildAttachmentRenderState(
       attachment: attachment,
       inlineAttachmentMedia: inlineAttachmentMedia,
     );
-    final Widget content = _buildContent(renderState);
+    final Widget content = _buildContent(renderState, advanced: advanced);
     final DateTime? expiresAt = attachment.expiresAt;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final String? expiryFootnoteText = expiresAt == null
@@ -70,7 +75,8 @@ class AttachmentRenderer extends StatelessWidget {
             initiallyRevealed: revealSpoilers,
             child: _wrapMatureMedia(content),
           ),
-          if (expiryFootnoteText != null)
+          if (expiryFootnoteText != null &&
+              advanced.showAttachmentExpiryIndicator)
             AttachmentExpiryFootnote(text: expiryFootnoteText),
         ],
       ),
@@ -88,7 +94,10 @@ class AttachmentRenderer extends StatelessWidget {
     );
   }
 
-  Widget _buildContent(AttachmentRenderState renderState) {
+  Widget _buildContent(
+    AttachmentRenderState renderState, {
+    required AdvancedPreferencesState advanced,
+  }) {
     if (isUploadingPlaceholderAttachment(attachment) &&
         messageId != null &&
         messageNonce != null &&
@@ -114,6 +123,7 @@ class AttachmentRenderer extends StatelessWidget {
         channelId: channelId,
         messageId: messageId,
         mediaActionScope: mediaActionScope,
+        showGifIndicator: advanced.showGifIndicator,
       ),
       AttachmentRenderType.video => AttachmentVideo(
         attachment: attachment,

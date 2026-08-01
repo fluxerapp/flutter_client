@@ -381,8 +381,15 @@ class _MobileSettingsNavBodyState
   @override
   Widget build(BuildContext context) {
     final l10n = FluxerLocalizations.of(context);
+    final layout = context.layout;
     return FluxerSettingsNavList(
       controller: widget.scrollController,
+      padding: EdgeInsets.fromLTRB(
+        layout.s4,
+        0,
+        layout.s4,
+        kSettingsScrollBottomPadding,
+      ),
       groups: buildUserSettingsMobileNavGroups(
         l10n: l10n,
         onOpenSection: _openSettingsPage,

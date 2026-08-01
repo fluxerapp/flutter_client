@@ -114,6 +114,11 @@ class _GuildSettingsModalState extends ConsumerState<GuildSettingsModal> {
         return;
       }
       ref.read(guildSyncProvider.notifier).syncIfNeeded(widget.guildId);
+      if (widget.initialTab == GuildSettingsTab.members &&
+          !isMobileLayout(context)) {
+        context.pop();
+        unawaited(context.push(RoutePaths.guildMembers(widget.guildId)));
+      }
     });
   }
 
@@ -252,6 +257,11 @@ class _GuildSettingsModalState extends ConsumerState<GuildSettingsModal> {
         ref
             .read(toastProvider.notifier)
             .show(FluxerToast(message: l10n.comingSoon));
+        return;
+      }
+      if (tab == GuildSettingsTab.members) {
+        context.pop();
+        unawaited(context.push(RoutePaths.guildMembers(widget.guildId)));
         return;
       }
       setState(() {
@@ -416,7 +426,7 @@ class GuildSettingsTabBody extends ConsumerWidget {
                 scrollController: scrollController,
               ),
         ),
-      _ => const SizedBox.shrink(),
+      GuildSettingsTab.members => const SizedBox.shrink(),
     };
   }
 }

@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_ban_entry.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/settings/utils/guild_audit_log_utils.dart';
 import 'package:fluxer_app/features/settings/utils/guild_bans_utils.dart';
@@ -153,7 +154,12 @@ class _GuildBanDetailsBodyState extends ConsumerState<_GuildBanDetailsBody> {
         ? ban.reason!.trim()
         : l10n.guildSettingsAuditLogNoReason;
     final Widget content = Padding(
-      padding: EdgeInsets.all(layout.s4),
+      padding: EdgeInsets.fromLTRB(
+        layout.s4,
+        layout.s4,
+        layout.s4,
+        kSettingsScrollBottomPadding,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,

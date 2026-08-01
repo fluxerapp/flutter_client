@@ -2328,9 +2328,7 @@ class _MessageListSettingsLayer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ChannelMessagePermissions channelMessagePerms = channelId.isEmpty
         ? ChannelMessagePermissions.unresolved
-        : channelMessagePermissionsForComposer(
-            ref.watch(channelMessagePermissionsProvider(channelId)),
-          );
+        : watchChannelMessagePermissionsForComposer(ref, channelId);
     final DmConversation? dmConversation = ref.watch(
       dmViewModelProvider.select((DmViewState dmState) {
         return findDmById(dmState.conversations, channelId);

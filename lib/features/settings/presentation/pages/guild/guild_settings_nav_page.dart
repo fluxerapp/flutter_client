@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/gateway/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/guild_settings_page_shell.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_nav_list.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
@@ -48,7 +48,6 @@ class _GuildSettingsNavPageState extends ConsumerState<GuildSettingsNavPage> {
       permissions: permissions,
       guild: guild,
     );
-    final layout = context.layout;
     final Color backgroundColor = guildSettingsPageBackgroundColor(context);
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -64,12 +63,7 @@ class _GuildSettingsNavPageState extends ConsumerState<GuildSettingsNavPage> {
         ),
       ),
       body: FluxerSettingsNavList(
-        padding: EdgeInsets.fromLTRB(
-          layout.s4,
-          layout.s4,
-          layout.s4,
-          layout.s4,
-        ),
+        padding: settingsScrollPadding(context),
         groups: _buildNavGroups(l10n, tabs, context, widget.guildId, ref),
       ),
     );

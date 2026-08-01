@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart';
+import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_menu_data.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
@@ -167,7 +168,11 @@ VoiceParticipantMenuCapabilities buildVoiceParticipantMenuCapabilities({
         currentUserId: currentUserId,
         localConnectionId: session.activeConnectionId,
       );
+  final bool showConnectionVolumeControls = ref.watch(
+    voiceSettingsProvider.select((state) => state.showConnectionVolumeControls),
+  );
   final bool showStreamControls =
+      showConnectionVolumeControls &&
       target.isScreenShareTile &&
       !isOwnScreenShare &&
       hasScreenShareAudio &&
@@ -184,6 +189,7 @@ VoiceParticipantMenuCapabilities buildVoiceParticipantMenuCapabilities({
       .watch(voiceParticipantVolumeProvider.notifier)
       .volumeFor(userId);
   final bool showVolume =
+      showConnectionVolumeControls &&
       !isCurrentUser &&
       isViewerInVoice &&
       !target.isScreenShareTile &&

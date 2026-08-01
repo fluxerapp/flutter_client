@@ -137,6 +137,30 @@ class VoiceSettings extends _$VoiceSettings {
     _schedulePersist();
   }
 
+  Future<void> setShowConnectionVolumeControls({required bool value}) async {
+    state = state.copyWith(showConnectionVolumeControls: value);
+    _schedulePersist();
+  }
+
+  Future<void> setPreferredScreenShareCodec(
+    ScreenShareCodecPreference value,
+  ) async {
+    state = state.copyWith(preferredScreenShareCodec: value);
+    _schedulePersist();
+  }
+
+  Future<void> setSuppressNewDeviceAlerts({required bool value}) async {
+    state = state.copyWith(suppressNewDeviceAlerts: value);
+    _schedulePersist();
+  }
+
+  Future<void> setPauseOwnScreenSharePreviewOnUnfocus({
+    required bool value,
+  }) async {
+    state = state.copyWith(pauseOwnScreenSharePreviewOnUnfocus: value);
+    _schedulePersist();
+  }
+
   int participantVolumeFor(String userId) {
     return state.participantVolumes[userId] ?? kDefaultVoiceVolumePercent;
   }

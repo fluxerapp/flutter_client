@@ -135,6 +135,13 @@ class ChannelPermissionCache extends _$ChannelPermissionCache {
     state = const ChannelPermissionCaches();
   }
 
+  void cacheEffectiveBits({
+    required String channelId,
+    required ChannelPermissionBitsOutcome outcome,
+  }) {
+    _setEffectiveBits(channelId: channelId, outcome: outcome);
+  }
+
   void _setEffectiveBits({
     required String channelId,
     required ChannelPermissionBitsOutcome outcome,

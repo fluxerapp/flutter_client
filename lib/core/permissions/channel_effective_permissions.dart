@@ -13,7 +13,7 @@ import 'package:riverpod/misc.dart' show FutureProviderFamily;
 import 'package:riverpod/riverpod.dart';
 
 /// Result of channel permission resolution. When `shouldCache` is false, `value`
-/// may be 0 only because guild membership or roles are not loaded yet.
+/// may be 0 only because the guild is not loaded in memory yet.
 typedef ChannelPermissionBitsOutcome = ({int value, bool shouldCache});
 
 Future<ChannelPermissionBitsOutcome>
@@ -59,12 +59,6 @@ computeEffectiveGuildChannelPermissionBitsOutcome({
   if (!ref.mounted) {
     return (value: 0, shouldCache: false);
   }
-  if (memberRow == null) {
-    return (value: 0, shouldCache: false);
-  }
-  final List<String> memberRoleIds = memberRow.roleIdsJson.isNotEmpty
-      ? List<String>.from(jsonDecode(memberRow.roleIdsJson) as List<dynamic>)
-      : <String>[];
   Role? everyoneRole;
   for (final Role r in allRoles) {
     if (r.id == guildId) {
@@ -74,6 +68,10 @@ computeEffectiveGuildChannelPermissionBitsOutcome({
   }
   final int everyonePermissions =
       int.tryParse(everyoneRole?.permissions ?? '0') ?? 0;
+  final List<String> memberRoleIds =
+      memberRow != null && memberRow.roleIdsJson.isNotEmpty
+      ? List<String>.from(jsonDecode(memberRow.roleIdsJson) as List<dynamic>)
+      : <String>[];
   final List<MemberRole> memberRoles = allRoles
       .where((r) => memberRoleIds.contains(r.id))
       .map(MemberRole.fromRow)
@@ -89,7 +87,7 @@ computeEffectiveGuildChannelPermissionBitsOutcome({
     currentUserId: currentUserId,
     everyonePermissions: everyonePermissions,
     memberRoles: memberRoles,
-    memberRecordPresent: true,
+    memberRecordPresent: memberRow != null,
     overwriteJsonLayersRootToLeaf: layers,
   );
   return (value: value, shouldCache: true);
@@ -159,12 +157,6 @@ computeChannelLocalGuildChannelPermissionBitsOutcome({
   if (!ref.mounted) {
     return (value: 0, shouldCache: false);
   }
-  if (memberRow == null) {
-    return (value: 0, shouldCache: false);
-  }
-  final List<String> memberRoleIds = memberRow.roleIdsJson.isNotEmpty
-      ? List<String>.from(jsonDecode(memberRow.roleIdsJson) as List<dynamic>)
-      : <String>[];
   Role? everyoneRole;
   for (final Role r in allRoles) {
     if (r.id == guildId) {
@@ -174,6 +166,10 @@ computeChannelLocalGuildChannelPermissionBitsOutcome({
   }
   final int everyonePermissions =
       int.tryParse(everyoneRole?.permissions ?? '0') ?? 0;
+  final List<String> memberRoleIds =
+      memberRow != null && memberRow.roleIdsJson.isNotEmpty
+      ? List<String>.from(jsonDecode(memberRow.roleIdsJson) as List<dynamic>)
+      : <String>[];
   final List<MemberRole> memberRoles = allRoles
       .where((r) => memberRoleIds.contains(r.id))
       .map(MemberRole.fromRow)
@@ -185,7 +181,7 @@ computeChannelLocalGuildChannelPermissionBitsOutcome({
     currentUserId: currentUserId,
     everyonePermissions: everyonePermissions,
     memberRoles: memberRoles,
-    memberRecordPresent: true,
+    memberRecordPresent: memberRow != null,
     overwriteJsonLayersRootToLeaf: [channelRow.permissionOverwritesJson],
   );
   return (value: value, shouldCache: true);

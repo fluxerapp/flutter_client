@@ -4,6 +4,7 @@ import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/prefere
     as accessibility_pb;
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/preferences.pb.dart'
     as pb;
+import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 
 void main() {
@@ -21,6 +22,7 @@ void main() {
         compactMessageGroupSpacing: 4,
         saturationFactor: 0.8,
         customThemeCss: ':root { --background-primary: #010203; }',
+        advanced: kDefaultAdvancedAccessibility,
       );
       final proto = AccessibilitySyncedField.toProto(local);
       final restored = AccessibilitySyncedField.fromProto(proto);
@@ -89,6 +91,7 @@ void main() {
         customThemeCss: null,
         hasSaturationFactorInProto: false,
         hasCustomThemeCssInProto: false,
+        advanced: kDefaultAdvancedAccessibility,
       );
       final wireBase = accessibility_pb.AccessibilitySettings(
         showMessageSendButton: true,
@@ -98,7 +101,7 @@ void main() {
         local: local,
         wireBase: wireBase,
       );
-      expect(pushed.showMessageSendButton, isTrue);
+      expect(pushed.showMessageSendButton, isFalse);
       expect(pushed.autoSendKlipyGifs, isTrue);
       expect(pushed.hideKeyboardHints, isTrue);
     });
@@ -118,6 +121,7 @@ void main() {
         customThemeCss: null,
         hasSaturationFactorInProto: false,
         hasCustomThemeCssInProto: false,
+        advanced: kDefaultAdvancedAccessibility,
       );
       const css = ':root { --brand-primary: #010203; }';
       final wireBase = accessibility_pb.AccessibilitySettings(

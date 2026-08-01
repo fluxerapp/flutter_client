@@ -7582,6 +7582,547 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Všechna odeslaná data jsou anonymní a odesílají se pouze do vlastních monitorovacích služeb Fluxeru – nepoužívají se žádní poskytovatelé třetích stran.';
 
   @override
+  String get advancedSettingsConfigure => 'Configure';
+
+  @override
+  String get advancedSettingsCategoryPrivacy => 'Privacy';
+
+  @override
+  String get advancedSettingsCategoryAppearance => 'Appearance';
+
+  @override
+  String get advancedSettingsCategoryAccessibility => 'Accessibility';
+
+  @override
+  String get advancedSettingsCategoryChat => 'Chat';
+
+  @override
+  String get advancedSettingsCategoryMedia => 'Media';
+
+  @override
+  String get advancedSettingsCategoryVoice => 'Voice';
+
+  @override
+  String get advancedSettingsCategoryDeveloper => 'Developer';
+
+  @override
+  String get advancedSettingEnableTextSelectionLabel => 'Enable text selection';
+
+  @override
+  String get advancedSettingEnableTextSelectionDescription =>
+      'Allow selecting text in the app';
+
+  @override
+  String get advancedSettingVideoSeekThumbnailsLabel =>
+      'Enable video seek thumbnails';
+
+  @override
+  String get advancedSettingVideoSeekThumbnailsDescription =>
+      'Thumbnail or live frame while scrubbing video';
+
+  @override
+  String get advancedSettingShowNekoLabel => 'Show Neko';
+
+  @override
+  String get advancedSettingShowNekoDescription =>
+      'Neko cat that chases your cursor';
+
+  @override
+  String get advancedSettingShowNekoDescriptionTouch =>
+      'Show Neko on your chat input';
+
+  @override
+  String get advancedSettingKeyboardHintsLabel => 'Keyboard hints';
+
+  @override
+  String get advancedSettingKeyboardHintsDescription =>
+      'Keyboard shortcut hints in tooltips';
+
+  @override
+  String get advancedSettingEnableFavoritesLabel => 'Enable favorites';
+
+  @override
+  String get advancedSettingEnableFavoritesDescription =>
+      'Show favorites throughout the app';
+
+  @override
+  String get advancedSettingVoiceChannelJoinBehaviorLabel =>
+      'Voice channel join behavior';
+
+  @override
+  String get advancedSettingVoiceChannelJoinBehaviorDescription =>
+      'Confirmation or double-click for community voice joins';
+
+  @override
+  String get advancedSettingRequireDoubleClickJoinLabel =>
+      'Require double-click to join voice channels';
+
+  @override
+  String get advancedSettingConfirmBeforeJoiningVoiceLabel =>
+      'Confirm before joining voice channels';
+
+  @override
+  String get advancedSettingAutoSendGifsLabel =>
+      'Automatically send GIFs when selected';
+
+  @override
+  String get advancedSettingAutoSendGifsDescription =>
+      'Automatically send GIFs from the picker without confirmation';
+
+  @override
+  String get advancedSettingSaveGifFavoritesLabel =>
+      'Save GIF favorites as saved media';
+
+  @override
+  String get advancedSettingSaveGifFavoritesDescription =>
+      'Choose how starred GIF favorites are stored';
+
+  @override
+  String get advancedSettingMediaButtonsLabel => 'Media buttons';
+
+  @override
+  String get advancedSettingMediaButtonsDescription =>
+      'Customize which buttons and indicators appear on media attachments and embeds';
+
+  @override
+  String get advancedSettingPreuploadAttachmentsLabel =>
+      'Upload attachments before sending';
+
+  @override
+  String get advancedSettingPreuploadAttachmentsDescription =>
+      'Start uploading attachments as soon as they are added to the message input';
+
+  @override
+  String get advancedSettingStripTrackingLabel =>
+      'Strip tracking parameters from URLs';
+
+  @override
+  String get advancedSettingStripTrackingDescription =>
+      'Automatically remove tracking parameters from URLs in messages you send';
+
+  @override
+  String get advancedSettingTrustAllLinksLabel => 'Trust all external links';
+
+  @override
+  String get advancedSettingTrustAllLinksDescription =>
+      'Skip the external link warning for all domains';
+
+  @override
+  String get advancedSettingSearchEnginesLabel => 'Search engines';
+
+  @override
+  String get advancedSettingSearchEnginesDescription =>
+      'Configure search engines used from selected text';
+
+  @override
+  String get advancedSettingTranslatorsLabel => 'Translators';
+
+  @override
+  String get advancedSettingTranslatorsDescription =>
+      'Configure translator providers used from selected text';
+
+  @override
+  String get advancedSettingReverseImageSearchLabel => 'Reverse image search';
+
+  @override
+  String get advancedSettingReverseImageSearchDescription =>
+      'Reverse image search providers';
+
+  @override
+  String get advancedSettingMessageActionBarLabel => 'Message action bar';
+
+  @override
+  String get advancedSettingMessageActionBarDescription =>
+      'Customize the action bar that appears when hovering over messages';
+
+  @override
+  String get advancedSettingExpressionAutocompleteLabel =>
+      'Expression autocomplete';
+
+  @override
+  String get advancedSettingExpressionAutocompleteDescription =>
+      'Pick what appears when you type a colon in the message input';
+
+  @override
+  String get advancedSettingInputButtonsLabel => 'Message input buttons';
+
+  @override
+  String get advancedSettingInputButtonsDescription =>
+      'Pick which buttons show in the message input';
+
+  @override
+  String get advancedSettingScrollToBottomOnSendLabel =>
+      'Scroll to bottom when sending a message';
+
+  @override
+  String get advancedSettingScrollToBottomOnSendDescription =>
+      'Choose how chat moves after you send a message';
+
+  @override
+  String get advancedSettingSkipMarkAllAsReadLabel =>
+      'Skip \"Mark all as read\" confirmation';
+
+  @override
+  String get advancedSettingSkipMarkAllAsReadDescription =>
+      'Mark all unread inbox channels as read immediately, without asking to confirm';
+
+  @override
+  String get advancedSettingHideMutedChannelsLabel =>
+      'Hide muted channels by default';
+
+  @override
+  String get advancedSettingHideMutedChannelsDescription =>
+      'Hide channels you\'ve muted from community sidebars';
+
+  @override
+  String get advancedSettingSequentialFileSendLabel =>
+      'Send file messages in order';
+
+  @override
+  String get advancedSettingSequentialFileSendDescription =>
+      'Ensures file messages appear in the order you sent them';
+
+  @override
+  String get advancedSettingShowGifIndicatorLabel => 'Show GIF indicator';
+
+  @override
+  String get advancedSettingShowAttachmentExpiryLabel =>
+      'Show attachment expiry indicator';
+
+  @override
+  String get advancedSettingShowMediaDeleteLabel => 'Show delete button';
+
+  @override
+  String get advancedSettingShowMediaDownloadLabel => 'Show download button';
+
+  @override
+  String get advancedSettingShowMediaFavoriteLabel => 'Show favorite button';
+
+  @override
+  String get advancedSettingShowSuppressEmbedsLabel =>
+      'Show suppress embeds button';
+
+  @override
+  String get advancedSettingShowMessageActionBarLabel =>
+      'Show message action bar';
+
+  @override
+  String get advancedSettingShowOnlyMoreButtonLabel => 'Show only more button';
+
+  @override
+  String get advancedSettingShowQuickReactionsLabel => 'Show quick reactions';
+
+  @override
+  String get advancedSettingEnableShiftToExpandLabel =>
+      'Enable Shift to expand';
+
+  @override
+  String get advancedSettingShowDefaultEmojisAutocompleteLabel =>
+      'Show default emojis in expression autocomplete';
+
+  @override
+  String get advancedSettingShowCustomEmojisAutocompleteLabel =>
+      'Show custom emojis in expression autocomplete';
+
+  @override
+  String get advancedSettingShowStickersAutocompleteLabel =>
+      'Show stickers in expression autocomplete';
+
+  @override
+  String get advancedSettingShowSavedMediaAutocompleteLabel =>
+      'Show saved media in expression autocomplete';
+
+  @override
+  String get advancedSettingShowGifsButtonLabel => 'Show GIFs button';
+
+  @override
+  String get advancedSettingShowMediaButtonLabel => 'Show media button';
+
+  @override
+  String get advancedSettingShowStickersButtonLabel => 'Show stickers button';
+
+  @override
+  String get advancedSettingShowEmojiButtonLabel => 'Show emoji button';
+
+  @override
+  String get advancedSettingShowSendButtonLabel => 'Show send button';
+
+  @override
+  String get advancedSettingNewDeviceAlertsLabel => 'Show new device alerts';
+
+  @override
+  String get advancedSettingNewDeviceAlertsDescription =>
+      'Prompt for new audio devices';
+
+  @override
+  String get advancedSettingConnectionVolumeControlsLabel =>
+      'Connection volume controls';
+
+  @override
+  String get advancedSettingConnectionVolumeControlsDescription =>
+      'Show per-device participant volume sliders in voice menus';
+
+  @override
+  String get advancedSettingScreenSharePreviewBehaviorLabel =>
+      'Screen share preview behavior';
+
+  @override
+  String get advancedSettingScreenSharePreviewBehaviorDescription =>
+      'Preview, popout, and stream thumbnail behavior';
+
+  @override
+  String get advancedSettingScreenShareCodecLabel => 'Screen share codec';
+
+  @override
+  String get advancedSettingScreenShareCodecDescription =>
+      'Video codec for screen sharing';
+
+  @override
+  String get advancedSettingScreenShareCodecAuto => 'Automatic (recommended)';
+
+  @override
+  String get advancedSettingScreenShareCodecAv1 => 'AV1';
+
+  @override
+  String get advancedSettingScreenShareCodecH265 => 'H.265';
+
+  @override
+  String get advancedSettingScreenShareCodecVp9 => 'VP9';
+
+  @override
+  String get advancedSettingScreenShareCodecH264 => 'H.264';
+
+  @override
+  String get advancedSettingScreenShareCodecVp8 => 'VP8';
+
+  @override
+  String get advancedSettingPauseScreenSharePreviewLabel =>
+      'Pause my screen share preview in the background';
+
+  @override
+  String get advancedSettingHideStreamPreviewLabel =>
+      'Hide my stream preview thumbnail';
+
+  @override
+  String get advancedSettingDeveloperModeLabel => 'Enable developer mode';
+
+  @override
+  String get advancedSettingDeveloperModeDescription => 'Enable developer mode';
+
+  @override
+  String get advancedSettingSearchEngineGoogle => 'Google';
+
+  @override
+  String get advancedSettingSearchEngineDuckDuckGo => 'DuckDuckGo';
+
+  @override
+  String get advancedSettingSearchEngineBing => 'Bing';
+
+  @override
+  String get advancedSettingSearchEngineGoogleLens => 'Google Lens';
+
+  @override
+  String get advancedSettingSearchEngineTinEye => 'TinEye';
+
+  @override
+  String get advancedSettingTranslatorGoogle => 'Google Translate';
+
+  @override
+  String get advancedSettingTranslatorDeepL => 'DeepL';
+
+  @override
+  String get advancedSettingDefaultSearchEngineLabel => 'Default search engine';
+
+  @override
+  String get advancedSettingDefaultSearchEngineDescription =>
+      'Choose which search engine is used by default when searching selected text.';
+
+  @override
+  String get advancedSettingBuiltInSearchEnginesLabel =>
+      'Built-in search engines';
+
+  @override
+  String get advancedSettingBuiltInSearchEnginesDescription =>
+      'Enable or disable built-in search engines. Enabled engines appear in the message context menu when text is selected.';
+
+  @override
+  String get advancedSettingCustomSearchEnginesLabel => 'Custom search engines';
+
+  @override
+  String advancedSettingCustomSearchEnginesDescription(Object query) {
+    return 'Add your own search engines with a custom URL pattern. Use \'$query\' as a placeholder for the search text.';
+  }
+
+  @override
+  String get advancedSettingAddSearchEngineLabel => 'Add search engine';
+
+  @override
+  String get advancedSettingEnableAtLeastOneSearchEngineLabel =>
+      'Enable at least one search engine below.';
+
+  @override
+  String get advancedSettingRemoveSearchEngineLabel => 'Remove search engine';
+
+  @override
+  String get advancedSettingDefaultTranslatorLabel => 'Default translator';
+
+  @override
+  String get advancedSettingDefaultTranslatorDescription =>
+      'Choose which translator is used by default when translating selected text.';
+
+  @override
+  String get advancedSettingBuiltInTranslatorsLabel => 'Built-in translators';
+
+  @override
+  String get advancedSettingBuiltInTranslatorsDescription =>
+      'Enable or disable built-in translators. Enabled translators appear in the message context menu when text is selected.';
+
+  @override
+  String get advancedSettingCustomTranslatorsLabel => 'Custom translators';
+
+  @override
+  String advancedSettingCustomTranslatorsDescription(Object query) {
+    return 'Add your own translators with a custom URL pattern. Use \'$query\' as a placeholder for the text to translate.';
+  }
+
+  @override
+  String get advancedSettingAddTranslatorLabel => 'Add translator';
+
+  @override
+  String get advancedSettingEnableAtLeastOneTranslatorLabel =>
+      'Enable at least one translator below.';
+
+  @override
+  String get advancedSettingRemoveTranslatorLabel => 'Remove translator';
+
+  @override
+  String get advancedSettingDefaultReverseImageSearchLabel =>
+      'Default reverse image search';
+
+  @override
+  String get advancedSettingDefaultReverseImageSearchDescription =>
+      'Choose which reverse image search service is used by default when searching an image.';
+
+  @override
+  String get advancedSettingBuiltInReverseImageSearchLabel =>
+      'Built-in reverse image search';
+
+  @override
+  String get advancedSettingBuiltInReverseImageSearchDescription =>
+      'Enable or disable built-in reverse image search providers. Enabled providers appear in the context menu of images, avatars, banners, stickers, and emoji.';
+
+  @override
+  String get advancedSettingCustomReverseImageSearchLabel =>
+      'Custom reverse image search';
+
+  @override
+  String advancedSettingCustomReverseImageSearchDescription(Object url) {
+    return 'Add your own reverse image search providers with a custom URL pattern. Use \'$url\' as a placeholder for the image URL.';
+  }
+
+  @override
+  String get advancedSettingAddReverseImageSearchLabel =>
+      'Add reverse image search';
+
+  @override
+  String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
+      'Enable at least one reverse image search provider below.';
+
+  @override
+  String get advancedSettingRemoveReverseImageSearchLabel =>
+      'Remove reverse image search';
+
+  @override
+  String get advancedSettingAddSearchEngineTitle => 'Add search engine';
+
+  @override
+  String get advancedSettingEditSearchEngineTitle => 'Edit search engine';
+
+  @override
+  String get advancedSettingAddTranslatorTitle => 'Add translation provider';
+
+  @override
+  String get advancedSettingEditTranslatorTitle => 'Edit translation provider';
+
+  @override
+  String get advancedSettingAddReverseImageSearchTitle =>
+      'Add reverse image search engine';
+
+  @override
+  String get advancedSettingEditReverseImageSearchTitle =>
+      'Edit reverse image search engine';
+
+  @override
+  String get advancedSettingSearchProviderNameLabel => 'Name';
+
+  @override
+  String get advancedSettingSearchProviderUrlLabel => 'URL pattern';
+
+  @override
+  String get advancedSettingSearchProviderNameTextPlaceholder =>
+      'My search engine';
+
+  @override
+  String get advancedSettingSearchProviderNameTranslatePlaceholder =>
+      'My translator';
+
+  @override
+  String get advancedSettingSearchProviderNameImagePlaceholder =>
+      'My reverse image search';
+
+  @override
+  String advancedSettingSearchProviderUrlTextHint(Object query) {
+    return 'Use \'$query\' where the search text should be inserted.';
+  }
+
+  @override
+  String advancedSettingSearchProviderUrlTranslateHint(Object query) {
+    return 'Use \'$query\' where the text to translate should be inserted.';
+  }
+
+  @override
+  String advancedSettingSearchProviderUrlImageHint(Object url) {
+    return 'Use \'$url\' where the image URL should be inserted.';
+  }
+
+  @override
+  String get advancedSettingSearchProviderNameRequired => 'Name is required.';
+
+  @override
+  String get advancedSettingSearchProviderUrlRequired =>
+      'URL pattern is required.';
+
+  @override
+  String advancedSettingSearchProviderUrlMustContainQuery(Object query) {
+    return 'URL pattern must contain \'$query\' placeholder.';
+  }
+
+  @override
+  String advancedSettingSearchProviderUrlMustContainUrl(Object url) {
+    return 'URL pattern must contain \'$url\' placeholder.';
+  }
+
+  @override
+  String get advancedSettingSearchProviderUrlMustBeValid =>
+      'URL pattern must be a valid URL.';
+
+  @override
+  String get advancedSettingAddSearchProviderAction => 'Add';
+
+  @override
+  String get advancedSettingEditSearchProviderAction => 'Edit';
+
+  @override
+  String get advancedSettingRemoveSearchProviderConfirmAction => 'Remove';
+
+  @override
+  String advancedSettingRemoveSearchProviderConfirmDescription(
+    String engineName,
+  ) {
+    return 'Are you sure you want to remove $engineName?';
+  }
+
+  @override
   String get userSettingsNavApplications => 'Aplikace';
 
   @override
@@ -9668,6 +10209,198 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   }
 
   @override
+  String get guildMembersRecentTitle => 'Recent members';
+
+  @override
+  String guildMembersShowingCount(int displayedCount, int totalCount) {
+    return 'Showing $displayedCount of $totalCount total members';
+  }
+
+  @override
+  String get guildMembersSort => 'Sort';
+
+  @override
+  String get guildSettingsMembersSortNewest => 'Nejnovější první';
+
+  @override
+  String get guildMembersSortOldest => 'Oldest first';
+
+  @override
+  String get guildMembersColumnName => 'Name';
+
+  @override
+  String get guildMembersColumnMemberSince => 'Member since';
+
+  @override
+  String guildMembersColumnJoinedProduct(String productName) {
+    return 'Joined $productName';
+  }
+
+  @override
+  String get guildMembersColumnJoinMethod => 'Join method';
+
+  @override
+  String get guildMembersColumnRoles => 'Roles';
+
+  @override
+  String get guildMembersColumnActions => 'Actions';
+
+  @override
+  String get guildMembersFilterMemberSince => 'Filter by member since';
+
+  @override
+  String get guildMembersFilterJoinedProduct =>
+      'Filter by account creation date';
+
+  @override
+  String get guildMembersFilterJoinMethod => 'Filter by join method';
+
+  @override
+  String get guildMembersFilterRoles => 'Filter by roles';
+
+  @override
+  String get guildMembersFilterAll => 'All';
+
+  @override
+  String get guildMembersFilterPast1Hour => 'Past 1 hour';
+
+  @override
+  String get guildMembersFilterPast24Hours => 'Past 24 hours';
+
+  @override
+  String get guildMembersFilterPast7Days => 'Past 7 days';
+
+  @override
+  String get guildMembersFilterPast2Weeks => 'Past 2 weeks';
+
+  @override
+  String get guildMembersFilterPast3Weeks => 'Past 3 weeks';
+
+  @override
+  String get guildMembersFilterPast4Weeks => 'Past 4 weeks';
+
+  @override
+  String get guildMembersFilterPast3Months => 'Past 3 months';
+
+  @override
+  String get guildMembersFilterCustomRange => 'Custom range...';
+
+  @override
+  String get guildMembersDateRangeTitle => 'Custom date range';
+
+  @override
+  String get guildMembersDateAfter => 'After date';
+
+  @override
+  String get guildMembersDateBefore => 'Before date';
+
+  @override
+  String get guildMembersClearAll => 'Clear all';
+
+  @override
+  String get guildMembersRowsPerPage => 'Rows per page';
+
+  @override
+  String get guildMembersEmptySearch => 'Nobody matches that search.';
+
+  @override
+  String get guildMembersLoadError =>
+      'Something went wrong loading members. Try again later.';
+
+  @override
+  String get guildMembersIndexing => 'Indexing members…';
+
+  @override
+  String get guildMembersGoToPage => 'Go to page';
+
+  @override
+  String guildMembersGoToPageItem(int page) {
+    return 'Go to page $page';
+  }
+
+  @override
+  String get guildMembersJumpToPage => 'Jump to page';
+
+  @override
+  String get guildMembersJoinSourceCreator => 'Community creator';
+
+  @override
+  String get guildMembersJoinSourceInvite => 'Invite';
+
+  @override
+  String guildMembersJoinSourceInviteCode(String code) {
+    return 'Invite ($code)';
+  }
+
+  @override
+  String guildMembersJoinSourceInvitedBy(String name) {
+    return 'Invited by $name';
+  }
+
+  @override
+  String get guildMembersJoinSourceVanityUrl => 'Vanity URL';
+
+  @override
+  String get guildMembersJoinSourceBotInvite => 'Bot invite';
+
+  @override
+  String get guildMembersJoinSourcePlatformAdmin => 'Platform admin';
+
+  @override
+  String get guildMembersJoinSourceDiscovery => 'Discovery';
+
+  @override
+  String get guildMembersJoinMethodUnknown => 'Unknown';
+
+  @override
+  String get guildMembersCommunityOwner => 'Community owner';
+
+  @override
+  String get guildMembersViewAllRoles => 'View all roles';
+
+  @override
+  String get guildMembersJoinedJustNow => 'Just now';
+
+  @override
+  String guildMembersJoinedMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minutes ago',
+      one: '1 minute ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String guildMembersJoinedHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hours ago',
+      one: '1 hour ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String guildMembersJoinedDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days ago',
+      one: '1 day ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get guildMembersChannelListLabel => 'Members';
+
+  @override
+  String get guildMembersChannelListSelected => 'Members, selected';
+
+  @override
   String get guildSettingsInvitesTitle => 'Invites';
 
   @override
@@ -10515,9 +11248,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get guildSettingsInvitesTableExpires => 'Expires';
-
-  @override
-  String get guildSettingsMembersSortNewest => 'Nejnovější první';
 
   @override
   String get guildSettingsAuditLogFilterUser => 'Filtrovat podle uživatele';

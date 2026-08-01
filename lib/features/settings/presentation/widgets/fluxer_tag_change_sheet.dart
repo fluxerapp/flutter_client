@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.da
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
@@ -411,7 +412,7 @@ class _FluxerTagChangeContentState
 
     return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.all(layout.s4),
+        padding: settingsSheetScrollPadding(context).copyWith(top: layout.s4),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,

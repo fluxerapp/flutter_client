@@ -12,6 +12,7 @@ import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.da
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
+import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -51,7 +52,9 @@ import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_provider.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
+import 'package:fluxer_app/features/members/utils/guild_members_page_permissions.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
+import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -80,6 +83,32 @@ class GuildSidebar extends ConsumerStatefulWidget {
 }
 
 class _GuildSidebarState extends ConsumerState<GuildSidebar> {
+  Future<void> _handleServerHeaderTap(BuildContext context, Guild guild) async {
+    if (isMobileLayout(context)) {
+      await presentGuildMenuSheet(context, ref, guild: guild);
+      return;
+    }
+
+    await ref
+        .read(guildPermissionsProvider.notifier)
+        .refreshPermissions(guild.id);
+    if (!context.mounted) {
+      return;
+    }
+
+    final int permissions = ref.read(guildPermissionsProvider)[guild.id] ?? 0;
+    if (canOpenGuildSettingsForRef(
+      ref: ref,
+      permissions: permissions,
+      guild: guild,
+    )) {
+      await context.push(RoutePaths.guildSettingsPath(guild.id));
+      return;
+    }
+
+    await presentGuildMenuSheet(context, ref, guild: guild);
+  }
+
   @override
   Widget build(BuildContext context) {
     final Guild? guild = ref.watch(
@@ -126,27 +155,9 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
     final Color? bannerForegroundColor = hasImage ? Colors.white : null;
     final Widget headerContent = GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: () {
-        if (guild == null) {
-          return;
-        }
-        if (isMobileLayout(context)) {
-          unawaited(presentGuildMenuSheet(context, ref, guild: guild));
-          return;
-        }
-
-        final int permissions =
-            ref.read(guildPermissionsProvider)[guild.id] ?? 0;
-        if (!canOpenGuildSettingsForRef(
-          ref: ref,
-          permissions: permissions,
-          guild: guild,
-        )) {
-          return;
-        }
-
-        unawaited(context.push(RoutePaths.guildSettingsPath(guild.id)));
-      },
+      onTap: guild == null
+          ? null
+          : () => unawaited(_handleServerHeaderTap(context, guild)),
       child: Row(
         crossAxisAlignment: hasImage
             ? CrossAxisAlignment.start
@@ -334,6 +345,14 @@ class _GuildSidebarChannelListState
     _deferChannelList = widget.isActive && hasSavedOffset;
   }
 
+  void _refreshGuildPermissions() {
+    unawaited(
+      ref
+          .read(guildPermissionsProvider.notifier)
+          .refreshPermissions(widget.guildId),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -347,6 +366,7 @@ class _GuildSidebarChannelListState
       isMounted: () => mounted,
     )..attach();
     if (widget.isActive) {
+      _refreshGuildPermissions();
       _scheduleScrollRestore();
     }
   }
@@ -355,6 +375,7 @@ class _GuildSidebarChannelListState
   void didUpdateWidget(_GuildSidebarChannelList oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (!oldWidget.isActive && widget.isActive) {
+      _refreshGuildPermissions();
       _syncScrollRestoreState();
       _scheduleScrollRestore();
     }
@@ -491,12 +512,39 @@ class _GuildSidebarChannelListState
         }
       });
     final String? selectedId = ref.watch(activeChannelIdProvider);
+    final RouteState routeState = ref.watch(routeStateProvider);
+    final bool showMembersEntry =
+        !isMobileLayout(context) &&
+        hasMembersPagePermission(
+          ref.watch(guildPermissionsProvider)[widget.guildId] ?? 0,
+        );
+    final bool isMembersSelected =
+        routeState.kind == RouteKind.guildMembers &&
+        routeState.guildId == widget.guildId;
+    final int membersOffset = showMembersEntry ? 2 : 0;
     final Widget channelListView = ListView.builder(
       controller: _scrollController,
       scrollCacheExtent: const ScrollCacheExtent.pixels(600),
       padding: const EdgeInsets.only(top: 12),
-      itemCount: sidebarEntries.length,
+      itemCount: membersOffset + sidebarEntries.length,
       itemBuilder: (BuildContext context, int index) {
+        if (showMembersEntry) {
+          if (index == 0) {
+            return _MembersSidebarTile(
+              guildId: widget.guildId,
+              isSelected: isMembersSelected,
+            );
+          }
+          if (index == 1) {
+            return Divider(
+              height: 1,
+              indent: 12,
+              endIndent: 12,
+              color: context.colors.borderColor,
+            );
+          }
+          index -= membersOffset;
+        }
         final GuildSidebarEntry entry = sidebarEntries[index];
         switch (entry.kind) {
           case GuildSidebarEntryKind.categoryHeader:
@@ -781,7 +829,11 @@ class _ChannelTile extends ConsumerWidget {
       developerMode: developerMode,
       nsfwAllowed: nsfwAllowed,
       hasAgreedToMatureContent: hasAgreedToMatureContent,
-      voiceChannelJoinRequiresDoubleClick: false,
+      voiceChannelJoinRequiresDoubleClick: ref.read(
+        advancedPreferencesProvider.select(
+          (state) => state.voiceChannelJoinRequiresDoubleClick,
+        ),
+      ),
       mutedHint: mutedHint,
     );
     final List<ChannelMenuGroup> groups = buildChannelMenuGroups(
@@ -1469,3 +1521,42 @@ Future<ChannelOverridesMuteConfig?> _loadChannelMuteConfig(
 bool _canMarkChannelRead(Channel channel) =>
     channel.type != ChannelType.guildCategory &&
     channel.type != ChannelType.guildLink;
+
+class _MembersSidebarTile extends ConsumerWidget {
+  const _MembersSidebarTile({required this.guildId, required this.isSelected});
+
+  final String guildId;
+  final bool isSelected;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final Color textColor = isSelected
+        ? context.colors.textPrimary
+        : context.colors.textTertiaryMuted;
+    return FluxerSelectableRow(
+      isSelected: isSelected,
+      selectedColor: context.colors.backgroundModifierSelected,
+      borderRadius: BorderRadius.circular(4),
+      margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      onTap: () => context.go(RoutePaths.guildMembers(guildId)),
+      child: Row(
+        children: <Widget>[
+          PhosphorIcon(PhosphorIconsFill.users, size: 20, color: textColor),
+          const SizedBox(width: 6),
+          Expanded(
+            child: Text(
+              l10n.guildMembersChannelListLabel,
+              style: context.textStyles.channelName.copyWith(
+                color: textColor,
+                fontWeight: FontWeight.w500,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

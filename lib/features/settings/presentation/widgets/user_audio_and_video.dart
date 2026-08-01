@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/voice_mic_test_section.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/voice_prompts_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -121,7 +122,7 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
 
     return SingleChildScrollView(
       controller: widget.scrollController,
-      padding: EdgeInsets.all(layout.s4),
+      padding: settingsScrollPadding(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

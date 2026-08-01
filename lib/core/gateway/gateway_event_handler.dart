@@ -78,6 +78,7 @@ typedef GuildMembersChunkProgressCallback =
 typedef GuildMemberListUpdateCallback =
     void Function(GuildMemberListUpdateEvent event);
 typedef VoiceServerUpdateCallback = void Function(VoiceServerUpdateEvent event);
+typedef DefaultHideMutedChannelsResolver = bool Function();
 typedef GatewayErrorCallback = void Function(GatewayErrorEvent event);
 
 String? _presenceCustomStatusFromMap(Map<String, dynamic> presence) {
@@ -132,6 +133,7 @@ class GatewayEventHandler {
     this.onMembersChunk,
     this.onMembersChunkProgress,
     this.onMemberListUpdate,
+    this.resolveDefaultHideMutedChannels,
   });
 
   final db.FluxerDatabase database;
@@ -178,6 +180,7 @@ class GatewayEventHandler {
   final GuildMembersChunkCallback? onMembersChunk;
   final GuildMembersChunkProgressCallback? onMembersChunkProgress;
   final GuildMemberListUpdateCallback? onMemberListUpdate;
+  final DefaultHideMutedChannelsResolver? resolveDefaultHideMutedChannels;
 
   late final PresenceUpdateBatcher _presenceUpdateBatcher =
       PresenceUpdateBatcher(database: database, currentUserId: currentUserId);
@@ -1225,7 +1228,7 @@ class GatewayEventHandler {
       mobilePush: true,
       suppressEveryone: false,
       suppressRoles: false,
-      hideMutedChannels: false,
+      hideMutedChannels: resolveDefaultHideMutedChannels?.call() ?? false,
       channelOverrides: null,
       version: -1,
     ).toJson();

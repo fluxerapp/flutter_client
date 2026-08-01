@@ -21,9 +21,7 @@ enum GuildSettingsTab {
   bans,
 }
 
-const List<GuildSettingsTab> _comingSoonTabs = <GuildSettingsTab>[
-  GuildSettingsTab.members,
-];
+const List<GuildSettingsTab> _comingSoonTabs = <GuildSettingsTab>[];
 
 bool isGuildSettingsTabComingSoon(GuildSettingsTab tab) {
   return _comingSoonTabs.contains(tab);

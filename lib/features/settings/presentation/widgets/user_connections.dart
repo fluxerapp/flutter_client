@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/connection_add_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/connection_edit_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/connection_remove_sheet.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/connections_view_model.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/icons/fluxer_bluesky_icon.dart';
@@ -60,7 +61,7 @@ class _UserConnectionsState extends ConsumerState<UserConnections>
 
     return SingleChildScrollView(
       controller: widget.scrollController,
-      padding: EdgeInsets.all(layout.s4),
+      padding: settingsScrollPadding(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

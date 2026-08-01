@@ -483,8 +483,9 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     if (channelId == null || channelId.isEmpty) {
       return true;
     }
-    return channelMessagePermissionsForComposer(
-      ref.watch(channelMessagePermissionsProvider(channelId)),
+    return watchChannelMessagePermissionsForComposer(
+      ref,
+      channelId,
     ).canUseExternalEmojis;
   }
 
@@ -520,8 +521,9 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     if (channelId == null || channelId.isEmpty) {
       return true;
     }
-    return channelMessagePermissionsForComposer(
-      ref.read(channelMessagePermissionsProvider(channelId)),
+    return readChannelMessagePermissionsForComposer(
+      ref,
+      channelId,
     ).canUseExternalEmojis;
   }
 

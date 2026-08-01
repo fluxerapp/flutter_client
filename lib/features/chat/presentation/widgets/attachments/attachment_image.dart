@@ -25,6 +25,7 @@ class AttachmentImage extends StatelessWidget {
   final String? channelId;
   final String? messageId;
   final MessageMediaActionScope? mediaActionScope;
+  final bool showGifIndicator;
 
   const AttachmentImage({
     required this.attachment,
@@ -36,6 +37,7 @@ class AttachmentImage extends StatelessWidget {
     this.channelId,
     this.messageId,
     this.mediaActionScope,
+    this.showGifIndicator = true,
     super.key,
   });
 
@@ -61,54 +63,85 @@ class AttachmentImage extends StatelessWidget {
     );
     final bool animate = attachment.isAnimated;
     final String effectiveUrl = attachment.proxyUrl ?? attachment.url;
-    final Widget image = Container(
-      margin: const EdgeInsets.only(top: 4, bottom: 3),
-      constraints: BoxConstraints(
-        maxWidth: dimensions.maxWidth,
-        maxHeight: dimensions.maxHeight,
-      ),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: GestureDetector(
-          onTap: gallery.isEmpty
-              ? null
-              : () => showAttachmentMediaViewer(
-                  context,
-                  items: gallery.map(_buildMediaViewerItem).toList(),
-                  initialIndex: imageGalleryIndex.clamp(0, gallery.length - 1),
-                  channelId: channelId,
-                  onForward: (channelId != null && messageId != null)
-                      ? (int index) => showForwardMediaSheet(
-                          context,
-                          sourceChannelId: channelId!,
-                          sourceMessageId: messageId!,
-                          attachmentIds: <String>[gallery[index].id],
-                        )
-                      : null,
-                  actionScope: mediaActionScope,
-                ),
-          child: AspectRatio(
-            aspectRatio: _resolveAspectRatio(),
-            child: animate
-                ? EmbedAnimatedImage(
-                    animatedUrl: animatedEmbedImageUrl(effectiveUrl),
-                    staticUrl: staticEmbedImageUrl(effectiveUrl),
-                    visibilityKey: '${channelId}_${messageId}_${attachment.id}',
-                    fit: BoxFit.contain,
-                    placeholder: _buildImagePlaceholder(context),
-                  )
-                : _AttachmentStaticImage(
-                    imageUrl: attachment.url,
-                    displaySize: displaySize,
-                    dimensions: dimensions,
-                    sourceWidth: attachment.width,
-                    sourceHeight: attachment.height,
-                    placeholder: _buildImagePlaceholder(context),
-                  ),
+    final Widget image = Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          margin: const EdgeInsets.only(top: 4, bottom: 3),
+          constraints: BoxConstraints(
+            maxWidth: dimensions.maxWidth,
+            maxHeight: dimensions.maxHeight,
+          ),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: GestureDetector(
+              onTap: gallery.isEmpty
+                  ? null
+                  : () => showAttachmentMediaViewer(
+                      context,
+                      items: gallery.map(_buildMediaViewerItem).toList(),
+                      initialIndex: imageGalleryIndex.clamp(
+                        0,
+                        gallery.length - 1,
+                      ),
+                      channelId: channelId,
+                      onForward: (channelId != null && messageId != null)
+                          ? (int index) => showForwardMediaSheet(
+                              context,
+                              sourceChannelId: channelId!,
+                              sourceMessageId: messageId!,
+                              attachmentIds: <String>[gallery[index].id],
+                            )
+                          : null,
+                      actionScope: mediaActionScope,
+                    ),
+              child: AspectRatio(
+                aspectRatio: _resolveAspectRatio(),
+                child: animate
+                    ? EmbedAnimatedImage(
+                        animatedUrl: animatedEmbedImageUrl(effectiveUrl),
+                        staticUrl: staticEmbedImageUrl(effectiveUrl),
+                        visibilityKey:
+                            '${channelId}_${messageId}_${attachment.id}',
+                        fit: BoxFit.contain,
+                        placeholder: _buildImagePlaceholder(context),
+                      )
+                    : _AttachmentStaticImage(
+                        imageUrl: attachment.url,
+                        displaySize: displaySize,
+                        dimensions: dimensions,
+                        sourceWidth: attachment.width,
+                        sourceHeight: attachment.height,
+                        placeholder: _buildImagePlaceholder(context),
+                      ),
+              ),
+            ),
           ),
         ),
-      ),
+        if (showGifIndicator && animate)
+          Positioned(
+            left: 8,
+            bottom: 8,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.72),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                child: Text(
+                  'GIF',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
+          ),
+      ],
     );
     if (!wrapWithSpoiler) {
       return image;

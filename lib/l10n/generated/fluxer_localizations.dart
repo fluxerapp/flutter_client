@@ -12816,6 +12816,902 @@ abstract class FluxerLocalizations {
   /// **'All reported data is anonymous and is sent only to Fluxer\'s own monitoring service — no third-party providers are used.'**
   String get advancedPerformanceReportingDescription;
 
+  /// Button label that opens a dedicated advanced settings modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure'**
+  String get advancedSettingsConfigure;
+
+  /// No description provided for @advancedSettingsCategoryPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get advancedSettingsCategoryPrivacy;
+
+  /// No description provided for @advancedSettingsCategoryAppearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get advancedSettingsCategoryAppearance;
+
+  /// No description provided for @advancedSettingsCategoryAccessibility.
+  ///
+  /// In en, this message translates to:
+  /// **'Accessibility'**
+  String get advancedSettingsCategoryAccessibility;
+
+  /// No description provided for @advancedSettingsCategoryChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat'**
+  String get advancedSettingsCategoryChat;
+
+  /// No description provided for @advancedSettingsCategoryMedia.
+  ///
+  /// In en, this message translates to:
+  /// **'Media'**
+  String get advancedSettingsCategoryMedia;
+
+  /// No description provided for @advancedSettingsCategoryVoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice'**
+  String get advancedSettingsCategoryVoice;
+
+  /// No description provided for @advancedSettingsCategoryDeveloper.
+  ///
+  /// In en, this message translates to:
+  /// **'Developer'**
+  String get advancedSettingsCategoryDeveloper;
+
+  /// No description provided for @advancedSettingEnableTextSelectionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable text selection'**
+  String get advancedSettingEnableTextSelectionLabel;
+
+  /// No description provided for @advancedSettingEnableTextSelectionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow selecting text in the app'**
+  String get advancedSettingEnableTextSelectionDescription;
+
+  /// No description provided for @advancedSettingVideoSeekThumbnailsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable video seek thumbnails'**
+  String get advancedSettingVideoSeekThumbnailsLabel;
+
+  /// No description provided for @advancedSettingVideoSeekThumbnailsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Thumbnail or live frame while scrubbing video'**
+  String get advancedSettingVideoSeekThumbnailsDescription;
+
+  /// No description provided for @advancedSettingShowNekoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Neko'**
+  String get advancedSettingShowNekoLabel;
+
+  /// No description provided for @advancedSettingShowNekoDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Neko cat that chases your cursor'**
+  String get advancedSettingShowNekoDescription;
+
+  /// No description provided for @advancedSettingShowNekoDescriptionTouch.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Neko on your chat input'**
+  String get advancedSettingShowNekoDescriptionTouch;
+
+  /// No description provided for @advancedSettingKeyboardHintsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Keyboard hints'**
+  String get advancedSettingKeyboardHintsLabel;
+
+  /// No description provided for @advancedSettingKeyboardHintsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Keyboard shortcut hints in tooltips'**
+  String get advancedSettingKeyboardHintsDescription;
+
+  /// No description provided for @advancedSettingEnableFavoritesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable favorites'**
+  String get advancedSettingEnableFavoritesLabel;
+
+  /// No description provided for @advancedSettingEnableFavoritesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Show favorites throughout the app'**
+  String get advancedSettingEnableFavoritesDescription;
+
+  /// No description provided for @advancedSettingVoiceChannelJoinBehaviorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice channel join behavior'**
+  String get advancedSettingVoiceChannelJoinBehaviorLabel;
+
+  /// No description provided for @advancedSettingVoiceChannelJoinBehaviorDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmation or double-click for community voice joins'**
+  String get advancedSettingVoiceChannelJoinBehaviorDescription;
+
+  /// No description provided for @advancedSettingRequireDoubleClickJoinLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Require double-click to join voice channels'**
+  String get advancedSettingRequireDoubleClickJoinLabel;
+
+  /// No description provided for @advancedSettingConfirmBeforeJoiningVoiceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm before joining voice channels'**
+  String get advancedSettingConfirmBeforeJoiningVoiceLabel;
+
+  /// No description provided for @advancedSettingAutoSendGifsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically send GIFs when selected'**
+  String get advancedSettingAutoSendGifsLabel;
+
+  /// No description provided for @advancedSettingAutoSendGifsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically send GIFs from the picker without confirmation'**
+  String get advancedSettingAutoSendGifsDescription;
+
+  /// No description provided for @advancedSettingSaveGifFavoritesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Save GIF favorites as saved media'**
+  String get advancedSettingSaveGifFavoritesLabel;
+
+  /// No description provided for @advancedSettingSaveGifFavoritesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how starred GIF favorites are stored'**
+  String get advancedSettingSaveGifFavoritesDescription;
+
+  /// No description provided for @advancedSettingMediaButtonsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Media buttons'**
+  String get advancedSettingMediaButtonsLabel;
+
+  /// No description provided for @advancedSettingMediaButtonsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Customize which buttons and indicators appear on media attachments and embeds'**
+  String get advancedSettingMediaButtonsDescription;
+
+  /// No description provided for @advancedSettingPreuploadAttachmentsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload attachments before sending'**
+  String get advancedSettingPreuploadAttachmentsLabel;
+
+  /// No description provided for @advancedSettingPreuploadAttachmentsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Start uploading attachments as soon as they are added to the message input'**
+  String get advancedSettingPreuploadAttachmentsDescription;
+
+  /// No description provided for @advancedSettingStripTrackingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Strip tracking parameters from URLs'**
+  String get advancedSettingStripTrackingLabel;
+
+  /// No description provided for @advancedSettingStripTrackingDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically remove tracking parameters from URLs in messages you send'**
+  String get advancedSettingStripTrackingDescription;
+
+  /// No description provided for @advancedSettingTrustAllLinksLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Trust all external links'**
+  String get advancedSettingTrustAllLinksLabel;
+
+  /// No description provided for @advancedSettingTrustAllLinksDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip the external link warning for all domains'**
+  String get advancedSettingTrustAllLinksDescription;
+
+  /// No description provided for @advancedSettingSearchEnginesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Search engines'**
+  String get advancedSettingSearchEnginesLabel;
+
+  /// No description provided for @advancedSettingSearchEnginesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure search engines used from selected text'**
+  String get advancedSettingSearchEnginesDescription;
+
+  /// No description provided for @advancedSettingTranslatorsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Translators'**
+  String get advancedSettingTranslatorsLabel;
+
+  /// No description provided for @advancedSettingTranslatorsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure translator providers used from selected text'**
+  String get advancedSettingTranslatorsDescription;
+
+  /// No description provided for @advancedSettingReverseImageSearchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reverse image search'**
+  String get advancedSettingReverseImageSearchLabel;
+
+  /// No description provided for @advancedSettingReverseImageSearchDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Reverse image search providers'**
+  String get advancedSettingReverseImageSearchDescription;
+
+  /// No description provided for @advancedSettingMessageActionBarLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Message action bar'**
+  String get advancedSettingMessageActionBarLabel;
+
+  /// No description provided for @advancedSettingMessageActionBarDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Customize the action bar that appears when hovering over messages'**
+  String get advancedSettingMessageActionBarDescription;
+
+  /// No description provided for @advancedSettingExpressionAutocompleteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Expression autocomplete'**
+  String get advancedSettingExpressionAutocompleteLabel;
+
+  /// No description provided for @advancedSettingExpressionAutocompleteDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick what appears when you type a colon in the message input'**
+  String get advancedSettingExpressionAutocompleteDescription;
+
+  /// No description provided for @advancedSettingInputButtonsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Message input buttons'**
+  String get advancedSettingInputButtonsLabel;
+
+  /// No description provided for @advancedSettingInputButtonsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick which buttons show in the message input'**
+  String get advancedSettingInputButtonsDescription;
+
+  /// No description provided for @advancedSettingScrollToBottomOnSendLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Scroll to bottom when sending a message'**
+  String get advancedSettingScrollToBottomOnSendLabel;
+
+  /// No description provided for @advancedSettingScrollToBottomOnSendDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how chat moves after you send a message'**
+  String get advancedSettingScrollToBottomOnSendDescription;
+
+  /// No description provided for @advancedSettingSkipMarkAllAsReadLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip \"Mark all as read\" confirmation'**
+  String get advancedSettingSkipMarkAllAsReadLabel;
+
+  /// No description provided for @advancedSettingSkipMarkAllAsReadDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all unread inbox channels as read immediately, without asking to confirm'**
+  String get advancedSettingSkipMarkAllAsReadDescription;
+
+  /// No description provided for @advancedSettingHideMutedChannelsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide muted channels by default'**
+  String get advancedSettingHideMutedChannelsLabel;
+
+  /// No description provided for @advancedSettingHideMutedChannelsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide channels you\'ve muted from community sidebars'**
+  String get advancedSettingHideMutedChannelsDescription;
+
+  /// No description provided for @advancedSettingSequentialFileSendLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Send file messages in order'**
+  String get advancedSettingSequentialFileSendLabel;
+
+  /// No description provided for @advancedSettingSequentialFileSendDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Ensures file messages appear in the order you sent them'**
+  String get advancedSettingSequentialFileSendDescription;
+
+  /// No description provided for @advancedSettingShowGifIndicatorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Show GIF indicator'**
+  String get advancedSettingShowGifIndicatorLabel;
+
+  /// No description provided for @advancedSettingShowAttachmentExpiryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Show attachment expiry indicator'**
+  String get advancedSettingShowAttachmentExpiryLabel;
+
+  /// No description provided for @advancedSettingShowMediaDeleteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Show delete button'**
+  String get advancedSettingShowMediaDeleteLabel;
+
+  /// No description provided for @advancedSettingShowMediaDownloadLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Show download button'**
+  String get advancedSettingShowMediaDownloadLabel;
+
+  /// No description provided for @advancedSettingShowMediaFavoriteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Show favorite button'**
+  String get advancedSettingShowMediaFavoriteLabel;
+
+  /// No description provided for @advancedSettingShowSuppressEmbedsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Show suppress embeds button'**
+  String get advancedSettingShowSuppressEmbedsLabel;
+
+  /// No description provided for @advancedSettingShowMessageActionBarLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Show message action bar'**
+  String get advancedSettingShowMessageActionBarLabel;
+
+  /// No description provided for @advancedSettingShowOnlyMoreButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Show only more button'**
+  String get advancedSettingShowOnlyMoreButtonLabel;
+
+  /// No description provided for @advancedSettingShowQuickReactionsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Show quick reactions'**
+  String get advancedSettingShowQuickReactionsLabel;
+
+  /// No description provided for @advancedSettingEnableShiftToExpandLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Shift to expand'**
+  String get advancedSettingEnableShiftToExpandLabel;
+
+  /// No description provided for @advancedSettingShowDefaultEmojisAutocompleteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Show default emojis in expression autocomplete'**
+  String get advancedSettingShowDefaultEmojisAutocompleteLabel;
+
+  /// No description provided for @advancedSettingShowCustomEmojisAutocompleteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Show custom emojis in expression autocomplete'**
+  String get advancedSettingShowCustomEmojisAutocompleteLabel;
+
+  /// No description provided for @advancedSettingShowStickersAutocompleteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Show stickers in expression autocomplete'**
+  String get advancedSettingShowStickersAutocompleteLabel;
+
+  /// No description provided for @advancedSettingShowSavedMediaAutocompleteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Show saved media in expression autocomplete'**
+  String get advancedSettingShowSavedMediaAutocompleteLabel;
+
+  /// No description provided for @advancedSettingShowGifsButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Show GIFs button'**
+  String get advancedSettingShowGifsButtonLabel;
+
+  /// No description provided for @advancedSettingShowMediaButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Show media button'**
+  String get advancedSettingShowMediaButtonLabel;
+
+  /// No description provided for @advancedSettingShowStickersButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Show stickers button'**
+  String get advancedSettingShowStickersButtonLabel;
+
+  /// No description provided for @advancedSettingShowEmojiButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Show emoji button'**
+  String get advancedSettingShowEmojiButtonLabel;
+
+  /// No description provided for @advancedSettingShowSendButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Show send button'**
+  String get advancedSettingShowSendButtonLabel;
+
+  /// No description provided for @advancedSettingNewDeviceAlertsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Show new device alerts'**
+  String get advancedSettingNewDeviceAlertsLabel;
+
+  /// No description provided for @advancedSettingNewDeviceAlertsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Prompt for new audio devices'**
+  String get advancedSettingNewDeviceAlertsDescription;
+
+  /// No description provided for @advancedSettingConnectionVolumeControlsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection volume controls'**
+  String get advancedSettingConnectionVolumeControlsLabel;
+
+  /// No description provided for @advancedSettingConnectionVolumeControlsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Show per-device participant volume sliders in voice menus'**
+  String get advancedSettingConnectionVolumeControlsDescription;
+
+  /// No description provided for @advancedSettingScreenSharePreviewBehaviorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen share preview behavior'**
+  String get advancedSettingScreenSharePreviewBehaviorLabel;
+
+  /// No description provided for @advancedSettingScreenSharePreviewBehaviorDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview, popout, and stream thumbnail behavior'**
+  String get advancedSettingScreenSharePreviewBehaviorDescription;
+
+  /// No description provided for @advancedSettingScreenShareCodecLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen share codec'**
+  String get advancedSettingScreenShareCodecLabel;
+
+  /// No description provided for @advancedSettingScreenShareCodecDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Video codec for screen sharing'**
+  String get advancedSettingScreenShareCodecDescription;
+
+  /// No description provided for @advancedSettingScreenShareCodecAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic (recommended)'**
+  String get advancedSettingScreenShareCodecAuto;
+
+  /// No description provided for @advancedSettingScreenShareCodecAv1.
+  ///
+  /// In en, this message translates to:
+  /// **'AV1'**
+  String get advancedSettingScreenShareCodecAv1;
+
+  /// No description provided for @advancedSettingScreenShareCodecH265.
+  ///
+  /// In en, this message translates to:
+  /// **'H.265'**
+  String get advancedSettingScreenShareCodecH265;
+
+  /// No description provided for @advancedSettingScreenShareCodecVp9.
+  ///
+  /// In en, this message translates to:
+  /// **'VP9'**
+  String get advancedSettingScreenShareCodecVp9;
+
+  /// No description provided for @advancedSettingScreenShareCodecH264.
+  ///
+  /// In en, this message translates to:
+  /// **'H.264'**
+  String get advancedSettingScreenShareCodecH264;
+
+  /// No description provided for @advancedSettingScreenShareCodecVp8.
+  ///
+  /// In en, this message translates to:
+  /// **'VP8'**
+  String get advancedSettingScreenShareCodecVp8;
+
+  /// No description provided for @advancedSettingPauseScreenSharePreviewLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause my screen share preview in the background'**
+  String get advancedSettingPauseScreenSharePreviewLabel;
+
+  /// No description provided for @advancedSettingHideStreamPreviewLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide my stream preview thumbnail'**
+  String get advancedSettingHideStreamPreviewLabel;
+
+  /// No description provided for @advancedSettingDeveloperModeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable developer mode'**
+  String get advancedSettingDeveloperModeLabel;
+
+  /// No description provided for @advancedSettingDeveloperModeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable developer mode'**
+  String get advancedSettingDeveloperModeDescription;
+
+  /// No description provided for @advancedSettingSearchEngineGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Google'**
+  String get advancedSettingSearchEngineGoogle;
+
+  /// No description provided for @advancedSettingSearchEngineDuckDuckGo.
+  ///
+  /// In en, this message translates to:
+  /// **'DuckDuckGo'**
+  String get advancedSettingSearchEngineDuckDuckGo;
+
+  /// No description provided for @advancedSettingSearchEngineBing.
+  ///
+  /// In en, this message translates to:
+  /// **'Bing'**
+  String get advancedSettingSearchEngineBing;
+
+  /// No description provided for @advancedSettingSearchEngineGoogleLens.
+  ///
+  /// In en, this message translates to:
+  /// **'Google Lens'**
+  String get advancedSettingSearchEngineGoogleLens;
+
+  /// No description provided for @advancedSettingSearchEngineTinEye.
+  ///
+  /// In en, this message translates to:
+  /// **'TinEye'**
+  String get advancedSettingSearchEngineTinEye;
+
+  /// No description provided for @advancedSettingTranslatorGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Google Translate'**
+  String get advancedSettingTranslatorGoogle;
+
+  /// No description provided for @advancedSettingTranslatorDeepL.
+  ///
+  /// In en, this message translates to:
+  /// **'DeepL'**
+  String get advancedSettingTranslatorDeepL;
+
+  /// No description provided for @advancedSettingDefaultSearchEngineLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Default search engine'**
+  String get advancedSettingDefaultSearchEngineLabel;
+
+  /// No description provided for @advancedSettingDefaultSearchEngineDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose which search engine is used by default when searching selected text.'**
+  String get advancedSettingDefaultSearchEngineDescription;
+
+  /// No description provided for @advancedSettingBuiltInSearchEnginesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Built-in search engines'**
+  String get advancedSettingBuiltInSearchEnginesLabel;
+
+  /// No description provided for @advancedSettingBuiltInSearchEnginesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable or disable built-in search engines. Enabled engines appear in the message context menu when text is selected.'**
+  String get advancedSettingBuiltInSearchEnginesDescription;
+
+  /// No description provided for @advancedSettingCustomSearchEnginesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom search engines'**
+  String get advancedSettingCustomSearchEnginesLabel;
+
+  /// No description provided for @advancedSettingCustomSearchEnginesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your own search engines with a custom URL pattern. Use \'{query}\' as a placeholder for the search text.'**
+  String advancedSettingCustomSearchEnginesDescription(Object query);
+
+  /// No description provided for @advancedSettingAddSearchEngineLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Add search engine'**
+  String get advancedSettingAddSearchEngineLabel;
+
+  /// No description provided for @advancedSettingEnableAtLeastOneSearchEngineLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable at least one search engine below.'**
+  String get advancedSettingEnableAtLeastOneSearchEngineLabel;
+
+  /// No description provided for @advancedSettingRemoveSearchEngineLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove search engine'**
+  String get advancedSettingRemoveSearchEngineLabel;
+
+  /// No description provided for @advancedSettingDefaultTranslatorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Default translator'**
+  String get advancedSettingDefaultTranslatorLabel;
+
+  /// No description provided for @advancedSettingDefaultTranslatorDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose which translator is used by default when translating selected text.'**
+  String get advancedSettingDefaultTranslatorDescription;
+
+  /// No description provided for @advancedSettingBuiltInTranslatorsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Built-in translators'**
+  String get advancedSettingBuiltInTranslatorsLabel;
+
+  /// No description provided for @advancedSettingBuiltInTranslatorsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable or disable built-in translators. Enabled translators appear in the message context menu when text is selected.'**
+  String get advancedSettingBuiltInTranslatorsDescription;
+
+  /// No description provided for @advancedSettingCustomTranslatorsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom translators'**
+  String get advancedSettingCustomTranslatorsLabel;
+
+  /// No description provided for @advancedSettingCustomTranslatorsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your own translators with a custom URL pattern. Use \'{query}\' as a placeholder for the text to translate.'**
+  String advancedSettingCustomTranslatorsDescription(Object query);
+
+  /// No description provided for @advancedSettingAddTranslatorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Add translator'**
+  String get advancedSettingAddTranslatorLabel;
+
+  /// No description provided for @advancedSettingEnableAtLeastOneTranslatorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable at least one translator below.'**
+  String get advancedSettingEnableAtLeastOneTranslatorLabel;
+
+  /// No description provided for @advancedSettingRemoveTranslatorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove translator'**
+  String get advancedSettingRemoveTranslatorLabel;
+
+  /// No description provided for @advancedSettingDefaultReverseImageSearchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Default reverse image search'**
+  String get advancedSettingDefaultReverseImageSearchLabel;
+
+  /// No description provided for @advancedSettingDefaultReverseImageSearchDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose which reverse image search service is used by default when searching an image.'**
+  String get advancedSettingDefaultReverseImageSearchDescription;
+
+  /// No description provided for @advancedSettingBuiltInReverseImageSearchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Built-in reverse image search'**
+  String get advancedSettingBuiltInReverseImageSearchLabel;
+
+  /// No description provided for @advancedSettingBuiltInReverseImageSearchDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable or disable built-in reverse image search providers. Enabled providers appear in the context menu of images, avatars, banners, stickers, and emoji.'**
+  String get advancedSettingBuiltInReverseImageSearchDescription;
+
+  /// No description provided for @advancedSettingCustomReverseImageSearchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom reverse image search'**
+  String get advancedSettingCustomReverseImageSearchLabel;
+
+  /// No description provided for @advancedSettingCustomReverseImageSearchDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your own reverse image search providers with a custom URL pattern. Use \'{url}\' as a placeholder for the image URL.'**
+  String advancedSettingCustomReverseImageSearchDescription(Object url);
+
+  /// No description provided for @advancedSettingAddReverseImageSearchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Add reverse image search'**
+  String get advancedSettingAddReverseImageSearchLabel;
+
+  /// No description provided for @advancedSettingEnableAtLeastOneReverseImageSearchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable at least one reverse image search provider below.'**
+  String get advancedSettingEnableAtLeastOneReverseImageSearchLabel;
+
+  /// No description provided for @advancedSettingRemoveReverseImageSearchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove reverse image search'**
+  String get advancedSettingRemoveReverseImageSearchLabel;
+
+  /// No description provided for @advancedSettingAddSearchEngineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add search engine'**
+  String get advancedSettingAddSearchEngineTitle;
+
+  /// No description provided for @advancedSettingEditSearchEngineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit search engine'**
+  String get advancedSettingEditSearchEngineTitle;
+
+  /// No description provided for @advancedSettingAddTranslatorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add translation provider'**
+  String get advancedSettingAddTranslatorTitle;
+
+  /// No description provided for @advancedSettingEditTranslatorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit translation provider'**
+  String get advancedSettingEditTranslatorTitle;
+
+  /// No description provided for @advancedSettingAddReverseImageSearchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add reverse image search engine'**
+  String get advancedSettingAddReverseImageSearchTitle;
+
+  /// No description provided for @advancedSettingEditReverseImageSearchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit reverse image search engine'**
+  String get advancedSettingEditReverseImageSearchTitle;
+
+  /// No description provided for @advancedSettingSearchProviderNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get advancedSettingSearchProviderNameLabel;
+
+  /// No description provided for @advancedSettingSearchProviderUrlLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'URL pattern'**
+  String get advancedSettingSearchProviderUrlLabel;
+
+  /// No description provided for @advancedSettingSearchProviderNameTextPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'My search engine'**
+  String get advancedSettingSearchProviderNameTextPlaceholder;
+
+  /// No description provided for @advancedSettingSearchProviderNameTranslatePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'My translator'**
+  String get advancedSettingSearchProviderNameTranslatePlaceholder;
+
+  /// No description provided for @advancedSettingSearchProviderNameImagePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'My reverse image search'**
+  String get advancedSettingSearchProviderNameImagePlaceholder;
+
+  /// No description provided for @advancedSettingSearchProviderUrlTextHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Use \'{query}\' where the search text should be inserted.'**
+  String advancedSettingSearchProviderUrlTextHint(Object query);
+
+  /// No description provided for @advancedSettingSearchProviderUrlTranslateHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Use \'{query}\' where the text to translate should be inserted.'**
+  String advancedSettingSearchProviderUrlTranslateHint(Object query);
+
+  /// No description provided for @advancedSettingSearchProviderUrlImageHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Use \'{url}\' where the image URL should be inserted.'**
+  String advancedSettingSearchProviderUrlImageHint(Object url);
+
+  /// No description provided for @advancedSettingSearchProviderNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Name is required.'**
+  String get advancedSettingSearchProviderNameRequired;
+
+  /// No description provided for @advancedSettingSearchProviderUrlRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'URL pattern is required.'**
+  String get advancedSettingSearchProviderUrlRequired;
+
+  /// No description provided for @advancedSettingSearchProviderUrlMustContainQuery.
+  ///
+  /// In en, this message translates to:
+  /// **'URL pattern must contain \'{query}\' placeholder.'**
+  String advancedSettingSearchProviderUrlMustContainQuery(Object query);
+
+  /// No description provided for @advancedSettingSearchProviderUrlMustContainUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'URL pattern must contain \'{url}\' placeholder.'**
+  String advancedSettingSearchProviderUrlMustContainUrl(Object url);
+
+  /// No description provided for @advancedSettingSearchProviderUrlMustBeValid.
+  ///
+  /// In en, this message translates to:
+  /// **'URL pattern must be a valid URL.'**
+  String get advancedSettingSearchProviderUrlMustBeValid;
+
+  /// No description provided for @advancedSettingAddSearchProviderAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get advancedSettingAddSearchProviderAction;
+
+  /// No description provided for @advancedSettingEditSearchProviderAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get advancedSettingEditSearchProviderAction;
+
+  /// No description provided for @advancedSettingRemoveSearchProviderConfirmAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get advancedSettingRemoveSearchProviderConfirmAction;
+
+  /// No description provided for @advancedSettingRemoveSearchProviderConfirmDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to remove {engineName}?'**
+  String advancedSettingRemoveSearchProviderConfirmDescription(
+    String engineName,
+  );
+
   /// User settings navigation item for developer applications.
   ///
   /// In en, this message translates to:
@@ -16281,10 +17177,10 @@ abstract class FluxerLocalizations {
   /// **'Search and manage server members.'**
   String get guildSettingsMembersDescription;
 
-  /// Hint for member search field.
+  /// Hint for member search field on the community members page.
   ///
   /// In en, this message translates to:
-  /// **'Search members'**
+  /// **'Search by username or ID'**
   String get guildSettingsMembersSearchHint;
 
   /// Title for member search results.
@@ -16292,6 +17188,318 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'{count} members'**
   String guildSettingsMembersResultsTitle(int count);
+
+  /// Title on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent members'**
+  String get guildMembersRecentTitle;
+
+  /// Subtitle showing pagination count on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Showing {displayedCount} of {totalCount} total members'**
+  String guildMembersShowingCount(int displayedCount, int totalCount);
+
+  /// Sort button label on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort'**
+  String get guildMembersSort;
+
+  /// Sort option on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest first'**
+  String get guildSettingsMembersSortNewest;
+
+  /// Sort option on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Oldest first'**
+  String get guildMembersSortOldest;
+
+  /// Table column header on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get guildMembersColumnName;
+
+  /// Table column header on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Member since'**
+  String get guildMembersColumnMemberSince;
+
+  /// Table column header for account creation date on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Joined {productName}'**
+  String guildMembersColumnJoinedProduct(String productName);
+
+  /// Table column header on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Join method'**
+  String get guildMembersColumnJoinMethod;
+
+  /// Table column header on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Roles'**
+  String get guildMembersColumnRoles;
+
+  /// Table column header on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Actions'**
+  String get guildMembersColumnActions;
+
+  /// Filter menu label on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by member since'**
+  String get guildMembersFilterMemberSince;
+
+  /// Filter menu label on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by account creation date'**
+  String get guildMembersFilterJoinedProduct;
+
+  /// Filter menu label on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by join method'**
+  String get guildMembersFilterJoinMethod;
+
+  /// Filter menu label on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by roles'**
+  String get guildMembersFilterRoles;
+
+  /// Filter option to clear filters on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get guildMembersFilterAll;
+
+  /// Date-range filter option on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Past 1 hour'**
+  String get guildMembersFilterPast1Hour;
+
+  /// Date-range filter option on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Past 24 hours'**
+  String get guildMembersFilterPast24Hours;
+
+  /// Date-range filter option on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Past 7 days'**
+  String get guildMembersFilterPast7Days;
+
+  /// Date-range filter option on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Past 2 weeks'**
+  String get guildMembersFilterPast2Weeks;
+
+  /// Date-range filter option on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Past 3 weeks'**
+  String get guildMembersFilterPast3Weeks;
+
+  /// Date-range filter option on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Past 4 weeks'**
+  String get guildMembersFilterPast4Weeks;
+
+  /// Date-range filter option on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Past 3 months'**
+  String get guildMembersFilterPast3Months;
+
+  /// Date-range filter option that opens a date picker on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom range...'**
+  String get guildMembersFilterCustomRange;
+
+  /// Title for the custom date range sheet on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom date range'**
+  String get guildMembersDateRangeTitle;
+
+  /// Label for the after-date field in the custom date range sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'After date'**
+  String get guildMembersDateAfter;
+
+  /// Label for the before-date field in the custom date range sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Before date'**
+  String get guildMembersDateBefore;
+
+  /// Button to clear all role filters on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear all'**
+  String get guildMembersClearAll;
+
+  /// Pagination page size label on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Rows per page'**
+  String get guildMembersRowsPerPage;
+
+  /// Empty state when no members match filters on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody matches that search.'**
+  String get guildMembersEmptySearch;
+
+  /// Error state on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong loading members. Try again later.'**
+  String get guildMembersLoadError;
+
+  /// Banner shown while guild members are being indexed.
+  ///
+  /// In en, this message translates to:
+  /// **'Indexing members…'**
+  String get guildMembersIndexing;
+
+  /// Pagination jump label on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to page'**
+  String get guildMembersGoToPage;
+
+  /// Accessibility label for a pagination page button.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to page {page}'**
+  String guildMembersGoToPageItem(int page);
+
+  /// Label for pagination jump input on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Jump to page'**
+  String get guildMembersJumpToPage;
+
+  /// Join method label on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Community creator'**
+  String get guildMembersJoinSourceCreator;
+
+  /// Join method label on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite'**
+  String get guildMembersJoinSourceInvite;
+
+  /// Join method label with invite code on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite ({code})'**
+  String guildMembersJoinSourceInviteCode(String code);
+
+  /// Join method label with inviter on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Invited by {name}'**
+  String guildMembersJoinSourceInvitedBy(String name);
+
+  /// Join method label on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Vanity URL'**
+  String get guildMembersJoinSourceVanityUrl;
+
+  /// Join method label on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Bot invite'**
+  String get guildMembersJoinSourceBotInvite;
+
+  /// Join method label on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Platform admin'**
+  String get guildMembersJoinSourcePlatformAdmin;
+
+  /// Join method label on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Discovery'**
+  String get guildMembersJoinSourceDiscovery;
+
+  /// Fallback join method label on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get guildMembersJoinMethodUnknown;
+
+  /// Label for the guild owner on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Community owner'**
+  String get guildMembersCommunityOwner;
+
+  /// Tooltip for role overflow on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'View all roles'**
+  String get guildMembersViewAllRoles;
+
+  /// Relative join time on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'Just now'**
+  String get guildMembersJoinedJustNow;
+
+  /// Relative join time on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {1 minute ago} other {{count} minutes ago}}'**
+  String guildMembersJoinedMinutesAgo(int count);
+
+  /// Relative join time on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {1 hour ago} other {{count} hours ago}}'**
+  String guildMembersJoinedHoursAgo(int count);
+
+  /// Relative join time on the community members page.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {1 day ago} other {{count} days ago}}'**
+  String guildMembersJoinedDaysAgo(int count);
+
+  /// Label for the Members item at the top of the guild channel list.
+  ///
+  /// In en, this message translates to:
+  /// **'Members'**
+  String get guildMembersChannelListLabel;
+
+  /// Accessibility label when the Members channel list item is selected.
+  ///
+  /// In en, this message translates to:
+  /// **'Members, selected'**
+  String get guildMembersChannelListSelected;
 
   /// Title for the invites settings tab.
   ///
@@ -17714,12 +18922,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Expires'**
   String get guildSettingsInvitesTableExpires;
-
-  /// No description provided for @guildSettingsMembersSortNewest.
-  ///
-  /// In en, this message translates to:
-  /// **'Newest first'**
-  String get guildSettingsMembersSortNewest;
 
   /// Label of the user filter dropdown in the activity log tab.
   ///

@@ -67,6 +67,7 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
   bool revealSpoilers = false,
   FluxerSpoilerSyncController? spoilerSyncController,
   FluxerTimestampFormatter? timestampFormatter,
+  FluxerSelectionContextMenuBuilder? selectionContextMenuBuilder,
 }) {
   return FluxerMarkdownConfig(
     resolveEmojiShortcode: EmojiRegistry.resolveSync,
@@ -194,5 +195,6 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
                   ),
                 );
           },
+    selectionContextMenuBuilder: selectionContextMenuBuilder,
   );
 }

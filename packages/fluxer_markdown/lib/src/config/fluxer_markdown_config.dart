@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 enum FluxerGuildNavigationType { customize, browse, guide, linkedRoles }
@@ -67,6 +68,11 @@ typedef FluxerCodeCopyHandler =
     void Function(BuildContext context, String code);
 typedef FluxerTimestampFormatter =
     String Function(DateTime localDateTime, String style);
+typedef FluxerSelectionContextMenuBuilder =
+    Widget Function(
+      BuildContext context,
+      SelectableRegionState selectableRegionState,
+    );
 
 class FluxerSpoilerSyncController extends ChangeNotifier {
   final Set<String> _revealedKeys = <String>{};
@@ -128,6 +134,7 @@ class FluxerMarkdownConfig {
     this.spoilerSyncKeyNormalizer,
     this.onCopyCode,
     this.timestampFormatter,
+    this.selectionContextMenuBuilder,
   });
 
   final FluxerShortcodeResolver resolveEmojiShortcode;
@@ -162,4 +169,5 @@ class FluxerMarkdownConfig {
   final FluxerSpoilerSyncKeyNormalizer? spoilerSyncKeyNormalizer;
   final FluxerCodeCopyHandler? onCopyCode;
   final FluxerTimestampFormatter? timestampFormatter;
+  final FluxerSelectionContextMenuBuilder? selectionContextMenuBuilder;
 }

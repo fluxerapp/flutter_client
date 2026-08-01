@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
+import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -62,6 +63,7 @@ import 'package:fluxer_app/features/chat/utils/voice_message_constants.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
+import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -4296,7 +4298,7 @@ class ChatViewModel extends _$ChatViewModel {
         origin: MessagesOrigin.ownSend,
       ),
       errorMessage: null,
-      scrollToBottomSignal: state.scrollToBottomSignal + 1,
+      scrollToBottomSignal: _scrollToBottomSignalAfterSend(),
     );
     clearStickyUnread();
     unawaited(ref.read(readStateRepositoryProvider).clearSticky(channelId));
@@ -4372,6 +4374,12 @@ class ChatViewModel extends _$ChatViewModel {
             channelId: channelId,
           );
       if (permissionOutcome.shouldCache) {
+        ref
+            .read(channelPermissionCacheProvider.notifier)
+            .cacheEffectiveBits(
+              channelId: channelId,
+              outcome: permissionOutcome,
+            );
         final bool canSendMessages = hasPermission(
           permissionOutcome.value,
           Permission.sendMessages,
@@ -4461,7 +4469,7 @@ class ChatViewModel extends _$ChatViewModel {
         origin: MessagesOrigin.ownSend,
       ),
       errorMessage: null,
-      scrollToBottomSignal: state.scrollToBottomSignal + 1,
+      scrollToBottomSignal: _scrollToBottomSignalAfterSend(),
     );
     if (clearMessageText) {
       unawaited(
@@ -5236,6 +5244,16 @@ class ChatViewModel extends _$ChatViewModel {
     state = state.copyWith(
       scrollToBottomSignal: state.scrollToBottomSignal + 1,
     );
+  }
+
+  int _scrollToBottomSignalAfterSend() {
+    final bool scrollOnSend = ref
+        .read(advancedPreferencesProvider)
+        .scrollToBottomOnMessageSend;
+    if (!scrollOnSend) {
+      return state.scrollToBottomSignal;
+    }
+    return state.scrollToBottomSignal + 1;
   }
 
   Future<void> goToRepliedMessage({

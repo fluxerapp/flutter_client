@@ -73,17 +73,35 @@ Widget wideSettingsSidebarCrossFadeLayout(
   );
 }
 
-/// Scroll padding for guild settings sections. On wide layouts the parent
-/// supplies horizontal inset via [WideSettingsContentLayout].
-EdgeInsets guildSettingsScrollPadding(
+const double kSettingsScrollBottomPadding = 45;
+const double kSettingsSaveBarScrollExtra = 52;
+
+EdgeInsets settingsScrollPadding(
   BuildContext context, {
-  double bottom = 80,
+  double bottom = kSettingsScrollBottomPadding,
 }) {
   final layout = context.layout;
   if (isWideLayout(context)) {
     return EdgeInsets.only(top: layout.s4, bottom: bottom);
   }
   return EdgeInsets.fromLTRB(layout.s4, layout.s4, layout.s4, bottom);
+}
+
+EdgeInsets settingsScrollPaddingWithSaveBar(BuildContext context) {
+  return settingsScrollPadding(
+    context,
+    bottom: kSettingsScrollBottomPadding + kSettingsSaveBarScrollExtra,
+  );
+}
+
+EdgeInsets settingsSheetScrollPadding(BuildContext context) {
+  final layout = context.layout;
+  return EdgeInsets.fromLTRB(
+    layout.s4,
+    0,
+    layout.s4,
+    kSettingsScrollBottomPadding,
+  );
 }
 
 class WideSettingsContentLayout extends StatelessWidget {
@@ -107,7 +125,7 @@ class WideSettingsContentLayout extends StatelessWidget {
         includeHorizontalGutter ? gutter : 0,
         20,
         includeHorizontalGutter ? gutter : 0,
-        32,
+        kSettingsScrollBottomPadding,
       ),
       child: Align(
         alignment: Alignment.topLeft,

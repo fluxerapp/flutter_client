@@ -40,7 +40,7 @@ For updates, support, and discussion, [join the Fluxer Mobile community on Fluxe
 
 **F-Droid**: Coming when V1 is finished.
 
-**iOS Testflight**: Currently only available to Plutonium users.
+**iOS Testflight**: Join with this [Testflight link](https://testflight.apple.com/join/PKZR6pK9)
 
 ### Android (APK)
 

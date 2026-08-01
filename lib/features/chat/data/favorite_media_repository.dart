@@ -13,7 +13,10 @@ class FavoriteMediaRepository {
   final FluxerDatabase _db;
   final sdk.FluxerClient _client;
 
-  Future<FavoriteMeme> createFromGif(GifPickerGif gif) async {
+  Future<FavoriteMeme> createFromGif(
+    GifPickerGif gif, {
+    bool saveAsSavedMedia = false,
+  }) async {
     final shareId = gifShareId(gif);
     final title = gif.title.trim().isEmpty
         ? parseKlipyTitleFromUrl(gif.url)

@@ -13,6 +13,7 @@ Future<List<QuickSwitcherUnreadChannel>> loadQuickSwitcherUnreadChannels({
   required FluxerDatabase db,
   required String? currentUserId,
   required List<DmConversation> conversations,
+  bool unreadBadgeCustomizationEnabled = false,
 }) async {
   final Map<String, DmConversation> conversationsById =
       <String, DmConversation>{
@@ -56,6 +57,7 @@ Future<List<QuickSwitcherUnreadChannel>> loadQuickSwitcherUnreadChannels({
             currentUserId: currentUserId,
             guildSettingsByGuild: guildSettingsByGuild,
             now: now,
+            unreadBadgeCustomizationEnabled: unreadBadgeCustomizationEnabled,
           );
       if (guildUnread != null) {
         unread.add(guildUnread);
@@ -105,6 +107,7 @@ Future<QuickSwitcherUnreadChannel?> _guildUnreadFromReadState({
   required String? currentUserId,
   required Map<String, UserGuildSettingsResponse> guildSettingsByGuild,
   required DateTime now,
+  bool unreadBadgeCustomizationEnabled = false,
 }) async {
   if (!isGuildTextBasedChannel(row.type)) {
     return null;
@@ -122,6 +125,7 @@ Future<QuickSwitcherUnreadChannel?> _guildUnreadFromReadState({
     channel: row,
     guildSettings: guildSettings,
     now: now,
+    unreadBadgeCustomizationEnabled: unreadBadgeCustomizationEnabled,
   );
   final int rawMentions = readState.mentionCount;
   final int mentionCount = unreadSettings.allowsMentionUnread ? rawMentions : 0;

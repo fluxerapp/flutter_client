@@ -1652,8 +1652,18 @@ class VoiceSession extends _$VoiceSession {
         talker.debug('[Voice] Screen-share background service is running.');
       }
       try {
-        await lp.setScreenShareEnabled(
-          nextSelfStream,
+        final VoiceSettingsApplicator applicator = ref.read(
+          voiceSettingsApplicatorProvider,
+        );
+        final Room? room = s.liveKitRoom;
+        if (room == null) {
+          return;
+        }
+        await applicator.setScreenShareEnabled(
+          participant: lp,
+          room: room,
+          settings: ref.read(voiceSettingsProvider),
+          enabled: nextSelfStream,
           captureScreenAudio: nextSelfStream,
         );
       } on Object catch (e, st) {
@@ -2074,6 +2084,13 @@ class VoiceSession extends _$VoiceSession {
         settings: next,
         cameraEnabled: vs?.selfVideo ?? false,
       );
+    }
+    final bool screenShareCodecChanged =
+        previous == null ||
+        previous.preferredScreenShareCodec != next.preferredScreenShareCodec;
+    if (screenShareCodecChanged &&
+        _hasPublishedLocalScreenShareVideo(requireTrack: false)) {
+      await applicator.refreshScreenShare(room: room, settings: next);
     }
     final bool participantVolumesChanged =
         previous == null ||

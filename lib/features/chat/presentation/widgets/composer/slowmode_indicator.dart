@@ -20,9 +20,14 @@ const double _kPillMaxWidth = 160;
 
 /// Floating pill shown next to the chat input when slowmode is active.
 class SlowmodeIndicator extends ConsumerStatefulWidget {
-  const SlowmodeIndicator({this.leadingSpacing = 0, super.key});
+  const SlowmodeIndicator({
+    this.leadingSpacing = 0,
+    this.compact = false,
+    super.key,
+  });
 
   final double leadingSpacing;
+  final bool compact;
 
   @override
   ConsumerState<SlowmodeIndicator> createState() => _SlowmodeIndicatorState();
@@ -132,6 +137,7 @@ class _SlowmodeIndicatorState extends ConsumerState<SlowmodeIndicator>
           remaining: showCountdown ? remaining : null,
           rateLimitSeconds: rateLimit,
           isImmune: isImmune,
+          compact: widget.compact,
         ),
       ),
     );
@@ -143,11 +149,13 @@ class _SlowmodePill extends StatelessWidget {
     required this.remaining,
     required this.rateLimitSeconds,
     required this.isImmune,
+    required this.compact,
   });
 
   final Duration? remaining;
   final int rateLimitSeconds;
   final bool isImmune;
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
@@ -169,43 +177,49 @@ class _SlowmodePill extends StatelessWidget {
     final tooltip = isImmune && !isActive
         ? l10n.slowmodeTooltipImmune
         : l10n.slowmodeTooltipActive;
+    final Widget content = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(PhosphorIconsFill.clock, size: 12, color: foreground),
+        const SizedBox(width: 6),
+        Flexible(
+          child: Text(
+            label,
+            style: textStyle,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    );
     return Tooltip(
       message: tooltip,
       preferBelow: false,
       verticalOffset: 12,
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: _kPillMaxWidth),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-          decoration: BoxDecoration(
-            color: colors.chatInputBackground,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: borderColor),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
-                blurRadius: 8,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(PhosphorIconsFill.clock, size: 12, color: foreground),
-              const SizedBox(width: 6),
-              Flexible(
-                child: Text(
-                  label,
-                  style: textStyle,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+      child: compact
+          ? content
+          : ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: _kPillMaxWidth),
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
                 ),
+                decoration: BoxDecoration(
+                  color: colors.chatInputBackground,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: borderColor),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.1),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: content,
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 

@@ -51,6 +51,48 @@ class UserPreferencesTable extends Table {
       boolean().withDefault(const Constant(true))();
   BoolColumn get showSuppressEmbedsButton =>
       boolean().withDefault(const Constant(true))();
+  BoolColumn get enableTextSelection =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get showVideoSeekPreviewThumbnails =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get voiceChannelJoinRequiresDoubleClick =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get confirmBeforeJoiningVoiceChannels =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get showGifIndicator =>
+      boolean().withDefault(const Constant(true))();
+  BoolColumn get showAttachmentExpiryIndicator =>
+      boolean().withDefault(const Constant(true))();
+  BoolColumn get showMessageActionBar =>
+      boolean().withDefault(const Constant(true))();
+  BoolColumn get showMessageActionBarQuickReactions =>
+      boolean().withDefault(const Constant(true))();
+  BoolColumn get showMessageActionBarShiftExpand =>
+      boolean().withDefault(const Constant(true))();
+  BoolColumn get showMessageActionBarOnlyMoreButton =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get showGifButton => boolean().withDefault(const Constant(true))();
+  BoolColumn get showMemesButton =>
+      boolean().withDefault(const Constant(true))();
+  BoolColumn get showStickersButton =>
+      boolean().withDefault(const Constant(true))();
+  BoolColumn get showEmojiButton =>
+      boolean().withDefault(const Constant(true))();
+  BoolColumn get showMessageSendButton =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get scrollToBottomOnMessageSend =>
+      boolean().withDefault(const Constant(true))();
+  BoolColumn get sequentialFileSend =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get skipMarkAllAsReadConfirmation =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get preuploadMessageAttachments =>
+      boolean().withDefault(const Constant(true))();
+  BoolColumn get disableStreamPreviews =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get saveGifFavoritesAsSavedMedia =>
+      boolean().withDefault(const Constant(false))();
+  TextColumn get searchEnginesJson => text().withDefault(const Constant(''))();
   TextColumn get favoriteEmojiKeysJson =>
       text().withDefault(const Constant('[]'))();
   TextColumn get favoriteStickerKeysJson =>

@@ -51,6 +51,7 @@ class UnreadInboxCalculator {
     FluxerDatabase db, {
     required Map<String, bool> collapsedByChannelId,
     String? currentUserId,
+    bool unreadBadgeCustomizationEnabled = false,
   }) async {
     final int nowMs = DateTime.now().millisecondsSinceEpoch;
     final List<UnreadInboxEntry> entries = <UnreadInboxEntry>[];
@@ -120,6 +121,7 @@ class UnreadInboxCalculator {
         channel: channel,
         guildSettings: guildSettingsByGuild[guildId],
         now: DateTime.fromMillisecondsSinceEpoch(nowMs),
+        unreadBadgeCustomizationEnabled: unreadBadgeCustomizationEnabled,
       );
 
       if (isVoice && mentions == 0) {

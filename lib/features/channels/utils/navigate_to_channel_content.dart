@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/channels/utils/link_channel_navigator.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.dart';
 import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
+import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_channel_chat_sheet.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_channel_join_bottom_sheet.dart';
@@ -236,12 +237,17 @@ Future<void> openGuildChannelContent({
   }
 
   if (channel.type == ChannelType.guildVoice && !isInCurrentVoiceChannel) {
+    final bool voiceChannelJoinRequiresDoubleClick = ref.read(
+      advancedPreferencesProvider.select(
+        (state) => state.voiceChannelJoinRequiresDoubleClick,
+      ),
+    );
     final bool canJoinVoice = canJoinGuildVoiceChannelFromBits(
       guildId: guildId,
       channelType: channel.type,
       permissionBits: localConnectBits ?? permissionBits,
     );
-    if (canJoinVoice) {
+    if (canJoinVoice && !voiceChannelJoinRequiresDoubleClick) {
       final VoiceJoinResult joinResult = await joinVoiceChannelWithConfirmation(
         ref: ref,
         context: context,

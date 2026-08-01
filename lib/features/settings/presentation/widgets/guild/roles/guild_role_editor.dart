@@ -92,7 +92,7 @@ class _GuildRoleEditorState extends ConsumerState<GuildRoleEditor> {
     final bool isEveryone = widget.role.isEveryoneRole(widget.guildId);
     final bool editorDisabled = widget.isLocked || !widget.canManageRoles;
     return SingleChildScrollView(
-      padding: guildSettingsScrollPadding(context, bottom: 96),
+      padding: settingsScrollPaddingWithSaveBar(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

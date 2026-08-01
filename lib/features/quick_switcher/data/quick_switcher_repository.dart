@@ -22,11 +22,13 @@ class QuickSwitcherRepository {
   Future<List<QuickSwitcherUnreadChannel>> getUnreadChannels({
     required String? currentUserId,
     required List<DmConversation> conversations,
+    bool unreadBadgeCustomizationEnabled = false,
   }) {
     return loadQuickSwitcherUnreadChannels(
       db: _database,
       currentUserId: currentUserId,
       conversations: conversations,
+      unreadBadgeCustomizationEnabled: unreadBadgeCustomizationEnabled,
     );
   }
 }

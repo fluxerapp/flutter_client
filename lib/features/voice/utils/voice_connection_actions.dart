@@ -9,8 +9,11 @@ import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
+import 'package:fluxer_app/features/ui/settings/fluxer_settings_confirm_sheet.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_connection_confirm_modal.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
@@ -243,6 +246,25 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
     );
     return VoiceJoinResult.failed;
   }
+  final AdvancedPreferencesState advancedPrefs = container.read(
+    advancedPreferencesProvider,
+  );
+  if (advancedPrefs.confirmBeforeJoiningVoiceChannels) {
+    final BuildContext? modalContext = _modalContext(context);
+    if (modalContext == null) {
+      return VoiceJoinResult.failed;
+    }
+    final FluxerLocalizations l10n = FluxerLocalizations.of(modalContext);
+    final bool? confirmed = await showFluxerSettingsConfirmSheet(
+      modalContext,
+      title: l10n.voiceChannelJoin,
+      description: l10n.voiceChannelJoinConnect,
+      confirmLabel: l10n.voiceChannelJoinConnect,
+    );
+    if (confirmed != true) {
+      return VoiceJoinResult.cancelled;
+    }
+  }
   final String? currentUserId = container.read(currentUserIdProvider);
   if (currentUserId == null) {
     final bool joined = await _connectToVoiceChannel(
@@ -316,11 +338,18 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
     );
     return VoiceJoinResult.failed;
   }
-  final VoiceConnectionConfirmResult? choice =
-      await showVoiceConnectionConfirmModal(
-        modalContext,
-        otherDeviceCount: others.length,
-      );
+  final bool suppressNewDeviceAlerts = container.read(
+    voiceSettingsProvider.select((state) => state.suppressNewDeviceAlerts),
+  );
+  VoiceConnectionConfirmResult? choice;
+  if (suppressNewDeviceAlerts) {
+    choice = VoiceConnectionConfirmResult.justJoin;
+  } else {
+    choice = await showVoiceConnectionConfirmModal(
+      modalContext,
+      otherDeviceCount: others.length,
+    );
+  }
   if (choice == null) {
     talker.info(
       '[Voice] Join cancelled from multi-device modal '

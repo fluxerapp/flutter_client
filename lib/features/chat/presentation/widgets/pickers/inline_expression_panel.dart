@@ -7,10 +7,12 @@ import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/emoji_search_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
+import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
+import 'package:fluxer_app/features/chat/utils/composer_expression_tabs.dart';
 import 'package:fluxer_app/features/chat/utils/emoji_picker_precache.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -60,13 +62,6 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
   var _cancelEmojiWarmup = false;
   late final AnimationController _fadeController;
   late final Animation<double> _contentFade;
-
-  static const List<ExpressionPickerTab> _kVisibleTabs = <ExpressionPickerTab>[
-    ExpressionPickerTab.gifs,
-    ExpressionPickerTab.memes,
-    ExpressionPickerTab.stickers,
-    ExpressionPickerTab.emojis,
-  ];
 
   @override
   void initState() {
@@ -140,14 +135,30 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
     final String? channelId = ref.watch(
       chatViewModelProvider.select((state) => state.channelId),
     );
-    final ExpressionPickerTab selectedTab = ref.watch(
-      expressionPanelTabProvider,
+    final ChannelMessagePermissions perms = channelId == null
+        ? ChannelMessagePermissions.all
+        : watchChannelMessagePermissionsForComposer(ref, channelId);
+    final List<ExpressionPickerTab> visibleTabs = expressionPanelVisibleTabs(
+      perms,
     );
+    final ExpressionPickerTab storedTab = ref.watch(expressionPanelTabProvider);
+    final ExpressionPickerTab selectedTab = resolveVisibleExpressionTab(
+      storedTab,
+      visibleTabs,
+    );
+    if (!visibleTabs.contains(storedTab)) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+        ref.read(expressionPanelTabProvider.notifier).tab = selectedTab;
+      });
+    }
     return FadeTransition(
       opacity: _contentFade,
       child: Column(
         children: <Widget>[
-          _buildDraggableChrome(context, skinTone, selectedTab),
+          _buildDraggableChrome(context, skinTone, selectedTab, visibleTabs),
           Expanded(
             child: ExpressionPicker(
               onClose: widget.onClose,
@@ -164,6 +175,7 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
                 }
               },
               initialTab: selectedTab,
+              visibleTabs: visibleTabs,
               showTabs: false,
               searchController: _searchController,
               searchQuery: _searchQuery,
@@ -188,12 +200,13 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
     BuildContext context,
     String skinTone,
     ExpressionPickerTab selectedTab,
+    List<ExpressionPickerTab> visibleTabs,
   ) {
     final Widget chrome = Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        _buildSegmentedTabs(context, selectedTab),
+        _buildSegmentedTabs(context, selectedTab, visibleTabs),
         if (selectedTab == ExpressionPickerTab.emojis)
           EmojiSearchBar(
             controller: _searchController,
@@ -216,6 +229,7 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
   Widget _buildSegmentedTabs(
     BuildContext context,
     ExpressionPickerTab selectedTab,
+    List<ExpressionPickerTab> visibleTabs,
   ) {
     final colors = context.colors;
     return Padding(
@@ -228,7 +242,7 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
         child: Padding(
           padding: const EdgeInsets.all(3),
           child: Row(
-            children: _kVisibleTabs.map((ExpressionPickerTab tab) {
+            children: visibleTabs.map((ExpressionPickerTab tab) {
               final bool isActive = tab == selectedTab;
               return Expanded(
                 child: GestureDetector(

@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/guild/expressi
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/expressions/guild_expression_search_field.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/expressions/guild_upload_drop_zone.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/expressions/guild_upload_slot_info.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_emoji_settings_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_expression_limits_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
@@ -236,6 +237,9 @@ class _GuildEmojiSettingsWidgetState
               ),
             ),
           ),
+        const SliverToBoxAdapter(
+          child: SizedBox(height: kSettingsScrollBottomPadding),
+        ),
       ],
     );
   }

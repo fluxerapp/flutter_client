@@ -78,6 +78,85 @@ class VoiceSettingsApplicator {
     );
   }
 
+  VideoPublishOptions buildScreenSharePublishOptions(
+    VoiceSettingsState settings,
+  ) {
+    return VideoPublishOptions(
+      videoCodec: preferredScreenShareVideoCodec(
+        settings.preferredScreenShareCodec,
+      ),
+    );
+  }
+
+  Future<void> setScreenShareEnabled({
+    required LocalParticipant participant,
+    required Room room,
+    required VoiceSettingsState settings,
+    required bool enabled,
+    bool captureScreenAudio = false,
+  }) async {
+    if (!enabled) {
+      await participant.setScreenShareEnabled(false);
+      return;
+    }
+
+    final RoomOptions roomOptions = room.roomOptions;
+    final ScreenShareCaptureOptions captureOptions =
+        buildScreenShareCaptureOptions(settings);
+    final VideoPublishOptions publishOptions = buildScreenSharePublishOptions(
+      settings,
+    );
+
+    // setScreenShareEnabled has no publishOptions param.
+    // ignore: invalid_use_of_internal_member
+    room.engine.roomOptions = roomOptions.copyWith(
+      defaultVideoPublishOptions: publishOptions,
+      defaultScreenShareCaptureOptions: captureOptions,
+    );
+    try {
+      await participant.setScreenShareEnabled(
+        true,
+        captureScreenAudio: captureScreenAudio,
+        screenShareCaptureOptions: captureOptions,
+      );
+    } finally {
+      // ignore: invalid_use_of_internal_member
+      room.engine.roomOptions = roomOptions;
+    }
+  }
+
+  Future<void> refreshScreenShare({
+    required Room room,
+    required VoiceSettingsState settings,
+  }) async {
+    final LocalParticipant? participant = room.localParticipant;
+    if (participant == null) {
+      return;
+    }
+    final bool isSharing =
+        participant.getTrackPublicationBySource(TrackSource.screenShareVideo) !=
+        null;
+    if (!isSharing) {
+      return;
+    }
+    final bool captureScreenAudio =
+        participant.getTrackPublicationBySource(TrackSource.screenShareAudio) !=
+        null;
+    await setScreenShareEnabled(
+      participant: participant,
+      room: room,
+      settings: settings,
+      enabled: false,
+    );
+    await setScreenShareEnabled(
+      participant: participant,
+      room: room,
+      settings: settings,
+      enabled: true,
+      captureScreenAudio: captureScreenAudio,
+    );
+  }
+
   Future<void> applyNoiseFilterBypass(VoiceSettingsState settings) async {
     if (!noiseFilterSupported || noiseFilter == null) {
       return;

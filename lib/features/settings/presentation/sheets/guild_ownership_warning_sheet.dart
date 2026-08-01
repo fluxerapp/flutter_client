@@ -3,6 +3,7 @@ import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_bottom_sheet_avatar.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
@@ -39,7 +40,7 @@ class GuildOwnershipWarningSheet extends StatelessWidget {
     final String settingsPath =
         '${l10n.guildSettingsCommunitySettings} > ${l10n.guildMenuSettingsGeneral}';
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: layout.s4),
+      padding: settingsSheetScrollPadding(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

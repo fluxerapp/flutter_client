@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/members/utils/guild_members_page_permissions.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
@@ -304,7 +305,7 @@ const List<_SettingsTabDef> _settingsTabDefs = <_SettingsTabDef>[
   ),
   (
     action: GuildAction.settingsMembers,
-    perms: [Permission.manageGuild],
+    perms: membersPagePermissions,
     icon: PhosphorIconsFill.users,
   ),
   (

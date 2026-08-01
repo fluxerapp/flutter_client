@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
@@ -38,6 +39,7 @@ import 'package:fluxer_app/features/chat/utils/spoiler_utils.dart';
 import 'package:fluxer_app/features/chat/utils/uploading_attachment_utils.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
+import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
@@ -634,16 +636,35 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                 ],
               ),
               if (!isMobile && !isFailed && !widget.inboxPreviewMode)
-                ListenableBuilder(
-                  listenable: _actionBarVisibility,
-                  builder: (context, _) =>
-                      _hovered.value || _reactionPickerOpen.value
-                      ? Positioned(
+                Consumer(
+                  builder: (context, ref, _) {
+                    final AdvancedPreferencesState advanced = ref.watch(
+                      advancedPreferencesProvider,
+                    );
+                    if (!advanced.showMessageActionBar) {
+                      return const SizedBox.shrink();
+                    }
+                    return ListenableBuilder(
+                      listenable: _actionBarVisibility,
+                      builder: (context, _) {
+                        final bool shiftExpand =
+                            advanced.showMessageActionBarShiftExpand &&
+                            HardwareKeyboard.instance.isShiftPressed;
+                        final bool showBar =
+                            _hovered.value ||
+                            _reactionPickerOpen.value ||
+                            shiftExpand;
+                        if (!showBar) {
+                          return const SizedBox.shrink();
+                        }
+                        return Positioned(
                           top: 0,
                           right: 0,
-                          child: _buildActions(context),
-                        )
-                      : const SizedBox.shrink(),
+                          child: _buildActions(context, advanced: advanced),
+                        );
+                      },
+                    );
+                  },
                 ),
             ],
           ),
@@ -892,7 +913,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     Widget markdown = MessageMarkdown(
       data: msg.content,
       messageId: msg.id,
-      selectable: !isMobile,
+      selectable:
+          ref.watch(advancedPreferencesProvider).enableTextSelection &&
+          !isMobile,
       channelId: msg.channelId,
       mentionChannels: msg.mentionChannels,
       revealSpoilers: revealSpoilers,
@@ -1414,60 +1437,84 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     return Semantics(label: sticker.name, image: true, child: stickerImage);
   }
 
-  Widget _buildActions(BuildContext context) => Material(
-    color: context.colors.backgroundPrimary,
-    borderRadius: BorderRadius.circular(4),
-    child: DecoratedBox(
-      decoration: BoxDecoration(
+  Widget _buildActions(
+    BuildContext context, {
+    required AdvancedPreferencesState advanced,
+  }) {
+    if (advanced.showMessageActionBarOnlyMoreButton) {
+      return Material(
+        color: context.colors.backgroundPrimary,
         borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: context.colors.borderColor),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FluxerEmojiPickerPopout(
-            key: _reactionPickerKey,
-            closeOnEmojiSelect: true,
-            visibleTabs: const [ExpressionPickerTab.emojis],
-            trackEmojiUsageOnSelect: false,
-            onClose: () {
-              _reactionPickerOpen.value = false;
-              _hovered.value = false;
-            },
-            onEmojiSelected: _addReactionFromPicker,
-            child: _actionButton(
-              context,
-              PhosphorIconsFill.smiley,
-              FluxerLocalizations.of(context).chatMessageAddReaction,
-              () {
-                _reactionPickerKey.currentState?.toggle();
-                _reactionPickerOpen.value =
-                    _reactionPickerKey.currentState?.isOpen ?? false;
-              },
-            ),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(4),
+            border: Border.all(color: context.colors.borderColor),
           ),
-          _actionButton(
-            context,
-            PhosphorIconsFill.arrowBendUpLeft,
-            FluxerLocalizations.of(context).chatMessageReply,
-            widget.onReply,
-          ),
-          _actionButton(
-            context,
-            PhosphorIconsFill.shareFat,
-            FluxerLocalizations.of(context).chatMessageForward,
-            widget.onForward,
-          ),
-          _actionButton(
+          child: _actionButton(
             context,
             PhosphorIconsFill.dotsThree,
             FluxerLocalizations.of(context).chatMessageMore,
             () {},
           ),
-        ],
+        ),
+      );
+    }
+    return Material(
+      color: context.colors.backgroundPrimary,
+      borderRadius: BorderRadius.circular(4),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(color: context.colors.borderColor),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (advanced.showMessageActionBarQuickReactions)
+              FluxerEmojiPickerPopout(
+                key: _reactionPickerKey,
+                closeOnEmojiSelect: true,
+                visibleTabs: const [ExpressionPickerTab.emojis],
+                trackEmojiUsageOnSelect: false,
+                onClose: () {
+                  _reactionPickerOpen.value = false;
+                  _hovered.value = false;
+                },
+                onEmojiSelected: _addReactionFromPicker,
+                child: _actionButton(
+                  context,
+                  PhosphorIconsFill.smiley,
+                  FluxerLocalizations.of(context).chatMessageAddReaction,
+                  () {
+                    _reactionPickerKey.currentState?.toggle();
+                    _reactionPickerOpen.value =
+                        _reactionPickerKey.currentState?.isOpen ?? false;
+                  },
+                ),
+              ),
+            _actionButton(
+              context,
+              PhosphorIconsFill.arrowBendUpLeft,
+              FluxerLocalizations.of(context).chatMessageReply,
+              widget.onReply,
+            ),
+            _actionButton(
+              context,
+              PhosphorIconsFill.shareFat,
+              FluxerLocalizations.of(context).chatMessageForward,
+              widget.onForward,
+            ),
+            _actionButton(
+              context,
+              PhosphorIconsFill.dotsThree,
+              FluxerLocalizations.of(context).chatMessageMore,
+              () {},
+            ),
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 
   Widget _actionButton(
     BuildContext context,

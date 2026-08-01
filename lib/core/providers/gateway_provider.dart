@@ -38,6 +38,7 @@ import 'package:fluxer_app/features/members/providers/guild_roles_provider.dart'
 import 'package:fluxer_app/features/members/providers/member_list_desired_ranges_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';
 import 'package:fluxer_app/features/settings/providers/connections_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/webauthn_credentials_view_model.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
@@ -367,6 +368,8 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     onMemberListUpdate: (event) {
       ref.read(memberListUpdateBatcherProvider).enqueue(event);
     },
+    resolveDefaultHideMutedChannels: () =>
+        ref.read(userSettingsViewModelProvider).defaultHideMutedChannels,
   );
 
   final dispatcher = GatewayEventDispatcher(

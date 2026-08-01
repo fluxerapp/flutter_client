@@ -7,7 +7,9 @@ import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/theme_swatch_button.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/typing_indicator_preview.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/utils/advanced_setting_visibility.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -71,7 +73,7 @@ class UserLookAndFeel extends ConsumerWidget {
 
     return SingleChildScrollView(
       controller: scrollController,
-      padding: EdgeInsets.all(layout.s4),
+      padding: settingsScrollPadding(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -240,22 +242,23 @@ class UserLookAndFeel extends ConsumerWidget {
                   ),
                 ],
               ),
-              FluxerSettingsSubsection(
-                title: l10n.lookAndFeelVoiceChannelJoinTitle,
-                description: l10n.lookAndFeelVoiceChannelJoinDescription,
-                children: [
-                  // TODO(M0n7y5): wire to UserPreferences + sync once the
-                  // Dart SDK exposes SyncedAccessibilityPreferences. Toggle is
-                  // presentational only for now.
-                  FluxerSwitchGroupItem(
-                    label: l10n.lookAndFeelRequireDoubleClickJoinLabel,
-                    description:
-                        l10n.lookAndFeelRequireDoubleClickJoinDescription,
-                    value: false,
-                    onChanged: (_) {},
-                  ),
-                ],
-              ),
+              if (showKeyboardShortcutAdvancedSettings(context))
+                FluxerSettingsSubsection(
+                  title: l10n.lookAndFeelVoiceChannelJoinTitle,
+                  description: l10n.lookAndFeelVoiceChannelJoinDescription,
+                  children: [
+                    // TODO(M0n7y5): wire to UserPreferences + sync once the
+                    // Dart SDK exposes SyncedAccessibilityPreferences. Toggle is
+                    // presentational only for now.
+                    FluxerSwitchGroupItem(
+                      label: l10n.lookAndFeelRequireDoubleClickJoinLabel,
+                      description:
+                          l10n.lookAndFeelRequireDoubleClickJoinDescription,
+                      value: false,
+                      onChanged: (_) {},
+                    ),
+                  ],
+                ),
               FluxerSettingsSubsection(
                 title: l10n.lookAndFeelGuildSidebarTitle,
                 description: l10n.lookAndFeelGuildSidebarDescription,

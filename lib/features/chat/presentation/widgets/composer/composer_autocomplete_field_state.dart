@@ -743,8 +743,9 @@ class ComposerAutocompleteFieldState
         );
     final bool canUseExternal =
         !hasChannel ||
-        channelMessagePermissionsForComposer(
-          ref.read(channelMessagePermissionsProvider(_channelId)),
+        readChannelMessagePermissionsForComposer(
+          ref,
+          _channelId,
         ).canUseExternalEmojis;
     final List<Guild> guilds = ref.read(guildListViewModelProvider).guilds;
     final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);

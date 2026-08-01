@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -23,6 +24,7 @@ import 'package:fluxer_app/features/channels/providers/guild_collapsed_categorie
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_scroll_indicator.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_mute_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_provider.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
@@ -963,9 +965,29 @@ List<Override> _buildOverrides({
   ChannelListViewModel Function()? channelListViewModelFactory,
 }) {
   final db = openTestDatabase();
+  final String routeLocation = selectedChannelId != null
+      ? '/channels/$_guildId/$selectedChannelId'
+      : '/channels/$_guildId';
+  final List<Guild> guildList = <Guild>[
+    if (channelListState.guild != null) channelListState.guild!,
+    const Guild(id: _otherGuildId, name: 'Other Guild'),
+  ];
   return [
     fluxerDatabaseProvider.overrideWithValue(db),
     currentUserIdProvider.overrideWithValue('me'),
+    routeStateProvider.overrideWithValue(
+      RouteState(
+        location: routeLocation,
+        activeBranchLocation: routeLocation,
+        activeBranchIndex: 0,
+        kind: classifyRoute(routeLocation),
+        guildId: _guildId,
+        channelId: selectedChannelId,
+      ),
+    ),
+    guildListViewModelProvider.overrideWithValue(
+      GuildListViewState(guilds: guildList),
+    ),
     if (activeGuildIdReader != null)
       activeGuildIdProvider.overrideWith(activeGuildIdReader)
     else

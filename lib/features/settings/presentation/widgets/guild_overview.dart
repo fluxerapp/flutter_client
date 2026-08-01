@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
-import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 
 class GuildOverview extends StatelessWidget {
   final Guild guild;
@@ -13,7 +13,12 @@ class GuildOverview extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
     controller: scrollController,
-    padding: const EdgeInsets.all(40),
+    padding: const EdgeInsets.fromLTRB(
+      40,
+      40,
+      40,
+      kSettingsScrollBottomPadding,
+    ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

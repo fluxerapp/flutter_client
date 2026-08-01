@@ -84,6 +84,8 @@ const int kMinVoiceVolumePercent = 0;
 const int kMaxVoiceVolumePercent = 200;
 const int kDefaultVideoFrameRate = 30;
 
+enum ScreenShareCodecPreference { auto, av1, h265, vp9, h264, vp8 }
+
 class VoiceSettingsState {
   const VoiceSettingsState({
     this.inputDeviceId = kDefaultVoiceDeviceId,
@@ -107,6 +109,10 @@ class VoiceSettingsState {
     this.streamAudioMuted = const <String, bool>{},
     this.showVoiceConnectionAvatarStack = true,
     this.showVoiceConnectionId = true,
+    this.showConnectionVolumeControls = false,
+    this.preferredScreenShareCodec = ScreenShareCodecPreference.auto,
+    this.suppressNewDeviceAlerts = false,
+    this.pauseOwnScreenSharePreviewOnUnfocus = true,
   });
 
   final String inputDeviceId;
@@ -130,6 +136,10 @@ class VoiceSettingsState {
   final Map<String, bool> streamAudioMuted;
   final bool showVoiceConnectionAvatarStack;
   final bool showVoiceConnectionId;
+  final bool showConnectionVolumeControls;
+  final ScreenShareCodecPreference preferredScreenShareCodec;
+  final bool suppressNewDeviceAlerts;
+  final bool pauseOwnScreenSharePreviewOnUnfocus;
 
   bool get shouldMirrorOwnCamera =>
       mirrorCamera && cameraFacing == VoiceCameraFacing.front;
@@ -156,6 +166,10 @@ class VoiceSettingsState {
     Map<String, bool>? streamAudioMuted,
     bool? showVoiceConnectionAvatarStack,
     bool? showVoiceConnectionId,
+    bool? showConnectionVolumeControls,
+    ScreenShareCodecPreference? preferredScreenShareCodec,
+    bool? suppressNewDeviceAlerts,
+    bool? pauseOwnScreenSharePreviewOnUnfocus,
   }) {
     return VoiceSettingsState(
       inputDeviceId: inputDeviceId ?? this.inputDeviceId,
@@ -182,6 +196,15 @@ class VoiceSettingsState {
           showVoiceConnectionAvatarStack ?? this.showVoiceConnectionAvatarStack,
       showVoiceConnectionId:
           showVoiceConnectionId ?? this.showVoiceConnectionId,
+      showConnectionVolumeControls:
+          showConnectionVolumeControls ?? this.showConnectionVolumeControls,
+      preferredScreenShareCodec:
+          preferredScreenShareCodec ?? this.preferredScreenShareCodec,
+      suppressNewDeviceAlerts:
+          suppressNewDeviceAlerts ?? this.suppressNewDeviceAlerts,
+      pauseOwnScreenSharePreviewOnUnfocus:
+          pauseOwnScreenSharePreviewOnUnfocus ??
+          this.pauseOwnScreenSharePreviewOnUnfocus,
     );
   }
 
@@ -208,6 +231,11 @@ class VoiceSettingsState {
       'streamAudioMuted': streamAudioMuted,
       'showVoiceConnectionAvatarStack': showVoiceConnectionAvatarStack,
       'showVoiceConnectionId': showVoiceConnectionId,
+      'showConnectionVolumeControls': showConnectionVolumeControls,
+      'preferredScreenShareCodec': preferredScreenShareCodec.name,
+      'suppressNewDeviceAlerts': suppressNewDeviceAlerts,
+      'pauseOwnScreenSharePreviewOnUnfocus':
+          pauseOwnScreenSharePreviewOnUnfocus,
     };
   }
 
@@ -242,8 +270,24 @@ class VoiceSettingsState {
       showVoiceConnectionAvatarStack:
           json['showVoiceConnectionAvatarStack'] as bool? ?? true,
       showVoiceConnectionId: json['showVoiceConnectionId'] as bool? ?? true,
+      showConnectionVolumeControls:
+          json['showConnectionVolumeControls'] as bool? ?? false,
+      preferredScreenShareCodec: _screenShareCodecFromJson(
+        json['preferredScreenShareCodec'] as String?,
+      ),
+      suppressNewDeviceAlerts:
+          json['suppressNewDeviceAlerts'] as bool? ?? false,
+      pauseOwnScreenSharePreviewOnUnfocus:
+          json['pauseOwnScreenSharePreviewOnUnfocus'] as bool? ?? true,
     );
   }
+}
+
+ScreenShareCodecPreference _screenShareCodecFromJson(String? value) {
+  return ScreenShareCodecPreference.values.firstWhere(
+    (ScreenShareCodecPreference codec) => codec.name == value,
+    orElse: () => ScreenShareCodecPreference.auto,
+  );
 }
 
 Map<String, bool> _parseStreamAudioMuted(Object? value) {

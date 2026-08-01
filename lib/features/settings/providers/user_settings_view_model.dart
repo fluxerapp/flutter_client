@@ -1553,6 +1553,21 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
     }
   }
 
+  Future<void> setDeveloperMode({required bool value}) async {
+    final previous = state.developerMode;
+    state = state.copyWith(developerMode: value);
+    try {
+      final client = ref.read(fluxerClientProvider);
+      await client.users.updateCurrentUserSettings(
+        body: UserSettingsUpdateRequest(developerMode: value),
+      );
+    } on Object catch (e, st) {
+      state = state.copyWith(developerMode: previous);
+      talker.error('Failed to update developerMode', e, st);
+      rethrow;
+    }
+  }
+
   Future<void> applyDefaultHideMutedChannelsToExistingGuilds({
     required bool value,
   }) async {

@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/guild/webhooks
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/webhooks/guild_webhooks_header.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/webhooks/guild_webhooks_info_box.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/webhooks/guild_webhooks_notice_box.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_webhooks_provider.dart';
 import 'package:fluxer_app/features/settings/utils/guild_webhook_updates.dart';
@@ -126,7 +127,7 @@ class _GuildWebhooksWidgetState extends ConsumerState<GuildWebhooksWidget> {
             context.layout.s4,
             0,
             context.layout.s4,
-            context.layout.s4,
+            kSettingsScrollBottomPadding,
           ),
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate((

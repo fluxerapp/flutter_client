@@ -9674,6 +9674,165 @@
   "@advancedPerformanceReportingDescription": {
     "description": "Toggle description explaining anonymous self-hosted performance reporting."
   },
+  "advancedSettingsConfigure": "Configure",
+  "@advancedSettingsConfigure": {
+    "description": "Button label that opens a dedicated advanced settings modal."
+  },
+  "advancedSettingsCategoryPrivacy": "Privacy",
+  "advancedSettingsCategoryAppearance": "Appearance",
+  "advancedSettingsCategoryAccessibility": "Accessibility",
+  "advancedSettingsCategoryChat": "Chat",
+  "advancedSettingsCategoryMedia": "Media",
+  "advancedSettingsCategoryVoice": "Voice",
+  "advancedSettingsCategoryDeveloper": "Developer",
+  "advancedSettingEnableTextSelectionLabel": "Enable text selection",
+  "advancedSettingEnableTextSelectionDescription": "Allow selecting text in the app",
+  "advancedSettingVideoSeekThumbnailsLabel": "Enable video seek thumbnails",
+  "advancedSettingVideoSeekThumbnailsDescription": "Thumbnail or live frame while scrubbing video",
+  "advancedSettingShowNekoLabel": "Show Neko",
+  "advancedSettingShowNekoDescription": "Neko cat that chases your cursor",
+  "advancedSettingShowNekoDescriptionTouch": "Show Neko on your chat input",
+  "advancedSettingKeyboardHintsLabel": "Keyboard hints",
+  "advancedSettingKeyboardHintsDescription": "Keyboard shortcut hints in tooltips",
+  "advancedSettingEnableFavoritesLabel": "Enable favorites",
+  "advancedSettingEnableFavoritesDescription": "Show favorites throughout the app",
+  "advancedSettingVoiceChannelJoinBehaviorLabel": "Voice channel join behavior",
+  "advancedSettingVoiceChannelJoinBehaviorDescription": "Confirmation or double-click for community voice joins",
+  "advancedSettingRequireDoubleClickJoinLabel": "Require double-click to join voice channels",
+  "advancedSettingConfirmBeforeJoiningVoiceLabel": "Confirm before joining voice channels",
+  "advancedSettingAutoSendGifsLabel": "Automatically send GIFs when selected",
+  "advancedSettingAutoSendGifsDescription": "Automatically send GIFs from the picker without confirmation",
+  "advancedSettingSaveGifFavoritesLabel": "Save GIF favorites as saved media",
+  "advancedSettingSaveGifFavoritesDescription": "Choose how starred GIF favorites are stored",
+  "advancedSettingMediaButtonsLabel": "Media buttons",
+  "advancedSettingMediaButtonsDescription": "Customize which buttons and indicators appear on media attachments and embeds",
+  "advancedSettingPreuploadAttachmentsLabel": "Upload attachments before sending",
+  "advancedSettingPreuploadAttachmentsDescription": "Start uploading attachments as soon as they are added to the message input",
+  "advancedSettingStripTrackingLabel": "Strip tracking parameters from URLs",
+  "advancedSettingStripTrackingDescription": "Automatically remove tracking parameters from URLs in messages you send",
+  "advancedSettingTrustAllLinksLabel": "Trust all external links",
+  "advancedSettingTrustAllLinksDescription": "Skip the external link warning for all domains",
+  "advancedSettingSearchEnginesLabel": "Search engines",
+  "advancedSettingSearchEnginesDescription": "Configure search engines used from selected text",
+  "advancedSettingTranslatorsLabel": "Translators",
+  "advancedSettingTranslatorsDescription": "Configure translator providers used from selected text",
+  "advancedSettingReverseImageSearchLabel": "Reverse image search",
+  "advancedSettingReverseImageSearchDescription": "Reverse image search providers",
+  "advancedSettingMessageActionBarLabel": "Message action bar",
+  "advancedSettingMessageActionBarDescription": "Customize the action bar that appears when hovering over messages",
+  "advancedSettingExpressionAutocompleteLabel": "Expression autocomplete",
+  "advancedSettingExpressionAutocompleteDescription": "Pick what appears when you type a colon in the message input",
+  "advancedSettingInputButtonsLabel": "Message input buttons",
+  "advancedSettingInputButtonsDescription": "Pick which buttons show in the message input",
+  "advancedSettingScrollToBottomOnSendLabel": "Scroll to bottom when sending a message",
+  "advancedSettingScrollToBottomOnSendDescription": "Choose how chat moves after you send a message",
+  "advancedSettingSkipMarkAllAsReadLabel": "Skip \"Mark all as read\" confirmation",
+  "advancedSettingSkipMarkAllAsReadDescription": "Mark all unread inbox channels as read immediately, without asking to confirm",
+  "advancedSettingHideMutedChannelsLabel": "Hide muted channels by default",
+  "advancedSettingHideMutedChannelsDescription": "Hide channels you've muted from community sidebars",
+  "advancedSettingSequentialFileSendLabel": "Send file messages in order",
+  "advancedSettingSequentialFileSendDescription": "Ensures file messages appear in the order you sent them",
+  "advancedSettingShowGifIndicatorLabel": "Show GIF indicator",
+  "advancedSettingShowAttachmentExpiryLabel": "Show attachment expiry indicator",
+  "advancedSettingShowMediaDeleteLabel": "Show delete button",
+  "advancedSettingShowMediaDownloadLabel": "Show download button",
+  "advancedSettingShowMediaFavoriteLabel": "Show favorite button",
+  "advancedSettingShowSuppressEmbedsLabel": "Show suppress embeds button",
+  "advancedSettingShowMessageActionBarLabel": "Show message action bar",
+  "advancedSettingShowOnlyMoreButtonLabel": "Show only more button",
+  "advancedSettingShowQuickReactionsLabel": "Show quick reactions",
+  "advancedSettingEnableShiftToExpandLabel": "Enable Shift to expand",
+  "advancedSettingShowDefaultEmojisAutocompleteLabel": "Show default emojis in expression autocomplete",
+  "advancedSettingShowCustomEmojisAutocompleteLabel": "Show custom emojis in expression autocomplete",
+  "advancedSettingShowStickersAutocompleteLabel": "Show stickers in expression autocomplete",
+  "advancedSettingShowSavedMediaAutocompleteLabel": "Show saved media in expression autocomplete",
+  "advancedSettingShowGifsButtonLabel": "Show GIFs button",
+  "advancedSettingShowMediaButtonLabel": "Show media button",
+  "advancedSettingShowStickersButtonLabel": "Show stickers button",
+  "advancedSettingShowEmojiButtonLabel": "Show emoji button",
+  "advancedSettingShowSendButtonLabel": "Show send button",
+  "advancedSettingNewDeviceAlertsLabel": "Show new device alerts",
+  "advancedSettingNewDeviceAlertsDescription": "Prompt for new audio devices",
+  "advancedSettingConnectionVolumeControlsLabel": "Connection volume controls",
+  "advancedSettingConnectionVolumeControlsDescription": "Show per-device participant volume sliders in voice menus",
+  "advancedSettingScreenSharePreviewBehaviorLabel": "Screen share preview behavior",
+  "advancedSettingScreenSharePreviewBehaviorDescription": "Preview, popout, and stream thumbnail behavior",
+  "advancedSettingScreenShareCodecLabel": "Screen share codec",
+  "advancedSettingScreenShareCodecDescription": "Video codec for screen sharing",
+  "advancedSettingScreenShareCodecAuto": "Automatic (recommended)",
+  "advancedSettingScreenShareCodecAv1": "AV1",
+  "advancedSettingScreenShareCodecH265": "H.265",
+  "advancedSettingScreenShareCodecVp9": "VP9",
+  "advancedSettingScreenShareCodecH264": "H.264",
+  "advancedSettingScreenShareCodecVp8": "VP8",
+  "advancedSettingPauseScreenSharePreviewLabel": "Pause my screen share preview in the background",
+  "advancedSettingHideStreamPreviewLabel": "Hide my stream preview thumbnail",
+  "advancedSettingDeveloperModeLabel": "Enable developer mode",
+  "advancedSettingDeveloperModeDescription": "Enable developer mode",
+  "advancedSettingSearchEngineGoogle": "Google",
+  "advancedSettingSearchEngineDuckDuckGo": "DuckDuckGo",
+  "advancedSettingSearchEngineBing": "Bing",
+  "advancedSettingSearchEngineGoogleLens": "Google Lens",
+  "advancedSettingSearchEngineTinEye": "TinEye",
+  "advancedSettingTranslatorGoogle": "Google Translate",
+  "advancedSettingTranslatorDeepL": "DeepL",
+  "advancedSettingDefaultSearchEngineLabel": "Default search engine",
+  "advancedSettingDefaultSearchEngineDescription": "Choose which search engine is used by default when searching selected text.",
+  "advancedSettingBuiltInSearchEnginesLabel": "Built-in search engines",
+  "advancedSettingBuiltInSearchEnginesDescription": "Enable or disable built-in search engines. Enabled engines appear in the message context menu when text is selected.",
+  "advancedSettingCustomSearchEnginesLabel": "Custom search engines",
+  "advancedSettingCustomSearchEnginesDescription": "Add your own search engines with a custom URL pattern. Use '{query}' as a placeholder for the search text.",
+  "advancedSettingAddSearchEngineLabel": "Add search engine",
+  "advancedSettingEnableAtLeastOneSearchEngineLabel": "Enable at least one search engine below.",
+  "advancedSettingRemoveSearchEngineLabel": "Remove search engine",
+  "advancedSettingDefaultTranslatorLabel": "Default translator",
+  "advancedSettingDefaultTranslatorDescription": "Choose which translator is used by default when translating selected text.",
+  "advancedSettingBuiltInTranslatorsLabel": "Built-in translators",
+  "advancedSettingBuiltInTranslatorsDescription": "Enable or disable built-in translators. Enabled translators appear in the message context menu when text is selected.",
+  "advancedSettingCustomTranslatorsLabel": "Custom translators",
+  "advancedSettingCustomTranslatorsDescription": "Add your own translators with a custom URL pattern. Use '{query}' as a placeholder for the text to translate.",
+  "advancedSettingAddTranslatorLabel": "Add translator",
+  "advancedSettingEnableAtLeastOneTranslatorLabel": "Enable at least one translator below.",
+  "advancedSettingRemoveTranslatorLabel": "Remove translator",
+  "advancedSettingDefaultReverseImageSearchLabel": "Default reverse image search",
+  "advancedSettingDefaultReverseImageSearchDescription": "Choose which reverse image search service is used by default when searching an image.",
+  "advancedSettingBuiltInReverseImageSearchLabel": "Built-in reverse image search",
+  "advancedSettingBuiltInReverseImageSearchDescription": "Enable or disable built-in reverse image search providers. Enabled providers appear in the context menu of images, avatars, banners, stickers, and emoji.",
+  "advancedSettingCustomReverseImageSearchLabel": "Custom reverse image search",
+  "advancedSettingCustomReverseImageSearchDescription": "Add your own reverse image search providers with a custom URL pattern. Use '{url}' as a placeholder for the image URL.",
+  "advancedSettingAddReverseImageSearchLabel": "Add reverse image search",
+  "advancedSettingEnableAtLeastOneReverseImageSearchLabel": "Enable at least one reverse image search provider below.",
+  "advancedSettingRemoveReverseImageSearchLabel": "Remove reverse image search",
+  "advancedSettingAddSearchEngineTitle": "Add search engine",
+  "advancedSettingEditSearchEngineTitle": "Edit search engine",
+  "advancedSettingAddTranslatorTitle": "Add translation provider",
+  "advancedSettingEditTranslatorTitle": "Edit translation provider",
+  "advancedSettingAddReverseImageSearchTitle": "Add reverse image search engine",
+  "advancedSettingEditReverseImageSearchTitle": "Edit reverse image search engine",
+  "advancedSettingSearchProviderNameLabel": "Name",
+  "advancedSettingSearchProviderUrlLabel": "URL pattern",
+  "advancedSettingSearchProviderNameTextPlaceholder": "My search engine",
+  "advancedSettingSearchProviderNameTranslatePlaceholder": "My translator",
+  "advancedSettingSearchProviderNameImagePlaceholder": "My reverse image search",
+  "advancedSettingSearchProviderUrlTextHint": "Use '{query}' where the search text should be inserted.",
+  "advancedSettingSearchProviderUrlTranslateHint": "Use '{query}' where the text to translate should be inserted.",
+  "advancedSettingSearchProviderUrlImageHint": "Use '{url}' where the image URL should be inserted.",
+  "advancedSettingSearchProviderNameRequired": "Name is required.",
+  "advancedSettingSearchProviderUrlRequired": "URL pattern is required.",
+  "advancedSettingSearchProviderUrlMustContainQuery": "URL pattern must contain '{query}' placeholder.",
+  "advancedSettingSearchProviderUrlMustContainUrl": "URL pattern must contain '{url}' placeholder.",
+  "advancedSettingSearchProviderUrlMustBeValid": "URL pattern must be a valid URL.",
+  "advancedSettingAddSearchProviderAction": "Add",
+  "advancedSettingEditSearchProviderAction": "Edit",
+  "advancedSettingRemoveSearchProviderConfirmAction": "Remove",
+  "advancedSettingRemoveSearchProviderConfirmDescription": "Are you sure you want to remove {engineName}?",
+  "@advancedSettingRemoveSearchProviderConfirmDescription": {
+    "placeholders": {
+      "engineName": {
+        "type": "String"
+      }
+    }
+  },
   "userSettingsNavApplications": "Applications",
   "@userSettingsNavApplications": {
     "description": "User settings navigation item for developer applications."
@@ -12559,9 +12718,9 @@
   "@guildSettingsMembersDescription": {
     "description": "Description for members tab."
   },
-  "guildSettingsMembersSearchHint": "Search members",
+  "guildSettingsMembersSearchHint": "Search by username or ID",
   "@guildSettingsMembersSearchHint": {
-    "description": "Hint for member search field."
+    "description": "Hint for member search field on the community members page."
   },
   "guildSettingsMembersResultsTitle": "{count} members",
   "@guildSettingsMembersResultsTitle": {
@@ -12569,6 +12728,239 @@
     "placeholders": {
       "count": {"type": "int"}
     }
+  },
+  "guildMembersRecentTitle": "Recent members",
+  "@guildMembersRecentTitle": {
+    "description": "Title on the community members page."
+  },
+  "guildMembersShowingCount": "Showing {displayedCount} of {totalCount} total members",
+  "@guildMembersShowingCount": {
+    "description": "Subtitle showing pagination count on the community members page.",
+    "placeholders": {
+      "displayedCount": {"type": "int"},
+      "totalCount": {"type": "int"}
+    }
+  },
+  "guildMembersSort": "Sort",
+  "@guildMembersSort": {
+    "description": "Sort button label on the community members page."
+  },
+  "guildSettingsMembersSortNewest": "Newest first",
+  "@guildSettingsMembersSortNewest": {
+    "description": "Sort option on the community members page."
+  },
+  "guildMembersSortOldest": "Oldest first",
+  "@guildMembersSortOldest": {
+    "description": "Sort option on the community members page."
+  },
+  "guildMembersColumnName": "Name",
+  "@guildMembersColumnName": {
+    "description": "Table column header on the community members page."
+  },
+  "guildMembersColumnMemberSince": "Member since",
+  "@guildMembersColumnMemberSince": {
+    "description": "Table column header on the community members page."
+  },
+  "guildMembersColumnJoinedProduct": "Joined {productName}",
+  "@guildMembersColumnJoinedProduct": {
+    "description": "Table column header for account creation date on the community members page.",
+    "placeholders": {
+      "productName": {"type": "String"}
+    }
+  },
+  "guildMembersColumnJoinMethod": "Join method",
+  "@guildMembersColumnJoinMethod": {
+    "description": "Table column header on the community members page."
+  },
+  "guildMembersColumnRoles": "Roles",
+  "@guildMembersColumnRoles": {
+    "description": "Table column header on the community members page."
+  },
+  "guildMembersColumnActions": "Actions",
+  "@guildMembersColumnActions": {
+    "description": "Table column header on the community members page."
+  },
+  "guildMembersFilterMemberSince": "Filter by member since",
+  "@guildMembersFilterMemberSince": {
+    "description": "Filter menu label on the community members page."
+  },
+  "guildMembersFilterJoinedProduct": "Filter by account creation date",
+  "@guildMembersFilterJoinedProduct": {
+    "description": "Filter menu label on the community members page."
+  },
+  "guildMembersFilterJoinMethod": "Filter by join method",
+  "@guildMembersFilterJoinMethod": {
+    "description": "Filter menu label on the community members page."
+  },
+  "guildMembersFilterRoles": "Filter by roles",
+  "@guildMembersFilterRoles": {
+    "description": "Filter menu label on the community members page."
+  },
+  "guildMembersFilterAll": "All",
+  "@guildMembersFilterAll": {
+    "description": "Filter option to clear filters on the community members page."
+  },
+  "guildMembersFilterPast1Hour": "Past 1 hour",
+  "@guildMembersFilterPast1Hour": {
+    "description": "Date-range filter option on the community members page."
+  },
+  "guildMembersFilterPast24Hours": "Past 24 hours",
+  "@guildMembersFilterPast24Hours": {
+    "description": "Date-range filter option on the community members page."
+  },
+  "guildMembersFilterPast7Days": "Past 7 days",
+  "@guildMembersFilterPast7Days": {
+    "description": "Date-range filter option on the community members page."
+  },
+  "guildMembersFilterPast2Weeks": "Past 2 weeks",
+  "@guildMembersFilterPast2Weeks": {
+    "description": "Date-range filter option on the community members page."
+  },
+  "guildMembersFilterPast3Weeks": "Past 3 weeks",
+  "@guildMembersFilterPast3Weeks": {
+    "description": "Date-range filter option on the community members page."
+  },
+  "guildMembersFilterPast4Weeks": "Past 4 weeks",
+  "@guildMembersFilterPast4Weeks": {
+    "description": "Date-range filter option on the community members page."
+  },
+  "guildMembersFilterPast3Months": "Past 3 months",
+  "@guildMembersFilterPast3Months": {
+    "description": "Date-range filter option on the community members page."
+  },
+  "guildMembersFilterCustomRange": "Custom range...",
+  "@guildMembersFilterCustomRange": {
+    "description": "Date-range filter option that opens a date picker on the community members page."
+  },
+  "guildMembersDateRangeTitle": "Custom date range",
+  "@guildMembersDateRangeTitle": {
+    "description": "Title for the custom date range sheet on the community members page."
+  },
+  "guildMembersDateAfter": "After date",
+  "@guildMembersDateAfter": {
+    "description": "Label for the after-date field in the custom date range sheet."
+  },
+  "guildMembersDateBefore": "Before date",
+  "@guildMembersDateBefore": {
+    "description": "Label for the before-date field in the custom date range sheet."
+  },
+  "guildMembersClearAll": "Clear all",
+  "@guildMembersClearAll": {
+    "description": "Button to clear all role filters on the community members page."
+  },
+  "guildMembersRowsPerPage": "Rows per page",
+  "@guildMembersRowsPerPage": {
+    "description": "Pagination page size label on the community members page."
+  },
+  "guildMembersEmptySearch": "Nobody matches that search.",
+  "@guildMembersEmptySearch": {
+    "description": "Empty state when no members match filters on the community members page."
+  },
+  "guildMembersLoadError": "Something went wrong loading members. Try again later.",
+  "@guildMembersLoadError": {
+    "description": "Error state on the community members page."
+  },
+  "guildMembersIndexing": "Indexing members…",
+  "@guildMembersIndexing": {
+    "description": "Banner shown while guild members are being indexed."
+  },
+  "guildMembersGoToPage": "Go to page",
+  "@guildMembersGoToPage": {
+    "description": "Pagination jump label on the community members page."
+  },
+  "guildMembersGoToPageItem": "Go to page {page}",
+  "@guildMembersGoToPageItem": {
+    "description": "Accessibility label for a pagination page button.",
+    "placeholders": {
+      "page": {"type": "int"}
+    }
+  },
+  "guildMembersJumpToPage": "Jump to page",
+  "@guildMembersJumpToPage": {
+    "description": "Label for pagination jump input on the community members page."
+  },
+  "guildMembersJoinSourceCreator": "Community creator",
+  "@guildMembersJoinSourceCreator": {
+    "description": "Join method label on the community members page."
+  },
+  "guildMembersJoinSourceInvite": "Invite",
+  "@guildMembersJoinSourceInvite": {
+    "description": "Join method label on the community members page."
+  },
+  "guildMembersJoinSourceInviteCode": "Invite ({code})",
+  "@guildMembersJoinSourceInviteCode": {
+    "description": "Join method label with invite code on the community members page.",
+    "placeholders": {
+      "code": {"type": "String"}
+    }
+  },
+  "guildMembersJoinSourceInvitedBy": "Invited by {name}",
+  "@guildMembersJoinSourceInvitedBy": {
+    "description": "Join method label with inviter on the community members page.",
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "guildMembersJoinSourceVanityUrl": "Vanity URL",
+  "@guildMembersJoinSourceVanityUrl": {
+    "description": "Join method label on the community members page."
+  },
+  "guildMembersJoinSourceBotInvite": "Bot invite",
+  "@guildMembersJoinSourceBotInvite": {
+    "description": "Join method label on the community members page."
+  },
+  "guildMembersJoinSourcePlatformAdmin": "Platform admin",
+  "@guildMembersJoinSourcePlatformAdmin": {
+    "description": "Join method label on the community members page."
+  },
+  "guildMembersJoinSourceDiscovery": "Discovery",
+  "@guildMembersJoinSourceDiscovery": {
+    "description": "Join method label on the community members page."
+  },
+  "guildMembersJoinMethodUnknown": "Unknown",
+  "@guildMembersJoinMethodUnknown": {
+    "description": "Fallback join method label on the community members page."
+  },
+  "guildMembersCommunityOwner": "Community owner",
+  "@guildMembersCommunityOwner": {
+    "description": "Label for the guild owner on the community members page."
+  },
+  "guildMembersViewAllRoles": "View all roles",
+  "@guildMembersViewAllRoles": {
+    "description": "Tooltip for role overflow on the community members page."
+  },
+  "guildMembersJoinedJustNow": "Just now",
+  "@guildMembersJoinedJustNow": {
+    "description": "Relative join time on the community members page."
+  },
+  "guildMembersJoinedMinutesAgo": "{count, plural, one {1 minute ago} other {{count} minutes ago}}",
+  "@guildMembersJoinedMinutesAgo": {
+    "description": "Relative join time on the community members page.",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "guildMembersJoinedHoursAgo": "{count, plural, one {1 hour ago} other {{count} hours ago}}",
+  "@guildMembersJoinedHoursAgo": {
+    "description": "Relative join time on the community members page.",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "guildMembersJoinedDaysAgo": "{count, plural, one {1 day ago} other {{count} days ago}}",
+  "@guildMembersJoinedDaysAgo": {
+    "description": "Relative join time on the community members page.",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "guildMembersChannelListLabel": "Members",
+  "@guildMembersChannelListLabel": {
+    "description": "Label for the Members item at the top of the guild channel list."
+  },
+  "guildMembersChannelListSelected": "Members, selected",
+  "@guildMembersChannelListSelected": {
+    "description": "Accessibility label when the Members channel list item is selected."
   },
   "guildSettingsInvitesTitle": "Invites",
   "@guildSettingsInvitesTitle": {
@@ -13191,7 +13583,6 @@
   "guildSettingsInvitesTableUses": "Uses",
   "guildSettingsInvitesTableCreated": "Created",
   "guildSettingsInvitesTableExpires": "Expires",
-  "guildSettingsMembersSortNewest": "Newest first",
   "guildSettingsAuditLogFilterUser": "Filter by user",
   "@guildSettingsAuditLogFilterUser": {
     "description": "Label of the user filter dropdown in the activity log tab."

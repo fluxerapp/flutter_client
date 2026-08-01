@@ -36,6 +36,8 @@ class VoiceParticipantMediaTile extends StatelessWidget {
     required this.isActiveScreenShare,
     required this.streamPreviewUrl,
     required this.authToken,
+    this.isTileFocused = true,
+    this.pauseOwnScreenSharePreviewOnUnfocus = true,
     this.isFilmstrip = false,
     this.user,
     this.mirrorCamera = false,
@@ -52,6 +54,8 @@ class VoiceParticipantMediaTile extends StatelessWidget {
   final VoiceParticipantTileSource tileSource;
   final bool isActiveScreenShare;
   final bool isFilmstrip;
+  final bool isTileFocused;
+  final bool pauseOwnScreenSharePreviewOnUnfocus;
   final String? streamPreviewUrl;
   final String? authToken;
   final database.User? user;
@@ -81,7 +85,10 @@ class VoiceParticipantMediaTile extends StatelessWidget {
     final bool hasOwnScreenSharePublication =
         isScreenShareTile &&
         _screenShareVideoPublication(participant, false) != null;
-    if (isOwnScreenShareTile && hasOwnScreenSharePublication) {
+    if (isOwnScreenShareTile &&
+        hasOwnScreenSharePublication &&
+        pauseOwnScreenSharePreviewOnUnfocus &&
+        !isTileFocused) {
       return _buildOwnScreenShareBroadcastingTile(context, backgroundColor);
     }
     return ListenableBuilder(

@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels/guild_channel_settings_entries.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels/guild_channel_settings_list_layout.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels/guild_channel_settings_row.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_channel_settings_providers.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -533,7 +534,7 @@ class _GuildChannelsSettingsWidgetState
             context.layout.s4,
             context.layout.s2,
             context.layout.s4,
-            widget.showFab ? 88 : context.layout.s4,
+            widget.showFab ? 88 : kSettingsScrollBottomPadding,
           ),
           itemCount: listItems.length,
           itemBuilder: (BuildContext context, int index) {

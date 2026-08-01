@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/providers/current_auth_session_provider.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/linked_devices_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -71,6 +72,7 @@ class _UserLinkedDevicesState extends ConsumerState<UserLinkedDevices> {
             : 0.0;
         return SingleChildScrollView(
           controller: widget.scrollController,
+          padding: settingsScrollPadding(context),
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: minHeight),
             child: body,
@@ -134,7 +136,7 @@ class _UserLinkedDevicesState extends ConsumerState<UserLinkedDevices> {
   ) {
     final state = ref.watch(linkedDevicesViewModelProvider);
     return Padding(
-      padding: EdgeInsets.all(layout.s4),
+      padding: EdgeInsets.fromLTRB(layout.s4, layout.s4, layout.s4, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

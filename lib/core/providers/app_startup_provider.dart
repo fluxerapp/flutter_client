@@ -35,6 +35,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_list_sync_provider.da
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
 import 'package:fluxer_app/features/profile/providers/status_expiry_scheduler.dart';
+import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
@@ -154,6 +155,7 @@ class AppStartup extends _$AppStartup {
       ref.read(themePreferenceProvider.notifier).load(session.userId),
       ref.read(appearancePreferencesProvider.notifier).load(session.userId),
       ref.read(chatPreferencesProvider.notifier).load(session.userId),
+      ref.read(advancedPreferencesProvider.notifier).load(session.userId),
       ref.read(voiceSettingsProvider.notifier).load(session.userId),
     ]);
     unawaited(ref.read(sensitiveContentProvider.notifier).load());

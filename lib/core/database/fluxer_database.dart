@@ -141,7 +141,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 77;
+  int get schemaVersion => 78;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -796,6 +796,228 @@ class FluxerDatabase extends _$FluxerDatabase {
           await m.addColumn(
             userPreferencesTable,
             userPreferencesTable.showSuppressEmbedsButton,
+          );
+        }
+      }
+      if (from < 78) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'enable_text_selection',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.enableTextSelection,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'show_video_seek_preview_thumbnails',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.showVideoSeekPreviewThumbnails,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'voice_channel_join_requires_double_click',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.voiceChannelJoinRequiresDoubleClick,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'confirm_before_joining_voice_channels',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.confirmBeforeJoiningVoiceChannels,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'show_gif_indicator',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.showGifIndicator,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'show_attachment_expiry_indicator',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.showAttachmentExpiryIndicator,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'show_message_action_bar',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.showMessageActionBar,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'show_message_action_bar_quick_reactions',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.showMessageActionBarQuickReactions,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'show_message_action_bar_shift_expand',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.showMessageActionBarShiftExpand,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'show_message_action_bar_only_more_button',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.showMessageActionBarOnlyMoreButton,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'show_gif_button',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.showGifButton,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'show_memes_button',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.showMemesButton,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'show_stickers_button',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.showStickersButton,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'show_emoji_button',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.showEmojiButton,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'show_message_send_button',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.showMessageSendButton,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'scroll_to_bottom_on_message_send',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.scrollToBottomOnMessageSend,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'sequential_file_send',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.sequentialFileSend,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'skip_mark_all_as_read_confirmation',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.skipMarkAllAsReadConfirmation,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'preupload_message_attachments',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.preuploadMessageAttachments,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'disable_stream_previews',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.disableStreamPreviews,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'save_gif_favorites_as_saved_media',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.saveGifFavoritesAsSavedMedia,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'search_engines_json',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.searchEnginesJson,
           );
         }
       }

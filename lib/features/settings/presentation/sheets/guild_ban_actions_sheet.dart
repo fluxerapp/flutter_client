@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_ban_entry.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/utils/guild_bans_utils.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -104,7 +105,7 @@ class _GuildBanActionsHeader extends StatelessWidget {
     final colors = context.colors;
     final textStyles = context.textStyles;
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: layout.s4),
+      padding: settingsSheetScrollPadding(context),
       child: Row(
         children: <Widget>[
           FluxerAvatar.user(

@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/authorized_apps_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -123,6 +124,7 @@ class _UserAuthorizedAppsState extends ConsumerState<UserAuthorizedApps> {
 
     return SingleChildScrollView(
       controller: widget.scrollController,
+      padding: settingsScrollPadding(context),
       child: ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 1),
         child: body,

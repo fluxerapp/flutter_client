@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -22,6 +23,7 @@ import 'package:fluxer_app/features/chat/utils/file_upload_validator.dart'
         FileUploadValidationError,
         FileUploadValidationResult,
         FileUploadValidator;
+import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:path/path.dart' as path_lib;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -97,6 +99,11 @@ class CloudUploadController extends _$CloudUploadController {
       ...state.items,
       ...created,
     ]);
+    if (ref.read(advancedPreferencesProvider).preuploadMessageAttachments) {
+      for (final PendingAttachment attachment in created) {
+        unawaited(_ensureComposerAttachmentUploaded(attachment.id));
+      }
+    }
     return const FileUploadValidationResult.success();
   }
 
@@ -286,6 +293,114 @@ class CloudUploadController extends _$CloudUploadController {
 
   List<PendingAttachment> _requireSessionAttachments(String nonce) {
     return _requireSession(nonce).attachments;
+  }
+
+  Future<void> _ensureComposerAttachmentUploaded(int attachmentId) async {
+    final int index = state.items.indexWhere(
+      (PendingAttachment e) => e.id == attachmentId,
+    );
+    if (index == -1) {
+      return;
+    }
+    final PendingAttachment attachment = state.items[index];
+    if (attachment.status == PendingAttachmentStatus.sending &&
+        attachment.uploadFilename != null &&
+        attachment.multipartUploadId == null) {
+      return;
+    }
+    final CancelToken? existing = _activeUploadControllers[attachmentId];
+    existing?.cancel();
+    final CancelToken token = CancelToken();
+    _activeUploadControllers[attachmentId] = token;
+    _patchAttachment(
+      attachmentId,
+      (PendingAttachment a) => a.copyWith(
+        status: PendingAttachmentStatus.uploading,
+        uploadProgress: 0,
+      ),
+    );
+    try {
+      final AttachmentUploadClient client = ref.read(
+        attachmentUploadClientProvider,
+      );
+      final AttachmentUploadPlan plan = await client
+          .requestAttachmentUploadPlan(
+            channelId: _channelId,
+            attachmentId: attachment.id,
+            filename: attachment.filename,
+            fileSize: attachment.size,
+            contentType: attachment.contentType,
+            cancelToken: token,
+          );
+      if (!state.items.any((PendingAttachment e) => e.id == attachmentId)) {
+        return;
+      }
+      await client.uploadAttachmentPlan(
+        UploadAttachmentPlanParams(
+          channelId: _channelId,
+          file: attachment.file,
+          plan: plan,
+          cancelToken: token,
+          onPlanReady:
+              ({
+                required String uploadFilename,
+                required int fileSize,
+                required String contentType,
+                String? uploadId,
+              }) {
+                _patchAttachment(
+                  attachmentId,
+                  (PendingAttachment a) => a.copyWith(
+                    uploadFilename: uploadFilename,
+                    fileSizePlan: fileSize,
+                    contentTypePlan: contentType,
+                    multipartUploadId: uploadId,
+                  ),
+                );
+              },
+          onProgress: (int uploadedBytes, int totalBytes) {
+            final int effectiveTotal = totalBytes > 0
+                ? totalBytes
+                : attachment.size;
+            final double p = effectiveTotal > 0
+                ? (uploadedBytes / effectiveTotal).clamp(0.0, 1.0)
+                : 0;
+            _patchAttachment(
+              attachmentId,
+              (PendingAttachment a) => a.copyWith(
+                status: PendingAttachmentStatus.uploading,
+                uploadProgress: p,
+              ),
+            );
+          },
+        ),
+      );
+      if (!state.items.any((PendingAttachment e) => e.id == attachmentId)) {
+        return;
+      }
+      _patchAttachment(
+        attachmentId,
+        (PendingAttachment a) => a.copyWith(
+          status: PendingAttachmentStatus.sending,
+          uploadProgress: 1,
+          multipartUploadId: null,
+        ),
+      );
+    } on Object catch (e, st) {
+      if (!state.items.any((PendingAttachment e) => e.id == attachmentId)) {
+        return;
+      }
+      talker.warning('[CloudUpload] composer upload failed: $e\n$st');
+      _patchAttachment(
+        attachmentId,
+        (PendingAttachment a) => a.copyWith(
+          status: PendingAttachmentStatus.failed,
+          uploadProgress: 0,
+        ),
+      );
+    } finally {
+      _activeUploadControllers.remove(attachmentId);
+    }
   }
 
   Future<void> _ensureSessionAttachmentUploaded(

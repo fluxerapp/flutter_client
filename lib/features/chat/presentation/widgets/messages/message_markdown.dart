@@ -3,7 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/markdown_timestamp_format.dart';
+import 'package:fluxer_app/features/settings/domain/search_provider_engine.dart';
+import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
+import 'package:fluxer_app/features/settings/utils/search_selection_context_menu.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/markdown/fluxer_markdown_adapter.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
@@ -42,6 +45,9 @@ class MessageMarkdown extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final bool use12Hour = ref.watch(use12HourTimeFormatProvider);
+    final SearchEnginesState searchEngines = ref.watch(
+      advancedPreferencesProvider.select((state) => state.searchEngines),
+    );
     return FluxerMarkdown(
       data: data,
       parseCacheKey: messageId == null ? null : '$messageId:${data.hashCode}',
@@ -51,6 +57,11 @@ class MessageMarkdown extends ConsumerWidget {
         mentionChannels: mentionChannels,
         revealSpoilers: revealSpoilers,
         spoilerSyncController: spoilerSyncController,
+        selectionContextMenuBuilder: selectable
+            ? createSearchSelectionContextMenuBuilder(
+                searchEngines: searchEngines,
+              )
+            : null,
         timestampFormatter: (DateTime localDateTime, String style) {
           return formatMarkdownTimestamp(
             localDateTime,

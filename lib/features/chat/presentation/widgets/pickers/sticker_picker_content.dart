@@ -231,8 +231,9 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
     if (channelId == null || channelId.isEmpty) {
       return true;
     }
-    return channelMessagePermissionsForComposer(
-      ref.watch(channelMessagePermissionsProvider(channelId)),
+    return watchChannelMessagePermissionsForComposer(
+      ref,
+      channelId,
     ).canUseExternalStickers;
   }
 
@@ -261,8 +262,9 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
     if (channelId == null || channelId.isEmpty) {
       return true;
     }
-    return channelMessagePermissionsForComposer(
-      ref.read(channelMessagePermissionsProvider(channelId)),
+    return readChannelMessagePermissionsForComposer(
+      ref,
+      channelId,
     ).canUseExternalStickers;
   }
 

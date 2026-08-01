@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/roles/guild_role_list_item.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -49,7 +50,7 @@ class GuildRoleReorderableList extends ConsumerWidget {
       horizontalPadding,
       0,
       horizontalPadding,
-      useMobileTileStyle ? context.layout.s6 + 80 : 96,
+      kSettingsScrollBottomPadding,
     );
   }
 

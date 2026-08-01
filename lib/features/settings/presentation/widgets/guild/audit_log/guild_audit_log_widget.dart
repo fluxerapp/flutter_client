@@ -89,7 +89,7 @@ class _GuildAuditLogWidgetState extends ConsumerState<GuildAuditLogWidget> {
     final Map<String, String> userNames = widget.state.userNames;
     return ListView.builder(
       controller: _scrollController,
-      padding: guildSettingsScrollPadding(context),
+      padding: settingsScrollPadding(context),
       itemCount: _itemCount(),
       itemBuilder: (BuildContext context, int index) {
         if (index == 0) {

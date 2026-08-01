@@ -17,6 +17,7 @@ import 'package:fluxer_app/features/chat/utils/message_action_permissions.dart';
 import 'package:fluxer_app/features/chat/utils/message_link.dart';
 import 'package:fluxer_app/features/messaging/data/saved_messages_repository.dart';
 import 'package:fluxer_app/features/messaging/providers/saved_messages_sync_provider.dart';
+import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -470,7 +471,14 @@ class _MessageBottomSheetBody extends ConsumerWidget {
       attachmentCallbacks: attachmentCallbacks,
     );
     final bool showQuickReactions =
-        !message.hasFailed && !message.isSending && permissions.canAddReactions;
+        !message.hasFailed &&
+        !message.isSending &&
+        permissions.canAddReactions &&
+        ref.watch(
+          advancedPreferencesProvider.select(
+            (state) => state.showMessageActionBarQuickReactions,
+          ),
+        );
 
     return SingleChildScrollView(
       controller: scrollController,

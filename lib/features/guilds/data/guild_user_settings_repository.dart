@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -372,23 +373,26 @@ class GuildUserSettingsRepository {
     }
     return responseGuildId ?? requestGuildId;
   }
-}
 
-Map<String, dynamic> _defaultUserGuildSettingsData(String guildId) {
-  return UserGuildSettingsResponse(
-    guildId: guildId == '@me' ? null : guildId,
-    messageNotifications: guildId == '@me'
-        ? UserNotificationSettings.allMessages
-        : UserNotificationSettings.inherit,
-    muted: false,
-    muteConfig: null,
-    mobilePush: true,
-    suppressEveryone: false,
-    suppressRoles: false,
-    hideMutedChannels: false,
-    channelOverrides: null,
-    version: -1,
-  ).toJson();
+  Map<String, dynamic> _defaultUserGuildSettingsData(String guildId) {
+    final bool hideMutedChannels = _ref
+        .read(userSettingsViewModelProvider)
+        .defaultHideMutedChannels;
+    return UserGuildSettingsResponse(
+      guildId: guildId == '@me' ? null : guildId,
+      messageNotifications: guildId == '@me'
+          ? UserNotificationSettings.allMessages
+          : UserNotificationSettings.inherit,
+      muted: false,
+      muteConfig: null,
+      mobilePush: true,
+      suppressEveryone: false,
+      suppressRoles: false,
+      hideMutedChannels: hideMutedChannels,
+      channelOverrides: null,
+      version: -1,
+    ).toJson();
+  }
 }
 
 Map<String, ChannelOverrides>? _mergePersistedChannelOverrides({

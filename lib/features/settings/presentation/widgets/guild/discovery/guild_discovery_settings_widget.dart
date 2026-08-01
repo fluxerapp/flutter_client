@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/guild/discover
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/discovery/guild_discovery_form_utils.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/discovery/guild_discovery_header.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/discovery/guild_discovery_status_card.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_discovery_settings_provider.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_sheet.dart';
@@ -126,12 +127,7 @@ class _GuildDiscoverySettingsWidgetState
     return FluxerSettingsSheet(
       child: SingleChildScrollView(
         controller: _scrollController,
-        padding: EdgeInsets.fromLTRB(
-          context.layout.s4,
-          context.layout.s4,
-          context.layout.s4,
-          80,
-        ),
+        padding: settingsScrollPaddingWithSaveBar(context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[

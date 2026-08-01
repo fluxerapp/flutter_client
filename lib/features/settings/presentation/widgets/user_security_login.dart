@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/settings/presentation/sheets/passkey_name_sh
 import 'package:fluxer_app/features/settings/presentation/sheets/password_change_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/totp_disable_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/totp_enable_sheet.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/webauthn_credentials_view_model.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -73,7 +74,7 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
 
     return SingleChildScrollView(
       controller: widget.scrollController,
-      padding: EdgeInsets.all(layout.s4),
+      padding: settingsScrollPadding(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
