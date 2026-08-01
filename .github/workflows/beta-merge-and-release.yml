@@ -1,0 +1,19 @@
+name: Beta release from Canary merge
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  merge-canary-to-beta:
+    name: Merge canary into beta
+    uses: ./.github/workflows/merge-canary-to-beta.yml
+    secrets: inherit
+
+  beta-release:
+    name: Beta release
+    needs: merge-canary-to-beta
+    uses: ./.github/workflows/beta-release-all.yml
+    secrets: inherit

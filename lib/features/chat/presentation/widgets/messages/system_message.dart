@@ -58,11 +58,9 @@ class SystemMessage extends ConsumerWidget {
     final String? currentUserId = ref.watch(currentUserIdProvider);
     final Color? authorRoleColor = resolvedGuildId == null
         ? null
-        : ref
-              .watch(
-                memberRoleColorProvider((message.authorId, resolvedGuildId)),
-              )
-              .value;
+        : ref.watch(
+            memberRoleColorProvider((message.authorId, resolvedGuildId)),
+          );
     final String authorName = watchMessageAuthorDisplay(
       ref: ref,
       message: message,

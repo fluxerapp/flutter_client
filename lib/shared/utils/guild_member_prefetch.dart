@@ -3,7 +3,6 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/members/providers/guild_member_chunk_waiter.dart';
-import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/message_member_load_utils.dart';
@@ -28,13 +27,7 @@ Future<void> hydrateGuildMembersForMessages({
   }
   await ref
       .read(guildMemberHydrationServiceProvider)
-      .hydrateMembers(
-        guildId: guildId,
-        userIds: userIds,
-        onMemberFetched: (String userId) {
-          ref.invalidate(memberRoleColorProvider((userId, guildId)));
-        },
-      );
+      .hydrateMembers(guildId: guildId, userIds: userIds);
 }
 
 @Deprecated('Use hydrateGuildMembersForMessages')

@@ -209,7 +209,7 @@ class _TypingPill extends ConsumerWidget {
         final user = names[i];
         final roleColor = guildId == null
             ? null
-            : ref.watch(memberRoleColorProvider((user.userId, guildId))).value;
+            : ref.watch(memberRoleColorProvider((user.userId, guildId)));
         spans.add(
           TextSpan(
             text: user.display.displayName,

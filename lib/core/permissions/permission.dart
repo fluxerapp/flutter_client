@@ -43,5 +43,31 @@ enum Permission {
 
 const int allPermissions = (1 << 55) - 1;
 
+/// Base guild permissions when the @everyone role record is not loaded yet.
+/// Follows `DEFAULT_PERMISSIONS` in `@fluxer/constants` in the web project
+final int defaultPermissions =
+    Permission.createInstantInvite.value |
+    Permission.addReactions.value |
+    Permission.stream.value |
+    Permission.viewChannel.value |
+    Permission.sendMessages.value |
+    Permission.embedLinks.value |
+    Permission.attachFiles.value |
+    Permission.readMessageHistory.value |
+    Permission.useExternalEmojis.value |
+    Permission.connect.value |
+    Permission.speak.value |
+    Permission.useVad.value |
+    Permission.changeNickname.value |
+    Permission.useExternalStickers.value |
+    Permission.viewChannelMembers.value;
+
+int everyoneRolePermissionsFromString(String? raw) {
+  if (raw == null || raw.isEmpty) {
+    return defaultPermissions;
+  }
+  return int.tryParse(raw) ?? defaultPermissions;
+}
+
 bool hasPermission(int permissions, Permission permission) =>
     (permissions & permission.value) != 0;

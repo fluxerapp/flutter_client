@@ -225,9 +225,9 @@ class _TypingTooltipText extends ConsumerWidget {
       }
       if (i < names.length) {
         final user = names[i];
-        final Color? roleColor = ref
-            .watch(memberRoleColorProvider((user.userId, guildId)))
-            .value;
+        final Color? roleColor = ref.watch(
+          memberRoleColorProvider((user.userId, guildId)),
+        );
         spans.add(
           TextSpan(
             text: user.display.displayName,

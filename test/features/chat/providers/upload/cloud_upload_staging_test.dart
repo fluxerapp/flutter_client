@@ -19,9 +19,7 @@ void main() {
     return ProviderContainer(
       overrides: [
         maxAttachmentFileBytesProvider.overrideWithValue(25 * 1024 * 1024),
-        advancedPreferencesProvider.overrideWith(
-          () => _TestAdvancedPreferences(),
-        ),
+        advancedPreferencesProvider.overrideWith(_TestAdvancedPreferences.new),
       ],
     );
   }

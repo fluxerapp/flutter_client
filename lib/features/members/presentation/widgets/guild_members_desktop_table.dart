@@ -887,6 +887,7 @@ class _MembersDesktopTableRow extends ConsumerWidget {
     final int? roleColor = resolveMemberHighestRoleColor(
       roleIds: member.roleIds,
       rolesById: roles,
+      guildId: guildId,
     );
     final List<drift_db.Role> memberRoles =
         member.roleIds

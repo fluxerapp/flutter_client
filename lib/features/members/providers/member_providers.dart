@@ -88,6 +88,15 @@ Stream<String> guildRolePermissionsIdentity(Ref ref, String guildId) {
   }).distinct();
 }
 
+// ignore: specify_nonobvious_property_types
+final memberRowByGuildProvider = StreamProvider.autoDispose
+    .family<db.Member?, (String, String)>(
+      (Ref ref, (String, String) key) => ref
+          .watch(fluxerDatabaseProvider)
+          .memberDao
+          .watchMemberByUserId(key.$1, key.$2),
+    );
+
 // Member rows stream keyed by guild id.
 // ignore: specify_nonobvious_property_types
 final guildMemberRowsProvider = StreamProvider.family<List<db.Member>, String>((

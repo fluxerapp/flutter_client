@@ -116,9 +116,9 @@ class InlineReplyPreview extends ConsumerWidget {
     if (replyMsg != null &&
         resolvedGuildId != null &&
         !prefersPersistedAuthor) {
-      roleColor = ref
-          .watch(memberRoleColorProvider((replyMsg.authorId, resolvedGuildId)))
-          .value;
+      roleColor = ref.watch(
+        memberRoleColorProvider((replyMsg.authorId, resolvedGuildId)),
+      );
     }
     final nameColor = (roleColor ?? context.colors.textChat).withValues(
       alpha: 0.64,

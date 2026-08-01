@@ -1558,9 +1558,9 @@ class _MessageAuthorScope extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     Color? authorRoleColor;
     if (guildId != null && !prefersPersistedAuthor) {
-      authorRoleColor = ref
-          .watch(memberRoleColorProvider((message.authorId, guildId!)))
-          .value;
+      authorRoleColor = ref.watch(
+        memberRoleColorProvider((message.authorId, guildId!)),
+      );
     }
     final GuildUserDisplay authorDisplay = watchMessageAuthorDisplay(
       ref: ref,

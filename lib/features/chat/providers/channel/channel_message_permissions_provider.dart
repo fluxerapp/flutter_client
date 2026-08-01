@@ -34,14 +34,14 @@ class ChannelMessagePermissions {
     required this.canUseExternalStickers,
   });
 
-  /// Guild channel permissions are not loaded yet; composer stays disabled.
+  /// Guild channel permissions are not loaded yet; composer stays enabled.
   static const ChannelMessagePermissions unresolved = ChannelMessagePermissions(
     isResolved: false,
-    canSendMessages: false,
-    canAttachFiles: false,
-    canEmbedLinks: false,
-    canUseExternalEmojis: false,
-    canUseExternalStickers: false,
+    canSendMessages: true,
+    canAttachFiles: true,
+    canEmbedLinks: true,
+    canUseExternalEmojis: true,
+    canUseExternalStickers: true,
   );
 
   static const ChannelMessagePermissions none = ChannelMessagePermissions(
@@ -62,18 +62,21 @@ class ChannelMessagePermissions {
     canUseExternalStickers: true,
   );
 
-  bool get isComposerEnabled => isResolved && canSendMessages;
+  bool get isComposerEnabled => !isResolved || canSendMessages;
 
   bool get showsNoSendPermissionHint => isResolved && !canSendMessages;
 
   /// Attach controls follow the same send gate as the text field
-  bool get canShowAttachControls => isComposerEnabled && canAttachFiles;
+  bool get canShowAttachControls =>
+      isComposerEnabled && (!isResolved || canAttachFiles);
 
   bool get isAttachEnabled => canShowAttachControls;
 
-  bool get canShowEmbedControls => isComposerEnabled && canEmbedLinks;
+  bool get canShowEmbedControls =>
+      isComposerEnabled && (!isResolved || canEmbedLinks);
 
-  bool get isVoiceEnabled => isComposerEnabled && canAttachFiles;
+  bool get isVoiceEnabled =>
+      isComposerEnabled && (!isResolved || canAttachFiles);
 }
 
 ChannelMessagePermissions channelMessagePermissionsFromBits({

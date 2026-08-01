@@ -81,6 +81,7 @@ class _MemberListSidebarMemberRowState
     final int? roleColor = resolveMemberHighestRoleColor(
       roleIds: member.roles,
       rolesById: widget.rolesById,
+      guildId: widget.guildId,
     );
     final bool showUserTag =
         (member.user.bot ?? false) || (member.user.system ?? false);
@@ -241,6 +242,7 @@ class MemberListDetailsMemberRow extends ConsumerWidget {
     final int? roleColor = resolveMemberHighestRoleColor(
       roleIds: member.roles,
       rolesById: rolesById,
+      guildId: guildId,
     );
     final bool showUserTag =
         (member.user.bot ?? false) || (member.user.system ?? false);

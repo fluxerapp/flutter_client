@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/features/members/domain/member_list_layout.dart';
 import 'package:fluxer_app/shared/utils/role_color_utils.dart';
@@ -34,7 +36,29 @@ String resolveMemberListGroupName({
   return groupId;
 }
 
-int? resolveMemberHighestRoleColor({
+List<String> parseMemberRoleIds(String roleIdsJson) {
+  try {
+    final Object? decoded = jsonDecode(roleIdsJson);
+    if (decoded is List) {
+      return decoded.cast<String>();
+    }
+  } on Object {}
+  return <String>[];
+}
+
+int compareMemberRolesByPositionAndId(db.Role a, db.Role b) {
+  if (b.position != a.position) {
+    return b.position.compareTo(a.position);
+  }
+  final BigInt? aId = BigInt.tryParse(a.id);
+  final BigInt? bId = BigInt.tryParse(b.id);
+  if (aId != null && bId != null) {
+    return aId.compareTo(bId);
+  }
+  return a.id.compareTo(b.id);
+}
+
+List<db.Role> sortMemberRolesForColor({
   required Iterable<String> roleIds,
   required Map<String, db.Role> rolesById,
 }) {
@@ -45,12 +69,26 @@ int? resolveMemberHighestRoleColor({
       memberRoles.add(role);
     }
   }
-  memberRoles.sort((db.Role a, db.Role b) => b.position.compareTo(a.position));
-  for (final db.Role role in memberRoles) {
+  memberRoles.sort(compareMemberRolesByPositionAndId);
+  return memberRoles;
+}
+
+int? resolveMemberHighestRoleColor({
+  required Iterable<String> roleIds,
+  required Map<String, db.Role> rolesById,
+  String? guildId,
+}) {
+  for (final db.Role role in sortMemberRolesForColor(
+    roleIds: roleIds,
+    rolesById: rolesById,
+  )) {
     final int? color = opaqueRoleColorInt(role.color);
     if (color != null) {
       return color;
     }
+  }
+  if (guildId != null && guildId.isNotEmpty) {
+    return opaqueRoleColorInt(rolesById[guildId]?.color);
   }
   return null;
 }

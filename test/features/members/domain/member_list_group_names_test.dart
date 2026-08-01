@@ -135,6 +135,75 @@ void main() {
         isNull,
       );
     });
+
+    test('falls back to @everyone role color', () {
+      const String guildId = 'guild-id';
+      const String roleId = 'role-id';
+      final Map<String, db.Role> rolesById = <String, db.Role>{
+        guildId: const db.Role(
+          id: guildId,
+          guildId: guildId,
+          name: '@everyone',
+          color: 0xFF99AAB5,
+          position: 0,
+          hoist: false,
+          mentionable: false,
+          permissions: '0',
+        ),
+        roleId: const db.Role(
+          id: roleId,
+          guildId: guildId,
+          name: 'Member',
+          color: 0,
+          position: 1,
+          hoist: false,
+          mentionable: false,
+          permissions: '0',
+        ),
+      };
+      expect(
+        resolveMemberHighestRoleColor(
+          roleIds: <String>[roleId],
+          rolesById: rolesById,
+          guildId: guildId,
+        ),
+        0xFF99AAB5,
+      );
+    });
+
+    test('uses role id as tiebreaker when positions match', () {
+      const String lowId = '100';
+      const String highId = '200';
+      final Map<String, db.Role> rolesById = <String, db.Role>{
+        lowId: const db.Role(
+          id: lowId,
+          guildId: 'guild',
+          name: 'Low',
+          color: 0xFF111111,
+          position: 5,
+          hoist: false,
+          mentionable: false,
+          permissions: '0',
+        ),
+        highId: const db.Role(
+          id: highId,
+          guildId: 'guild',
+          name: 'High',
+          color: 0xFF222222,
+          position: 5,
+          hoist: false,
+          mentionable: false,
+          permissions: '0',
+        ),
+      };
+      expect(
+        resolveMemberHighestRoleColor(
+          roleIds: <String>[lowId, highId],
+          rolesById: rolesById,
+        ),
+        0xFF111111,
+      );
+    });
   });
 
   group('resolveMemberListGroupHeader', () {

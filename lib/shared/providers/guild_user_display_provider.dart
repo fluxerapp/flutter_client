@@ -6,7 +6,7 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
-import 'package:fluxer_app/shared/providers/member_role_color.dart';
+import 'package:fluxer_app/features/members/providers/member_providers.dart';
 import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/mention_display_utils.dart';
@@ -78,14 +78,6 @@ final StreamProviderFamily<db.User?, String> _userRowProvider = StreamProvider
           ref.watch(fluxerDatabaseProvider).userDao.watchUserById(userId),
     );
 
-final StreamProviderFamily<db.Member?, (String, String)> _memberRowProvider =
-    StreamProvider.autoDispose.family<db.Member?, (String, String)>(
-      (ref, key) => ref
-          .watch(fluxerDatabaseProvider)
-          .memberDao
-          .watchMemberByUserId(key.$1, key.$2),
-    );
-
 AsyncValue<GuildUserDisplay?> _combine(
   Ref ref,
   (String, String?) args, {
@@ -95,7 +87,7 @@ AsyncValue<GuildUserDisplay?> _combine(
   final AsyncValue<db.User?> userAsync = ref.watch(_userRowProvider(userId));
   final AsyncValue<db.Member?> memberAsync =
       guildId != null && guildId.isNotEmpty
-      ? ref.watch(_memberRowProvider((userId, guildId)))
+      ? ref.watch(memberRowByGuildProvider((userId, guildId)))
       : const AsyncValue<db.Member?>.data(null);
   final String? friendNickname = ref
       .watch(friendNicknameProvider(userId))
@@ -113,11 +105,6 @@ AsyncValue<GuildUserDisplay?> _combine(
       hydrationService.requestHydration(
         guildId: guildId,
         userIds: <String>[userId],
-        onMemberFetched: (String fetchedUserId) {
-          if (ref.mounted) {
-            ref.invalidate(memberRoleColorProvider((fetchedUserId, guildId)));
-          }
-        },
       );
     }
   }
