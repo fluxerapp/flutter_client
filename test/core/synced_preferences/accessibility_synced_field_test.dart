@@ -101,7 +101,7 @@ void main() {
         local: local,
         wireBase: wireBase,
       );
-      expect(pushed.showMessageSendButton, isFalse);
+      expect(pushed.showMessageSendButton, isTrue);
       expect(pushed.autoSendKlipyGifs, isTrue);
       expect(pushed.hideKeyboardHints, isTrue);
     });

@@ -296,6 +296,9 @@ class CloudUploadController extends _$CloudUploadController {
   }
 
   Future<void> _ensureComposerAttachmentUploaded(int attachmentId) async {
+    if (!ref.mounted) {
+      return;
+    }
     final int index = state.items.indexWhere(
       (PendingAttachment e) => e.id == attachmentId,
     );
@@ -332,7 +335,8 @@ class CloudUploadController extends _$CloudUploadController {
             contentType: attachment.contentType,
             cancelToken: token,
           );
-      if (!state.items.any((PendingAttachment e) => e.id == attachmentId)) {
+      if (!ref.mounted ||
+          !state.items.any((PendingAttachment e) => e.id == attachmentId)) {
         return;
       }
       await client.uploadAttachmentPlan(
@@ -375,7 +379,8 @@ class CloudUploadController extends _$CloudUploadController {
           },
         ),
       );
-      if (!state.items.any((PendingAttachment e) => e.id == attachmentId)) {
+      if (!ref.mounted ||
+          !state.items.any((PendingAttachment e) => e.id == attachmentId)) {
         return;
       }
       _patchAttachment(
@@ -387,7 +392,8 @@ class CloudUploadController extends _$CloudUploadController {
         ),
       );
     } on Object catch (e, st) {
-      if (!state.items.any((PendingAttachment e) => e.id == attachmentId)) {
+      if (!ref.mounted ||
+          !state.items.any((PendingAttachment e) => e.id == attachmentId)) {
         return;
       }
       talker.warning('[CloudUpload] composer upload failed: $e\n$st');
@@ -574,6 +580,9 @@ class CloudUploadController extends _$CloudUploadController {
     int attachmentId,
     PendingAttachment Function(PendingAttachment) updater,
   ) {
+    if (!ref.mounted) {
+      return;
+    }
     state = CloudComposerAttachments(
       state.items
           .map((PendingAttachment e) => e.id == attachmentId ? updater(e) : e)

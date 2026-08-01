@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controlle
 import 'package:fluxer_app/features/chat/providers/upload/user_upload_limits_provider.dart';
 import 'package:fluxer_app/features/chat/utils/composer_upload_file.dart';
 import 'package:fluxer_app/features/chat/utils/file_upload_validator.dart';
+import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:path/path.dart' as path_lib;
 
 void main() {
@@ -18,6 +19,9 @@ void main() {
     return ProviderContainer(
       overrides: [
         maxAttachmentFileBytesProvider.overrideWithValue(25 * 1024 * 1024),
+        advancedPreferencesProvider.overrideWith(
+          () => _TestAdvancedPreferences(),
+        ),
       ],
     );
   }
@@ -142,4 +146,11 @@ void main() {
       expect(path_lib.basename(secondPath), 'photo.jpg');
     });
   });
+}
+
+class _TestAdvancedPreferences extends AdvancedPreferences {
+  @override
+  AdvancedPreferencesState build() {
+    return const AdvancedPreferencesState(preuploadMessageAttachments: false);
+  }
 }

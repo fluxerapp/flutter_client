@@ -7,7 +7,7 @@ import 'package:sqlite3/sqlite3.dart';
 /// Last schema version known to the test suite. Bump this when adding a new
 /// migration and extend the tests below if the new step introduces guarded
 /// columns or tables.
-const int _expectedSchemaVersion = 77;
+const int _expectedSchemaVersion = 78;
 
 /// First version whose migration steps are written to be re-entrant against
 /// the current schema. Stamp the current schema at each version in this
@@ -25,6 +25,28 @@ const Map<String, List<String>> _guardedColumns = <String, List<String>>{
     'show_media_download_button',
     'show_media_favorite_button',
     'show_suppress_embeds_button',
+    'enable_text_selection',
+    'show_video_seek_preview_thumbnails',
+    'voice_channel_join_requires_double_click',
+    'confirm_before_joining_voice_channels',
+    'show_gif_indicator',
+    'show_attachment_expiry_indicator',
+    'show_message_action_bar',
+    'show_message_action_bar_quick_reactions',
+    'show_message_action_bar_shift_expand',
+    'show_message_action_bar_only_more_button',
+    'show_gif_button',
+    'show_memes_button',
+    'show_stickers_button',
+    'show_emoji_button',
+    'show_message_send_button',
+    'scroll_to_bottom_on_message_send',
+    'sequential_file_send',
+    'skip_mark_all_as_read_confirmation',
+    'preupload_message_attachments',
+    'disable_stream_previews',
+    'save_gif_favorites_as_saved_media',
+    'search_engines_json',
   ],
   'messages': <String>['call_json'],
   'dm_channels': <String>['nicks_json'],

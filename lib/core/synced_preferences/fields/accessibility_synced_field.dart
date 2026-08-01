@@ -363,7 +363,7 @@ class AccessibilitySyncedField
           ..showMediaDownloadButton = local.showMediaDownloadButton
           ..showMediaFavoriteButton = local.showMediaFavoriteButton
           ..showSuppressEmbedsButton = local.showSuppressEmbedsButton;
-    _applyAdvancedToProto(settings, local.advanced);
+    _applyAdvancedToProto(settings, local.advanced, wireBase: wireBase);
     if (effectiveCss != null) {
       return settings..customThemeCss = effectiveCss;
     }
@@ -400,8 +400,9 @@ class AccessibilitySyncedField
 
   static void _applyAdvancedToProto(
     pb.AccessibilitySettings settings,
-    AdvancedAccessibilityLocalState advanced,
-  ) {
+    AdvancedAccessibilityLocalState advanced, {
+    pb.AccessibilitySettings? wireBase,
+  }) {
     settings
       ..enableTextSelection = advanced.enableTextSelection
       ..voiceChannelJoinRequiresDoubleClick =
@@ -421,8 +422,14 @@ class AccessibilitySyncedField
       ..showMemesButton = advanced.showMemesButton
       ..showStickersButton = advanced.showStickersButton
       ..showEmojiButton = advanced.showEmojiButton
-      ..showMessageSendButton = advanced.showMessageSendButton
       ..scrollToBottomOnMessageSend = advanced.scrollToBottomOnMessageSend;
+    if (wireBase == null || !wireBase.hasShowMessageSendButton()) {
+      settings.showMessageSendButton = advanced.showMessageSendButton;
+      return;
+    }
+    if (advanced.showMessageSendButton || !wireBase.showMessageSendButton) {
+      settings.showMessageSendButton = advanced.showMessageSendButton;
+    }
   }
 
   static ChannelTypingIndicatorMode _fromProtoTypingMode(
