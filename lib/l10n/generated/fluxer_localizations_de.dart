@@ -1441,10 +1441,10 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get crop => 'Zuschneiden';
 
   @override
-  String get changeYourFluxerTag => 'Deinen FluxerTag ändern';
+  String get changeYourFluxerTag => 'Deinen Benutzername ändern';
 
   @override
-  String get fluxerTagInputLabel => 'FluxerTag';
+  String get fluxerTagInputLabel => 'Benutzername';
 
   @override
   String get fluxerTagDescriptionBase =>
@@ -1472,11 +1472,11 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
       'Hol dir Plutonium, um deinen Tag anzupassen oder ihn beim Ändern deines Benutzernamens zu behalten';
 
   @override
-  String get fluxerTagAlreadyTaken => 'FluxerTag bereits vergeben';
+  String get fluxerTagAlreadyTaken => 'Benutzername bereits vergeben';
 
   @override
   String fluxerTagAlreadyTakenBody(String username, String discriminator) {
-    return 'Der FluxerTag $username#$discriminator ist bereits vergeben. Wenn du fortfährst, wird dein Diskriminator automatisch neu ausgewürfelt.';
+    return 'Der Benutzername $username#$discriminator ist bereits vergeben. Wenn du fortfährst, wird dein Diskriminator automatisch neu ausgewürfelt.';
   }
 
   @override
@@ -1496,7 +1496,7 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
 
   @override
   String get premiumWarningPendingDiscriminator =>
-      'Wenn du diesen FluxerTag speicherst, wird dein benutzerdefinierter 4-stelliger Tag auf eine zufällige Nummer zurückgesetzt, wenn dein Plutonium-Abo endet. Wenn dein Abo nicht erneuert wird, hast du eine 3-tägige Kulanzfrist, bevor sich der Tag ändert.';
+      'Wenn du diesen Benutzername speicherst, wird dein benutzerdefinierter 4-stelliger Tag auf eine zufällige Nummer zurückgesetzt, wenn dein Plutonium-Abo endet. Wenn dein Abo nicht erneuert wird, hast du eine 3-tägige Kulanzfrist, bevor sich der Tag ändert.';
 
   @override
   String premiumWarningActiveDiscriminator(String discriminator) {
@@ -1517,11 +1517,11 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
       'Du befindest dich in einer Plutonium-Testversion. Upgrade, um deinen benutzerdefinierten Tag zu behalten und eine Auszeichnung auf deinem Profil zu erhalten.';
 
   @override
-  String get fluxerTagUpdated => 'FluxerTag aktualisiert';
+  String get fluxerTagUpdated => 'Benutzername aktualisiert';
 
   @override
   String get fluxerTagUpdateFailed =>
-      'FluxerTag konnte nicht aktualisiert werden. Bitte versuche es erneut.';
+      'Benutzername konnte nicht aktualisiert werden. Bitte versuche es erneut.';
 
   @override
   String get continueAction => 'Weiter';
@@ -1538,10 +1538,10 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
 
   @override
   String get claimAccountToChangeFluxerTag =>
-      'Beanspruche deinen Account, um deinen FluxerTag zu ändern';
+      'Beanspruche deinen Account, um deinen Benutzername zu ändern';
 
   @override
-  String get changeFluxerTag => 'FluxerTag ändern';
+  String get changeFluxerTag => 'Benutzername ändern';
 
   @override
   String customizeTagWithPlutoniumTooltip(String discriminator) {
@@ -2538,7 +2538,7 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   }
 
   @override
-  String get blockedUsersCopyTag => 'FluxerTag kopieren';
+  String get blockedUsersCopyTag => 'Benutzername kopieren';
 
   @override
   String get blockedUsersCopyId => 'Benutzer-ID kopieren';
@@ -7269,10 +7269,6 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
 
   @override
   String get audioAndVideoMicTestSectionTitle => 'Mic test';
-
-  @override
-  String get audioAndVideoMicTestSectionDescription =>
-      'Listen to how you sound with your current settings.';
 
   @override
   String get audioAndVideoMicTestStartLabel => 'Start mic test';

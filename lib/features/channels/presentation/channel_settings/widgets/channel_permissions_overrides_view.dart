@@ -48,8 +48,6 @@ class ChannelPermissionsOverridesView extends StatelessWidget {
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final bool isMobile = isMobileLayout(context);
-    final bool useMobileTileStyle = isMobile;
-    final bool showChevron = isMobile;
     final double horizontalPadding = isMobile ? context.layout.s4 : 8;
     final EdgeInsets contentPadding = EdgeInsets.fromLTRB(
       horizontalPadding,
@@ -99,13 +97,13 @@ class ChannelPermissionsOverridesView extends StatelessWidget {
                   ? rolesById[entry.id]
                   : null;
               return Padding(
-                padding: EdgeInsets.only(bottom: useMobileTileStyle ? 8 : 0),
+                padding: EdgeInsets.only(bottom: isMobile ? 8 : 0),
                 child: ChannelOverwriteListItem(
                   entry: entry,
                   isSelected: isSelected,
                   roleColor: role?.color,
-                  showChevron: showChevron,
-                  useMobileTileStyle: useMobileTileStyle,
+                  showChevron: isMobile,
+                  useMobileTileStyle: isMobile,
                   onTap: () => onSelected(entry.id),
                 ),
               );
@@ -129,17 +127,19 @@ class ChannelPermissionsOverridesView extends StatelessWidget {
       maxLines: isMobile ? 2 : 1,
       overflow: TextOverflow.ellipsis,
     );
-    final Widget addOverrideControl = _buildAddOverrideControl(context, l10n);
+    final Widget addOverrideControl = _buildAddOverrideControl(
+      context,
+      l10n,
+      isMobile,
+    );
     if (isMobile) {
-      return SizedBox(
-        width: double.infinity,
-        child: Wrap(
-          alignment: WrapAlignment.spaceBetween,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          spacing: context.layout.s2,
-          runSpacing: context.layout.s2,
-          children: <Widget>[title, addOverrideControl],
-        ),
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          title,
+          SizedBox(height: context.layout.s2),
+          addOverrideControl,
+        ],
       );
     }
     return Row(
@@ -154,31 +154,58 @@ class ChannelPermissionsOverridesView extends StatelessWidget {
   Widget _buildAddOverrideControl(
     BuildContext context,
     FluxerLocalizations l10n,
+    bool isMobile,
   ) {
-    final bool isMobile = isMobileLayout(context);
-    final double maxPopoutWidth =
-        MediaQuery.sizeOf(context).width -
-        (isMobile ? context.layout.s4 * 2 : 16);
+    if (isMobile) {
+      return Align(
+        alignment: Alignment.centerLeft,
+        child: _addOverrideButton(
+          context,
+          l10n,
+          onPressed: canEdit
+              ? () => ChannelAddOverrideSheet.show(
+                  context,
+                  guildId: guildId,
+                  rolesById: rolesById,
+                  existingOverwriteIds: _existingOverwriteIds,
+                  onSelect: onAddOverride,
+                )
+              : null,
+        ),
+      );
+    }
     return FluxerPopout(
       anchorBuilder: (BuildContext context, VoidCallback toggle) {
-        return FluxerButton.secondary(
+        return _addOverrideButton(
+          context,
+          l10n,
           onPressed: canEdit ? toggle : null,
-          label: l10n.channelSettingsPermissionsAddOverride,
-          size: FluxerButtonSize.small,
-          icon: PhosphorIconsBold.plus,
-          fitContent: true,
         );
       },
       contentBuilder: (BuildContext context, VoidCallback close) {
-        return ChannelAddOverridePopout(
+        return ChannelAddOverridePickerContent(
           guildId: guildId,
           rolesById: rolesById,
           existingOverwriteIds: _existingOverwriteIds,
-          width: maxPopoutWidth,
+          width: MediaQuery.sizeOf(context).width - 16,
           onSelect: onAddOverride,
           onClose: close,
         );
       },
+    );
+  }
+
+  Widget _addOverrideButton(
+    BuildContext context,
+    FluxerLocalizations l10n, {
+    required VoidCallback? onPressed,
+  }) {
+    return FluxerButton.secondary(
+      onPressed: onPressed,
+      label: l10n.channelSettingsPermissionsAddOverride,
+      size: FluxerButtonSize.small,
+      icon: PhosphorIconsBold.plus,
+      fitContent: true,
     );
   }
 }

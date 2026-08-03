@@ -1234,11 +1234,11 @@
     },
     "addFriendNoUserFound": "Пользователь с таким именем не найден.",
     "@addFriendNoUserFound": {
-        "description": "Error when no user matches the entered FluxerTag."
+        "description": "Error when no user matches the entered username."
     },
     "addFriendInvalidUsername": "Введите корректное имя пользователя (Имя пользователя#0000).",
     "@addFriendInvalidUsername": {
-        "description": "Error when the FluxerTag format is invalid."
+        "description": "Error when the username format is invalid."
     },
     "addFriendOutgoingSuccess": "Запрос в друзья отправлен",
     "@addFriendOutgoingSuccess": {
@@ -1643,17 +1643,17 @@
     "@crop": {
         "description": "Button to confirm image crop."
     },
-    "changeYourFluxerTag": "Изменить ваш FluxerTag",
+    "changeYourFluxerTag": "Изменить ваш Имя пользователя",
     "@changeYourFluxerTag": {
-        "description": "Title for the FluxerTag change bottom sheet."
+        "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "FluxerTag",
+    "fluxerTagInputLabel": "Имя пользователя",
     "@fluxerTagInputLabel": {
         "description": "Label above the username and discriminator input fields."
     },
     "fluxerTagDescriptionBase": "Имена пользователей могут содержать только буквы (a-z, A-Z), цифры (0-9) и подчеркивания. Имена пользователей не чувствительны к регистру.",
     "@fluxerTagDescriptionBase": {
-        "description": "Base description text on the FluxerTag change sheet."
+        "description": "Base description text on the username change sheet."
     },
     "fluxerTagDescriptionVisionary": "Имена пользователей могут содержать только буквы (a-z, A-Z), цифры (0-9) и подчеркивания. Имена пользователей не чувствительны к регистру. Вы можете выбрать любой доступный 4-значный тег от #0000 до #9999.",
     "@fluxerTagDescriptionVisionary": {
@@ -1683,13 +1683,13 @@
     "@discriminatorPremiumTooltip": {
         "description": "Tooltip on disabled discriminator field for non-premium users."
     },
-    "fluxerTagAlreadyTaken": "FluxerTag уже занят",
+    "fluxerTagAlreadyTaken": "Имя пользователя уже занят",
     "@fluxerTagAlreadyTaken": {
         "description": "Title for the tag-taken confirmation sheet."
     },
-    "fluxerTagAlreadyTakenBody": "FluxerTag {username}#{discriminator} уже занят. Продолжение автоматически перевыберет ваш дискриминатор.",
+    "fluxerTagAlreadyTakenBody": "Имя пользователя {username}#{discriminator} уже занят. Продолжение автоматически перевыберет ваш дискриминатор.",
     "@fluxerTagAlreadyTakenBody": {
-        "description": "Body text when the requested FluxerTag is taken.",
+        "description": "Body text when the requested username is taken.",
         "placeholders": {
             "username": {
                 "type": "String"
@@ -1720,7 +1720,7 @@
     "@iUnderstandContinue": {
         "description": "Button to acknowledge a warning and proceed."
     },
-    "premiumWarningPendingDiscriminator": "Если вы сохраните этот FluxerTag, ваш пользовательский 4-значный тег будет заменен на случайный номер по окончании вашей подписки Plutonium. Если ваша подписка не будет продлена, у вас будет 3-дневный льготный период до изменения тега.",
+    "premiumWarningPendingDiscriminator": "Если вы сохраните этот Имя пользователя, ваш пользовательский 4-значный тег будет заменен на случайный номер по окончании вашей подписки Plutonium. Если ваша подписка не будет продлена, у вас будет 3-дневный льготный период до изменения тега.",
     "@premiumWarningPendingDiscriminator": {
         "description": "Warning shown when premium user is about to change their discriminator."
     },
@@ -1750,13 +1750,13 @@
     "@premiumTrialActive": {
         "description": "Trial upsell without specific expiry date."
     },
-    "fluxerTagUpdated": "FluxerTag обновлен",
+    "fluxerTagUpdated": "Имя пользователя обновлен",
     "@fluxerTagUpdated": {
-        "description": "Success toast after FluxerTag change."
+        "description": "Success toast after username change."
     },
-    "fluxerTagUpdateFailed": "Не удалось обновить FluxerTag. Пожалуйста, попробуйте еще раз.",
+    "fluxerTagUpdateFailed": "Не удалось обновить Имя пользователя. Пожалуйста, попробуйте еще раз.",
     "@fluxerTagUpdateFailed": {
-        "description": "Error message when FluxerTag update fails."
+        "description": "Error message when username update fails."
     },
     "continueAction": "Продолжить",
     "@continueAction": {
@@ -1774,17 +1774,17 @@
     "@usernameLabel": {
         "description": "Label for the username field in profile settings."
     },
-    "claimAccountToChangeFluxerTag": "Подтвердите свою учетную запись, чтобы изменить FluxerTag",
+    "claimAccountToChangeFluxerTag": "Подтвердите свою учетную запись, чтобы изменить Имя пользователя",
     "@claimAccountToChangeFluxerTag": {
-        "description": "Tooltip when unverified user hovers the disabled Change FluxerTag button."
+        "description": "Tooltip when unverified user hovers the disabled Change username button."
     },
-    "changeFluxerTag": "Изменить FluxerTag",
+    "changeFluxerTag": "Изменить Имя пользователя",
     "@changeFluxerTag": {
-        "description": "Button label to open the FluxerTag change flow."
+        "description": "Button label to open the username change flow."
     },
     "customizeTagWithPlutoniumTooltip": "Настройте свой 4-значный тег (#{discriminator}) по своему вкусу с помощью Plutonium",
     "@customizeTagWithPlutoniumTooltip": {
-        "description": "Tooltip on the crown upsell button next to the FluxerTag button.",
+        "description": "Tooltip on the crown upsell button next to the username button.",
         "placeholders": {
             "discriminator": {
                 "type": "String"
@@ -2844,7 +2844,7 @@
             }
         }
     },
-    "blockedUsersCopyTag": "Копировать FluxerTag",
+    "blockedUsersCopyTag": "Копировать Имя пользователя",
     "@blockedUsersCopyTag": {
         "description": "Context menu item that copies the user's tag."
     },

@@ -21,12 +21,7 @@ class UserAppearance extends ConsumerWidget {
     final themePref = ref.watch(themePreferenceProvider);
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(
-        40,
-        40,
-        40,
-        kSettingsScrollBottomPadding,
-      ),
+      padding: settingsScrollPadding(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

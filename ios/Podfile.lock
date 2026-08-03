@@ -5,7 +5,7 @@ PODS:
     - WebRTC-SDK (= 144.7559.09)
   - irondash_engine_context (0.0.1):
     - Flutter
-  - livekit_client (2.9.0-dev.0):
+  - livekit_client (2.9.0):
     - Flutter
     - flutter_webrtc
     - WebRTC-SDK (= 144.7559.09)
@@ -64,7 +64,7 @@ SPEC CHECKSUMS:
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   flutter_webrtc: 3ee86aa10e0313c38c93fdb215dd86e77014f96a
   irondash_engine_context: 8e58ca8e0212ee9d1c7dc6a42121849986c88486
-  livekit_client: b47ad395a714c455b517fb38b4436cb07b4b5116
+  livekit_client: 08c2f86ab9d5f69bd617525a97d085e7f4b70d4a
   livekit_noise_filter: a26aeb1c1eae6db0a023fd2f6ea3ff108c3ecbb0
   LiveKitKrispNoiseFilter: efe418ceca28163ace0ff222bd2cc02384645d84
   media_kit_libs_ios_video: 5a18affdb97d1f5d466dc79988b13eff6c5e2854

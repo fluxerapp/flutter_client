@@ -240,7 +240,7 @@ class _ReplyPreviewContent extends StatelessWidget {
       fontSize: _kReplyPreviewFontSize,
       height: _kReplyPreviewLineHeight,
     );
-    final content = message.content.replaceAll('\n', ' ').trim();
+    final content = message.content.trim();
     if (content.isEmpty) {
       return Text(
         emptyLabel,
@@ -255,8 +255,9 @@ class _ReplyPreviewContent extends StatelessWidget {
         child: MessageMarkdown(
           data: content,
           channelId: message.channelId,
+          messageId: message.id,
+          mentionChannels: message.mentionChannels,
           markdownContext: FluxerMarkdownContext.restrictedInlineReply,
-          revealSpoilers: true,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           baseStyle: style,

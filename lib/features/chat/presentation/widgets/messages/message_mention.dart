@@ -243,21 +243,25 @@ class UserMention extends ConsumerWidget {
   const UserMention({
     required this.userId,
     this.channelId,
+    this.guildId,
     this.baseStyle,
     super.key,
   });
 
   final String userId;
   final String? channelId;
+  final String? guildId;
   final TextStyle? baseStyle;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String? guildId = resolveGuildIdForChannel(ref, channelId);
+    final String? resolvedGuildId =
+        guildId ?? resolveGuildIdForChannel(ref, channelId);
     final String name = watchMentionUserDisplayName(
       ref: ref,
       userId: userId,
       channelId: channelId,
+      guildId: guildId,
     );
     final colors = context.colors;
     final style = (baseStyle ?? const TextStyle()).copyWith(
@@ -266,7 +270,11 @@ class UserMention extends ConsumerWidget {
     );
     return GestureDetector(
       onTap: () => unawaited(
-        FluxerUserProfileSheet.show(context, userId: userId, guildId: guildId),
+        FluxerUserProfileSheet.show(
+          context,
+          userId: userId,
+          guildId: resolvedGuildId,
+        ),
       ),
       child: _MentionPill(
         baseStyle: style,

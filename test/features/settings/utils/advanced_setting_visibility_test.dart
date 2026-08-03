@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/settings/utils/advanced_setting_visibility.dart';
 import 'package:fluxer_app/features/settings/utils/platform_desktop_utils.dart';
 
+import '../../../helpers/wide_layout_test_sizes.dart';
+
 Widget _visibilityProbe({
   required Size size,
   required Widget Function(BuildContext context) builder,
@@ -32,7 +34,7 @@ void main() {
     testWidgets('is true on wide layout', (tester) async {
       await tester.pumpWidget(
         _visibilityProbe(
-          size: const Size(1200, 800),
+          size: kWideTestViewportSize,
           builder: (context) =>
               Text(showWideLayoutAdvancedSettings(context) ? 'wide' : 'narrow'),
         ),
@@ -62,7 +64,7 @@ void main() {
     testWidgets('is true on wide layout', (tester) async {
       await tester.pumpWidget(
         _visibilityProbe(
-          size: const Size(1200, 800),
+          size: kWideTestViewportSize,
           builder: (context) => Text(
             showKeyboardShortcutAdvancedSettings(context)
                 ? 'keyboard'

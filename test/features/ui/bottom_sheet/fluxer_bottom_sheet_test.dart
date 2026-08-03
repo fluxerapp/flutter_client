@@ -796,6 +796,55 @@ void main() {
       canDismissNotifier.dispose();
     });
 
+    testWidgets('canDismissNotifier toggle preserves sheet input state', (
+      tester,
+    ) async {
+      final ValueNotifier<bool> canDismissNotifier = ValueNotifier<bool>(true);
+      final TextEditingController controller = TextEditingController();
+
+      await tester.pumpWidget(
+        buildTestApp(
+          Builder(
+            builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  unawaited(
+                    FluxerBottomSheet.show(
+                      context,
+                      title: 'Edit username',
+                      canDismissNotifier: canDismissNotifier,
+                      builder: (context, close) {
+                        return TextField(
+                          controller: controller,
+                          autofocus: true,
+                        );
+                      },
+                    ),
+                  );
+                },
+                child: const Text('Open'),
+              );
+            },
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+
+      await tester.enterText(find.byType(TextField), 'new_username');
+      await tester.pump();
+
+      canDismissNotifier.value = false;
+      await tester.pumpAndSettle();
+
+      expect(controller.text, 'new_username');
+      expect(find.text('new_username'), findsOneWidget);
+
+      canDismissNotifier.dispose();
+      controller.dispose();
+    });
+
     testWidgets('scrollViewPadding merges scope bottom inset', (tester) async {
       double? mergedBottom;
 

@@ -8,8 +8,8 @@ import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/audio_level_meter.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
-import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
@@ -19,6 +19,7 @@ import 'package:fluxer_app/features/voice/utils/voice_processing_profile.dart';
 import 'package:fluxer_app/features/voice/utils/voice_volume_utils.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:livekit_client/livekit_client.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class VoiceMicTestSection extends ConsumerStatefulWidget {
   const VoiceMicTestSection({super.key});
@@ -35,9 +36,10 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
   RTCVideoRenderer? _playbackRenderer;
   RTCPeerConnection? _loopbackLocalPeerConnection;
   RTCPeerConnection? _loopbackRemotePeerConnection;
-  double _level = 0;
+  final ValueNotifier<double> _levelNotifier = ValueNotifier<double>(0);
   bool _isRunning = false;
 
+  static const double _actionGap = 10;
   static const Map<String, dynamic> _loopbackConfiguration = <String, dynamic>{
     'iceServers': <Map<String, dynamic>>[],
     'sdpSemantics': 'unified-plan',
@@ -45,7 +47,8 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
 
   @override
   void dispose() {
-    unawaited(_stopTest());
+    unawaited(_disposeTestResources());
+    _levelNotifier.dispose();
     super.dispose();
   }
 
@@ -95,9 +98,7 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
           if (!mounted) {
             return;
           }
-          setState(() {
-            _level = _readVisualizerLevel(event);
-          });
+          _levelNotifier.value = _readVisualizerLevel(event);
         });
       await visualizer.start();
       await _startPlayback(track, settings);
@@ -117,11 +118,6 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
     } on Object catch (error, stackTrace) {
       talker.error('Failed to start mic test', error, stackTrace);
       await _stopTest();
-      if (mounted) {
-        setState(() {
-          _isRunning = false;
-        });
-      }
     }
   }
 
@@ -212,6 +208,15 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
   }
 
   Future<void> _stopTest() async {
+    await _disposeTestResources();
+    if (!mounted) {
+      return;
+    }
+    _levelNotifier.value = 0;
+    setState(() => _isRunning = false);
+  }
+
+  Future<void> _disposeTestResources() async {
     await _visualizerListener?.dispose();
     _visualizerListener = null;
     await _visualizer?.stop();
@@ -220,12 +225,6 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
     await _disposePlayback();
     await _track?.stop();
     _track = null;
-    if (mounted) {
-      setState(() {
-        _isRunning = false;
-        _level = 0;
-      });
-    }
   }
 
   Future<void> _disposePlayback() async {
@@ -252,32 +251,83 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
         (VoiceSessionState state) => state.isConnected,
       ),
     );
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: 8,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: LinearProgressIndicator(
-              value: _isRunning ? _level.clamp(0, 1) : 0,
-              backgroundColor: colors.backgroundTertiary,
-              color: colors.brandPrimary,
+    final bool canInteract = !voiceCallActive;
+    final String actionLabel = _isRunning
+        ? l10n.audioAndVideoMicTestStopLabel
+        : l10n.audioAndVideoMicTestStartLabel;
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.backgroundSecondary,
+        borderRadius: layout.radiusLg,
+        border: Border.all(color: colors.backgroundModifierAccent),
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(layout.s3),
+        child: Row(
+          children: [
+            Expanded(
+              child: ValueListenableBuilder<double>(
+                valueListenable: _levelNotifier,
+                builder: (BuildContext context, double level, Widget? child) {
+                  return AudioLevelMeter(
+                    level: _isRunning ? level : 0,
+                    inactiveColor: colors.backgroundModifierAccent,
+                    inactiveBorderColor: colors.textPrimary.withValues(
+                      alpha: 0.1,
+                    ),
+                  );
+                },
+              ),
             ),
-          ),
+            const SizedBox(width: _actionGap),
+            _MicTestActionButton(
+              isRunning: _isRunning,
+              canInteract: canInteract,
+              actionLabel: actionLabel,
+              onStart: _startTest,
+              onStop: _stopTest,
+            ),
+          ],
         ),
-        SizedBox(height: layout.s3),
-        FluxerButton.primary(
-          label: _isRunning
-              ? l10n.audioAndVideoMicTestStopLabel
-              : l10n.audioAndVideoMicTestStartLabel,
-          onPressed: voiceCallActive
-              ? null
-              : _isRunning
-              ? () => unawaited(_stopTest())
-              : () => unawaited(_startTest()),
-        ),
-      ],
+      ),
+    );
+  }
+}
+
+class _MicTestActionButton extends StatelessWidget {
+  const _MicTestActionButton({
+    required this.isRunning,
+    required this.canInteract,
+    required this.actionLabel,
+    required this.onStart,
+    required this.onStop,
+  });
+
+  final bool isRunning;
+  final bool canInteract;
+  final String actionLabel;
+  final Future<void> Function() onStart;
+  final Future<void> Function() onStop;
+
+  @override
+  Widget build(BuildContext context) {
+    if (isRunning) {
+      return FluxerButton.secondary(
+        isSquare: true,
+        size: FluxerButtonSize.small,
+        icon: PhosphorIconsFill.stop,
+        semanticLabel: actionLabel,
+        onPressed: canInteract ? () => unawaited(onStop()) : null,
+      );
+    }
+
+    return FluxerButton.primary(
+      isSquare: true,
+      size: FluxerButtonSize.small,
+      icon: PhosphorIconsFill.play,
+      semanticLabel: actionLabel,
+      onPressedAsync: canInteract ? onStart : null,
     );
   }
 }

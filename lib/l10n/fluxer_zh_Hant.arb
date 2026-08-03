@@ -1234,11 +1234,11 @@
     },
     "addFriendNoUserFound": "找不到具有該使用者名稱的使用者。",
     "@addFriendNoUserFound": {
-        "description": "Error when no user matches the entered FluxerTag."
+        "description": "Error when no user matches the entered username."
     },
     "addFriendInvalidUsername": "請輸入有效的使用者名稱 (使用者名稱#0000)。",
     "@addFriendInvalidUsername": {
-        "description": "Error when the FluxerTag format is invalid."
+        "description": "Error when the username format is invalid."
     },
     "addFriendOutgoingSuccess": "朋友要求已送出",
     "@addFriendOutgoingSuccess": {
@@ -1643,17 +1643,17 @@
     "@crop": {
         "description": "Button to confirm image crop."
     },
-    "changeYourFluxerTag": "變更您的 FluxerTag",
+    "changeYourFluxerTag": "變更您的 使用者名稱",
     "@changeYourFluxerTag": {
-        "description": "Title for the FluxerTag change bottom sheet."
+        "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "FluxerTag",
+    "fluxerTagInputLabel": "使用者名稱",
     "@fluxerTagInputLabel": {
         "description": "Label above the username and discriminator input fields."
     },
     "fluxerTagDescriptionBase": "使用者名稱只能包含字母 (a-z, A-Z)、數字 (0-9) 和底線。使用者名稱不區分大小寫。",
     "@fluxerTagDescriptionBase": {
-        "description": "Base description text on the FluxerTag change sheet."
+        "description": "Base description text on the username change sheet."
     },
     "fluxerTagDescriptionVisionary": "使用者名稱只能包含字母 (a-z, A-Z)、數字 (0-9) 和底線。使用者名稱不區分大小寫。您可以選擇 #0000 到 #9999 之間的任何可用 4 位數字標籤。",
     "@fluxerTagDescriptionVisionary": {
@@ -1683,13 +1683,13 @@
     "@discriminatorPremiumTooltip": {
         "description": "Tooltip on disabled discriminator field for non-premium users."
     },
-    "fluxerTagAlreadyTaken": "FluxerTag 已被佔用",
+    "fluxerTagAlreadyTaken": "使用者名稱 已被佔用",
     "@fluxerTagAlreadyTaken": {
         "description": "Title for the tag-taken confirmation sheet."
     },
-    "fluxerTagAlreadyTakenBody": "FluxerTag {username}#{discriminator} 已被佔用。繼續將會自動重新分配您的標籤。",
+    "fluxerTagAlreadyTakenBody": "使用者名稱 {username}#{discriminator} 已被佔用。繼續將會自動重新分配您的標籤。",
     "@fluxerTagAlreadyTakenBody": {
-        "description": "Body text when the requested FluxerTag is taken.",
+        "description": "Body text when the requested username is taken.",
         "placeholders": {
             "username": {
                 "type": "String"
@@ -1720,7 +1720,7 @@
     "@iUnderstandContinue": {
         "description": "Button to acknowledge a warning and proceed."
     },
-    "premiumWarningPendingDiscriminator": "如果您儲存此 FluxerTag，您的自訂 4 位數字標籤將在您的 Plutonium 訂閱結束時恢復為隨機號碼。如果您的訂閱未能續訂，您將有 3 天寬限期，之後標籤才會變更。",
+    "premiumWarningPendingDiscriminator": "如果您儲存此 使用者名稱，您的自訂 4 位數字標籤將在您的 Plutonium 訂閱結束時恢復為隨機號碼。如果您的訂閱未能續訂，您將有 3 天寬限期，之後標籤才會變更。",
     "@premiumWarningPendingDiscriminator": {
         "description": "Warning shown when premium user is about to change their discriminator."
     },
@@ -1750,13 +1750,13 @@
     "@premiumTrialActive": {
         "description": "Trial upsell without specific expiry date."
     },
-    "fluxerTagUpdated": "FluxerTag 已更新",
+    "fluxerTagUpdated": "使用者名稱 已更新",
     "@fluxerTagUpdated": {
-        "description": "Success toast after FluxerTag change."
+        "description": "Success toast after username change."
     },
-    "fluxerTagUpdateFailed": "更新 FluxerTag 失敗。請再試一次。",
+    "fluxerTagUpdateFailed": "更新 使用者名稱 失敗。請再試一次。",
     "@fluxerTagUpdateFailed": {
-        "description": "Error message when FluxerTag update fails."
+        "description": "Error message when username update fails."
     },
     "continueAction": "繼續",
     "@continueAction": {
@@ -1774,17 +1774,17 @@
     "@usernameLabel": {
         "description": "Label for the username field in profile settings."
     },
-    "claimAccountToChangeFluxerTag": "請認領您的帳戶以變更您的 FluxerTag",
+    "claimAccountToChangeFluxerTag": "請認領您的帳戶以變更您的 使用者名稱",
     "@claimAccountToChangeFluxerTag": {
-        "description": "Tooltip when unverified user hovers the disabled Change FluxerTag button."
+        "description": "Tooltip when unverified user hovers the disabled Change username button."
     },
-    "changeFluxerTag": "更改 FluxerTag",
+    "changeFluxerTag": "更改 使用者名稱",
     "@changeFluxerTag": {
-        "description": "Button label to open the FluxerTag change flow."
+        "description": "Button label to open the username change flow."
     },
     "customizeTagWithPlutoniumTooltip": "使用 Plutonium 自訂您的 4 位數字標籤 (#{discriminator})",
     "@customizeTagWithPlutoniumTooltip": {
-        "description": "Tooltip on the crown upsell button next to the FluxerTag button.",
+        "description": "Tooltip on the crown upsell button next to the username button.",
         "placeholders": {
             "discriminator": {
                 "type": "String"
@@ -2844,7 +2844,7 @@
             }
         }
     },
-    "blockedUsersCopyTag": "複製 FluxerTag",
+    "blockedUsersCopyTag": "複製 使用者名稱",
     "@blockedUsersCopyTag": {
         "description": "Context menu item that copies the user's tag."
     },

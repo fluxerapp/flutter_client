@@ -15,6 +15,8 @@ import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
+import '../../../../../helpers/wide_layout_test_sizes.dart';
+
 const String _channelId = 'channel-1';
 const String _messageId = 'message-1';
 
@@ -22,6 +24,11 @@ void main() {
   testWidgets(
     'snapshot attachment forwards against the forwarded message by id',
     (tester) async {
+      tester.view.physicalSize = kWideTestViewportSize;
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
       final Attachment attachment = _imageAttachment(filename: 'image.png');
       final MessageSnapshot snapshot = MessageSnapshot(
         timestamp: DateTime(2026, 5, 9),
@@ -51,6 +58,11 @@ void main() {
   testWidgets(
     'snapshot embeds forward by their position within the snapshot embeds',
     (tester) async {
+      tester.view.physicalSize = kWideTestViewportSize;
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
       final MessageSnapshot snapshot = MessageSnapshot(
         timestamp: DateTime(2026, 5, 9),
         embeds: const [

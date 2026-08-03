@@ -19,6 +19,8 @@ import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod/src/framework.dart';
 
+import '../../helpers/wide_layout_test_sizes.dart';
+
 class _InertSyncedPreferencesStore extends SyncedPreferencesStore {
   // ignore: use_super_parameters
   _InertSyncedPreferencesStore(Ref ref) : super(ref);
@@ -147,7 +149,10 @@ void main() {
   testWidgets('shows wide-layout text selection on wide screens', (
     tester,
   ) async {
-    await pumpAdvancedSettings(tester, size: const Size(1200, 2000));
+    await pumpAdvancedSettings(
+      tester,
+      size: Size(kWideTestViewportSize.width, 2000),
+    );
     expect(find.text('Enable text selection'), findsOneWidget);
   });
 
@@ -160,12 +165,18 @@ void main() {
   });
 
   testWidgets('shows keyboard hints on wide screens', (tester) async {
-    await pumpAdvancedSettings(tester, size: const Size(1200, 2000));
+    await pumpAdvancedSettings(
+      tester,
+      size: Size(kWideTestViewportSize.width, 2000),
+    );
     expect(find.text('Keyboard hints'), findsOneWidget);
   });
 
   testWidgets('toggling developer mode updates provider state', (tester) async {
-    await pumpAdvancedSettings(tester, size: const Size(1200, 2000));
+    await pumpAdvancedSettings(
+      tester,
+      size: Size(kWideTestViewportSize.width, 2000),
+    );
 
     final container = ProviderScope.containerOf(
       tester.element(find.byType(UserAdvancedSettings)),
@@ -192,7 +203,10 @@ void main() {
   testWidgets('toggling text selection updates advanced preferences', (
     tester,
   ) async {
-    await pumpAdvancedSettings(tester, size: const Size(1200, 2000));
+    await pumpAdvancedSettings(
+      tester,
+      size: Size(kWideTestViewportSize.width, 2000),
+    );
 
     final container = ProviderScope.containerOf(
       tester.element(find.byType(UserAdvancedSettings)),

@@ -1234,11 +1234,11 @@
     },
     "addFriendNoUserFound": "Ingen bruger fundet med det brugernavn.",
     "@addFriendNoUserFound": {
-        "description": "Error when no user matches the entered FluxerTag."
+        "description": "Error when no user matches the entered username."
     },
     "addFriendInvalidUsername": "Indtast et gyldigt brugernavn (Brugernavn#0000).",
     "@addFriendInvalidUsername": {
-        "description": "Error when the FluxerTag format is invalid."
+        "description": "Error when the username format is invalid."
     },
     "addFriendOutgoingSuccess": "Venneanmodning sendt",
     "@addFriendOutgoingSuccess": {
@@ -1643,17 +1643,17 @@
     "@crop": {
         "description": "Button to confirm image crop."
     },
-    "changeYourFluxerTag": "Skift din FluxerTag",
+    "changeYourFluxerTag": "Skift din Brugernavn",
     "@changeYourFluxerTag": {
-        "description": "Title for the FluxerTag change bottom sheet."
+        "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "FluxerTag",
+    "fluxerTagInputLabel": "Brugernavn",
     "@fluxerTagInputLabel": {
         "description": "Label above the username and discriminator input fields."
     },
     "fluxerTagDescriptionBase": "Brugernavne kan kun indeholde bogstaver (a-z, A-Z), tal (0-9) og understregninger. Brugernavne er ufølsomme over for store og små bogstaver.",
     "@fluxerTagDescriptionBase": {
-        "description": "Base description text on the FluxerTag change sheet."
+        "description": "Base description text on the username change sheet."
     },
     "fluxerTagDescriptionVisionary": "Brugernavne kan kun indeholde bogstaver (a-z, A-Z), tal (0-9) og understregninger. Brugernavne er ufølsomme over for store og små bogstaver. Du kan vælge enhver tilgængelig 4-cifret tag fra #0000 til #9999.",
     "@fluxerTagDescriptionVisionary": {
@@ -1683,13 +1683,13 @@
     "@discriminatorPremiumTooltip": {
         "description": "Tooltip on disabled discriminator field for non-premium users."
     },
-    "fluxerTagAlreadyTaken": "FluxerTag er allerede taget",
+    "fluxerTagAlreadyTaken": "Brugernavn er allerede taget",
     "@fluxerTagAlreadyTaken": {
         "description": "Title for the tag-taken confirmation sheet."
     },
-    "fluxerTagAlreadyTakenBody": "FluxerTaggen {username}#{discriminator} er allerede taget. Fortsætter du, vil din discriminator blive omrullet automatisk.",
+    "fluxerTagAlreadyTakenBody": "Brugernavn {username}#{discriminator} er allerede taget. Fortsætter du, vil din discriminator blive omrullet automatisk.",
     "@fluxerTagAlreadyTakenBody": {
-        "description": "Body text when the requested FluxerTag is taken.",
+        "description": "Body text when the requested username is taken.",
         "placeholders": {
             "username": {
                 "type": "String"
@@ -1720,7 +1720,7 @@
     "@iUnderstandContinue": {
         "description": "Button to acknowledge a warning and proceed."
     },
-    "premiumWarningPendingDiscriminator": "Hvis du gemmer denne FluxerTag, vil din brugerdefinerede 4-cifrede tag vende tilbage til et tilfældigt nummer, når dit Plutonium-abonnement udløber. Hvis dit abonnement ikke fornyes, har du en 3-dages overgangsperiode, før taggen ændres.",
+    "premiumWarningPendingDiscriminator": "Hvis du gemmer denne Brugernavn, vil din brugerdefinerede 4-cifrede tag vende tilbage til et tilfældigt nummer, når dit Plutonium-abonnement udløber. Hvis dit abonnement ikke fornyes, har du en 3-dages overgangsperiode, før taggen ændres.",
     "@premiumWarningPendingDiscriminator": {
         "description": "Warning shown when premium user is about to change their discriminator."
     },
@@ -1750,13 +1750,13 @@
     "@premiumTrialActive": {
         "description": "Trial upsell without specific expiry date."
     },
-    "fluxerTagUpdated": "FluxerTag opdateret",
+    "fluxerTagUpdated": "Brugernavn opdateret",
     "@fluxerTagUpdated": {
-        "description": "Success toast after FluxerTag change."
+        "description": "Success toast after username change."
     },
-    "fluxerTagUpdateFailed": "Kunne ikke opdatere FluxerTag. Prøv venligst igen.",
+    "fluxerTagUpdateFailed": "Kunne ikke opdatere Brugernavn. Prøv venligst igen.",
     "@fluxerTagUpdateFailed": {
-        "description": "Error message when FluxerTag update fails."
+        "description": "Error message when username update fails."
     },
     "continueAction": "Fortsæt",
     "@continueAction": {
@@ -1774,17 +1774,17 @@
     "@usernameLabel": {
         "description": "Label for the username field in profile settings."
     },
-    "claimAccountToChangeFluxerTag": "Kræv din konto for at ændre din FluxerTag",
+    "claimAccountToChangeFluxerTag": "Kræv din konto for at ændre din Brugernavn",
     "@claimAccountToChangeFluxerTag": {
-        "description": "Tooltip when unverified user hovers the disabled Change FluxerTag button."
+        "description": "Tooltip when unverified user hovers the disabled Change username button."
     },
-    "changeFluxerTag": "Skift FluxerTag",
+    "changeFluxerTag": "Skift Brugernavn",
     "@changeFluxerTag": {
-        "description": "Button label to open the FluxerTag change flow."
+        "description": "Button label to open the username change flow."
     },
     "customizeTagWithPlutoniumTooltip": "Tilpas din 4-cifrede tag (#{discriminator}) som du vil med Plutonium",
     "@customizeTagWithPlutoniumTooltip": {
-        "description": "Tooltip on the crown upsell button next to the FluxerTag button.",
+        "description": "Tooltip on the crown upsell button next to the username button.",
         "placeholders": {
             "discriminator": {
                 "type": "String"
@@ -2844,7 +2844,7 @@
             }
         }
     },
-    "blockedUsersCopyTag": "Kopiér FluxerTag",
+    "blockedUsersCopyTag": "Kopiér Brugernavn",
     "@blockedUsersCopyTag": {
         "description": "Context menu item that copies the user's tag."
     },

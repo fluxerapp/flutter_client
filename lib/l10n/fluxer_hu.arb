@@ -1234,11 +1234,11 @@
     },
     "addFriendNoUserFound": "Nem található felhasználó ezzel a felhasználónévvel.",
     "@addFriendNoUserFound": {
-        "description": "Error when no user matches the entered FluxerTag."
+        "description": "Error when no user matches the entered username."
     },
     "addFriendInvalidUsername": "Adjon meg érvényes felhasználónevet (Felhasználónév#0000).",
     "@addFriendInvalidUsername": {
-        "description": "Error when the FluxerTag format is invalid."
+        "description": "Error when the username format is invalid."
     },
     "addFriendOutgoingSuccess": "Barát kérés elküldve",
     "@addFriendOutgoingSuccess": {
@@ -1643,17 +1643,17 @@
     "@crop": {
         "description": "Button to confirm image crop."
     },
-    "changeYourFluxerTag": "FluxerTag módosítása",
+    "changeYourFluxerTag": "Felhasználónév módosítása",
     "@changeYourFluxerTag": {
-        "description": "Title for the FluxerTag change bottom sheet."
+        "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "FluxerTag",
+    "fluxerTagInputLabel": "Felhasználónév",
     "@fluxerTagInputLabel": {
         "description": "Label above the username and discriminator input fields."
     },
     "fluxerTagDescriptionBase": "A felhasználónevek csak betűket (a-z, A-Z), számokat (0-9) és aláhúzásjeleket tartalmazhatnak. A felhasználónevek nem érzékenyek a kis- és nagybetűk megkülönböztetésére.",
     "@fluxerTagDescriptionBase": {
-        "description": "Base description text on the FluxerTag change sheet."
+        "description": "Base description text on the username change sheet."
     },
     "fluxerTagDescriptionVisionary": "A felhasználónevek csak betűket (a-z, A-Z), számokat (0-9) és aláhúzásjeleket tartalmazhatnak. A felhasználónevek nem érzékenyek a kis- és nagybetűk megkülönböztetésére. Bármilyen elérhető 4 számjegyű taget választhatsz a #0000-tól a #9999-ig.",
     "@fluxerTagDescriptionVisionary": {
@@ -1683,13 +1683,13 @@
     "@discriminatorPremiumTooltip": {
         "description": "Tooltip on disabled discriminator field for non-premium users."
     },
-    "fluxerTagAlreadyTaken": "FluxerTag már foglalt",
+    "fluxerTagAlreadyTaken": "Felhasználónév már foglalt",
     "@fluxerTagAlreadyTaken": {
         "description": "Title for the tag-taken confirmation sheet."
     },
-    "fluxerTagAlreadyTakenBody": "A(z) {username}#{discriminator} FluxerTag már foglalt. A folytatás automatikusan újragenerálja a megkülönböztető jeledet.",
+    "fluxerTagAlreadyTakenBody": "A(z) {username}#{discriminator} Felhasználónév már foglalt. A folytatás automatikusan újragenerálja a megkülönböztető jeledet.",
     "@fluxerTagAlreadyTakenBody": {
-        "description": "Body text when the requested FluxerTag is taken.",
+        "description": "Body text when the requested username is taken.",
         "placeholders": {
             "username": {
                 "type": "String"
@@ -1720,7 +1720,7 @@
     "@iUnderstandContinue": {
         "description": "Button to acknowledge a warning and proceed."
     },
-    "premiumWarningPendingDiscriminator": "Ha elmented ezt a FluxerTag-et, az egyéni 4 számjegyű tagod véletlenszerű számra változik, amikor a Plutonium előfizetésed véget ér. Ha az előfizetésed nem újul meg, 3 napos türelmi időd lesz, mielőtt a tag megváltozik.",
+    "premiumWarningPendingDiscriminator": "Ha elmented ezt a Felhasználónév-et, az egyéni 4 számjegyű tagod véletlenszerű számra változik, amikor a Plutonium előfizetésed véget ér. Ha az előfizetésed nem újul meg, 3 napos türelmi időd lesz, mielőtt a tag megváltozik.",
     "@premiumWarningPendingDiscriminator": {
         "description": "Warning shown when premium user is about to change their discriminator."
     },
@@ -1750,13 +1750,13 @@
     "@premiumTrialActive": {
         "description": "Trial upsell without specific expiry date."
     },
-    "fluxerTagUpdated": "FluxerTag frissítve",
+    "fluxerTagUpdated": "Felhasználónév frissítve",
     "@fluxerTagUpdated": {
-        "description": "Success toast after FluxerTag change."
+        "description": "Success toast after username change."
     },
-    "fluxerTagUpdateFailed": "A FluxerTag frissítése sikertelen. Kérlek, próbáld újra.",
+    "fluxerTagUpdateFailed": "A Felhasználónév frissítése sikertelen. Kérlek, próbáld újra.",
     "@fluxerTagUpdateFailed": {
-        "description": "Error message when FluxerTag update fails."
+        "description": "Error message when username update fails."
     },
     "continueAction": "Tovább",
     "@continueAction": {
@@ -1774,17 +1774,17 @@
     "@usernameLabel": {
         "description": "Label for the username field in profile settings."
     },
-    "claimAccountToChangeFluxerTag": "Fiók igénylése a FluxerTag módosításához",
+    "claimAccountToChangeFluxerTag": "Fiók igénylése a Felhasználónév módosításához",
     "@claimAccountToChangeFluxerTag": {
-        "description": "Tooltip when unverified user hovers the disabled Change FluxerTag button."
+        "description": "Tooltip when unverified user hovers the disabled Change username button."
     },
-    "changeFluxerTag": "FluxerTag módosítása",
+    "changeFluxerTag": "Felhasználónév módosítása",
     "@changeFluxerTag": {
-        "description": "Button label to open the FluxerTag change flow."
+        "description": "Button label to open the username change flow."
     },
-    "customizeTagWithPlutoniumTooltip": "Tetszés szerint alakítsd 4 számjegyű FluxerTagged (#{discriminator}) Plutoniummal",
+    "customizeTagWithPlutoniumTooltip": "Tetszés szerint alakítsd 4 számjegyű Felhasználónév (#{discriminator}) Plutoniummal",
     "@customizeTagWithPlutoniumTooltip": {
-        "description": "Tooltip on the crown upsell button next to the FluxerTag button.",
+        "description": "Tooltip on the crown upsell button next to the username button.",
         "placeholders": {
             "discriminator": {
                 "type": "String"
@@ -2844,7 +2844,7 @@
             }
         }
     },
-    "blockedUsersCopyTag": "FluxerTag másolása",
+    "blockedUsersCopyTag": "Felhasználónév másolása",
     "@blockedUsersCopyTag": {
         "description": "Context menu item that copies the user's tag."
     },

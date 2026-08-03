@@ -3,8 +3,30 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 abstract final class Breakpoints {
+  /// Shortest side breakpoint between phone and tablet sized layouts.
   static const double mobile = 600;
-  static const double tablet = 1024;
+
+  /// Shortest side breakpoint between tablet and desktop sized layouts.
+  static const double tablet = 1100;
+
+  /// Guild list width at the default layout scale.
+  static const double guildListWidth = 72;
+
+  /// Channel sidebar width at the default layout scale.
+  static const double channelSidebarWidth = 270;
+
+  /// Minimum chat column width before showing the member list.
+  static const double minChatWidth = 600;
+
+  /// Minimum chat column width for the wide shell (member list gates itself).
+  static const double minShellChatWidth = 800;
+
+  /// Search results panel width, wider than the member list panel.
+  static const double searchPanelWidth = 420;
+
+  /// Minimum viewport width for guild list, channel list, and chat.
+  static const double shellMinWidth =
+      guildListWidth + channelSidebarWidth + 1 + minShellChatWidth;
 }
 
 enum LayoutMode { mobile, tablet, desktop }
@@ -23,23 +45,30 @@ LayoutMode layoutModeOf(double referenceExtent) {
 
 double layoutReferenceExtentOf(Size size) => math.min(size.width, size.height);
 
+/// Classifies layout from the full viewport size, including a width floor so
+/// devices only switch to wide layout when the shell panels can fit.
+LayoutMode layoutModeOfSize(Size size) {
+  final LayoutMode mode = layoutModeOf(layoutReferenceExtentOf(size));
+  if (mode != LayoutMode.mobile && size.width < Breakpoints.shellMinWidth) {
+    return LayoutMode.mobile;
+  }
+  return mode;
+}
+
 /// Whether the current layout is mobile ([layoutReferenceExtentOf] <
 /// [Breakpoints.mobile]).
 bool isMobileLayout(BuildContext context) =>
-    layoutModeOf(layoutReferenceExtentOf(MediaQuery.sizeOf(context))) ==
-    LayoutMode.mobile;
+    layoutModeOfSize(MediaQuery.sizeOf(context)) == LayoutMode.mobile;
 
 /// Whether the current layout is tablet ([layoutReferenceExtentOf] ≥
 /// [Breakpoints.mobile] and &lt; [Breakpoints.tablet]).
 bool isTabletLayout(BuildContext context) =>
-    layoutModeOf(layoutReferenceExtentOf(MediaQuery.sizeOf(context))) ==
-    LayoutMode.tablet;
+    layoutModeOfSize(MediaQuery.sizeOf(context)) == LayoutMode.tablet;
 
 /// Whether the current layout is desktop ([layoutReferenceExtentOf] ≥
 /// [Breakpoints.tablet]).
 bool isDesktopLayout(BuildContext context) =>
-    layoutModeOf(layoutReferenceExtentOf(MediaQuery.sizeOf(context))) ==
-    LayoutMode.desktop;
+    layoutModeOfSize(MediaQuery.sizeOf(context)) == LayoutMode.desktop;
 
 /// Non-mobile layout (tablet + desktop). Matches web `!MobileLayout.enabled`.
 bool isWideLayout(BuildContext context) => !isMobileLayout(context);
@@ -83,9 +112,7 @@ class ResponsiveLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LayoutMode mode = layoutModeOf(
-      layoutReferenceExtentOf(MediaQuery.sizeOf(context)),
-    );
+    final LayoutMode mode = layoutModeOfSize(MediaQuery.sizeOf(context));
     return builder(context, mode);
   }
 }

@@ -63,6 +63,7 @@ Uri? _parseFluxerAppLinkPath(String href) {
 FluxerMarkdownConfig createFluxerMarkdownConfig({
   BuildContext? context,
   String? channelId,
+  String? guildId,
   List<MessageChannelMention> mentionChannels = const [],
   bool revealSpoilers = false,
   FluxerSpoilerSyncController? spoilerSyncController,
@@ -89,7 +90,12 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
     spoilerBackgroundColor: context?.colors.spoilerBackground,
     internalLinkPattern: buildChannelJumpLinkPattern(channelJumpLinkHosts()),
     userMentionBuilder: (context, id, style) {
-      return UserMention(userId: id, channelId: channelId, baseStyle: style);
+      return UserMention(
+        userId: id,
+        channelId: channelId,
+        guildId: guildId,
+        baseStyle: style,
+      );
     },
     channelMentionBuilder: (context, id, style) {
       return ChannelMention(

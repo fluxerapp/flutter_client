@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:fluxer_app/core/theme/fluxer_fonts.dart';
 
 class FluxerTextTheme extends ThemeExtension<FluxerTextTheme> {
   const FluxerTextTheme({
@@ -26,98 +26,116 @@ class FluxerTextTheme extends ThemeExtension<FluxerTextTheme> {
 
   factory FluxerTextTheme.fromColors(FluxerColorTheme colors) {
     return FluxerTextTheme(
-      heading: GoogleFonts.ibmPlexSans(
+      heading: TextStyle(
+        fontFamily: FluxerFonts.sans,
         fontSize: 20,
         fontWeight: FontWeight.w600,
         color: colors.textPrimary,
       ),
-      channelName: GoogleFonts.ibmPlexSans(
+      channelName: TextStyle(
+        fontFamily: FluxerFonts.sans,
         fontSize: 16,
         fontWeight: FontWeight.w600,
         color: colors.textPrimary,
       ),
-      username: GoogleFonts.ibmPlexSans(
+      username: TextStyle(
+        fontFamily: FluxerFonts.sans,
         fontSize: 16,
         fontWeight: FontWeight.w500,
         color: colors.textPrimary,
       ),
-      messageText: GoogleFonts.ibmPlexSans(
+      messageText: TextStyle(
+        fontFamily: FluxerFonts.sans,
         fontSize: 16,
         fontWeight: FontWeight.w400,
         color: colors.textChat,
         height: 1.375,
       ),
-      codeText: GoogleFonts.ibmPlexMono(
+      codeText: const TextStyle(
+        fontFamily: FluxerFonts.mono,
         fontSize: 16,
         fontWeight: FontWeight.w400,
         height: 1.375,
       ),
-      bodyMedium: GoogleFonts.ibmPlexSans(
+      bodyMedium: TextStyle(
+        fontFamily: FluxerFonts.sans,
         fontSize: 16,
         fontWeight: FontWeight.w400,
         color: colors.textPrimary,
       ),
-      bodySmall: GoogleFonts.ibmPlexSans(
+      bodySmall: TextStyle(
+        fontFamily: FluxerFonts.sans,
         fontSize: 14,
         fontWeight: FontWeight.w400,
         color: colors.textPrimaryMuted,
       ),
-      label: GoogleFonts.ibmPlexSans(
+      label: TextStyle(
+        fontFamily: FluxerFonts.sans,
         fontSize: 14,
         fontWeight: FontWeight.w500,
         color: colors.textPrimary,
       ),
-      timestamp: GoogleFonts.ibmPlexSans(
+      timestamp: TextStyle(
+        fontFamily: FluxerFonts.sans,
         fontSize: 12,
         fontWeight: FontWeight.w400,
         color: colors.textPrimaryMuted,
       ),
-      smallText: GoogleFonts.ibmPlexSans(
+      smallText: TextStyle(
+        fontFamily: FluxerFonts.sans,
         fontSize: 12,
         fontWeight: FontWeight.w600,
         color: colors.textPrimaryMuted,
         letterSpacing: 0.02,
       ),
-      categoryName: GoogleFonts.ibmPlexSans(
+      categoryName: TextStyle(
+        fontFamily: FluxerFonts.sans,
         fontSize: 14,
         fontWeight: FontWeight.w600,
         height: 20 / 14,
         color: colors.textPrimaryMuted,
       ),
-      inputText: GoogleFonts.ibmPlexSans(
+      inputText: TextStyle(
+        fontFamily: FluxerFonts.sans,
         fontSize: 16,
         fontWeight: FontWeight.w400,
         color: colors.textChat,
       ),
-      inputHint: GoogleFonts.ibmPlexSans(
+      inputHint: TextStyle(
+        fontFamily: FluxerFonts.sans,
         fontSize: 16,
         fontWeight: FontWeight.w400,
         color: colors.textChatMuted,
       ),
-      embedTitle: GoogleFonts.ibmPlexSans(
+      embedTitle: TextStyle(
+        fontFamily: FluxerFonts.sans,
         fontSize: 16,
         fontWeight: FontWeight.w600,
         color: colors.textLink,
       ),
-      embedDescription: GoogleFonts.ibmPlexSans(
+      embedDescription: TextStyle(
+        fontFamily: FluxerFonts.sans,
         fontSize: 14,
         fontWeight: FontWeight.w400,
         color: colors.textChat,
         height: 1.3,
       ),
-      embedFooter: GoogleFonts.ibmPlexSans(
+      embedFooter: TextStyle(
+        fontFamily: FluxerFonts.sans,
         fontSize: 12,
         fontWeight: FontWeight.w400,
         color: colors.textPrimaryMuted,
       ),
-      quote: GoogleFonts.ibmPlexSans(
+      quote: TextStyle(
+        fontFamily: FluxerFonts.sans,
         fontSize: 14,
         fontWeight: FontWeight.w400,
         fontStyle: FontStyle.italic,
         color: colors.textSecondary,
         height: 1.4,
       ),
-      quoteLink: GoogleFonts.ibmPlexSans(
+      quoteLink: TextStyle(
+        fontFamily: FluxerFonts.sans,
         fontSize: 14,
         fontWeight: FontWeight.w400,
         fontStyle: FontStyle.italic,

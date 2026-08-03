@@ -180,6 +180,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal> {
   Widget _buildDesktopLayout(UserSettingsViewState state) {
     final l10n = FluxerLocalizations.of(context);
     final selectedEntry = userSettingsDesktopNav[_selectedIndex];
+    final double contentGutter = wideSettingsContentEdgeGutter(context);
     return Column(
       children: [
         Expanded(
@@ -209,23 +210,31 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal> {
                 color: context.colors.borderColor,
               ),
               Expanded(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(40, 12, 12, 0),
-                      child: Row(
-                        children: [
-                          Text(
-                            selectedEntry.displayLabel(l10n),
-                            style: context.textStyles.heading,
-                          ),
-                          const Spacer(),
-                          _buildCloseButton(),
-                        ],
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: contentGutter),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12),
+                        child: Row(
+                          children: [
+                            Text(
+                              selectedEntry.displayLabel(l10n),
+                              style: context.textStyles.heading,
+                            ),
+                            const Spacer(),
+                            _buildCloseButton(),
+                          ],
+                        ),
                       ),
-                    ),
-                    Expanded(child: _buildContent(state)),
-                  ],
+                      Expanded(
+                        child: WideSettingsContentLayout(
+                          includeHorizontalGutter: false,
+                          child: _buildContent(state),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

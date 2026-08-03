@@ -5,10 +5,7 @@ import 'package:fluxer_markdown/src/utils/monospace_text_style.dart';
 void main() {
   group('codeTextStyleFrom', () {
     test('drops package when falling back to generic monospace', () {
-      const TextStyle base = TextStyle(
-        fontSize: 16,
-        fontFamily: 'packages/google_fonts/IBMPlexSans',
-      );
+      const TextStyle base = TextStyle(fontSize: 16, fontFamily: 'IBMPlexSans');
 
       final TextStyle codeStyle = codeTextStyleFrom(base);
 
@@ -17,14 +14,8 @@ void main() {
     });
 
     test('uses configured code text style when provided', () {
-      const TextStyle base = TextStyle(
-        fontSize: 16,
-        fontFamily: 'packages/google_fonts/IBMPlexSans',
-      );
-      const TextStyle mono = TextStyle(
-        fontSize: 14,
-        fontFamily: 'packages/google_fonts/IBMPlexMono',
-      );
+      const TextStyle base = TextStyle(fontSize: 16, fontFamily: 'IBMPlexSans');
+      const TextStyle mono = TextStyle(fontSize: 14, fontFamily: 'IBMPlexMono');
 
       final TextStyle codeStyle = codeTextStyleFrom(
         base,
@@ -32,7 +23,7 @@ void main() {
         color: const Color(0xFF123456),
       );
 
-      expect(codeStyle.fontFamily, 'packages/google_fonts/IBMPlexMono');
+      expect(codeStyle.fontFamily, 'IBMPlexMono');
       expect(codeStyle.fontSize, 14 * 0.85);
       expect(codeStyle.color, const Color(0xFF123456));
     });

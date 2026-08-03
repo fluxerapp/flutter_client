@@ -1443,10 +1443,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get crop => 'Vágás';
 
   @override
-  String get changeYourFluxerTag => 'FluxerTag módosítása';
+  String get changeYourFluxerTag => 'Felhasználónév módosítása';
 
   @override
-  String get fluxerTagInputLabel => 'FluxerTag';
+  String get fluxerTagInputLabel => 'Felhasználónév';
 
   @override
   String get fluxerTagDescriptionBase =>
@@ -1474,11 +1474,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Szerezz Plutoniumot a tagod testreszabásához, vagy tartsd meg a felhasználóneved módosításakor';
 
   @override
-  String get fluxerTagAlreadyTaken => 'FluxerTag már foglalt';
+  String get fluxerTagAlreadyTaken => 'Felhasználónév már foglalt';
 
   @override
   String fluxerTagAlreadyTakenBody(String username, String discriminator) {
-    return 'A(z) $username#$discriminator FluxerTag már foglalt. A folytatás automatikusan újragenerálja a megkülönböztető jeledet.';
+    return 'A(z) $username#$discriminator Felhasználónév már foglalt. A folytatás automatikusan újragenerálja a megkülönböztető jeledet.';
   }
 
   @override
@@ -1498,7 +1498,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get premiumWarningPendingDiscriminator =>
-      'Ha elmented ezt a FluxerTag-et, az egyéni 4 számjegyű tagod véletlenszerű számra változik, amikor a Plutonium előfizetésed véget ér. Ha az előfizetésed nem újul meg, 3 napos türelmi időd lesz, mielőtt a tag megváltozik.';
+      'Ha elmented ezt a Felhasználónév-et, az egyéni 4 számjegyű tagod véletlenszerű számra változik, amikor a Plutonium előfizetésed véget ér. Ha az előfizetésed nem újul meg, 3 napos türelmi időd lesz, mielőtt a tag megváltozik.';
 
   @override
   String premiumWarningActiveDiscriminator(String discriminator) {
@@ -1519,11 +1519,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Plutonium próbaidőszakon vagy. Frissíts, hogy megtartsd az egyéni tagodat, és szerezz egy jelvényt a profilodban.';
 
   @override
-  String get fluxerTagUpdated => 'FluxerTag frissítve';
+  String get fluxerTagUpdated => 'Felhasználónév frissítve';
 
   @override
   String get fluxerTagUpdateFailed =>
-      'A FluxerTag frissítése sikertelen. Kérlek, próbáld újra.';
+      'A Felhasználónév frissítése sikertelen. Kérlek, próbáld újra.';
 
   @override
   String get continueAction => 'Tovább';
@@ -1540,14 +1540,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get claimAccountToChangeFluxerTag =>
-      'Fiók igénylése a FluxerTag módosításához';
+      'Fiók igénylése a Felhasználónév módosításához';
 
   @override
-  String get changeFluxerTag => 'FluxerTag módosítása';
+  String get changeFluxerTag => 'Felhasználónév módosítása';
 
   @override
   String customizeTagWithPlutoniumTooltip(String discriminator) {
-    return 'Tetszés szerint alakítsd 4 számjegyű FluxerTagged (#$discriminator) Plutoniummal';
+    return 'Tetszés szerint alakítsd 4 számjegyű Felhasználónév (#$discriminator) Plutoniummal';
   }
 
   @override
@@ -2540,7 +2540,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get blockedUsersCopyTag => 'FluxerTag másolása';
+  String get blockedUsersCopyTag => 'Felhasználónév másolása';
 
   @override
   String get blockedUsersCopyId => 'Felhasználói azonosító másolása';
@@ -7256,10 +7256,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get audioAndVideoMicTestSectionTitle => 'Mikrofonpróba';
-
-  @override
-  String get audioAndVideoMicTestSectionDescription =>
-      'Meghallgathatod, hogy a jelenlegi beállításokkal hogy hangzol.';
 
   @override
   String get audioAndVideoMicTestStartLabel => 'Mikrofonpróba indítása';

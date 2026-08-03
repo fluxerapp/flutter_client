@@ -19,6 +19,8 @@ import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+import '../../../../../../helpers/wide_layout_test_sizes.dart';
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -43,7 +45,7 @@ void main() {
   Widget buildTestApp({
     required Widget child,
     required _TrackingChannelRepository repository,
-    Size viewportSize = const Size(1280, 800),
+    Size viewportSize = kWideTestViewportSize,
   }) {
     final colorTheme = buildDarkColorTheme();
     return ProviderScope(

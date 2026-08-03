@@ -47,8 +47,8 @@ Future<ExpressionUploadSource?> _showUploadSourceSheet(BuildContext context) {
     variant: FluxerBottomSheetVariant.menu,
     builder: (BuildContext sheetContext, _) {
       final FluxerLocalizations l10n = FluxerLocalizations.of(sheetContext);
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+      return FluxerBottomSheetContent(
+        scrollable: false,
         child: FluxerBottomSheetGroupColumn(
           children: <Widget>[
             FluxerMenuGroup(

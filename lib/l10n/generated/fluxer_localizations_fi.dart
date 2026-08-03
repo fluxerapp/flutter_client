@@ -1433,10 +1433,10 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get crop => 'Rajaa';
 
   @override
-  String get changeYourFluxerTag => 'Vaihda FluxerTagisi';
+  String get changeYourFluxerTag => 'Vaihda Käyttäjänimi';
 
   @override
-  String get fluxerTagInputLabel => 'FluxerTag';
+  String get fluxerTagInputLabel => 'Käyttäjänimi';
 
   @override
   String get fluxerTagDescriptionBase =>
@@ -1464,11 +1464,11 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Hanki Plutonium räätäljätäksesi tunnisteesi tai säilyttääksesi sen muuttaessasi käyttäjänimeäsi';
 
   @override
-  String get fluxerTagAlreadyTaken => 'FluxerTag on jo käytössä';
+  String get fluxerTagAlreadyTaken => 'Käyttäjänimi on jo käytössä';
 
   @override
   String fluxerTagAlreadyTakenBody(String username, String discriminator) {
-    return 'FluxerTag $username#$discriminator on jo käytössä. Jatkamalla numeroarvosi arvotaan automaattisesti uudelleen.';
+    return 'Käyttäjänimi $username#$discriminator on jo käytössä. Jatkamalla numeroarvosi arvotaan automaattisesti uudelleen.';
   }
 
   @override
@@ -1488,7 +1488,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get premiumWarningPendingDiscriminator =>
-      'Jos tallennat tämän FluxerTagin, mukautettu 4-numeroinen tunnisteesi palautuu satunnaiseksi numeroksi Plutonium-tilauksesi päättyessä. Jos tilauksesi ei uusiudu, sinulla on 3 päivän armonaika ennen kuin tunniste muuttuu.';
+      'Jos tallennat tämän Käyttäjänimi, mukautettu 4-numeroinen tunnisteesi palautuu satunnaiseksi numeroksi Plutonium-tilauksesi päättyessä. Jos tilauksesi ei uusiudu, sinulla on 3 päivän armonaika ennen kuin tunniste muuttuu.';
 
   @override
   String premiumWarningActiveDiscriminator(String discriminator) {
@@ -1509,11 +1509,11 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Olet Plutonium-kokeilujaksolla. Päivitä säilyttääksesi mukautetun tunnisteesi ja ansaitaksesi merkin profiiliisi.';
 
   @override
-  String get fluxerTagUpdated => 'FluxerTag päivitetty';
+  String get fluxerTagUpdated => 'Käyttäjänimi päivitetty';
 
   @override
   String get fluxerTagUpdateFailed =>
-      'FluxerTagin päivitys epäonnistui. Yritä uudelleen.';
+      'Käyttäjänimi päivitys epäonnistui. Yritä uudelleen.';
 
   @override
   String get continueAction => 'Jatka';
@@ -1530,10 +1530,10 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get claimAccountToChangeFluxerTag =>
-      'Vahvista tilisi muuttaaksesi FluxerTagiasi';
+      'Vahvista tilisi muuttaaksesi Käyttäjänimi';
 
   @override
-  String get changeFluxerTag => 'Vaihda FluxerTag';
+  String get changeFluxerTag => 'Vaihda Käyttäjänimi';
 
   @override
   String customizeTagWithPlutoniumTooltip(String discriminator) {
@@ -2522,7 +2522,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   }
 
   @override
-  String get blockedUsersCopyTag => 'Kopioi FluxerTag';
+  String get blockedUsersCopyTag => 'Kopioi Käyttäjänimi';
 
   @override
   String get blockedUsersCopyId => 'Kopioi käyttäjän ID';
@@ -7235,10 +7235,6 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get audioAndVideoMicTestSectionTitle => 'Mic test';
-
-  @override
-  String get audioAndVideoMicTestSectionDescription =>
-      'Listen to how you sound with your current settings.';
 
   @override
   String get audioAndVideoMicTestStartLabel => 'Start mic test';

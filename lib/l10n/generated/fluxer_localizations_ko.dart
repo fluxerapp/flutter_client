@@ -1378,10 +1378,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get crop => '자르기';
 
   @override
-  String get changeYourFluxerTag => 'FluxerTag 변경';
+  String get changeYourFluxerTag => '사용자 이름 변경';
 
   @override
-  String get fluxerTagInputLabel => 'FluxerTag';
+  String get fluxerTagInputLabel => '사용자 이름';
 
   @override
   String get fluxerTagDescriptionBase =>
@@ -1408,11 +1408,11 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       'Plutonium을 사용하여 태그를 사용자 지정하거나 사용자 이름을 변경할 때 유지하세요.';
 
   @override
-  String get fluxerTagAlreadyTaken => 'FluxerTag가 이미 사용 중입니다.';
+  String get fluxerTagAlreadyTaken => '사용자 이름 이미 사용 중입니다.';
 
   @override
   String fluxerTagAlreadyTakenBody(String username, String discriminator) {
-    return '$username#$discriminator FluxerTag가 이미 사용 중입니다. 계속하면 자동으로 디스커리미네이터가 다시 롤링됩니다.';
+    return '$username#$discriminator 사용자 이름 이미 사용 중입니다. 계속하면 자동으로 디스커리미네이터가 다시 롤링됩니다.';
   }
 
   @override
@@ -1432,7 +1432,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get premiumWarningPendingDiscriminator =>
-      '이 FluxerTag를 저장하면 Plutonium 구독이 종료될 때 사용자 지정 4자리 태그가 무작위 숫자로 되돌아갑니다. 구독이 갱신되지 않으면 태그가 변경되기 전에 3일의 유예 기간이 있습니다.';
+      '이 사용자 이름 저장하면 Plutonium 구독이 종료될 때 사용자 지정 4자리 태그가 무작위 숫자로 되돌아갑니다. 구독이 갱신되지 않으면 태그가 변경되기 전에 3일의 유예 기간이 있습니다.';
 
   @override
   String premiumWarningActiveDiscriminator(String discriminator) {
@@ -1453,10 +1453,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       'Plutonium 평가판을 사용 중입니다. 사용자 지정 태그를 유지하고 프로필에 배지를 얻으려면 업그레이드하세요.';
 
   @override
-  String get fluxerTagUpdated => 'FluxerTag가 업데이트되었습니다.';
+  String get fluxerTagUpdated => '사용자 이름 업데이트되었습니다.';
 
   @override
-  String get fluxerTagUpdateFailed => 'FluxerTag 업데이트에 실패했습니다. 다시 시도하세요.';
+  String get fluxerTagUpdateFailed => '사용자 이름 업데이트에 실패했습니다. 다시 시도하세요.';
 
   @override
   String get continueAction => '계속';
@@ -1472,10 +1472,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get usernameLabel => '사용자 이름';
 
   @override
-  String get claimAccountToChangeFluxerTag => 'FluxerTag를 변경하려면 계정을 청구하세요.';
+  String get claimAccountToChangeFluxerTag => '사용자 이름 변경하려면 계정을 청구하세요.';
 
   @override
-  String get changeFluxerTag => 'FluxerTag 변경';
+  String get changeFluxerTag => '사용자 이름 변경';
 
   @override
   String customizeTagWithPlutoniumTooltip(String discriminator) {
@@ -6989,10 +6989,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get audioAndVideoMicTestSectionTitle => 'Mic test';
-
-  @override
-  String get audioAndVideoMicTestSectionDescription =>
-      'Listen to how you sound with your current settings.';
 
   @override
   String get audioAndVideoMicTestStartLabel => 'Start mic test';

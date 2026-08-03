@@ -2098,13 +2098,13 @@ abstract class FluxerLocalizations {
   /// **'Send request'**
   String get addFriendSendRequest;
 
-  /// Error when no user matches the entered FluxerTag.
+  /// Error when no user matches the entered username.
   ///
   /// In en, this message translates to:
   /// **'No user found with that username.'**
   String get addFriendNoUserFound;
 
-  /// Error when the FluxerTag format is invalid.
+  /// Error when the username format is invalid.
   ///
   /// In en, this message translates to:
   /// **'Enter a valid username (Username#0000).'**
@@ -2650,19 +2650,19 @@ abstract class FluxerLocalizations {
   /// **'Crop'**
   String get crop;
 
-  /// Title for the FluxerTag change bottom sheet.
+  /// Title for the username change bottom sheet.
   ///
   /// In en, this message translates to:
-  /// **'Change Your FluxerTag'**
+  /// **'Change Your Username'**
   String get changeYourFluxerTag;
 
   /// Label above the username and discriminator input fields.
   ///
   /// In en, this message translates to:
-  /// **'FluxerTag'**
+  /// **'Username'**
   String get fluxerTagInputLabel;
 
-  /// Base description text on the FluxerTag change sheet.
+  /// Base description text on the username change sheet.
   ///
   /// In en, this message translates to:
   /// **'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive.'**
@@ -2701,13 +2701,13 @@ abstract class FluxerLocalizations {
   /// Title for the tag-taken confirmation sheet.
   ///
   /// In en, this message translates to:
-  /// **'FluxerTag Already Taken'**
+  /// **'Username Already Taken'**
   String get fluxerTagAlreadyTaken;
 
-  /// Body text when the requested FluxerTag is taken.
+  /// Body text when the requested username is taken.
   ///
   /// In en, this message translates to:
-  /// **'The FluxerTag {username}#{discriminator} is already taken. Continuing will reroll your discriminator automatically.'**
+  /// **'The username {username}#{discriminator} is already taken. Continuing will reroll your discriminator automatically.'**
   String fluxerTagAlreadyTakenBody(String username, String discriminator);
 
   /// Title for the temporary tag warning sheet.
@@ -2737,7 +2737,7 @@ abstract class FluxerLocalizations {
   /// Warning shown when premium user is about to change their discriminator.
   ///
   /// In en, this message translates to:
-  /// **'If you save this FluxerTag, your custom 4-digit tag will revert to a random number when your Plutonium subscription ends. If your subscription fails to renew, you\'ll have a 3-day grace period before the tag changes.'**
+  /// **'If you save this username, your custom 4-digit tag will revert to a random number when your Plutonium subscription ends. If your subscription fails to renew, you\'ll have a 3-day grace period before the tag changes.'**
   String get premiumWarningPendingDiscriminator;
 
   /// Warning shown when premium user already has a custom discriminator.
@@ -2764,16 +2764,16 @@ abstract class FluxerLocalizations {
   /// **'You\'re on a Plutonium trial. Upgrade to keep your custom tag and earn a badge on your profile.'**
   String get premiumTrialActive;
 
-  /// Success toast after FluxerTag change.
+  /// Success toast after username change.
   ///
   /// In en, this message translates to:
-  /// **'FluxerTag updated'**
+  /// **'Username updated'**
   String get fluxerTagUpdated;
 
-  /// Error message when FluxerTag update fails.
+  /// Error message when username update fails.
   ///
   /// In en, this message translates to:
-  /// **'Failed to update FluxerTag. Please try again.'**
+  /// **'Failed to update username. Please try again.'**
   String get fluxerTagUpdateFailed;
 
   /// Generic continue button label.
@@ -2800,19 +2800,19 @@ abstract class FluxerLocalizations {
   /// **'Username'**
   String get usernameLabel;
 
-  /// Tooltip when unverified user hovers the disabled Change FluxerTag button.
+  /// Tooltip when unverified user hovers the disabled Change Username button.
   ///
   /// In en, this message translates to:
-  /// **'Claim your account to change your FluxerTag'**
+  /// **'Claim your account to change your username'**
   String get claimAccountToChangeFluxerTag;
 
-  /// Button label to open the FluxerTag change flow.
+  /// Button label to open the username change flow.
   ///
   /// In en, this message translates to:
-  /// **'Change FluxerTag'**
+  /// **'Change Username'**
   String get changeFluxerTag;
 
-  /// Tooltip on the crown upsell button next to the FluxerTag button.
+  /// Tooltip on the crown upsell button next to the username button.
   ///
   /// In en, this message translates to:
   /// **'Customize your 4-digit tag (#{discriminator}) to your liking with Plutonium'**
@@ -4447,7 +4447,7 @@ abstract class FluxerLocalizations {
   /// Context menu item that copies the user's tag.
   ///
   /// In en, this message translates to:
-  /// **'Copy FluxerTag'**
+  /// **'Copy username'**
   String get blockedUsersCopyTag;
 
   /// Context menu item that copies the user's ID.
@@ -12221,12 +12221,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Mic test'**
   String get audioAndVideoMicTestSectionTitle;
-
-  /// Subsection description for microphone test controls.
-  ///
-  /// In en, this message translates to:
-  /// **'Listen to how you sound with your current settings.'**
-  String get audioAndVideoMicTestSectionDescription;
 
   /// Button label to start the microphone test.
   ///

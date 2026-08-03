@@ -11,8 +11,10 @@ import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/push_provider.dart';
+import 'package:fluxer_app/core/providers/well_known_provider.dart';
 import 'package:fluxer_app/core/push/services/unified_push_service.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_registration_logic.dart';
+import 'package:fluxer_app/core/push/unified_push/unified_push_vapid_cache.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -25,6 +27,7 @@ class UnifiedPushMobileDeviceRegistration
     extends _$UnifiedPushMobileDeviceRegistration {
   StreamSubscription<up.PushEndpoint>? _endpointSubscription;
   String? _trackedUserId;
+  Future<void>? _authSyncFuture;
 
   @override
   int build() {
@@ -62,6 +65,8 @@ class UnifiedPushMobileDeviceRegistration
       _endpointSubscription = null;
     });
     SchedulerBinding.instance.addPostFrameCallback((_) {
+      UnifiedPushService.instance.vapidNetworkResolver =
+          _fetchVapidFromWellKnown;
       unawaited(_onAuthOrUserChanged());
     });
     return 0;
@@ -92,7 +97,21 @@ class UnifiedPushMobileDeviceRegistration
     return PushProviderGuard.isUnifiedPush;
   }
 
-  Future<void> _onAuthOrUserChanged() async {
+  Future<void> _onAuthOrUserChanged() {
+    final Future<void>? inFlight = _authSyncFuture;
+    if (inFlight != null) {
+      return inFlight;
+    }
+    final Future<void> sync = _runAuthSync();
+    _authSyncFuture = sync;
+    return sync.whenComplete(() {
+      if (identical(_authSyncFuture, sync)) {
+        _authSyncFuture = null;
+      }
+    });
+  }
+
+  Future<void> _runAuthSync() async {
     if (!_shouldRun) {
       return;
     }
@@ -113,7 +132,11 @@ class UnifiedPushMobileDeviceRegistration
     );
     final bool hasPersistedSubscription =
         persisted?.pushSubscriptionId.isNotEmpty ?? false;
-    await UnifiedPushService.instance.loadCachedVapidPublicKey();
+    final String? vapid = await UnifiedPushService.instance
+        .ensureVapidPublicKey();
+    if (hasUnifiedPushVapid(vapid)) {
+      await UnifiedPushService.instance.applyVapidAndReregisterIfNeeded(vapid);
+    }
     await UnifiedPushService.instance.syncRegistration(
       hasPersistedSubscription: hasPersistedSubscription,
     );
@@ -121,13 +144,31 @@ class UnifiedPushMobileDeviceRegistration
   }
 
   Future<void> _onAppResumed() async {
-    if (!_shouldRun) {
+    if (!_shouldRun || !ref.read(appUiForegroundProvider)) {
       return;
     }
-    if (!ref.read(appUiForegroundProvider)) {
-      return;
-    }
+    await _refreshVapidIfRotated();
     await _onAuthOrUserChanged();
+  }
+
+  Future<void> _refreshVapidIfRotated() async {
+    final String? freshVapid = await _fetchVapidFromWellKnown();
+    if (!hasUnifiedPushVapid(freshVapid) ||
+        freshVapid == UnifiedPushService.instance.pendingVapid) {
+      return;
+    }
+    await UnifiedPushService.instance.persistVapidPublicKey(freshVapid!);
+    await UnifiedPushService.instance.applyVapidAndReregisterIfNeeded(
+      freshVapid,
+    );
+  }
+
+  Future<String?> _fetchVapidFromWellKnown() async {
+    try {
+      return (await ref.read(wellKnownProvider.future)).push.publicVapidKey;
+    } on Object {
+      return null;
+    }
   }
 
   Future<bool> hasPersistedSubscriptionForCurrentUser() async {
@@ -246,15 +287,7 @@ class UnifiedPushMobileDeviceRegistration
               authSecret: auth,
             ),
           );
-      String? vapid;
-      try {
-        vapid =
-            (await ref.read(fluxerClientProvider).instance.getWellKnownFluxer())
-                .push
-                .publicVapidKey;
-      } on Object {
-        vapid = null;
-      }
+      final String? vapid = await _fetchVapidFromWellKnown();
       await ref
           .read(fluxerDatabaseProvider)
           .mobilePushRegistrationDao
@@ -266,12 +299,7 @@ class UnifiedPushMobileDeviceRegistration
             authSecret: auth,
             vapidPublicKey: vapid,
           );
-      if (vapid != null && vapid.isNotEmpty) {
-        await UnifiedPushService.instance.persistVapidPublicKey(vapid);
-        await ref
-            .read(fluxerDatabaseProvider)
-            .mobilePushRegistrationDao
-            .saveGlobalVapidPublicKey(vapid);
+      if (hasUnifiedPushVapid(vapid)) {
         await UnifiedPushService.instance.applyVapidAndReregisterIfNeeded(
           vapid,
         );

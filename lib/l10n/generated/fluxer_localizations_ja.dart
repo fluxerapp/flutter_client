@@ -1384,10 +1384,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get crop => '切り抜く';
 
   @override
-  String get changeYourFluxerTag => 'FluxerTagを変更する';
+  String get changeYourFluxerTag => 'ユーザー名';
 
   @override
-  String get fluxerTagInputLabel => 'FluxerTag';
+  String get fluxerTagInputLabel => 'ユーザー名';
 
   @override
   String get fluxerTagDescriptionBase =>
@@ -1414,11 +1414,11 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       'Plutoniumを入手してタグをカスタマイズするか、ユーザー名を変更するときに保持してください';
 
   @override
-  String get fluxerTagAlreadyTaken => 'FluxerTagは既に使用されています';
+  String get fluxerTagAlreadyTaken => 'ユーザー名';
 
   @override
   String fluxerTagAlreadyTakenBody(String username, String discriminator) {
-    return 'FluxerTag $username#$discriminatorは既に使用されています。続行すると、ディスクリミネータは自動的に再ロールされます。';
+    return 'ユーザー名 $username#$discriminatorは既に使用されています。続行すると、ディスクリミネータは自動的に再ロールされます。';
   }
 
   @override
@@ -1438,7 +1438,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get premiumWarningPendingDiscriminator =>
-      'このFluxerTagを保存すると、Plutoniumサブスクリプションが終了したときにカスタムの4桁タグはランダムな番号に戻ります。サブスクリプションの更新に失敗した場合、タグが変更される前に3日間の猶予期間があります。';
+      'このユーザー名、Plutoniumサブスクリプションが終了したときにカスタムの4桁タグはランダムな番号に戻ります。サブスクリプションの更新に失敗した場合、タグが変更される前に3日間の猶予期間があります。';
 
   @override
   String premiumWarningActiveDiscriminator(String discriminator) {
@@ -1459,10 +1459,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       'Plutoniumトライアル中です。カスタムタグを保持し、プロフィールにバッジを獲得するにはアップグレードしてください。';
 
   @override
-  String get fluxerTagUpdated => 'FluxerTagが更新されました';
+  String get fluxerTagUpdated => 'ユーザー名';
 
   @override
-  String get fluxerTagUpdateFailed => 'FluxerTagの更新に失敗しました。もう一度お試しください。';
+  String get fluxerTagUpdateFailed => 'ユーザー名。もう一度お試しください。';
 
   @override
   String get continueAction => '続行';
@@ -1477,10 +1477,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get usernameLabel => 'ユーザー名';
 
   @override
-  String get claimAccountToChangeFluxerTag => 'アカウントを請求してFluxerTagを変更してください';
+  String get claimAccountToChangeFluxerTag => 'アカウントを請求してユーザー名';
 
   @override
-  String get changeFluxerTag => 'FluxerTagを変更';
+  String get changeFluxerTag => 'ユーザー名';
 
   @override
   String customizeTagWithPlutoniumTooltip(String discriminator) {
@@ -6999,10 +6999,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get audioAndVideoMicTestSectionTitle => 'Mic test';
-
-  @override
-  String get audioAndVideoMicTestSectionDescription =>
-      'Listen to how you sound with your current settings.';
 
   @override
   String get audioAndVideoMicTestStartLabel => 'Start mic test';

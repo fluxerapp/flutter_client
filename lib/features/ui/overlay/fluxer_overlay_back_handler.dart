@@ -8,8 +8,8 @@ Widget wrapFluxerOverlayBackHandler({
   required VoidCallback? onDismiss,
   required Widget child,
 }) {
-  if (canDismiss && onBack == null && onDismiss == null) {
-    return child;
+  if (onBack == null && onDismiss == null) {
+    return PopScope(canPop: canDismiss, child: child);
   }
 
   return PopScope(

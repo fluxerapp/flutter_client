@@ -1365,10 +1365,10 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get crop => '裁剪';
 
   @override
-  String get changeYourFluxerTag => '更改您的 FluxerTag';
+  String get changeYourFluxerTag => '更改您的 用户名';
 
   @override
-  String get fluxerTagInputLabel => 'FluxerTag';
+  String get fluxerTagInputLabel => '用户名';
 
   @override
   String get fluxerTagDescriptionBase =>
@@ -1394,11 +1394,11 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get discriminatorPremiumTooltip => '获取 Plutonium 以自定义您的标签或在更改用户名时保留它';
 
   @override
-  String get fluxerTagAlreadyTaken => 'FluxerTag 已被占用';
+  String get fluxerTagAlreadyTaken => '用户名 已被占用';
 
   @override
   String fluxerTagAlreadyTakenBody(String username, String discriminator) {
-    return 'FluxerTag $username#$discriminator 已被占用。继续将自动重新分配您的数字标签。';
+    return '用户名 $username#$discriminator 已被占用。继续将自动重新分配您的数字标签。';
   }
 
   @override
@@ -1418,7 +1418,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get premiumWarningPendingDiscriminator =>
-      '如果您保存此 FluxerTag，您的自定义 4 位数字标签将在您的 Plutonium 订阅结束时恢复为随机数字。如果您的订阅未能续订，您将有 3 天宽限期，之后标签才会更改。';
+      '如果您保存此 用户名，您的自定义 4 位数字标签将在您的 Plutonium 订阅结束时恢复为随机数字。如果您的订阅未能续订，您将有 3 天宽限期，之后标签才会更改。';
 
   @override
   String premiumWarningActiveDiscriminator(String discriminator) {
@@ -1438,10 +1438,10 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
       '您正在使用 Plutonium 试用版。升级以保留您的自定义标签并在您的个人资料上获得徽章。';
 
   @override
-  String get fluxerTagUpdated => 'FluxerTag 已更新';
+  String get fluxerTagUpdated => '用户名 已更新';
 
   @override
-  String get fluxerTagUpdateFailed => '更新 FluxerTag 失败。请重试。';
+  String get fluxerTagUpdateFailed => '更新 用户名 失败。请重试。';
 
   @override
   String get continueAction => '继续';
@@ -1456,10 +1456,10 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get usernameLabel => '用户名';
 
   @override
-  String get claimAccountToChangeFluxerTag => '认领您的账户以更改您的 FluxerTag';
+  String get claimAccountToChangeFluxerTag => '认领您的账户以更改您的 用户名';
 
   @override
-  String get changeFluxerTag => '更改 FluxerTag';
+  String get changeFluxerTag => '更改 用户名';
 
   @override
   String customizeTagWithPlutoniumTooltip(String discriminator) {
@@ -2395,7 +2395,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   }
 
   @override
-  String get blockedUsersCopyTag => '复制FluxerTag';
+  String get blockedUsersCopyTag => '复制用户名';
 
   @override
   String get blockedUsersCopyId => '复制用户ID';
@@ -6906,10 +6906,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get audioAndVideoMicTestSectionTitle => 'Mic test';
-
-  @override
-  String get audioAndVideoMicTestSectionDescription =>
-      'Listen to how you sound with your current settings.';
 
   @override
   String get audioAndVideoMicTestStartLabel => 'Start mic test';
@@ -12164,10 +12160,10 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get crop => '裁切';
 
   @override
-  String get changeYourFluxerTag => '變更您的 FluxerTag';
+  String get changeYourFluxerTag => '變更您的 使用者名稱';
 
   @override
-  String get fluxerTagInputLabel => 'FluxerTag';
+  String get fluxerTagInputLabel => '使用者名稱';
 
   @override
   String get fluxerTagDescriptionBase =>
@@ -12194,11 +12190,11 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
       '取得 Plutonium 以自訂您的標籤，或在變更使用者名稱時保留它';
 
   @override
-  String get fluxerTagAlreadyTaken => 'FluxerTag 已被佔用';
+  String get fluxerTagAlreadyTaken => '使用者名稱 已被佔用';
 
   @override
   String fluxerTagAlreadyTakenBody(String username, String discriminator) {
-    return 'FluxerTag $username#$discriminator 已被佔用。繼續將會自動重新分配您的標籤。';
+    return '使用者名稱 $username#$discriminator 已被佔用。繼續將會自動重新分配您的標籤。';
   }
 
   @override
@@ -12218,7 +12214,7 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get premiumWarningPendingDiscriminator =>
-      '如果您儲存此 FluxerTag，您的自訂 4 位數字標籤將在您的 Plutonium 訂閱結束時恢復為隨機號碼。如果您的訂閱未能續訂，您將有 3 天寬限期，之後標籤才會變更。';
+      '如果您儲存此 使用者名稱，您的自訂 4 位數字標籤將在您的 Plutonium 訂閱結束時恢復為隨機號碼。如果您的訂閱未能續訂，您將有 3 天寬限期，之後標籤才會變更。';
 
   @override
   String premiumWarningActiveDiscriminator(String discriminator) {
@@ -12238,10 +12234,10 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
       '您目前處於 Plutonium 試用期。升級即可保留您的自訂標籤並在個人資料中獲得徽章。';
 
   @override
-  String get fluxerTagUpdated => 'FluxerTag 已更新';
+  String get fluxerTagUpdated => '使用者名稱 已更新';
 
   @override
-  String get fluxerTagUpdateFailed => '更新 FluxerTag 失敗。請再試一次。';
+  String get fluxerTagUpdateFailed => '更新 使用者名稱 失敗。請再試一次。';
 
   @override
   String get continueAction => '繼續';
@@ -12256,10 +12252,10 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get usernameLabel => '使用者名稱';
 
   @override
-  String get claimAccountToChangeFluxerTag => '請認領您的帳戶以變更您的 FluxerTag';
+  String get claimAccountToChangeFluxerTag => '請認領您的帳戶以變更您的 使用者名稱';
 
   @override
-  String get changeFluxerTag => '更改 FluxerTag';
+  String get changeFluxerTag => '更改 使用者名稱';
 
   @override
   String customizeTagWithPlutoniumTooltip(String discriminator) {
@@ -13072,7 +13068,7 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   }
 
   @override
-  String get blockedUsersCopyTag => '複製 FluxerTag';
+  String get blockedUsersCopyTag => '複製 使用者名稱';
 
   @override
   String get blockedUsersCopyId => '複製使用者 ID';

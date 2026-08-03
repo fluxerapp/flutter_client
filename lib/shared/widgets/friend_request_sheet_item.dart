@@ -150,8 +150,8 @@ class FriendRequestSheetItem extends ConsumerWidget {
               ],
             ),
         ];
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+        return FluxerBottomSheetContent(
+          scrollable: false,
           child: FluxerBottomSheetGroupColumn(children: groups),
         );
       },

@@ -1,5 +1,9 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 
+typedef UnifiedPushVapidResolver = Future<String?> Function();
+
+bool hasUnifiedPushVapid(String? vapid) => vapid != null && vapid.isNotEmpty;
+
 /// Reads the cached VAPID public key without Riverpod (background UP isolate).
 Future<String?> readCachedUnifiedPushVapidPublicKey() async {
   final FluxerDatabase database = FluxerDatabase();

@@ -394,8 +394,13 @@ class SyncedPreferencesStore {
       _deferPush();
       return;
     }
+    if (_isPushInFlight) {
+      _pendingPush = true;
+      return;
+    }
     final generation = ++_pushGeneration;
     _isPushInFlight = true;
+    pb.SyncedPreferences? inFlightSnapshot;
     try {
       final changedFields = await _changedRegisteredFields();
       if (!_ref.mounted) {
@@ -416,11 +421,12 @@ class SyncedPreferencesStore {
       _inFlightFields
         ..clear()
         ..addAll(fieldsInRequest);
-      _inFlightSnapshot = await _buildLocalSnapshot();
+      inFlightSnapshot = await _buildLocalSnapshot();
+      _inFlightSnapshot = inFlightSnapshot;
       if (!_ref.mounted) {
         return;
       }
-      final encoded = await _encodeLocalSnapshot(_inFlightSnapshot!);
+      final encoded = await _encodeLocalSnapshot(inFlightSnapshot);
       if (!_ref.mounted || encoded.isEmpty) {
         return;
       }
@@ -447,15 +453,17 @@ class SyncedPreferencesStore {
       await client.users.updateCurrentUserSettings(
         body: UserSettingsUpdateRequest(syncedPreferences: encoded),
       );
-      if (!_ref.mounted) {
+      if (generation != _pushGeneration || !_ref.mounted) {
         return;
       }
       _wireBlob = encoded;
       _lastKnownGoodWire = encoded;
       _wire = SyncedPreferencesEngine.decode(encoded);
-      _local = _inFlightSnapshot!;
+      _local = inFlightSnapshot;
       _dirtyFields.removeAll(fieldsInRequest);
-      _pendingPush = false;
+      final stillChanged = await _changedRegisteredFields();
+      _dirtyFields.addAll(stillChanged);
+      _pendingPush = _dirtyFields.isNotEmpty;
       _markFieldsAcked(fieldsInRequest);
       _rateLimitAttempts = 0;
       talker.debug(

@@ -12,6 +12,8 @@ import 'package:fluxer_app/features/ui/action_menu/fluxer_action_menu.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+import '../../../helpers/wide_layout_test_sizes.dart';
+
 Widget buildTestApp(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
@@ -24,6 +26,15 @@ Widget buildTestApp(Widget child) {
       home: Scaffold(body: child),
     ),
   );
+}
+
+void useWideSurface(WidgetTester tester) {
+  tester.view.physicalSize = kWideTestViewportSize;
+  tester.view.devicePixelRatio = 1;
+  addTearDown(() {
+    tester.view.resetPhysicalSize();
+    tester.view.resetDevicePixelRatio();
+  });
 }
 
 void useMobileSurface(WidgetTester tester) {
@@ -115,6 +126,8 @@ void main() {
     });
 
     testWidgets('dismisses when tapping outside the menu', (tester) async {
+      useWideSurface(tester);
+
       await tester.pumpWidget(
         buildTestApp(
           Builder(

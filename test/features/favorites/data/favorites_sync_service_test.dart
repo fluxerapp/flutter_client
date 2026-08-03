@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -27,6 +28,7 @@ class _FakeUsersApi implements UsersApi {
   Object? pushError;
   UserSettingsUpdateRequest? lastPushBody;
   int pushCount = 0;
+  Completer<void>? firstPushGate;
 
   @override
   Future<UserSettingsResponse> updateCurrentUserSettings({
@@ -34,6 +36,9 @@ class _FakeUsersApi implements UsersApi {
   }) async {
     pushCount++;
     lastPushBody = body;
+    if (pushCount == 1 && firstPushGate != null) {
+      await firstPushGate!.future;
+    }
     if (pushError != null) {
       // The fake accepts arbitrary configured failures to exercise error paths.
       // ignore: only_throw_errors
@@ -510,6 +515,45 @@ void main() {
       await Future<void>.delayed(const Duration(seconds: 6));
       expect(usersApi.pushCount, greaterThan(1));
     });
+
+    test(
+      'overlapping pushes do not crash while first push is in flight',
+      () async {
+        usersApi.firstPushGate = Completer<void>();
+
+        await syncStore.hydrateFromUserSettings(
+          _settingsFor(FavoritesLocalState.empty),
+        );
+        await database.favoriteChannelsDao.addChannel(
+          channelId: 'channel-1',
+          guildId: 'guild-1',
+        );
+        syncStore.markDirty(SyncedPreferenceField.favorites);
+        await _waitForDebounce();
+
+        expect(usersApi.pushCount, 1);
+
+        await database.favoriteChannelsDao.addChannel(
+          channelId: 'channel-2',
+          guildId: 'guild-1',
+        );
+        syncStore.markDirty(SyncedPreferenceField.favorites);
+        syncStore.scheduleFlush();
+        await _waitForDebounce();
+
+        usersApi.firstPushGate!.complete();
+        await _waitForDebounce();
+
+        expect(usersApi.pushCount, greaterThanOrEqualTo(2));
+        final pushed = FavoritesStateCodec.decodeFavoritesFromWire(
+          usersApi.lastPushBody!.syncedPreferences!,
+        );
+        expect(
+          pushed.channels.map((channel) => channel.channelId),
+          containsAll(['channel-1', 'channel-2']),
+        );
+      },
+    );
   });
 
   group('FavoritesStateCodec cross-client', () {

@@ -574,6 +574,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                   UserProfileBioCard(
                     bio: bio,
                     userId: userId,
+                    guildId: profileGuildId,
                     accountMemberSince: accountMemberSince,
                     guildMemberSince: guildMemberSince,
                     guildName: guildName,

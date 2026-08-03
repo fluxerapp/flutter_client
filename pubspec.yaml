@@ -12,7 +12,7 @@ dependencies:
   app_links: ^7.2.0
   app_settings: ^8.0.0
   audioplayers: ^6.8.1
-  cached_network_image_ce: ^4.6.4
+  cached_network_image_ce: ^4.10.0
   clock: ^1.1.2
   connectivity_plus: ^7.1.1
   country_flags: ^4.1.2
@@ -20,11 +20,11 @@ dependencies:
   cross_file: ^0.3.5+2
   cupertino_icons: ^1.0.8
   desktop_drop: ^0.7.1
-  device_info_plus: ^12.4.0
+  device_info_plus: ^13.2.0
   dio: ^5.10.0
-  drift: ^2.34.0
-  drift_flutter: ^0.3.0
-  file_picker: ^11.0.2
+  drift: ^2.34.3
+  drift_flutter: ^0.3.1
+  file_picker: ^12.0.0-beta.7
   fixnum: ^1.1.1
   flutter:
     sdk: flutter
@@ -51,26 +51,25 @@ dependencies:
   gaimon: ^1.4.3
   gal: ^2.3.3
   go_router: ^17.2.1
-  google_fonts: ^8.0.1
   highlight: ^0.7.0
   image: ^4.8.0
   image_picker: ^1.2.3
   image_picker_android: ^0.8.13+19
   image_picker_platform_interface: ^2.11.1
   intl: ^0.20.2
-  livekit_client: ^2.8.1
+  livekit_client: ^2.9.0
   livekit_noise_filter: ^0.2.1
   lucid_validation: ^1.3.1
   media_kit: ^1.2.6
   media_kit_libs_video: ^1.0.7
   media_kit_video: ^2.0.1
   opentelemetry: ^0.18.11
-  package_info_plus: ^9.0.0
+  package_info_plus: ^10.2.1
   passkeys: ^2.22.0
   path: ^1.9.1
   path_provider: ^2.1.5
-  permission_handler: ^12.0.1
-  phone_numbers_parser: ^9.0.3
+  permission_handler: ^13.0.0
+  phone_numbers_parser: ^9.0.25
   phosphor_flutter:
     git:
       url: https://github.com/Niural/phosphor_flutter
@@ -84,9 +83,9 @@ dependencies:
   smart_keyboard_insets: ^0.0.1
   sqlite3: ^3.3.3
   super_clipboard: ^0.9.1
-  talker: ^5.1.17
-  talker_dio_logger: ^5.1.17
-  talker_flutter: 5.1.16
+  talker: ^5.1.20
+  talker_dio_logger: ^5.1.20
+  talker_flutter: ^5.1.20
   unifiedpush: ^6.2.0
   unifiedpush_ui: ^0.2.0
   url_launcher: ^6.3.2
@@ -106,7 +105,7 @@ dependency_overrides:
   analyzer: ^10.0.0
   analyzer_plugin: ^0.14.0
   dart_style: 3.1.7
-  device_info_plus: ^12.4.0
+  device_info_plus: ^13.2.0
   # mockito >=5.6.5 requires analyzer ^13, incompatible with the override above.
   mockito: 5.6.4
 
@@ -149,22 +148,19 @@ flutter:
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/to/asset-from-package
 
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/to/font-from-package
+  fonts:
+    - family: IBMPlexSans
+      fonts:
+        - asset: assets/fonts/IBMPlexSans-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/IBMPlexSans-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/IBMPlexSans-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/IBMPlexSans-Italic.ttf
+          weight: 400
+          style: italic
+    - family: IBMPlexMono
+      fonts:
+        - asset: assets/fonts/IBMPlexMono-Regular.ttf
+          weight: 400

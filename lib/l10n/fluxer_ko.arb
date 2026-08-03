@@ -1234,11 +1234,11 @@
     },
     "addFriendNoUserFound": "해당 사용자 이름의 사용자를 찾을 수 없습니다.",
     "@addFriendNoUserFound": {
-        "description": "Error when no user matches the entered FluxerTag."
+        "description": "Error when no user matches the entered username."
     },
     "addFriendInvalidUsername": "유효한 사용자 이름(사용자이름#0000)을 입력하세요.",
     "@addFriendInvalidUsername": {
-        "description": "Error when the FluxerTag format is invalid."
+        "description": "Error when the username format is invalid."
     },
     "addFriendOutgoingSuccess": "친구 요청을 보냈습니다",
     "@addFriendOutgoingSuccess": {
@@ -1643,17 +1643,17 @@
     "@crop": {
         "description": "Button to confirm image crop."
     },
-    "changeYourFluxerTag": "FluxerTag 변경",
+    "changeYourFluxerTag": "사용자 이름 변경",
     "@changeYourFluxerTag": {
-        "description": "Title for the FluxerTag change bottom sheet."
+        "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "FluxerTag",
+    "fluxerTagInputLabel": "사용자 이름",
     "@fluxerTagInputLabel": {
         "description": "Label above the username and discriminator input fields."
     },
     "fluxerTagDescriptionBase": "사용자 이름에는 문자(a-z, A-Z), 숫자(0-9) 및 밑줄만 포함될 수 있습니다. 사용자 이름은 대소문자를 구분하지 않습니다.",
     "@fluxerTagDescriptionBase": {
-        "description": "Base description text on the FluxerTag change sheet."
+        "description": "Base description text on the username change sheet."
     },
     "fluxerTagDescriptionVisionary": "사용자 이름에는 문자(a-z, A-Z), 숫자(0-9) 및 밑줄만 포함될 수 있습니다. 사용자 이름은 대소문자를 구분하지 않습니다. #0000부터 #9999까지 사용 가능한 4자리 태그를 선택할 수 있습니다.",
     "@fluxerTagDescriptionVisionary": {
@@ -1683,13 +1683,13 @@
     "@discriminatorPremiumTooltip": {
         "description": "Tooltip on disabled discriminator field for non-premium users."
     },
-    "fluxerTagAlreadyTaken": "FluxerTag가 이미 사용 중입니다.",
+    "fluxerTagAlreadyTaken": "사용자 이름 이미 사용 중입니다.",
     "@fluxerTagAlreadyTaken": {
         "description": "Title for the tag-taken confirmation sheet."
     },
-    "fluxerTagAlreadyTakenBody": "{username}#{discriminator} FluxerTag가 이미 사용 중입니다. 계속하면 자동으로 디스커리미네이터가 다시 롤링됩니다.",
+    "fluxerTagAlreadyTakenBody": "{username}#{discriminator} 사용자 이름 이미 사용 중입니다. 계속하면 자동으로 디스커리미네이터가 다시 롤링됩니다.",
     "@fluxerTagAlreadyTakenBody": {
-        "description": "Body text when the requested FluxerTag is taken.",
+        "description": "Body text when the requested username is taken.",
         "placeholders": {
             "username": {
                 "type": "String"
@@ -1720,7 +1720,7 @@
     "@iUnderstandContinue": {
         "description": "Button to acknowledge a warning and proceed."
     },
-    "premiumWarningPendingDiscriminator": "이 FluxerTag를 저장하면 Plutonium 구독이 종료될 때 사용자 지정 4자리 태그가 무작위 숫자로 되돌아갑니다. 구독이 갱신되지 않으면 태그가 변경되기 전에 3일의 유예 기간이 있습니다.",
+    "premiumWarningPendingDiscriminator": "이 사용자 이름 저장하면 Plutonium 구독이 종료될 때 사용자 지정 4자리 태그가 무작위 숫자로 되돌아갑니다. 구독이 갱신되지 않으면 태그가 변경되기 전에 3일의 유예 기간이 있습니다.",
     "@premiumWarningPendingDiscriminator": {
         "description": "Warning shown when premium user is about to change their discriminator."
     },
@@ -1750,13 +1750,13 @@
     "@premiumTrialActive": {
         "description": "Trial upsell without specific expiry date."
     },
-    "fluxerTagUpdated": "FluxerTag가 업데이트되었습니다.",
+    "fluxerTagUpdated": "사용자 이름 업데이트되었습니다.",
     "@fluxerTagUpdated": {
-        "description": "Success toast after FluxerTag change."
+        "description": "Success toast after username change."
     },
-    "fluxerTagUpdateFailed": "FluxerTag 업데이트에 실패했습니다. 다시 시도하세요.",
+    "fluxerTagUpdateFailed": "사용자 이름 업데이트에 실패했습니다. 다시 시도하세요.",
     "@fluxerTagUpdateFailed": {
-        "description": "Error message when FluxerTag update fails."
+        "description": "Error message when username update fails."
     },
     "continueAction": "계속",
     "@continueAction": {
@@ -1774,17 +1774,17 @@
     "@usernameLabel": {
         "description": "Label for the username field in profile settings."
     },
-    "claimAccountToChangeFluxerTag": "FluxerTag를 변경하려면 계정을 청구하세요.",
+    "claimAccountToChangeFluxerTag": "사용자 이름 변경하려면 계정을 청구하세요.",
     "@claimAccountToChangeFluxerTag": {
-        "description": "Tooltip when unverified user hovers the disabled Change FluxerTag button."
+        "description": "Tooltip when unverified user hovers the disabled Change username button."
     },
-    "changeFluxerTag": "FluxerTag 변경",
+    "changeFluxerTag": "사용자 이름 변경",
     "@changeFluxerTag": {
-        "description": "Button label to open the FluxerTag change flow."
+        "description": "Button label to open the username change flow."
     },
     "customizeTagWithPlutoniumTooltip": "Plutonium으로 4자리 태그(#{discriminator})를 원하는 대로 꾸며보세요",
     "@customizeTagWithPlutoniumTooltip": {
-        "description": "Tooltip on the crown upsell button next to the FluxerTag button.",
+        "description": "Tooltip on the crown upsell button next to the username button.",
         "placeholders": {
             "discriminator": {
                 "type": "String"

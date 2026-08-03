@@ -17,6 +17,7 @@ class MessageMarkdown extends ConsumerWidget {
     this.baseStyle,
     this.selectable = false,
     this.channelId,
+    this.guildId,
     this.messageId,
     this.mentionChannels = const [],
     this.markdownContext = FluxerMarkdownContext.standardWithJumbo,
@@ -32,6 +33,7 @@ class MessageMarkdown extends ConsumerWidget {
   final TextStyle? baseStyle;
   final bool selectable;
   final String? channelId;
+  final String? guildId;
   final String? messageId;
   final List<MessageChannelMention> mentionChannels;
   final FluxerMarkdownContext markdownContext;
@@ -54,6 +56,7 @@ class MessageMarkdown extends ConsumerWidget {
       config: createFluxerMarkdownConfig(
         context: context,
         channelId: channelId,
+        guildId: guildId,
         mentionChannels: mentionChannels,
         revealSpoilers: revealSpoilers,
         spoilerSyncController: spoilerSyncController,

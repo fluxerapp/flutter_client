@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fluxer_app/core/theme/fluxer_fonts.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class UserProfileActionCardRow extends StatelessWidget {
@@ -123,7 +123,8 @@ class _ProfileActionCard extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 label,
-                style: GoogleFonts.ibmPlexSans(
+                style: TextStyle(
+                  fontFamily: FluxerFonts.sans,
                   color: colors.textSecondary,
                   fontSize: 12,
                   fontWeight: FontWeight.w500,

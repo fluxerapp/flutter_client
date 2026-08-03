@@ -21,6 +21,7 @@ class UserProfileBioCard extends StatelessWidget {
     this.guildMemberSince,
     this.guildName,
     this.guildIconUrl,
+    this.guildId,
     this.timezoneOffset,
     super.key,
   });
@@ -32,6 +33,7 @@ class UserProfileBioCard extends StatelessWidget {
   final DateTime? guildMemberSince;
   final String? guildName;
   final String? guildIconUrl;
+  final String? guildId;
   final int? timezoneOffset;
 
   @override
@@ -69,6 +71,7 @@ class UserProfileBioCard extends StatelessWidget {
               SizedBox(height: layout.s2),
               MessageMarkdown(
                 data: trimmedBio,
+                guildId: guildId,
                 markdownContext: FluxerMarkdownContext.restrictedUserBio,
                 baseStyle: textStyles.bodySmall.copyWith(
                   color: colors.textChat,

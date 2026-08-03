@@ -240,6 +240,47 @@ void main() {
       expect(tester.widget<RichText>(find.byType(RichText)).maxLines, 1);
     });
 
+    testWidgets('constrains unrevealed spoiler for single-line ellipsis', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: SizedBox(
+              width: 200,
+              child: Builder(
+                builder: (context) => buildFluxerMarkdownTextFlow(
+                  context: context,
+                  text: _longSpoiledLink,
+                  baseStyle: baseStyle,
+                  config: _testMarkdownConfig,
+                  features: FluxerMarkdownFeatures.forContext(
+                    FluxerMarkdownContext.restrictedInlineReply,
+                  ),
+                  inlineDocument: _inlineDocumentWithAutolink(),
+                  selectable: false,
+                  isDark: false,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      expect(find.byType(GestureDetector), findsOneWidget);
+      final RichText spoilerRichText = tester.widget<RichText>(
+        find.descendant(
+          of: find.byType(GestureDetector),
+          matching: find.byType(RichText),
+        ),
+      );
+      expect(spoilerRichText.maxLines, 1);
+    });
+
     testWidgets('keeps spoiler widget when maxLines is not set', (
       tester,
     ) async {

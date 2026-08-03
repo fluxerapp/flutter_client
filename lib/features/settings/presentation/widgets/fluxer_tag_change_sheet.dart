@@ -233,7 +233,7 @@ class _FluxerTagChangeContentState
           );
       widget.onDone();
     } on Exception catch (e) {
-      talker.error('Failed to update FluxerTag', e);
+      talker.error('Failed to update username', e);
       if (!mounted) {
         return;
       }
@@ -425,7 +425,7 @@ class _FluxerTagChangeContentState
             Padding(
               padding: EdgeInsets.only(bottom: layout.s2),
               child: Text(
-                l10n.fluxerTagInputLabel,
+                l10n.usernameLabel,
                 style: textStyles.bodySmall.copyWith(
                   color: colors.textTertiary,
                   fontWeight: FontWeight.bold,

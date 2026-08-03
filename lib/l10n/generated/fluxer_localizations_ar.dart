@@ -1421,10 +1421,10 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get crop => 'قص';
 
   @override
-  String get changeYourFluxerTag => 'تغيير FluxerTag الخاص بك';
+  String get changeYourFluxerTag => 'تغيير اسم المستخدم الخاص بك';
 
   @override
-  String get fluxerTagInputLabel => 'FluxerTag';
+  String get fluxerTagInputLabel => 'اسم المستخدم';
 
   @override
   String get fluxerTagDescriptionBase =>
@@ -1452,11 +1452,11 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
       'احصل على Plutonium لتخصيص علامتك أو الاحتفاظ بها عند تغيير اسم المستخدم الخاص بك';
 
   @override
-  String get fluxerTagAlreadyTaken => 'FluxerTag مأخوذ بالفعل';
+  String get fluxerTagAlreadyTaken => 'اسم المستخدم مأخوذ بالفعل';
 
   @override
   String fluxerTagAlreadyTakenBody(String username, String discriminator) {
-    return 'علامة FluxerTag $username#$discriminator مأخوذة بالفعل. المتابعة ستعيد تعيين رقمك المميز تلقائيًا.';
+    return 'علامة اسم المستخدم $username#$discriminator مأخوذة بالفعل. المتابعة ستعيد تعيين رقمك المميز تلقائيًا.';
   }
 
   @override
@@ -1476,7 +1476,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get premiumWarningPendingDiscriminator =>
-      'إذا قمت بحفظ علامة FluxerTag هذه، فستعود علامتك المكونة من 4 أرقام إلى رقم عشوائي عند انتهاء اشتراك Plutonium الخاص بك. إذا فشل اشتراكك في التجديد، فستحصل على فترة سماح مدتها 3 أيام قبل تغيير العلامة.';
+      'إذا قمت بحفظ علامة اسم المستخدم هذه، فستعود علامتك المكونة من 4 أرقام إلى رقم عشوائي عند انتهاء اشتراك Plutonium الخاص بك. إذا فشل اشتراكك في التجديد، فستحصل على فترة سماح مدتها 3 أيام قبل تغيير العلامة.';
 
   @override
   String premiumWarningActiveDiscriminator(String discriminator) {
@@ -1497,11 +1497,11 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
       'أنت في فترة تجريبية لـ Plutonium. قم بالترقية للاحتفاظ بعلامتك المخصصة واكسب شارة على ملفك الشخصي.';
 
   @override
-  String get fluxerTagUpdated => 'تم تحديث FluxerTag';
+  String get fluxerTagUpdated => 'تم تحديث اسم المستخدم';
 
   @override
   String get fluxerTagUpdateFailed =>
-      'فشل تحديث FluxerTag. يرجى المحاولة مرة أخرى.';
+      'فشل تحديث اسم المستخدم. يرجى المحاولة مرة أخرى.';
 
   @override
   String get continueAction => 'متابعة';
@@ -1518,23 +1518,23 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get claimAccountToChangeFluxerTag =>
-      'طالب بحسابك لتغيير FluxerTag الخاص بك';
+      'طالب بحسابك لتغيير اسم المستخدم الخاص بك';
 
   @override
-  String get changeFluxerTag => 'تغيير FluxerTag';
+  String get changeFluxerTag => 'تغيير اسم المستخدم';
 
   @override
   String customizeTagWithPlutoniumTooltip(String discriminator) {
-    return 'خصص علامة FluxerTag المكونة من 4 أرقام ($discriminator) كما تريد باستخدام Plutonium';
+    return 'خصص علامة اسم المستخدم المكونة من 4 أرقام ($discriminator) كما تريد باستخدام Plutonium';
   }
 
   @override
   String get changeUsernameAndTagHint =>
-      'تغيير اسم المستخدم وعلامة FluxerTag المكونة من 4 أرقام';
+      'تغيير اسم المستخدم وعلامة اسم المستخدم المكونة من 4 أرقام';
 
   @override
   String customTagSubscriptionWarning(String discriminator) {
-    return 'علامة FluxerTag المخصصة الخاصة بك ($discriminator) مرتبطة باشتراك Plutonium الخاص بك وستعود إلى علامة عشوائية إذا انتهت صلاحيتها.';
+    return 'علامة اسم المستخدم المخصصة الخاصة بك ($discriminator) مرتبطة باشتراك Plutonium الخاص بك وستعود إلى علامة عشوائية إذا انتهت صلاحيتها.';
   }
 
   @override
@@ -2503,7 +2503,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   }
 
   @override
-  String get blockedUsersCopyTag => 'نسخ FluxerTag';
+  String get blockedUsersCopyTag => 'نسخ اسم المستخدم';
 
   @override
   String get blockedUsersCopyId => 'نسخ معرف المستخدم';
@@ -7178,10 +7178,6 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get audioAndVideoMicTestSectionTitle => 'Mic test';
-
-  @override
-  String get audioAndVideoMicTestSectionDescription =>
-      'Listen to how you sound with your current settings.';
 
   @override
   String get audioAndVideoMicTestStartLabel => 'Start mic test';

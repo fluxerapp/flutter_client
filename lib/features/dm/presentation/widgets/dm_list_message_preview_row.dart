@@ -117,7 +117,6 @@ class DmListMessagePreviewRow extends StatelessWidget {
                   channelId: channelId,
                   messageId: messageId,
                   markdownContext: FluxerMarkdownContext.restrictedInlineReply,
-                  revealSpoilers: true,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   baseStyle: style,

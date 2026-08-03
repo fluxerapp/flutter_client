@@ -16,6 +16,8 @@ import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar_content.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
+import '../../../../../helpers/wide_layout_test_sizes.dart';
+
 void main() {
   group('ScheduledMaintenanceNagbar', () {
     final ServiceStatusMaintenance maintenance = ServiceStatusMaintenance(
@@ -30,12 +32,14 @@ void main() {
     testWidgets('renders learn more action on desktop layout', (
       WidgetTester tester,
     ) async {
-      await tester.binding.setSurfaceSize(const Size(900, 700));
-      addTearDown(() => tester.binding.setSurfaceSize(null));
+      tester.view.physicalSize = kWideTestViewportSize;
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
       await tester.pumpWidget(
         _wrap(
           maintenance: maintenance,
-          width: 900,
+          width: kWideTestViewportSize.width,
           child: const ScheduledMaintenanceNagbar(),
         ),
       );

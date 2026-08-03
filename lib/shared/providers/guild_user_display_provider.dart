@@ -26,11 +26,13 @@ String watchMentionUserDisplayName({
   required WidgetRef ref,
   required String userId,
   String? channelId,
+  String? guildId,
 }) {
-  final String? guildId = resolveGuildIdForChannel(ref, channelId);
-  if (guildId != null && guildId.isNotEmpty) {
+  final String? resolvedGuildId =
+      guildId ?? resolveGuildIdForChannel(ref, channelId);
+  if (resolvedGuildId != null && resolvedGuildId.isNotEmpty) {
     final GuildUserDisplay? display = ref
-        .watch(guildUserDisplayProvider((userId, guildId)))
+        .watch(guildUserDisplayProvider((userId, resolvedGuildId)))
         .value;
     return resolveMentionUserDisplayName(userId: userId, guildDisplay: display);
   }

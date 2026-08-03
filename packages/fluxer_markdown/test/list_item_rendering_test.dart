@@ -185,22 +185,54 @@ void main() {
         findsOneWidget,
       );
     });
+
+    testWidgets('ordered list with multi-digit numbers does not wrap markers', (
+      tester,
+    ) async {
+      const String input =
+          '8. item eight\n9. item nine\n10. item ten\n11. item eleven';
+      const double expectedMarkerHeight = 16 * 1.375;
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: MediaQuery(
+            data: MediaQueryData(textScaler: TextScaler.noScaling),
+            child: Scaffold(
+              body: SizedBox(
+                width: 320,
+                child: FluxerMarkdown(
+                  data: input,
+                  config: _testMarkdownConfig,
+                  baseStyle: _baseStyle,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      for (final marker in ['8.', '9.', '10.', '11.']) {
+        final Finder markerFinder = find.text(marker);
+        expect(markerFinder, findsOneWidget);
+        final Size markerSize = tester.getSize(markerFinder);
+        expect(markerSize.height, closeTo(expectedMarkerHeight, 1));
+      }
+
+      final double markerColumnWidth8 = _listMarkerColumnWidth(tester, '8.');
+      final double markerColumnWidth10 = _listMarkerColumnWidth(tester, '10.');
+      expect(markerColumnWidth8, markerColumnWidth10);
+      expect(markerColumnWidth10, greaterThan(24));
+      expect(
+        tester.getSize(find.text('10.')).width,
+        lessThanOrEqualTo(markerColumnWidth10),
+      );
+    });
   });
 }
 
 int _richTextCountInListItemBody(WidgetTester tester, String marker) {
-  final Finder markerFinder = find.text(marker);
-  expect(markerFinder, findsOneWidget);
-  final Finder rowFinder = find.ancestor(
-    of: markerFinder,
-    matching: find.byWidgetPredicate(
-      (Widget widget) =>
-          widget is Row &&
-          widget.children.any(
-            (Widget child) => child is SizedBox && child.width == 24,
-          ),
-    ),
-  );
+  expect(find.text(marker), findsOneWidget);
+  final Finder rowFinder = _listItemRowFinder(marker);
   expect(rowFinder, findsOneWidget);
   final Finder expandedFinder = find.descendant(
     of: rowFinder,
@@ -221,22 +253,43 @@ int _richTextCountInListItemBody(WidgetTester tester, String marker) {
 }
 
 Size _listItemBodySize(WidgetTester tester, String marker) {
-  final Finder markerFinder = find.text(marker);
-  final Finder rowFinder = find.ancestor(
-    of: markerFinder,
+  final Finder expandedFinder = find.descendant(
+    of: _listItemRowFinder(marker),
+    matching: find.byType(Expanded),
+  );
+  return tester.getSize(expandedFinder);
+}
+
+double _listMarkerColumnWidth(WidgetTester tester, String marker) {
+  return tester.getSize(_listMarkerSizedBoxFinder(marker)).width;
+}
+
+Finder _listItemRowFinder(String marker) {
+  return find.ancestor(
+    of: find.text(marker),
     matching: find.byWidgetPredicate(
       (Widget widget) =>
           widget is Row &&
           widget.children.any(
-            (Widget child) => child is SizedBox && child.width == 24,
+            (Widget child) =>
+                child is SizedBox &&
+                child.child is Text &&
+                (child.child! as Text).data == marker,
           ),
     ),
   );
-  final Finder expandedFinder = find.descendant(
-    of: rowFinder,
-    matching: find.byType(Expanded),
+}
+
+Finder _listMarkerSizedBoxFinder(String marker) {
+  return find.ancestor(
+    of: find.text(marker),
+    matching: find.byWidgetPredicate(
+      (Widget widget) =>
+          widget is SizedBox &&
+          widget.child is Text &&
+          (widget.child! as Text).data == marker,
+    ),
   );
-  return tester.getSize(expandedFinder);
 }
 
 Future<Size> _measureSingleLineHeight(WidgetTester tester) async {

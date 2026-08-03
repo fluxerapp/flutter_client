@@ -452,8 +452,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     final bool touchPrimary = isTouchPrimaryInput(ref);
     final bool useTouchMessageActions = isMobile || touchPrimary;
     final isTouch =
-        layoutModeOf(layoutReferenceExtentOf(MediaQuery.sizeOf(context))) !=
-        LayoutMode.desktop;
+        layoutModeOfSize(MediaQuery.sizeOf(context)) != LayoutMode.desktop;
     final MessageRenderSettings? settings = widget.renderSettings;
     final guildId =
         widget.previewRoleGuildId ??

@@ -183,7 +183,6 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
               ),
               FluxerSettingsSubsection(
                 title: l10n.audioAndVideoMicTestSectionTitle,
-                description: l10n.audioAndVideoMicTestSectionDescription,
                 children: const [VoiceMicTestSection()],
               ),
             ],

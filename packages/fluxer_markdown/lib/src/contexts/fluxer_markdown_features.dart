@@ -49,7 +49,7 @@ class FluxerMarkdownFeatures {
           allowAlerts: false,
           allowBlockquotes: false,
           allowChannelMentions: true,
-          allowCodeBlocks: false,
+          allowCodeBlocks: true,
           allowCommandMentions: true,
           allowEveryoneMentions: true,
           allowGuildNavigations: true,
@@ -60,7 +60,7 @@ class FluxerMarkdownFeatures {
           allowPlainInlineCode: true,
           allowRoleMentions: true,
           allowSpoilers: true,
-          allowSubtext: false,
+          allowSubtext: true,
           allowTables: false,
           allowUserMentions: true,
         ),
@@ -143,6 +143,9 @@ class FluxerMarkdownFeatures {
   final bool allowSubtext;
   final bool allowTables;
   final bool allowUserMentions;
+
+  bool get isRestrictedInlinePreview =>
+      allowPlainInlineCode && !allowJumboEmoji && !allowBlockquotes;
 
   @override
   bool operator ==(Object other) =>

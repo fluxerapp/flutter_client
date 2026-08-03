@@ -1442,10 +1442,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get crop => 'Περικοπή';
 
   @override
-  String get changeYourFluxerTag => 'Αλλαγή του FluxerTag σου';
+  String get changeYourFluxerTag => 'Αλλαγή του Όνομα χρήστη σου';
 
   @override
-  String get fluxerTagInputLabel => 'FluxerTag';
+  String get fluxerTagInputLabel => 'Όνομα χρήστη';
 
   @override
   String get fluxerTagDescriptionBase =>
@@ -1473,11 +1473,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Απόκτησε Plutonium για να προσαρμόσεις το tag σου ή κράτησέ το όταν αλλάζεις το όνομα χρήστη σου';
 
   @override
-  String get fluxerTagAlreadyTaken => 'Το FluxerTag έχει ήδη ληφθεί';
+  String get fluxerTagAlreadyTaken => 'Το Όνομα χρήστη έχει ήδη ληφθεί';
 
   @override
   String fluxerTagAlreadyTakenBody(String username, String discriminator) {
-    return 'Το FluxerTag $username#$discriminator έχει ήδη ληφθεί. Η συνέχιση θα επαναφέρει αυτόματα τον διακριτικό σου αριθμό.';
+    return 'Το Όνομα χρήστη $username#$discriminator έχει ήδη ληφθεί. Η συνέχιση θα επαναφέρει αυτόματα τον διακριτικό σου αριθμό.';
   }
 
   @override
@@ -1497,7 +1497,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get premiumWarningPendingDiscriminator =>
-      'Αν αποθηκεύσεις αυτό το FluxerTag, το προσαρμοσμένο 4ψήφιο tag σου θα επανέλθει σε έναν τυχαίο αριθμό όταν λήξει η συνδρομή σου Plutonium. Αν η συνδρομή σου δεν ανανεωθεί, θα έχεις μια περίοδο χάριτος 3 ημερών πριν αλλάξει το tag.';
+      'Αν αποθηκεύσεις αυτό το Όνομα χρήστη, το προσαρμοσμένο 4ψήφιο tag σου θα επανέλθει σε έναν τυχαίο αριθμό όταν λήξει η συνδρομή σου Plutonium. Αν η συνδρομή σου δεν ανανεωθεί, θα έχεις μια περίοδο χάριτος 3 ημερών πριν αλλάξει το tag.';
 
   @override
   String premiumWarningActiveDiscriminator(String discriminator) {
@@ -1518,11 +1518,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Είσαι σε δοκιμαστική περίοδο Plutonium. Αναβάθμισε για να κρατήσεις το προσαρμοσμένο tag σου και να κερδίσεις ένα σήμα στο προφίλ σου.';
 
   @override
-  String get fluxerTagUpdated => 'Το FluxerTag ενημερώθηκε';
+  String get fluxerTagUpdated => 'Το Όνομα χρήστη ενημερώθηκε';
 
   @override
   String get fluxerTagUpdateFailed =>
-      'Αποτυχία ενημέρωσης του FluxerTag. Προσπάθησε ξανά.';
+      'Αποτυχία ενημέρωσης του Όνομα χρήστη. Προσπάθησε ξανά.';
 
   @override
   String get continueAction => 'Συνέχεια';
@@ -1539,10 +1539,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get claimAccountToChangeFluxerTag =>
-      'Διεκδίκησε τον λογαριασμό σου για να αλλάξεις το FluxerTag σου';
+      'Διεκδίκησε τον λογαριασμό σου για να αλλάξεις το Όνομα χρήστη σου';
 
   @override
-  String get changeFluxerTag => 'Αλλαγή FluxerTag';
+  String get changeFluxerTag => 'Αλλαγή Όνομα χρήστη';
 
   @override
   String customizeTagWithPlutoniumTooltip(String discriminator) {
@@ -2541,7 +2541,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get blockedUsersCopyTag => 'Αντιγραφή FluxerTag';
+  String get blockedUsersCopyTag => 'Αντιγραφή Όνομα χρήστη';
 
   @override
   String get blockedUsersCopyId => 'Αντιγραφή ID Χρήστη';
@@ -7271,10 +7271,6 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get audioAndVideoMicTestSectionTitle => 'Mic test';
-
-  @override
-  String get audioAndVideoMicTestSectionDescription =>
-      'Listen to how you sound with your current settings.';
 
   @override
   String get audioAndVideoMicTestStartLabel => 'Start mic test';

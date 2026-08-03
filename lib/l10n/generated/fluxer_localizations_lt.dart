@@ -1435,10 +1435,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get crop => 'Apkarpyti';
 
   @override
-  String get changeYourFluxerTag => 'Pakeisti jūsų FluxerTag';
+  String get changeYourFluxerTag => 'Pakeisti jūsų Vartotojo vardas';
 
   @override
-  String get fluxerTagInputLabel => 'FluxerTag';
+  String get fluxerTagInputLabel => 'Vartotojo vardas';
 
   @override
   String get fluxerTagDescriptionBase =>
@@ -1466,11 +1466,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Gaukite Plutonium, kad pritaikytumėte savo žymą arba išlaikytumėte ją keisdami vartotojo vardą';
 
   @override
-  String get fluxerTagAlreadyTaken => 'FluxerTag jau užimtas';
+  String get fluxerTagAlreadyTaken => 'Vartotojo vardas jau užimtas';
 
   @override
   String fluxerTagAlreadyTakenBody(String username, String discriminator) {
-    return 'FluxerTag $username#$discriminator jau užimtas. Tęsiant jūsų diskriminatorius bus automatiškai perskirstytas.';
+    return 'Vartotojo vardas $username#$discriminator jau užimtas. Tęsiant jūsų diskriminatorius bus automatiškai perskirstytas.';
   }
 
   @override
@@ -1490,7 +1490,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get premiumWarningPendingDiscriminator =>
-      'Jei išsaugosite šį FluxerTag, jūsų pasirinktinė 4 skaitmenų žyma grįš prie atsitiktinio numerio pasibaigus jūsų Plutonium prenumeratai. Jei jūsų prenumerata nebus atnaujinta, turėsite 3 dienų malonės periodą prieš žymos pakeitimą.';
+      'Jei išsaugosite šį Vartotojo vardas, jūsų pasirinktinė 4 skaitmenų žyma grįš prie atsitiktinio numerio pasibaigus jūsų Plutonium prenumeratai. Jei jūsų prenumerata nebus atnaujinta, turėsite 3 dienų malonės periodą prieš žymos pakeitimą.';
 
   @override
   String premiumWarningActiveDiscriminator(String discriminator) {
@@ -1511,11 +1511,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Jūs naudojate Plutonium bandomąją versiją. Atnaujinkite, kad išlaikytumėte savo pasirinktinę žymą ir gautumėte ženklelį savo profilyje.';
 
   @override
-  String get fluxerTagUpdated => 'FluxerTag atnaujintas';
+  String get fluxerTagUpdated => 'Vartotojo vardas atnaujintas';
 
   @override
   String get fluxerTagUpdateFailed =>
-      'Nepavyko atnaujinti FluxerTag. Pabandykite dar kartą.';
+      'Nepavyko atnaujinti Vartotojo vardas. Pabandykite dar kartą.';
 
   @override
   String get continueAction => 'Tęsti';
@@ -1532,10 +1532,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get claimAccountToChangeFluxerTag =>
-      'Patvirtinkite savo paskyrą, kad pakeistumėte savo FluxerTag';
+      'Patvirtinkite savo paskyrą, kad pakeistumėte savo Vartotojo vardas';
 
   @override
-  String get changeFluxerTag => 'Pakeisti FluxerTag';
+  String get changeFluxerTag => 'Pakeisti Vartotojo vardas';
 
   @override
   String customizeTagWithPlutoniumTooltip(String discriminator) {
@@ -2530,7 +2530,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String get blockedUsersCopyTag => 'Kopijuoti FluxerTag';
+  String get blockedUsersCopyTag => 'Kopijuoti Vartotojo vardas';
 
   @override
   String get blockedUsersCopyId => 'Kopijuoti vartotojo ID';
@@ -7286,10 +7286,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get audioAndVideoMicTestSectionTitle => 'Mic test';
-
-  @override
-  String get audioAndVideoMicTestSectionDescription =>
-      'Listen to how you sound with your current settings.';
 
   @override
   String get audioAndVideoMicTestStartLabel => 'Start mic test';

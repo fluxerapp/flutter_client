@@ -1432,10 +1432,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get crop => 'Kırp';
 
   @override
-  String get changeYourFluxerTag => 'FluxerTag\'inizi Değiştirin';
+  String get changeYourFluxerTag => 'Kullanıcı Adı\'inizi Değiştirin';
 
   @override
-  String get fluxerTagInputLabel => 'FluxerTag';
+  String get fluxerTagInputLabel => 'Kullanıcı Adı';
 
   @override
   String get fluxerTagDescriptionBase =>
@@ -1463,11 +1463,11 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Etiketinizi özelleştirmek veya kullanıcı adınızı değiştirirken onu korumak için Plutonium edinin';
 
   @override
-  String get fluxerTagAlreadyTaken => 'FluxerTag Zaten Alınmış';
+  String get fluxerTagAlreadyTaken => 'Kullanıcı Adı Zaten Alınmış';
 
   @override
   String fluxerTagAlreadyTakenBody(String username, String discriminator) {
-    return 'FluxerTag $username#$discriminator zaten alınmış. Devam etmek, ayırt edicinizi otomatik olarak yeniden oluşturacaktır.';
+    return 'Kullanıcı Adı $username#$discriminator zaten alınmış. Devam etmek, ayırt edicinizi otomatik olarak yeniden oluşturacaktır.';
   }
 
   @override
@@ -1487,7 +1487,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get premiumWarningPendingDiscriminator =>
-      'Bu FluxerTag\'i kaydederseniz, Plutonium aboneliğiniz sona erdiğinde özel 4 haneli etiketiniz rastgele bir sayıya geri dönecektir. Aboneliğiniz yenilenmezse, etiketin değişmesinden önce 3 günlük bir ek süreniz olacaktır.';
+      'Bu Kullanıcı Adı\'i kaydederseniz, Plutonium aboneliğiniz sona erdiğinde özel 4 haneli etiketiniz rastgele bir sayıya geri dönecektir. Aboneliğiniz yenilenmezse, etiketin değişmesinden önce 3 günlük bir ek süreniz olacaktır.';
 
   @override
   String premiumWarningActiveDiscriminator(String discriminator) {
@@ -1508,11 +1508,11 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Plutonium denemesindesiniz. Özel etiketini korumak ve profilinde bir rozet kazanmak için yükseltme yap.';
 
   @override
-  String get fluxerTagUpdated => 'FluxerTag güncellendi';
+  String get fluxerTagUpdated => 'Kullanıcı Adı güncellendi';
 
   @override
   String get fluxerTagUpdateFailed =>
-      'FluxerTag güncellenemedi. Lütfen tekrar deneyin.';
+      'Kullanıcı Adı güncellenemedi. Lütfen tekrar deneyin.';
 
   @override
   String get continueAction => 'Devam Et';
@@ -1529,10 +1529,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get claimAccountToChangeFluxerTag =>
-      'FluxerTag\'inizi değiştirmek için hesabınızı talep edin';
+      'Kullanıcı Adı\'inizi değiştirmek için hesabınızı talep edin';
 
   @override
-  String get changeFluxerTag => 'FluxerTag\'i Değiştir';
+  String get changeFluxerTag => 'Kullanıcı Adı\'i Değiştir';
 
   @override
   String customizeTagWithPlutoniumTooltip(String discriminator) {
@@ -7225,10 +7225,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get audioAndVideoMicTestSectionTitle => 'Mic test';
-
-  @override
-  String get audioAndVideoMicTestSectionDescription =>
-      'Listen to how you sound with your current settings.';
 
   @override
   String get audioAndVideoMicTestStartLabel => 'Start mic test';

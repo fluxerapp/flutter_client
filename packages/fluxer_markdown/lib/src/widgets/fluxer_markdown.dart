@@ -50,6 +50,16 @@ class FluxerMarkdown extends StatelessWidget {
     final processedText = preprocessFluxerMarkdown(data, features);
     final segments = parseFluxerMarkdownSegments(processedText, features);
 
+    if (features.isRestrictedInlinePreview && segments.length > 1) {
+      return _buildRestrictedInlinePreviewFromSegments(
+        context: context,
+        segments: segments,
+        style: style,
+        isDark: isDark,
+        features: features,
+      );
+    }
+
     if (segments.length == 1 && segments.first is FluxerTextSegment) {
       return _buildAstMarkdown(
         context: context,
@@ -81,11 +91,13 @@ class FluxerMarkdown extends StatelessWidget {
         FluxerSubtextSegment(:final text) => _buildAstMarkdown(
           context: context,
           text: text,
-          style: style.copyWith(
-            fontSize: (style.fontSize ?? 16) * 0.8125,
-            color: theme.colorScheme.onSurfaceVariant,
-            height: 1.375,
-          ),
+          style: features.isRestrictedInlinePreview
+              ? style
+              : style.copyWith(
+                  fontSize: (style.fontSize ?? 16) * 0.8125,
+                  color: theme.colorScheme.onSurfaceVariant,
+                  height: 1.375,
+                ),
           isDark: isDark,
           features: features,
           allowJumboEmoji: false,
@@ -127,6 +139,97 @@ class FluxerMarkdown extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: segmentWidgets,
+    );
+  }
+
+  Widget _buildRestrictedInlinePreviewFromSegments({
+    required BuildContext context,
+    required List<FluxerMarkdownSegment> segments,
+    required TextStyle style,
+    required bool isDark,
+    required FluxerMarkdownFeatures features,
+  }) {
+    final spans = <InlineSpan>[];
+    var needsSeparator = false;
+    for (final FluxerMarkdownSegment segment in segments) {
+      final List<InlineSpan> segmentSpans = switch (segment) {
+        FluxerTextSegment(:final text) => _restrictedInlinePreviewSpansForText(
+          context: context,
+          text: text,
+          style: style,
+          isDark: isDark,
+          features: features,
+        ),
+        FluxerSubtextSegment(:final text) =>
+          _restrictedInlinePreviewSpansForText(
+            context: context,
+            text: text,
+            style: style,
+            isDark: isDark,
+            features: features,
+          ),
+        FluxerBlockSpoilerSegment(:final text) => [
+          WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: buildFluxerBlockSpoiler(
+              context: context,
+              text: text,
+              baseStyle: style,
+              config: config,
+              features: features,
+              inlineDocument: _createInlineDocument(features),
+              selectable: selectable,
+              isDark: isDark,
+              parseCacheKey: parseCacheKey,
+            ),
+          ),
+        ],
+        FluxerAlertSegment() => const <InlineSpan>[],
+      };
+      if (segmentSpans.isEmpty) {
+        continue;
+      }
+      if (needsSeparator && spans.isNotEmpty) {
+        spans.add(TextSpan(text: ' ', style: style));
+      }
+      spans.addAll(segmentSpans);
+      needsSeparator = true;
+    }
+
+    if (spans.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return RichText(
+      text: TextSpan(style: style, children: spans),
+      textScaler: MediaQuery.textScalerOf(context),
+      maxLines: maxLines,
+      overflow: overflow ?? TextOverflow.clip,
+    );
+  }
+
+  List<InlineSpan> _restrictedInlinePreviewSpansForText({
+    required BuildContext context,
+    required String text,
+    required TextStyle style,
+    required bool isDark,
+    required FluxerMarkdownFeatures features,
+  }) {
+    final document = _createBlockDocument(features);
+    final normalizedText = normalizeBlockquoteBarMarkdown(text);
+    final nodes = _blockNodeCache.resolve((
+      markdownParseCacheKey(normalizedText, parseCacheKey),
+      features,
+    ), () => document.parse(normalizedText));
+    return collectRestrictedInlinePreviewSpans(
+      context: context,
+      nodes: nodes,
+      baseStyle: style,
+      config: config,
+      features: features,
+      isDark: isDark,
+      maxLines: maxLines,
+      overflow: overflow,
     );
   }
 

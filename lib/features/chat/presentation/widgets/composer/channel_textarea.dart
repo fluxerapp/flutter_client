@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
@@ -71,6 +72,7 @@ import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -89,8 +91,17 @@ const double _kMobileComposerSuffixWidth =
 const double _kMobileComposerSuffixHeight =
     _kMobileComposerSuffixVerticalPadding * 2 +
     _kMobileComposerSuffixButtonExtent;
+const double _kComposerTopPadding = 8;
+const double _kDesktopComposerAttachIconSize = 26;
+const double _kWideComposerActionExtent = 36;
+const double _kWideComposerIconSize = 24;
+const double _kTouchComposerActionSpacing = 6;
 
-OutlineInputBorder _composerInputOutlineBorder(
+bool _useMobileAttachmentSheet() {
+  return !kIsWeb && (Platform.isIOS || Platform.isAndroid);
+}
+
+OutlineInputBorder _composerTouchInputOutlineBorder(
   BuildContext context, {
   required bool focused,
 }) {
@@ -170,6 +181,81 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
   String? _lastWireTextPushedToState;
 
   bool get _isDesktop => isFluxerDesktopOs;
+
+  Widget _wideComposerIconButton({
+    required BuildContext context,
+    required IconData icon,
+    required VoidCallback? onPressed,
+    String? tooltip,
+    double iconSize = _kWideComposerIconSize,
+  }) {
+    return IconButton(
+      icon: PhosphorIcon(icon, size: iconSize),
+      color: context.colors.interactiveNormal,
+      tooltip: tooltip,
+      onPressed: onPressed,
+      padding: EdgeInsets.zero,
+      constraints: const BoxConstraints(
+        minWidth: _kWideComposerActionExtent,
+        minHeight: _kWideComposerActionExtent,
+      ),
+    );
+  }
+
+  Widget _buildComposerActionButton({
+    required BuildContext context,
+    required IconData icon,
+    required VoidCallback? onPressed,
+    String? tooltip,
+    double iconSize = _kWideComposerIconSize,
+    FluxerButtonSize touchSize = FluxerButtonSize.small,
+    bool leadingTouchGap = false,
+  }) {
+    if (isTouchPrimaryInput(ref)) {
+      final Widget button = FluxerButton.circleAlt(
+        icon: icon,
+        size: touchSize,
+        iconSize: iconSize,
+        onPressed: onPressed,
+      );
+      if (!leadingTouchGap) {
+        return button;
+      }
+      return Padding(
+        padding: const EdgeInsets.only(left: _kTouchComposerActionSpacing),
+        child: button,
+      );
+    }
+    return _wideComposerIconButton(
+      context: context,
+      icon: icon,
+      iconSize: iconSize,
+      tooltip: tooltip,
+      onPressed: onPressed,
+    );
+  }
+
+  bool _touchGapBeforeWideExpressionButton(
+    List<ExpressionPickerTab> visibleTabs,
+    ExpressionPickerTab tab,
+  ) {
+    if (!isTouchPrimaryInput(ref)) {
+      return false;
+    }
+    const List<ExpressionPickerTab> order = <ExpressionPickerTab>[
+      ExpressionPickerTab.gifs,
+      ExpressionPickerTab.memes,
+      ExpressionPickerTab.stickers,
+      ExpressionPickerTab.emojis,
+    ];
+    final int index = order.indexOf(tab);
+    for (int i = 0; i < index; i++) {
+      if (visibleTabs.contains(order[i])) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   @override
   void initState() {
@@ -518,7 +604,25 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
         }
         ref.read(pendingFavoriteMemeSelectionProvider.notifier).consume();
         _handleFavoriteMemeSelection(pending);
-      });
+      })
+      ..listen<Message?>(
+        chatViewModelProvider.select((ChatViewState state) => state.replyingTo),
+        (Message? previous, Message? next) {
+          if (next != null && previous == null) {
+            _focusComposerAfterReplyOrEdit(forEdit: false);
+          }
+        },
+      )
+      ..listen<Message?>(
+        chatViewModelProvider.select(
+          (ChatViewState state) => state.editingMessage,
+        ),
+        (Message? previous, Message? next) {
+          if (next != null && previous == null) {
+            _focusComposerAfterReplyOrEdit(forEdit: true);
+          }
+        },
+      );
 
     final channelId = ref.watch(
       chatViewModelProvider.select((s) => s.channelId),
@@ -632,6 +736,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
     final double composerSafeAreaPadding = MediaQuery.paddingOf(context).bottom;
     final bool showComposerSafeBar =
         composerSafeAreaPadding > 0 && bottomSlotHeight <= 0 && !isPanelOpen;
+    final bool mobileComposer = isMobileLayout(context);
+    final Color composerBackgroundColor = mobileComposer
+        ? context.colors.chatInputBackground
+        : context.colors.backgroundSecondaryLighter;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -650,17 +758,22 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
         ChannelAttachmentArea(channelId: channelId),
         DecoratedBox(
           decoration: BoxDecoration(
-            color: context.colors.chatInputBackground,
+            color: composerBackgroundColor,
             border: Border(
               top: BorderSide(color: context.colors.userAreaDividerColor),
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(12, 0, 12, 10),
+            padding: EdgeInsets.fromLTRB(
+              mobileComposer ? 8 : 12,
+              _kComposerTopPadding,
+              mobileComposer ? 8 : 12,
+              mobileComposer ? 8 : 10,
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                if (isMobileLayout(context)) const ComposerStatusRow(),
+                if (mobileComposer) const ComposerStatusRow(),
                 _buildComposerInput(
                   context: context,
                   chatNotifier: chatNotifier,
@@ -674,7 +787,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
         ),
         Container(
           height: showComposerSafeBar ? composerSafeAreaPadding : 0,
-          decoration: BoxDecoration(color: context.colors.chatInputBackground),
+          decoration: BoxDecoration(color: composerBackgroundColor),
         ),
       ],
     );
@@ -754,39 +867,83 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
         final List<ExpressionPickerTab> popoutTabs = expressionPanelVisibleTabs(
           perms,
         );
+        final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+        final bool touchInputStyle = isTouchPrimaryInput(ref);
+        final bool touchActions = touchInputStyle;
+        final InputDecoration inputDecoration = touchInputStyle
+            ? InputDecoration(
+                hintText: perms.showsNoSendPermissionHint
+                    ? l10n.channelNoSendPermissionHint
+                    : _resolveHintText(),
+                hintMaxLines: 1,
+                hintStyle: TextStyle(
+                  color: context.colors.textTertiaryMuted,
+                  fontSize: 16,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                filled: true,
+                fillColor: context.colors.backgroundTertiary,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 10,
+                ),
+                border: _composerTouchInputOutlineBorder(
+                  context,
+                  focused: false,
+                ),
+                enabledBorder: _composerTouchInputOutlineBorder(
+                  context,
+                  focused: false,
+                ),
+                focusedBorder: _composerTouchInputOutlineBorder(
+                  context,
+                  focused: true,
+                ),
+                isDense: true,
+              )
+            : InputDecoration(
+                hintText: perms.showsNoSendPermissionHint
+                    ? l10n.channelNoSendPermissionHint
+                    : _resolveHintText(),
+                hintMaxLines: 1,
+                hintStyle: TextStyle(
+                  color: context.colors.textTertiaryMuted,
+                  fontSize: 16,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                contentPadding: const EdgeInsets.symmetric(vertical: 2),
+                isDense: true,
+              );
         return Row(
           children: [
             if (perms.canShowAttachControls) ...[
-              FluxerButton.secondary(
-                icon: PhosphorIconsFill.plusCircle,
-                isSquare: true,
-                size: FluxerButtonSize.compact,
+              _buildComposerActionButton(
+                context: context,
+                icon: touchActions
+                    ? PhosphorIconsBold.plus
+                    : PhosphorIconsFill.plusCircle,
+                iconSize: touchActions ? 20 : _kDesktopComposerAttachIconSize,
+                tooltip: l10n.chatAttachmentSourceBrowse,
                 onPressed: perms.isAttachEnabled
                     ? () => unawaited(_pickAttachments(context))
                     : null,
               ),
-              if (_isDesktop) ...[
+              if (_isDesktop && !touchActions) ...[
                 const SizedBox(width: 4),
-                IconButton(
-                  icon: const PhosphorIcon(
-                    PhosphorIconsFill.clipboard,
-                    size: 22,
-                  ),
-                  color: context.colors.interactiveNormal,
-                  tooltip: FluxerLocalizations.of(
-                    context,
-                  ).chatAttachmentPasteTooltip,
+                _buildComposerActionButton(
+                  context: context,
+                  icon: PhosphorIconsFill.clipboard,
+                  iconSize: 22,
+                  tooltip: l10n.chatAttachmentPasteTooltip,
                   onPressed: perms.isAttachEnabled
                       ? () => unawaited(_pasteClipboardAttachments())
                       : null,
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(
-                    minWidth: 32,
-                    minHeight: 32,
-                  ),
                 ),
               ],
-              const SizedBox(width: 8),
+              SizedBox(width: touchActions ? _kTouchComposerActionSpacing : 8),
             ],
             Expanded(
               child: Opacity(
@@ -802,41 +959,11 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
                   premiumMaxLength: premiumMaxLength,
                   minLines: 1,
                   maxLines: 5,
-                  decoration: InputDecoration(
-                    hintText: perms.showsNoSendPermissionHint
-                        ? FluxerLocalizations.of(
-                            context,
-                          ).channelNoSendPermissionHint
-                        : _resolveHintText(),
-                    hintMaxLines: 1,
-                    hintStyle: TextStyle(
-                      color: context.colors.textTertiaryMuted,
-                      fontSize: 16,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    filled: true,
-                    fillColor: context.colors.backgroundTertiary,
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 10,
-                    ),
-                    border: _composerInputOutlineBorder(
-                      context,
-                      focused: false,
-                    ),
-                    enabledBorder: _composerInputOutlineBorder(
-                      context,
-                      focused: false,
-                    ),
-                    focusedBorder: _composerInputOutlineBorder(
-                      context,
-                      focused: true,
-                    ),
-                  ),
+                  decoration: inputDecoration,
                 ),
               ),
             ),
-            const SizedBox(width: 4),
+            SizedBox(width: touchActions ? _kTouchComposerActionSpacing : 4),
             if (!hasSendable) ...[
               if (composerButtonTabs.contains(ExpressionPickerTab.gifs))
                 FluxerEmojiPickerPopout(
@@ -857,17 +984,16 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
                       _gifPickerKey.currentState?.close();
                     }
                   },
-                  child: IconButton(
-                    icon: const PhosphorIcon(PhosphorIconsFill.gif, size: 24),
-                    color: context.colors.interactiveNormal,
+                  child: _buildComposerActionButton(
+                    context: context,
+                    icon: PhosphorIconsFill.gif,
+                    leadingTouchGap: _touchGapBeforeWideExpressionButton(
+                      composerButtonTabs,
+                      ExpressionPickerTab.gifs,
+                    ),
                     onPressed: perms.isComposerEnabled
                         ? () => _gifPickerKey.currentState?.toggle()
                         : null,
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(
-                      minWidth: 36,
-                      minHeight: 36,
-                    ),
                   ),
                 ),
               if (composerButtonTabs.contains(ExpressionPickerTab.memes))
@@ -889,17 +1015,16 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
                       _mediaPickerKey.currentState?.close();
                     }
                   },
-                  child: IconButton(
-                    icon: const PhosphorIcon(PhosphorIconsFill.image, size: 24),
-                    color: context.colors.interactiveNormal,
+                  child: _buildComposerActionButton(
+                    context: context,
+                    icon: PhosphorIconsFill.image,
+                    leadingTouchGap: _touchGapBeforeWideExpressionButton(
+                      composerButtonTabs,
+                      ExpressionPickerTab.memes,
+                    ),
                     onPressed: perms.isComposerEnabled
                         ? () => _mediaPickerKey.currentState?.toggle()
                         : null,
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(
-                      minWidth: 36,
-                      minHeight: 36,
-                    ),
                   ),
                 ),
               if (composerButtonTabs.contains(ExpressionPickerTab.stickers))
@@ -921,20 +1046,16 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
                       _stickerPickerKey.currentState?.close();
                     }
                   },
-                  child: IconButton(
-                    icon: const PhosphorIcon(
-                      PhosphorIconsFill.sticker,
-                      size: 24,
+                  child: _buildComposerActionButton(
+                    context: context,
+                    icon: PhosphorIconsFill.sticker,
+                    leadingTouchGap: _touchGapBeforeWideExpressionButton(
+                      composerButtonTabs,
+                      ExpressionPickerTab.stickers,
                     ),
-                    color: context.colors.interactiveNormal,
                     onPressed: perms.isComposerEnabled
                         ? () => _stickerPickerKey.currentState?.toggle()
                         : null,
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(
-                      minWidth: 36,
-                      minHeight: 36,
-                    ),
                   ),
                 ),
               if (composerButtonTabs.contains(ExpressionPickerTab.emojis))
@@ -955,38 +1076,44 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
                       _expressionPickerKey.currentState?.close();
                     }
                   },
-                  child: IconButton(
-                    icon: const PhosphorIcon(
-                      PhosphorIconsFill.smiley,
-                      size: 24,
+                  child: _buildComposerActionButton(
+                    context: context,
+                    icon: PhosphorIconsFill.smiley,
+                    leadingTouchGap: _touchGapBeforeWideExpressionButton(
+                      composerButtonTabs,
+                      ExpressionPickerTab.emojis,
                     ),
-                    color: context.colors.interactiveNormal,
                     onPressed: perms.isComposerEnabled
                         ? () => _expressionPickerKey.currentState?.toggle()
                         : null,
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(
-                      minWidth: 36,
-                      minHeight: 36,
-                    ),
                   ),
                 ),
             ],
-            SizedBox(
-              height: 24,
-              child: VerticalDivider(
-                color: context.colors.borderColor,
-                width: 16,
-                thickness: 1,
+            if (!touchActions)
+              SizedBox(
+                height: _kWideComposerActionExtent,
+                child: VerticalDivider(
+                  color: context.colors.borderColor,
+                  width: 16,
+                  thickness: 1,
+                ),
+              )
+            else
+              const SizedBox(width: _kTouchComposerActionSpacing),
+            Padding(
+              padding: EdgeInsets.only(
+                left: touchActions && hasSendable
+                    ? _kTouchComposerActionSpacing
+                    : 0,
               ),
-            ),
-            _sendAndVoiceButton(
-              context,
-              chatNotifier,
-              perms: perms,
-              hasSendable: hasSendable,
-              isOverCharacterLimit: isOverCharacterLimit,
-              useHoldToRecord: false,
+              child: _sendAndVoiceButton(
+                context,
+                chatNotifier,
+                perms: perms,
+                hasSendable: hasSendable,
+                isOverCharacterLimit: isOverCharacterLimit,
+                useHoldToRecord: false,
+              ),
             ),
           ],
         );
@@ -1012,18 +1139,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
           : AutocompleteRenderMode.overlay,
       panelHost: widget.autocompletePanelHost,
       panelScrollController: widget.autocompletePanelScrollController,
-      child: ResponsiveLayout(
-        builder: (BuildContext context, LayoutMode mode) {
-          switch (mode) {
-            case LayoutMode.desktop:
-              return _buildLargeLayout(context, chatNotifier, perms);
-            case LayoutMode.tablet:
-              return _buildLargeLayout(context, chatNotifier, perms);
-            case LayoutMode.mobile:
-              return _buildMobileLayout(context, chatNotifier, perms);
-          }
-        },
-      ),
+      child: isMobileLayout(context)
+          ? _buildMobileLayout(context, chatNotifier, perms)
+          : _buildLargeLayout(context, chatNotifier, perms),
     );
     if (!isMobileLayout(context) || !isPanelOpen) {
       return composerField;
@@ -1061,11 +1179,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
         return Row(
           children: [
             if (perms.canShowAttachControls) ...[
-              FluxerButton.circle(
+              FluxerButton.circleAlt(
                 icon: PhosphorIconsBold.plus,
-                variant: FluxerButtonVariant.secondary,
-                size: FluxerButtonSize.small,
-                iconSize: 20,
                 onPressed: perms.isAttachEnabled
                     ? () => unawaited(_pickAttachments(context))
                     : null,
@@ -1104,15 +1219,15 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
                       horizontal: 12,
                       vertical: 8,
                     ),
-                    border: _composerInputOutlineBorder(
+                    border: _composerTouchInputOutlineBorder(
                       context,
                       focused: false,
                     ),
-                    enabledBorder: _composerInputOutlineBorder(
+                    enabledBorder: _composerTouchInputOutlineBorder(
                       context,
                       focused: false,
                     ),
-                    focusedBorder: _composerInputOutlineBorder(
+                    focusedBorder: _composerTouchInputOutlineBorder(
                       context,
                       focused: true,
                     ),
@@ -1510,26 +1625,59 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
     if (!ref.read(expressionPanelProvider)) {
       return;
     }
-    if (isMobileLayout(context)) {
-      final MobileKeyboardMetricsState metrics = ref.read(
-        mobileKeyboardMetricsProvider,
-      );
-      final double netPanel =
-          ref.read(expressionPanelHeightProvider) ??
-          bottomInputSlotAnchorHeight(
-            anchoredKeyboardHeight: metrics.anchoredKeyboardHeight,
-            fallbackHeight: metrics.fallbackKeyboardHeight,
-            safeAreaBottom: metrics.safeAreaBottom,
-          );
-      ref
-          .read(bottomInputSlotProvider.notifier)
-          .beginKeyboardTransition(netPanel);
-    }
+    _beginExpressionPanelToKeyboardTransition();
     ref.read(expressionPanelProvider.notifier).close();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) {
         return;
       }
+      _focusNode.requestFocus();
+    });
+  }
+
+  void _beginExpressionPanelToKeyboardTransition() {
+    if (!isMobileLayout(context)) {
+      return;
+    }
+    final MobileKeyboardMetricsState metrics = ref.read(
+      mobileKeyboardMetricsProvider,
+    );
+    final double netPanel =
+        ref.read(expressionPanelHeightProvider) ??
+        bottomInputSlotAnchorHeight(
+          anchoredKeyboardHeight: metrics.anchoredKeyboardHeight,
+          fallbackHeight: metrics.fallbackKeyboardHeight,
+          safeAreaBottom: metrics.safeAreaBottom,
+        );
+    ref
+        .read(bottomInputSlotProvider.notifier)
+        .beginKeyboardTransition(netPanel);
+  }
+
+  void _focusComposerAfterReplyOrEdit({required bool forEdit}) {
+    if (ref.read(expressionPanelProvider)) {
+      _beginExpressionPanelToKeyboardTransition();
+      ref.read(expressionPanelProvider.notifier).close();
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!mounted) {
+        return;
+      }
+      if (forEdit) {
+        await _applyWireTextFromState(
+          stripPrivateUseCharacters(
+            ref.read(chatViewModelProvider).messageText,
+          ),
+        );
+      } else {
+        _controller.selection = TextSelection.collapsed(
+          offset: _controller.text.length,
+        );
+      }
+      scheduleComposerScrollToEnd(
+        _composerScrollController,
+        isMounted: () => mounted,
+      );
       _focusNode.requestFocus();
     });
   }
@@ -1608,6 +1756,89 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
         : perms.isComposerEnabled
         ? () => unawaited(_onSendPressed())
         : _showNoSendPermissionToast;
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    if (!useHoldToRecord) {
+      final bool touchActions = isTouchPrimaryInput(ref);
+      if (touchActions) {
+        return AnimatedSwitcher(
+          duration: const Duration(milliseconds: 200),
+          transitionBuilder: (child, animation) =>
+              FadeTransition(opacity: animation, child: child),
+          child: showSendButton
+              ? Opacity(
+                  key: const ValueKey('send'),
+                  opacity: isSlowmodeBlocked
+                      ? _kMessageInputDisabledOpacity
+                      : 1.0,
+                  child: FluxerButton.circle(
+                    icon: PhosphorIconsBold.arrowUp,
+                    iconSize: 20,
+                    size: FluxerButtonSize.small,
+                    onPressed: sendOnPressed,
+                  ),
+                )
+              : showVoiceButton
+              ? Opacity(
+                  key: const ValueKey('voice'),
+                  opacity: canUseVoice ? 1.0 : _kVoiceMicDeniedOpacity,
+                  child: FluxerButton.circleAlt(
+                    icon: PhosphorIconsFill.microphone,
+                    onPressed: voiceDisabled
+                        ? null
+                        : () => unawaited(
+                            VoiceMessageComposerSheet.show(
+                              context,
+                              channelId: channelId,
+                            ),
+                          ),
+                  ),
+                )
+              : const SizedBox.shrink(key: ValueKey('voice-hidden')),
+        );
+      }
+      return SizedBox(
+        width: _kWideComposerActionExtent,
+        height: _kWideComposerActionExtent,
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 200),
+          transitionBuilder: (child, animation) =>
+              FadeTransition(opacity: animation, child: child),
+          child: showSendButton
+              ? Opacity(
+                  key: const ValueKey('send'),
+                  opacity: isSlowmodeBlocked
+                      ? _kMessageInputDisabledOpacity
+                      : 1.0,
+                  child: _wideComposerIconButton(
+                    context: context,
+                    icon: PhosphorIconsBold.arrowUp,
+                    iconSize: 20,
+                    tooltip: l10n.permissionSendMessages,
+                    onPressed: sendOnPressed,
+                  ),
+                )
+              : showVoiceButton
+              ? Opacity(
+                  key: const ValueKey('voice'),
+                  opacity: canUseVoice ? 1.0 : _kVoiceMicDeniedOpacity,
+                  child: _wideComposerIconButton(
+                    context: context,
+                    icon: PhosphorIconsFill.microphone,
+                    tooltip: l10n.voiceMessageTitle,
+                    onPressed: voiceDisabled
+                        ? null
+                        : () => unawaited(
+                            VoiceMessageComposerSheet.show(
+                              context,
+                              channelId: channelId,
+                            ),
+                          ),
+                  ),
+                )
+              : const SizedBox.shrink(key: ValueKey('voice-hidden')),
+        ),
+      );
+    }
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 200),
       transitionBuilder: (child, animation) =>
@@ -1633,10 +1864,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
                       disabled: voiceDisabled,
                       buttonSize: size,
                     )
-                  : FluxerButton.circle(
+                  : FluxerButton.circleAlt(
                       icon: PhosphorIconsFill.microphone,
-                      variant: FluxerButtonVariant.secondary,
-                      iconSize: 20,
                       size: size,
                       onPressed: voiceDisabled
                           ? null
@@ -1682,7 +1911,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
   }
 
   Future<void> _pickAttachments(BuildContext context) async {
-    if (isMobileLayout(context)) {
+    if (_useMobileAttachmentSheet()) {
       await FluxerBottomSheet.show<void>(
         context,
         variant: FluxerBottomSheetVariant.menu,
@@ -1744,7 +1973,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
                       onTap: () async {
                         close();
                         final FilePickerResult? res =
-                            await FilePicker.pickFiles(allowMultiple: true);
+                            await FilePicker.pickFiles();
                         if (res == null) {
                           return;
                         }
@@ -1768,9 +1997,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
       );
       return;
     }
-    final FilePickerResult? res = await FilePicker.pickFiles(
-      allowMultiple: true,
-    );
+    final FilePickerResult? res = await FilePicker.pickFiles();
     if (res == null || !mounted) {
       return;
     }

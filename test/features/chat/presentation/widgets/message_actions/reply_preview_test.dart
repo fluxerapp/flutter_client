@@ -49,6 +49,42 @@ void main() {
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pump(const Duration(milliseconds: 1));
   });
+
+  testWidgets('hides spoiler text in the replied-to content preview', (
+    tester,
+  ) async {
+    final parent = _message(
+      id: 'parent-1',
+      authorId: '1001',
+      authorName: 'Sample User',
+      content: '||top secret||',
+    );
+    final reply = _message(
+      id: 'reply-1',
+      authorId: '1002',
+      authorName: 'August',
+      type: messageTypeReply,
+      messageReference: const MessageReference(
+        channelId: 'channel-1',
+        messageId: 'parent-1',
+        type: MessageReferenceType.valueDefault,
+      ),
+    );
+
+    await tester.pumpWidget(
+      _buildTestApp(
+        chatState: _chatState(messages: [parent]),
+        child: InlineReplyPreview(message: reply),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('top secret'), findsNothing);
+    expect(find.byType(GestureDetector), findsWidgets);
+
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump(const Duration(milliseconds: 1));
+  });
 }
 
 Widget _buildTestApp({
@@ -102,6 +138,7 @@ Message _message({
   int type = messageTypeDefault,
   List<String> mentionedUserIds = const [],
   MessageReference? messageReference,
+  String content = 'hello',
 }) {
   return Message(
     id: id,
@@ -109,7 +146,7 @@ Message _message({
     authorId: authorId,
     authorName: authorName,
     authorIsBot: authorIsBot,
-    content: 'hello',
+    content: content,
     timestamp: DateTime.utc(2026),
     type: type,
     mentionedUserIds: mentionedUserIds,

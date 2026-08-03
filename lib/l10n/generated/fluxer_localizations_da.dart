@@ -1428,10 +1428,10 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get crop => 'Beskær';
 
   @override
-  String get changeYourFluxerTag => 'Skift din FluxerTag';
+  String get changeYourFluxerTag => 'Skift din Brugernavn';
 
   @override
-  String get fluxerTagInputLabel => 'FluxerTag';
+  String get fluxerTagInputLabel => 'Brugernavn';
 
   @override
   String get fluxerTagDescriptionBase =>
@@ -1459,11 +1459,11 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
       'Få Plutonium til at tilpasse din tag eller behold den, når du ændrer dit brugernavn';
 
   @override
-  String get fluxerTagAlreadyTaken => 'FluxerTag er allerede taget';
+  String get fluxerTagAlreadyTaken => 'Brugernavn er allerede taget';
 
   @override
   String fluxerTagAlreadyTakenBody(String username, String discriminator) {
-    return 'FluxerTaggen $username#$discriminator er allerede taget. Fortsætter du, vil din discriminator blive omrullet automatisk.';
+    return 'Brugernavn $username#$discriminator er allerede taget. Fortsætter du, vil din discriminator blive omrullet automatisk.';
   }
 
   @override
@@ -1483,7 +1483,7 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String get premiumWarningPendingDiscriminator =>
-      'Hvis du gemmer denne FluxerTag, vil din brugerdefinerede 4-cifrede tag vende tilbage til et tilfældigt nummer, når dit Plutonium-abonnement udløber. Hvis dit abonnement ikke fornyes, har du en 3-dages overgangsperiode, før taggen ændres.';
+      'Hvis du gemmer denne Brugernavn, vil din brugerdefinerede 4-cifrede tag vende tilbage til et tilfældigt nummer, når dit Plutonium-abonnement udløber. Hvis dit abonnement ikke fornyes, har du en 3-dages overgangsperiode, før taggen ændres.';
 
   @override
   String premiumWarningActiveDiscriminator(String discriminator) {
@@ -1504,11 +1504,11 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
       'Du er på en Plutonium-prøveperiode. Opgrader for at beholde din brugerdefinerede tag og optjene et badge på din profil.';
 
   @override
-  String get fluxerTagUpdated => 'FluxerTag opdateret';
+  String get fluxerTagUpdated => 'Brugernavn opdateret';
 
   @override
   String get fluxerTagUpdateFailed =>
-      'Kunne ikke opdatere FluxerTag. Prøv venligst igen.';
+      'Kunne ikke opdatere Brugernavn. Prøv venligst igen.';
 
   @override
   String get continueAction => 'Fortsæt';
@@ -1525,10 +1525,10 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String get claimAccountToChangeFluxerTag =>
-      'Kræv din konto for at ændre din FluxerTag';
+      'Kræv din konto for at ændre din Brugernavn';
 
   @override
-  String get changeFluxerTag => 'Skift FluxerTag';
+  String get changeFluxerTag => 'Skift Brugernavn';
 
   @override
   String customizeTagWithPlutoniumTooltip(String discriminator) {
@@ -2517,7 +2517,7 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   }
 
   @override
-  String get blockedUsersCopyTag => 'Kopiér FluxerTag';
+  String get blockedUsersCopyTag => 'Kopiér Brugernavn';
 
   @override
   String get blockedUsersCopyId => 'Kopiér bruger-ID';
@@ -7214,10 +7214,6 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String get audioAndVideoMicTestSectionTitle => 'Mic test';
-
-  @override
-  String get audioAndVideoMicTestSectionDescription =>
-      'Listen to how you sound with your current settings.';
 
   @override
   String get audioAndVideoMicTestStartLabel => 'Start mic test';
