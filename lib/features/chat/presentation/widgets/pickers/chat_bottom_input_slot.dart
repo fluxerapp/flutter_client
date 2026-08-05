@@ -28,14 +28,9 @@ class BottomInputSpacer extends ConsumerWidget {
       final MobileKeyboardMetricsState metrics = ref.watch(
         mobileKeyboardMetricsProvider,
       );
-      final double panelAnchorHeight = bottomInputSlotAnchorHeight(
-        anchoredKeyboardHeight: metrics.anchoredKeyboardHeight,
-        fallbackHeight: metrics.fallbackKeyboardHeight,
-        safeAreaBottom: metrics.safeAreaBottom,
-      );
       final double reservedHeight = resolvePanelReservedLayoutHeight(
         slotHeight: slotHeight,
-        netAnchorHeight: panelAnchorHeight,
+        netAnchorHeight: metrics.resolveAnchorHeight(),
         grossAnchorHeight: metrics.resolveAnchorHeight(),
       );
       if (reservedHeight <= 0) {

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -117,7 +118,7 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
     final String? guildId = ref.watch(activeGuildIdProvider);
 
     return Container(
-      width: 240,
+      width: isMobileLayout(context) ? null : 240,
       padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top),
       decoration: BoxDecoration(
         color: context.colors.channelSidebarBackground,
@@ -142,7 +143,6 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
   Widget _buildServerHeader(BuildContext context, Guild? guild) {
     final bool hasImage = guild?.banner != null;
     const double headerHeight = 56;
-    const double bannerAspectRatio = 16 / 9;
     final List<Shadow> bannerShadows = hasImage
         ? <Shadow>[
             Shadow(
@@ -195,52 +195,61 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
     );
 
     if (hasImage) {
-      return AspectRatio(
-        aspectRatio: bannerAspectRatio,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: context.colors.channelSidebarBackground,
-            border: Border(
-              bottom: BorderSide(color: context.colors.borderColor),
-            ),
-            image: DecorationImage(
-              image: CachedNetworkImageProvider(guild!.bannerUrl!),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                height: 40,
-                child: IgnorePointer(
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: <Color>[
-                          context.colors.guildBannerGradient,
-                          Colors.transparent,
-                        ],
+      return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          final double height = guildSidebarBannerHeight(
+            width: constraints.maxWidth,
+            isMobile: isMobileLayout(context),
+          );
+          return SizedBox(
+            height: height,
+            width: double.infinity,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: context.colors.channelSidebarBackground,
+                border: Border(
+                  bottom: BorderSide(color: context.colors.borderColor),
+                ),
+                image: DecorationImage(
+                  image: CachedNetworkImageProvider(guild!.bannerUrl!),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: 40,
+                    child: IgnorePointer(
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: <Color>[
+                              context.colors.guildBannerGradient,
+                              Colors.transparent,
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 14,
+                    ),
+                    child: headerContent,
+                  ),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 14,
-                ),
-                child: headerContent,
-              ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       );
     }
     return Container(
@@ -253,6 +262,23 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
       child: headerContent,
     );
   }
+}
+
+@visibleForTesting
+double guildSidebarBannerHeight({
+  required double width,
+  required bool isMobile,
+  double aspectRatio = Breakpoints.guildBannerAspectRatio,
+  double mobileMaxHeight = Breakpoints.mobileGuildBannerMaxHeight,
+}) {
+  if (width <= 0) {
+    return 0;
+  }
+  final double naturalHeight = width / aspectRatio;
+  if (!isMobile) {
+    return naturalHeight;
+  }
+  return math.min(naturalHeight, mobileMaxHeight);
 }
 
 const int _maxCachedGuildChannelLists = 5;

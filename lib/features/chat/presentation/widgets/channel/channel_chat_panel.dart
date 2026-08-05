@@ -149,14 +149,12 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
             final ({
               double? anchoredKeyboardHeight,
               double fallbackKeyboardHeight,
-              double safeAreaBottom,
             })
             panelMetrics = ref.watch(
               mobileKeyboardMetricsProvider.select(
                 (MobileKeyboardMetricsState metrics) => (
                   anchoredKeyboardHeight: metrics.anchoredKeyboardHeight,
                   fallbackKeyboardHeight: metrics.fallbackKeyboardHeight,
-                  safeAreaBottom: metrics.safeAreaBottom,
                 ),
               ),
             );
@@ -165,25 +163,25 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                 (BottomInputSlotState state) => state.slotHeight,
               ),
             );
-            final double panelAnchorHeight = bottomInputSlotAnchorHeight(
+            final double panelAnchorHeight = inlineExpressionPanelAnchorHeight(
               anchoredKeyboardHeight: panelMetrics.anchoredKeyboardHeight,
               fallbackHeight: panelMetrics.fallbackKeyboardHeight,
-              safeAreaBottom: panelMetrics.safeAreaBottom,
             );
             dragHandleHeight = inlineExpressionPanelDragHandleHeight(
               bottomSpacing: context.layout.s2,
             );
-            final double grossAnchorHeight = inlineExpressionPanelAnchorHeight(
-              anchoredKeyboardHeight: panelMetrics.anchoredKeyboardHeight,
-              fallbackHeight: panelMetrics.fallbackKeyboardHeight,
-            );
             final double reservedHeight = resolvePanelReservedLayoutHeight(
               slotHeight: slotHeight,
               netAnchorHeight: panelAnchorHeight,
-              grossAnchorHeight: grossAnchorHeight,
+              grossAnchorHeight: panelAnchorHeight,
             );
+            final double homeIndicatorInset =
+                inlineExpressionPanelHomeIndicatorInset(MediaQuery.of(context));
             sheetContentHeight = inlineExpressionPanelDockedContentHeight(
-              keyboardAnchorNet: reservedHeight,
+              keyboardAnchorNet: inlineExpressionPanelDockedReservedBodyHeight(
+                reservedHeight: reservedHeight,
+                homeIndicatorInset: homeIndicatorInset,
+              ),
               dragHandleHeight: dragHandleHeight,
             );
           }
@@ -239,9 +237,7 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                 Positioned(
                   left: 0,
                   right: 0,
-                  bottom: -inlineExpressionPanelHomeIndicatorInset(
-                    MediaQuery.of(context),
-                  ),
+                  bottom: 0,
                   child: ChatExpressionExpandableSheet(
                     collapsedHeight: math.max(
                       sheetContentHeight,

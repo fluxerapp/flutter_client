@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:ui' show BoxWidthStyle;
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
@@ -529,6 +530,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
               style: context.textStyles.inputText,
               minLines: minLines,
               maxLines: maxLines,
+              selectionWidthStyle: BoxWidthStyle.tight,
               decoration: effectiveDecoration,
               textAlignVertical: textAlignVertical,
               textCapitalization: TextCapitalization.sentences,
@@ -1642,16 +1644,12 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
     final MobileKeyboardMetricsState metrics = ref.read(
       mobileKeyboardMetricsProvider,
     );
-    final double netPanel =
+    final double lockHeight =
         ref.read(expressionPanelHeightProvider) ??
-        bottomInputSlotAnchorHeight(
-          anchoredKeyboardHeight: metrics.anchoredKeyboardHeight,
-          fallbackHeight: metrics.fallbackKeyboardHeight,
-          safeAreaBottom: metrics.safeAreaBottom,
-        );
+        metrics.resolveAnchorHeight();
     ref
         .read(bottomInputSlotProvider.notifier)
-        .beginKeyboardTransition(netPanel);
+        .beginKeyboardTransition(lockHeight);
   }
 
   void _focusComposerAfterReplyOrEdit({required bool forEdit}) {

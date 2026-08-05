@@ -2404,6 +2404,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get userProfileLoadError => '无法加载个人资料';
 
   @override
+  String get userProfileLoading => 'Loading profile';
+
+  @override
   String get userProfileRetry => '重试';
 
   @override

@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_he
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/search/channel_search_results_panel.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_header_search_provider.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_content_channel_gate.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/channel_members.dart';
@@ -153,6 +154,11 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
       channelId: widget.channelId,
       forceVoiceCallStyle: forceVoiceCallStyle,
     );
+    final bool reserveBottomSafeArea = !ref.watch(
+      bottomInputSlotProvider.select(
+        (BottomInputSlotState state) => state.slotHeight > 0,
+      ),
+    );
 
     return MobileChatBackScope(
       child: ColoredBox(
@@ -160,6 +166,7 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
             ? context.colors.chatInputBackground
             : context.colors.chatBackground,
         child: SafeArea(
+          bottom: reserveBottomSafeArea,
           child: Stack(
             clipBehavior: Clip.none,
             children: [
@@ -171,6 +178,7 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
               LayoutBuilder(
                 builder: (context, constraints) {
                   final bool showMemberList =
+                      isWide &&
                       isMemberListVisible &&
                       !isSearchActive &&
                       constraints.maxWidth >=

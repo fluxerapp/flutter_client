@@ -7,11 +7,13 @@ import 'package:go_router/go_router.dart';
 CustomTransitionPage<void> shellFadeTransitionPage({
   required LocalKey key,
   required Widget child,
+  String? name,
   Duration duration = ShellTransitionPolicy.rootOverlayFadeDuration,
   bool opaque = true,
 }) {
   return CustomTransitionPage<void>(
     key: key,
+    name: name,
     opaque: opaque,
     child: child,
     transitionDuration: duration,
@@ -31,10 +33,12 @@ CustomTransitionPage<void> shellFadeTransitionPage({
 CustomTransitionPage<void> shellSlideTransitionPage({
   required LocalKey key,
   required Widget child,
+  String? name,
   bool parallaxOutgoing = false,
 }) {
   return CustomTransitionPage<void>(
     key: key,
+    name: name,
     child: child,
     transitionDuration: ShellTransitionPolicy.channelSlideDuration,
     reverseTransitionDuration: ShellTransitionPolicy.channelSlideDuration,

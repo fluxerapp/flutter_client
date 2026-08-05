@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as drift_db;
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
-import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
@@ -884,6 +883,8 @@ class _MembersDesktopTableRow extends ConsumerWidget {
       globalName: member.globalName,
       username: member.username,
     );
+    final String? avatarUrl = member.avatarUrlFor(guildId);
+    final int? avatarColor = member.avatarColor;
     final int? roleColor = resolveMemberHighestRoleColor(
       roleIds: member.roleIds,
       rolesById: roles,
@@ -947,11 +948,8 @@ class _MembersDesktopTableRow extends ConsumerWidget {
                 FluxerAvatar.userPresence(
                   fallbackText: displayName,
                   userId: member.userId,
-                  imageUrl: FluxerMediaUrl.userAvatar(
-                    userId: member.userId,
-                    hash: member.avatar,
-                  ),
-                  avatarColor: member.avatarColor,
+                  imageUrl: avatarUrl,
+                  avatarColor: avatarColor,
                   size: 32,
                 ),
                 const SizedBox(width: 10),

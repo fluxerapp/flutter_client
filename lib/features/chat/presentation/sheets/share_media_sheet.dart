@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:ui' show BoxWidthStyle;
 
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/material.dart';
@@ -579,6 +580,7 @@ class _ShareMediaSheetBodyState extends ConsumerState<_ShareMediaSheetBody> {
                   style: context.textStyles.inputText,
                   minLines: 1,
                   maxLines: 4,
+                  selectionWidthStyle: BoxWidthStyle.tight,
                   textCapitalization: TextCapitalization.sentences,
                   contextMenuBuilder: clipboardScope.buildContextMenu,
                   inputFormatters: <TextInputFormatter>[

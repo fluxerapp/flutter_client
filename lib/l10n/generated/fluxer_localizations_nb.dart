@@ -2524,6 +2524,9 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get userProfileLoadError => 'Kunne ikke laste profil';
 
   @override
+  String get userProfileLoading => 'Loading profile';
+
+  @override
   String get userProfileRetry => 'Prøv igjen';
 
   @override

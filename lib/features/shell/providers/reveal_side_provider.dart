@@ -40,8 +40,10 @@ class CurrentRevealSide extends _$CurrentRevealSide {
     final String? shellLocation = resolveShellLocation(config);
     final String location = shellLocation ?? resolveTopLocation(config);
     final RevealSide? initial = syncedRevealSideFor(location);
-    if (initial != null) {
+    if (classifyRoute(location) == RouteKind.chat || initial != null) {
       _lastAppliedFor = location;
+    }
+    if (initial != null) {
       return initial;
     }
     return RevealSide.main;
@@ -58,6 +60,7 @@ class CurrentRevealSide extends _$CurrentRevealSide {
     }
     final desired = syncedRevealSideFor(location);
     if (desired == null) {
+      _rememberChatLocation(location);
       return;
     }
     _lastAppliedFor = location;
@@ -67,11 +70,18 @@ class CurrentRevealSide extends _$CurrentRevealSide {
   void forceSyncForRoute(String location) {
     final RevealSide? desired = syncedRevealSideFor(location);
     if (desired == null) {
+      _rememberChatLocation(location);
       return;
     }
     _lastAppliedFor = location;
     state = desired;
     ref.read(drawerRevealSyncTriggerProvider.notifier).nudge();
+  }
+
+  void _rememberChatLocation(String location) {
+    if (classifyRoute(location) == RouteKind.chat) {
+      _lastAppliedFor = location;
+    }
   }
 
   // Riverpod notifiers in this app use method-style mutations at call sites.
@@ -91,10 +101,6 @@ RevealSide? eagerRevealSideFor(String location) {
 RevealSide? syncedRevealSideFor(String location) {
   return switch (classifyRoute(location)) {
     RouteKind.channelsRoot => RevealSide.left,
-    RouteKind.chat => RevealSide.main,
-    RouteKind.guildMembers => null,
-    RouteKind.dmCall => null,
-    RouteKind.discover => null,
-    RouteKind.nonChannel => null,
+    _ => null,
   };
 }

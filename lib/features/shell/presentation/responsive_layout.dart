@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 
 abstract final class Breakpoints {
   /// Shortest side breakpoint between phone and tablet sized layouts.
@@ -8,6 +9,9 @@ abstract final class Breakpoints {
 
   /// Shortest side breakpoint between tablet and desktop sized layouts.
   static const double tablet = 1100;
+
+  /// Mobile layout width where the drawer peeks instead of covering the screen.
+  static const double compactWide = 700;
 
   /// Guild list width at the default layout scale.
   static const double guildListWidth = 72;
@@ -27,6 +31,12 @@ abstract final class Breakpoints {
   /// Minimum viewport width for guild list, channel list, and chat.
   static const double shellMinWidth =
       guildListWidth + channelSidebarWidth + 1 + minShellChatWidth;
+
+  /// Max guild banner height on mobile.
+  static const double mobileGuildBannerMaxHeight = 150;
+
+  /// Guild banner asset aspect ratio (16:9).
+  static const double guildBannerAspectRatio = 16 / 9;
 }
 
 enum LayoutMode { mobile, tablet, desktop }
@@ -72,6 +82,23 @@ bool isDesktopLayout(BuildContext context) =>
 
 /// Non-mobile layout (tablet + desktop). Matches web `!MobileLayout.enabled`.
 bool isWideLayout(BuildContext context) => !isMobileLayout(context);
+
+/// Mobile layout with enough width for a peek drawer beside chat.
+bool isCompactWideMobileLayout(BuildContext context) {
+  final Size size = MediaQuery.sizeOf(context);
+  return isMobileLayout(context) && size.width >= Breakpoints.compactWide;
+}
+
+/// How far the chat slider moves to expose the guild rail and channel list.
+double mobileDrawerPeekWidth(BuildContext context) {
+  final FluxerLayoutTheme? layout = Theme.of(
+    context,
+  ).extension<FluxerLayoutTheme>();
+  if (layout != null) {
+    return layout.guildListWidth + layout.sidebarWidth;
+  }
+  return Breakpoints.guildListWidth + Breakpoints.channelSidebarWidth;
+}
 
 /// Horizontal inset for wide settings modals when the viewport is narrower than
 /// [maxModalWidth], so the sheet does not span edge to edge on iPad.

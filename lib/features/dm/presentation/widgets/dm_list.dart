@@ -43,6 +43,7 @@ import 'package:fluxer_app/features/quick_switcher/presentation/sheets/quick_swi
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/utils/call_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -543,23 +544,26 @@ class _DMListState extends ConsumerState<DMList> {
     final l10n = FluxerLocalizations.of(context);
     final pendingCount =
         ref.watch(pendingFriendRequestCountProvider).value ?? 0;
+    final bool iconOnlyTitle =
+        isCompactWideMobileLayout(context) &&
+        !isSidebarDrawerLockedForLocation(ref.watch(shellLocationProvider));
 
     return Container(
       height: 56,
-      padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
+      padding: EdgeInsets.fromLTRB(iconOnlyTitle ? 12 : 16, 8, 8, 8),
       child: Row(
         children: [
-          Expanded(
-            child: Text(
-              l10n.dmListMessagesTitle,
-              style: TextStyle(
-                color: context.colors.textPrimary,
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                height: 28 / 18,
+          if (iconOnlyTitle) ...[
+            _buildMobileHeaderTitle(context, l10n: l10n, iconOnly: true),
+            const Spacer(),
+          ] else
+            Expanded(
+              child: _buildMobileHeaderTitle(
+                context,
+                l10n: l10n,
+                iconOnly: false,
               ),
             ),
-          ),
           _buildDmListSurfaceButton(
             context,
             onTap: () => unawaited(QuickSwitcherBottomSheet.show(context, ref)),
@@ -633,6 +637,25 @@ class _DMListState extends ConsumerState<DMList> {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildMobileHeaderTitle(
+    BuildContext context, {
+    required FluxerLocalizations l10n,
+    required bool iconOnly,
+  }) {
+    final TextStyle titleStyle = context.textStyles.channelName;
+    if (!iconOnly) {
+      return Text(l10n.dmListMessagesTitle, style: titleStyle);
+    }
+    return Semantics(
+      label: l10n.dmListMessagesTitle,
+      child: Icon(
+        PhosphorIconsFill.chatCircle,
+        size: 20,
+        color: titleStyle.color,
       ),
     );
   }

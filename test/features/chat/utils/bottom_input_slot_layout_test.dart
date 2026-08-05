@@ -43,9 +43,6 @@ void main() {
     });
 
     test('uses full keyboard height while open (no safe-area netting)', () {
-      // Matches smart_keyboard_insets KeyboardPadding. Outer SafeArea already
-      // collapses bottom padding under the keyboard; netting a sticky
-      // safeAreaBottom would under-pad the spacer (issue #499).
       expect(
         resolveBottomInputSlotHeight(
           isPanelOpen: false,
@@ -77,21 +74,24 @@ void main() {
       );
     });
 
-    test('uses net anchor when panel is open regardless of drag height', () {
-      expect(
-        resolveBottomInputSlotHeight(
-          isPanelOpen: true,
-          transition: BottomInputTransition.idle,
-          lockedHeight: 0,
-          anchorHeight: 336,
-          panelHeight: 640,
-          liveKeyboardHeight: 0,
-          isKeyboardVisible: false,
-          safeAreaBottom: 34,
-        ),
-        302,
-      );
-    });
+    test(
+      'uses full keyboard anchor when panel is open (no safe-area netting)',
+      () {
+        expect(
+          resolveBottomInputSlotHeight(
+            isPanelOpen: true,
+            transition: BottomInputTransition.idle,
+            lockedHeight: 0,
+            anchorHeight: 336,
+            panelHeight: 640,
+            liveKeyboardHeight: 0,
+            isKeyboardVisible: false,
+            safeAreaBottom: 34,
+          ),
+          336,
+        );
+      },
+    );
 
     test('returns zero when panel and keyboard are closed', () {
       expect(
@@ -181,7 +181,6 @@ void main() {
     test(
       'strips paired native safe area from Android gross keyboard height',
       () {
-        // Device gap case: native 336 includes 34 systemBars → IME-only 302.
         expect(
           resolveNativeImeOnlyHeight(
             nativeKeyboardHeight: 336,
@@ -367,12 +366,64 @@ void main() {
       );
       expect(
         hasKeyboardReachedLockedNetHeight(
+          liveKeyboardHeight: 335.4,
+          lockedNetHeight: 336,
+          safeAreaBottom: 0,
+          isKeyboardVisible: true,
+        ),
+        isFalse,
+      );
+      expect(
+        hasKeyboardReachedLockedNetHeight(
+          liveKeyboardHeight: 335.6,
+          lockedNetHeight: 336,
+          safeAreaBottom: 0,
+          isKeyboardVisible: true,
+        ),
+        isTrue,
+      );
+      expect(
+        hasKeyboardReachedLockedNetHeight(
           liveKeyboardHeight: 336,
           lockedNetHeight: lockedNetHeight,
           safeAreaBottom: safeAreaBottom,
           isKeyboardVisible: false,
         ),
         isFalse,
+      );
+    });
+
+    test('panel open prefers captured panel height over session anchor', () {
+      expect(
+        resolveBottomInputSlotHeight(
+          isPanelOpen: true,
+          transition: BottomInputTransition.idle,
+          lockedHeight: 0,
+          anchorHeight: 336,
+          panelHeight: 335,
+          liveKeyboardHeight: 0,
+          isKeyboardVisible: false,
+          safeAreaBottom: 34,
+        ),
+        335,
+      );
+    });
+
+    test('slot heights quantize to whole pixels', () {
+      expect(quantizeBottomInputHeight(335.4), 335);
+      expect(quantizeBottomInputHeight(335.6), 336);
+      expect(
+        resolveBottomInputSlotHeight(
+          isPanelOpen: false,
+          transition: BottomInputTransition.idle,
+          lockedHeight: 0,
+          anchorHeight: 336,
+          panelHeight: 0,
+          liveKeyboardHeight: 335.6,
+          isKeyboardVisible: true,
+          safeAreaBottom: 0,
+        ),
+        336,
       );
     });
 

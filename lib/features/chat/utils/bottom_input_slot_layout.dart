@@ -19,6 +19,13 @@ const double kInlineExpressionPanelExpandedSnapMidpointFraction =
 const double kIosFallbackKeyboardHeight = 291;
 const double kAndroidFallbackKeyboardHeightFraction = 0.38;
 
+double quantizeBottomInputHeight(double height) {
+  if (height <= 0) {
+    return 0;
+  }
+  return height.roundToDouble();
+}
+
 double fallbackKeyboardHeightForScreen({
   required double screenHeight,
   required bool isIos,
@@ -92,17 +99,17 @@ double resolveBottomInputSlotHeight({
   required double safeAreaBottom,
 }) {
   if (transition != BottomInputTransition.idle) {
-    return lockedHeight;
+    return quantizeBottomInputHeight(lockedHeight);
   }
   if (isPanelOpen) {
-    return bottomInputSlotContentHeight(
-      rawHeight: anchorHeight,
-      safeAreaBottom: safeAreaBottom,
-    );
+    if (panelHeight > 0 &&
+        panelHeight <= anchorHeight + kKeyboardHeightQuantizeThreshold) {
+      return quantizeBottomInputHeight(panelHeight);
+    }
+    return quantizeBottomInputHeight(anchorHeight);
   }
   if (isKeyboardVisible && liveKeyboardHeight > 0) {
-    // Already IME-only; pad fully. Outer SafeArea collapses under the keyboard.
-    return liveKeyboardHeight;
+    return quantizeBottomInputHeight(liveKeyboardHeight);
   }
   return 0;
 }
@@ -228,7 +235,8 @@ bool hasKeyboardReachedLockedNetHeight({
     rawHeight: liveKeyboardHeight,
     safeAreaBottom: safeAreaBottom,
   );
-  return liveNetHeight >= lockedNetHeight - kKeyboardHeightQuantizeThreshold;
+  return quantizeBottomInputHeight(liveNetHeight) >=
+      quantizeBottomInputHeight(lockedNetHeight);
 }
 
 double resolvePanelReservedLayoutHeight({

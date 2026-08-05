@@ -29,6 +29,7 @@ import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_ac
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_banner.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_bio_card.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_header.dart';
+import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_loading_skeleton.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_mutuals_section.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_note_card.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_relationship_button.dart';
@@ -709,7 +710,10 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         currentUserCachedProfileProvider,
       );
       return cachedAsync.when(
-        loading: () => const Center(child: FluxerLoadingSpinner()),
+        loading: () => UserProfileLoadingSkeleton(
+          scrollController: widget.scrollController,
+          showTopHandle: widget.showTopHandle,
+        ),
         error: (_, _) => _ErrorState(
           onRetry: () => ref.invalidate(currentUserCachedProfileProvider),
           message: l10n.userProfileLoadError,
@@ -783,7 +787,10 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
       userProfileProvider(userId: widget.userId, guildId: widget.guildId),
     );
     return profileAsync.when(
-      loading: () => const Center(child: FluxerLoadingSpinner()),
+      loading: () => UserProfileLoadingSkeleton(
+        scrollController: widget.scrollController,
+        showTopHandle: widget.showTopHandle,
+      ),
       error: (_, _) => _ErrorState(
         onRetry: () => ref.invalidate(
           userProfileProvider(userId: widget.userId, guildId: widget.guildId),

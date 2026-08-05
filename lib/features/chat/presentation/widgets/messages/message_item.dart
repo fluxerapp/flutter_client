@@ -44,6 +44,8 @@ import 'package:fluxer_app/features/settings/providers/chat_preferences_provider
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
+import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
@@ -682,7 +684,13 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     return _wrapMessageSendingDim(
       dim: dimEntireMessage,
       child: SwipeToReply(
-        enabled: widget.canSendMessages,
+        enabled:
+            widget.canSendMessages &&
+            !isCompactWideDrawerPeekMode(
+              context,
+              shellLocation: ref.watch(shellLocationProvider),
+              revealSide: ref.watch(currentRevealSideProvider),
+            ),
         onReply: onReply,
         onEdit: canEditOwnMessage ? widget.onEdit : null,
         child: body,

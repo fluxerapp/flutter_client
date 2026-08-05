@@ -2527,6 +2527,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get userProfileLoadError => 'Nepodařilo se načíst profil';
 
   @override
+  String get userProfileLoading => 'Loading profile';
+
+  @override
   String get userProfileRetry => 'Zkusit znovu';
 
   @override

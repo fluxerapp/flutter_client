@@ -2524,6 +2524,9 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get userProfileLoadError => 'Kunde inte ladda profil';
 
   @override
+  String get userProfileLoading => 'Loading profile';
+
+  @override
   String get userProfileRetry => 'Försök igen';
 
   @override

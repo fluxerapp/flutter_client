@@ -2512,6 +2512,9 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get userProfileLoadError => 'تعذر تحميل الملف الشخصي';
 
   @override
+  String get userProfileLoading => 'Loading profile';
+
+  @override
   String get userProfileRetry => 'إعادة المحاولة';
 
   @override

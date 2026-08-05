@@ -23,6 +23,13 @@ class FavoriteChannelsDao extends DatabaseAccessor<FluxerDatabase>
           .watch()
           .suppressDriftCancellation;
 
+  Future<List<FavoriteChannel>> getChannels() =>
+      (select(favoriteChannels)..orderBy([
+            (t) => OrderingTerm.asc(t.parentId),
+            (t) => OrderingTerm.asc(t.position),
+          ]))
+          .get();
+
   Stream<FavoriteChannel?> watchChannel(String channelId) =>
       (select(favoriteChannels)..where((t) => t.channelId.equals(channelId)))
           .watchSingleOrNull()

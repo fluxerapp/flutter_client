@@ -2530,6 +2530,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get userProfileLoadError => 'Profil yüklenemedi';
 
   @override
+  String get userProfileLoading => 'Loading profile';
+
+  @override
   String get userProfileRetry => 'Tekrar Dene';
 
   @override

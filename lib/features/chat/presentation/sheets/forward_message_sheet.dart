@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui' show BoxWidthStyle;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -578,6 +579,7 @@ class _ForwardMessageSheetBodyState
                   style: context.textStyles.inputText,
                   minLines: 1,
                   maxLines: 4,
+                  selectionWidthStyle: BoxWidthStyle.tight,
                   textCapitalization: TextCapitalization.sentences,
                   contextMenuBuilder: clipboardScope.buildContextMenu,
                   inputFormatters: <TextInputFormatter>[

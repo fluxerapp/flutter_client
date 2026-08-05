@@ -2511,6 +2511,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get userProfileLoadError => 'ไม่สามารถโหลดโปรไฟล์ได้';
 
   @override
+  String get userProfileLoading => 'Loading profile';
+
+  @override
   String get userProfileRetry => 'ลองอีกครั้ง';
 
   @override

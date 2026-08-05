@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
-import 'package:fluxer_app/features/favorites/utils/favorites_shell_navigation.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_back_resolver.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -49,9 +48,6 @@ class MobileChatBackScope extends ConsumerWidget {
             DrawerNavigationCoordinator.closeDrawer(ref.container);
           case ShellBackAction.noop:
             break;
-          case ShellBackAction.returnToFavorites:
-            FocusManager.instance.primaryFocus?.unfocus();
-            returnToFavoritesList(ref);
           case ShellBackAction.revealDrawer:
             FocusManager.instance.primaryFocus?.unfocus();
             DrawerNavigationCoordinator.revealDrawer(ref.container);

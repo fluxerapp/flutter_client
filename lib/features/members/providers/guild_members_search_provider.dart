@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:fluxer_app/features/members/data/guild_members_search_repository.dart';
+import 'package:fluxer_app/features/members/data/guild_members_gateway_list_repository.dart';
 import 'package:fluxer_app/features/members/domain/guild_members_search_models.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_app/features/members/utils/guild_members_local_filter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'guild_members_search_provider.g.dart';
@@ -10,16 +10,16 @@ part 'guild_members_search_provider.g.dart';
 @riverpod
 class GuildMembersSearch extends _$GuildMembersSearch {
   Timer? _searchDebounce;
-  Timer? _indexingPoll;
   int _searchGeneration = 0;
+  List<GuildMemberDisplayData> _filteredMembers = <GuildMemberDisplayData>[];
+  Object? _filteredMembersCacheKey;
 
   @override
   GuildMembersSearchState build(String guildId) {
     ref.onDispose(() {
       _searchDebounce?.cancel();
-      _indexingPoll?.cancel();
     });
-    Future<void>.microtask(_performSearch);
+    Future<void>.microtask(_refreshFilteredMembers);
     return GuildMembersSearchState.initial();
   }
 
@@ -29,7 +29,7 @@ class GuildMembersSearch extends _$GuildMembersSearch {
     _searchDebounce?.cancel();
     _searchDebounce = Timer(guildMembersSearchDebounce, () {
       state = state.copyWith(debouncedQuery: query.trim(), page: 1);
-      unawaited(_performSearch());
+      unawaited(_refreshFilteredMembers());
     });
   }
 
@@ -38,7 +38,7 @@ class GuildMembersSearch extends _$GuildMembersSearch {
       return;
     }
     state = state.copyWith(sortMode: sortMode, page: 1);
-    unawaited(_performSearch());
+    unawaited(_refreshFilteredMembers());
   }
 
   void setPage(int page) {
@@ -46,7 +46,7 @@ class GuildMembersSearch extends _$GuildMembersSearch {
       return;
     }
     state = state.copyWith(page: page);
-    unawaited(_performSearch());
+    _applyPagination(page: page, append: false);
   }
 
   void setPageSize(int pageSize) {
@@ -54,31 +54,32 @@ class GuildMembersSearch extends _$GuildMembersSearch {
       return;
     }
     state = state.copyWith(pageSize: pageSize, page: 1);
-    unawaited(_performSearch());
+    unawaited(_refreshFilteredMembers());
   }
 
   void setRoleFilter(List<String> roleIds) {
     state = state.copyWith(roleFilter: roleIds, page: 1);
-    unawaited(_performSearch());
+    unawaited(_refreshFilteredMembers());
   }
 
   void setMemberSinceFilter(GuildMembersDateRangeFilter filter) {
     state = state.copyWith(memberSinceFilter: filter, page: 1);
-    unawaited(_performSearch());
+    unawaited(_refreshFilteredMembers());
   }
 
   void setJoinedProductFilter(GuildMembersDateRangeFilter filter) {
     state = state.copyWith(joinedProductFilter: filter, page: 1);
-    unawaited(_performSearch());
+    unawaited(_refreshFilteredMembers());
   }
 
   void setJoinMethodFilter(GuildMembersJoinMethodFilter filter) {
     state = state.copyWith(joinMethodFilter: filter, page: 1);
-    unawaited(_performSearch());
+    unawaited(_refreshFilteredMembers());
   }
 
   Future<void> reload() async {
-    await _performSearch();
+    _filteredMembersCacheKey = null;
+    await _refreshFilteredMembers();
   }
 
   Future<void> loadMore() async {
@@ -91,71 +92,80 @@ class GuildMembersSearch extends _$GuildMembersSearch {
     }
     final int nextPage = (current.members.length ~/ current.pageSize) + 1;
     state = current.copyWith(isLoadingMore: true);
-    await _fetchPage(page: nextPage, append: true);
+    _applyPagination(page: nextPage, append: true);
+    state = state.copyWith(isLoadingMore: false);
   }
 
-  Future<void> _performSearch() async {
+  Object _filteredMembersCacheKeyFor(GuildMembersSearchState current) {
+    return Object.hash(
+      current.debouncedQuery,
+      current.sortMode,
+      current.roleFilter,
+      current.memberSinceFilter.gte,
+      current.memberSinceFilter.lte,
+      current.joinedProductFilter.gte,
+      current.joinedProductFilter.lte,
+      current.joinMethodFilter.sourceTypes,
+      current.joinMethodFilter.inviteCodes,
+    );
+  }
+
+  Future<void> _refreshFilteredMembers() async {
     state = state.copyWith(isSearching: true, hasError: false);
-    await _fetchPage(page: state.page, append: false);
-  }
-
-  Future<void> _fetchPage({required int page, required bool append}) async {
     final int generation = ++_searchGeneration;
+    final GuildMembersSearchState current = state;
+    final Object cacheKey = _filteredMembersCacheKeyFor(current);
     try {
-      final GuildMemberSearchResponse response = await ref
-          .read(guildMembersSearchRepositoryProvider)
-          .search(guildId: guildId, state: state, page: page);
+      if (_filteredMembersCacheKey != cacheKey) {
+        _filteredMembers = await ref
+            .read(guildMembersGatewayListRepositoryProvider)
+            .fetchFilteredMembers(guildId: guildId, state: current);
+        _filteredMembersCacheKey = cacheKey;
+      }
       if (generation != _searchGeneration) {
         return;
       }
-      final List<GuildMemberDisplayData> displayMembers = response.members
-          .map(GuildMemberDisplayData.fromSearchResult)
-          .toList();
-      final int totalPages = response.totalResultCount == 0
-          ? 1
-          : (response.totalResultCount + state.pageSize - 1) ~/ state.pageSize;
-      int resolvedPage = page;
-      if (!append && page > totalPages) {
-        resolvedPage = totalPages;
-        if (resolvedPage != page) {
-          await _fetchPage(page: resolvedPage, append: false);
-          return;
-        }
-      }
-      final List<GuildMemberDisplayData> members = append
-          ? <GuildMemberDisplayData>[...state.members, ...displayMembers]
-          : displayMembers;
+      _applyPagination(page: current.page, append: false);
       state = state.copyWith(
-        members: members,
-        totalCount: response.totalResultCount,
-        indexing: response.indexing,
         isSearching: false,
-        isLoadingMore: false,
         hasError: false,
         initialLoadDone: true,
-        page: resolvedPage,
       );
-      _syncIndexingPoll(response.indexing);
     } on Object {
       if (generation != _searchGeneration) {
         return;
       }
       state = state.copyWith(
         isSearching: false,
-        isLoadingMore: false,
         hasError: true,
         initialLoadDone: true,
       );
     }
   }
 
-  void _syncIndexingPoll(bool indexing) {
-    _indexingPoll?.cancel();
-    if (!indexing) {
-      return;
+  void _applyPagination({required int page, required bool append}) {
+    final GuildMembersSearchState current = state;
+    final int totalCount = _filteredMembers.length;
+    final int totalPages = totalCount == 0
+        ? 1
+        : (totalCount + current.pageSize - 1) ~/ current.pageSize;
+    int resolvedPage = page;
+    if (!append && page > totalPages) {
+      resolvedPage = totalPages;
     }
-    _indexingPoll = Timer.periodic(guildMembersIndexingPollInterval, (_) {
-      unawaited(_performSearch());
-    });
+    final List<GuildMemberDisplayData> pageMembers =
+        paginateGuildMemberDisplayData(
+          _filteredMembers,
+          page: resolvedPage,
+          pageSize: current.pageSize,
+        );
+    final List<GuildMemberDisplayData> members = append
+        ? <GuildMemberDisplayData>[...current.members, ...pageMembers]
+        : pageMembers;
+    state = current.copyWith(
+      members: members,
+      totalCount: totalCount,
+      page: resolvedPage,
+    );
   }
 }

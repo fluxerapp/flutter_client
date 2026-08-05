@@ -15,7 +15,7 @@ import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/services/voice_settings_applicator.dart';
-import 'package:fluxer_app/features/voice/utils/voice_processing_profile.dart';
+import 'package:fluxer_app/features/voice/utils/voice_mic_test_track.dart';
 import 'package:fluxer_app/features/voice/utils/voice_volume_utils.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:livekit_client/livekit_client.dart';
@@ -70,20 +70,13 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
     final VoiceSettingsApplicator applicator = ref.read(
       voiceSettingsApplicatorProvider,
     );
-    final AudioCaptureOptions options = applicator.buildAudioCaptureOptions(
-      settings,
-    );
-    final ResolvedVoiceProcessing processing = resolveVoiceProcessing(
-      settings: settings,
-      noiseFilterSupported: applicator.noiseFilterSupported,
-    );
-    if (applicator.noiseFilter != null) {
-      await applicator.noiseFilter!.setBypass(processing.bypassNoiseFilter);
-    }
     try {
       await applicator.applySpeakerOutput(settings: settings);
       await _configureOutputDevice(settings.outputDeviceId);
-      final LocalAudioTrack track = await LocalAudioTrack.create(options);
+      final LocalAudioTrack track = await _createMicTestTrack(
+        applicator: applicator,
+        settings: settings,
+      );
       await track.start();
       await Helper.setVolume(
         inputVoiceVolumePercentToGain(settings.inputVolume),
@@ -119,6 +112,13 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
       talker.error('Failed to start mic test', error, stackTrace);
       await _stopTest();
     }
+  }
+
+  Future<LocalAudioTrack> _createMicTestTrack({
+    required VoiceSettingsApplicator applicator,
+    required VoiceSettingsState settings,
+  }) {
+    return createMicTestAudioTrack(applicator: applicator, settings: settings);
   }
 
   Future<void> _configureOutputDevice(String outputDeviceId) async {

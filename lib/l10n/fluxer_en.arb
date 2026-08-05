@@ -3223,6 +3223,10 @@
     "@userProfileLoadError": {
         "description": "Empty-state title shown when the user profile sheet fails to fetch."
     },
+    "userProfileLoading": "Loading profile",
+    "@userProfileLoading": {
+        "description": "Accessible label for the user profile skeleton while profile data is loading."
+    },
     "userProfileRetry": "Retry",
     "@userProfileRetry": {
         "description": "Retry button on the profile load-error state."

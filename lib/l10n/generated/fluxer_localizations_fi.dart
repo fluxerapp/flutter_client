@@ -2531,6 +2531,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get userProfileLoadError => 'Profiilin lataaminen epäonnistui';
 
   @override
+  String get userProfileLoading => 'Loading profile';
+
+  @override
   String get userProfileRetry => 'Yritä uudelleen';
 
   @override

@@ -2547,6 +2547,9 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get userProfileLoadError => 'Profil konnte nicht geladen werden';
 
   @override
+  String get userProfileLoading => 'Loading profile';
+
+  @override
   String get userProfileRetry => 'Erneut versuchen';
 
   @override

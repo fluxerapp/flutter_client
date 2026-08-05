@@ -61,7 +61,12 @@ Widget desktopShellScaffold({
   );
 }
 
-Widget mobileSidebarForLocation(BuildContext context, String location) {
+Widget mobileSidebarForLocation(
+  BuildContext context,
+  String location, {
+  double peekContentInset = 0,
+}) {
+  final Widget sidebar = desktopSidebarForLocation(context, location);
   return ColoredBox(
     color: context.colors.channelSidebarBackground,
     child: SafeArea(
@@ -69,7 +74,14 @@ Widget mobileSidebarForLocation(BuildContext context, String location) {
       child: Row(
         children: <Widget>[
           const GuildNavbar(),
-          Expanded(child: desktopSidebarForLocation(context, location)),
+          Expanded(
+            child: peekContentInset > 0
+                ? Padding(
+                    padding: EdgeInsetsDirectional.only(end: peekContentInset),
+                    child: sidebar,
+                  )
+                : sidebar,
+          ),
         ],
       ),
     ),

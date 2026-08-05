@@ -4462,6 +4462,12 @@ abstract class FluxerLocalizations {
   /// **'Couldn\'t load profile'**
   String get userProfileLoadError;
 
+  /// Accessible label for the user profile skeleton while profile data is loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading profile'**
+  String get userProfileLoading;
+
   /// Retry button on the profile load-error state.
   ///
   /// In en, this message translates to:

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/members/domain/guild_members_search_models.dart';
 import 'package:fluxer_app/features/members/presentation/menus/guild_member_context_menu.dart';
@@ -48,6 +47,8 @@ class GuildMemberSearchRow extends ConsumerWidget {
       globalName: member.globalName,
       username: member.username,
     );
+    final String? avatarUrl = member.avatarUrlFor(guildId);
+    final int? avatarColor = member.avatarColor;
     final String joinMethod = formatGuildMemberJoinMethodPillLabel(
       l10n,
       member,
@@ -77,11 +78,8 @@ class GuildMemberSearchRow extends ConsumerWidget {
               FluxerAvatar.userPresence(
                 fallbackText: displayName,
                 userId: member.userId,
-                imageUrl: FluxerMediaUrl.userAvatar(
-                  userId: member.userId,
-                  hash: member.avatar,
-                ),
-                avatarColor: member.avatarColor,
+                imageUrl: avatarUrl,
+                avatarColor: avatarColor,
                 size: compact ? 40 : 32,
               ),
               SizedBox(width: context.layout.s3),

@@ -2526,6 +2526,9 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get userProfileLoadError => 'Kunne ikke indlæse profil';
 
   @override
+  String get userProfileLoading => 'Loading profile';
+
+  @override
   String get userProfileRetry => 'Prøv igen';
 
   @override

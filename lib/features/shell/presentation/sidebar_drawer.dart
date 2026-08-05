@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart'
     show TargetPlatform, defaultTargetPlatform, kIsWeb, visibleForTesting;
@@ -8,18 +9,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:fluxer_app/features/shell/providers/drawer_reveal_sync_trigger_provider.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/shell/providers/shell_blocks_horizontal_gestures_provider.dart';
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
 
-/// Mobile shell drawer that draws a foreground [slider] over a static [base].
-///
-/// [base] (sidebar + bottom nav) is the static back layer. [slider] (chat)
-/// is drawn on top and translates horizontally to expose the base when
-/// [currentRevealSideProvider] is [RevealSide.left]. When [RevealSide.main]
-/// the slider covers the entire base.
+/// Compact wide mobile peeks the drawer at the channel list edge.
 class SidebarDrawer extends ConsumerStatefulWidget {
   final Widget base;
   final Widget slider;
@@ -80,11 +77,8 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
     if (_lastWidth == width) {
       return;
     }
-    final progress = _lastWidth <= 0
-        ? 0.0
-        : _animationController.value / _lastWidth;
-    _animationController.value = (progress * width).clamp(0.0, width);
     _lastWidth = width;
+    _animationController.value = _goalForSide(_currentSide, width);
   }
 
   @override
@@ -93,10 +87,29 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
     super.dispose();
   }
 
+  bool _isSidebarDrawerLocked() {
+    return isSidebarDrawerLockedForLocation(ref.read(shellLocationProvider));
+  }
+
+  bool _usesPeekReveal() {
+    return isCompactWideMobileLayout(context) && !_isSidebarDrawerLocked();
+  }
+
+  double _peekWidth(double screenWidth) {
+    return math.min(mobileDrawerPeekWidth(context), screenWidth);
+  }
+
+  double _maxRevealTranslate(double width) {
+    if (_usesPeekReveal()) {
+      return _peekWidth(width);
+    }
+    return width;
+  }
+
   double _goalForSide(RevealSide side, double width) {
     switch (side) {
       case RevealSide.left:
-        return width;
+        return _maxRevealTranslate(width);
       case RevealSide.main:
         return 0;
     }
@@ -153,10 +166,6 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
     await _onApplyTranslation(details);
   }
 
-  bool _isSidebarDrawerLocked() {
-    return isSidebarDrawerLockedForLocation(ref.read(shellLocationProvider));
-  }
-
   void _onTranslate(double delta) {
     if (!mounted) {
       return;
@@ -165,10 +174,11 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
     if (width <= 0) {
       return;
     }
-    final minTranslate = _isSidebarDrawerLocked() ? width : 0.0;
+    final maxTranslate = _maxRevealTranslate(width);
+    final minTranslate = _isSidebarDrawerLocked() ? maxTranslate : 0.0;
     final newTranslate = (_animationController.value + delta).clamp(
       minTranslate,
-      width,
+      maxTranslate,
     );
     _animationController.value = newTranslate;
   }
@@ -185,11 +195,13 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
         (defaultTargetPlatform == TargetPlatform.iOS && !kIsWeb)
         ? kHorizontalSwipeCompletionThresholdCupertino
         : kHorizontalSwipeCompletionThresholdMaterial;
+    final double? peekWidth = _usesPeekReveal() ? _peekWidth(width) : null;
     final targetSide = sidebarDrawerTargetForDrag(
       translate: _animationController.value,
       width: width,
       primaryVelocity: details.primaryVelocity ?? 0,
       completionThreshold: completionThreshold,
+      peekWidth: peekWidth,
     );
     final resolvedSide =
         _isSidebarDrawerLocked() && targetSide == RevealSide.main
@@ -257,6 +269,11 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
           unawaited(_moveToState(next, writeBack: false));
         }
       })
+      ..listen<String>(shellLocationProvider, (String? prev, String next) {
+        if (_currentSide == RevealSide.left) {
+          unawaited(_syncTranslateToRevealSide(writeBack: false));
+        }
+      })
       ..listen<bool>(shellBlocksHorizontalGesturesProvider, (
         bool? prev,
         bool next,
@@ -303,7 +320,14 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
           RepaintBoundary(child: widget.base),
           AnimatedBuilder(
             animation: _animationController,
-            child: RepaintBoundary(child: widget.slider),
+            child: IgnorePointer(
+              ignoring: isCompactWideDrawerPeekMode(
+                context,
+                shellLocation: ref.watch(shellLocationProvider),
+                revealSide: ref.watch(currentRevealSideProvider),
+              ),
+              child: RepaintBoundary(child: widget.slider),
+            ),
             builder: (context, slider) {
               return Transform.translate(
                 offset: Offset(_animationController.value, 0),
@@ -332,14 +356,23 @@ class _DrawerHorizontalDragRecognizer extends HorizontalDragGestureRecognizer {
   }
 }
 
-@visibleForTesting
 bool isSidebarDrawerLockedForLocation(String location) {
-  if (location == RoutePaths.me) {
+  if (location == RoutePaths.me || location == RoutePaths.favoritesBase) {
     return true;
   }
   return classifyRoute(location) == RouteKind.channelsRoot &&
       extractGuildId(location) != null &&
       extractChannelId(location) == null;
+}
+
+bool isCompactWideDrawerPeekMode(
+  BuildContext context, {
+  required String shellLocation,
+  required RevealSide revealSide,
+}) {
+  return isCompactWideMobileLayout(context) &&
+      !isSidebarDrawerLockedForLocation(shellLocation) &&
+      revealSide == RevealSide.left;
 }
 
 @visibleForTesting
@@ -348,15 +381,22 @@ RevealSide sidebarDrawerTargetForDrag({
   required double width,
   required double primaryVelocity,
   required double completionThreshold,
+  double? peekWidth,
   double flingVelocity = kDrawerSwipeFlingVelocityPxPerSecond,
 }) {
   if (width <= 0) {
     return RevealSide.main;
   }
+  final double maxReveal = peekWidth == null
+      ? width
+      : math.min(peekWidth, width);
+  if (maxReveal <= 0) {
+    return RevealSide.main;
+  }
   if (primaryVelocity.abs() >= flingVelocity) {
     return primaryVelocity > 0 ? RevealSide.left : RevealSide.main;
   }
-  final positionFraction = translate / width;
+  final positionFraction = translate / maxReveal;
   return positionFraction >= completionThreshold
       ? RevealSide.left
       : RevealSide.main;

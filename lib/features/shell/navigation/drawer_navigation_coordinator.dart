@@ -1,12 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/talker.dart';
-import 'package:fluxer_app/features/favorites/utils/favorites_shell_navigation.dart';
 import 'package:fluxer_app/features/shell/providers/drawer_reveal_sync_trigger_provider.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 
 class DrawerNavigationCoordinator {
   const DrawerNavigationCoordinator._();
+
   static void prepareForNavigation(ProviderContainer container, String path) {
     final RevealSide? eager = eagerRevealSideFor(path);
     if (eager != null) {
@@ -45,14 +46,15 @@ class DrawerNavigationCoordinator {
     container.read(fluxerRouterProvider).go(path);
   }
 
-  static void returnToFavoritesList(ProviderContainer container) {
-    returnToFavoritesListFromContainer(container);
+  static void selectGuild(ProviderContainer container, String guildId) {
+    talker.debug('[DrawerNavigation] selectGuild guildId=$guildId');
+    revealDrawer(container);
+    container.read(fluxerRouterProvider).go(RoutePaths.guild(guildId));
   }
-}
 
-void navigateToContentWithCoordinator(
-  ProviderContainer container,
-  String path,
-) {
-  DrawerNavigationCoordinator.navigateToContent(container, path);
+  static void selectFavorites(ProviderContainer container) {
+    talker.debug('[DrawerNavigation] selectFavorites');
+    revealDrawer(container);
+    container.read(fluxerRouterProvider).go(RoutePaths.favoritesBase);
+  }
 }

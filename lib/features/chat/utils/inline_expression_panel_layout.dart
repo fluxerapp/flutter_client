@@ -27,6 +27,13 @@ double inlineExpressionPanelDockedTotalHeight({
   return contentHeight + dragHandleHeight;
 }
 
+double inlineExpressionPanelDockedReservedBodyHeight({
+  required double reservedHeight,
+  required double homeIndicatorInset,
+}) {
+  return math.max(0, reservedHeight - homeIndicatorInset);
+}
+
 double inlineExpressionPanelResolveAvailableHeight({
   required double layoutMaxHeight,
   required double screenHeight,

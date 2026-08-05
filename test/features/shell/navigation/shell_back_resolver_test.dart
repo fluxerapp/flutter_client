@@ -30,7 +30,7 @@ void main() {
       );
     });
 
-    test('favorites channel returns to favorites list', () {
+    test('favorites channel reveals drawer like guild chat', () {
       expect(
         resolveShellBackAction(
           hasPopupOverlay: false,
@@ -39,7 +39,7 @@ void main() {
           revealSide: RevealSide.main,
           shellLocation: '/channels/@favorites/abc',
         ),
-        ShellBackAction.returnToFavorites,
+        ShellBackAction.revealDrawer,
       );
     });
 
@@ -53,6 +53,39 @@ void main() {
           shellLocation: '/channels/guild/channel',
         ),
         ShellBackAction.closeDrawer,
+      );
+    });
+
+    test('does not open or close a locked drawer', () {
+      expect(
+        resolveShellBackAction(
+          hasPopupOverlay: false,
+          hasManualGestureBlock: false,
+          hasExpressionPanelOpen: false,
+          revealSide: RevealSide.main,
+          shellLocation: '/channels/guild',
+        ),
+        ShellBackAction.noop,
+      );
+      expect(
+        resolveShellBackAction(
+          hasPopupOverlay: false,
+          hasManualGestureBlock: false,
+          hasExpressionPanelOpen: false,
+          revealSide: RevealSide.left,
+          shellLocation: '/channels/@me',
+        ),
+        ShellBackAction.noop,
+      );
+      expect(
+        resolveShellBackAction(
+          hasPopupOverlay: false,
+          hasManualGestureBlock: false,
+          hasExpressionPanelOpen: false,
+          revealSide: RevealSide.main,
+          shellLocation: '/channels/@favorites',
+        ),
+        ShellBackAction.noop,
       );
     });
 

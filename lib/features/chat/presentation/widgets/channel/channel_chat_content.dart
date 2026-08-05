@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/voice/dm_embedded_
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_header_search_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
@@ -268,11 +269,18 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
       ref.watch(channelSearchProvider(widget.channelId, null));
     }
 
+    final bool reserveBottomSafeArea = !ref.watch(
+      bottomInputSlotProvider.select(
+        (BottomInputSlotState state) => state.slotHeight > 0,
+      ),
+    );
+
     return ColoredBox(
       color: isMobile
           ? context.colors.chatInputBackground
           : context.colors.chatBackground,
       child: SafeArea(
+        bottom: reserveBottomSafeArea,
         child: UploadDropOverlay(
           channelId: widget.channelId,
           child: Column(

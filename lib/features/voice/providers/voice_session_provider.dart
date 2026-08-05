@@ -1815,6 +1815,14 @@ class VoiceSession extends _$VoiceSession {
       final bool micOn = audio.micShouldPublish && _canPublishAudioInChannel();
       try {
         await lp.setMicrophoneEnabled(micOn);
+        if (micOn) {
+          await ref
+              .read(voiceSettingsApplicatorProvider)
+              .attachNoiseFilterToMicrophone(
+                participant: lp,
+                settings: ref.read(voiceSettingsProvider),
+              );
+        }
       } on Object catch (e) {
         if (isTrackPublishFailure(e)) {
           talker.warning('[Voice] setMicrophoneEnabled failed: $e');
@@ -2274,6 +2282,12 @@ class VoiceSession extends _$VoiceSession {
       }
       try {
         await lp.setMicrophoneEnabled(true);
+        await ref
+            .read(voiceSettingsApplicatorProvider)
+            .attachNoiseFilterToMicrophone(
+              participant: lp,
+              settings: ref.read(voiceSettingsProvider),
+            );
         if (state.errorMessage == kVoiceSessionErrorMicPublish) {
           state = state.copyWith(clearError: true);
         }

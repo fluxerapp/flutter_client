@@ -77,6 +77,7 @@ import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dar
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
 import 'package:fluxer_app/features/shell/navigation/root_overlay_navigation.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -722,7 +723,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
           developerMode: developerMode,
           enableLongPressMenu: !isMobileLayout(context),
           onTap: () {
-            context.go(RoutePaths.guild(guild.id));
+            DrawerNavigationCoordinator.selectGuild(ref.container, guild.id);
           },
           onMenuOpened: () {
             ref.read(guildSyncProvider.notifier).syncIfNeeded(guild.id);
@@ -1343,7 +1344,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
             developerMode: developerMode,
             enableLongPressMenu: !isMobileLayout(context),
             onTap: () {
-              context.go(RoutePaths.guild(guild.id));
+              DrawerNavigationCoordinator.selectGuild(ref.container, guild.id);
             },
             onMenuOpened: () {
               ref.read(guildSyncProvider.notifier).syncIfNeeded(guild.id);
@@ -3794,7 +3795,9 @@ class _FavoritesButton extends ConsumerWidget {
       icon: PhosphorIconsFill.star,
       mentionCount: mentionCount,
       hasUnread: hasUnread,
-      onTap: () => context.go(RoutePaths.favoritesBase),
+      onTap: () {
+        DrawerNavigationCoordinator.selectFavorites(ref.container);
+      },
     );
   }
 }

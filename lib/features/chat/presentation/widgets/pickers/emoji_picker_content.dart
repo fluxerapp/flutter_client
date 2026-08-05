@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,7 +20,6 @@ import 'package:fluxer_app/features/chat/utils/emoji_picker_layout_index.dart';
 import 'package:fluxer_app/features/chat/utils/emoji_picker_precache.dart';
 import 'package:fluxer_app/features/chat/utils/emoji_picker_rendering_policy.dart';
 import 'package:fluxer_app/features/chat/utils/emoji_picker_visibility.dart';
-import 'package:fluxer_app/features/chat/utils/inline_expression_panel_scroll_physics.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
@@ -1476,17 +1474,8 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     _EmojiPickerData data,
   ) {
     final l10n = FluxerLocalizations.of(context);
-    final MediaQueryData mediaQuery = MediaQuery.of(context);
-    final double bottomInset = defaultTargetPlatform == TargetPlatform.android
-        ? max(
-            0,
-            expressionPanelBottomSystemInset(mediaQuery) -
-                inlineExpressionPanelHomeIndicatorInset(mediaQuery),
-          )
-        : 0;
 
-    return Container(
-      padding: EdgeInsets.only(bottom: bottomInset),
+    return DecoratedBox(
       decoration: BoxDecoration(
         border: Border(top: BorderSide(color: colors.backgroundModifierAccent)),
       ),

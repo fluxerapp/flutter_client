@@ -116,6 +116,46 @@ void main() {
       expect(find.byType(Divider), findsOneWidget);
     });
 
+    testWidgets('shows messages icon instead of title in compact wide peek', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(984, 800);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final GoRouter router = GoRouter(
+        initialLocation: '/channels/@me/dm-channel-1',
+        routes: <RouteBase>[
+          GoRoute(
+            path: '/channels/@me',
+            builder: (BuildContext context, GoRouterState state) {
+              return const Scaffold(body: DMList());
+            },
+            routes: <RouteBase>[
+              GoRoute(
+                path: ':channelId',
+                builder: (BuildContext context, GoRouterState state) {
+                  return const Scaffold(body: DMList());
+                },
+              ),
+            ],
+          ),
+        ],
+      );
+
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(conversations: const []),
+          routerConfig: router,
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('Messages'), findsNothing);
+      expect(find.byIcon(PhosphorIconsFill.chatCircle), findsOneWidget);
+    });
+
     testWidgets('opens add friends sheet when tapping Add friends', (
       tester,
     ) async {

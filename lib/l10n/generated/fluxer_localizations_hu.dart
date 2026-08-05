@@ -2549,6 +2549,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userProfileLoadError => 'Nem sikerült betölteni a profil';
 
   @override
+  String get userProfileLoading => 'Loading profile';
+
+  @override
   String get userProfileRetry => 'Újrapróbálkozás';
 
   @override

@@ -26,7 +26,6 @@ import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
-import 'package:fluxer_app/features/favorites/utils/favorites_shell_navigation.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
@@ -606,8 +605,6 @@ class ChannelHeader extends ConsumerWidget {
       shellLocation: shellLocation,
     );
     switch (action) {
-      case ShellBackAction.returnToFavorites:
-        returnToFavoritesList(ref);
       case ShellBackAction.revealDrawer:
         DrawerNavigationCoordinator.revealDrawer(ref.container);
       case ShellBackAction.closeDrawer:

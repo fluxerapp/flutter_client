@@ -1,8 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
-import 'package:fluxer_app/core/router/route_kind.dart';
+import 'package:fluxer_app/core/router/app_location_persistence.dart';
+import 'package:fluxer_app/core/router/guild_root_redirect.dart';
 
 class ChannelPersistenceObserver extends NavigatorObserver {
   final FluxerDatabase db;
@@ -11,33 +10,25 @@ class ChannelPersistenceObserver extends NavigatorObserver {
 
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    _saveIfGuildChannel(route);
+    _saveLocation(route);
   }
 
   @override
   void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
     if (newRoute != null) {
-      _saveIfGuildChannel(newRoute);
+      _saveLocation(newRoute);
     }
   }
 
-  void _saveIfGuildChannel(Route<dynamic> route) {
-    final uri = route.settings.name;
+  void _saveLocation(Route<dynamic> route) {
+    final String? uri = route.settings.name;
     if (uri == null) {
       return;
     }
-    // Classifier filters out guildMembers, dmCall, channelsRoot, nonChannel.
-    if (classifyRoute(uri) != RouteKind.chat) {
+    persistAppLocation(db, uri);
+    if (!uri.startsWith('/channels/')) {
       return;
     }
-    // Strict two-segment shape: persist /channels/:guildId/:channelId only,
-    // not message routes (/.../...). [^@/] excludes @me and @favorites.
-    final match = RegExp(r'^/channels/([^@/][^/]*)/([^/]+)$').firstMatch(uri);
-    if (match == null) {
-      return;
-    }
-    final guildId = match.group(1)!;
-    final channelId = match.group(2)!;
-    unawaited(db.guildLastChannelDao.setLastChannel(guildId, channelId));
+    persistGuildChannelFromLocation(db, uri);
   }
 }

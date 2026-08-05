@@ -189,10 +189,11 @@ GoRouter fluxerRouter(Ref ref) {
           ref.read(addAccountInstanceGuardProvider) != null;
 
       if (isAccountSwitching) {
+        ref.read(preReconnectingLocationProvider.notifier).clear();
         return isOnLoading ? null : '/loading';
       }
 
-      // Still starting up — stay on splash.
+      // Still starting up, stay on splash.
       if (!isStartupComplete) {
         return isOnLoading ? null : '/loading';
       }
@@ -207,11 +208,16 @@ GoRouter fluxerRouter(Ref ref) {
         return '/reconnecting';
       }
 
-      // Authenticated but gateway hasn't delivered READY yet — stay on splash.
+      // Authenticated but gateway hasn't delivered READY yet, stay on splash.
       if (isAuthenticated &&
           !isGatewayReady &&
           !isOnReconnecting &&
           !isAddingAccount) {
+        if (!isOnLoading) {
+          ref
+              .read(preReconnectingLocationProvider.notifier)
+              .remember(path: state.uri.path, query: state.uri.query);
+        }
         return isOnLoading ? null : '/loading';
       }
 
@@ -219,7 +225,9 @@ GoRouter fluxerRouter(Ref ref) {
         if (!isAuthenticated) {
           return '/login';
         }
-        return RoutePaths.me;
+        return ref
+            .read(preReconnectingLocationProvider.notifier)
+            .takeOrRestore(ref.read(fluxerDatabaseProvider));
       }
 
       if (!isAuthenticated) {
@@ -237,7 +245,7 @@ GoRouter fluxerRouter(Ref ref) {
           isGatewayReady) {
         return ref
             .read(preReconnectingLocationProvider.notifier)
-            .takeOrDefault();
+            .takeOrRestore(ref.read(fluxerDatabaseProvider));
       }
 
       return null;
@@ -662,28 +670,11 @@ GoRouter fluxerRouter(Ref ref) {
               GoRoute(
                 path: '/channels/@favorites',
                 name: RouteNames.favorites,
-                redirect: (context, state) async {
-                  if (state.uri.path != RoutePaths.favoritesBase) {
-                    return null;
-                  }
-                  if (isMobileLayout(context)) {
-                    return null;
-                  }
-                  final db = ref.read(fluxerDatabaseProvider);
-                  final channels = await db.favoriteChannelsDao
-                      .watchChannels()
-                      .first;
-                  if (channels.isEmpty) {
-                    return null;
-                  }
-                  final settings = await db.favoriteChannelsDao.getSettings();
-                  final hideMuted = settings.hideMuted;
-                  for (final favorite in channels) {
-                    if (!hideMuted || favorite.guildId == null) {
-                      return RoutePaths.favoritesChannel(favorite.channelId);
-                    }
-                  }
-                  return RoutePaths.favoritesChannel(channels.first.channelId);
+                redirect: (context, state) {
+                  return resolveFavoritesRootRedirect(
+                    fullPath: state.uri.path,
+                    db: ref.read(fluxerDatabaseProvider),
+                  );
                 },
                 pageBuilder: (context, state) => shellFadeTransitionPage(
                   key: state.pageKey,
@@ -726,7 +717,6 @@ GoRouter fluxerRouter(Ref ref) {
                   return resolveGuildRootRedirect(
                     guildId: state.pathParameters['guildId'],
                     fullPath: state.uri.path,
-                    isMobile: isMobileLayout(context),
                     db: ref.read(fluxerDatabaseProvider),
                   );
                 },
@@ -761,6 +751,7 @@ GoRouter fluxerRouter(Ref ref) {
                       final channelId = state.pathParameters['channelId']!;
                       return shellSlideTransitionPage(
                         key: state.pageKey,
+                        name: state.uri.path,
                         parallaxOutgoing: true,
                         child: ChannelLayout(
                           guildId: guildId,

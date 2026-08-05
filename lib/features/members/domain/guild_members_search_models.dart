@@ -1,8 +1,13 @@
+import 'dart:convert';
+
+import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/features/members/domain/member.dart';
+import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 
 const Duration guildMembersSearchDebounce = Duration(milliseconds: 300);
-const Duration guildMembersIndexingPollInterval = Duration(seconds: 5);
 const int guildMembersDefaultPageSize = 25;
 const List<int> guildMembersPageSizeOptions = <int>[12, 25, 50, 100];
 const int guildMembersMaxVisiblePages = 7;
@@ -77,6 +82,8 @@ class GuildMemberDisplayData {
     required this.inviterId,
     required this.userCreatedAt,
     required this.communicationDisabledUntil,
+    this.serverAvatar,
+    this.userAvatar,
   });
 
   final String userId;
@@ -87,6 +94,8 @@ class GuildMemberDisplayData {
   final String? nickname;
   final String? globalName;
   final String? avatar;
+  final String? serverAvatar;
+  final String? userAvatar;
   final int? avatarColor;
   final List<String> roleIds;
   final DateTime joinedAt;
@@ -97,6 +106,30 @@ class GuildMemberDisplayData {
   final DateTime? userCreatedAt;
   final DateTime? communicationDisabledUntil;
 
+  bool matchesSearchQuery(String queryLower) {
+    if (queryLower.isEmpty) {
+      return true;
+    }
+    return username.toLowerCase().contains(queryLower) ||
+        displayName.toLowerCase().contains(queryLower) ||
+        tag.toLowerCase().contains(queryLower) ||
+        (nickname?.toLowerCase().contains(queryLower) ?? false) ||
+        (globalName?.toLowerCase().contains(queryLower) ?? false);
+  }
+
+  String? avatarUrlFor(String guildId) {
+    final String? guildAvatar = serverAvatar;
+    if (guildAvatar != null && guildAvatar.isNotEmpty) {
+      return FluxerMediaUrl.guildMemberMedia(
+        guildId: guildId,
+        userId: userId,
+        type: GuildMemberMediaType.avatar,
+        hash: guildAvatar,
+      );
+    }
+    return FluxerMediaUrl.userAvatar(userId: userId, hash: avatar);
+  }
+
   GuildMemberResponse toGuildMemberResponse() {
     return GuildMemberResponse(
       user: UserPartialResponse(
@@ -104,12 +137,13 @@ class GuildMemberDisplayData {
         username: username,
         discriminator: discriminator,
         globalName: globalName,
-        avatar: avatar,
+        avatar: userAvatar ?? avatar,
         avatarColor: avatarColor,
         flags: 0,
       ),
       roles: roleIds,
       nick: nickname,
+      avatar: serverAvatar,
       joinedAt: joinedAt,
       communicationDisabledUntil: communicationDisabledUntil,
       mute: false,
@@ -117,34 +151,69 @@ class GuildMemberDisplayData {
     );
   }
 
-  static GuildMemberDisplayData fromSearchResult(
-    GuildMemberSearchResult result,
-  ) {
-    final String displayName =
-        result.nickname ?? result.globalName ?? result.username;
-    final String tag = '${result.username}#${result.discriminator}';
+  static GuildMemberDisplayData fromCachedMember({
+    required Member member,
+    required db.Member? memberRow,
+    required db.User? user,
+    JoinSourceType? joinSourceType,
+    String? sourceInviteCode,
+    String? inviterId,
+  }) {
+    final String discriminator = user?.discriminator ?? '0';
+    final String tag = '${member.username}#$discriminator';
+    final bool isAvatarUnset =
+        memberRow != null &&
+        hasMemberProfileFlag(
+          memberRow.profileFlags,
+          guildProfileAvatarUnsetFlag,
+        );
+    final String? serverAvatar = isAvatarUnset ? null : memberRow?.serverAvatar;
+    final String? resolvedAvatar = serverAvatar ?? user?.avatar;
+    final List<String> roleIds = member.roles.isNotEmpty
+        ? member.roles.map((MemberRole role) => role.id).toList()
+        : _roleIdsFromMemberRow(memberRow);
+    final DateTime? snowflakeTime = dateTimeFromUserSnowflakeOrNull(
+      member.id,
+    )?.toLocal();
     return GuildMemberDisplayData(
-      userId: result.userId,
-      displayName: displayName,
+      userId: member.id,
+      displayName: member.displayName,
       tag: tag,
-      username: result.username,
-      discriminator: result.discriminator,
-      nickname: result.nickname,
-      globalName: result.globalName,
-      avatar: null,
-      avatarColor: null,
-      roleIds: result.roleIds,
-      joinedAt: DateTime.fromMillisecondsSinceEpoch(
-        (result.joinedAt * 1000).round(),
-        isUtc: true,
-      ).toLocal(),
-      isBot: result.isBot,
-      joinSourceType: result.supplemental.joinSourceType,
-      sourceInviteCode: result.supplemental.sourceInviteCode,
-      inviterId: result.supplemental.inviterId,
-      userCreatedAt: dateTimeFromUserSnowflakeOrNull(result.userId)?.toLocal(),
-      communicationDisabledUntil: null,
+      username: member.username,
+      discriminator: discriminator,
+      nickname: member.nickname,
+      globalName: member.globalName,
+      avatar: resolvedAvatar,
+      serverAvatar: serverAvatar,
+      userAvatar: user?.avatar,
+      avatarColor: user?.avatarColor ?? member.avatarColor,
+      roleIds: roleIds,
+      joinedAt:
+          memberRow?.joinedAt ??
+          snowflakeTime ??
+          DateTime.fromMillisecondsSinceEpoch(0),
+      isBot: member.isBot,
+      joinSourceType: joinSourceType,
+      sourceInviteCode: sourceInviteCode,
+      inviterId: inviterId,
+      userCreatedAt: snowflakeTime,
+      communicationDisabledUntil: member.communicationDisabledUntil,
     );
+  }
+
+  static List<String> _roleIdsFromMemberRow(db.Member? memberRow) {
+    if (memberRow == null) {
+      return const <String>[];
+    }
+    try {
+      final Object? decoded = jsonDecode(memberRow.roleIdsJson);
+      if (decoded is List) {
+        return decoded.cast<String>();
+      }
+    } on Object {
+      // Fall through.
+    }
+    return const <String>[];
   }
 }
 

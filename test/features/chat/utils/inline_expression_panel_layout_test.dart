@@ -92,4 +92,33 @@ void main() {
       );
     },
   );
+
+  test(
+    'docked body keeps home indicator inside the keyboard reserved height',
+    () {
+      const double reserved = 336;
+      const double homeIndicator = 34;
+      const double handle = 36;
+      final double body = inlineExpressionPanelDockedReservedBodyHeight(
+        reservedHeight: reserved,
+        homeIndicatorInset: homeIndicator,
+      );
+      expect(body, 302);
+      expect(
+        inlineExpressionPanelDockedContentHeight(
+          keyboardAnchorNet: body,
+          dragHandleHeight: handle,
+        ),
+        266,
+      );
+      expect(
+        inlineExpressionPanelDockedTotalHeight(
+              contentHeight: 266,
+              dragHandleHeight: handle,
+            ) +
+            homeIndicator,
+        reserved,
+      );
+    },
+  );
 }

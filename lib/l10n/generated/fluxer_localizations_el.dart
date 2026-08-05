@@ -2550,6 +2550,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get userProfileLoadError => 'Αδυναμία φόρτωσης προφίλ';
 
   @override
+  String get userProfileLoading => 'Loading profile';
+
+  @override
   String get userProfileRetry => 'Δοκιμάστε ξανά';
 
   @override

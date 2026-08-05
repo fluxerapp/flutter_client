@@ -2544,6 +2544,9 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get userProfileLoadError => 'Не удалось загрузить профиль';
 
   @override
+  String get userProfileLoading => 'Loading profile';
+
+  @override
   String get userProfileRetry => 'Повторить';
 
   @override

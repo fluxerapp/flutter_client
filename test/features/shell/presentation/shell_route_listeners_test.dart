@@ -17,6 +17,55 @@ import 'package:fluxer_app/features/shell/presentation/shell_route_listeners.dar
 import 'package:fluxer_dart/gateway.dart';
 
 void main() {
+  testWidgets('restored guild route loads channels on first shell mount', (
+    WidgetTester tester,
+  ) async {
+    final _RouteStateSource routeStateSource = _RouteStateSource(
+      location: '/channels/guild-1/channel-1',
+    );
+    final _RecordingChannelRepository channelRepository =
+        _RecordingChannelRepository();
+    final GatewayConnection gatewayConnection = GatewayConnection(
+      token: 'test-token',
+      dio: Dio(),
+    );
+    addTearDown(gatewayConnection.dispose);
+
+    final ProviderContainer container = ProviderContainer(
+      overrides: [
+        routeStateProvider.overrideWith(
+          () => _TestRouteStateNotifier(routeStateSource),
+        ),
+        guildListViewModelProvider.overrideWithValue(
+          const GuildListViewState(
+            guilds: <Guild>[Guild(id: 'guild-1', name: 'Guild One')],
+          ),
+        ),
+        channelRepositoryProvider.overrideWithValue(channelRepository),
+        gatewayConnectionProvider.overrideWithValue(gatewayConnection),
+        pushNotificationsCoordinatorProvider.overrideWithValue(false),
+        appIconBadgeCoordinatorProvider.overrideWithValue(null),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: const Directionality(
+          textDirection: TextDirection.ltr,
+          child: ShellRouteListeners(child: SizedBox.shrink()),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump();
+
+    expect(tester.takeException(), isNull);
+    expect(channelRepository.watchedGuildIds, <String>['guild-1']);
+    expect(container.read(channelListViewModelProvider).guild?.id, 'guild-1');
+  });
+
   testWidgets('active guild route effect loads channels for current guild', (
     WidgetTester tester,
   ) async {
@@ -91,7 +140,9 @@ class _InvalidateRouteStateAfterBuild extends ConsumerWidget {
 }
 
 class _RouteStateSource {
-  String location = '/channels/@me';
+  _RouteStateSource({this.location = '/channels/@me'});
+
+  String location;
   bool didInvalidateDuringBuild = false;
 
   RouteState get state => RouteState(

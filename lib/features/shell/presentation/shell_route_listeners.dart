@@ -6,11 +6,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/badge/app_icon_badge_coordinator.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/permissions/guild_channel_permission_cleanup.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/push/push_notifications_coordinator.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_distributor_setup.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_distributor_ui.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_no_distributor_dismissal_provider.dart';
+import 'package:fluxer_app/core/router/app_location_persistence.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/router/guild_root_redirect.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/share/pending_share_provider.dart';
 import 'package:fluxer_app/core/share/shared_media_payload.dart';
@@ -44,6 +47,10 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
         ref.container,
         ref.read(shellLocationProvider),
       );
+      final String? activeGuildId = ref.read(activeGuildIdProvider);
+      if (activeGuildId != null) {
+        _applyActiveGuildEffects(activeGuildId);
+      }
     });
     ref
       ..listenManual<String>(shellLocationProvider, (
@@ -55,6 +62,9 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
             return;
           }
           DrawerNavigationCoordinator.syncForShellLocation(ref.container, next);
+          final db = ref.read(fluxerDatabaseProvider);
+          persistGuildChannelFromLocation(db, next);
+          persistAppLocation(db, next);
         });
       })
       ..listenManual<String?>(activeGuildIdProvider, (
@@ -149,13 +159,17 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
       if (next == null || activeGuildId != next) {
         return;
       }
-      final guilds = ref.read(guildListViewModelProvider).guilds;
-      final guild = guilds.where((g) => g.id == next).firstOrNull;
-      ref
-          .read(channelListViewModelProvider.notifier)
-          .loadChannels(next, guild: guild);
-      ref.read(guildSyncProvider.notifier).syncIfNeeded(next);
+      _applyActiveGuildEffects(next);
     });
+  }
+
+  void _applyActiveGuildEffects(String guildId) {
+    final guilds = ref.read(guildListViewModelProvider).guilds;
+    final guild = guilds.where((g) => g.id == guildId).firstOrNull;
+    ref
+        .read(channelListViewModelProvider.notifier)
+        .loadChannels(guildId, guild: guild);
+    ref.read(guildSyncProvider.notifier).syncIfNeeded(guildId);
   }
 
   void _scheduleInactiveChannelCleanup(String previousChannelId) {

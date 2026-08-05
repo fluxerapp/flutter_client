@@ -2439,6 +2439,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get userProfileLoadError => 'プロフィールを読み込めませんでした';
 
   @override
+  String get userProfileLoading => 'Loading profile';
+
+  @override
   String get userProfileRetry => '再試行';
 
   @override

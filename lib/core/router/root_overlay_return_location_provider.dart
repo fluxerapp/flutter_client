@@ -1,4 +1,4 @@
-import 'package:fluxer_app/core/router/pre_reconnecting_location_provider.dart';
+import 'package:fluxer_app/core/router/app_location_persistence.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
