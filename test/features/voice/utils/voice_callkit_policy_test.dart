@@ -502,23 +502,11 @@ void main() {
   });
 
   group('shouldDismissCallKitOnForeground', () {
-    test('ios in voice keeps CallKit session', () {
-      expect(
-        shouldDismissCallKitOnForeground(isIos: true, isInVoice: true),
-        isFalse,
-      );
+    test('in voice keeps CallKit session', () {
+      expect(shouldDismissCallKitOnForeground(isInVoice: true), isFalse);
     });
-    test('ios not in voice dismisses CallKit', () {
-      expect(
-        shouldDismissCallKitOnForeground(isIos: true, isInVoice: false),
-        isTrue,
-      );
-    });
-    test('android in voice still dismisses on foreground', () {
-      expect(
-        shouldDismissCallKitOnForeground(isIos: false, isInVoice: true),
-        isTrue,
-      );
+    test('not in voice dismisses CallKit', () {
+      expect(shouldDismissCallKitOnForeground(isInVoice: false), isTrue);
     });
   });
 
@@ -549,6 +537,117 @@ void main() {
     });
     test('returns null when extra missing', () {
       expect(resolveChannelIdFromCallKitExtra(null), isNull);
+    });
+  });
+
+  group('shouldEnableLiveKitEngineForCallKitAudioSession', () {
+    test('enables engine when CallKit audio session is active', () {
+      expect(
+        shouldEnableLiveKitEngineForCallKitAudioSession(
+          isAudioSessionActive: true,
+        ),
+        isTrue,
+      );
+    });
+    test('disables engine when CallKit audio session is inactive', () {
+      expect(
+        shouldEnableLiveKitEngineForCallKitAudioSession(
+          isAudioSessionActive: false,
+        ),
+        isFalse,
+      );
+    });
+  });
+
+  group('shouldRestoreLiveKitAutomaticAudioSession', () {
+    test('restores when CallKit owned audio and no sessions remain', () {
+      expect(
+        shouldRestoreLiveKitAutomaticAudioSession(
+          callKitOwnsAudio: true,
+          hasCallKitSessions: false,
+        ),
+        isTrue,
+      );
+    });
+    test('keeps external ownership while CallKit sessions remain', () {
+      expect(
+        shouldRestoreLiveKitAutomaticAudioSession(
+          callKitOwnsAudio: true,
+          hasCallKitSessions: true,
+        ),
+        isFalse,
+      );
+    });
+    test('does nothing when CallKit never owned audio', () {
+      expect(
+        shouldRestoreLiveKitAutomaticAudioSession(
+          callKitOwnsAudio: false,
+          hasCallKitSessions: false,
+        ),
+        isFalse,
+      );
+    });
+  });
+
+  group('hasActiveVoiceCallKitSession', () {
+    test('true when an activeVoice session exists', () {
+      expect(
+        hasActiveVoiceCallKitSession(<VoiceCallKitSession>[
+          const VoiceCallKitSession(
+            callKitId: 'a',
+            channelId: 'c1',
+            kind: VoiceCallKitSessionKind.incomingRing,
+          ),
+          const VoiceCallKitSession(
+            callKitId: 'b',
+            channelId: 'c2',
+            kind: VoiceCallKitSessionKind.activeVoice,
+          ),
+        ]),
+        isTrue,
+      );
+    });
+    test('false when only ring sessions exist', () {
+      expect(
+        hasActiveVoiceCallKitSession(<VoiceCallKitSession>[
+          const VoiceCallKitSession(
+            callKitId: 'a',
+            channelId: 'c1',
+            kind: VoiceCallKitSessionKind.incomingRing,
+          ),
+        ]),
+        isFalse,
+      );
+    });
+  });
+
+  group('shouldScheduleCallKitAudioSessionRecovery', () {
+    test('schedules recovery on deactivate while active voice remains', () {
+      expect(
+        shouldScheduleCallKitAudioSessionRecovery(
+          isAudioSessionActive: false,
+          hasActiveVoiceSession: true,
+        ),
+        isTrue,
+      );
+    });
+    test('does not schedule when session activates', () {
+      expect(
+        shouldScheduleCallKitAudioSessionRecovery(
+          isAudioSessionActive: true,
+          hasActiveVoiceSession: true,
+        ),
+        isFalse,
+      );
+    });
+    test('does not schedule when no active voice session', () {
+      expect(
+        shouldScheduleCallKitAudioSessionRecovery(
+          isAudioSessionActive: false,
+          hasActiveVoiceSession: false,
+        ),
+        isFalse,
+      );
     });
   });
 }

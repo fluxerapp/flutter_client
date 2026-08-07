@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/chat/utils/embed_animated_image_url.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class AttachmentImage extends StatelessWidget {
@@ -75,46 +76,51 @@ class AttachmentImage extends StatelessWidget {
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: GestureDetector(
-              onTap: gallery.isEmpty
-                  ? null
-                  : () => showAttachmentMediaViewer(
-                      context,
-                      items: gallery.map(_buildMediaViewerItem).toList(),
-                      initialIndex: imageGalleryIndex.clamp(
-                        0,
-                        gallery.length - 1,
+            child: Semantics(
+              button: gallery.isNotEmpty,
+              image: true,
+              label: _semanticLabel(context),
+              child: GestureDetector(
+                onTap: gallery.isEmpty
+                    ? null
+                    : () => showAttachmentMediaViewer(
+                        context,
+                        items: gallery.map(_buildMediaViewerItem).toList(),
+                        initialIndex: imageGalleryIndex.clamp(
+                          0,
+                          gallery.length - 1,
+                        ),
+                        channelId: channelId,
+                        onForward: (channelId != null && messageId != null)
+                            ? (int index) => showForwardMediaSheet(
+                                context,
+                                sourceChannelId: channelId!,
+                                sourceMessageId: messageId!,
+                                attachmentIds: <String>[gallery[index].id],
+                              )
+                            : null,
+                        actionScope: mediaActionScope,
                       ),
-                      channelId: channelId,
-                      onForward: (channelId != null && messageId != null)
-                          ? (int index) => showForwardMediaSheet(
-                              context,
-                              sourceChannelId: channelId!,
-                              sourceMessageId: messageId!,
-                              attachmentIds: <String>[gallery[index].id],
-                            )
-                          : null,
-                      actionScope: mediaActionScope,
-                    ),
-              child: AspectRatio(
-                aspectRatio: _resolveAspectRatio(),
-                child: animate
-                    ? EmbedAnimatedImage(
-                        animatedUrl: animatedEmbedImageUrl(effectiveUrl),
-                        staticUrl: staticEmbedImageUrl(effectiveUrl),
-                        visibilityKey:
-                            '${channelId}_${messageId}_${attachment.id}',
-                        fit: BoxFit.contain,
-                        placeholder: _buildImagePlaceholder(context),
-                      )
-                    : _AttachmentStaticImage(
-                        imageUrl: attachment.url,
-                        displaySize: displaySize,
-                        dimensions: dimensions,
-                        sourceWidth: attachment.width,
-                        sourceHeight: attachment.height,
-                        placeholder: _buildImagePlaceholder(context),
-                      ),
+                child: AspectRatio(
+                  aspectRatio: _resolveAspectRatio(),
+                  child: animate
+                      ? EmbedAnimatedImage(
+                          animatedUrl: animatedEmbedImageUrl(effectiveUrl),
+                          staticUrl: staticEmbedImageUrl(effectiveUrl),
+                          visibilityKey:
+                              '${channelId}_${messageId}_${attachment.id}',
+                          fit: BoxFit.contain,
+                          placeholder: _buildImagePlaceholder(context),
+                        )
+                      : _AttachmentStaticImage(
+                          imageUrl: attachment.url,
+                          displaySize: displaySize,
+                          dimensions: dimensions,
+                          sourceWidth: attachment.width,
+                          sourceHeight: attachment.height,
+                          placeholder: _buildImagePlaceholder(context),
+                        ),
+                ),
               ),
             ),
           ),
@@ -128,11 +134,11 @@ class AttachmentImage extends StatelessWidget {
                 color: Colors.black.withValues(alpha: 0.72),
                 borderRadius: BorderRadius.circular(4),
               ),
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 child: Text(
                   'GIF',
-                  style: TextStyle(
+                  style: context.textStyles.smallText.copyWith(
                     color: Colors.white,
                     fontSize: 11,
                     fontWeight: FontWeight.w700,
@@ -151,6 +157,18 @@ class AttachmentImage extends StatelessWidget {
       initiallyRevealed: revealSpoiler,
       child: image,
     );
+  }
+
+  String _semanticLabel(BuildContext context) {
+    final String? description = attachment.description?.trim();
+    if (description != null && description.isNotEmpty) {
+      return description;
+    }
+    final String filename = attachment.filename.trim();
+    if (filename.isNotEmpty) {
+      return filename;
+    }
+    return FluxerLocalizations.of(context).messageAccessibilityImageSummary;
   }
 
   Widget _buildImagePlaceholder(BuildContext context) {

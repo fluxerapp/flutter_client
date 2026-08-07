@@ -139,6 +139,7 @@ class GuildMemberSearchRow extends ConsumerWidget {
               if (!compact)
                 IconButton(
                   visualDensity: VisualDensity.compact,
+                  tooltip: l10n.chatMessageMore,
                   icon: PhosphorIcon(
                     PhosphorIconsBold.dotsThree,
                     size: 18,

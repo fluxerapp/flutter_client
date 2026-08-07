@@ -41,13 +41,10 @@ class SettingsSidebar extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 20, 16, 12),
             child: TextField(
-              style: TextStyle(color: context.colors.textChat, fontSize: 14),
+              style: context.textStyles.inputText.copyWith(fontSize: 14),
               decoration: InputDecoration(
                 hintText: 'Search settings...',
-                hintStyle: TextStyle(
-                  color: context.colors.textPrimaryMuted,
-                  fontSize: 14,
-                ),
+                hintStyle: context.textStyles.bodySmall,
                 prefixIcon: Padding(
                   padding: const EdgeInsets.only(left: 8, right: 4),
                   child: PhosphorIcon(
@@ -92,11 +89,7 @@ class SettingsSidebar extends StatelessWidget {
                 Expanded(
                   child: Text(
                     username!,
-                    style: TextStyle(
-                      color: context.colors.textPrimary,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: context.textStyles.channelName,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -170,13 +163,11 @@ class SettingsSidebar extends StatelessWidget {
         Expanded(
           child: Text(
             item.label,
-            style: TextStyle(
-              color: color,
-              fontSize: 16,
-              fontWeight: isSelected && !item.isDisabled
-                  ? FontWeight.w500
-                  : FontWeight.w400,
-            ),
+            style:
+                (isSelected && !item.isDisabled
+                        ? context.textStyles.username
+                        : context.textStyles.bodyMedium)
+                    .copyWith(color: color),
           ),
         ),
       ],

@@ -6180,11 +6180,11 @@
     "@chatReplyMentionAccessibilityLabel": {
         "description": "Accessibility label for the reply bar mention toggle."
     },
-    "chatReplyMentionOn": "On",
+    "chatReplyMentionOn": "ON",
     "@chatReplyMentionOn": {
         "description": "On state suffix appended to the reply bar mention toggle label."
     },
-    "chatReplyMentionOff": "Off",
+    "chatReplyMentionOff": "OFF",
     "@chatReplyMentionOff": {
         "description": "Off state suffix appended to the reply bar mention toggle label."
     },
@@ -8635,14 +8635,6 @@
                 "type": "int"
             }
         }
-    },
-    "guildSettingsDiscoveryFormTitle": "Application",
-    "@guildSettingsDiscoveryFormTitle": {
-        "description": "Title for discovery application form."
-    },
-    "guildSettingsDiscoveryStatusTitle": "Status",
-    "@guildSettingsDiscoveryStatusTitle": {
-        "description": "Title for discovery application status section."
     },
     "guildSettingsDiscoveryCategory": "Category",
     "@guildSettingsDiscoveryCategory": {

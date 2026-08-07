@@ -2334,19 +2334,17 @@ class _SearchOptionCard extends StatelessWidget {
                   children: [
                     Text(
                       label,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: colors.textPrimary,
-                        fontWeight: isSelected
-                            ? FontWeight.w600
-                            : FontWeight.w400,
-                      ),
+                      style:
+                          (isSelected
+                                  ? context.textStyles.channelName
+                                  : context.textStyles.bodyMedium)
+                              .copyWith(color: colors.textPrimary),
                     ),
                     if (description != null) ...[
                       const SizedBox(height: 2),
                       Text(
                         description!,
-                        style: TextStyle(
+                        style: context.textStyles.bodySmall.copyWith(
                           fontSize: 13,
                           height: 1.2,
                           color: colors.textSecondary,
@@ -2970,21 +2968,21 @@ class _UserFilterRow extends StatelessWidget {
                       user.displayName,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: isSelected
-                            ? FontWeight.w600
-                            : FontWeight.w500,
-                        color: colors.textPrimary,
-                      ),
+                      style:
+                          (isSelected
+                                  ? context.textStyles.channelName
+                                  : context.textStyles.username)
+                              .copyWith(
+                                fontSize: 15,
+                                color: colors.textPrimary,
+                              ),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       user.tag,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 12,
+                      style: context.textStyles.timestamp.copyWith(
                         color: colors.textSecondary,
                       ),
                     ),

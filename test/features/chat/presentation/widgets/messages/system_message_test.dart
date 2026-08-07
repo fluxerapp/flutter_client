@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
+import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
+import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
@@ -111,6 +114,7 @@ Future<void> _pumpSystemMessage(
   ReactionToggleCallback? onReaction,
   UserSettingsViewModel Function()? userSettingsOverride,
 }) async {
+  final colorTheme = buildDarkColorTheme();
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
@@ -149,7 +153,11 @@ Future<void> _pumpSystemMessage(
       child: MaterialApp(
         localizationsDelegates: FluxerLocalizations.localizationsDelegates,
         supportedLocales: FluxerLocalizations.supportedLocales,
-        theme: ThemeData(extensions: <ThemeExtension>[buildDarkColorTheme()]),
+        theme: buildFluxerTheme(
+          colorTheme: colorTheme,
+          textTheme: FluxerTextTheme.fromColors(colorTheme),
+          layoutTheme: FluxerLayoutTheme.scaled(),
+        ),
         home: Scaffold(
           body: SystemMessage(
             message: message,

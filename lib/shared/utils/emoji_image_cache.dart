@@ -1,10 +1,12 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/features/accessibility/effective_motion_preferences_provider.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-class CachedEmojiImage extends StatefulWidget {
+class CachedEmojiImage extends ConsumerStatefulWidget {
   const CachedEmojiImage({
     required this.emojiId,
     required this.animated,
@@ -25,10 +27,10 @@ class CachedEmojiImage extends StatefulWidget {
   final bool? isInView;
 
   @override
-  State<CachedEmojiImage> createState() => _CachedEmojiImageState();
+  ConsumerState<CachedEmojiImage> createState() => _CachedEmojiImageState();
 }
 
-class _CachedEmojiImageState extends State<CachedEmojiImage> {
+class _CachedEmojiImageState extends ConsumerState<CachedEmojiImage> {
   late final ValueNotifier<bool> _visibleNotifier;
   bool _hideScheduled = false;
 
@@ -74,20 +76,6 @@ class _CachedEmojiImageState extends State<CachedEmojiImage> {
 
   bool get _usesPickerVisibility => widget.animated && widget.isInView != null;
 
-  bool get _shouldAnimate {
-    if (!widget.animated) {
-      return false;
-    }
-    final bool? isInView = widget.isInView;
-    if (isInView != null) {
-      return isInView;
-    }
-    if (!widget.pauseWhenOffscreen) {
-      return true;
-    }
-    return _visibleNotifier.value;
-  }
-
   Widget _buildImage(BuildContext context, {required bool animated}) {
     final String url = FluxerMediaUrl.customEmoji(
       id: widget.emojiId,
@@ -119,25 +107,31 @@ class _CachedEmojiImageState extends State<CachedEmojiImage> {
 
   @override
   Widget build(BuildContext context) {
+    final bool animateEmoji = effectiveMotionOf(
+      ref,
+      context,
+    ).effectiveAnimateEmoji;
+
     if (_usesPickerVisibility) {
       return Stack(
         alignment: Alignment.center,
         children: [
           _buildImage(context, animated: false),
-          if (widget.isInView!) _buildImage(context, animated: true),
+          if (widget.isInView! && animateEmoji)
+            _buildImage(context, animated: true),
         ],
       );
     }
     if (!widget.animated || !widget.pauseWhenOffscreen) {
-      return _buildImage(context, animated: _shouldAnimate);
+      return _buildImage(context, animated: widget.animated && animateEmoji);
     }
     return VisibilityDetector(
-      key: ValueKey<String>('emoji-${widget.emojiId}-${widget.requestSize}'),
+      key: ValueKey<String>('emoji-vis-${widget.emojiId}'),
       onVisibilityChanged: _onVisibilityChanged,
-      child: ListenableBuilder(
-        listenable: _visibleNotifier,
-        builder: (BuildContext context, Widget? _) {
-          return _buildImage(context, animated: _shouldAnimate);
+      child: ValueListenableBuilder<bool>(
+        valueListenable: _visibleNotifier,
+        builder: (BuildContext context, bool visible, Widget? _) {
+          return _buildImage(context, animated: animateEmoji && visible);
         },
       ),
     );

@@ -1004,6 +1004,179 @@
     "@embedThemeUnavailableButton": {
         "description": "Button on the theme embed card - themes aren't supported in the client."
     },
+    "embedGiftVisionaryLifetime": "Visionary (lifetime {productName})",
+    "@embedGiftVisionaryLifetime": {
+        "description": "Gift duration title for a lifetime Visionary entitlement.",
+        "placeholders": {
+            "productName": {
+                "type": "String",
+                "example": "Plutonium"
+            }
+        }
+    },
+    "embedGiftDurationDays": "{count, plural, =1{1 day of {productName}} other{{count} days of {productName}}}",
+    "@embedGiftDurationDays": {
+        "description": "Gift duration title in days.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            },
+            "productName": {
+                "type": "String",
+                "example": "Plutonium"
+            }
+        }
+    },
+    "embedGiftDurationWeeks": "{count, plural, =1{1 week of {productName}} other{{count} weeks of {productName}}}",
+    "@embedGiftDurationWeeks": {
+        "description": "Gift duration title in weeks.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            },
+            "productName": {
+                "type": "String",
+                "example": "Plutonium"
+            }
+        }
+    },
+    "embedGiftDurationMonths": "{count, plural, =1{1 month of {productName}} other{{count} months of {productName}}}",
+    "@embedGiftDurationMonths": {
+        "description": "Gift duration title in months.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            },
+            "productName": {
+                "type": "String",
+                "example": "Plutonium"
+            }
+        }
+    },
+    "embedGiftDurationYears": "{count, plural, =1{1 year of {productName}} other{{count} years of {productName}}}",
+    "@embedGiftDurationYears": {
+        "description": "Gift duration title in years.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            },
+            "productName": {
+                "type": "String",
+                "example": "Plutonium"
+            }
+        }
+    },
+    "embedGiftFrom": "From {creatorTag}",
+    "@embedGiftFrom": {
+        "description": "Sender label on a gift code embed.",
+        "placeholders": {
+            "creatorTag": {
+                "type": "String"
+            }
+        }
+    },
+    "embedGiftClaimHelp": "Click to claim your gift!",
+    "@embedGiftClaimHelp": {
+        "description": "Help text on a redeemable gift embed."
+    },
+    "embedGiftAlreadyRedeemed": "Already redeemed",
+    "@embedGiftAlreadyRedeemed": {
+        "description": "Help text when a gift code has already been claimed."
+    },
+    "embedGiftClaimAccountHelp": "Claim your account to redeem this gift.",
+    "@embedGiftClaimAccountHelp": {
+        "description": "Help text on a gift embed for unclaimed accounts."
+    },
+    "embedGiftClaim": "Claim gift",
+    "@embedGiftClaim": {
+        "description": "Primary button on a redeemable gift embed."
+    },
+    "embedGiftClaimed": "Gift claimed",
+    "@embedGiftClaimed": {
+        "description": "Disabled button label after a gift is claimed."
+    },
+    "embedGiftClaimAccount": "Claim account to redeem",
+    "@embedGiftClaimAccount": {
+        "description": "Button on a gift embed for unclaimed accounts."
+    },
+    "embedGiftUnknownTitle": "Unknown gift",
+    "@embedGiftUnknownTitle": {
+        "description": "Title when a gift code cannot be resolved."
+    },
+    "embedGiftUnknownSubtitle": "This gift code is invalid or already claimed.",
+    "@embedGiftUnknownSubtitle": {
+        "description": "Subtitle when a gift code cannot be resolved."
+    },
+    "embedGiftUnavailable": "Gift unavailable",
+    "@embedGiftUnavailable": {
+        "description": "Disabled button when a gift cannot be claimed."
+    },
+    "giftAcceptClaimSubscription": "Claim your gift to activate your {productName} subscription!",
+    "@giftAcceptClaimSubscription": {
+        "description": "Help text on the gift accept modal for a claimable gift.",
+        "placeholders": {
+            "productName": {
+                "type": "String",
+                "example": "Plutonium"
+            }
+        }
+    },
+    "giftAcceptAlreadyClaimed": "This gift has already been claimed.",
+    "@giftAcceptAlreadyClaimed": {
+        "description": "Help text on the gift accept modal when already redeemed."
+    },
+    "giftAcceptMaybeLater": "Maybe later",
+    "@giftAcceptMaybeLater": {
+        "description": "Secondary dismiss button on the gift accept modal."
+    },
+    "giftRedeemedToast": "Gift redeemed!",
+    "@giftRedeemedToast": {
+        "description": "Success toast after redeeming a gift code."
+    },
+    "giftRedeemInvalidTitle": "Invalid gift code",
+    "@giftRedeemInvalidTitle": {
+        "description": "Error modal title for an invalid gift code."
+    },
+    "giftRedeemInvalidMessage": "This code is invalid or already used.",
+    "@giftRedeemInvalidMessage": {
+        "description": "Error modal body for an invalid gift code."
+    },
+    "giftRedeemAlreadyRedeemedTitle": "Gift already redeemed",
+    "@giftRedeemAlreadyRedeemedTitle": {
+        "description": "Error modal title when a gift was already redeemed."
+    },
+    "giftRedeemAlreadyRedeemedMessage": "This code was already redeemed.",
+    "@giftRedeemAlreadyRedeemedMessage": {
+        "description": "Error modal body when a gift was already redeemed."
+    },
+    "giftRedeemNotFoundTitle": "Gift not found",
+    "@giftRedeemNotFoundTitle": {
+        "description": "Error modal title when a gift code does not exist."
+    },
+    "giftRedeemNotFoundMessage": "This code doesn't exist.",
+    "@giftRedeemNotFoundMessage": {
+        "description": "Error modal body when a gift code does not exist."
+    },
+    "giftRedeemFailedTitle": "Failed to redeem gift",
+    "@giftRedeemFailedTitle": {
+        "description": "Generic gift redeem error modal title."
+    },
+    "giftRedeemFailedMessage": "Couldn't redeem this gift. Try again.",
+    "@giftRedeemFailedMessage": {
+        "description": "Generic gift redeem error modal body."
+    },
+    "giftVisionaryCannotRedeemTitle": "Can't redeem this gift",
+    "@giftVisionaryCannotRedeemTitle": {
+        "description": "Error modal title when a Visionary user cannot redeem Plutonium."
+    },
+    "giftVisionaryCannotRedeemMessage": "Visionary accounts can't redeem Plutonium gifts. Copy the link to share it with a friend instead.",
+    "@giftVisionaryCannotRedeemMessage": {
+        "description": "Error modal body when a Visionary user cannot redeem Plutonium."
+    },
+    "giftCopyLink": "Copy gift link",
+    "@giftCopyLink": {
+        "description": "Button to copy a gift share URL."
+    },
     "privacySettings": "Privacy Settings",
     "@privacySettings": {
         "description": "Title for guild privacy settings bottom sheet."
@@ -4464,6 +4637,14 @@
     "@voiceMessagePause": {
         "description": "Pause voice message preview."
     },
+    "voiceMessageSeekForward": "Seek forward",
+    "@voiceMessageSeekForward": {
+        "description": "Accessibility hint when increasing voice message seek position."
+    },
+    "voiceMessageSeekBackward": "Seek backward",
+    "@voiceMessageSeekBackward": {
+        "description": "Accessibility hint when decreasing voice message seek position."
+    },
     "voiceMessageSelectionTooShort": "Selection must be at least {seconds}s.",
     "@voiceMessageSelectionTooShort": {
         "description": "Error when trimmed voice message is too short.",
@@ -5527,21 +5708,17 @@
     "@accessibilitySaturationDescription": {
         "description": "Section description for the theme saturation slider on the accessibility settings page."
     },
-    "accessibilityUnreadGroupTitle": "Unread indicators",
-    "@accessibilityUnreadGroupTitle": {
-        "description": "Section title for unread-indicator accessibility settings."
+    "accessibilityVisualGroupTitle": "Visual",
+    "@accessibilityVisualGroupTitle": {
+        "description": "Section title for visual accessibility settings."
     },
-    "accessibilityUnreadGroupDescription": "Control how unread message indicators are displayed.",
-    "@accessibilityUnreadGroupDescription": {
-        "description": "Section description for unread-indicator accessibility settings."
+    "accessibilityAlwaysUnderlineLinksLabel": "Always underline links",
+    "@accessibilityAlwaysUnderlineLinksLabel": {
+        "description": "Toggle label for always underlining links in messages."
     },
-    "accessibilityShowFadedUnreadOnMutedChannelsLabel": "Show faded unread indicator on muted channels",
-    "@accessibilityShowFadedUnreadOnMutedChannelsLabel": {
-        "description": "Toggle label for showing a faded unread indicator on muted channels."
-    },
-    "accessibilityShowFadedUnreadOnMutedChannelsDescription": "Display a dimmed unread indicator next to muted direct messages and channels so you can still see at a glance when there's activity.",
-    "@accessibilityShowFadedUnreadOnMutedChannelsDescription": {
-        "description": "Toggle description for showing a faded unread indicator on muted channels."
+    "accessibilityDimStrikethroughTextLabel": "Dim strikethrough text",
+    "@accessibilityDimStrikethroughTextLabel": {
+        "description": "Toggle label for dimming strikethrough text in messages."
     },
     "accessibilityDmMessagePreviewGroupTitle": "DM message previews",
     "@accessibilityDmMessagePreviewGroupTitle": {
@@ -5579,29 +5756,333 @@
     "@accessibilityDmMessagePreviewNoneDescription": {
         "description": "Radio option description for hiding DM message previews."
     },
-    "accessibilityMediaButtonsGroupTitle": "Media Buttons",
-    "@accessibilityMediaButtonsGroupTitle": {
-        "description": "Section title for media button visibility settings on the accessibility settings page."
+    "accessibilityScreenReaderGroupTitle": "Screen reader",
+    "@accessibilityScreenReaderGroupTitle": {
+        "description": "Section title for screen reader accessibility settings."
     },
-    "accessibilityMediaButtonsGroupDescription": "Customize which buttons appear on media attachments and embeds.",
-    "@accessibilityMediaButtonsGroupDescription": {
-        "description": "Section description for media button visibility settings on the accessibility settings page."
+    "accessibilityScreenReaderGroupDescription": "Control how Fluxer works with screen readers.",
+    "@accessibilityScreenReaderGroupDescription": {
+        "description": "Section description for screen reader accessibility settings."
     },
-    "accessibilityShowMediaDeleteButtonLabel": "Show delete button",
-    "@accessibilityShowMediaDeleteButtonLabel": {
-        "description": "Toggle label for showing the delete button on media."
+    "accessibilityScreenReaderAnnounceNewMessagesLabel": "Announce new messages",
+    "@accessibilityScreenReaderAnnounceNewMessagesLabel": {
+        "description": "Toggle label for announcing incoming messages to screen readers."
     },
-    "accessibilityShowMediaDownloadButtonLabel": "Show download button",
-    "@accessibilityShowMediaDownloadButtonLabel": {
-        "description": "Toggle label for showing the download button on media."
+    "accessibilityScreenReaderAnnounceNewMessagesDescription": "Let screen readers announce new messages as they arrive in the open channel. Notification sounds are unaffected.",
+    "@accessibilityScreenReaderAnnounceNewMessagesDescription": {
+        "description": "Toggle description for announcing incoming messages to screen readers."
     },
-    "accessibilityShowMediaFavoriteButtonLabel": "Show favorite button",
-    "@accessibilityShowMediaFavoriteButtonLabel": {
-        "description": "Toggle label for showing the favorite button on media."
+    "accessibilityTtsGroupTitle": "Text-to-speech",
+    "@accessibilityTtsGroupTitle": {
+        "description": "Section title for text-to-speech accessibility settings."
     },
-    "accessibilityShowSuppressEmbedsButtonLabel": "Show suppress embeds button",
-    "@accessibilityShowSuppressEmbedsButtonLabel": {
-        "description": "Toggle label for showing the suppress embeds button on media."
+    "accessibilityTtsGroupDescription": "Choose a speed for spoken text.",
+    "@accessibilityTtsGroupDescription": {
+        "description": "Description under the speech playback speed label."
+    },
+    "accessibilityTtsSpeechPlaybackSpeedLabel": "Speech playback speed",
+    "@accessibilityTtsSpeechPlaybackSpeedLabel": {
+        "description": "Label for the TTS speech rate selector."
+    },
+    "accessibilityTtsPlaySampleLabel": "Play sample",
+    "@accessibilityTtsPlaySampleLabel": {
+        "description": "Button label to play the TTS sample line."
+    },
+    "accessibilityTtsSilenceSampleLabel": "Silence sample",
+    "@accessibilityTtsSilenceSampleLabel": {
+        "description": "Button label to stop the TTS sample playback."
+    },
+    "accessibilityPreviewButtonLabel": "Preview button",
+    "@accessibilityPreviewButtonLabel": {
+        "description": "Label for the no-op preview button on the accessibility settings page."
+    },
+    "accessibilityPreviewLinksMessage": "This shows how links appear: {linkPreviewExampleUrl}",
+    "@accessibilityPreviewLinksMessage": {
+        "description": "Sample message content in the accessibility preview.",
+        "placeholders": {
+            "linkPreviewExampleUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "accessibilityPreviewUserName": "Preview User",
+    "@accessibilityPreviewUserName": {
+        "description": "Fallback display name for the accessibility preview message author."
+    },
+    "accessibilityKeyboardGroupTitle": "Keyboard",
+    "@accessibilityKeyboardGroupTitle": {
+        "description": "Section title for keyboard accessibility settings."
+    },
+    "accessibilityShowTextareaFocusRingLabel": "Show focus ring on chat textarea",
+    "@accessibilityShowTextareaFocusRingLabel": {
+        "description": "Toggle label for showing a focus ring on the chat textarea."
+    },
+    "accessibilityEscapeExitsKeyboardModeLabel": "Escape key exits keyboard mode",
+    "@accessibilityEscapeExitsKeyboardModeLabel": {
+        "description": "Toggle label for Escape exiting keyboard mode."
+    },
+    "accessibilityShowContextMenuShortcutsLabel": "Show context menu shortcuts",
+    "@accessibilityShowContextMenuShortcutsLabel": {
+        "description": "Toggle label for showing keyboard shortcuts in context menus."
+    },
+    "accessibilityConfirmBeforeStartingCallsLabel": "Confirm before starting calls",
+    "@accessibilityConfirmBeforeStartingCallsLabel": {
+        "description": "Toggle label for confirming before starting calls."
+    },
+    "accessibilityAnimationGroupTitle": "Animation",
+    "@accessibilityAnimationGroupTitle": {
+        "description": "Section title for animation accessibility settings."
+    },
+    "accessibilityReducedMotionActiveNote": "Reduced motion is on, so content animations are paused by default. You can still turn any of these back on to keep it playing.",
+    "@accessibilityReducedMotionActiveNote": {
+        "description": "Note shown above animation controls when reduced motion is active."
+    },
+    "accessibilityPlayAnimatedEmojisLabel": "Play animated emojis",
+    "@accessibilityPlayAnimatedEmojisLabel": {
+        "description": "Toggle label for playing animated emojis."
+    },
+    "accessibilityAutoPlayGifsMobileLabel": "Automatically play GIFs",
+    "@accessibilityAutoPlayGifsMobileLabel": {
+        "description": "Toggle label for GIF autoplay on mobile."
+    },
+    "accessibilityAutoPlayGifsDesktopLabel": "Automatically play GIFs when {productName} is focused",
+    "@accessibilityAutoPlayGifsDesktopLabel": {
+        "description": "Toggle label for GIF autoplay on desktop.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "accessibilityPlayingDespiteReducedMotion": "Playing despite reduced motion.",
+    "@accessibilityPlayingDespiteReducedMotion": {
+        "description": "Description when an animation setting overrides reduced motion."
+    },
+    "accessibilityPausedEmojiByReducedMotion": "Paused by reduced motion. Turn on to keep animated emojis playing.",
+    "@accessibilityPausedEmojiByReducedMotion": {
+        "description": "Description for emoji toggle while reduced motion is active."
+    },
+    "accessibilityPausedGifByReducedMotion": "Paused by reduced motion. Turn on to keep GIFs playing.",
+    "@accessibilityPausedGifByReducedMotion": {
+        "description": "Description for GIF toggle while reduced motion is active."
+    },
+    "accessibilityGifDefaultsOffOnMobile": "Defaults to off on mobile to preserve battery life and data usage.",
+    "@accessibilityGifDefaultsOffOnMobile": {
+        "description": "Helper text for GIF autoplay default on mobile."
+    },
+    "accessibilityStickerAnimationsTitle": "Sticker animations",
+    "@accessibilityStickerAnimationsTitle": {
+        "description": "Subsection title for sticker animation preference."
+    },
+    "accessibilityStickerAnimationPreferenceLabel": "Sticker animation preference",
+    "@accessibilityStickerAnimationPreferenceLabel": {
+        "description": "Accessibility label for the sticker animation radio group."
+    },
+    "accessibilityStickerAlwaysAnimateName": "Always animate",
+    "@accessibilityStickerAlwaysAnimateName": {
+        "description": "Radio option for always animating stickers."
+    },
+    "accessibilityStickerAlwaysAnimateDescription": "Stickers will always animate",
+    "@accessibilityStickerAlwaysAnimateDescription": {
+        "description": "Description for always animating stickers."
+    },
+    "accessibilityStickerAnimateOnInteractionName": "Animate on interaction",
+    "@accessibilityStickerAnimateOnInteractionName": {
+        "description": "Radio option for animating stickers on interaction."
+    },
+    "accessibilityStickerAnimateOnPressDescription": "Stickers will animate when you press them",
+    "@accessibilityStickerAnimateOnPressDescription": {
+        "description": "Description for sticker animate-on-press on touch devices."
+    },
+    "accessibilityStickerAnimateOnHoverDescription": "Stickers will animate when you hover or interact with them",
+    "@accessibilityStickerAnimateOnHoverDescription": {
+        "description": "Description for sticker animate-on-hover on desktop."
+    },
+    "accessibilityStickerNeverAnimateName": "Never animate",
+    "@accessibilityStickerNeverAnimateName": {
+        "description": "Radio option for never animating stickers."
+    },
+    "accessibilityStickerNeverAnimateDescription": "Stickers will never animate",
+    "@accessibilityStickerNeverAnimateDescription": {
+        "description": "Description for never animating stickers."
+    },
+    "accessibilityStickersAlwaysDespiteReducedMotion": "Always animating despite reduced motion.",
+    "@accessibilityStickersAlwaysDespiteReducedMotion": {
+        "description": "Description when stickers always-animate overrides reduced motion."
+    },
+    "accessibilityStickersReducedMotionHint": "Reduced motion limits stickers to animate on interaction. Choose always animate to override.",
+    "@accessibilityStickersReducedMotionHint": {
+        "description": "Description for stickers while reduced motion is active."
+    },
+    "accessibilityStickersDefaultsOnMobile": "Defaults to animate on interaction on mobile to preserve battery life.",
+    "@accessibilityStickersDefaultsOnMobile": {
+        "description": "Helper text for sticker animation default on mobile."
+    },
+    "accessibilityMotionGroupTitle": "Motion",
+    "@accessibilityMotionGroupTitle": {
+        "description": "Section title for motion accessibility settings."
+    },
+    "accessibilitySyncReducedMotionWithSystemLabel": "Sync reduced motion setting with system",
+    "@accessibilitySyncReducedMotionWithSystemLabel": {
+        "description": "Toggle label for syncing reduced motion with the operating system setting."
+    },
+    "accessibilitySyncReducedMotionWithSystemDescription": "Use this device's system reduced motion preference, or customize it below.",
+    "@accessibilitySyncReducedMotionWithSystemDescription": {
+        "description": "Toggle description for syncing reduced motion with the operating system setting."
+    },
+    "accessibilityReducedMotionOverrideLabel": "Reduce motion",
+    "@accessibilityReducedMotionOverrideLabel": {
+        "description": "Toggle label for reducing motion in Fluxer."
+    },
+    "accessibilityReducedMotionOverrideSyncedDescription": "Disable animations and transitions. Currently controlled by your system setting.",
+    "@accessibilityReducedMotionOverrideSyncedDescription": {
+        "description": "Reduce motion description while synced with system."
+    },
+    "accessibilityReducedMotionOverrideManualDescription": "Disable animations and transitions throughout the app.",
+    "@accessibilityReducedMotionOverrideManualDescription": {
+        "description": "Reduce motion description when not synced with system."
+    },
+    "accessibilityReducedMotionAnimationTabHint": "Animated emojis, GIFs and stickers stay under your control in the Animation tab.",
+    "@accessibilityReducedMotionAnimationTabHint": {
+        "description": "Extra hint under reduce motion while reduced motion is active."
+    },
+    "accessibilityConfirmStartCallTitle": "Start call?",
+    "@accessibilityConfirmStartCallTitle": {
+        "description": "Title for the confirm-before-starting-calls dialog."
+    },
+    "accessibilityConfirmStartCallDescription": "Are you sure you want to start this call?",
+    "@accessibilityConfirmStartCallDescription": {
+        "description": "Description for the confirm-before-starting-calls dialog."
+    },
+    "accessibilityConfirmStartCallConfirmLabel": "Start call",
+    "@accessibilityConfirmStartCallConfirmLabel": {
+        "description": "Confirm button for starting a call."
+    },
+    "accessibilityTtsSampleDescription": "Hear the sample line spoken with your chosen speed.",
+    "@accessibilityTtsSampleDescription": {
+        "description": "Description for the TTS sample playback controls."
+    },
+    "accessibilityTtsSampleText": "Doc, I'm from the future. I came here in a time machine that you invented. Now, I need your help to get back to the year 1985.",
+    "@accessibilityTtsSampleText": {
+        "description": "Sample line spoken when previewing TTS speed."
+    },
+    "accessibilityTtsUnsupportedDescription": "Speech synthesis is unavailable on this device.",
+    "@accessibilityTtsUnsupportedDescription": {
+        "description": "Shown when TTS preview cannot run on the device."
+    },
+    "accessibilityTtsPlaybackFailedDescription": "Speech playback failed. Try again, or check that audio output is working.",
+    "@accessibilityTtsPlaybackFailedDescription": {
+        "description": "Shown when TTS playback fails."
+    },
+    "ttsSubstitutionUnknownUser": "unknown user",
+    "@ttsSubstitutionUnknownUser": {
+        "description": "TTS substitution for unresolved user mentions."
+    },
+    "ttsSubstitutionUnknownRole": "unknown role",
+    "@ttsSubstitutionUnknownRole": {
+        "description": "TTS substitution for unresolved role mentions."
+    },
+    "ttsSubstitutionUnknownChannel": "unknown channel",
+    "@ttsSubstitutionUnknownChannel": {
+        "description": "TTS substitution for unresolved channel mentions."
+    },
+    "ttsSubstitutionCodeBlock": "code block",
+    "@ttsSubstitutionCodeBlock": {
+        "description": "TTS substitution for fenced code blocks."
+    },
+    "ttsSubstitutionSpoiler": "spoiler",
+    "@ttsSubstitutionSpoiler": {
+        "description": "TTS substitution for spoiler content."
+    },
+    "ttsSubstitutionEmoji": "emoji {emojiName}",
+    "@ttsSubstitutionEmoji": {
+        "description": "TTS substitution for custom emoji.",
+        "placeholders": {
+            "emojiName": {
+                "type": "String"
+            }
+        }
+    },
+    "ttsSubstitutionSlashCommand": "slash {commandName}",
+    "@ttsSubstitutionSlashCommand": {
+        "description": "TTS substitution for slash command invocations.",
+        "placeholders": {
+            "commandName": {
+                "type": "String"
+            }
+        }
+    },
+    "ttsAuthorSaid": "{authorName} said: {formatted}",
+    "@ttsAuthorSaid": {
+        "description": "TTS sentence for a normal message.",
+        "placeholders": {
+            "authorName": {
+                "type": "String"
+            },
+            "formatted": {
+                "type": "String"
+            }
+        }
+    },
+    "ttsReplyingToSaid": "Replying to {replyAuthorName}, {authorName} said: {formatted}",
+    "@ttsReplyingToSaid": {
+        "description": "TTS sentence for a reply message.",
+        "placeholders": {
+            "replyAuthorName": {
+                "type": "String"
+            },
+            "authorName": {
+                "type": "String"
+            },
+            "formatted": {
+                "type": "String"
+            }
+        }
+    },
+    "ttsAuthorDescription": "{authorName} {description}",
+    "@ttsAuthorDescription": {
+        "description": "TTS sentence for non-text-only messages.",
+        "placeholders": {
+            "authorName": {
+                "type": "String"
+            },
+            "description": {
+                "type": "String"
+            }
+        }
+    },
+    "ttsSentSticker": "sent a sticker",
+    "@ttsSentSticker": {
+        "description": "TTS phrase for sticker-only messages."
+    },
+    "ttsSentAttachment": "sent an attachment",
+    "@ttsSentAttachment": {
+        "description": "TTS phrase for a single attachment-only message."
+    },
+    "ttsSentAttachments": "sent {count} attachments",
+    "@ttsSentAttachments": {
+        "description": "TTS phrase for multi-attachment messages.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "ttsSentEmbed": "sent an embed",
+    "@ttsSentEmbed": {
+        "description": "TTS phrase for embed-only messages."
+    },
+    "messageScreenReaderAnnouncement": "{author} sent {summary}",
+    "@messageScreenReaderAnnouncement": {
+        "description": "Screen reader announcement spoken when a new message arrives.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            },
+            "summary": {
+                "type": "String"
+            }
+        }
     },
     "dmListSentAnAttachment": "Sent an attachment",
     "@dmListSentAnAttachment": {
@@ -6598,6 +7079,14 @@
     "@chatMessageCopyText": {
         "description": "Action label for copying message text."
     },
+    "chatMessageSpeak": "Speak message",
+    "@chatMessageSpeak": {
+        "description": "Action label for reading a message aloud."
+    },
+    "chatMessageStopSpeaking": "Stop speaking",
+    "@chatMessageStopSpeaking": {
+        "description": "Action label for stopping TTS playback."
+    },
     "chatMessagePin": "Pin message",
     "@chatMessagePin": {
         "description": "Action label for pinning a message."
@@ -7210,11 +7699,11 @@
     "@chatReplyMentionAccessibilityLabel": {
         "description": "Accessibility label for the reply bar mention toggle."
     },
-    "chatReplyMentionOn": "On",
+    "chatReplyMentionOn": "ON",
     "@chatReplyMentionOn": {
         "description": "On state suffix appended to the reply bar mention toggle label."
     },
-    "chatReplyMentionOff": "Off",
+    "chatReplyMentionOff": "OFF",
     "@chatReplyMentionOff": {
         "description": "Off state suffix appended to the reply bar mention toggle label."
     },
@@ -7311,6 +7800,19 @@
                 "type": "int"
             }
         }
+    },
+    "mediaViewerAttachmentThumbnail": "Attachment {index}",
+    "@mediaViewerAttachmentThumbnail": {
+        "description": "Accessibility label for a thumbnail in the media viewer strip.",
+        "placeholders": {
+            "index": {
+                "type": "int"
+            }
+        }
+    },
+    "mediaViewerDismissBackdrop": "Dismiss",
+    "@mediaViewerDismissBackdrop": {
+        "description": "Accessibility label for dismissing the media viewer by tapping the backdrop."
     },
     "chatAttachmentVideoToggleControls": "Toggle video controls",
     "@chatAttachmentVideoToggleControls": {
@@ -8987,6 +9489,89 @@
     "@composerHint": {
         "description": "Generic fallback placeholder in the message composer."
     },
+    "composerOpenExpressionPicker": "Open expression picker",
+    "@composerOpenExpressionPicker": {
+        "description": "Accessibility label for the composer button that opens the emoji and media picker."
+    },
+    "composerShowKeyboard": "Show keyboard",
+    "@composerShowKeyboard": {
+        "description": "Accessibility label for the composer button that closes the expression picker and shows the keyboard."
+    },
+    "messageAccessibilityLabel": "{author}, {summary}",
+    "@messageAccessibilityLabel": {
+        "description": "Screen reader label for a chat message row.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            },
+            "summary": {
+                "type": "String"
+            }
+        }
+    },
+    "messageAccessibilitySendingSuffix": ", sending",
+    "@messageAccessibilitySendingSuffix": {
+        "description": "Screen reader suffix when a message is still sending."
+    },
+    "messageAccessibilityFailedSuffix": ", failed to send",
+    "@messageAccessibilityFailedSuffix": {
+        "description": "Screen reader suffix when a message failed to send."
+    },
+    "messageAccessibilityAttachmentSummary": "an attachment",
+    "@messageAccessibilityAttachmentSummary": {
+        "description": "Screen reader summary for a message with attachments but no text."
+    },
+    "messageAccessibilityAttachmentsSummary": "{count} attachments",
+    "@messageAccessibilityAttachmentsSummary": {
+        "description": "Screen reader summary for a message with multiple attachments and no text.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "messageAccessibilityImageSummary": "an image",
+    "@messageAccessibilityImageSummary": {
+        "description": "Screen reader summary for a message with an image attachment or embed."
+    },
+    "messageAccessibilityVideoSummary": "a video",
+    "@messageAccessibilityVideoSummary": {
+        "description": "Screen reader summary for a message with a video attachment or embed."
+    },
+    "messageAccessibilityAudioSummary": "an audio file",
+    "@messageAccessibilityAudioSummary": {
+        "description": "Screen reader summary for a message with an audio attachment."
+    },
+    "messageAccessibilityStickerSummary": "sticker {name}",
+    "@messageAccessibilityStickerSummary": {
+        "description": "Screen reader summary for a message with a sticker and no text.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "messageAccessibilityFileSummary": "file {filename}",
+    "@messageAccessibilityFileSummary": {
+        "description": "Screen reader summary for a message with a single file attachment and no text.",
+        "placeholders": {
+            "filename": {
+                "type": "String"
+            }
+        }
+    },
+    "messageAccessibilitySpoilerAttachmentSummary": "a spoiler attachment",
+    "@messageAccessibilitySpoilerAttachmentSummary": {
+        "description": "Screen reader summary for a message with a spoiler attachment and no text."
+    },
+    "messageAccessibilityEmbedSummary": "an embed",
+    "@messageAccessibilityEmbedSummary": {
+        "description": "Screen reader summary for a message with embeds but no text."
+    },
+    "messageAccessibilityEmptySummary": "a message",
+    "@messageAccessibilityEmptySummary": {
+        "description": "Screen reader summary fallback for a message without visible text."
+    },
     "personalNotesPrivateSpace": "Your private space",
     "@personalNotesPrivateSpace": {
         "description": "Short subtitle in channel details for personal notes."
@@ -9407,6 +9992,66 @@
     "notificationsMentionPreferNoMentionDescription": "Default replies to omit the @mention, and warn the sender if they enable it",
     "@notificationsMentionPreferNoMentionDescription": {
         "description": "Description for the prefer no @mention option."
+    },
+    "notificationsTtsSectionTitle": "Text-to-speech notifications",
+    "@notificationsTtsSectionTitle": {
+        "description": "Notifications settings section title for TTS controls."
+    },
+    "notificationsTtsEnableCommandLabel": "Enable /tts speech playback",
+    "@notificationsTtsEnableCommandLabel": {
+        "description": "Toggle label for enabling /tts speech playback."
+    },
+    "notificationsTtsEnableCommandDescription": "Let /tts read your message aloud. Disabling the setting keeps those commands as regular text.",
+    "@notificationsTtsEnableCommandDescription": {
+        "description": "Toggle description for enabling /tts speech playback."
+    },
+    "notificationsTtsAccessibilityLinkPrefix": "Adjust playback speed in ",
+    "@notificationsTtsAccessibilityLinkPrefix": {
+        "description": "Prefix before the Accessibility settings link in TTS notifications settings."
+    },
+    "notificationsTtsAccessibilityLinkLabel": "Accessibility",
+    "@notificationsTtsAccessibilityLinkLabel": {
+        "description": "Link label that opens Accessibility settings from TTS notifications settings."
+    },
+    "notificationsTtsAccessibilityLinkSuffix": ".",
+    "@notificationsTtsAccessibilityLinkSuffix": {
+        "description": "Suffix after the Accessibility settings link in TTS notifications settings."
+    },
+    "notificationsTtsAutoNarrationTitle": "Automatic message narration",
+    "@notificationsTtsAutoNarrationTitle": {
+        "description": "Title for automatic TTS narration mode settings."
+    },
+    "notificationsTtsAutoNarrationDescription": "Converts incoming content to speech, regardless of whether it came from /tts.",
+    "@notificationsTtsAutoNarrationDescription": {
+        "description": "Description for automatic TTS narration mode settings."
+    },
+    "notificationsTtsModeAllChannelsName": "Every channel",
+    "@notificationsTtsModeAllChannelsName": {
+        "description": "TTS narration mode: speak messages from every channel."
+    },
+    "notificationsTtsModeAllChannelsDescription": "Let every incoming message be spoken, regardless of which channel is open.",
+    "@notificationsTtsModeAllChannelsDescription": {
+        "description": "Description for speaking messages from every channel."
+    },
+    "notificationsTtsModeCurrentChannelName": "Active channel only",
+    "@notificationsTtsModeCurrentChannelName": {
+        "description": "TTS narration mode: speak only the active channel."
+    },
+    "notificationsTtsModeCurrentChannelDescription": "Narrates only the channel you're viewing. Narration follows you between channels.",
+    "@notificationsTtsModeCurrentChannelDescription": {
+        "description": "Description for speaking only the active channel."
+    },
+    "notificationsTtsModeNeverName": "Never automatically",
+    "@notificationsTtsModeNeverName": {
+        "description": "TTS narration mode: never speak automatically."
+    },
+    "notificationsTtsModeNeverDescription": "Remain silent unless someone runs /tts manually.",
+    "@notificationsTtsModeNeverDescription": {
+        "description": "Description for never speaking automatically."
+    },
+    "notificationsTtsModeAriaLabel": "Speak all messages out loud",
+    "@notificationsTtsModeAriaLabel": {
+        "description": "Accessibility label for the TTS narration mode radio group."
     },
     "notificationsSoundsSectionTitle": "Sounds",
     "@notificationsSoundsSectionTitle": {
@@ -10345,6 +10990,99 @@
                 "type": "String"
             }
         }
+    },
+    "guildNavbarGuildSelected": "selected",
+    "@guildNavbarGuildSelected": {
+        "description": "Screen reader suffix when a guild navbar item is selected."
+    },
+    "guildNavbarGuildUnread": "unread",
+    "@guildNavbarGuildUnread": {
+        "description": "Screen reader suffix when a guild navbar item has unread channels."
+    },
+    "guildNavbarGuildMentions": "{count, plural, =1{1 mention} other{{count} mentions}}",
+    "@guildNavbarGuildMentions": {
+        "description": "Screen reader suffix when a guild navbar item has mention notifications.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "navigationItemMuted": "muted",
+    "@navigationItemMuted": {
+        "description": "Screen reader suffix when a channel, DM, or favorites item is muted."
+    },
+    "authShowPassword": "Show password",
+    "@authShowPassword": {
+        "description": "Screen reader label for the show-password toggle on auth forms."
+    },
+    "authHidePassword": "Hide password",
+    "@authHidePassword": {
+        "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "chatLoadingMessages": "Loading messages",
+    "@chatLoadingMessages": {
+        "description": "Screen reader label for the chat message list loading skeleton."
+    },
+    "friendsMessageFriend": "Message",
+    "@friendsMessageFriend": {
+        "description": "Screen reader label for messaging a friend from the friends list."
+    },
+    "friendsFriendActions": "Friend actions",
+    "@friendsFriendActions": {
+        "description": "Screen reader label for the friend overflow menu button."
+    },
+    "friendsAcceptRequest": "Accept friend request",
+    "@friendsAcceptRequest": {
+        "description": "Screen reader label for accepting a friend request."
+    },
+    "friendsDeclineRequest": "Decline friend request",
+    "@friendsDeclineRequest": {
+        "description": "Screen reader label for declining a friend request."
+    },
+    "friendsCancelRequest": "Cancel friend request",
+    "@friendsCancelRequest": {
+        "description": "Screen reader label for canceling an outgoing friend request."
+    },
+    "friendsOpenInbox": "Inbox",
+    "@friendsOpenInbox": {
+        "description": "Screen reader label for the friends list inbox button."
+    },
+    "profileRemoveFriend": "Remove friend",
+    "@profileRemoveFriend": {
+        "description": "Screen reader label for removing a friend from a profile."
+    },
+    "profileUnblockUser": "Unblock user",
+    "@profileUnblockUser": {
+        "description": "Screen reader label for unblocking a user from a profile."
+    },
+    "profileAcceptFriendRequest": "Accept friend request",
+    "@profileAcceptFriendRequest": {
+        "description": "Screen reader label for accepting a friend request from a profile."
+    },
+    "profileCancelFriendRequest": "Cancel friend request",
+    "@profileCancelFriendRequest": {
+        "description": "Screen reader label for canceling an outgoing friend request from a profile."
+    },
+    "profileSendFriendRequest": "Add friend",
+    "@profileSendFriendRequest": {
+        "description": "Screen reader label for sending a friend request from a profile."
+    },
+    "accountOverflowMenu": "Account options",
+    "@accountOverflowMenu": {
+        "description": "Screen reader label for the account row overflow menu."
+    },
+    "navHome": "Home",
+    "@navHome": {
+        "description": "Bottom navigation label for the home tab."
+    },
+    "navNotifications": "Notifications",
+    "@navNotifications": {
+        "description": "Bottom navigation label for the notifications tab."
+    },
+    "navYou": "You",
+    "@navYou": {
+        "description": "Bottom navigation label for the profile tab."
     },
     "guildFolderSettingsTitle": "Folder settings",
     "@guildFolderSettingsTitle": {

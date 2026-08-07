@@ -1,0 +1,21 @@
+name: unifiedpush_linux
+description: Stub override for macOS app builds without webpush_encryption.
+version: 1.0.0+fluxer
+publish_to: none
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  unifiedpush_platform_interface: ^4.0.0
+  unifiedpush_storage_interface: ^1.0.0
+
+flutter:
+  plugin:
+    implements: unifiedpush
+    platforms:
+      linux:
+        dartPluginClass: UnifiedPushLinux

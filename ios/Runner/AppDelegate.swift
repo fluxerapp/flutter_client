@@ -109,15 +109,19 @@ import flutter_callkit_incoming
   func onTimeOut(_ call: Call) {}
 
   func didActivateAudioSession(_ audioSession: AVAudioSession) {
-    RTCAudioSession.sharedInstance().useManualAudio = true
-    RTCAudioSession.sharedInstance().audioSessionDidActivate(audioSession)
-    RTCAudioSession.sharedInstance().isAudioEnabled = true
+    let rtc = RTCAudioSession.sharedInstance()
+    rtc.useManualAudio = true
+    rtc.audioSessionDidActivate(audioSession)
+    rtc.isAudioEnabled = true
   }
 
   func didDeactivateAudioSession(_ audioSession: AVAudioSession) {
-    RTCAudioSession.sharedInstance().audioSessionDidDeactivate(audioSession)
-    RTCAudioSession.sharedInstance().isAudioEnabled = false
-    RTCAudioSession.sharedInstance().useManualAudio = false
+    let rtc = RTCAudioSession.sharedInstance()
+    rtc.audioSessionDidDeactivate(audioSession)
+    rtc.isAudioEnabled = false
+    if CXCallObserver().calls.isEmpty {
+      rtc.useManualAudio = false
+    }
   }
 
   func providerDidReset() {}

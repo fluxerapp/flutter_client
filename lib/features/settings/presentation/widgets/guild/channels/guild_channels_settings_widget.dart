@@ -509,10 +509,7 @@ class _GuildChannelsSettingsWidgetState
     return categoriesAsync.when(
       loading: () => const Center(child: FluxerLoadingSpinner()),
       error: (Object error, StackTrace stackTrace) => Center(
-        child: Text(
-          error.toString(),
-          style: TextStyle(color: context.colors.textPrimaryMuted),
-        ),
+        child: Text(error.toString(), style: context.textStyles.bodySmall),
       ),
       data: (List<ChannelCategory> categories) {
         final List<Channel> channels = channelsAsync.value ?? <Channel>[];

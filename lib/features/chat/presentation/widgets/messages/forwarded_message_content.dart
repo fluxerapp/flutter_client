@@ -90,7 +90,7 @@ class ForwardedMessageContent extends ConsumerWidget {
                       data: snapshot.content,
                       channelId: message.channelId,
                       mentionChannels: snapshot.mentionChannels,
-                      baseStyle: TextStyle(
+                      baseStyle: context.textStyles.messageText.copyWith(
                         fontSize: 13,
                         color: context.colors.textChat,
                       ),
@@ -173,8 +173,7 @@ class _ForwardedHeader extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           'Forwarded',
-          style: TextStyle(
-            fontSize: 12,
+          style: context.textStyles.timestamp.copyWith(
             color: color,
             fontStyle: FontStyle.italic,
           ),
@@ -405,8 +404,7 @@ class _ForwardedSourceButtonState
                     children: [
                       Text(
                         'Forwarded from',
-                        style: TextStyle(
-                          fontSize: 12,
+                        style: context.textStyles.timestamp.copyWith(
                           color: context.colors.textPrimaryMuted,
                         ),
                       ),
@@ -431,8 +429,7 @@ class _ForwardedSourceInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = TextStyle(
-      fontSize: 12,
+    final style = context.textStyles.timestamp.copyWith(
       fontWeight: FontWeight.w500,
       color: context.colors.textPrimary,
     );
@@ -583,7 +580,7 @@ class _GuildSourceIcon extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           initials,
-          style: TextStyle(
+          style: context.textStyles.smallText.copyWith(
             fontSize: _forwardedGuildInitialsFontSize(initialsLength),
             fontWeight: FontWeight.w700,
             color: context.colors.textPrimary,

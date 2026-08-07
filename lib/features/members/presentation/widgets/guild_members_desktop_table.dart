@@ -1032,6 +1032,7 @@ class _MembersDesktopTableRow extends ConsumerWidget {
                         minWidth: 28,
                         minHeight: 28,
                       ),
+                      tooltip: l10n.chatMessageMore,
                       onPressed: () => onActionsTap(
                         contextMenuPositionAtPointer(buttonContext),
                       ),

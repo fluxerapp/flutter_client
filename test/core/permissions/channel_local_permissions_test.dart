@@ -267,6 +267,34 @@ void main() {
           expect(hasPermission(result, Permission.connect), isTrue);
         },
       );
+
+      test(
+        'administrator granted via channel overwrite gets all permissions',
+        () {
+          final String adminOverwrite = jsonEncode([
+            {
+              'id': roleAId,
+              'type': 0,
+              'allow': '${Permission.administrator.value}',
+              'deny': '0',
+            },
+          ]);
+          final int result = evaluateChannelEffectivePermissionBits(
+            guildOwnerId: 'owner',
+            guildId: guildId,
+            currentUserId: userId,
+            everyonePermissions: Permission.viewChannel.value,
+            memberRoles: [
+              const MemberRole(id: roleAId, name: 'Admin', color: 0),
+            ],
+            memberRecordPresent: true,
+            overwriteJsonLayersRootToLeaf: [adminOverwrite],
+          );
+
+          expect(result, equals(allPermissions));
+          expect(bypassesSlowmode(result), isTrue);
+        },
+      );
     });
   });
 }

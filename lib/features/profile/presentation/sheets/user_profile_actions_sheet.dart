@@ -120,6 +120,7 @@ class UserProfileActionsSheet {
               currentNick: currentNick,
               isCurrentUser: isCurrentUser,
               includeNickname: true,
+              includeModerationActions: false,
             );
             groups.add(nicknameItems);
           }

@@ -24,6 +24,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart'
 import 'package:fluxer_app/features/members/providers/member_list_desired_ranges_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
+import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
 
 class ShellRouteListeners extends ConsumerStatefulWidget {
   const ShellRouteListeners({required this.child, super.key});
@@ -77,7 +78,11 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
         String? previous,
         String? next,
       ) {
-        if (previous == null || previous == next) {
+        if (previous == next) {
+          return;
+        }
+        _stopTtsIfLeavingSpokenChannel(next);
+        if (previous == null) {
           return;
         }
         _scheduleInactiveChannelCleanup(previous);
@@ -170,6 +175,16 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
         .read(channelListViewModelProvider.notifier)
         .loadChannels(guildId, guild: guild);
     ref.read(guildSyncProvider.notifier).syncIfNeeded(guildId);
+  }
+
+  void _stopTtsIfLeavingSpokenChannel(String? nextChannelId) {
+    final FluxerTtsSpeakingState speaking = ref.read(fluxerTtsServiceProvider);
+    if (!speaking.isSpeaking || speaking.channelId == null) {
+      return;
+    }
+    if (speaking.channelId != nextChannelId) {
+      unawaited(ref.read(fluxerTtsServiceProvider.notifier).stop());
+    }
   }
 
   void _scheduleInactiveChannelCleanup(String previousChannelId) {

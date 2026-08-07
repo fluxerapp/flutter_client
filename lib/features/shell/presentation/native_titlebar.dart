@@ -56,14 +56,7 @@ class NativeTitlebar extends ConsumerWidget {
                 ),
               ),
               Center(
-                child: Text(
-                  title,
-                  style: TextStyle(
-                    color: context.colors.textPrimaryMuted,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                child: Text(title, style: context.textStyles.categoryName),
               ),
               Positioned(
                 top: 0,

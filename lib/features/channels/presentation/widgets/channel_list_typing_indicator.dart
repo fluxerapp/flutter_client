@@ -148,10 +148,9 @@ class _TypingAvatarStack extends ConsumerWidget {
         child: Center(
           child: Text(
             '+$remaining',
-            style: TextStyle(
+            style: context.textStyles.smallText.copyWith(
               color: colors.textPrimary,
               fontSize: _kAvatarSize * 0.4,
-              fontWeight: FontWeight.w600,
             ),
           ),
         ),
@@ -231,7 +230,7 @@ class _TypingTooltipText extends ConsumerWidget {
         spans.add(
           TextSpan(
             text: user.display.displayName,
-            style: TextStyle(
+            style: baseStyle.copyWith(
               color: roleColor ?? colors.textPrimary,
               fontWeight: FontWeight.w600,
             ),

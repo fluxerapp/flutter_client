@@ -95,10 +95,7 @@ class UserArea extends ConsumerWidget {
                                   children: <Widget>[
                                     Text(
                                       user.displayName,
-                                      style: TextStyle(
-                                        color: colors.textPrimary,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
+                                      style: context.textStyles.label.copyWith(
                                         height: 18 / 14,
                                       ),
                                       overflow: TextOverflow.ellipsis,
@@ -106,13 +103,14 @@ class UserArea extends ConsumerWidget {
                                     const SizedBox(height: 1),
                                     Text(
                                       '${user.username}#${user.discriminator}',
-                                      style: TextStyle(
-                                        color: colors.textPrimaryMuted
-                                            .withValues(alpha: 0.85),
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w500,
-                                        height: 16 / 11,
-                                      ),
+                                      style: context.textStyles.timestamp
+                                          .copyWith(
+                                            color: colors.textPrimaryMuted
+                                                .withValues(alpha: 0.85),
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w500,
+                                            height: 16 / 11,
+                                          ),
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ],

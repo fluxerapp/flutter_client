@@ -22,7 +22,7 @@ class CreateDmBottomSheet {
       title: l10n.createDmSelectFriends,
       subtitle: Text(
         l10n.createDmChooseFriendsSubtitle,
-        style: TextStyle(
+        style: context.textStyles.bodySmall.copyWith(
           color: context.colors.textSecondary,
           fontSize: 13,
           height: 1.4,

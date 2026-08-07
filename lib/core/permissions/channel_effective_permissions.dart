@@ -16,6 +16,13 @@ import 'package:riverpod/riverpod.dart';
 /// may be 0 because the guild or current user's membership is not loaded yet.
 typedef ChannelPermissionBitsOutcome = ({int value, bool shouldCache});
 
+bool bypassesChannelSlowmode(ChannelPermissionBitsOutcome? outcome) {
+  if (outcome == null || !outcome.shouldCache) {
+    return true;
+  }
+  return bypassesSlowmode(outcome.value);
+}
+
 Future<ChannelPermissionBitsOutcome>
 computeEffectiveGuildChannelPermissionBitsOutcome({
   required Ref ref,

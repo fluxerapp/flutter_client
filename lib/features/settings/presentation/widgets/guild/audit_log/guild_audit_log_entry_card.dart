@@ -187,7 +187,9 @@ class GuildAuditLogEntryCard extends StatelessWidget {
                         SizedBox(height: context.layout.s1),
                         Text(
                           reasonText,
-                          style: TextStyle(color: context.colors.textSecondary),
+                          style: context.textStyles.bodySmall.copyWith(
+                            color: context.colors.textSecondary,
+                          ),
                         ),
                         if (changeLines.isNotEmpty || optionLines.isNotEmpty)
                           SizedBox(height: context.layout.s3),

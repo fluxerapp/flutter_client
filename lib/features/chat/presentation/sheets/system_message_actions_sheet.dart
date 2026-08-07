@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/delete_message_confirm_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/message_debug_sheet.dart';
@@ -123,6 +124,16 @@ Future<void> showSystemMessageActionsSheet(
       unawaited(copyToClipboard(context: context, value: message.id));
     case MessageAction.debugMessage:
       unawaited(showMessageDebugSheet(context, message: message));
+    case MessageAction.speak:
+      unawaited(
+        dispatchMessageAction(
+          ref: ref,
+          context: context,
+          message: message,
+          action: action,
+          callbacks: const MessageActionCallbacks(),
+        ),
+      );
     case MessageAction.delete:
       unawaited(
         showDeleteMessageConfirmSheet(

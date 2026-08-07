@@ -100,8 +100,7 @@ class _ReconnectingScreenState extends ConsumerState<ReconnectingScreen> {
             const SizedBox(height: 16),
             Text(
               strings.reconnectingTitle,
-              style: TextStyle(
-                color: context.colors.textPrimary,
+              style: context.textStyles.heading.copyWith(
                 fontSize: 28,
                 fontWeight: FontWeight.w700,
               ),
@@ -110,9 +109,8 @@ class _ReconnectingScreenState extends ConsumerState<ReconnectingScreen> {
             Text(
               strings.reconnectingBody,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: context.textStyles.bodyMedium.copyWith(
                 color: context.colors.textPrimaryMuted,
-                fontSize: 16,
               ),
             ),
             const SizedBox(height: 24),

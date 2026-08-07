@@ -24,7 +24,8 @@ class ComposerInlineMention extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color textColor = _mentionColor(context);
     final TextStyle mentionStyle =
-        baseStyle?.copyWith(color: textColor) ?? TextStyle(color: textColor);
+        baseStyle?.copyWith(color: textColor) ??
+        context.textStyles.inputText.copyWith(color: textColor);
     return Text(
       visibleText,
       maxLines: 1,

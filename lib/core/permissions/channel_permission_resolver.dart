@@ -118,6 +118,9 @@ int evaluateChannelEffectivePermissionBits({
       memberRecordPresent: memberRecordPresent,
     );
   }
-  final BigInt bounded = mask & _channelPermissionMask;
-  return bounded.toInt();
+  final int result = (mask & _channelPermissionMask).toInt();
+  if (hasPermission(result, Permission.administrator)) {
+    return allPermissions;
+  }
+  return result;
 }

@@ -5,6 +5,7 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/markdown_timestamp_format.dart';
 import 'package:fluxer_app/features/settings/domain/search_provider_engine.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/settings/utils/search_selection_context_menu.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -50,6 +51,12 @@ class MessageMarkdown extends ConsumerWidget {
     final SearchEnginesState searchEngines = ref.watch(
       advancedPreferencesProvider.select((state) => state.searchEngines),
     );
+    final bool alwaysUnderlineLinks = ref.watch(
+      appearancePreferencesProvider.select((s) => s.alwaysUnderlineLinks),
+    );
+    final bool dimStrikethroughText = ref.watch(
+      appearancePreferencesProvider.select((s) => s.dimStrikethroughText),
+    );
     return FluxerMarkdown(
       data: data,
       parseCacheKey: messageId == null ? null : '$messageId:${data.hashCode}',
@@ -60,6 +67,8 @@ class MessageMarkdown extends ConsumerWidget {
         mentionChannels: mentionChannels,
         revealSpoilers: revealSpoilers,
         spoilerSyncController: spoilerSyncController,
+        alwaysUnderlineLinks: alwaysUnderlineLinks,
+        dimStrikethroughText: dimStrikethroughText,
         selectionContextMenuBuilder: selectable
             ? createSearchSelectionContextMenuBuilder(
                 searchEngines: searchEngines,

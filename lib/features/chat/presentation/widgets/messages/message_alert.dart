@@ -52,7 +52,7 @@ class MessageAlert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final accent = type.accentColor(context);
-    final style = baseStyle ?? const TextStyle();
+    final style = baseStyle ?? context.textStyles.messageText;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),

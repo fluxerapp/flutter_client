@@ -610,7 +610,10 @@ Widget _buildUserSettingsPlaceholder(
   final child = Center(
     child: Text(
       userSettingsSectionLabel(FluxerLocalizations.of(context), section),
-      style: TextStyle(color: context.colors.textPrimaryMuted, fontSize: 24),
+      style: context.textStyles.heading.copyWith(
+        color: context.colors.textPrimaryMuted,
+        fontSize: 24,
+      ),
     ),
   );
   if (scrollController == null) {
@@ -645,7 +648,7 @@ class _SettingsBuildInfoFooter extends ConsumerWidget {
             child: Text(
               text,
               textAlign: inSidebar ? TextAlign.start : TextAlign.center,
-              style: TextStyle(
+              style: context.textStyles.timestamp.copyWith(
                 fontSize: 11,
                 color: inSidebar
                     ? context.colors.textTertiarySecondary

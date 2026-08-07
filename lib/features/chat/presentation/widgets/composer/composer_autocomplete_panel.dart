@@ -244,8 +244,7 @@ class ComposerAutocompletePanelListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color hoverFill = context.colors.backgroundModifierHover;
-    final TextStyle titleStyle = TextStyle(
-      fontWeight: FontWeight.w400,
+    final TextStyle titleStyle = context.textStyles.bodyMedium.copyWith(
       fontSize: _kAutocompleteNameFontSize,
       height: 1.25,
       color: titleColor ?? context.colors.textPrimary,
@@ -331,8 +330,7 @@ class ComposerAutocompletePanelListTile extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.end,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
+                        style: context.textStyles.timestamp.copyWith(
                           fontSize: _kAutocompleteDescFontSize,
                           height: 1.33,
                           color: context.colors.textPrimaryMuted,

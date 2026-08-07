@@ -1,4 +1,4 @@
-name: Canary Release (iOS + Android)
+name: Canary Release (iOS + Android + macOS)
 
 on:
   workflow_dispatch:
@@ -20,4 +20,9 @@ jobs:
   ios-testflight:
     name: iOS TestFlight build
     uses: ./.github/workflows/ios-canary-testflight.yml
+    secrets: inherit
+
+  macos-testflight:
+    name: macOS TestFlight build
+    uses: ./.github/workflows/macos-canary-testflight.yml
     secrets: inherit

@@ -77,10 +77,9 @@ class EmbedAuthorRow extends StatelessWidget {
       Flexible(
         child: EmbedInlineText(
           text: author.name,
-          style: TextStyle(
+          style: context.textStyles.smallText.copyWith(
             color: context.colors.textPrimary,
             fontSize: 13,
-            fontWeight: FontWeight.w600,
           ),
         ),
       ),

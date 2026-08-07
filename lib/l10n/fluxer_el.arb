@@ -8636,14 +8636,6 @@
             }
         }
     },
-    "guildSettingsDiscoveryFormTitle": "Αίτηση",
-    "@guildSettingsDiscoveryFormTitle": {
-        "description": "Title for discovery application form."
-    },
-    "guildSettingsDiscoveryStatusTitle": "Κατάσταση",
-    "@guildSettingsDiscoveryStatusTitle": {
-        "description": "Title for discovery application status section."
-    },
     "guildSettingsDiscoveryCategory": "Κατηγορία",
     "@guildSettingsDiscoveryCategory": {
         "description": "Label for discovery category dropdown."

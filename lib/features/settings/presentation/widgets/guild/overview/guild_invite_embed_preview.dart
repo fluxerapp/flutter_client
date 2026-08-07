@@ -73,10 +73,8 @@ class GuildInviteEmbedPreview extends StatelessWidget {
                             Flexible(
                               child: Text(
                                 guildName,
-                                style: TextStyle(
-                                  color: context.colors.textPrimary,
+                                style: context.textStyles.channelName.copyWith(
                                   fontSize: 15,
-                                  fontWeight: FontWeight.w600,
                                   letterSpacing: -0.1,
                                 ),
                                 overflow: TextOverflow.ellipsis,
@@ -115,9 +113,8 @@ class GuildInviteEmbedPreview extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           l10n.embedInviteOnline(_formatCount(onlineCount)),
-          style: TextStyle(
+          style: context.textStyles.timestamp.copyWith(
             color: context.colors.textTertiaryMuted,
-            fontSize: 12,
           ),
         ),
         const SizedBox(width: 10),
@@ -125,9 +122,8 @@ class GuildInviteEmbedPreview extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           l10n.embedInviteMembers(_formatCount(memberCount)),
-          style: TextStyle(
+          style: context.textStyles.timestamp.copyWith(
             color: context.colors.textTertiaryMuted,
-            fontSize: 12,
           ),
         ),
       ],
@@ -201,10 +197,9 @@ class GuildInviteEmbedPreview extends StatelessWidget {
       child: Center(
         child: Text(
           initials,
-          style: TextStyle(
+          style: context.textStyles.smallText.copyWith(
             color: context.colors.textPrimary,
             fontSize: _guildInviteInitialsFontSize(initialsLength),
-            fontWeight: FontWeight.w600,
           ),
         ),
       ),

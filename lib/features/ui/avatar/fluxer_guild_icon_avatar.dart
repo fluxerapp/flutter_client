@@ -105,7 +105,7 @@ class _LetterFallback extends StatelessWidget {
     return Center(
       child: Text(
         abbreviateGuildName(name),
-        style: TextStyle(
+        style: context.textStyles.smallText.copyWith(
           fontSize: _guildInitialsFontSize(guildNameInitialsLength(name), size),
           fontWeight: fontWeight,
           color: color,

@@ -32,6 +32,7 @@ import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_pinned_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
+import 'package:fluxer_app/features/dm/providers/sorted_dm_conversations_provider.dart';
 import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
 import 'package:fluxer_app/features/friends/presentation/change_friend_nickname.dart';
@@ -49,6 +50,7 @@ import 'package:fluxer_app/features/voice/utils/call_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/sheets/add_friend_sheet.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
+import 'package:fluxer_app/shared/utils/navigation_item_semantics.dart';
 import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -229,19 +231,16 @@ class _DMListState extends ConsumerState<DMList> {
   @override
   Widget build(BuildContext context) {
     final List<DmConversation> convos = ref.watch(
-      dmViewModelProvider.select((DmViewState state) => state.conversations),
+      sortedDmConversationsProvider,
     );
     final String? selectedId = ref.watch(activeChannelIdProvider);
 
     final isMobile = isMobileLayout(context);
     final pinnedIds = ref.watch(pinnedDmChannelIdsProvider).value ?? {};
-    final pinnedOrder = ref.watch(pinnedDmChannelOrderProvider).value ?? [];
     final mutedIds = ref.watch(mutedDmChannelIdsProvider).value ?? {};
 
-    // Sort pinned DMs first (by pin position), then unpinned by recency.
-    final sortedConvos = _sortDmChannels(convos, pinnedIds, pinnedOrder);
     final userId = ref.watch(currentUserIdProvider);
-    final visibleConvos = sortedConvos
+    final visibleConvos = convos
         .where(
           (DmConversation c) => !shouldExcludeFromDmConversationList(
             type: c.type,
@@ -393,10 +392,7 @@ class _DMListState extends ConsumerState<DMList> {
             Expanded(
               child: Text(
                 'Quick Switcher',
-                style: TextStyle(
-                  color: context.colors.textPrimaryMuted,
-                  fontSize: 13,
-                ),
+                style: context.textStyles.bodySmall.copyWith(fontSize: 13),
               ),
             ),
             _buildKbdBadge(context, 'CTRL'),
@@ -416,10 +412,9 @@ class _DMListState extends ConsumerState<DMList> {
     ),
     child: Text(
       label,
-      style: TextStyle(
+      style: context.textStyles.smallText.copyWith(
         color: context.colors.textPrimaryMuted,
         fontSize: 10,
-        fontWeight: FontWeight.w600,
       ),
     ),
   );
@@ -433,6 +428,7 @@ class _DMListState extends ConsumerState<DMList> {
     VoidCallback? onTap,
     VoidCallback? onLongPress,
     double? height,
+    String? semanticLabel,
   }) => FluxerSelectableRow(
     isSelected: isSelected,
     selectedColor: context.colors.surfaceInteractiveSelectedBg.withValues(
@@ -443,6 +439,7 @@ class _DMListState extends ConsumerState<DMList> {
     margin: margin,
     padding: padding,
     height: height,
+    semanticLabel: semanticLabel,
     onTap: onTap,
     onLongPress: onLongPress,
     child: child,
@@ -598,12 +595,7 @@ class _DMListState extends ConsumerState<DMList> {
                     const SizedBox(width: 8),
                     Text(
                       l10n.dmAddFriends,
-                      style: TextStyle(
-                        color: context.colors.textPrimary,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        height: 20 / 14,
-                      ),
+                      style: context.textStyles.label.copyWith(height: 20 / 14),
                     ),
                   ],
                 ),
@@ -625,9 +617,8 @@ class _DMListState extends ConsumerState<DMList> {
                     alignment: Alignment.center,
                     child: Text(
                       '$pendingCount',
-                      style: TextStyle(
+                      style: context.textStyles.smallText.copyWith(
                         color: context.colors.textPrimary,
-                        fontSize: 12,
                         fontWeight: FontWeight.w700,
                         height: 16 / 12,
                       ),
@@ -748,12 +739,10 @@ class _DMListState extends ConsumerState<DMList> {
         const SizedBox(width: 12),
         Text(
           FluxerLocalizations.of(context).personalNotesTitle,
-          style: TextStyle(
+          style: context.textStyles.username.copyWith(
             color: isSelected
                 ? context.colors.surfaceInteractiveSelectedColor
                 : context.colors.textPrimary,
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
           ),
         ),
       ],
@@ -774,10 +763,9 @@ class _DMListState extends ConsumerState<DMList> {
           Expanded(
             child: Text(
               l10n.dmListDirectMessagesTitle,
-              style: TextStyle(
+              style: context.textStyles.label.copyWith(
                 color: context.colors.textPrimaryMuted,
                 fontSize: 13,
-                fontWeight: FontWeight.w500,
               ),
             ),
           ),
@@ -849,23 +837,33 @@ class _DMListState extends ConsumerState<DMList> {
       l10n: l10n,
       currentUserId: currentUserId,
     );
-    final titleColor = isSelected
-        ? context.colors.surfaceInteractiveSelectedColor
-        : hasUnread
-        ? context.colors.textChat
-        : context.colors.textPrimaryMuted;
-    final secondaryColor = isSelected
-        ? context.colors.surfaceInteractiveSelectedColor
-        : context.colors.textPrimaryMuted.withValues(alpha: 0.85);
-    final timestampColor = isSelected
-        ? context.colors.surfaceInteractiveSelectedColor
-        : context.colors.textTertiary;
+    final double mutedFactor = isMuted && !isSelected ? 0.5 : 1.0;
+    Color applyMuted(Color color) => mutedFactor < 1
+        ? color.withValues(alpha: color.a * mutedFactor)
+        : color;
+    final titleColor = applyMuted(
+      isSelected
+          ? context.colors.surfaceInteractiveSelectedColor
+          : hasUnread
+          ? context.colors.textChat
+          : context.colors.textPrimaryMuted,
+    );
+    final secondaryColor = applyMuted(
+      isSelected
+          ? context.colors.surfaceInteractiveSelectedColor
+          : context.colors.textPrimaryMuted.withValues(alpha: 0.85),
+    );
+    final timestampColor = applyMuted(
+      isSelected
+          ? context.colors.surfaceInteractiveSelectedColor
+          : context.colors.textTertiary,
+    );
     final titleStyle = context.textStyles.username.copyWith(
       color: titleColor,
       fontSize: isMobile ? 16 : 13,
       height: isMobile ? null : 16 / 13,
     );
-    final secondaryStyle = TextStyle(
+    final secondaryStyle = context.textStyles.timestamp.copyWith(
       color: secondaryColor,
       fontSize: 11,
       fontWeight: FontWeight.w500,
@@ -877,113 +875,114 @@ class _DMListState extends ConsumerState<DMList> {
       children: [
         if (hasUnread && !isSelected)
           ChannelUnreadIndicator.positioned(faded: isMuted),
-        Opacity(
-          opacity: isMuted && !isSelected ? 0.5 : 1.0,
-          child: _selectableRow(
-            context,
+        _selectableRow(
+          context,
+          isSelected: isSelected,
+          height: tileHeight,
+          margin: EdgeInsets.symmetric(
+            horizontal: layout.s2,
+            vertical: isMobile ? 2 : 1,
+          ),
+          padding: EdgeInsets.symmetric(horizontal: layout.s2),
+          semanticLabel: navigationItemSemanticLabel(
+            l10n: l10n,
+            name: displayName,
             isSelected: isSelected,
-            height: tileHeight,
-            margin: EdgeInsets.symmetric(
-              horizontal: layout.s2,
-              vertical: isMobile ? 2 : 1,
-            ),
-            padding: EdgeInsets.symmetric(horizontal: layout.s2),
-            onTap: () {
-              unawaited(_navigateToDmChannel(c.id));
-            },
-            onLongPress: isMobile ? () => _showDmContextMenu(context, c) : null,
-            child: Row(
-              children: [
-                Consumer(
-                  builder: (context, ref, _) {
-                    final bool isTyping = ref.watch(
-                      dmAvatarIsTypingProvider(c),
-                    );
-                    if (c.isGroup) {
-                      final String? status = ref.watch(
-                        dmListRecipientRowDataProvider.select(
-                          (AsyncValue<Map<String, DmListRecipientRowData>> p) =>
-                              groupDmAggregateStatus(
-                                participantIds: c.remoteRecipientIds,
-                                resolveStatus: (String id) =>
-                                    p.value?[id]?.status ?? 'offline',
-                              ),
-                        ),
-                      );
-                      return groupDmAvatarCluster(
-                        dm: c,
-                        size: avatarSize,
-                        status: status,
-                        isTyping: isTyping,
-                      );
-                    }
-                    final bool showPresence = shouldShowDmRecipientPresence(c);
-                    return FluxerAvatar.userPresence(
-                      fallbackText: displayName,
-                      userId: c.recipientId,
-                      imageUrl: FluxerMediaUrl.userAvatar(
-                        userId: c.recipientId,
-                        hash: c.recipientAvatar,
-                        animated: isSelected,
-                      ),
-                      showStatus: showPresence || isTyping,
-                      isTyping: isTyping,
-                      size: avatarSize,
-                    );
-                  },
-                ),
-                SizedBox(width: layout.s3),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          if (isPinned)
-                            Padding(
-                              padding: const EdgeInsets.only(right: 4),
-                              child: PhosphorIcon(
-                                PhosphorIconsFill.pushPin,
-                                size: 12,
-                                color: timestampColor,
-                              ),
+            hasUnread: hasUnread && !isSelected,
+            isMuted: isMuted,
+          ),
+          onTap: () {
+            unawaited(_navigateToDmChannel(c.id));
+          },
+          onLongPress: isMobile ? () => _showDmContextMenu(context, c) : null,
+          child: Row(
+            children: [
+              Consumer(
+                builder: (context, ref, _) {
+                  final bool isTyping = ref.watch(dmAvatarIsTypingProvider(c));
+                  if (c.isGroup) {
+                    final String? status = ref.watch(
+                      dmListRecipientRowDataProvider.select(
+                        (AsyncValue<Map<String, DmListRecipientRowData>> p) =>
+                            groupDmAggregateStatus(
+                              participantIds: c.remoteRecipientIds,
+                              resolveStatus: (String id) =>
+                                  p.value?[id]?.status ?? 'offline',
                             ),
-                          Flexible(
-                            child: Text(
-                              displayName,
-                              style: titleStyle,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                      ),
+                    );
+                    return groupDmAvatarCluster(
+                      dm: c,
+                      size: avatarSize,
+                      status: status,
+                      isTyping: isTyping,
+                    );
+                  }
+                  final bool showPresence = shouldShowDmRecipientPresence(c);
+                  return FluxerAvatar.userPresence(
+                    fallbackText: displayName,
+                    userId: c.recipientId,
+                    imageUrl: FluxerMediaUrl.userAvatar(
+                      userId: c.recipientId,
+                      hash: c.recipientAvatar,
+                      animated: isSelected,
+                    ),
+                    showStatus: showPresence || isTyping,
+                    isTyping: isTyping,
+                    size: avatarSize,
+                  );
+                },
+              ),
+              SizedBox(width: layout.s3),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        if (isPinned)
+                          Padding(
+                            padding: const EdgeInsets.only(right: 4),
+                            child: PhosphorIcon(
+                              PhosphorIconsFill.pushPin,
+                              size: 12,
+                              color: timestampColor,
                             ),
                           ),
-                          if (!c.isGroup && isBotOrSystemDmRecipient(c))
-                            Padding(
-                              padding: const EdgeInsets.only(left: 4),
-                              child: FluxerUserTag(isSystem: c.isSystem),
-                            ),
-                        ],
-                      ),
-                      DmListTileSubtext(
-                        conversation: c,
-                        style: secondaryStyle,
-                        hasUnread: hasUnread,
-                        currentUserId: currentUserId,
-                      ),
-                    ],
-                  ),
+                        Flexible(
+                          child: Text(
+                            displayName,
+                            style: titleStyle,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        if (!c.isGroup && isBotOrSystemDmRecipient(c))
+                          Padding(
+                            padding: const EdgeInsets.only(left: 4),
+                            child: FluxerUserTag(isSystem: c.isSystem),
+                          ),
+                      ],
+                    ),
+                    DmListTileSubtext(
+                      conversation: c,
+                      style: secondaryStyle,
+                      hasUnread: hasUnread,
+                      currentUserId: currentUserId,
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 8),
-                Text(
-                  _formatRelativeTime(c.lastMessageTime),
-                  style: TextStyle(
-                    color: timestampColor,
-                    fontSize: 12,
-                    height: 16 / 12,
-                  ),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                _formatRelativeTime(c.lastMessageTime),
+                style: context.textStyles.timestamp.copyWith(
+                  color: timestampColor,
+                  height: 16 / 12,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ],
@@ -1382,30 +1381,6 @@ class _DMListState extends ConsumerState<DMList> {
     }
   }
 
-  static List<DmConversation> _sortDmChannels(
-    List<DmConversation> convos,
-    Set<String> pinnedIds,
-    List<String> pinnedOrder,
-  ) {
-    final pinIndex = {
-      for (var i = 0; i < pinnedOrder.length; i++) pinnedOrder[i]: i,
-    };
-    return [...convos]..sort((a, b) {
-      final aPin = pinIndex[a.id];
-      final bPin = pinIndex[b.id];
-      final aIsPinned = aPin != null;
-      final bIsPinned = bPin != null;
-
-      if (aIsPinned && bIsPinned) {
-        return aPin.compareTo(bPin);
-      }
-      if (aIsPinned != bIsPinned) {
-        return aIsPinned ? -1 : 1;
-      }
-      return b.lastMessageTime.compareTo(a.lastMessageTime);
-    });
-  }
-
   static String _formatRelativeTime(DateTime time) {
     final diff = DateTime.now().difference(time);
     if (diff.inSeconds < 60) {
@@ -1467,6 +1442,11 @@ class _DMListState extends ConsumerState<DMList> {
     height: 42,
     margin: EdgeInsets.symmetric(horizontal: context.layout.s2, vertical: 1),
     padding: EdgeInsets.symmetric(horizontal: context.layout.s2),
+    semanticLabel: navigationItemSemanticLabel(
+      l10n: FluxerLocalizations.of(context),
+      name: label,
+      isSelected: isSelected,
+    ),
     onTap: onTap,
     child: Row(
       children: [

@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet_drag.dart';
 import 'package:fluxer_app/shared/gestures/expandable_sheet_gestures.dart';
 
@@ -254,4 +255,22 @@ double resolvePanelReservedLayoutHeight({
     return grossAnchorHeight;
   }
   return 0;
+}
+
+double bottomInputHomeIndicatorInset(MediaQueryData mediaQuery) {
+  return mediaQuery.viewPadding.bottom;
+}
+
+double bottomInputKeyboardSpacerHeight({
+  required double slotHeight,
+  required double homeIndicatorInset,
+}) {
+  return math.max(slotHeight, homeIndicatorInset);
+}
+
+bool chatLayoutReservesBottomSafeArea({
+  required bool isMobile,
+  required bool keyboardSlotOccupied,
+}) {
+  return !isMobile && !keyboardSlotOccupied;
 }

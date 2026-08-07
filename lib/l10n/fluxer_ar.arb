@@ -8636,14 +8636,6 @@
             }
         }
     },
-    "guildSettingsDiscoveryFormTitle": "طلب",
-    "@guildSettingsDiscoveryFormTitle": {
-        "description": "Title for discovery application form."
-    },
-    "guildSettingsDiscoveryStatusTitle": "الحالة",
-    "@guildSettingsDiscoveryStatusTitle": {
-        "description": "Title for discovery application status section."
-    },
     "guildSettingsDiscoveryCategory": "الفئة",
     "@guildSettingsDiscoveryCategory": {
         "description": "Label for discovery category dropdown."

@@ -52,7 +52,7 @@ class GuildOwnershipWarningSheet extends StatelessWidget {
           ),
           SizedBox(height: layout.s4),
           ...displayedGuilds.map(
-            (Guild guild) => _buildGuildItem(guild, colors),
+            (Guild guild) => _buildGuildItem(context, guild),
           ),
           if (remainingCount > 0)
             Padding(
@@ -78,7 +78,7 @@ class GuildOwnershipWarningSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildGuildItem(Guild guild, FluxerColorTheme colors) {
+  Widget _buildGuildItem(BuildContext context, Guild guild) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -88,7 +88,7 @@ class GuildOwnershipWarningSheet extends StatelessWidget {
           Expanded(
             child: Text(
               guild.name,
-              style: TextStyle(color: colors.textPrimary),
+              style: context.textStyles.channelName,
               overflow: TextOverflow.ellipsis,
             ),
           ),

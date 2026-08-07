@@ -1062,7 +1062,7 @@ class _StreamStatusBadge extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 child: Text(
                   label,
-                  style: TextStyle(
+                  style: context.textStyles.timestamp.copyWith(
                     color: context.colors.textSecondary,
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
@@ -1131,10 +1131,8 @@ class _WatchStreamOverlay extends StatelessWidget {
                           const SizedBox(width: 8),
                           Text(
                             l10n.voiceWatchStream,
-                            style: TextStyle(
+                            style: context.textStyles.categoryName.copyWith(
                               color: context.colors.textPrimary,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ],
@@ -1180,10 +1178,8 @@ class _StopWatchingButton extends StatelessWidget {
                 const SizedBox(width: 6),
                 Text(
                   l10n.voiceStopWatching,
-                  style: TextStyle(
+                  style: context.textStyles.smallText.copyWith(
                     color: context.colors.textPrimary,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ],

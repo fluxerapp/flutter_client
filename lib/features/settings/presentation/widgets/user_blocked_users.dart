@@ -299,7 +299,9 @@ class _BlockedUserCard extends StatelessWidget {
           TextSpan(text: friend.username),
           TextSpan(
             text: '#${friend.discriminator}',
-            style: TextStyle(color: colors.textPrimary.withValues(alpha: 0.5)),
+            style: context.textStyles.bodySmall.copyWith(
+              color: colors.textPrimary.withValues(alpha: 0.5),
+            ),
           ),
         ],
       ),

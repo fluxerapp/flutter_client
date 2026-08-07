@@ -9,6 +9,11 @@ class VoiceCallKitSessionStore {
 
   bool get isEmpty => _sessionsByCallKitId.isEmpty;
 
+  bool get hasActiveVoiceSession => _sessionsByCallKitId.values.any(
+    (VoiceCallKitSession session) =>
+        session.kind == VoiceCallKitSessionKind.activeVoice,
+  );
+
   Iterable<MapEntry<String, String>> get channelEntries =>
       _callKitIdByChannelId.entries;
 

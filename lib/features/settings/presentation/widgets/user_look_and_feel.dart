@@ -368,9 +368,8 @@ class _ChatFontPreview extends StatelessWidget {
       ),
       child: Text(
         sample,
-        style: TextStyle(
+        style: context.textStyles.messageText.copyWith(
           fontSize: fontSize,
-          height: 1.375,
           color: colors.textPrimary,
         ),
       ),

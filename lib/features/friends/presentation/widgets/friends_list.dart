@@ -20,6 +20,7 @@ import 'package:fluxer_app/features/settings/providers/appearance_preferences_pr
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/user_profile.dart';
 import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -32,8 +33,13 @@ class FriendsList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final vm = ref.watch(dmViewModelProvider);
-    final activeTab = vm.activeTab;
+    final activeTab = ref.watch(dmViewModelProvider.select((s) => s.activeTab));
+    final filteredFriends = ref.watch(
+      dmViewModelProvider.select((s) => s.filteredFriends),
+    );
+    final searchQuery = ref.watch(
+      dmViewModelProvider.select((s) => s.searchQuery),
+    );
     final showActiveNowPref = ref.watch(
       appearancePreferencesProvider.select((s) => s.showActiveNow),
     );
@@ -58,8 +64,20 @@ class FriendsList extends ConsumerWidget {
                   ),
                   Divider(color: context.colors.borderColor, height: 1),
                   _buildSearchBar(context, ref, activeTab),
-                  _buildSectionHeader(context, vm),
-                  Expanded(child: _buildFriendsList(context, ref, vm)),
+                  _buildSectionHeader(
+                    context,
+                    activeTab: activeTab,
+                    friendCount: filteredFriends.length,
+                  ),
+                  Expanded(
+                    child: _buildFriendsList(
+                      context,
+                      ref,
+                      activeTab: activeTab,
+                      filteredFriends: filteredFriends,
+                      searchQuery: searchQuery,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -128,10 +146,8 @@ class FriendsList extends ConsumerWidget {
                       ),
                       child: Text(
                         'Add Friend',
-                        style: TextStyle(
+                        style: context.textStyles.channelName.copyWith(
                           color: context.colors.brandPrimaryFill,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
@@ -156,16 +172,22 @@ class FriendsList extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(6),
                       hoverColor: context.colors.backgroundModifierHover,
                       onTap: toggle,
-                      child: Padding(
-                        padding: EdgeInsets.all(context.layout.s2),
-                        child: SvgPicture.asset(
-                          'assets/images/inbox-icon.svg',
-                          width: 24,
-                          height: 24,
-                          theme: SvgTheme(
-                            currentColor: isOpen
-                                ? context.colors.interactiveActive
-                                : context.colors.interactiveNormal,
+                      child: Semantics(
+                        button: true,
+                        label: FluxerLocalizations.of(context).friendsOpenInbox,
+                        child: Padding(
+                          padding: EdgeInsets.all(context.layout.s2),
+                          child: ExcludeSemantics(
+                            child: SvgPicture.asset(
+                              'assets/images/inbox-icon.svg',
+                              width: 24,
+                              height: 24,
+                              theme: SvgTheme(
+                                currentColor: isOpen
+                                    ? context.colors.interactiveActive
+                                    : context.colors.interactiveNormal,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -181,14 +203,20 @@ class FriendsList extends ConsumerWidget {
               hoverColor: context.colors.backgroundModifierHover,
               onTap: () =>
                   navigateToContent(context, RoutePaths.notificationsPath),
-              child: Padding(
-                padding: EdgeInsets.all(context.layout.s2),
-                child: SvgPicture.asset(
-                  'assets/images/inbox-icon.svg',
-                  width: 24,
-                  height: 24,
-                  theme: SvgTheme(
-                    currentColor: context.colors.interactiveNormal,
+              child: Semantics(
+                button: true,
+                label: FluxerLocalizations.of(context).friendsOpenInbox,
+                child: Padding(
+                  padding: EdgeInsets.all(context.layout.s2),
+                  child: ExcludeSemantics(
+                    child: SvgPicture.asset(
+                      'assets/images/inbox-icon.svg',
+                      width: 24,
+                      height: 24,
+                      theme: SvgTheme(
+                        currentColor: context.colors.interactiveNormal,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -224,12 +252,10 @@ class FriendsList extends ConsumerWidget {
             ),
             child: Text(
               label,
-              style: TextStyle(
+              style: context.textStyles.channelName.copyWith(
                 color: isActive
                     ? context.colors.textPrimary
                     : context.colors.textPrimaryMuted,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
               ),
             ),
           ),
@@ -250,13 +276,10 @@ class FriendsList extends ConsumerWidget {
     ),
     child: TextField(
       onChanged: ref.read(dmViewModelProvider.notifier).updateSearch,
-      style: TextStyle(color: context.colors.textChat, fontSize: 14),
+      style: context.textStyles.inputText.copyWith(fontSize: 14),
       decoration: InputDecoration(
         hintText: _searchHint(activeTab),
-        hintStyle: TextStyle(
-          color: context.colors.textPrimaryMuted,
-          fontSize: 14,
-        ),
+        hintStyle: context.textStyles.bodySmall,
         prefixIcon: PhosphorIcon(
           PhosphorIconsBold.magnifyingGlass,
           size: 20,
@@ -292,9 +315,12 @@ class FriendsList extends ConsumerWidget {
     }
   }
 
-  Widget _buildSectionHeader(BuildContext context, DmViewState vm) {
-    final filtered = vm.filteredFriends;
-    final label = _tabLabel(vm.activeTab).toUpperCase();
+  Widget _buildSectionHeader(
+    BuildContext context, {
+    required FriendsTab activeTab,
+    required int friendCount,
+  }) {
+    final label = _tabLabel(activeTab).toUpperCase();
     return Padding(
       padding: EdgeInsets.only(
         left: context.layout.s4,
@@ -305,7 +331,7 @@ class FriendsList extends ConsumerWidget {
       child: Align(
         alignment: Alignment.centerLeft,
         child: Text(
-          '$label \u2014 ${filtered.length}',
+          '$label \u2014 $friendCount',
           style: context.textStyles.smallText,
         ),
       ),
@@ -332,9 +358,7 @@ class FriendsList extends ConsumerWidget {
             alignment: Alignment.centerLeft,
             child: Text(
               'Active Now',
-              style: TextStyle(
-                color: context.colors.textPrimary,
-                fontSize: 16,
+              style: context.textStyles.channelName.copyWith(
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -362,10 +386,8 @@ class FriendsList extends ConsumerWidget {
                   SizedBox(height: context.layout.s3),
                   Text(
                     "It's quiet for now...",
-                    style: TextStyle(
+                    style: context.textStyles.channelName.copyWith(
                       color: context.colors.textSecondary,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   SizedBox(height: context.layout.s3),
@@ -375,9 +397,8 @@ class FriendsList extends ConsumerWidget {
                     'activity will appear '
                     'here.',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: context.textStyles.bodySmall.copyWith(
                       color: context.colors.textTertiary,
-                      fontSize: 14,
                       height: 1.4,
                     ),
                   ),
@@ -392,11 +413,12 @@ class FriendsList extends ConsumerWidget {
 
   Widget _buildFriendsList(
     BuildContext context,
-    WidgetRef ref,
-    DmViewState vm,
-  ) {
-    final filtered = vm.filteredFriends;
-    if (filtered.isEmpty) {
+    WidgetRef ref, {
+    required FriendsTab activeTab,
+    required List<Friend> filteredFriends,
+    required String searchQuery,
+  }) {
+    if (filteredFriends.isEmpty) {
       return Center(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: context.layout.s8),
@@ -410,22 +432,20 @@ class FriendsList extends ConsumerWidget {
               ),
               SizedBox(height: context.layout.s4),
               Text(
-                _emptyTitle(vm),
-                style: TextStyle(
-                  color: context.colors.textPrimary,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
+                _emptyTitle(activeTab: activeTab, searchQuery: searchQuery),
+                style: context.textStyles.heading,
               ),
               SizedBox(height: context.layout.s2),
               ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 448),
                 child: Text(
-                  _emptySubtitle(vm),
+                  _emptySubtitle(
+                    activeTab: activeTab,
+                    searchQuery: searchQuery,
+                  ),
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: context.textStyles.bodySmall.copyWith(
                     color: context.colors.textTertiary,
-                    fontSize: 14,
                   ),
                 ),
               ),
@@ -436,9 +456,9 @@ class FriendsList extends ConsumerWidget {
     }
     return ListView.builder(
       padding: EdgeInsets.symmetric(horizontal: context.layout.s3),
-      itemCount: filtered.length,
+      itemCount: filteredFriends.length,
       itemBuilder: (context, index) {
-        final friend = filtered[index];
+        final friend = filteredFriends[index];
         return _buildFriendTile(context, ref, friend);
       },
     );
@@ -485,10 +505,7 @@ class FriendsList extends ConsumerWidget {
                       children: [
                         Text(
                           friend.displayName,
-                          style: TextStyle(
-                            color: context.colors.textPrimary,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: context.textStyles.channelName,
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 1),
@@ -502,7 +519,7 @@ class FriendsList extends ConsumerWidget {
                         else
                           Text(
                             _statusText(friend),
-                            style: TextStyle(
+                            style: context.textStyles.timestamp.copyWith(
                               color: friend.status == 'offline'
                                   ? context.colors.textTertiary
                                   : context.colors.textPrimaryMuted.withValues(
@@ -522,6 +539,9 @@ class FriendsList extends ConsumerWidget {
                       icon: PhosphorIconsFill.chatCircle,
                       color: context.colors.textPrimaryMuted,
                       backgroundColor: context.colors.backgroundModifierHover,
+                      semanticLabel: FluxerLocalizations.of(
+                        context,
+                      ).friendsMessageFriend,
                       onPressed: () =>
                           unawaited(_openFriendChat(context, ref, friend)),
                     ),
@@ -531,6 +551,9 @@ class FriendsList extends ConsumerWidget {
                       icon: PhosphorIconsBold.dotsThreeVertical,
                       color: context.colors.textPrimaryMuted,
                       backgroundColor: context.colors.backgroundModifierHover,
+                      semanticLabel: FluxerLocalizations.of(
+                        context,
+                      ).friendsFriendActions,
                       onPressed: () =>
                           unawaited(_openFriendMenu(context, ref, friend)),
                     ),
@@ -541,6 +564,9 @@ class FriendsList extends ConsumerWidget {
                       icon: PhosphorIconsBold.check,
                       color: context.colors.brandPrimaryFill,
                       backgroundColor: context.colors.brandPrimary,
+                      semanticLabel: FluxerLocalizations.of(
+                        context,
+                      ).friendsAcceptRequest,
                       onPressed: () => unawaited(
                         ref
                             .read(friendRepositoryProvider)
@@ -553,6 +579,9 @@ class FriendsList extends ConsumerWidget {
                       icon: PhosphorIconsBold.x,
                       color: context.colors.textPrimary,
                       backgroundColor: context.colors.statusDanger,
+                      semanticLabel: FluxerLocalizations.of(
+                        context,
+                      ).friendsDeclineRequest,
                       onPressed: () => unawaited(
                         _confirmRemoveRelationship(context, ref, friend),
                       ),
@@ -564,6 +593,9 @@ class FriendsList extends ConsumerWidget {
                       icon: PhosphorIconsBold.x,
                       color: context.colors.textPrimary,
                       backgroundColor: context.colors.backgroundTertiary,
+                      semanticLabel: FluxerLocalizations.of(
+                        context,
+                      ).friendsCancelRequest,
                       onPressed: () => unawaited(
                         _confirmCancelOutgoingRequest(context, ref, friend),
                       ),
@@ -582,25 +614,35 @@ class FriendsList extends ConsumerWidget {
     required Color color,
     required Color backgroundColor,
     required VoidCallback onPressed,
-  }) => Material(
-    color: backgroundColor,
-    shape: const CircleBorder(),
-    clipBehavior: Clip.antiAlias,
-    child: InkWell(
-      onTap: onPressed,
-      child: SizedBox(
-        width: 36,
-        height: 36,
-        child: Center(child: PhosphorIcon(icon, size: 20, color: color)),
+    required String semanticLabel,
+  }) => Semantics(
+    button: true,
+    label: semanticLabel,
+    child: ExcludeSemantics(
+      child: Material(
+        color: backgroundColor,
+        shape: const CircleBorder(),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onPressed,
+          child: SizedBox(
+            width: 36,
+            height: 36,
+            child: Center(child: PhosphorIcon(icon, size: 20, color: color)),
+          ),
+        ),
       ),
     ),
   );
 
-  String _emptyTitle(DmViewState vm) {
-    if (vm.searchQuery.isNotEmpty) {
+  String _emptyTitle({
+    required FriendsTab activeTab,
+    required String searchQuery,
+  }) {
+    if (searchQuery.isNotEmpty) {
       return 'No friends match your search';
     }
-    switch (vm.activeTab) {
+    switch (activeTab) {
       case FriendsTab.online:
         return 'No friends online';
       case FriendsTab.all:
@@ -612,12 +654,15 @@ class FriendsList extends ConsumerWidget {
     }
   }
 
-  String _emptySubtitle(DmViewState vm) {
-    if (vm.searchQuery.isNotEmpty) {
+  String _emptySubtitle({
+    required FriendsTab activeTab,
+    required String searchQuery,
+  }) {
+    if (searchQuery.isNotEmpty) {
       return 'Try another name or check your '
           'spelling.';
     }
-    switch (vm.activeTab) {
+    switch (activeTab) {
       case FriendsTab.online:
         return 'When your friends come online, '
             "they'll appear right here.";

@@ -110,12 +110,7 @@ class FriendSelector extends StatelessWidget {
             ),
             child: Text(
               letter,
-              style: TextStyle(
-                color: context.colors.textPrimaryMuted,
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.64,
-              ),
+              style: context.textStyles.smallText.copyWith(letterSpacing: 0.64),
             ),
           ),
         );
@@ -265,10 +260,8 @@ class _FriendSelectorEmpty extends StatelessWidget {
         child: Text(
           title,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: context.textStyles.label.copyWith(
             color: context.colors.textTertiary,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
           ),
         ),
       ),

@@ -4997,6 +4997,58 @@
     "@accessibilityDmMessagePreviewNoneDescription": {
         "description": "Radio option description for hiding DM message previews."
     },
+    "accessibilityScreenReaderGroupTitle": "Screen reader",
+    "@accessibilityScreenReaderGroupTitle": {
+        "description": "Section title for screen reader accessibility settings."
+    },
+    "accessibilityScreenReaderGroupDescription": "Control how Fluxer works with screen readers.",
+    "@accessibilityScreenReaderGroupDescription": {
+        "description": "Section description for screen reader accessibility settings."
+    },
+    "accessibilityScreenReaderAnnounceNewMessagesLabel": "Announce new messages",
+    "@accessibilityScreenReaderAnnounceNewMessagesLabel": {
+        "description": "Toggle label for announcing incoming messages to screen readers."
+    },
+    "accessibilityScreenReaderAnnounceNewMessagesDescription": "Read new messages aloud when they arrive in the active channel.",
+    "@accessibilityScreenReaderAnnounceNewMessagesDescription": {
+        "description": "Toggle description for announcing incoming messages to screen readers."
+    },
+    "accessibilityReducedMotionGroupTitle": "Reduced motion",
+    "@accessibilityReducedMotionGroupTitle": {
+        "description": "Section title for reduced motion accessibility settings."
+    },
+    "accessibilityReducedMotionGroupDescription": "Control animation and motion effects.",
+    "@accessibilityReducedMotionGroupDescription": {
+        "description": "Section description for reduced motion accessibility settings."
+    },
+    "accessibilitySyncReducedMotionWithSystemLabel": "Sync with system reduced motion",
+    "@accessibilitySyncReducedMotionWithSystemLabel": {
+        "description": "Toggle label for syncing reduced motion with the operating system setting."
+    },
+    "accessibilitySyncReducedMotionWithSystemDescription": "Use your device's reduced motion setting to limit animations in Fluxer.",
+    "@accessibilitySyncReducedMotionWithSystemDescription": {
+        "description": "Toggle description for syncing reduced motion with the operating system setting."
+    },
+    "accessibilityReducedMotionOverrideLabel": "Always reduce motion",
+    "@accessibilityReducedMotionOverrideLabel": {
+        "description": "Toggle label for forcing reduced motion in Fluxer."
+    },
+    "accessibilityReducedMotionOverrideDescription": "Disable animations in Fluxer regardless of your system setting.",
+    "@accessibilityReducedMotionOverrideDescription": {
+        "description": "Toggle description for forcing reduced motion in Fluxer."
+    },
+    "messageScreenReaderAnnouncement": "{author} sent {summary}",
+    "@messageScreenReaderAnnouncement": {
+        "description": "Screen reader announcement spoken when a new message arrives.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            },
+            "summary": {
+                "type": "String"
+            }
+        }
+    },
     "dmListSentAnAttachment": "Sent an attachment",
     "@dmListSentAnAttachment": {
         "description": "DM list row preview text when the most recent message has only attachments."
@@ -6180,11 +6232,11 @@
     "@chatReplyMentionAccessibilityLabel": {
         "description": "Accessibility label for the reply bar mention toggle."
     },
-    "chatReplyMentionOn": "On",
+    "chatReplyMentionOn": "ON",
     "@chatReplyMentionOn": {
         "description": "On state suffix appended to the reply bar mention toggle label."
     },
-    "chatReplyMentionOff": "Off",
+    "chatReplyMentionOff": "OFF",
     "@chatReplyMentionOff": {
         "description": "Off state suffix appended to the reply bar mention toggle label."
     },
@@ -6465,6 +6517,89 @@
     "composerHint": "Message",
     "@composerHint": {
         "description": "Generic fallback placeholder in the message composer."
+    },
+    "composerOpenExpressionPicker": "Open expression picker",
+    "@composerOpenExpressionPicker": {
+        "description": "Accessibility label for the composer button that opens the emoji and media picker."
+    },
+    "composerShowKeyboard": "Show keyboard",
+    "@composerShowKeyboard": {
+        "description": "Accessibility label for the composer button that closes the expression picker and shows the keyboard."
+    },
+    "messageAccessibilityLabel": "{author}, {summary}",
+    "@messageAccessibilityLabel": {
+        "description": "Screen reader label for a chat message row.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            },
+            "summary": {
+                "type": "String"
+            }
+        }
+    },
+    "messageAccessibilitySendingSuffix": ", sending",
+    "@messageAccessibilitySendingSuffix": {
+        "description": "Screen reader suffix when a message is still sending."
+    },
+    "messageAccessibilityFailedSuffix": ", failed to send",
+    "@messageAccessibilityFailedSuffix": {
+        "description": "Screen reader suffix when a message failed to send."
+    },
+    "messageAccessibilityAttachmentSummary": "an attachment",
+    "@messageAccessibilityAttachmentSummary": {
+        "description": "Screen reader summary for a message with attachments but no text."
+    },
+    "messageAccessibilityAttachmentsSummary": "{count} attachments",
+    "@messageAccessibilityAttachmentsSummary": {
+        "description": "Screen reader summary for a message with multiple attachments and no text.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "messageAccessibilityImageSummary": "an image",
+    "@messageAccessibilityImageSummary": {
+        "description": "Screen reader summary for a message with an image attachment or embed."
+    },
+    "messageAccessibilityVideoSummary": "a video",
+    "@messageAccessibilityVideoSummary": {
+        "description": "Screen reader summary for a message with a video attachment or embed."
+    },
+    "messageAccessibilityAudioSummary": "an audio file",
+    "@messageAccessibilityAudioSummary": {
+        "description": "Screen reader summary for a message with an audio attachment."
+    },
+    "messageAccessibilityStickerSummary": "sticker {name}",
+    "@messageAccessibilityStickerSummary": {
+        "description": "Screen reader summary for a message with a sticker and no text.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "messageAccessibilityFileSummary": "file {filename}",
+    "@messageAccessibilityFileSummary": {
+        "description": "Screen reader summary for a message with a single file attachment and no text.",
+        "placeholders": {
+            "filename": {
+                "type": "String"
+            }
+        }
+    },
+    "messageAccessibilitySpoilerAttachmentSummary": "a spoiler attachment",
+    "@messageAccessibilitySpoilerAttachmentSummary": {
+        "description": "Screen reader summary for a message with a spoiler attachment and no text."
+    },
+    "messageAccessibilityEmbedSummary": "an embed",
+    "@messageAccessibilityEmbedSummary": {
+        "description": "Screen reader summary for a message with embeds but no text."
+    },
+    "messageAccessibilityEmptySummary": "a message",
+    "@messageAccessibilityEmptySummary": {
+        "description": "Screen reader summary fallback for a message without visible text."
     },
     "personalNotesPrivateSpace": "Your private space",
     "@personalNotesPrivateSpace": {
@@ -7067,6 +7202,23 @@
         "placeholders": {
             "folderName": {
                 "type": "String"
+            }
+        }
+    },
+    "guildNavbarGuildSelected": "selected",
+    "@guildNavbarGuildSelected": {
+        "description": "Screen reader suffix when a guild navbar item is selected."
+    },
+    "guildNavbarGuildUnread": "unread",
+    "@guildNavbarGuildUnread": {
+        "description": "Screen reader suffix when a guild navbar item has unread channels."
+    },
+    "guildNavbarGuildMentions": "{count, plural, =1{1 mention} other{{count} mentions}}",
+    "@guildNavbarGuildMentions": {
+        "description": "Screen reader suffix when a guild navbar item has mention notifications.",
+        "placeholders": {
+            "count": {
+                "type": "int"
             }
         }
     },
@@ -8635,14 +8787,6 @@
                 "type": "int"
             }
         }
-    },
-    "guildSettingsDiscoveryFormTitle": "Application",
-    "@guildSettingsDiscoveryFormTitle": {
-        "description": "Title for discovery application form."
-    },
-    "guildSettingsDiscoveryStatusTitle": "Status",
-    "@guildSettingsDiscoveryStatusTitle": {
-        "description": "Title for discovery application status section."
     },
     "guildSettingsDiscoveryCategory": "Category",
     "@guildSettingsDiscoveryCategory": {

@@ -39,7 +39,7 @@ class _UserPrivacyDashboardState extends ConsumerState<UserPrivacyDashboard> {
           children: [
             Text(
               state.error!,
-              style: TextStyle(color: colors.textPrimaryMuted),
+              style: context.textStyles.bodySmall,
               textAlign: TextAlign.center,
             ),
             SizedBox(height: layout.s4),

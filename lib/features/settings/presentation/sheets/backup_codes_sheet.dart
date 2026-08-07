@@ -99,9 +99,8 @@ class _BackupCodesSheetState extends ConsumerState<BackupCodesSheet> {
                 ),
                 child: Text(
                   code.code,
-                  style: TextStyle(
+                  style: context.textStyles.codeText.copyWith(
                     fontSize: 14,
-                    fontFamily: 'monospace',
                     fontWeight: FontWeight.w500,
                     color: code.consumed
                         ? colors.textPrimaryMuted

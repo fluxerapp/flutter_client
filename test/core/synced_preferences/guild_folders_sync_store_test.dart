@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provid
 import 'package:fluxer_dart/export.dart';
 
 import '../../helpers/open_test_database.dart';
+import '../../helpers/synced_preferences_test_helpers.dart';
 
 class _FakeUsersApi implements UsersApi {
   _FakeUsersApi();
@@ -136,8 +137,8 @@ ProviderContainer _createContainer({
   );
 }
 
-Future<void> _waitForDebounce() async {
-  await Future<void>.delayed(const Duration(milliseconds: 600));
+Future<void> _waitForDebounce(SyncedPreferencesStore store) async {
+  await flushSyncedPreferencesDebounce(store);
 }
 
 void main() {
@@ -175,7 +176,7 @@ void main() {
       );
 
       container.read(folderExpandedStateProvider.notifier).toggle(7);
-      await _waitForDebounce();
+      await _waitForDebounce(store);
 
       expect(usersApi.pushCount, 1);
       final bytes = base64Decode(usersApi.lastPushBody!.syncedPreferences!);

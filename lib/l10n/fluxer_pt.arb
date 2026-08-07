@@ -8636,14 +8636,6 @@
             }
         }
     },
-    "guildSettingsDiscoveryFormTitle": "Inscrição",
-    "@guildSettingsDiscoveryFormTitle": {
-        "description": "Title for discovery application form."
-    },
-    "guildSettingsDiscoveryStatusTitle": "Status",
-    "@guildSettingsDiscoveryStatusTitle": {
-        "description": "Title for discovery application status section."
-    },
     "guildSettingsDiscoveryCategory": "Categoria",
     "@guildSettingsDiscoveryCategory": {
         "description": "Label for discovery category dropdown."

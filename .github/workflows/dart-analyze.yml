@@ -1,16 +1,16 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
 name: Dart analyze
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - canary
     paths:
       - "**/*.dart"
+      - ".github/workflows/dart-analyze.yml"
+      - "pubspec.yaml"
+      - "pubspec.lock"
+      - "analysis_options.yaml"
   pull_request:
     branches:
       - canary
@@ -28,6 +28,7 @@ jobs:
         uses: axi92/flutter-action@72633a794ba0b23276fa4fc465a6cacb758a90c5
         with:
           channel: stable
+
       - name: Restore pub cache
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
@@ -35,6 +36,14 @@ jobs:
           key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
           restore-keys: |
             ${{ runner.os }}-pub-
+
+      - name: Restore build_runner cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: .dart_tool/build
+          key: ${{ runner.os }}-build-runner-${{ hashFiles('pubspec.lock', 'lib/**', 'build.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-runner-
 
       - name: Strip Firebase dependencies if present
         run: dart tool/strip_firebase_deps.dart
@@ -57,13 +66,76 @@ jobs:
       - name: Analyze project source
         run: flutter analyze --no-fatal-warnings --no-fatal-infos
 
+  test:
+    needs: analyze
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          submodules: recursive
+
+      - name: Set up Flutter
+        uses: axi92/flutter-action@72633a794ba0b23276fa4fc465a6cacb758a90c5
+        with:
+          channel: stable
+
+      - name: Restore pub cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
+      - name: Restore build_runner cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: .dart_tool/build
+          key: ${{ runner.os }}-build-runner-${{ hashFiles('pubspec.lock', 'lib/**', 'build.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-runner-
+
+      - name: Strip Firebase dependencies if present
+        run: dart tool/strip_firebase_deps.dart
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run code generation
+        run: dart run build_runner build
+
       - name: Run tests
         run: flutter test
 
+  package-tests:
+    needs: analyze
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - fluxer_markdown
+          - fluxer_fcm
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          submodules: recursive
+
+      - name: Set up Flutter
+        uses: axi92/flutter-action@72633a794ba0b23276fa4fc465a6cacb758a90c5
+        with:
+          channel: stable
+
+      - name: Restore pub cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
       - name: Run package tests
         run: |
-          for package in packages/*; do
-            if [ -d "$package/test" ]; then
-              (cd "$package" && flutter pub get && flutter test)
-            fi
-          done
+          cd packages/${{ matrix.package }}
+          flutter pub get
+          flutter test

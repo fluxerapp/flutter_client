@@ -21,6 +21,7 @@ import 'package:fluxer_app/core/synced_preferences/synced_preferences_wire_codec
 import 'package:fluxer_dart/export.dart';
 
 import '../../../helpers/open_test_database.dart';
+import '../../../helpers/synced_preferences_test_helpers.dart';
 
 class _FakeUsersApi implements UsersApi {
   _FakeUsersApi() : pushError = null;
@@ -119,8 +120,8 @@ ProviderContainer _createContainer({
   );
 }
 
-Future<void> _waitForDebounce() async {
-  await Future<void>.delayed(const Duration(milliseconds: 600));
+Future<void> _waitForDebounce(SyncedPreferencesStore store) async {
+  await flushSyncedPreferencesDebounce(store);
 }
 
 void main() {
@@ -147,14 +148,14 @@ void main() {
         guildId: 'guild-1',
       );
       syncStore.markDirty(SyncedPreferenceField.favorites);
-      await _waitForDebounce();
+      await _waitForDebounce(syncStore);
 
       expect(usersApi.pushCount, 0);
 
       await syncStore.hydrateFromUserSettings(
         _settingsFor(FavoritesLocalState.empty),
       );
-      await _waitForDebounce();
+      await _waitForDebounce(syncStore);
 
       expect(usersApi.pushCount, 1);
       final pushed = FavoritesStateCodec.decodeFavoritesFromWire(
@@ -189,7 +190,7 @@ void main() {
         guildId: '@me',
       );
       syncStore.markDirty(SyncedPreferenceField.favorites);
-      await _waitForDebounce();
+      await _waitForDebounce(syncStore);
 
       expect(usersApi.pushCount, 1);
       final pushed = FavoritesStateCodec.decodeFavoritesFromWire(
@@ -224,7 +225,7 @@ void main() {
       await syncStore.hydrateFromUserSettings(_settingsFor(server));
       await database.favoriteChannelsDao.removeChannel('remove-me');
       syncStore.markDirty(SyncedPreferenceField.favorites);
-      await _waitForDebounce();
+      await _waitForDebounce(syncStore);
 
       final pushed = FavoritesStateCodec.decodeFavoritesFromWire(
         usersApi.lastPushBody!.syncedPreferences!,
@@ -294,7 +295,7 @@ void main() {
           guildId: 'guild-1',
         );
         syncStore.markDirty(SyncedPreferenceField.favorites);
-        await _waitForDebounce();
+        await _waitForDebounce(syncStore);
         expect(usersApi.pushCount, 1);
 
         await syncStore.hydrateFromUserSettings(_settingsFor(remoteShrink));
@@ -332,11 +333,11 @@ void main() {
         guildId: 'guild-2',
       );
       syncStore.markDirty(SyncedPreferenceField.favorites);
-      await _waitForDebounce();
+      await _waitForDebounce(syncStore);
       expect(usersApi.pushCount, 0);
 
       await syncStore.hydrateFromUserSettings(_settingsFor(server));
-      await _waitForDebounce();
+      await _waitForDebounce(syncStore);
       expect(usersApi.pushCount, 1);
     });
 
@@ -369,7 +370,7 @@ void main() {
         syncStore.markDirty(SyncedPreferenceField.favorites);
 
         await syncStore.hydrateFromUserSettings(_settingsFor(server));
-        await _waitForDebounce();
+        await _waitForDebounce(syncStore);
 
         final channels = await database.favoriteChannelsDao
             .watchChannels()
@@ -479,7 +480,7 @@ void main() {
         guildId: 'guild-1',
       );
       syncStore.markDirty(SyncedPreferenceField.favorites);
-      await _waitForDebounce();
+      await _waitForDebounce(syncStore);
       expect(usersApi.pushCount, 1);
 
       await syncStore.hydrateFromUserSettings(_settingsFor(expanded));
@@ -508,11 +509,11 @@ void main() {
         guildId: 'guild-1',
       );
       syncStore.markDirty(SyncedPreferenceField.favorites);
-      await _waitForDebounce();
+      await _waitForDebounce(syncStore);
       expect(usersApi.pushCount, 1);
 
       usersApi.pushError = null;
-      await Future<void>.delayed(const Duration(seconds: 6));
+      await flushSyncedPreferencesRateLimitRetry(syncStore);
       expect(usersApi.pushCount, greaterThan(1));
     });
 
@@ -529,7 +530,7 @@ void main() {
           guildId: 'guild-1',
         );
         syncStore.markDirty(SyncedPreferenceField.favorites);
-        await _waitForDebounce();
+        await _waitForDebounce(syncStore);
 
         expect(usersApi.pushCount, 1);
 
@@ -539,10 +540,11 @@ void main() {
         );
         syncStore.markDirty(SyncedPreferenceField.favorites);
         syncStore.scheduleFlush();
-        await _waitForDebounce();
+        await _waitForDebounce(syncStore);
 
         usersApi.firstPushGate!.complete();
-        await _waitForDebounce();
+        await drainAsyncWork();
+        await _waitForDebounce(syncStore);
 
         expect(usersApi.pushCount, greaterThanOrEqualTo(2));
         final pushed = FavoritesStateCodec.decodeFavoritesFromWire(

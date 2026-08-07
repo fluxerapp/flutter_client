@@ -70,11 +70,10 @@ class _FlagBadgeSpec {
   }
 }
 
-TextStyle visionaryIdBadgeTextStyle(
-  FluxerColorTheme colors,
-  Brightness brightness,
-) {
-  return TextStyle(
+TextStyle visionaryIdBadgeTextStyle(BuildContext context) {
+  final FluxerColorTheme colors = context.colors;
+  final Brightness brightness = Theme.of(context).brightness;
+  return context.textStyles.channelName.copyWith(
     color: brightness == Brightness.light
         ? colors.brandPrimary
         : colors.brandPrimaryLight,
@@ -192,8 +191,6 @@ class UserProfileBadges extends StatelessWidget {
       );
     }
     if (hasPlutonium && premiumLifetimeSequence != null) {
-      final FluxerColorTheme colors = context.colors;
-      final Brightness brightness = Theme.of(context).brightness;
       final tooltip = l10n.userProfileVisionaryIdTooltip(
         premiumLifetimeSequence!,
       );
@@ -203,7 +200,7 @@ class UserProfileBadges extends StatelessWidget {
           tooltip: tooltip,
           child: Text(
             '#$premiumLifetimeSequence',
-            style: visionaryIdBadgeTextStyle(colors, brightness),
+            style: visionaryIdBadgeTextStyle(context),
           ),
         ),
       );

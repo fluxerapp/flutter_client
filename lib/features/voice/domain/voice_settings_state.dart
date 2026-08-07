@@ -98,7 +98,7 @@ class VoiceSettingsState {
     this.echoCancellation = true,
     this.noiseSuppression = true,
     this.autoGainControl = true,
-    this.preferSpeakerOutput = false,
+    this.preferSpeakerOutput = true,
     this.cameraResolution = CameraResolution.medium,
     this.cameraFacing = VoiceCameraFacing.front,
     this.mirrorCamera = true,
@@ -254,7 +254,7 @@ class VoiceSettingsState {
       echoCancellation: json['echoCancellation'] as bool? ?? true,
       noiseSuppression: json['noiseSuppression'] as bool? ?? true,
       autoGainControl: json['autoGainControl'] as bool? ?? true,
-      preferSpeakerOutput: json['preferSpeakerOutput'] as bool? ?? false,
+      preferSpeakerOutput: json['preferSpeakerOutput'] as bool? ?? true,
       cameraResolution: CameraResolution.fromJson(
         json['cameraResolution'] as String?,
       ),

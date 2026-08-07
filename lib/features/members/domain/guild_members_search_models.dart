@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
+import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 
 const Duration guildMembersSearchDebounce = Duration(milliseconds: 300);
+const Duration guildMembersIndexingPollInterval = Duration(seconds: 5);
 const int guildMembersDefaultPageSize = 25;
 const List<int> guildMembersPageSizeOptions = <int>[12, 25, 50, 100];
 const int guildMembersMaxVisiblePages = 7;
@@ -198,6 +200,62 @@ class GuildMemberDisplayData {
       inviterId: inviterId,
       userCreatedAt: snowflakeTime,
       communicationDisabledUntil: member.communicationDisabledUntil,
+    );
+  }
+
+  static GuildMemberDisplayData fromSearchResult(
+    GuildMemberSearchResult result, {
+    db.Member? memberRow,
+    db.User? user,
+  }) {
+    final String discriminator = result.discriminator.isNotEmpty
+        ? result.discriminator
+        : (user?.discriminator ?? '0');
+    final String username = result.username.isNotEmpty
+        ? result.username
+        : (user?.username ?? result.userId);
+    final String? nickname = result.nickname ?? memberRow?.nick;
+    final String? globalName = result.globalName ?? user?.globalName;
+    final bool isAvatarUnset =
+        memberRow != null &&
+        hasMemberProfileFlag(
+          memberRow.profileFlags,
+          guildProfileAvatarUnsetFlag,
+        );
+    final String? serverAvatar = isAvatarUnset ? null : memberRow?.serverAvatar;
+    final String? userAvatar = user?.avatar;
+    final String? resolvedAvatar = serverAvatar ?? userAvatar;
+    final DateTime? snowflakeTime = dateTimeFromUserSnowflakeOrNull(
+      result.userId,
+    )?.toLocal();
+    final DateTime joinedAt = DateTime.fromMillisecondsSinceEpoch(
+      (result.joinedAt * 1000).round(),
+      isUtc: true,
+    ).toLocal();
+    return GuildMemberDisplayData(
+      userId: result.userId,
+      displayName: resolveDisplayName(
+        username: username,
+        guildNickname: nickname,
+        globalName: globalName,
+      ),
+      tag: '$username#$discriminator',
+      username: username,
+      discriminator: discriminator,
+      nickname: nickname,
+      globalName: globalName,
+      avatar: resolvedAvatar,
+      serverAvatar: serverAvatar,
+      userAvatar: userAvatar,
+      avatarColor: user?.avatarColor,
+      roleIds: result.roleIds,
+      joinedAt: joinedAt,
+      isBot: result.isBot,
+      joinSourceType: result.supplemental.joinSourceType,
+      sourceInviteCode: result.supplemental.sourceInviteCode,
+      inviterId: result.supplemental.inviterId,
+      userCreatedAt: snowflakeTime,
+      communicationDisabledUntil: memberRow?.communicationDisabledUntil,
     );
   }
 

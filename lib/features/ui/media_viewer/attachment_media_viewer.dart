@@ -13,8 +13,11 @@ import 'package:fluxer_app/features/chat/presentation/sheets/mobile_media_option
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/media_viewer/media_viewer_dismiss.dart';
+import 'package:fluxer_app/features/ui/media_viewer/touch_media_viewer_page.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class AttachmentMediaViewerItem {
@@ -102,9 +105,8 @@ class AttachmentMediaViewerShell extends ConsumerStatefulWidget {
 class _AttachmentMediaViewerShellState
     extends ConsumerState<AttachmentMediaViewerShell> {
   static const double _desktopZoomScale = 2.5;
-  static const double _mobileMaxScale = 5;
   late final PageController _pageController;
-  late final List<TransformationController> _mobileControllers;
+  late final List<TransformationController> _touchControllers;
   late int _currentIndex;
   bool _isDesktopZoomed = false;
   Offset _desktopPanOffset = Offset.zero;
@@ -112,13 +114,15 @@ class _AttachmentMediaViewerShellState
   bool _isPointerDownInsideContent = false;
   bool _desktopMediaHovered = false;
   bool _isDesktopDragging = false;
+  double _touchDismissProgress = 0;
+  bool _isTouchZoomed = false;
 
   @override
   void initState() {
     super.initState();
     _currentIndex = widget.initialIndex;
     _pageController = PageController(initialPage: widget.initialIndex);
-    _mobileControllers = widget.items
+    _touchControllers = widget.items
         .map((AttachmentMediaViewerItem _) => TransformationController())
         .toList();
   }
@@ -126,7 +130,7 @@ class _AttachmentMediaViewerShellState
   @override
   void dispose() {
     _pageController.dispose();
-    for (final TransformationController controller in _mobileControllers) {
+    for (final TransformationController controller in _touchControllers) {
       controller.dispose();
     }
     super.dispose();
@@ -183,30 +187,56 @@ class _AttachmentMediaViewerShellState
   }
 
   void _resetZoomState() {
-    if (!_isDesktopZoomed && _desktopPanOffset == Offset.zero) {
-      for (final TransformationController controller in _mobileControllers) {
-        controller.value = Matrix4.identity();
-      }
+    final bool hasTouchZoom = _touchControllers.any(
+      (TransformationController controller) =>
+          (controller.value.getMaxScaleOnAxis() - 1).abs() >= 0.01,
+    );
+    if (!_isDesktopZoomed &&
+        _desktopPanOffset == Offset.zero &&
+        !hasTouchZoom &&
+        !_isTouchZoomed) {
       return;
     }
     setState(() {
       _isDesktopZoomed = false;
       _desktopPanOffset = Offset.zero;
       _isDesktopDragging = false;
-      for (final TransformationController controller in _mobileControllers) {
+      _isTouchZoomed = false;
+      _touchDismissProgress = 0;
+      for (final TransformationController controller in _touchControllers) {
         controller.value = Matrix4.identity();
       }
     });
   }
 
-  double _readCurrentMobileScale() {
-    final Matrix4 matrix = _mobileControllers[_currentIndex].value;
+  void _handleTouchDismissProgress(double progress) {
+    if (_touchDismissProgress == progress) {
+      return;
+    }
+    setState(() {
+      _touchDismissProgress = progress;
+    });
+  }
+
+  void _handleTouchZoomChanged(bool isZoomed) {
+    if (_isTouchZoomed == isZoomed) {
+      return;
+    }
+    setState(() {
+      _isTouchZoomed = isZoomed;
+    });
+  }
+
+  double _readCurrentTouchScale() {
+    final Matrix4 matrix = _touchControllers[_currentIndex].value;
     return matrix.getMaxScaleOnAxis();
   }
 
-  bool _canDismissBackdrop(bool isMobile) {
-    if (isMobile) {
-      return (_readCurrentMobileScale() - 1).abs() < 0.01;
+  bool _canDismissBackdrop({required bool useTouchGestures}) {
+    if (useTouchGestures) {
+      return (_readCurrentTouchScale() - 1).abs() < 0.01 &&
+          _touchDismissProgress < 0.01 &&
+          !_isTouchZoomed;
     }
     if (_isDesktopZoomed) {
       return false;
@@ -236,10 +266,195 @@ class _AttachmentMediaViewerShellState
     );
   }
 
+  Widget _buildMediaPageView({required bool useTouchGestures}) {
+    return Listener(
+      onPointerDown: (_) => _isPointerDownInsideContent = true,
+      onPointerUp: (_) => _isPointerDownInsideContent = false,
+      onPointerCancel: (_) => _isPointerDownInsideContent = false,
+      child: PageView.builder(
+        clipBehavior: Clip.none,
+        controller: _pageController,
+        physics: useTouchGestures
+            ? (_isTouchZoomed
+                  ? const NeverScrollableScrollPhysics()
+                  : const ClampingScrollPhysics())
+            : (_isDesktopZoomed
+                  ? const NeverScrollableScrollPhysics()
+                  : const ClampingScrollPhysics()),
+        onPageChanged: (int index) {
+          setState(() {
+            _currentIndex = index;
+            _desktopMediaHovered = false;
+            _isDesktopDragging = false;
+          });
+          _resetZoomState();
+        },
+        itemCount: widget.items.length,
+        itemBuilder: (BuildContext context, int index) {
+          return _buildMediaPage(
+            context: context,
+            item: widget.items[index],
+            useTouchGestures: useTouchGestures,
+            index: index,
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildTopBar({
+    required FluxerLocalizations l10n,
+    required bool isMobile,
+    required bool useTouchGestures,
+    required AttachmentMediaViewerItem currentItem,
+    required String indexLabel,
+    required double dismissChromeOpacity,
+    required bool showOptionsButton,
+  }) {
+    return Opacity(
+      opacity: useTouchGestures ? dismissChromeOpacity : 1,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        child: Row(
+          children: [
+            if (!isMobile && !_isDesktopZoomed) ...[
+              Flexible(
+                child: _MediaViewerInfoPill(
+                  filename: currentItem.filename,
+                  dimensions: _buildDimensionsLabel(currentItem),
+                  indexLabel: indexLabel,
+                ),
+              ),
+              const SizedBox(width: 8),
+            ],
+            if (isMobile)
+              Tooltip(
+                message: l10n.mediaViewerClose,
+                child: FluxerButton.mediaOverlay(
+                  onPressed: _executeClose,
+                  icon: PhosphorIconsBold.x,
+                  isSquare: true,
+                ),
+              ),
+            const Spacer(),
+            if (!isMobile && widget.onForward != null) ...[
+              Tooltip(
+                message: l10n.mediaViewerForward,
+                child: FluxerButton.mediaOverlay(
+                  onPressed: _executeForward,
+                  icon: PhosphorIconsBold.arrowBendUpRight,
+                  isSquare: true,
+                ),
+              ),
+              const SizedBox(width: 8),
+            ],
+            if (!isMobile) ...[
+              Tooltip(
+                message: l10n.mediaViewerOpenInBrowser,
+                child: FluxerButton.mediaOverlay(
+                  onPressed: _executeOpenInBrowser,
+                  icon: PhosphorIconsBold.arrowSquareOut,
+                  isSquare: true,
+                ),
+              ),
+              const SizedBox(width: 8),
+              if (!useTouchGestures) ...[
+                Tooltip(
+                  message: _isDesktopZoomed
+                      ? l10n.mediaViewerZoomOut
+                      : l10n.mediaViewerZoomIn,
+                  child: FluxerButton.mediaOverlay(
+                    onPressed: _executeDesktopToggleZoom,
+                    icon: _isDesktopZoomed
+                        ? PhosphorIconsBold.magnifyingGlassMinus
+                        : PhosphorIconsBold.magnifyingGlassPlus,
+                    isSquare: true,
+                  ),
+                ),
+                const SizedBox(width: 8),
+              ],
+              Tooltip(
+                message: l10n.mediaViewerClose,
+                child: FluxerButton.mediaOverlay(
+                  onPressed: _executeClose,
+                  icon: PhosphorIconsBold.x,
+                  isSquare: true,
+                ),
+              ),
+            ],
+            if (showOptionsButton)
+              Tooltip(
+                message: l10n.mediaViewerOptions,
+                child: FluxerButton.mediaOverlay(
+                  onPressed: _openOptions,
+                  icon: PhosphorIconsBold.dotsThree,
+                  isSquare: true,
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBottomChrome({
+    required FluxerLocalizations l10n,
+    required bool useTouchGestures,
+    required String indexLabel,
+    required double dismissChromeOpacity,
+    required bool canGoPrevious,
+    required bool canGoNext,
+  }) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (widget.items.length > 1 && (!_isDesktopZoomed || useTouchGestures))
+          Opacity(
+            opacity: useTouchGestures ? dismissChromeOpacity : 1,
+            child: _MediaViewerThumbnailStrip(
+              items: widget.items,
+              currentIndex: _currentIndex,
+              channelId: widget.channelId,
+              onSelectIndex: _executeSelectIndex,
+            ),
+          ),
+        if (widget.items.length > 1)
+          Opacity(
+            opacity: useTouchGestures ? dismissChromeOpacity : 1,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    onPressed: canGoPrevious ? _executePrevious : null,
+                    tooltip: l10n.mediaViewerPreviousAttachment,
+                    icon: const Icon(PhosphorIconsBold.caretLeft),
+                  ),
+                  Text(
+                    indexLabel,
+                    style: context.textStyles.smallText.copyWith(
+                      color: context.colors.textPrimaryMuted,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: canGoNext ? _executeNext : null,
+                    tooltip: l10n.mediaViewerNextAttachment,
+                    icon: const Icon(PhosphorIconsBold.caretRight),
+                  ),
+                ],
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final bool isMobile = isMobileLayout(context);
+    final bool useTouchGestures = isTouchPrimaryInput(ref);
     final AttachmentMediaViewerItem currentItem = widget.items[_currentIndex];
     final String indexLabel = l10n.mediaViewerAttachmentIndex(
       _currentIndex + 1,
@@ -253,6 +468,16 @@ class _AttachmentMediaViewerShellState
           actionScope: widget.actionScope,
         );
     final bool showOptionsButton = isMobile && optionsContext.hasOptionsMenu;
+    final double backdropBaseOpacity = isMobile ? 0.85 : 0.6;
+    final double backdropOpacity = useTouchGestures
+        ? mediaViewerDismissBackdropOpacity(
+            baseOpacity: backdropBaseOpacity,
+            dismissProgress: _touchDismissProgress,
+          )
+        : backdropBaseOpacity;
+    final double dismissChromeOpacity = mediaViewerDismissChromeOpacity(
+      dismissProgress: _touchDismissProgress,
+    );
     return Focus(
       autofocus: true,
       onKeyEvent: (_, KeyEvent event) {
@@ -280,186 +505,85 @@ class _AttachmentMediaViewerShellState
           children: [
             GestureDetector(
               onTap: () {
-                if (_canDismissBackdrop(isMobile) &&
+                if (_canDismissBackdrop(useTouchGestures: useTouchGestures) &&
                     !_isPointerDownInsideContent) {
                   _executeClose();
                 }
               },
-              child: ColoredBox(
-                color: isMobile
-                    ? Colors.black.withValues(alpha: 0.85)
-                    : Colors.black.withValues(alpha: 0.6),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                    sigmaX: isMobile ? 8 : 4,
-                    sigmaY: isMobile ? 8 : 4,
+              child: Semantics(
+                button: true,
+                label: l10n.mediaViewerDismissBackdrop,
+                child: ExcludeSemantics(
+                  child: ColoredBox(
+                    color: Colors.black.withValues(alpha: backdropOpacity),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(
+                        sigmaX: isMobile ? 8 : 4,
+                        sigmaY: isMobile ? 8 : 4,
+                      ),
+                      child: const SizedBox.expand(),
+                    ),
                   ),
-                  child: const SizedBox.expand(),
                 ),
               ),
             ),
+            if (useTouchGestures)
+              Positioned.fill(
+                child: _buildMediaPageView(useTouchGestures: useTouchGestures),
+              ),
             SafeArea(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 8,
-                    ),
-                    child: Row(
+              child: useTouchGestures
+                  ? Column(
                       children: [
-                        if (!isMobile && !_isDesktopZoomed) ...[
-                          Flexible(
-                            child: _MediaViewerInfoPill(
-                              filename: currentItem.filename,
-                              dimensions: _buildDimensionsLabel(currentItem),
-                              indexLabel: indexLabel,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                        ],
-                        if (isMobile)
-                          Tooltip(
-                            message: l10n.mediaViewerClose,
-                            child: FluxerButton.mediaOverlay(
-                              onPressed: _executeClose,
-                              icon: PhosphorIconsBold.x,
-                              isSquare: true,
-                            ),
-                          ),
+                        _buildTopBar(
+                          l10n: l10n,
+                          isMobile: isMobile,
+                          useTouchGestures: useTouchGestures,
+                          currentItem: currentItem,
+                          indexLabel: indexLabel,
+                          dismissChromeOpacity: dismissChromeOpacity,
+                          showOptionsButton: showOptionsButton,
+                        ),
                         const Spacer(),
-                        if (!isMobile && widget.onForward != null) ...[
-                          Tooltip(
-                            message: l10n.mediaViewerForward,
-                            child: FluxerButton.mediaOverlay(
-                              onPressed: _executeForward,
-                              icon: PhosphorIconsBold.arrowBendUpRight,
-                              isSquare: true,
+                        _buildBottomChrome(
+                          l10n: l10n,
+                          useTouchGestures: useTouchGestures,
+                          indexLabel: indexLabel,
+                          dismissChromeOpacity: dismissChromeOpacity,
+                          canGoPrevious: canGoPrevious,
+                          canGoNext: canGoNext,
+                        ),
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        _buildTopBar(
+                          l10n: l10n,
+                          isMobile: isMobile,
+                          useTouchGestures: useTouchGestures,
+                          currentItem: currentItem,
+                          indexLabel: indexLabel,
+                          dismissChromeOpacity: dismissChromeOpacity,
+                          showOptionsButton: showOptionsButton,
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+                            child: _buildMediaPageView(
+                              useTouchGestures: useTouchGestures,
                             ),
                           ),
-                          const SizedBox(width: 8),
-                        ],
-                        if (!isMobile) ...[
-                          Tooltip(
-                            message: l10n.mediaViewerOpenInBrowser,
-                            child: FluxerButton.mediaOverlay(
-                              onPressed: _executeOpenInBrowser,
-                              icon: PhosphorIconsBold.arrowSquareOut,
-                              isSquare: true,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Tooltip(
-                            message: _isDesktopZoomed
-                                ? l10n.mediaViewerZoomOut
-                                : l10n.mediaViewerZoomIn,
-                            child: FluxerButton.mediaOverlay(
-                              onPressed: _executeDesktopToggleZoom,
-                              icon: _isDesktopZoomed
-                                  ? PhosphorIconsBold.magnifyingGlassMinus
-                                  : PhosphorIconsBold.magnifyingGlassPlus,
-                              isSquare: true,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Tooltip(
-                            message: l10n.mediaViewerClose,
-                            child: FluxerButton.mediaOverlay(
-                              onPressed: _executeClose,
-                              icon: PhosphorIconsBold.x,
-                              isSquare: true,
-                            ),
-                          ),
-                        ],
-                        if (showOptionsButton)
-                          Tooltip(
-                            message: l10n.mediaViewerOptions,
-                            child: FluxerButton.mediaOverlay(
-                              onPressed: _openOptions,
-                              icon: PhosphorIconsBold.dotsThree,
-                              isSquare: true,
-                            ),
-                          ),
+                        ),
+                        _buildBottomChrome(
+                          l10n: l10n,
+                          useTouchGestures: useTouchGestures,
+                          indexLabel: indexLabel,
+                          dismissChromeOpacity: dismissChromeOpacity,
+                          canGoPrevious: canGoPrevious,
+                          canGoNext: canGoNext,
+                        ),
                       ],
                     ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(
-                        isMobile ? 0 : 12,
-                        isMobile ? 0 : 8,
-                        isMobile ? 0 : 12,
-                        isMobile ? 0 : 12,
-                      ),
-                      child: Listener(
-                        onPointerDown: (_) =>
-                            _isPointerDownInsideContent = true,
-                        onPointerUp: (_) => _isPointerDownInsideContent = false,
-                        onPointerCancel: (_) =>
-                            _isPointerDownInsideContent = false,
-                        child: PageView.builder(
-                          controller: _pageController,
-                          physics: isMobile
-                              ? const ClampingScrollPhysics()
-                              : (_isDesktopZoomed
-                                    ? const NeverScrollableScrollPhysics()
-                                    : const ClampingScrollPhysics()),
-                          onPageChanged: (int index) {
-                            setState(() {
-                              _currentIndex = index;
-                              _desktopMediaHovered = false;
-                              _isDesktopDragging = false;
-                            });
-                            _resetZoomState();
-                          },
-                          itemCount: widget.items.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return _buildMediaPage(
-                              context: context,
-                              item: widget.items[index],
-                              isMobile: isMobile,
-                              index: index,
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                  if (widget.items.length > 1 &&
-                      (!_isDesktopZoomed || isMobile))
-                    _MediaViewerThumbnailStrip(
-                      items: widget.items,
-                      currentIndex: _currentIndex,
-                      channelId: widget.channelId,
-                      onSelectIndex: _executeSelectIndex,
-                    ),
-                  if (widget.items.length > 1)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            onPressed: canGoPrevious ? _executePrevious : null,
-                            tooltip: l10n.mediaViewerPreviousAttachment,
-                            icon: const Icon(PhosphorIconsBold.caretLeft),
-                          ),
-                          Text(
-                            indexLabel,
-                            style: context.textStyles.smallText.copyWith(
-                              color: context.colors.textPrimaryMuted,
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: canGoNext ? _executeNext : null,
-                            tooltip: l10n.mediaViewerNextAttachment,
-                            icon: const Icon(PhosphorIconsBold.caretRight),
-                          ),
-                        ],
-                      ),
-                    ),
-                ],
-              ),
             ),
           ],
         ),
@@ -479,7 +603,7 @@ class _AttachmentMediaViewerShellState
   Widget _buildMediaPage({
     required BuildContext context,
     required AttachmentMediaViewerItem item,
-    required bool isMobile,
+    required bool useTouchGestures,
     required int index,
   }) {
     final Widget image = CachedNetworkImage(
@@ -495,13 +619,14 @@ class _AttachmentMediaViewerShellState
       isMatureMedia: item.isMatureMedia,
       child: image,
     );
-    if (isMobile) {
-      return InteractiveViewer(
-        transformationController: _mobileControllers[index],
-        minScale: 1,
-        maxScale: _mobileMaxScale,
-        clipBehavior: Clip.none,
-        child: Center(child: media),
+    if (useTouchGestures) {
+      return TouchMediaViewerPage(
+        transformationController: _touchControllers[index],
+        isCurrentPage: index == _currentIndex,
+        onDismissProgress: _handleTouchDismissProgress,
+        onClose: _executeClose,
+        onZoomChanged: _handleTouchZoomChanged,
+        child: media,
       );
     }
     return MouseRegion(
@@ -672,10 +797,11 @@ class _MediaViewerThumbnailStrip extends StatelessWidget {
           final AttachmentMediaViewerItem item = items[index];
           final bool hideMatureThumbnail =
               item.isMatureMedia && channelId != null;
+          final FluxerLocalizations l10n = FluxerLocalizations.of(context);
           return Semantics(
             button: true,
             selected: isSelected,
-            label: 'Attachment ${index + 1}',
+            label: l10n.mediaViewerAttachmentThumbnail(index + 1),
             child: ExcludeSemantics(
               child: GestureDetector(
                 onTap: () => onSelectIndex(index),

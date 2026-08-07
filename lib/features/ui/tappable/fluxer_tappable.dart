@@ -161,10 +161,7 @@ Widget fluxerTappablePreview() {
               : colors.backgroundTertiary,
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Text(
-          'Tappable row',
-          style: TextStyle(color: colors.textPrimary),
-        ),
+        child: Text('Tappable row', style: context.textStyles.bodyMedium),
       );
     },
   );

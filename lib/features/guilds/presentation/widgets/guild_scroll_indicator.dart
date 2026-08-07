@@ -369,10 +369,9 @@ class GuildScrollIndicator extends StatelessWidget {
         ),
         child: Text(
           label,
-          style: TextStyle(
+          style: context.textStyles.smallText.copyWith(
             color: colors.textOnBrandPrimary,
             fontSize: 11,
-            fontWeight: FontWeight.w600,
             letterSpacing: 0.3,
           ),
         ),

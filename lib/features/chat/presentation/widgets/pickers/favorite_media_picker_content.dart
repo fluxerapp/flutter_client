@@ -323,9 +323,7 @@ class _FilterPill extends StatelessWidget {
             ],
             Text(
               label,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
+              style: context.textStyles.smallText.copyWith(
                 color: active ? colors.textPrimary : colors.textPrimaryMuted,
               ),
             ),
@@ -424,7 +422,10 @@ class _FavoriteMediaEditSheetState
             SizedBox(height: layout.s3),
             Text(
               _errorText!,
-              style: TextStyle(color: colors.accentDanger, fontSize: 13),
+              style: context.textStyles.bodySmall.copyWith(
+                color: colors.accentDanger,
+                fontSize: 13,
+              ),
             ),
           ],
           SizedBox(height: layout.s4),
@@ -479,13 +480,18 @@ class _FavoriteMediaDeleteSheetState
         children: [
           Text(
             'Remove "${widget.meme.name}" from your saved media?',
-            style: TextStyle(color: colors.textSecondary, fontSize: 14),
+            style: context.textStyles.bodySmall.copyWith(
+              color: colors.textSecondary,
+            ),
           ),
           if (_errorText != null) ...[
             SizedBox(height: layout.s3),
             Text(
               _errorText!,
-              style: TextStyle(color: colors.accentDanger, fontSize: 13),
+              style: context.textStyles.bodySmall.copyWith(
+                color: colors.accentDanger,
+                fontSize: 13,
+              ),
             ),
           ],
           SizedBox(height: layout.s4),
@@ -520,7 +526,7 @@ class _SavedMediaTextField extends StatelessWidget {
       controller: controller,
       maxLines: maxLines,
       textInputAction: textInputAction,
-      style: TextStyle(color: colors.textPrimary),
+      style: context.textStyles.inputText.copyWith(color: colors.textPrimary),
       decoration: InputDecoration(
         labelText: label,
         hintText: hintText,
@@ -944,11 +950,10 @@ class _FavoriteMediaTile extends StatelessWidget {
                         meme.name,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: context.textStyles.smallText.copyWith(
                           color: Colors.white,
-                          fontSize: 12,
                           fontWeight: FontWeight.w700,
-                          shadows: [Shadow(blurRadius: 4)],
+                          shadows: const [Shadow(blurRadius: 4)],
                         ),
                       ),
                     ),
@@ -1196,9 +1201,8 @@ class _AudioPreview extends StatelessWidget {
           if (meme.duration != null)
             Text(
               _formatDuration(meme.duration!),
-              style: const TextStyle(
+              style: context.textStyles.channelName.copyWith(
                 color: Colors.white,
-                fontSize: 16,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -1207,11 +1211,7 @@ class _AudioPreview extends StatelessWidget {
             meme.filename,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-            ),
+            style: context.textStyles.smallText.copyWith(color: Colors.white),
           ),
         ],
       ),
@@ -1241,10 +1241,8 @@ class _IconPreview extends StatelessWidget {
             maxLines: 2,
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
+            style: context.textStyles.smallText.copyWith(
               color: colors.textPrimaryMuted,
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
             ),
           ),
         ],
@@ -1268,7 +1266,7 @@ class _MediaBadge extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
       child: Text(
         label,
-        style: const TextStyle(
+        style: context.textStyles.smallText.copyWith(
           color: Colors.white,
           fontSize: 11,
           fontWeight: FontWeight.w800,
@@ -1332,17 +1330,18 @@ class _FavoriteMediaEmptyState extends StatelessWidget {
             Text(
               title,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: context.textStyles.channelName.copyWith(
                 color: colors.textPrimary,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
               ),
             ),
             const SizedBox(height: 4),
             Text(
               description,
               textAlign: TextAlign.center,
-              style: TextStyle(color: colors.textPrimaryMuted, fontSize: 13),
+              style: context.textStyles.bodySmall.copyWith(
+                color: colors.textPrimaryMuted,
+                fontSize: 13,
+              ),
             ),
           ],
         ),

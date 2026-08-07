@@ -111,11 +111,7 @@ class _ExternalLinkWarningSheetState extends State<ExternalLinkWarningSheet> {
                 Text(
                   l10n.externalLinkWarningLeaving,
                   textAlign: TextAlign.center,
-                  style: textStyles.bodyMedium.copyWith(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: colors.textPrimary,
-                  ),
+                  style: textStyles.channelName,
                 ),
                 SizedBox(height: layout.s1),
                 Text(
@@ -172,7 +168,10 @@ class _ExternalLinkWarningSheetState extends State<ExternalLinkWarningSheet> {
                   children: [
                     TextSpan(
                       text: widget.hostname,
-                      style: const TextStyle(fontWeight: FontWeight.w700),
+                      style: textStyles.bodySmall.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: colors.textPrimary,
+                      ),
                     ),
                     TextSpan(text: l10n.externalLinkWarningTrustSuffix),
                   ],

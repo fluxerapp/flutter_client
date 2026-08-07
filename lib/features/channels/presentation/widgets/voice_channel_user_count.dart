@@ -22,8 +22,7 @@ class VoiceChannelUserCount extends StatelessWidget {
     final colors = context.colors;
     final String current = currentUserCount.toString().padLeft(2, '0');
     final String limit = userLimit.toString().padLeft(2, '0');
-    final style = TextStyle(
-      fontSize: 12,
+    final style = context.textStyles.timestamp.copyWith(
       fontWeight: FontWeight.w500,
       color: colors.textTertiary,
       fontFeatures: const [FontFeature.tabularFigures()],

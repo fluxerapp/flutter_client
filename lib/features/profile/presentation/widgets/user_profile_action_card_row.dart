@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluxer_app/core/theme/fluxer_fonts.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -123,10 +122,8 @@ class _ProfileActionCard extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 label,
-                style: TextStyle(
-                  fontFamily: FluxerFonts.sans,
+                style: context.textStyles.timestamp.copyWith(
                   color: colors.textSecondary,
-                  fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
               ),

@@ -7,8 +7,11 @@ import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/prefere
     as prefs;
 import 'package:fluxer_app/core/theme/custom_theme_css.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
+import 'package:fluxer_app/features/accessibility/motion_preferences.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/voice/tts/tts_rate_utils.dart';
+import 'package:fluxer_dart/export.dart' show StickerAnimationOptions;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class AccessibilityLocalState {
@@ -25,12 +28,29 @@ class AccessibilityLocalState {
     required this.saturationFactor,
     required this.customThemeCss,
     required this.advanced,
+    this.screenReaderAnnounceNewMessages = false,
     this.showMediaDeleteButton = true,
     this.showMediaDownloadButton = true,
     this.showMediaFavoriteButton = true,
     this.showSuppressEmbedsButton = true,
     this.hasSaturationFactorInProto = true,
     this.hasCustomThemeCssInProto = true,
+    this.enableTtsCommand = true,
+    this.ttsRate = kDefaultTtsRate,
+    this.alwaysUnderlineLinks = false,
+    this.dimStrikethroughText = true,
+    this.showTextareaFocusRing = true,
+    this.escapeExitsKeyboardMode = false,
+    this.showContextMenuShortcuts = false,
+    this.confirmBeforeStartingCalls = true,
+    this.syncReducedMotionWithSystem = true,
+    this.reducedMotionOverride = false,
+    this.mobileGifAutoplayOverridden = false,
+    this.mobileAnimateEmojiOverridden = false,
+    this.mobileStickerAnimationOverridden = false,
+    this.mobileGifAutoplayValue = kDefaultMobileGifAutoPlay,
+    this.mobileAnimateEmojiValue = true,
+    this.mobileStickerAnimationValue = kDefaultMobileStickerAnimation,
   });
 
   final bool hideKeyboardHints;
@@ -45,12 +65,29 @@ class AccessibilityLocalState {
   final double saturationFactor;
   final String? customThemeCss;
   final AdvancedAccessibilityLocalState advanced;
+  final bool screenReaderAnnounceNewMessages;
   final bool showMediaDeleteButton;
   final bool showMediaDownloadButton;
   final bool showMediaFavoriteButton;
   final bool showSuppressEmbedsButton;
   final bool hasSaturationFactorInProto;
   final bool hasCustomThemeCssInProto;
+  final bool enableTtsCommand;
+  final double ttsRate;
+  final bool alwaysUnderlineLinks;
+  final bool dimStrikethroughText;
+  final bool showTextareaFocusRing;
+  final bool escapeExitsKeyboardMode;
+  final bool showContextMenuShortcuts;
+  final bool confirmBeforeStartingCalls;
+  final bool syncReducedMotionWithSystem;
+  final bool reducedMotionOverride;
+  final bool mobileGifAutoplayOverridden;
+  final bool mobileAnimateEmojiOverridden;
+  final bool mobileStickerAnimationOverridden;
+  final bool mobileGifAutoplayValue;
+  final bool mobileAnimateEmojiValue;
+  final StickerAnimationOptions mobileStickerAnimationValue;
 }
 
 class AccessibilitySyncedField
@@ -80,10 +117,29 @@ class AccessibilitySyncedField
       compactMessageGroupSpacing: appearance.compactMessageGroupSpacing,
       saturationFactor: theme.saturationFactor,
       customThemeCss: theme.customThemeCss,
+      screenReaderAnnounceNewMessages:
+          appearance.screenReaderAnnounceNewMessages,
       showMediaDeleteButton: appearance.showMediaDeleteButton,
       showMediaDownloadButton: appearance.showMediaDownloadButton,
       showMediaFavoriteButton: appearance.showMediaFavoriteButton,
       showSuppressEmbedsButton: appearance.showSuppressEmbedsButton,
+      enableTtsCommand: appearance.enableTtsCommand,
+      ttsRate: appearance.ttsRate,
+      alwaysUnderlineLinks: appearance.alwaysUnderlineLinks,
+      dimStrikethroughText: appearance.dimStrikethroughText,
+      showTextareaFocusRing: appearance.showTextareaFocusRing,
+      escapeExitsKeyboardMode: appearance.escapeExitsKeyboardMode,
+      showContextMenuShortcuts: appearance.showContextMenuShortcuts,
+      confirmBeforeStartingCalls: appearance.confirmBeforeStartingCalls,
+      syncReducedMotionWithSystem: appearance.syncReducedMotionWithSystem,
+      reducedMotionOverride: appearance.reducedMotionOverride,
+      mobileGifAutoplayOverridden: appearance.mobileGifAutoplayOverridden,
+      mobileAnimateEmojiOverridden: appearance.mobileAnimateEmojiOverridden,
+      mobileStickerAnimationOverridden:
+          appearance.mobileStickerAnimationOverridden,
+      mobileGifAutoplayValue: appearance.mobileGifAutoplayValue,
+      mobileAnimateEmojiValue: appearance.mobileAnimateEmojiValue,
+      mobileStickerAnimationValue: appearance.mobileStickerAnimationValue,
       advanced: AdvancedAccessibilityLocalState(
         enableTextSelection: advanced.enableTextSelection,
         voiceChannelJoinRequiresDoubleClick:
@@ -173,6 +229,25 @@ class AccessibilitySyncedField
         a.showMediaDownloadButton == b.showMediaDownloadButton &&
         a.showMediaFavoriteButton == b.showMediaFavoriteButton &&
         a.showSuppressEmbedsButton == b.showSuppressEmbedsButton &&
+        a.screenReaderAnnounceNewMessages ==
+            b.screenReaderAnnounceNewMessages &&
+        a.enableTtsCommand == b.enableTtsCommand &&
+        a.ttsRate == b.ttsRate &&
+        a.alwaysUnderlineLinks == b.alwaysUnderlineLinks &&
+        a.dimStrikethroughText == b.dimStrikethroughText &&
+        a.showTextareaFocusRing == b.showTextareaFocusRing &&
+        a.escapeExitsKeyboardMode == b.escapeExitsKeyboardMode &&
+        a.showContextMenuShortcuts == b.showContextMenuShortcuts &&
+        a.confirmBeforeStartingCalls == b.confirmBeforeStartingCalls &&
+        a.syncReducedMotionWithSystem == b.syncReducedMotionWithSystem &&
+        a.reducedMotionOverride == b.reducedMotionOverride &&
+        a.mobileGifAutoplayOverridden == b.mobileGifAutoplayOverridden &&
+        a.mobileAnimateEmojiOverridden == b.mobileAnimateEmojiOverridden &&
+        a.mobileStickerAnimationOverridden ==
+            b.mobileStickerAnimationOverridden &&
+        a.mobileGifAutoplayValue == b.mobileGifAutoplayValue &&
+        a.mobileAnimateEmojiValue == b.mobileAnimateEmojiValue &&
+        a.mobileStickerAnimationValue == b.mobileStickerAnimationValue &&
         normalizeCustomThemeCss(a.customThemeCss) ==
             normalizeCustomThemeCss(b.customThemeCss) &&
         _advancedStatesEqual(a.advanced, b.advanced);
@@ -231,6 +306,23 @@ class AccessibilitySyncedField
       showMediaDownloadButton: remote.showMediaDownloadButton,
       showMediaFavoriteButton: remote.showMediaFavoriteButton,
       showSuppressEmbedsButton: remote.showSuppressEmbedsButton,
+      screenReaderAnnounceNewMessages: remote.screenReaderAnnounceNewMessages,
+      enableTtsCommand: remote.enableTtsCommand,
+      ttsRate: remote.ttsRate,
+      alwaysUnderlineLinks: remote.alwaysUnderlineLinks,
+      dimStrikethroughText: remote.dimStrikethroughText,
+      showTextareaFocusRing: remote.showTextareaFocusRing,
+      escapeExitsKeyboardMode: remote.escapeExitsKeyboardMode,
+      showContextMenuShortcuts: remote.showContextMenuShortcuts,
+      confirmBeforeStartingCalls: remote.confirmBeforeStartingCalls,
+      syncReducedMotionWithSystem: remote.syncReducedMotionWithSystem,
+      reducedMotionOverride: remote.reducedMotionOverride,
+      mobileGifAutoplayOverridden: remote.mobileGifAutoplayOverridden,
+      mobileAnimateEmojiOverridden: remote.mobileAnimateEmojiOverridden,
+      mobileStickerAnimationOverridden: remote.mobileStickerAnimationOverridden,
+      mobileGifAutoplayValue: remote.mobileGifAutoplayValue,
+      mobileAnimateEmojiValue: remote.mobileAnimateEmojiValue,
+      mobileStickerAnimationValue: remote.mobileStickerAnimationValue,
       advanced: remote.advanced,
       hasSaturationFactorInProto:
           remote.hasSaturationFactorInProto || local.hasSaturationFactorInProto,
@@ -293,6 +385,9 @@ class AccessibilitySyncedField
       showSuppressEmbedsButton:
           !proto.hasShowSuppressEmbedsButton() ||
           proto.showSuppressEmbedsButton,
+      screenReaderAnnounceNewMessages:
+          proto.hasScreenReaderAnnounceNewMessages() &&
+          proto.screenReaderAnnounceNewMessages,
       advanced: AdvancedAccessibilityLocalState(
         enableTextSelection:
             proto.hasEnableTextSelection() && proto.enableTextSelection,
@@ -331,6 +426,40 @@ class AccessibilitySyncedField
       ),
       hasSaturationFactorInProto: proto.hasSaturationFactor(),
       hasCustomThemeCssInProto: proto.hasCustomThemeCss(),
+      enableTtsCommand: !proto.hasEnableTtsCommand() || proto.enableTtsCommand,
+      ttsRate: proto.hasTtsRate()
+          ? clampTtsRate(proto.ttsRate)
+          : kDefaultTtsRate,
+      alwaysUnderlineLinks: proto.alwaysUnderlineLinks,
+      dimStrikethroughText:
+          !proto.hasDimStrikethroughText() || proto.dimStrikethroughText,
+      showTextareaFocusRing:
+          !proto.hasShowTextareaFocusRing() || proto.showTextareaFocusRing,
+      escapeExitsKeyboardMode:
+          proto.hasEscapeExitsKeyboardMode() && proto.escapeExitsKeyboardMode,
+      showContextMenuShortcuts:
+          proto.hasShowContextMenuShortcuts() && proto.showContextMenuShortcuts,
+      confirmBeforeStartingCalls:
+          !proto.hasConfirmBeforeStartingCalls() ||
+          proto.confirmBeforeStartingCalls,
+      syncReducedMotionWithSystem:
+          !proto.hasSyncReducedMotionWithSystem() ||
+          proto.syncReducedMotionWithSystem,
+      reducedMotionOverride:
+          proto.hasReducedMotionOverride() && proto.reducedMotionOverride,
+      mobileGifAutoplayOverridden: proto.mobileGifAutoplayOverridden,
+      mobileAnimateEmojiOverridden: proto.mobileAnimateEmojiOverridden,
+      mobileStickerAnimationOverridden: proto.mobileStickerAnimationOverridden,
+      mobileGifAutoplayValue: proto.hasMobileGifAutoplayValue()
+          ? proto.mobileGifAutoplayValue
+          : kDefaultMobileGifAutoPlay,
+      mobileAnimateEmojiValue:
+          !proto.hasMobileAnimateEmojiValue() || proto.mobileAnimateEmojiValue,
+      mobileStickerAnimationValue: stickerAnimationFromJson(
+        proto.hasMobileStickerAnimationValue()
+            ? proto.mobileStickerAnimationValue
+            : null,
+      ),
     );
   }
 
@@ -362,7 +491,27 @@ class AccessibilitySyncedField
           ..showMediaDeleteButton = local.showMediaDeleteButton
           ..showMediaDownloadButton = local.showMediaDownloadButton
           ..showMediaFavoriteButton = local.showMediaFavoriteButton
-          ..showSuppressEmbedsButton = local.showSuppressEmbedsButton;
+          ..showSuppressEmbedsButton = local.showSuppressEmbedsButton
+          ..screenReaderAnnounceNewMessages =
+              local.screenReaderAnnounceNewMessages
+          ..enableTtsCommand = local.enableTtsCommand
+          ..ttsRate = local.ttsRate
+          ..alwaysUnderlineLinks = local.alwaysUnderlineLinks
+          ..dimStrikethroughText = local.dimStrikethroughText
+          ..showTextareaFocusRing = local.showTextareaFocusRing
+          ..escapeExitsKeyboardMode = local.escapeExitsKeyboardMode
+          ..showContextMenuShortcuts = local.showContextMenuShortcuts
+          ..confirmBeforeStartingCalls = local.confirmBeforeStartingCalls
+          ..syncReducedMotionWithSystem = local.syncReducedMotionWithSystem
+          ..reducedMotionOverride = local.reducedMotionOverride
+          ..mobileGifAutoplayOverridden = local.mobileGifAutoplayOverridden
+          ..mobileAnimateEmojiOverridden = local.mobileAnimateEmojiOverridden
+          ..mobileStickerAnimationOverridden =
+              local.mobileStickerAnimationOverridden
+          ..mobileGifAutoplayValue = local.mobileGifAutoplayValue
+          ..mobileAnimateEmojiValue = local.mobileAnimateEmojiValue
+          ..mobileStickerAnimationValue =
+              local.mobileStickerAnimationValue.json ?? 1;
     _applyAdvancedToProto(settings, local.advanced, wireBase: wireBase);
     if (effectiveCss != null) {
       return settings..customThemeCss = effectiveCss;
@@ -390,6 +539,23 @@ class AccessibilitySyncedField
       showMediaDownloadButton: local.showMediaDownloadButton,
       showMediaFavoriteButton: local.showMediaFavoriteButton,
       showSuppressEmbedsButton: local.showSuppressEmbedsButton,
+      screenReaderAnnounceNewMessages: local.screenReaderAnnounceNewMessages,
+      enableTtsCommand: local.enableTtsCommand,
+      ttsRate: local.ttsRate,
+      alwaysUnderlineLinks: local.alwaysUnderlineLinks,
+      dimStrikethroughText: local.dimStrikethroughText,
+      showTextareaFocusRing: local.showTextareaFocusRing,
+      escapeExitsKeyboardMode: local.escapeExitsKeyboardMode,
+      showContextMenuShortcuts: local.showContextMenuShortcuts,
+      confirmBeforeStartingCalls: local.confirmBeforeStartingCalls,
+      syncReducedMotionWithSystem: local.syncReducedMotionWithSystem,
+      reducedMotionOverride: local.reducedMotionOverride,
+      mobileGifAutoplayOverridden: local.mobileGifAutoplayOverridden,
+      mobileAnimateEmojiOverridden: local.mobileAnimateEmojiOverridden,
+      mobileStickerAnimationOverridden: local.mobileStickerAnimationOverridden,
+      mobileGifAutoplayValue: local.mobileGifAutoplayValue,
+      mobileAnimateEmojiValue: local.mobileAnimateEmojiValue,
+      mobileStickerAnimationValue: local.mobileStickerAnimationValue.json ?? 1,
     );
     _applyAdvancedToProto(settings, local.advanced);
     if (effectiveCss != null) {

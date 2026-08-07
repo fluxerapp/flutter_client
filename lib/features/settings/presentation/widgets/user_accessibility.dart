@@ -3,11 +3,18 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
+import 'package:fluxer_app/features/accessibility/resolve_reduced_motion.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/accessibility_saturation_slider.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_accessibility_animation_section.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_accessibility_keyboard_section.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_accessibility_preview.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_accessibility_tts_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 class UserAccessibility extends ConsumerWidget {
   const UserAccessibility({super.key, this.scrollController});
@@ -18,9 +25,24 @@ class UserAccessibility extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appearance = ref.watch(appearancePreferencesProvider);
     final appearanceNotifier = ref.read(appearancePreferencesProvider.notifier);
-    final themePref = ref.watch(themePreferenceProvider);
-    final layout = context.layout;
     final l10n = FluxerLocalizations.of(context);
+    final bool showPreview = !isMobileLayout(context);
+    final bool showKeyboard = !isTouchPrimaryInput(ref);
+    final bool platformReducedMotion = MediaQuery.disableAnimationsOf(context);
+    final bool reducedMotion = resolveReducedMotion(
+      syncReducedMotionWithSystem: appearance.syncReducedMotionWithSystem,
+      reducedMotionOverride: appearance.reducedMotionOverride,
+      platformReducedMotion: platformReducedMotion,
+    );
+    final String reduceMotionBaseDescription =
+        appearance.syncReducedMotionWithSystem
+        ? l10n.accessibilityReducedMotionOverrideSyncedDescription
+        : l10n.accessibilityReducedMotionOverrideManualDescription;
+    final String reduceMotionDescription = reducedMotion
+        ? '$reduceMotionBaseDescription ${l10n.accessibilityReducedMotionAnimationTabHint}'
+        : reduceMotionBaseDescription;
+
+    final layout = context.layout;
 
     return SingleChildScrollView(
       controller: scrollController,
@@ -28,144 +50,123 @@ class UserAccessibility extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if (showPreview) ...[
+            const UserAccessibilityPreview(),
+            SizedBox(height: layout.s8),
+          ],
           FluxerSettingsSection(
-            title: l10n.accessibilitySaturationTitle,
-            description: l10n.accessibilitySaturationDescription,
+            title: l10n.accessibilityVisualGroupTitle,
             isFirst: true,
             children: [
-              FluxerSlider(
-                defaultValue: themePref.saturationFactor * 100,
-                factoryDefaultValue: 100,
-                markers: const <double>[
-                  0,
-                  10,
-                  20,
-                  30,
-                  40,
-                  50,
-                  60,
-                  70,
-                  80,
-                  90,
-                  100,
+              FluxerSettingsSubsection(
+                title: l10n.accessibilitySaturationTitle,
+                children: const [AccessibilitySaturationSlider()],
+              ),
+              FluxerSettingsSwitchGroup(
+                children: [
+                  FluxerSettingsSwitchItem.grouped(
+                    label: l10n.accessibilityAlwaysUnderlineLinksLabel,
+                    value: appearance.alwaysUnderlineLinks,
+                    onChanged: (value) => unawaited(
+                      appearanceNotifier.setAlwaysUnderlineLinks(value: value),
+                    ),
+                  ),
+                  FluxerSettingsSwitchItem.grouped(
+                    label: l10n.accessibilityDimStrikethroughTextLabel,
+                    value: appearance.dimStrikethroughText,
+                    onChanged: (value) => unawaited(
+                      appearanceNotifier.setDimStrikethroughText(value: value),
+                    ),
+                  ),
                 ],
-                onMarkerRender: (value) {
-                  final textStyles = context.textStyles;
-                  final colors = context.colors;
-                  final isFactoryDefault = value == 100;
-                  return FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                      '${value.round()}%',
-                      style: textStyles.smallText.copyWith(
-                        color: isFactoryDefault
-                            ? colors.textPositive
-                            : colors.textSecondary,
+              ),
+              FluxerSettingsSubsection(
+                title: l10n.accessibilityDmMessagePreviewGroupTitle,
+                children: [
+                  Semantics(
+                    label: l10n.accessibilityDmMessagePreviewModeLabel,
+                    container: true,
+                    child: FluxerRadioGroup<DmMessagePreviewMode>(
+                      value: appearance.dmMessagePreviewMode,
+                      onChanged: (value) => unawaited(
+                        appearanceNotifier.setDmMessagePreviewMode(value),
                       ),
-                      textAlign: TextAlign.center,
+                      items: [
+                        FluxerRadioItem(
+                          value: DmMessagePreviewMode.all,
+                          label: l10n.accessibilityDmMessagePreviewAllName,
+                          description:
+                              l10n.accessibilityDmMessagePreviewAllDescription,
+                        ),
+                        FluxerRadioItem(
+                          value: DmMessagePreviewMode.unreadOnly,
+                          label:
+                              l10n.accessibilityDmMessagePreviewUnreadOnlyName,
+                          description: l10n
+                              .accessibilityDmMessagePreviewUnreadOnlyDescription,
+                        ),
+                        FluxerRadioItem(
+                          value: DmMessagePreviewMode.none,
+                          label: l10n.accessibilityDmMessagePreviewNoneName,
+                          description:
+                              l10n.accessibilityDmMessagePreviewNoneDescription,
+                        ),
+                      ],
                     ),
-                  );
-                },
-                onValueRender: (value) => Text('${value.round()}%'),
-                onValueChange: (value) => unawaited(
-                  ref
-                      .read(themePreferenceProvider.notifier)
-                      .setSaturationFactor(value / 100),
-                ),
-              ),
-            ],
-          ),
-          FluxerSettingsSection(
-            title: l10n.accessibilityUnreadGroupTitle,
-            description: l10n.accessibilityUnreadGroupDescription,
-            children: [
-              FluxerSettingsSwitchItem(
-                label: l10n.accessibilityShowFadedUnreadOnMutedChannelsLabel,
-                description:
-                    l10n.accessibilityShowFadedUnreadOnMutedChannelsDescription,
-                value: appearance.showFadedUnreadOnMutedChannels,
-                onChanged: (value) => unawaited(
-                  appearanceNotifier.setShowFadedUnreadOnMutedChannels(
-                    value: value,
                   ),
-                ),
+                ],
               ),
             ],
           ),
           FluxerSettingsSection(
-            title: l10n.accessibilityDmMessagePreviewGroupTitle,
-            description: l10n.accessibilityDmMessagePreviewGroupDescription,
-            children: [
-              Semantics(
-                label: l10n.accessibilityDmMessagePreviewModeLabel,
-                container: true,
-                child: FluxerRadioGroup<DmMessagePreviewMode>(
-                  value: appearance.dmMessagePreviewMode,
-                  onChanged: (value) => unawaited(
-                    appearanceNotifier.setDmMessagePreviewMode(value),
-                  ),
-                  items: [
-                    FluxerRadioItem(
-                      value: DmMessagePreviewMode.all,
-                      label: l10n.accessibilityDmMessagePreviewAllName,
-                      description:
-                          l10n.accessibilityDmMessagePreviewAllDescription,
-                    ),
-                    FluxerRadioItem(
-                      value: DmMessagePreviewMode.unreadOnly,
-                      label: l10n.accessibilityDmMessagePreviewUnreadOnlyName,
-                      description: l10n
-                          .accessibilityDmMessagePreviewUnreadOnlyDescription,
-                    ),
-                    FluxerRadioItem(
-                      value: DmMessagePreviewMode.none,
-                      label: l10n.accessibilityDmMessagePreviewNoneName,
-                      description:
-                          l10n.accessibilityDmMessagePreviewNoneDescription,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          FluxerSettingsSection(
-            title: l10n.accessibilityMediaButtonsGroupTitle,
-            description: l10n.accessibilityMediaButtonsGroupDescription,
+            title: l10n.accessibilityScreenReaderGroupTitle,
             children: [
               FluxerSettingsSwitchGroup(
                 children: [
                   FluxerSettingsSwitchItem.grouped(
-                    label: l10n.accessibilityShowMediaDeleteButtonLabel,
-                    value: appearance.showMediaDeleteButton,
+                    label:
+                        l10n.accessibilityScreenReaderAnnounceNewMessagesLabel,
+                    description: l10n
+                        .accessibilityScreenReaderAnnounceNewMessagesDescription,
+                    value: appearance.screenReaderAnnounceNewMessages,
                     onChanged: (value) => unawaited(
-                      appearanceNotifier.setShowMediaDeleteButton(value: value),
+                      appearanceNotifier.setScreenReaderAnnounceNewMessages(
+                        value: value,
+                      ),
                     ),
                   ),
+                ],
+              ),
+            ],
+          ),
+          const UserAccessibilityTtsSection(),
+          if (showKeyboard) const UserAccessibilityKeyboardSection(),
+          const UserAccessibilityAnimationSection(),
+          FluxerSettingsSection(
+            title: l10n.accessibilityMotionGroupTitle,
+            children: [
+              FluxerSettingsSwitchGroup(
+                children: [
                   FluxerSettingsSwitchItem.grouped(
-                    label: l10n.accessibilityShowMediaDownloadButtonLabel,
-                    value: appearance.showMediaDownloadButton,
+                    label: l10n.accessibilitySyncReducedMotionWithSystemLabel,
+                    description: l10n
+                        .accessibilitySyncReducedMotionWithSystemDescription,
+                    value: appearance.syncReducedMotionWithSystem,
                     onChanged: (value) => unawaited(
-                      appearanceNotifier.setShowMediaDownloadButton(
+                      appearanceNotifier.setSyncReducedMotionWithSystem(
                         value: value,
                       ),
                     ),
                   ),
                   FluxerSettingsSwitchItem.grouped(
-                    label: l10n.accessibilityShowMediaFavoriteButtonLabel,
-                    value: appearance.showMediaFavoriteButton,
+                    label: l10n.accessibilityReducedMotionOverrideLabel,
+                    description: reduceMotionDescription,
+                    value: appearance.syncReducedMotionWithSystem
+                        ? reducedMotion
+                        : appearance.reducedMotionOverride,
+                    enabled: !appearance.syncReducedMotionWithSystem,
                     onChanged: (value) => unawaited(
-                      appearanceNotifier.setShowMediaFavoriteButton(
-                        value: value,
-                      ),
-                    ),
-                  ),
-                  FluxerSettingsSwitchItem.grouped(
-                    label: l10n.accessibilityShowSuppressEmbedsButtonLabel,
-                    value: appearance.showSuppressEmbedsButton,
-                    onChanged: (value) => unawaited(
-                      appearanceNotifier.setShowSuppressEmbedsButton(
-                        value: value,
-                      ),
+                      appearanceNotifier.setReducedMotionOverride(value: value),
                     ),
                   ),
                 ],

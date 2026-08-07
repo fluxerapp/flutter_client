@@ -20,6 +20,158 @@ def flutter_marketing_version
   version.to_s.split("+", 2).first
 end
 
+def wait_for_processed_build(api_key:, app_identifier:, app_version:, build_number:, groups:, changelog:, platform: Spaceship::ConnectAPI::Platform::IOS, internal_only: false)
+  jwt = Spaceship::ConnectAPI::Token.from(hash: api_key)
+  Spaceship::ConnectAPI.token = jwt
+
+  app = Spaceship::ConnectAPI::App.find(app_identifier)
+  build = nil
+  begin
+    build = FastlaneCore::BuildWatcher.wait_for_build_processing_to_be_complete(
+      app_id: app.id,
+      app_version: app_version,
+      build_version: build_number.to_s,
+      platform: platform,
+      timeout_duration: 3600,
+      wait_for_build_beta_detail_processing: false,
+      return_spaceship_testflight_build: false
+    )
+  rescue FastlaneCore::Interface::FastlaneCrash => err
+    unless err.message.include?("BuildWatcher exceeded")
+      raise err
+    end
+    UI.important(
+      "BuildWatcher timed out waiting for App Store Connect processing of #{app_version} (#{build_number}). " \
+      "The upload already succeeded; checking whether the build is available for distribution..."
+    )
+    build = find_processed_build(app: app, app_version: app_version, build_number: build_number, platform: platform)
+    if build.nil?
+      UI.user_error!(
+        "Build #{app_version} (#{build_number}) was uploaded but is not yet available in App Store Connect " \
+        "after waiting 3600 seconds. Check App Store Connect for processing issues."
+      )
+    end
+  end
+
+  distribute_to_groups(build: build, app: app, groups: groups, changelog: changelog, internal_only: internal_only)
+end
+
+def find_processed_build(app:, app_version:, build_number:, platform: Spaceship::ConnectAPI::Platform::IOS)
+  builds = Spaceship::ConnectAPI::Build.all(
+    app_id: app.id,
+    version: app_version,
+    build_number: build_number.to_s,
+    platform: platform
+  )
+  build = builds.first
+  return nil if build.nil?
+  return nil unless build.processed?
+
+  build
+end
+
+def distribute_to_groups(build:, app:, groups:, changelog:, internal_only: false)
+  build = ensure_export_compliance(build: build)
+  beta_groups = app.get_beta_groups.select { |group| groups.include?(group.name) }
+  if internal_only
+    beta_groups = beta_groups.select(&:is_internal_group)
+  end
+  missing_group_names = groups - beta_groups.map(&:name)
+
+  if missing_group_names.any?
+    UI.important("Beta groups not found on #{app.bundle_id}: #{missing_group_names.join(', ')}")
+  end
+
+  if beta_groups.empty?
+    UI.user_error!("No beta groups found for distribution on #{app.bundle_id}. Expected: #{groups.join(', ')}")
+  end
+
+  update_build_changelog(build: build, changelog: changelog)
+  reject_build_waiting_for_beta_review(build: build) unless internal_only
+
+  external_groups = beta_groups.reject(&:is_internal_group)
+  internal_group_names = beta_groups.select(&:is_internal_group).map(&:name)
+
+  if internal_group_names.any?
+    UI.message("Skipping internal groups (not assignable via API): #{internal_group_names.join(', ')}")
+  end
+
+  if external_groups.any?
+    if build.ready_for_beta_submission?
+      build.post_beta_app_review_submission
+    else
+      external_state = build.build_beta_detail&.external_build_state || "unknown"
+      UI.message("Build #{build.app_version} (#{build.version}) is not ready for beta submission (external state: #{external_state})")
+    end
+
+    build.add_beta_groups(beta_groups: external_groups)
+  else
+    UI.message("No external groups to assign; internal testers rely on automatic distribution or manual assignment in App Store Connect")
+  end
+
+  if build.build_beta_detail
+    Spaceship::ConnectAPI.patch_build_beta_details(
+      build_beta_details_id: build.build_beta_detail.id,
+      attributes: { autoNotifyEnabled: true }
+    )
+  else
+    UI.user_error!("Unable to enable tester notifications because build beta details were not returned")
+  end
+
+  distributed_names = external_groups.map(&:name)
+  if internal_group_names.any?
+    distributed_names += internal_group_names.map { |name| "#{name} (internal)" }
+  end
+  UI.success("Distributed to groups: #{distributed_names.join(', ')}")
+end
+
+def ensure_export_compliance(build:)
+  return build unless build.uses_non_exempt_encryption.nil?
+
+  Spaceship::ConnectAPI.patch_builds(
+    build_id: build.id,
+    attributes: { usesNonExemptEncryption: false }
+  )
+  UI.important("Export compliance was unset; waiting for App Store Connect to finish processing again...")
+
+  loop do
+    refreshed_build = Spaceship::ConnectAPI::Build.get(build_id: build.id)
+    return refreshed_build unless refreshed_build.missing_export_compliance?
+
+    UI.message("Waiting for build #{build.id} to finish export compliance processing")
+    sleep(5)
+  end
+end
+
+def reject_build_waiting_for_beta_review(build:)
+  waiting_for_review_build = build.app.get_builds(
+    filter: {
+      "betaAppReviewSubmission.betaReviewState" => "WAITING_FOR_REVIEW,IN_REVIEW",
+      "expired" => false,
+      "preReleaseVersion.version" => build.pre_release_version.version
+    },
+    includes: "betaAppReviewSubmission,preReleaseVersion"
+  ).first
+  return if waiting_for_review_build.nil?
+
+  UI.important("Another build is already in beta review. Expiring #{waiting_for_review_build.app_version} (#{waiting_for_review_build.version}) before submitting the new build.")
+  waiting_for_review_build.expire!
+end
+
+def update_build_changelog(build:, changelog:)
+  return if changelog.to_s.empty?
+
+  attributes = { whatsNew: changelog }
+  localization = build.get_beta_build_localizations.find { |item| item.locale == "en-US" }
+
+  if localization
+    Spaceship::ConnectAPI.patch_beta_build_localizations(localization_id: localization.id, attributes: attributes)
+  else
+    attributes[:locale] = "en-US"
+    Spaceship::ConnectAPI.post_beta_build_localizations(build_id: build.id, attributes: attributes)
+  end
+end
+
 platform :ios do
   desc "Build beta archive and upload to TestFlight"
   lane :testflight_beta do
@@ -284,155 +436,6 @@ platform :ios do
     )
   end
 
-  def wait_for_processed_build(api_key:, app_identifier:, app_version:, build_number:, groups:, changelog:)
-    jwt = Spaceship::ConnectAPI::Token.from(hash: api_key)
-    Spaceship::ConnectAPI.token = jwt
-
-    app = Spaceship::ConnectAPI::App.find(app_identifier)
-    build = nil
-    begin
-      build = FastlaneCore::BuildWatcher.wait_for_build_processing_to_be_complete(
-        app_id: app.id,
-        app_version: app_version,
-        build_version: build_number.to_s,
-        platform: Spaceship::ConnectAPI::Platform::IOS,
-        timeout_duration: 3600,
-        wait_for_build_beta_detail_processing: false,
-        return_spaceship_testflight_build: false
-      )
-    rescue FastlaneCore::Interface::FastlaneCrash => err
-      unless err.message.include?("BuildWatcher exceeded")
-        raise err
-      end
-      UI.important(
-        "BuildWatcher timed out waiting for App Store Connect processing of #{app_version} (#{build_number}). " \
-        "The IPA upload already succeeded; checking whether the build is available for distribution..."
-      )
-      build = find_processed_build(app: app, app_version: app_version, build_number: build_number)
-      if build.nil?
-        UI.user_error!(
-          "Build #{app_version} (#{build_number}) was uploaded but is not yet available in App Store Connect " \
-          "after waiting 3600 seconds. Check App Store Connect for processing issues."
-        )
-      end
-    end
-
-    distribute_to_groups(build: build, app: app, groups: groups, changelog: changelog)
-  end
-
-  def find_processed_build(app:, app_version:, build_number:)
-    builds = Spaceship::ConnectAPI::Build.all(
-      app_id: app.id,
-      version: app_version,
-      build_number: build_number.to_s,
-      platform: Spaceship::ConnectAPI::Platform::IOS
-    )
-    build = builds.first
-    return nil if build.nil?
-    return nil unless build.processed?
-
-    build
-  end
-
-  def distribute_to_groups(build:, app:, groups:, changelog:)
-    build = ensure_export_compliance(build: build)
-    beta_groups = app.get_beta_groups.select { |group| groups.include?(group.name) }
-    missing_group_names = groups - beta_groups.map(&:name)
-
-    if missing_group_names.any?
-      UI.important("Beta groups not found on #{app.bundle_id}: #{missing_group_names.join(', ')}")
-    end
-
-    if beta_groups.empty?
-      UI.user_error!("No beta groups found for distribution on #{app.bundle_id}. Expected: #{groups.join(', ')}")
-    end
-
-    update_build_changelog(build: build, changelog: changelog)
-    reject_build_waiting_for_beta_review(build: build)
-
-    external_groups = beta_groups.reject(&:is_internal_group)
-    internal_group_names = beta_groups.select(&:is_internal_group).map(&:name)
-
-    if internal_group_names.any?
-      UI.message("Skipping internal groups (not assignable via API): #{internal_group_names.join(', ')}")
-    end
-
-    if external_groups.any?
-      if build.ready_for_beta_submission?
-        build.post_beta_app_review_submission
-      else
-        external_state = build.build_beta_detail&.external_build_state || "unknown"
-        UI.message("Build #{build.app_version} (#{build.version}) is not ready for beta submission (external state: #{external_state})")
-      end
-
-      build.add_beta_groups(beta_groups: external_groups)
-    else
-      UI.message("No external groups to assign; internal testers rely on automatic distribution or manual assignment in App Store Connect")
-    end
-
-    if build.build_beta_detail
-      Spaceship::ConnectAPI.patch_build_beta_details(
-        build_beta_details_id: build.build_beta_detail.id,
-        attributes: { autoNotifyEnabled: true }
-      )
-    else
-      UI.user_error!("Unable to enable tester notifications because build beta details were not returned")
-    end
-
-    distributed_names = external_groups.map(&:name)
-    if internal_group_names.any?
-      distributed_names += internal_group_names.map { |name| "#{name} (internal)" }
-    end
-    UI.success("Distributed to groups: #{distributed_names.join(', ')}")
-  end
-
-  def ensure_export_compliance(build:)
-    return build unless build.uses_non_exempt_encryption.nil?
-
-    Spaceship::ConnectAPI.patch_builds(
-      build_id: build.id,
-      attributes: { usesNonExemptEncryption: false }
-    )
-    UI.important("Export compliance was unset; waiting for App Store Connect to finish processing again...")
-
-    loop do
-      refreshed_build = Spaceship::ConnectAPI::Build.get(build_id: build.id)
-      return refreshed_build unless refreshed_build.missing_export_compliance?
-
-      UI.message("Waiting for build #{build.id} to finish export compliance processing")
-      sleep(5)
-    end
-  end
-
-  def reject_build_waiting_for_beta_review(build:)
-    waiting_for_review_build = build.app.get_builds(
-      filter: {
-        "betaAppReviewSubmission.betaReviewState" => "WAITING_FOR_REVIEW,IN_REVIEW",
-        "expired" => false,
-        "preReleaseVersion.version" => build.pre_release_version.version
-      },
-      includes: "betaAppReviewSubmission,preReleaseVersion"
-    ).first
-    return if waiting_for_review_build.nil?
-
-    UI.important("Another build is already in beta review. Expiring #{waiting_for_review_build.app_version} (#{waiting_for_review_build.version}) before submitting the new build.")
-    waiting_for_review_build.expire!
-  end
-
-  def update_build_changelog(build:, changelog:)
-    return if changelog.to_s.empty?
-
-    attributes = { whatsNew: changelog }
-    localization = build.get_beta_build_localizations.find { |item| item.locale == "en-US" }
-
-    if localization
-      Spaceship::ConnectAPI.patch_beta_build_localizations(localization_id: localization.id, attributes: attributes)
-    else
-      attributes[:locale] = "en-US"
-      Spaceship::ConnectAPI.post_beta_build_localizations(build_id: build.id, attributes: attributes)
-    end
-  end
-
   desc "Build stable IPA and upload to App Store Connect as a processing build only (no App Review submission, no automatic release)"
   lane :stable_release do
     profile_path = File.expand_path("~/Library/MobileDevice/Provisioning Profiles/profile.mobileprovision")
@@ -572,5 +575,112 @@ platform :ios do
       attempt_index += 1
       retry
     end
+  end
+end
+
+platform :mac do
+  desc "Build canary macOS archive and upload to TestFlight (com.fluxer.lite.canary)"
+  lane :testflight_canary do
+    profile_path = File.expand_path("~/Library/MobileDevice/Provisioning Profiles/profile.mobileprovision")
+    runner_profile_uuid = fetchRequiredEnvironmentValue("PROFILE_UUID")
+
+    api_key = app_store_connect_api_key(
+      key_id: ENV.fetch("APPSTORE_KEY_ID"),
+      issuer_id: ENV.fetch("APPSTORE_ISSUER_ID"),
+      key_content: ENV.fetch("APPSTORE_PRIVATE_KEY")
+    )
+
+    app_identifier = "com.fluxer.lite.canary"
+    flutter_build_name = flutter_marketing_version
+    latest_build_number = latest_testflight_build_number(
+      api_key: api_key,
+      app_identifier: app_identifier,
+      version: flutter_build_name,
+      platform: "osx",
+      initial_build_number: 1
+    )
+    flutter_build_number = latest_build_number + 1
+    UI.message("Building #{app_identifier} #{flutter_build_name} (#{flutter_build_number})")
+
+    update_project_provisioning(
+      xcodeproj: "macos/Runner.xcodeproj",
+      profile: profile_path,
+      target_filter: "^Runner$",
+      build_configuration: "Release-canary",
+      code_signing_identity: "Apple Distribution"
+    )
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      path: "macos/Runner.xcodeproj",
+      team_id: ENV.fetch("APPLE_TEAM_ID"),
+      targets: ["Runner"],
+      build_configurations: ["Release-canary"],
+      code_sign_identity: "Apple Distribution",
+      profile_uuid: runner_profile_uuid,
+      sdk: "macosx*"
+    )
+    cocoapods(
+      podfile: "macos/Podfile",
+      clean_install: true
+    )
+
+    sh(
+      "flutter",
+      "build",
+      "macos",
+      "--release",
+      "--flavor",
+      "canary",
+      "--build-name",
+      flutter_build_name,
+      "--build-number",
+      flutter_build_number.to_s,
+      "--dart-define-from-file=#{File.join(project_root_path, "tool/dart_defines/canary.json")}",
+      "--dart-define=BUILD_TIMESTAMP=#{Time.now.utc.iso8601}"
+    )
+    build_mac_app(
+      workspace: "macos/Runner.xcworkspace",
+      scheme: "canary",
+      configuration: "Release-canary",
+      clean: true,
+      output_directory: "build/macos/pkg",
+      export_method: "app-store",
+      codesigning_identity: "Apple Distribution",
+      export_options: {
+        signingStyle: "manual",
+        teamID: ENV.fetch("APPLE_TEAM_ID"),
+        signingCertificate: "Apple Distribution",
+        provisioningProfiles: {
+          "com.fluxer.lite.canary" => runner_profile_uuid
+        }
+      },
+      xcargs: [
+        "DEVELOPMENT_TEAM=#{ENV.fetch("APPLE_TEAM_ID")}",
+        "FLUTTER_BUILD_NAME=#{flutter_build_name}",
+        "FLUTTER_BUILD_NUMBER=#{flutter_build_number}",
+        "CODE_SIGN_STYLE=Manual",
+        "CODE_SIGN_IDENTITY[sdk=macosx*]=Apple Distribution",
+      ].join(" ")
+    )
+    changelog = "Build from GitHub Actions run: #{ENV['GITHUB_SERVER_URL']}/#{ENV['GITHUB_REPOSITORY']}/actions/runs/#{ENV['GITHUB_RUN_ID']}"
+
+    upload_to_testflight(
+      api_key: api_key,
+      pkg: lane_context[SharedValues::PKG_OUTPUT_PATH],
+      skip_waiting_for_build_processing: true,
+      distribute_external: false
+    )
+    UI.success("Build #{flutter_build_number} uploaded to TestFlight")
+
+    wait_for_processed_build(
+      api_key: api_key,
+      app_identifier: app_identifier,
+      app_version: flutter_build_name,
+      build_number: flutter_build_number,
+      groups: ["Fluxer Team"],
+      changelog: changelog,
+      platform: Spaceship::ConnectAPI::Platform::MAC_OS,
+      internal_only: true
+    )
   end
 end

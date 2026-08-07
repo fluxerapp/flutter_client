@@ -22,10 +22,9 @@ class FluxerUserTag extends StatelessWidget {
       ),
       child: Text(
         label.toUpperCase(),
-        style: TextStyle(
+        style: context.textStyles.smallText.copyWith(
           color: colors.brandPrimaryFill,
           fontSize: 10,
-          fontWeight: FontWeight.w600,
           height: 1,
         ),
       ),

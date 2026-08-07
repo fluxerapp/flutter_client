@@ -167,10 +167,9 @@ class _GuildInviteCard extends StatelessWidget {
             Flexible(
               child: Text(
                 invite.guild.name,
-                style: TextStyle(
+                style: context.textStyles.channelName.copyWith(
                   color: context.colors.textPrimary,
                   fontSize: 15,
-                  fontWeight: FontWeight.w600,
                   letterSpacing: -0.1,
                 ),
                 overflow: TextOverflow.ellipsis,
@@ -189,9 +188,8 @@ class _GuildInviteCard extends StatelessWidget {
             const SizedBox(width: 4),
             Text(
               l10n.embedInviteOnline(onlineStr),
-              style: TextStyle(
+              style: context.textStyles.embedFooter.copyWith(
                 color: context.colors.textTertiaryMuted,
-                fontSize: 12,
               ),
             ),
             const SizedBox(width: 10),
@@ -199,9 +197,8 @@ class _GuildInviteCard extends StatelessWidget {
             const SizedBox(width: 4),
             Text(
               l10n.embedInviteMembers(memberStr),
-              style: TextStyle(
+              style: context.textStyles.embedFooter.copyWith(
                 color: context.colors.textTertiaryMuted,
-                fontSize: 12,
               ),
             ),
           ],
@@ -249,17 +246,18 @@ class _InviteNotFound extends StatelessWidget {
     ),
     title: Text(
       l10n.embedInviteUnknownTitle,
-      style: TextStyle(
+      style: context.textStyles.channelName.copyWith(
         color: context.colors.statusDanger,
         fontSize: 15,
-        fontWeight: FontWeight.w600,
       ),
       overflow: TextOverflow.ellipsis,
       maxLines: 1,
     ),
     stats: Text(
       l10n.embedInviteUnknownSubtitle,
-      style: TextStyle(color: context.colors.textTertiaryMuted, fontSize: 12),
+      style: context.textStyles.embedFooter.copyWith(
+        color: context.colors.textTertiaryMuted,
+      ),
     ),
     footer: FluxerButton.primary(label: l10n.embedInviteUnavailable),
   );
@@ -379,10 +377,9 @@ class _Fallback extends StatelessWidget {
   Widget build(BuildContext context) => Center(
     child: Text(
       initials,
-      style: TextStyle(
+      style: context.textStyles.smallText.copyWith(
         color: context.colors.textPrimary,
         fontSize: _guildInviteInitialsFontSize(initialsLength),
-        fontWeight: FontWeight.w600,
       ),
     ),
   );

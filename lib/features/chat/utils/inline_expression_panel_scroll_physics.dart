@@ -1,10 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluxer_app/features/chat/utils/bottom_input_slot_layout.dart';
 
 const double kInlineExpressionPanelScrollTopTolerance = 0.5;
 
 double inlineExpressionPanelHomeIndicatorInset(MediaQueryData mediaQuery) {
-  return mediaQuery.viewPadding.bottom;
+  return bottomInputHomeIndicatorInset(mediaQuery);
 }
 
 ScrollPhysics inlineExpressionPanelScrollPhysics() {

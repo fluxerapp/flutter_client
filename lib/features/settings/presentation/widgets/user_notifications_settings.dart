@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_notifications_permission_banner.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_notifications_sound_settings_section.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_notifications_tts_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/mention_preference_provider.dart';
 import 'package:fluxer_app/features/settings/providers/notification_preferences_provider.dart';
@@ -166,6 +167,7 @@ class UserNotificationsSettings extends ConsumerWidget {
               ),
             ],
           ),
+          const UserNotificationsTtsSection(),
           FluxerSettingsSection(
             title: l10n.notificationsSoundsSectionTitle,
             children: const [UserNotificationsSoundSettingsSection()],

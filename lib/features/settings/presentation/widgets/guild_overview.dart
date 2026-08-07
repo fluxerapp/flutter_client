@@ -37,10 +37,9 @@ class GuildOverview extends StatelessWidget {
               child: Center(
                 child: Text(
                   guild.name.isNotEmpty ? guild.name[0] : '?',
-                  style: TextStyle(
+                  style: context.textStyles.heading.copyWith(
                     color: context.colors.textPrimary,
                     fontSize: 40,
-                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
@@ -54,10 +53,7 @@ class GuildOverview extends StatelessWidget {
                     'We recommend an image of '
                     'at least 512x512 for '
                     'the server.',
-                    style: TextStyle(
-                      color: context.colors.textPrimaryMuted,
-                      fontSize: 14,
-                    ),
+                    style: context.textStyles.bodySmall,
                   ),
                   const SizedBox(height: 8),
                   OutlinedButton(
@@ -98,9 +94,7 @@ class GuildOverview extends StatelessWidget {
     children: [
       Text(
         label,
-        style: TextStyle(
-          color: context.colors.textPrimaryMuted,
-          fontSize: 12,
+        style: context.textStyles.smallText.copyWith(
           fontWeight: FontWeight.w700,
           letterSpacing: 0.5,
         ),
@@ -113,26 +107,18 @@ class GuildOverview extends StatelessWidget {
           color: context.colors.backgroundTertiary,
           borderRadius: BorderRadius.circular(3),
         ),
-        child: Text(
-          value,
-          style: TextStyle(color: context.colors.textChat, fontSize: 16),
-        ),
+        child: Text(value, style: context.textStyles.inputText),
       ),
     ],
   );
 
   Widget _buildInfoRow(BuildContext context, String label, String value) => Row(
     children: [
-      Text(
-        '$label: ',
-        style: TextStyle(color: context.colors.textPrimaryMuted, fontSize: 14),
-      ),
+      Text('$label: ', style: context.textStyles.bodySmall),
       Text(
         value,
-        style: TextStyle(
+        style: context.textStyles.categoryName.copyWith(
           color: context.colors.textChat,
-          fontSize: 14,
-          fontWeight: FontWeight.w600,
         ),
       ),
     ],

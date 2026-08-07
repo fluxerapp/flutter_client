@@ -91,7 +91,9 @@ class GuildSettingsAsyncBody<T> extends StatelessWidget {
           padding: EdgeInsets.all(layout.s4),
           child: Text(
             error.toString(),
-            style: TextStyle(color: context.colors.statusDanger),
+            style: context.textStyles.bodyMedium.copyWith(
+              color: context.colors.statusDanger,
+            ),
             textAlign: TextAlign.center,
           ),
         ),

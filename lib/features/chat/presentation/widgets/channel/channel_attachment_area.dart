@@ -304,20 +304,26 @@ class _RoundIconButton extends StatelessWidget {
     final colors = context.colors;
     return Padding(
       padding: const EdgeInsets.only(left: 4),
-      child: Tooltip(
-        message: tooltip,
-        child: Material(
-          color: colors.backgroundPrimary.withValues(alpha: 0.75),
-          shape: const CircleBorder(),
-          child: InkWell(
-            customBorder: const CircleBorder(),
-            onTap: onPressed,
-            child: Padding(
-              padding: const EdgeInsets.all(6),
-              child: Icon(
-                icon,
-                size: 18,
-                color: danger ? colors.statusDanger : colors.textPrimary,
+      child: Semantics(
+        button: true,
+        label: tooltip,
+        child: Tooltip(
+          message: tooltip,
+          child: Material(
+            color: colors.backgroundPrimary.withValues(alpha: 0.75),
+            shape: const CircleBorder(),
+            child: InkWell(
+              customBorder: const CircleBorder(),
+              onTap: onPressed,
+              child: ExcludeSemantics(
+                child: Padding(
+                  padding: const EdgeInsets.all(6),
+                  child: Icon(
+                    icon,
+                    size: 18,
+                    color: danger ? colors.statusDanger : colors.textPrimary,
+                  ),
+                ),
               ),
             ),
           ),

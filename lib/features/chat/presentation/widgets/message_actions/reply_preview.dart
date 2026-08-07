@@ -152,7 +152,7 @@ class InlineReplyPreview extends ConsumerWidget {
                 Flexible(
                   child: Text(
                     hiddenReplyLabel,
-                    style: TextStyle(
+                    style: context.textStyles.bodySmall.copyWith(
                       color: context.colors.textPrimaryMuted,
                       fontSize: _kReplyPreviewFontSize,
                       height: _kReplyPreviewLineHeight,
@@ -179,11 +179,10 @@ class InlineReplyPreview extends ConsumerWidget {
                   child: Text(
                     '${mentionsReplyAuthor ? '@' : ''}'
                     '${replyAuthorDisplay.displayName}',
-                    style: TextStyle(
+                    style: context.textStyles.label.copyWith(
                       color: nameColor,
                       fontSize: _kReplyPreviewFontSize,
                       height: _kReplyPreviewLineHeight,
-                      fontWeight: FontWeight.w500,
                     ),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
@@ -208,7 +207,7 @@ class InlineReplyPreview extends ConsumerWidget {
                     resolution.state == MessageReferenceState.deleted
                         ? l10n.chatReplyOriginalDeleted
                         : l10n.chatReplyOriginalFailedToLoad,
-                    style: TextStyle(
+                    style: context.textStyles.bodySmall.copyWith(
                       color: context.colors.textPrimaryMuted,
                       fontSize: _kReplyPreviewFontSize,
                       height: _kReplyPreviewLineHeight,
@@ -235,7 +234,7 @@ class _ReplyPreviewContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = TextStyle(
+    final style = context.textStyles.bodySmall.copyWith(
       color: context.colors.textPrimaryMuted,
       fontSize: _kReplyPreviewFontSize,
       height: _kReplyPreviewLineHeight,
@@ -380,17 +379,18 @@ class ReplyInputBar extends ConsumerWidget {
             child: RichText(
               overflow: TextOverflow.ellipsis,
               text: TextSpan(
-                style: const TextStyle(fontSize: 14),
+                style: context.textStyles.bodySmall,
                 children: [
                   TextSpan(
                     text: 'Replying to ',
-                    style: TextStyle(color: context.colors.textPrimaryMuted),
+                    style: context.textStyles.bodySmall.copyWith(
+                      color: context.colors.textPrimaryMuted,
+                    ),
                   ),
                   TextSpan(
                     text: replyAuthorDisplay.displayName,
-                    style: TextStyle(
+                    style: context.textStyles.categoryName.copyWith(
                       color: context.colors.textChat,
-                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
@@ -437,9 +437,7 @@ class ReplyInputBar extends ConsumerWidget {
                           shouldMention
                               ? l10n.chatReplyMentionOn
                               : l10n.chatReplyMentionOff,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
+                          style: context.textStyles.categoryName.copyWith(
                             color: shouldMention
                                 ? activeMentionColor
                                 : context.colors.textPrimaryMuted,
@@ -532,19 +530,21 @@ class EditingInputBar extends StatelessWidget {
         Expanded(
           child: Text(
             FluxerLocalizations.of(context).chatEditingMessage,
-            style: TextStyle(
+            style: context.textStyles.bodySmall.copyWith(
               color: context.colors.textPrimaryMuted,
-              fontSize: 14,
             ),
             overflow: TextOverflow.ellipsis,
           ),
         ),
-        IconButton(
-          icon: const PhosphorIcon(PhosphorIconsFill.xCircle, size: 16),
-          color: context.colors.textPrimaryMuted,
-          onPressed: onCancel,
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(minWidth: 24, minHeight: 24),
+        Semantics(
+          label: FluxerLocalizations.of(context).cancel,
+          child: IconButton(
+            icon: const PhosphorIcon(PhosphorIconsFill.xCircle, size: 16),
+            color: context.colors.textPrimaryMuted,
+            onPressed: onCancel,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(minWidth: 24, minHeight: 24),
+          ),
         ),
       ],
     ),

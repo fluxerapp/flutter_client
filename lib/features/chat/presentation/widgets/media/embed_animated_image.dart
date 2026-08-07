@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/features/accessibility/effective_motion_preferences_provider.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/animated_image_playback_controller.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/fluxer_animated_image.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 /// Plays [animatedUrl] while visible and [staticUrl] otherwise. Respects the
 /// nearest [AnimatedImagePlaybackScope] for scrolling pause and cap.
-class EmbedAnimatedImage extends StatefulWidget {
+class EmbedAnimatedImage extends ConsumerStatefulWidget {
   const EmbedAnimatedImage({
     required this.animatedUrl,
     required this.staticUrl,
@@ -26,14 +28,15 @@ class EmbedAnimatedImage extends StatefulWidget {
   final Widget? placeholder;
 
   @override
-  State<EmbedAnimatedImage> createState() => _EmbedAnimatedImageState();
+  ConsumerState<EmbedAnimatedImage> createState() => _EmbedAnimatedImageState();
 }
 
-class _EmbedAnimatedImageState extends State<EmbedAnimatedImage> {
+class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
   AnimatedImagePlaybackController? _controller;
   late final ValueNotifier<bool> _playingNotifier;
   bool _localVisible = false;
   bool _hideScheduled = false;
+  bool? _allowedGifAutoPlay;
 
   @override
   void initState() {
@@ -59,19 +62,27 @@ class _EmbedAnimatedImageState extends State<EmbedAnimatedImage> {
 
   @override
   void dispose() {
-    _controller?.unregister(widget.visibilityKey);
     _controller?.removeListener(_onControllerChanged);
+    _controller?.unregister(widget.visibilityKey);
     _playingNotifier.dispose();
     super.dispose();
   }
 
   void _onControllerChanged() {
+    if (!mounted) {
+      return;
+    }
     _syncPlaying();
   }
 
-  void _syncPlaying() {
+  void _syncPlaying({bool? allowed}) {
+    if (!mounted) {
+      return;
+    }
+    final bool gifAllowed = allowed ?? _allowedGifAutoPlay ?? true;
     final bool playing =
-        _controller?.isPlaying(widget.visibilityKey) ?? _localVisible;
+        gifAllowed &&
+        (_controller?.isPlaying(widget.visibilityKey) ?? _localVisible);
     if (_playingNotifier.value == playing) {
       return;
     }
@@ -105,6 +116,16 @@ class _EmbedAnimatedImageState extends State<EmbedAnimatedImage> {
 
   @override
   Widget build(BuildContext context) {
+    final bool allowed = effectiveMotionOf(ref, context).effectiveGifAutoPlay;
+    if (_allowedGifAutoPlay != allowed) {
+      _allowedGifAutoPlay = allowed;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _syncPlaying(allowed: allowed);
+        }
+      });
+    }
+
     if (widget.animatedUrl.isEmpty) {
       return widget.placeholder ?? const SizedBox.shrink();
     }

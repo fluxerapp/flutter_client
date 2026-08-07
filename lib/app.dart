@@ -6,6 +6,8 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
+import 'package:fluxer_app/features/accessibility/resolve_reduced_motion.dart';
+import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/native_titlebar.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/required_action_gate.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast_overlay.dart';
@@ -24,25 +26,13 @@ class FluxerApp extends ConsumerWidget {
     final router = ref.watch(fluxerRouterProvider);
     final themePref = ref.watch(themePreferenceProvider);
     final Locale appLocale = ref.watch(effectiveAppLocaleProvider);
-
-    final darkTheme = buildFluxerTheme(
-      colorTheme: themePref.darkColorTheme,
-      textTheme: themePref.darkTextTheme,
-      layoutTheme: themePref.layoutTheme,
-    );
-    final lightTheme = buildFluxerTheme(
-      colorTheme: themePref.lightColorTheme,
-      textTheme: themePref.lightTextTheme,
-      layoutTheme: themePref.layoutTheme,
-      brightness: Brightness.light,
-    );
-    final explicitTheme = buildFluxerTheme(
-      colorTheme: themePref.colorTheme,
-      textTheme: themePref.textTheme,
-      layoutTheme: themePref.layoutTheme,
-      brightness: themePref.mode == FluxerThemeMode.light
-          ? Brightness.light
-          : Brightness.dark,
+    final ({bool sync, bool override}) reducedMotionPrefs = ref.watch(
+      appearancePreferencesProvider.select(
+        (AppearancePreferencesState s) => (
+          sync: s.syncReducedMotionWithSystem,
+          override: s.reducedMotionOverride,
+        ),
+      ),
     );
 
     final ThemeMode themeMode;
@@ -51,17 +41,35 @@ class FluxerApp extends ConsumerWidget {
     switch (themePref.mode) {
       case FluxerThemeMode.system:
         themeMode = ThemeMode.system;
-        theme = lightTheme;
-        darkThemeData = darkTheme;
+        theme = buildFluxerTheme(
+          colorTheme: themePref.lightColorTheme,
+          textTheme: themePref.lightTextTheme,
+          layoutTheme: themePref.layoutTheme,
+          brightness: Brightness.light,
+        );
+        darkThemeData = buildFluxerTheme(
+          colorTheme: themePref.darkColorTheme,
+          textTheme: themePref.darkTextTheme,
+          layoutTheme: themePref.layoutTheme,
+        );
       case FluxerThemeMode.light:
         themeMode = ThemeMode.light;
-        theme = explicitTheme;
+        theme = buildFluxerTheme(
+          colorTheme: themePref.colorTheme,
+          textTheme: themePref.textTheme,
+          layoutTheme: themePref.layoutTheme,
+          brightness: Brightness.light,
+        );
         darkThemeData = null;
       case FluxerThemeMode.dark:
       case FluxerThemeMode.coal:
         themeMode = ThemeMode.dark;
-        theme = explicitTheme;
-        darkThemeData = explicitTheme;
+        theme = buildFluxerTheme(
+          colorTheme: themePref.colorTheme,
+          textTheme: themePref.textTheme,
+          layoutTheme: themePref.layoutTheme,
+        );
+        darkThemeData = theme;
     }
 
     return MaterialApp.router(
@@ -73,6 +81,7 @@ class FluxerApp extends ConsumerWidget {
       theme: theme,
       darkTheme: darkThemeData,
       themeMode: themeMode,
+      themeAnimationDuration: Duration.zero,
       routerConfig: router,
       builder: (context, child) {
         final Widget layered = InputModalityListener(
@@ -98,7 +107,21 @@ class FluxerApp extends ConsumerWidget {
           );
         }
 
-        return content;
+        final bool platformReducedMotion = MediaQuery.disableAnimationsOf(
+          context,
+        );
+        final bool disableAnimations = resolveReducedMotion(
+          syncReducedMotionWithSystem: reducedMotionPrefs.sync,
+          reducedMotionOverride: reducedMotionPrefs.override,
+          platformReducedMotion: platformReducedMotion,
+        );
+        if (!disableAnimations) {
+          return content;
+        }
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(disableAnimations: true),
+          child: content,
+        );
       },
     );
   }

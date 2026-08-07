@@ -688,9 +688,6 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         final guildUnreadReady = ref.watch(guildReadStateReadyProvider);
         final muteState = ref.watch(guildMuteProvider(guild.id)).value;
         final voiceActivity = ref.watch(guildVoiceActivityProvider(guild.id));
-        final voiceRows = ref
-            .watch(guildVoiceParticipantsProvider(guild.id))
-            .value;
         final permissions = ref.watch(
           guildPermissionsProvider.select((s) => s[guild.id] ?? 0),
         );
@@ -715,7 +712,6 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
           muteEndTime: muteState?.muteEndTime,
           hideMutedChannels: muteState?.hideMutedChannels ?? false,
           voiceActivity: voiceActivity,
-          voiceRows: voiceRows ?? const [],
           hasUnread: !guild.isUnavailable && (unread?.hasUnread ?? false),
           mentionCount: guild.isUnavailable ? 0 : unread?.mentionCount ?? 0,
           guildUnreadReady: guildUnreadReady,
@@ -1148,49 +1144,61 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
                 child: MouseRegion(
                   onEnter: (_) => setState(() => _isHovered = true),
                   onExit: (_) => setState(() => _isHovered = false),
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () {
-                      if (_suppressNextFolderTap) {
-                        _suppressNextFolderTap = false;
-                        return;
-                      }
-                      ref
-                          .read(folderExpandedStateProvider.notifier)
-                          .toggle(folder.id);
-                    },
-                    onSecondaryTapUp: (TapUpDetails details) {
-                      unawaited(
-                        _showFolderContextMenu(context, details.globalPosition),
-                      );
-                    },
-                    child: SizedBox(
-                      width: 48,
-                      height: 48,
-                      child: isExpanded
-                          ? Center(
-                              child: PhosphorIcon(
-                                guildFolderIconForName(folder.icon),
-                                color: context.colors.textPrimary,
-                                size: 24,
-                              ),
-                            )
-                          : Center(
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 70),
-                                curve: Curves.easeOut,
-                                width: 48,
-                                height: 48,
-                                decoration: BoxDecoration(
-                                  color: folderSurface,
-                                  borderRadius: BorderRadius.circular(48 * 0.3),
+                  child: Semantics(
+                    button: true,
+                    expanded: isExpanded,
+                    label: isExpanded
+                        ? l10n.guildNavbarCollapseFolder(folderName)
+                        : folderName,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () {
+                        if (_suppressNextFolderTap) {
+                          _suppressNextFolderTap = false;
+                          return;
+                        }
+                        ref
+                            .read(folderExpandedStateProvider.notifier)
+                            .toggle(folder.id);
+                      },
+                      onSecondaryTapUp: (TapUpDetails details) {
+                        unawaited(
+                          _showFolderContextMenu(
+                            context,
+                            details.globalPosition,
+                          ),
+                        );
+                      },
+                      child: SizedBox(
+                        width: 48,
+                        height: 48,
+                        child: isExpanded
+                            ? Center(
+                                child: PhosphorIcon(
+                                  guildFolderIconForName(folder.icon),
+                                  color: context.colors.textPrimary,
+                                  size: 24,
                                 ),
-                                child: _buildFolderContent(
-                                  context,
-                                  folderAccent,
+                              )
+                            : Center(
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 70),
+                                  curve: Curves.easeOut,
+                                  width: 48,
+                                  height: 48,
+                                  decoration: BoxDecoration(
+                                    color: folderSurface,
+                                    borderRadius: BorderRadius.circular(
+                                      48 * 0.3,
+                                    ),
+                                  ),
+                                  child: _buildFolderContent(
+                                    context,
+                                    folderAccent,
+                                  ),
                                 ),
                               ),
-                            ),
+                      ),
                     ),
                   ),
                 ),
@@ -1252,15 +1260,23 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
                         ? CachedNetworkImage(
                             imageUrl: guild.iconUrl!,
                             fit: BoxFit.cover,
+                            memCacheWidth: _guildNavbarIconMemCache(
+                              context,
+                              cellSize,
+                            ),
+                            memCacheHeight: _guildNavbarIconMemCache(
+                              context,
+                              cellSize,
+                            ),
                           )
                         : ColoredBox(
                             color: context.colors.serverIconBackground,
                             child: Center(
                               child: Text(
                                 abbreviateGuildName(guild.name, maxLength: 2),
-                                style: const TextStyle(
+                                style: context.textStyles.smallText.copyWith(
                                   fontSize: 8,
-                                  fontWeight: FontWeight.w600,
+                                  color: context.colors.textPrimary,
                                 ),
                               ),
                             ),
@@ -1284,9 +1300,6 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
         final guildUnreadReady = ref.watch(guildReadStateReadyProvider);
         final muteState = ref.watch(guildMuteProvider(guild.id)).value;
         final voiceActivity = ref.watch(guildVoiceActivityProvider(guild.id));
-        final voiceRows = ref
-            .watch(guildVoiceParticipantsProvider(guild.id))
-            .value;
         final permissions = ref.watch(
           guildPermissionsProvider.select((s) => s[guild.id] ?? 0),
         );
@@ -1336,7 +1349,6 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
             muteEndTime: muteState?.muteEndTime,
             hideMutedChannels: muteState?.hideMutedChannels ?? false,
             voiceActivity: voiceActivity,
-            voiceRows: voiceRows ?? const [],
             hasUnread: !guild.isUnavailable && (unread?.hasUnread ?? false),
             mentionCount: guild.isUnavailable ? 0 : unread?.mentionCount ?? 0,
             guildUnreadReady: guildUnreadReady,
@@ -2062,6 +2074,9 @@ double _guildNavbarInitialsFontSize(int initialsLength) {
   return 12;
 }
 
+int _guildNavbarIconMemCache(BuildContext context, double logicalSize) =>
+    (logicalSize * MediaQuery.devicePixelRatioOf(context)).round();
+
 class _GuildListItem extends StatefulWidget {
   final String label;
   final Guild? guild;
@@ -2074,7 +2089,6 @@ class _GuildListItem extends StatefulWidget {
   final DateTime? muteEndTime;
   final bool hideMutedChannels;
   final VoiceActivityType voiceActivity;
-  final List<VoiceParticipantRow> voiceRows;
   final IconData? icon;
   final String? svgAsset;
   final VoidCallback onTap;
@@ -2160,7 +2174,6 @@ class _GuildListItem extends StatefulWidget {
     this.muteEndTime,
     this.hideMutedChannels = false,
     this.voiceActivity = VoiceActivityType.none,
-    this.voiceRows = const [],
     this.icon,
     this.svgAsset,
     this.iconUrl,
@@ -2233,6 +2246,19 @@ class _GuildListItemState extends State<_GuildListItem>
   int get _displayMentionCount =>
       widget.guildUnreadReady ? widget.mentionCount : 0;
 
+  String _guildSemanticLabel(FluxerLocalizations l10n) {
+    final StringBuffer label = StringBuffer(widget.label);
+    if (widget.isSelected) {
+      label.write(', ${l10n.guildNavbarGuildSelected}');
+    }
+    if (_displayMentionCount > 0) {
+      label.write(', ${l10n.guildNavbarGuildMentions(_displayMentionCount)}');
+    } else if (_displayHasUnread) {
+      label.write(', ${l10n.guildNavbarGuildUnread}');
+    }
+    return label.toString();
+  }
+
   Duration get _unreadIndicatorDuration {
     if (!widget.guildUnreadReady || !_animateUnreadIndicator) {
       return Duration.zero;
@@ -2258,10 +2284,9 @@ class _GuildListItemState extends State<_GuildListItem>
           ? PhosphorIcon(widget.icon!, color: iconColor, size: 32)
           : Text(
               initials,
-              style: TextStyle(
+              style: context.textStyles.smallText.copyWith(
                 color: iconColor,
                 fontSize: _guildNavbarInitialsFontSize(initialsLength),
-                fontWeight: FontWeight.w600,
                 height: 1,
               ),
             ),
@@ -2271,6 +2296,7 @@ class _GuildListItemState extends State<_GuildListItem>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final isActive = widget.isSelected || _isHovered;
     final activeAnimatedIconUrl = isActive
         ? widget.guild?.animatedIconUrl
@@ -2336,68 +2362,84 @@ class _GuildListItemState extends State<_GuildListItem>
                         permissions: widget.permissions,
                         isMuted: widget.isMuted,
                         muteEndTime: widget.muteEndTime,
-                        voiceRows: widget.voiceRows,
                       )
                     : _TooltipLabel(label: widget.label),
                 child: MouseRegion(
                   onEnter: (_) => setState(() => _isHovered = true),
                   onExit: (_) => setState(() => _isHovered = false),
-                  child: GestureDetector(
-                    onTap: widget.onTap,
-                    onSecondaryTapUp: widget.guild != null
-                        ? (details) => unawaited(
-                            _showContextMenu(context, details.globalPosition),
-                          )
-                        : null,
-                    onLongPress:
-                        widget.guild != null && widget.enableLongPressMenu
-                        ? () => unawaited(_showActionSheet(context))
-                        : null,
-                    child: SizedBox(
-                      width: 48,
-                      height: 48,
-                      child: Center(
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 70),
-                          curve: Curves.easeOut,
-                          width: 44,
-                          height: 44,
-                          decoration: BoxDecoration(
-                            color: bgColor,
-                            borderRadius: BorderRadius.circular(borderRadius),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadiusGeometry.circular(
-                              borderRadius,
+                  child: Semantics(
+                    button: true,
+                    selected: widget.isSelected,
+                    label: _guildSemanticLabel(l10n),
+                    child: GestureDetector(
+                      onTap: widget.onTap,
+                      onSecondaryTapUp: widget.guild != null
+                          ? (details) => unawaited(
+                              _showContextMenu(context, details.globalPosition),
+                            )
+                          : null,
+                      onLongPress:
+                          widget.guild != null && widget.enableLongPressMenu
+                          ? () => unawaited(_showActionSheet(context))
+                          : null,
+                      child: SizedBox(
+                        width: 48,
+                        height: 48,
+                        child: Center(
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 70),
+                            curve: Curves.easeOut,
+                            width: 44,
+                            height: 44,
+                            decoration: BoxDecoration(
+                              color: bgColor,
+                              borderRadius: BorderRadius.circular(borderRadius),
                             ),
-                            child: widget.isUnavailable
-                                ? Center(
-                                    child: PhosphorIcon(
-                                      PhosphorIconsBold.exclamationMark,
-                                      color: context.colors.textOnBrandPrimary,
-                                      size: 32,
+                            child: ClipRRect(
+                              borderRadius: BorderRadiusGeometry.circular(
+                                borderRadius,
+                              ),
+                              child: widget.isUnavailable
+                                  ? Center(
+                                      child: PhosphorIcon(
+                                        PhosphorIconsBold.exclamationMark,
+                                        color:
+                                            context.colors.textOnBrandPrimary,
+                                        size: 32,
+                                      ),
+                                    )
+                                  : iconUrl != null
+                                  ? CachedNetworkImage(
+                                      imageUrl: iconUrl,
+                                      memCacheWidth: _guildNavbarIconMemCache(
+                                        context,
+                                        44,
+                                      ),
+                                      memCacheHeight: _guildNavbarIconMemCache(
+                                        context,
+                                        44,
+                                      ),
+                                      fadeInDuration:
+                                          activeAnimatedIconUrl != null
+                                          ? const Duration(milliseconds: 200)
+                                          : const Duration(milliseconds: 500),
+                                      errorBuilder: (context, url, error) =>
+                                          _buildBackupIcon(
+                                            context,
+                                            isActive: isActive,
+                                          ),
+                                      progressIndicatorBuilder:
+                                          (context, url, progress) =>
+                                              _buildBackupIcon(
+                                                context,
+                                                isActive: isActive,
+                                              ),
+                                    )
+                                  : _buildBackupIcon(
+                                      context,
+                                      isActive: isActive,
                                     ),
-                                  )
-                                : iconUrl != null
-                                ? CachedNetworkImage(
-                                    imageUrl: iconUrl,
-                                    fadeInDuration:
-                                        activeAnimatedIconUrl != null
-                                        ? const Duration(milliseconds: 200)
-                                        : const Duration(milliseconds: 500),
-                                    errorBuilder: (context, url, error) =>
-                                        _buildBackupIcon(
-                                          context,
-                                          isActive: isActive,
-                                        ),
-                                    progressIndicatorBuilder:
-                                        (context, url, progress) =>
-                                            _buildBackupIcon(
-                                              context,
-                                              isActive: isActive,
-                                            ),
-                                  )
-                                : _buildBackupIcon(context, isActive: isActive),
+                            ),
                           ),
                         ),
                       ),
@@ -3892,42 +3934,47 @@ class _DashedGuildIconState extends State<_DashedGuildIcon>
           child: MouseRegion(
             onEnter: (_) => _onEnter(),
             onExit: (_) => _onExit(),
-            child: GestureDetector(
-              onTap: widget.onTap,
-              child: AnimatedBuilder(
-                animation: _controller,
-                builder: (context, _) {
-                  final Color activeColor = widget.isSelected
-                      ? context.colors.brandPrimary
-                      : (_colorAnim.value ?? context.colors.interactiveMuted);
-                  return SizedBox(
-                    width: 48,
-                    height: 48,
-                    child: Center(
-                      child: SizedBox(
-                        width: 44,
-                        height: 44,
-                        child: CustomPaint(
-                          painter: DashedBorderPainter(
-                            shape: DashedBorderShape.roundedRectangle,
-                            borderRadius: widget.isSelected
-                                ? 13
-                                : _radiusAnim.value,
-                            color: activeColor,
-                            isSolid: widget.isSelected,
-                          ),
-                          child: Center(
-                            child: PhosphorIcon(
-                              widget.icon,
+            child: Semantics(
+              button: true,
+              selected: widget.isSelected,
+              label: widget.label,
+              child: GestureDetector(
+                onTap: widget.onTap,
+                child: AnimatedBuilder(
+                  animation: _controller,
+                  builder: (context, _) {
+                    final Color activeColor = widget.isSelected
+                        ? context.colors.brandPrimary
+                        : (_colorAnim.value ?? context.colors.interactiveMuted);
+                    return SizedBox(
+                      width: 48,
+                      height: 48,
+                      child: Center(
+                        child: SizedBox(
+                          width: 44,
+                          height: 44,
+                          child: CustomPaint(
+                            painter: DashedBorderPainter(
+                              shape: DashedBorderShape.roundedRectangle,
+                              borderRadius: widget.isSelected
+                                  ? 13
+                                  : _radiusAnim.value,
                               color: activeColor,
-                              size: 20,
+                              isSolid: widget.isSelected,
+                            ),
+                            child: Center(
+                              child: PhosphorIcon(
+                                widget.icon,
+                                color: activeColor,
+                                size: 20,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ),
           ),
@@ -4084,11 +4131,7 @@ class _UnavailableGuildsIndicator extends StatelessWidget {
               child: Text(
                 l10n.guildUnavailableOutageTooltip(count),
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: context.colors.textPrimary,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: context.textStyles.label,
               ),
             ),
             child: SizedBox(
@@ -4149,24 +4192,16 @@ class _TooltipLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      label,
-      style: TextStyle(
-        color: context.colors.textPrimary,
-        fontSize: 16,
-        fontWeight: FontWeight.w600,
-      ),
-    );
+    return Text(label, style: context.textStyles.channelName);
   }
 }
 
-class _GuildTooltipContent extends StatelessWidget {
+class _GuildTooltipContent extends ConsumerWidget {
   final Guild guild;
   final int unavailableCount;
   final int permissions;
   final bool isMuted;
   final DateTime? muteEndTime;
-  final List<VoiceParticipantRow> voiceRows;
 
   const _GuildTooltipContent({
     required this.guild,
@@ -4174,7 +4209,6 @@ class _GuildTooltipContent extends StatelessWidget {
     this.permissions = 0,
     this.isMuted = false,
     this.muteEndTime,
-    this.voiceRows = const [],
   });
 
   String _mutedText(FluxerLocalizations l10n) {
@@ -4189,19 +4223,18 @@ class _GuildTooltipContent extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final voiceRows =
+        ref.watch(guildVoiceParticipantsProvider(guild.id)).value ??
+        const <VoiceParticipantRow>[];
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: guild.unavailable
           ? Text(
               l10n.guildUnavailableOutageTooltip(unavailableCount),
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: context.colors.textPrimary,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
+              style: context.textStyles.label,
             )
           : Column(
               mainAxisSize: MainAxisSize.min,
@@ -4217,11 +4250,7 @@ class _GuildTooltipContent extends StatelessWidget {
                     Flexible(
                       child: Text(
                         guild.name,
-                        style: TextStyle(
-                          color: context.colors.textPrimary,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: context.textStyles.channelName,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       ),
@@ -4234,9 +4263,8 @@ class _GuildTooltipContent extends StatelessWidget {
                   const SizedBox(height: 6),
                   Text(
                     l10n.guildNavbarStaffOnlyAccessible,
-                    style: TextStyle(
+                    style: context.textStyles.bodySmall.copyWith(
                       color: context.colors.statusDanger,
-                      fontSize: 14,
                     ),
                   ),
                 ],
@@ -4245,7 +4273,7 @@ class _GuildTooltipContent extends StatelessWidget {
                   const SizedBox(height: 6),
                   Text(
                     l10n.guildNavbarInvitesPaused,
-                    style: TextStyle(
+                    style: context.textStyles.bodySmall.copyWith(
                       color: context.colors.textSecondary,
                       fontSize: 13,
                     ),
@@ -4264,7 +4292,7 @@ class _GuildTooltipContent extends StatelessWidget {
                       const SizedBox(width: 6),
                       Text(
                         _mutedText(l10n),
-                        style: TextStyle(
+                        style: context.textStyles.bodySmall.copyWith(
                           color: context.colors.textSecondary,
                           fontSize: 13,
                         ),
@@ -4328,6 +4356,8 @@ class _AvatarStack extends StatelessWidget {
                     imageUrl: avatarUrls[i],
                     width: 24,
                     height: 24,
+                    memCacheWidth: _guildNavbarIconMemCache(context, 24),
+                    memCacheHeight: _guildNavbarIconMemCache(context, 24),
                     fit: BoxFit.cover,
                   ),
                 ),

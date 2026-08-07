@@ -25,6 +25,7 @@ void appendGuildMemberModerationMenuItems({
   required String? currentNick,
   bool isCurrentUser = false,
   bool includeNickname = false,
+  bool includeModerationActions = true,
 }) {
   if (includeNickname && capabilities.canChangeNickname) {
     items.add(
@@ -58,6 +59,10 @@ void appendGuildMemberModerationMenuItems({
         },
       ),
     );
+  }
+
+  if (!includeModerationActions) {
+    return;
   }
 
   if (capabilities.showTimeout) {

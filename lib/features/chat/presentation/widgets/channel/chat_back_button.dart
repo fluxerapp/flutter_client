@@ -15,6 +15,12 @@ class ChatBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String backLabel = MaterialLocalizations.of(
+      context,
+    ).backButtonTooltip;
+    final String semanticLabel = unreadCount > 0
+        ? '$backLabel, $unreadCount'
+        : backLabel;
     return SizedBox(
       width: 32,
       height: 32,
@@ -25,6 +31,7 @@ class ChatBackButton extends StatelessWidget {
             icon: const PhosphorIcon(PhosphorIconsBold.arrowLeft, size: 24),
             color: context.colors.textPrimaryMuted,
             onPressed: onPressed,
+            tooltip: semanticLabel,
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
             style: IconButton.styleFrom(shape: const CircleBorder()),
@@ -33,9 +40,11 @@ class ChatBackButton extends StatelessWidget {
             Positioned(
               bottom: -4,
               right: 3,
-              child: FluxerBadge.compactCount(
-                count: unreadCount,
-                cutoutColor: context.colors.chatInputBackground,
+              child: ExcludeSemantics(
+                child: FluxerBadge.compactCount(
+                  count: unreadCount,
+                  cutoutColor: context.colors.chatInputBackground,
+                ),
               ),
             ),
         ],

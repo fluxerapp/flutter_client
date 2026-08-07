@@ -763,6 +763,140 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get embedThemeUnavailableButton => 'Temos neprieinamos';
 
   @override
+  String embedGiftVisionaryLifetime(String productName) {
+    return 'Visionary (lifetime $productName)';
+  }
+
+  @override
+  String embedGiftDurationDays(int count, String productName) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days of $productName',
+      one: '1 day of $productName',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String embedGiftDurationWeeks(int count, String productName) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count weeks of $productName',
+      one: '1 week of $productName',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String embedGiftDurationMonths(int count, String productName) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count months of $productName',
+      one: '1 month of $productName',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String embedGiftDurationYears(int count, String productName) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count years of $productName',
+      one: '1 year of $productName',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String embedGiftFrom(String creatorTag) {
+    return 'From $creatorTag';
+  }
+
+  @override
+  String get embedGiftClaimHelp => 'Click to claim your gift!';
+
+  @override
+  String get embedGiftAlreadyRedeemed => 'Already redeemed';
+
+  @override
+  String get embedGiftClaimAccountHelp =>
+      'Claim your account to redeem this gift.';
+
+  @override
+  String get embedGiftClaim => 'Claim gift';
+
+  @override
+  String get embedGiftClaimed => 'Gift claimed';
+
+  @override
+  String get embedGiftClaimAccount => 'Claim account to redeem';
+
+  @override
+  String get embedGiftUnknownTitle => 'Unknown gift';
+
+  @override
+  String get embedGiftUnknownSubtitle =>
+      'This gift code is invalid or already claimed.';
+
+  @override
+  String get embedGiftUnavailable => 'Gift unavailable';
+
+  @override
+  String giftAcceptClaimSubscription(String productName) {
+    return 'Claim your gift to activate your $productName subscription!';
+  }
+
+  @override
+  String get giftAcceptAlreadyClaimed => 'This gift has already been claimed.';
+
+  @override
+  String get giftAcceptMaybeLater => 'Maybe later';
+
+  @override
+  String get giftRedeemedToast => 'Gift redeemed!';
+
+  @override
+  String get giftRedeemInvalidTitle => 'Invalid gift code';
+
+  @override
+  String get giftRedeemInvalidMessage =>
+      'This code is invalid or already used.';
+
+  @override
+  String get giftRedeemAlreadyRedeemedTitle => 'Gift already redeemed';
+
+  @override
+  String get giftRedeemAlreadyRedeemedMessage =>
+      'This code was already redeemed.';
+
+  @override
+  String get giftRedeemNotFoundTitle => 'Gift not found';
+
+  @override
+  String get giftRedeemNotFoundMessage => 'This code doesn\'t exist.';
+
+  @override
+  String get giftRedeemFailedTitle => 'Failed to redeem gift';
+
+  @override
+  String get giftRedeemFailedMessage =>
+      'Couldn\'t redeem this gift. Try again.';
+
+  @override
+  String get giftVisionaryCannotRedeemTitle => 'Can\'t redeem this gift';
+
+  @override
+  String get giftVisionaryCannotRedeemMessage =>
+      'Visionary accounts can\'t redeem Plutonium gifts. Copy the link to share it with a friend instead.';
+
+  @override
+  String get giftCopyLink => 'Copy gift link';
+
+  @override
   String get privacySettings => 'Privatumo nustatymai';
 
   @override
@@ -3478,6 +3612,12 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get voiceMessagePause => 'Pristabdyti';
 
   @override
+  String get voiceMessageSeekForward => 'Seek forward';
+
+  @override
+  String get voiceMessageSeekBackward => 'Seek backward';
+
+  @override
   String voiceMessageSelectionTooShort(num seconds) {
     final intl.NumberFormat secondsNumberFormat = intl.NumberFormat.compact(
       locale: localeName,
@@ -4387,19 +4527,13 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Reguliuokite programėlės temos spalvų sodrumą.';
 
   @override
-  String get accessibilityUnreadGroupTitle => 'Neskaitytų indikatoriai';
+  String get accessibilityVisualGroupTitle => 'Visual';
 
   @override
-  String get accessibilityUnreadGroupDescription =>
-      'Valdykite, kaip rodomi neskaitytų žinučių indikatoriai.';
+  String get accessibilityAlwaysUnderlineLinksLabel => 'Always underline links';
 
   @override
-  String get accessibilityShowFadedUnreadOnMutedChannelsLabel =>
-      'Rodyti išblukusį neskaityto indikatorių nutildytuose kanaluose';
-
-  @override
-  String get accessibilityShowFadedUnreadOnMutedChannelsDescription =>
-      'Rodyti pritemdytą neskaityto indikatorių šalia nutildytų tiesioginių žinučių ir kanalų, kad vis tiek galėtumėte iš pirmo žvilgsnio matyti, ar yra aktyvumo.';
+  String get accessibilityDimStrikethroughTextLabel => 'Dim strikethrough text';
 
   @override
   String get accessibilityDmMessagePreviewGroupTitle =>
@@ -4436,26 +4570,260 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Nėra žinučių peržiūrų tiesioginių žinučių sąraše';
 
   @override
-  String get accessibilityMediaButtonsGroupTitle => 'Media Buttons';
+  String get accessibilityScreenReaderGroupTitle => 'Screen reader';
 
   @override
-  String get accessibilityMediaButtonsGroupDescription =>
-      'Customize which buttons appear on media attachments and embeds.';
+  String get accessibilityScreenReaderGroupDescription =>
+      'Control how Fluxer works with screen readers.';
 
   @override
-  String get accessibilityShowMediaDeleteButtonLabel => 'Show delete button';
+  String get accessibilityScreenReaderAnnounceNewMessagesLabel =>
+      'Announce new messages';
 
   @override
-  String get accessibilityShowMediaDownloadButtonLabel =>
-      'Show download button';
+  String get accessibilityScreenReaderAnnounceNewMessagesDescription =>
+      'Let screen readers announce new messages as they arrive in the open channel. Notification sounds are unaffected.';
 
   @override
-  String get accessibilityShowMediaFavoriteButtonLabel =>
-      'Show favorite button';
+  String get accessibilityTtsGroupTitle => 'Text-to-speech';
 
   @override
-  String get accessibilityShowSuppressEmbedsButtonLabel =>
-      'Show suppress embeds button';
+  String get accessibilityTtsGroupDescription =>
+      'Choose a speed for spoken text.';
+
+  @override
+  String get accessibilityTtsSpeechPlaybackSpeedLabel =>
+      'Speech playback speed';
+
+  @override
+  String get accessibilityTtsPlaySampleLabel => 'Play sample';
+
+  @override
+  String get accessibilityTtsSilenceSampleLabel => 'Silence sample';
+
+  @override
+  String get accessibilityPreviewButtonLabel => 'Preview button';
+
+  @override
+  String accessibilityPreviewLinksMessage(String linkPreviewExampleUrl) {
+    return 'This shows how links appear: $linkPreviewExampleUrl';
+  }
+
+  @override
+  String get accessibilityPreviewUserName => 'Preview User';
+
+  @override
+  String get accessibilityKeyboardGroupTitle => 'Keyboard';
+
+  @override
+  String get accessibilityShowTextareaFocusRingLabel =>
+      'Show focus ring on chat textarea';
+
+  @override
+  String get accessibilityEscapeExitsKeyboardModeLabel =>
+      'Escape key exits keyboard mode';
+
+  @override
+  String get accessibilityShowContextMenuShortcutsLabel =>
+      'Show context menu shortcuts';
+
+  @override
+  String get accessibilityConfirmBeforeStartingCallsLabel =>
+      'Confirm before starting calls';
+
+  @override
+  String get accessibilityAnimationGroupTitle => 'Animation';
+
+  @override
+  String get accessibilityReducedMotionActiveNote =>
+      'Reduced motion is on, so content animations are paused by default. You can still turn any of these back on to keep it playing.';
+
+  @override
+  String get accessibilityPlayAnimatedEmojisLabel => 'Play animated emojis';
+
+  @override
+  String get accessibilityAutoPlayGifsMobileLabel => 'Automatically play GIFs';
+
+  @override
+  String accessibilityAutoPlayGifsDesktopLabel(String productName) {
+    return 'Automatically play GIFs when $productName is focused';
+  }
+
+  @override
+  String get accessibilityPlayingDespiteReducedMotion =>
+      'Playing despite reduced motion.';
+
+  @override
+  String get accessibilityPausedEmojiByReducedMotion =>
+      'Paused by reduced motion. Turn on to keep animated emojis playing.';
+
+  @override
+  String get accessibilityPausedGifByReducedMotion =>
+      'Paused by reduced motion. Turn on to keep GIFs playing.';
+
+  @override
+  String get accessibilityGifDefaultsOffOnMobile =>
+      'Defaults to off on mobile to preserve battery life and data usage.';
+
+  @override
+  String get accessibilityStickerAnimationsTitle => 'Sticker animations';
+
+  @override
+  String get accessibilityStickerAnimationPreferenceLabel =>
+      'Sticker animation preference';
+
+  @override
+  String get accessibilityStickerAlwaysAnimateName => 'Always animate';
+
+  @override
+  String get accessibilityStickerAlwaysAnimateDescription =>
+      'Stickers will always animate';
+
+  @override
+  String get accessibilityStickerAnimateOnInteractionName =>
+      'Animate on interaction';
+
+  @override
+  String get accessibilityStickerAnimateOnPressDescription =>
+      'Stickers will animate when you press them';
+
+  @override
+  String get accessibilityStickerAnimateOnHoverDescription =>
+      'Stickers will animate when you hover or interact with them';
+
+  @override
+  String get accessibilityStickerNeverAnimateName => 'Never animate';
+
+  @override
+  String get accessibilityStickerNeverAnimateDescription =>
+      'Stickers will never animate';
+
+  @override
+  String get accessibilityStickersAlwaysDespiteReducedMotion =>
+      'Always animating despite reduced motion.';
+
+  @override
+  String get accessibilityStickersReducedMotionHint =>
+      'Reduced motion limits stickers to animate on interaction. Choose always animate to override.';
+
+  @override
+  String get accessibilityStickersDefaultsOnMobile =>
+      'Defaults to animate on interaction on mobile to preserve battery life.';
+
+  @override
+  String get accessibilityMotionGroupTitle => 'Motion';
+
+  @override
+  String get accessibilitySyncReducedMotionWithSystemLabel =>
+      'Sync reduced motion setting with system';
+
+  @override
+  String get accessibilitySyncReducedMotionWithSystemDescription =>
+      'Use this device\'s system reduced motion preference, or customize it below.';
+
+  @override
+  String get accessibilityReducedMotionOverrideLabel => 'Reduce motion';
+
+  @override
+  String get accessibilityReducedMotionOverrideSyncedDescription =>
+      'Disable animations and transitions. Currently controlled by your system setting.';
+
+  @override
+  String get accessibilityReducedMotionOverrideManualDescription =>
+      'Disable animations and transitions throughout the app.';
+
+  @override
+  String get accessibilityReducedMotionAnimationTabHint =>
+      'Animated emojis, GIFs and stickers stay under your control in the Animation tab.';
+
+  @override
+  String get accessibilityConfirmStartCallTitle => 'Start call?';
+
+  @override
+  String get accessibilityConfirmStartCallDescription =>
+      'Are you sure you want to start this call?';
+
+  @override
+  String get accessibilityConfirmStartCallConfirmLabel => 'Start call';
+
+  @override
+  String get accessibilityTtsSampleDescription =>
+      'Hear the sample line spoken with your chosen speed.';
+
+  @override
+  String get accessibilityTtsSampleText =>
+      'Doc, I\'m from the future. I came here in a time machine that you invented. Now, I need your help to get back to the year 1985.';
+
+  @override
+  String get accessibilityTtsUnsupportedDescription =>
+      'Speech synthesis is unavailable on this device.';
+
+  @override
+  String get accessibilityTtsPlaybackFailedDescription =>
+      'Speech playback failed. Try again, or check that audio output is working.';
+
+  @override
+  String get ttsSubstitutionUnknownUser => 'unknown user';
+
+  @override
+  String get ttsSubstitutionUnknownRole => 'unknown role';
+
+  @override
+  String get ttsSubstitutionUnknownChannel => 'unknown channel';
+
+  @override
+  String get ttsSubstitutionCodeBlock => 'code block';
+
+  @override
+  String get ttsSubstitutionSpoiler => 'spoiler';
+
+  @override
+  String ttsSubstitutionEmoji(String emojiName) {
+    return 'emoji $emojiName';
+  }
+
+  @override
+  String ttsSubstitutionSlashCommand(String commandName) {
+    return 'slash $commandName';
+  }
+
+  @override
+  String ttsAuthorSaid(String authorName, String formatted) {
+    return '$authorName said: $formatted';
+  }
+
+  @override
+  String ttsReplyingToSaid(
+    String replyAuthorName,
+    String authorName,
+    String formatted,
+  ) {
+    return 'Replying to $replyAuthorName, $authorName said: $formatted';
+  }
+
+  @override
+  String ttsAuthorDescription(String authorName, String description) {
+    return '$authorName $description';
+  }
+
+  @override
+  String get ttsSentSticker => 'sent a sticker';
+
+  @override
+  String get ttsSentAttachment => 'sent an attachment';
+
+  @override
+  String ttsSentAttachments(int count) {
+    return 'sent $count attachments';
+  }
+
+  @override
+  String get ttsSentEmbed => 'sent an embed';
+
+  @override
+  String messageScreenReaderAnnouncement(String author, String summary) {
+    return '$author sent $summary';
+  }
 
   @override
   String get dmListSentAnAttachment => 'Nusiuntė priedą';
@@ -5222,6 +5590,12 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get chatMessageCopyText => 'Kopijuoti žinutę';
 
   @override
+  String get chatMessageSpeak => 'Speak message';
+
+  @override
+  String get chatMessageStopSpeaking => 'Stop speaking';
+
+  @override
   String get chatMessagePin => 'Smeigti žinutę';
 
   @override
@@ -5801,6 +6175,14 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String mediaViewerAttachmentIndex(int current, int total) {
     return '$current/$total';
   }
+
+  @override
+  String mediaViewerAttachmentThumbnail(int index) {
+    return 'Attachment $index';
+  }
+
+  @override
+  String get mediaViewerDismissBackdrop => 'Dismiss';
 
   @override
   String get chatAttachmentVideoToggleControls => 'Perjungti vaizdo valdiklius';
@@ -7122,6 +7504,60 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get composerHint => 'Message';
 
   @override
+  String get composerOpenExpressionPicker => 'Open expression picker';
+
+  @override
+  String get composerShowKeyboard => 'Show keyboard';
+
+  @override
+  String messageAccessibilityLabel(String author, String summary) {
+    return '$author, $summary';
+  }
+
+  @override
+  String get messageAccessibilitySendingSuffix => ', sending';
+
+  @override
+  String get messageAccessibilityFailedSuffix => ', failed to send';
+
+  @override
+  String get messageAccessibilityAttachmentSummary => 'an attachment';
+
+  @override
+  String messageAccessibilityAttachmentsSummary(int count) {
+    return '$count attachments';
+  }
+
+  @override
+  String get messageAccessibilityImageSummary => 'an image';
+
+  @override
+  String get messageAccessibilityVideoSummary => 'a video';
+
+  @override
+  String get messageAccessibilityAudioSummary => 'an audio file';
+
+  @override
+  String messageAccessibilityStickerSummary(String name) {
+    return 'sticker $name';
+  }
+
+  @override
+  String messageAccessibilityFileSummary(String filename) {
+    return 'file $filename';
+  }
+
+  @override
+  String get messageAccessibilitySpoilerAttachmentSummary =>
+      'a spoiler attachment';
+
+  @override
+  String get messageAccessibilityEmbedSummary => 'an embed';
+
+  @override
+  String get messageAccessibilityEmptySummary => 'a message';
+
+  @override
   String get personalNotesPrivateSpace => 'Jūsų privati erdvė';
 
   @override
@@ -7438,6 +7874,59 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get notificationsMentionPreferNoMentionDescription =>
       'Default replies to omit the @mention, and warn the sender if they enable it';
+
+  @override
+  String get notificationsTtsSectionTitle => 'Text-to-speech notifications';
+
+  @override
+  String get notificationsTtsEnableCommandLabel =>
+      'Enable /tts speech playback';
+
+  @override
+  String get notificationsTtsEnableCommandDescription =>
+      'Let /tts read your message aloud. Disabling the setting keeps those commands as regular text.';
+
+  @override
+  String get notificationsTtsAccessibilityLinkPrefix =>
+      'Adjust playback speed in ';
+
+  @override
+  String get notificationsTtsAccessibilityLinkLabel => 'Accessibility';
+
+  @override
+  String get notificationsTtsAccessibilityLinkSuffix => '.';
+
+  @override
+  String get notificationsTtsAutoNarrationTitle =>
+      'Automatic message narration';
+
+  @override
+  String get notificationsTtsAutoNarrationDescription =>
+      'Converts incoming content to speech, regardless of whether it came from /tts.';
+
+  @override
+  String get notificationsTtsModeAllChannelsName => 'Every channel';
+
+  @override
+  String get notificationsTtsModeAllChannelsDescription =>
+      'Let every incoming message be spoken, regardless of which channel is open.';
+
+  @override
+  String get notificationsTtsModeCurrentChannelName => 'Active channel only';
+
+  @override
+  String get notificationsTtsModeCurrentChannelDescription =>
+      'Narrates only the channel you\'re viewing. Narration follows you between channels.';
+
+  @override
+  String get notificationsTtsModeNeverName => 'Never automatically';
+
+  @override
+  String get notificationsTtsModeNeverDescription =>
+      'Remain silent unless someone runs /tts manually.';
+
+  @override
+  String get notificationsTtsModeAriaLabel => 'Speak all messages out loud';
 
   @override
   String get notificationsSoundsSectionTitle => 'Sounds';
@@ -8577,6 +9066,80 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String guildNavbarCollapseFolder(String folderName) {
     return 'Suskleisti aplanką $folderName';
   }
+
+  @override
+  String get guildNavbarGuildSelected => 'selected';
+
+  @override
+  String get guildNavbarGuildUnread => 'unread';
+
+  @override
+  String guildNavbarGuildMentions(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count mentions',
+      one: '1 mention',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get navigationItemMuted => 'muted';
+
+  @override
+  String get authShowPassword => 'Show password';
+
+  @override
+  String get authHidePassword => 'Hide password';
+
+  @override
+  String get chatLoadingMessages => 'Loading messages';
+
+  @override
+  String get friendsMessageFriend => 'Message';
+
+  @override
+  String get friendsFriendActions => 'Friend actions';
+
+  @override
+  String get friendsAcceptRequest => 'Accept friend request';
+
+  @override
+  String get friendsDeclineRequest => 'Decline friend request';
+
+  @override
+  String get friendsCancelRequest => 'Cancel friend request';
+
+  @override
+  String get friendsOpenInbox => 'Inbox';
+
+  @override
+  String get profileRemoveFriend => 'Remove friend';
+
+  @override
+  String get profileUnblockUser => 'Unblock user';
+
+  @override
+  String get profileAcceptFriendRequest => 'Accept friend request';
+
+  @override
+  String get profileCancelFriendRequest => 'Cancel friend request';
+
+  @override
+  String get profileSendFriendRequest => 'Add friend';
+
+  @override
+  String get accountOverflowMenu => 'Account options';
+
+  @override
+  String get navHome => 'Home';
+
+  @override
+  String get navNotifications => 'Notifications';
+
+  @override
+  String get navYou => 'You';
 
   @override
   String get guildFolderSettingsTitle => 'Folder settings';

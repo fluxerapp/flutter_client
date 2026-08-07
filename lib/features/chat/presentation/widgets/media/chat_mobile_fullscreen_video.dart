@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
 import 'package:fluxer_app/features/chat/domain/media_options_launch_context.dart';
@@ -613,11 +614,10 @@ class _MobileVideoHud extends StatelessWidget {
                               elapsed: position,
                               total: duration,
                             ),
-                            style: const TextStyle(
+                            style: context.textStyles.timestamp.copyWith(
                               color: Colors.white,
-                              fontSize: 12,
                               fontWeight: FontWeight.w500,
-                              fontFeatures: <FontFeature>[
+                              fontFeatures: const <FontFeature>[
                                 FontFeature.tabularFigures(),
                               ],
                             ),

@@ -7,14 +7,14 @@ class SlowmodeTracker extends _$SlowmodeTracker {
   final Map<String, DateTime> _lastSentAt = <String, DateTime>{};
 
   @override
-  int build() => 0;
+  Map<String, int> build() => <String, int>{};
 
   void recordSend(String channelId) {
     if (channelId.isEmpty) {
       return;
     }
     _lastSentAt[channelId] = DateTime.now();
-    state = state + 1;
+    state = {...state, channelId: (state[channelId] ?? 0) + 1};
   }
 
   Duration remainingFor(String channelId, int rateLimitPerUser) {
@@ -32,6 +32,6 @@ class SlowmodeTracker extends _$SlowmodeTracker {
 
   void reset() {
     _lastSentAt.clear();
-    state = state + 1;
+    state = <String, int>{};
   }
 }

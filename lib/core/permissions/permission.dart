@@ -71,3 +71,7 @@ int everyoneRolePermissionsFromString(String? raw) {
 
 bool hasPermission(int permissions, Permission permission) =>
     (permissions & permission.value) != 0;
+
+bool bypassesSlowmode(int permissions) =>
+    hasPermission(permissions, Permission.bypassSlowmode) ||
+    hasPermission(permissions, Permission.administrator);

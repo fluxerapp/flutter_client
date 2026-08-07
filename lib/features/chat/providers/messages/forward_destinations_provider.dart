@@ -233,8 +233,7 @@ Future<List<ForwardDestination>> forwardDestinations(
       );
     }
     final bool slowmodeEnabled =
-        channel.rateLimitPerUser > 0 &&
-        !hasPermission(bits, Permission.bypassSlowmode);
+        channel.rateLimitPerUser > 0 && !bypassesSlowmode(bits);
     final Guild? guild = guildsById[channel.guildId];
     destinations.add(
       ForwardDestination(

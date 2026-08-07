@@ -29,9 +29,7 @@ class UserAppearance extends ConsumerWidget {
           const SizedBox(height: 32),
           Text(
             'THEME',
-            style: TextStyle(
-              color: context.colors.textPrimaryMuted,
-              fontSize: 12,
+            style: context.textStyles.smallText.copyWith(
               fontWeight: FontWeight.w700,
               letterSpacing: 0.5,
             ),
@@ -72,9 +70,7 @@ class UserAppearance extends ConsumerWidget {
           const SizedBox(height: 32),
           Text(
             'MESSAGE DISPLAY',
-            style: TextStyle(
-              color: context.colors.textPrimaryMuted,
-              fontSize: 12,
+            style: context.textStyles.smallText.copyWith(
               fontWeight: FontWeight.w700,
               letterSpacing: 0.5,
             ),
@@ -106,9 +102,7 @@ class UserAppearance extends ConsumerWidget {
           const SizedBox(height: 32),
           Text(
             'CHAT FONT SCALING',
-            style: TextStyle(
-              color: context.colors.textPrimaryMuted,
-              fontSize: 12,
+            style: context.textStyles.smallText.copyWith(
               fontWeight: FontWeight.w700,
               letterSpacing: 0.5,
             ),
@@ -176,13 +170,15 @@ class UserAppearance extends ConsumerWidget {
               const SizedBox(height: 8),
               Text(
                 label,
-                style: TextStyle(
-                  color: isSelected
-                      ? context.colors.textChat
-                      : context.colors.interactiveNormal,
-                  fontSize: 14,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                ),
+                style:
+                    (isSelected
+                            ? context.textStyles.categoryName
+                            : context.textStyles.bodySmall)
+                        .copyWith(
+                          color: isSelected
+                              ? context.colors.textChat
+                              : context.colors.interactiveNormal,
+                        ),
               ),
             ],
           ),
@@ -219,21 +215,13 @@ class UserAppearance extends ConsumerWidget {
               children: [
                 Text(
                   label,
-                  style: TextStyle(
+                  style: context.textStyles.username.copyWith(
                     color: isSelected
                         ? context.colors.textChat
                         : context.colors.interactiveNormal,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
                   ),
                 ),
-                Text(
-                  description,
-                  style: TextStyle(
-                    color: context.colors.textPrimaryMuted,
-                    fontSize: 12,
-                  ),
-                ),
+                Text(description, style: context.textStyles.timestamp),
               ],
             ),
           ],

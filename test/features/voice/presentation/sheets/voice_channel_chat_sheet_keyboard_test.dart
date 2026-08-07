@@ -118,7 +118,9 @@ void main() {
       final Size spacerSize = tester.getSize(
         find.descendant(
           of: find.byType(BottomInputSpacer),
-          matching: find.byType(AnimatedContainer),
+          matching: find.byWidgetPredicate(
+            (Widget widget) => widget is SizedBox && widget.height != null,
+          ),
         ),
       );
       expect(spacerSize.height, closeTo(_keyboardHeight, 1));

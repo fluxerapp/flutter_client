@@ -654,6 +654,7 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
 
   Widget _buildRecordingBar(BuildContext context) {
     final FluxerColorTheme colors = context.colors;
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final double bottomPadding = MediaQuery.paddingOf(context).bottom;
     return Material(
       color: colors.brandPrimary,
@@ -675,6 +676,7 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
                 colors.brandPrimary,
               ),
               foregroundColor: Colors.white,
+              semanticLabel: l10n.voiceMessageDiscard,
               onPressed: _isSending
                   ? null
                   : () => unawaited(_stopRecording(send: false)),
@@ -710,10 +712,10 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
                     const SizedBox(width: 10),
                     Text(
                       formatVoiceDurationMs(_recordingDurationMs),
-                      style: const TextStyle(
+                      style: context.textStyles.label.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
-                        fontFeatures: [FontFeature.tabularFigures()],
+                        fontFeatures: const [FontFeature.tabularFigures()],
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -730,6 +732,7 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
               icon: PhosphorIconsFill.paperPlaneRight,
               backgroundColor: Colors.white,
               foregroundColor: Colors.black,
+              semanticLabel: l10n.voiceMessageSend,
               onPressed: _isSending
                   ? null
                   : () => unawaited(
@@ -750,18 +753,19 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
   Widget build(BuildContext context) {
     final bool reduceMotion = MediaQuery.disableAnimationsOf(context);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    return Listener(
-      behavior: HitTestBehavior.opaque,
-      onPointerDown: _handleMicPointerDown,
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          AnimatedScale(
-            scale: _isRecording && !reduceMotion ? 1.05 : 1,
-            duration: reduceMotion
-                ? Duration.zero
-                : const Duration(milliseconds: 120),
-            child: IgnorePointer(
+    return Semantics(
+      label: l10n.voiceMessageTitle,
+      button: true,
+      child: Listener(
+        behavior: HitTestBehavior.opaque,
+        onPointerDown: _handleMicPointerDown,
+        child: AnimatedScale(
+          scale: _isRecording && !reduceMotion ? 1.05 : 1,
+          duration: reduceMotion
+              ? Duration.zero
+              : const Duration(milliseconds: 120),
+          child: IgnorePointer(
+            child: ExcludeSemantics(
               child: FluxerButton.circle(
                 key: _micKey,
                 icon: PhosphorIconsFill.microphone,
@@ -773,12 +777,7 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
               ),
             ),
           ),
-          Semantics(
-            label: l10n.voiceMessageTitle,
-            button: true,
-            child: const SizedBox.shrink(),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -790,6 +789,7 @@ class _OverlayIconButton extends StatelessWidget {
     required this.backgroundColor,
     required this.foregroundColor,
     required this.onPressed,
+    required this.semanticLabel,
     super.key,
   });
 
@@ -797,19 +797,27 @@ class _OverlayIconButton extends StatelessWidget {
   final Color backgroundColor;
   final Color foregroundColor;
   final VoidCallback? onPressed;
+  final String semanticLabel;
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: backgroundColor,
-      shape: const CircleBorder(),
-      child: InkWell(
-        customBorder: const CircleBorder(),
-        onTap: onPressed,
-        child: SizedBox(
-          width: 36,
-          height: 36,
-          child: Icon(icon, color: foregroundColor, size: 20),
+    return Semantics(
+      button: true,
+      label: semanticLabel,
+      enabled: onPressed != null,
+      child: Material(
+        color: backgroundColor,
+        shape: const CircleBorder(),
+        child: InkWell(
+          customBorder: const CircleBorder(),
+          onTap: onPressed,
+          child: SizedBox(
+            width: 36,
+            height: 36,
+            child: ExcludeSemantics(
+              child: Icon(icon, color: foregroundColor, size: 20),
+            ),
+          ),
         ),
       ),
     );

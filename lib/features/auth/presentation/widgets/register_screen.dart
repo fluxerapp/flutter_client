@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/auth/presentation/widgets/auth_form_error_text.dart';
 import 'package:fluxer_app/features/auth/providers/login_error_l10n.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
 import 'package:fluxer_app/features/auth/providers/registration_draft_provider.dart';
@@ -518,10 +519,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
             // Error message
             if (resolveLoginError(vm, l10n) case final errorText?) ...[
-              Text(
-                errorText,
-                style: textStyles.bodySmall.copyWith(color: colors.textDanger),
-              ),
+              AuthFormErrorText(errorText),
               SizedBox(height: layout.s2),
             ],
 

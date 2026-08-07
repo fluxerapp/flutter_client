@@ -230,9 +230,7 @@ class _ExpressionPickerState extends ConsumerState<ExpressionPicker> {
                 ),
                 child: Text(
                   _tabLabel(tab),
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
+                  style: context.textStyles.categoryName.copyWith(
                     color: isActive
                         ? colors.textPrimary
                         : colors.textPrimaryMuted,

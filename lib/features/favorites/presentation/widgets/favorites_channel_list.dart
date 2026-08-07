@@ -26,6 +26,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
+import 'package:fluxer_app/shared/utils/navigation_item_semantics.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class FavoritesChannelList extends ConsumerWidget {
@@ -291,30 +292,37 @@ class _FavoriteCategoryHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onToggle,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 14, 8, 4),
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(
-                title,
-                style: context.textStyles.categoryName,
-                overflow: TextOverflow.ellipsis,
-              ),
+    return Semantics(
+      button: onToggle != null,
+      expanded: onToggle != null ? !isCollapsed : null,
+      label: title,
+      child: InkWell(
+        onTap: onToggle,
+        child: ExcludeSemantics(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(8, 14, 8, 4),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    title,
+                    style: context.textStyles.categoryName,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                if (onToggle != null) ...[
+                  const SizedBox(width: 4),
+                  PhosphorIcon(
+                    isCollapsed
+                        ? PhosphorIconsBold.caretRight
+                        : PhosphorIconsBold.caretDown,
+                    size: 12,
+                    color: context.colors.textPrimaryMuted,
+                  ),
+                ],
+              ],
             ),
-            if (onToggle != null) ...[
-              const SizedBox(width: 4),
-              PhosphorIcon(
-                isCollapsed
-                    ? PhosphorIconsBold.caretRight
-                    : PhosphorIconsBold.caretDown,
-                size: 12,
-                color: context.colors.textPrimaryMuted,
-              ),
-            ],
-          ],
+          ),
         ),
       ),
     );
@@ -375,6 +383,14 @@ class _FavoriteChannelTile extends ConsumerWidget {
           selectedColor: context.colors.backgroundModifierSelected,
           borderRadius: BorderRadius.circular(4),
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          semanticLabel: navigationItemSemanticLabel(
+            l10n: FluxerLocalizations.of(context),
+            name: entry.displayName,
+            isSelected: isSelected,
+            hasUnread: !isSelected && unreadState.shouldShowUnreadIndicator,
+            mentionCount: mentionCount,
+            isMuted: isMuted,
+          ),
           onTap: onTap,
           onSecondaryTapUp: (details) => onContextMenu(details.globalPosition),
           onLongPress: isTouchPrimaryInput(ref)
@@ -535,9 +551,8 @@ class _DmPlaceholderAvatar extends StatelessWidget {
       ),
       child: Text(
         'DM',
-        style: TextStyle(
+        style: context.textStyles.smallText.copyWith(
           fontSize: 10,
-          fontWeight: FontWeight.w600,
           color: context.colors.brandPrimary,
         ),
       ),

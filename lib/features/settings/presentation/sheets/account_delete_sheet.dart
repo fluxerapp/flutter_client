@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
-import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/guild_ownership_warning_sheet.dart';
@@ -104,22 +103,20 @@ class _AccountDeleteSheetState extends ConsumerState<AccountDeleteSheet> {
 
           Text(
             l10n.importantInformation,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
+            style: context.textStyles.categoryName.copyWith(
               color: colors.textPrimary,
             ),
           ),
           const SizedBox(height: 8),
-          _bullet(colors, l10n.dangerZoneDeleteBullet1),
-          _bullet(colors, l10n.dangerZoneDeleteBullet2),
-          _bullet(colors, l10n.dangerZoneDeleteBullet3),
-          _bullet(colors, l10n.dangerZoneDeleteBullet4),
+          _bullet(context, l10n.dangerZoneDeleteBullet1),
+          _bullet(context, l10n.dangerZoneDeleteBullet2),
+          _bullet(context, l10n.dangerZoneDeleteBullet3),
+          _bullet(context, l10n.dangerZoneDeleteBullet4),
           const SizedBox(height: 16),
 
           Text(
             l10n.dangerZoneDeleteDisclaimer,
-            style: TextStyle(fontSize: 13, color: colors.textPrimaryMuted),
+            style: context.textStyles.bodySmall.copyWith(fontSize: 13),
           ),
 
           if (_error != null) ...[
@@ -159,17 +156,17 @@ class _AccountDeleteSheetState extends ConsumerState<AccountDeleteSheet> {
     );
   }
 
-  Widget _bullet(FluxerColorTheme colors, String text) {
+  Widget _bullet(BuildContext context, String text) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 4),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('  •  ', style: TextStyle(color: colors.textPrimaryMuted)),
+          Text('  •  ', style: context.textStyles.bodySmall),
           Expanded(
             child: Text(
               text,
-              style: TextStyle(fontSize: 13, color: colors.textPrimaryMuted),
+              style: context.textStyles.bodySmall.copyWith(fontSize: 13),
             ),
           ),
         ],

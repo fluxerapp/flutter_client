@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/chat/utils/message_action_permissions.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kMenuWidth = 220.0;
@@ -169,6 +170,14 @@ class _ContextMenuPage extends ConsumerWidget {
   List<Widget> _buildItems(BuildContext context, WidgetRef ref) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     void pop(MessageAction action) => Navigator.of(context).pop(action);
+    final bool showShortcuts =
+        !isTouchPrimaryInput(ref) &&
+        ref.watch(
+          appearancePreferencesProvider.select(
+            (s) => s.showContextMenuShortcuts,
+          ),
+        );
+    String? shortcut(String key) => showShortcuts ? key : null;
     final bool isEmbedsSuppressed = message.suppressEmbeds;
     final bool canShowSuppressEmbeds = canSuppressEmbedsOnMessage(
       message: message,
@@ -200,6 +209,7 @@ class _ContextMenuPage extends ConsumerWidget {
         label: l10n.chatMessageAddReaction,
         icon: PhosphorIconsBold.smiley,
         trailing: PhosphorIconsBold.caretRight,
+        shortcut: shortcut('+'),
         onTap: () => pop(MessageAction.addReaction),
       ),
       if (message.hasFailed)
@@ -213,11 +223,13 @@ class _ContextMenuPage extends ConsumerWidget {
         _MenuItem(
           label: l10n.chatMessageEdit,
           icon: PhosphorIconsBold.pencilSimple,
+          shortcut: shortcut('E'),
           onTap: () => pop(MessageAction.edit),
         ),
       _MenuItem(
         label: l10n.chatMessageReply,
         icon: PhosphorIconsBold.arrowBendUpLeft,
+        shortcut: shortcut('R'),
         onTap: () => pop(MessageAction.reply),
       ),
       _MenuItem(
@@ -235,6 +247,7 @@ class _ContextMenuPage extends ConsumerWidget {
       _MenuItem(
         label: message.isPinned ? l10n.chatMessageUnpin : l10n.chatMessagePin,
         icon: PhosphorIconsBold.pushPin,
+        shortcut: shortcut('P'),
         onTap: () => pop(MessageAction.pin),
       ),
       _MenuItem(
@@ -379,6 +392,7 @@ class _MenuItem extends StatefulWidget {
   final String label;
   final IconData icon;
   final IconData? trailing;
+  final String? shortcut;
   final VoidCallback onTap;
   final bool isDanger;
 
@@ -387,6 +401,7 @@ class _MenuItem extends StatefulWidget {
     required this.icon,
     required this.onTap,
     this.trailing,
+    this.shortcut,
     this.isDanger = false,
   });
 
@@ -461,6 +476,15 @@ class _MenuItemState extends State<_MenuItem> {
                     ),
                   ),
                 ),
+                if (widget.shortcut != null) ...[
+                  SizedBox(width: layout.s2),
+                  Text(
+                    widget.shortcut!,
+                    style: context.textStyles.timestamp.copyWith(
+                      color: colors.textTertiary,
+                    ),
+                  ),
+                ],
                 if (widget.trailing != null)
                   PhosphorIcon(
                     widget.trailing!,

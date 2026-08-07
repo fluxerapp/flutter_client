@@ -234,9 +234,8 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
             SizedBox(width: layout.s2),
             Text(
               l10n.gifPickerTrending,
-              style: TextStyle(
+              style: context.textStyles.channelName.copyWith(
                 color: colors.textPrimary,
-                fontSize: 16,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -1283,11 +1282,9 @@ class _GifTile extends StatelessWidget {
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: context.textStyles.channelName.copyWith(
                                 color: textColor,
-                                fontSize: 16,
                                 height: 1,
-                                fontWeight: FontWeight.w600,
                                 shadows: isLight
                                     ? null
                                     : const [
@@ -1407,10 +1404,9 @@ class _SuggestionChips extends StatelessWidget {
                       ),
                       child: Text(
                         suggestion,
-                        style: TextStyle(
+                        style: context.textStyles.smallText.copyWith(
                           color: colors.textPrimary,
                           fontSize: 13,
-                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
@@ -1501,9 +1497,8 @@ class _GifEmptyState extends StatelessWidget {
             Text(
               title,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: context.textStyles.channelName.copyWith(
                 color: colors.textPrimary,
-                fontSize: 16,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -1511,7 +1506,9 @@ class _GifEmptyState extends StatelessWidget {
             Text(
               description,
               textAlign: TextAlign.center,
-              style: TextStyle(color: colors.textTertiary, fontSize: 14),
+              style: context.textStyles.bodySmall.copyWith(
+                color: colors.textTertiary,
+              ),
             ),
           ],
         ),
@@ -1542,7 +1539,7 @@ class _PoweredByKlipyLabel extends StatelessWidget {
     final colors = context.colors;
     return Text(
       FluxerLocalizations.of(context).gifPickerPoweredByKlipy,
-      style: TextStyle(
+      style: context.textStyles.smallText.copyWith(
         color: colors.textTertiary,
         fontSize: 11,
         fontWeight: FontWeight.w700,

@@ -21,9 +21,8 @@ class ForwardIndicator extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           'Forwarded from $source',
-          style: TextStyle(
+          style: context.textStyles.timestamp.copyWith(
             color: context.colors.textPrimaryMuted,
-            fontSize: 12,
             fontStyle: FontStyle.italic,
           ),
         ),

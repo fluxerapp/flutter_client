@@ -102,11 +102,9 @@ class _UploadDropOverlayState extends ConsumerState<UploadDropOverlay> {
                         HardwareKeyboard.instance.isShiftPressed
                             ? l10n.chatAttachmentDropToSend
                             : l10n.chatAttachmentDropToUpload,
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(
-                              color: colors.textPrimary,
-                              fontWeight: FontWeight.w600,
-                            ),
+                        style: context.textStyles.channelName.copyWith(
+                          color: colors.textPrimary,
+                        ),
                         textAlign: TextAlign.center,
                       ),
                     ],

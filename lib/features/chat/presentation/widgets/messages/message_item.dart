@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_list_renderer.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_gift.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_invite.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_link.dart';
@@ -34,6 +35,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_o
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/chat/providers/messages/spoiler_reveal_provider.dart';
 import 'package:fluxer_app/features/chat/utils/embed_gallery_utils.dart';
+import 'package:fluxer_app/features/chat/utils/message_accessibility_summary.dart';
 import 'package:fluxer_app/features/chat/utils/message_timestamp_format.dart';
 import 'package:fluxer_app/features/chat/utils/spoiler_utils.dart';
 import 'package:fluxer_app/features/chat/utils/uploading_attachment_utils.dart';
@@ -673,8 +675,18 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       ),
     );
     final onReply = widget.onReply;
+    final Widget semanticBody = Semantics(
+      container: true,
+      label: _messageSemanticLabel(
+        context,
+        msg,
+        isSending: isSending,
+        isFailed: isFailed,
+      ),
+      child: body,
+    );
     if (!isTouch || onReply == null || widget.inboxPreviewMode) {
-      return _wrapMessageSendingDim(dim: dimEntireMessage, child: body);
+      return _wrapMessageSendingDim(dim: dimEntireMessage, child: semanticBody);
     }
     final bool canEditOwnMessage =
         widget.onEdit != null &&
@@ -693,9 +705,31 @@ class _MessageItemState extends ConsumerState<MessageItem> {
             ),
         onReply: onReply,
         onEdit: canEditOwnMessage ? widget.onEdit : null,
-        child: body,
+        child: semanticBody,
       ),
     );
+  }
+
+  String _messageSemanticLabel(
+    BuildContext context,
+    Message msg, {
+    required bool isSending,
+    required bool isFailed,
+  }) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String author = msg.authorName.isNotEmpty
+        ? msg.authorName
+        : msg.authorId;
+    final String summary = messageAccessibilitySummary(msg, l10n);
+    final StringBuffer label = StringBuffer(
+      l10n.messageAccessibilityLabel(author, summary),
+    );
+    if (isSending) {
+      label.write(l10n.messageAccessibilitySendingSuffix);
+    } else if (isFailed) {
+      label.write(l10n.messageAccessibilityFailedSuffix);
+    }
+    return label.toString();
   }
 
   bool _hasUploadingPlaceholderAttachments(Message msg) {
@@ -803,6 +837,14 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           ),
         ),
       ),
+      ...msg.gifts.map(
+        (code) => wrapPart(
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: EmbedGift(code: code),
+          ),
+        ),
+      ),
       ...msg.themes.map(
         (_) => wrapPart(
           const Padding(padding: EdgeInsets.only(top: 4), child: EmbedTheme()),
@@ -898,10 +940,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               const SizedBox(width: 4),
               Text(
                 FluxerLocalizations.of(context).chatMessageFailedToSend,
-                style: TextStyle(
+                style: context.textStyles.smallText.copyWith(
                   color: context.colors.textDanger,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],
@@ -933,7 +973,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     );
     if (msg.hasFailed && msg.content.trim().isNotEmpty) {
       markdown = DefaultTextStyle(
-        style: TextStyle(color: context.colors.textDanger),
+        style: context.textStyles.messageText.copyWith(
+          color: context.colors.textDanger,
+        ),
         child: markdown,
       );
     }
@@ -1020,7 +1062,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                   children: [
                     Text(
                       _formatShortTimestamp(msg.timestamp.toLocal()),
-                      style: TextStyle(
+                      style: context.textStyles.timestamp.copyWith(
                         color: context.colors.textTertiaryMuted,
                         fontSize: 10,
                       ),
@@ -1059,16 +1101,23 @@ class _MessageItemState extends ConsumerState<MessageItem> {
 
   Widget _buildSilentIndicator(BuildContext context) {
     final String message = FluxerLocalizations.of(context).chatMessageSilent;
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () =>
-          ref.read(toastProvider.notifier).show(FluxerToast(message: message)),
-      child: Tooltip(
-        message: message,
-        child: PhosphorIcon(
-          PhosphorIconsFill.bellSlash,
-          size: 14,
-          color: context.textStyles.timestamp.color,
+    return Semantics(
+      button: true,
+      label: message,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => ref
+            .read(toastProvider.notifier)
+            .show(FluxerToast(message: message)),
+        child: Tooltip(
+          message: message,
+          child: ExcludeSemantics(
+            child: PhosphorIcon(
+              PhosphorIconsFill.bellSlash,
+              size: 14,
+              color: context.textStyles.timestamp.color,
+            ),
+          ),
         ),
       ),
     );
@@ -1093,21 +1142,30 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     children: [
       _wrapMessageSendingDim(
         dim: dimMessagePartsExceptAttachments,
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: _canOpenAuthorProfile(msg)
-              ? () => _openAuthorProfile(context, msg)
+        child: Semantics(
+          button: _canOpenAuthorProfile(msg),
+          label: _canOpenAuthorProfile(msg)
+              ? FluxerLocalizations.of(context).voiceParticipantMenuViewProfile
               : null,
-          child: Padding(
-            padding: const EdgeInsets.only(top: kMessageAvatarTopPadding),
-            child: FluxerAvatar.user(
-              key: ValueKey<String>(
-                'msg-avatar-${msg.authorId}-${authorDisplay.avatarUrl ?? ''}',
+          image: true,
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: _canOpenAuthorProfile(msg)
+                ? () => _openAuthorProfile(context, msg)
+                : null,
+            child: Padding(
+              padding: const EdgeInsets.only(top: kMessageAvatarTopPadding),
+              child: ExcludeSemantics(
+                child: FluxerAvatar.user(
+                  key: ValueKey<String>(
+                    'msg-avatar-${msg.authorId}-${authorDisplay.avatarUrl ?? ''}',
+                  ),
+                  fallbackText: authorDisplay.displayName,
+                  userId: msg.authorId,
+                  imageUrl: authorDisplay.avatarUrl,
+                  avatarColor: authorDisplay.avatarColor,
+                ),
               ),
-              fallbackText: authorDisplay.displayName,
-              userId: msg.authorId,
-              imageUrl: authorDisplay.avatarUrl,
-              avatarColor: authorDisplay.avatarColor,
             ),
           ),
         ),
@@ -1129,9 +1187,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                           : null,
                       child: Text(
                         authorDisplay.displayName,
-                        style: TextStyle(
+                        style: context.textStyles.username.copyWith(
                           color: roleColor ?? context.colors.textChat,
-                          fontSize: 16,
                           fontWeight: FontWeight.w600,
                         ),
                         overflow: TextOverflow.ellipsis,
@@ -1239,9 +1296,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                       Flexible(
                         child: Text(
                           msg.authorName,
-                          style: TextStyle(
+                          style: context.textStyles.username.copyWith(
                             color: context.colors.textChat,
-                            fontSize: 16,
                             fontWeight: FontWeight.w600,
                           ),
                           overflow: TextOverflow.ellipsis,

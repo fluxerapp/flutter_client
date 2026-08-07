@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
@@ -48,11 +49,7 @@ class ChatVideoPlaybackFailureOverlay extends StatelessWidget {
           Text(
             l10n.chatVideoPlaybackFailed,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
+            style: context.textStyles.channelName.copyWith(color: Colors.white),
           ),
           if (_canOpenInBrowser) ...<Widget>[
             const SizedBox(height: 20),

@@ -83,14 +83,7 @@ class _RequestsSectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      title,
-      style: TextStyle(
-        color: context.colors.textPrimaryMuted,
-        fontSize: 14,
-        fontWeight: FontWeight.w600,
-      ),
-    );
+    return Text(title, style: context.textStyles.categoryName);
   }
 }
 

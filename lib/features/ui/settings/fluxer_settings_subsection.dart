@@ -27,20 +27,16 @@ class FluxerSettingsSubsection extends StatelessWidget {
         if (title != null) ...[
           Semantics(
             header: true,
-            child: Text(
-              title!,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: colors.textPrimary,
-              ),
-            ),
+            child: Text(title!, style: context.textStyles.channelName),
           ),
           if (description != null) ...[
             SizedBox(height: layout.s1),
             Text(
               description!,
-              style: TextStyle(fontSize: 13, color: colors.textTertiary),
+              style: context.textStyles.bodySmall.copyWith(
+                fontSize: 13,
+                color: colors.textTertiary,
+              ),
             ),
           ],
           SizedBox(height: layout.s4),

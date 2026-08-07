@@ -275,16 +275,17 @@ class _EmbedFieldTile extends StatelessWidget {
       children: [
         EmbedInlineText(
           text: field.name,
-          style: TextStyle(
+          style: context.textStyles.smallText.copyWith(
             color: context.colors.textPrimary,
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
           ),
         ),
         const SizedBox(height: 2),
         MessageMarkdown(
           data: field.value,
-          baseStyle: TextStyle(color: context.colors.textChat, fontSize: 13),
+          baseStyle: context.textStyles.embedDescription.copyWith(
+            color: context.colors.textChat,
+            fontSize: 13,
+          ),
           markdownContext: FluxerMarkdownContext.restrictedEmbedDescription,
           revealSpoilers: revealSpoilers,
           spoilerSyncController: spoilerSyncController,

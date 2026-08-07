@@ -218,6 +218,7 @@ class _DiscoveryPageState extends ConsumerState<DiscoveryPage> {
                 PhosphorIconsBold.caretLeft,
                 color: Colors.white,
               ),
+              tooltip: MaterialLocalizations.of(context).backButtonTooltip,
               onPressed: () => _leaveDiscovery(context),
             )
           : null,

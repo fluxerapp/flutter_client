@@ -436,9 +436,8 @@ class _FluxerButtonState extends State<FluxerButton> {
         Flexible(
           child: Text(
             widget.label!,
-            style: TextStyle(
+            style: context.textStyles.categoryName.copyWith(
               fontSize: widget.size.fontSize,
-              fontWeight: FontWeight.w600,
               color: foreground,
               height: 1.4,
             ),

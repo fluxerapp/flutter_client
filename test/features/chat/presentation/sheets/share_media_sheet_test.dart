@@ -84,7 +84,7 @@ class _FakeToast extends Toast {
 
 class _FakeSlowmodeTracker extends SlowmodeTracker {
   @override
-  int build() => 0;
+  Map<String, int> build() => const <String, int>{};
 }
 
 Future<FluxerDatabase> _seedDb() async {

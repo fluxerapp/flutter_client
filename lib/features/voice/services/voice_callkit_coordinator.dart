@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 
+// LiveKit CallKit audio ownership APIs are marked @experimental.
+// ignore_for_file: experimental_member_use
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart' show WidgetsBinding;
 import 'package:flutter_callkit_incoming/entities/call_event.dart';
@@ -9,9 +12,11 @@ import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/features/voice/services/voice_settings_applicator.dart';
 import 'package:fluxer_app/features/voice/utils/incoming_voice_call_actions.dart';
 import 'package:fluxer_app/features/voice/utils/voice_callkit_params.dart';
 import 'package:fluxer_app/features/voice/utils/voice_callkit_policy.dart';
@@ -19,6 +24,7 @@ import 'package:fluxer_app/features/voice/utils/voice_callkit_session_store.dart
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/gateway.dart';
+import 'package:livekit_client/livekit_client.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'voice_callkit_coordinator.g.dart';
@@ -57,7 +63,9 @@ class VoiceCallKitCoordinatorLogic {
   bool _isEndingProgrammatically = false;
   bool _isApplyingCallKitMuteToVoice = false;
   bool _isSyncingMuteToCallKit = false;
+  bool _callKitOwnsAudioSession = false;
   DateTime? _suppressUserEndHandlingUntil;
+  Timer? _audioSessionRecoveryTimer;
 
   void init() {
     _eventSubscription = FlutterCallkitIncoming.onEvent.listen(
@@ -120,8 +128,122 @@ class VoiceCallKitCoordinatorLogic {
   }
 
   void dispose() {
+    _cancelAudioSessionRecovery();
     unawaited(_eventSubscription?.cancel());
     unawaited(_endAllCallKitSessions());
+  }
+
+  void _cancelAudioSessionRecovery() {
+    _audioSessionRecoveryTimer?.cancel();
+    _audioSessionRecoveryTimer = null;
+  }
+
+  void _scheduleAudioSessionRecovery() {
+    _cancelAudioSessionRecovery();
+    _audioSessionRecoveryTimer = Timer(
+      kVoiceCallKitAudioSessionRecoveryDelay,
+      () {
+        _scheduleSync(_recoverCallKitAudioSessionIfNeeded);
+      },
+    );
+  }
+
+  Future<void> _recoverCallKitAudioSessionIfNeeded() async {
+    if (!_sessions.hasActiveVoiceSession) {
+      return;
+    }
+    final VoiceCallKitVoiceSnapshot voice = _voiceCallKitVoiceSnapshot(
+      _ref.read(voiceSessionProvider),
+    );
+    if (!voice.isInVoice) {
+      return;
+    }
+    await _enterCallKitAudioOwnership();
+    try {
+      await AudioManager.instance.setEngineAvailability(
+        AudioEngineAvailability.defaultAvailability,
+      );
+    } on Object catch (error) {
+      talker.warning(
+        '[VoiceCallKit] audio session recovery setEngineAvailability failed: $error',
+      );
+    }
+    try {
+      await _ref
+          .read(voiceSettingsApplicatorProvider)
+          .applySpeakerOutput(settings: _ref.read(voiceSettingsProvider));
+    } on Object catch (error) {
+      talker.warning(
+        '[VoiceCallKit] audio session recovery applySpeakerOutput failed: $error',
+      );
+    }
+  }
+
+  Future<void> _enterCallKitAudioOwnership() async {
+    if (_callKitOwnsAudioSession) {
+      return;
+    }
+    _callKitOwnsAudioSession = true;
+    try {
+      await AudioManager.instance.setAudioSessionManagementMode(
+        AudioSessionManagementMode.externalCallSystem,
+      );
+    } on Object catch (error) {
+      talker.warning(
+        '[VoiceCallKit] enter external audio ownership failed: $error',
+      );
+    }
+  }
+
+  Future<void> _exitCallKitAudioOwnership() async {
+    if (!shouldRestoreLiveKitAutomaticAudioSession(
+      callKitOwnsAudio: _callKitOwnsAudioSession,
+      hasCallKitSessions: !_sessions.isEmpty,
+    )) {
+      return;
+    }
+    _callKitOwnsAudioSession = false;
+    try {
+      await AudioManager.instance.setEngineAvailability(
+        AudioEngineAvailability.defaultAvailability,
+      );
+      await AudioManager.instance.setAudioSessionManagementMode(
+        AudioSessionManagementMode.automatic,
+      );
+    } on Object catch (error) {
+      talker.warning(
+        '[VoiceCallKit] restore automatic audio ownership failed: $error',
+      );
+    }
+  }
+
+  Future<void> _handleToggleAudioSession({required bool isActive}) async {
+    if (isActive) {
+      _cancelAudioSessionRecovery();
+      await _enterCallKitAudioOwnership();
+    }
+    final bool enableEngine = shouldEnableLiveKitEngineForCallKitAudioSession(
+      isAudioSessionActive: isActive,
+    );
+    try {
+      await AudioManager.instance.setEngineAvailability(
+        enableEngine
+            ? AudioEngineAvailability.defaultAvailability
+            : AudioEngineAvailability.none,
+      );
+    } on Object catch (error) {
+      talker.warning('[VoiceCallKit] setEngineAvailability failed: $error');
+    }
+    if (!isActive) {
+      if (shouldScheduleCallKitAudioSessionRecovery(
+        isAudioSessionActive: false,
+        hasActiveVoiceSession: _sessions.hasActiveVoiceSession,
+      )) {
+        _scheduleAudioSessionRecovery();
+        return;
+      }
+      await _exitCallKitAudioOwnership();
+    }
   }
 
   void _scheduleSync(Future<void> Function() work) {
@@ -267,10 +389,7 @@ class VoiceCallKitCoordinatorLogic {
       final VoiceCallKitVoiceSnapshot voice = _voiceCallKitVoiceSnapshot(
         _ref.read(voiceSessionProvider),
       );
-      if (!shouldDismissCallKitOnForeground(
-        isIos: Platform.isIOS,
-        isInVoice: voice.isInVoice,
-      )) {
+      if (!shouldDismissCallKitOnForeground(isInVoice: voice.isInVoice)) {
         return;
       }
       await _dismissCallKitUiOnly();
@@ -356,6 +475,7 @@ class VoiceCallKitCoordinatorLogic {
       return;
     }
     await _ensureAndroidPermissions();
+    await _enterCallKitAudioOwnership();
     final CallState? callState = _ref.read(activeCallsProvider)[channelId];
     final String callKitId = _sessions.registerSession(
       channelId: channelId,
@@ -378,6 +498,7 @@ class VoiceCallKitCoordinatorLogic {
     } on Object catch (error) {
       talker.warning('[VoiceCallKit] startCall on voice join failed: $error');
       _sessions.unregisterSession(callKitId, channelId: channelId);
+      await _exitCallKitAudioOwnership();
       return;
     }
     if (voice.isConnected) {
@@ -459,6 +580,7 @@ class VoiceCallKitCoordinatorLogic {
       }
       _sessions.clearAll();
     });
+    await _exitCallKitAudioOwnership();
   }
 
   Future<void> _endCallKitForChannel(String channelId) async {
@@ -482,10 +604,12 @@ class VoiceCallKitCoordinatorLogic {
       }
       _sessions.unregisterSession(callKitId, channelId: channelId);
     });
+    await _exitCallKitAudioOwnership();
   }
 
   Future<void> _endAllCallKitSessions() async {
     if (_sessions.isEmpty) {
+      await _exitCallKitAudioOwnership();
       return;
     }
     await _runProgrammaticCallKitEnd(() async {
@@ -496,6 +620,7 @@ class VoiceCallKitCoordinatorLogic {
       }
       _sessions.clearAll();
     });
+    await _exitCallKitAudioOwnership();
   }
 
   FluxerLocalizations _resolveLocalizations() {
@@ -528,13 +653,14 @@ class VoiceCallKitCoordinatorLogic {
         await _handleTimeout(id);
       case CallEventActionCallToggleMute(:final id, :final isMuted):
         _scheduleSync(() => _handleToggleMute(id, isMuted: isMuted));
+      case CallEventActionCallToggleAudioSession(:final isActive):
+        _scheduleSync(() => _handleToggleAudioSession(isActive: isActive));
       case CallEventActionDidUpdateDevicePushTokenVoip():
       case CallEventActionCallIncoming():
       case CallEventActionCallCallback():
       case CallEventActionCallToggleHold():
       case CallEventActionCallToggleDmtf():
       case CallEventActionCallToggleGroup():
-      case CallEventActionCallToggleAudioSession():
       case CallEventActionCallCustom():
         break;
       case CallEventActionCallStart(:final callKitParams):
@@ -581,6 +707,7 @@ class VoiceCallKitCoordinatorLogic {
     if (channelId == null) {
       return;
     }
+    await _enterCallKitAudioOwnership();
     await executeAcceptIncomingVoiceCallFromCallKit(_ref, channelId);
     final VoiceCallKitVoiceSnapshot voice = _voiceCallKitVoiceSnapshot(
       _ref.read(voiceSessionProvider),

@@ -125,7 +125,10 @@ class _ChannelHeaderLeftSectionState
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Text(
                 '•',
-                style: TextStyle(color: mutedColor, fontSize: 13),
+                style: context.textStyles.bodySmall.copyWith(
+                  color: mutedColor,
+                  fontSize: 13,
+                ),
               ),
             ),
             Flexible(

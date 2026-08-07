@@ -301,10 +301,7 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
                   padding: EdgeInsets.only(top: layout.s3),
                   child: Text(
                     l10n.audioAndVideoInstanceVideoQualityLimit,
-                    style: TextStyle(
-                      color: context.colors.textPrimaryMuted,
-                      fontSize: 13,
-                    ),
+                    style: context.textStyles.bodySmall.copyWith(fontSize: 13),
                   ),
                 ),
             ],

@@ -156,6 +156,62 @@
                 "--dart-define-from-file=tool/dart_defines/stable.json",
                 "--dart-define=PUSH_PROVIDER=apns"
             ]
+        },
+        {
+            "name": "macOS Canary",
+            "preLaunchTask": "firebase: OSS (UnifiedPush / APNs)",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "macos",
+            "flutterMode": "debug",
+            "args": [
+                "--flavor",
+                "canary",
+                "--dart-define-from-file=tool/dart_defines/canary.json",
+                "--dart-define=PUSH_PROVIDER=apns"
+            ]
+        },
+        {
+            "name": "macOS Canary (Profile)",
+            "preLaunchTask": "firebase: OSS (UnifiedPush / APNs)",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "macos",
+            "flutterMode": "profile",
+            "args": [
+                "--flavor",
+                "canary",
+                "--dart-define-from-file=tool/dart_defines/canary.json",
+                "--dart-define=PUSH_PROVIDER=apns"
+            ]
+        },
+        {
+            "name": "macOS Beta",
+            "preLaunchTask": "firebase: OSS (UnifiedPush / APNs)",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "macos",
+            "flutterMode": "debug",
+            "args": [
+                "--flavor",
+                "beta",
+                "--dart-define-from-file=tool/dart_defines/beta.json",
+                "--dart-define=PUSH_PROVIDER=apns"
+            ]
+        },
+        {
+            "name": "macOS Stable",
+            "preLaunchTask": "firebase: OSS (UnifiedPush / APNs)",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "macos",
+            "flutterMode": "release",
+            "args": [
+                "--flavor",
+                "stable",
+                "--dart-define-from-file=tool/dart_defines/stable.json",
+                "--dart-define=PUSH_PROVIDER=apns"
+            ]
         }
     ]
 }

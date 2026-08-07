@@ -561,10 +561,8 @@ class _AuthSessionCard extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         DefaultTextStyle(
-          style: context.textStyles.bodySmall.copyWith(
+          style: context.textStyles.categoryName.copyWith(
             color: colors.textPrimary,
-            fontWeight: FontWeight.w600,
-            fontSize: 14,
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -586,10 +584,7 @@ class _AuthSessionCard extends StatelessWidget {
         if (!isCurrent && (location != null || lastUsed != null)) ...[
           SizedBox(height: layout.s1),
           DefaultTextStyle(
-            style: context.textStyles.bodySmall.copyWith(
-              color: colors.textPrimaryMuted,
-              fontSize: 13,
-            ),
+            style: context.textStyles.bodySmall.copyWith(fontSize: 13),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [

@@ -64,7 +64,7 @@ class ComposerStatusRow extends ConsumerWidget {
         alignment: Alignment.bottomCenter,
         child: isVisible
             ? Padding(
-                padding: const EdgeInsets.symmetric(vertical: 6),
+                padding: const EdgeInsets.only(top: 2, bottom: 6),
                 child: Row(
                   spacing: 8,
                   children: <Widget>[

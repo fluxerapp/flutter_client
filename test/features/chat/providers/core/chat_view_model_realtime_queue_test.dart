@@ -9,6 +9,7 @@
 /// and for `MessageReactionsChanged`. Parking there suspends a reducer exactly
 /// where a real one suspends, so a swap, a batch or another event can be
 /// ingested while it is mid-flight.
+@Tags(['slow'])
 library;
 
 import 'dart:async';

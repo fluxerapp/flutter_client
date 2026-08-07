@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/chat/utils/media_proxy_url.dart';
 import 'package:fluxer_app/features/chat/utils/voice_message_constants.dart';
 import 'package:fluxer_app/features/chat/utils/voice_message_waveform.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/widgets/playback_seek_gesture_target.dart';
 import 'package:fluxer_app/shared/widgets/volume_popout_control.dart';
@@ -378,6 +379,7 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
         '${formatVoiceDurationSeconds(_displayCurrentSeconds)} / '
         '${formatVoiceDurationSeconds(_displayDurationSeconds)}';
     final bool showDesktopControls = !isMobileLayout(context);
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return ConstrainedBox(
       constraints: const BoxConstraints(minWidth: 200, maxWidth: 300),
       child: AnimatedContainer(
@@ -398,6 +400,8 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
               onPressed: _togglePlayback,
               animDuration: animDuration,
               colors: colors,
+              playLabel: l10n.voiceMessagePlay,
+              pauseLabel: l10n.voiceMessagePause,
             ),
             const SizedBox(width: 8),
             Expanded(
@@ -405,9 +409,10 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
                 onKeyEvent: _handleWaveformKey,
                 child: Semantics(
                   slider: true,
+                  label: l10n.voiceMessageTitle,
                   value: progressPercent.round().toString(),
-                  increasedValue: 'seek forward',
-                  decreasedValue: 'seek backward',
+                  increasedValue: l10n.voiceMessageSeekForward,
+                  decreasedValue: l10n.voiceMessageSeekBackward,
                   child: PlaybackSeekGestureTarget(
                     enabled: !_isLoading,
                     onSeekFraction: (double fraction) {
@@ -511,6 +516,8 @@ class _VoicePlayButton extends StatelessWidget {
     required this.onPressed,
     required this.animDuration,
     required this.colors,
+    required this.playLabel,
+    required this.pauseLabel,
   });
 
   final bool isActive;
@@ -519,6 +526,8 @@ class _VoicePlayButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Duration animDuration;
   final FluxerColorTheme colors;
+  final String playLabel;
+  final String pauseLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -528,37 +537,45 @@ class _VoicePlayButton extends StatelessWidget {
     final Color activeIcon = colors.brandPrimary;
     final Color fillColor = isActive ? activeFill : idleFill;
     final Color iconColor = isActive ? activeIcon : idleIcon;
-    return SizedBox(
-      width: 30,
-      height: 30,
-      child: AnimatedContainer(
-        duration: animDuration,
-        curve: Curves.easeOut,
-        decoration: BoxDecoration(color: fillColor, shape: BoxShape.circle),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            customBorder: const CircleBorder(),
-            onTap: onPressed,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                if (isLoading)
-                  Positioned.fill(
-                    child: Padding(
-                      padding: const EdgeInsets.all(1),
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: iconColor,
+    return Semantics(
+      button: true,
+      label: isPlaying ? pauseLabel : playLabel,
+      child: SizedBox(
+        width: 30,
+        height: 30,
+        child: AnimatedContainer(
+          duration: animDuration,
+          curve: Curves.easeOut,
+          decoration: BoxDecoration(color: fillColor, shape: BoxShape.circle),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              customBorder: const CircleBorder(),
+              onTap: onPressed,
+              child: ExcludeSemantics(
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    if (isLoading)
+                      Positioned.fill(
+                        child: Padding(
+                          padding: const EdgeInsets.all(1),
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: iconColor,
+                          ),
+                        ),
                       ),
+                    Icon(
+                      isPlaying
+                          ? PhosphorIconsFill.pause
+                          : PhosphorIconsFill.play,
+                      size: 16,
+                      color: iconColor,
                     ),
-                  ),
-                Icon(
-                  isPlaying ? PhosphorIconsFill.pause : PhosphorIconsFill.play,
-                  size: 16,
-                  color: iconColor,
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),

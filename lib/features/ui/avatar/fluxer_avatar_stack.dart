@@ -163,10 +163,9 @@ class _DefaultOverflowChip extends StatelessWidget {
       child: Center(
         child: Text(
           '+$remaining',
-          style: TextStyle(
+          style: context.textStyles.smallText.copyWith(
             color: colors.textPrimary,
             fontSize: size * 0.4,
-            fontWeight: FontWeight.w600,
           ),
         ),
       ),

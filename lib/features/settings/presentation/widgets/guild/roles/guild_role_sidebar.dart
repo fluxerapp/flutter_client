@@ -216,9 +216,8 @@ class GuildRolesSidebarActionButton extends StatelessWidget {
               Flexible(
                 child: Text(
                   label,
-                  style: TextStyle(
+                  style: context.textStyles.categoryName.copyWith(
                     fontSize: 13,
-                    fontWeight: FontWeight.w600,
                     color: colors.buttonSecondaryText,
                     height: 1.125,
                   ),

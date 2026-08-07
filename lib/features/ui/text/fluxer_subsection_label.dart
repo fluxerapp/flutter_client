@@ -16,9 +16,7 @@ class FluxerSubsectionLabel extends StatelessWidget {
       header: true,
       child: Text(
         text.toUpperCase(),
-        style: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
+        style: context.textStyles.smallText.copyWith(
           color: colors.textTertiaryMuted,
           letterSpacing: 0.6,
         ),

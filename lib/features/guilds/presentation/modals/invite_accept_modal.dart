@@ -823,10 +823,9 @@ class _InviteInitialsFallback extends StatelessWidget {
     return Center(
       child: Text(
         initials,
-        style: TextStyle(
+        style: context.textStyles.smallText.copyWith(
           color: context.colors.textPrimary,
           fontSize: fontSize,
-          fontWeight: FontWeight.w600,
         ),
       ),
     );

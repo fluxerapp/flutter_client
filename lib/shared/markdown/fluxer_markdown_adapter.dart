@@ -69,6 +69,8 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
   FluxerSpoilerSyncController? spoilerSyncController,
   FluxerTimestampFormatter? timestampFormatter,
   FluxerSelectionContextMenuBuilder? selectionContextMenuBuilder,
+  bool alwaysUnderlineLinks = false,
+  bool dimStrikethroughText = true,
 }) {
   return FluxerMarkdownConfig(
     resolveEmojiShortcode: EmojiRegistry.resolveSync,
@@ -78,6 +80,8 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
     linkColor: context?.colors.textLink,
     blockquoteBorderColor: context?.colors.interactiveMuted,
     blockquoteTextColor: context?.colors.textChatMuted,
+    alwaysUnderlineLinks: alwaysUnderlineLinks,
+    dimStrikethroughText: dimStrikethroughText,
     inlineCodeBackgroundColor: context?.colors.bgCodeBlock,
     inlineCodeTextColor: context?.colors.textSecondary,
     codeTextStyle: context?.textStyles.codeText,

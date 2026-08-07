@@ -261,7 +261,7 @@ class VoiceJoinEmptyTitle extends StatelessWidget {
       textAlign: TextAlign.center,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
-      style: TextStyle(
+      style: context.textStyles.heading.copyWith(
         fontSize: resolvedLayout.titleFontSize,
         fontWeight: FontWeight.w700,
         height: 1.18,

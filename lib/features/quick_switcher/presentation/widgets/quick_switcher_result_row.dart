@@ -7,6 +7,8 @@ import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart
 import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_result_unread_state.dart';
 import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_types.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/navigation_item_semantics.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Web bottom sheet: 2rem slot, 24px avatars, ~1.75rem channel glyphs.
@@ -33,31 +35,56 @@ class QuickSwitcherResultRow extends StatelessWidget {
       return const SizedBox.shrink();
     }
     final bool isHighlighted = unreadState.shouldHighlight;
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: context.layout.radiusMd,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-          child: Row(
-            children: <Widget>[
-              _buildLeading(context, isHighlighted: isHighlighted),
-              const SizedBox(width: 8),
-              Expanded(
-                child: _buildText(context, isHighlighted: isHighlighted),
+    final String title = _title;
+    final String semanticLabel = navigationItemSemanticLabel(
+      l10n: FluxerLocalizations.of(context),
+      name: title,
+      hasUnread: unreadState.hasUnread && unreadState.mentionCount == 0,
+      mentionCount: unreadState.mentionCount,
+    );
+    return Semantics(
+      button: true,
+      label: semanticLabel,
+      child: ExcludeSemantics(
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: context.layout.radiusMd,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+              child: Row(
+                children: <Widget>[
+                  _buildLeading(context, isHighlighted: isHighlighted),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: _buildText(context, isHighlighted: isHighlighted),
+                  ),
+                  if (unreadState.mentionCount > 0)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: FluxerBadge.count(count: unreadState.mentionCount),
+                    ),
+                ],
               ),
-              if (unreadState.mentionCount > 0)
-                Padding(
-                  padding: const EdgeInsets.only(left: 8),
-                  child: FluxerBadge.count(count: unreadState.mentionCount),
-                ),
-            ],
+            ),
           ),
         ),
       ),
     );
   }
+
+  String get _title => switch (result) {
+    QuickSwitcherUserResult(:final title) => title,
+    QuickSwitcherGroupDmResult(:final title) => title,
+    QuickSwitcherTextChannelResult(:final title) => title,
+    QuickSwitcherVoiceChannelResult(:final title) => title,
+    QuickSwitcherGuildResult(:final title) => title,
+    QuickSwitcherVirtualGuildResult(:final title) => title,
+    QuickSwitcherSettingsResult(:final title) => title,
+    QuickSwitcherLinkResult(:final title) => title,
+    QuickSwitcherHeaderResult(:final title) => title,
+  };
 
   Widget _buildLeading(BuildContext context, {required bool isHighlighted}) {
     final Color mutedColor = context.colors.textPrimaryMuted;
@@ -135,17 +162,7 @@ class QuickSwitcherResultRow extends StatelessWidget {
 
   Widget _buildText(BuildContext context, {required bool isHighlighted}) {
     final colors = context.colors;
-    final String title = switch (result) {
-      QuickSwitcherUserResult(:final title) => title,
-      QuickSwitcherGroupDmResult(:final title) => title,
-      QuickSwitcherTextChannelResult(:final title) => title,
-      QuickSwitcherVoiceChannelResult(:final title) => title,
-      QuickSwitcherGuildResult(:final title) => title,
-      QuickSwitcherVirtualGuildResult(:final title) => title,
-      QuickSwitcherSettingsResult(:final title) => title,
-      QuickSwitcherLinkResult(:final title) => title,
-      QuickSwitcherHeaderResult(:final title) => title,
-    };
+    final String title = _title;
     final String? subtitle = switch (result) {
       QuickSwitcherUserResult(:final subtitle) => subtitle,
       QuickSwitcherGroupDmResult(:final subtitle) => subtitle,
@@ -168,10 +185,9 @@ class QuickSwitcherResultRow extends StatelessWidget {
       children: <Widget>[
         Text(
           title,
-          style: TextStyle(
+          style: context.textStyles.username.copyWith(
             color: titleColor,
             fontSize: 15,
-            fontWeight: FontWeight.w500,
             height: 18 / 15,
           ),
           maxLines: 1,
@@ -181,7 +197,7 @@ class QuickSwitcherResultRow extends StatelessWidget {
           const SizedBox(height: 1),
           Text(
             subtitle,
-            style: TextStyle(
+            style: context.textStyles.bodySmall.copyWith(
               color: subtitleColor,
               fontSize: 13,
               height: 16 / 13,

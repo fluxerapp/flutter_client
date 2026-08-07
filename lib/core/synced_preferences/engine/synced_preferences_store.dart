@@ -1,12 +1,13 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_field_adapter.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_engine.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_wire_codec.dart';
+import 'package:fluxer_app/core/synced_preferences/fields/accessibility_overrides_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/accessibility_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/favorites_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/guild_folders_synced_field.dart';
@@ -68,6 +69,7 @@ class SyncedPreferencesStore {
   void registerDefaultAdapters() {
     registerAdapter(FavoritesSyncedField(_ref));
     registerAdapter(AccessibilitySyncedField(_ref));
+    registerAdapter(AccessibilityOverridesSyncedField(_ref));
     registerAdapter(SearchEnginesSyncedField(_ref));
     registerAdapter(SidebarSyncedField(_ref));
     registerAdapter(PrivacySyncedField(_ref));
@@ -716,6 +718,26 @@ class SyncedPreferencesStore {
     _pushTimer = null;
     _rateLimitTimer?.cancel();
     _rateLimitTimer = null;
+  }
+
+  @visibleForTesting
+  void triggerDebouncedPushForTest() {
+    _pushTimer?.cancel();
+    _pushTimer = null;
+    if (!_ref.mounted) {
+      return;
+    }
+    unawaited(_flushPush());
+  }
+
+  @visibleForTesting
+  void triggerRateLimitRetryForTest() {
+    _rateLimitTimer?.cancel();
+    _rateLimitTimer = null;
+    if (!_ref.mounted) {
+      return;
+    }
+    unawaited(_flushPush());
   }
 
   bool _isRateLimitError(Object error) {

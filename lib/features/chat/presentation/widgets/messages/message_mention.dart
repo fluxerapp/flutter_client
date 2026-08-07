@@ -44,7 +44,7 @@ class ChannelMention extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final async = ref.watch(channelByIdProvider(channelId));
     final colors = context.colors;
-    final style = (baseStyle ?? const TextStyle()).copyWith(
+    final style = (baseStyle ?? context.textStyles.messageText).copyWith(
       color: colors.markupMentionText,
       fontWeight: FontWeight.w500,
     );
@@ -135,7 +135,7 @@ class TextMention extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final style = (baseStyle ?? const TextStyle()).copyWith(
+    final style = (baseStyle ?? context.textStyles.messageText).copyWith(
       color: colors.markupMentionText,
       fontWeight: FontWeight.w500,
     );
@@ -264,7 +264,7 @@ class UserMention extends ConsumerWidget {
       guildId: guildId,
     );
     final colors = context.colors;
-    final style = (baseStyle ?? const TextStyle()).copyWith(
+    final style = (baseStyle ?? context.textStyles.messageText).copyWith(
       color: colors.markupMentionText,
       fontWeight: FontWeight.w500,
     );
@@ -307,7 +307,7 @@ class RoleMention extends ConsumerWidget {
     // 0.1 opacity fill matching web app
     final fillColor = roleColor?.withValues(alpha: 0.1);
 
-    final style = (baseStyle ?? const TextStyle()).copyWith(
+    final style = (baseStyle ?? context.textStyles.messageText).copyWith(
       color: roleColor ?? colors.markupMentionText,
       fontWeight: FontWeight.w500,
     );
@@ -392,7 +392,7 @@ class ChannelJumpLinkMention extends ConsumerWidget {
     final dmName = dmNameAsync?.value ?? link.channelId;
 
     final colors = context.colors;
-    final style = (baseStyle ?? const TextStyle()).copyWith(
+    final style = (baseStyle ?? context.textStyles.messageText).copyWith(
       color: colors.markupMentionText,
       fontWeight: FontWeight.w500,
     );
@@ -607,7 +607,7 @@ class _GuildInitials extends StatelessWidget {
       alignment: Alignment.center,
       child: Text(
         initials,
-        style: TextStyle(
+        style: context.textStyles.smallText.copyWith(
           fontSize: _guildMentionInitialsFontSize(initialsLength, size),
           fontWeight: FontWeight.w700,
           color: colors.markupMentionText,

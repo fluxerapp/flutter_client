@@ -39,6 +39,11 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../helpers/open_test_database.dart';
+import '../../../../helpers/pump_fluxer_app.dart';
+
+Future<void> _pumpSidebar(WidgetTester tester) async {
+  await pumpFluxerFrames(tester);
+}
 
 const String _guildId = 'g1';
 const String _otherGuildId = 'g2';
@@ -66,7 +71,7 @@ void main() {
           ),
         ),
       );
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       expect(find.text('My Category'), findsOneWidget);
       expect(find.text('general'), findsOneWidget);
@@ -87,7 +92,7 @@ void main() {
           ),
         ),
       );
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       expect(find.text('random'), findsOneWidget);
       expect(find.text('general'), findsNothing);
@@ -116,7 +121,7 @@ void main() {
           ),
         ),
       );
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       expect(find.text('general'), findsOneWidget);
       expect(find.text('random'), findsNothing);
@@ -153,7 +158,7 @@ void main() {
           ),
         ),
       );
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       expect(find.text('uncategorized'), findsOneWidget);
       expect(find.text('Channels'), findsNothing);
@@ -173,10 +178,10 @@ void main() {
           ),
         ),
       );
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       await tester.longPress(find.text('general'));
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       expect(find.text('Mark as Read'), findsNothing);
       expect(find.text('Copy Link'), findsOneWidget);
@@ -209,10 +214,10 @@ void main() {
           ),
         ),
       );
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       await tester.longPress(find.text('general'));
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       expect(find.text('Mark as Read'), findsOneWidget);
       double dy(String label) => tester.getTopLeft(find.text(label)).dy;
@@ -235,10 +240,10 @@ void main() {
           ),
         ),
       );
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       await tester.longPress(find.text('general'));
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       expect(find.text('Invite People'), findsOneWidget);
       double dy(String label) => tester.getTopLeft(find.text(label)).dy;
@@ -257,10 +262,10 @@ void main() {
           ),
         ),
       );
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       await tester.longPress(find.text('voice-room'));
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       expect(find.text('Open chat'), findsOneWidget);
       expect(find.text('Delete My Messages'), findsOneWidget);
@@ -278,10 +283,10 @@ void main() {
           ),
         ),
       );
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       await tester.longPress(find.text('My Category'));
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       expect(find.text('Mute category'), findsOneWidget);
       expect(find.text('Copy category ID'), findsOneWidget);
@@ -307,10 +312,10 @@ void main() {
           ),
         ),
       );
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       await tester.longPress(find.text('general'));
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       expect(find.text('Edit channel'), findsOneWidget);
       expect(find.text('Duplicate channel'), findsOneWidget);
@@ -339,12 +344,20 @@ void main() {
           ],
         ),
       );
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       await tester.longPress(find.text('general'));
-      await tester.pumpAndSettle();
+      // Tapping a menu entry before it settles misses the hit test and leaves
+      // the menu's centred channel-name header duplicating the sidebar row.
+      await _pumpSidebar(tester);
+      for (int i = 0; i < 4; i += 1) {
+        await tester.pump(const Duration(milliseconds: 100));
+      }
       await tester.tap(find.text('Edit channel'));
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
+      for (int i = 0; i < 4; i += 1) {
+        await tester.pump(const Duration(milliseconds: 100));
+      }
 
       expect(find.text('general'), findsOneWidget);
       expect(find.text('Overview'), findsOneWidget);
@@ -364,10 +377,10 @@ void main() {
           ),
         ),
       );
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       await tester.longPress(find.text('general'));
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       expect(find.text('Debug Channel'), findsOneWidget);
     });
@@ -385,10 +398,10 @@ void main() {
           ),
         ),
       );
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       await tester.longPress(find.text('My Category'));
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       expect(find.text('Debug Category'), findsOneWidget);
     });
@@ -416,10 +429,10 @@ void main() {
           ),
         ),
       );
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       await tester.longPress(find.text('announcements'));
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       expect(find.text('Open link'), findsOneWidget);
       expect(find.text('Copy channel link'), findsOneWidget);
@@ -449,7 +462,7 @@ void main() {
           ),
         ),
       );
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       final Finder voiceRow = find.ancestor(
         of: find.text('locked-voice'),
@@ -476,7 +489,7 @@ void main() {
           ),
         ),
       );
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       final Finder voiceRow = find.ancestor(
         of: find.text('locked-voice'),
@@ -507,7 +520,7 @@ void main() {
           ),
         ),
       );
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
 
       final Finder voiceRow = find.ancestor(
         of: find.text('locked-voice'),
@@ -563,7 +576,11 @@ void main() {
           ),
         ),
       );
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
+      // The unread pill's scroll target only resolves once the list lays out.
+      for (int i = 0; i < 4; i += 1) {
+        await tester.pump(const Duration(milliseconds: 100));
+      }
 
       final Finder indicator = find.text('NEW MESSAGE');
       expect(indicator, findsNWidgets(2));
@@ -696,7 +713,12 @@ void main() {
             ),
           ),
         );
-        await tester.pumpAndSettle();
+        await _pumpSidebar(tester);
+        // Scroll restore only runs once the controller has attached and the
+        // extent is known.
+        for (int i = 0; i < 4; i += 1) {
+          await tester.pump(const Duration(milliseconds: 100));
+        }
       }
 
       await pumpSidebar();
@@ -705,7 +727,7 @@ void main() {
         100,
         scrollable: find.byType(Scrollable).first,
       );
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
       expect(find.text('channel-20'), findsOneWidget);
 
       await tester.pumpWidget(const SizedBox.shrink());
@@ -811,7 +833,10 @@ void main() {
             ),
           ),
         );
-        await tester.pumpAndSettle();
+        await _pumpSidebar(tester);
+        for (int i = 0; i < 4; i += 1) {
+          await tester.pump(const Duration(milliseconds: 100));
+        }
       }
 
       await pumpSidebar();
@@ -820,7 +845,7 @@ void main() {
         100,
         scrollable: find.byType(Scrollable).first,
       );
-      await tester.pumpAndSettle();
+      await _pumpSidebar(tester);
       expect(find.text('channel-20'), findsOneWidget);
 
       harness
@@ -858,7 +883,7 @@ void main() {
             ),
           ),
         );
-        await tester.pumpAndSettle();
+        await _pumpSidebar(tester);
         expect(find.text('general'), findsOneWidget);
 
         session.setSession(

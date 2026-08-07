@@ -15,33 +15,52 @@ class BottomInputSpacer extends ConsumerWidget {
     if (!isMobileLayout(context)) {
       return const SizedBox.shrink();
     }
+
     final bool isPanelOpen = ref.watch(expressionPanelProvider);
     final double slotHeight = ref.watch(
       bottomInputSlotProvider.select(
         (BottomInputSlotState state) => state.slotHeight,
       ),
     );
-    if (slotHeight <= 0 && !isPanelOpen) {
-      return const SizedBox.shrink();
-    }
+
     if (isPanelOpen) {
-      final MobileKeyboardMetricsState metrics = ref.watch(
-        mobileKeyboardMetricsProvider,
+      final ({double? anchoredKeyboardHeight, double fallbackKeyboardHeight})
+      panelMetrics = ref.watch(
+        mobileKeyboardMetricsProvider.select(
+          (MobileKeyboardMetricsState metrics) => (
+            anchoredKeyboardHeight: metrics.anchoredKeyboardHeight,
+            fallbackKeyboardHeight: metrics.fallbackKeyboardHeight,
+          ),
+        ),
+      );
+      final double anchorHeight = inlineExpressionPanelAnchorHeight(
+        anchoredKeyboardHeight: panelMetrics.anchoredKeyboardHeight,
+        fallbackHeight: panelMetrics.fallbackKeyboardHeight,
       );
       final double reservedHeight = resolvePanelReservedLayoutHeight(
         slotHeight: slotHeight,
-        netAnchorHeight: metrics.resolveAnchorHeight(),
-        grossAnchorHeight: metrics.resolveAnchorHeight(),
+        netAnchorHeight: anchorHeight,
+        grossAnchorHeight: anchorHeight,
       );
       if (reservedHeight <= 0) {
         return const SizedBox.shrink();
       }
       return _animatedSpacer(context, reservedHeight);
     }
-    if (slotHeight <= 0) {
+
+    final double spacerHeight = _keyboardSpacerHeight(context, slotHeight);
+    if (spacerHeight <= 0) {
       return const SizedBox.shrink();
     }
-    return _animatedSpacer(context, slotHeight);
+    return SizedBox(height: spacerHeight);
+  }
+
+  double _keyboardSpacerHeight(BuildContext context, double slotHeight) {
+    final double homeInset = MediaQuery.viewPaddingOf(context).bottom;
+    if (slotHeight >= homeInset) {
+      return slotHeight;
+    }
+    return homeInset > 0 ? homeInset : slotHeight;
   }
 
   Widget _animatedSpacer(BuildContext context, double height) {

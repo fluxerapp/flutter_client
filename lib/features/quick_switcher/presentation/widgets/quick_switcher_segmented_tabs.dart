@@ -90,13 +90,14 @@ class _QuickSwitcherTabButton extends StatelessWidget {
     final motion = context.motion;
     return FluxerTappable(
       onTap: onTap,
+      selected: isSelected,
+      semanticLabel: label,
+      excludeChildSemantics: true,
       builder: (BuildContext context, Set<WidgetState> states) {
         return AnimatedDefaultTextStyle(
           duration: motion.normal,
           curve: motion.curve,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
+          style: context.textStyles.categoryName.copyWith(
             height: 18 / 14,
             color: isSelected ? colors.textPrimary : colors.textSecondary,
           ),

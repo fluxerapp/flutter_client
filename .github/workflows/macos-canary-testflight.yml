@@ -1,0 +1,155 @@
+name: macOS Canary TestFlight Build
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  build-and-upload:
+    name: Build and upload to TestFlight
+    runs-on: macos-26
+    environment: release-builds
+    env:
+      LANG: en_US.UTF-8
+      LC_ALL: en_US.UTF-8
+      LANGUAGE: en_US.UTF-8
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          submodules: recursive
+
+      - name: Sync submodules
+        run: git submodule update --init --recursive
+
+      - name: Set up Flutter
+        # Temp use while waiting for a pr: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
+        uses: axi92/flutter-action@72633a794ba0b23276fa4fc465a6cacb758a90c5
+        with:
+          channel: stable
+      - name: Restore pub cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
+      - name: Strip Firebase dependencies if present
+        run: dart tool/strip_firebase_deps.dart
+
+      - name: Apply macOS dependency overrides
+        run: bash tool/apply_macos_pub_overrides.sh
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Run build_runner
+        run: dart run build_runner build
+
+      - name: Create keychain and import certificate
+        env:
+          CERTIFICATES_P12: ${{ secrets.CERTIFICATES_P12 }}
+          CERTIFICATES_P12_PASSWORD: ${{ secrets.CERTIFICATES_P12_PASSWORD }}
+        run: |
+          KEYCHAIN_PATH="$RUNNER_TEMP/build.keychain-db"
+          KEYCHAIN_PASSWORD=actions
+          LOGIN_KEYCHAIN="$HOME/Library/Keychains/login.keychain-db"
+          ORIGINAL_DEFAULT_KEYCHAIN="$(security default-keychain -d user 2>/dev/null | tr -d '"' || true)"
+          TEMP_KEYCHAIN_WAS_DEFAULT=false
+          if [ -z "$ORIGINAL_DEFAULT_KEYCHAIN" ]; then
+            TEMP_KEYCHAIN_WAS_DEFAULT=true
+          fi
+          echo "ORIGINAL_DEFAULT_KEYCHAIN=$ORIGINAL_DEFAULT_KEYCHAIN" >> "$GITHUB_ENV"
+          echo "TEMP_KEYCHAIN_WAS_DEFAULT=$TEMP_KEYCHAIN_WAS_DEFAULT" >> "$GITHUB_ENV"
+          if [ -z "$CERTIFICATES_P12" ]; then
+            echo "::error::CERTIFICATES_P12 is not set."
+            exit 1
+          fi
+          if [ -z "$CERTIFICATES_P12_PASSWORD" ]; then
+            echo "::error::CERTIFICATES_P12_PASSWORD is not set."
+            exit 1
+          fi
+          echo "$CERTIFICATES_P12" | base64 --decode > "$RUNNER_TEMP/cert.p12"
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security set-keychain-settings -lu -t 3600 "$KEYCHAIN_PATH"
+          if [ "$TEMP_KEYCHAIN_WAS_DEFAULT" = "true" ]; then
+            security default-keychain -d user -s "$KEYCHAIN_PATH"
+          fi
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security import "$RUNNER_TEMP/cert.p12" -k "$KEYCHAIN_PATH" -P "$CERTIFICATES_P12_PASSWORD" -T /usr/bin/codesign -T /usr/bin/security
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          if [ -f "$LOGIN_KEYCHAIN" ]; then
+            security list-keychains -d user -s "$KEYCHAIN_PATH" "$LOGIN_KEYCHAIN"
+          else
+            security list-keychains -d user -s "$KEYCHAIN_PATH"
+          fi
+          rm -f "$RUNNER_TEMP/cert.p12"
+
+      - name: Install provisioning profile
+        env:
+          PROVISIONING_PROFILE_BASE64: ${{ secrets.CANARY_MACOS_PROVISIONING_PROFILE_BASE64 }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          PROFILES_DIR="$HOME/Library/MobileDevice/Provisioning Profiles"
+          mkdir -p "$PROFILES_DIR"
+          for existing_profile in "$PROFILES_DIR"/*.mobileprovision; do
+            [ -e "$existing_profile" ] || continue
+            PROFILE_APP_ID=$(security cms -D -i "$existing_profile" | plutil -extract Entitlements.application-identifier raw - 2>/dev/null || true)
+            case "$PROFILE_APP_ID" in
+              *.com.fluxer.lite|*.com.fluxer.lite.canary)
+                rm -f "$existing_profile"
+                ;;
+            esac
+          done
+          if [ -z "$PROVISIONING_PROFILE_BASE64" ]; then
+            echo "::error::CANARY_MACOS_PROVISIONING_PROFILE_BASE64 is not set. Add the base64-encoded Mac App Store profile for com.fluxer.lite.canary."
+            exit 1
+          fi
+          echo "$PROVISIONING_PROFILE_BASE64" | base64 --decode > "$PROFILES_DIR/profile.mobileprovision"
+          PROFILE_UUID=$(security cms -D -i "$PROFILES_DIR/profile.mobileprovision" | plutil -extract UUID raw -)
+          PROFILE_NAME=$(security cms -D -i "$PROFILES_DIR/profile.mobileprovision" | plutil -extract Name raw -)
+          PROFILE_TEAM_ID=$(security cms -D -i "$PROFILES_DIR/profile.mobileprovision" | plutil -extract TeamIdentifier.0 raw -)
+          IS_DEVELOPMENT_PROFILE=$(security cms -D -i "$PROFILES_DIR/profile.mobileprovision" | plutil -extract Entitlements.get-task-allow raw - 2>/dev/null || echo "false")
+          {
+            echo "PROFILE_UUID=$PROFILE_UUID"
+            echo "PROFILE_NAME=$PROFILE_NAME"
+            echo "PROFILE_TEAM_ID=$PROFILE_TEAM_ID"
+          } >> "$GITHUB_ENV"
+          echo "::notice::Provisioning profile metadata - name: $PROFILE_NAME, uuid: $PROFILE_UUID, team: $PROFILE_TEAM_ID, development: $IS_DEVELOPMENT_PROFILE"
+          if [ "$IS_DEVELOPMENT_PROFILE" = "true" ]; then
+            echo "::error::Provisioning profile is Development type. Use a Mac App Store distribution profile for TestFlight."
+            exit 1
+          fi
+          if [ -z "$APPLE_TEAM_ID" ]; then
+            echo "::error::APPLE_TEAM_ID is not set."
+            exit 1
+          fi
+          if [ "$PROFILE_TEAM_ID" != "$APPLE_TEAM_ID" ]; then
+            echo "::error::Provisioning profile team ($PROFILE_TEAM_ID) does not match APPLE_TEAM_ID ($APPLE_TEAM_ID)."
+            exit 1
+          fi
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@4c56a21280b36d862b5fc31348f463d60bdc55d5
+        with:
+          ruby-version: "4.0"
+      - name: Restore Bundler cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-bundler-ruby-4.0-${{ hashFiles('Gemfile.lock', 'Gemfile') }}
+          restore-keys: |
+            ${{ runner.os }}-bundler-ruby-4.0-
+      - name: Install Ruby gems
+        run: |
+          bundle config set path 'vendor/bundle'
+          bundle install --jobs 4 --retry 3
+
+      - name: Build and upload with Fastlane
+        env:
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPSTORE_ISSUER_ID: ${{ secrets.APPSTORE_ISSUER_ID }}
+          APPSTORE_KEY_ID: ${{ secrets.APPSTORE_KEY_ID }}
+          APPSTORE_PRIVATE_KEY: ${{ secrets.APPSTORE_PRIVATE_KEY }}
+        run: bundle exec fastlane mac testflight_canary

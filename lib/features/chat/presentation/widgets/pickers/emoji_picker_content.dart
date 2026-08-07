@@ -421,9 +421,9 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     );
     final activeGuildId = ref.watch(contextualGuildIdProvider);
     final String? channelId = widget.channelId;
-    final List<DmConversation> dmConversations = ref
-        .watch(dmViewModelProvider)
-        .conversations;
+    final List<DmConversation> dmConversations = ref.watch(
+      dmViewModelProvider.select((s) => s.conversations),
+    );
     final String? currentUserId = ref.watch(currentUserIdProvider);
     final bool hasGlobalExpressions = ref.watch(
       instanceFeatureEnabledProvider(LimitKeys.featureGlobalExpressions),
@@ -984,8 +984,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
             const SizedBox(height: 8),
             Text(
               FluxerLocalizations.of(context).emojiSearchEmpty,
-              style: TextStyle(
-                fontSize: 14,
+              style: context.textStyles.bodySmall.copyWith(
                 color: colors.textPrimaryMuted.withValues(alpha: 0.7),
               ),
             ),
@@ -1240,37 +1239,44 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
           )
         : null;
 
-    return GestureDetector(
-      onTap: () => unawaited(
-        ref
-            .read(collapsedEmojiPickerCategoriesProvider.notifier)
-            .toggle(category),
-      ),
-      behavior: HitTestBehavior.opaque,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        child: Row(
-          children: [
-            if (leadingIcon != null) ...[leadingIcon, const SizedBox(width: 8)],
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: colors.textPrimaryMuted,
+    return Semantics(
+      button: true,
+      expanded: !isCollapsed,
+      label: label,
+      child: GestureDetector(
+        onTap: () => unawaited(
+          ref
+              .read(collapsedEmojiPickerCategoriesProvider.notifier)
+              .toggle(category),
+        ),
+        behavior: HitTestBehavior.opaque,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          child: Row(
+            children: [
+              if (leadingIcon != null) ...[
+                leadingIcon,
+                const SizedBox(width: 8),
+              ],
+              Text(
+                label,
+                style: context.textStyles.categoryName.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: colors.textPrimaryMuted,
+                ),
               ),
-            ),
-            const SizedBox(width: 8),
-            AnimatedRotation(
-              turns: isCollapsed ? -0.25 : 0,
-              duration: const Duration(milliseconds: 200),
-              child: PhosphorIcon(
-                PhosphorIconsBold.caretDown,
-                size: 12,
-                color: colors.textPrimaryMuted,
+              const SizedBox(width: 8),
+              AnimatedRotation(
+                turns: isCollapsed ? -0.25 : 0,
+                duration: const Duration(milliseconds: 200),
+                child: PhosphorIcon(
+                  PhosphorIconsBold.caretDown,
+                  size: 12,
+                  color: colors.textPrimaryMuted,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -1290,6 +1296,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
 
     if (!usesHover) {
       return _PressableEmojiCell(
+        semanticLabel: emoji.primaryName,
         onTap: () => _onEmojiSelected(emoji),
         onLongPress: () => _showUnicodeEmojiActions(emoji),
         usePressFeedback: !widget.isMobile,
@@ -1298,6 +1305,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     }
 
     return _PressableEmojiCell(
+      semanticLabel: emoji.primaryName,
       onTap: () => _onEmojiSelected(emoji),
       onLongPress: () => _showUnicodeEmojiActions(emoji),
       child: MouseRegion(
@@ -1368,6 +1376,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
 
     if (!usesHover) {
       return _PressableEmojiCell(
+        semanticLabel: emoji.name,
         onTap: () => _onCustomEmojiSelected(emoji),
         onLongPress: () => _showCustomEmojiActions(emoji),
         usePressFeedback: !widget.isMobile,
@@ -1376,6 +1385,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     }
 
     return _PressableEmojiCell(
+      semanticLabel: emoji.name,
       onTap: () => _onCustomEmojiSelected(emoji),
       onLongPress: () => _showCustomEmojiActions(emoji),
       child: MouseRegion(
@@ -1561,7 +1571,9 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
                 Expanded(
                   child: Text(
                     ':${customEmoji.name}:',
-                    style: TextStyle(fontSize: 14, color: colors.textPrimary),
+                    style: context.textStyles.bodySmall.copyWith(
+                      color: colors.textPrimary,
+                    ),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -1591,7 +1603,9 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
               Expanded(
                 child: Text(
                   ':${emoji.primaryName}:',
-                  style: TextStyle(fontSize: 14, color: colors.textPrimary),
+                  style: context.textStyles.bodySmall.copyWith(
+                    color: colors.textPrimary,
+                  ),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -1606,12 +1620,14 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
 class _PressableEmojiCell extends StatefulWidget {
   const _PressableEmojiCell({
     required this.child,
+    this.semanticLabel,
     this.onTap,
     this.onLongPress,
     this.usePressFeedback = true,
   });
 
   final Widget child;
+  final String? semanticLabel;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
   final bool usePressFeedback;
@@ -1638,26 +1654,37 @@ class _PressableEmojiCellState extends State<_PressableEmojiCell> {
 
   @override
   Widget build(BuildContext context) {
+    Widget cell;
     if (!widget.usePressFeedback) {
-      return GestureDetector(
+      cell = GestureDetector(
         key: widget.key,
         onTap: widget.onTap,
         onLongPress: widget.onLongPress,
         child: widget.child,
       );
+    } else {
+      cell = GestureDetector(
+        key: widget.key,
+        onTap: widget.onTap,
+        onLongPress: widget.onLongPress,
+        onTapDown: _handleTapDown,
+        onTapUp: _handleTapUp,
+        onTapCancel: _handleTapCancel,
+        child: AnimatedOpacity(
+          duration: const Duration(milliseconds: 120),
+          opacity: _isPressed ? 0.6 : 1,
+          child: widget.child,
+        ),
+      );
     }
-    return GestureDetector(
-      key: widget.key,
-      onTap: widget.onTap,
-      onLongPress: widget.onLongPress,
-      onTapDown: _handleTapDown,
-      onTapUp: _handleTapUp,
-      onTapCancel: _handleTapCancel,
-      child: AnimatedOpacity(
-        duration: const Duration(milliseconds: 120),
-        opacity: _isPressed ? 0.6 : 1,
-        child: widget.child,
-      ),
+    if (widget.semanticLabel == null) {
+      return cell;
+    }
+    return Semantics(
+      button: true,
+      label: widget.semanticLabel,
+      excludeSemantics: true,
+      child: cell,
     );
   }
 }
@@ -1679,17 +1706,29 @@ class _CategoryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(6),
-      child: SizedBox(
-        width: 36,
-        height: 36,
-        child: Center(
-          child: PhosphorIcon(
-            icon,
-            size: 24,
-            color: isActive ? colors.textPrimary : colors.textPrimaryMuted,
+    return Semantics(
+      button: true,
+      label: tooltip,
+      selected: isActive,
+      child: Tooltip(
+        message: tooltip,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(6),
+          child: SizedBox(
+            width: 36,
+            height: 36,
+            child: Center(
+              child: ExcludeSemantics(
+                child: PhosphorIcon(
+                  icon,
+                  size: 24,
+                  color: isActive
+                      ? colors.textPrimary
+                      : colors.textPrimaryMuted,
+                ),
+              ),
+            ),
           ),
         ),
       ),
@@ -1712,23 +1751,37 @@ class _GuildCategoryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(6),
-      child: SizedBox(
-        width: 36,
-        height: 36,
-        child: Center(
-          child: DecoratedBox(
-            decoration: isActive
-                ? BoxDecoration(
-                    border: Border.all(color: colors.textPrimary, width: 2),
-                    borderRadius: BorderRadius.circular(8),
-                  )
-                : const BoxDecoration(),
-            child: Padding(
-              padding: const EdgeInsets.all(2),
-              child: _GuildIcon(guild: guild, size: isActive ? 20 : 24),
+    final String label = guild.name;
+    return Semantics(
+      button: true,
+      label: label,
+      selected: isActive,
+      child: Tooltip(
+        message: label,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(6),
+          child: SizedBox(
+            width: 36,
+            height: 36,
+            child: Center(
+              child: ExcludeSemantics(
+                child: DecoratedBox(
+                  decoration: isActive
+                      ? BoxDecoration(
+                          border: Border.all(
+                            color: colors.textPrimary,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        )
+                      : const BoxDecoration(),
+                  child: Padding(
+                    padding: const EdgeInsets.all(2),
+                    child: _GuildIcon(guild: guild, size: isActive ? 20 : 24),
+                  ),
+                ),
+              ),
             ),
           ),
         ),
@@ -1787,9 +1840,8 @@ class _GuildInitial extends StatelessWidget {
     alignment: Alignment.center,
     child: Text(
       name.isNotEmpty ? name[0].toUpperCase() : '?',
-      style: TextStyle(
+      style: context.textStyles.smallText.copyWith(
         fontSize: size <= 16 ? 8 : 11,
-        fontWeight: FontWeight.w600,
         color: colors.textPrimaryMuted,
       ),
     ),

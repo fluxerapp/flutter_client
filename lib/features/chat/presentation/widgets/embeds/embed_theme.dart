@@ -22,10 +22,9 @@ class EmbedTheme extends StatelessWidget {
       ),
       title: Text(
         l10n.embedThemeTitle,
-        style: TextStyle(
+        style: context.textStyles.channelName.copyWith(
           color: context.colors.textPrimary,
           fontSize: 15,
-          fontWeight: FontWeight.w600,
           letterSpacing: -0.1,
         ),
         overflow: TextOverflow.ellipsis,
@@ -33,9 +32,8 @@ class EmbedTheme extends StatelessWidget {
       ),
       subtitle: Text(
         l10n.embedThemeSubtitle,
-        style: TextStyle(
+        style: context.textStyles.embedFooter.copyWith(
           color: context.colors.textTertiaryMuted,
-          fontSize: 12,
           height: 1.2,
         ),
       ),

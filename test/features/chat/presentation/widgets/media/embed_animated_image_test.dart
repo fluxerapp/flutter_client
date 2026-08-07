@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/animated_image_playback_controller.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/fluxer_animated_image.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+
+Widget _wrap(Widget child) {
+  return ProviderScope(
+    child: MaterialApp(home: Scaffold(body: child)),
+  );
+}
 
 void main() {
   group('EmbedAnimatedImage', () {
@@ -19,13 +26,11 @@ void main() {
 
     testWidgets('plays when visible without a scope', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: EmbedAnimatedImage(
-              animatedUrl: 'https://x/a.webp',
-              staticUrl: 'https://x/a.png',
-              visibilityKey: 'v1',
-            ),
+        _wrap(
+          const EmbedAnimatedImage(
+            animatedUrl: 'https://x/a.webp',
+            staticUrl: 'https://x/a.png',
+            visibilityKey: 'v1',
           ),
         ),
       );
@@ -38,22 +43,20 @@ void main() {
 
     testWidgets('pauses when offscreen', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: ClipRect(
-              child: Stack(
-                children: <Widget>[
-                  Positioned(
-                    left: 0,
-                    top: 5000,
-                    child: EmbedAnimatedImage(
-                      animatedUrl: 'https://x/a.webp',
-                      staticUrl: 'https://x/a.png',
-                      visibilityKey: 'v1',
-                    ),
+        _wrap(
+          const ClipRect(
+            child: Stack(
+              children: <Widget>[
+                Positioned(
+                  left: 0,
+                  top: 5000,
+                  child: EmbedAnimatedImage(
+                    animatedUrl: 'https://x/a.webp',
+                    staticUrl: 'https://x/a.png',
+                    visibilityKey: 'v1',
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -69,30 +72,28 @@ void main() {
       final AnimatedImagePlaybackController controller =
           AnimatedImagePlaybackController(maxActive: 1);
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: AnimatedImagePlaybackScope(
-              controller: controller,
-              child: const Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 200,
-                    child: EmbedAnimatedImage(
-                      animatedUrl: 'https://x/a.webp',
-                      staticUrl: 'https://x/a.png',
-                      visibilityKey: 'v1',
-                    ),
+        _wrap(
+          AnimatedImagePlaybackScope(
+            controller: controller,
+            child: const Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 200,
+                  child: EmbedAnimatedImage(
+                    animatedUrl: 'https://x/a.webp',
+                    staticUrl: 'https://x/a.png',
+                    visibilityKey: 'v1',
                   ),
-                  SizedBox(
-                    height: 200,
-                    child: EmbedAnimatedImage(
-                      animatedUrl: 'https://x/b.webp',
-                      staticUrl: 'https://x/b.png',
-                      visibilityKey: 'v2',
-                    ),
+                ),
+                SizedBox(
+                  height: 200,
+                  child: EmbedAnimatedImage(
+                    animatedUrl: 'https://x/b.webp',
+                    staticUrl: 'https://x/b.png',
+                    visibilityKey: 'v2',
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -109,15 +110,13 @@ void main() {
       final AnimatedImagePlaybackController controller =
           AnimatedImagePlaybackController(maxActive: 3);
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: AnimatedImagePlaybackScope(
-              controller: controller,
-              child: const EmbedAnimatedImage(
-                animatedUrl: 'https://x/a.webp',
-                staticUrl: 'https://x/a.png',
-                visibilityKey: 'v1',
-              ),
+        _wrap(
+          AnimatedImagePlaybackScope(
+            controller: controller,
+            child: const EmbedAnimatedImage(
+              animatedUrl: 'https://x/a.webp',
+              staticUrl: 'https://x/a.png',
+              visibilityKey: 'v1',
             ),
           ),
         ),

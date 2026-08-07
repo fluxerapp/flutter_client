@@ -1,165 +1,78 @@
 PODS:
-  - app_links (6.4.1):
-    - FlutterMacOS
-  - audioplayers_darwin (0.0.1):
-    - Flutter
-    - FlutterMacOS
-  - connectivity_plus (0.0.1):
-    - FlutterMacOS
-  - device_info_plus (0.0.1):
-    - FlutterMacOS
-  - file_picker (0.0.1):
-    - FlutterMacOS
-  - flutter_inappwebview_macos (0.0.1):
-    - FlutterMacOS
-    - OrderedSet (~> 6.0.3)
   - flutter_webrtc (1.4.0):
     - FlutterMacOS
-    - WebRTC-SDK (= 144.7559.01)
+    - WebRTC-SDK (= 144.7559.09)
   - FlutterMacOS (1.0.0)
-  - livekit_client (2.7.0):
+  - irondash_engine_context (0.0.1):
+    - FlutterMacOS
+  - livekit_client (2.9.0):
     - flutter_webrtc
     - FlutterMacOS
-    - WebRTC-SDK (= 144.7559.01)
+    - WebRTC-SDK (= 144.7559.09)
+  - livekit_noise_filter (0.0.1):
+    - flutter_webrtc
+    - FlutterMacOS
+    - LiveKitKrispNoiseFilter (= 0.0.7)
+  - LiveKitKrispNoiseFilter (0.0.7)
   - media_kit_libs_macos_video (1.0.4):
     - FlutterMacOS
   - media_kit_video (0.0.1):
     - FlutterMacOS
-  - OrderedSet (6.0.3)
-  - package_info_plus (0.0.1):
+  - super_native_extensions (0.0.1):
     - FlutterMacOS
-  - passkeys_darwin (0.0.1):
-    - Flutter
+  - ua_client_hints (1.7.0):
     - FlutterMacOS
-  - path_provider_foundation (0.0.1):
-    - Flutter
-    - FlutterMacOS
-  - screen_retriever_macos (0.0.1):
-    - FlutterMacOS
-  - sqlite3 (3.52.0):
-    - sqlite3/common (= 3.52.0)
-  - sqlite3/common (3.52.0)
-  - sqlite3/dbstatvtab (3.52.0):
-    - sqlite3/common
-  - sqlite3/fts5 (3.52.0):
-    - sqlite3/common
-  - sqlite3/math (3.52.0):
-    - sqlite3/common
-  - sqlite3/perf-threadsafe (3.52.0):
-    - sqlite3/common
-  - sqlite3/rtree (3.52.0):
-    - sqlite3/common
-  - sqlite3/session (3.52.0):
-    - sqlite3/common
-  - sqlite3_flutter_libs (0.0.1):
-    - Flutter
-    - FlutterMacOS
-    - sqlite3 (~> 3.52.0)
-    - sqlite3/dbstatvtab
-    - sqlite3/fts5
-    - sqlite3/math
-    - sqlite3/perf-threadsafe
-    - sqlite3/rtree
-    - sqlite3/session
-  - url_launcher_macos (0.0.1):
-    - FlutterMacOS
-  - wakelock_plus (0.0.1):
-    - FlutterMacOS
-  - WebRTC-SDK (144.7559.01)
-  - window_manager (0.5.0):
-    - FlutterMacOS
+  - WebRTC-SDK (144.7559.09)
 
 DEPENDENCIES:
-  - app_links (from `Flutter/ephemeral/.symlinks/plugins/app_links/macos`)
-  - audioplayers_darwin (from `Flutter/ephemeral/.symlinks/plugins/audioplayers_darwin/darwin`)
-  - connectivity_plus (from `Flutter/ephemeral/.symlinks/plugins/connectivity_plus/macos`)
-  - device_info_plus (from `Flutter/ephemeral/.symlinks/plugins/device_info_plus/macos`)
-  - file_picker (from `Flutter/ephemeral/.symlinks/plugins/file_picker/macos`)
-  - flutter_inappwebview_macos (from `Flutter/ephemeral/.symlinks/plugins/flutter_inappwebview_macos/macos`)
   - flutter_webrtc (from `Flutter/ephemeral/.symlinks/plugins/flutter_webrtc/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
+  - irondash_engine_context (from `Flutter/ephemeral/.symlinks/plugins/irondash_engine_context/macos`)
   - livekit_client (from `Flutter/ephemeral/.symlinks/plugins/livekit_client/macos`)
+  - livekit_noise_filter (from `Flutter/ephemeral/.symlinks/plugins/livekit_noise_filter/macos`)
   - media_kit_libs_macos_video (from `Flutter/ephemeral/.symlinks/plugins/media_kit_libs_macos_video/macos`)
   - media_kit_video (from `Flutter/ephemeral/.symlinks/plugins/media_kit_video/macos`)
-  - package_info_plus (from `Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos`)
-  - passkeys_darwin (from `Flutter/ephemeral/.symlinks/plugins/passkeys_darwin/darwin`)
-  - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin`)
-  - screen_retriever_macos (from `Flutter/ephemeral/.symlinks/plugins/screen_retriever_macos/macos`)
-  - sqlite3_flutter_libs (from `Flutter/ephemeral/.symlinks/plugins/sqlite3_flutter_libs/darwin`)
-  - url_launcher_macos (from `Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos`)
-  - wakelock_plus (from `Flutter/ephemeral/.symlinks/plugins/wakelock_plus/macos`)
-  - window_manager (from `Flutter/ephemeral/.symlinks/plugins/window_manager/macos`)
+  - super_native_extensions (from `Flutter/ephemeral/.symlinks/plugins/super_native_extensions/macos`)
+  - ua_client_hints (from `Flutter/ephemeral/.symlinks/plugins/ua_client_hints/macos`)
 
 SPEC REPOS:
   trunk:
-    - OrderedSet
-    - sqlite3
+    - LiveKitKrispNoiseFilter
     - WebRTC-SDK
 
 EXTERNAL SOURCES:
-  app_links:
-    :path: Flutter/ephemeral/.symlinks/plugins/app_links/macos
-  audioplayers_darwin:
-    :path: Flutter/ephemeral/.symlinks/plugins/audioplayers_darwin/darwin
-  connectivity_plus:
-    :path: Flutter/ephemeral/.symlinks/plugins/connectivity_plus/macos
-  device_info_plus:
-    :path: Flutter/ephemeral/.symlinks/plugins/device_info_plus/macos
-  file_picker:
-    :path: Flutter/ephemeral/.symlinks/plugins/file_picker/macos
-  flutter_inappwebview_macos:
-    :path: Flutter/ephemeral/.symlinks/plugins/flutter_inappwebview_macos/macos
   flutter_webrtc:
     :path: Flutter/ephemeral/.symlinks/plugins/flutter_webrtc/macos
   FlutterMacOS:
     :path: Flutter/ephemeral
+  irondash_engine_context:
+    :path: Flutter/ephemeral/.symlinks/plugins/irondash_engine_context/macos
   livekit_client:
     :path: Flutter/ephemeral/.symlinks/plugins/livekit_client/macos
+  livekit_noise_filter:
+    :path: Flutter/ephemeral/.symlinks/plugins/livekit_noise_filter/macos
   media_kit_libs_macos_video:
     :path: Flutter/ephemeral/.symlinks/plugins/media_kit_libs_macos_video/macos
   media_kit_video:
     :path: Flutter/ephemeral/.symlinks/plugins/media_kit_video/macos
-  package_info_plus:
-    :path: Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos
-  passkeys_darwin:
-    :path: Flutter/ephemeral/.symlinks/plugins/passkeys_darwin/darwin
-  path_provider_foundation:
-    :path: Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin
-  screen_retriever_macos:
-    :path: Flutter/ephemeral/.symlinks/plugins/screen_retriever_macos/macos
-  sqlite3_flutter_libs:
-    :path: Flutter/ephemeral/.symlinks/plugins/sqlite3_flutter_libs/darwin
-  url_launcher_macos:
-    :path: Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos
-  wakelock_plus:
-    :path: Flutter/ephemeral/.symlinks/plugins/wakelock_plus/macos
-  window_manager:
-    :path: Flutter/ephemeral/.symlinks/plugins/window_manager/macos
+  super_native_extensions:
+    :path: Flutter/ephemeral/.symlinks/plugins/super_native_extensions/macos
+  ua_client_hints:
+    :path: Flutter/ephemeral/.symlinks/plugins/ua_client_hints/macos
 
 SPEC CHECKSUMS:
-  app_links: 05a6ec2341985eb05e9f97dc63f5837c39895c3f
-  audioplayers_darwin: 835ced6edd4c9fc8ebb0a7cc9e294a91d99917d5
-  connectivity_plus: 4adf20a405e25b42b9c9f87feff8f4b6fde18a4e
-  device_info_plus: 4fb280989f669696856f8b129e4a5e3cd6c48f76
-  file_picker: 7584aae6fa07a041af2b36a2655122d42f578c1a
-  flutter_inappwebview_macos: e69b76dd5c46a6d9471f195f3d8d36f11b3ab7a4
-  flutter_webrtc: f1fb1a00c6080461bb2bc6caa5b93d07ddb68466
+  flutter_webrtc: fec3dc9284a1f6d21ec2caa91c90bb4c1824eb04
   FlutterMacOS: d0db08ddef1a9af05a5ec4b724367152bb0500b1
-  livekit_client: 3e024a31e364d4a2e0deda1b3908e93933dbf6dc
+  irondash_engine_context: 893c7d96d20ce361d7e996f39d360c4c2f9869ba
+  livekit_client: 02cc2700525e41488c0e9d81243ffe657f7c916a
+  livekit_noise_filter: c5710c0871ef3621b48c0b44d3c3ff938ba414b2
+  LiveKitKrispNoiseFilter: efe418ceca28163ace0ff222bd2cc02384645d84
   media_kit_libs_macos_video: 85a23e549b5f480e72cae3e5634b5514bc692f65
   media_kit_video: fa6564e3799a0a28bff39442334817088b7ca758
-  OrderedSet: e539b66b644ff081c73a262d24ad552a69be3a94
-  package_info_plus: f0052d280d17aa382b932f399edf32507174e870
-  passkeys_darwin: 0a09d3b26cea8de1ec3bb8f8c7c159981f63bbc7
-  path_provider_foundation: bb55f6dbba17d0dccd6737fe6f7f34fbd0376880
-  screen_retriever_macos: 452e51764a9e1cdb74b3c541238795849f21557f
-  sqlite3: a51c07cf16e023d6c48abd5e5791a61a47354921
-  sqlite3_flutter_libs: b3e120efe9a82017e5552a620f696589ed4f62ab
-  url_launcher_macos: f87a979182d112f911de6820aefddaf56ee9fbfd
-  wakelock_plus: 917609be14d812ddd9e9528876538b2263aaa03b
-  WebRTC-SDK: ab9b5319e458c2bfebdc92b3600740da35d5630d
-  window_manager: b729e31d38fb04905235df9ea896128991cad99e
+  super_native_extensions: c2795d6d9aedf4a79fae25cb6160b71b50549189
+  ua_client_hints: bb84da85d9d5d605d40598b3c1ae3bfd2598e201
+  WebRTC-SDK: e6006119cd730d6315d875e4a421b6cc8bb88833
 
-PODFILE CHECKSUM: 945f0d5363194f4dd9152abd3f70a7cf5d2fccb9
+PODFILE CHECKSUM: 6fcf5e0fd3398a8c44609a40d135bc12c506a4e0
 
-COCOAPODS: 1.16.2
+COCOAPODS: 1.17.0

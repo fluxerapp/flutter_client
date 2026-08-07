@@ -140,6 +140,7 @@ class _MenuButton extends StatelessWidget {
     final layout = context.layout;
 
     return FluxerTappable(
+      semanticLabel: l10n.accountOverflowMenu,
       onTap: () {
         final renderBox = context.findRenderObject() as RenderBox?;
         if (renderBox == null) {

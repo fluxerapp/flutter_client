@@ -105,8 +105,7 @@ class _EmojiChip extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: layout.s1, vertical: 1),
           child: Text(
             ':$name:',
-            style: TextStyle(
-              fontFamily: 'monospace',
+            style: context.textStyles.codeText.copyWith(
               fontSize: 12,
               color: colors.textSecondary,
             ),

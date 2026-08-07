@@ -71,6 +71,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_url_launcher.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
+import 'package:fluxer_app/shared/utils/navigation_item_semantics.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:go_router/go_router.dart';
@@ -693,12 +694,15 @@ class _ChannelTile extends ConsumerWidget {
           ),
         );
 
-    final Color textColor = isSelected
+    final double rowOpacity = isChannelDirectlyMuted && !isSelected ? 0.5 : 1.0;
+    final Color baseTextColor = isSelected
         ? context.colors.textPrimary
         : channelUnreadState.isHighlight
         ? context.colors.textSecondary
         : context.colors.textTertiaryMuted;
-    final double rowOpacity = isChannelDirectlyMuted && !isSelected ? 0.5 : 1.0;
+    final Color textColor = rowOpacity < 1
+        ? baseTextColor.withValues(alpha: baseTextColor.a * rowOpacity)
+        : baseTextColor;
     final bool showUnreadIndicator =
         !isSelected && channelUnreadState.shouldShowUnreadIndicator;
 
@@ -721,82 +725,92 @@ class _ChannelTile extends ConsumerWidget {
           ChannelUnreadIndicator.positioned(
             faded: channelUnreadState.isUnreadIndicatorMuted,
           ),
-        Opacity(
-          opacity: rowOpacity,
-          child: FluxerSelectableRow(
+        FluxerSelectableRow(
+          isSelected: isSelected,
+          selectedColor: context.colors.backgroundModifierSelected,
+          borderRadius: BorderRadius.circular(4),
+          margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          semanticLabel: navigationItemSemanticLabel(
+            l10n: FluxerLocalizations.of(context),
+            name: channel.name,
             isSelected: isSelected,
-            selectedColor: context.colors.backgroundModifierSelected,
-            borderRadius: BorderRadius.circular(4),
-            margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-            onSecondaryTapUp: (details) => unawaited(
-              _showChannelActions(
-                context,
-                ref,
-                hasUnread: hasUnread,
-                position: details.globalPosition,
-              ),
-            ),
-            onLongPress: isTouchPrimaryInput(ref)
-                ? () => unawaited(
-                    _showChannelActions(
-                      context,
-                      ref,
-                      hasUnread: hasUnread,
-                      position: Offset.zero,
-                    ),
-                  )
-                : null,
-            onTap: () async {
-              await navigateToGuildChannelContent(
-                context: context,
-                ref: ref,
-                guildId: guildId,
-                channel: channel,
-                effectivePermissionBits: effectivePermissionBits,
-              );
-            },
-            child: Row(
-              children: [
-                ChannelIcon(
-                  type: channel.type,
-                  channel: channel,
-                  effectivePermissionBits: connectPermissionBits,
-                  canConnectPermissionBits: connectPermissionBits,
-                  color: textColor,
-                  e2eeEncrypted: showE2eeVoiceIcon,
-                ),
-                const SizedBox(width: 6),
-                Expanded(
-                  child: Text(
-                    channel.name,
-                    style: context.textStyles.channelName.copyWith(
-                      color: textColor,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                ChannelListTypingIndicator(
-                  channelId: channel.id,
-                  guildId: guildId,
-                  isSelected: isSelected,
-                ),
-                if (!isSelected &&
+            hasUnread: showUnreadIndicator,
+            mentionCount:
+                !isSelected &&
                     mentionCount > 0 &&
-                    channelUnreadState.hasMentions) ...[
-                  const SizedBox(width: 4),
-                  FluxerBadge.count(count: mentionCount),
-                ],
-                if (showVoiceUserCount) ...[
-                  const SizedBox(width: 4),
-                  VoiceChannelUserCount(
-                    currentUserCount: voiceCurrentCount,
-                    userLimit: voiceUserLimit,
-                  ),
-                ],
-              ],
+                    channelUnreadState.hasMentions
+                ? mentionCount
+                : 0,
+            isMuted: isChannelDirectlyMuted,
+          ),
+          onSecondaryTapUp: (details) => unawaited(
+            _showChannelActions(
+              context,
+              ref,
+              hasUnread: hasUnread,
+              position: details.globalPosition,
             ),
+          ),
+          onLongPress: isTouchPrimaryInput(ref)
+              ? () => unawaited(
+                  _showChannelActions(
+                    context,
+                    ref,
+                    hasUnread: hasUnread,
+                    position: Offset.zero,
+                  ),
+                )
+              : null,
+          onTap: () async {
+            await navigateToGuildChannelContent(
+              context: context,
+              ref: ref,
+              guildId: guildId,
+              channel: channel,
+              effectivePermissionBits: effectivePermissionBits,
+            );
+          },
+          child: Row(
+            children: [
+              ChannelIcon(
+                type: channel.type,
+                channel: channel,
+                effectivePermissionBits: connectPermissionBits,
+                canConnectPermissionBits: connectPermissionBits,
+                color: textColor,
+                e2eeEncrypted: showE2eeVoiceIcon,
+              ),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Text(
+                  channel.name,
+                  style: context.textStyles.channelName.copyWith(
+                    color: textColor,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              ChannelListTypingIndicator(
+                channelId: channel.id,
+                guildId: guildId,
+                isSelected: isSelected,
+              ),
+              if (!isSelected &&
+                  mentionCount > 0 &&
+                  channelUnreadState.hasMentions) ...[
+                const SizedBox(width: 4),
+                FluxerBadge.count(count: mentionCount),
+              ],
+              if (showVoiceUserCount) ...[
+                const SizedBox(width: 4),
+                VoiceChannelUserCount(
+                  currentUserCount: voiceCurrentCount,
+                  userLimit: voiceUserLimit,
+                ),
+              ],
+            ],
           ),
         ),
       ],
@@ -1222,42 +1236,55 @@ class _CategoryHeader extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return InkWell(
-      onTap: () {
-        unawaited(
-          ref
-              .read(guildUserSettingsRepositoryProvider)
-              .toggleCategoryCollapsed(
-                guildId: guildId,
-                categoryId: category.id,
-              ),
-        );
-      },
-      onSecondaryTapUp: (details) =>
-          unawaited(_showCategoryActions(context, ref, details.globalPosition)),
-      onLongPress: isTouchPrimaryInput(ref)
-          ? () => unawaited(_showCategoryActions(context, ref, Offset.zero))
-          : null,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 12, right: 8, top: 16, bottom: 4),
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(
-                category.name,
-                style: context.textStyles.categoryName,
-                overflow: TextOverflow.ellipsis,
-              ),
+    return Semantics(
+      button: true,
+      expanded: !isCollapsed,
+      label: category.name,
+      child: ExcludeSemantics(
+        child: InkWell(
+          onTap: () {
+            unawaited(
+              ref
+                  .read(guildUserSettingsRepositoryProvider)
+                  .toggleCategoryCollapsed(
+                    guildId: guildId,
+                    categoryId: category.id,
+                  ),
+            );
+          },
+          onSecondaryTapUp: (details) => unawaited(
+            _showCategoryActions(context, ref, details.globalPosition),
+          ),
+          onLongPress: isTouchPrimaryInput(ref)
+              ? () => unawaited(_showCategoryActions(context, ref, Offset.zero))
+              : null,
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: 12,
+              right: 8,
+              top: 16,
+              bottom: 4,
             ),
-            const SizedBox(width: 4),
-            PhosphorIcon(
-              isCollapsed
-                  ? PhosphorIconsBold.caretRight
-                  : PhosphorIconsBold.caretDown,
-              size: 12,
-              color: context.colors.textPrimaryMuted,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    category.name,
+                    style: context.textStyles.categoryName,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                const SizedBox(width: 4),
+                PhosphorIcon(
+                  isCollapsed
+                      ? PhosphorIconsBold.caretRight
+                      : PhosphorIconsBold.caretDown,
+                  size: 12,
+                  color: context.colors.textPrimaryMuted,
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -1566,6 +1593,11 @@ class _MembersSidebarTile extends ConsumerWidget {
       borderRadius: BorderRadius.circular(4),
       margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      semanticLabel: navigationItemSemanticLabel(
+        l10n: l10n,
+        name: l10n.guildMembersChannelListLabel,
+        isSelected: isSelected,
+      ),
       onTap: () => context.go(RoutePaths.guildMembers(guildId)),
       child: Row(
         children: <Widget>[

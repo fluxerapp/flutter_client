@@ -19,6 +19,7 @@ import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/navigation_item_semantics.dart';
 
 class DmNavbarItem extends ConsumerStatefulWidget {
   final String channelId;
@@ -130,6 +131,14 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
     );
 
     final borderRadius = (isSelected || _isHovered) ? 13.0 : 22.0;
+    final String semanticLabel = navigationItemSemanticLabel(
+      l10n: FluxerLocalizations.of(context),
+      name: displayName,
+      isSelected: isSelected,
+      hasUnread: unreadState.show && mentionCount == 0,
+      mentionCount: !isSelected && unreadState.show ? mentionCount : 0,
+      isMuted: isMuted,
+    );
 
     return AnimatedOpacity(
       opacity: isPendingRemoval ? 0.0 : 1.0,
@@ -140,93 +149,101 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
         child: MouseRegion(
           onEnter: (_) => setState(() => _isHovered = true),
           onExit: (_) => setState(() => _isHovered = false),
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () => unawaited(_navigateToDm()),
-            onSecondaryTapDown: (details) =>
-                widget.onContextMenu?.call(details.globalPosition),
-            onLongPress: () => widget.onContextMenu?.call(Offset.zero),
-            child: SizedBox(
-              width: 60,
-              height: 48,
-              child: Row(
-                children: [
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    curve: Curves.easeOutCubic,
-                    width: 6,
-                    height: indicatorHeight,
-                    decoration: BoxDecoration(
-                      color: indicatorColor,
-                      borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(4),
-                        bottomRight: Radius.circular(4),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  FluxerTooltip(
-                    message: displayName,
-                    position: FluxerTooltipPosition.right,
-                    child: SizedBox(
-                      width: 48,
-                      height: 48,
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          Center(
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 200),
-                              curve: Curves.easeOutCubic,
-                              width: 44,
-                              height: 44,
-                              clipBehavior: Clip.antiAlias,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(
-                                  borderRadius,
-                                ),
-                              ),
-                              child: isGroup
-                                  ? conversation != null
-                                        ? groupDmAvatarCluster(
-                                            dm: conversation,
-                                            size: 44,
-                                            status: conversation.groupStatus,
-                                            isTyping: isTyping,
-                                          )
-                                        : FluxerAvatarCluster(
-                                            channelId: widget.channelId,
-                                            size: 44,
-                                          )
-                                  : FluxerAvatar.user(
-                                      fallbackText: displayName,
-                                      userId: widget.recipientId,
-                                      imageUrl: avatarImageUrl,
-                                      showStatus: false,
-                                      isTyping: isTyping,
-                                      size: 44,
-                                    ),
-                            ),
+          child: Semantics(
+            button: true,
+            selected: isSelected,
+            label: semanticLabel,
+            child: ExcludeSemantics(
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => unawaited(_navigateToDm()),
+                onSecondaryTapDown: (details) =>
+                    widget.onContextMenu?.call(details.globalPosition),
+                onLongPress: () => widget.onContextMenu?.call(Offset.zero),
+                child: SizedBox(
+                  width: 60,
+                  height: 48,
+                  child: Row(
+                    children: [
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        curve: Curves.easeOutCubic,
+                        width: 6,
+                        height: indicatorHeight,
+                        decoration: BoxDecoration(
+                          color: indicatorColor,
+                          borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(4),
+                            bottomRight: Radius.circular(4),
                           ),
-                          if (mentionCount > 0 &&
-                              !isSelected &&
-                              unreadState.show)
-                            Positioned(
-                              bottom: -4,
-                              right: -4,
-                              child: Opacity(
-                                opacity: unreadState.faded ? 0.5 : 1.0,
-                                child: FluxerBadge.count(
-                                  count: mentionCount,
-                                  cutoutColor: colors.backgroundSecondary,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      FluxerTooltip(
+                        message: displayName,
+                        position: FluxerTooltipPosition.right,
+                        child: SizedBox(
+                          width: 48,
+                          height: 48,
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              Center(
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 200),
+                                  curve: Curves.easeOutCubic,
+                                  width: 44,
+                                  height: 44,
+                                  clipBehavior: Clip.antiAlias,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                      borderRadius,
+                                    ),
+                                  ),
+                                  child: isGroup
+                                      ? conversation != null
+                                            ? groupDmAvatarCluster(
+                                                dm: conversation,
+                                                size: 44,
+                                                status:
+                                                    conversation.groupStatus,
+                                                isTyping: isTyping,
+                                              )
+                                            : FluxerAvatarCluster(
+                                                channelId: widget.channelId,
+                                                size: 44,
+                                              )
+                                      : FluxerAvatar.user(
+                                          fallbackText: displayName,
+                                          userId: widget.recipientId,
+                                          imageUrl: avatarImageUrl,
+                                          showStatus: false,
+                                          isTyping: isTyping,
+                                          size: 44,
+                                        ),
                                 ),
                               ),
-                            ),
-                        ],
+                              if (mentionCount > 0 &&
+                                  !isSelected &&
+                                  unreadState.show)
+                                Positioned(
+                                  bottom: -4,
+                                  right: -4,
+                                  child: Opacity(
+                                    opacity: unreadState.faded ? 0.5 : 1.0,
+                                    child: FluxerBadge.count(
+                                      count: mentionCount,
+                                      cutoutColor: colors.backgroundSecondary,
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),

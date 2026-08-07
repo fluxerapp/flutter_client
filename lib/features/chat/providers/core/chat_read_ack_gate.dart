@@ -89,4 +89,13 @@ class ChatReadAckGate {
   void clearManualUnread(String channelId) {
     _manualUnreadChannelIds.remove(channelId);
   }
+
+  void advanceThrottleClockForTest(Duration offset) {
+    for (final channelId in _lastAttemptAtByChannelId.keys.toList()) {
+      final lastAttemptAt = _lastAttemptAtByChannelId[channelId];
+      if (lastAttemptAt != null) {
+        _lastAttemptAtByChannelId[channelId] = lastAttemptAt.subtract(offset);
+      }
+    }
+  }
 }

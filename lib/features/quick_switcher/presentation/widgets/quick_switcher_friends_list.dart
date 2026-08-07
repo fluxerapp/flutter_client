@@ -71,12 +71,7 @@ class QuickSwitcherFriendsList extends ConsumerWidget {
             padding: EdgeInsets.only(bottom: context.layout.s1 + 2),
             child: Text(
               letter,
-              style: TextStyle(
-                color: context.colors.textPrimaryMuted,
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.64,
-              ),
+              style: context.textStyles.smallText.copyWith(letterSpacing: 0.64),
             ),
           ),
           ...groups[letter]!.map(
@@ -185,10 +180,8 @@ class _FriendRow extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       friend.displayName,
-                      style: TextStyle(
-                        color: colors.textPrimary,
+                      style: context.textStyles.username.copyWith(
                         fontSize: 15,
-                        fontWeight: FontWeight.w500,
                         height: 18 / 15,
                       ),
                       maxLines: 1,
@@ -198,8 +191,7 @@ class _FriendRow extends StatelessWidget {
                       const SizedBox(height: 1),
                       Text(
                         statusLabel,
-                        style: TextStyle(
-                          color: colors.textPrimaryMuted,
+                        style: context.textStyles.bodySmall.copyWith(
                           fontSize: 13,
                           height: 16 / 13,
                         ),
@@ -247,10 +239,8 @@ class _EmptyState extends StatelessWidget {
             Text(
               title,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: context.textStyles.label.copyWith(
                 color: context.colors.textTertiary,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
                 height: 20 / 14,
               ),
             ),
@@ -258,11 +248,7 @@ class _EmptyState extends StatelessWidget {
             Text(
               hint,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: context.colors.textPrimaryMuted,
-                fontSize: 12,
-                height: 16 / 12,
-              ),
+              style: context.textStyles.timestamp.copyWith(height: 16 / 12),
             ),
           ],
         ),

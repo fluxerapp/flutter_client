@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/profile/presentation/sheets/profile_tab_menu
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class AppBottomNavBar extends ConsumerWidget {
@@ -20,15 +21,17 @@ class AppBottomNavBar extends ConsumerWidget {
   final int currentIndex;
   final ValueChanged<int> onBranchSelected;
 
-  static const List<_NavItemConfig> _items = <_NavItemConfig>[
-    _NavItemConfig(icon: PhosphorIconsFill.house, label: 'Home'),
-    _NavItemConfig(icon: PhosphorIconsFill.bell, label: 'Notifications'),
-    _NavItemConfig(label: 'You', isProfile: true),
+  List<_NavItemConfig> _items(FluxerLocalizations l10n) => <_NavItemConfig>[
+    _NavItemConfig(icon: PhosphorIconsFill.house, label: l10n.navHome),
+    _NavItemConfig(icon: PhosphorIconsFill.bell, label: l10n.navNotifications),
+    _NavItemConfig(label: l10n.navYou, isProfile: true),
   ];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.colors;
+    final l10n = FluxerLocalizations.of(context);
+    final items = _items(l10n);
     final UserSettingsViewState user = ref.watch(userSettingsViewModelProvider);
 
     return Material(
@@ -39,10 +42,10 @@ class AppBottomNavBar extends ConsumerWidget {
           height: context.layout.mobileBottomNavHeight,
           child: Row(
             children: [
-              for (var index = 0; index < _items.length; index++)
+              for (var index = 0; index < items.length; index++)
                 Expanded(
                   child: _AppBottomNavItem(
-                    config: _items[index],
+                    config: items[index],
                     isSelected: currentIndex == index,
                     user: user,
                     onTap: () => onBranchSelected(index),
@@ -124,7 +127,7 @@ class _AppBottomNavItem extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 config.label,
-                style: TextStyle(fontSize: 12, color: itemColor),
+                style: context.textStyles.timestamp.copyWith(color: itemColor),
               ),
             ],
           ),

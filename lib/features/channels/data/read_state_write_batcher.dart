@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:clock/clock.dart';
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/talker.dart';
@@ -61,7 +62,7 @@ class ReadStateWriteBatcher {
     if (lastFlush == null) {
       return _window;
     }
-    final DateTime now = DateTime.now();
+    final DateTime now = clock.now();
     final Duration sinceLastFlush = now.difference(lastFlush);
     if (sinceLastFlush >= _minIntervalBetweenUnreadFlushes) {
       return _window;
@@ -168,7 +169,7 @@ class ReadStateWriteBatcher {
   }
 
   Future<void> _applyFlush(String channelId, _PendingUnread pending) async {
-    _lastUnreadFlushAt[channelId] = DateTime.now();
+    _lastUnreadFlushAt[channelId] = clock.now();
     try {
       await _database.transaction(() async {
         final ReadState? working = await _database.readStateDao.getReadState(

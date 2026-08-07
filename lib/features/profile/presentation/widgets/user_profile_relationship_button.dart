@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class UserProfileRelationshipButton extends StatelessWidget {
@@ -24,7 +25,9 @@ class UserProfileRelationshipButton extends StatelessWidget {
   final VoidCallback onCancelRequest;
   final VoidCallback onSendFriendRequest;
 
-  ({PhosphorIconData icon, VoidCallback onTap})? _resolve() {
+  ({PhosphorIconData icon, VoidCallback onTap, String semanticLabel})? _resolve(
+    FluxerLocalizations l10n,
+  ) {
     if (isCurrentUser) {
       return null;
     }
@@ -33,26 +36,34 @@ class UserProfileRelationshipButton extends StatelessWidget {
       FriendStatus.accepted => (
         icon: PhosphorIconsFill.userMinus,
         onTap: onRemoveFriend,
+        semanticLabel: l10n.profileRemoveFriend,
       ),
       FriendStatus.blocked => (
         icon: PhosphorIconsFill.prohibit,
         onTap: onUnblock,
+        semanticLabel: l10n.profileUnblockUser,
       ),
       FriendStatus.pendingIncoming => (
         icon: PhosphorIconsFill.checkCircle,
         onTap: onAcceptRequest,
+        semanticLabel: l10n.profileAcceptFriendRequest,
       ),
       FriendStatus.pendingOutgoing => (
         icon: PhosphorIconsFill.clockCounterClockwise,
         onTap: onCancelRequest,
+        semanticLabel: l10n.profileCancelFriendRequest,
       ),
-      null => (icon: PhosphorIconsFill.userPlus, onTap: onSendFriendRequest),
+      null => (
+        icon: PhosphorIconsFill.userPlus,
+        onTap: onSendFriendRequest,
+        semanticLabel: l10n.profileSendFriendRequest,
+      ),
     };
   }
 
   @override
   Widget build(BuildContext context) {
-    final action = _resolve();
+    final action = _resolve(FluxerLocalizations.of(context));
     if (action == null) {
       return const SizedBox.shrink();
     }
@@ -60,6 +71,7 @@ class UserProfileRelationshipButton extends StatelessWidget {
     final colors = context.colors;
     return FluxerTappable(
       onTap: action.onTap,
+      semanticLabel: action.semanticLabel,
       builder: (context, _) => Container(
         width: 40,
         height: 40,

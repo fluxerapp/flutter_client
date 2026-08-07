@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -146,6 +147,10 @@ class _FluxerColorPickerFieldState extends State<FluxerColorPickerField> {
     });
   }
 
+  void _prepareColorPicker() {
+    _focusNode.unfocus();
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
@@ -172,9 +177,14 @@ class _FluxerColorPickerFieldState extends State<FluxerColorPickerField> {
             color: _showError ? colors.statusDanger : colors.textPrimary,
           ),
           onSubmitted: (_) => _commitFromText(),
-          onChanged: (_) {
+          onTapOutside: (_) => _focusNode.unfocus(),
+          onChanged: (value) {
             if (_showError) {
               setState(() => _showError = false);
+            }
+            final parsed = _parseHex(value);
+            if (parsed != null && parsed != widget.value) {
+              widget.onChanged(parsed);
             }
           },
           inputFormatters: [LengthLimitingTextInputFormatter(7)],
@@ -241,7 +251,10 @@ class _FluxerColorPickerFieldState extends State<FluxerColorPickerField> {
     return FluxerPopout(
       anchorBuilder: (context, toggle) => FluxerTappable(
         enabled: !widget.disabled,
-        onTap: toggle,
+        onTap: () {
+          _prepareColorPicker();
+          toggle();
+        },
         semanticLabel: l10n.uiOpenColorPicker,
         builder: (context, states) =>
             _buildSwatchContent(displayColor, iconColor),
@@ -257,7 +270,10 @@ class _FluxerColorPickerFieldState extends State<FluxerColorPickerField> {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return FluxerTappable(
       enabled: !widget.disabled,
-      onTap: _showMobileColorPicker,
+      onTap: () {
+        _prepareColorPicker();
+        unawaited(_showMobileColorPicker());
+      },
       semanticLabel: l10n.uiOpenColorPicker,
       builder: (context, states) =>
           _buildSwatchContent(displayColor, iconColor),

@@ -317,7 +317,12 @@ class _VoiceMessageComposerSheetBodyState
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (_errorMessage != null) ...[
-            Text(_errorMessage!, style: TextStyle(color: colors.accentDanger)),
+            Text(
+              _errorMessage!,
+              style: context.textStyles.bodyMedium.copyWith(
+                color: colors.accentDanger,
+              ),
+            ),
             const SizedBox(height: 12),
             FluxerButton.secondary(
               label: l10n.voiceMessageStartRecording,
@@ -326,14 +331,16 @@ class _VoiceMessageComposerSheetBodyState
           ] else if (_stage == _VoiceComposerStage.recording) ...[
             Text(
               l10n.voiceMessageRecordingHint,
-              style: TextStyle(color: colors.textSecondary),
+              style: context.textStyles.bodyMedium.copyWith(
+                color: colors.textSecondary,
+              ),
             ),
             const SizedBox(height: 16),
             VoiceMessageDesktopLiveWaveform(amplitudes: _amplitudes),
             const SizedBox(height: 8),
             Text(
               formatVoiceDurationMs(_elapsedMs),
-              style: TextStyle(
+              style: context.textStyles.bodyMedium.copyWith(
                 color: colors.textPrimary,
                 fontFeatures: const [FontFeature.tabularFigures()],
               ),
@@ -359,7 +366,9 @@ class _VoiceMessageComposerSheetBodyState
           ] else ...[
             Text(
               l10n.voiceMessageReviewHint,
-              style: TextStyle(color: colors.textSecondary),
+              style: context.textStyles.bodyMedium.copyWith(
+                color: colors.textSecondary,
+              ),
             ),
             const SizedBox(height: 16),
             VoiceMessageTrimWaveform(
@@ -405,7 +414,9 @@ class _VoiceMessageComposerSheetBodyState
                 const Spacer(),
                 Text(
                   '${(_endSeconds - _startSeconds).toStringAsFixed(2)}s',
-                  style: TextStyle(color: colors.textSecondary),
+                  style: context.textStyles.bodyMedium.copyWith(
+                    color: colors.textSecondary,
+                  ),
                 ),
               ],
             ),

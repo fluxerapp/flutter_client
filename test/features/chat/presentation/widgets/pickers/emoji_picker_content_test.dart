@@ -194,4 +194,25 @@ void main() {
       expect(image.requestSize, kCustomEmojiPickerFetchSize);
     },
   );
+
+  testWidgets('category sidebar buttons expose tooltip labels', (tester) async {
+    await tester.pumpWidget(
+      _buildTestApp(
+        allGuildEmojis: const <GuildEmojiEntry>[],
+        rankedUsageKeys: const <String>[],
+        child: const SizedBox(
+          width: 400,
+          height: 400,
+          child: EmojiPickerContent(channelId: 'channel-1'),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+
+    final FluxerLocalizations l10n = lookupFluxerLocalizations(
+      const Locale('en', 'US'),
+    );
+    expect(find.bySemanticsLabel(l10n.emojiCategoryPeople), findsOneWidget);
+  });
 }

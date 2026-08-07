@@ -30,6 +30,7 @@ class FluxerInput extends StatelessWidget {
     this.helperText,
     this.onChanged,
     this.onSubmitted,
+    this.onTapOutside,
     this.validator,
     this.keyboardType,
     this.textInputAction,
@@ -67,6 +68,7 @@ class FluxerInput extends StatelessWidget {
     this.helperText,
     this.onChanged,
     this.onSubmitted,
+    this.onTapOutside,
     this.validator,
     this.keyboardType,
     this.textInputAction,
@@ -114,6 +116,7 @@ class FluxerInput extends StatelessWidget {
   final String? helperText;
   final ValueChanged<String>? onChanged;
   final ValueChanged<String>? onSubmitted;
+  final TapRegionCallback? onTapOutside;
   final FormFieldValidator<String>? validator;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
@@ -213,6 +216,7 @@ class FluxerInput extends StatelessWidget {
           maxLength: maxLength,
           onChanged: onChanged,
           onFieldSubmitted: onSubmitted,
+          onTapOutside: onTapOutside,
           validator: validator,
           keyboardType: keyboardType,
           textCapitalization: textCapitalization ?? TextCapitalization.none,
@@ -297,6 +301,7 @@ class FluxerInput extends StatelessWidget {
                       maxLength: maxLength,
                       onChanged: onChanged,
                       onFieldSubmitted: onSubmitted,
+                      onTapOutside: onTapOutside,
                       validator: validator,
                       keyboardType: keyboardType,
                       textCapitalization:
@@ -374,6 +379,7 @@ class FluxerInput extends StatelessWidget {
               maxLength: maxLength,
               onChanged: onChanged,
               onFieldSubmitted: onSubmitted,
+              onTapOutside: onTapOutside,
               validator: validator,
               keyboardType: keyboardType,
               textCapitalization: textCapitalization ?? TextCapitalization.none,

@@ -5,7 +5,10 @@ import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/ui/settings/fluxer_settings_confirm_sheet.dart';
 import 'package:fluxer_app/features/voice/utils/voice_connection_actions.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_dart/export.dart';
 
@@ -38,6 +41,36 @@ Future<StartDirectVoiceCallResult> startDirectVoiceCall(
       notEligible: true,
       joinAttemptFailed: false,
     );
+  }
+  final bool confirmBeforeStartingCalls = ref
+      .read(appearancePreferencesProvider)
+      .confirmBeforeStartingCalls;
+  if (confirmBeforeStartingCalls) {
+    final l10n = FluxerLocalizations.of(context);
+    final bool? confirmed = await showFluxerSettingsConfirmSheet(
+      context,
+      title: l10n.accessibilityConfirmStartCallTitle,
+      description: l10n.accessibilityConfirmStartCallDescription,
+      confirmLabel: l10n.accessibilityConfirmStartCallConfirmLabel,
+    );
+    if (confirmed != true) {
+      return (
+        ok: false,
+        microphoneDenied: false,
+        cameraDenied: false,
+        notEligible: false,
+        joinAttemptFailed: false,
+      );
+    }
+    if (!context.mounted) {
+      return (
+        ok: false,
+        microphoneDenied: false,
+        cameraDenied: false,
+        notEligible: false,
+        joinAttemptFailed: false,
+      );
+    }
   }
   final bool micOk = await ensureSystemPermission(
     context,

@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/presentation/sheets/instance_selector_sheet.dart';
+import 'package:fluxer_app/features/auth/presentation/widgets/auth_form_error_text.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/instance_selector.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/sso_button.dart';
 import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
@@ -153,6 +154,9 @@ class _LoginFormState extends ConsumerState<LoginForm> {
                   color: context.colors.textPrimaryMuted,
                   size: 20,
                 ),
+                suffixSemanticLabel: vm.isPasswordVisible
+                    ? strings.authHidePassword
+                    : strings.authShowPassword,
                 onSuffixTap: notifier.togglePassword,
               ),
               SizedBox(height: layout.s1),
@@ -170,12 +174,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
                 child: errorText != null
                     ? Padding(
                         padding: EdgeInsets.only(bottom: layout.s2),
-                        child: Text(
-                          errorText,
-                          style: context.textStyles.bodySmall.copyWith(
-                            color: context.colors.textDanger,
-                          ),
-                        ),
+                        child: AuthFormErrorText(errorText),
                       )
                     : const SizedBox.shrink(),
               ),

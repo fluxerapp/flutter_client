@@ -84,5 +84,11 @@ void main() {
       expect(hasPermission(result, Permission.manageGuild), isTrue);
       expect(hasPermission(result, Permission.administrator), isFalse);
     });
+
+    test('bypassesSlowmode includes administrator and bypass permission', () {
+      expect(bypassesSlowmode(Permission.bypassSlowmode.value), isTrue);
+      expect(bypassesSlowmode(Permission.administrator.value), isTrue);
+      expect(bypassesSlowmode(Permission.sendMessages.value), isFalse);
+    });
   });
 }

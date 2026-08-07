@@ -316,10 +316,9 @@ class FluxerAvatar extends StatelessWidget {
     return Center(
       child: Text(
         initial,
-        style: TextStyle(
+        style: context.textStyles.smallText.copyWith(
           color: context.colors.textPrimary,
           fontSize: size * 0.4,
-          fontWeight: FontWeight.w600,
         ),
       ),
     );

@@ -124,17 +124,15 @@ class _PickerSearchInputState extends State<PickerSearchInput> {
                   onSubmitted: widget.onSubmitted,
                   maxLength: widget.maxLength,
                   maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                  style: TextStyle(
-                    fontSize: 16,
+                  style: context.textStyles.inputText.copyWith(
                     color: colors.textPrimary,
                     height: 1.2,
                   ),
                   decoration: InputDecoration(
                     counterText: '',
                     hintText: widget.hintText,
-                    hintStyle: TextStyle(
+                    hintStyle: context.textStyles.inputHint.copyWith(
                       color: colors.textTertiary,
-                      fontSize: 16,
                       height: 1.2,
                     ),
                     prefixIcon: Padding(

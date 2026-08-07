@@ -37,24 +37,103 @@ class _BuiltColorThemes {
   final FluxerColorTheme coal;
 }
 
+FluxerColorTheme _themedColor(
+  FluxerThemeMode mode,
+  FluxerColorTheme Function({double saturationFactor}) builder, {
+  required double saturationFactor,
+  required String? customThemeCss,
+}) => applyCustomThemeCss(
+  builder(saturationFactor: saturationFactor),
+  css: customThemeCss,
+  saturationFactor: saturationFactor,
+  mode: mode,
+);
+
 _BuiltColorThemes _buildColorThemes({
   required double saturationFactor,
   required String? customThemeCss,
 }) {
-  FluxerColorTheme themed(
-    FluxerThemeMode mode,
-    FluxerColorTheme Function({double saturationFactor}) builder,
-  ) => applyCustomThemeCss(
-    builder(saturationFactor: saturationFactor),
-    css: customThemeCss,
-    saturationFactor: saturationFactor,
-    mode: mode,
-  );
   return _BuiltColorThemes(
-    dark: themed(FluxerThemeMode.dark, buildDarkColorTheme),
-    light: themed(FluxerThemeMode.light, buildLightColorTheme),
-    coal: themed(FluxerThemeMode.coal, buildCoalColorTheme),
+    dark: _themedColor(
+      FluxerThemeMode.dark,
+      buildDarkColorTheme,
+      saturationFactor: saturationFactor,
+      customThemeCss: customThemeCss,
+    ),
+    light: _themedColor(
+      FluxerThemeMode.light,
+      buildLightColorTheme,
+      saturationFactor: saturationFactor,
+      customThemeCss: customThemeCss,
+    ),
+    coal: _themedColor(
+      FluxerThemeMode.coal,
+      buildCoalColorTheme,
+      saturationFactor: saturationFactor,
+      customThemeCss: customThemeCss,
+    ),
   );
+}
+
+_BuiltColorThemes _buildActiveColorThemes({
+  required FluxerThemeMode mode,
+  required double saturationFactor,
+  required String? customThemeCss,
+  required FluxerColorTheme dark,
+  required FluxerColorTheme light,
+  required FluxerColorTheme coal,
+}) {
+  switch (mode) {
+    case FluxerThemeMode.dark:
+      return _BuiltColorThemes(
+        dark: _themedColor(
+          FluxerThemeMode.dark,
+          buildDarkColorTheme,
+          saturationFactor: saturationFactor,
+          customThemeCss: customThemeCss,
+        ),
+        light: light,
+        coal: coal,
+      );
+    case FluxerThemeMode.light:
+      return _BuiltColorThemes(
+        dark: dark,
+        light: _themedColor(
+          FluxerThemeMode.light,
+          buildLightColorTheme,
+          saturationFactor: saturationFactor,
+          customThemeCss: customThemeCss,
+        ),
+        coal: coal,
+      );
+    case FluxerThemeMode.coal:
+      return _BuiltColorThemes(
+        dark: dark,
+        light: light,
+        coal: _themedColor(
+          FluxerThemeMode.coal,
+          buildCoalColorTheme,
+          saturationFactor: saturationFactor,
+          customThemeCss: customThemeCss,
+        ),
+      );
+    case FluxerThemeMode.system:
+      return _BuiltColorThemes(
+        dark: _themedColor(
+          FluxerThemeMode.dark,
+          buildDarkColorTheme,
+          saturationFactor: saturationFactor,
+          customThemeCss: customThemeCss,
+        ),
+        light: _themedColor(
+          FluxerThemeMode.light,
+          buildLightColorTheme,
+          saturationFactor: saturationFactor,
+          customThemeCss: customThemeCss,
+        ),
+        coal: coal,
+      );
+  }
 }
 
 class ThemePreferenceState {
@@ -142,7 +221,9 @@ class ThemePreferenceState {
     String? customThemeCss,
     bool clearCustomThemeCss = false,
     Object? inflightTheme = _kInflightSentinel,
+    bool rebuildAllColorThemes = true,
   }) {
+    final FluxerThemeMode nextMode = mode ?? this.mode;
     final double nextSaturationFactor = saturationFactor == null
         ? this.saturationFactor
         : clampSaturationFactor(saturationFactor);
@@ -153,18 +234,30 @@ class ThemePreferenceState {
     final bool themesChanged =
         nextSaturationFactor != this.saturationFactor ||
         nextCustomThemeCss != this.customThemeCss;
-    final _BuiltColorThemes themes = themesChanged
-        ? _buildColorThemes(
-            saturationFactor: nextSaturationFactor,
-            customThemeCss: nextCustomThemeCss,
-          )
-        : _BuiltColorThemes(
-            dark: darkColorTheme,
-            light: lightColorTheme,
-            coal: coalColorTheme,
-          );
+    final _BuiltColorThemes themes;
+    if (!themesChanged) {
+      themes = _BuiltColorThemes(
+        dark: darkColorTheme,
+        light: lightColorTheme,
+        coal: coalColorTheme,
+      );
+    } else if (rebuildAllColorThemes) {
+      themes = _buildColorThemes(
+        saturationFactor: nextSaturationFactor,
+        customThemeCss: nextCustomThemeCss,
+      );
+    } else {
+      themes = _buildActiveColorThemes(
+        mode: nextMode,
+        saturationFactor: nextSaturationFactor,
+        customThemeCss: nextCustomThemeCss,
+        dark: darkColorTheme,
+        light: lightColorTheme,
+        coal: coalColorTheme,
+      );
+    }
     return ThemePreferenceState._(
-      mode: mode ?? this.mode,
+      mode: nextMode,
       scaleFactor: nextScaleFactor,
       chatFontSize: chatFontSize ?? this.chatFontSize,
       syncAcrossDevices: syncAcrossDevices ?? this.syncAcrossDevices,
@@ -321,12 +414,29 @@ class ThemePreference extends _$ThemePreference {
     await _persist();
   }
 
-  Future<void> setSaturationFactor(double value) async {
+  void previewSaturationFactor(double value) {
     final double clamped = clampSaturationFactor(value);
     if (state.saturationFactor == clamped) {
       return;
     }
-    state = state.copyWith(saturationFactor: clamped);
+    state = state.copyWith(
+      saturationFactor: clamped,
+      rebuildAllColorThemes: false,
+    );
+  }
+
+  Future<void> setSaturationFactor(double value) async {
+    final double clamped = clampSaturationFactor(value);
+    final ThemePreferenceState current = state;
+    state = ThemePreferenceState(
+      mode: current.mode,
+      scaleFactor: current.scaleFactor,
+      chatFontSize: current.chatFontSize,
+      syncAcrossDevices: current.syncAcrossDevices,
+      saturationFactor: clamped,
+      customThemeCss: current.customThemeCss,
+      inflightTheme: current.inflightTheme,
+    );
     await _persist();
     _markAccessibilityDirty();
   }

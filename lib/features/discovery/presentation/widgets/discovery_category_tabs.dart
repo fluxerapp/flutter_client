@@ -124,21 +124,28 @@ class _DiscoveryCategoryTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: isSelected
-          ? colors.backgroundModifierSelected
-          : colors.backgroundSecondary,
-      borderRadius: BorderRadius.circular(999),
-      child: InkWell(
-        onTap: onTap,
+    return Semantics(
+      button: true,
+      selected: isSelected,
+      label: label,
+      child: Material(
+        color: isSelected
+            ? colors.backgroundModifierSelected
+            : colors.backgroundSecondary,
         borderRadius: BorderRadius.circular(999),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-          child: Text(
-            label,
-            style: textStyles.bodySmall.copyWith(
-              color: isSelected ? colors.textPrimary : colors.textSecondary,
-              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(999),
+          child: ExcludeSemantics(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              child: Text(
+                label,
+                style: textStyles.bodySmall.copyWith(
+                  color: isSelected ? colors.textPrimary : colors.textSecondary,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                ),
+              ),
             ),
           ),
         ),

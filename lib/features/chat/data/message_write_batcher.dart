@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:clock/clock.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/gateway/channel_last_message_index.dart';
 import 'package:fluxer_app/core/talker.dart';
@@ -62,7 +63,7 @@ class MessageWriteBatcher {
     if (lastFlush == null) {
       return true;
     }
-    return DateTime.now().difference(lastFlush) >= _minIntervalBetweenFlushes;
+    return clock.now().difference(lastFlush) >= _minIntervalBetweenFlushes;
   }
 
   Future<void> flushChannel(String channelId) async {
@@ -93,7 +94,7 @@ class MessageWriteBatcher {
     if (_timer != null) {
       return;
     }
-    final DateTime now = DateTime.now();
+    final DateTime now = clock.now();
     final DateTime? lastFlush = _lastFlushAt;
     Duration delay = _window;
     if (lastFlush != null) {
@@ -108,7 +109,7 @@ class MessageWriteBatcher {
   }
 
   Future<void> _applyFlush() async {
-    _lastFlushAt = DateTime.now();
+    _lastFlushAt = clock.now();
     final List<MessagesCompanion> messages = List<MessagesCompanion>.from(
       _pendingMessages,
     );

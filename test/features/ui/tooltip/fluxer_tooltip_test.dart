@@ -56,5 +56,21 @@ void main() {
 
       expect(find.text('Tooltip text'), findsOneWidget);
     });
+
+    testWidgets('exposes message as semantics label', (tester) async {
+      final SemanticsHandle handle = tester.ensureSemantics();
+
+      await tester.pumpWidget(
+        buildTestApp(
+          const FluxerTooltip(
+            message: 'Open settings',
+            child: SizedBox(width: 40, height: 40),
+          ),
+        ),
+      );
+
+      expect(find.bySemanticsLabel('Open settings'), findsOneWidget);
+      handle.dispose();
+    });
   });
 }

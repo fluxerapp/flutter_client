@@ -94,44 +94,51 @@ class _ReactionChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final hasReacted = reaction.hasReacted;
-    return GestureDetector(
-      onTap: onTap,
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-          decoration: BoxDecoration(
-            color: _chipBackground(context, hasReacted: hasReacted),
-            border: Border.all(
-              color: _chipBorderColor(context, hasReacted: hasReacted),
-            ),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (reaction.isCustom)
-                CachedEmojiImage(
-                  emojiId: reaction.emojiId!,
-                  animated: reaction.animated,
-                  requestSize: kCustomEmojiFetchSize,
-                  size: _kReactionEmojiSize,
-                )
-              else
-                UnicodeEmojiWidget(
-                  emoji: reaction.emoji,
-                  size: _kReactionEmojiSize,
+    final String emojiName = reaction.emoji;
+    return Semantics(
+      button: true,
+      toggled: hasReacted,
+      label: '$emojiName, ${reaction.count}',
+      child: GestureDetector(
+        onTap: onTap,
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: ExcludeSemantics(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+              decoration: BoxDecoration(
+                color: _chipBackground(context, hasReacted: hasReacted),
+                border: Border.all(
+                  color: _chipBorderColor(context, hasReacted: hasReacted),
                 ),
-              const SizedBox(width: 6),
-              Text(
-                '${reaction.count}',
-                style: TextStyle(
-                  color: _chipCountColor(context, hasReacted: hasReacted),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                ),
+                borderRadius: BorderRadius.circular(8),
               ),
-            ],
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (reaction.isCustom)
+                    CachedEmojiImage(
+                      emojiId: reaction.emojiId!,
+                      animated: reaction.animated,
+                      requestSize: kCustomEmojiFetchSize,
+                      size: _kReactionEmojiSize,
+                    )
+                  else
+                    UnicodeEmojiWidget(
+                      emoji: reaction.emoji,
+                      size: _kReactionEmojiSize,
+                    ),
+                  const SizedBox(width: 6),
+                  Text(
+                    '${reaction.count}',
+                    style: context.textStyles.smallText.copyWith(
+                      color: _chipCountColor(context, hasReacted: hasReacted),
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),

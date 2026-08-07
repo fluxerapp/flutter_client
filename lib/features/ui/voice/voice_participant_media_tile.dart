@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/session_authorization_header.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as database;
+import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
@@ -353,19 +354,16 @@ class VoiceParticipantMediaTile extends StatelessWidget {
                   Text(
                     l10n.voiceOwnScreenShareTitle,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Color(0xFFFFFFFF),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                    style: context.textStyles.channelName.copyWith(
+                      color: const Color(0xFFFFFFFF),
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     l10n.voiceOwnScreenShareSubtitle,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Color(0xCCFFFFFF),
-                      fontSize: 12,
+                    style: context.textStyles.timestamp.copyWith(
+                      color: const Color(0xCCFFFFFF),
                       fontWeight: FontWeight.w500,
                     ),
                   ),

@@ -43,6 +43,7 @@ import 'package:fluxer_app/features/settings/providers/voice_settings_provider.d
 import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
 import 'package:fluxer_app/features/shell/providers/service_status_maintenance_provider.dart';
 import 'package:fluxer_app/features/voice/services/voice_callkit_coordinator.dart';
+import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji_sprite_sheet.dart';
 import 'package:fluxer_dart/export.dart';
@@ -177,6 +178,7 @@ class AppStartup extends _$AppStartup {
       ..read(ackBatcherGatewayListenerProvider)
       ..read(fluxerSfxIncomingRingBindingProvider)
       ..read(fluxerMessageSfxBindingProvider)
+      ..read(fluxerTtsBindingProvider)
       ..read(voiceCallKitCoordinatorProvider)
       ..read(friendRelationshipsSyncProvider)
       ..read(guildListSyncProvider)

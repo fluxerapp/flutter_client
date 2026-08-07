@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/channel_textarea.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_bottom_input_slot.dart';
-import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 
@@ -87,26 +86,19 @@ class _ChatComposerColumnState extends ConsumerState<ChatComposerColumn>
 
   @override
   Widget build(BuildContext context) {
-    if (isMobileLayout(context)) {
-      ref.watch(
-        bottomInputSlotProvider.select((BottomInputSlotState state) {
-          return state.slotHeight;
-        }),
-      );
-    }
-    return RepaintBoundary(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          ChannelTextarea(
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        RepaintBoundary(
+          child: ChannelTextarea(
             autocompletePanelHost: widget.autocompletePanelHost,
             autocompletePanelScrollController:
                 widget.autocompletePanelScrollController,
           ),
-          if (widget.showInlineEmojiPicker && isMobileLayout(context))
-            const BottomInputSpacer(),
-        ],
-      ),
+        ),
+        if (widget.showInlineEmojiPicker && isMobileLayout(context))
+          const BottomInputSpacer(),
+      ],
     );
   }
 }

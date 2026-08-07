@@ -191,6 +191,33 @@ void main() {
     expect(_fieldState(tester).hasOpenMenu, isFalse);
   });
 
+  testWidgets('open autocomplete dismisses immediately when the trigger ends', (
+    tester,
+  ) async {
+    final db = openTestDatabase();
+
+    await _pumpBioField(
+      tester,
+      db: db,
+      custom: <GuildEmojiEntry>[
+        GuildEmojiEntry(
+          id: 'e1',
+          name: 'smile',
+          animated: false,
+          guildId: 'g1',
+        ),
+      ],
+    );
+
+    await tester.enterText(find.byType(TextField), ':smile');
+    await _settleAutocomplete(tester);
+    expect(_fieldState(tester).hasOpenMenu, isTrue);
+
+    await tester.enterText(find.byType(TextField), ':smile ');
+    await tester.pump();
+    expect(_fieldState(tester).hasOpenMenu, isFalse);
+  });
+
   testWidgets('suggestions panel spans the full composer width, not just the '
       'text input flanked by buttons', (tester) async {
     final db = openTestDatabase();

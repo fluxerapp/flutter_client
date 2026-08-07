@@ -178,6 +178,8 @@ Widget _skeletonApp(Widget child) {
       ),
     ],
     child: MaterialApp(
+      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,
         textTheme: FluxerTextTheme.fromColors(colorTheme),

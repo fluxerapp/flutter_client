@@ -124,10 +124,7 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
               children: [
                 Text(
                   _emailRevealed ? s.email! : _maskEmail(s.email!),
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: colors.textPrimaryMuted,
-                  ),
+                  style: context.textStyles.bodySmall,
                 ),
                 const SizedBox(height: 4),
                 FluxerTextLink(
@@ -166,7 +163,9 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
         if (!s.hasVerifiedEmail) ...[
           Text(
             l10n.securityLoginNoPasswordSet,
-            style: TextStyle(fontSize: 14, color: colors.statusWarning),
+            style: context.textStyles.bodySmall.copyWith(
+              color: colors.statusWarning,
+            ),
           ),
           FluxerButton.primary(
             onPressedAsync: () => ClaimAccountSheet.show(context, ref),
@@ -178,7 +177,7 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
             label: l10n.securityLoginCurrentPasswordLabel,
             child: Text(
               _passwordLastChanged(s, l10n),
-              style: TextStyle(fontSize: 14, color: colors.textPrimaryMuted),
+              style: context.textStyles.bodySmall,
             ),
             button: FluxerButton.primary(
               onPressedAsync: () => PasswordChangeSheet.show(context, ref),
@@ -267,7 +266,7 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
             s.hasTotpMfa
                 ? l10n.securityTfaAuthenticatorEnabled
                 : l10n.securityTfaAuthenticatorDisabled,
-            style: TextStyle(fontSize: 14, color: colors.textPrimaryMuted),
+            style: context.textStyles.bodySmall,
           ),
           button: s.hasTotpMfa
               ? FluxerButton.dangerPrimary(
@@ -286,7 +285,7 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
             label: l10n.securityTfaBackupCodes,
             child: Text(
               l10n.securityTfaBackupCodesDescription,
-              style: TextStyle(fontSize: 14, color: colors.textPrimaryMuted),
+              style: context.textStyles.bodySmall,
             ),
             button: FluxerButton.secondary(
               onPressedAsync: () => BackupCodesSheet.showView(context, ref),
@@ -316,7 +315,7 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
             count == 0
                 ? l10n.securityPasskeysNone
                 : l10n.securityPasskeysCount(count),
-            style: TextStyle(fontSize: 14, color: colors.textPrimaryMuted),
+            style: context.textStyles.bodySmall,
           ),
           button: FluxerButton.primary(
             onPressedAsync: passkeyState.isLoading || count >= _kMaxPasskeys
@@ -362,18 +361,11 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            pk.name,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: colors.textPrimary,
-            ),
-          ),
+          Text(pk.name, style: context.textStyles.label),
           SizedBox(height: layout.s1),
           Text(
             details.toString(),
-            style: TextStyle(fontSize: 13, color: colors.textPrimaryMuted),
+            style: context.textStyles.bodySmall.copyWith(fontSize: 13),
           ),
           SizedBox(height: layout.s2),
           Row(
@@ -585,7 +577,10 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
             if (s.hasActiveSubscription)
               Text(
                 l10n.dangerZoneDeleteCancelSubscription,
-                style: TextStyle(fontSize: 13, color: colors.statusWarning),
+                style: context.textStyles.bodySmall.copyWith(
+                  fontSize: 13,
+                  color: colors.statusWarning,
+                ),
               ),
             FluxerButton.dangerPrimary(
               onPressedAsync: s.hasActiveSubscription

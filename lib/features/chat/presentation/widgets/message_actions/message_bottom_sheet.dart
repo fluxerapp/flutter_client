@@ -20,6 +20,9 @@ import 'package:fluxer_app/features/messaging/providers/saved_messages_sync_prov
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
+import 'package:fluxer_app/features/voice/tts/tts_locale_utils.dart';
+import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -43,6 +46,7 @@ enum MessageAction {
   copyMessageId,
   report,
   debugMessage,
+  speak,
 }
 
 Future<MessageAction?> showMessageBottomSheet(
@@ -197,6 +201,19 @@ Future<void> dispatchMessageAction({
       callbacks.onReport?.call();
     case MessageAction.debugMessage:
       unawaited(showMessageDebugSheet(context, message: message));
+    case MessageAction.speak:
+      final AppearancePreferencesState appearance = ref.read(
+        appearancePreferencesProvider,
+      );
+      unawaited(
+        ref
+            .read(fluxerTtsServiceProvider.notifier)
+            .speakMessage(
+              message: message,
+              rate: appearance.ttsRate,
+              locale: formatTtsLocaleTag(ref.read(effectiveAppLocaleProvider)),
+            ),
+      );
   }
 }
 
@@ -392,12 +409,28 @@ List<Widget> buildMessageActionMenuGroups({
       ],
   ];
 
+  final bool isSpeakingMessage = ref.read(
+    fluxerTtsServiceProvider.select(
+      (FluxerTtsSpeakingState state) => state.isSpeakingMessage(message.id),
+    ),
+  );
+
   final List<Widget> utilityItems = <Widget>[
     FluxerBottomSheetMenuItem(
       icon: PhosphorIconsBold.link,
       label: l10n.chatMessageCopyMessageLink,
       onTap: () => onAction(MessageAction.copyMessageLink),
     ),
+    if (message.speakableContent.trim().isNotEmpty)
+      FluxerBottomSheetMenuItem(
+        icon: isSpeakingMessage
+            ? PhosphorIconsFill.stop
+            : PhosphorIconsFill.speakerHigh,
+        label: isSpeakingMessage
+            ? l10n.chatMessageStopSpeaking
+            : l10n.chatMessageSpeak,
+        onTap: () => onAction(MessageAction.speak),
+      ),
     if (message.content.isNotEmpty)
       FluxerBottomSheetMenuItem(
         icon: PhosphorIconsFill.copy,

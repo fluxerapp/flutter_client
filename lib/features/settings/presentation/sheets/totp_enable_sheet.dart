@@ -133,7 +133,9 @@ class _TotpEnableSheetState extends ConsumerState<TotpEnableSheet> {
                   child: Text(
                     'QR Code\n(scan with authenticator)',
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                    style: context.textStyles.timestamp.copyWith(
+                      color: Colors.grey.shade600,
+                    ),
                   ),
                 ),
               ),
@@ -144,9 +146,8 @@ class _TotpEnableSheetState extends ConsumerState<TotpEnableSheet> {
           Center(
             child: SelectableText(
               _secret,
-              style: TextStyle(
+              style: context.textStyles.codeText.copyWith(
                 fontSize: 13,
-                fontFamily: 'monospace',
                 fontWeight: FontWeight.w600,
                 color: colors.textPrimary,
                 letterSpacing: 1.5,

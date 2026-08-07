@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/ui/plutonium_upsell/fluxer_plutonium_upsell.dart';
@@ -121,9 +122,8 @@ class _CommunityIconRow extends StatelessWidget {
           ),
           child: Text(
             '+$extraCount',
-            style: const TextStyle(
-              fontSize: 12,
-              color: Color.fromRGBO(255, 255, 255, 0.85),
+            style: context.textStyles.timestamp.copyWith(
+              color: const Color.fromRGBO(255, 255, 255, 0.85),
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -180,9 +180,8 @@ class _GuildInitial extends StatelessWidget {
       child: Center(
         child: Text(
           initials,
-          style: TextStyle(
+          style: context.textStyles.smallText.copyWith(
             fontSize: _plutoniumGuildInitialsFontSize(initialsLength),
-            fontWeight: FontWeight.w600,
             color: Colors.white,
           ),
         ),

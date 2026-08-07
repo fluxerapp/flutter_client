@@ -6,10 +6,13 @@ import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
+import 'package:fluxer_app/features/shell/presentation/animated_shell_bottom_nav.dart';
 import 'package:fluxer_app/features/shell/presentation/desktop_shell_scaffold.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
+import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/shell/utils/mobile_scaffold_resize_policy.dart';
+import 'package:fluxer_app/features/shell/utils/shell_bottom_nav_visibility.dart';
 
 class MobileChannelDrawerShell extends ConsumerWidget {
   const MobileChannelDrawerShell({
@@ -37,7 +40,14 @@ class MobileChannelDrawerShell extends ConsumerWidget {
       ),
     );
     final bool isExpressionPanelOpen = ref.watch(expressionPanelProvider);
-    final bool hideBottomNav = keyboardOpen || isExpressionPanelOpen;
+    final RevealSide revealSide = ref.watch(currentRevealSideProvider);
+    final bool showBottomNav = showShellBottomNav(
+      shellLocation: shellLocation,
+      revealSide: revealSide,
+      keyboardOpen: keyboardOpen,
+      isOnChatRoute: isOnChatRoute,
+      isExpressionPanelOpen: isExpressionPanelOpen,
+    );
     final bool compactWide = isCompactWideMobileLayout(context);
     final bool drawerLocked = isSidebarDrawerLockedForLocation(shellLocation);
     final double screenWidth = MediaQuery.sizeOf(context).width;
@@ -54,14 +64,18 @@ class MobileChannelDrawerShell extends ConsumerWidget {
       shellLocation,
       peekContentInset: peekContentInset,
     );
-    final Widget? nav = hideBottomNav
-        ? null
-        : (peekNav
-              ? Align(
-                  alignment: AlignmentDirectional.centerStart,
-                  child: SizedBox(width: peekWidth, child: bottomNav),
-                )
-              : bottomNav);
+    final Widget nav = peekNav
+        ? Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: SizedBox(
+              width: peekWidth,
+              child: AnimatedShellBottomNav(
+                visible: showBottomNav,
+                child: bottomNav,
+              ),
+            ),
+          )
+        : AnimatedShellBottomNav(visible: showBottomNav, child: bottomNav);
 
     return PopScope(
       canPop: false,
@@ -79,7 +93,7 @@ class MobileChannelDrawerShell extends ConsumerWidget {
           base: Column(
             children: <Widget>[
               Expanded(child: sidebar),
-              ?nav,
+              nav,
             ],
           ),
           slider: navigationShell,

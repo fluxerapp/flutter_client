@@ -935,6 +935,9 @@ class _MarkdownInlineRenderer {
       case 'del':
         final deletedStyle = effectiveStyle.copyWith(
           decoration: TextDecoration.lineThrough,
+          color: config.dimStrikethroughText
+              ? effectiveStyle.color?.withValues(alpha: 0.5)
+              : effectiveStyle.color,
         );
         return TextSpan(
           style: deletedStyle,
@@ -1085,7 +1088,13 @@ class _MarkdownInlineRenderer {
       return TextSpan(text: '[$text]($href)', style: style);
     }
     final linkColor = config.linkColor ?? Theme.of(context).colorScheme.primary;
-    final linkStyle = style.copyWith(color: linkColor);
+    final linkStyle = style.copyWith(
+      color: linkColor,
+      decoration: config.alwaysUnderlineLinks
+          ? TextDecoration.underline
+          : TextDecoration.none,
+      decorationColor: linkColor,
+    );
     final children = _attachLinkRecognizers(
       build(element.children ?? [md.Text(text)], style: linkStyle),
       href,

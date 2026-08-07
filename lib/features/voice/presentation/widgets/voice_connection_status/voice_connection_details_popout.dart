@@ -50,16 +50,15 @@ class _VoiceConnectionDetailsPopoutState
                 Expanded(
                   child: Text(
                     l10n.voiceConnectionTitle,
-                    style: TextStyle(
+                    style: context.textStyles.categoryName.copyWith(
                       color: colors.textPrimary,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
                 IconButton(
                   visualDensity: VisualDensity.compact,
                   onPressed: widget.onClose,
+                  tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
                   icon: PhosphorIcon(
                     PhosphorIconsRegular.x,
                     size: 16,
@@ -103,29 +102,36 @@ class _VoiceConnectionDetailsPopoutState
               ],
             ),
             SizedBox(height: layout.s3),
-            InkWell(
-              onTap: () =>
-                  setState(() => _advancedExpanded = !_advancedExpanded),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Text(
-                      l10n.voiceConnectionAdvancedStats,
-                      style: TextStyle(
-                        color: colors.textTertiary,
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
+            Semantics(
+              button: true,
+              expanded: _advancedExpanded,
+              label: l10n.voiceConnectionAdvancedStats,
+              child: InkWell(
+                onTap: () =>
+                    setState(() => _advancedExpanded = !_advancedExpanded),
+                child: ExcludeSemantics(
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Text(
+                          l10n.voiceConnectionAdvancedStats,
+                          style: context.textStyles.smallText.copyWith(
+                            color: colors.textTertiary,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                       ),
-                    ),
+                      PhosphorIcon(
+                        _advancedExpanded
+                            ? PhosphorIconsRegular.caretUp
+                            : PhosphorIconsRegular.caretDown,
+                        size: 12,
+                        color: colors.textTertiary,
+                      ),
+                    ],
                   ),
-                  PhosphorIcon(
-                    _advancedExpanded
-                        ? PhosphorIconsRegular.caretUp
-                        : PhosphorIconsRegular.caretDown,
-                    size: 12,
-                    color: colors.textTertiary,
-                  ),
-                ],
+                ),
               ),
             ),
             if (_advancedExpanded) ...<Widget>[
@@ -167,7 +173,7 @@ class _Section extends StatelessWidget {
       children: <Widget>[
         Text(
           title,
-          style: TextStyle(
+          style: context.textStyles.smallText.copyWith(
             color: context.colors.textTertiary,
             fontSize: 11,
             fontWeight: FontWeight.w700,
@@ -194,15 +200,15 @@ class _Row extends StatelessWidget {
         children: <Widget>[
           Text(
             label,
-            style: TextStyle(color: context.colors.textSecondary, fontSize: 12),
+            style: context.textStyles.timestamp.copyWith(
+              color: context.colors.textSecondary,
+            ),
           ),
           const Spacer(),
           Text(
             value,
-            style: TextStyle(
+            style: context.textStyles.smallText.copyWith(
               color: context.colors.textPrimary,
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
             ),
           ),
         ],

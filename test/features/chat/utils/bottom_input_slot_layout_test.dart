@@ -515,4 +515,64 @@ void main() {
       );
     });
   });
+
+  group('bottomInputKeyboardSpacerHeight', () {
+    test('clamps slot height to home indicator inset', () {
+      expect(
+        bottomInputKeyboardSpacerHeight(slotHeight: 20, homeIndicatorInset: 34),
+        34,
+      );
+      expect(
+        bottomInputKeyboardSpacerHeight(
+          slotHeight: 336,
+          homeIndicatorInset: 34,
+        ),
+        336,
+      );
+      expect(
+        bottomInputKeyboardSpacerHeight(slotHeight: 0, homeIndicatorInset: 34),
+        34,
+      );
+      expect(
+        bottomInputKeyboardSpacerHeight(slotHeight: 0, homeIndicatorInset: 0),
+        0,
+      );
+    });
+  });
+
+  group('chatLayoutReservesBottomSafeArea', () {
+    test('mobile defers bottom inset to BottomInputSpacer', () {
+      expect(
+        chatLayoutReservesBottomSafeArea(
+          isMobile: true,
+          keyboardSlotOccupied: false,
+        ),
+        isFalse,
+      );
+      expect(
+        chatLayoutReservesBottomSafeArea(
+          isMobile: true,
+          keyboardSlotOccupied: true,
+        ),
+        isFalse,
+      );
+    });
+
+    test('desktop reserves safe area when keyboard slot is closed', () {
+      expect(
+        chatLayoutReservesBottomSafeArea(
+          isMobile: false,
+          keyboardSlotOccupied: false,
+        ),
+        isTrue,
+      );
+      expect(
+        chatLayoutReservesBottomSafeArea(
+          isMobile: false,
+          keyboardSlotOccupied: true,
+        ),
+        isFalse,
+      );
+    });
+  });
 }

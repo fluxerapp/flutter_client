@@ -40,6 +40,7 @@ dependencies:
   flutter_staggered_grid_view: ^0.7.0 # Would like to replace this package at some point (only used on Desktop)
   flutter_svg: ^2.2.4
   flutter_thumbhash: ^0.1.0+1
+  flutter_tts: ^4.2.5
   flutter_web_auth_2: ^5.0.3
   flutter_webrtc: ^1.5.2
   fluxer_captcha:
@@ -96,6 +97,19 @@ dependencies:
   youtube_explode_dart: ^3.1.0
 
 dependency_overrides:
+  # Xcode 26.4+ rejects the ASWebAuthenticationPresentationContextProviding
+  # witness in flutter_inappwebview_* 1.2.0-beta.3. Remove once upstream ships
+  # https://github.com/pichillilorenzo/flutter_inappwebview/pull/2809
+  flutter_inappwebview_ios:
+    git:
+      url: https://github.com/wangqiang1588/flutter_inappwebview
+      path: flutter_inappwebview_ios
+      ref: fc33a449b9290b127a471808e22eb7b0edebad92
+  flutter_inappwebview_macos:
+    git:
+      url: https://github.com/wangqiang1588/flutter_inappwebview
+      path: flutter_inappwebview_macos
+      ref: fc33a449b9290b127a471808e22eb7b0edebad92
   # riverpod_annotation 4.0.3 pins riverpod to exactly 3.3.2, and the
   # generator cannot move until the analyzer chain below is aligned. 3.4.1
   # carries the markNeedsBuild fix for flushing a provider inside a widget

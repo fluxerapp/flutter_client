@@ -141,7 +141,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 78;
+  int get schemaVersion => 81;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1018,6 +1018,219 @@ class FluxerDatabase extends _$FluxerDatabase {
           await m.addColumn(
             userPreferencesTable,
             userPreferencesTable.searchEnginesJson,
+          );
+        }
+      }
+      if (from < 79) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'screen_reader_announce_new_messages',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.screenReaderAnnounceNewMessages,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'sync_reduced_motion_with_system',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.syncReducedMotionWithSystem,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'reduced_motion_override',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.reducedMotionOverride,
+          );
+        }
+      }
+      if (from < 80) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'enable_tts_command',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.enableTtsCommand,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'tts_rate',
+        )) {
+          await m.addColumn(userPreferencesTable, userPreferencesTable.ttsRate);
+        }
+      }
+      if (from < 81) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'dm_message_preview_mode',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.dmMessagePreviewMode,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'always_underline_links',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.alwaysUnderlineLinks,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'dim_strikethrough_text',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.dimStrikethroughText,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'show_textarea_focus_ring',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.showTextareaFocusRing,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'escape_exits_keyboard_mode',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.escapeExitsKeyboardMode,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'show_context_menu_shortcuts',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.showContextMenuShortcuts,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'confirm_before_starting_calls',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.confirmBeforeStartingCalls,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'mobile_gif_autoplay_overridden',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.mobileGifAutoplayOverridden,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'mobile_animate_emoji_overridden',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.mobileAnimateEmojiOverridden,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'mobile_sticker_animation_overridden',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.mobileStickerAnimationOverridden,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'mobile_gif_autoplay_value',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.mobileGifAutoplayValue,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'mobile_animate_emoji_value',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.mobileAnimateEmojiValue,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'mobile_sticker_animation_value',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.mobileStickerAnimationValue,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'keep_animated_emoji_under_reduced_motion',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.keepAnimatedEmojiUnderReducedMotion,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'keep_gif_auto_play_under_reduced_motion',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.keepGifAutoPlayUnderReducedMotion,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'keep_sticker_animation_under_reduced_motion',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.keepStickerAnimationUnderReducedMotion,
           );
         }
       }

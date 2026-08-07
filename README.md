@@ -40,66 +40,28 @@ For updates, support, and discussion, [join the Fluxer Mobile community on Fluxe
 
 **F-Droid**: Coming when V1 is finished.
 
-**iOS Testflight**: Coming soon :eyes:
+**iOS TestFlight**: Coming soon :eyes:
 
 ### Android (APK)
 
-> [!NOTE]
-> Unless you are using a degoogled operating system, you should use the FCM client. If you don't know if your OS is degoogled, it likely is not.
+Download the latest **beta** build from [GitHub releases](https://github.com/fluxerapp/flutter_client/releases).
 
-**Quick pick (most users):** download the **beta FCM** APK from [GitHub releases](https://github.com/fluxerapp/flutter_client/releases) — e.g. `app-arm64-v8a-betafcm-release.apk` on a phone from the last few years.
+**Most phones (Samsung, Pixel, etc.):** install the **FCM** APK. Look for `betafcm` in the name, e.g. `app-arm64-v8a-betafcm-release.apk`. Not sure which file? Pick the one with `arm64-v8a`, or the universal `app-betafcm-release.apk`.
 
-#### 1. Pick a push variant
+**Degoogled phones (GrapheneOS, no Google apps):** install the **OSS** APK (`betaoss`) and set up [UnifiedPush](https://unifiedpush.org) (e.g. ntfy).
 
-| If your phone… | Install | Notifications use… |
-|---|---|---|
-| Has Google Play Services (typical Samsung/Pixel/etc.) | **FCM** build | Google Firebase Cloud Messaging |
-| Is degoogled / has no Google apps | **OSS** build | [UnifiedPush](https://unifiedpush.org) (you must install a distributor app such as ntfy) |
+<details>
+<summary>APK naming (optional)</summary>
 
-Majority of users will use the **FCM** version.
+Files look like `app-<cpu>-beta<fcm|oss>-release.apk`. FCM and OSS are separate installs; installing one replaces the other.
 
-You cannot switch push variants in-app: FCM and OSS are separate APKs for the same release channel and will replace each other if installed.
-
-#### 2. Pick a release channel
-
-- **Beta** — recommended during the beta period; pre-release builds for testing.
-- **Stable** — production builds; will appear on GitHub releases when V1 launches (same timing as Play Store / F-Droid entries above).
-
-#### Version numbers
-
-Releases use `{year}.{month}.{public release number}`, for example `2026.07.100`.
-
-- **Year** and **month** are when the release was published.
-- **Public release number** is the release counter for that month. It resets at the start of each month.
-- Counters start at **100**, then **200**, **300**, and so on (not 1, 2, 3) so they are not mistaken for a day of the month.
-
-#### 3. Pick the APK file on GitHub
-
-On a release page, assets follow this naming pattern:
-
-- Per-CPU (smaller, preferred): `app-<abi>-<channel><variant>-release.apk`
-- Universal (works on all CPUs, larger): `app-<channel><variant>-release.apk`
-
-Where:
-
-- `<channel>` is `beta` (or `stable` when available)
-- `<variant>` is `fcm` or `oss`
-- `<abi>` is usually `arm64-v8a` for modern phones; use the universal APK if unsure
-
-**Examples for most users:**
-
-- `app-arm64-v8a-betafcm-release.apk`
-- `app-betafcm-release.apk` (universal fallback)
-
-**OSS example (degoogled phones):**
-
-- `app-arm64-v8a-betaoss-release.apk`
+</details>
 
 #### Auto-updates with Obtainium
 
-[Obtainium](https://obtainium.imranr.dev/) can install and auto-update from GitHub. Beta releases are marked **pre-release** on GitHub, so the link must enable that option — the simple `obtainium://add/...` URL cannot do this.
+**Easiest install:** use [Obtainium](https://obtainium.imranr.dev/) to install and auto-update from GitHub. Beta releases are marked **pre-release** on GitHub, so the link must enable that option — the simple `obtainium://add/...` URL cannot do this.
 
-Use **one** of these one-click links (matching your push variant from step 1). Each enables pre-releases, filters to the correct APK (`betafcm` or `betaoss`), and picks the right CPU architecture automatically:
+Use **one** of these one-click links (FCM for most phones, OSS for degoogled). Each enables pre-releases, filters to the correct APK (`betafcm` or `betaoss`), and picks the right CPU architecture automatically:
 
 - **Fluxer Beta (FCM):** [Add to Obtainium](https://apps.obtainium.page/redirect?r=obtainium%3A%2F%2Fapp%2F%7B%22id%22%3A%22com.fluxer%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2Ffluxerapp%2Fflutter_client%22%2C%22author%22%3A%22fluxerapp%22%2C%22name%22%3A%22Fluxer%20Beta%20%28FCM%29%22%2C%22additionalSettings%22%3A%22%7B%5C%22includePrereleases%5C%22%3Atrue%2C%5C%22fallbackToOlderReleases%5C%22%3Atrue%2C%5C%22apkFilterRegEx%5C%22%3A%5C%22betafcm%5C%22%2C%5C%22autoApkFilterByArch%5C%22%3Atrue%7D%22%7D)
 - **Fluxer Beta (OSS):** [Add to Obtainium](https://apps.obtainium.page/redirect?r=obtainium%3A%2F%2Fapp%2F%7B%22id%22%3A%22com.fluxer%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2Ffluxerapp%2Fflutter_client%22%2C%22author%22%3A%22fluxerapp%22%2C%22name%22%3A%22Fluxer%20Beta%20%28OSS%29%22%2C%22additionalSettings%22%3A%22%7B%5C%22includePrereleases%5C%22%3Atrue%2C%5C%22fallbackToOlderReleases%5C%22%3Atrue%2C%5C%22apkFilterRegEx%5C%22%3A%5C%22betaoss%5C%22%2C%5C%22autoApkFilterByArch%5C%22%3Atrue%7D%22%7D)
@@ -155,6 +117,14 @@ Strings are managed on [Weblate](https://weblate.fluxer.tools/projects/flutter-c
 - **WebSockets** — real time gateway events
 - **LiveKit / WebRTC** — voice and video calls
 - **FCM / UnifiedPush / APNs** — push notifications (platform dependent)
+
+### Version numbers
+
+Releases use `{year}.{month}.{public release number}`, for example `2026.07.100`.
+
+- **Year** and **month** are when the release was published.
+- **Public release number** is the release counter for that month. It resets at the start of each month.
+- Counters start at **100**, then **200**, **300**, and so on (not 1, 2, 3) so they are not mistaken for a day of the month.
 
 ### Build generated files
 

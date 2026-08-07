@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/domain/mfa_challenge.dart';
+import 'package:fluxer_app/features/auth/presentation/widgets/auth_form_error_text.dart';
 import 'package:fluxer_app/features/auth/providers/login_error_l10n.dart';
 import 'package:fluxer_app/features/auth/providers/mfa_view_model.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -31,7 +32,6 @@ class MfaScreen extends ConsumerWidget {
     final l10n = FluxerLocalizations.of(context);
     final layout = context.layout;
     final textStyles = context.textStyles;
-    final colors = context.colors;
     final errorText = vm.errorType != null
         ? vm.errorType!.resolve(l10n)
         : vm.error;
@@ -66,10 +66,7 @@ class MfaScreen extends ConsumerWidget {
           _CodeEntry(challenge: challenge, l10n: l10n),
         if (errorText != null) ...[
           SizedBox(height: layout.s3),
-          Text(
-            errorText,
-            style: textStyles.bodySmall.copyWith(color: colors.textDanger),
-          ),
+          AuthFormErrorText(errorText),
         ],
         SizedBox(height: layout.s6),
         if (vm.selectedMethod != null && challenge.hasMultipleMethods) ...[

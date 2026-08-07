@@ -69,7 +69,7 @@ CallKitParams buildVoiceCallKitParams({
       handleType: 'generic',
       supportsVideo: false,
       ringtonePath: 'system_ringtone_default',
-      audioSessionMode: 'voiceChat',
+      audioSessionMode: 'videoChat',
       audioSessionActive: true,
     ),
   );

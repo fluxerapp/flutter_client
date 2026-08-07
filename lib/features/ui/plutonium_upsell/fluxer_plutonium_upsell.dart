@@ -78,8 +78,7 @@ class FluxerPlutoniumUpsell extends StatelessWidget {
                       onTap: onDismiss,
                       child: Text(
                         l10n.emojiPlutoniumUpsellDismiss,
-                        style: TextStyle(
-                          fontSize: 12,
+                        style: textStyles.timestamp.copyWith(
                           color: colors.textOnBrandPrimary.withValues(
                             alpha: 0.7,
                           ),

@@ -139,7 +139,12 @@ class ComposerAutocompleteFieldState
         _scheduleSync();
         return;
       }
+      if (hasOpenMenu) {
+        _scheduleSync();
+        return;
+      }
     }
+    _syncGeneration++;
     _debounce = Timer(
       const Duration(milliseconds: _kAutocompleteTypingDebounceMs),
       _scheduleSync,

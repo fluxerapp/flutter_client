@@ -273,6 +273,10 @@ class VoiceCallBar extends ConsumerWidget {
                             color: isMuted
                                 ? context.colors.statusDanger
                                 : context.colors.backgroundTertiary,
+                            tooltip: isMuted
+                                ? l10n.voiceControlUnmute
+                                : l10n.voiceControlMute,
+                            toggled: isMuted,
                             onPressed: () {
                               unawaited(
                                 ref
@@ -289,6 +293,10 @@ class VoiceCallBar extends ConsumerWidget {
                             color: isDeafened
                                 ? context.colors.statusDanger
                                 : context.colors.backgroundTertiary,
+                            tooltip: isDeafened
+                                ? l10n.voiceControlUndeafen
+                                : l10n.voiceControlDeafen,
+                            toggled: isDeafened,
                             onPressed: () {
                               unawaited(
                                 ref
@@ -306,7 +314,7 @@ class VoiceCallBar extends ConsumerWidget {
                                   .read(voiceSessionProvider.notifier)
                                   .clearError();
                             },
-                            child: const Text('Dismiss'),
+                            child: Text(l10n.voiceConnectionDismiss),
                           )
                         else if (voice.isConnected)
                           FilledButton.tonal(
@@ -345,28 +353,42 @@ class _ControlIconButton extends StatelessWidget {
     required this.icon,
     required this.color,
     required this.onPressed,
+    required this.tooltip,
+    this.toggled = false,
   });
 
   final PhosphorIconData icon;
   final Color color;
   final VoidCallback onPressed;
+  final String tooltip;
+  final bool toggled;
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: color,
-      shape: const CircleBorder(),
-      child: InkWell(
-        customBorder: const CircleBorder(),
-        onTap: onPressed,
-        child: SizedBox(
-          width: 36,
-          height: 36,
-          child: Center(
-            child: PhosphorIcon(
-              icon,
-              size: 18,
-              color: context.colors.textPrimary,
+    return Semantics(
+      button: true,
+      label: tooltip,
+      toggled: toggled,
+      child: Tooltip(
+        message: tooltip,
+        child: Material(
+          color: color,
+          shape: const CircleBorder(),
+          child: InkWell(
+            customBorder: const CircleBorder(),
+            onTap: onPressed,
+            child: SizedBox(
+              width: 36,
+              height: 36,
+              child: Center(
+                child: ExcludeSemantics(
+                  child: PhosphorIcon(
+                    icon,
+                    size: 18,
+                    color: context.colors.textPrimary,
+                  ),
+                ),
+              ),
             ),
           ),
         ),

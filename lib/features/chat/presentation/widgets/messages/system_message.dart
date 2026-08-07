@@ -74,24 +74,22 @@ class SystemMessage extends ConsumerWidget {
             userId: message.mentionedUserIds.first,
             channelId: message.channelId,
           );
-    final textStyle = TextStyle(
+    final textStyle = context.textStyles.bodySmall.copyWith(
       color: context.colors.textTertiaryMuted,
       fontSize: kSystemMessageBodyFontSize,
     );
-    final usernameStyle = TextStyle(
+    final usernameStyle = context.textStyles.bodySmall.copyWith(
       color: authorRoleColor ?? context.colors.textChat,
       fontWeight: FontWeight.bold,
       fontSize: kSystemMessageBodyFontSize,
     );
-    final linkStyle = TextStyle(
+    final linkStyle = context.textStyles.label.copyWith(
       color: context.colors.textPrimary,
       fontSize: kSystemMessageBodyFontSize,
-      fontWeight: FontWeight.w500,
     );
-    final newNameStyle = TextStyle(
+    final newNameStyle = context.textStyles.label.copyWith(
       color: context.colors.textPrimary,
       fontSize: kSystemMessageBodyFontSize,
-      fontWeight: FontWeight.w500,
     );
     final (IconData icon, Color iconColor, bool flipIcon) = _iconAndColor(
       message: message,
@@ -122,7 +120,7 @@ class SystemMessage extends ConsumerWidget {
       Localizations.localeOf(context).toString(),
       use12Hour: ref.watch(use12HourTimeFormatProvider),
     );
-    final TextStyle timestampStyle = TextStyle(
+    final TextStyle timestampStyle = context.textStyles.timestamp.copyWith(
       color: context.colors.textTertiaryMuted,
       fontSize: kSystemMessageTimestampFontSize,
     );

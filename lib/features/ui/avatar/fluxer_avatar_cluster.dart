@@ -4,6 +4,7 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/media/fluxer_media_cdn.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/avatar/avatar_status_layout.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_mobile_online_status_indicator.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_status_indicator.dart';
@@ -222,15 +223,20 @@ class FluxerAvatarCluster extends StatelessWidget {
       child: Stack(
         children: [
           for (var i = 0; i < count; i++)
-            _buildClusterAvatar(displayMembers[i], i, count),
+            _buildClusterAvatar(context, displayMembers[i], i, count),
         ],
       ),
     );
   }
 
-  Widget _buildClusterAvatar(AvatarClusterMember member, int index, int count) {
+  Widget _buildClusterAvatar(
+    BuildContext context,
+    AvatarClusterMember member,
+    int index,
+    int count,
+  ) {
     final pos = _getPosition(count, index);
-    final avatar = _buildMemberCircle(member, pos.avatarSize);
+    final avatar = _buildMemberCircle(context, member, pos.avatarSize);
 
     final cutouts = <_CircleCutout>[];
     for (var j = index + 1; j < count; j++) {
@@ -262,7 +268,11 @@ class FluxerAvatarCluster extends StatelessWidget {
     );
   }
 
-  Widget _buildMemberCircle(AvatarClusterMember member, double avatarSize) {
+  Widget _buildMemberCircle(
+    BuildContext context,
+    AvatarClusterMember member,
+    double avatarSize,
+  ) {
     final text = member.fallbackText;
     final initial = (text.isNotEmpty) ? text[0].toUpperCase() : '?';
     final fallbackColor =
@@ -282,10 +292,9 @@ class FluxerAvatarCluster extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(
               initial,
-              style: TextStyle(
+              style: context.textStyles.smallText.copyWith(
                 color: Colors.white,
                 fontSize: avatarSize * 0.4,
-                fontWeight: FontWeight.w600,
               ),
             ),
           ),

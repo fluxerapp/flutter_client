@@ -1,5 +1,6 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -16,14 +17,16 @@ void main() {
   });
 
   Widget wrapEmoji({required CachedEmojiImage emoji, required bool onScreen}) {
-    return MaterialApp(
-      home: Scaffold(
-        body: ClipRect(
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: <Widget>[
-              Positioned(left: 0, top: onScreen ? 0 : 5000, child: emoji),
-            ],
+    return ProviderScope(
+      child: MaterialApp(
+        home: Scaffold(
+          body: ClipRect(
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: <Widget>[
+                Positioned(left: 0, top: onScreen ? 0 : 5000, child: emoji),
+              ],
+            ),
           ),
         ),
       ),

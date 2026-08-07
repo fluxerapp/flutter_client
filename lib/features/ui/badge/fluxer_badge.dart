@@ -81,10 +81,9 @@ class FluxerBadge extends StatelessWidget {
       child: Center(
         child: Text(
           label,
-          style: TextStyle(
+          style: context.textStyles.smallText.copyWith(
             color: context.colors.textOnBrandPrimary,
             fontSize: 11,
-            fontWeight: FontWeight.w600,
             height: 1,
           ),
         ),
@@ -123,7 +122,7 @@ class FluxerBadge extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 1),
           child: Text(
             label,
-            style: TextStyle(
+            style: context.textStyles.smallText.copyWith(
               color: context.colors.textOnBrandPrimary,
               fontSize: fontSize,
               fontWeight: FontWeight.bold,

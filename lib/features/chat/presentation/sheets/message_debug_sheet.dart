@@ -85,8 +85,7 @@ class _MessageDebugSheetBody extends ConsumerWidget {
             ),
             child: SelectableText(
               encoded,
-              style: TextStyle(
-                fontFamily: 'monospace',
+              style: context.textStyles.codeText.copyWith(
                 fontSize: 12,
                 height: 1.4,
                 color: colors.textPrimary,

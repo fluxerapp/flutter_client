@@ -60,7 +60,7 @@ class _GuildSettingsAccessGateState
           padding: EdgeInsets.all(context.layout.s4),
           child: Text(
             FluxerLocalizations.of(context).guildSettingsNoPermission,
-            style: TextStyle(color: context.colors.textPrimaryMuted),
+            style: context.textStyles.bodySmall,
             textAlign: TextAlign.center,
           ),
         ),

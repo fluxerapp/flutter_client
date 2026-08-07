@@ -90,6 +90,7 @@ class _AddAccountScreenState extends ConsumerState<AddAccountScreen> {
           backgroundColor: context.colors.backgroundPrimary,
           elevation: 0,
           leading: IconButton(
+            tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
             icon: PhosphorIcon(
               PhosphorIconsBold.x,
               color: context.colors.textPrimary,

@@ -182,7 +182,7 @@ class _GuildMembersMobileListViewState
             child: Center(
               child: Text(
                 l10n.guildMembersEmptySearch,
-                style: TextStyle(color: context.colors.textPrimaryMuted),
+                style: context.textStyles.bodySmall,
               ),
             ),
           )

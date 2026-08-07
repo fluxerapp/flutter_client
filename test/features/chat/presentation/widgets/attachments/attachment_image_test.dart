@@ -1,5 +1,6 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -15,15 +16,17 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 Widget _app(Widget child) {
   final colorTheme = buildDarkColorTheme();
-  return MaterialApp(
-    localizationsDelegates: FluxerLocalizations.localizationsDelegates,
-    supportedLocales: FluxerLocalizations.supportedLocales,
-    theme: buildFluxerTheme(
-      colorTheme: colorTheme,
-      textTheme: FluxerTextTheme.fromColors(colorTheme),
-      layoutTheme: FluxerLayoutTheme.scaled(),
+  return ProviderScope(
+    child: MaterialApp(
+      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      supportedLocales: FluxerLocalizations.supportedLocales,
+      theme: buildFluxerTheme(
+        colorTheme: colorTheme,
+        textTheme: FluxerTextTheme.fromColors(colorTheme),
+        layoutTheme: FluxerLayoutTheme.scaled(),
+      ),
+      home: Scaffold(body: Center(child: child)),
     ),
-    home: Scaffold(body: Center(child: child)),
   );
 }
 

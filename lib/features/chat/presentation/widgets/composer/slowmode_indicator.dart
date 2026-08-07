@@ -109,15 +109,16 @@ class _SlowmodeIndicatorState extends ConsumerState<SlowmodeIndicator>
       _ensureTicker(false);
       return const SizedBox.shrink();
     }
-    ref.watch(slowmodeTrackerProvider);
+    ref.watch(slowmodeTrackerProvider.select((s) => s[channelId] ?? 0));
     final channel = ref.watch(channelByIdProvider(channelId)).value;
     final rateLimit = channel?.rateLimitPerUser ?? 0;
     if (rateLimit <= 0) {
       _ensureTicker(false);
       return const SizedBox.shrink();
     }
-    final isImmune =
-        ref.watch(isSlowmodeImmuneProvider(channelId)).value ?? false;
+    final bool isImmune = ref
+        .watch(isSlowmodeImmuneProvider(channelId))
+        .maybeWhen(data: (bool immune) => immune, orElse: () => true);
     final remaining = ref
         .read(slowmodeTrackerProvider.notifier)
         .remainingFor(channelId, rateLimit);
@@ -196,30 +197,33 @@ class _SlowmodePill extends StatelessWidget {
       message: tooltip,
       preferBelow: false,
       verticalOffset: 12,
-      child: compact
-          ? content
-          : ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: _kPillMaxWidth),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 6,
+      child: Semantics(
+        label: label,
+        child: compact
+            ? content
+            : ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: _kPillMaxWidth),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: colors.chatInputBackground,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: borderColor),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.1),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: content,
                 ),
-                decoration: BoxDecoration(
-                  color: colors.chatInputBackground,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: borderColor),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.1),
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: content,
               ),
-            ),
+      ),
     );
   }
 

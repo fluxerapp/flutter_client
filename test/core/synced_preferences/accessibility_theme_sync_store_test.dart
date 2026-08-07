@@ -19,6 +19,7 @@ import 'package:fluxer_app/features/settings/providers/user_settings_sync_servic
 import 'package:fluxer_dart/export.dart';
 
 import '../../helpers/open_test_database.dart';
+import '../../helpers/synced_preferences_test_helpers.dart';
 
 class _NoopUserSettingsSyncService extends UserSettingsSyncService {
   _NoopUserSettingsSyncService(super.ref);
@@ -153,8 +154,8 @@ ProviderContainer _createContainer({
   );
 }
 
-Future<void> _waitForDebounce() async {
-  await Future<void>.delayed(const Duration(milliseconds: 600));
+Future<void> _waitForDebounce(SyncedPreferencesStore store) async {
+  await flushSyncedPreferencesDebounce(store);
 }
 
 void main() {
@@ -212,7 +213,7 @@ void main() {
       await container
           .read(appearancePreferencesProvider.notifier)
           .setHideKeyboardHints(value: true);
-      await _waitForDebounce();
+      await _waitForDebounce(store);
 
       expect(usersApi.pushCount, 1);
       final bytes = base64Decode(usersApi.lastPushBody!.syncedPreferences!);
@@ -267,7 +268,7 @@ void main() {
         await container
             .read(appearancePreferencesProvider.notifier)
             .setHideKeyboardHints(value: true);
-        await _waitForDebounce();
+        await _waitForDebounce(store);
 
         expect(usersApi.pushCount, 1);
         final bytes = base64Decode(usersApi.lastPushBody!.syncedPreferences!);
@@ -377,7 +378,7 @@ void main() {
       await container
           .read(themePreferenceProvider.notifier)
           .setSaturationFactor(0.25);
-      await _waitForDebounce();
+      await _waitForDebounce(store);
 
       expect(usersApi.pushCount, 1);
       final bytes = base64Decode(usersApi.lastPushBody!.syncedPreferences!);
@@ -404,7 +405,7 @@ void main() {
         await container
             .read(appearancePreferencesProvider.notifier)
             .setHideKeyboardHints(value: true);
-        await _waitForDebounce();
+        await _waitForDebounce(store);
 
         expect(usersApi.pushCount, 1);
         final bytes = base64Decode(usersApi.lastPushBody!.syncedPreferences!);
@@ -429,7 +430,7 @@ void main() {
       await container
           .read(appearancePreferencesProvider.notifier)
           .setHideKeyboardHints(value: true);
-      await _waitForDebounce();
+      await _waitForDebounce(store);
 
       expect(usersApi.pushCount, 1);
       final bytes = base64Decode(usersApi.lastPushBody!.syncedPreferences!);
@@ -449,7 +450,7 @@ void main() {
           ),
         ),
       );
-      await _waitForDebounce();
+      await _waitForDebounce(store);
 
       expect(usersApi.pushCount, 0);
       expect(

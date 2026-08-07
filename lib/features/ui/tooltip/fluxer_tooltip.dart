@@ -188,21 +188,25 @@ class _FluxerTooltipState extends State<FluxerTooltip>
 
   @override
   Widget build(BuildContext context) {
+    final String? semanticsLabel = widget.message;
+    final Widget target = CompositedTransformTarget(
+      link: _layerLink,
+      child: MouseRegion(
+        onEnter: _handleMouseEnter,
+        onExit: _handleMouseExit,
+        child: GestureDetector(
+          onLongPress: _handleLongPress,
+          behavior: HitTestBehavior.translucent,
+          child: widget.child,
+        ),
+      ),
+    );
     return OverlayPortal(
       controller: _overlayController,
       overlayChildBuilder: _buildOverlay,
-      child: CompositedTransformTarget(
-        link: _layerLink,
-        child: MouseRegion(
-          onEnter: _handleMouseEnter,
-          onExit: _handleMouseExit,
-          child: GestureDetector(
-            onLongPress: _handleLongPress,
-            behavior: HitTestBehavior.translucent,
-            child: widget.child,
-          ),
-        ),
-      ),
+      child: semanticsLabel == null
+          ? target
+          : Semantics(label: semanticsLabel, child: target),
     );
   }
 }

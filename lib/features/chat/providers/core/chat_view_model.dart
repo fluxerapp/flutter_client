@@ -44,6 +44,7 @@ import 'package:fluxer_app/features/chat/providers/messages/message_realtime_pro
 import 'package:fluxer_app/features/chat/providers/messages/message_references_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/typing_sender.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
+import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_immunity_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_indicator_shake_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
@@ -56,6 +57,7 @@ import 'package:fluxer_app/features/chat/utils/file_upload_validator.dart';
 import 'package:fluxer_app/features/chat/utils/guild_composer_barrier_l10n.dart';
 import 'package:fluxer_app/features/chat/utils/mention_reply_preference_utils.dart';
 import 'package:fluxer_app/features/chat/utils/message_page_sync.dart';
+import 'package:fluxer_app/features/chat/utils/message_screen_reader_announce.dart';
 import 'package:fluxer_app/features/chat/utils/message_send_failure_messages.dart';
 import 'package:fluxer_app/features/chat/utils/uploading_attachment_utils.dart';
 import 'package:fluxer_app/features/chat/utils/url_sanitization_utils.dart';
@@ -1304,6 +1306,14 @@ class ChatViewModel extends _$ChatViewModel {
       if (ev is MessageCreated) {
         if (ev.event.message.author.id == ref.read(currentUserIdProvider)) {
           clearStickyUnread();
+        } else {
+          announceIncomingMessageIfEnabled(
+            ref,
+            Message.fromSdk(
+              ev.event.message,
+              currentUserId: ref.read(currentUserIdProvider),
+            ),
+          );
         }
         if (!ev.snapshot.acknowledgedByGateway) {
           unawaited(ackCurrentChannel());
@@ -3900,6 +3910,14 @@ class ChatViewModel extends _$ChatViewModel {
     });
   }
 
+  @visibleForTesting
+  Future<void> flushScheduledReadAckRetryForTest() async {
+    _readAckRetryTimer?.cancel();
+    _readAckRetryTimer = null;
+    _readAckGate.advanceThrottleClockForTest(_kReadAckMinInterval);
+    await ackCurrentChannel();
+  }
+
   Future<void> _ensureUnreadBoundaryLoaded(
     String channelId, {
     required db.ReadState? readState,
@@ -4302,7 +4320,9 @@ class ChatViewModel extends _$ChatViewModel {
     );
     clearStickyUnread();
     unawaited(ref.read(readStateRepositoryProvider).clearSticky(channelId));
-    ref.read(slowmodeTrackerProvider.notifier).recordSend(channelId);
+    if (!await ref.read(isSlowmodeImmuneProvider(channelId).future)) {
+      ref.read(slowmodeTrackerProvider.notifier).recordSend(channelId);
+    }
     unawaited(
       _completeSendWithAttachments(
         channelId: channelId,
@@ -4394,21 +4414,16 @@ class ChatViewModel extends _$ChatViewModel {
       }
     }
     final rateLimit = channelRow?.rateLimitPerUser ?? 0;
-    if (rateLimit > 0) {
-      final bool isImmune =
-          permissionOutcome != null &&
-          hasPermission(permissionOutcome.value, Permission.bypassSlowmode);
-      if (!isImmune) {
-        final remaining = ref
-            .read(slowmodeTrackerProvider.notifier)
-            .remainingFor(channelId, rateLimit);
-        if (remaining > Duration.zero) {
-          talker.debug(
-            '[ChatViewModel] send blocked: slowmode channelId=$channelId',
-          );
-          _notifySendBlocked(_SendBlockReason.slowmode);
-          return;
-        }
+    if (rateLimit > 0 && !bypassesChannelSlowmode(permissionOutcome)) {
+      final remaining = ref
+          .read(slowmodeTrackerProvider.notifier)
+          .remainingFor(channelId, rateLimit);
+      if (remaining > Duration.zero) {
+        talker.debug(
+          '[ChatViewModel] send blocked: slowmode channelId=$channelId',
+        );
+        _notifySendBlocked(_SendBlockReason.slowmode);
+        return;
       }
     }
 
@@ -4481,7 +4496,9 @@ class ChatViewModel extends _$ChatViewModel {
     }
     clearStickyUnread();
     unawaited(ref.read(readStateRepositoryProvider).clearSticky(channelId));
-    ref.read(slowmodeTrackerProvider.notifier).recordSend(channelId);
+    if (!bypassesChannelSlowmode(permissionOutcome)) {
+      ref.read(slowmodeTrackerProvider.notifier).recordSend(channelId);
+    }
 
     if (!hasPendingAttachments) {
       unawaited(

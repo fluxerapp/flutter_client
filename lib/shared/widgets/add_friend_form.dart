@@ -151,9 +151,8 @@ class _AddFriendFormState extends ConsumerState<AddFriendForm> {
             padding: EdgeInsets.only(top: context.layout.s2),
             child: Text(
               _errorMessage!,
-              style: TextStyle(
+              style: context.textStyles.bodySmall.copyWith(
                 color: context.colors.statusDanger,
-                fontSize: 14,
               ),
             ),
           ),
@@ -162,9 +161,8 @@ class _AddFriendFormState extends ConsumerState<AddFriendForm> {
             padding: EdgeInsets.only(top: context.layout.s2),
             child: Text(
               l10n.addFriendOutgoingSuccess,
-              style: TextStyle(
+              style: context.textStyles.bodySmall.copyWith(
                 color: context.colors.statusOnline,
-                fontSize: 14,
               ),
             ),
           ),
@@ -198,19 +196,14 @@ class _AddFriendGate extends StatelessWidget {
         Text(
           title,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            color: context.colors.textPrimary,
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
+          style: context.textStyles.heading.copyWith(fontSize: 18),
         ),
         SizedBox(height: context.layout.s2),
         Text(
           description,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: context.textStyles.bodySmall.copyWith(
             color: context.colors.textSecondary,
-            fontSize: 14,
             height: 1.4,
           ),
         ),

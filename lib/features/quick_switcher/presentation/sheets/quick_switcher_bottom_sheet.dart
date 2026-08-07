@@ -245,12 +245,7 @@ class _QuickSwitcherSheetBodyState
             ),
             child: Text(
               result.title,
-              style: TextStyle(
-                color: context.colors.textPrimaryMuted,
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.64,
-              ),
+              style: context.textStyles.smallText.copyWith(letterSpacing: 0.64),
             ),
           ),
         );
@@ -324,10 +319,8 @@ class _QuickSwitcherSheetBodyState
               Text(
                 l10n.quickSwitcherNoMatchesFound,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: context.textStyles.label.copyWith(
                   color: context.colors.textTertiary,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
                   height: 20 / 14,
                 ),
               ),
@@ -335,14 +328,12 @@ class _QuickSwitcherSheetBodyState
             Text(
               l10n.quickSwitcherEmptyHint,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: hasQuery
-                    ? context.colors.textPrimaryMuted
-                    : context.colors.textTertiary,
-                fontSize: hasQuery ? 12 : 14,
-                fontWeight: hasQuery ? FontWeight.w400 : FontWeight.w500,
-                height: hasQuery ? 16 / 12 : 20 / 14,
-              ),
+              style: hasQuery
+                  ? context.textStyles.timestamp.copyWith(height: 16 / 12)
+                  : context.textStyles.label.copyWith(
+                      color: context.colors.textTertiary,
+                      height: 20 / 14,
+                    ),
             ),
           ],
         ),

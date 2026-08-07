@@ -1,3 +1,6 @@
+@Tags(['slow'])
+library;
+
 import 'dart:async';
 
 import 'package:drift/drift.dart' show Value;
@@ -39,6 +42,7 @@ import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../helpers/open_test_database.dart';
+import '../../../../helpers/pump_fluxer_app.dart';
 
 void main() {
   group('unread center open path', () {
@@ -424,7 +428,7 @@ void main() {
         await tester.pumpWidget(
           _messageListApp(database: database, chatViewModel: chatViewModel),
         );
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         final ScrollPosition position = _messageListScrollPosition(tester);
         expect(
@@ -472,7 +476,7 @@ void main() {
             chatViewModel: harness.chatViewModel,
           ),
         );
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         final ScrollPosition opened = _messageListScrollPosition(tester);
         expect(
@@ -553,7 +557,7 @@ void main() {
             chatViewModel: harness.chatViewModel,
           ),
         );
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         final ScrollPosition position = _messageListScrollPosition(tester);
         expect(
@@ -562,7 +566,7 @@ void main() {
         );
 
         position.jumpTo(position.minScrollExtent * 0.5);
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
         expect(
           position.maxScrollExtent - position.pixels,
           greaterThan(kMessageListReadBottomThreshold),
@@ -623,7 +627,7 @@ void main() {
             blockedUserIds: const <String>{blockedAuthorId},
           ),
         );
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
         final ProviderContainer container = ProviderScope.containerOf(
           tester.element(find.byType(MessageList)),
         );
@@ -640,7 +644,7 @@ void main() {
 
         final ScrollPosition position = _messageListScrollPosition(tester);
         position.jumpTo(position.minScrollExtent * 0.5);
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         final String anchorId = _centerVisibleMessageItemId(tester);
         final Finder anchor = _messageItemFor(anchorId);
@@ -687,11 +691,11 @@ void main() {
             chatViewModel: harness.chatViewModel,
           ),
         );
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         final ScrollPosition position = _messageListScrollPosition(tester);
         position.jumpTo(position.minScrollExtent);
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
         expect(
           position.maxScrollExtent - position.pixels,
           greaterThan(kMessageListReadBottomThreshold),
@@ -737,7 +741,7 @@ void main() {
             chatViewModel: harness.chatViewModel,
           ),
         );
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         final Finder firstUnread = _messageItemFor(harness.firstUnreadId);
         expect(firstUnread, findsOneWidget);
@@ -794,7 +798,7 @@ void main() {
             chatViewModel: harness.chatViewModel,
           ),
         );
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         final Finder firstUnread = _messageItemFor(harness.firstUnreadId);
         expect(firstUnread, findsOneWidget);
@@ -847,13 +851,13 @@ void main() {
             chatViewModel: harness.chatViewModel,
           ),
         );
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         final ScrollableState scrollable = tester.state<ScrollableState>(
           _messageListScrollable(),
         );
         scrollable.position.jumpTo(scrollable.position.maxScrollExtent);
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         final Finder loadedTailMessage = _messageItemFor(
           harness.newestLoadedId,
@@ -912,13 +916,13 @@ void main() {
             chatViewModel: harness.chatViewModel,
           ),
         );
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         final ScrollableState scrollable = tester.state<ScrollableState>(
           _messageListScrollable(),
         );
         scrollable.position.jumpTo(scrollable.position.minScrollExtent);
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         final double leadingDistanceBefore =
             scrollable.position.pixels - scrollable.position.minScrollExtent;
@@ -1188,7 +1192,7 @@ void main() {
       );
       addTearDown(() async {
         await _disposeMessageList(tester);
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
       });
       await tester.pump();
       await tester.pump();
@@ -1244,7 +1248,7 @@ void main() {
         );
         addTearDown(() async {
           await _disposeMessageList(tester);
-          await tester.pumpAndSettle();
+          await pumpFluxerFrames(tester);
         });
         await tester.pump();
         await tester.pump();
@@ -1299,7 +1303,7 @@ void main() {
       );
       addTearDown(() async {
         await _disposeMessageList(tester);
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
       });
       await tester.pump();
       await tester.pump();
@@ -1350,7 +1354,7 @@ void main() {
         final ScrollPosition position = _messageListScrollPosition(tester);
         expect(position.minScrollExtent, lessThan(-600));
         position.jumpTo(-600);
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
         expect(position.pixels, moreOrLessEquals(-600, epsilon: 1));
 
         final State<MessageList> stateBeforeHide = tester
@@ -1495,7 +1499,7 @@ void main() {
           chatViewModel: harness.chatViewModel,
         ),
       );
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
 
       final ScrollPosition position = _messageListScrollPosition(tester);
       expect(
@@ -1553,7 +1557,7 @@ void main() {
           chatViewModel: harness.chatViewModel,
         ),
       );
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
 
       final ScrollPosition position = _messageListScrollPosition(tester);
       expect(
@@ -1592,11 +1596,11 @@ void main() {
           chatViewModel: harness.chatViewModel,
         ),
       );
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
 
       final ScrollPosition position = _messageListScrollPosition(tester);
       position.jumpTo(position.pixels - 200);
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
       expect(
         position.maxScrollExtent - position.pixels,
         greaterThan(kMessageListReadBottomThreshold),
@@ -1635,14 +1639,14 @@ void main() {
           chatViewModel: harness.chatViewModel,
         ),
       );
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
 
       final String newestId = harness.chatViewModel._testState.messages.last.id;
       final ScrollPosition position = _messageListScrollPosition(tester);
       // Far enough that newest is fully off-screen.
       position.jumpTo(position.pixels - 400);
       await tester.pump();
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
       expect(
         position.maxScrollExtent - position.pixels,
         greaterThan(kMessageListReadBottomThreshold),
@@ -1687,7 +1691,7 @@ void main() {
           chatViewModel: harness.chatViewModel,
         ),
       );
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
 
       // Keyboard already open, then append at the live tail.
       await shrinkViewportHeight(tester, height: 400);
@@ -1736,7 +1740,7 @@ void main() {
             chatViewModel: harness.chatViewModel,
           ),
         );
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         final ScrollPosition position = _messageListScrollPosition(tester);
         // Near-tail but not exactly at the tail so a follow pin moves.
@@ -1790,7 +1794,7 @@ void main() {
           chatViewModel: harness.chatViewModel,
         ),
       );
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
 
       harness.chatViewModel.scrollToMessage(targetId);
       await tester.pump();
@@ -1850,7 +1854,7 @@ void main() {
             chatViewModel: harness.chatViewModel,
           ),
         );
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
         expect(find.text('NEW'), findsOneWidget);
 
         final String newestId =
@@ -1908,7 +1912,7 @@ void main() {
             chatViewModel: harness.chatViewModel,
           ),
         );
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
         expect(find.text('NEW'), findsOneWidget);
 
         harness.chatViewModel.scrollToBottom();
@@ -1966,7 +1970,7 @@ void main() {
           chatViewModel: harness.chatViewModel,
         ),
       );
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
       expect(_messageItemFor(targetId), findsNothing);
 
       harness.chatViewModel.scrollToMessage(targetId);
@@ -2004,7 +2008,7 @@ void main() {
             chatViewModel: harness.chatViewModel,
           ),
         );
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         final ProviderContainer container = ProviderScope.containerOf(
           tester.element(find.byType(MessageList)),
@@ -2082,7 +2086,7 @@ void main() {
             chatViewModel: harness.chatViewModel,
           ),
         );
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         final ProviderContainer container = ProviderScope.containerOf(
           tester.element(find.byType(MessageList)),
@@ -2099,7 +2103,7 @@ void main() {
 
         harness.chatViewModel.scrollToMessage(targetId);
         await tester.pump();
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         final ChatReadViewportState after = container.read(
           chatReadViewportProvider,
@@ -2160,7 +2164,7 @@ void main() {
       await tester.pumpWidget(
         _messageListApp(database: database, chatViewModel: chatViewModel),
       );
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
 
       chatViewModel.scrollToMessage(targetId);
       await tester.pump();
@@ -2174,7 +2178,7 @@ void main() {
       for (int i = 0; i < 6; i++) {
         await tester.pump(const Duration(milliseconds: 160));
       }
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
 
       // Pump chaining: the jump landed inside the newer margin, so demand
       // drains BOTH fake pages during settle - each applied page released by
@@ -2277,7 +2281,7 @@ void main() {
         await tester.pump();
         await tester.pump();
         await tester.pump();
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         expect(_messageItemFor(targetId), findsOneWidget);
         final Rect viewport = tester.getRect(_messageListScrollable());
@@ -2375,7 +2379,7 @@ void main() {
         await tester.pump();
         await tester.pump();
         await tester.pump();
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         expect(_messageItemFor(targetId), findsOneWidget);
         final Rect viewport = tester.getRect(_messageListScrollable());
@@ -2460,7 +2464,7 @@ void main() {
         readStateController.add(null);
         await tester.pump();
         await tester.pump();
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         final ProviderContainer container = ProviderScope.containerOf(
           tester.element(find.byType(MessageList)),
@@ -2490,7 +2494,7 @@ void main() {
         // unconfirmed it must fetch the present rather than no-op.
         chatViewModel.scrollToBottom();
         await tester.pump();
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         expect(
           chatViewModel._testState.hasMoreNewerMessages,
@@ -2525,7 +2529,7 @@ void main() {
           chatViewModel: harness.chatViewModel,
         ),
       );
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
 
       harness.chatViewModel.scrollToMessage(targetId);
       // Exhaust the production settle window (~1.8s) so correction ends.
@@ -2540,7 +2544,7 @@ void main() {
       for (int i = 0; i < 6; i++) {
         await tester.pump(const Duration(milliseconds: 160));
       }
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
       expect(_messageItemFor(targetId), findsOneWidget);
 
       final ScrollPosition position = _messageListScrollPosition(tester);
@@ -2552,7 +2556,7 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 48));
       await tester.pump(const Duration(milliseconds: 48));
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
 
       expect(position.pixels, moreOrLessEquals(drifted, epsilon: 1));
       final Rect viewport = tester.getRect(_messageListScrollable());
@@ -2591,7 +2595,7 @@ void main() {
         ),
       );
       await tester.pump();
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
       expect(find.text('NEW'), findsOneWidget);
 
       harness.chatViewModel._testState = harness.chatViewModel._testState
@@ -2604,7 +2608,7 @@ void main() {
         ),
       );
       await tester.pump();
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
       expect(find.text('NEW'), findsOneWidget);
 
       harness.chatViewModel.scrollToMessage(postDividerId);
@@ -2616,7 +2620,7 @@ void main() {
       for (int i = 0; i < 4; i++) {
         await tester.pump(const Duration(milliseconds: 100));
       }
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
 
       expect(_messageItemFor(postDividerId), findsOneWidget);
       final Rect viewport = tester.getRect(_messageListScrollable());
@@ -2656,7 +2660,7 @@ void main() {
         ),
       );
       await tester.pump();
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
       expect(find.text('NEW'), findsOneWidget);
 
       harness.chatViewModel._testState = harness.chatViewModel._testState
@@ -2669,7 +2673,7 @@ void main() {
         ),
       );
       await tester.pump();
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
       expect(find.text('NEW'), findsOneWidget);
 
       harness.chatViewModel.scrollToMessage(preDividerId);
@@ -2681,7 +2685,7 @@ void main() {
       for (int i = 0; i < 4; i++) {
         await tester.pump(const Duration(milliseconds: 100));
       }
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
 
       expect(_messageItemFor(preDividerId), findsOneWidget);
       final ScrollPosition position = _messageListScrollPosition(tester);
@@ -2729,7 +2733,7 @@ void main() {
         ),
       );
       await tester.pump();
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
       expect(find.text('NEW'), findsOneWidget);
 
       harness.chatViewModel._testState = harness.chatViewModel._testState
@@ -2746,7 +2750,7 @@ void main() {
       harness.chatViewModel._testState = harness.chatViewModel._testState
           .copyWith(stickyUnreadMessageId: null);
       await tester.pump();
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
       expect(find.text('NEW'), findsNothing);
 
       harness.chatViewModel.scrollToMessage(postDividerId);
@@ -2758,7 +2762,7 @@ void main() {
       for (int i = 0; i < 4; i++) {
         await tester.pump(const Duration(milliseconds: 100));
       }
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
 
       expect(_messageItemFor(postDividerId), findsOneWidget);
       final Rect viewport = tester.getRect(_messageListScrollable());
@@ -2798,7 +2802,7 @@ void main() {
         ),
       );
       await tester.pump();
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
       expect(find.text('NEW'), findsOneWidget);
 
       harness.chatViewModel._testState = harness.chatViewModel._testState
@@ -2815,7 +2819,7 @@ void main() {
       harness.chatViewModel._testState = harness.chatViewModel._testState
           .copyWith(stickyUnreadMessageId: null);
       await tester.pump();
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
       expect(find.text('NEW'), findsNothing);
 
       harness.chatViewModel.scrollToMessage(preDividerId);
@@ -2827,7 +2831,7 @@ void main() {
       for (int i = 0; i < 4; i++) {
         await tester.pump(const Duration(milliseconds: 100));
       }
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
 
       expect(_messageItemFor(preDividerId), findsOneWidget);
       final ScrollPosition position = _messageListScrollPosition(tester);
@@ -2879,7 +2883,7 @@ void main() {
           ),
         );
         await tester.pump();
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
         expect(find.text('NEW'), findsOneWidget);
 
         harness.chatViewModel._testState = harness.chatViewModel._testState
@@ -2896,7 +2900,7 @@ void main() {
         harness.chatViewModel._testState = harness.chatViewModel._testState
             .copyWith(stickyUnreadMessageId: null);
         await tester.pump();
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
         expect(find.text('NEW'), findsNothing);
 
         // Around-window drops the open-mode center anchor; keep jump target.
@@ -2973,7 +2977,7 @@ void main() {
           ),
         );
         await tester.pump();
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
         expect(find.text('NEW'), findsOneWidget);
 
         final List<Message> aroundWindow = harness.messages.sublist(50, 120);
@@ -3048,7 +3052,7 @@ void main() {
           ),
         );
         await tester.pump();
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
         expect(find.text('NEW'), findsOneWidget);
 
         // Scroll so preserveId is the reading position (center-ish).
@@ -3061,7 +3065,7 @@ void main() {
         for (int i = 0; i < 4; i++) {
           await tester.pump(const Duration(milliseconds: 100));
         }
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
         expect(_messageItemFor(preserveId), findsOneWidget);
         final Rect viewportBefore = tester.getRect(_messageListScrollable());
         final Rect preserveBefore = tester.getRect(_messageItemFor(preserveId));
@@ -3099,7 +3103,7 @@ void main() {
         for (int i = 0; i < 4; i++) {
           await tester.pump(const Duration(milliseconds: 100));
         }
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         // Still visible after layout conversion — not yanked to live tail.
         expect(_messageItemFor(preserveId), findsOneWidget);
@@ -3159,13 +3163,13 @@ void main() {
         ),
       );
       await tester.pump();
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
       expect(find.text('NEW'), findsOneWidget);
 
       harness.chatViewModel.scrollToMessage(beforeId);
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 100));
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
 
       expect(_messageItemFor(beforeId), findsOneWidget);
       final Rect viewport = tester.getRect(_messageListScrollable());
@@ -3205,14 +3209,14 @@ void main() {
           ),
         );
         await tester.pump();
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
         expect(find.text('NEW'), findsOneWidget);
 
         // Scroll well into the trailing (post-divider) region first.
         harness.chatViewModel.scrollToMessage(deepAfterId);
         await tester.pump();
         await tester.pump(const Duration(milliseconds: 100));
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
         expect(_messageItemFor(deepAfterId), findsOneWidget);
 
         // Cross the center anchor upward to a deep pre-divider leading target.
@@ -3228,7 +3232,7 @@ void main() {
         for (int i = 0; i < 4; i++) {
           await tester.pump(const Duration(milliseconds: 160));
         }
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         expect(_messageItemFor(beforeId), findsOneWidget);
         final ScrollPosition position = _messageListScrollPosition(tester);
@@ -3290,13 +3294,13 @@ void main() {
           ),
         );
         await tester.pump();
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
         expect(find.text('NEW'), findsOneWidget);
 
         harness.chatViewModel.scrollToMessage(midAfterId);
         await tester.pump();
         await tester.pump(const Duration(milliseconds: 100));
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         expect(_messageItemFor(midAfterId), findsOneWidget);
         final ScrollPosition position = _messageListScrollPosition(tester);
@@ -3344,13 +3348,13 @@ void main() {
           ),
         );
         await tester.pump();
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
         expect(find.text('NEW'), findsOneWidget);
 
         harness.chatViewModel.scrollToMessage(nearTailId);
         await tester.pump();
         await tester.pump(const Duration(milliseconds: 100));
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         expect(_messageItemFor(nearTailId), findsOneWidget);
         final Rect viewport = tester.getRect(_messageListScrollable());
@@ -3465,7 +3469,7 @@ void main() {
           chatViewModel: chatViewModel,
         ),
       );
-      await tester.pumpAndSettle();
+      await pumpFluxerFrames(tester);
       // A few extra frames so open-time post-frame effects (anchor
       // correction, demand/read-viewport publication) have all run before
       // the test proceeds - on device frames flow continuously.
@@ -3522,7 +3526,7 @@ void main() {
         final String probeId = _centerVisibleMessageItemId(tester);
         final ({String id, Rect rect}) before = anchorSample(tester, probeId);
         await gesture.up();
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         expect(
           chatViewModel.state.messages,
@@ -3636,7 +3640,7 @@ void main() {
             position.maxScrollExtent,
           ),
         );
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
         final ({String id, Rect rect}) before = anchorSample(
           tester,
           _centerVisibleMessageItemId(tester),
@@ -3715,7 +3719,7 @@ void main() {
 
         // The reader catches up to the real bottom, then a create lands.
         position.jumpTo(position.maxScrollExtent);
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
         final List<Message> caughtUp = chatViewModel._testState.messages;
         final List<Message> live = newerRows(caughtUp, count: 1, label: 'live');
         chatViewModel._testState = chatViewModel._testState.copyWith(
@@ -3937,10 +3941,10 @@ void main() {
             chatViewModel: harness.chatViewModel,
           ),
         );
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
         final ScrollPosition position = _messageListScrollPosition(tester);
         position.jumpTo(position.maxScrollExtent);
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
         final double pixelsBefore = position.pixels;
 
         final List<Message> cur = harness.chatViewModel._testState.messages;
@@ -3968,7 +3972,7 @@ void main() {
         // The preserved landing left the reader a page above the trailing
         // edge; a follow is only legitimate once they are back at it.
         position.jumpTo(position.maxScrollExtent);
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
         final List<Message> paged = harness.chatViewModel._testState.messages;
         final List<Message> live = newerRows(paged, count: 1, label: 'live');
         harness.chatViewModel._testState = harness.chatViewModel._testState
@@ -4031,7 +4035,7 @@ void main() {
             body: const MessageList(),
           ),
         );
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
         for (int i = 0; i < 4; i += 1) {
           await tester.pump();
         }
@@ -4047,7 +4051,7 @@ void main() {
               (_, _) {},
             );
         addTearDown(warmReadState.close);
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         final ScrollPosition position = _messageListScrollPosition(tester);
         expect(position.pixels, moreOrLessEquals(0, epsilon: 1));
@@ -4173,7 +4177,7 @@ void main() {
         final String targetId = chatViewModel._testState.messages[30].id;
         chatViewModel.scrollToMessage(targetId);
         await tester.pump();
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
 
         final Rect viewport = tester.getRect(_messageListScrollable());
         final Rect target = tester.getRect(_messageItemFor(targetId));
@@ -4236,7 +4240,7 @@ void main() {
               'leading edge at the fraction, never a stale offset',
         );
 
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
         final Rect settled = tester.getRect(_messageItemFor(targetId));
         expect(
           (settled.center.dy - viewport.center.dy).abs(),
@@ -4264,7 +4268,7 @@ void main() {
         final String neighborId = messages[39].id;
         chatViewModel.scrollToMessage(targetId);
         await tester.pump();
-        await tester.pumpAndSettle();
+        await pumpFluxerFrames(tester);
         final Rect neighborBefore = tester.getRect(_messageItemFor(neighborId));
 
         final List<Message> without = messages
@@ -4282,6 +4286,221 @@ void main() {
           (neighborAfter.top - neighborBefore.top).abs(),
           lessThanOrEqualTo(1),
           reason: 'anchor repair must not move the viewport',
+        );
+
+        await _disposeMessageList(tester);
+      },
+    );
+
+    testWidgets(
+      'gate 4: a bulk delete that underfills a centered anchor re-anchors to '
+      'the tail instead of stranding a dead band',
+      (WidgetTester tester) async {
+        final _InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+          tester,
+          hasMoreNewer: false,
+        );
+        final List<Message> messages = chatViewModel._testState.messages;
+        // A jump anchors (target, 0.5, before), which only holds while the
+        // trailing side can fill the lower half of the viewport.
+        chatViewModel.scrollToMessage(messages[40].id);
+        await tester.pump();
+        await pumpFluxerFrames(tester);
+        expect(
+          _messageListScrollPosition(tester).maxScrollExtent,
+          greaterThan(0),
+          reason: 'the centered open must start filled',
+        );
+
+        // MESSAGE_DELETE_BULK shape: one preserve-class write drops the anchor
+        // and every row but two.
+        chatViewModel._testState = chatViewModel._testState.copyWith(
+          write: (
+            messages: <Message>[messages.first, messages.last],
+            origin: MessagesOrigin.realtimeEvent,
+          ),
+        );
+        await pumpFluxerFrames(tester);
+        // The underfill reanchor runs in a post-frame callback whose jumpTo
+        // needs a further frame to lay out.
+        for (int i = 0; i < 4; i += 1) {
+          await tester.pump();
+        }
+
+        expect(find.byType(MessageItem), findsNWidgets(2));
+        final Rect viewport = tester.getRect(_messageListScrollable());
+        final Rect newestRect = tester.getRect(
+          _messageItemFor(messages.last.id),
+        );
+        expect(
+          newestRect.bottom,
+          greaterThan(viewport.bottom - 64),
+          reason: 'the surviving rows must hug the composer, not the fraction',
+        );
+        expect(newestRect.bottom, lessThanOrEqualTo(viewport.bottom + 1));
+        final ScrollPosition position = _messageListScrollPosition(tester);
+        expect(
+          position.maxScrollExtent - position.pixels,
+          lessThanOrEqualTo(kMessageListReadBottomThreshold),
+          reason: 'the demoted anchor lands at the live tail',
+        );
+
+        await _disposeMessageList(tester);
+      },
+    );
+
+    testWidgets(
+      'gate 5: a realtime edit that grows the newest row keeps a pinned '
+      'reader glued to the live tail',
+      (WidgetTester tester) async {
+        final _InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+          tester,
+          hasMoreNewer: false,
+        );
+        // Live arrivals land in the trailing sliver under the open-time
+        // anchor, so the followed reader sits at the trailing edge.
+        final List<Message> seeded = chatViewModel._testState.messages;
+        final List<Message> withLive = <Message>[
+          ...seeded,
+          ...newerRows(seeded, count: 20, label: 'purge target'),
+        ];
+        chatViewModel._testState = chatViewModel._testState.copyWith(
+          write: (messages: withLive, origin: MessagesOrigin.liveCreate),
+        );
+        await pumpFluxerFrames(tester);
+
+        final List<Message> survivors = <Message>[
+          withLive.first,
+          withLive.last,
+        ];
+        chatViewModel._testState = chatViewModel._testState.copyWith(
+          write: (messages: survivors, origin: MessagesOrigin.realtimeEvent),
+        );
+        await pumpFluxerFrames(tester);
+        final ScrollPosition afterDelete = _messageListScrollPosition(tester);
+        expect(
+          afterDelete.maxScrollExtent - afterDelete.pixels,
+          lessThanOrEqualTo(1),
+          reason: 'the framework clamp already holds the tail on a shrink',
+        );
+
+        // MESSAGE_UPDATE shape: the status row grows. maxScrollExtent grows
+        // with it and nothing pulls pixels forward, so the newest row would
+        // otherwise be pushed below the fold.
+        final Message newest = survivors.last;
+        chatViewModel._testState = chatViewModel._testState.copyWith(
+          write: (
+            messages: <Message>[
+              survivors.first,
+              newest.copyWith(
+                content:
+                    '${newest.content}\nedited line 0\nedited line 1\n'
+                    'edited line 2',
+                editedTimestamp: newest.timestamp.add(
+                  const Duration(minutes: 1),
+                ),
+              ),
+            ],
+            origin: MessagesOrigin.realtimeEvent,
+          ),
+        );
+        await pumpFluxerFrames(tester);
+
+        final ScrollPosition position = _messageListScrollPosition(tester);
+        expect(
+          position.maxScrollExtent - position.pixels,
+          lessThanOrEqualTo(1),
+          reason: 'a growing edit must not detach a pinned reader',
+        );
+        final Rect viewport = tester.getRect(_messageListScrollable());
+        final Rect newestRect = tester.getRect(_messageItemFor(newest.id));
+        expect(
+          newestRect.bottom,
+          lessThanOrEqualTo(viewport.bottom + 1),
+          reason: 'the edited row must not be clipped below the fold',
+        );
+        expect(newestRect.bottom, greaterThan(viewport.bottom - 64));
+
+        await _disposeMessageList(tester);
+      },
+    );
+
+    testWidgets(
+      'gate 6: a bulk delete that underfills the trailing side leaves a reader '
+      'deep in history in place, and their scroll back to the edge repairs it',
+      (WidgetTester tester) async {
+        final _InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+          tester,
+          hasMoreNewer: false,
+        );
+        final List<Message> messages = chatViewModel._testState.messages;
+        chatViewModel.scrollToMessage(messages[40].id);
+        await tester.pump();
+        await pumpFluxerFrames(tester);
+
+        // Deep into history, more than a viewport above the anchor line.
+        ScrollPosition position = _messageListScrollPosition(tester);
+        expect(position.maxScrollExtent, greaterThan(0));
+        position.jumpTo(position.minScrollExtent);
+        await pumpFluxerFrames(tester);
+        final double pixelsBefore = position.pixels;
+        expect(pixelsBefore, lessThan(-tester.view.physicalSize.height / 2));
+        final ({String id, Rect rect}) reading = anchorSample(
+          tester,
+          messages[2].id,
+        );
+
+        // The purge drops only trailing-partition rows, so the leading extent
+        // and therefore minScrollExtent are untouched: this reader's offset
+        // survives the clamp and must survive the repair too.
+        chatViewModel._testState = chatViewModel._testState.copyWith(
+          write: (
+            messages: <Message>[...messages.take(45), messages.last],
+            origin: MessagesOrigin.realtimeEvent,
+          ),
+        );
+        await pumpFluxerFrames(tester);
+
+        position = _messageListScrollPosition(tester);
+        expect(
+          position.pixels,
+          moreOrLessEquals(pixelsBefore, epsilon: 1),
+          reason: 'the repair must not yank a reader out of history',
+        );
+        expect(
+          position.maxScrollExtent,
+          moreOrLessEquals(0, epsilon: 1),
+          reason: 'the fraction is intact, so the trailing side stays clamped',
+        );
+        expectPreserved(
+          tester,
+          reading,
+          reason: 'no demotion remount while reading history',
+        );
+
+        // Scrolling back to the trailing edge arms the withheld repair.
+        await tester.drag(_messageListScrollable(), const Offset(0, -1200));
+        await pumpFluxerFrames(tester);
+
+        final Rect viewport = tester.getRect(_messageListScrollable());
+        final Rect newestRect = tester.getRect(
+          _messageItemFor(messages.last.id),
+        );
+        expect(
+          newestRect.bottom,
+          greaterThan(viewport.bottom - 64),
+          reason: 'the deferred repair lands the newest row at the composer',
+        );
+        expect(newestRect.bottom, lessThanOrEqualTo(viewport.bottom + 1));
+        final ScrollPosition repaired = _messageListScrollPosition(tester);
+        expect(
+          repaired.maxScrollExtent,
+          greaterThan(0),
+          reason: 'a demoted anchor reopens the trailing extent',
+        );
+        expect(
+          repaired.maxScrollExtent - repaired.pixels,
+          lessThanOrEqualTo(kMessageListReadBottomThreshold),
         );
 
         await _disposeMessageList(tester);
@@ -4375,7 +4594,7 @@ ScrollPosition _offstageMessageListPosition(WidgetTester tester) {
 }
 
 Future<void> _pumpMessageJump(WidgetTester tester) async {
-  await tester.pumpAndSettle();
+  await pumpFluxerFrames(tester);
 }
 
 Future<void> _pumpScrollToBottom(WidgetTester tester) async {

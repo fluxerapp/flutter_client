@@ -1468,6 +1468,186 @@ abstract class FluxerLocalizations {
   /// **'Themes unavailable'**
   String get embedThemeUnavailableButton;
 
+  /// Gift duration title for a lifetime Visionary entitlement.
+  ///
+  /// In en, this message translates to:
+  /// **'Visionary (lifetime {productName})'**
+  String embedGiftVisionaryLifetime(String productName);
+
+  /// Gift duration title in days.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 day of {productName}} other{{count} days of {productName}}}'**
+  String embedGiftDurationDays(int count, String productName);
+
+  /// Gift duration title in weeks.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 week of {productName}} other{{count} weeks of {productName}}}'**
+  String embedGiftDurationWeeks(int count, String productName);
+
+  /// Gift duration title in months.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 month of {productName}} other{{count} months of {productName}}}'**
+  String embedGiftDurationMonths(int count, String productName);
+
+  /// Gift duration title in years.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 year of {productName}} other{{count} years of {productName}}}'**
+  String embedGiftDurationYears(int count, String productName);
+
+  /// Sender label on a gift code embed.
+  ///
+  /// In en, this message translates to:
+  /// **'From {creatorTag}'**
+  String embedGiftFrom(String creatorTag);
+
+  /// Help text on a redeemable gift embed.
+  ///
+  /// In en, this message translates to:
+  /// **'Click to claim your gift!'**
+  String get embedGiftClaimHelp;
+
+  /// Help text when a gift code has already been claimed.
+  ///
+  /// In en, this message translates to:
+  /// **'Already redeemed'**
+  String get embedGiftAlreadyRedeemed;
+
+  /// Help text on a gift embed for unclaimed accounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim your account to redeem this gift.'**
+  String get embedGiftClaimAccountHelp;
+
+  /// Primary button on a redeemable gift embed.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim gift'**
+  String get embedGiftClaim;
+
+  /// Disabled button label after a gift is claimed.
+  ///
+  /// In en, this message translates to:
+  /// **'Gift claimed'**
+  String get embedGiftClaimed;
+
+  /// Button on a gift embed for unclaimed accounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim account to redeem'**
+  String get embedGiftClaimAccount;
+
+  /// Title when a gift code cannot be resolved.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown gift'**
+  String get embedGiftUnknownTitle;
+
+  /// Subtitle when a gift code cannot be resolved.
+  ///
+  /// In en, this message translates to:
+  /// **'This gift code is invalid or already claimed.'**
+  String get embedGiftUnknownSubtitle;
+
+  /// Disabled button when a gift cannot be claimed.
+  ///
+  /// In en, this message translates to:
+  /// **'Gift unavailable'**
+  String get embedGiftUnavailable;
+
+  /// Help text on the gift accept modal for a claimable gift.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim your gift to activate your {productName} subscription!'**
+  String giftAcceptClaimSubscription(String productName);
+
+  /// Help text on the gift accept modal when already redeemed.
+  ///
+  /// In en, this message translates to:
+  /// **'This gift has already been claimed.'**
+  String get giftAcceptAlreadyClaimed;
+
+  /// Secondary dismiss button on the gift accept modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Maybe later'**
+  String get giftAcceptMaybeLater;
+
+  /// Success toast after redeeming a gift code.
+  ///
+  /// In en, this message translates to:
+  /// **'Gift redeemed!'**
+  String get giftRedeemedToast;
+
+  /// Error modal title for an invalid gift code.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid gift code'**
+  String get giftRedeemInvalidTitle;
+
+  /// Error modal body for an invalid gift code.
+  ///
+  /// In en, this message translates to:
+  /// **'This code is invalid or already used.'**
+  String get giftRedeemInvalidMessage;
+
+  /// Error modal title when a gift was already redeemed.
+  ///
+  /// In en, this message translates to:
+  /// **'Gift already redeemed'**
+  String get giftRedeemAlreadyRedeemedTitle;
+
+  /// Error modal body when a gift was already redeemed.
+  ///
+  /// In en, this message translates to:
+  /// **'This code was already redeemed.'**
+  String get giftRedeemAlreadyRedeemedMessage;
+
+  /// Error modal title when a gift code does not exist.
+  ///
+  /// In en, this message translates to:
+  /// **'Gift not found'**
+  String get giftRedeemNotFoundTitle;
+
+  /// Error modal body when a gift code does not exist.
+  ///
+  /// In en, this message translates to:
+  /// **'This code doesn\'t exist.'**
+  String get giftRedeemNotFoundMessage;
+
+  /// Generic gift redeem error modal title.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to redeem gift'**
+  String get giftRedeemFailedTitle;
+
+  /// Generic gift redeem error modal body.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t redeem this gift. Try again.'**
+  String get giftRedeemFailedMessage;
+
+  /// Error modal title when a Visionary user cannot redeem Plutonium.
+  ///
+  /// In en, this message translates to:
+  /// **'Can\'t redeem this gift'**
+  String get giftVisionaryCannotRedeemTitle;
+
+  /// Error modal body when a Visionary user cannot redeem Plutonium.
+  ///
+  /// In en, this message translates to:
+  /// **'Visionary accounts can\'t redeem Plutonium gifts. Copy the link to share it with a friend instead.'**
+  String get giftVisionaryCannotRedeemMessage;
+
+  /// Button to copy a gift share URL.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy gift link'**
+  String get giftCopyLink;
+
   /// Title for guild privacy settings bottom sheet.
   ///
   /// In en, this message translates to:
@@ -5842,6 +6022,18 @@ abstract class FluxerLocalizations {
   /// **'Pause'**
   String get voiceMessagePause;
 
+  /// Accessibility hint when increasing voice message seek position.
+  ///
+  /// In en, this message translates to:
+  /// **'Seek forward'**
+  String get voiceMessageSeekForward;
+
+  /// Accessibility hint when decreasing voice message seek position.
+  ///
+  /// In en, this message translates to:
+  /// **'Seek backward'**
+  String get voiceMessageSeekBackward;
+
   /// Error when trimmed voice message is too short.
   ///
   /// In en, this message translates to:
@@ -7384,29 +7576,23 @@ abstract class FluxerLocalizations {
   /// **'Adjust how vivid theme colors appear across the app.'**
   String get accessibilitySaturationDescription;
 
-  /// Section title for unread-indicator accessibility settings.
+  /// Section title for visual accessibility settings.
   ///
   /// In en, this message translates to:
-  /// **'Unread indicators'**
-  String get accessibilityUnreadGroupTitle;
+  /// **'Visual'**
+  String get accessibilityVisualGroupTitle;
 
-  /// Section description for unread-indicator accessibility settings.
+  /// Toggle label for always underlining links in messages.
   ///
   /// In en, this message translates to:
-  /// **'Control how unread message indicators are displayed.'**
-  String get accessibilityUnreadGroupDescription;
+  /// **'Always underline links'**
+  String get accessibilityAlwaysUnderlineLinksLabel;
 
-  /// Toggle label for showing a faded unread indicator on muted channels.
+  /// Toggle label for dimming strikethrough text in messages.
   ///
   /// In en, this message translates to:
-  /// **'Show faded unread indicator on muted channels'**
-  String get accessibilityShowFadedUnreadOnMutedChannelsLabel;
-
-  /// Toggle description for showing a faded unread indicator on muted channels.
-  ///
-  /// In en, this message translates to:
-  /// **'Display a dimmed unread indicator next to muted direct messages and channels so you can still see at a glance when there\'s activity.'**
-  String get accessibilityShowFadedUnreadOnMutedChannelsDescription;
+  /// **'Dim strikethrough text'**
+  String get accessibilityDimStrikethroughTextLabel;
 
   /// Section title for DM message preview accessibility settings.
   ///
@@ -7462,41 +7648,411 @@ abstract class FluxerLocalizations {
   /// **'Don\'t show message previews in the DM list'**
   String get accessibilityDmMessagePreviewNoneDescription;
 
-  /// Section title for media button visibility settings on the accessibility settings page.
+  /// Section title for screen reader accessibility settings.
   ///
   /// In en, this message translates to:
-  /// **'Media Buttons'**
-  String get accessibilityMediaButtonsGroupTitle;
+  /// **'Screen reader'**
+  String get accessibilityScreenReaderGroupTitle;
 
-  /// Section description for media button visibility settings on the accessibility settings page.
+  /// Section description for screen reader accessibility settings.
   ///
   /// In en, this message translates to:
-  /// **'Customize which buttons appear on media attachments and embeds.'**
-  String get accessibilityMediaButtonsGroupDescription;
+  /// **'Control how Fluxer works with screen readers.'**
+  String get accessibilityScreenReaderGroupDescription;
 
-  /// Toggle label for showing the delete button on media.
+  /// Toggle label for announcing incoming messages to screen readers.
   ///
   /// In en, this message translates to:
-  /// **'Show delete button'**
-  String get accessibilityShowMediaDeleteButtonLabel;
+  /// **'Announce new messages'**
+  String get accessibilityScreenReaderAnnounceNewMessagesLabel;
 
-  /// Toggle label for showing the download button on media.
+  /// Toggle description for announcing incoming messages to screen readers.
   ///
   /// In en, this message translates to:
-  /// **'Show download button'**
-  String get accessibilityShowMediaDownloadButtonLabel;
+  /// **'Let screen readers announce new messages as they arrive in the open channel. Notification sounds are unaffected.'**
+  String get accessibilityScreenReaderAnnounceNewMessagesDescription;
 
-  /// Toggle label for showing the favorite button on media.
+  /// Section title for text-to-speech accessibility settings.
   ///
   /// In en, this message translates to:
-  /// **'Show favorite button'**
-  String get accessibilityShowMediaFavoriteButtonLabel;
+  /// **'Text-to-speech'**
+  String get accessibilityTtsGroupTitle;
 
-  /// Toggle label for showing the suppress embeds button on media.
+  /// Description under the speech playback speed label.
   ///
   /// In en, this message translates to:
-  /// **'Show suppress embeds button'**
-  String get accessibilityShowSuppressEmbedsButtonLabel;
+  /// **'Choose a speed for spoken text.'**
+  String get accessibilityTtsGroupDescription;
+
+  /// Label for the TTS speech rate selector.
+  ///
+  /// In en, this message translates to:
+  /// **'Speech playback speed'**
+  String get accessibilityTtsSpeechPlaybackSpeedLabel;
+
+  /// Button label to play the TTS sample line.
+  ///
+  /// In en, this message translates to:
+  /// **'Play sample'**
+  String get accessibilityTtsPlaySampleLabel;
+
+  /// Button label to stop the TTS sample playback.
+  ///
+  /// In en, this message translates to:
+  /// **'Silence sample'**
+  String get accessibilityTtsSilenceSampleLabel;
+
+  /// Label for the no-op preview button on the accessibility settings page.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview button'**
+  String get accessibilityPreviewButtonLabel;
+
+  /// Sample message content in the accessibility preview.
+  ///
+  /// In en, this message translates to:
+  /// **'This shows how links appear: {linkPreviewExampleUrl}'**
+  String accessibilityPreviewLinksMessage(String linkPreviewExampleUrl);
+
+  /// Fallback display name for the accessibility preview message author.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview User'**
+  String get accessibilityPreviewUserName;
+
+  /// Section title for keyboard accessibility settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Keyboard'**
+  String get accessibilityKeyboardGroupTitle;
+
+  /// Toggle label for showing a focus ring on the chat textarea.
+  ///
+  /// In en, this message translates to:
+  /// **'Show focus ring on chat textarea'**
+  String get accessibilityShowTextareaFocusRingLabel;
+
+  /// Toggle label for Escape exiting keyboard mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Escape key exits keyboard mode'**
+  String get accessibilityEscapeExitsKeyboardModeLabel;
+
+  /// Toggle label for showing keyboard shortcuts in context menus.
+  ///
+  /// In en, this message translates to:
+  /// **'Show context menu shortcuts'**
+  String get accessibilityShowContextMenuShortcutsLabel;
+
+  /// Toggle label for confirming before starting calls.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm before starting calls'**
+  String get accessibilityConfirmBeforeStartingCallsLabel;
+
+  /// Section title for animation accessibility settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Animation'**
+  String get accessibilityAnimationGroupTitle;
+
+  /// Note shown above animation controls when reduced motion is active.
+  ///
+  /// In en, this message translates to:
+  /// **'Reduced motion is on, so content animations are paused by default. You can still turn any of these back on to keep it playing.'**
+  String get accessibilityReducedMotionActiveNote;
+
+  /// Toggle label for playing animated emojis.
+  ///
+  /// In en, this message translates to:
+  /// **'Play animated emojis'**
+  String get accessibilityPlayAnimatedEmojisLabel;
+
+  /// Toggle label for GIF autoplay on mobile.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically play GIFs'**
+  String get accessibilityAutoPlayGifsMobileLabel;
+
+  /// Toggle label for GIF autoplay on desktop.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically play GIFs when {productName} is focused'**
+  String accessibilityAutoPlayGifsDesktopLabel(String productName);
+
+  /// Description when an animation setting overrides reduced motion.
+  ///
+  /// In en, this message translates to:
+  /// **'Playing despite reduced motion.'**
+  String get accessibilityPlayingDespiteReducedMotion;
+
+  /// Description for emoji toggle while reduced motion is active.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused by reduced motion. Turn on to keep animated emojis playing.'**
+  String get accessibilityPausedEmojiByReducedMotion;
+
+  /// Description for GIF toggle while reduced motion is active.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused by reduced motion. Turn on to keep GIFs playing.'**
+  String get accessibilityPausedGifByReducedMotion;
+
+  /// Helper text for GIF autoplay default on mobile.
+  ///
+  /// In en, this message translates to:
+  /// **'Defaults to off on mobile to preserve battery life and data usage.'**
+  String get accessibilityGifDefaultsOffOnMobile;
+
+  /// Subsection title for sticker animation preference.
+  ///
+  /// In en, this message translates to:
+  /// **'Sticker animations'**
+  String get accessibilityStickerAnimationsTitle;
+
+  /// Accessibility label for the sticker animation radio group.
+  ///
+  /// In en, this message translates to:
+  /// **'Sticker animation preference'**
+  String get accessibilityStickerAnimationPreferenceLabel;
+
+  /// Radio option for always animating stickers.
+  ///
+  /// In en, this message translates to:
+  /// **'Always animate'**
+  String get accessibilityStickerAlwaysAnimateName;
+
+  /// Description for always animating stickers.
+  ///
+  /// In en, this message translates to:
+  /// **'Stickers will always animate'**
+  String get accessibilityStickerAlwaysAnimateDescription;
+
+  /// Radio option for animating stickers on interaction.
+  ///
+  /// In en, this message translates to:
+  /// **'Animate on interaction'**
+  String get accessibilityStickerAnimateOnInteractionName;
+
+  /// Description for sticker animate-on-press on touch devices.
+  ///
+  /// In en, this message translates to:
+  /// **'Stickers will animate when you press them'**
+  String get accessibilityStickerAnimateOnPressDescription;
+
+  /// Description for sticker animate-on-hover on desktop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stickers will animate when you hover or interact with them'**
+  String get accessibilityStickerAnimateOnHoverDescription;
+
+  /// Radio option for never animating stickers.
+  ///
+  /// In en, this message translates to:
+  /// **'Never animate'**
+  String get accessibilityStickerNeverAnimateName;
+
+  /// Description for never animating stickers.
+  ///
+  /// In en, this message translates to:
+  /// **'Stickers will never animate'**
+  String get accessibilityStickerNeverAnimateDescription;
+
+  /// Description when stickers always-animate overrides reduced motion.
+  ///
+  /// In en, this message translates to:
+  /// **'Always animating despite reduced motion.'**
+  String get accessibilityStickersAlwaysDespiteReducedMotion;
+
+  /// Description for stickers while reduced motion is active.
+  ///
+  /// In en, this message translates to:
+  /// **'Reduced motion limits stickers to animate on interaction. Choose always animate to override.'**
+  String get accessibilityStickersReducedMotionHint;
+
+  /// Helper text for sticker animation default on mobile.
+  ///
+  /// In en, this message translates to:
+  /// **'Defaults to animate on interaction on mobile to preserve battery life.'**
+  String get accessibilityStickersDefaultsOnMobile;
+
+  /// Section title for motion accessibility settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Motion'**
+  String get accessibilityMotionGroupTitle;
+
+  /// Toggle label for syncing reduced motion with the operating system setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync reduced motion setting with system'**
+  String get accessibilitySyncReducedMotionWithSystemLabel;
+
+  /// Toggle description for syncing reduced motion with the operating system setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Use this device\'s system reduced motion preference, or customize it below.'**
+  String get accessibilitySyncReducedMotionWithSystemDescription;
+
+  /// Toggle label for reducing motion in Fluxer.
+  ///
+  /// In en, this message translates to:
+  /// **'Reduce motion'**
+  String get accessibilityReducedMotionOverrideLabel;
+
+  /// Reduce motion description while synced with system.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable animations and transitions. Currently controlled by your system setting.'**
+  String get accessibilityReducedMotionOverrideSyncedDescription;
+
+  /// Reduce motion description when not synced with system.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable animations and transitions throughout the app.'**
+  String get accessibilityReducedMotionOverrideManualDescription;
+
+  /// Extra hint under reduce motion while reduced motion is active.
+  ///
+  /// In en, this message translates to:
+  /// **'Animated emojis, GIFs and stickers stay under your control in the Animation tab.'**
+  String get accessibilityReducedMotionAnimationTabHint;
+
+  /// Title for the confirm-before-starting-calls dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Start call?'**
+  String get accessibilityConfirmStartCallTitle;
+
+  /// Description for the confirm-before-starting-calls dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to start this call?'**
+  String get accessibilityConfirmStartCallDescription;
+
+  /// Confirm button for starting a call.
+  ///
+  /// In en, this message translates to:
+  /// **'Start call'**
+  String get accessibilityConfirmStartCallConfirmLabel;
+
+  /// Description for the TTS sample playback controls.
+  ///
+  /// In en, this message translates to:
+  /// **'Hear the sample line spoken with your chosen speed.'**
+  String get accessibilityTtsSampleDescription;
+
+  /// Sample line spoken when previewing TTS speed.
+  ///
+  /// In en, this message translates to:
+  /// **'Doc, I\'m from the future. I came here in a time machine that you invented. Now, I need your help to get back to the year 1985.'**
+  String get accessibilityTtsSampleText;
+
+  /// Shown when TTS preview cannot run on the device.
+  ///
+  /// In en, this message translates to:
+  /// **'Speech synthesis is unavailable on this device.'**
+  String get accessibilityTtsUnsupportedDescription;
+
+  /// Shown when TTS playback fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Speech playback failed. Try again, or check that audio output is working.'**
+  String get accessibilityTtsPlaybackFailedDescription;
+
+  /// TTS substitution for unresolved user mentions.
+  ///
+  /// In en, this message translates to:
+  /// **'unknown user'**
+  String get ttsSubstitutionUnknownUser;
+
+  /// TTS substitution for unresolved role mentions.
+  ///
+  /// In en, this message translates to:
+  /// **'unknown role'**
+  String get ttsSubstitutionUnknownRole;
+
+  /// TTS substitution for unresolved channel mentions.
+  ///
+  /// In en, this message translates to:
+  /// **'unknown channel'**
+  String get ttsSubstitutionUnknownChannel;
+
+  /// TTS substitution for fenced code blocks.
+  ///
+  /// In en, this message translates to:
+  /// **'code block'**
+  String get ttsSubstitutionCodeBlock;
+
+  /// TTS substitution for spoiler content.
+  ///
+  /// In en, this message translates to:
+  /// **'spoiler'**
+  String get ttsSubstitutionSpoiler;
+
+  /// TTS substitution for custom emoji.
+  ///
+  /// In en, this message translates to:
+  /// **'emoji {emojiName}'**
+  String ttsSubstitutionEmoji(String emojiName);
+
+  /// TTS substitution for slash command invocations.
+  ///
+  /// In en, this message translates to:
+  /// **'slash {commandName}'**
+  String ttsSubstitutionSlashCommand(String commandName);
+
+  /// TTS sentence for a normal message.
+  ///
+  /// In en, this message translates to:
+  /// **'{authorName} said: {formatted}'**
+  String ttsAuthorSaid(String authorName, String formatted);
+
+  /// TTS sentence for a reply message.
+  ///
+  /// In en, this message translates to:
+  /// **'Replying to {replyAuthorName}, {authorName} said: {formatted}'**
+  String ttsReplyingToSaid(
+    String replyAuthorName,
+    String authorName,
+    String formatted,
+  );
+
+  /// TTS sentence for non-text-only messages.
+  ///
+  /// In en, this message translates to:
+  /// **'{authorName} {description}'**
+  String ttsAuthorDescription(String authorName, String description);
+
+  /// TTS phrase for sticker-only messages.
+  ///
+  /// In en, this message translates to:
+  /// **'sent a sticker'**
+  String get ttsSentSticker;
+
+  /// TTS phrase for a single attachment-only message.
+  ///
+  /// In en, this message translates to:
+  /// **'sent an attachment'**
+  String get ttsSentAttachment;
+
+  /// TTS phrase for multi-attachment messages.
+  ///
+  /// In en, this message translates to:
+  /// **'sent {count} attachments'**
+  String ttsSentAttachments(int count);
+
+  /// TTS phrase for embed-only messages.
+  ///
+  /// In en, this message translates to:
+  /// **'sent an embed'**
+  String get ttsSentEmbed;
+
+  /// Screen reader announcement spoken when a new message arrives.
+  ///
+  /// In en, this message translates to:
+  /// **'{author} sent {summary}'**
+  String messageScreenReaderAnnouncement(String author, String summary);
 
   /// DM list row preview text when the most recent message has only attachments.
   ///
@@ -8684,6 +9240,18 @@ abstract class FluxerLocalizations {
   /// **'Copy Message'**
   String get chatMessageCopyText;
 
+  /// Action label for reading a message aloud.
+  ///
+  /// In en, this message translates to:
+  /// **'Speak message'**
+  String get chatMessageSpeak;
+
+  /// Action label for stopping TTS playback.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop speaking'**
+  String get chatMessageStopSpeaking;
+
   /// Action label for pinning a message.
   ///
   /// In en, this message translates to:
@@ -9545,13 +10113,13 @@ abstract class FluxerLocalizations {
   /// On state suffix appended to the reply bar mention toggle label.
   ///
   /// In en, this message translates to:
-  /// **'On'**
+  /// **'ON'**
   String get chatReplyMentionOn;
 
   /// Off state suffix appended to the reply bar mention toggle label.
   ///
   /// In en, this message translates to:
-  /// **'Off'**
+  /// **'OFF'**
   String get chatReplyMentionOff;
 
   /// Accessible label for the cancel-reply button in the reply bar.
@@ -9667,6 +10235,18 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'{current}/{total}'**
   String mediaViewerAttachmentIndex(int current, int total);
+
+  /// Accessibility label for a thumbnail in the media viewer strip.
+  ///
+  /// In en, this message translates to:
+  /// **'Attachment {index}'**
+  String mediaViewerAttachmentThumbnail(int index);
+
+  /// Accessibility label for dismissing the media viewer by tapping the backdrop.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get mediaViewerDismissBackdrop;
 
   /// Accessibility label for the tap surface that shows or hides inline video playback controls.
   ///
@@ -11916,6 +12496,96 @@ abstract class FluxerLocalizations {
   /// **'Message'**
   String get composerHint;
 
+  /// Accessibility label for the composer button that opens the emoji and media picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Open expression picker'**
+  String get composerOpenExpressionPicker;
+
+  /// Accessibility label for the composer button that closes the expression picker and shows the keyboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Show keyboard'**
+  String get composerShowKeyboard;
+
+  /// Screen reader label for a chat message row.
+  ///
+  /// In en, this message translates to:
+  /// **'{author}, {summary}'**
+  String messageAccessibilityLabel(String author, String summary);
+
+  /// Screen reader suffix when a message is still sending.
+  ///
+  /// In en, this message translates to:
+  /// **', sending'**
+  String get messageAccessibilitySendingSuffix;
+
+  /// Screen reader suffix when a message failed to send.
+  ///
+  /// In en, this message translates to:
+  /// **', failed to send'**
+  String get messageAccessibilityFailedSuffix;
+
+  /// Screen reader summary for a message with attachments but no text.
+  ///
+  /// In en, this message translates to:
+  /// **'an attachment'**
+  String get messageAccessibilityAttachmentSummary;
+
+  /// Screen reader summary for a message with multiple attachments and no text.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} attachments'**
+  String messageAccessibilityAttachmentsSummary(int count);
+
+  /// Screen reader summary for a message with an image attachment or embed.
+  ///
+  /// In en, this message translates to:
+  /// **'an image'**
+  String get messageAccessibilityImageSummary;
+
+  /// Screen reader summary for a message with a video attachment or embed.
+  ///
+  /// In en, this message translates to:
+  /// **'a video'**
+  String get messageAccessibilityVideoSummary;
+
+  /// Screen reader summary for a message with an audio attachment.
+  ///
+  /// In en, this message translates to:
+  /// **'an audio file'**
+  String get messageAccessibilityAudioSummary;
+
+  /// Screen reader summary for a message with a sticker and no text.
+  ///
+  /// In en, this message translates to:
+  /// **'sticker {name}'**
+  String messageAccessibilityStickerSummary(String name);
+
+  /// Screen reader summary for a message with a single file attachment and no text.
+  ///
+  /// In en, this message translates to:
+  /// **'file {filename}'**
+  String messageAccessibilityFileSummary(String filename);
+
+  /// Screen reader summary for a message with a spoiler attachment and no text.
+  ///
+  /// In en, this message translates to:
+  /// **'a spoiler attachment'**
+  String get messageAccessibilitySpoilerAttachmentSummary;
+
+  /// Screen reader summary for a message with embeds but no text.
+  ///
+  /// In en, this message translates to:
+  /// **'an embed'**
+  String get messageAccessibilityEmbedSummary;
+
+  /// Screen reader summary fallback for a message without visible text.
+  ///
+  /// In en, this message translates to:
+  /// **'a message'**
+  String get messageAccessibilityEmptySummary;
+
   /// Short subtitle in channel details for personal notes.
   ///
   /// In en, this message translates to:
@@ -12467,6 +13137,96 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Default replies to omit the @mention, and warn the sender if they enable it'**
   String get notificationsMentionPreferNoMentionDescription;
+
+  /// Notifications settings section title for TTS controls.
+  ///
+  /// In en, this message translates to:
+  /// **'Text-to-speech notifications'**
+  String get notificationsTtsSectionTitle;
+
+  /// Toggle label for enabling /tts speech playback.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable /tts speech playback'**
+  String get notificationsTtsEnableCommandLabel;
+
+  /// Toggle description for enabling /tts speech playback.
+  ///
+  /// In en, this message translates to:
+  /// **'Let /tts read your message aloud. Disabling the setting keeps those commands as regular text.'**
+  String get notificationsTtsEnableCommandDescription;
+
+  /// Prefix before the Accessibility settings link in TTS notifications settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust playback speed in '**
+  String get notificationsTtsAccessibilityLinkPrefix;
+
+  /// Link label that opens Accessibility settings from TTS notifications settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Accessibility'**
+  String get notificationsTtsAccessibilityLinkLabel;
+
+  /// Suffix after the Accessibility settings link in TTS notifications settings.
+  ///
+  /// In en, this message translates to:
+  /// **'.'**
+  String get notificationsTtsAccessibilityLinkSuffix;
+
+  /// Title for automatic TTS narration mode settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic message narration'**
+  String get notificationsTtsAutoNarrationTitle;
+
+  /// Description for automatic TTS narration mode settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Converts incoming content to speech, regardless of whether it came from /tts.'**
+  String get notificationsTtsAutoNarrationDescription;
+
+  /// TTS narration mode: speak messages from every channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Every channel'**
+  String get notificationsTtsModeAllChannelsName;
+
+  /// Description for speaking messages from every channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Let every incoming message be spoken, regardless of which channel is open.'**
+  String get notificationsTtsModeAllChannelsDescription;
+
+  /// TTS narration mode: speak only the active channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Active channel only'**
+  String get notificationsTtsModeCurrentChannelName;
+
+  /// Description for speaking only the active channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Narrates only the channel you\'re viewing. Narration follows you between channels.'**
+  String get notificationsTtsModeCurrentChannelDescription;
+
+  /// TTS narration mode: never speak automatically.
+  ///
+  /// In en, this message translates to:
+  /// **'Never automatically'**
+  String get notificationsTtsModeNeverName;
+
+  /// Description for never speaking automatically.
+  ///
+  /// In en, this message translates to:
+  /// **'Remain silent unless someone runs /tts manually.'**
+  String get notificationsTtsModeNeverDescription;
+
+  /// Accessibility label for the TTS narration mode radio group.
+  ///
+  /// In en, this message translates to:
+  /// **'Speak all messages out loud'**
+  String get notificationsTtsModeAriaLabel;
 
   /// Notifications settings section title for sound controls.
   ///
@@ -14413,6 +15173,138 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Collapse {folderName}'**
   String guildNavbarCollapseFolder(String folderName);
+
+  /// Screen reader suffix when a guild navbar item is selected.
+  ///
+  /// In en, this message translates to:
+  /// **'selected'**
+  String get guildNavbarGuildSelected;
+
+  /// Screen reader suffix when a guild navbar item has unread channels.
+  ///
+  /// In en, this message translates to:
+  /// **'unread'**
+  String get guildNavbarGuildUnread;
+
+  /// Screen reader suffix when a guild navbar item has mention notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 mention} other{{count} mentions}}'**
+  String guildNavbarGuildMentions(int count);
+
+  /// Screen reader suffix when a channel, DM, or favorites item is muted.
+  ///
+  /// In en, this message translates to:
+  /// **'muted'**
+  String get navigationItemMuted;
+
+  /// Screen reader label for the show-password toggle on auth forms.
+  ///
+  /// In en, this message translates to:
+  /// **'Show password'**
+  String get authShowPassword;
+
+  /// Screen reader label for the hide-password toggle on auth forms.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide password'**
+  String get authHidePassword;
+
+  /// Screen reader label for the chat message list loading skeleton.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading messages'**
+  String get chatLoadingMessages;
+
+  /// Screen reader label for messaging a friend from the friends list.
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get friendsMessageFriend;
+
+  /// Screen reader label for the friend overflow menu button.
+  ///
+  /// In en, this message translates to:
+  /// **'Friend actions'**
+  String get friendsFriendActions;
+
+  /// Screen reader label for accepting a friend request.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept friend request'**
+  String get friendsAcceptRequest;
+
+  /// Screen reader label for declining a friend request.
+  ///
+  /// In en, this message translates to:
+  /// **'Decline friend request'**
+  String get friendsDeclineRequest;
+
+  /// Screen reader label for canceling an outgoing friend request.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel friend request'**
+  String get friendsCancelRequest;
+
+  /// Screen reader label for the friends list inbox button.
+  ///
+  /// In en, this message translates to:
+  /// **'Inbox'**
+  String get friendsOpenInbox;
+
+  /// Screen reader label for removing a friend from a profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove friend'**
+  String get profileRemoveFriend;
+
+  /// Screen reader label for unblocking a user from a profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Unblock user'**
+  String get profileUnblockUser;
+
+  /// Screen reader label for accepting a friend request from a profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept friend request'**
+  String get profileAcceptFriendRequest;
+
+  /// Screen reader label for canceling an outgoing friend request from a profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel friend request'**
+  String get profileCancelFriendRequest;
+
+  /// Screen reader label for sending a friend request from a profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Add friend'**
+  String get profileSendFriendRequest;
+
+  /// Screen reader label for the account row overflow menu.
+  ///
+  /// In en, this message translates to:
+  /// **'Account options'**
+  String get accountOverflowMenu;
+
+  /// Bottom navigation label for the home tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get navHome;
+
+  /// Bottom navigation label for the notifications tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get navNotifications;
+
+  /// Bottom navigation label for the profile tab.
+  ///
+  /// In en, this message translates to:
+  /// **'You'**
+  String get navYou;
 
   /// Title of the community folder settings modal.
   ///

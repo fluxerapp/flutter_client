@@ -81,6 +81,9 @@ class _ChannelSearchFilterPillState extends State<ChannelSearchFilterPill> {
                         padding: EdgeInsets.zero,
                         visualDensity: VisualDensity.compact,
                         iconSize: 10,
+                        tooltip: MaterialLocalizations.of(
+                          context,
+                        ).closeButtonTooltip,
                         onPressed: widget.onRemove,
                         icon: PhosphorIcon(
                           PhosphorIconsBold.x,

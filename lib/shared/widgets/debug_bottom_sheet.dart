@@ -48,8 +48,7 @@ Future<void> showDebugBottomSheet(
                   language: 'json',
                   theme: isDark ? vs2015Theme : githubTheme,
                   padding: const EdgeInsets.all(12),
-                  textStyle: const TextStyle(
-                    fontFamily: 'monospace',
+                  textStyle: sheetContext.textStyles.codeText.copyWith(
                     fontSize: 13,
                   ),
                 ),

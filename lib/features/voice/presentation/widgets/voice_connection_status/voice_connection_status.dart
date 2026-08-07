@@ -78,10 +78,9 @@ class _FailedVoiceConnectionStatus extends ConsumerWidget {
               },
               child: Text(
                 l10n.voiceConnectionFailed,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
+                style: context.textStyles.categoryName.copyWith(
                   height: 18 / 14,
+                  color: context.colors.statusDanger,
                 ),
               ),
             ),
@@ -266,10 +265,9 @@ class _ResolvedVoiceConnectionStatus extends ConsumerWidget {
                         onPressed: toggle,
                         child: Text(
                           statusText,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
+                          style: context.textStyles.categoryName.copyWith(
                             height: 18 / 14,
+                            color: statusColor,
                           ),
                         ),
                       ),
@@ -307,9 +305,8 @@ class _ResolvedVoiceConnectionStatus extends ConsumerWidget {
               onTap: () => _navigateToChannel(context),
               child: Text.rich(
                 TextSpan(
-                  style: TextStyle(
+                  style: context.textStyles.timestamp.copyWith(
                     color: colors.textSecondary,
-                    fontSize: 12,
                     height: 16 / 12,
                   ),
                   children: _isGuildVoice
@@ -342,9 +339,8 @@ class _ResolvedVoiceConnectionStatus extends ConsumerWidget {
                     message: connectionId,
                     child: Text(
                       connectionId,
-                      style: TextStyle(
+                      style: context.textStyles.timestamp.copyWith(
                         color: colors.textSecondary,
-                        fontSize: 12,
                         height: 16 / 12,
                       ),
                       maxLines: 1,

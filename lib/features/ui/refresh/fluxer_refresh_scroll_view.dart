@@ -147,9 +147,13 @@ Widget fluxerRefreshScrollViewPreview() {
                   8,
                   (int i) => Padding(
                     padding: const EdgeInsets.only(bottom: 8),
-                    child: Text(
-                      'Pull from top — row ${i + 1}',
-                      style: const TextStyle(color: Colors.white70),
+                    child: Builder(
+                      builder: (BuildContext context) => Text(
+                        'Pull from top — row ${i + 1}',
+                        style: context.textStyles.bodyMedium.copyWith(
+                          color: Colors.white70,
+                        ),
+                      ),
                     ),
                   ),
                 ),

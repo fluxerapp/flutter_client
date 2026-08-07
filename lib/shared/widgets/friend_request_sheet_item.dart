@@ -49,19 +49,14 @@ class FriendRequestSheetItem extends ConsumerWidget {
               children: [
                 Text(
                   friend.displayName,
-                  style: TextStyle(
-                    color: context.colors.textPrimary,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                  ),
+                  style: context.textStyles.channelName,
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 2),
                 Text(
                   statusText,
-                  style: TextStyle(
+                  style: context.textStyles.bodySmall.copyWith(
                     color: context.colors.textTertiary,
-                    fontSize: 14,
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),

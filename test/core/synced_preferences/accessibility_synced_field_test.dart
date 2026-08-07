@@ -76,6 +76,27 @@ void main() {
       expect(restored.customThemeCss, isNull);
     });
 
+    test('roundtrips screen reader announce preference', () {
+      const local = AccessibilityLocalState(
+        hideKeyboardHints: false,
+        channelTypingIndicatorMode: ChannelTypingIndicatorMode.avatars,
+        showSelectedChannelTypingIndicator: false,
+        showFadedUnreadOnMutedChannels: false,
+        dmMessagePreviewMode: DmMessagePreviewMode.all,
+        showFavorites: true,
+        useSystemLocaleForTimeFormat: false,
+        messageGroupSpacing: 16,
+        compactMessageGroupSpacing: 0,
+        saturationFactor: 1,
+        customThemeCss: null,
+        screenReaderAnnounceNewMessages: true,
+        advanced: kDefaultAdvancedAccessibility,
+      );
+      final proto = AccessibilitySyncedField.toProto(local);
+      final restored = AccessibilitySyncedField.fromProto(proto);
+      expect(restored.screenReaderAnnounceNewMessages, isTrue);
+    });
+
     test('toProtoForPush preserves desktop-only fields from wire base', () {
       const local = AccessibilityLocalState(
         hideKeyboardHints: true,
@@ -96,6 +117,8 @@ void main() {
       final wireBase = accessibility_pb.AccessibilitySettings(
         showMessageSendButton: true,
         autoSendKlipyGifs: true,
+        syncReducedMotionWithSystem: false,
+        reducedMotionOverride: true,
       );
       final pushed = AccessibilitySyncedField.toProtoForPush(
         local: local,
@@ -104,6 +127,52 @@ void main() {
       expect(pushed.showMessageSendButton, isTrue);
       expect(pushed.autoSendKlipyGifs, isTrue);
       expect(pushed.hideKeyboardHints, isTrue);
+      expect(pushed.syncReducedMotionWithSystem, isTrue);
+      expect(pushed.reducedMotionOverride, isFalse);
+    });
+
+    test('roundtrips motion and underline accessibility fields', () {
+      const local = AccessibilityLocalState(
+        hideKeyboardHints: false,
+        channelTypingIndicatorMode: ChannelTypingIndicatorMode.avatars,
+        showSelectedChannelTypingIndicator: false,
+        showFadedUnreadOnMutedChannels: false,
+        dmMessagePreviewMode: DmMessagePreviewMode.all,
+        showFavorites: true,
+        useSystemLocaleForTimeFormat: false,
+        messageGroupSpacing: 16,
+        compactMessageGroupSpacing: 0,
+        saturationFactor: 1,
+        customThemeCss: null,
+        alwaysUnderlineLinks: true,
+        dimStrikethroughText: false,
+        showTextareaFocusRing: false,
+        escapeExitsKeyboardMode: true,
+        showContextMenuShortcuts: true,
+        confirmBeforeStartingCalls: false,
+        syncReducedMotionWithSystem: false,
+        reducedMotionOverride: true,
+        mobileGifAutoplayOverridden: true,
+        mobileAnimateEmojiOverridden: true,
+        mobileStickerAnimationOverridden: true,
+        mobileAnimateEmojiValue: false,
+        advanced: kDefaultAdvancedAccessibility,
+      );
+      final proto = AccessibilitySyncedField.toProto(local);
+      final restored = AccessibilitySyncedField.fromProto(proto);
+      expect(restored.alwaysUnderlineLinks, isTrue);
+      expect(restored.dimStrikethroughText, isFalse);
+      expect(restored.showTextareaFocusRing, isFalse);
+      expect(restored.escapeExitsKeyboardMode, isTrue);
+      expect(restored.showContextMenuShortcuts, isTrue);
+      expect(restored.confirmBeforeStartingCalls, isFalse);
+      expect(restored.syncReducedMotionWithSystem, isFalse);
+      expect(restored.reducedMotionOverride, isTrue);
+      expect(restored.mobileGifAutoplayOverridden, isTrue);
+      expect(restored.mobileAnimateEmojiOverridden, isTrue);
+      expect(restored.mobileStickerAnimationOverridden, isTrue);
+      expect(restored.mobileGifAutoplayValue, isTrue);
+      expect(restored.mobileAnimateEmojiValue, isFalse);
     });
 
     test('toProtoForPush keeps wire custom theme css when local has none', () {

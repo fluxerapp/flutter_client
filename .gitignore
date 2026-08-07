@@ -35,6 +35,7 @@ migrate_working_dir/
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
+pubspec_overrides.yaml
 /build/
 packages/*/build/
 /coverage/

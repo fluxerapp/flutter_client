@@ -1,3 +1,6 @@
+@Tags(['slow'])
+library;
+
 import 'dart:async';
 import 'dart:convert';
 
@@ -2841,7 +2844,9 @@ void main() {
     // its layout republishes geometry with the fresh token.
     _updateViewport(container, nearLoadedTail: true);
     await _flushAsync();
-    await Future<void>.delayed(const Duration(milliseconds: 1200));
+    await container
+        .read(chatViewModelProvider.notifier)
+        .flushScheduledReadAckRetryForTest();
     await _flushAsync();
 
     final readState = await db.readStateDao.getReadState('channel-1');
@@ -3131,7 +3136,7 @@ void main() {
     _setViewportActive(container, channelId: 'channel-1');
     _updateViewport(container, nearLoadedTail: true);
     await _flushAsync();
-    await Future<void>.delayed(const Duration(seconds: 6));
+    await container.read(ackBatcherProvider).flushPending(force: true);
     await _flushAsync();
 
     expect(adapter.ackAttempts, greaterThanOrEqualTo(2));

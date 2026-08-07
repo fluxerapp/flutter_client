@@ -8636,14 +8636,6 @@
             }
         }
     },
-    "guildSettingsDiscoveryFormTitle": "Žádost",
-    "@guildSettingsDiscoveryFormTitle": {
-        "description": "Title for discovery application form."
-    },
-    "guildSettingsDiscoveryStatusTitle": "Stav",
-    "@guildSettingsDiscoveryStatusTitle": {
-        "description": "Title for discovery application status section."
-    },
     "guildSettingsDiscoveryCategory": "Kategorie",
     "@guildSettingsDiscoveryCategory": {
         "description": "Label for discovery category dropdown."

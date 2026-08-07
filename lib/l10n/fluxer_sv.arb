@@ -8636,14 +8636,6 @@
             }
         }
     },
-    "guildSettingsDiscoveryFormTitle": "Ansökan",
-    "@guildSettingsDiscoveryFormTitle": {
-        "description": "Title for discovery application form."
-    },
-    "guildSettingsDiscoveryStatusTitle": "Status",
-    "@guildSettingsDiscoveryStatusTitle": {
-        "description": "Title for discovery application status section."
-    },
     "guildSettingsDiscoveryCategory": "Kategori",
     "@guildSettingsDiscoveryCategory": {
         "description": "Label for discovery category dropdown."

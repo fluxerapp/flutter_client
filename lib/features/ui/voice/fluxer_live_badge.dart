@@ -18,10 +18,9 @@ class FluxerLiveBadge extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
         child: Text(
           l10n.voiceLiveBadge.toUpperCase(),
-          style: TextStyle(
+          style: context.textStyles.smallText.copyWith(
             color: context.colors.textPrimary,
             fontSize: 10,
-            fontWeight: FontWeight.w600,
             height: 1,
           ),
         ),

@@ -700,8 +700,7 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
             if (leadingIcon != null) ...[leadingIcon, const SizedBox(width: 8)],
             Text(
               label,
-              style: TextStyle(
-                fontSize: 14,
+              style: context.textStyles.categoryName.copyWith(
                 fontWeight: FontWeight.bold,
                 color: colors.textPrimaryMuted,
               ),
@@ -852,7 +851,9 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
             Expanded(
               child: Text(
                 ':${sticker.name}:',
-                style: TextStyle(fontSize: 14, color: colors.textPrimary),
+                style: context.textStyles.bodySmall.copyWith(
+                  color: colors.textPrimary,
+                ),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
@@ -955,9 +956,8 @@ class _StickerGuildInitial extends StatelessWidget {
     alignment: Alignment.center,
     child: Text(
       name.isNotEmpty ? name[0].toUpperCase() : '?',
-      style: TextStyle(
+      style: context.textStyles.smallText.copyWith(
         fontSize: size <= 16 ? 8 : 11,
-        fontWeight: FontWeight.w600,
         color: colors.textPrimaryMuted,
       ),
     ),
@@ -993,19 +993,16 @@ class _StickerEmptyState extends StatelessWidget {
             Text(
               title,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: context.textStyles.channelName.copyWith(
                 color: colors.textPrimary,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
               ),
             ),
             const SizedBox(height: 4),
             Text(
               description,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: context.textStyles.bodySmall.copyWith(
                 color: colors.textPrimaryMuted.withValues(alpha: 0.8),
-                fontSize: 14,
               ),
             ),
           ],

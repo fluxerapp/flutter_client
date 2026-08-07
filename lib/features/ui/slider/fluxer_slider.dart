@@ -257,6 +257,14 @@ class _FluxerSliderState extends State<FluxerSlider> {
   }
 
   void _handleDragEnd(DragEndDetails details) {
+    _commitDragValue();
+  }
+
+  void _handleDragCancel() {
+    _commitDragValue();
+  }
+
+  void _commitDragValue() {
     if (widget.disabled) {
       return;
     }
@@ -466,6 +474,7 @@ class _FluxerSliderState extends State<FluxerSlider> {
                 onHorizontalDragUpdate: (details) =>
                     _handleDragUpdate(details, constraints),
                 onHorizontalDragEnd: _handleDragEnd,
+                onHorizontalDragCancel: _handleDragCancel,
                 onTapUp: (details) => _handleTrackTap(details, constraints),
                 child: SizedBox(
                   height: totalHeight,

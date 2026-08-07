@@ -50,6 +50,9 @@ class UserSettingsViewState {
   final bool renderEmbeds;
   final bool renderReactions;
   final RenderSpoilers renderSpoilers;
+  final bool gifAutoPlay;
+  final bool animateEmoji;
+  final StickerAnimationOptions animateStickers;
   final bool defaultHideMutedChannels;
 
   // TODO(M0n7y5): server-sync once the SDK ships
@@ -146,6 +149,9 @@ class UserSettingsViewState {
     this.renderEmbeds = true,
     this.renderReactions = true,
     this.renderSpoilers = RenderSpoilers.onClick,
+    this.gifAutoPlay = true,
+    this.animateEmoji = true,
+    this.animateStickers = StickerAnimationOptions.alwaysAnimate,
     this.defaultHideMutedChannels = false,
     this.showFadedUnreadOnMutedChannels = false,
     this.publicFlags = 0,
@@ -519,6 +525,9 @@ class UserSettingsViewState {
     bool? renderEmbeds,
     bool? renderReactions,
     RenderSpoilers? renderSpoilers,
+    bool? gifAutoPlay,
+    bool? animateEmoji,
+    StickerAnimationOptions? animateStickers,
     bool? defaultHideMutedChannels,
     bool? showFadedUnreadOnMutedChannels,
     int? publicFlags,
@@ -608,6 +617,9 @@ class UserSettingsViewState {
       renderEmbeds: renderEmbeds ?? this.renderEmbeds,
       renderReactions: renderReactions ?? this.renderReactions,
       renderSpoilers: renderSpoilers ?? this.renderSpoilers,
+      gifAutoPlay: gifAutoPlay ?? this.gifAutoPlay,
+      animateEmoji: animateEmoji ?? this.animateEmoji,
+      animateStickers: animateStickers ?? this.animateStickers,
       defaultHideMutedChannels:
           defaultHideMutedChannels ?? this.defaultHideMutedChannels,
       showFadedUnreadOnMutedChannels:
@@ -802,6 +814,16 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
     return RenderSpoilers.onClick;
   }
 
+  StickerAnimationOptions _parseStickerAnimation(Object? value) {
+    if (value is int) {
+      final parsed = StickerAnimationOptions.fromJson(value);
+      return parsed == StickerAnimationOptions.$unknown
+          ? StickerAnimationOptions.alwaysAnimate
+          : parsed;
+    }
+    return StickerAnimationOptions.alwaysAnimate;
+  }
+
   void _watchUser(String userId) {
     final db = ref.read(fluxerDatabaseProvider);
     // Project to only the fields this view state consumes, then dedupe: a
@@ -875,6 +897,9 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
         renderEmbeds: data['render_embeds'] as bool? ?? true,
         renderReactions: data['render_reactions'] as bool? ?? true,
         renderSpoilers: _parseRenderSpoilers(data['render_spoilers']),
+        gifAutoPlay: data['gif_auto_play'] as bool? ?? true,
+        animateEmoji: data['animate_emoji'] as bool? ?? true,
+        animateStickers: _parseStickerAnimation(data['animate_stickers']),
         defaultHideMutedChannels:
             data['default_hide_muted_channels'] as bool? ?? false,
       );
@@ -1528,6 +1553,49 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
     } on Object catch (e, st) {
       state = state.copyWith(renderSpoilers: previous);
       talker.error('Failed to update renderSpoilers', e, st);
+      rethrow;
+    }
+  }
+
+  Future<void> setGifAutoPlay({required bool value}) async {
+    state = state.copyWith(gifAutoPlay: value);
+    try {
+      final client = ref.read(fluxerClientProvider);
+      await client.users.updateCurrentUserSettings(
+        body: UserSettingsUpdateRequest(gifAutoPlay: value),
+      );
+    } on Object catch (e, st) {
+      state = state.copyWith(gifAutoPlay: !value);
+      talker.error('Failed to update gifAutoPlay', e, st);
+      rethrow;
+    }
+  }
+
+  Future<void> setAnimateEmoji({required bool value}) async {
+    state = state.copyWith(animateEmoji: value);
+    try {
+      final client = ref.read(fluxerClientProvider);
+      await client.users.updateCurrentUserSettings(
+        body: UserSettingsUpdateRequest(animateEmoji: value),
+      );
+    } on Object catch (e, st) {
+      state = state.copyWith(animateEmoji: !value);
+      talker.error('Failed to update animateEmoji', e, st);
+      rethrow;
+    }
+  }
+
+  Future<void> setAnimateStickers(StickerAnimationOptions value) async {
+    final previous = state.animateStickers;
+    state = state.copyWith(animateStickers: value);
+    try {
+      final client = ref.read(fluxerClientProvider);
+      await client.users.updateCurrentUserSettings(
+        body: UserSettingsUpdateRequest(animateStickers: value),
+      );
+    } on Object catch (e, st) {
+      state = state.copyWith(animateStickers: previous);
+      talker.error('Failed to update animateStickers', e, st);
       rethrow;
     }
   }

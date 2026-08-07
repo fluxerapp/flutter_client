@@ -26,6 +26,7 @@ import 'package:fluxer_app/features/discovery/presentation/discovery_desktop_she
 import 'package:fluxer_app/features/discovery/presentation/discovery_layout.dart';
 import 'package:fluxer_app/features/dm/presentation/dm_layout.dart';
 import 'package:fluxer_app/features/favorites/presentation/favorites_layout.dart';
+import 'package:fluxer_app/features/gifts/presentation/pages/gift_accept_page.dart';
 import 'package:fluxer_app/features/guilds/presentation/pages/invite_accept_page.dart';
 import 'package:fluxer_app/features/members/presentation/pages/guild_members_page.dart';
 import 'package:fluxer_app/features/messaging/presentation/saved_messages_page.dart';
@@ -282,8 +283,13 @@ GoRouter fluxerRouter(Ref ref) {
       GoRoute(
         path: '/gift/:code',
         name: RouteNames.gift,
-        // TODO(M0n7y5): show gift modal.
-        redirect: (context, state) => RoutePaths.me,
+        pageBuilder: (context, state) {
+          final String code = state.pathParameters['code'] ?? '';
+          return shellFadeTransitionPage(
+            key: state.pageKey,
+            child: GiftAcceptPage(code: code),
+          );
+        },
       ),
       GoRoute(
         path: '/theme/:themeId',

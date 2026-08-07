@@ -278,9 +278,7 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
                     child: Text(
                       _tabLabel(tab),
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
+                      style: context.textStyles.categoryName.copyWith(
                         height: 18 / 14,
                         color: isActive
                             ? colors.textPrimary

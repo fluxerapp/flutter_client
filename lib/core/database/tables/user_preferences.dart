@@ -110,6 +110,47 @@ class UserPreferencesTable extends Table {
   TextColumn get voiceSettingsJson => text().withDefault(const Constant(''))();
   RealColumn get saturationFactor => real().withDefault(const Constant(1))();
   TextColumn get customThemeCss => text().withDefault(const Constant(''))();
+  BoolColumn get screenReaderAnnounceNewMessages =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get syncReducedMotionWithSystem =>
+      boolean().withDefault(const Constant(true))();
+  BoolColumn get reducedMotionOverride =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get enableTtsCommand =>
+      boolean().withDefault(const Constant(true))();
+  RealColumn get ttsRate => real().withDefault(const Constant(1))();
+  TextColumn get dmMessagePreviewMode =>
+      text().withDefault(const Constant('none'))();
+  BoolColumn get alwaysUnderlineLinks =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get dimStrikethroughText =>
+      boolean().withDefault(const Constant(true))();
+  BoolColumn get showTextareaFocusRing =>
+      boolean().withDefault(const Constant(true))();
+  BoolColumn get escapeExitsKeyboardMode =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get showContextMenuShortcuts =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get confirmBeforeStartingCalls =>
+      boolean().withDefault(const Constant(true))();
+  BoolColumn get mobileGifAutoplayOverridden =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get mobileAnimateEmojiOverridden =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get mobileStickerAnimationOverridden =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get mobileGifAutoplayValue =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get mobileAnimateEmojiValue =>
+      boolean().withDefault(const Constant(true))();
+  IntColumn get mobileStickerAnimationValue =>
+      integer().withDefault(const Constant(1))();
+  BoolColumn get keepAnimatedEmojiUnderReducedMotion =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get keepGifAutoPlayUnderReducedMotion =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get keepStickerAnimationUnderReducedMotion =>
+      boolean().withDefault(const Constant(false))();
 
   @override
   String get tableName => 'user_preferences';

@@ -10,6 +10,7 @@ class FluxerSelectableRow extends StatelessWidget {
     this.padding = EdgeInsets.zero,
     this.height,
     this.hoverColor,
+    this.semanticLabel,
     this.onTap,
     this.onLongPress,
     this.onSecondaryTapUp,
@@ -24,13 +25,14 @@ class FluxerSelectableRow extends StatelessWidget {
   final EdgeInsetsGeometry padding;
   final double? height;
   final Color? hoverColor;
+  final String? semanticLabel;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
   final GestureTapUpCallback? onSecondaryTapUp;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    final Widget row = Padding(
       padding: margin,
       child: Material(
         color: Colors.transparent,
@@ -53,6 +55,17 @@ class FluxerSelectableRow extends StatelessWidget {
           ),
         ),
       ),
+    );
+
+    if (semanticLabel == null) {
+      return row;
+    }
+
+    return Semantics(
+      button: true,
+      selected: isSelected,
+      label: semanticLabel,
+      child: ExcludeSemantics(child: row),
     );
   }
 }

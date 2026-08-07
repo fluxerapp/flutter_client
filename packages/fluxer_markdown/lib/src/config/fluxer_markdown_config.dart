@@ -135,6 +135,8 @@ class FluxerMarkdownConfig {
     this.onCopyCode,
     this.timestampFormatter,
     this.selectionContextMenuBuilder,
+    this.alwaysUnderlineLinks = false,
+    this.dimStrikethroughText = true,
   });
 
   final FluxerShortcodeResolver resolveEmojiShortcode;
@@ -170,4 +172,6 @@ class FluxerMarkdownConfig {
   final FluxerCodeCopyHandler? onCopyCode;
   final FluxerTimestampFormatter? timestampFormatter;
   final FluxerSelectionContextMenuBuilder? selectionContextMenuBuilder;
+  final bool alwaysUnderlineLinks;
+  final bool dimStrikethroughText;
 }

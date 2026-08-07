@@ -124,6 +124,8 @@ class _TypingPill extends ConsumerWidget {
       ));
     }
     final total = userIds.length;
+    final l10n = FluxerLocalizations.of(context);
+    final String typingLabel = _typingLabel(l10n, total, resolvedUsers);
     final Widget content = Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -153,25 +155,54 @@ class _TypingPill extends ConsumerWidget {
         ),
       ],
     );
-    if (compact) {
-      return content;
-    }
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: colors.chatInputBackground,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: colors.userAreaDividerColor),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: content,
+    final Widget pill = compact
+        ? content
+        : Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            decoration: BoxDecoration(
+              color: colors.chatInputBackground,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: colors.userAreaDividerColor),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.1),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: content,
+          );
+    return Semantics(
+      liveRegion: true,
+      label: typingLabel,
+      child: ExcludeSemantics(child: pill),
     );
+  }
+
+  String _typingLabel(
+    FluxerLocalizations l10n,
+    int total,
+    List<({String userId, GuildUserDisplay display})> resolved,
+  ) {
+    final String? bulkText = resolveTypingIndicatorBulkText(l10n, total);
+    if (bulkText != null) {
+      return bulkText;
+    }
+    final names = resolved
+        .take(total)
+        .map((user) => user.display.displayName)
+        .toList();
+    final raw = typingIndicatorNamedTemplate(l10n, total);
+    final parts = raw.split(kTypingIndicatorNamePlaceholder);
+    final buffer = StringBuffer();
+    for (int i = 0; i < parts.length; i++) {
+      buffer.write(parts[i]);
+      if (i < names.length) {
+        buffer.write(names[i]);
+      }
+    }
+    return buffer.toString();
   }
 
   Widget _buildText(
@@ -213,7 +244,7 @@ class _TypingPill extends ConsumerWidget {
         spans.add(
           TextSpan(
             text: user.display.displayName,
-            style: TextStyle(
+            style: baseStyle.copyWith(
               color: roleColor ?? colors.textPrimary,
               fontWeight: FontWeight.w600,
             ),

@@ -48,6 +48,18 @@ String instanceInviteBaseUrl(Ref ref) {
 }
 
 @Riverpod(keepAlive: true)
+String instanceGiftBaseUrl(Ref ref) {
+  final AsyncValue<WellKnownFluxerResponse> wellKnown = ref.watch(
+    wellKnownProvider,
+  );
+  return wellKnown.when(
+    data: (WellKnownFluxerResponse response) => response.endpoints.gift,
+    loading: () => InstanceEndpoints.gift,
+    error: (_, _) => InstanceEndpoints.gift,
+  );
+}
+
+@Riverpod(keepAlive: true)
 String instanceStaticCdnBaseUrl(Ref ref) {
   final AsyncValue<WellKnownFluxerResponse> wellKnown = ref.watch(
     wellKnownProvider,

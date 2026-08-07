@@ -312,10 +312,9 @@ class _CreateGuildIconPreview extends StatelessWidget {
           : Center(
               child: Text(
                 initials,
-                style: TextStyle(
+                style: context.textStyles.smallText.copyWith(
                   color: context.colors.textPrimary,
                   fontSize: _initialsFontSize(initialsLength),
-                  fontWeight: FontWeight.w600,
                   height: 1,
                 ),
               ),
@@ -388,19 +387,14 @@ class _AddGuildCreateGate extends StatelessWidget {
         Text(
           title,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            color: context.colors.textPrimary,
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
+          style: context.textStyles.heading.copyWith(fontSize: 18),
         ),
         const SizedBox(height: 8),
         Text(
           description,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: context.textStyles.bodySmall.copyWith(
             color: context.colors.textSecondary,
-            fontSize: 14,
             height: 1.4,
           ),
         ),

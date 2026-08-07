@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_l
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_row_layout.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 class MessageListSkeleton extends ConsumerWidget {
   const MessageListSkeleton({required this.channelId, super.key});
@@ -37,7 +38,7 @@ class MessageListSkeleton extends ConsumerWidget {
       fontSize: fontSize,
     );
     return Semantics(
-      label: 'Loading messages',
+      label: FluxerLocalizations.of(context).chatLoadingMessages,
       child: ExcludeSemantics(
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
