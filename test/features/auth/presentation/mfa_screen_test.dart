@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/auth/domain/mfa_challenge.dart';
 import 'package:fluxer_app/features/auth/presentation/mfa_screen.dart';
 import 'package:fluxer_app/features/auth/providers/mfa_view_model.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import '../../../helpers/test_l10n.dart';
 
 const _challenge = MfaChallenge(
   ticket: 'mfa-ticket',
@@ -20,6 +21,7 @@ const _challenge = MfaChallenge(
 Widget _app(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return MaterialApp(
+    locale: kTestLocale,
     localizationsDelegates: FluxerLocalizations.localizationsDelegates,
     supportedLocales: FluxerLocalizations.supportedLocales,
     theme: buildFluxerTheme(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/channels/providers/channel_typing_provider.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/slowmode_indicator.dart';
@@ -7,7 +8,6 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/typing_in
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/blocked_users_view_model.dart';
 
-const Duration _kComposerStatusRowExpandDuration = Duration(milliseconds: 200);
 const double _kComposerStatusRowCollapsedHeight = 10;
 
 bool composerTypingIndicatorVisible(WidgetRef ref, String channelId) {
@@ -59,7 +59,7 @@ class ComposerStatusRow extends ConsumerWidget {
     final bool isVisible = showTyping || showSlowmode;
     return ClipRect(
       child: AnimatedSize(
-        duration: _kComposerStatusRowExpandDuration,
+        duration: context.motion.panel,
         curve: Curves.easeOutCubic,
         alignment: Alignment.bottomCenter,
         child: isVisible

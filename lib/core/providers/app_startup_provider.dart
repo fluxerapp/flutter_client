@@ -14,7 +14,6 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/fluxer_sfx_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_provider.dart';
 import 'package:fluxer_app/core/providers/well_known_provider.dart';
-import 'package:fluxer_app/core/push/apns/apns_mobile_device_registration.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_entrypoint.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_mobile_device_registration.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_notification_tap_binding.dart';
@@ -38,6 +37,7 @@ import 'package:fluxer_app/features/profile/providers/status_expiry_scheduler.da
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/default_apps_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
@@ -150,6 +150,18 @@ class AppStartup extends _$AppStartup {
       ref
           .read(userSettingsViewModelProvider.notifier)
           .applyStartupProfile(validatedUser);
+      ref
+          .read(currentUserPrivateReadProvider.notifier)
+          .applyStartupUser(validatedUser);
+      unawaited(
+        ref
+            .read(sensitiveContentProvider.notifier)
+            .hydrateFromLocal(validatedUser: validatedUser),
+      );
+    } else {
+      unawaited(ref.read(userSettingsViewModelProvider.notifier).loadProfile());
+      unawaited(ref.read(currentUserPrivateReadProvider.notifier).refresh());
+      unawaited(ref.read(sensitiveContentProvider.notifier).hydrateFromLocal());
     }
     unawaited(ref.read(accountManagerProvider.notifier).loadAccounts());
     await Future.wait<void>([
@@ -157,15 +169,14 @@ class AppStartup extends _$AppStartup {
       ref.read(appearancePreferencesProvider.notifier).load(session.userId),
       ref.read(chatPreferencesProvider.notifier).load(session.userId),
       ref.read(advancedPreferencesProvider.notifier).load(session.userId),
+      ref.read(defaultAppsPreferencesProvider.notifier).load(session.userId),
       ref.read(voiceSettingsProvider.notifier).load(session.userId),
     ]);
-    unawaited(ref.read(sensitiveContentProvider.notifier).load());
     unawaited(ref.read(matureContentAgreementsProvider.notifier).reload());
 
     unawaited(
       ref.read(serviceStatusMaintenanceReadProvider.notifier).refresh(),
     );
-    unawaited(ref.read(currentUserPrivateReadProvider.notifier).refresh());
 
     ref
       ..read(gatewayConnectBindingProvider)
@@ -203,9 +214,6 @@ class AppStartup extends _$AppStartup {
         ref.read(pushNotificationTapHandlerProvider.notifier).handlePayloadJson,
       );
       unawaited(FirebaseMessagingPushService.bootstrapAfterAuth());
-    }
-    if (PushProviderGuard.isApple) {
-      ref.read(apnsMobileDeviceRegistrationProvider);
     }
     if (PushProviderGuard.isFirebaseMessaging) {
       ref.read(fcmMobileDeviceRegistrationProvider);

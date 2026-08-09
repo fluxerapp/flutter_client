@@ -1,10 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
+import 'package:fluxer_app/features/ui/animation/animation_controller_visibility_extension.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_variant.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
@@ -508,7 +507,6 @@ class _RecordingPulseState extends State<_RecordingPulse>
       vsync: this,
       duration: const Duration(milliseconds: 1100),
     );
-    unawaited(_controller.repeat());
   }
 
   @override
@@ -519,6 +517,10 @@ class _RecordingPulseState extends State<_RecordingPulse>
 
   @override
   Widget build(BuildContext context) {
+    _controller.syncWithVisibility(
+      isVisible: true,
+      animationsEnabled: !MediaQuery.disableAnimationsOf(context),
+    );
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {

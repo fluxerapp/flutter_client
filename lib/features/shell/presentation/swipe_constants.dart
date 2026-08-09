@@ -2,12 +2,21 @@ import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:flutter/widgets.dart';
+import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 
 const Curve kHorizontalSwipeCurve = Curves.fastEaseInToSlowEaseOut;
 
-const Duration kHorizontalSwipeRevealDuration = Duration(milliseconds: 300);
+const Duration kHorizontalSwipeRevealDuration = FluxerMotionTheme.slowDuration;
 
-const Duration kHorizontalSwipeSnapBackDuration = Duration(milliseconds: 250);
+const Duration kHorizontalSwipeSnapBackDuration =
+    FluxerMotionTheme.panelDuration;
+
+Duration horizontalSwipeRevealDuration(BuildContext context) =>
+    context.motion.slow;
+
+Duration horizontalSwipeSnapBackDuration(BuildContext context) =>
+    context.motion.panel;
 
 const double kHorizontalSwipeFlingVelocity = 1;
 const double kDrawerSwipeFlingVelocityPxPerSecond = 600;

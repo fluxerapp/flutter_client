@@ -25,6 +25,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provi
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
+import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
 import 'package:fluxer_app/features/chat/utils/message_page_sync.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
@@ -277,6 +278,9 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       ref
         ..invalidate(effectiveGuildChannelPermissionBitsProvider(channelId))
         ..invalidate(channelLocalGuildChannelPermissionBitsProvider(channelId));
+    },
+    onChannelDelete: (channelId) {
+      ref.read(slowmodeTrackerProvider.notifier).clearChannel(channelId);
     },
     onPermissionsClearAll: () {
       ref.read(guildPermissionsProvider.notifier).clearAll();

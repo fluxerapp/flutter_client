@@ -15,6 +15,7 @@ void main() {
             path: RoutePaths.me,
             pageBuilder: (BuildContext context, GoRouterState state) {
               return shellSlideTransitionPage(
+                context: context,
                 key: state.pageKey,
                 child: const Scaffold(body: Center(child: Text('friends'))),
               );
@@ -24,6 +25,7 @@ void main() {
                 path: ':channelId',
                 pageBuilder: (BuildContext context, GoRouterState state) {
                   return shellSlideTransitionPage(
+                    context: context,
                     key: state.pageKey,
                     child: Scaffold(
                       body: Center(

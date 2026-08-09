@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
@@ -11,7 +12,6 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kMaxDragFraction = 0.30;
 const double _kTriggerFraction = 0.20;
-const int _kSpringBackMs = 180;
 const double _kIconPillSize = 36;
 const double _kIconSize = 20;
 const double _kIconMinScale = 0.6;
@@ -68,12 +68,18 @@ class _SwipeToReplyState extends State<SwipeToReply>
     super.initState();
     _springController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: _kSpringBackMs),
+      duration: FluxerMotionTheme.normalDuration,
     );
     _holdController = AnimationController(
       vsync: this,
       duration: _kEditHoldDelay,
     )..addStatusListener(_onHoldStatus);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _springController.duration = context.motion.normal;
   }
 
   @override

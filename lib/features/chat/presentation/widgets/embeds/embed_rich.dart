@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_share
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_inline_video_player.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/utils/embed_gallery_utils.dart';
+import 'package:fluxer_app/features/chat/utils/embed_media_viewer_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
@@ -158,6 +159,11 @@ class EmbedRich extends StatelessWidget {
                       child: _EmbedMediaImage(
                         media: embed.image!,
                         dimensionSize: dimensionSize,
+                        title: embed.title,
+                        embedIndex: embedIndex,
+                        channelId: channelId,
+                        messageId: messageId,
+                        actionScope: videoActionScope,
                       ),
                     ),
                   if (embed.footer != null)
@@ -173,14 +179,27 @@ class EmbedRich extends StatelessWidget {
             ),
             if (shouldRenderInlineThumbnail) ...[
               const SizedBox(width: 12),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(4),
-                child: CachedNetworkImage(
-                  imageUrl: embed.thumbnail!.proxyUrl ?? embed.thumbnail!.url,
-                  width: 72,
-                  height: 72,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, e, s) => const SizedBox.shrink(),
+              GestureDetector(
+                onTap: canOpenEmbedMediaViewer(embed.thumbnail!)
+                    ? () => openEmbedMediaViewer(
+                        context,
+                        media: embed.thumbnail!,
+                        title: embed.title,
+                        embedIndex: embedIndex,
+                        channelId: channelId,
+                        messageId: messageId,
+                        actionScope: videoActionScope,
+                      )
+                    : null,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: CachedNetworkImage(
+                    imageUrl: embed.thumbnail!.proxyUrl ?? embed.thumbnail!.url,
+                    width: 72,
+                    height: 72,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, e, s) => const SizedBox.shrink(),
+                  ),
                 ),
               ),
             ],
@@ -298,8 +317,21 @@ class _EmbedFieldTile extends StatelessWidget {
 class _EmbedMediaImage extends StatelessWidget {
   final EmbedMedia media;
   final MediaDimensionSize dimensionSize;
+  final String? title;
+  final int embedIndex;
+  final String? channelId;
+  final String? messageId;
+  final MessageMediaActionScope? actionScope;
 
-  const _EmbedMediaImage({required this.media, required this.dimensionSize});
+  const _EmbedMediaImage({
+    required this.media,
+    required this.dimensionSize,
+    required this.embedIndex,
+    this.title,
+    this.channelId,
+    this.messageId,
+    this.actionScope,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -309,9 +341,9 @@ class _EmbedMediaImage extends StatelessWidget {
       width: media.width,
       height: media.height,
     );
-
+    final Widget image;
     if (displaySize != null) {
-      return ClipRRect(
+      image = ClipRRect(
         borderRadius: BorderRadius.circular(4),
         child: SizedBox(
           width: displaySize.width,
@@ -325,20 +357,33 @@ class _EmbedMediaImage extends StatelessWidget {
           ),
         ),
       );
-    }
-    // No intrinsic dimensions: reserve a fixed box that stays identical
-    // before and after the bytes arrive, so the load never shifts the chat.
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(4),
-      child: SizedBox(
-        width: dimensions.maxWidth,
-        height: kEmbedMediaFallbackHeight,
-        child: CachedNetworkImage(
-          imageUrl: media.proxyUrl ?? media.url,
-          fit: BoxFit.contain,
-          errorBuilder: (_, e, s) => const SizedBox.shrink(),
+    } else {
+      image = ClipRRect(
+        borderRadius: BorderRadius.circular(4),
+        child: SizedBox(
+          width: dimensions.maxWidth,
+          height: kEmbedMediaFallbackHeight,
+          child: CachedNetworkImage(
+            imageUrl: media.proxyUrl ?? media.url,
+            fit: BoxFit.contain,
+            errorBuilder: (_, e, s) => const SizedBox.shrink(),
+          ),
         ),
-      ),
+      );
+    }
+    return GestureDetector(
+      onTap: canOpenEmbedMediaViewer(media)
+          ? () => openEmbedMediaViewer(
+              context,
+              media: media,
+              title: title,
+              embedIndex: embedIndex,
+              channelId: channelId,
+              messageId: messageId,
+              actionScope: actionScope,
+            )
+          : null,
+      child: image,
     );
   }
 }

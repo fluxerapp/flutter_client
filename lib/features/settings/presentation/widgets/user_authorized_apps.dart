@@ -320,7 +320,7 @@ class _AuthorizedAppCard extends StatelessWidget {
             SizedBox(width: layout.s2),
             AnimatedRotation(
               turns: isExpanded ? 0.5 : 0,
-              duration: const Duration(milliseconds: 200),
+              duration: context.motion.panel,
               child: PhosphorIcon(
                 PhosphorIconsBold.caretDown,
                 size: 20,

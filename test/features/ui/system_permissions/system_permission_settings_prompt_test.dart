@@ -11,6 +11,7 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/system_permissions/system_permission_settings_prompt.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import '../../../helpers/test_l10n.dart';
 
 Widget _buildTestApp(Widget child) {
   final colorTheme = buildDarkColorTheme();
@@ -18,7 +19,7 @@ Widget _buildTestApp(Widget child) {
     child: MaterialApp(
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
-      locale: const Locale('en'),
+      locale: kTestLocale,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,
         textTheme: FluxerTextTheme.fromColors(colorTheme),

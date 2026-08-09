@@ -22,6 +22,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../helpers/open_test_database.dart';
+import '../../../../helpers/test_l10n.dart';
 
 const String _guildId = 'g1';
 const String _channelId = 'voice-1';
@@ -116,6 +117,7 @@ Future<void> _pumpBar(
     ProviderScope(
       overrides: _voiceBarOverrides(db: db, session: session),
       child: MaterialApp(
+        locale: kTestLocale,
         localizationsDelegates: FluxerLocalizations.localizationsDelegates,
         supportedLocales: FluxerLocalizations.supportedLocales,
         theme: buildFluxerTheme(

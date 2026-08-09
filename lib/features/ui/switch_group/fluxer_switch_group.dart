@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
+import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
@@ -60,7 +61,10 @@ class FluxerSwitchGroupItem extends StatelessWidget {
 
     return FluxerTappable(
       enabled: enabled,
-      onTap: () => onChanged(!value),
+      onTap: () {
+        FluxerHaptics.selection();
+        onChanged(!value);
+      },
       semanticLabel: description != null ? '$label. $description' : label,
       toggled: value,
       excludeChildSemantics: true,
@@ -158,7 +162,12 @@ class FluxerSwitchGroupCustomItem extends StatelessWidget {
         ),
         child: FluxerTappable(
           enabled: enabled,
-          onTap: onTap ?? () => onChanged(!value),
+          onTap:
+              onTap ??
+              () {
+                FluxerHaptics.selection();
+                onChanged(!value);
+              },
           semanticLabel: label,
           toggled: value,
           excludeChildSemantics: true,
@@ -246,7 +255,10 @@ class FluxerSettingsSwitchItem extends StatelessWidget {
     return FluxerTappable(
       enabled: enabled,
       minSize: Size(layout.touchTargetMin, minHeight),
-      onTap: () => onChanged(!value),
+      onTap: () {
+        FluxerHaptics.selection();
+        onChanged(!value);
+      },
       semanticLabel: description != null ? '$label. $description' : label,
       toggled: value,
       excludeChildSemantics: true,

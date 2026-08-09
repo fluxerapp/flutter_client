@@ -12,7 +12,7 @@ import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_types.d
 import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_unread_channel.dart';
 import 'package:fluxer_app/features/quick_switcher/domain/recent_channel_visit.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations_en.dart';
+import '../../../helpers/test_l10n.dart';
 
 QuickSwitcherChannelResolver _resolver({
   required FluxerLocalizations l10n,
@@ -39,7 +39,7 @@ void main() {
     late FluxerLocalizations l10n;
 
     setUp(() {
-      l10n = FluxerLocalizationsEn();
+      l10n = testL10n;
     });
 
     test('groups matching users under a people header', () {
@@ -149,7 +149,7 @@ void main() {
     late FluxerLocalizations l10n;
 
     setUp(() {
-      l10n = FluxerLocalizationsEn();
+      l10n = testL10n;
     });
 
     test('filters text channels for hash prefix mode', () {
@@ -194,7 +194,7 @@ void main() {
 
   group('generateQuickSwitcherDefaultResults', () {
     test('includes recent DM visits from channel id', () {
-      final FluxerLocalizations l10n = FluxerLocalizationsEn();
+      final FluxerLocalizations l10n = testL10n;
       final DateTime recent = DateTime(2026, 4, 2, 12);
 
       final List<QuickSwitcherResult> results =
@@ -227,7 +227,7 @@ void main() {
     });
 
     test('includes recent guild text and voice channels from visits', () {
-      final FluxerLocalizations l10n = FluxerLocalizationsEn();
+      final FluxerLocalizations l10n = testL10n;
       final DateTime visitedAt = DateTime(2026, 4, 2, 12);
 
       final List<QuickSwitcherResult> results =
@@ -274,7 +274,7 @@ void main() {
     });
 
     test('appends unread channels after recent visits without duplicates', () {
-      final FluxerLocalizations l10n = FluxerLocalizationsEn();
+      final FluxerLocalizations l10n = testL10n;
 
       final List<QuickSwitcherResult> results =
           generateQuickSwitcherDefaultResults(
@@ -318,7 +318,7 @@ void main() {
 
   group('buildQuickSwitcherCandidateSets', () {
     test('includes home and guild candidates', () {
-      final FluxerLocalizations l10n = FluxerLocalizationsEn();
+      final FluxerLocalizations l10n = testL10n;
       final QuickSwitcherCandidateSets sets = buildQuickSwitcherCandidateSets(
         QuickSwitcherBuildInput(
           l10n: l10n,

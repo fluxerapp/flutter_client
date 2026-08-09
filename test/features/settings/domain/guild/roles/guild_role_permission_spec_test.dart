@@ -2,10 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_permission_spec.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations_en.dart';
+import '../../../../../helpers/test_l10n.dart';
 
 void main() {
-  final FluxerLocalizations l10n = FluxerLocalizationsEn();
+  final FluxerLocalizations l10n = testL10n;
 
   test('generateGuildPermissionSpec returns five categories', () {
     final List<GuildPermissionCategorySpec> specs = generateGuildPermissionSpec(

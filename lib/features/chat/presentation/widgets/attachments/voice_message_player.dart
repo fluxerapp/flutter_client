@@ -4,6 +4,8 @@ import 'dart:math' as math;
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_binding.dart';
+import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_sync.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -47,9 +49,100 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
   double _volume = 1;
   bool _isMuted = false;
   double _playbackRate = 1;
+  late final ChatAttachmentAudioBinding _mediaSessionBinding;
   late List<int> _waveformBars = voiceMessagePlayerWaveformBars(
     widget.attachment.waveform,
   );
+
+  @override
+  void initState() {
+    super.initState();
+    _mediaSessionBinding = ChatAttachmentAudioBinding(
+      hostId: _playbackUrl,
+      pausePlayback: _pauseFromMediaSession,
+      resumePlayback: _resumeFromMediaSession,
+      seekPlayback: _seekFromMediaSession,
+      stopPlayback: _stopFromMediaSession,
+    );
+  }
+
+  Future<void> _pauseFromMediaSession() async {
+    await _player?.pause();
+  }
+
+  Future<void> _resumeFromMediaSession() async {
+    if (_isLoading || widget.attachment.url.isEmpty) {
+      return;
+    }
+    final AudioPlayer player = _ensurePlayer();
+    if (_playbackFinished || _isAtEndOfTrack) {
+      await _replayFromStart(player);
+      return;
+    }
+    if (!_hasPreparedSource) {
+      await player.setSourceUrl(_playbackUrl);
+      _hasPreparedSource = true;
+      await _applyPendingSeek(player);
+    }
+    await player.resume();
+  }
+
+  Future<void> _seekFromMediaSession(Duration position) async {
+    final double durationSeconds = _displayDurationSeconds;
+    if (durationSeconds <= 0) {
+      return;
+    }
+    final double relative = position.inMilliseconds / (durationSeconds * 1000);
+    await _seekToFraction(relative);
+  }
+
+  Future<void> _stopFromMediaSession() async {
+    await _player?.stop();
+    if (!mounted) {
+      return;
+    }
+    setState(() {
+      _isPlaying = false;
+      _playbackFinished = false;
+      _hasPreparedSource = false;
+      _hasStarted = false;
+      _position = Duration.zero;
+      _prePlaySeconds = 0;
+      _pendingSeekFraction = null;
+    });
+  }
+
+  Duration get _mediaSessionTotalDuration {
+    if (_duration > Duration.zero) {
+      return _duration;
+    }
+    final double durationSeconds = _displayDurationSeconds;
+    if (durationSeconds <= 0) {
+      return Duration.zero;
+    }
+    return Duration(milliseconds: (durationSeconds * 1000).round());
+  }
+
+  String get _mediaSessionTitle =>
+      FluxerLocalizations.of(context).voiceMessageTitle;
+
+  void _syncMediaSession({
+    required bool playing,
+    bool loading = false,
+    bool completed = false,
+  }) {
+    syncChatAttachmentAudioSession(
+      binding: _mediaSessionBinding,
+      attachment: widget.attachment,
+      title: _mediaSessionTitle,
+      playing: playing,
+      position: _position,
+      totalDuration: _mediaSessionTotalDuration,
+      playbackRate: _playbackRate,
+      loading: loading,
+      completed: completed,
+    );
+  }
 
   @override
   void didUpdateWidget(VoiceMessagePlayer oldWidget) {
@@ -63,6 +156,7 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
 
   @override
   void dispose() {
+    _mediaSessionBinding.release();
     unawaited(_playerStateSubscription?.cancel());
     unawaited(_playerCompleteSubscription?.cancel());
     unawaited(_positionSubscription?.cancel());
@@ -113,6 +207,7 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
     }
     if (_isPlaying) {
       await _player?.pause();
+      _syncMediaSession(playing: false);
       return;
     }
     setState(() {
@@ -123,14 +218,17 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
       final AudioPlayer player = _ensurePlayer();
       if (_playbackFinished || _isAtEndOfTrack) {
         await _replayFromStart(player);
+        _syncMediaSession(playing: true);
         return;
       }
       if (!_hasPreparedSource) {
+        _syncMediaSession(playing: false, loading: true);
         await player.setSourceUrl(_playbackUrl);
         _hasPreparedSource = true;
         await _applyPendingSeek(player);
       }
       await player.resume();
+      _syncMediaSession(playing: true);
     } on Object {
       if (!mounted || _hasPreparedSource) {
         return;
@@ -232,6 +330,9 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
       setState(() {
         _isPlaying = playerState == PlayerState.playing;
       });
+      if (mounted) {
+        _syncMediaSession(playing: playerState == PlayerState.playing);
+      }
     });
     _playerCompleteSubscription = player.onPlayerComplete.listen((_) {
       if (!mounted) {
@@ -244,6 +345,9 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
           _position = _duration;
         }
       });
+      if (mounted) {
+        _syncMediaSession(playing: false, completed: true);
+      }
     });
     _positionSubscription = player.onPositionChanged.listen((
       Duration position,
@@ -254,6 +358,9 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
       setState(() {
         _position = position;
       });
+      if (_isPlaying && mounted) {
+        _syncMediaSession(playing: true);
+      }
     });
     _durationSubscription = player.onDurationChanged.listen((
       Duration duration,
@@ -264,6 +371,9 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
       setState(() {
         _duration = duration;
       });
+      if (_mediaSessionBinding.isActive && mounted) {
+        _syncMediaSession(playing: _isPlaying);
+      }
       if (_pendingSeekFraction != null) {
         unawaited(_applyPendingSeek(player));
       }
@@ -300,6 +410,9 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
       _playbackRate = nextRate;
     });
     await _player?.setPlaybackRate(nextRate);
+    if (_mediaSessionBinding.isActive && mounted) {
+      _syncMediaSession(playing: _isPlaying);
+    }
   }
 
   Future<void> _seekToFraction(double fraction) async {
@@ -335,6 +448,7 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
         _position = target;
         _playbackFinished = false;
       });
+      _syncMediaSession(playing: _isPlaying);
     }
   }
 
@@ -357,10 +471,7 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
   @override
   Widget build(BuildContext context) {
     final FluxerColorTheme colors = context.colors;
-    final bool reduceMotion = MediaQuery.disableAnimationsOf(context);
-    final Duration animDuration = reduceMotion
-        ? Duration.zero
-        : const Duration(milliseconds: 200);
+    final Duration animDuration = context.motion.panel;
     final bool isLight = Theme.of(context).brightness == Brightness.light;
     final Color idleBackground = colors.backgroundSecondary;
     final Color activeBackground = colors.brandPrimary;

@@ -112,7 +112,7 @@ class _AppBottomNavItem extends StatelessWidget {
             children: [
               if (config.isProfile)
                 AnimatedOpacity(
-                  duration: const Duration(milliseconds: 200),
+                  duration: context.motion.panel,
                   opacity: isSelected ? 1 : 0.5,
                   child: FluxerAvatar.userPresence(
                     fallbackText: user.displayName,

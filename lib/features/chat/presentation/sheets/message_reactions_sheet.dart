@@ -34,7 +34,7 @@ Future<void> showMessageReactionsSheet(
   return FluxerBottomSheet.showScrollable<void>(
     context,
     title: FluxerLocalizations.of(context).chatReactionsSheetTitle,
-    maxHeight: 0.85,
+    maxChildSize: 0.85,
     builder: (sheetContext, scrollController, close) =>
         _MessageReactionsSheetBody(
           message: message,

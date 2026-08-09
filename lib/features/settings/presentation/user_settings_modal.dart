@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/app_diagnostic_clipboard_text.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
@@ -22,6 +23,7 @@ import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_nav.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/settings_sidebar.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_accessibility.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_default_apps.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_advanced_settings.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_appearance.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_audio_and_video.dart';
@@ -574,6 +576,13 @@ Widget _buildUserSettingsSectionContent({
       return scrollController == null
           ? const UserAdvancedSettings()
           : UserAdvancedSettings(scrollController: scrollController);
+    case UserSettingsSection.defaultApps:
+      if (!isFluxerNativeMobileOs) {
+        return const SizedBox.shrink();
+      }
+      return scrollController == null
+          ? const UserDefaultApps()
+          : UserDefaultApps(scrollController: scrollController);
     case UserSettingsSection.languageAndTime:
       return scrollController == null
           ? const UserLanguageAndTime()

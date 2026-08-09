@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
@@ -52,10 +53,13 @@ class BottomInputSpacer extends ConsumerWidget {
     if (spacerHeight <= 0) {
       return const SizedBox.shrink();
     }
-    return SizedBox(height: spacerHeight);
+    return _coloredSpacer(context, spacerHeight);
   }
 
   double _keyboardSpacerHeight(BuildContext context, double slotHeight) {
+    if (slotHeight <= 0) {
+      return 0;
+    }
     final double homeInset = MediaQuery.viewPaddingOf(context).bottom;
     if (slotHeight >= homeInset) {
       return slotHeight;
@@ -68,7 +72,15 @@ class BottomInputSpacer extends ConsumerWidget {
       context: context,
       isDragging: false,
       height: height,
+      decoration: BoxDecoration(color: context.colors.chatInputBackground),
       child: const SizedBox.shrink(),
+    );
+  }
+
+  Widget _coloredSpacer(BuildContext context, double height) {
+    return ColoredBox(
+      color: context.colors.chatInputBackground,
+      child: SizedBox(height: height),
     );
   }
 }

@@ -104,7 +104,7 @@ class _AlignmentButton extends StatelessWidget {
             ? colors.textPrimary
             : colors.textSecondary;
         return AnimatedContainer(
-          duration: const Duration(milliseconds: 150),
+          duration: context.motion.normal,
           width: 32,
           height: 32,
           decoration: BoxDecoration(

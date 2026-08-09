@@ -15,6 +15,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../helpers/open_test_database.dart';
+import '../../../helpers/test_l10n.dart';
 
 void main() {
   testWidgets('RecentMentionsPage renders title and mentions body', (
@@ -61,6 +62,7 @@ Widget _wrap({
       ...overrides,
     ],
     child: MaterialApp(
+      locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(

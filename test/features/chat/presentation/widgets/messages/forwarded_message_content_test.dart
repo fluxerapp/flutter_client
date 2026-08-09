@@ -16,6 +16,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
 import '../../../../../helpers/wide_layout_test_sizes.dart';
+import '../../../../../helpers/test_l10n.dart';
 
 const String _channelId = 'channel-1';
 const String _messageId = 'message-1';
@@ -152,6 +153,7 @@ Widget _buildTestApp({required Widget child}) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
     child: MaterialApp(
+      locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(

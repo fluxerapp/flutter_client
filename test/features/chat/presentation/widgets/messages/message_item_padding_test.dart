@@ -7,9 +7,11 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_row_layout.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/export.dart';
+import '../../../../../helpers/test_l10n.dart';
 
 // Webhook author lets the row resolve its display with no provider/DB read.
 Message _message() => Message(
@@ -37,6 +39,7 @@ Widget _app(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
     child: MaterialApp(
+      locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
@@ -65,10 +68,27 @@ void main() {
         ),
       );
       await tester.pump();
-      final AnimatedContainer container = tester.widget<AnimatedContainer>(
-        find.byType(AnimatedContainer).first,
+
+      const expectedPadding = EdgeInsets.only(
+        left: kMessageRowPaddingHorizontal,
+        right: kMessageRowPaddingHorizontal,
+        top: 2,
+        bottom: 2,
       );
-      return container.padding;
+
+      final animatedContainer = find.byWidgetPredicate(
+        (widget) =>
+            widget is AnimatedContainer && widget.padding == expectedPadding,
+      );
+      if (tester.any(animatedContainer)) {
+        return tester.widget<AnimatedContainer>(animatedContainer).padding;
+      }
+
+      final padding = find.byWidgetPredicate(
+        (widget) => widget is Padding && widget.padding == expectedPadding,
+      );
+      expect(padding, findsOneWidget);
+      return tester.widget<Padding>(padding).padding;
     }
 
     testWidgets('group-start rows use uniform 2px vertical padding', (
@@ -76,7 +96,12 @@ void main() {
     ) async {
       expect(
         await pumpPadding(tester, isGrouped: false),
-        const EdgeInsets.only(left: 16, right: 16, top: 2, bottom: 2),
+        const EdgeInsets.only(
+          left: kMessageRowPaddingHorizontal,
+          right: kMessageRowPaddingHorizontal,
+          top: 2,
+          bottom: 2,
+        ),
       );
     });
 
@@ -85,7 +110,12 @@ void main() {
     ) async {
       expect(
         await pumpPadding(tester, isGrouped: true),
-        const EdgeInsets.only(left: 16, right: 16, top: 2, bottom: 2),
+        const EdgeInsets.only(
+          left: kMessageRowPaddingHorizontal,
+          right: kMessageRowPaddingHorizontal,
+          top: 2,
+          bottom: 2,
+        ),
       );
     });
   });

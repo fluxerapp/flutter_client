@@ -3,13 +3,29 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/attachments/textual_attachment_preview.dart';
 import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
+import 'package:fluxer_app/features/chat/utils/attachment_preview_utils.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class AttachmentFile extends StatelessWidget {
   const AttachmentFile({required this.attachment, super.key});
+
+  final Attachment attachment;
+
+  @override
+  Widget build(BuildContext context) {
+    if (shouldPreviewAttachment(attachment)) {
+      return TextualAttachmentPreview(attachment: attachment);
+    }
+    return _AttachmentFileChip(attachment: attachment);
+  }
+}
+
+class _AttachmentFileChip extends StatelessWidget {
+  const _AttachmentFileChip({required this.attachment});
 
   final Attachment attachment;
 

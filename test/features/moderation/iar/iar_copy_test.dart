@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_copy.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_flow.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations_en.dart';
+import '../../../helpers/test_l10n.dart';
 
 void main() {
-  final l10n = FluxerLocalizationsEn();
+  final l10n = testL10n;
 
   group('iarFlatMessageReasonSelectOptions', () {
     test('returns one option per message reason, in list order', () {

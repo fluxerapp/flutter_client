@@ -10,6 +10,12 @@ extension FluxerThemeX on BuildContext {
       Theme.of(this).extension<FluxerTextTheme>()!;
   FluxerLayoutTheme get layout =>
       Theme.of(this).extension<FluxerLayoutTheme>()!;
-  FluxerMotionTheme get motion =>
-      Theme.of(this).extension<FluxerMotionTheme>()!;
+
+  /// Zeroed when reduced motion is on.
+  FluxerMotionTheme get motion {
+    if (MediaQuery.disableAnimationsOf(this)) {
+      return const FluxerMotionTheme.reduced();
+    }
+    return Theme.of(this).extension<FluxerMotionTheme>()!;
+  }
 }

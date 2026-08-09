@@ -61,6 +61,11 @@ class _FluxerLoadingSpinnerState extends State<FluxerLoadingSpinner>
     final Color dotColor =
         widget.color ?? (widget.inverted ? Colors.black : Colors.white);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final bool animationsEnabled = !MediaQuery.disableAnimationsOf(context);
+    _controller.syncWithVisibility(
+      isVisible: _isVisible,
+      animationsEnabled: animationsEnabled,
+    );
 
     return VisibilityDetector(
       key: ObjectKey(this),

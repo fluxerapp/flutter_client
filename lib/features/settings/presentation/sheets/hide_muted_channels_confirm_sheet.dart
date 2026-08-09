@@ -23,6 +23,7 @@ Future<HideMutedChannelsChoice?> showHideMutedChannelsConfirmSheet(
 
   return FluxerBottomSheet.show<HideMutedChannelsChoice>(
     context,
+    useRootNavigator: true,
     title: title,
     builder: (sheetContext, close) {
       final layout = sheetContext.layout;

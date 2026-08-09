@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/accessibility/effective_motion_preferences_provider.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/markdown_timestamp_format.dart';
 import 'package:fluxer_app/features/settings/domain/search_provider_engine.dart';
@@ -57,6 +58,10 @@ class MessageMarkdown extends ConsumerWidget {
     final bool dimStrikethroughText = ref.watch(
       appearancePreferencesProvider.select((s) => s.dimStrikethroughText),
     );
+    final bool animateCustomEmoji = effectiveMotionOf(
+      ref,
+      context,
+    ).effectiveAnimateEmoji;
     return FluxerMarkdown(
       data: data,
       parseCacheKey: messageId == null ? null : '$messageId:${data.hashCode}',
@@ -69,6 +74,7 @@ class MessageMarkdown extends ConsumerWidget {
         spoilerSyncController: spoilerSyncController,
         alwaysUnderlineLinks: alwaysUnderlineLinks,
         dimStrikethroughText: dimStrikethroughText,
+        animateCustomEmoji: animateCustomEmoji,
         selectionContextMenuBuilder: selectable
             ? createSearchSelectionContextMenuBuilder(
                 searchEngines: searchEngines,

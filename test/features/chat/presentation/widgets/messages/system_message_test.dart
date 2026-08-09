@@ -19,6 +19,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
+import '../../../../../helpers/test_l10n.dart';
 
 /// Every message type routed to [SystemMessage] (i.e. not a user message).
 /// Reactions are allowed on all of these.
@@ -151,6 +152,7 @@ Future<void> _pumpSystemMessage(
         use12HourTimeFormatProvider.overrideWithValue(false),
       ],
       child: MaterialApp(
+        locale: kTestLocale,
         localizationsDelegates: FluxerLocalizations.localizationsDelegates,
         supportedLocales: FluxerLocalizations.supportedLocales,
         theme: buildFluxerTheme(
@@ -226,7 +228,10 @@ void main() {
         ),
       );
 
-      expect(find.textContaining('Sample User added u2'), findsOneWidget);
+      expect(find.text('Sample User'), findsOneWidget);
+      expect(find.text('u2'), findsOneWidget);
+      expect(find.textContaining('added'), findsOneWidget);
+      expect(find.textContaining('to the group'), findsOneWidget);
     });
 
     testWidgets('renders localized channel rename with new name', (

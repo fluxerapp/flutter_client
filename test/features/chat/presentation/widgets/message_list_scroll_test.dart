@@ -43,6 +43,7 @@ import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../helpers/open_test_database.dart';
 import '../../../../helpers/pump_fluxer_app.dart';
+import '../../../../helpers/test_l10n.dart';
 
 void main() {
   group('unread center open path', () {
@@ -3692,6 +3693,91 @@ void main() {
       await _disposeMessageList(tester);
     });
 
+    testWidgets('case 4b: a live arrival during a user drag away from the tail '
+        'does not follow', (WidgetTester tester) async {
+      final _InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+        tester,
+        hasMoreNewer: false,
+        count: 240,
+      );
+      final ScrollPosition position = _messageListScrollPosition(tester);
+      expect(position.pixels, moreOrLessEquals(0, epsilon: 1));
+
+      final TestGesture gesture = await tester.startGesture(
+        tester.getCenter(_messageListScrollable()),
+      );
+      await gesture.moveBy(const Offset(0, 50));
+      await tester.pump();
+      final double scrolledPixels = position.pixels;
+      expect(
+        position.maxScrollExtent - scrolledPixels,
+        greaterThan(8),
+        reason: 'drag must leave the 8px engage zone',
+      );
+
+      final List<Message> old = chatViewModel._testState.messages;
+      final List<Message> live = newerRows(old, count: 1, label: 'live');
+      chatViewModel._testState = chatViewModel._testState.copyWith(
+        write: (
+          messages: <Message>[...old, ...live],
+          origin: MessagesOrigin.liveCreate,
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+
+      expect(
+        position.maxScrollExtent - position.pixels,
+        greaterThan(8),
+        reason: 'a mid-drag liveCreate must not follow',
+      );
+
+      await gesture.up();
+      await pumpFluxerFrames(tester);
+      await _disposeMessageList(tester);
+    });
+
+    testWidgets('case 4c: after a short drag away from the tail, a later live '
+        'arrival preserves', (WidgetTester tester) async {
+      final _InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+        tester,
+        hasMoreNewer: false,
+      );
+      final ScrollPosition position = _messageListScrollPosition(tester);
+
+      // Pin distance subtracts the 16px status overlay inset; clear past
+      // 8 + 16 so settle cannot re-engage.
+      await tester.drag(_messageListScrollable(), const Offset(0, 120));
+      await pumpFluxerFrames(tester);
+
+      final double settledPixels = position.pixels;
+      expect(
+        position.maxScrollExtent - settledPixels,
+        greaterThan(24),
+        reason: 'drag must leave the 8px engage zone',
+      );
+
+      final List<Message> old = chatViewModel._testState.messages;
+      final List<Message> live = newerRows(old, count: 1, label: 'live');
+      chatViewModel._testState = chatViewModel._testState.copyWith(
+        write: (
+          messages: <Message>[...old, ...live],
+          origin: MessagesOrigin.liveCreate,
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+
+      expect(
+        position.maxScrollExtent - position.pixels,
+        greaterThan(8),
+        reason: 'a disarmed leave must not re-follow on liveCreate',
+      );
+      expect(position.pixels, moreOrLessEquals(settledPixels, epsilon: 2));
+
+      await _disposeMessageList(tester);
+    });
+
     testWidgets(
       'case 5: preserve on the final page does not leak into never-follow '
       '— a later live arrival at the bottom still follows',
@@ -4832,6 +4918,7 @@ Widget _messageListApp({
       ...overrides,
     ],
     child: MaterialApp(
+      locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(

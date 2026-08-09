@@ -101,6 +101,18 @@ bool selectReducedMotionActive(MotionPreferencesInput input) {
   );
 }
 
+bool resolveStickerPlaybackActive({
+  required StickerAnimationOptions mode,
+  required bool interacting,
+}) {
+  return switch (mode) {
+    StickerAnimationOptions.neverAnimate => false,
+    StickerAnimationOptions.alwaysAnimate => true,
+    StickerAnimationOptions.animateOnInteraction => interacting,
+    _ => true,
+  };
+}
+
 bool selectBaseAnimateEmoji(MotionPreferencesInput input) {
   if (input.isMobile && input.mobileAnimateEmojiOverridden) {
     return input.mobileAnimateEmojiValue;

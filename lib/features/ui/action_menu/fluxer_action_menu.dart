@@ -110,7 +110,7 @@ class FluxerActionMenu {
 
     animationController = AnimationController(
       vsync: overlay,
-      duration: const Duration(milliseconds: 150),
+      duration: context.motion.normal,
     );
 
     final fadeAnimation = CurvedAnimation(

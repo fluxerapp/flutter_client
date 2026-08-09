@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_r
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_row_layout.dart';
 import 'package:fluxer_app/features/chat/utils/message_timestamp_format.dart';
 import 'package:fluxer_app/features/chat/utils/system_message_text.dart';
+import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -105,6 +106,24 @@ class SystemMessage extends ConsumerWidget {
       usernameStyle: usernameStyle,
       newNameStyle: newNameStyle,
       linkStyle: linkStyle,
+      onAuthorTap: message.authorId.isNotEmpty
+          ? () => unawaited(
+              FluxerUserProfileSheet.show(
+                context,
+                userId: message.authorId,
+                guildId: resolvedGuildId,
+              ),
+            )
+          : null,
+      onMentionedUserTap: message.mentionedUserIds.isNotEmpty
+          ? () => unawaited(
+              FluxerUserProfileSheet.show(
+                context,
+                userId: message.mentionedUserIds.first,
+                guildId: resolvedGuildId,
+              ),
+            )
+          : null,
       onMessageLinkTap: onJumpToPinnedMessage,
       onAllPinsLinkTap: onViewAllPins,
       onJoinCallTap: _joinCallTapHandler(

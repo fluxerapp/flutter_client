@@ -47,6 +47,9 @@ class _UploadDropOverlayState extends ConsumerState<UploadDropOverlay> {
     }
     final colors = context.colors;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final bool slowBlocked =
+        ref.watch(isSlowmodeBlockedProvider(widget.channelId)).value ?? false;
+    final bool shiftHeld = HardwareKeyboard.instance.isShiftPressed;
     return DropTarget(
       onDragEntered: (_) {
         setState(() => _isDragging = true);
@@ -71,8 +74,8 @@ class _UploadDropOverlayState extends ConsumerState<UploadDropOverlay> {
         final bool slowBlocked =
             ref.read(isSlowmodeBlockedProvider(widget.channelId)).value ??
             false;
-        final bool directSend =
-            HardwareKeyboard.instance.isShiftPressed && !slowBlocked;
+        final bool shiftHeld = HardwareKeyboard.instance.isShiftPressed;
+        final bool directSend = shiftHeld && !slowBlocked;
         if (directSend &&
             result.isValid &&
             files.isNotEmpty &&
@@ -99,7 +102,9 @@ class _UploadDropOverlayState extends ConsumerState<UploadDropOverlay> {
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        HardwareKeyboard.instance.isShiftPressed
+                        slowBlocked && shiftHeld
+                            ? l10n.chatAttachmentDropSlowmodeDisabled
+                            : shiftHeld
                             ? l10n.chatAttachmentDropToSend
                             : l10n.chatAttachmentDropToUpload,
                         style: context.textStyles.channelName.copyWith(

@@ -291,7 +291,7 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
       unawaited(
         _scrollController.animateTo(
           0,
-          duration: const Duration(milliseconds: 200),
+          duration: context.motion.panel,
           curve: Curves.easeOut,
         ),
       );
@@ -310,7 +310,7 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
       unawaited(
         _scrollController.animateTo(
           offset.clamp(0, _scrollController.position.maxScrollExtent),
-          duration: const Duration(milliseconds: 200),
+          duration: context.motion.panel,
           curve: Curves.easeOut,
         ),
       );
@@ -330,7 +330,7 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
         unawaited(
           _scrollController.animateTo(
             offset.clamp(0, _scrollController.position.maxScrollExtent),
-            duration: const Duration(milliseconds: 200),
+            duration: context.motion.panel,
             curve: Curves.easeOut,
           ),
         );
@@ -708,7 +708,7 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
             const SizedBox(width: 8),
             AnimatedRotation(
               turns: isCollapsed ? -0.25 : 0,
-              duration: const Duration(milliseconds: 200),
+              duration: context.motion.panel,
               child: PhosphorIcon(
                 PhosphorIconsBold.caretDown,
                 size: 12,

@@ -46,7 +46,9 @@ import 'package:fluxer_app/features/chat/providers/messages/typing_sender.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_immunity_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_indicator_shake_provider.dart';
+import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_rate_limited_alert_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
+import 'package:fluxer_app/features/chat/utils/slowmode_utils.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/chat/utils/channel_message_stream.dart';
@@ -1949,7 +1951,9 @@ class ChatViewModel extends _$ChatViewModel {
         return;
       }
       if (cached.isNotEmpty && !hasUnread) {
-        final bool willRefresh = _shouldRefreshChannelFromNetwork(channelId);
+        final bool incompleteCache = cached.length < _kPageSize;
+        final bool willRefresh =
+            incompleteCache || _shouldRefreshChannelFromNetwork(channelId);
         state = _switchedChannelState(
           channelId: channelId,
           messages: _applyPendingLocalMutations(cached, cacheOrdinal),
@@ -1960,7 +1964,7 @@ class ChatViewModel extends _$ChatViewModel {
           isSyncingMessages: willRefresh,
           isLoadingMore: false,
           isLoadingNewer: false,
-          hasMoreMessages: cached.length >= _kPageSize,
+          hasMoreMessages: incompleteCache || cached.length >= _kPageSize,
           hasMoreNewerMessages: false,
           replaceWindow: true,
         );
@@ -1970,8 +1974,8 @@ class ChatViewModel extends _$ChatViewModel {
           unawaited(
             _refreshMessagesFromNetwork(
               channelId,
-              isDirectLatestLoad: false,
-              preserveLoadedWindow: true,
+              isDirectLatestLoad: incompleteCache,
+              preserveLoadedWindow: !incompleteCache,
               shouldApplyResult: isCurrentSwitch,
             ),
           );
@@ -3782,9 +3786,7 @@ class ChatViewModel extends _$ChatViewModel {
         if (readState != null &&
             !readState.manual &&
             (readState.lastMessageId?.isNotEmpty ?? false)) {
-          await ref
-              .read(readStateRepositoryProvider)
-              .applyLocalAckLatest(channelId);
+          await ref.read(readStateRepositoryProvider).ackLatest(channelId);
         }
       }
       return;
@@ -4249,6 +4251,32 @@ class ChatViewModel extends _$ChatViewModel {
       _notifySendBlocked(_SendBlockReason.guildAccess, guildBlock: guildBlock);
       return;
     }
+    final db.Channel? channelRow = await ref
+        .read(fluxerDatabaseProvider)
+        .channelDao
+        .getChannelById(channelId);
+    final String guildId = channelRow?.guildId ?? '';
+    ChannelPermissionBitsOutcome? permissionOutcome;
+    if (guildId.isNotEmpty) {
+      permissionOutcome =
+          await computeEffectiveGuildChannelPermissionBitsOutcome(
+            ref: ref,
+            channelId: channelId,
+          );
+    }
+    final int rateLimit = channelRow?.rateLimitPerUser ?? 0;
+    final Duration? slowmodeRemaining = _activeSlowmodeRemaining(
+      channelId: channelId,
+      rateLimit: rateLimit,
+      permissionOutcome: permissionOutcome,
+    );
+    if (slowmodeRemaining != null) {
+      _notifySendBlocked(
+        _SendBlockReason.slowmode,
+        remaining: slowmodeRemaining,
+      );
+      return;
+    }
     final String? currentUserId = ref.read(currentUserIdProvider);
     final db.User? currentUser = currentUserId == null
         ? null
@@ -4320,9 +4348,6 @@ class ChatViewModel extends _$ChatViewModel {
     );
     clearStickyUnread();
     unawaited(ref.read(readStateRepositoryProvider).clearSticky(channelId));
-    if (!await ref.read(isSlowmodeImmuneProvider(channelId).future)) {
-      ref.read(slowmodeTrackerProvider.notifier).recordSend(channelId);
-    }
     unawaited(
       _completeSendWithAttachments(
         channelId: channelId,
@@ -4414,17 +4439,20 @@ class ChatViewModel extends _$ChatViewModel {
       }
     }
     final rateLimit = channelRow?.rateLimitPerUser ?? 0;
-    if (rateLimit > 0 && !bypassesChannelSlowmode(permissionOutcome)) {
-      final remaining = ref
-          .read(slowmodeTrackerProvider.notifier)
-          .remainingFor(channelId, rateLimit);
-      if (remaining > Duration.zero) {
-        talker.debug(
-          '[ChatViewModel] send blocked: slowmode channelId=$channelId',
-        );
-        _notifySendBlocked(_SendBlockReason.slowmode);
-        return;
-      }
+    final Duration? slowmodeRemaining = _activeSlowmodeRemaining(
+      channelId: channelId,
+      rateLimit: rateLimit,
+      permissionOutcome: permissionOutcome,
+    );
+    if (slowmodeRemaining != null) {
+      talker.debug(
+        '[ChatViewModel] send blocked: slowmode channelId=$channelId',
+      );
+      _notifySendBlocked(
+        _SendBlockReason.slowmode,
+        remaining: slowmodeRemaining,
+      );
+      return;
     }
 
     final replyToId = state.replyingTo?.id;
@@ -4496,9 +4524,6 @@ class ChatViewModel extends _$ChatViewModel {
     }
     clearStickyUnread();
     unawaited(ref.read(readStateRepositoryProvider).clearSticky(channelId));
-    if (!bypassesChannelSlowmode(permissionOutcome)) {
-      ref.read(slowmodeTrackerProvider.notifier).recordSend(channelId);
-    }
 
     if (!hasPendingAttachments) {
       unawaited(
@@ -4578,6 +4603,7 @@ class ChatViewModel extends _$ChatViewModel {
       state = state.copyWith(
         write: (messages: nextMessages, origin: MessagesOrigin.localMutation),
       );
+      unawaited(_recordSlowmodeSendOnSuccess(channelId));
     } on Object catch (error, st) {
       talker.error(
         '[ChatViewModel] send api_error channelId=$channelId',
@@ -4651,6 +4677,7 @@ class ChatViewModel extends _$ChatViewModel {
       state = state.copyWith(
         write: (messages: nextMessages, origin: MessagesOrigin.localMutation),
       );
+      unawaited(_recordSlowmodeSendOnSuccess(channelId));
     } on MessageUploadSendCancelledException {
       return;
     } on Object catch (error, st) {
@@ -4670,9 +4697,50 @@ class ChatViewModel extends _$ChatViewModel {
     return state.messages.any((Message m) => m.id == optimisticMessageId);
   }
 
+  void _syncSlowmodeFromSendError(Object error, String channelId) {
+    final SlowmodeTracker tracker = ref.read(slowmodeTrackerProvider.notifier);
+    applySlowmodeRateLimitError(
+      tracker: tracker,
+      channelId: channelId,
+      error: error,
+    );
+    if (!isSlowmodeRateLimitedError(error)) {
+      return;
+    }
+    final int? retryAfterMs = slowmodeRetryAfterMsFromError(error);
+    if (retryAfterMs != null) {
+      ref
+          .read(slowmodeRateLimitedAlertProvider.notifier)
+          .show(Duration(milliseconds: retryAfterMs));
+    }
+    ref.read(slowmodeIndicatorShakeProvider.notifier).requestShake();
+  }
+
+  Duration? _activeSlowmodeRemaining({
+    required String channelId,
+    required int rateLimit,
+    ChannelPermissionBitsOutcome? permissionOutcome,
+  }) {
+    if (rateLimit <= 0 || bypassesChannelSlowmode(permissionOutcome)) {
+      return null;
+    }
+    final Duration remaining = ref
+        .read(slowmodeTrackerProvider.notifier)
+        .remainingFor(channelId, rateLimit);
+    return remaining > Duration.zero ? remaining : null;
+  }
+
+  Future<void> _recordSlowmodeSendOnSuccess(String channelId) async {
+    if (await ref.read(isSlowmodeImmuneProvider(channelId).future)) {
+      return;
+    }
+    ref.read(slowmodeTrackerProvider.notifier).recordSend(channelId);
+  }
+
   void _notifySendBlocked(
     _SendBlockReason reason, {
     GuildComposerAccess? guildBlock,
+    Duration? remaining,
   }) {
     switch (reason) {
       case _SendBlockReason.empty:
@@ -4702,6 +4770,9 @@ class ChatViewModel extends _$ChatViewModel {
               ),
             );
       case _SendBlockReason.slowmode:
+        if (remaining != null && remaining > Duration.zero) {
+          ref.read(slowmodeRateLimitedAlertProvider.notifier).show(remaining);
+        }
         ref.read(slowmodeIndicatorShakeProvider.notifier).requestShake();
       case _SendBlockReason.channelNotReady:
         final FluxerLocalizations l10n = ref.read(appLocalizationsProvider);
@@ -4747,6 +4818,7 @@ class ChatViewModel extends _$ChatViewModel {
     final String? apiErrorCode = error is DioException
         ? apiErrorCodeFromDioException(error)
         : null;
+    _syncSlowmodeFromSendError(error, state.channelId);
     final String? systemMessageContent = clientSystemMessageForSendError(
       apiErrorCode: apiErrorCode,
       l10n: l10n,
@@ -4859,6 +4931,7 @@ class ChatViewModel extends _$ChatViewModel {
       state = state.copyWith(
         write: (messages: nextMessages, origin: MessagesOrigin.localMutation),
       );
+      unawaited(_recordSlowmodeSendOnSuccess(message.channelId));
     } on Object catch (e) {
       debugPrint('[ChatViewModel] Retry failed: $e');
       final FluxerLocalizations l10n = ref.read(appLocalizationsProvider);
@@ -4877,6 +4950,7 @@ class ChatViewModel extends _$ChatViewModel {
       final String? apiErrorCode = e is DioException
           ? apiErrorCodeFromDioException(e)
           : null;
+      _syncSlowmodeFromSendError(e, message.channelId);
       final String? systemMessageContent = clientSystemMessageForSendError(
         apiErrorCode: apiErrorCode,
         l10n: l10n,

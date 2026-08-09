@@ -18,6 +18,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 
 import '../../../../../helpers/open_test_database.dart';
+import '../../../../../helpers/test_l10n.dart';
 
 class _FakeGuilds extends GuildListViewModel {
   _FakeGuilds(this._guilds);
@@ -78,6 +79,7 @@ Future<EmojiTextEditingController> _pumpBioField(
         ),
       ],
       child: MaterialApp(
+        locale: kTestLocale,
         localizationsDelegates: FluxerLocalizations.localizationsDelegates,
         supportedLocales: FluxerLocalizations.supportedLocales,
         theme: buildFluxerTheme(
@@ -292,6 +294,7 @@ void main() {
             ),
           ],
           child: MaterialApp(
+            locale: kTestLocale,
             localizationsDelegates: FluxerLocalizations.localizationsDelegates,
             supportedLocales: FluxerLocalizations.supportedLocales,
             theme: buildFluxerTheme(

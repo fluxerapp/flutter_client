@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/features/ui/toggle_switch/fluxer_switch_control.dart';
@@ -92,7 +93,10 @@ class FluxerToggleSwitch extends StatelessWidget {
     return FluxerTappable(
       enabled: enabled,
       minSize: Size(layout.touchTargetMin, layout.touchTargetMin),
-      onTap: () => onChanged(!value),
+      onTap: () {
+        FluxerHaptics.selection();
+        onChanged(!value);
+      },
       semanticLabel: _semanticsLabel(),
       toggled: value,
       excludeChildSemantics: _semanticsLabel() != null,

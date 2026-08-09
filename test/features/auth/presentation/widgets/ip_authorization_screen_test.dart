@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/auth/presentation/widgets/ip_authorization_s
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import '../../../../helpers/test_l10n.dart';
 
 class _ExpiredAuthRepository implements AuthRepository {
   @override
@@ -25,6 +26,7 @@ class _ExpiredAuthRepository implements AuthRepository {
 Widget _app(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return MaterialApp(
+    locale: kTestLocale,
     localizationsDelegates: FluxerLocalizations.localizationsDelegates,
     supportedLocales: FluxerLocalizations.supportedLocales,
     theme: buildFluxerTheme(

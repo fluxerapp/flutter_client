@@ -21,6 +21,7 @@ import 'package:fluxer_app/features/members/utils/guild_members_formatting.dart'
 import 'package:fluxer_app/features/members/utils/guild_members_search_request_builder.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
+import 'package:fluxer_app/features/ui/animation/animation_controller_visibility_extension.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
@@ -755,19 +756,6 @@ class _MembersTableProgressSlotState extends State<_MembersTableProgressSlot>
       vsync: this,
       duration: const Duration(milliseconds: 1200),
     );
-    if (widget.visible) {
-      _controller.repeat();
-    }
-  }
-
-  @override
-  void didUpdateWidget(covariant _MembersTableProgressSlot oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.visible && !_controller.isAnimating) {
-      _controller.repeat();
-    } else if (!widget.visible) {
-      _controller.stop();
-    }
   }
 
   @override
@@ -778,8 +766,12 @@ class _MembersTableProgressSlotState extends State<_MembersTableProgressSlot>
 
   @override
   Widget build(BuildContext context) {
+    _controller.syncWithVisibility(
+      isVisible: widget.visible,
+      animationsEnabled: !MediaQuery.disableAnimationsOf(context),
+    );
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 150),
+      duration: context.motion.normal,
       height: widget.visible ? 2 : 0,
       child: widget.visible
           ? ClipRect(

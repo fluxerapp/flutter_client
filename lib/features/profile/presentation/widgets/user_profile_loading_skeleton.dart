@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/ui/animation/animation_controller_visibility_extension.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
@@ -48,7 +49,6 @@ class _UserProfileLoadingSkeletonState extends State<UserProfileLoadingSkeleton>
         ]).animate(
           CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
         );
-    _pulseController.repeat();
   }
 
   @override
@@ -63,11 +63,10 @@ class _UserProfileLoadingSkeletonState extends State<UserProfileLoadingSkeleton>
     final colors = context.colors;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final bool reduceMotion = MediaQuery.disableAnimationsOf(context);
-    if (reduceMotion) {
-      _pulseController.stop();
-    } else if (!_pulseController.isAnimating) {
-      _pulseController.repeat();
-    }
+    _pulseController.syncWithVisibility(
+      isVisible: true,
+      animationsEnabled: !reduceMotion,
+    );
 
     return Semantics(
       label: l10n.userProfileLoading,

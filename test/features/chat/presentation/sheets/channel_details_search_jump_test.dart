@@ -26,6 +26,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../helpers/open_test_database.dart';
+import '../../../../helpers/test_l10n.dart';
 
 /// The user's report: search a message, tap the result, and the search sheet
 /// closes while the DETAILS sheet stays put, so the message is never reached.
@@ -177,6 +178,7 @@ void main() {
       UncontrolledProviderScope(
         container: container,
         child: MaterialApp(
+          locale: kTestLocale,
           localizationsDelegates: FluxerLocalizations.localizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           theme: buildFluxerTheme(

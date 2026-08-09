@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations_en.dart';
+import '../../../helpers/test_l10n.dart';
 
 void main() {
   DmConversation convo({required int type}) {
@@ -40,11 +40,7 @@ void main() {
           ],
         );
         expect(
-          group.displayNameWith(
-            'Nick',
-            l10n: FluxerLocalizationsEn(),
-            currentUserId: '1',
-          ),
+          group.displayNameWith('Nick', l10n: testL10n, currentUserId: '1'),
           'Alice',
         );
       },

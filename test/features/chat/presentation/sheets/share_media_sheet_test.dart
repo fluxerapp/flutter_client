@@ -28,6 +28,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../helpers/open_test_database.dart';
+import '../../../../helpers/test_l10n.dart';
 
 const String _userId = 'user_1';
 const String _guildId = 'guild_1';
@@ -138,6 +139,7 @@ Widget _app(
       ...extraOverrides,
     ],
     child: MaterialApp(
+      locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
@@ -179,6 +181,28 @@ Future<void> _openSheet(
   await tester.pumpAndSettle();
 }
 
+Future<void> _ensureDestinationVisible(
+  WidgetTester tester,
+  String destinationName,
+) async {
+  final Finder destination = find.text(destinationName);
+  if (destination.evaluate().isNotEmpty) {
+    return;
+  }
+  final Finder listView = find.byType(ListView);
+  for (int attempt = 0; attempt < 8; attempt++) {
+    if (destination.evaluate().isNotEmpty) {
+      return;
+    }
+    if (listView.evaluate().isEmpty) {
+      break;
+    }
+    await tester.drag(listView, const Offset(0, -200));
+    await tester.pump();
+  }
+  await tester.pumpAndSettle();
+}
+
 void main() {
   group('showShareMediaSheet', () {
     testWidgets('renders the share sheet title and destinations', (
@@ -187,8 +211,9 @@ void main() {
       final FluxerDatabase db = await _seedDb();
       await _openSheet(tester, db);
 
-      expect(find.text('Share to'), findsOneWidget);
+      expect(find.text(testL10n.shareMediaTitle), findsOneWidget);
       expect(find.text('general'), findsOneWidget);
+      await _ensureDestinationVisible(tester, 'voice-room');
       expect(find.text('voice-room'), findsOneWidget);
       expect(find.text('Alice'), findsOneWidget);
     });
@@ -199,7 +224,10 @@ void main() {
       final FluxerDatabase db = await _seedDb();
       await _openSheet(tester, db);
 
-      final Finder sendButton = find.widgetWithText(FluxerButton, 'Send');
+      final Finder sendButton = find.widgetWithText(
+        FluxerButton,
+        testL10n.shareMediaSendButton,
+      );
       expect(tester.widget<FluxerButton>(sendButton).onPressedAsync, isNull);
 
       await tester.tap(find.text('general'));

@@ -20,6 +20,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod/src/framework.dart';
 
 import '../../helpers/wide_layout_test_sizes.dart';
+import '../../helpers/test_l10n.dart';
 
 class _InertSyncedPreferencesStore extends SyncedPreferencesStore {
   // ignore: use_super_parameters
@@ -105,6 +106,7 @@ Widget _wrap(Widget child, {required Size size}) {
   return ProviderScope(
     overrides: _overrides(),
     child: MaterialApp(
+      locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(

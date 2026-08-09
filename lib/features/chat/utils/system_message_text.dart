@@ -182,6 +182,8 @@ List<InlineSpan> buildSystemMessageTextSpans({
   String? mentionedUserName,
   TextStyle? newNameStyle,
   TextStyle? linkStyle,
+  VoidCallback? onAuthorTap,
+  VoidCallback? onMentionedUserTap,
   VoidCallback? onMessageLinkTap,
   VoidCallback? onAllPinsLinkTap,
   VoidCallback? onJoinCallTap,
@@ -194,6 +196,7 @@ List<InlineSpan> buildSystemMessageTextSpans({
       authorName: authorName,
       textStyle: textStyle,
       usernameStyle: usernameStyle,
+      onAuthorTap: onAuthorTap,
     );
   }
   if (message.type == messageTypeChannelPinnedMessage) {
@@ -203,6 +206,7 @@ List<InlineSpan> buildSystemMessageTextSpans({
       textStyle: textStyle,
       usernameStyle: usernameStyle,
       linkStyle: linkStyle ?? usernameStyle,
+      onAuthorTap: onAuthorTap,
       onMessageLinkTap: onMessageLinkTap,
       onAllPinsLinkTap: onAllPinsLinkTap,
     );
@@ -215,6 +219,7 @@ List<InlineSpan> buildSystemMessageTextSpans({
       textStyle: textStyle,
       usernameStyle: usernameStyle,
       linkStyle: linkStyle ?? usernameStyle,
+      onAuthorTap: onAuthorTap,
       onJoinCallTap: onJoinCallTap,
       currentUserId: currentUserId,
     );
@@ -236,6 +241,8 @@ List<InlineSpan> buildSystemMessageTextSpans({
     textStyle: textStyle,
     usernameStyle: usernameStyle,
     newNameStyle: newNameStyle ?? usernameStyle,
+    onAuthorTap: onAuthorTap,
+    onMentionedUserTap: onMentionedUserTap,
   );
 }
 
@@ -305,6 +312,7 @@ List<InlineSpan> _guildJoinTextSpans(
   required String authorName,
   required TextStyle textStyle,
   required TextStyle usernameStyle,
+  VoidCallback? onAuthorTap,
 }) {
   final template = resolveGuildJoinMessageTemplate(l10n, messageId: messageId);
   return expandSystemMessageTemplate(
@@ -312,6 +320,7 @@ List<InlineSpan> _guildJoinTextSpans(
     authorName: authorName,
     textStyle: textStyle,
     usernameStyle: usernameStyle,
+    onAuthorTap: onAuthorTap,
   );
 }
 
@@ -322,6 +331,7 @@ List<InlineSpan> _callMessageTextSpans({
   required TextStyle textStyle,
   required TextStyle usernameStyle,
   required TextStyle linkStyle,
+  VoidCallback? onAuthorTap,
   VoidCallback? onJoinCallTap,
   String? currentUserId,
 }) {
@@ -352,6 +362,7 @@ List<InlineSpan> _callMessageTextSpans({
       authorName: authorName,
       textStyle: textStyle,
       usernameStyle: usernameStyle,
+      onAuthorTap: onAuthorTap,
     );
     if (onJoinCallTap != null) {
       spans
@@ -376,6 +387,7 @@ List<InlineSpan> _callMessageTextSpans({
         authorName: authorName,
         textStyle: textStyle,
         usernameStyle: usernameStyle,
+        onAuthorTap: onAuthorTap,
       );
     }
     return expandSystemMessageTemplate(
@@ -383,6 +395,7 @@ List<InlineSpan> _callMessageTextSpans({
       authorName: authorName,
       textStyle: textStyle,
       usernameStyle: usernameStyle,
+      onAuthorTap: onAuthorTap,
     );
   }
   return expandSystemMessageTemplate(
@@ -393,6 +406,7 @@ List<InlineSpan> _callMessageTextSpans({
     authorName: authorName,
     textStyle: textStyle,
     usernameStyle: usernameStyle,
+    onAuthorTap: onAuthorTap,
   );
 }
 
@@ -402,6 +416,7 @@ List<InlineSpan> buildPinMessageTextSpans({
   required TextStyle textStyle,
   required TextStyle usernameStyle,
   required TextStyle linkStyle,
+  VoidCallback? onAuthorTap,
   VoidCallback? onMessageLinkTap,
   VoidCallback? onAllPinsLinkTap,
 }) {
@@ -413,6 +428,7 @@ List<InlineSpan> buildPinMessageTextSpans({
     textStyle: textStyle,
     usernameStyle: usernameStyle,
     linkStyle: linkStyle,
+    onAuthorTap: onAuthorTap,
     onMessageLinkTap: onMessageLinkTap,
     onAllPinsLinkTap: onAllPinsLinkTap,
   );
@@ -428,6 +444,8 @@ List<InlineSpan> expandSystemMessageTemplate(
   String? mentionedUserName,
   String? newName,
   TextStyle? newNameStyle,
+  VoidCallback? onAuthorTap,
+  VoidCallback? onMentionedUserTap,
 }) {
   if (input.isEmpty) {
     return <InlineSpan>[];
@@ -461,13 +479,15 @@ List<InlineSpan> expandSystemMessageTemplate(
     ),
   };
   final InlineSpan replacement = switch (placeholder) {
-    _SystemMessagePlaceholder.username => TextSpan(
-      text: authorName,
+    _SystemMessagePlaceholder.username => _systemMessageActionSpan(
+      label: authorName,
       style: usernameStyle,
+      onTap: onAuthorTap,
     ),
-    _SystemMessagePlaceholder.mentionedUsername => TextSpan(
-      text: mentionedUserName ?? 'someone',
+    _SystemMessagePlaceholder.mentionedUsername => _systemMessageActionSpan(
+      label: mentionedUserName ?? 'someone',
       style: usernameStyle,
+      onTap: onMentionedUserTap,
     ),
     _SystemMessagePlaceholder.newName => TextSpan(
       text: newName ?? '',
@@ -483,6 +503,8 @@ List<InlineSpan> expandSystemMessageTemplate(
       textStyle: textStyle,
       usernameStyle: usernameStyle,
       newNameStyle: newNameStyle,
+      onAuthorTap: onAuthorTap,
+      onMentionedUserTap: onMentionedUserTap,
     ),
     replacement,
     ...expandSystemMessageTemplate(
@@ -493,6 +515,8 @@ List<InlineSpan> expandSystemMessageTemplate(
       textStyle: textStyle,
       usernameStyle: usernameStyle,
       newNameStyle: newNameStyle,
+      onAuthorTap: onAuthorTap,
+      onMentionedUserTap: onMentionedUserTap,
     ),
   ];
 }
@@ -507,6 +531,7 @@ List<InlineSpan> _expandPinMessageTemplate(
   required TextStyle textStyle,
   required TextStyle usernameStyle,
   required TextStyle linkStyle,
+  VoidCallback? onAuthorTap,
   VoidCallback? onMessageLinkTap,
   VoidCallback? onAllPinsLinkTap,
 }) {
@@ -542,9 +567,10 @@ List<InlineSpan> _expandPinMessageTemplate(
     ),
   };
   final InlineSpan replacement = switch (placeholder) {
-    _PinMessagePlaceholder.username => TextSpan(
-      text: authorName,
+    _PinMessagePlaceholder.username => _systemMessageActionSpan(
+      label: authorName,
       style: usernameStyle,
+      onTap: onAuthorTap,
     ),
     _PinMessagePlaceholder.messageLink => _systemMessageActionSpan(
       label: messageLinkLabel,
@@ -566,6 +592,7 @@ List<InlineSpan> _expandPinMessageTemplate(
       textStyle: textStyle,
       usernameStyle: usernameStyle,
       linkStyle: linkStyle,
+      onAuthorTap: onAuthorTap,
       onMessageLinkTap: onMessageLinkTap,
       onAllPinsLinkTap: onAllPinsLinkTap,
     ),
@@ -578,6 +605,7 @@ List<InlineSpan> _expandPinMessageTemplate(
       textStyle: textStyle,
       usernameStyle: usernameStyle,
       linkStyle: linkStyle,
+      onAuthorTap: onAuthorTap,
       onMessageLinkTap: onMessageLinkTap,
       onAllPinsLinkTap: onAllPinsLinkTap,
     ),

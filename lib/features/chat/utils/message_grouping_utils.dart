@@ -2,17 +2,13 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 
 const Duration messageGroupTimeout = Duration(minutes: 7);
 
+bool isDisplaySystemMessage(Message message) =>
+    message.type != messageTypeDefault && message.type != messageTypeReply;
+
+bool _isSuppressNotifications(Message message) =>
+    (message.flags & messageFlagSuppressNotifications) != 0;
+
 bool authorsShareGroupIdentity(Message current, Message previous) {
-  final bool currentHasWebhook =
-      current.webhookId != null && current.webhookId!.isNotEmpty;
-  final bool previousHasWebhook =
-      previous.webhookId != null && previous.webhookId!.isNotEmpty;
-  if (currentHasWebhook || previousHasWebhook) {
-    if (current.authorName != previous.authorName ||
-        current.authorAvatar != previous.authorAvatar) {
-      return false;
-    }
-  }
   if (current.authorIsBot || previous.authorIsBot) {
     if (current.authorName != previous.authorName ||
         current.authorAvatar != previous.authorAvatar) {
@@ -22,6 +18,55 @@ bool authorsShareGroupIdentity(Message current, Message previous) {
   return true;
 }
 
+bool isNewMessageGroup(Message current, Message? previous) {
+  if (previous == null) {
+    return true;
+  }
+  if (current.type == messageTypeReply || current.isReply) {
+    return true;
+  }
+  final bool currentIsDisplaySystem = isDisplaySystemMessage(current);
+  final bool prevIsDisplaySystem = isDisplaySystemMessage(previous);
+  if (currentIsDisplaySystem != prevIsDisplaySystem) {
+    return true;
+  }
+  final bool isCurrentUserContent = current.isUserMessage;
+  final bool isPrevUserContent = previous.isUserMessage;
+  final bool bothDisplaySystem = currentIsDisplaySystem && prevIsDisplaySystem;
+  if (!bothDisplaySystem &&
+      current.type != previous.type &&
+      !(isCurrentUserContent && isPrevUserContent)) {
+    return true;
+  }
+  if (previous.type <= messageTypeReply &&
+      previous.authorId != current.authorId) {
+    return true;
+  }
+  if (!authorsShareGroupIdentity(current, previous)) {
+    return true;
+  }
+  final String? webhookId = current.webhookId;
+  if (webhookId != null &&
+      webhookId.isNotEmpty &&
+      previous.authorName != current.authorName) {
+    return true;
+  }
+  if (current.timestamp.difference(previous.timestamp) > messageGroupTimeout) {
+    return true;
+  }
+  final bool prevSuppressed = _isSuppressNotifications(previous);
+  final bool currSuppressed = _isSuppressNotifications(current);
+  if (currSuppressed != prevSuppressed) {
+    if (!prevSuppressed && currSuppressed) {
+      return true;
+    }
+    if (prevSuppressed && !currSuppressed && current.hasMentionsForGrouping) {
+      return true;
+    }
+  }
+  return false;
+}
+
 bool shouldGroupMessages(Message current, Message? previous) {
   if (previous == null) {
     return false;
@@ -29,30 +74,21 @@ bool shouldGroupMessages(Message current, Message? previous) {
   if (current.isSystemMessage || previous.isSystemMessage) {
     return false;
   }
-  if (current.authorId != previous.authorId) {
-    return false;
-  }
-  if (!authorsShareGroupIdentity(current, previous)) {
-    return false;
-  }
-  if (current.isReply || current.isForwarded) {
-    return false;
-  }
-  if (previous.isReply || previous.isForwarded) {
-    return false;
-  }
-  final bool currentSilent =
-      (current.flags & messageFlagSuppressNotifications) != 0;
-  final bool previousSilent =
-      (previous.flags & messageFlagSuppressNotifications) != 0;
-  if (currentSilent && !previousSilent) {
-    return false;
-  }
-  final Duration diff = current.timestamp.difference(previous.timestamp);
-  return diff < messageGroupTimeout;
+  return !isNewMessageGroup(current, previous);
 }
 
-/// Between-group spacer height (web parity); half between system messages.
+bool computeMessageRowGrouped({
+  required Message message,
+  required Message? previousMessage,
+  required bool messageDisplayCompact,
+  required bool isNewDay,
+}) {
+  if (messageDisplayCompact || isNewDay) {
+    return false;
+  }
+  return shouldGroupMessages(message, previousMessage);
+}
+
 double leadingGroupSpacing({
   required bool isGroupStart,
   required bool isNewDay,

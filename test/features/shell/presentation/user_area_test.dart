@@ -25,6 +25,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/gateway.dart' show VoiceState;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:riverpod/src/framework.dart' show Override;
+import '../../../helpers/test_l10n.dart';
 
 List<Override> _userAreaOverrides({
   required VoiceSession Function() voiceSession,
@@ -61,6 +62,7 @@ void main() {
           localVoice: _FakeLocalVoiceState.new,
         ),
         child: MaterialApp(
+          locale: kTestLocale,
           localizationsDelegates: FluxerLocalizations.localizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           theme: buildFluxerTheme(
@@ -98,6 +100,7 @@ void main() {
             localVoice: () => localVoice,
           ),
           child: MaterialApp(
+            locale: kTestLocale,
             localizationsDelegates: FluxerLocalizations.localizationsDelegates,
             supportedLocales: FluxerLocalizations.supportedLocales,
             theme: buildFluxerTheme(
@@ -135,6 +138,7 @@ void main() {
           localVoice: _MutedLocalVoiceState.new,
         ),
         child: MaterialApp(
+          locale: kTestLocale,
           localizationsDelegates: FluxerLocalizations.localizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           theme: buildFluxerTheme(
@@ -168,6 +172,7 @@ void main() {
           localVoice: _FakeLocalVoiceState.new,
         ),
         child: MaterialApp(
+          locale: kTestLocale,
           localizationsDelegates: FluxerLocalizations.localizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           theme: buildFluxerTheme(

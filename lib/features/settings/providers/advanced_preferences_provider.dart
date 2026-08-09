@@ -28,7 +28,6 @@ class AdvancedPreferencesState {
     this.showEmojiButton = true,
     this.showMessageSendButton = false,
     this.scrollToBottomOnMessageSend = true,
-    this.sequentialFileSend = false,
     this.skipMarkAllAsReadConfirmation = false,
     this.preuploadMessageAttachments = true,
     this.disableStreamPreviews = false,
@@ -52,7 +51,6 @@ class AdvancedPreferencesState {
   final bool showEmojiButton;
   final bool showMessageSendButton;
   final bool scrollToBottomOnMessageSend;
-  final bool sequentialFileSend;
   final bool skipMarkAllAsReadConfirmation;
   final bool preuploadMessageAttachments;
   final bool disableStreamPreviews;
@@ -76,7 +74,6 @@ class AdvancedPreferencesState {
     bool? showEmojiButton,
     bool? showMessageSendButton,
     bool? scrollToBottomOnMessageSend,
-    bool? sequentialFileSend,
     bool? skipMarkAllAsReadConfirmation,
     bool? preuploadMessageAttachments,
     bool? disableStreamPreviews,
@@ -114,7 +111,6 @@ class AdvancedPreferencesState {
           showMessageSendButton ?? this.showMessageSendButton,
       scrollToBottomOnMessageSend:
           scrollToBottomOnMessageSend ?? this.scrollToBottomOnMessageSend,
-      sequentialFileSend: sequentialFileSend ?? this.sequentialFileSend,
       skipMarkAllAsReadConfirmation:
           skipMarkAllAsReadConfirmation ?? this.skipMarkAllAsReadConfirmation,
       preuploadMessageAttachments:
@@ -181,7 +177,6 @@ class AdvancedPreferences extends _$AdvancedPreferences {
         showEmojiButton: prefs.showEmojiButton,
         showMessageSendButton: prefs.showMessageSendButton,
         scrollToBottomOnMessageSend: prefs.scrollToBottomOnMessageSend,
-        sequentialFileSend: prefs.sequentialFileSend,
         skipMarkAllAsReadConfirmation: prefs.skipMarkAllAsReadConfirmation,
         preuploadMessageAttachments: prefs.preuploadMessageAttachments,
         disableStreamPreviews: prefs.disableStreamPreviews,
@@ -359,12 +354,6 @@ class AdvancedPreferences extends _$AdvancedPreferences {
 
   Future<void> setScrollToBottomOnMessageSend({required bool value}) async {
     state = state.copyWith(scrollToBottomOnMessageSend: value);
-    await _persist();
-    _markAccessibilityDirty();
-  }
-
-  Future<void> setSequentialFileSend({required bool value}) async {
-    state = state.copyWith(sequentialFileSend: value);
     await _persist();
     _markAccessibilityDirty();
   }
@@ -556,7 +545,6 @@ class AdvancedPreferences extends _$AdvancedPreferences {
         showEmojiButton: Value(state.showEmojiButton),
         showMessageSendButton: Value(state.showMessageSendButton),
         scrollToBottomOnMessageSend: Value(state.scrollToBottomOnMessageSend),
-        sequentialFileSend: Value(state.sequentialFileSend),
         skipMarkAllAsReadConfirmation: Value(
           state.skipMarkAllAsReadConfirmation,
         ),

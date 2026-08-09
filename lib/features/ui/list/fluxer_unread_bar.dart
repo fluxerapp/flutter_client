@@ -18,7 +18,7 @@ class FluxerUnreadBar extends StatelessWidget {
     this.bleed = 0,
     this.color,
     this.faded = false,
-    this.duration = const Duration(milliseconds: 200),
+    this.duration,
     super.key,
   });
 
@@ -48,7 +48,7 @@ class FluxerUnreadBar extends StatelessWidget {
   /// Apply 0.5 opacity for the muted-with-accessibility-opt-in mode.
   final bool faded;
 
-  final Duration duration;
+  final Duration? duration;
 
   bool get _isHorizontal =>
       edge == FluxerUnreadBarEdge.top || edge == FluxerUnreadBarEdge.bottom;
@@ -106,8 +106,8 @@ class FluxerUnreadBar extends StatelessWidget {
             child: Transform.translate(
               offset: _bleedOffset,
               child: AnimatedContainer(
-                duration: duration,
-                curve: Curves.easeOutCubic,
+                duration: duration ?? context.motion.panel,
+                curve: context.motion.curve,
                 width: width,
                 height: height,
                 decoration: BoxDecoration(

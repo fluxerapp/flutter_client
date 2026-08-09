@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/utils/message_send_failure_messages.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations_en.dart';
+import '../../../helpers/test_l10n.dart';
 
 void main() {
-  final FluxerLocalizationsEn l10n = FluxerLocalizationsEn();
+  final FluxerLocalizations l10n = testL10n;
 
   test('maps DM restriction error to localized message', () {
     final String? message = clientSystemMessageForSendError(

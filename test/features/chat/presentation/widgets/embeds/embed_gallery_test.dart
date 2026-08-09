@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/chat/utils/embed_gallery_utils.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
+import '../../../../../helpers/test_l10n.dart';
 
 const String _postUrl = 'https://example.com/post/1';
 
@@ -119,6 +120,7 @@ Widget _buildTestApp({required Widget child}) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
     child: MaterialApp(
+      locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(

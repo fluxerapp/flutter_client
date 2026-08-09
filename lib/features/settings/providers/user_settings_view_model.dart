@@ -8,7 +8,6 @@ import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
-import 'package:fluxer_app/core/premium/premium_state_sync_provider.dart';
 import 'package:fluxer_app/core/premium/user_entitlements.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -786,7 +785,6 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
     if (userId != null) {
       _watchUser(userId);
       _watchSettings(userId);
-      unawaited(loadProfile());
     }
 
     return UserSettingsViewState(
@@ -986,7 +984,6 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
     ref
         .read(currentUserPremiumTypeProvider.notifier)
         .set(profile.premiumType?.json ?? 0);
-    unawaited(refreshPremiumState(ref));
   }
 
   void updateDisplayName(String value) {

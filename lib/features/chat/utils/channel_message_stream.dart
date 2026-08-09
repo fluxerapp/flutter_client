@@ -273,13 +273,18 @@ Message? resolvePreviousMessageForStreamItem(
   List<ChannelStreamItem> stream,
   int index,
 ) {
+  if (index <= 0 || index >= stream.length) {
+    return null;
+  }
+  final bool resetAfterCollapsedGroup =
+      stream[index].type == ChannelStreamType.message;
   for (var i = index - 1; i >= 0; i--) {
     final ChannelStreamItem item = stream[i];
-    if (item.type == ChannelStreamType.divider) {
+    if (item.type == ChannelStreamType.divider || item.messages.isEmpty) {
       continue;
     }
-    if (item.messages.isEmpty) {
-      continue;
+    if (resetAfterCollapsedGroup && item.type.isCollapsedGroup) {
+      return null;
     }
     return item.messages.last;
   }

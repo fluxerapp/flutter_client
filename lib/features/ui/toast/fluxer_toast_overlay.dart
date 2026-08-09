@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
@@ -102,7 +103,7 @@ class _ToastItemState extends State<_ToastItem>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: fluxerToastAnimationDuration,
+      duration: FluxerMotionTheme.panelDuration,
     );
     _slideAnimation = Tween<Offset>(
       begin: const Offset(0, -1),
@@ -115,6 +116,12 @@ class _ToastItemState extends State<_ToastItem>
     if (widget.entry.isVisible) {
       unawaited(_controller.forward());
     }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _controller.duration = context.motion.panel;
   }
 
   @override

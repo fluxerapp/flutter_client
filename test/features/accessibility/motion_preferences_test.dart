@@ -49,6 +49,45 @@ void main() {
     });
   });
 
+  group('resolveStickerPlaybackActive', () {
+    test('never animate stays static', () {
+      expect(
+        resolveStickerPlaybackActive(
+          mode: StickerAnimationOptions.neverAnimate,
+          interacting: true,
+        ),
+        isFalse,
+      );
+    });
+
+    test('always animate ignores interaction', () {
+      expect(
+        resolveStickerPlaybackActive(
+          mode: StickerAnimationOptions.alwaysAnimate,
+          interacting: false,
+        ),
+        isTrue,
+      );
+    });
+
+    test('animate on interaction requires interaction', () {
+      expect(
+        resolveStickerPlaybackActive(
+          mode: StickerAnimationOptions.animateOnInteraction,
+          interacting: false,
+        ),
+        isFalse,
+      );
+      expect(
+        resolveStickerPlaybackActive(
+          mode: StickerAnimationOptions.animateOnInteraction,
+          interacting: true,
+        ),
+        isTrue,
+      );
+    });
+  });
+
   group('resolveAnimateEmojiRequest', () {
     test('writes base preference when reduced motion is off', () {
       final write = resolveAnimateEmojiRequest(

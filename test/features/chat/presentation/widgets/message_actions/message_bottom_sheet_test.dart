@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/me
 import 'package:fluxer_app/features/chat/providers/messages/saved_message_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import '../../../../../helpers/test_l10n.dart';
 
 void main() {
   final message = Message(
@@ -42,6 +43,7 @@ void main() {
     final colorTheme = buildDarkColorTheme();
     return ProviderScope(
       child: MaterialApp(
+        locale: kTestLocale,
         localizationsDelegates: FluxerLocalizations.localizationsDelegates,
         supportedLocales: FluxerLocalizations.supportedLocales,
         theme: buildFluxerTheme(

@@ -149,7 +149,7 @@ class GuildAuditLogEntryCard extends StatelessWidget {
                         if (isExpandable)
                           AnimatedRotation(
                             turns: isExpanded ? 0.5 : 0,
-                            duration: const Duration(milliseconds: 150),
+                            duration: context.motion.normal,
                             child: PhosphorIcon(
                               PhosphorIconsBold.caretDown,
                               size: 20,

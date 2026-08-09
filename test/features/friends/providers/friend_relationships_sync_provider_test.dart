@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/features/friends/data/friend_repository.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
@@ -20,7 +20,7 @@ class _RecordingFriendRepository implements FriendRepository {
 }
 
 void main() {
-  test('syncs relationships when gateway becomes ready', () async {
+  test('syncs relationships when gateway session recovers', () async {
     final repo = _RecordingFriendRepository();
     final container = ProviderContainer(
       overrides: [friendRepositoryProvider.overrideWithValue(repo)],
@@ -30,20 +30,20 @@ void main() {
     container.read(friendRelationshipsSyncProvider);
     expect(repo.syncCallCount, 0);
 
-    container.read(gatewayReadyProvider.notifier).setReady();
+    container.read(gatewaySessionRecoveryProvider.notifier).bump();
     await Future<void>.delayed(Duration.zero);
 
     expect(repo.syncCallCount, 1);
   });
 
-  test('syncs immediately when gateway is already ready', () async {
+  test('syncs immediately when session already recovered', () async {
     final repo = _RecordingFriendRepository();
     final container = ProviderContainer(
       overrides: [friendRepositoryProvider.overrideWithValue(repo)],
     );
     addTearDown(container.dispose);
 
-    container.read(gatewayReadyProvider.notifier).setReady();
+    container.read(gatewaySessionRecoveryProvider.notifier).bump();
     container.read(friendRelationshipsSyncProvider);
     await Future<void>.delayed(Duration.zero);
 

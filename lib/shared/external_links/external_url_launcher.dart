@@ -1,9 +1,11 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
+import 'package:fluxer_app/features/settings/domain/default_web_browser.dart';
+import 'package:fluxer_app/shared/external_links/platform_browser_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ExternalUrlBrowserStyle {
@@ -49,9 +51,7 @@ ChromeSafariBrowserSettings _buildBrowserSettings(
   );
 }
 
-bool _shouldOpenInChromeSafariBrowser(Uri uri) {
-  return uri.scheme == 'http' || uri.scheme == 'https';
-}
+bool _isHttpOrHttps(Uri uri) => uri.scheme == 'http' || uri.scheme == 'https';
 
 Future<bool> _tryLaunchInNativeApp(Uri uri) async {
   try {
@@ -61,27 +61,39 @@ Future<bool> _tryLaunchInNativeApp(Uri uri) async {
   }
 }
 
-Future<bool> openExternalUrl(Uri uri, {ExternalUrlBrowserStyle? style}) async {
-  if (!kIsWeb &&
-      (Platform.isIOS || Platform.isAndroid) &&
-      _shouldOpenInChromeSafariBrowser(uri)) {
+Future<bool> _openInAppBrowser(
+  Uri uri, {
+  ExternalUrlBrowserStyle? style,
+}) async {
+  try {
+    await _chromeSafariBrowser.open(
+      url: WebUri(uri.toString()),
+      settings: style != null
+          ? _buildBrowserSettings(style)
+          : ChromeSafariBrowserSettings(
+              barCollapsingEnabled: true,
+              noHistory: Platform.isAndroid,
+            ),
+    );
+    return true;
+  } on Object {
+    return launchUrl(uri, mode: LaunchMode.externalApplication);
+  }
+}
+
+Future<bool> openExternalUrl(
+  Uri uri, {
+  ExternalUrlBrowserStyle? style,
+  DefaultWebBrowser browser = DefaultWebBrowser.inApp,
+}) async {
+  if (isFluxerNativeMobileOs && _isHttpOrHttps(uri)) {
     if (await _tryLaunchInNativeApp(uri)) {
       return true;
     }
-    try {
-      await _chromeSafariBrowser.open(
-        url: WebUri(uri.toString()),
-        settings: style != null
-            ? _buildBrowserSettings(style)
-            : ChromeSafariBrowserSettings(
-                barCollapsingEnabled: true,
-                noHistory: Platform.isAndroid,
-              ),
-      );
-      return true;
-    } on Object {
-      return launchUrl(uri, mode: LaunchMode.externalApplication);
+    if (browser == DefaultWebBrowser.inApp) {
+      return _openInAppBrowser(uri, style: style);
     }
+    return launchInDefaultWebBrowser(uri, browser);
   }
   return launchUrl(uri, mode: LaunchMode.externalApplication);
 }

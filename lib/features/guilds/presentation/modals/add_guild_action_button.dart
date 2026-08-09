@@ -35,8 +35,8 @@ class AddGuildActionButton extends StatelessWidget {
           final bool isHovered =
               !isDisabled && states.contains(WidgetState.hovered);
           return AnimatedContainer(
-            duration: const Duration(milliseconds: 70),
-            curve: Curves.easeOut,
+            duration: context.motion.hover,
+            curve: context.motion.curve,
             padding: EdgeInsets.symmetric(
               vertical: isRowLayout ? 16 : 24,
               horizontal: 16,

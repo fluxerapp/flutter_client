@@ -15,12 +15,14 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/message_c
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/forward_destination_avatar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/slowmode_send_blocked_notice.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/messages/forward_destinations_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_length_limits_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
 import 'package:fluxer_app/features/chat/service/composer_mention_controller.dart';
 import 'package:fluxer_app/features/chat/utils/slowmode_format.dart';
+import 'package:fluxer_app/features/chat/utils/slowmode_utils.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -210,14 +212,19 @@ class _ForwardMessageSheetBodyState
     });
   }
 
+  bool _isSendBlockedBySlowmode(List<ForwardDestination> destinations) {
+    return isAnySelectedDestinationCoolingDown(
+      tracker: ref.read(slowmodeTrackerProvider.notifier),
+      destinations: destinations,
+      selectedChannelIds: _selected,
+    );
+  }
+
   bool _isCoolingDown(ForwardDestination destination) {
-    if (!destination.slowmodeEnabled) {
-      return false;
-    }
-    return ref
-            .read(slowmodeTrackerProvider.notifier)
-            .remainingFor(destination.channelId, destination.rateLimitPerUser) >
-        Duration.zero;
+    return isForwardDestinationCoolingDown(
+      destination: destination,
+      tracker: ref.read(slowmodeTrackerProvider.notifier),
+    );
   }
 
   void _ensureSlowmodeTicker({required bool active}) {
@@ -304,7 +311,17 @@ class _ForwardMessageSheetBodyState
             ),
           );
       widget.onClose();
-    } on Object {
+    } on Object catch (error) {
+      final SlowmodeTracker tracker = ref.read(
+        slowmodeTrackerProvider.notifier,
+      );
+      for (final String channelId in destinations) {
+        applySlowmodeRateLimitError(
+          tracker: tracker,
+          channelId: channelId,
+          error: error,
+        );
+      }
       if (!mounted) {
         return;
       }
@@ -336,6 +353,9 @@ class _ForwardMessageSheetBodyState
     _ensureSlowmodeTicker(
       active: allDestinations.any((ForwardDestination d) => d.slowmodeEnabled),
     );
+    final bool sendBlockedBySlowmode = _isSendBlockedBySlowmode(
+      allDestinations,
+    );
     final bool commentDisabled = allDestinations.any(
       (ForwardDestination d) =>
           _selected.contains(d.channelId) && d.slowmodeEnabled,
@@ -356,7 +376,12 @@ class _ForwardMessageSheetBodyState
             error: (Object _, StackTrace _) => _buildEmpty(context, l10n),
           ),
         ),
-        _buildCommentArea(context, l10n, commentDisabled),
+        _buildCommentArea(
+          context,
+          l10n,
+          commentDisabled,
+          sendBlockedBySlowmode,
+        ),
       ],
     );
   }
@@ -485,10 +510,11 @@ class _ForwardMessageSheetBodyState
     BuildContext context,
     FluxerLocalizations l10n,
     bool commentDisabled,
+    bool sendBlockedBySlowmode,
   ) {
     final int maxMessageLength = ref.watch(maxMessageLengthProvider);
     final int premiumMaxLength = ref.watch(premiumMaxMessageLengthProvider);
-    final bool canSend = _selected.isNotEmpty;
+    final bool canSend = _selected.isNotEmpty && !sendBlockedBySlowmode;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -508,6 +534,8 @@ class _ForwardMessageSheetBodyState
                     ),
                   ),
                 ),
+              if (sendBlockedBySlowmode && !commentDisabled)
+                const SlowmodeSendBlockedNotice(),
               _buildCommentField(
                 context,
                 l10n,

@@ -12,6 +12,7 @@ Future<bool?> showFluxerSettingsConfirmSheet(
 }) {
   return FluxerBottomSheet.show<bool>(
     context,
+    useRootNavigator: true,
     title: title,
     builder: (sheetContext, close) {
       final layout = sheetContext.layout;

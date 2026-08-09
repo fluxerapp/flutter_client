@@ -17,6 +17,7 @@ import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:riverpod/src/framework.dart' show Override, Ref;
+import '../../../helpers/test_l10n.dart';
 
 const Size _kMobileViewport = Size(390, 844);
 
@@ -152,6 +153,7 @@ void main() {
           ProviderScope(
             overrides: _voiceTestOverrides(),
             child: MaterialApp(
+              locale: kTestLocale,
               localizationsDelegates:
                   FluxerLocalizations.localizationsDelegates,
               supportedLocales: FluxerLocalizations.supportedLocales,
@@ -214,6 +216,7 @@ Future<void> _pumpExpandableSheet(
     ProviderScope(
       overrides: _voiceTestOverrides(textChatSupported: textChatSupported),
       child: MaterialApp(
+        locale: kTestLocale,
         localizationsDelegates: FluxerLocalizations.localizationsDelegates,
         supportedLocales: FluxerLocalizations.supportedLocales,
         theme: buildFluxerTheme(

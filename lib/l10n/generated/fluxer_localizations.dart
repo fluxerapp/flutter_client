@@ -1318,6 +1318,18 @@ abstract class FluxerLocalizations {
   /// **'Invite Unavailable'**
   String get embedInviteUnavailable;
 
+  /// Button to join a group DM from an invite embed card.
+  ///
+  /// In en, this message translates to:
+  /// **'Join group'**
+  String get embedInviteJoinGroup;
+
+  /// Disabled button label on a group DM invite embed when the user is already a member.
+  ///
+  /// In en, this message translates to:
+  /// **'Already joined'**
+  String get embedInviteAlreadyJoined;
+
   /// Title of the invite accept modal.
   ///
   /// In en, this message translates to:
@@ -6100,6 +6112,108 @@ abstract class FluxerLocalizations {
   /// **'Attachment expired'**
   String get chatAttachmentExpiredTooltip;
 
+  /// Expand button for textual attachment preview by line count.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{Expand ({count} line)} other{Expand ({count} lines)}}'**
+  String chatTextualPreviewExpandLines(int count);
+
+  /// Collapse button for textual attachment preview by line count.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{Collapse ({count} line)} other{Collapse ({count} lines)}}'**
+  String chatTextualPreviewCollapseLines(int count);
+
+  /// Expand button for CSV attachment preview by row count.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{Expand ({count} row)} other{Expand ({count} rows)}}'**
+  String chatTextualPreviewExpandRows(int count);
+
+  /// Collapse button for CSV attachment preview by row count.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{Collapse ({count} row)} other{Collapse ({count} rows)}}'**
+  String chatTextualPreviewCollapseRows(int count);
+
+  /// Suffix when inline textual preview truncates expanded content.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{... ({count} line left)} other{... ({count} lines left)}}'**
+  String chatTextualPreviewRemainingLines(int count);
+
+  /// Suffix when inline CSV preview truncates expanded rows.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{... ({count} row left)} other{... ({count} rows left)}}'**
+  String chatTextualPreviewRemainingRows(int count);
+
+  /// Opens fullscreen textual attachment preview.
+  ///
+  /// In en, this message translates to:
+  /// **'View whole file'**
+  String get chatTextualPreviewViewWholeFile;
+
+  /// Opens language picker for textual attachment syntax highlighting.
+  ///
+  /// In en, this message translates to:
+  /// **'Change language'**
+  String get chatTextualPreviewChangeLanguage;
+
+  /// Search field hint in textual preview language picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Search language…'**
+  String get chatTextualPreviewSearchLanguage;
+
+  /// Title for textual preview language picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Syntax highlighting'**
+  String get chatTextualPreviewSyntaxHighlighting;
+
+  /// Empty state when language search matches nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'No results found'**
+  String get chatTextualPreviewNoLanguagesFound;
+
+  /// Accessibility label for textual preview overflow menu.
+  ///
+  /// In en, this message translates to:
+  /// **'More options'**
+  String get chatTextualPreviewMoreOptions;
+
+  /// Toggle soft-wrapping in textual attachment previews.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrap text'**
+  String get chatTextualPreviewWrapText;
+
+  /// Error when attachment exceeds textual preview size limit.
+  ///
+  /// In en, this message translates to:
+  /// **'File is too large for inline preview (limit {previewLimitKb} KB).'**
+  String chatTextualPreviewSizeError(int previewLimitKb);
+
+  /// Error when textual attachment content cannot be fetched.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load preview.'**
+  String get chatTextualPreviewLoadError;
+
+  /// Label for plaintext syntax highlighting option.
+  ///
+  /// In en, this message translates to:
+  /// **'Plain text'**
+  String get chatTextualPreviewLanguagePlaintext;
+
+  /// Copy textual attachment preview contents to clipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get chatTextualPreviewCopy;
+
   /// Option to pick photos and videos from the device gallery.
   ///
   /// In en, this message translates to:
@@ -9161,6 +9275,30 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Comments are unavailable because a selected channel has slowmode enabled.'**
   String get forwardCommentSlowmodeDisabled;
+
+  /// Notice shown in the forward sheet when send is blocked because a selected destination is cooling down.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for slowmode in one or more selected channels to expire.'**
+  String get forwardSendSlowmodeBlocked;
+
+  /// Title for the modal shown when slowmode blocks sending a message.
+  ///
+  /// In en, this message translates to:
+  /// **'Slowmode active'**
+  String get slowmodeRateLimitedTitle;
+
+  /// Body for the modal shown when slowmode blocks sending a message. {duration} is a formatted countdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Slowmode is on — wait {duration} before sending another.'**
+  String slowmodeRateLimitedMessage(String duration);
+
+  /// Overlay hint when shift-to-send is blocked because slowmode is active.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct upload is disabled during slowmode.'**
+  String get chatAttachmentDropSlowmodeDisabled;
 
   /// Title of the share-media bottom sheet.
   ///
@@ -13546,6 +13684,42 @@ abstract class FluxerLocalizations {
   /// **'Failed to update time format'**
   String get languageAndTimeTimeFormatSyncFailed;
 
+  /// User settings navigation item for default app preferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Default Apps'**
+  String get userSettingsNavDefaultApps;
+
+  /// Title for the default web browser settings section.
+  ///
+  /// In en, this message translates to:
+  /// **'Web Browser'**
+  String get defaultAppsWebBrowserSectionTitle;
+
+  /// Description for the default web browser settings section.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose which browser opens when you tap a link.'**
+  String get defaultAppsWebBrowserSectionDescription;
+
+  /// Footnote explaining that installed native apps take priority over the chosen browser.
+  ///
+  /// In en, this message translates to:
+  /// **'If an app is installed for a site, links will open in that app first.'**
+  String get defaultAppsWebBrowserNativeAppNote;
+
+  /// Default web browser option for the in-app browser.
+  ///
+  /// In en, this message translates to:
+  /// **'In-app browser'**
+  String get defaultAppsWebBrowserInApp;
+
+  /// Default web browser option for the system default browser.
+  ///
+  /// In en, this message translates to:
+  /// **'External browser'**
+  String get defaultAppsWebBrowserExternal;
+
   /// User settings navigation item for advanced settings.
   ///
   /// In en, this message translates to:
@@ -13893,18 +14067,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Hide channels you\'ve muted from community sidebars'**
   String get advancedSettingHideMutedChannelsDescription;
-
-  /// No description provided for @advancedSettingSequentialFileSendLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Send file messages in order'**
-  String get advancedSettingSequentialFileSendLabel;
-
-  /// No description provided for @advancedSettingSequentialFileSendDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Ensures file messages appear in the order you sent them'**
-  String get advancedSettingSequentialFileSendDescription;
 
   /// No description provided for @advancedSettingShowGifIndicatorLabel.
   ///

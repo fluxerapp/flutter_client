@@ -8,6 +8,7 @@ class MessagePersistSnapshot {
     required this.guildStorageId,
     required this.acknowledgedByGateway,
     this.notificationLevel,
+    this.isChannelMuted = false,
   });
 
   final bool mentionsCurrentUser;
@@ -15,6 +16,7 @@ class MessagePersistSnapshot {
   final String? guildStorageId;
   final bool acknowledgedByGateway;
   final UserNotificationSettings? notificationLevel;
+  final bool isChannelMuted;
 }
 
 class MessageCreateDispatch {

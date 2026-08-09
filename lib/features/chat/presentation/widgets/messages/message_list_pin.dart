@@ -5,6 +5,10 @@
 /// terminal-page contract: the final page of the user's own pagination lands
 /// while `pinned == false` (the user was detached) and therefore must not
 /// follow, even though it is byte-identical to a live arrival afterwards.
+///
+/// MessageList clears follow on a user-driven leave of the 8px engage zone
+/// via `_followDisarmed`; the 64px hold still applies to programmatic
+/// near-tail settles that never disarmed.
 library;
 
 class MessageListPin {

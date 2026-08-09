@@ -11,13 +11,14 @@ import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels/guild_channel_settings_entries.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels/guild_channel_settings_row.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import '../../../../../../helpers/test_l10n.dart';
 
 void main() {
   Widget buildTestApp({required Widget child}) {
     final colorTheme = buildDarkColorTheme();
     return ProviderScope(
       child: MaterialApp(
-        locale: const Locale('en'),
+        locale: kTestLocale,
         localizationsDelegates: FluxerLocalizations.localizationsDelegates,
         supportedLocales: FluxerLocalizations.supportedLocales,
         theme: buildFluxerTheme(

@@ -16,6 +16,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../helpers/open_test_database.dart';
+import '../../../helpers/test_l10n.dart';
 
 class _FetchedSavedMessagesSync extends SavedMessagesSyncNotifier {
   @override
@@ -38,6 +39,7 @@ void main() {
           savedMessagesSyncProvider.overrideWith(_FetchedSavedMessagesSync.new),
         ],
         child: MaterialApp(
+          locale: kTestLocale,
           localizationsDelegates: FluxerLocalizations.localizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           theme: buildFluxerTheme(

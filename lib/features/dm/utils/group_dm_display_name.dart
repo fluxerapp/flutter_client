@@ -1,6 +1,7 @@
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_dart/export.dart';
 
 String resolveGroupDmDisplayName({
   required DmConversation dm,
@@ -50,6 +51,43 @@ String resolveGroupDmDisplayName({
     return l10n?.dmUnnamedGroup ?? 'Unnamed group';
   }
   return l10n?.dmUnnamedGroup ?? 'Unnamed group';
+}
+
+String resolveGroupDmInviteDisplayName({
+  required ChannelPartialResponse channel,
+  FluxerLocalizations? l10n,
+}) {
+  final String customName = channel.name?.trim() ?? '';
+  if (customName.isNotEmpty) {
+    return customName;
+  }
+  final List<String> names =
+      channel.recipients
+          ?.map((ChannelPartialResponseRecipients r) => r.username.trim())
+          .where((String name) => name.isNotEmpty)
+          .toList() ??
+      const <String>[];
+  if (names.isNotEmpty) {
+    return names.join(', ');
+  }
+  return l10n?.dmUnnamedGroup ?? 'Unnamed group';
+}
+
+int resolveGroupDmInviteMemberCount({
+  required int inviteMemberCount,
+  DmConversation? localChannel,
+  String? currentUserId,
+}) {
+  if (localChannel == null) {
+    return inviteMemberCount;
+  }
+  final Set<String> memberIds = localChannel.groupMembers
+      .map((GroupMemberInfo member) => member.id)
+      .toSet();
+  if (currentUserId != null) {
+    memberIds.add(currentUserId);
+  }
+  return memberIds.length;
 }
 
 String? _resolveMemberDisplayName(DmConversation dm, GroupMemberInfo member) {

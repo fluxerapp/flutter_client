@@ -96,7 +96,7 @@ Future<bool> isIncomingTtsMuted({
       database: database,
       guildStorageId: guildChannel.guildId,
     );
-    return allowNoMessagesForGuildChannel(
+    return isGuildOrCategoryOrChannelMuted(
       channel: guildChannel,
       guildSettings: guildSettings,
       now: now,
@@ -112,9 +112,8 @@ Future<bool> isIncomingTtsMuted({
     database: database,
     guildStorageId: '@me',
   );
-  return allowNoMessagesForPrivateChannel(
-    guildSettings: guildSettings,
-    channelId: channelId,
+  return isChannelOverrideMuted(
+    guildSettings?.channelOverrides?[channelId],
     now: now,
   );
 }

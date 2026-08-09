@@ -28,10 +28,8 @@ Future<void> showMobileMediaOptionsSheet({
   await FluxerBottomSheet.showScrollable<void>(
     context,
     useRootNavigator: true,
-    maxHeight: 0.8,
     initialChildSize: 0.4,
     minChildSize: 0.25,
-    maxChildSize: 0.8,
     builder:
         (
           BuildContext sheetContext,
@@ -78,19 +76,19 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
         FluxerBottomSheetMenuItem(
           icon: PhosphorIconsBold.link,
           label: l10n.mediaViewerCopyLink,
-          onTap: () => unawaited(_copyLink(context, linkUrl)),
+          onTap: () => unawaited(_copyLink(linkUrl)),
         ),
       if (linkUrl.isNotEmpty)
         FluxerBottomSheetMenuItem(
           icon: PhosphorIconsFill.arrowSquareOut,
           label: l10n.mediaViewerOpenInBrowser,
-          onTap: () => unawaited(_openLink(context, linkUrl)),
+          onTap: () => unawaited(_openLink(linkUrl)),
         ),
       if (downloadUrl != null)
         FluxerBottomSheetMenuItem(
           icon: PhosphorIconsFill.downloadSimple,
           label: l10n.chatAttachmentDownload,
-          onTap: () => unawaited(_download(context, ref, downloadUrl)),
+          onTap: () => unawaited(_download(downloadUrl)),
         ),
     ];
     final List<Widget> groups = <Widget>[
@@ -129,31 +127,30 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
     );
   }
 
-  Future<void> _copyLink(BuildContext context, String linkUrl) async {
+  Future<void> _copyLink(String linkUrl) async {
     onCloseSheet();
-    await copyToClipboard(context: context, value: linkUrl);
-  }
-
-  Future<void> _openLink(BuildContext context, String linkUrl) async {
-    onCloseSheet();
-    if (!context.mounted) {
+    if (!hostContext.mounted) {
       return;
     }
-    await handleExternalLinkTap(context, linkUrl);
+    await copyToClipboard(context: hostContext, value: linkUrl);
   }
 
-  Future<void> _download(
-    BuildContext context,
-    WidgetRef ref,
-    String downloadUrl,
-  ) async {
+  Future<void> _openLink(String linkUrl) async {
     onCloseSheet();
-    if (!context.mounted) {
+    if (!hostContext.mounted) {
+      return;
+    }
+    await handleExternalLinkTap(hostContext, linkUrl, useRootNavigator: true);
+  }
+
+  Future<void> _download(String downloadUrl) async {
+    onCloseSheet();
+    if (!hostContext.mounted) {
       return;
     }
     await downloadChatAttachmentMedia(
-      context: context,
-      ref: ref,
+      context: hostContext,
+      ref: hostRef,
       url: downloadUrl,
       filename: launchContext.filename,
     );
@@ -225,17 +222,13 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
 
   String? _downloadUrl() {
     final String? attachmentId = launchContext.attachmentId;
-    if (attachmentId != null && attachmentId.isNotEmpty) {
-      return attachmentEffectiveDownloadUrl(
-        url: launchContext.fallbackUrl,
-        isExpired: launchContext.isExpired,
-        proxyUrl: launchContext.proxyUrl,
-      );
-    }
-    final String fallbackUrl = launchContext.fallbackUrl.trim();
-    if (fallbackUrl.isEmpty) {
+    if (attachmentId == null || attachmentId.isEmpty) {
       return null;
     }
-    return fallbackUrl;
+    return attachmentEffectiveDownloadUrl(
+      url: launchContext.fallbackUrl,
+      isExpired: launchContext.isExpired,
+      proxyUrl: launchContext.proxyUrl,
+    );
   }
 }

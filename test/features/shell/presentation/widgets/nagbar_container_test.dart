@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/shell/presentation/widgets/nagbar_container.
 import 'package:fluxer_app/features/shell/providers/visible_nagbars_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod/src/framework.dart' show Override;
+import '../../../../helpers/test_l10n.dart';
 
 void main() {
   testWidgets('NagbarContainer renders unclaimed account nagbar', (
@@ -33,6 +34,7 @@ void main() {
           ),
         ],
         child: MaterialApp(
+          locale: kTestLocale,
           localizationsDelegates: FluxerLocalizations.localizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           theme: buildFluxerTheme(

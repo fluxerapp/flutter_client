@@ -20,6 +20,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../../../../../../helpers/wide_layout_test_sizes.dart';
+import '../../../../../../helpers/test_l10n.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -56,7 +57,7 @@ void main() {
         }),
       ],
       child: MaterialApp(
-        locale: const Locale('en'),
+        locale: kTestLocale,
         localizationsDelegates: FluxerLocalizations.localizationsDelegates,
         supportedLocales: FluxerLocalizations.supportedLocales,
         theme: buildFluxerTheme(

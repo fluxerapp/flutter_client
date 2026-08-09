@@ -15,6 +15,7 @@ enum UserSettingsSection {
   keybinds,
   notifications,
   languageAndTime,
+  defaultApps,
   advanced,
   applications,
   developerTools,

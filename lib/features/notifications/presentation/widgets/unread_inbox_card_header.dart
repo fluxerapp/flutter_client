@@ -43,7 +43,7 @@ class UnreadInboxCardHeader extends StatelessWidget {
       padding: const EdgeInsets.only(top: 8, bottom: 6),
       child: Row(
         children: <Widget>[
-          _buildCollapseToggle(colors, l10n),
+          _buildCollapseToggle(context, colors, l10n),
           Expanded(child: _buildSummary(context)),
           if (!entry.isDm && entry.guildId != null) ...<Widget>[
             _buildBellButton(colors),
@@ -56,6 +56,7 @@ class UnreadInboxCardHeader extends StatelessWidget {
   }
 
   Widget _buildCollapseToggle(
+    BuildContext context,
     FluxerColorTheme colors,
     FluxerLocalizations l10n,
   ) {
@@ -68,7 +69,7 @@ class UnreadInboxCardHeader extends StatelessWidget {
       onPressed: onToggleCollapsed,
       icon: AnimatedRotation(
         turns: collapsed ? -0.25 : 0,
-        duration: const Duration(milliseconds: 150),
+        duration: context.motion.normal,
         child: Icon(
           PhosphorIconsBold.caretDown,
           size: 14,

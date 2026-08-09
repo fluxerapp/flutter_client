@@ -639,6 +639,23 @@ List<MessageChannelMention> parseMessageChannelMentions(
   return mentions.map(MessageChannelMention.fromSdk).toList(growable: false);
 }
 
+({
+  bool mentionEveryone,
+  List<String> mentionedUserIds,
+  List<String> mentionRoles,
+})
+messageMentionMetadataFromSdk({
+  required bool mentionEveryone,
+  required Iterable<String> mentionedUserIds,
+  required List<String> mentionRoles,
+}) {
+  return (
+    mentionEveryone: mentionEveryone,
+    mentionedUserIds: mentionedUserIds.toList(growable: false),
+    mentionRoles: List<String>.from(mentionRoles),
+  );
+}
+
 class MessageSnapshot {
   final String content;
   final DateTime timestamp;
@@ -862,7 +879,9 @@ class Message {
   final List<MessageSnapshot> messageSnapshots;
   final bool isPinned;
   final bool isMentioned;
+  final bool mentionEveryone;
   final List<String> mentionedUserIds;
+  final List<String> mentionRoles;
   final List<String> supplementalUserIds;
   final List<MessageChannelMention> mentionChannels;
   final int type;
@@ -897,7 +916,9 @@ class Message {
     this.messageSnapshots = const [],
     this.isPinned = false,
     this.isMentioned = false,
+    this.mentionEveryone = false,
     this.mentionedUserIds = const [],
+    this.mentionRoles = const [],
     this.supplementalUserIds = const [],
     this.mentionChannels = const [],
     this.type = 0,
@@ -914,6 +935,16 @@ class Message {
         sdk.mentionEveryone ||
         (currentUserId != null &&
             (sdk.mentions.any((u) => u.id == currentUserId)));
+    final ({
+      bool mentionEveryone,
+      List<String> mentionedUserIds,
+      List<String> mentionRoles,
+    })
+    mentionMetadata = messageMentionMetadataFromSdk(
+      mentionEveryone: sdk.mentionEveryone,
+      mentionedUserIds: sdk.mentions.map((user) => user.id),
+      mentionRoles: sdk.mentionRoles,
+    );
 
     return Message(
       id: sdk.id,
@@ -943,9 +974,9 @@ class Message {
           const [],
       isPinned: sdk.pinned,
       isMentioned: isMentioned,
-      mentionedUserIds: sdk.mentions
-          .map((user) => user.id)
-          .toList(growable: false),
+      mentionEveryone: mentionMetadata.mentionEveryone,
+      mentionedUserIds: mentionMetadata.mentionedUserIds,
+      mentionRoles: mentionMetadata.mentionRoles,
       supplementalUserIds: supplementalUserIdsFromSdk(sdk.users),
       mentionChannels: parseMessageChannelMentions(sdk.mentionChannels),
       type: sdk.type.json ?? 0,
@@ -964,6 +995,16 @@ class Message {
         sdk.mentionEveryone ||
         (currentUserId != null &&
             (sdk.mentions.any((u) => u.id == currentUserId)));
+    final ({
+      bool mentionEveryone,
+      List<String> mentionedUserIds,
+      List<String> mentionRoles,
+    })
+    mentionMetadata = messageMentionMetadataFromSdk(
+      mentionEveryone: sdk.mentionEveryone,
+      mentionedUserIds: sdk.mentions.map((user) => user.id),
+      mentionRoles: sdk.mentionRoles,
+    );
 
     return Message(
       id: sdk.id,
@@ -986,9 +1027,9 @@ class Message {
       reactions: sdk.reactions?.map(Reaction.fromSdk).toList() ?? const [],
       isPinned: sdk.pinned,
       isMentioned: isMentioned,
-      mentionedUserIds: sdk.mentions
-          .map((user) => user.id)
-          .toList(growable: false),
+      mentionEveryone: mentionMetadata.mentionEveryone,
+      mentionedUserIds: mentionMetadata.mentionedUserIds,
+      mentionRoles: mentionMetadata.mentionRoles,
       supplementalUserIds: supplementalUserIdsFromSdk(sdk.users),
       mentionChannels: parseMessageChannelMentions(sdk.mentionChannels),
       type: sdk.type.json ?? 0,
@@ -1005,6 +1046,16 @@ class Message {
         sdk.mentionEveryone ||
         (currentUserId != null &&
             (sdk.mentions.any((u) => u.id == currentUserId)));
+    final ({
+      bool mentionEveryone,
+      List<String> mentionedUserIds,
+      List<String> mentionRoles,
+    })
+    mentionMetadata = messageMentionMetadataFromSdk(
+      mentionEveryone: sdk.mentionEveryone,
+      mentionedUserIds: sdk.mentions.map((user) => user.id),
+      mentionRoles: sdk.mentionRoles,
+    );
 
     return Message(
       id: sdk.id,
@@ -1033,9 +1084,9 @@ class Message {
           const [],
       isPinned: sdk.pinned,
       isMentioned: isMentioned,
-      mentionedUserIds: sdk.mentions
-          .map((user) => user.id)
-          .toList(growable: false),
+      mentionEveryone: mentionMetadata.mentionEveryone,
+      mentionedUserIds: mentionMetadata.mentionedUserIds,
+      mentionRoles: mentionMetadata.mentionRoles,
       supplementalUserIds: supplementalUserIdsFromSdk(sdk.users),
       mentionChannels: parseMessageChannelMentions(sdk.mentionChannels),
       type: sdk.type.json ?? 0,
@@ -1053,6 +1104,16 @@ class Message {
         sdk.mentionEveryone ||
         (currentUserId != null &&
             (sdk.mentions.any((u) => u.id == currentUserId)));
+    final ({
+      bool mentionEveryone,
+      List<String> mentionedUserIds,
+      List<String> mentionRoles,
+    })
+    mentionMetadata = messageMentionMetadataFromSdk(
+      mentionEveryone: sdk.mentionEveryone,
+      mentionedUserIds: sdk.mentions.map((user) => user.id),
+      mentionRoles: sdk.mentionRoles,
+    );
 
     return Message(
       id: sdk.id,
@@ -1082,9 +1143,9 @@ class Message {
           const [],
       isPinned: sdk.pinned,
       isMentioned: isMentioned,
-      mentionedUserIds: sdk.mentions
-          .map((user) => user.id)
-          .toList(growable: false),
+      mentionEveryone: mentionMetadata.mentionEveryone,
+      mentionedUserIds: mentionMetadata.mentionedUserIds,
+      mentionRoles: mentionMetadata.mentionRoles,
       supplementalUserIds: supplementalUserIdsFromSdk(sdk.users),
       mentionChannels: parseMessageChannelMentions(sdk.mentionChannels),
       type: sdk.type.json ?? 0,
@@ -1167,6 +1228,7 @@ class Message {
         forwardedFrom == other.forwardedFrom &&
         isPinned == other.isPinned &&
         isMentioned == other.isMentioned &&
+        mentionEveryone == other.mentionEveryone &&
         type == other.type &&
         flags == other.flags &&
         deliveryState == other.deliveryState &&
@@ -1196,6 +1258,7 @@ class Message {
         ) &&
         _referenceEquals(messageReference, other.messageReference) &&
         _stringListEquals(mentionedUserIds, other.mentionedUserIds) &&
+        _stringListEquals(mentionRoles, other.mentionRoles) &&
         _encodedListEquals<MessageChannelMention>(
           mentionChannels,
           other.mentionChannels,
@@ -1328,7 +1391,9 @@ class Message {
     List<MessageSnapshot>? messageSnapshots,
     bool? isPinned,
     bool? isMentioned,
+    bool? mentionEveryone,
     List<String>? mentionedUserIds,
+    List<String>? mentionRoles,
     List<String>? supplementalUserIds,
     List<MessageChannelMention>? mentionChannels,
     int? type,
@@ -1363,7 +1428,9 @@ class Message {
       messageSnapshots: messageSnapshots ?? this.messageSnapshots,
       isPinned: isPinned ?? this.isPinned,
       isMentioned: isMentioned ?? this.isMentioned,
+      mentionEveryone: mentionEveryone ?? this.mentionEveryone,
       mentionedUserIds: mentionedUserIds ?? this.mentionedUserIds,
+      mentionRoles: mentionRoles ?? this.mentionRoles,
       supplementalUserIds: supplementalUserIds ?? this.supplementalUserIds,
       mentionChannels: mentionChannels ?? this.mentionChannels,
       type: type ?? this.type,
@@ -1408,7 +1475,9 @@ class Message {
           : messageSnapshots,
       isPinned: incoming.isPinned,
       isMentioned: incoming.isMentioned,
+      mentionEveryone: incoming.mentionEveryone,
       mentionedUserIds: incoming.mentionedUserIds,
+      mentionRoles: incoming.mentionRoles,
       supplementalUserIds: incoming.supplementalUserIds.isNotEmpty
           ? incoming.supplementalUserIds
           : supplementalUserIds,
@@ -1426,6 +1495,9 @@ class Message {
   bool get hasStickers => stickers.isNotEmpty;
   bool get isReply =>
       replyToId != null && !(messageReference?.isForward ?? false);
+
+  bool get hasMentionsForGrouping =>
+      mentionEveryone || mentionRoles.isNotEmpty || mentionedUserIds.isNotEmpty;
 
   String? get replyParentMessageId => replyToId ?? messageReference?.messageId;
 

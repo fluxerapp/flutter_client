@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
-import 'package:fluxer_app/features/chat/presentation/sheets/forward_message_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
 import 'package:fluxer_app/features/chat/utils/embed_animated_image_url.dart';
@@ -12,7 +11,6 @@ import 'package:fluxer_app/features/chat/utils/embed_media_viewer_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
-import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
 /// An inline image / gifv embed
@@ -82,27 +80,14 @@ class EmbedImage extends StatelessWidget {
             borderRadius: BorderRadius.circular(4),
             child: GestureDetector(
               onTap: canOpenEmbedMediaViewer(media)
-                  ? () => showAttachmentMediaViewer(
+                  ? () => openEmbedMediaViewer(
                       context,
-                      items: [
-                        buildEmbedMediaViewerItem(
-                          media: media,
-                          title: embed.title,
-                          animated: animate,
-                          embedIndex: embedIndex,
-                        ),
-                      ],
-                      onForward:
-                          (channelId != null &&
-                              messageId != null &&
-                              embedIndex != null)
-                          ? (int _) => showForwardMediaSheet(
-                              context,
-                              sourceChannelId: channelId!,
-                              sourceMessageId: messageId!,
-                              embedIndices: <int>[embedIndex!],
-                            )
-                          : null,
+                      media: media,
+                      title: embed.title,
+                      animated: animate,
+                      embedIndex: embedIndex,
+                      channelId: channelId,
+                      messageId: messageId,
                       actionScope: mediaActionScope,
                     )
                   : null,

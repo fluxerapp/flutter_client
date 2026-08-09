@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
 
@@ -43,7 +44,7 @@ class _FluxerPopoutState extends State<FluxerPopout>
   late final AnimationController _animationController;
   late final Animation<double> _fadeAnimation;
 
-  static const Duration _fadeDuration = Duration(milliseconds: 150);
+  static const Duration _fadeDuration = FluxerMotionTheme.normalDuration;
   static const double _popoutGap = 4;
 
   @override
@@ -57,6 +58,12 @@ class _FluxerPopoutState extends State<FluxerPopout>
       parent: _animationController,
       curve: Curves.easeOut,
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _animationController.duration = context.motion.normal;
   }
 
   @override

@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/models/locale.dart' as sdk;
+import '../../helpers/test_l10n.dart';
 
 class _NoopUserSettingsSyncService extends UserSettingsSyncService {
   _NoopUserSettingsSyncService(super.ref);
@@ -80,6 +81,7 @@ Widget _wrap(Widget child, {String locale = 'en-US'}) {
   return UncontrolledProviderScope(
     container: container,
     child: MaterialApp(
+      locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(

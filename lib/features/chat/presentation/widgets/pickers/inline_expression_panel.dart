@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
@@ -21,7 +22,8 @@ import 'package:fluxer_app/shared/gestures/expandable_sheet_gestures.dart';
 const double kExpressionPanelSearchHorizontalPadding = 16;
 const double kExpressionPanelSearchTopPadding = 8;
 const double kExpressionPanelSearchBottomPadding = 8;
-const Duration kExpressionPanelContentFadeDuration = Duration(milliseconds: 80);
+const Duration kExpressionPanelContentFadeDuration =
+    FluxerMotionTheme.hoverDuration;
 
 class ExpressionPanelContent extends ConsumerStatefulWidget {
   const ExpressionPanelContent({
@@ -97,6 +99,12 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
         isCancelled: () => _cancelEmojiWarmup,
       );
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _fadeController.duration = context.motion.hover;
   }
 
   @override
@@ -255,7 +263,7 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
                     }
                   },
                   child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 150),
+                    duration: context.motion.normal,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 12,
                       vertical: 6,

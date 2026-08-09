@@ -71,12 +71,14 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
   FluxerSelectionContextMenuBuilder? selectionContextMenuBuilder,
   bool alwaysUnderlineLinks = false,
   bool dimStrikethroughText = true,
+  bool animateCustomEmoji = true,
 }) {
   return FluxerMarkdownConfig(
     resolveEmojiShortcode: EmojiRegistry.resolveSync,
     unicodeEmojiUrlBuilder: getTwemojiUrl,
     customEmojiUrlBuilder: FluxerMediaUrl.customEmoji,
     unicodeEmojiPattern: EmojiRegistry.unicodeEmojiRegexSync,
+    animateCustomEmoji: animateCustomEmoji,
     linkColor: context?.colors.textLink,
     blockquoteBorderColor: context?.colors.interactiveMuted,
     blockquoteTextColor: context?.colors.textChatMuted,

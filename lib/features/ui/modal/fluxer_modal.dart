@@ -40,9 +40,11 @@ class FluxerModal {
     Widget? trailing,
     VoidCallback? onBack,
     bool centered = false,
+    bool useRootNavigator = false,
   }) {
     return showDialog<T>(
       context: context,
+      useRootNavigator: useRootNavigator,
       barrierColor: Colors.transparent,
       builder: (dialogContext) {
         void close() => Navigator.of(dialogContext).pop();
@@ -219,11 +221,13 @@ class FluxerConfirmModal {
     required VoidCallback onConfirm,
     String? confirmLabel,
     bool isDanger = false,
+    bool useRootNavigator = true,
   }) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final String resolvedConfirmLabel = confirmLabel ?? l10n.uiConfirm;
     return FluxerModal.show<bool>(
       context,
+      useRootNavigator: useRootNavigator,
       title: title,
       centered: true,
       builder: (dialogContext, close) {

@@ -10,6 +10,9 @@ import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/invite_embed_context_menu.dart';
 import 'package:fluxer_app/features/chat/providers/messages/invite_embed_provider.dart';
+import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
+import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
+import 'package:fluxer_app/features/dm/utils/group_dm_display_name.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_guild_badge.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -52,6 +55,12 @@ class EmbedInvite extends ConsumerWidget {
           ref: ref,
           isAlreadyMember:
               ref.watch(guildByIdProvider(invite.guild.id)).value != null,
+        ),
+        InviteEmbedGroupDm(:final invite) => _GroupDmInviteCard(
+          invite: invite,
+          code: code,
+          l10n: l10n,
+          ref: ref,
         ),
       },
     );
@@ -147,8 +156,8 @@ class _GuildInviteCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final onlineStr = _formatCount(invite.presenceCount);
-    final memberStr = _formatCount(invite.memberCount);
+    final onlineStr = _formatInviteCount(invite.presenceCount);
+    final memberStr = _formatInviteCount(invite.memberCount);
 
     return GestureDetector(
       onSecondaryTapDown: (TapDownDetails details) {
@@ -210,16 +219,141 @@ class _GuildInviteCard extends StatelessWidget {
       ),
     );
   }
+}
 
-  static String _formatCount(int n) {
-    if (n >= 1000000) {
-      return '${(n / 1000000).toStringAsFixed(1)}M';
+class _GroupDmInviteCard extends StatelessWidget {
+  const _GroupDmInviteCard({
+    required this.invite,
+    required this.code,
+    required this.l10n,
+    required this.ref,
+  });
+
+  final InviteResponseSchemaGroupDmInviteResponse invite;
+  final String code;
+  final FluxerLocalizations l10n;
+  final WidgetRef ref;
+
+  String? get _inviterAvatarUrl {
+    final UserPartialResponse? inviter = invite.inviter;
+    if (inviter?.avatar == null) {
+      return null;
     }
-    if (n >= 1000) {
-      return '${(n / 1000).toStringAsFixed(1)}K';
-    }
-    return '$n';
+    return FluxerMediaUrl.userAvatar(userId: inviter!.id, hash: inviter.avatar);
   }
+
+  String get _inviterName =>
+      invite.inviter?.username ?? l10n.inviteAcceptSomeone;
+
+  Future<void> _showContextMenu(BuildContext context, Offset position) async {
+    final InviteEmbedContextMenuAction? action =
+        await showInviteEmbedContextMenu(
+          context,
+          position: position,
+          canCopyGuildId: false,
+          canCopyChannelId: true,
+          canReport: false,
+        );
+    if (action == null || !context.mounted) {
+      return;
+    }
+    await handleInviteEmbedContextMenuAction(
+      context: context,
+      action: action,
+      guildId: '',
+      guildName: '',
+      inviteCode: code,
+      channelId: invite.channel.id,
+    );
+  }
+
+  void _onJoin() {
+    unawaited(
+      ref
+          .read(fluxerClientProvider)
+          .invites
+          .acceptInvite(inviteCode: code)
+          .then((_) {
+            ref
+                .read(fluxerRouterProvider)
+                .go(RoutePaths.dmChannel(invite.channel.id));
+          }),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final DmConversation? localChannel = ref
+        .watch(dmViewModelProvider)
+        .conversations
+        .where((DmConversation c) => c.id == invite.channel.id)
+        .firstOrNull;
+    final bool isAlreadyJoined = localChannel != null;
+    final String groupTitle = resolveGroupDmInviteDisplayName(
+      channel: invite.channel,
+      l10n: l10n,
+    );
+    final int memberCount = resolveGroupDmInviteMemberCount(
+      inviteMemberCount: invite.memberCount,
+      localChannel: localChannel,
+      currentUserId: ref.watch(currentUserIdProvider),
+    );
+
+    return GestureDetector(
+      onSecondaryTapDown: (TapDownDetails details) {
+        unawaited(_showContextMenu(context, details.globalPosition));
+      },
+      onLongPressStart: (LongPressStartDetails details) {
+        unawaited(_showContextMenu(context, details.globalPosition));
+      },
+      child: _InviteCard(
+        icon: _CircleAvatar(
+          url: _inviterAvatarUrl,
+          fallback: _inviterName.isNotEmpty
+              ? _inviterName[0].toUpperCase()
+              : '?',
+        ),
+        title: Text(
+          groupTitle,
+          style: context.textStyles.channelName.copyWith(
+            color: context.colors.textPrimary,
+            fontSize: 15,
+            letterSpacing: -0.1,
+          ),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+        ),
+        stats: Row(
+          children: [
+            const _StatDot(online: false),
+            const SizedBox(width: 4),
+            Text(
+              l10n.embedInviteMembers(_formatInviteCount(memberCount)),
+              style: context.textStyles.embedFooter.copyWith(
+                color: context.colors.textTertiaryMuted,
+              ),
+            ),
+          ],
+        ),
+        footer: FluxerButton.primary(
+          onPressed: isAlreadyJoined ? null : _onJoin,
+          label: isAlreadyJoined
+              ? l10n.embedInviteAlreadyJoined
+              : l10n.embedInviteJoinGroup,
+        ),
+      ),
+    );
+  }
+}
+
+String _formatInviteCount(int n) {
+  if (n >= 1000000) {
+    return '${(n / 1000000).toStringAsFixed(1)}M';
+  }
+  if (n >= 1000) {
+    return '${(n / 1000).toStringAsFixed(1)}K';
+  }
+  return '$n';
 }
 
 class _InviteNotFound extends StatelessWidget {
@@ -344,14 +478,37 @@ class _GuildIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fallbackColor = context.colors.backgroundTertiary;
     final initials = abbreviateGuildName(name);
     final initialsLength = guildNameInitialsLength(name);
 
+    return _CircleAvatar(
+      url: url,
+      fallback: initials,
+      fallbackFontSize: _guildInviteInitialsFontSize(initialsLength),
+    );
+  }
+}
+
+class _CircleAvatar extends StatelessWidget {
+  const _CircleAvatar({
+    required this.url,
+    required this.fallback,
+    this.fallbackFontSize = 18,
+  });
+
+  final String? url;
+  final String fallback;
+  final double fallbackFontSize;
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       width: 44,
       height: 44,
-      decoration: BoxDecoration(color: fallbackColor, shape: BoxShape.circle),
+      decoration: BoxDecoration(
+        color: context.colors.backgroundTertiary,
+        shape: BoxShape.circle,
+      ),
       clipBehavior: Clip.hardEdge,
       child: url != null
           ? CachedNetworkImage(
@@ -359,27 +516,18 @@ class _GuildIcon extends StatelessWidget {
               width: 44,
               height: 44,
               fit: BoxFit.cover,
-              errorBuilder: (_, _, _) =>
-                  _Fallback(initials: initials, initialsLength: initialsLength),
+              errorBuilder: (_, _, _) => _buildFallback(context),
             )
-          : _Fallback(initials: initials, initialsLength: initialsLength),
+          : _buildFallback(context),
     );
   }
-}
 
-class _Fallback extends StatelessWidget {
-  const _Fallback({required this.initials, required this.initialsLength});
-
-  final String initials;
-  final int initialsLength;
-
-  @override
-  Widget build(BuildContext context) => Center(
+  Widget _buildFallback(BuildContext context) => Center(
     child: Text(
-      initials,
+      fallback,
       style: context.textStyles.smallText.copyWith(
         color: context.colors.textPrimary,
-        fontSize: _guildInviteInitialsFontSize(initialsLength),
+        fontSize: fallbackFontSize,
       ),
     ),
   );

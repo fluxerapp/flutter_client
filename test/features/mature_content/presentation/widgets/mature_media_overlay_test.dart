@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_m
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod/src/framework.dart' show Override;
+import '../../../../helpers/test_l10n.dart';
 
 void main() {
   testWidgets('shows reveal button for blurred mature media', (tester) async {
@@ -123,6 +124,7 @@ Widget _buildTestApp({
   return ProviderScope(
     overrides: overrides,
     child: MaterialApp(
+      locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(

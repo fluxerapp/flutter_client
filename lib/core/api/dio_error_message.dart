@@ -15,6 +15,20 @@ String? apiErrorCodeFromDioException(DioException error) {
   return null;
 }
 
+/// Reads the Fluxer API `retry_after` field from a [DioException] response body
+/// and converts it to milliseconds.
+int? retryAfterMsFromDioException(DioException error) {
+  final Object? data = error.response?.data;
+  if (data is! Map<String, dynamic>) {
+    return null;
+  }
+  final Object? retryAfter = data['retry_after'];
+  if (retryAfter is num && retryAfter.isFinite && retryAfter > 0) {
+    return (retryAfter * 1000).ceil();
+  }
+  return null;
+}
+
 /// Reads the Fluxer API `message` field from a [DioException] response body.
 String? apiMessageFromDioException(DioException error) {
   final Object? data = error.response?.data;

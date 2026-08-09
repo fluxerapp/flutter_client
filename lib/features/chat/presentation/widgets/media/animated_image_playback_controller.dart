@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-const int _kDefaultMaxActiveAnimatedImages = 5;
-
 class _AnimatedImageCandidate {
   _AnimatedImageCandidate({required this.key});
 
@@ -12,23 +10,8 @@ class _AnimatedImageCandidate {
 
 /// Coordinates animated image playback in a scrollable feed.
 class AnimatedImagePlaybackController extends ChangeNotifier {
-  AnimatedImagePlaybackController({
-    this._maxActive = _kDefaultMaxActiveAnimatedImages,
-  });
-
-  final int _maxActive;
-  int get maxActive => _maxActive;
-  bool _isScrolling = false;
   final Map<String, _AnimatedImageCandidate> _candidates =
       <String, _AnimatedImageCandidate>{};
-
-  void setScrolling({required bool value}) {
-    if (_isScrolling == value) {
-      return;
-    }
-    _isScrolling = value;
-    _recompute();
-  }
 
   void register(String key, double visibleFraction) {
     _candidates
@@ -65,17 +48,8 @@ class AnimatedImagePlaybackController extends ChangeNotifier {
       for (final _AnimatedImageCandidate c in _candidates.values)
         c.key: c.active,
     };
-    if (_isScrolling) {
-      for (final _AnimatedImageCandidate candidate in _candidates.values) {
-        candidate.active = false;
-      }
-    } else {
-      final List<_AnimatedImageCandidate> sorted = _candidates.values.toList()
-        ..sort((a, b) => b.visibleFraction.compareTo(a.visibleFraction));
-      for (int i = 0; i < sorted.length; i++) {
-        final _AnimatedImageCandidate candidate = sorted[i];
-        candidate.active = i < _maxActive && candidate.visibleFraction > 0;
-      }
+    for (final _AnimatedImageCandidate candidate in _candidates.values) {
+      candidate.active = candidate.visibleFraction > 0;
     }
     if (_activeMapChanged(previousActive)) {
       notifyListeners();

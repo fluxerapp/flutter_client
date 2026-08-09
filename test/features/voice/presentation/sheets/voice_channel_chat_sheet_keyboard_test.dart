@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_botto
 import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import '../../../../helpers/test_l10n.dart';
 
 const Key _composerKey = Key('composer');
 const double _keyboardHeight = 180;
@@ -48,6 +49,7 @@ Future<void> _pumpVoiceChatStyleSheet({
       child: UncontrolledProviderScope(
         container: container,
         child: MaterialApp(
+          locale: kTestLocale,
           localizationsDelegates: FluxerLocalizations.localizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           theme: buildFluxerTheme(

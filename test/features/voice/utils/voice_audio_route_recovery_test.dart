@@ -33,4 +33,36 @@ void main() {
       );
     });
   });
+
+  group('didAudioInputDeviceIdsChange', () {
+    test('returns false when previous snapshot is missing', () {
+      expect(
+        didAudioInputDeviceIdsChange(
+          previous: null,
+          current: <String>{'mic-1'},
+        ),
+        isFalse,
+      );
+    });
+
+    test('returns false when input devices are unchanged', () {
+      expect(
+        didAudioInputDeviceIdsChange(
+          previous: <String>{'mic-1'},
+          current: <String>{'mic-1'},
+        ),
+        isFalse,
+      );
+    });
+
+    test('returns true when input devices changed', () {
+      expect(
+        didAudioInputDeviceIdsChange(
+          previous: <String>{'mic-1'},
+          current: <String>{'mic-2'},
+        ),
+        isTrue,
+      );
+    });
+  });
 }

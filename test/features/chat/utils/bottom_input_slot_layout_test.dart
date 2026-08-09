@@ -541,22 +541,25 @@ void main() {
   });
 
   group('chatLayoutReservesBottomSafeArea', () {
-    test('mobile defers bottom inset to BottomInputSpacer', () {
-      expect(
-        chatLayoutReservesBottomSafeArea(
-          isMobile: true,
-          keyboardSlotOccupied: false,
-        ),
-        isFalse,
-      );
-      expect(
-        chatLayoutReservesBottomSafeArea(
-          isMobile: true,
-          keyboardSlotOccupied: true,
-        ),
-        isFalse,
-      );
-    });
+    test(
+      'mobile defers bottom inset to composer safe bar when keyboard is closed',
+      () {
+        expect(
+          chatLayoutReservesBottomSafeArea(
+            isMobile: true,
+            keyboardSlotOccupied: false,
+          ),
+          isFalse,
+        );
+        expect(
+          chatLayoutReservesBottomSafeArea(
+            isMobile: true,
+            keyboardSlotOccupied: true,
+          ),
+          isFalse,
+        );
+      },
+    );
 
     test('desktop reserves safe area when keyboard slot is closed', () {
       expect(

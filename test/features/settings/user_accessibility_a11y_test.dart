@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/settings/providers/appearance_preferences_pr
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
+import '../../helpers/test_l10n.dart';
 
 class _InertSyncedPreferencesStore extends SyncedPreferencesStore {
   // ignore: use_super_parameters
@@ -98,6 +99,7 @@ Widget _app(
       ),
     ],
     child: MaterialApp(
+      locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(

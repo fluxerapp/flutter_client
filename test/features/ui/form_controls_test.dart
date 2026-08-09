@@ -13,10 +13,12 @@ import 'package:fluxer_app/features/ui/toggle_switch/fluxer_switch_control.dart'
 import 'package:fluxer_app/features/ui/toggle_switch/fluxer_toggle_switch.dart';
 
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import '../../helpers/test_l10n.dart';
 
 Widget buildTestApp(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return MaterialApp(
+    locale: kTestLocale,
     localizationsDelegates: FluxerLocalizations.localizationsDelegates,
     supportedLocales: FluxerLocalizations.supportedLocales,
     theme: buildFluxerTheme(

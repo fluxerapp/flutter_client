@@ -33,7 +33,7 @@ class _UnreadChannelInboxCardState
   UnreadInboxCardMeta _meta = UnreadInboxCardMeta.empty();
   List<Message>? _preview;
   bool _loadingPreview = false;
-  bool _attemptedPreview = false;
+  int _previewGeneration = 0;
 
   @override
   void initState() {
@@ -42,6 +42,23 @@ class _UnreadChannelInboxCardState
       _loadingPreview = true;
     }
     WidgetsBinding.instance.addPostFrameCallback((_) => unawaited(_loadMeta()));
+  }
+
+  @override
+  void didUpdateWidget(UnreadChannelInboxCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.entry.recencyComparator != widget.entry.recencyComparator ||
+        oldWidget.entry.mentionCount != widget.entry.mentionCount) {
+      unawaited(_loadPreview(force: true));
+      return;
+    }
+    if (oldWidget.entry.isCollapsed != widget.entry.isCollapsed) {
+      if (widget.entry.isCollapsed) {
+        setState(() => _loadingPreview = false);
+      } else if (_preview == null) {
+        unawaited(_loadPreview());
+      }
+    }
   }
 
   Future<void> _loadMeta() async {
@@ -53,20 +70,24 @@ class _UnreadChannelInboxCardState
     if (!mounted) {
       return;
     }
-    setState(() {
-      _meta = meta;
-    });
-    await _ensurePreview();
+    setState(() => _meta = meta);
+    await _loadPreview();
   }
 
-  Future<void> _ensurePreview() async {
-    if (widget.entry.isCollapsed || _attemptedPreview) {
+  Future<void> _loadPreview({bool force = false}) async {
+    if (widget.entry.isCollapsed) {
       return;
     }
-    setState(() {
-      _loadingPreview = true;
-      _attemptedPreview = true;
-    });
+    if (_loadingPreview && !force) {
+      return;
+    }
+
+    final int generation = ++_previewGeneration;
+    final bool showLoading = _preview == null;
+    if (showLoading) {
+      setState(() => _loadingPreview = true);
+    }
+
     try {
       final NotificationsRepository repo = ref.read(
         notificationsRepositoryProvider,
@@ -80,7 +101,7 @@ class _UnreadChannelInboxCardState
         entry: widget.entry,
         guildChannelRow: driftCh,
       );
-      if (!mounted) {
+      if (!mounted || generation != _previewGeneration) {
         return;
       }
       setState(() {
@@ -88,7 +109,7 @@ class _UnreadChannelInboxCardState
         _loadingPreview = false;
       });
     } on Object catch (_) {
-      if (!mounted) {
+      if (!mounted || generation != _previewGeneration) {
         return;
       }
       setState(() => _loadingPreview = false);
@@ -109,11 +130,11 @@ class _UnreadChannelInboxCardState
       return;
     }
     setState(() {
-      _attemptedPreview = false;
       _preview = null;
       _loadingPreview = true;
+      _previewGeneration++;
     });
-    await _ensurePreview();
+    await _loadPreview();
   }
 
   Future<void> _markRead() async {

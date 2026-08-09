@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_link.
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_rich.dart';
 import 'package:fluxer_app/features/chat/utils/embed_gallery_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
+import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 /// The reservation contract: a media tile's box exists at first layout and
@@ -104,6 +105,13 @@ void main() {
       await pumpRich(tester, _media());
       expect(_imageBox(tester).height, kEmbedMediaFallbackHeight);
     });
+
+    testWidgets('opens the media viewer when tapped', (tester) async {
+      await pumpRich(tester, _media(width: 400, height: 300));
+      await tester.tap(find.byType(CachedNetworkImage));
+      await tester.pump();
+      expect(find.byType(AttachmentMediaViewerShell), findsOneWidget);
+    });
   });
 
   group('EmbedLink thumbnail', () {
@@ -147,6 +155,13 @@ void main() {
     ) async {
       await pumpLink(tester, _media());
       expect(_imageBox(tester).height, kEmbedMediaFallbackHeight);
+    });
+
+    testWidgets('opens the media viewer when tapped', (tester) async {
+      await pumpLink(tester, _media(width: 400, height: 300));
+      await tester.tap(find.byType(CachedNetworkImage));
+      await tester.pump();
+      expect(find.byType(AttachmentMediaViewerShell), findsOneWidget);
     });
   });
 }

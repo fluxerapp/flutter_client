@@ -17,6 +17,7 @@ import 'package:fluxer_app/features/auth/providers/pending_invite_code_provider.
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/guilds/utils/invite_link_parser.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
+import 'package:fluxer_app/features/settings/providers/default_apps_preferences_provider.dart';
 import 'package:fluxer_app/shared/external_links/external_url_launcher.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -96,7 +97,8 @@ class DeepLinkHandler extends _$DeepLinkHandler {
       return false;
     }
     talker.info('[DeepLink] Deferring OAuth URL to browser: $uri');
-    unawaited(openExternalUrl(uri));
+    final browser = ref.read(defaultAppsPreferencesProvider);
+    unawaited(openExternalUrl(uri, browser: browser));
     return true;
   }
 

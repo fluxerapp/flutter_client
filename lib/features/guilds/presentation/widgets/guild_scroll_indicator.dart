@@ -185,7 +185,7 @@ class GuildScrollIndicatorController {
     unawaited(
       Scrollable.ensureVisible(
         context,
-        duration: const Duration(milliseconds: 200),
+        duration: context.motion.panel,
         curve: Curves.easeOut,
       ),
     );
@@ -308,11 +308,11 @@ class _GuildScrollIndicatorPill extends StatelessWidget {
           ignoring: !state.show,
           child: AnimatedSlide(
             offset: Offset(0, state.show ? 0 : (slideUp ? -1 : 1)),
-            duration: const Duration(milliseconds: 150),
+            duration: context.motion.normal,
             curve: Curves.easeOut,
             child: AnimatedOpacity(
               opacity: state.show ? 1.0 : 0.0,
-              duration: const Duration(milliseconds: 150),
+              duration: context.motion.normal,
               child: GuildScrollIndicator(
                 severity: state.severity,
                 label: label,

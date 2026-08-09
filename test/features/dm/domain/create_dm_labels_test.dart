@@ -1,10 +1,10 @@
 import 'package:fluxer_app/features/dm/domain/create_dm_labels.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations_en.dart';
 import 'package:test/test.dart';
+import '../../../helpers/test_l10n.dart';
 
 void main() {
   group('createDmButtonLabel', () {
-    final FluxerLocalizationsEn l10n = FluxerLocalizationsEn();
+    final FluxerLocalizations l10n = testL10n;
 
     test('uses create DM label for one friend', () {
       expect(createDmButtonLabel(l10n, 1), 'Create DM');

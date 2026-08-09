@@ -1,10 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/utils/group_dm_display_name.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations_en.dart';
+import 'package:fluxer_dart/export.dart';
+import '../../../helpers/test_l10n.dart';
 
 void main() {
-  final FluxerLocalizationsEn l10n = FluxerLocalizationsEn();
+  final FluxerLocalizations l10n = testL10n;
 
   DmConversation groupDm({
     String? name,
@@ -123,6 +124,74 @@ void main() {
           currentUserId: '1',
         ),
         'Unnamed group',
+      );
+    });
+  });
+
+  group('resolveGroupDmInviteDisplayName', () {
+    ChannelPartialResponse channel({
+      String? name,
+      List<ChannelPartialResponseRecipients>? recipients,
+    }) {
+      return ChannelPartialResponse(
+        id: '100',
+        type: 3,
+        name: name,
+        recipients: recipients,
+      );
+    }
+
+    test('uses channel name when set', () {
+      expect(
+        resolveGroupDmInviteDisplayName(
+          channel: channel(name: 'Weekend Crew'),
+          l10n: l10n,
+        ),
+        'Weekend Crew',
+      );
+    });
+
+    test('joins recipient usernames when name is empty', () {
+      expect(
+        resolveGroupDmInviteDisplayName(
+          channel: channel(
+            recipients: const <ChannelPartialResponseRecipients>[
+              ChannelPartialResponseRecipients(username: 'alice'),
+              ChannelPartialResponseRecipients(username: 'bob'),
+            ],
+          ),
+          l10n: l10n,
+        ),
+        'alice, bob',
+      );
+    });
+
+    test('falls back to unnamed group', () {
+      expect(
+        resolveGroupDmInviteDisplayName(channel: channel(), l10n: l10n),
+        'Unnamed group',
+      );
+    });
+  });
+
+  group('resolveGroupDmInviteMemberCount', () {
+    test('uses invite count when local channel is missing', () {
+      expect(resolveGroupDmInviteMemberCount(inviteMemberCount: 4), 4);
+    });
+
+    test('counts local group members plus current user', () {
+      expect(
+        resolveGroupDmInviteMemberCount(
+          inviteMemberCount: 2,
+          localChannel: groupDm(
+            groupMembers: const <GroupMemberInfo>[
+              GroupMemberInfo(id: '2', name: 'Alice'),
+              GroupMemberInfo(id: '3', name: 'Bob'),
+            ],
+          ),
+          currentUserId: '1',
+        ),
+        3,
       );
     });
   });

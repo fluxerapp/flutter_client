@@ -417,7 +417,7 @@ class _VoiceControlCircleState extends State<_VoiceControlCircle> {
       duration: const Duration(milliseconds: 110),
       curve: Curves.easeOut,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 150),
+        duration: context.motion.normal,
         curve: Curves.easeOut,
         width: widget.size,
         height: widget.size,

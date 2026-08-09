@@ -347,6 +347,37 @@ void main() {
   });
 
   group('evaluateFromSnapshot', () {
+    test('muted DM snapshot is silent', () async {
+      final MessageResponseSchema message = _message(
+        id: '900000000000000002',
+        channelId: 'dm-1',
+        authorId: 'other',
+      );
+      const MessagePersistSnapshot snapshot = MessagePersistSnapshot(
+        mentionsCurrentUser: false,
+        isDm: true,
+        guildStorageId: '@me',
+        acknowledgedByGateway: false,
+        notificationLevel: UserNotificationSettings.allMessages,
+        isChannelMuted: true,
+      );
+      final MessageNotificationSfxDeduper deduper =
+          MessageNotificationSfxDeduper(capacity: 32);
+      final MessageNotificationSfxPlayRequest? request =
+          await FluxerMessageNotificationSfxEvaluator.evaluateFromSnapshot(
+            message: message,
+            snapshot: snapshot,
+            currentUserId: 'me',
+            blockedUserIds: const <String>{},
+            selfIsDnd: false,
+            deduper: deduper,
+            foreground: false,
+            viewingChannel: false,
+            hasObscuringOverlay: false,
+          );
+      expect(request, isNull);
+    });
+
     test('uses snapshot mention flag without database reads', () async {
       final MessageResponseSchema message = _message(
         id: '900000000000000001',

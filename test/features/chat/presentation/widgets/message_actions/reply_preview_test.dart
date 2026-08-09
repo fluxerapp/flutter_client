@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/re
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/export.dart';
+import '../../../../../helpers/test_l10n.dart';
 
 void main() {
   testWidgets('mentions the replied-to author when the reply pings them', (
@@ -99,6 +100,7 @@ Widget _buildTestApp({
       currentUserIdProvider.overrideWithValue(null),
     ],
     child: MaterialApp(
+      locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(

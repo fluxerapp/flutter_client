@@ -85,6 +85,12 @@ class ChannelRepository {
     }
   }
 
+  Future<ChannelSlowmodeStateResponse> getSlowmodeState(
+    String channelId,
+  ) async {
+    return _client.channels.getChannelSlowmodeState(channelId: channelId);
+  }
+
   Future<Channel> _patchChannel(
     String channelId,
     String guildId,

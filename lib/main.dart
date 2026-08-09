@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/app.dart';
+import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_entrypoint.dart';
 import 'package:fluxer_app/core/bootstrap/flutter_error_ui.dart';
 import 'package:fluxer_app/core/bootstrap/image_cache_config.dart';
 import 'package:fluxer_app/core/build/push_provider_assert.dart';
@@ -74,6 +75,10 @@ Future<void> _bootstrapFluxer(List<String> args) async {
     FluxerObservability.instance.traceSync(
       'app.bootstrap.media_kit',
       MediaKit.ensureInitialized,
+    );
+    await FluxerObservability.instance.traceAsync(
+      'app.bootstrap.chat_attachment_audio',
+      bootstrapChatAttachmentAudio,
     );
   }
 

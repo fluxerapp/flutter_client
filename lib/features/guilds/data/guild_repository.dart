@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/features/guilds/data/guild_local_cleanup.dart';
@@ -55,6 +57,17 @@ class GuildRepository {
   /// Fetches ordered guild IDs from user settings guild folders.
   Future<List<String>> _fetchGuildOrder() async {
     try {
+      final session = await _db.authSessionDao.getActiveSession();
+      if (session != null) {
+        final row = await _db.userSettingsDao.getSettings(session.userId);
+        if (row != null) {
+          final Object? decoded = jsonDecode(row.data);
+          if (decoded is Map<String, dynamic>) {
+            final settings = UserSettingsResponse.fromJson(decoded);
+            return settings.guildFolders.expand((f) => f.guildIds).toList();
+          }
+        }
+      }
       final settings = await _client.users.getCurrentUserSettings();
       final folders = settings.guildFolders;
       return folders.expand((f) => f.guildIds).toList();

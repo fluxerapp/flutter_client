@@ -6,10 +6,12 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_header.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import '../../../../helpers/test_l10n.dart';
 
 Widget _buildApp(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return MaterialApp(
+    locale: kTestLocale,
     localizationsDelegates: FluxerLocalizations.localizationsDelegates,
     supportedLocales: FluxerLocalizations.supportedLocales,
     theme: buildFluxerTheme(

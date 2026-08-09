@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/utils/typing_indicator_text.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations_en.dart';
+import '../../../helpers/test_l10n.dart';
 
 void main() {
-  final FluxerLocalizationsEn l10n = FluxerLocalizationsEn();
+  final FluxerLocalizations l10n = testL10n;
 
   group('resolveTypingIndicatorBulkText', () {
     test('returns null for one to three typers', () {

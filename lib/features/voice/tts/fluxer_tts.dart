@@ -139,7 +139,7 @@ class FluxerTts {
   }
 
   Future<void> _configurePlatformAudio() async {
-    if (kIsWeb || !Platform.isIOS) {
+    if (kIsWeb || !(Platform.isIOS || Platform.isMacOS)) {
       return;
     }
     try {

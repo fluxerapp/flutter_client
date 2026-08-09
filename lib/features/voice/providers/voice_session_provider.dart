@@ -27,8 +27,6 @@ import 'package:fluxer_app/features/voice/providers/local_voice_state_provider.d
 import 'package:fluxer_app/features/voice/providers/screen_share_capability_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_display_preferences_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
-import 'package:fluxer_app/features/voice/providers/voice_media_devices_provider.dart';
-import 'package:fluxer_app/features/voice/providers/voice_noise_filter_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_screen_share_watch_tile_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/services/voice_settings_applicator.dart';
@@ -111,6 +109,9 @@ class VoiceSession extends _$VoiceSession {
   bool _ensuringMicrophone = false;
   StreamSubscription<List<MediaDevice>>? _mediaDeviceChangeSubscription;
   Timer? _audioRouteRecoveryTimer;
+  Set<String>? _lastKnownInputDeviceIds;
+  Set<String>? _pendingRecoveryInputIds;
+  bool _isRecoveringAudioRoute = false;
 
   @override
   VoiceSessionState build() {
@@ -130,8 +131,7 @@ class VoiceSession extends _$VoiceSession {
           return;
         }
         unawaited(_onVoiceSettingsChanged(previous, next));
-      })
-      ..read(voiceNoiseFilterProvider);
+      });
     return const VoiceSessionState();
   }
 
@@ -1310,6 +1310,15 @@ class VoiceSession extends _$VoiceSession {
     if (roomToDisconnect == null) {
       return;
     }
+    final LocalParticipant? localParticipant =
+        roomToDisconnect.localParticipant;
+    if (localParticipant != null) {
+      try {
+        await localParticipant.setMicrophoneEnabled(false);
+      } on Object catch (error) {
+        talker.debug('[Voice] failed to disable mic on disconnect: $error');
+      }
+    }
     if (!skipGatewayDisconnect) {
       _sendVoiceDisconnectState(
         guildId: guildId ?? sessionState.guildId,
@@ -2034,9 +2043,7 @@ class VoiceSession extends _$VoiceSession {
       _pendingRingSilently = false;
     }
     await _reconcileRemoteAudioForSelfConnection(reason: 'room_connected');
-    await ref
-        .read(voiceSettingsApplicatorProvider)
-        .applySpeakerOutput(settings: ref.read(voiceSettingsProvider));
+    await _applyVoiceOutputRouting(ref.read(voiceSettingsProvider));
     _attachMediaDeviceChangeListener();
     unawaited(
       _ensureLocalMicrophone(reason: 'room_connected', attempt: attempt),
@@ -2048,26 +2055,42 @@ class VoiceSession extends _$VoiceSession {
       return;
     }
     _mediaDeviceChangeSubscription = Hardware.instance.onDeviceChange.stream
-        .listen((List<MediaDevice> _) {
-          _scheduleAudioRouteRecovery();
-        });
+        .listen(_scheduleAudioRouteRecovery);
   }
 
   void _detachMediaDeviceChangeListener() {
     _audioRouteRecoveryTimer?.cancel();
     _audioRouteRecoveryTimer = null;
+    _pendingRecoveryInputIds = null;
+    _lastKnownInputDeviceIds = null;
+    _isRecoveringAudioRoute = false;
     unawaited(_mediaDeviceChangeSubscription?.cancel());
     _mediaDeviceChangeSubscription = null;
   }
 
-  void _scheduleAudioRouteRecovery() {
+  Set<String> _audioInputDeviceIds(List<MediaDevice> devices) {
+    return devices
+        .where((MediaDevice device) => device.kind == 'audioinput')
+        .map((MediaDevice device) => device.deviceId)
+        .toSet();
+  }
+
+  void _scheduleAudioRouteRecovery(List<MediaDevice> devices) {
+    _pendingRecoveryInputIds = _audioInputDeviceIds(devices);
     _audioRouteRecoveryTimer?.cancel();
     _audioRouteRecoveryTimer = Timer(kVoiceAudioRouteRecoveryDebounce, () {
-      unawaited(_recoverAudioAfterDeviceChange());
+      final Set<String>? inputIds = _pendingRecoveryInputIds;
+      _pendingRecoveryInputIds = null;
+      if (inputIds != null) {
+        unawaited(_recoverAudioAfterDeviceChange(inputIds));
+      }
     });
   }
 
-  Future<void> _recoverAudioAfterDeviceChange() async {
+  Future<void> _recoverAudioAfterDeviceChange(Set<String> inputIds) async {
+    if (_isRecoveringAudioRoute) {
+      return;
+    }
     final Room? room = state.liveKitRoom;
     if (!shouldRecoverVoiceAudioOnDeviceChange(
       isConnected: state.isConnected,
@@ -2075,45 +2098,71 @@ class VoiceSession extends _$VoiceSession {
     )) {
       return;
     }
+
+    final bool inputChanged = didAudioInputDeviceIdsChange(
+      previous: _lastKnownInputDeviceIds,
+      current: inputIds,
+    );
+    _lastKnownInputDeviceIds = inputIds;
+
     final VoiceSettingsState settings = ref.read(voiceSettingsProvider);
     final VoiceSettingsApplicator applicator = ref.read(
       voiceSettingsApplicatorProvider,
     );
+
+    _isRecoveringAudioRoute = true;
     try {
-      // LiveKit CallKit audio ownership APIs are marked @experimental.
-      // ignore: experimental_member_use
-      await AudioManager.instance.setEngineAvailability(
-        // LiveKit CallKit audio ownership APIs are marked @experimental.
-        // ignore: experimental_member_use
-        AudioEngineAvailability.defaultAvailability,
+      if (inputChanged) {
+        await _runAudioRouteRecoveryStep('setEngineAvailability', () {
+          // LiveKit CallKit audio ownership APIs are marked @experimental.
+          // ignore: experimental_member_use
+          return AudioManager.instance.setEngineAvailability(
+            // ignore: experimental_member_use
+            AudioEngineAvailability.defaultAvailability,
+          );
+        });
+      }
+      await _runAudioRouteRecoveryStep(
+        'applySpeakerOutput',
+        () => applicator.applySpeakerOutput(settings: settings),
       );
-    } on Object catch (error) {
-      talker.warning(
-        '[Voice] audio route recovery setEngineAvailability failed: $error',
-      );
+      if (inputChanged && _shouldPublishMicrophone()) {
+        await _runAudioRouteRecoveryStep(
+          'refreshMicrophone',
+          () => applicator.refreshMicrophone(
+            room: room!,
+            settings: settings,
+            microphoneEnabled: true,
+          ),
+        );
+      }
+    } finally {
+      _isRecoveringAudioRoute = false;
     }
+  }
+
+  Future<void> _runAudioRouteRecoveryStep(
+    String step,
+    Future<void> Function() action,
+  ) async {
     try {
-      await applicator.applySpeakerOutput(settings: settings);
+      await action();
     } on Object catch (error) {
-      talker.warning(
-        '[Voice] audio route recovery applySpeakerOutput failed: $error',
-      );
+      talker.warning('[Voice] audio route recovery $step failed: $error');
     }
-    final VoiceState? vs = _selfConnectionVoiceState();
-    final bool micEnabled =
-        !(vs?.selfMute ?? false) && !(vs?.selfDeaf ?? false);
-    try {
-      await applicator.refreshMicrophone(
-        room: room!,
-        settings: settings,
-        microphoneEnabled: micEnabled,
-      );
-    } on Object catch (error) {
-      talker.warning(
-        '[Voice] audio route recovery refreshMicrophone failed: $error',
-      );
-    }
-    unawaited(ref.read(voiceMediaDevicesProvider.notifier).refresh());
+  }
+
+  bool _shouldPublishMicrophone() {
+    final EffectiveAudioState audio = _effectiveAudioStateForSelfConnection();
+    return audio.micShouldPublish && _canPublishAudioInChannel();
+  }
+
+  Future<void> _applyVoiceOutputRouting(VoiceSettingsState settings) async {
+    final VoiceSettingsApplicator applicator = ref.read(
+      voiceSettingsApplicatorProvider,
+    );
+    await applicator.applySpeakerOutput(settings: settings);
+    await _applyAudioOutputDevice(settings.outputDeviceId);
   }
 
   Future<void> _applyAudioOutputDevice(String outputDeviceId) async {
@@ -2131,14 +2180,18 @@ class VoiceSession extends _$VoiceSession {
     VoiceSettingsState? previous,
     VoiceSettingsState next,
   ) async {
+    if (!state.isInVoice) {
+      return;
+    }
     final VoiceSettingsApplicator applicator = ref.read(
       voiceSettingsApplicatorProvider,
     );
-    await applicator.applySpeakerOutput(settings: next);
-    final bool outputDeviceChanged =
-        previous == null || previous.outputDeviceId != next.outputDeviceId;
-    if (outputDeviceChanged) {
-      await _applyAudioOutputDevice(next.outputDeviceId);
+    final bool outputRoutingChanged =
+        previous == null ||
+        previous.outputDeviceId != next.outputDeviceId ||
+        previous.preferSpeakerOutput != next.preferSpeakerOutput;
+    if (outputRoutingChanged) {
+      await _applyVoiceOutputRouting(next);
     }
     final Room? room = state.liveKitRoom;
     if (room == null || !state.isConnected) {

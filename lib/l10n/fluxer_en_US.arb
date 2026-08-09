@@ -6706,6 +6706,30 @@
     "@userSettingsNavLanguageAndTime": {
         "description": "User settings navigation item for language and time settings."
     },
+    "userSettingsNavDefaultApps": "Default Apps",
+    "@userSettingsNavDefaultApps": {
+        "description": "User settings navigation item for default app preferences."
+    },
+    "defaultAppsWebBrowserSectionTitle": "Web Browser",
+    "@defaultAppsWebBrowserSectionTitle": {
+        "description": "Title for the default web browser settings section."
+    },
+    "defaultAppsWebBrowserSectionDescription": "Choose which browser opens when you tap a link.",
+    "@defaultAppsWebBrowserSectionDescription": {
+        "description": "Description for the default web browser settings section."
+    },
+    "defaultAppsWebBrowserNativeAppNote": "If an app is installed for a site, links will open in that app first.",
+    "@defaultAppsWebBrowserNativeAppNote": {
+        "description": "Footnote explaining that installed native apps take priority over the chosen browser."
+    },
+    "defaultAppsWebBrowserInApp": "In-app browser",
+    "@defaultAppsWebBrowserInApp": {
+        "description": "Default web browser option for the in-app browser."
+    },
+    "defaultAppsWebBrowserExternal": "External browser",
+    "@defaultAppsWebBrowserExternal": {
+        "description": "Default web browser option for the system default browser."
+    },
     "userSettingsNavAdvanced": "Advanced",
     "@userSettingsNavAdvanced": {
         "description": "User settings navigation item for advanced settings."

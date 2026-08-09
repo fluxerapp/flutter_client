@@ -18,6 +18,11 @@ class InviteEmbedGuild extends InviteEmbedState {
   final InviteResponseSchemaGuildInviteResponse invite;
 }
 
+class InviteEmbedGroupDm extends InviteEmbedState {
+  InviteEmbedGroupDm(this.invite);
+  final InviteResponseSchemaGroupDmInviteResponse invite;
+}
+
 // Fetches invite data by code
 @riverpod
 Future<InviteEmbedState> inviteEmbed(Ref ref, String code) async {
@@ -26,10 +31,11 @@ Future<InviteEmbedState> inviteEmbed(Ref ref, String code) async {
     final schema = await client.invites.getInvite(inviteCode: code);
     final raw = schema.toJson();
     final typeVal = raw['type'] as int?;
-    if (typeVal == 0) {
-      return InviteEmbedGuild(schema.toGuildInviteResponse());
-    }
-    return InviteEmbedNotFound();
+    return switch (typeVal) {
+      0 => InviteEmbedGuild(schema.toGuildInviteResponse()),
+      1 => InviteEmbedGroupDm(schema.toGroupDmInviteResponse()),
+      _ => InviteEmbedNotFound(),
+    };
   } on DioException catch (e) {
     if (e.response?.statusCode == 404) {
       return InviteEmbedNotFound();

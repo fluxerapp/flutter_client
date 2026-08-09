@@ -114,6 +114,7 @@ class GatewayEventHandler {
     this.onGuildPermissionsChanged,
     this.onGuildPermissionsEvict,
     this.onChannelPermissionChanged,
+    this.onChannelDelete,
     this.onPermissionsClearAll,
     this.onMessageCreate,
     this.onMessageUpdate,
@@ -161,6 +162,7 @@ class GatewayEventHandler {
   final GuildCallback? onGuildPermissionsChanged;
   final GuildCallback? onGuildPermissionsEvict;
   final ChannelCallback? onChannelPermissionChanged;
+  final ChannelCallback? onChannelDelete;
   final void Function()? onPermissionsClearAll;
   final MessageCreateCallback? onMessageCreate;
   final MessageUpdateCallback? onMessageUpdate;
@@ -1456,17 +1458,29 @@ class GatewayEventHandler {
       }
     }
 
+    final UserGuildSettingsResponse? guildSettings =
+        await _guildSettingsForStorage(channelResolution.guildStorageId);
+    final DateTime now = DateTime.now();
     final UserNotificationSettings notificationLevel =
         channelResolution.isGuild && channelResolution.guildChannel != null
         ? resolveMessageNotifications(
             channel: channelResolution.guildChannel!,
-            guildSettings: await _guildSettingsForStorage(
-              channelResolution.guildStorageId,
-            ),
+            guildSettings: guildSettings,
           )
         : resolvePrivateMessageNotifications(
-            guildSettings: await _guildSettingsForStorage('@me'),
+            guildSettings: guildSettings,
             channelId: channelId,
+          );
+    final bool isChannelMuted =
+        channelResolution.isGuild && channelResolution.guildChannel != null
+        ? isGuildOrCategoryOrChannelMuted(
+            channel: channelResolution.guildChannel!,
+            guildSettings: guildSettings,
+            now: now,
+          )
+        : isChannelOverrideMuted(
+            guildSettings?.channelOverrides?[channelId],
+            now: now,
           );
 
     onMessageCreate?.call(
@@ -1478,6 +1492,7 @@ class GatewayEventHandler {
           guildStorageId: channelResolution.guildStorageId,
           acknowledgedByGateway: acknowledgedByGateway,
           notificationLevel: notificationLevel,
+          isChannelMuted: isChannelMuted,
         ),
       ),
     );
@@ -1880,6 +1895,7 @@ class GatewayEventHandler {
       event.channel.id,
       guildId: event.channel.guildId,
     );
+    onChannelDelete?.call(event.channel.id);
     unawaited(database.messageDao.deleteMessagesForChannel(event.channel.id));
     unawaited(database.channelDao.deleteChannel(event.channel.id));
     unawaited(database.dmChannelDao.deleteDmChannel(event.channel.id));

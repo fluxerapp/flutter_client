@@ -27,6 +27,30 @@ void main() {
     });
   });
 
+  group('retryAfterMsFromDioException', () {
+    test('converts retry_after seconds to milliseconds', () {
+      final DioException error = DioException(
+        requestOptions: RequestOptions(path: '/test'),
+        response: Response<dynamic>(
+          requestOptions: RequestOptions(path: '/test'),
+          data: <String, dynamic>{'retry_after': 18.5},
+        ),
+      );
+      expect(retryAfterMsFromDioException(error), 18500);
+    });
+
+    test('returns null when retry_after is missing', () {
+      final DioException error = DioException(
+        requestOptions: RequestOptions(path: '/test'),
+        response: Response<dynamic>(
+          requestOptions: RequestOptions(path: '/test'),
+          data: <String, dynamic>{},
+        ),
+      );
+      expect(retryAfterMsFromDioException(error), isNull);
+    });
+  });
+
   group('dioExceptionMessage', () {
     test('prefers API message over fallback', () {
       final DioException error = DioException(

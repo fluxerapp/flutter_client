@@ -1,4 +1,8 @@
+import 'package:flutter/material.dart';
+
+import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/forward_message_sheet.dart';
 import 'package:fluxer_app/features/chat/utils/embed_animated_image_url.dart';
 import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart';
 
@@ -8,6 +12,49 @@ String embedMediaEffectiveUrl(EmbedMedia media) {
 
 bool canOpenEmbedMediaViewer(EmbedMedia media) {
   return embedMediaEffectiveUrl(media).isNotEmpty;
+}
+
+void openEmbedMediaViewer(
+  BuildContext context, {
+  required EmbedMedia media,
+  String? title,
+  bool animated = false,
+  int? embedIndex,
+  String? channelId,
+  String? messageId,
+  MessageMediaActionScope? actionScope,
+  List<EmbedMedia>? gallery,
+  int initialIndex = 0,
+}) {
+  final List<EmbedMedia> images = gallery ?? <EmbedMedia>[media];
+  final List<AttachmentMediaViewerItem> items = images
+      .where(canOpenEmbedMediaViewer)
+      .map(
+        (EmbedMedia item) => buildEmbedMediaViewerItem(
+          media: item,
+          title: title,
+          animated: animated || item.isAnimated,
+          embedIndex: embedIndex,
+        ),
+      )
+      .toList();
+  if (items.isEmpty) {
+    return;
+  }
+  showAttachmentMediaViewer(
+    context,
+    items: items,
+    initialIndex: initialIndex.clamp(0, items.length - 1),
+    onForward: (channelId != null && messageId != null && embedIndex != null)
+        ? (int _) => showForwardMediaSheet(
+            context,
+            sourceChannelId: channelId,
+            sourceMessageId: messageId,
+            embedIndices: <int>[embedIndex],
+          )
+        : null,
+    actionScope: actionScope,
+  );
 }
 
 AttachmentMediaViewerItem buildEmbedMediaViewerItem({

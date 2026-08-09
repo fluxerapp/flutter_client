@@ -167,6 +167,10 @@ class FluxerMessageNotificationSfxEvaluator {
       deduper.release(message.id);
       return null;
     }
+    if (snapshot.isChannelMuted) {
+      deduper.release(message.id);
+      return null;
+    }
     final UserNotificationSettings? level = snapshot.notificationLevel;
     if (snapshot.isDm) {
       if (!shouldNotifyMessageBasedOnSettings(

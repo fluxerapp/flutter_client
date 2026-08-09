@@ -6,6 +6,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_galle
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_shared.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/utils/embed_gallery_utils.dart';
+import 'package:fluxer_app/features/chat/utils/embed_media_viewer_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
@@ -105,15 +106,27 @@ class EmbedLink extends StatelessWidget {
             else if (embed.thumbnail != null)
               Padding(
                 padding: const EdgeInsets.only(top: 4, bottom: 4),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
-                  // Reserve the extent from metadata, capped by the layout
-                  // dimensions (fixed fallback when absent), so the load
-                  // never shifts the chat and portrait sources cannot
-                  // reserve unbounded height.
-                  child: _thumbnailBox(
-                    thumbnail: embed.thumbnail!,
-                    dimensions: dimensions,
+                child: GestureDetector(
+                  onTap: canOpenEmbedMediaViewer(embed.thumbnail!)
+                      ? () => openEmbedMediaViewer(
+                          context,
+                          media: embed.thumbnail!,
+                          title: embed.title,
+                          embedIndex: embedIndex,
+                          channelId: channelId,
+                          messageId: messageId,
+                        )
+                      : null,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    // Reserve the extent from metadata, capped by the layout
+                    // dimensions (fixed fallback when absent), so the load
+                    // never shifts the chat and portrait sources cannot
+                    // reserve unbounded height.
+                    child: _thumbnailBox(
+                      thumbnail: embed.thumbnail!,
+                      dimensions: dimensions,
+                    ),
                   ),
                 ),
               ),

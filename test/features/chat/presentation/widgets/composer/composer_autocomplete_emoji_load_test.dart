@@ -21,6 +21,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 
 import '../../../../../helpers/open_test_database.dart';
+import '../../../../../helpers/test_l10n.dart';
 
 const String _channelId = 'general';
 const String _guildId = 'guild_1';
@@ -37,6 +38,7 @@ class _FakeGuilds extends GuildListViewModel {
 Widget _app(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return MaterialApp(
+    locale: kTestLocale,
     localizationsDelegates: FluxerLocalizations.localizationsDelegates,
     supportedLocales: FluxerLocalizations.supportedLocales,
     theme: buildFluxerTheme(

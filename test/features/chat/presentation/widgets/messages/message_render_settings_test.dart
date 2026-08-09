@@ -7,6 +7,7 @@ void main() {
   group('MessageRenderSettings equality', () {
     MessageRenderSettings makeSettings({
       bool renderEmbeds = true,
+      bool messageDisplayCompact = false,
       ChatPreferencesState chatPreferences = const ChatPreferencesState(),
       double messageGroupSpacing = 16,
     }) {
@@ -19,6 +20,7 @@ void main() {
         revealSpoilers: false,
         chatPreferences: chatPreferences,
         messageGroupSpacing: messageGroupSpacing,
+        messageDisplayCompact: messageDisplayCompact,
       );
     }
 
@@ -47,6 +49,15 @@ void main() {
       final MessageRenderSettings a = makeSettings();
       final MessageRenderSettings b = makeSettings(messageGroupSpacing: 0);
       expect(a, isNot(equals(b)));
+    });
+    test('messageDisplayCompact participates in equality', () {
+      final MessageRenderSettings compact = makeSettings(
+        messageDisplayCompact: true,
+      );
+      final MessageRenderSettings comfy = makeSettings(
+        messageDisplayCompact: false,
+      );
+      expect(compact, isNot(equals(comfy)));
     });
   });
 }

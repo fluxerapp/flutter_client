@@ -2,7 +2,8 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:fluxer_app/core/audio/enums/fluxer_sfx_clip.dart';
 
 const double _kDefaultSfxVolume = 0.4;
-final AudioContext _kNotificationSfxContext = AudioContext(
+
+final AudioContext kMixableSfxContext = AudioContext(
   android: const AudioContextAndroid(
     contentType: AndroidContentType.sonification,
     usageType: AndroidUsageType.notificationRingtone,
@@ -10,15 +11,8 @@ final AudioContext _kNotificationSfxContext = AudioContext(
   ),
   iOS: AudioContextIOS(category: AVAudioSessionCategory.ambient),
 );
-final AudioContext _kSessionFeedbackSfxContext = AudioContext(
-  android: const AudioContextAndroid(
-    contentType: AndroidContentType.sonification,
-    usageType: AndroidUsageType.assistanceSonification,
-    audioFocus: AndroidAudioFocus.none,
-  ),
-  iOS: AudioContextIOS(options: const {AVAudioSessionOptions.mixWithOthers}),
-);
-final AudioContext _kInterruptingIncomingRingContext = AudioContext(
+
+final AudioContext kIncomingRingLoopContext = AudioContext(
   android: const AudioContextAndroid(
     contentType: AndroidContentType.sonification,
     usageType: AndroidUsageType.notificationRingtone,
@@ -26,20 +20,6 @@ final AudioContext _kInterruptingIncomingRingContext = AudioContext(
   ),
   iOS: AudioContextIOS(category: AVAudioSessionCategory.ambient),
 );
-
-AudioContext _audioContextForClip(
-  FluxerSfxClip clip, {
-  required bool ignoreRingerPolicy,
-  required bool isIncomingRingLoop,
-}) {
-  if (isIncomingRingLoop) {
-    return _kInterruptingIncomingRingContext;
-  }
-  if (ignoreRingerPolicy || !clip.respectsRinger) {
-    return _kSessionFeedbackSfxContext;
-  }
-  return _kNotificationSfxContext;
-}
 
 class FluxerSFX {
   FluxerSFX({AudioPlayer? loopPlayer, AudioPlayer? oneShotPlayer})
@@ -50,8 +30,7 @@ class FluxerSFX {
   final AudioPlayer _oneShotPlayer;
   FluxerSfxClip? _activeLoopClip;
   bool _loopPlaybackActive = false;
-  AudioContext? _lastOneShotContext;
-  AudioContext? _lastLoopContext;
+  bool _mixableContextReady = false;
 
   Future<void> playOneShot(
     FluxerSfxClip clip, {
@@ -59,22 +38,12 @@ class FluxerSFX {
     bool ignoreRingerPolicy = false,
   }) async {
     try {
-      final AudioContext context = _audioContextForClip(
-        clip,
-        ignoreRingerPolicy: ignoreRingerPolicy,
-        isIncomingRingLoop: false,
-      );
-      if (_lastOneShotContext != context) {
-        await _oneShotPlayer.setAudioContext(context);
-        _lastOneShotContext = context;
-      }
+      await _ensureMixableAudioContext();
       await _oneShotPlayer.setReleaseMode(ReleaseMode.release);
       await _oneShotPlayer.stop();
       await _oneShotPlayer.setVolume(_clampVolume(volume));
       await _oneShotPlayer.play(AssetSource(_relativeAssetPath(clip.assetKey)));
-    } on Object {
-      // Intentionally swallow: SFX must not break callers.
-    }
+    } on Object {}
   }
 
   Future<void> startLoop(
@@ -86,14 +55,12 @@ class FluxerSFX {
     }
     _activeLoopClip = clip;
     try {
-      final AudioContext context = _audioContextForClip(
-        clip,
-        ignoreRingerPolicy: false,
-        isIncomingRingLoop: clip == FluxerSfxClip.incomingRing,
-      );
-      if (_lastLoopContext != context) {
-        await _loopPlayer.setAudioContext(context);
-        _lastLoopContext = context;
+      if (clip == FluxerSfxClip.incomingRing) {
+        await _loopPlayer.setAudioContext(kIncomingRingLoopContext);
+        await _trySetGlobalAudioContext(kIncomingRingLoopContext);
+      } else {
+        await _ensureMixableAudioContext();
+        await _loopPlayer.setAudioContext(kMixableSfxContext);
       }
       await _loopPlayer.setReleaseMode(ReleaseMode.loop);
       await _loopPlayer.stop();
@@ -111,16 +78,31 @@ class FluxerSFX {
     _loopPlaybackActive = false;
     try {
       await _loopPlayer.stop();
-    } on Object {
-      // Intentionally swallow.
-    }
+      await _trySetGlobalAudioContext(kMixableSfxContext);
+      await _ensureMixableAudioContext();
+      await _loopPlayer.setAudioContext(kMixableSfxContext);
+    } on Object {}
   }
 
   Future<void> dispose() async {
-    _lastOneShotContext = null;
-    _lastLoopContext = null;
+    _mixableContextReady = false;
     await _loopPlayer.dispose();
     await _oneShotPlayer.dispose();
+  }
+
+  Future<void> _ensureMixableAudioContext() async {
+    if (_mixableContextReady) {
+      return;
+    }
+    await _oneShotPlayer.setAudioContext(kMixableSfxContext);
+    await _trySetGlobalAudioContext(kMixableSfxContext);
+    _mixableContextReady = true;
+  }
+
+  Future<void> _trySetGlobalAudioContext(AudioContext context) async {
+    try {
+      await AudioPlayer.global.setAudioContext(context);
+    } on Object {}
   }
 
   static double _clampVolume(double volume) {

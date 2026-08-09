@@ -899,6 +899,14 @@
     "@embedInviteUnavailable": {
         "description": "Disabled button label when an invite is unavailable."
     },
+    "embedInviteJoinGroup": "Join group",
+    "@embedInviteJoinGroup": {
+        "description": "Button to join a group DM from an invite embed card."
+    },
+    "embedInviteAlreadyJoined": "Already joined",
+    "@embedInviteAlreadyJoined": {
+        "description": "Disabled button label on a group DM invite embed when the user is already a member."
+    },
     "inviteAcceptTitle": "You've been invited to join",
     "@inviteAcceptTitle": {
         "description": "Title of the invite accept modal."
@@ -4695,6 +4703,109 @@
     "@chatAttachmentExpiredTooltip": {
         "description": "Tooltip when a file attachment link is no longer available."
     },
+    "chatTextualPreviewExpandLines": "{count, plural, one{Expand ({count} line)} other{Expand ({count} lines)}}",
+    "@chatTextualPreviewExpandLines": {
+        "description": "Expand button for textual attachment preview by line count.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "chatTextualPreviewCollapseLines": "{count, plural, one{Collapse ({count} line)} other{Collapse ({count} lines)}}",
+    "@chatTextualPreviewCollapseLines": {
+        "description": "Collapse button for textual attachment preview by line count.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "chatTextualPreviewExpandRows": "{count, plural, one{Expand ({count} row)} other{Expand ({count} rows)}}",
+    "@chatTextualPreviewExpandRows": {
+        "description": "Expand button for CSV attachment preview by row count.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "chatTextualPreviewCollapseRows": "{count, plural, one{Collapse ({count} row)} other{Collapse ({count} rows)}}",
+    "@chatTextualPreviewCollapseRows": {
+        "description": "Collapse button for CSV attachment preview by row count.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "chatTextualPreviewRemainingLines": "{count, plural, one{... ({count} line left)} other{... ({count} lines left)}}",
+    "@chatTextualPreviewRemainingLines": {
+        "description": "Suffix when inline textual preview truncates expanded content.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "chatTextualPreviewRemainingRows": "{count, plural, one{... ({count} row left)} other{... ({count} rows left)}}",
+    "@chatTextualPreviewRemainingRows": {
+        "description": "Suffix when inline CSV preview truncates expanded rows.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "chatTextualPreviewViewWholeFile": "View whole file",
+    "@chatTextualPreviewViewWholeFile": {
+        "description": "Opens fullscreen textual attachment preview."
+    },
+    "chatTextualPreviewChangeLanguage": "Change language",
+    "@chatTextualPreviewChangeLanguage": {
+        "description": "Opens language picker for textual attachment syntax highlighting."
+    },
+    "chatTextualPreviewSearchLanguage": "Search language…",
+    "@chatTextualPreviewSearchLanguage": {
+        "description": "Search field hint in textual preview language picker."
+    },
+    "chatTextualPreviewSyntaxHighlighting": "Syntax highlighting",
+    "@chatTextualPreviewSyntaxHighlighting": {
+        "description": "Title for textual preview language picker."
+    },
+    "chatTextualPreviewNoLanguagesFound": "No results found",
+    "@chatTextualPreviewNoLanguagesFound": {
+        "description": "Empty state when language search matches nothing."
+    },
+    "chatTextualPreviewMoreOptions": "More options",
+    "@chatTextualPreviewMoreOptions": {
+        "description": "Accessibility label for textual preview overflow menu."
+    },
+    "chatTextualPreviewWrapText": "Wrap text",
+    "@chatTextualPreviewWrapText": {
+        "description": "Toggle soft-wrapping in textual attachment previews."
+    },
+    "chatTextualPreviewSizeError": "File is too large for inline preview (limit {previewLimitKb} KB).",
+    "@chatTextualPreviewSizeError": {
+        "description": "Error when attachment exceeds textual preview size limit.",
+        "placeholders": {
+            "previewLimitKb": {
+                "type": "int"
+            }
+        }
+    },
+    "chatTextualPreviewLoadError": "Unable to load preview.",
+    "@chatTextualPreviewLoadError": {
+        "description": "Error when textual attachment content cannot be fetched."
+    },
+    "chatTextualPreviewLanguagePlaintext": "Plain text",
+    "@chatTextualPreviewLanguagePlaintext": {
+        "description": "Label for plaintext syntax highlighting option."
+    },
+    "chatTextualPreviewCopy": "Copy",
+    "@chatTextualPreviewCopy": {
+        "description": "Copy textual attachment preview contents to clipboard."
+    },
     "chatAttachmentSourceGallery": "Gallery",
     "@chatAttachmentSourceGallery": {
         "description": "Option to pick photos and videos from the device gallery."
@@ -7016,6 +7127,27 @@
     "forwardCommentSlowmodeDisabled": "Comments are unavailable because a selected channel has slowmode enabled.",
     "@forwardCommentSlowmodeDisabled": {
         "description": "Notice shown in the forward sheet when the optional comment is disabled due to slowmode on a selected destination."
+    },
+    "forwardSendSlowmodeBlocked": "Waiting for slowmode in one or more selected channels to expire.",
+    "@forwardSendSlowmodeBlocked": {
+        "description": "Notice shown in the forward sheet when send is blocked because a selected destination is cooling down."
+    },
+    "slowmodeRateLimitedTitle": "Slowmode active",
+    "@slowmodeRateLimitedTitle": {
+        "description": "Title for the modal shown when slowmode blocks sending a message."
+    },
+    "slowmodeRateLimitedMessage": "Slowmode is on — wait {duration} before sending another.",
+    "@slowmodeRateLimitedMessage": {
+        "description": "Body for the modal shown when slowmode blocks sending a message. {duration} is a formatted countdown.",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatAttachmentDropSlowmodeDisabled": "Direct upload is disabled during slowmode.",
+    "@chatAttachmentDropSlowmodeDisabled": {
+        "description": "Overlay hint when shift-to-send is blocked because slowmode is active."
     },
     "shareMediaTitle": "Share to",
     "@shareMediaTitle": {
@@ -10305,6 +10437,30 @@
     "@languageAndTimeTimeFormatSyncFailed": {
         "description": "Toast shown when saving the time format preference fails."
     },
+    "userSettingsNavDefaultApps": "Default Apps",
+    "@userSettingsNavDefaultApps": {
+        "description": "User settings navigation item for default app preferences."
+    },
+    "defaultAppsWebBrowserSectionTitle": "Web Browser",
+    "@defaultAppsWebBrowserSectionTitle": {
+        "description": "Title for the default web browser settings section."
+    },
+    "defaultAppsWebBrowserSectionDescription": "Choose which browser opens when you tap a link.",
+    "@defaultAppsWebBrowserSectionDescription": {
+        "description": "Description for the default web browser settings section."
+    },
+    "defaultAppsWebBrowserNativeAppNote": "If an app is installed for a site, links will open in that app first.",
+    "@defaultAppsWebBrowserNativeAppNote": {
+        "description": "Footnote explaining that installed native apps take priority over the chosen browser."
+    },
+    "defaultAppsWebBrowserInApp": "In-app browser",
+    "@defaultAppsWebBrowserInApp": {
+        "description": "Default web browser option for the in-app browser."
+    },
+    "defaultAppsWebBrowserExternal": "External browser",
+    "@defaultAppsWebBrowserExternal": {
+        "description": "Default web browser option for the system default browser."
+    },
     "userSettingsNavAdvanced": "Advanced",
     "@userSettingsNavAdvanced": {
         "description": "User settings navigation item for advanced settings."
@@ -10381,8 +10537,6 @@
     "advancedSettingSkipMarkAllAsReadDescription": "Mark all unread inbox channels as read immediately, without asking to confirm",
     "advancedSettingHideMutedChannelsLabel": "Hide muted channels by default",
     "advancedSettingHideMutedChannelsDescription": "Hide channels you've muted from community sidebars",
-    "advancedSettingSequentialFileSendLabel": "Send file messages in order",
-    "advancedSettingSequentialFileSendDescription": "Ensures file messages appear in the order you sent them",
     "advancedSettingShowGifIndicatorLabel": "Show GIF indicator",
     "advancedSettingShowAttachmentExpiryLabel": "Show attachment expiry indicator",
     "advancedSettingShowMediaDeleteLabel": "Show delete button",

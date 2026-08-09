@@ -68,7 +68,7 @@ import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart'
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_e2ee_display.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:fluxer_app/shared/external_links/external_url_launcher.dart';
+import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/navigation_item_semantics.dart';
@@ -703,8 +703,14 @@ class _ChannelTile extends ConsumerWidget {
     final Color textColor = rowOpacity < 1
         ? baseTextColor.withValues(alpha: baseTextColor.a * rowOpacity)
         : baseTextColor;
+    final bool showUnreadOnSelectedChannel = isMobileLayout(context);
     final bool showUnreadIndicator =
-        !isSelected && channelUnreadState.shouldShowUnreadIndicator;
+        channelUnreadState.shouldShowUnreadIndicator &&
+        (showUnreadOnSelectedChannel || !isSelected);
+    final bool showMentionBadge =
+        mentionCount > 0 &&
+        channelUnreadState.hasMentions &&
+        (showUnreadOnSelectedChannel || !isSelected);
 
     final int voiceUserLimit = channel.userLimit ?? 0;
     final bool showVoiceUserCount =
@@ -736,12 +742,7 @@ class _ChannelTile extends ConsumerWidget {
             name: channel.name,
             isSelected: isSelected,
             hasUnread: showUnreadIndicator,
-            mentionCount:
-                !isSelected &&
-                    mentionCount > 0 &&
-                    channelUnreadState.hasMentions
-                ? mentionCount
-                : 0,
+            mentionCount: showMentionBadge ? mentionCount : 0,
             isMuted: isChannelDirectlyMuted,
           ),
           onSecondaryTapUp: (details) => unawaited(
@@ -797,9 +798,7 @@ class _ChannelTile extends ConsumerWidget {
                 guildId: guildId,
                 isSelected: isSelected,
               ),
-              if (!isSelected &&
-                  mentionCount > 0 &&
-                  channelUnreadState.hasMentions) ...[
+              if (showMentionBadge) ...[
                 const SizedBox(width: 4),
                 FluxerBadge.count(count: mentionCount),
               ],
@@ -969,14 +968,9 @@ class _ChannelTile extends ConsumerWidget {
         );
       case ChannelMenuAction.openLink:
         close();
-        final uri = Uri.tryParse(channel.url ?? '');
-        if (uri != null) {
-          unawaited(
-            openExternalUrl(
-              uri,
-              style: ExternalUrlBrowserStyle.fromColorTheme(menuContext.colors),
-            ),
-          );
+        final url = channel.url;
+        if (url != null && url.isNotEmpty) {
+          unawaited(handleExternalLinkTap(menuContext, url));
         }
       case ChannelMenuAction.copyLink:
         close();

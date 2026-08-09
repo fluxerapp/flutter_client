@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/auth/presentation/widgets/offline_account_sw
 import 'package:fluxer_app/features/shell/domain/service_status_incident.dart';
 import 'package:fluxer_app/features/shell/providers/service_status_incident_provider.dart';
 import 'package:fluxer_app/features/shell/utils/splash_quotes.dart';
+import 'package:fluxer_app/features/ui/animation/animation_controller_visibility_extension.dart';
 import 'package:fluxer_app/features/ui/icons/fluxer_brand_logo.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
@@ -111,14 +112,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final bool disableMotion = MediaQuery.disableAnimationsOf(context);
-    if (disableMotion) {
-      _pulseController.stop();
-    } else {
-      if (!_pulseController.isAnimating) {
-        unawaited(_pulseController.repeat());
-      }
-    }
+    _pulseController.syncWithVisibility(
+      isVisible: true,
+      animationsEnabled: !MediaQuery.disableAnimationsOf(context),
+    );
   }
 
   @override

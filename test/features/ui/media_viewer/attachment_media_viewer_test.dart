@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart
 import 'package:fluxer_app/features/ui/media_viewer/touch_media_viewer_page.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
+import '../../../helpers/test_l10n.dart';
 
 class _TouchPrimaryModality extends InputModalityNotifier {
   @override
@@ -31,6 +32,7 @@ Widget _app(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
     child: MaterialApp(
+      locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
@@ -60,6 +62,7 @@ Widget _mouseApp(Widget child) {
 Widget _materialApp(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return MaterialApp(
+    locale: kTestLocale,
     localizationsDelegates: FluxerLocalizations.localizationsDelegates,
     supportedLocales: FluxerLocalizations.supportedLocales,
     theme: buildFluxerTheme(

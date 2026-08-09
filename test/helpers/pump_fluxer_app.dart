@@ -8,6 +8,8 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
+import 'test_l10n.dart';
+
 Widget pumpFluxerApp({
   required Widget child,
   List<Override> overrides = const [],
@@ -17,6 +19,7 @@ Widget pumpFluxerApp({
   return ProviderScope(
     overrides: overrides,
     child: MaterialApp(
+      locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme:

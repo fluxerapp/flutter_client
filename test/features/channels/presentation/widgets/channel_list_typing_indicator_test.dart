@@ -16,6 +16,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+import '../../../../helpers/test_l10n.dart';
 
 const String _kTyperUserId = '123456789012345678';
 const String _kBlockedUserId = '123456789012345679';
@@ -183,6 +184,7 @@ Future<void> _pumpIndicator(
     UncontrolledProviderScope(
       container: container,
       child: MaterialApp(
+        locale: kTestLocale,
         localizationsDelegates: FluxerLocalizations.localizationsDelegates,
         supportedLocales: FluxerLocalizations.supportedLocales,
         theme: buildFluxerTheme(

@@ -6,7 +6,7 @@ const int _kRoleMentionLimit = 10;
 const int _kChannelLimit = 10;
 const int _kEmojiLimit = 10;
 const int _kAutocompleteTypingDebounceMs = 300;
-const Duration _kAutocompleteFadeDuration = Duration(milliseconds: 100);
+const Duration _kAutocompleteFadeDuration = FluxerMotionTheme.fastDuration;
 
 String _composerMentionAutocompleteRightLabel(
   Member member,
@@ -88,6 +88,12 @@ class ComposerAutocompleteFieldState
     );
     widget.controller.addListener(_onTextChanged);
     widget.focusNode.addListener(_onFocusChanged);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _animationController.duration = context.motion.fast;
   }
 
   @override
@@ -914,7 +920,7 @@ class ComposerAutocompleteFieldState
       unawaited(
         controller.animateTo(
           offset,
-          duration: const Duration(milliseconds: 150),
+          duration: context.motion.normal,
           curve: Curves.easeOutCubic,
         ),
       );

@@ -22,6 +22,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../helpers/open_test_database.dart';
+import '../../../../helpers/test_l10n.dart';
 
 const String _guildId = 'guild_1';
 const String _channelId = 'chan_1';
@@ -53,6 +54,7 @@ Widget _host(ProviderContainer container, {required Widget child}) {
   return UncontrolledProviderScope(
     container: container,
     child: MaterialApp(
+      locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(

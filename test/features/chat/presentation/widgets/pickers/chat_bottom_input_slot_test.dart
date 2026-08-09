@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_pro
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import '../../../../../helpers/test_l10n.dart';
 
 const double _homeInset = 34;
 const MediaQueryData _mobileMediaQuery = MediaQueryData(
@@ -31,6 +32,7 @@ Widget _buildSpacerHarness(ProviderContainer container) {
   return UncontrolledProviderScope(
     container: container,
     child: MaterialApp(
+      locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
@@ -68,6 +70,7 @@ void main() {
       UncontrolledProviderScope(
         container: container,
         child: MaterialApp(
+          locale: kTestLocale,
           localizationsDelegates: FluxerLocalizations.localizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           theme: buildFluxerTheme(
@@ -159,29 +162,34 @@ void main() {
     await tester.pump(const Duration(milliseconds: 500));
   });
 
-  testWidgets(
-    'BottomInputSpacer clamps to home inset when keyboard dismisses',
-    (tester) async {
-      final ProviderContainer container = ProviderContainer();
-      addTearDown(container.dispose);
-      final MobileKeyboardMetrics notifier = container.read(
-        mobileKeyboardMetricsProvider.notifier,
-      );
-      notifier.updateLayout(screenHeight: 800, isPortrait: true, isIos: true);
+  testWidgets('BottomInputSpacer stays collapsed when keyboard is dismissed', (
+    tester,
+  ) async {
+    final ProviderContainer container = ProviderContainer();
+    addTearDown(container.dispose);
+    final MobileKeyboardMetrics notifier = container.read(
+      mobileKeyboardMetricsProvider.notifier,
+    );
+    notifier.updateLayout(screenHeight: 800, isPortrait: true, isIos: true);
 
-      await tester.pumpWidget(_buildSpacerHarness(container));
+    await tester.pumpWidget(_buildSpacerHarness(container));
+    await tester.pump();
+
+    expect(tester.getSize(find.byType(BottomInputSpacer)).height, 0);
+
+    for (final double height in <double>[100, 20]) {
+      notifier.syncViewInsets(height, safeAreaBottom: 0);
       await tester.pump();
+      expect(
+        tester.getSize(_spacerSizedBoxFinder()).height,
+        height > _homeInset ? height : _homeInset,
+      );
+    }
 
-      for (final double height in <double>[100, 20, 0]) {
-        notifier.syncViewInsets(height, safeAreaBottom: 0);
-        await tester.pump();
-        expect(
-          tester.getSize(_spacerSizedBoxFinder()).height,
-          height > _homeInset ? height : _homeInset,
-        );
-      }
+    notifier.syncViewInsets(0, safeAreaBottom: 0);
+    await tester.pump();
+    expect(tester.getSize(find.byType(BottomInputSpacer)).height, 0);
 
-      await tester.pump(const Duration(milliseconds: 500));
-    },
-  );
+    await tester.pump(const Duration(milliseconds: 500));
+  });
 }

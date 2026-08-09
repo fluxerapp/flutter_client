@@ -165,7 +165,7 @@ Future<ChannelDetailsJumpRequest?> showChannelDetailsSheet(
 }) {
   return FluxerBottomSheet.showScrollable<ChannelDetailsJumpRequest>(
     context,
-    maxHeight: 0.94,
+    maxChildSize: 0.94,
     builder: (sheetContext, scrollController, close) => ChannelDetailsSheet(
       channel: channel,
       dm: dm,
@@ -203,7 +203,7 @@ Future<ChannelDetailsJumpRequest?> showChannelSearchSheet(
   return FluxerBottomSheet.showScrollable<ChannelDetailsJumpRequest>(
     context,
     title: FluxerLocalizations.of(context).channelDetailsSearchTitle,
-    maxHeight: 0.96,
+    maxChildSize: 0.96,
     builder: (sheetContext, scrollController, close) => ChannelSearchSheet(
       channelId: channelId,
       guildId: guildId,

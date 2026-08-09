@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
@@ -102,7 +103,7 @@ class _ChannelHeaderSearchFieldState
     _listboxId = 'channel-search-listbox-${widget.channelId}';
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 150),
+      duration: FluxerMotionTheme.normalDuration,
     );
     _fadeAnimation = CurvedAnimation(
       parent: _animationController,
@@ -133,6 +134,12 @@ class _ChannelHeaderSearchFieldState
             .bindChannel(channelId: widget.channelId, guildId: widget.guildId);
       });
     }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _animationController.duration = context.motion.normal;
   }
 
   @override
@@ -1335,7 +1342,7 @@ class _ChannelHeaderSearchFieldState
       child: SizedBox(
         width: kChannelHeaderSearchFieldWidth,
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 100),
+          duration: context.motion.fast,
           constraints: const BoxConstraints(minHeight: 36),
           decoration: BoxDecoration(
             color: colors.background,

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/desktop_shell_scaffold.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
@@ -34,7 +35,7 @@ class _MobileHomeUtilityShellState extends ConsumerState<MobileHomeUtilityShell>
     super.initState();
     _swipeController = AnimationController(
       vsync: this,
-      duration: kHorizontalSwipeRevealDuration,
+      duration: FluxerMotionTheme.slowDuration,
     );
     ref.listenManual<bool>(shellBlocksHorizontalGesturesProvider, (
       bool? previous,
@@ -119,7 +120,7 @@ class _MobileHomeUtilityShellState extends ConsumerState<MobileHomeUtilityShell>
                   unawaited(
                     _swipeController.animateBack(
                       0,
-                      duration: kHorizontalSwipeSnapBackDuration,
+                      duration: horizontalSwipeSnapBackDuration(context),
                       curve: kHorizontalSwipeCurve,
                     ),
                   );
@@ -155,7 +156,7 @@ class _MobileHomeUtilityShellState extends ConsumerState<MobileHomeUtilityShell>
         _swipeController
             .animateTo(
               1,
-              duration: kHorizontalSwipeRevealDuration,
+              duration: horizontalSwipeRevealDuration(context),
               curve: kHorizontalSwipeCurve,
             )
             .then((void _) {
@@ -168,7 +169,7 @@ class _MobileHomeUtilityShellState extends ConsumerState<MobileHomeUtilityShell>
       unawaited(
         _swipeController.animateBack(
           0,
-          duration: kHorizontalSwipeSnapBackDuration,
+          duration: horizontalSwipeSnapBackDuration(context),
           curve: kHorizontalSwipeCurve,
         ),
       );

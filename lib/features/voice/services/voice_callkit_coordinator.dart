@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart' show WidgetsBinding;
 import 'package:flutter_callkit_incoming/entities/call_event.dart';
 import 'package:flutter_callkit_incoming/entities/call_kit_params.dart';
 import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
+import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_session.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
@@ -219,6 +220,12 @@ class VoiceCallKitCoordinatorLogic {
 
   Future<void> _handleToggleAudioSession({required bool isActive}) async {
     if (isActive) {
+      final VoiceCallKitVoiceSnapshot voice = _voiceCallKitVoiceSnapshot(
+        _ref.read(voiceSessionProvider),
+      );
+      if (!voice.isConnected) {
+        return;
+      }
       _cancelAudioSessionRecovery();
       await _enterCallKitAudioOwnership();
     }
@@ -361,8 +368,12 @@ class VoiceCallKitCoordinatorLogic {
     VoiceCallKitVoiceSnapshot next,
   ) async {
     if (!next.isInVoice) {
+      ChatAttachmentAudioSession.instance.restoreAfterVoiceCall();
       await _endAllCallKitSessions();
       return;
+    }
+    if (previous == null || !previous.isInVoice) {
+      await ChatAttachmentAudioSession.instance.clearForVoiceCall();
     }
     if (didJoinVoiceCall(previous: previous, next: next)) {
       final String? previousChannelId = previous?.channelId;

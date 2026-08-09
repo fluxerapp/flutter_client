@@ -4,6 +4,7 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_folder_long_press_menu_host.dart';
@@ -25,7 +26,7 @@ class GuildDragData {
   final bool isFolder;
 }
 
-const Duration _kMobileDropAnimationDuration = Duration(milliseconds: 150);
+const Duration _kMobileDropAnimationDuration = FluxerMotionTheme.normalDuration;
 const double _kGuildIconSize = 48;
 const double _kGuildIconInnerSize = 44;
 

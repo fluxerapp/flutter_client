@@ -2,12 +2,15 @@ import 'dart:async';
 
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
+import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_immunity_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/utils/client_nonce.dart';
 import 'package:fluxer_app/features/chat/utils/composer_upload_file.dart';
+import 'package:fluxer_app/features/chat/utils/slowmode_utils.dart';
 
 /// Sends shared media to selected channels using the existing upload pipeline.
 class ShareMediaSender {
@@ -33,6 +36,9 @@ class ShareMediaSender {
     int successCount = 0;
 
     for (final String channelId in channelIds) {
+      if (!await _canSendToChannel(channelId)) {
+        continue;
+      }
       final bool sent = await _sendToChannel(
         channelId: channelId,
         uploadFiles: uploadFiles,
@@ -40,7 +46,7 @@ class ShareMediaSender {
       );
       if (sent) {
         successCount++;
-        ref.read(slowmodeTrackerProvider.notifier).recordSend(channelId);
+        await _recordSendIfNeeded(channelId);
       }
     }
 
@@ -57,6 +63,9 @@ class ShareMediaSender {
 
     int successCount = 0;
     for (final String channelId in channelIds) {
+      if (!await _canSendToChannel(channelId)) {
+        continue;
+      }
       try {
         await ref
             .read(messageRepositoryProvider)
@@ -66,16 +75,51 @@ class ShareMediaSender {
               clientNonce: clientNonceGenerator.next(),
             );
         successCount++;
-        ref.read(slowmodeTrackerProvider.notifier).recordSend(channelId);
+        await _recordSendIfNeeded(channelId);
       } on Object catch (error, stackTrace) {
-        talker.error(
-          '[ShareMediaSender] Failed to send text to channel $channelId',
-          error,
-          stackTrace,
-        );
+        _handleSendError(channelId, error, stackTrace);
       }
     }
     return successCount;
+  }
+
+  Future<bool> _canSendToChannel(String channelId) async {
+    if (await ref.read(isSlowmodeImmuneProvider(channelId).future)) {
+      return true;
+    }
+    final row = await ref
+        .read(fluxerDatabaseProvider)
+        .channelDao
+        .getChannelById(channelId);
+    final int rateLimit = row?.rateLimitPerUser ?? 0;
+    if (rateLimit <= 0) {
+      return true;
+    }
+    return !isSlowmodeCoolingDown(
+      tracker: ref.read(slowmodeTrackerProvider.notifier),
+      channelId: channelId,
+      rateLimitPerUser: rateLimit,
+    );
+  }
+
+  Future<void> _recordSendIfNeeded(String channelId) async {
+    if (await ref.read(isSlowmodeImmuneProvider(channelId).future)) {
+      return;
+    }
+    ref.read(slowmodeTrackerProvider.notifier).recordSend(channelId);
+  }
+
+  void _handleSendError(String channelId, Object error, StackTrace stackTrace) {
+    applySlowmodeRateLimitError(
+      tracker: ref.read(slowmodeTrackerProvider.notifier),
+      channelId: channelId,
+      error: error,
+    );
+    talker.error(
+      '[ShareMediaSender] Failed to send to channel $channelId',
+      error,
+      stackTrace,
+    );
   }
 
   Future<bool> _sendToChannel({
@@ -122,11 +166,7 @@ class ShareMediaSender {
       if (clientNonce != null) {
         uploadNotifier.cancelMessageUpload(clientNonce);
       }
-      talker.error(
-        '[ShareMediaSender] Failed to send to channel $channelId',
-        error,
-        stackTrace,
-      );
+      _handleSendError(channelId, error, stackTrace);
       return false;
     }
   }

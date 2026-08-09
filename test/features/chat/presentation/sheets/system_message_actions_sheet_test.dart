@@ -16,7 +16,7 @@ import 'package:fluxer_app/features/chat/presentation/sheets/system_message_acti
 import 'package:fluxer_app/features/chat/providers/messages/saved_message_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations_en.dart';
+import '../../../../helpers/test_l10n.dart';
 
 import '../../../../helpers/open_test_database.dart';
 
@@ -66,6 +66,7 @@ Widget _app(
       ).overrideWith((ref) => false),
     ],
     child: MaterialApp(
+      locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
@@ -175,7 +176,7 @@ void main() {
     await tester.tap(find.text('Copy Message'));
     await tester.pumpAndSettle();
 
-    final l10n = FluxerLocalizationsEn();
+    final l10n = testL10n;
     expect(clipboardWrites, [
       l10n.systemPreviewChangedChannelNameTo('Author', 'renamed-channel'),
     ]);

@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_binding.dart';
+import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_sync.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
@@ -37,14 +39,88 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
   double _volume = 1;
   bool _isMuted = false;
   double _playbackRate = 1;
+  late final ChatAttachmentAudioBinding _mediaSessionBinding =
+      ChatAttachmentAudioBinding(
+        hostId: widget.attachment.url,
+        pausePlayback: _pauseFromMediaSession,
+        resumePlayback: _resumeFromMediaSession,
+        seekPlayback: _seekFromMediaSession,
+        stopPlayback: _stopFromMediaSession,
+      );
 
-  @override
-  void initState() {
-    super.initState();
+  Future<void> _pauseFromMediaSession() async {
+    await _player?.pause();
+  }
+
+  Future<void> _resumeFromMediaSession() async {
+    if (_isLoading || widget.attachment.url.isEmpty) {
+      return;
+    }
+    final AudioPlayer player = _ensurePlayer();
+    if (_playbackFinished || _isAtEndOfTrack) {
+      await _replayFromStart(player);
+      return;
+    }
+    if (!_hasPreparedSource) {
+      await player.setSourceUrl(widget.attachment.url);
+      _hasPreparedSource = true;
+    }
+    await player.resume();
+  }
+
+  Future<void> _seekFromMediaSession(Duration position) async {
+    if (_duration <= Duration.zero) {
+      return;
+    }
+    final double relative = position.inMilliseconds / _duration.inMilliseconds;
+    await _seekToRelativePosition(relative);
+  }
+
+  Future<void> _stopFromMediaSession() async {
+    await _player?.stop();
+    if (!mounted) {
+      return;
+    }
+    setState(() {
+      _isPlaying = false;
+      _playbackFinished = false;
+      _position = Duration.zero;
+      _hasPreparedSource = false;
+    });
+  }
+
+  Duration get _mediaSessionTotalDuration {
+    if (_duration > Duration.zero) {
+      return _duration;
+    }
+    final int? attachmentDuration = widget.attachment.duration;
+    if (attachmentDuration != null && attachmentDuration > 0) {
+      return Duration(milliseconds: attachmentDuration);
+    }
+    return Duration.zero;
+  }
+
+  void _syncMediaSession({
+    required bool playing,
+    bool loading = false,
+    bool completed = false,
+  }) {
+    syncChatAttachmentAudioSession(
+      binding: _mediaSessionBinding,
+      attachment: widget.attachment,
+      title: widget.attachment.filename,
+      playing: playing,
+      position: _position,
+      totalDuration: _mediaSessionTotalDuration,
+      playbackRate: _playbackRate,
+      loading: loading,
+      completed: completed,
+    );
   }
 
   @override
   void dispose() {
+    _mediaSessionBinding.release();
     unawaited(_playerStateSubscription?.cancel());
     unawaited(_playerCompleteSubscription?.cancel());
     unawaited(_positionSubscription?.cancel());
@@ -59,6 +135,7 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
     }
     if (_isPlaying) {
       await _player?.pause();
+      _syncMediaSession(playing: false);
       return;
     }
     setState(() {
@@ -68,13 +145,16 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
       final AudioPlayer player = _ensurePlayer();
       if (_playbackFinished || _isAtEndOfTrack) {
         await _replayFromStart(player);
+        _syncMediaSession(playing: true);
         return;
       }
       if (!_hasPreparedSource) {
+        _syncMediaSession(playing: false, loading: true);
         await player.setSourceUrl(widget.attachment.url);
         _hasPreparedSource = true;
       }
       await player.resume();
+      _syncMediaSession(playing: true);
     } on Object {
       if (!mounted || _hasPreparedSource) {
         return;
@@ -144,6 +224,7 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
       setState(() {
         _isPlaying = playerState == PlayerState.playing;
       });
+      _syncMediaSession(playing: playerState == PlayerState.playing);
     });
     _playerCompleteSubscription = player.onPlayerComplete.listen((_) {
       if (!mounted) {
@@ -156,6 +237,7 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
           _position = _duration;
         }
       });
+      _syncMediaSession(playing: false, completed: true);
     });
     _positionSubscription = player.onPositionChanged.listen((
       Duration position,
@@ -166,6 +248,9 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
       setState(() {
         _position = position;
       });
+      if (_isPlaying) {
+        _syncMediaSession(playing: true);
+      }
     });
     _durationSubscription = player.onDurationChanged.listen((
       Duration duration,
@@ -176,6 +261,9 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
       setState(() {
         _duration = duration;
       });
+      if (_mediaSessionBinding.isActive) {
+        _syncMediaSession(playing: _isPlaying);
+      }
     });
     return player;
   }
@@ -209,6 +297,9 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
       _playbackRate = nextRate;
     });
     await _player?.setPlaybackRate(nextRate);
+    if (_mediaSessionBinding.isActive) {
+      _syncMediaSession(playing: _isPlaying);
+    }
   }
 
   Future<void> _downloadAudio() async {
@@ -244,6 +335,7 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
         _position = target;
         _playbackFinished = false;
       });
+      _syncMediaSession(playing: _isPlaying);
     }
   }
 

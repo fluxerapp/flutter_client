@@ -18,6 +18,7 @@ import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart'
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod/src/framework.dart' show Override;
+import '../../../../helpers/test_l10n.dart';
 
 void main() {
   testWidgets('shows failed connection status with retry and dismiss', (
@@ -29,6 +30,7 @@ void main() {
       ProviderScope(
         overrides: <Override>[voiceSessionProvider.overrideWith(() => session)],
         child: MaterialApp(
+          locale: kTestLocale,
           localizationsDelegates: FluxerLocalizations.localizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           theme: buildFluxerTheme(
@@ -64,6 +66,7 @@ void main() {
           guildListViewModelProvider.overrideWith(_FakeGuildList.new),
         ],
         child: MaterialApp(
+          locale: kTestLocale,
           localizationsDelegates: FluxerLocalizations.localizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           theme: buildFluxerTheme(

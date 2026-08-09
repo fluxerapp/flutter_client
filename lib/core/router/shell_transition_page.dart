@@ -5,19 +5,22 @@ import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:go_router/go_router.dart';
 
 CustomTransitionPage<void> shellFadeTransitionPage({
+  required BuildContext context,
   required LocalKey key,
   required Widget child,
   String? name,
-  Duration duration = ShellTransitionPolicy.rootOverlayFadeDuration,
+  Duration? duration,
   bool opaque = true,
 }) {
+  final Duration resolved =
+      duration ?? ShellTransitionPolicy.rootOverlayFadeDuration(context);
   return CustomTransitionPage<void>(
     key: key,
     name: name,
     opaque: opaque,
     child: child,
-    transitionDuration: duration,
-    reverseTransitionDuration: duration,
+    transitionDuration: resolved,
+    reverseTransitionDuration: resolved,
     transitionsBuilder:
         (
           BuildContext context,
@@ -31,17 +34,19 @@ CustomTransitionPage<void> shellFadeTransitionPage({
 }
 
 CustomTransitionPage<void> shellSlideTransitionPage({
+  required BuildContext context,
   required LocalKey key,
   required Widget child,
   String? name,
   bool parallaxOutgoing = false,
 }) {
+  final Duration duration = ShellTransitionPolicy.channelSlideDuration(context);
   return CustomTransitionPage<void>(
     key: key,
     name: name,
     child: child,
-    transitionDuration: ShellTransitionPolicy.channelSlideDuration,
-    reverseTransitionDuration: ShellTransitionPolicy.channelSlideDuration,
+    transitionDuration: duration,
+    reverseTransitionDuration: duration,
     transitionsBuilder:
         (
           BuildContext context,
@@ -84,14 +89,16 @@ CustomTransitionPage<void> shellSlideTransitionPage({
 }
 
 CustomTransitionPage<void> shellCupertinoSlideTransitionPage({
+  required BuildContext context,
   required LocalKey key,
   required Widget child,
 }) {
+  final Duration duration = ShellTransitionPolicy.channelSlideDuration(context);
   return CustomTransitionPage<void>(
     key: key,
     child: child,
-    transitionDuration: ShellTransitionPolicy.channelSlideDuration,
-    reverseTransitionDuration: ShellTransitionPolicy.channelSlideDuration,
+    transitionDuration: duration,
+    reverseTransitionDuration: duration,
     transitionsBuilder:
         (
           BuildContext context,
@@ -115,9 +122,13 @@ CustomTransitionPage<void> shellMobileRootPushTransitionPage({
   required Widget child,
 }) {
   if (defaultTargetPlatform == TargetPlatform.iOS && !kIsWeb) {
-    return shellCupertinoSlideTransitionPage(key: key, child: child);
+    return shellCupertinoSlideTransitionPage(
+      context: context,
+      key: key,
+      child: child,
+    );
   }
-  return shellSlideTransitionPage(key: key, child: child);
+  return shellSlideTransitionPage(context: context, key: key, child: child);
 }
 
 Page<void> shellMobileRootPushPage({
@@ -128,5 +139,5 @@ Page<void> shellMobileRootPushPage({
   if (defaultTargetPlatform == TargetPlatform.iOS && !kIsWeb) {
     return CupertinoPage<void>(key: key, child: child);
   }
-  return shellSlideTransitionPage(key: key, child: child);
+  return shellSlideTransitionPage(context: context, key: key, child: child);
 }

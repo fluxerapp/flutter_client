@@ -9,12 +9,14 @@ class FluxerRadioItem<T> {
     required this.label,
     this.description,
     this.labelColor,
+    this.leading,
   });
 
   final T value;
   final String label;
   final String? description;
   final Color? labelColor;
+  final Widget? leading;
 }
 
 class FluxerRadioGroup<T> extends StatelessWidget {
@@ -24,6 +26,8 @@ class FluxerRadioGroup<T> extends StatelessWidget {
     required this._onChanged,
     this.label,
     this.direction = Axis.vertical,
+    this.itemSpacing,
+    this.dense = false,
     super.key,
   });
 
@@ -35,6 +39,8 @@ class FluxerRadioGroup<T> extends StatelessWidget {
   final List<FluxerRadioItem<T>> items;
   final String? label;
   final Axis direction;
+  final double? itemSpacing;
+  final bool dense;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +50,7 @@ class FluxerRadioGroup<T> extends StatelessWidget {
       direction: direction,
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: layout.s1_5,
+      spacing: itemSpacing ?? layout.s1_5,
       children: [for (final item in items) _buildOption(context, item)],
     );
 
@@ -65,6 +71,9 @@ class FluxerRadioGroup<T> extends StatelessWidget {
 
   Widget _buildOption(BuildContext context, FluxerRadioItem<T> item) {
     final isSelected = value == item.value;
+    final crossAxisAlignment = dense || item.leading != null
+        ? CrossAxisAlignment.center
+        : CrossAxisAlignment.start;
 
     return Semantics(
       checked: isSelected,
@@ -76,14 +85,19 @@ class FluxerRadioGroup<T> extends StatelessWidget {
           behavior: HitTestBehavior.opaque,
           onTap: () => _onChanged(item.value),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: crossAxisAlignment,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 2),
+                padding: EdgeInsets.only(
+                  top: dense || item.leading != null ? 0 : 2,
+                ),
                 child: _RadioIndicator(isSelected: isSelected),
               ),
               const SizedBox(width: 8),
+              if (item.leading != null) ...[
+                item.leading!,
+                const SizedBox(width: 10),
+              ],
               if (direction == Axis.vertical)
                 Expanded(child: _buildLabel(context, item, isSelected))
               else
@@ -144,7 +158,7 @@ class _RadioIndicator extends StatelessWidget {
     )!;
 
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 150),
+      duration: context.motion.normal,
       width: 18,
       height: 18,
       decoration: BoxDecoration(

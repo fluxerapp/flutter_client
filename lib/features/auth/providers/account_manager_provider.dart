@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
 import 'package:fluxer_app/features/auth/domain/stored_account.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/auth/providers/instance_selector_provider.dart';
+import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'account_manager_provider.g.dart';
@@ -94,6 +95,7 @@ class AccountManager extends _$AccountManager {
       );
 
       ref.read(syncedPreferencesStoreProvider).reset();
+      ref.read(slowmodeTrackerProvider.notifier).reset();
 
       // Trigger full app restart with new session.
       ref.invalidate(appStartupProvider);
@@ -144,6 +146,7 @@ class AccountManager extends _$AccountManager {
     );
     await repo.logout(userId);
     ref.read(syncedPreferencesStoreProvider).reset();
+    ref.read(slowmodeTrackerProvider.notifier).reset();
     await loadAccounts();
 
     if (state.accounts.isEmpty) {
@@ -178,6 +181,7 @@ class AccountManager extends _$AccountManager {
       await ref.read(fluxerDatabaseProvider).authSessionDao.markInvalid(userId);
     }
     ref.read(syncedPreferencesStoreProvider).reset();
+    ref.read(slowmodeTrackerProvider.notifier).reset();
     await loadAccounts();
     ref.read(fluxerAuthTokenProvider.notifier).setToken(null);
     ref.read(authStateProvider.notifier).setAuthenticated(value: false);

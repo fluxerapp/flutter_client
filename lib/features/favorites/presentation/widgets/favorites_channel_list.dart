@@ -373,10 +373,15 @@ class _FavoriteChannelTile extends ConsumerWidget {
         ? context.colors.textSecondary
         : context.colors.textTertiaryMuted;
 
+    final bool showUnreadOnSelectedChannel = isMobileLayout(context);
+    final bool showUnreadIndicator =
+        unreadState.shouldShowUnreadIndicator &&
+        (showUnreadOnSelectedChannel || !isSelected);
+
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        if (!isSelected && unreadState.shouldShowUnreadIndicator)
+        if (showUnreadIndicator)
           ChannelUnreadIndicator.positioned(faded: isMuted),
         FluxerSelectableRow(
           isSelected: isSelected,
@@ -387,7 +392,7 @@ class _FavoriteChannelTile extends ConsumerWidget {
             l10n: FluxerLocalizations.of(context),
             name: entry.displayName,
             isSelected: isSelected,
-            hasUnread: !isSelected && unreadState.shouldShowUnreadIndicator,
+            hasUnread: showUnreadIndicator,
             mentionCount: mentionCount,
             isMuted: isMuted,
           ),

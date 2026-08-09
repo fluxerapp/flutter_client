@@ -166,7 +166,7 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
                   child: Row(
                     children: [
                       AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
+                        duration: context.motion.panel,
                         curve: Curves.easeOutCubic,
                         width: 6,
                         height: indicatorHeight,
@@ -190,7 +190,7 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
                             children: [
                               Center(
                                 child: AnimatedContainer(
-                                  duration: const Duration(milliseconds: 200),
+                                  duration: context.motion.panel,
                                   curve: Curves.easeOutCubic,
                                   width: 44,
                                   height: 44,

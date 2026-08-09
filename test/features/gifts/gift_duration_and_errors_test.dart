@@ -2,11 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/gifts/utils/gift_duration_text.dart';
 import 'package:fluxer_app/features/gifts/utils/gift_redeem_errors.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations_en.dart';
 import 'package:fluxer_dart/export.dart';
+import '../../helpers/test_l10n.dart';
 
 void main() {
-  final l10n = FluxerLocalizationsEn();
+  final l10n = testL10n;
 
   GiftCodeResponse gift({
     required GiftCodeResponseDurationTypeDurationType type,

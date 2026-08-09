@@ -12,12 +12,14 @@ import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 import 'package:riverpod/src/framework.dart' show Override;
+import '../../../../../helpers/test_l10n.dart';
 
 Widget _app(Widget child, {List<Override> overrides = const <Override>[]}) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
     overrides: overrides,
     child: MaterialApp(
+      locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(

@@ -1067,6 +1067,7 @@ class _MarkdownInlineRenderer {
             baseStyle: effectiveStyle,
             unicodeEmojiUrlBuilder: config.unicodeEmojiUrlBuilder,
             customEmojiUrlBuilder: config.customEmojiUrlBuilder,
+            animateCustomEmoji: config.animateCustomEmoji,
             jumbo: jumbo,
           ),
         );
@@ -1753,6 +1754,7 @@ class FluxerEmojiWidget extends StatelessWidget {
     required this.baseStyle,
     required this.unicodeEmojiUrlBuilder,
     required this.customEmojiUrlBuilder,
+    this.animateCustomEmoji = true,
     this.jumbo = false,
     super.key,
   });
@@ -1760,6 +1762,7 @@ class FluxerEmojiWidget extends StatelessWidget {
   final md.Element element;
   final TextStyle baseStyle;
   final bool jumbo;
+  final bool animateCustomEmoji;
   final FluxerUnicodeEmojiUrlBuilder unicodeEmojiUrlBuilder;
   final FluxerCustomEmojiUrlBuilder customEmojiUrlBuilder;
 
@@ -1791,7 +1794,8 @@ class FluxerEmojiWidget extends StatelessWidget {
   Widget _buildCustom(BuildContext context, double size) {
     final id = element.attributes['id'] ?? '';
     final name = element.textContent;
-    final animated = element.attributes['animated'] == 'true';
+    final animated =
+        animateCustomEmoji && element.attributes['animated'] == 'true';
     final cdnSize = jumbo ? 240 : 96;
     final url = customEmojiUrlBuilder(
       id: id,

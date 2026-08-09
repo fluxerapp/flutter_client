@@ -49,8 +49,10 @@ class NotificationsUnreadsBody extends ConsumerWidget {
             slivers: <Widget>[
               SliverList(
                 delegate: SliverChildBuilderDelegate(
-                  (BuildContext _, int i) =>
-                      UnreadChannelInboxCard(entry: list[i]),
+                  (BuildContext _, int i) => UnreadChannelInboxCard(
+                    key: ValueKey<String>(list[i].channelId),
+                    entry: list[i],
+                  ),
                   childCount: list.length,
                 ),
               ),

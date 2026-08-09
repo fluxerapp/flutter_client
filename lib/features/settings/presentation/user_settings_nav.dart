@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_nav_group.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/settings_sidebar.dart';
@@ -132,6 +133,9 @@ const _userSettingsDesktopNavBeforeStaffOnly = [
     UserSettingsSection.languageAndTime,
     icon: PhosphorIconsBold.translate,
   ),
+];
+
+const _userSettingsDesktopNavAfterLanguageAndTime = [
   UserSettingsDesktopNavEntry.link(
     UserSettingsSection.advanced,
     icon: PhosphorIconsFill.flask,
@@ -169,6 +173,12 @@ const _userSettingsDesktopNavAfterStaffOnly = [
 
 List<UserSettingsDesktopNavEntry> get userSettingsDesktopNav => [
   ..._userSettingsDesktopNavBeforeStaffOnly,
+  if (isFluxerNativeMobileOs)
+    const UserSettingsDesktopNavEntry.link(
+      UserSettingsSection.defaultApps,
+      icon: PhosphorIconsFill.squaresFour,
+    ),
+  ..._userSettingsDesktopNavAfterLanguageAndTime,
   if (AppBuildConfig.isCanary) ..._userSettingsDesktopNavStaffOnly,
   ..._userSettingsDesktopNavAfterStaffOnly,
 ];
@@ -226,6 +236,8 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
         link(UserSettingsSection.chat, PhosphorIconsFill.chatCircle),
         link(UserSettingsSection.audioAndVideo, PhosphorIconsFill.microphone),
         link(UserSettingsSection.languageAndTime, PhosphorIconsBold.translate),
+        if (isFluxerNativeMobileOs)
+          link(UserSettingsSection.defaultApps, PhosphorIconsFill.squaresFour),
         link(UserSettingsSection.advanced, PhosphorIconsFill.flask),
       ],
     ),

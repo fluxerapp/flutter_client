@@ -2,6 +2,7 @@ import 'package:drift/drift.dart' show Value;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
@@ -849,6 +850,130 @@ void main() {
         container.read(guildReadStateProvider)['guild-1']!.hasUnread,
         isTrue,
       );
+    },
+  );
+
+  test('gateway ready reseeds guild fold from database truth', () async {
+    final db = openTestDatabase();
+    final lastMessageId = _recentSnowflake();
+    await _seedGuild(
+      db,
+      'guild-1',
+      channels: [
+        (
+          id: 'channel-1',
+          name: 'general',
+          type: 0,
+          lastMessageId: lastMessageId,
+        ),
+      ],
+    );
+    await db.readStateDao.upsertReadState(
+      ReadStatesCompanion(
+        channelId: const Value('channel-1'),
+        lastMessageId: Value(lastMessageId),
+      ),
+    );
+
+    final container = _container(db);
+    addTearDown(container.dispose);
+    container.read(gatewayReadyProvider.notifier).setReady();
+    final sub = container.listen(
+      guildReadStateProvider,
+      (_, _) {},
+      fireImmediately: true,
+    );
+    addTearDown(sub.close);
+    await _waitFor(() => container.read(guildReadStateReadyProvider));
+    expect(
+      container.read(guildReadStateProvider)['guild-1']?.hasUnread ?? false,
+      isFalse,
+    );
+
+    // The fold does not watch the messages table, so a backfilled newer
+    // message row leaves it stale until the next READY reseed.
+    final newerMessageId = _recentSnowflake(ago: const Duration(minutes: 5));
+    await db.messageDao.upsertMessage(
+      _cachedMessage(id: newerMessageId, channelId: 'channel-1'),
+    );
+    await Future<void>.delayed(const Duration(milliseconds: 100));
+    expect(
+      container.read(guildReadStateProvider)['guild-1']?.hasUnread ?? false,
+      isFalse,
+      reason: 'messages table is unwatched; the fold stays stale by design',
+    );
+
+    container.read(gatewayReadyProvider.notifier).reset();
+    container.read(gatewayReadyProvider.notifier).setReady();
+    await _waitForGuildState(container, 'guild-1');
+    expect(
+      container.read(guildReadStateProvider)['guild-1']!.hasUnread,
+      isTrue,
+    );
+  });
+
+  test(
+    'definitive VIEW_CHANNEL deny suppresses guild fold contribution',
+    () async {
+      final db = openTestDatabase();
+      final lastMessageId = _recentSnowflake();
+      final ackId = snowflakeAtPreviousMillisecond(lastMessageId);
+      for (final guildId in ['guild-deny', 'guild-allow']) {
+        await _seedGuild(
+          db,
+          guildId,
+          channels: [
+            (
+              id: '$guildId-channel',
+              name: 'general',
+              type: 0,
+              lastMessageId: lastMessageId,
+            ),
+          ],
+        );
+        await db.readStateDao.upsertReadState(
+          ReadStatesCompanion(
+            channelId: Value('$guildId-channel'),
+            lastMessageId: Value(ackId),
+            mentionCount: const Value(2),
+          ),
+        );
+      }
+      // @everyone denies VIEW_CHANNEL in guild-deny, grants it in
+      // guild-allow; a member row exists, so both outcomes are definitive.
+      await db.roleDao.upsertRoles([
+        RolesCompanion.insert(
+          id: 'guild-deny',
+          guildId: 'guild-deny',
+          name: '@everyone',
+          permissions: const Value('0'),
+        ),
+        RolesCompanion.insert(
+          id: 'guild-allow',
+          guildId: 'guild-allow',
+          name: '@everyone',
+          permissions: Value(Permission.viewChannel.value.toString()),
+        ),
+      ]);
+
+      final container = _container(db);
+      addTearDown(container.dispose);
+      container.read(gatewayReadyProvider.notifier).setReady();
+      final sub = container.listen(
+        guildReadStateProvider,
+        (_, _) {},
+        fireImmediately: true,
+      );
+      addTearDown(sub.close);
+      await _waitForGuildState(container, 'guild-allow');
+
+      final allow = container.read(guildReadStateProvider)['guild-allow']!;
+      expect(allow.hasUnread, isTrue);
+      expect(allow.mentionCount, 2);
+
+      final deny = container.read(guildReadStateProvider)['guild-deny'];
+      expect(deny?.hasUnread ?? false, isFalse);
+      expect(deny?.mentionCount ?? 0, 0);
     },
   );
 }

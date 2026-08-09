@@ -282,4 +282,42 @@ void main() {
       expect(findChannelStreamDataIndex(stream, '1'), 1);
     });
   });
+
+  group('resolvePreviousMessageForStreamItem', () {
+    test('returns null after a collapsed blocked group', () {
+      final List<Message> messages = <Message>[
+        _message(id: '1', authorId: 'blocked'),
+        _message(id: '2', authorId: 'blocked'),
+        _message(id: '3', authorId: 'visible'),
+      ];
+      final List<ChannelStreamItem> stream = createChannelStream(
+        messages: messages,
+        oldestUnreadMessageId: null,
+        context: _context,
+      );
+      final int? visibleIndex = findChannelStreamDataIndex(stream, '3');
+      expect(visibleIndex, isNotNull);
+      expect(
+        resolvePreviousMessageForStreamItem(stream, visibleIndex!),
+        isNull,
+      );
+    });
+
+    test('allows grouping context within a revealed blocked group', () {
+      final List<Message> messages = <Message>[
+        _message(id: '1', authorId: 'blocked'),
+        _message(id: '2', authorId: 'blocked'),
+      ];
+      final List<ChannelStreamItem> stream = createChannelStream(
+        messages: messages,
+        oldestUnreadMessageId: null,
+        context: _context,
+      );
+      final int groupIndex = stream.indexWhere(
+        (ChannelStreamItem item) => item.type.isCollapsedGroup,
+      );
+      expect(groupIndex, greaterThanOrEqualTo(0));
+      expect(resolvePreviousMessageForStreamItem(stream, groupIndex), isNull);
+    });
+  });
 }

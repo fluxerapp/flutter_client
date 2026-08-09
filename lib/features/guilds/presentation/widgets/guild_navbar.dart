@@ -18,6 +18,7 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/create_category_sheet.dart';
@@ -1062,7 +1063,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
               ),
               // Animated expand/collapse of guild items.
               AnimatedSize(
-                duration: const Duration(milliseconds: 200),
+                duration: context.motion.panel,
                 curve: const Cubic(0.25, 0.1, 0.25, 1),
                 alignment: Alignment.topCenter,
                 child: isExpanded
@@ -1113,7 +1114,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
               child: Center(
                 child: AnimatedContainer(
                   duration: guildUnreadReady
-                      ? const Duration(milliseconds: 200)
+                      ? context.motion.panel
                       : Duration.zero,
                   curve: const Cubic(0.25, 0.1, 0.25, 1),
                   width: 4,
@@ -1182,7 +1183,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
                               )
                             : Center(
                                 child: AnimatedContainer(
-                                  duration: const Duration(milliseconds: 70),
+                                  duration: context.motion.hover,
                                   curve: Curves.easeOut,
                                   width: 48,
                                   height: 48,
@@ -2263,7 +2264,7 @@ class _GuildListItemState extends State<_GuildListItem>
     if (!widget.guildUnreadReady || !_animateUnreadIndicator) {
       return Duration.zero;
     }
-    return const Duration(milliseconds: 200);
+    return context.motion.panel;
   }
 
   Widget _buildBackupIcon(BuildContext context, {required bool isActive}) {
@@ -2387,7 +2388,7 @@ class _GuildListItemState extends State<_GuildListItem>
                         height: 48,
                         child: Center(
                           child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 70),
+                            duration: context.motion.hover,
                             curve: Curves.easeOut,
                             width: 44,
                             height: 44,
@@ -2421,7 +2422,7 @@ class _GuildListItemState extends State<_GuildListItem>
                                       ),
                                       fadeInDuration:
                                           activeAnimatedIconUrl != null
-                                          ? const Duration(milliseconds: 200)
+                                          ? context.motion.panel
                                           : const Duration(milliseconds: 500),
                                       errorBuilder: (context, url, error) =>
                                           _buildBackupIcon(
@@ -3896,7 +3897,7 @@ class _DashedGuildIconState extends State<_DashedGuildIcon>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 70),
+      duration: FluxerMotionTheme.hoverDuration,
     );
     _radiusAnim = Tween<double>(
       begin: 22,
@@ -3907,6 +3908,7 @@ class _DashedGuildIconState extends State<_DashedGuildIcon>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _controller.duration = context.motion.hover;
     _colorAnim = ColorTween(
       begin: context.colors.interactiveMuted,
       end: context.colors.textPrimary,
@@ -4014,13 +4016,19 @@ class _RightTooltipState extends State<_RightTooltip>
     super.initState();
     _animController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 100),
+      duration: FluxerMotionTheme.fastDuration,
     );
     _fadeAnim = CurvedAnimation(parent: _animController, curve: Curves.easeOut);
     _scaleAnim = Tween<double>(
       begin: 0.98,
       end: 1,
     ).animate(CurvedAnimation(parent: _animController, curve: Curves.easeOut));
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _animController.duration = context.motion.fast;
   }
 
   void _show() {

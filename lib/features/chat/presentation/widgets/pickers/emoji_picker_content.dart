@@ -714,7 +714,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     unawaited(
       Scrollable.ensureVisible(
         buttonContext,
-        duration: const Duration(milliseconds: 150),
+        duration: context.motion.normal,
         alignment: 0.5,
         curve: Curves.easeOut,
       ),
@@ -760,7 +760,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
       unawaited(
         Scrollable.ensureVisible(
           ctx,
-          duration: const Duration(milliseconds: 200),
+          duration: context.motion.panel,
           curve: Curves.easeOut,
         ),
       );
@@ -777,7 +777,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
       _scrollController
           .animateTo(
             clamped,
-            duration: const Duration(milliseconds: 200),
+            duration: context.motion.panel,
             curve: Curves.easeOut,
           )
           .then((_) => _refineScrollToCategory(category)),
@@ -795,7 +795,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     unawaited(
       Scrollable.ensureVisible(
         settled,
-        duration: const Duration(milliseconds: 100),
+        duration: context.motion.fast,
         curve: Curves.easeOut,
       ),
     );
@@ -1268,7 +1268,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
               const SizedBox(width: 8),
               AnimatedRotation(
                 turns: isCollapsed ? -0.25 : 0,
-                duration: const Duration(milliseconds: 200),
+                duration: context.motion.panel,
                 child: PhosphorIcon(
                   PhosphorIconsBold.caretDown,
                   size: 12,

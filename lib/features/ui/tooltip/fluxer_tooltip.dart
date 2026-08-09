@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
 
@@ -47,7 +48,7 @@ class _FluxerTooltipState extends State<FluxerTooltip>
 
   static const Duration _showDelay = Duration(milliseconds: 500);
   static const Duration _hideDelay = Duration(milliseconds: 100);
-  static const Duration _fadeDuration = Duration(milliseconds: 100);
+  static const Duration _fadeDuration = FluxerMotionTheme.fastDuration;
   static const Duration _longPressDuration = Duration(seconds: 2);
   static const double _tooltipGap = 8;
 
@@ -62,6 +63,12 @@ class _FluxerTooltipState extends State<FluxerTooltip>
       parent: _animationController,
       curve: Curves.easeOut,
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _animationController.duration = context.motion.fast;
   }
 
   @override

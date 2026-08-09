@@ -13,6 +13,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart' as mkv;
 import 'package:riverpod/src/framework.dart' show Override;
+import '../../../../../helpers/test_l10n.dart';
 
 void main() {
   var mediaKitAvailable = true;
@@ -212,6 +213,7 @@ Widget _buildTestApp({
   return ProviderScope(
     overrides: overrides,
     child: MaterialApp(
+      locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(

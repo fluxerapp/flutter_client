@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 
-const Duration fluxerToastAnimationDuration = Duration(milliseconds: 200);
+const Duration fluxerToastAnimationDuration = FluxerMotionTheme.panelDuration;
 
 enum FluxerToastVariant { info, success, warning, danger }
 

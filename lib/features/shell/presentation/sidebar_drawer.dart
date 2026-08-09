@@ -21,17 +21,17 @@ class SidebarDrawer extends ConsumerStatefulWidget {
   final Widget base;
   final Widget slider;
 
-  final Duration revealDuration;
+  final Duration? revealDuration;
   final Curve revealCurve;
-  final Duration snapBackDuration;
+  final Duration? snapBackDuration;
   final Curve snapBackCurve;
 
   const SidebarDrawer({
     required this.base,
     required this.slider,
-    this.revealDuration = kHorizontalSwipeRevealDuration,
+    this.revealDuration,
     this.revealCurve = kHorizontalSwipeCurve,
-    this.snapBackDuration = kHorizontalSwipeSnapBackDuration,
+    this.snapBackDuration,
     this.snapBackCurve = kHorizontalSwipeCurve,
     super.key,
   });
@@ -48,13 +48,19 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
   bool _initialTranslateSet = false;
   double _lastWidth = 0;
 
+  Duration _revealDuration(BuildContext context) =>
+      widget.revealDuration ?? horizontalSwipeRevealDuration(context);
+
+  Duration _snapBackDuration(BuildContext context) =>
+      widget.snapBackDuration ?? horizontalSwipeSnapBackDuration(context);
+
   @override
   void initState() {
     super.initState();
     _currentSide = ref.read(currentRevealSideProvider);
     _animationController = AnimationController.unbounded(
       vsync: this,
-      duration: widget.revealDuration,
+      duration: kHorizontalSwipeRevealDuration,
     );
   }
 
@@ -132,7 +138,7 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
     }
     await _animateToPosition(
       goal,
-      isReveal ? widget.revealDuration : widget.snapBackDuration,
+      isReveal ? _revealDuration(context) : _snapBackDuration(context),
       isReveal ? widget.revealCurve : widget.snapBackCurve,
     );
   }
@@ -226,7 +232,7 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
     }
     await _animateToPosition(
       _goalForSide(side, width),
-      widget.snapBackDuration,
+      _snapBackDuration(context),
       widget.snapBackCurve,
     );
   }

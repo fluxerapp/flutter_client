@@ -283,18 +283,6 @@ class UserAdvancedSettings extends ConsumerWidget {
                 onChanged: (value) =>
                     handleDefaultHideMutedChannelsChange(context, ref, value),
               ),
-              FluxerSettingsSwitchItem(
-                label: l10n.advancedSettingSequentialFileSendLabel,
-                description: l10n.advancedSettingSequentialFileSendDescription,
-                value: ref.watch(
-                  advancedPreferencesProvider.select(
-                    (state) => state.sequentialFileSend,
-                  ),
-                ),
-                onChanged: (value) => ref
-                    .read(advancedPreferencesProvider.notifier)
-                    .setSequentialFileSend(value: value),
-              ),
             ],
           ),
           FluxerSettingsSection(

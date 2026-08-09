@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_mu
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_mutuals_section.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/export.dart';
+import '../../../../helpers/test_l10n.dart';
 
 Widget _buildApp(Widget child) {
   final colorTheme = buildDarkColorTheme();
@@ -21,6 +22,7 @@ Widget _buildApp(Widget child) {
       ),
     ],
     child: MaterialApp(
+      locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(

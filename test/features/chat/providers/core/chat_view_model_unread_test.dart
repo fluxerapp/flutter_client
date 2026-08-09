@@ -408,7 +408,7 @@ void main() {
       final synced = container.read(chatViewModelProvider);
       expect(synced.isSyncingMessages, isFalse);
       expect(synced.messages, hasLength(1));
-      expect(synced.messages.first.id, cachedId);
+      expect(synced.messages.first.id, networkId);
     },
   );
 
@@ -625,6 +625,66 @@ void main() {
       expect(state.messages.map((m) => m.id), [anchorId, keptId]);
       expect(await db.messageDao.getMessage(deletedId), null);
       expect(await db.messageDao.getMessage(keptId), isNot(null));
+    },
+  );
+
+  test(
+    'sparse cache-first sync expands to full latest page after network refresh',
+    () async {
+      final db = openTestDatabase();
+      final anchorId = _snowflakeForUtc(DateTime.utc(2026, 5, 16, 10));
+      final middleId = _snowflakeForUtc(DateTime.utc(2026, 5, 16, 11));
+      final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 16, 12));
+      await db.messageDao.upsertMessages([
+        _cachedMessage(id: latestId, channelId: 'channel-1', authorId: 'other'),
+      ]);
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(latestId),
+        ),
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(latestId),
+          mentionCount: const Value(0),
+        ),
+      );
+      final adapter = _ChatAdapter(
+        initialMessages: [
+          _messageJson(id: latestId, channelId: 'channel-1', authorId: 'other'),
+          _messageJson(id: middleId, channelId: 'channel-1', authorId: 'other'),
+          _messageJson(id: anchorId, channelId: 'channel-1', authorId: 'other'),
+        ],
+      )..holdMessageFetch = true;
+      final container = _container(db, adapter);
+      addTearDown(container.dispose);
+
+      final notifier = container.read(chatViewModelProvider.notifier);
+      await notifier.switchChannel('channel-1');
+      final sparseState = container.read(chatViewModelProvider);
+      expect(sparseState.isLoading, isFalse);
+      expect(sparseState.isSyncingMessages, isTrue);
+      expect(sparseState.messages.map((m) => m.id), [latestId]);
+      expect(sparseState.hasMoreMessages, isTrue);
+
+      adapter.releaseMessageFetch();
+      for (var i = 0; i < 30; i++) {
+        await _flushAsync();
+        final current = container.read(chatViewModelProvider);
+        if (!current.isLoading && !current.isSyncingMessages) {
+          break;
+        }
+      }
+
+      final state = container.read(chatViewModelProvider);
+      expect(state.isLoading, isFalse);
+      expect(state.isSyncingMessages, isFalse);
+      expect(state.messages.map((m) => m.id), [anchorId, middleId, latestId]);
+      expect(state.hasMoreMessages, isFalse);
     },
   );
 
@@ -3090,6 +3150,8 @@ void main() {
       final readState = await db.readStateDao.getReadState('channel-1');
       expect(readState?.lastMessageId, deletedId);
       expect(readState?.mentionCount, 0);
+      // Must reach the server, or the next READY re-marks the channel unread.
+      expect(adapter.ackedMessageIds, <String>[deletedId]);
       expect(
         hasUnreadByReadState(
           channelLastMessageId: deletedId,

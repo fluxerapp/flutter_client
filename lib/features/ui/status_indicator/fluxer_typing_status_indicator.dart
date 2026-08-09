@@ -82,6 +82,11 @@ class _FluxerTypingStatusIndicatorState
     final double borderWidth = widget.height * 0.05;
     final double dotSize = widget.height * _kDotSizeRatio;
     final double dotGap = widget.height * _kDotGapRatio;
+    final bool animationsEnabled = !MediaQuery.disableAnimationsOf(context);
+    _controller.syncWithVisibility(
+      isVisible: _isVisible,
+      animationsEnabled: animationsEnabled,
+    );
 
     return VisibilityDetector(
       key: ObjectKey(this),

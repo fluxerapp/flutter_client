@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
@@ -10,6 +12,7 @@ import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 import 'package:fluxer_app/features/mature_content/utils/content_warning_utils.dart';
+import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -50,12 +53,89 @@ class SensitiveContentState {
   }
 }
 
+SensitiveContentState _stateFromSettings({
+  required UserSettingsResponse settings,
+  required bool nsfwAllowed,
+}) {
+  return SensitiveContentState(
+    isLoading: false,
+    nsfwAllowed: nsfwAllowed,
+    friendDmFilter: ClientSensitiveMediaFilterLevel.fromInt(
+      settings.sensitiveContentFriendDmFilter.json ?? 0,
+    ),
+    nonFriendDmFilter: ClientSensitiveMediaFilterLevel.fromInt(
+      settings.sensitiveContentNonFriendDmFilter.json ?? 0,
+    ),
+    guildFilter: ClientSensitiveMediaFilterLevel.fromInt(
+      settings.sensitiveContentGuildFilter.json ?? 0,
+    ),
+  );
+}
+
 @Riverpod(keepAlive: true)
 class SensitiveContent extends _$SensitiveContent {
+  bool? _nsfwAllowedOverride;
+
   @override
   SensitiveContentState build() {
-    unawaited(load());
+    ref.watch(currentUserIdProvider);
+    _nsfwAllowedOverride = null;
+    ref.listen<UserSettingsResponse?>(userSettingsStatusProvider, (
+      UserSettingsResponse? previous,
+      UserSettingsResponse? next,
+    ) {
+      if (next == null) {
+        return;
+      }
+      state = _stateFromSettings(
+        settings: next,
+        nsfwAllowed: _nsfwAllowedOverride ?? state.nsfwAllowed,
+      );
+    });
     return const SensitiveContentState();
+  }
+
+  Future<void> hydrateFromLocal({UserPrivateResponse? validatedUser}) async {
+    final String? userId = ref.read(currentUserIdProvider);
+    if (userId == null || userId.isEmpty) {
+      state = state.copyWith(isLoading: false);
+      return;
+    }
+    if (validatedUser != null) {
+      _nsfwAllowedOverride = validatedUser.nsfwAllowed;
+    }
+    final bool nsfwAllowed = _nsfwAllowedOverride ?? true;
+    try {
+      final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
+      final db.UserSettingsTableData? row = await database.userSettingsDao
+          .getSettings(userId);
+      if (row == null) {
+        state = SensitiveContentState(
+          isLoading: false,
+          nsfwAllowed: nsfwAllowed,
+        );
+        return;
+      }
+      final Object? decoded = jsonDecode(row.data);
+      if (decoded is! Map<String, dynamic>) {
+        state = SensitiveContentState(
+          isLoading: false,
+          nsfwAllowed: nsfwAllowed,
+        );
+        return;
+      }
+      state = _stateFromSettings(
+        settings: UserSettingsResponse.fromJson(decoded),
+        nsfwAllowed: nsfwAllowed,
+      );
+    } on Object catch (error, stackTrace) {
+      talker.error(
+        'Failed to hydrate sensitive content settings',
+        error,
+        stackTrace,
+      );
+      state = state.copyWith(isLoading: false, nsfwAllowed: nsfwAllowed);
+    }
   }
 
   Future<void> load() async {
@@ -64,18 +144,10 @@ class SensitiveContent extends _$SensitiveContent {
       final UserSettingsResponse settings = await client.users
           .getCurrentUserSettings();
       final UserPrivateResponse user = await client.users.getCurrentUser();
-      state = SensitiveContentState(
-        isLoading: false,
+      _nsfwAllowedOverride = user.nsfwAllowed;
+      state = _stateFromSettings(
+        settings: settings,
         nsfwAllowed: user.nsfwAllowed,
-        friendDmFilter: ClientSensitiveMediaFilterLevel.fromInt(
-          settings.sensitiveContentFriendDmFilter.json ?? 0,
-        ),
-        nonFriendDmFilter: ClientSensitiveMediaFilterLevel.fromInt(
-          settings.sensitiveContentNonFriendDmFilter.json ?? 0,
-        ),
-        guildFilter: ClientSensitiveMediaFilterLevel.fromInt(
-          settings.sensitiveContentGuildFilter.json ?? 0,
-        ),
       );
     } on Object catch (error, stackTrace) {
       talker.error(

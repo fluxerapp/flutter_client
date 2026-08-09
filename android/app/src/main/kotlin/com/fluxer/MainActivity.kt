@@ -5,10 +5,10 @@ import android.net.Uri
 import android.os.Bundle
 import com.hiennv.flutter_callkit_incoming.CallkitEventCallback
 import com.hiennv.flutter_callkit_incoming.FlutterCallkitIncomingPlugin
-import io.flutter.embedding.android.FlutterActivity
+import com.ryanheise.audioservice.AudioServiceActivity
 import io.flutter.embedding.engine.FlutterEngine
 
-class MainActivity : FlutterActivity() {
+class MainActivity : AudioServiceActivity() {
     private val callkitEventCallback = object : CallkitEventCallback {
         override fun onCallEvent(
             event: CallkitEventCallback.CallEvent,
@@ -39,6 +39,7 @@ class MainActivity : FlutterActivity() {
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         NotificationCancelBridge(applicationContext).register(flutterEngine)
+        BrowserLaunchBridge(applicationContext).register(flutterEngine)
     }
 
     private fun deferOAuthDeepLinkToBrowser(intent: Intent?): Boolean {

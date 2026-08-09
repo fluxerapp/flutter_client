@@ -1,10 +1,15 @@
-/// Transition durations and curves for shell and content routes.
+import 'package:flutter/widgets.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+
 abstract final class ShellTransitionPolicy {
-  static const Duration shellEntryDuration = Duration(milliseconds: 150);
+  static Duration shellEntryDuration(BuildContext context) =>
+      context.motion.normal;
 
-  static const Duration channelSlideDuration = Duration(milliseconds: 200);
+  static Duration channelSlideDuration(BuildContext context) =>
+      context.motion.panel;
 
-  static const Duration rootOverlayFadeDuration = Duration(milliseconds: 150);
+  static Duration rootOverlayFadeDuration(BuildContext context) =>
+      context.motion.normal;
 
   static const double channelOutgoingParallaxFactor = 0.3;
 }

@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/providers/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
+import 'package:fluxer_app/features/channels/data/unread_permission_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart'
     show isGuildTextBasedChannel;
@@ -89,7 +90,8 @@ const Object _sentinel = Object();
 class GuildReadState extends _$GuildReadState {
   Map<String, ReadState> _readStateSnapshot = <String, ReadState>{};
   Map<String, Channel> _channelSnapshot = <String, Channel>{};
-  bool _seeded = false;
+  Future<void>? _seedInFlight;
+  bool _reseedRequested = false;
   bool _isInitialSeedComplete = false;
   int _recomputeGeneration = 0;
   Future<void>? _pendingRecompute;
@@ -184,13 +186,12 @@ class GuildReadState extends _$GuildReadState {
 
     ref.listen<bool>(gatewayReadyProvider, (prev, next) {
       if (!(prev ?? false) && next) {
-        _seeded = false;
-        unawaited(_seedAll(db, currentUserId));
+        _requestSeed(db, currentUserId);
       }
     });
 
     if (ref.read(gatewayReadyProvider)) {
-      unawaited(_seedAll(db, currentUserId));
+      _requestSeed(db, currentUserId);
     }
 
     ref.onDispose(() {
@@ -209,14 +210,22 @@ class GuildReadState extends _$GuildReadState {
   GuildReadStateEntry entryFor(String guildId) =>
       state[guildId] ?? GuildReadStateEntry.empty;
 
+  void _requestSeed(FluxerDatabase db, String? currentUserId) {
+    if (_seedInFlight != null) {
+      _reseedRequested = true;
+      return;
+    }
+    _seedInFlight = _seedAll(db, currentUserId).whenComplete(() {
+      _seedInFlight = null;
+      if (_reseedRequested) {
+        _reseedRequested = false;
+        _requestSeed(db, currentUserId);
+      }
+    });
+  }
+
   Future<void> _seedAll(FluxerDatabase db, String? currentUserId) async {
-    if (_seeded) {
-      return;
-    }
-    _seeded = true;
-    if (_isInitialSeedComplete) {
-      return;
-    }
+    _isInitialSeedComplete = false;
     _recomputeGeneration++;
     _clearCaches();
     final guilds = await db.guildDao.getServers();
@@ -232,6 +241,23 @@ class GuildReadState extends _$GuildReadState {
     final now = DateTime.now();
     for (final channel in _channelSnapshot.values) {
       if (!isGuildTextBasedChannel(channel.type)) {
+        continue;
+      }
+      // Definitive VIEW_CHANNEL deny contributes nothing (parity with
+      // channelUnread). The fold does not watch the members table, so
+      // permission changes surface on the next delta or READY reseed.
+      final canRead = await canReadChannelForUnread(
+        database: db,
+        channel: channel,
+        currentUserId: currentUserId,
+      );
+      if (!canRead) {
+        _channelContributions[channel.id] = const _Contribution(
+          unreadEligible: false,
+          hasPlainUnread: false,
+          mentions: 0,
+        );
+        _contributionGuild[channel.id] = channel.guildId;
         continue;
       }
       final resolved = await resolveLatestMessageIdForChannel(
@@ -362,6 +388,20 @@ class GuildReadState extends _$GuildReadState {
       if (channel == null || !isGuildTextBasedChannel(channel.type)) {
         _channelContributions.remove(id);
         _contributionGuild.remove(id);
+        continue;
+      }
+      final canRead = await canReadChannelForUnread(
+        database: db,
+        channel: channel,
+        currentUserId: currentUserId,
+      );
+      if (!canRead) {
+        _channelContributions[id] = const _Contribution(
+          unreadEligible: false,
+          hasPlainUnread: false,
+          mentions: 0,
+        );
+        _contributionGuild[id] = channel.guildId;
         continue;
       }
       final fallbackAckMs = await _resolveFallbackAckMs(

@@ -151,6 +151,8 @@ class UserPreferencesTable extends Table {
       boolean().withDefault(const Constant(false))();
   BoolColumn get keepStickerAnimationUnderReducedMotion =>
       boolean().withDefault(const Constant(false))();
+  TextColumn get defaultWebBrowser =>
+      text().withDefault(const Constant('inApp'))();
 
   @override
   String get tableName => 'user_preferences';

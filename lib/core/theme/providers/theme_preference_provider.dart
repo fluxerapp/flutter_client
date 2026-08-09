@@ -321,26 +321,30 @@ class ThemePreference extends _$ThemePreference {
     } else {
       state = ThemePreferenceState();
     }
-    await _applyCachedUserSettings(userId);
-    await _hydrateThemeFromServerOnLoad();
+    final bool hadCachedSettings = await _applyCachedUserSettings(userId);
+    if (!hadCachedSettings) {
+      await _hydrateThemeFromServerOnLoad();
+    }
   }
 
-  Future<void> _applyCachedUserSettings(String userId) async {
+  Future<bool> _applyCachedUserSettings(String userId) async {
     final row = await ref
         .read(fluxerDatabaseProvider)
         .userSettingsDao
         .getSettings(userId);
     if (row == null) {
-      return;
+      return false;
     }
     try {
       final Object? decoded = jsonDecode(row.data);
       if (decoded is! Map<String, dynamic>) {
-        return;
+        return false;
       }
       await _applyRemoteUserSettings(UserSettingsResponse.fromJson(decoded));
+      return true;
     } on Object catch (e, st) {
       talker.warning('[ThemePreference] Cached settings apply failed', e, st);
+      return false;
     }
   }
 

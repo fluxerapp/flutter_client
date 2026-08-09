@@ -15,6 +15,8 @@ import 'package:fluxer_app/features/chat/presentation/widgets/voice/dm_embedded_
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_header_search_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/slowmode_rate_limited_dialog.dart';
+import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_sync_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/chat/utils/bottom_input_slot_layout.dart';
@@ -104,6 +106,9 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
     talker.debug(
       '[ChannelChatContent] run sync channel=${widget.channelId} '
       'target=$effectiveTarget route=$routeTarget',
+    );
+    unawaited(
+      ref.read(slowmodeSyncProvider.notifier).fetchIfNeeded(widget.channelId),
     );
     unawaited(_runChannelSync(request));
   }
@@ -258,6 +263,7 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
 
     _maybeResyncChannelMismatch(viewModelChannelId);
     listenChatViewModelErrors(ref);
+    listenSlowmodeRateLimitedAlerts(ref, context);
 
     final ChannelHeaderSearchState searchState = ref.watch(
       channelHeaderSearchProvider,

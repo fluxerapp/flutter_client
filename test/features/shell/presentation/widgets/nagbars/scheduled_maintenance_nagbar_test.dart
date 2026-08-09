@@ -17,6 +17,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../../helpers/wide_layout_test_sizes.dart';
+import '../../../../../helpers/test_l10n.dart';
 
 void main() {
   group('ScheduledMaintenanceNagbar', () {
@@ -54,6 +55,7 @@ void main() {
       final FluxerColorTheme colorTheme = buildDarkColorTheme();
       await tester.pumpWidget(
         MaterialApp(
+          locale: kTestLocale,
           localizationsDelegates: FluxerLocalizations.localizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           theme: buildFluxerTheme(
@@ -95,6 +97,7 @@ Widget _wrap({
       ),
     ],
     child: MaterialApp(
+      locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(

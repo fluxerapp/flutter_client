@@ -185,7 +185,7 @@ class _UserNotificationsSoundSettingsSectionState
         builder: (BuildContext context, Set<WidgetState> states) {
           final bool isHovered = states.contains(WidgetState.hovered);
           return AnimatedContainer(
-            duration: const Duration(milliseconds: 150),
+            duration: context.motion.normal,
             padding: EdgeInsets.symmetric(
               horizontal: layout.s3,
               vertical: layout.s1 + 1,

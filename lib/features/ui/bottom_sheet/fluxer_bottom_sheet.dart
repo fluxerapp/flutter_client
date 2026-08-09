@@ -228,9 +228,9 @@ class FluxerBottomSheet {
     VoidCallback? onBack,
     bool showDragHandle = true,
     bool useRootNavigator = false,
-    double initialChildSize = 0.9,
+    double initialChildSize = 0.8,
     double minChildSize = 0.4,
-    double maxChildSize = 0.85,
+    double maxChildSize = 0.8,
     ValueNotifier<bool>? canDismissNotifier,
     double? maxHeight,
     bool disableTopPadding = false,
@@ -272,21 +272,17 @@ class FluxerBottomSheet {
               trailing != null ||
               onBack != null;
 
+          final double availableHeight =
+              mediaQuery.size.height - mediaQuery.viewPadding.top - layout.s4;
+          // maxHeight is a screen-fraction alias for maxChildSize. Applying
+          // both to the container and the draggable sheet stacked the limits.
+          final double effectiveMaxChildSize = maxHeight ?? maxChildSize;
+
           final sheet = _FluxerDraggableScrollableSheet(
-            minChildSize: math.min(minChildSize, maxChildSize),
-            maxChildSize: maxChildSize,
-            // Upstream dropped the default cap to 0.85 while the default
-            // initial stayed 0.9; DraggableScrollableSheet asserts on
-            // initial > max, so clamp both to the cap.
-            initialChildSize: math.min(initialChildSize, maxChildSize),
-            maxHeight: maxHeight != null
-                ? (mediaQuery.size.height -
-                          mediaQuery.viewPadding.top -
-                          layout.s4) *
-                      maxHeight
-                : mediaQuery.size.height -
-                      mediaQuery.viewPadding.top -
-                      layout.s4,
+            minChildSize: math.min(minChildSize, effectiveMaxChildSize),
+            maxChildSize: effectiveMaxChildSize,
+            initialChildSize: math.min(initialChildSize, effectiveMaxChildSize),
+            maxHeight: availableHeight,
             showDragHandle: showDragHandle,
             disableTopPadding: disableTopPadding,
             hasHeader: hasHeader,
@@ -647,6 +643,21 @@ class FluxerBottomSheetDragHandle extends StatefulWidget {
 class _FluxerBottomSheetDragHandleState
     extends State<FluxerBottomSheetDragHandle> {
   double _dragDistance = 0;
+  double? _anchorSize;
+
+  @override
+  void initState() {
+    super.initState();
+    _anchorSize = widget.restChildSize;
+  }
+
+  @override
+  void didUpdateWidget(FluxerBottomSheetDragHandle oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.restChildSize != oldWidget.restChildSize) {
+      _anchorSize = widget.restChildSize;
+    }
+  }
 
   bool get _hasDragHandlers =>
       widget.sheetController != null ||
@@ -704,12 +715,19 @@ class _FluxerBottomSheetDragHandleState
       widget.onDismiss?.call();
       return;
     }
-    _springBack();
+    final DraggableScrollableController? controller = widget.sheetController;
+    if (controller != null && controller.isAttached && dragDistance < 0) {
+      _anchorSize = controller.size;
+      return;
+    }
+    if (dragDistance > 0) {
+      _springBack();
+    }
   }
 
   void _springBack() {
     final DraggableScrollableController? controller = widget.sheetController;
-    final double? restSize = widget.restChildSize;
+    final double? restSize = _anchorSize ?? widget.restChildSize;
     if (controller == null || restSize == null || !controller.isAttached) {
       return;
     }

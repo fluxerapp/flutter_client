@@ -16,12 +16,14 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/message_c
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/forward_destination_avatar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/slowmode_send_blocked_notice.dart';
 import 'package:fluxer_app/features/chat/providers/messages/forward_destinations_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_length_limits_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
 import 'package:fluxer_app/features/chat/service/composer_mention_controller.dart';
 import 'package:fluxer_app/features/chat/service/share_media_sender.dart';
 import 'package:fluxer_app/features/chat/utils/slowmode_format.dart';
+import 'package:fluxer_app/features/chat/utils/slowmode_utils.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -145,14 +147,19 @@ class _ShareMediaSheetBodyState extends ConsumerState<_ShareMediaSheetBody> {
     });
   }
 
+  bool _isSendBlockedBySlowmode(List<ForwardDestination> destinations) {
+    return isAnySelectedDestinationCoolingDown(
+      tracker: ref.read(slowmodeTrackerProvider.notifier),
+      destinations: destinations,
+      selectedChannelIds: _selected,
+    );
+  }
+
   bool _isCoolingDown(ForwardDestination destination) {
-    if (!destination.slowmodeEnabled) {
-      return false;
-    }
-    return ref
-            .read(slowmodeTrackerProvider.notifier)
-            .remainingFor(destination.channelId, destination.rateLimitPerUser) >
-        Duration.zero;
+    return isForwardDestinationCoolingDown(
+      destination: destination,
+      tracker: ref.read(slowmodeTrackerProvider.notifier),
+    );
   }
 
   void _ensureSlowmodeTicker({required bool active}) {
@@ -258,6 +265,9 @@ class _ShareMediaSheetBodyState extends ConsumerState<_ShareMediaSheetBody> {
     _ensureSlowmodeTicker(
       active: allDestinations.any((ForwardDestination d) => d.slowmodeEnabled),
     );
+    final bool sendBlockedBySlowmode = _isSendBlockedBySlowmode(
+      allDestinations,
+    );
     final bool messageDisabled = allDestinations.any(
       (ForwardDestination d) =>
           _selected.contains(d.channelId) && d.slowmodeEnabled,
@@ -278,7 +288,12 @@ class _ShareMediaSheetBodyState extends ConsumerState<_ShareMediaSheetBody> {
             error: (Object _, StackTrace _) => _buildEmpty(context, l10n),
           ),
         ),
-        _buildMessageArea(context, l10n, messageDisabled),
+        _buildMessageArea(
+          context,
+          l10n,
+          messageDisabled,
+          sendBlockedBySlowmode,
+        ),
       ],
     );
   }
@@ -408,10 +423,12 @@ class _ShareMediaSheetBodyState extends ConsumerState<_ShareMediaSheetBody> {
     BuildContext context,
     FluxerLocalizations l10n,
     bool messageDisabled,
+    bool sendBlockedBySlowmode,
   ) {
     final int maxMessageLength = ref.watch(maxMessageLengthProvider);
     final int premiumMaxLength = ref.watch(premiumMaxMessageLengthProvider);
-    final bool canSend = _selected.isNotEmpty && !_isSending;
+    final bool canSend =
+        _selected.isNotEmpty && !_isSending && !sendBlockedBySlowmode;
 
     return FluxerBottomSheetFooter(
       showTopBorder: true,
@@ -429,6 +446,8 @@ class _ShareMediaSheetBodyState extends ConsumerState<_ShareMediaSheetBody> {
                 ),
               ),
             ),
+          if (sendBlockedBySlowmode && !messageDisabled)
+            const SlowmodeSendBlockedNotice(),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [

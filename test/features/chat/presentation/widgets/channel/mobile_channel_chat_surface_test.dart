@@ -41,6 +41,7 @@ import 'package:fluxer_dart/export.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../../helpers/open_test_database.dart';
+import '../../../../../helpers/test_l10n.dart';
 
 const String _channelId = 'mobile-chat-channel';
 const String _currentUserId = '111111111111111111';
@@ -898,6 +899,7 @@ Widget _surfaceApp({
       extraOverrides: extraOverrides,
     ),
     child: MaterialApp(
+      locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(

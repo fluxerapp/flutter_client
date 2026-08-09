@@ -31,6 +31,7 @@ import 'package:riverpod/src/framework.dart' show Override;
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../helpers/open_test_database.dart';
+import '../../../helpers/test_l10n.dart';
 
 const String _guildId = 'g1';
 const String _channelId = 'voice-1';
@@ -207,7 +208,7 @@ Future<void> _pumpPage(
     ProviderScope(
       overrides: _voicePageOverrides(db: db, session: session),
       child: MaterialApp(
-        locale: const Locale('en'),
+        locale: kTestLocale,
         localizationsDelegates: FluxerLocalizations.localizationsDelegates,
         supportedLocales: FluxerLocalizations.supportedLocales,
         theme: buildFluxerTheme(

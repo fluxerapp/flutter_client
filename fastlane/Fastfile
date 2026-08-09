@@ -650,6 +650,7 @@ platform :mac do
         signingStyle: "manual",
         teamID: ENV.fetch("APPLE_TEAM_ID"),
         signingCertificate: "Apple Distribution",
+        installerSigningCertificate: "Mac Installer Distribution",
         provisioningProfiles: {
           "com.fluxer.lite.canary" => runner_profile_uuid
         }
@@ -659,7 +660,7 @@ platform :mac do
         "FLUTTER_BUILD_NAME=#{flutter_build_name}",
         "FLUTTER_BUILD_NUMBER=#{flutter_build_number}",
         "CODE_SIGN_STYLE=Manual",
-        "CODE_SIGN_IDENTITY[sdk=macosx*]=Apple Distribution",
+        'CODE_SIGN_IDENTITY[sdk=macosx*]="Apple Distribution"',
       ].join(" ")
     )
     changelog = "Build from GitHub Actions run: #{ENV['GITHUB_SERVER_URL']}/#{ENV['GITHUB_REPOSITORY']}/actions/runs/#{ENV['GITHUB_RUN_ID']}"

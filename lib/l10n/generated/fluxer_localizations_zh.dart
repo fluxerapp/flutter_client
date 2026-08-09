@@ -651,6 +651,12 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get embedInviteUnavailable => '邀请不可用';
 
   @override
+  String get embedInviteJoinGroup => 'Join group';
+
+  @override
+  String get embedInviteAlreadyJoined => 'Already joined';
+
+  @override
   String get inviteAcceptTitle => '您已被邀请加入';
 
   @override
@@ -3490,6 +3496,107 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get chatAttachmentExpiredTooltip => '附件已过期';
 
   @override
+  String chatTextualPreviewExpandLines(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Expand ($count lines)',
+      one: 'Expand ($count line)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String chatTextualPreviewCollapseLines(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Collapse ($count lines)',
+      one: 'Collapse ($count line)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String chatTextualPreviewExpandRows(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Expand ($count rows)',
+      one: 'Expand ($count row)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String chatTextualPreviewCollapseRows(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Collapse ($count rows)',
+      one: 'Collapse ($count row)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String chatTextualPreviewRemainingLines(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '... ($count lines left)',
+      one: '... ($count line left)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String chatTextualPreviewRemainingRows(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '... ($count rows left)',
+      one: '... ($count row left)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get chatTextualPreviewViewWholeFile => 'View whole file';
+
+  @override
+  String get chatTextualPreviewChangeLanguage => 'Change language';
+
+  @override
+  String get chatTextualPreviewSearchLanguage => 'Search language…';
+
+  @override
+  String get chatTextualPreviewSyntaxHighlighting => 'Syntax highlighting';
+
+  @override
+  String get chatTextualPreviewNoLanguagesFound => 'No results found';
+
+  @override
+  String get chatTextualPreviewMoreOptions => 'More options';
+
+  @override
+  String get chatTextualPreviewWrapText => 'Wrap text';
+
+  @override
+  String chatTextualPreviewSizeError(int previewLimitKb) {
+    return 'File is too large for inline preview (limit $previewLimitKb KB).';
+  }
+
+  @override
+  String get chatTextualPreviewLoadError => 'Unable to load preview.';
+
+  @override
+  String get chatTextualPreviewLanguagePlaintext => 'Plain text';
+
+  @override
+  String get chatTextualPreviewCopy => 'Copy';
+
+  @override
   String get chatAttachmentSourceGallery => '图库';
 
   @override
@@ -5218,6 +5325,22 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get forwardCommentSlowmodeDisabled => '由于所选频道启用了慢速模式，评论不可用。';
+
+  @override
+  String get forwardSendSlowmodeBlocked =>
+      'Waiting for slowmode in one or more selected channels to expire.';
+
+  @override
+  String get slowmodeRateLimitedTitle => 'Slowmode active';
+
+  @override
+  String slowmodeRateLimitedMessage(String duration) {
+    return 'Slowmode is on — wait $duration before sending another.';
+  }
+
+  @override
+  String get chatAttachmentDropSlowmodeDisabled =>
+      'Direct upload is disabled during slowmode.';
 
   @override
   String get shareMediaTitle => 'Share to';
@@ -7735,6 +7858,26 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
       'Failed to update time format';
 
   @override
+  String get userSettingsNavDefaultApps => 'Default Apps';
+
+  @override
+  String get defaultAppsWebBrowserSectionTitle => 'Web Browser';
+
+  @override
+  String get defaultAppsWebBrowserSectionDescription =>
+      'Choose which browser opens when you tap a link.';
+
+  @override
+  String get defaultAppsWebBrowserNativeAppNote =>
+      'If an app is installed for a site, links will open in that app first.';
+
+  @override
+  String get defaultAppsWebBrowserInApp => 'In-app browser';
+
+  @override
+  String get defaultAppsWebBrowserExternal => 'External browser';
+
+  @override
   String get userSettingsNavAdvanced => '高级';
 
   @override
@@ -7943,14 +8086,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   @override
   String get advancedSettingHideMutedChannelsDescription =>
       'Hide channels you\'ve muted from community sidebars';
-
-  @override
-  String get advancedSettingSequentialFileSendLabel =>
-      'Send file messages in order';
-
-  @override
-  String get advancedSettingSequentialFileSendDescription =>
-      'Ensures file messages appear in the order you sent them';
 
   @override
   String get advancedSettingShowGifIndicatorLabel => 'Show GIF indicator';

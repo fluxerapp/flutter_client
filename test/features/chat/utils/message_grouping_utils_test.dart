@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/message_grouping_utils.dart';
+import 'package:fluxer_dart/export.dart';
 
 Message _message({
   required String id,
@@ -11,6 +12,13 @@ Message _message({
   String? webhookId,
   DateTime? timestamp,
   int flags = 0,
+  int type = messageTypeDefault,
+  String? replyToId,
+  bool mentionEveryone = false,
+  List<String> mentionRoles = const <String>[],
+  List<String> mentionedUserIds = const <String>[],
+  List<MessageSnapshot> messageSnapshots = const <MessageSnapshot>[],
+  MessageReference? messageReference,
 }) {
   return Message(
     id: id,
@@ -23,6 +31,13 @@ Message _message({
     content: 'hello',
     timestamp: timestamp ?? DateTime.utc(2026, 1, 1, 12),
     flags: flags,
+    type: type,
+    replyToId: replyToId,
+    mentionEveryone: mentionEveryone,
+    mentionRoles: mentionRoles,
+    mentionedUserIds: mentionedUserIds,
+    messageSnapshots: messageSnapshots,
+    messageReference: messageReference,
   );
 }
 
@@ -43,6 +58,21 @@ void main() {
         timestamp: DateTime.utc(2026, 1, 1, 12, 1),
       );
       expect(shouldGroupMessages(second, first), isTrue);
+    });
+
+    test('does not group messages from different authors', () {
+      final Message first = _message(
+        id: '1',
+        authorId: 'user-a',
+        authorName: 'Alice',
+      );
+      final Message second = _message(
+        id: '2',
+        authorId: 'user-b',
+        authorName: 'Bob',
+        timestamp: DateTime.utc(2026, 1, 1, 12, 1),
+      );
+      expect(shouldGroupMessages(second, first), isFalse);
     });
 
     test('does not group a silent message under a non-silent one', () {
@@ -82,6 +112,39 @@ void main() {
       expect(shouldGroupMessages(second, first), isTrue);
     });
 
+    test('does not group silent to non-silent when current has mentions', () {
+      final Message first = _message(
+        id: '1',
+        authorId: 'user',
+        authorName: 'Jiralite',
+        flags: messageFlagSuppressNotifications,
+      );
+      final Message second = _message(
+        id: '2',
+        authorId: 'user',
+        authorName: 'Jiralite',
+        timestamp: DateTime.utc(2026, 1, 1, 12, 1),
+        mentionEveryone: true,
+      );
+      expect(shouldGroupMessages(second, first), isFalse);
+    });
+
+    test('groups silent to non-silent when current has no mentions', () {
+      final Message first = _message(
+        id: '1',
+        authorId: 'user',
+        authorName: 'Jiralite',
+        flags: messageFlagSuppressNotifications,
+      );
+      final Message second = _message(
+        id: '2',
+        authorId: 'user',
+        authorName: 'Jiralite',
+        timestamp: DateTime.utc(2026, 1, 1, 12, 1),
+      );
+      expect(shouldGroupMessages(second, first), isTrue);
+    });
+
     test('does not group bot proxies with different names', () {
       final Message first = _message(
         id: '1',
@@ -113,11 +176,30 @@ void main() {
         id: '2',
         authorId: 'webhook',
         authorName: 'Hook B',
-        authorAvatar: 'avatar_b',
+        authorAvatar: 'avatar_a',
         webhookId: '10',
         timestamp: DateTime.utc(2026, 1, 1, 12, 1),
       );
       expect(shouldGroupMessages(second, first), isFalse);
+    });
+
+    test('groups webhooks with different avatars when names match', () {
+      final Message first = _message(
+        id: '1',
+        authorId: 'webhook',
+        authorName: 'Hook A',
+        authorAvatar: 'avatar_a',
+        webhookId: '10',
+      );
+      final Message second = _message(
+        id: '2',
+        authorId: 'webhook',
+        authorName: 'Hook A',
+        authorAvatar: 'avatar_b',
+        webhookId: '10',
+        timestamp: DateTime.utc(2026, 1, 1, 12, 1),
+      );
+      expect(shouldGroupMessages(second, first), isTrue);
     });
 
     test('does not group bot proxies with different avatars', () {
@@ -137,6 +219,125 @@ void main() {
         timestamp: DateTime.utc(2026, 1, 1, 12, 1),
       );
       expect(shouldGroupMessages(second, first), isFalse);
+    });
+
+    test('does not group current reply messages', () {
+      final Message first = _message(
+        id: '1',
+        authorId: 'user',
+        authorName: 'Alice',
+      );
+      final Message second = _message(
+        id: '2',
+        authorId: 'user',
+        authorName: 'Alice',
+        timestamp: DateTime.utc(2026, 1, 1, 12, 1),
+        type: messageTypeReply,
+        replyToId: '99',
+      );
+      expect(shouldGroupMessages(second, first), isFalse);
+    });
+
+    test('groups a message after a reply from the same author', () {
+      final Message reply = _message(
+        id: '1',
+        authorId: 'user',
+        authorName: 'Alice',
+        type: messageTypeReply,
+        replyToId: '99',
+      );
+      final Message followUp = _message(
+        id: '2',
+        authorId: 'user',
+        authorName: 'Alice',
+        timestamp: DateTime.utc(2026, 1, 1, 12, 1),
+      );
+      expect(shouldGroupMessages(followUp, reply), isTrue);
+    });
+
+    test('groups forwarded messages with prior same-author message', () {
+      final Message first = _message(
+        id: '1',
+        authorId: 'user',
+        authorName: 'Alice',
+      );
+      final Message forwarded = _message(
+        id: '2',
+        authorId: 'user',
+        authorName: 'Alice',
+        timestamp: DateTime.utc(2026, 1, 1, 12, 1),
+        messageReference: const MessageReference(
+          messageId: 'other',
+          channelId: 'channel',
+          type: MessageReferenceType.forward,
+        ),
+        messageSnapshots: <MessageSnapshot>[
+          MessageSnapshot(
+            timestamp: DateTime.utc(2026, 1, 1, 11),
+            content: 'snap',
+          ),
+        ],
+      );
+      expect(shouldGroupMessages(forwarded, first), isTrue);
+    });
+  });
+
+  group('computeMessageRowGrouped', () {
+    test('returns false in compact mode', () {
+      final Message first = _message(
+        id: '1',
+        authorId: 'user',
+        authorName: 'Alice',
+      );
+      final Message second = _message(
+        id: '2',
+        authorId: 'user',
+        authorName: 'Alice',
+        timestamp: DateTime.utc(2026, 1, 1, 12, 1),
+      );
+      expect(
+        computeMessageRowGrouped(
+          message: second,
+          previousMessage: first,
+          messageDisplayCompact: true,
+          isNewDay: false,
+        ),
+        isFalse,
+      );
+    });
+
+    test('delegates to shouldGroupMessages when not compact', () {
+      final Message first = _message(
+        id: '1',
+        authorId: 'user',
+        authorName: 'Alice',
+      );
+      final Message second = _message(
+        id: '2',
+        authorId: 'user',
+        authorName: 'Alice',
+        timestamp: DateTime.utc(2026, 1, 1, 12, 1),
+      );
+      expect(
+        computeMessageRowGrouped(
+          message: second,
+          previousMessage: first,
+          messageDisplayCompact: false,
+          isNewDay: false,
+        ),
+        isTrue,
+      );
+    });
+  });
+
+  group('isNewMessageGroup', () {
+    test('starts a new group when previous is null', () {
+      final Message current = _message(
+        id: '1',
+        authorId: 'user',
+        authorName: 'Alice',
+      );
+      expect(isNewMessageGroup(current, null), isTrue);
     });
   });
 

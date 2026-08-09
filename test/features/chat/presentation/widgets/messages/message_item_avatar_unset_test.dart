@@ -17,6 +17,7 @@ import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_dart/export.dart';
+import '../../../../../helpers/test_l10n.dart';
 
 /// Author snowflake used by every case in this file.
 const String _authorId = '123456789012345678';
@@ -99,6 +100,7 @@ Widget _app({
       use12HourTimeFormatProvider.overrideWithValue(false),
     ],
     child: MaterialApp(
+      locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(

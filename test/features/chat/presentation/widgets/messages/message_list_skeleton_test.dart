@@ -31,6 +31,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../../helpers/open_test_database.dart';
+import '../../../../../helpers/test_l10n.dart';
 
 const String _channelId = 'loading-test-channel';
 const String _otherChannelId = 'loading-test-other-channel';
@@ -141,6 +142,7 @@ Widget _messageListApp({
       chatViewModel: chatViewModel,
     ),
     child: MaterialApp(
+      locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
@@ -178,6 +180,7 @@ Widget _skeletonApp(Widget child) {
       ),
     ],
     child: MaterialApp(
+      locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(

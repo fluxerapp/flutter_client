@@ -19,11 +19,15 @@ class CurrentUserPrivateRead extends _$CurrentUserPrivateRead {
         state = null;
         return;
       }
-      if (previous != next) {
+      if (previous != null && previous != next) {
         unawaited(refresh());
       }
     });
     return null;
+  }
+
+  void applyStartupUser(UserPrivateResponse user) {
+    state = user;
   }
 
   Future<void> refresh() async {

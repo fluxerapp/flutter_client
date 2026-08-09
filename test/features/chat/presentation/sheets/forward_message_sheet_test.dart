@@ -32,6 +32,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../helpers/open_test_database.dart';
+import '../../../../helpers/test_l10n.dart';
 
 // ---------------------------------------------------------------------------
 // Source media detection helpers (pure)
@@ -188,6 +189,7 @@ Widget _app(
       ...extraOverrides,
     ],
     child: MaterialApp(
+      locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
@@ -214,6 +216,28 @@ Widget _app(
 Future<void> _openSheet(WidgetTester tester, FluxerDatabase db) async {
   await tester.pumpWidget(_app(db, _message(channelId: 'source-chan')));
   await tester.tap(find.text('Open'));
+  await tester.pumpAndSettle();
+}
+
+Future<void> _ensureDestinationVisible(
+  WidgetTester tester,
+  String destinationName,
+) async {
+  final Finder destination = find.text(destinationName);
+  if (destination.evaluate().isNotEmpty) {
+    return;
+  }
+  final Finder listView = find.byType(ListView);
+  for (int attempt = 0; attempt < 8; attempt++) {
+    if (destination.evaluate().isNotEmpty) {
+      return;
+    }
+    if (listView.evaluate().isEmpty) {
+      break;
+    }
+    await tester.drag(listView, const Offset(0, -200));
+    await tester.pump();
+  }
   await tester.pumpAndSettle();
 }
 
@@ -286,6 +310,7 @@ void main() {
       await _openSheet(tester, db);
 
       expect(find.text('general'), findsOneWidget);
+      await _ensureDestinationVisible(tester, 'voice-room');
       expect(find.text('voice-room'), findsOneWidget);
       expect(find.text('Alice'), findsOneWidget);
       // The source channel is never a forward destination.
@@ -298,20 +323,32 @@ void main() {
       final FluxerDatabase db = await _seedDb();
       await _openSheet(tester, db);
 
-      expect(find.text('Send (0/5)'), findsOneWidget);
+      expect(
+        find.text(testL10n.forwardSendButton(0, kForwardSelectionLimit)),
+        findsOneWidget,
+      );
 
       await tester.tap(find.text('general'));
       await tester.pump();
-      expect(find.text('Send (1/5)'), findsOneWidget);
+      expect(
+        find.text(testL10n.forwardSendButton(1, kForwardSelectionLimit)),
+        findsOneWidget,
+      );
 
       await tester.tap(find.text('Alice'));
       await tester.pump();
-      expect(find.text('Send (2/5)'), findsOneWidget);
+      expect(
+        find.text(testL10n.forwardSendButton(2, kForwardSelectionLimit)),
+        findsOneWidget,
+      );
 
       // Tapping again deselects.
       await tester.tap(find.text('general'));
       await tester.pump();
-      expect(find.text('Send (1/5)'), findsOneWidget);
+      expect(
+        find.text(testL10n.forwardSendButton(1, kForwardSelectionLimit)),
+        findsOneWidget,
+      );
     });
 
     testWidgets('filters the destination list by search query', (

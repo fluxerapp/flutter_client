@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
+import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_app/shared/utils/emoji_utils.dart';
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -21,6 +22,7 @@ void dispatchSelectedEmojiReaction(
   FluxerSelectedEmoji emoji,
   ReactionToggleCallback onReaction,
 ) {
+  FluxerHaptics.selection();
   if (emoji.isCustom) {
     onReaction(emoji.name, emojiId: emoji.emojiId, animated: emoji.animated);
     return;
@@ -68,11 +70,14 @@ class MessageReactionsBar extends StatelessWidget {
         for (final reaction in reactions)
           _ReactionChip(
             reaction: reaction,
-            onTap: () => onReactionTap(
-              reaction.emoji,
-              emojiId: reaction.emojiId,
-              animated: reaction.animated,
-            ),
+            onTap: () {
+              FluxerHaptics.selection();
+              onReactionTap(
+                reaction.emoji,
+                emojiId: reaction.emojiId,
+                animated: reaction.animated,
+              );
+            },
           ),
         if (showAddReaction)
           _InlineAddReactionButton(
