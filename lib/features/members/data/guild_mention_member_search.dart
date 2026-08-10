@@ -97,6 +97,7 @@ class GuildMentionMemberSearch {
           guildId: guildId,
           query: trimmed,
           limit: kMentionMemberSearchLimit,
+          nonce: GuildMemberChunkWaiter.nonceFor(requestId),
         );
         await _chunkWaiter.waitForChunk(guildId, requestId: requestId);
         final List<String> scopeUserIds = _chunkWaiter.lastChunkUserIds(

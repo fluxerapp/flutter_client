@@ -125,6 +125,46 @@ String? resolveJumpScrollTargetId({
   return null;
 }
 
+/// Whether the page that would carry [jumpTargetId] has landed: the id falls
+/// inside the loaded snowflake span, or beyond an edge that is already sealed,
+/// so no further page can bring it.
+///
+/// Until then a jump must park: [resolveJumpScrollTargetId] would settle on
+/// the nearest row of the window the reader is leaving, nowhere near the
+/// message they asked for.
+bool jumpTargetWindowSettled({
+  required String jumpTargetId,
+  required Iterable<String> messageIds,
+  required bool hasMoreOlder,
+  required bool hasMoreNewer,
+}) {
+  String? oldest;
+  String? newest;
+  for (final String id in messageIds) {
+    if (id == jumpTargetId) {
+      return true;
+    }
+    if (oldest == null || compareSnowflakeIds(id, oldest) < 0) {
+      oldest = id;
+    }
+    if (newest == null || compareSnowflakeIds(id, newest) > 0) {
+      newest = id;
+    }
+  }
+  if (oldest == null) {
+    return false;
+  }
+  if (compareSnowflakeIds(jumpTargetId, oldest) < 0) {
+    return !hasMoreOlder;
+  }
+  if (compareSnowflakeIds(jumpTargetId, newest) > 0) {
+    return !hasMoreNewer;
+  }
+  // Inside the span with no exact row: deleted or filtered, so the neighbour
+  // is where the message was.
+  return true;
+}
+
 bool isLocalOnlyMessage(Message message) =>
     message.isClientSystemMessage ||
     message.deliveryState == MessageDeliveryState.sending ||

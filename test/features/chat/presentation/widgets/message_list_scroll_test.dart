@@ -2084,9 +2084,11 @@ void main() {
         );
 
         final int loadNewerBefore = harness.chatViewModel._loadNewerCallCount;
-        // Out-of-window ask: the target parks; the viewport is mid-jump and
-        // its position is not where the user is reading.
-        harness.chatViewModel.scrollToMessage('999999999999999999');
+        // Ask past the OPEN older edge: the page that carries it is still in
+        // flight, so the target parks and the viewport is mid-jump.
+        harness.chatViewModel.scrollToMessage(
+          _snowflakeForUtc(DateTime.utc(2020)),
+        );
         await tester.pump();
         // Force a republish while parked: geometry keeps flowing, but the
         // ack-bearing tail flag is the one thing a parked jump may not
@@ -3455,6 +3457,62 @@ void main() {
         );
 
         await tester.pump(const Duration(milliseconds: 2000));
+        await _disposeMessageList(tester);
+      },
+    );
+
+    testWidgets(
+      'a jump signalled after its window landed settles on the neighbour '
+      'instead of waiting for the park to expire',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(420, 640);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+
+        final _AroundAckMessageListHarness harness =
+            await _createBottomMessageListHarness();
+        await tester.pumpWidget(
+          _messageListApp(
+            database: harness.database,
+            chatViewModel: harness.chatViewModel,
+          ),
+        );
+        await pumpFluxerFrames(tester);
+
+        // The view model swaps the around page in and signals afterwards, so
+        // the epoch recorded at park time is already that install's. The page
+        // omits the target: deleted or filtered server-side.
+        final List<Message> loaded = harness.chatViewModel._testState.messages;
+        final String missingId = loaded[25].id;
+        final String neighbourId = loaded[26].id;
+        harness.chatViewModel._testState = harness.chatViewModel._testState
+            .copyWith(
+              write: (
+                messages: <Message>[
+                  for (final Message message in loaded)
+                    if (message.id != missingId) message,
+                ],
+                origin: MessagesOrigin.windowSwap,
+              ),
+              windowEpoch: harness.chatViewModel._testState.windowEpoch + 1,
+            );
+        await tester.pump();
+
+        harness.chatViewModel.scrollToMessage(missingId);
+        await pumpFluxerFrames(tester);
+
+        expect(_messageItemFor(neighbourId), findsOneWidget);
+        final Rect viewport = tester.getRect(_messageListScrollable());
+        final Rect neighbour = tester.getRect(_messageItemFor(neighbourId));
+        expect(
+          (neighbour.center.dy - viewport.center.dy).abs(),
+          lessThanOrEqualTo(16),
+          reason:
+              'the jump settles on the nearest loaded neighbour, not on the '
+              'live tail after a timeout',
+        );
+
         await _disposeMessageList(tester);
       },
     );

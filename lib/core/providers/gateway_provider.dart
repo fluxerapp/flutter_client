@@ -348,10 +348,14 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     onGuildAvailable: (guildId) {
       ref.read(guildAvailabilityProvider.notifier).setGuildAvailable(guildId);
     },
-    onMembersChunk: (guildId, userIds) {
+    onMembersChunk: (guildId, userIds, {nonce}) {
       ref
           .read(guildMemberChunkWaiterProvider)
-          .notifyChunk(guildId, userIds: userIds);
+          .notifyChunk(
+            guildId,
+            userIds: userIds,
+            requestId: GuildMemberChunkWaiter.requestIdFromNonce(nonce),
+          );
       unawaited(
         ref
             .read(memberCacheEvictorProvider)
@@ -364,16 +368,18 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
             ),
       );
     },
-    onMembersChunkProgress: (guildId, chunkIndex, chunkCount, userIds) {
-      ref
-          .read(guildMemberChunkWaiterProvider)
-          .notifyChunkProgress(
-            guildId,
-            chunkIndex,
-            chunkCount,
-            userIds: userIds,
-          );
-    },
+    onMembersChunkProgress:
+        (guildId, chunkIndex, chunkCount, userIds, {nonce}) {
+          ref
+              .read(guildMemberChunkWaiterProvider)
+              .notifyChunkProgress(
+                guildId,
+                chunkIndex,
+                chunkCount,
+                userIds: userIds,
+                requestId: GuildMemberChunkWaiter.requestIdFromNonce(nonce),
+              );
+        },
     onMemberListUpdate: (event) {
       ref.read(memberListUpdateBatcherProvider).enqueue(event);
     },

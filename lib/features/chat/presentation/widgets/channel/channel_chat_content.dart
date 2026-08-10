@@ -435,7 +435,10 @@ bool shouldDedupChannelChatSwitchRequest({
       (Message message) => message.id == targetMessageId,
     );
   }
-  return state.messages.isNotEmpty && !state.messageLoadFailed;
+  // A settled window is the answer, empty or not: re-firing loops, because
+  // every completion rebuilds this widget and schedules the next sync. The
+  // latched recovery is shouldResyncStrandedEmptyChannel.
+  return !state.messageLoadFailed;
 }
 
 @visibleForTesting

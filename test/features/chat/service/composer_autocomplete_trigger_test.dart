@@ -16,6 +16,23 @@ void main() {
       expect(trigger?.matchedText, 'bob');
     });
 
+    test('matches @ immediately after an inline mention chip sentinel', () {
+      const String chip = '\uE000';
+      final ComposerAutocompleteTrigger? trigger =
+          ComposerAutocompleteTrigger.detect('${chip}@bob');
+      expect(trigger?.kind, ComposerAutocompleteTriggerKind.mention);
+      expect(trigger?.matchedText, 'bob');
+      expect(trigger?.matchStart, chip.length);
+    });
+
+    test('matches @ after chip sentinel and space', () {
+      const String chip = '\uE000';
+      final ComposerAutocompleteTrigger? trigger =
+          ComposerAutocompleteTrigger.detect('$chip @bob');
+      expect(trigger?.kind, ComposerAutocompleteTriggerKind.mention);
+      expect(trigger?.matchedText, 'bob');
+    });
+
     test('trims trailing whitespace from the matched mention query', () {
       final ComposerAutocompleteTrigger? trigger =
           ComposerAutocompleteTrigger.detect('hello @Android Alpha ');

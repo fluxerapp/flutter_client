@@ -104,29 +104,18 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
         voice.channelId == widget.channelId &&
         voice.guildId == widget.guildId;
 
+    void scheduleSearchContextSync(String? previous, String? next) {
+      if (previous == next) {
+        return;
+      }
+      // A route listener can fire while the scope is flushing mid-build, and a
+      // provider write there throws: bind the pair after the frame instead.
+      WidgetsBinding.instance.addPostFrameCallback((_) => _syncSearchContext());
+    }
+
     ref
-      ..listen<String?>(activeGuildIdProvider, (
-        String? previous,
-        String? next,
-      ) {
-        if (previous == next) {
-          return;
-        }
-        WidgetsBinding.instance.addPostFrameCallback(
-          (_) => _syncSearchContext(),
-        );
-      })
-      ..listen<String?>(activeChannelIdProvider, (
-        String? previous,
-        String? next,
-      ) {
-        if (next == null || next.isEmpty) {
-          return;
-        }
-        ref
-            .read(channelHeaderSearchProvider.notifier)
-            .bindChannel(channelId: next, guildId: widget.guildId);
-      });
+      ..listen<String?>(activeGuildIdProvider, scheduleSearchContextSync)
+      ..listen<String?>(activeChannelIdProvider, scheduleSearchContextSync);
 
     final Widget primaryContent = showMatureContentGate
         ? MatureContentChannelGate(

@@ -81,6 +81,7 @@ dependencies:
   record: ^7.1.1
   riverpod: ^3.4.1
   riverpod_annotation: ^4.0.3
+  sensors_plus: ^7.1.0
   shared_preferences: ^2.5.3
   skeletonizer: ^2.1.3
   smart_keyboard_insets: ^0.0.1

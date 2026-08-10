@@ -12,12 +12,25 @@ void main() {
   );
 
   group('shouldDedupChannelChatSwitchRequest', () {
-    test('retries when the channel matches but messages are still empty', () {
+    test('a settled empty channel is the answer, not a retry', () {
+      // Re-firing loops: the completion rebuilds the widget, which schedules
+      // the next sync. shouldResyncStrandedEmptyChannel owns the recovery.
       expect(
         shouldDedupChannelChatSwitchRequest(
           lastRequest: switchRequest,
           request: switchRequest,
           state: _chatState(channelId: 'channel-1'),
+        ),
+        isTrue,
+      );
+    });
+
+    test('retries when the load failed', () {
+      expect(
+        shouldDedupChannelChatSwitchRequest(
+          lastRequest: switchRequest,
+          request: switchRequest,
+          state: _chatState(channelId: 'channel-1', messageLoadFailed: true),
         ),
         isFalse,
       );
@@ -412,6 +425,7 @@ ChatViewState _chatState({
   required String channelId,
   List<Message> messages = const <Message>[],
   bool isLoading = false,
+  bool messageLoadFailed = false,
 }) {
   return ChatViewState(
     channelId: channelId,
@@ -428,6 +442,7 @@ ChatViewState _chatState({
     hasMoreMessages: false,
     hasMoreNewerMessages: false,
     errorMessage: null,
+    messageLoadFailed: messageLoadFailed,
   );
 }
 

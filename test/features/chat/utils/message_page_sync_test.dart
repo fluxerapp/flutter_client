@@ -438,6 +438,73 @@ void main() {
       },
     );
 
+    test(
+      'jumpTargetWindowSettled waits for the page that carries the target',
+      () {
+        // Inside the loaded span: a deleted or filtered row, so the neighbour
+        // is where the message was.
+        expect(
+          jumpTargetWindowSettled(
+            jumpTargetId: idC,
+            messageIds: <String>[idA, idB, idD],
+            hasMoreOlder: true,
+            hasMoreNewer: true,
+          ),
+          isTrue,
+        );
+        // Past an OPEN edge: still in flight, and the nearest loaded row is
+        // the edge of the window being left.
+        expect(
+          jumpTargetWindowSettled(
+            jumpTargetId: idA,
+            messageIds: <String>[idB, idC, idD],
+            hasMoreOlder: true,
+            hasMoreNewer: false,
+          ),
+          isFalse,
+        );
+        expect(
+          jumpTargetWindowSettled(
+            jumpTargetId: idD,
+            messageIds: <String>[idA, idB, idC],
+            hasMoreOlder: false,
+            hasMoreNewer: true,
+          ),
+          isFalse,
+        );
+        // Past a SEALED edge: no page can ever bring it.
+        expect(
+          jumpTargetWindowSettled(
+            jumpTargetId: idD,
+            messageIds: <String>[idA, idB, idC],
+            hasMoreOlder: false,
+            hasMoreNewer: false,
+          ),
+          isTrue,
+        );
+        expect(
+          jumpTargetWindowSettled(
+            jumpTargetId: idB,
+            messageIds: <String>[idA, idB, idC],
+            hasMoreOlder: true,
+            hasMoreNewer: true,
+          ),
+          isTrue,
+          reason: 'the exact row is loaded',
+        );
+        expect(
+          jumpTargetWindowSettled(
+            jumpTargetId: idB,
+            messageIds: const <String>[],
+            hasMoreOlder: false,
+            hasMoreNewer: false,
+          ),
+          isFalse,
+          reason: 'an empty window has landed nothing',
+        );
+      },
+    );
+
     test('m16e: the quota boundary decides, and it fails toward detached', () {
       // The one rung the integration tests cannot pin, because the pointer
       // consult can absorb either verdict. expectedNewer - 1 newer rows is the

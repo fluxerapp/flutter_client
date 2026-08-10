@@ -134,12 +134,13 @@ class ComposerAutocompleteFieldState
 
   void _onTextChanged() {
     _debounce?.cancel();
-    final TextSelection selection = widget.controller.selection;
-    if (selection.isValid && selection.isCollapsed) {
+    final TextEditingValue editing = widget.controller.value;
+    final int? caret = _autocompleteCaretIndex(editing);
+    if (caret != null) {
       final ComposerAutocompleteTrigger? trigger =
           ComposerAutocompleteTrigger.detectIfAllowed(
-            fullText: widget.controller.text,
-            caretIndex: selection.baseOffset,
+            fullText: editing.text,
+            caretIndex: caret,
           );
       if (trigger?.kind == ComposerAutocompleteTriggerKind.mention) {
         _scheduleSync();
@@ -157,6 +158,23 @@ class ComposerAutocompleteFieldState
     );
   }
 
+  int? _autocompleteCaretIndex(TextEditingValue editing) {
+    final TextSelection selection = editing.selection;
+    if (selection.isValid) {
+      if (selection.isCollapsed) {
+        return selection.baseOffset;
+      }
+      if (editing.composing.isValid && !editing.composing.isCollapsed) {
+        return editing.composing.end;
+      }
+      return selection.extentOffset;
+    }
+    if (editing.composing.isValid && !editing.composing.isCollapsed) {
+      return editing.composing.end;
+    }
+    return null;
+  }
+
   void _scheduleSync() {
     if (!mounted || !widget.enabled) {
       return;
@@ -166,15 +184,15 @@ class ComposerAutocompleteFieldState
   }
 
   Future<void> _sync(int generation) async {
-    final TextSelection sel = widget.controller.selection;
-    if (!sel.isValid || !sel.isCollapsed) {
+    final TextEditingValue editing = widget.controller.value;
+    final int? caret = _autocompleteCaretIndex(editing);
+    if (caret == null) {
       if (generation == _syncGeneration) {
         _setRows(const <_ComposerRow>[]);
       }
       return;
     }
-    final String full = widget.controller.text;
-    final int caret = sel.baseOffset;
+    final String full = editing.text;
     final ComposerAutocompleteTrigger? trigger =
         ComposerAutocompleteTrigger.detectIfAllowed(
           fullText: full,
@@ -410,7 +428,6 @@ class ComposerAutocompleteFieldState
     );
     List<Member> members = const <Member>[];
     Set<String> remoteSearchMemberIds = <String>{};
-    Set<String> localMemberIds = <String>{};
     if (guildId != null && guildId.isNotEmpty) {
       _startMentionAutocompleteWatches(guildId: guildId, channelId: _channelId);
       ref.read(guildSyncProvider.notifier).syncIfNeeded(guildId);
@@ -428,7 +445,6 @@ class ComposerAutocompleteFieldState
         friendNicknameById: friendNicknameById,
         stableSession: stableSession,
       );
-      localMemberIds = <String>{for (final Member m in members) m.id};
       if (generation != _syncGeneration) {
         return;
       }
@@ -438,7 +454,6 @@ class ComposerAutocompleteFieldState
         guildId: guildId,
         members: members,
         remoteSearchMemberIds: remoteSearchMemberIds,
-        localMemberIds: localMemberIds,
         friendNicknameById: friendNicknameById,
         l10n: l10n,
       );
@@ -465,7 +480,6 @@ class ComposerAutocompleteFieldState
           guildId: guildId,
           members: members,
           remoteSearchMemberIds: remoteSearchMemberIds,
-          localMemberIds: localMemberIds,
           friendNicknameById: friendNicknameById,
           l10n: l10n,
         );
@@ -500,7 +514,6 @@ class ComposerAutocompleteFieldState
       guildId: null,
       members: ranked,
       remoteSearchMemberIds: remoteSearchMemberIds,
-      localMemberIds: localMemberIds,
       friendNicknameById: friendNicknameById,
       l10n: l10n,
       discriminators: discs,
@@ -524,7 +537,6 @@ class ComposerAutocompleteFieldState
     required String? guildId,
     required List<Member> members,
     required Set<String> remoteSearchMemberIds,
-    required Set<String> localMemberIds,
     required Map<String, String?> friendNicknameById,
     required FluxerLocalizations l10n,
     Map<String, String>? discriminators,
@@ -542,14 +554,12 @@ class ComposerAutocompleteFieldState
     }
     List<Member> ranked = members;
     if (guildId != null && guildId.isNotEmpty) {
-      final Set<String> assumeVisibleForUserIds = remoteSearchMemberIds
-          .difference(localMemberIds);
       ranked = await filterMembersByViewChannel(
         database: ref.read(fluxerDatabaseProvider),
         channelId: _channelId,
         guildId: guildId,
         members: ranked,
-        assumeVisibleForUserIds: assumeVisibleForUserIds,
+        assumeVisibleForUserIds: remoteSearchMemberIds,
       );
     }
     if (ranked.length > kMentionResultLimit) {
@@ -930,14 +940,14 @@ class ComposerAutocompleteFieldState
   ComposerAutocompleteTrigger? _autocompleteTriggerAtCaret(
     ComposerAutocompleteTriggerKind kind,
   ) {
-    final TextSelection sel = widget.controller.selection;
-    if (!sel.isValid || !sel.isCollapsed) {
+    final int? caret = _autocompleteCaretIndex(widget.controller.value);
+    if (caret == null) {
       return null;
     }
     final ComposerAutocompleteTrigger? trigger =
         ComposerAutocompleteTrigger.detectIfAllowed(
           fullText: widget.controller.text,
-          caretIndex: sel.baseOffset,
+          caretIndex: caret,
         );
     if (trigger == null ||
         trigger.kind != kind ||

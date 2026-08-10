@@ -70,14 +70,15 @@ typedef GuildAvailabilityChangedCallback =
     });
 typedef GuildAvailableCallback = void Function(String guildId);
 typedef GuildMembersChunkCallback =
-    void Function(String guildId, List<String> userIds);
+    void Function(String guildId, List<String> userIds, {String? nonce});
 typedef GuildMembersChunkProgressCallback =
     void Function(
       String guildId,
       int chunkIndex,
       int chunkCount,
-      List<String> userIds,
-    );
+      List<String> userIds, {
+      String? nonce,
+    });
 typedef GuildMemberListUpdateCallback =
     void Function(GuildMemberListUpdateEvent event);
 typedef VoiceServerUpdateCallback = void Function(VoiceServerUpdateEvent event);
@@ -1990,12 +1991,13 @@ class GatewayEventHandler {
         unawaited(database.userDao.updateUserPresencesBatch(updates));
       }
     }
-    onMembersChunk?.call(event.guildId, userIds);
+    onMembersChunk?.call(event.guildId, userIds, nonce: event.nonce);
     onMembersChunkProgress?.call(
       event.guildId,
       event.chunkIndex,
       event.chunkCount,
       userIds,
+      nonce: event.nonce,
     );
     if (currentUserId != null && userIds.contains(currentUserId)) {
       onGuildPermissionsChanged?.call(event.guildId);

@@ -558,6 +558,10 @@ class ChatViewModel extends _$ChatViewModel {
   // Monotonically increasing token identifying the most recent switchChannel
   // call.
   int _channelSwitchGeneration = 0;
+  // The switch currently running, plus its future, for joining duplicates.
+  ({String channelId, String? targetMessageId, bool loadMessages})?
+  _switchInFlightRequest;
+  Future<void>? _switchInFlightFuture;
   // Bumped whenever the loaded window is replaced wholesale. In-flight page
   // loads compare it before applying, so a slow response cannot resurrect
   // the window it was fetched for after a jump replaced it.
@@ -1751,7 +1755,45 @@ class ChatViewModel extends _$ChatViewModel {
     });
   }
 
+  /// Switches the open channel. A request identical to the one already running
+  /// joins it: isLoading and isSyncingMessages are written only after the first
+  /// await, so same-frame callers cannot see each other.
   Future<void> switchChannel(
+    String channelId, {
+    String? targetMessageId,
+    bool loadMessages = true,
+  }) {
+    final request = (
+      channelId: channelId,
+      targetMessageId: targetMessageId,
+      loadMessages: loadMessages,
+    );
+    final Future<void>? inFlight = _switchInFlightRequest == request
+        ? _switchInFlightFuture
+        : null;
+    if (inFlight != null) {
+      talker.debug(
+        '[ChatViewModel] switchChannel joins in-flight channel=$channelId '
+        'target=$targetMessageId',
+      );
+      return inFlight;
+    }
+    final Future<void> pending = _switchChannel(
+      channelId,
+      targetMessageId: targetMessageId,
+      loadMessages: loadMessages,
+    );
+    _switchInFlightRequest = request;
+    _switchInFlightFuture = pending;
+    return pending.whenComplete(() {
+      if (_switchInFlightFuture == pending) {
+        _switchInFlightRequest = null;
+        _switchInFlightFuture = null;
+      }
+    });
+  }
+
+  Future<void> _switchChannel(
     String channelId, {
     String? targetMessageId,
     bool loadMessages = true,

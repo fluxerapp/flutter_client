@@ -24,6 +24,15 @@ class GuildMemberChunkWaiter {
     return next;
   }
 
+  static String nonceFor(int requestId) => '$requestId';
+
+  static int? requestIdFromNonce(String? nonce) {
+    if (nonce == null || nonce.isEmpty) {
+      return null;
+    }
+    return int.tryParse(nonce);
+  }
+
   int? activeRequestId(String guildId) => _activeRequestId[guildId];
 
   void notifyChunk(
@@ -62,10 +71,11 @@ class GuildMemberChunkWaiter {
   }
 
   bool _acceptsRequest(String guildId, int? requestId) {
-    if (requestId == null) {
-      return true;
+    final int? active = _activeRequestId[guildId];
+    if (active != null) {
+      return requestId == active;
     }
-    return _activeRequestId[guildId] == requestId;
+    return requestId == null;
   }
 
   void _completeWaiters(String guildId, int? requestId) {
@@ -74,6 +84,7 @@ class GuildMemberChunkWaiter {
     }
     final List<Completer<void>>? waiters = _pending.remove(guildId);
     _expectedChunkCount.remove(guildId);
+    _clearActiveRequest(guildId, requestId);
     if (waiters == null) {
       return;
     }
@@ -81,6 +92,15 @@ class GuildMemberChunkWaiter {
       if (!completer.isCompleted) {
         completer.complete();
       }
+    }
+  }
+
+  void _clearActiveRequest(String guildId, int? requestId) {
+    if (requestId == null) {
+      return;
+    }
+    if (_activeRequestId[guildId] == requestId) {
+      _activeRequestId.remove(guildId);
     }
   }
 
@@ -103,6 +123,7 @@ class GuildMemberChunkWaiter {
       waiters?.remove(completer);
       if (waiters != null && waiters.isEmpty) {
         _pending.remove(guildId);
+        _clearActiveRequest(guildId, requestId);
       }
     }
   }

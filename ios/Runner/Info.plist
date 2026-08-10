@@ -69,6 +69,8 @@
 	<string>Fluxer does not use your location. A bundled library references location APIs, which requires this entry for App Store submission.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Leave voice messages, audio, and video calls.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Add subtle motion to the splash and login backgrounds.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Share photos from your library in a chat.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

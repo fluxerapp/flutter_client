@@ -1,8 +1,40 @@
-import 'dart:async' show unawaited;
+import 'dart:async' show StreamSubscription, unawaited;
+import 'dart:io' show Platform;
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:sensors_plus/sensors_plus.dart';
+
+Offset _parallaxDeltaFromAccelerometer({
+  required AccelerometerEvent event,
+  required int displayRotation,
+  required double sensitivity,
+  required double maxOffset,
+}) {
+  final double screenX;
+  final double screenY;
+  switch (displayRotation) {
+    case 1:
+      screenX = event.y;
+      screenY = -event.x;
+    case 2:
+      screenX = -event.x;
+      screenY = -event.y;
+    case 3:
+      screenX = -event.y;
+      screenY = event.x;
+    default:
+      screenX = event.x;
+      screenY = event.y;
+  }
+
+  double clampAxis(double value) =>
+      (-value * sensitivity).clamp(-maxOffset, maxOffset);
+
+  return Offset(clampAxis(screenX), clampAxis(screenY));
+}
 
 class StarfieldBackground extends StatefulWidget {
   const StarfieldBackground({this.child, super.key});
@@ -21,16 +53,30 @@ class StarfieldBackground extends StatefulWidget {
 }
 
 class _StarfieldBackgroundState extends State<StarfieldBackground>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   static const Duration _fineDriftDuration = Duration(seconds: 90);
   static const Duration _coarseDriftDuration = Duration(seconds: 120);
+  static const double _parallaxSensitivity = 1.1;
+  static const double _parallaxMaxOffset = 12;
+  static const double _parallaxSmoothing = 0.15;
 
   late final AnimationController _fineDrift;
   late final AnimationController _coarseDrift;
 
+  VoidCallback? _cancelParallax;
+  final ValueNotifier<Offset> _parallaxOffset = ValueNotifier<Offset>(
+    Offset.zero,
+  );
+  Offset _parallaxTarget = Offset.zero;
+  int? _parallaxRotation;
+
+  bool get _parallaxSupported =>
+      !kIsWeb && (Platform.isAndroid || Platform.isIOS);
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _fineDrift = AnimationController(vsync: this, duration: _fineDriftDuration);
     _coarseDrift = AnimationController(
       vsync: this,
@@ -39,12 +85,39 @@ class _StarfieldBackgroundState extends State<StarfieldBackground>
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _syncDrift();
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    _syncMotion();
   }
 
-  void _syncDrift() {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final int rotation = _readParallaxRotation();
+    if (_parallaxRotation != null && _parallaxRotation != rotation) {
+      _resetParallax();
+    }
+    _parallaxRotation = rotation;
+    _syncMotion();
+  }
+
+  int _readParallaxRotation() {
+    final Orientation orientation = MediaQuery.orientationOf(context);
+    if (orientation == Orientation.portrait) {
+      return 0;
+    }
+    final EdgeInsets padding = MediaQuery.paddingOf(context);
+    if (padding.right > padding.left) {
+      return 3;
+    }
+    return 1;
+  }
+
+  void _resetParallax() {
+    _parallaxOffset.value = Offset.zero;
+    _parallaxTarget = Offset.zero;
+  }
+
+  void _syncMotion() {
     final AppLifecycleState? lifecycle =
         SchedulerBinding.instance.lifecycleState;
     final bool foreground =
@@ -58,14 +131,67 @@ class _StarfieldBackgroundState extends State<StarfieldBackground>
       if (!_coarseDrift.isAnimating) {
         unawaited(_coarseDrift.repeat(reverse: true));
       }
+      _startParallax();
     } else {
       _fineDrift.stop();
       _coarseDrift.stop();
+      _stopParallax();
     }
+  }
+
+  void _startParallax() {
+    if (!_parallaxSupported || _cancelParallax != null) {
+      return;
+    }
+    final StreamSubscription<AccelerometerEvent> subscription =
+        accelerometerEventStream().listen(
+          _onAccelerometerEvent,
+          onError: (_) {
+            _cancelParallax = null;
+            if (mounted) {
+              _resetParallax();
+            }
+          },
+          cancelOnError: true,
+        );
+    _cancelParallax = () {
+      unawaited(subscription.cancel());
+    };
+  }
+
+  void _onAccelerometerEvent(AccelerometerEvent event) {
+    if (!mounted) {
+      return;
+    }
+    _parallaxTarget = _parallaxDeltaFromAccelerometer(
+      event: event,
+      displayRotation: _parallaxRotation ?? _readParallaxRotation(),
+      sensitivity: _parallaxSensitivity,
+      maxOffset: _parallaxMaxOffset,
+    );
+    final Offset current = _parallaxOffset.value;
+    _parallaxOffset.value = Offset(
+      current.dx + (_parallaxTarget.dx - current.dx) * _parallaxSmoothing,
+      current.dy + (_parallaxTarget.dy - current.dy) * _parallaxSmoothing,
+    );
+  }
+
+  void _stopParallax() {
+    final VoidCallback? cancel = _cancelParallax;
+    _cancelParallax = null;
+    cancel?.call();
+    if (_parallaxOffset.value == Offset.zero &&
+        _parallaxTarget == Offset.zero) {
+      return;
+    }
+    _resetParallax();
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _stopParallax();
+    _parallaxOffset.dispose();
     _fineDrift.dispose();
     _coarseDrift.dispose();
     super.dispose();
@@ -111,7 +237,11 @@ class _StarfieldBackgroundState extends State<StarfieldBackground>
           ),
         ),
         AnimatedBuilder(
-          animation: Listenable.merge(<Listenable>[_fineDrift, _coarseDrift]),
+          animation: Listenable.merge(<Listenable>[
+            _fineDrift,
+            _coarseDrift,
+            _parallaxOffset,
+          ]),
           builder: (BuildContext context, Widget? child) {
             return CustomPaint(
               painter: _StarfieldPainter(
@@ -119,6 +249,7 @@ class _StarfieldBackgroundState extends State<StarfieldBackground>
                 coarseProgress: Curves.easeInOut.transform(
                   1 - _coarseDrift.value,
                 ),
+                parallaxOffset: _parallaxOffset.value,
               ),
             );
           },
@@ -139,10 +270,18 @@ class _StarSpec {
 }
 
 class _StarfieldPainter extends CustomPainter {
-  _StarfieldPainter({required this.fineProgress, required this.coarseProgress});
+  _StarfieldPainter({
+    required this.fineProgress,
+    required this.coarseProgress,
+    required this.parallaxOffset,
+  });
 
   final double fineProgress;
   final double coarseProgress;
+  final Offset parallaxOffset;
+
+  static const double _fineParallaxScale = 0.4;
+  static const double _coarseParallaxScale = 1;
 
   static const List<_StarSpec> _fineStars = <_StarSpec>[
     _StarSpec(0.04, 0.12, 0.5, Color(0x5CFFFFFF)),
@@ -201,6 +340,7 @@ class _StarfieldPainter extends CustomPainter {
       stars: _fineStars,
       progress: fineProgress,
       glowSigma: 1.4,
+      parallaxScale: _fineParallaxScale,
     );
     _paintLayer(
       canvas,
@@ -208,6 +348,7 @@ class _StarfieldPainter extends CustomPainter {
       stars: _coarseStars,
       progress: coarseProgress,
       glowSigma: 2.4,
+      parallaxScale: _coarseParallaxScale,
     );
   }
 
@@ -217,9 +358,15 @@ class _StarfieldPainter extends CustomPainter {
     required List<_StarSpec> stars,
     required double progress,
     required double glowSigma,
+    required double parallaxScale,
   }) {
     const Offset drift = Offset(-16, 12);
-    final Offset offset = Offset(drift.dx * progress, drift.dy * progress);
+    final Offset driftOffset = Offset(drift.dx * progress, drift.dy * progress);
+    final Offset parallax = Offset(
+      parallaxOffset.dx * parallaxScale,
+      parallaxOffset.dy * parallaxScale,
+    );
+    final Offset offset = driftOffset + parallax;
     final Paint paint = Paint()..isAntiAlias = true;
     for (final _StarSpec star in stars) {
       final Offset center = Offset(
@@ -238,6 +385,7 @@ class _StarfieldPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant _StarfieldPainter oldDelegate) {
     return oldDelegate.fineProgress != fineProgress ||
-        oldDelegate.coarseProgress != coarseProgress;
+        oldDelegate.coarseProgress != coarseProgress ||
+        oldDelegate.parallaxOffset != parallaxOffset;
   }
 }

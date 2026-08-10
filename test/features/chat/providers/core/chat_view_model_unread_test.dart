@@ -412,6 +412,54 @@ void main() {
     },
   );
 
+  test('a duplicate switch joins the running one instead of replacing the '
+      'window again', () async {
+    // A rebuild storm re-enters switchChannel a few frames later, before any
+    // state flag says a switch is running and while the window is still empty
+    // (nothing cached). Each duplicate used to wipe the window and bump
+    // windowEpoch, which cancels the scroll effects keyed to it.
+    final db = openTestDatabase();
+    final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-1',
+        guildId: 'guild-1',
+        name: 'general',
+        lastMessageId: Value(latestId),
+      ),
+    );
+    final adapter = _ChatAdapter(
+      initialMessages: <Map<String, Object?>>[
+        _messageJson(id: latestId, channelId: 'channel-1', authorId: 'other'),
+      ],
+    )..holdMessageFetch = true;
+    final container = _container(db, adapter);
+    addTearDown(container.dispose);
+
+    final notifier = container.read(chatViewModelProvider.notifier);
+    final Future<void> first = notifier.switchChannel('channel-1');
+    await _flushAsync();
+    final int epochAfterFirst = container
+        .read(chatViewModelProvider)
+        .windowEpoch;
+
+    final Future<void> second = notifier.switchChannel('channel-1');
+    await _flushAsync();
+    expect(
+      container.read(chatViewModelProvider).windowEpoch,
+      epochAfterFirst,
+      reason: 'the running switch owns the window',
+    );
+
+    adapter.releaseMessageFetch();
+    await Future.wait(<Future<void>>[first, second]);
+    await _flushAsync();
+
+    expect(container.read(chatViewModelProvider).messages.map((m) => m.id), [
+      latestId,
+    ]);
+  });
+
   test(
     'auto ack does not run while cache-first messages are loading',
     () async {

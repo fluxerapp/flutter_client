@@ -1230,23 +1230,44 @@ class _MessageListState extends ConsumerState<MessageList> {
       talker.debug('[MessageList] pending target parked $messageId');
       return;
     }
-    final List<Message> messages = ref.read(chatViewModelProvider).messages;
-    final bool targetLoaded = messages.any(
+    final ChatViewState jumpState = ref.read(chatViewModelProvider);
+    final Iterable<String> messageIds = jumpState.messages.map(
+      (Message m) => m.id,
+    );
+    final bool targetLoaded = jumpState.messages.any(
       (Message message) => message.id == messageId,
     );
-    if (!targetLoaded) {
-      // Out-of-window ask: park until the around page arrives. Neighbour
-      // fallback is only for an installed page that omitted the target.
+    // A landed window that still lacks the target is the deleted or filtered
+    // case: settle on the neighbour now. The view model signals after
+    // installing the around page, so nothing later rebuilds this to retry.
+    final String? scrollId = targetLoaded
+        ? messageId
+        : jumpTargetWindowSettled(
+            jumpTargetId: messageId,
+            messageIds: messageIds,
+            hasMoreOlder: jumpState.hasMoreMessages,
+            hasMoreNewer: jumpState.hasMoreNewerMessages,
+          )
+        ? resolveJumpScrollTargetId(
+            jumpTargetId: messageId,
+            messageIds: messageIds,
+          )
+        : null;
+    if (scrollId == null) {
+      // Still in flight: park until the around page arrives. Resolving here
+      // would land on the edge of the window the reader is leaving.
       _setPendingScrollTarget(messageId);
       talker.debug('[MessageList] pending target parked $messageId');
       return;
     }
+    if (scrollId != messageId) {
+      talker.debug(
+        '[MessageList] jump target $messageId missing; '
+        'scroll neighbour $scrollId',
+      );
+    }
     _clearPendingScrollTarget();
-    _reanchor(
-      messageId,
-      _kUnreadOpenAnchor,
-      edge: MessageListAnchorEdge.before,
-    );
+    _reanchor(scrollId, _kUnreadOpenAnchor, edge: MessageListAnchorEdge.before);
     final int highlightEpoch = _uiEpoch;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _runIfSameEpoch(highlightEpoch, () {
@@ -1986,12 +2007,19 @@ class _MessageListState extends ConsumerState<MessageList> {
             findChannelStreamDataIndex(channelStream, unreadAnchorId) != null;
         final String? jumpRequestId =
             _pendingScrollTarget ?? widget.targetMessageId;
-        final String? jumpAnchorId = jumpRequestId == null
-            ? null
-            : resolveJumpScrollTargetId(
+        final String? jumpAnchorId =
+            jumpRequestId != null &&
+                jumpTargetWindowSettled(
+                  jumpTargetId: jumpRequestId,
+                  messageIds: messages.map((Message m) => m.id),
+                  hasMoreOlder: hasMoreMessages,
+                  hasMoreNewer: hasMoreNewerMessages,
+                )
+            ? resolveJumpScrollTargetId(
                 jumpTargetId: jumpRequestId,
                 messageIds: messages.map((Message m) => m.id),
-              );
+              )
+            : null;
         _anchorResolved = true;
         _anchorEpoch++;
         _pin.pinned = false;
