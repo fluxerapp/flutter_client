@@ -141,9 +141,15 @@ Future<void> _bootstrapFluxer(List<String> args) async {
     );
   }
 
-  FluxerObservability.instance.traceSync(
+  await FluxerObservability.instance.traceAsync(
     'app.startup.provider',
-    () => container.read(appStartupProvider),
+    () async {
+      try {
+        await container.read(appStartupProvider.future);
+      } on Object {
+        // Startup failed; still launch so splash can show retry.
+      }
+    },
   );
   FluxerObservability.instance.traceSync(
     'app.run',

@@ -1,5 +1,6 @@
+import 'dart:async' show unawaited;
+
 import 'package:flutter/foundation.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/router/shell_location_resolver.dart';
@@ -78,19 +79,16 @@ class RouteStateNotifier extends _$RouteStateNotifier {
   RouteState build() {
     final GoRouter router = ref.watch(fluxerRouterProvider);
     void listener() {
-      void applyRouteState() {
-        state = RouteState.fromRouter(router);
-      }
-
-      final SchedulerPhase phase = SchedulerBinding.instance.schedulerPhase;
-      if (phase == SchedulerPhase.idle ||
-          phase == SchedulerPhase.postFrameCallbacks) {
-        applyRouteState();
-        return;
-      }
-      SchedulerBinding.instance.scheduleFrameCallback((_) {
-        applyRouteState();
-      });
+      // GoRouter notifies from restoreState/didChangeDependencies while the
+      // tree is still mounting, and schedulerPhase can still be idle then.
+      unawaited(
+        Future<void>(() {
+          if (!ref.mounted) {
+            return;
+          }
+          state = RouteState.fromRouter(router);
+        }),
+      );
     }
 
     router.routerDelegate.addListener(listener);

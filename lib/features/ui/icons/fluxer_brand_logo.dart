@@ -5,14 +5,22 @@ import 'package:fluxer_app/core/theme/color_utils.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 
 class FluxerBrandLogo extends StatelessWidget {
-  const FluxerBrandLogo({required this.size, super.key});
+  const FluxerBrandLogo({
+    required this.size,
+    this.backgroundColor,
+    this.symbolColor,
+    super.key,
+  });
 
   final double size;
+  final Color? backgroundColor;
+  final Color? symbolColor;
 
   @override
   Widget build(BuildContext context) {
-    final brandColor = context.colors.brandPrimary;
-    final symbolColor = ColorUtils.bestContrastColor(brandColor.toARGB32());
+    final Color fill = backgroundColor ?? context.colors.brandPrimary;
+    final Color mark =
+        symbolColor ?? ColorUtils.bestContrastColor(fill.toARGB32());
     return SizedBox(
       width: size,
       height: size,
@@ -22,16 +30,13 @@ class FluxerBrandLogo extends StatelessWidget {
           Container(
             width: size,
             height: size,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: brandColor,
-            ),
+            decoration: BoxDecoration(shape: BoxShape.circle, color: fill),
           ),
           SvgPicture.asset(
             Assets.fluxerSymbol,
             width: size,
             height: size,
-            colorFilter: ColorFilter.mode(symbolColor, BlendMode.srcIn),
+            colorFilter: ColorFilter.mode(mark, BlendMode.srcIn),
           ),
         ],
       ),

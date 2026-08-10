@@ -186,6 +186,9 @@ void main() {
       expect(caps.showRemoveTimeout, isFalse);
       expect(caps.canTransfer, isTrue);
       expect(caps.canChangeNickname, isTrue);
+      expect(caps.showCommunityMute, isTrue);
+      expect(caps.showCommunityDeafen, isTrue);
+      expect(caps.showDisconnectFromVoice, isTrue);
     });
 
     test('timeout is suppressed when the target has administrator', () {

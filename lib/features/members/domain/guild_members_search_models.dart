@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
-import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
@@ -120,16 +119,12 @@ class GuildMemberDisplayData {
   }
 
   String? avatarUrlFor(String guildId) {
-    final String? guildAvatar = serverAvatar;
-    if (guildAvatar != null && guildAvatar.isNotEmpty) {
-      return FluxerMediaUrl.guildMemberMedia(
-        guildId: guildId,
-        userId: userId,
-        type: GuildMemberMediaType.avatar,
-        hash: guildAvatar,
-      );
-    }
-    return FluxerMediaUrl.userAvatar(userId: userId, hash: avatar);
+    return resolveGuildMemberAvatarUrl(
+      guildId: guildId,
+      userId: userId,
+      memberAvatar: serverAvatar,
+      userAvatarHash: avatar,
+    );
   }
 
   GuildMemberResponse toGuildMemberResponse() {

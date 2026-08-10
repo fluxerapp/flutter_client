@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/channel_settings_nav_page.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_unread_indicator.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/guild_sidebar.dart';
+import 'package:fluxer_app/features/channels/presentation/widgets/guild_sidebar_skeleton.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/channel_mute_provider.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
@@ -58,6 +59,30 @@ class _GuildSwitchTestHarness {
 }
 
 void main() {
+  group('GuildSidebar loading skeleton', () {
+    testWidgets('shows skeleton before initial channel list is received', (
+      tester,
+    ) async {
+      _setMobileSurface(tester);
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            channelListState: const ChannelListState(
+              guild: Guild(id: _guildId, name: 'Test Guild'),
+              categories: [],
+              selectedChannelId: null,
+              hasReceivedInitialChannelList: false,
+            ),
+          ),
+        ),
+      );
+      await _pumpSidebar(tester);
+
+      expect(find.byType(GuildSidebarSkeleton), findsOneWidget);
+      expect(find.text('general'), findsNothing);
+    });
+  });
+
   group('GuildSidebar collapsed category visibility', () {
     testWidgets('keeps the unread channel and hides the read one', (
       tester,
@@ -210,6 +235,7 @@ void main() {
                 ),
               ],
               selectedChannelId: null,
+              hasReceivedInitialChannelList: true,
             ),
             collapsed: const {kUncategorizedCategoryId},
             unread: const {'uncategorized': UnreadState()},
@@ -478,6 +504,7 @@ void main() {
           ),
         ],
         selectedChannelId: null,
+        hasReceivedInitialChannelList: true,
       );
       await tester.pumpWidget(
         _buildTestApp(
@@ -625,6 +652,7 @@ void main() {
                 ),
               ],
               selectedChannelId: 'c1',
+              hasReceivedInitialChannelList: true,
             ),
             selectedChannelId: 'c1',
             unread: unread,
@@ -681,6 +709,7 @@ void main() {
                   ),
                 ],
                 selectedChannelId: 'c10',
+                hasReceivedInitialChannelList: true,
               ),
               selectedChannelId: 'c10',
               unread: unread,
@@ -745,6 +774,7 @@ void main() {
             ),
           ],
           selectedChannelId: 'c1',
+          hasReceivedInitialChannelList: true,
         ),
         selectedChannelId: 'c1',
         unread: unread,
@@ -834,6 +864,7 @@ void main() {
           ),
         ],
         selectedChannelId: 'c1',
+        hasReceivedInitialChannelList: true,
       );
       final ChannelListState guildBState = ChannelListState(
         guild: const Guild(id: _otherGuildId, name: 'Other Guild'),
@@ -845,6 +876,7 @@ void main() {
           ),
         ],
         selectedChannelId: 'b1',
+        hasReceivedInitialChannelList: true,
       );
       harness.channelListState = guildAState;
       final List<Override> overrides = <Override>[
@@ -998,6 +1030,7 @@ ChannelListState _state({String? selectedChannelId}) => ChannelListState(
     ),
   ],
   selectedChannelId: selectedChannelId,
+  hasReceivedInitialChannelList: true,
 );
 
 ChannelListState _voiceChannelState() => const ChannelListState(
@@ -1018,11 +1051,13 @@ ChannelListState _voiceChannelState() => const ChannelListState(
     ),
   ],
   selectedChannelId: null,
+  hasReceivedInitialChannelList: true,
 );
 
 ChannelListState _mixedChannelState() => ChannelListState(
   guild: const Guild(id: _guildId, name: 'Test Guild'),
   selectedChannelId: null,
+  hasReceivedInitialChannelList: true,
   categories: [
     ChannelCategory(
       id: 'cat1',

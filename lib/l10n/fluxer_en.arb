@@ -6762,11 +6762,11 @@
     "@voiceParticipantMenuUnfocus": {
         "description": "Voice participant context menu item to return to grid layout."
     },
-    "voiceParticipantMenuCommunityMute": "Mute",
+    "voiceParticipantMenuCommunityMute": "Community mute",
     "@voiceParticipantMenuCommunityMute": {
         "description": "Voice participant context menu item to community-mute another member."
     },
-    "voiceParticipantMenuCommunityDeafen": "Deafen",
+    "voiceParticipantMenuCommunityDeafen": "Community deafen",
     "@voiceParticipantMenuCommunityDeafen": {
         "description": "Voice participant context menu item to community-deafen another member."
     },
@@ -7063,6 +7063,638 @@
     "privacyDashboardCommunicationSection": "Communication",
     "@privacyDashboardCommunicationSection": {
         "description": "Section title for communication privacy settings in the privacy dashboard."
+    },
+    "privacyDashboardProfilePrivacySection": "Profile privacy",
+    "@privacyDashboardProfilePrivacySection": {
+        "description": "Privacy section label for who can see the user profile details."
+    },
+    "privacyDashboardFriendsAndDirectMessagesSection": "Friends & direct messages",
+    "@privacyDashboardFriendsAndDirectMessagesSection": {
+        "description": "Privacy dashboard section label for who can send friend requests and direct messages."
+    },
+    "privacyDashboardActivitySharingSection": "Activity sharing",
+    "@privacyDashboardActivitySharingSection": {
+        "description": "Privacy section label for voice activity sharing."
+    },
+    "privacyDashboardSensitiveContentSection": "Sensitive content",
+    "@privacyDashboardSensitiveContentSection": {
+        "description": "Short label in the privacy dashboard."
+    },
+    "privacyDashboardDataExportSection": "Data export",
+    "@privacyDashboardDataExportSection": {
+        "description": "Short label in the privacy dashboard."
+    },
+    "privacyDashboardDataDeletionSection": "Data deletion",
+    "@privacyDashboardDataDeletionSection": {
+        "description": "Short label in the privacy dashboard."
+    },
+    "privacyDashboardProfilePrivacyTitle": "Who can see your full profile",
+    "@privacyDashboardProfilePrivacyTitle": {
+        "description": "Privacy > Profile privacy: section title."
+    },
+    "privacyDashboardProfilePrivacyAllCommunities": "Friends and all communities",
+    "@privacyDashboardProfilePrivacyAllCommunities": {
+        "description": "Privacy > Profile privacy: radio option label."
+    },
+    "privacyDashboardProfilePrivacyAllCommunitiesDesc": "Your full profile is visible to friends and to anyone in your communities",
+    "@privacyDashboardProfilePrivacyAllCommunitiesDesc": {
+        "description": "Privacy > Profile privacy: helper text."
+    },
+    "privacyDashboardProfilePrivacySmallCommunities": "Friends and small communities only",
+    "@privacyDashboardProfilePrivacySmallCommunities": {
+        "description": "Privacy > Profile privacy: radio option label."
+    },
+    "privacyDashboardProfilePrivacySmallCommunitiesDesc": "Your full profile is visible to friends and members of your communities with 200 or fewer members",
+    "@privacyDashboardProfilePrivacySmallCommunitiesDesc": {
+        "description": "Privacy > Profile privacy: helper text."
+    },
+    "privacyDashboardProfilePrivacyFriendsOnly": "Friends only",
+    "@privacyDashboardProfilePrivacyFriendsOnly": {
+        "description": "Privacy > Profile privacy: radio option label."
+    },
+    "privacyDashboardProfilePrivacyFriendsOnlyDesc": "Your full profile is only visible to your friends",
+    "@privacyDashboardProfilePrivacyFriendsOnlyDesc": {
+        "description": "Privacy > Profile privacy: helper text."
+    },
+    "privacyDashboardFriendRequestsTitle": "Friend requests",
+    "@privacyDashboardFriendRequestsTitle": {
+        "description": "Privacy dashboard friend requests subsection title."
+    },
+    "privacyDashboardFriendRequestsEveryone": "Everyone",
+    "@privacyDashboardFriendRequestsEveryone": {
+        "description": "Privacy dashboard friend request toggle label."
+    },
+    "privacyDashboardFriendRequestsEveryoneDesc": "Allow anyone to send you friend requests",
+    "@privacyDashboardFriendRequestsEveryoneDesc": {
+        "description": "Privacy dashboard friend request toggle description."
+    },
+    "privacyDashboardFriendRequestsFriendsOfFriends": "Friends of Friends",
+    "@privacyDashboardFriendRequestsFriendsOfFriends": {
+        "description": "Privacy dashboard friend request toggle label."
+    },
+    "privacyDashboardFriendRequestsFriendsOfFriendsDesc": "Allow friends of your friends to send you requests",
+    "@privacyDashboardFriendRequestsFriendsOfFriendsDesc": {
+        "description": "Privacy dashboard friend request toggle description."
+    },
+    "privacyDashboardFriendRequestsCommunityMembers": "Community Members",
+    "@privacyDashboardFriendRequestsCommunityMembers": {
+        "description": "Privacy dashboard friend request toggle label."
+    },
+    "privacyDashboardFriendRequestsCommunityMembersDesc": "Allow members from communities you're in to send you requests",
+    "@privacyDashboardFriendRequestsCommunityMembersDesc": {
+        "description": "Privacy dashboard friend request toggle description."
+    },
+    "privacyDashboardDirectMessagesTitle": "Direct messages",
+    "@privacyDashboardDirectMessagesTitle": {
+        "description": "Privacy dashboard direct messages subsection title."
+    },
+    "privacyDashboardDirectMessagesMembers": "Allow direct messages from community members",
+    "@privacyDashboardDirectMessagesMembers": {
+        "description": "Privacy dashboard DM toggle label."
+    },
+    "privacyDashboardDirectMessagesMembersDesc": "Allow members from communities you're in to send you direct messages",
+    "@privacyDashboardDirectMessagesMembersDesc": {
+        "description": "Privacy dashboard DM toggle description."
+    },
+    "privacyDashboardDirectMessagesBots": "Allow direct messages from community bots",
+    "@privacyDashboardDirectMessagesBots": {
+        "description": "Privacy dashboard bot DM toggle label."
+    },
+    "privacyDashboardDirectMessagesBotsDesc": "Allow bots from communities you're in to send you direct messages",
+    "@privacyDashboardDirectMessagesBotsDesc": {
+        "description": "Privacy dashboard bot DM toggle description."
+    },
+    "privacyDashboardConnectionsSectionDesc": "Control who can send you friend requests and direct messages",
+    "@privacyDashboardConnectionsSectionDesc": {
+        "description": "Privacy dashboard connections section description."
+    },
+    "privacyDashboardCommunicationSectionDesc": "Control who can call you and add you to group chats",
+    "@privacyDashboardCommunicationSectionDesc": {
+        "description": "Privacy dashboard communication section description."
+    },
+    "privacyDashboardIncomingCallsTitle": "Incoming calls",
+    "@privacyDashboardIncomingCallsTitle": {
+        "description": "Privacy dashboard incoming calls subsection title."
+    },
+    "privacyDashboardIncomingCallsDesc": "Control who can call you",
+    "@privacyDashboardIncomingCallsDesc": {
+        "description": "Privacy dashboard incoming calls subsection description."
+    },
+    "privacyDashboardAllowedCallers": "Allowed callers",
+    "@privacyDashboardAllowedCallers": {
+        "description": "Privacy > Communication: select label."
+    },
+    "privacyDashboardIncomingCallNobody": "Nobody",
+    "@privacyDashboardIncomingCallNobody": {
+        "description": "Privacy > Communication: radio option label."
+    },
+    "privacyDashboardIncomingCallNobodyDesc": "Block all incoming calls",
+    "@privacyDashboardIncomingCallNobodyDesc": {
+        "description": "Privacy > Communication: select option description."
+    },
+    "privacyDashboardIncomingCallFriendsOnly": "Friends Only",
+    "@privacyDashboardIncomingCallFriendsOnly": {
+        "description": "Privacy > Communication: radio option label."
+    },
+    "privacyDashboardIncomingCallFriendsOnlyDesc": "Only allow friends to call you (recommended)",
+    "@privacyDashboardIncomingCallFriendsOnlyDesc": {
+        "description": "Privacy > Communication: select option description."
+    },
+    "privacyDashboardIncomingCallCustom": "Friends + Custom",
+    "@privacyDashboardIncomingCallCustom": {
+        "description": "Privacy > Communication: radio option label."
+    },
+    "privacyDashboardIncomingCallCustomDesc": "Allow friends plus additional groups you choose",
+    "@privacyDashboardIncomingCallCustomDesc": {
+        "description": "Privacy > Communication: select option description."
+    },
+    "privacyDashboardIncomingCallEveryone": "Everyone",
+    "@privacyDashboardIncomingCallEveryone": {
+        "description": "Privacy > Communication: radio option label."
+    },
+    "privacyDashboardIncomingCallEveryoneDesc": "Allow anyone to call you, even strangers",
+    "@privacyDashboardIncomingCallEveryoneDesc": {
+        "description": "Privacy > Communication: select option description."
+    },
+    "privacyDashboardAdditionalGroups": "Additional Groups",
+    "@privacyDashboardAdditionalGroups": {
+        "description": "Privacy dashboard label for custom permission groups."
+    },
+    "privacyDashboardCallFriendsOfFriendsDesc": "People who are friends with your friends can call you",
+    "@privacyDashboardCallFriendsOfFriendsDesc": {
+        "description": "Privacy dashboard incoming call custom toggle description."
+    },
+    "privacyDashboardCallGuildMembersDesc": "People from communities you're both in can call you",
+    "@privacyDashboardCallGuildMembersDesc": {
+        "description": "Privacy dashboard incoming call custom toggle description."
+    },
+    "privacyDashboardRingBehavior": "Ring Behavior",
+    "@privacyDashboardRingBehavior": {
+        "description": "Privacy dashboard ring behavior subsection label."
+    },
+    "privacyDashboardSilentCalls": "Silent calls from everyone",
+    "@privacyDashboardSilentCalls": {
+        "description": "Privacy dashboard silent calls toggle label."
+    },
+    "privacyDashboardSilentCallsDesc": "All calls will notify silently instead of ringing. By default, calls from non-friends are always silent.",
+    "@privacyDashboardSilentCallsDesc": {
+        "description": "Privacy dashboard silent calls toggle description."
+    },
+    "privacyDashboardGroupDmTitle": "Who Can Add You to Group Chats",
+    "@privacyDashboardGroupDmTitle": {
+        "description": "Privacy dashboard group DM subsection title."
+    },
+    "privacyDashboardGroupDmDesc": "Control who can add you to group chats without asking. Anyone can still send you invite links to join.",
+    "@privacyDashboardGroupDmDesc": {
+        "description": "Privacy dashboard group DM subsection description."
+    },
+    "privacyDashboardAllowedInvites": "Allowed invites",
+    "@privacyDashboardAllowedInvites": {
+        "description": "Privacy > Communication: select label."
+    },
+    "privacyDashboardGroupDmNobodyDesc": "Don't let anyone add you to group chats without asking",
+    "@privacyDashboardGroupDmNobodyDesc": {
+        "description": "Privacy > Communication: select option description."
+    },
+    "privacyDashboardGroupDmFriendsOnlyDesc": "Only allow friends to add you without asking (recommended)",
+    "@privacyDashboardGroupDmFriendsOnlyDesc": {
+        "description": "Privacy > Communication: select option description."
+    },
+    "privacyDashboardGroupDmCustomDesc": "Allow friends plus additional groups to add you",
+    "@privacyDashboardGroupDmCustomDesc": {
+        "description": "Privacy > Communication: select option description."
+    },
+    "privacyDashboardGroupDmEveryoneDesc": "Allow anyone to add you to group chats without asking",
+    "@privacyDashboardGroupDmEveryoneDesc": {
+        "description": "Privacy > Communication: select option description."
+    },
+    "privacyDashboardGroupDmFriendsOfFriendsDesc": "People who are friends with your friends can add you to group chats",
+    "@privacyDashboardGroupDmFriendsOfFriendsDesc": {
+        "description": "Privacy dashboard group DM custom toggle description."
+    },
+    "privacyDashboardGroupDmGuildMembersDesc": "People from communities you're both in can add you to group chats",
+    "@privacyDashboardGroupDmGuildMembersDesc": {
+        "description": "Privacy dashboard group DM custom toggle description."
+    },
+    "privacyDashboardVoiceActivityTitle": "Voice activity on active now",
+    "@privacyDashboardVoiceActivityTitle": {
+        "description": "Privacy > Active now: settings subsection title."
+    },
+    "privacyDashboardShareVoiceActivity": "Share your voice activity with friends",
+    "@privacyDashboardShareVoiceActivity": {
+        "description": "Privacy > Active now: switch label."
+    },
+    "privacyDashboardVoiceActivityEnableTitle": "Share voice activity with all friends?",
+    "@privacyDashboardVoiceActivityEnableTitle": {
+        "description": "Privacy > Active now: confirmation modal title."
+    },
+    "privacyDashboardVoiceActivityDisableTitle": "Stop sharing voice activity with all friends?",
+    "@privacyDashboardVoiceActivityDisableTitle": {
+        "description": "Privacy > Active now: confirmation modal title."
+    },
+    "privacyDashboardVoiceActivityEnableDesc": "You're about to start sharing your voice activity with every friend you have, including future ones. This sends an update to all of them and can only be changed again in 24 hours.",
+    "@privacyDashboardVoiceActivityEnableDesc": {
+        "description": "Privacy > Active now: confirmation modal body."
+    },
+    "privacyDashboardVoiceActivityDisableDesc": "You're about to stop sharing your voice activity with every friend you have, including future ones. This sends an update to all of them and can only be changed again in 24 hours.",
+    "@privacyDashboardVoiceActivityDisableDesc": {
+        "description": "Privacy > Active now: confirmation modal body."
+    },
+    "privacyDashboardVoiceActivityEnableConfirm": "Yes, share with all friends",
+    "@privacyDashboardVoiceActivityEnableConfirm": {
+        "description": "Privacy > Active now: confirm button label."
+    },
+    "privacyDashboardVoiceActivityDisableConfirm": "Yes, stop sharing",
+    "@privacyDashboardVoiceActivityDisableConfirm": {
+        "description": "Privacy > Active now: confirm button label."
+    },
+    "privacyDashboardVoiceActivityCooldown": "Available again in {time}",
+    "@privacyDashboardVoiceActivityCooldown": {
+        "description": "Privacy > Active now: helper text under the disabled switch.",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "privacyDashboardVoiceActivityUpdated": "Voice activity sharing updated",
+    "@privacyDashboardVoiceActivityUpdated": {
+        "description": "Privacy > Active now: toast shown after a successful mass-update."
+    },
+    "privacyDashboardVoiceActivityUpdateFailed": "Couldn't update voice activity sharing right now",
+    "@privacyDashboardVoiceActivityUpdateFailed": {
+        "description": "Privacy > Active now: error message when the mass-update request fails."
+    },
+    "privacyDashboardDataExportDesc": "Build a downloadable archive of your account data, including messages and attachment URLs. Most people want everything, but you can narrow the scope below.",
+    "@privacyDashboardDataExportDesc": {
+        "description": "Description shown on the settings page above the Export my data button."
+    },
+    "privacyDashboardExportMyData": "Export my data",
+    "@privacyDashboardExportMyData": {
+        "description": "Privacy dashboard data export button label."
+    },
+    "privacyDashboardDataDeletionDesc": "Permanently remove messages you have sent across DMs, group DMs, and communities. The work runs in the background, and you will get a DM when it finishes.",
+    "@privacyDashboardDataDeletionDesc": {
+        "description": "Description shown on the settings page above the Delete my messages button."
+    },
+    "privacyDashboardDeleteMyMessages": "Delete my messages",
+    "@privacyDashboardDeleteMyMessages": {
+        "description": "Privacy dashboard data deletion button label."
+    },
+    "privacyDashboardDmConfirmAllowMembersTitle": "Allow direct messages from community members?",
+    "@privacyDashboardDmConfirmAllowMembersTitle": {
+        "description": "Confirmation prompt in the connections tab."
+    },
+    "privacyDashboardDmConfirmBlockMembersTitle": "Block direct messages from community members?",
+    "@privacyDashboardDmConfirmBlockMembersTitle": {
+        "description": "Confirmation prompt in the connections tab."
+    },
+    "privacyDashboardDmConfirmAllowBotsTitle": "Allow bots to send you direct messages?",
+    "@privacyDashboardDmConfirmAllowBotsTitle": {
+        "description": "Confirmation prompt in the connections tab."
+    },
+    "privacyDashboardDmConfirmBlockBotsTitle": "Block bots from sending you direct messages?",
+    "@privacyDashboardDmConfirmBlockBotsTitle": {
+        "description": "Confirmation prompt in the connections tab."
+    },
+    "privacyDashboardDmConfirmAllowMembersDesc": "Do you also want to allow direct messages from members of your existing communities?",
+    "@privacyDashboardDmConfirmAllowMembersDesc": {
+        "description": "Confirmation prompt in the connections tab."
+    },
+    "privacyDashboardDmConfirmBlockMembersDesc": "Do you also want to block direct messages from members of your existing communities?",
+    "@privacyDashboardDmConfirmBlockMembersDesc": {
+        "description": "Confirmation prompt in the connections tab."
+    },
+    "privacyDashboardDmConfirmAllowBotsDesc": "Do you also want to allow bots from your existing communities to send you direct messages?",
+    "@privacyDashboardDmConfirmAllowBotsDesc": {
+        "description": "Confirmation prompt in the connections tab."
+    },
+    "privacyDashboardDmConfirmBlockBotsDesc": "Do you also want to block bots from your existing communities?",
+    "@privacyDashboardDmConfirmBlockBotsDesc": {
+        "description": "Confirmation prompt in the connections tab."
+    },
+    "privacyDashboardDmConfirmPerCommunityHint": "You can also change this setting per-community by long-pressing the community name and selecting Privacy Settings.",
+    "@privacyDashboardDmConfirmPerCommunityHint": {
+        "description": "Confirmation prompt hint in the connections tab."
+    },
+    "privacyDashboardDmConfirmAllowAll": "Allow for all communities",
+    "@privacyDashboardDmConfirmAllowAll": {
+        "description": "Confirmation prompt primary action."
+    },
+    "privacyDashboardDmConfirmBlockAll": "Block for all communities",
+    "@privacyDashboardDmConfirmBlockAll": {
+        "description": "Confirmation prompt primary action."
+    },
+    "privacyDashboardDmConfirmSkip": "Skip this step",
+    "@privacyDashboardDmConfirmSkip": {
+        "description": "Confirmation prompt secondary action."
+    },
+    "privacyDashboardDataRequestGoBack": "Go back",
+    "@privacyDashboardDataRequestGoBack": {
+        "description": "Footer secondary button on data request steps after the first."
+    },
+    "privacyDashboardDataRequestExportTitle": "Export my data",
+    "@privacyDashboardDataRequestExportTitle": {
+        "description": "Privacy > Data export: modal title."
+    },
+    "privacyDashboardDataRequestDeleteTitle": "Delete my messages",
+    "@privacyDashboardDataRequestDeleteTitle": {
+        "description": "Privacy > Data deletion: modal title."
+    },
+    "privacyDashboardDataRequestExportSuccess": "We'll process this as soon as possible. You'll get an email when your archive is ready.",
+    "@privacyDashboardDataRequestExportSuccess": {
+        "description": "Success toast after a filtered data export job is queued."
+    },
+    "privacyDashboardDataRequestDeleteSuccess": "We'll process this as soon as possible. You'll get a DM from us when it's done.",
+    "@privacyDashboardDataRequestDeleteSuccess": {
+        "description": "Success toast after a bulk message deletion job is queued."
+    },
+    "privacyDashboardDataRequestScopeTitle": "What to include",
+    "@privacyDashboardDataRequestScopeTitle": {
+        "description": "Heading of the scope step in the data-request modal."
+    },
+    "privacyDashboardDataRequestExportEverything": "Everything",
+    "@privacyDashboardDataRequestExportEverything": {
+        "description": "Scope option that exports every message and metadata."
+    },
+    "privacyDashboardDataRequestExportEverythingDesc": "Export every message you have ever sent, plus all of your account settings, memberships, and metadata.",
+    "@privacyDashboardDataRequestExportEverythingDesc": {
+        "description": "Description for the Everything export option."
+    },
+    "privacyDashboardDataRequestExportCustom": "Custom selection",
+    "@privacyDashboardDataRequestExportCustom": {
+        "description": "Scope option that lets the user filter what to export."
+    },
+    "privacyDashboardDataRequestExportCustomDesc": "Choose which conversation kinds, communities, and time window to include in the archive.",
+    "@privacyDashboardDataRequestExportCustomDesc": {
+        "description": "Description for the Custom export option."
+    },
+    "privacyDashboardDataRequestDeleteSelected": "Choose what to include",
+    "@privacyDashboardDataRequestDeleteSelected": {
+        "description": "Scope option for message deletion."
+    },
+    "privacyDashboardDataRequestDeleteSelectedDesc": "Pick which kinds of conversations to clean up.",
+    "@privacyDashboardDataRequestDeleteSelectedDesc": {
+        "description": "Description for the Choose what to include scope option."
+    },
+    "privacyDashboardDataRequestDeleteInaccessible": "Only places I can't access anymore",
+    "@privacyDashboardDataRequestDeleteInaccessible": {
+        "description": "Scope option for inaccessible-only deletion."
+    },
+    "privacyDashboardDataRequestDeleteInaccessibleDesc": "Only delete messages from communities and group DMs you have left or been removed from.",
+    "@privacyDashboardDataRequestDeleteInaccessibleDesc": {
+        "description": "Description for the inaccessible-only scope option."
+    },
+    "privacyDashboardDataRequestKindsTitle": "Which conversations",
+    "@privacyDashboardDataRequestKindsTitle": {
+        "description": "Heading of the kinds step."
+    },
+    "privacyDashboardDataRequestKindsBody": "Toggle the kinds of conversations you want included.",
+    "@privacyDashboardDataRequestKindsBody": {
+        "description": "Subhead under the kinds step."
+    },
+    "privacyDashboardDataRequestKindDms": "Open DMs",
+    "@privacyDashboardDataRequestKindDms": {
+        "description": "Switch label for open direct messages."
+    },
+    "privacyDashboardDataRequestKindDmsClosed": "Closed DMs",
+    "@privacyDashboardDataRequestKindDmsClosed": {
+        "description": "Switch label for closed direct messages."
+    },
+    "privacyDashboardDataRequestKindGroupDms": "Group DMs",
+    "@privacyDashboardDataRequestKindGroupDms": {
+        "description": "Switch label for group DMs."
+    },
+    "privacyDashboardDataRequestKindCommunities": "Communities",
+    "@privacyDashboardDataRequestKindCommunities": {
+        "description": "Switch label for community channels."
+    },
+    "privacyDashboardDataRequestCommunitiesTitle": "Which communities",
+    "@privacyDashboardDataRequestCommunitiesTitle": {
+        "description": "Heading of the communities step."
+    },
+    "privacyDashboardDataRequestGuildFilterMode": "Community filter",
+    "@privacyDashboardDataRequestGuildFilterMode": {
+        "description": "Form label for the community filter mode dropdown."
+    },
+    "privacyDashboardDataRequestGuildFilterExclude": "Include all except selected",
+    "@privacyDashboardDataRequestGuildFilterExclude": {
+        "description": "Dropdown option for exclude mode."
+    },
+    "privacyDashboardDataRequestGuildFilterInclude": "Only the selected ones",
+    "@privacyDashboardDataRequestGuildFilterInclude": {
+        "description": "Dropdown option for include-only mode."
+    },
+    "privacyDashboardDataRequestCommunitiesEmpty": "You aren't in any communities right now.",
+    "@privacyDashboardDataRequestCommunitiesEmpty": {
+        "description": "Placeholder when the user has no communities to filter."
+    },
+    "privacyDashboardDataRequestWhenTitle": "Time range",
+    "@privacyDashboardDataRequestWhenTitle": {
+        "description": "Heading of the time-range step."
+    },
+    "privacyDashboardDataRequestDateMode": "Time range",
+    "@privacyDashboardDataRequestDateMode": {
+        "description": "Form label for the date range mode dropdown."
+    },
+    "privacyDashboardDataRequestAllTime": "All time",
+    "@privacyDashboardDataRequestAllTime": {
+        "description": "Dropdown option for all-time date range."
+    },
+    "privacyDashboardDataRequestCustomRange": "Custom range",
+    "@privacyDashboardDataRequestCustomRange": {
+        "description": "Dropdown option for custom date range."
+    },
+    "privacyDashboardDataRequestStartDate": "Start date",
+    "@privacyDashboardDataRequestStartDate": {
+        "description": "Label for the start of a date range."
+    },
+    "privacyDashboardDataRequestEndDate": "End date",
+    "@privacyDashboardDataRequestEndDate": {
+        "description": "Label for the end of a date range."
+    },
+    "privacyDashboardDataRequestDateHelper": "Leave either field blank to leave that end of the window unbounded.",
+    "@privacyDashboardDataRequestDateHelper": {
+        "description": "Helper text under the custom date range pickers."
+    },
+    "privacyDashboardDataRequestNeedInclusion": "Pick at least one kind of conversation to include.",
+    "@privacyDashboardDataRequestNeedInclusion": {
+        "description": "Validation error when all inclusion toggles are off."
+    },
+    "privacyDashboardDataRequestDateRangeError": "Start date must be earlier than end date.",
+    "@privacyDashboardDataRequestDateRangeError": {
+        "description": "Validation error for invalid date range."
+    },
+    "privacyDashboardDataRequestConfirmTitle": "Review and confirm",
+    "@privacyDashboardDataRequestConfirmTitle": {
+        "description": "Heading of the confirm step."
+    },
+    "privacyDashboardDataRequestExportConfirmEverything": "We'll build a downloadable archive of every message you have ever sent and email you when it's ready. The download link in that email expires after 7 days.",
+    "@privacyDashboardDataRequestExportConfirmEverything": {
+        "description": "Confirm-step copy when export scope is everything."
+    },
+    "privacyDashboardDataRequestExportConfirmCustom": "We'll build a downloadable archive that matches the filters below and email you when it's ready. The download link in that email expires after 7 days.",
+    "@privacyDashboardDataRequestExportConfirmCustom": {
+        "description": "Confirm-step copy when export scope is custom."
+    },
+    "privacyDashboardDataRequestDeleteConfirm": "Permanently delete the messages that match the filters below. This cannot be undone.",
+    "@privacyDashboardDataRequestDeleteConfirm": {
+        "description": "Confirm-step copy for message deletion."
+    },
+    "privacyDashboardDataRequestDeleteDanger": "There is no recovery once this starts. We will DM you when it finishes.",
+    "@privacyDashboardDataRequestDeleteDanger": {
+        "description": "Destructive notice on the confirm step of deletion."
+    },
+    "privacyDashboardDataRequestRequestExport": "Request export",
+    "@privacyDashboardDataRequestRequestExport": {
+        "description": "Footer submit button on export confirm step."
+    },
+    "privacyDashboardDataRequestDeleteMessages": "Delete messages",
+    "@privacyDashboardDataRequestDeleteMessages": {
+        "description": "Footer submit button on deletion confirm step."
+    },
+    "privacyDashboardDataRequestSummaryScope": "Scope",
+    "@privacyDashboardDataRequestSummaryScope": {
+        "description": "Summary row label for scope."
+    },
+    "privacyDashboardDataRequestSummaryConversations": "Conversations",
+    "@privacyDashboardDataRequestSummaryConversations": {
+        "description": "Summary row label for conversations."
+    },
+    "privacyDashboardDataRequestSummaryCommunities": "Communities",
+    "@privacyDashboardDataRequestSummaryCommunities": {
+        "description": "Summary row label for communities."
+    },
+    "privacyDashboardDataRequestSummaryTimeRange": "Time range",
+    "@privacyDashboardDataRequestSummaryTimeRange": {
+        "description": "Summary row label for time range."
+    },
+    "privacyDashboardDataRequestSummaryNone": "None",
+    "@privacyDashboardDataRequestSummaryNone": {
+        "description": "Summary value when nothing was selected."
+    },
+    "privacyDashboardDataRequestSummaryFrom": "From {start}",
+    "@privacyDashboardDataRequestSummaryFrom": {
+        "description": "Summary value when only a start date is set.",
+        "placeholders": {
+            "start": {
+                "type": "String"
+            }
+        }
+    },
+    "privacyDashboardDataRequestSummaryUntil": "Until {end}",
+    "@privacyDashboardDataRequestSummaryUntil": {
+        "description": "Summary value when only an end date is set.",
+        "placeholders": {
+            "end": {
+                "type": "String"
+            }
+        }
+    },
+    "privacyDashboardDataRequestSummaryBetween": "{start} – {end}",
+    "@privacyDashboardDataRequestSummaryBetween": {
+        "description": "Summary value when both dates are set.",
+        "placeholders": {
+            "start": {
+                "type": "String"
+            },
+            "end": {
+                "type": "String"
+            }
+        }
+    },
+    "privacyDashboardDataRequestSummaryGuildExclude": "All except {count, plural, one {# community} other {# communities}}",
+    "@privacyDashboardDataRequestSummaryGuildExclude": {
+        "description": "Summary value when community filter is in exclude mode.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "privacyDashboardDataRequestSummaryGuildInclude": "Only {count, plural, one {# community} other {# communities}}",
+    "@privacyDashboardDataRequestSummaryGuildInclude": {
+        "description": "Summary value when community filter is in include-only mode.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "privacyDashboardDataRequestSummaryDmsOpen": "Open direct messages",
+    "@privacyDashboardDataRequestSummaryDmsOpen": {
+        "description": "Summary chip for open DMs only."
+    },
+    "privacyDashboardDataRequestSummaryDmsClosed": "Closed direct messages",
+    "@privacyDashboardDataRequestSummaryDmsClosed": {
+        "description": "Summary chip for closed DMs only."
+    },
+    "privacyDashboardDataRequestSummaryDmsBoth": "Direct messages (open and closed)",
+    "@privacyDashboardDataRequestSummaryDmsBoth": {
+        "description": "Summary chip for open and closed DMs."
+    },
+    "privacyDashboardDataRequestSummaryGroupDms": "Group DMs",
+    "@privacyDashboardDataRequestSummaryGroupDms": {
+        "description": "Summary chip for group DMs."
+    },
+    "privacyDashboardDataRequestSummaryCommunitiesIncluded": "Communities",
+    "@privacyDashboardDataRequestSummaryCommunitiesIncluded": {
+        "description": "Summary chip for communities."
+    },
+    "privacyDashboardDurationHoursMinutes": "{hours, plural, one {# hour} other {# hours}} and {minutes, plural, one {# minute} other {# minutes}}",
+    "@privacyDashboardDurationHoursMinutes": {
+        "description": "Duration label with hours and minutes.",
+        "placeholders": {
+            "hours": {
+                "type": "int"
+            },
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "privacyDashboardDurationHours": "{hours, plural, one {# hour} other {# hours}}",
+    "@privacyDashboardDurationHours": {
+        "description": "Duration label with hours only.",
+        "placeholders": {
+            "hours": {
+                "type": "int"
+            }
+        }
+    },
+    "privacyDashboardDurationMinutes": "{minutes, plural, one {# minute} other {# minutes}}",
+    "@privacyDashboardDurationMinutes": {
+        "description": "Duration label with minutes only.",
+        "placeholders": {
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "privacyDashboardDurationSeconds": "{seconds, plural, one {# second} other {# seconds}}",
+    "@privacyDashboardDurationSeconds": {
+        "description": "Duration label with seconds only.",
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "privacyDashboardLoadFailed": "Failed to load privacy settings",
+    "@privacyDashboardLoadFailed": {
+        "description": "Error message when privacy settings fail to load."
+    },
+    "privacyDashboardRetry": "Retry",
+    "@privacyDashboardRetry": {
+        "description": "Retry button on privacy dashboard error state."
+    },
+    "privacyDashboardSensitiveContentSaveFailed": "Failed to save sensitive content settings.",
+    "@privacyDashboardSensitiveContentSaveFailed": {
+        "description": "Toast when sensitive content save fails."
+    },
+    "privacyDashboardDataRequestFailed": "Failed to complete request.",
+    "@privacyDashboardDataRequestFailed": {
+        "description": "Toast when a data export or deletion request fails."
     },
     "chatMessageDeleteFailed": "Delete Failed Message",
     "@chatMessageDeleteFailed": {

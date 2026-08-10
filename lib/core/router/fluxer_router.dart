@@ -1,9 +1,12 @@
+import 'dart:async' show unawaited;
+
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/observability/fluxer_route_trace_observer.dart';
 import 'package:fluxer_app/core/providers/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
+import 'package:fluxer_app/core/providers/splash_exit_allowed_provider.dart';
 import 'package:fluxer_app/core/router/channel_persistence_observer.dart';
 import 'package:fluxer_app/core/router/guild_root_redirect.dart';
 import 'package:fluxer_app/core/router/pre_reconnecting_location_provider.dart';
@@ -146,6 +149,7 @@ GoRouter fluxerRouter(Ref ref) {
       (_, _) => refreshNotifier.notify(),
     )
     ..listen(gatewayReadyProvider, (_, _) => refreshNotifier.notify())
+    ..listen(splashExitAllowedProvider, (_, _) => refreshNotifier.notify())
     ..listen(appStartupProvider, (_, _) => refreshNotifier.notify())
     ..listen(accountManagerProvider, (_, _) => refreshNotifier.notify())
     ..listen(
@@ -157,6 +161,12 @@ GoRouter fluxerRouter(Ref ref) {
     ref
         .read(shellHasPopupOverlayProvider.notifier)
         .setHasOverlay(value: hasOverlay);
+  }
+
+  void deferProviderWrite(void Function() write) {
+    // GoRouter redirect / restore can run during build. Provider writes must
+    // wait until after the current frame's synchronous work.
+    unawaited(Future<void>(write));
   }
 
   ShellPopupRouteObserver createShellPopupRouteObserver() {
@@ -194,7 +204,9 @@ GoRouter fluxerRouter(Ref ref) {
           ref.read(addAccountInstanceGuardProvider) != null;
 
       if (isAccountSwitching) {
-        ref.read(preReconnectingLocationProvider.notifier).clear();
+        deferProviderWrite(
+          () => ref.read(preReconnectingLocationProvider.notifier).clear(),
+        );
         return isOnLoading ? null : '/loading';
       }
 
@@ -207,9 +219,13 @@ GoRouter fluxerRouter(Ref ref) {
       final isOnReconnecting = location == '/reconnecting';
 
       if (isAuthenticated && isConnectionFailed && !isOnReconnecting) {
-        ref
-            .read(preReconnectingLocationProvider.notifier)
-            .remember(path: state.uri.path, query: state.uri.query);
+        final String path = state.uri.path;
+        final String query = state.uri.query;
+        deferProviderWrite(
+          () => ref
+              .read(preReconnectingLocationProvider.notifier)
+              .remember(path: path, query: query),
+        );
         return '/reconnecting';
       }
 
@@ -219,9 +235,13 @@ GoRouter fluxerRouter(Ref ref) {
           !isOnReconnecting &&
           !isAddingAccount) {
         if (!isOnLoading) {
-          ref
-              .read(preReconnectingLocationProvider.notifier)
-              .remember(path: state.uri.path, query: state.uri.query);
+          final String path = state.uri.path;
+          final String query = state.uri.query;
+          deferProviderWrite(
+            () => ref
+                .read(preReconnectingLocationProvider.notifier)
+                .remember(path: path, query: query),
+          );
         }
         return isOnLoading ? null : '/loading';
       }
@@ -230,13 +250,18 @@ GoRouter fluxerRouter(Ref ref) {
         if (!isAuthenticated) {
           return '/login';
         }
+        if (!ref.read(splashExitAllowedProvider)) {
+          return null;
+        }
         return ref
             .read(preReconnectingLocationProvider.notifier)
             .takeOrRestore(ref.read(fluxerDatabaseProvider));
       }
 
       if (!isAuthenticated) {
-        ref.read(preReconnectingLocationProvider.notifier).clear();
+        deferProviderWrite(
+          () => ref.read(preReconnectingLocationProvider.notifier).clear(),
+        );
       }
       if (!isAuthenticated && !isLoggingIn) {
         return '/login';
@@ -259,7 +284,12 @@ GoRouter fluxerRouter(Ref ref) {
       // Auth / startup routes
       GoRoute(
         path: '/loading',
-        builder: (context, state) => const SplashScreen(),
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          return shellInstantTransitionPage(
+            key: state.pageKey,
+            child: const SplashScreen(),
+          );
+        },
       ),
       GoRoute(
         path: '/login',

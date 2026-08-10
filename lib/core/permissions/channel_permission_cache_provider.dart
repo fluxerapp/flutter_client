@@ -82,14 +82,42 @@ class ChannelPermissionCache extends _$ChannelPermissionCache {
   }
 
   Future<void> rebuildAll() async {
+    await rebuildAfterReady();
+  }
+
+  Future<void> rebuildAfterReady({String? priorityGuildId}) async {
     final db = ref.read(fluxerDatabaseProvider);
     final channels = await db.channelDao.getAllChannels();
     if (!ref.mounted) {
       return;
     }
+
+    final Map<String, List<String>> channelIdsByGuild =
+        <String, List<String>>{};
     for (final channel in channels) {
-      if (channel.guildId.isNotEmpty) {
-        await rebuildChannel(channel.id);
+      if (channel.guildId.isEmpty) {
+        continue;
+      }
+      channelIdsByGuild
+          .putIfAbsent(channel.guildId, () => <String>[])
+          .add(channel.id);
+    }
+
+    final List<String> guildIds = channelIdsByGuild.keys.toList();
+    if (priorityGuildId != null &&
+        channelIdsByGuild.containsKey(priorityGuildId)) {
+      guildIds
+        ..remove(priorityGuildId)
+        ..insert(0, priorityGuildId);
+    }
+
+    for (final String guildId in guildIds) {
+      for (final String channelId in channelIdsByGuild[guildId]!) {
+        if (!ref.mounted) {
+          return;
+        }
+        await rebuildChannel(channelId);
+        await Future<void>.delayed(Duration.zero);
       }
     }
   }

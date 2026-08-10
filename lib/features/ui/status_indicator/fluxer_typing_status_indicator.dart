@@ -6,6 +6,13 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 const double _kDotSizeRatio = 0.25;
 const double _kDotGapRatio = 0.12;
+const int _kDotCount = 3;
+const List<double> _kDotDelays = <double>[0, 0.25, 0.5];
+
+double typingDotOpacity(double progress, double delay) {
+  final double phase = (progress + delay) % 1;
+  return phase < 0.5 ? 1 : 0;
+}
 
 Color resolveStatusColor(BuildContext context, String status) {
   final colors = context.colors;
@@ -101,35 +108,18 @@ class _FluxerTypingStatusIndicatorState
               borderRadius: BorderRadius.circular(widget.height / 2),
               border: Border.all(color: border, width: borderWidth),
             ),
-            child: Center(
-              child: AnimatedBuilder(
-                animation: _controller,
-                builder: (BuildContext context, Widget? child) {
-                  return Row(
-                    mainAxisSize: MainAxisSize.min,
-                    textDirection: TextDirection.ltr,
-                    children: <Widget>[
-                      _TypingDot(
-                        animation: _controller,
-                        delay: 0,
-                        size: dotSize,
-                      ),
-                      SizedBox(width: dotGap),
-                      _TypingDot(
-                        animation: _controller,
-                        delay: 0.25,
-                        size: dotSize,
-                      ),
-                      SizedBox(width: dotGap),
-                      _TypingDot(
-                        animation: _controller,
-                        delay: 0.5,
-                        size: dotSize,
-                      ),
-                    ],
-                  );
-                },
-              ),
+            child: AnimatedBuilder(
+              animation: _controller,
+              builder: (BuildContext context, Widget? child) {
+                return CustomPaint(
+                  painter: _TypingDotsPainter(
+                    progress: _controller.value,
+                    dotSize: dotSize,
+                    dotGap: dotGap,
+                    delays: _kDotDelays,
+                  ),
+                );
+              },
             ),
           ),
         ),
@@ -138,31 +128,39 @@ class _FluxerTypingStatusIndicatorState
   }
 }
 
-class _TypingDot extends StatelessWidget {
-  const _TypingDot({
-    required this.animation,
-    required this.delay,
-    required this.size,
+class _TypingDotsPainter extends CustomPainter {
+  const _TypingDotsPainter({
+    required this.progress,
+    required this.dotSize,
+    required this.dotGap,
+    required this.delays,
   });
 
-  final Animation<double> animation;
-  final double delay;
-  final double size;
+  final double progress;
+  final double dotSize;
+  final double dotGap;
+  final List<double> delays;
 
   @override
-  Widget build(BuildContext context) {
-    final double phase = (animation.value + delay) % 1;
-    final double opacity = phase < 0.5 ? 1 : 0;
-    return Opacity(
-      opacity: opacity,
-      child: DecoratedBox(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          shape: BoxShape.circle,
-        ),
-        child: SizedBox(width: size, height: size),
-      ),
-    );
+  void paint(Canvas canvas, Size size) {
+    final double totalWidth = _kDotCount * dotSize + (_kDotCount - 1) * dotGap;
+    double x = (size.width - totalWidth) / 2;
+    final double y = size.height / 2;
+    final Paint paint = Paint();
+    for (int index = 0; index < _kDotCount; index++) {
+      final double opacity = typingDotOpacity(progress, delays[index]);
+      paint.color = Colors.white.withValues(alpha: opacity);
+      final double radius = dotSize / 2;
+      canvas.drawCircle(Offset(x + dotSize / 2, y), radius, paint);
+      x += dotSize + dotGap;
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _TypingDotsPainter oldDelegate) {
+    return oldDelegate.progress != progress ||
+        oldDelegate.dotSize != dotSize ||
+        oldDelegate.dotGap != dotGap;
   }
 }
 

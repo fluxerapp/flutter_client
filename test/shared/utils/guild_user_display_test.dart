@@ -215,6 +215,65 @@ void main() {
     });
   });
 
+  group('resolveGuildMemberAvatarUrl', () {
+    test('uses guild member media url when server avatar is set', () {
+      final String? actual = resolveGuildMemberAvatarUrl(
+        guildId: '10',
+        userId: '1',
+        memberAvatar: 'guild_avatar',
+        userAvatarHash: 'user_avatar',
+      );
+      expect(
+        actual,
+        FluxerMediaUrl.guildMemberMedia(
+          guildId: '10',
+          userId: '1',
+          type: GuildMemberMediaType.avatar,
+          hash: 'guild_avatar',
+        ),
+      );
+    });
+
+    test('avatar unset forces null avatar url', () {
+      expect(
+        resolveGuildMemberAvatarUrl(
+          guildId: '10',
+          userId: '1',
+          memberAvatar: 'guild_avatar',
+          userAvatarHash: 'user_avatar',
+          avatarUnset: true,
+        ),
+        isNull,
+      );
+    });
+  });
+
+  group('resolveGuildMemberResponseAvatarUrl', () {
+    test('uses guild member media url when server avatar is set', () {
+      final String? actual = resolveGuildMemberResponseAvatarUrl(
+        guildId: '10',
+        member: _guildMember(avatar: 'guild_avatar'),
+      );
+      expect(
+        actual,
+        FluxerMediaUrl.guildMemberMedia(
+          guildId: '10',
+          userId: '1',
+          type: GuildMemberMediaType.avatar,
+          hash: 'guild_avatar',
+        ),
+      );
+    });
+
+    test('avatar unset forces null avatar url', () {
+      final String? actual = resolveGuildMemberResponseAvatarUrl(
+        guildId: '10',
+        member: _guildMember(profileFlags: guildProfileAvatarUnsetFlag),
+      );
+      expect(actual, isNull);
+    });
+  });
+
   group('resolveGuildUserDisplayFromMessage', () {
     test('can force animated avatar hashes to static urls', () {
       final GuildUserDisplay actual = resolveGuildUserDisplayFromMessage(

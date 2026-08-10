@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_menu_data.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
@@ -46,6 +47,33 @@ class _DisconnectedVoiceSession extends VoiceSession {
   VoiceSessionState build() => const VoiceSessionState();
 }
 
+const ProfileMenuCapabilities _fullVoiceModeration = ProfileMenuCapabilities(
+  canChangeNickname: false,
+  canTransfer: false,
+  showTimeout: false,
+  showRemoveTimeout: false,
+  canKick: false,
+  canBan: false,
+  showManageRoles: false,
+  showCommunityMute: true,
+  showCommunityDeafen: true,
+  showDisconnectFromVoice: true,
+);
+
+const ProfileMenuCapabilities _muteOnlyVoiceModeration =
+    ProfileMenuCapabilities(
+      canChangeNickname: false,
+      canTransfer: false,
+      showTimeout: false,
+      showRemoveTimeout: false,
+      canKick: false,
+      canBan: false,
+      showManageRoles: false,
+      showCommunityMute: true,
+      showCommunityDeafen: true,
+      showDisconnectFromVoice: false,
+    );
+
 void main() {
   testWidgets('shows moderation when viewer is not in voice', (
     WidgetTester tester,
@@ -64,11 +92,7 @@ void main() {
               ref: ref,
               target: _target(),
               voice: _target().participant.voice,
-              moderation: const ModerationAccess(
-                canManageTarget: true,
-                canMuteMembers: true,
-                canMoveMembers: true,
-              ),
+              guildCapabilities: _fullVoiceModeration,
             );
             return const SizedBox.shrink();
           },
@@ -106,11 +130,7 @@ void main() {
               ref: ref,
               target: _target(),
               voice: watchTargetVoiceState(ref, _target()),
-              moderation: const ModerationAccess(
-                canManageTarget: true,
-                canMuteMembers: true,
-                canMoveMembers: false,
-              ),
+              guildCapabilities: _muteOnlyVoiceModeration,
             );
             return const SizedBox.shrink();
           },
@@ -133,11 +153,7 @@ void main() {
               ref: ref,
               target: _target(),
               voice: watchTargetVoiceState(ref, _target()),
-              moderation: const ModerationAccess(
-                canManageTarget: true,
-                canMuteMembers: true,
-                canMoveMembers: false,
-              ),
+              guildCapabilities: _muteOnlyVoiceModeration,
             );
             return const SizedBox.shrink();
           },

@@ -30,7 +30,7 @@ import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.da
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
-import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
+import 'package:fluxer_app/features/shell/navigation/shell_back_handler.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_back_resolver.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
@@ -82,7 +82,12 @@ class ChannelHeader extends ConsumerWidget {
       currentUserId: currentUserId,
     );
     final bool isMemberListVisible = ref.watch(
-      channelListViewModelProvider.select((s) => s.isMemberListVisible),
+      channelListViewModelProvider.select(
+        (ChannelListState state) => state.isMemberListToggleActive(
+          channelId: channelId,
+          channelType: channel?.type,
+        ),
+      ),
     );
     final bool highContrast = _resolveHighContrast(
       ref,
@@ -255,7 +260,7 @@ class ChannelHeader extends ConsumerWidget {
         children: [
           ChatBackButton(
             unreadCount: backButtonUnreadCount,
-            onPressed: () => _handleMobileBack(ref),
+            onPressed: () => _handleMobileBack(context, ref),
           ),
           Expanded(
             child: Semantics(
@@ -594,27 +599,18 @@ class ChannelHeader extends ConsumerWidget {
     );
   }
 
-  void _handleMobileBack(WidgetRef ref) {
-    FocusManager.instance.primaryFocus?.unfocus();
-    final String shellLocation = ref.read(shellLocationProvider);
-    final ShellBackAction action = resolveShellBackAction(
-      hasPopupOverlay: false,
-      hasManualGestureBlock: false,
-      hasExpressionPanelOpen: false,
-      revealSide: ref.read(currentRevealSideProvider),
-      shellLocation: shellLocation,
+  void _handleMobileBack(BuildContext context, WidgetRef ref) {
+    applyShellBackAction(
+      context: context,
+      container: ref.container,
+      action: resolveShellBackAction(
+        hasPopupOverlay: false,
+        hasManualGestureBlock: false,
+        hasExpressionPanelOpen: false,
+        revealSide: ref.read(currentRevealSideProvider),
+        shellLocation: ref.read(shellLocationProvider),
+      ),
     );
-    switch (action) {
-      case ShellBackAction.revealDrawer:
-        DrawerNavigationCoordinator.revealDrawer(ref.container);
-      case ShellBackAction.closeDrawer:
-        DrawerNavigationCoordinator.closeDrawer(ref.container);
-      case ShellBackAction.popOverlay:
-      case ShellBackAction.closePanel:
-      case ShellBackAction.blockManualGesture:
-      case ShellBackAction.noop:
-        break;
-    }
   }
 
   bool _resolveHighContrast(

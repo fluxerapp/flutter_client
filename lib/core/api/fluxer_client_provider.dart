@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/api/captcha_dialog.dart';
 import 'package:fluxer_app/core/api/captcha_interceptor.dart';
 import 'package:fluxer_app/core/api/fluxer_client_properties.dart';
+import 'package:fluxer_app/core/api/fluxer_api_features.dart';
 import 'package:fluxer_app/core/api/retry_interceptor.dart';
 import 'package:fluxer_app/core/api/session_auth_interceptor.dart';
 import 'package:fluxer_app/core/api/skip_auth_interceptor.dart';
@@ -56,6 +57,7 @@ Dio _buildFluxerDio({required Ref ref, required String baseUrl}) {
       headers: <String, dynamic>{
         'User-Agent': userAgent,
         'X-Fluxer-Client-Properties': clientPropertiesHeader,
+        fluxerApiFeaturesHeaderName: buildFluxerApiFeaturesHeaderValue(),
       },
     ),
   );

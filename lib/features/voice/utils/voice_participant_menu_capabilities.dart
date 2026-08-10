@@ -1,14 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/permissions/permission.dart';
-import 'package:fluxer_app/core/permissions/permission_resolver.dart';
-import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
-import 'package:fluxer_app/features/guilds/domain/guild.dart';
-import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
-import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
@@ -107,7 +99,7 @@ VoiceParticipantMenuCapabilities buildVoiceParticipantMenuCapabilities({
   required WidgetRef ref,
   required VoiceParticipantMenuTarget target,
   required VoiceState voice,
-  ModerationAccess? moderation,
+  ProfileMenuCapabilities guildCapabilities = ProfileMenuCapabilities.none,
 }) {
   final String? currentUserId = ref.watch(currentUserIdProvider);
   final String userId = target.participant.userId;
@@ -125,27 +117,12 @@ VoiceParticipantMenuCapabilities buildVoiceParticipantMenuCapabilities({
   );
   final bool isCommunityMuted = voice.mute || voice.suppress;
   final bool isCommunityDeafened = voice.deaf;
-  bool showCommunityMute = false;
-  bool showCommunityDeafen = false;
-  bool showDisconnect = false;
-  if (!isCurrentUser && target.guildId != null && currentUserId != null) {
-    final ModerationAccess access =
-        moderation ??
-        const ModerationAccess(
-          canManageTarget: false,
-          canMuteMembers: false,
-          canMoveMembers: false,
-        );
-    if (access.canManageTarget) {
-      if (access.canMuteMembers) {
-        showCommunityMute = true;
-        showCommunityDeafen = true;
-      }
-      if (access.canMoveMembers) {
-        showDisconnect = true;
-      }
-    }
-  }
+  final bool showCommunityMute =
+      target.guildId != null && guildCapabilities.showCommunityMute;
+  final bool showCommunityDeafen =
+      target.guildId != null && guildCapabilities.showCommunityDeafen;
+  final bool showModeratorDisconnect =
+      target.guildId != null && guildCapabilities.showDisconnectFromVoice;
   final bool showSelfMute = isCurrentUser && isViewerInVoice;
   final bool showSelfDeafen = isCurrentUser && isViewerInVoice;
   final bool showSelfDisconnect = isCurrentUser && isViewerInVoice;
@@ -202,7 +179,7 @@ VoiceParticipantMenuCapabilities buildVoiceParticipantMenuCapabilities({
     showSelfDeafen: showSelfDeafen,
     showCommunityMute: showCommunityMute,
     showCommunityDeafen: showCommunityDeafen,
-    showDisconnect: showSelfDisconnect || showDisconnect,
+    showDisconnect: showSelfDisconnect || showModeratorDisconnect,
     isSelfMuted: selfAudio.selfMute,
     isSelfDeafened: selfAudio.selfDeaf,
     isCommunityMuted: isCommunityMuted,
@@ -213,31 +190,6 @@ VoiceParticipantMenuCapabilities buildVoiceParticipantMenuCapabilities({
     streamVolumePercent: streamVolumePercent,
     isStreamMuted: isStreamMuted,
     streamKey: streamKey,
-  );
-}
-
-Future<VoiceParticipantMenuCapabilities>
-resolveVoiceParticipantMenuCapabilities({
-  required WidgetRef ref,
-  required VoiceParticipantMenuTarget target,
-}) async {
-  final String? currentUserId = ref.read(currentUserIdProvider);
-  ModerationAccess? moderation;
-  if (target.guildId != null &&
-      currentUserId != null &&
-      currentUserId != target.participant.userId) {
-    moderation = await resolveModerationAccess(
-      ref: ref,
-      guildId: target.guildId!,
-      currentUserId: currentUserId,
-      targetUserId: target.participant.userId,
-    );
-  }
-  return buildVoiceParticipantMenuCapabilities(
-    ref: ref,
-    target: target,
-    voice: target.participant.voice,
-    moderation: moderation,
   );
 }
 
@@ -293,110 +245,4 @@ bool _isOwnCurrentDeviceTile({
   return isCurrentUser &&
       localConnectionId != null &&
       participantConnectionId == localConnectionId;
-}
-
-class ModerationAccess {
-  const ModerationAccess({
-    required this.canManageTarget,
-    required this.canMuteMembers,
-    required this.canMoveMembers,
-  });
-
-  final bool canManageTarget;
-  final bool canMuteMembers;
-  final bool canMoveMembers;
-}
-
-Future<ModerationAccess> resolveModerationAccess({
-  required WidgetRef ref,
-  required String guildId,
-  required String currentUserId,
-  required String targetUserId,
-}) async {
-  final db = ref.read(fluxerDatabaseProvider);
-  final List<Guild> guilds = ref.read(guildListViewModelProvider).guilds;
-  Guild? guild;
-  for (final Guild g in guilds) {
-    if (g.id == guildId) {
-      guild = g;
-      break;
-    }
-  }
-  if (guild == null) {
-    return const ModerationAccess(
-      canManageTarget: false,
-      canMuteMembers: false,
-      canMoveMembers: false,
-    );
-  }
-  final String? ownerId = guild.ownerId;
-  final bool targetIsOwner = ownerId != null && ownerId == targetUserId;
-  final allRoles = await db.roleDao.getRoles(guildId);
-  final roleById = {
-    for (final role in allRoles) role.id: MemberRole.fromRow(role),
-  };
-  final everyoneRole = roleById[guildId];
-  final int everyonePermissions = everyoneRole?.permissions ?? 0;
-  final viewerMember = await db.memberDao.getMemberByUserId(
-    currentUserId,
-    guildId,
-  );
-  final targetMember = await db.memberDao.getMemberByUserId(
-    targetUserId,
-    guildId,
-  );
-  if (viewerMember == null) {
-    return const ModerationAccess(
-      canManageTarget: false,
-      canMuteMembers: false,
-      canMoveMembers: false,
-    );
-  }
-  final List<MemberRole> viewerRoles = _memberRoles(
-    viewerMember.roleIdsJson,
-    roleById,
-    guildId,
-  );
-  final List<MemberRole> targetRoles = targetMember == null
-      ? const <MemberRole>[]
-      : _memberRoles(targetMember.roleIdsJson, roleById, guildId);
-  final int viewerPermissions = ownerId == currentUserId
-      ? allPermissions
-      : resolveGuildPermissions(
-          guildOwnerId: ownerId ?? '',
-          currentUserId: currentUserId,
-          everyonePermissions: everyonePermissions,
-          memberRoles: viewerRoles,
-        );
-  final bool managesTarget = canManageTarget(
-    currentUserId: currentUserId,
-    ownerId: ownerId,
-    viewerHighest: highestRole(viewerRoles),
-    targetHighest: highestRole(targetRoles),
-    targetIsOwner: targetIsOwner,
-  );
-  return ModerationAccess(
-    canManageTarget: managesTarget,
-    canMuteMembers:
-        managesTarget &&
-        hasPermission(viewerPermissions, Permission.muteMembers),
-    canMoveMembers:
-        managesTarget &&
-        hasPermission(viewerPermissions, Permission.moveMembers),
-  );
-}
-
-List<MemberRole> _memberRoles(
-  String roleIdsJson,
-  Map<String, MemberRole> roleById,
-  String guildId,
-) {
-  final List<String> roleIds = roleIdsJson.isNotEmpty
-      ? List<String>.from(jsonDecode(roleIdsJson) as List<dynamic>)
-      : <String>[];
-  return roleIds
-      .where((String id) => id != guildId)
-      .map((String id) => roleById[id])
-      .whereType<MemberRole>()
-      .toList(growable: false);
 }

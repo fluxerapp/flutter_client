@@ -35,12 +35,34 @@ class DmRepository {
     var latestRows = <db.DmChannel>[];
     var disposed = false;
     var dmReadStateSnapshot = <String, db.ReadState>{};
+    var didLightEmit = false;
 
     Future<void> recompute([List<db.DmChannel>? rows]) async {
       if (disposed) {
         return;
       }
       latestRows = rows ?? await _db.dmChannelDao.getDmChannels();
+      if (!didLightEmit) {
+        didLightEmit = true;
+        final lightConversations = await _buildConversations(
+          latestRows,
+          includeLastMessages: false,
+        );
+        if (!disposed) {
+          controller.add(lightConversations);
+        }
+        final bool needsEnrichment = latestRows.any(
+          (db.DmChannel row) =>
+              row.lastMessageId != null && row.lastMessageId!.isNotEmpty,
+        );
+        if (needsEnrichment) {
+          final enriched = await _buildConversations(latestRows);
+          if (!disposed) {
+            controller.add(enriched);
+          }
+        }
+        return;
+      }
       final conversations = await _buildConversations(latestRows);
       if (!disposed) {
         controller.add(conversations);
@@ -79,12 +101,15 @@ class DmRepository {
   }
 
   Future<List<DmConversation>> _buildConversations(
-    List<db.DmChannel> rows,
-  ) async {
+    List<db.DmChannel> rows, {
+    bool includeLastMessages = true,
+  }) async {
     final channelIds = rows.map((r) => r.id).toList();
-    final lastMessages = await _db.messageDao.getLastMessageForChannels(
-      channelIds,
-    );
+    final Map<String, db.Message> lastMessagesForUnread = await _db.messageDao
+        .getLastMessageForChannels(channelIds);
+    final Map<String, db.Message> lastMessages = includeLastMessages
+        ? lastMessagesForUnread
+        : const <String, db.Message>{};
     final readStates = channelIds.isEmpty
         ? <db.ReadState>[]
         : await _db.readStateDao.watchReadStatesForChannels(channelIds).first;
@@ -111,13 +136,15 @@ class DmRepository {
 
     return rows.map((row) {
       final lastMsg = lastMessages[row.id];
+      final lastMsgForUnread = lastMessagesForUnread[row.id];
       final readState = readStateMap[row.id];
       final latestMessageId = resolveLatestMessageIdForUnread(
-        strictLatestMessageId: lastMsg?.id,
+        strictLatestMessageId: lastMsgForUnread?.id,
         channelLastMessageId: row.lastMessageId,
         ackLastMessageId: readState?.lastMessageId,
         mentionCount: readState?.mentionCount ?? 0,
-        channelLastMessageExistsInCache: lastMsg?.id == row.lastMessageId,
+        channelLastMessageExistsInCache:
+            lastMsgForUnread?.id == row.lastMessageId,
       );
       final recipientIds = parseDmChannelRecipientIds(row.recipientIds);
       final isGroup = isDmGroupType(row.type);

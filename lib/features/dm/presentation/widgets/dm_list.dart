@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -25,6 +24,7 @@ import 'package:fluxer_app/features/dm/presentation/create_dm_flow.dart';
 import 'package:fluxer_app/features/dm/presentation/edit_group_dm_flow.dart';
 import 'package:fluxer_app/features/dm/presentation/group_dm_invites_flow.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_list_message_preview_row.dart';
+import 'package:fluxer_app/features/dm/presentation/widgets/dm_list_skeleton.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
 import 'package:fluxer_app/features/dm/providers/dm_list_presence_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_list_scroll_store_provider.dart';
@@ -234,6 +234,11 @@ class _DMListState extends ConsumerState<DMList> {
       sortedDmConversationsProvider,
     );
     final String? selectedId = ref.watch(activeChannelIdProvider);
+    final bool hasReceivedInitialConversations = ref.watch(
+      dmViewModelProvider.select(
+        (DmViewState state) => state.hasReceivedInitialConversations,
+      ),
+    );
 
     final isMobile = isMobileLayout(context);
     final pinnedIds = ref.watch(pinnedDmChannelIdsProvider).value ?? {};
@@ -317,14 +322,16 @@ class _DMListState extends ConsumerState<DMList> {
                 _buildDmHeader(context),
               ],
               Expanded(
-                child: _buildConvoList(
-                  context,
-                  visibleConvos,
-                  selectedId,
-                  isMobile: isMobile,
-                  pinnedIds: pinnedIds,
-                  mutedIds: mutedIds,
-                ),
+                child: hasReceivedInitialConversations
+                    ? _buildConvoList(
+                        context,
+                        visibleConvos,
+                        selectedId,
+                        isMobile: isMobile,
+                        pinnedIds: pinnedIds,
+                        mutedIds: mutedIds,
+                      )
+                    : const DmListSkeleton(),
               ),
             ],
           ),
@@ -1014,10 +1021,23 @@ class _DMListState extends ConsumerState<DMList> {
     if (!mounted || !context.mounted) {
       return;
     }
-    final result = await FluxerBottomSheet.show<Object>(
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String? currentUserId = ref.read(currentUserIdProvider);
+    final String displayName = convo.displayNameWith(
+      convo.isGroup ? null : rel?.nickname,
+      l10n: l10n,
+      currentUserId: currentUserId,
+    );
+    final result = await FluxerBottomSheet.showScrollable<Object>(
       context,
-      builder: (context, _) => _DmBottomSheet(
+      title: displayName,
+      leading: _DmContextMenuLeading(convo: convo, displayName: displayName),
+      subtitle: convo.isGroup ? _DmContextMenuSubtitle(convo: convo) : null,
+      initialChildSize: convo.isGroup ? 0.45 : 0.7,
+      maxChildSize: 0.85,
+      builder: (sheetContext, scrollController, _) => _DmBottomSheet(
         convo: convo,
+        scrollController: scrollController,
         isMuted: isMuted,
         isPinned: isPinned,
         isFavorite: isFavorite,
@@ -1508,6 +1528,7 @@ class _InviteToGuildAction {
 
 class _DmBottomSheet extends ConsumerWidget {
   final DmConversation convo;
+  final ScrollController scrollController;
   final bool isMuted;
   final bool isPinned;
   final bool isFavorite;
@@ -1517,6 +1538,7 @@ class _DmBottomSheet extends ConsumerWidget {
 
   const _DmBottomSheet({
     required this.convo,
+    required this.scrollController,
     required this.isMuted,
     required this.isPinned,
     required this.isFavorite,
@@ -1530,13 +1552,6 @@ class _DmBottomSheet extends ConsumerWidget {
     final layout = context.layout;
     final l10n = FluxerLocalizations.of(context);
     final hasUnread = convo.unreadCount > 0;
-    final String displayName = convo.displayNameWith(
-      convo.isGroup
-          ? null
-          : ref.watch(friendNicknameProvider(convo.recipientId)).value,
-      l10n: l10n,
-      currentUserId: ref.watch(currentUserIdProvider),
-    );
 
     final String? currentUserId = ref.watch(currentUserIdProvider);
     final bool isGroupOwner =
@@ -1775,81 +1790,41 @@ class _DmBottomSheet extends ConsumerWidget {
       ),
     );
 
-    return DraggableScrollableSheet(
-      expand: false,
-      initialChildSize: convo.isGroup ? 0.45 : 0.7,
-      maxChildSize: 0.85,
-      builder: (context, scrollController) {
-        ref.watch(dmListRecipientRowDataProvider);
-        final bool isTyping = ref.watch(dmAvatarIsTypingProvider(convo));
-        return SafeArea(
-          bottom: Platform.isAndroid,
-          child: Column(
-            children: [
-              FluxerBottomSheetHeader(
-                leading: convo.isGroup
-                    ? Container(
-                        width: 48,
-                        height: 48,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: context.colors.backgroundSecondaryAlt,
-                        ),
-                        alignment: Alignment.center,
-                        child: PhosphorIcon(
-                          PhosphorIconsFill.usersThree,
-                          size: 26,
-                          color: context.colors.interactiveNormal,
-                        ),
-                      )
-                    : FluxerAvatar.userPresence(
-                        fallbackText: displayName,
-                        userId: convo.recipientId,
-                        imageUrl: FluxerMediaUrl.userAvatar(
-                          userId: convo.recipientId,
-                          hash: convo.recipientAvatar,
-                        ),
-                        showStatus:
-                            shouldShowDmRecipientPresence(convo) || isTyping,
-                        isTyping: isTyping,
-                        size: 48,
-                      ),
-                title: displayName,
-                subtitle: convo.isGroup
-                    ? Text(
-                        l10n.dmGroupMemberCount(convo.memberCount),
-                        style: context.textStyles.timestamp.copyWith(
-                          color: context.colors.textTertiary,
-                        ),
-                      )
-                    : null,
-              ),
-              SizedBox(height: layout.s3),
-              Expanded(
-                child: ListView(
-                  controller: scrollController,
-                  padding: EdgeInsets.fromLTRB(
-                    layout.s4,
-                    0,
-                    layout.s4,
-                    layout.s4,
-                  ),
-                  children: [FluxerBottomSheetGroupColumn(children: groups)],
-                ),
-              ),
-            ],
-          ),
-        );
-      },
+    return ListView(
+      controller: scrollController,
+      padding: FluxerBottomSheet.scrollViewPadding(
+        context,
+        padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+      ),
+      children: [FluxerBottomSheetGroupColumn(children: groups)],
     );
   }
 
   void _openMuteSheet(BuildContext context) {
     final nav = Navigator.of(context);
+    final l10n = FluxerLocalizations.of(context);
     unawaited(
-      FluxerBottomSheet.show<MuteSelection>(
+      FluxerBottomSheet.showScrollable<MuteSelection>(
         context,
-        builder: (_, _) => const _DmMuteSheet(),
+        title: l10n.dmMuteConversation,
+        onBack: () => Navigator.of(context).pop(),
+        initialChildSize: 0.5,
+        builder: (sheetContext, scrollController, _) {
+          final layout = sheetContext.layout;
+          return ListView(
+            controller: scrollController,
+            padding: FluxerBottomSheet.scrollViewPadding(
+              sheetContext,
+              padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+            ),
+            children: [
+              MuteDurationSheetBody(
+                onSelected: (selection) =>
+                    Navigator.of(sheetContext).pop(selection),
+              ),
+            ],
+          );
+        },
       ).then((selection) {
         if (selection == null) {
           return;
@@ -1861,59 +1836,20 @@ class _DmBottomSheet extends ConsumerWidget {
 
   void _openInviteSheet(BuildContext context) {
     final nav = Navigator.of(context);
+    final l10n = FluxerLocalizations.of(context);
     unawaited(
-      FluxerBottomSheet.show<_InviteToGuildAction>(
+      FluxerBottomSheet.showScrollable<_InviteToGuildAction>(
         context,
-        builder: (_, _) => const _DmInviteSheet(),
+        title: l10n.dmInviteToCommunity,
+        onBack: () => Navigator.of(context).pop(),
+        initialChildSize: 0.5,
+        builder: (sheetContext, scrollController, _) =>
+            _DmInviteSheet(scrollController: scrollController),
       ).then((result) {
         if (result != null) {
           nav.pop(result);
         }
       }),
-    );
-  }
-}
-
-class _DmMuteSheet extends StatelessWidget {
-  const _DmMuteSheet();
-
-  @override
-  Widget build(BuildContext context) {
-    final layout = context.layout;
-    final l10n = FluxerLocalizations.of(context);
-
-    return DraggableScrollableSheet(
-      expand: false,
-      maxChildSize: 0.85,
-      builder: (context, scrollController) {
-        return SafeArea(
-          bottom: Platform.isAndroid,
-          child: Column(
-            children: [
-              FluxerBottomSheetSubmenuHeader(
-                title: l10n.dmMuteConversation,
-                onBack: () => Navigator.of(context).pop(),
-              ),
-              SizedBox(height: layout.s3),
-              Expanded(
-                child: SingleChildScrollView(
-                  controller: scrollController,
-                  padding: EdgeInsets.fromLTRB(
-                    layout.s4,
-                    0,
-                    layout.s4,
-                    layout.s4,
-                  ),
-                  child: MuteDurationSheetBody(
-                    onSelected: (selection) =>
-                        Navigator.of(context).pop(selection),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
     );
   }
 }
@@ -1932,8 +1868,69 @@ _DmAction _dmActionForMuteSelection(MuteSelection selection) {
   };
 }
 
+class _DmContextMenuLeading extends ConsumerWidget {
+  final DmConversation convo;
+  final String displayName;
+
+  const _DmContextMenuLeading({required this.convo, required this.displayName});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(dmListRecipientRowDataProvider);
+    final bool isTyping = ref.watch(dmAvatarIsTypingProvider(convo));
+
+    if (convo.isGroup) {
+      return Container(
+        width: 48,
+        height: 48,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: context.colors.backgroundSecondaryAlt,
+        ),
+        alignment: Alignment.center,
+        child: PhosphorIcon(
+          PhosphorIconsFill.usersThree,
+          size: 26,
+          color: context.colors.interactiveNormal,
+        ),
+      );
+    }
+
+    return FluxerAvatar.userPresence(
+      fallbackText: displayName,
+      userId: convo.recipientId,
+      imageUrl: FluxerMediaUrl.userAvatar(
+        userId: convo.recipientId,
+        hash: convo.recipientAvatar,
+      ),
+      showStatus: shouldShowDmRecipientPresence(convo) || isTyping,
+      isTyping: isTyping,
+      size: 48,
+    );
+  }
+}
+
+class _DmContextMenuSubtitle extends StatelessWidget {
+  final DmConversation convo;
+
+  const _DmContextMenuSubtitle({required this.convo});
+
+  @override
+  Widget build(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    return Text(
+      l10n.dmGroupMemberCount(convo.memberCount),
+      style: context.textStyles.timestamp.copyWith(
+        color: context.colors.textTertiary,
+      ),
+    );
+  }
+}
+
 class _DmInviteSheet extends ConsumerWidget {
-  const _DmInviteSheet();
+  final ScrollController scrollController;
+
+  const _DmInviteSheet({required this.scrollController});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -1942,62 +1939,41 @@ class _DmInviteSheet extends ConsumerWidget {
     final l10n = FluxerLocalizations.of(context);
     final guilds = ref.watch(guildListViewModelProvider).guilds;
 
-    return DraggableScrollableSheet(
-      expand: false,
-      maxChildSize: 0.85,
-      builder: (context, scrollController) {
-        return SafeArea(
-          bottom: Platform.isAndroid,
-          child: Column(
-            children: [
-              FluxerBottomSheetSubmenuHeader(
-                title: l10n.dmInviteToCommunity,
-                onBack: () => Navigator.of(context).pop(),
-              ),
-              SizedBox(height: layout.s3),
-              Expanded(
-                child: ListView(
-                  controller: scrollController,
-                  padding: EdgeInsets.fromLTRB(
-                    layout.s4,
-                    0,
-                    layout.s4,
-                    layout.s4,
-                  ),
-                  children: [
-                    FluxerBottomSheetGroupColumn(
-                      children: [
-                        FluxerMenuGroup(
-                          children: guilds.isEmpty
-                              ? [
-                                  Padding(
-                                    padding: const EdgeInsets.all(16),
-                                    child: Text(
-                                      l10n.dmNoCommunitiesAvailable,
-                                      style: context.textStyles.username
-                                          .copyWith(color: colors.textTertiary),
-                                    ),
-                                  ),
-                                ]
-                              : [
-                                  for (final guild in guilds)
-                                    FluxerBottomSheetMenuItem(
-                                      label: guild.name,
-                                      onTap: () => Navigator.of(
-                                        context,
-                                      ).pop(_InviteToGuildAction(guild.id)),
-                                    ),
-                                ],
+    return ListView(
+      controller: scrollController,
+      padding: FluxerBottomSheet.scrollViewPadding(
+        context,
+        padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+      ),
+      children: [
+        FluxerBottomSheetGroupColumn(
+          children: [
+            FluxerMenuGroup(
+              children: guilds.isEmpty
+                  ? [
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Text(
+                          l10n.dmNoCommunitiesAvailable,
+                          style: context.textStyles.username.copyWith(
+                            color: colors.textTertiary,
+                          ),
                         ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        );
-      },
+                      ),
+                    ]
+                  : [
+                      for (final guild in guilds)
+                        FluxerBottomSheetMenuItem(
+                          label: guild.name,
+                          onTap: () => Navigator.of(
+                            context,
+                          ).pop(_InviteToGuildAction(guild.id)),
+                        ),
+                    ],
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

@@ -52,7 +52,7 @@ md.Document _inlineDocumentWithAutolink() => md.Document(
     FluxerUnicodeEmojiToneSyntax(_resolveEmojiShortcode),
     FluxerUnicodeEmojiSyntax(_resolveEmojiShortcode),
     FluxerCustomEmojiSyntax(),
-    md.AutolinkExtensionSyntax(),
+    FluxerAutolinkExtensionSyntax(),
   ],
 );
 

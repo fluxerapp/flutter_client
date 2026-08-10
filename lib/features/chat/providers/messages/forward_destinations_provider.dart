@@ -134,9 +134,7 @@ Future<List<ForwardDestination>> forwardDestinations(
         channelId: dm.id,
         displayName: dm.displayName,
         kind: kind,
-        avatarUserId: isOneToOne && BigInt.tryParse(dm.recipientId) != null
-            ? dm.recipientId
-            : null,
+        avatarUserId: isOneToOne ? dm.recipientId : null,
         avatarImageUrl: isOneToOne
             ? FluxerMediaUrl.userAvatar(
                 userId: dm.recipientId,

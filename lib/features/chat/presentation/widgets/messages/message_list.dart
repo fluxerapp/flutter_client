@@ -190,10 +190,12 @@ class _MessageListState extends ConsumerState<MessageList> {
   late String _viewportChannelId;
   String? _pendingScrollTarget;
   // The channel the parked target belongs to, plus the deadline that retires
-  // it. An `around=<id>` fetch whose target was deleted returns the neighbour
-  // window with no error, so "the target never arrives" is a normal response
-  // and must never latch the list.
+  // it. An `around=<id>` fetch whose target was deleted or filtered returns the
+  // neighbour window with no error; once that window lands, pending is consumed
+  // by scrolling the closest snowflake neighbour. The timeout is the residual
+  // escape when even that cannot settle.
   String? _pendingScrollTargetChannelId;
+  int? _pendingScrollTargetWindowEpoch;
   Timer? _pendingScrollTargetTimer;
   bool _landAtLatestTailPending = false;
   int _jumpToLatestTicket = 0;
@@ -930,9 +932,13 @@ class _MessageListState extends ConsumerState<MessageList> {
     _pendingScrollTarget = messageId;
     if (messageId == null) {
       _pendingScrollTargetChannelId = null;
+      _pendingScrollTargetWindowEpoch = null;
       return;
     }
     _pendingScrollTargetChannelId = _viewportChannelId;
+    _pendingScrollTargetWindowEpoch = ref
+        .read(chatViewModelProvider)
+        .windowEpoch;
     _pendingScrollTargetTimer = Timer(_kPendingScrollTargetTimeout, () {
       _pendingScrollTargetTimer = null;
       if (!mounted || _pendingScrollTarget != messageId) {
@@ -949,6 +955,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     _pendingScrollTargetTimer = null;
     _pendingScrollTarget = null;
     _pendingScrollTargetChannelId = null;
+    _pendingScrollTargetWindowEpoch = null;
   }
 
   List<ChannelStreamItem> _channelStreamFor({
@@ -1073,7 +1080,13 @@ class _MessageListState extends ConsumerState<MessageList> {
     );
   }
 
-  void _onScrollToBottom() {
+  /// Honors [explicitIntent] requests from any distance; a bare signal is
+  /// filtered by [_isSoftReconcileWhileDisarmed].
+  void _onScrollToBottom({bool explicitIntent = false}) {
+    // Gated first: a dropped request must not retire the parked target.
+    if (!explicitIntent && _isSoftReconcileWhileDisarmed()) {
+      return;
+    }
     // The escape hatch preempts: retire any parked target instead of
     // refusing the tap.
     _clearPendingScrollTarget();
@@ -1089,18 +1102,6 @@ class _MessageListState extends ConsumerState<MessageList> {
       _requestJumpToLatest();
       return;
     }
-    // scrollToBottomSignal serves both the jump button and post-resync
-    // glue. While disarmed, honor only requests past the jump-button
-    // threshold (a tap); nearer ones are soft reconcile.
-    if (_followDisarmed && _scrollController.hasClients) {
-      final ScrollPosition position = _scrollController.position;
-      if (!isBeyondJumpToBottomThreshold(
-        distanceFromBottom: _centerTrailingDistance(position),
-        viewportHeight: position.viewportDimension,
-      )) {
-        return;
-      }
-    }
     _followDisarmed = false;
     _pin.onJumpToPresentLanded();
     final int epoch = _uiEpoch;
@@ -1114,6 +1115,23 @@ class _MessageListState extends ConsumerState<MessageList> {
         }
       });
     });
+  }
+
+  /// Only glue can have produced this request: the reader left the tail and
+  /// is still nearer than the jump button's own visibility threshold.
+  bool _isSoftReconcileWhileDisarmed() {
+    if (!_followDisarmed || !_scrollController.hasClients) {
+      return false;
+    }
+    // An unconfirmed tail must fetch the present, reconcile or not.
+    if (ref.read(chatViewModelProvider).hasMoreNewerMessages) {
+      return false;
+    }
+    final ScrollPosition position = _scrollController.position;
+    return !isBeyondJumpToBottomThreshold(
+      distanceFromBottom: _centerTrailingDistance(position),
+      viewportHeight: position.viewportDimension,
+    );
   }
 
   /// Arms the land-at-tail flag and starts a jump. Re-entrant requests are
@@ -1180,7 +1198,7 @@ class _MessageListState extends ConsumerState<MessageList> {
   }
 
   void _onUnreadBarMarkRead() {
-    _onScrollToBottom();
+    _onScrollToBottom(explicitIntent: true);
     unawaited(_chatViewModel.markCurrentChannelRead());
   }
 
@@ -1213,10 +1231,14 @@ class _MessageListState extends ConsumerState<MessageList> {
       return;
     }
     final List<Message> messages = ref.read(chatViewModelProvider).messages;
-    if (!messages.any((Message m) => m.id == messageId)) {
-      // Out of window: the VM's around-swap installs it; the pending target
-      // is consumed (as a re-anchor) when the page arrives.
+    final bool targetLoaded = messages.any(
+      (Message message) => message.id == messageId,
+    );
+    if (!targetLoaded) {
+      // Out-of-window ask: park until the around page arrives. Neighbour
+      // fallback is only for an installed page that omitted the target.
       _setPendingScrollTarget(messageId);
+      talker.debug('[MessageList] pending target parked $messageId');
       return;
     }
     _clearPendingScrollTarget();
@@ -1962,6 +1984,14 @@ class _MessageListState extends ConsumerState<MessageList> {
         final bool canAnchorUnread =
             unreadAnchorId != null &&
             findChannelStreamDataIndex(channelStream, unreadAnchorId) != null;
+        final String? jumpRequestId =
+            _pendingScrollTarget ?? widget.targetMessageId;
+        final String? jumpAnchorId = jumpRequestId == null
+            ? null
+            : resolveJumpScrollTargetId(
+                jumpTargetId: jumpRequestId,
+                messageIds: messages.map((Message m) => m.id),
+              );
         _anchorResolved = true;
         _anchorEpoch++;
         _pin.pinned = false;
@@ -1972,6 +2002,13 @@ class _MessageListState extends ConsumerState<MessageList> {
           // even when the unread lives inside a collapsed group - sits at
           // the fraction. Underfill re-anchors bottom after the open frame.
           _anchorId = unreadAnchorId;
+          _anchorFraction = _kUnreadOpenAnchor;
+          _anchorEdge = MessageListAnchorEdge.before;
+          _scheduleUnderfillBottomReanchor();
+        } else if (jumpAnchorId != null) {
+          // Jump open: land on the target, or the closest neighbour when the
+          // around page omitted it (deleted / filtered). Never the live tail.
+          _anchorId = jumpAnchorId;
           _anchorFraction = _kUnreadOpenAnchor;
           _anchorEdge = MessageListAnchorEdge.before;
           _scheduleUnderfillBottomReanchor();
@@ -2040,18 +2077,36 @@ class _MessageListState extends ConsumerState<MessageList> {
     // and the correction post-frame can find scroll clients.
     if (!isLoading && _anchorResolved && _pendingScrollTarget != null) {
       final String target = _pendingScrollTarget!;
-      if (messages.any((Message m) => m.id == target)) {
+      final int windowEpoch = ref.read(chatViewModelProvider).windowEpoch;
+      final bool windowUpdatedSincePark =
+          _pendingScrollTargetWindowEpoch != null &&
+          windowEpoch != _pendingScrollTargetWindowEpoch;
+      final bool targetLoaded = messages.any(
+        (Message message) => message.id == target,
+      );
+      final String? scrollId = targetLoaded
+          ? target
+          : windowUpdatedSincePark
+          ? resolveJumpScrollTargetId(
+              jumpTargetId: target,
+              messageIds: messages.map((Message m) => m.id),
+            )
+          : null;
+      if (scrollId != null) {
         _clearPendingScrollTarget();
-        talker.debug('[MessageList] consume pending target $target');
+        talker.debug(
+          '[MessageList] consume pending target $target'
+          '${scrollId == target ? '' : ' via neighbour $scrollId'}',
+        );
         // Mid-build re-anchor: direct field writes - THIS build already
         // renders the new anchor (setState here would assert).
-        _anchorId = target;
+        _anchorId = scrollId;
         _anchorFraction = _kUnreadOpenAnchor;
         _anchorEdge = MessageListAnchorEdge.before;
         _anchorEpoch++;
         _uiEpoch++;
         _demandSource.resetApproachVelocity();
-        _scheduleAnchorCenterCorrection(target);
+        _scheduleAnchorCenterCorrection(scrollId);
         _scheduleUnderfillBottomReanchor();
       } else if (messageLoadFailed) {
         // The page that would carry the target will not arrive.
@@ -2059,9 +2114,11 @@ class _MessageListState extends ConsumerState<MessageList> {
           '[MessageList] pending target $target dropped: load failed',
         );
         _clearPendingScrollTarget();
-      } else {
+      } else if (windowUpdatedSincePark && messages.isNotEmpty) {
+        // New window landed without a neighbour to settle on
         talker.debug(
-          '[MessageList] pending target $target not in ${messages.length} messages',
+          '[MessageList] pending target $target not in ${messages.length} '
+          'messages',
         );
       }
     }

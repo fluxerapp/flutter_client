@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_list.dart';
+import 'package:fluxer_app/features/dm/presentation/widgets/dm_list_skeleton.dart';
 import 'package:fluxer_app/features/dm/providers/dm_list_presence_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_list_scroll_store_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
@@ -39,6 +40,30 @@ import '../../../../helpers/open_test_database.dart';
 import '../../../../helpers/wide_layout_test_sizes.dart';
 
 void main() {
+  group('DMList loading skeleton', () {
+    testWidgets('shows skeleton before initial conversations are received', (
+      tester,
+    ) async {
+      tester.view.physicalSize = kWideTestViewportSize;
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            conversations: const <DmConversation>[],
+            hasReceivedInitialConversations: false,
+          ),
+        ),
+      );
+      await tester.pump();
+
+      expect(find.byType(DmListSkeleton), findsOneWidget);
+      expect(find.text('Friends'), findsOneWidget);
+    });
+  });
+
   group('DMList desktop', () {
     testWidgets('Friends button navigates to the DM home route', (
       tester,
@@ -719,6 +744,7 @@ List<Override> _buildOverrides({
   Stream<Map<String, DmListRecipientRowData>>? recipientRows,
   Map<String, Stream<User?>>? userPresenceStreams,
   DmMessagePreviewMode dmMessagePreviewMode = DmMessagePreviewMode.all,
+  bool hasReceivedInitialConversations = true,
 }) {
   final db = openTestDatabase();
   return [
@@ -742,6 +768,7 @@ List<Override> _buildOverrides({
         friendsList: friendsList,
         activeTab: FriendsTab.online,
         searchQuery: '',
+        hasReceivedInitialConversations: hasReceivedInitialConversations,
       ),
     ),
     pinnedDmChannelIdsProvider.overrideWith((ref) => Stream.value(pinnedIds)),

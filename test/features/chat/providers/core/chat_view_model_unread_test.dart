@@ -3547,6 +3547,76 @@ void main() {
       },
     );
 
+    test(
+      'switchChannel keeps both edges open when around omits the target',
+      () async {
+        final db = openTestDatabase();
+        final String missingTargetId = _snowflakeForUtc(
+          DateTime.utc(2026, 5, 6, 12),
+        );
+        final String olderId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+        final String newerId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 13));
+        final String liveTailId = _snowflakeForUtc(
+          DateTime.utc(2026, 5, 6, 20),
+        );
+        await db.channelDao.upsertChannel(
+          ChannelsCompanion.insert(
+            id: 'channel-1',
+            guildId: 'guild-1',
+            name: 'general',
+            lastMessageId: Value(liveTailId),
+          ),
+        );
+        // Neighbour window only: the requested target is filtered/deleted.
+        final adapter = _ChatAdapter(
+          aroundMessages: <Map<String, Object?>>[
+            _messageJson(
+              id: olderId,
+              channelId: 'channel-1',
+              authorId: 'other',
+            ),
+            _messageJson(
+              id: newerId,
+              channelId: 'channel-1',
+              authorId: 'other',
+            ),
+          ],
+        );
+        final container = _container(db, adapter);
+        addTearDown(container.dispose);
+        final notifier = container.read(chatViewModelProvider.notifier);
+        await notifier.switchChannel(
+          'channel-1',
+          targetMessageId: missingTargetId,
+        );
+        await _flushAsync();
+
+        final ChatViewState state = container.read(chatViewModelProvider);
+        expect(adapter.aroundQueries, <String>[missingTargetId]);
+        expect(state.messages.map((m) => m.id), <String>[olderId, newerId]);
+        expect(state.messages.any((m) => m.id == missingTargetId), isFalse);
+        expect(
+          state.hasMoreMessages,
+          isTrue,
+          reason: 'missing around target keeps older pagination open',
+        );
+        expect(
+          state.hasMoreNewerMessages,
+          isTrue,
+          reason: 'missing around target keeps newer pagination open',
+        );
+        expect(state.scrollToMessageSignal?.$1, missingTargetId);
+        expect(
+          resolveJumpScrollTargetId(
+            jumpTargetId: missingTargetId,
+            messageIds: state.messages.map((m) => m.id),
+          ),
+          newerId,
+          reason: 'scroll settles on the next newer neighbour',
+        );
+      },
+    );
+
     test('switchChannel without target clears jump highlight', () async {
       final db = openTestDatabase();
       await db.channelDao.upsertChannel(

@@ -12,42 +12,40 @@ import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider
 import 'package:go_router/go_router.dart';
 
 void main() {
-  testWidgets(
-    'mobile back closes chat to the drawer only when chat is visible',
-    (tester) async {
-      final router = _routerFor('/channels/guild/channel');
-      addTearDown(router.dispose);
-      final container = _containerFor(router);
+  testWidgets('mobile back returns to dm home when the drawer is open', (
+    tester,
+  ) async {
+    final router = _routerFor('/channels/guild/channel');
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
 
-      await tester.pumpWidget(_buildBackScopeApp(container, router));
-      await tester.pumpAndSettle();
+    await tester.pumpWidget(_buildBackScopeApp(container, router));
+    await tester.pumpAndSettle();
 
-      expect(container.read(currentRevealSideProvider), RevealSide.main);
+    expect(container.read(currentRevealSideProvider), RevealSide.main);
 
-      final firstHandled = await tester.binding.handlePopRoute();
-      await tester.pump();
+    final firstHandled = await tester.binding.handlePopRoute();
+    await tester.pump();
 
-      expect(firstHandled, isTrue);
-      expect(container.read(currentRevealSideProvider), RevealSide.left);
-      expect(
-        router.routerDelegate.currentConfiguration.uri.path,
-        '/channels/guild/channel',
-      );
+    expect(firstHandled, isTrue);
+    expect(container.read(currentRevealSideProvider), RevealSide.left);
+    expect(
+      router.routerDelegate.currentConfiguration.uri.path,
+      '/channels/guild/channel',
+    );
 
-      container.read(currentRevealSideProvider.notifier).set(RevealSide.left);
-      await tester.pump();
+    container.read(currentRevealSideProvider.notifier).set(RevealSide.left);
+    await tester.pump();
 
-      final secondHandled = await tester.binding.handlePopRoute();
-      await tester.pump();
+    final secondHandled = await tester.binding.handlePopRoute();
+    await tester.pumpAndSettle();
 
-      expect(secondHandled, isTrue);
-      expect(container.read(currentRevealSideProvider), RevealSide.main);
-      expect(
-        router.routerDelegate.currentConfiguration.uri.path,
-        '/channels/guild/channel',
-      );
-    },
-  );
+    expect(secondHandled, isTrue);
+    expect(
+      router.routerDelegate.currentConfiguration.uri.path,
+      '/channels/@me',
+    );
+  });
 
   testWidgets('mobile back closes the expression panel before the drawer', (
     tester,
@@ -123,6 +121,10 @@ GoRouter _routerFor(
     initialLocation: initialLocation,
     observers: navigatorObservers,
     routes: [
+      GoRoute(
+        path: '/channels/@me',
+        builder: (context, state) => const Text('dms'),
+      ),
       GoRoute(
         path: '/channels/:guildId',
         builder: (context, state) => const Text('Select a channel'),

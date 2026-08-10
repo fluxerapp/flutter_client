@@ -201,6 +201,30 @@ void main() {
     });
   });
 
+  group('computeCurrentUserGuildPermissions', () {
+    const String guildId = 'guild-1';
+    final Map<String, MemberRole> rolesById = <String, MemberRole>{
+      guildId: const MemberRole(id: guildId, name: '@everyone', color: 0),
+      'admin-role': MemberRole(
+        id: 'admin-role',
+        name: 'Admin',
+        color: 0,
+        permissions: Permission.administrator.value,
+      ),
+    };
+
+    test('expands administrator to all permissions', () {
+      expect(
+        computeCurrentUserGuildPermissions(
+          guildId: guildId,
+          currentUserRoleIds: <String>{'admin-role'},
+          rolesById: rolesById,
+        ),
+        allPermissions,
+      );
+    });
+  });
+
   group('canGrantGuildRolePermission', () {
     test('owner can grant any permission', () {
       expect(
@@ -229,6 +253,17 @@ void main() {
           permission: Permission.administrator,
         ),
         isFalse,
+      );
+    });
+
+    test('administrator can grant any permission', () {
+      expect(
+        canGrantGuildRolePermission(
+          isGuildOwner: false,
+          currentUserPermissions: allPermissions,
+          permission: Permission.manageMessages,
+        ),
+        isTrue,
       );
     });
   });

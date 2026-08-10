@@ -28,6 +28,9 @@ bool _navigatorShowsPopupOverlay(NavigatorState? navigator) {
 
 /// Scans shell branch and root navigators for any visible popup overlay
 bool shellNavigatorsHavePopupOverlay() {
+  if (navigatorShowsPopupOverlay(shellTabOverlayNavigatorKey.currentState)) {
+    return true;
+  }
   for (final GlobalKey<NavigatorState> key in shellBranchNavigatorKeys) {
     if (navigatorShowsPopupOverlay(key.currentState)) {
       return true;

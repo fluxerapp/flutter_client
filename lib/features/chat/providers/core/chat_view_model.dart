@@ -2440,16 +2440,37 @@ class ChatViewModel extends _$ChatViewModel {
         return;
       }
 
+      // Around page missing the requested anchor: the server was not centred
+      // where we asked, so the page shape cannot seal the older edge. Newer
+      // still comes from the pointer consult - a missing anchor already makes
+      // aroundPageReachesLiveTail false (detached), and pointer equality can
+      // still prove the live tail (deleted/filtered ack near the present).
+      final bool aroundTargetMissing =
+          effectiveAroundMessageId != null &&
+          !page.messages.any(
+            (Message message) => message.id == effectiveAroundMessageId,
+          );
+      if (aroundTargetMissing) {
+        talker.warning(
+          '[ChatViewModel] around target $effectiveAroundMessageId '
+          'not found in response channel=$channelId '
+          'pageSize=${page.messages.length}',
+        );
+      }
+
       // Around pages are split before/after the anchor; near the live tail they
       // can be shorter than [limit] while older history still exists. A rescued
       // window keeps older OPEN regardless of count: its page is a BEFORE page,
       // and a before page short of the limit is the post-truncation-filter
       // ambiguity, not proof of exhaustion - ordinary pagination settles it.
-      final bool hasMoreOlder = preserveLoadedWindow
-          ? state.hasMoreMessages
-          : emptyLatestRescued ||
-                page.messages.length >= effectiveLimit ||
-                (effectiveAroundMessageId != null && page.messages.isNotEmpty);
+      final bool hasMoreOlder =
+          aroundTargetMissing ||
+          (preserveLoadedWindow
+              ? state.hasMoreMessages
+              : emptyLatestRescued ||
+                    page.messages.length >= effectiveLimit ||
+                    (effectiveAroundMessageId != null &&
+                        page.messages.isNotEmpty));
       // The wholesale write commits as ONE queue item, and it composes its list
       // INSIDE the closure, from the window as it stands at write time. The
       // page is prefetched input; the merge against local state is a reduction,
@@ -2505,8 +2526,9 @@ class ChatViewModel extends _$ChatViewModel {
       );
       // AFTER the commit, and only here: the probe pages forward from the window
       // this install just published, so firing it before the commit would have
-      // it fetch from whatever the window used to end on.
-      if (newerConsult.needsTailProbe) {
+      // it fetch from whatever the window used to end on. A missing around
+      // target leaves the older edge open without a trustworthy shape to probe.
+      if (newerConsult.needsTailProbe && !aroundTargetMissing) {
         _confirmProvisionalTail(channelId);
       }
       if (targetMessageId == null) {
@@ -5409,6 +5431,16 @@ class ChatViewModel extends _$ChatViewModel {
       // the pointer is even allowed to seal the tail: a newer side filled to the
       // server's quota means the page was centred and truncated, not stopped at
       // the tail.
+      final bool aroundTargetMissing = !page.messages.any(
+        (Message message) => message.id == messageId,
+      );
+      if (aroundTargetMissing) {
+        talker.warning(
+          '[ChatViewModel] around target $messageId '
+          'not found in response channel=$channelId '
+          'pageSize=${page.messages.length}',
+        );
+      }
       final ({bool hasMoreNewer, bool needsTailProbe}) newerConsult =
           await _hasNewerMessagesThanChannel(
             page.messages.last.id,
@@ -5454,7 +5486,10 @@ class ChatViewModel extends _$ChatViewModel {
               ),
               origin: MessagesOrigin.windowSwap,
             ),
-            hasMoreMessages: page.messages.length >= _kPageSize,
+            // Missing around target: keep the older edge open. Newer comes
+            // from the pointer consult (detached when the anchor is absent).
+            hasMoreMessages:
+                aroundTargetMissing || page.messages.length >= _kPageSize,
             hasMoreNewerMessages: hasMoreNewer,
             windowEpoch: state.windowEpoch + 1,
             // The preempted switch set isLoading and can no longer reach any of
@@ -5479,7 +5514,7 @@ class ChatViewModel extends _$ChatViewModel {
         messages: state.messages,
         embeddedReplyParents: page.embeddedReplyParents,
       );
-      if (newerConsult.needsTailProbe) {
+      if (newerConsult.needsTailProbe && !aroundTargetMissing) {
         _confirmProvisionalTail(channelId);
       }
       scrollToMessage(messageId);

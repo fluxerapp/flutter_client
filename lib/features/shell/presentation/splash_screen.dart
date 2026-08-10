@@ -6,13 +6,18 @@ import 'package:fluxer_app/core/constants/external_urls.dart';
 import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/providers/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
+import 'package:fluxer_app/core/providers/splash_exit_allowed_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/theme/color_utils.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/instance_domain_icon.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/offline_account_switcher_link.dart';
 import 'package:fluxer_app/features/shell/domain/service_status_incident.dart';
+import 'package:fluxer_app/features/shell/presentation/splash_reveal_overlay.dart';
 import 'package:fluxer_app/features/shell/providers/service_status_incident_provider.dart';
 import 'package:fluxer_app/features/shell/utils/splash_quotes.dart';
 import 'package:fluxer_app/features/ui/animation/animation_controller_visibility_extension.dart';
+import 'package:fluxer_app/features/ui/background/starfield_background.dart';
 import 'package:fluxer_app/features/ui/icons/fluxer_brand_logo.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
@@ -31,6 +36,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   static const Duration _statusPageDisplayDelay = Duration(seconds: 5);
   static const Duration _problemsDelay = Duration(seconds: 10);
   static const Duration _footerFadeDuration = Duration(milliseconds: 400);
+  static const Color _splashMutedText = Color(0xFF9B94B8);
+  static const Color _splashLinkText = Color(0xFFC4B8F0);
+  static const Color _splashQuoteText = Color(0xFFD6D0EC);
 
   late final AnimationController _pulseController;
   late final SplashQuote _selectedQuote;
@@ -39,6 +47,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   bool _showStatusData = false;
   bool _showProblems = false;
   bool _timersStarted = false;
+  bool _exitRevealStarted = false;
+  final GlobalKey _logoKey = GlobalKey();
   ServiceStatusIncident? _frozenIncident;
   String _frozenDisplayText = '';
 
@@ -54,12 +64,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       if (!mounted) {
         return;
       }
+      ref.read(splashExitAllowedProvider.notifier).reset();
       final AsyncValue<void> startup = ref.read(appStartupProvider);
       if (startup is AsyncError<dynamic>) {
         return;
       }
       _ensureSplashTimers();
       _cancelSplashIfReady();
+      _scheduleExitReveal();
     });
   }
 
@@ -85,6 +97,72 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     }
   }
 
+  void _allowSplashExit() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(splashExitAllowedProvider.notifier).allow();
+    });
+  }
+
+  void _scheduleExitReveal() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      _maybeStartExitReveal();
+    });
+  }
+
+  void _maybeStartExitReveal() {
+    if (_exitRevealStarted) {
+      return;
+    }
+    final AsyncValue<void> startup = ref.read(appStartupProvider);
+    if (startup is! AsyncData<void> || !ref.read(gatewayReadyProvider)) {
+      return;
+    }
+    if (!ref.read(authStateProvider)) {
+      return;
+    }
+
+    _exitRevealStarted = true;
+    _cancelSplashTimers();
+    _pulseController.stop();
+
+    if (MediaQuery.disableAnimationsOf(context)) {
+      _allowSplashExit();
+      return;
+    }
+
+    final Offset? logoCenter = _logoCenterGlobal();
+    final Color brand = context.colors.brandPrimary;
+    SplashRevealOverlay.show(
+      context: context,
+      coverColor: StarfieldBackground.cutoutColor,
+      logoBrandColor: brand,
+      logoBrandSymbolColor: ColorUtils.bestContrastColor(brand.toARGB32()),
+      logoCenterGlobal:
+          logoCenter ?? MediaQuery.sizeOf(context).center(Offset.zero),
+    );
+    _allowSplashExit();
+    setState(() {});
+  }
+
+  Offset? _logoCenterGlobal() {
+    final RenderObject? renderObject = _logoKey.currentContext
+        ?.findRenderObject();
+    if (renderObject is! RenderBox || !renderObject.hasSize) {
+      return null;
+    }
+    return renderObject.localToGlobal(renderObject.size.center(Offset.zero));
+  }
+
+  Widget _fadeExitContent({required Widget child}) {
+    if (_exitRevealStarted) {
+      return const SizedBox.shrink();
+    }
+    return child;
+  }
+
   void _ensureSplashTimers() {
     if (_timersStarted) {
       return;
@@ -94,7 +172,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       return;
     }
     _timersStarted = true;
-    unawaited(ref.read(serviceStatusIncidentReadProvider.notifier).refresh());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      unawaited(ref.read(serviceStatusIncidentReadProvider.notifier).refresh());
+    });
     _statusTimer = Timer(_statusPageDisplayDelay, () {
       if (mounted) {
         setState(() => _showStatusData = true);
@@ -132,10 +215,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     final bool isGatewayReady = ref.watch(gatewayReadyProvider);
     final bool isReady = isStartupComplete && isGatewayReady;
     ref
-      ..listen<bool>(
-        gatewayReadyProvider,
-        (bool? previous, bool _) => _cancelSplashIfReady(),
-      )
+      ..listen<bool>(gatewayReadyProvider, (bool? previous, bool _) {
+        _cancelSplashIfReady();
+        _scheduleExitReveal();
+      })
       ..listen<AsyncValue<void>>(appStartupProvider, (
         AsyncValue<void>? previous,
         AsyncValue<void> next,
@@ -153,6 +236,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
         }
         _ensureSplashTimers();
         _cancelSplashIfReady();
+        _scheduleExitReveal();
       });
     final ServiceStatusIncident? liveIncident = _showStatusData
         ? ref.watch(serviceStatusIncidentReadProvider)
@@ -184,213 +268,233 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     final TextStyle footerPromptStyle = context.textStyles.bodySmall.copyWith(
       fontSize: 13,
       height: 1.4,
-      color: context.colors.textSecondary,
+      color: _splashMutedText,
     );
     final TextStyle footerLinkStyle = footerPromptStyle.copyWith(
-      color: context.colors.textLink,
+      color: _splashLinkText,
     );
     final TextStyle incidentCtaStyle = context.textStyles.smallText.copyWith(
       fontSize: 12,
       fontWeight: FontWeight.w600,
-      color: context.colors.textLink,
+      color: _splashLinkText,
     );
     final TextStyle instanceFooterStyle = context.textStyles.bodySmall.copyWith(
       fontSize: 12,
-      color: context.colors.textChatMuted,
+      color: _splashMutedText,
     );
 
     return Scaffold(
-      backgroundColor: context.colors.backgroundSecondary,
-      body: SafeArea(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 512),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      height: _logoHeight * 2,
-                      width: _logoHeight * 2,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          if (MediaQuery.disableAnimationsOf(context))
-                            Transform.scale(
-                              scale: 1.25,
-                              child: Container(
-                                width: _logoHeight,
-                                height: _logoHeight,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: context.colors.brandPrimary.withValues(
-                                    alpha: 0.35,
-                                  ),
-                                ),
-                              ),
-                            )
-                          else
-                            AnimatedBuilder(
-                              animation: _pulseController,
-                              builder: (BuildContext context, Widget? child) {
-                                const double startScale = 0.4;
-                                const double endScale = 1.4;
-                                final double scale =
-                                    startScale +
-                                    (endScale - startScale) *
-                                        Curves.easeOut.transform(
-                                          _pulseController.value,
-                                        );
-                                final double opacity =
-                                    (1 -
-                                        Curves.easeIn.transform(
-                                          _pulseController.value,
-                                        )) *
-                                    0.5;
-                                return Transform.scale(
-                                  scale: scale,
-                                  child: Container(
-                                    width: _logoHeight,
-                                    height: _logoHeight,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: context.colors.brandPrimary
-                                          .withValues(alpha: opacity),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          const FluxerBrandLogo(size: _logoHeight),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 32),
-                      child: startupError == null
-                          ? _buildNormalMessageArea(
-                              context,
-                              strings,
-                              visibleIncident,
-                              displayText,
-                              incidentCtaStyle,
-                            )
-                          : Text(
-                              statusText,
-                              style: context.textStyles.smallText.copyWith(
-                                color: context.colors.textDanger,
-                              ),
-                              textAlign: TextAlign.center,
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                    ),
-                    if (startupError != null) ...[
-                      const SizedBox(height: 16),
-                      FilledButton(
-                        onPressed: () =>
-                            ref.read(appStartupProvider.notifier).retry(),
-                        style: FilledButton.styleFrom(
-                          backgroundColor: context.colors.brandPrimary,
-                        ),
-                        child: Text(strings.retry),
-                      ),
-                      const SizedBox(height: 12),
-                      const OfflineAccountSwitcherLink(),
-                    ],
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 24,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (showConnectionFooter)
-                    AnimatedOpacity(
-                      opacity: 1,
-                      duration: _footerFadeDuration,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
+      backgroundColor: Colors.transparent,
+      body: StarfieldBackground(
+        child: SafeArea(
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 512),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        height: _logoHeight * 2,
+                        width: _logoHeight * 2,
+                        child: Stack(
+                          alignment: Alignment.center,
                           children: [
-                            Text(
-                              strings.splashConnectionIssuesPrompt,
-                              style: footerPromptStyle,
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(height: 8),
-                            Wrap(
-                              alignment: WrapAlignment.center,
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              spacing: 8,
-                              children: [
-                                MouseRegion(
-                                  cursor: SystemMouseCursors.click,
-                                  child: GestureDetector(
-                                    onTap: () => handleExternalLinkTap(
-                                      context,
-                                      ExternalUrls.serviceStatus,
-                                    ),
-                                    child: Text(
-                                      strings.splashStatusPageLink,
-                                      style: footerLinkStyle,
-                                    ),
+                            if (!_exitRevealStarted &&
+                                MediaQuery.disableAnimationsOf(context))
+                              Transform.scale(
+                                scale: 1.25,
+                                child: Container(
+                                  width: _logoHeight,
+                                  height: _logoHeight,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: context.colors.brandPrimary
+                                        .withValues(alpha: 0.35),
                                   ),
                                 ),
-                                Text(
-                                  '·',
-                                  style: footerPromptStyle.copyWith(
-                                    color: context.colors.textChatMuted,
-                                  ),
-                                ),
-                                MouseRegion(
-                                  cursor: SystemMouseCursors.click,
-                                  child: GestureDetector(
-                                    onTap: () => handleExternalLinkTap(
-                                      context,
-                                      secondLinkUrl,
+                              )
+                            else if (!_exitRevealStarted)
+                              AnimatedBuilder(
+                                animation: _pulseController,
+                                builder: (BuildContext context, Widget? child) {
+                                  const double startScale = 0.4;
+                                  const double endScale = 1.4;
+                                  final double scale =
+                                      startScale +
+                                      (endScale - startScale) *
+                                          Curves.easeOut.transform(
+                                            _pulseController.value,
+                                          );
+                                  final double opacity =
+                                      (1 -
+                                          Curves.easeIn.transform(
+                                            _pulseController.value,
+                                          )) *
+                                      0.5;
+                                  return Transform.scale(
+                                    scale: scale,
+                                    child: Container(
+                                      width: _logoHeight,
+                                      height: _logoHeight,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: context.colors.brandPrimary
+                                            .withValues(alpha: opacity),
+                                      ),
                                     ),
-                                    child: Text(
-                                      footerIncident != null
-                                          ? strings.splashReadIncident
-                                          : strings.splashIncidentHistory,
-                                      style: footerLinkStyle,
-                                    ),
-                                  ),
+                                  );
+                                },
+                              ),
+                            if (!_exitRevealStarted)
+                              KeyedSubtree(
+                                key: _logoKey,
+                                child: FluxerBrandLogo(
+                                  size: _logoHeight,
+                                  backgroundColor: context.colors.brandPrimary,
                                 ),
-                              ],
-                            ),
-                            const SizedBox(height: 12),
-                            const OfflineAccountSwitcherLink(),
+                              ),
                           ],
                         ),
                       ),
-                    ),
-                  if (showSelfHostedAccountSwitcher) ...[
-                    const OfflineAccountSwitcherLink(),
-                    const SizedBox(height: 16),
-                  ],
-                  if (showConnectionFooter) const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      InstanceDomainIcon(isOfficial: isOfficialInstance),
-                      const SizedBox(width: 4),
-                      Text(displayDomain, style: instanceFooterStyle),
+                      _fadeExitContent(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 32),
+                          child: startupError == null
+                              ? _buildNormalMessageArea(
+                                  context,
+                                  strings,
+                                  visibleIncident,
+                                  displayText,
+                                  incidentCtaStyle,
+                                )
+                              : Text(
+                                  statusText,
+                                  style: context.textStyles.smallText.copyWith(
+                                    color: context.colors.textDanger,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                        ),
+                      ),
+                      if (startupError != null)
+                        _fadeExitContent(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const SizedBox(height: 16),
+                              FilledButton(
+                                onPressed: () => ref
+                                    .read(appStartupProvider.notifier)
+                                    .retry(),
+                                style: FilledButton.styleFrom(
+                                  backgroundColor: context.colors.brandPrimary,
+                                ),
+                                child: Text(strings.retry),
+                              ),
+                              const SizedBox(height: 12),
+                              const OfflineAccountSwitcherLink(),
+                            ],
+                          ),
+                        ),
                     ],
                   ),
-                ],
+                ),
               ),
-            ),
-          ],
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 24,
+                child: _fadeExitContent(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (showConnectionFooter)
+                        AnimatedOpacity(
+                          opacity: 1,
+                          duration: _footerFadeDuration,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  strings.splashConnectionIssuesPrompt,
+                                  style: footerPromptStyle,
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 8),
+                                Wrap(
+                                  alignment: WrapAlignment.center,
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  spacing: 8,
+                                  children: [
+                                    MouseRegion(
+                                      cursor: SystemMouseCursors.click,
+                                      child: GestureDetector(
+                                        onTap: () => handleExternalLinkTap(
+                                          context,
+                                          ExternalUrls.serviceStatus,
+                                        ),
+                                        child: Text(
+                                          strings.splashStatusPageLink,
+                                          style: footerLinkStyle,
+                                        ),
+                                      ),
+                                    ),
+                                    Text(
+                                      '·',
+                                      style: footerPromptStyle.copyWith(
+                                        color: _splashMutedText,
+                                      ),
+                                    ),
+                                    MouseRegion(
+                                      cursor: SystemMouseCursors.click,
+                                      child: GestureDetector(
+                                        onTap: () => handleExternalLinkTap(
+                                          context,
+                                          secondLinkUrl,
+                                        ),
+                                        child: Text(
+                                          footerIncident != null
+                                              ? strings.splashReadIncident
+                                              : strings.splashIncidentHistory,
+                                          style: footerLinkStyle,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 12),
+                                const OfflineAccountSwitcherLink(),
+                              ],
+                            ),
+                          ),
+                        ),
+                      if (showSelfHostedAccountSwitcher) ...[
+                        const OfflineAccountSwitcherLink(),
+                        const SizedBox(height: 16),
+                      ],
+                      if (showConnectionFooter) const SizedBox(height: 16),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          InstanceDomainIcon(isOfficial: isOfficialInstance),
+                          const SizedBox(width: 4),
+                          Text(displayDomain, style: instanceFooterStyle),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -413,7 +517,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
               onTap: () => handleExternalLinkTap(context, visibleIncident.url),
               child: Text(
                 displayText,
-                style: context.textStyles.quoteLink,
+                style: context.textStyles.quoteLink.copyWith(
+                  color: _splashQuoteText,
+                ),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -439,14 +545,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       children: [
         Text(
           displayText,
-          style: context.textStyles.quote,
+          style: context.textStyles.quote.copyWith(color: _splashQuoteText),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 4),
         Text(
           _selectedQuote.source,
           style: context.textStyles.quoteLink.copyWith(
-            color: context.colors.textChatMuted,
+            color: _splashMutedText,
             fontStyle: FontStyle.normal,
           ),
           textAlign: TextAlign.center,

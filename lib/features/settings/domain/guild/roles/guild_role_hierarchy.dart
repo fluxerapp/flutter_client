@@ -116,6 +116,9 @@ int computeCurrentUserGuildPermissions({
       permissions |= role.permissions;
     }
   }
+  if (hasPermission(permissions, Permission.administrator)) {
+    return allPermissions;
+  }
   return permissions;
 }
 

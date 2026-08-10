@@ -54,18 +54,21 @@ class UserAccessibilityPreview extends ConsumerWidget {
               ),
               const SizedBox(width: 12),
               const FluxerAvatar.user(
+                userId: '100',
                 fallbackText: 'A',
                 status: 'online',
                 size: 32,
               ),
               const SizedBox(width: 12),
               const FluxerAvatar.user(
+                userId: '101',
                 fallbackText: 'B',
                 status: 'dnd',
                 size: 32,
               ),
               const SizedBox(width: 12),
               const FluxerAvatar.user(
+                userId: '102',
                 fallbackText: 'C',
                 status: 'idle',
                 size: 32,
@@ -77,6 +80,7 @@ class UserAccessibilityPreview extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               FluxerAvatar.user(
+                userId: userSettings.userId,
                 fallbackText: authorName,
                 imageUrl: avatarUrl,
                 showStatus: false,

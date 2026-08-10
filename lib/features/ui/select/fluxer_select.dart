@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluxer_app/core/router/shell_navigator_keys.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
@@ -45,6 +46,8 @@ class FluxerSelect<T> extends StatefulWidget {
     this.enabled = true,
     this.stretch = false,
     this.scrollableSheet = false,
+    this.useRootNavigator = true,
+    this.useShellTabOverlayNavigator = false,
     super.key,
   }) : _onChanged = ((value) => onChanged(value as T));
 
@@ -66,6 +69,13 @@ class FluxerSelect<T> extends StatefulWidget {
   /// behave like a full scrollable sheet rather than a content-sized menu.
   final bool scrollableSheet;
 
+  /// Whether the options sheet is shown on the root navigator.
+  final bool useRootNavigator;
+
+  /// Shows the sheet on the mobile main tab shell overlay navigator so it
+  /// covers the bottom navigation bar without using the root navigator.
+  final bool useShellTabOverlayNavigator;
+
   @override
   State<FluxerSelect<T>> createState() => _FluxerSelectState<T>();
 }
@@ -86,6 +96,8 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
   bool get enabled => widget.enabled;
   bool get stretch => widget.stretch;
   bool get scrollableSheet => widget.scrollableSheet;
+  bool get useRootNavigator => widget.useRootNavigator;
+  bool get useShellTabOverlayNavigator => widget.useShellTabOverlayNavigator;
 
   @override
   Widget build(BuildContext context) {
@@ -191,36 +203,73 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
     );
   }
 
-  Widget _buildStaticSelectBody(BuildContext sheetContext) {
+  Widget _buildStaticSelectBody(
+    BuildContext sheetContext, {
+    required ValueChanged<T> onSelected,
+  }) {
     final layout = sheetContext.layout;
-    return Padding(
-      padding: EdgeInsets.only(bottom: layout.s4),
-      child: FluxerBottomSheetSection(
-        child: FluxerMenuGroup(
-          children: [
-            for (final item in items)
-              FluxerBottomSheetMenuItem(
-                label: item.label,
-                hint: item.description,
-                leading: item.leading,
-                icon: item.icon,
-                enabled: item.enabled,
-                isSelected: item.value == value,
-                onTap: () => Navigator.of(sheetContext).pop(item.value),
-              ),
-          ],
-        ),
+    return ListView(
+      shrinkWrap: true,
+      physics: const ClampingScrollPhysics(),
+      padding: FluxerBottomSheet.scrollViewPadding(
+        sheetContext,
+        padding: EdgeInsets.only(bottom: layout.s4),
       ),
+      children: [
+        FluxerBottomSheetSection(
+          child: FluxerMenuGroup(
+            children: [
+              for (final item in items)
+                FluxerBottomSheetMenuItem(
+                  label: item.label,
+                  hint: item.description,
+                  leading: item.leading,
+                  icon: item.icon,
+                  enabled: item.enabled,
+                  isSelected: item.value == value,
+                  onTap: () => onSelected(item.value),
+                ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
   Future<void> _showOptions(BuildContext context) async {
     setState(() => _isOpen = true);
+
+    final BuildContext? shellTabOverlayContext = useShellTabOverlayNavigator
+        ? shellTabOverlayNavigatorKey.currentContext
+        : null;
+    if (useShellTabOverlayNavigator && shellTabOverlayContext == null) {
+      if (mounted) {
+        setState(() => _isOpen = false);
+      }
+      return;
+    }
+    final BuildContext sheetHostContext = shellTabOverlayContext ?? context;
+    final bool sheetUsesRootNavigator =
+        !useShellTabOverlayNavigator && useRootNavigator;
+
+    // Apply on tap. Nested dialog/sheet routes can complete with null even
+    // after a successful selection.
+    var didSelect = false;
+    void handleSelected(BuildContext sheetContext, T selected) {
+      didSelect = true;
+      _onChanged(selected);
+      Navigator.of(
+        sheetContext,
+        rootNavigator: sheetUsesRootNavigator,
+      ).pop(selected);
+    }
+
     late final Future<T?> sheetFuture;
     if (enableSearch || scrollableSheet) {
       sheetFuture = FluxerBottomSheet.showScrollable<T>(
-        context,
+        sheetHostContext,
         title: label,
+        useRootNavigator: sheetUsesRootNavigator,
         builder: (sheetContext, scrollController, close) {
           return _FluxerSelectSheet<T>(
             items: items,
@@ -229,17 +278,24 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
             emptyLabel: emptyLabel,
             enableSearch: enableSearch,
             scrollController: scrollController,
-            onSelected: (selected) => Navigator.of(sheetContext).pop(selected),
+            onSelected: (selected) => handleSelected(sheetContext, selected),
           );
         },
       );
     } else {
       sheetFuture = FluxerBottomSheet.show<T>(
-        context,
+        sheetHostContext,
         title: label,
         maxHeight: 0.58,
-        builder: (sheetContext, close) =>
-            SingleChildScrollView(child: _buildStaticSelectBody(sheetContext)),
+        useRootNavigator: sheetUsesRootNavigator,
+        variant: FluxerBottomSheetVariant.menu,
+        builder: (sheetContext, close) => FluxerBottomSheetDismissDragTarget(
+          onDismiss: close,
+          child: _buildStaticSelectBody(
+            sheetContext,
+            onSelected: (selected) => handleSelected(sheetContext, selected),
+          ),
+        ),
       );
     }
 
@@ -249,7 +305,7 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
       setState(() => _isOpen = false);
     }
 
-    if (result != null) {
+    if (!didSelect && result != null) {
       _onChanged(result);
     }
   }

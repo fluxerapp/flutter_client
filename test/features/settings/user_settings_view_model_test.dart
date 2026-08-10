@@ -261,4 +261,40 @@ void main() {
     expect(container.read(userSettingsViewModelProvider).displayName, 'alice2');
     expect(notifyCount, greaterThan(baseline));
   });
+
+  test('reset clears isSaving for per-guild profile', () {
+    final container = ProviderContainer(
+      overrides: [
+        userSettingsViewModelProvider.overrideWith(
+          _PerGuildSavingUserSettings.new,
+        ),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    expect(container.read(userSettingsViewModelProvider).isSaving, isTrue);
+
+    container.read(userSettingsViewModelProvider.notifier).reset();
+
+    expect(container.read(userSettingsViewModelProvider).isSaving, isFalse);
+  });
+}
+
+class _PerGuildSavingUserSettings extends UserSettingsViewModel {
+  @override
+  UserSettingsViewState build() => const UserSettingsViewState(
+    userId: '1',
+    username: 'user',
+    displayName: 'user',
+    discriminator: '0001',
+    avatar: null,
+    avatarColor: null,
+    memberSince: null,
+    status: 'online',
+    messageDisplayCompact: false,
+    developerMode: false,
+    trustedDomains: <String>[],
+    selectedGuildId: 'guild1',
+    isSaving: true,
+  );
 }

@@ -143,6 +143,136 @@ void main() {
       'banner_hash',
     );
   });
+
+  test(
+    'hasReceivedInitialChannelList is false until first channel watch emit',
+    () async {
+      final Map<String, StreamController<List<Channel>>> controllers =
+          <String, StreamController<List<Channel>>>{};
+      final Map<String, StreamController<Guild?>> guildControllers =
+          <String, StreamController<Guild?>>{};
+      final ProviderContainer container = ProviderContainer(
+        overrides: <Override>[
+          channelRepositoryProvider.overrideWithValue(
+            _FakeChannelRepository(controllers),
+          ),
+          guildRepositoryProvider.overrideWithValue(
+            _FakeGuildRepository(guildControllers),
+          ),
+          channelPermissionCacheProvider.overrideWithValue(
+            ChannelPermissionCaches(
+              effective: <String, int>{'c1': Permission.viewChannel.value},
+            ),
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      final ChannelListViewModel notifier = container.read(
+        channelListViewModelProvider.notifier,
+      );
+      const Guild guild = Guild(id: 'guild-a', name: 'Guild A');
+      final StreamController<List<Channel>> controller =
+          StreamController<List<Channel>>.broadcast();
+      addTearDown(controller.close);
+      controllers['guild-a'] = controller;
+      guildControllers['guild-a'] = StreamController<Guild?>.broadcast();
+
+      notifier.loadChannels('guild-a', guild: guild);
+
+      expect(
+        container
+            .read(channelListViewModelProvider)
+            .hasReceivedInitialChannelList,
+        isFalse,
+      );
+
+      controller.add(const <Channel>[
+        Channel(id: 'c1', guildId: 'guild-a', name: 'general'),
+      ]);
+      await Future<void>.delayed(Duration.zero);
+
+      expect(
+        container
+            .read(channelListViewModelProvider)
+            .hasReceivedInitialChannelList,
+        isTrue,
+      );
+    },
+  );
+
+  test('member list stays closed when switching text channels', () {
+    final ProviderContainer container = ProviderContainer();
+    addTearDown(container.dispose);
+
+    final ChannelListViewModel notifier = container.read(
+      channelListViewModelProvider.notifier,
+    );
+
+    notifier.setMemberListVisible(isVisible: false);
+
+    expect(
+      container
+          .read(channelListViewModelProvider)
+          .isMemberListVisibleForChannel(
+            channelId: 'channel-a',
+            channelType: ChannelType.guildText,
+          ),
+      isFalse,
+    );
+    expect(
+      container
+          .read(channelListViewModelProvider)
+          .isMemberListVisibleForChannel(
+            channelId: 'channel-b',
+            channelType: ChannelType.guildText,
+          ),
+      isFalse,
+    );
+  });
+
+  test('voice channels hide member list unless explicitly opened', () {
+    final ProviderContainer container = ProviderContainer();
+    addTearDown(container.dispose);
+
+    final ChannelListViewModel notifier = container.read(
+      channelListViewModelProvider.notifier,
+    );
+
+    expect(
+      container
+          .read(channelListViewModelProvider)
+          .isMemberListVisibleForChannel(
+            channelId: 'voice-a',
+            channelType: ChannelType.guildVoice,
+          ),
+      isFalse,
+    );
+
+    notifier.toggleMemberList(
+      channelId: 'voice-a',
+      channelType: ChannelType.guildVoice,
+    );
+
+    expect(
+      container
+          .read(channelListViewModelProvider)
+          .isMemberListVisibleForChannel(
+            channelId: 'voice-a',
+            channelType: ChannelType.guildVoice,
+          ),
+      isTrue,
+    );
+    expect(
+      container
+          .read(channelListViewModelProvider)
+          .isMemberListVisibleForChannel(
+            channelId: 'voice-b',
+            channelType: ChannelType.guildVoice,
+          ),
+      isFalse,
+    );
+  });
 }
 
 class _FakeChannelRepository implements ChannelRepository {

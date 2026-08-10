@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/auth/presentation/widgets/login_form.dart';
 import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/keyboard_focus_restore.dart';
 import '../../../../helpers/test_l10n.dart';
 
 Widget _app(Widget child) {
@@ -87,5 +88,40 @@ void main() {
       find.byType(TextFormField).at(0),
     );
     expect(emailField.controller?.text, 'expired@example.com');
+  });
+
+  testWidgets('restores email focus when app resumes from background', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          authInstanceSnapshotProvider.overrideWith(
+            (ref) => InstanceConfigSnapshot.officialDefault(),
+          ),
+        ],
+        child: _app(const LoginForm(showBrowserLogin: false)),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final EditableText editable = tester.widget<EditableText>(
+      find.byType(EditableText).first,
+    );
+    final FocusNode focusNode = editable.focusNode!;
+
+    focusNode.requestFocus();
+    await tester.pumpAndSettle();
+    expect(focusNode.hasFocus, isTrue);
+
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+    focusNode.unfocus();
+    await tester.pump();
+
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+    await tester.pump();
+    await tester.pump(kKeyboardFocusRestoreRetryDelay);
+
+    expect(focusNode.hasFocus, isTrue);
   });
 }

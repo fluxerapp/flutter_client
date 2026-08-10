@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
-import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -20,6 +19,7 @@ import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
+import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
@@ -70,7 +70,10 @@ class _MemberListSidebarMemberRowState
     final MemberListMember listMember = widget.listMember;
     final GuildMemberResponse member = listMember.member;
     final String displayName = _memberDisplayName(ref, member, widget.userId);
-    final String? avatar = member.avatar ?? member.user.avatar;
+    final String? avatarUrl = resolveGuildMemberResponseAvatarUrl(
+      guildId: widget.guildId,
+      member: member,
+    );
     final db.User? presenceUser = ref
         .watch(userPresenceProvider(widget.userId))
         .value;
@@ -142,10 +145,7 @@ class _MemberListSidebarMemberRowState
                   FluxerAvatar.userPresence(
                     fallbackText: displayName,
                     userId: widget.userId,
-                    imageUrl: FluxerMediaUrl.userAvatar(
-                      userId: widget.userId,
-                      hash: avatar,
-                    ),
+                    imageUrl: avatarUrl,
                     avatarColor: member.user.avatarColor,
                     showStatus:
                         isCurrentUser ||
@@ -235,7 +235,10 @@ class MemberListDetailsMemberRow extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final GuildMemberResponse member = listMember.member;
     final String displayName = _memberDisplayName(ref, member, userId);
-    final String? avatar = member.avatar ?? member.user.avatar;
+    final String? avatarUrl = resolveGuildMemberResponseAvatarUrl(
+      guildId: guildId,
+      member: member,
+    );
     final db.User? presenceUser = ref.watch(userPresenceProvider(userId)).value;
     final String? customStatus =
         presenceUser?.customStatus ?? listMember.customStatus;
@@ -283,10 +286,7 @@ class MemberListDetailsMemberRow extends ConsumerWidget {
               FluxerAvatar.userPresence(
                 fallbackText: displayName,
                 userId: userId,
-                imageUrl: FluxerMediaUrl.userAvatar(
-                  userId: userId,
-                  hash: avatar,
-                ),
+                imageUrl: avatarUrl,
                 avatarColor: member.user.avatarColor,
                 size: 32,
               ),

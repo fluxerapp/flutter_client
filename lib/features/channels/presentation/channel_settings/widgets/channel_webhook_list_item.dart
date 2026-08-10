@@ -450,12 +450,7 @@ class _ChannelWebhookListItemState
     required String? avatarUrl,
     required String name,
   }) {
-    return FluxerAvatar.user(
-      fallbackText: name,
-      imageUrl: avatarUrl,
-      size: 32,
-      showStatus: false,
-    );
+    return FluxerAvatar(fallbackText: name, imageUrl: avatarUrl);
   }
 
   Widget _buildExpandedContentDesktop(
@@ -514,11 +509,10 @@ class _ChannelWebhookListItemState
           style: context.textStyles.categoryName,
         ),
         SizedBox(height: context.layout.s2),
-        FluxerAvatar.user(
+        FluxerAvatar(
           fallbackText: widget.webhook.name,
           imageUrl: avatarUrl,
           size: 64,
-          showStatus: false,
         ),
         SizedBox(height: context.layout.s2),
         FluxerButton.secondary(

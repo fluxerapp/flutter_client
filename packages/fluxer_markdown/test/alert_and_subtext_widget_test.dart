@@ -65,5 +65,36 @@ void main() {
       final RichText richText = tester.widget<RichText>(find.byType(RichText));
       expect(richText.text.style?.fontSize, closeTo(13, 0.5));
     });
+
+    testWidgets('preserves blank line between subtext and regular text', (
+      tester,
+    ) async {
+      const String input = '-# small text\n\nregular text below';
+      const TextStyle baseStyle = TextStyle(fontSize: 16, height: 1.375);
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: MediaQuery(
+            data: MediaQueryData(textScaler: TextScaler.noScaling),
+            child: Scaffold(
+              body: Center(
+                child: SizedBox(
+                  width: 320,
+                  child: FluxerMarkdown(
+                    data: input,
+                    config: _testMarkdownConfig,
+                    baseStyle: baseStyle,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      final RichText regularText = tester.widget<RichText>(
+        find.textContaining('regular text below', findRichText: true),
+      );
+      expect(regularText.text.toPlainText(), '\nregular text below');
+    });
   });
 }

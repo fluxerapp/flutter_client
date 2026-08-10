@@ -1,7 +1,17 @@
-const String _strikethroughDelimiter = '~~';
+const List<String> kInlineParseChunkDelimiters = <String>[
+  '~~',
+  '||',
+  '**',
+  '__',
+];
 
-bool hasUnclosedStrikethroughDelimiters(String text) {
-  return _countUnescapedStrikethroughDelimiters(text).isOdd;
+bool hasUnclosedInlineParseDelimiters(String text) {
+  for (final String delimiter in kInlineParseChunkDelimiters) {
+    if (_countUnescapedDelimiters(text, delimiter).isOdd) {
+      return true;
+    }
+  }
+  return false;
 }
 
 List<String> splitIntoInlineParseChunks(String text) {
@@ -20,7 +30,7 @@ List<String> splitIntoInlineParseChunks(String text) {
     }
     buffer.write(lines[i]);
     final combined = buffer.toString();
-    if (!hasUnclosedStrikethroughDelimiters(combined)) {
+    if (!hasUnclosedInlineParseDelimiters(combined)) {
       chunks.add(combined);
       buffer = StringBuffer();
     }
@@ -31,20 +41,20 @@ List<String> splitIntoInlineParseChunks(String text) {
   return chunks;
 }
 
-int _countUnescapedStrikethroughDelimiters(String text) {
+int _countUnescapedDelimiters(String text, String delimiter) {
   var count = 0;
   var index = 0;
   while (index < text.length) {
-    final delimiterIndex = text.indexOf(_strikethroughDelimiter, index);
+    final delimiterIndex = text.indexOf(delimiter, index);
     if (delimiterIndex == -1) {
       break;
     }
     if (_isEscaped(text, delimiterIndex)) {
-      index = delimiterIndex + _strikethroughDelimiter.length;
+      index = delimiterIndex + delimiter.length;
       continue;
     }
     count++;
-    index = delimiterIndex + _strikethroughDelimiter.length;
+    index = delimiterIndex + delimiter.length;
   }
   return count;
 }

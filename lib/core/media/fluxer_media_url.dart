@@ -14,6 +14,21 @@ enum GuildMemberMediaType {
 abstract final class FluxerMediaUrl {
   FluxerMediaUrl._();
 
+  static const int defaultAvatarCount = 6;
+
+  static String? defaultAvatar({required String userId}) {
+    if (userId.isEmpty) {
+      return null;
+    }
+    try {
+      final BigInt index =
+          BigInt.parse(userId) % BigInt.from(defaultAvatarCount);
+      return '$fluxerStaticCdn/avatars/$index.png';
+    } on FormatException {
+      return null;
+    }
+  }
+
   static String? userAvatar({
     required String userId,
     required String? hash,

@@ -359,6 +359,40 @@ bool hasGuildProfileFlag(GuildMemberResponse? member, int flag) {
   return hasMemberProfileFlag(member?.profileFlags, flag);
 }
 
+String? resolveGuildMemberAvatarUrl({
+  required String guildId,
+  required String userId,
+  required String? memberAvatar,
+  required String? userAvatarHash,
+  bool avatarUnset = false,
+}) {
+  if (avatarUnset) {
+    return null;
+  }
+  if (memberAvatar != null && memberAvatar.isNotEmpty) {
+    return FluxerMediaUrl.guildMemberMedia(
+      guildId: guildId,
+      userId: userId,
+      type: GuildMemberMediaType.avatar,
+      hash: memberAvatar,
+    );
+  }
+  return FluxerMediaUrl.userAvatar(userId: userId, hash: userAvatarHash);
+}
+
+String? resolveGuildMemberResponseAvatarUrl({
+  required String guildId,
+  required GuildMemberResponse member,
+}) {
+  return resolveGuildMemberAvatarUrl(
+    guildId: guildId,
+    userId: member.user.id,
+    memberAvatar: member.avatar,
+    userAvatarHash: member.user.avatar,
+    avatarUnset: hasGuildProfileFlag(member, guildProfileAvatarUnsetFlag),
+  );
+}
+
 bool hasMemberProfileFlag(int? profileFlags, int flag) {
   return profileFlags != null && (profileFlags & flag) != 0;
 }

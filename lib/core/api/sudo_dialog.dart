@@ -2,21 +2,27 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/data/webauthn_service.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
+import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/tabs/fluxer_segmented_tabs.dart';
 import 'package:fluxer_app/features/ui/tabs/fluxer_tabs.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/keyboard_focus_restore.dart';
 import 'package:passkeys/authenticator.dart';
 import 'package:passkeys/exceptions.dart';
 
-/// Shows a sudo verification bottom sheet that collects either a password
+/// Shows a sudo verification prompt that collects either a password
 /// or TOTP code from the user.
+///
+/// Uses a bottom sheet on mobile and a centered modal on tablet/desktop.
 ///
 /// Returns a map with the verification payload on success, or `null` if
 /// cancelled.
@@ -29,22 +35,39 @@ Future<Map<String, dynamic>?> showSudoVerificationSheet({
     return Future.value();
   }
 
-  return FluxerBottomSheet.show<Map<String, dynamic>>(
-    context,
-    useRootNavigator: true,
-    title: FluxerLocalizations.of(context).sudoTitle,
-    subtitle: Text(
-      FluxerLocalizations.of(context).sudoDescription,
-      style: context.textStyles.bodySmall.copyWith(
-        color: context.colors.textSecondary,
-      ),
-    ),
-    builder: (sheetContext, close) => _SudoVerificationSheetContent(
+  final l10n = FluxerLocalizations.of(context);
+  final colors = context.colors;
+  final textStyles = context.textStyles;
+
+  Widget buildContent(BuildContext overlayContext) {
+    return _SudoVerificationSheetContent(
       dio: dio,
       onVerified: (payload) {
-        Navigator.of(sheetContext, rootNavigator: true).pop(payload);
+        Navigator.of(overlayContext, rootNavigator: true).pop(payload);
       },
-    ),
+    );
+  }
+
+  if (isMobileLayout(context)) {
+    return FluxerBottomSheet.show<Map<String, dynamic>>(
+      context,
+      useRootNavigator: true,
+      title: l10n.sudoTitle,
+      subtitle: Text(
+        l10n.sudoDescription,
+        style: textStyles.bodySmall.copyWith(color: colors.textSecondary),
+      ),
+      builder: (sheetContext, close) => buildContent(sheetContext),
+    );
+  }
+
+  return FluxerModal.show<Map<String, dynamic>>(
+    context,
+    useRootNavigator: true,
+    centered: true,
+    title: l10n.sudoTitle,
+    description: l10n.sudoDescription,
+    builder: (dialogContext, close) => buildContent(dialogContext),
   );
 }
 
@@ -65,7 +88,8 @@ class _SudoVerificationSheetContent extends StatefulWidget {
 }
 
 class _SudoVerificationSheetContentState
-    extends State<_SudoVerificationSheetContent> {
+    extends State<_SudoVerificationSheetContent>
+    with WidgetsBindingObserver {
   bool _isLoading = true;
   bool _hasPassword = true;
   bool _hasTotp = false;
@@ -75,18 +99,35 @@ class _SudoVerificationSheetContentState
 
   final _passwordController = TextEditingController();
   final _totpController = TextEditingController();
+  final _inputFocusNode = FocusNode();
+  late final KeyboardFocusRestoreHandle _keyboardRestore;
+
+  bool get _canShowTextInput => !_isLoading && (_hasPassword || _hasTotp);
 
   @override
   void initState() {
     super.initState();
+    _keyboardRestore = KeyboardFocusRestoreHandle(
+      focusNode: _inputFocusNode,
+      shouldTrackOnBackground: () => _canShowTextInput,
+      canRestoreFocus: () => mounted && _canShowTextInput,
+    );
+    WidgetsBinding.instance.addObserver(this);
     unawaited(_loadMethods());
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _passwordController.dispose();
     _totpController.dispose();
+    _inputFocusNode.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    _keyboardRestore.handleLifecycleState(state);
   }
 
   Future<void> _loadMethods() async {
@@ -114,6 +155,9 @@ class _SudoVerificationSheetContentState
           _selectedMethod = _SudoMethod.password;
         }
       });
+      if (_keyboardRestore.hasPendingRestore) {
+        _keyboardRestore.scheduleRestoreIfPending();
+      }
     } on Exception catch (e) {
       talker.warning('[SudoDialog] Failed to load MFA methods: $e');
       if (!mounted) {
@@ -121,6 +165,9 @@ class _SudoVerificationSheetContentState
       }
       // Fall back to password-only.
       setState(() => _isLoading = false);
+      if (_keyboardRestore.hasPendingRestore) {
+        _keyboardRestore.scheduleRestoreIfPending();
+      }
     }
   }
 
@@ -228,6 +275,7 @@ class _SudoVerificationSheetContentState
             if (_selectedMethod == _SudoMethod.password)
               FluxerInput(
                 controller: _passwordController,
+                focusNode: _inputFocusNode,
                 label: l10n.password,
                 obscureText: true,
                 autofocus: true,
@@ -236,11 +284,15 @@ class _SudoVerificationSheetContentState
             else
               FluxerInput(
                 controller: _totpController,
+                focusNode: _inputFocusNode,
                 label: l10n.sudoAuthenticatorCode,
                 autofocus: true,
-                keyboardType: TextInputType.text,
+                maxLength: 10,
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 autocorrect: false,
                 enableSuggestions: false,
+                autofillHints: const [AutofillHints.oneTimeCode],
                 onSubmitted: (_) => _submit(),
               ),
             SizedBox(height: layout.s4),

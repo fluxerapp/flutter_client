@@ -94,6 +94,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     readStateWriteBatcher: ref.read(readStateWriteBatcherProvider),
     messageMentionContextCache: mentionCache,
     messageWriteBatcher: ref.read(messageWriteBatcherProvider),
+    channelLastMessageIndex: ref.read(channelLastMessageIndexProvider),
     mentionFeedWriteBatcher: ref.read(mentionFeedWriteBatcherProvider),
     reactionWriteBatcher: ref.read(reactionWriteBatcherProvider),
     currentUserId: currentUserId,
@@ -119,7 +120,12 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
           '[Gateway] compression: negotiated=${stats.compressionNegotiated} frames=${stats.frames} wire=${stats.wireBytes} decompressed=${stats.decompressedBytes}',
         );
       }
-      unawaited(ref.read(channelPermissionCacheProvider.notifier).rebuildAll());
+      final String? activeGuildId = ref.read(activeGuildIdProvider);
+      unawaited(
+        ref
+            .read(channelPermissionCacheProvider.notifier)
+            .rebuildAfterReady(priorityGuildId: activeGuildId),
+      );
       ref
         ..invalidate(effectiveGuildChannelPermissionBitsProvider)
         ..invalidate(channelLocalGuildChannelPermissionBitsProvider);
@@ -130,7 +136,6 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       ref.read(memberListViewportProvider.notifier).clearSession();
       ref.read(memberListDesiredRangesProvider.notifier).clearAll();
       ref.read(memberListUpdateBatcherProvider).clearAll();
-      final String? activeGuildId = ref.read(activeGuildIdProvider);
       if (activeGuildId != null) {
         ref
             .read(guildSyncProvider.notifier)

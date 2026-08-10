@@ -16,12 +16,14 @@ class DmViewState {
   final List<Friend> friendsList;
   final FriendsTab activeTab;
   final String searchQuery;
+  final bool hasReceivedInitialConversations;
 
   const DmViewState({
     required this.conversations,
     required this.friendsList,
     required this.activeTab,
     required this.searchQuery,
+    this.hasReceivedInitialConversations = false,
   });
 
   List<Friend> get filteredFriends {
@@ -74,12 +76,16 @@ class DmViewState {
     List<Friend>? friendsList,
     FriendsTab? activeTab,
     String? searchQuery,
+    bool? hasReceivedInitialConversations,
   }) {
     return DmViewState(
       conversations: conversations ?? this.conversations,
       friendsList: friendsList ?? this.friendsList,
       activeTab: activeTab ?? this.activeTab,
       searchQuery: searchQuery ?? this.searchQuery,
+      hasReceivedInitialConversations:
+          hasReceivedInitialConversations ??
+          this.hasReceivedInitialConversations,
     );
   }
 }
@@ -97,7 +103,10 @@ class DmViewModel extends _$DmViewModel {
     unawaited(_dmSub?.cancel());
     _dmSub = dmRepo.watchDmChannels().listen(
       (convos) {
-        state = state.copyWith(conversations: convos);
+        state = state.copyWith(
+          conversations: convos,
+          hasReceivedInitialConversations: true,
+        );
       },
       onError: (Object error) {
         talker.error('[DmViewModel] DM watch error: $error');

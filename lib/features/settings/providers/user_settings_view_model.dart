@@ -1286,6 +1286,7 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
               profileFlags: Value(state.guildProfileFlags),
             ),
           );
+      reset();
     } on Exception catch (e) {
       talker.error('Failed to save guild profile', e);
       state = state.copyWith(

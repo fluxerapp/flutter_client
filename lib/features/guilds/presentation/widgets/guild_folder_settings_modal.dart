@@ -6,6 +6,8 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_folder_menu_data.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_folder_icon.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/color_picker/fluxer_color_picker_field.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
@@ -22,6 +24,20 @@ class GuildFolderSettingsModal extends ConsumerStatefulWidget {
 
   static Future<void> show(BuildContext context, {required int folderId}) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    if (isMobileLayout(context)) {
+      final layout = context.layout;
+      return FluxerBottomSheet.show<void>(
+        context,
+        title: l10n.guildFolderSettingsTitle,
+        useRootNavigator: true,
+        builder: (BuildContext sheetContext, VoidCallback close) {
+          return SingleChildScrollView(
+            padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+            child: GuildFolderSettingsModal(folderId: folderId),
+          );
+        },
+      );
+    }
     return FluxerModal.show<void>(
       context,
       title: l10n.guildFolderSettingsTitle,
@@ -142,6 +158,7 @@ class _GuildFolderSettingsModalState
           hint: placeholder,
           maxLength: 100,
           autofocus: true,
+          onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
         ),
         SizedBox(height: layout.s3),
         FluxerColorPickerField(
@@ -169,7 +186,6 @@ class _GuildFolderSettingsModalState
           label: l10n.guildFolderIconLabel,
           value: _icon,
           enableSearch: false,
-          scrollableSheet: true,
           items: [
             for (final String iconId in kGuildFolderIconIds)
               FluxerSelectItem<String>(

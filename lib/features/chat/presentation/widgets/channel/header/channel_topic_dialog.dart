@@ -22,7 +22,7 @@ Future<void> showChannelTopicDialog(
         child: MessageMarkdown(
           data: topic,
           channelId: channelId,
-          markdownContext: FluxerMarkdownContext.restrictedInlineReply,
+          markdownContext: FluxerMarkdownContext.restrictedChannelTopic,
           baseStyle: dialogContext.textStyles.bodySmall.copyWith(
             color: dialogContext.colors.textSecondary,
           ),

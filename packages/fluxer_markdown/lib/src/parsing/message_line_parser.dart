@@ -23,7 +23,8 @@ final class MessageBlockSpoilerSegment extends MessageContentSegment {
 
 bool usesMessageLineParsing(FluxerMarkdownContext context) {
   return context == FluxerMarkdownContext.standardWithJumbo ||
-      context == FluxerMarkdownContext.standardWithoutJumbo;
+      context == FluxerMarkdownContext.standardWithoutJumbo ||
+      context == FluxerMarkdownContext.restrictedChannelTopic;
 }
 
 String normalizeBlockquoteBarMarkdown(String text) {
@@ -98,15 +99,24 @@ List<MessageContentSegment> _parseMessageContentStructureUncached(
       if (i + blankCount < lines.length) {
         final nextTrimmed = lines[i + blankCount].trimLeft();
         final isNextHeading = _isHeadingStart(nextTrimmed, features);
-        if (_shouldPreserveBlankLines(
-          hasBufferedText: textFlowBuffer.isNotEmpty,
-          followsBlockSegment: _lastSegmentIsBlock(segments),
-          isNextHeading: isNextHeading,
-          previousWasHeading: previousWasHeading,
-        )) {
+        final int blanksToPreserve = isNextHeading || previousWasHeading
+            ? blankCount > 0
+                  ? blankCount - 1
+                  : 0
+            : blankCount;
+        if (blanksToPreserve > 0 &&
+            (_shouldPreserveBlankLines(
+                  hasBufferedText: textFlowBuffer.isNotEmpty,
+                  followsBlockSegment: _lastSegmentIsBlock(segments),
+                ) ||
+                (textFlowBuffer.isEmpty &&
+                    !isNextHeading &&
+                    !_lastSegmentIsBlock(segments)))) {
           final bool followsBlock =
               textFlowBuffer.isEmpty && _lastSegmentIsBlock(segments);
-          final int newlineCount = followsBlock ? blankCount + 1 : blankCount;
+          final int newlineCount = followsBlock
+              ? blanksToPreserve + 1
+              : blanksToPreserve;
           textFlowBuffer.write('\n' * newlineCount);
         }
       }
@@ -205,12 +215,7 @@ bool _lastSegmentIsBlock(List<MessageContentSegment> segments) {
 bool _shouldPreserveBlankLines({
   required bool hasBufferedText,
   required bool followsBlockSegment,
-  required bool isNextHeading,
-  required bool previousWasHeading,
 }) {
-  if (isNextHeading || previousWasHeading) {
-    return false;
-  }
   return hasBufferedText || followsBlockSegment;
 }
 

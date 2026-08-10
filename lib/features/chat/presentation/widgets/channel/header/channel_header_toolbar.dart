@@ -133,7 +133,10 @@ class ChannelHeaderToolbar extends ConsumerWidget {
             isActive: isMemberListVisible,
             onPressed: () => ref
                 .read(channelListViewModelProvider.notifier)
-                .toggleMemberList(),
+                .toggleMemberList(
+                  channelId: channelId,
+                  channelType: channel?.type,
+                ),
           ),
         if (showSearch && targetId != null)
           ChannelHeaderSearchField(

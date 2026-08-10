@@ -154,7 +154,6 @@ class GuildReadState extends _$GuildReadState {
       if (updates.isEmpty) {
         return;
       }
-      _pendingTrustIndex.addAll(updates.keys);
       _enqueueChannels(
         updates.keys,
         db,
@@ -328,19 +327,18 @@ class GuildReadState extends _$GuildReadState {
     required String? currentUserId,
   }) async {
     final generation = ++_recomputeGeneration;
+    final ChannelLastMessageIndex lastMessageIndex = ref.read(
+      channelLastMessageIndexProvider,
+    );
     if (_pendingLatestRefresh.isNotEmpty) {
       final latestIds = _pendingLatestRefresh.toList();
       _pendingLatestRefresh.clear();
-      final ChannelLastMessageIndex lastMessageIndex = ref.read(
-        channelLastMessageIndexProvider,
-      );
+      final trustedFromRefresh = <String>[];
       for (final id in latestIds) {
         final channel = _channelSnapshot[id];
         if (channel != null && isGuildTextBasedChannel(channel.type)) {
           if (_pendingTrustIndex.remove(id)) {
-            _latestMessageIdByChannel[id] =
-                lastMessageIndex.lastMessageIdFor(id) ?? channel.lastMessageId;
-            _channelLastExistsInCacheByChannel[id] = true;
+            trustedFromRefresh.add(id);
           } else {
             final resolved = await resolveLatestMessageIdForChannel(
               db,
@@ -355,23 +353,11 @@ class GuildReadState extends _$GuildReadState {
           _channelLastExistsInCacheByChannel.remove(id);
         }
       }
+      _applyTrustedIndexLatestIds(trustedFromRefresh, lastMessageIndex);
     }
     final pendingTrust = _pendingTrustIndex.toSet();
     _pendingTrustIndex.clear();
-    for (final id in pendingTrust) {
-      if (_latestMessageIdByChannel.containsKey(id)) {
-        continue;
-      }
-      final channel = _channelSnapshot[id];
-      if (channel != null && isGuildTextBasedChannel(channel.type)) {
-        final ChannelLastMessageIndex lastMessageIndex = ref.read(
-          channelLastMessageIndexProvider,
-        );
-        _latestMessageIdByChannel[id] =
-            lastMessageIndex.lastMessageIdFor(id) ?? channel.lastMessageId;
-        _channelLastExistsInCacheByChannel[id] = true;
-      }
-    }
+    _applyTrustedIndexLatestIds(pendingTrust, lastMessageIndex);
     final pending = _pendingChannelIds.toList();
     _pendingChannelIds.clear();
     if (pending.isEmpty) {
@@ -443,6 +429,30 @@ class GuildReadState extends _$GuildReadState {
     }
     if (mutated) {
       state = next;
+    }
+  }
+
+  void _applyTrustedIndexLatestIds(
+    Iterable<String> channelIds,
+    ChannelLastMessageIndex lastMessageIndex,
+  ) {
+    for (final id in channelIds) {
+      final channel = _channelSnapshot[id];
+      if (channel == null || !isGuildTextBasedChannel(channel.type)) {
+        continue;
+      }
+      final indexId =
+          lastMessageIndex.lastMessageIdFor(id) ?? channel.lastMessageId;
+      if (indexId == null) {
+        continue;
+      }
+      final currentLatest = _latestMessageIdByChannel[id];
+      if (currentLatest != null &&
+          compareSnowflakeIds(indexId, currentLatest) <= 0) {
+        continue;
+      }
+      _latestMessageIdByChannel[id] = indexId;
+      _channelLastExistsInCacheByChannel[id] = true;
     }
   }
 

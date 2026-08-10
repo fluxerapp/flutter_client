@@ -385,6 +385,59 @@ void main() {
       );
     });
 
+    test(
+      'resolveJumpScrollTargetId prefers the exact target, else neighbour',
+      () {
+        expect(
+          resolveJumpScrollTargetId(
+            jumpTargetId: idB,
+            messageIds: <String>[idA, idB, idC],
+          ),
+          idB,
+        );
+        expect(
+          resolveJumpScrollTargetId(
+            jumpTargetId: idB,
+            messageIds: const <String>[],
+          ),
+          isNull,
+          reason: 'empty window cannot resolve a neighbour',
+        );
+        // Missing target between B and C: prefer the next newer neighbour.
+        expect(
+          resolveJumpScrollTargetId(
+            jumpTargetId: idC,
+            messageIds: <String>[idA, idB, idD],
+          ),
+          idD,
+        );
+        // Missing target older than the window: land on the oldest loaded row.
+        expect(
+          resolveJumpScrollTargetId(
+            jumpTargetId: idA,
+            messageIds: <String>[idB, idC, idD],
+          ),
+          idB,
+        );
+        // Missing target newer than the window: land on the newest loaded row.
+        expect(
+          resolveJumpScrollTargetId(
+            jumpTargetId: idD,
+            messageIds: <String>[idA, idB, idC],
+          ),
+          idC,
+        );
+        expect(
+          resolveJumpScrollTargetId(
+            jumpTargetId: idB,
+            messageIds: <String>[idA, idB, idC],
+            jumpTargetOffset: 1,
+          ),
+          idC,
+        );
+      },
+    );
+
     test('m16e: the quota boundary decides, and it fails toward detached', () {
       // The one rung the integration tests cannot pin, because the pointer
       // consult can absorb either verdict. expectedNewer - 1 newer rows is the

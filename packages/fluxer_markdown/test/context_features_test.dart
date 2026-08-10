@@ -42,6 +42,17 @@ void main() {
       expect(processed, contains(r'\- item'));
     });
 
+    test('restricted embed description allows headings and alerts', () {
+      final features = MarkdownParseTestHelper.featuresFor(
+        FluxerMarkdownContext.restrictedEmbedDescription,
+      );
+      expect(features.allowHeadings, isTrue);
+      expect(features.allowAlerts, isTrue);
+      expect(features.allowTables, isFalse);
+      final nodes = MarkdownParseTestHelper.parseBlock('# Title', features);
+      expect(MarkdownParseTestHelper.containsTag(nodes, 'h1'), isTrue);
+    });
+
     test('restricted embed description escapes table pipes', () {
       final features = MarkdownParseTestHelper.featuresFor(
         FluxerMarkdownContext.restrictedEmbedDescription,

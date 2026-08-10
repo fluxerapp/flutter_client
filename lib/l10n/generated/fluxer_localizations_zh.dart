@@ -5054,10 +5054,10 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get voiceParticipantMenuUnfocus => 'Unfocus';
 
   @override
-  String get voiceParticipantMenuCommunityMute => 'Mute';
+  String get voiceParticipantMenuCommunityMute => 'Community mute';
 
   @override
-  String get voiceParticipantMenuCommunityDeafen => 'Deafen';
+  String get voiceParticipantMenuCommunityDeafen => 'Community deafen';
 
   @override
   String get voiceParticipantMenuUserVolume => 'User volume';
@@ -5281,6 +5281,576 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get privacyDashboardCommunicationSection => '通讯';
+
+  @override
+  String get privacyDashboardProfilePrivacySection => 'Profile privacy';
+
+  @override
+  String get privacyDashboardFriendsAndDirectMessagesSection =>
+      'Friends & direct messages';
+
+  @override
+  String get privacyDashboardActivitySharingSection => 'Activity sharing';
+
+  @override
+  String get privacyDashboardSensitiveContentSection => 'Sensitive content';
+
+  @override
+  String get privacyDashboardDataExportSection => 'Data export';
+
+  @override
+  String get privacyDashboardDataDeletionSection => 'Data deletion';
+
+  @override
+  String get privacyDashboardProfilePrivacyTitle =>
+      'Who can see your full profile';
+
+  @override
+  String get privacyDashboardProfilePrivacyAllCommunities =>
+      'Friends and all communities';
+
+  @override
+  String get privacyDashboardProfilePrivacyAllCommunitiesDesc =>
+      'Your full profile is visible to friends and to anyone in your communities';
+
+  @override
+  String get privacyDashboardProfilePrivacySmallCommunities =>
+      'Friends and small communities only';
+
+  @override
+  String get privacyDashboardProfilePrivacySmallCommunitiesDesc =>
+      'Your full profile is visible to friends and members of your communities with 200 or fewer members';
+
+  @override
+  String get privacyDashboardProfilePrivacyFriendsOnly => 'Friends only';
+
+  @override
+  String get privacyDashboardProfilePrivacyFriendsOnlyDesc =>
+      'Your full profile is only visible to your friends';
+
+  @override
+  String get privacyDashboardFriendRequestsTitle => 'Friend requests';
+
+  @override
+  String get privacyDashboardFriendRequestsEveryone => 'Everyone';
+
+  @override
+  String get privacyDashboardFriendRequestsEveryoneDesc =>
+      'Allow anyone to send you friend requests';
+
+  @override
+  String get privacyDashboardFriendRequestsFriendsOfFriends =>
+      'Friends of Friends';
+
+  @override
+  String get privacyDashboardFriendRequestsFriendsOfFriendsDesc =>
+      'Allow friends of your friends to send you requests';
+
+  @override
+  String get privacyDashboardFriendRequestsCommunityMembers =>
+      'Community Members';
+
+  @override
+  String get privacyDashboardFriendRequestsCommunityMembersDesc =>
+      'Allow members from communities you\'re in to send you requests';
+
+  @override
+  String get privacyDashboardDirectMessagesTitle => 'Direct messages';
+
+  @override
+  String get privacyDashboardDirectMessagesMembers =>
+      'Allow direct messages from community members';
+
+  @override
+  String get privacyDashboardDirectMessagesMembersDesc =>
+      'Allow members from communities you\'re in to send you direct messages';
+
+  @override
+  String get privacyDashboardDirectMessagesBots =>
+      'Allow direct messages from community bots';
+
+  @override
+  String get privacyDashboardDirectMessagesBotsDesc =>
+      'Allow bots from communities you\'re in to send you direct messages';
+
+  @override
+  String get privacyDashboardConnectionsSectionDesc =>
+      'Control who can send you friend requests and direct messages';
+
+  @override
+  String get privacyDashboardCommunicationSectionDesc =>
+      'Control who can call you and add you to group chats';
+
+  @override
+  String get privacyDashboardIncomingCallsTitle => 'Incoming calls';
+
+  @override
+  String get privacyDashboardIncomingCallsDesc => 'Control who can call you';
+
+  @override
+  String get privacyDashboardAllowedCallers => 'Allowed callers';
+
+  @override
+  String get privacyDashboardIncomingCallNobody => 'Nobody';
+
+  @override
+  String get privacyDashboardIncomingCallNobodyDesc =>
+      'Block all incoming calls';
+
+  @override
+  String get privacyDashboardIncomingCallFriendsOnly => 'Friends Only';
+
+  @override
+  String get privacyDashboardIncomingCallFriendsOnlyDesc =>
+      'Only allow friends to call you (recommended)';
+
+  @override
+  String get privacyDashboardIncomingCallCustom => 'Friends + Custom';
+
+  @override
+  String get privacyDashboardIncomingCallCustomDesc =>
+      'Allow friends plus additional groups you choose';
+
+  @override
+  String get privacyDashboardIncomingCallEveryone => 'Everyone';
+
+  @override
+  String get privacyDashboardIncomingCallEveryoneDesc =>
+      'Allow anyone to call you, even strangers';
+
+  @override
+  String get privacyDashboardAdditionalGroups => 'Additional Groups';
+
+  @override
+  String get privacyDashboardCallFriendsOfFriendsDesc =>
+      'People who are friends with your friends can call you';
+
+  @override
+  String get privacyDashboardCallGuildMembersDesc =>
+      'People from communities you\'re both in can call you';
+
+  @override
+  String get privacyDashboardRingBehavior => 'Ring Behavior';
+
+  @override
+  String get privacyDashboardSilentCalls => 'Silent calls from everyone';
+
+  @override
+  String get privacyDashboardSilentCallsDesc =>
+      'All calls will notify silently instead of ringing. By default, calls from non-friends are always silent.';
+
+  @override
+  String get privacyDashboardGroupDmTitle => 'Who Can Add You to Group Chats';
+
+  @override
+  String get privacyDashboardGroupDmDesc =>
+      'Control who can add you to group chats without asking. Anyone can still send you invite links to join.';
+
+  @override
+  String get privacyDashboardAllowedInvites => 'Allowed invites';
+
+  @override
+  String get privacyDashboardGroupDmNobodyDesc =>
+      'Don\'t let anyone add you to group chats without asking';
+
+  @override
+  String get privacyDashboardGroupDmFriendsOnlyDesc =>
+      'Only allow friends to add you without asking (recommended)';
+
+  @override
+  String get privacyDashboardGroupDmCustomDesc =>
+      'Allow friends plus additional groups to add you';
+
+  @override
+  String get privacyDashboardGroupDmEveryoneDesc =>
+      'Allow anyone to add you to group chats without asking';
+
+  @override
+  String get privacyDashboardGroupDmFriendsOfFriendsDesc =>
+      'People who are friends with your friends can add you to group chats';
+
+  @override
+  String get privacyDashboardGroupDmGuildMembersDesc =>
+      'People from communities you\'re both in can add you to group chats';
+
+  @override
+  String get privacyDashboardVoiceActivityTitle =>
+      'Voice activity on active now';
+
+  @override
+  String get privacyDashboardShareVoiceActivity =>
+      'Share your voice activity with friends';
+
+  @override
+  String get privacyDashboardVoiceActivityEnableTitle =>
+      'Share voice activity with all friends?';
+
+  @override
+  String get privacyDashboardVoiceActivityDisableTitle =>
+      'Stop sharing voice activity with all friends?';
+
+  @override
+  String get privacyDashboardVoiceActivityEnableDesc =>
+      'You\'re about to start sharing your voice activity with every friend you have, including future ones. This sends an update to all of them and can only be changed again in 24 hours.';
+
+  @override
+  String get privacyDashboardVoiceActivityDisableDesc =>
+      'You\'re about to stop sharing your voice activity with every friend you have, including future ones. This sends an update to all of them and can only be changed again in 24 hours.';
+
+  @override
+  String get privacyDashboardVoiceActivityEnableConfirm =>
+      'Yes, share with all friends';
+
+  @override
+  String get privacyDashboardVoiceActivityDisableConfirm => 'Yes, stop sharing';
+
+  @override
+  String privacyDashboardVoiceActivityCooldown(String time) {
+    return 'Available again in $time';
+  }
+
+  @override
+  String get privacyDashboardVoiceActivityUpdated =>
+      'Voice activity sharing updated';
+
+  @override
+  String get privacyDashboardVoiceActivityUpdateFailed =>
+      'Couldn\'t update voice activity sharing right now';
+
+  @override
+  String get privacyDashboardDataExportDesc =>
+      'Build a downloadable archive of your account data, including messages and attachment URLs. Most people want everything, but you can narrow the scope below.';
+
+  @override
+  String get privacyDashboardExportMyData => 'Export my data';
+
+  @override
+  String get privacyDashboardDataDeletionDesc =>
+      'Permanently remove messages you have sent across DMs, group DMs, and communities. The work runs in the background, and you will get a DM when it finishes.';
+
+  @override
+  String get privacyDashboardDeleteMyMessages => 'Delete my messages';
+
+  @override
+  String get privacyDashboardDmConfirmAllowMembersTitle =>
+      'Allow direct messages from community members?';
+
+  @override
+  String get privacyDashboardDmConfirmBlockMembersTitle =>
+      'Block direct messages from community members?';
+
+  @override
+  String get privacyDashboardDmConfirmAllowBotsTitle =>
+      'Allow bots to send you direct messages?';
+
+  @override
+  String get privacyDashboardDmConfirmBlockBotsTitle =>
+      'Block bots from sending you direct messages?';
+
+  @override
+  String get privacyDashboardDmConfirmAllowMembersDesc =>
+      'Do you also want to allow direct messages from members of your existing communities?';
+
+  @override
+  String get privacyDashboardDmConfirmBlockMembersDesc =>
+      'Do you also want to block direct messages from members of your existing communities?';
+
+  @override
+  String get privacyDashboardDmConfirmAllowBotsDesc =>
+      'Do you also want to allow bots from your existing communities to send you direct messages?';
+
+  @override
+  String get privacyDashboardDmConfirmBlockBotsDesc =>
+      'Do you also want to block bots from your existing communities?';
+
+  @override
+  String get privacyDashboardDmConfirmPerCommunityHint =>
+      'You can also change this setting per-community by long-pressing the community name and selecting Privacy Settings.';
+
+  @override
+  String get privacyDashboardDmConfirmAllowAll => 'Allow for all communities';
+
+  @override
+  String get privacyDashboardDmConfirmBlockAll => 'Block for all communities';
+
+  @override
+  String get privacyDashboardDmConfirmSkip => 'Skip this step';
+
+  @override
+  String get privacyDashboardDataRequestGoBack => 'Go back';
+
+  @override
+  String get privacyDashboardDataRequestExportTitle => 'Export my data';
+
+  @override
+  String get privacyDashboardDataRequestDeleteTitle => 'Delete my messages';
+
+  @override
+  String get privacyDashboardDataRequestExportSuccess =>
+      'We\'ll process this as soon as possible. You\'ll get an email when your archive is ready.';
+
+  @override
+  String get privacyDashboardDataRequestDeleteSuccess =>
+      'We\'ll process this as soon as possible. You\'ll get a DM from us when it\'s done.';
+
+  @override
+  String get privacyDashboardDataRequestScopeTitle => 'What to include';
+
+  @override
+  String get privacyDashboardDataRequestExportEverything => 'Everything';
+
+  @override
+  String get privacyDashboardDataRequestExportEverythingDesc =>
+      'Export every message you have ever sent, plus all of your account settings, memberships, and metadata.';
+
+  @override
+  String get privacyDashboardDataRequestExportCustom => 'Custom selection';
+
+  @override
+  String get privacyDashboardDataRequestExportCustomDesc =>
+      'Choose which conversation kinds, communities, and time window to include in the archive.';
+
+  @override
+  String get privacyDashboardDataRequestDeleteSelected =>
+      'Choose what to include';
+
+  @override
+  String get privacyDashboardDataRequestDeleteSelectedDesc =>
+      'Pick which kinds of conversations to clean up.';
+
+  @override
+  String get privacyDashboardDataRequestDeleteInaccessible =>
+      'Only places I can\'t access anymore';
+
+  @override
+  String get privacyDashboardDataRequestDeleteInaccessibleDesc =>
+      'Only delete messages from communities and group DMs you have left or been removed from.';
+
+  @override
+  String get privacyDashboardDataRequestKindsTitle => 'Which conversations';
+
+  @override
+  String get privacyDashboardDataRequestKindsBody =>
+      'Toggle the kinds of conversations you want included.';
+
+  @override
+  String get privacyDashboardDataRequestKindDms => 'Open DMs';
+
+  @override
+  String get privacyDashboardDataRequestKindDmsClosed => 'Closed DMs';
+
+  @override
+  String get privacyDashboardDataRequestKindGroupDms => 'Group DMs';
+
+  @override
+  String get privacyDashboardDataRequestKindCommunities => 'Communities';
+
+  @override
+  String get privacyDashboardDataRequestCommunitiesTitle => 'Which communities';
+
+  @override
+  String get privacyDashboardDataRequestGuildFilterMode => 'Community filter';
+
+  @override
+  String get privacyDashboardDataRequestGuildFilterExclude =>
+      'Include all except selected';
+
+  @override
+  String get privacyDashboardDataRequestGuildFilterInclude =>
+      'Only the selected ones';
+
+  @override
+  String get privacyDashboardDataRequestCommunitiesEmpty =>
+      'You aren\'t in any communities right now.';
+
+  @override
+  String get privacyDashboardDataRequestWhenTitle => 'Time range';
+
+  @override
+  String get privacyDashboardDataRequestDateMode => 'Time range';
+
+  @override
+  String get privacyDashboardDataRequestAllTime => 'All time';
+
+  @override
+  String get privacyDashboardDataRequestCustomRange => 'Custom range';
+
+  @override
+  String get privacyDashboardDataRequestStartDate => 'Start date';
+
+  @override
+  String get privacyDashboardDataRequestEndDate => 'End date';
+
+  @override
+  String get privacyDashboardDataRequestDateHelper =>
+      'Leave either field blank to leave that end of the window unbounded.';
+
+  @override
+  String get privacyDashboardDataRequestNeedInclusion =>
+      'Pick at least one kind of conversation to include.';
+
+  @override
+  String get privacyDashboardDataRequestDateRangeError =>
+      'Start date must be earlier than end date.';
+
+  @override
+  String get privacyDashboardDataRequestConfirmTitle => 'Review and confirm';
+
+  @override
+  String get privacyDashboardDataRequestExportConfirmEverything =>
+      'We\'ll build a downloadable archive of every message you have ever sent and email you when it\'s ready. The download link in that email expires after 7 days.';
+
+  @override
+  String get privacyDashboardDataRequestExportConfirmCustom =>
+      'We\'ll build a downloadable archive that matches the filters below and email you when it\'s ready. The download link in that email expires after 7 days.';
+
+  @override
+  String get privacyDashboardDataRequestDeleteConfirm =>
+      'Permanently delete the messages that match the filters below. This cannot be undone.';
+
+  @override
+  String get privacyDashboardDataRequestDeleteDanger =>
+      'There is no recovery once this starts. We will DM you when it finishes.';
+
+  @override
+  String get privacyDashboardDataRequestRequestExport => 'Request export';
+
+  @override
+  String get privacyDashboardDataRequestDeleteMessages => 'Delete messages';
+
+  @override
+  String get privacyDashboardDataRequestSummaryScope => 'Scope';
+
+  @override
+  String get privacyDashboardDataRequestSummaryConversations => 'Conversations';
+
+  @override
+  String get privacyDashboardDataRequestSummaryCommunities => 'Communities';
+
+  @override
+  String get privacyDashboardDataRequestSummaryTimeRange => 'Time range';
+
+  @override
+  String get privacyDashboardDataRequestSummaryNone => 'None';
+
+  @override
+  String privacyDashboardDataRequestSummaryFrom(String start) {
+    return 'From $start';
+  }
+
+  @override
+  String privacyDashboardDataRequestSummaryUntil(String end) {
+    return 'Until $end';
+  }
+
+  @override
+  String privacyDashboardDataRequestSummaryBetween(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
+  String privacyDashboardDataRequestSummaryGuildExclude(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# communities',
+      one: '# community',
+    );
+    return 'All except $_temp0';
+  }
+
+  @override
+  String privacyDashboardDataRequestSummaryGuildInclude(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# communities',
+      one: '# community',
+    );
+    return 'Only $_temp0';
+  }
+
+  @override
+  String get privacyDashboardDataRequestSummaryDmsOpen =>
+      'Open direct messages';
+
+  @override
+  String get privacyDashboardDataRequestSummaryDmsClosed =>
+      'Closed direct messages';
+
+  @override
+  String get privacyDashboardDataRequestSummaryDmsBoth =>
+      'Direct messages (open and closed)';
+
+  @override
+  String get privacyDashboardDataRequestSummaryGroupDms => 'Group DMs';
+
+  @override
+  String get privacyDashboardDataRequestSummaryCommunitiesIncluded =>
+      'Communities';
+
+  @override
+  String privacyDashboardDurationHoursMinutes(int hours, int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '# hours',
+      one: '# hour',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '# minutes',
+      one: '# minute',
+    );
+    return '$_temp0 and $_temp1';
+  }
+
+  @override
+  String privacyDashboardDurationHours(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '# hours',
+      one: '# hour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String privacyDashboardDurationMinutes(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '# minutes',
+      one: '# minute',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String privacyDashboardDurationSeconds(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: '# seconds',
+      one: '# second',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get privacyDashboardLoadFailed => 'Failed to load privacy settings';
+
+  @override
+  String get privacyDashboardRetry => 'Retry';
+
+  @override
+  String get privacyDashboardSensitiveContentSaveFailed =>
+      'Failed to save sensitive content settings.';
+
+  @override
+  String get privacyDashboardDataRequestFailed => 'Failed to complete request.';
 
   @override
   String get chatMessageDeleteFailed => '删除失败的消息';

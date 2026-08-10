@@ -87,11 +87,11 @@ void main() {
       _expectAllEmojisJumbo(tester);
     });
 
-    testWidgets('more than six emoji-only lines use normal size', (
+    testWidgets('more than thirty emoji-only lines use normal size', (
       tester,
     ) async {
       final String input = List<String>.generate(
-        7,
+        31,
         (int index) => '<:e$index:${index.toString().padLeft(18, '1')}>',
       ).join('\n');
       await _pumpMarkdown(tester, input);

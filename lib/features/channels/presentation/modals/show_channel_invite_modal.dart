@@ -25,17 +25,26 @@ Future<void> showChannelInviteModal(
   if (useVanityUrl && vanityUrlCode != null && vanityUrlCode.isNotEmpty) {
     inviteUrl = '$inviteBase/$vanityUrlCode';
   } else {
-    final FluxerClient client = ref.read(fluxerClientProvider);
-    final invite = await client.invites.createChannelInvite(
-      channelId: channelId,
-      body: const ChannelInviteCreateRequest(
-        maxAge: 604800,
-        maxUses: 0,
-        temporary: false,
-      ),
-    );
-    final String code = invite.toGuildInviteMetadataResponse().code;
-    inviteUrl = '$inviteBase/$code';
+    try {
+      final FluxerClient client = ref.read(fluxerClientProvider);
+      final invite = await client.invites.createChannelInvite(
+        channelId: channelId,
+        body: const ChannelInviteCreateRequest(
+          maxAge: 604800,
+          maxUses: 0,
+          temporary: false,
+        ),
+      );
+      final String code = invite.toGuildInviteMetadataResponse().code;
+      inviteUrl = '$inviteBase/$code';
+    } on Object {
+      if (context.mounted) {
+        ref
+            .read(toastProvider.notifier)
+            .show(FluxerToast(message: l10n.groupDmCreateInviteFailedBody));
+      }
+      return;
+    }
   }
   if (!context.mounted) {
     return;

@@ -20,6 +20,9 @@ bool popTopShellPopupRoute([BuildContext? context]) {
       return true;
     }
   }
+  if (popPopupRouteIfPresent(shellTabOverlayNavigatorKey.currentState)) {
+    return true;
+  }
   for (final GlobalKey<NavigatorState> key in shellBranchNavigatorKeys) {
     if (popPopupRouteIfPresent(key.currentState)) {
       return true;

@@ -5,6 +5,7 @@ import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
 import 'package:fluxer_markdown/src/renderers/fluxer_markdown_renderers.dart';
+import 'package:fluxer_markdown/src/utils/markup_spacing.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 import 'package:markdown/markdown.dart' as md;
 
@@ -167,6 +168,33 @@ void main() {
               config: config,
               context: FluxerMarkdownContext.restrictedEmbedDescription,
             ),
+          ),
+        ),
+      );
+
+      await tester.tapOnText(find.textRange.ofSubstring(url));
+
+      expect(tappedHref, url);
+    });
+
+    testWidgets('autolink taps preserve percent-encoded characters', (
+      tester,
+    ) async {
+      const String url = 'https://example.com/path%20with%20spaces';
+      String? tappedHref;
+      final FluxerMarkdownConfig config = FluxerMarkdownConfig(
+        resolveEmojiShortcode: _noopEmojiShortcode,
+        unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
+        customEmojiUrlBuilder: _noopCustomEmojiUrl,
+        onTapLink: (_, href) async {
+          tappedHref = href;
+        },
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: FluxerMarkdown(data: 'See $url for details', config: config),
           ),
         ),
       );
@@ -724,6 +752,87 @@ void main() {
         isTrue,
       );
     });
+
+    testWidgets('preserves spacing between heading and regular text', (
+      tester,
+    ) async {
+      const String input = '# large text\n\nregular text below';
+      const TextStyle baseStyle = TextStyle(fontSize: 16, height: 1.375);
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: MediaQuery(
+            data: MediaQueryData(textScaler: TextScaler.noScaling),
+            child: Scaffold(
+              body: Center(
+                child: SizedBox(
+                  width: 320,
+                  child: FluxerMarkdown(
+                    data: input,
+                    config: _testMarkdownConfig,
+                    baseStyle: baseStyle,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      final Finder headingFinder = find.textContaining(
+        'large text',
+        findRichText: true,
+      );
+      final Finder regularFinder = find.textContaining(
+        'regular text below',
+        findRichText: true,
+      );
+      expect(headingFinder, findsOneWidget);
+      expect(regularFinder, findsOneWidget);
+
+      final Offset headingBottom = tester.getBottomLeft(headingFinder);
+      final Offset regularTop = tester.getTopLeft(regularFinder);
+      final double lineHeight = FluxerMarkupSpacing.headingBottom;
+      expect(
+        regularTop.dy - headingBottom.dy,
+        greaterThanOrEqualTo(lineHeight - 1),
+      );
+    });
+
+    testWidgets(
+      'preserves extra blank lines after a heading in rendered text',
+      (tester) async {
+        const String input = '# large text\n\n\nregular text below';
+        await tester.pumpWidget(
+          const MaterialApp(
+            home: MediaQuery(
+              data: MediaQueryData(textScaler: TextScaler.noScaling),
+              child: Scaffold(
+                body: Center(
+                  child: SizedBox(
+                    width: 320,
+                    child: FluxerMarkdown(
+                      data: input,
+                      config: _testMarkdownConfig,
+                      baseStyle: baseStyle,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+        final List<String> richTexts = tester
+            .widgetList<RichText>(find.byType(RichText))
+            .map((RichText richText) => richText.text.toPlainText())
+            .toList();
+        expect(
+          richTexts.any(
+            (String text) => text.startsWith('\n\nregular text below'),
+          ),
+          isTrue,
+        );
+      },
+    );
 
     testWidgets('renders multi-line strikethrough across soft line breaks', (
       tester,

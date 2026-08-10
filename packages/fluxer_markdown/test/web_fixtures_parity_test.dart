@@ -97,6 +97,26 @@ void main() {
       );
     });
 
+    test('encoded characters in autolink hrefs are not double-encoded', () {
+      for (final String input in <String>[
+        'https://example.com/path%20with%20spaces',
+        'https://example.com/file%2Fname?query=hello%20world',
+        'http://localhost:5173/path%20test',
+      ]) {
+        final nodes = MarkdownParseTestHelper.parseInline(input, features);
+        expect(
+          MarkdownParseTestHelper.containsTag(nodes, 'a'),
+          isTrue,
+          reason: input,
+        );
+        final md.Element link = nodes.whereType<md.Element>().firstWhere(
+          (md.Element node) => node.tag == 'a',
+        );
+        expect(link.attributes['href'], input, reason: input);
+        expect(link.textContent, input, reason: input);
+      }
+    });
+
     test('localhost http urls autolink', () {
       for (final String input in <String>[
         'http://localhost:5173',
@@ -148,10 +168,59 @@ void main() {
         ),
         contains('Subtext:hello'),
       );
-      for (final String input in <String>['-#', '-# ', '-# \t']) {
+      for (final String input in <String>['-#', '-# ', '-# \t', '-#  hello']) {
         final segments = MarkdownParseTestHelper.parseSegments(input, features);
         expect(segments.whereType<FluxerSubtextSegment>(), isEmpty);
       }
+    });
+
+    test('phone and sms angle links parse', () {
+      final nodes = MarkdownParseTestHelper.parseInline(
+        '<+12025550123> and <sms:+12025550123>',
+        features,
+      );
+      expect(MarkdownParseTestHelper.containsTag(nodes, 'a'), isTrue);
+      final links = nodes.whereType<md.Element>().where(
+        (md.Element e) => e.tag == 'a',
+      );
+      expect(links.length, greaterThanOrEqualTo(2));
+    });
+
+    test('angle email links parse as mailto', () {
+      final nodes = MarkdownParseTestHelper.parseInline(
+        '<user@example.com>',
+        features,
+      );
+      expect(MarkdownParseTestHelper.containsTag(nodes, 'a'), isTrue);
+      final md.Element link = nodes.whereType<md.Element>().firstWhere(
+        (md.Element node) => node.tag == 'a',
+      );
+      expect(link.attributes['href'], 'mailto:user@example.com');
+    });
+
+    test('horizontal rules stay plain text in block parsing', () {
+      final nodes = MarkdownParseTestHelper.parseBlock('---', features);
+      expect(MarkdownParseTestHelper.containsTag(nodes, 'hr'), isFalse);
+    });
+
+    test('setext headings stay plain text in block parsing', () {
+      final nodes = MarkdownParseTestHelper.parseBlock(
+        'Title\n=======',
+        features,
+      );
+      expect(MarkdownParseTestHelper.containsTag(nodes, 'h1'), isFalse);
+    });
+
+    test('rejects slash-command-like masked link labels', () {
+      const String input = '[</command:123>](https://example.com)';
+      final nodes = MarkdownParseTestHelper.parseInline(input, features);
+      expect(MarkdownParseTestHelper.containsTag(nodes, 'a'), isFalse);
+    });
+
+    test('rejects email-like masked link labels', () {
+      const String input = '[user@example.com](https://example.com)';
+      final nodes = MarkdownParseTestHelper.parseInline(input, features);
+      expect(MarkdownParseTestHelper.containsTag(nodes, 'a'), isFalse);
     });
 
     test('rejects whitespace-only formatting markers', () {
@@ -176,6 +245,80 @@ void main() {
         expect(MarkdownParseTestHelper.collectText(nodes), contains('after'));
       },
     );
+
+    test('rejects atx headings above level four', () {
+      for (final String input in <String>['##### h5', '###### h6']) {
+        final nodes = MarkdownParseTestHelper.parseBlock(input, features);
+        expect(MarkdownParseTestHelper.containsTag(nodes, 'h5'), isFalse);
+        expect(MarkdownParseTestHelper.containsTag(nodes, 'h6'), isFalse);
+        expect(MarkdownParseTestHelper.containsTag(nodes, 'h4'), isFalse);
+        expect(
+          MarkdownParseTestHelper.collectText(nodes),
+          contains(input.substring(input.indexOf(' ') + 1)),
+        );
+      }
+    });
+
+    test('rejects indented code blocks', () {
+      const String input = '    indented code';
+      final nodes = MarkdownParseTestHelper.parseBlock(input, features);
+      expect(MarkdownParseTestHelper.containsTag(nodes, 'pre'), isFalse);
+      expect(
+        MarkdownParseTestHelper.collectText(nodes),
+        contains('indented code'),
+      );
+    });
+
+    test('triple underscore renders bold and italic', () {
+      final nodes = MarkdownParseTestHelper.parseInline('___both___', features);
+      expect(MarkdownParseTestHelper.containsTag(nodes, 'strong'), isTrue);
+      expect(MarkdownParseTestHelper.containsTag(nodes, 'em'), isTrue);
+    });
+
+    test('bold can span soft line breaks', () {
+      final nodes = MarkdownParseTestHelper.parseInline(
+        '**line\nbreak**',
+        features,
+      );
+      expect(MarkdownParseTestHelper.containsTag(nodes, 'strong'), isTrue);
+      expect(MarkdownParseTestHelper.collectText(nodes), contains('line'));
+      expect(MarkdownParseTestHelper.collectText(nodes), contains('break'));
+    });
+
+    test('masked links are escaped when allowMaskedLinks is false', () {
+      final features = MarkdownParseTestHelper.featuresWith(
+        allowMaskedLinks: false,
+      );
+      final nodes = MarkdownParseTestHelper.parseInline(
+        '[label](https://example.com)',
+        features,
+      );
+      expect(MarkdownParseTestHelper.containsTag(nodes, 'a'), isFalse);
+    });
+
+    test('autolinks are escaped when allowAutolinks is false', () {
+      final features = MarkdownParseTestHelper.featuresWith(
+        allowAutolinks: false,
+      );
+      final nodes = MarkdownParseTestHelper.parseInline(
+        'https://example.com',
+        features,
+      );
+      expect(MarkdownParseTestHelper.containsTag(nodes, 'a'), isFalse);
+    });
+
+    test('rejects invisible-char masked link labels', () {
+      const String input = '[\u200e ](https://duckduckgo.com)';
+      final nodes = MarkdownParseTestHelper.parseInline(input, features);
+      expect(MarkdownParseTestHelper.containsTag(nodes, 'a'), isFalse);
+    });
+
+    test('rejects single-space list indents in block parsing', () {
+      const String input = ' - item';
+      final nodes = MarkdownParseTestHelper.parseBlock(input, features);
+      expect(MarkdownParseTestHelper.containsTag(nodes, 'li'), isFalse);
+      expect(MarkdownParseTestHelper.collectText(nodes), contains('item'));
+    });
 
     test('block spoiler segment extraction', () {
       const String input = '||\nBlock spoiler content\nClick to reveal!\n||';

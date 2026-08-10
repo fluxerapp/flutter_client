@@ -43,6 +43,13 @@ class _ChatComposerColumnState extends ConsumerState<ChatComposerColumn>
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _scheduleKeyboardMetricsSync();
+    }
+  }
+
+  @override
   void didChangeMetrics() {
     _scheduleKeyboardMetricsSync();
   }

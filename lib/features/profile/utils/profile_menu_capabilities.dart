@@ -17,6 +17,9 @@ class ProfileMenuCapabilities {
     required this.canKick,
     required this.canBan,
     required this.showManageRoles,
+    required this.showCommunityMute,
+    required this.showCommunityDeafen,
+    required this.showDisconnectFromVoice,
   });
 
   /// Whether the "Change nickname" item is shown.
@@ -42,6 +45,15 @@ class ProfileMenuCapabilities {
   /// Whether the "Manage roles" item is shown.
   final bool showManageRoles;
 
+  /// Whether community mute is shown in voice participant menus.
+  final bool showCommunityMute;
+
+  /// Whether community deafen is shown in voice participant menus.
+  final bool showCommunityDeafen;
+
+  /// Whether disconnect is shown in voice participant menus.
+  final bool showDisconnectFromVoice;
+
   static const ProfileMenuCapabilities none = ProfileMenuCapabilities(
     canChangeNickname: false,
     canTransfer: false,
@@ -50,6 +62,9 @@ class ProfileMenuCapabilities {
     canKick: false,
     canBan: false,
     showManageRoles: false,
+    showCommunityMute: false,
+    showCommunityDeafen: false,
+    showDisconnectFromVoice: false,
   );
 }
 
@@ -142,6 +157,14 @@ ProfileMenuCapabilities resolveProfileMenuCapabilities({
 
   final bool canTransfer =
       !isCurrentUser && !targetIsBot && viewerIsOwner && hasGuildMember;
+  final bool canVoiceModerate =
+      mod &&
+      hasGuildMember &&
+      hasPermission(viewerPermissions, Permission.muteMembers);
+  final bool canDisconnectFromVoice =
+      mod &&
+      hasGuildMember &&
+      hasPermission(viewerPermissions, Permission.moveMembers);
 
   return ProfileMenuCapabilities(
     canChangeNickname: canChangeNickname,
@@ -154,5 +177,8 @@ ProfileMenuCapabilities resolveProfileMenuCapabilities({
         hasGuildMember &&
         hasAssignableRoles &&
         hasPermission(viewerPermissions, Permission.manageRoles),
+    showCommunityMute: canVoiceModerate,
+    showCommunityDeafen: canVoiceModerate,
+    showDisconnectFromVoice: canDisconnectFromVoice,
   );
 }

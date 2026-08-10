@@ -41,14 +41,36 @@ void main() {
   });
 
   group('FluxerAvatar', () {
-    testWidgets('user variant renders with fallback text', (tester) async {
+    testWidgets('user variant renders default avatar for user id', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         buildTestApp(
-          const FluxerAvatar.user(fallbackText: 'Alice', showStatus: false),
+          const FluxerAvatar.user(
+            userId: '1',
+            fallbackText: 'Alice',
+            showStatus: false,
+          ),
         ),
       );
 
-      expect(find.text('A'), findsOneWidget);
+      expect(find.byType(CachedNetworkImage), findsOneWidget);
+      expect(find.text('A'), findsNothing);
+    });
+
+    testWidgets('user variant never renders letter fallback', (tester) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          const FluxerAvatar.user(
+            userId: 'not-a-number',
+            fallbackText: 'Alice',
+            showStatus: false,
+          ),
+        ),
+      );
+
+      expect(find.text('A'), findsNothing);
+      expect(find.text('?'), findsNothing);
     });
 
     testWidgets('user variant shows status indicator when status set', (
@@ -56,7 +78,11 @@ void main() {
     ) async {
       await tester.pumpWidget(
         buildTestApp(
-          const FluxerAvatar.user(fallbackText: 'Bob', status: 'online'),
+          const FluxerAvatar.user(
+            userId: '2',
+            fallbackText: 'Bob',
+            status: 'online',
+          ),
         ),
       );
 
@@ -69,6 +95,7 @@ void main() {
       await tester.pumpWidget(
         buildTestApp(
           const FluxerAvatar.user(
+            userId: '3',
             fallbackText: 'Bob',
             status: 'online',
             isMobileStatus: true,
@@ -85,6 +112,7 @@ void main() {
       await tester.pumpWidget(
         buildTestApp(
           const FluxerAvatar.user(
+            userId: '4',
             fallbackText: 'Bob',
             status: 'idle',
             isMobileStatus: true,
@@ -103,6 +131,7 @@ void main() {
       await tester.pumpWidget(
         buildTestApp(
           const FluxerAvatar.user(
+            userId: '5',
             fallbackText: 'Bob',
             status: 'online',
             isTyping: true,
@@ -156,6 +185,7 @@ void main() {
         await tester.pumpWidget(
           buildTestApp(
             const FluxerAvatar.user(
+              userId: '6',
               imageUrl: 'https://cdn.example/avatar.webp',
               fallbackText: 'Alice',
               showStatus: false,

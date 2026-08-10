@@ -70,9 +70,16 @@ class _GuildOverviewWidgetState extends ConsumerState<GuildOverviewWidget> {
   @override
   void didUpdateWidget(covariant GuildOverviewWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.details != widget.details && !_isDirty) {
-      _applyDetails(widget.details);
-      _nameController.text = widget.details.guild.name;
+    if (oldWidget.details == widget.details) {
+      return;
+    }
+    final bool hadOnlyImageChanges =
+        _hasPendingImageChanges && !_hasNonImageChanges;
+    if (!_isDirty || hadOnlyImageChanges) {
+      setState(() {
+        _applyDetails(widget.details);
+        _nameController.text = widget.details.guild.name;
+      });
     }
   }
 
@@ -87,6 +94,10 @@ class _GuildOverviewWidgetState extends ConsumerState<GuildOverviewWidget> {
     _detachedBanner = details.hasDetachedBanner;
     _flexibleNames = details.hasTextChannelFlexibleNames;
     _hideOwnerCrown = details.hasHideOwnerCrown;
+    _clearPendingImageChanges();
+  }
+
+  void _clearPendingImageChanges() {
     _pendingIconUri = null;
     _pendingBannerUri = null;
     _pendingSplashUri = null;
@@ -110,7 +121,18 @@ class _GuildOverviewWidgetState extends ConsumerState<GuildOverviewWidget> {
     super.dispose();
   }
 
-  bool get _isDirty {
+  bool get _hasPendingImageChanges {
+    return _pendingIconUri != null ||
+        _pendingBannerUri != null ||
+        _pendingSplashUri != null ||
+        _pendingEmbedSplashUri != null ||
+        _iconCleared ||
+        _bannerCleared ||
+        _splashCleared ||
+        _embedSplashCleared;
+  }
+
+  bool get _hasNonImageChanges {
     final GuildSettingsDetails details = widget.details;
     final List<String> originalFeatures = _resolveFeatures(details);
     final List<String> currentFeatures = _buildFeatureList();
@@ -121,16 +143,10 @@ class _GuildOverviewWidgetState extends ConsumerState<GuildOverviewWidget> {
         _hideJoinMessages != details.hideJoinMessages ||
         _defaultNotifications != details.defaultMessageNotifications ||
         _splashCardAlignment != details.splashCardAlignment ||
-        !areGuildFeaturesEqual(originalFeatures, currentFeatures) ||
-        _pendingIconUri != null ||
-        _pendingBannerUri != null ||
-        _pendingSplashUri != null ||
-        _pendingEmbedSplashUri != null ||
-        _iconCleared ||
-        _bannerCleared ||
-        _splashCleared ||
-        _embedSplashCleared;
+        !areGuildFeaturesEqual(originalFeatures, currentFeatures);
   }
+
+  bool get _isDirty => _hasNonImageChanges || _hasPendingImageChanges;
 
   List<String> _buildFeatureList() {
     List<String> next = List<String>.from(_features);

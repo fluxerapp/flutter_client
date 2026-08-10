@@ -84,7 +84,7 @@ class DmListTileSubtext extends ConsumerWidget {
   }
 }
 
-class DmListMessagePreviewRow extends StatelessWidget {
+class DmListMessagePreviewRow extends StatefulWidget {
   const DmListMessagePreviewRow({
     required this.preview,
     required this.channelId,
@@ -101,28 +101,56 @@ class DmListMessagePreviewRow extends StatelessWidget {
   final String attachmentLabel;
 
   @override
+  State<DmListMessagePreviewRow> createState() =>
+      _DmListMessagePreviewRowState();
+}
+
+class _DmListMessagePreviewRowState extends State<DmListMessagePreviewRow> {
+  bool _useMarkdown = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      setState(() => _useMarkdown = true);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final DmListMessagePreview messagePreview = preview;
+    final DmListMessagePreview messagePreview = widget.preview;
     if (messagePreview is DmListMarkdownMessagePreview) {
+      final DmListMarkdownMessagePreview markdownPreview = messagePreview;
       return Row(
         crossAxisAlignment: CrossAxisAlignment.baseline,
         textBaseline: TextBaseline.alphabetic,
         children: <Widget>[
-          Text(messagePreview.authorPrefix, style: style, maxLines: 1),
+          Text(markdownPreview.authorPrefix, style: widget.style, maxLines: 1),
           Expanded(
-            child: RepaintBoundary(
-              child: IgnorePointer(
-                child: MessageMarkdown(
-                  data: messagePreview.content,
-                  channelId: channelId,
-                  messageId: messageId,
-                  markdownContext: FluxerMarkdownContext.restrictedInlineReply,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  baseStyle: style,
-                ),
-              ),
-            ),
+            child: _useMarkdown
+                ? RepaintBoundary(
+                    child: IgnorePointer(
+                      child: MessageMarkdown(
+                        data: markdownPreview.content,
+                        channelId: widget.channelId,
+                        messageId: widget.messageId,
+                        markdownContext:
+                            FluxerMarkdownContext.restrictedInlineReply,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        baseStyle: widget.style,
+                      ),
+                    ),
+                  )
+                : Text(
+                    markdownPreview.content,
+                    style: widget.style,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
           ),
         ],
       );
@@ -130,7 +158,7 @@ class DmListMessagePreviewRow extends StatelessWidget {
     if (messagePreview is DmListSystemMessagePreview) {
       return Text(
         messagePreview.text,
-        style: style,
+        style: widget.style,
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
       );
@@ -141,11 +169,11 @@ class DmListMessagePreviewRow extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.baseline,
       textBaseline: TextBaseline.alphabetic,
       children: <Widget>[
-        Text(attachmentPreview.authorPrefix, style: style, maxLines: 1),
+        Text(attachmentPreview.authorPrefix, style: widget.style, maxLines: 1),
         Expanded(
           child: Text(
-            attachmentLabel,
-            style: style.copyWith(fontStyle: FontStyle.italic),
+            widget.attachmentLabel,
+            style: widget.style.copyWith(fontStyle: FontStyle.italic),
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
           ),

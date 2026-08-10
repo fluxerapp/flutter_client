@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui' show ImageFilter;
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_highlight/themes/github.dart';
 import 'package:flutter_highlight/themes/vs2015.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
+import 'package:fluxer_markdown/src/parsing/fluxer_inline_syntaxes.dart';
 import 'package:fluxer_markdown/src/parsing/inline_parse_chunks.dart';
 import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
 import 'package:fluxer_markdown/src/syntaxes/fluxer_markdown_syntaxes.dart';
@@ -17,6 +19,7 @@ import 'package:fluxer_markdown/src/utils/ansi_text_parser.dart';
 import 'package:fluxer_markdown/src/utils/code_block_highlight_theme.dart';
 import 'package:fluxer_markdown/src/utils/highlight_languages.dart';
 import 'package:fluxer_markdown/src/utils/jumbo_emoji.dart';
+import 'package:fluxer_markdown/src/utils/markup_spacing.dart';
 import 'package:fluxer_markdown/src/utils/monospace_text_style.dart';
 import 'package:fluxer_markdown/src/widgets/emoji_asset_image.dart';
 import 'package:fluxer_markdown/src/widgets/system_emoji_fallback.dart';
@@ -26,9 +29,81 @@ import 'package:markdown/markdown.dart' as md;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-double _blockSpacingForStyle(TextStyle style) {
-  final double fontSize = style.fontSize ?? 16;
-  return fontSize * 0.5;
+double _blockSpacingForStyle(TextStyle style) => FluxerMarkupSpacing.blockGap;
+
+double _headingFontSize(TextStyle baseStyle, int level) {
+  final double fontSize =
+      baseStyle.fontSize ?? FluxerMarkupSpacing.rootFontSize;
+  return switch (level) {
+    1 => fontSize * 1.375,
+    2 => fontSize * 1.25,
+    3 => fontSize * 1.125,
+    4 => fontSize,
+    _ => fontSize,
+  };
+}
+
+String _unorderedListMarkerForDepth(int depth) {
+  return switch (depth % 3) {
+    0 => '\u2022',
+    1 => '\u25E6',
+    2 => '\u25AA',
+    _ => '\u2022',
+  };
+}
+
+String _orderedListMarkerForDepth(int index, int depth) {
+  return switch (depth % 3) {
+    0 => '$index.',
+    1 => '${_toAlphaListMarker(index)}.',
+    2 => '${_toRomanListMarker(index)}.',
+    _ => '$index.',
+  };
+}
+
+String _toAlphaListMarker(int index) {
+  var value = index;
+  final StringBuffer buffer = StringBuffer();
+  while (value > 0) {
+    value--;
+    buffer.writeCharCode(97 + (value % 26));
+    value ~/= 26;
+  }
+  return buffer.toString().split('').reversed.join();
+}
+
+String _toRomanListMarker(int index) {
+  const List<(int, String)> numerals = <(int, String)>[
+    (1000, 'm'),
+    (900, 'cm'),
+    (500, 'd'),
+    (400, 'cd'),
+    (100, 'c'),
+    (90, 'xc'),
+    (50, 'l'),
+    (40, 'xl'),
+    (10, 'x'),
+    (9, 'ix'),
+    (5, 'v'),
+    (4, 'iv'),
+    (1, 'i'),
+  ];
+  var value = index;
+  final StringBuffer buffer = StringBuffer();
+  for (final (int amount, String symbol) in numerals) {
+    while (value >= amount) {
+      buffer.write(symbol);
+      value -= amount;
+    }
+  }
+  return buffer.toString();
+}
+
+bool _isValidLatexContent(String code) {
+  if (code.length > 1024) {
+    return false;
+  }
+  return RegExp(r'\\[a-zA-Z]+').allMatches(code).length <= 64;
 }
 
 double _orderedListMarkerColumnWidth(int largestNumber, double fontSize) {
@@ -41,7 +116,10 @@ final RegExp _spoilerSyncUrlPattern = RegExp(
   caseSensitive: false,
 );
 
-final RegExp _blankMarkdownLinkLabelPattern = RegExp(r'^\s*$');
+/// Tracks cross segment block render state for message line markdown
+class FluxerMarkdownBlockRenderState {
+  var hasRenderedHeading = false;
+}
 
 Widget defaultFluxerAlertBuilder(
   BuildContext context,
@@ -97,6 +175,7 @@ Widget buildFluxerMarkdownAst({
   required bool isDark,
   int? maxLines,
   TextOverflow? overflow,
+  FluxerMarkdownBlockRenderState? renderState,
 }) {
   final body = _MarkdownBlockRenderer(
     context: context,
@@ -106,6 +185,7 @@ Widget buildFluxerMarkdownAst({
     isDark: isDark,
     maxLines: maxLines,
     overflow: overflow,
+    renderState: renderState,
   ).build(nodes);
 
   return wrapFluxerMarkdownSelectable(
@@ -265,11 +345,19 @@ Widget buildFluxerBlockSpoiler({
     isDark: isDark,
     parseCacheKey: parseCacheKey,
   );
+  final List<md.Node> inlineNodes = inlineDocument.parseInline(text);
+  final md.Element spoilerElement = md.Element(
+    FluxerSpoilerSyntax.tag,
+    inlineNodes,
+  );
   return _FluxerSpoilerSpan(
     initiallyRevealed: config.spoilersInitiallyRevealed,
     spoilerBackgroundColor: config.spoilerBackgroundColor,
     spoilerSyncController: config.spoilerSyncController,
-    syncKeys: const <String>[],
+    syncKeys: _collectSpoilerSyncKeys(
+      spoilerElement,
+      config.spoilerSyncKeyNormalizer,
+    ),
     child: body,
   );
 }
@@ -283,7 +371,7 @@ bool _hasApostropheInLinkAuthority(String href) {
 }
 
 class _MarkdownBlockRenderer {
-  const _MarkdownBlockRenderer({
+  _MarkdownBlockRenderer({
     required this.context,
     required this.baseStyle,
     required this.config,
@@ -291,6 +379,7 @@ class _MarkdownBlockRenderer {
     required this.isDark,
     this.maxLines,
     this.overflow,
+    this.renderState,
   });
 
   final BuildContext context;
@@ -300,12 +389,15 @@ class _MarkdownBlockRenderer {
   final bool isDark;
   final int? maxLines;
   final TextOverflow? overflow;
+  final FluxerMarkdownBlockRenderState? renderState;
+  var _hasRenderedBlock = false;
 
   Widget build(List<md.Node> nodes) {
     if (features.isRestrictedInlinePreview) {
       return _buildRestrictedInlinePreview(nodes);
     }
 
+    _hasRenderedBlock = false;
     final children = <Widget>[];
     for (final node in nodes) {
       final widget = buildBlock(node);
@@ -447,25 +539,16 @@ class _MarkdownBlockRenderer {
       case 'p':
         return _buildParagraph(node.children ?? const []);
       case 'h1':
-        return _buildParagraph(
-          node.children ?? const [],
-          style: baseStyle.copyWith(fontSize: 22, fontWeight: FontWeight.w700),
-        );
+        return _buildHeadingParagraph(node.children ?? const [], level: 1);
       case 'h2':
-        return _buildParagraph(
-          node.children ?? const [],
-          style: baseStyle.copyWith(fontSize: 20, fontWeight: FontWeight.w700),
-        );
+        return _buildHeadingParagraph(node.children ?? const [], level: 2);
       case 'h3':
-        return _buildParagraph(
-          node.children ?? const [],
-          style: baseStyle.copyWith(fontSize: 18, fontWeight: FontWeight.w600),
-        );
+        return _buildHeadingParagraph(node.children ?? const [], level: 3);
       case 'h4':
-        return _buildParagraph(
-          node.children ?? const [],
-          style: baseStyle.copyWith(fontSize: 16, fontWeight: FontWeight.w600),
-        );
+        return _buildHeadingParagraph(node.children ?? const [], level: 4);
+      case 'h5':
+      case 'h6':
+        return _buildParagraph(node.children ?? const []);
       case 'blockquote':
         return _buildBlockquote(node);
       case 'pre':
@@ -477,16 +560,35 @@ class _MarkdownBlockRenderer {
       case 'table':
         return _buildTable(node);
       case 'hr':
-        return Divider(
-          color: Theme.of(context).colorScheme.outlineVariant,
-          height: 16,
-        );
+        return _buildParagraph([md.Text(node.textContent)]);
       default:
         if (_isInlineOnlyTag(node.tag)) {
           return _buildParagraph([node]);
         }
         return build(node.children ?? const []);
     }
+  }
+
+  Widget _buildHeadingParagraph(List<md.Node> nodes, {required int level}) {
+    final bool isFirstBlock = !_hasRenderedBlock;
+    final bool isFirstHeading =
+        renderState?.hasRenderedHeading != true && isFirstBlock;
+    _hasRenderedBlock = true;
+    renderState?.hasRenderedHeading = true;
+    final TextStyle style = baseStyle.copyWith(
+      fontSize: _headingFontSize(baseStyle, level),
+      fontWeight: FontWeight.w600,
+      height: FluxerMarkupSpacing.headingLineHeight,
+    );
+    return Padding(
+      padding: EdgeInsets.only(
+        top: isFirstHeading
+            ? FluxerMarkupSpacing.headingTopFirst
+            : FluxerMarkupSpacing.headingTop,
+        bottom: FluxerMarkupSpacing.headingBottom,
+      ),
+      child: _buildParagraph(nodes, style: style),
+    );
   }
 
   Widget _buildParagraph(
@@ -552,7 +654,9 @@ class _MarkdownBlockRenderer {
 
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.symmetric(vertical: 4),
+      margin: const EdgeInsets.symmetric(
+        vertical: FluxerMarkupSpacing.quoteMargin,
+      ),
       child: Stack(
         children: [
           PositionedDirectional(
@@ -568,7 +672,12 @@ class _MarkdownBlockRenderer {
             ),
           ),
           Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(16, 4, 0, 4),
+            padding: const EdgeInsetsDirectional.fromSTEB(
+              FluxerMarkupSpacing.quoteDividerEnd,
+              FluxerMarkupSpacing.quoteMargin,
+              0,
+              FluxerMarkupSpacing.quoteMargin,
+            ),
             child: quoteBody,
           ),
         ],
@@ -594,10 +703,10 @@ class _MarkdownBlockRenderer {
     );
   }
 
-  Widget _buildList(md.Element node, {required bool ordered}) {
+  Widget _buildList(md.Element node, {required bool ordered, int depth = 0}) {
     final items = node.children?.whereType<md.Element>().toList() ?? const [];
     final start = int.tryParse(node.attributes['start'] ?? '1') ?? 1;
-    final fontSize = baseStyle.fontSize ?? 16;
+    final fontSize = baseStyle.fontSize ?? FluxerMarkupSpacing.rootFontSize;
     final markerColumnWidth = ordered
         ? _orderedListMarkerColumnWidth(
             items.isEmpty ? start : start + items.length - 1,
@@ -605,20 +714,32 @@ class _MarkdownBlockRenderer {
           )
         : fontSize * 1.5;
     final markerTextAlign = ordered ? TextAlign.right : TextAlign.start;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        for (var i = 0; i < items.length; i++)
-          Padding(
-            padding: EdgeInsets.only(bottom: i == items.length - 1 ? 0 : 4),
-            child: _buildListItem(
-              items[i],
-              marker: ordered ? '${start + i}.' : '\u2022',
-              markerColumnWidth: markerColumnWidth,
-              markerTextAlign: markerTextAlign,
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: FluxerMarkupSpacing.listBlockMargin,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          for (var i = 0; i < items.length; i++)
+            Padding(
+              padding: EdgeInsets.only(
+                bottom: i == items.length - 1
+                    ? 0
+                    : FluxerMarkupSpacing.listItemGap,
+              ),
+              child: _buildListItem(
+                items[i],
+                marker: ordered
+                    ? _orderedListMarkerForDepth(start + i, depth)
+                    : _unorderedListMarkerForDepth(depth),
+                markerColumnWidth: markerColumnWidth,
+                markerTextAlign: markerTextAlign,
+                depth: depth,
+              ),
             ),
-          ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -627,6 +748,7 @@ class _MarkdownBlockRenderer {
     required String marker,
     required double markerColumnWidth,
     required TextAlign markerTextAlign,
+    required int depth,
   }) {
     final children = item.children ?? const <md.Node>[];
     final content = <Widget>[];
@@ -647,9 +769,22 @@ class _MarkdownBlockRenderer {
               child.tag == 'ol' ||
               child.tag == 'blockquote')) {
         flushInlineBuffer();
-        final nested = buildBlock(child);
-        if (nested != null) {
-          nestedBlocks.add(nested);
+        if (child.tag == 'ul' || child.tag == 'ol') {
+          if (depth + 1 >= kFluxerMarkdownMaxListNestingDepth) {
+            _appendFlattenedListContent(content, child);
+          } else {
+            final nested = _buildList(
+              child,
+              ordered: child.tag == 'ol',
+              depth: depth + 1,
+            );
+            nestedBlocks.add(nested);
+          }
+        } else {
+          final nested = buildBlock(child);
+          if (nested != null) {
+            nestedBlocks.add(nested);
+          }
         }
         continue;
       }
@@ -674,13 +809,25 @@ class _MarkdownBlockRenderer {
 
     flushInlineBuffer();
 
+    final List<Widget> spacedContent = <Widget>[];
+    for (var i = 0; i < content.length; i++) {
+      if (i > 0) {
+        spacedContent.add(
+          const SizedBox(height: FluxerMarkupSpacing.paragraphBottom),
+        );
+      }
+      spacedContent.add(content[i]);
+    }
+
     final body = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (content.isNotEmpty) ...content,
+        if (spacedContent.isNotEmpty) ...spacedContent,
         if (nestedBlocks.isNotEmpty)
           Padding(
-            padding: const EdgeInsets.only(top: 4),
+            padding: const EdgeInsets.only(
+              top: FluxerMarkupSpacing.listNestedTop,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: nestedBlocks,
@@ -705,6 +852,21 @@ class _MarkdownBlockRenderer {
         Expanded(child: body),
       ],
     );
+  }
+
+  void _appendFlattenedListContent(List<Widget> content, md.Element list) {
+    for (final md.Node item in list.children ?? const <md.Node>[]) {
+      if (item is! md.Element || item.tag != 'li') {
+        continue;
+      }
+      for (final md.Node child in item.children ?? const <md.Node>[]) {
+        if (child is md.Element && child.tag == 'p') {
+          content.add(_buildParagraph(child.children ?? const []));
+        } else if (child is md.Text && child.text.trim().isNotEmpty) {
+          content.add(_buildParagraph([child]));
+        }
+      }
+    }
   }
 
   Widget _buildTable(md.Element table) {
@@ -1082,10 +1244,11 @@ class _MarkdownInlineRenderer {
   InlineSpan _buildLink(md.Element element, TextStyle style) {
     final href = element.attributes['href'] ?? element.textContent;
     final text = element.textContent;
-    if (_blankMarkdownLinkLabelPattern.hasMatch(text)) {
-      return TextSpan(text: '[$text]($href)', style: style);
-    }
-    if (_hasApostropheInLinkAuthority(href)) {
+    if (!hasVisibleMaskedLinkLabel(text) ||
+        _hasApostropheInLinkAuthority(href) ||
+        isEmailLikeMaskedLinkLabel(text) ||
+        isSlashCommandLikeMaskedLinkLabel(text) ||
+        !isValidMaskedLinkUrl(href)) {
       return TextSpan(text: '[$text]($href)', style: style);
     }
     final linkColor = config.linkColor ?? Theme.of(context).colorScheme.primary;
@@ -1459,29 +1622,28 @@ class _FluxerSpoilerSpanState extends State<_FluxerSpoilerSpan>
 
   @override
   Widget build(BuildContext context) {
-    final fill =
-        widget.spoilerBackgroundColor ??
-        Theme.of(context).colorScheme.outlineVariant;
+    final Color? hiddenBackground = widget.spoilerBackgroundColor;
     return GestureDetector(
       onTap: _reveal,
+      behavior: HitTestBehavior.opaque,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(4),
         child: Stack(
           children: [
-            IgnorePointer(
-              ignoring: !_isRevealed,
-              child: FadeTransition(opacity: _opacity, child: widget.child),
-            ),
-            Positioned.fill(
+            ImageFiltered(
+              imageFilter: _isRevealed
+                  ? ImageFilter.blur()
+                  : ImageFilter.blur(sigmaX: 5, sigmaY: 5),
               child: IgnorePointer(
-                ignoring: _isRevealed,
-                child: AnimatedOpacity(
-                  duration: _kDuration,
-                  opacity: _isRevealed ? 0 : 1,
-                  child: ColoredBox(color: fill),
+                ignoring: !_isRevealed,
+                child: Opacity(
+                  opacity: _isRevealed ? 1 : 0,
+                  child: FadeTransition(opacity: _opacity, child: widget.child),
                 ),
               ),
             ),
+            if (!_isRevealed && hiddenBackground != null)
+              Positioned.fill(child: ColoredBox(color: hiddenBackground)),
           ],
         ),
       ),
@@ -1509,7 +1671,7 @@ class FluxerCodeBlockWidget extends StatelessWidget {
   final TextStyle? codeTextStyle;
   final FluxerCodeCopyHandler? onCopyCode;
 
-  static const _kPadding = EdgeInsets.all(12);
+  static const _kPadding = EdgeInsets.all(FluxerMarkupSpacing.codePadding);
   static const _kRadius = BorderRadius.all(Radius.circular(4));
 
   @override
@@ -1530,6 +1692,22 @@ class FluxerCodeBlockWidget extends StatelessWidget {
               Theme.of(context).colorScheme.surfaceContainerHighest);
 
     if (_isLatexLanguage(rawLang)) {
+      if (!_isValidLatexContent(code)) {
+        final TextStyle monoStyle = codeTextStyleFrom(
+          baseStyle,
+          codeTextStyle: codeTextStyle,
+        );
+        return _FluxerCodeBlockWithCopy(
+          code: code,
+          onCopyCode: onCopyCode,
+          child: Container(
+            width: double.infinity,
+            decoration: BoxDecoration(color: bgColor, borderRadius: _kRadius),
+            padding: const EdgeInsets.all(FluxerMarkupSpacing.codePadding),
+            child: Text(code, style: monoStyle),
+          ),
+        );
+      }
       return _FluxerCodeBlockWithCopy(
         code: code,
         onCopyCode: onCopyCode,
@@ -1623,7 +1801,7 @@ class _FluxerLatexCodeBlockBody extends StatelessWidget {
   final Color bgColor;
   final TextStyle? codeTextStyle;
 
-  static const _kPadding = EdgeInsets.all(12);
+  static const _kPadding = EdgeInsets.all(FluxerMarkupSpacing.codePadding);
   static const _kRadius = BorderRadius.all(Radius.circular(4));
 
   @override

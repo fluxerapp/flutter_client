@@ -125,6 +125,7 @@ void main() {
             .takeOrRestore(db),
         '/you',
       );
+      await Future<void>.delayed(Duration.zero);
       expect(
         await container
             .read(preReconnectingLocationProvider.notifier)

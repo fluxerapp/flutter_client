@@ -1,8 +1,8 @@
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
+import 'package:fluxer_markdown/src/parsing/fluxer_block_document.dart';
+import 'package:fluxer_markdown/src/parsing/fluxer_inline_syntaxes.dart';
 import 'package:fluxer_markdown/src/parsing/markdown_preprocessor.dart';
-import 'package:fluxer_markdown/src/syntaxes/fluxer_fenced_code_block_syntax.dart';
-import 'package:fluxer_markdown/src/syntaxes/fluxer_markdown_syntaxes.dart';
 import 'package:markdown/markdown.dart' as md;
 
 class MarkdownParseTestHelper {
@@ -24,22 +24,49 @@ class MarkdownParseTestHelper {
     return parseFluxerMarkdownSegments(processed, features);
   }
 
+  static FluxerMarkdownFeatures featuresWith({
+    bool allowMaskedLinks = true,
+    bool allowAutolinks = true,
+  }) {
+    final FluxerMarkdownFeatures base = featuresFor(
+      FluxerMarkdownContext.standardWithJumbo,
+    );
+    return FluxerMarkdownFeatures(
+      allowAlerts: base.allowAlerts,
+      allowAutolinks: allowAutolinks,
+      allowBlockquotes: base.allowBlockquotes,
+      allowChannelMentions: base.allowChannelMentions,
+      allowCodeBlocks: base.allowCodeBlocks,
+      allowCommandMentions: base.allowCommandMentions,
+      allowEveryoneMentions: base.allowEveryoneMentions,
+      allowGuildNavigations: base.allowGuildNavigations,
+      allowHeadings: base.allowHeadings,
+      allowJumboEmoji: base.allowJumboEmoji,
+      allowLists: base.allowLists,
+      allowMaskedLinks: allowMaskedLinks,
+      allowMultilineBlockquotes: base.allowMultilineBlockquotes,
+      allowPlainInlineCode: base.allowPlainInlineCode,
+      allowRoleMentions: base.allowRoleMentions,
+      allowSpoilers: base.allowSpoilers,
+      allowSubtext: base.allowSubtext,
+      allowTables: base.allowTables,
+      allowUserMentions: base.allowUserMentions,
+    );
+  }
+
   static md.Document inlineDocument(FluxerMarkdownFeatures features) {
     return md.Document(
       encodeHtml: false,
       withDefaultBlockSyntaxes: false,
+      withDefaultInlineSyntaxes: false,
       blockSyntaxes: const [],
       inlineSyntaxes: _inlineSyntaxes(features),
     );
   }
 
   static md.Document blockDocument(FluxerMarkdownFeatures features) {
-    return md.Document(
-      encodeHtml: false,
-      blockSyntaxes: [
-        if (features.allowCodeBlocks) const FluxerFencedCodeBlockSyntax(),
-        if (features.allowTables) const md.TableSyntax(),
-      ],
+    return createFluxerBlockDocument(
+      features: features,
       inlineSyntaxes: _inlineSyntaxes(features),
     );
   }
@@ -121,25 +148,10 @@ class MarkdownParseTestHelper {
   static List<md.InlineSyntax> _inlineSyntaxes(
     FluxerMarkdownFeatures features,
   ) {
-    return [
-      FluxerAppLinkSyntax(),
-      FluxerBracketedAppLinkSyntax(),
-      FluxerUnderlineSyntax(),
-      md.StrikethroughSyntax(),
-      if (features.allowUserMentions) FluxerUserMentionSyntax(),
-      if (features.allowChannelMentions) FluxerChannelMentionSyntax(),
-      if (features.allowRoleMentions) FluxerRoleMentionSyntax(),
-      if (features.allowEveryoneMentions) FluxerEveryoneMentionSyntax(),
-      if (features.allowCommandMentions) FluxerCommandMentionSyntax(),
-      if (features.allowGuildNavigations) FluxerGuildNavigationSyntax(),
-      FluxerTimestampSyntax(),
-      if (features.allowSpoilers) FluxerSpoilerSyntax(),
-      FluxerUnicodeEmojiToneSyntax(_noopEmoji),
-      FluxerUnicodeEmojiSyntax(_noopEmoji),
-      FluxerCustomEmojiSyntax(),
-      FluxerLocalhostAutolinkSyntax(),
-      md.AutolinkExtensionSyntax(),
-    ];
+    return fluxerInlineSyntaxes(
+      features: features,
+      resolveEmojiShortcode: _noopEmoji,
+    );
   }
 }
 

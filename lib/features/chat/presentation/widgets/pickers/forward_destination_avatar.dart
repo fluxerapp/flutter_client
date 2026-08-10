@@ -25,7 +25,7 @@ class ForwardDestinationAvatar extends StatelessWidget {
       case ForwardDestinationKind.dm:
         return FluxerAvatar.user(
           imageUrl: destination.avatarImageUrl,
-          userId: destination.avatarUserId,
+          userId: destination.avatarUserId!,
           fallbackText: destination.displayName,
           showStatus: false,
           size: size,

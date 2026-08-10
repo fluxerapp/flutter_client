@@ -2,17 +2,21 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/parsing/inline_parse_chunks.dart';
 
 void main() {
-  group('hasUnclosedStrikethroughDelimiters', () {
+  group('hasUnclosedInlineParseDelimiters', () {
     test('returns false for balanced delimiters', () {
-      expect(hasUnclosedStrikethroughDelimiters('~~strike~~'), isFalse);
+      expect(hasUnclosedInlineParseDelimiters('~~strike~~'), isFalse);
+      expect(hasUnclosedInlineParseDelimiters('**bold**'), isFalse);
+      expect(hasUnclosedInlineParseDelimiters('||spoiler||'), isFalse);
     });
 
     test('returns true for a single opener', () {
-      expect(hasUnclosedStrikethroughDelimiters('~~strike'), isTrue);
+      expect(hasUnclosedInlineParseDelimiters('~~strike'), isTrue);
+      expect(hasUnclosedInlineParseDelimiters('**bold'), isTrue);
+      expect(hasUnclosedInlineParseDelimiters('||spoiler'), isTrue);
     });
 
     test('ignores escaped delimiters', () {
-      expect(hasUnclosedStrikethroughDelimiters(r'\~~not strike~~'), isTrue);
+      expect(hasUnclosedInlineParseDelimiters(r'\~~not strike~~'), isTrue);
     });
   });
 
@@ -21,12 +25,24 @@ void main() {
       expect(splitIntoInlineParseChunks('hello'), ['hello']);
     });
 
-    test('splits plain lines when no strikethrough spans them', () {
+    test('splits plain lines when no formatting spans them', () {
       expect(splitIntoInlineParseChunks('a\nb'), ['a', 'b']);
     });
 
     test('coalesces lines inside strikethrough', () {
       expect(splitIntoInlineParseChunks('~~a\nb~~'), ['~~a\nb~~']);
+    });
+
+    test('coalesces lines inside bold', () {
+      expect(splitIntoInlineParseChunks('**a\nb**'), ['**a\nb**']);
+    });
+
+    test('coalesces lines inside underline', () {
+      expect(splitIntoInlineParseChunks('__a\nb__'), ['__a\nb__']);
+    });
+
+    test('coalesces lines inside spoilers', () {
+      expect(splitIntoInlineParseChunks('||a\nb||'), ['||a\nb||']);
     });
 
     test('coalesces only the strikethrough span between plain lines', () {

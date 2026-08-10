@@ -6,8 +6,8 @@ import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
 import 'package:fluxer_markdown/src/parsing/markdown_preprocessor.dart';
 import 'package:fluxer_markdown/src/parsing/message_line_parser.dart';
 import 'package:fluxer_markdown/src/renderers/fluxer_markdown_renderers.dart';
-import 'package:fluxer_markdown/src/syntaxes/fluxer_fenced_code_block_syntax.dart';
-import 'package:fluxer_markdown/src/syntaxes/fluxer_markdown_syntaxes.dart';
+import 'package:fluxer_markdown/src/parsing/fluxer_block_document.dart';
+import 'package:fluxer_markdown/src/parsing/fluxer_inline_syntaxes.dart';
 import 'package:fluxer_markdown/src/utils/highlight_languages.dart';
 import 'package:markdown/markdown.dart' as md;
 
@@ -300,6 +300,8 @@ class FluxerMarkdown extends StatelessWidget {
       );
     }
     final children = <Widget>[];
+    final FluxerMarkdownBlockRenderState renderState =
+        FluxerMarkdownBlockRenderState();
     for (var i = 0; i < contentSegments.length; i++) {
       final MessageContentSegment segment = contentSegments[i];
       final Widget? segmentTrailing =
@@ -328,6 +330,7 @@ class FluxerMarkdown extends StatelessWidget {
           style: style,
           isDark: isDark,
           features: features,
+          renderState: renderState,
         ),
         MessageBlockSpoilerSegment(:final text) => buildFluxerBlockSpoiler(
           context: context,
@@ -363,6 +366,7 @@ class FluxerMarkdown extends StatelessWidget {
     required TextStyle style,
     required bool isDark,
     required FluxerMarkdownFeatures features,
+    FluxerMarkdownBlockRenderState? renderState,
   }) {
     final document = _createBlockDocument(features);
     final normalizedText = normalizeBlockquoteBarMarkdown(text);
@@ -380,6 +384,7 @@ class FluxerMarkdown extends StatelessWidget {
       isDark: isDark,
       maxLines: maxLines,
       overflow: overflow,
+      renderState: renderState,
     );
   }
 
@@ -387,48 +392,26 @@ class FluxerMarkdown extends StatelessWidget {
     return md.Document(
       encodeHtml: false,
       withDefaultBlockSyntaxes: false,
+      withDefaultInlineSyntaxes: false,
       blockSyntaxes: const [],
       inlineSyntaxes: _inlineSyntaxes(features),
     );
   }
 
   md.Document _createBlockDocument(FluxerMarkdownFeatures features) {
-    return md.Document(
-      encodeHtml: false,
-      blockSyntaxes: [
-        if (features.allowCodeBlocks) const FluxerFencedCodeBlockSyntax(),
-        if (features.allowTables) const md.TableSyntax(),
-      ],
+    return createFluxerBlockDocument(
+      features: features,
       inlineSyntaxes: _inlineSyntaxes(features),
     );
   }
 
   List<md.InlineSyntax> _inlineSyntaxes(FluxerMarkdownFeatures features) {
-    return [
-      if (config.linkWidgetBuilder != null &&
-          config.internalLinkPattern != null) ...[
-        FluxerJumpLinkSyntax(config.internalLinkPattern!),
-        FluxerBracketedJumpLinkSyntax(config.internalLinkPattern!),
-      ],
-      FluxerAppLinkSyntax(),
-      FluxerBracketedAppLinkSyntax(),
-      FluxerUnderlineSyntax(),
-      md.StrikethroughSyntax(),
-      if (features.allowUserMentions) FluxerUserMentionSyntax(),
-      if (features.allowChannelMentions) FluxerChannelMentionSyntax(),
-      if (features.allowRoleMentions) FluxerRoleMentionSyntax(),
-      if (features.allowEveryoneMentions) FluxerEveryoneMentionSyntax(),
-      if (features.allowCommandMentions) FluxerCommandMentionSyntax(),
-      if (features.allowGuildNavigations) FluxerGuildNavigationSyntax(),
-      FluxerTimestampSyntax(),
-      if (features.allowSpoilers) FluxerSpoilerSyntax(),
-      FluxerUnicodeEmojiToneSyntax(config.resolveEmojiShortcode),
-      FluxerUnicodeEmojiSyntax(config.resolveEmojiShortcode),
-      FluxerCustomEmojiSyntax(),
-      if (config.unicodeEmojiPattern != null)
-        FluxerRawUnicodeEmojiSyntax(config.unicodeEmojiPattern!),
-      FluxerLocalhostAutolinkSyntax(),
-      md.AutolinkExtensionSyntax(),
-    ];
+    return fluxerInlineSyntaxes(
+      features: features,
+      resolveEmojiShortcode: config.resolveEmojiShortcode,
+      internalLinkPattern: config.internalLinkPattern,
+      includeJumpLinks: config.linkWidgetBuilder != null,
+      unicodeEmojiPattern: config.unicodeEmojiPattern,
+    );
   }
 }

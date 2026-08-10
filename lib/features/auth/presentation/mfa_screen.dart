@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/keyboard_focus_restore.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class MfaScreen extends ConsumerWidget {
@@ -185,14 +186,33 @@ class _CodeEntry extends ConsumerStatefulWidget {
   ConsumerState<_CodeEntry> createState() => _CodeEntryState();
 }
 
-class _CodeEntryState extends ConsumerState<_CodeEntry> {
+class _CodeEntryState extends ConsumerState<_CodeEntry>
+    with WidgetsBindingObserver {
   late final TextEditingController _codeController;
+  final _codeFocusNode = FocusNode();
+  late final KeyboardFocusRestoreHandle _keyboardRestore;
 
   @override
   void initState() {
     super.initState();
     _codeController = TextEditingController();
+    _keyboardRestore = KeyboardFocusRestoreHandle(
+      focusNode: _codeFocusNode,
+      shouldTrackOnBackground: _canShowTextInput,
+      canRestoreFocus: () => mounted && _canShowTextInput(),
+    );
+    WidgetsBinding.instance.addObserver(this);
     _codeController.addListener(_syncCodeToViewModel);
+  }
+
+  bool _canShowTextInput() {
+    final vm = ref.read(mfaViewModelProvider(widget.challenge));
+    return !vm.isSubmitting;
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    _keyboardRestore.handleLifecycleState(state);
   }
 
   void _syncCodeToViewModel() {
@@ -203,9 +223,11 @@ class _CodeEntryState extends ConsumerState<_CodeEntry> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _codeController
       ..removeListener(_syncCodeToViewModel)
       ..dispose();
+    _codeFocusNode.dispose();
     super.dispose();
   }
 
@@ -244,6 +266,7 @@ class _CodeEntryState extends ConsumerState<_CodeEntry> {
           FluxerInput(
             controller: _codeController,
             label: widget.l10n.mfaCodeLabel,
+            focusNode: _codeFocusNode,
             autofocus: true,
             maxLength: 10,
             keyboardType: TextInputType.text,

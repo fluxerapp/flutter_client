@@ -3,12 +3,15 @@ import 'dart:convert';
 
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/gateway/channel_last_message_index.dart';
 import 'package:fluxer_app/core/gateway/gateway_ready_guild_parser.dart';
 import 'package:fluxer_app/core/gateway/message_mention_context_cache.dart';
 import 'package:fluxer_app/core/gateway/presence_update_batcher.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
 import 'package:fluxer_app/features/channels/data/read_state_decisions.dart';
+import 'package:fluxer_app/features/channels/domain/channel.dart'
+    show isGuildTextBasedChannel;
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/data/read_state_write_batcher.dart';
@@ -94,6 +97,7 @@ class GatewayEventHandler {
     this.readStateWriteBatcher,
     this.messageMentionContextCache,
     this.messageWriteBatcher,
+    this.channelLastMessageIndex,
     this.mentionFeedWriteBatcher,
     this.reactionWriteBatcher,
     this.currentUserId,
@@ -142,6 +146,7 @@ class GatewayEventHandler {
   final ReadStateWriteBatcher? readStateWriteBatcher;
   final MessageMentionContextCache? messageMentionContextCache;
   final MessageWriteBatcher? messageWriteBatcher;
+  final ChannelLastMessageIndex? channelLastMessageIndex;
   final MentionFeedWriteBatcher? mentionFeedWriteBatcher;
   final ReactionWriteBatcher? reactionWriteBatcher;
   final String? currentUserId;
@@ -411,7 +416,7 @@ class GatewayEventHandler {
           );
         }
       case PassiveUpdatesEvent():
-        _handlePassiveUpdates(event);
+        await _handlePassiveUpdates(event);
       case GuildRoleCreateEvent():
         _logGatewayDebug(
           () => talker.debug('[Gateway] GUILD_ROLE_CREATE: ${event.role.id}'),
@@ -2357,44 +2362,67 @@ class GatewayEventHandler {
     }());
   }
 
-  void _handlePassiveUpdates(PassiveUpdatesEvent event) {
-    final created = event.createdChannels;
-    final updated = event.updatedChannels;
-    final deleted = event.deletedChannelIds;
-
+  Future<void> _handlePassiveUpdates(PassiveUpdatesEvent event) async {
     _logGatewayDebug(
       () => talker.debug(
         '[Gateway] PASSIVE_UPDATES: '
-        'created=${created?.length ?? 0}, '
-        'updated=${updated?.length ?? 0}, '
-        'deleted=${deleted?.length ?? 0}',
+        'channels=${event.channels.length}, '
+        'created=${event.createdChannels?.length ?? 0}, '
+        'updated=${event.updatedChannels?.length ?? 0}, '
+        'deleted=${event.deletedChannelIds?.length ?? 0}',
       ),
     );
 
-    if (created != null) {
-      for (final channel in created) {
-        _logGatewayDebug(
-          () => talker.debug('[Gateway]   +channel: ${channel.id}'),
-        );
-        _handleChannelUpsert(channel);
-      }
+    if (event.channels.isNotEmpty) {
+      await _applyPassiveLastMessageUpdates(
+        guildId: event.guildId,
+        channels: event.channels,
+      );
     }
 
-    if (updated != null) {
-      for (final channel in updated) {
-        _logGatewayDebug(
-          () => talker.debug('[Gateway]   ~channel: ${channel.id}'),
-        );
-        _handleChannelUpsert(channel);
-      }
+    for (final channel in [
+      ...?event.createdChannels,
+      ...?event.updatedChannels,
+    ]) {
+      _logGatewayDebug(
+        () => talker.debug('[Gateway]   channel: ${channel.id}'),
+      );
+      _handleChannelUpsert(channel);
     }
 
-    if (deleted != null) {
-      for (final id in deleted) {
-        _logGatewayDebug(() => talker.debug('[Gateway]   -channel: $id'));
-        unawaited(database.channelDao.deleteChannel(id));
-      }
+    for (final id in event.deletedChannelIds ?? const <String>[]) {
+      _logGatewayDebug(() => talker.debug('[Gateway]   -channel: $id'));
+      unawaited(database.channelDao.deleteChannel(id));
     }
+  }
+
+  Future<void> _applyPassiveLastMessageUpdates({
+    required String guildId,
+    required Map<String, String> channels,
+  }) async {
+    final updates = <String, String>{};
+    for (final entry in channels.entries) {
+      final channel = await database.channelDao.getChannelById(entry.key);
+      if (channel == null ||
+          channel.guildId != guildId ||
+          !isGuildTextBasedChannel(channel.type)) {
+        continue;
+      }
+      final existing = channel.lastMessageId;
+      if (existing != null && compareSnowflakeIds(entry.value, existing) <= 0) {
+        continue;
+      }
+      updates[entry.key] = entry.value;
+    }
+    if (updates.isEmpty) {
+      return;
+    }
+    await database.transaction(() async {
+      for (final entry in updates.entries) {
+        await database.channelDao.updateLastMessageId(entry.key, entry.value);
+      }
+    });
+    channelLastMessageIndex?.applyBatch(updates);
   }
 
   Future<void> _handleGuildEmojisUpdate(GuildEmojisUpdateEvent event) async {

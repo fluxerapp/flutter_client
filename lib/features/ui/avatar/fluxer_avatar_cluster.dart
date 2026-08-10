@@ -3,9 +3,9 @@ import 'dart:math' as math;
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:fluxer_app/core/media/fluxer_media_cdn.dart';
-import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/features/ui/avatar/avatar_status_layout.dart';
+import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_mobile_online_status_indicator.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_status_indicator.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_typing_status_indicator.dart';
@@ -20,8 +20,6 @@ const _kAccentColors = [
   Color(0xFF9B59B6),
 ];
 
-const _kDefaultAvatarCount = 6;
-String get _kStaticCdnUrl => fluxerStaticCdn;
 const _kAvatarBorderSize = 2.0;
 const Duration _kStatusTransitionDuration = Duration(milliseconds: 160);
 
@@ -52,15 +50,11 @@ class AvatarClusterMember {
     this.imageUrl,
   });
 
-  String get resolvedImageUrl {
+  String? get resolvedImageUrl {
     if (imageUrl != null) {
-      return imageUrl!;
+      return imageUrl;
     }
-    final parsedUserId = BigInt.tryParse(userId);
-    final index = parsedUserId != null
-        ? parsedUserId % BigInt.from(_kDefaultAvatarCount)
-        : BigInt.from(userId.hashCode.abs() % _kDefaultAvatarCount);
-    return '$_kStaticCdnUrl/avatars/$index.png';
+    return FluxerMediaUrl.defaultAvatar(userId: userId);
   }
 }
 
@@ -273,32 +267,18 @@ class FluxerAvatarCluster extends StatelessWidget {
     AvatarClusterMember member,
     double avatarSize,
   ) {
-    final text = member.fallbackText;
-    final initial = (text.isNotEmpty) ? text[0].toUpperCase() : '?';
-    final fallbackColor =
-        _kAccentColors[text.hashCode.abs() % _kAccentColors.length];
+    final String? imageUrl = member.resolvedImageUrl;
+    if (imageUrl == null) {
+      return SizedBox(width: avatarSize, height: avatarSize);
+    }
 
     return ClipOval(
-      child: SizedBox(
-        width: avatarSize,
-        height: avatarSize,
-        child: CachedNetworkImage(
-          imageUrl: member.resolvedImageUrl,
-          width: avatarSize,
-          height: avatarSize,
-          fit: BoxFit.cover,
-          errorBuilder: (_, _, _) => Container(
-            color: fallbackColor,
-            alignment: Alignment.center,
-            child: Text(
-              initial,
-              style: context.textStyles.smallText.copyWith(
-                color: Colors.white,
-                fontSize: avatarSize * 0.4,
-              ),
-            ),
-          ),
-        ),
+      child: buildFluxerNetworkAvatarImage(
+        context: context,
+        size: avatarSize,
+        imageUrl: imageUrl,
+        customImageUrl: member.imageUrl,
+        defaultImageUrl: FluxerMediaUrl.defaultAvatar(userId: member.userId),
       ),
     );
   }

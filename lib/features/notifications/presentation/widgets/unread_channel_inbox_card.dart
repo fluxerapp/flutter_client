@@ -38,9 +38,6 @@ class _UnreadChannelInboxCardState
   @override
   void initState() {
     super.initState();
-    if (!widget.entry.isCollapsed) {
-      _loadingPreview = true;
-    }
     WidgetsBinding.instance.addPostFrameCallback((_) => unawaited(_loadMeta()));
   }
 
@@ -131,7 +128,6 @@ class _UnreadChannelInboxCardState
     }
     setState(() {
       _preview = null;
-      _loadingPreview = true;
       _previewGeneration++;
     });
     await _loadPreview();

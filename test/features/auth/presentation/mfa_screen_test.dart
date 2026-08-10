@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/auth/domain/mfa_challenge.dart';
 import 'package:fluxer_app/features/auth/presentation/mfa_screen.dart';
 import 'package:fluxer_app/features/auth/providers/mfa_view_model.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/keyboard_focus_restore.dart';
 import '../../../helpers/test_l10n.dart';
 
 const _challenge = MfaChallenge(
@@ -113,5 +114,53 @@ void main() {
       container.read(mfaViewModelProvider(multiMethodChallenge)).code,
       isEmpty,
     );
+  });
+
+  testWidgets('restores TOTP focus when app resumes from background', (
+    tester,
+  ) async {
+    const multiMethodChallenge = MfaChallenge(
+      ticket: 'mfa-ticket',
+      totp: true,
+      sms: false,
+      webauthn: true,
+    );
+
+    await tester.pumpWidget(
+      ProviderScope(
+        child: _app(
+          MfaScreen(
+            challenge: multiMethodChallenge,
+            onBack: () {},
+            onAuthorized: () {},
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final l10n = FluxerLocalizations.of(tester.element(find.byType(MfaScreen)));
+
+    await tester.tap(find.text(l10n.mfaMethodTotp));
+    await tester.pumpAndSettle();
+
+    final EditableText editable = tester.widget<EditableText>(
+      find.byType(EditableText),
+    );
+    final FocusNode focusNode = editable.focusNode!;
+
+    focusNode.requestFocus();
+    await tester.pumpAndSettle();
+    expect(focusNode.hasFocus, isTrue);
+
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+    focusNode.unfocus();
+    await tester.pump();
+
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+    await tester.pump();
+    await tester.pump(kKeyboardFocusRestoreRetryDelay);
+
+    expect(focusNode.hasFocus, isTrue);
   });
 }

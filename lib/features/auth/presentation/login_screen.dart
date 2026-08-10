@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,6 +16,7 @@ import 'package:fluxer_app/features/auth/presentation/widgets/reset_password_scr
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/ui/background/starfield_background.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 class LoginScreen extends ConsumerWidget {
@@ -104,74 +104,68 @@ class LoginScreen extends ConsumerWidget {
     final layout = context.layout;
 
     return Scaffold(
-      backgroundColor: context.colors.brandPrimary,
-      body: Stack(
-        children: [
-          const Positioned.fill(child: _TiledPatternBackground()),
-          Center(
-            child: Container(
-              width: 800,
-              margin: EdgeInsets.all(layout.s5),
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                color: context.colors.backgroundSecondary,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black26,
-                    spreadRadius: 8,
-                    blurRadius: 24,
+      backgroundColor: Colors.transparent,
+      body: StarfieldBackground(
+        child: Center(
+          child: Container(
+            width: 800,
+            margin: EdgeInsets.all(layout.s5),
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              color: context.colors.backgroundSecondary,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black26,
+                  spreadRadius: 8,
+                  blurRadius: 24,
+                ),
+              ],
+            ),
+            child: IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: ColoredBox(
+                      color: context.colors.backgroundSecondary,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            Assets.fluxerLogoColor,
+                            width: 128,
+                            height: 128,
+                          ),
+                          SizedBox(height: layout.s4),
+                          SvgPicture.asset(
+                            Assets.fluxerLogoText,
+                            height: 36,
+                            theme: SvgTheme(
+                              currentColor: context.colors.textPrimary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  VerticalDivider(color: context.colors.borderColor, width: 1),
+                  Expanded(
+                    flex: 2,
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.all(layout.s8),
+                      child: _buildAuthContent(
+                        context,
+                        ref,
+                        showBrowserLogin: true,
+                      ),
+                    ),
                   ),
                 ],
               ),
-              child: IntrinsicHeight(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(
-                      child: ColoredBox(
-                        color: context.colors.backgroundSecondary,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              Assets.fluxerLogoColor,
-                              width: 128,
-                              height: 128,
-                            ),
-                            SizedBox(height: layout.s4),
-                            SvgPicture.asset(
-                              Assets.fluxerLogoText,
-                              height: 36,
-                              theme: SvgTheme(
-                                currentColor: context.colors.textPrimary,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    VerticalDivider(
-                      color: context.colors.borderColor,
-                      width: 1,
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: SingleChildScrollView(
-                        padding: EdgeInsets.all(layout.s8),
-                        child: _buildAuthContent(
-                          context,
-                          ref,
-                          showBrowserLogin: true,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -180,95 +174,27 @@ class LoginScreen extends ConsumerWidget {
     final layout = context.layout;
 
     return Scaffold(
-      backgroundColor: context.colors.backgroundSecondary,
-      body: AuthViewport(
-        maxWidth: 448,
-        padding: EdgeInsets.symmetric(
-          horizontal: layout.s6,
-          vertical: layout.s8,
-        ),
-        child: Column(
-          children: [
-            SvgPicture.asset(
-              Assets.fluxerWordmarkMonochrome,
-              height: 32,
-              theme: SvgTheme(currentColor: context.colors.textPrimary),
-            ),
-            SizedBox(height: layout.s8),
-            _buildAuthContent(context, ref, showBrowserLogin: false),
-          ],
+      backgroundColor: Colors.transparent,
+      body: StarfieldBackground(
+        child: AuthViewport(
+          maxWidth: 448,
+          padding: EdgeInsets.symmetric(
+            horizontal: layout.s6,
+            vertical: layout.s8,
+          ),
+          child: Column(
+            children: [
+              SvgPicture.asset(
+                Assets.fluxerWordmarkMonochrome,
+                height: 32,
+                theme: SvgTheme(currentColor: context.colors.textPrimary),
+              ),
+              SizedBox(height: layout.s8),
+              _buildAuthContent(context, ref, showBrowserLogin: false),
+            ],
+          ),
         ),
       ),
     );
   }
-}
-
-class _TiledPatternBackground extends StatefulWidget {
-  const _TiledPatternBackground();
-
-  @override
-  State<_TiledPatternBackground> createState() =>
-      _TiledPatternBackgroundState();
-}
-
-class _TiledPatternBackgroundState extends State<_TiledPatternBackground> {
-  ui.Image? _tileImage;
-
-  @override
-  void initState() {
-    super.initState();
-    unawaited(_loadTile());
-  }
-
-  Future<void> _loadTile() async {
-    const loader = SvgAssetLoader(Assets.patternLoginBackground);
-    final pictureInfo = await vg.loadPicture(loader, null);
-    final image = await pictureInfo.picture.toImage(260, 260);
-    pictureInfo.picture.dispose();
-    if (mounted) {
-      setState(() => _tileImage = image);
-    }
-  }
-
-  @override
-  void dispose() {
-    _tileImage?.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (_tileImage == null) {
-      return const SizedBox.expand();
-    }
-    return CustomPaint(
-      painter: _TiledPatternPainter(_tileImage!),
-      size: Size.infinite,
-    );
-  }
-}
-
-class _TiledPatternPainter extends CustomPainter {
-  final ui.Image tile;
-
-  _TiledPatternPainter(this.tile);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..shader = ImageShader(
-        tile,
-        TileMode.repeated,
-        TileMode.repeated,
-        Matrix4.identity().storage,
-      )
-      ..colorFilter = const ColorFilter.mode(
-        Color(0x0DFFFFFF),
-        BlendMode.srcIn,
-      );
-    canvas.drawRect(Offset.zero & size, paint);
-  }
-
-  @override
-  bool shouldRepaint(_TiledPatternPainter old) => old.tile != tile;
 }

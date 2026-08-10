@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart' as database;
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/manage_member_roles_picker.dart';
 import 'package:fluxer_app/features/members/utils/guild_member_menu_state.dart';
@@ -10,6 +10,8 @@ import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart';
+import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_guild_moderation_entries.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_menu_data.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_participant_menu_widgets.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
@@ -246,7 +248,34 @@ class VoiceParticipantContextMenu {
       );
     }
 
+    if (guildId != null && roleMenuState != null) {
+      final String username = _voiceParticipantUsername(target);
+      final List<VoiceParticipantMenuEntry> moderationEntries =
+          buildVoiceParticipantGuildModerationEntries(
+            context: context,
+            ref: ref,
+            l10n: l10n,
+            guildId: guildId,
+            userId: userId,
+            username: username,
+            capabilities: roleMenuState.capabilities,
+            currentNick: roleMenuState.currentNick,
+            close: close,
+          );
+      if (moderationEntries.isNotEmpty) {
+        groups.add(VoiceParticipantMenuGroup(entries: moderationEntries));
+      }
+    }
+
     return groups;
+  }
+
+  static String _voiceParticipantUsername(VoiceParticipantMenuTarget target) {
+    final database.User? user = target.participant.user;
+    if (user == null) {
+      return target.participant.userId;
+    }
+    return user.globalName ?? user.username;
   }
 
   static void _setStreamVolume(WidgetRef ref, String? streamKey, int value) {
@@ -392,14 +421,11 @@ class _VoiceParticipantContextMenuPanel extends ConsumerStatefulWidget {
 
 class _VoiceParticipantContextMenuPanelState
     extends ConsumerState<_VoiceParticipantContextMenuPanel> {
-  ModerationAccess? _moderation;
-  var _moderationLoaded = false;
   GuildMemberMenuState? _roleMenuState;
 
   @override
   void initState() {
     super.initState();
-    unawaited(_loadModeration());
     unawaited(_loadRoleMenuState());
   }
 
@@ -421,34 +447,6 @@ class _VoiceParticipantContextMenuPanelState
     setState(() => _roleMenuState = roleMenuState);
   }
 
-  Future<void> _loadModeration() async {
-    final String? currentUserId = ref.read(currentUserIdProvider);
-    final String? guildId = widget.target.guildId;
-    final String targetUserId = widget.target.participant.userId;
-    if (guildId == null ||
-        currentUserId == null ||
-        currentUserId == targetUserId) {
-      if (!mounted) {
-        return;
-      }
-      setState(() => _moderationLoaded = true);
-      return;
-    }
-    final ModerationAccess moderation = await resolveModerationAccess(
-      ref: ref,
-      guildId: guildId,
-      currentUserId: currentUserId,
-      targetUserId: targetUserId,
-    );
-    if (!mounted) {
-      return;
-    }
-    setState(() {
-      _moderation = moderation;
-      _moderationLoaded = true;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final VoiceState voice = watchTargetVoiceState(ref, widget.target);
@@ -462,7 +460,8 @@ class _VoiceParticipantContextMenuPanelState
           ref: ref,
           target: liveTarget,
           voice: voice,
-          moderation: _moderationLoaded ? _moderation : null,
+          guildCapabilities:
+              _roleMenuState?.capabilities ?? ProfileMenuCapabilities.none,
         );
     final List<VoiceParticipantMenuGroup> groups =
         VoiceParticipantContextMenu.buildGroups(

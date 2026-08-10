@@ -28,6 +28,7 @@ import 'package:fluxer_app/features/channels/presentation/modals/show_channel_in
 import 'package:fluxer_app/features/channels/presentation/sheets/channel_notification_settings_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/mute_duration_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
+import 'package:fluxer_app/features/channels/presentation/widgets/guild_sidebar_skeleton.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_list_typing_indicator.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_unread_indicator.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/voice_channel_participants.dart';
@@ -117,6 +118,13 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
       channelListViewModelProvider.select((s) => s.guild),
     );
     final String? guildId = ref.watch(activeGuildIdProvider);
+    final bool hasReceivedInitialChannelList = ref.watch(
+      channelListViewModelProvider.select(
+        (s) => s.hasReceivedInitialChannelList,
+      ),
+    );
+    final bool guildReady =
+        guild != null && guildId != null && guild.id == guildId;
 
     return Container(
       width: isMobileLayout(context) ? null : 240,
@@ -129,8 +137,8 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
         children: [
           _buildServerHeader(context, guild),
           Expanded(
-            child: guild == null || guildId == null || guild.id != guildId
-                ? const SizedBox.shrink()
+            child: !guildReady || !hasReceivedInitialChannelList
+                ? const GuildSidebarSkeleton()
                 : _GuildSidebarChannelListHost(
                     activeGuildId: guildId,
                     guild: guild,
@@ -893,6 +901,7 @@ class _ChannelTile extends ConsumerWidget {
             menuState: menuState,
             onAction: (ChannelMenuAction action) => _handleChannelMenuAction(
               action,
+              hostContext: context,
               menuContext: sheetContext,
               ref: ref,
               close: close,
@@ -911,6 +920,7 @@ class _ChannelTile extends ConsumerWidget {
         menuState: menuState,
         onAction: (ChannelMenuAction action) => _handleChannelMenuAction(
           action,
+          hostContext: context,
           menuContext: menuContext,
           ref: ref,
           close: close,
@@ -938,6 +948,7 @@ class _ChannelTile extends ConsumerWidget {
 
   void _handleChannelMenuAction(
     ChannelMenuAction action, {
+    required BuildContext hostContext,
     required BuildContext menuContext,
     required WidgetRef ref,
     required VoidCallback close,
@@ -957,7 +968,7 @@ class _ChannelTile extends ConsumerWidget {
         close();
         unawaited(
           showChannelInviteModal(
-            menuContext,
+            hostContext,
             ref,
             channelId: channel.id,
             channelName: channel.name,

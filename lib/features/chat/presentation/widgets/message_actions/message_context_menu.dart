@@ -343,8 +343,8 @@ class _ContextMenuPage extends ConsumerWidget {
             label: l10n.chatMessageEditAttachmentAltText,
             icon: PhosphorIconsBold.pencilSimple,
             onTap: () {
-              callbacks.onEditAttachmentAltText?.call(attachment);
               Navigator.of(context).pop();
+              callbacks.onEditAttachmentAltText?.call(attachment);
             },
           ),
         );

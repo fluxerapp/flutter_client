@@ -87,9 +87,17 @@ class SensitiveContent extends _$SensitiveContent {
       if (next == null) {
         return;
       }
-      state = _stateFromSettings(
-        settings: next,
-        nsfwAllowed: _nsfwAllowedOverride ?? state.nsfwAllowed,
+      // Defer: listen can fire while the widget tree is building.
+      unawaited(
+        Future.microtask(() {
+          if (!ref.mounted) {
+            return;
+          }
+          state = _stateFromSettings(
+            settings: next,
+            nsfwAllowed: _nsfwAllowedOverride ?? state.nsfwAllowed,
+          );
+        }),
       );
     });
     return const SensitiveContentState();

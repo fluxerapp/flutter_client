@@ -282,7 +282,14 @@ class VoiceParticipantMediaTile extends StatelessWidget {
                   ),
                 )
               else
-                Center(child: FluxerAvatar(fallbackText: display, size: 72)),
+                Center(
+                  child: FluxerAvatar.user(
+                    userId: userId,
+                    fallbackText: display,
+                    size: 72,
+                    showStatus: false,
+                  ),
+                ),
               if (showVideoPending)
                 const Center(
                   child: SizedBox(

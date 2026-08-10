@@ -24,26 +24,24 @@ Widget buildTestApp(Widget child) {
   );
 }
 
-Finder _firstDotFinder() => find
-    .descendant(
-      of: find.byType(FluxerTypingStatusIndicator),
-      matching: find.byType(Opacity),
-    )
-    .first;
+Finder _typingPaintFinder() => find.descendant(
+  of: find.byType(FluxerTypingStatusIndicator),
+  matching: find.byType(CustomPaint),
+);
 
-double _firstDotOpacity(WidgetTester tester) {
-  return tester.widget<Opacity>(_firstDotFinder()).opacity;
+CustomPainter _typingPainter(WidgetTester tester) {
+  return tester.widget<CustomPaint>(_typingPaintFinder()).painter!;
 }
 
-List<Offset> _dotCenters(WidgetTester tester) {
-  final Finder dotFinder = find.descendant(
-    of: find.byType(FluxerTypingStatusIndicator),
-    matching: find.byType(Opacity),
-  );
-  return List<Offset>.generate(dotFinder.evaluate().length, (int index) {
-    final RenderBox box = tester.renderObject<RenderBox>(dotFinder.at(index));
-    return box.localToGlobal(box.size.center(Offset.zero));
-  });
+Future<CustomPainter> _awaitPainter(WidgetTester tester) async {
+  final Finder paintFinder = _typingPaintFinder();
+  for (int i = 0; i < 20; i++) {
+    await tester.pump();
+    if (paintFinder.evaluate().isNotEmpty) {
+      return _typingPainter(tester);
+    }
+  }
+  fail('typing indicator painter not found');
 }
 
 Widget _wrapPositioned({required bool onScreen}) => buildTestApp(
@@ -66,6 +64,21 @@ Widget _wrapPositioned({required bool onScreen}) => buildTestApp(
 );
 
 void main() {
+  const List<double> dotDelays = <double>[0, 0.25, 0.5];
+
+  group('typingDotOpacity', () {
+    test('animates left-to-right', () {
+      expect(
+        typingDotOpacity(0, dotDelays[0]),
+        greaterThan(typingDotOpacity(0, dotDelays[2])),
+      );
+      expect(
+        typingDotOpacity(0.6, dotDelays[2]),
+        greaterThan(typingDotOpacity(0.6, dotDelays[0])),
+      );
+    });
+  });
+
   group('FluxerTypingStatusIndicator', () {
     setUp(() {
       VisibilityDetectorController.instance.updateInterval = Duration.zero;
@@ -80,7 +93,9 @@ void main() {
       );
     });
 
-    testWidgets('animates typing dots while visible', (tester) async {
+    testWidgets('animates dots via CustomPainter without Opacity layers', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         buildTestApp(
           const FluxerTypingStatusIndicator(
@@ -91,14 +106,23 @@ void main() {
         ),
       );
       await tester.pump();
-      final double firstOpacity = _firstDotOpacity(tester);
 
+      expect(_typingPaintFinder(), findsOneWidget);
+      expect(
+        find.descendant(
+          of: find.byType(FluxerTypingStatusIndicator),
+          matching: find.byType(Opacity),
+        ),
+        findsNothing,
+      );
+
+      final CustomPainter first = _typingPainter(tester);
       await tester.pump(const Duration(milliseconds: 600));
-      final double secondOpacity = _firstDotOpacity(tester);
-      expect(secondOpacity, isNot(firstOpacity));
+      final CustomPainter second = _typingPainter(tester);
+      expect(second.shouldRepaint(first), isTrue);
     });
 
-    testWidgets('keeps dot order left-to-right in RTL layouts', (tester) async {
+    testWidgets('animates dots left-to-right in RTL layouts', (tester) async {
       await tester.pumpWidget(
         buildTestApp(
           const Directionality(
@@ -113,34 +137,38 @@ void main() {
       );
       await tester.pump();
 
-      final List<Offset> centers = _dotCenters(tester);
-      expect(centers.length, 3);
-      expect(centers[0].dx, lessThan(centers[1].dx));
-      expect(centers[1].dx, lessThan(centers[2].dx));
+      expect(_typingPaintFinder(), findsOneWidget);
+      expect(
+        typingDotOpacity(0, dotDelays[0]),
+        greaterThan(typingDotOpacity(0, dotDelays[2])),
+      );
+      expect(
+        typingDotOpacity(0.6, dotDelays[2]),
+        greaterThan(typingDotOpacity(0.6, dotDelays[0])),
+      );
     });
 
     testWidgets('pauses animation when scrolled offscreen', (tester) async {
       await tester.pumpWidget(_wrapPositioned(onScreen: true));
-      await tester.pump();
-      final double firstOpacity = _firstDotOpacity(tester);
+      final CustomPainter first = await _awaitPainter(tester);
 
       await tester.pump(const Duration(milliseconds: 600));
-      final double secondOpacity = _firstDotOpacity(tester);
+      final CustomPainter second = _typingPainter(tester);
       expect(
-        secondOpacity,
-        isNot(firstOpacity),
+        second.shouldRepaint(first),
+        isTrue,
         reason: 'control: visible typing indicator should animate',
       );
 
       await tester.pumpWidget(_wrapPositioned(onScreen: false));
       await tester.pump();
-      final double frozenOpacity = _firstDotOpacity(tester);
+      final CustomPainter frozen = _typingPainter(tester);
 
       await tester.pump(const Duration(milliseconds: 600));
-      final double afterOffscreen = _firstDotOpacity(tester);
+      final CustomPainter afterOffscreen = _typingPainter(tester);
       expect(
-        afterOffscreen,
-        frozenOpacity,
+        afterOffscreen.shouldRepaint(frozen),
+        isFalse,
         reason: 'offscreen typing indicator must freeze',
       );
     });
@@ -156,25 +184,25 @@ void main() {
         ),
       );
       await tester.pump();
-      final double firstOpacity = _firstDotOpacity(tester);
+      final CustomPainter first = await _awaitPainter(tester);
 
       await tester.pump(const Duration(milliseconds: 600));
-      final double secondOpacity = _firstDotOpacity(tester);
+      final CustomPainter second = _typingPainter(tester);
       expect(
-        secondOpacity,
-        isNot(firstOpacity),
+        second.shouldRepaint(first),
+        isTrue,
         reason: 'control: foreground typing indicator should animate',
       );
 
       tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
       await tester.pump();
-      final double frozenOpacity = _firstDotOpacity(tester);
+      final CustomPainter frozen = _typingPainter(tester);
 
       await tester.pump(const Duration(milliseconds: 600));
-      final double afterPause = _firstDotOpacity(tester);
+      final CustomPainter afterPause = _typingPainter(tester);
       expect(
-        afterPause,
-        frozenOpacity,
+        afterPause.shouldRepaint(frozen),
+        isFalse,
         reason: 'backgrounded typing indicator must freeze',
       );
     });

@@ -19,6 +19,7 @@ import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/channel_settings_flow.dart';
 import 'package:fluxer_app/features/channels/presentation/delete_channel_flow.dart';
+import 'package:fluxer_app/features/channels/presentation/modals/show_channel_invite_modal.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/channel_notification_settings_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/mute_duration_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
@@ -864,7 +865,7 @@ class _TopicCard extends StatelessWidget {
                 child: MessageMarkdown(
                   data: topic,
                   channelId: channelId,
-                  markdownContext: FluxerMarkdownContext.restrictedInlineReply,
+                  markdownContext: FluxerMarkdownContext.restrictedChannelTopic,
                   baseStyle: context.textStyles.bodySmall.copyWith(
                     color: context.colors.textSecondary,
                   ),
@@ -3201,12 +3202,6 @@ class _InlineRetry extends StatelessWidget {
 
 enum _PinnedMessageAction { jump, unpin, copyMessageId, copyMessageLink }
 
-void _stubComingSoon(BuildContext context, WidgetRef ref) {
-  ref
-      .read(toastProvider.notifier)
-      .show(FluxerToast(message: FluxerLocalizations.of(context).comingSoon));
-}
-
 Future<void> _showDetailsMoreSheet(
   BuildContext context, {
   required WidgetRef ref,
@@ -3295,7 +3290,16 @@ Future<void> _showDetailsMoreSheet(
             icon: PhosphorIconsBold.userPlus,
             onTap: () {
               close();
-              _stubComingSoon(context, ref);
+              unawaited(
+                showChannelInviteModal(
+                  context,
+                  ref,
+                  channelId: channel.id,
+                  channelName: channel.name,
+                  guildId: channel.guildId,
+                  useVanityUrl: false,
+                ),
+              );
             },
           ),
         if (channel != null)

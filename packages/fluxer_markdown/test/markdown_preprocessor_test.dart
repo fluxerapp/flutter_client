@@ -159,6 +159,37 @@ code
       expect(alert.body, 'Outside alert');
     });
   });
+
+  group('parseFluxerMarkdownSegments subtext spacing', () {
+    test('preserves blank line after subtext before regular text', () {
+      const String input = '-# small text\n\nregular text below';
+      final List<FluxerMarkdownSegment> segments = parseFluxerMarkdownSegments(
+        input,
+        features,
+      );
+      expect(segments.length, 2);
+      expect(segments.first, isA<FluxerSubtextSegment>());
+      expect((segments.first as FluxerSubtextSegment).text, 'small text');
+      expect(segments.last, isA<FluxerTextSegment>());
+      expect((segments.last as FluxerTextSegment).text, '\nregular text below');
+    });
+
+    test('preserves blank line before subtext after regular text', () {
+      const String input = 'regular text above\n\n-# small text';
+      final List<FluxerMarkdownSegment> segments = parseFluxerMarkdownSegments(
+        input,
+        features,
+      );
+      expect(segments.length, 2);
+      expect(segments.first, isA<FluxerTextSegment>());
+      expect(
+        (segments.first as FluxerTextSegment).text,
+        'regular text above\n',
+      );
+      expect(segments.last, isA<FluxerSubtextSegment>());
+      expect((segments.last as FluxerSubtextSegment).text, 'small text');
+    });
+  });
 }
 
 String _collectMarkdownText(List<md.Node> nodes) {

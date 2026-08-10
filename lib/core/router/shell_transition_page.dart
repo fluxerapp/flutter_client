@@ -4,6 +4,29 @@ import 'package:fluxer_app/features/shell/navigation/shell_transition_policy.dar
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:go_router/go_router.dart';
 
+CustomTransitionPage<void> shellInstantTransitionPage({
+  required LocalKey key,
+  required Widget child,
+  String? name,
+}) {
+  return CustomTransitionPage<void>(
+    key: key,
+    name: name,
+    child: child,
+    transitionDuration: Duration.zero,
+    reverseTransitionDuration: Duration.zero,
+    transitionsBuilder:
+        (
+          BuildContext context,
+          Animation<double> animation,
+          Animation<double> secondaryAnimation,
+          Widget child,
+        ) {
+          return child;
+        },
+  );
+}
+
 CustomTransitionPage<void> shellFadeTransitionPage({
   required BuildContext context,
   required LocalKey key,

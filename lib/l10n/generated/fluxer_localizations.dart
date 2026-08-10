@@ -8777,13 +8777,13 @@ abstract class FluxerLocalizations {
   /// Voice participant context menu item to community-mute another member.
   ///
   /// In en, this message translates to:
-  /// **'Mute'**
+  /// **'Community mute'**
   String get voiceParticipantMenuCommunityMute;
 
   /// Voice participant context menu item to community-deafen another member.
   ///
   /// In en, this message translates to:
-  /// **'Deafen'**
+  /// **'Community deafen'**
   String get voiceParticipantMenuCommunityDeafen;
 
   /// Voice participant context menu slider label for per-user volume.
@@ -9191,6 +9191,870 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Communication'**
   String get privacyDashboardCommunicationSection;
+
+  /// Privacy section label for who can see the user profile details.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile privacy'**
+  String get privacyDashboardProfilePrivacySection;
+
+  /// Privacy dashboard section label for who can send friend requests and direct messages.
+  ///
+  /// In en, this message translates to:
+  /// **'Friends & direct messages'**
+  String get privacyDashboardFriendsAndDirectMessagesSection;
+
+  /// Privacy section label for voice activity sharing.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity sharing'**
+  String get privacyDashboardActivitySharingSection;
+
+  /// Short label in the privacy dashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Sensitive content'**
+  String get privacyDashboardSensitiveContentSection;
+
+  /// Short label in the privacy dashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Data export'**
+  String get privacyDashboardDataExportSection;
+
+  /// Short label in the privacy dashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Data deletion'**
+  String get privacyDashboardDataDeletionSection;
+
+  /// Privacy > Profile privacy: section title.
+  ///
+  /// In en, this message translates to:
+  /// **'Who can see your full profile'**
+  String get privacyDashboardProfilePrivacyTitle;
+
+  /// Privacy > Profile privacy: radio option label.
+  ///
+  /// In en, this message translates to:
+  /// **'Friends and all communities'**
+  String get privacyDashboardProfilePrivacyAllCommunities;
+
+  /// Privacy > Profile privacy: helper text.
+  ///
+  /// In en, this message translates to:
+  /// **'Your full profile is visible to friends and to anyone in your communities'**
+  String get privacyDashboardProfilePrivacyAllCommunitiesDesc;
+
+  /// Privacy > Profile privacy: radio option label.
+  ///
+  /// In en, this message translates to:
+  /// **'Friends and small communities only'**
+  String get privacyDashboardProfilePrivacySmallCommunities;
+
+  /// Privacy > Profile privacy: helper text.
+  ///
+  /// In en, this message translates to:
+  /// **'Your full profile is visible to friends and members of your communities with 200 or fewer members'**
+  String get privacyDashboardProfilePrivacySmallCommunitiesDesc;
+
+  /// Privacy > Profile privacy: radio option label.
+  ///
+  /// In en, this message translates to:
+  /// **'Friends only'**
+  String get privacyDashboardProfilePrivacyFriendsOnly;
+
+  /// Privacy > Profile privacy: helper text.
+  ///
+  /// In en, this message translates to:
+  /// **'Your full profile is only visible to your friends'**
+  String get privacyDashboardProfilePrivacyFriendsOnlyDesc;
+
+  /// Privacy dashboard friend requests subsection title.
+  ///
+  /// In en, this message translates to:
+  /// **'Friend requests'**
+  String get privacyDashboardFriendRequestsTitle;
+
+  /// Privacy dashboard friend request toggle label.
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone'**
+  String get privacyDashboardFriendRequestsEveryone;
+
+  /// Privacy dashboard friend request toggle description.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow anyone to send you friend requests'**
+  String get privacyDashboardFriendRequestsEveryoneDesc;
+
+  /// Privacy dashboard friend request toggle label.
+  ///
+  /// In en, this message translates to:
+  /// **'Friends of Friends'**
+  String get privacyDashboardFriendRequestsFriendsOfFriends;
+
+  /// Privacy dashboard friend request toggle description.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow friends of your friends to send you requests'**
+  String get privacyDashboardFriendRequestsFriendsOfFriendsDesc;
+
+  /// Privacy dashboard friend request toggle label.
+  ///
+  /// In en, this message translates to:
+  /// **'Community Members'**
+  String get privacyDashboardFriendRequestsCommunityMembers;
+
+  /// Privacy dashboard friend request toggle description.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow members from communities you\'re in to send you requests'**
+  String get privacyDashboardFriendRequestsCommunityMembersDesc;
+
+  /// Privacy dashboard direct messages subsection title.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct messages'**
+  String get privacyDashboardDirectMessagesTitle;
+
+  /// Privacy dashboard DM toggle label.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow direct messages from community members'**
+  String get privacyDashboardDirectMessagesMembers;
+
+  /// Privacy dashboard DM toggle description.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow members from communities you\'re in to send you direct messages'**
+  String get privacyDashboardDirectMessagesMembersDesc;
+
+  /// Privacy dashboard bot DM toggle label.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow direct messages from community bots'**
+  String get privacyDashboardDirectMessagesBots;
+
+  /// Privacy dashboard bot DM toggle description.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow bots from communities you\'re in to send you direct messages'**
+  String get privacyDashboardDirectMessagesBotsDesc;
+
+  /// Privacy dashboard connections section description.
+  ///
+  /// In en, this message translates to:
+  /// **'Control who can send you friend requests and direct messages'**
+  String get privacyDashboardConnectionsSectionDesc;
+
+  /// Privacy dashboard communication section description.
+  ///
+  /// In en, this message translates to:
+  /// **'Control who can call you and add you to group chats'**
+  String get privacyDashboardCommunicationSectionDesc;
+
+  /// Privacy dashboard incoming calls subsection title.
+  ///
+  /// In en, this message translates to:
+  /// **'Incoming calls'**
+  String get privacyDashboardIncomingCallsTitle;
+
+  /// Privacy dashboard incoming calls subsection description.
+  ///
+  /// In en, this message translates to:
+  /// **'Control who can call you'**
+  String get privacyDashboardIncomingCallsDesc;
+
+  /// Privacy > Communication: select label.
+  ///
+  /// In en, this message translates to:
+  /// **'Allowed callers'**
+  String get privacyDashboardAllowedCallers;
+
+  /// Privacy > Communication: radio option label.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody'**
+  String get privacyDashboardIncomingCallNobody;
+
+  /// Privacy > Communication: select option description.
+  ///
+  /// In en, this message translates to:
+  /// **'Block all incoming calls'**
+  String get privacyDashboardIncomingCallNobodyDesc;
+
+  /// Privacy > Communication: radio option label.
+  ///
+  /// In en, this message translates to:
+  /// **'Friends Only'**
+  String get privacyDashboardIncomingCallFriendsOnly;
+
+  /// Privacy > Communication: select option description.
+  ///
+  /// In en, this message translates to:
+  /// **'Only allow friends to call you (recommended)'**
+  String get privacyDashboardIncomingCallFriendsOnlyDesc;
+
+  /// Privacy > Communication: radio option label.
+  ///
+  /// In en, this message translates to:
+  /// **'Friends + Custom'**
+  String get privacyDashboardIncomingCallCustom;
+
+  /// Privacy > Communication: select option description.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow friends plus additional groups you choose'**
+  String get privacyDashboardIncomingCallCustomDesc;
+
+  /// Privacy > Communication: radio option label.
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone'**
+  String get privacyDashboardIncomingCallEveryone;
+
+  /// Privacy > Communication: select option description.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow anyone to call you, even strangers'**
+  String get privacyDashboardIncomingCallEveryoneDesc;
+
+  /// Privacy dashboard label for custom permission groups.
+  ///
+  /// In en, this message translates to:
+  /// **'Additional Groups'**
+  String get privacyDashboardAdditionalGroups;
+
+  /// Privacy dashboard incoming call custom toggle description.
+  ///
+  /// In en, this message translates to:
+  /// **'People who are friends with your friends can call you'**
+  String get privacyDashboardCallFriendsOfFriendsDesc;
+
+  /// Privacy dashboard incoming call custom toggle description.
+  ///
+  /// In en, this message translates to:
+  /// **'People from communities you\'re both in can call you'**
+  String get privacyDashboardCallGuildMembersDesc;
+
+  /// Privacy dashboard ring behavior subsection label.
+  ///
+  /// In en, this message translates to:
+  /// **'Ring Behavior'**
+  String get privacyDashboardRingBehavior;
+
+  /// Privacy dashboard silent calls toggle label.
+  ///
+  /// In en, this message translates to:
+  /// **'Silent calls from everyone'**
+  String get privacyDashboardSilentCalls;
+
+  /// Privacy dashboard silent calls toggle description.
+  ///
+  /// In en, this message translates to:
+  /// **'All calls will notify silently instead of ringing. By default, calls from non-friends are always silent.'**
+  String get privacyDashboardSilentCallsDesc;
+
+  /// Privacy dashboard group DM subsection title.
+  ///
+  /// In en, this message translates to:
+  /// **'Who Can Add You to Group Chats'**
+  String get privacyDashboardGroupDmTitle;
+
+  /// Privacy dashboard group DM subsection description.
+  ///
+  /// In en, this message translates to:
+  /// **'Control who can add you to group chats without asking. Anyone can still send you invite links to join.'**
+  String get privacyDashboardGroupDmDesc;
+
+  /// Privacy > Communication: select label.
+  ///
+  /// In en, this message translates to:
+  /// **'Allowed invites'**
+  String get privacyDashboardAllowedInvites;
+
+  /// Privacy > Communication: select option description.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t let anyone add you to group chats without asking'**
+  String get privacyDashboardGroupDmNobodyDesc;
+
+  /// Privacy > Communication: select option description.
+  ///
+  /// In en, this message translates to:
+  /// **'Only allow friends to add you without asking (recommended)'**
+  String get privacyDashboardGroupDmFriendsOnlyDesc;
+
+  /// Privacy > Communication: select option description.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow friends plus additional groups to add you'**
+  String get privacyDashboardGroupDmCustomDesc;
+
+  /// Privacy > Communication: select option description.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow anyone to add you to group chats without asking'**
+  String get privacyDashboardGroupDmEveryoneDesc;
+
+  /// Privacy dashboard group DM custom toggle description.
+  ///
+  /// In en, this message translates to:
+  /// **'People who are friends with your friends can add you to group chats'**
+  String get privacyDashboardGroupDmFriendsOfFriendsDesc;
+
+  /// Privacy dashboard group DM custom toggle description.
+  ///
+  /// In en, this message translates to:
+  /// **'People from communities you\'re both in can add you to group chats'**
+  String get privacyDashboardGroupDmGuildMembersDesc;
+
+  /// Privacy > Active now: settings subsection title.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice activity on active now'**
+  String get privacyDashboardVoiceActivityTitle;
+
+  /// Privacy > Active now: switch label.
+  ///
+  /// In en, this message translates to:
+  /// **'Share your voice activity with friends'**
+  String get privacyDashboardShareVoiceActivity;
+
+  /// Privacy > Active now: confirmation modal title.
+  ///
+  /// In en, this message translates to:
+  /// **'Share voice activity with all friends?'**
+  String get privacyDashboardVoiceActivityEnableTitle;
+
+  /// Privacy > Active now: confirmation modal title.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop sharing voice activity with all friends?'**
+  String get privacyDashboardVoiceActivityDisableTitle;
+
+  /// Privacy > Active now: confirmation modal body.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re about to start sharing your voice activity with every friend you have, including future ones. This sends an update to all of them and can only be changed again in 24 hours.'**
+  String get privacyDashboardVoiceActivityEnableDesc;
+
+  /// Privacy > Active now: confirmation modal body.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re about to stop sharing your voice activity with every friend you have, including future ones. This sends an update to all of them and can only be changed again in 24 hours.'**
+  String get privacyDashboardVoiceActivityDisableDesc;
+
+  /// Privacy > Active now: confirm button label.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, share with all friends'**
+  String get privacyDashboardVoiceActivityEnableConfirm;
+
+  /// Privacy > Active now: confirm button label.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, stop sharing'**
+  String get privacyDashboardVoiceActivityDisableConfirm;
+
+  /// Privacy > Active now: helper text under the disabled switch.
+  ///
+  /// In en, this message translates to:
+  /// **'Available again in {time}'**
+  String privacyDashboardVoiceActivityCooldown(String time);
+
+  /// Privacy > Active now: toast shown after a successful mass-update.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice activity sharing updated'**
+  String get privacyDashboardVoiceActivityUpdated;
+
+  /// Privacy > Active now: error message when the mass-update request fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t update voice activity sharing right now'**
+  String get privacyDashboardVoiceActivityUpdateFailed;
+
+  /// Description shown on the settings page above the Export my data button.
+  ///
+  /// In en, this message translates to:
+  /// **'Build a downloadable archive of your account data, including messages and attachment URLs. Most people want everything, but you can narrow the scope below.'**
+  String get privacyDashboardDataExportDesc;
+
+  /// Privacy dashboard data export button label.
+  ///
+  /// In en, this message translates to:
+  /// **'Export my data'**
+  String get privacyDashboardExportMyData;
+
+  /// Description shown on the settings page above the Delete my messages button.
+  ///
+  /// In en, this message translates to:
+  /// **'Permanently remove messages you have sent across DMs, group DMs, and communities. The work runs in the background, and you will get a DM when it finishes.'**
+  String get privacyDashboardDataDeletionDesc;
+
+  /// Privacy dashboard data deletion button label.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete my messages'**
+  String get privacyDashboardDeleteMyMessages;
+
+  /// Confirmation prompt in the connections tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow direct messages from community members?'**
+  String get privacyDashboardDmConfirmAllowMembersTitle;
+
+  /// Confirmation prompt in the connections tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Block direct messages from community members?'**
+  String get privacyDashboardDmConfirmBlockMembersTitle;
+
+  /// Confirmation prompt in the connections tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow bots to send you direct messages?'**
+  String get privacyDashboardDmConfirmAllowBotsTitle;
+
+  /// Confirmation prompt in the connections tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Block bots from sending you direct messages?'**
+  String get privacyDashboardDmConfirmBlockBotsTitle;
+
+  /// Confirmation prompt in the connections tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you also want to allow direct messages from members of your existing communities?'**
+  String get privacyDashboardDmConfirmAllowMembersDesc;
+
+  /// Confirmation prompt in the connections tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you also want to block direct messages from members of your existing communities?'**
+  String get privacyDashboardDmConfirmBlockMembersDesc;
+
+  /// Confirmation prompt in the connections tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you also want to allow bots from your existing communities to send you direct messages?'**
+  String get privacyDashboardDmConfirmAllowBotsDesc;
+
+  /// Confirmation prompt in the connections tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you also want to block bots from your existing communities?'**
+  String get privacyDashboardDmConfirmBlockBotsDesc;
+
+  /// Confirmation prompt hint in the connections tab.
+  ///
+  /// In en, this message translates to:
+  /// **'You can also change this setting per-community by long-pressing the community name and selecting Privacy Settings.'**
+  String get privacyDashboardDmConfirmPerCommunityHint;
+
+  /// Confirmation prompt primary action.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow for all communities'**
+  String get privacyDashboardDmConfirmAllowAll;
+
+  /// Confirmation prompt primary action.
+  ///
+  /// In en, this message translates to:
+  /// **'Block for all communities'**
+  String get privacyDashboardDmConfirmBlockAll;
+
+  /// Confirmation prompt secondary action.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip this step'**
+  String get privacyDashboardDmConfirmSkip;
+
+  /// Footer secondary button on data request steps after the first.
+  ///
+  /// In en, this message translates to:
+  /// **'Go back'**
+  String get privacyDashboardDataRequestGoBack;
+
+  /// Privacy > Data export: modal title.
+  ///
+  /// In en, this message translates to:
+  /// **'Export my data'**
+  String get privacyDashboardDataRequestExportTitle;
+
+  /// Privacy > Data deletion: modal title.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete my messages'**
+  String get privacyDashboardDataRequestDeleteTitle;
+
+  /// Success toast after a filtered data export job is queued.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll process this as soon as possible. You\'ll get an email when your archive is ready.'**
+  String get privacyDashboardDataRequestExportSuccess;
+
+  /// Success toast after a bulk message deletion job is queued.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll process this as soon as possible. You\'ll get a DM from us when it\'s done.'**
+  String get privacyDashboardDataRequestDeleteSuccess;
+
+  /// Heading of the scope step in the data-request modal.
+  ///
+  /// In en, this message translates to:
+  /// **'What to include'**
+  String get privacyDashboardDataRequestScopeTitle;
+
+  /// Scope option that exports every message and metadata.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything'**
+  String get privacyDashboardDataRequestExportEverything;
+
+  /// Description for the Everything export option.
+  ///
+  /// In en, this message translates to:
+  /// **'Export every message you have ever sent, plus all of your account settings, memberships, and metadata.'**
+  String get privacyDashboardDataRequestExportEverythingDesc;
+
+  /// Scope option that lets the user filter what to export.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom selection'**
+  String get privacyDashboardDataRequestExportCustom;
+
+  /// Description for the Custom export option.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose which conversation kinds, communities, and time window to include in the archive.'**
+  String get privacyDashboardDataRequestExportCustomDesc;
+
+  /// Scope option for message deletion.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose what to include'**
+  String get privacyDashboardDataRequestDeleteSelected;
+
+  /// Description for the Choose what to include scope option.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick which kinds of conversations to clean up.'**
+  String get privacyDashboardDataRequestDeleteSelectedDesc;
+
+  /// Scope option for inaccessible-only deletion.
+  ///
+  /// In en, this message translates to:
+  /// **'Only places I can\'t access anymore'**
+  String get privacyDashboardDataRequestDeleteInaccessible;
+
+  /// Description for the inaccessible-only scope option.
+  ///
+  /// In en, this message translates to:
+  /// **'Only delete messages from communities and group DMs you have left or been removed from.'**
+  String get privacyDashboardDataRequestDeleteInaccessibleDesc;
+
+  /// Heading of the kinds step.
+  ///
+  /// In en, this message translates to:
+  /// **'Which conversations'**
+  String get privacyDashboardDataRequestKindsTitle;
+
+  /// Subhead under the kinds step.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle the kinds of conversations you want included.'**
+  String get privacyDashboardDataRequestKindsBody;
+
+  /// Switch label for open direct messages.
+  ///
+  /// In en, this message translates to:
+  /// **'Open DMs'**
+  String get privacyDashboardDataRequestKindDms;
+
+  /// Switch label for closed direct messages.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed DMs'**
+  String get privacyDashboardDataRequestKindDmsClosed;
+
+  /// Switch label for group DMs.
+  ///
+  /// In en, this message translates to:
+  /// **'Group DMs'**
+  String get privacyDashboardDataRequestKindGroupDms;
+
+  /// Switch label for community channels.
+  ///
+  /// In en, this message translates to:
+  /// **'Communities'**
+  String get privacyDashboardDataRequestKindCommunities;
+
+  /// Heading of the communities step.
+  ///
+  /// In en, this message translates to:
+  /// **'Which communities'**
+  String get privacyDashboardDataRequestCommunitiesTitle;
+
+  /// Form label for the community filter mode dropdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Community filter'**
+  String get privacyDashboardDataRequestGuildFilterMode;
+
+  /// Dropdown option for exclude mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Include all except selected'**
+  String get privacyDashboardDataRequestGuildFilterExclude;
+
+  /// Dropdown option for include-only mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the selected ones'**
+  String get privacyDashboardDataRequestGuildFilterInclude;
+
+  /// Placeholder when the user has no communities to filter.
+  ///
+  /// In en, this message translates to:
+  /// **'You aren\'t in any communities right now.'**
+  String get privacyDashboardDataRequestCommunitiesEmpty;
+
+  /// Heading of the time-range step.
+  ///
+  /// In en, this message translates to:
+  /// **'Time range'**
+  String get privacyDashboardDataRequestWhenTitle;
+
+  /// Form label for the date range mode dropdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Time range'**
+  String get privacyDashboardDataRequestDateMode;
+
+  /// Dropdown option for all-time date range.
+  ///
+  /// In en, this message translates to:
+  /// **'All time'**
+  String get privacyDashboardDataRequestAllTime;
+
+  /// Dropdown option for custom date range.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom range'**
+  String get privacyDashboardDataRequestCustomRange;
+
+  /// Label for the start of a date range.
+  ///
+  /// In en, this message translates to:
+  /// **'Start date'**
+  String get privacyDashboardDataRequestStartDate;
+
+  /// Label for the end of a date range.
+  ///
+  /// In en, this message translates to:
+  /// **'End date'**
+  String get privacyDashboardDataRequestEndDate;
+
+  /// Helper text under the custom date range pickers.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave either field blank to leave that end of the window unbounded.'**
+  String get privacyDashboardDataRequestDateHelper;
+
+  /// Validation error when all inclusion toggles are off.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick at least one kind of conversation to include.'**
+  String get privacyDashboardDataRequestNeedInclusion;
+
+  /// Validation error for invalid date range.
+  ///
+  /// In en, this message translates to:
+  /// **'Start date must be earlier than end date.'**
+  String get privacyDashboardDataRequestDateRangeError;
+
+  /// Heading of the confirm step.
+  ///
+  /// In en, this message translates to:
+  /// **'Review and confirm'**
+  String get privacyDashboardDataRequestConfirmTitle;
+
+  /// Confirm-step copy when export scope is everything.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll build a downloadable archive of every message you have ever sent and email you when it\'s ready. The download link in that email expires after 7 days.'**
+  String get privacyDashboardDataRequestExportConfirmEverything;
+
+  /// Confirm-step copy when export scope is custom.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll build a downloadable archive that matches the filters below and email you when it\'s ready. The download link in that email expires after 7 days.'**
+  String get privacyDashboardDataRequestExportConfirmCustom;
+
+  /// Confirm-step copy for message deletion.
+  ///
+  /// In en, this message translates to:
+  /// **'Permanently delete the messages that match the filters below. This cannot be undone.'**
+  String get privacyDashboardDataRequestDeleteConfirm;
+
+  /// Destructive notice on the confirm step of deletion.
+  ///
+  /// In en, this message translates to:
+  /// **'There is no recovery once this starts. We will DM you when it finishes.'**
+  String get privacyDashboardDataRequestDeleteDanger;
+
+  /// Footer submit button on export confirm step.
+  ///
+  /// In en, this message translates to:
+  /// **'Request export'**
+  String get privacyDashboardDataRequestRequestExport;
+
+  /// Footer submit button on deletion confirm step.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete messages'**
+  String get privacyDashboardDataRequestDeleteMessages;
+
+  /// Summary row label for scope.
+  ///
+  /// In en, this message translates to:
+  /// **'Scope'**
+  String get privacyDashboardDataRequestSummaryScope;
+
+  /// Summary row label for conversations.
+  ///
+  /// In en, this message translates to:
+  /// **'Conversations'**
+  String get privacyDashboardDataRequestSummaryConversations;
+
+  /// Summary row label for communities.
+  ///
+  /// In en, this message translates to:
+  /// **'Communities'**
+  String get privacyDashboardDataRequestSummaryCommunities;
+
+  /// Summary row label for time range.
+  ///
+  /// In en, this message translates to:
+  /// **'Time range'**
+  String get privacyDashboardDataRequestSummaryTimeRange;
+
+  /// Summary value when nothing was selected.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get privacyDashboardDataRequestSummaryNone;
+
+  /// Summary value when only a start date is set.
+  ///
+  /// In en, this message translates to:
+  /// **'From {start}'**
+  String privacyDashboardDataRequestSummaryFrom(String start);
+
+  /// Summary value when only an end date is set.
+  ///
+  /// In en, this message translates to:
+  /// **'Until {end}'**
+  String privacyDashboardDataRequestSummaryUntil(String end);
+
+  /// Summary value when both dates are set.
+  ///
+  /// In en, this message translates to:
+  /// **'{start} – {end}'**
+  String privacyDashboardDataRequestSummaryBetween(String start, String end);
+
+  /// Summary value when community filter is in exclude mode.
+  ///
+  /// In en, this message translates to:
+  /// **'All except {count, plural, one {# community} other {# communities}}'**
+  String privacyDashboardDataRequestSummaryGuildExclude(int count);
+
+  /// Summary value when community filter is in include-only mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Only {count, plural, one {# community} other {# communities}}'**
+  String privacyDashboardDataRequestSummaryGuildInclude(int count);
+
+  /// Summary chip for open DMs only.
+  ///
+  /// In en, this message translates to:
+  /// **'Open direct messages'**
+  String get privacyDashboardDataRequestSummaryDmsOpen;
+
+  /// Summary chip for closed DMs only.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed direct messages'**
+  String get privacyDashboardDataRequestSummaryDmsClosed;
+
+  /// Summary chip for open and closed DMs.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct messages (open and closed)'**
+  String get privacyDashboardDataRequestSummaryDmsBoth;
+
+  /// Summary chip for group DMs.
+  ///
+  /// In en, this message translates to:
+  /// **'Group DMs'**
+  String get privacyDashboardDataRequestSummaryGroupDms;
+
+  /// Summary chip for communities.
+  ///
+  /// In en, this message translates to:
+  /// **'Communities'**
+  String get privacyDashboardDataRequestSummaryCommunitiesIncluded;
+
+  /// Duration label with hours and minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours, plural, one {# hour} other {# hours}} and {minutes, plural, one {# minute} other {# minutes}}'**
+  String privacyDashboardDurationHoursMinutes(int hours, int minutes);
+
+  /// Duration label with hours only.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours, plural, one {# hour} other {# hours}}'**
+  String privacyDashboardDurationHours(int hours);
+
+  /// Duration label with minutes only.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes, plural, one {# minute} other {# minutes}}'**
+  String privacyDashboardDurationMinutes(int minutes);
+
+  /// Duration label with seconds only.
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds, plural, one {# second} other {# seconds}}'**
+  String privacyDashboardDurationSeconds(int seconds);
+
+  /// Error message when privacy settings fail to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load privacy settings'**
+  String get privacyDashboardLoadFailed;
+
+  /// Retry button on privacy dashboard error state.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get privacyDashboardRetry;
+
+  /// Toast when sensitive content save fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save sensitive content settings.'**
+  String get privacyDashboardSensitiveContentSaveFailed;
+
+  /// Toast when a data export or deletion request fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to complete request.'**
+  String get privacyDashboardDataRequestFailed;
 
   /// Action label for deleting a failed outgoing chat message.
   ///

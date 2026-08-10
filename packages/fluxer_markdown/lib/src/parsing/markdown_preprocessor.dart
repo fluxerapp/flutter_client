@@ -56,6 +56,13 @@ String _preprocessFluxerMarkdownUncached(
     next = _neutralizeInvalidMaskedLinks(next);
     next = _escapeEmptyInlineFormatting(next);
 
+    if (!features.allowMaskedLinks) {
+      next = _escapeMaskedLinks(next);
+    }
+    if (!features.allowAutolinks) {
+      next = _escapeAutolinks(next);
+    }
+
     if (!features.allowSubtext && next.startsWith('-# ')) {
       next = '\\$next';
     }
@@ -68,6 +75,12 @@ String _preprocessFluxerMarkdownUncached(
     }
     if (features.allowLists && RegExp(r'^\s{0,3}\d+\\\.\s').hasMatch(next)) {
       next = next.replaceFirst(r'\', r'\\');
+    }
+    if (features.allowLists && RegExp(r'^ (?:[-*]|\d+\.)\s').hasMatch(next)) {
+      next = next.replaceFirstMapped(
+        RegExp(r'^ ([-*]|\d+\.)'),
+        (Match match) => ' \\${match.group(1)}',
+      );
     }
     if (!features.allowBlockquotes && RegExp(r'^\s{0,3}>').hasMatch(next)) {
       next = '\\$next';
@@ -95,13 +108,48 @@ String _neutralizeInvalidMaskedLinks(String line) {
   ) {
     final String text = match.group(1) ?? '';
     final String url = match.group(2) ?? '';
-    if (blankMarkdownLinkLabelPattern.hasMatch(text) ||
-        hasApostropheInMaskedLinkAuthority(url)) {
+    if (!hasVisibleMaskedLinkLabel(text) ||
+        hasApostropheInMaskedLinkAuthority(url) ||
+        isEmailLikeMaskedLinkLabel(text) ||
+        isSlashCommandLikeMaskedLinkLabel(text) ||
+        !isValidMaskedLinkUrl(url)) {
       final String escapedUrl = url.replaceAll(':', r'\:');
-      return r'\[' + text + r'\]\(' + escapedUrl + r'\)';
+      final String label = isEmailLikeMaskedLinkLabel(text)
+          ? text.replaceFirst('@', '@\u200b')
+          : text;
+      return r'\[' + label + r'\]\(' + escapedUrl + r'\)';
     }
     return match.group(0)!;
   });
+}
+
+String _escapeMaskedLinks(String line) {
+  return line.replaceAllMapped(RegExp(r'\[([^\]]*)\]\(([^)]+)\)'), (
+    Match match,
+  ) {
+    final String text = match.group(1) ?? '';
+    final String url = match.group(2) ?? '';
+    final String escapedUrl = url.replaceAll(':', r'\:');
+    return r'\[' + text + r'\]\(' + escapedUrl + r'\)';
+  });
+}
+
+String _escapeAutolinks(String line) {
+  return line
+      .replaceAllMapped(RegExp(r'<(https?://[^>]+)>'), (Match match) {
+        return r'\<' + match.group(1)! + r'\>';
+      })
+      .replaceAllMapped(RegExp(r'<(sms:\+[^>]+)>'), (Match match) {
+        return r'\<' + match.group(1)! + r'\>';
+      })
+      .replaceAllMapped(RegExp(r'<(\+[^>]+)>'), (Match match) {
+        return r'\<' + match.group(1)! + r'\>';
+      })
+      .replaceAllMapped(RegExp(r'<([^<>@\s]+@[^<>@\s]+\.[^<>@\s]+)>'), (
+        Match match,
+      ) {
+        return r'\<' + match.group(1)! + r'\>';
+      });
 }
 
 String _escapeEmptyInlineFormatting(String text) {
@@ -173,6 +221,24 @@ bool _hasVisibleContent(String value) {
   return false;
 }
 
+String? _takeMarkdownBufferText(StringBuffer buffer) {
+  final String raw = buffer.toString();
+  buffer.clear();
+  if (raw.isEmpty) {
+    return null;
+  }
+  var text = raw;
+  if (text.endsWith('\n')) {
+    text = text.substring(0, text.length - 1);
+  }
+  text = text.replaceFirst(RegExp(r'^[ \t]+'), '');
+  text = text.replaceFirst(RegExp(r'[ \t]+$'), '');
+  if (!_hasVisibleContent(text)) {
+    return null;
+  }
+  return text;
+}
+
 bool isBlockSpoilerStart(String line) {
   final String trimmed = line.trimLeft();
   if (!trimmed.startsWith('||')) {
@@ -242,7 +308,7 @@ List<FluxerMarkdownSegment> _parseFluxerMarkdownSegmentsUncached(
     caseSensitive: false,
   );
   final lineRe = RegExp(r'^>\s?(.*)$');
-  final subtextRe = RegExp(r'^-#\s+(.*)$');
+  final subtextRe = RegExp(r'^-# ([^\s].*)$');
 
   final lines = text.split('\n');
   final segments = <FluxerMarkdownSegment>[];
@@ -265,10 +331,9 @@ List<FluxerMarkdownSegment> _parseFluxerMarkdownSegmentsUncached(
     if (features.allowSpoilers && isBlockSpoilerStart(line)) {
       final int? endIndex = parseBlockSpoilerEnd(lines, i);
       if (endIndex != null) {
-        final pending = mdBuffer.toString().trim();
-        if (pending.isNotEmpty) {
+        final String? pending = _takeMarkdownBufferText(mdBuffer);
+        if (pending != null) {
           segments.add(FluxerTextSegment(pending));
-          mdBuffer.clear();
         }
         final String body = parseBlockSpoilerBody(lines, i, endIndex);
         if (_hasVisibleContent(body)) {
@@ -290,10 +355,9 @@ List<FluxerMarkdownSegment> _parseFluxerMarkdownSegmentsUncached(
           i++;
           continue;
         }
-        final pending = mdBuffer.toString().trim();
-        if (pending.isNotEmpty) {
+        final String? pending = _takeMarkdownBufferText(mdBuffer);
+        if (pending != null) {
           segments.add(FluxerTextSegment(pending));
-          mdBuffer.clear();
         }
 
         final bodyLines = <String>[body];
@@ -319,10 +383,9 @@ List<FluxerMarkdownSegment> _parseFluxerMarkdownSegmentsUncached(
     if (features.allowAlerts) {
       final match = openRe.firstMatch(line);
       if (match != null) {
-        final pending = mdBuffer.toString().trim();
-        if (pending.isNotEmpty) {
+        final String? pending = _takeMarkdownBufferText(mdBuffer);
+        if (pending != null) {
           segments.add(FluxerTextSegment(pending));
-          mdBuffer.clear();
         }
 
         final rawType = match.group(1)!;
@@ -360,8 +423,8 @@ List<FluxerMarkdownSegment> _parseFluxerMarkdownSegmentsUncached(
     i++;
   }
 
-  final remaining = mdBuffer.toString().trim();
-  if (remaining.isNotEmpty) {
+  final String? remaining = _takeMarkdownBufferText(mdBuffer);
+  if (remaining != null) {
     segments.add(FluxerTextSegment(remaining));
   }
 

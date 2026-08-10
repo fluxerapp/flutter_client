@@ -354,7 +354,12 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         List<GuildNavbarItem> next,
       ) {
         if (previous != next) {
-          _prefetchGuildPermissions(next);
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!mounted) {
+              return;
+            }
+            _prefetchGuildPermissions(next);
+          });
         }
         if (_needsScrollClamp && next.isNotEmpty) {
           _scheduleScrollClamp();

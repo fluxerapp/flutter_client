@@ -5,6 +5,7 @@ import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 class FluxerMarkdownFeatures {
   const FluxerMarkdownFeatures({
     required this.allowAlerts,
+    required this.allowAutolinks,
     required this.allowBlockquotes,
     required this.allowChannelMentions,
     required this.allowCodeBlocks,
@@ -14,6 +15,7 @@ class FluxerMarkdownFeatures {
     required this.allowHeadings,
     required this.allowJumboEmoji,
     required this.allowLists,
+    required this.allowMaskedLinks,
     required this.allowMultilineBlockquotes,
     required this.allowPlainInlineCode,
     required this.allowRoleMentions,
@@ -27,6 +29,7 @@ class FluxerMarkdownFeatures {
     return switch (context) {
       FluxerMarkdownContext.standardWithJumbo => const FluxerMarkdownFeatures(
         allowAlerts: true,
+        allowAutolinks: true,
         allowBlockquotes: true,
         allowChannelMentions: true,
         allowCodeBlocks: true,
@@ -36,6 +39,7 @@ class FluxerMarkdownFeatures {
         allowHeadings: true,
         allowJumboEmoji: true,
         allowLists: true,
+        allowMaskedLinks: true,
         allowMultilineBlockquotes: true,
         allowPlainInlineCode: false,
         allowRoleMentions: true,
@@ -47,6 +51,7 @@ class FluxerMarkdownFeatures {
       FluxerMarkdownContext.restrictedInlineReply =>
         const FluxerMarkdownFeatures(
           allowAlerts: false,
+          allowAutolinks: true,
           allowBlockquotes: false,
           allowChannelMentions: true,
           allowCodeBlocks: true,
@@ -56,6 +61,7 @@ class FluxerMarkdownFeatures {
           allowHeadings: false,
           allowJumboEmoji: false,
           allowLists: false,
+          allowMaskedLinks: true,
           allowMultilineBlockquotes: false,
           allowPlainInlineCode: true,
           allowRoleMentions: true,
@@ -64,8 +70,31 @@ class FluxerMarkdownFeatures {
           allowTables: false,
           allowUserMentions: true,
         ),
+      FluxerMarkdownContext.restrictedChannelTopic =>
+        const FluxerMarkdownFeatures(
+          allowAlerts: false,
+          allowAutolinks: true,
+          allowBlockquotes: false,
+          allowChannelMentions: true,
+          allowCodeBlocks: true,
+          allowCommandMentions: true,
+          allowEveryoneMentions: true,
+          allowGuildNavigations: true,
+          allowHeadings: false,
+          allowJumboEmoji: false,
+          allowLists: false,
+          allowMaskedLinks: true,
+          allowMultilineBlockquotes: false,
+          allowPlainInlineCode: false,
+          allowRoleMentions: true,
+          allowSpoilers: true,
+          allowSubtext: true,
+          allowTables: false,
+          allowUserMentions: true,
+        ),
       FluxerMarkdownContext.restrictedUserBio => const FluxerMarkdownFeatures(
         allowAlerts: false,
+        allowAutolinks: true,
         allowBlockquotes: true,
         allowChannelMentions: true,
         allowCodeBlocks: false,
@@ -75,6 +104,7 @@ class FluxerMarkdownFeatures {
         allowHeadings: false,
         allowJumboEmoji: false,
         allowLists: true,
+        allowMaskedLinks: true,
         allowMultilineBlockquotes: true,
         allowPlainInlineCode: false,
         allowRoleMentions: false,
@@ -85,16 +115,18 @@ class FluxerMarkdownFeatures {
       ),
       FluxerMarkdownContext.restrictedEmbedDescription =>
         const FluxerMarkdownFeatures(
-          allowAlerts: false,
+          allowAlerts: true,
+          allowAutolinks: true,
           allowBlockquotes: true,
           allowChannelMentions: true,
           allowCodeBlocks: true,
           allowCommandMentions: true,
           allowEveryoneMentions: true,
           allowGuildNavigations: true,
-          allowHeadings: false,
+          allowHeadings: true,
           allowJumboEmoji: false,
           allowLists: true,
+          allowMaskedLinks: true,
           allowMultilineBlockquotes: true,
           allowPlainInlineCode: false,
           allowRoleMentions: true,
@@ -106,6 +138,7 @@ class FluxerMarkdownFeatures {
       FluxerMarkdownContext.standardWithoutJumbo =>
         const FluxerMarkdownFeatures(
           allowAlerts: true,
+          allowAutolinks: true,
           allowBlockquotes: true,
           allowChannelMentions: true,
           allowCodeBlocks: true,
@@ -115,6 +148,7 @@ class FluxerMarkdownFeatures {
           allowHeadings: true,
           allowJumboEmoji: false,
           allowLists: true,
+          allowMaskedLinks: true,
           allowMultilineBlockquotes: true,
           allowPlainInlineCode: false,
           allowRoleMentions: true,
@@ -127,6 +161,7 @@ class FluxerMarkdownFeatures {
   }
 
   final bool allowAlerts;
+  final bool allowAutolinks;
   final bool allowBlockquotes;
   final bool allowChannelMentions;
   final bool allowCodeBlocks;
@@ -136,6 +171,7 @@ class FluxerMarkdownFeatures {
   final bool allowHeadings;
   final bool allowJumboEmoji;
   final bool allowLists;
+  final bool allowMaskedLinks;
   final bool allowMultilineBlockquotes;
   final bool allowPlainInlineCode;
   final bool allowRoleMentions;
@@ -151,6 +187,7 @@ class FluxerMarkdownFeatures {
   bool operator ==(Object other) =>
       other is FluxerMarkdownFeatures &&
       other.allowAlerts == allowAlerts &&
+      other.allowAutolinks == allowAutolinks &&
       other.allowBlockquotes == allowBlockquotes &&
       other.allowChannelMentions == allowChannelMentions &&
       other.allowCodeBlocks == allowCodeBlocks &&
@@ -160,6 +197,7 @@ class FluxerMarkdownFeatures {
       other.allowHeadings == allowHeadings &&
       other.allowJumboEmoji == allowJumboEmoji &&
       other.allowLists == allowLists &&
+      other.allowMaskedLinks == allowMaskedLinks &&
       other.allowMultilineBlockquotes == allowMultilineBlockquotes &&
       other.allowPlainInlineCode == allowPlainInlineCode &&
       other.allowRoleMentions == allowRoleMentions &&
@@ -171,6 +209,7 @@ class FluxerMarkdownFeatures {
   @override
   int get hashCode => Object.hash(
     allowAlerts,
+    allowAutolinks,
     allowBlockquotes,
     allowChannelMentions,
     allowCodeBlocks,
@@ -180,6 +219,7 @@ class FluxerMarkdownFeatures {
     allowHeadings,
     allowJumboEmoji,
     allowLists,
+    allowMaskedLinks,
     allowMultilineBlockquotes,
     allowPlainInlineCode,
     allowRoleMentions,

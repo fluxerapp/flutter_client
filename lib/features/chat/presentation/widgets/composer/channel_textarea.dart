@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
+import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_reads.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
@@ -81,6 +82,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
+import 'package:fluxer_app/shared/utils/keyboard_focus_restore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -222,9 +224,11 @@ class ChannelTextarea extends ConsumerStatefulWidget {
   ConsumerState<ChannelTextarea> createState() => _ChannelTextareaState();
 }
 
-class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
+class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
+    with WidgetsBindingObserver {
   late final ComposerMentionController _controller;
   final FocusNode _focusNode = FocusNode();
+  late final KeyboardFocusRestoreHandle _keyboardRestore;
   final ScrollController _composerScrollController = ScrollController();
   final GlobalKey<ComposerAutocompleteFieldState> _composerFieldKey =
       GlobalKey<ComposerAutocompleteFieldState>();
@@ -323,9 +327,46 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
   @override
   void initState() {
     super.initState();
+    _keyboardRestore = KeyboardFocusRestoreHandle(
+      focusNode: _focusNode,
+      shouldTrackOnBackground: _shouldTrackKeyboardRestore,
+      canRestoreFocus: _canRestoreKeyboardFocus,
+    );
+    WidgetsBinding.instance.addObserver(this);
     _controller = ComposerMentionController(ref: ref);
     _focusNode.onKeyEvent = _handleComposerFieldKeyEvent;
     _controller.addListener(_syncStateFromController);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    _keyboardRestore.handleLifecycleState(state);
+  }
+
+  bool _shouldTrackKeyboardRestore() {
+    if (!mounted || !isMobileLayout(context)) {
+      return false;
+    }
+    if (ref.read(expressionPanelProvider)) {
+      return false;
+    }
+    if (!_focusNode.canRequestFocus) {
+      return false;
+    }
+    if (_focusNode.hasFocus) {
+      return true;
+    }
+    return ref.read(mobileKeyboardMetricsProvider).isKeyboardVisible;
+  }
+
+  bool _canRestoreKeyboardFocus() {
+    if (!mounted || !isMobileLayout(context)) {
+      return false;
+    }
+    if (ref.read(expressionPanelProvider)) {
+      return false;
+    }
+    return _focusNode.canRequestFocus;
   }
 
   void _syncStateFromController() {
@@ -369,6 +410,22 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
 
   String _sendableWireText() =>
       stripPrivateUseCharacters(_controller.toWireText());
+
+  Duration? _activeSlowmodeRemainingForSend(String channelId) {
+    final Channel? channel = ref.read(channelByIdProvider(channelId)).value;
+    final int rateLimit = channel?.rateLimitPerUser ?? 0;
+    if (rateLimit <= 0) {
+      return null;
+    }
+    final int? cachedBits = ref.read(channelPermissionCacheProvider)[channelId];
+    if (cachedBits != null && bypassesSlowmode(cachedBits)) {
+      return null;
+    }
+    final Duration remaining = ref
+        .read(slowmodeTrackerProvider.notifier)
+        .remainingFor(channelId, rateLimit);
+    return remaining > Duration.zero ? remaining : null;
+  }
 
   void _showCorruptedCustomEmojiToast() {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
@@ -440,6 +497,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _focusNode
       ..unfocus()
       ..dispose();
@@ -1518,18 +1576,14 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
     final ComposerCommand command = parseComposerCommand(wireText);
 
     if (command is! ComposerReplaceCommand) {
-      final bool isSlowmodeBlocked =
-          ref.read(isSlowmodeBlockedProvider(channelId)).value ?? false;
-      if (isSlowmodeBlocked) {
-        final Channel? channel = ref.read(channelByIdProvider(channelId)).value;
-        final int rateLimit = channel?.rateLimitPerUser ?? 0;
-        final Duration remaining = ref
-            .read(slowmodeTrackerProvider.notifier)
-            .remainingFor(channelId, rateLimit);
+      final Duration? slowmodeRemaining = _activeSlowmodeRemainingForSend(
+        channelId,
+      );
+      if (slowmodeRemaining != null) {
         ref.read(slowmodeIndicatorShakeProvider.notifier).requestShake();
-        if (remaining > Duration.zero) {
-          ref.read(slowmodeRateLimitedAlertProvider.notifier).show(remaining);
-        }
+        ref
+            .read(slowmodeRateLimitedAlertProvider.notifier)
+            .show(slowmodeRemaining);
         return;
       }
     }
@@ -1587,8 +1641,6 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
       return;
     }
 
-    _controller.clear();
-    vm.updateMessageText('');
     FluxerHaptics.light();
     unawaited(vm.sendMessage(text: baseContent.trim(), tts: tts));
   }
@@ -1851,14 +1903,21 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
         (state) => state.showMessageSendButton,
       ),
     );
-    final bool showVoiceButton =
-        !showSendButtonPreference &&
-        shouldShowComposerVoiceButton(
+    final bool showVoiceButton = shouldShowComposerVoiceButton(
+      permissions: perms,
+      hasSendable: hasSendable,
+      isEditing: isEditing,
+      showMessageSendButtonPreference: showSendButtonPreference,
+    );
+    final bool showSendButton =
+        hasSendable ||
+        showSendButtonPreference ||
+        shouldShowComposerSendButtonFallback(
           permissions: perms,
           hasSendable: hasSendable,
           isEditing: isEditing,
+          showMessageSendButtonPreference: showSendButtonPreference,
         );
-    final bool showSendButton = hasSendable || showSendButtonPreference;
     final bool voiceDisabled =
         !canUseVoice || !perms.isComposerEnabled || isOverCharacterLimit;
     final VoidCallback? sendOnPressed = !hasSendable || isOverCharacterLimit
@@ -2001,22 +2060,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
     final CloudUploadController notifier = ref.read(
       cloudUploadControllerProvider(channelId).notifier,
     );
-    if (files.length <= 1) {
-      final FileUploadValidationResult result = await notifier.addFiles(files);
-      if (mounted) {
-        _toastUploadValidation(result);
-      }
-      return;
-    }
-    for (final ComposerUploadFile file in files) {
-      final FileUploadValidationResult result = await notifier.addFiles([file]);
-      if (!result.isValid) {
-        if (mounted) {
-          _toastUploadValidation(result);
-        }
-        break;
-      }
-      await ref.read(chatViewModelProvider.notifier).sendMessage(text: '');
+    final FileUploadValidationResult result = await notifier.addFiles(files);
+    if (mounted) {
+      _toastUploadValidation(result);
     }
   }
 

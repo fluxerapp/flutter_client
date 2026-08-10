@@ -114,4 +114,35 @@ void main() {
     expect(find.byType(FluxerInput), findsOneWidget);
     expect(find.text(l10n.mfaMethodWebauthn), findsNothing);
   });
+
+  testWidgets('restores TOTP input focus when app resumes', (tester) async {
+    final navigatorKey = GlobalKey<NavigatorState>();
+    final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+      ..httpClientAdapter = const _MfaMethodsAdapter(
+        totp: true,
+        webauthn: false,
+        hasMfa: true,
+      );
+
+    await tester.pumpWidget(_app(navigatorKey));
+    await tester.pumpAndSettle();
+
+    unawaited(showSudoVerificationSheet(navigatorKey: navigatorKey, dio: dio));
+    await tester.pumpAndSettle();
+
+    final EditableText editable = tester.widget<EditableText>(
+      find.byType(EditableText),
+    );
+    final FocusNode focusNode = editable.focusNode!;
+
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+    focusNode.unfocus();
+    await tester.pump();
+
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+
+    expect(focusNode.hasFocus, isTrue);
+  });
 }

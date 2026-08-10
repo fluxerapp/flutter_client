@@ -7,6 +7,39 @@ import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_menu_data.dart';
 import 'package:fluxer_dart/export.dart';
 
+const _largeGuildMemberThreshold = 250;
+
+bool isLargeGuildForNotifications({
+  required int memberCount,
+  List<String> features = const [],
+}) {
+  return memberCount > _largeGuildMemberThreshold ||
+      features.contains('LARGE_GUILD_OVERRIDE') ||
+      features.contains('VERY_LARGE_GUILD');
+}
+
+int resolveGuildMessageNotificationsForDisplay({
+  required UserNotificationSettings stored,
+  int memberCount = 0,
+  List<String> features = const [],
+  int defaultMessageNotifications = 0,
+}) {
+  final storedLevel = stored.json;
+  if (storedLevel != null &&
+      storedLevel != UserNotificationSettings.inherit.json) {
+    return storedLevel;
+  }
+
+  if (isLargeGuildForNotifications(
+    memberCount: memberCount,
+    features: features,
+  )) {
+    return UserNotificationSettings.onlyMentions.json!;
+  }
+
+  return defaultMessageNotifications;
+}
+
 Future<void> markGuildAsRead(
   String guildId,
   FluxerDatabase db,
@@ -154,6 +187,11 @@ getGuildNotificationSettings({
 
   final json = jsonDecode(existing.data) as Map<String, dynamic>;
   final settings = UserGuildSettingsResponse.fromJson(json);
+  final guildRow = await db.guildDao.getServerById(guildId);
+  final memberCount = guildRow?.memberCount ?? 0;
+  final features = guildRow == null
+      ? const <String>[]
+      : (jsonDecode(guildRow.featuresJson) as List<dynamic>).cast<String>();
 
   final overrides = <String, ({int messageNotifications, bool muted})>{};
   if (settings.channelOverrides != null) {
@@ -169,9 +207,11 @@ getGuildNotificationSettings({
 
   return (
     muted: settings.muted,
-    messageNotifications:
-        settings.messageNotifications.json ??
-        UserNotificationSettings.allMessages.json!,
+    messageNotifications: resolveGuildMessageNotificationsForDisplay(
+      stored: settings.messageNotifications,
+      memberCount: memberCount,
+      features: features,
+    ),
     suppressEveryone: settings.suppressEveryone,
     suppressRoles: settings.suppressRoles,
     mobilePush: settings.mobilePush,
