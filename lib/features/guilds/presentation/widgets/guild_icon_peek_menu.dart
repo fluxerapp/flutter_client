@@ -7,6 +7,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const Duration kGuildPeekHoldDelay = Duration(milliseconds: 400);
+const double kGuildPeekHoldCancelThreshold = 4;
 
 enum GuildIconPeekAction { markAsRead, notifications, moreOptions }
 
@@ -51,15 +52,27 @@ List<GuildIconPeekAction> visibleGuildIconPeekActions({
   ];
 }
 
-bool shouldSuppressPeekForDrag({
+bool shouldCancelGuildPeekHold({
   required Offset? pointerDownPosition,
   required Offset currentPosition,
-  double threshold = kGuildDragCollapseThreshold,
+  double threshold = kGuildPeekHoldCancelThreshold,
 }) {
   if (pointerDownPosition == null) {
     return false;
   }
   return (currentPosition.dy - pointerDownPosition.dy).abs() >= threshold;
+}
+
+bool shouldSuppressPeekForDrag({
+  required Offset? pointerDownPosition,
+  required Offset currentPosition,
+  double threshold = kGuildDragCollapseThreshold,
+}) {
+  return shouldCancelGuildPeekHold(
+    pointerDownPosition: pointerDownPosition,
+    currentPosition: currentPosition,
+    threshold: threshold,
+  );
 }
 
 /// Anchor for a sidebar peek/context menu beside a guild or folder icon.

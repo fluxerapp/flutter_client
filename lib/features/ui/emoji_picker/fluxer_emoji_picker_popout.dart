@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 
 class FluxerEmojiPickerPopout extends StatefulWidget {
   const FluxerEmojiPickerPopout({
@@ -137,7 +138,7 @@ class FluxerEmojiPickerPopoutState extends State<FluxerEmojiPickerPopout>
     return Stack(
       children: [
         Positioned.fill(
-          child: GestureDetector(
+          child: FluxerGestureDetector(
             onTap: close,
             behavior: HitTestBehavior.opaque,
             child: const ColoredBox(color: Colors.transparent),

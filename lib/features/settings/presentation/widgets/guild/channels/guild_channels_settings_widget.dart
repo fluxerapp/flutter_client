@@ -19,7 +19,7 @@ import 'package:fluxer_app/features/settings/providers/guild/guild_channel_setti
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
-import 'package:gaimon/gaimon.dart';
+import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class GuildChannelsSettingsWidget extends ConsumerStatefulWidget {
@@ -72,7 +72,7 @@ class _GuildChannelsSettingsWidgetState
       return;
     }
     if (nextHoverKey != null) {
-      Gaimon.selection();
+      FluxerHaptics.selection();
     }
     _hoverNotifier.value = hover;
     _lastDropHoverKey = nextHoverKey;

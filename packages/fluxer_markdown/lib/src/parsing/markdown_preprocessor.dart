@@ -51,16 +51,17 @@ String _preprocessFluxerMarkdownUncached(
   final output = <String>[];
 
   for (final line in lines) {
-    var next = _normalizeSpacedInlineMarkdown(line);
-    next = _preserveAsciiArtBackslashUnderscores(next);
-    next = _neutralizeInvalidMaskedLinks(next);
-    next = _escapeEmptyInlineFormatting(next);
+    var next = _mapOutsideInlineCode(line, _normalizeSpacedInlineMarkdown);
+    next = _mapOutsideInlineCode(next, _preserveAsciiArtBackslashUnderscores);
+    next = _mapOutsideInlineCode(next, _normalizeAngleMaskedLinkDestinations);
+    next = _mapOutsideInlineCode(next, _neutralizeInvalidMaskedLinks);
+    next = _mapOutsideInlineCode(next, _escapeEmptyInlineFormatting);
 
     if (!features.allowMaskedLinks) {
-      next = _escapeMaskedLinks(next);
+      next = _mapOutsideInlineCode(next, _escapeMaskedLinks);
     }
     if (!features.allowAutolinks) {
-      next = _escapeAutolinks(next);
+      next = _mapOutsideInlineCode(next, _escapeAutolinks);
     }
 
     if (!features.allowSubtext && next.startsWith('-# ')) {
@@ -102,6 +103,60 @@ String _preprocessFluxerMarkdownUncached(
   return output.join('\n');
 }
 
+String _mapOutsideInlineCode(String line, String Function(String) transform) {
+  if (!line.contains('`')) {
+    return transform(line);
+  }
+
+  final StringBuffer output = StringBuffer();
+  final StringBuffer plain = StringBuffer();
+  var i = 0;
+  while (i < line.length) {
+    if (line[i] != '`') {
+      plain.write(line[i]);
+      i++;
+      continue;
+    }
+
+    if (plain.isNotEmpty) {
+      output.write(transform(plain.toString()));
+      plain.clear();
+    }
+
+    var fenceLength = 0;
+    while (i + fenceLength < line.length && line[i + fenceLength] == '`') {
+      fenceLength++;
+    }
+    final int contentStart = i + fenceLength;
+    final String fence = '`' * fenceLength;
+    final int closeIndex = line.indexOf(fence, contentStart);
+    if (closeIndex == -1) {
+      plain.write(line.substring(i));
+      break;
+    }
+    output
+      ..write(fence)
+      ..write(line.substring(contentStart, closeIndex))
+      ..write(fence);
+    i = closeIndex + fenceLength;
+  }
+
+  if (plain.isNotEmpty) {
+    output.write(transform(plain.toString()));
+  }
+  return output.toString();
+}
+
+String _normalizeAngleMaskedLinkDestinations(String line) {
+  return line.replaceAllMapped(RegExp(r'\[([^\]]*)\]\(<([^>\n]+)>\)'), (
+    Match match,
+  ) {
+    final String text = match.group(1) ?? '';
+    final String url = match.group(2) ?? '';
+    return '[$text]($url)';
+  });
+}
+
 String _neutralizeInvalidMaskedLinks(String line) {
   return line.replaceAllMapped(RegExp(r'\[([^\]]*)\]\(([^)]+)\)'), (
     Match match,
@@ -112,6 +167,7 @@ String _neutralizeInvalidMaskedLinks(String line) {
         hasApostropheInMaskedLinkAuthority(url) ||
         isEmailLikeMaskedLinkLabel(text) ||
         isSlashCommandLikeMaskedLinkLabel(text) ||
+        isMisleadingMaskedLinkLabel(text, url) ||
         !isValidMaskedLinkUrl(url)) {
       final String escapedUrl = url.replaceAll(':', r'\:');
       final String label = isEmailLikeMaskedLinkLabel(text)

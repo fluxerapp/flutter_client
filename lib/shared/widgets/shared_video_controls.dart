@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/shared/widgets/volume_popout_control.dart';
 
 class SharedVideoControls extends StatelessWidget {
@@ -48,7 +49,7 @@ class SharedVideoControls extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           Positioned.fill(
-            child: GestureDetector(
+            child: FluxerGestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: onShowControls,
             ),
@@ -63,7 +64,7 @@ class SharedVideoControls extends StatelessWidget {
                 children: [
                   Builder(
                     builder: (BuildContext sliderContext) {
-                      return GestureDetector(
+                      return FluxerGestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTapDown: (TapDownDetails details) =>
                             onSeekFromGlobalDx(

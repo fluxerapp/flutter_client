@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/media_viewer/media_viewer_dismiss.dart';
 import 'package:fluxer_app/features/ui/media_viewer/touch_media_viewer_page.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
@@ -503,7 +504,7 @@ class _AttachmentMediaViewerShellState
         child: Stack(
           fit: StackFit.expand,
           children: [
-            GestureDetector(
+            FluxerGestureDetector(
               onTap: () {
                 if (_canDismissBackdrop(useTouchGestures: useTouchGestures) &&
                     !_isPointerDownInsideContent) {
@@ -645,7 +646,7 @@ class _AttachmentMediaViewerShellState
               });
             }
           : null,
-      child: GestureDetector(
+      child: FluxerGestureDetector(
         onDoubleTap: _executeDesktopToggleZoom,
         onPanStart: _isDesktopZoomed
             ? (DragStartDetails details) {
@@ -803,7 +804,7 @@ class _MediaViewerThumbnailStrip extends StatelessWidget {
             selected: isSelected,
             label: l10n.mediaViewerAttachmentThumbnail(index + 1),
             child: ExcludeSemantics(
-              child: GestureDetector(
+              child: FluxerGestureDetector(
                 onTap: () => onSelectIndex(index),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 120),

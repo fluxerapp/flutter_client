@@ -1643,6 +1643,9 @@
     "@crop": {
         "description": "Button to confirm image crop."
     },
+    "cropTouchHint": "Pinch to zoom, drag to reposition",
+    "cropMouseHint": "Drag corners to resize, drag inside to move",
+
     "changeYourFluxerTag": "Cambiar tu Nombre de usuario",
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."

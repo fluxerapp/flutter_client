@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet_drag.dart';
 import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -452,7 +453,7 @@ class _FluxerBottomSheetDismissDragTargetState
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return FluxerGestureDetector(
       behavior: HitTestBehavior.translucent,
       onVerticalDragStart: _handleVerticalDragStart,
       onVerticalDragUpdate: _handleVerticalDragUpdate,
@@ -760,7 +761,7 @@ class _FluxerBottomSheetDragHandleState
         borderRadius: BorderRadius.circular(2),
       ),
     );
-    return GestureDetector(
+    return FluxerGestureDetector(
       behavior: HitTestBehavior.opaque,
       onVerticalDragStart: _hasDragHandlers ? _handleVerticalDragStart : null,
       onVerticalDragUpdate: _hasDragHandlers ? _handleVerticalDragUpdate : null,

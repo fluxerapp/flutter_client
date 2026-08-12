@@ -28,9 +28,9 @@ import 'package:fluxer_app/features/channels/presentation/modals/show_channel_in
 import 'package:fluxer_app/features/channels/presentation/sheets/channel_notification_settings_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/mute_duration_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
-import 'package:fluxer_app/features/channels/presentation/widgets/guild_sidebar_skeleton.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_list_typing_indicator.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_unread_indicator.dart';
+import 'package:fluxer_app/features/channels/presentation/widgets/guild_sidebar_skeleton.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/voice_channel_participants.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/voice_channel_user_count.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
@@ -162,7 +162,7 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
           ]
         : const <Shadow>[];
     final Color? bannerForegroundColor = hasImage ? Colors.white : null;
-    final Widget headerContent = GestureDetector(
+    final Widget headerContent = FluxerGestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: guild == null
           ? null

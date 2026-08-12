@@ -6,6 +6,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 
 class FluxerEmojiPickerSheet {
   FluxerEmojiPickerSheet._();
@@ -150,7 +151,7 @@ class _SheetContentState extends State<_SheetContent> {
             children: widget.visibleTabs.map((tab) {
               final isActive = tab == _selectedTab;
               return Expanded(
-                child: GestureDetector(
+                child: FluxerGestureDetector(
                   onTap: () => setState(() => _selectedTab = tab),
                   child: AnimatedContainer(
                     duration: context.motion.normal,

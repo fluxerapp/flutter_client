@@ -5,18 +5,13 @@ import 'package:fluxer_app/features/voice/utils/screen_share_presets.dart';
 import 'package:fluxer_app/features/voice/utils/voice_camera_platform.dart';
 import 'package:fluxer_app/features/voice/utils/voice_processing_profile.dart';
 import 'package:livekit_client/livekit_client.dart';
-import 'package:livekit_noise_filter/livekit_noise_filter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'voice_settings_applicator.g.dart';
 
 class VoiceSettingsApplicator {
-  const VoiceSettingsApplicator({
-    required this.noiseFilter,
-    required this.noiseFilterSupported,
-  });
+  const VoiceSettingsApplicator({required this.noiseFilterSupported});
 
-  final LiveKitNoiseFilter? noiseFilter;
   final bool noiseFilterSupported;
 
   RoomOptions buildRoomOptions(VoiceSettingsState settings) {
@@ -73,23 +68,7 @@ class VoiceSettingsApplicator {
   Future<void> attachNoiseFilterToTrack({
     required LocalAudioTrack track,
     required VoiceSettingsState settings,
-  }) async {
-    final ResolvedVoiceProcessing processing = resolveVoiceProcessing(
-      settings: settings,
-      noiseFilterSupported: noiseFilterSupported,
-    );
-    if (!processing.useNoiseFilter || noiseFilter == null) {
-      return;
-    }
-    final LiveKitNoiseFilter filter = noiseFilter!;
-    try {
-      await filter.setBypass(processing.bypassNoiseFilter);
-      await track.mediaStream.getMediaTracks();
-      await track.setProcessor(filter);
-    } on Object {
-      // Mic capture still works without the noise filter.
-    }
-  }
+  }) async {}
 
   LocalAudioTrack? _microphoneTrack(LocalParticipant participant) {
     final LocalTrackPublication? publication = participant
@@ -194,16 +173,7 @@ class VoiceSettingsApplicator {
     );
   }
 
-  Future<void> applyNoiseFilterBypass(VoiceSettingsState settings) async {
-    if (!noiseFilterSupported || noiseFilter == null) {
-      return;
-    }
-    final ResolvedVoiceProcessing processing = resolveVoiceProcessing(
-      settings: settings,
-      noiseFilterSupported: noiseFilterSupported,
-    );
-    await noiseFilter!.setBypass(processing.bypassNoiseFilter);
-  }
+  Future<void> applyNoiseFilterBypass(VoiceSettingsState settings) async {}
 
   Future<void> refreshMicrophone({
     required Room room,
@@ -289,13 +259,8 @@ VoiceSettingsApplicator voiceSettingsApplicator(Ref ref) {
     voiceNoiseFilterProvider,
   );
   return noiseFilterState.maybeWhen(
-    data: (VoiceNoiseFilterState value) => VoiceSettingsApplicator(
-      noiseFilter: value.filter,
-      noiseFilterSupported: value.isSupported,
-    ),
-    orElse: () => const VoiceSettingsApplicator(
-      noiseFilter: null,
-      noiseFilterSupported: false,
-    ),
+    data: (VoiceNoiseFilterState value) =>
+        VoiceSettingsApplicator(noiseFilterSupported: value.isSupported),
+    orElse: () => const VoiceSettingsApplicator(noiseFilterSupported: false),
   );
 }

@@ -20,6 +20,7 @@ import 'package:fluxer_app/features/members/presentation/widgets/channel_members
 import 'package:fluxer_app/features/shell/presentation/mobile_chat_back_scope.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/voice/presentation/voice_channel_page_view.dart';
+import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 
@@ -145,7 +146,7 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
             targetMessageId: widget.messageId,
             showTopBar: false,
           );
-    final Widget header = ChannelHeader(
+    final Widget header = _VoiceChannelHeader(
       channelId: widget.channelId,
       forceVoiceCallStyle: forceVoiceCallStyle,
     );
@@ -209,6 +210,43 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _VoiceChannelHeader extends ConsumerWidget {
+  const _VoiceChannelHeader({
+    required this.channelId,
+    required this.forceVoiceCallStyle,
+  });
+
+  final String channelId;
+  final bool forceVoiceCallStyle;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final Widget header = ChannelHeader(
+      channelId: channelId,
+      forceVoiceCallStyle: forceVoiceCallStyle,
+    );
+    final bool hideableOverlay =
+        forceVoiceCallStyle && isPhoneVoiceOverlay(context);
+    if (!hideableOverlay) {
+      return header;
+    }
+    final bool showsOverlay = ref.watch(
+      voiceCallOverlayProvider.select(
+        (VoiceCallOverlayState state) => state.showsOverlay,
+      ),
+    );
+    return ClipRect(
+      child: AnimatedAlign(
+        duration: const Duration(milliseconds: 220),
+        curve: Curves.easeOutCubic,
+        alignment: Alignment.topCenter,
+        heightFactor: showsOverlay ? 1 : 0,
+        child: header,
       ),
     );
   }

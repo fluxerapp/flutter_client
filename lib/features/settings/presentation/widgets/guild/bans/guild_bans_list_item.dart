@@ -100,7 +100,7 @@ class GuildBansListItem extends StatelessWidget {
         builder: (BuildContext context, _) => row,
       );
     }
-    return GestureDetector(
+    return FluxerGestureDetector(
       onSecondaryTapDown: (TapDownDetails details) {
         onMenuPressed(details.globalPosition);
       },

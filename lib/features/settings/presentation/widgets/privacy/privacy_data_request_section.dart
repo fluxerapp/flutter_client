@@ -17,6 +17,7 @@ class PrivacyDataExportSection extends StatelessWidget {
     final layout = context.layout;
 
     return FluxerSettingsSection(
+      sectionId: 'data-export',
       title: l10n.privacyDashboardDataExportSection,
       children: [
         FluxerSettingsSubsection(
@@ -57,6 +58,7 @@ class PrivacyDataDeletionSection extends StatelessWidget {
     final layout = context.layout;
 
     return FluxerSettingsSection(
+      sectionId: 'data-deletion',
       title: l10n.privacyDashboardDataDeletionSection,
       children: [
         FluxerSettingsSubsection(

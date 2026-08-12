@@ -14,9 +14,11 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_variant.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_channel_chat_sheet.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_chat_unread_badge.dart';
 import 'package:fluxer_app/features/voice/providers/screen_share_capability_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_text_chat_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
@@ -25,6 +27,7 @@ import 'package:fluxer_dart/gateway.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double kVoiceControlCircleSize = 52;
+const double kVoiceControlCompactCircleSize = 44;
 const double kVoiceControlGap = 10;
 const double kVoiceControlBarVerticalPadding = 12;
 const double kVoiceControlPillVerticalPadding = 10;
@@ -200,6 +203,7 @@ class VoiceChannelControlBarContent extends ConsumerWidget {
     this.barInnerWidth,
     this.expansion,
     this.canScreenShare,
+    this.useCompactControls = false,
     super.key,
   });
 
@@ -211,6 +215,7 @@ class VoiceChannelControlBarContent extends ConsumerWidget {
   final double? barInnerWidth;
   final double? expansion;
   final bool? canScreenShare;
+  final bool useCompactControls;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -228,12 +233,20 @@ class VoiceChannelControlBarContent extends ConsumerWidget {
             .watch(screenShareCapabilityProvider)
             .maybeWhen(data: (bool value) => value, orElse: () => false);
     final bool isEmbedded = style == VoiceChannelControlBarStyle.embedded;
+    final double buttonSize = useCompactControls
+        ? kVoiceControlCompactCircleSize
+        : kVoiceControlCircleSize;
     final int buttonCount = voiceChannelControlButtonCount(
       canScreenShare: canScreenShare,
     );
+    void onControlPressed(VoidCallback action) {
+      ref.read(voiceCallOverlayProvider.notifier).reveal();
+      action();
+    }
+
     final List<Widget> controlButtons = <Widget>[
       _VoiceControlCircle(
-        size: kVoiceControlCircleSize,
+        size: buttonSize,
         color: isMuted
             ? context.colors.statusDanger
             : context.colors.backgroundTertiary,
@@ -243,11 +256,13 @@ class VoiceChannelControlBarContent extends ConsumerWidget {
             : PhosphorIconsFill.microphone,
         toggled: isMuted,
         onPressed: () {
-          unawaited(ref.read(voiceSessionProvider.notifier).toggleSelfMute());
+          onControlPressed(() {
+            unawaited(ref.read(voiceSessionProvider.notifier).toggleSelfMute());
+          });
         },
       ),
       _VoiceControlCircle(
-        size: kVoiceControlCircleSize,
+        size: buttonSize,
         color: isDeafened
             ? context.colors.statusDanger
             : context.colors.backgroundTertiary,
@@ -259,11 +274,15 @@ class VoiceChannelControlBarContent extends ConsumerWidget {
             : PhosphorIconsFill.speakerHigh,
         toggled: isDeafened,
         onPressed: () {
-          unawaited(ref.read(voiceSessionProvider.notifier).toggleSelfDeafen());
+          onControlPressed(() {
+            unawaited(
+              ref.read(voiceSessionProvider.notifier).toggleSelfDeafen(),
+            );
+          });
         },
       ),
       _VoiceControlCircle(
-        size: kVoiceControlCircleSize,
+        size: buttonSize,
         color: isVideoOn
             ? context.colors.statusOnline
             : context.colors.backgroundTertiary,
@@ -272,15 +291,17 @@ class VoiceChannelControlBarContent extends ConsumerWidget {
         toggled: isVideoOn,
         onPressed: isConnected
             ? () {
-                unawaited(
-                  ref.read(voiceSessionProvider.notifier).toggleSelfVideo(),
-                );
+                onControlPressed(() {
+                  unawaited(
+                    ref.read(voiceSessionProvider.notifier).toggleSelfVideo(),
+                  );
+                });
               }
             : null,
       ),
       if (canScreenShare)
         _VoiceControlCircle(
-          size: kVoiceControlCircleSize,
+          size: buttonSize,
           color: isScreenSharing
               ? context.colors.statusOnline
               : context.colors.backgroundTertiary,
@@ -289,32 +310,36 @@ class VoiceChannelControlBarContent extends ConsumerWidget {
           toggled: isScreenSharing,
           onPressed: isConnected
               ? () {
-                  unawaited(
-                    ref
-                        .read(voiceSessionProvider.notifier)
-                        .toggleSelfStream(
-                          screenShareNotificationText:
-                              l10n.voiceScreenShareNotificationText,
-                        ),
-                  );
+                  onControlPressed(() {
+                    unawaited(
+                      ref
+                          .read(voiceSessionProvider.notifier)
+                          .toggleSelfStream(
+                            screenShareNotificationText:
+                                l10n.voiceScreenShareNotificationText,
+                          ),
+                    );
+                  });
                 }
               : null,
         ),
       _VoiceControlCircle(
-        size: kVoiceControlCircleSize,
+        size: buttonSize,
         color: context.colors.statusDanger,
         tooltip: l10n.voiceControlDisconnect,
         icon: PhosphorIconsFill.phoneDisconnect,
         onPressed: () {
-          if (context.mounted && isMobileLayout(context)) {
-            final String location = ref.read(currentLocationProvider);
-            if (isFavoritesChannelRoute(location)) {
-              returnToFavoritesList(ref);
-            } else if (guildId != null && guildId!.isNotEmpty) {
-              navigateToContent(context, RoutePaths.guild(guildId!));
+          onControlPressed(() {
+            if (context.mounted && isMobileLayout(context)) {
+              final String location = ref.read(currentLocationProvider);
+              if (isFavoritesChannelRoute(location)) {
+                returnToFavoritesList(ref);
+              } else if (guildId != null && guildId!.isNotEmpty) {
+                navigateToContent(context, RoutePaths.guild(guildId!));
+              }
             }
-          }
-          unawaited(ref.read(voiceSessionProvider.notifier).leaveVoice());
+            unawaited(ref.read(voiceSessionProvider.notifier).leaveVoice());
+          });
         },
       ),
     ];
@@ -330,7 +355,10 @@ class VoiceChannelControlBarContent extends ConsumerWidget {
           );
       controls = Padding(
         padding: EdgeInsets.symmetric(horizontal: rowLayout.sideInset),
-        child: Row(spacing: rowLayout.spacing, children: controlButtons),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(spacing: rowLayout.spacing, children: controlButtons),
+        ),
       );
     } else {
       controls = Row(
@@ -442,7 +470,7 @@ class _VoiceControlCircleState extends State<_VoiceControlCircle> {
       enabled: enabled,
       child: Tooltip(
         message: widget.tooltip,
-        child: GestureDetector(
+        child: FluxerGestureDetector(
           behavior: HitTestBehavior.opaque,
           onTapDown: (_) => _setPressed(true),
           onTapUp: (_) => _setPressed(false),

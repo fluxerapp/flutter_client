@@ -2,6 +2,9 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
+import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -23,6 +26,9 @@ class ChannelSearchAutocompleteEntry {
     this.filterKey,
     this.userId,
     this.channelId,
+    this.channelType,
+    this.avatarImageUrl,
+    this.avatarColor,
     this.value,
     this.historyText,
     this.selectable = true,
@@ -40,6 +46,9 @@ class ChannelSearchAutocompleteEntry {
   final String? filterKey;
   final String? userId;
   final String? channelId;
+  final ChannelType? channelType;
+  final String? avatarImageUrl;
+  final int? avatarColor;
   final String? value;
   final String? historyText;
   final bool selectable;
@@ -112,25 +121,32 @@ class ChannelHeaderSearchAutocomplete extends StatelessWidget {
           child: SizedBox(
             width: panelWidth,
             height: panelHeight,
-            child: ListView.builder(
-              padding: const EdgeInsets.all(4),
-              itemCount: entries.length,
-              itemBuilder: (BuildContext context, int index) {
-                final ChannelSearchAutocompleteEntry entry = entries[index];
-                if (entry.isSectionHeader) {
-                  return _SectionHeaderRow(entry: entry);
-                }
-                final bool isSelected =
-                    entry.selectable && index == selectedIndex;
-                return _AutocompleteRow(
-                  entry: entry,
-                  isSelected: isSelected,
-                  touchPrimary: touchPrimary,
-                  optionId: '$listboxId-opt-$index',
-                  onTap: entry.selectable ? () => onEntrySelected(entry) : null,
-                  onHover: entry.selectable ? () => onEntryHover(index) : null,
-                );
-              },
+            child: Semantics(
+              container: true,
+              identifier: listboxId,
+              child: ListView.builder(
+                padding: const EdgeInsets.all(4),
+                itemCount: entries.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final ChannelSearchAutocompleteEntry entry = entries[index];
+                  if (entry.isSectionHeader) {
+                    return _SectionHeaderRow(entry: entry);
+                  }
+                  final bool isSelected =
+                      entry.selectable && index == selectedIndex;
+                  return _AutocompleteRow(
+                    entry: entry,
+                    isSelected: isSelected,
+                    touchPrimary: touchPrimary,
+                    onTap: entry.selectable
+                        ? () => onEntrySelected(entry)
+                        : null,
+                    onHover: entry.selectable
+                        ? () => onEntryHover(index)
+                        : null,
+                  );
+                },
+              ),
             ),
           ),
         ),
@@ -146,16 +162,13 @@ class _SectionHeaderRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color muted = context.colors.textPrimaryMuted;
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
       child: Row(
         children: <Widget>[
           if (entry.icon != null) ...<Widget>[
-            PhosphorIcon(
-              entry.icon!,
-              size: 12,
-              color: context.colors.textPrimaryMuted,
-            ),
+            PhosphorIcon(entry.icon!, size: 12, color: muted),
             const SizedBox(width: 8),
           ],
           Expanded(
@@ -165,7 +178,7 @@ class _SectionHeaderRow extends StatelessWidget {
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 0.48,
-                color: context.colors.textPrimaryMuted,
+                color: muted,
               ),
             ),
           ),
@@ -181,17 +194,13 @@ class _SectionHeaderRow extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  PhosphorIcon(
-                    PhosphorIconsFill.trash,
-                    size: 10,
-                    color: context.colors.textPrimaryMuted,
-                  ),
+                  PhosphorIcon(PhosphorIconsFill.trash, size: 10, color: muted),
                   const SizedBox(width: 4),
                   Text(
                     entry.sectionActionLabel!,
                     style: context.textStyles.bodySmall.copyWith(
                       fontSize: 12,
-                      color: context.colors.textPrimaryMuted,
+                      color: muted,
                     ),
                   ),
                 ],
@@ -208,7 +217,6 @@ class _AutocompleteRow extends StatefulWidget {
     required this.entry,
     required this.isSelected,
     required this.touchPrimary,
-    required this.optionId,
     this.onTap,
     this.onHover,
   });
@@ -216,7 +224,6 @@ class _AutocompleteRow extends StatefulWidget {
   final ChannelSearchAutocompleteEntry entry;
   final bool isSelected;
   final bool touchPrimary;
-  final String optionId;
   final VoidCallback? onTap;
   final VoidCallback? onHover;
 
@@ -240,9 +247,6 @@ class _AutocompleteRowState extends State<_AutocompleteRow> {
     final Color mutedColor = widget.isSelected
         ? context.colors.surfaceInteractiveSelectedColor.withValues(alpha: 0.7)
         : context.colors.textPrimaryMuted;
-    final bool showFilterChip =
-        entry.section == ChannelSearchAutocompleteSection.filters &&
-        entry.filterKey != null;
 
     return Semantics(
       button: widget.onTap != null,
@@ -268,12 +272,10 @@ class _AutocompleteRowState extends State<_AutocompleteRow> {
               child: Row(
                 children: <Widget>[
                   Expanded(
-                    child: _buildLabel(
-                      context,
-                      entry,
-                      textColor,
-                      mutedColor,
-                      showFilterChip,
+                    child: _AutocompleteLabel(
+                      entry: entry,
+                      textColor: textColor,
+                      mutedColor: mutedColor,
                     ),
                   ),
                   PhosphorIcon(
@@ -289,15 +291,23 @@ class _AutocompleteRowState extends State<_AutocompleteRow> {
       ),
     );
   }
+}
 
-  Widget _buildLabel(
-    BuildContext context,
-    ChannelSearchAutocompleteEntry entry,
-    Color textColor,
-    Color mutedColor,
-    bool showFilterChip,
-  ) {
-    if (showFilterChip) {
+class _AutocompleteLabel extends StatelessWidget {
+  const _AutocompleteLabel({
+    required this.entry,
+    required this.textColor,
+    required this.mutedColor,
+  });
+
+  final ChannelSearchAutocompleteEntry entry;
+  final Color textColor;
+  final Color mutedColor;
+
+  @override
+  Widget build(BuildContext context) {
+    if (entry.section == ChannelSearchAutocompleteSection.filters &&
+        entry.filterKey != null) {
       return _FilterChipLabel(
         syntaxLabel: entry.label,
         description: entry.subtitle,
@@ -314,8 +324,8 @@ class _AutocompleteRowState extends State<_AutocompleteRow> {
         mutedColor: mutedColor,
       );
     }
-    if (entry.section == ChannelSearchAutocompleteSection.history) {
-      return Text(
+    return switch (entry.section) {
+      ChannelSearchAutocompleteSection.history => Text(
         entry.label,
         style: context.textStyles.bodySmall.copyWith(
           fontSize: 13,
@@ -324,99 +334,221 @@ class _AutocompleteRowState extends State<_AutocompleteRow> {
         ),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
-      );
-    }
-    if (entry.section == ChannelSearchAutocompleteSection.users) {
-      return Row(
-        children: <Widget>[
-          if (entry.icon != null) ...<Widget>[
-            PhosphorIcon(entry.icon!, size: 20, color: mutedColor),
-            const SizedBox(width: 8),
-          ],
-          Expanded(
-            child: Text(
-              entry.label,
-              style: context.textStyles.bodySmall.copyWith(
-                fontSize: 15,
-                height: 1.25,
-                color: textColor,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+      ),
+      ChannelSearchAutocompleteSection.users => _UserOptionLabel(
+        entry: entry,
+        textColor: textColor,
+        mutedColor: mutedColor,
+      ),
+      ChannelSearchAutocompleteSection.channels => _ChannelOptionLabel(
+        entry: entry,
+        textColor: textColor,
+        mutedColor: mutedColor,
+      ),
+      ChannelSearchAutocompleteSection.dates => _IconTextOptionLabel(
+        label: entry.label,
+        icon: entry.icon,
+        iconSize: 20,
+        textColor: textColor,
+        mutedColor: mutedColor,
+        fontWeight: FontWeight.w500,
+      ),
+      _ => Text(
+        entry.label,
+        style: context.textStyles.bodySmall.copyWith(
+          fontSize: 15,
+          height: 1.25,
+          fontWeight: FontWeight.w500,
+          color: textColor,
+        ),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+    };
+  }
+}
+
+class _UserOptionLabel extends StatelessWidget {
+  const _UserOptionLabel({
+    required this.entry,
+    required this.textColor,
+    required this.mutedColor,
+  });
+
+  final ChannelSearchAutocompleteEntry entry;
+  final Color textColor;
+  final Color mutedColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final String? subtitle = entry.subtitle;
+    return Row(
+      children: <Widget>[
+        FluxerAvatar.user(
+          imageUrl: entry.avatarImageUrl,
+          fallbackText: entry.label,
+          userId: entry.userId ?? '',
+          avatarColor: entry.avatarColor,
+          size: 20,
+          showStatus: false,
+        ),
+        const SizedBox(width: 8),
+        Flexible(
+          child: Text(
+            entry.label,
+            style: context.textStyles.bodySmall.copyWith(
+              fontSize: 15,
+              height: 1.25,
+              fontWeight: FontWeight.w600,
+              color: textColor,
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
-          if (entry.subtitle != null) ...<Widget>[
-            const SizedBox(width: 2),
-            Text(
-              entry.subtitle!,
+        ),
+        if (subtitle != null && subtitle.isNotEmpty) ...<Widget>[
+          const SizedBox(width: 6),
+          Flexible(
+            child: Text(
+              subtitle,
               style: context.textStyles.bodySmall.copyWith(
                 fontSize: 13,
+                height: 1.25,
                 color: mutedColor,
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
-          ],
+          ),
         ],
-      );
-    }
-    if (entry.section == ChannelSearchAutocompleteSection.channels) {
-      return Row(
-        children: <Widget>[
+      ],
+    );
+  }
+}
+
+class _ChannelOptionLabel extends StatelessWidget {
+  const _ChannelOptionLabel({
+    required this.entry,
+    required this.textColor,
+    required this.mutedColor,
+  });
+
+  final ChannelSearchAutocompleteEntry entry;
+  final Color textColor;
+  final Color mutedColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final ChannelType? type = entry.channelType;
+    return Row(
+      children: <Widget>[
+        if (type != null)
+          ChannelIcon(type: type, size: 16, color: mutedColor)
+        else
           PhosphorIcon(
             entry.icon ?? PhosphorIconsBold.hash,
-            size: 20,
+            size: 16,
             color: mutedColor,
           ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            entry.label,
+            style: context.textStyles.bodySmall.copyWith(
+              fontSize: 15,
+              height: 1.25,
+              color: textColor,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _IconTextOptionLabel extends StatelessWidget {
+  const _IconTextOptionLabel({
+    required this.label,
+    required this.textColor,
+    required this.mutedColor,
+    this.icon,
+    this.iconSize = 20,
+    this.fontWeight,
+  });
+
+  final String label;
+  final IconData? icon;
+  final double iconSize;
+  final Color textColor;
+  final Color mutedColor;
+  final FontWeight? fontWeight;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        if (icon != null) ...<Widget>[
+          PhosphorIcon(icon!, size: iconSize, color: mutedColor),
           const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              entry.label,
-              style: context.textStyles.bodySmall.copyWith(
-                fontSize: 15,
-                height: 1.25,
-                color: textColor,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
         ],
-      );
-    }
-    if (entry.section == ChannelSearchAutocompleteSection.dates) {
-      return Row(
-        children: <Widget>[
-          if (entry.icon != null) ...<Widget>[
-            PhosphorIcon(entry.icon!, size: 20, color: mutedColor),
-            const SizedBox(width: 8),
-          ],
-          Expanded(
-            child: Text(
-              entry.label,
-              style: context.textStyles.bodySmall.copyWith(
-                fontSize: 15,
-                height: 1.25,
-                fontWeight: FontWeight.w500,
-                color: textColor,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+        Expanded(
+          child: Text(
+            label,
+            style: context.textStyles.bodySmall.copyWith(
+              fontSize: 15,
+              height: 1.25,
+              fontWeight: fontWeight,
+              color: textColor,
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
-        ],
-      );
-    }
-    return Text(
-      entry.label,
-      style: context.textStyles.bodySmall.copyWith(
-        fontSize: 15,
-        height: 1.25,
-        fontWeight: FontWeight.w500,
-        color: textColor,
+        ),
+      ],
+    );
+  }
+}
+
+class _SyntaxChip extends StatelessWidget {
+  const _SyntaxChip({
+    required this.label,
+    required this.textColor,
+    this.compact = false,
+  });
+
+  final String label;
+  final Color textColor;
+  final bool compact;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: context.colors.backgroundSecondaryAlt,
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(color: context.colors.backgroundModifierAccent),
       ),
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: compact ? 6 : 8,
+          vertical: compact ? 2 : 3,
+        ),
+        child: Text(
+          label,
+          style: context.textStyles.bodySmall.copyWith(
+            fontSize: compact ? 11 : 13,
+            height: compact ? 1 : 1.2,
+            color: textColor,
+            fontWeight: compact ? FontWeight.w600 : FontWeight.w500,
+            letterSpacing: compact ? 0.55 : null,
+            fontFeatures: compact
+                ? null
+                : const <FontFeature>[FontFeature.disable('liga')],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -441,30 +573,7 @@ class _FilterChipLabel extends StatelessWidget {
         children: <InlineSpan>[
           WidgetSpan(
             alignment: PlaceholderAlignment.middle,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: context.colors.backgroundSecondaryAlt,
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(
-                  color: context.colors.backgroundModifierAccent,
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                child: Text(
-                  syntaxLabel,
-                  style: context.textStyles.bodySmall.copyWith(
-                    fontSize: 13,
-                    height: 1.2,
-                    color: textColor,
-                    fontWeight: FontWeight.w500,
-                    fontFeatures: const <FontFeature>[
-                      FontFeature.disable('liga'),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            child: _SyntaxChip(label: syntaxLabel, textColor: textColor),
           ),
           if (description != null && description!.isNotEmpty)
             TextSpan(
@@ -509,54 +618,14 @@ class _ValueOptionLabel extends StatelessWidget {
           spacing: 4,
           crossAxisAlignment: WrapCrossAlignment.center,
           children: <Widget>[
-            DecoratedBox(
-              decoration: BoxDecoration(
-                color: context.colors.backgroundSecondaryAlt,
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(
-                  color: context.colors.backgroundModifierAccent,
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                child: Text(
-                  label,
-                  style: context.textStyles.bodySmall.copyWith(
-                    fontSize: 13,
-                    height: 1.2,
-                    color: textColor,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ),
+            _SyntaxChip(label: label, textColor: textColor),
             if (isDefault)
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  color: context.colors.backgroundSecondaryAlt,
-                  borderRadius: BorderRadius.circular(6),
-                  border: Border.all(
-                    color: context.colors.backgroundModifierAccent,
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 6,
-                    vertical: 2,
-                  ),
-                  child: Text(
-                    FluxerLocalizations.of(
-                      context,
-                    ).channelHeaderSearchDefaultBadge.toUpperCase(),
-                    style: context.textStyles.bodySmall.copyWith(
-                      fontSize: 11,
-                      height: 1,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.55,
-                      color: mutedColor,
-                    ),
-                  ),
-                ),
+              _SyntaxChip(
+                label: FluxerLocalizations.of(
+                  context,
+                ).channelHeaderSearchDefaultBadge.toUpperCase(),
+                textColor: mutedColor,
+                compact: true,
               ),
           ],
         ),

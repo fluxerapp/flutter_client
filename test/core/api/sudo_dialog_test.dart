@@ -13,6 +13,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/keyboard_focus_restore.dart';
 
 class _MfaMethodsAdapter implements HttpClientAdapter {
   const _MfaMethodsAdapter({
@@ -115,7 +116,9 @@ void main() {
     expect(find.text(l10n.mfaMethodWebauthn), findsNothing);
   });
 
-  testWidgets('restores TOTP input focus when app resumes', (tester) async {
+  testWidgets('restores TOTP input focus when app resumes from background', (
+    tester,
+  ) async {
     final navigatorKey = GlobalKey<NavigatorState>();
     final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
       ..httpClientAdapter = const _MfaMethodsAdapter(
@@ -135,13 +138,21 @@ void main() {
     );
     final FocusNode focusNode = editable.focusNode!;
 
+    focusNode.requestFocus();
+    await tester.pumpAndSettle();
+    expect(focusNode.hasFocus, isTrue);
+
     tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
     focusNode.unfocus();
     await tester.pump();
 
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
     tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
     await tester.pump();
-    await tester.pump(const Duration(milliseconds: 100));
+    await tester.pump(kKeyboardFocusRestoreRetryDelay);
 
     expect(focusNode.hasFocus, isTrue);
   });

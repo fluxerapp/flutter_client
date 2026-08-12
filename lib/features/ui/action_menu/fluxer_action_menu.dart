@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
@@ -17,6 +16,7 @@ import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart'
         FluxerBottomSheetVariant,
         FluxerMenuGroup,
         FluxerMenuRadioIndicator;
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -176,7 +176,7 @@ class _ActionMenuOverlay extends StatelessWidget {
       child: Stack(
         children: [
           Positioned.fill(
-            child: GestureDetector(
+            child: FluxerGestureDetector(
               onTap: onDismiss,
               behavior: HitTestBehavior.opaque,
               child: const ColoredBox(color: Colors.transparent),

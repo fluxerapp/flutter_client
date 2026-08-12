@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_icon_peek_menu.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_drag_provider.dart';
+import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 
 typedef FolderLongPressMenuCallback =
     Future<void> Function(Offset globalPosition);
@@ -60,7 +60,7 @@ class _GuildFolderLongPressMenuHostState
         return;
       }
       _menuTriggeredForSession = true;
-      unawaited(HapticFeedback.mediumImpact());
+      FluxerHaptics.medium();
       final BuildContext? anchorContext = widget.menuAnchorKey.currentContext;
       final RenderBox? box = anchorContext?.findRenderObject() as RenderBox?;
       if (box == null || !box.hasSize) {
@@ -77,7 +77,7 @@ class _GuildFolderLongPressMenuHostState
     if (_menuTriggeredForSession) {
       return;
     }
-    if (shouldSuppressPeekForDrag(
+    if (shouldCancelGuildPeekHold(
       pointerDownPosition: _pointerDownPosition,
       currentPosition: event.position,
     )) {

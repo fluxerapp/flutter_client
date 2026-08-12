@@ -124,7 +124,7 @@ class InlineReplyPreview extends ConsumerWidget {
       alpha: 0.64,
     );
 
-    return GestureDetector(
+    return FluxerGestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: resolution.state == MessageReferenceState.deleted
           ? null

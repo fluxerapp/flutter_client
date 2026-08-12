@@ -13,10 +13,10 @@ import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/message_character_counter.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/slowmode_send_blocked_notice.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/forward_destination_avatar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/composer/slowmode_send_blocked_notice.dart';
 import 'package:fluxer_app/features/chat/providers/messages/forward_destinations_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_length_limits_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
@@ -616,7 +616,7 @@ class _ShareMediaSheetBodyState extends ConsumerState<_ShareMediaSheetBody> {
                     ),
                     suffixIcon: Padding(
                       padding: const EdgeInsets.only(right: 8),
-                      child: GestureDetector(
+                      child: FluxerGestureDetector(
                         onTap: messageDisabled ? null : _openEmojiPicker,
                         child: Icon(
                           PhosphorIconsFill.smiley,

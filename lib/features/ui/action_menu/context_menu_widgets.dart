@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const kContextMenuWidth = 220.0;
@@ -206,7 +207,7 @@ class _ContextMenuItemState extends State<ContextMenuItem> {
       cursor: widget.isDisabled
           ? SystemMouseCursors.basic
           : SystemMouseCursors.click,
-      child: GestureDetector(
+      child: FluxerGestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: widget.isDisabled
             ? (widget.onDisabledTap ?? widget.onTap)

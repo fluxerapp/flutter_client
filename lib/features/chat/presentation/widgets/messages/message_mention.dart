@@ -6,7 +6,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show FutureProviderFamily;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/core/deep_links/user_settings_deep_link.dart';
+import 'package:fluxer_app/core/deep_links/user_settings_deep_link.dart';
 import 'package:fluxer_app/core/utils/channel_jump_link.dart';
+import 'package:fluxer_app/features/settings/utils/open_user_settings_deep_link.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
@@ -21,6 +25,7 @@ import 'package:fluxer_app/features/dm/utils/group_dm_display_name.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/role_providers.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
@@ -75,7 +80,7 @@ class ChannelMention extends ConsumerWidget {
             : ChannelType.fromWire(fallback!.type));
     final bool canNavigate =
         channel != null && isClickableChannelMention(channel);
-    return GestureDetector(
+    return FluxerGestureDetector(
       onTap: canNavigate
           ? () => navigateToGuildChannelContent(
               context: context,
@@ -268,7 +273,7 @@ class UserMention extends ConsumerWidget {
       color: colors.markupMentionText,
       fontWeight: FontWeight.w500,
     );
-    return GestureDetector(
+    return FluxerGestureDetector(
       onTap: () => unawaited(
         FluxerUserProfileSheet.show(
           context,
@@ -361,6 +366,75 @@ final FutureProviderFamily<String?, String> _dmNameByChannelIdProvider =
         username: user.username,
       );
     });
+
+class SettingsJumpLinkMention extends ConsumerWidget {
+  const SettingsJumpLinkMention({
+    required this.target,
+    this.baseStyle,
+    super.key,
+  });
+
+  final UserSettingsDeepLinkTarget target;
+  final TextStyle? baseStyle;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = FluxerLocalizations.of(context);
+    final colors = context.colors;
+    final style = (baseStyle ?? context.textStyles.messageText).copyWith(
+      color: colors.markupMentionText,
+      fontWeight: FontWeight.w500,
+    );
+    final iconSize = (style.fontSize ?? 14) * 0.9;
+
+    final UserSettingsDeepLinkPresentation presentation =
+        buildUserSettingsDeepLinkPresentation(
+          context: context,
+          isTouchPrimary: isTouchPrimaryInput(ref),
+          l10n: l10n,
+          target: target,
+        );
+
+    void onTap() {
+      unawaited(
+        openUserSettingsDeepLink(
+          context,
+          ref,
+          target,
+          scrollFieldId: presentation.scrollFieldId,
+        ),
+      );
+    }
+
+    return _JumpLinkPill(
+      baseStyle: style,
+      onTap: onTap,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          PhosphorIcon(
+            presentation.tabIcon,
+            size: iconSize,
+            color: colors.markupMentionText,
+          ),
+          SizedBox(width: iconSize * 0.2),
+          _MentionLabel(presentation.tabLabel, style: style),
+          if (presentation.fieldLabel != null) ...[
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: iconSize * 0.1),
+              child: PhosphorIcon(
+                PhosphorIconsBold.caretRight,
+                size: iconSize * 0.6,
+                color: colors.markupMentionText,
+              ),
+            ),
+            _MentionLabel(presentation.fieldLabel!, style: style),
+          ],
+        ],
+      ),
+    );
+  }
+}
 
 class ChannelJumpLinkMention extends ConsumerWidget {
   const ChannelJumpLinkMention({
@@ -518,7 +592,7 @@ class _JumpLinkPillState extends State<_JumpLinkPill> {
     return MouseRegion(
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
-      child: GestureDetector(
+      child: FluxerGestureDetector(
         onTap: widget.onTap,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 50),

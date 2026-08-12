@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/chat/utils/embed_media_viewer_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
 /// An inline image / gifv embed
@@ -78,7 +79,7 @@ class EmbedImage extends StatelessWidget {
           borderRadius: BorderRadius.circular(4),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(4),
-            child: GestureDetector(
+            child: FluxerGestureDetector(
               onTap: canOpenEmbedMediaViewer(media)
                   ? () => openEmbedMediaViewer(
                       context,

@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/members/presentation/sheets/no_roles_availab
 import 'package:fluxer_app/features/members/presentation/widgets/manage_member_roles_picker.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/member_role_badge.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -75,7 +76,7 @@ class UserProfileRolesSection extends ConsumerWidget {
                     child: Semantics(
                       button: true,
                       label: l10n.memberRoleAdd,
-                      child: GestureDetector(
+                      child: FluxerGestureDetector(
                         onTapDown: (TapDownDetails details) => _handleAddRole(
                           context,
                           ref,

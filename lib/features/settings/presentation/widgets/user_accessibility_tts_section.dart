@@ -43,6 +43,7 @@ class _UserAccessibilityTtsSectionState
         : l10n.accessibilityTtsSampleDescription;
 
     return FluxerSettingsSection(
+      sectionId: 'tts',
       title: l10n.accessibilityTtsGroupTitle,
       children: [
         Column(

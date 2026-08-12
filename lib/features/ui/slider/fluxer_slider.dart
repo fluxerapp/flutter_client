@@ -4,6 +4,7 @@ import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 
 enum FluxerSliderMarkerPosition { above, below }
 
@@ -468,7 +469,7 @@ class _FluxerSliderState extends State<FluxerSlider> {
             builder: (context, constraints) {
               final trackWidth = constraints.maxWidth - _kTrackPadding * 2;
 
-              return GestureDetector(
+              return FluxerGestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onHorizontalDragStart: _handleDragStart,
                 onHorizontalDragUpdate: (details) =>

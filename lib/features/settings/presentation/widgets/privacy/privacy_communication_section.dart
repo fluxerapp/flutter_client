@@ -19,6 +19,7 @@ class PrivacyCommunicationSection extends ConsumerWidget {
     final vm = ref.read(privacyDashboardViewModelProvider.notifier);
 
     return FluxerSettingsSection(
+      sectionId: 'communication',
       title: l10n.privacyDashboardCommunicationSection,
       children: [
         FluxerSettingsSubsection(

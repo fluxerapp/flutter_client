@@ -82,7 +82,7 @@ class FavoritesChannelList extends ConsumerWidget {
       );
     }
 
-    return GestureDetector(
+    return FluxerGestureDetector(
       onSecondaryTapUp: (details) {
         unawaited(
           showFavoritesListMenu(context, ref, position: details.globalPosition),

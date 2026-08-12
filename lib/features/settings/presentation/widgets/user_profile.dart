@@ -601,7 +601,7 @@ class _UserProfileState extends ConsumerState<UserProfile> {
                           ),
                         ),
                         SizedBox(height: layout.s8),
-                        GestureDetector(
+                        FluxerGestureDetector(
                           onTap: () =>
                               FocusManager.instance.primaryFocus?.unfocus(),
                           behavior: HitTestBehavior.opaque,
@@ -609,7 +609,7 @@ class _UserProfileState extends ConsumerState<UserProfile> {
                         ),
                         if (state.isPremium && !state.isPerGuildProfile) ...[
                           SizedBox(height: layout.s8),
-                          GestureDetector(
+                          FluxerGestureDetector(
                             onTap: () =>
                                 FocusManager.instance.primaryFocus?.unfocus(),
                             behavior: HitTestBehavior.opaque,

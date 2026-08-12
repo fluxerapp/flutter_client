@@ -74,6 +74,24 @@ void main() {
       expect(find.text('no'), findsOneWidget);
     });
 
+    testWidgets('is false for phone landscape', (WidgetTester tester) async {
+      // Pixel 10 Pro landscape viewport.
+      await tester.pumpWidget(
+        Directionality(
+          textDirection: TextDirection.ltr,
+          child: MediaQuery(
+            data: const MediaQueryData(size: Size(914, 410)),
+            child: Builder(
+              builder: (BuildContext context) {
+                return Text(isCompactWideMobileLayout(context) ? 'yes' : 'no');
+              },
+            ),
+          ),
+        ),
+      );
+      expect(find.text('no'), findsOneWidget);
+    });
+
     testWidgets('is false when desktop shell qualifies', (
       WidgetTester tester,
     ) async {

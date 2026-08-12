@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/chat/presentation/sheets/channel_pins_sheet.
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_header_icon_button.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_pins_content.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -99,7 +100,7 @@ class _ChannelPinsOverlayButtonState
     return Stack(
       children: <Widget>[
         Positioned.fill(
-          child: GestureDetector(
+          child: FluxerGestureDetector(
             onTap: _close,
             behavior: HitTestBehavior.opaque,
             child: const ColoredBox(color: Colors.transparent),

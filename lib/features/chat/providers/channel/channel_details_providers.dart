@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/chat/data/channel_pins_repository.dart';
 import 'package:fluxer_app/features/chat/data/channel_search_query_parser.dart';
 import 'package:fluxer_app/features/chat/data/message_search_repository.dart';
+import 'package:fluxer_app/features/chat/domain/channel_search_chip_filters.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
@@ -257,6 +258,7 @@ class ChannelSearch extends _$ChannelSearch {
     MessageSearchSortFilter? sort,
     String? authorId,
     Set<MessageSearchContentFilter>? contentTypes,
+    ChannelSearchChipFilters chipFilters = const ChannelSearchChipFilters(),
   }) async {
     final MessageSearchQuery nextQuery =
         query ??
@@ -270,6 +272,7 @@ class ChannelSearch extends _$ChannelSearch {
           context: context ?? ChannelSearchParseContext(guildId: guildId),
           chipAuthorId: authorId,
           chipContentTypes: contentTypes,
+          chipFilters: chipFilters,
         );
     if (!nextQuery.hasSearchTerms) {
       state = ChannelSearchState(query: nextQuery);

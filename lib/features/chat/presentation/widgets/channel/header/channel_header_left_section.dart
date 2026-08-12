@@ -133,7 +133,7 @@ class _ChannelHeaderLeftSectionState
             ),
             Flexible(
               flex: 2,
-              child: GestureDetector(
+              child: FluxerGestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () => unawaited(
                   showChannelTopicDialog(

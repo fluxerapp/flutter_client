@@ -26,7 +26,6 @@ import flutter_webrtc
 import gal
 import irondash_engine_context
 import livekit_client
-import livekit_noise_filter
 import media_kit_libs_macos_video
 import media_kit_video
 import package_info_plus
@@ -65,7 +64,6 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   GalPlugin.register(with: registry.registrar(forPlugin: "GalPlugin"))
   IrondashEngineContextPlugin.register(with: registry.registrar(forPlugin: "IrondashEngineContextPlugin"))
   LiveKitPlugin.register(with: registry.registrar(forPlugin: "LiveKitPlugin"))
-  LiveKitKrispNoiseFilterPlugin.register(with: registry.registrar(forPlugin: "LiveKitKrispNoiseFilterPlugin"))
   MediaKitLibsMacosVideoPlugin.register(with: registry.registrar(forPlugin: "MediaKitLibsMacosVideoPlugin"))
   MediaKitVideoPlugin.register(with: registry.registrar(forPlugin: "MediaKitVideoPlugin"))
   FPPPackageInfoPlusPlugin.register(with: registry.registrar(forPlugin: "FPPPackageInfoPlusPlugin"))

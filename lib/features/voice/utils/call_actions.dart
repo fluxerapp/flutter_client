@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
@@ -11,6 +14,7 @@ import 'package:fluxer_app/features/voice/utils/voice_connection_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:go_router/go_router.dart';
 
 typedef StartDirectVoiceCallResult = ({
   bool ok,
@@ -150,6 +154,9 @@ Future<StartDirectVoiceCallResult> startDirectVoiceCall(
       notEligible: false,
       joinAttemptFailed: true,
     );
+  }
+  if (context.mounted) {
+    unawaited(context.push(RoutePaths.dmChannelCall(channelId)));
   }
   return (
     ok: true,

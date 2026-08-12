@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
 
 class PlaybackSeekGestureTarget extends StatelessWidget {
@@ -30,7 +31,7 @@ class PlaybackSeekGestureTarget extends StatelessWidget {
         return SizedBox(
           key: kPlaybackSeekShellGestureBlockKey,
           height: touchTargetHeight,
-          child: GestureDetector(
+          child: FluxerGestureDetector(
             behavior: HitTestBehavior.opaque,
             onTapDown: enabled
                 ? (TapDownDetails details) {

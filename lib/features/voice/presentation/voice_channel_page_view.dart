@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/utils/chat_route_sync_guard.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
+import 'package:fluxer_app/features/ui/voice/local_camera_orientation_sync.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_expandable_sheet.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
@@ -95,13 +96,21 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
         ),
       ),
     );
-    final bool isMobile = isMobileLayout(context);
+    final bool usePhoneVoiceOverlay = isPhoneVoiceOverlay(context);
     final Widget content = inThisChannel
         ? isConnected
-              ? _buildConnected(context, channelName: name, isMobile: isMobile)
-              : _buildConnecting(context, channelName: name, isMobile: isMobile)
+              ? _buildConnected(
+                  context,
+                  channelName: name,
+                  usePhoneVoiceOverlay: usePhoneVoiceOverlay,
+                )
+              : _buildConnecting(
+                  context,
+                  channelName: name,
+                  usePhoneVoiceOverlay: usePhoneVoiceOverlay,
+                )
         : _buildEmpty(channel: channel);
-    if (isMobile) {
+    if (usePhoneVoiceOverlay) {
       return content;
     }
     return _wrapWithDesktopChat(context, content: content, channelName: name);
@@ -166,7 +175,7 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
   Widget _buildConnecting(
     BuildContext context, {
     required String channelName,
-    required bool isMobile,
+    required bool usePhoneVoiceOverlay,
   }) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final String? joinError = ref.watch(
@@ -212,7 +221,7 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
       color: context.colors.chatBackground,
       child: SafeArea(
         top: false,
-        child: isMobile
+        child: usePhoneVoiceOverlay
             ? VoiceCallMobilePageLayout(
                 channelId: widget.channelId,
                 guildId: widget.guildId,
@@ -232,12 +241,12 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
   Widget _buildConnected(
     BuildContext context, {
     required String channelName,
-    required bool isMobile,
+    required bool usePhoneVoiceOverlay,
   }) {
-    return _LocalCameraOrientationSync(
+    return LocalCameraOrientationSync(
       child: ColoredBox(
         color: context.colors.chatBackground,
-        child: isMobile
+        child: usePhoneVoiceOverlay
             ? VoiceCallMobilePageLayout(
                 channelId: widget.channelId,
                 guildId: widget.guildId,
@@ -268,39 +277,6 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
               ),
       ),
     );
-  }
-}
-
-class _LocalCameraOrientationSync extends ConsumerStatefulWidget {
-  const _LocalCameraOrientationSync({required this.child});
-
-  final Widget child;
-
-  @override
-  ConsumerState<_LocalCameraOrientationSync> createState() =>
-      _LocalCameraOrientationSyncState();
-}
-
-class _LocalCameraOrientationSyncState
-    extends ConsumerState<_LocalCameraOrientationSync> {
-  Orientation? _lastOrientation;
-
-  @override
-  Widget build(BuildContext context) {
-    final Orientation orientation = MediaQuery.orientationOf(context);
-    if (_lastOrientation != null && _lastOrientation != orientation) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          unawaited(
-            ref
-                .read(voiceSessionProvider.notifier)
-                .refreshLocalCameraAfterOrientationChange(),
-          );
-        }
-      });
-    }
-    _lastOrientation = orientation;
-    return widget.child;
   }
 }
 

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/chat/data/message_search_repository.dart';
+import 'package:fluxer_app/features/chat/domain/channel_search_chip_filters.dart'
+    as chip_filters;
 import 'package:fluxer_app/features/chat/domain/channel_search_segments.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -140,6 +143,10 @@ String channelSearchContentDescription(
     l10n.channelDetailsSearchContentEmbedDescription,
   MessageSearchContentFilter.sticker =>
     l10n.channelDetailsSearchContentStickerDescription,
+  MessageSearchContentFilter.poll =>
+    l10n.channelDetailsSearchContentPollDescription,
+  MessageSearchContentFilter.forward =>
+    l10n.channelDetailsSearchContentForwardDescription,
 };
 
 String channelSearchContentLabel(
@@ -153,6 +160,8 @@ String channelSearchContentLabel(
   MessageSearchContentFilter.link => l10n.channelDetailsSearchContentLink,
   MessageSearchContentFilter.embed => l10n.channelDetailsSearchContentEmbed,
   MessageSearchContentFilter.sticker => l10n.channelDetailsSearchContentSticker,
+  MessageSearchContentFilter.poll => l10n.channelDetailsSearchContentPoll,
+  MessageSearchContentFilter.forward => l10n.channelDetailsSearchContentForward,
 };
 
 IconData channelSearchContentIcon(MessageSearchContentFilter value) =>
@@ -164,6 +173,8 @@ IconData channelSearchContentIcon(MessageSearchContentFilter value) =>
       MessageSearchContentFilter.link => PhosphorIconsBold.link,
       MessageSearchContentFilter.embed => PhosphorIconsFill.browser,
       MessageSearchContentFilter.sticker => PhosphorIconsFill.sticker,
+      MessageSearchContentFilter.poll => PhosphorIconsFill.chartBar,
+      MessageSearchContentFilter.forward => PhosphorIconsFill.shareFat,
     };
 
 const List<MessageSearchContentFilter> kChannelSearchHasContentFilters =
@@ -175,19 +186,70 @@ const List<MessageSearchContentFilter> kChannelSearchHasContentFilters =
       MessageSearchContentFilter.link,
       MessageSearchContentFilter.embed,
       MessageSearchContentFilter.sticker,
+      MessageSearchContentFilter.poll,
+      MessageSearchContentFilter.forward,
     ];
+
+const List<String> kChannelSearchAuthorTypeValues = <String>[
+  'user',
+  'bot',
+  'webhook',
+];
+
+const List<String> kChannelSearchDateFilterKeys = <String>[
+  'before',
+  'on',
+  'during',
+  'after',
+];
+
+String formatChannelSearchDate(DateTime date) {
+  return '${date.year.toString().padLeft(4, '0')}-'
+      '${date.month.toString().padLeft(2, '0')}-'
+      '${date.day.toString().padLeft(2, '0')}';
+}
+
+String formatChannelSearchUserTag(String username, String? discriminator) {
+  final String disc = (discriminator ?? '').trim();
+  if (disc.isEmpty || disc == '0') {
+    return username;
+  }
+  return '$username#$disc';
+}
+
+String? resolveChannelIdByName(
+  List<ChannelCategory> categories,
+  String channelName,
+) {
+  final String normalized = channelName.toLowerCase();
+  for (final ChannelCategory category in categories) {
+    for (final Channel channel in category.channels) {
+      if (channel.name.toLowerCase() == normalized) {
+        return channel.id;
+      }
+    }
+  }
+  for (final ChannelCategory category in categories) {
+    for (final Channel channel in category.channels) {
+      if (channel.name.toLowerCase().contains(normalized)) {
+        return channel.id;
+      }
+    }
+  }
+  return null;
+}
+
+String channelSearchAuthorTypeLabel(FluxerLocalizations l10n, String value) =>
+    switch (value) {
+      'user' => l10n.channelDetailsSearchAuthorTypeUser,
+      'bot' => l10n.channelDetailsSearchAuthorTypeBot,
+      'webhook' => l10n.channelDetailsSearchAuthorTypeWebhook,
+      _ => value,
+    };
 
 String channelSearchHasValueForContentFilter(
   MessageSearchContentFilter filter,
-) => switch (filter) {
-  MessageSearchContentFilter.image => 'image',
-  MessageSearchContentFilter.video => 'video',
-  MessageSearchContentFilter.audio => 'sound',
-  MessageSearchContentFilter.file => 'file',
-  MessageSearchContentFilter.link => 'link',
-  MessageSearchContentFilter.embed => 'embed',
-  MessageSearchContentFilter.sticker => 'sticker',
-};
+) => chip_filters.channelSearchHasValueForContentFilter(filter);
 
 String channelSearchFilterDescription(
   FluxerLocalizations l10n,

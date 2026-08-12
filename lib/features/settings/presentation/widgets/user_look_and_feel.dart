@@ -15,9 +15,9 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class UserLookAndFeel extends ConsumerWidget {
-  const UserLookAndFeel({required this.scrollController, super.key});
+  const UserLookAndFeel({this.scrollController, super.key});
 
-  final ScrollController scrollController;
+  final ScrollController? scrollController;
 
   static const _darkSwatch = Color(0xFF1E222C);
   static const _coalSwatch = Color(0xFF050608);
@@ -78,6 +78,7 @@ class UserLookAndFeel extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           FluxerSettingsSection(
+            sectionId: 'theme',
             title: l10n.lookAndFeelThemeSectionTitle,
             description: l10n.lookAndFeelThemeSectionDescription,
             isFirst: true,
@@ -133,6 +134,7 @@ class UserLookAndFeel extends ConsumerWidget {
             ],
           ),
           FluxerSettingsSection(
+            sectionId: 'chat-font-scaling',
             title: l10n.lookAndFeelChatFontScalingTitle,
             description: l10n.lookAndFeelChatFontScalingDescription,
             children: [
@@ -169,6 +171,7 @@ class UserLookAndFeel extends ConsumerWidget {
             ],
           ),
           FluxerSettingsSection(
+            sectionId: 'interface',
             title: l10n.lookAndFeelInterfaceTitle,
             description: l10n.lookAndFeelInterfaceDescription,
             children: [
@@ -278,6 +281,7 @@ class UserLookAndFeel extends ConsumerWidget {
             ],
           ),
           FluxerSettingsSection(
+            sectionId: 'channel-list',
             title: l10n.lookAndFeelChannelListSectionTitle,
             description: l10n.lookAndFeelChannelListSectionDescription,
             children: [
@@ -295,6 +299,7 @@ class UserLookAndFeel extends ConsumerWidget {
             ],
           ),
           FluxerSettingsSection(
+            sectionId: 'active-now',
             title: l10n.lookAndFeelActiveNowSectionTitle,
             description: l10n.lookAndFeelActiveNowSectionDescription,
             children: [

@@ -1160,7 +1160,7 @@ class ComposerAutocompleteFieldState
     return Stack(
       children: <Widget>[
         Positioned.fill(
-          child: GestureDetector(
+          child: FluxerGestureDetector(
             onTap: _closeMenu,
             behavior: HitTestBehavior.opaque,
             child: const ColoredBox(color: Colors.transparent),

@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/utils/voice_connection_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -228,7 +229,7 @@ class SystemMessage extends ConsumerWidget {
       );
     }
     if (onSecondaryTapUp != null) {
-      content = GestureDetector(
+      content = FluxerGestureDetector(
         behavior: HitTestBehavior.opaque,
         onSecondaryTapUp: (details) =>
             onSecondaryTapUp!(details.globalPosition),

@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_icon_peek_menu.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_drag_provider.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
+import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 
 class GuildIconPeekGestureHost extends ConsumerStatefulWidget {
   const GuildIconPeekGestureHost({
@@ -115,7 +115,7 @@ class _GuildIconPeekGestureHostState
     if (_peekVisible || _suppressPeekForSession || !mounted) {
       return;
     }
-    unawaited(HapticFeedback.mediumImpact());
+    FluxerHaptics.medium();
     _peekOverlay = OverlayEntry(
       builder: (BuildContext overlayContext) =>
           Positioned.fill(child: _buildPeekMenuOverlay()),
@@ -160,12 +160,21 @@ class _GuildIconPeekGestureHostState
     if (_activePointer != event.pointer) {
       return;
     }
-    if (_peekVisible &&
-        shouldSuppressPeekForDrag(
-          pointerDownPosition: _pointerDownPosition,
-          currentPosition: event.position,
-        )) {
-      _dismissPeekOverlay(suppressSession: true);
+    if (_peekVisible) {
+      if (shouldSuppressPeekForDrag(
+        pointerDownPosition: _pointerDownPosition,
+        currentPosition: event.position,
+      )) {
+        _dismissPeekOverlay(suppressSession: true);
+      }
+      return;
+    }
+    if (shouldCancelGuildPeekHold(
+      pointerDownPosition: _pointerDownPosition,
+      currentPosition: event.position,
+    )) {
+      _suppressPeekForSession = true;
+      _holdTimer?.cancel();
     }
   }
 

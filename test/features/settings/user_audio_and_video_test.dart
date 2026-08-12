@@ -25,10 +25,7 @@ Widget _wrap(Widget child) {
         LimitKeys.featureHigherVideoQuality,
       ).overrideWith((Ref ref) => false),
       voiceSettingsApplicatorProvider.overrideWithValue(
-        const VoiceSettingsApplicator(
-          noiseFilter: null,
-          noiseFilterSupported: false,
-        ),
+        const VoiceSettingsApplicator(noiseFilterSupported: false),
       ),
       voiceMediaDevicesProvider.overrideWith(_FakeVoiceMediaDevices.new),
       voiceSettingsProvider.overrideWith(VoiceSettings.new),

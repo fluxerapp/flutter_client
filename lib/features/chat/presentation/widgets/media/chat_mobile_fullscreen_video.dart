@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/chat_video_playback_utils.dart';
 import 'package:fluxer_app/features/shell/providers/shell_manual_gesture_block_provider.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart' as mkv;
@@ -373,7 +374,7 @@ class _ChatMobileFullscreenVideoPageState
           if (controller != null && !_playbackFailed && !_isOpening)
             Positioned.fill(
               child: _hudVisible
-                  ? GestureDetector(
+                  ? FluxerGestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: _toggleHudVisibility,
                       child: const SizedBox.expand(),
@@ -381,7 +382,7 @@ class _ChatMobileFullscreenVideoPageState
                   : Semantics(
                       label: l10n.chatAttachmentVideoToggleControls,
                       button: true,
-                      child: GestureDetector(
+                      child: FluxerGestureDetector(
                         behavior: HitTestBehavior.translucent,
                         onTap: _toggleHudVisibility,
                         child: const SizedBox.expand(),
@@ -563,7 +564,7 @@ class _MobileVideoHud extends StatelessWidget {
                                   label: l10n.chatAttachmentVideoProgress,
                                   value: '${(progress * 100).round()}%',
                                   slider: true,
-                                  child: GestureDetector(
+                                  child: FluxerGestureDetector(
                                     behavior: HitTestBehavior.opaque,
                                     onTapDown: (TapDownDetails details) {
                                       unawaited(

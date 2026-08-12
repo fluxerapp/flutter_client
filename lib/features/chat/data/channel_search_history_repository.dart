@@ -16,6 +16,17 @@ class ChannelSearchHistoryEntry {
     required this.sortIndex,
     required this.contentTypeIndices,
     required this.timestampMs,
+    this.channelIds = const <String>[],
+    this.mentionIds = const <String>[],
+    this.pinned,
+    this.authorTypes = const <String>[],
+    this.linkHostname,
+    this.fileName,
+    this.fileExtension,
+    this.dateFilterKey,
+    this.dateValue,
+    this.usersByTag = const <String, String>{},
+    this.channelsByName = const <String, String>{},
   });
 
   final String contextKey;
@@ -25,6 +36,17 @@ class ChannelSearchHistoryEntry {
   final int sortIndex;
   final List<int> contentTypeIndices;
   final int timestampMs;
+  final List<String> channelIds;
+  final List<String> mentionIds;
+  final bool? pinned;
+  final List<String> authorTypes;
+  final String? linkHostname;
+  final String? fileName;
+  final String? fileExtension;
+  final String? dateFilterKey;
+  final String? dateValue;
+  final Map<String, String> usersByTag;
+  final Map<String, String> channelsByName;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
     'contextKey': contextKey,
@@ -34,6 +56,17 @@ class ChannelSearchHistoryEntry {
     'sortIndex': sortIndex,
     'contentTypeIndices': contentTypeIndices,
     'timestampMs': timestampMs,
+    'channelIds': channelIds,
+    'mentionIds': mentionIds,
+    if (pinned != null) 'pinned': pinned,
+    'authorTypes': authorTypes,
+    if (linkHostname != null) 'linkHostname': linkHostname,
+    if (fileName != null) 'fileName': fileName,
+    if (fileExtension != null) 'fileExtension': fileExtension,
+    if (dateFilterKey != null) 'dateFilterKey': dateFilterKey,
+    if (dateValue != null) 'dateValue': dateValue,
+    'usersByTag': usersByTag,
+    'channelsByName': channelsByName,
   };
 
   factory ChannelSearchHistoryEntry.fromJson(Map<String, dynamic> json) {
@@ -49,8 +82,41 @@ class ChannelSearchHistoryEntry {
               .toList() ??
           const <int>[],
       timestampMs: json['timestampMs'] as int? ?? 0,
+      channelIds:
+          (json['channelIds'] as List<dynamic>?)
+              ?.map((dynamic e) => e as String)
+              .toList() ??
+          const <String>[],
+      mentionIds:
+          (json['mentionIds'] as List<dynamic>?)
+              ?.map((dynamic e) => e as String)
+              .toList() ??
+          const <String>[],
+      pinned: json['pinned'] as bool?,
+      authorTypes:
+          (json['authorTypes'] as List<dynamic>?)
+              ?.map((dynamic e) => e as String)
+              .toList() ??
+          const <String>[],
+      linkHostname: json['linkHostname'] as String?,
+      fileName: json['fileName'] as String?,
+      fileExtension: json['fileExtension'] as String?,
+      dateFilterKey: json['dateFilterKey'] as String?,
+      dateValue: json['dateValue'] as String?,
+      usersByTag: _readStringMap(json['usersByTag']),
+      channelsByName: _readStringMap(json['channelsByName']),
     );
   }
+}
+
+Map<String, String> _readStringMap(Object? value) {
+  if (value is! Map) {
+    return const <String, String>{};
+  }
+  return value.map(
+    (dynamic key, dynamic entry) =>
+        MapEntry<String, String>(key.toString(), entry.toString()),
+  );
 }
 
 class ChannelSearchHistoryRepository {

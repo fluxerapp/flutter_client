@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
+import 'package:fluxer_app/features/settings/utils/user_settings_section_scroll.dart';
 
 /// Vertical density of the section's children.
 ///
@@ -17,6 +18,7 @@ class FluxerSettingsSection extends StatelessWidget {
     this.description,
     this.isFirst = false,
     this.density = FluxerSettingsSectionDensity.comfortable,
+    this.sectionId,
   });
 
   final String title;
@@ -24,6 +26,7 @@ class FluxerSettingsSection extends StatelessWidget {
   final bool isFirst;
   final List<Widget> children;
   final FluxerSettingsSectionDensity density;
+  final String? sectionId;
 
   @override
   Widget build(BuildContext context) {
@@ -36,35 +39,40 @@ class FluxerSettingsSection extends StatelessWidget {
       FluxerSettingsSectionDensity.compact => layout.s2,
     };
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (!isFirst) ...[
-          Divider(color: colors.borderColor),
+    return KeyedSubtree(
+      key: sectionId == null
+          ? null
+          : UserSettingsSectionScrollKeys.keyFor(sectionId!),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (!isFirst) ...[
+            Divider(color: colors.borderColor),
+            SizedBox(height: layout.s8),
+          ],
+          Semantics(
+            header: true,
+            child: Text(
+              title,
+              style: textStyles.heading.copyWith(color: colors.textPrimary),
+            ),
+          ),
+          if (description != null) ...[
+            SizedBox(height: layout.s1),
+            Text(
+              description!,
+              style: textStyles.bodySmall.copyWith(color: colors.textSecondary),
+            ),
+          ],
+          SizedBox(height: layout.s4),
+          for (int i = 0; i < children.length; i++) ...[
+            children[i],
+            if (i < children.length - 1) SizedBox(height: childGap),
+          ],
           SizedBox(height: layout.s8),
         ],
-        Semantics(
-          header: true,
-          child: Text(
-            title,
-            style: textStyles.heading.copyWith(color: colors.textPrimary),
-          ),
-        ),
-        if (description != null) ...[
-          SizedBox(height: layout.s1),
-          Text(
-            description!,
-            style: textStyles.bodySmall.copyWith(color: colors.textSecondary),
-          ),
-        ],
-        SizedBox(height: layout.s4),
-        for (int i = 0; i < children.length; i++) ...[
-          children[i],
-          if (i < children.length - 1) SizedBox(height: childGap),
-        ],
-        SizedBox(height: layout.s8),
-      ],
+      ),
     );
   }
 }

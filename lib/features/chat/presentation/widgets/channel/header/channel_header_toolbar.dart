@@ -242,7 +242,7 @@ class _FavoriteStarButton extends ConsumerWidget {
     final bool isFavorite =
         ref.watch(favoriteChannelProvider(targetId)).asData?.value != null;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    return GestureDetector(
+    return FluxerGestureDetector(
       onLongPress: () => _showHideFavorites(context, ref),
       child: ChannelHeaderIconButton(
         icon: isFavorite ? PhosphorIconsFill.star : PhosphorIconsBold.star,

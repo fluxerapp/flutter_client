@@ -6,18 +6,22 @@ class VoiceCallDisplayPreferencesState {
   const VoiceCallDisplayPreferencesState({
     this.onlyShowVideos = false,
     this.showOwnCamera = true,
+    this.isSelfViewMinimized = false,
   });
 
   final bool onlyShowVideos;
   final bool showOwnCamera;
+  final bool isSelfViewMinimized;
 
   VoiceCallDisplayPreferencesState copyWith({
     bool? onlyShowVideos,
     bool? showOwnCamera,
+    bool? isSelfViewMinimized,
   }) {
     return VoiceCallDisplayPreferencesState(
       onlyShowVideos: onlyShowVideos ?? this.onlyShowVideos,
       showOwnCamera: showOwnCamera ?? this.showOwnCamera,
+      isSelfViewMinimized: isSelfViewMinimized ?? this.isSelfViewMinimized,
     );
   }
 }
@@ -35,6 +39,10 @@ class VoiceCallDisplayPreferences extends _$VoiceCallDisplayPreferences {
 
   void setShowOwnCamera({required bool value}) {
     state = state.copyWith(showOwnCamera: value);
+  }
+
+  void setSelfViewMinimized({required bool value}) {
+    state = state.copyWith(isSelfViewMinimized: value);
   }
 
   void reset() {

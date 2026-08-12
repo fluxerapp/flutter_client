@@ -30,6 +30,7 @@ class PrivacySensitiveContentSection extends ConsumerWidget {
     ];
 
     return FluxerSettingsSection(
+      sectionId: 'sensitive-content',
       title: l10n.privacyDashboardSensitiveContentSection,
       children: [
         FluxerSettingsSubsection(

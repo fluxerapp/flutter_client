@@ -1,0 +1,52 @@
+{
+  "Version": 1.0,
+  "Metadata": {
+    "Project": "Fluxer",
+    "Description": "Message send: crisp commit tap with a short fading whoosh trail."
+  },
+  "Pattern": [
+    {
+      "Event": {
+        "Time": 0.0,
+        "EventType": "HapticTransient",
+        "EventParameters": [
+          { "ParameterID": "HapticIntensity", "ParameterValue": 0.72 },
+          { "ParameterID": "HapticSharpness", "ParameterValue": 0.55 }
+        ]
+      }
+    },
+    {
+      "Event": {
+        "Time": 0.02,
+        "EventType": "HapticContinuous",
+        "EventDuration": 0.28,
+        "EventParameters": [
+          { "ParameterID": "HapticIntensity", "ParameterValue": 0.85 },
+          { "ParameterID": "HapticSharpness", "ParameterValue": 0.35 }
+        ]
+      }
+    },
+    {
+      "ParameterCurve": {
+        "ParameterID": "HapticIntensityControl",
+        "Time": 0.02,
+        "ParameterCurveControlPoints": [
+          { "Time": 0.0, "ParameterValue": 0.9 },
+          { "Time": 0.08, "ParameterValue": 0.55 },
+          { "Time": 0.18, "ParameterValue": 0.22 },
+          { "Time": 0.28, "ParameterValue": 0.0 }
+        ]
+      }
+    },
+    {
+      "ParameterCurve": {
+        "ParameterID": "HapticSharpnessControl",
+        "Time": 0.02,
+        "ParameterCurveControlPoints": [
+          { "Time": 0.0, "ParameterValue": 0.15 },
+          { "Time": 0.28, "ParameterValue": -0.4 }
+        ]
+      }
+    }
+  ]
+}

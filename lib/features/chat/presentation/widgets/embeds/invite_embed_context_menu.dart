@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_report_guild.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -136,7 +137,7 @@ class _InviteEmbedContextMenuRoute
     return Stack(
       children: <Widget>[
         Positioned.fill(
-          child: GestureDetector(
+          child: FluxerGestureDetector(
             onTap: () => Navigator.of(context).pop(),
             behavior: HitTestBehavior.translucent,
           ),

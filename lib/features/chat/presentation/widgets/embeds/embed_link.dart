@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/chat/utils/embed_gallery_utils.dart';
 import 'package:fluxer_app/features/chat/utils/embed_media_viewer_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
 /// A link preview card.
@@ -106,7 +107,7 @@ class EmbedLink extends StatelessWidget {
             else if (embed.thumbnail != null)
               Padding(
                 padding: const EdgeInsets.only(top: 4, bottom: 4),
-                child: GestureDetector(
+                child: FluxerGestureDetector(
                   onTap: canOpenEmbedMediaViewer(embed.thumbnail!)
                       ? () => openEmbedMediaViewer(
                           context,

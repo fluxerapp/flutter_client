@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_menu_data.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class GuildContextMenuItem extends StatelessWidget {
@@ -65,7 +66,7 @@ class _GuildContextMenuCheckboxItemState
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
       cursor: SystemMouseCursors.click,
-      child: GestureDetector(
+      child: FluxerGestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: widget.onTap,
         child: Container(
@@ -162,7 +163,7 @@ class _GuildContextSubmenuItemState extends State<GuildContextSubmenuItem> {
         widget.onDeactivate();
       },
       cursor: SystemMouseCursors.click,
-      child: GestureDetector(
+      child: FluxerGestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: widget.onActivate,
         child: Container(

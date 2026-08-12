@@ -28,6 +28,7 @@ class UserNotificationsTtsSection extends ConsumerWidget {
     );
 
     return FluxerSettingsSection(
+      sectionId: 'text-to-speech',
       title: l10n.notificationsTtsSectionTitle,
       children: [
         Column(
@@ -52,7 +53,7 @@ class UserNotificationsTtsSection extends ConsumerWidget {
                   WidgetSpan(
                     alignment: PlaceholderAlignment.baseline,
                     baseline: TextBaseline.alphabetic,
-                    child: GestureDetector(
+                    child: FluxerGestureDetector(
                       onTap: () => unawaited(
                         UserSettingsModal.show(
                           context,

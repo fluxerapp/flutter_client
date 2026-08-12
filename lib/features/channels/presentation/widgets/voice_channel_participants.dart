@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/voice/fluxer_live_badge.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_context_menu.dart';
@@ -106,7 +107,7 @@ class _VoiceChannelParticipantTile extends ConsumerWidget {
     final bool deafDanger = flags.guildDeaf;
     final bool hasIcons =
         flags.selfVideo || showMic || showDeaf || flags.selfStream;
-    return GestureDetector(
+    return FluxerGestureDetector(
       behavior: HitTestBehavior.opaque,
       onSecondaryTapUp: (TapUpDetails details) {
         _showParticipantMenu(context, ref, details.globalPosition);

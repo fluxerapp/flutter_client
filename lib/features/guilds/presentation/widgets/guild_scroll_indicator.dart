@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_scroll_indicator_selection.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 
 enum GuildScrollIndicatorSeverity { unread, mention }
 
@@ -347,7 +348,7 @@ class GuildScrollIndicator extends StatelessWidget {
         alpha: 0.6,
       ),
     };
-    return GestureDetector(
+    return FluxerGestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),

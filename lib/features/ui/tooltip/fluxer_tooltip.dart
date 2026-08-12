@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 
 /// Position of the tooltip relative to its target.
 enum FluxerTooltipPosition { above, below, left, right }
@@ -201,7 +202,7 @@ class _FluxerTooltipState extends State<FluxerTooltip>
       child: MouseRegion(
         onEnter: _handleMouseEnter,
         onExit: _handleMouseExit,
-        child: GestureDetector(
+        child: FluxerGestureDetector(
           onLongPress: _handleLongPress,
           behavior: HitTestBehavior.translucent,
           child: widget.child,

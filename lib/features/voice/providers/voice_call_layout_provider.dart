@@ -14,12 +14,29 @@ class VoiceCallLayoutState {
   const VoiceCallLayoutState({
     this.mode = VoiceCallLayoutMode.grid,
     this.pinnedTileId,
+    this.isFilmstripCollapsed = false,
   });
 
   final VoiceCallLayoutMode mode;
   final String? pinnedTileId;
+  final bool isFilmstripCollapsed;
 
   bool isPinned(String tileId) => pinnedTileId == tileId;
+
+  VoiceCallLayoutState copyWith({
+    VoiceCallLayoutMode? mode,
+    String? pinnedTileId,
+    bool? isFilmstripCollapsed,
+    bool clearPinnedTileId = false,
+  }) {
+    return VoiceCallLayoutState(
+      mode: mode ?? this.mode,
+      pinnedTileId: clearPinnedTileId
+          ? null
+          : (pinnedTileId ?? this.pinnedTileId),
+      isFilmstripCollapsed: isFilmstripCollapsed ?? this.isFilmstripCollapsed,
+    );
+  }
 }
 
 /// Grid vs focus layout for the active voice call
@@ -32,6 +49,7 @@ class VoiceCallLayout extends _$VoiceCallLayout {
     state = VoiceCallLayoutState(
       mode: VoiceCallLayoutMode.focus,
       pinnedTileId: tileId,
+      isFilmstripCollapsed: state.isFilmstripCollapsed,
     );
   }
 
@@ -48,6 +66,17 @@ class VoiceCallLayout extends _$VoiceCallLayout {
     } else {
       pin(tileId);
     }
+  }
+
+  void setFilmstripCollapsed({required bool value}) {
+    if (state.isFilmstripCollapsed == value) {
+      return;
+    }
+    state = state.copyWith(isFilmstripCollapsed: value);
+  }
+
+  void toggleFilmstripCollapsed() {
+    setFilmstripCollapsed(value: !state.isFilmstripCollapsed);
   }
 
   void reset() {

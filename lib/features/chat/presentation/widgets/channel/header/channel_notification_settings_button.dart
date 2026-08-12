@@ -120,7 +120,7 @@ class _ChannelNotificationSettingsButtonState
     return Stack(
       children: <Widget>[
         Positioned.fill(
-          child: GestureDetector(
+          child: FluxerGestureDetector(
             onTap: _close,
             behavior: HitTestBehavior.opaque,
             child: const ColoredBox(color: Colors.transparent),

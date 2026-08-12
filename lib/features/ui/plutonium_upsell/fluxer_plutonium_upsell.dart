@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -74,7 +74,7 @@ class FluxerPlutoniumUpsell extends StatelessWidget {
                   ),
                   if (onDismiss != null) ...[
                     SizedBox(height: layout.s2),
-                    GestureDetector(
+                    FluxerGestureDetector(
                       onTap: onDismiss,
                       child: Text(
                         l10n.emojiPlutoniumUpsellDismiss,

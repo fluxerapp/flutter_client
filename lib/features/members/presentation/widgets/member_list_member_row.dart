@@ -101,7 +101,7 @@ class _MemberListSidebarMemberRowState
         onEnter: (_) => setState(() => _isHovered = true),
         onExit: (_) => setState(() => _isHovered = false),
         cursor: SystemMouseCursors.click,
-        child: GestureDetector(
+        child: FluxerGestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () => unawaited(
             FluxerUserProfileSheet.show(

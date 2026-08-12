@@ -18,6 +18,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_icon_avatar.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_guild_badge.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -91,7 +92,7 @@ class DiscoveryGuildCard extends ConsumerWidget {
         ),
         child: Stack(
           children: <Widget>[
-            GestureDetector(
+            FluxerGestureDetector(
               onSecondaryTapDown: isMobile
                   ? null
                   : (TapDownDetails details) {

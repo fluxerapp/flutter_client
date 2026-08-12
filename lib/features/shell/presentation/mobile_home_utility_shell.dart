@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/desktop_shell_scaffold.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:fluxer_app/features/shell/providers/shell_blocks_horizontal_gestures_provider.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:go_router/go_router.dart';
 
 class MobileHomeUtilityShell extends ConsumerStatefulWidget {
@@ -99,7 +100,7 @@ class _MobileHomeUtilityShellState extends ConsumerState<MobileHomeUtilityShell>
               top: 0,
               bottom: 0,
               width: leadingEdgeHorizontalSwipeReserveWidth(context),
-              child: GestureDetector(
+              child: FluxerGestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onHorizontalDragUpdate: (DragUpdateDetails details) {
                   final double primaryDelta = details.primaryDelta ?? 0;

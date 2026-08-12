@@ -1,6 +1,7 @@
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/deep_links/deep_link_path_policy.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
+import 'package:fluxer_app/features/settings/utils/user_settings_field_registry.dart';
 
 final RegExp _safeSettingsParamRegex = RegExp(r'^[A-Za-z0-9_-]+$');
 
@@ -30,9 +31,11 @@ const Set<String> _userSettingsTabTypes = {
 };
 
 class UserSettingsDeepLinkTarget {
-  const UserSettingsDeepLinkTarget({this.section});
+  const UserSettingsDeepLinkTarget({this.section, this.fieldId, this.tab});
 
   final UserSettingsSection? section;
+  final String? fieldId;
+  final String? tab;
 }
 
 bool isUserSettingsDeepLinkPath(Uri uri) {
@@ -55,7 +58,7 @@ UserSettingsDeepLinkTarget? parseUserSettingsDeepLink(Uri uri) {
     _ => null,
   };
   if (nestedTabSection != null) {
-    return UserSettingsDeepLinkTarget(section: nestedTabSection);
+    return UserSettingsDeepLinkTarget(section: nestedTabSection, tab: tab);
   }
   final String? sectionParam = uri.queryParameters['section'];
   final String? rawSection =
@@ -66,18 +69,27 @@ UserSettingsDeepLinkTarget? parseUserSettingsDeepLink(Uri uri) {
     rawSection,
   );
   if (legacySection != null) {
-    return UserSettingsDeepLinkTarget(section: legacySection);
+    return UserSettingsDeepLinkTarget(section: legacySection, tab: tab);
   }
   final String? accountSection =
       _accountSectionForNestedTab(tab) ??
       _accountSectionForLegacySection(rawSection);
   final String resolvedTab = accountSection != null ? 'account_security' : tab;
-  final String? section = accountSection ?? rawSection;
-  if (section != null && !_isUserSettingsSectionTarget(resolvedTab, section)) {
-    return const UserSettingsDeepLinkTarget();
+  final String? pageSectionParam = _pageSectionParam(resolvedTab, rawSection);
+  if (pageSectionParam != null) {
+    return UserSettingsDeepLinkTarget(
+      section: mapUserSettingsDeepLinkToSection(resolvedTab, pageSectionParam),
+      tab: resolvedTab,
+    );
   }
+  final String? fieldId =
+      rawSection != null && isKnownUserSettingsFieldId(resolvedTab, rawSection)
+      ? rawSection
+      : null;
   return UserSettingsDeepLinkTarget(
-    section: mapUserSettingsDeepLinkToSection(resolvedTab, section),
+    section: mapUserSettingsDeepLinkToSection(resolvedTab, null),
+    fieldId: fieldId,
+    tab: resolvedTab,
   );
 }
 
@@ -86,32 +98,25 @@ bool _isUserSettingsTabType(String value) {
       _userSettingsTabTypes.contains(value);
 }
 
-bool _isUserSettingsSectionTarget(String tab, String sectionId) {
-  if (!_safeSettingsParamRegex.hasMatch(sectionId)) {
-    return false;
+String? _pageSectionParam(String tab, String? sectionId) {
+  if (sectionId == null || !_safeSettingsParamRegex.hasMatch(sectionId)) {
+    return null;
   }
-  return _knownSectionIdsForTab(tab).contains(sectionId);
-}
-
-Set<String> _knownSectionIdsForTab(String tab) {
-  switch (tab) {
-    case 'account_security':
-      return {
-        'security',
-        'password',
-        'two-factor',
-        'passkeys',
-        'authorized_apps',
-        'authorized-applications',
-        'blocked_users',
-        'blocked-users',
-        'devices',
-        'signed-in-devices',
-      };
-    case 'advanced_settings':
-      return {'developer', 'experiments', 'logging'};
+  if (tab != 'account_security') {
+    return null;
+  }
+  switch (sectionId) {
+    case 'authorized_apps':
+    case 'authorized-applications':
+      return 'authorized_apps';
+    case 'blocked_users':
+    case 'blocked-users':
+      return 'blocked_users';
+    case 'devices':
+    case 'signed-in-devices':
+      return 'devices';
     default:
-      return const {};
+      return null;
   }
 }
 

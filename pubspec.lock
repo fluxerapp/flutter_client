@@ -754,10 +754,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_callkit_incoming
-      sha256: "0e418f2c7fdbddeebc0288ce0e10c17fd01c1a886731d5cb1048d86b72443b92"
+      sha256: a7ca78008056e2e5031f728ad9707eb6c691c5058c3fa2d8488cbcaa93a96341
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.3"
+    version: "3.1.5"
   flutter_driver:
     dependency: transitive
     description: flutter
@@ -849,10 +849,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_local_notifications
-      sha256: "9375211fd7df9c070504ac4db7047c7fae857e238291433b770cfe696b5c357a"
+      sha256: "1447ba911c60f2ba3f25dae1af151ec187162566b0f57e37771bf0b400f013ad"
       url: "https://pub.dev"
     source: hosted
-    version: "22.2.0"
+    version: "22.3.0"
   flutter_local_notifications_linux:
     dependency: transitive
     description:
@@ -865,10 +865,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_local_notifications_platform_interface
-      sha256: "945a438a4779f3aca3a948718d8a4048cbe9f9c8c797492c00abd5d39112bf37"
+      sha256: "43c3761d916c9bd3d5c7ebbc44d82f4990329840c0c5d62ad5260cc1b5d399bd"
       url: "https://pub.dev"
     source: hosted
-    version: "12.1.0"
+    version: "12.2.0"
   flutter_local_notifications_web:
     dependency: transitive
     description:
@@ -918,18 +918,18 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_secure_storage
-      sha256: "7686b1d6a29985dcbb808c59518226e603e3bfa7c0ddfd1a0d00e4cda77c868e"
+      sha256: "15e8c8fe269fdf7d469b23008ab3df521c8b826ed345820532364c31bdebace6"
       url: "https://pub.dev"
     source: hosted
-    version: "10.3.1"
+    version: "11.0.0"
   flutter_secure_storage_darwin:
     dependency: transitive
     description:
       name: flutter_secure_storage_darwin
-      sha256: "82329fa5cdf343773b1b6897dea959105a29f092454259edff92f9f6637e8149"
+      sha256: ac6d76a752de0cd738334eb4b21743fc4943f449f5b6e308f18838b048c02ac0
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.2"
+    version: "0.4.0"
   flutter_secure_storage_linux:
     dependency: transitive
     description:
@@ -1024,10 +1024,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_webrtc
-      sha256: "0f89dee7f4c35dab5611f351c3897a3bfe9f7057720cc7da209b52455af4316e"
+      sha256: e997161d7da3adedd3d430691b20931b0b4d96fa48bb60938d9ba0bf6fca98be
       url: "https://pub.dev"
     source: hosted
-    version: "1.5.2"
+    version: "1.6.0"
   fluxer_captcha:
     dependency: "direct main"
     description:
@@ -1415,18 +1415,10 @@ packages:
     dependency: "direct main"
     description:
       name: livekit_client
-      sha256: "8f8dd46fb9e58acedbc37efa890422f9e62d38a75d5937855126f81fc314b35b"
+      sha256: "165d04b06d1d828ae85dc7ef5ffcbebf8d50f2cc7b02f3b8955fbeed96828c04"
       url: "https://pub.dev"
     source: hosted
-    version: "2.9.0"
-  livekit_noise_filter:
-    dependency: "direct main"
-    description:
-      name: livekit_noise_filter
-      sha256: "540f4f6a6c26600199aa940f4ee31ebab579cd98bdad16fb8199e0d5f6d04730"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.1"
+    version: "2.11.0"
   logger:
     dependency: transitive
     description:
@@ -1663,10 +1655,10 @@ packages:
     dependency: "direct main"
     description:
       name: passkeys
-      sha256: c403ac1af65d94f508d4ae4de7c5af0179201e1de466f8f182a015fdaece8172
+      sha256: bd94040657ebcc704c042720ddd0541db712000e91a45fa8a6bbb566582c405c
       url: "https://pub.dev"
     source: hosted
-    version: "2.22.0"
+    version: "2.22.1"
   passkeys_android:
     dependency: transitive
     description:
@@ -1679,10 +1671,10 @@ packages:
     dependency: transitive
     description:
       name: passkeys_darwin
-      sha256: "32077a8fcda5f52338dd430ed854b05cf131bbb0df7ee7027ca4e43400164779"
+      sha256: "51f6c1ec0a0631002a3f306f74e1d029f3ac8c37279b8cce798b9a4f5c9fae50"
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.2+2"
+    version: "0.4.3+3"
   passkeys_doctor:
     dependency: transitive
     description:

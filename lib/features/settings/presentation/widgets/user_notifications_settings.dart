@@ -69,6 +69,7 @@ class UserNotificationsSettings extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           FluxerSettingsSection(
+            sectionId: 'notifications',
             title: l10n.notificationsGeneralSectionTitle,
             isFirst: true,
             children: [
@@ -122,6 +123,7 @@ class UserNotificationsSettings extends ConsumerWidget {
             ],
           ),
           FluxerSettingsSection(
+            sectionId: 'mention-preference',
             title: l10n.notificationsMentionPreferenceSectionTitle,
             children: [
               Semantics(
@@ -169,6 +171,7 @@ class UserNotificationsSettings extends ConsumerWidget {
           ),
           const UserNotificationsTtsSection(),
           FluxerSettingsSection(
+            sectionId: 'sounds',
             title: l10n.notificationsSoundsSectionTitle,
             children: const [UserNotificationsSoundSettingsSection()],
           ),

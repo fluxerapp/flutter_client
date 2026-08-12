@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/checkbox/fluxer_checkbox.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:intl/intl.dart';
@@ -374,7 +375,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             ),
             SizedBox(height: layout.s2),
             if (isMobileLayout(context))
-              GestureDetector(
+              FluxerGestureDetector(
                 onTap: _pickDateOfBirth,
                 child: Container(
                   width: double.infinity,

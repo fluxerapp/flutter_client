@@ -33,6 +33,7 @@ class UserAdvancedSettings extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           FluxerSettingsSection(
+            sectionId: 'advanced-settings-privacy',
             title: l10n.advancedSettingsCategoryPrivacy,
             isFirst: true,
             children: [
@@ -92,6 +93,7 @@ class UserAdvancedSettings extends ConsumerWidget {
             ],
           ),
           FluxerSettingsSection(
+            sectionId: 'advanced-settings-appearance',
             title: l10n.advancedSettingsCategoryAppearance,
             children: [
               FluxerSettingsSwitchItem(
@@ -143,6 +145,7 @@ class UserAdvancedSettings extends ConsumerWidget {
             ],
           ),
           FluxerSettingsSection(
+            sectionId: 'advanced-settings-accessibility',
             title: l10n.advancedSettingsCategoryAccessibility,
             children: [
               if (showWideLayoutAdvancedSettings(context))
@@ -174,6 +177,7 @@ class UserAdvancedSettings extends ConsumerWidget {
             ],
           ),
           FluxerSettingsSection(
+            sectionId: 'advanced-settings-chat',
             title: l10n.advancedSettingsCategoryChat,
             children: [
               FluxerSettingsSwitchItem(
@@ -286,6 +290,7 @@ class UserAdvancedSettings extends ConsumerWidget {
             ],
           ),
           FluxerSettingsSection(
+            sectionId: 'advanced-settings-media',
             title: l10n.advancedSettingsCategoryMedia,
             children: [
               FluxerSelect<ScreenShareCodecPreference>(
@@ -329,6 +334,7 @@ class UserAdvancedSettings extends ConsumerWidget {
             ],
           ),
           FluxerSettingsSection(
+            sectionId: 'advanced-settings-voice',
             title: l10n.advancedSettingsCategoryVoice,
             children: [
               FluxerSettingsSwitchItem(
@@ -359,6 +365,7 @@ class UserAdvancedSettings extends ConsumerWidget {
             ],
           ),
           FluxerSettingsSection(
+            sectionId: 'advanced-settings-developer',
             title: l10n.advancedSettingsCategoryDeveloper,
             children: [
               FluxerSettingsSwitchItem(
@@ -376,6 +383,7 @@ class UserAdvancedSettings extends ConsumerWidget {
             ],
           ),
           FluxerSettingsSection(
+            sectionId: 'advanced-performance',
             title: l10n.advancedPerformanceReportingTitle,
             description: l10n.advancedPerformanceReportingSectionDescription,
             children: [

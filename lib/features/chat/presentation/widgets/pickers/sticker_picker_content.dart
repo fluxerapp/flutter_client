@@ -19,6 +19,7 @@ import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/plutonium_upsell/fluxer_plutonium_upsell.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/gestures/expandable_sheet_gestures.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -686,7 +687,7 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
           )
         : null;
 
-    return GestureDetector(
+    return FluxerGestureDetector(
       onTap: () => unawaited(
         ref
             .read(collapsedStickerPickerCategoriesProvider.notifier)
@@ -749,7 +750,7 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
       ),
     );
 
-    return GestureDetector(
+    return FluxerGestureDetector(
       onTap: () => unawaited(_selectSticker(sticker)),
       onLongPress: () => _showStickerActions(sticker),
       child: widget.isMobile

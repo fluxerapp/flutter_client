@@ -485,7 +485,7 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
     final bool next = insideLockIndicator || passesThreshold;
     if (next != _lockPreview) {
       if (next) {
-        FluxerHaptics.light();
+        FluxerHaptics.soft();
       }
       setState(() => _lockPreview = next);
       _updateRecordingOverlay();
@@ -509,7 +509,7 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
     _updateLockPreview(event.position);
     if (_lockPreview && !_isLocked) {
       // Locked: keep recording until trash or send on the overlay.
-      FluxerHaptics.medium();
+      FluxerHaptics.success();
       setState(() {
         _isLocked = true;
         _lockPreview = false;

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 
 /// Position of the popout relative to its anchor.
 enum FluxerPopoutPosition { above, below, left, right }
@@ -125,7 +126,7 @@ class _FluxerPopoutState extends State<FluxerPopout>
     return Stack(
       children: [
         Positioned.fill(
-          child: GestureDetector(
+          child: FluxerGestureDetector(
             onTap: _close,
             behavior: HitTestBehavior.opaque,
             child: const ColoredBox(color: Colors.transparent),

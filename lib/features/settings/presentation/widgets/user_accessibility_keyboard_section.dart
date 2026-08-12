@@ -16,6 +16,7 @@ class UserAccessibilityKeyboardSection extends ConsumerWidget {
     final appearanceNotifier = ref.read(appearancePreferencesProvider.notifier);
 
     return FluxerSettingsSection(
+      sectionId: 'keyboard',
       title: l10n.accessibilityKeyboardGroupTitle,
       children: [
         FluxerSettingsSwitchGroup(

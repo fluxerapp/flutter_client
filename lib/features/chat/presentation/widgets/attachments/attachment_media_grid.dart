@@ -277,7 +277,7 @@ class AttachmentMediaGrid extends StatelessWidget {
           channelId: channelId,
           isMatureMedia: attachment.isMatureMedia,
           borderRadius: BorderRadius.circular(8),
-          child: GestureDetector(
+          child: FluxerGestureDetector(
             onTap: canOpen ? () => _openMedia(context, attachment) : null,
             child: Stack(
               fit: StackFit.expand,

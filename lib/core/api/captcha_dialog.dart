@@ -3,6 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_captcha/fluxer_captcha.dart';
 
@@ -183,7 +184,7 @@ class _CaptchaDialogContentState extends State<_CaptchaDialogContent> {
           ),
         if (_canSwitch) ...[
           SizedBox(height: layout.s4),
-          GestureDetector(
+          FluxerGestureDetector(
             onTap: _switchProvider,
             child: Text(
               _currentProvider == CaptchaProvider.turnstile

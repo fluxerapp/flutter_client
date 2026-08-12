@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/features/ui/media_viewer/media_viewer_dismiss.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 
 class TouchMediaViewerPage extends StatefulWidget {
   const TouchMediaViewerPage({
@@ -284,7 +285,7 @@ class _TouchMediaViewerPageState extends State<TouchMediaViewerPage>
     final double contentScale = mediaViewerDismissContentScale(
       dismissProgress: dismissProgress,
     );
-    return GestureDetector(
+    return FluxerGestureDetector(
       behavior: HitTestBehavior.translucent,
       onVerticalDragUpdate: _isZoomed || _isDismissAnimating
           ? null

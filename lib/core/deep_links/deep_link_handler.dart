@@ -16,7 +16,7 @@ import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
 import 'package:fluxer_app/features/auth/providers/pending_invite_code_provider.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/guilds/utils/invite_link_parser.dart';
-import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
+import 'package:fluxer_app/features/settings/utils/open_user_settings_deep_link.dart';
 import 'package:fluxer_app/features/settings/providers/default_apps_preferences_provider.dart';
 import 'package:fluxer_app/shared/external_links/external_url_launcher.dart';
 import 'package:go_router/go_router.dart';
@@ -215,7 +215,7 @@ class DeepLinkHandler extends _$DeepLinkHandler {
       '[DeepLink] Opening user settings'
       '${target.section == null ? '' : ' (${target.section!.name})'}',
     );
-    unawaited(UserSettingsModal.show(context, initialSection: target.section));
+    unawaited(openUserSettingsDeepLinkFromContext(context, target));
   }
 
   void _handleChannelDeepLink(GoRouter router, List<String> segments) {

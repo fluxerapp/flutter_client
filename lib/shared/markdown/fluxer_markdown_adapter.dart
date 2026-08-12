@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/deep_links/deep_link_path_policy.dart';
+import 'package:fluxer_app/core/deep_links/user_settings_deep_link.dart';
+import 'package:fluxer_app/features/settings/utils/open_user_settings_deep_link.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/utils/channel_jump_link.dart';
@@ -131,6 +133,14 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
       );
     },
     linkWidgetBuilder: (context, href, style) {
+      final UserSettingsDeepLinkTarget? settingsTarget =
+          _parseSettingsDeepLinkHref(href);
+      if (settingsTarget != null) {
+        return SettingsJumpLinkMention(
+          target: settingsTarget,
+          baseStyle: style,
+        );
+      }
       final String resolvedHref = href.startsWith('fluxer:')
           ? _fluxerAppLinkToHttps(href)
           : href;
@@ -149,6 +159,13 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
         final String path = normalizeDeepLinkPath(fluxerPath.path);
         if (path.startsWith('/invite/') || path.startsWith('/gift/')) {
           GoRouter.of(context).go(path);
+          return;
+        }
+        if (isUserSettingsDeepLinkPath(fluxerPath)) {
+          await openUserSettingsDeepLinkFromContext(
+            context,
+            parseUserSettingsDeepLink(fluxerPath)!,
+          );
           return;
         }
       }
@@ -209,4 +226,12 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
           },
     selectionContextMenuBuilder: selectionContextMenuBuilder,
   );
+}
+
+UserSettingsDeepLinkTarget? _parseSettingsDeepLinkHref(String href) {
+  final Uri? fluxerPath = _parseFluxerAppLinkPath(href);
+  if (fluxerPath == null || !isUserSettingsDeepLinkPath(fluxerPath)) {
+    return null;
+  }
+  return parseUserSettingsDeepLink(fluxerPath);
 }

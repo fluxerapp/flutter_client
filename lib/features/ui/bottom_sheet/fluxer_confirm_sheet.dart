@@ -62,7 +62,7 @@ class FluxerConfirmSheet {
                 if (isDanger)
                   FluxerButton.dangerPrimary(
                     onPressed: () {
-                      FluxerHaptics.heavy();
+                      FluxerHaptics.warning();
                       onConfirm();
                       Navigator.of(sheetContext).pop(true);
                     },

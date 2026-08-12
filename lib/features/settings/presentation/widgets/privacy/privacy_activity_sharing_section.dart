@@ -49,6 +49,7 @@ class _PrivacyActivitySharingSectionState
     _syncCooldownTimer(remainingMs);
 
     return FluxerSettingsSection(
+      sectionId: 'active-now',
       title: l10n.privacyDashboardActivitySharingSection,
       children: [
         FluxerSettingsSubsection(

@@ -74,6 +74,7 @@ class UserAccessibilityAnimationSection extends ConsumerWidget {
     }
 
     return FluxerSettingsSection(
+      sectionId: 'animation',
       title: l10n.accessibilityAnimationGroupTitle,
       description: model.reducedMotion
           ? l10n.accessibilityReducedMotionActiveNote

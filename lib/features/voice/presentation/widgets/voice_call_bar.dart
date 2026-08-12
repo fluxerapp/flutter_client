@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/voice_session_errors.dart';
@@ -209,7 +210,7 @@ class VoiceCallBar extends ConsumerWidget {
             color: context.colors.backgroundSecondary,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-              child: GestureDetector(
+              child: FluxerGestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
                   _onBarNavigate(context, voice: voice, isGuild: isGuildVoice);

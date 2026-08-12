@@ -127,6 +127,7 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           FluxerSettingsSection(
+            sectionId: 'audio',
             title: l10n.audioAndVideoAudioSectionTitle,
             description: l10n.audioAndVideoAudioSectionDescription,
             isFirst: true,
@@ -188,6 +189,7 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
             ],
           ),
           FluxerSettingsSection(
+            sectionId: 'video',
             title: l10n.audioAndVideoVideoSectionTitle,
             description: l10n.audioAndVideoVideoSectionDescription,
             children: [

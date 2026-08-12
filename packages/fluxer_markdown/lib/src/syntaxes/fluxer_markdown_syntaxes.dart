@@ -31,23 +31,76 @@ bool isSlashCommandLikeMaskedLinkLabel(String text) {
 }
 
 bool isValidMaskedLinkUrl(String url) {
-  if (url.isEmpty || url.length > kFluxerMarkdownMaxMaskedLinkUrlLength) {
+  final String normalized = unwrapAngleMaskedLinkDestination(url);
+  if (normalized.isEmpty ||
+      normalized.length > kFluxerMarkdownMaxMaskedLinkUrlLength) {
     return false;
   }
-  if (url.contains('"')) {
+  if (normalized.contains('"')) {
     return false;
   }
-  final Uri? uri = Uri.tryParse(url);
+  final Uri? uri = Uri.tryParse(normalized);
   if (uri == null) {
     return false;
   }
   final String scheme = uri.scheme.toLowerCase();
-  return scheme == 'http' ||
-      scheme == 'https' ||
-      scheme == 'mailto' ||
+  if (scheme == 'http' || scheme == 'https') {
+    return uri.userInfo.isEmpty;
+  }
+  return scheme == 'mailto' ||
       scheme == 'tel' ||
       scheme == 'sms' ||
       scheme == 'fluxer';
+}
+
+String unwrapAngleMaskedLinkDestination(String url) {
+  final String trimmed = url.trim();
+  if (trimmed.length >= 2 && trimmed.startsWith('<') && trimmed.endsWith('>')) {
+    return trimmed.substring(1, trimmed.length - 1);
+  }
+  return trimmed;
+}
+
+bool isMisleadingMaskedLinkLabel(String text, String url) {
+  final String label = text.trim();
+  final String destination = unwrapAngleMaskedLinkDestination(url);
+  if (!_looksLikeComparableUrl(label)) {
+    return false;
+  }
+  return !_maskedLinkUrlsMatch(label, destination);
+}
+
+bool _looksLikeComparableUrl(String value) {
+  final String lower = value.toLowerCase();
+  return lower.startsWith('https://') ||
+      lower.startsWith('http://') ||
+      lower.startsWith('fluxer:');
+}
+
+bool _maskedLinkUrlsMatch(String left, String right) {
+  final Uri? leftUri = Uri.tryParse(left);
+  final Uri? rightUri = Uri.tryParse(right);
+  if (leftUri == null || rightUri == null) {
+    return left == right;
+  }
+  return leftUri.scheme.toLowerCase() == rightUri.scheme.toLowerCase() &&
+      leftUri.host.toLowerCase() == rightUri.host.toLowerCase() &&
+      leftUri.port == rightUri.port &&
+      leftUri.path == rightUri.path &&
+      leftUri.query == rightUri.query &&
+      leftUri.fragment == rightUri.fragment;
+}
+
+bool isAutolinkDisplayText(String text, String href) {
+  if (text == href) {
+    return true;
+  }
+  for (final String prefix in <String>['mailto:', 'tel:', 'sms:']) {
+    if (href.startsWith(prefix) && text == href.substring(prefix.length)) {
+      return true;
+    }
+  }
+  return false;
 }
 
 bool isValidPhoneNumber(String text) {
@@ -76,6 +129,26 @@ class FluxerAngleEmailLinkSyntax extends md.InlineSyntax {
     }
     final md.Element anchor = md.Element.text('a', email)
       ..attributes['href'] = 'mailto:$email';
+    parser.addNode(anchor);
+    return true;
+  }
+}
+
+class FluxerAngleUrlLinkSyntax extends md.InlineSyntax {
+  FluxerAngleUrlLinkSyntax()
+    : super(r'<((?:https?://|fluxer:)[^>\s]+)>', caseSensitive: false);
+
+  @override
+  bool onMatch(md.InlineParser parser, Match match) {
+    final String? url = match.group(1);
+    if (url == null || url.isEmpty) {
+      return false;
+    }
+    if (url.length > kFluxerMarkdownMaxMaskedLinkUrlLength) {
+      return false;
+    }
+    final md.Element anchor = md.Element.text('a', url)
+      ..attributes['href'] = url;
     parser.addNode(anchor);
     return true;
   }
@@ -477,16 +550,12 @@ int _autolinkConsumeLength(String text) {
 
 class FluxerAutolinkExtensionSyntax extends md.InlineSyntax {
   static const String _linkPattern =
-      r'(?:(?:https?|ftp):\/\/|www\.)'
+      r'(?:https?):\/\/'
       r'(?:[-_a-z0-9]+\.)*(?:[-a-z0-9]+\.[-a-z0-9]+)'
       r'[^\s<]*'
       r'[^\s<?!.,:*_~]';
 
-  static const String _emailPattern =
-      r'[-_.+a-z0-9]+@(?:[-_a-z0-9]+\.)+[-_a-z0-9]*[a-z0-9]';
-
-  FluxerAutolinkExtensionSyntax()
-    : super('($_linkPattern)|($_emailPattern)', caseSensitive: false);
+  FluxerAutolinkExtensionSyntax() : super(_linkPattern, caseSensitive: false);
 
   @override
   bool tryMatch(md.InlineParser parser, [int? startMatchPos]) {
@@ -498,7 +567,7 @@ class FluxerAutolinkExtensionSyntax extends md.InlineSyntax {
     if (startMatch == null) {
       return false;
     }
-    if (startMatch[1] != null && parser.pos > 0) {
+    if (parser.pos > 0) {
       final String precededBy = String.fromCharCode(
         parser.charAt(parser.pos - 1),
       );
@@ -515,15 +584,6 @@ class FluxerAutolinkExtensionSyntax extends md.InlineSyntax {
         return false;
       }
     }
-    if (startMatch[2] != null && parser.source.length > startMatch.end) {
-      final String followedBy = String.fromCharCode(
-        parser.charAt(startMatch.end),
-      );
-      const Set<String> invalidFollowingChars = {'_', '-'};
-      if (invalidFollowingChars.contains(followedBy)) {
-        return false;
-      }
-    }
     parser.writeText();
     return onMatch(parser, startMatch);
   }
@@ -531,21 +591,10 @@ class FluxerAutolinkExtensionSyntax extends md.InlineSyntax {
   @override
   bool onMatch(md.InlineParser parser, Match match) {
     final String matchedText = match[0]!;
-    final bool isEmailLink = match[2] != null;
-    final int consumeLength = isEmailLink
-        ? matchedText.length
-        : _autolinkConsumeLength(matchedText);
+    final int consumeLength = _autolinkConsumeLength(matchedText);
     final String text = matchedText.substring(0, consumeLength);
-
-    var destination = text;
-    if (isEmailLink) {
-      destination = 'mailto:$destination';
-    } else if (destination.startsWith('www.')) {
-      destination = 'http://$destination';
-    }
-
     final md.Element anchor = md.Element.text('a', text)
-      ..attributes['href'] = destination;
+      ..attributes['href'] = text;
     parser
       ..addNode(anchor)
       ..consume(consumeLength);

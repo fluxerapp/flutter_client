@@ -8,10 +8,10 @@ export 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 export 'package:fluxer_app/features/ui/avatar/fluxer_avatar_cluster.dart';
 export 'package:fluxer_app/features/ui/avatar/fluxer_avatar_stack.dart';
 export 'package:fluxer_app/features/ui/avatar/fluxer_guild_icon_avatar.dart';
+export 'package:fluxer_app/features/ui/background/starfield_background.dart';
 export 'package:fluxer_app/features/ui/badge/fluxer_badge.dart';
 export 'package:fluxer_app/features/ui/badge/fluxer_guild_badge.dart';
 export 'package:fluxer_app/features/ui/badge/fluxer_user_tag.dart';
-export 'package:fluxer_app/features/ui/background/starfield_background.dart';
 export 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 export 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_identity_header.dart';
 // Buttons
@@ -61,6 +61,7 @@ export 'package:fluxer_app/features/ui/switch_group/fluxer_switch_group.dart';
 export 'package:fluxer_app/features/ui/tabs/fluxer_segmented_tabs.dart';
 // Navigation
 export 'package:fluxer_app/features/ui/tabs/fluxer_tabs.dart';
+export 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 export 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 // Text
 export 'package:fluxer_app/features/ui/text/fluxer_field_label.dart';

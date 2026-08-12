@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
@@ -114,7 +115,7 @@ class _SpoilerOverlayState extends State<SpoilerOverlay>
         button: true,
         label: l10n.chatMediaSpoilerRevealLabel,
         onTap: _reveal,
-        child: GestureDetector(
+        child: FluxerGestureDetector(
           onTap: _reveal,
           child: Stack(
             fit: StackFit.passthrough,

@@ -1568,7 +1568,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       chatViewModelProvider.select((s) => s.editingMessage != null),
     );
     if (isEditing) {
-      FluxerHaptics.light();
+      FluxerHaptics.send();
       unawaited(vm.sendMessage(text: wireText.trim()));
       return;
     }
@@ -1641,7 +1641,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       return;
     }
 
-    FluxerHaptics.light();
+    FluxerHaptics.send();
     unawaited(vm.sendMessage(text: baseContent.trim(), tts: tts));
   }
 

@@ -18,6 +18,7 @@ import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -405,7 +406,7 @@ class _AddGuildModalDialogState extends ConsumerState<_AddGuildModalDialog> {
       child: Stack(
         children: <Widget>[
           Positioned.fill(
-            child: GestureDetector(
+            child: FluxerGestureDetector(
               onTap: _close,
               child: ColoredBox(
                 color: Colors.black.withValues(alpha: 0.35),

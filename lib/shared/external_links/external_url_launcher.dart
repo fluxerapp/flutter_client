@@ -66,6 +66,9 @@ Future<bool> _openInAppBrowser(
   ExternalUrlBrowserStyle? style,
 }) async {
   try {
+    if (_chromeSafariBrowser.isOpened()) {
+      await _chromeSafariBrowser.close();
+    }
     await _chromeSafariBrowser.open(
       url: WebUri(uri.toString()),
       settings: style != null

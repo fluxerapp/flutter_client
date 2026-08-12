@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/settings/providers/voice_settings_provider.d
 import 'package:fluxer_app/features/shell/presentation/widgets/user_panel_widgets.dart';
 import 'package:fluxer_app/features/ui/action_menu/fluxer_action_menu.dart';
 import 'package:fluxer_app/features/ui/popout/fluxer_popout.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_audio_processing_modal.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_connection_status/voice_connection_avatar_stack.dart';
@@ -246,7 +247,7 @@ class _ResolvedVoiceConnectionStatus extends ConsumerWidget {
                 child: FluxerPopout(
                   position: FluxerPopoutPosition.above,
                   anchorBuilder: (BuildContext context, VoidCallback toggle) {
-                    return GestureDetector(
+                    return FluxerGestureDetector(
                       onLongPressStart: (LongPressStartDetails details) {
                         unawaited(
                           _showDisplayOptions(

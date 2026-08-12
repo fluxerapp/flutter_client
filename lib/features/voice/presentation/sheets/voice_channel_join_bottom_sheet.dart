@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_chat_unread_badge.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_e2ee_indicator.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_text_chat_provider.dart';
@@ -296,7 +297,7 @@ class _LobbyActionTile extends StatelessWidget {
       button: true,
       enabled: onPressed != null,
       label: semanticsLabel ?? label,
-      child: GestureDetector(
+      child: FluxerGestureDetector(
         onTap: onPressed,
         child: Material(
           color: colors.buttonSecondaryFill,

@@ -67,5 +67,43 @@ void main() {
       );
       expect(params.channelIds, <String>['channel-1']);
     });
+
+    test('parses poll and forward has filters', () {
+      final ParsedChannelSearchParams pollParams = parseChannelSearchQuery(
+        'has:poll',
+      );
+      final ParsedChannelSearchParams forwardParams = parseChannelSearchQuery(
+        'has:forward',
+      );
+      final ParsedChannelSearchParams snapshotParams = parseChannelSearchQuery(
+        'has:snapshot',
+      );
+
+      expect(pollParams.has, contains('poll'));
+      expect(forwardParams.has, contains('snapshot'));
+      expect(snapshotParams.has, contains('snapshot'));
+    });
+
+    test('parses negated from and in filters', () {
+      final ParsedChannelSearchParams params = parseChannelSearchQuery(
+        '-from:alice -in:general',
+        hints: const ChannelSearchParseHints(
+          usersByTag: <String, String>{'alice': 'user-1'},
+        ),
+        context: ChannelSearchParseContext(
+          guildId: 'guild-1',
+          resolveChannelByName: (String name) =>
+              name.toLowerCase() == 'general' ? 'channel-1' : null,
+        ),
+      );
+
+      expect(params.excludeAuthorIds, contains('user-1'));
+      expect(params.excludeChannelIds, contains('channel-1'));
+    });
+
+    test('incomplete from filter does not invent author id', () {
+      final ParsedChannelSearchParams params = parseChannelSearchQuery('from:');
+      expect(params.authorIds, isEmpty);
+    });
   });
 }

@@ -55,6 +55,7 @@ class UserAccessibility extends ConsumerWidget {
             SizedBox(height: layout.s8),
           ],
           FluxerSettingsSection(
+            sectionId: 'visual',
             title: l10n.accessibilityVisualGroupTitle,
             isFirst: true,
             children: [
@@ -119,6 +120,7 @@ class UserAccessibility extends ConsumerWidget {
             ],
           ),
           FluxerSettingsSection(
+            sectionId: 'screen-reader',
             title: l10n.accessibilityScreenReaderGroupTitle,
             children: [
               FluxerSettingsSwitchGroup(
@@ -143,6 +145,7 @@ class UserAccessibility extends ConsumerWidget {
           if (showKeyboard) const UserAccessibilityKeyboardSection(),
           const UserAccessibilityAnimationSection(),
           FluxerSettingsSection(
+            sectionId: 'motion',
             title: l10n.accessibilityMotionGroupTitle,
             children: [
               FluxerSettingsSwitchGroup(

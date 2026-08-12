@@ -11,7 +11,23 @@ import 'package:fluxer_app/features/shell/presentation/mobile_home_utility_shell
 import 'package:fluxer_app/features/shell/presentation/mobile_main_tab_shell.dart';
 import 'package:fluxer_app/features/shell/presentation/mobile_shell_back_scope.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/shell/utils/shell_popup_navigation.dart';
 import 'package:go_router/go_router.dart';
+
+void _selectMobileShellBranch(
+  StatefulNavigationShell navigationShell,
+  int index,
+) {
+  popTopShellPopupRoute();
+  if (index == 0 && navigationShell.currentIndex != 0) {
+    navigationShell.goBranch(shellHomeBranchIndex);
+    return;
+  }
+  navigationShell.goBranch(
+    index,
+    initialLocation: index == navigationShell.currentIndex,
+  );
+}
 
 class MobileShellScaffold extends ConsumerWidget {
   const MobileShellScaffold({
@@ -44,16 +60,8 @@ class MobileShellScaffold extends ConsumerWidget {
     final Widget bottomNav = mobileBottomNav(
       context: context,
       currentIndex: navigationShell.currentIndex,
-      onBranchSelected: (int index) {
-        if (index == 0 && navigationShell.currentIndex != 0) {
-          navigationShell.goBranch(shellHomeBranchIndex);
-          return;
-        }
-        navigationShell.goBranch(
-          index,
-          initialLocation: index == navigationShell.currentIndex,
-        );
-      },
+      onBranchSelected: (int index) =>
+          _selectMobileShellBranch(navigationShell, index),
     );
     return switch (mode) {
       ShellLayoutMode.channelDrawer => MobileChannelDrawerShell(

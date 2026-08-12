@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/dm/utils/group_dm_display_name.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_guild_badge.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 import 'package:fluxer_dart/export.dart';
@@ -159,7 +160,7 @@ class _GuildInviteCard extends StatelessWidget {
     final onlineStr = _formatInviteCount(invite.presenceCount);
     final memberStr = _formatInviteCount(invite.memberCount);
 
-    return GestureDetector(
+    return FluxerGestureDetector(
       onSecondaryTapDown: (TapDownDetails details) {
         unawaited(_showContextMenu(context, details.globalPosition));
       },
@@ -299,7 +300,7 @@ class _GroupDmInviteCard extends StatelessWidget {
       currentUserId: ref.watch(currentUserIdProvider),
     );
 
-    return GestureDetector(
+    return FluxerGestureDetector(
       onSecondaryTapDown: (TapDownDetails details) {
         unawaited(_showContextMenu(context, details.globalPosition));
       },

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 
 class VoiceMessageTrimWaveform extends StatefulWidget {
   const VoiceMessageTrimWaveform({
@@ -117,7 +118,7 @@ class _TrimHandle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return FluxerGestureDetector(
       onHorizontalDragUpdate: (DragUpdateDetails details) {
         onDrag(details.delta.dx);
       },

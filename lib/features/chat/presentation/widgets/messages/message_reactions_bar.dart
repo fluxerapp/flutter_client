@@ -7,8 +7,8 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
-import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_app/shared/utils/emoji_utils.dart';
+import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -104,7 +104,7 @@ class _ReactionChip extends StatelessWidget {
       button: true,
       toggled: hasReacted,
       label: '$emojiName, ${reaction.count}',
-      child: GestureDetector(
+      child: FluxerGestureDetector(
         onTap: onTap,
         child: MouseRegion(
           cursor: SystemMouseCursors.click,
@@ -262,7 +262,7 @@ class _InlineAddReactionButtonState extends State<_InlineAddReactionButton> {
         onEnter: (_) => setState(() => _isHovered = true),
         onExit: (_) => setState(() => _isHovered = false),
         cursor: SystemMouseCursors.click,
-        child: GestureDetector(
+        child: FluxerGestureDetector(
           onTap: onTap,
           behavior: HitTestBehavior.opaque,
           child: Container(

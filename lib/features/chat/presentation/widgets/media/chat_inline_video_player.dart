@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/shared/widgets/shared_video_controls.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart' as mkv;
@@ -144,7 +145,7 @@ class _ChatInlineVideoPlayerState extends State<ChatInlineVideoPlayer> {
     final Widget player = AspectRatio(
       aspectRatio: _resolveAspectRatio(),
       child: isMobile
-          ? GestureDetector(
+          ? FluxerGestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: _openMobileFullscreen,
               child: Stack(
@@ -183,7 +184,7 @@ class _ChatInlineVideoPlayerState extends State<ChatInlineVideoPlayer> {
                   ),
               ],
             )
-          : GestureDetector(
+          : FluxerGestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: _startPlayback,
               child: Stack(
@@ -356,7 +357,7 @@ class _ChatInlineVideoPlayerState extends State<ChatInlineVideoPlayer> {
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.94),
       builder: (BuildContext dialogContext) {
-        return GestureDetector(
+        return FluxerGestureDetector(
           onTap: () => Navigator.of(dialogContext).pop(),
           child: ColoredBox(
             color: Colors.transparent,

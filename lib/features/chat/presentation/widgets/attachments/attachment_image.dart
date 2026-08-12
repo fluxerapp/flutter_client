@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/chat/utils/embed_animated_image_url.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -80,7 +81,7 @@ class AttachmentImage extends StatelessWidget {
               button: gallery.isNotEmpty,
               image: true,
               label: _semanticLabel(context),
-              child: GestureDetector(
+              child: FluxerGestureDetector(
                 onTap: gallery.isEmpty
                     ? null
                     : () => showAttachmentMediaViewer(

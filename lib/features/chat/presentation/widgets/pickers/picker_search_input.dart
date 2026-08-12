@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class PickerSearchInput extends StatefulWidget {
@@ -100,7 +101,7 @@ class _PickerSearchInputState extends State<PickerSearchInput> {
           if (widget.showBackButton && widget.onBackButtonClick != null) ...[
             MouseRegion(
               cursor: SystemMouseCursors.click,
-              child: GestureDetector(
+              child: FluxerGestureDetector(
                 onTap: widget.onBackButtonClick,
                 behavior: HitTestBehavior.opaque,
                 child: Padding(
@@ -213,7 +214,7 @@ class _PickerSearchInputState extends State<PickerSearchInput> {
             if (text.isNotEmpty) const SizedBox(width: 6),
           ],
           if (text.isNotEmpty)
-            GestureDetector(
+            FluxerGestureDetector(
               onTap: widget.controller.clear,
               child: MouseRegion(
                 cursor: SystemMouseCursors.click,

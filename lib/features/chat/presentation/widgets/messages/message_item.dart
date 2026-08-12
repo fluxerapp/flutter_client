@@ -550,7 +550,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     final bool dimMessagePartsExceptAttachments =
         isSending && hasUploadingPlaceholderAttachments;
 
-    final body = GestureDetector(
+    final body = FluxerGestureDetector(
       onLongPress: useTouchMessageActions && !widget.inboxPreviewMode
           ? () => _showActions(context)
           : null,
@@ -1097,7 +1097,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     children: [
       _wrapMessageSendingDim(
         dim: dimMessagePartsExceptAttachments,
-        child: GestureDetector(
+        child: FluxerGestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: _canOpenAuthorProfile(msg)
               ? () => _openAuthorProfile(context, msg)
@@ -1160,7 +1160,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     return Semantics(
       button: true,
       label: message,
-      child: GestureDetector(
+      child: FluxerGestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () => ref
             .read(toastProvider.notifier)
@@ -1204,7 +1204,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               ? FluxerLocalizations.of(context).voiceParticipantMenuViewProfile
               : null,
           image: true,
-          child: GestureDetector(
+          child: FluxerGestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: _canOpenAuthorProfile(msg)
                 ? () => _openAuthorProfile(context, msg)
@@ -1236,7 +1236,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               child: Row(
                 children: [
                   Flexible(
-                    child: GestureDetector(
+                    child: FluxerGestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: _canOpenAuthorProfile(msg)
                           ? () => _openAuthorProfile(context, msg)
@@ -1411,7 +1411,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                           const TextSpan(text: ' '),
                           WidgetSpan(
                             alignment: PlaceholderAlignment.middle,
-                            child: GestureDetector(
+                            child: FluxerGestureDetector(
                               onTap: widget.onDismissClientSystem,
                               child: Text(
                                 l10n.chatClientSystemDismiss,

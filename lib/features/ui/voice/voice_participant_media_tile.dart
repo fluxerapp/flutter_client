@@ -17,13 +17,9 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:livekit_client/livekit_client.dart';
 
-const double _kAreaAspect = 16 / 9;
-
 enum VoiceParticipantTileSource { camera, screenShare }
 
-/// Fills a 16:9 area with a LiveKit camera track when available, else an
-/// avatar, plus optional “video intent” loading when the voice state has video
-/// enabled but the track is not ready.
+/// Renders a LiveKit camera/screen-share track, or an avatar fallback.
 class VoiceParticipantMediaTile extends StatelessWidget {
   const VoiceParticipantMediaTile({
     required this.room,
@@ -40,6 +36,7 @@ class VoiceParticipantMediaTile extends StatelessWidget {
     this.isTileFocused = true,
     this.pauseOwnScreenSharePreviewOnUnfocus = true,
     this.isFilmstrip = false,
+    this.fillContainer = false,
     this.user,
     this.mirrorCamera = false,
     super.key,
@@ -55,6 +52,7 @@ class VoiceParticipantMediaTile extends StatelessWidget {
   final VoiceParticipantTileSource tileSource;
   final bool isActiveScreenShare;
   final bool isFilmstrip;
+  final bool fillContainer;
   final bool isTileFocused;
   final bool pauseOwnScreenSharePreviewOnUnfocus;
   final String? streamPreviewUrl;
@@ -139,34 +137,42 @@ class VoiceParticipantMediaTile extends StatelessWidget {
               tileSource == VoiceParticipantTileSource.camera &&
               currentUserId != null &&
               userId == currentUserId;
-          Widget videoChild = VideoTrackRenderer(track);
-          if (mirrorCamera && isOwnCameraTile) {
-            videoChild = Transform(
-              alignment: Alignment.center,
-              transform: Matrix4.diagonal3Values(-1, 1, 1),
-              child: videoChild,
-            );
+          final VideoViewFit fit = isScreenShareTile || fillContainer
+              ? VideoViewFit.contain
+              : VideoViewFit.cover;
+          final VideoViewMirrorMode mirrorMode;
+          if (!isOwnCameraTile || isScreenShareTile) {
+            mirrorMode = VideoViewMirrorMode.off;
+          } else if (mirrorCamera) {
+            mirrorMode = VideoViewMirrorMode.mirror;
+          } else {
+            mirrorMode = VideoViewMirrorMode.off;
           }
+          final Widget videoChild = VideoTrackRenderer(
+            track,
+            fit: fit,
+            mirrorMode: mirrorMode,
+          );
           final Widget videoWidget = ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: ColoredBox(
               color: backgroundColor,
-              child: AspectRatio(aspectRatio: _kAreaAspect, child: videoChild),
+              child: SizedBox.expand(child: videoChild),
             ),
           );
           if (isScreenShareTile && !isActiveScreenShare) {
             return Stack(
               fit: StackFit.expand,
               children: <Widget>[
-                _nonWatchingPreviewLayer(videoWidget),
-                Positioned.fill(
-                  child: ImageFiltered(
-                    imageFilter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-                    child: _nonWatchingPreviewLayer(videoWidget),
-                  ),
-                ),
+                Positioned.fill(child: _nonWatchingPreviewLayer(videoWidget)),
                 const Positioned.fill(
                   child: ColoredBox(color: Color(0x55000000)),
+                ),
+                Positioned.fill(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+                    child: const ColoredBox(color: Color(0x22000000)),
+                  ),
                 ),
               ],
             );
@@ -178,6 +184,7 @@ class VoiceParticipantMediaTile extends StatelessWidget {
             return videoWidget;
           }
           return Stack(
+            fit: StackFit.expand,
             children: <Widget>[
               videoWidget,
               Positioned.fill(
@@ -266,40 +273,37 @@ class VoiceParticipantMediaTile extends StatelessWidget {
   }) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
-      child: AspectRatio(
-        aspectRatio: _kAreaAspect,
-        child: ColoredBox(
-          color: backgroundColor,
-          child: Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              if (user != null)
-                Center(
-                  child: FluxerAvatar.fromUserRow(
-                    user!,
-                    size: 72,
-                    showStatus: false,
-                  ),
-                )
-              else
-                Center(
-                  child: FluxerAvatar.user(
-                    userId: userId,
-                    fallbackText: display,
-                    size: 72,
-                    showStatus: false,
-                  ),
+      child: ColoredBox(
+        color: backgroundColor,
+        child: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            if (user != null)
+              Center(
+                child: FluxerAvatar.fromUserRow(
+                  user!,
+                  size: 72,
+                  showStatus: false,
                 ),
-              if (showVideoPending)
-                const Center(
-                  child: SizedBox(
-                    width: 32,
-                    height: 32,
-                    child: FluxerLoadingSpinner(),
-                  ),
+              )
+            else
+              Center(
+                child: FluxerAvatar.user(
+                  userId: userId,
+                  fallbackText: display,
+                  size: 72,
+                  showStatus: false,
                 ),
-            ],
-          ),
+              ),
+            if (showVideoPending)
+              const Center(
+                child: SizedBox(
+                  width: 32,
+                  height: 32,
+                  child: FluxerLoadingSpinner(),
+                ),
+              ),
+          ],
         ),
       ),
     );
@@ -318,7 +322,7 @@ class VoiceParticipantMediaTile extends StatelessWidget {
           };
     return Image.network(
       previewUrl,
-      fit: BoxFit.cover,
+      fit: BoxFit.contain,
       headers: headers,
       errorBuilder: (BuildContext _, Object _, StackTrace? _) {
         return fallbackVideo;
@@ -340,42 +344,39 @@ class VoiceParticipantMediaTile extends StatelessWidget {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
-      child: AspectRatio(
-        aspectRatio: _kAreaAspect,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: backgroundColor.withValues(alpha: 0.88),
-          ),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  const Icon(
-                    Icons.screen_share_rounded,
-                    color: Color(0xFFFFFFFF),
-                    size: 30,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: backgroundColor.withValues(alpha: 0.88),
+        ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                const Icon(
+                  Icons.screen_share_rounded,
+                  color: Color(0xFFFFFFFF),
+                  size: 30,
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  l10n.voiceOwnScreenShareTitle,
+                  textAlign: TextAlign.center,
+                  style: context.textStyles.channelName.copyWith(
+                    color: const Color(0xFFFFFFFF),
                   ),
-                  const SizedBox(height: 10),
-                  Text(
-                    l10n.voiceOwnScreenShareTitle,
-                    textAlign: TextAlign.center,
-                    style: context.textStyles.channelName.copyWith(
-                      color: const Color(0xFFFFFFFF),
-                    ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  l10n.voiceOwnScreenShareSubtitle,
+                  textAlign: TextAlign.center,
+                  style: context.textStyles.timestamp.copyWith(
+                    color: const Color(0xCCFFFFFF),
+                    fontWeight: FontWeight.w500,
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    l10n.voiceOwnScreenShareSubtitle,
-                    textAlign: TextAlign.center,
-                    style: context.textStyles.timestamp.copyWith(
-                      color: const Color(0xCCFFFFFF),
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

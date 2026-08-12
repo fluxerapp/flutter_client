@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 
 class VolumePopoutControl extends StatefulWidget {
   const VolumePopoutControl({
@@ -104,7 +105,10 @@ class _VolumePopoutControlState extends State<VolumePopoutControl> {
     return Positioned.fill(
       child: Stack(
         children: [
-          GestureDetector(behavior: HitTestBehavior.translucent, onTap: _close),
+          FluxerGestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: _close,
+          ),
           CompositedTransformFollower(
             link: _layerLink,
             showWhenUnlinked: false,

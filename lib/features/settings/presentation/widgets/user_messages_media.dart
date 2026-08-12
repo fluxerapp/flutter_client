@@ -44,6 +44,7 @@ class UserMessagesMedia extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           FluxerSettingsSection(
+            sectionId: 'display',
             title: l10n.messagesMediaDisplayGroupTitle,
             description: l10n.messagesMediaDisplayGroupDescription,
             isFirst: true,
@@ -128,6 +129,7 @@ class UserMessagesMedia extends ConsumerWidget {
             ],
           ),
           FluxerSettingsSection(
+            sectionId: 'media',
             title: l10n.messagesMediaMediaGroupTitle,
             description: l10n.messagesMediaMediaGroupDescription,
             children: [
@@ -164,6 +166,7 @@ class UserMessagesMedia extends ConsumerWidget {
             ],
           ),
           FluxerSettingsSection(
+            sectionId: 'input',
             title: l10n.messagesMediaInputGroupTitle,
             description: l10n.messagesMediaInputGroupDescription,
             children: [

@@ -2,6 +2,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/chat/data/channel_search_query_parser.dart';
+import 'package:fluxer_app/features/chat/domain/channel_search_chip_filters.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_dart/export.dart';
@@ -27,6 +28,8 @@ enum MessageSearchContentFilter {
   link,
   embed,
   sticker,
+  poll,
+  forward,
 }
 
 class MessageSearchQuery {
@@ -58,13 +61,19 @@ class MessageSearchQuery {
     ChannelSearchParseContext context = const ChannelSearchParseContext(),
     String? chipAuthorId,
     Set<MessageSearchContentFilter>? chipContentTypes,
+    ChannelSearchChipFilters chipFilters = const ChannelSearchChipFilters(),
     int page = 1,
   }) {
-    final ParsedChannelSearchParams parsed = parseChannelSearchQuery(
-      rawQuery,
-      hints: hints,
-      context: context,
-    ).mergeChipFilters(authorId: chipAuthorId, contentTypes: chipContentTypes);
+    final ParsedChannelSearchParams parsed =
+        parseChannelSearchQuery(
+          rawQuery,
+          hints: hints,
+          context: context,
+        ).mergeChipFilters(
+          authorId: chipAuthorId,
+          contentTypes: chipContentTypes,
+          chips: chipFilters,
+        );
     return MessageSearchQuery(
       channelId: channelId,
       guildId: guildId,

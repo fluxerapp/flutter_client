@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/character_counter/fluxer_character_counter.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 
 class FluxerInput extends StatelessWidget {
   const FluxerInput({
@@ -169,7 +170,7 @@ class FluxerInput extends StatelessWidget {
         ? Semantics(
             button: true,
             label: suffixSemanticLabel,
-            child: GestureDetector(onTap: onSuffixTap, child: suffixIcon),
+            child: FluxerGestureDetector(onTap: onSuffixTap, child: suffixIcon),
           )
         : suffixIcon;
 

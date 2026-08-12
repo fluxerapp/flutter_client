@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -14,10 +15,9 @@ import 'package:fluxer_app/features/chat/data/channel_search_query_parser.dart';
 import 'package:fluxer_app/features/chat/data/message_search_repository.dart';
 import 'package:fluxer_app/features/chat/domain/channel_search_segments.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_header_search_autocomplete.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_search_filter_pill.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_header_search_provider.dart';
-import 'package:fluxer_app/features/chat/utils/channel_search_input_utils.dart';
+import 'package:fluxer_app/features/chat/utils/channel_search_text_edit_utils.dart';
 import 'package:fluxer_app/features/chat/utils/channel_search_utils.dart';
 import 'package:fluxer_app/features/chat/utils/composer_mention_query.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
@@ -66,9 +66,7 @@ class _ChannelHeaderSearchFieldState
   static const Duration _kUserSearchDebounce = Duration(milliseconds: 300);
 
   final TextEditingController _controller = TextEditingController();
-  final TextEditingController _editController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
-  bool _isSyncing = false;
   final LayerLink _layerLink = LayerLink();
   final GlobalKey _searchAnchorKey = GlobalKey();
   final OverlayPortalController _overlayController = OverlayPortalController();
@@ -83,6 +81,7 @@ class _ChannelHeaderSearchFieldState
   bool _suppressAutoOpen = false;
   Timer? _userSearchDebounce;
   List<Member> _userResults = const <Member>[];
+  Map<String, String> _userDiscriminators = const <String, String>{};
   final Map<String, String> _userIdsByTag = <String, String>{};
   final Map<String, String> _channelIdsByName = <String, String>{};
   String _listboxId = 'channel-search-listbox';
@@ -109,7 +108,7 @@ class _ChannelHeaderSearchFieldState
       parent: _animationController,
       curve: Curves.easeOut,
     );
-    _editController.addListener(_onEditableChanged);
+    _controller.addListener(_onQueryChanged);
     _focusNode
       ..addListener(_onFocusChanged)
       ..onKeyEvent = _handleKeyEvent;
@@ -145,10 +144,9 @@ class _ChannelHeaderSearchFieldState
   @override
   void dispose() {
     _userSearchDebounce?.cancel();
-    _editController
-      ..removeListener(_onEditableChanged)
+    _controller
+      ..removeListener(_onQueryChanged)
       ..dispose();
-    _controller.dispose();
     _focusNode
       ..removeListener(_onFocusChanged)
       ..dispose();
@@ -156,98 +154,23 @@ class _ChannelHeaderSearchFieldState
     super.dispose();
   }
 
-  void _onEditableChanged() {
-    if (_isSyncing) {
-      return;
-    }
-    _syncFullFromEditable();
+  void _onQueryChanged() {
+    pruneSearchHintMaps(
+      query: _controller.text,
+      usersByTag: _userIdsByTag,
+      channelsByName: _channelIdsByName,
+    );
+    _publishDisplayText(_controller.text);
     _updateAutocompleteMode();
     setState(() => _hasNavigated = false);
-  }
-
-  void _syncFullFromEditable() {
-    final ChannelSearchInputParts parts = splitChannelSearchInput(
-      _controller.text,
-    );
-    final String full = rebuildChannelSearchText(
-      pills: parts.pills,
-      editableText: _editController.text,
-    );
-    _isSyncing = true;
-    _controller.text = full;
-    _isSyncing = false;
-    _publishDisplayText(full);
   }
 
   void _publishDisplayText(String text) {
     ref.read(channelHeaderSearchProvider.notifier).updateDisplayText(text);
   }
 
-  void _syncEditFromFull() {
-    _isSyncing = true;
-    final ChannelSearchInputParts parts = splitChannelSearchInput(
-      _controller.text,
-    );
-    _editController.text = parts.editableText;
-    _editController.selection = TextSelection.collapsed(
-      offset: parts.editableText.length,
-    );
-    _isSyncing = false;
-  }
-
-  List<ChannelSearchSegment> get _inputPills =>
-      splitChannelSearchInput(_controller.text).pills;
-
-  void _removePill(ChannelSearchSegment pill) {
-    final ChannelSearchInputParts parts = splitChannelSearchInput(
-      _controller.text,
-    );
-    final List<ChannelSearchSegment> newPills = removeChannelSearchPill(
-      parts.pills,
-      pill,
-    );
-    final String full = rebuildChannelSearchText(
-      pills: newPills,
-      editableText: parts.editableText,
-    );
-    _isSyncing = true;
-    _controller.text = full;
-    _isSyncing = false;
-    _publishDisplayText(full);
-    setState(() {});
-    _updateAutocompleteMode();
-    _showOverlayIfNeeded();
-  }
-
-  void _editPill(ChannelSearchSegment pill) {
-    final ChannelSearchInputParts parts = splitChannelSearchInput(
-      _controller.text,
-    );
-    final List<ChannelSearchSegment> newPills = removeChannelSearchPill(
-      parts.pills,
-      pill,
-    );
-    final String pillText = pill.display.isEmpty
-        ? '${pill.filterKey}:'
-        : '${pill.filterKey}:${pill.display.contains(' ') ? '"${pill.display}"' : pill.display}';
-    final String editable = '${parts.editableText} $pillText'.trim();
-    final String full = rebuildChannelSearchText(
-      pills: newPills,
-      editableText: editable,
-    );
-    _isSyncing = true;
-    _controller.text = full;
-    _editController.text = editable;
-    _editController.selection = TextSelection.collapsed(
-      offset: editable.length,
-    );
-    _isSyncing = false;
-    _publishDisplayText(full);
-    _focusNode.requestFocus();
-    setState(() {});
-    _updateAutocompleteMode();
-    _showOverlayIfNeeded();
-  }
+  String _normalizedFilterKey(String key) =>
+      key.startsWith('-') ? key.substring(1) : key;
 
   ChannelSearchAutocompleteEntry _sectionHeader({
     required ChannelSearchAutocompleteSection section,
@@ -288,11 +211,8 @@ class _ChannelHeaderSearchFieldState
       return;
     }
 
-    final String text = _editController.text;
-    final int cursor = _editController.selection.baseOffset.clamp(
-      0,
-      text.length,
-    );
+    final String text = _controller.text;
+    final int cursor = _controller.selection.baseOffset.clamp(0, text.length);
     final String textBeforeCursor = text.substring(0, cursor);
     final List<String> words = textBeforeCursor.split(RegExp(r'\s+'));
     final String currentWord = words.isEmpty ? '' : words.last;
@@ -304,12 +224,13 @@ class _ChannelHeaderSearchFieldState
       final String afterColon = currentWord.substring(
         matchingFilter.syntaxLabel.length,
       );
-      if (isDateFilterKey(matchingFilter.key)) {
+      if (isDateFilterKey(_normalizedFilterKey(matchingFilter.key))) {
         _autocompleteMode = _ChannelSearchAutocompleteMode.dates;
         _activeFilter = matchingFilter;
         return;
       }
-      if (matchingFilter.key == 'has' && afterColon.isEmpty) {
+      if (_normalizedFilterKey(matchingFilter.key) == 'has' &&
+          afterColon.isEmpty) {
         _autocompleteMode = _ChannelSearchAutocompleteMode.filterValues;
         _activeFilter = matchingFilter;
         return;
@@ -325,7 +246,7 @@ class _ChannelHeaderSearchFieldState
         _scheduleUserSearch(afterColon);
         return;
       }
-      if (matchingFilter.key == 'in' && _isGuildChannel) {
+      if (_normalizedFilterKey(matchingFilter.key) == 'in' && _isGuildChannel) {
         _autocompleteMode = _ChannelSearchAutocompleteMode.channels;
         _activeFilter = matchingFilter;
         return;
@@ -341,15 +262,20 @@ class _ChannelHeaderSearchFieldState
       return;
     }
 
-    final bool partialFilter = kChannelSearchFilterOptions.any((
-      ChannelSearchFilterOption option,
-    ) {
-      if (option.requiresGuild && !_isGuildChannel) {
-        return false;
-      }
-      return option.syntaxLabel.startsWith(currentWord) ||
-          option.key.startsWith(currentWord);
-    });
+    final bool partialFilter =
+        channelSearchAutocompleteFilterOptions(
+          isGuildChannel: _isGuildChannel,
+          currentWord: currentWord,
+        ).any((ChannelSearchFilterOption option) {
+          if (option.requiresGuild && !_isGuildChannel) {
+            return false;
+          }
+          if (currentWord.isEmpty) {
+            return true;
+          }
+          return option.syntaxLabel.contains(currentWord) ||
+              option.key.contains(currentWord);
+        });
     _autocompleteMode = partialFilter
         ? _ChannelSearchAutocompleteMode.filters
         : _ChannelSearchAutocompleteMode.none;
@@ -357,6 +283,15 @@ class _ChannelHeaderSearchFieldState
   }
 
   ChannelSearchFilterOption? _matchFilterPrefix(String currentWord) {
+    if (currentWord.startsWith('-')) {
+      for (final ChannelSearchFilterOption option
+          in kChannelSearchFilterOptions) {
+        final String syntax = '-${option.syntaxLabel}';
+        if (currentWord.startsWith(syntax)) {
+          return channelSearchFilterOptionForKey('-${option.key}');
+        }
+      }
+    }
     for (final ChannelSearchFilterOption option
         in kChannelSearchFilterOptions) {
       if (currentWord.startsWith(option.syntaxLabel)) {
@@ -369,7 +304,10 @@ class _ChannelHeaderSearchFieldState
   void _scheduleUserSearch(String query) {
     _userSearchDebounce?.cancel();
     if (query.trim().isEmpty) {
-      setState(() => _userResults = const <Member>[]);
+      setState(() {
+        _userResults = const <Member>[];
+        _userDiscriminators = const <String, String>{};
+      });
       return;
     }
     _userSearchDebounce = Timer(_kUserSearchDebounce, () {
@@ -379,7 +317,9 @@ class _ChannelHeaderSearchFieldState
 
   Future<void> _fetchUsers(String query) async {
     final String? guildId = widget.guildId;
+    final String normalized = query.toLowerCase();
     List<Member> members = const <Member>[];
+    Map<String, String> discriminators = const <String, String>{};
     try {
       if (guildId != null) {
         final ParsedMentionQuery parsed = parseMentionQuery(query);
@@ -394,120 +334,122 @@ class _ChannelHeaderSearchFieldState
             parsed: parsed,
           )).members;
         }
+        discriminators = await search.discriminatorsFor(members);
       } else if (widget.dm != null) {
         final DmConversation dm = widget.dm!;
         if (dm.isGroup) {
           members = dm.groupMembers
               .where(
                 (GroupMemberInfo member) =>
-                    member.name.toLowerCase().contains(query.toLowerCase()),
+                    member.name.toLowerCase().contains(normalized),
               )
               .map(
-                (GroupMemberInfo member) =>
-                    Member(id: member.id, username: member.name),
+                (GroupMemberInfo member) => Member(
+                  id: member.id,
+                  username: member.name,
+                  avatar: member.avatar,
+                ),
               )
               .toList();
-        } else if (dm.recipientName.toLowerCase().contains(
-          query.toLowerCase(),
-        )) {
+        } else if (_dmRecipientMatches(dm, normalized)) {
           members = <Member>[
-            Member(id: dm.recipientId, username: dm.recipientName),
+            Member(
+              id: dm.recipientId,
+              username: dm.recipientUsername ?? dm.recipientName,
+              globalName: dm.recipientName,
+              avatar: dm.recipientAvatar,
+            ),
           ];
+          final String disc = (dm.recipientDiscriminator ?? '').trim();
+          if (disc.isNotEmpty && disc != '0') {
+            discriminators = <String, String>{dm.recipientId: disc};
+          }
         }
       }
     } on Object {
       members = const <Member>[];
+      discriminators = const <String, String>{};
     }
     if (!mounted) {
       return;
     }
-    setState(() => _userResults = members.take(12).toList());
+    setState(() {
+      _userResults = members.take(12).toList();
+      _userDiscriminators = discriminators;
+    });
+  }
+
+  bool _dmRecipientMatches(DmConversation dm, String normalizedQuery) {
+    if (dm.recipientName.toLowerCase().contains(normalizedQuery)) {
+      return true;
+    }
+    final String? username = dm.recipientUsername;
+    return username != null && username.toLowerCase().contains(normalizedQuery);
   }
 
   List<ChannelSearchAutocompleteEntry> _buildEntries() {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     switch (_autocompleteMode) {
       case _ChannelSearchAutocompleteMode.filters:
-        final List<ChannelSearchAutocompleteEntry> filters = _filterEntries(
-          l10n,
-          _currentWord(),
+        return _sectionedEntries(
+          section: ChannelSearchAutocompleteSection.filters,
+          title: l10n.channelHeaderSearchFiltersTitle,
+          icon: PhosphorIconsFill.funnel,
+          items: _filterEntries(l10n, _currentWord()),
         );
-        if (filters.isEmpty) {
-          return const <ChannelSearchAutocompleteEntry>[];
-        }
-        return <ChannelSearchAutocompleteEntry>[
-          _sectionHeader(
-            section: ChannelSearchAutocompleteSection.filters,
-            title: l10n.channelHeaderSearchFiltersTitle,
-            icon: PhosphorIconsFill.funnel,
-          ),
-          ...filters,
-        ];
       case _ChannelSearchAutocompleteMode.history:
         return _historyEntries(l10n);
       case _ChannelSearchAutocompleteMode.users:
-        final List<ChannelSearchAutocompleteEntry> users = _userEntries();
-        if (users.isEmpty) {
-          return const <ChannelSearchAutocompleteEntry>[];
-        }
-        return <ChannelSearchAutocompleteEntry>[
-          _sectionHeader(
-            section: ChannelSearchAutocompleteSection.users,
-            title: l10n.channelHeaderSearchUsersTitle,
-            icon: PhosphorIconsFill.user,
-          ),
-          ...users,
-        ];
+        return _sectionedEntries(
+          section: ChannelSearchAutocompleteSection.users,
+          title: l10n.channelHeaderSearchUsersTitle,
+          icon: PhosphorIconsBold.magnifyingGlass,
+          items: _userEntries(),
+        );
       case _ChannelSearchAutocompleteMode.channels:
-        final List<ChannelSearchAutocompleteEntry> channels = _channelEntries();
-        if (channels.isEmpty) {
-          return const <ChannelSearchAutocompleteEntry>[];
-        }
-        return <ChannelSearchAutocompleteEntry>[
-          _sectionHeader(
-            section: ChannelSearchAutocompleteSection.channels,
-            title: l10n.channelHeaderSearchChannelsTitle,
-            icon: PhosphorIconsBold.hash,
-          ),
-          ...channels,
-        ];
+        return _sectionedEntries(
+          section: ChannelSearchAutocompleteSection.channels,
+          title: l10n.channelHeaderSearchChannelsTitle,
+          icon: PhosphorIconsBold.hash,
+          items: _channelEntries(),
+        );
       case _ChannelSearchAutocompleteMode.filterValues:
-        final List<ChannelSearchAutocompleteEntry> values = _valueEntries(l10n);
-        if (values.isEmpty) {
-          return const <ChannelSearchAutocompleteEntry>[];
-        }
-        return <ChannelSearchAutocompleteEntry>[
-          _sectionHeader(
-            section: ChannelSearchAutocompleteSection.filterValues,
-            title: l10n.channelHeaderSearchValuesTitle,
-            icon: PhosphorIconsFill.funnel,
-          ),
-          ...values,
-        ];
+        return _sectionedEntries(
+          section: ChannelSearchAutocompleteSection.filterValues,
+          title: l10n.channelHeaderSearchValuesTitle,
+          icon: PhosphorIconsFill.funnel,
+          items: _valueEntries(l10n),
+        );
       case _ChannelSearchAutocompleteMode.dates:
-        final List<ChannelSearchAutocompleteEntry> dates = _dateEntries();
-        if (dates.isEmpty) {
-          return const <ChannelSearchAutocompleteEntry>[];
-        }
-        return <ChannelSearchAutocompleteEntry>[
-          _sectionHeader(
-            section: ChannelSearchAutocompleteSection.dates,
-            title: l10n.channelHeaderSearchDatesTitle,
-            icon: PhosphorIconsFill.calendar,
-          ),
-          ...dates,
-        ];
+        return _sectionedEntries(
+          section: ChannelSearchAutocompleteSection.dates,
+          title: l10n.channelHeaderSearchDatesTitle,
+          icon: PhosphorIconsFill.calendar,
+          items: _dateEntries(),
+        );
       case _ChannelSearchAutocompleteMode.none:
         return const <ChannelSearchAutocompleteEntry>[];
     }
   }
 
+  List<ChannelSearchAutocompleteEntry> _sectionedEntries({
+    required ChannelSearchAutocompleteSection section,
+    required String title,
+    required IconData icon,
+    required List<ChannelSearchAutocompleteEntry> items,
+  }) {
+    if (items.isEmpty) {
+      return const <ChannelSearchAutocompleteEntry>[];
+    }
+    return <ChannelSearchAutocompleteEntry>[
+      _sectionHeader(section: section, title: title, icon: icon),
+      ...items,
+    ];
+  }
+
   String _currentWord() {
-    final String text = _editController.text;
-    final int cursor = _editController.selection.baseOffset.clamp(
-      0,
-      text.length,
-    );
+    final String text = _controller.text;
+    final int cursor = _controller.selection.baseOffset.clamp(0, text.length);
     final String textBeforeCursor = text.substring(0, cursor);
     final List<String> words = textBeforeCursor.split(RegExp(r'\s+'));
     return words.isEmpty ? '' : words.last;
@@ -518,16 +460,10 @@ class _ChannelHeaderSearchFieldState
     String currentWord,
   ) {
     final Iterable<ChannelSearchFilterOption> options =
-        kChannelSearchFilterOptions.where((ChannelSearchFilterOption option) {
-          if (option.requiresGuild && !_isGuildChannel) {
-            return false;
-          }
-          if (currentWord.isEmpty) {
-            return true;
-          }
-          return option.syntaxLabel.contains(currentWord) ||
-              option.key.contains(currentWord);
-        });
+        channelSearchAutocompleteFilterOptions(
+          isGuildChannel: _isGuildChannel,
+          currentWord: currentWord,
+        );
     return options
         .map(
           (ChannelSearchFilterOption option) => ChannelSearchAutocompleteEntry(
@@ -598,15 +534,21 @@ class _ChannelHeaderSearchFieldState
 
   List<ChannelSearchAutocompleteEntry> _userEntries() {
     return _userResults.map((Member member) {
-      final String tag = member.username;
-      final String label = memberDisplayLabel(member);
+      final String tag = formatChannelSearchUserTag(
+        member.username,
+        _userDiscriminators[member.id],
+      );
       return ChannelSearchAutocompleteEntry(
         section: ChannelSearchAutocompleteSection.users,
-        label: label,
+        label: memberDisplayLabel(member),
         subtitle: tag,
-        icon: PhosphorIconsFill.user,
         userId: member.id,
-        value: tag,
+        avatarImageUrl: FluxerMediaUrl.userAvatar(
+          userId: member.id,
+          hash: member.avatar,
+        ),
+        avatarColor: member.avatarColor,
+        value: member.username,
       );
     }).toList();
   }
@@ -641,7 +583,7 @@ class _ChannelHeaderSearchFieldState
           (Channel channel) => ChannelSearchAutocompleteEntry(
             section: ChannelSearchAutocompleteSection.channels,
             label: channel.name,
-            icon: PhosphorIconsBold.hash,
+            channelType: channel.type,
             channelId: channel.id,
             value: channel.name,
           ),
@@ -657,7 +599,7 @@ class _ChannelHeaderSearchFieldState
     final String query = _currentWord().substring(filter.syntaxLabel.length);
     final String normalized = query.toLowerCase();
 
-    if (filter.key == 'has') {
+    if (_normalizedFilterKey(filter.key) == 'has') {
       return kChannelSearchHasContentFilters
           .where((MessageSearchContentFilter contentFilter) {
             final String label = channelSearchContentLabel(l10n, contentFilter);
@@ -710,21 +652,17 @@ class _ChannelHeaderSearchFieldState
 
   List<ChannelSearchAutocompleteEntry> _dateEntries() {
     final DateTime now = DateTime.now();
-    String formatDate(DateTime dt) =>
-        '${dt.year.toString().padLeft(4, '0')}-'
-        '${dt.month.toString().padLeft(2, '0')}-'
-        '${dt.day.toString().padLeft(2, '0')}';
     return <ChannelSearchAutocompleteEntry>[
       ChannelSearchAutocompleteEntry(
         section: ChannelSearchAutocompleteSection.dates,
         label: 'Today',
-        value: formatDate(now),
+        value: formatChannelSearchDate(now),
         icon: PhosphorIconsFill.calendar,
       ),
       ChannelSearchAutocompleteEntry(
         section: ChannelSearchAutocompleteSection.dates,
         label: 'Yesterday',
-        value: formatDate(now.subtract(const Duration(days: 1))),
+        value: formatChannelSearchDate(now.subtract(const Duration(days: 1))),
         icon: PhosphorIconsFill.calendar,
       ),
     ];
@@ -908,9 +846,14 @@ class _ChannelHeaderSearchFieldState
       return KeyEventResult.handled;
     }
     if (event.logicalKey == LogicalKeyboardKey.enter) {
-      if (total > 0 && _hasNavigated && _selectedIndex >= 0) {
-        _applyEntry(entries[_selectedIndex]);
-        return KeyEventResult.handled;
+      if (total > 0 && _selectedIndex >= 0) {
+        final ChannelSearchAutocompleteEntry entry = entries[_selectedIndex];
+        if (_hasNavigated ||
+            entry.section == ChannelSearchAutocompleteSection.users ||
+            entry.section == ChannelSearchAutocompleteSection.channels) {
+          _applyEntry(entry);
+          return KeyEventResult.handled;
+        }
       }
       unawaited(_submitSearch());
       return KeyEventResult.handled;
@@ -933,11 +876,23 @@ class _ChannelHeaderSearchFieldState
         _insertFilter(entry.filterKey ?? entry.label);
       case ChannelSearchAutocompleteSection.history:
         if (entry.historyText != null) {
-          _isSyncing = true;
+          final ChannelSearchHistoryEntry? historyEntry =
+              _historyEntryForDisplayText(entry.historyText!);
           _controller.text = entry.historyText!;
-          _syncEditFromFull();
-          _isSyncing = false;
+          _userIdsByTag
+            ..clear()
+            ..addAll(historyEntry?.usersByTag ?? const <String, String>{});
+          _channelIdsByName
+            ..clear()
+            ..addAll(historyEntry?.channelsByName ?? const <String, String>{});
           _publishDisplayText(entry.historyText!);
+          if (historyEntry != null) {
+            ref.read(channelHeaderSearchProvider.notifier)
+              ..setScope(
+                MessageSearchScopeFilter.values[historyEntry.scopeIndex],
+              )
+              ..setSort(MessageSearchSortFilter.values[historyEntry.sortIndex]);
+          }
           unawaited(_submitSearch());
         }
       case ChannelSearchAutocompleteSection.users:
@@ -945,6 +900,7 @@ class _ChannelHeaderSearchFieldState
           filterKey: _activeFilter?.key ?? 'from',
           value: entry.value ?? entry.label,
           userId: entry.userId,
+          userTagAlias: entry.subtitle,
         );
       case ChannelSearchAutocompleteSection.channels:
         _insertFilterValue(
@@ -973,6 +929,27 @@ class _ChannelHeaderSearchFieldState
     _showOverlayIfNeeded();
   }
 
+  ChannelSearchHistoryEntry? _historyEntryForDisplayText(String displayText) {
+    final String contextKey = channelSearchContextKey(
+      channelId: widget.channelId,
+      guildId: widget.guildId,
+    );
+    final ChannelSearchHistoryRepository? repo = ref
+        .read(channelSearchHistoryRepositoryProvider)
+        .value;
+    if (repo == null) {
+      return null;
+    }
+    for (final ChannelSearchHistoryEntry entry in repo.readForContext(
+      contextKey,
+    )) {
+      if (entry.displayText == displayText) {
+        return entry;
+      }
+    }
+    return null;
+  }
+
   void _insertFilter(String filterKey) {
     final ChannelSearchFilterOption? option = channelSearchFilterOptionForKey(
       filterKey,
@@ -993,45 +970,35 @@ class _ChannelHeaderSearchFieldState
     required String value,
     String? userId,
     String? channelId,
+    String? userTagAlias,
   }) {
     final bool needsQuotes = value.contains(' ');
     final String display = needsQuotes ? '"$value"' : value;
     _replaceCurrentWord('$filterKey:$display ');
     if (userId != null) {
       _userIdsByTag[value] = userId;
+      if (userTagAlias != null &&
+          userTagAlias.isNotEmpty &&
+          userTagAlias != value) {
+        _userIdsByTag[userTagAlias] = userId;
+      }
     }
     if (channelId != null) {
       _channelIdsByName[value] = channelId;
     }
     if (filterKey == 'has' ||
-        filterKey == 'from' ||
-        filterKey == 'mentions' ||
-        isDateFilterKey(filterKey) ||
-        channelSearchFilterHasPredefinedValues(filterKey)) {
+        _normalizedFilterKey(filterKey) == 'from' ||
+        _normalizedFilterKey(filterKey) == 'mentions' ||
+        isDateFilterKey(_normalizedFilterKey(filterKey)) ||
+        channelSearchFilterHasPredefinedValues(
+          _normalizedFilterKey(filterKey),
+        )) {
       unawaited(_submitSearch());
     }
   }
 
   void _replaceCurrentWord(String replacement) {
-    final String text = _editController.text;
-    final int cursor = _editController.selection.baseOffset.clamp(
-      0,
-      text.length,
-    );
-    final String textBeforeCursor = text.substring(0, cursor);
-    final String textAfterCursor = text.substring(cursor);
-    final List<String> words = textBeforeCursor.split(RegExp(r'\s+'));
-    final String currentWord = words.isEmpty ? '' : words.last;
-    final int lastWordStart = textBeforeCursor.length - currentWord.length;
-    final String newText =
-        '${textBeforeCursor.substring(0, lastWordStart)}$replacement$textAfterCursor';
-    _editController.value = TextEditingValue(
-      text: newText,
-      selection: TextSelection.collapsed(
-        offset: lastWordStart + replacement.length,
-      ),
-    );
-    _syncFullFromEditable();
+    applySearchTextEdit(_controller, replacement: replacement);
     _updateAutocompleteMode();
     setState(() => _hasNavigated = false);
   }
@@ -1074,25 +1041,10 @@ class _ChannelHeaderSearchFieldState
     if (guildId == null) {
       return null;
     }
-    final String normalized = channelName.toLowerCase();
-    final List<ChannelCategory> categories = ref
-        .read(channelListViewModelProvider)
-        .categories;
-    for (final ChannelCategory category in categories) {
-      for (final Channel channel in category.channels) {
-        if (channel.name.toLowerCase() == normalized) {
-          return channel.id;
-        }
-      }
-    }
-    for (final ChannelCategory category in categories) {
-      for (final Channel channel in category.channels) {
-        if (channel.name.toLowerCase().contains(normalized)) {
-          return channel.id;
-        }
-      }
-    }
-    return null;
+    return resolveChannelIdByName(
+      ref.read(channelListViewModelProvider).categories,
+      channelName,
+    );
   }
 
   Future<void> _submitSearch() async {
@@ -1144,6 +1096,8 @@ class _ChannelHeaderSearchFieldState
               .map((MessageSearchContentFilter f) => f.index)
               .toList(),
           timestampMs: DateTime.now().millisecondsSinceEpoch,
+          usersByTag: Map<String, String>.from(_userIdsByTag),
+          channelsByName: Map<String, String>.from(_channelIdsByName),
         ),
       );
     }
@@ -1181,10 +1135,7 @@ class _ChannelHeaderSearchFieldState
   }
 
   void _clearSearch() {
-    _isSyncing = true;
     _controller.clear();
-    _editController.clear();
-    _isSyncing = false;
     _userIdsByTag.clear();
     _channelIdsByName.clear();
     ref.read(channelHeaderSearchProvider.notifier)
@@ -1364,34 +1315,7 @@ class _ChannelHeaderSearchFieldState
                 ),
                 onTap: () => unawaited(_openScopeMenu()),
               ),
-              Expanded(
-                child: Row(
-                  children: <Widget>[
-                    if (_inputPills.isNotEmpty)
-                      Flexible(
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: <Widget>[
-                              for (final ChannelSearchSegment pill
-                                  in _inputPills)
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 4),
-                                  child: ChannelSearchFilterPill(
-                                    segment: pill,
-                                    textColor: colors.text,
-                                    onRemove: () => _removePill(pill),
-                                    onEdit: () => _editPill(pill),
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    Expanded(child: _buildEditableField(context, l10n, colors)),
-                  ],
-                ),
-              ),
+              Expanded(child: _buildEditableField(context, l10n, colors)),
               if (_controller.text.isNotEmpty)
                 _ClearSearchButton(colors: colors, onPressed: _clearSearch),
             ],
@@ -1409,7 +1333,7 @@ class _ChannelHeaderSearchFieldState
         return Stack(
           children: <Widget>[
             Positioned.fill(
-              child: GestureDetector(
+              child: FluxerGestureDetector(
                 onTap: _hideOverlay,
                 behavior: HitTestBehavior.opaque,
                 child: const ColoredBox(color: Colors.transparent),
@@ -1455,7 +1379,7 @@ class _ChannelHeaderSearchFieldState
     _SearchFieldColors colors,
   ) {
     return TextField(
-      controller: _editController,
+      controller: _controller,
       focusNode: _focusNode,
       textAlignVertical: TextAlignVertical.center,
       style: context.textStyles.bodySmall.copyWith(
@@ -1466,7 +1390,7 @@ class _ChannelHeaderSearchFieldState
       decoration: InputDecoration(
         isDense: true,
         filled: false,
-        hintText: _inputPills.isEmpty ? l10n.channelDetailsSearchHint : null,
+        hintText: l10n.channelDetailsSearchHint,
         hintStyle: context.textStyles.bodySmall.copyWith(
           color: colors.placeholder,
           fontSize: 14,

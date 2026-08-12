@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/profile_tab_menu_sheet.dart';
@@ -9,6 +8,7 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class AppBottomNavBar extends ConsumerWidget {
@@ -51,7 +51,7 @@ class AppBottomNavBar extends ConsumerWidget {
                     onTap: () => onBranchSelected(index),
                     onLongPress: index == 2
                         ? () {
-                            unawaited(HapticFeedback.mediumImpact());
+                            FluxerHaptics.medium();
                             unawaited(ProfileTabMenuSheet.show(context, ref));
                           }
                         : null,

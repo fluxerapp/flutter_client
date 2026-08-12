@@ -217,28 +217,6 @@ class ParsedChannelSearchParams {
       includeNsfw: includeNsfw ?? this.includeNsfw,
     );
   }
-
-  ParsedChannelSearchParams mergeChipFilters({
-    String? authorId,
-    Set<MessageSearchContentFilter>? contentTypes,
-  }) {
-    ParsedChannelSearchParams next = this;
-    if (authorId != null && authorId.trim().isNotEmpty) {
-      final List<String> merged = <String>[
-        ...next.authorIds,
-        ...authorId.split(RegExp(r'[\s,]+')).where((String v) => v.isNotEmpty),
-      ];
-      next = next.copyWith(authorIds: merged.toSet().toList());
-    }
-    if (contentTypes != null && contentTypes.isNotEmpty) {
-      final List<String> mergedHas = <String>[
-        ...next.has,
-        ...contentTypes.map(_hasValueForContentFilter),
-      ];
-      next = next.copyWith(has: mergedHas.toSet().toList());
-    }
-    return next;
-  }
 }
 
 MessageSearchContentFilter? _contentFilterForHasValue(String value) {
@@ -250,20 +228,18 @@ MessageSearchContentFilter? _contentFilterForHasValue(String value) {
     'link' => MessageSearchContentFilter.link,
     'embed' => MessageSearchContentFilter.embed,
     'sticker' => MessageSearchContentFilter.sticker,
+    'poll' => MessageSearchContentFilter.poll,
+    'snapshot' || 'forward' => MessageSearchContentFilter.forward,
     _ => null,
   };
 }
 
-String _hasValueForContentFilter(MessageSearchContentFilter filter) {
-  return switch (filter) {
-    MessageSearchContentFilter.image => 'image',
-    MessageSearchContentFilter.video => 'video',
-    MessageSearchContentFilter.audio => 'sound',
-    MessageSearchContentFilter.file => 'file',
-    MessageSearchContentFilter.link => 'link',
-    MessageSearchContentFilter.embed => 'embed',
-    MessageSearchContentFilter.sticker => 'sticker',
-  };
+ParsedChannelSearchParams applyChannelSearchDateChip(
+  ParsedChannelSearchParams params, {
+  required String filterKey,
+  required String value,
+}) {
+  return _applyDateFilter(params, rawKey: filterKey, value: value);
 }
 
 class _ParsedToken {
@@ -336,6 +312,7 @@ const Set<String> _hasFilters = <String>{
   'link',
   'poll',
   'snapshot',
+  'forward',
 };
 
 const Set<String> _authorFilters = <String>{'user', 'bot', 'webhook'};
@@ -619,6 +596,7 @@ ParsedChannelSearchParams _applyHas(
       .split(',')
       .map((String value) => value.trim().toLowerCase())
       .where((String value) => value.isNotEmpty)
+      .map((String value) => value == 'forward' ? 'snapshot' : value)
       .where(_hasFilters.contains)
       .toList();
   if (values.isEmpty) {

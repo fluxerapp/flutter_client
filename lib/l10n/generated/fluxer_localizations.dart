@@ -2842,6 +2842,18 @@ abstract class FluxerLocalizations {
   /// **'Crop'**
   String get crop;
 
+  /// Hint shown in the image crop sheet on touch devices.
+  ///
+  /// In en, this message translates to:
+  /// **'Pinch to zoom, drag to reposition'**
+  String get cropTouchHint;
+
+  /// Hint shown in the image crop sheet on mouse devices.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag corners to resize, drag inside to move'**
+  String get cropMouseHint;
+
   /// Title for the username change bottom sheet.
   ///
   /// In en, this message translates to:
@@ -12627,6 +12639,168 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Has'**
   String get channelDetailsSearchFilterHas;
+
+  /// Channel filter chip label in channel message search.
+  ///
+  /// In en, this message translates to:
+  /// **'In'**
+  String get channelDetailsSearchFilterIn;
+
+  /// Mentions filter chip label in channel message search.
+  ///
+  /// In en, this message translates to:
+  /// **'Mentions'**
+  String get channelDetailsSearchFilterMentions;
+
+  /// Additional filters chip label in channel message search.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get channelDetailsSearchFilterMore;
+
+  /// Value shown on the More filters chip when additional filters are set.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get channelDetailsSearchMoreFiltersActive;
+
+  /// Channel filter chip value when multiple channels are selected.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} channels'**
+  String channelDetailsSearchChannelsCount(int count);
+
+  /// User filter chip value when multiple users are selected.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} users'**
+  String channelDetailsSearchUsersCount(int count);
+
+  /// Author type filter option for regular users.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get channelDetailsSearchAuthorTypeUser;
+
+  /// Author type filter option for bots.
+  ///
+  /// In en, this message translates to:
+  /// **'Bot'**
+  String get channelDetailsSearchAuthorTypeBot;
+
+  /// Author type filter option for webhooks.
+  ///
+  /// In en, this message translates to:
+  /// **'Webhook'**
+  String get channelDetailsSearchAuthorTypeWebhook;
+
+  /// Title for the channel filter sheet in message search.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by channel'**
+  String get channelDetailsSearchFilterByChannel;
+
+  /// Search field hint in the channel filter sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Search channels'**
+  String get channelDetailsSearchChannelsHint;
+
+  /// Empty state in the channel filter sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'No channels found'**
+  String get channelDetailsSearchChannelsEmpty;
+
+  /// Pinned filter section in the More filters sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Pinned'**
+  String get channelDetailsSearchMoreFiltersPinned;
+
+  /// Pinned true option in More filters.
+  ///
+  /// In en, this message translates to:
+  /// **'Pinned only'**
+  String get channelDetailsSearchPinnedTrue;
+
+  /// Pinned false option in More filters.
+  ///
+  /// In en, this message translates to:
+  /// **'Exclude pinned'**
+  String get channelDetailsSearchPinnedFalse;
+
+  /// Clears a selected filter option.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get channelDetailsSearchClearFilter;
+
+  /// Author type section in the More filters sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Author type'**
+  String get channelDetailsSearchMoreFiltersAuthorType;
+
+  /// Date filter section in the More filters sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get channelDetailsSearchMoreFiltersDate;
+
+  /// Date mode dropdown label in the More filters sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Date mode'**
+  String get channelDetailsSearchMoreFiltersDateMode;
+
+  /// Prompt to pick a date in the More filters sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a date'**
+  String get channelDetailsSearchMoreFiltersPickDate;
+
+  /// Link hostname field in the More filters sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Link hostname'**
+  String get channelDetailsSearchMoreFiltersLink;
+
+  /// Filename filter field in the More filters sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Filename contains'**
+  String get channelDetailsSearchMoreFiltersFileName;
+
+  /// File extension filter field in the More filters sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'File extension'**
+  String get channelDetailsSearchMoreFiltersFileType;
+
+  /// Poll content filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Poll'**
+  String get channelDetailsSearchContentPoll;
+
+  /// Poll content filter description.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages with a poll'**
+  String get channelDetailsSearchContentPollDescription;
+
+  /// Forwarded message content filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Forward'**
+  String get channelDetailsSearchContentForward;
+
+  /// Forwarded message content filter description.
+  ///
+  /// In en, this message translates to:
+  /// **'Forwarded messages'**
+  String get channelDetailsSearchContentForwardDescription;
 
   /// Sort filter chip label in channel message search.
   ///

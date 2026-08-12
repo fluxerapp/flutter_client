@@ -2047,6 +2047,14 @@
     "@crop": {
         "description": "Button to confirm image crop."
     },
+    "cropTouchHint": "Pinch to zoom, drag to reposition",
+    "@cropTouchHint": {
+        "description": "Hint shown in the image crop sheet on touch devices."
+    },
+    "cropMouseHint": "Drag corners to resize, drag inside to move",
+    "@cropMouseHint": {
+        "description": "Hint shown in the image crop sheet on mouse devices."
+    },
     "changeYourFluxerTag": "Change Your Username",
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
@@ -9618,6 +9626,124 @@
     "channelDetailsSearchFilterHas": "Has",
     "@channelDetailsSearchFilterHas": {
         "description": "Content filter chip label in channel message search."
+    },
+    "channelDetailsSearchFilterIn": "In",
+    "@channelDetailsSearchFilterIn": {
+        "description": "Channel filter chip label in channel message search."
+    },
+    "channelDetailsSearchFilterMentions": "Mentions",
+    "@channelDetailsSearchFilterMentions": {
+        "description": "Mentions filter chip label in channel message search."
+    },
+    "channelDetailsSearchFilterMore": "More",
+    "@channelDetailsSearchFilterMore": {
+        "description": "Additional filters chip label in channel message search."
+    },
+    "channelDetailsSearchMoreFiltersActive": "Active",
+    "@channelDetailsSearchMoreFiltersActive": {
+        "description": "Value shown on the More filters chip when additional filters are set."
+    },
+    "channelDetailsSearchChannelsCount": "{count} channels",
+    "@channelDetailsSearchChannelsCount": {
+        "description": "Channel filter chip value when multiple channels are selected.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelDetailsSearchUsersCount": "{count} users",
+    "@channelDetailsSearchUsersCount": {
+        "description": "User filter chip value when multiple users are selected.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelDetailsSearchAuthorTypeUser": "User",
+    "@channelDetailsSearchAuthorTypeUser": {
+        "description": "Author type filter option for regular users."
+    },
+    "channelDetailsSearchAuthorTypeBot": "Bot",
+    "@channelDetailsSearchAuthorTypeBot": {
+        "description": "Author type filter option for bots."
+    },
+    "channelDetailsSearchAuthorTypeWebhook": "Webhook",
+    "@channelDetailsSearchAuthorTypeWebhook": {
+        "description": "Author type filter option for webhooks."
+    },
+    "channelDetailsSearchFilterByChannel": "Filter by channel",
+    "@channelDetailsSearchFilterByChannel": {
+        "description": "Title for the channel filter sheet in message search."
+    },
+    "channelDetailsSearchChannelsHint": "Search channels",
+    "@channelDetailsSearchChannelsHint": {
+        "description": "Search field hint in the channel filter sheet."
+    },
+    "channelDetailsSearchChannelsEmpty": "No channels found",
+    "@channelDetailsSearchChannelsEmpty": {
+        "description": "Empty state in the channel filter sheet."
+    },
+    "channelDetailsSearchMoreFiltersPinned": "Pinned",
+    "@channelDetailsSearchMoreFiltersPinned": {
+        "description": "Pinned filter section in the More filters sheet."
+    },
+    "channelDetailsSearchPinnedTrue": "Pinned only",
+    "@channelDetailsSearchPinnedTrue": {
+        "description": "Pinned true option in More filters."
+    },
+    "channelDetailsSearchPinnedFalse": "Exclude pinned",
+    "@channelDetailsSearchPinnedFalse": {
+        "description": "Pinned false option in More filters."
+    },
+    "channelDetailsSearchClearFilter": "Clear",
+    "@channelDetailsSearchClearFilter": {
+        "description": "Clears a selected filter option."
+    },
+    "channelDetailsSearchMoreFiltersAuthorType": "Author type",
+    "@channelDetailsSearchMoreFiltersAuthorType": {
+        "description": "Author type section in the More filters sheet."
+    },
+    "channelDetailsSearchMoreFiltersDate": "Date",
+    "@channelDetailsSearchMoreFiltersDate": {
+        "description": "Date filter section in the More filters sheet."
+    },
+    "channelDetailsSearchMoreFiltersDateMode": "Date mode",
+    "@channelDetailsSearchMoreFiltersDateMode": {
+        "description": "Date mode dropdown label in the More filters sheet."
+    },
+    "channelDetailsSearchMoreFiltersPickDate": "Pick a date",
+    "@channelDetailsSearchMoreFiltersPickDate": {
+        "description": "Prompt to pick a date in the More filters sheet."
+    },
+    "channelDetailsSearchMoreFiltersLink": "Link hostname",
+    "@channelDetailsSearchMoreFiltersLink": {
+        "description": "Link hostname field in the More filters sheet."
+    },
+    "channelDetailsSearchMoreFiltersFileName": "Filename contains",
+    "@channelDetailsSearchMoreFiltersFileName": {
+        "description": "Filename filter field in the More filters sheet."
+    },
+    "channelDetailsSearchMoreFiltersFileType": "File extension",
+    "@channelDetailsSearchMoreFiltersFileType": {
+        "description": "File extension filter field in the More filters sheet."
+    },
+    "channelDetailsSearchContentPoll": "Poll",
+    "@channelDetailsSearchContentPoll": {
+        "description": "Poll content filter label."
+    },
+    "channelDetailsSearchContentPollDescription": "Messages with a poll",
+    "@channelDetailsSearchContentPollDescription": {
+        "description": "Poll content filter description."
+    },
+    "channelDetailsSearchContentForward": "Forward",
+    "@channelDetailsSearchContentForward": {
+        "description": "Forwarded message content filter label."
+    },
+    "channelDetailsSearchContentForwardDescription": "Forwarded messages",
+    "@channelDetailsSearchContentForwardDescription": {
+        "description": "Forwarded message content filter description."
     },
     "channelDetailsSearchFilterSort": "Sort",
     "@channelDetailsSearchFilterSort": {

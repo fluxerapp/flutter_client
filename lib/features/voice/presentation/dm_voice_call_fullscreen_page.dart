@@ -9,10 +9,12 @@ import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/voice/flip_camera_button.dart';
+import 'package:fluxer_app/features/ui/voice/local_camera_orientation_sync.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_expandable_sheet.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_join_empty_state.dart';
+import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -75,6 +77,14 @@ class _DmVoiceCallFullscreenPageState
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final bool usePhoneVoiceOverlay = isPhoneVoiceOverlay(context);
+    final bool showsOverlay =
+        !usePhoneVoiceOverlay ||
+        ref.watch(
+          voiceCallOverlayProvider.select(
+            (VoiceCallOverlayState state) => state.showsOverlay,
+          ),
+        );
     final bool inThisChannel = ref.watch(
       voiceSessionProvider.select(
         (VoiceSessionState s) =>
@@ -85,25 +95,27 @@ class _DmVoiceCallFullscreenPageState
     );
     return Scaffold(
       backgroundColor: context.colors.chatBackground,
-      appBar: AppBar(
-        backgroundColor: context.colors.chatInputBackground,
-        foregroundColor: context.colors.textPrimary,
-        leading: BackButton(onPressed: () => context.pop()),
-        title: Text(
-          _resolveAppBarTitle(l10n),
-          style: context.textStyles.channelName,
-          overflow: TextOverflow.ellipsis,
-        ),
-        actions: const <Widget>[
-          Padding(
-            padding: EdgeInsets.only(right: 8),
-            child: FlipCameraButton(),
-          ),
-        ],
-      ),
+      appBar: usePhoneVoiceOverlay && !showsOverlay
+          ? null
+          : AppBar(
+              backgroundColor: context.colors.chatInputBackground,
+              foregroundColor: context.colors.textPrimary,
+              leading: BackButton(onPressed: () => context.pop()),
+              title: Text(
+                _resolveAppBarTitle(l10n),
+                style: context.textStyles.channelName,
+                overflow: TextOverflow.ellipsis,
+              ),
+              actions: const <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(right: 8),
+                  child: FlipCameraButton(),
+                ),
+              ],
+            ),
       body: inThisChannel
-          ? _LocalCameraOrientationSync(
-              child: isMobileLayout(context)
+          ? LocalCameraOrientationSync(
+              child: usePhoneVoiceOverlay
                   ? VoiceCallMobilePageLayout(
                       channelId: widget.channelId,
                       child: VoiceChannelParticipantGrid(
@@ -129,38 +141,5 @@ class _DmVoiceCallFullscreenPageState
               ),
             ),
     );
-  }
-}
-
-class _LocalCameraOrientationSync extends ConsumerStatefulWidget {
-  const _LocalCameraOrientationSync({required this.child});
-
-  final Widget child;
-
-  @override
-  ConsumerState<_LocalCameraOrientationSync> createState() =>
-      _LocalCameraOrientationSyncState();
-}
-
-class _LocalCameraOrientationSyncState
-    extends ConsumerState<_LocalCameraOrientationSync> {
-  Orientation? _lastOrientation;
-
-  @override
-  Widget build(BuildContext context) {
-    final Orientation orientation = MediaQuery.orientationOf(context);
-    if (_lastOrientation != null && _lastOrientation != orientation) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          unawaited(
-            ref
-                .read(voiceSessionProvider.notifier)
-                .refreshLocalCameraAfterOrientationChange(),
-          );
-        }
-      });
-    }
-    _lastOrientation = orientation;
-    return widget.child;
   }
 }

@@ -79,6 +79,7 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           FluxerSettingsSection(
+            sectionId: 'account',
             title: l10n.securityAccountTitle,
             description: l10n.securityAccountDescription,
             isFirst: true,
@@ -88,6 +89,7 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
             ],
           ),
           FluxerSettingsSection(
+            sectionId: 'security',
             title: l10n.securitySectionTitle,
             description: l10n.securitySectionDescription,
             children: [
@@ -555,6 +557,7 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
     FluxerLocalizations l10n,
   ) {
     return FluxerSettingsSection(
+      sectionId: 'danger_zone',
       title: l10n.dangerZoneSectionTitle,
       description: l10n.dangerZoneSectionDescription,
       children: [

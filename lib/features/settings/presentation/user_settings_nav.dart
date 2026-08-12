@@ -195,6 +195,15 @@ int? indexForUserSettingsSection(UserSettingsSection section) {
   return null;
 }
 
+IconData? iconForUserSettingsSection(UserSettingsSection section) {
+  for (final UserSettingsDesktopNavEntry entry in userSettingsDesktopNav) {
+    if (entry.section == section) {
+      return entry.icon;
+    }
+  }
+  return null;
+}
+
 List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
   required FluxerLocalizations l10n,
   required void Function(UserSettingsSection section) onOpenSection,

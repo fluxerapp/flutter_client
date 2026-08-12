@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/chat/utils/embed_gallery_utils.dart';
 import 'package:fluxer_app/features/chat/utils/embed_media_viewer_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
 /// A rich embed card
@@ -179,7 +180,7 @@ class EmbedRich extends StatelessWidget {
             ),
             if (shouldRenderInlineThumbnail) ...[
               const SizedBox(width: 12),
-              GestureDetector(
+              FluxerGestureDetector(
                 onTap: canOpenEmbedMediaViewer(embed.thumbnail!)
                     ? () => openEmbedMediaViewer(
                         context,
@@ -371,7 +372,7 @@ class _EmbedMediaImage extends StatelessWidget {
         ),
       );
     }
-    return GestureDetector(
+    return FluxerGestureDetector(
       onTap: canOpenEmbedMediaViewer(media)
           ? () => openEmbedMediaViewer(
               context,

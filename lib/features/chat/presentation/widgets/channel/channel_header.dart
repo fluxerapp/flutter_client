@@ -323,7 +323,7 @@ class ChannelHeader extends ConsumerWidget {
                   showFavorites &&
                   !isPersonalNotes &&
                   targetChannelId != null)
-                GestureDetector(
+                FluxerGestureDetector(
                   onLongPress: () => _showFavoriteActions(context, ref),
                   child: FluxerButton.circle(
                     icon: isFavorite

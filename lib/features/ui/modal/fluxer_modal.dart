@@ -6,6 +6,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -146,7 +147,7 @@ class FluxerModal {
             children: [
               // Backdrop with blur
               Positioned.fill(
-                child: GestureDetector(
+                child: FluxerGestureDetector(
                   onTap: close,
                   child: ColoredBox(
                     color: Colors.black.withValues(alpha: 0.35),

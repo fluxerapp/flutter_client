@@ -1156,7 +1156,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
                     label: isExpanded
                         ? l10n.guildNavbarCollapseFolder(folderName)
                         : folderName,
-                    child: GestureDetector(
+                    child: FluxerGestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () {
                         if (_suppressNextFolderTap) {
@@ -2377,7 +2377,7 @@ class _GuildListItemState extends State<_GuildListItem>
                     button: true,
                     selected: widget.isSelected,
                     label: _guildSemanticLabel(l10n),
-                    child: GestureDetector(
+                    child: FluxerGestureDetector(
                       onTap: widget.onTap,
                       onSecondaryTapUp: widget.guild != null
                           ? (details) => unawaited(
@@ -2782,7 +2782,7 @@ class _GuildListItemState extends State<_GuildListItem>
                         : l10n.guildNavbarInviteExpiresIn(
                             _inviteExpirationDurationLabel(state.maxAge, l10n),
                           );
-                    return GestureDetector(
+                    return FluxerGestureDetector(
                       onTap: () => unawaited(
                         _editInviteLink(actionContext, inviteState, copied),
                       ),
@@ -3945,7 +3945,7 @@ class _DashedGuildIconState extends State<_DashedGuildIcon>
               button: true,
               selected: widget.isSelected,
               label: widget.label,
-              child: GestureDetector(
+              child: FluxerGestureDetector(
                 onTap: widget.onTap,
                 child: AnimatedBuilder(
                   animation: _controller,

@@ -127,6 +127,16 @@ class _LoginFormState extends ConsumerState<LoginForm>
         .updatePassword(_passwordController.text);
   }
 
+  void _setControllerText(TextEditingController controller, String next) {
+    if (controller.text == next) {
+      return;
+    }
+    controller.value = TextEditingValue(
+      text: next,
+      selection: TextSelection.collapsed(offset: next.length),
+    );
+  }
+
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
@@ -174,17 +184,13 @@ class _LoginFormState extends ConsumerState<LoginForm>
         _,
         next,
       ) {
-        if (_emailController.text != next) {
-          _emailController.text = next;
-        }
+        _setControllerText(_emailController, next);
       })
       ..listen(loginViewModelProvider.select((state) => state.password), (
         _,
         next,
       ) {
-        if (_passwordController.text != next) {
-          _passwordController.text = next;
-        }
+        _setControllerText(_passwordController, next);
       });
 
     return AnimatedOpacity(

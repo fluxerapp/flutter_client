@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/emoji_utils.dart'
     show kSkinToneSurrogates;
@@ -108,7 +108,7 @@ class _SkinToneButtonState extends State<_SkinToneButton> {
     return Stack(
       children: [
         Positioned.fill(
-          child: GestureDetector(
+          child: FluxerGestureDetector(
             onTap: _overlayController.hide,
             behavior: HitTestBehavior.opaque,
             child: const ColoredBox(color: Colors.transparent),
@@ -129,7 +129,7 @@ class _SkinToneButtonState extends State<_SkinToneButton> {
                 mainAxisSize: MainAxisSize.min,
                 children: tones.map((tone) {
                   final emoji = _kClapEmoji + tone;
-                  return GestureDetector(
+                  return FluxerGestureDetector(
                     onTap: () => _select(tone),
                     child: Padding(
                       padding: const EdgeInsets.all(4),
@@ -151,7 +151,7 @@ class _SkinToneButtonState extends State<_SkinToneButton> {
     child: OverlayPortal(
       controller: _overlayController,
       overlayChildBuilder: _buildOverlay,
-      child: GestureDetector(
+      child: FluxerGestureDetector(
         onTap: _toggle,
         child: SizedBox(
           width: 28,

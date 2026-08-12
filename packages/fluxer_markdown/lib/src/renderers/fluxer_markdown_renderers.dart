@@ -116,7 +116,6 @@ final RegExp _spoilerSyncUrlPattern = RegExp(
   caseSensitive: false,
 );
 
-/// Tracks cross segment block render state for message line markdown
 class FluxerMarkdownBlockRenderState {
   var hasRenderedHeading = false;
 }
@@ -1244,12 +1243,24 @@ class _MarkdownInlineRenderer {
   InlineSpan _buildLink(md.Element element, TextStyle style) {
     final href = element.attributes['href'] ?? element.textContent;
     final text = element.textContent;
-    if (!hasVisibleMaskedLinkLabel(text) ||
-        _hasApostropheInLinkAuthority(href) ||
-        isEmailLikeMaskedLinkLabel(text) ||
-        isSlashCommandLikeMaskedLinkLabel(text) ||
-        !isValidMaskedLinkUrl(href)) {
+    final bool applyMaskedGuards = !isAutolinkDisplayText(text, href);
+    if (applyMaskedGuards &&
+        (!hasVisibleMaskedLinkLabel(text) ||
+            _hasApostropheInLinkAuthority(href) ||
+            isEmailLikeMaskedLinkLabel(text) ||
+            isSlashCommandLikeMaskedLinkLabel(text) ||
+            isMisleadingMaskedLinkLabel(text, href) ||
+            !isValidMaskedLinkUrl(href))) {
       return TextSpan(text: '[$text]($href)', style: style);
+    }
+    if (isAutolinkDisplayText(text, href)) {
+      final widget = config.linkWidgetBuilder?.call(context, href, style);
+      if (widget != null) {
+        return WidgetSpan(
+          alignment: PlaceholderAlignment.middle,
+          child: widget,
+        );
+      }
     }
     final linkColor = config.linkColor ?? Theme.of(context).colorScheme.primary;
     final linkStyle = style.copyWith(
@@ -1281,6 +1292,7 @@ class _MarkdownInlineRenderer {
       return TextSpan(
         text: span.text,
         style: span.style,
+        mouseCursor: SystemMouseCursors.click,
         recognizer: TapGestureRecognizer()
           ..onTap = () {
             unawaited(_handleLinkTap(href));

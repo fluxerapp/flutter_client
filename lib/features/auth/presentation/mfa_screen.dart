@@ -242,9 +242,13 @@ class _CodeEntryState extends ConsumerState<_CodeEntry>
     ref.listen(
       mfaViewModelProvider(widget.challenge).select((state) => state.code),
       (_, next) {
-        if (_codeController.text != next) {
-          _codeController.text = next;
+        if (_codeController.text == next) {
+          return;
         }
+        _codeController.value = TextEditingValue(
+          text: next,
+          selection: TextSelection.collapsed(offset: next.length),
+        );
       },
     );
 

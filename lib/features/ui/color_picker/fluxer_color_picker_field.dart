@@ -3,7 +3,6 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -12,6 +11,7 @@ import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/popout/fluxer_popout.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -394,7 +394,7 @@ class _ColorArea extends StatelessWidget {
       builder: (context, constraints) {
         final width = constraints.maxWidth;
         final size = Size(width, _kColorAreaHeight);
-        return GestureDetector(
+        return FluxerGestureDetector(
           onPanStart: (details) =>
               _handleInteraction(details.localPosition, size),
           onPanUpdate: (details) =>
@@ -479,7 +479,7 @@ class _HueSlider extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final width = constraints.maxWidth;
-        return GestureDetector(
+        return FluxerGestureDetector(
           onPanStart: (details) =>
               _handleInteraction(details.localPosition, width),
           onPanUpdate: (details) =>

@@ -154,7 +154,7 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
             selected: isSelected,
             label: semanticLabel,
             child: ExcludeSemantics(
-              child: GestureDetector(
+              child: FluxerGestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () => unawaited(_navigateToDm()),
                 onSecondaryTapDown: (details) =>

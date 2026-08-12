@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_folder_menu_data.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class GuildFolderContextMenuItem extends StatelessWidget {
@@ -80,7 +81,7 @@ class _GuildFolderContextSubmenuItemState
       cursor: widget.entry.isDisabled
           ? SystemMouseCursors.basic
           : SystemMouseCursors.click,
-      child: GestureDetector(
+      child: FluxerGestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: widget.entry.isDisabled ? null : widget.onActivate,
         child: Opacity(

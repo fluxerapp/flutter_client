@@ -48,6 +48,7 @@ const List<ChannelSearchFilterOption> kChannelSearchFilterOptions =
           'sound',
           'sticker',
           'poll',
+          'forward',
         ],
       ),
       ChannelSearchFilterOption(key: 'before', requiresValue: true),
@@ -91,19 +92,80 @@ const Map<String, String> kChannelSearchFilterKeyAliases = <String, String>{
 };
 
 ChannelSearchFilterOption? channelSearchFilterOptionForKey(String key) {
-  final String normalized = kChannelSearchFilterKeyAliases[key] ?? key;
+  final bool negated = key.startsWith('-');
+  final String normalizedKey = negated ? key.substring(1) : key;
+  final String normalized =
+      kChannelSearchFilterKeyAliases[normalizedKey] ?? normalizedKey;
   for (final ChannelSearchFilterOption option in kChannelSearchFilterOptions) {
     if (option.key == normalized) {
-      return option;
+      if (negated && !_negatableChannelSearchFilterKeys.contains(option.key)) {
+        return null;
+      }
+      return ChannelSearchFilterOption(
+        key: negated ? '-${option.key}' : option.key,
+        requiresValue: option.requiresValue,
+        requiresGuild: option.requiresGuild,
+        values: option.values,
+      );
     }
   }
   return null;
 }
 
+const Set<String> _negatableChannelSearchFilterKeys = <String>{
+  'from',
+  'mentions',
+  'has',
+  'in',
+  'link-from',
+  'file-name',
+  'file-type',
+};
+
+List<ChannelSearchFilterOption> channelSearchAutocompleteFilterOptions({
+  required bool isGuildChannel,
+  String currentWord = '',
+}) {
+  final bool negated = currentWord.startsWith('-');
+  final String lookupWord = negated ? currentWord.substring(1) : currentWord;
+  return kChannelSearchFilterOptions
+      .where((ChannelSearchFilterOption option) {
+        if (option.requiresGuild && !isGuildChannel) {
+          return false;
+        }
+        if (negated &&
+            !_negatableChannelSearchFilterKeys.contains(option.key)) {
+          return false;
+        }
+        if (lookupWord.isEmpty) {
+          return true;
+        }
+        final String syntax = negated
+            ? '-${option.syntaxLabel}'
+            : option.syntaxLabel;
+        return syntax.contains(lookupWord) || option.key.contains(lookupWord);
+      })
+      .map((ChannelSearchFilterOption option) {
+        if (!negated) {
+          return option;
+        }
+        return ChannelSearchFilterOption(
+          key: '-${option.key}',
+          requiresValue: option.requiresValue,
+          requiresGuild: option.requiresGuild,
+          values: option.values,
+        );
+      })
+      .toList();
+}
+
 bool isDateFilterKey(String key) =>
     key == 'before' || key == 'after' || key == 'on' || key == 'during';
 
-bool isUserFilterKey(String key) => key == 'from' || key == 'mentions';
+bool isUserFilterKey(String key) {
+  final String normalized = key.startsWith('-') ? key.substring(1) : key;
+  return normalized == 'from' || normalized == 'mentions';
+}
 
 bool channelSearchFilterHasPredefinedValues(String key) =>
     channelSearchFilterOptionForKey(key)?.values != null;

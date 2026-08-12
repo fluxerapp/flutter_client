@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
@@ -46,7 +47,7 @@ class EmbedTitle extends StatelessWidget {
       );
     }
 
-    return GestureDetector(
+    return FluxerGestureDetector(
       onTap: () => _launch(context),
       child: EmbedInlineText(text: title, style: baseStyle),
     );

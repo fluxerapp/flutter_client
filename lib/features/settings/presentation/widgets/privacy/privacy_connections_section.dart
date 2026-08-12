@@ -19,6 +19,7 @@ class PrivacyConnectionsSection extends ConsumerWidget {
     final vm = ref.read(privacyDashboardViewModelProvider.notifier);
 
     return FluxerSettingsSection(
+      sectionId: 'connections',
       title: l10n.privacyDashboardFriendsAndDirectMessagesSection,
       children: [
         FluxerSettingsSubsection(

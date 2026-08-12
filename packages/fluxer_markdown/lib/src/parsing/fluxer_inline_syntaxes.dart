@@ -8,11 +8,10 @@ const int kFluxerMarkdownMaxListNestingDepth = 9;
 List<md.InlineSyntax> fluxerStandardInlineSyntaxes() {
   return <md.InlineSyntax>[
     md.EscapeSyntax(),
+    md.CodeSyntax(),
     md.LinkSyntax(),
-    md.ImageSyntax(),
     md.EmphasisSyntax.asterisk(),
     md.EmphasisSyntax.underscore(),
-    md.CodeSyntax(),
     md.SoftLineBreakSyntax(),
     md.LineBreakSyntax(),
   ];
@@ -51,6 +50,7 @@ List<md.InlineSyntax> fluxerInlineSyntaxes({
       FluxerSmsLinkSyntax(),
       FluxerPhoneLinkSyntax(),
       FluxerAngleEmailLinkSyntax(),
+      FluxerAngleUrlLinkSyntax(),
       FluxerLocalhostAutolinkSyntax(),
       FluxerAutolinkExtensionSyntax(),
     ],

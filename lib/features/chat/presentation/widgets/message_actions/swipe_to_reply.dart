@@ -3,11 +3,11 @@ import 'dart:math' as math;
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
+import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kMaxDragFraction = 0.30;
@@ -114,7 +114,7 @@ class _SwipeToReplyState extends State<SwipeToReply>
     final bool pastThreshold = next <= -_triggerOffset;
     if (!_hasCrossedThreshold && pastThreshold) {
       _hasCrossedThreshold = true;
-      unawaited(HapticFeedback.mediumImpact());
+      FluxerHaptics.medium();
       if (_canEdit) {
         unawaited(_holdController.forward(from: 0));
       }
@@ -155,7 +155,7 @@ class _SwipeToReplyState extends State<SwipeToReply>
         _hasCrossedThreshold &&
         _canEdit &&
         !_armedEdit.value) {
-      unawaited(HapticFeedback.heavyImpact());
+      FluxerHaptics.rigid();
       _armedEdit.value = true;
     }
   }

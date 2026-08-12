@@ -163,11 +163,11 @@ class VoiceChannelControlPanelSettings extends ConsumerWidget {
                     unawaited(_setNoiseSuppressionTier(ref, value));
                   },
                   items: <FluxerRadioItem<NoiseSuppressionTier>>[
-                    if (noiseFilterSupported)
-                      FluxerRadioItem(
-                        value: NoiseSuppressionTier.enhanced,
-                        label: l10n.audioAndVideoNoiseSuppressionEnhancedLabel,
-                      ),
+                    FluxerRadioItem(
+                      value: NoiseSuppressionTier.enhanced,
+                      label: l10n.audioAndVideoNoiseSuppressionEnhancedLabel,
+                      enabled: noiseFilterSupported,
+                    ),
                     FluxerRadioItem(
                       value: NoiseSuppressionTier.standard,
                       label: l10n.audioAndVideoNoiseSuppressionStandardLabel,

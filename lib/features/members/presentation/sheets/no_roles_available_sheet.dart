@@ -53,6 +53,7 @@ class NoRolesAvailableSheet {
                         style: sheetContext.textStyles.bodySmall.copyWith(
                           color: colors.brandPrimary,
                         ),
+                        mouseCursor: SystemMouseCursors.click,
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             close();

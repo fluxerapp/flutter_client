@@ -17,6 +17,7 @@ class PrivacyProfileSection extends ConsumerWidget {
     final vm = ref.read(privacyDashboardViewModelProvider.notifier);
 
     return FluxerSettingsSection(
+      sectionId: 'profile-privacy',
       title: l10n.privacyDashboardProfilePrivacySection,
       isFirst: true,
       children: [

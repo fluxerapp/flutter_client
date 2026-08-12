@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/attachments/textua
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/textual_attachment_preview_footer.dart';
 import 'package:fluxer_app/features/chat/utils/textual_attachment_fullscreen.dart';
 import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 
 const double _kPreviewModalMaxWidth = 1278;
 const double _kPreviewModalMaxHeight = 1200;
@@ -44,7 +45,7 @@ Future<void> showTextualAttachmentPreviewModal({
         child: Stack(
           children: [
             Positioned.fill(
-              child: GestureDetector(
+              child: FluxerGestureDetector(
                 onTap: close,
                 child: ColoredBox(
                   color: Colors.black.withValues(alpha: 0.35),

@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/notifications/presentation/widgets/notificat
 import 'package:fluxer_app/features/notifications/providers/notifications_providers.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_confirm_sheet.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -134,7 +135,7 @@ class _InboxPopoutButtonState extends State<InboxPopoutButton>
     return Stack(
       children: <Widget>[
         Positioned.fill(
-          child: GestureDetector(
+          child: FluxerGestureDetector(
             onTap: _close,
             behavior: HitTestBehavior.opaque,
             child: const ColoredBox(color: Colors.transparent),

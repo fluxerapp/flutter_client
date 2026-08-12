@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provid
 import 'package:fluxer_app/features/chat/utils/composer_expression_tabs.dart';
 import 'package:fluxer_app/features/chat/utils/emoji_picker_precache.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/gestures/expandable_sheet_gestures.dart';
 
@@ -253,7 +254,7 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
             children: visibleTabs.map((ExpressionPickerTab tab) {
               final bool isActive = tab == selectedTab;
               return Expanded(
-                child: GestureDetector(
+                child: FluxerGestureDetector(
                   onTap: () {
                     if (tab != selectedTab) {
                       if (widget.scrollController.hasClients) {

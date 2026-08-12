@@ -26,6 +26,7 @@ import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
@@ -1243,7 +1244,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
       button: true,
       expanded: !isCollapsed,
       label: label,
-      child: GestureDetector(
+      child: FluxerGestureDetector(
         onTap: () => unawaited(
           ref
               .read(collapsedEmojiPickerCategoriesProvider.notifier)
@@ -1656,14 +1657,14 @@ class _PressableEmojiCellState extends State<_PressableEmojiCell> {
   Widget build(BuildContext context) {
     Widget cell;
     if (!widget.usePressFeedback) {
-      cell = GestureDetector(
+      cell = FluxerGestureDetector(
         key: widget.key,
         onTap: widget.onTap,
         onLongPress: widget.onLongPress,
         child: widget.child,
       );
     } else {
-      cell = GestureDetector(
+      cell = FluxerGestureDetector(
         key: widget.key,
         onTap: widget.onTap,
         onLongPress: widget.onLongPress,
