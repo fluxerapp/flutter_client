@@ -7,7 +7,6 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/attachment_alt_text_sheet.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import '../../../../helpers/test_l10n.dart';
 
 void main() {

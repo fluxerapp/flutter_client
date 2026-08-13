@@ -1,6 +1,6 @@
+import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_settings_actions.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('resolveGuildMessageNotificationsForDisplay', () {

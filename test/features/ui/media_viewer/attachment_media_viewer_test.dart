@@ -9,7 +9,6 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart';
 import 'package:fluxer_app/features/ui/media_viewer/touch_media_viewer_page.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import '../../../helpers/test_l10n.dart';
 

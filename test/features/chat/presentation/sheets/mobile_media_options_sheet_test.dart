@@ -13,7 +13,6 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/mobile_media_options_sheet.dart';
 import 'package:fluxer_app/features/chat/providers/messages/saved_message_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 import '../../../../helpers/test_l10n.dart';
 

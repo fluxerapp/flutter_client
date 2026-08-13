@@ -13,11 +13,10 @@ import 'package:fluxer_app/features/shell/providers/scheduled_maintenance_dismis
 import 'package:fluxer_app/features/shell/providers/service_status_maintenance_provider.dart';
 import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar.dart';
 import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar_content.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
-import '../../../../../helpers/wide_layout_test_sizes.dart';
 import '../../../../../helpers/test_l10n.dart';
+import '../../../../../helpers/wide_layout_test_sizes.dart';
 
 void main() {
   group('ScheduledMaintenanceNagbar', () {

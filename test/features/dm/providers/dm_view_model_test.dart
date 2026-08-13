@@ -6,8 +6,8 @@ import 'package:fluxer_app/features/dm/data/dm_repository.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
-import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/friends/data/friend_repository.dart';
+import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 

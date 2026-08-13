@@ -712,13 +712,11 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
       _lastEnsuredCategoryKey = null;
       return;
     }
-    unawaited(
-      Scrollable.ensureVisible(
-        buttonContext,
-        duration: context.motion.normal,
-        alignment: 0.5,
-        curve: Curves.easeOut,
-      ),
+    Scrollable.ensureVisible(
+      buttonContext,
+      duration: context.motion.normal,
+      alignment: 0.5,
+      curve: Curves.easeOut,
     );
   }
 
@@ -758,12 +756,10 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
 
     final ctx = _categoryKeys[category]?.currentContext;
     if (ctx != null) {
-      unawaited(
-        Scrollable.ensureVisible(
-          ctx,
-          duration: context.motion.panel,
-          curve: Curves.easeOut,
-        ),
+      Scrollable.ensureVisible(
+        ctx,
+        duration: context.motion.panel,
+        curve: Curves.easeOut,
       );
       return;
     }
@@ -793,12 +789,10 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     if (settled == null) {
       return;
     }
-    unawaited(
-      Scrollable.ensureVisible(
-        settled,
-        duration: context.motion.fast,
-        curve: Curves.easeOut,
-      ),
+    Scrollable.ensureVisible(
+      settled,
+      duration: context.motion.fast,
+      curve: Curves.easeOut,
     );
   }
 

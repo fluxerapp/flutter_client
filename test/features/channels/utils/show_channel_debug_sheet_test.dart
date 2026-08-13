@@ -11,7 +11,6 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/utils/show_channel_debug_sheet.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 import '../../../helpers/open_test_database.dart';
 import '../../../helpers/test_l10n.dart';

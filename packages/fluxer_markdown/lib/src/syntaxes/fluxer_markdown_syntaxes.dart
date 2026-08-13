@@ -108,14 +108,14 @@ bool isValidPhoneNumber(String text) {
     return false;
   }
   final String digits = text.substring(1);
-  if (digits.isEmpty || !RegExp(r'^[1-9]').hasMatch(digits)) {
+  if (digits.isEmpty || !RegExp('^[1-9]').hasMatch(digits)) {
     return false;
   }
   return RegExp(r'^[0-9][0-9 \-()]*$').hasMatch(digits);
 }
 
 String normalizePhoneNumber(String text) {
-  return text.replaceAll(RegExp(r'[^0-9+]'), '');
+  return text.replaceAll(RegExp('[^0-9+]'), '');
 }
 
 class FluxerAngleEmailLinkSyntax extends md.InlineSyntax {

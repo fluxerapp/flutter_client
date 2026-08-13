@@ -80,7 +80,7 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
     );
     final bool shouldFade = !ref.read(expressionPanelContentFadeProvider);
     if (shouldFade) {
-      unawaited(_fadeController.forward());
+      _fadeController.forward();
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) {
           return;

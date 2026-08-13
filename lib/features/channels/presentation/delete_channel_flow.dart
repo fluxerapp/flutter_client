@@ -39,7 +39,7 @@ class DeleteChannelFlow {
             );
         onDeleted?.call();
         if (context.mounted) {
-          unawaited(Navigator.of(context).maybePop());
+          Navigator.of(context).maybePop();
         }
         toast.show(
           FluxerToast(message: title, variant: FluxerToastVariant.success),

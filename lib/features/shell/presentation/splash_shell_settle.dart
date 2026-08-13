@@ -1,5 +1,3 @@
-import 'dart:async' show unawaited;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/splash_exit_allowed_provider.dart';
@@ -58,7 +56,7 @@ class _SplashShellSettleState extends ConsumerState<SplashShellSettle>
       _controller.value = 1;
       return;
     }
-    unawaited(_controller.forward(from: 0));
+    _controller.forward(from: 0);
   }
 
   void _reset() {

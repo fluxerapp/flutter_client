@@ -16,11 +16,10 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/settings/utils/platform_desktop_utils.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod/src/framework.dart';
 
-import '../../helpers/wide_layout_test_sizes.dart';
 import '../../helpers/test_l10n.dart';
+import '../../helpers/wide_layout_test_sizes.dart';
 
 class _InertSyncedPreferencesStore extends SyncedPreferencesStore {
   // ignore: use_super_parameters

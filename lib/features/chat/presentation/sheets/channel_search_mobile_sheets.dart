@@ -134,7 +134,7 @@ class _ChannelSearchMoreFiltersSheetState
                 ChannelSearchOptionCard(
                   icon: PhosphorIconsFill.pushPin,
                   label: l10n.channelDetailsSearchPinnedTrue,
-                  isSelected: _pinned == true,
+                  isSelected: _pinned ?? false,
                   onTap: () => setState(() => _pinned = true),
                 ),
                 const SizedBox(height: 8),
@@ -181,7 +181,7 @@ class _ChannelSearchMoreFiltersSheetState
                 ),
                 const SizedBox(height: 8),
                 DropdownButtonFormField<String>(
-                  value: _dateFilterKey,
+                  initialValue: _dateFilterKey,
                   decoration: InputDecoration(
                     labelText: l10n.channelDetailsSearchMoreFiltersDateMode,
                   ),

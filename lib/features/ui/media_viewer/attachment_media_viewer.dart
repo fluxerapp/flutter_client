@@ -164,12 +164,10 @@ class _AttachmentMediaViewerShellState
       return;
     }
     _resetZoomState();
-    unawaited(
-      _pageController.animateToPage(
-        index,
-        duration: const Duration(milliseconds: 180),
-        curve: Curves.easeOut,
-      ),
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 180),
+      curve: Curves.easeOut,
     );
   }
 

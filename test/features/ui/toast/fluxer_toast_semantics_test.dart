@@ -10,7 +10,6 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast_overlay.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import '../../../helpers/test_l10n.dart';
 
 Widget buildToastTestApp(Widget child) {

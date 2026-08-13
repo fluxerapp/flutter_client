@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
+import 'package:fluxer_markdown/src/parsing/fluxer_block_document.dart';
+import 'package:fluxer_markdown/src/parsing/fluxer_inline_syntaxes.dart';
 import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
 import 'package:fluxer_markdown/src/parsing/markdown_preprocessor.dart';
 import 'package:fluxer_markdown/src/parsing/message_line_parser.dart';
 import 'package:fluxer_markdown/src/renderers/fluxer_markdown_renderers.dart';
-import 'package:fluxer_markdown/src/parsing/fluxer_block_document.dart';
-import 'package:fluxer_markdown/src/parsing/fluxer_inline_syntaxes.dart';
 import 'package:fluxer_markdown/src/utils/highlight_languages.dart';
 import 'package:markdown/markdown.dart' as md;
 

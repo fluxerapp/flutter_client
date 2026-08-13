@@ -83,7 +83,7 @@ class _ChannelPinsOverlayButtonState
       return;
     }
     _overlayController.show();
-    unawaited(_animationController.forward());
+    _animationController.forward();
   }
 
   void _close() {

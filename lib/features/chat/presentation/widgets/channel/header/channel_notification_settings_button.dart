@@ -80,7 +80,7 @@ class _ChannelNotificationSettingsButtonState
       return;
     }
     _overlayController.show();
-    unawaited(_animationController.forward());
+    _animationController.forward();
   }
 
   void _close() {

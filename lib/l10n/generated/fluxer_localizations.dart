@@ -13810,6 +13810,12 @@ abstract class FluxerLocalizations {
   /// **'YOUR ACCOUNT'**
   String get userSettingsGroupYourAccount;
 
+  /// Section heading for billing items in user settings navigation.
+  ///
+  /// In en, this message translates to:
+  /// **'BILLING'**
+  String get userSettingsGroupBilling;
+
   /// Section heading for app preference items in user settings navigation.
   ///
   /// In en, this message translates to:
@@ -13849,8 +13855,746 @@ abstract class FluxerLocalizations {
   /// User settings navigation item for gifts and promo codes.
   ///
   /// In en, this message translates to:
-  /// **'Gifts & Codes'**
+  /// **'Gifts'**
   String get userSettingsNavGiftsAndCodes;
+
+  /// No description provided for @giftSettingsClaimAccountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim your account'**
+  String get giftSettingsClaimAccountTitle;
+
+  /// No description provided for @giftSettingsClaimAccountDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim your account to redeem or manage Plutonium gift codes.'**
+  String get giftSettingsClaimAccountDescription;
+
+  /// No description provided for @giftSettingsRedeemTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Redeem a gift'**
+  String get giftSettingsRedeemTitle;
+
+  /// No description provided for @giftSettingsRedeemDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a gift code to redeem Plutonium for your account.'**
+  String get giftSettingsRedeemDescription;
+
+  /// No description provided for @giftSettingsRedeemPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter gift code…'**
+  String get giftSettingsRedeemPlaceholder;
+
+  /// No description provided for @giftSettingsRedeemButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Redeem'**
+  String get giftSettingsRedeemButton;
+
+  /// No description provided for @giftSettingsRedeemSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Gift redeemed successfully. Enjoy your Plutonium.'**
+  String get giftSettingsRedeemSuccess;
+
+  /// No description provided for @giftSettingsPurchasedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchased gifts'**
+  String get giftSettingsPurchasedTitle;
+
+  /// No description provided for @giftSettingsPurchasedDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your purchased Plutonium gift codes. Share the gift URL with someone special or redeem it for yourself!'**
+  String get giftSettingsPurchasedDescription;
+
+  /// No description provided for @giftSettingsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No gifts yet'**
+  String get giftSettingsEmptyTitle;
+
+  /// No description provided for @giftSettingsEmptyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy a Plutonium gift from the Plutonium tab to share with friends.'**
+  String get giftSettingsEmptyDescription;
+
+  /// No description provided for @giftSettingsGoToPlutonium.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Plutonium'**
+  String get giftSettingsGoToPlutonium;
+
+  /// No description provided for @giftSettingsLoadFailedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load gift inventory'**
+  String get giftSettingsLoadFailedTitle;
+
+  /// No description provided for @giftSettingsLoadFailedDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again later.'**
+  String get giftSettingsLoadFailedDescription;
+
+  /// No description provided for @giftSettingsTryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get giftSettingsTryAgain;
+
+  /// No description provided for @giftSettingsGiftUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Gift URL'**
+  String get giftSettingsGiftUrl;
+
+  /// No description provided for @giftSettingsCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get giftSettingsCopy;
+
+  /// No description provided for @giftSettingsCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied'**
+  String get giftSettingsCopied;
+
+  /// No description provided for @giftSettingsGiftUrlCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Gift URL copied to clipboard!'**
+  String get giftSettingsGiftUrlCopied;
+
+  /// No description provided for @giftSettingsGiftUrlCopyFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t copy gift URL'**
+  String get giftSettingsGiftUrlCopyFailed;
+
+  /// No description provided for @giftSettingsPurchasedDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchased {date}'**
+  String giftSettingsPurchasedDate(String date);
+
+  /// No description provided for @giftSettingsRedeemedDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Redeemed {date}'**
+  String giftSettingsRedeemedDate(String date);
+
+  /// No description provided for @giftSettingsRedeemedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Redeemed by {name}'**
+  String giftSettingsRedeemedBy(String name);
+
+  /// No description provided for @giftSettingsAlreadyRedeemed.
+  ///
+  /// In en, this message translates to:
+  /// **'This gift has been redeemed'**
+  String get giftSettingsAlreadyRedeemed;
+
+  /// No description provided for @giftSettingsRedeemForYourself.
+  ///
+  /// In en, this message translates to:
+  /// **'Redeem for yourself'**
+  String get giftSettingsRedeemForYourself;
+
+  /// No description provided for @giftSettingsShareWithFriend.
+  ///
+  /// In en, this message translates to:
+  /// **'Share with a friend'**
+  String get giftSettingsShareWithFriend;
+
+  /// No description provided for @premiumPlutoniumTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock higher limits and exclusive features while supporting an independent communication platform.'**
+  String get premiumPlutoniumTagline;
+
+  /// No description provided for @premiumPurchaseMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase mode'**
+  String get premiumPurchaseMode;
+
+  /// No description provided for @premiumForMe.
+  ///
+  /// In en, this message translates to:
+  /// **'For me'**
+  String get premiumForMe;
+
+  /// No description provided for @premiumAsAGift.
+  ///
+  /// In en, this message translates to:
+  /// **'As a gift'**
+  String get premiumAsAGift;
+
+  /// No description provided for @premiumMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get premiumMonthly;
+
+  /// No description provided for @premiumYearly.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly'**
+  String get premiumYearly;
+
+  /// No description provided for @premiumPerMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'per month'**
+  String get premiumPerMonth;
+
+  /// No description provided for @premiumPerYear.
+  ///
+  /// In en, this message translates to:
+  /// **'per year'**
+  String get premiumPerYear;
+
+  /// No description provided for @premiumOneTimePurchase.
+  ///
+  /// In en, this message translates to:
+  /// **'one-time purchase'**
+  String get premiumOneTimePurchase;
+
+  /// No description provided for @premiumSave17.
+  ///
+  /// In en, this message translates to:
+  /// **'Save 17%'**
+  String get premiumSave17;
+
+  /// No description provided for @premiumUpgradeNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade now'**
+  String get premiumUpgradeNow;
+
+  /// No description provided for @premiumBuyGift.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy gift'**
+  String get premiumBuyGift;
+
+  /// No description provided for @premiumOneYearGift.
+  ///
+  /// In en, this message translates to:
+  /// **'1 year gift'**
+  String get premiumOneYearGift;
+
+  /// No description provided for @premiumOneMonthGift.
+  ///
+  /// In en, this message translates to:
+  /// **'1 month gift'**
+  String get premiumOneMonthGift;
+
+  /// No description provided for @premiumMostPopular.
+  ///
+  /// In en, this message translates to:
+  /// **'Most popular'**
+  String get premiumMostPopular;
+
+  /// No description provided for @premiumScrollPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Scroll down to view all the perks included with Plutonium'**
+  String get premiumScrollPrompt;
+
+  /// No description provided for @premiumFreeVsPlutonium.
+  ///
+  /// In en, this message translates to:
+  /// **'Free vs Plutonium'**
+  String get premiumFreeVsPlutonium;
+
+  /// No description provided for @premiumFreeColumn.
+  ///
+  /// In en, this message translates to:
+  /// **'Free'**
+  String get premiumFreeColumn;
+
+  /// No description provided for @premiumGiftSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Gift Plutonium'**
+  String get premiumGiftSectionTitle;
+
+  /// No description provided for @premiumGiftSectionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Share the Plutonium experience with your friends by purchasing a gift subscription.'**
+  String get premiumGiftSectionDescription;
+
+  /// No description provided for @premiumGiftBannerOne.
+  ///
+  /// In en, this message translates to:
+  /// **'You have a new gift code waiting for you!'**
+  String get premiumGiftBannerOne;
+
+  /// No description provided for @premiumGiftBannerMany.
+  ///
+  /// In en, this message translates to:
+  /// **'You have {count} new gift codes waiting for you!'**
+  String premiumGiftBannerMany(int count);
+
+  /// No description provided for @premiumViewGifts.
+  ///
+  /// In en, this message translates to:
+  /// **'View gifts'**
+  String get premiumViewGifts;
+
+  /// No description provided for @premiumReadyToUpgrade.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to upgrade?'**
+  String get premiumReadyToUpgrade;
+
+  /// No description provided for @premiumReadyToBuyGift.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to buy a gift?'**
+  String get premiumReadyToBuyGift;
+
+  /// No description provided for @premiumMonthlyPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly {price}'**
+  String premiumMonthlyPrice(String price);
+
+  /// No description provided for @premiumYearlyPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly {price}'**
+  String premiumYearlyPrice(String price);
+
+  /// No description provided for @premiumOneYearPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'1 year {price}'**
+  String premiumOneYearPrice(String price);
+
+  /// No description provided for @premiumOneMonthPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'1 month {price}'**
+  String premiumOneMonthPrice(String price);
+
+  /// No description provided for @premiumManageSubscription.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage subscription'**
+  String get premiumManageSubscription;
+
+  /// No description provided for @premiumRedeemGiftCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Redeem gift code'**
+  String get premiumRedeemGiftCode;
+
+  /// No description provided for @premiumGiftBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Gift'**
+  String get premiumGiftBadge;
+
+  /// No description provided for @premiumCancelSubscriptionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel subscription?'**
+  String get premiumCancelSubscriptionTitle;
+
+  /// No description provided for @premiumCancelSubscriptionBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You keep your perks until your next renewal date, then have a 3-day grace period to resubscribe and keep your subscriber history.'**
+  String get premiumCancelSubscriptionBody;
+
+  /// No description provided for @premiumCancelSubscriptionConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel subscription'**
+  String get premiumCancelSubscriptionConfirm;
+
+  /// No description provided for @premiumKeepSubscription.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep subscription'**
+  String get premiumKeepSubscription;
+
+  /// No description provided for @premiumPurchaseHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase history'**
+  String get premiumPurchaseHistoryTitle;
+
+  /// No description provided for @premiumPurchaseHistoryDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Your recent invoices. To change the payment method for your subscription, add or choose one in the billing portal and make it the default.'**
+  String get premiumPurchaseHistoryDescription;
+
+  /// No description provided for @premiumManagePaymentMethods.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage payment methods'**
+  String get premiumManagePaymentMethods;
+
+  /// No description provided for @premiumBillingHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Billing history'**
+  String get premiumBillingHistory;
+
+  /// No description provided for @premiumSelfServeRefundTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Self-serve refund'**
+  String get premiumSelfServeRefundTitle;
+
+  /// No description provided for @premiumSelfServeRefundButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Refund latest purchase'**
+  String get premiumSelfServeRefundButton;
+
+  /// No description provided for @premiumDisclaimerAgreementPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'By purchasing, you agree to our '**
+  String get premiumDisclaimerAgreementPrefix;
+
+  /// No description provided for @premiumDisclaimerAgreementPastPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'By purchasing, you agreed to our '**
+  String get premiumDisclaimerAgreementPastPrefix;
+
+  /// No description provided for @premiumDisclaimerAgreementMiddle.
+  ///
+  /// In en, this message translates to:
+  /// **' and '**
+  String get premiumDisclaimerAgreementMiddle;
+
+  /// No description provided for @premiumActiveUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Active until {date}'**
+  String premiumActiveUntil(String date);
+
+  /// No description provided for @premiumSubscriptionCanceling.
+  ///
+  /// In en, this message translates to:
+  /// **'Canceling'**
+  String get premiumSubscriptionCanceling;
+
+  /// No description provided for @premiumCancelsOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancels on {date}. Perks remain active until then.'**
+  String premiumCancelsOn(String date);
+
+  /// No description provided for @premiumReactivateSubscription.
+  ///
+  /// In en, this message translates to:
+  /// **'Reactivate'**
+  String get premiumReactivateSubscription;
+
+  /// No description provided for @premiumGiftedUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Gifted until {date}. Does not renew automatically.'**
+  String premiumGiftedUntil(String date);
+
+  /// No description provided for @premiumComparisonFeatureColumn.
+  ///
+  /// In en, this message translates to:
+  /// **'Feature'**
+  String get premiumComparisonFeatureColumn;
+
+  /// No description provided for @premiumDisclaimerPurchased.
+  ///
+  /// In en, this message translates to:
+  /// **'By purchasing, you agreed to our {terms} and {privacy}.'**
+  String premiumDisclaimerPurchased(String terms, String privacy);
+
+  /// No description provided for @premiumDisclaimerRefund.
+  ///
+  /// In en, this message translates to:
+  /// **'Self-serve refunds available within 3 days of payment, once every 30 days. Refunding a subscription cancels it. EU/EEA buyers waive the 14-day right of withdrawal at checkout to access content immediately. Use the in-app refund button instead of a chargeback. Chargebacks can permanently restrict your account. Stripe handles payment securely. We never see your full card number.'**
+  String get premiumDisclaimerRefund;
+
+  /// No description provided for @premiumTermsOfService.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of service'**
+  String get premiumTermsOfService;
+
+  /// No description provided for @premiumPrivacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy policy'**
+  String get premiumPrivacyPolicy;
+
+  /// No description provided for @premiumCheckoutStartFailedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t start checkout'**
+  String get premiumCheckoutStartFailedTitle;
+
+  /// No description provided for @premiumCheckoutStartFailedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong while starting checkout. Please try again in a moment.'**
+  String get premiumCheckoutStartFailedBody;
+
+  /// No description provided for @premiumGiftSubscriptionBlocksRecurring.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re currently on a gift subscription. It won\'t renew. You can redeem more gift codes to extend it. Recurring subscriptions can be started after your gift time ends.'**
+  String get premiumGiftSubscriptionBlocksRecurring;
+
+  /// No description provided for @premiumPlanUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'This plan isn\'t available. Contact support.'**
+  String get premiumPlanUnavailable;
+
+  /// No description provided for @premiumCompletePaymentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete payment'**
+  String get premiumCompletePaymentTitle;
+
+  /// No description provided for @premiumCompletePaymentBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You are now navigating to Stripe to complete the payment. Return to Fluxer once you\'ve completed it.'**
+  String get premiumCompletePaymentBody;
+
+  /// No description provided for @premiumChoosePaymentMethodTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose payment method'**
+  String get premiumChoosePaymentMethodTitle;
+
+  /// No description provided for @premiumPixPaymentPromptDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay with Pix automático to authorize recurring charges directly from your Brazilian bank. Or choose use card to enter a credit card on Stripe\'s next screen.'**
+  String get premiumPixPaymentPromptDescription;
+
+  /// No description provided for @premiumUsePix.
+  ///
+  /// In en, this message translates to:
+  /// **'Use Pix'**
+  String get premiumUsePix;
+
+  /// No description provided for @premiumUpiPaymentPromptDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay with UPI to set up an RBI-compliant e-mandate from your Indian bank. Or choose use card to enter a credit card on Stripe\'s next screen.'**
+  String get premiumUpiPaymentPromptDescription;
+
+  /// No description provided for @premiumUseUpi.
+  ///
+  /// In en, this message translates to:
+  /// **'Use UPI'**
+  String get premiumUseUpi;
+
+  /// No description provided for @premiumUseCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Use card'**
+  String get premiumUseCard;
+
+  /// No description provided for @premiumCustomerPortalOpenFailedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t open the billing portal'**
+  String get premiumCustomerPortalOpenFailedTitle;
+
+  /// No description provided for @premiumCustomerPortalOpenFailedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong while opening the billing portal. Please try again in a moment.'**
+  String get premiumCustomerPortalOpenFailedBody;
+
+  /// No description provided for @premiumAlreadyVisionaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re already Visionary'**
+  String get premiumAlreadyVisionaryTitle;
+
+  /// No description provided for @premiumAlreadyVisionaryBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Visionary already includes permanent access, so a recurring subscription isn\'t needed. You can still buy gifts for others.'**
+  String get premiumAlreadyVisionaryBody;
+
+  /// No description provided for @premiumExistingSubscriptionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription already exists'**
+  String get premiumExistingSubscriptionTitle;
+
+  /// No description provided for @premiumExistingSubscriptionBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We found an existing Fluxer Plutonium subscription for this account. Manage it in the secure billing portal to update payment details or check renewal status. If you just paid, wait a minute and reopen this page.'**
+  String get premiumExistingSubscriptionBody;
+
+  /// No description provided for @premiumPurchasesDisabledTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchases unavailable'**
+  String get premiumPurchasesDisabledTitle;
+
+  /// No description provided for @premiumPurchasesDisabledBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchases are disabled for this account. Contact support@fluxer.app if this looks wrong.'**
+  String get premiumPurchasesDisabledBody;
+
+  /// No description provided for @premiumClaimAccountToPurchase.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim your account to purchase Fluxer Plutonium.'**
+  String get premiumClaimAccountToPurchase;
+
+  /// No description provided for @premiumVerifyEmailToPurchase.
+  ///
+  /// In en, this message translates to:
+  /// **'You need to verify your email before you can purchase Fluxer Plutonium.'**
+  String get premiumVerifyEmailToPurchase;
+
+  /// No description provided for @premiumPerkCustomUsernameTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom username tag'**
+  String get premiumPerkCustomUsernameTag;
+
+  /// No description provided for @premiumPerkPerCommunityProfiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Per-community profiles'**
+  String get premiumPerkPerCommunityProfiles;
+
+  /// No description provided for @premiumPerkMessageScheduling.
+  ///
+  /// In en, this message translates to:
+  /// **'Message scheduling'**
+  String get premiumPerkMessageScheduling;
+
+  /// No description provided for @premiumPerkProfileBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile badge'**
+  String get premiumPerkProfileBadge;
+
+  /// No description provided for @premiumPerkCustomVideoBackgrounds.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom video backgrounds'**
+  String get premiumPerkCustomVideoBackgrounds;
+
+  /// No description provided for @premiumPerkEntranceSounds.
+  ///
+  /// In en, this message translates to:
+  /// **'Entrance sounds'**
+  String get premiumPerkEntranceSounds;
+
+  /// No description provided for @premiumPerkCommunities.
+  ///
+  /// In en, this message translates to:
+  /// **'Communities'**
+  String get premiumPerkCommunities;
+
+  /// No description provided for @premiumPerkMessageCharacterLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Message character limit'**
+  String get premiumPerkMessageCharacterLimit;
+
+  /// No description provided for @premiumPerkBookmarkedMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmarked messages'**
+  String get premiumPerkBookmarkedMessages;
+
+  /// No description provided for @premiumPerkFileUploadSize.
+  ///
+  /// In en, this message translates to:
+  /// **'File upload size'**
+  String get premiumPerkFileUploadSize;
+
+  /// No description provided for @premiumPerkEmojiStickerPacks.
+  ///
+  /// In en, this message translates to:
+  /// **'Emoji & sticker packs'**
+  String get premiumPerkEmojiStickerPacks;
+
+  /// No description provided for @premiumPerkSavedMedia.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved media'**
+  String get premiumPerkSavedMedia;
+
+  /// No description provided for @premiumPerkUseAnimatedEmojis.
+  ///
+  /// In en, this message translates to:
+  /// **'Use animated emojis'**
+  String get premiumPerkUseAnimatedEmojis;
+
+  /// No description provided for @premiumPerkGlobalEmojiStickerAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Global emoji & sticker access'**
+  String get premiumPerkGlobalEmojiStickerAccess;
+
+  /// No description provided for @premiumPerkVideoQuality.
+  ///
+  /// In en, this message translates to:
+  /// **'Video quality'**
+  String get premiumPerkVideoQuality;
+
+  /// No description provided for @premiumPerkAnimatedAvatarsBanners.
+  ///
+  /// In en, this message translates to:
+  /// **'Animated avatars & profile banners'**
+  String get premiumPerkAnimatedAvatarsBanners;
+
+  /// No description provided for @premiumPerkEarlyAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Early access to new features'**
+  String get premiumPerkEarlyAccess;
+
+  /// No description provided for @premiumPerkCustomThemes.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom themes'**
+  String get premiumPerkCustomThemes;
+
+  /// No description provided for @premiumPerkVideoQualityRestricted.
+  ///
+  /// In en, this message translates to:
+  /// **'720p/30fps'**
+  String get premiumPerkVideoQualityRestricted;
+
+  /// No description provided for @premiumPerkVideoQualityStock.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to 4K/60fps'**
+  String get premiumPerkVideoQualityStock;
 
   /// User settings navigation item for the privacy dashboard.
   ///
@@ -13905,6 +14649,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Audio & Video'**
   String get userSettingsNavAudioAndVideo;
+
+  /// User settings navigation item for keyboard shortcuts.
+  ///
+  /// In en, this message translates to:
+  /// **'Shortcuts'**
+  String get userSettingsNavShortcuts;
 
   /// Settings section title for audio settings in the voice and video tab.
   ///
@@ -21206,6 +21956,420 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Direct Messages'**
   String get dmListDirectMessagesTitle;
+
+  /// Placeholder for the shortcuts settings search field.
+  ///
+  /// In en, this message translates to:
+  /// **'Search shortcuts'**
+  String get keybindsSearchShortcuts;
+
+  /// No description provided for @keybindSectionDefaults.
+  ///
+  /// In en, this message translates to:
+  /// **'Defaults'**
+  String get keybindSectionDefaults;
+
+  /// No description provided for @keybindSectionMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get keybindSectionMessages;
+
+  /// No description provided for @keybindSectionNavigation.
+  ///
+  /// In en, this message translates to:
+  /// **'Navigation'**
+  String get keybindSectionNavigation;
+
+  /// No description provided for @keybindSectionDragAndDrop.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag and drop'**
+  String get keybindSectionDragAndDrop;
+
+  /// No description provided for @keybindSectionChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat'**
+  String get keybindSectionChat;
+
+  /// No description provided for @keybindSectionVoiceAndVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice and video'**
+  String get keybindSectionVoiceAndVideo;
+
+  /// No description provided for @keybindSectionMisc.
+  ///
+  /// In en, this message translates to:
+  /// **'Miscellaneous'**
+  String get keybindSectionMisc;
+
+  /// No description provided for @keybindActionShowShortcutsList.
+  ///
+  /// In en, this message translates to:
+  /// **'Show keyboard shortcuts list'**
+  String get keybindActionShowShortcutsList;
+
+  /// No description provided for @keybindActionCopyText.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy text'**
+  String get keybindActionCopyText;
+
+  /// No description provided for @keybindActionMarkUnread.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as unread'**
+  String get keybindActionMarkUnread;
+
+  /// No description provided for @keybindActionFocusTextarea.
+  ///
+  /// In en, this message translates to:
+  /// **'Focus text area'**
+  String get keybindActionFocusTextarea;
+
+  /// No description provided for @keybindActionSwitchCommunities.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch between communities'**
+  String get keybindActionSwitchCommunities;
+
+  /// No description provided for @keybindActionSwitchChannels.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch between channels'**
+  String get keybindActionSwitchChannels;
+
+  /// No description provided for @keybindActionHistoryBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Move back through viewed channel history'**
+  String get keybindActionHistoryBack;
+
+  /// No description provided for @keybindActionHistoryForward.
+  ///
+  /// In en, this message translates to:
+  /// **'Move forward through viewed channel history'**
+  String get keybindActionHistoryForward;
+
+  /// No description provided for @keybindActionJumpUnreadChannels.
+  ///
+  /// In en, this message translates to:
+  /// **'Jump between unread channels'**
+  String get keybindActionJumpUnreadChannels;
+
+  /// No description provided for @keybindActionJumpMentionChannels.
+  ///
+  /// In en, this message translates to:
+  /// **'Jump between unread channels with mentions'**
+  String get keybindActionJumpMentionChannels;
+
+  /// No description provided for @keybindActionJumpCurrentCall.
+  ///
+  /// In en, this message translates to:
+  /// **'Jump to the current call'**
+  String get keybindActionJumpCurrentCall;
+
+  /// No description provided for @keybindActionToggleLastGuildDms.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle between last community and DMs'**
+  String get keybindActionToggleLastGuildDms;
+
+  /// No description provided for @keybindActionPreviousCommunityOrDms.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to previous community or DMs'**
+  String get keybindActionPreviousCommunityOrDms;
+
+  /// No description provided for @keybindActionNextCommunityOrDms.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to next community or DMs'**
+  String get keybindActionNextCommunityOrDms;
+
+  /// No description provided for @keybindActionGoToDms.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Direct Messages'**
+  String get keybindActionGoToDms;
+
+  /// No description provided for @keybindActionGoToFirstCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to first community'**
+  String get keybindActionGoToFirstCommunity;
+
+  /// No description provided for @keybindActionGoToSecondCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to second community'**
+  String get keybindActionGoToSecondCommunity;
+
+  /// No description provided for @keybindActionGoToThirdCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to third community'**
+  String get keybindActionGoToThirdCommunity;
+
+  /// No description provided for @keybindActionGoToFourthCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to fourth community'**
+  String get keybindActionGoToFourthCommunity;
+
+  /// No description provided for @keybindActionGoToFifthCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to fifth community'**
+  String get keybindActionGoToFifthCommunity;
+
+  /// No description provided for @keybindActionGoToSixthCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to sixth community'**
+  String get keybindActionGoToSixthCommunity;
+
+  /// No description provided for @keybindActionGoToSeventhCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to seventh community'**
+  String get keybindActionGoToSeventhCommunity;
+
+  /// No description provided for @keybindActionGoToEighthCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to eighth community'**
+  String get keybindActionGoToEighthCommunity;
+
+  /// No description provided for @keybindActionToggleQuickSwitcher.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle quick switcher'**
+  String get keybindActionToggleQuickSwitcher;
+
+  /// No description provided for @keybindActionCreateOrJoinCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Create or join a community'**
+  String get keybindActionCreateOrJoinCommunity;
+
+  /// No description provided for @keybindActionStartDragAndDrop.
+  ///
+  /// In en, this message translates to:
+  /// **'Start drag and drop'**
+  String get keybindActionStartDragAndDrop;
+
+  /// No description provided for @keybindActionMove.
+  ///
+  /// In en, this message translates to:
+  /// **'Move'**
+  String get keybindActionMove;
+
+  /// No description provided for @keybindActionDropItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Drop item'**
+  String get keybindActionDropItem;
+
+  /// No description provided for @keybindActionCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get keybindActionCancel;
+
+  /// No description provided for @keybindActionMarkCommunityRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark community as read'**
+  String get keybindActionMarkCommunityRead;
+
+  /// No description provided for @keybindActionMarkChannelRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark channel as read'**
+  String get keybindActionMarkChannelRead;
+
+  /// No description provided for @keybindActionStartGroupDm.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a group DM'**
+  String get keybindActionStartGroupDm;
+
+  /// No description provided for @keybindActionTogglePinnedMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle pinned messages'**
+  String get keybindActionTogglePinnedMessages;
+
+  /// No description provided for @keybindActionToggleInbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle the inbox'**
+  String get keybindActionToggleInbox;
+
+  /// No description provided for @keybindActionMarkTopInboxRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark top inbox channel as read'**
+  String get keybindActionMarkTopInboxRead;
+
+  /// No description provided for @keybindActionMarkAllInboxRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all inbox channels as read'**
+  String get keybindActionMarkAllInboxRead;
+
+  /// No description provided for @keybindActionToggleMemberList.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle the member list or voice chat'**
+  String get keybindActionToggleMemberList;
+
+  /// No description provided for @keybindActionToggleEmojiPicker.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle the emoji picker'**
+  String get keybindActionToggleEmojiPicker;
+
+  /// No description provided for @keybindActionToggleGifPicker.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle the GIF picker'**
+  String get keybindActionToggleGifPicker;
+
+  /// No description provided for @keybindActionToggleStickerPicker.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle the sticker picker'**
+  String get keybindActionToggleStickerPicker;
+
+  /// No description provided for @keybindActionScrollChatUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Scroll chat up'**
+  String get keybindActionScrollChatUp;
+
+  /// No description provided for @keybindActionScrollChatDown.
+  ///
+  /// In en, this message translates to:
+  /// **'Scroll chat down'**
+  String get keybindActionScrollChatDown;
+
+  /// No description provided for @keybindActionJumpOldestUnread.
+  ///
+  /// In en, this message translates to:
+  /// **'Jump to the oldest unread message'**
+  String get keybindActionJumpOldestUnread;
+
+  /// No description provided for @keybindActionFocusComposer.
+  ///
+  /// In en, this message translates to:
+  /// **'Focus the text area'**
+  String get keybindActionFocusComposer;
+
+  /// No description provided for @keybindActionUploadFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload a file'**
+  String get keybindActionUploadFile;
+
+  /// No description provided for @keybindActionCopyChannelLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy channel link'**
+  String get keybindActionCopyChannelLink;
+
+  /// No description provided for @keybindActionToggleSavedMedia.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle saved media'**
+  String get keybindActionToggleSavedMedia;
+
+  /// No description provided for @keybindActionSendVoiceMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Send voice message'**
+  String get keybindActionSendVoiceMessage;
+
+  /// No description provided for @keybindActionAnswerCall.
+  ///
+  /// In en, this message translates to:
+  /// **'Answer the incoming call'**
+  String get keybindActionAnswerCall;
+
+  /// No description provided for @keybindActionDeclineCall.
+  ///
+  /// In en, this message translates to:
+  /// **'Decline the incoming call'**
+  String get keybindActionDeclineCall;
+
+  /// No description provided for @keybindActionStartDmCall.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a call in a DM or group'**
+  String get keybindActionStartDmCall;
+
+  /// No description provided for @keybindActionToggleSoundboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle the soundboard'**
+  String get keybindActionToggleSoundboard;
+
+  /// No description provided for @keybindActionToggleCompactCallView.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand or collapse compact call view'**
+  String get keybindActionToggleCompactCallView;
+
+  /// No description provided for @keybindActionOpenHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Open help'**
+  String get keybindActionOpenHelp;
+
+  /// No description provided for @keybindActionSearchMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'Search messages'**
+  String get keybindActionSearchMessages;
+
+  /// No description provided for @keybindActionOpenContextMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the context menu'**
+  String get keybindActionOpenContextMenu;
+
+  /// No description provided for @keybindActionOpenSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open your settings'**
+  String get keybindActionOpenSettings;
+
+  /// No description provided for @keybindActionOpenThemeStudio.
+  ///
+  /// In en, this message translates to:
+  /// **'Open theme studio popout'**
+  String get keybindActionOpenThemeStudio;
+
+  /// No description provided for @keybindActionZoomIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom in'**
+  String get keybindActionZoomIn;
+
+  /// No description provided for @keybindActionZoomOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom out'**
+  String get keybindActionZoomOut;
+
+  /// No description provided for @keybindActionZoomReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset zoom'**
+  String get keybindActionZoomReset;
 }
 
 class _FluxerLocalizationsDelegate

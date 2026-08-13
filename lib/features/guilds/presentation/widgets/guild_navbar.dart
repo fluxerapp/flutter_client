@@ -4089,7 +4089,7 @@ class _RightTooltipState extends State<_RightTooltip>
       ),
     );
     overlay.insert(_entry!);
-    unawaited(_animController.forward());
+    _animController.forward();
   }
 
   void _hide() {

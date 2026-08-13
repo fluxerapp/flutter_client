@@ -2,49 +2,40 @@
   "Version": 1.0,
   "Metadata": {
     "Project": "Fluxer",
-    "Description": "Message send: crisp commit tap with a short fading whoosh trail."
+    "Description": "Message send: curve with a short exponential decay."
   },
   "Pattern": [
     {
       "Event": {
         "Time": 0.0,
-        "EventType": "HapticTransient",
-        "EventParameters": [
-          { "ParameterID": "HapticIntensity", "ParameterValue": 0.72 },
-          { "ParameterID": "HapticSharpness", "ParameterValue": 0.55 }
-        ]
-      }
-    },
-    {
-      "Event": {
-        "Time": 0.02,
         "EventType": "HapticContinuous",
-        "EventDuration": 0.28,
+        "EventDuration": 0.11,
         "EventParameters": [
-          { "ParameterID": "HapticIntensity", "ParameterValue": 0.85 },
-          { "ParameterID": "HapticSharpness", "ParameterValue": 0.35 }
+          { "ParameterID": "HapticIntensity", "ParameterValue": 0.5 },
+          { "ParameterID": "HapticSharpness", "ParameterValue": 0.24 }
         ]
       }
     },
     {
       "ParameterCurve": {
         "ParameterID": "HapticIntensityControl",
-        "Time": 0.02,
+        "Time": 0.0,
         "ParameterCurveControlPoints": [
-          { "Time": 0.0, "ParameterValue": 0.9 },
-          { "Time": 0.08, "ParameterValue": 0.55 },
-          { "Time": 0.18, "ParameterValue": 0.22 },
-          { "Time": 0.28, "ParameterValue": 0.0 }
+          { "Time": 0.0, "ParameterValue": 1.0 },
+          { "Time": 0.016, "ParameterValue": 0.62 },
+          { "Time": 0.04, "ParameterValue": 0.34 },
+          { "Time": 0.072, "ParameterValue": 0.14 },
+          { "Time": 0.11, "ParameterValue": 0.0 }
         ]
       }
     },
     {
       "ParameterCurve": {
         "ParameterID": "HapticSharpnessControl",
-        "Time": 0.02,
+        "Time": 0.0,
         "ParameterCurveControlPoints": [
-          { "Time": 0.0, "ParameterValue": 0.15 },
-          { "Time": 0.28, "ParameterValue": -0.4 }
+          { "Time": 0.0, "ParameterValue": 0.0 },
+          { "Time": 0.11, "ParameterValue": -0.16 }
         ]
       }
     }

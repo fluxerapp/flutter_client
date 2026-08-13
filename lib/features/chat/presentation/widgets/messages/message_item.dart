@@ -40,6 +40,8 @@ import 'package:fluxer_app/features/chat/utils/message_timestamp_format.dart';
 import 'package:fluxer_app/features/chat/utils/spoiler_utils.dart';
 import 'package:fluxer_app/features/chat/utils/uploading_attachment_utils.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
+import 'package:fluxer_app/features/input/providers/focused_message_provider.dart';
+import 'package:fluxer_app/features/input/providers/keyboard_mode_provider.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
@@ -514,6 +516,14 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         msg.isMentioned && !widget.hideMentionHighlight;
     final bool showJumpHighlight =
         widget.isJumpHighlighted && !widget.inboxPreviewMode;
+    final bool isKeyboardFocused =
+        !widget.inboxPreviewMode &&
+        ref.watch(keyboardModeProvider) &&
+        ref.watch(
+          focusedMessageProvider.select(
+            (FocusedMessageState state) => state.messageId == msg.id,
+          ),
+        );
     final bool showMentionHighlight =
         shouldHighlightMention && !showJumpHighlight;
     final bool hasLeftAccentBar = showJumpHighlight || showMentionHighlight;
@@ -717,7 +727,13 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       child: body,
     );
     if (!isTouch || onReply == null || widget.inboxPreviewMode) {
-      return _wrapMessageSendingDim(dim: dimEntireMessage, child: semanticBody);
+      return _wrapMessageSendingDim(
+        dim: dimEntireMessage,
+        child: _wrapKeyboardFocus(
+          focused: isKeyboardFocused,
+          child: semanticBody,
+        ),
+      );
     }
     final bool canEditOwnMessage =
         widget.onEdit != null &&
@@ -726,13 +742,23 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         msg.messageSnapshots.isEmpty;
     return _wrapMessageSendingDim(
       dim: dimEntireMessage,
-      child: SwipeToReply(
-        enabled: widget.canSendMessages && widget.swipeToReplyEnabled,
-        onReply: onReply,
-        onEdit: canEditOwnMessage ? widget.onEdit : null,
-        child: semanticBody,
+      child: _wrapKeyboardFocus(
+        focused: isKeyboardFocused,
+        child: SwipeToReply(
+          enabled: widget.canSendMessages && widget.swipeToReplyEnabled,
+          onReply: onReply,
+          onEdit: canEditOwnMessage ? widget.onEdit : null,
+          child: semanticBody,
+        ),
       ),
     );
+  }
+
+  Widget _wrapKeyboardFocus({required bool focused, required Widget child}) {
+    if (!focused) {
+      return child;
+    }
+    return FluxerFocusRing(focused: true, child: child);
   }
 
   String _messageSemanticLabel(

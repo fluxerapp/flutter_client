@@ -9,7 +9,6 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/tabs/channel_overview_widget.dart';
 import 'package:fluxer_app/features/channels/providers/channel_settings_providers.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 import '../../../../../helpers/test_l10n.dart';

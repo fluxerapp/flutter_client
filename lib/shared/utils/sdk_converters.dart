@@ -236,10 +236,15 @@ Future<void> upsertUsersCompanions(
 Future<void> upsertGuildMembersFromSdk(
   db.FluxerDatabase database,
   String guildId,
-  Iterable<GuildMemberResponse> members,
-) async {
+  Iterable<GuildMemberResponse> members, {
+  List<({String userId, String status, String? customStatus, bool mobile})>
+      presenceUpdates =
+      const <
+        ({String userId, String status, String? customStatus, bool mobile})
+      >[],
+}) async {
   final List<GuildMemberResponse> memberList = members.toList(growable: false);
-  if (guildId.isEmpty || memberList.isEmpty) {
+  if (guildId.isEmpty || (memberList.isEmpty && presenceUpdates.isEmpty)) {
     return;
   }
   final List<db.UsersCompanion> userCompanions = <db.UsersCompanion>[
@@ -250,8 +255,15 @@ Future<void> upsertGuildMembersFromSdk(
     for (final GuildMemberResponse sdk in memberList)
       memberCompanionFromSdk(sdk, guildId: guildId),
   ];
-  await upsertUsersCompanions(database, userCompanions);
-  await database.memberDao.upsertMembers(memberCompanions);
+  await database.transaction(() async {
+    await upsertUsersCompanions(database, userCompanions);
+    if (memberCompanions.isNotEmpty) {
+      await database.memberDao.upsertMembers(memberCompanions);
+    }
+    if (presenceUpdates.isNotEmpty) {
+      await database.userDao.updateUserPresencesBatch(presenceUpdates);
+    }
+  });
 }
 
 Future<void> upsertSupplementalUsersFromSdk(

@@ -36,6 +36,14 @@ void main() {
       expect(rows.single.userId, 'u2');
     });
 
+    test('upsertMembers writes many rows in one call', () async {
+      await database.memberDao.upsertMembers(<MembersCompanion>[
+        for (int i = 0; i < 25; i++)
+          MembersCompanion.insert(userId: 'u$i', guildId: 'g1'),
+      ]);
+      expect(await database.memberDao.countMembers('g1'), 25);
+    });
+
     test(
       'evictStaleMembers removes oldest rows outside protected set',
       () async {

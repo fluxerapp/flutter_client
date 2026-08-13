@@ -24,7 +24,6 @@ import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart'
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../helpers/open_test_database.dart';

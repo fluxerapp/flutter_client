@@ -200,7 +200,7 @@ void main() {
 
       await _waitFor(
         () =>
-            container.read(guildReadStateProvider)[guildId]?.hasUnread == true,
+            container.read(guildReadStateProvider)[guildId]?.hasUnread ?? false,
       );
       expect(
         container.read(guildReadStateProvider)[guildId]?.hasPlainUnread,

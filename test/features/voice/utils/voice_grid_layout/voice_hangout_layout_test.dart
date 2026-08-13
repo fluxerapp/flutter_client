@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_participant_layouts.dart';
 import 'package:fluxer_app/features/voice/utils/voice_grid_layout/voice_hangout_layout.dart';
 

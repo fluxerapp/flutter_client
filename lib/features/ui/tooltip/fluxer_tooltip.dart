@@ -84,7 +84,7 @@ class _FluxerTooltipState extends State<FluxerTooltip>
   void _showTooltip() {
     _hideTimer?.cancel();
     _overlayController.show();
-    unawaited(_animationController.forward());
+    _animationController.forward();
   }
 
   void _hideTooltip() {

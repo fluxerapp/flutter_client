@@ -136,7 +136,7 @@ void main() {
     final EditableText editable = tester.widget<EditableText>(
       find.byType(EditableText),
     );
-    final FocusNode focusNode = editable.focusNode!;
+    final FocusNode focusNode = editable.focusNode;
 
     focusNode.requestFocus();
     await tester.pumpAndSettle();

@@ -19,6 +19,14 @@ analyzer:
     - "**/*.pb.dart"
     - "**/*.pbenum.dart"
     - "lib/core/synced_preferences/generated/**"
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**
+    - build/**
+    - dart_sdk/**
 
 language:
   strict-casts: true

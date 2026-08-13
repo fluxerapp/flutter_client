@@ -92,21 +92,18 @@ void main() {
             builder: (BuildContext context) {
               return TextButton(
                 onPressed: () {
-                  unawaited(
-                    Navigator.of(context).push<void>(
-                      MaterialPageRoute<void>(
-                        fullscreenDialog: true,
-                        builder: (BuildContext routeContext) {
-                          return Scaffold(
-                            body: ChatVideoPlaybackFailureOverlay(
-                              fallbackUrl:
-                                  'https://www.youtube.com/watch?v=abc',
-                              useRootNavigator: true,
-                              onClose: () => Navigator.of(routeContext).pop(),
-                            ),
-                          );
-                        },
-                      ),
+                  Navigator.of(context).push<void>(
+                    MaterialPageRoute<void>(
+                      fullscreenDialog: true,
+                      builder: (BuildContext routeContext) {
+                        return Scaffold(
+                          body: ChatVideoPlaybackFailureOverlay(
+                            fallbackUrl: 'https://www.youtube.com/watch?v=abc',
+                            useRootNavigator: true,
+                            onClose: () => Navigator.of(routeContext).pop(),
+                          ),
+                        );
+                      },
                     ),
                   );
                 },

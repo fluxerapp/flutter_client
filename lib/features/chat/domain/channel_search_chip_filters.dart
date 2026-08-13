@@ -114,7 +114,7 @@ extension ChannelSearchChipFiltersMerge on ParsedChannelSearchParams {
     final Set<MessageSearchContentFilter> mergedContentTypes =
         <MessageSearchContentFilter>{
           ...next.hasContentFilters,
-          if (contentTypes != null) ...contentTypes,
+          ...?contentTypes,
           ...chips.contentTypes,
         };
     if (mergedContentTypes.isNotEmpty) {
@@ -131,37 +131,37 @@ extension ChannelSearchChipFiltersMerge on ParsedChannelSearchParams {
 
     if (chips.authorTypes.isNotEmpty) {
       next = next.copyWith(
-        authorTypes: <String>[
+        authorTypes: <String>{
           ...next.authorTypes,
           ...chips.authorTypes,
-        ].toSet().toList(),
+        }.toList(),
       );
     }
 
     final String? link = chips.linkHostname?.trim();
     if (link != null && link.isNotEmpty) {
       next = next.copyWith(
-        linkHostnames: <String>[...next.linkHostnames, link].toSet().toList(),
+        linkHostnames: <String>{...next.linkHostnames, link}.toList(),
       );
     }
 
     final String? filename = chips.fileName?.trim();
     if (filename != null && filename.isNotEmpty) {
       next = next.copyWith(
-        attachmentFilenames: <String>[
+        attachmentFilenames: <String>{
           ...next.attachmentFilenames,
           filename,
-        ].toSet().toList(),
+        }.toList(),
       );
     }
 
     final String? extension = chips.fileExtension?.trim();
     if (extension != null && extension.isNotEmpty) {
       next = next.copyWith(
-        attachmentExtensions: <String>[
+        attachmentExtensions: <String>{
           ...next.attachmentExtensions,
           extension,
-        ].toSet().toList(),
+        }.toList(),
       );
     }
 

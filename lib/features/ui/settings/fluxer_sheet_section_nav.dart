@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -66,13 +64,11 @@ class _FluxerSheetSectionNavState extends State<FluxerSheetSectionNav> {
       return;
     }
     final motion = context.motion;
-    unawaited(
-      Scrollable.ensureVisible(
-        ctx,
-        alignment: 0.5,
-        duration: motion.normal,
-        curve: motion.curve,
-      ),
+    Scrollable.ensureVisible(
+      ctx,
+      alignment: 0.5,
+      duration: motion.normal,
+      curve: motion.curve,
     );
   }
 

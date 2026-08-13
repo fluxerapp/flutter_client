@@ -11,10 +11,10 @@ String userSettingsSectionLabel(
       return l10n.userSettingsNavProfile;
     case UserSettingsSection.securityLogin:
       return l10n.userSettingsNavSecurityLogin;
-    // case UserSettingsSection.fluxerPlutonium:
-    //   return l10n.userSettingsNavFluxerPlutonium;
-    // case UserSettingsSection.giftsAndCodes:
-    //   return l10n.userSettingsNavGiftsAndCodes;
+    case UserSettingsSection.fluxerPlutonium:
+      return l10n.userSettingsNavFluxerPlutonium;
+    case UserSettingsSection.giftsAndCodes:
+      return l10n.userSettingsNavGiftsAndCodes;
     case UserSettingsSection.privacyDashboard:
       return l10n.userSettingsNavPrivacyDashboard;
     case UserSettingsSection.authorizedApps:
@@ -33,8 +33,8 @@ String userSettingsSectionLabel(
       return l10n.userSettingsNavChat;
     case UserSettingsSection.audioAndVideo:
       return l10n.userSettingsNavAudioAndVideo;
-    case UserSettingsSection.keybinds:
-      return 'Keybinds';
+    case UserSettingsSection.shortcuts:
+      return l10n.userSettingsNavShortcuts;
     case UserSettingsSection.notifications:
       return l10n.userSettingsNavNotifications;
     case UserSettingsSection.languageAndTime:
@@ -63,6 +63,8 @@ String userSettingsNavGroupLabel(
   switch (group) {
     case UserSettingsNavGroup.yourAccount:
       return l10n.userSettingsGroupYourAccount;
+    case UserSettingsNavGroup.billing:
+      return l10n.userSettingsGroupBilling;
     case UserSettingsNavGroup.application:
       return l10n.userSettingsGroupApplication;
     case UserSettingsNavGroup.developer:

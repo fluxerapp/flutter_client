@@ -72,6 +72,8 @@ import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
+import 'package:fluxer_app/features/input/providers/chat_keybind_effects_provider.dart';
+import 'package:fluxer_app/features/input/providers/composer_focus_coordinator_provider.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -324,9 +326,35 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     return false;
   }
 
+  late final VoidCallback _requestComposerFocus;
+  late final ComposerFocusCoordinator _composerFocus;
+  ProviderSubscription<int>? _chatKeybindEffectsSubscription;
+
   @override
   void initState() {
     super.initState();
+    _composerFocus = ref.read(composerFocusCoordinatorProvider);
+    _requestComposerFocus = () {
+      if (_focusNode.canRequestFocus) {
+        _focusNode.requestFocus();
+      }
+    };
+    _composerFocus.register(
+      requestFocus: _requestComposerFocus,
+      readText: _sendableWireText,
+      hasFocus: () => _focusNode.hasFocus,
+    );
+    _chatKeybindEffectsSubscription = listenChatKeybindEffects(
+      ref,
+      (_) {
+        if (!mounted) {
+          return;
+        }
+        unawaited(_pickAttachments(context));
+      },
+      where: (ChatKeybindEffect effect) =>
+          effect == ChatKeybindEffect.triggerUpload,
+    );
     _keyboardRestore = KeyboardFocusRestoreHandle(
       focusNode: _focusNode,
       shouldTrackOnBackground: _shouldTrackKeyboardRestore,
@@ -336,6 +364,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     _controller = ComposerMentionController(ref: ref);
     _focusNode.onKeyEvent = _handleComposerFieldKeyEvent;
     _controller.addListener(_syncStateFromController);
+    unawaited(FluxerHaptics.warmSend());
   }
 
   @override
@@ -497,6 +526,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
 
   @override
   void dispose() {
+    _chatKeybindEffectsSubscription?.close();
+    _composerFocus.unregister(_requestComposerFocus);
     WidgetsBinding.instance.removeObserver(this);
     _focusNode
       ..unfocus()
@@ -1636,12 +1667,12 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           );
       return;
     }
+    FluxerHaptics.send();
     final bool proceed = await _confirmMentionsIfNeeded(channelId, baseContent);
     if (!proceed) {
       return;
     }
 
-    FluxerHaptics.send();
     unawaited(vm.sendMessage(text: baseContent.trim(), tts: tts));
   }
 
@@ -1708,6 +1739,13 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (guild == null) {
       return true;
     }
+    final bool mentionsEveryone = content.contains('@everyone');
+    final bool mentionsHere = content.contains('@here');
+    if (!mentionsEveryone &&
+        !mentionsHere &&
+        !kRoleMentionWirePattern.hasMatch(content)) {
+      return true;
+    }
     final int bits = await readEffectiveGuildChannelPermissionBits(
       container: ref.container,
       channelId: channelId,
@@ -1716,8 +1754,6 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       bits,
       Permission.mentionEveryone,
     );
-    final bool mentionsEveryone = content.contains('@everyone');
-    final bool mentionsHere = content.contains('@here');
     final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
     final List<db.Member> members = await database.memberDao.getMembers(
       guildId,

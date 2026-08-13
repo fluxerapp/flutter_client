@@ -10,8 +10,6 @@ import 'package:fluxer_app/features/settings/domain/default_web_browser.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_default_apps.dart';
 import 'package:fluxer_app/features/settings/providers/default_apps_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/utils/default_web_browser_l10n.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:riverpod/src/framework.dart';
 
 import '../../helpers/test_l10n.dart';
 

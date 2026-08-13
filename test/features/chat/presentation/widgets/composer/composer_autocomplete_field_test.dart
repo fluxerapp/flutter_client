@@ -14,7 +14,6 @@ import 'package:fluxer_app/features/chat/service/composer_autocomplete_trigger.d
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/ui/input/emoji_text_editing_controller.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 
 import '../../../../../helpers/open_test_database.dart';

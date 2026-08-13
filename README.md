@@ -96,6 +96,8 @@ After the beta period, we will be updating these guidelines.
 
 Pull requests should target the `canary` branch. For local testing, use the `canary` build flavor so your build matches that branch (see Mobile builds below).
 
+Before committing, run `bash tool/before_commit.sh` to apply `dart fix` and format tracked Dart files (generated and vendored paths are skipped). CI uses the same file list.
+
 ### Contribution licensing and sign-off
 
 By contributing you agree your contribution is licensed under the AGPLv3 together with the App Store additional permission (see [`LICENSE-APPSTORE-EXCEPTION`](./LICENSE-APPSTORE-EXCEPTION)), and you sign off each commit under the [Developer Certificate of Origin](./DCO) with `git commit -s`. There is no signed CLA. See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for details; this is checked automatically on every pull request.

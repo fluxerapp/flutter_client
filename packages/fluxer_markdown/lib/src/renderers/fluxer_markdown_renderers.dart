@@ -1629,7 +1629,7 @@ class _FluxerSpoilerSpanState extends State<_FluxerSpoilerSpan>
       _isRevealed = true;
     });
     widget.spoilerSyncController?.reveal(widget.syncKeys);
-    unawaited(_controller.forward());
+    _controller.forward();
   }
 
   @override

@@ -168,7 +168,6 @@ void main() {
             visibilityKey: 'sticker-2',
             useStickerAnimationPreference: true,
           ),
-          animateStickers: StickerAnimationOptions.alwaysAnimate,
         ),
       );
       await tester.pump();
@@ -183,9 +182,7 @@ void main() {
         ProviderScope(
           overrides: [
             appearancePreferencesProvider.overrideWithValue(
-              const AppearancePreferencesState(
-                keepGifAutoPlayUnderReducedMotion: false,
-              ),
+              const AppearancePreferencesState(),
             ),
             userSettingsViewModelProvider.overrideWithValue(
               _kTestUserSettings.copyWith(
@@ -194,13 +191,13 @@ void main() {
               ),
             ),
           ],
-          child: MaterialApp(
+          child: const MaterialApp(
             home: MediaQuery(
-              data: const MediaQueryData(size: Size(1200, 900)),
+              data: MediaQueryData(size: Size(1200, 900)),
               child: Scaffold(
                 body: Column(
                   children: <Widget>[
-                    const SizedBox(
+                    SizedBox(
                       height: 200,
                       child: EmbedAnimatedImage(
                         animatedUrl: 'https://x/a.webp',
@@ -208,7 +205,7 @@ void main() {
                         visibilityKey: 'gif-1',
                       ),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 200,
                       child: EmbedAnimatedImage(
                         animatedUrl: 'https://x/b.webp',

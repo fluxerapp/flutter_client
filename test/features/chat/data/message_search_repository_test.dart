@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/features/chat/data/channel_search_query_parser.dart';
 import 'package:fluxer_app/features/chat/data/message_search_repository.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart' as domain;
 import 'package:fluxer_dart/export.dart';
@@ -59,6 +60,76 @@ void main() {
         request.sortOrder,
         GlobalSearchMessagesRequestSortOrderSortOrder.asc,
       );
+    });
+
+    test('maps typed header filters including UI aliases', () {
+      final request = buildGlobalSearchMessagesRequest(
+        MessageSearchQuery.build(
+          channelId: 'channel-1',
+          guildId: 'guild-1',
+          rawQuery:
+              'from:alice in:general has:image pinned:true '
+              'link-from:example.com file-name:report.pdf file-type:png '
+              'sort:relevance order:asc',
+          hints: const ChannelSearchParseHints(
+            usersByTag: <String, String>{'alice': 'user-1'},
+          ),
+          context: ChannelSearchParseContext(
+            guildId: 'guild-1',
+            resolveChannelByName: (String name) =>
+                name == 'general' ? 'channel-9' : null,
+          ),
+        ),
+      );
+
+      expect(request.authorId, <String>['user-1']);
+      expect(request.channelId, <String>['channel-9']);
+      expect(request.has, <GlobalSearchMessagesRequestHasHas>[
+        GlobalSearchMessagesRequestHasHas.image,
+      ]);
+      expect(request.pinned, isTrue);
+      expect(request.linkHostname, <String>['example.com']);
+      expect(request.attachmentFilename, <String>['report.pdf']);
+      expect(request.attachmentExtension, <String>['png']);
+      expect(request.sortBy, GlobalSearchMessagesRequestSortBySortBy.relevance);
+      expect(
+        request.sortOrder,
+        GlobalSearchMessagesRequestSortOrderSortOrder.asc,
+      );
+    });
+
+    test('maps remaining catalog filters onto the search request', () {
+      final request = buildGlobalSearchMessagesRequest(
+        MessageSearchQuery.build(
+          channelId: 'channel-1',
+          guildId: 'guild-1',
+          rawQuery:
+              'mentions:bob -from:eve -in:offtopic -has:link '
+              'author-type:bot before:2024-01-15 after:2024-01-01 '
+              'mentions:everyone has:forward "exact phrase"',
+          hints: const ChannelSearchParseHints(
+            usersByTag: <String, String>{'bob': 'user-2', 'eve': 'user-3'},
+          ),
+          context: ChannelSearchParseContext(
+            guildId: 'guild-1',
+            resolveChannelByName: (String name) =>
+                name == 'offtopic' ? 'channel-8' : null,
+          ),
+        ),
+      );
+
+      expect(request.mentions, <String>['user-2']);
+      expect(request.excludeAuthorId, <String>['user-3']);
+      expect(request.excludeChannelId, <String>['channel-8']);
+      expect(request.excludeHas, isNotNull);
+      expect(request.authorType, isNotNull);
+      expect(request.maxId, isNotNull);
+      expect(request.minId, isNotNull);
+      expect(request.mentionEveryone, isTrue);
+      expect(request.has, <GlobalSearchMessagesRequestHasHas>[
+        GlobalSearchMessagesRequestHasHas.snapshot,
+      ]);
+      expect(request.exactPhrases, <String>['exact phrase']);
     });
   });
 

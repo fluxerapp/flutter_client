@@ -1620,7 +1620,6 @@ class _ChannelSearchSheetState extends ConsumerState<ChannelSearchSheet> {
               ),
               const SizedBox(height: 12),
               Wrap(
-                alignment: WrapAlignment.start,
                 spacing: 8,
                 runSpacing: 8,
                 children: <Widget>[
@@ -1722,7 +1721,6 @@ class _ChannelSearchSheetState extends ConsumerState<ChannelSearchSheet> {
                 ),
                 const SizedBox(height: 8),
                 Wrap(
-                  alignment: WrapAlignment.start,
                   spacing: 8,
                   runSpacing: 8,
                   children: <Widget>[
@@ -2836,9 +2834,8 @@ class _GuildUserSearchFilterSheetState
         guildId: widget.guildId,
         parsed: rankingQuery,
       );
-      if (searchQuery.isNotEmpty &&
-          await search.shouldFetchFromGateway(widget.guildId, searchQuery)) {
-        members = (await search.fetchGatewayAndMerge(
+      if (searchQuery.isNotEmpty) {
+        members = (await search.searchCachedThenGateway(
           guildId: widget.guildId,
           query: searchQuery,
           parsed: rankingQuery,

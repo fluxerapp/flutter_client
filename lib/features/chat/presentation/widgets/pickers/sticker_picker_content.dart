@@ -289,12 +289,10 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
     );
 
     if (category == 'favorites') {
-      unawaited(
-        _scrollController.animateTo(
-          0,
-          duration: context.motion.panel,
-          curve: Curves.easeOut,
-        ),
+      _scrollController.animateTo(
+        0,
+        duration: context.motion.panel,
+        curve: Curves.easeOut,
       );
       return;
     }
@@ -308,12 +306,10 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
       offset += _kCategoryGap;
     }
     if (category == 'frequently-used') {
-      unawaited(
-        _scrollController.animateTo(
-          offset.clamp(0, _scrollController.position.maxScrollExtent),
-          duration: context.motion.panel,
-          curve: Curves.easeOut,
-        ),
+      _scrollController.animateTo(
+        offset.clamp(0, _scrollController.position.maxScrollExtent),
+        duration: context.motion.panel,
+        curve: Curves.easeOut,
       );
       return;
     }
@@ -328,12 +324,10 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
     for (final entry in stickersByGuild.entries) {
       final key = 'guild-${entry.key.id}';
       if (key == category) {
-        unawaited(
-          _scrollController.animateTo(
-            offset.clamp(0, _scrollController.position.maxScrollExtent),
-            duration: context.motion.panel,
-            curve: Curves.easeOut,
-          ),
+        _scrollController.animateTo(
+          offset.clamp(0, _scrollController.position.maxScrollExtent),
+          duration: context.motion.panel,
+          curve: Curves.easeOut,
         );
         return;
       }

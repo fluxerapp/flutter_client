@@ -314,8 +314,8 @@ String userSettingsTabLabel(FluxerLocalizations l10n, String tab) {
       return userSettingsSectionLabel(l10n, UserSettingsSection.blockedUsers);
     case 'devices':
       return userSettingsSectionLabel(l10n, UserSettingsSection.linkedDevices);
-    case 'keybinds':
-      return userSettingsSectionLabel(l10n, UserSettingsSection.keybinds);
+    case 'shortcuts':
+      return userSettingsSectionLabel(l10n, UserSettingsSection.shortcuts);
     default:
       return l10n.userAreaUserSettings;
   }

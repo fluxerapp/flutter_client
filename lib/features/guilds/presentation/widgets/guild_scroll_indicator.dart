@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -183,12 +181,10 @@ class GuildScrollIndicatorController {
     if (context == null) {
       return;
     }
-    unawaited(
-      Scrollable.ensureVisible(
-        context,
-        duration: context.motion.panel,
-        curve: Curves.easeOut,
-      ),
+    Scrollable.ensureVisible(
+      context,
+      duration: context.motion.panel,
+      curve: Curves.easeOut,
     );
   }
 

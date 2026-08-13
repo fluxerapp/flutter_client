@@ -8342,6 +8342,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userSettingsGroupYourAccount => 'A SZÁMLÁD';
 
   @override
+  String get userSettingsGroupBilling => 'BILLING';
+
+  @override
   String get userSettingsGroupApplication => 'APPLICATION';
 
   @override
@@ -8361,6 +8364,428 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get userSettingsNavGiftsAndCodes => 'Ajándékok és kódok';
+
+  @override
+  String get giftSettingsClaimAccountTitle => 'Claim your account';
+
+  @override
+  String get giftSettingsClaimAccountDescription =>
+      'Claim your account to redeem or manage Plutonium gift codes.';
+
+  @override
+  String get giftSettingsRedeemTitle => 'Redeem a gift';
+
+  @override
+  String get giftSettingsRedeemDescription =>
+      'Enter a gift code to redeem Plutonium for your account.';
+
+  @override
+  String get giftSettingsRedeemPlaceholder => 'Enter gift code…';
+
+  @override
+  String get giftSettingsRedeemButton => 'Redeem';
+
+  @override
+  String get giftSettingsRedeemSuccess =>
+      'Gift redeemed successfully. Enjoy your Plutonium.';
+
+  @override
+  String get giftSettingsPurchasedTitle => 'Purchased gifts';
+
+  @override
+  String get giftSettingsPurchasedDescription =>
+      'Manage your purchased Plutonium gift codes. Share the gift URL with someone special or redeem it for yourself!';
+
+  @override
+  String get giftSettingsEmptyTitle => 'No gifts yet';
+
+  @override
+  String get giftSettingsEmptyDescription =>
+      'Buy a Plutonium gift from the Plutonium tab to share with friends.';
+
+  @override
+  String get giftSettingsGoToPlutonium => 'Go to Plutonium';
+
+  @override
+  String get giftSettingsLoadFailedTitle => 'Failed to load gift inventory';
+
+  @override
+  String get giftSettingsLoadFailedDescription => 'Try again later.';
+
+  @override
+  String get giftSettingsTryAgain => 'Try again';
+
+  @override
+  String get giftSettingsGiftUrl => 'Gift URL';
+
+  @override
+  String get giftSettingsCopy => 'Copy';
+
+  @override
+  String get giftSettingsCopied => 'Copied';
+
+  @override
+  String get giftSettingsGiftUrlCopied => 'Gift URL copied to clipboard!';
+
+  @override
+  String get giftSettingsGiftUrlCopyFailed => 'Couldn\'t copy gift URL';
+
+  @override
+  String giftSettingsPurchasedDate(String date) {
+    return 'Purchased $date';
+  }
+
+  @override
+  String giftSettingsRedeemedDate(String date) {
+    return 'Redeemed $date';
+  }
+
+  @override
+  String giftSettingsRedeemedBy(String name) {
+    return 'Redeemed by $name';
+  }
+
+  @override
+  String get giftSettingsAlreadyRedeemed => 'This gift has been redeemed';
+
+  @override
+  String get giftSettingsRedeemForYourself => 'Redeem for yourself';
+
+  @override
+  String get giftSettingsShareWithFriend => 'Share with a friend';
+
+  @override
+  String get premiumPlutoniumTagline =>
+      'Unlock higher limits and exclusive features while supporting an independent communication platform.';
+
+  @override
+  String get premiumPurchaseMode => 'Purchase mode';
+
+  @override
+  String get premiumForMe => 'For me';
+
+  @override
+  String get premiumAsAGift => 'As a gift';
+
+  @override
+  String get premiumMonthly => 'Monthly';
+
+  @override
+  String get premiumYearly => 'Yearly';
+
+  @override
+  String get premiumPerMonth => 'per month';
+
+  @override
+  String get premiumPerYear => 'per year';
+
+  @override
+  String get premiumOneTimePurchase => 'one-time purchase';
+
+  @override
+  String get premiumSave17 => 'Save 17%';
+
+  @override
+  String get premiumUpgradeNow => 'Upgrade now';
+
+  @override
+  String get premiumBuyGift => 'Buy gift';
+
+  @override
+  String get premiumOneYearGift => '1 year gift';
+
+  @override
+  String get premiumOneMonthGift => '1 month gift';
+
+  @override
+  String get premiumMostPopular => 'Most popular';
+
+  @override
+  String get premiumScrollPrompt =>
+      'Scroll down to view all the perks included with Plutonium';
+
+  @override
+  String get premiumFreeVsPlutonium => 'Free vs Plutonium';
+
+  @override
+  String get premiumFreeColumn => 'Free';
+
+  @override
+  String get premiumGiftSectionTitle => 'Gift Plutonium';
+
+  @override
+  String get premiumGiftSectionDescription =>
+      'Share the Plutonium experience with your friends by purchasing a gift subscription.';
+
+  @override
+  String get premiumGiftBannerOne =>
+      'You have a new gift code waiting for you!';
+
+  @override
+  String premiumGiftBannerMany(int count) {
+    return 'You have $count new gift codes waiting for you!';
+  }
+
+  @override
+  String get premiumViewGifts => 'View gifts';
+
+  @override
+  String get premiumReadyToUpgrade => 'Ready to upgrade?';
+
+  @override
+  String get premiumReadyToBuyGift => 'Ready to buy a gift?';
+
+  @override
+  String premiumMonthlyPrice(String price) {
+    return 'Monthly $price';
+  }
+
+  @override
+  String premiumYearlyPrice(String price) {
+    return 'Yearly $price';
+  }
+
+  @override
+  String premiumOneYearPrice(String price) {
+    return '1 year $price';
+  }
+
+  @override
+  String premiumOneMonthPrice(String price) {
+    return '1 month $price';
+  }
+
+  @override
+  String get premiumManageSubscription => 'Manage subscription';
+
+  @override
+  String get premiumRedeemGiftCode => 'Redeem gift code';
+
+  @override
+  String get premiumGiftBadge => 'Gift';
+
+  @override
+  String get premiumCancelSubscriptionTitle => 'Cancel subscription?';
+
+  @override
+  String get premiumCancelSubscriptionBody =>
+      'You keep your perks until your next renewal date, then have a 3-day grace period to resubscribe and keep your subscriber history.';
+
+  @override
+  String get premiumCancelSubscriptionConfirm => 'Cancel subscription';
+
+  @override
+  String get premiumKeepSubscription => 'Keep subscription';
+
+  @override
+  String get premiumPurchaseHistoryTitle => 'Purchase history';
+
+  @override
+  String get premiumPurchaseHistoryDescription =>
+      'Your recent invoices. To change the payment method for your subscription, add or choose one in the billing portal and make it the default.';
+
+  @override
+  String get premiumManagePaymentMethods => 'Manage payment methods';
+
+  @override
+  String get premiumBillingHistory => 'Billing history';
+
+  @override
+  String get premiumSelfServeRefundTitle => 'Self-serve refund';
+
+  @override
+  String get premiumSelfServeRefundButton => 'Refund latest purchase';
+
+  @override
+  String get premiumDisclaimerAgreementPrefix =>
+      'By purchasing, you agree to our ';
+
+  @override
+  String get premiumDisclaimerAgreementPastPrefix =>
+      'By purchasing, you agreed to our ';
+
+  @override
+  String get premiumDisclaimerAgreementMiddle => ' and ';
+
+  @override
+  String premiumActiveUntil(String date) {
+    return 'Active until $date';
+  }
+
+  @override
+  String get premiumSubscriptionCanceling => 'Canceling';
+
+  @override
+  String premiumCancelsOn(String date) {
+    return 'Cancels on $date. Perks remain active until then.';
+  }
+
+  @override
+  String get premiumReactivateSubscription => 'Reactivate';
+
+  @override
+  String premiumGiftedUntil(String date) {
+    return 'Gifted until $date. Does not renew automatically.';
+  }
+
+  @override
+  String get premiumComparisonFeatureColumn => 'Feature';
+
+  @override
+  String premiumDisclaimerPurchased(String terms, String privacy) {
+    return 'By purchasing, you agreed to our $terms and $privacy.';
+  }
+
+  @override
+  String get premiumDisclaimerRefund =>
+      'Self-serve refunds available within 3 days of payment, once every 30 days. Refunding a subscription cancels it. EU/EEA buyers waive the 14-day right of withdrawal at checkout to access content immediately. Use the in-app refund button instead of a chargeback. Chargebacks can permanently restrict your account. Stripe handles payment securely. We never see your full card number.';
+
+  @override
+  String get premiumTermsOfService => 'Terms of service';
+
+  @override
+  String get premiumPrivacyPolicy => 'Privacy policy';
+
+  @override
+  String get premiumCheckoutStartFailedTitle => 'Couldn\'t start checkout';
+
+  @override
+  String get premiumCheckoutStartFailedBody =>
+      'Something went wrong while starting checkout. Please try again in a moment.';
+
+  @override
+  String get premiumGiftSubscriptionBlocksRecurring =>
+      'You\'re currently on a gift subscription. It won\'t renew. You can redeem more gift codes to extend it. Recurring subscriptions can be started after your gift time ends.';
+
+  @override
+  String get premiumPlanUnavailable =>
+      'This plan isn\'t available. Contact support.';
+
+  @override
+  String get premiumCompletePaymentTitle => 'Complete payment';
+
+  @override
+  String get premiumCompletePaymentBody =>
+      'You are now navigating to Stripe to complete the payment. Return to Fluxer once you\'ve completed it.';
+
+  @override
+  String get premiumChoosePaymentMethodTitle => 'Choose payment method';
+
+  @override
+  String get premiumPixPaymentPromptDescription =>
+      'Pay with Pix automático to authorize recurring charges directly from your Brazilian bank. Or choose use card to enter a credit card on Stripe\'s next screen.';
+
+  @override
+  String get premiumUsePix => 'Use Pix';
+
+  @override
+  String get premiumUpiPaymentPromptDescription =>
+      'Pay with UPI to set up an RBI-compliant e-mandate from your Indian bank. Or choose use card to enter a credit card on Stripe\'s next screen.';
+
+  @override
+  String get premiumUseUpi => 'Use UPI';
+
+  @override
+  String get premiumUseCard => 'Use card';
+
+  @override
+  String get premiumCustomerPortalOpenFailedTitle =>
+      'Couldn\'t open the billing portal';
+
+  @override
+  String get premiumCustomerPortalOpenFailedBody =>
+      'Something went wrong while opening the billing portal. Please try again in a moment.';
+
+  @override
+  String get premiumAlreadyVisionaryTitle => 'You\'re already Visionary';
+
+  @override
+  String get premiumAlreadyVisionaryBody =>
+      'Visionary already includes permanent access, so a recurring subscription isn\'t needed. You can still buy gifts for others.';
+
+  @override
+  String get premiumExistingSubscriptionTitle => 'Subscription already exists';
+
+  @override
+  String get premiumExistingSubscriptionBody =>
+      'We found an existing Fluxer Plutonium subscription for this account. Manage it in the secure billing portal to update payment details or check renewal status. If you just paid, wait a minute and reopen this page.';
+
+  @override
+  String get premiumPurchasesDisabledTitle => 'Purchases unavailable';
+
+  @override
+  String get premiumPurchasesDisabledBody =>
+      'Purchases are disabled for this account. Contact support@fluxer.app if this looks wrong.';
+
+  @override
+  String get premiumClaimAccountToPurchase =>
+      'Claim your account to purchase Fluxer Plutonium.';
+
+  @override
+  String get premiumVerifyEmailToPurchase =>
+      'You need to verify your email before you can purchase Fluxer Plutonium.';
+
+  @override
+  String get premiumPerkCustomUsernameTag => 'Custom username tag';
+
+  @override
+  String get premiumPerkPerCommunityProfiles => 'Per-community profiles';
+
+  @override
+  String get premiumPerkMessageScheduling => 'Message scheduling';
+
+  @override
+  String get premiumPerkProfileBadge => 'Profile badge';
+
+  @override
+  String get premiumPerkCustomVideoBackgrounds => 'Custom video backgrounds';
+
+  @override
+  String get premiumPerkEntranceSounds => 'Entrance sounds';
+
+  @override
+  String get premiumPerkCommunities => 'Communities';
+
+  @override
+  String get premiumPerkMessageCharacterLimit => 'Message character limit';
+
+  @override
+  String get premiumPerkBookmarkedMessages => 'Bookmarked messages';
+
+  @override
+  String get premiumPerkFileUploadSize => 'File upload size';
+
+  @override
+  String get premiumPerkEmojiStickerPacks => 'Emoji & sticker packs';
+
+  @override
+  String get premiumPerkSavedMedia => 'Saved media';
+
+  @override
+  String get premiumPerkUseAnimatedEmojis => 'Use animated emojis';
+
+  @override
+  String get premiumPerkGlobalEmojiStickerAccess =>
+      'Global emoji & sticker access';
+
+  @override
+  String get premiumPerkVideoQuality => 'Video quality';
+
+  @override
+  String get premiumPerkAnimatedAvatarsBanners =>
+      'Animated avatars & profile banners';
+
+  @override
+  String get premiumPerkEarlyAccess => 'Early access to new features';
+
+  @override
+  String get premiumPerkCustomThemes => 'Custom themes';
+
+  @override
+  String get premiumPerkVideoQualityRestricted => '720p/30fps';
+
+  @override
+  String get premiumPerkVideoQualityStock => 'Up to 4K/60fps';
 
   @override
   String get userSettingsNavPrivacyDashboard => 'Adatvédelmi irányítópult';
@@ -8388,6 +8813,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get userSettingsNavAudioAndVideo => 'Hang és videó';
+
+  @override
+  String get userSettingsNavShortcuts => 'Shortcuts';
 
   @override
   String get audioAndVideoAudioSectionTitle => 'Hang';
@@ -12760,4 +13188,220 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get dmListDirectMessagesTitle => 'Direct Messages';
+
+  @override
+  String get keybindsSearchShortcuts => 'Search shortcuts';
+
+  @override
+  String get keybindSectionDefaults => 'Defaults';
+
+  @override
+  String get keybindSectionMessages => 'Messages';
+
+  @override
+  String get keybindSectionNavigation => 'Navigation';
+
+  @override
+  String get keybindSectionDragAndDrop => 'Drag and drop';
+
+  @override
+  String get keybindSectionChat => 'Chat';
+
+  @override
+  String get keybindSectionVoiceAndVideo => 'Voice and video';
+
+  @override
+  String get keybindSectionMisc => 'Miscellaneous';
+
+  @override
+  String get keybindActionShowShortcutsList => 'Show keyboard shortcuts list';
+
+  @override
+  String get keybindActionCopyText => 'Copy text';
+
+  @override
+  String get keybindActionMarkUnread => 'Mark as unread';
+
+  @override
+  String get keybindActionFocusTextarea => 'Focus text area';
+
+  @override
+  String get keybindActionSwitchCommunities => 'Switch between communities';
+
+  @override
+  String get keybindActionSwitchChannels => 'Switch between channels';
+
+  @override
+  String get keybindActionHistoryBack =>
+      'Move back through viewed channel history';
+
+  @override
+  String get keybindActionHistoryForward =>
+      'Move forward through viewed channel history';
+
+  @override
+  String get keybindActionJumpUnreadChannels => 'Jump between unread channels';
+
+  @override
+  String get keybindActionJumpMentionChannels =>
+      'Jump between unread channels with mentions';
+
+  @override
+  String get keybindActionJumpCurrentCall => 'Jump to the current call';
+
+  @override
+  String get keybindActionToggleLastGuildDms =>
+      'Toggle between last community and DMs';
+
+  @override
+  String get keybindActionPreviousCommunityOrDms =>
+      'Switch to previous community or DMs';
+
+  @override
+  String get keybindActionNextCommunityOrDms =>
+      'Switch to next community or DMs';
+
+  @override
+  String get keybindActionGoToDms => 'Go to Direct Messages';
+
+  @override
+  String get keybindActionGoToFirstCommunity => 'Go to first community';
+
+  @override
+  String get keybindActionGoToSecondCommunity => 'Go to second community';
+
+  @override
+  String get keybindActionGoToThirdCommunity => 'Go to third community';
+
+  @override
+  String get keybindActionGoToFourthCommunity => 'Go to fourth community';
+
+  @override
+  String get keybindActionGoToFifthCommunity => 'Go to fifth community';
+
+  @override
+  String get keybindActionGoToSixthCommunity => 'Go to sixth community';
+
+  @override
+  String get keybindActionGoToSeventhCommunity => 'Go to seventh community';
+
+  @override
+  String get keybindActionGoToEighthCommunity => 'Go to eighth community';
+
+  @override
+  String get keybindActionToggleQuickSwitcher => 'Toggle quick switcher';
+
+  @override
+  String get keybindActionCreateOrJoinCommunity => 'Create or join a community';
+
+  @override
+  String get keybindActionStartDragAndDrop => 'Start drag and drop';
+
+  @override
+  String get keybindActionMove => 'Move';
+
+  @override
+  String get keybindActionDropItem => 'Drop item';
+
+  @override
+  String get keybindActionCancel => 'Cancel';
+
+  @override
+  String get keybindActionMarkCommunityRead => 'Mark community as read';
+
+  @override
+  String get keybindActionMarkChannelRead => 'Mark channel as read';
+
+  @override
+  String get keybindActionStartGroupDm => 'Start a group DM';
+
+  @override
+  String get keybindActionTogglePinnedMessages => 'Toggle pinned messages';
+
+  @override
+  String get keybindActionToggleInbox => 'Toggle the inbox';
+
+  @override
+  String get keybindActionMarkTopInboxRead => 'Mark top inbox channel as read';
+
+  @override
+  String get keybindActionMarkAllInboxRead => 'Mark all inbox channels as read';
+
+  @override
+  String get keybindActionToggleMemberList =>
+      'Toggle the member list or voice chat';
+
+  @override
+  String get keybindActionToggleEmojiPicker => 'Toggle the emoji picker';
+
+  @override
+  String get keybindActionToggleGifPicker => 'Toggle the GIF picker';
+
+  @override
+  String get keybindActionToggleStickerPicker => 'Toggle the sticker picker';
+
+  @override
+  String get keybindActionScrollChatUp => 'Scroll chat up';
+
+  @override
+  String get keybindActionScrollChatDown => 'Scroll chat down';
+
+  @override
+  String get keybindActionJumpOldestUnread =>
+      'Jump to the oldest unread message';
+
+  @override
+  String get keybindActionFocusComposer => 'Focus the text area';
+
+  @override
+  String get keybindActionUploadFile => 'Upload a file';
+
+  @override
+  String get keybindActionCopyChannelLink => 'Copy channel link';
+
+  @override
+  String get keybindActionToggleSavedMedia => 'Toggle saved media';
+
+  @override
+  String get keybindActionSendVoiceMessage => 'Send voice message';
+
+  @override
+  String get keybindActionAnswerCall => 'Answer the incoming call';
+
+  @override
+  String get keybindActionDeclineCall => 'Decline the incoming call';
+
+  @override
+  String get keybindActionStartDmCall => 'Start a call in a DM or group';
+
+  @override
+  String get keybindActionToggleSoundboard => 'Toggle the soundboard';
+
+  @override
+  String get keybindActionToggleCompactCallView =>
+      'Expand or collapse compact call view';
+
+  @override
+  String get keybindActionOpenHelp => 'Open help';
+
+  @override
+  String get keybindActionSearchMessages => 'Search messages';
+
+  @override
+  String get keybindActionOpenContextMenu => 'Open the context menu';
+
+  @override
+  String get keybindActionOpenSettings => 'Open your settings';
+
+  @override
+  String get keybindActionOpenThemeStudio => 'Open theme studio popout';
+
+  @override
+  String get keybindActionZoomIn => 'Zoom in';
+
+  @override
+  String get keybindActionZoomOut => 'Zoom out';
+
+  @override
+  String get keybindActionZoomReset => 'Reset zoom';
 }

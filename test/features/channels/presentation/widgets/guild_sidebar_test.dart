@@ -37,14 +37,13 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../helpers/open_test_database.dart';
 import '../../../../helpers/pump_fluxer_app.dart';
-import '../../../../helpers/wide_layout_test_sizes.dart';
 import '../../../../helpers/test_l10n.dart';
+import '../../../../helpers/wide_layout_test_sizes.dart';
 
 Future<void> _pumpSidebar(WidgetTester tester) async {
   await pumpFluxerFrames(tester);
@@ -71,7 +70,6 @@ void main() {
               guild: Guild(id: _guildId, name: 'Test Guild'),
               categories: [],
               selectedChannelId: null,
-              hasReceivedInitialChannelList: false,
             ),
           ),
         ),

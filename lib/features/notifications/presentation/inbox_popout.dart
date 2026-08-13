@@ -85,7 +85,7 @@ class _InboxPopoutButtonState extends State<InboxPopoutButton>
     }
     _computeDirection();
     _overlayController.show();
-    unawaited(_animationController.forward());
+    _animationController.forward();
   }
 
   void _close() {

@@ -2673,11 +2673,9 @@ void main() {
       description: 'B description',
     );
     await _flushAsync();
-    expect(
-      adapter.attachmentRequests,
-      <String>['DELETE $_kAttachmentId2'],
-      reason: 'B must wait for A to settle before it touches the wire',
-    );
+    expect(adapter.attachmentRequests, <String>[
+      'DELETE $_kAttachmentId2',
+    ], reason: 'B must wait for A to settle before it touches the wire');
 
     // A now fails; B dispatches behind it.
     adapter.releaseDelete();
@@ -2778,11 +2776,9 @@ void main() {
         .read(chatViewModelProvider)
         .messages
         .firstWhere((Message m) => m.id == messageId);
-    expect(
-      row.attachments.map((Attachment a) => a.id),
-      <String>[_kAttachmentId],
-      reason: 'the canonical row the edit returned is the new baseline',
-    );
+    expect(row.attachments.map((Attachment a) => a.id), <String>[
+      _kAttachmentId,
+    ], reason: 'the canonical row the edit returned is the new baseline');
     expect(row.attachments.single.description, 'alt for one');
     expect(
       notifier.pendingLocalMutationCount,
@@ -5237,11 +5233,9 @@ void main() {
       description: 'a local description',
     );
     await _flushAsync();
-    expect(
-      adapter.attachmentRequests,
-      <String>['PATCH $_kAttachmentId=a local description'],
-      reason: 'the edit settled on the wire: the mutation is ACKNOWLEDGED',
-    );
+    expect(adapter.attachmentRequests, <String>[
+      'PATCH $_kAttachmentId=a local description',
+    ], reason: 'the edit settled on the wire: the mutation is ACKNOWLEDGED');
     expect(
       notifier.pendingLocalMutationCount,
       1,

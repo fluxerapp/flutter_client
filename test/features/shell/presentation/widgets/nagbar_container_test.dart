@@ -10,7 +10,6 @@ import 'package:fluxer_app/features/shell/domain/nagbar_state.dart';
 import 'package:fluxer_app/features/shell/domain/nagbar_type.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbar_container.dart';
 import 'package:fluxer_app/features/shell/providers/visible_nagbars_provider.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 import '../../../../helpers/test_l10n.dart';
 

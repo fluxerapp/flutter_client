@@ -16,7 +16,6 @@ import 'package:fluxer_app/features/voice/presentation/widgets/voice_connection_
 import 'package:fluxer_app/features/voice/providers/voice_connection_stats_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 import '../../../../helpers/test_l10n.dart';
 

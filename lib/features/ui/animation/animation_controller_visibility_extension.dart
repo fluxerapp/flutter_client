@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -15,7 +13,7 @@ extension VisibilityAwareAnimationController on AnimationController {
         lifecycleState == null || lifecycleState == AppLifecycleState.resumed;
     final bool shouldAnimate = isVisible && isForeground && animationsEnabled;
     if (shouldAnimate && !isAnimating) {
-      unawaited(repeat());
+      repeat();
     } else if (!shouldAnimate && isAnimating) {
       stop();
     }

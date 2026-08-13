@@ -791,7 +791,7 @@ void main() {
 
       final Offset headingBottom = tester.getBottomLeft(headingFinder);
       final Offset regularTop = tester.getTopLeft(regularFinder);
-      final double lineHeight = FluxerMarkupSpacing.headingBottom;
+      const double lineHeight = FluxerMarkupSpacing.headingBottom;
       expect(
         regularTop.dy - headingBottom.dy,
         greaterThanOrEqualTo(lineHeight - 1),

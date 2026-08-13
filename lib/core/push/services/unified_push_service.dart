@@ -4,13 +4,12 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
-import 'package:fluxer_app/core/push/foreground_push_notification_policy.dart';
 import 'package:fluxer_app/core/push/local_push_notifications.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
 import 'package:fluxer_app/core/push/push_notification_clear.dart';
-import 'package:fluxer_app/core/push/push_notification_payload.dart';
 import 'package:fluxer_app/core/push/push_notification_permission.dart';
 import 'package:fluxer_app/core/push/push_service.dart';
+import 'package:fluxer_app/core/push/unified_push/unified_push_incoming_policy.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_message_mapper.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_vapid_cache.dart';
 import 'package:unifiedpush/unifiedpush.dart' as up;
@@ -21,6 +20,7 @@ const String kFluxerUnifiedPushInstance = 'fluxer';
 const Duration _kEndpointWaitTimeout = Duration(seconds: 12);
 const Duration _kRegistrationRetryDelay = Duration(seconds: 5);
 const Duration _kDecryptionHealCooldown = Duration(seconds: 30);
+const Duration _kBackgroundMessageWait = Duration(seconds: 3);
 
 bool _isUnifiedPushAndroid() =>
     PushProviderGuard.isUnifiedPush && Platform.isAndroid;
@@ -45,11 +45,12 @@ class UnifiedPushService implements PushService {
   String? _lastRegisteredVapid;
   bool _registrationRetryScheduled = false;
   DateTime? _lastDecryptionHealAt;
-  UnifiedPushVapidResolver? _vapidNetworkResolver;
+  UnifiedPushVapidResolver? vapidNetworkResolver;
   Future<String?>? _ensureVapidFuture;
   FluxerDatabase? _database;
   static bool _backgroundMode = false;
-  bool isAppForeground = true;
+  Future<void>? _initializeFuture;
+  Completer<void>? _backgroundMessageHandled;
 
   Stream<up.PushEndpoint> get endpointStream => _endpoints.stream;
 
@@ -58,12 +59,6 @@ class UnifiedPushService implements PushService {
   bool get needsDistributorPicker => _needsDistributorPicker;
 
   String? get pendingVapid => _pendingVapid;
-
-  UnifiedPushVapidResolver? get vapidNetworkResolver => _vapidNetworkResolver;
-
-  set vapidNetworkResolver(UnifiedPushVapidResolver? resolver) {
-    _vapidNetworkResolver = resolver;
-  }
 
   bool get _hasEndpoint => _endpoint != null && _endpoint!.url.isNotEmpty;
 
@@ -82,7 +77,7 @@ class UnifiedPushService implements PushService {
     if (hasUnifiedPushVapid(_pendingVapid)) {
       return _pendingVapid;
     }
-    final UnifiedPushVapidResolver? resolve = _vapidNetworkResolver;
+    final UnifiedPushVapidResolver? resolve = vapidNetworkResolver;
     if (resolve == null) {
       return _pendingVapid;
     }
@@ -117,10 +112,13 @@ class UnifiedPushService implements PushService {
       return;
     }
     _backgroundMode = true;
-    await requestPushNotificationPermission();
+    instance._backgroundMessageHandled = Completer<void>();
     await LocalPushNotifications().ensureInitialized();
-    await instance.loadCachedVapidPublicKey();
     await instance._ensureUnifiedPushInitialized();
+    await instance._backgroundMessageHandled!.future.timeout(
+      _kBackgroundMessageWait,
+      onTimeout: () {},
+    );
   }
 
   Future<void> loadCachedVapidPublicKey() async {
@@ -238,6 +236,9 @@ class UnifiedPushService implements PushService {
     if (!force && hasPersistedSubscription && _endpoint != null) {
       return;
     }
+    if (_backgroundMode) {
+      return;
+    }
     if (kDebugMode) {
       debugPrint(
         '[UnifiedPushService] no endpoint after register; '
@@ -293,7 +294,16 @@ class UnifiedPushService implements PushService {
   @override
   Stream<PushMessage> watchMessages() => _messages.stream;
 
-  Future<void> _ensureUnifiedPushInitialized() async {
+  Future<void> _ensureUnifiedPushInitialized() {
+    if (_initialized) {
+      return Future<void>.value();
+    }
+    return _initializeFuture ??= _bindUnifiedPushCallbacks().whenComplete(() {
+      _initializeFuture = null;
+    });
+  }
+
+  Future<void> _bindUnifiedPushCallbacks() async {
     if (_initialized) {
       return;
     }
@@ -331,11 +341,14 @@ class UnifiedPushService implements PushService {
     if (_hasEndpoint) {
       return true;
     }
+    final Future<up.PushEndpoint> next = _endpoints.stream
+        .where((up.PushEndpoint endpoint) => endpoint.url.isNotEmpty)
+        .first;
+    if (_hasEndpoint) {
+      return true;
+    }
     try {
-      await _endpoints.stream
-          .where((up.PushEndpoint endpoint) => endpoint.url.isNotEmpty)
-          .first
-          .timeout(timeout);
+      await next.timeout(timeout);
       return true;
     } on TimeoutException {
       return _hasEndpoint;
@@ -394,7 +407,7 @@ class UnifiedPushService implements PushService {
   }
 
   void _scheduleRegistrationRetry() {
-    if (_registrationRetryScheduled) {
+    if (_backgroundMode || _registrationRetryScheduled) {
       return;
     }
     _registrationRetryScheduled = true;
@@ -418,33 +431,68 @@ class UnifiedPushService implements PushService {
   }
 
   Future<void> _onMessage(up.PushMessage message, String instance) async {
+    try {
+      await _handleIncomingMessage(message, instance);
+    } finally {
+      _completeBackgroundMessageHandled();
+    }
+  }
+
+  Future<void> _handleIncomingMessage(
+    up.PushMessage message,
+    String instance,
+  ) async {
     if (instance != kFluxerUnifiedPushInstance) {
       return;
     }
     if (!message.decrypted) {
+      if (kDebugMode) {
+        debugPrint('[UnifiedPushService] skip undecrypted push');
+      }
       unawaited(_healDecryptionFailure());
       return;
     }
     final PushMessage mapped = mapUnifiedPushMessage(message);
-    if (_backgroundMode) {
-      await _displayUnifiedPushMessage(mapped);
-      return;
-    }
-    if (!ForegroundPushNotificationPolicy.shouldProcessPush(
-      isAppForeground: isAppForeground,
+    switch (resolveUnifiedPushIncomingAction(
+      instance: instance,
+      expectedInstance: kFluxerUnifiedPushInstance,
+      decrypted: true,
+      backgroundMode: _backgroundMode,
       payload: mapped.payload,
     )) {
+      case UnifiedPushIncomingAction.ignore:
+      case UnifiedPushIncomingAction.healUndecrypted:
+        return;
+      case UnifiedPushIncomingAction.handleClear:
+        if (kDebugMode) {
+          debugPrint('[UnifiedPushService] clear payload id=${mapped.id}');
+        }
+        await PushNotificationClear.handleClearPayload(mapped.payload);
+      case UnifiedPushIncomingAction.emitToCoordinator:
+        if (kDebugMode) {
+          debugPrint(
+            '[UnifiedPushService] emit push id=${mapped.id} '
+            'title=${mapped.title}',
+          );
+        }
+        _messages.add(mapped);
+      case UnifiedPushIncomingAction.showLocally:
+        await _displayUnifiedPushMessage(mapped);
+    }
+  }
+
+  void _completeBackgroundMessageHandled() {
+    if (!_backgroundMode) {
       return;
     }
-    if (isNotificationClearPayload(mapped.payload)) {
-      await PushNotificationClear.handleClearPayload(mapped.payload);
+    final Completer<void>? pending = _backgroundMessageHandled;
+    if (pending == null || pending.isCompleted) {
       return;
     }
-    await _displayUnifiedPushMessage(mapped);
+    pending.complete();
   }
 
   Future<void> _displayUnifiedPushMessage(PushMessage mapped) async {
-    _messages.add(mapped);
     if (kDebugMode) {
       debugPrint(
         '[UnifiedPushService] display push id=${mapped.id} '
@@ -472,6 +520,10 @@ class UnifiedPushService implements PushService {
       debugPrint('[UnifiedPushService] healing undecrypted push payload');
     }
     await ensureVapidPublicKey();
+    if (_backgroundMode) {
+      await registerWithSavedDistributor(vapid: _pendingVapid);
+      return;
+    }
     await applyVapidAndReregisterIfNeeded(_pendingVapid);
     await syncRegistration(force: true);
   }

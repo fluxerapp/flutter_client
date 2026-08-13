@@ -118,12 +118,10 @@ class _MobileHomeUtilityShellState extends ConsumerState<MobileHomeUtilityShell>
                   );
                 },
                 onHorizontalDragCancel: () {
-                  unawaited(
-                    _swipeController.animateBack(
-                      0,
-                      duration: horizontalSwipeSnapBackDuration(context),
-                      curve: kHorizontalSwipeCurve,
-                    ),
+                  _swipeController.animateBack(
+                    0,
+                    duration: horizontalSwipeSnapBackDuration(context),
+                    curve: kHorizontalSwipeCurve,
                   );
                 },
               ),
@@ -167,12 +165,10 @@ class _MobileHomeUtilityShellState extends ConsumerState<MobileHomeUtilityShell>
             }),
       );
     } else {
-      unawaited(
-        _swipeController.animateBack(
-          0,
-          duration: horizontalSwipeSnapBackDuration(context),
-          curve: kHorizontalSwipeCurve,
-        ),
+      _swipeController.animateBack(
+        0,
+        duration: horizontalSwipeSnapBackDuration(context),
+        curve: kHorizontalSwipeCurve,
       );
     }
   }

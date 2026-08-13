@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
@@ -115,7 +113,7 @@ class _ToastItemState extends State<_ToastItem>
       end: 1,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
     if (widget.entry.isVisible) {
-      unawaited(_controller.forward());
+      _controller.forward();
     }
   }
 
@@ -132,10 +130,10 @@ class _ToastItemState extends State<_ToastItem>
       return;
     }
     if (widget.entry.isVisible) {
-      unawaited(_controller.forward());
+      _controller.forward();
       return;
     }
-    unawaited(_controller.reverse());
+    _controller.reverse();
   }
 
   @override

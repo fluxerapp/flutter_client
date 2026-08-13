@@ -128,7 +128,7 @@ void main() {
   group('expandSystemMessageTemplate', () {
     test('wraps usernames in tappable spans when onAuthorTap is provided', () {
       final List<InlineSpan> spans = expandSystemMessageTemplate(
-        "Welcome, ${kSystemMessageUsernamePlaceholder}!",
+        'Welcome, $kSystemMessageUsernamePlaceholder!',
         authorName: 'Alice',
         textStyle: const TextStyle(),
         usernameStyle: const TextStyle(fontWeight: FontWeight.bold),
@@ -140,7 +140,7 @@ void main() {
 
     test('uses plain text spans when onAuthorTap is omitted', () {
       final List<InlineSpan> spans = expandSystemMessageTemplate(
-        "Welcome, ${kSystemMessageUsernamePlaceholder}!",
+        'Welcome, $kSystemMessageUsernamePlaceholder!',
         authorName: 'Alice',
         textStyle: const TextStyle(),
         usernameStyle: const TextStyle(fontWeight: FontWeight.bold),

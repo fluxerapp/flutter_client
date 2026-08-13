@@ -61,7 +61,7 @@ EdgeInsets _headingPadding(WidgetTester tester, String headingText) {
     ),
   );
   expect(paddingFinder, findsOneWidget);
-  return (tester.widget<Padding>(paddingFinder).padding as EdgeInsets);
+  return tester.widget<Padding>(paddingFinder).padding as EdgeInsets;
 }
 
 void main() {

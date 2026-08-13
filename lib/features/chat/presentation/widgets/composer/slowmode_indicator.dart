@@ -81,7 +81,7 @@ class _SlowmodeIndicatorState extends ConsumerState<SlowmodeIndicator>
   }
 
   void _playShake() {
-    unawaited(_shakeController.forward(from: 0));
+    _shakeController.forward(from: 0);
   }
 
   void _ensureTicker(bool active) {

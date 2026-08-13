@@ -26,7 +26,7 @@ void main() {
     test('matches @ immediately after an inline mention chip sentinel', () {
       const String chip = '\uE000';
       final ComposerAutocompleteTrigger? trigger =
-          ComposerAutocompleteTrigger.detect('${chip}@bob');
+          ComposerAutocompleteTrigger.detect('$chip@bob');
       expect(trigger?.kind, ComposerAutocompleteTriggerKind.mention);
       expect(trigger?.matchedText, 'bob');
       expect(trigger?.matchStart, chip.length);

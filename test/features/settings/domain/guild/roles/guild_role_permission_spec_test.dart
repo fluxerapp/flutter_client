@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_permission_spec.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import '../../../../../helpers/test_l10n.dart';
 
 void main() {

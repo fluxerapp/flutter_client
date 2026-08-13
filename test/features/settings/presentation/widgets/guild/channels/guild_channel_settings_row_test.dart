@@ -10,7 +10,6 @@ import 'package:fluxer_app/features/channels/domain/channel_reorder_drop.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels/guild_channel_drop_indicator.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels/guild_channel_settings_entries.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels/guild_channel_settings_row.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import '../../../../../../helpers/test_l10n.dart';
 
 void main() {

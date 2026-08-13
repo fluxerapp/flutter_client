@@ -1,21 +1,9 @@
 PODS:
   - flutter_tts (0.0.1):
     - FlutterMacOS
-  - flutter_webrtc (1.4.0):
-    - FlutterMacOS
-    - WebRTC-SDK (= 144.7559.09)
   - FlutterMacOS (1.0.0)
   - irondash_engine_context (0.0.1):
     - FlutterMacOS
-  - livekit_client (2.9.0):
-    - flutter_webrtc
-    - FlutterMacOS
-    - WebRTC-SDK (= 144.7559.09)
-  - livekit_noise_filter (0.0.1):
-    - flutter_webrtc
-    - FlutterMacOS
-    - LiveKitKrispNoiseFilter (= 0.0.7)
-  - LiveKitKrispNoiseFilter (0.0.7)
   - media_kit_libs_macos_video (1.0.4):
     - FlutterMacOS
   - media_kit_video (0.0.1):
@@ -24,38 +12,23 @@ PODS:
     - FlutterMacOS
   - ua_client_hints (1.7.0):
     - FlutterMacOS
-  - WebRTC-SDK (144.7559.09)
 
 DEPENDENCIES:
   - flutter_tts (from `Flutter/ephemeral/.symlinks/plugins/flutter_tts/macos`)
-  - flutter_webrtc (from `Flutter/ephemeral/.symlinks/plugins/flutter_webrtc/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
   - irondash_engine_context (from `Flutter/ephemeral/.symlinks/plugins/irondash_engine_context/macos`)
-  - livekit_client (from `Flutter/ephemeral/.symlinks/plugins/livekit_client/macos`)
-  - livekit_noise_filter (from `Flutter/ephemeral/.symlinks/plugins/livekit_noise_filter/macos`)
   - media_kit_libs_macos_video (from `Flutter/ephemeral/.symlinks/plugins/media_kit_libs_macos_video/macos`)
   - media_kit_video (from `Flutter/ephemeral/.symlinks/plugins/media_kit_video/macos`)
   - super_native_extensions (from `Flutter/ephemeral/.symlinks/plugins/super_native_extensions/macos`)
   - ua_client_hints (from `Flutter/ephemeral/.symlinks/plugins/ua_client_hints/macos`)
 
-SPEC REPOS:
-  trunk:
-    - LiveKitKrispNoiseFilter
-    - WebRTC-SDK
-
 EXTERNAL SOURCES:
   flutter_tts:
     :path: Flutter/ephemeral/.symlinks/plugins/flutter_tts/macos
-  flutter_webrtc:
-    :path: Flutter/ephemeral/.symlinks/plugins/flutter_webrtc/macos
   FlutterMacOS:
     :path: Flutter/ephemeral
   irondash_engine_context:
     :path: Flutter/ephemeral/.symlinks/plugins/irondash_engine_context/macos
-  livekit_client:
-    :path: Flutter/ephemeral/.symlinks/plugins/livekit_client/macos
-  livekit_noise_filter:
-    :path: Flutter/ephemeral/.symlinks/plugins/livekit_noise_filter/macos
   media_kit_libs_macos_video:
     :path: Flutter/ephemeral/.symlinks/plugins/media_kit_libs_macos_video/macos
   media_kit_video:
@@ -67,17 +40,12 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   flutter_tts: ae915565cc6948444b513acc8ee021993281e027
-  flutter_webrtc: fec3dc9284a1f6d21ec2caa91c90bb4c1824eb04
-  FlutterMacOS: d0db08ddef1a9af05a5ec4b724367152bb0500b1
+  FlutterMacOS: c232990155153907050900a2e175c7773903ba4e
   irondash_engine_context: 893c7d96d20ce361d7e996f39d360c4c2f9869ba
-  livekit_client: 02cc2700525e41488c0e9d81243ffe657f7c916a
-  livekit_noise_filter: c5710c0871ef3621b48c0b44d3c3ff938ba414b2
-  LiveKitKrispNoiseFilter: efe418ceca28163ace0ff222bd2cc02384645d84
   media_kit_libs_macos_video: 85a23e549b5f480e72cae3e5634b5514bc692f65
   media_kit_video: fa6564e3799a0a28bff39442334817088b7ca758
   super_native_extensions: c2795d6d9aedf4a79fae25cb6160b71b50549189
   ua_client_hints: bb84da85d9d5d605d40598b3c1ae3bfd2598e201
-  WebRTC-SDK: e6006119cd730d6315d875e4a421b6cc8bb88833
 
 PODFILE CHECKSUM: 6fcf5e0fd3398a8c44609a40d135bc12c506a4e0
 

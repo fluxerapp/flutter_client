@@ -52,6 +52,13 @@ void main() {
         isTrue,
       );
     });
+
+    test('does not match unrelated queries', () {
+      expect(
+        memberMatchesMentionQuery(alice, parseMentionQuery('nobody'), '0'),
+        isFalse,
+      );
+    });
   });
 
   group('rankMembersForMentionQuery', () {
@@ -180,6 +187,7 @@ void main() {
       expect(roleNameMatchesMentionQuery('Android Alpha', 'alpha'), isTrue);
       expect(roleNameMatchesMentionQuery('Moderator', 'mod'), isTrue);
       expect(roleNameMatchesMentionQuery('Moderator', 'android'), isFalse);
+      expect(roleNameMatchesMentionQuery('Reaction Roles', 'nobody'), isFalse);
     });
   });
 

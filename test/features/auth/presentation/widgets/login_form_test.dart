@@ -9,7 +9,6 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/login_form.dart';
 import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/keyboard_focus_restore.dart';
 import '../../../../helpers/test_l10n.dart';
 
@@ -108,7 +107,7 @@ void main() {
     final EditableText editable = tester.widget<EditableText>(
       find.byType(EditableText).first,
     );
-    final FocusNode focusNode = editable.focusNode!;
+    final FocusNode focusNode = editable.focusNode;
 
     focusNode.requestFocus();
     await tester.pumpAndSettle();

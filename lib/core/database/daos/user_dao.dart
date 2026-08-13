@@ -38,6 +38,9 @@ class UserDao extends DatabaseAccessor<FluxerDatabase> with _$UserDaoMixin {
       into(users).insertOnConflictUpdate(user);
 
   Future<void> upsertUsers(List<UsersCompanion> userList) async {
+    if (userList.isEmpty) {
+      return;
+    }
     await batch((b) {
       for (final user in userList) {
         b.insert(users, user, onConflict: DoUpdate((_) => user));

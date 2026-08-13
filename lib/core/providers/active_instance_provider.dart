@@ -1,6 +1,5 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
-import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/instance/instance_discovery_service.dart';
 import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -104,6 +103,6 @@ String activeInstanceDisplayDomain(Ref ref) {
 
 @Riverpod(keepAlive: true)
 bool isActiveInstanceOfficial(Ref ref) {
-  return ref.watch(fluxerBaseUrlProvider) ==
-      InstanceConstants.defaultApiBaseUrl;
+  final String apiBaseUrl = ref.watch(fluxerBaseUrlProvider);
+  return const InstanceEndpointNormalizer().isOfficialInstanceInput(apiBaseUrl);
 }

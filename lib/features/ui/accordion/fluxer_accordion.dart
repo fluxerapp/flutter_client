@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -61,9 +59,9 @@ class _FluxerAccordionState extends State<FluxerAccordion>
     setState(() {
       _isExpanded = !_isExpanded;
       if (_isExpanded) {
-        unawaited(_controller.forward());
+        _controller.forward();
       } else {
-        unawaited(_controller.reverse());
+        _controller.reverse();
       }
     });
   }

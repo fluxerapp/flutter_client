@@ -48,7 +48,6 @@ import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_immunity_pr
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_indicator_shake_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_rate_limited_alert_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
-import 'package:fluxer_app/features/chat/utils/slowmode_utils.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/chat/utils/channel_message_stream.dart';
@@ -61,6 +60,7 @@ import 'package:fluxer_app/features/chat/utils/mention_reply_preference_utils.da
 import 'package:fluxer_app/features/chat/utils/message_page_sync.dart';
 import 'package:fluxer_app/features/chat/utils/message_screen_reader_announce.dart';
 import 'package:fluxer_app/features/chat/utils/message_send_failure_messages.dart';
+import 'package:fluxer_app/features/chat/utils/slowmode_utils.dart';
 import 'package:fluxer_app/features/chat/utils/uploading_attachment_utils.dart';
 import 'package:fluxer_app/features/chat/utils/url_sanitization_utils.dart';
 import 'package:fluxer_app/features/chat/utils/voice_message_constants.dart';

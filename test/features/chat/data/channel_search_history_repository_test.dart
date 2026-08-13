@@ -7,25 +7,25 @@ void main() {
 
   group('ChannelSearchHistoryEntry', () {
     test('round-trips extended fields and legacy entries default safely', () {
-      final ChannelSearchHistoryEntry entry = ChannelSearchHistoryEntry(
+      const ChannelSearchHistoryEntry entry = ChannelSearchHistoryEntry(
         contextKey: 'guild:g1:channel:c1',
         displayText: 'from:alice has:image',
         authorId: '1',
         scopeIndex: 2,
         sortIndex: 1,
-        contentTypeIndices: const <int>[0],
+        contentTypeIndices: <int>[0],
         timestampMs: 123,
-        channelIds: const <String>['c2'],
-        mentionIds: const <String>['m1'],
+        channelIds: <String>['c2'],
+        mentionIds: <String>['m1'],
         pinned: true,
-        authorTypes: const <String>['bot'],
+        authorTypes: <String>['bot'],
         linkHostname: 'example.com',
         fileName: 'shot',
         fileExtension: 'png',
         dateFilterKey: 'before',
         dateValue: '2024-01-01',
-        usersByTag: const <String, String>{'alice': '1'},
-        channelsByName: const <String, String>{'general': 'c2'},
+        usersByTag: <String, String>{'alice': '1'},
+        channelsByName: <String, String>{'general': 'c2'},
       );
 
       final ChannelSearchHistoryEntry restored =

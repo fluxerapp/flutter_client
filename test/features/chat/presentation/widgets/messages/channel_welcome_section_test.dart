@@ -7,7 +7,6 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/channel_welcome_section.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import '../../../../../helpers/test_l10n.dart';
 
 Widget _app(Widget child) {

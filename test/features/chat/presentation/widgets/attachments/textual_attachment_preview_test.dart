@@ -11,7 +11,6 @@ import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attach
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/textual_attachment_preview.dart';
 import 'package:fluxer_app/features/chat/utils/attachment_preview_utils.dart';
 import 'package:fluxer_app/features/chat/utils/textual_attachment_content.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import '../../../../../helpers/test_l10n.dart';
 
 void main() {

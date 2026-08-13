@@ -24,9 +24,7 @@ void main() {
         ),
       );
 
-      unawaited(
-        homeBranchNavigatorKey.currentState!.push(_FakePopupRoute<void>()),
-      );
+      homeBranchNavigatorKey.currentState!.push(_FakePopupRoute<void>());
       await tester.pumpAndSettle();
       expect(states, contains(true));
 
@@ -101,7 +99,7 @@ void main() {
       );
 
       final Route<void> popupRoute = _FakePopupRoute<void>();
-      unawaited(homeBranchNavigatorKey.currentState!.push(popupRoute));
+      homeBranchNavigatorKey.currentState!.push(popupRoute);
       await tester.pumpAndSettle();
       expect(states, contains(true));
 

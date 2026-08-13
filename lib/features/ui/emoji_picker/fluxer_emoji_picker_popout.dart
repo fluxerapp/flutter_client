@@ -93,7 +93,7 @@ class FluxerEmojiPickerPopoutState extends State<FluxerEmojiPickerPopout>
     } else {
       _computeDirection();
       _overlayController.show();
-      unawaited(_animationController.forward());
+      _animationController.forward();
     }
   }
 

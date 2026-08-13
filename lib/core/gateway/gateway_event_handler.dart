@@ -10,12 +10,12 @@ import 'package:fluxer_app/core/gateway/presence_update_batcher.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
 import 'package:fluxer_app/features/channels/data/read_state_decisions.dart';
-import 'package:fluxer_app/features/channels/domain/channel.dart'
-    show isGuildTextBasedChannel;
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/data/read_state_write_batcher.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
+import 'package:fluxer_app/features/channels/domain/channel.dart'
+    show isGuildTextBasedChannel;
 import 'package:fluxer_app/features/chat/data/message_write_batcher.dart';
 import 'package:fluxer_app/features/chat/data/reaction_delta_utils.dart';
 import 'package:fluxer_app/features/chat/data/reaction_write_batcher.dart';
@@ -477,7 +477,7 @@ class GatewayEventHandler {
             ' (${event.members.length})',
           ),
         );
-        _handleMembersChunk(event);
+        await _handleMembersChunk(event);
       case GuildMemberListUpdateEvent():
         unawaited(_handleMemberListUpdate(event));
       case PresenceUpdateBulkEvent():
@@ -1958,38 +1958,21 @@ class GatewayEventHandler {
     onGuildPermissionsChanged?.call(event.guildId);
   }
 
-  void _handleMembersChunk(GuildMembersChunkEvent event) {
-    final List<String> userIds = <String>[];
-    for (final GuildMemberResponse member in event.members) {
-      userIds.add(member.user.id);
-      _handleMemberUpsert(event.guildId, member);
-    }
-    final List<Map<String, dynamic>>? presences = event.presences;
-    if (presences != null && presences.isNotEmpty) {
-      final List<
-        ({String userId, String status, String? customStatus, bool mobile})
-      >
-      updates =
-          <
-            ({String userId, String status, String? customStatus, bool mobile})
-          >[];
-      for (final Map<String, dynamic> presence in presences) {
-        final String? userId =
-            (presence['user'] as Map<String, dynamic>?)?['id'] as String?;
-        final String? status = presence['status'] as String?;
-        if (userId == null || status == null) {
-          continue;
-        }
-        updates.add((
-          userId: userId,
-          status: status,
-          customStatus: _presenceCustomStatusFromMap(presence),
-          mobile: presence['mobile'] as bool? ?? false,
-        ));
-      }
-      if (updates.isNotEmpty) {
-        unawaited(database.userDao.updateUserPresencesBatch(updates));
-      }
+  Future<void> _handleMembersChunk(GuildMembersChunkEvent event) async {
+    final List<String> userIds = <String>[
+      for (final GuildMemberResponse member in event.members) member.user.id,
+    ];
+    final List<
+      ({String userId, String status, String? customStatus, bool mobile})
+    >
+    presenceUpdates = _presenceUpdatesFromChunk(event.presences);
+    if (event.members.isNotEmpty || presenceUpdates.isNotEmpty) {
+      await upsertGuildMembersFromSdk(
+        database,
+        event.guildId,
+        event.members,
+        presenceUpdates: presenceUpdates,
+      );
     }
     onMembersChunk?.call(event.guildId, userIds, nonce: event.nonce);
     onMembersChunkProgress?.call(
@@ -2002,6 +1985,35 @@ class GatewayEventHandler {
     if (currentUserId != null && userIds.contains(currentUserId)) {
       onGuildPermissionsChanged?.call(event.guildId);
     }
+  }
+
+  List<({String userId, String status, String? customStatus, bool mobile})>
+  _presenceUpdatesFromChunk(List<Map<String, dynamic>>? presences) {
+    if (presences == null || presences.isEmpty) {
+      return const <
+        ({String userId, String status, String? customStatus, bool mobile})
+      >[];
+    }
+    final List<
+      ({String userId, String status, String? customStatus, bool mobile})
+    >
+    updates =
+        <({String userId, String status, String? customStatus, bool mobile})>[];
+    for (final Map<String, dynamic> presence in presences) {
+      final String? userId =
+          (presence['user'] as Map<String, dynamic>?)?['id'] as String?;
+      final String? status = presence['status'] as String?;
+      if (userId == null || status == null) {
+        continue;
+      }
+      updates.add((
+        userId: userId,
+        status: status,
+        customStatus: _presenceCustomStatusFromMap(presence),
+        mobile: presence['mobile'] as bool? ?? false,
+      ));
+    }
+    return updates;
   }
 
   Future<void> _handleMemberListUpdate(GuildMemberListUpdateEvent event) async {

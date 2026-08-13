@@ -99,7 +99,7 @@ class _SpoilerOverlayState extends State<SpoilerOverlay>
       _revealed = true;
     });
     widget.spoilerSyncController?.reveal(widget.syncKeys);
-    unawaited(_controller.forward());
+    _controller.forward();
   }
 
   @override

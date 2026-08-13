@@ -12,6 +12,7 @@ Future<void> handleExternalLinkTap(
   BuildContext context,
   String url, {
   bool useRootNavigator = false,
+  bool skipWarning = false,
 }) async {
   if (isInviteLink(url)) {
     await handleInviteLinkTap(context, url);
@@ -20,6 +21,11 @@ Future<void> handleExternalLinkTap(
 
   final uri = Uri.tryParse(url);
   if (uri == null) {
+    return;
+  }
+
+  if (skipWarning) {
+    await _openExternalUrl(context, uri);
     return;
   }
 

@@ -22,7 +22,6 @@ import 'package:fluxer_app/features/chat/presentation/sheets/channel_details_she
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
 import 'package:fluxer_app/features/members/providers/member_list_subscription_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../helpers/open_test_database.dart';

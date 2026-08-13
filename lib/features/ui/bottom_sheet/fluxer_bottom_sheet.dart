@@ -740,13 +740,7 @@ class _FluxerBottomSheetDragHandleState
       return;
     }
     final FluxerMotionTheme motion = context.motion;
-    unawaited(
-      controller.animateTo(
-        target,
-        duration: motion.normal,
-        curve: motion.curve,
-      ),
-    );
+    controller.animateTo(target, duration: motion.normal, curve: motion.curve);
   }
 
   @override

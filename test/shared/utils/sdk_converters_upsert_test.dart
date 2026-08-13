@@ -57,4 +57,38 @@ void main() {
     expect(user?.username, 'alice');
     expect(member?.nick, 'Guild Alice');
   });
+
+  test('upsertGuildMembersFromSdk writes a full chunk in one batch', () async {
+    final FluxerDatabase database = openTestDatabase();
+    final List<GuildMemberResponse> chunk = <GuildMemberResponse>[
+      for (int i = 0; i < 25; i++)
+        GuildMemberResponse.fromJson(<String, Object?>{
+          'user': <String, Object?>{
+            'id': 'user-$i',
+            'username': 'user$i',
+            'discriminator': '0000',
+            'global_name': 'User $i',
+            'avatar': null,
+            'avatar_color': null,
+            'flags': 0,
+          },
+          'nick': 'Nick $i',
+          'roles': <Object?>[],
+          'joined_at': '2026-01-01T00:00:00.000Z',
+          'mute': false,
+          'deaf': false,
+        }),
+    ];
+
+    await upsertGuildMembersFromSdk(database, 'guild-1', chunk);
+
+    expect(await database.memberDao.countMembers('guild-1'), 25);
+    expect(await database.userDao.getUserById('user-0'), isNotNull);
+    expect(await database.userDao.getUserById('user-24'), isNotNull);
+    final Member? last = await database.memberDao.getMemberByUserId(
+      'user-24',
+      'guild-1',
+    );
+    expect(last?.nick, 'Nick 24');
+  });
 }

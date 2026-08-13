@@ -23,17 +23,22 @@ class ChannelSearchParseHints {
 }
 
 typedef ChannelIdResolver = String? Function(String channelName);
+typedef UserIdResolver = String? Function(String tag);
+
+final RegExp _snowflakeIdPattern = RegExp(r'^\d{17,20}$');
 
 class ChannelSearchParseContext {
   const ChannelSearchParseContext({
     this.guildId,
     this.currentUserId,
     this.resolveChannelByName,
+    this.resolveUserByTag,
   });
 
   final String? guildId;
   final String? currentUserId;
   final ChannelIdResolver? resolveChannelByName;
+  final UserIdResolver? resolveUserByTag;
 }
 
 class ParsedChannelSearchParams {
@@ -242,6 +247,22 @@ ParsedChannelSearchParams applyChannelSearchDateChip(
   return _applyDateFilter(params, rawKey: filterKey, value: value);
 }
 
+List<String> channelSearchUserFilterValues(String query) {
+  final ({List<_ParsedToken> tokens, String content, List<String> exactPhrases})
+  tokenized = _tokenizeSearchQuery(query);
+  final List<String> values = <String>[];
+  for (final _ParsedToken token in tokenized.tokens) {
+    final String key = token.key.startsWith('-')
+        ? token.key.substring(1)
+        : token.key;
+    if (key != 'from' && key != 'mentions') {
+      continue;
+    }
+    values.addAll(_splitCsv(token.value));
+  }
+  return values;
+}
+
 class _ParsedToken {
   const _ParsedToken({
     required this.key,
@@ -283,12 +304,15 @@ const Set<String> _knownSearchKeys = <String>{
   'link',
   '-link',
   'link-from',
+  '-link-from',
   'filename',
   '-filename',
   'file-name',
+  '-file-name',
   'ext',
   '-ext',
   'file-type',
+  '-file-type',
   'last',
   'beforeid',
   'afterid',
@@ -324,8 +348,6 @@ const Set<String> _embedTypeFilters = <String>{
 };
 const Set<String> _sortFields = <String>{'timestamp', 'relevance'};
 const Set<String> _sortOrders = <String>{'asc', 'desc'};
-
-final RegExp _userTagPattern = RegExp(r'^([A-Za-z0-9_]+)#(\d{4})$');
 
 ChannelSearchParseHints buildChannelSearchHintsFromSegments(
   List<ChannelSearchSegment> segments, {
@@ -380,7 +402,7 @@ ParsedChannelSearchParams parseChannelSearchQuery(
           token.value,
           isExclude: isExcludeKey,
           hints: hints,
-          currentUserId: context.currentUserId,
+          context: context,
           excludeField: (ParsedChannelSearchParams p, List<String> ids) =>
               p.copyWith(excludeAuthorIds: _append(p.excludeAuthorIds, ids)),
           includeField: (ParsedChannelSearchParams p, List<String> ids) =>
@@ -392,7 +414,7 @@ ParsedChannelSearchParams parseChannelSearchQuery(
           token.value,
           isExclude: isExcludeKey,
           hints: hints,
-          currentUserId: context.currentUserId,
+          context: context,
         );
       case 'in':
         params = _applyChannelIds(
@@ -502,7 +524,7 @@ ParsedChannelSearchParams _applyUserIds(
   String rawValue, {
   required bool isExclude,
   required ChannelSearchParseHints hints,
-  required String? currentUserId,
+  required ChannelSearchParseContext context,
   required ParsedChannelSearchParams Function(
     ParsedChannelSearchParams params,
     List<String> ids,
@@ -516,11 +538,7 @@ ParsedChannelSearchParams _applyUserIds(
 }) {
   final List<String> resolved = <String>[];
   for (final String tag in _splitCsv(rawValue)) {
-    final String? id = _resolveUserId(
-      tag,
-      hints: hints,
-      currentUserId: currentUserId,
-    );
+    final String? id = _resolveUserId(tag, hints: hints, context: context);
     if (id != null) {
       resolved.add(id);
     }
@@ -538,7 +556,7 @@ ParsedChannelSearchParams _applyMentions(
   String rawValue, {
   required bool isExclude,
   required ChannelSearchParseHints hints,
-  required String? currentUserId,
+  required ChannelSearchParseContext context,
 }) {
   for (final String value in _splitCsv(rawValue)) {
     final String lower = value.toLowerCase();
@@ -546,11 +564,7 @@ ParsedChannelSearchParams _applyMentions(
       params = params.copyWith(mentionEveryone: true);
       continue;
     }
-    final String? id = _resolveUserId(
-      value,
-      hints: hints,
-      currentUserId: currentUserId,
-    );
+    final String? id = _resolveUserId(value, hints: hints, context: context);
     if (id == null) {
       continue;
     }
@@ -821,23 +835,23 @@ ParsedChannelSearchParams _applyStringList(
 String? _resolveUserId(
   String tag, {
   required ChannelSearchParseHints hints,
-  required String? currentUserId,
+  required ChannelSearchParseContext context,
 }) {
   final String trimmed = tag.trim();
   if (trimmed.isEmpty) {
     return null;
   }
   if (trimmed.toLowerCase() == '@me') {
-    return currentUserId;
+    return context.currentUserId;
   }
   final String? hinted = hints.usersByTag[trimmed];
   if (hinted != null && hinted.isNotEmpty) {
     return hinted;
   }
-  if (!_userTagPattern.hasMatch(trimmed)) {
-    return null;
+  if (_snowflakeIdPattern.hasMatch(trimmed)) {
+    return trimmed;
   }
-  return null;
+  return context.resolveUserByTag?.call(trimmed);
 }
 
 String? _resolveChannelId(

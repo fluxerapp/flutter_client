@@ -1,4 +1,3 @@
-import 'dart:async' show unawaited;
 import 'dart:math' as math;
 import 'dart:ui' show lerpDouble;
 
@@ -17,20 +16,18 @@ class SplashRevealOverlay {
 
   static const double logoSize = 85;
   static const double pulseScale = 0.8;
+  static const double fadeEndScale = 0.45;
   static const double expandScale = 500;
   static const double pulseEndFraction = 0.08;
   static const double shellStartScale = 1.1;
-  static const Duration totalDuration = Duration(milliseconds: 1200);
+  static const Duration totalDuration = Duration(milliseconds: 800);
   static const Duration fadeOnlyDuration = Duration(milliseconds: 350);
   static const Duration reducedMotionDuration = Duration(milliseconds: 300);
   static const int maxTickMicros = 32000;
 
-  static const double layerFadeStart = 0.1;
-  static const double layerFadeEnd = 0.2;
-
   static final Color silhouetteSymbolColor = ColorUtils.dim(
     StarfieldBackground.cutoutSymbolColor,
-    0.5,
+    0.3,
   );
 
   static Duration get pulseDuration {
@@ -121,7 +118,7 @@ class _SplashRevealOverlayWidgetState extends State<_SplashRevealOverlayWidget>
         return;
       }
       _ticker = createTicker(_onTick);
-      unawaited(_ticker!.start());
+      _ticker!.start();
     });
   }
 
@@ -308,6 +305,10 @@ double maxRevealRadius(Size size, Offset center) {
 }
 
 double splashRevealExpandPhaseProgress(double progress) {
+  return splashRevealFadePhaseProgress(progress);
+}
+
+double splashRevealFadePhaseProgress(double progress) {
   if (progress <= SplashRevealOverlay.pulseEndFraction) {
     return 0;
   }
@@ -327,7 +328,12 @@ double splashRevealLogoScale(double progress, {required bool reducedMotion}) {
     return lerpDouble(1, SplashRevealOverlay.pulseScale, t)!;
   }
   if (!SplashRevealOverlay.useLogoZoomTransition) {
-    return SplashRevealOverlay.pulseScale;
+    final double fadeT = splashRevealFadePhaseProgress(progress);
+    return lerpDouble(
+      SplashRevealOverlay.pulseScale,
+      SplashRevealOverlay.fadeEndScale,
+      Curves.easeOut.transform(fadeT),
+    )!;
   }
   final double expandT = splashRevealExpandPhaseProgress(progress);
   return lerpDouble(
@@ -345,27 +351,11 @@ double splashRevealLayerOpacity(
   if (reducedMotion) {
     return 1 - Curves.easeOut.transform(p);
   }
-  if (!SplashRevealOverlay.useLogoZoomTransition) {
-    if (p <= SplashRevealOverlay.pulseEndFraction) {
-      return 1;
-    }
-    final double fadeT =
-        ((p - SplashRevealOverlay.pulseEndFraction) /
-                (1 - SplashRevealOverlay.pulseEndFraction))
-            .clamp(0.0, 1.0);
-    return 1 - Curves.easeOut.transform(fadeT);
-  }
-  final double eased = Curves.easeInCubic.transform(p);
-  if (eased <= SplashRevealOverlay.layerFadeStart) {
+  if (p <= SplashRevealOverlay.pulseEndFraction) {
     return 1;
   }
-  if (eased >= SplashRevealOverlay.layerFadeEnd) {
-    return 0;
-  }
-  final double t =
-      (eased - SplashRevealOverlay.layerFadeStart) /
-      (SplashRevealOverlay.layerFadeEnd - SplashRevealOverlay.layerFadeStart);
-  return 1 - Curves.easeOut.transform(t);
+  final double fadeT = splashRevealFadePhaseProgress(p);
+  return 1 - Curves.easeOut.transform(fadeT);
 }
 
 double splashRevealShellScale(double progress, {required bool reducedMotion}) {

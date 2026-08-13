@@ -74,6 +74,10 @@ class AppBuildConfig {
     }
   }
 
+  /// OSS Android builds use UnifiedPush and expose Stripe web checkout in settings.
+  static bool get isOssWebCheckout =>
+      pushProvider == PushProviderKind.unifiedPush;
+
   static bool get isFirebaseMessagingEnabled =>
       pushProvider == PushProviderKind.firebaseMessaging;
   static bool get isBlueskyEnabled => _blueskyEnabled;

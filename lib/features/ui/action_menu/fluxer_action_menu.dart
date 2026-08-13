@@ -140,7 +140,7 @@ class FluxerActionMenu {
     );
 
     overlay.insert(entry);
-    unawaited(animationController.forward());
+    animationController.forward();
 
     return completer.future;
   }

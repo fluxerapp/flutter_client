@@ -11,7 +11,6 @@ import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_candida
 import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_types.dart';
 import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_unread_channel.dart';
 import 'package:fluxer_app/features/quick_switcher/domain/recent_channel_visit.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import '../../../helpers/test_l10n.dart';
 
 QuickSwitcherChannelResolver _resolver({

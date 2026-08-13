@@ -57,9 +57,6 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
   }
 
   void _syncForegroundState({required bool isAppForeground}) {
-    if (PushProviderGuard.isUnifiedPush) {
-      UnifiedPushService.instance.isAppForeground = isAppForeground;
-    }
     FirebaseMessagingPushService.configureForegroundMessageFilter((
       Map<String, String> payload,
     ) {
@@ -88,6 +85,15 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
             .handlePayloadJson,
       );
       final PushService pushService = ref.read(pushServiceProvider);
+      await _messageSubscription?.cancel();
+      _messageSubscription = pushService.watchMessages().listen(
+        _onIncomingPush,
+        onError: (Object err, StackTrace st) {
+          if (kDebugMode) {
+            debugPrint('[PushNotificationsCoordinator] message stream: $err');
+          }
+        },
+      );
       if (PushProviderGuard.isUnifiedPush) {
         final UnifiedPushService unifiedPush =
             pushService as UnifiedPushService;
@@ -113,15 +119,6 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
         );
       }
       _syncForegroundState(isAppForeground: ref.read(appUiForegroundProvider));
-      await _messageSubscription?.cancel();
-      _messageSubscription = pushService.watchMessages().listen(
-        _onIncomingPush,
-        onError: (Object err, StackTrace st) {
-          if (kDebugMode) {
-            debugPrint('[PushNotificationsCoordinator] message stream: $err');
-          }
-        },
-      );
     } on Object catch (e, st) {
       if (kDebugMode) {
         debugPrint('[PushNotificationsCoordinator] bootstrap failed: $e\n$st');
@@ -135,13 +132,19 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
       isAppForeground: isForeground,
       payload: message.payload,
     )) {
+      if (kDebugMode) {
+        debugPrint(
+          '[PushNotificationsCoordinator] skip foreground push '
+          'id=${message.id}',
+        );
+      }
       return;
     }
     if (isNotificationClearPayload(message.payload)) {
       unawaited(PushNotificationClear.handleClearPayload(message.payload));
       return;
     }
-    if (PushProviderGuard.isApple || PushProviderGuard.isUnifiedPush) {
+    if (PushProviderGuard.isApple) {
       return;
     }
     unawaited(_localPush.showPushMessage(message));

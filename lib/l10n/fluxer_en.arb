@@ -10499,6 +10499,10 @@
     "@userSettingsGroupYourAccount": {
         "description": "Section heading for account-related items in user settings navigation."
     },
+    "userSettingsGroupBilling": "BILLING",
+    "@userSettingsGroupBilling": {
+        "description": "Section heading for billing items in user settings navigation."
+    },
     "userSettingsGroupApplication": "APPLICATION",
     "@userSettingsGroupApplication": {
         "description": "Section heading for app preference items in user settings navigation."
@@ -10523,10 +10527,230 @@
     "@userSettingsNavFluxerPlutonium": {
         "description": "User settings navigation item for Fluxer Plutonium subscription settings."
     },
-    "userSettingsNavGiftsAndCodes": "Gifts & Codes",
+    "userSettingsNavGiftsAndCodes": "Gifts",
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
+    "giftSettingsClaimAccountTitle": "Claim your account",
+    "giftSettingsClaimAccountDescription": "Claim your account to redeem or manage Plutonium gift codes.",
+    "giftSettingsRedeemTitle": "Redeem a gift",
+    "giftSettingsRedeemDescription": "Enter a gift code to redeem Plutonium for your account.",
+    "giftSettingsRedeemPlaceholder": "Enter gift code…",
+    "giftSettingsRedeemButton": "Redeem",
+    "giftSettingsRedeemSuccess": "Gift redeemed successfully. Enjoy your Plutonium.",
+    "giftSettingsPurchasedTitle": "Purchased gifts",
+    "giftSettingsPurchasedDescription": "Manage your purchased Plutonium gift codes. Share the gift URL with someone special or redeem it for yourself!",
+    "giftSettingsEmptyTitle": "No gifts yet",
+    "giftSettingsEmptyDescription": "Buy a Plutonium gift from the Plutonium tab to share with friends.",
+    "giftSettingsGoToPlutonium": "Go to Plutonium",
+    "giftSettingsLoadFailedTitle": "Failed to load gift inventory",
+    "giftSettingsLoadFailedDescription": "Try again later.",
+    "giftSettingsTryAgain": "Try again",
+    "giftSettingsGiftUrl": "Gift URL",
+    "giftSettingsCopy": "Copy",
+    "giftSettingsCopied": "Copied",
+    "giftSettingsGiftUrlCopied": "Gift URL copied to clipboard!",
+    "giftSettingsGiftUrlCopyFailed": "Couldn't copy gift URL",
+    "giftSettingsPurchasedDate": "Purchased {date}",
+    "@giftSettingsPurchasedDate": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "giftSettingsRedeemedDate": "Redeemed {date}",
+    "@giftSettingsRedeemedDate": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "giftSettingsRedeemedBy": "Redeemed by {name}",
+    "@giftSettingsRedeemedBy": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "giftSettingsAlreadyRedeemed": "This gift has been redeemed",
+    "giftSettingsRedeemForYourself": "Redeem for yourself",
+    "giftSettingsShareWithFriend": "Share with a friend",
+    "premiumPlutoniumTagline": "Unlock higher limits and exclusive features while supporting an independent communication platform.",
+    "premiumPurchaseMode": "Purchase mode",
+    "premiumForMe": "For me",
+    "premiumAsAGift": "As a gift",
+    "premiumMonthly": "Monthly",
+    "premiumYearly": "Yearly",
+    "premiumPerMonth": "per month",
+    "premiumPerYear": "per year",
+    "premiumOneTimePurchase": "one-time purchase",
+    "premiumSave17": "Save 17%",
+    "premiumUpgradeNow": "Upgrade now",
+    "premiumBuyGift": "Buy gift",
+    "premiumOneYearGift": "1 year gift",
+    "premiumOneMonthGift": "1 month gift",
+    "premiumMostPopular": "Most popular",
+    "premiumScrollPrompt": "Scroll down to view all the perks included with Plutonium",
+    "premiumFreeVsPlutonium": "Free vs Plutonium",
+    "premiumFreeColumn": "Free",
+    "premiumGiftSectionTitle": "Gift Plutonium",
+    "premiumGiftSectionDescription": "Share the Plutonium experience with your friends by purchasing a gift subscription.",
+    "premiumGiftBannerOne": "You have a new gift code waiting for you!",
+    "premiumGiftBannerMany": "You have {count} new gift codes waiting for you!",
+    "@premiumGiftBannerMany": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "premiumViewGifts": "View gifts",
+    "premiumReadyToUpgrade": "Ready to upgrade?",
+    "premiumReadyToBuyGift": "Ready to buy a gift?",
+    "premiumMonthlyPrice": "Monthly {price}",
+    "@premiumMonthlyPrice": {
+        "placeholders": {
+            "price": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumYearlyPrice": "Yearly {price}",
+    "@premiumYearlyPrice": {
+        "placeholders": {
+            "price": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumOneYearPrice": "1 year {price}",
+    "@premiumOneYearPrice": {
+        "placeholders": {
+            "price": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumOneMonthPrice": "1 month {price}",
+    "@premiumOneMonthPrice": {
+        "placeholders": {
+            "price": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumManageSubscription": "Manage subscription",
+    "premiumRedeemGiftCode": "Redeem gift code",
+    "premiumGiftBadge": "Gift",
+    "premiumCancelSubscriptionTitle": "Cancel subscription?",
+    "premiumCancelSubscriptionBody": "You keep your perks until your next renewal date, then have a 3-day grace period to resubscribe and keep your subscriber history.",
+    "premiumCancelSubscriptionConfirm": "Cancel subscription",
+    "premiumKeepSubscription": "Keep subscription",
+    "premiumPurchaseHistoryTitle": "Purchase history",
+    "premiumPurchaseHistoryDescription": "Your recent invoices. To change the payment method for your subscription, add or choose one in the billing portal and make it the default.",
+    "premiumManagePaymentMethods": "Manage payment methods",
+    "premiumBillingHistory": "Billing history",
+    "premiumSelfServeRefundTitle": "Self-serve refund",
+    "premiumSelfServeRefundButton": "Refund latest purchase",
+    "premiumDisclaimerAgreementPrefix": "By purchasing, you agree to our ",
+    "premiumDisclaimerAgreementPastPrefix": "By purchasing, you agreed to our ",
+    "premiumDisclaimerAgreementMiddle": " and ",
+    "premiumActiveUntil": "Active until {date}",
+    "@premiumActiveUntil": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumSubscriptionCanceling": "Canceling",
+    "premiumCancelsOn": "Cancels on {date}. Perks remain active until then.",
+    "@premiumCancelsOn": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumReactivateSubscription": "Reactivate",
+    "premiumGiftedUntil": "Gifted until {date}. Does not renew automatically.",
+    "@premiumGiftedUntil": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumComparisonFeatureColumn": "Feature",
+    "@premiumDisclaimerPurchase": {
+        "placeholders": {
+            "terms": {
+                "type": "String"
+            },
+            "privacy": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumDisclaimerPurchased": "By purchasing, you agreed to our {terms} and {privacy}.",
+    "@premiumDisclaimerPurchased": {
+        "placeholders": {
+            "terms": {
+                "type": "String"
+            },
+            "privacy": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumDisclaimerRefund": "Self-serve refunds available within 3 days of payment, once every 30 days. Refunding a subscription cancels it. EU/EEA buyers waive the 14-day right of withdrawal at checkout to access content immediately. Use the in-app refund button instead of a chargeback. Chargebacks can permanently restrict your account. Stripe handles payment securely. We never see your full card number.",
+    "premiumTermsOfService": "Terms of service",
+    "premiumPrivacyPolicy": "Privacy policy",
+    "premiumCheckoutStartFailedTitle": "Couldn't start checkout",
+    "premiumCheckoutStartFailedBody": "Something went wrong while starting checkout. Please try again in a moment.",
+    "premiumGiftSubscriptionBlocksRecurring": "You're currently on a gift subscription. It won't renew. You can redeem more gift codes to extend it. Recurring subscriptions can be started after your gift time ends.",
+    "premiumPlanUnavailable": "This plan isn't available. Contact support.",
+    "premiumCompletePaymentTitle": "Complete payment",
+    "premiumCompletePaymentBody": "You are now navigating to Stripe to complete the payment. Return to Fluxer once you've completed it.",
+    "premiumChoosePaymentMethodTitle": "Choose payment method",
+    "premiumPixPaymentPromptDescription": "Pay with Pix automático to authorize recurring charges directly from your Brazilian bank. Or choose use card to enter a credit card on Stripe's next screen.",
+    "premiumUsePix": "Use Pix",
+    "premiumUpiPaymentPromptDescription": "Pay with UPI to set up an RBI-compliant e-mandate from your Indian bank. Or choose use card to enter a credit card on Stripe's next screen.",
+    "premiumUseUpi": "Use UPI",
+    "premiumUseCard": "Use card",
+    "premiumCustomerPortalOpenFailedTitle": "Couldn't open the billing portal",
+    "premiumCustomerPortalOpenFailedBody": "Something went wrong while opening the billing portal. Please try again in a moment.",
+    "premiumAlreadyVisionaryTitle": "You're already Visionary",
+    "premiumAlreadyVisionaryBody": "Visionary already includes permanent access, so a recurring subscription isn't needed. You can still buy gifts for others.",
+    "premiumExistingSubscriptionTitle": "Subscription already exists",
+    "premiumExistingSubscriptionBody": "We found an existing Fluxer Plutonium subscription for this account. Manage it in the secure billing portal to update payment details or check renewal status. If you just paid, wait a minute and reopen this page.",
+    "premiumPurchasesDisabledTitle": "Purchases unavailable",
+    "premiumPurchasesDisabledBody": "Purchases are disabled for this account. Contact support@fluxer.app if this looks wrong.",
+    "premiumClaimAccountToPurchase": "Claim your account to purchase Fluxer Plutonium.",
+    "premiumVerifyEmailToPurchase": "You need to verify your email before you can purchase Fluxer Plutonium.",
+    "premiumPerkCustomUsernameTag": "Custom username tag",
+    "premiumPerkPerCommunityProfiles": "Per-community profiles",
+    "premiumPerkMessageScheduling": "Message scheduling",
+    "premiumPerkProfileBadge": "Profile badge",
+    "premiumPerkCustomVideoBackgrounds": "Custom video backgrounds",
+    "premiumPerkEntranceSounds": "Entrance sounds",
+    "premiumPerkCommunities": "Communities",
+    "premiumPerkMessageCharacterLimit": "Message character limit",
+    "premiumPerkBookmarkedMessages": "Bookmarked messages",
+    "premiumPerkFileUploadSize": "File upload size",
+    "premiumPerkEmojiStickerPacks": "Emoji & sticker packs",
+    "premiumPerkSavedMedia": "Saved media",
+    "premiumPerkUseAnimatedEmojis": "Use animated emojis",
+    "premiumPerkGlobalEmojiStickerAccess": "Global emoji & sticker access",
+    "premiumPerkVideoQuality": "Video quality",
+    "premiumPerkAnimatedAvatarsBanners": "Animated avatars & profile banners",
+    "premiumPerkEarlyAccess": "Early access to new features",
+    "premiumPerkCustomThemes": "Custom themes",
+    "premiumPerkVideoQualityRestricted": "720p/30fps",
+    "premiumPerkVideoQualityStock": "Up to 4K/60fps",
     "userSettingsNavPrivacyDashboard": "Privacy Dashboard",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -10562,6 +10786,10 @@
     "userSettingsNavAudioAndVideo": "Audio & Video",
     "@userSettingsNavAudioAndVideo": {
         "description": "User settings navigation item for audio and video settings."
+    },
+    "userSettingsNavShortcuts": "Shortcuts",
+    "@userSettingsNavShortcuts": {
+        "description": "User settings navigation item for keyboard shortcuts."
     },
     "audioAndVideoAudioSectionTitle": "Audio",
     "@audioAndVideoAudioSectionTitle": {
@@ -15485,5 +15713,77 @@
     "dmListDirectMessagesTitle": "Direct Messages",
     "@dmListDirectMessagesTitle": {
         "description": "Desktop section header for the DM conversation list."
-    }
+    },
+    "keybindsSearchShortcuts": "Search shortcuts",
+    "@keybindsSearchShortcuts": {
+        "description": "Placeholder for the shortcuts settings search field."
+    },
+    "keybindSectionDefaults": "Defaults",
+    "keybindSectionMessages": "Messages",
+    "keybindSectionNavigation": "Navigation",
+    "keybindSectionDragAndDrop": "Drag and drop",
+    "keybindSectionChat": "Chat",
+    "keybindSectionVoiceAndVideo": "Voice and video",
+    "keybindSectionMisc": "Miscellaneous",
+    "keybindActionShowShortcutsList": "Show keyboard shortcuts list",
+    "keybindActionCopyText": "Copy text",
+    "keybindActionMarkUnread": "Mark as unread",
+    "keybindActionFocusTextarea": "Focus text area",
+    "keybindActionSwitchCommunities": "Switch between communities",
+    "keybindActionSwitchChannels": "Switch between channels",
+    "keybindActionHistoryBack": "Move back through viewed channel history",
+    "keybindActionHistoryForward": "Move forward through viewed channel history",
+    "keybindActionJumpUnreadChannels": "Jump between unread channels",
+    "keybindActionJumpMentionChannels": "Jump between unread channels with mentions",
+    "keybindActionJumpCurrentCall": "Jump to the current call",
+    "keybindActionToggleLastGuildDms": "Toggle between last community and DMs",
+    "keybindActionPreviousCommunityOrDms": "Switch to previous community or DMs",
+    "keybindActionNextCommunityOrDms": "Switch to next community or DMs",
+    "keybindActionGoToDms": "Go to Direct Messages",
+    "keybindActionGoToFirstCommunity": "Go to first community",
+    "keybindActionGoToSecondCommunity": "Go to second community",
+    "keybindActionGoToThirdCommunity": "Go to third community",
+    "keybindActionGoToFourthCommunity": "Go to fourth community",
+    "keybindActionGoToFifthCommunity": "Go to fifth community",
+    "keybindActionGoToSixthCommunity": "Go to sixth community",
+    "keybindActionGoToSeventhCommunity": "Go to seventh community",
+    "keybindActionGoToEighthCommunity": "Go to eighth community",
+    "keybindActionToggleQuickSwitcher": "Toggle quick switcher",
+    "keybindActionCreateOrJoinCommunity": "Create or join a community",
+    "keybindActionStartDragAndDrop": "Start drag and drop",
+    "keybindActionMove": "Move",
+    "keybindActionDropItem": "Drop item",
+    "keybindActionCancel": "Cancel",
+    "keybindActionMarkCommunityRead": "Mark community as read",
+    "keybindActionMarkChannelRead": "Mark channel as read",
+    "keybindActionStartGroupDm": "Start a group DM",
+    "keybindActionTogglePinnedMessages": "Toggle pinned messages",
+    "keybindActionToggleInbox": "Toggle the inbox",
+    "keybindActionMarkTopInboxRead": "Mark top inbox channel as read",
+    "keybindActionMarkAllInboxRead": "Mark all inbox channels as read",
+    "keybindActionToggleMemberList": "Toggle the member list or voice chat",
+    "keybindActionToggleEmojiPicker": "Toggle the emoji picker",
+    "keybindActionToggleGifPicker": "Toggle the GIF picker",
+    "keybindActionToggleStickerPicker": "Toggle the sticker picker",
+    "keybindActionScrollChatUp": "Scroll chat up",
+    "keybindActionScrollChatDown": "Scroll chat down",
+    "keybindActionJumpOldestUnread": "Jump to the oldest unread message",
+    "keybindActionFocusComposer": "Focus the text area",
+    "keybindActionUploadFile": "Upload a file",
+    "keybindActionCopyChannelLink": "Copy channel link",
+    "keybindActionToggleSavedMedia": "Toggle saved media",
+    "keybindActionSendVoiceMessage": "Send voice message",
+    "keybindActionAnswerCall": "Answer the incoming call",
+    "keybindActionDeclineCall": "Decline the incoming call",
+    "keybindActionStartDmCall": "Start a call in a DM or group",
+    "keybindActionToggleSoundboard": "Toggle the soundboard",
+    "keybindActionToggleCompactCallView": "Expand or collapse compact call view",
+    "keybindActionOpenHelp": "Open help",
+    "keybindActionSearchMessages": "Search messages",
+    "keybindActionOpenContextMenu": "Open the context menu",
+    "keybindActionOpenSettings": "Open your settings",
+    "keybindActionOpenThemeStudio": "Open theme studio popout",
+    "keybindActionZoomIn": "Zoom in",
+    "keybindActionZoomOut": "Zoom out",
+    "keybindActionZoomReset": "Reset zoom"
 }

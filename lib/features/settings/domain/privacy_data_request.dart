@@ -147,21 +147,17 @@ class PrivacyDataRequestFilterState {
     return BulkDeleteSelfMessagesRequest(
       scope: deleteScope,
       includeDms:
-          deleteScope == BulkDeleteSelfMessagesRequestScopeScope.selected
-          ? includeDms
-          : false,
+          deleteScope == BulkDeleteSelfMessagesRequestScopeScope.selected &&
+          includeDms,
       includeDmsClosed:
-          deleteScope == BulkDeleteSelfMessagesRequestScopeScope.selected
-          ? includeDmsClosed
-          : false,
+          deleteScope == BulkDeleteSelfMessagesRequestScopeScope.selected &&
+          includeDmsClosed,
       includeGroupDms:
-          deleteScope == BulkDeleteSelfMessagesRequestScopeScope.selected
-          ? includeGroupDms
-          : false,
+          deleteScope == BulkDeleteSelfMessagesRequestScopeScope.selected &&
+          includeGroupDms,
       includeGuilds:
-          deleteScope == BulkDeleteSelfMessagesRequestScopeScope.selected
-          ? includeGuilds
-          : true,
+          !(deleteScope == BulkDeleteSelfMessagesRequestScopeScope.selected) ||
+          includeGuilds,
       guildFilterMode:
           guildFilterMode == PrivacyDataRequestGuildFilterMode.exclude
           ? BulkDeleteSelfMessagesRequestGuildFilterModeGuildFilterMode.exclude

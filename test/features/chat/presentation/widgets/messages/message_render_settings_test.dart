@@ -54,9 +54,7 @@ void main() {
       final MessageRenderSettings compact = makeSettings(
         messageDisplayCompact: true,
       );
-      final MessageRenderSettings comfy = makeSettings(
-        messageDisplayCompact: false,
-      );
+      final MessageRenderSettings comfy = makeSettings();
       expect(compact, isNot(equals(comfy)));
     });
   });

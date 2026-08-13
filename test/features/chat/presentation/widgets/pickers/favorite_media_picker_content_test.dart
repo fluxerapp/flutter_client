@@ -9,7 +9,6 @@ import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/favorite_media_picker_content.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
 import 'package:fluxer_app/features/chat/utils/inline_expression_panel_scroll_physics.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart' as mkv;
 import 'package:riverpod/src/framework.dart' show Override;

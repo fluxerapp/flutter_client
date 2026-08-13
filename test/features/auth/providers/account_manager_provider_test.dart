@@ -108,11 +108,9 @@ void main() {
 
       expect(expired, isTrue);
       expect(server.requests, ['GET /users/@me']);
-      expect(
-        server.authHeaders,
-        [_token],
-        reason: 'the probe must carry the active session token',
-      );
+      expect(server.authHeaders, [
+        _token,
+      ], reason: 'the probe must carry the active session token');
       expect(container.read(authStateProvider), isFalse);
       expect(container.read(fluxerAuthTokenProvider), isNull);
       final session = await db.authSessionDao.getSession(_userId);

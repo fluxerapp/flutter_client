@@ -9,7 +9,6 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../../../helpers/test_l10n.dart';
 
@@ -430,7 +429,6 @@ void main() {
                     FluxerBottomSheet.showScrollable(
                       context,
                       initialChildSize: 0.4,
-                      maxChildSize: 0.8,
                       builder: (context, scrollController, close) {
                         return ListView.builder(
                           controller: scrollController,
@@ -1034,7 +1032,6 @@ void main() {
                           context,
                           maxHeight: maxHeight,
                           maxChildSize: maxChildSize,
-                          initialChildSize: cap,
                           builder: (context, scrollController, close) {
                             return ListView(
                               controller: scrollController,
@@ -1068,10 +1065,7 @@ void main() {
       }
 
       final double maxChildOnlyHeight = await measureSheetHeight();
-      final double bothParamsHeight = await measureSheetHeight(
-        maxHeight: cap,
-        maxChildSize: cap,
-      );
+      final double bothParamsHeight = await measureSheetHeight(maxHeight: cap);
 
       expect(bothParamsHeight, closeTo(maxChildOnlyHeight, 1));
     });

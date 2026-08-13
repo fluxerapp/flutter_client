@@ -48,6 +48,7 @@ import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_list_unread_review.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_list_viewport.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_reactions_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_tile_cache.dart';
 import 'package:fluxer_app/features/chat/presentation/'
@@ -70,6 +71,10 @@ import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
+import 'package:fluxer_app/features/input/providers/chat_keybind_effects_provider.dart';
+import 'package:fluxer_app/features/input/providers/focused_message_provider.dart';
+import 'package:fluxer_app/features/input/providers/keyboard_mode_provider.dart';
+import 'package:fluxer_app/features/input/providers/message_keyboard_navigation_provider.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_flow.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_simple_report_sheet.dart';
 import 'package:fluxer_app/features/moderation/providers/local_user_spam_override_provider.dart';
@@ -80,6 +85,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
@@ -222,9 +228,27 @@ class _MessageListState extends ConsumerState<MessageList> {
   // never mutate the scroll position of the window that replaced it.
   int _uiEpoch = 0;
 
+  late final void Function() _focusNextMessage;
+  late final void Function() _focusPreviousMessage;
+  late final MessageKeyboardNavigationCoordinator _messageKeyboardNavigation;
+  ProviderSubscription<int>? _chatKeybindEffectsSubscription;
+
   @override
   void initState() {
     super.initState();
+    _messageKeyboardNavigation = ref.read(messageKeyboardNavigationProvider);
+    _focusNextMessage = () => _focusAdjacentMessage(previous: false);
+    _focusPreviousMessage = () => _focusAdjacentMessage(previous: true);
+    _messageKeyboardNavigation.register(
+      focusNext: _focusNextMessage,
+      focusPrevious: _focusPreviousMessage,
+    );
+    _chatKeybindEffectsSubscription = listenChatKeybindEffects(
+      ref,
+      _handleChatKeybindEffect,
+      where: (ChatKeybindEffect effect) =>
+          effect != ChatKeybindEffect.triggerUpload,
+    );
     _chatViewModel = ref.read(chatViewModelProvider.notifier);
     _readViewport = ref.read(chatReadViewportProvider.notifier);
     _viewportChannelId =
@@ -243,6 +267,161 @@ class _MessageListState extends ConsumerState<MessageList> {
         isActive: widget.visible,
       );
       _onScroll();
+    });
+  }
+
+  void _handleChatKeybindEffect(ChatKeybindEffect effect) {
+    if (!mounted) {
+      return;
+    }
+    switch (effect) {
+      case ChatKeybindEffect.scrollPageUp:
+        _scrollByPage(up: true);
+      case ChatKeybindEffect.scrollPageDown:
+        _scrollByPage(up: false);
+      case ChatKeybindEffect.togglePins:
+        unawaited(
+          showChannelPinsSheet(
+            context,
+            ref,
+            channelId: ref.read(chatViewModelProvider).channelId,
+          ),
+        );
+      case ChatKeybindEffect.addReaction:
+        _openReactionPickerForFocusedMessage();
+      case ChatKeybindEffect.triggerUpload:
+        break;
+    }
+  }
+
+  void _openReactionPickerForFocusedMessage() {
+    final Message? message = lookupFocusedMessage(
+      ref.read(focusedMessageProvider),
+      ref.read(chatViewModelProvider).messages,
+    );
+    if (message == null || !context.mounted) {
+      return;
+    }
+    unawaited(
+      openReactionPickerSheet(
+        context,
+        channelId: message.channelId,
+        onEmojiSelected: (FluxerSelectedEmoji emoji) {
+          dispatchSelectedEmojiReaction(
+            emoji,
+            (String emoji, {String? emojiId, bool animated = false}) => ref
+                .read(chatViewModelProvider.notifier)
+                .toggleReaction(
+                  message.id,
+                  emoji,
+                  emojiId: emojiId,
+                  animated: animated,
+                ),
+          );
+        },
+      ),
+    );
+  }
+
+  void _scrollByPage({required bool up}) {
+    if (!_scrollController.hasClients) {
+      return;
+    }
+    final double delta = _scrollController.position.viewportDimension * 0.85;
+    final double target = (_scrollController.offset + (up ? -delta : delta))
+        .clamp(
+          _scrollController.position.minScrollExtent,
+          _scrollController.position.maxScrollExtent,
+        );
+    _scrollController.animateTo(
+      target,
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeOut,
+    );
+  }
+
+  void _focusAdjacentMessage({required bool previous}) {
+    final List<Message> messages = ref
+        .read(chatViewModelProvider)
+        .messages
+        .where((Message message) => !message.isSystemMessage)
+        .toList();
+    if (messages.isEmpty) {
+      return;
+    }
+    final String? currentId = ref.read(focusedMessageProvider).messageId;
+    var index = messages.indexWhere(
+      (Message message) => message.id == currentId,
+    );
+    if (index < 0) {
+      index = previous ? messages.length - 1 : 0;
+    } else {
+      final int nextIndex = previous ? index - 1 : index + 1;
+      if (nextIndex < 0 || nextIndex >= messages.length) {
+        return;
+      }
+      index = nextIndex;
+    }
+    final Message target = messages[index];
+    if (target.id == currentId) {
+      return;
+    }
+    ref.read(keyboardModeProvider.notifier).enter();
+    ref
+        .read(focusedMessageProvider.notifier)
+        .focus(messageId: target.id, channelId: target.channelId);
+    _ensureMessageVisibleForKeyboardNav(target.id);
+  }
+
+  void _ensureMessageVisibleForKeyboardNav(String messageId) {
+    if (!_anchorResolved || !_scrollController.hasClients) {
+      _chatViewModel.scrollToMessage(messageId);
+      return;
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      final BuildContext? itemContext = _findStreamTileContext(messageId);
+      if (itemContext == null || !itemContext.mounted) {
+        _chatViewModel.scrollToMessage(messageId);
+        return;
+      }
+      final RenderObject? renderObject = itemContext.findRenderObject();
+      if (renderObject is! RenderBox || !renderObject.hasSize) {
+        return;
+      }
+      final ScrollPosition position = _scrollController.position;
+      final RenderAbstractViewport viewport = RenderAbstractViewport.of(
+        renderObject,
+      );
+      final double itemTop = viewport.getOffsetToReveal(renderObject, 0).offset;
+      final double itemBottom = viewport
+          .getOffsetToReveal(renderObject, 1)
+          .offset;
+      final double viewTop = position.pixels;
+      final double viewBottom = viewTop + position.viewportDimension;
+      const double margin = 72;
+
+      double? targetOffset;
+      if (itemTop < viewTop + margin) {
+        targetOffset = itemTop - margin;
+      } else if (itemBottom > viewBottom - margin) {
+        targetOffset = itemBottom - position.viewportDimension + margin;
+      }
+      if (targetOffset == null) {
+        return;
+      }
+      unawaited(
+        position.animateTo(
+          targetOffset.clamp(
+            position.minScrollExtent,
+            position.maxScrollExtent,
+          ),
+          duration: const Duration(milliseconds: 120),
+          curve: Curves.easeOutCubic,
+        ),
+      );
     });
   }
 
@@ -286,6 +465,11 @@ class _MessageListState extends ConsumerState<MessageList> {
 
   @override
   void dispose() {
+    _chatKeybindEffectsSubscription?.close();
+    _messageKeyboardNavigation.unregister(
+      focusNext: _focusNextMessage,
+      focusPrevious: _focusPreviousMessage,
+    );
     _pendingScrollTargetTimer?.cancel();
     _pendingScrollTargetTimer = null;
     _readViewport.setViewportActive(
@@ -509,6 +693,14 @@ class _MessageListState extends ConsumerState<MessageList> {
       return;
     }
     _lastChannelId = channelId;
+    if (ref.read(focusedMessageProvider).hasFocus) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+        ref.read(focusedMessageProvider.notifier).clear();
+      });
+    }
     _uiEpoch++;
     _anchorId = null;
     _anchorFraction = 1.0;

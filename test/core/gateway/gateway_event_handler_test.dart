@@ -288,7 +288,15 @@ void main() {
         ),
       );
       expect(captured, <String>[memberGuildId]);
-      await ctx.database.memberDao.countMembers(memberGuildId);
+      expect(
+        await ctx.database.memberDao.getMemberByUserId('111', memberGuildId),
+        isNotNull,
+      );
+      expect(
+        await ctx.database.memberDao.getMemberByUserId('100', memberGuildId),
+        isNotNull,
+      );
+      expect(await ctx.database.userDao.getUserById('111'), isNotNull);
     });
 
     test('members chunk without the current user does not refresh', () async {
@@ -303,7 +311,14 @@ void main() {
         ),
       );
       expect(captured, isEmpty);
-      await ctx.database.memberDao.countMembers(memberGuildId);
+      expect(
+        await ctx.database.memberDao.getMemberByUserId('111', memberGuildId),
+        isNotNull,
+      );
+      expect(
+        await ctx.database.memberDao.getMemberByUserId('222', memberGuildId),
+        isNotNull,
+      );
     });
   });
 

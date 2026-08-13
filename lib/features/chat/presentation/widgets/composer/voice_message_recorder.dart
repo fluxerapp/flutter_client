@@ -129,7 +129,7 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
     if (reduceMotion) {
       controller.value = 1;
     } else {
-      unawaited(controller.forward(from: 0));
+      controller.forward(from: 0);
     }
   }
 
@@ -266,7 +266,7 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
       }
       await _cancelGesture();
       return;
-    } on VoiceMessageRecordingPermissionException catch (error, _) {
+    } on VoiceMessageRecordingPermissionException catch (error) {
       talker.warning(
         '[VoiceMessageRecorder] Microphone permission denied (channel=${widget.channelId})',
         error,

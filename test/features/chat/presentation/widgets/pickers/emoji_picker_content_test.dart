@@ -16,7 +16,6 @@ import 'package:fluxer_app/features/chat/utils/emoji_picker_rendering_policy.dar
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import '../../../../../helpers/test_l10n.dart';

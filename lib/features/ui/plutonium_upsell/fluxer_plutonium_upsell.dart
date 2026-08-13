@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
-import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
+import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
+import 'package:fluxer_app/features/settings/utils/open_user_billing_settings.dart';
+import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -65,11 +67,7 @@ class FluxerPlutoniumUpsell extends StatelessWidget {
                   if (child != null) ...[SizedBox(height: layout.s2), child!],
                   SizedBox(height: layout.s2),
                   FluxerButton.inverted(
-                    onPressed:
-                        onButtonPressed ??
-                        () => unawaited(
-                          handleExternalLinkTap(context, _kPlutoniumUrl),
-                        ),
+                    onPressed: onButtonPressed ?? () => _openPlutonium(context),
                     label: buttonLabel ?? l10n.getPlutonium,
                   ),
                   if (onDismiss != null) ...[
@@ -93,5 +91,15 @@ class FluxerPlutoniumUpsell extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _openPlutonium(BuildContext context) {
+    if (AppBuildConfig.isOssWebCheckout) {
+      unawaited(
+        openUserBillingSettings(context, UserSettingsSection.fluxerPlutonium),
+      );
+      return;
+    }
+    unawaited(handleExternalLinkTap(context, _kPlutoniumUrl));
   }
 }

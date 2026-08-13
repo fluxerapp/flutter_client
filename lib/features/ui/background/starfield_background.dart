@@ -142,7 +142,7 @@ class _StarfieldBackgroundState extends State<StarfieldBackground>
     if (_parallaxTick.isAnimating) {
       return;
     }
-    unawaited(_parallaxTick.repeat());
+    _parallaxTick.repeat();
   }
 
   void _updateParallaxOffset() {
@@ -177,10 +177,10 @@ class _StarfieldBackgroundState extends State<StarfieldBackground>
     final bool shouldAnimate = foreground && animations;
     if (shouldAnimate) {
       if (!_fineDrift.isAnimating) {
-        unawaited(_fineDrift.repeat(reverse: true));
+        _fineDrift.repeat(reverse: true);
       }
       if (!_coarseDrift.isAnimating) {
-        unawaited(_coarseDrift.repeat(reverse: true));
+        _coarseDrift.repeat(reverse: true);
       }
       _startParallax();
     } else {

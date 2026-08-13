@@ -6,7 +6,6 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_identity_header.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import '../../../helpers/test_l10n.dart';
 
 Widget _buildTestApp(Widget child) {

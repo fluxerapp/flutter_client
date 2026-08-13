@@ -192,7 +192,7 @@ String _escapeMaskedLinks(String line) {
 
 String _escapeAutolinks(String line) {
   return line
-      .replaceAllMapped(RegExp(r'<(https?://[^>]+)>'), (Match match) {
+      .replaceAllMapped(RegExp('<(https?://[^>]+)>'), (Match match) {
         return r'\<' + match.group(1)! + r'\>';
       })
       .replaceAllMapped(RegExp(r'<(sms:\+[^>]+)>'), (Match match) {

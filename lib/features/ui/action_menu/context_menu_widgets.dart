@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -66,7 +64,7 @@ class _ContextMenuEntranceAnimationHostState
       vsync: this,
       duration: kContextMenuEntranceDuration,
     );
-    unawaited(_controller.forward());
+    _controller.forward();
   }
 
   @override

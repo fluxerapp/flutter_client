@@ -83,7 +83,7 @@ void main() {
       expect(find.text('Ctrl'), findsOneWidget);
       expect(find.text('Shift'), findsOneWidget);
       expect(find.text('P'), findsOneWidget);
-      expect(find.text('+'), findsNWidgets(2));
+      expect(find.text('+'), findsNothing);
     });
 
     testWidgets('renders single key without separator', (tester) async {

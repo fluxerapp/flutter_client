@@ -348,7 +348,6 @@ class _AutocompleteLabel extends StatelessWidget {
       ChannelSearchAutocompleteSection.dates => _IconTextOptionLabel(
         label: entry.label,
         icon: entry.icon,
-        iconSize: 20,
         textColor: textColor,
         mutedColor: mutedColor,
         fontWeight: FontWeight.w500,
@@ -474,9 +473,8 @@ class _IconTextOptionLabel extends StatelessWidget {
     required this.textColor,
     required this.mutedColor,
     this.icon,
-    this.iconSize = 20,
     this.fontWeight,
-  });
+  }) : iconSize = 20;
 
   final String label;
   final IconData? icon;

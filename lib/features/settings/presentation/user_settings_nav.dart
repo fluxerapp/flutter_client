@@ -4,6 +4,7 @@ import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_nav_group.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/settings_sidebar.dart';
+import 'package:fluxer_app/features/settings/utils/user_settings_billing_utils.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_nav_l10n.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_staff_only_utils.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -66,7 +67,7 @@ class UserSettingsDesktopNavEntry {
   }
 }
 
-const _userSettingsDesktopNavBeforeStaffOnly = [
+const _userSettingsDesktopNavYourAccount = [
   UserSettingsDesktopNavEntry.separator(UserSettingsNavGroup.yourAccount),
   UserSettingsDesktopNavEntry.link(
     UserSettingsSection.profile,
@@ -76,14 +77,6 @@ const _userSettingsDesktopNavBeforeStaffOnly = [
     UserSettingsSection.securityLogin,
     icon: PhosphorIconsFill.shieldCheck,
   ),
-  // UserSettingsDesktopNavEntry.link(
-  //   UserSettingsSection.fluxerPlutonium,
-  //   icon: PhosphorIconsFill.crown,
-  // ),
-  // UserSettingsDesktopNavEntry.link(
-  //   UserSettingsSection.giftsAndCodes,
-  //   icon: PhosphorIconsFill.gift,
-  // ),
   UserSettingsDesktopNavEntry.link(
     UserSettingsSection.privacyDashboard,
     icon: PhosphorIconsFill.eyeSlash,
@@ -104,6 +97,21 @@ const _userSettingsDesktopNavBeforeStaffOnly = [
     UserSettingsSection.connections,
     icon: PhosphorIconsFill.userList,
   ),
+];
+
+const _userSettingsDesktopNavBilling = [
+  UserSettingsDesktopNavEntry.separator(UserSettingsNavGroup.billing),
+  UserSettingsDesktopNavEntry.link(
+    UserSettingsSection.fluxerPlutonium,
+    icon: PhosphorIconsFill.crown,
+  ),
+  UserSettingsDesktopNavEntry.link(
+    UserSettingsSection.giftsAndCodes,
+    icon: PhosphorIconsFill.gift,
+  ),
+];
+
+const _userSettingsDesktopNavApplicationStart = [
   UserSettingsDesktopNavEntry.separator(UserSettingsNavGroup.application),
   UserSettingsDesktopNavEntry.link(
     UserSettingsSection.lookAndFeel,
@@ -125,10 +133,10 @@ const _userSettingsDesktopNavBeforeStaffOnly = [
     UserSettingsSection.audioAndVideo,
     icon: PhosphorIconsFill.microphone,
   ),
-  // UserSettingsDesktopNavEntry.link(
-  //   UserSettingsSection.keybinds,
-  //   icon: PhosphorIconsFill.keyboard,
-  // ),
+  UserSettingsDesktopNavEntry.link(
+    UserSettingsSection.shortcuts,
+    icon: PhosphorIconsFill.keyboard,
+  ),
   UserSettingsDesktopNavEntry.link(
     UserSettingsSection.languageAndTime,
     icon: PhosphorIconsBold.translate,
@@ -171,8 +179,12 @@ const _userSettingsDesktopNavAfterStaffOnly = [
   UserSettingsDesktopNavEntry.logout(),
 ];
 
-List<UserSettingsDesktopNavEntry> get userSettingsDesktopNav => [
-  ..._userSettingsDesktopNavBeforeStaffOnly,
+List<UserSettingsDesktopNavEntry> buildUserSettingsDesktopNav({
+  required bool showBilling,
+}) => [
+  ..._userSettingsDesktopNavYourAccount,
+  if (showBilling) ..._userSettingsDesktopNavBilling,
+  ..._userSettingsDesktopNavApplicationStart,
   if (isFluxerNativeMobileOs)
     const UserSettingsDesktopNavEntry.link(
       UserSettingsSection.defaultApps,
@@ -183,20 +195,37 @@ List<UserSettingsDesktopNavEntry> get userSettingsDesktopNav => [
   ..._userSettingsDesktopNavAfterStaffOnly,
 ];
 
-int? indexForUserSettingsSection(UserSettingsSection section) {
+int? indexForUserSettingsSection(
+  UserSettingsSection section, {
+  required bool showBilling,
+}) {
   if (!isUserSettingsStaffOnlySectionAvailable(section)) {
     return null;
   }
-  for (var i = 0; i < userSettingsDesktopNav.length; i++) {
-    if (userSettingsDesktopNav[i].section == section) {
+  if (!isUserSettingsBillingSectionAvailable(
+    section,
+    showBilling: showBilling,
+  )) {
+    return null;
+  }
+  final List<UserSettingsDesktopNavEntry> nav = buildUserSettingsDesktopNav(
+    showBilling: showBilling,
+  );
+  for (var i = 0; i < nav.length; i++) {
+    if (nav[i].section == section) {
       return i;
     }
   }
   return null;
 }
 
-IconData? iconForUserSettingsSection(UserSettingsSection section) {
-  for (final UserSettingsDesktopNavEntry entry in userSettingsDesktopNav) {
+IconData? iconForUserSettingsSection(
+  UserSettingsSection section, {
+  required bool showBilling,
+}) {
+  for (final UserSettingsDesktopNavEntry entry in buildUserSettingsDesktopNav(
+    showBilling: showBilling,
+  )) {
     if (entry.section == section) {
       return entry.icon;
     }
@@ -209,6 +238,7 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
   required void Function(UserSettingsSection section) onOpenSection,
   required VoidCallback onOpenAppLogs,
   required VoidCallback onLogout,
+  required bool showBilling,
 }) {
   FluxerSettingsNavItem link(UserSettingsSection section, IconData icon) {
     return FluxerSettingsNavItem(
@@ -224,8 +254,6 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
       items: [
         link(UserSettingsSection.profile, PhosphorIconsFill.user),
         link(UserSettingsSection.securityLogin, PhosphorIconsFill.shieldCheck),
-        // link(UserSettingsSection.fluxerPlutonium, PhosphorIconsFill.crown),
-        // link(UserSettingsSection.giftsAndCodes, PhosphorIconsFill.gift),
         link(UserSettingsSection.privacyDashboard, PhosphorIconsFill.eyeSlash),
         link(UserSettingsSection.authorizedApps, PhosphorIconsFill.robot),
         link(UserSettingsSection.blockedUsers, PhosphorIconsFill.prohibit),
@@ -233,6 +261,14 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
         link(UserSettingsSection.connections, PhosphorIconsFill.userList),
       ],
     ),
+    if (showBilling)
+      FluxerSettingsNavGroup(
+        label: userSettingsNavGroupLabel(l10n, UserSettingsNavGroup.billing),
+        items: [
+          link(UserSettingsSection.fluxerPlutonium, PhosphorIconsFill.crown),
+          link(UserSettingsSection.giftsAndCodes, PhosphorIconsFill.gift),
+        ],
+      ),
     FluxerSettingsNavGroup(
       label: userSettingsNavGroupLabel(l10n, UserSettingsNavGroup.application),
       items: [
@@ -244,6 +280,7 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
         ),
         link(UserSettingsSection.chat, PhosphorIconsFill.chatCircle),
         link(UserSettingsSection.audioAndVideo, PhosphorIconsFill.microphone),
+        link(UserSettingsSection.shortcuts, PhosphorIconsFill.keyboard),
         link(UserSettingsSection.languageAndTime, PhosphorIconsBold.translate),
         if (isFluxerNativeMobileOs)
           link(UserSettingsSection.defaultApps, PhosphorIconsFill.squaresFour),

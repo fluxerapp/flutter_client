@@ -2,7 +2,8 @@ import 'package:fluxer_app/features/chat/providers/channel/channel_message_permi
 import 'package:fluxer_app/features/chat/utils/composer_voice_button_visibility.dart';
 import 'package:test/test.dart';
 
-const _emptyComposer = (
+const ({bool hasSendable, bool isEditing, bool showMessageSendButtonPreference})
+_emptyComposer = (
   hasSendable: false,
   isEditing: false,
   showMessageSendButtonPreference: false,

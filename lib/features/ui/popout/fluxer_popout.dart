@@ -78,7 +78,7 @@ class _FluxerPopoutState extends State<FluxerPopout>
       _close();
     } else {
       _overlayController.show();
-      unawaited(_animationController.forward());
+      _animationController.forward();
     }
   }
 

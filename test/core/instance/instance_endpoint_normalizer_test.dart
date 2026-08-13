@@ -84,6 +84,10 @@ void main() {
       expect(normalizer.isOfficialInstanceInput('api.fluxer.app/v1'), isTrue);
     });
 
+    test('matches official fluxer.com api host', () {
+      expect(normalizer.isOfficialInstanceInput('api.fluxer.com/v1'), isTrue);
+    });
+
     test('rejects self-hosted host', () {
       expect(normalizer.isOfficialInstanceInput('chat.example.com'), isFalse);
     });

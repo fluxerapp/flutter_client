@@ -46,6 +46,7 @@ import 'package:fluxer_app/features/voice/services/voice_callkit_coordinator.dar
 import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji_sprite_sheet.dart';
+import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -83,6 +84,7 @@ class AppStartup extends _$AppStartup {
       ref.read(activeInstanceProvider.notifier).applySnapshot(activeSnapshot);
     }
     await EmojiRegistry.preload();
+    unawaited(FluxerHaptics.warmSend());
     unawaited(ref.read(wellKnownProvider.future));
     unawaited(EmojiSpriteSheet.preload());
     unawaited(bootstrapFcmAfterRunApp());
