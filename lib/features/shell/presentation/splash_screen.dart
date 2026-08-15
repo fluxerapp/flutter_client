@@ -50,6 +50,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   bool _showProblems = false;
   bool _timersStarted = false;
   bool _exitRevealStarted = false;
+  SplashRevealComplete? _revealComplete;
   final GlobalKey _logoKey = GlobalKey();
   ServiceStatusIncident? _frozenIncident;
   String _frozenDisplayText = '';
@@ -67,8 +68,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
         return;
       }
       ref.read(splashExitAllowedProvider.notifier).reset();
+      final SplashRevealComplete revealComplete = ref.read(
+        splashRevealCompleteProvider.notifier,
+      );
+      _revealComplete = revealComplete;
+      revealComplete.reset();
       final AsyncValue<void> startup = ref.read(appStartupProvider);
       if (startup is AsyncError<dynamic>) {
+        revealComplete.complete();
         return;
       }
       _ensureSplashTimers();
@@ -81,6 +88,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   void dispose() {
     _cancelSplashTimers();
     _pulseController.dispose();
+    if (!_exitRevealStarted) {
+      _revealComplete?.complete();
+    }
     super.dispose();
   }
 
@@ -101,6 +111,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
   void _allowSplashExit() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
       ref.read(splashExitAllowedProvider.notifier).allow();
     });
   }
@@ -118,11 +131,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     if (_exitRevealStarted) {
       return;
     }
+    _revealComplete ??= ref.read(splashRevealCompleteProvider.notifier);
     final AsyncValue<void> startup = ref.read(appStartupProvider);
     if (startup is! AsyncData<void> || !ref.read(gatewayReadyProvider)) {
       return;
     }
     if (!ref.read(authStateProvider)) {
+      _revealComplete?.complete();
       return;
     }
 
@@ -130,13 +145,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     _cancelSplashTimers();
     _pulseController.stop();
 
-    final bool animationsEnabled = !MediaQuery.disableAnimationsOf(context);
-    final bool useLogoZoomTransition = ref.read(
-      appearancePreferencesProvider.select(
-        (AppearancePreferencesState state) => state.mobileSplashZoomAnimation,
-      ),
-    );
-    final Offset? logoCenter = _logoCenterGlobal();
     final Color brand = context.colors.brandPrimary;
     SplashRevealOverlay.show(
       context: context,
@@ -144,9 +152,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       logoBrandColor: brand,
       logoBrandSymbolColor: ColorUtils.bestContrastColor(brand.toARGB32()),
       logoCenterGlobal:
-          logoCenter ?? MediaQuery.sizeOf(context).center(Offset.zero),
-      useLogoZoomTransition: useLogoZoomTransition,
-      animationsEnabled: animationsEnabled,
+          _logoCenterGlobal() ?? MediaQuery.sizeOf(context).center(Offset.zero),
+      useLogoZoomTransition: ref.read(
+        appearancePreferencesProvider.select(
+          (AppearancePreferencesState state) => state.mobileSplashZoomAnimation,
+        ),
+      ),
+      animationsEnabled: !MediaQuery.disableAnimationsOf(context),
+      onComplete: _revealComplete?.complete,
     );
     _allowSplashExit();
     setState(() {});

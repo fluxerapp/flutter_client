@@ -1,3 +1,4 @@
+import 'package:flutter_localizations/flutter_localizations.dart' as l10n;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
@@ -76,7 +77,11 @@ class FluxerApp extends ConsumerWidget {
     return MaterialApp.router(
       title: 'Fluxer',
       debugShowCheckedModeBanner: false,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: const [
+        FluxerLocalizations.delegate,
+        ...GlobalMaterialLocalizations.delegates,
+        l10n.GlobalMaterialLocalizations.delegate,
+      ],
       supportedLocales: FluxerLocalizations.supportedLocales,
       locale: appLocale,
       theme: theme,

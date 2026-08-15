@@ -2,10 +2,10 @@ import 'dart:io';
 import 'dart:math' as math;
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart' show WidgetsFlutterBinding;
+import 'package:cupertino_ui/cupertino_ui.dart' show WidgetsFlutterBinding;
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart' show WidgetsFlutterBinding;
 import 'package:flutter/widgets.dart' show WidgetsFlutterBinding;
+import 'package:material_ui/material_ui.dart' show WidgetsFlutterBinding;
 
 const double kFluxerMobileFormFactorMaxShortestSide = 600;
 

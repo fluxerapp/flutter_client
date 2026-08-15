@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:fluxer_app/features/shell/navigation/shell_transition_policy.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';

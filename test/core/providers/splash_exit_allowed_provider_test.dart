@@ -1,4 +1,4 @@
-import 'dart:ui' show Offset, Size;
+import 'dart:ui' show Path, Rect;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -28,17 +28,37 @@ void main() {
     });
   });
 
-  group('maxRevealRadius', () {
-    test('covers all corners from center', () {
-      const Size size = Size(400, 800);
-      const Offset center = Offset(200, 400);
+  group('SplashRevealComplete', () {
+    test('starts complete and can reset then complete again', () {
+      final ProviderContainer container = ProviderContainer();
+      addTearDown(container.dispose);
 
-      final double radius = maxRevealRadius(size, center);
+      expect(container.read(splashRevealCompleteProvider), isTrue);
 
-      expect(radius, closeTo(447.21, 0.01));
+      container.read(splashRevealCompleteProvider.notifier).reset();
+      expect(container.read(splashRevealCompleteProvider), isFalse);
+
+      container.read(splashRevealCompleteProvider.notifier).complete();
+      expect(container.read(splashRevealCompleteProvider), isTrue);
+    });
+  });
+
+  group('splashRevealSymbolPath', () {
+    test('parses the brand symbol into a bounded path', () {
+      final Path path = splashRevealSymbolPath();
+      final Rect bounds = path.getBounds();
+
+      expect(bounds.width, greaterThan(200));
+      expect(bounds.height, greaterThan(200));
+      expect(bounds.left, greaterThanOrEqualTo(0));
+      expect(bounds.top, greaterThanOrEqualTo(0));
       expect(
-        radius,
-        greaterThanOrEqualTo((Offset(size.width, 0) - center).distance),
+        bounds.right,
+        lessThanOrEqualTo(SplashRevealOverlay.symbolViewBox),
+      );
+      expect(
+        bounds.bottom,
+        lessThanOrEqualTo(SplashRevealOverlay.symbolViewBox),
       );
     });
   });

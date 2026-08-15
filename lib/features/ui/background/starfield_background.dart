@@ -37,15 +37,64 @@ Offset _parallaxDeltaFromSensor({
   return Offset(clampAxis(screenX), clampAxis(screenY));
 }
 
-class StarfieldBackground extends StatefulWidget {
-  const StarfieldBackground({this.child, super.key});
-
-  static const Color cutoutColor = Color(0xFF080616);
-  static const Color cutoutSymbolColor = Color(0xFFE2DAFF);
+class StarfieldBackdrop extends StatelessWidget {
+  const StarfieldBackdrop({this.child, super.key});
 
   static const Color _gradientStart = Color(0xFF05040D);
   static const Color _gradientMid = Color(0xFF080616);
   static const Color _gradientEnd = Color(0xFF0D0A1C);
+
+  final Widget? child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        const DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment(-0.8, -1),
+              end: Alignment(0.9, 1),
+              colors: [
+                StarfieldBackdrop._gradientStart,
+                StarfieldBackdrop._gradientMid,
+                StarfieldBackdrop._gradientEnd,
+              ],
+              stops: [0.0, 0.46, 1.0],
+            ),
+          ),
+        ),
+        const DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: RadialGradient(
+              center: Alignment(-0.44, -0.8),
+              radius: 0.85,
+              colors: [Color(0x287A57BF), Color(0x007A57BF)],
+              stops: [0.0, 0.7],
+            ),
+          ),
+        ),
+        const DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: RadialGradient(
+              center: Alignment(0.64, 0.68),
+              radius: 0.75,
+              colors: [Color(0x245B4197), Color(0x005B4197)],
+              stops: [0.0, 0.72],
+            ),
+          ),
+        ),
+        if (child != null) Positioned.fill(child: child!),
+      ],
+    );
+  }
+}
+
+class StarfieldBackground extends StatefulWidget {
+  const StarfieldBackground({this.child, super.key});
+
+  static const Color cutoutSymbolColor = Color(0xFFE2DAFF);
 
   final Widget? child;
 
@@ -266,65 +315,33 @@ class _StarfieldBackgroundState extends State<StarfieldBackground>
     }
     final double motionIntensity = animationsEnabled ? 1 : 0;
 
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        const DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment(-0.8, -1),
-              end: Alignment(0.9, 1),
-              colors: [
-                StarfieldBackground._gradientStart,
-                StarfieldBackground._gradientMid,
-                StarfieldBackground._gradientEnd,
-              ],
-              stops: [0.0, 0.46, 1.0],
-            ),
+    return StarfieldBackdrop(
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          AnimatedBuilder(
+            animation: Listenable.merge(<Listenable>[
+              _fineDrift,
+              _coarseDrift,
+              _parallaxOffset,
+            ]),
+            builder: (BuildContext context, Widget? _) {
+              return CustomPaint(
+                painter: _StarfieldPainter(
+                  fineProgress:
+                      Curves.easeInOut.transform(_fineDrift.value) *
+                      motionIntensity,
+                  coarseProgress:
+                      Curves.easeInOut.transform(1 - _coarseDrift.value) *
+                      motionIntensity,
+                  parallaxOffset: _parallaxOffset.value * motionIntensity,
+                ),
+              );
+            },
           ),
-        ),
-        const DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: RadialGradient(
-              center: Alignment(-0.44, -0.8),
-              radius: 0.85,
-              colors: [Color(0x287A57BF), Color(0x007A57BF)],
-              stops: [0.0, 0.7],
-            ),
-          ),
-        ),
-        const DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: RadialGradient(
-              center: Alignment(0.64, 0.68),
-              radius: 0.75,
-              colors: [Color(0x245B4197), Color(0x005B4197)],
-              stops: [0.0, 0.72],
-            ),
-          ),
-        ),
-        AnimatedBuilder(
-          animation: Listenable.merge(<Listenable>[
-            _fineDrift,
-            _coarseDrift,
-            _parallaxOffset,
-          ]),
-          builder: (BuildContext context, Widget? child) {
-            return CustomPaint(
-              painter: _StarfieldPainter(
-                fineProgress:
-                    Curves.easeInOut.transform(_fineDrift.value) *
-                    motionIntensity,
-                coarseProgress:
-                    Curves.easeInOut.transform(1 - _coarseDrift.value) *
-                    motionIntensity,
-                parallaxOffset: _parallaxOffset.value * motionIntensity,
-              ),
-            );
-          },
-        ),
-        if (widget.child != null) widget.child!,
-      ],
+          if (widget.child != null) widget.child!,
+        ],
+      ),
     );
   }
 }

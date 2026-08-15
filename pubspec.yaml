@@ -21,6 +21,7 @@ dependencies:
   crop_your_image: ^2.0.0
   cross_file: ^0.3.5+2
   cupertino_icons: ^1.0.8
+  cupertino_ui: ^1.0.0
   desktop_drop: ^0.7.1
   device_info_plus: ^13.2.0
   dio: ^5.10.0

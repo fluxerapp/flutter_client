@@ -1,6 +1,6 @@
 import 'dart:ui' show clampDouble;
 
-import 'package:flutter/cupertino.dart'
+import 'package:cupertino_ui/cupertino_ui.dart'
     show CupertinoSliverRefreshControl, RefreshIndicatorMode;
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';

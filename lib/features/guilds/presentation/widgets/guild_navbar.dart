@@ -2355,136 +2355,156 @@ class _GuildListItemState extends State<_GuildListItem>
               ),
             ),
           ),
-          Stack(
-            clipBehavior: Clip.none,
-            children: [
-              _RightTooltip(
-                backgroundColor: widget.isUnavailable
-                    ? context.colors.statusDanger
-                    : null,
-                borderColor: widget.isUnavailable
-                    ? context.colors.statusDanger
-                    : null,
-                content: widget.guild != null
-                    ? _GuildTooltipContent(
-                        guild: widget.guild!,
-                        unavailableCount: widget.unavailableCount,
-                        permissions: widget.permissions,
-                        isMuted: widget.isMuted,
-                        muteEndTime: widget.muteEndTime,
-                      )
-                    : _TooltipLabel(label: widget.label),
-                child: MouseRegion(
-                  onEnter: (_) => setState(() => _isHovered = true),
-                  onExit: (_) => setState(() => _isHovered = false),
-                  child: Semantics(
-                    button: true,
-                    selected: widget.isSelected,
-                    label: _guildSemanticLabel(l10n),
-                    child: FluxerGestureDetector(
-                      behavior: widget.opaqueHitTarget
-                          ? HitTestBehavior.opaque
-                          : null,
-                      onTap: widget.onTap,
-                      onSecondaryTapUp: widget.guild != null
-                          ? (details) => unawaited(
-                              _showContextMenu(context, details.globalPosition),
-                            )
-                          : null,
-                      onLongPress:
-                          widget.guild != null && widget.enableLongPressMenu
-                          ? () => unawaited(_showActionSheet(context))
-                          : null,
+          _RightTooltip(
+            backgroundColor: widget.isUnavailable
+                ? context.colors.statusDanger
+                : null,
+            borderColor: widget.isUnavailable
+                ? context.colors.statusDanger
+                : null,
+            content: widget.guild != null
+                ? _GuildTooltipContent(
+                    guild: widget.guild!,
+                    unavailableCount: widget.unavailableCount,
+                    permissions: widget.permissions,
+                    isMuted: widget.isMuted,
+                    muteEndTime: widget.muteEndTime,
+                  )
+                : _TooltipLabel(label: widget.label),
+            child: MouseRegion(
+              onEnter: (_) => setState(() => _isHovered = true),
+              onExit: (_) => setState(() => _isHovered = false),
+              child: Semantics(
+                button: true,
+                selected: widget.isSelected,
+                label: _guildSemanticLabel(l10n),
+                child: FluxerGestureDetector(
+                  behavior: widget.opaqueHitTarget
+                      ? HitTestBehavior.opaque
+                      : null,
+                  onTap: widget.onTap,
+                  onSecondaryTapUp: widget.guild != null
+                      ? (details) => unawaited(
+                          _showContextMenu(context, details.globalPosition),
+                        )
+                      : null,
+                  onLongPress:
+                      widget.guild != null && widget.enableLongPressMenu
+                      ? () => unawaited(_showActionSheet(context))
+                      : null,
+                  child: SizedBox(
+                    width: widget.opaqueHitTarget ? 72 : 48,
+                    height: 48,
+                    child: Center(
                       child: SizedBox(
-                        width: widget.opaqueHitTarget ? 72 : 48,
+                        width: 48,
                         height: 48,
-                        child: Center(
-                          child: AnimatedContainer(
-                            duration: context.motion.hover,
-                            curve: Curves.easeOut,
-                            width: 44,
-                            height: 44,
-                            decoration: BoxDecoration(
-                              color: bgColor,
-                              borderRadius: BorderRadius.circular(borderRadius),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadiusGeometry.circular(
-                                borderRadius,
-                              ),
-                              child: widget.isUnavailable
-                                  ? Center(
-                                      child: PhosphorIcon(
-                                        PhosphorIconsBold.exclamationMark,
-                                        color:
-                                            context.colors.textOnBrandPrimary,
-                                        size: 32,
-                                      ),
-                                    )
-                                  : iconUrl != null
-                                  ? CachedNetworkImage(
-                                      imageUrl: iconUrl,
-                                      memCacheWidth: _guildNavbarIconMemCache(
-                                        context,
-                                        44,
-                                      ),
-                                      memCacheHeight: _guildNavbarIconMemCache(
-                                        context,
-                                        44,
-                                      ),
-                                      fadeInDuration:
-                                          activeAnimatedIconUrl != null
-                                          ? context.motion.panel
-                                          : const Duration(milliseconds: 500),
-                                      errorBuilder: (context, url, error) =>
-                                          _buildBackupIcon(
-                                            context,
-                                            isActive: isActive,
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Center(
+                              child: AnimatedContainer(
+                                duration: context.motion.hover,
+                                curve: Curves.easeOut,
+                                width: 44,
+                                height: 44,
+                                decoration: BoxDecoration(
+                                  color: bgColor,
+                                  borderRadius: BorderRadius.circular(
+                                    borderRadius,
+                                  ),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadiusGeometry.circular(
+                                    borderRadius,
+                                  ),
+                                  child: widget.isUnavailable
+                                      ? Center(
+                                          child: PhosphorIcon(
+                                            PhosphorIconsBold.exclamationMark,
+                                            color: context
+                                                .colors
+                                                .textOnBrandPrimary,
+                                            size: 32,
                                           ),
-                                      progressIndicatorBuilder:
-                                          (context, url, progress) =>
+                                        )
+                                      : iconUrl != null
+                                      ? CachedNetworkImage(
+                                          imageUrl: iconUrl,
+                                          memCacheWidth:
+                                              _guildNavbarIconMemCache(
+                                                context,
+                                                44,
+                                              ),
+                                          memCacheHeight:
+                                              _guildNavbarIconMemCache(
+                                                context,
+                                                44,
+                                              ),
+                                          fadeInDuration:
+                                              activeAnimatedIconUrl != null
+                                              ? context.motion.panel
+                                              : const Duration(
+                                                  milliseconds: 500,
+                                                ),
+                                          errorBuilder: (context, url, error) =>
                                               _buildBackupIcon(
                                                 context,
                                                 isActive: isActive,
                                               ),
-                                    )
-                                  : _buildBackupIcon(
-                                      context,
-                                      isActive: isActive,
-                                    ),
+                                          progressIndicatorBuilder:
+                                              (context, url, progress) =>
+                                                  _buildBackupIcon(
+                                                    context,
+                                                    isActive: isActive,
+                                                  ),
+                                        )
+                                      : _buildBackupIcon(
+                                          context,
+                                          isActive: isActive,
+                                        ),
+                                ),
+                              ),
                             ),
-                          ),
+                            if (!widget.isUnavailable &&
+                                !widget.isSelected &&
+                                _displayMentionCount > 0)
+                              Positioned(
+                                bottom: -2,
+                                right: -2,
+                                child: FluxerBadge.count(
+                                  count: _displayMentionCount,
+                                  cutoutColor:
+                                      context.colors.backgroundSecondary,
+                                ),
+                              ),
+                            if (!widget.isUnavailable &&
+                                widget.voiceActivity != VoiceActivityType.none)
+                              Positioned(
+                                top: -4,
+                                right: -4,
+                                child: _VoiceActivityBadge(
+                                  type: widget.voiceActivity,
+                                ),
+                              ),
+                            if (!widget.isUnavailable &&
+                                !widget.isSelected &&
+                                widget.invitesPaused &&
+                                _displayMentionCount == 0 &&
+                                widget.voiceActivity == VoiceActivityType.none)
+                              const Positioned(
+                                bottom: -4,
+                                right: -4,
+                                child: _PauseBadge(),
+                              ),
+                          ],
                         ),
                       ),
                     ),
                   ),
                 ),
               ),
-              if (!widget.isUnavailable &&
-                  !widget.isSelected &&
-                  _displayMentionCount > 0)
-                Positioned(
-                  bottom: -2,
-                  right: -2,
-                  child: FluxerBadge.count(
-                    count: _displayMentionCount,
-                    cutoutColor: context.colors.backgroundSecondary,
-                  ),
-                ),
-              if (!widget.isUnavailable &&
-                  widget.voiceActivity != VoiceActivityType.none)
-                Positioned(
-                  top: -4,
-                  right: -4,
-                  child: _VoiceActivityBadge(type: widget.voiceActivity),
-                ),
-              if (!widget.isUnavailable &&
-                  !widget.isSelected &&
-                  widget.invitesPaused &&
-                  _displayMentionCount == 0 &&
-                  widget.voiceActivity == VoiceActivityType.none)
-                const Positioned(bottom: -4, right: -4, child: _PauseBadge()),
-            ],
+            ),
           ),
         ],
       ),

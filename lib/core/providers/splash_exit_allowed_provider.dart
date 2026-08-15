@@ -16,3 +16,17 @@ class SplashExitAllowed extends _$SplashExitAllowed {
     state = false;
   }
 }
+
+@Riverpod(keepAlive: true)
+class SplashRevealComplete extends _$SplashRevealComplete {
+  @override
+  bool build() => true;
+
+  void complete() {
+    state = true;
+  }
+
+  void reset() {
+    state = false;
+  }
+}

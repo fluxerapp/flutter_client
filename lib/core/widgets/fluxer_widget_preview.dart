@@ -1,4 +1,5 @@
 import 'package:flutter/widget_previews.dart';
+import 'package:flutter_localizations/flutter_localizations.dart' as l10n;
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -44,7 +45,11 @@ class _PreviewAppWrapper extends StatelessWidget {
     return MaterialApp(
       title: 'Fluxer',
       debugShowCheckedModeBanner: false,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: const [
+        FluxerLocalizations.delegate,
+        ...GlobalMaterialLocalizations.delegates,
+        l10n.GlobalMaterialLocalizations.delegate,
+      ],
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: _theme,
       home: Scaffold(body: Center(child: child)),

@@ -52,13 +52,13 @@ class _SplashShellSettleState extends ConsumerState<SplashShellSettle>
       return;
     }
     _started = true;
-    final bool reducedMotion = MediaQuery.disableAnimationsOf(context);
-    final bool useLogoZoomTransition = ref.read(
-      appearancePreferencesProvider.select(
-        (AppearancePreferencesState state) => state.mobileSplashZoomAnimation,
-      ),
-    );
-    if (reducedMotion || !useLogoZoomTransition) {
+    if (MediaQuery.disableAnimationsOf(context) ||
+        !ref.read(
+          appearancePreferencesProvider.select(
+            (AppearancePreferencesState state) =>
+                state.mobileSplashZoomAnimation,
+          ),
+        )) {
       _controller.value = 1;
       return;
     }
