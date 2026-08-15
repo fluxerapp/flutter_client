@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
@@ -6,6 +5,7 @@ import 'package:fluxer_app/features/dm/presentation/widgets/add_friends_to_group
 import 'package:fluxer_app/features/dm/providers/add_friends_to_group_controller.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 
 class AddFriendsToGroupBottomSheet {
   AddFriendsToGroupBottomSheet._();

@@ -1,4 +1,5 @@
-/// Web [Markup.module.css] spacing at a 16px root font size.
+/// Web Markup.module.css spacing at a 16px root font size.
+// ignore: avoid_classes_with_only_static_members
 abstract final class FluxerMarkupSpacing {
   static const double rootFontSize = 16;
 

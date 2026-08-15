@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
+import 'package:fluxer_markdown/src/utils/code_block_highlight.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
+import 'package:material_ui/material_ui.dart';
 
 const FluxerMarkdownConfig _testMarkdownConfig = FluxerMarkdownConfig(
   resolveEmojiShortcode: _noopEmojiShortcode,
@@ -91,7 +91,7 @@ test one two three
 ```''';
       await _pumpMarkdown(tester, input);
 
-      expect(find.byType(HighlightView), findsOneWidget);
+      expect(find.byType(FluxerHighlightedCode), findsOneWidget);
 
       final InlineSpan? root = _findCodeBlockRichText(tester);
       expect(root, isNotNull);
@@ -128,7 +128,7 @@ test one two three
 ```''';
       await _pumpMarkdown(tester, input);
 
-      expect(find.byType(HighlightView), findsNothing);
+      expect(find.byType(FluxerHighlightedCode), findsNothing);
       final Finder richTextFinder = find.byWidgetPredicate(
         (Widget widget) =>
             widget is RichText &&
@@ -147,7 +147,7 @@ void main() {}
       await _pumpMarkdown(tester, input);
 
       final Finder richTextFinder = find.descendant(
-        of: find.byType(HighlightView),
+        of: find.byType(FluxerHighlightedCode),
         matching: find.byType(RichText),
       );
       expect(richTextFinder, findsOneWidget);

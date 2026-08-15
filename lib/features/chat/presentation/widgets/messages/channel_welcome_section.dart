@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Start-of-channel welcome for guild text/voice channels, mirroring the web
 /// client's `ChannelWelcomeSection`. Shown at the top of fully-loaded history

@@ -4,7 +4,6 @@ import 'dart:js_interop_unsafe';
 import 'dart:ui';
 import 'dart:ui_web' as ui;
 
-import 'package:flutter/material.dart';
 import 'package:fluxer_captcha/src/captcha_exception.dart';
 import 'package:fluxer_captcha/src/captcha_provider.dart';
 import 'package:fluxer_captcha/src/captcha_validation.dart';
@@ -15,6 +14,7 @@ import 'package:fluxer_captcha/src/widget/captcha_content_size.dart';
 import 'package:fluxer_captcha/src/widget/captcha_options.dart';
 import 'package:fluxer_captcha/src/widget/captcha_styling.dart';
 import 'package:fluxer_captcha/src/widget/interface.dart' as i;
+import 'package:material_ui/material_ui.dart';
 import 'package:web/web.dart' as web;
 
 /// Resolves `auto` theme to `light` or `dark` using platform brightness.
@@ -512,7 +512,6 @@ class _FluxerCaptchaState extends State<FluxerCaptcha> {
 }
 
 // Mutable fields are required for headless widget state management.
-// ignore: must_be_immutable
 class _CaptchaInvisible extends FluxerCaptcha {
   _CaptchaInvisible.init({
     required super.provider,

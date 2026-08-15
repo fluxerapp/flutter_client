@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
@@ -8,6 +7,7 @@ import 'package:fluxer_markdown/src/renderers/fluxer_markdown_renderers.dart';
 import 'package:fluxer_markdown/src/utils/markup_spacing.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 import 'package:markdown/markdown.dart' as md;
+import 'package:material_ui/material_ui.dart';
 
 const FluxerMarkdownConfig _testMarkdownConfig = FluxerMarkdownConfig(
   resolveEmojiShortcode: _noopEmojiShortcode,
@@ -747,10 +747,118 @@ void main() {
         richTexts.any((String text) => text.contains('intro\n\n')),
         isTrue,
       );
-      expect(
-        richTexts.any((String text) => text.startsWith('\n\ncloser')),
-        isTrue,
+      expect(richTexts.any((String text) => text == '\n'), isTrue);
+      expect(richTexts.any((String text) => text == 'closer'), isTrue);
+    });
+
+    testWidgets('blank lines around a list have balanced vertical gaps', (
+      tester,
+    ) async {
+      const String input = 'intro\n\n- item\n\ncloser';
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: MediaQuery(
+            data: MediaQueryData(textScaler: TextScaler.noScaling),
+            child: Scaffold(
+              body: Center(
+                child: SizedBox(
+                  width: 320,
+                  child: FluxerMarkdown(
+                    data: input,
+                    config: _testMarkdownConfig,
+                    baseStyle: baseStyle,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
       );
+
+      final Finder introFinder = find.textContaining(
+        'intro',
+        findRichText: true,
+      );
+      final Finder itemFinder = find.textContaining('item', findRichText: true);
+      final Finder closerFinder = find.textContaining(
+        'closer',
+        findRichText: true,
+      );
+      expect(introFinder, findsOneWidget);
+      expect(itemFinder, findsOneWidget);
+      expect(closerFinder, findsOneWidget);
+
+      final Finder introRichTextFinder = find.byWidgetPredicate(
+        (Widget widget) =>
+            widget is RichText &&
+            widget.text.toPlainText().contains('intro\n\n'),
+      );
+      final Finder spacerFinder = find.byWidgetPredicate(
+        (Widget widget) =>
+            widget is RichText && widget.text.toPlainText() == '\n',
+      );
+      expect(introRichTextFinder, findsOneWidget);
+      expect(spacerFinder, findsOneWidget);
+
+      final double introBottom = tester.getBottomLeft(introRichTextFinder).dy;
+      final double itemTop = tester.getTopLeft(itemFinder).dy;
+      final double itemBottom = tester.getBottomLeft(itemFinder).dy;
+      final double closerTop = tester.getTopLeft(closerFinder).dy;
+      final double spacerHeight = tester.getSize(spacerFinder).height;
+      final double introHeight = tester.getSize(introRichTextFinder).height;
+
+      final double singleLineHeight = 16 * baseStyle.height!;
+      final double gapAboveList = itemTop - introBottom;
+      final double gapBelowList = closerTop - itemBottom;
+      final double introBlankHeight = introHeight - singleLineHeight;
+
+      expect(gapAboveList, lessThan(singleLineHeight * 0.5));
+      expect(introBlankHeight, greaterThanOrEqualTo(singleLineHeight - 1));
+      expect(gapBelowList, greaterThanOrEqualTo(singleLineHeight - 1));
+      expect(spacerHeight, greaterThanOrEqualTo(singleLineHeight - 1));
+      expect(
+        (introBlankHeight - spacerHeight).abs(),
+        lessThan(singleLineHeight * 0.5),
+      );
+    });
+
+    testWidgets('list without surrounding blanks has no extra bottom padding', (
+      tester,
+    ) async {
+      const String input = '- item\ncloser';
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: MediaQuery(
+            data: MediaQueryData(textScaler: TextScaler.noScaling),
+            child: Scaffold(
+              body: Center(
+                child: SizedBox(
+                  width: 320,
+                  child: FluxerMarkdown(
+                    data: input,
+                    config: _testMarkdownConfig,
+                    baseStyle: baseStyle,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      final Finder itemFinder = find.textContaining('item', findRichText: true);
+      final Finder closerFinder = find.textContaining(
+        'closer',
+        findRichText: true,
+      );
+      expect(itemFinder, findsOneWidget);
+      expect(closerFinder, findsOneWidget);
+
+      final double itemBottom = tester.getBottomLeft(itemFinder).dy;
+      final double closerTop = tester.getTopLeft(closerFinder).dy;
+      final double singleLineHeight = 16 * baseStyle.height!;
+
+      expect(closerTop - itemBottom, lessThan(singleLineHeight * 0.5));
     });
 
     testWidgets('preserves spacing between heading and regular text', (
@@ -825,10 +933,9 @@ void main() {
             .widgetList<RichText>(find.byType(RichText))
             .map((RichText richText) => richText.text.toPlainText())
             .toList();
+        expect(richTexts.any((String text) => text == '\n'), isTrue);
         expect(
-          richTexts.any(
-            (String text) => text.startsWith('\n\nregular text below'),
-          ),
+          richTexts.any((String text) => text == 'regular text below'),
           isTrue,
         );
       },

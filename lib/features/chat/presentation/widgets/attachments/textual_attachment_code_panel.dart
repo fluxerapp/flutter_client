@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/textual_attachment_preview_surface.dart';
 import 'package:fluxer_app/features/chat/utils/attachment_preview_utils.dart';
 import 'package:fluxer_app/features/chat/utils/textual_attachment_content.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
+import 'package:material_ui/material_ui.dart';
 
 String? resolveHighlightLanguage(String languageCode) {
   ensureFluxerMarkdownLanguagesRegistered();

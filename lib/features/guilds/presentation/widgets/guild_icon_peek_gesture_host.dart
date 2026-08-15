@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_icon_peek_menu.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_drag_provider.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
+import 'package:material_ui/material_ui.dart';
 
 class GuildIconPeekGestureHost extends ConsumerStatefulWidget {
   const GuildIconPeekGestureHost({
@@ -191,6 +191,8 @@ class _GuildIconPeekGestureHostState
       );
       if (action != null && mounted) {
         await _handleItemTap(action);
+      } else {
+        _dismissPeekOverlay();
       }
     }
     _activePointer = null;

@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
+import 'package:material_ui/material_ui.dart';
 
 const double kExpandableSheetSnapMidpointFraction = 0.42;
 const double kExpandableSheetFlingVelocityThreshold = 650;

@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -11,6 +10,8 @@ import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attach
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/textual_attachment_preview.dart';
 import 'package:fluxer_app/features/chat/utils/attachment_preview_utils.dart';
 import 'package:fluxer_app/features/chat/utils/textual_attachment_content.dart';
+import 'package:material_ui/material_ui.dart';
+
 import '../../../../../helpers/test_l10n.dart';
 
 void main() {

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/csv_attachment_table_panel.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/textual_attachment_code_panel.dart';
@@ -6,6 +5,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/attachments/textua
 import 'package:fluxer_app/features/chat/utils/attachment_preview_utils.dart';
 import 'package:fluxer_app/features/chat/utils/textual_attachment_fullscreen.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:material_ui/material_ui.dart';
 
 Future<void> showTextualAttachmentPreviewSheet({
   required BuildContext context,

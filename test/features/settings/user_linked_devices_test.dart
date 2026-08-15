@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
@@ -12,6 +11,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/user_linked_de
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:material_ui/material_ui.dart';
 
 class _FakeAuthApi implements AuthApi {
   _FakeAuthApi({this.sessions = const [], this.listError});

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
@@ -23,6 +22,7 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/user_profile.dart';
 import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kActiveNowMinWidth = 1100.0;
@@ -94,7 +94,7 @@ class FriendsList extends ConsumerWidget {
     FriendsTab activeTab, {
     required bool showActiveNow,
   }) => Container(
-    height: 56,
+    constraints: const BoxConstraints(minHeight: 56),
     padding: EdgeInsets.symmetric(horizontal: context.layout.s4),
     child: Row(
       children: [
@@ -274,18 +274,15 @@ class FriendsList extends ConsumerWidget {
       right: context.layout.s4,
       top: context.layout.s3,
     ),
-    child: TextField(
+    child: FluxerInput(
+      hint: _searchHint(activeTab),
       onChanged: ref.read(dmViewModelProvider.notifier).updateSearch,
-      style: context.textStyles.inputText.copyWith(fontSize: 14),
-      decoration: InputDecoration(
-        hintText: _searchHint(activeTab),
-        hintStyle: context.textStyles.bodySmall,
-        prefixIcon: PhosphorIcon(
-          PhosphorIconsBold.magnifyingGlass,
-          size: 20,
-          color: context.colors.textSecondary,
-        ),
+      prefixIcon: PhosphorIcon(
+        PhosphorIconsBold.magnifyingGlass,
+        size: 20,
+        color: context.colors.textSecondary,
       ),
+      style: context.textStyles.inputText.copyWith(fontSize: 14),
     ),
   );
 

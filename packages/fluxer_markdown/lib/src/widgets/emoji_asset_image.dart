@@ -40,7 +40,7 @@ class EmojiAssetImage extends StatelessWidget {
   }
 }
 
-class CachedEmojiAssetImage extends StatelessWidget {
+class CachedEmojiAssetImage extends StatefulWidget {
   const CachedEmojiAssetImage({
     required this.url,
     required this.size,
@@ -53,23 +53,44 @@ class CachedEmojiAssetImage extends StatelessWidget {
   final Widget fallback;
 
   @override
+  State<CachedEmojiAssetImage> createState() => _CachedEmojiAssetImageState();
+}
+
+class _CachedEmojiAssetImageState extends State<CachedEmojiAssetImage> {
+  late Future<Uint8List> _bytesFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _bytesFuture = EmojiAssetCache.loadBytes(widget.url);
+  }
+
+  @override
+  void didUpdateWidget(covariant CachedEmojiAssetImage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.url != widget.url) {
+      _bytesFuture = EmojiAssetCache.loadBytes(widget.url);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: size,
-      height: size,
+      width: widget.size,
+      height: widget.size,
       child: FutureBuilder<Uint8List>(
-        future: EmojiAssetCache.loadBytes(url),
+        future: _bytesFuture,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return fallback;
+            return widget.fallback;
           }
           if (!snapshot.hasData) {
-            return SizedBox(width: size, height: size);
+            return SizedBox(width: widget.size, height: widget.size);
           }
           return EmojiAssetImage(
             bytes: snapshot.data!,
-            size: size,
-            fallback: fallback,
+            size: widget.size,
+            fallback: widget.fallback,
           );
         },
       ),

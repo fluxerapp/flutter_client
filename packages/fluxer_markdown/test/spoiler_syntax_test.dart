@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
@@ -6,6 +5,7 @@ import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
 import 'package:fluxer_markdown/src/renderers/fluxer_markdown_renderers.dart';
 import 'package:fluxer_markdown/src/syntaxes/fluxer_markdown_syntaxes.dart';
 import 'package:markdown/markdown.dart' as md;
+import 'package:material_ui/material_ui.dart';
 
 const String _customEmojiId = '1475037642086498372';
 const String _customEmojiInput = '|| <:kekw:$_customEmojiId> ||';
@@ -202,6 +202,20 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(contentBlocker().ignoring, isFalse);
+    });
+
+    testWidgets('does not blur hidden spoiler content', (tester) async {
+      await pumpMarkdown(tester, _customEmojiInput);
+      expect(find.byType(ImageFiltered), findsNothing);
+      expect(find.byType(ColoredBox), findsWidgets);
+    });
+
+    testWidgets('covers hidden spoilers when no spoiler color is set', (
+      tester,
+    ) async {
+      await pumpMarkdown(tester, '||secret||');
+      expect(find.byType(ColoredBox), findsWidgets);
+      expect(find.textContaining('secret', findRichText: true), findsOneWidget);
     });
 
     testWidgets('flattens revealed spoiler for single-line ellipsis', (

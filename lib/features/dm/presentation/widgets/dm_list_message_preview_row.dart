@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
@@ -9,6 +8,7 @@ import 'package:fluxer_app/features/settings/providers/appearance_preferences_pr
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
+import 'package:material_ui/material_ui.dart';
 
 class DmListTileSubtext extends ConsumerWidget {
   const DmListTileSubtext({

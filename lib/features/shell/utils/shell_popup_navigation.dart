@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/router/shell_navigator_keys.dart';
 import 'package:fluxer_app/core/router/shell_popup_overlay_sync.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Pops the top [PopupRoute] on the nearest navigator, then the root navigator,
 /// then shell branch navigators.

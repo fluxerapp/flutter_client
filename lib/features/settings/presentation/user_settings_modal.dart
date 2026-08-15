@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/app_diagnostic_clipboard_text.dart';
@@ -21,6 +20,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart'
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_nav.dart';
+import 'package:fluxer_app/features/settings/presentation/user_settings_search_query.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/settings_sidebar.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_accessibility.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_advanced_settings.dart';
@@ -40,6 +40,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/user_plutonium
 import 'package:fluxer_app/features/settings/presentation/widgets/user_privacy_dashboard.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_profile.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_security_login.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_settings_search_field.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_shortcuts.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_modal_frame.dart';
@@ -47,13 +48,16 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 import 'package:fluxer_app/features/settings/utils/user_settings_billing_nav.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_billing_utils.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_nav_l10n.dart';
+import 'package:fluxer_app/features/settings/utils/user_settings_search.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_section_scroll.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_staff_only_utils.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/relative_time.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 String _userSettingsFooterText(AppRuntimeInfo info, FluxerLocalizations l10n) {
@@ -151,8 +155,15 @@ class UserSettingsModal extends ConsumerStatefulWidget {
   ConsumerState<UserSettingsModal> createState() => _UserSettingsModalState();
 }
 
-class _UserSettingsModalState extends ConsumerState<UserSettingsModal> {
+class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
+    with UserSettingsSearchQueryMixin {
   var _selectedIndex = 1;
+
+  @override
+  void dispose() {
+    disposeSearchQuery();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -185,11 +196,10 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal> {
       });
     }
 
-    _scheduleInitialFieldScroll();
+    _scheduleFieldScroll(widget.initialFieldId);
   }
 
-  void _scheduleInitialFieldScroll() {
-    final String? fieldId = widget.initialFieldId;
+  void _scheduleFieldScroll(String? fieldId) {
     if (fieldId == null) {
       return;
     }
@@ -210,17 +220,35 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal> {
 
     return WideSettingsModalFrame(
       includeOuterPadding: false,
-      child: _buildDesktopLayout(state, desktopNav),
+      child: _buildDesktopLayout(
+        state: state,
+        desktopNav: desktopNav,
+        showBilling: showBilling,
+      ),
     );
   }
 
-  Widget _buildDesktopLayout(
-    UserSettingsViewState state,
-    List<UserSettingsDesktopNavEntry> desktopNav,
-  ) {
+  Widget _buildDesktopLayout({
+    required UserSettingsViewState state,
+    required List<UserSettingsDesktopNavEntry> desktopNav,
+    required bool showBilling,
+  }) {
     final l10n = FluxerLocalizations.of(context);
     final selectedEntry = desktopNav[_selectedIndex];
     final double contentGutter = wideSettingsContentEdgeGutter(context);
+    final List<UserSettingsSearchHit> hits = searchVisibleUserSettings(
+      l10n: l10n,
+      query: debouncedSearchQuery,
+      showBilling: showBilling,
+      isTouchPrimary: isTouchPrimaryInput(ref),
+    );
+    final UserSettingsSearchSidebar? searchSidebar = isSettingsSearchActive
+        ? buildUserSettingsSearchSidebar(
+            l10n: l10n,
+            hits: hits,
+            showBilling: showBilling,
+          )
+        : null;
     return Column(
       children: [
         Expanded(
@@ -231,11 +259,25 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal> {
                 child: ColoredBox(
                   color: context.colors.backgroundPrimary,
                   child: SettingsSidebar(
-                    items: desktopNav
-                        .map((entry) => entry.toSidebarItem(l10n))
-                        .toList(),
-                    selectedIndex: _selectedIndex,
-                    onSelected: (index) => _onItemSelected(index, desktopNav),
+                    items:
+                        searchSidebar?.items ??
+                        desktopNav
+                            .map((entry) => entry.toSidebarItem(l10n))
+                            .toList(),
+                    selectedIndex: searchSidebar == null ? _selectedIndex : -1,
+                    onSelected: (index) {
+                      if (searchSidebar != null) {
+                        _onSearchHitSelected(searchSidebar.hitAtIndex[index]);
+                        return;
+                      }
+                      _onItemSelected(index, desktopNav);
+                    },
+                    searchController: searchController,
+                    onSearchChanged: onSearchQueryChanged,
+                    onSearchClear: clearSearchQuery,
+                    emptySearchMessage: isSettingsSearchActive
+                        ? l10n.userSettingsSearchNoResults
+                        : null,
                     userId: state.userId,
                     username: state.displayName,
                     avatarUrl: state.avatarUrl,
@@ -297,6 +339,23 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal> {
       return;
     }
     setState(() => _selectedIndex = index);
+  }
+
+  void _onSearchHitSelected(UserSettingsSearchHit? hit) {
+    if (hit == null) {
+      return;
+    }
+    final bool showBilling = userSettingsShowBillingNav(ref);
+    final int? index = indexForUserSettingsSection(
+      hit.section,
+      showBilling: showBilling,
+    );
+    if (index == null) {
+      return;
+    }
+    resetSearchQuery();
+    setState(() => _selectedIndex = index);
+    _scheduleFieldScroll(hit.fieldId);
   }
 
   Future<void> _logout() async {
@@ -408,9 +467,15 @@ class _MobileSettingsNavBody extends ConsumerStatefulWidget {
       _MobileSettingsNavBodyState();
 }
 
-class _MobileSettingsNavBodyState
-    extends ConsumerState<_MobileSettingsNavBody> {
+class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
+    with UserSettingsSearchQueryMixin {
   var _didOpenInitialSection = false;
+
+  @override
+  void dispose() {
+    disposeSearchQuery();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -453,6 +518,12 @@ class _MobileSettingsNavBodyState
     final l10n = FluxerLocalizations.of(context);
     final layout = context.layout;
     final bool showBilling = userSettingsShowBillingNav(ref);
+    final List<UserSettingsSearchHit> hits = searchVisibleUserSettings(
+      l10n: l10n,
+      query: debouncedSearchQuery,
+      showBilling: showBilling,
+      isTouchPrimary: isTouchPrimaryInput(ref),
+    );
     return FluxerSettingsNavList(
       controller: widget.scrollController,
       padding: EdgeInsets.fromLTRB(
@@ -461,13 +532,36 @@ class _MobileSettingsNavBodyState
         layout.s4,
         kSettingsScrollBottomPadding,
       ),
-      groups: buildUserSettingsMobileNavGroups(
-        l10n: l10n,
-        onOpenSection: _openSettingsPage,
-        onOpenAppLogs: _openAppLogs,
-        onLogout: _logout,
-        showBilling: showBilling,
+      header: UserSettingsSearchField(
+        controller: searchController,
+        onChanged: onSearchQueryChanged,
+        onClear: clearSearchQuery,
       ),
+      groups: isSettingsSearchActive
+          ? buildUserSettingsSearchNavGroups(
+              l10n: l10n,
+              hits: hits,
+              onOpen: _openSettingsPage,
+              showBilling: showBilling,
+            )
+          : buildUserSettingsMobileNavGroups(
+              l10n: l10n,
+              onOpenSection: _openSettingsPage,
+              onOpenAppLogs: _openAppLogs,
+              onLogout: _logout,
+              showBilling: showBilling,
+            ),
+      empty: isSettingsSearchActive
+          ? Padding(
+              padding: EdgeInsets.symmetric(vertical: layout.s6),
+              child: Text(
+                l10n.userSettingsSearchNoResults,
+                style: context.textStyles.bodyMedium.copyWith(
+                  color: context.colors.textPrimaryMuted,
+                ),
+              ),
+            )
+          : null,
       footer: const _SettingsBuildInfoFooter(),
     );
   }

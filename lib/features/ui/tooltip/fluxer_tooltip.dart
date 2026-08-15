@@ -1,10 +1,11 @@
 import 'dart:async';
+import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Position of the tooltip relative to its target.
 enum FluxerTooltipPosition { above, below, left, right }
@@ -36,7 +37,6 @@ class FluxerTooltip extends StatefulWidget {
 
 class _FluxerTooltipState extends State<FluxerTooltip>
     with SingleTickerProviderStateMixin {
-  final LayerLink _layerLink = LayerLink();
   final OverlayPortalController _overlayController = OverlayPortalController();
 
   late final AnimationController _animationController;
@@ -52,6 +52,7 @@ class _FluxerTooltipState extends State<FluxerTooltip>
   static const Duration _fadeDuration = FluxerMotionTheme.fastDuration;
   static const Duration _longPressDuration = Duration(seconds: 2);
   static const double _tooltipGap = 8;
+  static const double _screenInset = 8;
 
   @override
   void initState() {
@@ -127,68 +128,41 @@ class _FluxerTooltipState extends State<FluxerTooltip>
     });
   }
 
-  Alignment _getTargetAnchor() {
-    return switch (widget.position) {
-      FluxerTooltipPosition.above => Alignment.topCenter,
-      FluxerTooltipPosition.below => Alignment.bottomCenter,
-      FluxerTooltipPosition.left => Alignment.centerLeft,
-      FluxerTooltipPosition.right => Alignment.centerRight,
-    };
-  }
-
-  Alignment _getFollowerAnchor() {
-    return switch (widget.position) {
-      FluxerTooltipPosition.above => Alignment.bottomCenter,
-      FluxerTooltipPosition.below => Alignment.topCenter,
-      FluxerTooltipPosition.left => Alignment.centerRight,
-      FluxerTooltipPosition.right => Alignment.centerLeft,
-    };
-  }
-
-  Offset _getOffset() {
-    return switch (widget.position) {
-      FluxerTooltipPosition.above => const Offset(0, -_tooltipGap),
-      FluxerTooltipPosition.below => const Offset(0, _tooltipGap),
-      FluxerTooltipPosition.left => const Offset(-_tooltipGap, 0),
-      FluxerTooltipPosition.right => const Offset(_tooltipGap, 0),
-    };
-  }
-
-  Widget _buildOverlay(BuildContext context) {
+  Widget _buildOverlay(BuildContext context, OverlayChildLayoutInfo info) {
     final colors = context.colors;
     final layout = context.layout;
     final textStyles = context.textStyles;
+    final EdgeInsets safePadding = MediaQuery.paddingOf(context);
+    final Rect target = MatrixUtils.transformRect(
+      info.childPaintTransform,
+      Offset.zero & info.childSize,
+    );
 
-    return FadeTransition(
-      opacity: _fadeAnimation,
-      child: CompositedTransformFollower(
-        link: _layerLink,
-        targetAnchor: _getTargetAnchor(),
-        followerAnchor: _getFollowerAnchor(),
-        offset: _getOffset(),
-        child: Align(
-          alignment: _getFollowerAnchor(),
-          child: IntrinsicWidth(
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: layout.s2,
-                vertical: layout.s1_5,
-              ),
-              decoration: BoxDecoration(
-                color: colors.backgroundFloating,
-                borderRadius: layout.radiusMd,
-                border: Border.all(color: colors.backgroundModifierAccent),
-              ),
-              child:
-                  widget.richMessage ??
-                  Text(
-                    widget.message!,
-                    style: textStyles.bodySmall.copyWith(
-                      color: colors.textPrimary,
-                    ),
-                  ),
-            ),
+    return CustomSingleChildLayout(
+      delegate: _FluxerTooltipPositionDelegate(
+        target: target,
+        position: widget.position,
+        gap: _tooltipGap,
+        padding: safePadding + const EdgeInsets.all(_screenInset),
+      ),
+      child: FadeTransition(
+        opacity: _fadeAnimation,
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: layout.s2,
+            vertical: layout.s1_5,
           ),
+          decoration: BoxDecoration(
+            color: colors.backgroundFloating,
+            borderRadius: layout.radiusMd,
+            border: Border.all(color: colors.backgroundModifierAccent),
+          ),
+          child:
+              widget.richMessage ??
+              Text(
+                widget.message!,
+                style: textStyles.bodySmall.copyWith(color: colors.textPrimary),
+              ),
         ),
       ),
     );
@@ -197,25 +171,103 @@ class _FluxerTooltipState extends State<FluxerTooltip>
   @override
   Widget build(BuildContext context) {
     final String? semanticsLabel = widget.message;
-    final Widget target = CompositedTransformTarget(
-      link: _layerLink,
-      child: MouseRegion(
-        onEnter: _handleMouseEnter,
-        onExit: _handleMouseExit,
-        child: FluxerGestureDetector(
-          onLongPress: _handleLongPress,
-          behavior: HitTestBehavior.translucent,
-          child: widget.child,
-        ),
+    final Widget target = MouseRegion(
+      onEnter: _handleMouseEnter,
+      onExit: _handleMouseExit,
+      child: FluxerGestureDetector(
+        onLongPress: _handleLongPress,
+        behavior: HitTestBehavior.translucent,
+        child: widget.child,
       ),
     );
-    return OverlayPortal(
+    return OverlayPortal.overlayChildLayoutBuilder(
       controller: _overlayController,
       overlayChildBuilder: _buildOverlay,
       child: semanticsLabel == null
           ? target
           : Semantics(label: semanticsLabel, child: target),
     );
+  }
+}
+
+class _FluxerTooltipPositionDelegate extends SingleChildLayoutDelegate {
+  _FluxerTooltipPositionDelegate({
+    required this.target,
+    required this.position,
+    required this.gap,
+    required this.padding,
+  });
+
+  final Rect target;
+  final FluxerTooltipPosition position;
+  final double gap;
+  final EdgeInsets padding;
+
+  @override
+  Size getSize(BoxConstraints constraints) => constraints.biggest;
+
+  @override
+  BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
+    final Size size = constraints.biggest;
+    final double maxWidth = math.max(0, size.width - padding.horizontal);
+    final double maxHeight = math.max(0, size.height - padding.vertical);
+    return BoxConstraints(maxWidth: maxWidth, maxHeight: maxHeight);
+  }
+
+  @override
+  Offset getPositionForChild(Size size, Size childSize) {
+    double x = switch (position) {
+      FluxerTooltipPosition.above ||
+      FluxerTooltipPosition.below => target.center.dx - childSize.width / 2,
+      FluxerTooltipPosition.left => target.left - gap - childSize.width,
+      FluxerTooltipPosition.right => target.right + gap,
+    };
+    double y = switch (position) {
+      FluxerTooltipPosition.above => target.top - gap - childSize.height,
+      FluxerTooltipPosition.below => target.bottom + gap,
+      FluxerTooltipPosition.left ||
+      FluxerTooltipPosition.right => target.center.dy - childSize.height / 2,
+    };
+
+    final double minX = padding.left;
+    final double maxX = math.max(
+      minX,
+      size.width - childSize.width - padding.right,
+    );
+    final double minY = padding.top;
+    final double maxY = math.max(
+      minY,
+      size.height - childSize.height - padding.bottom,
+    );
+
+    switch (position) {
+      case FluxerTooltipPosition.above:
+        if (y < minY) {
+          y = target.bottom + gap;
+        }
+      case FluxerTooltipPosition.below:
+        if (y + childSize.height > size.height - padding.bottom) {
+          y = target.top - gap - childSize.height;
+        }
+      case FluxerTooltipPosition.left:
+        if (x < minX) {
+          x = target.right + gap;
+        }
+      case FluxerTooltipPosition.right:
+        if (x + childSize.width > size.width - padding.right) {
+          x = target.left - gap - childSize.width;
+        }
+    }
+
+    return Offset(x.clamp(minX, maxX), y.clamp(minY, maxY));
+  }
+
+  @override
+  bool shouldRelayout(covariant _FluxerTooltipPositionDelegate oldDelegate) {
+    return target != oldDelegate.target ||
+        position != oldDelegate.position ||
+        gap != oldDelegate.gap ||
+        padding != oldDelegate.padding;
   }
 }
 

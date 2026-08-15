@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 import 'package:fluxer_markdown/src/renderers/fluxer_markdown_renderers.dart';
 import 'package:fluxer_markdown/src/utils/jumbo_emoji.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
+import 'package:material_ui/material_ui.dart';
 
 const FluxerMarkdownConfig _testMarkdownConfig = FluxerMarkdownConfig(
   resolveEmojiShortcode: _noopEmojiShortcode,
@@ -189,49 +189,160 @@ void main() {
     testWidgets('ordered list with multi-digit numbers does not wrap markers', (
       tester,
     ) async {
-      const String input =
-          '8. item eight\n9. item nine\n10. item ten\n11. item eleven';
-      const double expectedMarkerHeight = 16 * 1.375;
-
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: MediaQuery(
-            data: MediaQueryData(textScaler: TextScaler.noScaling),
-            child: Scaffold(
-              body: SizedBox(
-                width: 320,
-                child: FluxerMarkdown(
-                  data: input,
-                  config: _testMarkdownConfig,
-                  baseStyle: _baseStyle,
-                ),
-              ),
-            ),
-          ),
-        ),
+      await _pumpMarkdown(
+        tester,
+        data: '8. item eight\n9. item nine\n10. item ten\n11. item eleven',
       );
 
-      for (final marker in ['8.', '9.', '10.', '11.']) {
-        final Finder markerFinder = find.text(marker);
-        expect(markerFinder, findsOneWidget);
-        final Size markerSize = tester.getSize(markerFinder);
-        expect(markerSize.height, closeTo(expectedMarkerHeight, 1));
-      }
-
+      _expectMarkersSingleLine(tester, const ['8.', '9.', '10.', '11.']);
       final double markerColumnWidth8 = _listMarkerColumnWidth(tester, '8.');
       final double markerColumnWidth10 = _listMarkerColumnWidth(tester, '10.');
       expect(markerColumnWidth8, markerColumnWidth10);
       expect(markerColumnWidth10, greaterThan(24));
       expect(
-        tester.getSize(find.text('10.')).width,
+        tester.getSize(_markerFinder('10.')).width,
         lessThanOrEqualTo(markerColumnWidth10),
       );
+    });
+
+    testWidgets('ordered list with three-digit numbers uses a wider column', (
+      tester,
+    ) async {
+      await _pumpMarkdown(
+        tester,
+        data: '8. item eight\n9. item nine\n10. item ten\n11. item eleven',
+      );
+      final double twoDigitWidth = _listMarkerColumnWidth(tester, '10.');
+
+      await _pumpMarkdown(
+        tester,
+        data: '98. item\n99. item\n100. item\n101. item',
+      );
+      _expectMarkersSingleLine(tester, const ['98.', '99.', '100.', '101.']);
+      final double threeDigitWidth = _listMarkerColumnWidth(tester, '100.');
+      expect(_listMarkerColumnWidth(tester, '98.'), threeDigitWidth);
+      expect(threeDigitWidth, greaterThan(twoDigitWidth));
+      expect(
+        tester.getSize(_markerFinder('100.')).width,
+        lessThanOrEqualTo(threeDigitWidth),
+      );
+    });
+
+    testWidgets(
+      'ordered list with million-scale numbers does not wrap markers',
+      (tester) async {
+        await _pumpMarkdown(
+          tester,
+          data: '1000000. one million\n1000001. next',
+          width: 400,
+        );
+        _expectMarkersSingleLine(tester, const ['1000000.', '1000001.']);
+        final double millionWidth = _listMarkerColumnWidth(tester, '1000000.');
+        expect(_listMarkerColumnWidth(tester, '1000001.'), millionWidth);
+        expect(
+          tester.getSize(_markerFinder('1000000.')).width,
+          lessThanOrEqualTo(millionWidth),
+        );
+
+        await _pumpMarkdown(tester, data: '101. item');
+        expect(
+          millionWidth,
+          greaterThan(_listMarkerColumnWidth(tester, '101.')),
+        );
+      },
+    );
+
+    testWidgets('ordered list with nine-digit numbers does not wrap markers', (
+      tester,
+    ) async {
+      await _pumpMarkdown(tester, data: '999999999. last', width: 400);
+      _expectMarkersSingleLine(tester, const ['999999999.']);
+      expect(
+        tester.getSize(_markerFinder('999999999.')).width,
+        lessThanOrEqualTo(_listMarkerColumnWidth(tester, '999999999.')),
+      );
+    });
+
+    testWidgets('ordered list markers stay one line under text scale', (
+      tester,
+    ) async {
+      const TextScaler scaler = TextScaler.linear(1.5);
+      await _pumpMarkdown(
+        tester,
+        data: '98. item\n99. item\n100. item\n101. item',
+        textScaler: scaler,
+      );
+      _expectMarkersSingleLine(tester, const [
+        '98.',
+        '99.',
+        '100.',
+        '101.',
+      ], expectedHeight: 16 * 1.375 * 1.5);
+    });
+
+    testWidgets('ordered list column fits letter-spaced markers', (
+      tester,
+    ) async {
+      const TextStyle spacedStyle = TextStyle(
+        fontSize: 16,
+        height: 1.375,
+        letterSpacing: 2,
+      );
+      await _pumpMarkdown(
+        tester,
+        data: '10. item ten\n11. item eleven',
+        style: spacedStyle,
+      );
+      _expectMarkersSingleLine(tester, const ['10.', '11.']);
+      expect(
+        tester.getSize(_markerFinder('10.')).width,
+        lessThanOrEqualTo(_listMarkerColumnWidth(tester, '10.')),
+      );
+    });
+
+    testWidgets(
+      'ordered list start offset keeps multi-digit markers on one line',
+      (tester) async {
+        await _pumpMarkdown(tester, data: '99. a\n100. b');
+        _expectMarkersSingleLine(tester, const ['99.', '100.']);
+        expect(
+          _listMarkerColumnWidth(tester, '99.'),
+          _listMarkerColumnWidth(tester, '100.'),
+        );
+      },
+    );
+
+    testWidgets('ordered list body hangs under the item text', (tester) async {
+      const String input =
+          '10. this is a long ordered list item that should wrap onto multiple lines';
+      await _pumpMarkdown(tester, data: input, width: 200);
+
+      final Rect markerColumn = tester.getRect(
+        _listMarkerSizedBoxFinder('10.'),
+      );
+      final Rect body = tester.getRect(
+        find.descendant(
+          of: _listItemRowFinder('10.'),
+          matching: find.byType(Expanded),
+        ),
+      );
+      expect(body.left, closeTo(markerColumn.right, 0.5));
+      expect(body.height, greaterThan(16 * 1.375 + 1));
+    });
+
+    testWidgets('nested ordered list uses an independent alpha marker column', (
+      tester,
+    ) async {
+      await _pumpMarkdown(tester, data: '1. parent\n   1. nested');
+      _expectMarkersSingleLine(tester, const ['1.', 'a.']);
+      expect(find.textContaining('parent', findRichText: true), findsOneWidget);
+      expect(find.textContaining('nested', findRichText: true), findsOneWidget);
     });
   });
 }
 
 int _richTextCountInListItemBody(WidgetTester tester, String marker) {
-  expect(find.text(marker), findsOneWidget);
+  expect(_markerFinder(marker), findsOneWidget);
   final Finder rowFinder = _listItemRowFinder(marker);
   expect(rowFinder, findsOneWidget);
   final Finder expandedFinder = find.descendant(
@@ -264,17 +375,24 @@ double _listMarkerColumnWidth(WidgetTester tester, String marker) {
   return tester.getSize(_listMarkerSizedBoxFinder(marker)).width;
 }
 
+Finder _markerFinder(String marker) {
+  return find.byWidgetPredicate(
+    (Widget widget) =>
+        widget is RichText && widget.text.toPlainText() == marker,
+  );
+}
+
 Finder _listItemRowFinder(String marker) {
   return find.ancestor(
-    of: find.text(marker),
+    of: _markerFinder(marker),
     matching: find.byWidgetPredicate(
       (Widget widget) =>
           widget is Row &&
           widget.children.any(
             (Widget child) =>
                 child is SizedBox &&
-                child.child is Text &&
-                (child.child! as Text).data == marker,
+                child.child is RichText &&
+                (child.child! as RichText).text.toPlainText() == marker,
           ),
     ),
   );
@@ -282,12 +400,50 @@ Finder _listItemRowFinder(String marker) {
 
 Finder _listMarkerSizedBoxFinder(String marker) {
   return find.ancestor(
-    of: find.text(marker),
+    of: _markerFinder(marker),
     matching: find.byWidgetPredicate(
       (Widget widget) =>
           widget is SizedBox &&
-          widget.child is Text &&
-          (widget.child! as Text).data == marker,
+          widget.child is RichText &&
+          (widget.child! as RichText).text.toPlainText() == marker,
+    ),
+  );
+}
+
+void _expectMarkersSingleLine(
+  WidgetTester tester,
+  List<String> markers, {
+  double expectedHeight = 16 * 1.375,
+}) {
+  for (final String marker in markers) {
+    final Finder markerFinder = _markerFinder(marker);
+    expect(markerFinder, findsOneWidget);
+    expect(tester.getSize(markerFinder).height, closeTo(expectedHeight, 1));
+  }
+}
+
+Future<void> _pumpMarkdown(
+  WidgetTester tester, {
+  required String data,
+  double width = 320,
+  TextScaler textScaler = TextScaler.noScaling,
+  TextStyle style = _baseStyle,
+}) async {
+  await tester.pumpWidget(
+    MaterialApp(
+      home: MediaQuery(
+        data: MediaQueryData(textScaler: textScaler),
+        child: Scaffold(
+          body: SizedBox(
+            width: width,
+            child: FluxerMarkdown(
+              data: data,
+              config: _testMarkdownConfig,
+              baseStyle: style,
+            ),
+          ),
+        ),
+      ),
     ),
   );
 }

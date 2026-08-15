@@ -54,14 +54,14 @@ class ChannelRepository {
     required bool canManageChannel,
     required bool canUpdateRtcRegion,
   }) {
-    final ChannelUpdateRequest body = buildChannelOverviewUpdate(
+    final Map<String, dynamic> body = buildChannelOverviewPatchBody(
       channel: channel,
       current: current,
       original: original,
       canManageChannel: canManageChannel,
       canUpdateRtcRegion: canUpdateRtcRegion,
     );
-    return _patchChannel(channel.id, channel.guildId, body);
+    return _patchChannelBody(channel.id, channel.guildId, body);
   }
 
   Future<Channel> updateChannelPermissionOverwrites({
@@ -95,13 +95,31 @@ class ChannelRepository {
     String channelId,
     String guildId,
     ChannelUpdateRequest body,
+  ) {
+    return _patchChannelBody(
+      channelId,
+      guildId,
+      channelUpdateRequestToPatchBody(body),
+    );
+  }
+
+  Future<Channel> _patchChannelBody(
+    String channelId,
+    String guildId,
+    Map<String, dynamic> body,
   ) async {
     try {
-      final ChannelResponse response = await _client.channels.updateChannel(
-        channelId: channelId,
-        body: body,
+      final Response<Map<String, dynamic>> response = await _dio
+          .patch<Map<String, dynamic>>('/channels/$channelId', data: body);
+      final Map<String, dynamic>? data = response.data;
+      if (data == null) {
+        throw Exception('Failed to update channel');
+      }
+      final ChannelResponse channelResponse = ChannelResponse.fromJson(data);
+      final db.ChannelsCompanion companion = channelFromSdk(
+        channelResponse,
+        guildId,
       );
-      final db.ChannelsCompanion companion = channelFromSdk(response, guildId);
       await _db.channelDao.upsertChannels(<db.ChannelsCompanion>[companion]);
       final db.Channel? row = await _db.channelDao.getChannelById(channelId);
       if (row == null) {

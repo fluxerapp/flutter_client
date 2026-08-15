@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_highlight/themes/github.dart';
 import 'package:flutter_highlight/themes/vs2015.dart';
 import 'package:fluxer_markdown/src/utils/monospace_text_style.dart';
+import 'package:material_ui/material_ui.dart';
 
 Map<String, TextStyle> sanitizeCodeBlockHighlightTheme(
   Map<String, TextStyle> theme, {

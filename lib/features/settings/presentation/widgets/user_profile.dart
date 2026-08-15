@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
@@ -22,17 +21,46 @@ import 'package:fluxer_app/features/settings/utils/open_user_billing_settings.da
 import 'package:fluxer_app/features/settings/utils/user_settings_billing_nav.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/input/emoji_text_editing_controller.dart';
-import 'package:fluxer_app/features/ui/input/fluxer_input_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/image_utils.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const int _kMaxDisplayNameLength = 32;
 const int _kMaxPronounsLength = 40;
 const int _kMaxBioLength = 320;
+const int _kDefaultProfileAccentColor = 0x4641D9;
+
+int _accentColorPickerValue(UserSettingsViewState state) {
+  if (state.isPerGuildProfile) {
+    if (state.isEditedGuildAccentColorSet) {
+      return state.editedGuildAccentColor ?? _kDefaultProfileAccentColor;
+    }
+    return state.guildAccentColor ??
+        state.accentColor ??
+        _kDefaultProfileAccentColor;
+  }
+  if (state.isEditedAccentColorSet) {
+    return state.editedAccentColor ?? _kDefaultProfileAccentColor;
+  }
+  return state.accentColor ?? _kDefaultProfileAccentColor;
+}
+
+bool _accentColorIsDefault(UserSettingsViewState state) {
+  if (state.isPerGuildProfile) {
+    if (state.isEditedGuildAccentColorSet) {
+      return state.editedGuildAccentColor == null;
+    }
+    return state.guildAccentColor == null && state.accentColor == null;
+  }
+  if (state.isEditedAccentColorSet) {
+    return state.editedAccentColor == null;
+  }
+  return state.accentColor == null;
+}
 
 class UserProfile extends ConsumerStatefulWidget {
   const UserProfile({super.key, this.scrollController});
@@ -56,8 +84,6 @@ class _UserProfileState extends ConsumerState<UserProfile> {
   final FocusNode _bioFocusNode = FocusNode();
   final GlobalKey<ComposerAutocompleteFieldState> _bioFieldKey =
       GlobalKey<ComposerAutocompleteFieldState>();
-  final GlobalKey<FluxerInputClipboardScopeState> _bioClipboardKey =
-      GlobalKey<FluxerInputClipboardScopeState>();
 
   @override
   void initState() {
@@ -69,12 +95,6 @@ class _UserProfileState extends ConsumerState<UserProfile> {
     _guildPronounsController = TextEditingController();
     _guildBioController = EmojiTextEditingController();
     _bioFocusNode.onKeyEvent = (FocusNode node, KeyEvent event) {
-      final KeyEventResult clipboardResult =
-          _bioClipboardKey.currentState?.handleKeyboardShortcut(event) ??
-          KeyEventResult.ignored;
-      if (clipboardResult == KeyEventResult.handled) {
-        return clipboardResult;
-      }
       return handleComposerAutocompleteKey(_bioFieldKey.currentState, event);
     };
   }
@@ -581,19 +601,15 @@ class _UserProfileState extends ConsumerState<UserProfile> {
                             child: FluxerColorPickerField(
                               label: l10n.accentColorLabel,
                               description: l10n.accentColorDescription,
-                              value: state.isPerGuildProfile
-                                  ? (state.isEditedGuildAccentColorSet
-                                        ? (state.editedGuildAccentColor ?? 0)
-                                        : (state.guildAccentColor ??
-                                              state.accentColor ??
-                                              0))
-                                  : (state.isEditedAccentColorSet
-                                        ? (state.editedAccentColor ?? 0)
-                                        : (state.accentColor ?? 0)),
+                              value: _accentColorPickerValue(state),
+                              defaultValue: _kDefaultProfileAccentColor,
+                              isDefaultValue: _accentColorIsDefault(state),
+                              onReset: state.isPerGuildProfile
+                                  ? vm.resetGuildAccentColor
+                                  : vm.resetAccentColor,
                               onChanged: state.isPerGuildProfile
                                   ? vm.updateGuildAccentColor
                                   : vm.updateAccentColor,
-                              defaultValue: 0x4641D9,
                             ),
                           ),
                         ),
@@ -859,63 +875,52 @@ class _UserProfileState extends ConsumerState<UserProfile> {
         : () => vm.updateBio(controller.actualText);
 
     return TextFieldTapRegion(
-      child: FluxerInputClipboardScope(
-        key: _bioClipboardKey,
+      child: ComposerAutocompleteField(
+        key: _bioFieldKey,
         controller: controller,
-        builder:
-            (
-              BuildContext context,
-              FluxerInputClipboardScopeState clipboardScope,
-            ) {
-              return ComposerAutocompleteField(
-                key: _bioFieldKey,
-                controller: controller,
-                focusNode: _bioFocusNode,
-                allowedTriggers: const <ComposerAutocompleteTriggerKind>{
-                  ComposerAutocompleteTriggerKind.emoji,
-                },
+        focusNode: _bioFocusNode,
+        allowedTriggers: const <ComposerAutocompleteTriggerKind>{
+          ComposerAutocompleteTriggerKind.emoji,
+        },
+        maxActualLength: _kMaxBioLength,
+        onApplied: onChanged,
+        child: FluxerInput.multiline(
+          controller: controller,
+          textCapitalization: TextCapitalization.sentences,
+          focusNode: _bioFocusNode,
+          label: l10n.aboutMeLabel,
+          maxLines: 8,
+          showCounter: true,
+          counterLength: () => controller.actualTextLength,
+          counterMax: _kMaxBioLength,
+          helperText: l10n.aboutMeHelperText,
+          inputFormatters: [
+            InlineTokenWireLengthFormatter(
+              controller,
+              maxWireLength: _kMaxBioLength,
+            ),
+          ],
+          onChanged: (_) => onChanged(),
+          onTapOutside: (_) => _bioFocusNode.unfocus(),
+          suffixIcon: FluxerEmojiPickerPopout(
+            key: _expressionPickerKey,
+            visibleTabs: const [ExpressionPickerTab.emojis],
+            onEmojiSelected: (emoji) {
+              controller.insertEmoji(
+                emoji.name,
+                emoji.surrogates,
                 maxActualLength: _kMaxBioLength,
-                onApplied: onChanged,
-                child: FluxerInput.multiline(
-                  controller: controller,
-                  contextMenuBuilder: clipboardScope.buildContextMenu,
-                  textCapitalization: TextCapitalization.sentences,
-                  focusNode: _bioFocusNode,
-                  label: l10n.aboutMeLabel,
-                  maxLines: 8,
-                  showCounter: true,
-                  counterLength: () => controller.actualTextLength,
-                  counterMax: _kMaxBioLength,
-                  helperText: l10n.aboutMeHelperText,
-                  inputFormatters: [
-                    InlineTokenWireLengthFormatter(
-                      controller,
-                      maxWireLength: _kMaxBioLength,
-                    ),
-                  ],
-                  onChanged: (_) => onChanged(),
-                  onTapOutside: (_) => _bioFocusNode.unfocus(),
-                  suffixIcon: FluxerEmojiPickerPopout(
-                    key: _expressionPickerKey,
-                    visibleTabs: const [ExpressionPickerTab.emojis],
-                    onEmojiSelected: (emoji) {
-                      controller.insertEmoji(
-                        emoji.name,
-                        emoji.surrogates,
-                        maxActualLength: _kMaxBioLength,
-                      );
-                      onChanged();
-                    },
-                    child: PhosphorIcon(
-                      PhosphorIconsFill.smiley,
-                      size: 20,
-                      color: colors.textTertiary,
-                    ),
-                  ),
-                  onSuffixTap: _onSmileyTap,
-                ),
               );
+              onChanged();
             },
+            child: PhosphorIcon(
+              PhosphorIconsFill.smiley,
+              size: 20,
+              color: colors.textTertiary,
+            ),
+          ),
+          onSuffixTap: _onSmileyTap,
+        ),
       ),
     );
   }

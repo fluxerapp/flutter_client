@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/settings/utils/advanced_setting_visibility.dart';
 import 'package:fluxer_app/features/settings/utils/platform_desktop_utils.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../../helpers/wide_layout_test_sizes.dart';
 

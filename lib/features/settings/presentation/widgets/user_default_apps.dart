@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/domain/default_web_browser.dart';
@@ -10,6 +9,7 @@ import 'package:fluxer_app/features/settings/providers/default_apps_preferences_
 import 'package:fluxer_app/features/settings/utils/default_web_browser_l10n.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 
 class UserDefaultApps extends ConsumerWidget {
   const UserDefaultApps({super.key, this.scrollController});

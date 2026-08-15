@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -10,6 +9,8 @@ import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_mutual_list.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_mutuals_section.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:material_ui/material_ui.dart';
+
 import '../../../../helpers/test_l10n.dart';
 
 Widget _buildApp(Widget child) {

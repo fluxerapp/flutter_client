@@ -301,10 +301,63 @@ ChannelUpdateRequest buildChannelOverviewUpdate({
   };
 }
 
+Set<String> overviewUpdateIncludeNullFields({
+  required ChannelOverviewFormState current,
+  required ChannelOverviewFormState original,
+  required bool canManageChannel,
+}) {
+  final Set<String> fields = <String>{};
+  if (canManageChannel && current.nsfwOverride != original.nsfwOverride) {
+    fields.add('nsfw_override');
+  }
+  if (canManageChannel &&
+      current.contentWarningText != original.contentWarningText &&
+      current.contentWarningText.trim().isEmpty) {
+    fields.add('content_warning_text');
+  }
+  return fields;
+}
+
+Map<String, dynamic> buildChannelOverviewPatchBody({
+  required Channel channel,
+  required ChannelOverviewFormState current,
+  required ChannelOverviewFormState original,
+  required bool canManageChannel,
+  required bool canUpdateRtcRegion,
+}) {
+  final ChannelUpdateRequest request = buildChannelOverviewUpdate(
+    channel: channel,
+    current: current,
+    original: original,
+    canManageChannel: canManageChannel,
+    canUpdateRtcRegion: canUpdateRtcRegion,
+  );
+  final Set<String> includeNullFields = overviewUpdateIncludeNullFields(
+    current: current,
+    original: original,
+    canManageChannel: canManageChannel,
+  );
+  final Map<String, dynamic> patch = channelUpdateRequestToPatchBody(request);
+  // SDK toJson skips nulls, but inherit still needs explicit null in the PATCH body.
+  if (includeNullFields.contains('nsfw_override')) {
+    patch['nsfw_override'] = current.nsfwOverride;
+  }
+  if (includeNullFields.contains('content_warning_text')) {
+    final String trimmed = current.contentWarningText.trim();
+    patch['content_warning_text'] = trimmed.isEmpty ? null : trimmed;
+  }
+  return patch;
+}
+
 Map<String, dynamic> channelUpdateRequestToPatchBody(
   ChannelUpdateRequest request,
 ) {
-  final Map<String, dynamic> body = request.toJson()
-    ..removeWhere((String key, dynamic value) => value == null);
-  return body;
+  final Map<String, dynamic> body = request.toJson();
+  final Map<String, dynamic> patch = <String, dynamic>{};
+  for (final MapEntry<String, dynamic> entry in body.entries) {
+    if (entry.value != null) {
+      patch[entry.key] = entry.value;
+    }
+  }
+  return patch;
 }

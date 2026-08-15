@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/features/ui/character_counter/fluxer_character_counter.dart';
+import 'package:material_ui/material_ui.dart';
 
 class MessageCharacterCounter extends StatelessWidget {
   const MessageCharacterCounter({

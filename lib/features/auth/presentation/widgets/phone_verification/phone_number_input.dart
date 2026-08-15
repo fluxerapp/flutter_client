@@ -1,5 +1,4 @@
 import 'package:country_flags/country_flags.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/providers/phone_verification_view_model.dart';
@@ -8,6 +7,7 @@ import 'package:fluxer_app/features/auth/utils/phone_verification_error_l10n.dar
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 
 class PhoneNumberInput extends ConsumerStatefulWidget {
   const PhoneNumberInput({required this.provider, super.key});

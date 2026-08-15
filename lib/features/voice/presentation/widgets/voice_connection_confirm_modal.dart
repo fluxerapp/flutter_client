@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 
 enum VoiceConnectionConfirmResult { switchToThisDevice, justJoin }
 

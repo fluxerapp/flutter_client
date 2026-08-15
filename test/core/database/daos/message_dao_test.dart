@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/domain/message_translation.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 
 import '../../../helpers/open_test_database.dart';
@@ -95,4 +96,70 @@ void main() {
       expect(emissions.last, idC);
     },
   );
+
+  test('saveTranslation persists on the message row', () async {
+    final db = openTestDatabase();
+    await db.messageDao.upsertMessage(_msg(idA).toCompanion());
+    await db.messageDao.saveTranslation(
+      messageId: idA,
+      translation: const MessageTranslation(
+        translatedContent: 'Hello world',
+        sourceLanguageCode: 'de',
+        sourceContent: 'body',
+        targetLanguageCode: 'en',
+      ),
+    );
+
+    final stored = await db.messageDao.getMessage(idA);
+    final Message parsed = Message.fromRow(stored!);
+    expect(parsed.translation?.translatedContent, 'Hello world');
+    expect(parsed.translation?.sourceLanguageCode, 'de');
+  });
+
+  test('upsert with different content clears translation', () async {
+    final db = openTestDatabase();
+    final Message original = _msg(idA);
+    await db.messageDao.upsertMessage(original.toCompanion());
+    await db.messageDao.saveTranslation(
+      messageId: idA,
+      translation: const MessageTranslation(
+        translatedContent: 'Hello world',
+        sourceLanguageCode: 'de',
+        sourceContent: 'body',
+        targetLanguageCode: 'en',
+      ),
+    );
+
+    await db.messageDao.upsertMessage(
+      original.copyWith(content: 'edited').toCompanion(),
+    );
+
+    final Message parsed = Message.fromRow(
+      (await db.messageDao.getMessage(idA))!,
+    );
+    expect(parsed.content, 'edited');
+    expect(parsed.translation, isNull);
+  });
+
+  test('upsert with the same content keeps translation', () async {
+    final db = openTestDatabase();
+    final Message original = _msg(idA);
+    await db.messageDao.upsertMessage(original.toCompanion());
+    await db.messageDao.saveTranslation(
+      messageId: idA,
+      translation: const MessageTranslation(
+        translatedContent: 'Hello world',
+        sourceLanguageCode: 'de',
+        sourceContent: 'body',
+        targetLanguageCode: 'en',
+      ),
+    );
+
+    await db.messageDao.upsertMessage(original.toCompanion());
+
+    final Message parsed = Message.fromRow(
+      (await db.messageDao.getMessage(idA))!,
+    );
+    expect(parsed.translation?.translatedContent, 'Hello world');
+  });
 }

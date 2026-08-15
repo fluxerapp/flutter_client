@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_fonts.dart';
+import 'package:material_ui/material_ui.dart';
 
 class FluxerTextTheme extends ThemeExtension<FluxerTextTheme> {
   const FluxerTextTheme({

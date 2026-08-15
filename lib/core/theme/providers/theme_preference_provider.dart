@@ -16,6 +16,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/themes/coal.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/core/theme/themes/light.dart';
+import 'package:fluxer_app/features/accessibility/text_scale.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_sync_service.dart';
 import 'package:fluxer_dart/export.dart';
@@ -409,13 +410,15 @@ class ThemePreference extends _$ThemePreference {
   }
 
   Future<void> setScaleFactor(double factor) async {
-    state = state.copyWith(scaleFactor: factor);
+    state = state.copyWith(scaleFactor: clampLayoutZoomLevel(factor));
     await _persist();
+    _markAccessibilityDirty();
   }
 
   Future<void> setChatFontSize(int size) async {
-    state = state.copyWith(chatFontSize: size);
+    state = state.copyWith(chatFontSize: snapChatFontSize(size.toDouble()));
     await _persist();
+    _markAccessibilityDirty();
   }
 
   void previewSaturationFactor(double value) {
@@ -448,8 +451,12 @@ class ThemePreference extends _$ThemePreference {
   Future<void> applySyncedThemeCustomization({
     double? saturationFactor,
     String? customThemeCss,
+    int? chatFontSize,
+    double? scaleFactor,
     bool updateSaturationFactor = true,
     bool updateCustomThemeCss = true,
+    bool updateChatFontSize = false,
+    bool updateScaleFactor = false,
     bool clearCustomThemeCss = false,
   }) async {
     _isApplyingRemote = true;
@@ -457,6 +464,8 @@ class ThemePreference extends _$ThemePreference {
       state = state.copyWith(
         saturationFactor: updateSaturationFactor ? saturationFactor : null,
         customThemeCss: updateCustomThemeCss ? customThemeCss : null,
+        chatFontSize: updateChatFontSize ? chatFontSize : null,
+        scaleFactor: updateScaleFactor ? scaleFactor : null,
         clearCustomThemeCss: updateCustomThemeCss && clearCustomThemeCss,
       );
       await _persist();

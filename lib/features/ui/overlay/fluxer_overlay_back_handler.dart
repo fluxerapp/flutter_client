@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Handles the system back button for modal overlays such as FluxerBottomSheets
 /// and models.

@@ -1,10 +1,10 @@
 import 'dart:js_interop';
 import 'dart:js_interop_unsafe';
 
-import 'package:flutter/material.dart';
 import 'package:fluxer_captcha/src/captcha_exception.dart';
 import 'package:fluxer_captcha/src/captcha_provider.dart';
 import 'package:fluxer_captcha/src/controller/interface.dart' as i;
+import 'package:material_ui/material_ui.dart';
 import 'package:meta/meta.dart';
 
 /// Captcha controller for web platforms.

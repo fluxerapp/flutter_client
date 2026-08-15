@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -11,6 +10,8 @@ import 'package:fluxer_app/features/auth/domain/ip_authorization_challenge.dart'
 import 'package:fluxer_app/features/auth/presentation/widgets/ip_authorization_screen.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:material_ui/material_ui.dart';
+
 import '../../../../helpers/test_l10n.dart';
 
 class _ExpiredAuthRepository implements AuthRepository {

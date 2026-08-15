@@ -114,10 +114,12 @@ List<MessageContentSegment> _parseMessageContentStructureUncached(
                     !_lastSegmentIsBlock(segments)))) {
           final bool followsBlock =
               textFlowBuffer.isEmpty && _lastSegmentIsBlock(segments);
-          final int newlineCount = followsBlock
-              ? blanksToPreserve + 1
-              : blanksToPreserve;
-          textFlowBuffer.write('\n' * newlineCount);
+          if (followsBlock) {
+            _flushTextFlow(textFlowBuffer, segments);
+            segments.add(MessageTextFlowSegment('\n' * blanksToPreserve));
+          } else {
+            textFlowBuffer.write('\n' * blanksToPreserve);
+          }
         }
       }
       i += blankCount;

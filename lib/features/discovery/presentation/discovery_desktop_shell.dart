@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/discovery/presentation/discovery_layout.dart';
@@ -6,6 +5,7 @@ import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_sid
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_navbar.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/shell/presentation/user_area.dart';
+import 'package:material_ui/material_ui.dart';
 
 class DiscoveryDesktopShell extends ConsumerWidget {
   const DiscoveryDesktopShell({super.key});

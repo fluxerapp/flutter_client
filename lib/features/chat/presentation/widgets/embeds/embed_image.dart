@@ -1,6 +1,5 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
-import 'package:flutter/material.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -8,14 +7,17 @@ import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animat
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
 import 'package:fluxer_app/features/chat/utils/embed_animated_image_url.dart';
 import 'package:fluxer_app/features/chat/utils/embed_media_viewer_utils.dart';
+import 'package:fluxer_app/features/chat/utils/hdr_aware_image_url.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
+import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// An inline image / gifv embed
-class EmbedImage extends StatelessWidget {
+class EmbedImage extends ConsumerWidget {
   final Embed embed;
   final MediaDimensionSize dimensionSize;
   final bool isSpoiler;
@@ -42,11 +44,16 @@ class EmbedImage extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final EmbedMedia? media = embed.image ?? embed.thumbnail;
     if (media == null) {
       return const SizedBox.shrink();
     }
+    final HdrDisplayMode hdrDisplayMode = ref.watch(
+      appearancePreferencesProvider.select(
+        (AppearancePreferencesState state) => state.hdrDisplayMode,
+      ),
+    );
     final FluxerMediaDimensions dimensions = mediaDimensionsForSize(
       dimensionSize,
     );
@@ -111,7 +118,11 @@ class EmbedImage extends StatelessWidget {
                       ),
                     )
                   : _EmbedStaticImage(
-                      imageUrl: embedMediaEffectiveUrl(media),
+                      imageUrl: buildHdrAwareImageUrl(
+                        url: embedMediaEffectiveUrl(media),
+                        mode: hdrDisplayMode,
+                        contentType: media.contentType,
+                      ),
                       displaySize: displaySize,
                       dimensions: dimensions,
                       sourceWidth: media.width,

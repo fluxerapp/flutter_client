@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as drift_db;
@@ -22,10 +21,12 @@ import 'package:fluxer_app/features/members/utils/guild_members_search_request_b
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/animation/animation_controller_visibility_extension.dart';
+import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/utils/role_color_utils.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kTableMinWidth = 870;
@@ -1373,56 +1374,73 @@ class _MembersTableFooter extends StatelessWidget {
                               ? SizedBox(
                                   width: 56,
                                   height: 32,
-                                  child: TextField(
+                                  child: FluxerClipboardScope(
                                     controller: pageJumpController,
                                     focusNode: pageJumpFocusNode,
-                                    keyboardType: TextInputType.number,
-                                    textAlign: TextAlign.center,
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.digitsOnly,
-                                    ],
-                                    decoration: InputDecoration(
-                                      isDense: true,
-                                      contentPadding:
-                                          const EdgeInsets.symmetric(
-                                            horizontal: 8,
-                                            vertical: 8,
-                                          ),
-                                      filled: true,
-                                      fillColor:
-                                          context.colors.backgroundTertiary,
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(
-                                          999,
-                                        ),
-                                        borderSide: BorderSide(
-                                          color: context
-                                              .colors
-                                              .backgroundModifierAccent,
-                                        ),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(
-                                          999,
-                                        ),
-                                        borderSide: BorderSide(
-                                          color: context
-                                              .colors
-                                              .backgroundModifierAccent,
-                                        ),
-                                      ),
-                                    ),
-                                    onSubmitted: (String value) {
-                                      final int? page = int.tryParse(value);
-                                      if (page != null &&
-                                          page >= 1 &&
-                                          page <= state.totalPages) {
-                                        onPageJump(page);
-                                      } else {
-                                        onEllipsisClose();
-                                      }
-                                    },
-                                    onEditingComplete: onEllipsisClose,
+                                    builder:
+                                        (
+                                          BuildContext context,
+                                          FluxerClipboardScopeState
+                                          clipboardScope,
+                                          FocusNode focusNode,
+                                        ) {
+                                          return TextField(
+                                            controller: pageJumpController,
+                                            focusNode: focusNode,
+                                            keyboardType: TextInputType.number,
+                                            textAlign: TextAlign.center,
+                                            contextMenuBuilder:
+                                                clipboardScope.buildContextMenu,
+                                            inputFormatters:
+                                                <TextInputFormatter>[
+                                                  FilteringTextInputFormatter
+                                                      .digitsOnly,
+                                                ],
+                                            decoration: InputDecoration(
+                                              isDense: true,
+                                              contentPadding:
+                                                  const EdgeInsets.symmetric(
+                                                    horizontal: 8,
+                                                    vertical: 8,
+                                                  ),
+                                              filled: true,
+                                              fillColor: context
+                                                  .colors
+                                                  .backgroundTertiary,
+                                              border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(999),
+                                                borderSide: BorderSide(
+                                                  color: context
+                                                      .colors
+                                                      .backgroundModifierAccent,
+                                                ),
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(999),
+                                                borderSide: BorderSide(
+                                                  color: context
+                                                      .colors
+                                                      .backgroundModifierAccent,
+                                                ),
+                                              ),
+                                            ),
+                                            onSubmitted: (String value) {
+                                              final int? page = int.tryParse(
+                                                value,
+                                              );
+                                              if (page != null &&
+                                                  page >= 1 &&
+                                                  page <= state.totalPages) {
+                                                onPageJump(page);
+                                              } else {
+                                                onEllipsisClose();
+                                              }
+                                            },
+                                            onEditingComplete: onEllipsisClose,
+                                          );
+                                        },
                                   ),
                                 )
                               : _EllipsisButton(

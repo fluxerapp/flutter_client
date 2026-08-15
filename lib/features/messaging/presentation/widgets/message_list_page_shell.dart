@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/accessibility/text_scale.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbar_container.dart';
+import 'package:material_ui/material_ui.dart';
 
 class MessageListPageShell extends StatelessWidget {
   const MessageListPageShell({
@@ -30,28 +31,35 @@ class MessageListPageShell extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             if (isMobile) const NagbarContainer(),
-            Container(
-              height: 56,
-              decoration: BoxDecoration(
-                color: colors.backgroundSecondary,
-                border: Border(
-                  bottom: BorderSide(color: colors.backgroundHeaderSecondary),
-                ),
-              ),
-              padding: EdgeInsets.symmetric(horizontal: layout.s4),
-              child: Row(
-                children: <Widget>[
-                  icon,
-                  SizedBox(width: layout.s2),
-                  Expanded(
-                    child: Text(
-                      title,
-                      style: context.textStyles.channelName,
-                      overflow: TextOverflow.ellipsis,
+            FluxerConstrainedUiTextScale(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(minHeight: 56),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: colors.backgroundSecondary,
+                    border: Border(
+                      bottom: BorderSide(
+                        color: colors.backgroundHeaderSecondary,
+                      ),
                     ),
                   ),
-                  ?trailing,
-                ],
+                  padding: EdgeInsets.symmetric(horizontal: layout.s4),
+                  child: Row(
+                    children: <Widget>[
+                      icon,
+                      SizedBox(width: layout.s2),
+                      Expanded(
+                        child: Text(
+                          title,
+                          style: context.textStyles.channelName,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      ?trailing,
+                    ],
+                  ),
+                ),
               ),
             ),
             Expanded(child: body),

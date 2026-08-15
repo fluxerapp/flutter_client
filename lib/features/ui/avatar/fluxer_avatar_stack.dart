@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Horizontal overlap stack of avatar widgets, mirroring the web app's
 /// `AvatarStack` primitive (Discord-style typing indicator stack, voice

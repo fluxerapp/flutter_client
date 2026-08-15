@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/image_crop_layout.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   group('computeInitialCropRect', () {

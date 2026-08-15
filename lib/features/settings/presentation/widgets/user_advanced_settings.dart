@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/observability/observability_reporting_provider.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/advanced_configure_sheets.dart';
@@ -16,6 +15,7 @@ import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_link_utils.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
+import 'package:material_ui/material_ui.dart';
 
 class UserAdvancedSettings extends ConsumerWidget {
   const UserAdvancedSettings({super.key, this.scrollController});
@@ -109,6 +109,19 @@ class UserAdvancedSettings extends ConsumerWidget {
                 onChanged: (value) => ref
                     .read(appearancePreferencesProvider.notifier)
                     .setShowNeko(value: value),
+              ),
+              FluxerSettingsSwitchItem(
+                label: l10n.advancedSettingMobileSplashZoomAnimationLabel,
+                description:
+                    l10n.advancedSettingMobileSplashZoomAnimationDescription,
+                value: ref.watch(
+                  appearancePreferencesProvider.select(
+                    (state) => state.mobileSplashZoomAnimation,
+                  ),
+                ),
+                onChanged: (value) => ref
+                    .read(appearancePreferencesProvider.notifier)
+                    .setMobileSplashZoomAnimation(value: value),
               ),
               if (showKeyboardShortcutAdvancedSettings(context))
                 FluxerSettingsSwitchItem(

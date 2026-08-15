@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
@@ -6,6 +5,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/emoji_utils.dart'
     show kSkinToneSurrogates;
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
+import 'package:material_ui/material_ui.dart';
 
 export 'package:fluxer_app/shared/utils/emoji_utils.dart'
     show kSkinToneSurrogates, skinToneToName;

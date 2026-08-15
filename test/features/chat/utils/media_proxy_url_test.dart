@@ -40,6 +40,17 @@ void main() {
     });
   });
 
+  group('stripMediaProxyFormat', () {
+    test('removes format and keeps other params', () {
+      final String actual = stripMediaProxyFormat(
+        'https://cdn.example.com/a.avif?format=webp&width=400',
+      );
+      final Uri uri = Uri.parse(actual);
+      expect(uri.queryParameters.containsKey('format'), isFalse);
+      expect(uri.queryParameters['width'], '400');
+    });
+  });
+
   group('buildAttachmentVideoPosterUrl', () {
     test('returns null for blob URL', () {
       expect(

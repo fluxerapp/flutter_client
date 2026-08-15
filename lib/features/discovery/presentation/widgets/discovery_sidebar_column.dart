@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_header.dart';
 import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_sidebar.dart';
+import 'package:material_ui/material_ui.dart';
 
 class DiscoverySidebarColumn extends StatelessWidget {
   const DiscoverySidebarColumn({super.key});

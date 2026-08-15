@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/splash_exit_allowed_provider.dart';
+import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_reveal_overlay.dart';
+import 'package:material_ui/material_ui.dart';
 
 class SplashShellSettle extends ConsumerStatefulWidget {
   const SplashShellSettle({required this.child, super.key});
@@ -52,7 +53,12 @@ class _SplashShellSettleState extends ConsumerState<SplashShellSettle>
     }
     _started = true;
     final bool reducedMotion = MediaQuery.disableAnimationsOf(context);
-    if (reducedMotion || !SplashRevealOverlay.useLogoZoomTransition) {
+    final bool useLogoZoomTransition = ref.read(
+      appearancePreferencesProvider.select(
+        (AppearancePreferencesState state) => state.mobileSplashZoomAnimation,
+      ),
+    );
+    if (reducedMotion || !useLogoZoomTransition) {
       _controller.value = 1;
       return;
     }
@@ -74,6 +80,12 @@ class _SplashShellSettleState extends ConsumerState<SplashShellSettle>
       }
     });
 
+    final bool useLogoZoomTransition = ref.watch(
+      appearancePreferencesProvider.select(
+        (AppearancePreferencesState state) => state.mobileSplashZoomAnimation,
+      ),
+    );
+
     return AnimatedBuilder(
       animation: _controller,
       child: widget.child,
@@ -82,6 +94,7 @@ class _SplashShellSettleState extends ConsumerState<SplashShellSettle>
         final double scale = splashRevealShellScale(
           _controller.value,
           reducedMotion: reducedMotion,
+          useLogoZoomTransition: useLogoZoomTransition,
         );
         if (scale == 1) {
           return child!;

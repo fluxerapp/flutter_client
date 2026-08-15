@@ -1,5 +1,5 @@
 const int _kSecondsPerMinute = 60;
-const int _kSecondsPerHour = 60 * 60;
+const int _kSecondsPerHour = 3600;
 
 /// Formats [remaining] as a `MM:SS` (or `HH:MM:SS` past an hour) countdown
 /// clock, matching the slowmode indicator pill and the web client's
@@ -17,4 +17,24 @@ String formatSlowmodeCountdown(Duration remaining) {
     return '$hh:$mm:$ss';
   }
   return '$mm:$ss';
+}
+
+String formatSlowmodeDurationLabel(int totalSeconds) {
+  final int seconds = totalSeconds.clamp(1, totalSeconds);
+  if (seconds >= _kSecondsPerHour) {
+    final double hours = seconds / _kSecondsPerHour;
+    return '${_trimSlowmodeUnit(hours)}h';
+  }
+  if (seconds >= _kSecondsPerMinute) {
+    final double minutes = seconds / _kSecondsPerMinute;
+    return '${_trimSlowmodeUnit(minutes)}m';
+  }
+  return '${seconds}s';
+}
+
+String _trimSlowmodeUnit(double value) {
+  if (value == value.roundToDouble()) {
+    return value.toInt().toString();
+  }
+  return value.toStringAsFixed(1);
 }

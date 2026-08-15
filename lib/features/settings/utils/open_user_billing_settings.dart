@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
+import 'package:material_ui/material_ui.dart';
 
 Future<void> openUserBillingSettings(
   BuildContext context,

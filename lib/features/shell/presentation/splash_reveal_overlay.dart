@@ -1,18 +1,15 @@
 import 'dart:math' as math;
 import 'dart:ui' show lerpDouble;
 
-import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:fluxer_app/core/theme/color_utils.dart';
 import 'package:fluxer_app/features/ui/background/starfield_background.dart';
 import 'package:fluxer_app/features/ui/icons/fluxer_brand_logo.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Expands the brand circle over the live splash, then fades to the shell
 class SplashRevealOverlay {
   SplashRevealOverlay._();
-
-  /// TEMP: Testing not using the logo zoom
-  static const bool useLogoZoomTransition = true;
 
   static const double logoSize = 85;
   static const double pulseScale = 0.8;
@@ -45,6 +42,7 @@ class SplashRevealOverlay {
     required Color logoBrandColor,
     required Color logoBrandSymbolColor,
     required Offset logoCenterGlobal,
+    required bool useLogoZoomTransition,
     VoidCallback? onComplete,
     bool? animationsEnabled,
   }) {
@@ -60,6 +58,7 @@ class SplashRevealOverlay {
           logoBrandColor: logoBrandColor,
           logoBrandSymbolColor: logoBrandSymbolColor,
           logoCenterGlobal: logoCenterGlobal,
+          useLogoZoomTransition: useLogoZoomTransition,
           reducedMotion: !enabled,
           onComplete: () {
             entry.remove();
@@ -78,6 +77,7 @@ class _SplashRevealOverlayWidget extends StatefulWidget {
     required this.logoBrandColor,
     required this.logoBrandSymbolColor,
     required this.logoCenterGlobal,
+    required this.useLogoZoomTransition,
     required this.reducedMotion,
     required this.onComplete,
   });
@@ -86,6 +86,7 @@ class _SplashRevealOverlayWidget extends StatefulWidget {
   final Color logoBrandColor;
   final Color logoBrandSymbolColor;
   final Offset logoCenterGlobal;
+  final bool useLogoZoomTransition;
   final bool reducedMotion;
   final VoidCallback onComplete;
 
@@ -104,7 +105,7 @@ class _SplashRevealOverlayWidgetState extends State<_SplashRevealOverlayWidget>
     if (widget.reducedMotion) {
       return SplashRevealOverlay.reducedMotionDuration;
     }
-    if (!SplashRevealOverlay.useLogoZoomTransition) {
+    if (!widget.useLogoZoomTransition) {
       return SplashRevealOverlay.fadeOnlyDuration;
     }
     return SplashRevealOverlay.totalDuration;
@@ -148,7 +149,7 @@ class _SplashRevealOverlayWidgetState extends State<_SplashRevealOverlayWidget>
   }
 
   bool _isExpandPhase([double? progress]) {
-    if (widget.reducedMotion || !SplashRevealOverlay.useLogoZoomTransition) {
+    if (widget.reducedMotion || !widget.useLogoZoomTransition) {
       return false;
     }
     return (progress ?? _progress) > SplashRevealOverlay.pulseEndFraction;
@@ -179,6 +180,7 @@ class _SplashRevealOverlayWidgetState extends State<_SplashRevealOverlayWidget>
     final double scale = splashRevealLogoScale(
       _progress,
       reducedMotion: widget.reducedMotion,
+      useLogoZoomTransition: widget.useLogoZoomTransition,
     );
     final double coverOpacity = splashRevealLayerOpacity(
       _progress,
@@ -317,7 +319,11 @@ double splashRevealFadePhaseProgress(double progress) {
       .clamp(0.0, 1.0);
 }
 
-double splashRevealLogoScale(double progress, {required bool reducedMotion}) {
+double splashRevealLogoScale(
+  double progress, {
+  required bool reducedMotion,
+  required bool useLogoZoomTransition,
+}) {
   if (reducedMotion) {
     return 1;
   }
@@ -327,7 +333,7 @@ double splashRevealLogoScale(double progress, {required bool reducedMotion}) {
     );
     return lerpDouble(1, SplashRevealOverlay.pulseScale, t)!;
   }
-  if (!SplashRevealOverlay.useLogoZoomTransition) {
+  if (!useLogoZoomTransition) {
     final double fadeT = splashRevealFadePhaseProgress(progress);
     return lerpDouble(
       SplashRevealOverlay.pulseScale,
@@ -358,8 +364,12 @@ double splashRevealLayerOpacity(
   return 1 - Curves.easeOut.transform(fadeT);
 }
 
-double splashRevealShellScale(double progress, {required bool reducedMotion}) {
-  if (reducedMotion || !SplashRevealOverlay.useLogoZoomTransition) {
+double splashRevealShellScale(
+  double progress, {
+  required bool reducedMotion,
+  required bool useLogoZoomTransition,
+}) {
+  if (reducedMotion || !useLogoZoomTransition) {
     return 1;
   }
   final double t = Curves.easeInOutCubic.transform(progress.clamp(0.0, 1.0));

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/discovery/domain/discovery_constants.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_discovery_settings_state.dart';
@@ -9,6 +8,7 @@ import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 
 class GuildDiscoveryFormCard extends StatelessWidget {
   const GuildDiscoveryFormCard({

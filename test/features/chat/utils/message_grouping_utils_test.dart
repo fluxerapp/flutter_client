@@ -283,7 +283,7 @@ void main() {
   });
 
   group('computeMessageRowGrouped', () {
-    test('returns false in compact mode', () {
+    test('groups consecutive messages from the same author', () {
       final Message first = _message(
         id: '1',
         authorId: 'user',
@@ -299,33 +299,31 @@ void main() {
         computeMessageRowGrouped(
           message: second,
           previousMessage: first,
-          messageDisplayCompact: true,
-          isNewDay: false,
-        ),
-        isFalse,
-      );
-    });
-
-    test('delegates to shouldGroupMessages when not compact', () {
-      final Message first = _message(
-        id: '1',
-        authorId: 'user',
-        authorName: 'Alice',
-      );
-      final Message second = _message(
-        id: '2',
-        authorId: 'user',
-        authorName: 'Alice',
-        timestamp: DateTime.utc(2026, 1, 1, 12, 1),
-      );
-      expect(
-        computeMessageRowGrouped(
-          message: second,
-          previousMessage: first,
-          messageDisplayCompact: false,
           isNewDay: false,
         ),
         isTrue,
+      );
+    });
+
+    test('returns false on a new day', () {
+      final Message first = _message(
+        id: '1',
+        authorId: 'user',
+        authorName: 'Alice',
+      );
+      final Message second = _message(
+        id: '2',
+        authorId: 'user',
+        authorName: 'Alice',
+        timestamp: DateTime.utc(2026, 1, 2, 12, 1),
+      );
+      expect(
+        computeMessageRowGrouped(
+          message: second,
+          previousMessage: first,
+          isNewDay: true,
+        ),
+        isFalse,
       );
     });
   });

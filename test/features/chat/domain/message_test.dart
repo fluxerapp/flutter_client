@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/domain/message_translation.dart';
+import 'package:fluxer_dart/export.dart';
 
 Message _message({
   String content = 'body',
@@ -11,6 +13,7 @@ Message _message({
   List<Attachment> attachments = const [],
   List<Reaction> reactions = const [],
   List<String> mentionedUserIds = const [],
+  MessageTranslation? translation,
 }) {
   return Message(
     id: '0001',
@@ -26,6 +29,7 @@ Message _message({
     attachments: attachments,
     reactions: reactions,
     mentionedUserIds: mentionedUserIds,
+    translation: translation,
   );
 }
 
@@ -52,6 +56,7 @@ db.Message _emptyRow() {
     type: 0,
     flags: 0,
     deliveryState: 1,
+    translationShowOriginal: false,
   );
 }
 
@@ -194,12 +199,180 @@ void main() {
         type: 0,
         flags: 0,
         deliveryState: 1,
+        translationShowOriginal: false,
       );
       final Message parsed = Message.fromRow(row);
       expect(parsed.mentionChannels, hasLength(1));
       expect(parsed.mentionChannels.first.id, '100');
       expect(parsed.mentionChannels.first.name, 'rules');
       expect(parsed.mentionChannels.first.type, 0);
+    });
+  });
+
+  group('Message translation', () {
+    const MessageTranslation translation = MessageTranslation(
+      translatedContent: 'Hello world',
+      sourceLanguageCode: 'de',
+      sourceContent: 'Hallo Welt',
+      targetLanguageCode: 'en',
+    );
+
+    test('isValidFor is false after the source content changes', () {
+      expect(translation.isValidFor('Hallo Welt'), isTrue);
+      expect(translation.isValidFor('Hallo Welt!'), isFalse);
+    });
+
+    test('withStoredTranslation keeps the cache when content matches', () {
+      final Message translated = _message(content: 'Hallo Welt')
+          .withStoredTranslation(
+            const MessageTranslationSnapshot(
+              content: 'Hallo Welt',
+              translation: translation,
+            ),
+          );
+      expect(translated.translation?.translatedContent, 'Hello world');
+    });
+
+    test('withStoredTranslation drops the cache when content changed', () {
+      final Message translated =
+          _message(
+            content: 'Hallo Welt!',
+            translation: translation,
+          ).withStoredTranslation(
+            const MessageTranslationSnapshot(
+              content: 'Hallo Welt',
+              translation: translation,
+            ),
+          );
+      expect(translated.translation, isNull);
+    });
+
+    test('displayedContent uses the translation until original is shown', () {
+      final Message translated = _message(
+        content: 'Hallo Welt',
+        translation: translation,
+      );
+      expect(translated.displayedContent, 'Hello world');
+      expect(
+        translated
+            .copyWith(translation: translation.copyWith(showOriginal: true))
+            .displayedContent,
+        'Hallo Welt',
+      );
+    });
+
+    test('isRenderEquivalent is false when translation visibility changes', () {
+      final Message a = _message(
+        content: 'Hallo Welt',
+        translation: translation,
+      );
+      final Message b = _message(
+        content: 'Hallo Welt',
+        translation: translation.copyWith(showOriginal: true),
+      );
+      expect(a.isRenderEquivalent(b), isFalse);
+    });
+
+    test('fromRow restores a stored translation', () {
+      final db.Message row = db.Message(
+        id: '0001',
+        channelId: 'channel-1',
+        authorId: 'author-1',
+        authorName: 'Author',
+        authorIsBot: false,
+        authorIsSystem: false,
+        authorPublicFlags: 0,
+        content: 'Hallo Welt',
+        timestamp: DateTime.utc(2026),
+        embedsJson: '[]',
+        attachmentsJson: '[]',
+        stickersJson: '[]',
+        reactionsJson: '[]',
+        messageSnapshotsJson: '[]',
+        pinned: false,
+        isMentioned: false,
+        mentionedUserIdsJson: '[]',
+        mentionChannelsJson: '[]',
+        type: 0,
+        flags: 0,
+        deliveryState: 1,
+        translatedContent: 'Hello world',
+        translationSourceLanguage: 'de',
+        translatedSourceContent: 'Hallo Welt',
+        translationTargetLanguage: 'en',
+        translationShowOriginal: true,
+      );
+      final Message parsed = Message.fromRow(row);
+      expect(parsed.translation, isNotNull);
+      expect(parsed.translation!.translatedContent, 'Hello world');
+      expect(parsed.translation!.showOriginal, isTrue);
+      expect(parsed.toCompanion().translatedContent.present, isFalse);
+    });
+
+    test('applyGatewayUpdate clears translation when content changes', () {
+      final Message existing = _message(
+        content: 'Hallo Welt',
+        translation: translation,
+      );
+      final Message updated = existing.applyGatewayUpdate(
+        MessageResponseSchema(
+          id: '0001',
+          channelId: 'channel-1',
+          author: const UserPartialResponse(
+            id: 'author-1',
+            username: 'Author',
+            discriminator: '0001',
+            globalName: null,
+            avatar: null,
+            avatarColor: null,
+            flags: 0,
+          ),
+          type: MessageResponseSchemaTypeType.valueDefault,
+          flags: 0,
+          content: 'Hallo Welt!',
+          timestamp: DateTime.utc(2026),
+          pinned: false,
+          mentionEveryone: false,
+          tts: false,
+          mentions: const [],
+          mentionRoles: const [],
+        ),
+      );
+      expect(updated.content, 'Hallo Welt!');
+      expect(updated.translation, isNull);
+    });
+
+    test('applyGatewayUpdate keeps translation when content is unchanged', () {
+      final Message existing = _message(
+        content: 'Hallo Welt',
+        translation: translation,
+      );
+      final Message updated = existing.applyGatewayUpdate(
+        MessageResponseSchema(
+          id: '0001',
+          channelId: 'channel-1',
+          author: const UserPartialResponse(
+            id: 'author-1',
+            username: 'Author',
+            discriminator: '0001',
+            globalName: null,
+            avatar: null,
+            avatarColor: null,
+            flags: 0,
+          ),
+          type: MessageResponseSchemaTypeType.valueDefault,
+          flags: 0,
+          content: 'Hallo Welt',
+          timestamp: DateTime.utc(2026),
+          pinned: false,
+          mentionEveryone: false,
+          tts: false,
+          mentions: const [],
+          mentionRoles: const [],
+        ),
+      );
+      expect(updated.translation, isNotNull);
+      expect(updated.translation!.translatedContent, 'Hello world');
     });
   });
 }

@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:ui' as ui;
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/shared/utils/emoji_utils.dart';
+import 'package:material_ui/material_ui.dart';
 
 const _kSpriteSize = 32;
+const _kSpriteBleedInset = 1.0;
 const _kNonDiversitySpritesPerRow = 42;
 const _kDiversitySpritesPerRow = 10;
 const _kSpriteAssetDir = 'assets/emoji-sprites';
@@ -71,7 +72,7 @@ class EmojiSpriteSheet {
     return frame.image;
   }
 
-  /// Source rect for [index] in the @2x sheet (64px per sprite).
+  /// Source rect for [index] in the @2x sheet (64px cells, 1px inset).
   static Rect spriteRect(int index, {required bool diversity}) {
     final spritesPerRow = diversity
         ? _kDiversitySpritesPerRow
@@ -80,10 +81,10 @@ class EmojiSpriteSheet {
     final row = index ~/ spritesPerRow;
     const size = _kSpriteSize * 2;
     return Rect.fromLTWH(
-      col * size.toDouble(),
-      row * size.toDouble(),
-      size.toDouble(),
-      size.toDouble(),
+      col * size + _kSpriteBleedInset,
+      row * size + _kSpriteBleedInset,
+      size - _kSpriteBleedInset * 2,
+      size - _kSpriteBleedInset * 2,
     );
   }
 }
@@ -107,7 +108,10 @@ class EmojiSpritePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final src = EmojiSpriteSheet.spriteRect(spriteIndex, diversity: diversity);
     final dst = Offset.zero & size;
+    canvas.save();
+    canvas.clipRect(dst, doAntiAlias: false);
     canvas.drawImageRect(image, src, dst, _paint);
+    canvas.restore();
   }
 
   @override

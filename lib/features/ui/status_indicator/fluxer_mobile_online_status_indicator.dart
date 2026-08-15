@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/avatar/avatar_status_layout.dart';
+import 'package:material_ui/material_ui.dart';
 
 const String kMobileOnlineStatusSvgAsset =
     'assets/images/icons/mobile-online-status.svg';

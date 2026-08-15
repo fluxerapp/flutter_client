@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -9,6 +8,8 @@ import 'package:fluxer_app/features/auth/domain/mfa_challenge.dart';
 import 'package:fluxer_app/features/auth/presentation/mfa_screen.dart';
 import 'package:fluxer_app/features/auth/providers/mfa_view_model.dart';
 import 'package:fluxer_app/shared/utils/keyboard_focus_restore.dart';
+import 'package:material_ui/material_ui.dart';
+
 import '../../../helpers/test_l10n.dart';
 
 const _challenge = MfaChallenge(

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -21,6 +20,7 @@ import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
+import 'package:material_ui/material_ui.dart';
 
 Future<void> showSystemMessageActionsSheet(
   BuildContext context,
@@ -125,6 +125,7 @@ Future<void> showSystemMessageActionsSheet(
     case MessageAction.debugMessage:
       unawaited(showMessageDebugSheet(context, message: message));
     case MessageAction.speak:
+    case MessageAction.translate:
       unawaited(
         dispatchMessageAction(
           ref: ref,

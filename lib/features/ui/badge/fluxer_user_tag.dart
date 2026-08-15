@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
-
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 
 class FluxerUserTag extends StatelessWidget {
   const FluxerUserTag({required this.isSystem, super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
+import 'package:material_ui/material_ui.dart';
 
 class InputModalityListener extends ConsumerStatefulWidget {
   const InputModalityListener({required this.child, super.key});

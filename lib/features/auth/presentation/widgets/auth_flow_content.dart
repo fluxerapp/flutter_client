@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/auth/presentation/mfa_screen.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/ip_authorization_screen.dart';
@@ -9,6 +8,7 @@ import 'package:fluxer_app/features/auth/presentation/widgets/sso_button.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/suspended_account_screen.dart';
 import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
+import 'package:material_ui/material_ui.dart';
 
 class AuthFlowContent extends ConsumerWidget {
   const AuthFlowContent({

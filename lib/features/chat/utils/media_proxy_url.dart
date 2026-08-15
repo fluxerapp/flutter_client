@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
+import 'package:material_ui/material_ui.dart';
 
 String buildMediaProxyUrl(
   String originalUrl, {
@@ -37,6 +36,26 @@ String buildMediaProxyUrl(
   if (animated != null) {
     query['animated'] = animated.toString();
   }
+  return parsed.replace(queryParameters: query).toString();
+}
+
+String stripMediaProxyFormat(String originalUrl) {
+  if (originalUrl.isEmpty) {
+    return originalUrl;
+  }
+  final Uri? parsed = Uri.tryParse(originalUrl);
+  if (parsed == null ||
+      !parsed.hasScheme ||
+      (parsed.scheme != 'http' && parsed.scheme != 'https')) {
+    return originalUrl;
+  }
+  final Map<String, String> query = Map<String, String>.from(
+    parsed.queryParameters,
+  );
+  if (!query.containsKey('format')) {
+    return originalUrl;
+  }
+  query.remove('format');
   return parsed.replace(queryParameters: query).toString();
 }
 

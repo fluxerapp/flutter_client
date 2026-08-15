@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/accessibility/text_scale.dart';
 import 'package:fluxer_app/features/chat/data/chat_unread_summary.dart';
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class MessageListOverlay extends StatelessWidget {
@@ -89,34 +90,35 @@ class MessageListNewMessagesBar extends ConsumerWidget {
       shadowColor: Colors.black.withValues(alpha: 0.22),
       borderRadius: BorderRadius.circular(8),
       clipBehavior: Clip.antiAlias,
-      child: Row(
+      child: Wrap(
+        alignment: WrapAlignment.spaceBetween,
+        crossAxisAlignment: WrapCrossAlignment.center,
         children: <Widget>[
-          Expanded(
-            child: InkWell(
-              onTap: onJumpToUnread,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(12, 9, 8, 9),
-                child: Row(
-                  children: <Widget>[
-                    PhosphorIcon(
-                      PhosphorIconsBold.envelopeOpen,
-                      color: context.colors.textOnBrandPrimary,
-                      size: 18,
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        '$messageLabel$sinceLabel',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: context.textStyles.smallText.copyWith(
-                          color: context.colors.textOnBrandPrimary,
-                          fontWeight: FontWeight.w700,
-                        ),
+          InkWell(
+            onTap: onJumpToUnread,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(12, 9, 8, 9),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  PhosphorIcon(
+                    PhosphorIconsBold.envelopeOpen,
+                    color: context.colors.textOnBrandPrimary,
+                    size: 18,
+                  ),
+                  const SizedBox(width: 8),
+                  Flexible(
+                    child: Text(
+                      '$messageLabel$sinceLabel',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: context.textStyles.smallText.copyWith(
+                        color: context.colors.textOnBrandPrimary,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -126,7 +128,8 @@ class MessageListNewMessagesBar extends ConsumerWidget {
               padding: const EdgeInsets.fromLTRB(8, 9, 12, 9),
               child: Text(
                 'Mark Read',
-                maxLines: 1,
+                maxLines: 2,
+                textAlign: TextAlign.end,
                 style: context.textStyles.smallText.copyWith(
                   color: context.colors.textOnBrandPrimary,
                   fontWeight: FontWeight.w800,
@@ -150,8 +153,9 @@ class _ChatTextScale extends StatelessWidget {
   Widget build(BuildContext context) {
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(
-        textScaler: TextScaler.linear(
-          MediaQuery.of(context).textScaler.scale(1) * scaleRatio,
+        textScaler: chatMessageTextScaler(
+          MediaQuery.textScalerOf(context),
+          scaleRatio,
         ),
       ),
       child: child,

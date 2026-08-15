@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_nav_l10n.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -146,8 +145,14 @@ String? _scrollFieldLabel(FluxerLocalizations l10n, String scrollId) {
   switch (scrollId) {
     case 'theme':
       return l10n.lookAndFeelThemeSectionTitle;
+    case 'hdr':
+      return l10n.lookAndFeelHdrSectionTitle;
     case 'chat-font-scaling':
-      return l10n.lookAndFeelChatFontScalingTitle;
+      return l10n.lookAndFeelChatFontSizeLabel;
+    case 'messages':
+      return l10n.lookAndFeelMessagesSectionTitle;
+    case 'app-zoom-level':
+      return l10n.lookAndFeelAppZoomTitle;
     case 'interface':
       return l10n.lookAndFeelInterfaceTitle;
     case 'channel-list':
@@ -224,7 +229,6 @@ String? _scrollFieldLabel(FluxerLocalizations l10n, String scrollId) {
 }
 
 bool isUserSettingsScrollFieldVisible({
-  required BuildContext context,
   required bool isTouchPrimary,
   required UserSettingsSection? section,
   required String scrollFieldId,
@@ -233,26 +237,19 @@ bool isUserSettingsScrollFieldVisible({
     return false;
   }
   switch (scrollFieldId) {
-    case 'hdr':
-    case 'app-zoom-level':
-    case 'messages':
     case 'streamer-mode':
-      return false;
-    case 'keyboard':
-      return !isTouchPrimary;
     case 'advanced-settings-desktop':
-      return false;
     case 'advanced-settings-notifications':
     case 'advanced-settings-account':
       return false;
+    case 'keyboard':
+      return !isTouchPrimary;
     default:
-      break;
+      return true;
   }
-  return true;
 }
 
 String? resolveUserSettingsScrollFieldId({
-  required BuildContext context,
   required bool isTouchPrimary,
   required String tab,
   required String? fieldId,
@@ -266,7 +263,6 @@ String? resolveUserSettingsScrollFieldId({
     return null;
   }
   if (!isUserSettingsScrollFieldVisible(
-    context: context,
     isTouchPrimary: isTouchPrimary,
     section: section,
     scrollFieldId: scrollId,

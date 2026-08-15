@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Opens a favorited channel while keeping the user in the favorites shell.
 Future<void> navigateToFavoriteChannel({

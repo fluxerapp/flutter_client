@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/router/app_location_persistence.dart';
 import 'package:fluxer_app/core/router/guild_root_redirect.dart';
+import 'package:material_ui/material_ui.dart';
 
 class ChannelPersistenceObserver extends NavigatorObserver {
   final FluxerDatabase db;

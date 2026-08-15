@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
@@ -7,6 +6,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/slowmode_
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/typing_indicator_bar.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/blocked_users_view_model.dart';
+import 'package:material_ui/material_ui.dart';
 
 const double _kComposerStatusRowCollapsedHeight = 10;
 

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -7,6 +6,7 @@ import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_permi
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/permissions/permission_state_buttons.dart';
 import 'package:fluxer_app/features/settings/providers/guild/permission_layout_provider.dart';
 import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip.dart';
+import 'package:material_ui/material_ui.dart';
 
 class PermissionOverwriteToggle extends ConsumerWidget {
   const PermissionOverwriteToggle({

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/guild_sidebar.dart';
@@ -10,6 +9,7 @@ import 'package:fluxer_app/features/settings/presentation/user_settings_modal.da
 import 'package:fluxer_app/features/shell/presentation/app_bottom_nav_bar.dart';
 import 'package:fluxer_app/features/shell/presentation/user_area.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_bar.dart';
+import 'package:material_ui/material_ui.dart';
 
 Widget desktopSidebarForLocation(BuildContext context, String location) {
   if (isDiscoverRoute(location)) {

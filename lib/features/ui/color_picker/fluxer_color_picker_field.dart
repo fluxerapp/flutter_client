@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:ui' as ui;
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
@@ -14,6 +13,7 @@ import 'package:fluxer_app/features/ui/popout/fluxer_popout.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kSwatchWidth = 48;
@@ -21,6 +21,7 @@ const double _kColorAreaHeight = 160;
 const double _kHueTrackHeight = 16;
 const double _kThumbSize = 18;
 const double _kPopoverWidth = 260;
+const int _kDefaultPickerBaselineColor = 0x4641D9;
 
 int _colorToInt(Color color) =>
     ((color.r * 255).round() << 16) |
@@ -70,6 +71,8 @@ class FluxerColorPickerField extends StatefulWidget {
     this.description,
     this.disabled = false,
     this.defaultValue,
+    this.isDefaultValue = false,
+    this.onReset,
     this.hideHelperText = false,
     super.key,
   });
@@ -80,6 +83,8 @@ class FluxerColorPickerField extends StatefulWidget {
   final String? description;
   final bool disabled;
   final int? defaultValue;
+  final bool isDefaultValue;
+  final VoidCallback? onReset;
   final bool hideHelperText;
 
   @override
@@ -91,9 +96,42 @@ class _FluxerColorPickerFieldState extends State<FluxerColorPickerField> {
   late final FocusNode _focusNode;
   bool _showError = false;
 
-  int get _effectiveValue => widget.value == 0 && widget.defaultValue != null
-      ? widget.defaultValue!
-      : widget.value;
+  bool get _isShowingDefault =>
+      widget.isDefaultValue && widget.defaultValue != null;
+
+  int get _effectiveValue =>
+      _isShowingDefault ? widget.defaultValue! : widget.value;
+
+  bool get _useLogicalSwatchColor =>
+      _isShowingDefault || widget.defaultValue != null || widget.value != 0;
+
+  Color _swatchColor(BuildContext context) {
+    if (_useLogicalSwatchColor) {
+      return _intToColor(_effectiveValue);
+    }
+    return context.colors.textChat;
+  }
+
+  Color _swatchIconColor(BuildContext context, Color swatchColor) {
+    if (!_useLogicalSwatchColor) {
+      return Theme.of(context).brightness == Brightness.light
+          ? Colors.white
+          : Colors.black;
+    }
+    return swatchColor.computeLuminance() > 0.5 ? Colors.black : Colors.white;
+  }
+
+  void _handleReset({VoidCallback? onClose}) {
+    if (widget.onReset != null) {
+      widget.onReset!();
+    } else {
+      widget.onChanged(0);
+    }
+    final int resetValue = widget.defaultValue ?? 0;
+    _controller.text = _intToHex(resetValue);
+    setState(() => _showError = false);
+    onClose?.call();
+  }
 
   @override
   void initState() {
@@ -106,7 +144,8 @@ class _FluxerColorPickerFieldState extends State<FluxerColorPickerField> {
   void didUpdateWidget(FluxerColorPickerField oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.value != widget.value ||
-        oldWidget.defaultValue != widget.defaultValue) {
+        oldWidget.defaultValue != widget.defaultValue ||
+        oldWidget.isDefaultValue != widget.isDefaultValue) {
       if (!_focusNode.hasFocus) {
         _controller.text = _intToHex(_effectiveValue);
         _showError = false;
@@ -157,10 +196,8 @@ class _FluxerColorPickerFieldState extends State<FluxerColorPickerField> {
     final textStyles = context.textStyles;
     final layout = context.layout;
 
-    final displayColor = _intToColor(_effectiveValue);
-    final iconColor = displayColor.computeLuminance() > 0.5
-        ? Colors.black
-        : Colors.white;
+    final swatchColor = _swatchColor(context);
+    final iconColor = _swatchIconColor(context, swatchColor);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -194,8 +231,8 @@ class _FluxerColorPickerFieldState extends State<FluxerColorPickerField> {
                   ? 'Type a hex color or use the picker.'
                   : null),
           trailing: isMobileLayout(context)
-              ? _buildMobileSwatch(displayColor, iconColor)
-              : _buildDesktopSwatch(displayColor, iconColor),
+              ? _buildMobileSwatch(swatchColor, iconColor)
+              : _buildDesktopSwatch(swatchColor, iconColor),
         ),
         if (_showError)
           Padding(
@@ -226,6 +263,7 @@ class _FluxerColorPickerFieldState extends State<FluxerColorPickerField> {
   }
 
   _ColorPickerContent _buildPickerContent({VoidCallback? onClose}) {
+    final String pickerColorHex = _intToHex(_effectiveValue);
     return _ColorPickerContent(
       color: _intToColor(_effectiveValue),
       onChanged: (color) {
@@ -234,15 +272,8 @@ class _FluxerColorPickerFieldState extends State<FluxerColorPickerField> {
         _controller.text = _intToHex(intValue);
         setState(() => _showError = false);
       },
-      onReset: widget.defaultValue != null
-          ? () {
-              widget.onChanged(0);
-              _controller.text = _intToHex(widget.defaultValue!);
-              setState(() => _showError = false);
-              onClose?.call();
-            }
-          : null,
-      hasCustomColor: widget.value != 0,
+      onReset: () => _handleReset(onClose: onClose),
+      hasCustomColor: pickerColorHex != _intToHex(_kDefaultPickerBaselineColor),
     );
   }
 

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 final RegExp _saturationFactorVarPattern = RegExp(
   r'var\(\s*--saturation-factor\s*\)',

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
@@ -7,6 +6,7 @@ import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/widgets/add_friend_form.dart';
 import 'package:fluxer_app/shared/widgets/friend_request_sheet_item.dart';
+import 'package:material_ui/material_ui.dart';
 
 class AddFriendSheet {
   AddFriendSheet._();

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
@@ -10,6 +9,7 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/accessibility/text_scale.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/mute_duration_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_unread_indicator.dart';
 import 'package:fluxer_app/features/channels/providers/channel_typing_provider.dart';
@@ -52,6 +52,7 @@ import 'package:fluxer_app/shared/sheets/add_friend_sheet.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/navigation_item_semantics.dart';
 import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class DMList extends ConsumerStatefulWidget {
@@ -552,89 +553,96 @@ class _DMListState extends ConsumerState<DMList> {
         isCompactWideMobileLayout(context) &&
         !isSidebarDrawerLockedForLocation(ref.watch(shellLocationProvider));
 
-    return Container(
-      height: 56,
-      padding: EdgeInsets.fromLTRB(iconOnlyTitle ? 12 : 16, 8, 8, 8),
-      child: Row(
-        children: [
-          if (iconOnlyTitle) ...[
-            _buildMobileHeaderTitle(context, l10n: l10n, iconOnly: true),
-            const Spacer(),
-          ] else
-            Expanded(
-              child: _buildMobileHeaderTitle(
-                context,
-                l10n: l10n,
-                iconOnly: false,
-              ),
-            ),
-          _buildDmListSurfaceButton(
-            context,
-            onTap: () => unawaited(QuickSwitcherBottomSheet.show(context, ref)),
-            width: 32,
-            height: 32,
-            borderRadius: BorderRadius.circular(16),
-            child: PhosphorIcon(
-              PhosphorIconsBold.magnifyingGlass,
-              size: 20,
-              color: context.colors.textPrimary,
-            ),
-          ),
-          const SizedBox(width: 8),
-          Stack(
-            clipBehavior: Clip.none,
+    return FluxerConstrainedUiTextScale(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 56),
+        child: Container(
+          padding: EdgeInsets.fromLTRB(iconOnlyTitle ? 12 : 16, 8, 8, 8),
+          child: Row(
             children: [
-              _buildDmListSurfaceButton(
-                context,
-                onTap: () => AddFriendSheet.show(context),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    PhosphorIcon(
-                      PhosphorIconsFill.userPlus,
-                      size: 16,
-                      color: context.colors.textPrimary,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      l10n.dmAddFriends,
-                      style: context.textStyles.label.copyWith(height: 20 / 14),
-                    ),
-                  ],
-                ),
-              ),
-              if (pendingCount > 0)
-                Positioned(
-                  top: -4,
-                  right: -4,
-                  child: Container(
-                    constraints: const BoxConstraints(
-                      minWidth: 20,
-                      minHeight: 20,
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    decoration: BoxDecoration(
-                      color: context.colors.statusDanger,
-                      shape: BoxShape.circle,
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      '$pendingCount',
-                      style: context.textStyles.smallText.copyWith(
-                        color: context.colors.textPrimary,
-                        fontWeight: FontWeight.w700,
-                        height: 16 / 12,
-                      ),
-                    ),
+              if (iconOnlyTitle) ...[
+                _buildMobileHeaderTitle(context, l10n: l10n, iconOnly: true),
+                const Spacer(),
+              ] else
+                Expanded(
+                  child: _buildMobileHeaderTitle(
+                    context,
+                    l10n: l10n,
+                    iconOnly: false,
                   ),
                 ),
+              _buildDmListSurfaceButton(
+                context,
+                onTap: () =>
+                    unawaited(QuickSwitcherBottomSheet.show(context, ref)),
+                width: 32,
+                height: 32,
+                borderRadius: BorderRadius.circular(16),
+                child: PhosphorIcon(
+                  PhosphorIconsBold.magnifyingGlass,
+                  size: 20,
+                  color: context.colors.textPrimary,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  _buildDmListSurfaceButton(
+                    context,
+                    onTap: () => AddFriendSheet.show(context),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        PhosphorIcon(
+                          PhosphorIconsFill.userPlus,
+                          size: 16,
+                          color: context.colors.textPrimary,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          l10n.dmAddFriends,
+                          style: context.textStyles.label.copyWith(
+                            height: 20 / 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (pendingCount > 0)
+                    Positioned(
+                      top: -4,
+                      right: -4,
+                      child: Container(
+                        constraints: const BoxConstraints(
+                          minWidth: 20,
+                          minHeight: 20,
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        decoration: BoxDecoration(
+                          color: context.colors.statusDanger,
+                          shape: BoxShape.circle,
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          '$pendingCount',
+                          style: context.textStyles.smallText.copyWith(
+                            color: context.colors.textPrimary,
+                            fontWeight: FontWeight.w700,
+                            height: 16 / 12,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }

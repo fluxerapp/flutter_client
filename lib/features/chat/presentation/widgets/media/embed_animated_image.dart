@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/accessibility/effective_motion_preferences_provider.dart';
 import 'package:fluxer_app/features/accessibility/motion_preferences.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/animated_image_playback_controller.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/fluxer_animated_image.dart';
 import 'package:fluxer_dart/export.dart' show StickerAnimationOptions;
+import 'package:material_ui/material_ui.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 /// Plays [animatedUrl] while visible and [staticUrl] otherwise. Respects the

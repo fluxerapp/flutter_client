@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/color_families.dart';
 import 'package:fluxer_app/core/theme/color_generator.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Builds the coal (pitch-black AMOLED) color theme.
 ///

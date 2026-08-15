@@ -3,7 +3,6 @@ import 'dart:developer' as dev;
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:fluxer_captcha/src/captcha_exception.dart';
 import 'package:fluxer_captcha/src/captcha_provider.dart';
@@ -15,6 +14,7 @@ import 'package:fluxer_captcha/src/widget/captcha_content_size.dart';
 import 'package:fluxer_captcha/src/widget/captcha_options.dart';
 import 'package:fluxer_captcha/src/widget/captcha_styling.dart';
 import 'package:fluxer_captcha/src/widget/interface.dart' as i;
+import 'package:material_ui/material_ui.dart';
 
 const String _tokenReceivedJSHandler =
     'window.flutter_inappwebview.callHandler(`CaptchaToken`, token);';
@@ -746,7 +746,6 @@ class _FluxerCaptchaState extends State<FluxerCaptcha> {
 }
 
 // Mutable fields are required for headless WebView state management.
-// ignore: must_be_immutable
 class _CaptchaInvisible extends FluxerCaptcha {
   _CaptchaInvisible.init({
     required CaptchaProvider provider,

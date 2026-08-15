@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:material_ui/material_ui.dart';
 
 const double kMemberListRowHeight = 50;
 const double kMemberListGroupHeaderHeight = 28;

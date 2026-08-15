@@ -5848,6 +5848,36 @@ abstract class FluxerLocalizations {
   /// **'Slowmode is enabled, but you are immune.'**
   String get slowmodeTooltipImmune;
 
+  /// Short label in the wide composer slowmode indicator when the reader is free to send.
+  ///
+  /// In en, this message translates to:
+  /// **'Slowmode is enabled'**
+  String get slowmodeStatusEnabled;
+
+  /// Short label in the wide composer slowmode indicator while the countdown runs.
+  ///
+  /// In en, this message translates to:
+  /// **'Slowmode is active ({remaining})'**
+  String slowmodeStatusActive(String remaining);
+
+  /// Tooltip on the wide composer slowmode indicator when the reader can bypass slowmode.
+  ///
+  /// In en, this message translates to:
+  /// **'Slowmode is set to {durationLabel}, but you are immune.'**
+  String slowmodeTooltipSetImmune(String durationLabel);
+
+  /// Tooltip on the wide composer slowmode indicator while the reader is counting down.
+  ///
+  /// In en, this message translates to:
+  /// **'Slowmode is set to {durationLabel}. Wait before sending another message.'**
+  String slowmodeTooltipSetWait(String durationLabel);
+
+  /// Tooltip on the wide composer slowmode indicator when the reader is free to send.
+  ///
+  /// In en, this message translates to:
+  /// **'Slowmode is set to {durationLabel} for this channel.'**
+  String slowmodeTooltipSetChannel(String durationLabel);
+
   /// Placeholder text in the channel message input when the user lacks Send Messages permission.
   ///
   /// In en, this message translates to:
@@ -6868,6 +6898,48 @@ abstract class FluxerLocalizations {
   /// **'Choose between dark, coal, or light appearance.'**
   String get lookAndFeelThemeSectionDescription;
 
+  /// Appearance section title for HDR image and video display.
+  ///
+  /// In en, this message translates to:
+  /// **'High dynamic range'**
+  String get lookAndFeelHdrSectionTitle;
+
+  /// Appearance section description for HDR display mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Control how HDR images are displayed on HDR-capable monitors.'**
+  String get lookAndFeelHdrSectionDescription;
+
+  /// HDR radio option that keeps full HDR brightness and color.
+  ///
+  /// In en, this message translates to:
+  /// **'Full dynamic range'**
+  String get lookAndFeelHdrFullName;
+
+  /// Description for the full dynamic range HDR option.
+  ///
+  /// In en, this message translates to:
+  /// **'Display HDR images at full brightness and color range.'**
+  String get lookAndFeelHdrFullDescription;
+
+  /// HDR radio option that tone-maps HDR content to SDR.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard range'**
+  String get lookAndFeelHdrStandardName;
+
+  /// Description for the standard-range HDR option.
+  ///
+  /// In en, this message translates to:
+  /// **'Tone-map HDR images to standard range, reducing peak brightness.'**
+  String get lookAndFeelHdrStandardDescription;
+
+  /// Accessibility label for the HDR display mode radio group.
+  ///
+  /// In en, this message translates to:
+  /// **'High dynamic range display mode'**
+  String get lookAndFeelHdrDisplayModeLabel;
+
   /// Label on the dark theme swatch button.
   ///
   /// In en, this message translates to:
@@ -6916,17 +6988,95 @@ abstract class FluxerLocalizations {
   /// **'Couldn\'t sync theme to your account. Please try again.'**
   String get lookAndFeelThemeSyncFailed;
 
-  /// Section title for the chat font size slider.
+  /// Search label for chat font size within the Messages section.
   ///
   /// In en, this message translates to:
-  /// **'Chat Font Scaling'**
+  /// **'Chat font scaling'**
   String get lookAndFeelChatFontScalingTitle;
 
-  /// Section description for the chat font size slider.
+  /// Search description for chat font size.
   ///
   /// In en, this message translates to:
   /// **'Adjust the font size in the chat area.'**
   String get lookAndFeelChatFontScalingDescription;
+
+  /// Label for the chat font size select in Look & Feel.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat font size'**
+  String get lookAndFeelChatFontSizeLabel;
+
+  /// Section title for the app zoom slider.
+  ///
+  /// In en, this message translates to:
+  /// **'App zoom level'**
+  String get lookAndFeelAppZoomTitle;
+
+  /// Section description for the app zoom slider.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust the application\'s zoom level.'**
+  String get lookAndFeelAppZoomDescription;
+
+  /// Section title for message layout settings in Look & Feel.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get lookAndFeelMessagesSectionTitle;
+
+  /// Section description for message layout settings in Look & Feel.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how messages are displayed in chat channels.'**
+  String get lookAndFeelMessagesSectionDescription;
+
+  /// Label for message group spacing select in Look & Feel.
+  ///
+  /// In en, this message translates to:
+  /// **'Space between message groups'**
+  String get lookAndFeelMessageGroupSpacingLabel;
+
+  /// Message group spacing option label.
+  ///
+  /// In en, this message translates to:
+  /// **'{spacing}px'**
+  String lookAndFeelMessageGroupSpacingValue(int spacing);
+
+  /// Accessibility label for message display mode radio group.
+  ///
+  /// In en, this message translates to:
+  /// **'Message display mode'**
+  String get lookAndFeelMessageDisplayModeLabel;
+
+  /// Comfy message display mode option name.
+  ///
+  /// In en, this message translates to:
+  /// **'Comfy'**
+  String get lookAndFeelMessageDisplayComfyName;
+
+  /// Comfy message display mode option description.
+  ///
+  /// In en, this message translates to:
+  /// **'Spacious layout with clear visual separation between messages.'**
+  String get lookAndFeelMessageDisplayComfyDescription;
+
+  /// Dense message display mode option name.
+  ///
+  /// In en, this message translates to:
+  /// **'Dense'**
+  String get lookAndFeelMessageDisplayDenseName;
+
+  /// Dense message display mode option description.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximizes visible messages with minimal spacing.'**
+  String get lookAndFeelMessageDisplayDenseDescription;
+
+  /// Toggle to hide user avatars in dense message display mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide user avatars'**
+  String get lookAndFeelHideUserAvatarsLabel;
 
   /// Section title for interface customization.
   ///
@@ -10253,6 +10403,48 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Copy Message'**
   String get chatMessageCopyText;
+
+  /// Action label for translating a message on-device.
+  ///
+  /// In en, this message translates to:
+  /// **'Translate'**
+  String get chatMessageTranslate;
+
+  /// Footer shown under a translated message.
+  ///
+  /// In en, this message translates to:
+  /// **'Translated from {language}'**
+  String chatMessageTranslatedFrom(String language);
+
+  /// Toggles a translated message back to the original text.
+  ///
+  /// In en, this message translates to:
+  /// **'See original'**
+  String get chatMessageSeeOriginal;
+
+  /// Toggles a message back to the stored translation.
+  ///
+  /// In en, this message translates to:
+  /// **'See translation'**
+  String get chatMessageSeeTranslation;
+
+  /// Shown under a message while on-device translation is in progress.
+  ///
+  /// In en, this message translates to:
+  /// **'Translating…'**
+  String get chatMessageTranslating;
+
+  /// Toast shown when on-device translation fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t translate this message.'**
+  String get chatMessageTranslateFailed;
+
+  /// Toast shown when no translation source is available.
+  ///
+  /// In en, this message translates to:
+  /// **'Translation isn\'t available on this device.'**
+  String get chatMessageTranslateUnavailable;
 
   /// Action label for reading a message aloud.
   ///
@@ -13834,6 +14026,30 @@ abstract class FluxerLocalizations {
   /// **'STAFF-ONLY'**
   String get userSettingsGroupStaffOnly;
 
+  /// Placeholder for the user settings search field.
+  ///
+  /// In en, this message translates to:
+  /// **'Search settings...'**
+  String get userSettingsSearchPlaceholder;
+
+  /// Accessibility label for the user settings search field.
+  ///
+  /// In en, this message translates to:
+  /// **'Search settings'**
+  String get userSettingsSearchFieldLabel;
+
+  /// Accessibility label for clearing the user settings search field.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search'**
+  String get userSettingsSearchClear;
+
+  /// Empty state shown when user settings search has no matches.
+  ///
+  /// In en, this message translates to:
+  /// **'No settings found'**
+  String get userSettingsSearchNoResults;
+
   /// User settings navigation item for profile settings.
   ///
   /// In en, this message translates to:
@@ -15627,6 +15843,18 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Show Neko on your chat input'**
   String get advancedSettingShowNekoDescriptionTouch;
+
+  /// No description provided for @advancedSettingMobileSplashZoomAnimationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Splash zoom animation'**
+  String get advancedSettingMobileSplashZoomAnimationLabel;
+
+  /// No description provided for @advancedSettingMobileSplashZoomAnimationDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom the logo out when leaving the splash screen'**
+  String get advancedSettingMobileSplashZoomAnimationDescription;
 
   /// No description provided for @advancedSettingKeyboardHintsLabel.
   ///

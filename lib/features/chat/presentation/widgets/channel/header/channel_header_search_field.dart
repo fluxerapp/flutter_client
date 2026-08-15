@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
@@ -24,9 +23,11 @@ import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/members/data/guild_mention_member_search.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
+import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double kChannelHeaderSearchFieldWidth = 244;
@@ -1508,38 +1509,50 @@ class _ChannelHeaderSearchFieldState
     FluxerLocalizations l10n,
     _SearchFieldColors colors,
   ) {
-    return TextField(
+    return FluxerClipboardScope(
       controller: _controller,
       focusNode: _focusNode,
-      textAlignVertical: TextAlignVertical.center,
-      style: context.textStyles.bodySmall.copyWith(
-        color: colors.text,
-        fontSize: 14,
-        height: 1.25,
-      ),
-      decoration: InputDecoration(
-        isDense: true,
-        filled: false,
-        hintText: l10n.channelDetailsSearchHint,
-        hintStyle: context.textStyles.bodySmall.copyWith(
-          color: colors.placeholder,
-          fontSize: 14,
-          height: 1.25,
-        ),
-        border: InputBorder.none,
-        enabledBorder: InputBorder.none,
-        focusedBorder: InputBorder.none,
-        errorBorder: InputBorder.none,
-        focusedErrorBorder: InputBorder.none,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 4),
-      ),
-      textInputAction: TextInputAction.search,
-      onTap: () {
-        setState(() => _suppressAutoOpen = false);
-        _updateAutocompleteMode();
-        _showOverlayIfNeeded();
-      },
-      onSubmitted: (_) => unawaited(_submitSearch()),
+      builder:
+          (
+            BuildContext context,
+            FluxerClipboardScopeState clipboardScope,
+            FocusNode focusNode,
+          ) {
+            return TextField(
+              controller: _controller,
+              focusNode: focusNode,
+              textAlignVertical: TextAlignVertical.center,
+              style: context.textStyles.bodySmall.copyWith(
+                color: colors.text,
+                fontSize: 14,
+                height: 1.25,
+              ),
+              decoration: InputDecoration(
+                isDense: true,
+                filled: false,
+                hintText: l10n.channelDetailsSearchHint,
+                hintStyle: context.textStyles.bodySmall.copyWith(
+                  color: colors.placeholder,
+                  fontSize: 14,
+                  height: 1.25,
+                ),
+                border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                errorBorder: InputBorder.none,
+                focusedErrorBorder: InputBorder.none,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 4),
+              ),
+              textInputAction: TextInputAction.search,
+              contextMenuBuilder: clipboardScope.buildContextMenu,
+              onTap: () {
+                setState(() => _suppressAutoOpen = false);
+                _updateAutocompleteMode();
+                _showOverlayIfNeeded();
+              },
+              onSubmitted: (_) => unawaited(_submitSearch()),
+            );
+          },
     );
   }
 }

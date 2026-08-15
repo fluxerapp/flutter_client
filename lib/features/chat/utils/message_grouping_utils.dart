@@ -80,10 +80,9 @@ bool shouldGroupMessages(Message current, Message? previous) {
 bool computeMessageRowGrouped({
   required Message message,
   required Message? previousMessage,
-  required bool messageDisplayCompact,
   required bool isNewDay,
 }) {
-  if (messageDisplayCompact || isNewDay) {
+  if (isNewDay) {
     return false;
   }
   return shouldGroupMessages(message, previousMessage);

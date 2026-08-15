@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/features/ui/input/emoji_inline_token.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A token rendered inline inside an [InlineTokenTextEditingController].
 ///
@@ -123,8 +123,61 @@ class InlineTokenTextEditingController extends TextEditingController {
 
   @override
   set value(TextEditingValue newValue) {
-    super.value = newValue;
-    _pruneOrphanTokens(newValue.text);
+    final TextEditingValue effectiveValue = _sanitizeOrphanPrivateUse(newValue);
+    super.value = effectiveValue;
+    _pruneOrphanTokens(effectiveValue.text);
+  }
+
+  bool _containsOrphanPrivateUse(String text) {
+    for (final int rune in text.runes) {
+      if (rune < 0xE000 || rune > 0xF8FF) {
+        continue;
+      }
+      if (!_tokens.containsKey(String.fromCharCode(rune))) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  TextEditingValue _sanitizeOrphanPrivateUse(TextEditingValue value) {
+    if (value.text.isEmpty || !_containsOrphanPrivateUse(value.text)) {
+      return value;
+    }
+    final StringBuffer buffer = StringBuffer();
+    var inIndex = 0;
+    var base = value.selection.baseOffset;
+    var extent = value.selection.extentOffset;
+    for (final int rune in value.text.runes) {
+      if (rune >= 0xE000 &&
+          rune <= 0xF8FF &&
+          !_tokens.containsKey(String.fromCharCode(rune))) {
+        if (value.selection.isValid) {
+          if (base > inIndex) {
+            base -= 1;
+          }
+          if (extent > inIndex) {
+            extent -= 1;
+          }
+        }
+        inIndex += 1;
+        continue;
+      }
+      buffer.writeCharCode(rune);
+      inIndex += 1;
+    }
+    final String sanitized = buffer.toString();
+    if (!value.selection.isValid) {
+      return value.copyWith(text: sanitized, composing: TextRange.empty);
+    }
+    return value.copyWith(
+      text: sanitized,
+      selection: TextSelection(
+        baseOffset: base.clamp(0, sanitized.length),
+        extentOffset: extent.clamp(0, sanitized.length),
+      ),
+      composing: TextRange.empty,
+    );
   }
 
   void _pruneOrphanTokens(String currentText) {

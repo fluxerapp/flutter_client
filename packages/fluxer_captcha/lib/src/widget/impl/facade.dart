@@ -1,11 +1,11 @@
 // Constructor parameters are required by the interface but unused in the stub.
 // ignore_for_file: avoid_unused_constructor_parameters
 
-import 'package:flutter/material.dart';
 import 'package:fluxer_captcha/src/captcha_provider.dart';
 import 'package:fluxer_captcha/src/controller/captcha_controller.dart';
 import 'package:fluxer_captcha/src/widget/captcha_options.dart';
 import 'package:fluxer_captcha/src/widget/interface.dart' as i;
+import 'package:material_ui/material_ui.dart';
 
 /// Facade class — platform-specific implementations are selected at compile
 /// time via conditional exports.

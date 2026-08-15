@@ -1,7 +1,8 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/accessibility/text_scale.dart';
 import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kCornerRatio = 0.32;
@@ -105,6 +106,7 @@ class _LetterFallback extends StatelessWidget {
     return Center(
       child: Text(
         abbreviateGuildName(name),
+        textScaler: kIconInitialsTextScaler,
         style: context.textStyles.smallText.copyWith(
           fontSize: _guildInitialsFontSize(guildNameInitialsLength(name), size),
           fontWeight: fontWeight,

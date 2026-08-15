@@ -1,9 +1,9 @@
 import 'dart:math' as math;
 import 'dart:typed_data';
 
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_live_waveform.dart';
 import 'package:fluxer_app/features/chat/utils/voice_message_constants.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:test/test.dart';
 
 void main() {

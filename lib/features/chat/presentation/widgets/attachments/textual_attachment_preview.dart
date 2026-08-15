@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -22,6 +21,7 @@ import 'package:fluxer_app/features/chat/utils/textual_attachment_fullscreen.dar
 import 'package:fluxer_app/features/settings/providers/textual_preview_preferences_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
+import 'package:material_ui/material_ui.dart';
 
 typedef TextualAttachmentContentLoader =
     Future<TextualAttachmentContentResult> Function({

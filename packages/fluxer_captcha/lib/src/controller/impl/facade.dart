@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_captcha/src/captcha_exception.dart';
 import 'package:fluxer_captcha/src/controller/interface.dart' as i;
+import 'package:material_ui/material_ui.dart';
 
 /// Facade class — platform-specific implementations are selected at compile
 /// time via conditional exports.

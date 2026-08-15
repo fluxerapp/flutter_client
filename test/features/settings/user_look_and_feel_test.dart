@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:drift/drift.dart' show Value;
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
@@ -19,6 +18,7 @@ import 'package:fluxer_app/features/settings/providers/appearance_preferences_pr
 import 'package:fluxer_app/features/settings/providers/user_settings_sync_service.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../helpers/open_test_database.dart';
 
@@ -187,7 +187,9 @@ void main() {
     await tester.pump();
 
     expect(find.text('Theme'), findsOneWidget);
-    expect(find.text('Chat Font Scaling'), findsOneWidget);
+    expect(find.text('High dynamic range'), findsOneWidget);
+    expect(find.text('App zoom level'), findsOneWidget);
+    expect(find.text('Messages'), findsOneWidget);
     expect(find.text('Interface'), findsOneWidget);
     expect(find.text('Channel List'), findsOneWidget);
     expect(find.text('Active Now'), findsOneWidget);

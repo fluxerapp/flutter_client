@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/constants/external_urls.dart';
 import 'package:fluxer_app/core/providers/active_instance_provider.dart';
@@ -12,6 +11,7 @@ import 'package:fluxer_app/core/theme/color_utils.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/instance_domain_icon.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/offline_account_switcher_link.dart';
+import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/domain/service_status_incident.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_reveal_overlay.dart';
 import 'package:fluxer_app/features/shell/providers/service_status_incident_provider.dart';
@@ -22,6 +22,7 @@ import 'package:fluxer_app/features/ui/icons/fluxer_brand_logo.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
+import 'package:material_ui/material_ui.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -130,6 +131,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     _pulseController.stop();
 
     final bool animationsEnabled = !MediaQuery.disableAnimationsOf(context);
+    final bool useLogoZoomTransition = ref.read(
+      appearancePreferencesProvider.select(
+        (AppearancePreferencesState state) => state.mobileSplashZoomAnimation,
+      ),
+    );
     final Offset? logoCenter = _logoCenterGlobal();
     final Color brand = context.colors.brandPrimary;
     SplashRevealOverlay.show(
@@ -139,6 +145,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       logoBrandSymbolColor: ColorUtils.bestContrastColor(brand.toARGB32()),
       logoCenterGlobal:
           logoCenter ?? MediaQuery.sizeOf(context).center(Offset.zero),
+      useLogoZoomTransition: useLogoZoomTransition,
       animationsEnabled: animationsEnabled,
     );
     _allowSplashExit();

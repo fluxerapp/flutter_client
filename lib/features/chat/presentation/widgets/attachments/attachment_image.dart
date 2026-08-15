@@ -1,5 +1,5 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_thumbhash/flutter_thumbhash.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
@@ -8,14 +8,17 @@ import 'package:fluxer_app/features/chat/presentation/sheets/forward_message_she
 import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
 import 'package:fluxer_app/features/chat/utils/embed_animated_image_url.dart';
+import 'package:fluxer_app/features/chat/utils/hdr_aware_image_url.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
+import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class AttachmentImage extends StatelessWidget {
+class AttachmentImage extends ConsumerWidget {
   static const double _defaultAspectRatio = 16 / 9;
 
   final Attachment attachment;
@@ -53,7 +56,12 @@ class AttachmentImage extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final HdrDisplayMode hdrDisplayMode = ref.watch(
+      appearancePreferencesProvider.select(
+        (AppearancePreferencesState state) => state.hdrDisplayMode,
+      ),
+    );
     final FluxerMediaDimensions dimensions = mediaDimensionsForSize(
       dimensionSize,
     );
@@ -114,7 +122,11 @@ class AttachmentImage extends StatelessWidget {
                           placeholder: _buildImagePlaceholder(context),
                         )
                       : _AttachmentStaticImage(
-                          imageUrl: attachment.url,
+                          imageUrl: buildHdrAwareImageUrl(
+                            url: effectiveUrl,
+                            mode: hdrDisplayMode,
+                            contentType: attachment.contentType,
+                          ),
                           displaySize: displaySize,
                           dimensions: dimensions,
                           sourceWidth: attachment.width,
@@ -209,6 +221,7 @@ class AttachmentImage extends StatelessWidget {
       isMatureMedia: value.isMatureMedia,
       attachmentId: value.id,
       proxyUrl: value.proxyUrl,
+      contentType: value.contentType,
       isExpired: value.expired ?? false,
     );
   }

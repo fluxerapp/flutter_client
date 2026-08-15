@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_folder_menu_data.dart';
@@ -15,6 +14,7 @@ import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 import 'package:fluxer_app/features/ui/toggle_switch/fluxer_toggle_switch.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class GuildFolderSettingsModal extends ConsumerStatefulWidget {
@@ -147,7 +147,6 @@ class _GuildFolderSettingsModalState
 
     final String placeholder = _derivedFolderName(folder);
     final bool showCollapsedIcon = (_flags & 1) != 0;
-    final int brandColor = _brandColorInt(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -164,7 +163,6 @@ class _GuildFolderSettingsModalState
         FluxerColorPickerField(
           label: l10n.guildFolderColorLabel,
           value: _color,
-          defaultValue: brandColor,
           onChanged: (int value) => setState(() => _color = value),
         ),
         SizedBox(height: layout.s3),
@@ -230,14 +228,5 @@ class _GuildFolderSettingsModalState
         ),
       ],
     );
-  }
-
-  int _brandColorInt(BuildContext context) {
-    final Color color = Theme.of(context).brightness == Brightness.dark
-        ? context.colors.brandPrimaryLight
-        : context.colors.brandPrimary;
-    return ((color.r * 255).round() << 16) |
-        ((color.g * 255).round() << 8) |
-        (color.b * 255).round();
   }
 }

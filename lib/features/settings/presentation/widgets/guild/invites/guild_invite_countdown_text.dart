@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/utils/guild_invites_utils.dart';
+import 'package:material_ui/material_ui.dart';
 
 class GuildInviteCountdownText extends StatefulWidget {
   const GuildInviteCountdownText({

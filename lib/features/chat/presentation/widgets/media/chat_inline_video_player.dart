@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_thumbhash/flutter_thumbhash.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
@@ -9,19 +9,22 @@ import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_fullscreen_video.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_video_playback_failure_overlay.dart';
 import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
+import 'package:fluxer_app/features/chat/utils/chat_video_hdr_player_config.dart';
 import 'package:fluxer_app/features/chat/utils/chat_video_playback_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
+import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/shared/widgets/shared_video_controls.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart' as mkv;
 
 typedef ChatVideoControlsBuilder = Widget Function(mkv.VideoState state);
 
-class ChatInlineVideoPlayer extends StatefulWidget {
+class ChatInlineVideoPlayer extends ConsumerStatefulWidget {
   const ChatInlineVideoPlayer({
     required this.source,
     this.launchContext,
@@ -40,10 +43,11 @@ class ChatInlineVideoPlayer extends StatefulWidget {
   final bool applyMaxHeight;
 
   @override
-  State<ChatInlineVideoPlayer> createState() => _ChatInlineVideoPlayerState();
+  ConsumerState<ChatInlineVideoPlayer> createState() =>
+      _ChatInlineVideoPlayerState();
 }
 
-class _ChatInlineVideoPlayerState extends State<ChatInlineVideoPlayer> {
+class _ChatInlineVideoPlayerState extends ConsumerState<ChatInlineVideoPlayer> {
   Player? _player;
   mkv.VideoController? _controller;
   StreamSubscription<bool>? _playingSubscription;
@@ -138,6 +142,18 @@ class _ChatInlineVideoPlayerState extends State<ChatInlineVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<HdrDisplayMode>(
+      appearancePreferencesProvider.select(
+        (AppearancePreferencesState state) => state.hdrDisplayMode,
+      ),
+      (HdrDisplayMode? previous, HdrDisplayMode next) {
+        final Player? player = _player;
+        if (player == null || previous == next) {
+          return;
+        }
+        unawaited(applyChatVideoHdrProperties(player, next));
+      },
+    );
     final bool isMobile = isMobileLayout(context);
     final FluxerMediaDimensions dimensions = mediaDimensionsForSize(
       widget.dimensionSize,
@@ -219,6 +235,12 @@ class _ChatInlineVideoPlayerState extends State<ChatInlineVideoPlayer> {
     unawaited(player.setVolume(_volume));
     unawaited(player.setRate(_playbackRate));
     _controller = mkv.VideoController(player);
+    unawaited(
+      applyChatVideoHdrProperties(
+        player,
+        ref.read(appearancePreferencesProvider).hdrDisplayMode,
+      ),
+    );
     _playingSubscription = player.stream.playing.listen((bool playing) {
       if (!mounted) {
         return;

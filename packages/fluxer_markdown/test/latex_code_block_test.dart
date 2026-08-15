@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
+import 'package:fluxer_markdown/src/utils/code_block_highlight.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 import 'package:latext/latext.dart';
+import 'package:material_ui/material_ui.dart';
 
 const FluxerMarkdownConfig _testMarkdownConfig = FluxerMarkdownConfig(
   resolveEmojiShortcode: _noopEmojiShortcode,
@@ -67,7 +67,7 @@ x^2 + y^2 = z^2
 void main() {}
 ```''';
       await _pumpMarkdown(tester, input);
-      expect(find.byType(HighlightView), findsOneWidget);
+      expect(find.byType(FluxerHighlightedCode), findsOneWidget);
       expect(find.byType(LaTexT), findsNothing);
     });
 
@@ -89,7 +89,7 @@ Alert syntax stays literal
     ) async {
       const String input = '```dart\nvoid main() {}```';
       await _pumpMarkdown(tester, input);
-      expect(find.byType(HighlightView), findsOneWidget);
+      expect(find.byType(FluxerHighlightedCode), findsOneWidget);
       expect(find.textContaining('```'), findsNothing);
     });
 

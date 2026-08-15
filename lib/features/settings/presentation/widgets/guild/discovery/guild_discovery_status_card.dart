@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_discovery_application.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/discovery/guild_discovery_status_badge.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/discovery/guild_discovery_surfaces.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 
 class GuildDiscoveryStatusCard extends StatelessWidget {
   const GuildDiscoveryStatusCard({required this.application, super.key});

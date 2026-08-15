@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
@@ -9,6 +8,7 @@ import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_types.d
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/navigation_item_semantics.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Web bottom sheet: 2rem slot, 24px avatars, ~1.75rem channel glyphs.

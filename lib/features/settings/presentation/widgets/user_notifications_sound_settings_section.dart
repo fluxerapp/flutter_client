@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/audio/enums/fluxer_sfx_clip.dart';
 import 'package:fluxer_app/core/providers/fluxer_sfx_provider.dart';
@@ -12,6 +11,7 @@ import 'package:fluxer_app/features/settings/utils/sound_type_utils.dart';
 import 'package:fluxer_app/features/settings/utils/sound_volume_utils.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kMasterVolumeDefault = 100;

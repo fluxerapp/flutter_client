@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/accessibility/text_scale.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
@@ -43,6 +43,7 @@ import 'package:fluxer_app/features/voice/utils/voice_e2ee_display.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_dart/gateway.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 /// The chat header bar showing channel name, topic, and action icons.
@@ -200,31 +201,33 @@ class ChannelHeader extends ConsumerWidget {
     required bool isMemberListVisible,
     required bool highContrast,
   }) {
-    return SizedBox(
-      height: context.layout.headerHeight,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: context.layout.s4),
-        child: Row(
-          children: [
-            Expanded(
-              child: ChannelHeaderLeftSection(
+    return FluxerConstrainedUiTextScale(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(minHeight: context.layout.headerHeight),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: context.layout.s4),
+          child: Row(
+            children: [
+              Expanded(
+                child: ChannelHeaderLeftSection(
+                  channelId: channelId,
+                  channel: channel,
+                  dm: dm,
+                  isPersonalNotes: isPersonalNotes,
+                  highContrast: highContrast,
+                ),
+              ),
+              ChannelHeaderToolbar(
                 channelId: channelId,
                 channel: channel,
                 dm: dm,
                 isPersonalNotes: isPersonalNotes,
+                isMemberListVisible: isMemberListVisible,
+                showMessageActions: showMessageActions,
                 highContrast: highContrast,
               ),
-            ),
-            ChannelHeaderToolbar(
-              channelId: channelId,
-              channel: channel,
-              dm: dm,
-              isPersonalNotes: isPersonalNotes,
-              isMemberListVisible: isMemberListVisible,
-              showMessageActions: showMessageActions,
-              highContrast: highContrast,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -252,150 +255,152 @@ class ChannelHeader extends ConsumerWidget {
       chatBackButtonUnreadCountProvider(channelId),
     );
 
-    return Container(
-      height: kMobileChannelHeaderHeight,
-      color: context.colors.chatInputBackground,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: [
-          ChatBackButton(
-            unreadCount: backButtonUnreadCount,
-            onPressed: () => _handleMobileBack(context, ref),
-          ),
-          Expanded(
-            child: Semantics(
-              button: true,
-              label: 'Open channel details',
-              child: InkWell(
-                onTap: () =>
-                    _openDetails(context, ref, channel: channel, dm: dm),
-                borderRadius: BorderRadius.circular(6),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 2,
-                    vertical: 6,
-                  ),
-                  child: Row(
-                    children: [
-                      _buildMobileLeadingIcon(
-                        context,
-                        ref,
-                        channel: channel,
-                        dm: dm,
-                        isPersonalNotes: isPersonalNotes,
-                      ),
-                      const SizedBox(width: 6),
-                      Flexible(
-                        child: Text(
-                          resolveChannelHeaderTitle(
-                            ref,
-                            channelId: channelId,
-                            l10n: l10n,
-                            channel: channel,
-                            dm: dm,
-                            isPersonalNotes: isPersonalNotes,
-                          ),
-                          style: context.textStyles.channelName,
-                          overflow: TextOverflow.ellipsis,
+    return FluxerConstrainedUiTextScale(
+      child: Container(
+        constraints: const BoxConstraints(
+          minHeight: kMobileChannelHeaderHeight,
+        ),
+        color: context.colors.chatInputBackground,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          children: [
+            ChatBackButton(
+              unreadCount: backButtonUnreadCount,
+              onPressed: () => _handleMobileBack(context, ref),
+            ),
+            Expanded(
+              child: Semantics(
+                button: true,
+                label: 'Open channel details',
+                child: InkWell(
+                  onTap: () =>
+                      _openDetails(context, ref, channel: channel, dm: dm),
+                  borderRadius: BorderRadius.circular(6),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 2,
+                      vertical: 6,
+                    ),
+                    child: Row(
+                      children: [
+                        _buildMobileLeadingIcon(
+                          context,
+                          ref,
+                          channel: channel,
+                          dm: dm,
+                          isPersonalNotes: isPersonalNotes,
                         ),
-                      ),
-                      if (dm != null && isBotOrSystemDmRecipient(dm)) ...[
                         const SizedBox(width: 6),
-                        FluxerUserTag(isSystem: dm.isSystem),
+                        Flexible(
+                          child: Text(
+                            resolveChannelHeaderTitle(
+                              ref,
+                              channelId: channelId,
+                              l10n: l10n,
+                              channel: channel,
+                              dm: dm,
+                              isPersonalNotes: isPersonalNotes,
+                            ),
+                            style: context.textStyles.channelName,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        if (dm != null && isBotOrSystemDmRecipient(dm)) ...[
+                          const SizedBox(width: 6),
+                          FluxerUserTag(isSystem: dm.isSystem),
+                        ],
+                        const SizedBox(width: 4),
+                        PhosphorIcon(
+                          PhosphorIconsBold.caretRight,
+                          size: 16,
+                          color: context.colors.textPrimaryMuted,
+                        ),
                       ],
-                      const SizedBox(width: 4),
-                      PhosphorIcon(
-                        PhosphorIconsBold.caretRight,
-                        size: 16,
-                        color: context.colors.textPrimaryMuted,
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            spacing: 8,
-            children: [
-              if (showMessageActions &&
-                  showFavorites &&
-                  !isPersonalNotes &&
-                  targetChannelId != null)
-                FluxerGestureDetector(
-                  onLongPress: () => _showFavoriteActions(context, ref),
-                  child: FluxerButton.circle(
-                    icon: isFavorite
-                        ? PhosphorIconsFill.star
-                        : PhosphorIconsBold.star,
-                    variant: isFavorite
-                        ? FluxerButtonVariant.primary
-                        : FluxerButtonVariant.secondary,
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 8,
+              children: [
+                if (showMessageActions &&
+                    showFavorites &&
+                    !isPersonalNotes &&
+                    targetChannelId != null)
+                  FluxerGestureDetector(
+                    onLongPress: () => _showFavoriteActions(context, ref),
+                    child: FluxerButton.circle(
+                      icon: isFavorite
+                          ? PhosphorIconsFill.star
+                          : PhosphorIconsBold.star,
+                      variant: isFavorite
+                          ? FluxerButtonVariant.primary
+                          : FluxerButtonVariant.secondary,
+                      size: FluxerButtonSize.small,
+                      iconSize: 20,
+                      onPressedAsync: () => _toggleFavorite(
+                        context,
+                        ref,
+                        channel: channel,
+                        dm: dm,
+                        isFavorite: isFavorite,
+                      ),
+                    ),
+                  ),
+                if (dm != null && canStartDmCall(dm)) ...[
+                  FluxerButton.circle(
+                    icon: PhosphorIconsFill.phone,
+                    variant: FluxerButtonVariant.secondary,
                     size: FluxerButtonSize.small,
                     iconSize: 20,
-                    onPressedAsync: () => _toggleFavorite(
-                      context,
-                      ref,
-                      channel: channel,
+                    onPressed: () => _executeOutboundDmCall(
+                      ref: ref,
+                      context: context,
                       dm: dm,
-                      isFavorite: isFavorite,
                     ),
                   ),
-                ),
-              if (dm != null && canStartDmCall(dm)) ...[
-                FluxerButton.circle(
-                  icon: PhosphorIconsFill.phone,
-                  variant: FluxerButtonVariant.secondary,
-                  size: FluxerButtonSize.small,
-                  iconSize: 20,
-                  onPressed: () => _executeOutboundDmCall(
-                    ref: ref,
-                    context: context,
-                    dm: dm,
-                  ),
-                ),
-                FluxerButton.circle(
-                  icon: PhosphorIconsFill.videoCamera,
-                  variant: FluxerButtonVariant.secondary,
-                  size: FluxerButtonSize.small,
-                  iconSize: 20,
-                  onPressed: () => _executeOutboundDmCall(
-                    ref: ref,
-                    context: context,
-                    dm: dm,
-                    startWithVideo: true,
-                  ),
-                ),
-              ],
-              if (showMessageActions && dm == null && channel != null)
-                FluxerButton.circle(
-                  icon: PhosphorIconsBold.magnifyingGlass,
-                  variant: FluxerButtonVariant.secondary,
-                  size: FluxerButtonSize.small,
-                  iconSize: 20,
-                  onPressed: () => unawaited(
-                    showChannelSearchSheetAndJump(
-                      context,
-                      container: ref.container,
-                      channelId: channel.id,
-                      guildId: channel.guildId,
-                      title: channel.name,
-                      channel: channel,
+                  FluxerButton.circle(
+                    icon: PhosphorIconsFill.videoCamera,
+                    variant: FluxerButtonVariant.secondary,
+                    size: FluxerButtonSize.small,
+                    iconSize: 20,
+                    onPressed: () => _executeOutboundDmCall(
+                      ref: ref,
+                      context: context,
+                      dm: dm,
+                      startWithVideo: true,
                     ),
                   ),
-                ),
-              if (channel != null &&
-                  channel.type == ChannelType.guildVoice) ...[
-                ChatButton(
-                  channelId: channel.id,
-                  channelName: channel.name.isNotEmpty ? channel.name : null,
-                ),
-                if (isMobileVoiceCameraPlatform()) const FlipCameraButton(),
+                ],
+                if (showMessageActions && dm == null && channel != null)
+                  FluxerButton.circle(
+                    icon: PhosphorIconsBold.magnifyingGlass,
+                    variant: FluxerButtonVariant.secondary,
+                    size: FluxerButtonSize.small,
+                    iconSize: 20,
+                    onPressed: () => unawaited(
+                      showChannelSearchPageAndJump(
+                        context,
+                        container: ref.container,
+                        channelId: channel.id,
+                        guildId: channel.guildId,
+                      ),
+                    ),
+                  ),
+                if (channel != null &&
+                    channel.type == ChannelType.guildVoice) ...[
+                  ChatButton(
+                    channelId: channel.id,
+                    channelName: channel.name.isNotEmpty ? channel.name : null,
+                  ),
+                  if (isMobileVoiceCameraPlatform()) const FlipCameraButton(),
+                ],
               ],
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/ban_member_sheet.dart';
@@ -10,6 +9,7 @@ import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 void appendGuildMemberModerationMenuItems({
@@ -137,10 +137,7 @@ void appendGuildMemberModerationMenuItems({
                 .updateGuildMember(
                   guildId: guildId,
                   userId: userId,
-                  body: GuildMemberUpdateRequest(
-                    nick: currentNick,
-                    communicationDisabledUntil: null,
-                  ),
+                  body: GuildMemberUpdateRequest(nick: currentNick),
                 ),
           );
         },

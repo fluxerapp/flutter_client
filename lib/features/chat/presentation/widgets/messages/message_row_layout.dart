@@ -17,3 +17,8 @@ const double kSystemMessageIconSize = 18;
 const double kSystemMessageBodyFontSize = 14;
 const double kSystemMessageTimestampFontSize = 10;
 const String kSystemMessageTimestampLeading = ' ';
+
+const double kCompactAvatarSize = 16;
+const double kCompactTimestampGap = 4;
+const double kCompactAuthorGap = 4;
+const double kCompactSystemIconSize = 14;

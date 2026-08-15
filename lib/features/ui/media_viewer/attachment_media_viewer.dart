@@ -3,14 +3,15 @@ import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/media_options_launch_context.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/mobile_media_options_sheet.dart';
+import 'package:fluxer_app/features/chat/utils/hdr_aware_image_url.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
+import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/media_viewer/media_viewer_dismiss.dart';
@@ -19,6 +20,7 @@ import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class AttachmentMediaViewerItem {
@@ -31,6 +33,7 @@ class AttachmentMediaViewerItem {
     this.attachmentId,
     this.embedIndex,
     this.proxyUrl,
+    this.contentType,
     this.isExpired = false,
   });
 
@@ -42,6 +45,7 @@ class AttachmentMediaViewerItem {
   final String? attachmentId;
   final int? embedIndex;
   final String? proxyUrl;
+  final String? contentType;
   final bool isExpired;
 }
 
@@ -605,8 +609,19 @@ class _AttachmentMediaViewerShellState
     required bool useTouchGestures,
     required int index,
   }) {
+    final HdrDisplayMode hdrDisplayMode = ref.watch(
+      appearancePreferencesProvider.select(
+        (AppearancePreferencesState state) => state.hdrDisplayMode,
+      ),
+    );
+    final String imageUrl = buildHdrAwareDisplayImageUrl(
+      url: item.url,
+      proxyUrl: item.proxyUrl,
+      mode: hdrDisplayMode,
+      contentType: item.contentType,
+    );
     final Widget image = CachedNetworkImage(
-      imageUrl: item.url,
+      imageUrl: imageUrl,
       fit: BoxFit.contain,
       errorBuilder: (_, _, _) => ColoredBox(
         color: context.colors.backgroundSecondaryAlt,
@@ -771,7 +786,7 @@ class _MediaViewerInfoPill extends StatelessWidget {
   }
 }
 
-class _MediaViewerThumbnailStrip extends StatelessWidget {
+class _MediaViewerThumbnailStrip extends ConsumerWidget {
   const _MediaViewerThumbnailStrip({
     required this.items,
     required this.currentIndex,
@@ -785,7 +800,12 @@ class _MediaViewerThumbnailStrip extends StatelessWidget {
   final ValueChanged<int> onSelectIndex;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final HdrDisplayMode hdrDisplayMode = ref.watch(
+      appearancePreferencesProvider.select(
+        (AppearancePreferencesState state) => state.hdrDisplayMode,
+      ),
+    );
     return SizedBox(
       height: 70,
       child: ListView.separated(
@@ -824,7 +844,12 @@ class _MediaViewerThumbnailStrip extends StatelessWidget {
                             child: const SizedBox.expand(),
                           )
                         : CachedNetworkImage(
-                            imageUrl: item.url,
+                            imageUrl: buildHdrAwareDisplayImageUrl(
+                              url: item.url,
+                              proxyUrl: item.proxyUrl,
+                              mode: hdrDisplayMode,
+                              contentType: item.contentType,
+                            ),
                             fit: BoxFit.cover,
                           ),
                   ),

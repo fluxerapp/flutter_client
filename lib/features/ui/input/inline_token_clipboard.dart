@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/features/chat/service/composer_mention_controller.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:super_clipboard/super_clipboard.dart';
 
 const int _kComposerPrivateUseStart = 0xE000;
@@ -179,17 +179,18 @@ Future<void> pasteIntoTextController(TextEditingController controller) async {
   }
   final TextEditingValue oldValue = controller.value;
   final TextSelection selection = oldValue.selection;
-  if (!selection.isValid) {
-    return;
-  }
+  final int insertStart = selection.isValid
+      ? selection.start
+      : oldValue.text.length;
+  final int insertEnd = selection.isValid ? selection.end : insertStart;
   final String newText = oldValue.text.replaceRange(
-    selection.start,
-    selection.end,
+    insertStart,
+    insertEnd,
     text,
   );
   controller.value = oldValue.copyWith(
     text: newText,
-    selection: TextSelection.collapsed(offset: selection.start + text.length),
+    selection: TextSelection.collapsed(offset: insertStart + text.length),
     composing: TextRange.empty,
   );
 }

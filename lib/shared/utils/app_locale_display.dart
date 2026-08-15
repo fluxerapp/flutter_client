@@ -1,7 +1,7 @@
 import 'package:country_flags/country_flags.dart';
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/l10n/fluxer_localizations_utils.dart';
 import 'package:fluxer_dart/models/locale.dart' as sdk;
+import 'package:material_ui/material_ui.dart';
 
 class AppLocaleDisplayInfo {
   const AppLocaleDisplayInfo({
@@ -292,4 +292,45 @@ String? _countryCodeFromLocaleTag(String tag) {
     return null;
   }
   return parts[1].toUpperCase();
+}
+
+const Map<String, String> _languageCodeAliases = <String, String>{
+  'nb': 'no',
+  'nn': 'no',
+  'iw': 'he',
+  'in': 'id',
+};
+
+final Map<String, AppLocaleDisplayInfo> _appLocaleDisplayInfoByLanguageCode =
+    <String, AppLocaleDisplayInfo>{
+      for (final AppLocaleDisplayInfo info in _appLocaleDisplayInfoByTag.values)
+        info.languageCode: info,
+    };
+
+String appLanguageDisplayName(String languageTag) {
+  final String normalized = languageTag.trim().replaceAll('_', '-');
+  if (normalized.isEmpty) {
+    return languageTag;
+  }
+  final AppLocaleDisplayInfo? exact = _appLocaleDisplayInfoByTag[normalized];
+  if (exact != null) {
+    return _languageOnlyDisplayName(exact);
+  }
+  final String language = normalized.split('-').first.toLowerCase();
+  final String lookup = _languageCodeAliases[language] ?? language;
+  final AppLocaleDisplayInfo? info =
+      _appLocaleDisplayInfoByTag[lookup] ??
+      _appLocaleDisplayInfoByLanguageCode[lookup];
+  if (info != null) {
+    return _languageOnlyDisplayName(info);
+  }
+  return language;
+}
+
+String _languageOnlyDisplayName(AppLocaleDisplayInfo info) {
+  final int paren = info.name.indexOf(' (');
+  if (paren > 0) {
+    return info.name.substring(0, paren);
+  }
+  return info.name;
 }

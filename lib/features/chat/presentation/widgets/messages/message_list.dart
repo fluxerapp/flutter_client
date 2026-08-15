@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as drift_db;
@@ -11,6 +10,8 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
+import 'package:fluxer_app/features/accessibility/effective_motion_preferences_provider.dart';
+import 'package:fluxer_app/features/accessibility/message_group_spacing.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/chat/data/chat_unread_summary.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -28,6 +29,7 @@ import 'package:fluxer_app/features/chat/presentation/'
     'sheets/remove_all_reactions_confirm_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'sheets/system_message_actions_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_composer_layout.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/animated_image_playback_controller.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/blocked_message_groups.dart';
@@ -78,8 +80,11 @@ import 'package:fluxer_app/features/input/providers/message_keyboard_navigation_
 import 'package:fluxer_app/features/moderation/iar/iar_flow.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_simple_report_sheet.dart';
 import 'package:fluxer_app/features/moderation/providers/local_user_spam_override_provider.dart';
+import 'package:fluxer_app/features/settings/domain/search_provider_engine.dart';
+import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
@@ -87,9 +92,11 @@ import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/markdown/message_markdown_settings.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kUnreadDividerHeight = 16.0;
@@ -97,7 +104,10 @@ const _kUnreadDateDividerHeight = 20.0;
 const _kMessageListScrollCacheExtent = 1200.0;
 const _kMessageListCompactScrollCacheExtent = 400.0;
 
-const _kMessageListStatusOverlayInset = 16.0;
+const double _kMessageListStatusOverlayInsetMobile =
+    WideComposerLayout.mobileMessageListTrailingInset;
+const double _kMessageListStatusOverlayInsetWide =
+    WideComposerLayout.messageListTrailingInset;
 
 /// Trailing-run length at which a pinned reader is re-anchored to the tail.
 const int _kPinnedRecenterTrailingThreshold = 60;
@@ -663,10 +673,14 @@ class _MessageListState extends ConsumerState<MessageList> {
   double _centerLeadingDistance(ScrollPosition position) =>
       position.pixels - position.minScrollExtent;
 
+  double _statusOverlayInset(BuildContext context) => isMobileLayout(context)
+      ? _kMessageListStatusOverlayInsetMobile
+      : _kMessageListStatusOverlayInsetWide;
+
   double _centerTrailingDistance(ScrollPosition position) =>
       (position.maxScrollExtent -
               position.pixels -
-              _kMessageListStatusOverlayInset)
+              _statusOverlayInset(context))
           .clamp(0, double.infinity);
 
   /// Sign adapter for scroll deltas: positive = toward the OLDER edge.
@@ -1498,7 +1512,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     final bool isGrouped = computeMessageRowGrouped(
       message: message,
       previousMessage: previousMessage,
-      messageDisplayCompact: renderSettings.messageDisplayCompact,
       isNewDay: isNewDay,
     );
     final bool isJumpHighlighted = message.id == highlightedMessageId;
@@ -2525,7 +2538,7 @@ class _MessageListState extends ConsumerState<MessageList> {
                   onScrollMetricsNotification: _onScrollMetricsNotification,
                   isLoadingMore: isLoadingMore,
                   isLoadingNewer: isLoadingNewer,
-                  trailingInset: _kMessageListStatusOverlayInset,
+                  trailingInset: _statusOverlayInset(context),
                   startOfChannelHeader: startOfChannelHeader,
                 ),
               );
@@ -2534,15 +2547,18 @@ class _MessageListState extends ConsumerState<MessageList> {
             final double scaleRatio = chatFontSize / 16.0;
             final bool showUnreadBar =
                 !isLoading && messages.isNotEmpty && showUnreadBarEligible;
-            return MessageListOverlay(
-              body: MessageListBody(child: body),
-              showUnreadBar: showUnreadBar,
-              unreadCount: unreadCount,
-              isEstimated: unreadSummary.isEstimated,
-              unreadSince: unreadSince,
-              onJumpToUnread: _onUnreadBarJump,
-              onMarkRead: _onUnreadBarMarkRead,
-              scaleRatio: scaleRatio,
+            return MessageMarkdownSettingsScope(
+              settings: messageRenderSettings.markdown,
+              child: MessageListOverlay(
+                body: MessageListBody(child: body),
+                showUnreadBar: showUnreadBar,
+                unreadCount: unreadCount,
+                isEstimated: unreadSummary.isEstimated,
+                unreadSince: unreadSince,
+                onJumpToUnread: _onUnreadBarJump,
+                onMarkRead: _onUnreadBarMarkRead,
+                scaleRatio: scaleRatio,
+              ),
             );
           },
     );
@@ -2770,6 +2786,12 @@ class _MessageListSettingsLayer extends ConsumerWidget {
             (AsyncValue<Guild?> guild) => guild.value?.isSendDisabled ?? false,
           ),
         );
+    final SearchEnginesState searchEngines = ref.watch(
+      advancedPreferencesProvider.select((s) => s.searchEngines),
+    );
+    final bool messageDisplayCompact = ref.watch(
+      userSettingsViewModelProvider.select((s) => s.messageDisplayCompact),
+    );
     final MessageRenderSettings settings = MessageRenderSettings(
       activeGuildId: guildId,
       renderEmbeds: ref.watch(
@@ -2792,10 +2814,37 @@ class _MessageListSettingsLayer extends ConsumerWidget {
       // Rebuild only when media sizes change.
       chatPreferences: _watchChatMediaPreferences(ref),
       messageGroupSpacing: ref.watch(
-        appearancePreferencesProvider.select((s) => s.messageGroupSpacing),
+        appearancePreferencesProvider.select(
+          (AppearancePreferencesState s) => messageGroupSpacingForDisplayMode(
+            messageGroupSpacing: s.messageGroupSpacing,
+            compactMessageGroupSpacing: s.compactMessageGroupSpacing,
+            messageDisplayCompact: messageDisplayCompact,
+          ),
+        ),
       ),
-      messageDisplayCompact: ref.watch(
-        userSettingsViewModelProvider.select((s) => s.messageDisplayCompact),
+      messageDisplayCompact: messageDisplayCompact,
+      showUserAvatarsInCompactMode: ref.watch(
+        appearancePreferencesProvider.select(
+          (s) => s.showUserAvatarsInCompactMode,
+        ),
+      ),
+      markdown: MessageMarkdownSettings(
+        use12Hour: ref.watch(use12HourTimeFormatProvider),
+        alwaysUnderlineLinks: ref.watch(
+          appearancePreferencesProvider.select((s) => s.alwaysUnderlineLinks),
+        ),
+        dimStrikethroughText: ref.watch(
+          appearancePreferencesProvider.select((s) => s.dimStrikethroughText),
+        ),
+        animateCustomEmoji: effectiveMotionOf(
+          ref,
+          context,
+        ).effectiveAnimateEmoji,
+        enableTextSelection: ref.watch(
+          advancedPreferencesProvider.select((s) => s.enableTextSelection),
+        ),
+        searchEngines: searchEngines,
+        selectionContextMenuBuilder: selectionMenuBuilderFor(searchEngines),
       ),
     );
     return builder(context, settings, guildId, isGuildSendDisabled, (

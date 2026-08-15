@@ -1,7 +1,7 @@
 import 'package:desktop_drop/desktop_drop.dart';
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:material_ui/material_ui.dart';
 
 class GuildUploadDropZone extends StatefulWidget {
   const GuildUploadDropZone({

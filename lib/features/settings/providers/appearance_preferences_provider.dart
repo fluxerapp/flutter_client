@@ -20,6 +20,15 @@ enum ChannelTypingIndicatorMode { avatars, indicatorOnly, hidden }
 
 enum DmMessagePreviewMode { all, unreadOnly, none }
 
+enum HdrDisplayMode { full, standard }
+
+HdrDisplayMode hdrDisplayModeFromName(String? name) {
+  return HdrDisplayMode.values.firstWhere(
+    (HdrDisplayMode mode) => mode.name == name,
+    orElse: () => HdrDisplayMode.full,
+  );
+}
+
 DmMessagePreviewMode defaultDmMessagePreviewMode() {
   if (kIsWeb) {
     return DmMessagePreviewMode.none;
@@ -61,6 +70,7 @@ class AppearancePreferencesState {
     this.useSystemLocaleForTimeFormat = false,
     this.messageGroupSpacing = 16,
     this.compactMessageGroupSpacing = 0,
+    this.showUserAvatarsInCompactMode = false,
     this.showMediaDeleteButton = true,
     this.showMediaDownloadButton = true,
     this.showMediaFavoriteButton = true,
@@ -85,6 +95,8 @@ class AppearancePreferencesState {
     this.keepAnimatedEmojiUnderReducedMotion = false,
     this.keepGifAutoPlayUnderReducedMotion = false,
     this.keepStickerAnimationUnderReducedMotion = false,
+    this.mobileSplashZoomAnimation = true,
+    this.hdrDisplayMode = HdrDisplayMode.full,
   });
 
   final ChannelTypingIndicatorMode channelTypingIndicatorMode;
@@ -99,6 +111,7 @@ class AppearancePreferencesState {
   final bool useSystemLocaleForTimeFormat;
   final double messageGroupSpacing;
   final double compactMessageGroupSpacing;
+  final bool showUserAvatarsInCompactMode;
   final bool showMediaDeleteButton;
   final bool showMediaDownloadButton;
   final bool showMediaFavoriteButton;
@@ -123,6 +136,8 @@ class AppearancePreferencesState {
   final bool keepAnimatedEmojiUnderReducedMotion;
   final bool keepGifAutoPlayUnderReducedMotion;
   final bool keepStickerAnimationUnderReducedMotion;
+  final bool mobileSplashZoomAnimation;
+  final HdrDisplayMode hdrDisplayMode;
 
   AppearancePreferencesState copyWith({
     ChannelTypingIndicatorMode? channelTypingIndicatorMode,
@@ -137,6 +152,7 @@ class AppearancePreferencesState {
     bool? useSystemLocaleForTimeFormat,
     double? messageGroupSpacing,
     double? compactMessageGroupSpacing,
+    bool? showUserAvatarsInCompactMode,
     bool? showMediaDeleteButton,
     bool? showMediaDownloadButton,
     bool? showMediaFavoriteButton,
@@ -161,6 +177,8 @@ class AppearancePreferencesState {
     bool? keepAnimatedEmojiUnderReducedMotion,
     bool? keepGifAutoPlayUnderReducedMotion,
     bool? keepStickerAnimationUnderReducedMotion,
+    bool? mobileSplashZoomAnimation,
+    HdrDisplayMode? hdrDisplayMode,
   }) {
     return AppearancePreferencesState(
       channelTypingIndicatorMode:
@@ -181,6 +199,8 @@ class AppearancePreferencesState {
       messageGroupSpacing: messageGroupSpacing ?? this.messageGroupSpacing,
       compactMessageGroupSpacing:
           compactMessageGroupSpacing ?? this.compactMessageGroupSpacing,
+      showUserAvatarsInCompactMode:
+          showUserAvatarsInCompactMode ?? this.showUserAvatarsInCompactMode,
       showMediaDeleteButton:
           showMediaDeleteButton ?? this.showMediaDeleteButton,
       showMediaDownloadButton:
@@ -230,6 +250,9 @@ class AppearancePreferencesState {
       keepStickerAnimationUnderReducedMotion:
           keepStickerAnimationUnderReducedMotion ??
           this.keepStickerAnimationUnderReducedMotion,
+      mobileSplashZoomAnimation:
+          mobileSplashZoomAnimation ?? this.mobileSplashZoomAnimation,
+      hdrDisplayMode: hdrDisplayMode ?? this.hdrDisplayMode,
     );
   }
 }
@@ -298,6 +321,8 @@ class AppearancePreferences extends _$AppearancePreferences {
             prefs.keepGifAutoPlayUnderReducedMotion,
         keepStickerAnimationUnderReducedMotion:
             prefs.keepStickerAnimationUnderReducedMotion,
+        mobileSplashZoomAnimation: prefs.mobileSplashZoomAnimation,
+        hdrDisplayMode: hdrDisplayModeFromName(prefs.hdrDisplayMode),
       );
     }
   }
@@ -316,6 +341,7 @@ class AppearancePreferences extends _$AppearancePreferences {
         useSystemLocaleForTimeFormat: value.useSystemLocaleForTimeFormat,
         messageGroupSpacing: value.messageGroupSpacing,
         compactMessageGroupSpacing: value.compactMessageGroupSpacing,
+        showUserAvatarsInCompactMode: value.showUserAvatarsInCompactMode,
         showMediaDeleteButton: value.showMediaDeleteButton,
         showMediaDownloadButton: value.showMediaDownloadButton,
         showMediaFavoriteButton: value.showMediaFavoriteButton,
@@ -338,6 +364,8 @@ class AppearancePreferences extends _$AppearancePreferences {
         mobileGifAutoplayValue: value.mobileGifAutoplayValue,
         mobileAnimateEmojiValue: value.mobileAnimateEmojiValue,
         mobileStickerAnimationValue: value.mobileStickerAnimationValue,
+        mobileSplashZoomAnimation: value.mobileSplashZoomAnimation,
+        hdrDisplayMode: value.hdrDisplayMode,
       );
       await _persist();
     } finally {
@@ -412,8 +440,20 @@ class AppearancePreferences extends _$AppearancePreferences {
     await _persist();
   }
 
+  Future<void> setMobileSplashZoomAnimation({required bool value}) async {
+    state = state.copyWith(mobileSplashZoomAnimation: value);
+    await _persist();
+    _markAccessibilityDirty();
+  }
+
   Future<void> setDmMessagePreviewMode(DmMessagePreviewMode mode) async {
     state = state.copyWith(dmMessagePreviewMode: mode);
+    await _persist();
+    _markAccessibilityDirty();
+  }
+
+  Future<void> setHdrDisplayMode(HdrDisplayMode mode) async {
+    state = state.copyWith(hdrDisplayMode: mode);
     await _persist();
     _markAccessibilityDirty();
   }
@@ -439,6 +479,27 @@ class AppearancePreferences extends _$AppearancePreferences {
   Future<void> setHideKeyboardHints({required bool value}) async {
     state = state.copyWith(hideKeyboardHints: value);
     await _persist();
+    _markAccessibilityDirty();
+  }
+
+  Future<void> setMessageGroupSpacing({
+    required bool messageDisplayCompact,
+    required double spacing,
+  }) async {
+    state = state.copyWith(
+      messageGroupSpacing: messageDisplayCompact
+          ? state.messageGroupSpacing
+          : spacing,
+      compactMessageGroupSpacing: messageDisplayCompact
+          ? spacing
+          : state.compactMessageGroupSpacing,
+    );
+    await _persist();
+    _markAccessibilityDirty();
+  }
+
+  Future<void> setShowUserAvatarsInCompactMode({required bool value}) async {
+    state = state.copyWith(showUserAvatarsInCompactMode: value);
     _markAccessibilityDirty();
   }
 
@@ -680,6 +741,8 @@ class AppearancePreferences extends _$AppearancePreferences {
         keepStickerAnimationUnderReducedMotion: Value(
           state.keepStickerAnimationUnderReducedMotion,
         ),
+        mobileSplashZoomAnimation: Value(state.mobileSplashZoomAnimation),
+        hdrDisplayMode: Value(state.hdrDisplayMode.name),
       ),
     );
   }

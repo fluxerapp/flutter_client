@@ -147,9 +147,11 @@ abstract final class FluxerMediaUrl {
     bool animated = false,
     int? size,
   }) {
-    final Map<String, String> query = <String, String>{'quality': 'lossless'};
+    final Map<String, String> query = <String, String>{};
     if (animated) {
       query['animated'] = 'true';
+    } else {
+      query['quality'] = 'lossless';
     }
     if (size != null) {
       query['size'] = '$size';

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
@@ -16,6 +15,7 @@ import 'package:fluxer_app/shared/utils/app_locale_display.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/models/locale.dart' as sdk;
+import 'package:material_ui/material_ui.dart';
 
 class UserLanguageAndTime extends ConsumerWidget {
   const UserLanguageAndTime({super.key, this.scrollController});

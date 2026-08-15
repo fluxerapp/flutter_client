@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
@@ -9,13 +9,15 @@ import 'package:fluxer_markdown/src/parsing/markdown_preprocessor.dart';
 import 'package:fluxer_markdown/src/parsing/message_line_parser.dart';
 import 'package:fluxer_markdown/src/renderers/fluxer_markdown_renderers.dart';
 import 'package:fluxer_markdown/src/utils/highlight_languages.dart';
+import 'package:fluxer_markdown/src/widgets/fluxer_markdown_link_registry.dart';
 import 'package:markdown/markdown.dart' as md;
+import 'package:material_ui/material_ui.dart';
 
 final MarkdownParseCache<(String, FluxerMarkdownFeatures), List<md.Node>>
 _blockNodeCache =
     MarkdownParseCache<(String, FluxerMarkdownFeatures), List<md.Node>>();
 
-class FluxerMarkdown extends StatelessWidget {
+class FluxerMarkdown extends StatefulWidget {
   const FluxerMarkdown({
     required this.data,
     required this.config,
@@ -40,15 +42,140 @@ class FluxerMarkdown extends StatelessWidget {
   final Widget? trailingInlineWidget;
 
   @override
+  State<FluxerMarkdown> createState() => _FluxerMarkdownState();
+}
+
+class _FluxerMarkdownState extends State<FluxerMarkdown> {
+  static final DateTime _timestampLayoutProbe = DateTime.utc(2020, 1, 2, 15, 4);
+
+  List<TapGestureRecognizer> _linkRecognizers = <TapGestureRecognizer>[];
+  List<TapGestureRecognizer> _retiringRecognizers = <TapGestureRecognizer>[];
+
+  Widget? _cachedBody;
+  Object? _cacheKey;
+
+  @override
+  void dispose() {
+    _disposeRecognizers(_linkRecognizers);
+    _disposeRecognizers(_retiringRecognizers);
+    super.dispose();
+  }
+
+  void _disposeRecognizers(List<TapGestureRecognizer> recognizers) {
+    for (final TapGestureRecognizer recognizer in recognizers) {
+      recognizer.dispose();
+    }
+    recognizers.clear();
+  }
+
+  void _beginBodyRebuild() {
+    _disposeRecognizers(_retiringRecognizers);
+    _retiringRecognizers = _linkRecognizers;
+    _linkRecognizers = <TapGestureRecognizer>[];
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      _disposeRecognizers(_retiringRecognizers);
+    });
+  }
+
+  TapGestureRecognizer _obtainRecognizer(VoidCallback onTap) {
+    final TapGestureRecognizer recognizer = TapGestureRecognizer()
+      ..onTap = onTap;
+    _linkRecognizers.add(recognizer);
+    return recognizer;
+  }
+
+  String? _timestampLayoutToken() {
+    final FluxerTimestampFormatter? formatter =
+        widget.config.timestampFormatter;
+    if (formatter == null) {
+      return null;
+    }
+    return formatter(_timestampLayoutProbe, 't');
+  }
+
+  Object _layoutCacheKey({
+    required BuildContext context,
+    required TextStyle style,
+    required bool isDark,
+    required TextScaler textScaler,
+  }) {
+    return (
+      widget.data,
+      widget.context,
+      widget.selectable,
+      widget.maxLines,
+      widget.overflow,
+      widget.parseCacheKey,
+      widget.trailingInlineWidget,
+      widget.baseStyle,
+      style,
+      isDark,
+      textScaler,
+      MediaQuery.maybeOf(context)?.boldText ?? false,
+      Directionality.maybeOf(context),
+      Localizations.maybeLocaleOf(context),
+      _timestampLayoutToken(),
+      widget.config.layoutCacheKey,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     ensureFluxerMarkdownLanguagesRegistered();
+    return FluxerMarkdownLinkRegistry(
+      obtainRecognizer: _obtainRecognizer,
+      child: Builder(
+        builder: (BuildContext registryContext) {
+          final ThemeData theme = Theme.of(registryContext);
+          final TextStyle style =
+              widget.baseStyle ?? DefaultTextStyle.of(registryContext).style;
+          final bool isDark = theme.brightness == Brightness.dark;
+          final TextScaler textScaler = MediaQuery.textScalerOf(
+            registryContext,
+          );
+          final Object cacheKey = _layoutCacheKey(
+            context: registryContext,
+            style: style,
+            isDark: isDark,
+            textScaler: textScaler,
+          );
+          if (_cachedBody != null && _cacheKey == cacheKey) {
+            return _cachedBody!;
+          }
+          _beginBodyRebuild();
+          _cacheKey = cacheKey;
+          _cachedBody = _buildBody(
+            context: registryContext,
+            theme: theme,
+            style: style,
+            isDark: isDark,
+          );
+          return _cachedBody!;
+        },
+      ),
+    );
+  }
 
-    final theme = Theme.of(context);
-    final style = baseStyle ?? DefaultTextStyle.of(context).style;
-    final isDark = theme.brightness == Brightness.dark;
-    final features = FluxerMarkdownFeatures.forContext(this.context);
-    final processedText = preprocessFluxerMarkdown(data, features);
-    final segments = parseFluxerMarkdownSegments(processedText, features);
+  Widget _buildBody({
+    required BuildContext context,
+    required ThemeData theme,
+    required TextStyle style,
+    required bool isDark,
+  }) {
+    final FluxerMarkdownFeatures features = FluxerMarkdownFeatures.forContext(
+      widget.context,
+    );
+    final String processedText = preprocessFluxerMarkdown(
+      widget.data,
+      features,
+    );
+    final List<FluxerMarkdownSegment> segments = parseFluxerMarkdownSegments(
+      processedText,
+      features,
+    );
 
     if (features.isRestrictedInlinePreview && segments.length > 1) {
       return _buildRestrictedInlinePreviewFromSegments(
@@ -67,17 +194,17 @@ class FluxerMarkdown extends StatelessWidget {
         style: style,
         isDark: isDark,
         features: features,
-        trailingInlineWidget: trailingInlineWidget,
+        trailingInlineWidget: widget.trailingInlineWidget,
       );
     }
 
-    final segmentWidgets = <Widget>[];
+    final List<Widget> segmentWidgets = <Widget>[];
     for (var i = 0; i < segments.length; i++) {
-      final segment = segments[i];
+      final FluxerMarkdownSegment segment = segments[i];
       final bool isLastSegment = i == segments.length - 1;
       final Widget? segmentTrailing =
           isLastSegment && segment is FluxerTextSegment
-          ? trailingInlineWidget
+          ? widget.trailingInlineWidget
           : null;
       segmentWidgets.add(switch (segment) {
         FluxerTextSegment(:final text) => _buildAstMarkdown(
@@ -103,7 +230,7 @@ class FluxerMarkdown extends StatelessWidget {
           allowJumboEmoji: false,
         ),
         FluxerAlertSegment(:final type, :final body) =>
-          (config.alertBuilder ?? defaultFluxerAlertBuilder)(
+          (widget.config.alertBuilder ?? defaultFluxerAlertBuilder)(
             context,
             type,
             _buildAstMarkdown(
@@ -119,20 +246,21 @@ class FluxerMarkdown extends StatelessWidget {
           context: context,
           text: text,
           baseStyle: style,
-          config: config,
+          config: widget.config,
           features: features,
           inlineDocument: _createInlineDocument(features),
-          selectable: selectable,
+          selectable: widget.selectable,
           isDark: isDark,
-          parseCacheKey: parseCacheKey,
+          parseCacheKey: widget.parseCacheKey,
         ),
       });
     }
 
-    if (trailingInlineWidget != null && segments.last is! FluxerTextSegment) {
+    if (widget.trailingInlineWidget != null &&
+        segments.last is! FluxerTextSegment) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [...segmentWidgets, trailingInlineWidget!],
+        children: [...segmentWidgets, widget.trailingInlineWidget!],
       );
     }
 
@@ -149,7 +277,7 @@ class FluxerMarkdown extends StatelessWidget {
     required bool isDark,
     required FluxerMarkdownFeatures features,
   }) {
-    final spans = <InlineSpan>[];
+    final List<InlineSpan> spans = <InlineSpan>[];
     var needsSeparator = false;
     for (final FluxerMarkdownSegment segment in segments) {
       final List<InlineSpan> segmentSpans = switch (segment) {
@@ -175,12 +303,12 @@ class FluxerMarkdown extends StatelessWidget {
               context: context,
               text: text,
               baseStyle: style,
-              config: config,
+              config: widget.config,
               features: features,
               inlineDocument: _createInlineDocument(features),
-              selectable: selectable,
+              selectable: widget.selectable,
               isDark: isDark,
-              parseCacheKey: parseCacheKey,
+              parseCacheKey: widget.parseCacheKey,
             ),
           ),
         ],
@@ -203,8 +331,8 @@ class FluxerMarkdown extends StatelessWidget {
     return RichText(
       text: TextSpan(style: style, children: spans),
       textScaler: MediaQuery.textScalerOf(context),
-      maxLines: maxLines,
-      overflow: overflow ?? TextOverflow.clip,
+      maxLines: widget.maxLines,
+      overflow: widget.overflow ?? TextOverflow.clip,
     );
   }
 
@@ -215,21 +343,21 @@ class FluxerMarkdown extends StatelessWidget {
     required bool isDark,
     required FluxerMarkdownFeatures features,
   }) {
-    final document = _createBlockDocument(features);
-    final normalizedText = normalizeBlockquoteBarMarkdown(text);
-    final nodes = _blockNodeCache.resolve((
-      markdownParseCacheKey(normalizedText, parseCacheKey),
+    final md.Document document = _createBlockDocument(features);
+    final String normalizedText = normalizeBlockquoteBarMarkdown(text);
+    final List<md.Node> nodes = _blockNodeCache.resolve((
+      markdownParseCacheKey(normalizedText, widget.parseCacheKey),
       features,
     ), () => document.parse(normalizedText));
     return collectRestrictedInlinePreviewSpans(
       context: context,
       nodes: nodes,
       baseStyle: style,
-      config: config,
+      config: widget.config,
       features: features,
       isDark: isDark,
-      maxLines: maxLines,
-      overflow: overflow,
+      maxLines: widget.maxLines,
+      overflow: widget.overflow,
     );
   }
 
@@ -242,7 +370,7 @@ class FluxerMarkdown extends StatelessWidget {
     Widget? trailingInlineWidget,
     bool allowJumboEmoji = true,
   }) {
-    if (usesMessageLineParsing(this.context)) {
+    if (usesMessageLineParsing(widget.context)) {
       return _buildMessageLineMarkdown(
         context: context,
         text: text,
@@ -271,7 +399,8 @@ class FluxerMarkdown extends StatelessWidget {
     Widget? trailingInlineWidget,
     bool allowJumboEmoji = true,
   }) {
-    final contentSegments = parseMessageContentStructure(text, features);
+    final List<MessageContentSegment> contentSegments =
+        parseMessageContentStructure(text, features);
     if (contentSegments.isEmpty) {
       if (trailingInlineWidget != null) {
         return trailingInlineWidget;
@@ -287,19 +416,19 @@ class FluxerMarkdown extends StatelessWidget {
         context: context,
         text: (contentSegments.first as MessageTextFlowSegment).text,
         baseStyle: style,
-        config: config,
+        config: widget.config,
         features: features,
         inlineDocument: _createInlineDocument(features),
-        selectable: selectable,
+        selectable: widget.selectable,
         isDark: isDark,
-        parseCacheKey: parseCacheKey,
-        maxLines: maxLines,
-        overflow: overflow,
+        parseCacheKey: widget.parseCacheKey,
+        maxLines: widget.maxLines,
+        overflow: widget.overflow,
         trailingInlineWidget: trailingInlineWidget,
         allowJumboEmoji: allowJumboEmoji,
       );
     }
-    final children = <Widget>[];
+    final List<Widget> children = <Widget>[];
     final FluxerMarkdownBlockRenderState renderState =
         FluxerMarkdownBlockRenderState();
     for (var i = 0; i < contentSegments.length; i++) {
@@ -313,14 +442,14 @@ class FluxerMarkdown extends StatelessWidget {
           context: context,
           text: text,
           baseStyle: style,
-          config: config,
+          config: widget.config,
           features: features,
           inlineDocument: _createInlineDocument(features),
-          selectable: selectable,
+          selectable: widget.selectable,
           isDark: isDark,
-          parseCacheKey: parseCacheKey,
-          maxLines: maxLines,
-          overflow: overflow,
+          parseCacheKey: widget.parseCacheKey,
+          maxLines: widget.maxLines,
+          overflow: widget.overflow,
           trailingInlineWidget: segmentTrailing,
           allowJumboEmoji: allowJumboEmoji,
         ),
@@ -336,12 +465,12 @@ class FluxerMarkdown extends StatelessWidget {
           context: context,
           text: text,
           baseStyle: style,
-          config: config,
+          config: widget.config,
           features: features,
           inlineDocument: _createInlineDocument(features),
-          selectable: selectable,
+          selectable: widget.selectable,
           isDark: isDark,
-          parseCacheKey: parseCacheKey,
+          parseCacheKey: widget.parseCacheKey,
         ),
       });
     }
@@ -368,22 +497,22 @@ class FluxerMarkdown extends StatelessWidget {
     required FluxerMarkdownFeatures features,
     FluxerMarkdownBlockRenderState? renderState,
   }) {
-    final document = _createBlockDocument(features);
-    final normalizedText = normalizeBlockquoteBarMarkdown(text);
-    final nodes = _blockNodeCache.resolve((
-      markdownParseCacheKey(normalizedText, parseCacheKey),
+    final md.Document document = _createBlockDocument(features);
+    final String normalizedText = normalizeBlockquoteBarMarkdown(text);
+    final List<md.Node> nodes = _blockNodeCache.resolve((
+      markdownParseCacheKey(normalizedText, widget.parseCacheKey),
       features,
     ), () => document.parse(normalizedText));
     return buildFluxerMarkdownAst(
       context: context,
       nodes: nodes,
       baseStyle: style,
-      config: config,
+      config: widget.config,
       features: features,
-      selectable: selectable,
+      selectable: widget.selectable,
       isDark: isDark,
-      maxLines: maxLines,
-      overflow: overflow,
+      maxLines: widget.maxLines,
+      overflow: widget.overflow,
       renderState: renderState,
     );
   }
@@ -408,10 +537,10 @@ class FluxerMarkdown extends StatelessWidget {
   List<md.InlineSyntax> _inlineSyntaxes(FluxerMarkdownFeatures features) {
     return fluxerInlineSyntaxes(
       features: features,
-      resolveEmojiShortcode: config.resolveEmojiShortcode,
-      internalLinkPattern: config.internalLinkPattern,
-      includeJumpLinks: config.linkWidgetBuilder != null,
-      unicodeEmojiPattern: config.unicodeEmojiPattern,
+      resolveEmojiShortcode: widget.config.resolveEmojiShortcode,
+      internalLinkPattern: widget.config.internalLinkPattern,
+      includeJumpLinks: widget.config.linkWidgetBuilder != null,
+      unicodeEmojiPattern: widget.config.unicodeEmojiPattern,
     );
   }
 }

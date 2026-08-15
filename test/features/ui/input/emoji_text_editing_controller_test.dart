@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/ui/input/emoji_text_editing_controller.dart';
+import 'package:material_ui/material_ui.dart';
 
 List<InlineSpan> _flattenInlineSpans(InlineSpan span) {
   if (span is TextSpan && span.children != null) {

@@ -3,14 +3,19 @@ import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/prefere
     as pb;
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/custom_theme_css.dart';
+import 'package:fluxer_app/features/accessibility/text_scale.dart';
 import 'package:fluxer_dart/export.dart';
 
 typedef SyncedThemeCustomizationApplier =
     Future<void> Function({
       double? saturationFactor,
       String? customThemeCss,
+      int? chatFontSize,
+      double? scaleFactor,
       bool updateSaturationFactor,
       bool updateCustomThemeCss,
+      bool updateChatFontSize,
+      bool updateScaleFactor,
       bool clearCustomThemeCss,
     });
 
@@ -46,11 +51,13 @@ Future<void> applyThemeCustomizationFromAccessibilityProto(
 ) async {
   final bool hasSaturation = accessibility.hasSaturationFactor();
   final bool hasCustomThemeCssField = accessibility.hasCustomThemeCss();
+  final bool hasFontSize = accessibility.hasFontSize();
+  final bool hasZoomLevel = accessibility.hasZoomLevel();
   final String? normalizedCss = hasCustomThemeCssField
       ? normalizeCustomThemeCss(accessibility.customThemeCss)
       : null;
   final bool hasCustomThemeCss = normalizedCss != null;
-  if (!hasSaturation && !hasCustomThemeCss) {
+  if (!hasSaturation && !hasCustomThemeCss && !hasFontSize && !hasZoomLevel) {
     return;
   }
   await apply(
@@ -58,7 +65,13 @@ Future<void> applyThemeCustomizationFromAccessibilityProto(
         ? clampSaturationFactor(accessibility.saturationFactor)
         : null,
     customThemeCss: normalizedCss,
+    chatFontSize: hasFontSize ? snapChatFontSize(accessibility.fontSize) : null,
+    scaleFactor: hasZoomLevel
+        ? clampLayoutZoomLevel(protoZoomLevelToFactor(accessibility.zoomLevel))
+        : null,
     updateSaturationFactor: hasSaturation,
     updateCustomThemeCss: hasCustomThemeCss,
+    updateChatFontSize: hasFontSize,
+    updateScaleFactor: hasZoomLevel,
   );
 }

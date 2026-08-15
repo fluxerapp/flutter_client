@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -23,6 +22,7 @@ import 'package:fluxer_app/shared/utils/guild_user_display.dart'
     show GuildUserDisplay, messagePrefersPersistedAuthorDisplay;
 import 'package:fluxer_dart/models/mention_reply_preferences.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kReplyPreviewFontSize = 14;
@@ -338,6 +338,7 @@ class ReplyInputBar extends ConsumerWidget {
   final bool shouldReplyMention;
   final ValueChanged<bool> onToggleMention;
   final VoidCallback onCancel;
+  final bool wideComposerAction;
 
   const ReplyInputBar({
     required this.replyTo,
@@ -345,6 +346,7 @@ class ReplyInputBar extends ConsumerWidget {
     required this.shouldReplyMention,
     required this.onToggleMention,
     required this.onCancel,
+    this.wideComposerAction = false,
     super.key,
   });
 
@@ -365,6 +367,100 @@ class ReplyInputBar extends ConsumerWidget {
     final bool canMention = guildId.isNotEmpty && !isOwnMessage && !isWebhook;
     final bool shouldMention = shouldReplyMention && canMention;
     final Color activeMentionColor = context.colors.markupMentionText;
+    final Widget row = Row(
+      children: [
+        Expanded(
+          child: RichText(
+            overflow: TextOverflow.ellipsis,
+            text: TextSpan(
+              style: context.textStyles.bodySmall,
+              children: [
+                TextSpan(
+                  text: 'Replying to ',
+                  style: context.textStyles.bodySmall.copyWith(
+                    color: context.colors.textPrimaryMuted,
+                  ),
+                ),
+                TextSpan(
+                  text: replyAuthorDisplay.displayName,
+                  style: context.textStyles.categoryName.copyWith(
+                    color: context.colors.textChat,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        if (canMention)
+          Tooltip(
+            message: shouldMention
+                ? l10n.chatReplyMentionDisableTooltip
+                : l10n.chatReplyMentionEnableTooltip,
+            child: Semantics(
+              button: true,
+              checked: shouldMention,
+              label: l10n.chatReplyMentionAccessibilityLabel,
+              child: InkWell(
+                onTap: () => unawaited(
+                  _toggleMention(
+                    context: context,
+                    ref: ref,
+                    shouldMention: shouldMention,
+                    authorNickname: replyAuthorDisplay.displayName,
+                    onToggleMention: onToggleMention,
+                  ),
+                ),
+                borderRadius: BorderRadius.circular(4),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: wideComposerAction ? 6 : 12,
+                    vertical: wideComposerAction ? 6 : 8,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      PhosphorIcon(
+                        PhosphorIconsBold.at,
+                        size: 20,
+                        color: shouldMention
+                            ? activeMentionColor
+                            : context.colors.textPrimaryMuted,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        shouldMention
+                            ? l10n.chatReplyMentionOn
+                            : l10n.chatReplyMentionOff,
+                        style: context.textStyles.categoryName.copyWith(
+                          color: shouldMention
+                              ? activeMentionColor
+                              : context.colors.textPrimaryMuted,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        Semantics(
+          label: l10n.chatReplyCancel,
+          child: IconButton(
+            icon: const PhosphorIcon(PhosphorIconsFill.xCircle, size: 16),
+            color: context.colors.textPrimaryMuted,
+            onPressed: onCancel,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(minWidth: 24, minHeight: 24),
+          ),
+        ),
+      ],
+    );
+    if (wideComposerAction) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        child: row,
+      );
+    }
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
@@ -373,94 +469,7 @@ class ReplyInputBar extends ConsumerWidget {
           top: BorderSide(color: context.colors.userAreaDividerColor),
         ),
       ),
-      child: Row(
-        children: [
-          Expanded(
-            child: RichText(
-              overflow: TextOverflow.ellipsis,
-              text: TextSpan(
-                style: context.textStyles.bodySmall,
-                children: [
-                  TextSpan(
-                    text: 'Replying to ',
-                    style: context.textStyles.bodySmall.copyWith(
-                      color: context.colors.textPrimaryMuted,
-                    ),
-                  ),
-                  TextSpan(
-                    text: replyAuthorDisplay.displayName,
-                    style: context.textStyles.categoryName.copyWith(
-                      color: context.colors.textChat,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          if (canMention)
-            Tooltip(
-              message: shouldMention
-                  ? l10n.chatReplyMentionDisableTooltip
-                  : l10n.chatReplyMentionEnableTooltip,
-              child: Semantics(
-                button: true,
-                checked: shouldMention,
-                label: l10n.chatReplyMentionAccessibilityLabel,
-                child: InkWell(
-                  onTap: () => unawaited(
-                    _toggleMention(
-                      context: context,
-                      ref: ref,
-                      shouldMention: shouldMention,
-                      authorNickname: replyAuthorDisplay.displayName,
-                      onToggleMention: onToggleMention,
-                    ),
-                  ),
-                  borderRadius: BorderRadius.circular(4),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 8,
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        PhosphorIcon(
-                          PhosphorIconsBold.at,
-                          size: 20,
-                          color: shouldMention
-                              ? activeMentionColor
-                              : context.colors.textPrimaryMuted,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          shouldMention
-                              ? l10n.chatReplyMentionOn
-                              : l10n.chatReplyMentionOff,
-                          style: context.textStyles.categoryName.copyWith(
-                            color: shouldMention
-                                ? activeMentionColor
-                                : context.colors.textPrimaryMuted,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          Semantics(
-            label: l10n.chatReplyCancel,
-            child: IconButton(
-              icon: const PhosphorIcon(PhosphorIconsFill.xCircle, size: 16),
-              color: context.colors.textPrimaryMuted,
-              onPressed: onCancel,
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(minWidth: 24, minHeight: 24),
-            ),
-          ),
-        ],
-      ),
+      child: row,
     );
   }
 
@@ -507,19 +516,17 @@ class ReplyInputBar extends ConsumerWidget {
 /// The edit bar shown above the input while message editing is active.
 class EditingInputBar extends StatelessWidget {
   final VoidCallback onCancel;
+  final bool wideComposerAction;
 
-  const EditingInputBar({required this.onCancel, super.key});
+  const EditingInputBar({
+    required this.onCancel,
+    this.wideComposerAction = false,
+    super.key,
+  });
 
   @override
-  Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.symmetric(horizontal: 16),
-    decoration: BoxDecoration(
-      color: context.colors.chatInputBackground,
-      border: Border(
-        top: BorderSide(color: context.colors.userAreaDividerColor),
-      ),
-    ),
-    child: Row(
+  Widget build(BuildContext context) {
+    final Widget row = Row(
       children: [
         PhosphorIcon(
           PhosphorIconsFill.pencilSimple,
@@ -547,6 +554,22 @@ class EditingInputBar extends StatelessWidget {
           ),
         ),
       ],
-    ),
-  );
+    );
+    if (wideComposerAction) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        child: row,
+      );
+    }
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      decoration: BoxDecoration(
+        color: context.colors.chatInputBackground,
+        border: Border(
+          top: BorderSide(color: context.colors.userAreaDividerColor),
+        ),
+      ),
+      child: row,
+    );
+  }
 }

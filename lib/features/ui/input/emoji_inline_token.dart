@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
-
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
 import 'package:fluxer_app/shared/utils/emoji_utils.dart'
     show kSkinToneSurrogates, skinToneToName;
+import 'package:material_ui/material_ui.dart';
 
 /// An inline emoji rendered as a monospace `:name:` chip while [wireText]
 /// preserves the outgoing shortcode (`:name:` / `:name::skin-tone-N:`) or

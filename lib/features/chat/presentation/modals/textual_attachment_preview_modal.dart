@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/csv_attachment_table_panel.dart';
@@ -9,6 +8,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/attachments/textua
 import 'package:fluxer_app/features/chat/utils/textual_attachment_fullscreen.dart';
 import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
+import 'package:material_ui/material_ui.dart';
 
 const double _kPreviewModalMaxWidth = 1278;
 const double _kPreviewModalMaxHeight = 1200;

@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:material_ui/material_ui.dart';
 
 extension VisibilityAwareAnimationController on AnimationController {
   /// Repeat while visible/foregrounded; stop otherwise.

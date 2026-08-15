@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' show User;
@@ -13,6 +12,7 @@ import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.da
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/user_area.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/user_panel_widgets.dart';
 import 'package:fluxer_app/features/voice/domain/local_voice_state_data.dart';
@@ -22,8 +22,10 @@ import 'package:fluxer_app/features/voice/providers/voice_connection_stats_provi
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_dart/gateway.dart' show VoiceState;
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:riverpod/src/framework.dart' show Override;
+
 import '../../../helpers/test_l10n.dart';
 
 List<Override> _userAreaOverrides({
@@ -202,6 +204,79 @@ void main() {
       ),
     );
     expect(divider.color, colorTheme.userAreaDividerColor);
+  });
+
+  testWidgets('UserArea reserves bottom safe area on wide layout', (
+    WidgetTester tester,
+  ) async {
+    const double homeIndicatorInset = 34;
+    final colorTheme = buildDarkColorTheme();
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: _userAreaOverrides(
+          voiceSession: _IdleVoiceSession.new,
+          localVoice: _FakeLocalVoiceState.new,
+        ),
+        child: MaterialApp(
+          locale: kTestLocale,
+          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          supportedLocales: FluxerLocalizations.supportedLocales,
+          theme: buildFluxerTheme(
+            colorTheme: colorTheme,
+            textTheme: FluxerTextTheme.fromColors(colorTheme),
+            layoutTheme: FluxerLayoutTheme.scaled(),
+          ),
+          home: const MediaQuery(
+            data: MediaQueryData(
+              size: Size(Breakpoints.shellMinWidth, 900),
+              padding: EdgeInsets.only(bottom: homeIndicatorInset),
+              viewPadding: EdgeInsets.only(bottom: homeIndicatorInset),
+            ),
+            child: Scaffold(body: UserArea()),
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    final SafeArea safeArea = tester.widget<SafeArea>(find.byType(SafeArea));
+    expect(safeArea.bottom, isTrue);
+  });
+
+  testWidgets('UserArea skips bottom safe area on mobile layout', (
+    WidgetTester tester,
+  ) async {
+    final colorTheme = buildDarkColorTheme();
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: _userAreaOverrides(
+          voiceSession: _IdleVoiceSession.new,
+          localVoice: _FakeLocalVoiceState.new,
+        ),
+        child: MaterialApp(
+          locale: kTestLocale,
+          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          supportedLocales: FluxerLocalizations.supportedLocales,
+          theme: buildFluxerTheme(
+            colorTheme: colorTheme,
+            textTheme: FluxerTextTheme.fromColors(colorTheme),
+            layoutTheme: FluxerLayoutTheme.scaled(),
+          ),
+          home: const MediaQuery(
+            data: MediaQueryData(
+              size: Size(390, 844),
+              padding: EdgeInsets.only(bottom: 34),
+              viewPadding: EdgeInsets.only(bottom: 34),
+            ),
+            child: Scaffold(body: UserArea()),
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    final SafeArea safeArea = tester.widget<SafeArea>(find.byType(SafeArea));
+    expect(safeArea.bottom, isFalse);
   });
 }
 

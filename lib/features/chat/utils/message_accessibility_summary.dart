@@ -90,7 +90,7 @@ String? _resolveAccessibilitySummary(
 
   return _summaryFromParts(
     l10n: l10n,
-    content: message.content,
+    content: message.displayedContent,
     stickers: message.stickers,
     attachments: message.attachments,
     embeds: message.embeds,

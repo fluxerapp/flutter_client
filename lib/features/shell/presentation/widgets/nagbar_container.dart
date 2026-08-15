@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/shell/domain/nagbar_state.dart';
 import 'package:fluxer_app/features/shell/domain/nagbar_type.dart';
@@ -14,6 +13,7 @@ import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/terms_acc
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/unclaimed_account_nagbar.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/visionary_mfa_nagbar.dart';
 import 'package:fluxer_app/features/shell/providers/visible_nagbars_provider.dart';
+import 'package:material_ui/material_ui.dart';
 
 class NagbarContainer extends ConsumerWidget {
   const NagbarContainer({super.key});

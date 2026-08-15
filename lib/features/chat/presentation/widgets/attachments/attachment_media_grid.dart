@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -10,14 +10,17 @@ import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attach
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_inline_video_player.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_fullscreen_video.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
+import 'package:fluxer_app/features/chat/utils/hdr_aware_image_url.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
+import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:material_ui/material_ui.dart';
 
-class AttachmentMediaGrid extends StatelessWidget {
+class AttachmentMediaGrid extends ConsumerWidget {
   const AttachmentMediaGrid({
     required this.attachments,
     required this.revealSpoilers,
@@ -36,10 +39,15 @@ class AttachmentMediaGrid extends StatelessWidget {
   final MessageMediaActionScope? mediaActionScope;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     if (attachments.isEmpty) {
       return const SizedBox.shrink();
     }
+    ref.watch(
+      appearancePreferencesProvider.select(
+        (AppearancePreferencesState state) => state.hdrDisplayMode,
+      ),
+    );
     final FluxerMediaDimensions dimensions = mediaDimensionsForSize(
       dimensionSize,
     );
@@ -253,6 +261,9 @@ class AttachmentMediaGrid extends StatelessWidget {
   }) {
     final bool isVideo = attachment.isVideo;
     final bool canOpen = attachment.url.isNotEmpty;
+    final HdrDisplayMode hdrDisplayMode = ProviderScope.containerOf(
+      context,
+    ).read(appearancePreferencesProvider).hdrDisplayMode;
     final double devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
     final FluxerMediaDimensions dimensions = mediaDimensionsForSize(
       dimensionSize,
@@ -260,7 +271,11 @@ class AttachmentMediaGrid extends StatelessWidget {
     final String displayUrl = isVideo
         ? (ChatVideoSource.fromAttachment(attachment, dimensions).posterUrl ??
               '')
-        : attachment.url;
+        : buildHdrAwareImageUrl(
+            url: attachment.proxyUrl ?? attachment.url,
+            mode: hdrDisplayMode,
+            contentType: attachment.contentType,
+          );
     final ({int? width, int? height}) cache = coverDecodeCacheSize(
       cellWidth: cellWidth,
       cellHeight: cellHeight,
@@ -333,6 +348,7 @@ class AttachmentMediaGrid extends StatelessWidget {
                 isMatureMedia: item.isMatureMedia,
                 attachmentId: item.id,
                 proxyUrl: item.proxyUrl,
+                contentType: item.contentType,
                 isExpired: item.expired ?? false,
               ),
             )

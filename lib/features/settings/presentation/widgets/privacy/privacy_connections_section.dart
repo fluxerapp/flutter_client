@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/settings/domain/privacy_permission.dart';
@@ -8,6 +7,7 @@ import 'package:fluxer_app/features/settings/presentation/sheets/privacy_dm_conf
 import 'package:fluxer_app/features/settings/providers/privacy_dashboard_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 
 class PrivacyConnectionsSection extends ConsumerWidget {
   const PrivacyConnectionsSection({super.key});

@@ -46,6 +46,46 @@ void main() {
     });
   });
 
+  group('buildChannelOverviewPatchBody', () {
+    const Channel categoryChannel = Channel(
+      id: 'cat-1',
+      guildId: guildId,
+      name: 'Category',
+      type: ChannelType.guildCategory,
+      nsfwOverride: true,
+    );
+
+    test('includes nsfw_override null when clearing to inherit', () {
+      final ChannelOverviewFormState original =
+          ChannelOverviewFormState.fromChannel(categoryChannel);
+      final ChannelOverviewFormState current = original.copyWith(
+        nsfwOverride: null,
+      );
+      final Map<String, dynamic> body = buildChannelOverviewPatchBody(
+        channel: categoryChannel,
+        current: current,
+        original: original,
+        canManageChannel: true,
+        canUpdateRtcRegion: false,
+      );
+      expect(body.containsKey('nsfw_override'), isTrue);
+      expect(body['nsfw_override'], isNull);
+    });
+
+    test('omits nsfw_override when unchanged', () {
+      final ChannelOverviewFormState original =
+          ChannelOverviewFormState.fromChannel(categoryChannel);
+      final Map<String, dynamic> body = buildChannelOverviewPatchBody(
+        channel: categoryChannel,
+        current: original,
+        original: original,
+        canManageChannel: true,
+        canUpdateRtcRegion: false,
+      );
+      expect(body.containsKey('nsfw_override'), isFalse);
+    });
+  });
+
   group('buildChannelOverviewUpdate', () {
     test('includes only dirty text fields when user can manage channel', () {
       final ChannelOverviewFormState original =

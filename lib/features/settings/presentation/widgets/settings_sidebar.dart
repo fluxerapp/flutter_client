@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_settings_search_field.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class SettingsSidebar extends StatelessWidget {
@@ -14,6 +15,10 @@ class SettingsSidebar extends StatelessWidget {
   final int? avatarColor;
   final Widget? footer;
   final bool showSearch;
+  final TextEditingController? searchController;
+  final ValueChanged<String>? onSearchChanged;
+  final VoidCallback? onSearchClear;
+  final String? emptySearchMessage;
   final Color? backgroundColor;
 
   const SettingsSidebar({
@@ -27,102 +32,95 @@ class SettingsSidebar extends StatelessWidget {
     this.avatarColor,
     this.footer,
     this.showSearch = true,
+    this.searchController,
+    this.onSearchChanged,
+    this.onSearchClear,
+    this.emptySearchMessage,
     this.backgroundColor,
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) => Container(
-    width: double.infinity,
-    color: backgroundColor ?? context.colors.backgroundPrimary,
-    child: Column(
-      children: [
-        if (showSearch)
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 20, 16, 12),
-            child: TextField(
-              style: context.textStyles.inputText.copyWith(fontSize: 14),
-              decoration: InputDecoration(
-                hintText: 'Search settings...',
-                hintStyle: context.textStyles.bodySmall,
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.only(left: 8, right: 4),
-                  child: PhosphorIcon(
-                    PhosphorIconsBold.magnifyingGlass,
-                    size: 18,
-                    color: context.colors.textPrimaryMuted,
-                  ),
-                ),
-                prefixIconConstraints: const BoxConstraints(minWidth: 20),
-                filled: true,
-                fillColor: context.colors.backgroundTertiary,
-                contentPadding: const EdgeInsets.symmetric(vertical: 8),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: context.colors.borderColor),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: context.colors.borderColor),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: context.colors.borderColor),
-                ),
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      color: backgroundColor ?? context.colors.backgroundPrimary,
+      child: Column(
+        children: [
+          if (showSearch && searchController != null)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 20, 16, 12),
+              child: UserSettingsSearchField(
+                controller: searchController!,
+                onChanged: onSearchChanged ?? (_) {},
+                onClear: onSearchClear ?? () {},
+                padding: EdgeInsets.zero,
+                iconSize: 18,
+                style: context.textStyles.inputText.copyWith(fontSize: 14),
               ),
             ),
-          ),
-        if (username != null)
-          Padding(
-            padding: const EdgeInsets.fromLTRB(18, 8, 16, 24),
-            child: Row(
-              children: [
-                FluxerAvatar.user(
-                  fallbackText: username,
-                  userId: userId ?? '',
-                  imageUrl: avatarUrl,
-                  avatarColor: avatarColor,
-                  size: 32,
-                  showStatus: false,
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    username!,
-                    style: context.textStyles.channelName,
-                    overflow: TextOverflow.ellipsis,
+          if (username != null)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(18, 8, 16, 24),
+              child: Row(
+                children: [
+                  FluxerAvatar.user(
+                    fallbackText: username,
+                    userId: userId ?? '',
+                    imageUrl: avatarUrl,
+                    avatarColor: avatarColor,
+                    size: 32,
+                    showStatus: false,
                   ),
-                ),
-              ],
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      username!,
+                      style: context.textStyles.channelName,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
             ),
+          Expanded(
+            child: items.isEmpty && emptySearchMessage != null
+                ? Padding(
+                    padding: const EdgeInsets.fromLTRB(28, 8, 16, 8),
+                    child: Text(
+                      emptySearchMessage!,
+                      style: context.textStyles.bodyMedium.copyWith(
+                        color: context.colors.textPrimaryMuted,
+                      ),
+                    ),
+                  )
+                : Material(
+                    color: Colors.transparent,
+                    child: ListView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      itemCount: items.length,
+                      itemBuilder: (context, index) {
+                        final item = items[index];
+                        final isSelected = index == selectedIndex;
+                        if (item.isSeparator) {
+                          return _buildSeparator(context, item);
+                        }
+                        return _buildItem(
+                          context,
+                          item,
+                          isSelected,
+                          () => onSelected(index),
+                        );
+                      },
+                    ),
+                  ),
           ),
-        Expanded(
-          child: Material(
-            color: Colors.transparent,
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                final item = items[index];
-                final isSelected = index == selectedIndex;
-                if (item.isSeparator) {
-                  return _buildSeparator(context, item);
-                }
-                return _buildItem(
-                  context,
-                  item,
-                  isSelected,
-                  () => onSelected(index),
-                );
-              },
-            ),
-          ),
-        ),
-        if (footer != null)
-          Padding(padding: const EdgeInsets.all(12), child: footer),
-      ],
-    ),
-  );
+          if (footer != null)
+            Padding(padding: const EdgeInsets.all(12), child: footer),
+        ],
+      ),
+    );
+  }
 
   Widget _buildSeparator(BuildContext context, SettingsSidebarItem item) =>
       Padding(

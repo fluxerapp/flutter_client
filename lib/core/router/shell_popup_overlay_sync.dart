@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/shell_navigator_keys.dart';
 import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Whether [navigator]'s top route is a [PopupRoute].
 bool navigatorHasPopupOverlay(NavigatorState? navigator) {

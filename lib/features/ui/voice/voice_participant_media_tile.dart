@@ -1,7 +1,6 @@
 import 'dart:async' show unawaited;
 import 'dart:ui' show ImageFilter;
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/session_authorization_header.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as database;
@@ -16,6 +15,7 @@ import 'package:fluxer_app/features/voice/utils/voice_stream_audio_utils.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:livekit_client/livekit_client.dart';
+import 'package:material_ui/material_ui.dart';
 
 enum VoiceParticipantTileSource { camera, screenShare }
 

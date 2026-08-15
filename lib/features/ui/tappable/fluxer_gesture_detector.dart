@@ -1,5 +1,5 @@
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// [GestureDetector] that shows a click cursor for tap targets on desktop/web.
 class FluxerGestureDetector extends StatelessWidget {

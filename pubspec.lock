@@ -465,6 +465,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.9"
+  cupertino_ui:
+    dependency: transitive
+    description:
+      name: cupertino_ui
+      sha256: "7ed8ce4159d342eec4c65f4ea6eec57adaf9365404378541f38efc1da20a5b3d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   dap:
     dependency: transitive
     description:
@@ -1419,6 +1427,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  local_translation:
+    dependency: "direct main"
+    description:
+      name: local_translation
+      sha256: b379c7d761eb2d05c4071cb4b9869337af8204b09cd538442b588d202ffa991b
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0"
   logger:
     dependency: transitive
     description:
@@ -1467,6 +1483,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.13.0"
+  material_ui:
+    dependency: "direct main"
+    description:
+      name: material_ui
+      sha256: d9b4f6c69b80bc83d0a14357c86e4c14c8076e807ae73cf2960c8560f623995f
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   media_kit:
     dependency: "direct main"
     description:
@@ -2978,5 +3002,5 @@ packages:
     source: hosted
     version: "1.1.0"
 sdks:
-  dart: ">=3.12.0 <4.0.0"
+  dart: ">=3.13.0 <4.0.0"
   flutter: ">=3.44.0"

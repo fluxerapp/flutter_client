@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
@@ -9,6 +8,7 @@ import 'package:fluxer_app/features/auth/domain/required_action_flow.dart';
 import 'package:fluxer_app/features/auth/presentation/required_action_modal.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 
 class RequiredActionGate extends ConsumerStatefulWidget {
   const RequiredActionGate({required this.child, super.key});

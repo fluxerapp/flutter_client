@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 const Map<int, Color> kAnsiForegroundColors = <int, Color>{
   30: Color(0xFF1E1E1E),

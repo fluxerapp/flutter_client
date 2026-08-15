@@ -25,6 +25,7 @@ dependencies:
   intl: ^0.20.2
   latext: ^0.5.1
   markdown: ^7.3.1
+  material_ui: ^1.0.0
   phosphor_flutter:
     git:
       url: https://github.com/Niural/phosphor_flutter

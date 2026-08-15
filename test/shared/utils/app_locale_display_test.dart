@@ -53,4 +53,13 @@ void main() {
       );
     }
   });
+
+  test('appLanguageDisplayName uses English language names', () {
+    expect(appLanguageDisplayName('de'), 'German');
+    expect(appLanguageDisplayName('de-DE'), 'German');
+    expect(appLanguageDisplayName('ja'), 'Japanese');
+    expect(appLanguageDisplayName('zh'), 'Chinese');
+    expect(appLanguageDisplayName('zh-CN'), 'Chinese');
+    expect(appLanguageDisplayName('nb'), 'Norwegian');
+  });
 }

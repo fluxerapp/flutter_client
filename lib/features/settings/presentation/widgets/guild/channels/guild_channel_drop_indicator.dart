@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel_reorder_drop.dart';
+import 'package:material_ui/material_ui.dart';
 
 const double kGuildChannelSettingsNullSpaceHeight = 10;
 const double kGuildChannelSettingsMobileNullSpaceHeight = 28;

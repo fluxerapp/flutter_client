@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/call_duration_format.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
+import 'package:material_ui/material_ui.dart';
 
 const String kSystemMessageUsernamePlaceholder = '{username}';
 const String kSystemMessageMentionedUsernamePlaceholder = '{userName}';

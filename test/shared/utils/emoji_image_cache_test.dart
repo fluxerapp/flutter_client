@@ -1,8 +1,8 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 void main() {
@@ -74,6 +74,11 @@ void main() {
       await tester.pump();
 
       expect(imageUrl(tester), contains('animated=true'));
+      final CachedNetworkImage image = tester.widget(
+        find.byType(CachedNetworkImage),
+      );
+      expect(image.memCacheWidth, isNull);
+      expect(image.memCacheHeight, isNull);
     },
   );
 
@@ -117,7 +122,7 @@ void main() {
     expect(imageUrl(tester), isNot(contains('animated=true')));
   });
 
-  testWidgets('picker visibility overlays animated image when in view', (
+  testWidgets('picker visibility shows animated image when in view', (
     tester,
   ) async {
     await tester.pumpWidget(
@@ -134,7 +139,8 @@ void main() {
     );
     await tester.pump();
 
-    expect(find.byType(CachedNetworkImage), findsNWidgets(2));
+    expect(find.byType(CachedNetworkImage), findsOneWidget);
+    expect(imageUrl(tester), contains('animated=true'));
   });
 
   testWidgets('animated emoji plays when scrolled on-screen', (tester) async {

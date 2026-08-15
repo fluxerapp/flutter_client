@@ -7,7 +7,7 @@ import 'package:sqlite3/sqlite3.dart';
 /// Last schema version known to the test suite. Bump this when adding a new
 /// migration and extend the tests below if the new step introduces guarded
 /// columns or tables.
-const int _expectedSchemaVersion = 82;
+const int _expectedSchemaVersion = 85;
 
 /// First version whose migration steps are written to be re-entrant against
 /// the current schema. Stamp the current schema at each version in this
@@ -68,8 +68,17 @@ const Map<String, List<String>> _guardedColumns = <String, List<String>>{
     'keep_animated_emoji_under_reduced_motion',
     'keep_gif_auto_play_under_reduced_motion',
     'keep_sticker_animation_under_reduced_motion',
+    'mobile_splash_zoom_animation',
+    'hdr_display_mode',
   ],
-  'messages': <String>['call_json'],
+  'messages': <String>[
+    'call_json',
+    'translated_content',
+    'translation_source_language',
+    'translated_source_content',
+    'translation_target_language',
+    'translation_show_original',
+  ],
   'dm_channels': <String>['nicks_json'],
 };
 

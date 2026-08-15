@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:material_ui/material_ui.dart';
 
 class GuildWebhooksNoticeBox extends StatelessWidget {
   const GuildWebhooksNoticeBox({required this.message, super.key});

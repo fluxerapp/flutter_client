@@ -1,17 +1,19 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/domain/message_translation.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/message_debug_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/message_reactions_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/unpin_message_confirm_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
+import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/providers/messages/message_translation_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/saved_message_provider.dart';
 import 'package:fluxer_app/features/chat/utils/message_action_permissions.dart';
 import 'package:fluxer_app/features/chat/utils/message_link.dart';
@@ -20,11 +22,15 @@ import 'package:fluxer_app/features/messaging/providers/saved_messages_sync_prov
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
+import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
 import 'package:fluxer_app/features/voice/tts/tts_locale_utils.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
+import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 enum MessageAction {
@@ -47,6 +53,7 @@ enum MessageAction {
   report,
   debugMessage,
   speak,
+  translate,
 }
 
 Future<MessageAction?> showMessageBottomSheet(
@@ -116,7 +123,9 @@ Future<void> dispatchMessageAction({
     case MessageAction.deleteFailed:
       callbacks.onDeleteFailed?.call();
     case MessageAction.copyText:
-      unawaited(copyToClipboard(context: context, value: message.content));
+      unawaited(
+        copyToClipboard(context: context, value: message.displayedContent),
+      );
     case MessageAction.copyMessageId:
       unawaited(copyToClipboard(context: context, value: message.id));
     case MessageAction.copyMessageLink:
@@ -214,6 +223,63 @@ Future<void> dispatchMessageAction({
               locale: formatTtsLocaleTag(ref.read(effectiveAppLocaleProvider)),
             ),
       );
+    case MessageAction.translate:
+      unawaited(
+        _translateMessage(ref: ref, context: context, message: message),
+      );
+  }
+}
+
+Future<void> _translateMessage({
+  required WidgetRef ref,
+  required BuildContext context,
+  required Message message,
+}) async {
+  if (message.content.trim().isEmpty) {
+    return;
+  }
+  final TranslatingMessageIds translating = ref.read(
+    translatingMessageIdsProvider.notifier,
+  );
+  if (ref.read(translatingMessageIdsProvider).contains(message.id)) {
+    return;
+  }
+  final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+  translating.add(message.id);
+  try {
+    final Message updated = await ref
+        .read(messageTranslationServiceProvider)
+        .translateMessage(
+          message: message,
+          targetLanguage: ref.read(effectiveAppLocaleProvider).languageCode,
+        );
+    ref
+        .read(chatViewModelProvider.notifier)
+        .applyMessageTranslation(
+          messageId: updated.id,
+          translation: updated.translation,
+        );
+    FluxerHaptics.light();
+  } on MessageTranslationUnavailableException {
+    ref
+        .read(toastProvider.notifier)
+        .show(
+          FluxerToast(
+            message: l10n.chatMessageTranslateUnavailable,
+            variant: FluxerToastVariant.warning,
+          ),
+        );
+  } on MessageTranslationFailedException {
+    ref
+        .read(toastProvider.notifier)
+        .show(
+          FluxerToast(
+            message: l10n.chatMessageTranslateFailed,
+            variant: FluxerToastVariant.danger,
+          ),
+        );
+  } finally {
+    translating.remove(message.id);
   }
 }
 
@@ -299,6 +365,12 @@ List<Widget> buildMessageActionMenuGroups({
         icon: PhosphorIconsFill.users,
         label: l10n.chatMessageViewReactions,
         onTap: () => onAction(MessageAction.viewReactions),
+      ),
+    if (watchCanOfferMessageTranslate(ref, message))
+      FluxerBottomSheetMenuItem(
+        icon: PhosphorIconsBold.translate,
+        label: l10n.chatMessageTranslate,
+        onTap: () => onAction(MessageAction.translate),
       ),
     if (canShowRemoveAllReactions)
       FluxerBottomSheetMenuItem(

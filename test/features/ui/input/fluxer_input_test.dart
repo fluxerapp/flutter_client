@@ -1,10 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/ui/input/emoji_text_editing_controller.dart';
+import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
+import 'package:material_ui/material_ui.dart';
 
 Widget buildTestApp(Widget child) {
   final colorTheme = buildDarkColorTheme();
@@ -47,7 +49,6 @@ void main() {
       await tester.pumpWidget(buildTestApp(const FluxerInput(hint: 'Hi')));
 
       final column = tester.widget<Column>(find.byType(Column).first);
-      // Column should contain only the TextFormField (no label Padding).
       expect(column.children.whereType<Padding>().length, equals(0));
     });
 
@@ -70,20 +71,16 @@ void main() {
       expect(editable.contextMenuBuilder, isNotNull);
     });
 
-    testWidgets('preserves a custom text selection context menu', (
-      tester,
-    ) async {
-      Widget customContextMenuBuilder(
-        BuildContext context,
-        EditableTextState editableTextState,
-      ) => const SizedBox();
+    testWidgets('wraps token controllers with clipboard scope', (tester) async {
+      final EmojiTextEditingController controller =
+          EmojiTextEditingController();
+      addTearDown(controller.dispose);
 
       await tester.pumpWidget(
-        buildTestApp(FluxerInput(contextMenuBuilder: customContextMenuBuilder)),
+        buildTestApp(FluxerInput(controller: controller, hint: 'Bio')),
       );
 
-      final editable = tester.widget<EditableText>(find.byType(EditableText));
-      expect(editable.contextMenuBuilder, same(customContextMenuBuilder));
+      expect(find.byType(FluxerClipboardScope), findsOneWidget);
     });
 
     testWidgets('suffix icon tap fires callback', (tester) async {

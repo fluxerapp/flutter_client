@@ -29,12 +29,7 @@ Future<void> runVoiceParticipantModeration(
 }
 
 GuildMemberUpdateRequest _memberVoiceUpdate({bool? mute, bool? deaf}) {
-  return GuildMemberUpdateRequest(
-    nick: null,
-    communicationDisabledUntil: null,
-    mute: mute,
-    deaf: deaf,
-  );
+  return GuildMemberUpdateRequest(mute: mute, deaf: deaf);
 }
 
 Future<void> _updateGuildMemberVoiceState({

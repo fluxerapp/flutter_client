@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/domain/mfa_challenge.dart';
@@ -12,6 +11,7 @@ import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/keyboard_focus_restore.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class MfaScreen extends ConsumerWidget {
@@ -198,7 +198,8 @@ class _CodeEntryState extends ConsumerState<_CodeEntry>
     _codeController = TextEditingController();
     _keyboardRestore = KeyboardFocusRestoreHandle(
       focusNode: _codeFocusNode,
-      shouldTrackOnBackground: _canShowTextInput,
+      shouldTrackOnBackground: () =>
+          _codeFocusNode.hasFocus && _canShowTextInput(),
       canRestoreFocus: () => mounted && _canShowTextInput(),
     );
     WidgetsBinding.instance.addObserver(this);

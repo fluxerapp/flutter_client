@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
@@ -9,8 +9,12 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/tabs/channel_overview_widget.dart';
 import 'package:fluxer_app/features/channels/providers/channel_settings_providers.dart';
+import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
+
 import '../../../../../helpers/test_l10n.dart';
 
 void main() {
@@ -19,6 +23,13 @@ void main() {
     id: 'text-1',
     guildId: guildId,
     name: 'general',
+  );
+  const Channel categoryChannel = Channel(
+    id: 'cat-1',
+    guildId: guildId,
+    name: 'Category',
+    type: ChannelType.guildCategory,
+    nsfwOverride: true,
   );
   const Channel voiceChannel = Channel(
     id: 'voice-1',
@@ -89,6 +100,55 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('URL'), findsOneWidget);
     expect(find.text('Topic'), findsNothing);
+  });
+
+  testWidgets('category mature content inherit selection updates radio', (
+    tester,
+  ) async {
+    const Guild guild = Guild(id: guildId, name: 'Test Guild');
+    await tester.pumpWidget(
+      _buildTestApp(
+        overrides: <Override>[
+          guildByIdProvider(guildId).overrideWith((Ref ref) async => guild),
+        ],
+        child: ChannelOverviewWidget(
+          channel: categoryChannel,
+          permissions: Permission.manageChannels.value,
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final SemanticsHandle handle = tester.ensureSemantics();
+    try {
+      expect(
+        tester
+            .getSemantics(find.text('On'))
+            .getSemanticsData()
+            .hasFlag(SemanticsFlag.isChecked),
+        isTrue,
+      );
+
+      await tester.tap(find.text('Inherit'));
+      await tester.pumpAndSettle();
+
+      expect(
+        tester
+            .getSemantics(find.text('Inherit'))
+            .getSemanticsData()
+            .hasFlag(SemanticsFlag.isChecked),
+        isTrue,
+      );
+      expect(
+        tester
+            .getSemantics(find.text('On'))
+            .getSemanticsData()
+            .hasFlag(SemanticsFlag.isChecked),
+        isFalse,
+      );
+    } finally {
+      handle.dispose();
+    }
   });
 }
 

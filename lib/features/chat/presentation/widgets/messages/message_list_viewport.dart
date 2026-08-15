@@ -15,12 +15,12 @@
 /// null anchor degrades to the same bottom-anchored layout.
 library;
 
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/chat_loading_spinner.dart';
 import 'package:fluxer_app/features/chat/utils/channel_message_stream.dart';
 import 'package:fluxer_app/features/chat/utils/chat_spinner_debug.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Which side of the anchor's stream item the split boundary falls on.
 enum MessageListAnchorEdge {

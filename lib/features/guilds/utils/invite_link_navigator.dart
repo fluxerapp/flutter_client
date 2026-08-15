@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/features/guilds/presentation/modals/invite_accept_modal.dart';
 import 'package:fluxer_app/features/guilds/utils/invite_link_parser.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 
 bool isInviteLink(String url) {
   return parseInviteCode(url) != null;

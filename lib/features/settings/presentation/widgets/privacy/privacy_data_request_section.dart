@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/domain/privacy_data_request.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/privacy_data_request_sheet.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 
 class PrivacyDataExportSection extends StatelessWidget {
   const PrivacyDataExportSection({super.key});

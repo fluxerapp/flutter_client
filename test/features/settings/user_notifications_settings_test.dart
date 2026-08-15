@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
@@ -15,6 +14,8 @@ import 'package:fluxer_app/features/settings/providers/sound_preferences_provide
 import 'package:fluxer_app/features/settings/providers/user_settings_sync_service.dart';
 import 'package:fluxer_app/features/shell/providers/push_notification_permission_status_provider.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:material_ui/material_ui.dart';
+
 import '../../helpers/test_l10n.dart';
 
 class _InertSyncedPreferencesStore extends SyncedPreferencesStore {

@@ -1,8 +1,8 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
+import 'package:material_ui/material_ui.dart';
 
 String? _noopEmojiShortcode(String name) => null;
 
@@ -45,6 +45,7 @@ void main() {
       expect(image.imageUrl, isNot(contains('animated=true')));
       expect(image.cacheKey, contains('_s_'));
       expect(image.cacheKey, isNot(contains('_a_')));
+      expect(image.memCacheWidth, isNotNull);
     },
   );
 
@@ -82,5 +83,9 @@ void main() {
     );
     expect(image.imageUrl, contains('animated=true'));
     expect(image.cacheKey, contains('_a_'));
+    expect(image.memCacheWidth, isNull);
+    expect(image.memCacheHeight, isNull);
+    expect(image.fadeInDuration, Duration.zero);
+    expect(image.fadeOutDuration, Duration.zero);
   });
 }

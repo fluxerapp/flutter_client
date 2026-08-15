@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_nav_group.dart';
@@ -6,9 +5,11 @@ import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/settings_sidebar.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_billing_utils.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_nav_l10n.dart';
+import 'package:fluxer_app/features/settings/utils/user_settings_search.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_staff_only_utils.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class UserSettingsDesktopNavEntry {
@@ -146,7 +147,7 @@ const _userSettingsDesktopNavApplicationStart = [
 const _userSettingsDesktopNavAfterLanguageAndTime = [
   UserSettingsDesktopNavEntry.link(
     UserSettingsSection.advanced,
-    icon: PhosphorIconsFill.flask,
+    icon: PhosphorIconsFill.gear,
   ),
   UserSettingsDesktopNavEntry.separator(UserSettingsNavGroup.developer),
   UserSettingsDesktopNavEntry.link(
@@ -284,7 +285,7 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
         link(UserSettingsSection.languageAndTime, PhosphorIconsBold.translate),
         if (isFluxerNativeMobileOs)
           link(UserSettingsSection.defaultApps, PhosphorIconsFill.squaresFour),
-        link(UserSettingsSection.advanced, PhosphorIconsFill.flask),
+        link(UserSettingsSection.advanced, PhosphorIconsFill.gear),
       ],
     ),
     FluxerSettingsNavGroup(
@@ -318,5 +319,78 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
         ),
       ],
     ),
+  ];
+}
+
+IconData _searchSectionIcon(
+  UserSettingsSection section, {
+  required bool showBilling,
+}) {
+  return iconForUserSettingsSection(section, showBilling: showBilling) ??
+      PhosphorIconsFill.gear;
+}
+
+final class UserSettingsSearchSidebar {
+  const UserSettingsSearchSidebar({
+    required this.items,
+    required this.hitAtIndex,
+  });
+
+  final List<SettingsSidebarItem> items;
+  final List<UserSettingsSearchHit?> hitAtIndex;
+}
+
+UserSettingsSearchSidebar buildUserSettingsSearchSidebar({
+  required FluxerLocalizations l10n,
+  required List<UserSettingsSearchHit> hits,
+  required bool showBilling,
+}) {
+  final List<SettingsSidebarItem> items = [];
+  final List<UserSettingsSearchHit?> hitAtIndex = [];
+  for (final MapEntry<UserSettingsSection, List<UserSettingsSearchHit>> entry
+      in groupUserSettingsSearchHits(hits)) {
+    final UserSettingsSection section = entry.key;
+    final List<UserSettingsSearchHit> sectionHits = entry.value;
+    final bool onlySectionHit =
+        sectionHits.length == 1 && sectionHits.first.fieldId == null;
+    if (!onlySectionHit) {
+      items.add(
+        SettingsSidebarItem.separator(userSettingsSectionLabel(l10n, section)),
+      );
+      hitAtIndex.add(null);
+    }
+    final IconData icon = _searchSectionIcon(section, showBilling: showBilling);
+    for (final UserSettingsSearchHit hit in sectionHits) {
+      items.add(SettingsSidebarItem(hit.label, icon: icon));
+      hitAtIndex.add(hit);
+    }
+  }
+  return UserSettingsSearchSidebar(items: items, hitAtIndex: hitAtIndex);
+}
+
+List<FluxerSettingsNavGroup> buildUserSettingsSearchNavGroups({
+  required FluxerLocalizations l10n,
+  required List<UserSettingsSearchHit> hits,
+  required void Function(UserSettingsSection section, {String? initialFieldId})
+  onOpen,
+  required bool showBilling,
+}) {
+  return [
+    for (final MapEntry<UserSettingsSection, List<UserSettingsSearchHit>> entry
+        in groupUserSettingsSearchHits(hits))
+      FluxerSettingsNavGroup(
+        label: userSettingsSectionLabel(l10n, entry.key),
+        items: [
+          for (final UserSettingsSearchHit hit in entry.value)
+            FluxerSettingsNavItem(
+              label: hit.label,
+              hint: hit.fieldId == null
+                  ? null
+                  : userSettingsSectionLabel(l10n, entry.key),
+              icon: _searchSectionIcon(entry.key, showBilling: showBilling),
+              onTap: () => onOpen(entry.key, initialFieldId: hit.fieldId),
+            ),
+        ],
+      ),
   ];
 }

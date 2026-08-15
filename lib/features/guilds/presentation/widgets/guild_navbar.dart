@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,6 +19,7 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/accessibility/text_scale.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/create_category_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/create_channel_sheet.dart';
@@ -93,6 +93,7 @@ import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 enum _NavbarListEntryKind {
@@ -2164,6 +2165,7 @@ class _GuildListItem extends StatefulWidget {
   final void Function(String channelId)? onRemoveChannelOverride;
   final VoidCallback? onMounted;
   final bool enableLongPressMenu;
+  final bool opaqueHitTarget;
   final Future<int> Function()? resolveMenuPermissions;
 
   const _GuildListItem({
@@ -2210,6 +2212,7 @@ class _GuildListItem extends StatefulWidget {
     this.onRemoveChannelOverride,
     this.onMounted,
     this.enableLongPressMenu = true,
+    this.opaqueHitTarget = false,
     this.resolveMenuPermissions,
   });
 
@@ -2290,6 +2293,7 @@ class _GuildListItemState extends State<_GuildListItem>
           ? PhosphorIcon(widget.icon!, color: iconColor, size: 32)
           : Text(
               initials,
+              textScaler: kIconInitialsTextScaler,
               style: context.textStyles.smallText.copyWith(
                 color: iconColor,
                 fontSize: _guildNavbarInitialsFontSize(initialsLength),
@@ -2378,6 +2382,9 @@ class _GuildListItemState extends State<_GuildListItem>
                     selected: widget.isSelected,
                     label: _guildSemanticLabel(l10n),
                     child: FluxerGestureDetector(
+                      behavior: widget.opaqueHitTarget
+                          ? HitTestBehavior.opaque
+                          : null,
                       onTap: widget.onTap,
                       onSecondaryTapUp: widget.guild != null
                           ? (details) => unawaited(
@@ -2389,7 +2396,7 @@ class _GuildListItemState extends State<_GuildListItem>
                           ? () => unawaited(_showActionSheet(context))
                           : null,
                       child: SizedBox(
-                        width: 48,
+                        width: widget.opaqueHitTarget ? 72 : 48,
                         height: 48,
                         child: Center(
                           child: AnimatedContainer(
@@ -3811,6 +3818,7 @@ class _HomeDmButton extends ConsumerWidget {
       svgAsset: Assets.fluxerSymbol,
       mentionCount: pendingFriendCount + dmMentionCount,
       hasUnread: hasCollapsedDmUnread,
+      opaqueHitTarget: true,
       onTap: () {
         if (collapseDMs && isDm) {
           ref.read(dmFolderProvider.notifier).toggleExpanded();

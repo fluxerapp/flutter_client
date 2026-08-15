@@ -2,17 +2,17 @@
   "Version": 1.0,
   "Metadata": {
     "Project": "Fluxer",
-    "Description": "Message send: curve with a short exponential decay."
+    "Description": "Message send: quick snap with exponential decay."
   },
   "Pattern": [
     {
       "Event": {
         "Time": 0.0,
         "EventType": "HapticContinuous",
-        "EventDuration": 0.11,
+        "EventDuration": 0.076,
         "EventParameters": [
-          { "ParameterID": "HapticIntensity", "ParameterValue": 0.5 },
-          { "ParameterID": "HapticSharpness", "ParameterValue": 0.24 }
+          { "ParameterID": "HapticIntensity", "ParameterValue": 0.44 },
+          { "ParameterID": "HapticSharpness", "ParameterValue": 0.22 }
         ]
       }
     },
@@ -22,10 +22,12 @@
         "Time": 0.0,
         "ParameterCurveControlPoints": [
           { "Time": 0.0, "ParameterValue": 1.0 },
-          { "Time": 0.016, "ParameterValue": 0.62 },
-          { "Time": 0.04, "ParameterValue": 0.34 },
-          { "Time": 0.072, "ParameterValue": 0.14 },
-          { "Time": 0.11, "ParameterValue": 0.0 }
+          { "Time": 0.006, "ParameterValue": 0.82 },
+          { "Time": 0.016, "ParameterValue": 0.54 },
+          { "Time": 0.03, "ParameterValue": 0.28 },
+          { "Time": 0.046, "ParameterValue": 0.12 },
+          { "Time": 0.06, "ParameterValue": 0.04 },
+          { "Time": 0.076, "ParameterValue": 0.0 }
         ]
       }
     },
@@ -34,8 +36,9 @@
         "ParameterID": "HapticSharpnessControl",
         "Time": 0.0,
         "ParameterCurveControlPoints": [
-          { "Time": 0.0, "ParameterValue": 0.0 },
-          { "Time": 0.11, "ParameterValue": -0.16 }
+          { "Time": 0.0, "ParameterValue": 0.1 },
+          { "Time": 0.016, "ParameterValue": -0.04 },
+          { "Time": 0.076, "ParameterValue": -0.2 }
         ]
       }
     }

@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class FluxerSettingsNavItem {
@@ -9,12 +9,14 @@ class FluxerSettingsNavItem {
     required this.label,
     required this.icon,
     required this.onTap,
+    this.hint,
     this.isDanger = false,
     this.isDisabled = false,
     this.onDisabledTap,
   });
 
   final String label;
+  final String? hint;
   final IconData icon;
   final VoidCallback onTap;
   final bool isDanger;
@@ -34,18 +36,25 @@ class FluxerSettingsNavList extends StatelessWidget {
     required this.groups,
     super.key,
     this.controller,
+    this.header,
+    this.empty,
     this.footer,
     this.padding,
   });
 
   final List<FluxerSettingsNavGroup> groups;
   final ScrollController? controller;
+  final Widget? header;
+  final Widget? empty;
   final Widget? footer;
   final EdgeInsetsGeometry? padding;
 
   @override
   Widget build(BuildContext context) {
     final layout = context.layout;
+    final int headerCount = header == null ? 0 : 1;
+    final int emptyCount = empty != null && groups.isEmpty ? 1 : 0;
+    final int footerCount = footer == null ? 0 : 1;
 
     return ListView.builder(
       controller: controller,
@@ -53,12 +62,26 @@ class FluxerSettingsNavList extends StatelessWidget {
         context,
         padding: padding ?? EdgeInsets.symmetric(horizontal: layout.s4),
       ),
-      itemCount: groups.length + (footer != null ? 1 : 0),
+      itemCount: headerCount + groups.length + emptyCount + footerCount,
       itemBuilder: (context, index) {
-        if (index == groups.length) {
-          return footer!;
+        var remaining = index;
+        if (header != null) {
+          if (remaining == 0) {
+            return header!;
+          }
+          remaining--;
         }
-        return _FluxerSettingsNavGroupWidget(group: groups[index]);
+        if (remaining < groups.length) {
+          return _FluxerSettingsNavGroupWidget(group: groups[remaining]);
+        }
+        remaining -= groups.length;
+        if (emptyCount == 1) {
+          if (remaining == 0) {
+            return empty!;
+          }
+          remaining--;
+        }
+        return footer!;
       },
     );
   }
@@ -131,6 +154,7 @@ class _FluxerSettingsNavItemWidget extends StatelessWidget {
 
     return FluxerBottomSheetSubmenuItem(
       label: item.label,
+      hint: item.hint,
       onTap: item.onTap,
       icon: item.icon,
     );

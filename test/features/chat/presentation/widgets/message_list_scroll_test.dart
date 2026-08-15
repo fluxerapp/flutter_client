@@ -4,7 +4,6 @@ library;
 import 'dart:async';
 
 import 'package:drift/drift.dart' show Value;
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
@@ -21,6 +20,7 @@ import 'package:fluxer_app/features/channels/providers/channel_list_view_model.d
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_window.dart';
 import 'package:fluxer_app/features/chat/domain/pagination_pump_policy.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_composer_layout.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/blocked_message_groups.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list.dart';
@@ -38,6 +38,7 @@ import 'package:fluxer_app/features/settings/providers/appearance_preferences_pr
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../helpers/open_test_database.dart';
@@ -1574,7 +1575,7 @@ void main() {
       position.jumpTo(position.pixels - 24);
       await tester.pump();
       expect(
-        position.maxScrollExtent - position.pixels,
+        _messageListTrailingDistance(position),
         lessThanOrEqualTo(kMessageListReadBottomThreshold),
       );
       final String previousNewestId =
@@ -1810,7 +1811,7 @@ void main() {
         position.jumpTo(position.pixels - 24);
         await tester.pump();
         expect(
-          position.maxScrollExtent - position.pixels,
+          _messageListTrailingDistance(position),
           lessThanOrEqualTo(kMessageListReadBottomThreshold),
         );
 
@@ -4783,6 +4784,13 @@ Finder _messageItemFor(String id) {
 
 ScrollPosition _messageListScrollPosition(WidgetTester tester) {
   return tester.state<ScrollableState>(_messageListScrollable()).position;
+}
+
+double _messageListTrailingDistance(ScrollPosition position) {
+  return (position.maxScrollExtent -
+          position.pixels -
+          WideComposerLayout.mobileMessageListTrailingInset)
+      .clamp(0.0, double.infinity);
 }
 
 Finder _offstageMessageList() => find.byType(MessageList, skipOffstage: false);

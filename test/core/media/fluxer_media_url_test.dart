@@ -193,13 +193,13 @@ void main() {
       );
     });
 
-    test('includes animated and size query params', () {
+    test('includes animated and size query params without lossless', () {
       final String actual = FluxerMediaUrl.customEmoji(
         id: '123',
         animated: true,
         size: 48,
       );
-      expect(actual, contains('quality=lossless'));
+      expect(actual, isNot(contains('quality=lossless')));
       expect(actual, contains('animated=true'));
       expect(actual, contains('size=48'));
     });

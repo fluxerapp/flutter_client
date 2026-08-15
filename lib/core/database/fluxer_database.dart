@@ -141,7 +141,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 82;
+  int get schemaVersion => 85;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1243,6 +1243,67 @@ class FluxerDatabase extends _$FluxerDatabase {
           await m.addColumn(
             userPreferencesTable,
             userPreferencesTable.defaultWebBrowser,
+          );
+        }
+      }
+      if (from < 83) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'messages',
+          columnName: 'translated_content',
+        )) {
+          await m.addColumn(messages, messages.translatedContent);
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'messages',
+          columnName: 'translation_source_language',
+        )) {
+          await m.addColumn(messages, messages.translationSourceLanguage);
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'messages',
+          columnName: 'translated_source_content',
+        )) {
+          await m.addColumn(messages, messages.translatedSourceContent);
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'messages',
+          columnName: 'translation_target_language',
+        )) {
+          await m.addColumn(messages, messages.translationTargetLanguage);
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'messages',
+          columnName: 'translation_show_original',
+        )) {
+          await m.addColumn(messages, messages.translationShowOriginal);
+        }
+      }
+      if (from < 84) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'mobile_splash_zoom_animation',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.mobileSplashZoomAnimation,
+          );
+        }
+      }
+      if (from < 85) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'hdr_display_mode',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.hdrDisplayMode,
           );
         }
       }

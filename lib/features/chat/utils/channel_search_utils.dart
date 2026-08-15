@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/chat/data/message_search_repository.dart';
 import 'package:fluxer_app/features/chat/domain/channel_search_chip_filters.dart'
@@ -6,6 +5,7 @@ import 'package:fluxer_app/features/chat/domain/channel_search_chip_filters.dart
 import 'package:fluxer_app/features/chat/domain/channel_search_segments.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 List<MessageSearchScopeFilter> channelSearchScopeOptions({

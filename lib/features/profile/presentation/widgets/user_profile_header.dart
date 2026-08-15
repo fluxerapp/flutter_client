@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_badges.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_custom_status.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class UserProfileHeader extends StatelessWidget {
   const UserProfileHeader({
@@ -20,6 +21,7 @@ class UserProfileHeader extends StatelessWidget {
     this.showUsername = true,
     this.isBot = false,
     this.isSystem = false,
+    this.onDisplayNameTap,
     super.key,
   });
 
@@ -36,6 +38,7 @@ class UserProfileHeader extends StatelessWidget {
   final bool showUsername;
   final bool isBot;
   final bool isSystem;
+  final VoidCallback? onDisplayNameTap;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +49,11 @@ class UserProfileHeader extends StatelessWidget {
     final bool showPronouns =
         pronounsTrimmed != null && pronounsTrimmed.isNotEmpty;
     final bool showUserTag = isBot || isSystem;
+    final TextStyle displayNameStyle = textStyles.heading.copyWith(
+      color: colors.textPrimary,
+      fontSize: 24,
+      fontWeight: FontWeight.w700,
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,14 +64,26 @@ class UserProfileHeader extends StatelessWidget {
           spacing: 6,
           runSpacing: 4,
           children: [
-            Text(
-              displayName,
-              style: textStyles.heading.copyWith(
-                color: colors.textPrimary,
-                fontSize: 24,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
+            if (onDisplayNameTap != null)
+              FluxerTappable(
+                onTap: onDisplayNameTap,
+                builder: (BuildContext context, Set<WidgetState> states) {
+                  return Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(displayName, style: displayNameStyle),
+                      SizedBox(width: layout.s1),
+                      PhosphorIcon(
+                        PhosphorIconsBold.caretDown,
+                        size: 16,
+                        color: colors.textPrimaryMuted,
+                      ),
+                    ],
+                  );
+                },
+              )
+            else
+              Text(displayName, style: displayNameStyle),
             if (showUserTag) FluxerUserTag(isSystem: isSystem),
           ],
         ),

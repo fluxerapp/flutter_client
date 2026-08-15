@@ -1,22 +1,23 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_composer_layout.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_immunity_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_indicator_shake_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
 import 'package:fluxer_app/features/chat/utils/slowmode_format.dart';
+import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const Duration _kTickInterval = Duration(seconds: 1);
 const Duration _kShakeDuration = Duration(milliseconds: 300);
 const int _kSecondsPerMinute = 60;
 const int _kSecondsPerHour = 3600;
-const double _kPillMaxWidth = 160;
 
 /// Floating pill shown next to the chat input when slowmode is active.
 class SlowmodeIndicator extends ConsumerStatefulWidget {
@@ -164,71 +165,87 @@ class _SlowmodePill extends StatelessWidget {
     final l10n = FluxerLocalizations.of(context);
     final isActive = remaining != null;
     final foreground = isActive ? colors.textDanger : colors.textSecondary;
-    final borderColor = isActive
-        ? colors.textDanger
-        : colors.userAreaDividerColor;
+    final Color surfaceColor = composerStatusSurfaceColor(context);
+    final List<Shadow>? shadows = compact
+        ? null
+        : wideComposerStatusTextShadows(surfaceColor);
     final textStyle = context.textStyles.timestamp.copyWith(
-      color: foreground,
+      color: compact ? foreground : colors.textPrimaryMuted,
       fontWeight: FontWeight.w600,
+      fontSize: 12,
+      height: compact ? null : 1,
       fontFeatures: const [FontFeature.tabularFigures()],
+      shadows: shadows,
     );
-    final label = isActive
-        ? _formatRemaining(remaining!)
-        : l10n.slowmodeLabel(_formatRateLimit(rateLimitSeconds));
-    final tooltip = isImmune && !isActive
-        ? l10n.slowmodeTooltipImmune
-        : l10n.slowmodeTooltipActive;
-    final Widget content = Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(PhosphorIconsFill.clock, size: 12, color: foreground),
-        const SizedBox(width: 6),
-        Flexible(
-          child: Text(
-            label,
-            style: textStyle,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+    final String durationLabel = formatSlowmodeDurationLabel(rateLimitSeconds);
+    final String label = compact
+        ? (isActive
+              ? formatSlowmodeCountdown(remaining!)
+              : l10n.slowmodeLabel(_formatRateLimit(rateLimitSeconds)))
+        : (isActive
+              ? l10n.slowmodeStatusActive(formatSlowmodeCountdown(remaining!))
+              : l10n.slowmodeStatusEnabled);
+    final String tooltip = compact
+        ? (isImmune && !isActive
+              ? l10n.slowmodeTooltipImmune
+              : l10n.slowmodeTooltipActive)
+        : (isImmune
+              ? l10n.slowmodeTooltipSetImmune(durationLabel)
+              : isActive
+              ? l10n.slowmodeTooltipSetWait(durationLabel)
+              : l10n.slowmodeTooltipSetChannel(durationLabel));
+    final Widget content = AnimatedDefaultTextStyle(
+      duration: const Duration(milliseconds: 150),
+      curve: Curves.easeInOut,
+      style: textStyle.copyWith(
+        color: compact
+            ? foreground
+            : (isActive ? colors.textDanger : colors.textPrimaryMuted),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(
+            child: Text(
+              label,
+              style: textStyle.copyWith(
+                color: compact
+                    ? foreground
+                    : (isActive ? colors.textDanger : colors.textPrimaryMuted),
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        ),
-      ],
+          SizedBox(width: compact ? 6 : 3),
+          Icon(
+            PhosphorIconsFill.clock,
+            size: 12,
+            color: compact
+                ? foreground
+                : (isActive ? colors.textDanger : colors.textPrimaryMuted),
+          ),
+        ],
+      ),
     );
-    return Tooltip(
+    return FluxerTooltip(
       message: tooltip,
-      preferBelow: false,
-      verticalOffset: 12,
       child: Semantics(
         label: label,
         child: compact
             ? content
             : ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: _kPillMaxWidth),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    color: colors.chatInputBackground,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: borderColor),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.1),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
+                constraints: const BoxConstraints(
+                  maxWidth: WideComposerLayout.slowmodeMaxWidth,
+                ),
+                child: SizedBox(
+                  height: WideComposerLayout.statusLineHeight,
                   child: content,
                 ),
               ),
       ),
     );
   }
-
-  String _formatRemaining(Duration remaining) =>
-      formatSlowmodeCountdown(remaining);
 
   String _formatRateLimit(int totalSeconds) {
     if (totalSeconds >= _kSecondsPerHour) {

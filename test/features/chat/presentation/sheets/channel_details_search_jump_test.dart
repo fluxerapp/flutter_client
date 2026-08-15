@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:drift/drift.dart' show Value;
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
@@ -23,20 +22,20 @@ import 'package:fluxer_app/features/chat/providers/channel/channel_details_provi
 import 'package:fluxer_app/features/members/providers/member_list_subscription_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../../../helpers/open_test_database.dart';
 import '../../../../helpers/test_l10n.dart';
 
-/// The user's report: search a message, tap the result, and the search sheet
+/// The user's report: search a message, tap the result, and the search page
 /// closes while the DETAILS sheet stays put, so the message is never reached.
 ///
-/// The sheets are opened with `useRootNavigator: false`, so they attach to the
-/// nearest Navigator. A flat harness attaches them to go_router's own
-/// Navigator, which `go()` then rebuilds, dismissing them for reasons that
-/// have nothing to do with the code under test. The real app opens them inside
-/// a shell branch navigator that survives `go()`. This harness reproduces that
-/// by nesting a Navigator, so a details sheet that is never popped really does
-/// stay on screen.
+/// Search and details attach to the nearest Navigator. A flat harness attaches
+/// them to go_router's own Navigator, which `go()` then rebuilds, dismissing
+/// them for reasons that have nothing to do with the code under test. The real
+/// app opens them inside a shell branch navigator that survives `go()`. This
+/// harness reproduces that by nesting a Navigator, so a details sheet that is
+/// never popped really does stay on screen.
 const String _guildId = 'guild_1';
 const String _channelId = 'chan_1';
 const String _messageId = '1000000000000000000';
@@ -219,23 +218,26 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.byType(ChannelDetailsSheet), findsOneWidget);
     expect(
-      find.byType(ChannelSearchSheet),
+      find.byType(ChannelDetailsSheet, skipOffstage: false),
       findsOneWidget,
-      reason: 'the search sheet must be stacked on the details sheet',
+    );
+    expect(
+      find.byType(ChannelSearchPage),
+      findsOneWidget,
+      reason: 'the search page must be stacked on the details sheet',
     );
 
     await tester.tap(find.byType(MessagePreviewTile).first);
     await tester.pumpAndSettle();
 
     expect(
-      find.byType(ChannelSearchSheet),
+      find.byType(ChannelSearchPage, skipOffstage: false),
       findsNothing,
-      reason: 'the search sheet must be gone',
+      reason: 'the search page must be gone',
     );
     expect(
-      find.byType(ChannelDetailsSheet),
+      find.byType(ChannelDetailsSheet, skipOffstage: false),
       findsNothing,
       reason: 'the details sheet must be gone too, not left covering the chat',
     );

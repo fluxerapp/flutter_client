@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'dart:math' as math;
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
@@ -76,6 +75,7 @@ import 'package:fluxer_app/shared/utils/navigation_item_semantics.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class GuildSidebar extends ConsumerStatefulWidget {
@@ -262,7 +262,7 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
       );
     }
     return Container(
-      height: headerHeight,
+      constraints: const BoxConstraints(minHeight: headerHeight),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
         color: context.colors.channelSidebarBackground,

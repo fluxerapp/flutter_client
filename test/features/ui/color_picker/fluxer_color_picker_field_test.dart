@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -6,6 +5,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/ui/color_picker/fluxer_color_picker_field.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 
 Widget _wrap(Widget child, {Size size = const Size(1200, 800)}) {
   final colorTheme = buildDarkColorTheme();
@@ -64,6 +64,32 @@ void main() {
       await tester.pump();
 
       expect(values, isEmpty);
+    });
+
+    testWidgets('unset value shows #000000 and text-chat swatch', (
+      tester,
+    ) async {
+      final colorTheme = buildDarkColorTheme();
+      await tester.pumpWidget(
+        _wrap(
+          FluxerColorPickerField(
+            value: 0,
+            onChanged: (_) {},
+            label: 'Folder color',
+          ),
+        ),
+      );
+
+      final editable = tester.widget<EditableText>(find.byType(EditableText));
+      expect(editable.controller.text, '#000000');
+
+      final swatch = tester.widget<ColoredBox>(
+        find.descendant(
+          of: find.bySemanticsLabel('Open color picker'),
+          matching: find.byType(ColoredBox),
+        ),
+      );
+      expect(swatch.color, colorTheme.textChat);
     });
 
     testWidgets('opening color swatch dismisses hex keyboard focus', (

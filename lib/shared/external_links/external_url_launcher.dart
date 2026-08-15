@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/features/settings/domain/default_web_browser.dart';
 import 'package:fluxer_app/shared/external_links/platform_browser_launcher.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ExternalUrlBrowserStyle {
@@ -61,16 +61,47 @@ Future<bool> _tryLaunchInNativeApp(Uri uri) async {
   }
 }
 
+Future<void> closeInAppBrowserIfOpen() async {
+  if (!Platform.isAndroid || !_chromeSafariBrowser.isOpened()) {
+    return;
+  }
+  try {
+    await _chromeSafariBrowser.close();
+  } on Object {
+    // Ignore already closed error
+  }
+}
+
+Future<void> _closeInAppBrowserBestEffort() async {
+  try {
+    await _chromeSafariBrowser.close();
+  } on Object {
+    // Ignore stale session close errors
+  }
+}
+
 Future<bool> _openInAppBrowser(
   Uri uri, {
   ExternalUrlBrowserStyle? style,
 }) async {
   try {
-    if (_chromeSafariBrowser.isOpened()) {
+    final WebUri webUri = WebUri(uri.toString());
+    if (Platform.isAndroid) {
+      if (_chromeSafariBrowser.isOpened()) {
+        try {
+          await _chromeSafariBrowser.launchUrl(url: webUri);
+          return true;
+        } on Object {
+          await _closeInAppBrowserBestEffort();
+        }
+      } else {
+        await _closeInAppBrowserBestEffort();
+      }
+    } else if (_chromeSafariBrowser.isOpened()) {
       await _chromeSafariBrowser.close();
     }
     await _chromeSafariBrowser.open(
-      url: WebUri(uri.toString()),
+      url: webUri,
       settings: style != null
           ? _buildBrowserSettings(style)
           : ChromeSafariBrowserSettings(

@@ -3482,6 +3482,29 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
       'Sakte-modus er aktivert, men du er immun.';
 
   @override
+  String get slowmodeStatusEnabled => 'Slowmode is enabled';
+
+  @override
+  String slowmodeStatusActive(String remaining) {
+    return 'Slowmode is active ($remaining)';
+  }
+
+  @override
+  String slowmodeTooltipSetImmune(String durationLabel) {
+    return 'Slowmode is set to $durationLabel, but you are immune.';
+  }
+
+  @override
+  String slowmodeTooltipSetWait(String durationLabel) {
+    return 'Slowmode is set to $durationLabel. Wait before sending another message.';
+  }
+
+  @override
+  String slowmodeTooltipSetChannel(String durationLabel) {
+    return 'Slowmode is set to $durationLabel for this channel.';
+  }
+
+  @override
   String get channelNoSendPermissionHint =>
       'Du kan ikke sende meldinger i denne kanalen.';
 
@@ -4112,6 +4135,31 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
       'Velg mellom mørkt, kullsvart eller lyst utseende.';
 
   @override
+  String get lookAndFeelHdrSectionTitle => 'High dynamic range';
+
+  @override
+  String get lookAndFeelHdrSectionDescription =>
+      'Control how HDR images are displayed on HDR-capable monitors.';
+
+  @override
+  String get lookAndFeelHdrFullName => 'Full dynamic range';
+
+  @override
+  String get lookAndFeelHdrFullDescription =>
+      'Display HDR images at full brightness and color range.';
+
+  @override
+  String get lookAndFeelHdrStandardName => 'Standard range';
+
+  @override
+  String get lookAndFeelHdrStandardDescription =>
+      'Tone-map HDR images to standard range, reducing peak brightness.';
+
+  @override
+  String get lookAndFeelHdrDisplayModeLabel =>
+      'High dynamic range display mode';
+
+  @override
   String get lookAndFeelThemeDark => 'Mørkt tema';
 
   @override
@@ -4145,6 +4193,52 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   @override
   String get lookAndFeelChatFontScalingDescription =>
       'Juster skriftstørrelsen i chat-området.';
+
+  @override
+  String get lookAndFeelChatFontSizeLabel => 'Chat font size';
+
+  @override
+  String get lookAndFeelAppZoomTitle => 'App zoom level';
+
+  @override
+  String get lookAndFeelAppZoomDescription =>
+      'Adjust the application\'s zoom level.';
+
+  @override
+  String get lookAndFeelMessagesSectionTitle => 'Messages';
+
+  @override
+  String get lookAndFeelMessagesSectionDescription =>
+      'Choose how messages are displayed in chat channels.';
+
+  @override
+  String get lookAndFeelMessageGroupSpacingLabel =>
+      'Space between message groups';
+
+  @override
+  String lookAndFeelMessageGroupSpacingValue(int spacing) {
+    return '${spacing}px';
+  }
+
+  @override
+  String get lookAndFeelMessageDisplayModeLabel => 'Message display mode';
+
+  @override
+  String get lookAndFeelMessageDisplayComfyName => 'Comfy';
+
+  @override
+  String get lookAndFeelMessageDisplayComfyDescription =>
+      'Spacious layout with clear visual separation between messages.';
+
+  @override
+  String get lookAndFeelMessageDisplayDenseName => 'Dense';
+
+  @override
+  String get lookAndFeelMessageDisplayDenseDescription =>
+      'Maximizes visible messages with minimal spacing.';
+
+  @override
+  String get lookAndFeelHideUserAvatarsLabel => 'Hide user avatars';
 
   @override
   String get lookAndFeelInterfaceTitle => 'Grensesnitt';
@@ -6217,6 +6311,30 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get chatMessageCopyText => 'Kopier melding';
+
+  @override
+  String get chatMessageTranslate => 'Translate';
+
+  @override
+  String chatMessageTranslatedFrom(String language) {
+    return 'Translated from $language';
+  }
+
+  @override
+  String get chatMessageSeeOriginal => 'See original';
+
+  @override
+  String get chatMessageSeeTranslation => 'See translation';
+
+  @override
+  String get chatMessageTranslating => 'Translating…';
+
+  @override
+  String get chatMessageTranslateFailed => 'Couldn\'t translate this message.';
+
+  @override
+  String get chatMessageTranslateUnavailable =>
+      'Translation isn\'t available on this device.';
 
   @override
   String get chatMessageSpeak => 'Speak message';
@@ -8314,6 +8432,18 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get userSettingsGroupStaffOnly => 'STAFF-ONLY';
 
   @override
+  String get userSettingsSearchPlaceholder => 'Search settings...';
+
+  @override
+  String get userSettingsSearchFieldLabel => 'Search settings';
+
+  @override
+  String get userSettingsSearchClear => 'Clear search';
+
+  @override
+  String get userSettingsSearchNoResults => 'No settings found';
+
+  @override
   String get userSettingsNavProfile => 'Profil';
 
   @override
@@ -9343,6 +9473,14 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   @override
   String get advancedSettingShowNekoDescriptionTouch =>
       'Show Neko on your chat input';
+
+  @override
+  String get advancedSettingMobileSplashZoomAnimationLabel =>
+      'Splash zoom animation';
+
+  @override
+  String get advancedSettingMobileSplashZoomAnimationDescription =>
+      'Zoom the logo out when leaving the splash screen';
 
   @override
   String get advancedSettingKeyboardHintsLabel => 'Keyboard hints';

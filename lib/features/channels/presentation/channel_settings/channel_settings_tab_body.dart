@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/domain/channel_settings_tab.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/tabs/channel_invites_widget.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/tabs/channel_overview_widget.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/tabs/channel_permissions_settings_widget.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/tabs/channel_webhooks_widget.dart';
+import 'package:material_ui/material_ui.dart';
 
 class ChannelSettingsTabBody extends StatelessWidget {
   const ChannelSettingsTabBody({

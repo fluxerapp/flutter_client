@@ -27,6 +27,7 @@ import 'package:fluxer_app/features/chat/data/message_repository.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_attachment_update.dart';
+import 'package:fluxer_app/features/chat/domain/message_translation.dart';
 import 'package:fluxer_app/features/chat/domain/message_upload_send_cancelled_exception.dart';
 import 'package:fluxer_app/features/chat/domain/message_window.dart';
 import 'package:fluxer_app/features/chat/domain/pagination_pump_policy.dart';
@@ -1552,6 +1553,24 @@ class ChatViewModel extends _$ChatViewModel {
     final String newestId = state.messages.last.id;
     return compareSnowflakeIds(messageId, oldestId) >= 0 &&
         compareSnowflakeIds(messageId, newestId) <= 0;
+  }
+
+  void applyMessageTranslation({
+    required String messageId,
+    required MessageTranslation? translation,
+  }) {
+    final int idx = state.messages.indexWhere(
+      (Message message) => message.id == messageId,
+    );
+    if (idx == -1) {
+      return;
+    }
+    final Message existing = state.messages[idx];
+    final List<Message> next = List<Message>.from(state.messages);
+    next[idx] = existing.copyWith(translation: translation);
+    state = state.copyWith(
+      write: (messages: next, origin: MessagesOrigin.localMutation),
+    );
   }
 
   List<Message>? _replaceById(List<Message> list, Message msg) {

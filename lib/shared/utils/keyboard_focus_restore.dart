@@ -11,21 +11,26 @@ bool isAppBackgroundLifecycleState(AppLifecycleState state) {
   return state == AppLifecycleState.paused || state == AppLifecycleState.hidden;
 }
 
+bool _canSafelyRequestFocus([AppLifecycleState? state]) {
+  final AppLifecycleState? current =
+      state ?? WidgetsBinding.instance.lifecycleState;
+  return current == null || current == AppLifecycleState.resumed;
+}
+
 /// Re-requests [focusNode] on resume when the keyboard was open before backgrounding.
 class KeyboardFocusRestoreHandle {
   KeyboardFocusRestoreHandle({
     required this.focusNode,
     required this.shouldTrackOnBackground,
     required this.canRestoreFocus,
-    this.retryDelay = kKeyboardFocusRestoreRetryDelay,
   });
 
   final FocusNode focusNode;
   final bool Function() shouldTrackOnBackground;
   final bool Function() canRestoreFocus;
-  final Duration retryDelay;
 
   bool _pendingRestore = false;
+  int _restoreGeneration = 0;
 
   bool get hasPendingRestore => _pendingRestore;
 
@@ -34,6 +39,10 @@ class KeyboardFocusRestoreHandle {
       if (shouldTrackOnBackground()) {
         _pendingRestore = true;
       }
+      return;
+    }
+    if (state == AppLifecycleState.inactive) {
+      _restoreGeneration++;
       return;
     }
     if (state == AppLifecycleState.resumed) {
@@ -46,30 +55,49 @@ class KeyboardFocusRestoreHandle {
       return;
     }
     _pendingRestore = false;
+    final int generation = ++_restoreGeneration;
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (generation != _restoreGeneration) {
+        return;
+      }
       _restoreFocus();
     });
   }
 
   void _restoreFocus() {
-    if (!canRestoreFocus() || !focusNode.canRequestFocus) {
+    if (!_shouldRequestFocus()) {
       return;
     }
-    // Already focused: requesting again can drop the text input connection
-    // and make system paste a no-op.
-    if (focusNode.hasFocus) {
-      return;
-    }
-
     focusNode.requestFocus();
-
-    Future<void>.delayed(retryDelay, () {
-      if (!canRestoreFocus() || !focusNode.canRequestFocus) {
-        return;
-      }
-      if (!focusNode.hasFocus) {
-        focusNode.requestFocus();
-      }
-    });
   }
+
+  bool _shouldRequestFocus() {
+    if (!canRestoreFocus() || !focusNode.canRequestFocus) {
+      return false;
+    }
+    if (!_canSafelyRequestFocus()) {
+      return false;
+    }
+    // Re-requesting focus while the field is already focused can drop the
+    // text input connection and make system paste a no-op.
+    if (focusNode.hasFocus) {
+      return false;
+    }
+    final FocusNode? primary = FocusManager.instance.primaryFocus;
+    if (primary != null &&
+        primary.hasFocus &&
+        primary != focusNode &&
+        _isEditableFocus(primary)) {
+      return false;
+    }
+    return true;
+  }
+}
+
+bool _isEditableFocus(FocusNode node) {
+  final BuildContext? context = node.context;
+  if (context == null) {
+    return false;
+  }
+  return context.findAncestorWidgetOfExactType<EditableText>() != null;
 }

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
@@ -9,6 +8,7 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/domain/message_translation.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_list_renderer.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_gift.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_image.dart';
@@ -31,8 +31,11 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/forwarded
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_reactions_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_row_layout.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_translation_indicator.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
+import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/providers/messages/message_translation_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/spoiler_reveal_provider.dart';
 import 'package:fluxer_app/features/chat/utils/embed_gallery_utils.dart';
 import 'package:fluxer_app/features/chat/utils/message_accessibility_summary.dart';
@@ -44,12 +47,14 @@ import 'package:fluxer_app/features/input/providers/focused_message_provider.dar
 import 'package:fluxer_app/features/input/providers/keyboard_mode_provider.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/markdown/message_markdown_settings.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
@@ -57,6 +62,7 @@ import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 /// Mention highlight color matching web app's
@@ -108,6 +114,8 @@ class MessageRenderSettings {
     required this.chatPreferences,
     required this.messageGroupSpacing,
     this.messageDisplayCompact = false,
+    this.showUserAvatarsInCompactMode = false,
+    this.markdown = MessageMarkdownSettings.defaults,
   });
 
   final String? activeGuildId;
@@ -119,6 +127,8 @@ class MessageRenderSettings {
   final ChatPreferencesState chatPreferences;
   final double messageGroupSpacing;
   final bool messageDisplayCompact;
+  final bool showUserAvatarsInCompactMode;
+  final MessageMarkdownSettings markdown;
 
   @override
   bool operator ==(Object other) =>
@@ -133,7 +143,9 @@ class MessageRenderSettings {
           revealSpoilers == other.revealSpoilers &&
           chatPreferences == other.chatPreferences &&
           messageGroupSpacing == other.messageGroupSpacing &&
-          messageDisplayCompact == other.messageDisplayCompact;
+          messageDisplayCompact == other.messageDisplayCompact &&
+          showUserAvatarsInCompactMode == other.showUserAvatarsInCompactMode &&
+          markdown == other.markdown;
 
   @override
   int get hashCode => Object.hash(
@@ -146,6 +158,8 @@ class MessageRenderSettings {
     chatPreferences,
     messageGroupSpacing,
     messageDisplayCompact,
+    showUserAvatarsInCompactMode,
+    markdown,
   );
 }
 
@@ -509,6 +523,18 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         };
     final ChatPreferencesState chatPreferences =
         settings?.chatPreferences ?? ref.watch(chatPreferencesProvider);
+    final bool messageDisplayCompact =
+        settings?.messageDisplayCompact ??
+        ref.watch(
+          userSettingsViewModelProvider.select((s) => s.messageDisplayCompact),
+        );
+    final bool showUserAvatarsInCompactMode =
+        settings?.showUserAvatarsInCompactMode ??
+        ref.watch(
+          appearancePreferencesProvider.select(
+            (s) => s.showUserAvatarsInCompactMode,
+          ),
+        );
     final bool prefersPersistedAuthor = messagePrefersPersistedAuthorDisplay(
       msg,
     );
@@ -604,25 +630,72 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (!isGrouped && msg.isReply)
+                  if ((!isGrouped || messageDisplayCompact) && msg.isReply)
                     _wrapMessageSendingDim(
                       dim: dimMessagePartsExceptAttachments,
                       child: _buildReplyRow(msg, guildId: guildId),
                     ),
-                  if (!isGrouped &&
+                  if ((!isGrouped || messageDisplayCompact) &&
                       msg.isForwarded &&
                       !msg.hasForwardSnapshots &&
                       msg.forwardedFrom != null)
                     _wrapMessageSendingDim(
                       dim: dimMessagePartsExceptAttachments,
                       child: Padding(
-                        padding: const EdgeInsets.only(
-                          left: kMessageAvatarColumnWidth,
+                        padding: EdgeInsets.only(
+                          left: messageDisplayCompact
+                              ? 0
+                              : kMessageAvatarColumnWidth,
                         ),
                         child: ForwardIndicator(source: msg.forwardedFrom!),
                       ),
                     ),
-                  if (isGrouped)
+                  if (messageDisplayCompact)
+                    if (isGrouped && isMobile)
+                      _buildCompactMessageRow(
+                        context,
+                        msg,
+                        isMobile,
+                        isGrouped: isGrouped,
+                        showUserAvatarsInCompactMode:
+                            showUserAvatarsInCompactMode,
+                        dimMessagePartsExceptAttachments:
+                            dimMessagePartsExceptAttachments,
+                        renderEmbeds: renderEmbeds,
+                        renderReactions: renderReactions,
+                        inlineAttachmentMedia: inlineAttachmentMedia,
+                        revealSpoilers: revealSpoilers,
+                        chatPreferences: chatPreferences,
+                      )
+                    else
+                      _MessageAuthorScope(
+                        message: msg,
+                        guildId: guildId,
+                        currentUserId: widget.currentUserId,
+                        prefersPersistedAuthor: prefersPersistedAuthor,
+                        builder:
+                            (
+                              GuildUserDisplay authorDisplay,
+                              Color? authorRoleColor,
+                            ) => _buildCompactMessageRow(
+                              context,
+                              msg,
+                              isMobile,
+                              isGrouped: isGrouped,
+                              authorDisplay: authorDisplay,
+                              authorRoleColor: authorRoleColor,
+                              showUserAvatarsInCompactMode:
+                                  showUserAvatarsInCompactMode,
+                              dimMessagePartsExceptAttachments:
+                                  dimMessagePartsExceptAttachments,
+                              renderEmbeds: renderEmbeds,
+                              renderReactions: renderReactions,
+                              inlineAttachmentMedia: inlineAttachmentMedia,
+                              revealSpoilers: revealSpoilers,
+                              chatPreferences: chatPreferences,
+                            ),
+                      )
+                  else if (isGrouped)
                     _buildGroupedRow(
                       context,
                       msg,
@@ -1036,14 +1109,15 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     required bool revealSpoilers,
   }) {
     Widget markdown = MessageMarkdown(
-      data: msg.content,
+      data: msg.displayedContent,
       messageId: msg.id,
       selectable:
-          ref.watch(
-            advancedPreferencesProvider.select(
-              (AdvancedPreferencesState s) => s.enableTextSelection,
-            ),
-          ) &&
+          (widget.renderSettings?.markdown.enableTextSelection ??
+              ref.watch(
+                advancedPreferencesProvider.select(
+                  (AdvancedPreferencesState s) => s.enableTextSelection,
+                ),
+              )) &&
           !isMobile,
       channelId: msg.channelId,
       mentionChannels: msg.mentionChannels,
@@ -1061,7 +1135,45 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         child: markdown,
       );
     }
-    return markdown;
+    final bool isTranslating = ref.watch(
+      translatingMessageIdsProvider.select(
+        (Set<String> ids) => ids.contains(msg.id),
+      ),
+    );
+    final MessageTranslation? translation = msg.translation;
+    if (!msg.hasValidTranslation && !isTranslating) {
+      return markdown;
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        markdown,
+        if (isTranslating)
+          const MessageTranslatingIndicator()
+        else if (translation != null)
+          MessageTranslationIndicator(
+            translation: translation,
+            onToggleOriginal: () => _toggleTranslationOriginal(msg),
+          ),
+      ],
+    );
+  }
+
+  void _toggleTranslationOriginal(Message msg) {
+    unawaited(() async {
+      final Message updated = await ref
+          .read(messageTranslationServiceProvider)
+          .setShowOriginal(
+            message: msg,
+            showOriginal: !(msg.translation?.showOriginal ?? false),
+          );
+      ref
+          .read(chatViewModelProvider.notifier)
+          .applyMessageTranslation(
+            messageId: updated.id,
+            translation: updated.translation,
+          );
+    }());
   }
 
   Widget _buildEditedLabel(BuildContext context, Message msg) {
@@ -1108,6 +1220,160 @@ class _MessageItemState extends ConsumerState<MessageItem> {
 
   /// Grouped message row: hover-reveal short timestamp
   /// in the left column, content on the right.
+  bool _shouldShowCompactMetadata({
+    required bool isGrouped,
+    required bool isMobile,
+  }) => !(isGrouped && isMobile);
+
+  Widget _buildCompactTimestamp(
+    BuildContext context,
+    Message msg, {
+    required bool isGrouped,
+  }) {
+    final String time = _formatShortTimestamp(msg.timestamp.toLocal());
+    final TextStyle style = context.textStyles.timestamp.copyWith(
+      color: context.colors.textTertiaryMuted,
+      fontSize: 10,
+    );
+    final Widget timestamp = Text('[$time]', style: style);
+    if (!isGrouped) {
+      return timestamp;
+    }
+    return ValueListenableBuilder<bool>(
+      valueListenable: _hovered,
+      builder: (context, hovered, child) => AnimatedOpacity(
+        opacity: hovered ? 1.0 : 0.0,
+        duration: context.motion.fast,
+        child: child,
+      ),
+      child: timestamp,
+    );
+  }
+
+  Widget _buildCompactAuthorPrefix(
+    BuildContext context,
+    Message msg,
+    GuildUserDisplay authorDisplay,
+    Color? roleColor, {
+    required bool showAvatar,
+  }) {
+    final TextStyle nameStyle = context.textStyles.username.copyWith(
+      color: roleColor ?? context.colors.textChat,
+      fontWeight: FontWeight.w600,
+    );
+    return Wrap(
+      spacing: kCompactAuthorGap,
+      runSpacing: 2,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        if (messageAuthorShowsUserTag(
+          authorIsBot: msg.authorIsBot,
+          authorIsSystem: msg.authorIsSystem,
+        ))
+          FluxerUserTag(
+            isSystem: messageAuthorUserTagIsSystem(
+              authorIsSystem: msg.authorIsSystem,
+            ),
+          ),
+        if (showAvatar)
+          FluxerGestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: _canOpenAuthorProfile(msg)
+                ? () => _openAuthorProfile(context, msg)
+                : null,
+            child: FluxerAvatar.user(
+              key: ValueKey<String>(
+                'compact-msg-avatar-${msg.authorId}-${authorDisplay.avatarUrl ?? ''}',
+              ),
+              fallbackText: authorDisplay.displayName,
+              userId: msg.authorId,
+              imageUrl: authorDisplay.avatarUrl,
+              avatarColor: authorDisplay.avatarColor,
+              size: kCompactAvatarSize,
+            ),
+          ),
+        FluxerGestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: _canOpenAuthorProfile(msg)
+              ? () => _openAuthorProfile(context, msg)
+              : null,
+          child: Text(
+            authorDisplay.displayName,
+            style: nameStyle,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
+        ),
+        Text(':', style: nameStyle),
+      ],
+    );
+  }
+
+  Widget _buildCompactMessageRow(
+    BuildContext context,
+    Message msg,
+    bool isMobile, {
+    required bool isGrouped,
+    required bool showUserAvatarsInCompactMode,
+    required bool dimMessagePartsExceptAttachments,
+    required bool renderEmbeds,
+    required bool renderReactions,
+    required bool inlineAttachmentMedia,
+    required bool revealSpoilers,
+    required ChatPreferencesState chatPreferences,
+    GuildUserDisplay? authorDisplay,
+    Color? authorRoleColor,
+  }) {
+    final bool showMetadata = _shouldShowCompactMetadata(
+      isGrouped: isGrouped,
+      isMobile: isMobile,
+    );
+    final List<Widget> content = _buildMessageContent(
+      context,
+      msg,
+      isMobile,
+      dimMessagePartsExceptAttachments: dimMessagePartsExceptAttachments,
+      renderEmbeds: renderEmbeds,
+      renderReactions: renderReactions,
+      inlineAttachmentMedia: inlineAttachmentMedia,
+      revealSpoilers: revealSpoilers,
+      chatPreferences: chatPreferences,
+    );
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (showMetadata)
+          SizedBox(
+            width: isGrouped ? kMessageAvatarColumnWidth : null,
+            child: _buildCompactTimestamp(context, msg, isGrouped: isGrouped),
+          ),
+        if (showMetadata) const SizedBox(width: kCompactTimestampGap),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (showMetadata && authorDisplay != null)
+                _wrapMessageSendingDim(
+                  dim: dimMessagePartsExceptAttachments,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 2),
+                    child: _buildCompactAuthorPrefix(
+                      context,
+                      msg,
+                      authorDisplay,
+                      authorRoleColor,
+                      showAvatar: showUserAvatarsInCompactMode,
+                    ),
+                  ),
+                ),
+              ...content,
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildGroupedRow(
     BuildContext context,
     Message msg,
@@ -1259,37 +1525,35 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           children: [
             _wrapMessageSendingDim(
               dim: dimMessagePartsExceptAttachments,
-              child: Row(
+              child: Wrap(
+                spacing: 6,
+                runSpacing: 2,
+                crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  Flexible(
-                    child: FluxerGestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: _canOpenAuthorProfile(msg)
-                          ? () => _openAuthorProfile(context, msg)
-                          : null,
-                      child: Text(
-                        authorDisplay.displayName,
-                        style: context.textStyles.username.copyWith(
-                          color: roleColor ?? context.colors.textChat,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
+                  FluxerGestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: _canOpenAuthorProfile(msg)
+                        ? () => _openAuthorProfile(context, msg)
+                        : null,
+                    child: Text(
+                      authorDisplay.displayName,
+                      style: context.textStyles.username.copyWith(
+                        color: roleColor ?? context.colors.textChat,
+                        fontWeight: FontWeight.w600,
                       ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
                   ),
                   if (messageAuthorShowsUserTag(
                     authorIsBot: msg.authorIsBot,
                     authorIsSystem: msg.authorIsSystem,
-                  )) ...[
-                    const SizedBox(width: 6),
+                  ))
                     FluxerUserTag(
                       isSystem: messageAuthorUserTagIsSystem(
                         authorIsSystem: msg.authorIsSystem,
                       ),
                     ),
-                  ],
-                  const SizedBox(width: 8),
                   Text(
                     formatMessageTimestamp(
                       msg.timestamp.toLocal(),
@@ -1299,10 +1563,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                     ),
                     style: context.textStyles.timestamp,
                   ),
-                  if ((msg.flags & messageFlagSuppressNotifications) != 0) ...[
-                    const SizedBox(width: 6),
+                  if ((msg.flags & messageFlagSuppressNotifications) != 0)
                     _buildSilentIndicator(context),
-                  ],
                 ],
               ),
             ),
@@ -1410,7 +1672,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                     ),
                   if (!isGrouped) const SizedBox(height: 2),
                   MessageMarkdown(
-                    data: msg.content,
+                    data: msg.displayedContent,
                     messageId: msg.id,
                     selectable: !isMobileLayout(context),
                     channelId: msg.channelId,

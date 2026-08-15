@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/discovery/presentation/discovery_page.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/root_overlay_back_scope.dart';
+import 'package:material_ui/material_ui.dart';
 
 class DiscoveryLayout extends StatelessWidget {
   const DiscoveryLayout({super.key});

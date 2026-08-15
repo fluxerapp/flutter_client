@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
@@ -10,6 +9,7 @@ import 'package:fluxer_app/features/settings/domain/default_web_browser.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_default_apps.dart';
 import 'package:fluxer_app/features/settings/providers/default_apps_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/utils/default_web_browser_l10n.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../helpers/test_l10n.dart';
 

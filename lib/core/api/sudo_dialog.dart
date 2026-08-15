@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -16,6 +15,7 @@ import 'package:fluxer_app/features/ui/tabs/fluxer_segmented_tabs.dart';
 import 'package:fluxer_app/features/ui/tabs/fluxer_tabs.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/keyboard_focus_restore.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:passkeys/authenticator.dart';
 import 'package:passkeys/exceptions.dart';
 
@@ -109,7 +109,8 @@ class _SudoVerificationSheetContentState
     super.initState();
     _keyboardRestore = KeyboardFocusRestoreHandle(
       focusNode: _inputFocusNode,
-      shouldTrackOnBackground: () => _canShowTextInput,
+      shouldTrackOnBackground: () =>
+          _inputFocusNode.hasFocus && _canShowTextInput,
       canRestoreFocus: () => mounted && _canShowTextInput,
     );
     WidgetsBinding.instance.addObserver(this);

@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
-
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_save_bar.dart';
+import 'package:material_ui/material_ui.dart';
 
 class FluxerSettingsSheet extends StatelessWidget {
   const FluxerSettingsSheet({

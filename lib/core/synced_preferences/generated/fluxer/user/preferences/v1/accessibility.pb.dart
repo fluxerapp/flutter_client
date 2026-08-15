@@ -8,7 +8,7 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: curly_braces_in_flow_control_structures
 // ignore_for_file: deprecated_member_use_from_same_package, library_prefixes
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, prefer_relative_imports
 
 import 'dart:core' as $core;
 
@@ -84,6 +84,8 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
     $core.double? compactMessageGroupSpacing,
     $core.bool? scrollToBottomOnMessageSend,
     $core.bool? dimStrikethroughText,
+    $core.bool? sequentialFileSend,
+    $core.bool? mobileSplashZoomAnimation,
   }) {
     final result = create();
     if (saturationFactor != null) result.saturationFactor = saturationFactor;
@@ -201,6 +203,10 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
       result.scrollToBottomOnMessageSend = scrollToBottomOnMessageSend;
     if (dimStrikethroughText != null)
       result.dimStrikethroughText = dimStrikethroughText;
+    if (sequentialFileSend != null)
+      result.sequentialFileSend = sequentialFileSend;
+    if (mobileSplashZoomAnimation != null)
+      result.mobileSplashZoomAnimation = mobileSplashZoomAnimation;
     return result;
   }
 
@@ -289,6 +295,8 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
     ..aD(60, _omitFieldNames ? '' : 'compactMessageGroupSpacing')
     ..aOB(61, _omitFieldNames ? '' : 'scrollToBottomOnMessageSend')
     ..aOB(62, _omitFieldNames ? '' : 'dimStrikethroughText')
+    ..aOB(63, _omitFieldNames ? '' : 'sequentialFileSend')
+    ..aOB(64, _omitFieldNames ? '' : 'mobileSplashZoomAnimation')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -879,6 +887,24 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
   $core.bool hasDimStrikethroughText() => $_has(61);
   @$pb.TagNumber(62)
   void clearDimStrikethroughText() => $_clearField(62);
+
+  @$pb.TagNumber(63)
+  $core.bool get sequentialFileSend => $_getBF(62);
+  @$pb.TagNumber(63)
+  set sequentialFileSend($core.bool value) => $_setBool(62, value);
+  @$pb.TagNumber(63)
+  $core.bool hasSequentialFileSend() => $_has(62);
+  @$pb.TagNumber(63)
+  void clearSequentialFileSend() => $_clearField(63);
+
+  @$pb.TagNumber(64)
+  $core.bool get mobileSplashZoomAnimation => $_getBF(63);
+  @$pb.TagNumber(64)
+  set mobileSplashZoomAnimation($core.bool value) => $_setBool(63, value);
+  @$pb.TagNumber(64)
+  $core.bool hasMobileSplashZoomAnimation() => $_has(63);
+  @$pb.TagNumber(64)
+  void clearMobileSplashZoomAnimation() => $_clearField(64);
 }
 
 class AccessibilityOverrides extends $pb.GeneratedMessage {

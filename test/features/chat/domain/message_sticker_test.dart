@@ -86,6 +86,7 @@ void main() {
         type: 0,
         flags: 0,
         deliveryState: MessageDeliveryState.sent.index,
+        translationShowOriginal: false,
       ),
     );
 

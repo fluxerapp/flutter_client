@@ -1,14 +1,15 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/accessibility/text_scale.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/profile_tab_menu_sheet.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class AppBottomNavBar extends ConsumerWidget {
@@ -38,26 +39,30 @@ class AppBottomNavBar extends ConsumerWidget {
       color: colors.backgroundSecondary,
       child: SafeArea(
         top: false,
-        child: SizedBox(
-          height: context.layout.mobileBottomNavHeight,
-          child: Row(
-            children: [
-              for (var index = 0; index < items.length; index++)
-                Expanded(
-                  child: _AppBottomNavItem(
-                    config: items[index],
-                    isSelected: currentIndex == index,
-                    user: user,
-                    onTap: () => onBranchSelected(index),
-                    onLongPress: index == 2
-                        ? () {
-                            FluxerHaptics.medium();
-                            unawaited(ProfileTabMenuSheet.show(context, ref));
-                          }
-                        : null,
+        child: FluxerConstrainedUiTextScale(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: context.layout.mobileBottomNavHeight,
+            ),
+            child: Row(
+              children: [
+                for (var index = 0; index < items.length; index++)
+                  Expanded(
+                    child: _AppBottomNavItem(
+                      config: items[index],
+                      isSelected: currentIndex == index,
+                      user: user,
+                      onTap: () => onBranchSelected(index),
+                      onLongPress: index == 2
+                          ? () {
+                              FluxerHaptics.medium();
+                              unawaited(ProfileTabMenuSheet.show(context, ref));
+                            }
+                          : null,
+                    ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -127,6 +132,9 @@ class _AppBottomNavItem extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 config.label,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: context.textStyles.timestamp.copyWith(color: itemColor),
               ),
             ],

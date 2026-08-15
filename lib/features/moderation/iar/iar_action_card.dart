@@ -4,11 +4,11 @@
 // guild, etc.) with a title + description + trailing button. The visual
 // language mirrors web `IARActionCards.tsx`.
 
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Visual style for the trailing button on an [IarActionCardConfig].
 enum IarActionCardButtonStyle { secondary, dangerSecondary }

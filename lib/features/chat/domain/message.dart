@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/features/chat/domain/message_translation.dart';
 import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/url_sanitization_utils.dart';
 import 'package:fluxer_app/features/chat/utils/voice_message_constants.dart';
@@ -891,6 +892,7 @@ class Message {
   final String? sendError;
   final MessageCall? call;
   final bool tts;
+  final MessageTranslation? translation;
 
   const Message({
     required this.id,
@@ -928,6 +930,7 @@ class Message {
     this.sendError,
     this.call,
     this.tts = false,
+    this.translation,
   });
 
   factory Message.fromSdk(MessageResponseSchema sdk, {String? currentUserId}) {
@@ -1202,7 +1205,25 @@ class Message {
           : MessageCall.fromJson(
               jsonDecode(row.callJson!) as Map<String, dynamic>,
             ),
+      translation: translationFromRow(row),
     );
+  }
+
+  static MessageTranslation? translationFromRow(db.Message row) {
+    return MessageTranslation.tryParse(
+      translatedContent: row.translatedContent,
+      sourceLanguage: row.translationSourceLanguage,
+      sourceContent: row.translatedSourceContent,
+      targetLanguage: row.translationTargetLanguage,
+      showOriginal: row.translationShowOriginal,
+    );
+  }
+
+  Message withStoredTranslation(MessageTranslationSnapshot? snapshot) {
+    if (snapshot == null || snapshot.content != content) {
+      return translation == null ? this : copyWith(translation: null);
+    }
+    return copyWith(translation: snapshot.translation);
   }
 
   /// Whether [other] renders identically, so the merge can reuse this instance
@@ -1263,7 +1284,22 @@ class Message {
           mentionChannels,
           other.mentionChannels,
           (mention) => mention.toJson(),
-        );
+        ) &&
+        _translationEquals(translation, other.translation);
+  }
+
+  static bool _translationEquals(MessageTranslation? a, MessageTranslation? b) {
+    if (identical(a, b)) {
+      return true;
+    }
+    if (a == null || b == null) {
+      return false;
+    }
+    return a.translatedContent == b.translatedContent &&
+        a.sourceLanguageCode == b.sourceLanguageCode &&
+        a.sourceContent == b.sourceContent &&
+        a.targetLanguageCode == b.targetLanguageCode &&
+        a.showOriginal == b.showOriginal;
   }
 
   static bool _encodedListEquals<T>(
@@ -1403,6 +1439,7 @@ class Message {
     Object? sendError = _unset,
     Object? call = _unset,
     bool? tts,
+    Object? translation = _unset,
   }) {
     return Message(
       id: id ?? this.id,
@@ -1442,6 +1479,9 @@ class Message {
       sendError: sendError == _unset ? this.sendError : sendError as String?,
       call: call == _unset ? this.call : call as MessageCall?,
       tts: tts ?? this.tts,
+      translation: translation == _unset
+          ? this.translation
+          : translation as MessageTranslation?,
     );
   }
 
@@ -1451,6 +1491,7 @@ class Message {
     String? currentUserId,
   }) {
     final Message incoming = Message.fromSdk(sdk, currentUserId: currentUserId);
+    final bool contentChanged = incoming.content != content;
     return copyWith(
       authorId: incoming.authorId,
       authorName: incoming.authorName,
@@ -1487,6 +1528,7 @@ class Message {
       type: incoming.type,
       flags: incoming.flags,
       call: incoming.call ?? call,
+      translation: contentChanged ? null : _unset,
     );
   }
 
@@ -1495,6 +1537,21 @@ class Message {
   bool get hasStickers => stickers.isNotEmpty;
   bool get isReply =>
       replyToId != null && !(messageReference?.isForward ?? false);
+
+  String get displayedContent {
+    final MessageTranslation? current = translation;
+    if (current != null &&
+        current.isValidFor(content) &&
+        !current.showOriginal) {
+      return current.translatedContent;
+    }
+    return content;
+  }
+
+  bool get hasValidTranslation {
+    final MessageTranslation? current = translation;
+    return current != null && current.isValidFor(content);
+  }
 
   bool get hasMentionsForGrouping =>
       mentionEveryone || mentionRoles.isNotEmpty || mentionedUserIds.isNotEmpty;

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
@@ -11,6 +10,7 @@ import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_p
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:material_ui/material_ui.dart';
 
 Widget _app({
   required Locale locale,
@@ -23,7 +23,10 @@ Widget _app({
     overrides: [use12HourTimeFormatProvider.overrideWithValue(use12Hour)],
     child: MaterialApp(
       locale: locale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+        FluxerLocalizations.delegate,
+        ...GlobalMaterialLocalizations.delegates,
+      ],
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,

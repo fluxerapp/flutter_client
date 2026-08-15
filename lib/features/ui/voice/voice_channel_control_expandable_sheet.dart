@@ -1,7 +1,6 @@
 import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/voice/voice_call_system_ui_sync.dart';
@@ -12,6 +11,7 @@ import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/shared/gestures/expandable_sheet_gestures.dart';
+import 'package:material_ui/material_ui.dart';
 
 const double _kExpandedSheetHeightFraction = 0.88;
 const double _kNarrowVoiceControlBarWidth = 360;

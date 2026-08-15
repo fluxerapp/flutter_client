@@ -1,10 +1,11 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
+import 'package:fluxer_app/features/accessibility/text_scale.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/look_and_feel_messages_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/theme_swatch_button.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/typing_indicator_preview.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
@@ -12,6 +13,7 @@ import 'package:fluxer_app/features/settings/providers/appearance_preferences_pr
 import 'package:fluxer_app/features/settings/utils/advanced_setting_visibility.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class UserLookAndFeel extends ConsumerWidget {
@@ -24,7 +26,8 @@ class UserLookAndFeel extends ConsumerWidget {
   static const _lightSwatch = Color(0xFFFBFBFC);
   static const _systemDarkSwatch = Color(0xFF0A0B0F);
 
-  static const _chatFontSizeMarkers = <double>[12, 14, 15, 16, 18, 20, 24];
+  static const List<double> _appZoomMarkerPercents =
+      kAppZoomLevelMarkerPercents;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -134,41 +137,81 @@ class UserLookAndFeel extends ConsumerWidget {
             ],
           ),
           FluxerSettingsSection(
-            sectionId: 'chat-font-scaling',
-            title: l10n.lookAndFeelChatFontScalingTitle,
-            description: l10n.lookAndFeelChatFontScalingDescription,
+            sectionId: 'hdr',
+            title: l10n.lookAndFeelHdrSectionTitle,
+            description: l10n.lookAndFeelHdrSectionDescription,
             children: [
-              _ChatFontPreview(
-                sample: l10n.lookAndFeelChatFontPreviewSample,
-                fontSize: themePref.chatFontSize.toDouble(),
-              ),
-              FluxerSlider(
-                defaultValue: themePref.chatFontSize.toDouble(),
-                factoryDefaultValue: 16,
-                minValue: 12,
-                maxValue: 24,
-                markers: _chatFontSizeMarkers,
-                stickToMarkers: true,
-                onMarkerRender: (value) => FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    '${value.toInt()}px',
-                    style: context.textStyles.smallText.copyWith(
-                      color: value == 16
-                          ? context.colors.textPositive
-                          : context.colors.textSecondary,
-                    ),
-                    textAlign: TextAlign.center,
+              Semantics(
+                container: true,
+                label: l10n.lookAndFeelHdrDisplayModeLabel,
+                child: FluxerRadioGroup<HdrDisplayMode>(
+                  value: appearance.hdrDisplayMode,
+                  onChanged: (HdrDisplayMode value) => unawaited(
+                    ref
+                        .read(appearancePreferencesProvider.notifier)
+                        .setHdrDisplayMode(value),
                   ),
-                ),
-                onValueRender: (value) => Text('${value.toInt()}px'),
-                onValueChange: (value) => unawaited(
-                  ref
-                      .read(themePreferenceProvider.notifier)
-                      .setChatFontSize(value.toInt()),
+                  items: [
+                    FluxerRadioItem(
+                      value: HdrDisplayMode.full,
+                      label: l10n.lookAndFeelHdrFullName,
+                      description: l10n.lookAndFeelHdrFullDescription,
+                    ),
+                    FluxerRadioItem(
+                      value: HdrDisplayMode.standard,
+                      label: l10n.lookAndFeelHdrStandardName,
+                      description: l10n.lookAndFeelHdrStandardDescription,
+                    ),
+                  ],
                 ),
               ),
             ],
+          ),
+          FluxerSettingsSection(
+            sectionId: 'app-zoom-level',
+            title: l10n.lookAndFeelAppZoomTitle,
+            description: l10n.lookAndFeelAppZoomDescription,
+            children: [
+              FluxerSlider(
+                defaultValue: themePref.scaleFactor * 100,
+                factoryDefaultValue: kDefaultLayoutZoomLevel * 100,
+                minValue: kMinLayoutZoomLevel * 100,
+                maxValue: kMaxLayoutZoomLevel * 100,
+                markers: _appZoomMarkerPercents,
+                step: 1,
+                markerLabelWidth: 36,
+                semanticLabel: l10n.lookAndFeelAppZoomTitle,
+                onMarkerRender: (double value) {
+                  final bool isDefault =
+                      value.round() == kDefaultLayoutZoomLevel * 100;
+                  return FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      '${value.round()}%',
+                      style: context.textStyles.smallText.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: isDefault
+                            ? context.colors.textPositive
+                            : context.colors.textSecondary,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                },
+                onValueRender: (value) => Text('${value.round()}%'),
+                onValueChange: (value) => unawaited(
+                  ref
+                      .read(themePreferenceProvider.notifier)
+                      .setScaleFactor(value / 100),
+                ),
+              ),
+            ],
+          ),
+          FluxerSettingsSection(
+            sectionId: 'messages',
+            title: l10n.lookAndFeelMessagesSectionTitle,
+            description: l10n.lookAndFeelMessagesSectionDescription,
+            children: const [LookAndFeelMessagesSection()],
           ),
           FluxerSettingsSection(
             sectionId: 'interface',
@@ -331,52 +374,7 @@ class UserLookAndFeel extends ConsumerWidget {
               ),
             ],
           ),
-          FluxerSettingsSection(
-            title: l10n.lookAndFeelNekoTitle,
-            description: l10n.lookAndFeelNekoDescription,
-            children: [
-              FluxerSwitchGroupItem(
-                label: l10n.lookAndFeelShowNekoLabel,
-                description: l10n.lookAndFeelShowNekoDescription,
-                value: appearance.showNeko,
-                onChanged: (value) => unawaited(
-                  ref
-                      .read(appearancePreferencesProvider.notifier)
-                      .setShowNeko(value: value),
-                ),
-              ),
-            ],
-          ),
         ],
-      ),
-    );
-  }
-}
-
-class _ChatFontPreview extends StatelessWidget {
-  const _ChatFontPreview({required this.sample, required this.fontSize});
-
-  final String sample;
-  final double fontSize;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    final layout = context.layout;
-
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(layout.s3),
-      decoration: BoxDecoration(
-        color: colors.backgroundSecondaryAlt,
-        borderRadius: layout.radiusMd,
-      ),
-      child: Text(
-        sample,
-        style: context.textStyles.messageText.copyWith(
-          fontSize: fontSize,
-          color: colors.textPrimary,
-        ),
       ),
     );
   }

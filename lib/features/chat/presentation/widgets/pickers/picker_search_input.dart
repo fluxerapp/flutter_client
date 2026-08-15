@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class PickerSearchInput extends StatefulWidget {
@@ -116,71 +117,83 @@ class _PickerSearchInputState extends State<PickerSearchInput> {
             ),
           ],
           Expanded(
-            child: ValueListenableBuilder<TextEditingValue>(
-              valueListenable: widget.controller,
-              builder: (context, value, _) {
-                return TextField(
-                  controller: widget.controller,
-                  focusNode: _focusNode,
-                  onSubmitted: widget.onSubmitted,
-                  maxLength: widget.maxLength,
-                  maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                  style: context.textStyles.inputText.copyWith(
-                    color: colors.textPrimary,
-                    height: 1.2,
-                  ),
-                  decoration: InputDecoration(
-                    counterText: '',
-                    hintText: widget.hintText,
-                    hintStyle: context.textStyles.inputHint.copyWith(
-                      color: colors.textTertiary,
-                      height: 1.2,
-                    ),
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Icon(
-                        PhosphorIconsBold.magnifyingGlass,
-                        size: 18,
-                        color: colors.textTertiary,
-                      ),
-                    ),
-                    prefixIconConstraints: const BoxConstraints(
-                      minWidth: 36,
-                      minHeight: 36,
-                    ),
-                    suffixIcon: _renderRightElement(colors, value.text),
-                    suffixIconConstraints: const BoxConstraints(
-                      minWidth: 32,
-                      minHeight: 32,
-                      maxHeight: 36,
-                    ),
-                    filled: true,
-                    fillColor: searchInputFillColor,
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 8,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
-                      borderSide: BorderSide(
-                        color: colors.backgroundModifierAccent,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
-                      borderSide: BorderSide(
-                        color: colors.backgroundModifierAccent,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
-                      borderSide: BorderSide(
-                        color: colors.backgroundModifierAccentFocus,
-                      ),
-                    ),
-                  ),
-                );
-              },
+            child: FluxerClipboardScope(
+              controller: widget.controller,
+              focusNode: _focusNode,
+              builder:
+                  (
+                    BuildContext context,
+                    FluxerClipboardScopeState clipboardScope,
+                    FocusNode focusNode,
+                  ) {
+                    return ValueListenableBuilder<TextEditingValue>(
+                      valueListenable: widget.controller,
+                      builder: (context, value, _) {
+                        return TextField(
+                          controller: widget.controller,
+                          focusNode: focusNode,
+                          onSubmitted: widget.onSubmitted,
+                          maxLength: widget.maxLength,
+                          maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                          style: context.textStyles.inputText.copyWith(
+                            color: colors.textPrimary,
+                            height: 1.2,
+                          ),
+                          contextMenuBuilder: clipboardScope.buildContextMenu,
+                          decoration: InputDecoration(
+                            counterText: '',
+                            hintText: widget.hintText,
+                            hintStyle: context.textStyles.inputHint.copyWith(
+                              color: colors.textTertiary,
+                              height: 1.2,
+                            ),
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Icon(
+                                PhosphorIconsBold.magnifyingGlass,
+                                size: 18,
+                                color: colors.textTertiary,
+                              ),
+                            ),
+                            prefixIconConstraints: const BoxConstraints(
+                              minWidth: 36,
+                              minHeight: 36,
+                            ),
+                            suffixIcon: _renderRightElement(colors, value.text),
+                            suffixIconConstraints: const BoxConstraints(
+                              minWidth: 32,
+                              minHeight: 32,
+                              maxHeight: 36,
+                            ),
+                            filled: true,
+                            fillColor: searchInputFillColor,
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 8,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(6),
+                              borderSide: BorderSide(
+                                color: colors.backgroundModifierAccent,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(6),
+                              borderSide: BorderSide(
+                                color: colors.backgroundModifierAccent,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(6),
+                              borderSide: BorderSide(
+                                color: colors.backgroundModifierAccentFocus,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
             ),
           ),
         ],

@@ -148,13 +148,15 @@ void main() {
         input,
         features,
       );
-      expect(segments, hasLength(3));
+      expect(segments, hasLength(4));
       expect(segments[0], isA<MessageTextFlowSegment>());
       expect((segments[0] as MessageTextFlowSegment).text, 'intro\n\n');
       expect(segments[1], isA<MessageBlockMarkdownSegment>());
       expect((segments[1] as MessageBlockMarkdownSegment).text, '- item');
       expect(segments[2], isA<MessageTextFlowSegment>());
-      expect((segments[2] as MessageTextFlowSegment).text, '\n\ncloser');
+      expect((segments[2] as MessageTextFlowSegment).text, '\n');
+      expect(segments[3], isA<MessageTextFlowSegment>());
+      expect((segments[3] as MessageTextFlowSegment).text, 'closer');
     });
 
     test('preserves intentional blank line after a list without intro', () {
@@ -163,11 +165,13 @@ void main() {
         input,
         features,
       );
-      expect(segments, hasLength(2));
+      expect(segments, hasLength(3));
       expect(segments[0], isA<MessageBlockMarkdownSegment>());
       expect((segments[0] as MessageBlockMarkdownSegment).text, '- item');
       expect(segments[1], isA<MessageTextFlowSegment>());
-      expect((segments[1] as MessageTextFlowSegment).text, '\n\ncloser');
+      expect((segments[1] as MessageTextFlowSegment).text, '\n');
+      expect(segments[2], isA<MessageTextFlowSegment>());
+      expect((segments[2] as MessageTextFlowSegment).text, 'closer');
     });
 
     test('preserves intentional blank line after an ordered list', () {
@@ -176,13 +180,15 @@ void main() {
         input,
         features,
       );
-      expect(segments, hasLength(3));
+      expect(segments, hasLength(4));
       expect(segments[0], isA<MessageTextFlowSegment>());
       expect((segments[0] as MessageTextFlowSegment).text, 'intro\n\n');
       expect(segments[1], isA<MessageBlockMarkdownSegment>());
       expect((segments[1] as MessageBlockMarkdownSegment).text, '1. item');
       expect(segments[2], isA<MessageTextFlowSegment>());
-      expect((segments[2] as MessageTextFlowSegment).text, '\n\ncloser');
+      expect((segments[2] as MessageTextFlowSegment).text, '\n');
+      expect(segments[3], isA<MessageTextFlowSegment>());
+      expect((segments[3] as MessageTextFlowSegment).text, 'closer');
     });
 
     test('still strips blank line adjacent to a heading after a block', () {
@@ -206,11 +212,13 @@ void main() {
         input,
         features,
       );
-      expect(segments, hasLength(2));
+      expect(segments, hasLength(3));
       expect(segments[0], isA<MessageBlockMarkdownSegment>());
       expect((segments[0] as MessageBlockMarkdownSegment).text, '# heading');
       expect(segments[1], isA<MessageTextFlowSegment>());
-      expect((segments[1] as MessageTextFlowSegment).text, '\n\nafter');
+      expect((segments[1] as MessageTextFlowSegment).text, '\n');
+      expect(segments[2], isA<MessageTextFlowSegment>());
+      expect((segments[2] as MessageTextFlowSegment).text, 'after');
     });
 
     test('preserves extra blank lines before a heading', () {

@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:flutter/material.dart';
-import 'package:fluxer_app/features/ui/media_viewer/media_viewer_dismiss.dart';
+import 'package:fluxer_app/features/ui/media_viewer/media_viewer_dismissible.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
+import 'package:material_ui/material_ui.dart';
 
 class TouchMediaViewerPage extends StatefulWidget {
   const TouchMediaViewerPage({
@@ -35,9 +35,7 @@ class _TouchMediaViewerPageState extends State<TouchMediaViewerPage>
   static const double _snapBackScale = 1.05;
   static const double _doubleTapScale = 2.5;
   static const Duration _snapBackDuration = Duration(milliseconds: 220);
-  static const Duration _dismissDuration = Duration(milliseconds: 180);
 
-  double _dragOffset = 0;
   bool _isZoomed = false;
   bool _isDismissAnimating = false;
   AnimationController? _matrixAnimationController;
@@ -54,9 +52,6 @@ class _TouchMediaViewerPageState extends State<TouchMediaViewerPage>
   @override
   void didUpdateWidget(TouchMediaViewerPage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (!widget.isCurrentPage && oldWidget.isCurrentPage) {
-      _resetDismissState(shouldNotifyParent: true);
-    }
     if (widget.isCurrentPage && !oldWidget.isCurrentPage) {
       _syncZoomState(shouldNotifyParent: true);
     }
@@ -92,124 +87,20 @@ class _TouchMediaViewerPageState extends State<TouchMediaViewerPage>
     }
   }
 
-  void _resetDismissState({required bool shouldNotifyParent}) {
-    if (_dragOffset == 0 && !_isDismissAnimating) {
-      return;
-    }
-    setState(() {
-      _dragOffset = 0;
-      _isDismissAnimating = false;
-    });
-    if (shouldNotifyParent) {
-      widget.onDismissProgress(0);
-    }
-  }
-
-  void _reportDismissProgress() {
+  void _handleDismissProgress(double progress) {
     if (!widget.isCurrentPage) {
       return;
     }
-    widget.onDismissProgress(
-      mediaViewerDismissProgress(
-        dragOffset: _dragOffset,
-        viewportHeight: MediaQuery.sizeOf(context).height,
-      ),
-    );
+    widget.onDismissProgress(progress);
   }
 
-  void _handleVerticalDragUpdate(DragUpdateDetails details) {
-    if (_isZoomed || _isDismissAnimating) {
+  void _handleDismissAnimatingChanged(bool isAnimating) {
+    if (_isDismissAnimating == isAnimating) {
       return;
     }
     setState(() {
-      _dragOffset += details.delta.dy;
+      _isDismissAnimating = isAnimating;
     });
-    _reportDismissProgress();
-  }
-
-  Future<void> _handleVerticalDragEnd(DragEndDetails details) async {
-    if (_isZoomed || _isDismissAnimating) {
-      return;
-    }
-    final double viewportHeight = MediaQuery.sizeOf(context).height;
-    if (mediaViewerShouldDismissAfterDrag(
-      dragOffset: _dragOffset,
-      velocity: details.velocity.pixelsPerSecond.dy,
-      viewportHeight: viewportHeight,
-    )) {
-      await _animateDismiss();
-      return;
-    }
-    await _animateSnapBack();
-  }
-
-  Future<void> _animateOffset({
-    required double end,
-    required Duration duration,
-    required Curve curve,
-  }) async {
-    final double begin = _dragOffset;
-    if (begin == end) {
-      return;
-    }
-    final AnimationController controller = AnimationController(
-      vsync: this,
-      duration: duration,
-    );
-    final Animation<double> animation = CurvedAnimation(
-      parent: controller,
-      curve: curve,
-    );
-    void listener() {
-      setState(() {
-        _dragOffset = begin + ((end - begin) * animation.value);
-      });
-      _reportDismissProgress();
-    }
-
-    animation.addListener(listener);
-    await controller.forward();
-    animation.removeListener(listener);
-    controller.dispose();
-  }
-
-  Future<void> _animateSnapBack() async {
-    if (_dragOffset == 0) {
-      return;
-    }
-    await _animateOffset(
-      end: 0,
-      duration: _snapBackDuration,
-      curve: Curves.easeOutCubic,
-    );
-    if (!mounted) {
-      return;
-    }
-    setState(() {
-      _dragOffset = 0;
-    });
-    _reportDismissProgress();
-  }
-
-  Future<void> _animateDismiss() async {
-    if (_isDismissAnimating) {
-      return;
-    }
-    setState(() {
-      _isDismissAnimating = true;
-    });
-    await _animateOffset(
-      end: mediaViewerDismissExitOffset(
-        dragOffset: _dragOffset,
-        viewportHeight: MediaQuery.sizeOf(context).height,
-      ),
-      duration: _dismissDuration,
-      curve: Curves.easeInCubic,
-    );
-    if (!mounted) {
-      return;
-    }
-    widget.onClose();
   }
 
   void _handleInteractionEnd(ScaleEndDetails details) {
@@ -278,39 +169,26 @@ class _TouchMediaViewerPageState extends State<TouchMediaViewerPage>
 
   @override
   Widget build(BuildContext context) {
-    final double dismissProgress = mediaViewerDismissProgress(
-      dragOffset: _dragOffset,
-      viewportHeight: MediaQuery.sizeOf(context).height,
-    );
-    final double contentScale = mediaViewerDismissContentScale(
-      dismissProgress: dismissProgress,
-    );
     return FluxerGestureDetector(
       behavior: HitTestBehavior.translucent,
-      onVerticalDragUpdate: _isZoomed || _isDismissAnimating
-          ? null
-          : _handleVerticalDragUpdate,
-      onVerticalDragEnd: _isZoomed || _isDismissAnimating
-          ? null
-          : _handleVerticalDragEnd,
       onDoubleTapDown: _handleDoubleTapDown,
-      child: Transform.translate(
-        offset: Offset(0, _dragOffset),
-        child: Transform.scale(
-          scale: contentScale,
-          child: InteractiveViewer(
-            transformationController: widget.transformationController,
-            minScale: 1,
-            maxScale: widget.maxScale,
-            panEnabled: _isZoomed,
-            scaleEnabled: !_isDismissAnimating,
-            boundaryMargin: _isZoomed
-                ? const EdgeInsets.all(80)
-                : EdgeInsets.zero,
-            clipBehavior: Clip.none,
-            onInteractionEnd: _handleInteractionEnd,
-            child: Center(child: widget.child),
-          ),
+      child: MediaViewerDismissible(
+        enabled: widget.isCurrentPage && !_isZoomed,
+        onDismissProgress: _handleDismissProgress,
+        onDismissAnimatingChanged: _handleDismissAnimatingChanged,
+        onClose: widget.onClose,
+        child: InteractiveViewer(
+          transformationController: widget.transformationController,
+          minScale: 1,
+          maxScale: widget.maxScale,
+          panEnabled: _isZoomed,
+          scaleEnabled: !_isDismissAnimating,
+          boundaryMargin: _isZoomed
+              ? const EdgeInsets.all(80)
+              : EdgeInsets.zero,
+          clipBehavior: Clip.none,
+          onInteractionEnd: _handleInteractionEnd,
+          child: Center(child: widget.child),
         ),
       ),
     );

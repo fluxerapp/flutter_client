@@ -1,6 +1,5 @@
 import 'dart:io' show Platform;
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
@@ -15,6 +14,8 @@ import 'package:fluxer_app/features/settings/providers/user_settings_sync_servic
 import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/models/locale.dart' as sdk;
+import 'package:material_ui/material_ui.dart';
+
 import '../../helpers/test_l10n.dart';
 
 class _NoopUserSettingsSyncService extends UserSettingsSyncService {

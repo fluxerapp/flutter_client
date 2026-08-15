@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
+import 'package:material_ui/material_ui.dart';
 
 class VoiceConnectionAvatarStack extends ConsumerWidget {
   const VoiceConnectionAvatarStack({required this.guildChannelKey, super.key});

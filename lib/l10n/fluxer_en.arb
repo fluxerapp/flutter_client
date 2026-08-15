@@ -4511,6 +4511,50 @@
     "@slowmodeTooltipImmune": {
         "description": "Tooltip shown on the slowmode indicator when slowmode is on but the current user bypasses it."
     },
+    "slowmodeStatusEnabled": "Slowmode is enabled",
+    "@slowmodeStatusEnabled": {
+        "description": "Short label in the wide composer slowmode indicator when the reader is free to send."
+    },
+    "slowmodeStatusActive": "Slowmode is active ({remaining})",
+    "@slowmodeStatusActive": {
+        "description": "Short label in the wide composer slowmode indicator while the countdown runs.",
+        "placeholders": {
+            "remaining": {
+                "type": "String",
+                "example": "00:30"
+            }
+        }
+    },
+    "slowmodeTooltipSetImmune": "Slowmode is set to {durationLabel}, but you are immune.",
+    "@slowmodeTooltipSetImmune": {
+        "description": "Tooltip on the wide composer slowmode indicator when the reader can bypass slowmode.",
+        "placeholders": {
+            "durationLabel": {
+                "type": "String",
+                "example": "30 seconds"
+            }
+        }
+    },
+    "slowmodeTooltipSetWait": "Slowmode is set to {durationLabel}. Wait before sending another message.",
+    "@slowmodeTooltipSetWait": {
+        "description": "Tooltip on the wide composer slowmode indicator while the reader is counting down.",
+        "placeholders": {
+            "durationLabel": {
+                "type": "String",
+                "example": "30 seconds"
+            }
+        }
+    },
+    "slowmodeTooltipSetChannel": "Slowmode is set to {durationLabel} for this channel.",
+    "@slowmodeTooltipSetChannel": {
+        "description": "Tooltip on the wide composer slowmode indicator when the reader is free to send.",
+        "placeholders": {
+            "durationLabel": {
+                "type": "String",
+                "example": "30 seconds"
+            }
+        }
+    },
     "channelNoSendPermissionHint": "You can't send messages in this channel.",
     "@channelNoSendPermissionHint": {
         "description": "Placeholder text in the channel message input when the user lacks Send Messages permission."
@@ -5266,6 +5310,34 @@
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
+    "lookAndFeelHdrSectionTitle": "High dynamic range",
+    "@lookAndFeelHdrSectionTitle": {
+        "description": "Appearance section title for HDR image and video display."
+    },
+    "lookAndFeelHdrSectionDescription": "Control how HDR images are displayed on HDR-capable monitors.",
+    "@lookAndFeelHdrSectionDescription": {
+        "description": "Appearance section description for HDR display mode."
+    },
+    "lookAndFeelHdrFullName": "Full dynamic range",
+    "@lookAndFeelHdrFullName": {
+        "description": "HDR radio option that keeps full HDR brightness and color."
+    },
+    "lookAndFeelHdrFullDescription": "Display HDR images at full brightness and color range.",
+    "@lookAndFeelHdrFullDescription": {
+        "description": "Description for the full dynamic range HDR option."
+    },
+    "lookAndFeelHdrStandardName": "Standard range",
+    "@lookAndFeelHdrStandardName": {
+        "description": "HDR radio option that tone-maps HDR content to SDR."
+    },
+    "lookAndFeelHdrStandardDescription": "Tone-map HDR images to standard range, reducing peak brightness.",
+    "@lookAndFeelHdrStandardDescription": {
+        "description": "Description for the standard-range HDR option."
+    },
+    "lookAndFeelHdrDisplayModeLabel": "High dynamic range display mode",
+    "@lookAndFeelHdrDisplayModeLabel": {
+        "description": "Accessibility label for the HDR display mode radio group."
+    },
     "lookAndFeelThemeDark": "Dark Theme",
     "@lookAndFeelThemeDark": {
         "description": "Label on the dark theme swatch button."
@@ -5298,13 +5370,70 @@
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
     },
-    "lookAndFeelChatFontScalingTitle": "Chat Font Scaling",
+    "lookAndFeelChatFontScalingTitle": "Chat font scaling",
     "@lookAndFeelChatFontScalingTitle": {
-        "description": "Section title for the chat font size slider."
+        "description": "Search label for chat font size within the Messages section."
     },
     "lookAndFeelChatFontScalingDescription": "Adjust the font size in the chat area.",
     "@lookAndFeelChatFontScalingDescription": {
-        "description": "Section description for the chat font size slider."
+        "description": "Search description for chat font size."
+    },
+    "lookAndFeelChatFontSizeLabel": "Chat font size",
+    "@lookAndFeelChatFontSizeLabel": {
+        "description": "Label for the chat font size select in Look & Feel."
+    },
+    "lookAndFeelAppZoomTitle": "App zoom level",
+    "@lookAndFeelAppZoomTitle": {
+        "description": "Section title for the app zoom slider."
+    },
+    "lookAndFeelAppZoomDescription": "Adjust the application's zoom level.",
+    "@lookAndFeelAppZoomDescription": {
+        "description": "Section description for the app zoom slider."
+    },
+    "lookAndFeelMessagesSectionTitle": "Messages",
+    "@lookAndFeelMessagesSectionTitle": {
+        "description": "Section title for message layout settings in Look & Feel."
+    },
+    "lookAndFeelMessagesSectionDescription": "Choose how messages are displayed in chat channels.",
+    "@lookAndFeelMessagesSectionDescription": {
+        "description": "Section description for message layout settings in Look & Feel."
+    },
+    "lookAndFeelMessageGroupSpacingLabel": "Space between message groups",
+    "@lookAndFeelMessageGroupSpacingLabel": {
+        "description": "Label for message group spacing select in Look & Feel."
+    },
+    "lookAndFeelMessageGroupSpacingValue": "{spacing}px",
+    "@lookAndFeelMessageGroupSpacingValue": {
+        "description": "Message group spacing option label.",
+        "placeholders": {
+            "spacing": {
+                "type": "int"
+            }
+        }
+    },
+    "lookAndFeelMessageDisplayModeLabel": "Message display mode",
+    "@lookAndFeelMessageDisplayModeLabel": {
+        "description": "Accessibility label for message display mode radio group."
+    },
+    "lookAndFeelMessageDisplayComfyName": "Comfy",
+    "@lookAndFeelMessageDisplayComfyName": {
+        "description": "Comfy message display mode option name."
+    },
+    "lookAndFeelMessageDisplayComfyDescription": "Spacious layout with clear visual separation between messages.",
+    "@lookAndFeelMessageDisplayComfyDescription": {
+        "description": "Comfy message display mode option description."
+    },
+    "lookAndFeelMessageDisplayDenseName": "Dense",
+    "@lookAndFeelMessageDisplayDenseName": {
+        "description": "Dense message display mode option name."
+    },
+    "lookAndFeelMessageDisplayDenseDescription": "Maximizes visible messages with minimal spacing.",
+    "@lookAndFeelMessageDisplayDenseDescription": {
+        "description": "Dense message display mode option description."
+    },
+    "lookAndFeelHideUserAvatarsLabel": "Hide user avatars",
+    "@lookAndFeelHideUserAvatarsLabel": {
+        "description": "Toggle to hide user avatars in dense message display mode."
     },
     "lookAndFeelInterfaceTitle": "Interface",
     "@lookAndFeelInterfaceTitle": {
@@ -7850,6 +7979,39 @@
     "chatMessageCopyText": "Copy Message",
     "@chatMessageCopyText": {
         "description": "Action label for copying message text."
+    },
+    "chatMessageTranslate": "Translate",
+    "@chatMessageTranslate": {
+        "description": "Action label for translating a message on-device."
+    },
+    "chatMessageTranslatedFrom": "Translated from {language}",
+    "@chatMessageTranslatedFrom": {
+        "description": "Footer shown under a translated message.",
+        "placeholders": {
+            "language": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageSeeOriginal": "See original",
+    "@chatMessageSeeOriginal": {
+        "description": "Toggles a translated message back to the original text."
+    },
+    "chatMessageSeeTranslation": "See translation",
+    "@chatMessageSeeTranslation": {
+        "description": "Toggles a message back to the stored translation."
+    },
+    "chatMessageTranslating": "Translating…",
+    "@chatMessageTranslating": {
+        "description": "Shown under a message while on-device translation is in progress."
+    },
+    "chatMessageTranslateFailed": "Couldn't translate this message.",
+    "@chatMessageTranslateFailed": {
+        "description": "Toast shown when on-device translation fails."
+    },
+    "chatMessageTranslateUnavailable": "Translation isn't available on this device.",
+    "@chatMessageTranslateUnavailable": {
+        "description": "Toast shown when no translation source is available."
     },
     "chatMessageSpeak": "Speak message",
     "@chatMessageSpeak": {
@@ -10515,6 +10677,22 @@
     "@userSettingsGroupStaffOnly": {
         "description": "Section heading for staff-only items in user settings navigation."
     },
+    "userSettingsSearchPlaceholder": "Search settings...",
+    "@userSettingsSearchPlaceholder": {
+        "description": "Placeholder for the user settings search field."
+    },
+    "userSettingsSearchFieldLabel": "Search settings",
+    "@userSettingsSearchFieldLabel": {
+        "description": "Accessibility label for the user settings search field."
+    },
+    "userSettingsSearchClear": "Clear search",
+    "@userSettingsSearchClear": {
+        "description": "Accessibility label for clearing the user settings search field."
+    },
+    "userSettingsSearchNoResults": "No settings found",
+    "@userSettingsSearchNoResults": {
+        "description": "Empty state shown when user settings search has no matches."
+    },
     "userSettingsNavProfile": "Profile",
     "@userSettingsNavProfile": {
         "description": "User settings navigation item for profile settings."
@@ -11485,6 +11663,8 @@
     "advancedSettingShowNekoLabel": "Show Neko",
     "advancedSettingShowNekoDescription": "Neko cat that chases your cursor",
     "advancedSettingShowNekoDescriptionTouch": "Show Neko on your chat input",
+    "advancedSettingMobileSplashZoomAnimationLabel": "Splash zoom animation",
+    "advancedSettingMobileSplashZoomAnimationDescription": "Zoom the logo out when leaving the splash screen",
     "advancedSettingKeyboardHintsLabel": "Keyboard hints",
     "advancedSettingKeyboardHintsDescription": "Keyboard shortcut hints in tooltips",
     "advancedSettingEnableFavoritesLabel": "Enable favorites",
