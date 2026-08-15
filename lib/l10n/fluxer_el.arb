@@ -4948,22 +4948,6 @@
     "@messagesMediaEditingPreserveDraftLabel": {
         "description": "Toggle label for preserving edit drafts on cancel."
     },
-    "accessibilityUnreadGroupTitle": "Ενδείξεις μη αναγνωσμένων",
-    "@accessibilityUnreadGroupTitle": {
-        "description": "Section title for unread-indicator accessibility settings."
-    },
-    "accessibilityUnreadGroupDescription": "Έλεγχος του τρόπου εμφάνισης των ενδείξεων μη αναγνωσμένων μηνυμάτων.",
-    "@accessibilityUnreadGroupDescription": {
-        "description": "Section description for unread-indicator accessibility settings."
-    },
-    "accessibilityShowFadedUnreadOnMutedChannelsLabel": "Εμφάνιση αχνής ένδειξης μη αναγνωσμένων σε σιωπηλά κανάλια",
-    "@accessibilityShowFadedUnreadOnMutedChannelsLabel": {
-        "description": "Toggle label for showing a faded unread indicator on muted channels."
-    },
-    "accessibilityShowFadedUnreadOnMutedChannelsDescription": "Εμφάνιση μιας αχνής ένδειξης μη αναγνωσμένων δίπλα σε σιωπηλά άμεσα μηνύματα και κανάλια, ώστε να μπορείτε ακόμα να βλέπετε με μια ματιά πότε υπάρχει δραστηριότητα.",
-    "@accessibilityShowFadedUnreadOnMutedChannelsDescription": {
-        "description": "Toggle description for showing a faded unread indicator on muted channels."
-    },
     "accessibilityDmMessagePreviewGroupTitle": "Προεπισκοπήσεις μηνυμάτων DM",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."

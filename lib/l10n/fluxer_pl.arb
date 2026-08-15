@@ -4948,22 +4948,6 @@
     "@messagesMediaEditingPreserveDraftLabel": {
         "description": "Toggle label for preserving edit drafts on cancel."
     },
-    "accessibilityUnreadGroupTitle": "Wskaźniki nieprzeczytanych",
-    "@accessibilityUnreadGroupTitle": {
-        "description": "Section title for unread-indicator accessibility settings."
-    },
-    "accessibilityUnreadGroupDescription": "Kontroluj sposób wyświetlania wskaźników nieprzeczytanych wiadomości.",
-    "@accessibilityUnreadGroupDescription": {
-        "description": "Section description for unread-indicator accessibility settings."
-    },
-    "accessibilityShowFadedUnreadOnMutedChannelsLabel": "Pokaż przygaszony wskaźnik nieprzeczytanych na wyciszonych kanałach",
-    "@accessibilityShowFadedUnreadOnMutedChannelsLabel": {
-        "description": "Toggle label for showing a faded unread indicator on muted channels."
-    },
-    "accessibilityShowFadedUnreadOnMutedChannelsDescription": "Wyświetl przygaszony wskaźnik nieprzeczytanych obok wyciszonych wiadomości bezpośrednich i kanałów, aby nadal można było szybko zobaczyć, czy są nowe aktywności.",
-    "@accessibilityShowFadedUnreadOnMutedChannelsDescription": {
-        "description": "Toggle description for showing a faded unread indicator on muted channels."
-    },
     "accessibilityDmMessagePreviewGroupTitle": "Podglądy wiadomości DM",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."
@@ -9101,5 +9085,50 @@
     "guildSettingsAuditLogFilterAction": "Filtruj według akcji",
     "@guildSettingsAuditLogFilterAction": {
         "description": "Label of the action-type filter dropdown in the activity log tab."
+    },
+    "systemPermissionSettingsTitle": "Nadaj uprawnienie",
+    "@systemPermissionSettingsTitle": {
+        "description": "Title for the system permission settings prompt modal."
+    },
+    "systemPermissionSettingsOpenSettings": "Otwórz ustawienia",
+    "@systemPermissionSettingsOpenSettings": {
+        "description": "Primary action that opens the device app settings for a blocked permission."
+    },
+    "systemPermissionMicrophoneMessage": "Fluxer nie posiada dostępu do Twojego mikrofonu. Możesz mu go nadać w ustawieniach prywatności urządzenia.",
+    "@systemPermissionMicrophoneMessage": {
+        "description": "Body text when microphone access must be enabled in system settings."
+    },
+    "systemPermissionCameraMessage": "Fluxer nie posiada dostępu do Twojego aparatu. Możesz mu go nadać w ustawieniach prywatności urządzenia.",
+    "@systemPermissionCameraMessage": {
+        "description": "Body text when camera access must be enabled in system settings."
+    },
+    "sessionExpiredToast": "Twoja sesja wygasła. Proszę zaloguj się ponownie.",
+    "@sessionExpiredToast": {
+        "description": "Toast shown when the stored session is rejected by the server and the user is signed out to the login screen."
+    },
+    "systemPermissionNotificationsMessage": "Fluxer nie posiada uprawnień do wysyłania powiadomień. Możesz mu je nadać w ustawieniach urządzenia.",
+    "@systemPermissionNotificationsMessage": {
+        "description": "Body text when notification permission must be enabled in system settings."
+    },
+    "nagbarLearnMore": "Dowiedz się więcej",
+    "@nagbarLearnMore": {
+        "description": "CTA on maintenance and other nagbars that open an external link."
+    },
+    "nagbarEmailVerificationMessage": "Hej {displayName}, proszę zweryfikuj swój adres e-mail.",
+    "@nagbarEmailVerificationMessage": {
+        "description": "Email verification nagbar body.",
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "nagbarManageSubscription": "Zarządzaj subskrypcją",
+    "@nagbarManageSubscription": {
+        "description": "Nagbar CTA that opens the billing portal."
+    },
+    "nagbarOpenSettings": "Otwórz ustawienia",
+    "@nagbarOpenSettings": {
+        "description": "Nagbar CTA that opens user settings."
     }
 }
