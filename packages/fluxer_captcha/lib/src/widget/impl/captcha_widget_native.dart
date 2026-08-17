@@ -292,7 +292,7 @@ String buildHTML({
   };
 }
 
-final _ignoredWebResourceErrorTypes = [
+final List<WebResourceErrorType> _ignoredWebResourceErrorTypes = [
   // I don't know why this needs to be ignored specifically as it wasn't added by me, but maybe someone can replace this comment with an explanation.
   WebResourceErrorType.CANNOT_CONNECT_TO_HOST,
   // This needs to be ignored for Turnstile to function on IPv4-only networks.
