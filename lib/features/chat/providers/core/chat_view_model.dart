@@ -42,6 +42,7 @@ import 'package:fluxer_app/features/chat/providers/messages/message_realtime_eve
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_frame_batcher.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_references_provider.dart';
+import 'package:fluxer_app/features/chat/providers/messages/message_upload_sessions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/typing_sender.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_immunity_provider.dart';
@@ -597,6 +598,7 @@ class ChatViewModel extends _$ChatViewModel {
   final Set<int> _outstandingFetchOrdinals = <int>{};
   final Map<String, List<_LocalMutation>> _localMutations =
       <String, List<_LocalMutation>>{};
+  final Map<String, Message> _inFlightOptimisticMessages = <String, Message>{};
   final Map<String, Future<void>> _pendingDeleteFutures =
       <String, Future<void>>{};
   final Map<String, DateTime> _lastNetworkRefreshByChannel =
@@ -1117,6 +1119,97 @@ class ChatViewModel extends _$ChatViewModel {
       }
     }
     return result;
+  }
+
+  List<Message> _finalizeLoadedMessages(
+    String channelId,
+    List<Message> messages,
+    int fetchOrdinal,
+  ) {
+    return _mergeInFlightSends(
+      channelId,
+      _applyPendingLocalMutations(messages, fetchOrdinal),
+    );
+  }
+
+  void _registerInFlightOptimisticSend(Message message) {
+    final String? nonce = message.clientNonce;
+    if (nonce == null) {
+      return;
+    }
+    _inFlightOptimisticMessages[nonce] = message;
+  }
+
+  void _clearInFlightOptimisticSend(String clientNonce) {
+    _inFlightOptimisticMessages.remove(clientNonce);
+  }
+
+  void _finishAttachmentUploadSession(
+    String clientNonce,
+    CloudUploadController uploadNotifier,
+  ) {
+    uploadNotifier.removeMessageUpload(clientNonce);
+    _clearInFlightOptimisticSend(clientNonce);
+  }
+
+  bool _isMessageUploadSessionActive(String clientNonce) {
+    return ref.read(messageUploadSessionsProvider).containsKey(clientNonce);
+  }
+
+  void _commitDeliveredOptimisticSend({
+    required String channelId,
+    required String optimisticMessageId,
+    required Message sent,
+  }) {
+    if (state.channelId != channelId) {
+      return;
+    }
+    final int optimisticIndex = state.messages.indexWhere(
+      (Message m) => m.id == optimisticMessageId,
+    );
+    final List<Message> nextMessages = _replaceOptimisticWithDelivered(
+      messages: state.messages,
+      optimisticId: optimisticIndex == -1 ? null : optimisticMessageId,
+      delivered: sent.copyWith(
+        deliveryState: MessageDeliveryState.sent,
+        sendError: null,
+      ),
+    );
+    state = state.copyWith(
+      write: (messages: nextMessages, origin: MessagesOrigin.localMutation),
+    );
+  }
+
+  List<Message> _mergeInFlightSends(String channelId, List<Message> messages) {
+    if (_inFlightOptimisticMessages.isEmpty) {
+      return messages;
+    }
+    final Set<String> existingIds = messages.map((Message m) => m.id).toSet();
+    final sessions = ref.read(messageUploadSessionsProvider);
+    final List<Message> inFlight = <Message>[];
+    final List<String> staleNonces = <String>[];
+    for (final MapEntry<String, Message> entry
+        in _inFlightOptimisticMessages.entries) {
+      if (!sessions.containsKey(entry.key)) {
+        staleNonces.add(entry.key);
+        continue;
+      }
+      final Message message = entry.value;
+      if (message.channelId != channelId) {
+        continue;
+      }
+      if (existingIds.contains(message.id)) {
+        continue;
+      }
+      inFlight.add(message);
+    }
+    for (final String nonce in staleNonces) {
+      _inFlightOptimisticMessages.remove(nonce);
+    }
+    if (inFlight.isEmpty) {
+      return messages;
+    }
+    return mergeMessagesSorted(messages, inFlight);
   }
 
   /// Releases the barrier of a swap that will never commit: it failed, it was
@@ -2029,7 +2122,7 @@ class ChatViewModel extends _$ChatViewModel {
             incompleteCache || _shouldRefreshChannelFromNetwork(channelId);
         state = _switchedChannelState(
           channelId: channelId,
-          messages: _applyPendingLocalMutations(cached, cacheOrdinal),
+          messages: _finalizeLoadedMessages(channelId, cached, cacheOrdinal),
           draft: draft,
           replyMentioning: replyMentioning,
           scrollToBottomSignal: state.scrollToBottomSignal,
@@ -2439,7 +2532,11 @@ class ChatViewModel extends _$ChatViewModel {
                 networkPage: page.messages,
                 syncBaselineOldestId: current.isEmpty ? null : current.first.id,
               );
-        return _applyPendingLocalMutations(reconciled, effectiveFetchOrdinal);
+        return _finalizeLoadedMessages(
+          channelId,
+          reconciled,
+          effectiveFetchOrdinal,
+        );
       }
 
       final List<Message> merged = reduceAgainst(state.messages);
@@ -2881,7 +2978,8 @@ class ChatViewModel extends _$ChatViewModel {
               }
               state = state.copyWith(
                 write: (
-                  messages: _applyPendingLocalMutations(
+                  messages: _finalizeLoadedMessages(
+                    channelId,
                     window.messages,
                     fetchOrdinal,
                   ),
@@ -2951,7 +3049,8 @@ class ChatViewModel extends _$ChatViewModel {
           _contiguityTrusted = true;
           state = state.copyWith(
             write: (
-              messages: _applyPendingLocalMutations(
+              messages: _finalizeLoadedMessages(
+                channelId,
                 window.messages,
                 fetchOrdinal,
               ),
@@ -3125,7 +3224,8 @@ class ChatViewModel extends _$ChatViewModel {
               }
               state = state.copyWith(
                 write: (
-                  messages: _applyPendingLocalMutations(
+                  messages: _finalizeLoadedMessages(
+                    channelId,
                     window.messages,
                     fetchOrdinal,
                   ),
@@ -3221,7 +3321,8 @@ class ChatViewModel extends _$ChatViewModel {
           _contiguityTrusted = true;
           state = state.copyWith(
             write: (
-              messages: _applyPendingLocalMutations(
+              messages: _finalizeLoadedMessages(
+                channelId,
                 window.messages,
                 fetchOrdinal,
               ),
@@ -3386,7 +3487,8 @@ class ChatViewModel extends _$ChatViewModel {
               .toList();
           state = state.copyWith(
             write: (
-              messages: _applyPendingLocalMutations(
+              messages: _finalizeLoadedMessages(
+                channelId,
                 mergeMessagesSorted(pendingLocal, page.messages),
                 fetchOrdinal,
               ),
@@ -4079,7 +4181,7 @@ class ChatViewModel extends _$ChatViewModel {
         write: (
           messages: mergeMessagesSorted(
             state.messages,
-            _applyPendingLocalMutations(messages, fetchOrdinal),
+            _finalizeLoadedMessages(channelId, messages, fetchOrdinal),
           ),
           origin: MessagesOrigin.boundaryFill,
         ),
@@ -4444,6 +4546,7 @@ class ChatViewModel extends _$ChatViewModel {
     );
     clearStickyUnread();
     unawaited(ref.read(readStateRepositoryProvider).clearSticky(channelId));
+    _registerInFlightOptimisticSend(optimisticMessage);
     unawaited(
       _completeSendWithAttachments(
         channelId: channelId,
@@ -4639,6 +4742,7 @@ class ChatViewModel extends _$ChatViewModel {
       return;
     }
 
+    _registerInFlightOptimisticSend(optimisticMessage);
     unawaited(
       _completeSendWithAttachments(
         channelId: channelId,
@@ -4683,22 +4787,10 @@ class ChatViewModel extends _$ChatViewModel {
             tts: tts,
           );
       unawaited(_recordSlowmodeSendOnSuccess(channelId));
-      if (state.channelId != channelId) {
-        return;
-      }
-      final int optimisticIndex = state.messages.indexWhere(
-        (Message m) => m.id == optimisticMessageId,
-      );
-      final List<Message> nextMessages = _replaceOptimisticWithDelivered(
-        messages: state.messages,
-        optimisticId: optimisticIndex == -1 ? null : optimisticMessageId,
-        delivered: sent.copyWith(
-          deliveryState: MessageDeliveryState.sent,
-          sendError: null,
-        ),
-      );
-      state = state.copyWith(
-        write: (messages: nextMessages, origin: MessagesOrigin.localMutation),
+      _commitDeliveredOptimisticSend(
+        channelId: channelId,
+        optimisticMessageId: optimisticMessageId,
+        sent: sent,
       );
     } on Object catch (error, st) {
       talker.error(
@@ -4728,13 +4820,14 @@ class ChatViewModel extends _$ChatViewModel {
         nonce: clientNonce,
         favoriteMemePayload: favoriteMemeId != null,
       );
-      if (!_isOptimisticSendStillActive(optimisticMessageId)) {
+      if (!_isMessageUploadSessionActive(clientNonce)) {
         return;
       }
       if (prepared.isEmpty &&
           outgoingText.isEmpty &&
           stickerIds.isEmpty &&
           favoriteMemeId == null) {
+        _finishAttachmentUploadSession(clientNonce, uploadNotifier);
         return;
       }
       final Message sent = await ref
@@ -4752,29 +4845,15 @@ class ChatViewModel extends _$ChatViewModel {
             messageFlags: messageFlags,
             tts: tts,
           );
-      uploadNotifier.removeMessageUpload(clientNonce);
+      _finishAttachmentUploadSession(clientNonce, uploadNotifier);
       unawaited(_recordSlowmodeSendOnSuccess(channelId));
-      if (state.channelId != channelId) {
-        return;
-      }
-      if (!_isOptimisticSendStillActive(optimisticMessageId)) {
-        return;
-      }
-      final int optimisticIndex = state.messages.indexWhere(
-        (Message m) => m.id == optimisticMessageId,
-      );
-      final List<Message> nextMessages = _replaceOptimisticWithDelivered(
-        messages: state.messages,
-        optimisticId: optimisticIndex == -1 ? null : optimisticMessageId,
-        delivered: sent.copyWith(
-          deliveryState: MessageDeliveryState.sent,
-          sendError: null,
-        ),
-      );
-      state = state.copyWith(
-        write: (messages: nextMessages, origin: MessagesOrigin.localMutation),
+      _commitDeliveredOptimisticSend(
+        channelId: channelId,
+        optimisticMessageId: optimisticMessageId,
+        sent: sent,
       );
     } on MessageUploadSendCancelledException {
+      _clearInFlightOptimisticSend(clientNonce);
       return;
     } on Object catch (error, st) {
       talker.error(
@@ -4782,15 +4861,10 @@ class ChatViewModel extends _$ChatViewModel {
         error,
         st,
       );
-      uploadNotifier
-        ..restoreToComposer(clientNonce)
-        ..removeMessageUpload(clientNonce);
+      uploadNotifier.restoreToComposer(clientNonce);
+      _clearInFlightOptimisticSend(clientNonce);
       _handleSendFailure(optimisticMessageId, error);
     }
-  }
-
-  bool _isOptimisticSendStillActive(String optimisticMessageId) {
-    return state.messages.any((Message m) => m.id == optimisticMessageId);
   }
 
   void _syncSlowmodeFromSendError(Object error, String channelId) {
@@ -4971,6 +5045,7 @@ class ChatViewModel extends _$ChatViewModel {
     }
     final String? nonce = message.clientNonce;
     if (nonce != null) {
+      _clearInFlightOptimisticSend(nonce);
       ref
           .read(cloudUploadControllerProvider(message.channelId).notifier)
           .cancelMessageUpload(nonce);
@@ -5554,7 +5629,8 @@ class ChatViewModel extends _$ChatViewModel {
         () {
           state = state.copyWith(
             write: (
-              messages: _applyPendingLocalMutations(
+              messages: _finalizeLoadedMessages(
+                channelId,
                 page.messages,
                 fetchOrdinal,
               ),
