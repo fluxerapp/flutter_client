@@ -42,6 +42,10 @@ void syncChatAttachmentAudioSession({
     return;
   }
   if (binding.isActive) {
+    if (completed) {
+      binding.release();
+      return;
+    }
     binding.update(
       mediaItem: buildChatAttachmentAudioMediaItem(
         attachment: attachment,
@@ -53,10 +57,6 @@ void syncChatAttachmentAudioSession({
       bufferedPosition: bufferedPosition,
       speed: playbackRate,
       loading: loading,
-      completed: completed,
     );
-    if (completed) {
-      binding.release();
-    }
   }
 }

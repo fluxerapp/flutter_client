@@ -76,6 +76,119 @@ void main() {
     expect(handler.playbackState.value.playing, isTrue);
   });
 
+  test('release suppresses stale in-flight publishes', () async {
+    await session.claim(
+      hostId: 'a',
+      mediaItem: itemA,
+      callbacks: callbacksFor(
+        onPause: () {},
+        onResume: () {},
+        onSeek: (_) {},
+        onStop: () {},
+      ),
+      playing: true,
+      position: Duration.zero,
+      bufferedPosition: const Duration(seconds: 10),
+      speed: 1,
+    );
+
+    session.update(
+      hostId: 'a',
+      mediaItem: itemA,
+      playing: true,
+      position: const Duration(seconds: 3),
+      bufferedPosition: const Duration(seconds: 10),
+      speed: 1,
+    );
+
+    session.release('a');
+    expect(handler.mediaItem.value, isNull);
+
+    await pumpEventQueue();
+
+    expect(handler.mediaItem.value, isNull);
+    expect(
+      handler.playbackState.value.processingState,
+      AudioProcessingState.idle,
+    );
+  });
+
+  test('stale publish does not overwrite a newer active host', () async {
+    await session.claim(
+      hostId: 'a',
+      mediaItem: itemA,
+      callbacks: callbacksFor(
+        onPause: () {},
+        onResume: () {},
+        onSeek: (_) {},
+        onStop: () {},
+      ),
+      playing: true,
+      position: Duration.zero,
+      bufferedPosition: const Duration(seconds: 10),
+      speed: 1,
+    );
+
+    session.update(
+      hostId: 'a',
+      mediaItem: itemA,
+      playing: true,
+      position: const Duration(seconds: 2),
+      bufferedPosition: const Duration(seconds: 10),
+      speed: 1,
+    );
+
+    await session.claim(
+      hostId: 'b',
+      mediaItem: itemB,
+      callbacks: callbacksFor(
+        onPause: () {},
+        onResume: () {},
+        onSeek: (_) {},
+        onStop: () {},
+      ),
+      playing: true,
+      position: Duration.zero,
+      bufferedPosition: const Duration(seconds: 20),
+      speed: 1,
+    );
+
+    await pumpEventQueue();
+
+    expect(session.isActiveHost('b'), isTrue);
+    expect(handler.mediaItem.value, itemB);
+    expect(handler.playbackState.value.playing, isTrue);
+  });
+
+  test('clearActivePlayback stops the active host', () async {
+    var stopped = false;
+
+    await session.claim(
+      hostId: 'a',
+      mediaItem: itemA,
+      callbacks: callbacksFor(
+        onPause: () {},
+        onResume: () {},
+        onSeek: (_) {},
+        onStop: () => stopped = true,
+      ),
+      playing: true,
+      position: Duration.zero,
+      bufferedPosition: const Duration(seconds: 10),
+      speed: 1,
+    );
+
+    await session.clearActivePlayback();
+
+    expect(stopped, isTrue);
+    expect(session.isActiveHost('a'), isFalse);
+    expect(handler.mediaItem.value, isNull);
+    expect(
+      handler.playbackState.value.processingState,
+      AudioProcessingState.idle,
+    );
+  });
+
   test('release only clears the active host', () async {
     await session.claim(
       hostId: 'a',

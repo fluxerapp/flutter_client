@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_session.dart';
 import 'package:fluxer_app/core/badge/app_icon_badge_coordinator.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/permissions/guild_channel_permission_cleanup.dart';
@@ -82,10 +83,10 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
           return;
         }
         _stopTtsIfLeavingSpokenChannel(next);
-        if (previous == null) {
-          return;
+        if (previous != null) {
+          _stopAttachmentAudioOnChannelChange();
+          _scheduleInactiveChannelCleanup(previous);
         }
-        _scheduleInactiveChannelCleanup(previous);
       });
 
     if (PushProviderGuard.isUnifiedPush) {
@@ -175,6 +176,10 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
         .read(channelListViewModelProvider.notifier)
         .loadChannels(guildId, guild: guild);
     ref.read(guildSyncProvider.notifier).syncIfNeeded(guildId);
+  }
+
+  void _stopAttachmentAudioOnChannelChange() {
+    unawaited(ChatAttachmentAudioSession.instance.clearActivePlayback());
   }
 
   void _stopTtsIfLeavingSpokenChannel(String? nextChannelId) {
