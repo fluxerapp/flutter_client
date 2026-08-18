@@ -28,7 +28,7 @@ You can follow more about the V1 development and what features are planned/imple
 # Community
 
 > [!NOTE]
-> Currently the Mobile community is locked to Fluxer Plutonium members only. Once the full public beta start's we will be transitioning over to a new community.
+> Currently the Mobile community is locked to Fluxer Plutonium members only. Once the full public beta starts we will be transitioning over to a new community.
 
 For updates, support, and discussion, there is an upcoming Fluxer Labs community for all users to be able to join and give feedback.
 
@@ -38,13 +38,13 @@ For updates, support, and discussion, there is an upcoming Fluxer Labs community
 
 **Google Play Store**: Coming when V1 is finished.
 
-**Accrescent**: This is something we are interested in doing after V1 and they allow app submitions again.
+**Accrescent**: This is something we are interested in doing after V1 and they allow app submissions again.
 
 **F-Droid**: Coming when V1 is finished.
 
 **iOS TestFlight**: Coming soon :eyes:
 
-**Obtainium**: This is currently the best way to install and keep the Android beta's installed an updated. [Find out more here](#auto-updates-with-obtainium).
+**Obtainium**: This is currently the best way to install and keep the Android betas installed and updated. [Find out more here](#auto-updates-with-obtainium).
 
 ### Android (APK)
 
@@ -78,13 +78,13 @@ Stable, beta, and canary Android release builds on GitHub are signed with this S
 ## Bug reporting
 
 > [!WARNING]
-> During the beta period the only place to report bugs will be in the Fluxer Mobile community (they are mirrored to Github still). Once the limited beta period finishes you will be able to report issues on Github and the community.
+> During the beta period the only place to report bugs will be in the Fluxer Mobile community (they are mirrored to GitHub still). Once the limited beta period finishes you will be able to report issues on GitHub and the community.
 
-## Self hosted instances
+## Self-hosted instances
 
-The mobile app supports self hosted instances now! Push notifications are currently only supported for users using the Android OSS build.
+The mobile app supports self-hosted instances now! Push notifications are currently only supported for users using the Android OSS build.
 
-For iOS and Android FCM build we will need to setup a relay service for self hosted instances to use. This is something we mostly have finished (on the backend side), and will allow notifications on both platforms with zero knowlage of message content being passed through the relay.
+For iOS and Android FCM build we will need to set up a relay service for self-hosted instances to use. This is something we mostly have finished (on the backend side), and will allow notifications on both platforms with zero knowledge of message content being passed through the relay.
 
 SSO (Single Sign-On) login is supported on the mobile client. For it to fully work you need to register this redirect URI with your OIDC provider:
 
@@ -169,7 +169,7 @@ Coming soon!
 
 ### API
 
-The Flutter client uses the [dart_sdk](https://github.com/fluxerapp/dart_sdk) to send requests to the Fluxer API which is generated from the OpenApi spec.
+The Flutter client uses the [dart_sdk](https://github.com/fluxerapp/dart_sdk) to send requests to the Fluxer API which is generated from the OpenAPI spec.
 
 ## License
 
