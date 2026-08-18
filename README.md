@@ -1,7 +1,7 @@
 > [!CAUTION]
 > The Fluxer Flutter mobile client is still in beta so features will be missing or broken. Currently the only way to report issues is on the Fluxer Mobile community (Plutonium members only), this will change in the future.
 >
-> Note there is currently no set release date for the app.
+> Note there is currently no set release date for the app, but we have an upcoming public beta.
 
 <p align="center">
   <img src="./docs/media/logo-graphic.png" alt="Fluxer graphic logo" width="400">
@@ -21,16 +21,16 @@
 
 # Fluxer Flutter Client
 
-This is the repo for the official Fluxer mobile app powered by Flutter (desktop is in the works also but mobile is the main focus currently).
+This is the repo for the official Fluxer mobile / tablet app powered by Flutter (desktop is in the works also but mobile is the main focus currently).
 
 You can follow more about the V1 development and what features are planned/implemented in this [Roadmap issue](https://github.com/fluxerapp/flutter_client/issues/184).
 
 # Community
 
 > [!NOTE]
-> Currently the community is locked to Fluxer Plutonium members only. This limit will be lifted after the beta period (the link below will not work yet).
+> Currently the Mobile community is locked to Fluxer Plutonium members only. Once the full public beta start's we will be transitioning over to a new community.
 
-For updates, support, and discussion, [join the Fluxer Mobile community on Fluxer](https://fluxer.gg/fluxer-mobile).
+For updates, support, and discussion, there is an upcoming Fluxer Labs community for all users to be able to join and give feedback.
 
 ## Download
 
@@ -38,9 +38,13 @@ For updates, support, and discussion, [join the Fluxer Mobile community on Fluxe
 
 **Google Play Store**: Coming when V1 is finished.
 
+**Accrescent**: This is something we are interested in doing after V1 and they allow app submitions again.
+
 **F-Droid**: Coming when V1 is finished.
 
 **iOS TestFlight**: Coming soon :eyes:
+
+**Obtainium**: This is currently the best way to install and keep the Android beta's installed an updated. [Find out more here](#auto-updates-with-obtainium).
 
 ### Android (APK)
 
@@ -74,21 +78,19 @@ Stable, beta, and canary Android release builds on GitHub are signed with this S
 ## Bug reporting
 
 > [!WARNING]
-> During the beta period the only place to report bugs will be in the Fluxer Mobile community (they are mirrored to Github still). Once the beta period finishes you will be able to report issues on Github and the community.
+> During the beta period the only place to report bugs will be in the Fluxer Mobile community (they are mirrored to Github still). Once the limited beta period finishes you will be able to report issues on Github and the community.
 
 # Self hosted instances
 
 The mobile app supports self hosted instances now! Push notifications are currently only supported for users using the Android OSS build.
 
-For iOS and Android FCM build we will need to setup a relay service for self hosted instances to use. This is something that will be worked on in the future.
+For iOS and Android FCM build we will need to setup a relay service for self hosted instances to use. This is something we mostly have finished (on the backend side), and will allow notifications on both platforms with zero knowlage of message content being passed through the relay.
 
-SSO (Single Sign-On) login is supported for self-hosted instances that have configured an OIDC/OAuth2 provider. When connecting to an instance with SSO enabled, the app will display the appropriate login options based on the server's configuration. If SSO is enforced, only the SSO login flow will be available. If SSO is optional, both SSO and email/password login can be used.
-
-For mobile SSO, register this redirect URI with your OIDC provider:
+SSO (Single Sign-On) login is supported on the mobile client. For it to fully work you need to register this redirect URI with your OIDC provider:
 
 `fluxer://auth/sso/callback`
 
-## Contributing
+## Contributing (for developers)
 
 During the current beta, we are only accepting contributions for bug fixes. To submit a PR, it must be for a linked reported issue.
 
@@ -121,6 +123,9 @@ Strings are managed on [Weblate](https://weblate.fluxer.tools/projects/flutter-c
 - **FCM / UnifiedPush / APNs** — push notifications (platform dependent)
 
 ### Version numbers
+
+> [!NOTE]
+> We will transition to this version method after the V1 update.
 
 Releases use `{year}.{month}.{public release number}`, for example `2026.07.100`.
 
