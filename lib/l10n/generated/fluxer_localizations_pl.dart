@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'fluxer_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -23,7 +24,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String get sessionExpiredToast =>
-      'Your session has expired. Please sign in again.';
+      'Twoja sesja wygasła. Proszę zaloguj się ponownie.';
 
   @override
   String splashStartupFailed(String error) {
@@ -55,7 +56,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   String get splashIncidentHistory => 'Historia incydentów';
 
   @override
-  String get nagbarLearnMore => 'Learn more';
+  String get nagbarLearnMore => 'Dowiedz się więcej';
 
   @override
   String nagbarMaintenanceScheduled(String localizedTime, String duration) {
@@ -77,29 +78,29 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String nagbarEmailVerificationMessage(String displayName) {
-    return 'Hey $displayName, please verify your email address.';
+    return 'Hej $displayName, proszę zweryfikuj swój adres e-mail.';
   }
 
   @override
-  String get nagbarOpenSettings => 'Open settings';
+  String get nagbarOpenSettings => 'Otwórz ustawienia';
 
   @override
-  String get systemPermissionSettingsTitle => 'Enable permission';
+  String get systemPermissionSettingsTitle => 'Nadaj uprawnienie';
 
   @override
-  String get systemPermissionSettingsOpenSettings => 'Open settings';
+  String get systemPermissionSettingsOpenSettings => 'Otwórz ustawienia';
 
   @override
   String get systemPermissionMicrophoneMessage =>
-      'Fluxer doesn\'t have access to your microphone. You can enable it in your device privacy settings.';
+      'Fluxer nie posiada dostępu do Twojego mikrofonu. Możesz mu go nadać w ustawieniach prywatności urządzenia.';
 
   @override
   String get systemPermissionCameraMessage =>
-      'Fluxer doesn\'t have access to your camera. You can enable it in your device privacy settings.';
+      'Fluxer nie posiada dostępu do Twojego aparatu. Możesz mu go nadać w ustawieniach prywatności urządzenia.';
 
   @override
   String get systemPermissionNotificationsMessage =>
-      'Fluxer doesn\'t have permission to send notifications. You can enable it in your device settings.';
+      'Fluxer nie posiada uprawnień do wysyłania powiadomień. Możesz mu je nadać w ustawieniach urządzenia.';
 
   @override
   String nagbarPremiumGracePeriod(String productName, String graceDate) {
@@ -112,7 +113,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   }
 
   @override
-  String get nagbarManageSubscription => 'Manage subscription';
+  String get nagbarManageSubscription => 'Zarządzaj subskrypcją';
 
   @override
   String nagbarPremiumOnboardingDefault(
@@ -3440,10 +3441,8 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other:
-          'Spowoduje to wylogowanie zaznaczonych urządzeń z Twojego konta. Będziesz musiał/a ponownie zalogować się na tych urządzeniach.',
-      one:
-          'Spowoduje to wylogowanie zaznaczonego urządzenia z Twojego konta. Będziesz musiał/a ponownie zalogować się na tym urządzeniu.',
+      other: 'Spowoduje to wylogowanie zaznaczonych urządzeń z Twojego konta. Będziesz musiał/a ponownie zalogować się na tych urządzeniach.',
+      one: 'Spowoduje to wylogowanie zaznaczonego urządzenia z Twojego konta. Będziesz musiał/a ponownie zalogować się na tym urządzeniu.',
     );
     return '$_temp0';
   }
@@ -4376,8 +4375,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
       locale: localeName,
       other:
           '$count społeczności są tymczasowo niedostępne z powodu awarii stabilizatora strumienia.',
-      one:
-          '1 społeczność jest tymczasowo niedostępna z powodu awarii stabilizatora strumienia.',
+      one: '1 społeczność jest tymczasowo niedostępna z powodu awarii stabilizatora strumienia.',
     );
     return '$_temp0';
   }
@@ -5172,8 +5170,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
       locale: localeName,
       other:
           'Już jesteś połączony(a) z tym kanałem głosowym z $count innych urządzeń. Co chcesz zrobić?',
-      one:
-          'Już jesteś połączony(a) z tym kanałem głosowym z 1 innego urządzenia. Co chcesz zrobić?',
+      one: 'Już jesteś połączony(a) z tym kanałem głosowym z 1 innego urządzenia. Co chcesz zrobić?',
     );
     return '$_temp0';
   }

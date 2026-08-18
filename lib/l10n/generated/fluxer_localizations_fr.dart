@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'fluxer_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -55,11 +56,11 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get splashIncidentHistory => 'Historique des incidents';
 
   @override
-  String get nagbarLearnMore => 'Learn more';
+  String get nagbarLearnMore => 'En savoir plus';
 
   @override
   String nagbarMaintenanceScheduled(String localizedTime, String duration) {
-    return 'Maintenance is scheduled for $localizedTime. Expected duration: $duration.';
+    return 'La maintenance est programmée pour $localizedTime. Durée estimée : $duration.';
   }
 
   @override
@@ -68,7 +69,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   }
 
   @override
-  String get nagbarMaintenanceComplete => 'Maintenance is complete.';
+  String get nagbarMaintenanceComplete => 'La maintenance est terminée.';
 
   @override
   String nagbarUnclaimedAccountMessage(String displayName) {
@@ -81,7 +82,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   }
 
   @override
-  String get nagbarOpenSettings => 'Open settings';
+  String get nagbarOpenSettings => 'Ouvrir les paramètres';
 
   @override
   String get systemPermissionSettingsTitle => 'Enable permission';
@@ -148,7 +149,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get nagbarTermsAcceptance =>
-      'We\'ve updated our terms. Please review and accept them to continue.';
+      'Nous avons mis à jour nos conditions. Veuillez les examiner et les accepter pour continuer.';
 
   @override
   String get nagbarReviewTerms => 'Review terms';
@@ -754,11 +755,11 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get mentionUnknownChannel => 'unknown-channel';
 
   @override
-  String get channelAccessDeniedTitle => 'Accès au canal refusé';
+  String get channelAccessDeniedTitle => 'Accès au salon refusé';
 
   @override
   String get channelAccessDeniedDescription =>
-      'Vous n\'avez pas accès au canal où ce message a été envoyé.';
+      'Vous n\'avez pas accès au salon où ce message a été envoyé.';
 
   @override
   String get messageJumpLinkNoAccess => 'Pas d\'accès';
@@ -1183,7 +1184,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get dmDebugUser => 'Déboguer l\'utilisateur';
 
   @override
-  String get dmDebugChannel => 'Déboguer le canal';
+  String get dmDebugChannel => 'Déboguer le salon';
 
   @override
   String get dmDebugCategory => 'Debug Category';
@@ -3009,7 +3010,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String userProfileRemoveTimeoutConfirmDescription(String username) {
-    return 'La suppression du silence permettra à $username de renvoyer des messages, de réagir et de rejoindre à nouveau les canaux vocaux.';
+    return 'La suppression du silence permettra à $username de renvoyer des messages, de réagir et de rejoindre à nouveau les salons vocaux.';
   }
 
   @override
@@ -3469,10 +3470,8 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other:
-          'Cela déconnectera les appareils sélectionnés de votre compte. Vous devrez vous reconnecter sur ces appareils.',
-      one:
-          'Cela déconnectera l\'appareil sélectionné de votre compte. Vous devrez vous reconnecter sur cet appareil.',
+      other: 'Cela déconnectera les appareils sélectionnés de votre compte. Vous devrez vous reconnecter sur ces appareils.',
+      one: 'Cela déconnectera l\'appareil sélectionné de votre compte. Vous devrez vous reconnecter sur cet appareil.',
     );
     return '$_temp0';
   }
@@ -3860,7 +3859,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get matureCategoryTitle => 'Catégorie pour adultes';
 
   @override
-  String get matureChannelTitle => 'Canal pour adultes';
+  String get matureChannelTitle => 'Salon pour adultes';
 
   @override
   String get communityContentWarningTitle =>
@@ -3871,7 +3870,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Avertissement de contenu de catégorie';
 
   @override
-  String get channelContentWarningTitle => 'Avertissement de contenu de canal';
+  String get channelContentWarningTitle => 'Avertissement de contenu de salon';
 
   @override
   String get defaultContentWarningBody => 'Ceci contient du contenu sensible.';
@@ -3886,15 +3885,15 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get matureChannelBody =>
-      'Ce canal est marqué pour du contenu pour adultes et peut contenir du matériel inapproprié pour certains utilisateurs.';
+      'Ce salon est marqué pour du contenu pour adultes et peut contenir du matériel inapproprié pour certains utilisateurs.';
 
   @override
   String get matureVoiceChannelBody =>
-      'Ce canal vocal est marqué pour du contenu pour adultes et peut contenir du matériel inapproprié pour certains utilisateurs.';
+      'Ce salon vocal est marqué pour du contenu pour adultes et peut contenir du matériel inapproprié pour certains utilisateurs.';
 
   @override
   String get matureLinkChannelBody =>
-      'Ce canal de liens est marqué pour du contenu pour adultes et peut ouvrir du matériel inapproprié pour certains utilisateurs.';
+      'Ce salon de liens est marqué pour du contenu pour adultes et peut ouvrir du matériel inapproprié pour certains utilisateurs.';
 
   @override
   String get matureCommunityUnavailableBody =>
@@ -3906,7 +3905,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get matureChannelUnavailableBody =>
-      'Ce canal pour adultes n\'est pas disponible pour votre compte.';
+      'Ce salon pour adultes n\'est pas disponible pour votre compte.';
 
   @override
   String get matureContentProceedButton => 'Continuer';
@@ -3933,7 +3932,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get sensitiveContentGuildLabel =>
-      'Messages dans les canaux communautaires';
+      'Messages dans les salons communautaires';
 
   @override
   String get sensitiveContentFilterShow => 'Afficher';
@@ -4309,11 +4308,11 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get lookAndFeelChannelTypingIndicatorsTitle =>
-      'Indicateurs de frappe dans la liste des canaux';
+      'Indicateurs de frappe dans la liste des salons';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsDescription =>
-      'Choisissez comment les indicateurs de frappe apparaissent dans la liste des canaux lorsque quelqu\'un tape dans un canal.';
+      'Choisissez comment les indicateurs de frappe apparaissent dans la liste des salons lorsque quelqu\'un tape dans un salon.';
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsName =>
@@ -4321,7 +4320,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsDescription =>
-      'Afficher l\'indicateur de frappe avec les avatars des utilisateurs dans la liste des canaux';
+      'Afficher l\'indicateur de frappe avec les avatars des utilisateurs dans la liste des salons';
 
   @override
   String get lookAndFeelChannelTypingIndicatorOnlyName =>
@@ -4336,15 +4335,15 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get lookAndFeelChannelTypingIndicatorHiddenDescription =>
-      'Ne pas afficher les indicateurs de frappe dans la liste des canaux';
+      'Ne pas afficher les indicateurs de frappe dans la liste des salons';
 
   @override
   String get lookAndFeelShowSelectedChannelTypingIndicatorLabel =>
-      'Afficher la frappe sur le canal sélectionné';
+      'Afficher la frappe sur le salon sélectionné';
 
   @override
   String get lookAndFeelShowSelectedChannelTypingIndicatorDescription =>
-      'Lorsqu\'elle est désactivée (par défaut), les indicateurs de frappe n\'apparaîtront pas sur le canal que vous consultez actuellement.';
+      'Lorsqu\'elle est désactivée (par défaut), les indicateurs de frappe n\'apparaîtront pas sur le salon que vous consultez actuellement.';
 
   @override
   String get lookAndFeelTypingIndicatorPreviewChannelName => 'général';
@@ -4379,19 +4378,19 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get lookAndFeelVoiceChannelJoinTitle =>
-      'Comportement de connexion aux canaux vocaux';
+      'Comportement de connexion aux salons vocaux';
 
   @override
   String get lookAndFeelVoiceChannelJoinDescription =>
-      'Contrôlez la façon dont vous rejoignez les canaux vocaux dans les communautés.';
+      'Contrôlez la façon dont vous rejoignez les salons vocaux dans les communautés.';
 
   @override
   String get lookAndFeelRequireDoubleClickJoinLabel =>
-      'Exiger un double-clic pour rejoindre les canaux vocaux';
+      'Exiger un double-clic pour rejoindre les salons vocaux';
 
   @override
   String get lookAndFeelRequireDoubleClickJoinDescription =>
-      'Lorsqu\'elle est activée, vous devrez double-cliquer sur les canaux vocaux pour les rejoindre. Lorsqu\'elle est désactivée (par défaut), un simple clic vous rejoindra immédiatement dans le canal.';
+      'Lorsqu\'elle est activée, vous devrez double-cliquer sur les salons vocaux pour les rejoindre. Lorsqu\'elle est désactivée (par défaut), un simple clic vous rejoindra immédiatement dans le salon.';
 
   @override
   String get lookAndFeelChatFontPreviewSample =>
@@ -4411,8 +4410,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       locale: localeName,
       other:
           '$count communautés sont temporairement indisponibles en raison d\'un dysfonctionnement du condensateur de flux.',
-      one:
-          '1 communauté est temporairement indisponible en raison d\'un dysfonctionnement du condensateur de flux.',
+      one: '1 communauté est temporairement indisponible en raison d\'un dysfonctionnement du condensateur de flux.',
     );
     return '$_temp0';
   }
@@ -4425,19 +4423,19 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Lorsqu\'elle est activée, les MP non lus dans la barre latérale des serveurs sont réduits dans un dossier sur le bouton Fluxer. Cliquez sur le bouton Fluxer lorsque vous êtes sur la page des MP pour développer ou réduire le dossier.';
 
   @override
-  String get lookAndFeelChannelListSectionTitle => 'Liste des canaux';
+  String get lookAndFeelChannelListSectionTitle => 'Liste des salons';
 
   @override
   String get lookAndFeelChannelListSectionDescription =>
-      'Contrôlez le comportement de l\'indicateur de non-lu pour les canaux mis en sourdine dans les listes de canaux.';
+      'Contrôlez le comportement de l\'indicateur de non-lu pour les salons mis en sourdine dans les listes de salons.';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsLabel =>
-      'Afficher l\'indicateur de non-lu sur les canaux mis en sourdine';
+      'Afficher l\'indicateur de non-lu sur les salons mis en sourdine';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsDescription =>
-      'Lorsqu\'elle est activée, les canaux mis en sourdine affichent un indicateur de non-lu atténué sur le côté gauche. Les mentions apparaissent toujours indépendamment de ce paramètre.';
+      'Lorsqu\'elle est activée, les salons mis en sourdine affichent un indicateur de non-lu atténué sur le côté gauche. Les mentions apparaissent toujours indépendamment de ce paramètre.';
 
   @override
   String get lookAndFeelActiveNowSectionTitle => 'Actifs maintenant';
@@ -4452,7 +4450,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get lookAndFeelShowActiveNowDescription =>
-      'Affiche \"Actifs maintenant\" sur l\'écran d\'accueil pour présenter les amis actifs vocalement. Vous verrez un aperçu, le contexte du canal, qui est déjà là, et un moyen rapide de les rejoindre.';
+      'Affiche \"Actifs maintenant\" sur l\'écran d\'accueil pour présenter les amis actifs vocalement. Vous verrez un aperçu, le contexte du salon, qui est déjà là, et un moyen rapide de les rejoindre.';
 
   @override
   String get lookAndFeelFavoritesSectionTitle => 'Favoris';
@@ -4466,7 +4464,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get lookAndFeelEnableFavoritesDescription =>
-      'Lorsqu\'elle est activée, vous pouvez mettre des canaux en favoris et ils apparaîtront dans la section Favoris. Lorsqu\'elle est désactivée, tous les éléments d\'interface liés aux favoris (boutons, éléments de menu) seront masqués. Vos favoris existants seront conservés.';
+      'Lorsqu\'elle est activée, vous pouvez mettre des salons en favoris et ils apparaîtront dans la section Favoris. Lorsqu\'elle est désactivée, tous les éléments d\'interface liés aux favoris (boutons, éléments de menu) seront masqués. Vos favoris existants seront conservés.';
 
   @override
   String get favoritesTitle => 'Favoris';
@@ -4676,11 +4674,11 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get messagesMediaSpoilersIfModeratorName =>
-      'Dans les canaux que je modère';
+      'Dans les salons que je modère';
 
   @override
   String get messagesMediaSpoilersIfModeratorDescription =>
-      'Toujours afficher le contenu masqué dans les canaux où vous avez la permission « Gérer les messages »';
+      'Toujours afficher le contenu masqué dans les salons où vous avez la permission « Gérer les messages »';
 
   @override
   String get messagesMediaSpoilersAlwaysName => 'Toujours';
@@ -5075,7 +5073,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String systemPreviewPinnedMessage(String username) {
-    return '$username a épinglé un message dans ce canal.';
+    return '$username a épinglé un message dans ce salon.';
   }
 
   @override
@@ -5105,17 +5103,17 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String systemPreviewChangedChannelNameTo(String username, String newName) {
-    return '$username a renommé le canal en $newName.';
+    return '$username a renommé le salon en $newName.';
   }
 
   @override
   String systemPreviewChangedChannelName(String username) {
-    return '$username a renommé le canal.';
+    return '$username a renommé le salon.';
   }
 
   @override
   String systemPreviewChangedChannelIcon(String username) {
-    return '$username a changé l\'icône du canal.';
+    return '$username a changé l\'icône du salon.';
   }
 
   @override
@@ -5206,9 +5204,8 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          'Vous êtes déjà connecté à ce canal vocal depuis $count autres appareils. Que souhaitez-vous faire ?',
-      one:
-          'Vous êtes déjà connecté à ce canal vocal depuis 1 autre appareil. Que souhaitez-vous faire ?',
+          'Vous êtes déjà connecté à ce salon vocal depuis $count autres appareils. Que souhaitez-vous faire ?',
+      one: 'Vous êtes déjà connecté à ce salon vocal depuis 1 autre appareil. Que souhaitez-vous faire ?',
     );
     return '$_temp0';
   }
@@ -5233,10 +5230,10 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get voiceChannelEmptyDescription =>
-      'Ceci est un canal vocal. Connectez-vous pour commencer à parler !';
+      'Ceci est un salon vocal. Connectez-vous pour commencer à parler !';
 
   @override
-  String get voiceChannelJoin => 'Rejoindre le canal vocal';
+  String get voiceChannelJoin => 'Rejoindre le salon vocal';
 
   @override
   String get voiceCallJoin => 'Join call';
@@ -5246,7 +5243,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get voiceChannelNoConnectPermission =>
-      'Vous n\'avez pas la permission de rejoindre ce canal vocal';
+      'Vous n\'avez pas la permission de rejoindre ce salon vocal';
 
   @override
   String get voiceChannelE2eeEncrypted =>
@@ -5258,7 +5255,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get voiceChannelE2eeBroken =>
-      'Le chiffrement de bout en bout n\'est pas disponible car un participant non compatible est dans ce canal vocal.';
+      'Le chiffrement de bout en bout n\'est pas disponible car un participant non compatible est dans ce salon vocal.';
 
   @override
   String get voiceCallE2eeBroken =>
@@ -6724,7 +6721,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get iarActionDeleteMessageDescription =>
-      'Supprimez-le du canal pour tout le monde.';
+      'Supprimez-le du salon pour tout le monde.';
 
   @override
   String get iarActionDeleteMessageButton => 'Supprimer';
@@ -6942,7 +6939,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get chatChannelNotReady =>
-      'Ce canal n\'est pas encore prêt. Veuillez réessayer dans un moment.';
+      'Ce salon n\'est pas encore prêt. Veuillez réessayer dans un moment.';
 
   @override
   String get chatMessageEdited => '(modifié)';
@@ -7027,7 +7024,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
-      'Notifier les utilisateurs de ce rôle ayant la permission de voir ce canal.';
+      'Notifier les utilisateurs de ce rôle ayant la permission de voir ce salon.';
 
   @override
   String get addGuildModalTitle => 'Ajouter une communauté';
@@ -7148,7 +7145,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String messageLink,
     String allPinsLink,
   ) {
-    return '$username a épinglé $messageLink dans ce canal. Voir $allPinsLink.';
+    return '$username a épinglé $messageLink dans ce salon. Voir $allPinsLink.';
   }
 
   @override
@@ -7198,10 +7195,10 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get channelDetailsCopyLink => 'Copy Link';
 
   @override
-  String get channelMenuCopyChannelLink => 'Copy channel link';
+  String get channelMenuCopyChannelLink => 'Copier le lien du salon';
 
   @override
-  String get channelMenuCopyRedirectLink => 'Copy redirect link';
+  String get channelMenuCopyRedirectLink => 'Copier le lien de redirection';
 
   @override
   String get channelDetailsAddFriendsToGroup => 'Add friends to group';
@@ -11477,25 +11474,25 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get auditLogActionGuildUpdate => 'Communauté mise à jour';
 
   @override
-  String get auditLogActionChannelCreate => 'Canal créé';
+  String get auditLogActionChannelCreate => 'Salon créé';
 
   @override
-  String get auditLogActionChannelUpdate => 'Canal mis à jour';
+  String get auditLogActionChannelUpdate => 'Salon mis à jour';
 
   @override
-  String get auditLogActionChannelDelete => 'Canal supprimé';
+  String get auditLogActionChannelDelete => 'Salon supprimé';
 
   @override
   String get auditLogActionChannelOverwriteCreate =>
-      'Autorisation de canal ajoutée';
+      'Autorisation de salon ajoutée';
 
   @override
   String get auditLogActionChannelOverwriteUpdate =>
-      'Autorisation de canal mise à jour';
+      'Autorisation de salon mise à jour';
 
   @override
   String get auditLogActionChannelOverwriteDelete =>
-      'Autorisation de canal supprimée';
+      'Autorisation de salon supprimée';
 
   @override
   String get auditLogActionMemberKick => 'Membre expulsé';
@@ -11631,7 +11628,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String auditLogSummaryChannelOverwriteDelete(String actor, String target) {
-    return '$actor a supprimé les autorisations de canal pour $target.';
+    return '$actor a supprimé les autorisations de salon pour $target.';
   }
 
   @override
@@ -11640,7 +11637,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor a supprimé les autorisations de canal pour $target dans $channel.';
+    return '$actor a supprimé les autorisations de salon pour $target dans $channel.';
   }
 
   @override
@@ -11680,7 +11677,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String auditLogSummaryMemberMove(String actor, String target) {
-    return '$actor a déplacé $target vers un autre canal vocal.';
+    return '$actor a déplacé $target vers un autre salon vocal.';
   }
 
   @override
@@ -11728,7 +11725,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor a créé l\'invitation $target pour le canal $channel.';
+    return '$actor a créé l\'invitation $target pour le salon $channel.';
   }
 
   @override
@@ -11742,7 +11739,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor a mis à jour l\'invitation $target pour le canal $channel.';
+    return '$actor a mis à jour l\'invitation $target pour le salon $channel.';
   }
 
   @override
@@ -11756,7 +11753,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor a supprimé l\'invitation $target pour le canal $channel.';
+    return '$actor a supprimé l\'invitation $target pour le salon $channel.';
   }
 
   @override
@@ -11901,7 +11898,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String auditLogChangeRenamedChannel(String name) {
-    return 'A renommé le canal en $name.';
+    return 'A renommé le salon en $name.';
   }
 
   @override
@@ -11955,7 +11952,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String auditLogOptionChannel(String value) {
-    return 'Canal : $value.';
+    return 'Salon : $value.';
   }
 
   @override
@@ -12010,7 +12007,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get guildSettingsWebhooksDescription =>
-      'Gérer les webhooks qui publient des messages dans les canaux.';
+      'Gérer les webhooks qui publient des messages dans les salons.';
 
   @override
   String get guildSettingsWebhooksEmpty => 'Aucun webhook configuré.';
@@ -12417,7 +12414,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Visualisez et révoquez les liens d\'invitation actifs.';
 
   @override
-  String get guildSettingsInvitesEmpty => 'Aucune invitation active.';
+  String get guildSettingsInvitesEmpty => 'Aucun lien d\'invitation';
 
   @override
   String get guildSettingsInvitesEmptyDescription =>
@@ -12644,7 +12641,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get guildSettingsOverviewFlexibleNames =>
-      'Autoriser les noms de canaux texte flexibles';
+      'Autoriser les noms de salons texte flexibles';
 
   @override
   String get guildSettingsOverviewHideOwnerCrown =>
@@ -12695,7 +12692,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get guildSettingsOverviewTextChannelNamesTitle =>
-      'Noms des canaux texte';
+      'Noms des salons texte';
 
   @override
   String get guildSettingsOverviewOwnerCrownTitle =>
@@ -12759,7 +12756,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get guildSettingsOverviewFlexibleNamesHint =>
-      'Autorise les majuscules et les espaces dans les noms de canaux texte. Désactivé restreint les noms aux minuscules avec des tirets et des underscores.';
+      'Autorise les majuscules et les espaces dans les noms de salons texte. Désactivé restreint les noms aux minuscules avec des tirets et des underscores.';
 
   @override
   String get guildSettingsOverviewHideOwnerCrownHint =>
@@ -12774,14 +12771,14 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Les bannières animées nécessitent la fonctionnalité de communauté Bannière animée.';
 
   @override
-  String get guildSettingsAfkChannel => 'Canal AFK / inactif';
+  String get guildSettingsAfkChannel => 'Salon AFK / inactif';
 
   @override
   String get guildSettingsAfkChannelHint =>
-      'Déplacez les membres vers ce canal lorsqu\'ils sont AFK.';
+      'Déplacez les membres vers ce salon lorsqu\'ils sont AFK.';
 
   @override
-  String get guildSettingsNoAfkChannel => 'Aucun canal AFK';
+  String get guildSettingsNoAfkChannel => 'Aucun salon AFK';
 
   @override
   String get guildSettingsAfkTimeout => 'Délai AFK';
@@ -12807,21 +12804,21 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsSystemChannel => 'Canal de destination';
+  String get guildSettingsSystemChannel => 'Salon de destination';
 
   @override
   String get guildSettingsSystemChannelHint =>
       'Les messages de bienvenue et système apparaîtront ici.';
 
   @override
-  String get guildSettingsNoSystemChannel => 'Aucun canal système';
+  String get guildSettingsNoSystemChannel => 'Aucun salon système';
 
   @override
   String get guildSettingsHideJoinMessages => 'Masquer les messages d\'arrivée';
 
   @override
   String get guildSettingsHideJoinMessagesHint =>
-      'Supprime les messages de bienvenue dans le canal de destination.';
+      'Supprime les messages de bienvenue dans le salon de destination.';
 
   @override
   String get guildSettingsDefaultNotifications =>
@@ -12862,7 +12859,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDescription =>
-      'Examine automatiquement les messages pour détecter le contenu explicite dans les canaux non marqués comme sensibles.';
+      'Examine automatiquement les messages pour détecter le contenu explicite dans les salons non marqués comme sensibles.';
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
@@ -12902,7 +12899,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get guildSettingsContentWarningToggleDescription =>
-      'Active une invite de consentement avant d\'entrer dans un canal.';
+      'Active une invite de consentement avant d\'entrer dans un salon.';
 
   @override
   String get guildSettingsContentWarningText =>
@@ -13237,12 +13234,12 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String guildSettingsWebhooksInfo(String channelSettingsPath) {
-    return 'Créez des webhooks depuis les paramètres du canal. Modifiez-les ici.';
+    return 'Créez des webhooks depuis les paramètres du salon. Modifiez-les ici.';
   }
 
   @override
   String get guildSettingsVanityUrlWarning =>
-      'Votre URL personnalisée ne fonctionnera pas à moins qu\'au moins un canal ne soit visible par tout le monde.';
+      'Votre URL personnalisée ne fonctionnera pas à moins qu\'au moins un salon ne soit visible par tout le monde.';
 
   @override
   String get guildSettingsVanityUrlRemove => 'Supprimer';
@@ -13254,7 +13251,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get guildSettingsInvitesTableInviter => 'Inviteur';
 
   @override
-  String get guildSettingsInvitesTableChannel => 'Canal';
+  String get guildSettingsInvitesTableChannel => 'Salon';
 
   @override
   String get guildSettingsInvitesTableCode => 'Code';
