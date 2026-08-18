@@ -80,7 +80,7 @@ Stable, beta, and canary Android release builds on GitHub are signed with this S
 > [!WARNING]
 > During the beta period the only place to report bugs will be in the Fluxer Mobile community (they are mirrored to Github still). Once the limited beta period finishes you will be able to report issues on Github and the community.
 
-# Self hosted instances
+## Self hosted instances
 
 The mobile app supports self hosted instances now! Push notifications are currently only supported for users using the Android OSS build.
 
