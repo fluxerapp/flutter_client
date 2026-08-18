@@ -1,6 +1,5 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'fluxer_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -3433,8 +3432,10 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Isso desconectará os dispositivos selecionados da sua conta. Você precisará fazer login novamente nesses dispositivos.',
-      one: 'Isso desconectará o dispositivo selecionado da sua conta. Você precisará fazer login novamente nesse dispositivo.',
+      other:
+          'Isso desconectará os dispositivos selecionados da sua conta. Você precisará fazer login novamente nesses dispositivos.',
+      one:
+          'Isso desconectará o dispositivo selecionado da sua conta. Você precisará fazer login novamente nesse dispositivo.',
     );
     return '$_temp0';
   }
@@ -4365,7 +4366,8 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
       locale: localeName,
       other:
           '$count comunidades estão temporariamente indisponíveis devido a um mau funcionamento do capacitor de fluxo.',
-      one: '1 comunidade está temporariamente indisponível devido a um mau funcionamento do capacitor de fluxo.',
+      one:
+          '1 comunidade está temporariamente indisponível devido a um mau funcionamento do capacitor de fluxo.',
     );
     return '$_temp0';
   }
@@ -5158,7 +5160,8 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
       locale: localeName,
       other:
           'Você já está conectado a este canal de voz de $count outros dispositivos. O que você gostaria de fazer?',
-      one: 'Você já está conectado a este canal de voz de 1 outro dispositivo. O que você gostaria de fazer?',
+      one:
+          'Você já está conectado a este canal de voz de 1 outro dispositivo. O que você gostaria de fazer?',
     );
     return '$_temp0';
   }
@@ -16404,8 +16407,10 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Isso desconectará os dispositivos selecionados da sua conta. Você precisará fazer login novamente nesses dispositivos.',
-      one: 'Isso desconectará o dispositivo selecionado da sua conta. Você precisará fazer login novamente nesse dispositivo.',
+      other:
+          'Isso desconectará os dispositivos selecionados da sua conta. Você precisará fazer login novamente nesses dispositivos.',
+      one:
+          'Isso desconectará o dispositivo selecionado da sua conta. Você precisará fazer login novamente nesse dispositivo.',
     );
     return '$_temp0';
   }
@@ -17128,7 +17133,8 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
       locale: localeName,
       other:
           '$count comunidades estão temporariamente indisponíveis devido a um mau funcionamento do capacitor de fluxo.',
-      one: '1 comunidade está temporariamente indisponível devido a um mau funcionamento do capacitor de fluxo.',
+      one:
+          '1 comunidade está temporariamente indisponível devido a um mau funcionamento do capacitor de fluxo.',
     );
     return '$_temp0';
   }
@@ -17582,7 +17588,8 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
       locale: localeName,
       other:
           'Você já está conectado a este canal de voz de $count outros dispositivos. O que você gostaria de fazer?',
-      one: 'Você já está conectado a este canal de voz de 1 outro dispositivo. O que você gostaria de fazer?',
+      one:
+          'Você já está conectado a este canal de voz de 1 outro dispositivo. O que você gostaria de fazer?',
     );
     return '$_temp0';
   }

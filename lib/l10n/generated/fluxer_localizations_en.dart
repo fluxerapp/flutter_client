@@ -1,6 +1,5 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'fluxer_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -3414,8 +3413,10 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'This will log out the selected devices from your account. You will need to log in again on those devices.',
-      one: 'This will log out the selected device from your account. You will need to log in again on that device.',
+      other:
+          'This will log out the selected devices from your account. You will need to log in again on those devices.',
+      one:
+          'This will log out the selected device from your account. You will need to log in again on that device.',
     );
     return '$_temp0';
   }
@@ -4340,7 +4341,8 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
       locale: localeName,
       other:
           '$count communities are temporarily unavailable due to a flux capacitor malfunction.',
-      one: '1 community is temporarily unavailable due to a flux capacitor malfunction.',
+      one:
+          '1 community is temporarily unavailable due to a flux capacitor malfunction.',
     );
     return '$_temp0';
   }
@@ -5128,7 +5130,8 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
       locale: localeName,
       other:
           'You\'re already connected to this voice channel from $count other devices. What would you like to do?',
-      one: 'You\'re already connected to this voice channel from 1 other device. What would you like to do?',
+      one:
+          'You\'re already connected to this voice channel from 1 other device. What would you like to do?',
     );
     return '$_temp0';
   }
@@ -16372,8 +16375,10 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'This will log out the selected devices from your account. You will need to log in again on those devices.',
-      one: 'This will log out the selected device from your account. You will need to log in again on that device.',
+      other:
+          'This will log out the selected devices from your account. You will need to log in again on those devices.',
+      one:
+          'This will log out the selected device from your account. You will need to log in again on that device.',
     );
     return '$_temp0';
   }
@@ -17090,7 +17095,8 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
       locale: localeName,
       other:
           '$count communities are temporarily unavailable due to a flux capacitor malfunction.',
-      one: '1 community is temporarily unavailable due to a flux capacitor malfunction.',
+      one:
+          '1 community is temporarily unavailable due to a flux capacitor malfunction.',
     );
     return '$_temp0';
   }
@@ -17532,7 +17538,8 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
       locale: localeName,
       other:
           'You\'re already connected to this voice channel from $count other devices. What would you like to do?',
-      one: 'You\'re already connected to this voice channel from 1 other device. What would you like to do?',
+      one:
+          'You\'re already connected to this voice channel from 1 other device. What would you like to do?',
     );
     return '$_temp0';
   }
@@ -23418,8 +23425,10 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'This will log out the selected devices from your account. You will need to log in again on those devices.',
-      one: 'This will log out the selected device from your account. You will need to log in again on that device.',
+      other:
+          'This will log out the selected devices from your account. You will need to log in again on those devices.',
+      one:
+          'This will log out the selected device from your account. You will need to log in again on that device.',
     );
     return '$_temp0';
   }
@@ -24136,7 +24145,8 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
       locale: localeName,
       other:
           '$count communities are temporarily unavailable due to a flux capacitor malfunction.',
-      one: '1 community is temporarily unavailable due to a flux capacitor malfunction.',
+      one:
+          '1 community is temporarily unavailable due to a flux capacitor malfunction.',
     );
     return '$_temp0';
   }
@@ -24609,7 +24619,8 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
       locale: localeName,
       other:
           'You\'re already connected to this voice channel from $count other devices. What would you like to do?',
-      one: 'You\'re already connected to this voice channel from 1 other device. What would you like to do?',
+      one:
+          'You\'re already connected to this voice channel from 1 other device. What would you like to do?',
     );
     return '$_temp0';
   }

@@ -1,6 +1,5 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'fluxer_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -3442,8 +3441,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Tai atjungtų pasirinktus įrenginius nuo jūsų paskyros. Jums reikės vėl prisijungti prie tų įrenginių.',
-      one: 'Tai atjungtų pasirinktą įrenginį nuo jūsų paskyros. Jums reikės vėl prisijungti prie to įrenginio.',
+      other:
+          'Tai atjungtų pasirinktus įrenginius nuo jūsų paskyros. Jums reikės vėl prisijungti prie tų įrenginių.',
+      one:
+          'Tai atjungtų pasirinktą įrenginį nuo jūsų paskyros. Jums reikės vėl prisijungti prie to įrenginio.',
     );
     return '$_temp0';
   }
@@ -4376,7 +4377,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       locale: localeName,
       other:
           '$count bendruomenės laikinai nepasiekiamos dėl srauto kondensatoriaus gedimo.',
-      one: '1 bendruomenė laikinai nepasiekiama dėl srauto kondensatoriaus gedimo.',
+      one:
+          '1 bendruomenė laikinai nepasiekiama dėl srauto kondensatoriaus gedimo.',
     );
     return '$_temp0';
   }
@@ -5209,7 +5211,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       locale: localeName,
       other:
           'Jūs jau esate prisijungę prie šio balso kanalo iš $count kitų įrenginių. Ką norėtumėte daryti?',
-      one: 'Jūs jau esate prisijungę prie šio balso kanalo iš 1 kito įrenginio. Ką norėtumėte daryti?',
+      one:
+          'Jūs jau esate prisijungę prie šio balso kanalo iš 1 kito įrenginio. Ką norėtumėte daryti?',
     );
     return '$_temp0';
   }
