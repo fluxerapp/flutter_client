@@ -33,6 +33,15 @@ void main() {
       expect(rect.center.dx, closeTo(landscape.center.dx, 0.001));
       expect(rect.center.dy, closeTo(landscape.center.dy, 0.001));
     });
+
+    test('fits square avatar inside short landscape viewport', () {
+      const landscape = Rect.fromLTWH(0, 0, 800, 300);
+      final rect = computeInitialCropRect(landscape, 1);
+
+      expect(rect.width, rect.height);
+      expect(rect.height, 300 - (imageCropViewportInset * 2));
+      expect(rect.center, landscape.center);
+    });
   });
 
   group('imageCropScaleAllowed', () {

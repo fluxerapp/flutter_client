@@ -160,9 +160,28 @@ void main() {
   group('visibleUserSettingsSearchSections', () {
     test('hides billing sections when billing nav is off', () {
       final Set<UserSettingsSection> visible =
-          visibleUserSettingsSearchSections(showBilling: false);
+          visibleUserSettingsSearchSections(
+            showBilling: false,
+            isTouchPrimary: true,
+          );
       expect(visible, isNot(contains(UserSettingsSection.fluxerPlutonium)));
       expect(visible, contains(UserSettingsSection.lookAndFeel));
+    });
+
+    test('hides shortcuts section on touch-primary devices', () {
+      final Set<UserSettingsSection> touchVisible =
+          visibleUserSettingsSearchSections(
+            showBilling: false,
+            isTouchPrimary: true,
+          );
+      expect(touchVisible, isNot(contains(UserSettingsSection.shortcuts)));
+
+      final Set<UserSettingsSection> pointerVisible =
+          visibleUserSettingsSearchSections(
+            showBilling: false,
+            isTouchPrimary: false,
+          );
+      expect(pointerVisible, contains(UserSettingsSection.shortcuts));
     });
   });
 
@@ -185,6 +204,7 @@ void main() {
         l10n: l10n,
         hits: const [themeHit],
         showBilling: true,
+        isTouchPrimary: false,
       );
       expect(sidebar.items, hasLength(2));
       expect(sidebar.items.first.isSeparator, isTrue);
@@ -203,6 +223,7 @@ void main() {
         l10n: l10n,
         hits: const [sectionHit],
         showBilling: true,
+        isTouchPrimary: false,
       );
       expect(sidebar.items, hasLength(1));
       expect(sidebar.items.first.isSeparator, isFalse);

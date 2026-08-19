@@ -80,6 +80,25 @@ class FluxerBottomSheet {
     return resolved.copyWith(bottom: resolved.bottom + bottom);
   }
 
+  static double systemBottomInsetOf(BuildContext context) {
+    return _fluxerSystemBottomInset(MediaQuery.of(context));
+  }
+
+  static double systemEndInsetOf(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+    if (isRtl) {
+      return math.max(
+        mediaQuery.viewPadding.left,
+        math.max(mediaQuery.padding.left, mediaQuery.systemGestureInsets.left),
+      );
+    }
+    return math.max(
+      mediaQuery.viewPadding.right,
+      math.max(mediaQuery.padding.right, mediaQuery.systemGestureInsets.right),
+    );
+  }
+
   static Future<T?> _showWithOverlayTracking<T>(
     BuildContext context,
     Future<T?> Function() showSheet,
