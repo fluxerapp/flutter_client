@@ -147,6 +147,72 @@ void main() {
       expect(merged.muted, isTrue);
     });
 
+    test('mergeForMigration drops categories deleted on another client', () {
+      const local = FavoritesLocalState(
+        channels: [],
+        categories: [
+          db.FavoriteCategory(id: 'cat-1', name: 'Work', position: 0),
+        ],
+        collapsedCategoryIds: ['cat-1'],
+        hideMutedChannels: false,
+        muted: false,
+      );
+      const syncedLocal = FavoritesLocalState(
+        channels: [],
+        categories: [
+          db.FavoriteCategory(id: 'cat-1', name: 'Work', position: 0),
+        ],
+        collapsedCategoryIds: ['cat-1'],
+        hideMutedChannels: false,
+        muted: false,
+      );
+      const server = FavoritesLocalState(
+        channels: [],
+        categories: [],
+        collapsedCategoryIds: [],
+        hideMutedChannels: false,
+        muted: false,
+      );
+
+      final merged = FavoritesStateCodec.mergeForMigration(
+        local: local,
+        server: server,
+        syncedLocal: syncedLocal,
+      );
+
+      expect(merged.categories, isEmpty);
+      expect(merged.collapsedCategoryIds, isEmpty);
+    });
+
+    test('mergeForMigration preserves unsynced local categories', () {
+      const local = FavoritesLocalState(
+        channels: [],
+        categories: [
+          db.FavoriteCategory(id: 'cat-new', name: 'New', position: 0),
+        ],
+        collapsedCategoryIds: ['cat-new'],
+        hideMutedChannels: false,
+        muted: false,
+      );
+      const syncedLocal = FavoritesLocalState(
+        channels: [],
+        categories: [],
+        collapsedCategoryIds: [],
+        hideMutedChannels: false,
+        muted: false,
+      );
+      const server = syncedLocal;
+
+      final merged = FavoritesStateCodec.mergeForMigration(
+        local: local,
+        server: server,
+        syncedLocal: syncedLocal,
+      );
+
+      expect(merged.categories.single.id, 'cat-new');
+      expect(merged.collapsedCategoryIds, ['cat-new']);
+    });
+
     test('decode failure does not masquerade as empty server', () {
       final result = FavoritesStateCodec.decodeFavoritesFromWireResult(
         'not-valid-base64!!!',

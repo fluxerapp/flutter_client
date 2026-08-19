@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_dart/export.dart';
 
 class GuildMemberRoleRepository {
@@ -39,6 +40,6 @@ class GuildMemberRoleRepository {
   }
 
   String _messageFromDio(DioException error) {
-    return error.response?.statusMessage ?? "Couldn't update roles";
+    return userFacingErrorMessage(error, "Couldn't update roles");
   }
 }

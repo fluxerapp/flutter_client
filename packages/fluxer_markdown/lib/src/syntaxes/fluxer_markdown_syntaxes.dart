@@ -1,4 +1,5 @@
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
+import 'package:fluxer_markdown/src/utils/visible_content.dart';
 import 'package:markdown/markdown.dart' as md;
 
 final RegExp blankMarkdownLinkLabelPattern = RegExp(r'^\s*$');
@@ -188,27 +189,7 @@ class FluxerSmsLinkSyntax extends md.InlineSyntax {
   }
 }
 
-bool hasVisibleMaskedLinkLabel(String text) {
-  for (final int codeUnit in text.runes) {
-    if (codeUnit != 0x20 &&
-        codeUnit != 0x09 &&
-        codeUnit != 0x0A &&
-        codeUnit != 0x0D &&
-        codeUnit != 0x200E) {
-      return true;
-    }
-  }
-  return false;
-}
-
-bool _hasVisibleMarkdownContent(String value) {
-  return value.trim().isNotEmpty &&
-      value.runes.any(
-        (int codeUnit) =>
-            codeUnit != 0x200E &&
-            !<int>{0x20, 0x09, 0x0A, 0x0D}.contains(codeUnit),
-      );
-}
+bool hasVisibleMaskedLinkLabel(String text) => hasVisibleContent(text);
 
 String? _specialShortcodeText(String name) {
   return switch (name) {
@@ -227,7 +208,7 @@ class FluxerUnderlineSyntax extends md.InlineSyntax {
   @override
   bool onMatch(md.InlineParser parser, Match match) {
     final content = match[1];
-    if (content == null || !_hasVisibleMarkdownContent(content)) {
+    if (content == null || !hasVisibleContent(content)) {
       return false;
     }
     final children = parser.document.parseInline(content);
@@ -244,7 +225,7 @@ class FluxerSpoilerSyntax extends md.InlineSyntax {
   @override
   bool onMatch(md.InlineParser parser, Match match) {
     final content = match[1];
-    if (content == null || !_hasVisibleMarkdownContent(content)) {
+    if (content == null || !hasVisibleContent(content)) {
       return false;
     }
     final children = parser.document.parseInline(content);
@@ -476,22 +457,9 @@ class FluxerLocalhostAutolinkSyntax extends md.InlineSyntax {
     if (startMatch == null) {
       return false;
     }
-    if (parser.pos > 0) {
-      final String precededBy = String.fromCharCode(
-        parser.charAt(parser.pos - 1),
-      );
-      const Set<String> validPrecedingChars = {
-        '\n',
-        ' ',
-        '*',
-        '_',
-        '~',
-        '(',
-        '>',
-      };
-      if (!validPrecedingChars.contains(precededBy)) {
-        return false;
-      }
+    if (parser.pos > 0 &&
+        !isAutolinkBoundaryCodePoint(parser.charAt(parser.pos - 1))) {
+      return false;
     }
     parser.writeText();
     return onMatch(parser, startMatch);
@@ -567,22 +535,9 @@ class FluxerAutolinkExtensionSyntax extends md.InlineSyntax {
     if (startMatch == null) {
       return false;
     }
-    if (parser.pos > 0) {
-      final String precededBy = String.fromCharCode(
-        parser.charAt(parser.pos - 1),
-      );
-      const Set<String> validPrecedingChars = {
-        '\n',
-        ' ',
-        '*',
-        '_',
-        '~',
-        '(',
-        '>',
-      };
-      if (!validPrecedingChars.contains(precededBy)) {
-        return false;
-      }
+    if (parser.pos > 0 &&
+        !isAutolinkBoundaryCodePoint(parser.charAt(parser.pos - 1))) {
+      return false;
     }
     parser.writeText();
     return onMatch(parser, startMatch);

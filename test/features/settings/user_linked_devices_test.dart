@@ -75,12 +75,20 @@ AuthSessionResponse _session({
   bool current = false,
   String os = 'macOS',
   String platform = 'Fluxer Desktop',
+  String? browser,
+  AuthSessionResponseClientInfoDeviceDevice device =
+      AuthSessionResponseClientInfoDeviceDevice.desktop,
 }) {
   return AuthSessionResponse(
     idHash: id,
     maskedIp: null,
     current: current,
-    clientInfo: AuthSessionResponseClientInfo(os: os, platform: platform),
+    clientInfo: AuthSessionResponseClientInfo(
+      device: device,
+      os: os,
+      platform: platform,
+      browser: browser,
+    ),
     approxLastUsedAt: DateTime.now().subtract(const Duration(hours: 2)),
   );
 }
@@ -200,5 +208,35 @@ void main() {
 
     expect(find.text('CURRENT DEVICE'), findsOneWidget);
     expect(find.text('OTHER DEVICES'), findsOneWidget);
+  });
+
+  testWidgets('shows platform only for native clients without browser', (
+    tester,
+  ) async {
+    final api = _FakeAuthApi(
+      sessions: [_session(id: 'a', platform: 'Fluxer macOS')],
+    );
+    await tester.pumpWidget(
+      _wrap(const UserLinkedDevices(), api: api, currentIdHash: 'a'),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Fluxer macOS'), findsOneWidget);
+    expect(find.text('macOS'), findsNothing);
+  });
+
+  testWidgets('shows os and platform for web browser sessions', (tester) async {
+    final api = _FakeAuthApi(
+      sessions: [
+        _session(id: 'a', platform: 'Chrome', browser: 'Chrome'),
+        _session(id: 'b', platform: 'Chrome', browser: 'Chrome'),
+      ],
+    );
+    await tester.pumpWidget(
+      _wrap(const UserLinkedDevices(), api: api, currentIdHash: 'a'),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('macOS · Chrome'), findsNWidgets(2));
   });
 }

@@ -53,3 +53,14 @@ String dioExceptionMessage(DioException error, String fallback) {
   }
   return fallback;
 }
+
+/// Returns a user facing message for [error].
+///
+/// For [DioException], the Fluxer API `message` field is preferred. Otherwise
+/// [fallback] is returned.
+String userFacingErrorMessage(Object error, String fallback) {
+  if (error is DioException) {
+    return apiMessageFromDioException(error) ?? fallback;
+  }
+  return fallback;
+}

@@ -78,7 +78,7 @@ Future<void> joinCommunityViaInvite({
       kind: e.response?.statusCode == 404
           ? JoinCommunityFailureKind.invalidInvite
           : JoinCommunityFailureKind.apiError,
-      message: dioExceptionMessage(e, l10n.addGuildJoinFailed),
+      message: userFacingErrorMessage(e, l10n.addGuildJoinFailed),
     );
   }
 }

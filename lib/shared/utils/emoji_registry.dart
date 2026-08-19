@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/shared/utils/emoji_search.dart';
 import 'package:fluxer_app/shared/utils/emoji_utils.dart'
@@ -56,6 +57,8 @@ class EmojiRegistry {
   static Map<String, List<EmojiEntry>>? _categories;
   static List<EmojiEntry>? _allEmojis;
   static RegExp? _unicodeEmojiRegex;
+  static String? _lastSearchQuery;
+  static List<EmojiEntry>? _lastSearchResults;
 
   static Future<String?> resolve(String name) async {
     _nameToSurrogate ??= await _loadNameMap();
@@ -65,9 +68,10 @@ class EmojiRegistry {
   static String? resolveSync(String name) => _nameToSurrogate?[name];
   static RegExp? get unicodeEmojiRegexSync => _unicodeEmojiRegex;
 
-  static Map<String, List<EmojiEntry>> get categories => _categories ?? {};
+  static Map<String, List<EmojiEntry>> get categories =>
+      _categories ?? const {};
 
-  static List<EmojiEntry> get allEmojis => _allEmojis ?? [];
+  static List<EmojiEntry> get allEmojis => _allEmojis ?? const [];
 
   static EmojiEntry? entryByName(String name) => _nameToEntry?[name];
 
@@ -89,12 +93,20 @@ class EmojiRegistry {
 
   static Future<void> ensureLoaded() => preload();
 
-  static Future<void> preload() async {
+  static Future<void>? _pendingPreload;
+
+  static Future<void> preload() {
     if (_categories != null && _unicodeEmojiRegex != null) {
-      return;
+      return Future<void>.value();
     }
+    return _pendingPreload ??= _doPreload().whenComplete(
+      () => _pendingPreload = null,
+    );
+  }
+
+  static Future<void> _doPreload() async {
     final raw = await rootBundle.loadString(_kAssetPath);
-    final json = jsonDecode(raw) as Map<String, dynamic>;
+    final json = await compute(jsonDecode, raw) as Map<String, dynamic>;
     _parseAll(json);
   }
 
@@ -167,6 +179,7 @@ class EmojiRegistry {
             continue;
           }
           unicodeSurrogates.add(skinSurrogatesValue);
+          surrogateMap.putIfAbsent(skinSurrogatesValue, () => emoji);
           final skinToneName = 'skin-tone-${i + 1}';
           for (final name in names) {
             final skinName = '$name::$skinToneName';
@@ -198,6 +211,8 @@ class EmojiRegistry {
     _categories = cats;
     _allEmojis = all;
     _unicodeEmojiRegex = _buildUnicodeEmojiRegex(unicodeSurrogates);
+    _lastSearchQuery = null;
+    _lastSearchResults = null;
   }
 
   static Future<Map<String, String>> _loadNameMap() async {
@@ -229,10 +244,14 @@ class EmojiRegistry {
     return RegExp(pattern);
   }
 
+  /// Searches all emojis, ranked by match tier. Memoizes the last query.
   static List<EmojiEntry> search(String query) {
     final q = normalizeEmojiSearchQuery(query);
     if (q.isEmpty) {
-      return <EmojiEntry>[];
+      return const <EmojiEntry>[];
+    }
+    if (q == _lastSearchQuery) {
+      return _lastSearchResults!;
     }
     final entries = allEmojis;
     final ranked = <({EmojiEntry entry, int tier, int order})>[];
@@ -256,6 +275,9 @@ class EmojiRegistry {
       final int byName = a.entry.primaryName.compareTo(b.entry.primaryName);
       return byName != 0 ? byName : a.order - b.order;
     });
-    return ranked.map((r) => r.entry).toList(growable: false);
+    final results = ranked.map((r) => r.entry).toList(growable: false);
+    _lastSearchQuery = q;
+    _lastSearchResults = results;
+    return results;
   }
 }

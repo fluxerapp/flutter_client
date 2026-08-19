@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
 import 'package:fluxer_dart/export.dart';
 
 class ResolvedUnreadSettings {
@@ -28,6 +29,7 @@ UserGuildSettingsResponse? decodeUserGuildSettings(String data) {
 UserNotificationSettings? getLockedCommunityUnreadBadgesLevel({
   required UserGuildSettingsResponse? guildSettings,
   required DateTime now,
+  GuildNotificationContext? guildContext,
 }) {
   if (guildSettings == null) {
     return null;
@@ -35,7 +37,10 @@ UserNotificationSettings? getLockedCommunityUnreadBadgesLevel({
   if (_isGuildMuted(guildSettings, now)) {
     return UserNotificationSettings.noMessages;
   }
-  final notificationLevel = guildSettings.messageNotifications;
+  final notificationLevel = resolveGuildMessageNotificationsFromContext(
+    stored: guildSettings.messageNotifications,
+    guildContext: guildContext,
+  );
   if (notificationLevel == UserNotificationSettings.allMessages) {
     return UserNotificationSettings.allMessages;
   }
@@ -61,10 +66,12 @@ UserNotificationSettings? resolveGuildUnreadBadgesLevel({
   required db.Channel channel,
   required UserGuildSettingsResponse? guildSettings,
   bool unreadBadgeCustomizationEnabled = false,
+  GuildNotificationContext? guildContext,
 }) {
   final lockedLevel = getLockedCommunityUnreadBadgesLevel(
     guildSettings: guildSettings,
     now: DateTime.now(),
+    guildContext: guildContext,
   );
   if (lockedLevel != null) {
     return lockedLevel;
@@ -93,14 +100,19 @@ ResolvedUnreadSettings resolveChannelUnreadSettings({
   required UserGuildSettingsResponse? guildSettings,
   required DateTime now,
   bool unreadBadgeCustomizationEnabled = false,
+  GuildNotificationContext? guildContext,
 }) {
-  final badgeLevel =
+  final UserNotificationSettings badgeLevel =
       resolveUnreadBadgesLevel(
         channel: channel,
         guildSettings: guildSettings,
         unreadBadgeCustomizationEnabled: unreadBadgeCustomizationEnabled,
       ) ??
-      UserNotificationSettings.allMessages;
+      resolveMessageNotifications(
+        channel: channel,
+        guildSettings: guildSettings,
+        guildContext: guildContext,
+      );
   return ResolvedUnreadSettings(
     isMuted: isChannelDirectlyMuted(
       channel: channel,
@@ -117,12 +129,14 @@ ResolvedUnreadSettings resolveUnreadSettings({
   required UserGuildSettingsResponse? guildSettings,
   required DateTime now,
   bool unreadBadgeCustomizationEnabled = false,
+  GuildNotificationContext? guildContext,
 }) {
   return resolveChannelUnreadSettings(
     channel: channel,
     guildSettings: guildSettings,
     now: now,
     unreadBadgeCustomizationEnabled: unreadBadgeCustomizationEnabled,
+    guildContext: guildContext,
   );
 }
 
@@ -212,6 +226,7 @@ UserNotificationSettings? _explicitLevel(UserNotificationSettings? level) {
 UserNotificationSettings resolveMessageNotifications({
   required db.Channel channel,
   required UserGuildSettingsResponse? guildSettings,
+  GuildNotificationContext? guildContext,
 }) {
   final overrides = guildSettings?.channelOverrides ?? const {};
   final direct = _explicitLevel(overrides[channel.id]?.messageNotifications);
@@ -226,8 +241,11 @@ UserNotificationSettings resolveMessageNotifications({
       return parent;
     }
   }
-  return guildSettings?.messageNotifications ??
-      UserNotificationSettings.allMessages;
+  return resolveGuildMessageNotificationsFromContext(
+    stored:
+        guildSettings?.messageNotifications ?? UserNotificationSettings.inherit,
+    guildContext: guildContext,
+  );
 }
 
 bool shouldShowChannelInUnreadInbox({
@@ -237,6 +255,7 @@ bool shouldShowChannelInUnreadInbox({
   required bool hasMentions,
   required DateTime now,
   bool unreadBadgeCustomizationEnabled = false,
+  GuildNotificationContext? guildContext,
 }) {
   final level = resolveUnreadBadgesLevel(
     channel: channel,
@@ -258,7 +277,11 @@ bool shouldShowChannelInUnreadInbox({
     return false;
   }
   return _shouldShowUnreadInboxStateAtLevel(
-    resolveMessageNotifications(channel: channel, guildSettings: guildSettings),
+    resolveMessageNotifications(
+      channel: channel,
+      guildSettings: guildSettings,
+      guildContext: guildContext,
+    ),
     hasUnread: hasUnread,
     hasMentions: hasMentions,
   );
@@ -287,14 +310,20 @@ UserNotificationSettings resolvePrivateMessageNotifications({
   if (direct != null) {
     return direct;
   }
-  return guildSettings?.messageNotifications ??
-      UserNotificationSettings.allMessages;
+  final stored =
+      guildSettings?.messageNotifications ?? UserNotificationSettings.inherit;
+  if (stored == UserNotificationSettings.inherit ||
+      stored == UserNotificationSettings.$unknown) {
+    return UserNotificationSettings.allMessages;
+  }
+  return stored;
 }
 
 bool allowNoMessagesForGuildChannel({
   required db.Channel channel,
   required UserGuildSettingsResponse? guildSettings,
   required DateTime now,
+  GuildNotificationContext? guildContext,
 }) {
   if (isGuildOrCategoryOrChannelMuted(
     channel: channel,
@@ -306,6 +335,7 @@ bool allowNoMessagesForGuildChannel({
   return resolveMessageNotifications(
         channel: channel,
         guildSettings: guildSettings,
+        guildContext: guildContext,
       ) ==
       UserNotificationSettings.noMessages;
 }

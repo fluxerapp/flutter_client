@@ -60,30 +60,29 @@ class _GuildIconPeekGestureHostState
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        IgnorePointer(
-          child: UnconstrainedBox(
-            child: CompositedTransformFollower(
-              link: _layerLink,
-              targetAnchor: Alignment.centerRight,
-              followerAnchor: Alignment.centerLeft,
-              offset: const Offset(8, 0),
-              showWhenUnlinked: false,
-              child: ContextMenuEntranceAnimationHost(
-                alignment: Alignment.centerLeft,
-                child: GuildIconPeekMenuPanel(
-                  guildName: widget.peekMenu.guildName,
-                  hasUnread: widget.peekMenu.hasUnread,
-                  itemKeys: _itemKeys,
-                ),
-              ),
-            ),
-          ),
-        ),
         Positioned.fill(
           child: Listener(
             behavior: HitTestBehavior.translucent,
             onPointerDown: _handleOverlayPointerDown,
             child: const ColoredBox(color: Colors.transparent),
+          ),
+        ),
+        CompositedTransformFollower(
+          link: _layerLink,
+          targetAnchor: Alignment.centerRight,
+          followerAnchor: Alignment.centerLeft,
+          offset: const Offset(8, 0),
+          showWhenUnlinked: false,
+          child: ContextMenuEntranceAnimationHost(
+            alignment: Alignment.centerLeft,
+            child: GuildIconPeekMenuPanel(
+              guildName: widget.peekMenu.guildName,
+              hasUnread: widget.peekMenu.hasUnread,
+              itemKeys: _itemKeys,
+              onActionTap: (GuildIconPeekAction action) {
+                unawaited(_handleItemTap(action));
+              },
+            ),
           ),
         ),
       ],
@@ -191,8 +190,6 @@ class _GuildIconPeekGestureHostState
       );
       if (action != null && mounted) {
         await _handleItemTap(action);
-      } else {
-        _dismissPeekOverlay();
       }
     }
     _activePointer = null;

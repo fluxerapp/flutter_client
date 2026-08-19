@@ -22,11 +22,11 @@ CONVENTIONAL_COMMIT_PATTERN = re.compile(
     re.IGNORECASE,
 )
 SECTION_HEADINGS = {
-    "feature": "## Features",
-    "fix": "## Fixes",
-    "other": "## Other",
+    "feature": "### Features",
+    "fix": "### Fixes",
+    "other": "### Other",
 }
-SECTION_ORDER = ("## Features", "## Fixes", "## Other")
+SECTION_ORDER = ("### Features", "### Fixes", "### Other")
 CATEGORY_ORDER = ("feature", "fix", "other")
 DETAILED_CHANGES_HEADING = "## Detailed changes"
 SKIP_CHANGELOG_TYPES = frozenset({"chore", "ci", "build", "style", "refactor", "test"})
@@ -251,7 +251,7 @@ def reorder_change_sections(body: str) -> str:
     extracted_sections: list[tuple[str, str]] = []
     for heading in SECTION_ORDER:
         section_pattern = re.compile(
-            rf"\n{re.escape(heading)}\n(.*?)(?=\n## |\Z)",
+            rf"\n{re.escape(heading)}\n(.*?)(?=\n### |\Z)",
             re.DOTALL,
         )
         match = section_pattern.search(body)

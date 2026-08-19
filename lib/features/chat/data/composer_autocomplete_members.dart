@@ -36,16 +36,26 @@ Member dmGroupParticipantMentionMember({
   );
 }
 
-Future<List<Member>> filterMembersByViewChannel({
+class ViewChannelFilterContext {
+  ViewChannelFilterContext({
+    required this.guildOwnerId,
+    required this.everyonePermissions,
+    required this.overwriteJsonLayersRootToLeaf,
+  });
+
+  final String guildOwnerId;
+  final int everyonePermissions;
+  final List<String?> overwriteJsonLayersRootToLeaf;
+}
+
+Future<ViewChannelFilterContext?> loadViewChannelFilterContext({
   required db.FluxerDatabase database,
   required String channelId,
   required String guildId,
-  required List<Member> members,
-  Set<String> assumeVisibleForUserIds = const <String>{},
 }) async {
   final db.Server? guildRow = await database.guildDao.getServerById(guildId);
   if (guildRow == null) {
-    return members;
+    return null;
   }
   final String ownerId = guildRow.ownerId ?? '';
   final List<db.Role> allRoles = await database.roleDao.getRoles(guildId);
@@ -60,6 +70,19 @@ Future<List<Member>> filterMembersByViewChannel({
       int.tryParse(everyoneRole?.permissions ?? '0') ?? 0;
   final List<String?> layers = await database.channelDao
       .getPermissionOverwriteLayersRootToLeaf(channelId);
+  return ViewChannelFilterContext(
+    guildOwnerId: ownerId,
+    everyonePermissions: everyonePermissions,
+    overwriteJsonLayersRootToLeaf: layers,
+  );
+}
+
+List<Member> filterMembersByViewChannelWithContext({
+  required ViewChannelFilterContext context,
+  required String guildId,
+  required List<Member> members,
+  Set<String> assumeVisibleForUserIds = const <String>{},
+}) {
   final List<Member> visible = <Member>[];
   for (final Member m in members) {
     if (assumeVisibleForUserIds.contains(m.id)) {
@@ -67,17 +90,40 @@ Future<List<Member>> filterMembersByViewChannel({
       continue;
     }
     final int bits = evaluateChannelEffectivePermissionBits(
-      guildOwnerId: ownerId,
+      guildOwnerId: context.guildOwnerId,
       guildId: guildId,
       currentUserId: m.id,
-      everyonePermissions: everyonePermissions,
+      everyonePermissions: context.everyonePermissions,
       memberRoles: m.roles,
       memberRecordPresent: true,
-      overwriteJsonLayersRootToLeaf: layers,
+      overwriteJsonLayersRootToLeaf: context.overwriteJsonLayersRootToLeaf,
     );
     if (hasPermission(bits, Permission.viewChannel)) {
       visible.add(m);
     }
   }
   return visible;
+}
+
+Future<List<Member>> filterMembersByViewChannel({
+  required db.FluxerDatabase database,
+  required String channelId,
+  required String guildId,
+  required List<Member> members,
+  Set<String> assumeVisibleForUserIds = const <String>{},
+}) async {
+  final ViewChannelFilterContext? context = await loadViewChannelFilterContext(
+    database: database,
+    channelId: channelId,
+    guildId: guildId,
+  );
+  if (context == null) {
+    return members;
+  }
+  return filterMembersByViewChannelWithContext(
+    context: context,
+    guildId: guildId,
+    members: members,
+    assumeVisibleForUserIds: assumeVisibleForUserIds,
+  );
 }

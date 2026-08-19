@@ -190,6 +190,38 @@ code
       expect((segments.last as FluxerSubtextSegment).text, 'small text');
     });
   });
+
+  group('preprocessFluxerMarkdown invisible inline formatting', () {
+    test('escapes emphasis with invisible-only inner content', () {
+      const String input = '*\u200b*';
+      final String output = preprocessFluxerMarkdown(input, features);
+      expect(output, '\\*\u200b\\*');
+    });
+
+    test('escapes emphasis with other invisible inner characters', () {
+      const List<String> invisibleChars = <String>[
+        '\u200e',
+        '\ufeff',
+        '\u2800',
+        '\u3164',
+        '\u{E0100}',
+      ];
+
+      for (final String invisible in invisibleChars) {
+        final String input = '*$invisible*';
+        final String output = preprocessFluxerMarkdown(input, features);
+        expect(output, '\\*$invisible\\*', reason: 'input was $input');
+      }
+    });
+
+    test('parsed output shows literal asterisks for invisible emphasis', () {
+      const String input = '*\u200b*';
+      final String processed = preprocessFluxerMarkdown(input, features);
+      final md.Document document = md.Document(encodeHtml: false);
+      final List<md.Node> nodes = document.parse(processed);
+      expect(_collectMarkdownText(nodes), input);
+    });
+  });
 }
 
 String _collectMarkdownText(List<md.Node> nodes) {

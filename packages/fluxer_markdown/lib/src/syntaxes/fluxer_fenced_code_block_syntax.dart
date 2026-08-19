@@ -1,4 +1,5 @@
 import 'package:fluxer_markdown/src/parsing/fluxer_code_fence_language.dart';
+import 'package:fluxer_markdown/src/utils/visible_content.dart';
 import 'package:markdown/markdown.dart' as md;
 
 class FluxerFencedCodeBlockSyntax extends md.BlockSyntax {
@@ -25,7 +26,7 @@ class FluxerFencedCodeBlockSyntax extends md.BlockSyntax {
     final int? inlineClose = _findInlineClosingFence(info, closingFence);
     if (inlineClose != null) {
       final String inlineContent = info.substring(0, inlineClose);
-      if (!_hasVisibleContent(inlineContent)) {
+      if (!hasVisibleContent(inlineContent)) {
         return md.Element.text('p', parser.current.content);
       }
       parser.advance();
@@ -73,7 +74,7 @@ class FluxerFencedCodeBlockSyntax extends md.BlockSyntax {
       parser.advance();
     }
 
-    if (!_hasVisibleContent(content.toString())) {
+    if (!hasVisibleContent(content.toString())) {
       return md.Element.text('p', '```$info\n```');
     }
 
@@ -109,17 +110,5 @@ class FluxerFencedCodeBlockSyntax extends md.BlockSyntax {
       return null;
     }
     return index;
-  }
-
-  bool _hasVisibleContent(String value) {
-    for (final int codeUnit in value.codeUnits) {
-      if (codeUnit != 0x20 &&
-          codeUnit != 0x09 &&
-          codeUnit != 0x0A &&
-          codeUnit != 0x0D) {
-        return true;
-      }
-    }
-    return false;
   }
 }

@@ -23,7 +23,7 @@ class MediaViewerDismissible extends StatefulWidget {
 }
 
 class _MediaViewerDismissibleState extends State<MediaViewerDismissible>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   static const Duration _snapBackDuration = Duration(milliseconds: 220);
   static const Duration _dismissDuration = Duration(milliseconds: 180);
 

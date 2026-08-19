@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/channels/domain/channel.dart'
     show isGuildTextBasedChannel;
 import 'package:fluxer_app/features/guilds/domain/guild_read_state_contribution.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_ready_provider.dart';
+import 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -108,6 +109,8 @@ class GuildReadState extends _$GuildReadState {
   final Map<String, UserGuildSettingsResponse?> _guildSettings =
       <String, UserGuildSettingsResponse?>{};
   final Map<String, String> _guildSettingsRaw = <String, String>{};
+  final Map<String, GuildNotificationContext> _guildNotificationContexts =
+      <String, GuildNotificationContext>{};
   final Set<String> _pendingTrustIndex = <String>{};
   StreamSubscription<Map<String, String>>? _lastMessageIndexSub;
 
@@ -180,6 +183,16 @@ class GuildReadState extends _$GuildReadState {
     });
 
     final guildSub = db.guildDao.watchServers().listen((guilds) {
+      _guildNotificationContexts
+        ..clear()
+        ..addEntries(
+          guilds.map(
+            (Server guild) => MapEntry<String, GuildNotificationContext>(
+              guild.id,
+              GuildNotificationContext.fromServer(guild),
+            ),
+          ),
+        );
       _pruneRemovedGuilds(guilds.map((g) => g.id).toSet());
     });
 
@@ -237,6 +250,16 @@ class GuildReadState extends _$GuildReadState {
     });
     _readStateSnapshot = {for (final r in allReadStates) r.channelId: r};
     _updateGuildSettings(allSettings);
+    _guildNotificationContexts
+      ..clear()
+      ..addEntries(
+        guilds.map(
+          (Server guild) => MapEntry<String, GuildNotificationContext>(
+            guild.id,
+            GuildNotificationContext.fromServer(guild),
+          ),
+        ),
+      );
     final now = DateTime.now();
     for (final channel in _channelSnapshot.values) {
       if (!isGuildTextBasedChannel(channel.type)) {
@@ -562,6 +585,7 @@ class GuildReadState extends _$GuildReadState {
       _guildJoinedAtFetched.remove(guildId);
       _guildSettings.remove(guildId);
       _guildSettingsRaw.remove(guildId);
+      _guildNotificationContexts.remove(guildId);
     }
     _latestMessageIdByChannel.removeWhere(
       (channelId, _) => !_channelSnapshot.containsKey(channelId),
@@ -582,6 +606,7 @@ class GuildReadState extends _$GuildReadState {
     _guildJoinedAtFetched.clear();
     _guildSettings.clear();
     _guildSettingsRaw.clear();
+    _guildNotificationContexts.clear();
     _pendingChannelIds.clear();
     _pendingLatestRefresh.clear();
     _pendingTrustIndex.clear();
@@ -618,6 +643,7 @@ class GuildReadState extends _$GuildReadState {
       unreadBadgesLevel: resolveGuildUnreadBadgesLevel(
         channel: channel,
         guildSettings: guildSettings,
+        guildContext: _guildNotificationContexts[channel.guildId],
       ),
       isMutedForUnread: isGuildOrCategoryOrChannelMuted(
         channel: channel,

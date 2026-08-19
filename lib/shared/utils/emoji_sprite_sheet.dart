@@ -96,9 +96,10 @@ class EmojiSpritePainter extends CustomPainter {
     required this.diversity,
   });
 
+  // High-DPR cells upscale the @2x sheet; mipmaps cover downscale (issue #99).
   static final Paint _paint = Paint()
-    ..filterQuality = FilterQuality.none
-    ..isAntiAlias = false;
+    ..filterQuality = FilterQuality.medium
+    ..isAntiAlias = true;
 
   final ui.Image image;
   final int spriteIndex;

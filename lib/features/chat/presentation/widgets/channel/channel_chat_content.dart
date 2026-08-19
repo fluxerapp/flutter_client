@@ -58,15 +58,18 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
     _scheduleSyncChannelIfNeeded();
   }
 
+  /// A parent rebuild with the same channel and target must stay inert;
+  /// route/layout triggers that need a re-sync have their own paths.
   @override
   void didUpdateWidget(ChannelChatContent oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.channelId != widget.channelId ||
-        oldWidget.targetMessageId != widget.targetMessageId) {
-      _lastSwitchRequest = null;
-      _mismatchResyncChannelId = null;
-      _strandedEmptyResyncChannelId = null;
+    if (oldWidget.channelId == widget.channelId &&
+        oldWidget.targetMessageId == widget.targetMessageId) {
+      return;
     }
+    _lastSwitchRequest = null;
+    _mismatchResyncChannelId = null;
+    _strandedEmptyResyncChannelId = null;
     _scheduleSyncChannelIfNeeded();
   }
 

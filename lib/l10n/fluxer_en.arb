@@ -3232,6 +3232,10 @@
     "@genericError": {
         "description": "Generic fallback error message."
     },
+    "networkErrorMessage": "Something went wrong. Please try again.",
+    "@networkErrorMessage": {
+        "description": "Generic message shown when a network request fails."
+    },
     "invalidCode": "Invalid code",
     "@invalidCode": {
         "description": "Error message when a verification code is invalid."
@@ -15965,5 +15969,9 @@
     "keybindActionOpenThemeStudio": "Open theme studio popout",
     "keybindActionZoomIn": "Zoom in",
     "keybindActionZoomOut": "Zoom out",
-    "keybindActionZoomReset": "Reset zoom"
+    "keybindActionZoomReset": "Reset zoom",
+    "clipboardPasteFailed": "Couldn't paste. The clipboard was empty or blocked for this app.",
+    "@clipboardPasteFailed": {
+        "description": "Shown when a context-menu paste finds no readable clipboard text."
+    }
 }

@@ -103,13 +103,9 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
             channel: channel,
             guildSettings: decodedGuildSettings,
           );
-    final fallbackAckMs = channel == null
-        ? snowflakeTimestampMs(channelId)
-        : await guildChannelFallbackAckMs(
-            database: db,
-            channel: channel,
-            currentUserId: currentUserId,
-          );
+    // A guild channel without an ack returns false before the fallback is
+    // read, so skipping it here keeps this hot recompute off the DB.
+    final fallbackAckMs = channel == null ? snowflakeTimestampMs(channelId) : 0;
     final hasUnreadMessage = hasUnreadByReadState(
       channelLastMessageId: latestMessageId,
       ackLastMessageId: readState?.lastMessageId,

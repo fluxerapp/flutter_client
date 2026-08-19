@@ -2,6 +2,7 @@
 // so custom addition is needed untill it's added.
 
 import 'package:dio/dio.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_discovery_application.dart';
 
 class GuildDiscoveryRepository {
@@ -76,6 +77,6 @@ class GuildDiscoveryRepository {
   }
 
   String _messageFromDio(DioException error, String fallback) {
-    return error.response?.statusMessage ?? fallback;
+    return userFacingErrorMessage(error, fallback);
   }
 }

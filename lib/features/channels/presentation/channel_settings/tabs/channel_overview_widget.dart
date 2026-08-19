@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math' show max;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
@@ -218,7 +219,7 @@ class _ChannelOverviewWidgetState extends ConsumerState<ChannelOverviewWidget> {
           .read(toastProvider.notifier)
           .show(
             FluxerToast(
-              message: error.toString(),
+              message: userFacingErrorMessage(error, l10n.networkErrorMessage),
               variant: FluxerToastVariant.danger,
             ),
           );

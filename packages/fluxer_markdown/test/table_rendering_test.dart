@@ -71,6 +71,36 @@ void main() {
       expect(find.byType(SingleChildScrollView), findsOneWidget);
     });
 
+    testWidgets('renders a table that follows a text line without a blank line', (
+      tester,
+    ) async {
+      const String input =
+          "Example of a table I was building to compare web frameworks that renders on desktop that doesn't on mobile cc <@1472583967301656587> \r\n"
+          '| Framework | Type | Pros | Cons | Best for |\r\n'
+          '| --------- | ---- | ---- | ---- | -------- |\r\n'
+          '| React | UI library | Largest ecosystem | Requires choosing additional libraries | Interactive web apps |\r\n'
+          '| Vue | UI framework | Easy to learn | Smaller ecosystem than React | Beginners |';
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: FluxerMarkdown(
+              data: input,
+              config: _testMarkdownConfig,
+              baseStyle: _baseStyle,
+            ),
+          ),
+        ),
+      );
+
+      expect(find.byType(Table), findsOneWidget);
+      expect(
+        find.textContaining('Framework', findRichText: true),
+        findsOneWidget,
+      );
+      expect(find.textContaining('Vue', findRichText: true), findsOneWidget);
+    });
+
     testWidgets('uses configured header and zebra row backgrounds', (
       tester,
     ) async {

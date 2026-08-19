@@ -98,9 +98,10 @@ class ComposerMentionController extends InlineTokenTextEditingController {
 
   int _applyWireTextGeneration = 0;
 
-  /// Rebuilds the field from a wire string, re-chipping mentions and custom
-  /// emoji. Plain `:name:` shortcodes are left as text (only explicitly
-  /// inserted emoji chip) to avoid mis-chipping typed colons like `12:30:45`.
+  /// Rebuilds the field from a wire string, re-chipping mentions, custom
+  /// emoji, and registry-resolvable emoji (shortcodes, skin-tone forms, raw
+  /// unicode). Unresolvable shortcodes stay literal text so typed colons like
+  /// `12:30:45` are never mis-chipped.
   Future<void> applyWireText(String wire) async {
     if (toWireText() == wire) {
       return;

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui' as ui show Locale;
 
+import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/scheduler.dart';
@@ -15,10 +16,17 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/data/ack_batcher.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart';
+import 'package:fluxer_app/features/chat/data/attachment_upload_client.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
+import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_immunity_provider.dart';
+import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
+import 'package:fluxer_app/features/chat/providers/upload/attachment_upload_client_provider.dart';
+import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
+import 'package:fluxer_app/features/chat/providers/upload/user_upload_limits_provider.dart';
+import 'package:fluxer_app/features/chat/utils/composer_upload_file.dart';
 import 'package:fluxer_app/features/chat/utils/message_page_sync.dart';
 import 'package:fluxer_app/features/chat/utils/message_send_failure_messages.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
@@ -318,6 +326,32 @@ void main() {
   );
 
   test(
+    'switching channels mid-edit abandons the edit and keeps the draft',
+    () async {
+      final (container, _, _) = await setUpChannel();
+      final db = container.read(fluxerDatabaseProvider);
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(id: 'channel-2', guildId: '', name: 'dm2'),
+      );
+      final notifier = container.read(chatViewModelProvider.notifier)
+        ..updateMessageText('typed draft')
+        ..startEdit(_msg(id: 'm-edit', authorId: 'me', content: 'old content'));
+      await _flushAsync();
+
+      await notifier.switchChannel('channel-2');
+      await _flushAsync();
+      expect(container.read(chatViewModelProvider).messageText, isEmpty);
+
+      await notifier.switchChannel('channel-1');
+      await _flushAsync();
+
+      final ChatViewState state = container.read(chatViewModelProvider);
+      expect(state.editingMessage, isNull);
+      expect(state.messageText, 'typed draft');
+    },
+  );
+
+  test(
     'send failure with DM restriction adds Fluxerbot system message',
     () async {
       final FluxerLocalizations l10n = lookupFluxerLocalizations(
@@ -473,6 +507,87 @@ void main() {
     expect(container.read(chatViewModelProvider).isSyncingMessages, isFalse);
     await _flushAsync();
   });
+
+  test(
+    'slowmode arms when the gateway reconciles an attachment send first',
+    () async {
+      final _SendAdapter adapter = _SendAdapter(
+        serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12)),
+      )..holdSend = true;
+      final (container, _, serverMessageId) = await setUpChannel(
+        adapter: adapter,
+        overrides: <Override>[
+          maxAttachmentFileBytesProvider.overrideWithValue(25 * 1024 * 1024),
+          attachmentUploadClientProvider.overrideWithValue(
+            _ImmediateUploadClient(
+              channelsApi: ChannelsApi(Dio()),
+              uploadDio: Dio(),
+            ),
+          ),
+          isSlowmodeImmuneProvider(
+            'channel-1',
+          ).overrideWith((ref) => Future<bool>.value(false)),
+        ],
+      );
+      final notifier = container.read(chatViewModelProvider.notifier);
+      final validation = await container
+          .read(cloudUploadControllerProvider('channel-1').notifier)
+          .addFiles(<ComposerUploadFile>[
+            composerUploadFile(
+              XFile.fromData(Uint8List.fromList(<int>[1, 2, 3]), name: 'a.png'),
+            ),
+          ]);
+      expect(validation.isValid, isTrue);
+
+      unawaited(notifier.sendMessage(text: 'pic'));
+      await pumpEventQueue();
+      final Message optimistic = container
+          .read(chatViewModelProvider)
+          .messages
+          .lastWhere(
+            (Message m) => m.deliveryState == MessageDeliveryState.sending,
+          );
+
+      // Gateway MESSAGE_CREATE wins the race against the held HTTP ack and
+      // replaces the optimistic row (nonce -> real snowflake id).
+      container
+          .read(messageRealtimeBusProvider)
+          .emit(
+            testMessageCreated(
+              MessageCreateEvent(
+                message: MessageResponseSchema.fromJson(
+                  _messageJson(
+                    id: serverMessageId,
+                    channelId: 'channel-1',
+                    authorId: 'me',
+                    content: 'pic',
+                    nonce: optimistic.clientNonce,
+                  ),
+                ),
+              ),
+            ),
+          );
+      await _flushAsync();
+      await _flushAsync();
+      expect(
+        container
+            .read(chatViewModelProvider)
+            .messages
+            .any((Message m) => m.id == optimistic.id),
+        isFalse,
+      );
+
+      adapter.releaseSend();
+      await _flushAsync();
+
+      expect(
+        container
+            .read(slowmodeTrackerProvider.notifier)
+            .remainingFor('channel-1', 30),
+        greaterThan(Duration.zero),
+      );
+    },
+  );
 }
 
 ProviderContainer _container(
@@ -699,4 +814,46 @@ Future<String?> _readRequestBody(
     return jsonEncode(data);
   }
   return null;
+}
+
+class _ImmediateUploadClient extends AttachmentUploadClient {
+  _ImmediateUploadClient({
+    required super.channelsApi,
+    required super.uploadDio,
+  });
+
+  @override
+  Future<AttachmentUploadPlan> requestAttachmentUploadPlan({
+    required String channelId,
+    required int attachmentId,
+    required String filename,
+    required int fileSize,
+    required String contentType,
+    CancelToken? cancelToken,
+  }) async {
+    return SingleAttachmentUploadPlan(
+      id: attachmentId,
+      filename: filename,
+      uploadFilename: 'stored-$filename',
+      fileSize: fileSize,
+      contentType: contentType,
+      uploadUrl: 'https://upload.test/file',
+    );
+  }
+
+  @override
+  Future<AttachmentUploadRemoteState> uploadAttachmentPlan(
+    UploadAttachmentPlanParams params,
+  ) async {
+    params.onPlanReady?.call(
+      uploadFilename: params.plan.uploadFilename,
+      fileSize: params.plan.fileSize,
+      contentType: params.plan.contentType,
+    );
+    return AttachmentUploadRemoteState(
+      uploadFilename: params.plan.uploadFilename,
+      fileSize: params.plan.fileSize,
+      contentType: params.plan.contentType,
+    );
+  }
 }

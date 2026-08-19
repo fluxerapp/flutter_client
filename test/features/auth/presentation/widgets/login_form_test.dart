@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
@@ -90,6 +91,56 @@ void main() {
     expect(emailField.controller?.text, 'expired@example.com');
   });
 
+  testWidgets('context menu paste fills email and password', (tester) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          authInstanceSnapshotProvider.overrideWith(
+            (ref) => InstanceConfigSnapshot.officialDefault(),
+          ),
+        ],
+        child: _app(const LoginForm(showBrowserLogin: false)),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final container = ProviderScope.containerOf(
+      tester.element(find.byType(LoginForm)),
+    );
+    final Finder editables = find.byType(EditableText);
+
+    _mockClipboardText('user@example.com');
+    await _pasteViaToolbar(tester, editables.at(0));
+
+    _mockClipboardText('secret-password');
+    await _pasteViaToolbar(tester, editables.at(1));
+
+    final state = container.read(loginViewModelProvider);
+    expect(state.email, 'user@example.com');
+    expect(state.password, 'secret-password');
+  });
+
+  testWidgets('context menu paste shows feedback when clipboard is empty', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          authInstanceSnapshotProvider.overrideWith(
+            (ref) => InstanceConfigSnapshot.officialDefault(),
+          ),
+        ],
+        child: _app(const LoginForm(showBrowserLogin: false)),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    _mockClipboardText('');
+    await _pasteViaToolbar(tester, find.byType(EditableText).first);
+
+    expect(find.text(testL10n.clipboardPasteFailed), findsOneWidget);
+  });
+
   testWidgets('restores email focus when app resumes from background', (
     tester,
   ) async {
@@ -128,4 +179,29 @@ void main() {
 
     expect(focusNode.hasFocus, isTrue);
   });
+}
+
+void _mockClipboardText(String text) {
+  TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+      .setMockMethodCallHandler(SystemChannels.platform, (
+        MethodCall methodCall,
+      ) async {
+        if (methodCall.method == 'Clipboard.getData') {
+          return <String, String>{'text': text};
+        }
+        if (methodCall.method == 'Clipboard.hasStrings') {
+          return <String, bool>{'value': true};
+        }
+        return null;
+      });
+}
+
+Future<void> _pasteViaToolbar(
+  WidgetTester tester,
+  Finder editableFinder,
+) async {
+  await tester.longPress(editableFinder);
+  await tester.pumpAndSettle();
+  await tester.tap(find.text('Paste'));
+  await tester.pumpAndSettle();
 }

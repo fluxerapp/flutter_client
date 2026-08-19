@@ -3,6 +3,7 @@ import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
+import 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
 import 'package:fluxer_dart/export.dart';
 
 Future<bool> executeReadSystemFocusModeEnabled() async => false;
@@ -301,10 +302,15 @@ class FluxerMessageNotificationSfxEvaluator {
       );
     }
     final Channel guildChannel = channel.guildChannel!;
+    final GuildNotificationContext guildContext =
+        GuildNotificationContext.fromServer(
+          await database.guildDao.getServerById(guildChannel.guildId),
+        );
     if (allowNoMessagesForGuildChannel(
       channel: guildChannel,
       guildSettings: guildSettings,
       now: now,
+      guildContext: guildContext,
     )) {
       deduper.release(message.id);
       return null;
@@ -323,6 +329,7 @@ class FluxerMessageNotificationSfxEvaluator {
     final UserNotificationSettings level = resolveMessageNotifications(
       channel: guildChannel,
       guildSettings: guildSettings,
+      guildContext: guildContext,
     );
     if (!shouldNotifyMessageBasedOnSettings(
       level: level,

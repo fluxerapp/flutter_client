@@ -272,6 +272,51 @@ void main() {
     );
 
     test(
+      'hydrate removes category deleted on another client while recently acked',
+      () async {
+        const initial = FavoritesLocalState(
+          channels: [],
+          categories: [
+            db.FavoriteCategory(id: 'cat-1', name: 'Work', position: 0),
+          ],
+          collapsedCategoryIds: ['cat-1'],
+          hideMutedChannels: false,
+          muted: false,
+        );
+        const remoteAfterDelete = FavoritesLocalState(
+          channels: [],
+          categories: [],
+          collapsedCategoryIds: [],
+          hideMutedChannels: false,
+          muted: false,
+        );
+
+        await syncStore.hydrateFromUserSettings(_settingsFor(initial));
+        await database.favoriteChannelsDao.setHideMuted(value: true);
+        syncStore.markDirty(SyncedPreferenceField.favorites);
+        await _waitForDebounce(syncStore);
+        expect(usersApi.pushCount, 1);
+
+        await syncStore.hydrateFromUserSettings(
+          _settingsFor(remoteAfterDelete),
+        );
+
+        final categories = await database.favoriteChannelsDao.getCategories();
+        expect(categories, isEmpty);
+        final settings = await database.favoriteChannelsDao.getSettings();
+        expect(settings.collapsedCategoryIdsJson, '[]');
+
+        await syncStore.hydrateFromUserSettings(
+          _settingsFor(remoteAfterDelete),
+        );
+
+        final categoriesAgain = await database.favoriteChannelsDao
+            .getCategories();
+        expect(categoriesAgain, isEmpty);
+      },
+    );
+
+    test(
       'hydrate ignores remote shrink while dirty and recently acked',
       () async {
         const initial = FavoritesLocalState(

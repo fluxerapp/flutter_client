@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_join_button.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_e2ee_indicator.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_join_empty_state.dart';
+import 'package:fluxer_app/features/voice/providers/voice_join_eligibility_provider.dart';
 import 'package:fluxer_app/features/voice/utils/voice_connection_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
@@ -34,6 +35,9 @@ class VoiceCallJoinEmptyState extends ConsumerWidget {
     );
     final DmConversation? dm = findDmById(conversations, channelId);
     final String headline = dm?.displayName ?? l10n.dmVoiceFullscreenTitle;
+    final bool canJoinVoice =
+        ref.watch(voiceJoinEligibilityProvider(channelId)).value?.canJoin ??
+        true;
 
     return VoiceJoinEmptyState(
       childBuilder: (VoiceJoinEmptyLayout layout) => <Widget>[
@@ -48,16 +52,21 @@ class VoiceCallJoinEmptyState extends ConsumerWidget {
           ),
         VoiceChannelJoinButton(
           label: l10n.voiceCallJoin,
-          onPressed: () {
-            unawaited(
-              joinVoiceChannelWithConfirmation(
-                ref: ref,
-                context: context,
-                guildId: null,
-                channelId: channelId,
-              ),
-            );
-          },
+          disabledTooltip: canJoinVoice
+              ? null
+              : l10n.directVoiceCallNotEligible,
+          onPressed: canJoinVoice
+              ? () {
+                  unawaited(
+                    joinVoiceChannelWithConfirmation(
+                      ref: ref,
+                      context: context,
+                      guildId: null,
+                      channelId: channelId,
+                    ),
+                  );
+                }
+              : null,
         ),
         VoiceE2eeIndicator(
           guildId: null,

@@ -4456,6 +4456,12 @@ abstract class FluxerLocalizations {
   /// **'An error occurred'**
   String get genericError;
 
+  /// Generic message shown when a network request fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get networkErrorMessage;
+
   /// Error message when a verification code is invalid.
   ///
   /// In en, this message translates to:
@@ -22598,6 +22604,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Reset zoom'**
   String get keybindActionZoomReset;
+
+  /// Shown when a context-menu paste finds no readable clipboard text.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t paste. The clipboard was empty or blocked for this app.'**
+  String get clipboardPasteFailed;
 }
 
 class _FluxerLocalizationsDelegate

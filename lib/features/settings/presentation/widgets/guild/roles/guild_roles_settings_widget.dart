@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -104,7 +105,10 @@ class _GuildRolesSettingsWidgetState
       error: (Object error, StackTrace stackTrace) {
         widget.bridge?.clear();
         return Center(
-          child: Text(error.toString(), style: context.textStyles.bodySmall),
+          child: Text(
+            userFacingErrorMessage(error, l10n.networkErrorMessage),
+            style: context.textStyles.bodySmall,
+          ),
         );
       },
       data: (Map<String, db.Role> roleRows) {

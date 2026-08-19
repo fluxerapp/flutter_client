@@ -66,6 +66,10 @@ class ComposerAutocompleteFieldState
   String? _guildRolesWatchGuildId;
   ProviderSubscription<ChannelPermissionCaches>? _channelPermissionSubscription;
   String? _channelPermissionWatchChannelId;
+  ProviderSubscription<AsyncValue<int>>? _guildMemberCountSubscription;
+  String? _guildMemberCountWatchGuildId;
+  ViewChannelFilterContext? _viewChannelFilterContext;
+  String? _viewChannelFilterContextKey;
 
   String get _channelId => widget.channelId ?? '';
 
@@ -282,16 +286,82 @@ class ComposerAutocompleteFieldState
   }
 
   void _stopMentionAutocompleteWatches() {
+    final String? guildId =
+        _guildMemberCountWatchGuildId ?? _guildRolesWatchGuildId;
     _stopGuildRolesWatch();
     _stopChannelPermissionWatch();
+    _stopGuildMemberCountWatch();
+    _clearMentionSessionCaches();
+    if (guildId != null && guildId.isNotEmpty) {
+      ref.read(guildMentionMemberSearchProvider).cancelGatewaySearch(guildId);
+    }
+  }
+
+  void _clearMentionSessionCaches() {
+    _viewChannelFilterContext = null;
+    _viewChannelFilterContextKey = null;
+  }
+
+  Future<ViewChannelFilterContext?> _viewChannelFilterContextFor({
+    required String guildId,
+    required String channelId,
+  }) async {
+    final String key = '$guildId:$channelId';
+    if (_viewChannelFilterContextKey == key &&
+        _viewChannelFilterContext != null) {
+      return _viewChannelFilterContext;
+    }
+    final ViewChannelFilterContext? context =
+        await loadViewChannelFilterContext(
+          database: ref.read(fluxerDatabaseProvider),
+          channelId: channelId,
+          guildId: guildId,
+        );
+    if (!mounted) {
+      return context;
+    }
+    _viewChannelFilterContextKey = key;
+    _viewChannelFilterContext = context;
+    return context;
   }
 
   void _startMentionAutocompleteWatches({
     required String guildId,
     required String channelId,
   }) {
+    prefetchGuildRoles(ref.read(memberRepositoryProvider), guildId);
     _startGuildRolesWatch(guildId);
     _startChannelPermissionWatch(channelId);
+    _startGuildMemberCountWatch(guildId);
+  }
+
+  void _startGuildMemberCountWatch(String guildId) {
+    if (_guildMemberCountWatchGuildId == guildId &&
+        _guildMemberCountSubscription != null) {
+      return;
+    }
+    _stopGuildMemberCountWatch();
+    _guildMemberCountWatchGuildId = guildId;
+    _guildMemberCountSubscription = ref.listenManual(
+      guildMemberRowCountProvider(guildId),
+      (AsyncValue<int>? previous, AsyncValue<int> next) {
+        if (!mounted || !next.hasValue) {
+          return;
+        }
+        if (previous?.value == next.value) {
+          return;
+        }
+        ref.read(guildMentionMemberSearchProvider).invalidateSnapshot(guildId);
+        _clearMentionSessionCaches();
+        _scheduleSync();
+      },
+    );
+  }
+
+  void _stopGuildMemberCountWatch() {
+    _guildMemberCountSubscription?.close();
+    _guildMemberCountSubscription = null;
+    _guildMemberCountWatchGuildId = null;
   }
 
   void _startChannelPermissionWatch(String channelId) {
@@ -314,6 +384,7 @@ class ComposerAutocompleteFieldState
         final int? previousBits = previous?[channelId];
         final int? nextBits = next[channelId];
         if (nextBits != null && nextBits != previousBits) {
+          _clearMentionSessionCaches();
           _scheduleSync();
         }
       },
@@ -444,68 +515,45 @@ class ComposerAutocompleteFieldState
     final Map<String, String?> friendNicknameById = friendNicknamesById(
       ref.read(dmViewModelProvider).friendsList,
     );
-    List<Member> members = const <Member>[];
-    Set<String> remoteSearchMemberIds = <String>{};
     if (guildId != null && guildId.isNotEmpty) {
       _startMentionAutocompleteWatches(guildId: guildId, channelId: _channelId);
       ref.read(guildSyncProvider.notifier).syncIfNeeded(guildId);
       final GuildMentionMemberSearch search = ref.read(
         guildMentionMemberSearchProvider,
       );
-      final MentionAutocompleteSession stableSession = _mentionSessionFor(
+      final GuildMentionSnapshot snapshot = await search.ensureSnapshot(
         guildId,
-        parsed,
-      );
-      final String searchQuery = parsed.usernameQuery.trim();
-      members = await search.searchCached(
-        guildId: guildId,
-        parsed: parsed,
-        friendNicknameById: friendNicknameById,
-        stableSession: stableSession,
       );
       if (generation != _syncGeneration) {
         return;
       }
+      final String searchQuery = parsed.usernameQuery.trim();
       await _renderMentionRows(
         generation: generation,
         parsed: parsed,
         guildId: guildId,
-        members: members,
-        remoteSearchMemberIds: remoteSearchMemberIds,
+        members: snapshot.members,
+        remoteSearchMemberIds: search.remoteMemberIdsFor(guildId),
         friendNicknameById: friendNicknameById,
         l10n: l10n,
+        discriminators: snapshot.discriminators,
       );
       if (generation != _syncGeneration) {
         return;
       }
-      if (await search.shouldFetchFromGateway(guildId, searchQuery)) {
-        final ({List<Member> members, Set<String> remoteMemberIds})
-        gatewayResult = await search.fetchGatewayAndMerge(
-          guildId: guildId,
-          query: searchQuery,
-          parsed: parsed,
-          friendNicknameById: friendNicknameById,
-          stableSession: stableSession,
-        );
-        members = gatewayResult.members;
-        remoteSearchMemberIds = gatewayResult.remoteMemberIds;
-        if (generation != _syncGeneration) {
-          return;
-        }
-        await _renderMentionRows(
-          generation: generation,
-          parsed: parsed,
-          guildId: guildId,
-          members: members,
-          remoteSearchMemberIds: remoteSearchMemberIds,
-          friendNicknameById: friendNicknameById,
-          l10n: l10n,
-        );
-      }
+      search.scheduleGatewaySearch(
+        guildId: guildId,
+        query: searchQuery,
+        onComplete: () {
+          if (mounted) {
+            _scheduleSync();
+          }
+        },
+      );
       return;
     }
     _stopMentionAutocompleteWatches();
-    members = await _dmMentionMembers();
+    final List<Member> members = await _dmMentionMembers();
     if (generation != _syncGeneration) {
       return;
     }
@@ -531,7 +579,7 @@ class ComposerAutocompleteFieldState
       parsed: parsed,
       guildId: null,
       members: ranked,
-      remoteSearchMemberIds: remoteSearchMemberIds,
+      remoteSearchMemberIds: const <String>{},
       friendNicknameById: friendNicknameById,
       l10n: l10n,
       discriminators: discs,
@@ -589,15 +637,27 @@ class ComposerAutocompleteFieldState
       discriminatorByUserId: discs,
       friendNicknameById: friendNicknameById,
       stableSession: stableSession,
+      prioritizeMemberIds: remoteSearchMemberIds.isEmpty
+          ? null
+          : remoteSearchMemberIds,
     );
     if (guildId != null && guildId.isNotEmpty) {
-      ranked = await filterMembersByViewChannel(
-        database: ref.read(fluxerDatabaseProvider),
-        channelId: _channelId,
-        guildId: guildId,
-        members: ranked,
-        assumeVisibleForUserIds: remoteSearchMemberIds,
-      );
+      final ViewChannelFilterContext? viewChannelContext =
+          await _viewChannelFilterContextFor(
+            guildId: guildId,
+            channelId: _channelId,
+          );
+      if (generation != _syncGeneration) {
+        return;
+      }
+      if (viewChannelContext != null) {
+        ranked = filterMembersByViewChannelWithContext(
+          context: viewChannelContext,
+          guildId: guildId,
+          members: ranked,
+          assumeVisibleForUserIds: remoteSearchMemberIds,
+        );
+      }
     }
     if (ranked.length > kMentionResultLimit) {
       ranked = ranked.sublist(0, kMentionResultLimit);
@@ -657,14 +717,12 @@ class ComposerAutocompleteFieldState
       final Map<String, db.Role>? cachedRolesById = ref
           .read(guildRolesByIdProvider(guildId))
           .value;
-      final List<db.Role> dbRoles =
-          await resolveGuildRolesForMentionAutocomplete(
-            database: database,
-            repository: memberRepository,
-            guildId: guildId,
-            query: q,
-            rolesById: cachedRolesById,
-          );
+      final List<db.Role> dbRoles = await localRolesForMentionAutocomplete(
+        database: database,
+        repository: memberRepository,
+        guildId: guildId,
+        rolesById: cachedRolesById,
+      );
       if (generation != _syncGeneration) {
         return;
       }
@@ -702,37 +760,14 @@ class ComposerAutocompleteFieldState
         );
       }
     }
-    final MentionMatchRank bestMemberRank = ranked.isEmpty || q.isEmpty
-        ? MentionMatchRank.noMatch
-        : mentionMatchRankForMember(
-            ranked.first,
-            q,
-            friendNickname: friendNicknameById[ranked.first.id],
-            discriminator: discs[ranked.first.id],
-          );
-    final MentionMatchRank bestRoleRank = roleRows.isEmpty || q.isEmpty
-        ? MentionMatchRank.noMatch
-        : mentionMatchRankForRoleName(roleRows.first.title.substring(1), q);
-    final bool promoteRoles = shouldPromoteRoleMentionMatches(
-      query: q,
-      bestRoleRank: bestRoleRank,
-      bestMemberRank: bestMemberRank,
-    );
-    final List<_ComposerRow> rows = <_ComposerRow>[];
-    if (promoteRoles) {
+    final List<_ComposerRow> rows = <_ComposerRow>[
+      ...memberRows,
+      ...specialRows,
+    ];
+    if (roleRows.isNotEmpty) {
       rows
-        ..addAll(roleRows)
-        ..addAll(memberRows)
-        ..addAll(specialRows);
-    } else {
-      rows
-        ..addAll(memberRows)
-        ..addAll(specialRows);
-      if (roleRows.isNotEmpty) {
-        rows
-          ..add(_ComposerRow(title: '', onApply: () {}, isDivider: true))
-          ..addAll(roleRows);
-      }
+        ..add(_ComposerRow(title: '', onApply: () {}, isDivider: true))
+        ..addAll(roleRows);
     }
     if (generation != _syncGeneration) {
       return;

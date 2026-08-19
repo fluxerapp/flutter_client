@@ -88,28 +88,16 @@ void main() {
       expect(_hasWidgetSpan(richText.text), isFalse);
     });
 
-    testWidgets('inline unicode shortcode uses a sized text span', (
+    testWidgets('inline unicode shortcode uses a non-jumbo emoji widget', (
       tester,
     ) async {
       await _pumpMarkdown(tester, 'hello :thumbsup: there');
-      expect(find.byType(FluxerEmojiWidget), findsNothing);
+      final Size size = tester.getSize(find.byType(FluxerEmojiWidget));
+      expect(size.height, lessThan(kFluxerMarkdownEmojiSizeJumbo));
       expect(
-        find.textContaining('\u{1F44D}', findRichText: true),
-        findsOneWidget,
+        size.height,
+        closeTo(16 * kFluxerMarkdownEmojiSizeMultiplier, 0.01),
       );
-      var foundSizedEmoji = false;
-      _visitSpans(tester.widget<RichText>(find.byType(RichText)).text, (
-        InlineSpan span,
-      ) {
-        if (span is TextSpan && span.text == '\u{1F44D}') {
-          expect(
-            span.style?.fontSize,
-            closeTo(16 * kFluxerMarkdownEmojiSizeMultiplier, 0.01),
-          );
-          foundSizedEmoji = true;
-        }
-      });
-      expect(foundSizedEmoji, isTrue);
     });
 
     testWidgets('jumbo unicode-only shortcode still uses an emoji widget', (

@@ -39,10 +39,20 @@ class ChatAttachmentAudioSession {
   ChatAttachmentAudioHostCallbacks? _activeCallbacks;
   MediaItem? _activeMediaItem;
   bool _voiceCallActive = false;
+  int _publishGeneration = 0;
 
   bool get isAvailable => _handler != null;
 
+  bool get hasActivePlayback => _activeCallbacks != null;
+
   bool isActiveHost(String hostId) => _activeHostId == hostId;
+
+  Future<void> reactivateAudioSessionIfActive() async {
+    if (!hasActivePlayback) {
+      return;
+    }
+    await activateChatAttachmentAudioSession();
+  }
 
   void registerPublisher(ChatAttachmentAudioPublisher handler) {
     _handler = handler;
@@ -75,13 +85,13 @@ class ChatAttachmentAudioSession {
     await configureChatAttachmentAudioSession();
     await activateChatAttachmentAudioSession();
     await _publish(
+      hostId: hostId,
       mediaItem: mediaItem,
       playing: playing,
       position: position,
       bufferedPosition: bufferedPosition,
       speed: speed,
       loading: loading,
-      completed: false,
     );
   }
 
@@ -93,7 +103,6 @@ class ChatAttachmentAudioSession {
     required Duration bufferedPosition,
     required double speed,
     bool loading = false,
-    bool completed = false,
   }) {
     if (_activeHostId != hostId) {
       return;
@@ -101,13 +110,13 @@ class ChatAttachmentAudioSession {
     _activeMediaItem = mediaItem;
     unawaited(
       _publish(
+        hostId: hostId,
         mediaItem: _activeMediaItem,
         playing: playing,
         position: position,
         bufferedPosition: bufferedPosition,
         speed: speed,
         loading: loading,
-        completed: completed,
       ),
     );
   }
@@ -117,19 +126,21 @@ class ChatAttachmentAudioSession {
       return;
     }
     _clearActiveHost();
+    _invalidatePendingPublishes();
     _publishIdle();
     unawaited(restoreMixableSfxAudioSession());
   }
 
+  Future<void> clearActivePlayback() async {
+    if (_activeCallbacks == null) {
+      return;
+    }
+    await _stopActiveHost();
+  }
+
   Future<void> clearForVoiceCall() async {
     _voiceCallActive = true;
-    final ChatAttachmentAudioHostCallbacks? callbacks = _activeCallbacks;
-    if (callbacks != null) {
-      await callbacks.onStopRequested();
-    }
-    _clearActiveHost();
-    _publishIdle();
-    await restoreMixableSfxAudioSession();
+    await _stopActiveHost();
   }
 
   void restoreAfterVoiceCall() {
@@ -143,6 +154,7 @@ class ChatAttachmentAudioSession {
     _activeCallbacks = null;
     _activeMediaItem = null;
     _voiceCallActive = false;
+    _publishGeneration = 0;
   }
 
   Future<void> handleSystemPlay() => _withActiveCallbacks(
@@ -156,14 +168,7 @@ class ChatAttachmentAudioSession {
   );
 
   Future<void> handleSystemStop() async {
-    final ChatAttachmentAudioHostCallbacks? callbacks = _activeCallbacks;
-    if (callbacks == null) {
-      return;
-    }
-    await callbacks.onStopRequested();
-    _clearActiveHost();
-    _publishIdle();
-    await restoreMixableSfxAudioSession();
+    await _stopActiveHost();
   }
 
   Future<void> handleSystemSeek(Duration position) => _withActiveCallbacks(
@@ -187,22 +192,42 @@ class ChatAttachmentAudioSession {
     _activeMediaItem = null;
   }
 
+  void _invalidatePendingPublishes() {
+    _publishGeneration++;
+  }
+
+  Future<void> _stopActiveHost() async {
+    final ChatAttachmentAudioHostCallbacks? callbacks = _activeCallbacks;
+    if (callbacks == null) {
+      return;
+    }
+    await callbacks.onStopRequested();
+    _clearActiveHost();
+    _invalidatePendingPublishes();
+    _publishIdle();
+    await restoreMixableSfxAudioSession();
+  }
+
   Future<void> _publish({
+    required String hostId,
     required MediaItem? mediaItem,
     required bool playing,
     required Duration position,
     required Duration bufferedPosition,
     required double speed,
     required bool loading,
-    required bool completed,
   }) async {
+    final int generation = _publishGeneration;
     final ChatAttachmentAudioPublisher? handler = _handler;
-    if (handler == null) {
+    if (handler == null || !_isPublishStillValid(hostId, generation)) {
       return;
     }
     handler.publishMediaItem(mediaItem);
     if (mediaItem != null) {
       await Future<void>.delayed(Duration.zero);
+    }
+    if (!_isPublishStillValid(hostId, generation)) {
+      return;
     }
     handler.publishPlaybackState(
       _buildPlaybackState(
@@ -211,9 +236,12 @@ class ChatAttachmentAudioSession {
         bufferedPosition: bufferedPosition,
         speed: speed,
         loading: loading,
-        completed: completed,
       ),
     );
+  }
+
+  bool _isPublishStillValid(String hostId, int generation) {
+    return _activeHostId == hostId && generation == _publishGeneration;
   }
 
   void _publishIdle() {
@@ -223,7 +251,7 @@ class ChatAttachmentAudioSession {
     }
     handler
       ..publishMediaItem(null)
-      ..publishPlaybackState(PlaybackState(controls: <MediaControl>[]));
+      ..publishPlaybackState(PlaybackState());
   }
 
   PlaybackState _buildPlaybackState({
@@ -232,12 +260,9 @@ class ChatAttachmentAudioSession {
     required Duration bufferedPosition,
     required double speed,
     required bool loading,
-    required bool completed,
   }) {
     final AudioProcessingState processingState;
-    if (completed) {
-      processingState = AudioProcessingState.completed;
-    } else if (loading) {
+    if (loading) {
       processingState = AudioProcessingState.loading;
     } else {
       processingState = AudioProcessingState.ready;

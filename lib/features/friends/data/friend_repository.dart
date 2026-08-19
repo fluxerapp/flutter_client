@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/friends/domain/friend_request_exception.dart';
@@ -161,6 +162,6 @@ class FriendRepository {
         message: data['message'] as String?,
       );
     }
-    return FriendRequestException(message: e.message);
+    return FriendRequestException(message: apiMessageFromDioException(e));
   }
 }

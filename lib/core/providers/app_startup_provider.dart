@@ -70,7 +70,8 @@ class AppStartup extends _$AppStartup {
   }
 
   Future<void> retry() async {
-    await _validateAndRestore();
+    state = const AsyncLoading<void>();
+    state = await AsyncValue.guard<void>(_validateAndRestore);
   }
 
   Future<void> _validateAndRestore() async {
@@ -83,7 +84,9 @@ class AppStartup extends _$AppStartup {
     if (activeSnapshot != null) {
       ref.read(activeInstanceProvider.notifier).applySnapshot(activeSnapshot);
     }
-    await EmojiRegistry.preload();
+    // Emoji decode overlaps token migration and session validation below;
+    // the awaits before each return keep the loaded-before-AsyncData contract.
+    final Future<void> emojiPreload = EmojiRegistry.preload();
     unawaited(FluxerHaptics.warmSend());
     unawaited(ref.read(wellKnownProvider.future));
     unawaited(EmojiSpriteSheet.preload());
@@ -97,6 +100,7 @@ class AppStartup extends _$AppStartup {
     debugPrint('[AppStartup] Session: ${session != null ? 'found' : 'none'}');
 
     if (session == null) {
+      await emojiPreload;
       return;
     }
 
@@ -143,6 +147,7 @@ class AppStartup extends _$AppStartup {
 
     if (session == null) {
       ref.read(fluxerAuthTokenProvider.notifier).setToken(null);
+      await emojiPreload;
       return;
     }
 
@@ -166,20 +171,8 @@ class AppStartup extends _$AppStartup {
       unawaited(ref.read(sensitiveContentProvider.notifier).hydrateFromLocal());
     }
     unawaited(ref.read(accountManagerProvider.notifier).loadAccounts());
-    await Future.wait<void>([
-      ref.read(themePreferenceProvider.notifier).load(session.userId),
-      ref.read(appearancePreferencesProvider.notifier).load(session.userId),
-      ref.read(chatPreferencesProvider.notifier).load(session.userId),
-      ref.read(advancedPreferencesProvider.notifier).load(session.userId),
-      ref.read(defaultAppsPreferencesProvider.notifier).load(session.userId),
-      ref.read(voiceSettingsProvider.notifier).load(session.userId),
-    ]);
-    unawaited(ref.read(matureContentAgreementsProvider.notifier).reload());
-
-    unawaited(
-      ref.read(serviceStatusMaintenanceReadProvider.notifier).refresh(),
-    );
-
+    // Attached before the awaits below so the gateway handshake overlaps the
+    // preference loads instead of queuing behind them.
     ref
       ..read(gatewayConnectBindingProvider)
       ..read(gatewayEventListenerProvider)
@@ -197,6 +190,19 @@ class AppStartup extends _$AppStartup {
       ..read(guildListSyncProvider)
       ..read(statusExpiryBindingProvider)
       ..read(premiumStateSyncBindingProvider);
+    await Future.wait<void>([
+      ref.read(themePreferenceProvider.notifier).load(session.userId),
+      ref.read(appearancePreferencesProvider.notifier).load(session.userId),
+      ref.read(chatPreferencesProvider.notifier).load(session.userId),
+      ref.read(advancedPreferencesProvider.notifier).load(session.userId),
+      ref.read(defaultAppsPreferencesProvider.notifier).load(session.userId),
+      ref.read(voiceSettingsProvider.notifier).load(session.userId),
+    ]);
+    unawaited(ref.read(matureContentAgreementsProvider.notifier).reload());
+
+    unawaited(
+      ref.read(serviceStatusMaintenanceReadProvider.notifier).refresh(),
+    );
 
     ref.read(deepLinkHandlerProvider.notifier).processPendingDeepLink();
     ref.read(pendingPushNotificationPathProvider.notifier).flushIfReady();
@@ -223,6 +229,8 @@ class AppStartup extends _$AppStartup {
     if (PushProviderGuard.isUnifiedPush) {
       ref.read(unifiedPushMobileDeviceRegistrationProvider);
     }
+
+    await emojiPreload;
 
     debugPrint(
       '[AppStartup] Session restored '

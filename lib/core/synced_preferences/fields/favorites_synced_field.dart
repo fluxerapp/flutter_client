@@ -53,9 +53,10 @@ class FavoritesLocalState {
 }
 
 class FavoritesSyncedField extends SyncedFieldAdapter<FavoritesLocalState> {
-  FavoritesSyncedField(this._ref);
+  FavoritesSyncedField(this._ref, {this._readSyncedLocal});
 
   final Ref _ref;
+  final FavoritesLocalState? Function()? _readSyncedLocal;
 
   @override
   SyncedPreferenceField get field => SyncedPreferenceField.favorites;
@@ -114,6 +115,7 @@ class FavoritesSyncedField extends SyncedFieldAdapter<FavoritesLocalState> {
     return FavoritesStateHelpers.mergeForMigration(
       local: local,
       server: remote,
+      syncedLocal: _readSyncedLocal?.call(),
     );
   }
 
@@ -284,12 +286,32 @@ class FavoritesStateHelpers {
     return true;
   }
 
+  static bool _keepLocalOnlyCategory(
+    String categoryId, {
+    required Set<String> serverCategoryIds,
+    Set<String>? syncedLocalCategoryIds,
+  }) {
+    if (serverCategoryIds.contains(categoryId)) {
+      return false;
+    }
+    if (syncedLocalCategoryIds == null) {
+      return true;
+    }
+    return !syncedLocalCategoryIds.contains(categoryId);
+  }
+
   static FavoritesLocalState mergeForMigration({
     required FavoritesLocalState local,
     required FavoritesLocalState server,
+    FavoritesLocalState? syncedLocal,
   }) {
     final normalizedLocal = normalizeForSync(local);
     final normalizedServer = normalizeForSync(server);
+    final syncedLocalCategoryIds = syncedLocal == null
+        ? null
+        : normalizeForSync(
+            syncedLocal,
+          ).categories.map((category) => category.id).toSet();
     final serverChannelIds = normalizedServer.channels
         .map((channel) => channel.channelId)
         .toSet();
@@ -335,7 +357,11 @@ class FavoritesStateHelpers {
       );
     }
     for (final category in normalizedLocal.categories) {
-      if (serverCategoryIds.contains(category.id)) {
+      if (!_keepLocalOnlyCategory(
+        category.id,
+        serverCategoryIds: serverCategoryIds,
+        syncedLocalCategoryIds: syncedLocalCategoryIds,
+      )) {
         continue;
       }
       categories.add(
@@ -346,10 +372,14 @@ class FavoritesStateHelpers {
         ),
       );
     }
-    final collapsed = {
-      ...normalizedLocal.collapsedCategoryIds,
-      ...normalizedServer.collapsedCategoryIds,
-    }.toList();
+    final mergedCategoryIds = categories.map((category) => category.id).toSet();
+    final collapsed = [
+      for (final id in {
+        ...normalizedServer.collapsedCategoryIds,
+        ...normalizedLocal.collapsedCategoryIds,
+      })
+        if (mergedCategoryIds.contains(id)) id,
+    ];
     return normalizeForSync(
       FavoritesLocalState(
         channels: channels,

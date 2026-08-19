@@ -193,8 +193,9 @@ void main() {
       expect(find.byType(MessageListSkeleton), findsOneWidget);
       expect(find.text('After sync'), findsNothing);
 
-      chatViewModel.replaceState(
-        _loadedState(channelId: _channelId, messages: <Message>[message]),
+      chatViewModel.harnessState = _loadedState(
+        channelId: _channelId,
+        messages: <Message>[message],
       );
       await tester.pump();
       await tester.pump();
@@ -784,6 +785,59 @@ void main() {
       expect(find.byType(MessageItem), findsOneWidget);
       await _disposeWidgetTree(tester);
     });
+
+    // Regression: any channels-table write rebuilt ChannelLayout, and the old
+    // unconditional didUpdateWidget hook re-fired switchChannel mid-load.
+    testWidgets(
+      'a parent rebuild with unchanged identity does not re-run sync',
+      (WidgetTester tester) async {
+        final _InFlightChatViewModel recorder = _InFlightChatViewModel();
+        final ProviderContainer container = ProviderContainer(
+          overrides: _jumpContentOverrides(recorder: recorder),
+        );
+        addTearDown(container.dispose);
+
+        late StateSetter rebuildParent;
+        await tester.pumpWidget(
+          _contentApp(
+            container: container,
+            child: StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+                rebuildParent = setState;
+                // Non-const on purpose: a const instance would be canonicalized
+                // and the framework would skip didUpdateWidget.
+                // ignore: prefer_const_constructors
+                return ChannelChatContent(
+                  channelId: _channelId,
+                  showTopBar: false,
+                );
+              },
+            ),
+          ),
+        );
+        await tester.pump();
+        await tester.pump();
+        // Mount syncs more than once (initState plus the mobile-layout latch);
+        // the contract is that parent rebuilds add nothing on top.
+        final int settled = recorder.switchChannelCalls.length;
+
+        for (var i = 0; i < 3; i++) {
+          rebuildParent(() {});
+          await tester.pump();
+          await tester.pump();
+        }
+
+        expect(
+          recorder.switchChannelCalls,
+          hasLength(settled),
+          reason:
+              'a rebuild without an identity change re-fired switchChannel '
+              'on every realtime channels-table write while the first load '
+              'was in flight',
+        );
+        await _disposeWidgetTree(tester);
+      },
+    );
   });
 }
 
@@ -1072,7 +1126,9 @@ class _HarnessChatViewModel extends ChatViewModel {
 
   final ChatViewState _initialState;
 
-  void replaceState(ChatViewState nextState) {
+  ChatViewState get harnessState => state;
+
+  set harnessState(ChatViewState nextState) {
     state = nextState;
   }
 
@@ -1130,6 +1186,30 @@ class _RetryingChatViewModel extends ChatViewModel {
         _message(id: '777777777777777777', content: 'Synced hello'),
       ],
     );
+  }
+
+  @override
+  void clearStickyUnreadAfterBuildForCurrentChannel() {}
+}
+
+/// Models the first channel load still in flight, where the dedup policy
+/// lets an unchanged request through and only the identity guard blocks it.
+class _InFlightChatViewModel extends ChatViewModel {
+  final List<String> switchChannelCalls = <String>[];
+
+  @override
+  ChatViewState build() {
+    ref.read(chatReadViewportProvider.notifier).setActiveChannel(_channelId);
+    return _loadingState(channelId: _channelId);
+  }
+
+  @override
+  Future<void> switchChannel(
+    String channelId, {
+    String? targetMessageId,
+    bool loadMessages = true,
+  }) async {
+    switchChannelCalls.add(channelId);
   }
 
   @override

@@ -134,10 +134,16 @@ const _userSettingsDesktopNavApplicationStart = [
     UserSettingsSection.audioAndVideo,
     icon: PhosphorIconsFill.microphone,
   ),
+];
+
+const _userSettingsDesktopNavApplicationShortcuts = [
   UserSettingsDesktopNavEntry.link(
     UserSettingsSection.shortcuts,
     icon: PhosphorIconsFill.keyboard,
   ),
+];
+
+const _userSettingsDesktopNavApplicationEnd = [
   UserSettingsDesktopNavEntry.link(
     UserSettingsSection.languageAndTime,
     icon: PhosphorIconsBold.translate,
@@ -182,10 +188,13 @@ const _userSettingsDesktopNavAfterStaffOnly = [
 
 List<UserSettingsDesktopNavEntry> buildUserSettingsDesktopNav({
   required bool showBilling,
+  required bool isTouchPrimary,
 }) => [
   ..._userSettingsDesktopNavYourAccount,
   if (showBilling) ..._userSettingsDesktopNavBilling,
   ..._userSettingsDesktopNavApplicationStart,
+  if (!isTouchPrimary) ..._userSettingsDesktopNavApplicationShortcuts,
+  ..._userSettingsDesktopNavApplicationEnd,
   if (isFluxerNativeMobileOs)
     const UserSettingsDesktopNavEntry.link(
       UserSettingsSection.defaultApps,
@@ -199,6 +208,7 @@ List<UserSettingsDesktopNavEntry> buildUserSettingsDesktopNav({
 int? indexForUserSettingsSection(
   UserSettingsSection section, {
   required bool showBilling,
+  required bool isTouchPrimary,
 }) {
   if (!isUserSettingsStaffOnlySectionAvailable(section)) {
     return null;
@@ -211,6 +221,7 @@ int? indexForUserSettingsSection(
   }
   final List<UserSettingsDesktopNavEntry> nav = buildUserSettingsDesktopNav(
     showBilling: showBilling,
+    isTouchPrimary: isTouchPrimary,
   );
   for (var i = 0; i < nav.length; i++) {
     if (nav[i].section == section) {
@@ -223,9 +234,11 @@ int? indexForUserSettingsSection(
 IconData? iconForUserSettingsSection(
   UserSettingsSection section, {
   required bool showBilling,
+  required bool isTouchPrimary,
 }) {
   for (final UserSettingsDesktopNavEntry entry in buildUserSettingsDesktopNav(
     showBilling: showBilling,
+    isTouchPrimary: isTouchPrimary,
   )) {
     if (entry.section == section) {
       return entry.icon;
@@ -240,6 +253,7 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
   required VoidCallback onOpenAppLogs,
   required VoidCallback onLogout,
   required bool showBilling,
+  required bool isTouchPrimary,
 }) {
   FluxerSettingsNavItem link(UserSettingsSection section, IconData icon) {
     return FluxerSettingsNavItem(
@@ -281,7 +295,8 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
         ),
         link(UserSettingsSection.chat, PhosphorIconsFill.chatCircle),
         link(UserSettingsSection.audioAndVideo, PhosphorIconsFill.microphone),
-        link(UserSettingsSection.shortcuts, PhosphorIconsFill.keyboard),
+        if (!isTouchPrimary)
+          link(UserSettingsSection.shortcuts, PhosphorIconsFill.keyboard),
         link(UserSettingsSection.languageAndTime, PhosphorIconsBold.translate),
         if (isFluxerNativeMobileOs)
           link(UserSettingsSection.defaultApps, PhosphorIconsFill.squaresFour),
@@ -325,8 +340,13 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
 IconData _searchSectionIcon(
   UserSettingsSection section, {
   required bool showBilling,
+  required bool isTouchPrimary,
 }) {
-  return iconForUserSettingsSection(section, showBilling: showBilling) ??
+  return iconForUserSettingsSection(
+        section,
+        showBilling: showBilling,
+        isTouchPrimary: isTouchPrimary,
+      ) ??
       PhosphorIconsFill.gear;
 }
 
@@ -344,6 +364,7 @@ UserSettingsSearchSidebar buildUserSettingsSearchSidebar({
   required FluxerLocalizations l10n,
   required List<UserSettingsSearchHit> hits,
   required bool showBilling,
+  required bool isTouchPrimary,
 }) {
   final List<SettingsSidebarItem> items = [];
   final List<UserSettingsSearchHit?> hitAtIndex = [];
@@ -359,7 +380,11 @@ UserSettingsSearchSidebar buildUserSettingsSearchSidebar({
       );
       hitAtIndex.add(null);
     }
-    final IconData icon = _searchSectionIcon(section, showBilling: showBilling);
+    final IconData icon = _searchSectionIcon(
+      section,
+      showBilling: showBilling,
+      isTouchPrimary: isTouchPrimary,
+    );
     for (final UserSettingsSearchHit hit in sectionHits) {
       items.add(SettingsSidebarItem(hit.label, icon: icon));
       hitAtIndex.add(hit);
@@ -374,6 +399,7 @@ List<FluxerSettingsNavGroup> buildUserSettingsSearchNavGroups({
   required void Function(UserSettingsSection section, {String? initialFieldId})
   onOpen,
   required bool showBilling,
+  required bool isTouchPrimary,
 }) {
   return [
     for (final MapEntry<UserSettingsSection, List<UserSettingsSearchHit>> entry
@@ -387,7 +413,11 @@ List<FluxerSettingsNavGroup> buildUserSettingsSearchNavGroups({
               hint: hit.fieldId == null
                   ? null
                   : userSettingsSectionLabel(l10n, entry.key),
-              icon: _searchSectionIcon(entry.key, showBilling: showBilling),
+              icon: _searchSectionIcon(
+                entry.key,
+                showBilling: showBilling,
+                isTouchPrimary: isTouchPrimary,
+              ),
               onTap: () => onOpen(entry.key, initialFieldId: hit.fieldId),
             ),
         ],

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as drift_db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
@@ -371,7 +372,7 @@ class _NotificationsMentionsBodyState
       child: rowsAsync.when(
         skipLoadingOnReload: false,
         loading: () => _buildLoading(colors),
-        error: (Object err, _) => _buildError('$err', l10n),
+        error: (Object err, _) => _buildError(err, l10n),
         data: (List<drift_db.NotificationMentionFeedData> rows) =>
             _buildList(rows, sync, l10n, colors),
       ),
@@ -392,7 +393,7 @@ class _NotificationsMentionsBodyState
     );
   }
 
-  Widget _buildError(String message, FluxerLocalizations l10n) {
+  Widget _buildError(Object error, FluxerLocalizations l10n) {
     return FluxerRefreshScrollView(
       onRefresh: _bootstrapFromPrefs,
       slivers: <Widget>[
@@ -405,7 +406,7 @@ class _NotificationsMentionsBodyState
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Text(
-                    message,
+                    userFacingErrorMessage(error, l10n.networkErrorMessage),
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: context.colors.statusDanger,
                     ),
@@ -425,7 +426,7 @@ class _NotificationsMentionsBodyState
     );
   }
 
-  Widget _buildCoordinatorError(String message, FluxerLocalizations l10n) {
+  Widget _buildCoordinatorError(Object error, FluxerLocalizations l10n) {
     return FluxerRefreshScrollView(
       onRefresh: _bootstrapFromPrefs,
       slivers: <Widget>[
@@ -438,7 +439,7 @@ class _NotificationsMentionsBodyState
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Text(
-                    message,
+                    userFacingErrorMessage(error, l10n.networkErrorMessage),
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: context.colors.statusDanger,
                     ),
@@ -482,7 +483,7 @@ class _NotificationsMentionsBodyState
         sync.lastError != null &&
         visible.isEmpty &&
         !sync.busy) {
-      return _buildCoordinatorError('${sync.lastError}', l10n);
+      return _buildCoordinatorError(sync.lastError!, l10n);
     }
     if (sync.fetched &&
         visible.isEmpty &&

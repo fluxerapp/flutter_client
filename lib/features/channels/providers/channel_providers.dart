@@ -26,7 +26,8 @@ Stream<Channel?> channelById(Ref ref, String id) {
   final db = ref.watch(fluxerDatabaseProvider);
   return db.channelDao
       .watchChannelById(id)
-      .map((row) => row == null ? null : Channel.fromRow(row));
+      .map((row) => row == null ? null : Channel.fromRow(row))
+      .distinct();
 }
 
 @riverpod

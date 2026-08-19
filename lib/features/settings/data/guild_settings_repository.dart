@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/features/settings/data/guild_settings_converters.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_audit_log_entry.dart';
 import 'package:fluxer_dart/export.dart';
@@ -89,6 +90,6 @@ class GuildSettingsRepository {
   }
 
   String _messageFromDio(DioException error, String fallback) {
-    return error.response?.statusMessage ?? fallback;
+    return userFacingErrorMessage(error, fallback);
   }
 }

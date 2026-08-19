@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -71,13 +72,9 @@ class _AccountDeleteSheetState extends ConsumerState<AccountDeleteSheet> {
       if (!mounted) {
         return;
       }
-      final data = e.response?.data;
-      final message = data is Map<String, dynamic>
-          ? (data['message'] as String?) ?? l10n.genericError
-          : l10n.genericError;
       setState(() {
         _loading = false;
-        _error = message;
+        _error = userFacingErrorMessage(e, l10n.genericError);
       });
     }
   }

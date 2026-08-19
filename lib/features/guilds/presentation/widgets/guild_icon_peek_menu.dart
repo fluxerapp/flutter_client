@@ -132,12 +132,14 @@ class GuildIconPeekMenuPanel extends StatelessWidget {
     required this.guildName,
     required this.hasUnread,
     required this.itemKeys,
+    this.onActionTap,
     super.key,
   });
 
   final String guildName;
   final bool hasUnread;
   final Map<GuildIconPeekAction, GlobalKey> itemKeys;
+  final ValueChanged<GuildIconPeekAction>? onActionTap;
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +155,7 @@ class GuildIconPeekMenuPanel extends StatelessWidget {
           child: ContextMenuItem(
             label: peekActionLabel(l10n, action),
             icon: peekActionIcon(action),
-            onTap: () {},
+            onTap: () => onActionTap?.call(action),
           ),
         ),
     ];

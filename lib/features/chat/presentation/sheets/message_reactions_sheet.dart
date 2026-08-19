@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -177,7 +178,7 @@ class _MessageReactionsSheetBodyState
               child: Padding(
                 padding: const EdgeInsets.all(24),
                 child: Text(
-                  error.toString(),
+                  userFacingErrorMessage(error, l10n.networkErrorMessage),
                   style: context.textStyles.label.copyWith(
                     color: colors.textDanger,
                   ),

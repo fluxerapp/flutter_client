@@ -2,6 +2,7 @@ import 'package:drift/drift.dart' hide isNotNull, isNull;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
+import 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
 import 'package:fluxer_dart/export.dart';
 
 import '../../../helpers/open_test_database.dart';
@@ -108,6 +109,72 @@ void main() {
       );
       expect(level, UserNotificationSettings.allMessages);
     });
+
+    test('locks inherited all messages community default', () async {
+      final Channel channel = await _channel();
+      final UserNotificationSettings? level = resolveGuildUnreadBadgesLevel(
+        channel: channel,
+        guildSettings: _settings(
+          messageNotifications: UserNotificationSettings.inherit,
+        ),
+        unreadBadgeCustomizationEnabled: true,
+        guildContext: const GuildNotificationContext(),
+      );
+      expect(level, UserNotificationSettings.allMessages);
+    });
+  });
+
+  group('resolveMessageNotifications', () {
+    test('resolves inherited guild level from community default', () async {
+      final Channel channel = await _channel();
+      expect(
+        resolveMessageNotifications(
+          channel: channel,
+          guildSettings: _settings(
+            messageNotifications: UserNotificationSettings.inherit,
+          ),
+          guildContext: const GuildNotificationContext(
+            defaultMessageNotifications: 1,
+          ),
+        ),
+        UserNotificationSettings.onlyMentions,
+      );
+    });
+  });
+
+  group('resolvePrivateMessageNotifications', () {
+    test('maps inherited dm level to all messages', () {
+      expect(
+        resolvePrivateMessageNotifications(
+          guildSettings: _settings(
+            messageNotifications: UserNotificationSettings.inherit,
+          ),
+          channelId: _channelId,
+        ),
+        UserNotificationSettings.allMessages,
+      );
+    });
+  });
+
+  group('resolveChannelUnreadSettings', () {
+    test(
+      'falls back to resolved notification level when badge customization is disabled',
+      () async {
+        final Channel channel = await _channel();
+        final ResolvedUnreadSettings settings = resolveChannelUnreadSettings(
+          channel: channel,
+          guildSettings: _settings(
+            messageNotifications: UserNotificationSettings.inherit,
+          ),
+          now: DateTime.utc(2026, 6, 13),
+          guildContext: const GuildNotificationContext(
+            defaultMessageNotifications: 1,
+          ),
+        );
+        expect(settings.allowsMessageUnread, isFalse);
+        expect(settings.allowsMentionUnread, isTrue);
+      },
+    );
   });
 
   group('resolveUnreadBadgesLevel', () {

@@ -542,6 +542,49 @@ void main() {
     );
 
     testWidgets(
+      'read channel bottom open settles at maxScrollExtent above the fade inset',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(420, 640);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+
+        final _AroundAckMessageListHarness harness =
+            await _createBottomMessageListHarness();
+
+        await tester.pumpWidget(
+          _messageListApp(
+            database: harness.database,
+            chatViewModel: harness.chatViewModel,
+          ),
+        );
+        await pumpFluxerFrames(tester);
+        await tester.pump();
+
+        final ScrollPosition position = _messageListScrollPosition(tester);
+        expect(
+          position.pixels,
+          moreOrLessEquals(position.maxScrollExtent, epsilon: 1),
+          reason: 'read bottom open must scroll into the trailing inset',
+        );
+
+        final Finder newest = _messageItemFor(harness.newestLoadedId);
+        expect(newest, findsOneWidget);
+        final Rect viewport = tester.getRect(_messageListScrollable());
+        final Rect newestRect = tester.getRect(newest);
+        expect(
+          viewport.bottom - newestRect.bottom,
+          greaterThanOrEqualTo(
+            WideComposerLayout.mobileMessageListTrailingInset - 1,
+          ),
+          reason: 'newest message must clear the composer fade overlay',
+        );
+
+        await _disposeMessageList(tester);
+      },
+    );
+
+    testWidgets(
       'live-tail append while scrolled up preserves the visible anchor',
       (WidgetTester tester) async {
         tester.view.physicalSize = const Size(420, 640);
@@ -3818,19 +3861,25 @@ void main() {
       final _InstrumentedChatViewModel chatViewModel = await pumpBottomList(
         tester,
         hasMoreNewer: false,
-        count: 240,
       );
       final ScrollPosition position = _messageListScrollPosition(tester);
-      expect(position.pixels, moreOrLessEquals(0, epsilon: 1));
+      expect(
+        position.pixels,
+        moreOrLessEquals(position.maxScrollExtent, epsilon: 1),
+      );
+
+      // Drag physics leave the tail from anchor offset 0; the settled open
+      // parks at maxScrollExtent.
+      position.jumpTo(0);
+      await tester.pump();
 
       final TestGesture gesture = await tester.startGesture(
         tester.getCenter(_messageListScrollable()),
       );
       await gesture.moveBy(const Offset(0, 50));
       await tester.pump();
-      final double scrolledPixels = position.pixels;
       expect(
-        position.maxScrollExtent - scrolledPixels,
+        position.maxScrollExtent - position.pixels,
         greaterThan(8),
         reason: 'drag must leave the 8px engage zone',
       );
@@ -4260,7 +4309,10 @@ void main() {
         await pumpFluxerFrames(tester);
 
         final ScrollPosition position = _messageListScrollPosition(tester);
-        expect(position.pixels, moreOrLessEquals(0, epsilon: 1));
+        expect(
+          position.pixels,
+          moreOrLessEquals(position.maxScrollExtent, epsilon: 1),
+        );
 
         // A live arrival at the pinned tail schedules the follow pin for the
         // end of the NEXT frame (registered outside a frame).
@@ -4320,7 +4372,10 @@ void main() {
           hasMoreNewer: false,
         );
         final ScrollPosition position = _messageListScrollPosition(tester);
-        expect(position.pixels, moreOrLessEquals(0, epsilon: 1));
+        expect(
+          position.pixels,
+          moreOrLessEquals(position.maxScrollExtent, epsilon: 1),
+        );
 
         final List<Message> old = chatViewModel._testState.messages;
         final List<Message> live = newerRows(old, count: 1, label: 'live');

@@ -36,9 +36,12 @@ void main() {
   group('buildUserSettingsDesktopNav', () {
     test('includes billing entries only when showBilling is true', () {
       final List<UserSettingsDesktopNavEntry> withoutBilling =
-          buildUserSettingsDesktopNav(showBilling: false);
+          buildUserSettingsDesktopNav(
+            showBilling: false,
+            isTouchPrimary: false,
+          );
       final List<UserSettingsDesktopNavEntry> withBilling =
-          buildUserSettingsDesktopNav(showBilling: true);
+          buildUserSettingsDesktopNav(showBilling: true, isTouchPrimary: false);
 
       expect(
         withoutBilling.any(
@@ -59,6 +62,28 @@ void main() {
         isTrue,
       );
     });
+
+    test('hides shortcuts entry on touch-primary devices', () {
+      final touchNav = buildUserSettingsDesktopNav(
+        showBilling: false,
+        isTouchPrimary: true,
+      );
+      expect(
+        touchNav.any((entry) => entry.section == UserSettingsSection.shortcuts),
+        isFalse,
+      );
+
+      final pointerNav = buildUserSettingsDesktopNav(
+        showBilling: false,
+        isTouchPrimary: false,
+      );
+      expect(
+        pointerNav.any(
+          (entry) => entry.section == UserSettingsSection.shortcuts,
+        ),
+        isTrue,
+      );
+    });
   });
 
   group('indexForUserSettingsSection', () {
@@ -67,6 +92,18 @@ void main() {
         indexForUserSettingsSection(
           UserSettingsSection.giftsAndCodes,
           showBilling: false,
+          isTouchPrimary: false,
+        ),
+        isNull,
+      );
+    });
+
+    test('returns null for shortcuts section on touch-primary devices', () {
+      expect(
+        indexForUserSettingsSection(
+          UserSettingsSection.shortcuts,
+          showBilling: false,
+          isTouchPrimary: true,
         ),
         isNull,
       );

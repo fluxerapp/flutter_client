@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as drift_db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
@@ -156,13 +157,13 @@ class _SavedMessagesBodyState extends ConsumerState<SavedMessagesBody> {
       child: idsAsync.when(
         skipLoadingOnReload: false,
         loading: () => _buildLoading(colors),
-        error: (Object error, _) => _buildError('$error', l10n),
+        error: (Object error, _) => _buildError(error, l10n),
         data: (List<String> messageIds) {
           if (!sync.fetched || sync.busy) {
             return _buildLoading(colors);
           }
           if (sync.lastError != null) {
-            return _buildError('${sync.lastError}', l10n);
+            return _buildError(sync.lastError!, l10n);
           }
           if (messageIds.isNotEmpty) {
             unawaited(_hydrate(messageIds));
@@ -202,7 +203,7 @@ class _SavedMessagesBodyState extends ConsumerState<SavedMessagesBody> {
     );
   }
 
-  Widget _buildError(String message, FluxerLocalizations l10n) {
+  Widget _buildError(Object error, FluxerLocalizations l10n) {
     return FluxerRefreshScrollView(
       controller: widget.scrollController,
       onRefresh: _refresh,
@@ -216,7 +217,7 @@ class _SavedMessagesBodyState extends ConsumerState<SavedMessagesBody> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Text(
-                    message,
+                    userFacingErrorMessage(error, l10n.networkErrorMessage),
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: context.colors.statusDanger,
                     ),

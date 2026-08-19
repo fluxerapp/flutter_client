@@ -80,6 +80,29 @@ bool _guildHasMatchingRoleName(
   return false;
 }
 
+Future<List<db.Role>> localRolesForMentionAutocomplete({
+  required db.FluxerDatabase database,
+  required MemberRepository repository,
+  required String guildId,
+  Map<String, db.Role>? rolesById,
+}) async {
+  if (rolesById != null && rolesById.isNotEmpty) {
+    prefetchGuildRolesIfMissing(
+      database: database,
+      repository: repository,
+      guildId: guildId,
+    );
+    return rolesById.values.toList();
+  }
+  final List<db.Role> roles = await database.roleDao.getRoles(guildId);
+  prefetchGuildRolesIfMissing(
+    database: database,
+    repository: repository,
+    guildId: guildId,
+  );
+  return roles;
+}
+
 Future<List<db.Role>> resolveGuildRolesForMentionAutocomplete({
   required db.FluxerDatabase database,
   required MemberRepository repository,

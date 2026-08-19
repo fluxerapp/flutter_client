@@ -1,10 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/domain/channel_settings_tab.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/channel_settings_page_shell.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/channels/providers/channel_settings_providers.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -40,6 +42,7 @@ class ChannelSettingsGate extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final AsyncValue<Channel?> channelAsync = ref.watch(
       channelByIdProvider(channelId),
     );
@@ -56,7 +59,9 @@ class ChannelSettingsGate extends ConsumerWidget {
       loading: loadingScaffold,
       error: (Object error, StackTrace stackTrace) => Scaffold(
         backgroundColor: background,
-        body: Center(child: Text(error.toString())),
+        body: Center(
+          child: Text(userFacingErrorMessage(error, l10n.networkErrorMessage)),
+        ),
       ),
       data: (Channel? channel) {
         if (channel == null) {
@@ -67,7 +72,11 @@ class ChannelSettingsGate extends ConsumerWidget {
           loading: loadingScaffold,
           error: (Object error, StackTrace stackTrace) => Scaffold(
             backgroundColor: background,
-            body: Center(child: Text(error.toString())),
+            body: Center(
+              child: Text(
+                userFacingErrorMessage(error, l10n.networkErrorMessage),
+              ),
+            ),
           ),
           data: (int? permissions) {
             if (permissions == null) {

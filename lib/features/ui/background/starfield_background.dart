@@ -306,6 +306,15 @@ class _StarfieldBackgroundState extends State<StarfieldBackground>
     super.dispose();
   }
 
+  // Stars travel ~16px per 90-120s cycle; per-frame deltas are deep
+  // sub-pixel. Quantized painter inputs keep shouldRepaint false between
+  // visible steps, skipping the blurred re-raster on most frames.
+  static double _quantizeProgress(double value) =>
+      (value * 256).roundToDouble() / 256;
+
+  static double _quantizePixels(double value) =>
+      (value * 8).roundToDouble() / 8;
+
   @override
   Widget build(BuildContext context) {
     final bool animationsEnabled = !MediaQuery.disableAnimationsOf(context);
@@ -328,13 +337,18 @@ class _StarfieldBackgroundState extends State<StarfieldBackground>
             builder: (BuildContext context, Widget? _) {
               return CustomPaint(
                 painter: _StarfieldPainter(
-                  fineProgress:
-                      Curves.easeInOut.transform(_fineDrift.value) *
-                      motionIntensity,
-                  coarseProgress:
-                      Curves.easeInOut.transform(1 - _coarseDrift.value) *
-                      motionIntensity,
-                  parallaxOffset: _parallaxOffset.value * motionIntensity,
+                  fineProgress: _quantizeProgress(
+                    Curves.easeInOut.transform(_fineDrift.value) *
+                        motionIntensity,
+                  ),
+                  coarseProgress: _quantizeProgress(
+                    Curves.easeInOut.transform(1 - _coarseDrift.value) *
+                        motionIntensity,
+                  ),
+                  parallaxOffset: Offset(
+                    _quantizePixels(_parallaxOffset.value.dx * motionIntensity),
+                    _quantizePixels(_parallaxOffset.value.dy * motionIntensity),
+                  ),
                 ),
               );
             },
@@ -418,6 +432,9 @@ class _StarfieldPainter extends CustomPainter {
     _StarSpec(0.96, 0.56, 1, Color(0x42FFFFFF)),
   ];
 
+  static const MaskFilter _fineGlow = MaskFilter.blur(BlurStyle.normal, 1.4);
+  static const MaskFilter _coarseGlow = MaskFilter.blur(BlurStyle.normal, 2.4);
+
   @override
   void paint(Canvas canvas, Size size) {
     _paintLayer(
@@ -425,7 +442,7 @@ class _StarfieldPainter extends CustomPainter {
       size,
       stars: _fineStars,
       progress: fineProgress,
-      glowSigma: 1.4,
+      glow: _fineGlow,
       parallaxScale: _fineParallaxScale,
     );
     _paintLayer(
@@ -433,7 +450,7 @@ class _StarfieldPainter extends CustomPainter {
       size,
       stars: _coarseStars,
       progress: coarseProgress,
-      glowSigma: 2.4,
+      glow: _coarseGlow,
       parallaxScale: _coarseParallaxScale,
     );
   }
@@ -443,7 +460,7 @@ class _StarfieldPainter extends CustomPainter {
     Size size, {
     required List<_StarSpec> stars,
     required double progress,
-    required double glowSigma,
+    required MaskFilter glow,
     required double parallaxScale,
   }) {
     const Offset drift = Offset(-16, 12);
@@ -461,7 +478,7 @@ class _StarfieldPainter extends CustomPainter {
       ).translate(offset.dx, offset.dy);
       paint
         ..color = star.color
-        ..maskFilter = MaskFilter.blur(BlurStyle.normal, glowSigma);
+        ..maskFilter = glow;
       canvas.drawCircle(center, math.max(star.radius, 0.6), paint);
       paint.maskFilter = null;
       canvas.drawCircle(center, star.radius, paint);

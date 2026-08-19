@@ -85,18 +85,25 @@ Future<void> _bootstrapFluxer(List<String> args) async {
       'app.bootstrap.media_kit',
       MediaKit.ensureInitialized,
     );
-    await FluxerObservability.instance.traceAsync(
-      'app.bootstrap.chat_attachment_audio',
-      bootstrapChatAttachmentAudio,
-    );
   }
 
   final ProviderContainer container = ProviderContainer();
-  await container.read(observabilityReportingProvider.notifier).load();
-  await FluxerObservability.instance.traceAsync(
-    'app.bootstrap.fcm',
-    bootstrapFcmIfNeeded,
-  );
+  // Chat-attachment audio is platform-channel bound and independent of the
+  // observability/FCM chain; observability consent stays ahead of Firebase.
+  await Future.wait<void>([
+    if (!kIsWeb)
+      FluxerObservability.instance.traceAsync(
+        'app.bootstrap.chat_attachment_audio',
+        bootstrapChatAttachmentAudio,
+      ),
+    () async {
+      await container.read(observabilityReportingProvider.notifier).load();
+      await FluxerObservability.instance.traceAsync(
+        'app.bootstrap.fcm',
+        bootstrapFcmIfNeeded,
+      );
+    }(),
+  ]);
   FluxerObservability.instance.traceSync(
     'app.bootstrap.image_picker',
     _configureImagePicker,
@@ -135,15 +142,18 @@ Future<void> _bootstrapFluxer(List<String> args) async {
     );
   }
 
-  await FluxerObservability.instance.traceAsync(
-    'app.startup.provider',
-    () async {
+  // First frame no longer waits for session validation: the router keeps the
+  // splash up until startup settles and the gateway delivers READY, and the
+  // splash surfaces startup errors as a retry. Engine warmup (shaders, fonts,
+  // first raster) overlaps the network round-trips instead of following them.
+  unawaited(
+    FluxerObservability.instance.traceAsync('app.startup.provider', () async {
       try {
         await container.read(appStartupProvider.future);
       } on Object {
-        // Startup failed; still launch so splash can show retry.
+        // Surfaced on the splash screen as a retry affordance.
       }
-    },
+    }),
   );
   FluxerObservability.instance.traceSync(
     'app.run',

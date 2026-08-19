@@ -249,6 +249,72 @@ void main() {
       },
     );
   });
+
+  group('ChatViewModel attachment send across channel switch', () {
+    test('still posts message when channel is switched mid-upload', () async {
+      final _AttachmentSendHarness harness =
+          await _AttachmentSendHarness.create();
+      addTearDown(harness.dispose);
+      await harness.notifier.switchChannel('channel-1');
+      await _flushAsync();
+      await harness.stageAttachmentSend();
+      unawaited(harness.notifier.sendMessage(text: ''));
+      await pumpEventQueue();
+      expect(
+        harness.container
+            .read(chatViewModelProvider)
+            .messages
+            .any((Message m) => m.isSending),
+        isTrue,
+      );
+      await harness.notifier.switchChannel('channel-2');
+      await _flushAsync();
+      expect(
+        harness.container
+            .read(chatViewModelProvider)
+            .messages
+            .any((Message m) => m.isSending),
+        isFalse,
+      );
+      harness.uploadBlock.complete();
+      await _flushAsync();
+      expect(harness.adapter.messagePostCount, 1);
+      expect(harness.container.read(messageUploadSessionsProvider), isEmpty);
+    });
+
+    test(
+      'restores in-flight optimistic message when returning to channel',
+      () async {
+        final _AttachmentSendHarness harness =
+            await _AttachmentSendHarness.create();
+        addTearDown(harness.dispose);
+        await harness.notifier.switchChannel('channel-1');
+        await _flushAsync();
+        await harness.stageAttachmentSend();
+        unawaited(harness.notifier.sendMessage(text: ''));
+        await pumpEventQueue();
+        final String optimisticId = harness.container
+            .read(chatViewModelProvider)
+            .messages
+            .lastWhere((Message m) => m.isSending)
+            .id;
+        await harness.notifier.switchChannel('channel-2');
+        await _flushAsync();
+        await harness.notifier.switchChannel('channel-1');
+        await _flushAsync();
+        expect(
+          harness.container
+              .read(chatViewModelProvider)
+              .messages
+              .any((Message m) => m.id == optimisticId && m.isSending),
+          isTrue,
+        );
+        harness.uploadBlock.complete();
+        await _flushAsync();
+        expect(harness.adapter.messagePostCount, 1);
+      },
+    );
+  });
 }
 
 String _snowflakeForUtc(DateTime utc) {
@@ -259,6 +325,86 @@ String _snowflakeForUtc(DateTime utc) {
 Future<void> _flushAsync() async {
   for (var i = 0; i < 12; i++) {
     await pumpEventQueue();
+  }
+}
+
+class _AttachmentSendHarness {
+  _AttachmentSendHarness._({
+    required this.container,
+    required this.notifier,
+    required this.adapter,
+    required this.uploadBlock,
+    required this.tempDir,
+  });
+
+  final ProviderContainer container;
+  final ChatViewModel notifier;
+  final _AttachmentSendAdapter adapter;
+  final Completer<void> uploadBlock;
+  final Directory tempDir;
+
+  static Future<_AttachmentSendHarness> create() async {
+    final Completer<void> uploadBlock = Completer<void>();
+    final db = openTestDatabase();
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(id: 'channel-1', guildId: '', name: 'dm-1'),
+    );
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(id: 'channel-2', guildId: '', name: 'dm-2'),
+    );
+    final _AttachmentSendAdapter adapter = _AttachmentSendAdapter(
+      serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12)),
+    );
+    final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+      ..httpClientAdapter = adapter;
+    final client = FluxerClient(dio, baseUrl: 'https://api.fluxer.app/v1');
+    final ProviderContainer container = ProviderContainer(
+      overrides: [
+        fluxerDatabaseProvider.overrideWithValue(db),
+        appUiForegroundProvider.overrideWithValue(true),
+        fluxerDioProvider.overrideWithValue(dio),
+        fluxerClientProvider.overrideWithValue(client),
+        currentUserIdProvider.overrideWithValue('me'),
+        maxAttachmentFileBytesProvider.overrideWithValue(25 * 1024 * 1024),
+        attachmentUploadClientProvider.overrideWithValue(
+          _BlockingAttachmentUploadClient(
+            channelsApi: ChannelsApi(dio),
+            uploadDio: Dio(),
+            uploadBlock: uploadBlock,
+          ),
+        ),
+        ackBatcherProvider.overrideWith((Ref ref) {
+          final batcher = AckBatcher(client: client, batchDelay: Duration.zero);
+          ref.onDispose(() {
+            unawaited(batcher.dispose());
+          });
+          return batcher;
+        }),
+      ],
+    );
+    final Directory tempDir = await Directory.systemTemp.createTemp(
+      'fluxer_upload_switch_test',
+    );
+    return _AttachmentSendHarness._(
+      container: container,
+      notifier: container.read(chatViewModelProvider.notifier),
+      adapter: adapter,
+      uploadBlock: uploadBlock,
+      tempDir: tempDir,
+    );
+  }
+
+  Future<void> stageAttachmentSend() async {
+    final File file = File('${tempDir.path}/a.png')..writeAsBytesSync(<int>[1]);
+    final FileUploadValidationResult validation = await container
+        .read(cloudUploadControllerProvider('channel-1').notifier)
+        .addFiles(composerUploadFiles(<XFile>[XFile(file.path)]));
+    expect(validation.isValid, isTrue);
+  }
+
+  void dispose() {
+    container.dispose();
+    unawaited(tempDir.delete(recursive: true));
   }
 }
 

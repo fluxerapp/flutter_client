@@ -779,11 +779,11 @@
     "@mentionUnknownChannel": {
         "description": "Fallback name shown in a channel mention pill when the channel is not found."
     },
-    "channelAccessDeniedTitle": "Accès au canal refusé",
+    "channelAccessDeniedTitle": "Accès au salon refusé",
     "@channelAccessDeniedTitle": {
         "description": "Title of the modal shown when clicking a jump link to an inaccessible channel."
     },
-    "channelAccessDeniedDescription": "Vous n'avez pas accès au canal où ce message a été envoyé.",
+    "channelAccessDeniedDescription": "Vous n'avez pas accès au salon où ce message a été envoyé.",
     "@channelAccessDeniedDescription": {
         "description": "Body of the channel access denied modal."
     },
@@ -1138,7 +1138,7 @@
     "@dmDebugUser": {
         "description": "DM context menu action to debug user data."
     },
-    "dmDebugChannel": "Déboguer le canal",
+    "dmDebugChannel": "Déboguer le salon",
     "@dmDebugChannel": {
         "description": "DM context menu action to debug channel data."
     },
@@ -3155,7 +3155,7 @@
     "@userProfileRemoveTimeoutConfirmTitle": {
         "description": "Confirmation sheet title before removing a member's timeout."
     },
-    "userProfileRemoveTimeoutConfirmDescription": "La suppression du silence permettra à {username} de renvoyer des messages, de réagir et de rejoindre à nouveau les canaux vocaux.",
+    "userProfileRemoveTimeoutConfirmDescription": "La suppression du silence permettra à {username} de renvoyer des messages, de réagir et de rejoindre à nouveau les salons vocaux.",
     "@userProfileRemoveTimeoutConfirmDescription": {
         "description": "Confirmation sheet body before removing a member's timeout.",
         "placeholders": {
@@ -3991,7 +3991,7 @@
     "@matureCategoryTitle": {
         "description": "Title for a mature category gate."
     },
-    "matureChannelTitle": "Canal pour adultes",
+    "matureChannelTitle": "Salon pour adultes",
     "@matureChannelTitle": {
         "description": "Title for a mature channel gate."
     },
@@ -4003,7 +4003,7 @@
     "@categoryContentWarningTitle": {
         "description": "Title for a category content warning gate."
     },
-    "channelContentWarningTitle": "Avertissement de contenu de canal",
+    "channelContentWarningTitle": "Avertissement de contenu de salon",
     "@channelContentWarningTitle": {
         "description": "Title for a channel content warning gate."
     },
@@ -4019,15 +4019,15 @@
     "@matureCategoryBody": {
         "description": "Body for a mature category gate without custom warning text."
     },
-    "matureChannelBody": "Ce canal est marqué pour du contenu pour adultes et peut contenir du matériel inapproprié pour certains utilisateurs.",
+    "matureChannelBody": "Ce salon est marqué pour du contenu pour adultes et peut contenir du matériel inapproprié pour certains utilisateurs.",
     "@matureChannelBody": {
         "description": "Body for a mature text channel gate without custom warning text."
     },
-    "matureVoiceChannelBody": "Ce canal vocal est marqué pour du contenu pour adultes et peut contenir du matériel inapproprié pour certains utilisateurs.",
+    "matureVoiceChannelBody": "Ce salon vocal est marqué pour du contenu pour adultes et peut contenir du matériel inapproprié pour certains utilisateurs.",
     "@matureVoiceChannelBody": {
         "description": "Body for a mature voice channel gate without custom warning text."
     },
-    "matureLinkChannelBody": "Ce canal de liens est marqué pour du contenu pour adultes et peut ouvrir du matériel inapproprié pour certains utilisateurs.",
+    "matureLinkChannelBody": "Ce salon de liens est marqué pour du contenu pour adultes et peut ouvrir du matériel inapproprié pour certains utilisateurs.",
     "@matureLinkChannelBody": {
         "description": "Body for a mature link channel gate without custom warning text."
     },
@@ -4039,7 +4039,7 @@
     "@matureCategoryUnavailableBody": {
         "description": "Body when a minor cannot access a mature category."
     },
-    "matureChannelUnavailableBody": "Ce canal pour adultes n'est pas disponible pour votre compte.",
+    "matureChannelUnavailableBody": "Ce salon pour adultes n'est pas disponible pour votre compte.",
     "@matureChannelUnavailableBody": {
         "description": "Body when a minor cannot access a mature channel."
     },
@@ -4071,7 +4071,7 @@
     "@sensitiveContentNonFriendDmLabel": {
         "description": "Label for non-friend DM sensitive content filter."
     },
-    "sensitiveContentGuildLabel": "Messages dans les canaux communautaires",
+    "sensitiveContentGuildLabel": "Messages dans les salons communautaires",
     "@sensitiveContentGuildLabel": {
         "description": "Label for guild channel sensitive content filter."
     },
@@ -4443,11 +4443,11 @@
     "@lookAndFeelInterfaceDescription": {
         "description": "Section description for interface customization."
     },
-    "lookAndFeelChannelTypingIndicatorsTitle": "Indicateurs de frappe dans la liste des canaux",
+    "lookAndFeelChannelTypingIndicatorsTitle": "Indicateurs de frappe dans la liste des salons",
     "@lookAndFeelChannelTypingIndicatorsTitle": {
         "description": "Subsection title under Interface."
     },
-    "lookAndFeelChannelTypingIndicatorsDescription": "Choisissez comment les indicateurs de frappe apparaissent dans la liste des canaux lorsque quelqu'un tape dans un canal.",
+    "lookAndFeelChannelTypingIndicatorsDescription": "Choisissez comment les indicateurs de frappe apparaissent dans la liste des salons lorsque quelqu'un tape dans un salon.",
     "@lookAndFeelChannelTypingIndicatorsDescription": {
         "description": "Subsection description for channel typing indicators."
     },
@@ -4455,7 +4455,7 @@
     "@lookAndFeelChannelTypingIndicatorAvatarsName": {
         "description": "Radio option label for showing the typing indicator with user avatars."
     },
-    "lookAndFeelChannelTypingIndicatorAvatarsDescription": "Afficher l'indicateur de frappe avec les avatars des utilisateurs dans la liste des canaux",
+    "lookAndFeelChannelTypingIndicatorAvatarsDescription": "Afficher l'indicateur de frappe avec les avatars des utilisateurs dans la liste des salons",
     "@lookAndFeelChannelTypingIndicatorAvatarsDescription": {
         "description": "Radio option description for typing indicator + avatars."
     },
@@ -4471,15 +4471,15 @@
     "@lookAndFeelChannelTypingIndicatorHiddenName": {
         "description": "Radio option label for hiding the typing indicator entirely."
     },
-    "lookAndFeelChannelTypingIndicatorHiddenDescription": "Ne pas afficher les indicateurs de frappe dans la liste des canaux",
+    "lookAndFeelChannelTypingIndicatorHiddenDescription": "Ne pas afficher les indicateurs de frappe dans la liste des salons",
     "@lookAndFeelChannelTypingIndicatorHiddenDescription": {
         "description": "Radio option description for hidden typing indicators."
     },
-    "lookAndFeelShowSelectedChannelTypingIndicatorLabel": "Afficher la frappe sur le canal sélectionné",
+    "lookAndFeelShowSelectedChannelTypingIndicatorLabel": "Afficher la frappe sur le salon sélectionné",
     "@lookAndFeelShowSelectedChannelTypingIndicatorLabel": {
         "description": "Toggle label — whether to also show the typing indicator on the currently viewed channel."
     },
-    "lookAndFeelShowSelectedChannelTypingIndicatorDescription": "Lorsqu'elle est désactivée (par défaut), les indicateurs de frappe n'apparaîtront pas sur le canal que vous consultez actuellement.",
+    "lookAndFeelShowSelectedChannelTypingIndicatorDescription": "Lorsqu'elle est désactivée (par défaut), les indicateurs de frappe n'apparaîtront pas sur le salon que vous consultez actuellement.",
     "@lookAndFeelShowSelectedChannelTypingIndicatorDescription": {
         "description": "Toggle description for show-typing-on-selected-channel."
     },
@@ -4519,19 +4519,19 @@
     "@lookAndFeelShowNekoDescription": {
         "description": "Toggle description for showing Neko in chat."
     },
-    "lookAndFeelVoiceChannelJoinTitle": "Comportement de connexion aux canaux vocaux",
+    "lookAndFeelVoiceChannelJoinTitle": "Comportement de connexion aux salons vocaux",
     "@lookAndFeelVoiceChannelJoinTitle": {
         "description": "Subsection title under Interface — voice channel join behavior."
     },
-    "lookAndFeelVoiceChannelJoinDescription": "Contrôlez la façon dont vous rejoignez les canaux vocaux dans les communautés.",
+    "lookAndFeelVoiceChannelJoinDescription": "Contrôlez la façon dont vous rejoignez les salons vocaux dans les communautés.",
     "@lookAndFeelVoiceChannelJoinDescription": {
         "description": "Subsection description for voice channel join behavior."
     },
-    "lookAndFeelRequireDoubleClickJoinLabel": "Exiger un double-clic pour rejoindre les canaux vocaux",
+    "lookAndFeelRequireDoubleClickJoinLabel": "Exiger un double-clic pour rejoindre les salons vocaux",
     "@lookAndFeelRequireDoubleClickJoinLabel": {
         "description": "Toggle label — require double-click to join voice channels."
     },
-    "lookAndFeelRequireDoubleClickJoinDescription": "Lorsqu'elle est activée, vous devrez double-cliquer sur les canaux vocaux pour les rejoindre. Lorsqu'elle est désactivée (par défaut), un simple clic vous rejoindra immédiatement dans le canal.",
+    "lookAndFeelRequireDoubleClickJoinDescription": "Lorsqu'elle est activée, vous devrez double-cliquer sur les salons vocaux pour les rejoindre. Lorsqu'elle est désactivée (par défaut), un simple clic vous rejoindra immédiatement dans le salon.",
     "@lookAndFeelRequireDoubleClickJoinDescription": {
         "description": "Toggle description for the require-double-click voice channel join switch."
     },
@@ -4564,19 +4564,19 @@
     "@lookAndFeelCollapseDMsDescription": {
         "description": "Toggle description for the DM folder collapse behavior."
     },
-    "lookAndFeelChannelListSectionTitle": "Liste des canaux",
+    "lookAndFeelChannelListSectionTitle": "Liste des salons",
     "@lookAndFeelChannelListSectionTitle": {
         "description": "Section title for channel list options."
     },
-    "lookAndFeelChannelListSectionDescription": "Contrôlez le comportement de l'indicateur de non-lu pour les canaux mis en sourdine dans les listes de canaux.",
+    "lookAndFeelChannelListSectionDescription": "Contrôlez le comportement de l'indicateur de non-lu pour les salons mis en sourdine dans les listes de salons.",
     "@lookAndFeelChannelListSectionDescription": {
         "description": "Section description for channel list options."
     },
-    "lookAndFeelShowFadedUnreadOnMutedChannelsLabel": "Afficher l'indicateur de non-lu sur les canaux mis en sourdine",
+    "lookAndFeelShowFadedUnreadOnMutedChannelsLabel": "Afficher l'indicateur de non-lu sur les salons mis en sourdine",
     "@lookAndFeelShowFadedUnreadOnMutedChannelsLabel": {
         "description": "Toggle label — show a faded unread bar on muted channels."
     },
-    "lookAndFeelShowFadedUnreadOnMutedChannelsDescription": "Lorsqu'elle est activée, les canaux mis en sourdine affichent un indicateur de non-lu atténué sur le côté gauche. Les mentions apparaissent toujours indépendamment de ce paramètre.",
+    "lookAndFeelShowFadedUnreadOnMutedChannelsDescription": "Lorsqu'elle est activée, les salons mis en sourdine affichent un indicateur de non-lu atténué sur le côté gauche. Les mentions apparaissent toujours indépendamment de ce paramètre.",
     "@lookAndFeelShowFadedUnreadOnMutedChannelsDescription": {
         "description": "Toggle description for faded unread on muted channels."
     },
@@ -4592,7 +4592,7 @@
     "@lookAndFeelShowActiveNowLabel": {
         "description": "Toggle label — show Active Now on the home screen."
     },
-    "lookAndFeelShowActiveNowDescription": "Affiche \"Actifs maintenant\" sur l'écran d'accueil pour présenter les amis actifs vocalement. Vous verrez un aperçu, le contexte du canal, qui est déjà là, et un moyen rapide de les rejoindre.",
+    "lookAndFeelShowActiveNowDescription": "Affiche \"Actifs maintenant\" sur l'écran d'accueil pour présenter les amis actifs vocalement. Vous verrez un aperçu, le contexte du salon, qui est déjà là, et un moyen rapide de les rejoindre.",
     "@lookAndFeelShowActiveNowDescription": {
         "description": "Toggle description for show-active-now."
     },
@@ -4608,7 +4608,7 @@
     "@lookAndFeelEnableFavoritesLabel": {
         "description": "Toggle label — enable the Favorites feature."
     },
-    "lookAndFeelEnableFavoritesDescription": "Lorsqu'elle est activée, vous pouvez mettre des canaux en favoris et ils apparaîtront dans la section Favoris. Lorsqu'elle est désactivée, tous les éléments d'interface liés aux favoris (boutons, éléments de menu) seront masqués. Vos favoris existants seront conservés.",
+    "lookAndFeelEnableFavoritesDescription": "Lorsqu'elle est activée, vous pouvez mettre des salons en favoris et ils apparaîtront dans la section Favoris. Lorsqu'elle est désactivée, tous les éléments d'interface liés aux favoris (boutons, éléments de menu) seront masqués. Vos favoris existants seront conservés.",
     "@lookAndFeelEnableFavoritesDescription": {
         "description": "Toggle description for the Enable Favorites switch."
     },
@@ -4852,11 +4852,11 @@
     "@messagesMediaSpoilersOnClickDescription": {
         "description": "Spoiler reveal option description for on-click."
     },
-    "messagesMediaSpoilersIfModeratorName": "Dans les canaux que je modère",
+    "messagesMediaSpoilersIfModeratorName": "Dans les salons que je modère",
     "@messagesMediaSpoilersIfModeratorName": {
         "description": "Spoiler reveal option — auto-show in channels with Manage Messages."
     },
-    "messagesMediaSpoilersIfModeratorDescription": "Toujours afficher le contenu masqué dans les canaux où vous avez la permission « Gérer les messages »",
+    "messagesMediaSpoilersIfModeratorDescription": "Toujours afficher le contenu masqué dans les salons où vous avez la permission « Gérer les messages »",
     "@messagesMediaSpoilersIfModeratorDescription": {
         "description": "Spoiler reveal option description for moderator-only auto-show."
     },
@@ -4948,22 +4948,6 @@
     "@messagesMediaEditingPreserveDraftLabel": {
         "description": "Toggle label for preserving edit drafts on cancel."
     },
-    "accessibilityUnreadGroupTitle": "Indicateurs de non-lu",
-    "@accessibilityUnreadGroupTitle": {
-        "description": "Section title for unread-indicator accessibility settings."
-    },
-    "accessibilityUnreadGroupDescription": "Contrôler la façon dont les indicateurs de messages non lus sont affichés.",
-    "@accessibilityUnreadGroupDescription": {
-        "description": "Section description for unread-indicator accessibility settings."
-    },
-    "accessibilityShowFadedUnreadOnMutedChannelsLabel": "Afficher l'indicateur de non-lu estompé sur les canaux mis en sourdine",
-    "@accessibilityShowFadedUnreadOnMutedChannelsLabel": {
-        "description": "Toggle label for showing a faded unread indicator on muted channels."
-    },
-    "accessibilityShowFadedUnreadOnMutedChannelsDescription": "Affichez un indicateur de non-lu atténué à côté des messages directs et des canaux mis en sourdine afin que vous puissiez toujours voir d'un coup d'œil lorsqu'il y a de l'activité.",
-    "@accessibilityShowFadedUnreadOnMutedChannelsDescription": {
-        "description": "Toggle description for showing a faded unread indicator on muted channels."
-    },
     "accessibilityDmMessagePreviewGroupTitle": "Aperçus des messages DM",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."
@@ -5004,7 +4988,7 @@
     "@dmListSentAnAttachment": {
         "description": "DM list row preview text when the most recent message has only attachments."
     },
-    "systemPreviewPinnedMessage": "{username} a épinglé un message dans ce canal.",
+    "systemPreviewPinnedMessage": "{username} a épinglé un message dans ce salon.",
     "@systemPreviewPinnedMessage": {
         "description": "Plaintext DM list preview for a pin system message.",
         "placeholders": {
@@ -5064,7 +5048,7 @@
             }
         }
     },
-    "systemPreviewChangedChannelNameTo": "{username} a renommé le canal en {newName}.",
+    "systemPreviewChangedChannelNameTo": "{username} a renommé le salon en {newName}.",
     "@systemPreviewChangedChannelNameTo": {
         "description": "Plaintext DM list preview when a group DM is renamed.",
         "placeholders": {
@@ -5076,7 +5060,7 @@
             }
         }
     },
-    "systemPreviewChangedChannelName": "{username} a renommé le canal.",
+    "systemPreviewChangedChannelName": "{username} a renommé le salon.",
     "@systemPreviewChangedChannelName": {
         "description": "Plaintext DM list preview when a group DM is renamed without a known new name.",
         "placeholders": {
@@ -5085,7 +5069,7 @@
             }
         }
     },
-    "systemPreviewChangedChannelIcon": "{username} a changé l'icône du canal.",
+    "systemPreviewChangedChannelIcon": "{username} a changé l'icône du salon.",
     "@systemPreviewChangedChannelIcon": {
         "description": "Plaintext DM list preview when a group DM icon changes.",
         "placeholders": {
@@ -5107,7 +5091,7 @@
     "@voiceConnectionConfirmTitle": {
         "description": "Title of the multi-device voice join confirmation dialog."
     },
-    "voiceConnectionConfirmDescription": "{count, plural, =1{Vous êtes déjà connecté à ce canal vocal depuis 1 autre appareil. Que souhaitez-vous faire ?} other{Vous êtes déjà connecté à ce canal vocal depuis {count} autres appareils. Que souhaitez-vous faire ?}}",
+    "voiceConnectionConfirmDescription": "{count, plural, =1{Vous êtes déjà connecté à ce salon vocal depuis 1 autre appareil. Que souhaitez-vous faire ?} other{Vous êtes déjà connecté à ce salon vocal depuis {count} autres appareils. Que souhaitez-vous faire ?}}",
     "@voiceConnectionConfirmDescription": {
         "description": "Body of the multi-device voice join confirmation; count is the number of other device connections.",
         "placeholders": {
@@ -5128,11 +5112,11 @@
     "@voiceConnectionConfirmDoNothing": {
         "description": "Dismiss the dialog without joining voice."
     },
-    "voiceChannelEmptyDescription": "Ceci est un canal vocal. Connectez-vous pour commencer à parler !",
+    "voiceChannelEmptyDescription": "Ceci est un salon vocal. Connectez-vous pour commencer à parler !",
     "@voiceChannelEmptyDescription": {
         "description": "Empty state body when viewing a guild voice channel while not in the call."
     },
-    "voiceChannelJoin": "Rejoindre le canal vocal",
+    "voiceChannelJoin": "Rejoindre le salon vocal",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
     },
@@ -5140,7 +5124,7 @@
     "@voiceChannelJoinConnect": {
         "description": "Primary action in the mobile bottom sheet before joining a voice channel from the channel list."
     },
-    "voiceChannelNoConnectPermission": "Vous n'avez pas la permission de rejoindre ce canal vocal",
+    "voiceChannelNoConnectPermission": "Vous n'avez pas la permission de rejoindre ce salon vocal",
     "@voiceChannelNoConnectPermission": {
         "description": "Tooltip on the disabled join voice channel button when the user lacks Connect permission."
     },
@@ -5152,7 +5136,7 @@
     "@voiceCallE2eeEncrypted": {
         "description": "Pre-join banner on a DM or group DM call where every connected participant supports E2EE."
     },
-    "voiceChannelE2eeBroken": "Le chiffrement de bout en bout n'est pas disponible car un participant non compatible est dans ce canal vocal.",
+    "voiceChannelE2eeBroken": "Le chiffrement de bout en bout n'est pas disponible car un participant non compatible est dans ce salon vocal.",
     "@voiceChannelE2eeBroken": {
         "description": "Pre-join banner on a guild voice channel where E2EE capability is mixed among participants."
     },
@@ -5979,7 +5963,7 @@
     "@iarActionDeleteMessageTitle": {
         "description": "Action card title (moderator-only) for deleting the reported message."
     },
-    "iarActionDeleteMessageDescription": "Supprimez-le du canal pour tout le monde.",
+    "iarActionDeleteMessageDescription": "Supprimez-le du salon pour tout le monde.",
     "@iarActionDeleteMessageDescription": {
         "description": "Action card description (moderator-only) for deleting the reported message."
     },
@@ -6203,7 +6187,7 @@
     "@chatEditNoChanges": {
         "description": "Toast when the user tries to save an edit without changing the message."
     },
-    "chatChannelNotReady": "Ce canal n'est pas encore prêt. Veuillez réessayer dans un moment.",
+    "chatChannelNotReady": "Ce salon n'est pas encore prêt. Veuillez réessayer dans un moment.",
     "@chatChannelNotReady": {
         "description": "Toast when send is attempted before the channel has finished loading."
     },
@@ -6305,7 +6289,7 @@
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
     },
-    "composerAutocompleteRoleMentionDescription": "Notifier les utilisateurs de ce rôle ayant la permission de voir ce canal.",
+    "composerAutocompleteRoleMentionDescription": "Notifier les utilisateurs de ce rôle ayant la permission de voir ce salon.",
     "@composerAutocompleteRoleMentionDescription": {
         "description": "Secondary line in the @ mention autocomplete when the row is a mentionable guild role."
     },
@@ -6373,7 +6357,7 @@
     "@chatMessageUnpinConfirmDescription": {
         "description": "Body text for the unpin message confirmation sheet."
     },
-    "systemPinMessage": "{username} a épinglé {messageLink} dans ce canal. Voir {allPinsLink}.",
+    "systemPinMessage": "{username} a épinglé {messageLink} dans ce salon. Voir {allPinsLink}.",
     "@systemPinMessage": {
         "description": "System message when a user pins a message. Keep {username}, {messageLink}, and {allPinsLink} in place; translate the surrounding sentence.",
         "placeholders": {
@@ -7631,27 +7615,27 @@
     "@auditLogActionGuildUpdate": {
         "description": "Audit log action filter label."
     },
-    "auditLogActionChannelCreate": "Canal créé",
+    "auditLogActionChannelCreate": "Salon créé",
     "@auditLogActionChannelCreate": {
         "description": "Audit log action filter label."
     },
-    "auditLogActionChannelUpdate": "Canal mis à jour",
+    "auditLogActionChannelUpdate": "Salon mis à jour",
     "@auditLogActionChannelUpdate": {
         "description": "Audit log action filter label."
     },
-    "auditLogActionChannelDelete": "Canal supprimé",
+    "auditLogActionChannelDelete": "Salon supprimé",
     "@auditLogActionChannelDelete": {
         "description": "Audit log action filter label."
     },
-    "auditLogActionChannelOverwriteCreate": "Autorisation de canal ajoutée",
+    "auditLogActionChannelOverwriteCreate": "Autorisation de salon ajoutée",
     "@auditLogActionChannelOverwriteCreate": {
         "description": "Audit log action filter label."
     },
-    "auditLogActionChannelOverwriteUpdate": "Autorisation de canal mise à jour",
+    "auditLogActionChannelOverwriteUpdate": "Autorisation de salon mise à jour",
     "@auditLogActionChannelOverwriteUpdate": {
         "description": "Audit log action filter label."
     },
-    "auditLogActionChannelOverwriteDelete": "Autorisation de canal supprimée",
+    "auditLogActionChannelOverwriteDelete": "Autorisation de salon supprimée",
     "@auditLogActionChannelOverwriteDelete": {
         "description": "Audit log action filter label."
     },
@@ -7866,7 +7850,7 @@
             }
         }
     },
-    "auditLogSummaryChannelOverwriteDelete": "{actor} a supprimé les autorisations de canal pour {target}.",
+    "auditLogSummaryChannelOverwriteDelete": "{actor} a supprimé les autorisations de salon pour {target}.",
     "@auditLogSummaryChannelOverwriteDelete": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -7878,7 +7862,7 @@
             }
         }
     },
-    "auditLogSummaryChannelOverwriteDeleteInChannel": "{actor} a supprimé les autorisations de canal pour {target} dans {channel}.",
+    "auditLogSummaryChannelOverwriteDeleteInChannel": "{actor} a supprimé les autorisations de salon pour {target} dans {channel}.",
     "@auditLogSummaryChannelOverwriteDeleteInChannel": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -7974,7 +7958,7 @@
             }
         }
     },
-    "auditLogSummaryMemberMove": "{actor} a déplacé {target} vers un autre canal vocal.",
+    "auditLogSummaryMemberMove": "{actor} a déplacé {target} vers un autre salon vocal.",
     "@auditLogSummaryMemberMove": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -8073,7 +8057,7 @@
             }
         }
     },
-    "auditLogSummaryInviteCreateForChannel": "{actor} a créé l'invitation {target} pour le canal {channel}.",
+    "auditLogSummaryInviteCreateForChannel": "{actor} a créé l'invitation {target} pour le salon {channel}.",
     "@auditLogSummaryInviteCreateForChannel": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -8100,7 +8084,7 @@
             }
         }
     },
-    "auditLogSummaryInviteUpdateForChannel": "{actor} a mis à jour l'invitation {target} pour le canal {channel}.",
+    "auditLogSummaryInviteUpdateForChannel": "{actor} a mis à jour l'invitation {target} pour le salon {channel}.",
     "@auditLogSummaryInviteUpdateForChannel": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -8127,7 +8111,7 @@
             }
         }
     },
-    "auditLogSummaryInviteDeleteForChannel": "{actor} a supprimé l'invitation {target} pour le canal {channel}.",
+    "auditLogSummaryInviteDeleteForChannel": "{actor} a supprimé l'invitation {target} pour le salon {channel}.",
     "@auditLogSummaryInviteDeleteForChannel": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -8434,7 +8418,7 @@
     "@auditLogChangeUpdatedCommunityIcon": {
         "description": "Guild change detail sentence."
     },
-    "auditLogChangeRenamedChannel": "A renommé le canal en {name}.",
+    "auditLogChangeRenamedChannel": "A renommé le salon en {name}.",
     "@auditLogChangeRenamedChannel": {
         "description": "Channel change detail sentence.",
         "placeholders": {
@@ -8516,7 +8500,7 @@
             }
         }
     },
-    "auditLogOptionChannel": "Canal : {value}.",
+    "auditLogOptionChannel": "Salon : {value}.",
     "@auditLogOptionChannel": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -8581,7 +8565,7 @@
     "@guildSettingsLoadingMore": {
         "description": "Loading state for pagination."
     },
-    "guildSettingsWebhooksDescription": "Gérer les webhooks qui publient des messages dans les canaux.",
+    "guildSettingsWebhooksDescription": "Gérer les webhooks qui publient des messages dans les salons.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
     },
@@ -8684,7 +8668,7 @@
     "@guildSettingsInvitesDescription": {
         "description": "Description for invites tab."
     },
-    "guildSettingsInvitesEmpty": "Aucune invitation active.",
+    "guildSettingsInvitesEmpty": "Aucun lien d'invitation",
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
@@ -8836,7 +8820,7 @@
     "guildSettingsOverviewNotificationsTitle": "Notifications par défaut",
     "guildSettingsOverviewNotificationsLargeGuild": "Les communautés de plus de 250 personnes sont forcées sur le réglage « Mentions uniquement ». Votre réglage d'origine est conservé et sera rétabli si la communauté passe sous 250 membres.",
     "guildSettingsOverviewAdvancedTitle": "Avancé",
-    "guildSettingsOverviewFlexibleNames": "Autoriser les noms de canaux texte flexibles",
+    "guildSettingsOverviewFlexibleNames": "Autoriser les noms de salons texte flexibles",
     "guildSettingsOverviewHideOwnerCrown": "Masquer la couronne du propriétaire de la communauté",
     "guildSettingsOverviewDetachedBanner": "Bannière détachée",
     "@guildSettingsOverviewDetachedBanner": {
@@ -8886,7 +8870,7 @@
     "@guildSettingsOverviewInvitePreviewHint": {
         "description": "Helper text for invite preview controls."
     },
-    "guildSettingsOverviewTextChannelNamesTitle": "Noms des canaux texte",
+    "guildSettingsOverviewTextChannelNamesTitle": "Noms des salons texte",
     "@guildSettingsOverviewTextChannelNamesTitle": {
         "description": "Advanced settings section for text channel naming rules."
     },
@@ -8964,7 +8948,7 @@
     "@guildSettingsMessageHistoryThresholdUpdated": {
         "description": "Toast after saving message history threshold."
     },
-    "guildSettingsOverviewFlexibleNamesHint": "Autorise les majuscules et les espaces dans les noms de canaux texte. Désactivé restreint les noms aux minuscules avec des tirets et des underscores.",
+    "guildSettingsOverviewFlexibleNamesHint": "Autorise les majuscules et les espaces dans les noms de salons texte. Désactivé restreint les noms aux minuscules avec des tirets et des underscores.",
     "@guildSettingsOverviewFlexibleNamesHint": {
         "description": "Description for flexible channel names toggle."
     },
@@ -8980,12 +8964,12 @@
     "@guildSettingsAnimatedBannerRequiresFeature": {
         "description": "Error when uploading animated banner without feature."
     },
-    "guildSettingsAfkChannel": "Canal AFK / inactif",
-    "guildSettingsAfkChannelHint": "Déplacez les membres vers ce canal lorsqu'ils sont AFK.",
+    "guildSettingsAfkChannel": "Salon AFK / inactif",
+    "guildSettingsAfkChannelHint": "Déplacez les membres vers ce salon lorsqu'ils sont AFK.",
     "@guildSettingsAfkChannelHint": {
         "description": "Description for the AFK channel selector."
     },
-    "guildSettingsNoAfkChannel": "Aucun canal AFK",
+    "guildSettingsNoAfkChannel": "Aucun salon AFK",
     "guildSettingsAfkTimeout": "Délai AFK",
     "guildSettingsAfkTimeout1Min": "1 minute",
     "guildSettingsAfkTimeout5Min": "5 minutes",
@@ -9001,14 +8985,14 @@
             }
         }
     },
-    "guildSettingsSystemChannel": "Canal de destination",
+    "guildSettingsSystemChannel": "Salon de destination",
     "guildSettingsSystemChannelHint": "Les messages de bienvenue et système apparaîtront ici.",
     "@guildSettingsSystemChannelHint": {
         "description": "Description for the system channel selector."
     },
-    "guildSettingsNoSystemChannel": "Aucun canal système",
+    "guildSettingsNoSystemChannel": "Aucun salon système",
     "guildSettingsHideJoinMessages": "Masquer les messages d'arrivée",
-    "guildSettingsHideJoinMessagesHint": "Supprime les messages de bienvenue dans le canal de destination.",
+    "guildSettingsHideJoinMessagesHint": "Supprime les messages de bienvenue dans le salon de destination.",
     "@guildSettingsHideJoinMessagesHint": {
         "description": "Description for the hide join messages toggle."
     },
@@ -9034,7 +9018,7 @@
     "guildSettingsModerationDescription": "Configurez les paramètres de vérification, de filtrage de contenu et de contenu sensible.",
     "guildSettingsModerationDiscoveryNotice": "Les communautés listées dans la découverte ont des options de modération restreintes.",
     "guildSettingsModerationContentFilterTitle": "Filtrage de contenu",
-    "guildSettingsModerationContentFilterDescription": "Examine automatiquement les messages pour détecter le contenu explicite dans les canaux non marqués comme sensibles.",
+    "guildSettingsModerationContentFilterDescription": "Examine automatiquement les messages pour détecter le contenu explicite dans les salons non marqués comme sensibles.",
     "guildSettingsModerationContentFilterDiscoveryNote": "Les communautés listées dans la découverte doivent scanner tous les membres. Ce paramètre ne peut pas être modifié tant que la découverte est activée.",
     "guildSettingsContentFilterOff": "Désactivé",
     "guildSettingsContentFilterOffDescription": "Laissez la communauté s'auto-modérer",
@@ -9048,7 +9032,7 @@
     "@guildSettingsContentWarningToggle": {
         "description": "Switch label for the community content warning setting."
     },
-    "guildSettingsContentWarningToggleDescription": "Active une invite de consentement avant d'entrer dans un canal.",
+    "guildSettingsContentWarningToggleDescription": "Active une invite de consentement avant d'entrer dans un salon.",
     "@guildSettingsContentWarningToggleDescription": {
         "description": "Subtitle for the content warning switch in moderation settings."
     },
@@ -9084,12 +9068,12 @@
         }
     },
     "guildSettingsStickersSearchHint": "Rechercher des autocollants",
-    "guildSettingsWebhooksInfo": "Créez des webhooks depuis les paramètres du canal. Modifiez-les ici.",
-    "guildSettingsVanityUrlWarning": "Votre URL personnalisée ne fonctionnera pas à moins qu'au moins un canal ne soit visible par tout le monde.",
+    "guildSettingsWebhooksInfo": "Créez des webhooks depuis les paramètres du salon. Modifiez-les ici.",
+    "guildSettingsVanityUrlWarning": "Votre URL personnalisée ne fonctionnera pas à moins qu'au moins un salon ne soit visible par tout le monde.",
     "guildSettingsVanityUrlRemove": "Supprimer",
     "guildSettingsBannedUsersTitle": "Utilisateurs bannis",
     "guildSettingsInvitesTableInviter": "Inviteur",
-    "guildSettingsInvitesTableChannel": "Canal",
+    "guildSettingsInvitesTableChannel": "Salon",
     "guildSettingsInvitesTableCode": "Code",
     "guildSettingsInvitesTableUses": "Utilisations",
     "guildSettingsInvitesTableCreated": "Créé le",
@@ -9151,5 +9135,41 @@
                 "example": "Alice"
             }
         }
+    },
+    "nagbarLearnMore": "En savoir plus",
+    "@nagbarLearnMore": {
+        "description": "CTA on maintenance and other nagbars that open an external link."
+    },
+    "channelMenuCopyChannelLink": "Copier le lien du salon",
+    "@channelMenuCopyChannelLink": {
+        "description": "Channel menu action to copy a link channel's channel link."
+    },
+    "nagbarMaintenanceComplete": "La maintenance est terminée.",
+    "@nagbarMaintenanceComplete": {
+        "description": "Maintenance nagbar after planned work finishes."
+    },
+    "channelMenuCopyRedirectLink": "Copier le lien de redirection",
+    "@channelMenuCopyRedirectLink": {
+        "description": "Channel menu action to copy a link channel's redirect URL."
+    },
+    "nagbarMaintenanceScheduled": "La maintenance est programmée pour {localizedTime}. Durée estimée : {duration}.",
+    "@nagbarMaintenanceScheduled": {
+        "description": "Maintenance nagbar before planned work begins.",
+        "placeholders": {
+            "localizedTime": {
+                "type": "String"
+            },
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "nagbarOpenSettings": "Ouvrir les paramètres",
+    "@nagbarOpenSettings": {
+        "description": "Nagbar CTA that opens user settings."
+    },
+    "nagbarTermsAcceptance": "Nous avons mis à jour nos conditions. Veuillez les examiner et les accepter pour continuer.",
+    "@nagbarTermsAcceptance": {
+        "description": "Terms acceptance nagbar body."
     }
 }

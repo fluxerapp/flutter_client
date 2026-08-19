@@ -7,66 +7,50 @@ import '../../../../helpers/pump_fluxer_app.dart';
 
 void main() {
   group('GuildIconPeekGestureHost', () {
-    testWidgets(
-      'dismisses peek on pointer up so the next tap reaches a sibling',
-      (WidgetTester tester) async {
-        var dmTapped = false;
-        const Key guildKey = Key('guild-icon');
-        const Key dmKey = Key('dm-button');
+    testWidgets('outside tap dismisses peek after release', (
+      WidgetTester tester,
+    ) async {
+      const Key guildKey = Key('guild-icon');
 
-        await tester.pumpWidget(
-          pumpFluxerApp(
-            child: Scaffold(
-              body: Row(
-                children: <Widget>[
-                  GuildIconPeekGestureHost(
-                    itemId: 'guild-1',
-                    peekMenu: GuildIconPeekMenuConfig(
-                      guildName: 'Test Guild',
-                      hasUnread: false,
-                      onAction: (_, _) async {},
-                    ),
-                    child: const SizedBox(
-                      key: guildKey,
-                      width: 48,
-                      height: 48,
-                      child: ColoredBox(color: Colors.blue),
-                    ),
-                  ),
-                  GestureDetector(
-                    key: dmKey,
-                    onTap: () => dmTapped = true,
-                    child: const SizedBox(
-                      width: 48,
-                      height: 48,
-                      child: ColoredBox(color: Colors.red),
-                    ),
-                  ),
-                ],
+      await tester.pumpWidget(
+        pumpFluxerApp(
+          child: Scaffold(
+            body: GuildIconPeekGestureHost(
+              itemId: 'guild-1',
+              peekMenu: GuildIconPeekMenuConfig(
+                guildName: 'Test Guild',
+                hasUnread: false,
+                onAction: (_, _) async {},
+              ),
+              child: const SizedBox(
+                key: guildKey,
+                width: 48,
+                height: 48,
+                child: ColoredBox(color: Colors.blue),
               ),
             ),
           ),
-        );
-        await tester.pumpAndSettle();
+        ),
+      );
+      await tester.pumpAndSettle();
 
-        final Offset guildCenter = tester.getCenter(find.byKey(guildKey));
-        final TestGesture hold = await tester.startGesture(guildCenter);
-        await tester.pump(kGuildPeekHoldDelay);
-        await tester.pump();
-        await hold.up();
-        await tester.pumpAndSettle();
+      final Offset guildCenter = tester.getCenter(find.byKey(guildKey));
+      final TestGesture hold = await tester.startGesture(guildCenter);
+      await tester.pump(kGuildPeekHoldDelay);
+      await tester.pump();
+      await hold.up();
+      await tester.pumpAndSettle();
 
-        expect(find.byType(GuildIconPeekMenuPanel), findsNothing);
+      expect(find.byType(GuildIconPeekMenuPanel), findsOneWidget);
 
-        await tester.tap(find.byKey(dmKey));
-        await tester.pumpAndSettle();
+      await tester.tapAt(const Offset(300, 300));
+      await tester.pumpAndSettle();
 
-        expect(dmTapped, isTrue);
-      },
-    );
+      expect(find.byType(GuildIconPeekMenuPanel), findsNothing);
+    });
 
     testWidgets(
-      'slow guild press and release does not require an extra tap to dismiss peek',
+      'tapping under peek overlay dismisses peek before sibling receives tap',
       (WidgetTester tester) async {
         var dmTapCount = 0;
         const Key guildKey = Key('guild-icon');
@@ -113,6 +97,13 @@ void main() {
         await tester.pump();
         await hold.up();
         await tester.pumpAndSettle();
+
+        expect(find.byType(GuildIconPeekMenuPanel), findsOneWidget);
+
+        await tester.tap(find.byKey(dmKey));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(GuildIconPeekMenuPanel), findsNothing);
 
         await tester.tap(find.byKey(dmKey));
         await tester.pumpAndSettle();

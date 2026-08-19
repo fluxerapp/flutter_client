@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -83,6 +84,52 @@ void main() {
       expect(find.byType(FluxerClipboardScope), findsOneWidget);
     });
 
+    testWidgets('paste from the real long press toolbar inserts text', (
+      tester,
+    ) async {
+      final TextEditingController controller = TextEditingController();
+      addTearDown(controller.dispose);
+      _mockClipboardText('pasted-secret');
+
+      await tester.pumpWidget(
+        buildTestApp(FluxerInput(controller: controller, label: 'Email')),
+      );
+
+      await tester.longPress(find.byType(EditableText));
+      await tester.pumpAndSettle();
+      expect(find.text('Paste'), findsOneWidget);
+
+      await tester.tap(find.text('Paste'));
+      await tester.pumpAndSettle();
+
+      expect(controller.text, 'pasted-secret');
+    });
+
+    testWidgets('toolbar paste survives a menu rebuild during the press', (
+      tester,
+    ) async {
+      final TextEditingController controller = TextEditingController();
+      addTearDown(controller.dispose);
+      _mockClipboardText('pasted-secret');
+
+      await tester.pumpWidget(
+        buildTestApp(FluxerInput(controller: controller, label: 'Email')),
+      );
+
+      await tester.longPress(find.byType(EditableText));
+      await tester.pumpAndSettle();
+
+      final TestGesture gesture = await tester.startGesture(
+        tester.getCenter(find.text('Paste')),
+      );
+      controller.selection = const TextSelection.collapsed(offset: 0);
+      await tester.pump();
+      await gesture.up();
+      await tester.pumpAndSettle();
+
+      expect(controller.text, 'pasted-secret');
+    });
+
     testWidgets('suffix icon tap fires callback', (tester) async {
       var tapped = false;
       await tester.pumpWidget(
@@ -98,5 +145,24 @@ void main() {
       await tester.tap(find.byIcon(Icons.visibility));
       expect(tapped, isTrue);
     });
+  });
+}
+
+void _mockClipboardText(String text) {
+  TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+      .setMockMethodCallHandler(SystemChannels.platform, (
+        MethodCall methodCall,
+      ) async {
+        if (methodCall.method == 'Clipboard.getData') {
+          return <String, String>{'text': text};
+        }
+        if (methodCall.method == 'Clipboard.hasStrings') {
+          return <String, bool>{'value': true};
+        }
+        return null;
+      });
+  addTearDown(() {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(SystemChannels.platform, null);
   });
 }

@@ -6,7 +6,6 @@ import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/audio/enums/fluxer_sfx_clip.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
-import 'package:fluxer_app/core/permissions/channel_permission_reads.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/fluxer_sfx_provider.dart';
@@ -27,6 +26,7 @@ import 'package:fluxer_app/features/voice/providers/local_voice_state_provider.d
 import 'package:fluxer_app/features/voice/providers/screen_share_capability_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_display_preferences_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_join_eligibility_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_screen_share_watch_tile_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/services/voice_settings_applicator.dart';
@@ -462,38 +462,22 @@ class VoiceSession extends _$VoiceSession {
       );
       return false;
     }
-    if (guildId != null) {
-      int? permissionBits = ref
-          .read(channelPermissionCacheProvider.notifier)
-          .getChannelBits(channelId);
-      if (permissionBits == null) {
-        await ref
-            .read(channelPermissionCacheProvider.notifier)
-            .rebuildChannel(channelId);
-        if (!ref.mounted) {
-          return false;
-        }
-        permissionBits = ref
-            .read(channelPermissionCacheProvider.notifier)
-            .getChannelBits(channelId);
-      }
-      final int localConnectBits = await readLocalGuildChannelPermissionBitsRef(
-        ref: ref,
-        channelId: channelId,
+    final VoiceJoinEligibility eligibility = await readVoiceJoinEligibility(
+      ref,
+      channelId,
+    );
+    if (!ref.mounted) {
+      return false;
+    }
+    if (!eligibility.canJoin) {
+      talker.warning(
+        '[Voice] Join aborted: not eligible to join '
+        '(channelId=$channelId, guildId=$guildId).',
       );
-      if (!ref.mounted) {
-        return false;
-      }
-      if (!hasPermission(localConnectBits, Permission.connect)) {
-        talker.warning(
-          '[Voice] Join aborted: missing Connect permission '
-          '(channelId=$channelId, guildId=$guildId).',
-        );
-        state = state.copyWith(
-          errorMessage: kVoiceSessionErrorNoConnectPermission,
-        );
-        return false;
-      }
+      state = state.copyWith(
+        errorMessage: kVoiceSessionErrorNoConnectPermission,
+      );
+      return false;
     }
     final DateTime now = DateTime.now();
     if (!forceJoin &&

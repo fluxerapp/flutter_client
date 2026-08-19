@@ -111,13 +111,23 @@ class ChannelPermissionCache extends _$ChannelPermissionCache {
         ..insert(0, priorityGuildId);
     }
 
+    var priorityRemaining = priorityGuildId == null
+        ? 0
+        : (channelIdsByGuild[priorityGuildId]?.length ?? 0);
     for (final String guildId in guildIds) {
       for (final String channelId in channelIdsByGuild[guildId]!) {
         if (!ref.mounted) {
           return;
         }
         await rebuildChannel(channelId);
-        await Future<void>.delayed(Duration.zero);
+        if (priorityRemaining > 0) {
+          priorityRemaining--;
+          await Future<void>.delayed(Duration.zero);
+        } else {
+          // Pure prefetch (misses rebuild on demand); pacing keeps the reads
+          // from starving the first channel switch racing this loop.
+          await Future<void>.delayed(const Duration(milliseconds: 15));
+        }
       }
     }
   }

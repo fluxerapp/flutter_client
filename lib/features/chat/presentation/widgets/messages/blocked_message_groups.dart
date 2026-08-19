@@ -26,29 +26,14 @@ class BlockedMessageGroups extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (isRevealed) {
-      final List<Widget> children = <Widget>[];
-      Message? previousMessage = leadingPreviousMessage;
-      for (final Message message in item.messages) {
-        children.add(messageBuilder(message, previousMessage));
-        previousMessage = message;
-      }
-      // Identity is owned by the viewport's per-tile KeyedSubtree wrapper
-      // ('group-<groupKey>'); duplicating the key here would nest two nodes
-      // with the same ValueKey and break by-key finders.
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: children,
-      );
-    }
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final int count = item.messages.length;
     final String label = item.type == ChannelStreamType.messageGroupBlocked
         ? l10n.chatBlockedMessagesCollapsed(count)
         : l10n.chatSpammerMessagesCollapsed(count);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      child: FluxerButton.ghost(
+
+    final List<Widget> children = <Widget>[
+      FluxerButton.ghost(
         onPressed: onToggle,
         child: Text(
           label,
@@ -57,6 +42,22 @@ class BlockedMessageGroups extends StatelessWidget {
             fontStyle: FontStyle.italic,
           ),
         ),
+      ),
+    ];
+
+    if (isRevealed) {
+      Message? previousMessage = leadingPreviousMessage;
+      for (final Message message in item.messages) {
+        children.add(messageBuilder(message, previousMessage));
+        previousMessage = message;
+      }
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: children,
       ),
     );
   }

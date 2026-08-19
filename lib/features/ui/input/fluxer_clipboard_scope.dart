@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:material_ui/material_ui.dart';
 
 typedef FluxerPasteCallback = Future<void> Function();
@@ -35,6 +36,8 @@ class FluxerClipboardScope extends StatefulWidget {
 class FluxerClipboardScopeState extends State<FluxerClipboardScope> {
   FocusNode? _ownedFocusNode;
   FocusOnKeyEventCallback? _chainedKeyHandler;
+  List<Widget>? _cachedToolbarButtons;
+  String? _cachedToolbarSignature;
 
   late FocusNode _effectiveFocusNode;
 
@@ -165,12 +168,43 @@ class FluxerClipboardScopeState extends State<FluxerClipboardScope> {
     return KeyEventResult.ignored;
   }
 
+  Future<void> _pasteFromContextMenu(
+    EditableTextState editableTextState,
+  ) async {
+    final String before = widget.controller.text;
+    if (widget.onPaste != null || _isInlineTokenController) {
+      await handlePaste();
+    } else {
+      await editableTextState.pasteText(SelectionChangedCause.toolbar);
+      if (widget.controller.text == before) {
+        await handlePaste();
+      }
+    }
+    final bool inserted = widget.controller.text != before;
+    if (!inserted && widget.onPaste == null && mounted) {
+      _showPasteFailedFeedback();
+    }
+    // Dismissing the menu before the paste makes Clipboard.getData return
+    // empty on Android, so remove it only once the text landed.
+    ContextMenuController.removeAny();
+  }
+
+  void _showPasteFailedFeedback() {
+    final FluxerLocalizations? l10n = Localizations.of<FluxerLocalizations>(
+      context,
+      FluxerLocalizations,
+    );
+    if (l10n == null) {
+      return;
+    }
+    ScaffoldMessenger.maybeOf(
+      context,
+    )?.showSnackBar(SnackBar(content: Text(l10n.clipboardPasteFailed)));
+  }
+
   List<ContextMenuButtonItem> _composeContextMenuItems(
     EditableTextState editableTextState,
   ) {
-    if (!_interceptKeyboardClipboard) {
-      return editableTextState.contextMenuButtonItems;
-    }
     final List<ContextMenuButtonItem> buttonItems = editableTextState
         .contextMenuButtonItems
         .map((ContextMenuButtonItem item) {
@@ -192,10 +226,8 @@ class FluxerClipboardScopeState extends State<FluxerClipboardScope> {
             return item;
           }
           return item.copyWith(
-            onPressed: () {
-              ContextMenuController.removeAny();
-              unawaited(handlePaste());
-            },
+            onPressed: () =>
+                unawaited(_pasteFromContextMenu(editableTextState)),
           );
         })
         .toList();
@@ -211,10 +243,7 @@ class FluxerClipboardScopeState extends State<FluxerClipboardScope> {
     return <ContextMenuButtonItem>[
       ContextMenuButtonItem(
         type: ContextMenuButtonType.paste,
-        onPressed: () {
-          ContextMenuController.removeAny();
-          unawaited(handlePaste());
-        },
+        onPressed: () => unawaited(_pasteFromContextMenu(editableTextState)),
       ),
       ...buttonItems,
     ];
@@ -224,20 +253,41 @@ class FluxerClipboardScopeState extends State<FluxerClipboardScope> {
     BuildContext context,
     EditableTextState editableTextState,
   ) {
-    if (!_interceptKeyboardClipboard) {
-      if (SystemContextMenu.isSupportedByField(editableTextState)) {
-        return SystemContextMenu.editableText(
-          editableTextState: editableTextState,
-        );
-      }
-      return AdaptiveTextSelectionToolbar.editableText(
-        editableTextState: editableTextState,
-      );
-    }
-    return AdaptiveTextSelectionToolbar.buttonItems(
-      anchors: editableTextState.contextMenuAnchors,
-      buttonItems: _composeContextMenuItems(editableTextState),
+    final List<ContextMenuButtonItem> items = _composeContextMenuItems(
+      editableTextState,
     );
+    return AdaptiveTextSelectionToolbar(
+      anchors: editableTextState.contextMenuAnchors,
+      children: _toolbarButtons(context, editableTextState, items),
+    );
+  }
+
+  /// Reuses button instances across rebuilds: the Material toolbar resets its
+  /// subtree with a fresh [UniqueKey] when its children are not `listEquals`
+  /// equal, disposing the recognizer that a press in flight is using.
+  List<Widget> _toolbarButtons(
+    BuildContext context,
+    EditableTextState editableTextState,
+    List<ContextMenuButtonItem> items,
+  ) {
+    final String signature = <String>[
+      '${identityHashCode(editableTextState)}',
+      Theme.of(context).platform.name,
+      '${Localizations.maybeLocaleOf(context)}',
+      for (final ContextMenuButtonItem item in items) item.type.name,
+    ].join('|');
+    final List<Widget>? cached = _cachedToolbarButtons;
+    if (cached != null && _cachedToolbarSignature == signature) {
+      return cached;
+    }
+    final List<Widget> buttons =
+        AdaptiveTextSelectionToolbar.getAdaptiveButtons(
+          context,
+          items,
+        ).toList();
+    _cachedToolbarButtons = buttons;
+    _cachedToolbarSignature = signature;
+    return buttons;
   }
 
   @override

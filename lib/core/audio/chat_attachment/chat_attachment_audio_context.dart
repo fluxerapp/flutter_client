@@ -2,16 +2,10 @@ import 'dart:io';
 
 import 'package:audio_session/audio_session.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fluxer_app/core/audio/app_media_audio_session.dart';
 
 const AudioSessionConfiguration _kChatAttachmentAudioSessionConfig =
     AudioSessionConfiguration.music();
-
-const AudioSessionConfiguration _kMixableSfxIosAudioSessionConfig =
-    AudioSessionConfiguration(
-      avAudioSessionCategory: AVAudioSessionCategory.ambient,
-      avAudioSessionCategoryOptions:
-          AVAudioSessionCategoryOptions.mixWithOthers,
-    );
 
 Future<void> configureChatAttachmentAudioSession() async {
   if (kIsWeb || !(Platform.isAndroid || Platform.isIOS)) {
@@ -30,13 +24,4 @@ Future<void> activateChatAttachmentAudioSession() async {
   await session.setActive(true);
 }
 
-Future<void> restoreMixableSfxAudioSession() async {
-  if (kIsWeb || !(Platform.isAndroid || Platform.isIOS)) {
-    return;
-  }
-  final AudioSession session = await AudioSession.instance;
-  await session.setActive(false);
-  if (Platform.isIOS) {
-    await session.configure(_kMixableSfxIosAudioSessionConfig);
-  }
-}
+Future<void> restoreMixableSfxAudioSession() => restoreAppMediaAudioSession();

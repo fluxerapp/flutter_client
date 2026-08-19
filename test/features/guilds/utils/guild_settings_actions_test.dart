@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/features/guilds/utils/guild_settings_actions.dart';
+import 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
 import 'package:fluxer_dart/export.dart';
 
 void main() {
@@ -19,12 +19,32 @@ void main() {
       );
     });
 
+    test('resolves inherit to community default', () {
+      expect(
+        resolveGuildMessageNotificationsForDisplay(
+          stored: UserNotificationSettings.inherit,
+          defaultMessageNotifications: 1,
+        ),
+        1,
+      );
+    });
+
     test('resolves inherit to all messages by default', () {
       expect(
         resolveGuildMessageNotificationsForDisplay(
           stored: UserNotificationSettings.inherit,
         ),
         0,
+      );
+    });
+
+    test('treats unknown stored values like inherit', () {
+      expect(
+        resolveGuildMessageNotificationsForDisplay(
+          stored: UserNotificationSettings.$unknown,
+          defaultMessageNotifications: 1,
+        ),
+        1,
       );
     });
 

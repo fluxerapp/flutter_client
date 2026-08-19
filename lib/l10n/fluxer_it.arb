@@ -4948,22 +4948,6 @@
     "@messagesMediaEditingPreserveDraftLabel": {
         "description": "Toggle label for preserving edit drafts on cancel."
     },
-    "accessibilityUnreadGroupTitle": "Indicatori non letti",
-    "@accessibilityUnreadGroupTitle": {
-        "description": "Section title for unread-indicator accessibility settings."
-    },
-    "accessibilityUnreadGroupDescription": "Controlla come vengono visualizzati gli indicatori di messaggi non letti.",
-    "@accessibilityUnreadGroupDescription": {
-        "description": "Section description for unread-indicator accessibility settings."
-    },
-    "accessibilityShowFadedUnreadOnMutedChannelsLabel": "Mostra indicatore non letto sbiadito nei canali con notifiche disattivate",
-    "@accessibilityShowFadedUnreadOnMutedChannelsLabel": {
-        "description": "Toggle label for showing a faded unread indicator on muted channels."
-    },
-    "accessibilityShowFadedUnreadOnMutedChannelsDescription": "Visualizza un indicatore non letto attenuato accanto ai messaggi diretti e ai canali con notifiche disattivate, in modo da poter comunque vedere a colpo d'occhio quando c'è attività.",
-    "@accessibilityShowFadedUnreadOnMutedChannelsDescription": {
-        "description": "Toggle description for showing a faded unread indicator on muted channels."
-    },
     "accessibilityDmMessagePreviewGroupTitle": "Anteprime messaggi DM",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."

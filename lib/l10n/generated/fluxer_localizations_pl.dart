@@ -23,7 +23,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String get sessionExpiredToast =>
-      'Your session has expired. Please sign in again.';
+      'Twoja sesja wygasła. Proszę zaloguj się ponownie.';
 
   @override
   String splashStartupFailed(String error) {
@@ -55,7 +55,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   String get splashIncidentHistory => 'Historia incydentów';
 
   @override
-  String get nagbarLearnMore => 'Learn more';
+  String get nagbarLearnMore => 'Dowiedz się więcej';
 
   @override
   String nagbarMaintenanceScheduled(String localizedTime, String duration) {
@@ -77,29 +77,29 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String nagbarEmailVerificationMessage(String displayName) {
-    return 'Hey $displayName, please verify your email address.';
+    return 'Hej $displayName, proszę zweryfikuj swój adres e-mail.';
   }
 
   @override
-  String get nagbarOpenSettings => 'Open settings';
+  String get nagbarOpenSettings => 'Otwórz ustawienia';
 
   @override
-  String get systemPermissionSettingsTitle => 'Enable permission';
+  String get systemPermissionSettingsTitle => 'Nadaj uprawnienie';
 
   @override
-  String get systemPermissionSettingsOpenSettings => 'Open settings';
+  String get systemPermissionSettingsOpenSettings => 'Otwórz ustawienia';
 
   @override
   String get systemPermissionMicrophoneMessage =>
-      'Fluxer doesn\'t have access to your microphone. You can enable it in your device privacy settings.';
+      'Fluxer nie posiada dostępu do Twojego mikrofonu. Możesz mu go nadać w ustawieniach prywatności urządzenia.';
 
   @override
   String get systemPermissionCameraMessage =>
-      'Fluxer doesn\'t have access to your camera. You can enable it in your device privacy settings.';
+      'Fluxer nie posiada dostępu do Twojego aparatu. Możesz mu go nadać w ustawieniach prywatności urządzenia.';
 
   @override
   String get systemPermissionNotificationsMessage =>
-      'Fluxer doesn\'t have permission to send notifications. You can enable it in your device settings.';
+      'Fluxer nie posiada uprawnień do wysyłania powiadomień. Możesz mu je nadać w ustawieniach urządzenia.';
 
   @override
   String nagbarPremiumGracePeriod(String productName, String graceDate) {
@@ -112,7 +112,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   }
 
   @override
-  String get nagbarManageSubscription => 'Manage subscription';
+  String get nagbarManageSubscription => 'Zarządzaj subskrypcją';
 
   @override
   String nagbarPremiumOnboardingDefault(
@@ -2522,6 +2522,9 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String get genericError => 'Wystąpił błąd';
+
+  @override
+  String get networkErrorMessage => 'Something went wrong. Please try again.';
 
   @override
   String get invalidCode => 'Nieprawidłowy kod';
@@ -13539,4 +13542,8 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String get keybindActionZoomReset => 'Reset zoom';
+
+  @override
+  String get clipboardPasteFailed =>
+      'Couldn\'t paste. The clipboard was empty or blocked for this app.';
 }

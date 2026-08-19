@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
@@ -159,14 +158,6 @@ Future<void> openGuildChannelContent({
     return;
   }
 
-  final int? permissionBits =
-      effectivePermissionBits ??
-      ref.read(effectiveGuildChannelPermissionBitsProvider(channel.id)).value;
-  final int? localConnectBits = channel.type == ChannelType.guildVoice
-      ? ref
-            .read(channelLocalGuildChannelPermissionBitsProvider(channel.id))
-            .value
-      : null;
   final VoiceSessionState voiceSession = ref.read(voiceSessionProvider);
   final bool isInCurrentVoiceChannel =
       channel.type == ChannelType.guildVoice &&
@@ -242,12 +233,13 @@ Future<void> openGuildChannelContent({
         (state) => state.voiceChannelJoinRequiresDoubleClick,
       ),
     );
-    final bool canJoinVoice = canJoinGuildVoiceChannelFromBits(
-      guildId: guildId,
-      channelType: channel.type,
-      permissionBits: localConnectBits ?? permissionBits,
+    final VoiceJoinEligibility eligibility = await ref.read(
+      voiceJoinEligibilityProvider(channel.id).future,
     );
-    if (canJoinVoice && !voiceChannelJoinRequiresDoubleClick) {
+    if (!context.mounted) {
+      return;
+    }
+    if (eligibility.canJoin && !voiceChannelJoinRequiresDoubleClick) {
       final VoiceJoinResult joinResult = await joinVoiceChannelWithConfirmation(
         ref: ref,
         context: context,

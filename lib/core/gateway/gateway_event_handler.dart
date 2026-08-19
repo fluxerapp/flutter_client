@@ -23,6 +23,7 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/guilds/data/guild_local_cleanup.dart';
+import 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
 import 'package:fluxer_app/features/notifications/data/mention_feed_write_batcher.dart';
 import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
@@ -175,7 +176,7 @@ class GatewayEventHandler {
   final MessageDeleteCallback? onMessageDelete;
   final MessageDeleteBulkCallback? onMessageDeleteBulk;
   final MessageReactionChangeCallback? onMessageReactionChange;
-  final void Function(String channelId)? onOwnMessageCreated;
+  final void Function(String channelId, String messageId)? onOwnMessageCreated;
   final void Function(String channelId, {required bool manual})? onMessageAcked;
   final void Function(String? idHash)? onAuthSessionIdHashChanged;
   final ConnectionsUpdateCallback? onConnectionsUpdate;
@@ -657,6 +658,30 @@ class GatewayEventHandler {
     var readstatesMs = 0;
     var settingsMs = 0;
 
+    final userSettings = event.userSettings;
+    final guildPositions = <String, int>{};
+    if (userSettings != null) {
+      var pos = 0;
+      for (final folder in userSettings.guildFolders) {
+        for (final guildId in folder.guildIds) {
+          guildPositions[guildId] = pos;
+          pos++;
+        }
+      }
+    }
+
+    // Parsed on an isolate before BEGIN so the multi-second parse on large
+    // accounts does not extend the write lock.
+    List<ParsedReadyGuild> processedGuilds = const <ParsedReadyGuild>[];
+    if (event.rawGuilds.isNotEmpty) {
+      final Stopwatch parsePhase = Stopwatch()..start();
+      processedGuilds = await parseReadyGuilds(
+        rawGuilds: event.rawGuilds,
+        guildPositions: guildPositions,
+      );
+      guildsMs = parsePhase.elapsedMilliseconds;
+    }
+
     await database.transaction(() async {
       final Stopwatch phase = Stopwatch()..start();
       if (shouldFullWipe) {
@@ -726,28 +751,7 @@ class GatewayEventHandler {
         );
       }
 
-      final guildPositions = <String, int>{};
-      final userSettings = event.userSettings;
-      if (userSettings != null) {
-        var pos = 0;
-        for (final folder in userSettings.guildFolders) {
-          for (final guildId in folder.guildIds) {
-            guildPositions[guildId] = pos;
-            pos++;
-          }
-        }
-      }
-
       if (event.rawGuilds.isNotEmpty) {
-        phase
-          ..reset()
-          ..start();
-        final List<ParsedReadyGuild> processedGuilds = await parseReadyGuilds(
-          rawGuilds: event.rawGuilds,
-          guildPositions: guildPositions,
-        );
-        guildsMs = phase.elapsedMilliseconds;
-
         phase
           ..reset()
           ..start();
@@ -1367,13 +1371,9 @@ class GatewayEventHandler {
     late final MessageMentionContext mentionCtx;
     late final ChannelResolution channelResolution;
     if (mentionCache != null) {
-      mentionCtx = await mentionCache.resolve(
+      mentionCtx = await mentionCache.contextFor(
         currentUserId: currentUserId,
         channelId: channelId,
-        authorId: event.message.author.id,
-        mentionedUserIds: event.message.mentions.map((u) => u.id).toList(),
-        mentionEveryone: event.message.mentionEveryone,
-        mentionRoleIds: event.message.mentionRoles,
       );
       channelResolution = await mentionCache.resolveChannel(channelId);
     } else {
@@ -1467,11 +1467,20 @@ class GatewayEventHandler {
     final UserGuildSettingsResponse? guildSettings =
         await _guildSettingsForStorage(channelResolution.guildStorageId);
     final DateTime now = DateTime.now();
+    final GuildNotificationContext? guildContext =
+        channelResolution.isGuild && channelResolution.guildChannel != null
+        ? GuildNotificationContext.fromServer(
+            await database.guildDao.getServerById(
+              channelResolution.guildChannel!.guildId,
+            ),
+          )
+        : null;
     final UserNotificationSettings notificationLevel =
         channelResolution.isGuild && channelResolution.guildChannel != null
         ? resolveMessageNotifications(
             channel: channelResolution.guildChannel!,
             guildSettings: guildSettings,
+            guildContext: guildContext,
           )
         : resolvePrivateMessageNotifications(
             guildSettings: guildSettings,
@@ -1598,7 +1607,7 @@ class GatewayEventHandler {
           clearSticky: true,
           markDmRead: true,
         );
-        onOwnMessageCreated?.call(msg.channelId);
+        onOwnMessageCreated?.call(msg.channelId, msg.id);
         return;
       case ReadStateIncomingMessageKind.ackAutomaticMessage:
       case ReadStateIncomingMessageKind.ackBlockedMessage:
@@ -2046,14 +2055,16 @@ class GatewayEventHandler {
       database.transaction(() async {
         await database.guildDao.upsertServer(guildFromSdk(event.guild.guild));
 
+        // One statement batch per table, mirroring the READY fanout; per-row
+        // writes here starve the channel switch reads racing this transaction.
+        final channelCompanions = <db.ChannelsCompanion>[];
         for (final channel in event.guild.channels) {
           final channelGuildId = channel.guildId;
           if (channelGuildId != null) {
-            await database.channelDao.upsertChannel(
-              channelFromSdk(channel, channelGuildId),
-            );
+            channelCompanions.add(channelFromSdk(channel, channelGuildId));
           }
         }
+        await database.channelDao.upsertChannelsMerged(channelCompanions);
 
         if (event.guild.roles.isNotEmpty) {
           await database.roleDao.upsertRoles(
@@ -2061,8 +2072,15 @@ class GatewayEventHandler {
           );
         }
 
-        for (final member in event.guild.members) {
-          _handleMemberUpsert(guildId, member);
+        if (event.guild.members.isNotEmpty) {
+          await database.userDao.upsertUsers([
+            for (final member in event.guild.members)
+              userFromPartialSdk(member.user),
+          ]);
+          await database.memberDao.upsertMembers([
+            for (final member in event.guild.members)
+              memberCompanionFromSdk(member, guildId: guildId),
+          ]);
         }
 
         if (event.guild.emojis.isNotEmpty) {

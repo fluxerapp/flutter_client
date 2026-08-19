@@ -56,12 +56,20 @@ AuthSessionResponse _session({
   bool current = false,
   String os = 'macOS',
   String platform = 'Fluxer Desktop',
+  String? browser,
+  AuthSessionResponseClientInfoDeviceDevice device =
+      AuthSessionResponseClientInfoDeviceDevice.desktop,
 }) {
   return AuthSessionResponse(
     idHash: id,
     maskedIp: null,
     current: current,
-    clientInfo: AuthSessionResponseClientInfo(os: os, platform: platform),
+    clientInfo: AuthSessionResponseClientInfo(
+      device: device,
+      os: os,
+      platform: platform,
+      browser: browser,
+    ),
     approxLastUsedAt: DateTime.now().subtract(const Duration(hours: 1)),
   );
 }

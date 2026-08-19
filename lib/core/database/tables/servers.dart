@@ -25,6 +25,8 @@ class Servers extends Table {
   IntColumn get contentWarningLevel =>
       integer().withDefault(const Constant(0))();
   TextColumn get contentWarningText => text().nullable()();
+  IntColumn get defaultMessageNotifications =>
+      integer().withDefault(const Constant(0))();
 
   @override
   Set<Column> get primaryKey => {id};

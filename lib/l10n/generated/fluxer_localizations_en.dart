@@ -2503,6 +2503,9 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get genericError => 'An error occurred';
 
   @override
+  String get networkErrorMessage => 'Something went wrong. Please try again.';
+
+  @override
   String get invalidCode => 'Invalid code';
 
   @override
@@ -13460,6 +13463,10 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get keybindActionZoomReset => 'Reset zoom';
+
+  @override
+  String get clipboardPasteFailed =>
+      'Couldn\'t paste. The clipboard was empty or blocked for this app.';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -22679,6 +22686,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get genericError => 'An error occurred';
+
+  @override
+  String get networkErrorMessage => 'Something went wrong. Please try again.';
 
   @override
   String get invalidCode => 'Invalid code';

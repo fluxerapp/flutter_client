@@ -36,12 +36,22 @@ List<ChannelOverwriteEntry> parseChannelPermissionOverwritesJson(String? json) {
   }
   return <ChannelOverwriteEntry>[
     for (final Object? item in decoded)
-      if (item is Map<String, dynamic>) _parseOverwriteMap(item),
+      if (item is Map) _parseOverwriteMap(Map<String, dynamic>.from(item)),
   ];
 }
 
+int _overwriteType(Object? raw) {
+  if (raw is num) {
+    return raw.toInt();
+  }
+  if (raw is String) {
+    return int.tryParse(raw) ?? 0;
+  }
+  return 0;
+}
+
 ChannelOverwriteEntry _parseOverwriteMap(Map<String, dynamic> m) {
-  final num type = m['type'] as num? ?? 0;
+  final int type = _overwriteType(m['type']);
   return ChannelOverwriteEntry(
     id: m['id']?.toString() ?? '',
     isRoleType: type == 0,

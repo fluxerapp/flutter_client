@@ -368,6 +368,9 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       })
       ..listen(guildReadStateProvider, (_, _) {
         _scrollIndicator.scheduleUpdate();
+      })
+      ..listen(folderExpandedStateProvider, (_, _) {
+        _scrollIndicator.scheduleUpdate();
       });
 
     final bool showAddCommunity = ref.watch(addGuildEnabledProvider);

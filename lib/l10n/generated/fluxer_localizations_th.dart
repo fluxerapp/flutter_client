@@ -2501,6 +2501,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get genericError => 'เกิดข้อผิดพลาดขึ้น';
 
   @override
+  String get networkErrorMessage => 'Something went wrong. Please try again.';
+
+  @override
   String get invalidCode => 'รหัสไม่ถูกต้อง';
 
   @override
@@ -13431,4 +13434,8 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get keybindActionZoomReset => 'Reset zoom';
+
+  @override
+  String get clipboardPasteFailed =>
+      'Couldn\'t paste. The clipboard was empty or blocked for this app.';
 }

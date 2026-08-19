@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_emoji_settings_entry.dart';
 import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_expression_uploader.dart';
 import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_sticker_settings_entry.dart';
@@ -163,6 +164,6 @@ class GuildExpressionsRepository {
   }
 
   String _messageFromDio(DioException error, String fallback) {
-    return error.response?.statusMessage ?? fallback;
+    return userFacingErrorMessage(error, fallback);
   }
 }

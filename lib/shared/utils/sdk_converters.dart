@@ -67,6 +67,9 @@ db.ServersCompanion guildFromSdk(
     nsfw: Value(sdk.nsfw),
     contentWarningLevel: Value(sdk.contentWarningLevel.json ?? 0),
     contentWarningText: Value(sdk.contentWarningText),
+    defaultMessageNotifications: Value(
+      sdk.defaultMessageNotifications.json ?? 0,
+    ),
   );
 }
 

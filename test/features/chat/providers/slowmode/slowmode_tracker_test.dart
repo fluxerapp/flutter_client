@@ -82,6 +82,29 @@ void main() {
       );
     });
 
+    test('updateSendTimestamp applies cross-device send time', () {
+      final DateTime sentAt = DateTime.now().subtract(
+        const Duration(seconds: 2),
+      );
+
+      tracker.updateSendTimestamp('channel-1', sentAt);
+
+      final Duration remaining = tracker.remainingFor('channel-1', 30);
+      expect(remaining.inSeconds, lessThanOrEqualTo(28));
+      expect(remaining.inSeconds, greaterThan(25));
+    });
+
+    test('updateSendTimestamp ignores older timestamps', () {
+      final DateTime recent = DateTime.now();
+      tracker.recordSend('channel-1');
+      final DateTime older = recent.subtract(const Duration(seconds: 5));
+
+      tracker.updateSendTimestamp('channel-1', older);
+
+      final Duration remaining = tracker.remainingFor('channel-1', 30);
+      expect(remaining.inSeconds, greaterThan(25));
+    });
+
     test('clearChannel removes both local and server cooldown state', () {
       tracker.recordSend('channel-1');
       tracker.updateCooldownRemaining('channel-1', 30_000);

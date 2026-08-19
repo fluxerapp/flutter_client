@@ -4948,22 +4948,6 @@
     "@messagesMediaEditingPreserveDraftLabel": {
         "description": "Toggle label for preserving edit drafts on cancel."
     },
-    "accessibilityUnreadGroupTitle": "Lukemattomat ilmaisimet",
-    "@accessibilityUnreadGroupTitle": {
-        "description": "Section title for unread-indicator accessibility settings."
-    },
-    "accessibilityUnreadGroupDescription": "Hallitse, miten lukemattomien viestien ilmaisimet näytetään.",
-    "@accessibilityUnreadGroupDescription": {
-        "description": "Section description for unread-indicator accessibility settings."
-    },
-    "accessibilityShowFadedUnreadOnMutedChannelsLabel": "Näytä himmeä lukematon ilmaisin mykistetyillä kanavilla",
-    "@accessibilityShowFadedUnreadOnMutedChannelsLabel": {
-        "description": "Toggle label for showing a faded unread indicator on muted channels."
-    },
-    "accessibilityShowFadedUnreadOnMutedChannelsDescription": "Näytä himmennetty lukematon ilmaisin mykistettyjen suorien viestien ja kanavien vieressä, jotta näet yhdellä silmäyksellä, kun toimintaa on.",
-    "@accessibilityShowFadedUnreadOnMutedChannelsDescription": {
-        "description": "Toggle description for showing a faded unread indicator on muted channels."
-    },
     "accessibilityDmMessagePreviewGroupTitle": "Suorien viestien esikatselut",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."

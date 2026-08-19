@@ -438,15 +438,3 @@ List<RoleMentionSearchTarget> rankRolesForMentionQuery(
   }
   return candidates.take(limit).map((e) => e.role).toList();
 }
-
-bool shouldPromoteRoleMentionMatches({
-  required String query,
-  required MentionMatchRank bestRoleRank,
-  required MentionMatchRank bestMemberRank,
-}) {
-  final String trimmed = query.trim();
-  if (trimmed.isEmpty || bestRoleRank == MentionMatchRank.noMatch) {
-    return false;
-  }
-  return bestRoleRank.score >= MentionMatchRank.startsWith.score;
-}

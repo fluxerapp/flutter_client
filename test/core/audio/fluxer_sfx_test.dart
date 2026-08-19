@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/audio/app_media_audio_session.dart';
 import 'package:fluxer_app/core/audio/enums/fluxer_sfx_clip.dart';
 import 'package:fluxer_app/core/audio/fluxer_sfx.dart';
 import 'package:mockito/annotations.dart';
@@ -14,18 +17,79 @@ void main() {
   late MockAudioPlayer mockLoopPlayer;
   late MockAudioPlayer mockOneShotPlayer;
   late FluxerSFX sfx;
+  late StreamController<void> oneShotCompleteController;
 
   setUp(() {
     mockLoopPlayer = MockAudioPlayer();
     mockOneShotPlayer = MockAudioPlayer();
+    oneShotCompleteController = StreamController<void>.broadcast();
+    when(
+      mockOneShotPlayer.onPlayerComplete,
+    ).thenAnswer((_) => oneShotCompleteController.stream);
     sfx = FluxerSFX(
       loopPlayer: mockLoopPlayer,
       oneShotPlayer: mockOneShotPlayer,
     );
   });
 
+  tearDown(() async {
+    await oneShotCompleteController.close();
+  });
+
+  group('audioContextForSfxClip', () {
+    test('notification clips use ambient or ringtone context', () {
+      expect(
+        audioContextForSfxClip(
+          FluxerSfxClip.message,
+          ignoreRingerPolicy: false,
+          isIncomingRingLoop: false,
+        ),
+        kNotificationSfxContext,
+      );
+    });
+
+    test('session feedback clips use media mixable context', () {
+      expect(
+        audioContextForSfxClip(
+          FluxerSfxClip.mute,
+          ignoreRingerPolicy: false,
+          isIncomingRingLoop: false,
+        ),
+        kSessionFeedbackSfxContext,
+      );
+    });
+
+    test('preview playback can ignore ringer policy', () {
+      expect(
+        audioContextForSfxClip(
+          FluxerSfxClip.message,
+          ignoreRingerPolicy: true,
+          isIncomingRingLoop: false,
+        ),
+        kSessionFeedbackSfxContext,
+      );
+    });
+  });
+
+  group('shouldRestoreAppMediaAudioAfterSfxContext', () {
+    test('only incoming ring restores app media audio', () {
+      expect(
+        shouldRestoreAppMediaAudioAfterSfxContext(kNotificationSfxContext),
+        isFalse,
+      );
+      expect(
+        shouldRestoreAppMediaAudioAfterSfxContext(kIncomingRingLoopContext),
+        isTrue,
+      );
+      expect(
+        shouldRestoreAppMediaAudioAfterSfxContext(kSessionFeedbackSfxContext),
+        isFalse,
+      );
+    });
+  });
+
   group('playOneShot', () {
-    test('sets mixable audio context once for all one-shots', () async {
+    test('uses notification context for message sounds', () async {
       when(mockOneShotPlayer.setAudioContext(any)).thenAnswer((_) async {});
       when(mockOneShotPlayer.setReleaseMode(any)).thenAnswer((_) async {});
       when(mockOneShotPlayer.stop()).thenAnswer((_) async {});
@@ -33,15 +97,24 @@ void main() {
       when(mockOneShotPlayer.play(any)).thenAnswer((_) async {});
 
       await sfx.playOneShot(FluxerSfxClip.message);
-      await sfx.playOneShot(FluxerSfxClip.message);
-      await sfx.playOneShot(FluxerSfxClip.directMessage);
-      await sfx.playOneShot(FluxerSfxClip.mute, ignoreRingerPolicy: true);
 
-      verify(mockOneShotPlayer.setAudioContext(kMixableSfxContext)).called(1);
-      verify(mockOneShotPlayer.setReleaseMode(ReleaseMode.release)).called(4);
-      verify(mockOneShotPlayer.stop()).called(4);
-      verify(mockOneShotPlayer.setVolume(any)).called(4);
-      verify(mockOneShotPlayer.play(any)).called(4);
+      verify(
+        mockOneShotPlayer.setAudioContext(kNotificationSfxContext),
+      ).called(1);
+    });
+
+    test('uses session feedback context for voice ui sounds', () async {
+      when(mockOneShotPlayer.setAudioContext(any)).thenAnswer((_) async {});
+      when(mockOneShotPlayer.setReleaseMode(any)).thenAnswer((_) async {});
+      when(mockOneShotPlayer.stop()).thenAnswer((_) async {});
+      when(mockOneShotPlayer.setVolume(any)).thenAnswer((_) async {});
+      when(mockOneShotPlayer.play(any)).thenAnswer((_) async {});
+
+      await sfx.playOneShot(FluxerSfxClip.mute);
+
+      verify(
+        mockOneShotPlayer.setAudioContext(kSessionFeedbackSfxContext),
+      ).called(1);
     });
   });
 
@@ -67,7 +140,7 @@ void main() {
   });
 
   group('stopLoop', () {
-    test('restores mixable context after stopping the ring', () async {
+    test('restores app media context after stopping the ring', () async {
       when(mockLoopPlayer.stop()).thenAnswer((_) async {});
       when(mockLoopPlayer.setAudioContext(any)).thenAnswer((_) async {});
       when(mockOneShotPlayer.setAudioContext(any)).thenAnswer((_) async {});
@@ -75,8 +148,10 @@ void main() {
       await sfx.stopLoop();
 
       verify(mockLoopPlayer.stop()).called(1);
-      verify(mockOneShotPlayer.setAudioContext(kMixableSfxContext)).called(1);
-      verify(mockLoopPlayer.setAudioContext(kMixableSfxContext)).called(1);
+      verify(
+        mockOneShotPlayer.setAudioContext(kAppMediaAudioContext),
+      ).called(1);
+      verify(mockLoopPlayer.setAudioContext(kAppMediaAudioContext)).called(1);
     });
   });
 

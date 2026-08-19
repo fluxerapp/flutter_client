@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
@@ -18,6 +19,7 @@ import 'package:fluxer_app/features/settings/providers/guild/guild_channel_setti
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -493,6 +495,7 @@ class _GuildChannelsSettingsWidgetState
 
   @override
   Widget build(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final AsyncValue<List<ChannelCategory>> categoriesAsync = ref.watch(
       guildChannelSettingsCategoriesProvider(widget.guildId),
     );
@@ -509,7 +512,10 @@ class _GuildChannelsSettingsWidgetState
     return categoriesAsync.when(
       loading: () => const Center(child: FluxerLoadingSpinner()),
       error: (Object error, StackTrace stackTrace) => Center(
-        child: Text(error.toString(), style: context.textStyles.bodySmall),
+        child: Text(
+          userFacingErrorMessage(error, l10n.networkErrorMessage),
+          style: context.textStyles.bodySmall,
+        ),
       ),
       data: (List<ChannelCategory> categories) {
         final List<Channel> channels = channelsAsync.value ?? <Channel>[];

@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_constants.dart';
@@ -270,7 +272,9 @@ class InstanceSelector extends _$InstanceSelector {
           instanceUrl: url,
           status: InstanceDiscoveryStatus.error,
           requiresDiscovery: true,
-          errorMessage: error.toString(),
+          errorMessage: error is DioException
+              ? apiMessageFromDioException(error)
+              : null,
           clearPendingSnapshot: true,
         ),
       );

@@ -274,7 +274,7 @@ class _CodeEntryState extends ConsumerState<_CodeEntry>
             focusNode: _codeFocusNode,
             autofocus: true,
             maxLength: 10,
-            keyboardType: TextInputType.text,
+            keyboardType: TextInputType.number,
             autocorrect: false,
             enableSuggestions: false,
             textInputAction: TextInputAction.go,

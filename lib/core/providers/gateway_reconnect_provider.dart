@@ -38,18 +38,19 @@ class GatewayResumeReconnectInFlight extends _$GatewayResumeReconnectInFlight {
   }
 }
 
-/// Waits for the network stack after resume, then nudges the gateway socket.
+/// Nudges the gateway socket after resume, giving the network stack one
+/// [kResumeReconnectDelay] beat to wake when connectivity is not up yet.
 Future<void> nudgeGatewayReconnectAfterResume(
   GatewayConnection connection, {
   void Function({required bool inFlight})? onResumeReconnectInFlight,
+  Future<bool> Function() hasConnectivity = _hasAnyConnectivity,
 }) async {
   onResumeReconnectInFlight?.call(inFlight: true);
-  await Future<void>.delayed(kResumeReconnectDelay);
-  final List<ConnectivityResult> results = await Connectivity()
-      .checkConnectivity();
-  final bool hasConnection = results.any(
-    (ConnectivityResult r) => r != ConnectivityResult.none,
-  );
+  var hasConnection = await hasConnectivity();
+  if (!hasConnection) {
+    await Future<void>.delayed(kResumeReconnectDelay);
+    hasConnection = await hasConnectivity();
+  }
   if (!hasConnection) {
     talker.warning('[Gateway] Resume reconnect skipped: no connectivity');
     onResumeReconnectInFlight?.call(inFlight: false);
@@ -61,6 +62,12 @@ Future<void> nudgeGatewayReconnectAfterResume(
   } else {
     await connection.reconnectNow();
   }
+}
+
+Future<bool> _hasAnyConnectivity() async {
+  final List<ConnectivityResult> results = await Connectivity()
+      .checkConnectivity();
+  return results.any((ConnectivityResult r) => r != ConnectivityResult.none);
 }
 
 bool shouldKeepGatewayConnectedForVoiceFromState({

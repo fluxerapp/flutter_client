@@ -74,7 +74,7 @@ Future<void> createCommunity({
       default:
         throw CreateCommunityException(
           kind: CreateCommunityFailureKind.apiError,
-          message: dioExceptionMessage(e, l10n.addGuildCreateFailed),
+          message: userFacingErrorMessage(e, l10n.addGuildCreateFailed),
         );
     }
   } on Object {

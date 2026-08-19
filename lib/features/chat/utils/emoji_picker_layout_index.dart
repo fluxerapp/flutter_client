@@ -1,4 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
+import 'package:fluxer_app/features/chat/utils/emoji_picker_display_categories.dart';
 import 'package:fluxer_app/features/chat/utils/emoji_picker_rendering_policy.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 
@@ -135,39 +138,65 @@ final class EmojiPickerFavoriteCustomRowItem
 }
 
 class EmojiPickerLayoutIndex {
-  const EmojiPickerLayoutIndex(this.entries);
-
-  final List<EmojiPickerLayoutEntry> entries;
-
-  String? activeCategoryKey(double scrollOffset) {
-    String? active;
+  EmojiPickerLayoutIndex(this.entries)
+    : _tops = Float64List(entries.length + 1) {
     var offset = 0.0;
-    for (final EmojiPickerLayoutEntry entry in entries) {
-      if (offset > scrollOffset + 1) {
-        break;
-      }
+    for (var i = 0; i < entries.length; i++) {
+      _tops[i] = offset;
+      final EmojiPickerLayoutEntry entry = entries[i];
       if (entry is EmojiPickerSectionHeaderEntry) {
-        active = entry.categoryKey;
+        _headerTops.add(offset);
+        _headerKeys.add(entry.categoryKey);
       }
       offset += entry.height;
     }
-    return active;
+    _tops[entries.length] = offset;
+  }
+
+  final List<EmojiPickerLayoutEntry> entries;
+
+  /// Top offset of entry `i`; the last element is the total height.
+  final Float64List _tops;
+  final List<double> _headerTops = <double>[];
+  final List<String> _headerKeys = <String>[];
+
+  /// First index in [sorted] holding a value greater than [value].
+  static int _upperBound(List<double> sorted, double value) {
+    var lo = 0;
+    var hi = sorted.length;
+    while (lo < hi) {
+      final int mid = (lo + hi) >> 1;
+      if (sorted[mid] > value) {
+        hi = mid;
+      } else {
+        lo = mid + 1;
+      }
+    }
+    return lo;
+  }
+
+  int _firstIntersecting(double top) {
+    final int i = _upperBound(_tops, top) - 1;
+    return i < 0 ? 0 : i;
+  }
+
+  String? activeCategoryKey(double scrollOffset) {
+    final int i = _upperBound(_headerTops, scrollOffset + 1) - 1;
+    return i < 0 ? null : _headerKeys[i];
   }
 
   Set<String> visibleCustomEmojiIds({
     required double scrollOffset,
     required double viewportHeight,
   }) {
-    final double visibleTop = scrollOffset;
     final double visibleBottom = scrollOffset + viewportHeight;
     final Set<String> ids = <String>{};
-    var offset = 0.0;
-    for (final EmojiPickerLayoutEntry entry in entries) {
-      final double entryBottom = offset + entry.height;
-      if (entryBottom > visibleTop && offset < visibleBottom) {
-        entry.collectVisibleCustomEmojiIds(ids);
-      }
-      offset = entryBottom;
+    for (
+      var i = _firstIntersecting(scrollOffset);
+      i < entries.length && _tops[i] < visibleBottom;
+      i++
+    ) {
+      entries[i].collectVisibleCustomEmojiIds(ids);
     }
     return ids;
   }
@@ -181,22 +210,21 @@ class EmojiPickerLayoutIndex {
     if (!scrollSettled || maxAnimated <= 0) {
       return const <String>{};
     }
+    final double visibleBottom = scrollOffset + viewportHeight;
     final double viewportCenter = scrollOffset + viewportHeight / 2;
     final List<({String id, double distance})> candidates =
         <({String id, double distance})>[];
-    var offset = 0.0;
-    for (final EmojiPickerLayoutEntry entry in entries) {
-      final double entryBottom = offset + entry.height;
-      if (entryBottom > scrollOffset &&
-          offset < scrollOffset + viewportHeight) {
-        final double entryCenter = offset + entry.height / 2;
-        _collectAnimatedCandidates(
-          entry: entry,
-          distance: (entryCenter - viewportCenter).abs(),
-          candidates: candidates,
-        );
-      }
-      offset = entryBottom;
+    for (
+      var i = _firstIntersecting(scrollOffset);
+      i < entries.length && _tops[i] < visibleBottom;
+      i++
+    ) {
+      final double entryCenter = (_tops[i] + _tops[i + 1]) / 2;
+      _collectAnimatedCandidates(
+        entry: entries[i],
+        distance: (entryCenter - viewportCenter).abs(),
+        candidates: candidates,
+      );
     }
     candidates.sort(
       (({String id, double distance}) a, ({String id, double distance}) b) =>
@@ -215,15 +243,16 @@ class EmojiPickerLayoutIndex {
     }
     final double aheadTop = scrollOffset + viewportHeight;
     final List<GuildEmojiEntry> emojis = <GuildEmojiEntry>[];
-    var offset = 0.0;
-    for (final EmojiPickerLayoutEntry entry in entries) {
-      if (offset >= aheadTop) {
-        _appendCustomEmojis(entry, emojis);
-        if (emojis.length >= count) {
-          return emojis.sublist(0, count);
-        }
+    // First entry fully at or past the viewport bottom.
+    var i = _upperBound(_tops, aheadTop) - 1;
+    if (i < 0 || _tops[i] < aheadTop) {
+      i++;
+    }
+    for (; i < entries.length; i++) {
+      _appendCustomEmojis(entries[i], emojis);
+      if (emojis.length >= count) {
+        return emojis.sublist(0, count);
       }
-      offset += entry.height;
     }
     return emojis;
   }
@@ -369,6 +398,8 @@ EmojiPickerLayoutIndex buildEmojiPickerLayoutIndex({
   required int columns,
   required bool includeUpsell,
 }) {
+  final Map<String, List<EmojiEntry>> displayCategories =
+      emojiPickerDisplayCategories(unicodeCategories);
   final List<EmojiPickerLayoutEntry> entries = <EmojiPickerLayoutEntry>[
     const EmojiPickerTopPaddingEntry(),
   ];
@@ -400,7 +431,7 @@ EmojiPickerLayoutIndex buildEmojiPickerLayoutIndex({
     }
   }
   for (final String category in kEmojiCategoryOrder) {
-    final List<EmojiEntry>? emojis = unicodeCategories[category];
+    final List<EmojiEntry>? emojis = displayCategories[category];
     if (emojis == null || emojis.isEmpty) {
       continue;
     }

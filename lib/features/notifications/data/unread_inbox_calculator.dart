@@ -156,9 +156,22 @@ class UnreadInboxCalculator {
         fallbackAckMs: fallbackAckMs,
         mentionCount: 0,
       );
+      final UserNotificationSettings inboxVisibilityLevel =
+          unreadBadgeCustomizationEnabled
+          ? (resolveGuildUnreadBadgesLevel(
+                  channel: channel,
+                  guildSettings: guildSettingsByGuild[guildId],
+                  unreadBadgeCustomizationEnabled: true,
+                ) ??
+                UserNotificationSettings.allMessages)
+          : UserNotificationSettings.allMessages;
+      final bool allowsMessageUnread =
+          inboxVisibilityLevel == UserNotificationSettings.allMessages;
+      final bool allowsMentionUnread =
+          inboxVisibilityLevel != UserNotificationSettings.noMessages;
       final bool hasUnread =
-          mentions > 0 ||
-          (unreadSettings.allowsMessageUnread && hasUnreadMessage);
+          (allowsMentionUnread && mentions > 0) ||
+          (allowsMessageUnread && hasUnreadMessage);
 
       if (!hasUnread) {
         continue;

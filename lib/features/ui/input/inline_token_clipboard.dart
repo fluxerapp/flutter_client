@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/chat/service/composer_mention_controller.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
 import 'package:material_ui/material_ui.dart';
@@ -146,26 +147,31 @@ Future<bool> pasteWireTextIntoInlineTokenController(
 }
 
 Future<String?> readClipboardPlainText() async {
-  final ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
-  final String? platformText = data?.text;
-  if (platformText != null && platformText.isNotEmpty) {
-    return platformText;
-  }
-  final SystemClipboard? clipboard = SystemClipboard.instance;
-  if (clipboard == null) {
+  try {
+    final ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
+    final String? platformText = data?.text;
+    if (platformText != null && platformText.isNotEmpty) {
+      return platformText;
+    }
+    final SystemClipboard? clipboard = SystemClipboard.instance;
+    if (clipboard == null) {
+      return null;
+    }
+    final ClipboardReader reader = await clipboard.read();
+    for (final ClipboardDataReader item in reader.items) {
+      if (!item.canProvide(Formats.plainText)) {
+        continue;
+      }
+      final String? text = await item.readValue(Formats.plainText);
+      if (text != null && text.isNotEmpty) {
+        return text;
+      }
+    }
+    return null;
+  } on Object catch (error, stack) {
+    talker.warning('[Clipboard] read failed', error, stack);
     return null;
   }
-  final ClipboardReader reader = await clipboard.read();
-  for (final ClipboardDataReader item in reader.items) {
-    if (!item.canProvide(Formats.plainText)) {
-      continue;
-    }
-    final String? text = await item.readValue(Formats.plainText);
-    if (text != null && text.isNotEmpty) {
-      return text;
-    }
-  }
-  return null;
 }
 
 Future<void> pasteIntoTextController(TextEditingController controller) async {

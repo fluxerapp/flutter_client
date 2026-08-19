@@ -195,6 +195,7 @@ class _SplashRevealOverlayWidgetState extends State<_SplashRevealOverlayWidget>
             center: center,
             scale: scale,
             opacity: coverOpacity,
+            symbolOpacity: splashRevealSymbolOpacity(_progress),
           ),
           child: const SizedBox.expand(),
         ),
@@ -255,6 +256,7 @@ class _SplashRevealPainter extends CustomPainter {
     required this.center,
     required this.scale,
     required this.opacity,
+    required this.symbolOpacity,
   });
 
   final Color coverColor;
@@ -262,10 +264,11 @@ class _SplashRevealPainter extends CustomPainter {
   final Offset center;
   final double scale;
   final double opacity;
+  final double symbolOpacity;
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (opacity <= 0) {
+    if (opacity <= 0 && symbolOpacity <= 0) {
       return;
     }
 
@@ -290,7 +293,7 @@ class _SplashRevealPainter extends CustomPainter {
       ..drawPath(
         splashRevealSymbolPath(),
         Paint()
-          ..color = symbolColor.withValues(alpha: opacity)
+          ..color = symbolColor.withValues(alpha: symbolOpacity)
           ..style = PaintingStyle.fill
           ..isAntiAlias = true,
       )
@@ -301,6 +304,7 @@ class _SplashRevealPainter extends CustomPainter {
   bool shouldRepaint(covariant _SplashRevealPainter oldDelegate) {
     return oldDelegate.scale != scale ||
         oldDelegate.opacity != opacity ||
+        oldDelegate.symbolOpacity != symbolOpacity ||
         oldDelegate.center != center ||
         oldDelegate.coverColor != coverColor ||
         oldDelegate.symbolColor != symbolColor;
@@ -437,6 +441,20 @@ double splashRevealLayerOpacity(
   }
   final double fadeT = splashRevealFadePhaseProgress(p);
   return 1 - Curves.easeOut.transform(fadeT);
+}
+
+/// Symbol silhouette opacity during the zoom expand.
+///
+/// The strokes outgrow the viewport around the midpoint of the expansion, so
+/// the fade completes inside that visible window: solid as the growth starts,
+/// clearly dissolving while the waves still fit on screen, gone before they
+/// fly past the edges. The cover clears independently and faster
+/// ([splashRevealLayerOpacity]) so the app shows through behind the waves.
+double splashRevealSymbolOpacity(double progress) {
+  const double fadeWindow = 0.5;
+  final double windowT = (splashRevealFadePhaseProgress(progress) / fadeWindow)
+      .clamp(0.0, 1.0);
+  return 1 - Curves.easeInOut.transform(windowT);
 }
 
 double splashRevealShellScale(

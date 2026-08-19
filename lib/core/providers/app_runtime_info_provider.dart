@@ -8,9 +8,15 @@ export 'package:fluxer_app/core/providers/app_runtime_info.dart';
 
 final FutureProvider<AppRuntimeInfo> appRuntimeInfoProvider =
     FutureProvider<AppRuntimeInfo>((Ref ref) async {
-      final PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      final String deviceModel = await resolveDeviceModelName();
-      final String osVersionLabel = await resolveOsVersionLabel();
+      final (
+        PackageInfo packageInfo,
+        String deviceModel,
+        String osVersionLabel,
+      ) = await (
+        PackageInfo.fromPlatform(),
+        resolveDeviceModelName(),
+        resolveOsVersionLabel(),
+      ).wait;
       return AppRuntimeInfo(
         appName: packageInfo.appName,
         packageName: packageInfo.packageName,

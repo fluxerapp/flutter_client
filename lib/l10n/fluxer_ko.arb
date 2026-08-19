@@ -4948,22 +4948,6 @@
     "@messagesMediaEditingPreserveDraftLabel": {
         "description": "Toggle label for preserving edit drafts on cancel."
     },
-    "accessibilityUnreadGroupTitle": "읽지 않음 표시",
-    "@accessibilityUnreadGroupTitle": {
-        "description": "Section title for unread-indicator accessibility settings."
-    },
-    "accessibilityUnreadGroupDescription": "읽지 않은 메시지 표시 방식 제어",
-    "@accessibilityUnreadGroupDescription": {
-        "description": "Section description for unread-indicator accessibility settings."
-    },
-    "accessibilityShowFadedUnreadOnMutedChannelsLabel": "음소거된 채널에서 흐리게 표시된 읽지 않음 표시",
-    "@accessibilityShowFadedUnreadOnMutedChannelsLabel": {
-        "description": "Toggle label for showing a faded unread indicator on muted channels."
-    },
-    "accessibilityShowFadedUnreadOnMutedChannelsDescription": "음소거된 직접 메시지 및 채널 옆에 흐리게 표시된 읽지 않음 표시를 표시하여 활동이 있을 때 한눈에 볼 수 있도록 합니다.",
-    "@accessibilityShowFadedUnreadOnMutedChannelsDescription": {
-        "description": "Toggle description for showing a faded unread indicator on muted channels."
-    },
     "accessibilityDmMessagePreviewGroupTitle": "DM 메시지 미리보기",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."

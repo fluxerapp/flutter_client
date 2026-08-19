@@ -413,12 +413,69 @@ void main() {
       expect(updatedMessage.content, 'hello');
       expect(updatedMessage.attachments.length, 2);
       expect(updatedMessage.attachments[1].description, 'alt text');
-      expect(adapter.requestedFieldNames, <String>['attachments']);
-      expect(adapter.requestedAttachmentsJson, isNotNull);
+      expect(adapter.requestedContentType, contains('application/json'));
+      expect(adapter.requestedBody, isNotNull);
+      expect(adapter.requestedBody!.keys.toList(), <String>['attachments']);
       final List<dynamic> sentAttachments =
-          jsonDecode(adapter.requestedAttachmentsJson!) as List<dynamic>;
+          adapter.requestedBody!['attachments'] as List<dynamic>;
       expect(sentAttachments, hasLength(2));
-      expect(sentAttachments[1]['description'], 'alt text');
+      expect(sentAttachments[0], <String, dynamic>{'id': 'att-1'});
+      expect(sentAttachments[1], <String, dynamic>{
+        'id': 'att-2',
+        'description': 'alt text',
+      });
+    },
+  );
+
+  test(
+    'editMessageAttachments sends explicit null to clear alt text',
+    () async {
+      final db = openTestDatabase();
+      const messageId = '1501554121113600000';
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+        ),
+      );
+      await db.messageDao.upsertMessage(
+        MessagesCompanion.insert(
+          id: messageId,
+          channelId: 'channel-1',
+          authorId: 'other',
+          content: 'hello',
+          timestamp: DateTime.utc(2026, 5, 6, 12),
+        ),
+      );
+      final adapter = _EditMessageAttachmentsAdapter(
+        messageId: messageId,
+        channelId: 'channel-1',
+      );
+      final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+        ..httpClientAdapter = adapter;
+      final client = FluxerClient(dio, baseUrl: 'https://api.fluxer.app/v1');
+      final repo = MessageRepository(client, dio, db, 'me');
+
+      await repo.editMessageAttachments(
+        channelId: 'channel-1',
+        messageId: messageId,
+        attachmentUpdates: const [
+          MessageAttachmentUpdate.withDescription(
+            id: 'att-1',
+            description: null,
+          ),
+          MessageAttachmentUpdate(id: 'att-2'),
+        ],
+      );
+
+      final List<dynamic> sentAttachments =
+          adapter.requestedBody!['attachments'] as List<dynamic>;
+      expect(sentAttachments[0], <String, dynamic>{
+        'id': 'att-1',
+        'description': null,
+      });
+      expect(sentAttachments[1], <String, dynamic>{'id': 'att-2'});
     },
   );
 }
@@ -534,8 +591,8 @@ class _EditMessageAttachmentsAdapter implements HttpClientAdapter {
   final String channelId;
   String? requestedPath;
   String? requestedMethod;
-  List<String> requestedFieldNames = <String>[];
-  String? requestedAttachmentsJson;
+  String? requestedContentType;
+  Map<String, dynamic>? requestedBody;
 
   @override
   Future<ResponseBody> fetch(
@@ -546,16 +603,9 @@ class _EditMessageAttachmentsAdapter implements HttpClientAdapter {
     requestedPath = options.uri.path;
     requestedMethod = options.method;
     if (options.method == 'PATCH' && options.uri.path.contains('/messages/')) {
-      if (options.data is FormData) {
-        final FormData formData = options.data! as FormData;
-        requestedFieldNames = formData.fields
-            .map((MapEntry<String, String> e) => e.key)
-            .toList();
-        for (final MapEntry<String, String> field in formData.fields) {
-          if (field.key == 'attachments') {
-            requestedAttachmentsJson = field.value;
-          }
-        }
+      requestedContentType = options.contentType;
+      if (options.data is Map<String, dynamic>) {
+        requestedBody = options.data as Map<String, dynamic>;
       }
       final response = MessageResponseSchema(
         id: messageId,

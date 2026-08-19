@@ -382,6 +382,34 @@ before
       expect(segments[1], isA<MessageBlockMarkdownSegment>());
     });
 
+    test('starts a table directly after a text line with CRLF', () {
+      const String input =
+          'intro text\r\n| Framework | Type |\r\n| --------- | ---- |\r\n| React | UI library |';
+      final List<MessageContentSegment> segments = parseMessageContentStructure(
+        input,
+        features,
+      );
+      expect(segments, hasLength(2));
+      expect(segments[0], isA<MessageTextFlowSegment>());
+      expect((segments[0] as MessageTextFlowSegment).text, 'intro text');
+      expect(segments[1], isA<MessageBlockMarkdownSegment>());
+      expect(
+        (segments[1] as MessageBlockMarkdownSegment).text,
+        '| Framework | Type |\n| --------- | ---- |\n| React | UI library |',
+      );
+    });
+
+    test('still requires a delimiter row for a table', () {
+      const String input = 'intro text\n| not | a | table |\njust more text';
+      final List<MessageContentSegment> segments = parseMessageContentStructure(
+        input,
+        features,
+      );
+      expect(segments, hasLength(1));
+      expect(segments.first, isA<MessageTextFlowSegment>());
+      expect((segments.first as MessageTextFlowSegment).text, input);
+    });
+
     test('keeps single-line pipe text in text flow when not a table', () {
       const String input = '| not | table |';
       final List<MessageContentSegment> segments = parseMessageContentStructure(

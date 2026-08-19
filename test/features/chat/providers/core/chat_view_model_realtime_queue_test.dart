@@ -5811,8 +5811,8 @@ class _MessageApiAdapter implements HttpClientAdapter {
         requestStream,
         options.data,
       );
-      final List<Object?> sent = _multipartAttachments(rawBody);
-      final String? sentContent = _multipartField(rawBody, 'content');
+      final List<Object?> sent = _sentAttachments(rawBody);
+      final String? sentContent = _sentContent(rawBody, 'content');
       if (edited != null) {
         patchContents.add(sentContent);
         attachmentRequests.add(
@@ -6065,10 +6065,13 @@ class _MessageApiAdapter implements HttpClientAdapter {
   void close({bool force = false}) {}
 }
 
-/// Pulls one named part out of a multipart body, `null` when it is absent.
-String? _multipartField(String? body, String name) {
+/// Pulls one named field out of a PATCH body: JSON key or multipart part.
+String? _sentContent(String? body, String name) {
   if (body == null) {
     return null;
+  }
+  if (body.startsWith('{')) {
+    return (jsonDecode(body) as Map<String, dynamic>)[name] as String?;
   }
   return RegExp(
     'name="$name"'
@@ -6077,10 +6080,15 @@ String? _multipartField(String? body, String name) {
   ).firstMatch(body)?.group(1);
 }
 
-/// Pulls the `attachments` part out of a multipart edit body.
-List<Object?> _multipartAttachments(String? body) {
+/// Pulls the `attachments` array out of a PATCH body: JSON key or multipart.
+List<Object?> _sentAttachments(String? body) {
   if (body == null) {
     return const <Object?>[];
+  }
+  if (body.startsWith('{')) {
+    final Object? decoded =
+        (jsonDecode(body) as Map<String, dynamic>)['attachments'];
+    return decoded is List<Object?> ? decoded : const <Object?>[];
   }
   final RegExpMatch? part = RegExp(
     r'name="attachments"\r?\n\r?\n(.*?)\r?\n--',

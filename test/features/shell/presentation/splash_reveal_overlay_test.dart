@@ -81,4 +81,43 @@ void main() {
       expect(tester.takeException(), isNull);
     });
   });
+
+  group('splashRevealSymbolOpacity', () {
+    test('stays solid through the pulse phase', () {
+      expect(splashRevealSymbolOpacity(0), 1);
+      expect(
+        splashRevealSymbolOpacity(SplashRevealOverlay.pulseEndFraction),
+        1,
+      );
+    });
+
+    test('dissolves monotonically to zero as the logo expands', () {
+      var previous = splashRevealSymbolOpacity(
+        SplashRevealOverlay.pulseEndFraction,
+      );
+      for (double p = 0.1; p <= 1.0; p += 0.05) {
+        final double next = splashRevealSymbolOpacity(p);
+        expect(next, lessThanOrEqualTo(previous));
+        previous = next;
+      }
+      expect(splashRevealSymbolOpacity(1), 0);
+    });
+
+    test('fade is visible while the waves still fit on screen', () {
+      // Solid at the start of the growth, clearly translucent by the time the
+      // strokes span the viewport, gone by mid-expansion.
+      expect(splashRevealSymbolOpacity(0.15), greaterThan(0.9));
+      expect(splashRevealSymbolOpacity(0.36), lessThan(0.5));
+      expect(splashRevealSymbolOpacity(0.54), 0);
+    });
+
+    test('starts more opaque than the cover so the app shows behind first', () {
+      for (double p = 0.12; p <= 0.24; p += 0.06) {
+        expect(
+          splashRevealSymbolOpacity(p),
+          greaterThan(splashRevealLayerOpacity(p, reducedMotion: false)),
+        );
+      }
+    });
+  });
 }

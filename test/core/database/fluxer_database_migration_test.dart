@@ -7,7 +7,7 @@ import 'package:sqlite3/sqlite3.dart';
 /// Last schema version known to the test suite. Bump this when adding a new
 /// migration and extend the tests below if the new step introduces guarded
 /// columns or tables.
-const int _expectedSchemaVersion = 85;
+const int _expectedSchemaVersion = 86;
 
 /// First version whose migration steps are written to be re-entrant against
 /// the current schema. Stamp the current schema at each version in this

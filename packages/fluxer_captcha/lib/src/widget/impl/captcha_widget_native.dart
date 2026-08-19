@@ -292,6 +292,21 @@ String buildHTML({
   };
 }
 
+final List<WebResourceErrorType> _ignoredWebResourceErrorTypes = [
+  // I don't know why this needs to be ignored specifically as it wasn't added by me, but maybe someone can replace this comment with an explanation.
+  WebResourceErrorType.CANNOT_CONNECT_TO_HOST,
+  // This needs to be ignored for Turnstile to function on IPv4-only networks.
+  // See this forum post: https://community.cloudflare.com/t/turnstile-net-err-name-not-resolved-error-in-console-on-brunhild-challenges/937102/8
+  // TL;DR: Turnstile looks up a domain that is intentionally IPv6-only, but
+  // will gracefully continue working with IPv4, so it is considered a bug to
+  // interpret the name resolution failure as fatal.
+  WebResourceErrorType.HOST_LOOKUP,
+];
+
+bool _shouldIgnoreWebResourceError(WebResourceError error) {
+  return _ignoredWebResourceErrorTypes.contains(error.type);
+}
+
 /// FluxerCaptcha for native (mobile/desktop) platforms.
 class FluxerCaptcha extends StatefulWidget implements i.FluxerCaptcha {
   FluxerCaptcha({
@@ -682,7 +697,7 @@ class _FluxerCaptchaState extends State<FluxerCaptcha> {
     },
     onConsoleMessage: (controller, consoleMessage) {},
     onReceivedError: (controller, _, error) {
-      if (error.type == WebResourceErrorType.CANNOT_CONNECT_TO_HOST) {
+      if (_shouldIgnoreWebResourceError(error)) {
         return;
       }
       _ready(false);
@@ -807,7 +822,7 @@ class _CaptchaInvisible extends FluxerCaptcha {
       },
       onConsoleMessage: (_, _) {},
       onReceivedError: (_, _, error) {
-        if (error.type == WebResourceErrorType.CANNOT_CONNECT_TO_HOST) {
+        if (_shouldIgnoreWebResourceError(error)) {
           return;
         }
         controller?.error = CaptchaException(error.description);

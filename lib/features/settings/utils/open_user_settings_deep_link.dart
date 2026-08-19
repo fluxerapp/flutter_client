@@ -42,7 +42,11 @@ UserSettingsDeepLinkPresentation buildUserSettingsDeepLinkPresentation({
       : userSettingsFieldLabel(l10n, target.tab!, target.fieldId!);
   final IconData tabIcon = target.section == null
       ? PhosphorIconsFill.gear
-      : iconForUserSettingsSection(target.section!, showBilling: showBilling) ??
+      : iconForUserSettingsSection(
+              target.section!,
+              showBilling: showBilling,
+              isTouchPrimary: isTouchPrimary,
+            ) ??
             PhosphorIconsFill.gear;
 
   return UserSettingsDeepLinkPresentation(

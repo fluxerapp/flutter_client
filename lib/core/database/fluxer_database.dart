@@ -141,7 +141,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 85;
+  int get schemaVersion => 86;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1305,6 +1305,15 @@ class FluxerDatabase extends _$FluxerDatabase {
             userPreferencesTable,
             userPreferencesTable.hdrDisplayMode,
           );
+        }
+      }
+      if (from < 86) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'servers',
+          columnName: 'default_message_notifications',
+        )) {
+          await m.addColumn(servers, servers.defaultMessageNotifications);
         }
       }
     },

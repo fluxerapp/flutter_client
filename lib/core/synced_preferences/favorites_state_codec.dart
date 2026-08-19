@@ -50,10 +50,12 @@ class FavoritesStateCodec {
   static FavoritesLocalState mergeForMigration({
     required FavoritesLocalState local,
     required FavoritesLocalState server,
+    FavoritesLocalState? syncedLocal,
   }) {
     return FavoritesStateHelpers.mergeForMigration(
       local: local,
       server: server,
+      syncedLocal: syncedLocal,
     );
   }
 }

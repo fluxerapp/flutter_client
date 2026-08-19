@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart';
@@ -82,7 +83,7 @@ class NotificationsUnreadsBody extends ConsumerWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       Text(
-                        '$err',
+                        userFacingErrorMessage(err, l10n.networkErrorMessage),
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: colors.statusDanger,
                         ),

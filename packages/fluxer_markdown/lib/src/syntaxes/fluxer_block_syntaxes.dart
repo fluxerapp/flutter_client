@@ -1,3 +1,4 @@
+import 'package:fluxer_markdown/src/utils/visible_content.dart';
 import 'package:markdown/markdown.dart' as md;
 
 class FluxerHeaderSyntax extends md.BlockSyntax {
@@ -16,16 +17,12 @@ class FluxerHeaderSyntax extends md.BlockSyntax {
     }
     final String hashes = match.group(1)!;
     final String content = match.group(2)!.trimRight();
-    if (!_hasVisibleContent(content)) {
+    if (!hasVisibleContent(content)) {
       return null;
     }
     parser.advance();
     final List<md.Node> children = parser.document.parseInline(content);
     return md.Element('h${hashes.length}', children);
-  }
-
-  bool _hasVisibleContent(String value) {
-    return value.trim().isNotEmpty;
   }
 }
 

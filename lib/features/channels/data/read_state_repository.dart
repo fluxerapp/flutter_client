@@ -218,17 +218,18 @@ class ReadStateRepository {
     int maxConsecutiveFailures = 5,
   }) async {
     final readStates = await _db.readStateDao.getReadStates();
-    final staleChannelIds = <String>[];
-    for (final readState in readStates) {
-      final channel = await _db.channelDao.getChannelById(readState.channelId);
-      if (channel != null) {
-        continue;
-      }
-      final dm = await _db.dmChannelDao.getDmChannelById(readState.channelId);
-      if (dm == null) {
-        staleChannelIds.add(readState.channelId);
-      }
+    if (readStates.isEmpty) {
+      return;
     }
+    // Per-row point reads here starve the first channel switch after READY.
+    final knownChannelIds = <String>{
+      for (final channel in await _db.channelDao.getAllChannels()) channel.id,
+      for (final dm in await _db.dmChannelDao.getDmChannels()) dm.id,
+    };
+    final staleChannelIds = <String>[
+      for (final readState in readStates)
+        if (!knownChannelIds.contains(readState.channelId)) readState.channelId,
+    ];
     if (staleChannelIds.isEmpty) {
       return;
     }

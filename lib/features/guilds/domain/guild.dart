@@ -5,6 +5,8 @@ import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
+import 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
+import 'package:fluxer_dart/export.dart';
 
 export 'package:fluxer_app/core/media/fluxer_media_cdn.dart'
     show fluxerMediaCdn;
@@ -31,6 +33,7 @@ class Guild {
   final bool nsfw;
   final int contentWarningLevel;
   final String? contentWarningText;
+  final int defaultMessageNotifications;
 
   const Guild({
     required this.id,
@@ -54,6 +57,7 @@ class Guild {
     this.nsfw = false,
     this.contentWarningLevel = 0,
     this.contentWarningText,
+    this.defaultMessageNotifications = 0,
   });
 
   factory Guild.fromRow(db.Server row) {
@@ -79,6 +83,7 @@ class Guild {
       nsfw: row.nsfw,
       contentWarningLevel: row.contentWarningLevel,
       contentWarningText: row.contentWarningText,
+      defaultMessageNotifications: row.defaultMessageNotifications,
     );
   }
 
@@ -105,6 +110,7 @@ class Guild {
       nsfw: Value(nsfw),
       contentWarningLevel: Value(contentWarningLevel),
       contentWarningText: Value(contentWarningText),
+      defaultMessageNotifications: Value(defaultMessageNotifications),
     );
   }
 
@@ -122,6 +128,16 @@ class Guild {
 
   int get effectiveVerificationLevel =>
       effectiveGuildVerificationLevel(verificationLevel, isDiscoverable);
+
+  int get effectiveMessageNotifications {
+    if (isLargeGuildForNotifications(
+      memberCount: memberCount,
+      features: features,
+    )) {
+      return UserNotificationSettings.onlyMentions.json!;
+    }
+    return defaultMessageNotifications;
+  }
 
   bool get hasAnimatedIcon => icon?.startsWith('a_') ?? false;
   bool get hasAnimatedBanner => banner?.startsWith('a_') ?? false;

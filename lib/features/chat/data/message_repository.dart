@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/gateway/message_mention_context_cache.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
@@ -116,10 +118,17 @@ class MessageRepository {
   final Dio _dio;
   final db.FluxerDatabase _db;
   final String? _currentUserId;
+  final MessageMentionContextCache? _mentionContextCache;
   final Map<String, Future<MessageListLoadResult>> _inFlightPages =
       <String, Future<MessageListLoadResult>>{};
 
-  MessageRepository(this._client, this._dio, this._db, this._currentUserId);
+  MessageRepository(
+    this._client,
+    this._dio,
+    this._db,
+    this._currentUserId, {
+    this._mentionContextCache,
+  });
 
   Stream<List<Message>> watchMessages(String channelId) {
     return _db.messageDao
@@ -225,6 +234,13 @@ class MessageRepository {
     String? after,
     String? around,
   }) async {
+    final Stopwatch pageStopwatch = Stopwatch()..start();
+    // Cumulative ms marks after each awaited phase, for device-log attribution.
+    final List<String> pageMarks = <String>[];
+    void mark(String name) {
+      pageMarks.add('$name@${pageStopwatch.elapsedMilliseconds}');
+    }
+
     try {
       final List<MessageResponseSchema> data = await _client.channels
           .listMessages(
@@ -234,6 +250,7 @@ class MessageRepository {
             after: after,
             around: around,
           );
+      mark('http');
 
       final List<Message> embeddedReplyParents = <Message>[];
       for (final sdk in data) {
@@ -248,11 +265,17 @@ class MessageRepository {
         }
       }
 
-      final mentionCtx = await buildMessageMentionContext(
-        _db,
-        currentUserId: _currentUserId,
-        channelId: channelId,
-      );
+      final mentionCtx =
+          await _mentionContextCache?.contextFor(
+            currentUserId: _currentUserId,
+            channelId: channelId,
+          ) ??
+          await buildMessageMentionContext(
+            _db,
+            currentUserId: _currentUserId,
+            channelId: channelId,
+          );
+      mark('ctx');
       final List<Message> messages = data
           .map(
             (sdk) =>
@@ -287,10 +310,12 @@ class MessageRepository {
       if (pageUsersById.isNotEmpty) {
         await upsertUsersCompanions(_db, pageUsersById.values);
       }
+      mark('users');
       final List<Message> persisted = await _upsertKeepingTranslations(
         messages,
       );
       await _pruneStaleMessagesForNetworkPage(channelId, persisted);
+      mark('persist');
 
       if (persisted.isNotEmpty) {
         final last = persisted.last;
@@ -302,6 +327,7 @@ class MessageRepository {
           last.timestamp,
         );
       }
+      mark('tail');
 
       if (persisted.any((m) => m.isMentioned)) {
         await ReadStateRepository(_client, _db).recomputeMentionsAfterBackfill(
@@ -309,7 +335,12 @@ class MessageRepository {
           currentUserId: _currentUserId,
           allowDecrease: true,
         );
+        mark('mentions');
       }
+      debugPrint(
+        '[MessageRepo] page ch=$channelId n=${persisted.length} '
+        '[${pageMarks.join(' ')}]',
+      );
 
       return MessageListLoadResult(
         messages: persisted,
@@ -750,7 +781,7 @@ class MessageRepository {
         }
       }
     } on DioException catch (e) {
-      throw Exception(dioExceptionMessage(e, 'Failed to forward message'));
+      throw Exception(userFacingErrorMessage(e, 'Failed to forward message'));
     }
   }
 
@@ -767,7 +798,7 @@ class MessageRepository {
       );
       return await _persistSdkMessage(channelId: channelId, schema: schema);
     } on DioException catch (e) {
-      throw Exception(dioExceptionMessage(e, 'Failed to edit message'));
+      throw Exception(userFacingErrorMessage(e, 'Failed to edit message'));
     }
   }
 
@@ -783,7 +814,7 @@ class MessageRepository {
         attachmentId: attachmentId,
       );
     } on DioException catch (e) {
-      throw Exception(dioExceptionMessage(e, 'Failed to delete attachment'));
+      throw Exception(userFacingErrorMessage(e, 'Failed to delete attachment'));
     }
   }
 
@@ -796,7 +827,9 @@ class MessageRepository {
   ///
   /// Uses Dio directly instead of the generated SDK edit call, which always
   /// includes `embeds` and `message_snapshots` as null and can make attachment-
-  /// only messages fail with CANNOT_SEND_EMPTY_MESSAGE.
+  /// only messages fail with CANNOT_SEND_EMPTY_MESSAGE. Sent as plain JSON:
+  /// the API's multipart parser only reads `payload_json` and file fields, so
+  /// a bare multipart `attachments` field is silently dropped (issue #625).
   Future<Message> editMessageAttachments({
     required String channelId,
     required String messageId,
@@ -806,13 +839,10 @@ class MessageRepository {
       final List<Map<String, dynamic>> attachments = attachmentUpdates
           .map((MessageAttachmentUpdate update) => update.toJson())
           .toList();
-      final FormData formData = FormData();
-      formData.fields.add(MapEntry('attachments', jsonEncode(attachments)));
       final Response<Map<String, dynamic>> response = await _dio
           .patch<Map<String, dynamic>>(
             '/channels/$channelId/messages/$messageId',
-            data: formData,
-            options: Options(contentType: 'multipart/form-data'),
+            data: <String, dynamic>{'attachments': attachments},
           );
       final Map<String, dynamic>? data = response.data;
       if (data == null) {
@@ -821,7 +851,7 @@ class MessageRepository {
       final MessageResponseSchema schema = MessageResponseSchema.fromJson(data);
       return await _persistSdkMessage(channelId: channelId, schema: schema);
     } on DioException catch (e) {
-      throw Exception(dioExceptionMessage(e, 'Failed to edit attachments'));
+      throw Exception(userFacingErrorMessage(e, 'Failed to edit attachments'));
     }
   }
 

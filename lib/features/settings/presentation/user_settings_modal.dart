@@ -169,11 +169,13 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
   void initState() {
     super.initState();
     final bool showBilling = userSettingsShowBillingNav(ref);
+    final bool isTouchPrimary = ref.read(inputModalityProvider);
     final int? sectionIndex = widget.initialSection == null
         ? null
         : indexForUserSettingsSection(
             widget.initialSection!,
             showBilling: showBilling,
+            isTouchPrimary: isTouchPrimary,
           );
     if (sectionIndex != null) {
       _selectedIndex = sectionIndex;
@@ -215,8 +217,12 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
   Widget build(BuildContext context) {
     final state = ref.watch(userSettingsViewModelProvider);
     final bool showBilling = userSettingsShowBillingNav(ref);
+    final bool isTouchPrimary = isTouchPrimaryInput(ref);
     final List<UserSettingsDesktopNavEntry> desktopNav =
-        buildUserSettingsDesktopNav(showBilling: showBilling);
+        buildUserSettingsDesktopNav(
+          showBilling: showBilling,
+          isTouchPrimary: isTouchPrimary,
+        );
 
     return WideSettingsModalFrame(
       includeOuterPadding: false,
@@ -224,6 +230,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
         state: state,
         desktopNav: desktopNav,
         showBilling: showBilling,
+        isTouchPrimary: isTouchPrimary,
       ),
     );
   }
@@ -232,6 +239,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     required UserSettingsViewState state,
     required List<UserSettingsDesktopNavEntry> desktopNav,
     required bool showBilling,
+    required bool isTouchPrimary,
   }) {
     final l10n = FluxerLocalizations.of(context);
     final selectedEntry = desktopNav[_selectedIndex];
@@ -247,6 +255,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
             l10n: l10n,
             hits: hits,
             showBilling: showBilling,
+            isTouchPrimary: isTouchPrimary,
           )
         : null;
     return Column(
@@ -346,9 +355,11 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
       return;
     }
     final bool showBilling = userSettingsShowBillingNav(ref);
+    final bool isTouchPrimary = ref.read(inputModalityProvider);
     final int? index = indexForUserSettingsSection(
       hit.section,
       showBilling: showBilling,
+      isTouchPrimary: isTouchPrimary,
     );
     if (index == null) {
       return;
@@ -406,16 +417,20 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     if (section == null) {
       return const SizedBox.shrink();
     }
+    final bool isTouchPrimary = isTouchPrimaryInput(ref);
     return _buildUserSettingsSectionContent(
       context: context,
       ref: ref,
       state: state,
       section: section,
+      isTouchPrimary: isTouchPrimary,
       onNavigateSection: (UserSettingsSection target) {
         final bool showBilling = userSettingsShowBillingNav(ref);
+        final bool isTouchPrimary = ref.read(inputModalityProvider);
         final int? index = indexForUserSettingsSection(
           target,
           showBilling: showBilling,
+          isTouchPrimary: isTouchPrimary,
         );
         if (index != null) {
           setState(() => _selectedIndex = index);
@@ -518,11 +533,12 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
     final l10n = FluxerLocalizations.of(context);
     final layout = context.layout;
     final bool showBilling = userSettingsShowBillingNav(ref);
+    final bool isTouchPrimary = isTouchPrimaryInput(ref);
     final List<UserSettingsSearchHit> hits = searchVisibleUserSettings(
       l10n: l10n,
       query: debouncedSearchQuery,
       showBilling: showBilling,
-      isTouchPrimary: isTouchPrimaryInput(ref),
+      isTouchPrimary: isTouchPrimary,
     );
     return FluxerSettingsNavList(
       controller: widget.scrollController,
@@ -543,6 +559,7 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
               hits: hits,
               onOpen: _openSettingsPage,
               showBilling: showBilling,
+              isTouchPrimary: isTouchPrimary,
             )
           : buildUserSettingsMobileNavGroups(
               l10n: l10n,
@@ -550,6 +567,7 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
               onOpenAppLogs: _openAppLogs,
               onLogout: _logout,
               showBilling: showBilling,
+              isTouchPrimary: isTouchPrimary,
             ),
       empty: isSettingsSearchActive
           ? Padding(
@@ -577,6 +595,10 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
       section,
       showBilling: userSettingsShowBillingNav(ref),
     )) {
+      return;
+    }
+    if (section == UserSettingsSection.shortcuts &&
+        ref.read(inputModalityProvider)) {
       return;
     }
     final l10n = FluxerLocalizations.of(context);
@@ -693,6 +715,7 @@ class _MobileSettingsContentBodyState
       ref: ref,
       state: state,
       section: widget.section,
+      isTouchPrimary: isTouchPrimaryInput(ref),
       scrollController: widget.scrollController,
     );
   }
@@ -703,6 +726,7 @@ Widget _buildUserSettingsSectionContent({
   required WidgetRef ref,
   required UserSettingsViewState state,
   required UserSettingsSection section,
+  required bool isTouchPrimary,
   ScrollController? scrollController,
   void Function(UserSettingsSection section)? onNavigateSection,
 }) {
@@ -798,6 +822,9 @@ Widget _buildUserSettingsSectionContent({
           ? const UserNotificationsSettings()
           : UserNotificationsSettings(scrollController: scrollController);
     case UserSettingsSection.shortcuts:
+      if (isTouchPrimary) {
+        return const SizedBox.shrink();
+      }
       return scrollController == null
           ? const UserShortcuts()
           : UserShortcuts(scrollController: scrollController);

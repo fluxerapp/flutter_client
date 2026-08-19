@@ -296,5 +296,24 @@ void main() {
         },
       );
     });
+
+    group('parseChannelPermissionOverwritesJson', () {
+      test('parses role overwrite maps that are not Map<String, dynamic>', () {
+        final String json = jsonEncode([
+          {
+            'id': roleAId,
+            'type': '0',
+            'allow': '${Permission.connect.value}',
+            'deny': 0,
+          },
+        ]);
+        final List<ChannelOverwriteEntry> entries =
+            parseChannelPermissionOverwritesJson(json);
+        expect(entries, hasLength(1));
+        expect(entries.single.id, roleAId);
+        expect(entries.single.isRoleType, isTrue);
+        expect(entries.single.allow, BigInt.from(Permission.connect.value));
+      });
+    });
   });
 }

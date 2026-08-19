@@ -19,6 +19,21 @@ class SlowmodeTracker extends _$SlowmodeTracker {
     state = {...state, channelId: (state[channelId] ?? 0) + 1};
   }
 
+  void updateSendTimestamp(String channelId, DateTime sentAt) {
+    if (channelId.isEmpty) {
+      return;
+    }
+    final DateTime? existing = _lastSentAt[channelId];
+    if (existing == sentAt) {
+      return;
+    }
+    if (existing != null && !sentAt.isAfter(existing)) {
+      return;
+    }
+    _lastSentAt[channelId] = sentAt;
+    state = {...state, channelId: (state[channelId] ?? 0) + 1};
+  }
+
   void updateCooldownRemaining(String channelId, int retryAfterMs) {
     if (channelId.isEmpty) {
       return;

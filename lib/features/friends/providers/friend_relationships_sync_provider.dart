@@ -13,16 +13,36 @@ part 'friend_relationships_sync_provider.g.dart';
 /// its payload, so a follow up fetch keeps incoming requests consistent.
 @Riverpod(keepAlive: true)
 class FriendRelationshipsSync extends _$FriendRelationshipsSync {
+  bool _syncScheduled = false;
+
   @override
   void build() {
-    ref.listen<int>(gatewaySessionRecoveryProvider, (int? previous, int next) {
+    ref.listen<int>(gatewayFullRecoveryProvider, (int? previous, int next) {
       if (next > 0 && previous != next) {
-        unawaited(_sync());
+        _scheduleSync();
       }
     });
-    if (ref.read(gatewaySessionRecoveryProvider) > 0) {
-      unawaited(_sync());
+    if (ref.read(gatewayFullRecoveryProvider) > 0) {
+      _scheduleSync();
     }
+  }
+
+  /// Waits out the first-channel-open window after READY; bumps arriving
+  /// while a sweep is pending collapse into it, since the fetch reflects
+  /// server truth at run time.
+  void _scheduleSync() {
+    if (_syncScheduled) {
+      return;
+    }
+    _syncScheduled = true;
+    unawaited(() async {
+      await Future<void>.delayed(kFullRecoverySweepDelay);
+      _syncScheduled = false;
+      if (!ref.mounted) {
+        return;
+      }
+      await _sync();
+    }());
   }
 
   Future<void> _sync() async {

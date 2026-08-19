@@ -1,3 +1,4 @@
+import 'package:fake_async/fake_async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
@@ -18,33 +19,75 @@ class _RecordingGuildRepository implements GuildRepository {
 }
 
 void main() {
-  test('syncs guilds when gateway session recovers', () async {
-    final repo = _RecordingGuildRepository();
-    final container = ProviderContainer(
-      overrides: [guildRepositoryProvider.overrideWithValue(repo)],
-    );
-    addTearDown(container.dispose);
+  test('syncs guilds after the post-READY sweep delay', () {
+    fakeAsync((async) {
+      final repo = _RecordingGuildRepository();
+      final container =
+          ProviderContainer(
+              overrides: [guildRepositoryProvider.overrideWithValue(repo)],
+            )
+            ..read(guildListSyncProvider)
+            ..read(gatewayFullRecoveryProvider.notifier).bump();
+      async.elapse(kFullRecoverySweepDelay - const Duration(seconds: 1));
+      expect(
+        repo.syncCallCount,
+        0,
+        reason: 'the sweep must wait out the first channel open after READY',
+      );
 
-    container.read(guildListSyncProvider);
-    expect(repo.syncCallCount, 0);
-
-    container.read(gatewaySessionRecoveryProvider.notifier).bump();
-    await Future<void>.delayed(Duration.zero);
-
-    expect(repo.syncCallCount, 1);
+      async.elapse(const Duration(seconds: 1));
+      expect(repo.syncCallCount, 1);
+      container.dispose();
+    });
   });
 
-  test('syncs immediately when session already recovered', () async {
-    final repo = _RecordingGuildRepository();
-    final container = ProviderContainer(
-      overrides: [guildRepositoryProvider.overrideWithValue(repo)],
-    );
-    addTearDown(container.dispose);
+  test('bumps during a pending sweep collapse into one sync', () {
+    fakeAsync((async) {
+      final repo = _RecordingGuildRepository();
+      final container =
+          ProviderContainer(
+              overrides: [guildRepositoryProvider.overrideWithValue(repo)],
+            )
+            ..read(guildListSyncProvider)
+            ..read(gatewayFullRecoveryProvider.notifier).bump();
+      async.elapse(const Duration(seconds: 1));
+      container.read(gatewayFullRecoveryProvider.notifier).bump();
+      async.elapse(kFullRecoverySweepDelay * 2);
 
-    container.read(gatewaySessionRecoveryProvider.notifier).bump();
-    container.read(guildListSyncProvider);
-    await Future<void>.delayed(Duration.zero);
+      expect(repo.syncCallCount, 1);
+      container.dispose();
+    });
+  });
 
-    expect(repo.syncCallCount, 1);
+  test('does not sync on a light resume recovery', () {
+    fakeAsync((async) {
+      final repo = _RecordingGuildRepository();
+      final container =
+          ProviderContainer(
+              overrides: [guildRepositoryProvider.overrideWithValue(repo)],
+            )
+            ..read(guildListSyncProvider)
+            ..read(gatewaySessionRecoveryProvider.notifier).bump();
+      async.elapse(kFullRecoverySweepDelay * 2);
+
+      expect(repo.syncCallCount, 0);
+      container.dispose();
+    });
+  });
+
+  test('schedules the sweep when session already recovered', () {
+    fakeAsync((async) {
+      final repo = _RecordingGuildRepository();
+      final container = ProviderContainer(
+        overrides: [guildRepositoryProvider.overrideWithValue(repo)],
+      );
+
+      container.read(gatewayFullRecoveryProvider.notifier).bump();
+      container.read(guildListSyncProvider);
+      async.elapse(kFullRecoverySweepDelay);
+
+      expect(repo.syncCallCount, 1);
+      container.dispose();
+    });
   });
 }

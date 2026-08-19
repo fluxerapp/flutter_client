@@ -40,6 +40,12 @@ Future<ComposerMentionController> _pumpController(WidgetTester tester) async {
   return controller!;
 }
 
+/// Finds an emoji chip by its `:name:` semantics label, independent of
+/// whether the chip has resolved its image or shows the text fallback.
+Finder _emojiChip(String label) => find.byWidgetPredicate(
+  (Widget widget) => widget is Semantics && widget.properties.label == label,
+);
+
 void main() {
   testWidgets('insertUserMentionPlaceholder replaces the full @query range', (
     WidgetTester tester,
@@ -181,7 +187,7 @@ void main() {
     controller.insertEmoji('cool', '<:cool:123>');
     await tester.pump();
 
-    expect(find.text(':cool:'), findsOneWidget);
+    expect(_emojiChip(':cool:'), findsOneWidget);
     expect(controller.toWireText().trim(), '<:cool:123>');
   });
 
@@ -226,7 +232,7 @@ void main() {
     await controller.applyWireText('hi <:cool:123> there');
     await tester.pump();
 
-    expect(find.text(':cool:'), findsOneWidget);
+    expect(_emojiChip(':cool:'), findsOneWidget);
     expect(controller.toWireText(), 'hi <:cool:123> there');
   });
 
@@ -246,7 +252,7 @@ void main() {
     await tester.pump();
 
     expect(find.text('@Alice'), findsOneWidget);
-    expect(find.text(':cool:'), findsOneWidget);
+    expect(_emojiChip(':cool:'), findsOneWidget);
     expect(controller.toWireText().trim(), '<@123> <:cool:9>');
   });
 
@@ -259,7 +265,7 @@ void main() {
     await tester.pump();
 
     // Only the explicitly written custom emoji becomes a chip.
-    expect(find.text(':smile:'), findsOneWidget);
+    expect(_emojiChip(':smile:'), findsOneWidget);
     expect(find.text(':30:'), findsNothing);
     // The typed time stays literal text and the custom emoji round-trips.
     expect(controller.text.startsWith('12:30:45 '), isTrue);

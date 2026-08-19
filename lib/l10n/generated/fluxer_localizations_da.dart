@@ -2513,6 +2513,9 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get genericError => 'Der opstod en fejl';
 
   @override
+  String get networkErrorMessage => 'Something went wrong. Please try again.';
+
+  @override
   String get invalidCode => 'Ugyldig kode';
 
   @override
@@ -13501,4 +13504,8 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String get keybindActionZoomReset => 'Reset zoom';
+
+  @override
+  String get clipboardPasteFailed =>
+      'Couldn\'t paste. The clipboard was empty or blocked for this app.';
 }

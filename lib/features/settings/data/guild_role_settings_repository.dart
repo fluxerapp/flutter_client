@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_order.dart';
 import 'package:fluxer_dart/export.dart';
 
@@ -117,6 +118,6 @@ class GuildRoleSettingsRepository {
   }
 
   String _messageFromDio(DioException error, String fallback) {
-    return error.response?.statusMessage ?? fallback;
+    return userFacingErrorMessage(error, fallback);
   }
 }

@@ -15,11 +15,6 @@ import 'package:fluxer_dart/export.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-final _mobileOsRegex = RegExp(
-  'iOS|iPadOS|iPhone|iPad|iPod|Android|Windows Phone|BlackBerry|Mobile',
-  caseSensitive: false,
-);
-
 class UserLinkedDevices extends ConsumerStatefulWidget {
   const UserLinkedDevices({super.key, this.scrollController});
 
@@ -529,8 +524,9 @@ class _AuthSessionCard extends StatelessWidget {
   }
 
   Widget _iconBubble(FluxerColorTheme colors) {
-    final os = session.clientInfo?.os ?? '';
-    final isMobile = _mobileOsRegex.hasMatch(os);
+    final isMobile =
+        session.clientInfo?.device ==
+        AuthSessionResponseClientInfoDeviceDevice.mobile;
     return Container(
       width: 44,
       height: 44,
@@ -550,8 +546,8 @@ class _AuthSessionCard extends StatelessWidget {
   Widget _info(BuildContext context, FluxerColorTheme colors) {
     final l10n = FluxerLocalizations.of(context);
     final layout = context.layout;
-    final os = session.clientInfo?.os ?? l10n.linkedDevicesUnknownOs;
-    final platform =
+    final clientOs = session.clientInfo?.os ?? l10n.linkedDevicesUnknownOs;
+    final platformLabel =
         session.clientInfo?.platform ?? l10n.linkedDevicesUnknownPlatform;
     final location = _locationLabel(session.clientInfo?.location);
     final lastUsed = session.approxLastUsedAt;
@@ -564,21 +560,12 @@ class _AuthSessionCard extends StatelessWidget {
           style: context.textStyles.categoryName.copyWith(
             color: colors.textPrimary,
           ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Flexible(
-                child: Text(os, maxLines: 1, overflow: TextOverflow.ellipsis),
-              ),
-              _dotSeparator(colors),
-              Flexible(
-                child: Text(
-                  platform,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
+          child: Text(
+            session.clientInfo?.browser == null
+                ? platformLabel
+                : '$clientOs · $platformLabel',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
         if (!isCurrent && (location != null || lastUsed != null)) ...[

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/backup_codes_sheet.dart';
@@ -90,13 +91,9 @@ class _TotpEnableSheetState extends ConsumerState<TotpEnableSheet> {
         );
       }
     } on DioException catch (e) {
-      final data = e.response?.data;
-      final message = data is Map<String, dynamic>
-          ? (data['message'] as String?) ?? l10n.invalidCode
-          : l10n.invalidCode;
       setState(() {
         _loading = false;
-        _error = message;
+        _error = userFacingErrorMessage(e, l10n.invalidCode);
       });
     }
   }

@@ -47,10 +47,18 @@ MessageResponseSchema _message({
 
 Future<FluxerDatabase> _guildDb({
   UserNotificationSettings guildLevel = UserNotificationSettings.onlyMentions,
+  int defaultMessageNotifications = 0,
   bool suppressRoles = false,
   List<String> memberRoles = const ['role-1'],
 }) async {
   final FluxerDatabase db = openTestDatabase();
+  await db.guildDao.upsertServer(
+    ServersCompanion.insert(
+      id: 'guild-1',
+      name: 'Guild',
+      defaultMessageNotifications: Value(defaultMessageNotifications),
+    ),
+  );
   await db.channelDao.upsertChannel(
     ChannelsCompanion.insert(
       id: 'channel-1',
@@ -191,6 +199,43 @@ void main() {
       );
       expect(request?.clipKind, MessageNotificationSfxClipKind.message);
     });
+
+    test(
+      'inherited all messages community default + plain guild message plays',
+      () async {
+        final FluxerDatabase db = await _guildDb(
+          guildLevel: UserNotificationSettings.inherit,
+        );
+        final MessageNotificationSfxPlayRequest? request = await _evaluate(
+          db: db,
+          message: _message(
+            id: '1000000000000000011',
+            channelId: 'channel-1',
+            authorId: 'other',
+          ),
+        );
+        expect(request?.clipKind, MessageNotificationSfxClipKind.message);
+      },
+    );
+
+    test(
+      'inherited mentions community default + plain guild message is silent',
+      () async {
+        final FluxerDatabase db = await _guildDb(
+          guildLevel: UserNotificationSettings.inherit,
+          defaultMessageNotifications: 1,
+        );
+        final MessageNotificationSfxPlayRequest? request = await _evaluate(
+          db: db,
+          message: _message(
+            id: '1000000000000000012',
+            channelId: 'channel-1',
+            authorId: 'other',
+          ),
+        );
+        expect(request, isNull);
+      },
+    );
 
     test('no messages guild level is silent', () async {
       final FluxerDatabase db = await _guildDb(

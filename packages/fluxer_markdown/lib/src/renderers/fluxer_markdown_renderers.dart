@@ -1252,29 +1252,8 @@ class _MarkdownInlineRenderer {
             ),
           ),
         );
+      // Jumbo only changes size; emoji always render as images (issue #655).
       case FluxerUnicodeEmojiToneSyntax.tag:
-        final String surrogate =
-            node.attributes['surrogate'] ?? node.textContent;
-        if (!jumbo) {
-          final double fontSize =
-              (effectiveStyle.fontSize ?? 16) *
-              kFluxerMarkdownEmojiSizeMultiplier;
-          return TextSpan(
-            text: surrogate,
-            style: effectiveStyle.copyWith(fontSize: fontSize, height: 1),
-          );
-        }
-        return WidgetSpan(
-          alignment: PlaceholderAlignment.middle,
-          child: FluxerEmojiWidget(
-            element: node,
-            baseStyle: effectiveStyle,
-            unicodeEmojiUrlBuilder: config.unicodeEmojiUrlBuilder,
-            customEmojiUrlBuilder: config.customEmojiUrlBuilder,
-            animateCustomEmoji: config.animateCustomEmoji,
-            jumbo: jumbo,
-          ),
-        );
       case FluxerCustomEmojiSyntax.tag:
         return WidgetSpan(
           alignment: PlaceholderAlignment.middle,

@@ -68,7 +68,9 @@ class SyncedPreferencesStore {
   int _rateLimitAttempts = 0;
 
   void registerDefaultAdapters() {
-    registerAdapter(FavoritesSyncedField(_ref));
+    registerAdapter(
+      FavoritesSyncedField(_ref, readSyncedLocal: _readSyncedLocalFavorites),
+    );
     registerAdapter(AccessibilitySyncedField(_ref));
     registerAdapter(AccessibilityOverridesSyncedField(_ref));
     registerAdapter(SearchEnginesSyncedField(_ref));
@@ -289,6 +291,14 @@ class SyncedPreferencesStore {
   }
 
   bool encodedIsEmpty() => _wireBlob.isEmpty;
+
+  FavoritesLocalState? _readSyncedLocalFavorites() {
+    final adapter = _adapters[SyncedPreferenceField.favorites];
+    if (adapter is! FavoritesSyncedField) {
+      return null;
+    }
+    return adapter.readFromProto(_local);
+  }
 
   void _clearStaleDirtyForAbsentServerFields({
     required pb.SyncedPreferences incoming,

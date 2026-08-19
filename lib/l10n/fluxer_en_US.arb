@@ -2679,6 +2679,10 @@
     "@genericError": {
         "description": "Generic fallback error message."
     },
+    "networkErrorMessage": "Something went wrong. Please try again.",
+    "@networkErrorMessage": {
+        "description": "Generic message shown when a network request fails."
+    },
     "invalidCode": "Invalid code",
     "@invalidCode": {
         "description": "Error message when a verification code is invalid."
@@ -4948,22 +4952,6 @@
     "@messagesMediaEditingPreserveDraftLabel": {
         "description": "Toggle label for preserving edit drafts on cancel."
     },
-    "accessibilityUnreadGroupTitle": "Unread indicators",
-    "@accessibilityUnreadGroupTitle": {
-        "description": "Section title for unread-indicator accessibility settings."
-    },
-    "accessibilityUnreadGroupDescription": "Control how unread message indicators are displayed.",
-    "@accessibilityUnreadGroupDescription": {
-        "description": "Section description for unread-indicator accessibility settings."
-    },
-    "accessibilityShowFadedUnreadOnMutedChannelsLabel": "Show faded unread indicator on muted channels",
-    "@accessibilityShowFadedUnreadOnMutedChannelsLabel": {
-        "description": "Toggle label for showing a faded unread indicator on muted channels."
-    },
-    "accessibilityShowFadedUnreadOnMutedChannelsDescription": "Display a dimmed unread indicator next to muted direct messages and channels so you can still see at a glance when there's activity.",
-    "@accessibilityShowFadedUnreadOnMutedChannelsDescription": {
-        "description": "Toggle description for showing a faded unread indicator on muted channels."
-    },
     "accessibilityDmMessagePreviewGroupTitle": "DM message previews",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."
@@ -5016,14 +5004,6 @@
     "@accessibilityScreenReaderAnnounceNewMessagesDescription": {
         "description": "Toggle description for announcing incoming messages to screen readers."
     },
-    "accessibilityReducedMotionGroupTitle": "Reduced motion",
-    "@accessibilityReducedMotionGroupTitle": {
-        "description": "Section title for reduced motion accessibility settings."
-    },
-    "accessibilityReducedMotionGroupDescription": "Control animation and motion effects.",
-    "@accessibilityReducedMotionGroupDescription": {
-        "description": "Section description for reduced motion accessibility settings."
-    },
     "accessibilitySyncReducedMotionWithSystemLabel": "Sync with system reduced motion",
     "@accessibilitySyncReducedMotionWithSystemLabel": {
         "description": "Toggle label for syncing reduced motion with the operating system setting."
@@ -5035,10 +5015,6 @@
     "accessibilityReducedMotionOverrideLabel": "Always reduce motion",
     "@accessibilityReducedMotionOverrideLabel": {
         "description": "Toggle label for forcing reduced motion in Fluxer."
-    },
-    "accessibilityReducedMotionOverrideDescription": "Disable animations in Fluxer regardless of your system setting.",
-    "@accessibilityReducedMotionOverrideDescription": {
-        "description": "Toggle description for forcing reduced motion in Fluxer."
     },
     "messageScreenReaderAnnouncement": "{author} sent {summary}",
     "@messageScreenReaderAnnouncement": {

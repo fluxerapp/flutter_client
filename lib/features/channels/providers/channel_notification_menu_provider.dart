@@ -1,7 +1,10 @@
 import 'dart:convert';
 
+import 'package:fluxer_app/core/database/drift_stream_utils.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart' hide Channel;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod/src/providers/stream_provider.dart';
@@ -26,19 +29,31 @@ final StreamProviderFamily<ChannelNotificationMenuState, Channel>
 channelNotificationMenuStateProvider = StreamProvider.autoDispose
     .family<ChannelNotificationMenuState, Channel>((ref, channel) {
       final db = ref.watch(fluxerDatabaseProvider);
-      return db.userGuildSettingsDao.watchByGuildId(channel.guildId).map((
-        settings,
-      ) {
-        return parseChannelNotificationMenuState(channel, settings?.data);
-      });
+      return combineLatest2<
+        UserGuildSettingsTableData?,
+        Server?,
+        ChannelNotificationMenuState
+      >(
+        db.userGuildSettingsDao.watchByGuildId(channel.guildId),
+        db.guildDao.watchServerById(channel.guildId),
+        (settings, guild) => parseChannelNotificationMenuState(
+          channel,
+          settings?.data,
+          guildContext: GuildNotificationContext.fromServer(guild),
+        ),
+      );
     });
 
 ChannelNotificationMenuState parseChannelNotificationMenuState(
   Channel channel,
-  String? settingsData,
-) {
+  String? settingsData, {
+  GuildNotificationContext guildContext = const GuildNotificationContext(),
+}) {
   var selected = UserNotificationSettings.inherit;
-  var guildDefault = UserNotificationSettings.allMessages;
+  var guildDefault = resolveGuildMessageNotificationsFromContext(
+    stored: UserNotificationSettings.inherit,
+    guildContext: guildContext,
+  );
   var categoryOverride = UserNotificationSettings.inherit;
   var isMuted = false;
   ChannelOverridesMuteConfig? muteConfig;
@@ -56,7 +71,10 @@ ChannelNotificationMenuState parseChannelNotificationMenuState(
           UserNotificationSettings.inherit;
       isMuted = channelOverride?.muted ?? false;
       muteConfig = channelOverride?.muteConfig;
-      guildDefault = settings.messageNotifications;
+      guildDefault = resolveGuildMessageNotificationsFromContext(
+        stored: settings.messageNotifications,
+        guildContext: guildContext,
+      );
       if (channel.parentId != null) {
         categoryOverride =
             settings
@@ -70,7 +88,7 @@ ChannelNotificationMenuState parseChannelNotificationMenuState(
   }
 
   final UserNotificationSettings effectiveDefault =
-      categoryOverride == UserNotificationSettings.inherit
+      isInheritedGuildNotificationLevel(categoryOverride)
       ? guildDefault
       : categoryOverride;
 

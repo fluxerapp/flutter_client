@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/plutonium_upsell_b
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_picker_preferences_provider.dart';
+import 'package:fluxer_app/features/chat/utils/emoji_picker_display_categories.dart';
 import 'package:fluxer_app/features/chat/utils/emoji_picker_layout_index.dart';
 import 'package:fluxer_app/features/chat/utils/emoji_picker_precache.dart';
 import 'package:fluxer_app/features/chat/utils/emoji_picker_rendering_policy.dart';
@@ -194,6 +195,22 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
   List<String>? _cachedFavoriteKeys;
   Map<Guild, List<GuildEmojiEntry>>? _cachedFavoriteGuildEmojisByGuild;
   List<_FavoriteEmojiItem>? _cachedFavoriteItems;
+  List<GuildNavbarItem>? _cachedOrganizedItems;
+  String? _cachedPickerGuildsActiveId;
+  List<Guild>? _cachedPickerGuilds;
+  List<String>? _cachedRankedUsageKeys;
+  Map<Guild, List<GuildEmojiEntry>>? _cachedFrecentSource;
+  List<FrecentEmojiItem>? _cachedFrecent;
+  Map<String, List<EmojiEntry>>? _cachedFrecentUnicode;
+  Map<String, List<EmojiEntry>>? _cachedFavoriteUnicode;
+  List<_FavoriteEmojiItem>? _cachedLayoutFavorites;
+  List<FrecentEmojiItem>? _cachedLayoutFrecent;
+  Map<Guild, List<GuildEmojiEntry>>? _cachedLayoutGuildEmojis;
+  List<String>? _cachedLayoutCollapsed;
+  Map<String, List<EmojiEntry>>? _cachedLayoutUnicode;
+  int? _cachedLayoutColumns;
+  bool? _cachedLayoutIncludeUpsell;
+  EmojiPickerLayoutIndex? _cachedLayoutIndex;
 
   late final int _upsellPreviewSeed;
 
@@ -299,6 +316,56 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     _cachedAllGuildEmojis = allGuildEmojis;
     _cachedGroupedEmojis = grouped;
     return grouped;
+  }
+
+  List<Guild> _guildsFor({
+    required List<GuildNavbarItem> organized,
+    required String? activeGuildId,
+  }) {
+    final cached = _cachedPickerGuilds;
+    if (cached != null &&
+        identical(_cachedOrganizedItems, organized) &&
+        _cachedPickerGuildsActiveId == activeGuildId) {
+      return cached;
+    }
+    final guilds = guildsForExpressionPicker(
+      organized: organized,
+      activeGuildId: activeGuildId,
+    );
+    _cachedOrganizedItems = organized;
+    _cachedPickerGuildsActiveId = activeGuildId;
+    _cachedPickerGuilds = guilds;
+    return guilds;
+  }
+
+  List<FrecentEmojiItem> _frecentFor({
+    required List<String> rankedUsageKeys,
+    required Map<Guild, List<GuildEmojiEntry>> guildEmojisByGuild,
+  }) {
+    // Registry identity doubles as the preload token for unicode keys.
+    final unicodeCategories = EmojiRegistry.categories;
+    final cached = _cachedFrecent;
+    if (cached != null &&
+        identical(_cachedFrecentUnicode, unicodeCategories) &&
+        identical(_cachedRankedUsageKeys, rankedUsageKeys) &&
+        identical(_cachedFrecentSource, guildEmojisByGuild)) {
+      return cached;
+    }
+    final customEmojisById = <String, GuildEmojiEntry>{
+      for (final GuildEmojiEntry emoji in guildEmojisByGuild.values.expand(
+        (emojis) => emojis,
+      ))
+        emoji.id: emoji,
+    };
+    final frecent = buildPickerFrecentEmojis(
+      rankedUsageKeys: rankedUsageKeys,
+      availableCustomEmojisById: customEmojisById,
+    );
+    _cachedFrecentUnicode = unicodeCategories;
+    _cachedRankedUsageKeys = rankedUsageKeys;
+    _cachedFrecentSource = guildEmojisByGuild;
+    _cachedFrecent = frecent;
+    return frecent;
   }
 
   String _displaySurrogatesFor(EmojiEntry emoji) {
@@ -416,11 +483,11 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
   }
 
   _EmojiPickerData _watchPickerData() {
-    final guilds = guildsForExpressionPicker(
-      organized: ref.watch(organizedGuildListProvider),
-      activeGuildId: ref.watch(contextualGuildIdProvider),
-    );
     final activeGuildId = ref.watch(contextualGuildIdProvider);
+    final guilds = _guildsFor(
+      organized: ref.watch(organizedGuildListProvider),
+      activeGuildId: activeGuildId,
+    );
     final String? channelId = widget.channelId;
     final List<DmConversation> dmConversations = ref.watch(
       dmViewModelProvider.select((s) => s.conversations),
@@ -450,17 +517,11 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
       canUseExternalEmojis: canUseExternalEmojis,
       allGuildEmojis: allGuildEmojis,
     );
-    final customEmojisById = <String, GuildEmojiEntry>{
-      for (final GuildEmojiEntry emoji in guildEmojisByGuild.values.expand(
-        (emojis) => emojis,
-      ))
-        emoji.id: emoji,
-    };
     final rankedUsageKeys =
         ref.watch(rankedEmojiUsageKeysProvider).value ?? const <String>[];
-    final frecent = buildPickerFrecentEmojis(
+    final frecent = _frecentFor(
       rankedUsageKeys: rankedUsageKeys,
-      availableCustomEmojisById: customEmojisById,
+      guildEmojisByGuild: guildEmojisByGuild,
     );
     final favoriteItems = _favoriteEmojiItems(favoriteKeys, guildEmojisByGuild);
 
@@ -490,7 +551,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
 
   Map<Guild, List<GuildEmojiEntry>> _readGuildEmojisByGuild() {
     final activeGuildId = ref.read(contextualGuildIdProvider);
-    final guilds = guildsForExpressionPicker(
+    final guilds = _guildsFor(
       organized: ref.read(organizedGuildListProvider),
       activeGuildId: activeGuildId,
     );
@@ -530,12 +591,15 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     List<String> favoriteKeys,
     Map<Guild, List<GuildEmojiEntry>> guildEmojisByGuild,
   ) {
+    final unicodeCategories = EmojiRegistry.categories;
     final cached = _cachedFavoriteItems;
     if (cached != null &&
+        identical(_cachedFavoriteUnicode, unicodeCategories) &&
         identical(_cachedFavoriteKeys, favoriteKeys) &&
         identical(_cachedFavoriteGuildEmojisByGuild, guildEmojisByGuild)) {
       return cached;
     }
+    _cachedFavoriteUnicode = unicodeCategories;
 
     if (favoriteKeys.isEmpty) {
       _cachedFavoriteKeys = favoriteKeys;
@@ -613,8 +677,20 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     required _EmojiPickerData data,
     required bool includeUpsell,
   }) {
-    return buildEmojiPickerLayoutIndex(
-      unicodeCategories: EmojiRegistry.categories,
+    final unicodeCategories = EmojiRegistry.categories;
+    final cached = _cachedLayoutIndex;
+    if (cached != null &&
+        identical(_cachedLayoutUnicode, unicodeCategories) &&
+        identical(_cachedLayoutFavorites, data.favoriteItems) &&
+        identical(_cachedLayoutFrecent, data.frecent) &&
+        identical(_cachedLayoutGuildEmojis, data.guildEmojisByGuild) &&
+        identical(_cachedLayoutCollapsed, data.collapsedCategories) &&
+        _cachedLayoutColumns == _columns &&
+        _cachedLayoutIncludeUpsell == includeUpsell) {
+      return cached;
+    }
+    final index = buildEmojiPickerLayoutIndex(
+      unicodeCategories: unicodeCategories,
       favoriteItems: _favoriteRowItems(data.favoriteItems),
       frecentItems: data.frecent,
       guildSections: _guildSections(data),
@@ -622,6 +698,15 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
       columns: _columns,
       includeUpsell: includeUpsell,
     );
+    _cachedLayoutUnicode = unicodeCategories;
+    _cachedLayoutFavorites = data.favoriteItems;
+    _cachedLayoutFrecent = data.frecent;
+    _cachedLayoutGuildEmojis = data.guildEmojisByGuild;
+    _cachedLayoutCollapsed = data.collapsedCategories;
+    _cachedLayoutColumns = _columns;
+    _cachedLayoutIncludeUpsell = includeUpsell;
+    _cachedLayoutIndex = index;
+    return index;
   }
 
   void _schedulePrefetch(_EmojiPickerData data) {
@@ -801,22 +886,15 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
       return 0;
     }
 
-    final categories = EmojiRegistry.categories;
+    final categories = emojiPickerDisplayCategories(EmojiRegistry.categories);
     final collapsedCategories =
         ref.read(collapsedEmojiPickerCategoriesProvider).value ??
         const <String>[];
     final guildEmojisByGuild = _readGuildEmojisByGuild();
-    final customEmojisById = <String, GuildEmojiEntry>{
-      for (final GuildEmojiEntry emoji in guildEmojisByGuild.values.expand(
-        (emojis) => emojis,
-      ))
-        emoji.id: emoji,
-    };
-    final rankedUsageKeys =
-        ref.read(rankedEmojiUsageKeysProvider).value ?? const <String>[];
-    final frecent = buildPickerFrecentEmojis(
-      rankedUsageKeys: rankedUsageKeys,
-      availableCustomEmojisById: customEmojisById,
+    final frecent = _frecentFor(
+      rankedUsageKeys:
+          ref.read(rankedEmojiUsageKeysProvider).value ?? const <String>[],
+      guildEmojisByGuild: guildEmojisByGuild,
     );
     final favoriteItems = _favoriteEmojiItems(
       ref.read(favoriteEmojiKeysProvider).value ?? const <String>[],

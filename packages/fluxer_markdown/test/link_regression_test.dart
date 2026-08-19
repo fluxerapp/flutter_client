@@ -76,6 +76,17 @@ void main() {
       expect(MarkdownParseTestHelper.containsTag(nodes, 'a'), isTrue);
     });
 
+    test('autolinks after zero-width space parse as links', () {
+      const String input = '\u200bhttps://example.com/path';
+      final nodes = MarkdownParseTestHelper.parseInline(input, features);
+      expect(MarkdownParseTestHelper.containsTag(nodes, 'a'), isTrue);
+      final md.Element link = nodes.whereType<md.Element>().firstWhere(
+        (md.Element node) => node.tag == 'a',
+      );
+      expect(link.attributes['href'], 'https://example.com/path');
+      expect(link.textContent, 'https://example.com/path');
+    });
+
     test('masked links with userinfo are rejected', () {
       const String input = '[x](https://user:pass@example.com)';
       final nodes = MarkdownParseTestHelper.parseInline(input, features);

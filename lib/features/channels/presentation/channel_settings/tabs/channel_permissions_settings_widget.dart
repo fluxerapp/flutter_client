@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -213,7 +214,7 @@ class _ChannelPermissionsSettingsWidgetState
           .read(toastProvider.notifier)
           .show(
             FluxerToast(
-              message: error.toString(),
+              message: userFacingErrorMessage(error, l10n.networkErrorMessage),
               variant: FluxerToastVariant.danger,
             ),
           );
@@ -304,7 +305,7 @@ class _ChannelPermissionsSettingsWidgetState
           .read(toastProvider.notifier)
           .show(
             FluxerToast(
-              message: error.toString(),
+              message: userFacingErrorMessage(error, l10n.networkErrorMessage),
               variant: FluxerToastVariant.danger,
             ),
           );
@@ -410,8 +411,9 @@ class _ChannelPermissionsSettingsWidgetState
     );
     return rolesAsync.when(
       loading: () => const Center(child: FluxerLoadingSpinner()),
-      error: (Object error, StackTrace stackTrace) =>
-          Center(child: Text(error.toString())),
+      error: (Object error, StackTrace stackTrace) => Center(
+        child: Text(userFacingErrorMessage(error, l10n.networkErrorMessage)),
+      ),
       data: (Map<String, db.Role> rolesById) {
         if (_loadedChannelId != widget.channel.id || _entries.isEmpty) {
           WidgetsBinding.instance.addPostFrameCallback((_) {

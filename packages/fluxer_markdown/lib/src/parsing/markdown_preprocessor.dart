@@ -4,6 +4,7 @@ import 'package:fluxer_markdown/src/parsing/fenced_code_block_utils.dart';
 import 'package:fluxer_markdown/src/parsing/fluxer_text_unescape.dart';
 import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
 import 'package:fluxer_markdown/src/syntaxes/fluxer_markdown_syntaxes.dart';
+import 'package:fluxer_markdown/src/utils/visible_content.dart';
 
 sealed class FluxerMarkdownSegment {}
 
@@ -55,6 +56,7 @@ String _preprocessFluxerMarkdownUncached(
     next = _mapOutsideInlineCode(next, _preserveAsciiArtBackslashUnderscores);
     next = _mapOutsideInlineCode(next, _normalizeAngleMaskedLinkDestinations);
     next = _mapOutsideInlineCode(next, _neutralizeInvalidMaskedLinks);
+    next = _mapOutsideInlineCode(next, _escapeInvisibleInlineFormatting);
     next = _mapOutsideInlineCode(next, _escapeEmptyInlineFormatting);
 
     if (!features.allowMaskedLinks) {
@@ -208,6 +210,40 @@ String _escapeAutolinks(String line) {
       });
 }
 
+String _escapeInvisibleInlineFormatting(String text) {
+  var current = text;
+  for (final String marker in const <String>['||', '~~', '__', '**']) {
+    current = _escapeInvisibleMarkerContent(current, marker);
+  }
+  for (final String marker in const <String>['*', '_']) {
+    current = _escapeInvisibleMarkerContent(current, marker, single: true);
+  }
+  return current;
+}
+
+String _escapeInvisibleMarkerContent(
+  String text,
+  String marker, {
+  bool single = false,
+}) {
+  final String escapedMarker = RegExp.escape(marker);
+  final String markerChar = RegExp.escape(marker[0]);
+  final String pattern = single
+      ? '(?<!\\\\)(?<!$markerChar)$escapedMarker(?!$markerChar)(.+?)(?<!$markerChar)$escapedMarker(?!$markerChar)'
+      : '(?<!\\\\)$escapedMarker(.+?)$escapedMarker';
+  return text.replaceAllMapped(RegExp(pattern), (Match match) {
+    final String content = match.group(1) ?? '';
+    if (hasVisibleContent(content)) {
+      return match.group(0)!;
+    }
+    final String escaped = marker
+        .split('')
+        .map((String char) => '\\$char')
+        .join();
+    return '$escaped$content$escaped';
+  });
+}
+
 String _escapeEmptyInlineFormatting(String text) {
   const Map<String, String> replacements = <String, String>{
     '` `': r'\` \`',
@@ -264,19 +300,6 @@ String _trimInlineMarkerSpacing(String text, String marker) {
   });
 }
 
-bool _hasVisibleContent(String value) {
-  for (final int codeUnit in value.runes) {
-    if (codeUnit != 0x20 &&
-        codeUnit != 0x09 &&
-        codeUnit != 0x0A &&
-        codeUnit != 0x0D &&
-        codeUnit != 0x200E) {
-      return true;
-    }
-  }
-  return false;
-}
-
 String? _takeMarkdownBufferText(StringBuffer buffer) {
   final String raw = buffer.toString();
   buffer.clear();
@@ -289,7 +312,7 @@ String? _takeMarkdownBufferText(StringBuffer buffer) {
   }
   text = text.replaceFirst(RegExp(r'^[ \t]+'), '');
   text = text.replaceFirst(RegExp(r'[ \t]+$'), '');
-  if (!_hasVisibleContent(text)) {
+  if (!hasVisibleContent(text)) {
     return null;
   }
   return text;
@@ -392,7 +415,7 @@ List<FluxerMarkdownSegment> _parseFluxerMarkdownSegmentsUncached(
           segments.add(FluxerTextSegment(pending));
         }
         final String body = parseBlockSpoilerBody(lines, i, endIndex);
-        if (_hasVisibleContent(body)) {
+        if (hasVisibleContent(body)) {
           segments.add(FluxerBlockSpoilerSegment(body));
         } else {
           mdBuffer.writeln(lines.sublist(i, endIndex + 1).join('\n'));
@@ -406,7 +429,7 @@ List<FluxerMarkdownSegment> _parseFluxerMarkdownSegmentsUncached(
       final subtextMatch = subtextRe.firstMatch(line);
       if (subtextMatch != null) {
         final String body = (subtextMatch.group(1) ?? '').trim();
-        if (!_hasVisibleContent(body)) {
+        if (!hasVisibleContent(body)) {
           mdBuffer.writeln(line);
           i++;
           continue;
@@ -424,7 +447,7 @@ List<FluxerMarkdownSegment> _parseFluxerMarkdownSegmentsUncached(
             break;
           }
           final String nextBody = (nextSubtextMatch.group(1) ?? '').trim();
-          if (!_hasVisibleContent(nextBody)) {
+          if (!hasVisibleContent(nextBody)) {
             break;
           }
           bodyLines.add(nextBody);

@@ -5,40 +5,10 @@ import 'package:drift/drift.dart' show Value;
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Channel;
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_menu_data.dart';
+import 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
 import 'package:fluxer_dart/export.dart';
 
-const _largeGuildMemberThreshold = 250;
-
-bool isLargeGuildForNotifications({
-  required int memberCount,
-  List<String> features = const [],
-}) {
-  return memberCount > _largeGuildMemberThreshold ||
-      features.contains('LARGE_GUILD_OVERRIDE') ||
-      features.contains('VERY_LARGE_GUILD');
-}
-
-int resolveGuildMessageNotificationsForDisplay({
-  required UserNotificationSettings stored,
-  int memberCount = 0,
-  List<String> features = const [],
-  int defaultMessageNotifications = 0,
-}) {
-  final storedLevel = stored.json;
-  if (storedLevel != null &&
-      storedLevel != UserNotificationSettings.inherit.json) {
-    return storedLevel;
-  }
-
-  if (isLargeGuildForNotifications(
-    memberCount: memberCount,
-    features: features,
-  )) {
-    return UserNotificationSettings.onlyMentions.json!;
-  }
-
-  return defaultMessageNotifications;
-}
+export 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
 
 Future<void> markGuildAsRead(
   String guildId,
@@ -173,11 +143,13 @@ getGuildNotificationSettings({
   required FluxerDatabase db,
   required String guildId,
 }) async {
+  final guildRow = await db.guildDao.getServerById(guildId);
+  final guildContext = GuildNotificationContext.fromServer(guildRow);
   final existing = await db.userGuildSettingsDao.getByGuildId(guildId);
   if (existing == null) {
     return (
       muted: false,
-      messageNotifications: 0,
+      messageNotifications: guildContext.effectiveMessageNotifications,
       suppressEveryone: false,
       suppressRoles: false,
       mobilePush: true,
@@ -187,11 +159,6 @@ getGuildNotificationSettings({
 
   final json = jsonDecode(existing.data) as Map<String, dynamic>;
   final settings = UserGuildSettingsResponse.fromJson(json);
-  final guildRow = await db.guildDao.getServerById(guildId);
-  final memberCount = guildRow?.memberCount ?? 0;
-  final features = guildRow == null
-      ? const <String>[]
-      : (jsonDecode(guildRow.featuresJson) as List<dynamic>).cast<String>();
 
   final overrides = <String, ({int messageNotifications, bool muted})>{};
   if (settings.channelOverrides != null) {
@@ -209,8 +176,9 @@ getGuildNotificationSettings({
     muted: settings.muted,
     messageNotifications: resolveGuildMessageNotificationsForDisplay(
       stored: settings.messageNotifications,
-      memberCount: memberCount,
-      features: features,
+      memberCount: guildContext.memberCount,
+      features: guildContext.features,
+      defaultMessageNotifications: guildContext.defaultMessageNotifications,
     ),
     suppressEveryone: settings.suppressEveryone,
     suppressRoles: settings.suppressRoles,

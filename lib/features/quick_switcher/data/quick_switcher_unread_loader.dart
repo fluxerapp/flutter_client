@@ -5,6 +5,7 @@ import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart'
 import 'package:fluxer_app/features/channels/domain/channel.dart'
     show isGuildTextBasedChannel;
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
+import 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
 import 'package:fluxer_app/features/quick_switcher/data/quick_switcher_unread_utils.dart';
 import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_unread_channel.dart';
 import 'package:fluxer_dart/export.dart';
@@ -40,6 +41,12 @@ Future<List<QuickSwitcherUnreadChannel>> loadQuickSwitcherUnreadChannels({
       guildSettingsByGuild[row.guildId] = settings;
     }
   }
+  final List<Server> guildRows = await db.guildDao.getServers();
+  final Map<String, GuildNotificationContext> guildNotificationContexts =
+      <String, GuildNotificationContext>{
+        for (final Server guild in guildRows)
+          guild.id: GuildNotificationContext.fromServer(guild),
+      };
   final DateTime now = DateTime.now();
   final List<QuickSwitcherUnreadChannel> unread =
       <QuickSwitcherUnreadChannel>[];
@@ -56,6 +63,7 @@ Future<List<QuickSwitcherUnreadChannel>> loadQuickSwitcherUnreadChannels({
             readState: readState,
             currentUserId: currentUserId,
             guildSettingsByGuild: guildSettingsByGuild,
+            guildNotificationContexts: guildNotificationContexts,
             now: now,
             unreadBadgeCustomizationEnabled: unreadBadgeCustomizationEnabled,
           );
@@ -106,6 +114,7 @@ Future<QuickSwitcherUnreadChannel?> _guildUnreadFromReadState({
   required ReadState readState,
   required String? currentUserId,
   required Map<String, UserGuildSettingsResponse> guildSettingsByGuild,
+  required Map<String, GuildNotificationContext> guildNotificationContexts,
   required DateTime now,
   bool unreadBadgeCustomizationEnabled = false,
 }) async {
@@ -126,6 +135,7 @@ Future<QuickSwitcherUnreadChannel?> _guildUnreadFromReadState({
     guildSettings: guildSettings,
     now: now,
     unreadBadgeCustomizationEnabled: unreadBadgeCustomizationEnabled,
+    guildContext: guildNotificationContexts[row.guildId],
   );
   final int rawMentions = readState.mentionCount;
   final int mentionCount = unreadSettings.allowsMentionUnread ? rawMentions : 0;
@@ -154,6 +164,7 @@ Future<QuickSwitcherUnreadChannel?> _guildUnreadFromReadState({
     hasUnread: hasUnreadMessage,
     hasMentions: hasMentions,
     now: now,
+    guildContext: guildNotificationContexts[row.guildId],
   )) {
     return null;
   }

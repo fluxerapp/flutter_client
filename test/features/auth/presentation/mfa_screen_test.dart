@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -65,6 +66,58 @@ void main() {
       expect(container.read(provider).canSubmitCode, isTrue);
     },
   );
+
+  testWidgets('TOTP field uses a numeric keyboard', (tester) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        child: _app(
+          MfaScreen(challenge: _challenge, onBack: () {}, onAuthorized: () {}),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final TextField field = tester.widget(find.byType(TextField));
+    expect(field.keyboardType, TextInputType.number);
+  });
+
+  testWidgets('TOTP field accepts an alphanumeric backup code', (tester) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        child: _app(
+          MfaScreen(challenge: _challenge, onBack: () {}, onAuthorized: () {}),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final container = ProviderScope.containerOf(
+      tester.element(find.byType(MfaScreen)),
+    );
+    await tester.enterText(find.byType(TextFormField), 'ab12-cd34');
+    await tester.pump();
+
+    expect(container.read(mfaViewModelProvider(_challenge)).code, 'ab12-cd34');
+  });
+
+  testWidgets('context menu paste fills the TOTP field', (tester) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        child: _app(
+          MfaScreen(challenge: _challenge, onBack: () {}, onAuthorized: () {}),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    _mockClipboardText('123456');
+    await _pasteViaToolbar(tester, find.byType(EditableText));
+
+    final container = ProviderScope.containerOf(
+      tester.element(find.byType(MfaScreen)),
+    );
+    expect(container.read(mfaViewModelProvider(_challenge)).code, '123456');
+  });
 
   testWidgets('clearing the view model code resets the input field', (
     tester,
@@ -167,4 +220,29 @@ void main() {
 
     expect(focusNode.hasFocus, isTrue);
   });
+}
+
+void _mockClipboardText(String text) {
+  TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+      .setMockMethodCallHandler(SystemChannels.platform, (
+        MethodCall methodCall,
+      ) async {
+        if (methodCall.method == 'Clipboard.getData') {
+          return <String, String>{'text': text};
+        }
+        if (methodCall.method == 'Clipboard.hasStrings') {
+          return <String, bool>{'value': true};
+        }
+        return null;
+      });
+}
+
+Future<void> _pasteViaToolbar(
+  WidgetTester tester,
+  Finder editableFinder,
+) async {
+  await tester.longPress(editableFinder);
+  await tester.pumpAndSettle();
+  await tester.tap(find.text('Paste'));
+  await tester.pumpAndSettle();
 }

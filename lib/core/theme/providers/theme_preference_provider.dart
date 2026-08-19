@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
 import 'package:fluxer_app/core/synced_preferences/synced_theme_hydration.dart';
@@ -291,7 +292,8 @@ class ThemePreference extends _$ThemePreference {
         AsyncValue<UserSettingsResponse?> next,
       ) {
         final UserSettingsResponse? settings = next.value;
-        if (settings == null || _userId == null) {
+        final String? currentUserId = ref.read(currentUserIdProvider);
+        if (settings == null || _userId == null || currentUserId != _userId) {
           return;
         }
         unawaited(_applyRemoteUserSettings(settings));
@@ -459,6 +461,13 @@ class ThemePreference extends _$ThemePreference {
     bool updateScaleFactor = false,
     bool clearCustomThemeCss = false,
   }) async {
+    if (_userId == null) {
+      return;
+    }
+    final currentUserId = ref.read(currentUserIdProvider);
+    if (currentUserId != null && currentUserId != _userId) {
+      return;
+    }
     _isApplyingRemote = true;
     try {
       state = state.copyWith(
@@ -514,9 +523,12 @@ class ThemePreference extends _$ThemePreference {
   /// is already in flight (we don't want a stale echo to fight it). Persists
   /// locally; never pushes back.
   Future<void> applyServerSettings(UserSettingsResponse settings) async {
-    if (_userId == null) {
+    final String? currentUserId = ref.read(currentUserIdProvider);
+    if (_userId == null ||
+        (currentUserId != null && currentUserId != _userId)) {
       talker.warning(
-        '[ThemePreference] Hydration dropped: userId not loaded yet',
+        '[ThemePreference] Hydration dropped: '
+        '${_userId == null ? 'userId not loaded yet' : 'user mismatch'}',
       );
       return;
     }

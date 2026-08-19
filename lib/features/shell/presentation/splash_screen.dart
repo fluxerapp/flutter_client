@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/constants/external_urls.dart';
 import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/providers/app_startup_provider.dart';
@@ -36,6 +37,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   static const double _logoHeight = 85;
   static const Duration _pulseDuration = Duration(milliseconds: 1300);
   static const Duration _statusPageDisplayDelay = Duration(seconds: 5);
+  // Fires late enough that fast startups never fetch, early enough that the
+  // incident text is ready when _statusPageDisplayDelay reveals it.
+  static const Duration _statusPrefetchDelay = Duration(milliseconds: 3500);
   static const Duration _problemsDelay = Duration(seconds: 10);
   static const Duration _footerFadeDuration = Duration(milliseconds: 400);
   static const Color _splashMutedText = Color(0xFF9B94B8);
@@ -45,6 +49,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   late final AnimationController _pulseController;
   late final SplashQuote _selectedQuote;
   Timer? _statusTimer;
+  Timer? _statusPrefetchTimer;
   Timer? _problemsTimer;
   bool _showStatusData = false;
   bool _showProblems = false;
@@ -88,13 +93,20 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   void dispose() {
     _cancelSplashTimers();
     _pulseController.dispose();
-    if (!_exitRevealStarted) {
-      _revealComplete?.complete();
+    final SplashRevealComplete? revealComplete = _revealComplete;
+    // dispose runs while the element tree is being finalized, when Riverpod
+    // rejects provider writes, so release the gate on the next frame.
+    if (!_exitRevealStarted && revealComplete != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        revealComplete.complete();
+      });
     }
     super.dispose();
   }
 
   void _cancelSplashTimers() {
+    _statusPrefetchTimer?.cancel();
+    _statusPrefetchTimer = null;
     _statusTimer?.cancel();
     _statusTimer = null;
     _problemsTimer?.cancel();
@@ -190,7 +202,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       return;
     }
     _timersStarted = true;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    _statusPrefetchTimer = Timer(_statusPrefetchDelay, () {
       if (!mounted) {
         return;
       }
@@ -227,7 +239,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
         ? startup
         : null;
     final String statusText = strings.splashStartupFailed(
-      startupError?.error.toString() ?? '',
+      startupError?.error == null
+          ? ''
+          : userFacingErrorMessage(
+              startupError!.error,
+              strings.networkErrorMessage,
+            ),
     );
     final bool isStartupComplete = startup is AsyncData<void>;
     final bool isGatewayReady = ref.watch(gatewayReadyProvider);

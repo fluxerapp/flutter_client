@@ -198,5 +198,43 @@ void main() {
         expect(indicatorController.bottomIndicator.value.show, isFalse);
       },
     );
+    testWidgets('hides indicator after tracked item is removed from the tree', (
+      WidgetTester tester,
+    ) async {
+      final scrollController = ScrollController();
+      final itemKeys = <String, GlobalKey>{'below': GlobalKey()};
+      final indicatorController = _createController(
+        scrollController: scrollController,
+        itemKeys: itemKeys,
+      );
+      addTearDown(() {
+        indicatorController.detach();
+        scrollController.dispose();
+      });
+
+      await tester.pumpWidget(
+        _buildScrollable(
+          scrollController: scrollController,
+          children: <Widget>[
+            const SizedBox(height: 260),
+            SizedBox(key: itemKeys['below'], height: 40),
+          ],
+        ),
+      );
+      indicatorController.update();
+      expect(indicatorController.bottomIndicator.value.show, isTrue);
+
+      await tester.pumpWidget(
+        _buildScrollable(
+          scrollController: scrollController,
+          children: const <Widget>[SizedBox(height: 260)],
+        ),
+      );
+      indicatorController.scheduleUpdate();
+      await tester.pump();
+
+      expect(indicatorController.topIndicator.value.show, isFalse);
+      expect(indicatorController.bottomIndicator.value.show, isFalse);
+    });
   });
 }
