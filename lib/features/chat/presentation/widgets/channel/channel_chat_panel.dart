@@ -356,13 +356,12 @@ class ChannelChatComposerBoundary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isMobile = isMobileLayout(context);
-    final Color surfaceColor = composerStatusSurfaceColor(context);
     final double statusRailPadding =
         WideComposerLayout.statusRailPaddingInlineFor(isMobile: isMobile);
     return Stack(
       clipBehavior: Clip.none,
       children: <Widget>[
-        WideComposerFade(surfaceColor: surfaceColor),
+        WideComposerFade(surfaceColor: context.colors.chatBackground),
         Positioned(
           left: statusRailPadding,
           right: statusRailPadding,
