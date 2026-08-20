@@ -330,6 +330,55 @@ class ReplyConnectorPainter extends CustomPainter {
       color != oldDelegate.color;
 }
 
+class CompactReplyConnectorPainter extends CustomPainter {
+  final double spineCenterX;
+  final double lineTop;
+  final double lineBottom;
+  final double horizontalEnd;
+  final Color color;
+
+  CompactReplyConnectorPainter({
+    required this.spineCenterX,
+    required this.lineTop,
+    required this.lineBottom,
+    required this.horizontalEnd,
+    required this.color,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (horizontalEnd <= spineCenterX) {
+      return;
+    }
+    final paint = Paint()
+      ..color = color
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round;
+
+    const radius = 6.0;
+
+    final path = Path()
+      ..moveTo(spineCenterX, lineBottom)
+      ..lineTo(spineCenterX, lineTop + radius)
+      ..arcToPoint(
+        Offset(spineCenterX + radius, lineTop),
+        radius: const Radius.circular(radius),
+      )
+      ..lineTo(horizontalEnd, lineTop);
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CompactReplyConnectorPainter oldDelegate) =>
+      spineCenterX != oldDelegate.spineCenterX ||
+      lineTop != oldDelegate.lineTop ||
+      lineBottom != oldDelegate.lineBottom ||
+      horizontalEnd != oldDelegate.horizontalEnd ||
+      color != oldDelegate.color;
+}
+
 /// The reply bar shown above the input when the user
 /// is composing a reply.
 class ReplyInputBar extends ConsumerWidget {

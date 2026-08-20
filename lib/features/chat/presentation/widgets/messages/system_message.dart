@@ -168,6 +168,15 @@ class SystemMessage extends ConsumerWidget {
         locale,
         use12Hour: use12Hour,
       );
+      final TextStyle compactTimestampStyle = compactTimestampTextStyle(
+        base: context.textStyles.timestamp,
+        color: context.colors.textPrimaryMuted,
+      );
+      final double timestampColumnWidth = measureCompactTimestampColumnWidth(
+        compactTimestampStyle,
+        locale,
+        use12Hour: use12Hour,
+      );
       content = Padding(
         padding: const EdgeInsets.fromLTRB(
           kMessageRowPaddingHorizontal,
@@ -181,11 +190,16 @@ class SystemMessage extends ConsumerWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  compactTime,
-                  style: context.textStyles.timestamp.copyWith(
-                    color: context.colors.textTertiaryMuted,
-                    fontSize: kSystemMessageTimestampFontSize,
+                SizedBox(
+                  width: timestampColumnWidth,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      compactTime,
+                      style: compactTimestampStyle,
+                      softWrap: false,
+                      maxLines: 1,
+                    ),
                   ),
                 ),
                 const SizedBox(width: kCompactTimestampGap),
@@ -203,7 +217,7 @@ class SystemMessage extends ConsumerWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: kCompactAuthorGap),
+                const SizedBox(width: kCompactTimestampGap),
                 Expanded(
                   child: Text.rich(
                     TextSpan(children: textSpans),
