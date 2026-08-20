@@ -1,6 +1,5 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'fluxer_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -3451,8 +3450,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Ez kijelentkezteti a kijelölt eszközöket a fiókodból. Újra be kell jelentkezned azokon az eszközökön.',
-      one: 'Ez kijelentkezteti a kijelölt eszközt a fiókodból. Újra be kell jelentkezned azon az eszközön.',
+      other:
+          'Ez kijelentkezteti a kijelölt eszközöket a fiókodból. Újra be kell jelentkezned azokon az eszközökön.',
+      one:
+          'Ez kijelentkezteti a kijelölt eszközt a fiókodból. Újra be kell jelentkezned azon az eszközön.',
     );
     return '$_temp0';
   }
@@ -4385,7 +4386,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       locale: localeName,
       other:
           '$count közösség átmenetileg nem elérhető egy fluxus kondenzátor meghibásodása miatt.',
-      one: '1 közösség átmenetileg nem elérhető egy fluxus kondenzátor meghibásodása miatt.',
+      one:
+          '1 közösség átmenetileg nem elérhető egy fluxus kondenzátor meghibásodása miatt.',
     );
     return '$_temp0';
   }
@@ -5176,7 +5178,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       locale: localeName,
       other:
           'Már $count másik eszközről csatlakoztál ehhez a hangcsatornához. Mit szeretnél tenni?',
-      one: 'Már 1 másik eszközről csatlakoztál ehhez a hangcsatornához. Mit szeretnél tenni?',
+      one:
+          'Már 1 másik eszközről csatlakoztál ehhez a hangcsatornához. Mit szeretnél tenni?',
     );
     return '$_temp0';
   }

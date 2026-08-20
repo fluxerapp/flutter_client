@@ -1,6 +1,5 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'fluxer_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -3433,8 +3432,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Tímto se odhlásí vybraná zařízení z vašeho účtu. Na těchto zařízeních se budete muset znovu přihlásit.',
-      one: 'Tímto se odhlásí vybrané zařízení z vašeho účtu. Na tomto zařízení se budete muset znovu přihlásit.',
+      other:
+          'Tímto se odhlásí vybraná zařízení z vašeho účtu. Na těchto zařízeních se budete muset znovu přihlásit.',
+      one:
+          'Tímto se odhlásí vybrané zařízení z vašeho účtu. Na tomto zařízení se budete muset znovu přihlásit.',
     );
     return '$_temp0';
   }
@@ -4361,7 +4362,8 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       locale: localeName,
       other:
           '$count komunit je dočasně nedostupných kvůli poruše časového kondenzátoru.',
-      one: '1 komunita je dočasně nedostupná kvůli poruše časového kondenzátoru.',
+      one:
+          '1 komunita je dočasně nedostupná kvůli poruše časového kondenzátoru.',
     );
     return '$_temp0';
   }
@@ -5152,7 +5154,8 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       locale: localeName,
       other:
           'K tomuto hlasovému kanálu jste již připojeni z $count dalších zařízení. Co chcete udělat?',
-      one: 'K tomuto hlasovému kanálu jste již připojeni z 1 dalšího zařízení. Co chcete udělat?',
+      one:
+          'K tomuto hlasovému kanálu jste již připojeni z 1 dalšího zařízení. Co chcete udělat?',
     );
     return '$_temp0';
   }
