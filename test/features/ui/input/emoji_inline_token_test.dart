@@ -200,4 +200,121 @@ void main() {
       expect(find.text(':notarealemoji:'), findsOneWidget);
     });
   });
+
+  group('platform keyboard commits', () {
+    testWidgets('chips a committed emoji and keeps the caret after it', (
+      WidgetTester tester,
+    ) async {
+      final ComposerMentionController controller = await _pumpController(
+        tester,
+      );
+      final String heart = EmojiRegistry.entryByName('heart')!.surrogates;
+
+      controller.value = TextEditingValue(
+        text: 'hi $heart',
+        selection: TextSelection.collapsed(offset: 3 + heart.length),
+      );
+      await tester.pump();
+
+      expect(find.byType(SpriteEmoji), findsOneWidget);
+      expect(controller.text, isNot(contains(heart)));
+      expect(controller.text.length, 4);
+      expect(controller.selection.baseOffset, 4);
+      expect(controller.toWireText(), 'hi $heart');
+    });
+
+    testWidgets('chips an emoji committed at the end of a long message', (
+      WidgetTester tester,
+    ) async {
+      final ComposerMentionController controller = await _pumpController(
+        tester,
+      );
+      final String heart = EmojiRegistry.entryByName('heart')!.surrogates;
+      final String body = 'lorem ipsum ' * 40;
+
+      controller
+        ..value = TextEditingValue(
+          text: body,
+          selection: TextSelection.collapsed(offset: body.length),
+        )
+        ..value = TextEditingValue(
+          text: '$body$heart',
+          selection: TextSelection.collapsed(
+            offset: body.length + heart.length,
+          ),
+        );
+      await tester.pump();
+
+      expect(find.byType(SpriteEmoji), findsOneWidget);
+      expect(controller.toWireText(), '$body$heart');
+      expect(controller.selection.baseOffset, body.length + 1);
+    });
+
+    testWidgets('keeps one chip when typing far from an earlier emoji', (
+      WidgetTester tester,
+    ) async {
+      final ComposerMentionController controller = await _pumpController(
+        tester,
+      );
+      final String heart = EmojiRegistry.entryByName('heart')!.surrogates;
+
+      controller.value = TextEditingValue(
+        text: '$heart lorem ipsum dolor sit amet',
+        selection: const TextSelection.collapsed(offset: 0),
+      );
+      await tester.pump();
+      controller.value = TextEditingValue(
+        text: '${controller.text}!',
+        selection: TextSelection.collapsed(offset: controller.text.length + 1),
+      );
+      await tester.pump();
+
+      expect(find.byType(SpriteEmoji), findsOneWidget);
+      expect(controller.toWireText(), '$heart lorem ipsum dolor sit amet!');
+    });
+
+    testWidgets('leaves a committed emoji raw while an IME range composes', (
+      WidgetTester tester,
+    ) async {
+      final ComposerMentionController controller = await _pumpController(
+        tester,
+      );
+      final String heart = EmojiRegistry.entryByName('heart')!.surrogates;
+
+      controller.value = TextEditingValue(
+        text: '$heart nihao',
+        selection: TextSelection.collapsed(offset: heart.length + 6),
+        composing: TextRange(start: heart.length + 1, end: heart.length + 6),
+      );
+      await tester.pump();
+
+      expect(find.byType(SpriteEmoji), findsNothing);
+      expect(controller.text, '$heart nihao');
+    });
+
+    testWidgets('chips the emoji once the composing range commits', (
+      WidgetTester tester,
+    ) async {
+      final ComposerMentionController controller = await _pumpController(
+        tester,
+      );
+      final String heart = EmojiRegistry.entryByName('heart')!.surrogates;
+
+      controller.value = TextEditingValue(
+        text: '$heart ni',
+        selection: TextSelection.collapsed(offset: heart.length + 3),
+        composing: TextRange(start: heart.length + 1, end: heart.length + 3),
+      );
+      await tester.pump();
+      controller.value = TextEditingValue(
+        text: '$heart 你',
+        selection: TextSelection.collapsed(offset: heart.length + 2),
+      );
+      await tester.pump();
+
+      expect(find.byType(SpriteEmoji), findsOneWidget);
+      expect(controller.toWireText(), '$heart 你');
+      expect(controller.selection.baseOffset, 3);
+    });
+  });
 }

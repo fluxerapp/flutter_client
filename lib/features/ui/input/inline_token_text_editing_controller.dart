@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/features/ui/input/emoji_inline_token.dart';
+import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:material_ui/material_ui.dart';
 
 /// A token rendered inline inside an [InlineTokenTextEditingController].
@@ -123,9 +124,119 @@ class InlineTokenTextEditingController extends TextEditingController {
 
   @override
   set value(TextEditingValue newValue) {
-    final TextEditingValue effectiveValue = _sanitizeOrphanPrivateUse(newValue);
+    final TextEditingValue effectiveValue = _chipRawUnicodeEmoji(
+      _sanitizeOrphanPrivateUse(newValue),
+    );
     super.value = effectiveValue;
     _pruneOrphanTokens(effectiveValue.text);
+  }
+
+  /// Swaps raw unicode emoji for sentinels so the field paints the app's own
+  /// emoji instead of the platform font glyph.
+  ///
+  /// Skipped while an IME composing range is active: shortening the text under
+  /// it invalidates the range.
+  TextEditingValue _chipRawUnicodeEmoji(TextEditingValue value) {
+    if (value.composing.isValid) {
+      return value;
+    }
+    final (int start, int end) = _editedWindow(value.text);
+    if (start >= end) {
+      return value;
+    }
+    final UnicodeEmojiSubstitution chipped = substituteUnicodeEmojiTokens(
+      value.text.substring(start, end),
+      allocateToken,
+    );
+    if (chipped.replaced.isEmpty) {
+      return value;
+    }
+    final List<UnicodeEmojiRange> replaced = chipped.replaced
+        .map(
+          (UnicodeEmojiRange range) =>
+              (start: range.start + start, end: range.end + start),
+        )
+        .toList(growable: false);
+    final String text =
+        value.text.substring(0, start) +
+        chipped.text +
+        value.text.substring(end);
+    if (!value.selection.isValid) {
+      return value.copyWith(text: text, composing: TextRange.empty);
+    }
+    return value.copyWith(
+      text: text,
+      selection: TextSelection(
+        baseOffset: _chippedOffset(value.selection.baseOffset, replaced),
+        extentOffset: _chippedOffset(value.selection.extentOffset, replaced),
+      ),
+      composing: TextRange.empty,
+    );
+  }
+
+  /// The range of [text] differing from the current text, widened by the
+  /// longest known emoji sequence and snapped off surrogate halves.
+  ///
+  /// Scanning only this range keeps the cost of the sequence alternation off
+  /// every keystroke. A committing IME update returns the whole text, whose
+  /// emoji went unchipped while it composed.
+  (int, int) _editedWindow(String text) {
+    final String previous = super.value.text;
+    if (super.value.composing.isValid) {
+      return (0, text.length);
+    }
+    if (previous == text) {
+      return (0, 0);
+    }
+    final int shortest = previous.length < text.length
+        ? previous.length
+        : text.length;
+    int prefix = 0;
+    while (prefix < shortest &&
+        previous.codeUnitAt(prefix) == text.codeUnitAt(prefix)) {
+      prefix++;
+    }
+    int suffix = 0;
+    while (suffix < shortest - prefix &&
+        previous.codeUnitAt(previous.length - 1 - suffix) ==
+            text.codeUnitAt(text.length - 1 - suffix)) {
+      suffix++;
+    }
+
+    final int margin = EmojiRegistry.maxUnicodeEmojiLength;
+    int start = prefix - margin;
+    int end = text.length - suffix + margin;
+    start = start < 0 ? 0 : start;
+    end = end > text.length ? text.length : end;
+    if (start >= end) {
+      return (0, 0);
+    }
+    if (start > 0 && _isLowSurrogate(text.codeUnitAt(start))) {
+      start--;
+    }
+    if (end < text.length && _isLowSurrogate(text.codeUnitAt(end))) {
+      end++;
+    }
+    return (start, end);
+  }
+
+  static bool _isLowSurrogate(int codeUnit) =>
+      codeUnit >= 0xDC00 && codeUnit <= 0xDFFF;
+
+  /// Maps [offset] onto the text where each [replaced] range became one unit.
+  static int _chippedOffset(int offset, List<UnicodeEmojiRange> replaced) {
+    int shift = 0;
+    for (final UnicodeEmojiRange range in replaced) {
+      if (offset >= range.end) {
+        shift += range.end - range.start - 1;
+        continue;
+      }
+      if (offset > range.start) {
+        shift += offset - range.start;
+      }
+      break;
+    }
+    return offset - shift;
   }
 
   bool _containsOrphanPrivateUse(String text) {
@@ -149,9 +260,8 @@ class InlineTokenTextEditingController extends TextEditingController {
     var base = value.selection.baseOffset;
     var extent = value.selection.extentOffset;
     for (final int rune in value.text.runes) {
-      if (rune >= 0xE000 &&
-          rune <= 0xF8FF &&
-          !_tokens.containsKey(String.fromCharCode(rune))) {
+      final String char = String.fromCharCode(rune);
+      if (rune >= 0xE000 && rune <= 0xF8FF && !_tokens.containsKey(char)) {
         if (value.selection.isValid) {
           if (base > inIndex) {
             base -= 1;
@@ -163,8 +273,8 @@ class InlineTokenTextEditingController extends TextEditingController {
         inIndex += 1;
         continue;
       }
-      buffer.writeCharCode(rune);
-      inIndex += 1;
+      buffer.write(char);
+      inIndex += char.length;
     }
     final String sanitized = buffer.toString();
     if (!value.selection.isValid) {
@@ -322,7 +432,7 @@ class InlineTokenTextEditingController extends TextEditingController {
     for (final int rune in runes) {
       final String char = String.fromCharCode(rune);
       final InlineToken? token = _tokens[char];
-      length += token != null ? token.wireText.length : 1;
+      length += token != null ? token.wireText.length : char.length;
     }
     return length;
   }

@@ -15,6 +15,7 @@ class ComposerClipboardScope extends ConsumerStatefulWidget {
     this.maxMessageLength,
     this.canAttachOnExceed,
     this.onPasteExceedsLimit,
+    this.onPasteLostContent,
     super.key,
   });
 
@@ -26,6 +27,7 @@ class ComposerClipboardScope extends ConsumerStatefulWidget {
   final int? maxMessageLength;
   final bool Function()? canAttachOnExceed;
   final void Function(String pastedText)? onPasteExceedsLimit;
+  final void Function()? onPasteLostContent;
   final Widget Function(
     BuildContext context,
     FluxerClipboardScopeState clipboardScope,
@@ -49,6 +51,7 @@ class _ComposerClipboardScopeState
       maxMessageLength: widget.maxMessageLength,
       canAttachOnExceed: widget.canAttachOnExceed,
       onPasteExceedsLimit: widget.onPasteExceedsLimit,
+      onPasteLostContent: widget.onPasteLostContent,
       onValidationResult: widget.onValidationResult,
     );
   }

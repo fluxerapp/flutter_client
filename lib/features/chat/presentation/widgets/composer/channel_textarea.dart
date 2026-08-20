@@ -667,6 +667,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           perms.canShowAttachControls && perms.isAttachEnabled,
       onPasteExceedsLimit: (String pastedText) =>
           unawaited(_handlePasteExceedsLimit(pastedText, channelId)),
+      onPasteLostContent: _showCorruptedCustomEmojiToast,
       onValidationResult: _toastUploadValidation,
       builder:
           (

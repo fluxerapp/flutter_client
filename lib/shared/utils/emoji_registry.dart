@@ -57,6 +57,7 @@ class EmojiRegistry {
   static Map<String, List<EmojiEntry>>? _categories;
   static List<EmojiEntry>? _allEmojis;
   static RegExp? _unicodeEmojiRegex;
+  static int _maxUnicodeEmojiLength = 0;
   static String? _lastSearchQuery;
   static List<EmojiEntry>? _lastSearchResults;
 
@@ -67,6 +68,9 @@ class EmojiRegistry {
 
   static String? resolveSync(String name) => _nameToSurrogate?[name];
   static RegExp? get unicodeEmojiRegexSync => _unicodeEmojiRegex;
+
+  /// UTF-16 length of the longest emoji sequence in the registry.
+  static int get maxUnicodeEmojiLength => _maxUnicodeEmojiLength;
 
   static Map<String, List<EmojiEntry>> get categories =>
       _categories ?? const {};
@@ -211,6 +215,11 @@ class EmojiRegistry {
     _categories = cats;
     _allEmojis = all;
     _unicodeEmojiRegex = _buildUnicodeEmojiRegex(unicodeSurrogates);
+    _maxUnicodeEmojiLength = unicodeSurrogates.fold<int>(
+      0,
+      (int longest, String surrogates) =>
+          surrogates.length > longest ? surrogates.length : longest,
+    );
     _lastSearchQuery = null;
     _lastSearchResults = null;
   }

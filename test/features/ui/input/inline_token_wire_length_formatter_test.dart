@@ -46,6 +46,20 @@ void main() {
       expect(result.text, displayText);
     });
 
+    test('counts keyboard-committed emoji as two wire chars each', () {
+      const String typed =
+          '\u{1F600}\u{1F600}\u{1F600}\u{1F600}'
+          '\u{1F600}\u{1F600}';
+
+      final TextEditingValue result = formatter.formatEditUpdate(
+        TextEditingValue.empty,
+        const TextEditingValue(text: typed),
+      );
+
+      expect(result.text, isEmpty);
+      expect(controller.wireLengthForDisplayText(typed), 12);
+    });
+
     test('wireLengthForDisplayText matches actualText for plain text', () {
       controller.text = 'hello';
 

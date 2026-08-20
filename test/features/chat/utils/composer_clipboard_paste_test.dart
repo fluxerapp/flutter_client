@@ -154,6 +154,27 @@ void main() {
       expect(attachCalled, isFalse);
       expect(controller.toWireText(), 'hello world');
     });
+
+    testWidgets('reports a paste that is only private-use glyphs', (
+      WidgetTester tester,
+    ) async {
+      final ComposerMentionController controller = await _pumpMentionController(
+        tester,
+      );
+      _mockClipboardText('\uE056');
+      var lostContent = false;
+
+      await pasteIntoComposer(
+        controller: controller,
+        maxLength: 100,
+        canAttachOnExceed: true,
+        onPasteExceedsLimit: (_) => fail('should not exceed'),
+        onPasteLostContent: () => lostContent = true,
+      );
+
+      expect(lostContent, isTrue);
+      expect(controller.toWireText(), isEmpty);
+    });
   });
 
   group('dictation-like bulk edits without paste formatters', () {
