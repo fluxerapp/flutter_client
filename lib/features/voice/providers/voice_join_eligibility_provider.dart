@@ -4,6 +4,7 @@ import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.da
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
@@ -92,6 +93,71 @@ VoiceJoinEligibility resolveVoiceJoinEligibility({
   return const VoiceJoinEligibility(canJoin: true);
 }
 
+class _VoiceJoinChannelContext {
+  const _VoiceJoinChannelContext({
+    required this.channelType,
+    required this.guildId,
+    required this.userLimit,
+  });
+
+  final ChannelType channelType;
+  final String guildId;
+  final int userLimit;
+}
+
+Future<_VoiceJoinChannelContext?> _readVoiceJoinChannelContext(
+  db.FluxerDatabase database,
+  String channelId,
+) async {
+  final db.Channel? channelRow = await database.channelDao.getChannelById(
+    channelId,
+  );
+  if (channelRow != null) {
+    return _VoiceJoinChannelContext(
+      channelType: ChannelType.fromWire(channelRow.type),
+      guildId: channelRow.guildId,
+      userLimit: channelRow.userLimit ?? 0,
+    );
+  }
+  final db.DmChannel? dmRow = await database.dmChannelDao.getDmChannelById(
+    channelId,
+  );
+  if (dmRow == null) {
+    return null;
+  }
+  return _VoiceJoinChannelContext(
+    channelType: ChannelType.fromWire(dmRow.type),
+    guildId: '',
+    userLimit: 0,
+  );
+}
+
+Future<VoiceJoinEligibility> readPrivateVoiceConnectPreflight(
+  Ref ref,
+  String channelId,
+) async {
+  if (channelId.isEmpty) {
+    return const VoiceJoinEligibility(canJoin: false);
+  }
+  final UserSettingsViewState settings = ref.read(
+    userSettingsViewModelProvider,
+  );
+  if (!settings.isKnownUnclaimed) {
+    return const VoiceJoinEligibility(canJoin: true);
+  }
+  final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
+  final db.DmChannel? dmRow = await database.dmChannelDao.getDmChannelById(
+    channelId,
+  );
+  if (dmRow == null) {
+    return const VoiceJoinEligibility(canJoin: true);
+  }
+  if (isDmChannelType(dmRow.type)) {
+    return const VoiceJoinEligibility(canJoin: false);
+  }
+  return const VoiceJoinEligibility(canJoin: true);
+}
+
 @riverpod
 Future<VoiceJoinEligibility> voiceJoinEligibility(
   Ref ref,
@@ -100,14 +166,15 @@ Future<VoiceJoinEligibility> voiceJoinEligibility(
   if (channelId.isEmpty) {
     return const VoiceJoinEligibility(canJoin: false);
   }
-  final channelRow = await ref
-      .read(fluxerDatabaseProvider)
-      .channelDao
-      .getChannelById(channelId);
-  if (channelRow == null) {
+  final _VoiceJoinChannelContext? channelContext =
+      await _readVoiceJoinChannelContext(
+        ref.read(fluxerDatabaseProvider),
+        channelId,
+      );
+  if (channelContext == null) {
     return const VoiceJoinEligibility(canJoin: false);
   }
-  final String guildId = channelRow.guildId;
+  final String guildId = channelContext.guildId;
   final UserSettingsViewState settings = ref.watch(
     userSettingsViewModelProvider,
   );
@@ -136,12 +203,13 @@ Future<VoiceJoinEligibility> readVoiceJoinEligibility(
     return const VoiceJoinEligibility(canJoin: false);
   }
   final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
-  final channelRow = await database.channelDao.getChannelById(channelId);
-  if (channelRow == null) {
+  final _VoiceJoinChannelContext? channelContext =
+      await _readVoiceJoinChannelContext(database, channelId);
+  if (channelContext == null) {
     return const VoiceJoinEligibility(canJoin: false);
   }
-  final ChannelType channelType = ChannelType.fromWire(channelRow.type);
-  final String guildId = channelRow.guildId;
+  final ChannelType channelType = channelContext.channelType;
+  final String guildId = channelContext.guildId;
   final UserSettingsViewState settings = ref.read(
     userSettingsViewModelProvider,
   );
@@ -194,7 +262,7 @@ Future<VoiceJoinEligibility> readVoiceJoinEligibility(
         : (connectOutcome.shouldCache ? connectOutcome.value : null),
     isUnclaimed: settings.isKnownUnclaimed,
     isGuildOwner: userId.isNotEmpty && ownerId != null && userId == ownerId,
-    userLimit: channelRow.userLimit ?? 0,
+    userLimit: channelContext.userLimit,
     occupiedConnectionCount: occupiedVoiceConnectionsForJoinLimit(
       voiceStates: voiceStates,
       currentConnectionId: null,
