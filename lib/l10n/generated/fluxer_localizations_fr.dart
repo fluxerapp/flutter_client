@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'fluxer_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -3472,10 +3473,8 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other:
-          'Cela déconnectera les appareils sélectionnés de votre compte. Vous devrez vous reconnecter sur ces appareils.',
-      one:
-          'Cela déconnectera l\'appareil sélectionné de votre compte. Vous devrez vous reconnecter sur cet appareil.',
+      other: 'Cela déconnectera les appareils sélectionnés de votre compte. Vous devrez vous reconnecter sur ces appareils.',
+      one: 'Cela déconnectera l\'appareil sélectionné de votre compte. Vous devrez vous reconnecter sur cet appareil.',
     );
     return '$_temp0';
   }
@@ -4414,8 +4413,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       locale: localeName,
       other:
           '$count communautés sont temporairement indisponibles en raison d\'un dysfonctionnement du condensateur de flux.',
-      one:
-          '1 communauté est temporairement indisponible en raison d\'un dysfonctionnement du condensateur de flux.',
+      one: '1 communauté est temporairement indisponible en raison d\'un dysfonctionnement du condensateur de flux.',
     );
     return '$_temp0';
   }
@@ -5210,8 +5208,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       locale: localeName,
       other:
           'Vous êtes déjà connecté à ce salon vocal depuis $count autres appareils. Que souhaitez-vous faire ?',
-      one:
-          'Vous êtes déjà connecté à ce salon vocal depuis 1 autre appareil. Que souhaitez-vous faire ?',
+      one: 'Vous êtes déjà connecté à ce salon vocal depuis 1 autre appareil. Que souhaitez-vous faire ?',
     );
     return '$_temp0';
   }
