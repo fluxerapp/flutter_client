@@ -26,14 +26,7 @@ List<ComposerUploadFile> composerUploadFilesFromImagePicker(
 }
 
 ComposerUploadFile? composerUploadFileFromPlatformFile(PlatformFile file) {
-  final String? path = file.path?.trim();
-  if (path == null || path.isEmpty) {
-    return null;
-  }
-  return composerUploadFile(
-    XFile(path, name: file.name),
-    displayFilename: file.name,
-  );
+  return composerUploadFile(file.xFile, displayFilename: file.name);
 }
 
 List<ComposerUploadFile> composerUploadFilesFromPlatformFiles(

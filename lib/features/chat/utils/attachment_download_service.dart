@@ -111,7 +111,7 @@ Future<void> _downloadToFilePicker({
       _showFailureToast(ref, l10n.chatAttachmentDownloadFailedToast);
       return;
     }
-    final String? path = await FilePicker.saveFile(
+    final Uri? path = await FilePicker.saveFile(
       dialogTitle: l10n.chatAttachmentDownload,
       fileName: resolvedFilename,
       bytes: Uint8List.fromList(bytes),

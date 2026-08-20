@@ -34,19 +34,14 @@ abstract final class ImageUtils {
 
   static Future<({Uint8List bytes, String name})?>
   _pickImageFromFilePicker() async {
-    final result = await FilePicker.pickFiles(
+    final PlatformFile? file = await FilePicker.pickFile(
       type: FileType.custom,
       allowedExtensions: ['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif'],
-      withData: true,
     );
-    if (result == null || result.files.isEmpty) {
+    if (file == null) {
       return null;
     }
-    final file = result.files.first;
-    final bytes = file.bytes;
-    if (bytes == null) {
-      return null;
-    }
+    final Uint8List bytes = await file.readAsBytes();
     return (bytes: bytes, name: file.name);
   }
 

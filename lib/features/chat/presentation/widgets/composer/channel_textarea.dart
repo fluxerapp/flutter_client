@@ -2271,16 +2271,16 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                       label: l10n.chatAttachmentSourceBrowse,
                       onTap: () async {
                         close();
-                        final FilePickerResult? res =
+                        final List<PlatformFile> res =
                             await FilePicker.pickFiles();
-                        if (res == null) {
+                        if (res.isEmpty) {
                           return;
                         }
                         if (!mounted) {
                           return;
                         }
                         final List<ComposerUploadFile> files =
-                            composerUploadFilesFromPlatformFiles(res.files);
+                            composerUploadFilesFromPlatformFiles(res);
                         if (files.isEmpty) {
                           return;
                         }
@@ -2296,12 +2296,12 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       );
       return;
     }
-    final FilePickerResult? res = await FilePicker.pickFiles();
-    if (res == null || !mounted) {
+    final List<PlatformFile> res = await FilePicker.pickFiles();
+    if (res.isEmpty || !mounted) {
       return;
     }
     final List<ComposerUploadFile> files = composerUploadFilesFromPlatformFiles(
-      res.files,
+      res,
     );
     if (files.isEmpty) {
       return;
