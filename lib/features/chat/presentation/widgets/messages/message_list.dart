@@ -151,6 +151,9 @@ const _kMonthNames = [
 /// Viewport fraction where the NEW divider sits on unread opens.
 const double _kUnreadOpenAnchor = 0.5;
 
+/// Minimum inset from the viewport top for the NEW divider on unread opens.
+const double _kUnreadOpenTopInset = 32;
+
 /// How long a parked jump target may hold off edge pagination before it is
 /// retired. The page that would contain it may never arrive - a deleted target
 /// comes back as a neighbour window with no error - so the wait is bounded.
@@ -197,6 +200,10 @@ class _MessageListState extends ConsumerState<MessageList> {
   MessageListAnchorEdge _anchorEdge = MessageListAnchorEdge.after;
   int _anchorEpoch = 0;
   bool _anchorResolved = false;
+  // True while the open anchor is the unread divider; underfill must not
+  // bottom-pin short trailing blocks.
+  bool _unreadOpenLayout = false;
+  double _unreadLeadingPad = 0;
   final MessageListPin _pin = MessageListPin();
   final AnimatedImagePlaybackController _animatedImagePlaybackController =
       AnimatedImagePlaybackController();
@@ -512,11 +519,16 @@ class _MessageListState extends ConsumerState<MessageList> {
       _anchorEdge = edge;
       _anchorEpoch++;
       _uiEpoch++;
+      if (!rebase) {
+        _unreadOpenLayout = false;
+        _unreadLeadingPad = 0;
+      }
     });
     _demandSource.resetApproachVelocity();
     // A rebase keeps pixels identical: the fraction was MEASURED off the
     // live layout, so the half-height center correction (which centers a
-    // jump target's rect) and the underfill fallback must not run.
+    // jump target's rect) and the underfill fallback must not run. Jumps
+    // leave unread-open layout so they can center the target tile.
     if (!rebase && anchorId != null && fraction < 1.0) {
       _scheduleAnchorCenterCorrection(anchorId);
       _scheduleUnderfillBottomReanchor();
@@ -531,19 +543,11 @@ class _MessageListState extends ConsumerState<MessageList> {
     final int epoch = _uiEpoch;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _runIfSameEpoch(epoch, () {
-        if (!_scrollController.hasClients) {
+        final RenderBox? box = _streamTileBox(anchorId);
+        if (box == null) {
           return;
         }
-        final BuildContext? itemContext = _findStreamTileContext(anchorId);
-        // debugIsActive is constant-false in profile/release; use mounted.
-        if (itemContext == null || !itemContext.mounted) {
-          return;
-        }
-        final RenderObject? renderObject = itemContext.findRenderObject();
-        if (renderObject is! RenderBox || !renderObject.hasSize) {
-          return;
-        }
-        final double half = renderObject.size.height / 2;
+        final double half = box.size.height / 2;
         if (half <= 0.5) {
           return;
         }
@@ -559,6 +563,33 @@ class _MessageListState extends ConsumerState<MessageList> {
         );
       });
     });
+  }
+
+  RenderBox? _streamTileBox(String messageId) {
+    final BuildContext? itemContext = _findStreamTileContext(messageId);
+    if (itemContext == null || !itemContext.mounted) {
+      return null;
+    }
+    final RenderObject? renderObject = itemContext.findRenderObject();
+    if (renderObject is! RenderBox || !renderObject.hasSize) {
+      return null;
+    }
+    return renderObject;
+  }
+
+  RenderBox? _scrollViewportBox() {
+    if (!_scrollController.hasClients) {
+      return null;
+    }
+    final RenderObject? viewportObject = _scrollController
+        .position
+        .context
+        .notificationContext
+        ?.findRenderObject();
+    if (viewportObject is! RenderBox || !viewportObject.hasSize) {
+      return null;
+    }
+    return viewportObject;
   }
 
   BuildContext? _findStreamTileContext(String messageId) {
@@ -604,7 +635,8 @@ class _MessageListState extends ConsumerState<MessageList> {
     final int epoch = _uiEpoch;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _runIfSameEpoch(epoch, () {
-        if (!_scrollController.hasClients ||
+        if (_unreadOpenLayout ||
+            !_scrollController.hasClients ||
             _anchorId == null ||
             _anchorFraction >= 1.0) {
           return;
@@ -628,6 +660,106 @@ class _MessageListState extends ConsumerState<MessageList> {
         );
       });
     });
+  }
+
+  /// After an unread open, park NEW at [_kUnreadOpenAnchor] when the trailing
+  /// unreads fill the lower half. If they do not, lower the split so the last
+  /// unread sits on the composer instead of leaving a void under NEW.
+  void _scheduleUnreadOpenLayoutPass() {
+    final int epoch = _uiEpoch;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _runIfSameEpoch(epoch, _applyUnreadOpenLayout);
+    });
+  }
+
+  void _applyUnreadOpenLayout() {
+    if (!_unreadOpenLayout || _anchorId == null) {
+      return;
+    }
+    final RenderBox? firstUnread = _streamTileBox(_anchorId!);
+    final RenderBox? viewport = _scrollViewportBox();
+    if (firstUnread == null || viewport == null) {
+      return;
+    }
+    final ChatViewState state = ref.read(chatViewModelProvider);
+    final String? newestId = state.messages.isEmpty
+        ? null
+        : state.messages.last.id;
+    final RenderBox? newest = newestId == null || newestId == _anchorId
+        ? firstUnread
+        : _streamTileBox(newestId);
+    final double firstUnreadTop = firstUnread.localToGlobal(Offset.zero).dy;
+    final double viewportTop = viewport.localToGlobal(Offset.zero).dy;
+    final double viewportHeight = viewport.size.height;
+    final double trailingBottom = newest == null
+        ? firstUnreadTop + firstUnread.size.height
+        : newest.localToGlobal(Offset(0, newest.size.height)).dy;
+    final double filledBelow =
+        (trailingBottom - firstUnreadTop).clamp(0, viewportHeight) +
+        _statusOverlayInset(context);
+    final double nextFraction = _unreadOpenFraction(
+      newestLaidOut: newest != null,
+      hasMoreNewer: state.hasMoreNewerMessages,
+      filledBelow: filledBelow,
+      viewportHeight: viewportHeight,
+    );
+    final double nextLeadingPad = _unreadOpenLeadingPad(
+      currentPad: _unreadLeadingPad,
+      fraction: nextFraction,
+      firstUnreadTop: firstUnreadTop,
+      viewportTop: viewportTop,
+      viewportHeight: viewportHeight,
+    );
+    final bool padChanged = (nextLeadingPad - _unreadLeadingPad).abs() > 0.5;
+    final bool fractionChanged = (nextFraction - _anchorFraction).abs() > 0.01;
+    if (!padChanged && !fractionChanged) {
+      return;
+    }
+    setState(() {
+      _unreadLeadingPad = nextLeadingPad;
+      if (fractionChanged) {
+        _anchorFraction = nextFraction;
+        _anchorEpoch++;
+        _uiEpoch++;
+      }
+    });
+    _scheduleUnreadOpenLayoutPass();
+  }
+
+  double _unreadOpenFraction({
+    required bool newestLaidOut,
+    required bool hasMoreNewer,
+    required double filledBelow,
+    required double viewportHeight,
+  }) {
+    final double lowerHalf = viewportHeight * (1 - _kUnreadOpenAnchor);
+    if (!newestLaidOut || hasMoreNewer || filledBelow >= lowerHalf - 8) {
+      return _kUnreadOpenAnchor;
+    }
+    return (1.0 - filledBelow / viewportHeight).clamp(_kUnreadOpenAnchor, 1.0);
+  }
+
+  double _unreadOpenLeadingPad({
+    required double currentPad,
+    required double fraction,
+    required double firstUnreadTop,
+    required double viewportTop,
+    required double viewportHeight,
+  }) {
+    final double maxPad = viewportHeight * _kUnreadOpenAnchor;
+    var pad = fraction > _kUnreadOpenAnchor + 0.02 ? 0.0 : currentPad;
+    if (fraction <= _kUnreadOpenAnchor + 0.02) {
+      final double delta =
+          firstUnreadTop - (viewportTop + viewportHeight * fraction);
+      if (delta.abs() > 24) {
+        pad = (pad - delta).clamp(0, maxPad);
+      }
+    }
+    final double minTop = viewportTop + _kUnreadOpenTopInset;
+    if (firstUnreadTop < minTop - 0.5) {
+      pad = (pad + (minTop - firstUnreadTop)).clamp(0, maxPad);
+    }
+    return pad;
   }
 
   void _onScroll() {
@@ -721,6 +853,8 @@ class _MessageListState extends ConsumerState<MessageList> {
     _anchorEdge = MessageListAnchorEdge.after;
     _anchorEpoch++;
     _anchorResolved = false;
+    _unreadOpenLayout = false;
+    _unreadLeadingPad = 0;
     _pin.pinned = false;
     _followDisarmed = false;
     _landAtLatestTailPending = false;
@@ -882,7 +1016,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
     // A reader who scrolled back to the edge is the one the underfill repair
     // was withheld from while they were in history.
-    if (_anchorId != null && _anchorFraction < 1.0) {
+    if (_anchorId != null && _anchorFraction < 1.0 && !_unreadOpenLayout) {
       _scheduleUnderfillBottomReanchor();
     }
     // Inactive is reported LAST so a deferred recovery resync lands on the
@@ -1105,6 +1239,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     final ScrollMetrics metrics = notification.metrics;
     if (_anchorId != null &&
         _anchorFraction < 1.0 &&
+        !_unreadOpenLayout &&
         metrics.maxScrollExtent <= 0 &&
         metrics.pixels >= metrics.maxScrollExtent - 0.5) {
       _scheduleUnderfillBottomReanchor();
@@ -1308,6 +1443,16 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
     _followDisarmed = false;
     _pin.onJumpToPresentLanded();
+    final List<Message> messages = chatState.messages;
+    final String? newestId = messages.isEmpty ? null : messages.last.id;
+    final bool alreadyAtLiveTail =
+        !_unreadOpenLayout &&
+        _anchorFraction >= 1.0 &&
+        _anchorEdge == MessageListAnchorEdge.after &&
+        _anchorId == newestId;
+    if (!alreadyAtLiveTail) {
+      _reanchor(newestId, 1, edge: MessageListAnchorEdge.after);
+    }
     _settlePinnedTailScroll();
   }
 
@@ -2242,11 +2387,14 @@ class _MessageListState extends ConsumerState<MessageList> {
           // Unread open: the split falls BEFORE the first unread's stream
           // item, so the NEW divider - rendered at the top of that tile,
           // even when the unread lives inside a collapsed group - sits at
-          // the fraction. Underfill re-anchors bottom after the open frame.
+          // the fraction. A short trailing block is packed to the composer
+          // after layout so NEW is not stuck at mid-viewport over a void.
+          _unreadOpenLayout = true;
+          _unreadLeadingPad = 0;
           _anchorId = unreadAnchorId;
           _anchorFraction = _kUnreadOpenAnchor;
           _anchorEdge = MessageListAnchorEdge.before;
-          _scheduleUnderfillBottomReanchor();
+          _scheduleUnreadOpenLayoutPass();
         } else if (jumpAnchorId != null) {
           // Jump open: land on the target, or the closest neighbour when the
           // around page omitted it (deleted / filtered). Never the live tail.
@@ -2346,6 +2494,8 @@ class _MessageListState extends ConsumerState<MessageList> {
         );
         // Mid-build re-anchor: direct field writes - THIS build already
         // renders the new anchor (setState here would assert).
+        _unreadOpenLayout = false;
+        _unreadLeadingPad = 0;
         _anchorId = scrollId;
         _anchorFraction = _kUnreadOpenAnchor;
         _anchorEdge = MessageListAnchorEdge.before;
@@ -2552,6 +2702,7 @@ class _MessageListState extends ConsumerState<MessageList> {
                   isLoadingMore: isLoadingMore,
                   isLoadingNewer: isLoadingNewer,
                   trailingInset: _statusOverlayInset(context),
+                  leadingPad: _unreadOpenLayout ? _unreadLeadingPad : 0,
                   startOfChannelHeader: startOfChannelHeader,
                 ),
               );

@@ -2828,8 +2828,8 @@ class ChatViewModel extends _$ChatViewModel {
         .readStateDao
         .getReadState(channelId);
     final unreadId = _firstUnreadForCurrentMessages(readState: readState);
-    // Record the sticky divider anchor only. MessageList scrolls the divider
-    // to the viewport top on first render of an unread channel (web parity).
+    // Record the sticky divider anchor only. MessageList parks the divider
+    // at mid-viewport on first render of an unread channel.
     if (unreadId != null) {
       if (state.channelId == channelId) {
         state = state.copyWith(stickyUnreadMessageId: unreadId);

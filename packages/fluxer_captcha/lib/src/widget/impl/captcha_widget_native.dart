@@ -3,6 +3,8 @@ import 'dart:developer' as dev;
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:fluxer_captcha/src/captcha_exception.dart';
 import 'package:fluxer_captcha/src/captcha_provider.dart';
@@ -437,17 +439,21 @@ class _FluxerCaptchaState extends State<FluxerCaptcha> {
   final GlobalKey webViewKey = GlobalKey();
 
   final InAppWebViewSettings _settings = InAppWebViewSettings(
-    disableHorizontalScroll: true,
     verticalScrollBarEnabled: false,
+    horizontalScrollBarEnabled: false,
     transparentBackground: true,
     disallowOverScroll: true,
-    disableVerticalScroll: true,
     supportZoom: false,
     useWideViewPort: false,
     disableDefaultErrorPage: true,
     disableContextMenu: true,
     disableLongPressContextMenuOnLinks: true,
+    allowsBackForwardNavigationGestures: false,
   );
+
+  static const Set<Factory<OneSequenceGestureRecognizer>> _webviewGestures = {
+    Factory<OneSequenceGestureRecognizer>(EagerGestureRecognizer.new),
+  };
 
   late String data;
 
@@ -632,6 +638,7 @@ class _FluxerCaptchaState extends State<FluxerCaptcha> {
       baseUrl: WebUri(widget.baseUrl),
     ),
     initialSettings: _settings,
+    gestureRecognizers: _webviewGestures,
     onWebViewCreated: (controller) {
       _createChannels(controller);
       widget.controller?.setConnector(controller);

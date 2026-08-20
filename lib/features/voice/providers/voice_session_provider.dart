@@ -462,10 +462,10 @@ class VoiceSession extends _$VoiceSession {
       );
       return false;
     }
-    final VoiceJoinEligibility eligibility = await readVoiceJoinEligibility(
-      ref,
-      channelId,
-    );
+    final bool isGuildVoiceJoin = guildId != null && guildId.isNotEmpty;
+    final VoiceJoinEligibility eligibility = isGuildVoiceJoin
+        ? await readVoiceJoinEligibility(ref, channelId)
+        : await readPrivateVoiceConnectPreflight(ref, channelId);
     if (!ref.mounted) {
       return false;
     }
@@ -475,7 +475,9 @@ class VoiceSession extends _$VoiceSession {
         '(channelId=$channelId, guildId=$guildId).',
       );
       state = state.copyWith(
-        errorMessage: kVoiceSessionErrorNoConnectPermission,
+        errorMessage: isGuildVoiceJoin
+            ? kVoiceSessionErrorNoConnectPermission
+            : kVoiceSessionErrorDirectCallNotEligible,
       );
       return false;
     }
