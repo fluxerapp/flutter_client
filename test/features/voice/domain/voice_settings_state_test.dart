@@ -28,4 +28,33 @@ void main() {
       expect(settings.preferSpeakerOutput, isTrue);
     });
   });
+
+  group('VoiceSettingsState prioritizeSpeakingParticipants', () {
+    test('defaults to false', () {
+      expect(
+        const VoiceSettingsState().prioritizeSpeakingParticipants,
+        isFalse,
+      );
+    });
+
+    test('round-trips through json', () {
+      const VoiceSettingsState settings = VoiceSettingsState(
+        prioritizeSpeakingParticipants: true,
+      );
+      final VoiceSettingsState restored = VoiceSettingsState.fromJson(
+        settings.toJson(),
+      );
+      expect(restored.prioritizeSpeakingParticipants, isTrue);
+    });
+
+    test(
+      'fromJson defaults missing prioritizeSpeakingParticipants to false',
+      () {
+        final VoiceSettingsState settings = VoiceSettingsState.fromJson(
+          <String, dynamic>{},
+        );
+        expect(settings.prioritizeSpeakingParticipants, isFalse);
+      },
+    );
+  });
 }

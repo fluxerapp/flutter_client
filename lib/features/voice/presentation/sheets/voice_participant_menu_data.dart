@@ -85,6 +85,7 @@ class VoiceParticipantMenuLabels {
     required this.disconnect,
     required this.userVolume,
     required this.streamVolume,
+    required this.prioritizeSpeakers,
   });
 
   final String viewProfile;
@@ -97,6 +98,7 @@ class VoiceParticipantMenuLabels {
   final String disconnect;
   final String userVolume;
   final String streamVolume;
+  final String prioritizeSpeakers;
 }
 
 void _addMenuGroupIfNotEmpty(
@@ -122,6 +124,7 @@ List<VoiceParticipantMenuGroup> buildVoiceParticipantMenuGroups({
   required ValueChanged<int> onVolumeChanged,
   required ValueChanged<int> onStreamVolumeChanged,
   required ValueChanged<bool> onToggleStreamMute,
+  required ValueChanged<bool> onTogglePrioritizeSpeakers,
 }) {
   final List<VoiceParticipantMenuGroup> groups = <VoiceParticipantMenuGroup>[];
   final List<VoiceParticipantMenuEntry> primaryEntries =
@@ -207,6 +210,16 @@ List<VoiceParticipantMenuGroup> buildVoiceParticipantMenuGroups({
     ]);
   }
   _addMenuGroupIfNotEmpty(groups, streamControlEntries);
+  if (capabilities.showDisplayPreferences) {
+    _addMenuGroupIfNotEmpty(groups, <VoiceParticipantMenuEntry>[
+      VoiceParticipantMenuCheckboxEntry(
+        label: labels.prioritizeSpeakers,
+        icon: PhosphorIconsFill.handTap,
+        isChecked: capabilities.prioritizeSpeakingParticipants,
+        onChanged: onTogglePrioritizeSpeakers,
+      ),
+    ]);
+  }
   if (capabilities.showDisconnect) {
     groups.add(
       VoiceParticipantMenuGroup(

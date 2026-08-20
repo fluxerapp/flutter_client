@@ -9008,6 +9008,12 @@ abstract class FluxerLocalizations {
   /// **'Show my own camera'**
   String get voicePanelShowOwnCameraLabel;
 
+  /// Voice display preference that moves active speakers toward the front of the call grid when enabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Prioritize speakers'**
+  String get voicePrioritizeSpeakersLabel;
+
   /// Accessibility label for opening voice channel text chat.
   ///
   /// In en, this message translates to:
@@ -22556,6 +22562,18 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Expand or collapse compact call view'**
   String get keybindActionToggleCompactCallView;
+
+  /// No description provided for @keybindActionPushToTalkPriority.
+  ///
+  /// In en, this message translates to:
+  /// **'Push to talk (priority)'**
+  String get keybindActionPushToTalkPriority;
+
+  /// No description provided for @keybindActionVoiceActivityPriority.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice activity priority'**
+  String get keybindActionVoiceActivityPriority;
 
   /// No description provided for @keybindActionOpenHelp.
   ///

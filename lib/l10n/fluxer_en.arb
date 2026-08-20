@@ -6947,6 +6947,10 @@
     "@voicePanelShowOwnCameraLabel": {
         "description": "Switch label to show or hide the local camera tile in the voice call grid."
     },
+    "voicePrioritizeSpeakersLabel": "Prioritize speakers",
+    "@voicePrioritizeSpeakersLabel": {
+        "description": "Voice display preference that moves active speakers toward the front of the call grid when enabled."
+    },
     "voiceTextChatShow": "Show chat",
     "@voiceTextChatShow": {
         "description": "Accessibility label for opening voice channel text chat."
@@ -15962,6 +15966,8 @@
     "keybindActionStartDmCall": "Start a call in a DM or group",
     "keybindActionToggleSoundboard": "Toggle the soundboard",
     "keybindActionToggleCompactCallView": "Expand or collapse compact call view",
+    "keybindActionPushToTalkPriority": "Push to talk (priority)",
+    "keybindActionVoiceActivityPriority": "Voice activity priority",
     "keybindActionOpenHelp": "Open help",
     "keybindActionSearchMessages": "Search messages",
     "keybindActionOpenContextMenu": "Open the context menu",

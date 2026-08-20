@@ -5481,6 +5481,9 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get voicePanelShowOwnCameraLabel => 'Mostrar mi propia cámara';
 
   @override
+  String get voicePrioritizeSpeakersLabel => 'Prioritize speakers';
+
+  @override
   String get voiceTextChatShow => 'Mostrar chat';
 
   @override
@@ -13563,6 +13566,12 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   @override
   String get keybindActionToggleCompactCallView =>
       'Expand or collapse compact call view';
+
+  @override
+  String get keybindActionPushToTalkPriority => 'Push to talk (priority)';
+
+  @override
+  String get keybindActionVoiceActivityPriority => 'Voice activity priority';
 
   @override
   String get keybindActionOpenHelp => 'Open help';

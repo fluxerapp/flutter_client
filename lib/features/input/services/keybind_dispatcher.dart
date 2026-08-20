@@ -6,6 +6,13 @@ import 'package:fluxer_app/features/input/domain/keybind_action.dart';
 import 'package:fluxer_app/features/input/domain/keybind_combo_matcher.dart';
 import 'package:fluxer_app/features/input/domain/keybind_dispatch_context.dart';
 
+const Set<KeybindAction> kVoiceFullscreenAllowedKeybindActions =
+    <KeybindAction>{
+      KeybindAction.voiceDeclineCall,
+      KeybindAction.voicePushToTalkPriority,
+      KeybindAction.voicePriorityVad,
+    };
+
 class KeybindDispatcher {
   KeybindDispatcher({List<DefaultKeybind>? entries})
     : _entries = entries ?? buildDefaultKeybinds();
@@ -18,6 +25,9 @@ class KeybindDispatcher {
   }) {
     final List<DefaultKeybind> matches = <DefaultKeybind>[];
     for (final DefaultKeybind entry in _entries) {
+      if (!entry.combo.hasTrigger) {
+        continue;
+      }
       if (!_canDispatch(entry, event: event, context: context)) {
         continue;
       }
@@ -72,7 +82,7 @@ class KeybindDispatcher {
     }
     if (context.fullscreenMediaOpen &&
         entry.combo.key != 'Escape' &&
-        entry.action != KeybindAction.voiceDeclineCall) {
+        !kVoiceFullscreenAllowedKeybindActions.contains(entry.action)) {
       return false;
     }
     if (context.modalOpen && !_isAllowedInModal(entry.action)) {

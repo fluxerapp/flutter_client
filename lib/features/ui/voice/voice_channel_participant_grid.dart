@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/voice/fluxer_live_badge.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_participant_layouts.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
+import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_context_menu.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_menu_data.dart';
 import 'package:fluxer_app/features/voice/providers/voice_active_speakers_provider.dart';
@@ -27,6 +28,7 @@ import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart'
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_grid_layout/voice_grid_layout.dart';
 import 'package:fluxer_app/features/voice/utils/voice_grid_layout/voice_hangout_layout.dart';
+import 'package:fluxer_app/features/voice/utils/voice_grid_speaking_order.dart';
 import 'package:fluxer_app/features/voice/utils/voice_participant_track_resolver.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
@@ -455,6 +457,12 @@ class _VoiceChannelParticipantGridState
     final VoiceCallDisplayPreferencesState displayPreferences = ref.watch(
       voiceCallDisplayPreferencesProvider,
     );
+    final bool prioritizeSpeakingParticipants = ref.watch(
+      voiceSettingsProvider.select(
+        (VoiceSettingsState settings) =>
+            settings.prioritizeSpeakingParticipants,
+      ),
+    );
     final String? watchedTileId = ref.watch(voiceScreenShareWatchTileProvider);
     ref.watch(voiceChannelGridStructureProvider(participantKey));
     final List<VoiceChannelParticipantData> list = ref.read(
@@ -485,19 +493,19 @@ class _VoiceChannelParticipantGridState
       }
       return const Center(child: FluxerLoadingSpinner());
     }
-    final List<_VoiceGridTileItem> tileItems = _orderTiles(
-      _buildTileItems(
-        participants: list,
-        room: liveKit,
-        currentUserId: me,
-        localConnectionId: localConnectionId,
-        onlyShowVideos: displayPreferences.onlyShowVideos,
-        showOwnCamera: displayPreferences.showOwnCamera,
-      ),
-      liveKit,
-      me,
-      localConnectionId,
-      speakers,
+    final List<_VoiceGridTileItem> builtTiles = _buildTileItems(
+      participants: list,
+      room: liveKit,
+      currentUserId: me,
+      localConnectionId: localConnectionId,
+      onlyShowVideos: displayPreferences.onlyShowVideos,
+      showOwnCamera: displayPreferences.showOwnCamera,
+    );
+    final List<_VoiceGridTileItem> tileItems = voiceGridTilesForDisplay(
+      prioritizeSpeakingParticipants: prioritizeSpeakingParticipants,
+      tiles: builtTiles,
+      orderBySpeaking: (List<_VoiceGridTileItem> tiles) =>
+          _orderTiles(tiles, liveKit, me, localConnectionId, speakers),
     );
     final String? authToken = ref.watch(fluxerAuthTokenProvider);
     final String? baseUrl = ref.watch(fluxerBaseUrlProvider);

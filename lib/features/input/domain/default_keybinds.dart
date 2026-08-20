@@ -419,6 +419,20 @@ List<DefaultKeybind> buildDefaultKeybinds() {
       section: KeybindSection.voiceAndVideo,
     ),
     const DefaultKeybind(
+      action: KeybindAction.voicePushToTalkPriority,
+      combo: KeybindCombo(key: ''),
+      hideFromDefaults: true,
+      informationalOnly: true,
+      section: KeybindSection.voiceAndVideo,
+    ),
+    const DefaultKeybind(
+      action: KeybindAction.voicePriorityVad,
+      combo: KeybindCombo(key: ''),
+      hideFromDefaults: true,
+      informationalOnly: true,
+      section: KeybindSection.voiceAndVideo,
+    ),
+    const DefaultKeybind(
       action: KeybindAction.miscHelp,
       combo: KeybindCombo(key: 'h', ctrlOrMeta: true, shift: true),
       section: KeybindSection.misc,

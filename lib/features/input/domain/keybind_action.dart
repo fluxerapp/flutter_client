@@ -65,6 +65,8 @@ enum KeybindAction {
   voiceStartDmCall,
   voiceToggleSoundboard,
   voiceToggleCompactCallView,
+  voicePushToTalkPriority,
+  voicePriorityVad,
   miscHelp,
   miscSearch,
   miscOpenContextMenu,
@@ -211,6 +213,10 @@ extension KeybindActionId on KeybindAction {
         return 'voice_toggle_soundboard';
       case KeybindAction.voiceToggleCompactCallView:
         return 'voice_toggle_compact_call_view';
+      case KeybindAction.voicePushToTalkPriority:
+        return 'voice_push_to_talk_priority';
+      case KeybindAction.voicePriorityVad:
+        return 'voice_priority_vad';
       case KeybindAction.miscHelp:
         return 'misc_help';
       case KeybindAction.miscSearch:

@@ -25,6 +25,9 @@ const Key kVoiceControlPanelOnlyShowVideosKey = Key(
 const Key kVoiceControlPanelShowOwnCameraKey = Key(
   'voice-control-panel-show-own-camera',
 );
+const Key kVoiceControlPanelPrioritizeSpeakersKey = Key(
+  'voice-control-panel-prioritize-speakers',
+);
 
 class VoiceChannelControlPanelSettings extends ConsumerWidget {
   const VoiceChannelControlPanelSettings({
@@ -147,6 +150,19 @@ class VoiceChannelControlPanelSettings extends ConsumerWidget {
                 value: displayPreferences.showOwnCamera,
                 onChanged: (bool value) {
                   displayNotifier.setShowOwnCamera(value: value);
+                },
+              ),
+              VoicePanelSettingSwitchRow(
+                key: kVoiceControlPanelPrioritizeSpeakersKey,
+                icon: PhosphorIconsFill.handTap,
+                label: l10n.voicePrioritizeSpeakersLabel,
+                value: settings.prioritizeSpeakingParticipants,
+                onChanged: (bool value) {
+                  unawaited(
+                    settingsNotifier.setPrioritizeSpeakingParticipants(
+                      value: value,
+                    ),
+                  );
                 },
               ),
             ],

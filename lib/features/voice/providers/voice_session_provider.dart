@@ -26,7 +26,9 @@ import 'package:fluxer_app/features/voice/providers/local_voice_state_provider.d
 import 'package:fluxer_app/features/voice/providers/screen_share_capability_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_display_preferences_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_channel_permissions_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_join_eligibility_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_priority_speaker_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_screen_share_watch_tile_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/services/voice_settings_applicator.dart';
@@ -36,6 +38,7 @@ import 'package:fluxer_app/features/voice/utils/microphone_permission.dart';
 import 'package:fluxer_app/features/voice/utils/voice_audio_route_recovery.dart';
 import 'package:fluxer_app/features/voice/utils/voice_camera_platform.dart';
 import 'package:fluxer_app/features/voice/utils/voice_channel_join_guard.dart';
+import 'package:fluxer_app/features/voice/utils/voice_channel_permissions.dart';
 import 'package:fluxer_app/features/voice/utils/voice_connection_voice_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_effective_audio_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_participant_volume_utils.dart';
@@ -112,6 +115,7 @@ class VoiceSession extends _$VoiceSession {
   Set<String>? _lastKnownInputDeviceIds;
   Set<String>? _pendingRecoveryInputIds;
   bool _isRecoveringAudioRoute = false;
+  VoiceChannelPermissions? _channelPermissions;
 
   @override
   VoiceSessionState build() {
@@ -1211,6 +1215,8 @@ class VoiceSession extends _$VoiceSession {
     ref.read(voiceScreenShareWatchTileProvider.notifier).setActiveTileId(null);
     ref.read(voiceCallLayoutProvider.notifier).reset();
     ref.read(voiceCallDisplayPreferencesProvider.notifier).reset();
+    ref.read(voicePrioritySpeakerProvider.notifier).resetPrioritySpeakerState();
+    _channelPermissions = null;
     await disableAndroidScreenShareBackground();
     final String? channelId = state.channelId;
     final String? guildId = state.guildId;
@@ -2012,6 +2018,7 @@ class VoiceSession extends _$VoiceSession {
       activeConnectionId: connectionId,
       clearError: true,
     );
+    _refreshChannelPermissionsSnapshot();
     SchedulerBinding.instance.addPostFrameCallback((_) {
       unawaited(
         playFluxerSoundEffect(
@@ -2462,7 +2469,30 @@ class VoiceSession extends _$VoiceSession {
     if (!state.isConnected || state.channelId == null) {
       return;
     }
+    _refreshChannelPermissionsSnapshot();
     await _reconcileLocalAudioPublish(reason: 'permission_cache_changed');
+  }
+
+  void _refreshChannelPermissionsSnapshot() {
+    final String? channelId = state.channelId;
+    if (channelId == null) {
+      return;
+    }
+    final VoiceChannelPermissions? next = ref.read(
+      voiceChannelPermissionsProvider(channelId),
+    );
+    if (next == null) {
+      return;
+    }
+    final VoiceChannelPermissions? previous = _channelPermissions;
+    _channelPermissions = next;
+    if (previous != null &&
+        previous.canPrioritySpeaker != next.canPrioritySpeaker) {
+      talker.debug(
+        '[Voice] canPrioritySpeaker changed: ${previous.canPrioritySpeaker} -> '
+        '${next.canPrioritySpeaker} (channelId=$channelId)',
+      );
+    }
   }
 
   void _bindVoiceRoomEvents({
