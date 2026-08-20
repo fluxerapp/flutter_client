@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'fluxer_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -3414,10 +3415,8 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other:
-          'سيؤدي هذا إلى تسجيل خروج الأجهزة المحددة من حسابك. ستحتاج إلى تسجيل الدخول مرة أخرى على تلك الأجهزة.',
-      one:
-          'سيؤدي هذا إلى تسجيل خروج الجهاز المحدد من حسابك. ستحتاج إلى تسجيل الدخول مرة أخرى على هذا الجهاز.',
+      other: 'سيؤدي هذا إلى تسجيل خروج الأجهزة المحددة من حسابك. ستحتاج إلى تسجيل الدخول مرة أخرى على تلك الأجهزة.',
+      one: 'سيؤدي هذا إلى تسجيل خروج الجهاز المحدد من حسابك. ستحتاج إلى تسجيل الدخول مرة أخرى على هذا الجهاز.',
     );
     return '$_temp0';
   }

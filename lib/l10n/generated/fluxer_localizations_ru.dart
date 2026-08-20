@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'fluxer_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -3446,10 +3447,8 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other:
-          'Это приведет к выходу с выбранных устройств из твоего аккаунта. Тебе придется снова войти на этих устройствах.',
-      one:
-          'Это приведет к выходу с выбранного устройства из твоего аккаунта. Тебе придется снова войти на этом устройстве.',
+      other: 'Это приведет к выходу с выбранных устройств из твоего аккаунта. Тебе придется снова войти на этих устройствах.',
+      one: 'Это приведет к выходу с выбранного устройства из твоего аккаунта. Тебе придется снова войти на этом устройстве.',
     );
     return '$_temp0';
   }
@@ -5174,8 +5173,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       locale: localeName,
       other:
           'Вы уже подключены к этому голосовому каналу с $count других устройств. Что вы хотите сделать?',
-      one:
-          'Вы уже подключены к этому голосовому каналу с 1 другого устройства. Что вы хотите сделать?',
+      one: 'Вы уже подключены к этому голосовому каналу с 1 другого устройства. Что вы хотите сделать?',
     );
     return '$_temp0';
   }
