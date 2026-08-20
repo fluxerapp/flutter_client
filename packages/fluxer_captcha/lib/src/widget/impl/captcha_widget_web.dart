@@ -98,6 +98,8 @@ class _DartCaptcha {
       ..style.height = 'auto'
       ..style.minHeight = '${options.size.height}px'
       ..style.overflow = 'visible'
+      ..style.pointerEvents = 'auto'
+      ..style.setProperty('touch-action', 'none')
       ..setAttribute('data-sitekey', siteKey)
       ..setAttribute('data-theme', _resolveTheme(options))
       ..setAttribute('data-size', options.size.name)

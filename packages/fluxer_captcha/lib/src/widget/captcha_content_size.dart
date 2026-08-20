@@ -59,6 +59,9 @@ html, body {
   padding: 0;
   overflow: visible;
   width: 100%;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 ''';
 
