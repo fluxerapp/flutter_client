@@ -107,6 +107,58 @@ void main() {
     );
 
     testWidgets(
+      'many unreads keep NEW centered with the newest below the fold',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(420, 640);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+
+        final _AroundAckMessageListHarness harness =
+            await _createAroundAckMessageListHarness(ackIndex: 5);
+
+        await tester.pumpWidget(
+          _messageListApp(
+            database: harness.database,
+            chatViewModel: harness.chatViewModel,
+          ),
+        );
+        await tester.pump();
+        await tester.pump();
+
+        final Finder unreadDivider = find.text('NEW');
+        final Finder firstUnread = _messageItemFor(harness.firstUnreadId);
+        expect(unreadDivider, findsOneWidget);
+        expect(firstUnread, findsOneWidget);
+
+        final Rect viewport = tester.getRect(_messageListScrollable());
+        final double viewportCenterY = viewport.top + viewport.height * 0.5;
+        expect(
+          tester.getRect(unreadDivider).center.dy,
+          moreOrLessEquals(viewportCenterY, epsilon: 48),
+        );
+        expect(
+          tester.getRect(firstUnread).top,
+          greaterThanOrEqualTo(tester.getRect(unreadDivider).bottom - 4),
+        );
+
+        final ScrollPosition position = _messageListScrollPosition(tester);
+        expect(
+          position.maxScrollExtent - position.pixels,
+          greaterThan(kMessageListReadBottomThreshold),
+          reason: 'a long unread backlog should extend below the viewport',
+        );
+        expect(
+          _messageItemFor(harness.newestLoadedId),
+          findsNothing,
+          reason: 'the newest unread should stay below the fold on open',
+        );
+
+        await _disposeMessageList(tester);
+      },
+    );
+
+    testWidgets(
       'open inside the newer margin issues one bounded prefetch - an empty '
       'page parks the pump instead of refetching per frame',
       (WidgetTester tester) async {
@@ -990,7 +1042,7 @@ void main() {
     );
 
     testWidgets(
-      'short unread block falls back to a bottom-anchored open without a trailing gap',
+      'short unread block packs NEW above the last unread instead of mid-viewport',
       (WidgetTester tester) async {
         tester.view.physicalSize = const Size(420, 640);
         tester.view.devicePixelRatio = 1;
@@ -1010,41 +1062,97 @@ void main() {
           ),
         );
         await tester.pump();
+        await tester.pump();
+        await tester.pump();
 
-        // The open frame centers the single unread message, so the underfill
-        // fallback is scheduled against this frame.
         final Finder unreadDivider = find.text('NEW');
+        final Finder firstUnread = _messageItemFor(harness.firstUnreadId);
+        final Finder newest = _messageItemFor(harness.newestLoadedId);
         expect(unreadDivider, findsOneWidget);
+        expect(firstUnread, findsOneWidget);
+        expect(newest, findsOneWidget);
+
         final Rect viewport = tester.getRect(_messageListScrollable());
         final double viewportCenterY = viewport.top + viewport.height * 0.5;
-        expect(
-          tester.getRect(unreadDivider).center.dy,
-          moreOrLessEquals(viewportCenterY, epsilon: 48),
-        );
-
-        await tester.pump();
-        await tester.pump();
-
-        // The fallback re-anchored to the bottom: the newest message sits at
-        // the live tail, while older history remains scrollable above it.
-        final ScrollPosition position = _messageListScrollPosition(tester);
-        expect(
-          position.maxScrollExtent - position.pixels,
-          lessThanOrEqualTo(kMessageListReadBottomThreshold),
-        );
-        expect(
-          position.pixels - position.minScrollExtent,
-          greaterThan(kMessageListReadBottomThreshold),
-        );
-
-        final Finder newest = _messageItemFor(harness.newestLoadedId);
-        expect(newest, findsOneWidget);
+        final Rect unreadDividerRect = tester.getRect(unreadDivider);
+        final Rect firstUnreadRect = tester.getRect(firstUnread);
         final Rect newestRect = tester.getRect(newest);
-        expect(newestRect.bottom, greaterThan(viewport.bottom - 64));
-        expect(newestRect.bottom, lessThanOrEqualTo(viewport.bottom + 1));
 
-        // The NEW divider is per-tile, so the fallback keeps it rendered.
+        expect(
+          unreadDividerRect.center.dy,
+          greaterThan(viewportCenterY + 24),
+          reason:
+              'NEW must sit below mid-viewport when trailing unreads are short',
+        );
+        expect(
+          firstUnreadRect.top,
+          greaterThanOrEqualTo(unreadDividerRect.bottom - 4),
+        );
+        expect(
+          firstUnreadRect.top - unreadDividerRect.bottom,
+          lessThan(48),
+          reason: 'first unread should sit flush under NEW',
+        );
+        expect(
+          newestRect.bottom,
+          greaterThan(viewport.bottom - 96),
+          reason:
+              'the last unread should sit near the composer, not over a void',
+        );
+
+        await _disposeMessageList(tester);
+      },
+    );
+
+    testWidgets(
+      'short channel with one unread packs the message near the composer',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(420, 640);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+
+        final _AroundAckMessageListHarness harness =
+            await _createAroundAckMessageListHarness(
+              messageCount: 3,
+              ackIndex: 1,
+              hasMoreNewerMessages: false,
+            );
+
+        await tester.pumpWidget(
+          _messageListApp(
+            database: harness.database,
+            chatViewModel: harness.chatViewModel,
+          ),
+        );
+        await tester.pump();
+        await tester.pump();
+        await tester.pump();
+
+        final Finder unreadDivider = find.text('NEW');
+        final Finder firstUnread = _messageItemFor(harness.firstUnreadId);
         expect(unreadDivider, findsOneWidget);
+        expect(firstUnread, findsOneWidget);
+
+        final Rect viewport = tester.getRect(_messageListScrollable());
+        final double viewportCenterY = viewport.top + viewport.height * 0.5;
+        final Rect unreadDividerRect = tester.getRect(unreadDivider);
+        final Rect firstUnreadRect = tester.getRect(firstUnread);
+
+        expect(
+          unreadDividerRect.center.dy,
+          greaterThan(viewportCenterY),
+          reason: 'NEW must not stay at mid-viewport over a short unread block',
+        );
+        expect(
+          firstUnreadRect.top,
+          greaterThanOrEqualTo(unreadDividerRect.bottom - 4),
+        );
+        expect(
+          firstUnreadRect.bottom,
+          greaterThan(viewport.bottom - 96),
+          reason: 'the only unread should sit near the composer',
+        );
 
         await _disposeMessageList(tester);
       },
@@ -1168,6 +1276,180 @@ void main() {
         final Finder newest = _messageItemFor(harness.newestLoadedId);
         expect(newest, findsOneWidget);
         expect(tester.getRect(newest).bottom, lessThan(viewport.bottom - 64));
+
+        await _disposeMessageList(tester);
+      },
+    );
+
+    testWidgets(
+      'tall first unread keeps NEW on screen and does not pin the live tail',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(420, 640);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+
+        final _AroundAckMessageListHarness harness =
+            await _createAroundAckMessageListHarness(
+              ackIndex: 48,
+              hasMoreNewerMessages: false,
+              firstUnreadLines: 40,
+            );
+
+        await tester.pumpWidget(
+          _messageListApp(
+            database: harness.database,
+            chatViewModel: harness.chatViewModel,
+          ),
+        );
+        await tester.pump();
+        await tester.pump();
+        await tester.pump();
+
+        final Finder unreadDivider = find.text('NEW');
+        final Finder firstUnread = _messageItemFor(harness.firstUnreadId);
+        expect(unreadDivider, findsOneWidget);
+        expect(firstUnread, findsOneWidget);
+
+        final Rect viewport = tester.getRect(_messageListScrollable());
+        final Rect unreadDividerRect = tester.getRect(unreadDivider);
+        final Rect firstUnreadRect = tester.getRect(firstUnread);
+
+        expect(
+          unreadDividerRect.top,
+          greaterThanOrEqualTo(viewport.top + 8),
+          reason: 'NEW must stay on screen, not clipped above the viewport',
+        );
+        expect(unreadDividerRect.top, lessThan(viewport.center.dy + 48));
+        expect(
+          firstUnreadRect.top,
+          greaterThanOrEqualTo(unreadDividerRect.bottom - 4),
+        );
+        expect(
+          firstUnreadRect.top,
+          lessThan(viewport.bottom - 64),
+          reason:
+              'the start of a tall unread must be visible without extra scroll',
+        );
+
+        await _disposeMessageList(tester);
+      },
+    );
+
+    testWidgets('caught-up channel still opens at the live tail', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(420, 640);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final _AroundAckMessageListHarness harness =
+          await _createBottomMessageListHarness();
+
+      await tester.pumpWidget(
+        _messageListApp(
+          database: harness.database,
+          chatViewModel: harness.chatViewModel,
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+
+      expect(find.text('NEW'), findsNothing);
+      final Finder newest = _messageItemFor(harness.newestLoadedId);
+      expect(newest, findsOneWidget);
+      final Rect viewport = tester.getRect(_messageListScrollable());
+      expect(tester.getRect(newest).bottom, greaterThan(viewport.bottom - 64));
+      final ScrollPosition position = _messageListScrollPosition(tester);
+      expect(
+        position.maxScrollExtent - position.pixels,
+        lessThanOrEqualTo(kMessageListReadBottomThreshold),
+      );
+
+      await _disposeMessageList(tester);
+    });
+
+    testWidgets(
+      'jump from an unread open centers the target instead of keeping NEW mid-screen',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(420, 640);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+
+        final _AroundAckMessageListHarness harness =
+            await _createAroundAckMessageListHarness(
+              ackIndex: 48,
+              hasMoreNewerMessages: false,
+            );
+
+        await tester.pumpWidget(
+          _messageListApp(
+            database: harness.database,
+            chatViewModel: harness.chatViewModel,
+          ),
+        );
+        await tester.pump();
+        await tester.pump();
+        await tester.pump();
+
+        expect(find.text('NEW'), findsOneWidget);
+
+        final String targetId = harness.messages[10].id;
+        harness.chatViewModel.scrollToMessage(targetId);
+        await _pumpMessageJump(tester);
+
+        final Rect viewport = tester.getRect(_messageListScrollable());
+        final Rect target = tester.getRect(_messageItemFor(targetId));
+        expect(
+          (target.center.dy - viewport.center.dy).abs(),
+          lessThanOrEqualTo(48),
+          reason: 'a jump after unread open must center the target tile',
+        );
+
+        await _disposeMessageList(tester);
+      },
+    );
+
+    testWidgets(
+      'scroll to bottom from an unread open pins the newest at the composer',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(420, 640);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+
+        final _AroundAckMessageListHarness harness =
+            await _createAroundAckMessageListHarness(
+              ackIndex: 48,
+              hasMoreNewerMessages: false,
+            );
+
+        await tester.pumpWidget(
+          _messageListApp(
+            database: harness.database,
+            chatViewModel: harness.chatViewModel,
+          ),
+        );
+        await tester.pump();
+        await tester.pump();
+        await tester.pump();
+
+        harness.chatViewModel.scrollToBottom();
+        await _pumpScrollToBottom(tester);
+
+        final Rect viewport = tester.getRect(_messageListScrollable());
+        final Rect newestRect = tester.getRect(
+          _messageItemFor(harness.newestLoadedId),
+        );
+        expect(newestRect.bottom, greaterThan(viewport.bottom - 64));
+        expect(newestRect.bottom, lessThanOrEqualTo(viewport.bottom + 1));
+        final ScrollPosition position = _messageListScrollPosition(tester);
+        expect(
+          position.maxScrollExtent - position.pixels,
+          lessThanOrEqualTo(kMessageListReadBottomThreshold),
+        );
 
         await _disposeMessageList(tester);
       },
@@ -4996,6 +5278,7 @@ Future<_AroundAckMessageListHarness> _createAroundAckMessageListHarness({
   String? newestAuthorId,
   bool startLoading = false,
   bool retainMessagesWhileLoading = false,
+  int firstUnreadLines = 1,
 }) async {
   assert(ackIndex > 0, 'ackIndex must leave one older message');
   assert(ackIndex < messageCount - 1, 'ackIndex must leave one newer message');
@@ -5017,15 +5300,20 @@ Future<_AroundAckMessageListHarness> _createAroundAckMessageListHarness({
         authorId: index == ids.length - 1
             ? newestAuthorId ?? _messageListAuthorId
             : _messageListAuthorId,
-        content: _messageListContentFor(
-          id: ids[index],
-          index: index,
-          olderId: olderReadId,
-          ackId: ackId,
-          firstUnreadId: firstUnreadId,
-          newerId: newerId,
-          newestLoadedId: newestLoadedId,
-        ),
+        content: ids[index] == firstUnreadId && firstUnreadLines > 1
+            ? List<String>.generate(
+                firstUnreadLines,
+                (int line) => 'tall unread line $line',
+              ).join('\n')
+            : _messageListContentFor(
+                id: ids[index],
+                index: index,
+                olderId: olderReadId,
+                ackId: ackId,
+                firstUnreadId: firstUnreadId,
+                newerId: newerId,
+                newestLoadedId: newestLoadedId,
+              ),
         timestamp: base.add(Duration(minutes: index)),
       ),
   ];

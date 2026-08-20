@@ -54,6 +54,7 @@ class MessageListViewport extends StatelessWidget {
     required this.isLoadingMore,
     required this.isLoadingNewer,
     required this.trailingInset,
+    this.leadingPad = 0,
     this.startOfChannelHeader,
     super.key,
   });
@@ -99,6 +100,10 @@ class MessageListViewport extends StatelessWidget {
   /// Extent reserved after the trailing sliver for status overlays.
   final double trailingInset;
 
+  /// Extra space before the oldest leading item so a short channel can still
+  /// park the unread divider at [anchorFraction].
+  final double leadingPad;
+
   final Widget? startOfChannelHeader;
 
   @override
@@ -134,6 +139,8 @@ class MessageListViewport extends StatelessWidget {
                 slivers: [
                   if (startOfChannelHeader != null)
                     SliverToBoxAdapter(child: startOfChannelHeader),
+                  if (leadingPad > 0)
+                    SliverToBoxAdapter(child: SizedBox(height: leadingPad)),
                   SliverPadding(
                     padding: const EdgeInsets.only(top: 8),
                     sliver: SliverList(
