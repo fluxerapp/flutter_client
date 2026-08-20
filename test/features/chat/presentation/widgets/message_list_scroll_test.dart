@@ -1664,9 +1664,10 @@ void main() {
         await tester.tap(find.text('Mark Read'));
         await pumpFluxerFrames(tester);
 
+        final ScrollPosition landed = _messageListScrollPosition(tester);
         expect(
-          position.pixels,
-          moreOrLessEquals(position.maxScrollExtent, epsilon: 1),
+          landed.pixels,
+          moreOrLessEquals(landed.maxScrollExtent, epsilon: 1),
           reason: 'mark-read is a to-tail intent, not glue',
         );
 
