@@ -53,9 +53,7 @@ const MessageRenderSettings _denseSettings = MessageRenderSettings(
 Widget _app(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
-    overrides: [
-      use12HourTimeFormatProvider.overrideWithValue(false),
-    ],
+    overrides: [use12HourTimeFormatProvider.overrideWithValue(false)],
     child: MaterialApp(
       locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
@@ -76,12 +74,7 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        _app(
-          MessageItem(
-            message: _message(),
-            renderSettings: _cozySettings,
-          ),
-        ),
+        _app(MessageItem(message: _message(), renderSettings: _cozySettings)),
       );
       await tester.pump();
 
@@ -114,12 +107,7 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        _app(
-          MessageItem(
-            message: _message(),
-            renderSettings: _denseSettings,
-          ),
-        ),
+        _app(MessageItem(message: _message(), renderSettings: _denseSettings)),
       );
       await tester.pump();
 
