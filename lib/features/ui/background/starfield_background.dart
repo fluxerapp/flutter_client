@@ -106,8 +106,8 @@ class _StarfieldBackgroundState extends State<StarfieldBackground>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   static const Duration _fineDriftDuration = Duration(seconds: 90);
   static const Duration _coarseDriftDuration = Duration(seconds: 120);
-  static const double _parallaxSensitivity = 4;
-  static const double _parallaxMaxOffset = 12;
+  static const double _parallaxSensitivity = 7;
+  static const double _parallaxMaxOffset = 22;
   static const double _parallaxSmoothing = 0.15;
   static const double _parallaxSettledDistance = 0.05;
 
@@ -380,8 +380,8 @@ class _StarfieldPainter extends CustomPainter {
   final double coarseProgress;
   final Offset parallaxOffset;
 
-  static const double _fineParallaxScale = 0.4;
-  static const double _coarseParallaxScale = 1;
+  static const double _fineParallaxScale = 0.75;
+  static const double _coarseParallaxScale = 1.4;
 
   static const List<_StarSpec> _fineStars = <_StarSpec>[
     _StarSpec(0.04, 0.12, 0.5, Color(0x5CFFFFFF)),
