@@ -1659,6 +1659,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     required bool swipeToReplyEnabled,
     bool renderDaySeparator = true,
     bool prependUnreadSeparator = false,
+    bool forceLeadingSpacing = false,
   }) {
     final bool isNewDay =
         renderDaySeparator &&
@@ -1679,7 +1680,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       isGroupStart: !isGrouped,
       isNewDay: isNewDay,
       isUnreadBoundary: isUnreadBoundary,
-      hasPrevious: previousMessage != null,
+      hasPrevious: previousMessage != null || forceLeadingSpacing,
       bothSystem:
           message.isSystemMessage &&
           (previousMessage?.isSystemMessage ?? false),
@@ -1921,12 +1922,18 @@ class _MessageListState extends ConsumerState<MessageList> {
         final String? groupKey = item.groupKey;
         final bool isRevealed =
             groupKey != null && revealedCollapsedGroupKey == groupKey;
+        final double leadingSpacing = leadingGroupSpacingBeforeStreamItem(
+          stream,
+          dataIndex,
+          spacing: renderSettings.messageGroupSpacing,
+        );
         final Object signature = (
           item.type,
           item.messages.length,
           isRevealed,
           highlightedMessageId,
           swipeToReplyEnabled,
+          leadingSpacing,
         );
         return _tileCache.resolve('group-$groupKey', signature, () {
           return _wrapWithUnreadSeparator(
@@ -1934,6 +1941,7 @@ class _MessageListState extends ConsumerState<MessageList> {
             BlockedMessageGroups(
               item: item,
               isRevealed: isRevealed,
+              leadingGroupSpacing: leadingSpacing,
               leadingPreviousMessage: resolvePreviousMessageForStreamItem(
                 stream,
                 dataIndex,
@@ -1989,6 +1997,7 @@ class _MessageListState extends ConsumerState<MessageList> {
             context: context,
             message: message,
             previousMessage: previousMessage,
+            forceLeadingSpacing: followsCollapsedGroup(stream, dataIndex),
             visualUnreadId: visualUnreadId,
             highlightedMessageId: highlightedMessageId,
             currentUserId: currentUserId,

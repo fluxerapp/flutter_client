@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_row_layout.dart';
 import 'package:fluxer_app/features/chat/utils/channel_message_stream.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -15,6 +16,7 @@ class BlockedMessageGroups extends StatelessWidget {
     required this.onToggle,
     required this.messageBuilder,
     this.leadingPreviousMessage,
+    this.leadingGroupSpacing = 0,
     super.key,
   });
 
@@ -23,6 +25,7 @@ class BlockedMessageGroups extends StatelessWidget {
   final VoidCallback onToggle;
   final BlockedGroupMessageBuilder messageBuilder;
   final Message? leadingPreviousMessage;
+  final double leadingGroupSpacing;
 
   @override
   Widget build(BuildContext context) {
@@ -32,33 +35,55 @@ class BlockedMessageGroups extends StatelessWidget {
         ? l10n.chatBlockedMessagesCollapsed(count)
         : l10n.chatSpammerMessagesCollapsed(count);
 
-    final List<Widget> children = <Widget>[
-      FluxerButton.ghost(
-        onPressed: onToggle,
-        child: Text(
-          label,
-          style: context.textStyles.smallText.copyWith(
-            color: context.colors.textPrimaryMuted,
-            fontStyle: FontStyle.italic,
-          ),
-        ),
-      ),
-    ];
-
+    final List<Widget> revealedMessages = <Widget>[];
     if (isRevealed) {
       Message? previousMessage = leadingPreviousMessage;
       for (final Message message in item.messages) {
-        children.add(messageBuilder(message, previousMessage));
+        revealedMessages.add(messageBuilder(message, previousMessage));
         previousMessage = message;
       }
     }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: children,
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        if (leadingGroupSpacing > 0) SizedBox(height: leadingGroupSpacing),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: context.colors.backgroundSecondary,
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: kMessageRowPaddingHorizontal,
+                  vertical: 4,
+                ),
+                child: FluxerButton.ghost(
+                  onPressed: onToggle,
+                  child: Text(
+                    label,
+                    style: context.textStyles.smallText.copyWith(
+                      color: context.colors.textPrimaryMuted,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                ),
+              ),
+              if (revealedMessages.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: revealedMessages,
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
