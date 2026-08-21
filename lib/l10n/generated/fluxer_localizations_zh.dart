@@ -9733,6 +9733,27 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get userSettingsJoinFluxerLabs => 'Join Fluxer Labs';
 
   @override
+  String get userSettingsNavAppLicenses => 'App Licenses';
+
+  @override
+  String get userSettingsAppLicensesDescription =>
+      'Open-source software used by this app. This app is built with Flutter.';
+
+  @override
+  String get userSettingsAppLicensesLoadError => 'Could not load app licenses.';
+
+  @override
+  String userSettingsAppLicensesPackageCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count licenses',
+      one: '1 license',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get userSettingsNavLogOut => '退出登录';
 
   @override

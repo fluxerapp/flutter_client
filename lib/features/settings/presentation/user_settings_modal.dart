@@ -22,6 +22,7 @@ import 'package:fluxer_app/features/guilds/utils/invite_link_navigator.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_nav.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_search_query.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/app_licenses.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/settings_sidebar.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_accessibility.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_advanced_settings.dart';
@@ -851,6 +852,10 @@ Widget _buildUserSettingsSectionContent({
       return scrollController == null
           ? const UserDeveloperTools()
           : UserDeveloperTools(scrollController: scrollController);
+    case UserSettingsSection.appLicenses:
+      return scrollController == null
+          ? const AppLicenses()
+          : AppLicenses(scrollController: scrollController);
   }
 }
 

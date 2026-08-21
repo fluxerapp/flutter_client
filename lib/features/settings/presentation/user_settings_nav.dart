@@ -201,6 +201,13 @@ const _userSettingsDesktopNavWhatsNew = [
   ),
 ];
 
+const _userSettingsDesktopNavAppLicenses = [
+  UserSettingsDesktopNavEntry.link(
+    UserSettingsSection.appLicenses,
+    icon: PhosphorIconsFill.scroll,
+  ),
+];
+
 const _userSettingsDesktopNavLogout = [UserSettingsDesktopNavEntry.logout()];
 
 List<UserSettingsDesktopNavEntry> buildUserSettingsDesktopNav({
@@ -222,6 +229,7 @@ List<UserSettingsDesktopNavEntry> buildUserSettingsDesktopNav({
   ..._userSettingsDesktopNavWhatsNew,
   if (isUserSettingsJoinFluxerLabsAvailable)
     const UserSettingsDesktopNavEntry.joinFluxerLabs(),
+  ..._userSettingsDesktopNavAppLicenses,
   ..._userSettingsDesktopNavLogout,
 ];
 
@@ -353,6 +361,7 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
             icon: PhosphorIconsFill.testTube,
             onTap: onJoinFluxerLabs,
           ),
+        link(UserSettingsSection.appLicenses, PhosphorIconsFill.scroll),
         FluxerSettingsNavItem(
           label: l10n.userSettingsNavLogOut,
           icon: PhosphorIconsFill.signOut,

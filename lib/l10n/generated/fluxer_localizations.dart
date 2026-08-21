@@ -16788,6 +16788,30 @@ abstract class FluxerLocalizations {
   /// **'Join Fluxer Labs'**
   String get userSettingsJoinFluxerLabs;
 
+  /// User settings navigation item to open open-source app licenses.
+  ///
+  /// In en, this message translates to:
+  /// **'App Licenses'**
+  String get userSettingsNavAppLicenses;
+
+  /// Description shown at the top of the app licenses settings page.
+  ///
+  /// In en, this message translates to:
+  /// **'Open-source software used by this app. This app is built with Flutter.'**
+  String get userSettingsAppLicensesDescription;
+
+  /// Error message when the app licenses list fails to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load app licenses.'**
+  String get userSettingsAppLicensesLoadError;
+
+  /// Subtitle on an app licenses list row showing how many license entries apply to a package.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 license} other{{count} licenses}}'**
+  String userSettingsAppLicensesPackageCount(int count);
+
   /// User settings navigation item to sign out of the account.
   ///
   /// In en, this message translates to:

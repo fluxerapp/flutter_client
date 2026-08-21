@@ -11901,6 +11901,27 @@
     "@userSettingsJoinFluxerLabs": {
         "description": "User settings What's New action to join the Fluxer Labs community."
     },
+    "userSettingsNavAppLicenses": "App Licenses",
+    "@userSettingsNavAppLicenses": {
+        "description": "User settings navigation item to open open-source app licenses."
+    },
+    "userSettingsAppLicensesDescription": "Open-source software used by this app. This app is built with Flutter.",
+    "@userSettingsAppLicensesDescription": {
+        "description": "Description shown at the top of the app licenses settings page."
+    },
+    "userSettingsAppLicensesLoadError": "Could not load app licenses.",
+    "@userSettingsAppLicensesLoadError": {
+        "description": "Error message when the app licenses list fails to load."
+    },
+    "userSettingsAppLicensesPackageCount": "{count, plural, =1{1 license} other{{count} licenses}}",
+    "@userSettingsAppLicensesPackageCount": {
+        "description": "Subtitle on an app licenses list row showing how many license entries apply to a package.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "userSettingsNavLogOut": "Log Out",
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."
