@@ -111,18 +111,12 @@ class _AppLicensesState extends State<AppLicenses> {
       return _AppLicensesErrorState(onRetry: _reloadLicenses);
     }
 
-    return _AppLicensesList(
-      data: data,
-      onPackageSelected: _openPackage,
-    );
+    return _AppLicensesList(data: data, onPackageSelected: _openPackage);
   }
 }
 
 class _AppLicensesList extends StatelessWidget {
-  const _AppLicensesList({
-    required this.data,
-    required this.onPackageSelected,
-  });
+  const _AppLicensesList({required this.data, required this.onPackageSelected});
 
   final AppLicensesData data;
   final void Function(String packageName, List<LicenseEntry> entries)

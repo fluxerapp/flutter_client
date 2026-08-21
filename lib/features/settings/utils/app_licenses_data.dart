@@ -16,9 +16,7 @@ final class AppLicensesData {
     if (bindings == null) {
       return const [];
     }
-    return bindings
-        .map((int index) => licenses[index])
-        .toList(growable: false);
+    return bindings.map((int index) => licenses[index]).toList(growable: false);
   }
 
   int licenseCountForPackage(String packageName) {

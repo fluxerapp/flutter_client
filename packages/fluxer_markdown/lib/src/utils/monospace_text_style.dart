@@ -10,7 +10,7 @@ TextStyle codeTextStyleFrom(
   Color? backgroundColor,
 }) {
   final double scaledFontSize =
-      (codeTextStyle?.fontSize ?? base.fontSize ?? 16) * fontSizeScale;
+      (base.fontSize ?? codeTextStyle?.fontSize ?? 16) * fontSizeScale;
   if (codeTextStyle != null) {
     return codeTextStyle.copyWith(
       fontSize: scaledFontSize,

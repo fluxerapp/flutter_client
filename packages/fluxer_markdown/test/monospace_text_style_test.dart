@@ -24,8 +24,18 @@ void main() {
       );
 
       expect(codeStyle.fontFamily, 'IBMPlexMono');
-      expect(codeStyle.fontSize, 14 * 0.85);
+      expect(codeStyle.fontSize, 16 * 0.85);
       expect(codeStyle.color, const Color(0xFF123456));
+    });
+
+    test('scales inline code from base style, not configured code style', () {
+      const TextStyle base = TextStyle(fontSize: 22, fontFamily: 'IBMPlexSans');
+      const TextStyle mono = TextStyle(fontSize: 16, fontFamily: 'IBMPlexMono');
+
+      final TextStyle codeStyle = codeTextStyleFrom(base, codeTextStyle: mono);
+
+      expect(codeStyle.fontFamily, 'IBMPlexMono');
+      expect(codeStyle.fontSize, 22 * 0.85);
     });
   });
 }
