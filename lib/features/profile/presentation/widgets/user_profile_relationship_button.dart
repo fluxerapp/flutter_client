@@ -1,4 +1,3 @@
-import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -68,20 +67,10 @@ class UserProfileRelationshipButton extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    final colors = context.colors;
-    return FluxerTappable(
-      onTap: action.onTap,
+    return FluxerButton.circleAlt(
+      icon: action.icon,
+      onPressed: action.onTap,
       semanticLabel: action.semanticLabel,
-      builder: (context, _) => Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          color: colors.backgroundTertiary,
-          shape: BoxShape.circle,
-        ),
-        alignment: Alignment.center,
-        child: PhosphorIcon(action.icon, size: 20, color: colors.textPrimary),
-      ),
     );
   }
 }

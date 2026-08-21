@@ -63,23 +63,10 @@ class FriendRequestSheetItem extends ConsumerWidget {
               ],
             ),
           ),
-          SizedBox(
-            width: 36,
-            height: 36,
-            child: ClipOval(
-              child: ColoredBox(
-                color: context.colors.backgroundModifierHover,
-                child: Center(
-                  child: FluxerButton.circle(
-                    icon: PhosphorIconsBold.dotsThreeVertical,
-                    variant: FluxerButtonVariant.ghost,
-                    size: FluxerButtonSize.compact,
-                    iconSize: 20,
-                    onPressed: () => unawaited(_showMenu(context, ref)),
-                  ),
-                ),
-              ),
-            ),
+          FluxerButton.circleAlt(
+            icon: PhosphorIconsBold.dotsThreeVertical,
+            size: FluxerButtonSize.compact,
+            onPressed: () => unawaited(_showMenu(context, ref)),
           ),
         ],
       ),
