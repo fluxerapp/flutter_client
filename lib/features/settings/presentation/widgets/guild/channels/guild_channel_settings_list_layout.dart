@@ -1,16 +1,6 @@
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels/guild_channel_settings_entries.dart';
 
 class GuildChannelSettingsListItem {
-  const GuildChannelSettingsListItem._({
-    required this.isLeading,
-    required this.isTrailing,
-    required this.isCategoryTail,
-    required this.entryIndex,
-    required this.categoryTailAfterChannelId,
-    required this.categoryTailParentId,
-    required this.categoryTailParentIdSpecified,
-  });
-
   final bool isLeading;
   final bool isTrailing;
   final bool isCategoryTail;

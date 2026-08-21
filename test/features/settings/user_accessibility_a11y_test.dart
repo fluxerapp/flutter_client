@@ -15,6 +15,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../helpers/test_l10n.dart';
 
 class _InertSyncedPreferencesStore extends SyncedPreferencesStore {
+  // Test stub does not use super parameters.
   // ignore: use_super_parameters
   _InertSyncedPreferencesStore(Ref ref) : super(ref);
 

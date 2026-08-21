@@ -85,9 +85,7 @@ class ChannelRepository {
     }
   }
 
-  Future<ChannelSlowmodeStateResponse> getSlowmodeState(
-    String channelId,
-  ) async {
+  Future<ChannelSlowmodeStateResponse> getSlowmodeState(String channelId) {
     return _client.channels.getChannelSlowmodeState(channelId: channelId);
   }
 

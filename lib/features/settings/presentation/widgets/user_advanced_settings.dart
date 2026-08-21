@@ -81,7 +81,7 @@ class UserAdvancedSettings extends ConsumerWidget {
                   ),
                 ),
                 onChanged: (value) =>
-                    handleTrustAllDomainsChange(context, ref, value),
+                    handleTrustAllDomainsChange(context, ref, value: value),
               ),
               FluxerSettingsConfigureRow(
                 title: l10n.advancedSettingScreenSharePreviewBehaviorLabel,
@@ -297,8 +297,11 @@ class UserAdvancedSettings extends ConsumerWidget {
                     (state) => state.defaultHideMutedChannels,
                   ),
                 ),
-                onChanged: (value) =>
-                    handleDefaultHideMutedChannelsChange(context, ref, value),
+                onChanged: (value) => handleDefaultHideMutedChannelsChange(
+                  context,
+                  ref,
+                  value: value,
+                ),
               ),
             ],
           ),

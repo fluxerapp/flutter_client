@@ -34,8 +34,9 @@ void main() {
       expect(h.vm.loadMoreCalls, 1, reason: 'false→true arms one pump');
       expect(h.olderPhase, 'pumping');
 
-      h.demand(active: true, revision: 2);
-      h.demand(active: true, revision: 3);
+      h
+        ..demand(active: true, revision: 2)
+        ..demand(active: true, revision: 3);
       await _flushAsync();
       expect(
         h.vm.loadMoreCalls,
@@ -145,8 +146,9 @@ void main() {
       expect(h.olderPhase, 'parked');
 
       // The level stays active - no false→true cycle, so no re-arm.
-      h.demand(active: true, revision: 2);
-      h.demand(active: true, revision: 3);
+      h
+        ..demand(active: true, revision: 2)
+        ..demand(active: true, revision: 3);
       await _flushAsync();
       expect(h.vm.loadMoreCalls, 1);
       expect(h.olderPhase, 'parked');
@@ -209,8 +211,9 @@ void main() {
       h.vm.scriptOlderHeld(held);
 
       // Two overscrolls from the same drag: one attempt.
-      h.retry(gestureId: 5);
-      h.retry(gestureId: 5);
+      h
+        ..retry(gestureId: 5)
+        ..retry(gestureId: 5);
       await _flushAsync();
       expect(h.vm.loadMoreCalls, 2);
 
@@ -240,9 +243,10 @@ void main() {
         expect(h.newerPhase, 'parked');
 
         // Scroll-driven demand alone never refetches a parked cursor.
-        h.demand(edge: PaginationEdge.newer, active: true, revision: 2);
-        h.demand(edge: PaginationEdge.newer, active: true, revision: 3);
-        h.demand(edge: PaginationEdge.newer, active: true, revision: 4);
+        h
+          ..demand(edge: PaginationEdge.newer, active: true, revision: 2)
+          ..demand(edge: PaginationEdge.newer, active: true, revision: 3)
+          ..demand(edge: PaginationEdge.newer, active: true, revision: 4);
         await _flushAsync();
         expect(h.vm.loadNewerCalls, 1);
         expect(h.newerPhase, 'parked');

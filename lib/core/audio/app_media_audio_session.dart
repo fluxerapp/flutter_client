@@ -30,7 +30,9 @@ Future<void> restoreAppMediaAudioSession() async {
   }
   try {
     await AudioPlayer.global.setAudioContext(kAppMediaAudioContext);
-  } on Object {}
+  } on Object {
+    return;
+  }
   final audio_session.AudioSession session =
       await audio_session.AudioSession.instance;
   await session.setActive(false);

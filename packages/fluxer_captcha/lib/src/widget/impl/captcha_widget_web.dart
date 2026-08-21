@@ -513,7 +513,8 @@ class _FluxerCaptchaState extends State<FluxerCaptcha> {
   }
 }
 
-// Mutable fields are required for headless widget state management.
+// Headless captcha widget state.
+// ignore: must_be_immutable
 class _CaptchaInvisible extends FluxerCaptcha {
   _CaptchaInvisible.init({
     required super.provider,

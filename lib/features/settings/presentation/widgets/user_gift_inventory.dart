@@ -293,7 +293,7 @@ class _UserGiftInventoryState extends ConsumerState<UserGiftInventory> {
       ref: ref,
       code: code,
       onSuccess: () {
-        ref.read(giftInventoryProvider.notifier).refresh();
+        unawaited(ref.read(giftInventoryProvider.notifier).refresh());
         _codeController.clear();
         ref
             .read(toastProvider.notifier)

@@ -2542,16 +2542,16 @@ class _MessageListState extends ConsumerState<MessageList> {
           (
             BuildContext context,
             MessageRenderSettings messageRenderSettings,
-            String? guildId,
-            bool isGuildSendDisabled,
-            ({
+            String? guildId, {
+            required bool isGuildSendDisabled,
+            required ({
               bool canSendMessages,
               bool canAddReactions,
               bool canPinMessage,
               bool canManageMessages,
             })
             channelActions,
-          ) {
+          }) {
             final bool swipeToReplyEnabled = !isCompactWideDrawerPeekMode(
               context,
               shellLocation: ref.watch(shellLocationProvider),
@@ -2914,16 +2914,16 @@ class _MessageListSettingsLayer extends ConsumerWidget {
   final Widget Function(
     BuildContext context,
     MessageRenderSettings settings,
-    String? guildId,
-    bool isGuildSendDisabled,
-    ({
+    String? guildId, {
+    required bool isGuildSendDisabled,
+    required ({
       bool canSendMessages,
       bool canAddReactions,
       bool canPinMessage,
       bool canManageMessages,
     })
     channelActions,
-  )
+  })
   builder;
 
   @override
@@ -3011,23 +3011,29 @@ class _MessageListSettingsLayer extends ConsumerWidget {
         selectionContextMenuBuilder: selectionMenuBuilderFor(searchEngines),
       ),
     );
-    return builder(context, settings, guildId, isGuildSendDisabled, (
-      canSendMessages: channelMessagePerms.canSendMessages,
-      canAddReactions: canAddReactionsInChannel(
-        isDmChannel: isDmChannel,
-        channelPermissionBits: channelPermissionBits,
-        interactionsBlocked: interactionsBlocked,
+    return builder(
+      context,
+      settings,
+      guildId,
+      isGuildSendDisabled: isGuildSendDisabled,
+      channelActions: (
+        canSendMessages: channelMessagePerms.canSendMessages,
+        canAddReactions: canAddReactionsInChannel(
+          isDmChannel: isDmChannel,
+          channelPermissionBits: channelPermissionBits,
+          interactionsBlocked: interactionsBlocked,
+        ),
+        canPinMessage: canPinMessageInChannel(
+          isDmChannel: isDmChannel,
+          channelPermissionBits: channelPermissionBits,
+          interactionsBlocked: interactionsBlocked,
+        ),
+        canManageMessages: canManageMessagesInChannel(
+          isDmChannel: isDmChannel,
+          channelPermissionBits: channelPermissionBits,
+        ),
       ),
-      canPinMessage: canPinMessageInChannel(
-        isDmChannel: isDmChannel,
-        channelPermissionBits: channelPermissionBits,
-        interactionsBlocked: interactionsBlocked,
-      ),
-      canManageMessages: canManageMessagesInChannel(
-        isDmChannel: isDmChannel,
-        channelPermissionBits: channelPermissionBits,
-      ),
-    ));
+    );
   }
 }
 

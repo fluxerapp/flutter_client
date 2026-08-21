@@ -200,21 +200,21 @@ void main() {
     final EditableText editable = tester.widget<EditableText>(
       find.byType(EditableText),
     );
-    final FocusNode focusNode = editable.focusNode;
-
-    focusNode.requestFocus();
+    final FocusNode focusNode = editable.focusNode..requestFocus();
     await tester.pumpAndSettle();
     expect(focusNode.hasFocus, isTrue);
 
-    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
-    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
-    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+    tester.binding
+      ..handleAppLifecycleStateChanged(AppLifecycleState.inactive)
+      ..handleAppLifecycleStateChanged(AppLifecycleState.hidden)
+      ..handleAppLifecycleStateChanged(AppLifecycleState.paused);
     focusNode.unfocus();
     await tester.pump();
 
-    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
-    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
-    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+    tester.binding
+      ..handleAppLifecycleStateChanged(AppLifecycleState.hidden)
+      ..handleAppLifecycleStateChanged(AppLifecycleState.inactive)
+      ..handleAppLifecycleStateChanged(AppLifecycleState.resumed);
     await tester.pump();
     await tester.pump(kKeyboardFocusRestoreRetryDelay);
 

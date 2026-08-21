@@ -109,10 +109,11 @@ class EmojiSpritePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final src = EmojiSpriteSheet.spriteRect(spriteIndex, diversity: diversity);
     final dst = Offset.zero & size;
-    canvas.save();
-    canvas.clipRect(dst, doAntiAlias: false);
-    canvas.drawImageRect(image, src, dst, _paint);
-    canvas.restore();
+    canvas
+      ..save()
+      ..clipRect(dst, doAntiAlias: false)
+      ..drawImageRect(image, src, dst, _paint)
+      ..restore();
   }
 
   @override

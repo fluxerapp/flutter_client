@@ -136,6 +136,7 @@ class VoiceSettingsApplicator {
         screenShareCaptureOptions: captureOptions,
       );
     } finally {
+      // LiveKit internal API.
       // ignore: invalid_use_of_internal_member
       room.engine.roomOptions = roomOptions;
     }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
@@ -82,9 +84,11 @@ class _SaturationHost extends ConsumerWidget {
             Text('brand:${themePref.colorTheme.brandPrimary.toARGB32()}'),
             TextButton(
               onPressed: () {
-                ref
-                    .read(themePreferenceProvider.notifier)
-                    .setSaturationFactor(0);
+                unawaited(
+                  ref
+                      .read(themePreferenceProvider.notifier)
+                      .setSaturationFactor(0),
+                );
               },
               child: const Text('desaturate'),
             ),

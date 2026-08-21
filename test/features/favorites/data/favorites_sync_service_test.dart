@@ -283,13 +283,7 @@ void main() {
           hideMutedChannels: false,
           muted: false,
         );
-        const remoteAfterDelete = FavoritesLocalState(
-          channels: [],
-          categories: [],
-          collapsedCategoryIds: [],
-          hideMutedChannels: false,
-          muted: false,
-        );
+        const remoteAfterDelete = FavoritesLocalState.empty;
 
         await syncStore.hydrateFromUserSettings(_settingsFor(initial));
         await database.favoriteChannelsDao.setHideMuted(value: true);
@@ -583,8 +577,9 @@ void main() {
           channelId: 'channel-2',
           guildId: 'guild-1',
         );
-        syncStore.markDirty(SyncedPreferenceField.favorites);
-        syncStore.scheduleFlush();
+        syncStore
+          ..markDirty(SyncedPreferenceField.favorites)
+          ..scheduleFlush();
         await _waitForDebounce(syncStore);
 
         usersApi.firstPushGate!.complete();

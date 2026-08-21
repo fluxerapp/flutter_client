@@ -102,6 +102,11 @@ dependencies:
   youtube_explode_dart: ^3.1.0
 
 dependency_overrides:
+  # mockito >=5.6.5 requires analyzer ^13, incompatible with the overrides below.
+  analyzer: ^10.0.0
+  analyzer_plugin: ^0.14.0
+  dart_style: 3.1.7
+  device_info_plus: ^13.2.0
   # Xcode 26.4+ rejects the ASWebAuthenticationPresentationContextProviding
   # witness in flutter_inappwebview_* 1.2.0-beta.3. Remove once upstream ships
   # https://github.com/pichillilorenzo/flutter_inappwebview/pull/2809
@@ -116,17 +121,12 @@ dependency_overrides:
       path: flutter_inappwebview_macos
       ref: fc33a449b9290b127a471808e22eb7b0edebad92
   # riverpod_annotation 4.0.3 pins riverpod to exactly 3.3.2, and the
-  # generator cannot move until the analyzer chain below is aligned. 3.4.1
+  # generator cannot move until the analyzer chain above is aligned. 3.4.1
   # carries the markNeedsBuild fix for flushing a provider inside a widget
   # lifecycle, which the mounted nav shell hits on every branch return.
   flutter_riverpod: ^3.4.1
-  riverpod: ^3.4.1
-  analyzer: ^10.0.0
-  analyzer_plugin: ^0.14.0
-  dart_style: 3.1.7
-  device_info_plus: ^13.2.0
-  # mockito >=5.6.5 requires analyzer ^13, incompatible with the override above.
   mockito: 5.6.4
+  riverpod: ^3.4.1
 
 dev_dependencies:
   accessibility_radar: ^0.3.0

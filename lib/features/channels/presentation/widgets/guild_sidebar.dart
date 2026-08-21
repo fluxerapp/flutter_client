@@ -563,6 +563,9 @@ class _GuildSidebarChannelListState
       padding: const EdgeInsets.only(top: 12),
       itemCount: membersOffset + sidebarEntries.length,
       itemBuilder: (BuildContext context, int index) {
+        final int entryIndex = showMembersEntry && index >= membersOffset
+            ? index - membersOffset
+            : index;
         if (showMembersEntry) {
           if (index == 0) {
             return _MembersSidebarTile(
@@ -578,9 +581,8 @@ class _GuildSidebarChannelListState
               color: context.colors.borderColor,
             );
           }
-          index -= membersOffset;
         }
-        final GuildSidebarEntry entry = sidebarEntries[index];
+        final GuildSidebarEntry entry = sidebarEntries[entryIndex];
         switch (entry.kind) {
           case GuildSidebarEntryKind.categoryHeader:
             return _CategoryHeader(

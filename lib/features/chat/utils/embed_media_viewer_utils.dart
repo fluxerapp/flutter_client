@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/forward_message_sheet.dart';
@@ -40,19 +42,21 @@ void openEmbedMediaViewer(
   if (items.isEmpty) {
     return;
   }
-  showAttachmentMediaViewer(
-    context,
-    items: items,
-    initialIndex: initialIndex.clamp(0, items.length - 1),
-    onForward: (channelId != null && messageId != null && embedIndex != null)
-        ? (int _) => showForwardMediaSheet(
-            context,
-            sourceChannelId: channelId,
-            sourceMessageId: messageId,
-            embedIndices: <int>[embedIndex],
-          )
-        : null,
-    actionScope: actionScope,
+  unawaited(
+    showAttachmentMediaViewer(
+      context,
+      items: items,
+      initialIndex: initialIndex.clamp(0, items.length - 1),
+      onForward: (channelId != null && messageId != null && embedIndex != null)
+          ? (int _) => showForwardMediaSheet(
+              context,
+              sourceChannelId: channelId,
+              sourceMessageId: messageId,
+              embedIndices: <int>[embedIndex],
+            )
+          : null,
+      actionScope: actionScope,
+    ),
   );
 }
 

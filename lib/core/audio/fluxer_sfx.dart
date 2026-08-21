@@ -95,7 +95,9 @@ class FluxerSFX {
       } else if (context == kNotificationSfxContext) {
         unawaited(_reactivateChatAttachmentAudioAfterNotification(generation));
       }
-    } on Object {}
+    } on Object {
+      return;
+    }
   }
 
   Future<void> startLoop(
@@ -137,7 +139,9 @@ class FluxerSFX {
       await _loopPlayer.stop();
       _lastLoopContext = null;
       await _restoreAppMediaAudio();
-    } on Object {}
+    } on Object {
+      return;
+    }
   }
 
   Future<void> dispose() async {
@@ -166,7 +170,9 @@ class FluxerSFX {
   Future<bool> _waitForOneShotCompletion(int generation) async {
     try {
       await _oneShotPlayer.onPlayerComplete.first;
-    } on Object {}
+    } on Object {
+      unawaited(Future<void>.value());
+    }
     if (generation != _oneShotGeneration || _loopPlaybackActive) {
       return false;
     }
@@ -183,7 +189,9 @@ class FluxerSFX {
   Future<void> _trySetGlobalAudioContext(AudioContext context) async {
     try {
       await AudioPlayer.global.setAudioContext(context);
-    } on Object {}
+    } on Object {
+      return;
+    }
   }
 
   static double _clampVolume(double volume) {

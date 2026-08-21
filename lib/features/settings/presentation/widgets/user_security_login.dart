@@ -69,7 +69,6 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
     final state = ref.watch(userSettingsViewModelProvider);
     final passkeyState = ref.watch(webauthnCredentialsViewModelProvider);
     final colors = context.colors;
-    final layout = context.layout;
     final l10n = FluxerLocalizations.of(context);
 
     return SingleChildScrollView(

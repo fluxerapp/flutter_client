@@ -68,33 +68,34 @@ List<PreviewLanguageOption> buildPreviewLanguageOptions({
     ...kSupportedPreviewLanguages.where((String code) => code != 'auto'),
     ...kFluxerMarkdownLanguages.keys,
   };
-  final List<PreviewLanguageOption> options = codes
-      .map(
-        (String code) => PreviewLanguageOption(
-          code: code,
-          canonicalCode: previewLanguageCanonicalCode(code),
-        ),
-      )
-      .toList();
-  options.sort((PreviewLanguageOption left, PreviewLanguageOption right) {
-    final int leftScore =
-        (left.code == inferred ||
-            left.canonicalCode == inferred ||
-            left.code == selected ||
-            left.canonicalCode == selected)
-        ? 1
-        : 0;
-    final int rightScore =
-        (right.code == inferred ||
-            right.canonicalCode == inferred ||
-            right.code == selected ||
-            right.canonicalCode == selected)
-        ? 1
-        : 0;
-    if (leftScore != rightScore) {
-      return rightScore.compareTo(leftScore);
-    }
-    return left.code.compareTo(right.code);
-  });
+  final List<PreviewLanguageOption> options =
+      codes
+          .map(
+            (String code) => PreviewLanguageOption(
+              code: code,
+              canonicalCode: previewLanguageCanonicalCode(code),
+            ),
+          )
+          .toList()
+        ..sort((PreviewLanguageOption left, PreviewLanguageOption right) {
+          final int leftScore =
+              (left.code == inferred ||
+                  left.canonicalCode == inferred ||
+                  left.code == selected ||
+                  left.canonicalCode == selected)
+              ? 1
+              : 0;
+          final int rightScore =
+              (right.code == inferred ||
+                  right.canonicalCode == inferred ||
+                  right.code == selected ||
+                  right.canonicalCode == selected)
+              ? 1
+              : 0;
+          if (leftScore != rightScore) {
+            return rightScore.compareTo(leftScore);
+          }
+          return left.code.compareTo(right.code);
+        });
   return options;
 }

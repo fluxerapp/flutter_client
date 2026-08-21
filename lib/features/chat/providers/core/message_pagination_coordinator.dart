@@ -268,10 +268,11 @@ class MessagePaginationCoordinator implements PaginationDemandPort {
           // collapsed, one attempt per deliberate gesture.
           return;
         }
-        pump.consumedRetryGestureId = event.gestureId;
-        // Pre-bind so an empty retry re-parks against THIS gesture.
-        pump.gestureIdAtPark = event.gestureId;
-        pump.requestsInPump = 0;
+        pump
+          ..consumedRetryGestureId = event.gestureId
+          // Pre-bind so an empty retry re-parks against THIS gesture.
+          ..gestureIdAtPark = event.gestureId
+          ..requestsInPump = 0;
         _issueRequest(event.edge, pump);
       case _PumpPhase.yielded:
         if (event.gestureId == pump.consumedRetryGestureId) {
@@ -280,8 +281,9 @@ class MessagePaginationCoordinator implements PaginationDemandPort {
         // A deliberate gesture is at least as strong a resume signal as
         // cooldown + revision; also covers the theoretical underfilled yield
         // where no geometry progress is possible.
-        pump.consumedRetryGestureId = event.gestureId;
-        pump.requestsInPump = 0;
+        pump
+          ..consumedRetryGestureId = event.gestureId
+          ..requestsInPump = 0;
         _issueRequest(event.edge, pump);
       case _PumpPhase.idle:
       case _PumpPhase.pumping:

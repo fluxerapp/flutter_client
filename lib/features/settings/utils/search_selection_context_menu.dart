@@ -80,6 +80,8 @@ List<ContextMenuButtonItem> _categorySearchItems({
 }
 
 Future<String?> _readSelectedText(SelectableRegionState state) async {
+  // No public non-deprecated API reads selection text from SelectableRegionState.
+  // ignore: deprecated_member_use
   state.copySelection(SelectionChangedCause.toolbar);
   final ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
   final String? text = data?.text?.trim();

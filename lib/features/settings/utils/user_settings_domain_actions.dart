@@ -7,9 +7,9 @@ import 'package:material_ui/material_ui.dart';
 
 Future<void> handleTrustAllDomainsChange(
   BuildContext context,
-  WidgetRef ref,
-  bool value,
-) async {
+  WidgetRef ref, {
+  required bool value,
+}) async {
   final notifier = ref.read(userSettingsViewModelProvider.notifier);
   final l10n = FluxerLocalizations.of(context);
 
@@ -42,9 +42,9 @@ Future<void> handleTrustAllDomainsChange(
 
 Future<void> handleDefaultHideMutedChannelsChange(
   BuildContext context,
-  WidgetRef ref,
-  bool value,
-) async {
+  WidgetRef ref, {
+  required bool value,
+}) async {
   final notifier = ref.read(userSettingsViewModelProvider.notifier);
   final choice = await showHideMutedChannelsConfirmSheet(context, value: value);
   if (choice == null) {

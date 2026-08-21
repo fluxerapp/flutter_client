@@ -205,11 +205,9 @@ void main() {
     final ProviderContainer container = ProviderContainer();
     addTearDown(container.dispose);
 
-    final ChannelListViewModel notifier = container.read(
-      channelListViewModelProvider.notifier,
-    );
-
-    notifier.setMemberListVisible(isVisible: false);
+    container
+        .read(channelListViewModelProvider.notifier)
+        .setMemberListVisible(isVisible: false);
 
     expect(
       container

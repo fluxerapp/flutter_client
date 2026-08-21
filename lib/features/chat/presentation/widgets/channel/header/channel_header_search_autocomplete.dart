@@ -474,11 +474,10 @@ class _IconTextOptionLabel extends StatelessWidget {
     required this.mutedColor,
     this.icon,
     this.fontWeight,
-  }) : iconSize = 20;
+  });
 
   final String label;
   final IconData? icon;
-  final double iconSize;
   final Color textColor;
   final Color mutedColor;
   final FontWeight? fontWeight;
@@ -488,7 +487,7 @@ class _IconTextOptionLabel extends StatelessWidget {
     return Row(
       children: <Widget>[
         if (icon != null) ...<Widget>[
-          PhosphorIcon(icon!, size: iconSize, color: mutedColor),
+          PhosphorIcon(icon!, size: 20, color: mutedColor),
           const SizedBox(width: 8),
         ],
         Expanded(

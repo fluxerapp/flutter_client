@@ -5527,7 +5527,6 @@ class _InstrumentedChatViewModel extends ChatViewModel {
 
   final ChatViewState _initialState;
   int _loadNewerCallCount = 0;
-  final int _loadMoreCallCount = 0;
   String? _latestReplacementNewestId;
 
   @override

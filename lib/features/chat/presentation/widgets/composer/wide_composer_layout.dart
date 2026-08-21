@@ -3,6 +3,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:material_ui/material_ui.dart';
 
 abstract final class WideComposerLayout {
+  const WideComposerLayout._();
   static const double boxInset = 6;
   static const double boxRadius = 8;
   static const double boxMinHeight = 58;

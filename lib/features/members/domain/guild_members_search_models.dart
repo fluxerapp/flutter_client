@@ -148,7 +148,7 @@ class GuildMemberDisplayData {
     );
   }
 
-  static GuildMemberDisplayData fromCachedMember({
+  factory GuildMemberDisplayData.fromCachedMember({
     required Member member,
     required db.Member? memberRow,
     required db.User? user,
@@ -198,7 +198,7 @@ class GuildMemberDisplayData {
     );
   }
 
-  static GuildMemberDisplayData fromSearchResult(
+  factory GuildMemberDisplayData.fromSearchResult(
     GuildMemberSearchResult result, {
     db.Member? memberRow,
     db.User? user,
@@ -366,7 +366,7 @@ class GuildMembersSearchState {
     );
   }
 
-  static GuildMembersSearchState initial() {
+  factory GuildMembersSearchState.initial() {
     return const GuildMembersSearchState(
       searchQuery: '',
       debouncedQuery: '',

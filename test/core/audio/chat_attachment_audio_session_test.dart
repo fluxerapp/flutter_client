@@ -92,16 +92,16 @@ void main() {
       speed: 1,
     );
 
-    session.update(
-      hostId: 'a',
-      mediaItem: itemA,
-      playing: true,
-      position: const Duration(seconds: 3),
-      bufferedPosition: const Duration(seconds: 10),
-      speed: 1,
-    );
-
-    session.release('a');
+    session
+      ..update(
+        hostId: 'a',
+        mediaItem: itemA,
+        playing: true,
+        position: const Duration(seconds: 3),
+        bufferedPosition: const Duration(seconds: 10),
+        speed: 1,
+      )
+      ..release('a');
     expect(handler.mediaItem.value, isNull);
 
     await pumpEventQueue();

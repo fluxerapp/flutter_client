@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Channel;
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -7,7 +8,6 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:riverpod/src/providers/stream_provider.dart';
 
 class ChannelNotificationMenuState {
   const ChannelNotificationMenuState({
@@ -25,8 +25,9 @@ class ChannelNotificationMenuState {
   final bool hasCategory;
 }
 
-final StreamProviderFamily<ChannelNotificationMenuState, Channel>
-channelNotificationMenuStateProvider = StreamProvider.autoDispose
+// Riverpod family type is not expressible without this ignore.
+// ignore: specify_nonobvious_property_types
+final channelNotificationMenuStateProvider = StreamProvider.autoDispose
     .family<ChannelNotificationMenuState, Channel>((ref, channel) {
       final db = ref.watch(fluxerDatabaseProvider);
       return combineLatest2<

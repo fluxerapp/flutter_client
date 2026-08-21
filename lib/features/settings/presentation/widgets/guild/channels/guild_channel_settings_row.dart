@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
@@ -163,7 +165,9 @@ class _GuildChannelSettingsRowState
                     onDragEnded: widget.onDragEnded,
                     onDragMove: widget.onDragMove ?? (_) {},
                     onTap: () {
-                      ChannelSettingsFlow.show(context, channelId: entry.id);
+                      unawaited(
+                        ChannelSettingsFlow.show(context, channelId: entry.id),
+                      );
                     },
                   ),
                   if (!isBeingDragged && showTopIndicator)

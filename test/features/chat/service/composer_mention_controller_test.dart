@@ -54,13 +54,13 @@ void main() {
 
     controller
       ..text = '@msu'
-      ..selection = const TextSelection.collapsed(offset: 4);
-    controller.insertUserMentionPlaceholder(
-      matchStart: 0,
-      matchEnd: 4,
-      userId: '1481621807877361924',
-      displayName: 'msubizo',
-    );
+      ..selection = const TextSelection.collapsed(offset: 4)
+      ..insertUserMentionPlaceholder(
+        matchStart: 0,
+        matchEnd: 4,
+        userId: '1481621807877361924',
+        displayName: 'msubizo',
+      );
     await tester.pump();
 
     expect(find.text('@msubizo'), findsOneWidget);
@@ -77,13 +77,13 @@ void main() {
 
       controller
         ..text = '@msu'
-        ..selection = const TextSelection.collapsed(offset: 4);
-      controller.insertUserMentionPlaceholder(
-        matchStart: 0,
-        matchEnd: 3,
-        userId: '1481621807877361924',
-        displayName: 'msubizo',
-      );
+        ..selection = const TextSelection.collapsed(offset: 4)
+        ..insertUserMentionPlaceholder(
+          matchStart: 0,
+          matchEnd: 3,
+          userId: '1481621807877361924',
+          displayName: 'msubizo',
+        );
       await tester.pump();
 
       expect(find.text('@msubizo'), findsOneWidget);

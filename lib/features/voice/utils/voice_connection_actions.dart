@@ -330,6 +330,9 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
     }
     return VoiceJoinResult.succeeded;
   }
+  if (context == null || !context.mounted) {
+    return VoiceJoinResult.failed;
+  }
   final BuildContext? modalContext = _modalContext(context);
   if (modalContext == null) {
     talker.warning(
@@ -345,6 +348,9 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
   if (suppressNewDeviceAlerts) {
     choice = VoiceConnectionConfirmResult.justJoin;
   } else {
+    if (!modalContext.mounted) {
+      return VoiceJoinResult.failed;
+    }
     choice = await showVoiceConnectionConfirmModal(
       modalContext,
       otherDeviceCount: others.length,

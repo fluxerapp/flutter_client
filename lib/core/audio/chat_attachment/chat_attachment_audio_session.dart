@@ -54,7 +54,9 @@ class ChatAttachmentAudioSession {
     await activateChatAttachmentAudioSession();
   }
 
-  void registerPublisher(ChatAttachmentAudioPublisher handler) {
+  ChatAttachmentAudioPublisher? get registerPublisher => _handler;
+
+  set registerPublisher(ChatAttachmentAudioPublisher handler) {
     _handler = handler;
   }
 

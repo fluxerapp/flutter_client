@@ -166,13 +166,7 @@ void main() {
         hideMutedChannels: false,
         muted: false,
       );
-      const server = FavoritesLocalState(
-        channels: [],
-        categories: [],
-        collapsedCategoryIds: [],
-        hideMutedChannels: false,
-        muted: false,
-      );
+      const server = FavoritesLocalState.empty;
 
       final merged = FavoritesStateCodec.mergeForMigration(
         local: local,
@@ -194,13 +188,7 @@ void main() {
         hideMutedChannels: false,
         muted: false,
       );
-      const syncedLocal = FavoritesLocalState(
-        channels: [],
-        categories: [],
-        collapsedCategoryIds: [],
-        hideMutedChannels: false,
-        muted: false,
-      );
+      const syncedLocal = FavoritesLocalState.empty;
       const server = syncedLocal;
 
       final merged = FavoritesStateCodec.mergeForMigration(

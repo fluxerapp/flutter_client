@@ -80,7 +80,7 @@ class GuildDiscoverySettingsState {
     );
   }
 
-  static GuildDiscoverySettingsState fromStatus(GuildDiscoveryStatus status) {
+  factory GuildDiscoverySettingsState.fromStatus(GuildDiscoveryStatus status) {
     final GuildDiscoveryApplication? application = status.application;
     final bool hasActive =
         application != null &&

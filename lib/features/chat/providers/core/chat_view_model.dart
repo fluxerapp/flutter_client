@@ -4879,9 +4879,9 @@ class ChatViewModel extends _$ChatViewModel {
     }
     final int? retryAfterMs = slowmodeRetryAfterMsFromError(error);
     if (retryAfterMs != null) {
-      ref
-          .read(slowmodeRateLimitedAlertProvider.notifier)
-          .show(Duration(milliseconds: retryAfterMs));
+      ref.read(slowmodeRateLimitedAlertProvider.notifier).remaining = Duration(
+        milliseconds: retryAfterMs,
+      );
     }
     ref.read(slowmodeIndicatorShakeProvider.notifier).requestShake();
   }
@@ -4941,7 +4941,8 @@ class ChatViewModel extends _$ChatViewModel {
             );
       case _SendBlockReason.slowmode:
         if (remaining != null && remaining > Duration.zero) {
-          ref.read(slowmodeRateLimitedAlertProvider.notifier).show(remaining);
+          ref.read(slowmodeRateLimitedAlertProvider.notifier).remaining =
+              remaining;
         }
         ref.read(slowmodeIndicatorShakeProvider.notifier).requestShake();
       case _SendBlockReason.channelNotReady:

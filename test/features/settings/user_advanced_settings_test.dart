@@ -22,6 +22,7 @@ import '../../helpers/test_l10n.dart';
 import '../../helpers/wide_layout_test_sizes.dart';
 
 class _InertSyncedPreferencesStore extends SyncedPreferencesStore {
+  // Test stub does not use super parameters.
   // ignore: use_super_parameters
   _InertSyncedPreferencesStore(Ref ref) : super(ref);
 

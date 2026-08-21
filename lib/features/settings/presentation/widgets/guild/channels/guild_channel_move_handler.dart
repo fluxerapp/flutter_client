@@ -22,7 +22,7 @@ Future<void> performGuildChannelMove({
           currentChannels: currentChannels,
           optimisticChannels: computation.updatedChannels,
         );
-  } catch (_) {
+  } on Object catch (_) {
     if (!context.mounted) {
       return;
     }

@@ -103,8 +103,7 @@ Future<String> _optimizeExpressionImage({
     width: targetSize,
     height: targetSize,
     numChannels: 4,
-  );
-  canvas.clear();
+  )..clear();
   final int offsetX = ((targetSize - resized.width) / 2).floor();
   final int offsetY = ((targetSize - resized.height) / 2).floor();
   img.compositeImage(canvas, resized, dstX: offsetX, dstY: offsetY);

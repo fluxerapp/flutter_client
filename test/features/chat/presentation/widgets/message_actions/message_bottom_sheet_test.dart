@@ -225,9 +225,7 @@ void main() {
             message.id,
           ).overrideWith((ref) => Stream<bool>.value(false)),
           messageTranslationAvailableProvider.overrideWith((ref) => true),
-          detectedMessageLanguageProvider(
-            'hello',
-          ).overrideWith((ref) async => 'en'),
+          detectedMessageLanguageProvider('hello').overrideWith((ref) => 'en'),
         ],
         child: buildTestApp(
           onOpen: (context) => showMessageBottomSheet(

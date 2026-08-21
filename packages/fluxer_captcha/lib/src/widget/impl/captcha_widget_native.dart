@@ -295,7 +295,8 @@ String buildHTML({
 }
 
 final List<WebResourceErrorType> _ignoredWebResourceErrorTypes = [
-  // I don't know why this needs to be ignored specifically as it wasn't added by me, but maybe someone can replace this comment with an explanation.
+  // I don't know why this needs to be ignored specifically as it wasn't added
+  // by me, but maybe someone can replace this comment with an explanation.
   WebResourceErrorType.CANNOT_CONNECT_TO_HOST,
   // This needs to be ignored for Turnstile to function on IPv4-only networks.
   // See this forum post: https://community.cloudflare.com/t/turnstile-net-err-name-not-resolved-error-in-console-on-brunhild-challenges/937102/8
@@ -767,7 +768,8 @@ class _FluxerCaptchaState extends State<FluxerCaptcha> {
   }
 }
 
-// Mutable fields are required for headless WebView state management.
+// Headless captcha widget state.
+// ignore: must_be_immutable
 class _CaptchaInvisible extends FluxerCaptcha {
   _CaptchaInvisible.init({
     required CaptchaProvider provider,

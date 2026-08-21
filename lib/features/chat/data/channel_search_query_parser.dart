@@ -558,23 +558,24 @@ ParsedChannelSearchParams _applyMentions(
   required ChannelSearchParseHints hints,
   required ChannelSearchParseContext context,
 }) {
+  ParsedChannelSearchParams result = params;
   for (final String value in _splitCsv(rawValue)) {
     final String lower = value.toLowerCase();
     if (lower == 'everyone' || lower == 'here') {
-      params = params.copyWith(mentionEveryone: true);
+      result = result.copyWith(mentionEveryone: true);
       continue;
     }
     final String? id = _resolveUserId(value, hints: hints, context: context);
     if (id == null) {
       continue;
     }
-    params = isExclude
-        ? params.copyWith(
-            excludeMentions: _append(params.excludeMentions, <String>[id]),
+    result = isExclude
+        ? result.copyWith(
+            excludeMentions: _append(result.excludeMentions, <String>[id]),
           )
-        : params.copyWith(mentions: _append(params.mentions, <String>[id]));
+        : result.copyWith(mentions: _append(result.mentions, <String>[id]));
   }
-  return params;
+  return result;
 }
 
 ParsedChannelSearchParams _applyChannelIds(
@@ -952,7 +953,7 @@ DateTime? _parseCompactDateTime(String input) {
   }
 
   final String isoCandidate = trimmed.replaceAll('_', 'T').replaceAll(' ', 'T');
-  DateTime? parsed = DateTime.tryParse(isoCandidate);
+  final DateTime? parsed = DateTime.tryParse(isoCandidate);
   if (parsed != null) {
     return parsed;
   }
@@ -961,7 +962,7 @@ DateTime? _parseCompactDateTime(String input) {
     r'^(\d{4})(\d{2})(\d{2})(?:T(\d{2})(\d{2})(\d{2})?)?Z?$',
   ).firstMatch(trimmed);
   if (compact != null) {
-    parsed = DateTime(
+    return DateTime(
       int.parse(compact.group(1)!),
       int.parse(compact.group(2)!),
       int.parse(compact.group(3)!),
@@ -969,7 +970,6 @@ DateTime? _parseCompactDateTime(String input) {
       compact.group(5) == null ? 0 : int.parse(compact.group(5)!),
       compact.group(6) == null ? 0 : int.parse(compact.group(6)!),
     );
-    return parsed;
   }
 
   return DateTime.tryParse(trimmed);

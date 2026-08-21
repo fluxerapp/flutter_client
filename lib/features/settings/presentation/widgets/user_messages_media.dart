@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
@@ -21,7 +20,6 @@ class UserMessagesMedia extends ConsumerWidget {
     final notifier = ref.read(userSettingsViewModelProvider.notifier);
     final chat = ref.watch(chatPreferencesProvider);
     final chatNotifier = ref.read(chatPreferencesProvider.notifier);
-    final layout = context.layout;
     final l10n = FluxerLocalizations.of(context);
 
     final mediaSizeItems = [
@@ -225,7 +223,7 @@ class UserMessagesMedia extends ConsumerWidget {
                 ),
                 value: state.trustAllDomains,
                 onChanged: (value) =>
-                    handleTrustAllDomainsChange(context, ref, value),
+                    handleTrustAllDomainsChange(context, ref, value: value),
               ),
               FluxerSettingsSwitchItem(
                 label: l10n.externalLinkStripTrackingLabel,
@@ -245,8 +243,11 @@ class UserMessagesMedia extends ConsumerWidget {
                 description:
                     l10n.messagesMediaDefaultHideMutedChannelsDescription,
                 value: state.defaultHideMutedChannels,
-                onChanged: (value) =>
-                    handleDefaultHideMutedChannelsChange(context, ref, value),
+                onChanged: (value) => handleDefaultHideMutedChannelsChange(
+                  context,
+                  ref,
+                  value: value,
+                ),
               ),
             ],
           ),

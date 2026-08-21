@@ -40,7 +40,9 @@ class SlowmodeSync extends _$SlowmodeSync {
     _inFlightSlowmodeFetches[channelId] = future;
     return future.whenComplete(() {
       if (identical(_inFlightSlowmodeFetches[channelId], future)) {
-        _inFlightSlowmodeFetches.remove(channelId);
+        unawaited(
+          _inFlightSlowmodeFetches.remove(channelId) ?? Future<void>.value(),
+        );
       }
     });
   }

@@ -2110,6 +2110,7 @@ class VoiceSession extends _$VoiceSession {
           // LiveKit CallKit audio ownership APIs are marked @experimental.
           // ignore: experimental_member_use
           return AudioManager.instance.setEngineAvailability(
+            // LiveKit experimental API.
             // ignore: experimental_member_use
             AudioEngineAvailability.defaultAvailability,
           );

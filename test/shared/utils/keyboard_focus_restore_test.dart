@@ -4,15 +4,17 @@ import 'package:material_ui/material_ui.dart';
 
 void main() {
   Future<void> backgroundApp(KeyboardFocusRestoreHandle handle) async {
-    handle.handleLifecycleState(AppLifecycleState.inactive);
-    handle.handleLifecycleState(AppLifecycleState.hidden);
-    handle.handleLifecycleState(AppLifecycleState.paused);
+    handle
+      ..handleLifecycleState(AppLifecycleState.inactive)
+      ..handleLifecycleState(AppLifecycleState.hidden)
+      ..handleLifecycleState(AppLifecycleState.paused);
   }
 
   Future<void> resumeApp(KeyboardFocusRestoreHandle handle) async {
-    handle.handleLifecycleState(AppLifecycleState.hidden);
-    handle.handleLifecycleState(AppLifecycleState.inactive);
-    handle.handleLifecycleState(AppLifecycleState.resumed);
+    handle
+      ..handleLifecycleState(AppLifecycleState.hidden)
+      ..handleLifecycleState(AppLifecycleState.inactive)
+      ..handleLifecycleState(AppLifecycleState.resumed);
   }
 
   testWidgets('restores focus when app resumes from background', (

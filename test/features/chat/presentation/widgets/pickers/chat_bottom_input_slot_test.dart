@@ -147,8 +147,7 @@ void main() {
     addTearDown(container.dispose);
     final MobileKeyboardMetrics notifier = container.read(
       mobileKeyboardMetricsProvider.notifier,
-    );
-    notifier.updateLayout(screenHeight: 800, isPortrait: true, isIos: true);
+    )..updateLayout(screenHeight: 800, isPortrait: true, isIos: true);
 
     await tester.pumpWidget(_buildSpacerHarness(container));
     await tester.pump();
@@ -169,8 +168,7 @@ void main() {
     addTearDown(container.dispose);
     final MobileKeyboardMetrics notifier = container.read(
       mobileKeyboardMetricsProvider.notifier,
-    );
-    notifier.updateLayout(screenHeight: 800, isPortrait: true, isIos: true);
+    )..updateLayout(screenHeight: 800, isPortrait: true, isIos: true);
 
     await tester.pumpWidget(_buildSpacerHarness(container));
     await tester.pump();

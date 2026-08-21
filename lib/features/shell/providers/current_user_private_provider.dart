@@ -26,7 +26,9 @@ class CurrentUserPrivateRead extends _$CurrentUserPrivateRead {
     return null;
   }
 
-  void applyStartupUser(UserPrivateResponse user) {
+  UserPrivateResponse? get startupUser => state;
+
+  set startupUser(UserPrivateResponse user) {
     state = user;
   }
 

@@ -152,12 +152,18 @@ Future<void> openPremiumCustomerPortal(
 ) async {
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
   final String? url = await createPremiumCustomerPortalSession(ref);
-  if (url == null || !context.mounted) {
+  if (url == null) {
+    if (!context.mounted) {
+      return;
+    }
     await _showCheckoutError(
       context,
       title: l10n.premiumCustomerPortalOpenFailedTitle,
       message: l10n.premiumCustomerPortalOpenFailedBody,
     );
+    return;
+  }
+  if (!context.mounted) {
     return;
   }
   await handleExternalLinkTap(context, url, skipWarning: true);
@@ -274,6 +280,9 @@ Future<void> _handleCheckoutDioError(
         );
         return;
     }
+  }
+  if (!context.mounted) {
+    return;
   }
   await _showCheckoutError(
     context,

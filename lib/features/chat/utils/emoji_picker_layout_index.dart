@@ -424,8 +424,9 @@ EmojiPickerLayoutIndex buildEmojiPickerLayoutIndex({
     }
   }
   for (final MapEntry<String, List<GuildEmojiEntry>> section in guildSections) {
-    entries.add(const EmojiPickerSectionGapEntry());
-    entries.add(EmojiPickerSectionHeaderEntry(categoryKey: section.key));
+    entries
+      ..add(const EmojiPickerSectionGapEntry())
+      ..add(EmojiPickerSectionHeaderEntry(categoryKey: section.key));
     if (!collapsedCategories.contains(section.key)) {
       entries.addAll(_chunkCustomRows(section.value, columns));
     }
@@ -435,8 +436,9 @@ EmojiPickerLayoutIndex buildEmojiPickerLayoutIndex({
     if (emojis == null || emojis.isEmpty) {
       continue;
     }
-    entries.add(const EmojiPickerSectionGapEntry());
-    entries.add(EmojiPickerSectionHeaderEntry(categoryKey: category));
+    entries
+      ..add(const EmojiPickerSectionGapEntry())
+      ..add(EmojiPickerSectionHeaderEntry(categoryKey: category));
     if (!collapsedCategories.contains(category)) {
       entries.addAll(_chunkUnicodeRows(emojis, columns));
     }

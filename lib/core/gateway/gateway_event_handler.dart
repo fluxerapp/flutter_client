@@ -369,7 +369,7 @@ class GatewayEventHandler {
           ),
         );
         for (final channel in event.channels) {
-          _handleChannelUpsert(channel);
+          unawaited(_handleChannelUpsert(channel));
         }
       case ChannelPinsUpdateEvent():
         _logGatewayDebug(
@@ -2419,7 +2419,7 @@ class GatewayEventHandler {
       _logGatewayDebug(
         () => talker.debug('[Gateway]   channel: ${channel.id}'),
       );
-      _handleChannelUpsert(channel);
+      unawaited(_handleChannelUpsert(channel));
     }
 
     for (final id in event.deletedChannelIds ?? const <String>[]) {
