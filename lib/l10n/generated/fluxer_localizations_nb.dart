@@ -9990,6 +9990,9 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get userSettingsNavWhatsNew => 'Hva er nytt';
 
   @override
+  String get userSettingsJoinFluxerLabs => 'Join Fluxer Labs';
+
+  @override
   String get userSettingsNavLogOut => 'Logg ut';
 
   @override

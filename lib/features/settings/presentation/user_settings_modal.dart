@@ -18,6 +18,7 @@ import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
+import 'package:fluxer_app/features/guilds/utils/invite_link_navigator.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_nav.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_search_query.dart';
@@ -344,6 +345,10 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
       unawaited(_logout());
       return;
     }
+    if (entry.isJoinFluxerLabs) {
+      unawaited(handleInviteLinkTap(context, kFluxerLabsInviteUrl));
+      return;
+    }
     if (entry.isSeparator) {
       return;
     }
@@ -565,6 +570,7 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
               l10n: l10n,
               onOpenSection: _openSettingsPage,
               onOpenAppLogs: _openAppLogs,
+              onJoinFluxerLabs: _joinFluxerLabs,
               onLogout: _logout,
               showBilling: showBilling,
               isTouchPrimary: isTouchPrimary,
@@ -618,6 +624,10 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
             ),
       ),
     );
+  }
+
+  void _joinFluxerLabs() {
+    unawaited(handleInviteLinkTap(context, kFluxerLabsInviteUrl));
   }
 
   void _openAppLogs() {

@@ -9948,6 +9948,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get userSettingsNavWhatsNew => 'มีอะไรใหม่';
 
   @override
+  String get userSettingsJoinFluxerLabs => 'Join Fluxer Labs';
+
+  @override
   String get userSettingsNavLogOut => 'ออกจากระบบ';
 
   @override

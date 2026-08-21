@@ -9994,6 +9994,9 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get userSettingsNavWhatsNew => 'Vad är nytt';
 
   @override
+  String get userSettingsJoinFluxerLabs => 'Join Fluxer Labs';
+
+  @override
   String get userSettingsNavLogOut => 'Logga ut';
 
   @override

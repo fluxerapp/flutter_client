@@ -81,25 +81,33 @@ VoiceParticipantMenuCheckboxEntry? _findPrioritizeSpeakersEntry(
 }
 
 void main() {
-  test('includes prioritize speakers checkbox for self display preferences', () {
-    final VoiceParticipantMenuCheckboxEntry? entry = _findPrioritizeSpeakersEntry(
-      _buildGroups(
-        capabilities: _capabilities(showDisplayPreferences: true),
-      ),
-    );
+  test(
+    'includes prioritize speakers checkbox for self display preferences',
+    () {
+      final VoiceParticipantMenuCheckboxEntry? entry =
+          _findPrioritizeSpeakersEntry(
+            _buildGroups(
+              capabilities: _capabilities(showDisplayPreferences: true),
+            ),
+          );
 
-    expect(entry, isNotNull);
-    expect(entry!.icon, PhosphorIconsFill.handTap);
-    expect(entry.isChecked, isFalse);
-  });
+      expect(entry, isNotNull);
+      expect(entry!.icon, PhosphorIconsFill.handTap);
+      expect(entry.isChecked, isFalse);
+    },
+  );
 
-  test('omits prioritize speakers checkbox when display preferences are hidden', () {
-    final VoiceParticipantMenuCheckboxEntry? entry = _findPrioritizeSpeakersEntry(
-      _buildGroups(
-        capabilities: _capabilities(showDisplayPreferences: false),
-      ),
-    );
+  test(
+    'omits prioritize speakers checkbox when display preferences are hidden',
+    () {
+      final VoiceParticipantMenuCheckboxEntry? entry =
+          _findPrioritizeSpeakersEntry(
+            _buildGroups(
+              capabilities: _capabilities(showDisplayPreferences: false),
+            ),
+          );
 
-    expect(entry, isNull);
-  });
+      expect(entry, isNull);
+    },
+  );
 }

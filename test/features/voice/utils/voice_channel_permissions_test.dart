@@ -5,18 +5,18 @@ import 'package:fluxer_app/features/voice/utils/voice_channel_permissions.dart';
 void main() {
   group('resolveVoiceChannelPermissions', () {
     test('includes priority speaker when bit is set', () {
-      final VoiceChannelPermissions permissions = resolveVoiceChannelPermissions(
-        Permission.prioritySpeaker.value,
-      );
+      final VoiceChannelPermissions permissions =
+          resolveVoiceChannelPermissions(Permission.prioritySpeaker.value);
 
       expect(permissions.canPrioritySpeaker, isTrue);
       expect(permissions.canSpeak, isFalse);
     });
 
     test('defaults canPrioritySpeaker to false without bit', () {
-      final VoiceChannelPermissions permissions = resolveVoiceChannelPermissions(
-        Permission.speak.value | Permission.connect.value,
-      );
+      final VoiceChannelPermissions permissions =
+          resolveVoiceChannelPermissions(
+            Permission.speak.value | Permission.connect.value,
+          );
 
       expect(permissions.canPrioritySpeaker, isFalse);
       expect(permissions.canSpeak, isTrue);

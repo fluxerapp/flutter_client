@@ -9681,6 +9681,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get userSettingsNavWhatsNew => '新内容';
 
   @override
+  String get userSettingsJoinFluxerLabs => 'Join Fluxer Labs';
+
+  @override
   String get userSettingsNavLogOut => '退出登录';
 
   @override

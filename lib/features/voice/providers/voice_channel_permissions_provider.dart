@@ -6,10 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'voice_channel_permissions_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-VoiceChannelPermissions? voiceChannelPermissions(
-  Ref ref,
-  String channelId,
-) {
+VoiceChannelPermissions? voiceChannelPermissions(Ref ref, String channelId) {
   if (channelId.isEmpty) {
     return null;
   }

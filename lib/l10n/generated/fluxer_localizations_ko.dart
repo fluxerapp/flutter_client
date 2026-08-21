@@ -9764,6 +9764,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get userSettingsNavWhatsNew => '새로운 기능';
 
   @override
+  String get userSettingsJoinFluxerLabs => 'Join Fluxer Labs';
+
+  @override
   String get userSettingsNavLogOut => '로그아웃';
 
   @override

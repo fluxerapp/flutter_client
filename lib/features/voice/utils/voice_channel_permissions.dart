@@ -52,7 +52,10 @@ VoiceChannelPermissions resolveVoiceChannelPermissions(int permissionBits) {
     canStream: hasPermission(permissionBits, Permission.stream),
     canUseVideo: hasPermission(permissionBits, Permission.stream),
     canConnect: hasPermission(permissionBits, Permission.connect),
-    canPrioritySpeaker: hasPermission(permissionBits, Permission.prioritySpeaker),
+    canPrioritySpeaker: hasPermission(
+      permissionBits,
+      Permission.prioritySpeaker,
+    ),
   );
 }
 

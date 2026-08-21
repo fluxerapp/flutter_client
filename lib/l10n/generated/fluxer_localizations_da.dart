@@ -9989,6 +9989,9 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get userSettingsNavWhatsNew => 'Hvad er nyt';
 
   @override
+  String get userSettingsJoinFluxerLabs => 'Join Fluxer Labs';
+
+  @override
   String get userSettingsNavLogOut => 'Log ud';
 
   @override

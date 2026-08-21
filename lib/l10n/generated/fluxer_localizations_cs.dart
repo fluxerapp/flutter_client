@@ -9999,6 +9999,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get userSettingsNavWhatsNew => 'Co je nového';
 
   @override
+  String get userSettingsJoinFluxerLabs => 'Join Fluxer Labs';
+
+  @override
   String get userSettingsNavLogOut => 'Odhlásit se';
 
   @override

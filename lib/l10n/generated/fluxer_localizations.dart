@@ -16698,6 +16698,12 @@ abstract class FluxerLocalizations {
   /// **'What\'s New'**
   String get userSettingsNavWhatsNew;
 
+  /// User settings What's New action to join the Fluxer Labs community.
+  ///
+  /// In en, this message translates to:
+  /// **'Join Fluxer Labs'**
+  String get userSettingsJoinFluxerLabs;
+
   /// User settings navigation item to sign out of the account.
   ///
   /// In en, this message translates to:

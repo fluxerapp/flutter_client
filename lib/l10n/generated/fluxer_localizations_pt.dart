@@ -10009,6 +10009,9 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get userSettingsNavWhatsNew => 'Novidades';
 
   @override
+  String get userSettingsJoinFluxerLabs => 'Join Fluxer Labs';
+
+  @override
   String get userSettingsNavLogOut => 'Sair';
 
   @override

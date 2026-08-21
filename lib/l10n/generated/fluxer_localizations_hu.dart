@@ -10031,6 +10031,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userSettingsNavWhatsNew => 'Újdonságok';
 
   @override
+  String get userSettingsJoinFluxerLabs => 'Join Fluxer Labs';
+
+  @override
   String get userSettingsNavLogOut => 'Kijelentkezés';
 
   @override

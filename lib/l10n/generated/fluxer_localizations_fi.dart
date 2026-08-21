@@ -10010,6 +10010,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get userSettingsNavWhatsNew => 'Uutta';
 
   @override
+  String get userSettingsJoinFluxerLabs => 'Join Fluxer Labs';
+
+  @override
   String get userSettingsNavLogOut => 'Kirjaudu ulos';
 
   @override

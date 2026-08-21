@@ -10046,6 +10046,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get userSettingsNavWhatsNew => 'Τι νέο υπάρχει';
 
   @override
+  String get userSettingsJoinFluxerLabs => 'Join Fluxer Labs';
+
+  @override
   String get userSettingsNavLogOut => 'Αποσύνδεση';
 
   @override

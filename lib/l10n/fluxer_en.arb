@@ -11836,6 +11836,10 @@
     "@userSettingsNavWhatsNew": {
         "description": "User settings navigation item for release notes."
     },
+    "userSettingsJoinFluxerLabs": "Join Fluxer Labs",
+    "@userSettingsJoinFluxerLabs": {
+        "description": "User settings What's New action to join the Fluxer Labs community."
+    },
     "userSettingsNavLogOut": "Log Out",
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."

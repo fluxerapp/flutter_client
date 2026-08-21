@@ -9772,6 +9772,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get userSettingsNavWhatsNew => '新着情報';
 
   @override
+  String get userSettingsJoinFluxerLabs => 'Join Fluxer Labs';
+
+  @override
   String get userSettingsNavLogOut => 'ログアウト';
 
   @override
