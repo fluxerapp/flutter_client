@@ -2,6 +2,8 @@
 > The Fluxer Flutter mobile client is still in beta so features will be missing or broken. Currently the only way to report issues is on the Fluxer Mobile community (Plutonium members only), this will change in the future.
 >
 > Note there is currently no set release date for the app, but we have an upcoming public beta.
+>
+> Please checkout the [known issues list](https://github.com/fluxerapp/flutter_client/issues/439) before reporting an issue,
 
 <p align="center">
   <img src="./docs/media/logo-graphic.png" alt="Fluxer graphic logo" width="400">
