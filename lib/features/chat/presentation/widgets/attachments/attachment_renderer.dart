@@ -10,12 +10,14 @@ import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attach
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/voice_message_player.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_upload_progress.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
+import 'package:fluxer_app/features/chat/utils/spoiler_utils.dart';
 import 'package:fluxer_app/features/chat/utils/uploading_attachment_utils.dart';
 import 'package:fluxer_app/features/chat/utils/voice_message_attachment.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -25,6 +27,7 @@ class AttachmentRenderer extends ConsumerWidget {
     required this.inlineAttachmentMedia,
     required this.dimensionSize,
     required this.revealSpoilers,
+    this.spoilerSyncController,
     this.imageGallery,
     this.imageGalleryIndex = 0,
     this.messageId,
@@ -39,6 +42,7 @@ class AttachmentRenderer extends ConsumerWidget {
   final bool inlineAttachmentMedia;
   final MediaDimensionSize dimensionSize;
   final bool revealSpoilers;
+  final FluxerSpoilerSyncController? spoilerSyncController;
   final List<Attachment>? imageGallery;
   final int imageGalleryIndex;
   final String? messageId;
@@ -64,6 +68,10 @@ class AttachmentRenderer extends ConsumerWidget {
         : l10n.chatAttachmentExpiresOn(
             DateFormat('dd MMM, yyyy', l10n.localeName).format(expiresAt),
           );
+    final List<String> spoilerSyncKeys = spoilerSyncKeysForAttachment(
+      messageId: messageId ?? '',
+      attachment: attachment,
+    );
     return Padding(
       padding: const EdgeInsets.only(top: 2),
       child: Column(
@@ -73,6 +81,8 @@ class AttachmentRenderer extends ConsumerWidget {
           SpoilerOverlay(
             isSpoiler: attachment.isSpoiler,
             initiallyRevealed: revealSpoilers,
+            spoilerSyncController: spoilerSyncController,
+            syncKeys: spoilerSyncKeys,
             child: _wrapMatureMedia(content),
           ),
           if (expiryFootnoteText != null &&

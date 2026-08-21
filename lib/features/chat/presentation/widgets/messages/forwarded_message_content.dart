@@ -105,9 +105,10 @@ class ForwardedMessageContent extends ConsumerWidget {
                     inlineAttachmentMedia: inlineAttachmentMedia,
                     dimensionSize: attachmentSize,
                     revealSpoilers: revealSpoilers,
+                    spoilerSyncController: spoilerSyncController,
                     topPadding: 4,
                     channelId: message.channelId,
-                    messageId: message.id,
+                    messageId: '${message.id}-forward',
                     messageFlags: snapshot.flags,
                   ),
                 if (renderEmbeds)

@@ -52,20 +52,23 @@ void main() {
     expect(access.unavailableReason, isNull);
   });
 
-  test('shows unavailable when updates are disabled before permission resolves', () {
-    final MemberListAccess access = resolveMemberListAccess(
-      currentUserId: 'user-1',
-      permissionBits: null,
-      permissionBitsResolved: false,
-      guild: guildWithDisabledMemberList,
-    );
+  test(
+    'shows unavailable when updates are disabled before permission resolves',
+    () {
+      final MemberListAccess access = resolveMemberListAccess(
+        currentUserId: 'user-1',
+        permissionBits: null,
+        permissionBitsResolved: false,
+        guild: guildWithDisabledMemberList,
+      );
 
-    expect(access.canSubscribe, isFalse);
-    expect(
-      access.unavailableReason,
-      MemberListUnavailableReason.updatesDisabled,
-    );
-  });
+      expect(access.canSubscribe, isFalse);
+      expect(
+        access.unavailableReason,
+        MemberListUnavailableReason.updatesDisabled,
+      );
+    },
+  );
 
   test('does not deny access before current user is known', () {
     final MemberListAccess access = resolveMemberListAccess(

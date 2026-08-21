@@ -66,3 +66,23 @@ List<String> spoilerSyncKeysForEmbed(Embed embed, Set<String> spoileredUrls) {
 bool isEmbedSpoilered(Embed embed, Set<String> spoileredUrls) {
   return spoilerSyncKeysForEmbed(embed, spoileredUrls).isNotEmpty;
 }
+
+List<String> spoilerSyncKeysForAttachment({
+  required String messageId,
+  required Attachment attachment,
+}) {
+  if (!attachment.isSpoiler || messageId.isEmpty) {
+    return const [];
+  }
+
+  final String attachmentKey = attachment.id.isNotEmpty
+      ? attachment.id
+      : attachment.url.isNotEmpty
+      ? attachment.url
+      : attachment.filename;
+  if (attachmentKey.isEmpty) {
+    return const [];
+  }
+
+  return List<String>.unmodifiable(['attachment:$messageId:$attachmentKey']);
+}

@@ -35,6 +35,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_t
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/providers/messages/channel_spoiler_sync_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_translation_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/spoiler_reveal_provider.dart';
 import 'package:fluxer_app/features/chat/utils/embed_gallery_utils.dart';
@@ -251,9 +252,12 @@ class MessageItem extends ConsumerStatefulWidget {
 class _MessageItemState extends ConsumerState<MessageItem> {
   final _hovered = ValueNotifier<bool>(false);
   final _reactionPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
-  final _spoilerSyncController = FluxerSpoilerSyncController();
   final _reactionPickerOpen = ValueNotifier<bool>(false);
   bool _animateJumpHighlight = false;
+
+  FluxerSpoilerSyncController get _spoilerSyncController => ref
+      .read(channelSpoilerSyncProvider(widget.message.channelId).notifier)
+      .controller;
 
   late final Listenable _actionBarVisibility = Listenable.merge([
     _hovered,
@@ -272,7 +276,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   void dispose() {
     _hovered.dispose();
     _reactionPickerOpen.dispose();
-    _spoilerSyncController.dispose();
     super.dispose();
   }
 
@@ -1039,6 +1042,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           inlineAttachmentMedia: inlineAttachmentMedia,
           dimensionSize: attachmentSize,
           revealSpoilers: revealSpoilers,
+          spoilerSyncController: _spoilerSyncController,
           messageId: msg.id,
           messageNonce: msg.clientNonce,
           channelId: msg.channelId,
