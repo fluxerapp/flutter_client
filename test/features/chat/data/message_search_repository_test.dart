@@ -83,7 +83,8 @@ void main() {
       );
 
       expect(request.authorId, <String>['user-1']);
-      expect(request.channelId, <String>['channel-9']);
+      expect(request.channelIds, <String>['channel-9']);
+      expect(request.channelId, isNull);
       expect(request.has, <GlobalSearchMessagesRequestHasHas>[
         GlobalSearchMessagesRequestHasHas.image,
       ]);
@@ -120,6 +121,7 @@ void main() {
 
       expect(request.mentions, <String>['user-2']);
       expect(request.excludeAuthorId, <String>['user-3']);
+      expect(request.channelIds, isNull);
       expect(request.excludeChannelId, <String>['channel-8']);
       expect(request.excludeHas, isNotNull);
       expect(request.authorType, isNotNull);

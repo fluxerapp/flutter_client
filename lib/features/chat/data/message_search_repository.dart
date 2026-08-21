@@ -302,7 +302,7 @@ GlobalSearchMessagesRequest buildGlobalSearchMessagesRequest(
     content: _blankToNull(parsed.content),
     contents: _nonEmptyList(parsed.contents),
     exactPhrases: _nonEmptyList(parsed.exactPhrases),
-    channelId: _nonEmptyList(parsed.channelIds),
+    channelIds: _nonEmptyList(parsed.channelIds),
     excludeChannelId: _nonEmptyList(parsed.excludeChannelIds),
     authorId: _nonEmptyList(parsed.authorIds),
     excludeAuthorId: _nonEmptyList(parsed.excludeAuthorIds),
