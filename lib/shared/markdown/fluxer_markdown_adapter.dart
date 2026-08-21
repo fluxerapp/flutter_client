@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_alert.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_mention.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
+import 'package:fluxer_app/features/emoji/presentation/sheets/emoji_info_bottom_sheet.dart';
 import 'package:fluxer_app/features/guilds/utils/invite_link_navigator.dart';
 import 'package:fluxer_app/features/settings/utils/open_user_settings_deep_link.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
@@ -279,6 +280,7 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
     alertBuilder: _fluxerAlertBuilder,
     onCopyCode: _fluxerOnCopyCode,
     selectionContextMenuBuilder: selectionContextMenuBuilder,
+    onEmojiLongPress: fluxerMarkdownEmojiLongPressHandler,
   );
 }
 

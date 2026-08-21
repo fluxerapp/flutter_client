@@ -2482,6 +2482,66 @@ abstract class FluxerLocalizations {
   /// **'Default emoji'**
   String get emojiAutocompleteDefaultLabel;
 
+  /// Emoji info sheet description for built-in unicode emoji.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a default emoji on {productName}.'**
+  String emojiInfoDefaultDescription(String productName);
+
+  /// Emoji info sheet description when the user can use a custom emoji from their community.
+  ///
+  /// In en, this message translates to:
+  /// **'This emoji is from this community. You can use it everywhere.'**
+  String get emojiInfoCustomGuildDescription;
+
+  /// Emoji info sheet description when the source community is unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a custom emoji from a community.'**
+  String get emojiInfoCustomUnknownDescription;
+
+  /// Emoji info sheet description when the user is not in the source community.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a custom emoji from a community. Ask the author for an invite to use this emoji.'**
+  String get emojiInfoCustomInviteRequiredDescription;
+
+  /// Section header above the source community in the emoji info sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'This emoji is from'**
+  String get emojiInfoFromHeader;
+
+  /// Subtitle for a discoverable source community in the emoji info sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Discoverable community'**
+  String get emojiInfoDiscoverableCommunity;
+
+  /// Subtitle for a non-discoverable source community in the emoji info sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Private community'**
+  String get emojiInfoPrivateCommunity;
+
+  /// Tooltip for the verified badge on a source community in the emoji info sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified community'**
+  String get emojiInfoVerifiedCommunity;
+
+  /// Accessibility label for adding an emoji to favorites from the emoji info sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to Favorites'**
+  String get emojiInfoAddToFavorites;
+
+  /// Accessibility label for removing an emoji from favorites from the emoji info sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from Favorites'**
+  String get emojiInfoRemoveFromFavorites;
+
   /// Frequently used emojis section.
   ///
   /// In en, this message translates to:

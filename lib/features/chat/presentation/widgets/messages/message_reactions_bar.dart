@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
+import 'package:fluxer_app/features/emoji/domain/emoji_info_data.dart';
+import 'package:fluxer_app/features/emoji/presentation/sheets/emoji_info_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
@@ -106,6 +108,12 @@ class _ReactionChip extends StatelessWidget {
       label: '$emojiName, ${reaction.count}',
       child: FluxerGestureDetector(
         onTap: onTap,
+        onLongPress: () {
+          openEmojiInfoBottomSheet(
+            context,
+            emoji: EmojiInfoData.fromReaction(reaction),
+          );
+        },
         child: MouseRegion(
           cursor: SystemMouseCursors.click,
           child: ExcludeSemantics(

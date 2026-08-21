@@ -1317,6 +1317,41 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get emojiAutocompleteDefaultLabel => 'デフォルトの絵文字';
 
   @override
+  String emojiInfoDefaultDescription(String productName) {
+    return 'This is a default emoji on $productName.';
+  }
+
+  @override
+  String get emojiInfoCustomGuildDescription =>
+      'This emoji is from this community. You can use it everywhere.';
+
+  @override
+  String get emojiInfoCustomUnknownDescription =>
+      'This is a custom emoji from a community.';
+
+  @override
+  String get emojiInfoCustomInviteRequiredDescription =>
+      'This is a custom emoji from a community. Ask the author for an invite to use this emoji.';
+
+  @override
+  String get emojiInfoFromHeader => 'This emoji is from';
+
+  @override
+  String get emojiInfoDiscoverableCommunity => 'Discoverable community';
+
+  @override
+  String get emojiInfoPrivateCommunity => 'Private community';
+
+  @override
+  String get emojiInfoVerifiedCommunity => 'Verified community';
+
+  @override
+  String get emojiInfoAddToFavorites => 'Add to Favorites';
+
+  @override
+  String get emojiInfoRemoveFromFavorites => 'Remove from Favorites';
+
+  @override
   String get emojiFrequentlyUsed => 'よく使うもの';
 
   @override

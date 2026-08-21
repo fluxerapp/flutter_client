@@ -1263,6 +1263,7 @@ class _MarkdownInlineRenderer {
             unicodeEmojiUrlBuilder: config.unicodeEmojiUrlBuilder,
             customEmojiUrlBuilder: config.customEmojiUrlBuilder,
             animateCustomEmoji: config.animateCustomEmoji,
+            onEmojiLongPress: config.onEmojiLongPress,
             jumbo: jumbo,
           ),
         );
@@ -1935,6 +1936,7 @@ class FluxerEmojiWidget extends StatelessWidget {
     required this.unicodeEmojiUrlBuilder,
     required this.customEmojiUrlBuilder,
     this.animateCustomEmoji = true,
+    this.onEmojiLongPress,
     this.jumbo = false,
     super.key,
   });
@@ -1945,16 +1947,53 @@ class FluxerEmojiWidget extends StatelessWidget {
   final bool animateCustomEmoji;
   final FluxerUnicodeEmojiUrlBuilder unicodeEmojiUrlBuilder;
   final FluxerCustomEmojiUrlBuilder customEmojiUrlBuilder;
+  final FluxerEmojiLongPressHandler? onEmojiLongPress;
 
   @override
   Widget build(BuildContext context) {
     final size = jumbo
         ? kFluxerMarkdownEmojiSizeJumbo
         : (baseStyle.fontSize ?? 16) * kFluxerMarkdownEmojiSizeMultiplier;
+    final Widget emoji;
     if (element.tag == FluxerCustomEmojiSyntax.tag) {
-      return _buildCustom(context, size);
+      emoji = _buildCustom(context, size);
+    } else {
+      emoji = _buildUnicode(size);
     }
-    return _buildUnicode(size);
+    return _wrapLongPress(context, emoji);
+  }
+
+  Widget _wrapLongPress(BuildContext context, Widget emoji) {
+    final handler = onEmojiLongPress;
+    if (handler == null) {
+      return emoji;
+    }
+
+    final isCustom = element.tag == FluxerCustomEmojiSyntax.tag;
+    final String name;
+    final String? emojiId;
+    final bool animated;
+    if (isCustom) {
+      name = element.textContent;
+      emojiId = element.attributes['id'];
+      animated = animateCustomEmoji && element.attributes['animated'] == 'true';
+    } else {
+      name = element.attributes['surrogate'] ?? element.textContent;
+      emojiId = null;
+      animated = false;
+    }
+
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onLongPress: () => handler(
+        context,
+        emojiId: emojiId,
+        name: name,
+        animated: animated,
+        isCustom: isCustom,
+      ),
+      child: emoji,
+    );
   }
 
   Widget _buildSystemUnicodeEmoji(String surrogate, double size) {

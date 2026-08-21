@@ -1784,6 +1784,51 @@
     "@emojiAutocompleteDefaultLabel": {
         "description": "Short right-side label in the chat composer emoji autocomplete shown for built-in (unicode) emoji; custom emoji show their guild name instead. Keep it concise."
     },
+    "emojiInfoDefaultDescription": "This is a default emoji on {productName}.",
+    "@emojiInfoDefaultDescription": {
+        "description": "Emoji info sheet description for built-in unicode emoji.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "emojiInfoCustomGuildDescription": "This emoji is from this community. You can use it everywhere.",
+    "@emojiInfoCustomGuildDescription": {
+        "description": "Emoji info sheet description when the user can use a custom emoji from their community."
+    },
+    "emojiInfoCustomUnknownDescription": "This is a custom emoji from a community.",
+    "@emojiInfoCustomUnknownDescription": {
+        "description": "Emoji info sheet description when the source community is unknown."
+    },
+    "emojiInfoCustomInviteRequiredDescription": "This is a custom emoji from a community. Ask the author for an invite to use this emoji.",
+    "@emojiInfoCustomInviteRequiredDescription": {
+        "description": "Emoji info sheet description when the user is not in the source community."
+    },
+    "emojiInfoFromHeader": "This emoji is from",
+    "@emojiInfoFromHeader": {
+        "description": "Section header above the source community in the emoji info sheet."
+    },
+    "emojiInfoDiscoverableCommunity": "Discoverable community",
+    "@emojiInfoDiscoverableCommunity": {
+        "description": "Subtitle for a discoverable source community in the emoji info sheet."
+    },
+    "emojiInfoPrivateCommunity": "Private community",
+    "@emojiInfoPrivateCommunity": {
+        "description": "Subtitle for a non-discoverable source community in the emoji info sheet."
+    },
+    "emojiInfoVerifiedCommunity": "Verified community",
+    "@emojiInfoVerifiedCommunity": {
+        "description": "Tooltip for the verified badge on a source community in the emoji info sheet."
+    },
+    "emojiInfoAddToFavorites": "Add to Favorites",
+    "@emojiInfoAddToFavorites": {
+        "description": "Accessibility label for adding an emoji to favorites from the emoji info sheet."
+    },
+    "emojiInfoRemoveFromFavorites": "Remove from Favorites",
+    "@emojiInfoRemoveFromFavorites": {
+        "description": "Accessibility label for removing an emoji from favorites from the emoji info sheet."
+    },
     "emojiFrequentlyUsed": "Frequently Used",
     "@emojiFrequentlyUsed": {
         "description": "Frequently used emojis section."

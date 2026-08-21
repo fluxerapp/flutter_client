@@ -14,7 +14,10 @@ import 'package:fluxer_app/features/chat/providers/pickers/expression_picker_pre
 import 'package:fluxer_app/features/chat/utils/emoji_picker_rendering_policy.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:material_ui/material_ui.dart';
@@ -28,6 +31,13 @@ class _FakeDmViewModel extends DmViewModel {
     friendsList: [],
     activeTab: FriendsTab.online,
     searchQuery: '',
+  );
+}
+
+class _FakeGuildListViewModel extends GuildListViewModel {
+  @override
+  GuildListViewState build() => const GuildListViewState(
+    guilds: [Guild(id: 'g1', name: 'One', ownerId: 'owner')],
   );
 }
 
@@ -75,6 +85,10 @@ Widget _buildTestApp({
         AsyncData<List<String>>(rankedUsageKeys),
       ),
       favoriteEmojiKeysProvider.overrideWith(_FakeFavoriteEmojiKeys.new),
+      guildListViewModelProvider.overrideWith(_FakeGuildListViewModel.new),
+      guildByIdProvider('g1').overrideWith(
+        (ref) async => const Guild(id: 'g1', name: 'One', ownerId: 'owner'),
+      ),
       collapsedEmojiPickerCategoriesProvider.overrideWith(
         _FakeCollapsedCategories.new,
       ),
@@ -196,6 +210,44 @@ void main() {
       expect(image.requestSize, kCustomEmojiPickerFetchSize);
     },
   );
+
+  testWidgets('long press opens emoji info sheet for custom emoji', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _buildTestApp(
+        allGuildEmojis: <GuildEmojiEntry>[_customEmoji],
+        rankedUsageKeys: const <String>[],
+        child: const SizedBox(
+          width: 800,
+          height: 600,
+          child: EmojiPickerContent(channelId: 'channel-1', isMobile: true),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+
+    final Finder emojiCell = find.bySemanticsLabel('party');
+    await tester.scrollUntilVisible(
+      emojiCell,
+      100,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pumpAndSettle();
+
+    final Finder pressTarget = find.descendant(
+      of: emojiCell,
+      matching: find.byType(FluxerGestureDetector),
+    );
+    expect(pressTarget, findsOneWidget);
+
+    await tester.longPress(pressTarget);
+    await tester.pumpAndSettle();
+
+    expect(find.text(':party:'), findsOneWidget);
+    expect(find.text(testL10n.emojiInfoCustomGuildDescription), findsOneWidget);
+  });
 
   testWidgets('category sidebar buttons expose tooltip labels', (tester) async {
     await tester.pumpWidget(

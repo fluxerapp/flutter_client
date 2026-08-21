@@ -23,9 +23,10 @@ import 'package:fluxer_app/features/chat/utils/emoji_picker_visibility.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
+import 'package:fluxer_app/features/emoji/domain/emoji_info_data.dart';
+import 'package:fluxer_app/features/emoji/presentation/sheets/emoji_info_bottom_sheet.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
-import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
@@ -406,11 +407,9 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     if (!widget.isMobile) {
       return;
     }
-    final key = unicodeEmojiFavoriteKey(emoji);
-    _showFavoriteActionSheet(
-      title: ':${emoji.primaryName}:',
-      favoriteKey: key,
-      isFavorite: _isFavoriteEmoji(key),
+    openEmojiInfoBottomSheet(
+      context,
+      emoji: EmojiInfoData.fromEmojiEntry(emoji),
     );
   }
 
@@ -418,53 +417,9 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     if (!widget.isMobile) {
       return;
     }
-    final key = emoji.favoriteKey;
-    _showFavoriteActionSheet(
-      title: ':${emoji.name}:',
-      favoriteKey: key,
-      isFavorite: _isFavoriteEmoji(key),
-    );
-  }
-
-  bool _isFavoriteEmoji(String key) =>
-      (ref.read(favoriteEmojiKeysProvider).value ?? const <String>[]).contains(
-        key,
-      );
-
-  void _showFavoriteActionSheet({
-    required String title,
-    required String favoriteKey,
-    required bool isFavorite,
-  }) {
-    unawaited(
-      FluxerBottomSheet.show<void>(
-        context,
-        title: title,
-        variant: FluxerBottomSheetVariant.menu,
-        builder: (sheetContext, close) => FluxerBottomSheetContent(
-          scrollable: false,
-          child: FluxerMenuGroup(
-            children: [
-              FluxerBottomSheetMenuItem(
-                label: isFavorite
-                    ? 'Remove from Favorites'
-                    : 'Add to Favorites',
-                icon: isFavorite
-                    ? PhosphorIconsBold.star
-                    : PhosphorIconsFill.star,
-                onTap: () {
-                  close();
-                  unawaited(
-                    ref
-                        .read(favoriteEmojiKeysProvider.notifier)
-                        .toggle(favoriteKey),
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
+    openEmojiInfoBottomSheet(
+      context,
+      emoji: EmojiInfoData.fromGuildEmoji(emoji),
     );
   }
 
