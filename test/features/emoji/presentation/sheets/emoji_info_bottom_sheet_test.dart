@@ -25,9 +25,7 @@ class _FakeFavoriteEmojiKeys extends FavoriteEmojiKeys {
 class _FakeGuildListViewModel extends GuildListViewModel {
   @override
   GuildListViewState build() => const GuildListViewState(
-    guilds: [
-      Guild(id: 'guild-1', name: 'Test Community', ownerId: 'owner'),
-    ],
+    guilds: [Guild(id: 'guild-1', name: 'Test Community', ownerId: 'owner')],
   );
 }
 
@@ -151,12 +149,7 @@ void main() {
           builder: (context) {
             return ElevatedButton(
               onPressed: () {
-                unawaited(
-                  EmojiInfoBottomSheet.show(
-                    context,
-                    emoji: data,
-                  ),
-                );
+                unawaited(EmojiInfoBottomSheet.show(context, emoji: data));
               },
               child: const Text('Open'),
             );
@@ -168,7 +161,10 @@ void main() {
     await tester.tap(find.text('Open'));
     await tester.pumpAndSettle();
 
-    expect(find.bySemanticsLabel(testL10n.emojiInfoAddToFavorites), findsOneWidget);
+    expect(
+      find.bySemanticsLabel(testL10n.emojiInfoAddToFavorites),
+      findsOneWidget,
+    );
     expect(data.favoriteKeyForGuild(null), isNotNull);
   });
 }

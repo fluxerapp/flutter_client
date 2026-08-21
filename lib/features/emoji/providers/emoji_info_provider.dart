@@ -8,21 +8,15 @@ import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:riverpod/misc.dart' show FutureProviderFamily;
 
 class EmojiInfoResolved {
-  const EmojiInfoResolved({
-    required this.attribution,
-    this.favoriteKey,
-  });
+  const EmojiInfoResolved({required this.attribution, this.favoriteKey});
 
   final EmojiAttribution attribution;
   final String? favoriteKey;
 }
 
 final FutureProviderFamily<EmojiInfoResolved, EmojiInfoData>
-    emojiInfoResolvedProvider =
-    FutureProvider.autoDispose.family<EmojiInfoResolved, EmojiInfoData>((
-      ref,
-      data,
-    ) async {
+emojiInfoResolvedProvider = FutureProvider.autoDispose
+    .family<EmojiInfoResolved, EmojiInfoData>((ref, data) async {
       if (!data.isCustom) {
         return EmojiInfoResolved(
           attribution: const EmojiAttribution(

@@ -81,7 +81,9 @@ class _EmojiInfoBottomSheetContent extends ConsumerWidget {
     final resolved =
         resolvedAsync.value ??
         const EmojiInfoResolved(
-          attribution: EmojiAttribution(type: EmojiAttributionType.defaultEmoji),
+          attribution: EmojiAttribution(
+            type: EmojiAttributionType.defaultEmoji,
+          ),
         );
     final favoriteKey = resolved.favoriteKey;
     final isFavorite =

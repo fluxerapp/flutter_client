@@ -9,10 +9,7 @@ enum EmojiAttributionType {
 }
 
 class EmojiAttribution {
-  const EmojiAttribution({
-    required this.type,
-    this.guild,
-  });
+  const EmojiAttribution({required this.type, this.guild});
 
   final EmojiAttributionType type;
   final Guild? guild;
@@ -38,7 +35,9 @@ EmojiAttribution resolveEmojiAttribution({
   }
 
   if (guildId != null && !memberGuildIds.contains(guildId)) {
-    return const EmojiAttribution(type: EmojiAttributionType.customInviteRequired);
+    return const EmojiAttribution(
+      type: EmojiAttributionType.customInviteRequired,
+    );
   }
 
   return const EmojiAttribution(type: EmojiAttributionType.customUnknown);
@@ -50,8 +49,9 @@ String emojiAttributionDescription(
   String productName = 'Fluxer',
 }) {
   return switch (attribution.type) {
-    EmojiAttributionType.defaultEmoji =>
-      l10n.emojiInfoDefaultDescription(productName),
+    EmojiAttributionType.defaultEmoji => l10n.emojiInfoDefaultDescription(
+      productName,
+    ),
     EmojiAttributionType.customGuild => l10n.emojiInfoCustomGuildDescription,
     EmojiAttributionType.customInviteRequired =>
       l10n.emojiInfoCustomInviteRequiredDescription,

@@ -38,11 +38,7 @@ class EmojiInfoData {
     required String name,
     required bool animated,
   }) {
-    return EmojiInfoData(
-      id: emojiId,
-      name: name,
-      animated: animated,
-    );
+    return EmojiInfoData(id: emojiId, name: name, animated: animated);
   }
 
   final String? id;
