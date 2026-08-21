@@ -10,7 +10,6 @@ import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attach
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/voice_message_player.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_upload_progress.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
-import 'package:fluxer_app/features/chat/utils/spoiler_utils.dart';
 import 'package:fluxer_app/features/chat/utils/uploading_attachment_utils.dart';
 import 'package:fluxer_app/features/chat/utils/voice_message_attachment.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
@@ -28,6 +27,7 @@ class AttachmentRenderer extends ConsumerWidget {
     required this.dimensionSize,
     required this.revealSpoilers,
     this.spoilerSyncController,
+    this.spoilerSyncKeys = const [],
     this.imageGallery,
     this.imageGalleryIndex = 0,
     this.messageId,
@@ -43,6 +43,7 @@ class AttachmentRenderer extends ConsumerWidget {
   final MediaDimensionSize dimensionSize;
   final bool revealSpoilers;
   final FluxerSpoilerSyncController? spoilerSyncController;
+  final List<String> spoilerSyncKeys;
   final List<Attachment>? imageGallery;
   final int imageGalleryIndex;
   final String? messageId;
@@ -68,10 +69,6 @@ class AttachmentRenderer extends ConsumerWidget {
         : l10n.chatAttachmentExpiresOn(
             DateFormat('dd MMM, yyyy', l10n.localeName).format(expiresAt),
           );
-    final List<String> spoilerSyncKeys = spoilerSyncKeysForAttachment(
-      messageId: messageId ?? '',
-      attachment: attachment,
-    );
     return Padding(
       padding: const EdgeInsets.only(top: 2),
       child: Column(

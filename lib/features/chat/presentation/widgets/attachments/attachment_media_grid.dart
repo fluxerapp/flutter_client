@@ -30,6 +30,7 @@ class AttachmentMediaGrid extends ConsumerWidget {
     this.spoilerSyncController,
     this.channelId,
     this.messageId,
+    this.spoilerSyncScope,
     this.mediaActionScope,
     super.key,
   });
@@ -40,6 +41,7 @@ class AttachmentMediaGrid extends ConsumerWidget {
   final FluxerSpoilerSyncController? spoilerSyncController;
   final String? channelId;
   final String? messageId;
+  final String? spoilerSyncScope;
   final MessageMediaActionScope? mediaActionScope;
 
   @override
@@ -294,7 +296,7 @@ class AttachmentMediaGrid extends ConsumerWidget {
         initiallyRevealed: revealSpoilers,
         spoilerSyncController: spoilerSyncController,
         syncKeys: spoilerSyncKeysForAttachment(
-          messageId: messageId ?? '',
+          scope: spoilerSyncScope ?? messageId ?? '',
           attachment: attachment,
         ),
         child: MatureMediaOverlay(

@@ -56,6 +56,7 @@ class ForwardedMessageContent extends ConsumerWidget {
     final attachmentSize = snapshot.hasCompactAttachments
         ? MediaDimensionSize.small
         : chatPreferences.attachmentMediaDimensionSize;
+    final String snapshotScope = forwardedSnapshotScope(message.id);
 
     return Padding(
       padding: const EdgeInsets.only(top: 4),
@@ -88,7 +89,7 @@ class ForwardedMessageContent extends ConsumerWidget {
                     padding: const EdgeInsets.only(top: 4),
                     child: MessageMarkdown(
                       data: snapshot.content,
-                      messageId: '${message.id}-forward',
+                      messageId: snapshotScope,
                       channelId: message.channelId,
                       mentionChannels: snapshot.mentionChannels,
                       baseStyle: context.textStyles.messageText.copyWith(
@@ -108,7 +109,8 @@ class ForwardedMessageContent extends ConsumerWidget {
                     spoilerSyncController: spoilerSyncController,
                     topPadding: 4,
                     channelId: message.channelId,
-                    messageId: '${message.id}-forward',
+                    messageId: message.id,
+                    spoilerSyncScope: snapshotScope,
                     messageFlags: snapshot.flags,
                   ),
                 if (renderEmbeds)

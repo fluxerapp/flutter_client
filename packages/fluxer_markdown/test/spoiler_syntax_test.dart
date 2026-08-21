@@ -1,3 +1,4 @@
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
@@ -171,10 +172,27 @@ void main() {
       );
     }
 
-    testWidgets('renders custom emoji inside a spoiler as a widget', (
+    testWidgets('renders custom emoji inside a revealed spoiler as a widget', (
       tester,
     ) async {
-      await pumpMarkdown(tester, _customEmojiInput);
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Builder(
+              builder: (context) => buildFluxerMarkdownTextFlow(
+                context: context,
+                text: _customEmojiInput,
+                baseStyle: baseStyle,
+                config: _revealedMarkdownConfig,
+                features: features,
+                inlineDocument: _inlineDocument(),
+                selectable: false,
+                isDark: false,
+              ),
+            ),
+          ),
+        ),
+      );
       expect(tester.takeException(), isNull);
       expect(find.byType(FluxerEmojiWidget), findsOneWidget);
       final List<String> renderedTexts = tester
@@ -184,38 +202,83 @@ void main() {
       expect(renderedTexts.any((String t) => t.contains('<:kekw:')), isFalse);
     });
 
+    testWidgets('conceals custom emoji inside a hidden spoiler', (
+      tester,
+    ) async {
+      await pumpMarkdown(tester, _customEmojiInput);
+      expect(find.byType(FluxerEmojiWidget), findsNothing);
+      expect(find.byType(ColoredBox), findsWidgets);
+    });
+
     testWidgets('blocks taps to inner content until revealed', (tester) async {
       await pumpMarkdown(tester, _customEmojiInput);
 
-      IgnorePointer contentBlocker() => tester.widget<IgnorePointer>(
-        find
-            .ancestor(
-              of: find.byType(FluxerEmojiWidget),
-              matching: find.byType(IgnorePointer),
-            )
-            .first,
-      );
+      expect(find.byType(FluxerEmojiWidget), findsNothing);
 
-      expect(contentBlocker().ignoring, isTrue);
-
-      await tester.tap(find.byType(FluxerEmojiWidget), warnIfMissed: false);
+      await tester.tapAt(tester.getCenter(find.byType(RichText)));
       await tester.pumpAndSettle();
 
-      expect(contentBlocker().ignoring, isFalse);
+      expect(find.byType(FluxerEmojiWidget), findsOneWidget);
     });
 
     testWidgets('does not blur hidden spoiler content', (tester) async {
       await pumpMarkdown(tester, _customEmojiInput);
       expect(find.byType(ImageFiltered), findsNothing);
-      expect(find.byType(ColoredBox), findsWidgets);
     });
 
     testWidgets('covers hidden spoilers when no spoiler color is set', (
       tester,
     ) async {
       await pumpMarkdown(tester, '||secret||');
-      expect(find.byType(ColoredBox), findsWidgets);
       expect(find.textContaining('secret', findRichText: true), findsOneWidget);
+      final RichText richText = tester.widget<RichText>(find.byType(RichText));
+      final TextSpan rootSpan = richText.text as TextSpan;
+      final TextSpan spoilerSpan = rootSpan.children!.single as TextSpan;
+      expect(spoilerSpan.style?.color, spoilerSpan.style?.backgroundColor);
+    });
+
+    testWidgets('conceals formatted text inside hidden spoiler', (
+      tester,
+    ) async {
+      await pumpMarkdown(tester, '||**secret**||');
+      final RichText richText = tester.widget<RichText>(find.byType(RichText));
+      final TextSpan rootSpan = richText.text as TextSpan;
+      final TextSpan spoilerSpan = rootSpan.children!.single as TextSpan;
+      final TextSpan boldSpan = spoilerSpan.children!.single as TextSpan;
+      expect(boldSpan.style?.color, boldSpan.style?.backgroundColor);
+      expect(boldSpan.style?.fontWeight, FontWeight.w700);
+    });
+
+    testWidgets('reveals duplicate spoilers independently', (tester) async {
+      await pumpMarkdown(tester, '||same|| mid ||same||');
+      final RenderParagraph paragraph = tester.renderObject<RenderParagraph>(
+        find.byType(RichText),
+      );
+      final String plainText = tester
+          .widget<RichText>(find.byType(RichText))
+          .text
+          .toPlainText();
+      final TextSelection firstSelection = TextSelection(
+        baseOffset: plainText.indexOf('same'),
+        extentOffset: plainText.indexOf('same') + 'same'.length,
+      );
+      final TextSelection secondSelection = TextSelection(
+        baseOffset: plainText.lastIndexOf('same'),
+        extentOffset: plainText.lastIndexOf('same') + 'same'.length,
+      );
+      await tester.tapAt(
+        paragraph.getBoxesForSelection(firstSelection).first.toRect().center,
+      );
+      await tester.pumpAndSettle();
+
+      final TextSpan rootSpan =
+          tester.widget<RichText>(find.byType(RichText)).text as TextSpan;
+      final TextSpan firstSpoiler = rootSpan.children![0] as TextSpan;
+      final TextSpan secondSpoiler = rootSpan.children![2] as TextSpan;
+      expect(firstSpoiler.style?.backgroundColor, isNull);
+      expect(secondSpoiler.style?.backgroundColor, isNotNull);
+      final TextSpan secondLeaf = secondSpoiler.children!.single as TextSpan;
+      expect(secondLeaf.style?.color, secondLeaf.style?.backgroundColor);
     });
 
     testWidgets('flattens revealed spoiler for single-line ellipsis', (
@@ -295,13 +358,65 @@ void main() {
       expect(spoilerRichText.maxLines, 1);
     });
 
-    testWidgets('keeps spoiler widget when maxLines is not set', (
+    testWidgets('keeps spoiler inline when maxLines is not set', (
       tester,
     ) async {
       await pumpMarkdown(tester, _longSpoiledLink);
 
-      expect(find.byType(GestureDetector), findsOneWidget);
-      expect(find.byType(RichText), findsNWidgets(2));
+      expect(find.byType(GestureDetector), findsNothing);
+      expect(find.byType(RichText), findsOneWidget);
+    });
+
+    testWidgets('keeps trailing text on the same line after wrapped spoiler', (
+      tester,
+    ) async {
+      const String input = '||this is a longer spoiler that should wrap|| ok';
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: SizedBox(
+              width: 120,
+              child: Builder(
+                builder: (context) => buildFluxerMarkdownTextFlow(
+                  context: context,
+                  text: input,
+                  baseStyle: baseStyle,
+                  config: _revealedMarkdownConfig,
+                  features: features,
+                  inlineDocument: _inlineDocument(),
+                  selectable: false,
+                  isDark: false,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final RichText richText = tester.widget<RichText>(find.byType(RichText));
+      final String plainText = richText.text.toPlainText();
+      final RenderParagraph paragraph = tester.renderObject<RenderParagraph>(
+        find.byType(RichText),
+      );
+      final TextSelection trailingSelection = TextSelection(
+        baseOffset: plainText.indexOf('ok'),
+        extentOffset: plainText.indexOf('ok') + 'ok'.length,
+      );
+      final TextSelection wrapSelection = TextSelection(
+        baseOffset: plainText.indexOf('wrap'),
+        extentOffset: plainText.indexOf('wrap') + 'wrap'.length,
+      );
+      final Rect trailingRect = paragraph
+          .getBoxesForSelection(trailingSelection)
+          .first
+          .toRect();
+      final Rect wrapRect = paragraph
+          .getBoxesForSelection(wrapSelection)
+          .first
+          .toRect();
+      expect(trailingRect.top, closeTo(wrapRect.top, 1));
+      expect(trailingRect.left, greaterThan(wrapRect.left));
     });
   });
 }

@@ -67,11 +67,13 @@ bool isEmbedSpoilered(Embed embed, Set<String> spoileredUrls) {
   return spoilerSyncKeysForEmbed(embed, spoileredUrls).isNotEmpty;
 }
 
+String forwardedSnapshotScope(String messageId) => '$messageId-forward';
+
 List<String> spoilerSyncKeysForAttachment({
-  required String messageId,
+  required String scope,
   required Attachment attachment,
 }) {
-  if (!attachment.isSpoiler || messageId.isEmpty) {
+  if (!attachment.isSpoiler || scope.isEmpty) {
     return const [];
   }
 
@@ -84,5 +86,7 @@ List<String> spoilerSyncKeysForAttachment({
     return const [];
   }
 
-  return List<String>.unmodifiable(['attachment:$messageId:$attachmentKey']);
+  return List<String>.unmodifiable(<String>[
+    'attachment:$scope:$attachmentKey',
+  ]);
 }
