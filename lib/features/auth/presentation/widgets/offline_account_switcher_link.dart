@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/auth/domain/stored_account.dart';
 import 'package:fluxer_app/features/auth/presentation/sheets/account_switcher_sheet.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
@@ -36,16 +35,6 @@ class _OfflineAccountSwitcherLinkState
   @override
   Widget build(BuildContext context) {
     if (!ref.watch(authStateProvider)) {
-      return const SizedBox.shrink();
-    }
-    final List<StoredAccount> accounts = ref
-        .watch(accountManagerProvider)
-        .accounts;
-    final String? currentUserId = ref.watch(currentUserIdProvider);
-    final bool hasAlternateAccount = accounts.any(
-      (StoredAccount account) => account.userId != currentUserId,
-    );
-    if (!hasAlternateAccount) {
       return const SizedBox.shrink();
     }
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
