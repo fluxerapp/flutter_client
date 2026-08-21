@@ -68,6 +68,38 @@ enum PushNotificationPayload {
     return false
   }
 
+  static let messageNotificationSoundFileName = "message.caf"
+  static let directMessageNotificationSoundFileName = "direct_message.caf"
+
+  static func isDmPayload(from userInfo: [AnyHashable: Any]) -> Bool {
+    guard let guildId = resolveGuildId(from: userInfo) else {
+      return true
+    }
+    return guildId == "@me" || guildId == "null"
+  }
+
+  static func resolveGuildId(from userInfo: [AnyHashable: Any]) -> String? {
+    if let guildId = userInfo["guild_id"] as? String, !guildId.isEmpty {
+      return guildId
+    }
+    if let data = userInfo["data"] as? [AnyHashable: Any],
+      let guildId = data["guild_id"] as? String, !guildId.isEmpty
+    {
+      return guildId
+    }
+    return nil
+  }
+
+  static func resolveNotificationSound(from userInfo: [AnyHashable: Any]) -> UNNotificationSound? {
+    if isClearPayload(from: userInfo) {
+      return nil
+    }
+    let soundFileName = isDmPayload(from: userInfo)
+      ? directMessageNotificationSoundFileName
+      : messageNotificationSoundFileName
+    return UNNotificationSound(named: UNNotificationSoundName(rawValue: soundFileName))
+  }
+
   static func resolveChannelId(from userInfo: [AnyHashable: Any]) -> String? {
     if let channelId = userInfo["channel_id"] as? String, !channelId.isEmpty {
       return channelId

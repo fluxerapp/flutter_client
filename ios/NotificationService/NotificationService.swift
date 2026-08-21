@@ -25,6 +25,7 @@ final class NotificationService: UNNotificationServiceExtension {
             return
         }
         Self.applyThreadIdentifier(to: mutableContent, userInfo: request.content.userInfo)
+        Self.applyNotificationSound(to: mutableContent, userInfo: request.content.userInfo)
         let emojiResult = NotificationEmojiDecoder.decode(body: mutableContent.body)
         mutableContent.body = emojiResult.body
         bestAttemptContent = mutableContent
@@ -106,5 +107,15 @@ private extension NotificationService {
         if let threadId = PushNotificationPayload.resolveChannelThreadIdentifier(from: userInfo) {
             content.threadIdentifier = threadId
         }
+    }
+
+    static func applyNotificationSound(
+        to content: UNMutableNotificationContent,
+        userInfo: [AnyHashable: Any]
+    ) {
+        guard let sound = PushNotificationPayload.resolveNotificationSound(from: userInfo) else {
+            return
+        }
+        content.sound = sound
     }
 }

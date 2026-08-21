@@ -8,6 +8,7 @@ import 'package:fluxer_fcm/fcm_background_notification_tap_hooks.dart';
 import 'package:fluxer_fcm/fcm_background_notification_display.dart';
 import 'package:fluxer_fcm/fcm_push_message.dart';
 import 'package:fluxer_fcm/fcm_push_notification_ids.dart';
+import 'package:fluxer_fcm/fcm_push_notification_sound.dart';
 
 const String kFcmBackgroundNotificationChannelId = 'fluxer_default_push';
 const String kFcmBackgroundNotificationChannelName = 'Fluxer';
@@ -92,6 +93,8 @@ Future<void> showFcmBackgroundNotification(FcmPushMessage message) async {
     messageId: message.id,
     payload: message.payload,
   );
+  final AndroidNotificationSound? androidSound =
+      resolveFcmPushNotificationAndroidSound(message.payload);
   try {
     await deduplicateFcmSystemNotifications(
       plugin: plugin,
@@ -102,7 +105,7 @@ Future<void> showFcmBackgroundNotification(FcmPushMessage message) async {
           id: id,
           title: title,
           body: body,
-          notificationDetails: const NotificationDetails(
+          notificationDetails: NotificationDetails(
             android: AndroidNotificationDetails(
               kFcmBackgroundNotificationChannelId,
               kFcmBackgroundNotificationChannelName,
@@ -110,6 +113,8 @@ Future<void> showFcmBackgroundNotification(FcmPushMessage message) async {
               importance: Importance.high,
               priority: Priority.high,
               icon: kFcmBackgroundNotificationIcon,
+              sound: androidSound,
+              playSound: androidSound != null,
             ),
           ),
           payload: jsonEncode(payloadWithMessageId),

@@ -20,7 +20,8 @@
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		B2B98F9097C589EDA7A0AD0C /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3055A54FF1FA07BFAC97E137 /* ShareViewController.swift */; };
-		FB041B002F4B711E00771E23 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = FB041AFF2F4B711E00771E23 /* AppIcon.icon */; };
+		FB0ADBE22F5C93000078A4F2 /* direct_message.caf in Resources */ = {isa = PBXBuildFile; fileRef = FB0ADBE32F5C93000078A4F3 /* direct_message.caf */; };
+		FB0ADBE12F5C93000078A4F1 /* message.caf in Resources */ = {isa = PBXBuildFile; fileRef = FB0ADBE02F5C93000078A4F0 /* message.caf */; };
 		FB0ADAC52F5C91D70078A4D4 /* ApplePushBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADAC42F5C91D70078A4D4 /* ApplePushBridge.swift */; };
 		FB0ADAC62F5C91D80078A4D4 /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */; };
 		FB0ADAC72F5C91D80078A4D5 /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */; };
@@ -160,6 +161,8 @@
 		FB041AFF2F4B711E00771E23 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		FB0ADAC12F5C91D50078A4D4 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		FB0ADAC42F5C91D70078A4D4 /* ApplePushBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePushBridge.swift; sourceTree = "<group>"; };
+		FB0ADBE32F5C93000078A4F3 /* direct_message.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = direct_message.caf; sourceTree = "<group>"; };
+		FB0ADBE02F5C93000078A4F0 /* message.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = message.caf; sourceTree = "<group>"; };
 		FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationPayload.swift; sourceTree = "<group>"; };
 		FB0ADACA2F5C91D80078A4D7 /* ForegroundPushNotificationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForegroundPushNotificationPolicy.swift; sourceTree = "<group>"; };
 		FB0ADB002F5C92000078A4E0 /* NotificationImageAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationImageAttachment.swift; sourceTree = "<group>"; };
@@ -427,6 +430,8 @@
 				FB0ADB012F5C92000078A4E1 /* NotificationEmojiDecoder.swift */,
 				FB0ADB022F5C92000078A4E2 /* NotificationPayloadMedia.swift */,
 				FB0ADB032F5C92000078A4E3 /* emojis.json */,
+				FB0ADBE02F5C93000078A4F0 /* message.caf */,
+				FB0ADBE32F5C93000078A4F3 /* direct_message.caf */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -657,6 +662,8 @@
 				FBF8ABC92F9E0F4900EA2D6F /* CanaryAppIcon.icon in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 				FB041B002F4B711E00771E23 /* AppIcon.icon in Resources */,
+				FB0ADBE12F5C93000078A4F1 /* message.caf in Resources */,
+				FB0ADBE22F5C93000078A4F2 /* direct_message.caf in Resources */,
 				FB0ADB072F5C92000078A4E7 /* emojis.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
