@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/message_reactions_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_reactions_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_row_layout.dart';
 import 'package:fluxer_app/features/chat/utils/message_timestamp_format.dart';
@@ -238,6 +239,15 @@ class SystemMessage extends ConsumerWidget {
                         emojiId: emojiId,
                         animated: animated,
                       ),
+                  onReactionLongPress: (reaction) {
+                    unawaited(
+                      showMessageReactionsSheet(
+                        context,
+                        message: message,
+                        initialReaction: reaction,
+                      ),
+                    );
+                  },
                   showAddReaction: canAddReactions && onReaction != null,
                   isMobile: isMobileLayout(context),
                 ),
@@ -308,6 +318,15 @@ class SystemMessage extends ConsumerWidget {
                         emojiId: emojiId,
                         animated: animated,
                       ),
+                  onReactionLongPress: (reaction) {
+                    unawaited(
+                      showMessageReactionsSheet(
+                        context,
+                        message: message,
+                        initialReaction: reaction,
+                      ),
+                    );
+                  },
                   showAddReaction: canAddReactions && onReaction != null,
                   isMobile: isMobileLayout(context),
                 ),

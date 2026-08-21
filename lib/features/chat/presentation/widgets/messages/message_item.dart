@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_translation.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/message_reactions_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_list_renderer.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_gift.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_image.dart';
@@ -1097,6 +1098,17 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               onReactionTap: (emoji, {emojiId, animated = false}) => widget
                   .onReaction
                   ?.call(emoji, emojiId: emojiId, animated: animated),
+              onReactionLongPress: widget.inboxPreviewMode
+                  ? null
+                  : (reaction) {
+                      unawaited(
+                        showMessageReactionsSheet(
+                          context,
+                          message: msg,
+                          initialReaction: reaction,
+                        ),
+                      );
+                    },
               showAddReaction:
                   widget.canAddReactions &&
                   msg.supportsInteractiveActions &&
