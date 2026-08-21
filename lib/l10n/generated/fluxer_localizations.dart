@@ -12820,6 +12820,30 @@ abstract class FluxerLocalizations {
   /// **'Members will appear here once the community data is loaded.'**
   String get channelDetailsMembersEmptyBody;
 
+  /// Title when the user lacks permission to view a channel member list.
+  ///
+  /// In en, this message translates to:
+  /// **'You can\'t view members'**
+  String get memberListPermissionDeniedTitle;
+
+  /// Body when the user lacks permission to view a channel member list.
+  ///
+  /// In en, this message translates to:
+  /// **'You can\'t view the members of this channel in this community'**
+  String get memberListPermissionDeniedBody;
+
+  /// Title when member list updates are disabled for the community.
+  ///
+  /// In en, this message translates to:
+  /// **'Member list unavailable'**
+  String get memberListUnavailableTitle;
+
+  /// Body when member list updates are disabled for the community.
+  ///
+  /// In en, this message translates to:
+  /// **'Member lists are temporarily unavailable in this community'**
+  String get memberListUnavailableBody;
+
   /// Error title when pinned messages fail to load in channel details.
   ///
   /// In en, this message translates to:

@@ -9786,6 +9786,22 @@
     "@channelDetailsMembersEmptyBody": {
         "description": "Empty state body when channel details has no members loaded."
     },
+    "memberListPermissionDeniedTitle": "You can't view members",
+    "@memberListPermissionDeniedTitle": {
+        "description": "Title when the user lacks permission to view a channel member list."
+    },
+    "memberListPermissionDeniedBody": "You can't view the members of this channel in this community",
+    "@memberListPermissionDeniedBody": {
+        "description": "Body when the user lacks permission to view a channel member list."
+    },
+    "memberListUnavailableTitle": "Member list unavailable",
+    "@memberListUnavailableTitle": {
+        "description": "Title when member list updates are disabled for the community."
+    },
+    "memberListUnavailableBody": "Member lists are temporarily unavailable in this community",
+    "@memberListUnavailableBody": {
+        "description": "Body when member list updates are disabled for the community."
+    },
     "channelDetailsPinsLoadFailedTitle": "Pins could not be loaded",
     "@channelDetailsPinsLoadFailedTitle": {
         "description": "Error title when pinned messages fail to load in channel details."

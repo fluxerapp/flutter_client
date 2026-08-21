@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
-import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_features.dart';
 import 'package:fluxer_app/features/members/domain/member_list_group_names.dart';
@@ -11,10 +10,12 @@ import 'package:fluxer_app/features/members/domain/member_list_viewport_state.da
 import 'package:fluxer_app/features/members/presentation/widgets/member_list_member_row.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/member_list_shared_widgets.dart';
 import 'package:fluxer_app/features/members/providers/guild_roles_provider.dart';
+import 'package:fluxer_app/features/members/providers/member_list_access_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_desired_ranges_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_subscription_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
+import 'package:fluxer_app/features/members/utils/member_list_access.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:material_ui/material_ui.dart';
@@ -63,6 +64,14 @@ class _GuildMembersTabContentState
   }
 
   void _updateDesiredRanges() {
+    final MemberListAccess access = readMemberListAccess(
+      ref,
+      guildId: widget.guildId,
+      channelId: widget.channelId,
+    );
+    if (!access.canSubscribe) {
+      return;
+    }
     final MemberListViewportListState? listState = ref
         .read(memberListViewportProvider.notifier)
         .getList(guildId: widget.guildId, channelId: widget.channelId);
@@ -101,12 +110,27 @@ class _GuildMembersTabContentState
 
   @override
   Widget build(BuildContext context) {
+    final MemberListAccess access = watchMemberListAccess(
+      ref,
+      guildId: widget.guildId,
+      channelId: widget.channelId,
+    );
+    if (access.unavailableReason != null) {
+      return SingleChildScrollView(
+        controller: widget.scrollController,
+        padding: FluxerBottomSheet.scrollViewPadding(
+          context,
+          padding: EdgeInsets.zero,
+        ),
+        child: MemberListUnavailableFallback(reason: access.unavailableReason!),
+      );
+    }
     ref
       ..listen(
         memberListDetailsSubscriptionProvider(
           widget.guildId,
           widget.channelId,
-          true,
+          access.canSubscribe,
         ),
         (_, _) {},
       )
@@ -117,10 +141,7 @@ class _GuildMembersTabContentState
     final Map<String, db.Role> rolesById =
         ref.watch(guildRolesByIdProvider(widget.guildId)).value ??
         <String, db.Role>{};
-    final Guild? guild = ref
-        .watch(guildByIdProvider(widget.guildId))
-        .asData
-        ?.value;
+    final guild = ref.watch(guildByIdProvider(widget.guildId)).asData?.value;
     final String? guildOwnerId = guild?.ownerId;
     if (listState == null || !listState.hasReceivedInitialPayload) {
       return ListView.builder(

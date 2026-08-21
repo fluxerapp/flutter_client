@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_features.dart';
 import 'package:fluxer_app/features/members/domain/member_list_group_names.dart';
@@ -14,10 +13,12 @@ import 'package:fluxer_app/features/members/domain/member_list_viewport_state.da
 import 'package:fluxer_app/features/members/presentation/widgets/member_list_member_row.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/member_list_shared_widgets.dart';
 import 'package:fluxer_app/features/members/providers/guild_roles_provider.dart';
+import 'package:fluxer_app/features/members/providers/member_list_access_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_desired_ranges_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_subscription_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
+import 'package:fluxer_app/features/members/utils/member_list_access.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -88,6 +89,14 @@ class _ChannelMembersState extends ConsumerState<ChannelMembers> {
   void _updateDesiredRanges() {
     final String guildId = widget.guildId;
     final String channelId = widget.channelId;
+    final MemberListAccess access = readMemberListAccess(
+      ref,
+      guildId: guildId,
+      channelId: channelId,
+    );
+    if (!access.canSubscribe) {
+      return;
+    }
     final MemberListViewportListState? listState = ref
         .read(memberListViewportProvider.notifier)
         .getList(guildId: guildId, channelId: channelId);
@@ -127,9 +136,23 @@ class _ChannelMembersState extends ConsumerState<ChannelMembers> {
   Widget build(BuildContext context) {
     final String guildId = widget.guildId;
     final String channelId = widget.channelId;
+    final MemberListAccess access = watchMemberListAccess(
+      ref,
+      guildId: guildId,
+      channelId: channelId,
+    );
+    if (access.unavailableReason != null) {
+      return _ChannelMembersPanel(
+        child: MemberListUnavailableFallback(reason: access.unavailableReason!),
+      );
+    }
     ref
       ..listen(
-        memberListDetailsSubscriptionProvider(guildId, channelId, true),
+        memberListDetailsSubscriptionProvider(
+          guildId,
+          channelId,
+          access.canSubscribe,
+        ),
         (_, _) {},
       )
       ..watch(memberListViewportProvider);
@@ -138,7 +161,7 @@ class _ChannelMembersState extends ConsumerState<ChannelMembers> {
         .getList(guildId: guildId, channelId: channelId);
     final Map<String, db.Role> rolesById =
         ref.watch(guildRolesByIdProvider(guildId)).value ?? <String, db.Role>{};
-    final Guild? guild = ref.watch(guildByIdProvider(guildId)).asData?.value;
+    final guild = ref.watch(guildByIdProvider(guildId)).asData?.value;
     final String? guildOwnerId = guild?.ownerId;
     if (listState == null || !listState.hasReceivedInitialPayload) {
       return _ChannelMembersPanel(

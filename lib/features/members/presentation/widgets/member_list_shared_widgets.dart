@@ -1,6 +1,9 @@
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/members/utils/member_list_access.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double kMemberListRowHeight = 50;
 const double kMemberListGroupHeaderHeight = 28;
@@ -329,5 +332,66 @@ class MemberListGroupHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MemberListSidebarGroupHeader(groupName: groupName, count: count);
+  }
+}
+
+class MemberListUnavailableFallback extends StatelessWidget {
+  const MemberListUnavailableFallback({
+    required this.reason,
+    this.minHeight = 288,
+    super.key,
+  });
+
+  final MemberListUnavailableReason reason;
+  final double minHeight;
+
+  @override
+  Widget build(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String title;
+    final String body;
+    switch (reason) {
+      case MemberListUnavailableReason.permissionDenied:
+        title = l10n.memberListPermissionDeniedTitle;
+        body = l10n.memberListPermissionDeniedBody;
+      case MemberListUnavailableReason.updatesDisabled:
+        title = l10n.memberListUnavailableTitle;
+        body = l10n.memberListUnavailableBody;
+    }
+    return ConstrainedBox(
+      constraints: BoxConstraints(minHeight: minHeight),
+      child: Center(
+        child: Padding(
+          padding: EdgeInsets.all(context.layout.s6),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 288),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                PhosphorIcon(
+                  PhosphorIconsBold.users,
+                  size: 42,
+                  color: context.colors.textTertiary,
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  title,
+                  style: context.textStyles.channelName,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  body,
+                  style: context.textStyles.bodySmall.copyWith(
+                    color: context.colors.textSecondary,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -7805,6 +7805,20 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
       'Los miembros aparecerán aquí cuando se carguen los datos de la comunidad.';
 
   @override
+  String get memberListPermissionDeniedTitle => 'You can\'t view members';
+
+  @override
+  String get memberListPermissionDeniedBody =>
+      'You can\'t view the members of this channel in this community';
+
+  @override
+  String get memberListUnavailableTitle => 'Member list unavailable';
+
+  @override
+  String get memberListUnavailableBody =>
+      'Member lists are temporarily unavailable in this community';
+
+  @override
   String get channelDetailsPinsLoadFailedTitle =>
       'No se pudieron cargar los mensajes fijados';
 
