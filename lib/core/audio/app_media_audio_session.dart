@@ -24,17 +24,17 @@ const audio_session.AudioSessionConfiguration kAppMediaAudioSessionConfig =
           audio_session.AndroidAudioFocusGainType.gainTransientMayDuck,
     );
 
-Future<void> restoreAppMediaAudioSession() async {
+Future<void> activateAppMediaAudioSession() async {
   if (kIsWeb || !(Platform.isAndroid || Platform.isIOS)) {
     return;
   }
   try {
     await AudioPlayer.global.setAudioContext(kAppMediaAudioContext);
-  } on Object {
-    return;
-  }
+  } on Object {}
   final audio_session.AudioSession session =
       await audio_session.AudioSession.instance;
-  await session.setActive(false);
   await session.configure(kAppMediaAudioSessionConfig);
+  await session.setActive(true);
 }
+
+Future<void> restoreAppMediaAudioSession() => activateAppMediaAudioSession();

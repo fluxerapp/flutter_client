@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/app.dart';
+import 'package:fluxer_app/core/audio/app_media_audio_session.dart';
 import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_entrypoint.dart';
 import 'package:fluxer_app/core/bootstrap/flutter_error_ui.dart';
 import 'package:fluxer_app/core/bootstrap/image_cache_config.dart';
@@ -103,6 +104,11 @@ Future<void> _bootstrapFluxer(List<String> args) async {
         bootstrapFcmIfNeeded,
       );
     }(),
+    if (!kIsWeb && (Platform.isIOS || Platform.isAndroid))
+      FluxerObservability.instance.traceAsync(
+        'app.bootstrap.app_media_audio_session',
+        activateAppMediaAudioSession,
+      ),
   ]);
   FluxerObservability.instance.traceSync(
     'app.bootstrap.image_picker',

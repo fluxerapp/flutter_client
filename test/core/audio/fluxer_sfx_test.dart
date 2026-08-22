@@ -71,20 +71,12 @@ void main() {
     });
   });
 
-  group('shouldRestoreAppMediaAudioAfterSfxContext', () {
-    test('only incoming ring restores app media audio', () {
-      expect(
-        shouldRestoreAppMediaAudioAfterSfxContext(kNotificationSfxContext),
-        isFalse,
-      );
-      expect(
-        shouldRestoreAppMediaAudioAfterSfxContext(kIncomingRingLoopContext),
-        isTrue,
-      );
-      expect(
-        shouldRestoreAppMediaAudioAfterSfxContext(kSessionFeedbackSfxContext),
-        isFalse,
-      );
+  group('usesAmbientSfxContext', () {
+    test('notification and incoming ring contexts are ambient', () {
+      expect(usesAmbientSfxContext(kNotificationSfxContext), isTrue);
+      expect(usesAmbientSfxContext(kIncomingRingLoopContext), isTrue);
+      expect(usesAmbientSfxContext(kSessionFeedbackSfxContext), isFalse);
+      expect(usesAmbientSfxContext(kAppMediaAudioContext), isFalse);
     });
   });
 

@@ -45,6 +45,8 @@ class ChatAttachmentAudioSession {
 
   bool get hasActivePlayback => _activeCallbacks != null;
 
+  bool get isVoiceCallActive => _voiceCallActive;
+
   bool isActiveHost(String hostId) => _activeHostId == hostId;
 
   Future<void> reactivateAudioSessionIfActive() async {
