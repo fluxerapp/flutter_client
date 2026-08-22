@@ -80,9 +80,7 @@ void main() {
 
     test('is false without provider URL', () {
       expect(
-        isYouTubeEmbed(
-          _youtubeEmbed().copyWithProviderUrl(null),
-        ),
+        isYouTubeEmbed(_youtubeEmbed().copyWithProviderUrl(null)),
         isFalse,
       );
     });

@@ -46,10 +46,7 @@ bool canRenderYouTubeEmbed(Embed embed) {
 
 String youtubeEmbedPageOrigin() => InstanceEndpoints.webApp;
 
-String buildYouTubeAutoplayEmbedUrl(
-  String videoUrl, {
-  String? pageOrigin,
-}) {
+String buildYouTubeAutoplayEmbedUrl(String videoUrl, {String? pageOrigin}) {
   final String origin = pageOrigin ?? youtubeEmbedPageOrigin();
   final Uri uri = Uri.parse(videoUrl);
   return uri
@@ -64,10 +61,7 @@ String buildYouTubeAutoplayEmbedUrl(
       .toString();
 }
 
-String? resolveYouTubeEmbedVideoUrl(
-  Embed embed, {
-  String? pageOrigin,
-}) {
+String? resolveYouTubeEmbedVideoUrl(Embed embed, {String? pageOrigin}) {
   final String? videoUrl = _nonEmpty(embed.video?.url) ?? _nonEmpty(embed.url);
   if (videoUrl == null) {
     return null;

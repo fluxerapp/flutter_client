@@ -29,10 +29,7 @@ class EmbedYouTube extends StatelessWidget {
   final MediaDimensionSize dimensionSize;
 
   Future<void> _openFullscreen(BuildContext context) async {
-    await showChatMobileFullscreenVideo(
-      context,
-      launchContext: launchContext,
-    );
+    await showChatMobileFullscreenVideo(context, launchContext: launchContext);
   }
 
   @override
@@ -122,9 +119,7 @@ class _YouTubeThumbnail extends StatelessWidget {
             child: const SizedBox.expand(),
           ),
         ),
-        const Center(
-          child: IgnorePointer(child: VideoPlayButtonOverlay()),
-        ),
+        const Center(child: IgnorePointer(child: VideoPlayButtonOverlay())),
         if (onOpenInBrowser != null)
           Positioned(
             right: 12,
