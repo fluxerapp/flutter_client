@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
@@ -28,9 +28,10 @@ const InstanceConfigSnapshot _originalInstance = InstanceConfigSnapshot(
 );
 
 class _FakeAuthRepository implements AuthRepository {
-  _FakeAuthRepository({this.failure});
+  _FakeAuthRepository({this.failure, this.passkeyException});
 
   final AuthFailure? failure;
+  final Object? passkeyException;
 
   @override
   Future<LoginResult> login({
@@ -55,6 +56,13 @@ class _FakeAuthRepository implements AuthRepository {
         state: 'state',
         redirectUri: 'fluxer://auth/sso/callback',
       ),
+    );
+  }
+
+  @override
+  Future<dynamic> getPasskeyLoginOptions() {
+    return Future<dynamic>.error(
+      passkeyException ?? const AuthFailure('Unable to start passkey login.'),
     );
   }
 
@@ -262,6 +270,55 @@ void main() {
 
     expect(container.read(registrationDraftProvider).isEmpty, isTrue);
   });
+
+  test(
+    'failed passkey login shows the user nothing after a platform exception',
+    () async {
+      final ProviderContainer container = ProviderContainer(
+        overrides: [
+          authRepositoryProvider.overrideWithValue(
+            _FakeAuthRepository(
+              passkeyException: PlatformException(
+                code: 'unknown',
+                message: 'plugin failed',
+              ),
+            ),
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      await container.read(loginViewModelProvider.notifier).loginWithPasskey();
+
+      final LoginViewState state = container.read(loginViewModelProvider);
+      expect(state.isLoggingIn, isFalse);
+      expect(state.errorType, LoginError.passkeyFailed);
+      expect(state.errorMessage, isNull);
+    },
+  );
+
+  test(
+    'failed passkey login shows the user nothing after an unexpected exception',
+    () async {
+      final ProviderContainer container = ProviderContainer(
+        overrides: [
+          authRepositoryProvider.overrideWithValue(
+            _FakeAuthRepository(
+              passkeyException: Exception('passkey channel failed'),
+            ),
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      await container.read(loginViewModelProvider.notifier).loginWithPasskey();
+
+      final LoginViewState state = container.read(loginViewModelProvider);
+      expect(state.isLoggingIn, isFalse);
+      expect(state.errorType, LoginError.passkeyFailed);
+      expect(state.errorMessage, isNull);
+    },
+  );
 }
 
 ProviderContainer _approvalModeContainer() {

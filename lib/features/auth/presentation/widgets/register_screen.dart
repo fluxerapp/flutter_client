@@ -208,6 +208,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         (!requiresConsent || _consent);
   }
 
+  bool _requiresConsent(InstanceConfigSnapshot instance) =>
+      instance.termsUrl != null || instance.privacyUrl != null;
+
   String? get _dateOfBirth {
     if (_birthYear == null || _birthMonth == null || _birthDay == null) {
       return null;
@@ -219,7 +222,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   }
 
   void _submit() {
-    if (ref.read(authInstanceSnapshotProvider).isRegistrationClosed) {
+    final InstanceConfigSnapshot instance = ref.read(
+      authInstanceSnapshotProvider,
+    );
+    if (instance.isRegistrationClosed ||
+        ref.read(loginViewModelProvider).pendingApprovalUserId != null ||
+        !_isFormValid(requiresConsent: _requiresConsent(instance))) {
       return;
     }
     final l10n = FluxerLocalizations.of(context);
@@ -258,7 +266,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     );
     final String? termsUrl = instance.termsUrl;
     final String? privacyUrl = instance.privacyUrl;
-    final bool requiresConsent = termsUrl != null || privacyUrl != null;
+    final bool requiresConsent = _requiresConsent(instance);
     final bool isRegistrationClosed = instance.isRegistrationClosed;
     final String? pendingApprovalUserId = vm.pendingApprovalUserId;
 

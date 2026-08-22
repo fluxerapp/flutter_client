@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/auth/providers/registration_draft_provider.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/checkbox/fluxer_checkbox.dart';
+import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:material_ui/material_ui.dart';
@@ -27,6 +28,15 @@ const RegistrationDraft _completeDraft = RegistrationDraft(
   birthDay: 2,
   birthYear: 1990,
   consent: true,
+);
+
+const RegistrationDraft _unconsentedDraft = RegistrationDraft(
+  email: 'user@example.com',
+  password: 'hunter2hunter2',
+  confirmPassword: 'hunter2hunter2',
+  birthMonth: 1,
+  birthDay: 2,
+  birthYear: 1990,
 );
 
 void main() {
@@ -172,6 +182,58 @@ void main() {
     expect(find.text(testL10n.errorUnableToCreateAccount), findsNothing);
     expect(_submitButton(tester).onPressed, isNull);
   });
+
+  testWidgets('registers without the user accepting the legal documents', (
+    tester,
+  ) async {
+    final _PendingApprovalAuthRepository repository =
+        _PendingApprovalAuthRepository();
+    final ProviderContainer container = _containerFor(
+      _snapshot(
+        selfHosted: true,
+        termsUrl: 'https://self.example/legal/terms',
+        privacyUrl: 'https://self.example/legal/privacy',
+      ),
+      repository: repository,
+    );
+    container
+        .read(registrationDraftProvider.notifier)
+        .update(_unconsentedDraft);
+
+    await tester.pumpWidget(_app(container));
+    await tester.pumpAndSettle();
+
+    expect(_submitButton(tester).onPressed, isNull);
+
+    await _submitFromKeyboard(tester);
+
+    expect(repository.registerCalls, 0);
+  });
+
+  testWidgets('registers a second time while the first is pending approval', (
+    tester,
+  ) async {
+    final _PendingApprovalAuthRepository repository =
+        _PendingApprovalAuthRepository();
+    final ProviderContainer container = _containerFor(
+      _snapshot(selfHosted: true),
+      repository: repository,
+    );
+    container.read(registrationDraftProvider.notifier).update(_completeDraft);
+
+    await tester.pumpWidget(_app(container));
+    await tester.pumpAndSettle();
+
+    await _submitFromKeyboard(tester);
+
+    expect(repository.registerCalls, 1);
+    expect(find.text(testL10n.registerPendingApproval), findsOneWidget);
+
+    await _submitFromKeyboard(tester);
+
+    expect(repository.registerCalls, 1);
+    expect(find.text(testL10n.registerPendingApproval), findsOneWidget);
+  });
 }
 
 FluxerButton _submitButton(WidgetTester tester) {
@@ -180,7 +242,21 @@ FluxerButton _submitButton(WidgetTester tester) {
   );
 }
 
+Future<void> _submitFromKeyboard(WidgetTester tester) async {
+  final Finder confirmField = find.descendant(
+    of: find.widgetWithText(FluxerInput, testL10n.registerConfirmPassword),
+    matching: find.byType(TextFormField),
+  );
+  await tester.ensureVisible(confirmField);
+  await tester.pumpAndSettle();
+  await tester.showKeyboard(confirmField);
+  await tester.testTextInput.receiveAction(TextInputAction.done);
+  await tester.pumpAndSettle();
+}
+
 class _PendingApprovalAuthRepository implements AuthRepository {
+  int registerCalls = 0;
+
   @override
   Future<RegistrationResult> register({
     required String email,
@@ -190,6 +266,7 @@ class _PendingApprovalAuthRepository implements AuthRepository {
     String? displayName,
     String? inviteCode,
   }) async {
+    registerCalls++;
     return const RegistrationPendingApproval('900000000000000001');
   }
 
@@ -197,9 +274,16 @@ class _PendingApprovalAuthRepository implements AuthRepository {
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
-ProviderContainer _containerFor(InstanceConfigSnapshot snapshot) {
+ProviderContainer _containerFor(
+  InstanceConfigSnapshot snapshot, {
+  AuthRepository? repository,
+}) {
   final ProviderContainer container = ProviderContainer(
-    overrides: [authInstanceSnapshotProvider.overrideWith((ref) => snapshot)],
+    overrides: [
+      authInstanceSnapshotProvider.overrideWith((ref) => snapshot),
+      if (repository != null)
+        authRepositoryProvider.overrideWithValue(repository),
+    ],
   );
   addTearDown(container.dispose);
   return container;

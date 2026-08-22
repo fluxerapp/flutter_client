@@ -767,7 +767,10 @@ class LoginViewModel extends _$LoginViewModel {
             .restoreActiveInstance();
       }
       talker.error('[LoginViewModel] Passkey error: $e');
-      state = state.copyWith(isLoggingIn: false);
+      state = state.copyWith(
+        errorType: LoginError.passkeyFailed,
+        isLoggingIn: false,
+      );
     }
   }
 }
