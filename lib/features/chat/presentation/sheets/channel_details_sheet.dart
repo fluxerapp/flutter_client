@@ -43,6 +43,7 @@ import 'package:fluxer_app/features/chat/providers/channel/channel_details_provi
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/chat/utils/channel_search_utils.dart';
 import 'package:fluxer_app/features/chat/utils/composer_mention_query.dart';
+import 'package:fluxer_app/features/chat/utils/delete_my_messages_in_channel_action.dart';
 import 'package:fluxer_app/features/chat/utils/message_link.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
@@ -645,6 +646,18 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
                         onSetNotification: _setNotification,
                         onCopy: _copy,
                         onCloseDm: _confirmCloseDm,
+                        onDeleteMyMessages: () {
+                          final dm = widget.dm;
+                          if (dm == null) {
+                            return Future<void>.value();
+                          }
+                          return confirmAndDeleteMyMessagesInChannel(
+                            context,
+                            ref,
+                            channelId: dm.id,
+                            isPrivateConversation: true,
+                          );
+                        },
                       ),
                     );
                   },
@@ -2479,6 +2492,7 @@ Future<void> _showDetailsMoreSheet(
   onSetNotification,
   required Future<void> Function(String value) onCopy,
   required Future<void> Function() onCloseDm,
+  required Future<void> Function() onDeleteMyMessages,
 }) {
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
   final channelId = channel?.id ?? dm?.id;
@@ -2690,6 +2704,12 @@ Future<void> _showDetailsMoreSheet(
         if (isDM || isGroupDM)
           FluxerMenuGroup(
             children: [
+              FluxerBottomSheetMenuItem(
+                label: l10n.channelMenuDeleteMyMessagesConfirm,
+                icon: PhosphorIconsBold.trash,
+                isDanger: true,
+                onTap: () => run(onDeleteMyMessages),
+              ),
               FluxerBottomSheetMenuItem(
                 label: isGroupDM ? l10n.dmLeaveGroup : l10n.dmCloseDm,
                 icon: PhosphorIconsBold.xCircle,

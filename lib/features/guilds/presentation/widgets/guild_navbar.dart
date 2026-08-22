@@ -25,6 +25,7 @@ import 'package:fluxer_app/features/channels/presentation/sheets/create_category
 import 'package:fluxer_app/features/channels/presentation/sheets/create_channel_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
+import 'package:fluxer_app/features/chat/utils/delete_my_messages_in_channel_action.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_navbar_context_menu.dart';
@@ -601,6 +602,15 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         dmFolderNotifier.addToAllowlist(dm.id);
       case DmNavbarAction.removeAlwaysShow:
         dmFolderNotifier.removeFromAllowlist(dm.id);
+      case DmNavbarAction.deleteMyMessages:
+        unawaited(
+          confirmAndDeleteMyMessagesInChannel(
+            context,
+            ref,
+            channelId: dm.id,
+            isPrivateConversation: true,
+          ),
+        );
       case DmNavbarAction.closeDm:
         await _confirmCloseDm(context, dm: dm);
       case DmNavbarAction.copyChannelId:

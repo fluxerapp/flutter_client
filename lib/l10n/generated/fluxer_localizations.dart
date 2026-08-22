@@ -1888,6 +1888,18 @@ abstract class FluxerLocalizations {
   /// **'Are you sure you want to close your DM with {username}? You can always reopen it later.'**
   String dmCloseDmConfirmDescription(String username);
 
+  /// Confirmation title for deleting all of the caller's messages in a DM or group DM.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete your messages in this conversation?'**
+  String get dmDeleteMyMessagesTitle;
+
+  /// Confirmation description for deleting all of the caller's messages in a DM or group DM.
+  ///
+  /// In en, this message translates to:
+  /// **'This will permanently delete every message you have ever sent in this conversation. This cannot be undone.'**
+  String get dmDeleteMyMessagesDescription;
+
   /// DM context menu action to copy the channel ID.
   ///
   /// In en, this message translates to:

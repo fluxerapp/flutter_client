@@ -1026,6 +1026,14 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   }
 
   @override
+  String get dmDeleteMyMessagesTitle =>
+      'Delete your messages in this conversation?';
+
+  @override
+  String get dmDeleteMyMessagesDescription =>
+      'This will permanently delete every message you have ever sent in this conversation. This cannot be undone.';
+
+  @override
   String get dmCopyChannelId => 'نسخ معرف القناة';
 
   @override

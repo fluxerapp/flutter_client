@@ -42,6 +42,7 @@ import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/channels/utils/channel_scroll_indicator_severity.dart';
 import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/channels/utils/show_channel_debug_sheet.dart';
+import 'package:fluxer_app/features/chat/utils/delete_my_messages_in_channel_action.dart';
 import 'package:fluxer_app/features/chat/utils/message_link.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
@@ -1084,41 +1085,12 @@ class _ChannelTile extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) async {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final bool? confirmed = await FluxerConfirmModal.show(
+    await confirmAndDeleteMyMessagesInChannel(
       context,
-      title: l10n.channelMenuDeleteMyMessagesTitle,
-      description: l10n.channelMenuDeleteMyMessagesDescription,
-      confirmLabel: l10n.channelMenuDeleteMyMessagesConfirm,
-      isDanger: true,
-      onConfirm: () {},
+      ref,
+      channelId: channel.id,
+      isPrivateConversation: false,
     );
-    if (confirmed != true) {
-      return;
-    }
-    final toast = ref.read(toastProvider.notifier);
-    try {
-      await ref
-          .read(fluxerClientProvider)
-          .channels
-          .bulkDeleteMyMessagesInChannel(
-            channelId: channel.id,
-            body: const SudoVerificationSchema(),
-          );
-      toast.show(
-        FluxerToast(
-          message: l10n.channelMenuDeletedYourMessages,
-          variant: FluxerToastVariant.success,
-        ),
-      );
-    } on Object {
-      toast.show(
-        FluxerToast(
-          message: l10n.channelMenuCouldNotDeleteYourMessages,
-          variant: FluxerToastVariant.danger,
-        ),
-      );
-    }
   }
 
   Future<void> _showDebugChannelSheet(BuildContext context, WidgetRef ref) =>

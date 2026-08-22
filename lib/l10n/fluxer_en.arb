@@ -1347,6 +1347,14 @@
             }
         }
     },
+    "dmDeleteMyMessagesTitle": "Delete your messages in this conversation?",
+    "@dmDeleteMyMessagesTitle": {
+        "description": "Confirmation title for deleting all of the caller's messages in a DM or group DM."
+    },
+    "dmDeleteMyMessagesDescription": "This will permanently delete every message you have ever sent in this conversation. This cannot be undone.",
+    "@dmDeleteMyMessagesDescription": {
+        "description": "Confirmation description for deleting all of the caller's messages in a DM or group DM."
+    },
     "dmCopyChannelId": "Copy Channel ID",
     "@dmCopyChannelId": {
         "description": "DM context menu action to copy the channel ID."
