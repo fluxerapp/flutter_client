@@ -354,4 +354,43 @@ void main() {
 
     expect(session.isActiveHost('b'), isTrue);
   });
+
+  test(
+    'updatePosition publishes playback state without republishing media item',
+    () async {
+      await session.claim(
+        hostId: 'a',
+        mediaItem: itemA,
+        callbacks: callbacksFor(
+          onPause: () {},
+          onResume: () {},
+          onSeek: (_) {},
+          onStop: () {},
+        ),
+        playing: true,
+        position: Duration.zero,
+        bufferedPosition: const Duration(seconds: 30),
+        speed: 1,
+      );
+
+      await pumpEventQueue();
+
+      session.updatePosition(
+        hostId: 'a',
+        playing: true,
+        position: const Duration(seconds: 5),
+        bufferedPosition: const Duration(seconds: 30),
+        speed: 1,
+      );
+
+      await pumpEventQueue();
+
+      expect(handler.mediaItem.value, itemA);
+      expect(
+        handler.playbackState.value.updatePosition,
+        const Duration(seconds: 5),
+      );
+      expect(handler.playbackState.value.playing, isTrue);
+    },
+  );
 }

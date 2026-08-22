@@ -123,6 +123,27 @@ class ChatAttachmentAudioSession {
     );
   }
 
+  void updatePosition({
+    required String hostId,
+    required Duration position,
+    required Duration bufferedPosition,
+    required bool playing,
+    required double speed,
+  }) {
+    if (_activeHostId != hostId || _activeMediaItem == null) {
+      return;
+    }
+    unawaited(
+      _publishPosition(
+        hostId: hostId,
+        playing: playing,
+        position: position,
+        bufferedPosition: bufferedPosition,
+        speed: speed,
+      ),
+    );
+  }
+
   void release(String hostId) {
     if (_activeHostId != hostId) {
       return;
@@ -208,6 +229,29 @@ class ChatAttachmentAudioSession {
     _invalidatePendingPublishes();
     _publishIdle();
     await restoreMixableSfxAudioSession();
+  }
+
+  Future<void> _publishPosition({
+    required String hostId,
+    required bool playing,
+    required Duration position,
+    required Duration bufferedPosition,
+    required double speed,
+  }) async {
+    final int generation = _publishGeneration;
+    final ChatAttachmentAudioPublisher? handler = _handler;
+    if (handler == null || !_isPublishStillValid(hostId, generation)) {
+      return;
+    }
+    handler.publishPlaybackState(
+      _buildPlaybackState(
+        playing: playing,
+        position: position,
+        bufferedPosition: bufferedPosition,
+        speed: speed,
+        loading: false,
+      ),
+    );
   }
 
   Future<void> _publish({

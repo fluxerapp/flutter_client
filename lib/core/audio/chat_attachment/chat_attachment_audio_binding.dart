@@ -71,6 +71,24 @@ class ChatAttachmentAudioBinding {
     );
   }
 
+  void updatePosition({
+    required bool playing,
+    required Duration position,
+    required Duration bufferedPosition,
+    required double speed,
+  }) {
+    if (!isAvailable) {
+      return;
+    }
+    _session.updatePosition(
+      hostId: hostId,
+      playing: playing,
+      position: position,
+      bufferedPosition: bufferedPosition,
+      speed: speed,
+    );
+  }
+
   void release() {
     if (!isAvailable) {
       return;

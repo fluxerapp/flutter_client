@@ -4,7 +4,7 @@ import 'dart:math' as math;
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_binding.dart';
-import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_sync.dart';
+import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_playback.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -42,7 +42,8 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
   bool _hasPreparedSource = false;
   bool _hasStarted = false;
   bool _playbackFinished = false;
-  Duration _position = Duration.zero;
+  final ChatAttachmentAudioPosition _audioPosition =
+      ChatAttachmentAudioPosition();
   Duration _duration = Duration.zero;
   double _prePlaySeconds = 0;
   double? _pendingSeekFraction;
@@ -50,6 +51,7 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
   bool _isMuted = false;
   double _playbackRate = 1;
   late final ChatAttachmentAudioBinding _mediaSessionBinding;
+  late final ChatAttachmentAudioSessionReporter _sessionReporter;
   late List<int> _waveformBars = voiceMessagePlayerWaveformBars(
     widget.attachment.waveform,
   );
@@ -63,6 +65,14 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
       resumePlayback: _resumeFromMediaSession,
       seekPlayback: _seekFromMediaSession,
       stopPlayback: _stopFromMediaSession,
+    );
+    _sessionReporter = ChatAttachmentAudioSessionReporter(
+      binding: _mediaSessionBinding,
+      attachment: widget.attachment,
+      title: () => FluxerLocalizations.of(context).voiceMessageTitle,
+      totalDuration: () => _mediaSessionTotalDuration,
+      playbackRate: () => _playbackRate,
+      position: _audioPosition,
     );
   }
 
@@ -106,10 +116,10 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
       _playbackFinished = false;
       _hasPreparedSource = false;
       _hasStarted = false;
-      _position = Duration.zero;
       _prePlaySeconds = 0;
       _pendingSeekFraction = null;
     });
+    _audioPosition.update(Duration.zero);
   }
 
   Duration get _mediaSessionTotalDuration {
@@ -121,27 +131,6 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
       return Duration.zero;
     }
     return Duration(milliseconds: (durationSeconds * 1000).round());
-  }
-
-  String get _mediaSessionTitle =>
-      FluxerLocalizations.of(context).voiceMessageTitle;
-
-  void _syncMediaSession({
-    required bool playing,
-    bool loading = false,
-    bool completed = false,
-  }) {
-    syncChatAttachmentAudioSession(
-      binding: _mediaSessionBinding,
-      attachment: widget.attachment,
-      title: _mediaSessionTitle,
-      playing: playing,
-      position: _position,
-      totalDuration: _mediaSessionTotalDuration,
-      playbackRate: _playbackRate,
-      loading: loading,
-      completed: completed,
-    );
   }
 
   @override
@@ -157,6 +146,7 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
   @override
   void dispose() {
     _mediaSessionBinding.release();
+    _audioPosition.dispose();
     unawaited(_playerStateSubscription?.cancel());
     unawaited(_playerCompleteSubscription?.cancel());
     unawaited(_positionSubscription?.cancel());
@@ -181,23 +171,13 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
     return 0;
   }
 
-  double get _displayCurrentSeconds {
-    if (_hasStarted && _duration > Duration.zero) {
-      return _position.inMilliseconds / 1000;
-    }
-    if (!_hasStarted && _displayDurationSeconds > 0) {
-      return _prePlaySeconds;
-    }
-    return 0;
-  }
-
-  double get _displayProgressPercent {
-    final double durationSeconds = _displayDurationSeconds;
-    if (durationSeconds <= 0) {
-      return 0;
-    }
-    return (_displayCurrentSeconds / durationSeconds * 100).clamp(0, 100);
-  }
+  double get _displayProgressPercent => voiceMessagePlayerProgressPercent(
+    position: _audioPosition.value,
+    trackDuration: _duration,
+    durationSeconds: _displayDurationSeconds,
+    hasStarted: _hasStarted,
+    prePlaySeconds: _prePlaySeconds,
+  );
 
   bool get _isActive => _isPlaying || (_hasStarted && _isLoading);
 
@@ -207,7 +187,7 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
     }
     if (_isPlaying) {
       await _player?.pause();
-      _syncMediaSession(playing: false);
+      _sessionReporter.sync(playing: false);
       return;
     }
     setState(() {
@@ -218,17 +198,17 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
       final AudioPlayer player = _ensurePlayer();
       if (_playbackFinished || _isAtEndOfTrack) {
         await _replayFromStart(player);
-        _syncMediaSession(playing: true);
+        _sessionReporter.sync(playing: true);
         return;
       }
       if (!_hasPreparedSource) {
-        _syncMediaSession(playing: false, loading: true);
+        _sessionReporter.sync(playing: false, loading: true);
         await player.setSourceUrl(_playbackUrl);
         _hasPreparedSource = true;
         await _applyPendingSeek(player);
       }
       await player.resume();
-      _syncMediaSession(playing: true);
+      _sessionReporter.sync(playing: true);
     } on Object {
       if (!mounted || _hasPreparedSource) {
         return;
@@ -244,7 +224,7 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
   }
 
   bool get _isAtEndOfTrack =>
-      _duration > Duration.zero && _position >= _duration;
+      _duration > Duration.zero && _audioPosition.value >= _duration;
 
   Future<void> _prepareFromStart(AudioPlayer player) async {
     _playbackFinished = false;
@@ -259,8 +239,8 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
       }
     }
     if (mounted) {
+      _audioPosition.update(Duration.zero);
       setState(() {
-        _position = Duration.zero;
         _prePlaySeconds = 0;
         _pendingSeekFraction = null;
       });
@@ -302,8 +282,8 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
       await _safeSeek(player, target);
     }
     if (mounted) {
+      _audioPosition.update(target);
       setState(() {
-        _position = target;
         _prePlaySeconds = target.inMilliseconds / 1000;
         _pendingSeekFraction = null;
         _playbackFinished = false;
@@ -330,24 +310,23 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
       setState(() {
         _isPlaying = playerState == PlayerState.playing;
       });
-      if (mounted) {
-        _syncMediaSession(playing: playerState == PlayerState.playing);
-      }
+      _sessionReporter.sync(playing: playerState == PlayerState.playing);
     });
     _playerCompleteSubscription = player.onPlayerComplete.listen((_) {
       if (!mounted) {
         return;
       }
+      final Duration endPosition = _duration > Duration.zero
+          ? _duration
+          : Duration.zero;
       setState(() {
         _isPlaying = false;
         _playbackFinished = true;
-        if (_duration > Duration.zero) {
-          _position = _duration;
-        }
       });
-      if (mounted) {
-        _syncMediaSession(playing: false, completed: true);
+      if (endPosition > Duration.zero) {
+        _audioPosition.update(endPosition);
       }
+      _sessionReporter.sync(playing: false, completed: true);
     });
     _positionSubscription = player.onPositionChanged.listen((
       Duration position,
@@ -355,11 +334,9 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
       if (!mounted) {
         return;
       }
-      setState(() {
-        _position = position;
-      });
-      if (_isPlaying && mounted) {
-        _syncMediaSession(playing: true);
+      _audioPosition.update(position);
+      if (_isPlaying) {
+        _sessionReporter.syncPositionIfDue(playing: true);
       }
     });
     _durationSubscription = player.onDurationChanged.listen((
@@ -371,8 +348,8 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
       setState(() {
         _duration = duration;
       });
-      if (_mediaSessionBinding.isActive && mounted) {
-        _syncMediaSession(playing: _isPlaying);
+      if (_mediaSessionBinding.isActive) {
+        _sessionReporter.sync(playing: _isPlaying);
       }
       if (_pendingSeekFraction != null) {
         unawaited(_applyPendingSeek(player));
@@ -410,8 +387,8 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
       _playbackRate = nextRate;
     });
     await _player?.setPlaybackRate(nextRate);
-    if (_mediaSessionBinding.isActive && mounted) {
-      _syncMediaSession(playing: _isPlaying);
+    if (_mediaSessionBinding.isActive) {
+      _sessionReporter.sync(playing: _isPlaying);
     }
   }
 
@@ -444,11 +421,11 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
       await _safeSeek(player, target);
     }
     if (mounted) {
+      _audioPosition.update(target);
       setState(() {
-        _position = target;
         _playbackFinished = false;
       });
-      _syncMediaSession(playing: _isPlaying);
+      _sessionReporter.sync(playing: _isPlaying);
     }
   }
 
@@ -485,135 +462,175 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
     final Color timestampColor = _isActive
         ? Color.lerp(colors.textOnBrandPrimary, Colors.transparent, 0.1)!
         : colors.textSecondary;
-    final double progressPercent = _displayProgressPercent;
-    final String timestampText =
-        '${formatVoiceDurationSeconds(_displayCurrentSeconds)} / '
-        '${formatVoiceDurationSeconds(_displayDurationSeconds)}';
     final bool showDesktopControls = !isMobileLayout(context);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    return ConstrainedBox(
-      constraints: const BoxConstraints(minWidth: 200, maxWidth: 300),
-      child: AnimatedContainer(
-        duration: animDuration,
-        curve: Curves.easeOut,
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(999),
-          border: Border.all(color: colors.backgroundModifierAccent),
-        ),
-        child: Row(
-          children: [
-            _VoicePlayButton(
-              isActive: _isActive,
-              isLoading: _hasStarted && _isLoading,
-              isPlaying: _isPlaying,
-              onPressed: _togglePlayback,
-              animDuration: animDuration,
-              colors: colors,
-              playLabel: l10n.voiceMessagePlay,
-              pauseLabel: l10n.voiceMessagePause,
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Focus(
-                onKeyEvent: _handleWaveformKey,
-                child: Semantics(
-                  slider: true,
-                  label: l10n.voiceMessageTitle,
-                  value: progressPercent.round().toString(),
-                  increasedValue: l10n.voiceMessageSeekForward,
-                  decreasedValue: l10n.voiceMessageSeekBackward,
-                  child: PlaybackSeekGestureTarget(
-                    enabled: !_isLoading,
-                    onSeekFraction: (double fraction) {
-                      unawaited(_seekToFraction(fraction));
-                    },
-                    child: SizedBox(
-                      height: kVoiceMessagePlayerWaveformHeightPx,
-                      child: Row(
-                        children: List<Widget>.generate(_waveformBars.length, (
-                          int index,
-                        ) {
-                          final int value = _waveformBars[index];
-                          final double heightRatio = math.max(
-                            kVoiceMessagePlayerMinBarHeightRatio,
-                            value / 255,
-                          );
-                          final double barProgress =
-                              ((index + 0.5) / _waveformBars.length) * 100;
-                          final bool isPast = barProgress <= progressPercent;
-                          final double barHeight =
-                              kVoiceMessagePlayerWaveformHeightPx * heightRatio;
-                          return Expanded(
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                left: index == 0 ? 0 : 0.5,
-                                right: index == _waveformBars.length - 1
-                                    ? 0
-                                    : 0.5,
-                              ),
-                              child: Align(
-                                child: SizedBox(
-                                  height: barHeight,
-                                  width: double.infinity,
-                                  child: DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      color: isPast
-                                          ? pastBarColor
-                                          : defaultBarColor,
-                                      borderRadius: BorderRadius.circular(2),
-                                    ),
-                                  ),
-                                ),
+    return RepaintBoundary(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minWidth: 200, maxWidth: 300),
+        child: AnimatedContainer(
+          duration: animDuration,
+          curve: Curves.easeOut,
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(999),
+            border: Border.all(color: colors.backgroundModifierAccent),
+          ),
+          child: Row(
+            children: [
+              _VoicePlayButton(
+                isActive: _isActive,
+                isLoading: _hasStarted && _isLoading,
+                isPlaying: _isPlaying,
+                onPressed: _togglePlayback,
+                animDuration: animDuration,
+                colors: colors,
+                playLabel: l10n.voiceMessagePlay,
+                pauseLabel: l10n.voiceMessagePause,
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: ValueListenableBuilder<Duration>(
+                  valueListenable: _audioPosition.notifier,
+                  builder:
+                      (BuildContext context, Duration position, Widget? child) {
+                        final double progressPercent =
+                            voiceMessagePlayerProgressPercent(
+                              position: position,
+                              trackDuration: _duration,
+                              durationSeconds: _displayDurationSeconds,
+                              hasStarted: _hasStarted,
+                              prePlaySeconds: _prePlaySeconds,
+                            );
+                        return Focus(
+                          onKeyEvent: _handleWaveformKey,
+                          child: Semantics(
+                            slider: true,
+                            label: l10n.voiceMessageTitle,
+                            value: progressPercent.round().toString(),
+                            increasedValue: l10n.voiceMessageSeekForward,
+                            decreasedValue: l10n.voiceMessageSeekBackward,
+                            child: PlaybackSeekGestureTarget(
+                              enabled: !_isLoading,
+                              onSeekFraction: (double fraction) {
+                                unawaited(_seekToFraction(fraction));
+                              },
+                              child: _VoiceMessageWaveform(
+                                waveformBars: _waveformBars,
+                                progressPercent: progressPercent,
+                                pastBarColor: pastBarColor,
+                                defaultBarColor: defaultBarColor,
                               ),
                             ),
-                          );
-                        }),
-                      ),
+                          ),
+                        );
+                      },
+                ),
+              ),
+              const SizedBox(width: 8),
+              ValueListenableBuilder<Duration>(
+                valueListenable: _audioPosition.notifier,
+                builder: (BuildContext context, Duration position, Widget? child) {
+                  final String timestampText =
+                      '${formatVoiceDurationSeconds(voiceMessagePlayerCurrentSeconds(position: position, trackDuration: _duration, durationSeconds: _displayDurationSeconds, hasStarted: _hasStarted, prePlaySeconds: _prePlaySeconds))} / '
+                      '${formatVoiceDurationSeconds(_displayDurationSeconds)}';
+                  return Text(
+                    timestampText,
+                    style: context.textStyles.smallText.copyWith(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500,
+                      fontFeatures: const <FontFeature>[
+                        FontFeature.tabularFigures(),
+                      ],
+                      color: timestampColor,
+                    ),
+                  );
+                },
+              ),
+              if (showDesktopControls) ...<Widget>[
+                const SizedBox(width: 4),
+                TextButton(
+                  onPressed: _cyclePlaybackRate,
+                  style: TextButton.styleFrom(
+                    minimumSize: const Size(36, 28),
+                    padding: const EdgeInsets.symmetric(horizontal: 6),
+                    foregroundColor: timestampColor,
+                  ),
+                  child: Text(
+                    '${_playbackRate}x',
+                    style: context.textStyles.smallText.copyWith(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                      color: timestampColor,
+                    ),
+                  ),
+                ),
+                VolumePopoutControl(
+                  volume: _volume,
+                  isMuted: _isMuted,
+                  onVolumeChanged: _setVolume,
+                  onToggleMute: _toggleMute,
+                  iconSize: 16,
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _VoiceMessageWaveform extends StatelessWidget {
+  const _VoiceMessageWaveform({
+    required this.waveformBars,
+    required this.progressPercent,
+    required this.pastBarColor,
+    required this.defaultBarColor,
+  });
+
+  final List<int> waveformBars;
+  final double progressPercent;
+  final Color pastBarColor;
+  final Color defaultBarColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: kVoiceMessagePlayerWaveformHeightPx,
+      child: Row(
+        children: List<Widget>.generate(waveformBars.length, (int index) {
+          final int value = waveformBars[index];
+          final double heightRatio = math.max(
+            kVoiceMessagePlayerMinBarHeightRatio,
+            value / 255,
+          );
+          final double barProgress =
+              ((index + 0.5) / waveformBars.length) * 100;
+          final bool isPast = barProgress <= progressPercent;
+          final double barHeight =
+              kVoiceMessagePlayerWaveformHeightPx * heightRatio;
+          return Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: index == 0 ? 0 : 0.5,
+                right: index == waveformBars.length - 1 ? 0 : 0.5,
+              ),
+              child: Align(
+                child: SizedBox(
+                  height: barHeight,
+                  width: double.infinity,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: isPast ? pastBarColor : defaultBarColor,
+                      borderRadius: BorderRadius.circular(2),
                     ),
                   ),
                 ),
               ),
             ),
-            const SizedBox(width: 8),
-            Text(
-              timestampText,
-              style: context.textStyles.smallText.copyWith(
-                fontSize: 11,
-                fontWeight: FontWeight.w500,
-                fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
-                color: timestampColor,
-              ),
-            ),
-            if (showDesktopControls) ...<Widget>[
-              const SizedBox(width: 4),
-              TextButton(
-                onPressed: _cyclePlaybackRate,
-                style: TextButton.styleFrom(
-                  minimumSize: const Size(36, 28),
-                  padding: const EdgeInsets.symmetric(horizontal: 6),
-                  foregroundColor: timestampColor,
-                ),
-                child: Text(
-                  '${_playbackRate}x',
-                  style: context.textStyles.smallText.copyWith(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
-                    color: timestampColor,
-                  ),
-                ),
-              ),
-              VolumePopoutControl(
-                volume: _volume,
-                isMuted: _isMuted,
-                onVolumeChanged: _setVolume,
-                onToggleMute: _toggleMute,
-                iconSize: 16,
-              ),
-            ],
-          ],
-        ),
+          );
+        }),
       ),
     );
   }
