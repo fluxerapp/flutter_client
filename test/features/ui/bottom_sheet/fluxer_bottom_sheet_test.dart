@@ -921,7 +921,7 @@ void main() {
       expect(mergedBottom, 42);
     });
 
-    testWidgets('menu sheet exposes system inset via scope', (tester) async {
+    testWidgets('menu sheet applies system inset on content', (tester) async {
       const double systemInset = 34;
       double? capturedInset;
 
@@ -961,7 +961,14 @@ void main() {
       await tester.tap(find.text('Open Menu'));
       await tester.pumpAndSettle();
 
-      expect(capturedInset, systemInset);
+      expect(capturedInset, 0);
+
+      final Finder insetChild = find.byWidgetPredicate(
+        (Widget widget) =>
+            widget is Padding &&
+            widget.padding == const EdgeInsets.only(bottom: systemInset),
+      );
+      expect(insetChild, findsOneWidget);
     });
 
     testWidgets('showScrollable uses max of system bottom inset sources', (

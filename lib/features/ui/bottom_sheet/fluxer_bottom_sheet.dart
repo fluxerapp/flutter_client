@@ -197,21 +197,15 @@ class FluxerBottomSheet {
                     ),
                   ],
                   Flexible(
-                    child: isMenuVariant
-                        ? FluxerBottomSheetScope(
-                            bottomScrollPadding: bottomPadding,
-                            child: _FluxerBottomSheetInsetChild(
-                              bottomPadding: 0,
-                              child: Builder(
-                                builder: (scopedContext) =>
-                                    builder(scopedContext, close),
-                              ),
-                            ),
-                          )
-                        : _FluxerBottomSheetInsetChild(
-                            bottomPadding: bottomPadding,
-                            child: builder(sheetContext, close),
-                          ),
+                    child: _FluxerBottomSheetInsetChild(
+                      bottomPadding: bottomPadding,
+                      child: isMenuVariant
+                          ? Builder(
+                              builder: (scopedContext) =>
+                                  builder(scopedContext, close),
+                            )
+                          : builder(sheetContext, close),
+                    ),
                   ),
                 ],
               ),
