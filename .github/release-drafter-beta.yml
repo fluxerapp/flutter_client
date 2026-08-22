@@ -66,7 +66,9 @@ change-template: "- $TITLE (#$NUMBER) @$AUTHOR"
 change-title-escapes: '\<*_&'
 
 template: |
-  Pre-release build for TestFlight and Android APK (FCM + OSS).
+  Welcome to the Fluxer Mobile beta!
+
+  This is a Pre-release build for TestFlight and Android APK (FCM + OSS).
 
   ## What's New
 
