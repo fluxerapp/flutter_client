@@ -105,6 +105,7 @@ class EmbedMedia {
   final int? width;
   final int? height;
   final String? contentType;
+  final String? placeholder;
   final int flags;
 
   const EmbedMedia({
@@ -113,6 +114,7 @@ class EmbedMedia {
     this.width,
     this.height,
     this.contentType,
+    this.placeholder,
     this.flags = 0,
   });
 
@@ -126,6 +128,7 @@ class EmbedMedia {
     width: sdk.width,
     height: sdk.height,
     contentType: sdk.contentType,
+    placeholder: sdk.placeholder,
     flags: sdk.flags,
   );
 
@@ -135,6 +138,7 @@ class EmbedMedia {
     width: json['width'] as int?,
     height: json['height'] as int?,
     contentType: (json['contentType'] ?? json['content_type']) as String?,
+    placeholder: json['placeholder'] as String?,
     flags: json['flags'] as int? ?? 0,
   );
 
@@ -144,6 +148,7 @@ class EmbedMedia {
     'width': width,
     'height': height,
     'contentType': contentType,
+    'placeholder': placeholder,
     'flags': flags,
   };
 }
@@ -189,6 +194,7 @@ class Embed {
   final EmbedMedia? video;
   final List<EmbedField> fields;
   final String? providerName;
+  final String? providerUrl;
   final bool? nsfw;
 
   const Embed({
@@ -205,6 +211,7 @@ class Embed {
     this.video,
     this.fields = const [],
     this.providerName,
+    this.providerUrl,
     this.nsfw,
   });
 
@@ -226,6 +233,7 @@ class Embed {
     video: sdk.video != null ? EmbedMedia.fromSdk(sdk.video!) : null,
     fields: sdk.fields?.map(EmbedField.fromSdk).toList() ?? const [],
     providerName: sdk.provider?.name,
+    providerUrl: sdk.provider?.url,
     nsfw: sdk.nsfw,
   );
 
@@ -259,6 +267,9 @@ class Embed {
     providerName:
         (json['providerName'] as String?) ??
         ((json['provider'] as Map<String, dynamic>?)?['name'] as String?),
+    providerUrl:
+        (json['providerUrl'] as String?) ??
+        ((json['provider'] as Map<String, dynamic>?)?['url'] as String?),
     nsfw: json['nsfw'] as bool?,
   );
 
@@ -276,6 +287,7 @@ class Embed {
     'video': video?.toJson(),
     'fields': fields.map((f) => f.toJson()).toList(),
     'providerName': providerName,
+    'providerUrl': providerUrl,
     'nsfw': nsfw,
   };
 

@@ -99,7 +99,6 @@ dependencies:
   visibility_detector: ^0.4.0+2
   web_socket_channel: ^3.0.2
   window_manager: ^0.5.1
-  youtube_explode_dart: ^3.1.0
 
 dependency_overrides:
   # mockito >=5.6.5 requires analyzer ^13, incompatible with the overrides below.

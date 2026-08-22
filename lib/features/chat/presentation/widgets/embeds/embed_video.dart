@@ -2,8 +2,10 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_shared.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_youtube.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_inline_video_player.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
+import 'package:fluxer_app/features/chat/utils/embed_youtube_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
@@ -47,12 +49,22 @@ class EmbedVideo extends StatelessWidget {
         : context.colors.backgroundSecondaryAlt;
 
     final dimensions = mediaDimensionsForSize(dimensionSize);
-    final ChatFullscreenVideoLaunchContext launchContext =
-        ChatFullscreenVideoLaunchContext.fromEmbed(
-          embed: embed,
-          embedIndex: embedIndex,
-          actionScope: videoActionScope,
-        );
+    final ChatFullscreenVideoLaunchContext? youtubeLaunchContext =
+        canRenderYouTubeEmbed(embed)
+        ? ChatFullscreenVideoLaunchContext.fromYouTubeEmbed(
+            embed: embed,
+            embedIndex: embedIndex,
+            actionScope: videoActionScope,
+          )
+        : null;
+    final ChatFullscreenVideoLaunchContext? launchContext =
+        youtubeLaunchContext == null
+        ? ChatFullscreenVideoLaunchContext.fromEmbed(
+            embed: embed,
+            embedIndex: embedIndex,
+            actionScope: videoActionScope,
+          )
+        : null;
 
     return Container(
       margin: const EdgeInsets.only(top: 4),
@@ -105,12 +117,20 @@ class EmbedVideo extends StatelessWidget {
                 borderRadius: BorderRadius.circular(4),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(4),
-                  child: ChatInlineVideoPlayer(
-                    source: launchContext.source,
-                    launchContext: launchContext,
-                    dimensionSize: dimensionSize,
-                    posterFit: BoxFit.contain,
-                  ),
+                  child: youtubeLaunchContext != null
+                      ? EmbedYouTube(
+                          embed: embed,
+                          launchContext: youtubeLaunchContext,
+                          dimensionSize: dimensionSize,
+                        )
+                      : launchContext == null
+                      ? const SizedBox.shrink()
+                      : ChatInlineVideoPlayer(
+                          source: launchContext.source,
+                          launchContext: launchContext,
+                          dimensionSize: dimensionSize,
+                          posterFit: BoxFit.contain,
+                        ),
                 ),
               ),
             ),

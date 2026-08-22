@@ -457,14 +457,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.7"
-  csslib:
-    dependency: transitive
-    description:
-      name: csslib
-      sha256: "09bad715f418841f976c77db72d5398dc1253c21fb9c0c7f0b0b985860b2d58e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.2"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -1198,14 +1190,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.3"
-  html:
-    dependency: transitive
-    description:
-      name: html
-      sha256: "6d1264f2dffa1b1101c25a91dff0dc2daee4c18e87cd8538729773c073dbf602"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.15.6"
   http:
     dependency: transitive
     description:
@@ -2356,14 +2340,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
-  simple_sparse_list:
-    dependency: transitive
-    description:
-      name: simple_sparse_list
-      sha256: aa648fd240fa39b49dcd11c19c266990006006de6699a412de485695910fbc1f
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.4"
   skeletonizer:
     dependency: "direct main"
     description:
@@ -2673,14 +2649,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.7.0"
-  unicode:
-    dependency: transitive
-    description:
-      name: unicode
-      sha256: a6f7bcfc8ea1d5ce1f6c0b1c39117a9919f4953edd9fd7a64090a9796c499b57
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.9"
   unified_analytics:
     dependency: transitive
     description:
@@ -3033,14 +3001,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.4"
-  youtube_explode_dart:
-    dependency: "direct main"
-    description:
-      name: youtube_explode_dart
-      sha256: "10134a53989b2f3dc576121735aec8fc6d88784956f4a2ad1a2525b006373a76"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.1.0"
   zstd_dart:
     dependency: transitive
     description:

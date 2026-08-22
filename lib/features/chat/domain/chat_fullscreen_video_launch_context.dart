@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/utils/embed_youtube_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 
 class MessageActionCallbacks {
@@ -79,12 +80,29 @@ class ChatFullscreenVideoLaunchContext {
     this.attachment,
     this.embedIndex,
     this.actionScope,
+    this.youtubeEmbed,
   });
 
   final ChatVideoSource source;
   final Attachment? attachment;
   final int? embedIndex;
   final MessageMediaActionScope? actionScope;
+  final Embed? youtubeEmbed;
+
+  bool get isYouTubeEmbed =>
+      youtubeEmbed != null && canRenderYouTubeEmbed(youtubeEmbed!);
+
+  bool get hasPlayableContent => isYouTubeEmbed || source.hasPlayableContent;
+
+  String get youtubePageOrigin => youtubeEmbedPageOrigin();
+
+  String? get youtubeEmbedUrl {
+    final Embed? embed = youtubeEmbed;
+    if (embed == null) {
+      return null;
+    }
+    return resolveYouTubeEmbedVideoUrl(embed, pageOrigin: youtubePageOrigin);
+  }
 
   bool get hasOptionsMenu =>
       source.fallbackUrl.trim().isNotEmpty || actionScope != null;
@@ -108,6 +126,19 @@ class ChatFullscreenVideoLaunchContext {
   }) {
     return ChatFullscreenVideoLaunchContext(
       source: ChatVideoSource.fromEmbed(embed),
+      embedIndex: embedIndex,
+      actionScope: actionScope,
+    );
+  }
+
+  factory ChatFullscreenVideoLaunchContext.fromYouTubeEmbed({
+    required Embed embed,
+    int? embedIndex,
+    MessageMediaActionScope? actionScope,
+  }) {
+    return ChatFullscreenVideoLaunchContext(
+      source: ChatVideoSource.fromEmbed(embed),
+      youtubeEmbed: embed,
       embedIndex: embedIndex,
       actionScope: actionScope,
     );
