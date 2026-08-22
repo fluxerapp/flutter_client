@@ -22,11 +22,7 @@ import 'package:material_ui/material_ui.dart';
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});
 
-  Widget _buildAuthContent(
-    BuildContext context,
-    WidgetRef ref, {
-    required bool showBrowserLogin,
-  }) {
+  Widget _buildAuthContent(BuildContext context, WidgetRef ref) {
     final vm = ref.watch(loginViewModelProvider);
     final notifier = ref.read(loginViewModelProvider.notifier);
 
@@ -80,7 +76,7 @@ class LoginScreen extends ConsumerWidget {
       );
     }
 
-    return AuthFlowContent(showBrowserLogin: showBrowserLogin);
+    return const AuthFlowContent();
   }
 
   @override
@@ -154,11 +150,7 @@ class LoginScreen extends ConsumerWidget {
                     flex: 2,
                     child: SingleChildScrollView(
                       padding: EdgeInsets.all(layout.s8),
-                      child: _buildAuthContent(
-                        context,
-                        ref,
-                        showBrowserLogin: true,
-                      ),
+                      child: _buildAuthContent(context, ref),
                     ),
                   ),
                 ],
@@ -190,7 +182,7 @@ class LoginScreen extends ConsumerWidget {
                 theme: SvgTheme(currentColor: context.colors.textPrimary),
               ),
               SizedBox(height: layout.s8),
-              _buildAuthContent(context, ref, showBrowserLogin: false),
+              _buildAuthContent(context, ref),
             ],
           ),
         ),

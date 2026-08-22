@@ -40,7 +40,7 @@ void main() {
             (ref) => InstanceConfigSnapshot.officialDefault(),
           ),
         ],
-        child: _app(const LoginForm(showBrowserLogin: false)),
+        child: _app(const LoginForm()),
       ),
     );
     await tester.pumpAndSettle();
@@ -72,7 +72,7 @@ void main() {
             (ref) => InstanceConfigSnapshot.officialDefault(),
           ),
         ],
-        child: _app(const LoginForm(showBrowserLogin: false)),
+        child: _app(const LoginForm()),
       ),
     );
     await tester.pumpAndSettle();
@@ -99,7 +99,7 @@ void main() {
             (ref) => InstanceConfigSnapshot.officialDefault(),
           ),
         ],
-        child: _app(const LoginForm(showBrowserLogin: false)),
+        child: _app(const LoginForm()),
       ),
     );
     await tester.pumpAndSettle();
@@ -130,7 +130,7 @@ void main() {
             (ref) => InstanceConfigSnapshot.officialDefault(),
           ),
         ],
-        child: _app(const LoginForm(showBrowserLogin: false)),
+        child: _app(const LoginForm()),
       ),
     );
     await tester.pumpAndSettle();
@@ -151,7 +151,7 @@ void main() {
             (ref) => InstanceConfigSnapshot.officialDefault(),
           ),
         ],
-        child: _app(const LoginForm(showBrowserLogin: false)),
+        child: _app(const LoginForm()),
       ),
     );
     await tester.pumpAndSettle();

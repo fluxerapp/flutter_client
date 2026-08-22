@@ -817,6 +817,14 @@
     "@registerHaveAccount": {
         "description": "Text before the login link on the register screen."
     },
+    "registerPendingApproval": "Your account request is pending approval. You can sign in after an admin approves it.",
+    "@registerPendingApproval": {
+        "description": "Notice shown after registering on an instance that requires admin approval."
+    },
+    "registerClosed": "Registration is currently closed. Use a registration link from an admin to create an account.",
+    "@registerClosed": {
+        "description": "Notice shown on the register screen when the instance has registration closed."
+    },
     "passkeyNoCredentials": "No passkeys found for this app. Log in with email and password instead.",
     "@passkeyNoCredentials": {
         "description": "Error when user has no passkeys registered and tries passkey login."

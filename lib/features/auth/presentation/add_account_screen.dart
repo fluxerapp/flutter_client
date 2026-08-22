@@ -101,10 +101,7 @@ class _AddAccountScreenState extends ConsumerState<AddAccountScreen> {
         body: AuthViewport(
           maxWidth: isMobileLayout(context) ? double.infinity : 420,
           padding: EdgeInsets.all(layout.s5),
-          child: AuthFlowContent(
-            showBrowserLogin: false,
-            heading: l10n.accountAdd,
-          ),
+          child: AuthFlowContent(heading: l10n.accountAdd),
         ),
       ),
     );

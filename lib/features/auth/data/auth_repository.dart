@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/auth/domain/ip_auth_poll_result.dart';
 import 'package:fluxer_app/features/auth/domain/ip_authorization_challenge.dart';
 import 'package:fluxer_app/features/auth/domain/login_result.dart';
 import 'package:fluxer_app/features/auth/domain/mfa_challenge.dart';
+import 'package:fluxer_app/features/auth/domain/registration_result.dart';
 import 'package:fluxer_app/features/auth/domain/stored_account.dart';
 import 'package:fluxer_dart/export.dart';
 
@@ -157,7 +158,7 @@ class AuthRepository {
     }
   }
 
-  Future<AuthSession> register({
+  Future<RegistrationResult> register({
     required String email,
     required String password,
     required String dateOfBirth,
@@ -182,13 +183,19 @@ class AuthRepository {
         ),
       );
 
+      if (response.toJson()['registration_pending_approval'] == true) {
+        return RegistrationPendingApproval(
+          response.toAuthRegistrationPendingApprovalResponse().userId,
+        );
+      }
+
       final tokenResponse = response.toAuthTokenWithUserIdResponse();
       final session = AuthSession(
         token: tokenResponse.token,
         userId: tokenResponse.userId,
       );
       await _saveSession(session);
-      return session;
+      return RegistrationSuccess(session);
     } on DioException catch (error) {
       throw _failureFromDio(error);
     }

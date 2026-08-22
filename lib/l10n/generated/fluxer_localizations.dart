@@ -1210,6 +1210,18 @@ abstract class FluxerLocalizations {
   /// **'Already have an account? '**
   String get registerHaveAccount;
 
+  /// Notice shown after registering on an instance that requires admin approval.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account request is pending approval. You can sign in after an admin approves it.'**
+  String get registerPendingApproval;
+
+  /// Notice shown on the register screen when the instance has registration closed.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration is currently closed. Use a registration link from an admin to create an account.'**
+  String get registerClosed;
+
   /// Error when user has no passkeys registered and tries passkey login.
   ///
   /// In en, this message translates to:

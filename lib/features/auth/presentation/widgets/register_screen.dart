@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_form_error_text.dart';
+import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
 import 'package:fluxer_app/features/auth/providers/login_error_l10n.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
 import 'package:fluxer_app/features/auth/providers/registration_draft_provider.dart';
@@ -13,6 +15,7 @@ import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
+import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
@@ -195,14 +198,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     super.dispose();
   }
 
-  bool get _isFormValid {
+  bool _isFormValid({required bool requiresConsent}) {
     return _emailRegex.hasMatch(_emailController.text.trim()) &&
         _passwordController.text.isNotEmpty &&
         _confirmController.text.isNotEmpty &&
         _birthMonth != null &&
         _birthDay != null &&
         _birthYear != null &&
-        _consent;
+        (!requiresConsent || _consent);
   }
 
   String? get _dateOfBirth {
@@ -216,6 +219,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   }
 
   void _submit() {
+    if (ref.read(authInstanceSnapshotProvider).isRegistrationClosed) {
+      return;
+    }
     final l10n = FluxerLocalizations.of(context);
     final notifier = ref.read(loginViewModelProvider.notifier);
 
@@ -247,6 +253,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     final textStyles = context.textStyles;
     final layout = context.layout;
     final l10n = FluxerLocalizations.of(context);
+    final InstanceConfigSnapshot instance = ref.watch(
+      authInstanceSnapshotProvider,
+    );
+    final String? termsUrl = instance.termsUrl;
+    final String? privacyUrl = instance.privacyUrl;
+    final bool requiresConsent = termsUrl != null || privacyUrl != null;
+    final bool isRegistrationClosed = instance.isRegistrationClosed;
+    final String? pendingApprovalUserId = vm.pendingApprovalUserId;
 
     return AbsorbPointer(
       absorbing: vm.isLoggingIn,
@@ -263,6 +277,17 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: layout.s6),
+            if (isRegistrationClosed) ...[
+              FluxerWarningAlert(message: l10n.registerClosed),
+              SizedBox(height: layout.s5),
+            ],
+            if (pendingApprovalUserId != null) ...[
+              FluxerWarningAlert(
+                message: l10n.registerPendingApproval,
+                variant: FluxerAlertVariant.info,
+              ),
+              SizedBox(height: layout.s5),
+            ],
 
             // Email
             FluxerInput(
@@ -480,43 +505,48 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             SizedBox(height: layout.s5),
 
             // Terms consent
-            FluxerCheckbox(
-              value: _consent,
-              onChanged: (v) {
-                setState(() => _consent = v ?? false);
-                _saveDraft();
-              },
-              child: Text.rich(
-                TextSpan(
-                  style: textStyles.bodySmall.copyWith(
-                    color: colors.textPrimary,
+            if (requiresConsent) ...[
+              FluxerCheckbox(
+                value: _consent,
+                onChanged: (v) {
+                  setState(() => _consent = v ?? false);
+                  _saveDraft();
+                },
+                child: Text.rich(
+                  TextSpan(
+                    style: textStyles.bodySmall.copyWith(
+                      color: colors.textPrimary,
+                    ),
+                    children: [
+                      TextSpan(text: l10n.registerConsentPrefix),
+                      if (termsUrl != null)
+                        WidgetSpan(
+                          alignment: PlaceholderAlignment.baseline,
+                          baseline: TextBaseline.alphabetic,
+                          child: FluxerTextLink(
+                            text: l10n.registerConsentTerms,
+                            url: termsUrl,
+                            style: textStyles.bodySmall,
+                          ),
+                        ),
+                      if (termsUrl != null && privacyUrl != null)
+                        TextSpan(text: l10n.registerConsentAnd),
+                      if (privacyUrl != null)
+                        WidgetSpan(
+                          alignment: PlaceholderAlignment.baseline,
+                          baseline: TextBaseline.alphabetic,
+                          child: FluxerTextLink(
+                            text: l10n.registerConsentPrivacy,
+                            url: privacyUrl,
+                            style: textStyles.bodySmall,
+                          ),
+                        ),
+                    ],
                   ),
-                  children: [
-                    TextSpan(text: l10n.registerConsentPrefix),
-                    WidgetSpan(
-                      alignment: PlaceholderAlignment.baseline,
-                      baseline: TextBaseline.alphabetic,
-                      child: FluxerTextLink(
-                        text: l10n.registerConsentTerms,
-                        url: 'https://fluxer.app/terms',
-                        style: textStyles.bodySmall,
-                      ),
-                    ),
-                    TextSpan(text: l10n.registerConsentAnd),
-                    WidgetSpan(
-                      alignment: PlaceholderAlignment.baseline,
-                      baseline: TextBaseline.alphabetic,
-                      child: FluxerTextLink(
-                        text: l10n.registerConsentPrivacy,
-                        url: 'https://fluxer.app/privacy',
-                        style: textStyles.bodySmall,
-                      ),
-                    ),
-                  ],
                 ),
               ),
-            ),
-            SizedBox(height: layout.s5),
+              SizedBox(height: layout.s5),
+            ],
 
             // Error message
             if (resolveLoginError(vm, l10n) case final errorText?) ...[
@@ -526,7 +556,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
             // Submit
             FluxerButton.primary(
-              onPressed: _isFormValid && !vm.isLoggingIn ? _submit : null,
+              onPressed:
+                  _isFormValid(requiresConsent: requiresConsent) &&
+                      !vm.isLoggingIn &&
+                      !isRegistrationClosed &&
+                      pendingApprovalUserId == null
+                  ? _submit
+                  : null,
               label: l10n.registerSubmit,
               isLoading: vm.isLoggingIn,
             ),

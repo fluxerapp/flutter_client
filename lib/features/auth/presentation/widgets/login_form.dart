@@ -21,9 +21,8 @@ import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class LoginForm extends ConsumerStatefulWidget {
-  const LoginForm({required this.showBrowserLogin, this.heading, super.key});
+  const LoginForm({this.heading, super.key});
 
-  final bool showBrowserLogin;
   final String? heading;
 
   @override
@@ -283,14 +282,6 @@ class _LoginFormState extends ConsumerState<LoginForm>
               SsoButton(
                 enabled: !vm.isLoggingIn,
                 subtitle: strings.preferSso(ssoProviderName),
-              ),
-            ],
-            if (widget.showBrowserLogin) ...[
-              SizedBox(height: layout.s2),
-              FluxerButton.secondary(
-                onPressed: () {},
-                icon: PhosphorIconsFill.monitor,
-                label: strings.logInViaBrowser,
               ),
             ],
             SizedBox(height: layout.s5),

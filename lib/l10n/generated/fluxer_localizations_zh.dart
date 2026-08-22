@@ -593,6 +593,14 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get registerHaveAccount => '已有账户？';
 
   @override
+  String get registerPendingApproval =>
+      'Your account request is pending approval. You can sign in after an admin approves it.';
+
+  @override
+  String get registerClosed =>
+      'Registration is currently closed. Use a registration link from an admin to create an account.';
+
+  @override
   String get passkeyNoCredentials => '此应用未找到任何通行密钥。请改用电子邮件和密码登录。';
 
   @override

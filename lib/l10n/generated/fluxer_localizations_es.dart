@@ -615,6 +615,14 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get registerHaveAccount => '¿Ya tienes una cuenta? ';
 
   @override
+  String get registerPendingApproval =>
+      'Your account request is pending approval. You can sign in after an admin approves it.';
+
+  @override
+  String get registerClosed =>
+      'Registration is currently closed. Use a registration link from an admin to create an account.';
+
+  @override
   String get passkeyNoCredentials =>
       'No se han encontrado passkeys para esta aplicación. Inicia sesión con correo electrónico y contraseña en su lugar.';
 

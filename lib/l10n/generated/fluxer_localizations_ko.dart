@@ -595,6 +595,14 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get registerHaveAccount => '이미 계정이 있으신가요? ';
 
   @override
+  String get registerPendingApproval =>
+      'Your account request is pending approval. You can sign in after an admin approves it.';
+
+  @override
+  String get registerClosed =>
+      'Registration is currently closed. Use a registration link from an admin to create an account.';
+
+  @override
   String get passkeyNoCredentials => '이 앱에 대한 패스키가 없습니다. 대신 이메일과 비밀번호로 로그인하세요.';
 
   @override
