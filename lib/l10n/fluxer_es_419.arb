@@ -1645,7 +1645,7 @@
     },
     "cropTouchHint": "Pinch to zoom, drag to reposition",
     "cropMouseHint": "Drag corners to resize, drag inside to move",
-    "changeYourFluxerTag": "Cambiar tu etiqueta",
+    "changeYourFluxerTag": "Cambiar tu usuario",
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
     },
@@ -1722,7 +1722,7 @@
     "@iUnderstandContinue": {
         "description": "Button to acknowledge a warning and proceed."
     },
-    "premiumWarningPendingDiscriminator": "Si guardas este Nombre de usuario, tu etiqueta personalizada de 4 dígitos volverá a ser un número aleatorio cuando finalice tu suscripción a Plutonium. Si tu suscripción no se renueva, tendrás un período de gracia de 3 días antes de que cambie la etiqueta.",
+    "premiumWarningPendingDiscriminator": "Si guardas este nombre de usuario, tu etiqueta personalizada de 4 dígitos volverá a ser un número aleatorio cuando finalice tu suscripción a Plutonium. Si tu suscripción no se renueva, tendrás un período de gracia de 3 días antes de que cambie la etiqueta.",
     "@premiumWarningPendingDiscriminator": {
         "description": "Warning shown when premium user is about to change their discriminator."
     },
@@ -1780,7 +1780,7 @@
     "@claimAccountToChangeFluxerTag": {
         "description": "Tooltip when unverified user hovers the disabled Change username button."
     },
-    "changeFluxerTag": "Cambiar Nombre de usuario",
+    "changeFluxerTag": "Cambiar nombre de usuario",
     "@changeFluxerTag": {
         "description": "Button label to open the username change flow."
     },
@@ -11454,5 +11454,967 @@
     "notificationsSoundCameraOn": "Cámara activada",
     "@notificationsSoundCameraOn": {
         "description": "Sound toggle label for camera on."
-    }
+    },
+    "dmDeleteMyMessagesTitle": "¿Eliminar tus mensajes en esta conversación?",
+    "@dmDeleteMyMessagesTitle": {
+        "description": "Confirmation title for deleting all of the caller's messages in a DM or group DM."
+    },
+    "dmDeleteMyMessagesDescription": "Esto eliminará permanentemente todos los mensajes que hayas enviado en esta conversación. Esta acción no se puede deshacer.",
+    "@dmDeleteMyMessagesDescription": {
+        "description": "Confirmation description for deleting all of the caller's messages in a DM or group DM."
+    },
+    "permissionPrioritySpeaker": "Priorizar altavoz",
+    "@permissionPrioritySpeaker": {
+        "description": "Permission name."
+    },
+    "guildMembersClearAll": "Borrar todo",
+    "@guildMembersClearAll": {
+        "description": "Button to clear all role filters on the community members page."
+    },
+    "embedGiftClaimed": "Regalo reclamado",
+    "@embedGiftClaimed": {
+        "description": "Disabled button label after a gift is claimed."
+    },
+    "userAreaUserSettings": "Ajustes de usuario",
+    "@userAreaUserSettings": {
+        "description": "Tooltip for the settings button in the desktop user area."
+    },
+    "premiumSave17": "Ahorra un 17%",
+    "voiceParticipantMenuUserVolume": "Volumen de usuario",
+    "@voiceParticipantMenuUserVolume": {
+        "description": "Voice participant context menu slider label for per-user volume."
+    },
+    "voiceParticipantMenuStreamVolume": "Volumen de transmisión",
+    "@voiceParticipantMenuStreamVolume": {
+        "description": "Voice participant context menu slider label for screen share audio volume."
+    },
+    "nagbarGiftInventoryMany": "Tienes {count} nuevos códigos de regalo esperando en tu inventario de regalos.",
+    "@nagbarGiftInventoryMany": {
+        "description": "Gift inventory nagbar when multiple unread gifts exist.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "nagbarViewGiftInventory": "Ver inventario de regalos",
+    "@nagbarViewGiftInventory": {
+        "description": "Gift inventory nagbar CTA."
+    },
+    "nagbarVisionaryMfa": "Habilita la autenticación en dos pasos para proteger tu cuenta de Visionario.",
+    "@nagbarVisionaryMfa": {
+        "description": "Visionary MFA nagbar body."
+    },
+    "nagbarEnableMfa": "Activar 2FA",
+    "@nagbarEnableMfa": {
+        "description": "Visionary MFA nagbar CTA."
+    },
+    "nagbarTermsAcceptance": "Hemos actualizado nuestros términos. Revísalos y acéptalos para continuar.",
+    "@nagbarTermsAcceptance": {
+        "description": "Terms acceptance nagbar body."
+    },
+    "nagbarPushNotification": "Activa las notificaciones para no perderte mensajes y menciones.",
+    "@nagbarPushNotification": {
+        "description": "Push notification permission nagbar body."
+    },
+    "nagbarBillingPortalFailed": "No se pudo abrir el portal de facturación. Inténtalo de nuevo en un momento.",
+    "@nagbarBillingPortalFailed": {
+        "description": "Toast when opening the billing portal from a nagbar fails."
+    },
+    "registerPendingApproval": "Tu solicitud de cuenta está pendiente de aprobación. Podrás iniciar sesión una vez que un administrador la apruebe.",
+    "@registerPendingApproval": {
+        "description": "Notice shown after registering on an instance that requires admin approval."
+    },
+    "registerClosed": "El registro está cerrado actualmente. Utiliza un enlace de registro proporcionado por un administrador para crear una cuenta.",
+    "@registerClosed": {
+        "description": "Notice shown on the register screen when the instance has registration closed."
+    },
+    "embedInviteAlreadyJoined": "Ya unido",
+    "@embedInviteAlreadyJoined": {
+        "description": "Disabled button label on a group DM invite embed when the user is already a member."
+    },
+    "invalidDeepLinkTitle": "No se pudo abrir el enlace",
+    "@invalidDeepLinkTitle": {
+        "description": "Title when a deep link or route cannot be opened in the app."
+    },
+    "invalidDeepLinkDescription": "Es posible que este enlace esté roto, solo esté disponible en la web o no tengas acceso. Comprueba el enlace e inténtalo de nuevo.",
+    "@invalidDeepLinkDescription": {
+        "description": "Explanation shown when a deep link or route cannot be opened in the app."
+    },
+    "invalidDeepLinkGoHomeButton": "Ir a inicio",
+    "@invalidDeepLinkGoHomeButton": {
+        "description": "Primary action on the invalid deep link screen to return to the home tab."
+    },
+    "embedGiftVisionaryLifetime": "Visionario ({productName} de por vida)",
+    "@embedGiftVisionaryLifetime": {
+        "description": "Gift duration title for a lifetime Visionary entitlement.",
+        "placeholders": {
+            "productName": {
+                "type": "String",
+                "example": "Plutonium"
+            }
+        }
+    },
+    "embedGiftDurationDays": "{count, plural, =1{1 día de {productName}} other{{count} días de {productName}}}",
+    "@embedGiftDurationDays": {
+        "description": "Gift duration title in days.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            },
+            "productName": {
+                "type": "String",
+                "example": "Plutonium"
+            }
+        }
+    },
+    "embedGiftDurationWeeks": "{count, plural, =1{1 semana de {productName}} other{{count} semanas de {productName}}}",
+    "@embedGiftDurationWeeks": {
+        "description": "Gift duration title in weeks.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            },
+            "productName": {
+                "type": "String",
+                "example": "Plutonium"
+            }
+        }
+    },
+    "embedGiftDurationMonths": "{count, plural, =1{1 mes de {productName}} other{{count} meses de {productName}}}",
+    "@embedGiftDurationMonths": {
+        "description": "Gift duration title in months.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            },
+            "productName": {
+                "type": "String",
+                "example": "Plutonium"
+            }
+        }
+    },
+    "embedGiftDurationYears": "“{count, plural, =1{1 año de {productName}} other{{count} años de {productName}}}",
+    "@embedGiftDurationYears": {
+        "description": "Gift duration title in years.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            },
+            "productName": {
+                "type": "String",
+                "example": "Plutonium"
+            }
+        }
+    },
+    "embedGiftFrom": "De {creatorTag}",
+    "@embedGiftFrom": {
+        "description": "Sender label on a gift code embed.",
+        "placeholders": {
+            "creatorTag": {
+                "type": "String"
+            }
+        }
+    },
+    "embedGiftClaimHelp": "¡Haz clic para reclamar tu regalo!",
+    "@embedGiftClaimHelp": {
+        "description": "Help text on a redeemable gift embed."
+    },
+    "embedGiftClaimAccountHelp": "Reclama tu cuenta para canjear este regalo.",
+    "@embedGiftClaimAccountHelp": {
+        "description": "Help text on a gift embed for unclaimed accounts."
+    },
+    "embedGiftClaim": "Reclamar regalo",
+    "@embedGiftClaim": {
+        "description": "Primary button on a redeemable gift embed."
+    },
+    "embedGiftClaimAccount": "Reclamar cuenta para canjear",
+    "@embedGiftClaimAccount": {
+        "description": "Button on a gift embed for unclaimed accounts."
+    },
+    "embedGiftUnknownTitle": "Regalo desconocido",
+    "@embedGiftUnknownTitle": {
+        "description": "Title when a gift code cannot be resolved."
+    },
+    "embedGiftUnknownSubtitle": "Este código de regalo no es válido o ya ha sido reclamado.",
+    "@embedGiftUnknownSubtitle": {
+        "description": "Subtitle when a gift code cannot be resolved."
+    },
+    "giftAcceptClaimSubscription": "¡Reclama tu regalo para activar tu suscripción a {productName}!",
+    "@giftAcceptClaimSubscription": {
+        "description": "Help text on the gift accept modal for a claimable gift.",
+        "placeholders": {
+            "productName": {
+                "type": "String",
+                "example": "Plutonium"
+            }
+        }
+    },
+    "giftAcceptAlreadyClaimed": "Este regalo ya ha sido reclamado.",
+    "@giftAcceptAlreadyClaimed": {
+        "description": "Help text on the gift accept modal when already redeemed."
+    },
+    "giftAcceptMaybeLater": "Tal vez luego",
+    "@giftAcceptMaybeLater": {
+        "description": "Secondary dismiss button on the gift accept modal."
+    },
+    "giftRedeemedToast": "¡Regalo canjeado!",
+    "@giftRedeemedToast": {
+        "description": "Success toast after redeeming a gift code."
+    },
+    "giftRedeemInvalidTitle": "Código de regalo inválido",
+    "@giftRedeemInvalidTitle": {
+        "description": "Error modal title for an invalid gift code."
+    },
+    "giftRedeemInvalidMessage": "Este código no es válido o ya ha sido utilizado.",
+    "@giftRedeemInvalidMessage": {
+        "description": "Error modal body for an invalid gift code."
+    },
+    "giftRedeemAlreadyRedeemedTitle": "Regalo ya canjeado",
+    "@giftRedeemAlreadyRedeemedTitle": {
+        "description": "Error modal title when a gift was already redeemed."
+    },
+    "giftRedeemAlreadyRedeemedMessage": "Este código ya ha sido canjeado.",
+    "@giftRedeemAlreadyRedeemedMessage": {
+        "description": "Error modal body when a gift was already redeemed."
+    },
+    "giftRedeemNotFoundTitle": "Regalo no encontrado",
+    "@giftRedeemNotFoundTitle": {
+        "description": "Error modal title when a gift code does not exist."
+    },
+    "giftRedeemNotFoundMessage": "Este código no existe.",
+    "@giftRedeemNotFoundMessage": {
+        "description": "Error modal body when a gift code does not exist."
+    },
+    "giftRedeemFailedTitle": "Error al canjear el regalo",
+    "@giftRedeemFailedTitle": {
+        "description": "Generic gift redeem error modal title."
+    },
+    "giftRedeemFailedMessage": "No se pudo canjear este regalo. Inténtalo de nuevo.",
+    "@giftRedeemFailedMessage": {
+        "description": "Generic gift redeem error modal body."
+    },
+    "giftVisionaryCannotRedeemTitle": "No se puede canjear este regalo",
+    "@giftVisionaryCannotRedeemTitle": {
+        "description": "Error modal title when a Visionary user cannot redeem Plutonium."
+    },
+    "giftVisionaryCannotRedeemMessage": "Las cuentas Visionary no pueden canjear regalos de Plutonium. Copia el enlace para compartirlo con un amigo en su lugar.",
+    "@giftVisionaryCannotRedeemMessage": {
+        "description": "Error modal body when a Visionary user cannot redeem Plutonium."
+    },
+    "giftCopyLink": "Copiar enlace del regalo",
+    "@giftCopyLink": {
+        "description": "Button to copy a gift share URL."
+    },
+    "notificationsMentionPreferenceSectionTitle": "Preferencia de menciones",
+    "@notificationsMentionPreferenceSectionTitle": {
+        "description": "Notifications settings section title for reply mention preference."
+    },
+    "notificationsTtsModeAllChannelsName": "Todos los canales",
+    "@notificationsTtsModeAllChannelsName": {
+        "description": "TTS narration mode: speak messages from every channel."
+    },
+    "giftSettingsPurchasedTitle": "Regalos comprados",
+    "privacyDashboardProfilePrivacySection": "Privacidad del perfil",
+    "@privacyDashboardProfilePrivacySection": {
+        "description": "Privacy section label for who can see the user profile details."
+    },
+    "userSettingsSearchFieldLabel": "Ajustes de búsqueda",
+    "@userSettingsSearchFieldLabel": {
+        "description": "Accessibility label for the user settings search field."
+    },
+    "privacyDashboardActivitySharingSection": "Compartir actividad",
+    "@privacyDashboardActivitySharingSection": {
+        "description": "Privacy section label for voice activity sharing."
+    },
+    "privacyDashboardSensitiveContentSection": "Contenido sensible",
+    "@privacyDashboardSensitiveContentSection": {
+        "description": "Short label in the privacy dashboard."
+    },
+    "messageAccessibilityFileSummary": "Archivo {filename}",
+    "@messageAccessibilityFileSummary": {
+        "description": "Screen reader summary for a message with a single file attachment and no text.",
+        "placeholders": {
+            "filename": {
+                "type": "String"
+            }
+        }
+    },
+    "privacyDashboardFriendRequestsTitle": "Solicitudes de amistad",
+    "@privacyDashboardFriendRequestsTitle": {
+        "description": "Privacy dashboard friend requests subsection title."
+    },
+    "messageAccessibilityVideoSummary": "un video",
+    "@messageAccessibilityVideoSummary": {
+        "description": "Screen reader summary for a message with a video attachment or embed."
+    },
+    "composerShowKeyboard": "Mostrar teclado",
+    "@composerShowKeyboard": {
+        "description": "Accessibility label for the composer button that closes the expression picker and shows the keyboard."
+    },
+    "messageAccessibilityImageSummary": "una imágen",
+    "@messageAccessibilityImageSummary": {
+        "description": "Screen reader summary for a message with an image attachment or embed."
+    },
+    "privacyDashboardFriendRequestsCommunityMembers": "Miembros de la comunidad",
+    "@privacyDashboardFriendRequestsCommunityMembers": {
+        "description": "Privacy dashboard friend request toggle label."
+    },
+    "messageAccessibilityAttachmentsSummary": "{count} archivos adjuntos",
+    "@messageAccessibilityAttachmentsSummary": {
+        "description": "Screen reader summary for a message with multiple attachments and no text.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "privacyDashboardDirectMessagesTitle": "Mensajes directos",
+    "@privacyDashboardDirectMessagesTitle": {
+        "description": "Privacy dashboard direct messages subsection title."
+    },
+    "messageAccessibilityAttachmentSummary": "un archivo adjunto",
+    "@messageAccessibilityAttachmentSummary": {
+        "description": "Screen reader summary for a message with attachments but no text."
+    },
+    "messageAccessibilitySendingSuffix": ", enviando",
+    "@messageAccessibilitySendingSuffix": {
+        "description": "Screen reader suffix when a message is still sending."
+    },
+    "messageAccessibilityLabel": "{author}, {summary}",
+    "@messageAccessibilityLabel": {
+        "description": "Screen reader label for a chat message row.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            },
+            "summary": {
+                "type": "String"
+            }
+        }
+    },
+    "channelHeaderSearchFilterDescMentions": "un usuario",
+    "@channelHeaderSearchFilterDescMentions": {
+        "description": "Description for the mentions: search filter."
+    },
+    "privacyDashboardIncomingCallsTitle": "Llamadas entrantes",
+    "@privacyDashboardIncomingCallsTitle": {
+        "description": "Privacy dashboard incoming calls subsection title."
+    },
+    "channelHeaderSearchFiltersTitle": "Filtros de búsqueda",
+    "@channelHeaderSearchFiltersTitle": {
+        "description": "Section header for inline channel search filter shortcuts."
+    },
+    "privacyDashboardAllowedCallers": "Llamadas permitidas",
+    "@privacyDashboardAllowedCallers": {
+        "description": "Privacy > Communication: select label."
+    },
+    "channelDetailsSearchContentForwardDescription": "Mensajes reenviados",
+    "@channelDetailsSearchContentForwardDescription": {
+        "description": "Forwarded message content filter description."
+    },
+    "channelDetailsSearchMoreFiltersFileType": "Extensión de archivo",
+    "@channelDetailsSearchMoreFiltersFileType": {
+        "description": "File extension filter field in the More filters sheet."
+    },
+    "privacyDashboardAdditionalGroups": "Grupos adicionales",
+    "@privacyDashboardAdditionalGroups": {
+        "description": "Privacy dashboard label for custom permission groups."
+    },
+    "channelDetailsSearchMoreFiltersFileName": "El nombre del archivo contiene",
+    "@channelDetailsSearchMoreFiltersFileName": {
+        "description": "Filename filter field in the More filters sheet."
+    },
+    "channelDetailsSearchMoreFiltersLink": "Nombre de host del enlace",
+    "@channelDetailsSearchMoreFiltersLink": {
+        "description": "Link hostname field in the More filters sheet."
+    },
+    "channelDetailsSearchMoreFiltersDateMode": "Modo de fecha",
+    "@channelDetailsSearchMoreFiltersDateMode": {
+        "description": "Date mode dropdown label in the More filters sheet."
+    },
+    "channelDetailsSearchPinnedFalse": "Excluir anclados",
+    "@channelDetailsSearchPinnedFalse": {
+        "description": "Pinned false option in More filters."
+    },
+    "privacyDashboardAllowedInvites": "Invitaciones permitidas",
+    "@privacyDashboardAllowedInvites": {
+        "description": "Privacy > Communication: select label."
+    },
+    "channelDetailsSearchPinnedTrue": "Fijados solamente",
+    "@channelDetailsSearchPinnedTrue": {
+        "description": "Pinned true option in More filters."
+    },
+    "channelDetailsSearchChannelsHint": "Buscar canales",
+    "@channelDetailsSearchChannelsHint": {
+        "description": "Search field hint in the channel filter sheet."
+    },
+    "channelDetailsSearchUsersCount": "{count} usuarios",
+    "@channelDetailsSearchUsersCount": {
+        "description": "User filter chip value when multiple users are selected.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelDetailsSearchChannelsCount": "{count} canales",
+    "@channelDetailsSearchChannelsCount": {
+        "description": "Channel filter chip value when multiple channels are selected.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "categoryCollapseCategory": "Contraer categoría",
+    "@categoryCollapseCategory": {
+        "description": "Context menu action to collapse an expanded channel category."
+    },
+    "categoryExpandCategory": "Expandir categoría",
+    "@categoryExpandCategory": {
+        "description": "Context menu action to expand a collapsed channel category."
+    },
+    "mediaViewerAttachmentThumbnail": "Archivo adjunto {index}",
+    "@mediaViewerAttachmentThumbnail": {
+        "description": "Accessibility label for a thumbnail in the media viewer strip.",
+        "placeholders": {
+            "index": {
+                "type": "int"
+            }
+        }
+    },
+    "chatMessageSeeTranslation": "Ver traducción",
+    "@chatMessageSeeTranslation": {
+        "description": "Toggles a message back to the stored translation."
+    },
+    "chatMessageSeeOriginal": "Ver original",
+    "@chatMessageSeeOriginal": {
+        "description": "Toggles a translated message back to the original text."
+    },
+    "shareMediaTitle": "Compartir en",
+    "@shareMediaTitle": {
+        "description": "Title of the share-media bottom sheet."
+    },
+    "slowmodeRateLimitedTitle": "Modo lento activo",
+    "@slowmodeRateLimitedTitle": {
+        "description": "Title for the modal shown when slowmode blocks sending a message."
+    },
+    "privacyDashboardDataRequestSummaryTimeRange": "Rango de tiempo",
+    "@privacyDashboardDataRequestSummaryTimeRange": {
+        "description": "Summary row label for time range."
+    },
+    "categoryUnmuteCategory": "Desactivar silencio",
+    "@categoryUnmuteCategory": {
+        "description": "Context menu action to unmute a channel category."
+    },
+    "privacyDashboardDataRequestDateMode": "Rango de tiempo",
+    "@privacyDashboardDataRequestDateMode": {
+        "description": "Form label for the date range mode dropdown."
+    },
+    "categoryMuteCategory": "Silenciar categoría",
+    "@categoryMuteCategory": {
+        "description": "Context menu action to mute a channel category."
+    },
+    "privacyDashboardDataRequestWhenTitle": "Rango de tiempo",
+    "@privacyDashboardDataRequestWhenTitle": {
+        "description": "Heading of the time-range step."
+    },
+    "privacyDashboardDataRequestCommunitiesTitle": "Que comunidades",
+    "@privacyDashboardDataRequestCommunitiesTitle": {
+        "description": "Heading of the communities step."
+    },
+    "privacyDashboardDataRequestKindDmsClosed": "Chats privados cerrados",
+    "@privacyDashboardDataRequestKindDmsClosed": {
+        "description": "Switch label for closed direct messages."
+    },
+    "privacyDashboardDataRequestKindDms": "Chats privados abiertos",
+    "@privacyDashboardDataRequestKindDms": {
+        "description": "Switch label for open direct messages."
+    },
+    "privacyDashboardDataRequestKindsTitle": "Que conversaciones",
+    "@privacyDashboardDataRequestKindsTitle": {
+        "description": "Heading of the kinds step."
+    },
+    "privacyDashboardDataRequestExportCustom": "Selección personalizada",
+    "@privacyDashboardDataRequestExportCustom": {
+        "description": "Scope option that lets the user filter what to export."
+    },
+    "privacyDashboardDataRequestGoBack": "Volver",
+    "@privacyDashboardDataRequestGoBack": {
+        "description": "Footer secondary button on data request steps after the first."
+    },
+    "premiumPerYear": "por año",
+    "notificationsMasterVolumeLabel": "Volumen general",
+    "@notificationsMasterVolumeLabel": {
+        "description": "Label for the master volume slider."
+    },
+    "advancedSettingScreenShareCodecAuto": "Automático (recomendado)",
+    "notificationsTtsSectionTitle": "Notificaciones de texto a voz",
+    "@notificationsTtsSectionTitle": {
+        "description": "Notifications settings section title for TTS controls."
+    },
+    "ttsSubstitutionUnknownRole": "rol desconocido",
+    "@ttsSubstitutionUnknownRole": {
+        "description": "TTS substitution for unresolved role mentions."
+    },
+    "guildFolderDelete": "Eliminar carpeta",
+    "@guildFolderDelete": {
+        "description": "Destructive button that dissolves a community folder."
+    },
+    "chatMessageStopSpeaking": "Dejar de hablar",
+    "@chatMessageStopSpeaking": {
+        "description": "Action label for stopping TTS playback."
+    },
+    "advancedSettingDefaultTranslatorLabel": "Traductor predeterminado",
+    "guildMembersJoinSourceCreator": "Creador de la comunidad",
+    "@guildMembersJoinSourceCreator": {
+        "description": "Join method label on the community members page."
+    },
+    "shareMediaSuccessToast": "Multimedia compartida",
+    "@shareMediaSuccessToast": {
+        "description": "Toast shown after shared media is sent to all selected destinations."
+    },
+    "ttsSubstitutionEmoji": "emoji {emojiName}",
+    "@ttsSubstitutionEmoji": {
+        "description": "TTS substitution for custom emoji.",
+        "placeholders": {
+            "emojiName": {
+                "type": "String"
+            }
+        }
+    },
+    "accessibilityScreenReaderGroupTitle": "Lector de pantalla",
+    "@accessibilityScreenReaderGroupTitle": {
+        "description": "Section title for screen reader accessibility settings."
+    },
+    "advancedSettingAddTranslatorLabel": "Añadir traductor",
+    "advancedSettingRemoveTranslatorLabel": "Eliminar traductor",
+    "premiumPerkVideoQuality": "Calidad de video",
+    "premiumPerkSavedMedia": "Multimedia guardada",
+    "advancedSettingSearchProviderNameTranslatePlaceholder": "Mi traductor",
+    "premiumPerkProfileBadge": "Insignia de perfil",
+    "guildFolderNameLabel": "Nombre de la carpeta",
+    "@guildFolderNameLabel": {
+        "description": "Label for the folder name input in folder settings."
+    },
+    "premiumPerkPerCommunityProfiles": "Perfiles por comunidad",
+    "privacyDashboardDataRequestSummaryFrom": "De {start}",
+    "@privacyDashboardDataRequestSummaryFrom": {
+        "description": "Summary value when only a start date is set.",
+        "placeholders": {
+            "start": {
+                "type": "String"
+            }
+        }
+    },
+    "privacyDashboardDataRequestDeleteMessages": "Eliminar mensajes",
+    "@privacyDashboardDataRequestDeleteMessages": {
+        "description": "Footer submit button on deletion confirm step."
+    },
+    "privacyDashboardDataRequestEndDate": "Fecha de finalización",
+    "@privacyDashboardDataRequestEndDate": {
+        "description": "Label for the end of a date range."
+    },
+    "privacyDashboardDataRequestGuildFilterMode": "Filtro de comunidad",
+    "@privacyDashboardDataRequestGuildFilterMode": {
+        "description": "Form label for the community filter mode dropdown."
+    },
+    "privacyDashboardDataRequestKindGroupDms": "Chats privados grupales",
+    "@privacyDashboardDataRequestKindGroupDms": {
+        "description": "Switch label for group DMs."
+    },
+    "privacyDashboardDataDeletionSection": "Eliminación de datos",
+    "@privacyDashboardDataDeletionSection": {
+        "description": "Short label in the privacy dashboard."
+    },
+    "premiumManageSubscription": "Gestionar suscripción",
+    "premiumViewGifts": "Ver regalos",
+    "userProfileLoading": "Cargando perfil",
+    "@userProfileLoading": {
+        "description": "Accessible label for the user profile skeleton while profile data is loading."
+    },
+    "chatMessageSpeak": "Leer mensaje en voz alta",
+    "@chatMessageSpeak": {
+        "description": "Action label for reading a message aloud."
+    },
+    "ttsSubstitutionUnknownChannel": "canal desconocido",
+    "@ttsSubstitutionUnknownChannel": {
+        "description": "TTS substitution for unresolved channel mentions."
+    },
+    "premiumGiftSectionTitle": "Regalar Plutonium",
+    "premiumForMe": "Para mí",
+    "giftSettingsTryAgain": "Intentar de nuevo",
+    "accessibilityTtsSilenceSampleLabel": "Silenciar muestra",
+    "@accessibilityTtsSilenceSampleLabel": {
+        "description": "Button label to stop the TTS sample playback."
+    },
+    "channelHeaderSearchFilterDescIn": "un canal",
+    "@channelHeaderSearchFilterDescIn": {
+        "description": "Description for the in: search filter."
+    },
+    "channelHeaderSearchFilterDescFrom": "un usuario",
+    "@channelHeaderSearchFilterDescFrom": {
+        "description": "Description for the from: search filter."
+    },
+    "channelHeaderSearchRecentTitle": "Búsquedas recientes",
+    "@channelHeaderSearchRecentTitle": {
+        "description": "Section header for inline channel search history."
+    },
+    "defaultAppsWebBrowserSectionTitle": "Navegador web",
+    "@defaultAppsWebBrowserSectionTitle": {
+        "description": "Title for the default web browser settings section."
+    },
+    "channelHeaderMemberList": "Lista de miembros",
+    "@channelHeaderMemberList": {
+        "description": "Toolbar button label for toggling the member list panel."
+    },
+    "chatMessageDeleteAttachment": "Eliminar archivo adjunto",
+    "@chatMessageDeleteAttachment": {
+        "description": "Action label for deleting an attachment from a sent message."
+    },
+    "emojiInfoPrivateCommunity": "Comunidad privada",
+    "@emojiInfoPrivateCommunity": {
+        "description": "Subtitle for a non-discoverable source community in the emoji info sheet."
+    },
+    "emojiInfoDiscoverableCommunity": "Comunidad pública",
+    "@emojiInfoDiscoverableCommunity": {
+        "description": "Subtitle for a discoverable source community in the emoji info sheet."
+    },
+    "notificationsPushInactiveTimeoutMinutes": "{minutes} minutos",
+    "@notificationsPushInactiveTimeoutMinutes": {
+        "description": "Push notification inactive timeout option for multiple minutes.",
+        "placeholders": {
+            "minutes": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "userSettingsSearchPlaceholder": "Buscar en la configuración...",
+    "@userSettingsSearchPlaceholder": {
+        "description": "Placeholder for the user settings search field."
+    },
+    "guildMembersJoinSourceVanityUrl": "URL personalizada",
+    "@guildMembersJoinSourceVanityUrl": {
+        "description": "Join method label on the community members page."
+    },
+    "lookAndFeelHdrStandardName": "Rango estándar",
+    "@lookAndFeelHdrStandardName": {
+        "description": "HDR radio option that tone-maps HDR content to SDR."
+    },
+    "voicePrioritizeSpeakersLabel": "Priorizar voz activa",
+    "@voicePrioritizeSpeakersLabel": {
+        "description": "Voice display preference that moves active speakers toward the front of the call grid when enabled."
+    },
+    "premiumUpgradeNow": "Actualizar ahora",
+    "emojiInfoVerifiedCommunity": "Comunidad verificada",
+    "@emojiInfoVerifiedCommunity": {
+        "description": "Tooltip for the verified badge on a source community in the emoji info sheet."
+    },
+    "userSettingsNavDefaultApps": "Aplicaciones predeterminadas",
+    "@userSettingsNavDefaultApps": {
+        "description": "User settings navigation item for default app preferences."
+    },
+    "notificationsSoundMute": "Silenciar voz",
+    "@notificationsSoundMute": {
+        "description": "Sound toggle label for voice mute."
+    },
+    "ttsAuthorDescription": "{authorName} {description}",
+    "@ttsAuthorDescription": {
+        "description": "TTS sentence for non-text-only messages.",
+        "placeholders": {
+            "authorName": {
+                "type": "String"
+            },
+            "description": {
+                "type": "String"
+            }
+        }
+    },
+    "messageAccessibilityEmptySummary": "un mensaje",
+    "@messageAccessibilityEmptySummary": {
+        "description": "Screen reader summary fallback for a message without visible text."
+    },
+    "messageAccessibilityEmbedSummary": "un contenido incrustado",
+    "@messageAccessibilityEmbedSummary": {
+        "description": "Screen reader summary for a message with embeds but no text."
+    },
+    "messageAccessibilityStickerSummary": "sticker {name}",
+    "@messageAccessibilityStickerSummary": {
+        "description": "Screen reader summary for a message with a sticker and no text.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelHeaderPinnedMessages": "Mensajes fijados",
+    "@channelHeaderPinnedMessages": {
+        "description": "Toolbar button label for pinned messages."
+    },
+    "privacyDashboardIncomingCallFriendsOnly": "Solo amigos",
+    "@privacyDashboardIncomingCallFriendsOnly": {
+        "description": "Privacy > Communication: radio option label."
+    },
+    "accessibilityStickerNeverAnimateName": "No animar nunca",
+    "@accessibilityStickerNeverAnimateName": {
+        "description": "Radio option for never animating stickers."
+    },
+    "notificationUseCategoryDefault": "Usar predeterminado de la categoría",
+    "@notificationUseCategoryDefault": {
+        "description": "Radio option to inherit notification settings from the channel category."
+    },
+    "notificationUseCommunityDefault": "Usar predeterminado de la comunidad",
+    "@notificationUseCommunityDefault": {
+        "description": "Radio option to inherit notification settings from the community."
+    },
+    "emojiInfoDefaultDescription": "Este es un emoji predeterminado en {productName}.",
+    "@emojiInfoDefaultDescription": {
+        "description": "Emoji info sheet description for built-in unicode emoji.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "emojiInfoCustomGuildDescription": "Este emoji es de esta comunidad. Puedes usarlo en todas partes.",
+    "@emojiInfoCustomGuildDescription": {
+        "description": "Emoji info sheet description when the user can use a custom emoji from their community."
+    },
+    "emojiInfoCustomUnknownDescription": "Este es un emoji personalizado de una comunidad.",
+    "@emojiInfoCustomUnknownDescription": {
+        "description": "Emoji info sheet description when the source community is unknown."
+    },
+    "emojiInfoCustomInviteRequiredDescription": "Este es un emoji personalizado de una comunidad. Pide una invitación al autor para usar este emoji.",
+    "@emojiInfoCustomInviteRequiredDescription": {
+        "description": "Emoji info sheet description when the user is not in the source community."
+    },
+    "emojiInfoFromHeader": "Este emoji es de",
+    "@emojiInfoFromHeader": {
+        "description": "Section header above the source community in the emoji info sheet."
+    },
+    "emojiInfoAddToFavorites": "Añadir a favoritos",
+    "@emojiInfoAddToFavorites": {
+        "description": "Accessibility label for adding an emoji to favorites from the emoji info sheet."
+    },
+    "emojiInfoRemoveFromFavorites": "Eliminar de favoritos",
+    "@emojiInfoRemoveFromFavorites": {
+        "description": "Accessibility label for removing an emoji from favorites from the emoji info sheet."
+    },
+    "phoneNumberRequired": "El número de teléfono es obligatorio",
+    "@phoneNumberRequired": {
+        "description": "Validation error when phone number is empty."
+    },
+    "phoneEnterValidNumber": "Introduce un número de teléfono móvil válido.",
+    "@phoneEnterValidNumber": {
+        "description": "Validation error for invalid phone format."
+    },
+    "phoneCannotBeUsed": "Este número de teléfono no se puede usar. Prueba con otro número de celular o contacta con soporte.",
+    "@phoneCannotBeUsed": {
+        "description": "API error when phone number is rejected."
+    },
+    "phoneAlreadyUsed": "Este número de teléfono ya ha sido utilizado. Prueba con otro número o contacta con soporte.",
+    "@phoneAlreadyUsed": {
+        "description": "API error when phone number was reused."
+    },
+    "phoneCodeDidNotWork": "Ese código no funcionó. Compruébalo e inténtalo de nuevo.",
+    "@phoneCodeDidNotWork": {
+        "description": "API error for invalid verification code."
+    },
+    "phoneTooManyAttempts": "Demasiados intentos. Espera un poco y vuelve a intentarlo.",
+    "@phoneTooManyAttempts": {
+        "description": "Rate limit error for phone verification."
+    },
+    "phoneSmsUnavailable": "La verificación por SMS no está disponible en este momento. Inténtalo más tarde o contacta con soporte.",
+    "@phoneSmsUnavailable": {
+        "description": "SMS provider unavailable error."
+    },
+    "authShowPassword": "Mostrar contraseña",
+    "@authShowPassword": {
+        "description": "Screen reader label for the show-password toggle on auth forms."
+    },
+    "keybindActionOpenHelp": "Abrir ayuda",
+    "guildMembersFilterCustomRange": "Rango personalizado...",
+    "@guildMembersFilterCustomRange": {
+        "description": "Date-range filter option that opens a date picker on the community members page."
+    },
+    "guildMembersColumnJoinMethod": "Método de ingreso",
+    "@guildMembersColumnJoinMethod": {
+        "description": "Table column header on the community members page."
+    },
+    "keybindActionSearchMessages": "Buscar mensajes",
+    "giftSettingsPurchasedDate": "Comprado el {date}",
+    "@giftSettingsPurchasedDate": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "guildBulkMuteCommunities": "Silenciar comunidades",
+    "@guildBulkMuteCommunities": {
+        "description": "Submenu label for muting all communities in a folder."
+    },
+    "ttsSubstitutionSlashCommand": "slash {commandName}",
+    "@ttsSubstitutionSlashCommand": {
+        "description": "TTS substitution for slash command invocations.",
+        "placeholders": {
+            "commandName": {
+                "type": "String"
+            }
+        }
+    },
+    "ttsSubstitutionCodeBlock": "bloque de código",
+    "@ttsSubstitutionCodeBlock": {
+        "description": "TTS substitution for fenced code blocks."
+    },
+    "guildMembersColumnJoinedProduct": "Unido a {productName}",
+    "@guildMembersColumnJoinedProduct": {
+        "description": "Table column header for account creation date on the community members page.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "guildMembersRecentTitle": "Miembros recientes",
+    "@guildMembersRecentTitle": {
+        "description": "Title on the community members page."
+    },
+    "ttsSubstitutionUnknownUser": "usuario desconocido",
+    "@ttsSubstitutionUnknownUser": {
+        "description": "TTS substitution for unresolved user mentions."
+    },
+    "advancedSettingBuiltInTranslatorsLabel": "Traductores integrados",
+    "advancedSettingCustomTranslatorsLabel": "Traductores personalizados",
+    "channelDetailsSearchMoreFiltersAuthorType": "Tipo de autor",
+    "@channelDetailsSearchMoreFiltersAuthorType": {
+        "description": "Author type section in the More filters sheet."
+    },
+    "accessibilityConfirmStartCallConfirmLabel": "Iniciar llamada",
+    "@accessibilityConfirmStartCallConfirmLabel": {
+        "description": "Confirm button for starting a call."
+    },
+    "guildMembersSortOldest": "Más antiguo primero",
+    "@guildMembersSortOldest": {
+        "description": "Sort option on the community members page."
+    },
+    "advancedSettingMediaButtonsLabel": "Botones multimedia",
+    "accessibilityConfirmStartCallTitle": "¿Iniciar llamada?",
+    "@accessibilityConfirmStartCallTitle": {
+        "description": "Title for the confirm-before-starting-calls dialog."
+    },
+    "voiceMessageSeekForward": "Avanzar",
+    "@voiceMessageSeekForward": {
+        "description": "Accessibility hint when increasing voice message seek position."
+    },
+    "voiceMessageSeekBackward": "Retroceder",
+    "@voiceMessageSeekBackward": {
+        "description": "Accessibility hint when decreasing voice message seek position."
+    },
+    "advancedSettingSearchProviderUrlLabel": "Patrón de URL",
+    "accessibilityReducedMotionOverrideLabel": "Reducir movimiento",
+    "@accessibilityReducedMotionOverrideLabel": {
+        "description": "Toggle label for reducing motion in Fluxer."
+    },
+    "guildFolderIconGameController": "Mando de videojuegos",
+    "@guildFolderIconGameController": {
+        "description": "Game controller folder icon option label in folder settings."
+    },
+    "premiumSelfServeRefundTitle": "Reembolso automático",
+    "premiumKeepSubscription": "Mantener suscripción",
+    "premiumYearlyPrice": "Anual {price}",
+    "@premiumYearlyPrice": {
+        "placeholders": {
+            "price": {
+                "type": "String"
+            }
+        }
+    },
+    "guildFolderIconLabel": "Icono de carpeta",
+    "@guildFolderIconLabel": {
+        "description": "Label for the folder icon picker in folder settings."
+    },
+    "chatTextualPreviewChangeLanguage": "Cambiar idioma",
+    "@chatTextualPreviewChangeLanguage": {
+        "description": "Opens language picker for textual attachment syntax highlighting."
+    },
+    "chatTextualPreviewSearchLanguage": "Buscar idioma…",
+    "@chatTextualPreviewSearchLanguage": {
+        "description": "Search field hint in textual preview language picker."
+    },
+    "chatTextualPreviewSyntaxHighlighting": "Resaltado de sintaxis",
+    "@chatTextualPreviewSyntaxHighlighting": {
+        "description": "Title for textual preview language picker."
+    },
+    "guildFolderColorLabel": "Color de carpeta",
+    "@guildFolderColorLabel": {
+        "description": "Label for the folder color picker in folder settings."
+    },
+    "chatTextualPreviewMoreOptions": "Más opciones",
+    "@chatTextualPreviewMoreOptions": {
+        "description": "Accessibility label for textual preview overflow menu."
+    },
+    "chatTextualPreviewWrapText": "Ajustar texto",
+    "@chatTextualPreviewWrapText": {
+        "description": "Toggle soft-wrapping in textual attachment previews."
+    },
+    "premiumPerMonth": "por mes",
+    "accessibilityStickerAlwaysAnimateName": "Animar siempre",
+    "@accessibilityStickerAlwaysAnimateName": {
+        "description": "Radio option for always animating stickers."
+    },
+    "chatTextualPreviewLanguagePlaintext": "Texto plano",
+    "@chatTextualPreviewLanguagePlaintext": {
+        "description": "Label for plaintext syntax highlighting option."
+    },
+    "accessibilityStickerAnimationsTitle": "Animaciones de stickers",
+    "@accessibilityStickerAnimationsTitle": {
+        "description": "Subsection title for sticker animation preference."
+    },
+    "privacyDashboardProfilePrivacyFriendsOnly": "Solo amigos",
+    "@privacyDashboardProfilePrivacyFriendsOnly": {
+        "description": "Privacy > Profile privacy: radio option label."
+    },
+    "accessibilityPreviewUserName": "Vista previa de usuario",
+    "@accessibilityPreviewUserName": {
+        "description": "Fallback display name for the accessibility preview message author."
+    },
+    "giftSettingsRedeemedDate": "Canjeado el {date}",
+    "@giftSettingsRedeemedDate": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "accessibilityPreviewButtonLabel": "Botón de vista previa",
+    "@accessibilityPreviewButtonLabel": {
+        "description": "Label for the no-op preview button on the accessibility settings page."
+    },
+    "advancedSettingTranslatorGoogle": "Google Traductor",
+    "accessibilityTtsPlaySampleLabel": "Reproducir muestra",
+    "@accessibilityTtsPlaySampleLabel": {
+        "description": "Button label to play the TTS sample line."
+    },
+    "keybindActionCopyText": "Copiar texto",
+    "giftSettingsClaimAccountDescription": "Reclama tu cuenta para canjear o administrar códigos de regalo de Plutonium.",
+    "giftSettingsRedeemTitle": "Canjear un regalo",
+    "giftSettingsRedeemDescription": "Introduce un código de regalo para canjear Plutonium en tu cuenta.",
+    "giftSettingsRedeemPlaceholder": "Introduce un código de regalo…",
+    "giftSettingsRedeemSuccess": "Regalo canjeado con éxito. Disfruta de tu Plutonium.",
+    "giftSettingsPurchasedDescription": "Administra tus códigos de regalo de Plutonium comprados. ¡Comparte el enlace de regalo con alguien especial o canjéalo tú mismo!",
+    "giftSettingsRedeemedBy": "Canjeado por {name}",
+    "@giftSettingsRedeemedBy": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "giftSettingsAlreadyRedeemed": "Este regalo ya ha sido canjeado",
+    "giftSettingsRedeemForYourself": "Canjear para ti",
+    "premiumRedeemGiftCode": "Canjear código de regalo",
+    "premiumGiftSubscriptionBlocksRecurring": "Actualmente tienes una suscripción de regalo. No se renovará automáticamente. Puedes canjear más códigos de regalo para extenderla. Las suscripciones recurrentes se pueden iniciar una vez que finalice el tiempo de tu regalo."
 }
