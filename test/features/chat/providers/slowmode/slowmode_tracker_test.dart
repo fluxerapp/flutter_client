@@ -51,21 +51,46 @@ void main() {
       expect(tracker.remainingFor('channel-1', 30), Duration.zero);
     });
 
-    test('syncFromResponse clears state when retry_after_ms is zero', () {
-      tracker
-        ..updateCooldownRemaining('channel-1', 30_000)
-        ..syncFromResponse(
-          'channel-1',
-          const ChannelSlowmodeStateResponse(
-            rateLimitPerUser: 30,
-            retryAfterMs: 0,
-            nextSendAllowedAt: null,
-            canBypass: false,
-          ),
-        );
+    test(
+      'syncFromResponse clears guild cooldown when retry_after_ms is zero',
+      () {
+        tracker
+          ..updateCooldownRemaining('channel-1', 30_000)
+          ..syncFromResponse(
+            'channel-1',
+            const ChannelSlowmodeStateResponse(
+              rateLimitPerUser: 30,
+              retryAfterMs: 0,
+              nextSendAllowedAt: null,
+              canBypass: false,
+            ),
+          );
 
-      expect(tracker.remainingFor('channel-1', 30), Duration.zero);
-    });
+        expect(tracker.remainingFor('channel-1', 30), Duration.zero);
+      },
+    );
+
+    test(
+      'syncFromResponse preserves local send when retry_after_ms is zero',
+      () {
+        tracker
+          ..recordSend('channel-1')
+          ..syncFromResponse(
+            'channel-1',
+            const ChannelSlowmodeStateResponse(
+              rateLimitPerUser: 30,
+              retryAfterMs: 0,
+              nextSendAllowedAt: null,
+              canBypass: false,
+            ),
+          );
+
+        expect(
+          tracker.remainingFor('channel-1', 30).inSeconds,
+          greaterThan(25),
+        );
+      },
+    );
 
     test('syncFromResponse applies server cooldown', () {
       tracker.syncFromResponse(

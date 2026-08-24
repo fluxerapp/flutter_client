@@ -23,14 +23,16 @@ class SlowmodeTracker extends _$SlowmodeTracker {
     if (channelId.isEmpty) {
       return;
     }
+    final DateTime now = DateTime.now();
+    final DateTime anchored = sentAt.isAfter(now) ? now : sentAt;
     final DateTime? existing = _lastSentAt[channelId];
-    if (existing == sentAt) {
+    if (existing == anchored) {
       return;
     }
-    if (existing != null && !sentAt.isAfter(existing)) {
+    if (existing != null && !anchored.isAfter(existing)) {
       return;
     }
-    _lastSentAt[channelId] = sentAt;
+    _lastSentAt[channelId] = anchored;
     state = {...state, channelId: (state[channelId] ?? 0) + 1};
   }
 
@@ -39,7 +41,7 @@ class SlowmodeTracker extends _$SlowmodeTracker {
       return;
     }
     if (retryAfterMs <= 0) {
-      clearChannel(channelId);
+      _clearServerCooldown(channelId);
       return;
     }
     final DateTime expiresAt = DateTime.now().add(
@@ -64,10 +66,18 @@ class SlowmodeTracker extends _$SlowmodeTracker {
       return;
     }
     if (response.retryAfterMs <= 0) {
-      clearChannel(channelId);
+      _clearServerCooldown(channelId);
       return;
     }
     updateCooldownRemaining(channelId, response.retryAfterMs);
+  }
+
+  void _clearServerCooldown(String channelId) {
+    if (channelId.isEmpty || !_cooldownExpiresAt.containsKey(channelId)) {
+      return;
+    }
+    _cooldownExpiresAt.remove(channelId);
+    state = {...state, channelId: (state[channelId] ?? 0) + 1};
   }
 
   void clearChannel(String channelId) {

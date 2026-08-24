@@ -26,6 +26,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provi
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
+import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_sync_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
 import 'package:fluxer_app/features/chat/utils/message_page_sync.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
@@ -45,7 +46,6 @@ import 'package:fluxer_app/features/settings/providers/webauthn_credentials_view
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
-import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -327,16 +327,16 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     onMessageReactionChange: (channelId, messageId) => messageBus.emit(
       MessageReactionsChanged(channelId: channelId, messageId: messageId),
     ),
-    onOwnMessageCreated: (channelId, messageId) {
+    onOwnMessageCreated: (channelId, sentAt) {
       ref.read(chatViewModelProvider.notifier)
         ..clearStickyUnreadFor(channelId)
         ..cancelPendingOutgoingAck(channelId);
-      final DateTime? sentAt = dateTimeFromUserSnowflakeOrNull(messageId);
-      if (sentAt != null) {
-        ref
-            .read(slowmodeTrackerProvider.notifier)
-            .updateSendTimestamp(channelId, sentAt);
-      }
+      ref
+          .read(slowmodeTrackerProvider.notifier)
+          .updateSendTimestamp(channelId, sentAt);
+      unawaited(
+        ref.read(slowmodeSyncProvider.notifier).fetchIfNeeded(channelId),
+      );
     },
     onMessageAcked: (channelId, {required manual}) {
       ref

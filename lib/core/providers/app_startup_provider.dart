@@ -28,6 +28,7 @@ import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_gateway_listener_provider.dart';
+import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_sync_provider.dart';
 import 'package:fluxer_app/features/friends/providers/friend_relationships_sync_provider.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_sync_provider.dart';
@@ -187,6 +188,7 @@ class AppStartup extends _$AppStartup {
       ..read(voiceCallKitCoordinatorProvider)
       ..read(friendRelationshipsSyncProvider)
       ..read(guildListSyncProvider)
+      ..read(slowmodeSyncProvider)
       ..read(statusExpiryBindingProvider)
       ..read(premiumStateSyncBindingProvider);
     await Future.wait<void>([
