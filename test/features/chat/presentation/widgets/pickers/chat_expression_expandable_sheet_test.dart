@@ -104,6 +104,22 @@ void main() {
       await tester.pumpAndSettle();
     });
 
+    testWidgets('list pull up expands docked sheet to expanded height', (
+      tester,
+    ) async {
+      await _pumpSheet(tester, colorTheme: colorTheme);
+      final Finder sheet = find.byKey(kChatExpressionSheetKey);
+      final Finder list = find.byType(Scrollable).last;
+      final double dockedHeight = tester.getSize(sheet).height;
+      final Offset listCenter = tester.getCenter(list);
+      final TestGesture expandGesture = await tester.startGesture(listCenter);
+      await expandGesture.moveBy(const Offset(0, -220));
+      await tester.pump();
+      await expandGesture.up();
+      await tester.pumpAndSettle();
+      expect(tester.getSize(sheet).height, greaterThan(dockedHeight + 40));
+    });
+
     testWidgets('list pull down collapses expanded sheet to docked height', (
       tester,
     ) async {

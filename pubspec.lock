@@ -1892,6 +1892,14 @@ packages:
       url: "https://github.com/Niural/phosphor_flutter"
     source: git
     version: "3.0.0"
+  photo_manager:
+    dependency: "direct main"
+    description:
+      name: photo_manager
+      sha256: "2d00a785b501bf1e5f6180bbef772846e767be11d45d11112b63092ef54a419e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.12.0"
   pixel_snap:
     dependency: transitive
     description:

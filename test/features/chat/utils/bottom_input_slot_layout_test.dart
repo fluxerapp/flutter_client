@@ -409,6 +409,23 @@ void main() {
       );
     });
 
+    test('held slot height keeps layout stable while keyboard dismisses', () {
+      expect(
+        resolveBottomInputSlotHeight(
+          isPanelOpen: false,
+          transition: BottomInputTransition.idle,
+          lockedHeight: 0,
+          anchorHeight: 336,
+          panelHeight: 0,
+          liveKeyboardHeight: 0,
+          isKeyboardVisible: false,
+          safeAreaBottom: 34,
+          heldSlotHeight: 302,
+        ),
+        302,
+      );
+    });
+
     test('slot heights quantize to whole pixels', () {
       expect(quantizeBottomInputHeight(335.4), 335);
       expect(quantizeBottomInputHeight(335.6), 336);

@@ -9,7 +9,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_blocked_provider.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/utils/composer_upload_file.dart';
-import 'package:fluxer_app/features/chat/utils/file_upload_constants.dart';
+import 'package:fluxer_app/features/chat/utils/file_upload_validation_l10n.dart';
 import 'package:fluxer_app/features/chat/utils/file_upload_validator.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
@@ -127,23 +127,17 @@ class _UploadDropOverlayState extends ConsumerState<UploadDropOverlay> {
     WidgetRef ref,
     FileUploadValidationResult result,
   ) {
-    if (result.isValid) {
-      return;
-    }
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final String msg = switch (result.error!) {
-      FileUploadValidationError.tooManyAttachments =>
-        l10n.chatAttachmentTooMany(kMaxAttachmentsPerMessage),
-      FileUploadValidationError.fileTooLarge => l10n.chatAttachmentFileTooLarge,
-      FileUploadValidationError.multipartRequestTooLarge =>
-        l10n.chatAttachmentPayloadTooLarge,
-      FileUploadValidationError.noFiles => '',
-    };
-    if (msg.isEmpty) {
+    final String? message = fileUploadValidationMessage(
+      FluxerLocalizations.of(context),
+      result,
+    );
+    if (message == null) {
       return;
     }
     ref
         .read(toastProvider.notifier)
-        .show(FluxerToast(message: msg, variant: FluxerToastVariant.warning));
+        .show(
+          FluxerToast(message: message, variant: FluxerToastVariant.warning),
+        );
   }
 }

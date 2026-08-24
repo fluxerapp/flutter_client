@@ -21,24 +21,54 @@ class ChannelAttachmentArea extends ConsumerWidget {
   final String channelId;
   final bool wideComposerAction;
 
+  static const double _kAttachmentListHeight = 150;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final List<PendingAttachment> attachments = ref
         .watch(cloudUploadControllerProvider(channelId))
         .items;
-    if (attachments.isEmpty) {
-      return const SizedBox.shrink();
-    }
+    final bool hasAttachments = attachments.isNotEmpty;
+    return ClipRect(
+      child: AnimatedSize(
+        duration: context.motion.panel,
+        curve: Curves.easeOutCubic,
+        alignment: Alignment.bottomCenter,
+        child: hasAttachments
+            ? _AttachmentAreaBody(
+                channelId: channelId,
+                attachments: attachments,
+                wideComposerAction: wideComposerAction,
+              )
+            : const SizedBox(width: double.infinity, height: 0),
+      ),
+    );
+  }
+}
+
+class _AttachmentAreaBody extends ConsumerWidget {
+  const _AttachmentAreaBody({
+    required this.channelId,
+    required this.attachments,
+    required this.wideComposerAction,
+  });
+
+  final String channelId;
+  final List<PendingAttachment> attachments;
+  final bool wideComposerAction;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
+      children: <Widget>[
         if (!wideComposerAction) const Divider(),
         Container(
           margin: wideComposerAction
               ? const EdgeInsets.only(bottom: 6, top: 6)
               : const EdgeInsets.only(bottom: 6, top: 8),
-          height: 150,
+          height: ChannelAttachmentArea._kAttachmentListHeight,
           child: ReorderableListView.builder(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -99,8 +129,7 @@ class _AttachmentChip extends ConsumerWidget {
         isImageAttachment(
           filename: attachment.filename,
           contentType: attachment.contentType,
-        ) &&
-        File(path).existsSync();
+        );
     final bool isVideo = _isVideoFilename(attachment.filename);
     final bool isSpoiler = (attachment.flags & attachmentFlagIsSpoiler) != 0;
     final String? byteSizeLabel = formatAttachmentByteSize(attachment.size);

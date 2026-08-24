@@ -143,6 +143,28 @@ void main() {
       expect(path_lib.basename(firstPath), 'photo.jpg');
       expect(path_lib.basename(secondPath), 'photo.jpg');
     });
+
+    test('stores galleryAssetId from composer upload files', () async {
+      final ProviderContainer container = createContainer();
+      addTearDown(container.dispose);
+      final FileUploadValidationResult result = await container
+          .read(cloudUploadControllerProvider('channel-1').notifier)
+          .addFiles(<ComposerUploadFile>[
+            composerUploadFile(
+              XFile.fromData(
+                Uint8List.fromList(<int>[1, 2, 3]),
+                path: 'from-gallery.jpg',
+                mimeType: 'image/jpeg',
+              ),
+              galleryAssetId: 'asset-99',
+            ),
+          ]);
+      expect(result.isValid, isTrue);
+      final CloudComposerAttachments attachments = container.read(
+        cloudUploadControllerProvider('channel-1'),
+      );
+      expect(attachments.items.single.galleryAssetId, 'asset-99');
+    });
   });
 }
 

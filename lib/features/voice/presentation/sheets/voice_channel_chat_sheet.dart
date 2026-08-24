@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/router/shell_popup_overlay_sync.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_chat_panel.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/upload_drop_overlay.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -54,6 +55,7 @@ Future<void> showVoiceChannelChatSheet(
         }
         reconcileShellPopupOverlayForContainer(container);
         container.read(expressionPanelProvider.notifier).close();
+        container.read(attachmentPanelProvider.notifier).close();
         DrawerNavigationCoordinator.nudgeDrawerSync(container);
       }),
     );
@@ -78,6 +80,7 @@ class _VoiceChannelChatSheetBodyState
     extends ConsumerState<_VoiceChannelChatSheetBody> {
   bool _didSwitchChannel = false;
   late final ExpressionPanel _expressionPanelNotifier;
+  late final AttachmentPanel _attachmentPanelNotifier;
   late final String _backgroundChannelId;
 
   @override
@@ -85,6 +88,7 @@ class _VoiceChannelChatSheetBodyState
     super.initState();
     _backgroundChannelId = ref.read(chatViewModelProvider).channelId;
     _expressionPanelNotifier = ref.read(expressionPanelProvider.notifier);
+    _attachmentPanelNotifier = ref.read(attachmentPanelProvider.notifier);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) {
         return;
@@ -116,6 +120,7 @@ class _VoiceChannelChatSheetBodyState
     }
     _didSwitchChannel = true;
     _expressionPanelNotifier.close();
+    _attachmentPanelNotifier.close();
     await ref
         .read(chatViewModelProvider.notifier)
         .switchChannel(widget.channelId);
@@ -123,6 +128,7 @@ class _VoiceChannelChatSheetBodyState
 
   void _handleClose() {
     _expressionPanelNotifier.close();
+    _attachmentPanelNotifier.close();
     _restoreBackgroundChannel();
     widget.onClose();
   }

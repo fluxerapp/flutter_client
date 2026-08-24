@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/shell_popup_route_observer.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/mobile_chat_back_scope.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
@@ -66,6 +67,28 @@ void main() {
 
     expect(handled, isTrue);
     expect(container.read(expressionPanelProvider), isFalse);
+    expect(container.read(currentRevealSideProvider), RevealSide.main);
+  });
+
+  testWidgets('mobile back closes the attachment panel before the drawer', (
+    tester,
+  ) async {
+    final router = _routerFor('/channels/guild/channel');
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(_buildBackScopeApp(container, router));
+    await tester.pumpAndSettle();
+
+    container.read(attachmentPanelProvider.notifier).open();
+    expect(container.read(attachmentPanelProvider), isTrue);
+    expect(container.read(currentRevealSideProvider), RevealSide.main);
+
+    final bool handled = await tester.binding.handlePopRoute();
+    await tester.pump();
+
+    expect(handled, isTrue);
+    expect(container.read(attachmentPanelProvider), isFalse);
     expect(container.read(currentRevealSideProvider), RevealSide.main);
   });
 

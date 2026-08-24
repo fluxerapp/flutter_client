@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/voice/dm_embedded_
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_header_search_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_sync_provider.dart';
@@ -163,6 +164,7 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
     if (_lastClosedPanelRequest != closeRequest) {
       _lastClosedPanelRequest = closeRequest;
       ref.read(expressionPanelProvider.notifier).close();
+      ref.read(attachmentPanelProvider.notifier).close();
     }
     await ref
         .read(chatViewModelProvider.notifier)

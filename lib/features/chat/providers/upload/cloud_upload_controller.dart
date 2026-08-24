@@ -92,6 +92,7 @@ class CloudUploadController extends _$CloudUploadController {
           contentType: contentType,
           status: PendingAttachmentStatus.pending,
           uploadProgress: 0,
+          galleryAssetId: uploadFile.galleryAssetId,
         ),
       );
     }

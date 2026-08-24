@@ -195,7 +195,7 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
 
     return ColoredBox(
       key: const ValueKey<String>('gif-picker-content-surface'),
-      color: context.colors.backgroundPrimary,
+      color: context.colors.chatInputBackground,
       child: Column(
         children: [
           _buildHeader(context, provider),

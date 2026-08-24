@@ -98,7 +98,11 @@ double resolveBottomInputSlotHeight({
   required double liveKeyboardHeight,
   required bool isKeyboardVisible,
   required double safeAreaBottom,
+  double heldSlotHeight = 0,
 }) {
+  if (heldSlotHeight > 0) {
+    return quantizeBottomInputHeight(heldSlotHeight);
+  }
   if (transition != BottomInputTransition.idle) {
     return quantizeBottomInputHeight(lockedHeight);
   }

@@ -62,6 +62,9 @@ post_install do |installer|
       unless definitions.include?('PERMISSION_CAMERA=1')
         definitions << 'PERMISSION_CAMERA=1'
       end
+      unless definitions.include?('PERMISSION_PHOTOS=1')
+        definitions << 'PERMISSION_PHOTOS=1'
+      end
       config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] = definitions
     end
   end

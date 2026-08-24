@@ -295,6 +295,12 @@ abstract class FluxerLocalizations {
   /// **'Fluxer doesn\'t have access to your camera. You can enable it in your device privacy settings.'**
   String get systemPermissionCameraMessage;
 
+  /// Body text when photo library access must be enabled in system settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluxer doesn\'t have access to your photo library. You can enable it in your device privacy settings.'**
+  String get systemPermissionPhotosMessage;
+
   /// Body text when notification permission must be enabled in system settings.
   ///
   /// In en, this message translates to:
@@ -13995,6 +14001,42 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Show keyboard'**
   String get composerShowKeyboard;
+
+  /// Accessibility label for the composer button that closes the attachment gallery panel.
+  ///
+  /// In en, this message translates to:
+  /// **'Close attachment picker'**
+  String get composerCloseAttachmentPanel;
+
+  /// Label for the native photo picker action on the attachment panel.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos'**
+  String get chatAttachmentPanelPhotos;
+
+  /// Label for the native file picker action on the attachment panel.
+  ///
+  /// In en, this message translates to:
+  /// **'Files'**
+  String get chatAttachmentPanelFiles;
+
+  /// Title shown when the attachment gallery cannot read the photo library.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo library access needed'**
+  String get chatAttachmentLibraryPermissionTitle;
+
+  /// Body text when the attachment gallery is blocked by photo library permission.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow photo library access to browse and attach recent photos and videos.'**
+  String get chatAttachmentLibraryPermissionBody;
+
+  /// Button that opens system settings so the user can grant photo library access.
+  ///
+  /// In en, this message translates to:
+  /// **'Open settings'**
+  String get chatAttachmentLibraryPermissionSettings;
 
   /// Screen reader label for a chat message row.
   ///

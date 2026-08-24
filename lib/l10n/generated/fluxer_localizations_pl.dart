@@ -98,6 +98,10 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
       'Fluxer nie posiada dostępu do Twojego aparatu. Możesz mu go nadać w ustawieniach prywatności urządzenia.';
 
   @override
+  String get systemPermissionPhotosMessage =>
+      'Fluxer doesn\'t have access to your photo library. You can enable it in your device privacy settings.';
+
+  @override
   String get systemPermissionNotificationsMessage =>
       'Fluxer nie posiada uprawnień do wysyłania powiadomień. Możesz mu je nadać w ustawieniach urządzenia.';
 
@@ -8449,6 +8453,26 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String get composerShowKeyboard => 'Show keyboard';
+
+  @override
+  String get composerCloseAttachmentPanel => 'Close attachment picker';
+
+  @override
+  String get chatAttachmentPanelPhotos => 'Photos';
+
+  @override
+  String get chatAttachmentPanelFiles => 'Files';
+
+  @override
+  String get chatAttachmentLibraryPermissionTitle =>
+      'Photo library access needed';
+
+  @override
+  String get chatAttachmentLibraryPermissionBody =>
+      'Allow photo library access to browse and attach recent photos and videos.';
+
+  @override
+  String get chatAttachmentLibraryPermissionSettings => 'Open settings';
 
   @override
   String messageAccessibilityLabel(String author, String summary) {

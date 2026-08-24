@@ -15,6 +15,8 @@ Permission permissionForKind(SystemPermissionKind kind) {
       return Permission.microphone;
     case SystemPermissionKind.camera:
       return Permission.camera;
+    case SystemPermissionKind.photos:
+      return Permission.photos;
     case SystemPermissionKind.notifications:
       return Permission.notification;
   }

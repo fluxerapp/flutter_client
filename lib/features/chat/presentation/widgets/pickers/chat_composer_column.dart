@@ -103,8 +103,7 @@ class _ChatComposerColumnState extends ConsumerState<ChatComposerColumn>
                 widget.autocompletePanelScrollController,
           ),
         ),
-        if (widget.showInlineEmojiPicker && isMobileLayout(context))
-          const BottomInputSpacer(),
+        if (isMobileLayout(context)) const BottomInputSpacer(),
       ],
     );
   }

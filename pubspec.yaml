@@ -74,6 +74,7 @@ dependencies:
   path: ^1.9.1
   path_provider: ^2.1.5
   permission_handler: ^13.0.0
+  photo_manager: ^3.8.3
   phone_numbers_parser: ^9.0.25
   phosphor_flutter:
     git:

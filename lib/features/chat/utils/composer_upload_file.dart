@@ -2,10 +2,22 @@ import 'package:cross_file/cross_file.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:fluxer_app/features/chat/utils/attachment_filename_utils.dart';
 
-typedef ComposerUploadFile = ({XFile file, String? displayFilename});
+typedef ComposerUploadFile = ({
+  XFile file,
+  String? displayFilename,
+  String? galleryAssetId,
+});
 
-ComposerUploadFile composerUploadFile(XFile file, {String? displayFilename}) {
-  return (file: file, displayFilename: displayFilename);
+ComposerUploadFile composerUploadFile(
+  XFile file, {
+  String? displayFilename,
+  String? galleryAssetId,
+}) {
+  return (
+    file: file,
+    displayFilename: displayFilename,
+    galleryAssetId: galleryAssetId,
+  );
 }
 
 List<ComposerUploadFile> composerUploadFiles(Iterable<XFile> files) {

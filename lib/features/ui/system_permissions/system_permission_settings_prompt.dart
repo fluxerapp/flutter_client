@@ -49,6 +49,8 @@ class SystemPermissionSettingsPrompt {
         return l10n.systemPermissionMicrophoneMessage;
       case SystemPermissionKind.camera:
         return l10n.systemPermissionCameraMessage;
+      case SystemPermissionKind.photos:
+        return l10n.systemPermissionPhotosMessage;
       case SystemPermissionKind.notifications:
         return l10n.systemPermissionNotificationsMessage;
     }

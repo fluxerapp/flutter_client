@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_bottom_input_slot.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
@@ -190,4 +191,65 @@ void main() {
 
     await tester.pump(const Duration(milliseconds: 500));
   });
+
+  testWidgets(
+    'BottomInputSpacer reserves height when the attachment panel is open',
+    (tester) async {
+      final ProviderContainer container = ProviderContainer();
+      addTearDown(container.dispose);
+      container.read(mobileKeyboardMetricsProvider.notifier)
+        ..updateLayout(screenHeight: 800, isPortrait: true, isIos: true)
+        ..syncViewInsets(0, safeAreaBottom: 0);
+      container.read(attachmentPanelProvider.notifier).open();
+
+      await tester.pumpWidget(_buildSpacerHarness(container));
+      await tester.pumpAndSettle();
+
+      expect(
+        container.read(bottomInputSlotProvider).slotHeight,
+        greaterThan(200),
+      );
+      expect(
+        tester
+            .getSize(
+              find.descendant(
+                of: find.byType(BottomInputSpacer),
+                matching: find.byType(AnimatedContainer),
+              ),
+            )
+            .height,
+        greaterThan(200),
+      );
+    },
+  );
+
+  testWidgets(
+    'switching from expression panel to attachment panel keeps slot height',
+    (tester) async {
+      final ProviderContainer container = ProviderContainer();
+      addTearDown(container.dispose);
+      container.read(mobileKeyboardMetricsProvider.notifier)
+        ..updateLayout(screenHeight: 800, isPortrait: true, isIos: true)
+        ..syncViewInsets(0, safeAreaBottom: 0);
+      container.read(expressionPanelProvider.notifier).open();
+
+      await tester.pumpWidget(_buildSpacerHarness(container));
+      await tester.pumpAndSettle();
+
+      final double expressionHeight = container
+          .read(bottomInputSlotProvider)
+          .slotHeight;
+      expect(expressionHeight, greaterThan(200));
+
+      container.read(attachmentPanelProvider.notifier).open();
+      container.read(expressionPanelProvider.notifier).close();
+      await tester.pump();
+
+      expect(
+        container.read(bottomInputSlotProvider).slotHeight,
+        expressionHeight,
+      );
+      expect(container.read(bottomInputSlotProvider).slotHeight, isNot(0));
+    },
+  );
 }

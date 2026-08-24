@@ -128,6 +128,10 @@
     "@systemPermissionCameraMessage": {
         "description": "Body text when camera access must be enabled in system settings."
     },
+    "systemPermissionPhotosMessage": "Fluxer doesn't have access to your photo library. You can enable it in your device privacy settings.",
+    "@systemPermissionPhotosMessage": {
+        "description": "Body text when photo library access must be enabled in system settings."
+    },
     "systemPermissionNotificationsMessage": "Fluxer doesn't have permission to send notifications. You can enable it in your device settings.",
     "@systemPermissionNotificationsMessage": {
         "description": "Body text when notification permission must be enabled in system settings."
@@ -10633,6 +10637,30 @@
     "composerShowKeyboard": "Show keyboard",
     "@composerShowKeyboard": {
         "description": "Accessibility label for the composer button that closes the expression picker and shows the keyboard."
+    },
+    "composerCloseAttachmentPanel": "Close attachment picker",
+    "@composerCloseAttachmentPanel": {
+        "description": "Accessibility label for the composer button that closes the attachment gallery panel."
+    },
+    "chatAttachmentPanelPhotos": "Photos",
+    "@chatAttachmentPanelPhotos": {
+        "description": "Label for the native photo picker action on the attachment panel."
+    },
+    "chatAttachmentPanelFiles": "Files",
+    "@chatAttachmentPanelFiles": {
+        "description": "Label for the native file picker action on the attachment panel."
+    },
+    "chatAttachmentLibraryPermissionTitle": "Photo library access needed",
+    "@chatAttachmentLibraryPermissionTitle": {
+        "description": "Title shown when the attachment gallery cannot read the photo library."
+    },
+    "chatAttachmentLibraryPermissionBody": "Allow photo library access to browse and attach recent photos and videos.",
+    "@chatAttachmentLibraryPermissionBody": {
+        "description": "Body text when the attachment gallery is blocked by photo library permission."
+    },
+    "chatAttachmentLibraryPermissionSettings": "Open settings",
+    "@chatAttachmentLibraryPermissionSettings": {
+        "description": "Button that opens system settings so the user can grant photo library access."
     },
     "messageAccessibilityLabel": "{author}, {summary}",
     "@messageAccessibilityLabel": {
