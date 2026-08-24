@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
@@ -85,6 +87,45 @@ ChatViewState _chatState() {
 }
 
 void main() {
+  testWidgets('wide slowmode indicator does not show immune while loading', (
+    WidgetTester tester,
+  ) async {
+    final ProviderContainer container = ProviderContainer(
+      overrides: [
+        chatViewModelProvider.overrideWithValue(_chatState()),
+        channelByIdProvider('channel-1').overrideWith(
+          (ref) => Stream<Channel?>.value(
+            const Channel(
+              id: 'channel-1',
+              guildId: 'guild-1',
+              name: 'general',
+              rateLimitPerUser: 30,
+            ),
+          ),
+        ),
+        isSlowmodeImmuneProvider(
+          'channel-1',
+        ).overrideWith((ref) => Completer<bool>().future),
+      ],
+    );
+    addTearDown(container.dispose);
+    await tester.pumpWidget(
+      _slowmodeTestApp(container: container, child: const SlowmodeIndicator()),
+    );
+    await tester.pump();
+
+    expect(find.text('Slowmode is enabled'), findsOneWidget);
+    await tester.longPress(find.text('Slowmode is enabled'));
+    await tester.pumpAndSettle();
+    expect(
+      find.text('Slowmode is set to 30s for this channel.'),
+      findsOneWidget,
+    );
+    expect(find.textContaining('immune'), findsNothing);
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump();
+  });
+
   testWidgets('wide slowmode indicator shows enabled copy and trailing clock', (
     WidgetTester tester,
   ) async {

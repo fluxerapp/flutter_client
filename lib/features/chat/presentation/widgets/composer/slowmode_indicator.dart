@@ -119,7 +119,7 @@ class _SlowmodeIndicatorState extends ConsumerState<SlowmodeIndicator>
     }
     final bool isImmune = ref
         .watch(isSlowmodeImmuneProvider(channelId))
-        .maybeWhen(data: (bool immune) => immune, orElse: () => true);
+        .maybeWhen(data: (bool immune) => immune, orElse: () => false);
     final remaining = ref
         .read(slowmodeTrackerProvider.notifier)
         .remainingFor(channelId, rateLimit);
