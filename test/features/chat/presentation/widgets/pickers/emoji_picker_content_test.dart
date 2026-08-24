@@ -20,6 +20,7 @@ import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provid
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
+import 'package:fluxer_app/shared/utils/emoji_sprite_sheet.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../../../../helpers/test_l10n.dart';
@@ -210,6 +211,37 @@ void main() {
       expect(image.requestSize, kCustomEmojiPickerFetchSize);
     },
   );
+
+  testWidgets('paints unicode sprites at 32 and custom emotes at 40', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _buildTestApp(
+        allGuildEmojis: [_customEmoji],
+        rankedUsageKeys: const <String>[],
+        child: const SizedBox(
+          width: 400,
+          height: 400,
+          child: EmojiPickerContent(channelId: 'channel-1'),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+
+    final Iterable<SpriteEmoji> sprites = tester.widgetList<SpriteEmoji>(
+      find.byType(SpriteEmoji),
+    );
+    expect(sprites, isNotEmpty);
+    expect(sprites.every((SpriteEmoji sprite) => sprite.size == 32), isTrue);
+
+    final CachedEmojiImage image = tester.widget(
+      find.byWidgetPredicate(
+        (widget) => widget is CachedEmojiImage && widget.emojiId == 'custom-1',
+      ),
+    );
+    expect(image.size, 40);
+  });
 
   testWidgets('long press opens emoji info sheet for custom emoji', (
     tester,

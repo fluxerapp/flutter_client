@@ -37,7 +37,9 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kGridColumns = 9;
 const _kMobileGridColumns = 8;
-const _kEmojiSize = 40.0;
+// 32 logical is a 1:1 blit of the 64px @2x cell at DPR 2 and matches the web picker.
+const _kUnicodeEmojiSize = 32.0;
+const _kCustomEmojiSize = 40.0;
 const _kCellSize = 48.0;
 const double _kMobileCategoryBarHeight = 44;
 const int _kCustomEmojiRequestSize = kCustomEmojiPickerFetchSize;
@@ -1317,10 +1319,10 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
         ? SpriteEmoji(
             index: emoji.spriteIndex,
             diversityIndex: emoji.diversityIndex,
-            size: _kEmojiSize,
+            size: _kUnicodeEmojiSize,
             skinTone: widget.skinTone,
           )
-        : SpriteEmoji(index: emoji.spriteIndex, size: _kEmojiSize);
+        : SpriteEmoji(index: emoji.spriteIndex, size: _kUnicodeEmojiSize);
 
     if (!usesHover) {
       return _PressableEmojiCell(
@@ -1371,14 +1373,14 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
       animated: widget.isMobile && emoji.animated,
       isInView: widget.isMobile && emoji.animated ? animate : null,
       requestSize: _kCustomEmojiRequestSize,
-      size: _kEmojiSize,
+      size: _kCustomEmojiSize,
       errorBuilder: (ctx) => SizedBox(
-        width: _kEmojiSize,
-        height: _kEmojiSize,
+        width: _kCustomEmojiSize,
+        height: _kCustomEmojiSize,
         child: Center(
           child: PhosphorIcon(
             PhosphorIconsBold.imageBroken,
-            size: _kEmojiSize * 0.55,
+            size: _kCustomEmojiSize * 0.55,
             color: colors.textTertiary,
           ),
         ),

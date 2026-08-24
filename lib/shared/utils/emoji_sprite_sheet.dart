@@ -6,7 +6,6 @@ import 'package:fluxer_app/shared/utils/emoji_utils.dart';
 import 'package:material_ui/material_ui.dart';
 
 const _kSpriteSize = 32;
-const _kSpriteBleedInset = 1.0;
 const _kNonDiversitySpritesPerRow = 42;
 const _kDiversitySpritesPerRow = 10;
 const _kSpriteAssetDir = 'assets/emoji-sprites';
@@ -72,20 +71,15 @@ class EmojiSpriteSheet {
     return frame.image;
   }
 
-  /// Source rect for [index] in the @2x sheet (64px cells, 1px inset).
+  /// Source rect for [index] in the @2x sheet (64px cells).
   static Rect spriteRect(int index, {required bool diversity}) {
     final spritesPerRow = diversity
         ? _kDiversitySpritesPerRow
         : _kNonDiversitySpritesPerRow;
     final col = index % spritesPerRow;
     final row = index ~/ spritesPerRow;
-    const size = _kSpriteSize * 2;
-    return Rect.fromLTWH(
-      col * size + _kSpriteBleedInset,
-      row * size + _kSpriteBleedInset,
-      size - _kSpriteBleedInset * 2,
-      size - _kSpriteBleedInset * 2,
-    );
+    const size = _kSpriteSize * 2.0;
+    return Rect.fromLTWH(col * size, row * size, size, size);
   }
 }
 
@@ -109,11 +103,7 @@ class EmojiSpritePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final src = EmojiSpriteSheet.spriteRect(spriteIndex, diversity: diversity);
     final dst = Offset.zero & size;
-    canvas
-      ..save()
-      ..clipRect(dst, doAntiAlias: false)
-      ..drawImageRect(image, src, dst, _paint)
-      ..restore();
+    canvas.drawImageRect(image, src, dst, _paint);
   }
 
   @override
