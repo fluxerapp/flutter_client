@@ -35,7 +35,7 @@ class _GuildFolderLongPressMenuHostState
   Offset? _pointerDownPosition;
   int? _activePointer;
   bool _suppressMenuForSession = false;
-  bool _menuTriggeredForSession = false;
+  bool _holdThresholdReached = false;
 
   @override
   void dispose() {
@@ -50,7 +50,7 @@ class _GuildFolderLongPressMenuHostState
     _activePointer = event.pointer;
     _pointerDownPosition = event.position;
     _suppressMenuForSession = false;
-    _menuTriggeredForSession = false;
+    _holdThresholdReached = false;
     _holdTimer?.cancel();
     _holdTimer = Timer(kGuildPeekHoldDelay, () {
       if (!mounted || _activePointer != event.pointer) {
@@ -59,22 +59,13 @@ class _GuildFolderLongPressMenuHostState
       if (_suppressMenuForSession) {
         return;
       }
-      _menuTriggeredForSession = true;
+      _holdThresholdReached = true;
       FluxerHaptics.medium();
-      final BuildContext? anchorContext = widget.menuAnchorKey.currentContext;
-      final RenderBox? box = anchorContext?.findRenderObject() as RenderBox?;
-      if (box == null || !box.hasSize) {
-        return;
-      }
-      unawaited(widget.onLongPressMenu(sidebarPeekMenuAnchorPosition(box)));
     });
   }
 
   void _handlePointerMove(PointerMoveEvent event) {
     if (_activePointer != event.pointer) {
-      return;
-    }
-    if (_menuTriggeredForSession) {
       return;
     }
     if (shouldCancelGuildPeekHold(
@@ -83,29 +74,43 @@ class _GuildFolderLongPressMenuHostState
     )) {
       _suppressMenuForSession = true;
       _holdTimer?.cancel();
+      _holdThresholdReached = false;
     }
+  }
+
+  Future<void> _openMenuIfNeeded() async {
+    if (!_holdThresholdReached || _suppressMenuForSession) {
+      return;
+    }
+    final BuildContext? anchorContext = widget.menuAnchorKey.currentContext;
+    final RenderBox? box = anchorContext?.findRenderObject() as RenderBox?;
+    if (box == null || !box.hasSize) {
+      return;
+    }
+    await widget.onLongPressMenu(sidebarPeekMenuAnchorPosition(box));
+  }
+
+  void _resetPointerSession() {
+    _holdTimer?.cancel();
+    _activePointer = null;
+    _pointerDownPosition = null;
+    _suppressMenuForSession = false;
+    _holdThresholdReached = false;
   }
 
   void _handlePointerUp(PointerUpEvent event) {
     if (_activePointer != event.pointer) {
       return;
     }
-    _holdTimer?.cancel();
-    _activePointer = null;
-    _pointerDownPosition = null;
-    _suppressMenuForSession = false;
-    _menuTriggeredForSession = false;
+    unawaited(_openMenuIfNeeded());
+    _resetPointerSession();
   }
 
   void _handlePointerCancel(PointerCancelEvent event) {
     if (_activePointer != event.pointer) {
       return;
     }
-    _holdTimer?.cancel();
-    _activePointer = null;
-    _pointerDownPosition = null;
-    _suppressMenuForSession = false;
-    _menuTriggeredForSession = false;
+    _resetPointerSession();
   }
 
   @override
@@ -117,6 +122,7 @@ class _GuildFolderLongPressMenuHostState
       if (next.dragItemId == widget.itemId && next.hasMovedFromHoldPoint) {
         _suppressMenuForSession = true;
         _holdTimer?.cancel();
+        _holdThresholdReached = false;
       }
     });
 
