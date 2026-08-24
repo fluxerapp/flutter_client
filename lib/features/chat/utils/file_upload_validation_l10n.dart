@@ -10,8 +10,9 @@ String? fileUploadValidationMessage(
     return null;
   }
   final String message = switch (result.error!) {
-    FileUploadValidationError.tooManyAttachments =>
-      l10n.chatAttachmentTooMany(kMaxAttachmentsPerMessage),
+    FileUploadValidationError.tooManyAttachments => l10n.chatAttachmentTooMany(
+      kMaxAttachmentsPerMessage,
+    ),
     FileUploadValidationError.fileTooLarge => l10n.chatAttachmentFileTooLarge,
     FileUploadValidationError.multipartRequestTooLarge =>
       l10n.chatAttachmentPayloadTooLarge,

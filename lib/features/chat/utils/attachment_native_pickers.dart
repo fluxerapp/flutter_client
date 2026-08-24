@@ -9,9 +9,7 @@ Future<List<ComposerUploadFile>> pickNativeGalleryUploads({int? limit}) async {
     return const <ComposerUploadFile>[];
   }
   final ImagePicker picker = ImagePicker();
-  final List<XFile> media = await picker.pickMultipleMedia(
-    limit: pickLimit,
-  );
+  final List<XFile> media = await picker.pickMultipleMedia(limit: pickLimit);
   if (media.isEmpty) {
     return const <ComposerUploadFile>[];
   }

@@ -12,6 +12,7 @@ jobs:
       LANG: en_US.UTF-8
       LC_ALL: en_US.UTF-8
       LANGUAGE: en_US.UTF-8
+      FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 60
     steps:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
