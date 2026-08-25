@@ -3813,7 +3813,7 @@
             }
         }
     },
-    "chatAttachmentFileTooLarge": "Bir veya daha fazla dosya boyut sınırını aşıyor",
+    "chatAttachmentFileTooLarge": "{fileName} boyut sınırını aşıyor ({fileSize})",
     "@chatAttachmentFileTooLarge": {
         "description": "Shown when a selected file is larger than allowed."
     },

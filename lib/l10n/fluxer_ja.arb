@@ -3813,7 +3813,7 @@
             }
         }
     },
-    "chatAttachmentFileTooLarge": "1つ以上のファイルがサイズ制限を超えています",
+    "chatAttachmentFileTooLarge": "{fileName} はサイズ制限を超えています ({fileSize})",
     "@chatAttachmentFileTooLarge": {
         "description": "Shown when a selected file is larger than allowed."
     },

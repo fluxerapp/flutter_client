@@ -4686,9 +4686,17 @@
             }
         }
     },
-    "chatAttachmentFileTooLarge": "One or more files exceed the size limit",
+    "chatAttachmentFileTooLarge": "{fileName} exceeds the size limit ({fileSize})",
     "@chatAttachmentFileTooLarge": {
-        "description": "Shown when a selected file is larger than allowed."
+        "description": "Shown when a selected file is larger than allowed.",
+        "placeholders": {
+            "fileName": {
+                "type": "String"
+            },
+            "fileSize": {
+                "type": "String"
+            }
+        }
     },
     "chatAttachmentPayloadTooLarge": "Those files are too large to send together",
     "@chatAttachmentPayloadTooLarge": {

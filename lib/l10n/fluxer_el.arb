@@ -3813,7 +3813,7 @@
             }
         }
     },
-    "chatAttachmentFileTooLarge": "Ένα ή περισσότερα αρχεία υπερβαίνουν το όριο μεγέθους",
+    "chatAttachmentFileTooLarge": "Το {fileName} υπερβαίνει το όριο μεγέθους ({fileSize})",
     "@chatAttachmentFileTooLarge": {
         "description": "Shown when a selected file is larger than allowed."
     },

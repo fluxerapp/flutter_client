@@ -3813,7 +3813,7 @@
             }
         }
     },
-    "chatAttachmentFileTooLarge": "Uno o più file superano il limite di dimensione",
+    "chatAttachmentFileTooLarge": "{fileName} supera il limite di dimensione ({fileSize})",
     "@chatAttachmentFileTooLarge": {
         "description": "Shown when a selected file is larger than allowed."
     },

@@ -3518,7 +3518,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   }
 
   @override
-  String get chatAttachmentFileTooLarge => '하나 이상의 파일이 크기 제한을 초과합니다';
+  String chatAttachmentFileTooLarge(String fileName, String fileSize) {
+    return '$fileName이(가) 크기 제한을 초과합니다 ($fileSize)';
+  }
 
   @override
   String get chatAttachmentPayloadTooLarge => '파일이 너무 커서 함께 보낼 수 없습니다';

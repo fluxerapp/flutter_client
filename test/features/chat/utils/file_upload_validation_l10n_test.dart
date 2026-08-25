@@ -40,5 +40,19 @@ void main() {
         testL10n.chatAttachmentTooMany(kMaxAttachmentsPerMessage),
       );
     });
+
+    test('returns file name and size for fileTooLarge', () {
+      expect(
+        fileUploadValidationMessage(
+          testL10n,
+          const FileUploadValidationResult.failure(
+            FileUploadValidationError.fileTooLarge,
+            fileName: 'big.bin',
+            fileSizeBytes: 11,
+          ),
+        ),
+        testL10n.chatAttachmentFileTooLarge('big.bin', '11 B'),
+      );
+    });
   });
 }

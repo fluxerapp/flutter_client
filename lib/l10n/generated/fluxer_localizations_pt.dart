@@ -3626,8 +3626,9 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   }
 
   @override
-  String get chatAttachmentFileTooLarge =>
-      'Um ou mais arquivos excedem o limite de tamanho';
+  String chatAttachmentFileTooLarge(String fileName, String fileSize) {
+    return '$fileName excede o limite de tamanho ($fileSize)';
+  }
 
   @override
   String get chatAttachmentPayloadTooLarge =>
@@ -16707,8 +16708,9 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   }
 
   @override
-  String get chatAttachmentFileTooLarge =>
-      'Um ou mais arquivos excedem o limite de tamanho';
+  String chatAttachmentFileTooLarge(String fileName, String fileSize) {
+    return '$fileName excede o limite de tamanho ($fileSize)';
+  }
 
   @override
   String get chatAttachmentPayloadTooLarge =>

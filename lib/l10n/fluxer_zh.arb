@@ -3813,7 +3813,7 @@
             }
         }
     },
-    "chatAttachmentFileTooLarge": "一个或多个文件超出大小限制",
+    "chatAttachmentFileTooLarge": "{fileName} 超出大小限制 ({fileSize})",
     "@chatAttachmentFileTooLarge": {
         "description": "Shown when a selected file is larger than allowed."
     },

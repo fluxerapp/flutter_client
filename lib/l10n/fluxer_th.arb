@@ -3813,7 +3813,7 @@
             }
         }
     },
-    "chatAttachmentFileTooLarge": "ไฟล์หนึ่งไฟล์หรือมากกว่านั้นมีขนาดใหญ่เกินขีดจำกัด",
+    "chatAttachmentFileTooLarge": "{fileName} มีขนาดใหญ่เกินขีดจำกัด ({fileSize})",
     "@chatAttachmentFileTooLarge": {
         "description": "Shown when a selected file is larger than allowed."
     },

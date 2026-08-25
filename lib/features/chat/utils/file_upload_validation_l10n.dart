@@ -1,3 +1,4 @@
+import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/file_upload_constants.dart';
 import 'package:fluxer_app/features/chat/utils/file_upload_validator.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -13,7 +14,10 @@ String? fileUploadValidationMessage(
     FileUploadValidationError.tooManyAttachments => l10n.chatAttachmentTooMany(
       kMaxAttachmentsPerMessage,
     ),
-    FileUploadValidationError.fileTooLarge => l10n.chatAttachmentFileTooLarge,
+    FileUploadValidationError.fileTooLarge => l10n.chatAttachmentFileTooLarge(
+      result.fileName ?? '',
+      formatAttachmentByteSize(result.fileSizeBytes) ?? '',
+    ),
     FileUploadValidationError.multipartRequestTooLarge =>
       l10n.chatAttachmentPayloadTooLarge,
     FileUploadValidationError.noFiles => '',

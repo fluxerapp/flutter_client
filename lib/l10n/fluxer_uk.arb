@@ -3813,7 +3813,7 @@
             }
         }
     },
-    "chatAttachmentFileTooLarge": "Один або кілька файлів перевищують ліміт розміру",
+    "chatAttachmentFileTooLarge": "{fileName} перевищує ліміт розміру ({fileSize})",
     "@chatAttachmentFileTooLarge": {
         "description": "Shown when a selected file is larger than allowed."
     },

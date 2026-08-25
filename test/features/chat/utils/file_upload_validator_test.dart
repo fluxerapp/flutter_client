@@ -47,6 +47,8 @@ void main() {
           .validateAddFiles(currentCount: 0, newFiles: inputFiles);
       expect(actual.isValid, false);
       expect(actual.error, FileUploadValidationError.fileTooLarge);
+      expect(actual.fileName, 'attachment.bin');
+      expect(actual.fileSizeBytes, 11);
     });
 
     test('returns success when within limits', () async {

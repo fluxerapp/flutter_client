@@ -3522,7 +3522,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   }
 
   @override
-  String get chatAttachmentFileTooLarge => '1つ以上のファイルがサイズ制限を超えています';
+  String chatAttachmentFileTooLarge(String fileName, String fileSize) {
+    return '$fileName はサイズ制限を超えています ($fileSize)';
+  }
 
   @override
   String get chatAttachmentPayloadTooLarge => 'これらのファイルは一緒に送信するには大きすぎます';

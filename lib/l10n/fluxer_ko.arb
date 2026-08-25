@@ -3813,7 +3813,7 @@
             }
         }
     },
-    "chatAttachmentFileTooLarge": "하나 이상의 파일이 크기 제한을 초과합니다",
+    "chatAttachmentFileTooLarge": "{fileName}이(가) 크기 제한을 초과합니다 ({fileSize})",
     "@chatAttachmentFileTooLarge": {
         "description": "Shown when a selected file is larger than allowed."
     },

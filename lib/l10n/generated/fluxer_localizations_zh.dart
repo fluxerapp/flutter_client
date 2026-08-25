@@ -3478,7 +3478,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   }
 
   @override
-  String get chatAttachmentFileTooLarge => '一个或多个文件超出大小限制';
+  String chatAttachmentFileTooLarge(String fileName, String fileSize) {
+    return '$fileName 超出大小限制 ($fileSize)';
+  }
 
   @override
   String get chatAttachmentPayloadTooLarge => '这些文件太大，无法一起发送';
@@ -16101,7 +16103,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   }
 
   @override
-  String get chatAttachmentFileTooLarge => '一個或多個檔案超過大小限制';
+  String chatAttachmentFileTooLarge(String fileName, String fileSize) {
+    return '$fileName 超過大小限制 ($fileSize)';
+  }
 
   @override
   String get chatAttachmentPayloadTooLarge => '這些檔案太大，無法一起傳送';

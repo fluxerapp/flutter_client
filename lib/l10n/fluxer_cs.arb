@@ -3813,7 +3813,7 @@
             }
         }
     },
-    "chatAttachmentFileTooLarge": "Jeden nebo více souborů přesahuje limit velikosti",
+    "chatAttachmentFileTooLarge": "{fileName} přesahuje limit velikosti ({fileSize})",
     "@chatAttachmentFileTooLarge": {
         "description": "Shown when a selected file is larger than allowed."
     },

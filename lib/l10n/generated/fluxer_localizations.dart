@@ -6055,8 +6055,8 @@ abstract class FluxerLocalizations {
   /// Shown when a selected file is larger than allowed.
   ///
   /// In en, this message translates to:
-  /// **'One or more files exceed the size limit'**
-  String get chatAttachmentFileTooLarge;
+  /// **'{fileName} exceeds the size limit ({fileSize})'**
+  String chatAttachmentFileTooLarge(String fileName, String fileSize);
 
   /// Shown when the estimated multipart request exceeds the limit.
   ///

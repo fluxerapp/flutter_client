@@ -3813,7 +3813,7 @@
             }
         }
     },
-    "chatAttachmentFileTooLarge": "Egy vagy több fájl meghaladja a méretkorlátot",
+    "chatAttachmentFileTooLarge": "{fileName} meghaladja a méretkorlátot ({fileSize})",
     "@chatAttachmentFileTooLarge": {
         "description": "Shown when a selected file is larger than allowed."
     },

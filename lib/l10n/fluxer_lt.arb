@@ -3813,7 +3813,7 @@
             }
         }
     },
-    "chatAttachmentFileTooLarge": "Vienas ar daugiau failų viršija dydžio limitą",
+    "chatAttachmentFileTooLarge": "{fileName} viršija dydžio limitą ({fileSize})",
     "@chatAttachmentFileTooLarge": {
         "description": "Shown when a selected file is larger than allowed."
     },

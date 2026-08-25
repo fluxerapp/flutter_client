@@ -3813,7 +3813,7 @@
             }
         }
     },
-    "chatAttachmentFileTooLarge": "ملف واحد أو أكثر يتجاوز الحد الأقصى للحجم",
+    "chatAttachmentFileTooLarge": "{fileName} يتجاوز الحد الأقصى للحجم ({fileSize})",
     "@chatAttachmentFileTooLarge": {
         "description": "Shown when a selected file is larger than allowed."
     },

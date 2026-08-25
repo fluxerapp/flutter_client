@@ -3636,8 +3636,9 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   }
 
   @override
-  String get chatAttachmentFileTooLarge =>
-      'Один или несколько файлов превышают лимит размера';
+  String chatAttachmentFileTooLarge(String fileName, String fileSize) {
+    return '$fileName превышает лимит размера ($fileSize)';
+  }
 
   @override
   String get chatAttachmentPayloadTooLarge =>
