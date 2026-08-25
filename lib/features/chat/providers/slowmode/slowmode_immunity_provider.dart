@@ -33,6 +33,9 @@ Future<bool> isSlowmodeImmune(Ref ref, String channelId) async {
     await ref
         .read(channelPermissionCacheProvider.notifier)
         .rebuildChannel(channelId);
+    if (!ref.mounted) {
+      return false;
+    }
     cachedBits = ref
         .read(channelPermissionCacheProvider.notifier)
         .getChannelBits(channelId);

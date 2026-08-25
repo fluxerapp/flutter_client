@@ -2902,6 +2902,58 @@ void main() {
       },
     );
 
+    testWidgets('a to-tail intent lands while a scroll is still in flight', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(420, 640);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final _AroundAckMessageListHarness harness =
+          await _createBottomMessageListHarness();
+      await tester.pumpWidget(
+        _messageListApp(
+          database: harness.database,
+          chatViewModel: harness.chatViewModel,
+        ),
+      );
+      await pumpFluxerFrames(tester);
+
+      final ScrollPosition scrolled = _messageListScrollPosition(tester);
+      await tester.drag(_messageListScrollable(), const Offset(0, 400));
+      await pumpFluxerFrames(tester);
+      expect(
+        scrolled.maxScrollExtent - scrolled.pixels,
+        greaterThanOrEqualTo(
+          scrolled.viewportDimension * kJumpToBottomViewportFraction,
+        ),
+        reason: 'the jump button only renders beyond its own threshold',
+      );
+
+      final TestGesture drag = await tester.startGesture(
+        tester.getCenter(_messageListScrollable()),
+      );
+      await drag.moveBy(const Offset(0, 24));
+      await tester.pump();
+
+      harness.chatViewModel.scrollToBottom();
+      await drag.moveBy(const Offset(0, 24));
+      await tester.pump();
+      await pumpFluxerFrames(tester);
+
+      final ScrollPosition landed = _messageListScrollPosition(tester);
+      expect(
+        landed.pixels,
+        moreOrLessEquals(landed.maxScrollExtent, epsilon: 1),
+        reason: 'the escape hatch must beat an in-flight scroll',
+      );
+
+      await drag.up();
+
+      await _disposeMessageList(tester);
+    });
+
     testWidgets('drift after a jump lands does not re-center', (
       WidgetTester tester,
     ) async {

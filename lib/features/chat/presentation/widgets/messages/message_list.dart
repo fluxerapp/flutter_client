@@ -1467,7 +1467,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     if (!alreadyAtLiveTail) {
       _reanchor(newestId, 1, edge: MessageListAnchorEdge.after);
     }
-    _settlePinnedTailScroll();
+    _settlePinnedTailScroll(ignorePin: true);
   }
 
   /// Only glue can have produced this request: the reader left the tail and
@@ -1536,11 +1536,13 @@ class _MessageListState extends ConsumerState<MessageList> {
   // Scroll into the trailing inset so the newest message clears the composer
   // fade. The center anchor at fraction 1.0 parks at offset 0; maxScrollExtent
   // is the visual tail.
-  void _settlePinnedTailScroll() {
+  // A scroll update between the request and this callback unpins, so
+  // [ignorePin] is what keeps an accepted to-tail intent from being dropped.
+  void _settlePinnedTailScroll({bool ignorePin = false}) {
     final int epoch = _uiEpoch;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _runIfSameEpoch(epoch, () {
-        if (!_scrollController.hasClients || !_pin.pinned) {
+        if (!_scrollController.hasClients || (!_pin.pinned && !ignorePin)) {
           return;
         }
         if (ref.read(chatViewModelProvider).hasMoreNewerMessages) {
