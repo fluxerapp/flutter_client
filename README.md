@@ -1,5 +1,5 @@
 > [!CAUTION]
-> The Fluxer Flutter mobile client is still in beta so features will be missing or broken. There is currently no set release date for the app, but we have an upcoming public beta on [August 25th, at 10AM PT](https://bsky.app/profile/fluxer.app/post/3mtk6fov5r22c) (Android already available to download).
+> The Fluxer Flutter mobile client is still in beta so features will be missing or broken. There is currently no set release date for the app, but you can join our public beta!.
 >
 > Please checkout the [known issues list](https://github.com/fluxerapp/flutter_client/issues/439) before reporting an issue.
 
@@ -29,7 +29,7 @@ You can follow more about the V1 development and what features are planned/imple
 
 For updates, support, and discussion, there is an Fluxer Labs community for all users to be able to join and give feedback.
 
-Join here: [Join Link (only works after August 25th, at 10AM PT)](https://fluxer.gg/fluxer-labs)
+Join here: [Join Link](https://fluxer.gg/fluxer-labs)
 
 ## Download
 
@@ -41,7 +41,7 @@ Join here: [Join Link (only works after August 25th, at 10AM PT)](https://fluxer
 
 **F-Droid**: Coming when V1 is finished.
 
-**iOS TestFlight**: Coming [August 25th, at 10AM PT](https://bsky.app/profile/fluxer.app/post/3mtk6fov5r22c).
+**iOS TestFlight**: Join with the [TestFlight link](https://testflight.apple.com/join/PKZR6pK9).
 
 **Obtainium**: This is currently the best way to install and keep the Android betas installed and updated. [Find out more here](#auto-updates-with-obtainium).
 
@@ -76,7 +76,7 @@ Stable, beta, and canary Android release builds on GitHub are signed with this S
 
 ## Bug reporting
 
-You must report bugs or feedback in [Fluxer Labs community (only works after August 25th, at 10AM PT)](https://fluxer.gg/fluxer-labs) and bugs are synced to Github from the community.
+You must report bugs or feedback in [Fluxer Labs community](https://fluxer.gg/fluxer-labs) and bugs are synced to Github from the community.
 
 ## Self-hosted instances
 
