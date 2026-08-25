@@ -4,11 +4,11 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/members/domain/member.dart' as members;
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/mention_display_utils.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:material_ui/material_ui.dart';
 
 void main() {
   group('resolveDisplayName', () {
@@ -118,7 +118,9 @@ void main() {
       );
       expect(
         actual.bannerUrl,
-        contains('/guilds/10/users/1/banners/guild_banner.webp?size='),
+        contains(
+          '/guilds/10/users/1/banners/a_guild_banner.gif?animated=true&size=',
+        ),
       );
     });
 

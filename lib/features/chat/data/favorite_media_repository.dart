@@ -13,10 +13,30 @@ class FavoriteMediaRepository {
   final FluxerDatabase _db;
   final sdk.FluxerClient _client;
 
-  Future<FavoriteMeme> createFromGif(
-    GifPickerGif gif, {
-    bool saveAsSavedMedia = false,
+  Future<FavoriteMeme> createFromMessage({
+    required String channelId,
+    required String messageId,
+    required String name,
+    String? altText,
+    List<String> tags = const [],
+    String? attachmentId,
+    int? embedIndex,
   }) async {
+    final response = await _client.savedMedia.createMemeFromMessage(
+      channelId: channelId,
+      messageId: messageId,
+      body: sdk.CreateFavoriteMemeBodySchema(
+        name: name.trim(),
+        altText: _blankToNull(altText),
+        tags: tags.isEmpty ? null : tags,
+        attachmentId: _blankToNull(attachmentId),
+        embedIndex: embedIndex,
+      ),
+    );
+    return _upsertResponse(response);
+  }
+
+  Future<FavoriteMeme> createFromGif(GifPickerGif gif) async {
     final shareId = gifShareId(gif);
     final title = gif.title.trim().isEmpty
         ? parseKlipyTitleFromUrl(gif.url)

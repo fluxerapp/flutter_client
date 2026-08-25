@@ -7,14 +7,14 @@ part 'gift_inventory_provider.g.dart';
 @riverpod
 class GiftInventory extends _$GiftInventory {
   @override
-  Future<List<GiftCodeMetadataResponse>> build() async {
+  Future<List<GiftCodeMetadataResponse>> build() {
     return ref.read(fluxerClientProvider).users.listUserGifts();
   }
 
   Future<void> refresh() async {
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() async {
-      return ref.read(fluxerClientProvider).users.listUserGifts();
-    });
+    state = await AsyncValue.guard(
+      () => ref.read(fluxerClientProvider).users.listUserGifts(),
+    );
   }
 }

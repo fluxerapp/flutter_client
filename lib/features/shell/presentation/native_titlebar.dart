@@ -10,8 +10,8 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:window_manager/window_manager.dart';
 

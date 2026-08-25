@@ -5,8 +5,8 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
-import 'package:material_ui/material_ui.dart';
 
 Widget buildTestApp(Widget child) {
   final colorTheme = buildDarkColorTheme();

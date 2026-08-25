@@ -3,7 +3,7 @@ import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/presentation/modals/add_friends_to_group_modal.dart';
 import 'package:fluxer_app/features/dm/presentation/sheets/add_friends_to_group_bottom_sheet.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class AddFriendsToGroupFlow {
   AddFriendsToGroupFlow._();

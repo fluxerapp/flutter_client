@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/neko_sprite.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 void main() {

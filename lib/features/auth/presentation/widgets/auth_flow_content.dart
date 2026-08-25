@@ -8,16 +8,11 @@ import 'package:fluxer_app/features/auth/presentation/widgets/sso_button.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/suspended_account_screen.dart';
 import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class AuthFlowContent extends ConsumerWidget {
-  const AuthFlowContent({
-    required this.showBrowserLogin,
-    this.heading,
-    super.key,
-  });
+  const AuthFlowContent({this.heading, super.key});
 
-  final bool showBrowserLogin;
   final String? heading;
 
   @override
@@ -49,6 +44,6 @@ class AuthFlowContent extends ConsumerWidget {
       return const SsoLoginPanel();
     }
 
-    return LoginForm(showBrowserLogin: showBrowserLogin, heading: heading);
+    return LoginForm(heading: heading);
   }
 }

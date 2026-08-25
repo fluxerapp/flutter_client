@@ -11,8 +11,8 @@ import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_rich.
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/forwarded_message_content.dart';
 import 'package:fluxer_app/features/chat/utils/embed_gallery_utils.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
-import 'package:material_ui/material_ui.dart';
 
 import '../../../../../helpers/test_l10n.dart';
 

@@ -1,18 +1,29 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/synced_preferences/engine/synced_field_adapter.dart';
+import 'package:fluxer_app/core/synced_preferences/engine/proto_synced_field_adapter.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/preferences.pb.dart'
     as pb;
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
-import 'package:protobuf/protobuf.dart' as $pb;
 
+@immutable
 class SidebarLocalState {
   const SidebarLocalState({required this.inlineDmsCollapsed});
 
   final bool inlineDmsCollapsed;
+
+  @override
+  bool operator ==(Object other) {
+    return other is SidebarLocalState &&
+        other.inlineDmsCollapsed == inlineDmsCollapsed;
+  }
+
+  @override
+  int get hashCode => inlineDmsCollapsed.hashCode;
 }
 
-class SidebarSyncedField extends SyncedFieldAdapter<SidebarLocalState> {
+class SidebarSyncedField
+    extends ProtoSyncedFieldAdapter<SidebarLocalState, pb.SidebarPreferences> {
   SidebarSyncedField(this._ref);
 
   final Ref _ref;
@@ -34,66 +45,40 @@ class SidebarSyncedField extends SyncedFieldAdapter<SidebarLocalState> {
   }
 
   @override
-  SidebarLocalState? readFromProto(pb.SyncedPreferences message) {
-    if (!message.hasSidebar()) {
-      return null;
-    }
-    return SidebarLocalState(
-      inlineDmsCollapsed: message.sidebar.inlineDmsCollapsed,
-    );
+  bool hasField(pb.SyncedPreferences message) => message.hasSidebar();
+
+  @override
+  pb.SidebarPreferences readSubMessage(pb.SyncedPreferences message) {
+    return message.sidebar;
   }
 
   @override
-  $pb.GeneratedMessage? readWireSubMessage(pb.SyncedPreferences wire) {
-    return wire.hasSidebar() ? wire.sidebar : null;
+  SidebarLocalState fromProto(pb.SidebarPreferences proto) {
+    return SidebarLocalState(inlineDmsCollapsed: proto.inlineDmsCollapsed);
   }
 
   @override
-  $pb.GeneratedMessage toProtoMessage(SidebarLocalState local) {
-    return toProtoForPush(local: local);
+  void writeProto(pb.SidebarPreferences proto, SidebarLocalState local) {
+    proto.inlineDmsCollapsed = local.inlineDmsCollapsed;
   }
 
   @override
-  $pb.GeneratedMessage toProtoMessageForPush(
-    SidebarLocalState local, {
-    $pb.GeneratedMessage? wireSubMessage,
-  }) {
-    return toProtoForPush(
-      local: local,
-      wireBase: wireSubMessage as pb.SidebarPreferences?,
-    );
+  pb.SidebarPreferences createEmptyProto() => pb.SidebarPreferences();
+
+  @override
+  pb.SyncedPreferences wrapProto(pb.SidebarPreferences proto) {
+    return pb.SyncedPreferences(sidebar: proto);
   }
 
   @override
-  bool statesEqual(SidebarLocalState a, SidebarLocalState b) {
-    return a.inlineDmsCollapsed == b.inlineDmsCollapsed;
-  }
-
-  @override
-  SidebarLocalState mergeForMigration({
-    required SidebarLocalState local,
-    required SidebarLocalState remote,
-  }) {
-    return remote;
-  }
-
-  @override
-  bool verifyRoundtrip(SidebarLocalState candidate) {
-    final roundtripped = readFromProto(
-      pb.SyncedPreferences(
-        sidebar: toProtoMessage(candidate) as pb.SidebarPreferences,
-      ),
-    );
-    return roundtripped != null && statesEqual(candidate, roundtripped);
-  }
+  bool statesEqual(SidebarLocalState a, SidebarLocalState b) => a == b;
 
   static pb.SidebarPreferences toProtoForPush({
     required SidebarLocalState local,
     pb.SidebarPreferences? wireBase,
   }) {
-    return (wireBase != null
-          ? (pb.SidebarPreferences()..mergeFromMessage(wireBase))
-          : pb.SidebarPreferences())
-      ..inlineDmsCollapsed = local.inlineDmsCollapsed;
+    final proto = mergeOrCreate(wireBase, pb.SidebarPreferences.new);
+    proto.inlineDmsCollapsed = local.inlineDmsCollapsed;
+    return proto;
   }
 }

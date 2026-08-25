@@ -55,13 +55,13 @@ void main() {
     });
 
     test('resets after drag start', () {
-      final GuildChannelDropSession session = GuildChannelDropSession();
-      session.tryComplete(
-        channels: channels,
-        dragItem: dragItem,
-        dropResult: dropResult,
-      );
-      session.reset();
+      final GuildChannelDropSession session = GuildChannelDropSession()
+        ..tryComplete(
+          channels: channels,
+          dragItem: dragItem,
+          dropResult: dropResult,
+        )
+        ..reset();
       final ChannelMoveComputation? retry = session.tryComplete(
         channels: channels,
         dragItem: dragItem,

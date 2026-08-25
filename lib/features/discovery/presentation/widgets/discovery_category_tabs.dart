@@ -5,8 +5,8 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/discovery/providers/discovery_controller.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:material_ui/material_ui.dart';
 
 const double _categoryTabRowHeight = 36;
 

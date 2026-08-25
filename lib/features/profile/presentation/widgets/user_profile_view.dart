@@ -43,13 +43,13 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/utils/call_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/user_profile.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kBannerHeight = 184;
@@ -350,6 +350,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
       ),
       child: CustomScrollView(
         controller: widget.scrollController,
+        physics: const ClampingScrollPhysics(),
         slivers: <Widget>[
           SliverToBoxAdapter(
             child: SizedBox(

@@ -3,7 +3,7 @@ import 'package:fluxer_app/features/settings/providers/advanced_preferences_prov
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/voice/tts/tts_text_formatter.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:test/test.dart';
 
 void main() {

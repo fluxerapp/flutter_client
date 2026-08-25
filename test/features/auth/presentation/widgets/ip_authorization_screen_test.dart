@@ -10,7 +10,7 @@ import 'package:fluxer_app/features/auth/domain/ip_authorization_challenge.dart'
 import 'package:fluxer_app/features/auth/presentation/widgets/ip_authorization_screen.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 import '../../../../helpers/test_l10n.dart';
 

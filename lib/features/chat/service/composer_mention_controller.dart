@@ -10,11 +10,11 @@ import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/guilds/providers/role_providers.dart';
 import 'package:fluxer_app/features/ui/input/emoji_inline_token.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/mention_display_utils.dart';
-import 'package:material_ui/material_ui.dart';
 
 String _composerMentionUserLabel(WidgetRef ref, String userId) {
   final String channelId = ref.read(chatViewModelProvider).channelId;

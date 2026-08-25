@@ -8,11 +8,13 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/gif_picker_content.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/favorite_gifs_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/gif_provider.dart';
+import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart' as sdk;
-import 'package:material_ui/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 Widget buildTestApp({
@@ -47,6 +49,8 @@ void main() {
       buildTestApp(
         overrides: [
           favoriteMemesProvider.overrideWith((ref) => Stream.value(const [])),
+          favoriteGifsProvider.overrideWith(FavoriteGifs.new),
+          advancedPreferencesProvider.overrideWith(AdvancedPreferences.new),
           activeGifProviderProvider.overrideWith(
             (ref) => GifProviderKind.tenor,
           ),
@@ -100,6 +104,8 @@ void main() {
       buildTestApp(
         overrides: [
           favoriteMemesProvider.overrideWith((ref) => Stream.value(const [])),
+          favoriteGifsProvider.overrideWith(FavoriteGifs.new),
+          advancedPreferencesProvider.overrideWith(AdvancedPreferences.new),
           activeGifProviderProvider.overrideWith(
             (ref) => GifProviderKind.tenor,
           ),
@@ -126,6 +132,8 @@ void main() {
       buildTestApp(
         overrides: [
           favoriteMemesProvider.overrideWith((ref) => Stream.value(const [])),
+          favoriteGifsProvider.overrideWith(FavoriteGifs.new),
+          advancedPreferencesProvider.overrideWith(AdvancedPreferences.new),
           activeGifProviderProvider.overrideWith(
             (ref) => GifProviderKind.tenor,
           ),

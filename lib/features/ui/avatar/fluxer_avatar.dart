@@ -9,7 +9,7 @@ import 'package:fluxer_app/features/ui/avatar/avatar_status_layout.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_mobile_online_status_indicator.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_status_indicator.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_typing_status_indicator.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 const _kFallbackColors = [
   Color(0xFF5865F2),

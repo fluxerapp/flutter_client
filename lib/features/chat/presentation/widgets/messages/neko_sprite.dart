@@ -8,8 +8,8 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 const Duration _kNekoIdleFrameDuration = Duration(seconds: 1);

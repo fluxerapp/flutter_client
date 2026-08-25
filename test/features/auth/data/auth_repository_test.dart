@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/auth/data/auth_token_storage.dart';
 import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
 import 'package:fluxer_app/features/auth/domain/ip_auth_poll_result.dart';
 import 'package:fluxer_app/features/auth/domain/login_result.dart';
+import 'package:fluxer_app/features/auth/domain/registration_result.dart';
 import 'package:fluxer_dart/export.dart';
 
 import '../../../helpers/open_test_database.dart';
@@ -592,6 +593,44 @@ void main() {
         ),
       );
     });
+
+    test(
+      'register reports approval mode instead of demanding a token',
+      () async {
+        final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+          ..httpClientAdapter = const _JsonResponseAdapter(
+            expectedPath: '/v1/auth/register',
+            responseJson: <String, Object?>{
+              'registration_pending_approval': true,
+              'user_id': '900000000000000001',
+            },
+          );
+
+        final approvalRepository = AuthRepository(
+          FluxerClient(dio),
+          db,
+          tokenStorage,
+          readInstanceSnapshot: InstanceConfigSnapshot.officialDefault,
+        );
+
+        final RegistrationResult result = await approvalRepository.register(
+          email: 'user@example.com',
+          password: 'hunter2hunter2',
+          dateOfBirth: '1990-01-02',
+        );
+
+        expect(
+          result,
+          isA<RegistrationPendingApproval>().having(
+            (RegistrationPendingApproval pending) => pending.userId,
+            'userId',
+            '900000000000000001',
+          ),
+        );
+        expect(await db.authSessionDao.getActiveSession(), isNull);
+        expect(tokenStorage.tokens, isEmpty);
+      },
+    );
   });
 }
 

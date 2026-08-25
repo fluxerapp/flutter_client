@@ -1,4 +1,4 @@
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'guild_drag_provider.g.dart';

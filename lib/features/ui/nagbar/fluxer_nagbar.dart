@@ -1,7 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/focus_ring/fluxer_focus_ring.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class FluxerNagbar extends StatelessWidget {

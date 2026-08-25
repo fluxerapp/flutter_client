@@ -5,7 +5,7 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_form_error_text.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 Widget _app(Widget child) {
   final colorTheme = buildDarkColorTheme();

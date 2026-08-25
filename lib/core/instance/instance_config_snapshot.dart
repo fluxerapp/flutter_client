@@ -87,6 +87,35 @@ class InstanceConfigSnapshot {
     return config != null && config.enabled && !config.enforced;
   }
 
+  bool get isRegistrationClosed =>
+      wellKnown?.registration.mode ==
+      WellKnownFluxerResponseRegistrationModeMode.closed;
+
+  /// Terms of service URL to show during registration, null when this instance
+  /// has none to offer.
+  String? get termsUrl =>
+      _legalUrl(wellKnown?.appPublic.legal.termsUrl, 'terms');
+
+  /// Privacy policy URL to show during registration, null when this instance
+  /// has none to offer.
+  String? get privacyUrl =>
+      _legalUrl(wellKnown?.appPublic.legal.privacyUrl, 'privacy');
+
+  /// Self-hosted instances only get the documents their operator configured;
+  /// everything else falls back to the instance marketing site.
+  String? _legalUrl(String? configured, String marketingPath) {
+    if (configured != null) {
+      return configured;
+    }
+    if (wellKnown?.features.selfHosted ?? false) {
+      return null;
+    }
+    final String marketing =
+        wellKnown?.endpoints.marketing ??
+        InstanceConstants.defaultMarketingBaseUrl;
+    return '$marketing/$marketingPath';
+  }
+
   String? get instanceDisplayName {
     final Object? appPublic = wellKnown?.appPublic;
     if (appPublic is Map<String, dynamic>) {

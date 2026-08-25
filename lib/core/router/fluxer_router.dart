@@ -62,8 +62,8 @@ import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/voice/presentation/dm_voice_call_fullscreen_page.dart'
     deferred as dm_voice_call;
+import 'package:fluxer_app/material_ui.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 export 'package:fluxer_app/core/router/shell_navigator_keys.dart';

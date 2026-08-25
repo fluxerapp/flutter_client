@@ -8,6 +8,7 @@ import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
 import 'package:fluxer_markdown/src/parsing/markdown_preprocessor.dart';
 import 'package:fluxer_markdown/src/parsing/message_line_parser.dart';
 import 'package:fluxer_markdown/src/renderers/fluxer_markdown_renderers.dart';
+import 'package:fluxer_markdown/src/utils/bounded_text.dart';
 import 'package:fluxer_markdown/src/utils/highlight_languages.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown_link_registry.dart';
 import 'package:markdown/markdown.dart' as md;
@@ -328,11 +329,12 @@ class _FluxerMarkdownState extends State<FluxerMarkdown> {
       return const SizedBox.shrink();
     }
 
-    return RichText(
+    return buildFluxerBoundedRichText(
       text: TextSpan(style: style, children: spans),
+      baseStyle: style,
       textScaler: MediaQuery.textScalerOf(context),
       maxLines: widget.maxLines,
-      overflow: widget.overflow ?? TextOverflow.clip,
+      overflow: widget.overflow,
     );
   }
 

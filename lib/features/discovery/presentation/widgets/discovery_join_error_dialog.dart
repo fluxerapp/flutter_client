@@ -3,7 +3,7 @@ import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/features/discovery/domain/discovery_join_error.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class DiscoveryJoinErrorDialog {
   DiscoveryJoinErrorDialog._();

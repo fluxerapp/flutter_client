@@ -7,7 +7,7 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/blocked_message_groups.dart';
 import 'package:fluxer_app/features/chat/utils/channel_message_stream.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 import '../../../../helpers/test_l10n.dart';
 

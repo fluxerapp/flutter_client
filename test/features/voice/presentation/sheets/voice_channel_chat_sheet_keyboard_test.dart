@@ -10,7 +10,7 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_bottom_input_slot.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 import '../../../../helpers/test_l10n.dart';
 

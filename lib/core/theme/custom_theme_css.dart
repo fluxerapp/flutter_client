@@ -3,7 +3,7 @@ import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/theme_token_aliases.dart';
 import 'package:fluxer_app/core/theme/theme_variable_mapping.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 final RegExp _cssVariablePattern = RegExp(r'--([a-zA-Z0-9_-]+)\s*:\s*([^;]+);');
 

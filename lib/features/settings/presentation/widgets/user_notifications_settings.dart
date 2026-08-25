@@ -13,8 +13,8 @@ import 'package:fluxer_app/features/settings/providers/user_settings_sync_servic
 import 'package:fluxer_app/features/settings/utils/platform_desktop_utils.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:material_ui/material_ui.dart';
 
 const int _kMinAfkTimeoutMinutes = 1;
 const int _kMaxAfkTimeoutMinutes = 10;

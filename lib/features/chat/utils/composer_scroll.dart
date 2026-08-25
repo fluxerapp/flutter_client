@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:material_ui/material_ui.dart' show TextField;
+import 'package:fluxer_app/material_ui.dart' show TextField;
 
 /// Scrolls a composer [TextField]'s [scrollController] to the end after layout.
 ///

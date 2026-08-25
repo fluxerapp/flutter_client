@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 import '../../../../helpers/wide_layout_test_sizes.dart';
 

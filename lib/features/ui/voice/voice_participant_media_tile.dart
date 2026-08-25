@@ -13,9 +13,9 @@ import 'package:fluxer_app/features/voice/providers/voice_stream_audio_provider.
 import 'package:fluxer_app/features/voice/utils/voice_participant_track_resolver.dart';
 import 'package:fluxer_app/features/voice/utils/voice_stream_audio_utils.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:livekit_client/livekit_client.dart';
-import 'package:material_ui/material_ui.dart';
 
 enum VoiceParticipantTileSource { camera, screenShare }
 

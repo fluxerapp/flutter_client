@@ -8,7 +8,7 @@ import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class FriendRequestSheetItem extends ConsumerWidget {
@@ -63,23 +63,10 @@ class FriendRequestSheetItem extends ConsumerWidget {
               ],
             ),
           ),
-          SizedBox(
-            width: 36,
-            height: 36,
-            child: ClipOval(
-              child: ColoredBox(
-                color: context.colors.backgroundModifierHover,
-                child: Center(
-                  child: FluxerButton.circle(
-                    icon: PhosphorIconsBold.dotsThreeVertical,
-                    variant: FluxerButtonVariant.ghost,
-                    size: FluxerButtonSize.compact,
-                    iconSize: 20,
-                    onPressed: () => unawaited(_showMenu(context, ref)),
-                  ),
-                ),
-              ),
-            ),
+          FluxerButton.circleAlt(
+            icon: PhosphorIconsBold.dotsThreeVertical,
+            size: FluxerButtonSize.compact,
+            onPressed: () => unawaited(_showMenu(context, ref)),
           ),
         ],
       ),

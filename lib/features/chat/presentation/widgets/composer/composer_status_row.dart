@@ -6,7 +6,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/slowmode_
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/typing_indicator_bar.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/blocked_users_view_model.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 const double _kComposerStatusRowCollapsedHeight = 10;
 

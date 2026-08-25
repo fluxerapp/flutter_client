@@ -11,10 +11,6 @@ void main() {
     id: 'user-1',
     username: 'owner',
   );
-  const GuildExpressionUploader otherUploader = GuildExpressionUploader(
-    id: 'user-2',
-    username: 'other',
-  );
   const GuildEmojiSettingsEntry emoji = GuildEmojiSettingsEntry(
     id: '1',
     name: 'wave',

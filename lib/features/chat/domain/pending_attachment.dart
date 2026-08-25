@@ -25,6 +25,7 @@ class PendingAttachment {
     this.contentTypePlan,
     this.duration,
     this.waveform,
+    this.galleryAssetId,
   });
 
   final int id;
@@ -46,6 +47,7 @@ class PendingAttachment {
   final String? contentTypePlan;
   final int? duration;
   final String? waveform;
+  final String? galleryAssetId;
 
   PendingAttachment copyWith({
     int? id,
@@ -67,6 +69,7 @@ class PendingAttachment {
     Object? contentTypePlan = _unset,
     Object? duration = _unset,
     Object? waveform = _unset,
+    Object? galleryAssetId = _unset,
   }) {
     return PendingAttachment(
       id: id ?? this.id,
@@ -100,6 +103,9 @@ class PendingAttachment {
           : contentTypePlan as String?,
       duration: duration == _unset ? this.duration : duration as int?,
       waveform: waveform == _unset ? this.waveform : waveform as String?,
+      galleryAssetId: galleryAssetId == _unset
+          ? this.galleryAssetId
+          : galleryAssetId as String?,
     );
   }
 }

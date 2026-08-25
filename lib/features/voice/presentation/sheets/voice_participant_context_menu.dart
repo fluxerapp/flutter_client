@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/members/presentation/widgets/manage_member_r
 import 'package:fluxer_app/features/members/utils/guild_member_menu_state.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart';
+import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
@@ -20,8 +21,8 @@ import 'package:fluxer_app/features/voice/providers/voice_stream_audio_provider.
 import 'package:fluxer_app/features/voice/utils/voice_participant_menu_capabilities.dart';
 import 'package:fluxer_app/features/voice/utils/voice_participant_moderation.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/gateway.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class VoiceParticipantContextMenu {
@@ -127,6 +128,7 @@ class VoiceParticipantContextMenu {
             disconnect: l10n.voiceControlDisconnect,
             userVolume: l10n.voiceParticipantMenuUserVolume,
             streamVolume: l10n.voiceParticipantMenuStreamVolume,
+            prioritizeSpeakers: l10n.voicePrioritizeSpeakersLabel,
           ),
           onViewProfile: () {
             close();
@@ -215,6 +217,13 @@ class VoiceParticipantContextMenu {
               _setStreamVolume(ref, capabilities.streamKey, value),
           onToggleStreamMute: (bool muted) =>
               _setStreamMuted(ref, capabilities.streamKey, muted: muted),
+          onTogglePrioritizeSpeakers: (bool value) {
+            unawaited(
+              ref
+                  .read(voiceSettingsProvider.notifier)
+                  .setPrioritizeSpeakingParticipants(value: value),
+            );
+          },
         );
 
     if ((roleMenuState?.shouldShowRolesSubmenu ?? false) && guildId != null) {

@@ -23,8 +23,8 @@ import 'package:fluxer_app/features/chat/utils/voice_message_constants.dart';
 import 'package:fluxer_app/features/chat/utils/voice_message_waveform.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
-import 'package:material_ui/material_ui.dart';
 
 import '../../../../../helpers/test_l10n.dart';
 

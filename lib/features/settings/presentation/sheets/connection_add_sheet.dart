@@ -19,9 +19,9 @@ import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -533,17 +533,20 @@ class _ConnectionAddBodyState extends ConsumerState<_ConnectionAddBody> {
     final l10n = FluxerLocalizations.of(context);
     try {
       final bytes = utf8.encode(_verification!.token);
-      final path = await FilePicker.saveFile(
+      final Uri? savedUri = await FilePicker.saveFile(
         dialogTitle: l10n.connectionSaveTokenDialogTitle,
         fileName: 'fluxer-verification',
         bytes: bytes,
       );
-      if (path != null) {
-        // FilePicker.saveFile writes bytes on mobile but on desktop only
-        // returns the chosen path without creating content — fill it in.
-        final file = File(path);
-        if (!file.existsSync() || file.lengthSync() == 0) {
-          await file.writeAsString(_verification!.token);
+      if (savedUri != null) {
+        final String? filePath = savedUri.scheme == 'file'
+            ? savedUri.toFilePath()
+            : null;
+        if (filePath != null) {
+          final file = File(filePath);
+          if (!file.existsSync() || file.lengthSync() == 0) {
+            await file.writeAsString(_verification!.token);
+          }
         }
         ref
             .read(toastProvider.notifier)

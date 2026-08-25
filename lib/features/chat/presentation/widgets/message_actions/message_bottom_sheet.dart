@@ -15,8 +15,11 @@ import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_translation_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/saved_message_provider.dart';
+import 'package:fluxer_app/features/chat/utils/favorite_media_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media_favorite_state.dart';
 import 'package:fluxer_app/features/chat/utils/message_action_permissions.dart';
 import 'package:fluxer_app/features/chat/utils/message_link.dart';
+import 'package:fluxer_app/features/chat/utils/save_message_media_favorite.dart';
 import 'package:fluxer_app/features/messaging/data/saved_messages_repository.dart';
 import 'package:fluxer_app/features/messaging/providers/saved_messages_sync_provider.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
@@ -28,9 +31,9 @@ import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
 import 'package:fluxer_app/features/voice/tts/tts_locale_utils.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 enum MessageAction {
@@ -117,7 +120,12 @@ Future<void> dispatchMessageAction({
     case MessageAction.edit:
       callbacks.onEdit?.call();
     case MessageAction.delete:
-      callbacks.onDelete?.call();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!context.mounted) {
+          return;
+        }
+        callbacks.onDelete?.call();
+      });
     case MessageAction.retry:
       callbacks.onRetry?.call();
     case MessageAction.deleteFailed:
@@ -291,6 +299,7 @@ List<Widget> buildMessageActionMenuGroups({
   required ValueChanged<MessageAction> onAction,
   MessageActionCallbacks? attachmentCallbacks,
   String? attachmentIdFilter,
+  bool includeAttachmentFavoriteActions = true,
   VoidCallback? onCloseMenu,
 }) {
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
@@ -444,41 +453,19 @@ List<Widget> buildMessageActionMenuGroups({
 
   final List<Widget> attachmentItems = <Widget>[
     for (final Attachment attachment in message.attachments)
-      if (attachmentIdFilter == null ||
-          attachment.id == attachmentIdFilter) ...<Widget>[
-        if (showMediaDeleteButton &&
-            canDeleteAttachmentOnMessage(
-              message: message,
-              isOwnMessage: permissions.isOwnMessage,
-              isSendDisabled: permissions.isSendDisabled,
-            ))
-          FluxerBottomSheetMenuItem(
-            icon: PhosphorIconsFill.trash,
-            label: l10n.chatMessageDeleteAttachment,
-            hint: attachment.filename,
-            isDanger: true,
-            onTap: () {
-              attachmentCallbacks?.onDeleteAttachment?.call(attachment);
-              closeMenu();
-            },
-          ),
-        if (canEditAttachmentAltText(
+      if (attachmentIdFilter == null || attachment.id == attachmentIdFilter)
+        ..._buildAttachmentMenuItems(
+          context: context,
+          ref: ref,
+          l10n: l10n,
           message: message,
-          isOwnMessage: permissions.isOwnMessage,
           attachment: attachment,
-          canManageMessages: permissions.canManageMessages,
-          isDmChannel: permissions.isDmChannel,
-        ))
-          FluxerBottomSheetMenuItem(
-            icon: PhosphorIconsFill.pencilSimple,
-            label: l10n.chatMessageEditAttachmentAltText,
-            hint: attachment.filename,
-            onTap: () {
-              closeMenu();
-              attachmentCallbacks?.onEditAttachmentAltText?.call(attachment);
-            },
-          ),
-      ],
+          showMediaDeleteButton: showMediaDeleteButton,
+          permissions: permissions,
+          attachmentCallbacks: attachmentCallbacks,
+          closeMenu: closeMenu,
+          includeFavoriteAction: includeAttachmentFavoriteActions,
+        ),
   ];
 
   final bool isSpeakingMessage = ref.read(
@@ -542,6 +529,78 @@ List<Widget> buildMessageActionMenuGroups({
       reportItems,
     ])
       if (items.isNotEmpty) FluxerMenuGroup(children: items),
+  ];
+}
+
+List<Widget> _buildAttachmentMenuItems({
+  required BuildContext context,
+  required WidgetRef ref,
+  required FluxerLocalizations l10n,
+  required Message message,
+  required Attachment attachment,
+  required bool showMediaDeleteButton,
+  required MessageActionPermissions permissions,
+  required MessageActionCallbacks? attachmentCallbacks,
+  required void Function() closeMenu,
+  required bool includeFavoriteAction,
+}) {
+  final MessageMediaFavoriteTarget? favoriteTarget =
+      includeFavoriteAction && attachment.isSavableMedia
+      ? MessageMediaFavoriteTarget.forAttachment(attachment)
+      : null;
+  final MediaFavoriteState favoriteState = watchMediaFavoriteState(
+    ref,
+    target: favoriteTarget,
+  );
+
+  return <Widget>[
+    ...buildMediaFavoriteMenuItems(
+      l10n: l10n,
+      state: favoriteState,
+      hint: attachment.filename,
+      onAction: (MediaFavoriteMenuAction action) {
+        scheduleMediaFavoriteMenuAction(
+          ref: ref,
+          context: context,
+          message: message,
+          state: favoriteState,
+          action: action,
+          beforeAction: closeMenu,
+        );
+      },
+    ),
+    if (showMediaDeleteButton &&
+        canDeleteAttachmentOnMessage(
+          message: message,
+          isOwnMessage: permissions.isOwnMessage,
+          isSendDisabled: permissions.isSendDisabled,
+        ))
+      FluxerBottomSheetMenuItem(
+        icon: PhosphorIconsFill.trash,
+        label: l10n.chatMessageDeleteAttachment,
+        hint: attachment.filename,
+        isDanger: true,
+        onTap: () {
+          attachmentCallbacks?.onDeleteAttachment?.call(attachment);
+          closeMenu();
+        },
+      ),
+    if (canEditAttachmentAltText(
+      message: message,
+      isOwnMessage: permissions.isOwnMessage,
+      attachment: attachment,
+      canManageMessages: permissions.canManageMessages,
+      isDmChannel: permissions.isDmChannel,
+    ))
+      FluxerBottomSheetMenuItem(
+        icon: PhosphorIconsFill.pencilSimple,
+        label: l10n.chatMessageEditAttachmentAltText,
+        hint: attachment.filename,
+        onTap: () {
+          closeMenu();
+          attachmentCallbacks?.onEditAttachmentAltText?.call(attachment);
+        },
+      ),
   ];
 }
 

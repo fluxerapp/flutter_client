@@ -8,7 +8,7 @@ import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_mobile_online_status_indicator.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_status_indicator.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_typing_status_indicator.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kAccentColors = [

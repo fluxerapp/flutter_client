@@ -1,4 +1,5 @@
 abstract final class MessageContentPatterns {
+  const MessageContentPatterns._();
   static final RegExp spoiler = RegExp(r'\|\|([\s\S]*?)\|\|');
   static final RegExp customEmoji = RegExp(r'<a?:([^:>]+):\d+>');
   static final RegExp userMention = RegExp(r'<@!?(\d+)>');

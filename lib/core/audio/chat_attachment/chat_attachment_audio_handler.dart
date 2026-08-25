@@ -5,7 +5,7 @@ class ChatAttachmentAudioHandler extends BaseAudioHandler
     with SeekHandler
     implements ChatAttachmentAudioPublisher {
   ChatAttachmentAudioHandler(this._session) {
-    _session.registerPublisher(this);
+    _session.registerPublisher = this;
   }
 
   final ChatAttachmentAudioSession _session;

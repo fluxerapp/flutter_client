@@ -16,13 +16,13 @@ import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 String _memberDisplayName(

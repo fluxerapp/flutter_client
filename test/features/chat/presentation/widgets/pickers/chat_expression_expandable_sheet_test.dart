@@ -7,7 +7,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_expression_expandable_sheet.dart';
 import 'package:fluxer_app/features/chat/utils/inline_expression_panel_layout.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 import '../../../../../helpers/test_l10n.dart';
 
@@ -102,6 +102,22 @@ void main() {
       );
       await collapseGesture.up();
       await tester.pumpAndSettle();
+    });
+
+    testWidgets('list pull up expands docked sheet to expanded height', (
+      tester,
+    ) async {
+      await _pumpSheet(tester, colorTheme: colorTheme);
+      final Finder sheet = find.byKey(kChatExpressionSheetKey);
+      final Finder list = find.byType(Scrollable).last;
+      final double dockedHeight = tester.getSize(sheet).height;
+      final Offset listCenter = tester.getCenter(list);
+      final TestGesture expandGesture = await tester.startGesture(listCenter);
+      await expandGesture.moveBy(const Offset(0, -220));
+      await tester.pump();
+      await expandGesture.up();
+      await tester.pumpAndSettle();
+      expect(tester.getSize(sheet).height, greaterThan(dockedHeight + 40));
     });
 
     testWidgets('list pull down collapses expanded sheet to docked height', (

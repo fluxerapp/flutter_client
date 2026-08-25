@@ -1,8 +1,8 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/accessibility/text_scale.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kCornerRatio = 0.32;

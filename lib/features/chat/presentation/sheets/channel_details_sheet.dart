@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
 
-import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:cupertino_ui/cupertino_ui.dart'
+    hide RichText, SelectableText, Text;
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
@@ -43,7 +43,9 @@ import 'package:fluxer_app/features/chat/providers/channel/channel_details_provi
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/chat/utils/channel_search_utils.dart';
 import 'package:fluxer_app/features/chat/utils/composer_mention_query.dart';
+import 'package:fluxer_app/features/chat/utils/delete_my_messages_in_channel_action.dart';
 import 'package:fluxer_app/features/chat/utils/message_link.dart';
+import 'package:fluxer_app/features/dm/data/dm_conversation_mapper.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/domain/group_dm_utils.dart';
@@ -76,12 +78,12 @@ import 'package:fluxer_app/features/settings/providers/appearance_preferences_pr
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 part '../pages/channel_search_page.dart';
@@ -645,6 +647,18 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
                         onSetNotification: _setNotification,
                         onCopy: _copy,
                         onCloseDm: _confirmCloseDm,
+                        onDeleteMyMessages: () {
+                          final dm = widget.dm;
+                          if (dm == null) {
+                            return Future<void>.value();
+                          }
+                          return confirmAndDeleteMyMessagesInChannel(
+                            context,
+                            ref,
+                            channelId: dm.id,
+                            isPrivateConversation: true,
+                          );
+                        },
                       ),
                     );
                   },
@@ -1681,20 +1695,14 @@ class _PickerUser {
     if (username.isEmpty) {
       return '@$id';
     }
-    final String? visibleDiscriminator = _visibleDiscriminator(discriminator);
+    final String? visibleDiscriminator = visibleUserDiscriminator(
+      discriminator,
+    );
     if (visibleDiscriminator == null) {
       return '@$username';
     }
     return '@$username#$visibleDiscriminator';
   }
-}
-
-String? _visibleDiscriminator(String discriminator) {
-  final String trimmed = discriminator.trim();
-  if (trimmed.isEmpty || trimmed == '0') {
-    return null;
-  }
-  return trimmed;
 }
 
 const Duration _kUserFilterSearchDebounce = Duration(milliseconds: 300);
@@ -1729,39 +1737,27 @@ class _DmUserFilterSheetLoaderState
 
   Future<List<_PickerUser>> _loadDmCandidates() async {
     final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
+    final String? currentUserId = ref.read(currentUserIdProvider);
     final db.DmChannel? dmRow = await database.dmChannelDao.getDmChannelById(
       widget.channelId,
     );
-    final Set<String> ids = <String>{};
-    if (dmRow != null) {
-      try {
-        final Object? raw = jsonDecode(dmRow.recipientIds);
-        if (raw is List<dynamic>) {
-          for (final Object? entry in raw) {
-            if (entry is String && entry.isNotEmpty) {
-              ids.add(entry);
-            }
-          }
-        }
-      } on FormatException {
-        // Ignore malformed cache; falls back to recipientId only.
-      }
-      if (dmRow.recipientId.isNotEmpty) {
-        ids.add(dmRow.recipientId);
-      }
-    }
+
+    final Set<String> ids = <String>{
+      if (dmRow != null)
+        ...buildDmRemoteRecipientIds(
+          parseDmChannelRecipientIds(dmRow.recipientIds),
+          dmRow.recipientId,
+        ),
+      if (currentUserId != null && currentUserId.isNotEmpty) currentUserId,
+    };
+
     final List<db.User> users = await database.userDao.getUsersByIds(
       ids.toList(),
     );
-    final List<_PickerUser> pickers =
-        <_PickerUser>[
-          for (final db.User user in users) _PickerUser.fromUserRow(user),
-        ]..sort(
-          (a, b) => a.displayName.toLowerCase().compareTo(
-            b.displayName.toLowerCase(),
-          ),
-        );
-    return pickers;
+    return users.map(_PickerUser.fromUserRow).toList()..sort(
+      (a, b) =>
+          a.displayName.toLowerCase().compareTo(b.displayName.toLowerCase()),
+    );
   }
 
   @override
@@ -1891,9 +1887,7 @@ class _GuildUserSearchFilterSheetState
             (Member member) => _PickerUser.fromMember(
               member,
               discriminator:
-                  _visibleDiscriminator(
-                    discriminatorByUserId[member.id] ?? '',
-                  ) ??
+                  visibleUserDiscriminator(discriminatorByUserId[member.id]) ??
                   '',
             ),
           )
@@ -2479,6 +2473,7 @@ Future<void> _showDetailsMoreSheet(
   onSetNotification,
   required Future<void> Function(String value) onCopy,
   required Future<void> Function() onCloseDm,
+  required Future<void> Function() onDeleteMyMessages,
 }) {
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
   final channelId = channel?.id ?? dm?.id;
@@ -2690,6 +2685,12 @@ Future<void> _showDetailsMoreSheet(
         if (isDM || isGroupDM)
           FluxerMenuGroup(
             children: [
+              FluxerBottomSheetMenuItem(
+                label: l10n.channelMenuDeleteMyMessagesConfirm,
+                icon: PhosphorIconsBold.trash,
+                isDanger: true,
+                onTap: () => run(onDeleteMyMessages),
+              ),
               FluxerBottomSheetMenuItem(
                 label: isGroupDM ? l10n.dmLeaveGroup : l10n.dmCloseDm,
                 icon: PhosphorIconsBold.xCircle,

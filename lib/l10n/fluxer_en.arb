@@ -128,6 +128,10 @@
     "@systemPermissionCameraMessage": {
         "description": "Body text when camera access must be enabled in system settings."
     },
+    "systemPermissionPhotosMessage": "Fluxer doesn't have access to your photo library. You can enable it in your device privacy settings.",
+    "@systemPermissionPhotosMessage": {
+        "description": "Body text when photo library access must be enabled in system settings."
+    },
     "systemPermissionNotificationsMessage": "Fluxer doesn't have permission to send notifications. You can enable it in your device settings.",
     "@systemPermissionNotificationsMessage": {
         "description": "Body text when notification permission must be enabled in system settings."
@@ -817,6 +821,14 @@
     "@registerHaveAccount": {
         "description": "Text before the login link on the register screen."
     },
+    "registerPendingApproval": "Your account request is pending approval. You can sign in after an admin approves it.",
+    "@registerPendingApproval": {
+        "description": "Notice shown after registering on an instance that requires admin approval."
+    },
+    "registerClosed": "Registration is currently closed. Use a registration link from an admin to create an account.",
+    "@registerClosed": {
+        "description": "Notice shown on the register screen when the instance has registration closed."
+    },
     "passkeyNoCredentials": "No passkeys found for this app. Log in with email and password instead.",
     "@passkeyNoCredentials": {
         "description": "Error when user has no passkeys registered and tries passkey login."
@@ -1339,6 +1351,14 @@
             }
         }
     },
+    "dmDeleteMyMessagesTitle": "Delete your messages in this conversation?",
+    "@dmDeleteMyMessagesTitle": {
+        "description": "Confirmation title for deleting all of the caller's messages in a DM or group DM."
+    },
+    "dmDeleteMyMessagesDescription": "This will permanently delete every message you have ever sent in this conversation. This cannot be undone.",
+    "@dmDeleteMyMessagesDescription": {
+        "description": "Confirmation description for deleting all of the caller's messages in a DM or group DM."
+    },
     "dmCopyChannelId": "Copy Channel ID",
     "@dmCopyChannelId": {
         "description": "DM context menu action to copy the channel ID."
@@ -1760,9 +1780,13 @@
     "@addFriendClaimToSend": {
         "description": "Error when an unclaimed account tries to send a friend request."
     },
-    "addFriendSendFailedGeneric": "Couldn't send the friend request. Try again.",
-    "@addFriendSendFailedGeneric": {
-        "description": "Generic error when sending a friend request fails."
+    "addFriendVerifyToSend": "Verify your email before sending friend requests.",
+    "@addFriendVerifyToSend": {
+        "description": "Error when an unverified account tries to send a friend request."
+    },
+    "addFriendFriendsListFull": "Your friends list is full, or theirs is. Remove someone and try again.",
+    "@addFriendFriendsListFull": {
+        "description": "Error when either user's friends list is at the limit."
     },
     "userTagBot": "BOT",
     "@userTagBot": {
@@ -1783,6 +1807,51 @@
     "emojiAutocompleteDefaultLabel": "Default emoji",
     "@emojiAutocompleteDefaultLabel": {
         "description": "Short right-side label in the chat composer emoji autocomplete shown for built-in (unicode) emoji; custom emoji show their guild name instead. Keep it concise."
+    },
+    "emojiInfoDefaultDescription": "This is a default emoji on {productName}.",
+    "@emojiInfoDefaultDescription": {
+        "description": "Emoji info sheet description for built-in unicode emoji.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "emojiInfoCustomGuildDescription": "This emoji is from this community. You can use it everywhere.",
+    "@emojiInfoCustomGuildDescription": {
+        "description": "Emoji info sheet description when the user can use a custom emoji from their community."
+    },
+    "emojiInfoCustomUnknownDescription": "This is a custom emoji from a community.",
+    "@emojiInfoCustomUnknownDescription": {
+        "description": "Emoji info sheet description when the source community is unknown."
+    },
+    "emojiInfoCustomInviteRequiredDescription": "This is a custom emoji from a community. Ask the author for an invite to use this emoji.",
+    "@emojiInfoCustomInviteRequiredDescription": {
+        "description": "Emoji info sheet description when the user is not in the source community."
+    },
+    "emojiInfoFromHeader": "This emoji is from",
+    "@emojiInfoFromHeader": {
+        "description": "Section header above the source community in the emoji info sheet."
+    },
+    "emojiInfoDiscoverableCommunity": "Discoverable community",
+    "@emojiInfoDiscoverableCommunity": {
+        "description": "Subtitle for a discoverable source community in the emoji info sheet."
+    },
+    "emojiInfoPrivateCommunity": "Private community",
+    "@emojiInfoPrivateCommunity": {
+        "description": "Subtitle for a non-discoverable source community in the emoji info sheet."
+    },
+    "emojiInfoVerifiedCommunity": "Verified community",
+    "@emojiInfoVerifiedCommunity": {
+        "description": "Tooltip for the verified badge on a source community in the emoji info sheet."
+    },
+    "emojiInfoAddToFavorites": "Add to Favorites",
+    "@emojiInfoAddToFavorites": {
+        "description": "Accessibility label for adding an emoji to favorites from the emoji info sheet."
+    },
+    "emojiInfoRemoveFromFavorites": "Remove from Favorites",
+    "@emojiInfoRemoveFromFavorites": {
+        "description": "Accessibility label for removing an emoji from favorites from the emoji info sheet."
     },
     "emojiFrequentlyUsed": "Frequently Used",
     "@emojiFrequentlyUsed": {
@@ -5716,6 +5785,86 @@
     "@favoritesAddToFavorites": {
         "description": "Action to add a channel to favorites."
     },
+    "favoritesAddToSavedMedia": "Add to saved media",
+    "@favoritesAddToSavedMedia": {
+        "description": "Action that adds the selected media to saved media."
+    },
+    "favoritesRemoveFromSavedMedia": "Remove from saved media",
+    "@favoritesRemoveFromSavedMedia": {
+        "description": "Action that removes the selected media from saved media."
+    },
+    "favoritesAddToUrlOnlyGifFavorites": "Add to URL-only GIF favorites",
+    "@favoritesAddToUrlOnlyGifFavorites": {
+        "description": "Media context menu action that saves a GIF favorite by URL without uploading it."
+    },
+    "favoritesRemoveFromUrlOnlyGifFavorites": "Remove from URL-only GIF favorites",
+    "@favoritesRemoveFromUrlOnlyGifFavorites": {
+        "description": "Media context menu action that removes a GIF favorite saved by URL."
+    },
+    "savedMediaAddTitle": "Add to saved media",
+    "@savedMediaAddTitle": {
+        "description": "Title for the add saved media form."
+    },
+    "savedMediaFormNameLabel": "Name",
+    "@savedMediaFormNameLabel": {
+        "description": "Form field label for saved media name."
+    },
+    "savedMediaFormNameHint": "My awesome media",
+    "@savedMediaFormNameHint": {
+        "description": "Placeholder for saved media name input."
+    },
+    "savedMediaFormAltTextLabel": "Alt text",
+    "@savedMediaFormAltTextLabel": {
+        "description": "Form field label for saved media alt text."
+    },
+    "savedMediaFormAltTextHint": "Describe the media",
+    "@savedMediaFormAltTextHint": {
+        "description": "Placeholder for saved media alt text input."
+    },
+    "savedMediaFormTagsLabel": "Tags",
+    "@savedMediaFormTagsLabel": {
+        "description": "Form field label for saved media tags."
+    },
+    "savedMediaFormTagsHint": "funny, reaction, work",
+    "@savedMediaFormTagsHint": {
+        "description": "Placeholder for saved media tags input."
+    },
+    "savedMediaSaveError": "Could not update saved media.",
+    "@savedMediaSaveError": {
+        "description": "Error shown when saving saved media fails."
+    },
+    "savedMediaNameRequired": "Name is required.",
+    "@savedMediaNameRequired": {
+        "description": "Validation error when saved media name is empty."
+    },
+    "gifFavoriteFirstTimeTitle": "How should we save your GIF favorites?",
+    "@gifFavoriteFirstTimeTitle": {
+        "description": "Title for the first-time GIF favorite storage prompt."
+    },
+    "gifFavoriteFirstTimeDescription": "You can store starred GIFs as URL-only favorites or upload them to your saved media. Pick the one that fits how you use them. You can change it any time in Settings > Advanced > Media.",
+    "@gifFavoriteFirstTimeDescription": {
+        "description": "Description for the first-time GIF favorite storage prompt."
+    },
+    "gifFavoriteFirstTimeUrlOnlyDetails": "URL-only favorites (default): synced across your devices, no upload, doesn't count against saved media. The original media may disappear if its host removes it.",
+    "@gifFavoriteFirstTimeUrlOnlyDetails": {
+        "description": "Details for URL-only GIF favorite storage option."
+    },
+    "gifFavoriteFirstTimeSavedMediaDetails": "Saved media: uploaded, taggable, searchable, and persistent, but counts against your saved media limit.",
+    "@gifFavoriteFirstTimeSavedMediaDetails": {
+        "description": "Details for saved media GIF favorite storage option."
+    },
+    "gifFavoriteFirstTimeHint": "We'll only ask once.",
+    "@gifFavoriteFirstTimeHint": {
+        "description": "Hint shown on the first-time GIF favorite storage prompt."
+    },
+    "gifFavoriteFirstTimeUseUrlOnly": "Use URL-only (recommended)",
+    "@gifFavoriteFirstTimeUseUrlOnly": {
+        "description": "Primary action on the first-time GIF favorite storage prompt."
+    },
+    "gifFavoriteFirstTimeUseSavedMedia": "Use saved media",
+    "@gifFavoriteFirstTimeUseSavedMedia": {
+        "description": "Secondary action on the first-time GIF favorite storage prompt."
+    },
     "favoritesHideConfirmTitle": "Hide favorites",
     "@favoritesHideConfirmTitle": {
         "description": "Title for hide favorites confirmation."
@@ -6946,6 +7095,10 @@
     "voicePanelShowOwnCameraLabel": "Show my own camera",
     "@voicePanelShowOwnCameraLabel": {
         "description": "Switch label to show or hide the local camera tile in the voice call grid."
+    },
+    "voicePrioritizeSpeakersLabel": "Prioritize speakers",
+    "@voicePrioritizeSpeakersLabel": {
+        "description": "Voice display preference that moves active speakers toward the front of the call grid when enabled."
     },
     "voiceTextChatShow": "Show chat",
     "@voiceTextChatShow": {
@@ -9737,6 +9890,22 @@
     "@channelDetailsMembersEmptyBody": {
         "description": "Empty state body when channel details has no members loaded."
     },
+    "memberListPermissionDeniedTitle": "You can't view members",
+    "@memberListPermissionDeniedTitle": {
+        "description": "Title when the user lacks permission to view a channel member list."
+    },
+    "memberListPermissionDeniedBody": "You can't view the members of this channel in this community",
+    "@memberListPermissionDeniedBody": {
+        "description": "Body when the user lacks permission to view a channel member list."
+    },
+    "memberListUnavailableTitle": "Member list unavailable",
+    "@memberListUnavailableTitle": {
+        "description": "Title when member list updates are disabled for the community."
+    },
+    "memberListUnavailableBody": "Member lists are temporarily unavailable in this community",
+    "@memberListUnavailableBody": {
+        "description": "Body when member list updates are disabled for the community."
+    },
     "channelDetailsPinsLoadFailedTitle": "Pins could not be loaded",
     "@channelDetailsPinsLoadFailedTitle": {
         "description": "Error title when pinned messages fail to load in channel details."
@@ -10552,6 +10721,30 @@
     "composerShowKeyboard": "Show keyboard",
     "@composerShowKeyboard": {
         "description": "Accessibility label for the composer button that closes the expression picker and shows the keyboard."
+    },
+    "composerCloseAttachmentPanel": "Close attachment picker",
+    "@composerCloseAttachmentPanel": {
+        "description": "Accessibility label for the composer button that closes the attachment gallery panel."
+    },
+    "chatAttachmentPanelPhotos": "Photos",
+    "@chatAttachmentPanelPhotos": {
+        "description": "Label for the native photo picker action on the attachment panel."
+    },
+    "chatAttachmentPanelFiles": "Files",
+    "@chatAttachmentPanelFiles": {
+        "description": "Label for the native file picker action on the attachment panel."
+    },
+    "chatAttachmentLibraryPermissionTitle": "Photo library access needed",
+    "@chatAttachmentLibraryPermissionTitle": {
+        "description": "Title shown when the attachment gallery cannot read the photo library."
+    },
+    "chatAttachmentLibraryPermissionBody": "Allow photo library access to browse and attach recent photos and videos.",
+    "@chatAttachmentLibraryPermissionBody": {
+        "description": "Body text when the attachment gallery is blocked by photo library permission."
+    },
+    "chatAttachmentLibraryPermissionSettings": "Open settings",
+    "@chatAttachmentLibraryPermissionSettings": {
+        "description": "Button that opens system settings so the user can grant photo library access."
     },
     "messageAccessibilityLabel": "{author}, {summary}",
     "@messageAccessibilityLabel": {
@@ -11831,6 +12024,31 @@
     "userSettingsNavWhatsNew": "What's New",
     "@userSettingsNavWhatsNew": {
         "description": "User settings navigation item for release notes."
+    },
+    "userSettingsJoinFluxerLabs": "Join Fluxer Labs",
+    "@userSettingsJoinFluxerLabs": {
+        "description": "User settings What's New action to join the Fluxer Labs community."
+    },
+    "userSettingsNavAppLicenses": "App Licenses",
+    "@userSettingsNavAppLicenses": {
+        "description": "User settings navigation item to open open-source app licenses."
+    },
+    "userSettingsAppLicensesDescription": "Open-source software used by this app. This app is built with Flutter.",
+    "@userSettingsAppLicensesDescription": {
+        "description": "Description shown at the top of the app licenses settings page."
+    },
+    "userSettingsAppLicensesLoadError": "Could not load app licenses.",
+    "@userSettingsAppLicensesLoadError": {
+        "description": "Error message when the app licenses list fails to load."
+    },
+    "userSettingsAppLicensesPackageCount": "{count, plural, =1{1 license} other{{count} licenses}}",
+    "@userSettingsAppLicensesPackageCount": {
+        "description": "Subtitle on an app licenses list row showing how many license entries apply to a package.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
     },
     "userSettingsNavLogOut": "Log Out",
     "@userSettingsNavLogOut": {
@@ -15962,6 +16180,8 @@
     "keybindActionStartDmCall": "Start a call in a DM or group",
     "keybindActionToggleSoundboard": "Toggle the soundboard",
     "keybindActionToggleCompactCallView": "Expand or collapse compact call view",
+    "keybindActionPushToTalkPriority": "Push to talk (priority)",
+    "keybindActionVoiceActivityPriority": "Voice activity priority",
     "keybindActionOpenHelp": "Open help",
     "keybindActionSearchMessages": "Search messages",
     "keybindActionOpenContextMenu": "Open the context menu",

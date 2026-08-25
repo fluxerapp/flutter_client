@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:fluxer_app/features/ui/media_viewer/media_viewer_dismissible.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class TouchMediaViewerPage extends StatefulWidget {
   const TouchMediaViewerPage({

@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart';
+import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_menu_data.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
@@ -10,8 +11,8 @@ import 'package:fluxer_app/features/voice/providers/voice_channel_participants_p
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_participant_menu_capabilities.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/gateway.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 const String _moderatorId = 'moderator';
@@ -45,6 +46,26 @@ VoiceParticipantMenuTarget _target() {
 class _DisconnectedVoiceSession extends VoiceSession {
   @override
   VoiceSessionState build() => const VoiceSessionState();
+}
+
+class _ConnectedSelfVoiceSession extends VoiceSession {
+  @override
+  VoiceSessionState build() => const VoiceSessionState(
+    isConnected: true,
+    channelId: _channelId,
+    guildId: _guildId,
+  );
+}
+
+VoiceParticipantMenuTarget _selfTarget() {
+  final VoiceState voice = _voiceState(mute: false, deaf: false);
+  return VoiceParticipantMenuTarget(
+    participant: VoiceChannelParticipantData(userId: _targetId, voice: voice),
+    tileId: '$_connectionId:camera',
+    guildId: _guildId,
+    channelId: _channelId,
+    tileSource: VoiceParticipantTileSource.camera,
+  );
 }
 
 const ProfileMenuCapabilities _fullVoiceModeration = ProfileMenuCapabilities(
@@ -85,6 +106,7 @@ void main() {
           currentUserIdProvider.overrideWithValue(_moderatorId),
           voiceSessionProvider.overrideWith(_DisconnectedVoiceSession.new),
           voiceCallLayoutProvider.overrideWith(VoiceCallLayout.new),
+          voiceSettingsProvider.overrideWith(VoiceSettings.new),
         ],
         child: Consumer(
           builder: (BuildContext context, WidgetRef ref, Widget? child) {
@@ -104,6 +126,35 @@ void main() {
     expect(capabilities.showDisconnect, isTrue);
     expect(capabilities.showSelfMute, isFalse);
     expect(capabilities.showSelfDeafen, isFalse);
+    expect(capabilities.showDisplayPreferences, isFalse);
+  });
+
+  testWidgets('shows display preferences for self in voice', (
+    WidgetTester tester,
+  ) async {
+    late VoiceParticipantMenuCapabilities capabilities;
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: <Override>[
+          currentUserIdProvider.overrideWithValue(_targetId),
+          voiceSessionProvider.overrideWith(_ConnectedSelfVoiceSession.new),
+          voiceCallLayoutProvider.overrideWith(VoiceCallLayout.new),
+          voiceSettingsProvider.overrideWith(VoiceSettings.new),
+        ],
+        child: Consumer(
+          builder: (BuildContext context, WidgetRef ref, Widget? child) {
+            capabilities = buildVoiceParticipantMenuCapabilities(
+              ref: ref,
+              target: _selfTarget(),
+              voice: _selfTarget().participant.voice,
+            );
+            return const SizedBox.shrink();
+          },
+        ),
+      ),
+    );
+    expect(capabilities.showDisplayPreferences, isTrue);
+    expect(capabilities.prioritizeSpeakingParticipants, isFalse);
   });
 
   testWidgets('reflects live voice state for community mute checkbox', (
@@ -115,6 +166,7 @@ void main() {
         currentUserIdProvider.overrideWithValue(_moderatorId),
         voiceSessionProvider.overrideWith(_DisconnectedVoiceSession.new),
         voiceCallLayoutProvider.overrideWith(VoiceCallLayout.new),
+        voiceSettingsProvider.overrideWith(VoiceSettings.new),
       ],
     );
     addTearDown(container.dispose);

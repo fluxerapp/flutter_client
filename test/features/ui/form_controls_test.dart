@@ -10,7 +10,7 @@ import 'package:fluxer_app/features/ui/checkbox/fluxer_checkbox.dart';
 import 'package:fluxer_app/features/ui/radio_group/fluxer_radio_group.dart';
 import 'package:fluxer_app/features/ui/toggle_switch/fluxer_switch_control.dart';
 import 'package:fluxer_app/features/ui/toggle_switch/fluxer_toggle_switch.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 import '../../helpers/test_l10n.dart';
 

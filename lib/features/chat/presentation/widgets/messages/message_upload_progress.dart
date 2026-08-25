@@ -6,7 +6,7 @@ import 'package:fluxer_app/features/chat/providers/messages/message_upload_sessi
 import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/uploading_attachment_utils.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class MessageUploadProgress extends ConsumerWidget {

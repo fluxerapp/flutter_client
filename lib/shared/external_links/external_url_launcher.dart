@@ -4,8 +4,8 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/features/settings/domain/default_web_browser.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/platform_browser_launcher.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ExternalUrlBrowserStyle {

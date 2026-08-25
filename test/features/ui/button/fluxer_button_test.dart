@@ -9,7 +9,7 @@ import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_variant.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../../../helpers/test_l10n.dart';

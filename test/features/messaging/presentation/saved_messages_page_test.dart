@@ -11,7 +11,7 @@ import 'package:fluxer_app/features/messaging/presentation/saved_messages_page.d
 import 'package:fluxer_app/features/messaging/presentation/widgets/saved_messages_empty_state.dart';
 import 'package:fluxer_app/features/messaging/providers/saved_message_list_provider.dart';
 import 'package:fluxer_app/features/messaging/providers/saved_messages_sync_provider.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../helpers/open_test_database.dart';

@@ -182,22 +182,19 @@ Future<Map<String, ForwardDestination>> _resolve(
 }
 
 void main() {
-  test(
-    'excludes the source channel and non-text-based channel types',
-    () async {
-      final FluxerDatabase db = await _seedDb();
-      final ProviderContainer container = _container(db, <DmConversation>[]);
-      addTearDown(container.dispose);
+  test('excludes non-text-based channel types', () async {
+    final FluxerDatabase db = await _seedDb();
+    final ProviderContainer container = _container(db, <DmConversation>[]);
+    addTearDown(container.dispose);
 
-      final Map<String, ForwardDestination> byId = await _resolve(container);
+    final Map<String, ForwardDestination> byId = await _resolve(container);
 
-      expect(byId.containsKey('c_source'), isFalse, reason: 'source excluded');
-      expect(byId.containsKey('c_category'), isFalse);
-      expect(byId.containsKey('c_link'), isFalse);
-      expect(byId.containsKey('c_text'), isTrue);
-      expect(byId.containsKey('c_voice'), isTrue);
-    },
-  );
+    expect(byId.containsKey('c_source'), isTrue);
+    expect(byId.containsKey('c_category'), isFalse);
+    expect(byId.containsKey('c_link'), isFalse);
+    expect(byId.containsKey('c_text'), isTrue);
+    expect(byId.containsKey('c_voice'), isTrue);
+  });
 
   test('maps guild channel kinds and keeps owner channels sendable', () async {
     final FluxerDatabase db = await _seedDb();
@@ -335,7 +332,7 @@ void main() {
     expect(byId['notes_1']!.kind, ForwardDestinationKind.personalNotes);
   });
 
-  test('excludes a DM that is itself the forward source', () async {
+  test('includes a DM that is itself the forward source', () async {
     final FluxerDatabase db = await _seedDb();
     final ProviderContainer container = _container(db, <DmConversation>[
       _dm('c_source'),
@@ -347,7 +344,7 @@ void main() {
     final Set<String> ids = result
         .map((ForwardDestination d) => d.channelId)
         .toSet();
-    expect(ids.contains('c_source'), isFalse);
+    expect(ids.contains('c_source'), isTrue);
     expect(ids.contains('dm_keep'), isTrue);
   });
 

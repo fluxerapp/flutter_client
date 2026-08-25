@@ -4,10 +4,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/data/favorite_media_repository.dart';
+import 'package:fluxer_app/features/chat/domain/favorite_gif_entry.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/favorite_gif_first_time_prompt_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/fluxer_animated_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/favorite_gifs_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/gif_provider.dart';
 import 'package:fluxer_app/features/chat/utils/gif_category_grid_layout.dart';
@@ -21,9 +24,9 @@ import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/expandable_sheet_gestures.dart';
 import 'package:fluxer_dart/export.dart' as sdk;
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kSearchDebounce = Duration(milliseconds: 400);
@@ -39,9 +42,13 @@ const _kSkeletonTileCount = 12;
 enum _GifPickerView { landing, trending }
 
 class _GifFavoriteLookup {
-  _GifFavoriteLookup.fromMemes(List<FavoriteMeme> memes)
-    : _klipyBySlug = <String, FavoriteMeme>{},
-      _tenorBySlugId = <String, FavoriteMeme>{} {
+  _GifFavoriteLookup({
+    required List<FavoriteMeme> memes,
+    required Iterable<FavoriteGifEntry> urlFavorites,
+    required this.saveAsSavedMedia,
+  }) : _urlFavoriteUrls = urlFavorites.map((entry) => entry.url).toSet(),
+       _klipyBySlug = <String, FavoriteMeme>{},
+       _tenorBySlugId = <String, FavoriteMeme>{} {
     for (final meme in memes) {
       final klipySlug = meme.klipySlug?.trim();
       if (klipySlug != null && klipySlug.isNotEmpty) {
@@ -55,10 +62,19 @@ class _GifFavoriteLookup {
     }
   }
 
+  final bool saveAsSavedMedia;
+  final Set<String> _urlFavoriteUrls;
   final Map<String, FavoriteMeme> _klipyBySlug;
   final Map<String, FavoriteMeme> _tenorBySlugId;
 
-  FavoriteMeme? favoriteForGif(GifPickerGif gif) {
+  bool isFavorite(GifPickerGif gif) {
+    if (saveAsSavedMedia) {
+      return favoriteMemeForGif(gif) != null;
+    }
+    return _urlFavoriteUrls.contains(favoriteGifUrl(gif));
+  }
+
+  FavoriteMeme? favoriteMemeForGif(GifPickerGif gif) {
     final shareId = gifShareId(gif);
     return switch (gif.provider) {
       GifProviderKind.klipy => _klipyBySlug[shareId],
@@ -195,7 +211,7 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
 
     return ColoredBox(
       key: const ValueKey<String>('gif-picker-content-surface'),
-      color: context.colors.backgroundPrimary,
+      color: context.colors.chatInputBackground,
       child: Column(
         children: [
           _buildHeader(context, provider),
@@ -278,15 +294,24 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
   Widget _buildBody(BuildContext context, sdk.Locale locale) {
     final favoriteMemes =
         ref.watch(favoriteMemesProvider).value ?? const <FavoriteMeme>[];
-    final favoriteLookup = _GifFavoriteLookup.fromMemes(favoriteMemes);
+    final saveAsSavedMedia = ref.watch(
+      advancedPreferencesProvider.select(
+        (state) => state.saveGifFavoritesAsSavedMedia,
+      ),
+    );
+    final favoriteLookup = _GifFavoriteLookup(
+      memes: favoriteMemes,
+      urlFavorites: ref.watch(favoriteGifsProvider).entries,
+      saveAsSavedMedia: saveAsSavedMedia,
+    );
     if (_view == _GifPickerView.trending) {
       final trending = ref.watch(gifTrendingProvider(locale));
       return _AsyncGifGrid(
         scrollController: widget.scrollController,
         gifs: trending,
         onGifTap: (gif) => _selectGif(gif, locale),
-        favoriteForGif: favoriteLookup.favoriteForGif,
-        onGifLongPress: _showGifActions,
+        isGifFavorite: favoriteLookup.isFavorite,
+        onGifLongPress: (gif) => _showGifActions(gif, favoriteLookup),
       );
     }
 
@@ -323,8 +348,9 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
                       context,
                     ).gifPickerNoResultsDescription,
                     onGifTap: (gif) => _selectGif(gif, locale),
-                    favoriteForGif: favoriteLookup.favoriteForGif,
-                    onGifLongPress: _showGifActions,
+                    isGifFavorite: favoriteLookup.isFavorite,
+                    onGifLongPress: (gif) =>
+                        _showGifActions(gif, favoriteLookup),
                   ),
           ),
         ],
@@ -340,8 +366,8 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
         onTrendingTap: _showTrending,
         onCategoryTap: _setSearchTerm,
         onGifTap: (gif) => _selectGif(gif, locale),
-        favoriteForGif: favoriteLookup.favoriteForGif,
-        onGifLongPress: _showGifActions,
+        isGifFavorite: favoriteLookup.isFavorite,
+        onGifLongPress: (gif) => _showGifActions(gif, favoriteLookup),
       ),
       error: (_, _) => _GifEmptyState(
         title: FluxerLocalizations.of(context).gifPickerLoadFailedTitle,
@@ -400,8 +426,8 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
     }
   }
 
-  void _showGifActions(GifPickerGif gif, FavoriteMeme? favorite) {
-    final isFavorite = favorite != null;
+  void _showGifActions(GifPickerGif gif, _GifFavoriteLookup favoriteLookup) {
+    final isFavorite = favoriteLookup.isFavorite(gif);
     unawaited(
       FluxerBottomSheet.show<void>(
         context,
@@ -420,7 +446,7 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
                     : PhosphorIconsFill.star,
                 onTap: () {
                   close();
-                  unawaited(_toggleGifFavorite(gif, favorite));
+                  unawaited(_toggleGifFavorite(gif, favoriteLookup));
                 },
               ),
             ],
@@ -432,21 +458,40 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
 
   Future<void> _toggleGifFavorite(
     GifPickerGif gif,
-    FavoriteMeme? favorite,
+    _GifFavoriteLookup favoriteLookup,
   ) async {
     try {
-      final repository = ref.read(favoriteMediaRepositoryProvider);
-      if (favorite != null) {
-        await repository.deleteFavoriteMeme(favorite);
+      if (favoriteLookup.saveAsSavedMedia) {
+        final repository = ref.read(favoriteMediaRepositoryProvider);
+        final favorite = favoriteLookup.favoriteMemeForGif(gif);
+        if (favorite != null) {
+          await repository.deleteFavoriteMeme(favorite);
+        } else {
+          await repository.createFromGif(gif);
+        }
+        return;
+      }
+
+      final notifier = ref.read(favoriteGifsProvider.notifier);
+      final url = favoriteGifUrl(gif);
+      if (favoriteLookup.isFavorite(gif)) {
+        notifier.removeByUrl(url);
       } else {
-        await repository.createFromGif(
-          gif,
-          saveAsSavedMedia: ref.read(
-            advancedPreferencesProvider.select(
-              (state) => state.saveGifFavoritesAsSavedMedia,
-            ),
-          ),
-        );
+        final bool seenPrompt = ref
+            .read(favoriteGifsProvider)
+            .seenFirstTimePrompt;
+        Future<void> addFavorite() async {
+          notifier.addFromGif(gif);
+        }
+
+        if (!seenPrompt && mounted) {
+          await showFavoriteGifFirstTimePrompt(
+            context: context,
+            onConfirm: addFavorite,
+          );
+          return;
+        }
+        await addFavorite();
       }
     } on Object {
       ref
@@ -467,7 +512,7 @@ class _FeaturedGifLanding extends StatelessWidget {
     required this.onTrendingTap,
     required this.onCategoryTap,
     required this.onGifTap,
-    required this.favoriteForGif,
+    required this.isGifFavorite,
     required this.onGifLongPress,
     this.onFavoritesTap,
     this.scrollController,
@@ -478,8 +523,8 @@ class _FeaturedGifLanding extends StatelessWidget {
   final VoidCallback onTrendingTap;
   final ValueChanged<String> onCategoryTap;
   final ValueChanged<GifPickerGif> onGifTap;
-  final FavoriteMeme? Function(GifPickerGif gif) favoriteForGif;
-  final void Function(GifPickerGif gif, FavoriteMeme? favorite) onGifLongPress;
+  final bool Function(GifPickerGif gif) isGifFavorite;
+  final ValueChanged<GifPickerGif> onGifLongPress;
   final ScrollController? scrollController;
 
   @override
@@ -525,7 +570,7 @@ class _FeaturedGifLanding extends StatelessWidget {
         scrollController: scrollController,
         gifs: featured.gifs,
         onGifTap: onGifTap,
-        favoriteForGif: favoriteForGif,
+        isGifFavorite: isGifFavorite,
         onGifLongPress: onGifLongPress,
       );
     }
@@ -564,7 +609,7 @@ class _AsyncGifGrid extends StatelessWidget {
   const _AsyncGifGrid({
     required this.gifs,
     required this.onGifTap,
-    required this.favoriteForGif,
+    required this.isGifFavorite,
     required this.onGifLongPress,
     this.scrollController,
     this.emptyTitle,
@@ -573,8 +618,8 @@ class _AsyncGifGrid extends StatelessWidget {
 
   final AsyncValue<List<GifPickerGif>> gifs;
   final ValueChanged<GifPickerGif> onGifTap;
-  final FavoriteMeme? Function(GifPickerGif gif) favoriteForGif;
-  final void Function(GifPickerGif gif, FavoriteMeme? favorite) onGifLongPress;
+  final bool Function(GifPickerGif gif) isGifFavorite;
+  final ValueChanged<GifPickerGif> onGifLongPress;
   final ScrollController? scrollController;
   final String? emptyTitle;
   final String? emptyDescription;
@@ -596,7 +641,7 @@ class _AsyncGifGrid extends StatelessWidget {
         scrollController: scrollController,
         gifs: items,
         onGifTap: onGifTap,
-        favoriteForGif: favoriteForGif,
+        isGifFavorite: isGifFavorite,
         onGifLongPress: onGifLongPress,
       );
     },
@@ -612,15 +657,15 @@ class _GifGrid extends StatelessWidget {
   const _GifGrid({
     required this.gifs,
     required this.onGifTap,
-    required this.favoriteForGif,
+    required this.isGifFavorite,
     required this.onGifLongPress,
     this.scrollController,
   });
 
   final List<GifPickerGif> gifs;
   final ValueChanged<GifPickerGif> onGifTap;
-  final FavoriteMeme? Function(GifPickerGif gif) favoriteForGif;
-  final void Function(GifPickerGif gif, FavoriteMeme? favorite) onGifLongPress;
+  final bool Function(GifPickerGif gif) isGifFavorite;
+  final ValueChanged<GifPickerGif> onGifLongPress;
   final ScrollController? scrollController;
 
   @override
@@ -637,7 +682,6 @@ class _GifGrid extends StatelessWidget {
     },
     itemBuilder: (context, item, {required isAnimatedImagePlaybackAllowed}) {
       final gif = item as GifPickerGif;
-      final favorite = favoriteForGif(gif);
       final title = gif.title.trim().isEmpty
           ? parseKlipyTitleFromUrl(gif.url)
           : gif.title;
@@ -646,9 +690,9 @@ class _GifGrid extends StatelessWidget {
         previewUrl: gif.proxySrc.isNotEmpty ? gif.proxySrc : gif.src,
         sourceUrl: gif.src,
         allowAnimatedImagePlayback: isAnimatedImagePlaybackAllowed,
-        isFavorite: favorite != null,
+        isFavorite: isGifFavorite(gif),
         onTap: () => onGifTap(gif),
-        onLongPress: () => onGifLongPress(gif, favorite),
+        onLongPress: () => onGifLongPress(gif),
       );
     },
   );

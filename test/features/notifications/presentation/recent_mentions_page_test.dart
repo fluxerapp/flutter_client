@@ -10,7 +10,7 @@ import 'package:fluxer_app/features/notifications/presentation/recent_mentions_p
 import 'package:fluxer_app/features/notifications/presentation/widgets/mentions_empty_state.dart';
 import 'package:fluxer_app/features/notifications/providers/notification_stream_providers.dart';
 import 'package:fluxer_app/features/notifications/providers/notifications_providers.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../helpers/open_test_database.dart';

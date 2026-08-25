@@ -6,7 +6,7 @@ import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_result.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_status.dart';
 import 'package:fluxer_app/features/ui/system_permissions/system_permission_settings_prompt.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 Permission permissionForKind(SystemPermissionKind kind) {
@@ -15,6 +15,8 @@ Permission permissionForKind(SystemPermissionKind kind) {
       return Permission.microphone;
     case SystemPermissionKind.camera:
       return Permission.camera;
+    case SystemPermissionKind.photos:
+      return Permission.photos;
     case SystemPermissionKind.notifications:
       return Permission.notification;
   }

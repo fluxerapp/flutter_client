@@ -7,8 +7,8 @@ import 'package:fluxer_app/features/settings/presentation/widgets/guild/webhooks
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/webhooks/guild_webhooks_status_body.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/webhooks/guild_webhooks_widget.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_webhooks_provider.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:material_ui/material_ui.dart';
 
 class SettingsWebhooksPage extends ConsumerWidget {
   const SettingsWebhooksPage({required this.guildId, super.key});

@@ -17,9 +17,9 @@ import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/guilds/utils/invite_link_parser.dart';
 import 'package:fluxer_app/features/settings/providers/default_apps_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/utils/open_user_settings_deep_link.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_url_launcher.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'deep_link_handler.g.dart';

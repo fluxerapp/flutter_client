@@ -7,7 +7,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_bottom_input_slot.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class ChatComposerColumn extends ConsumerStatefulWidget {
   const ChatComposerColumn({
@@ -103,8 +103,7 @@ class _ChatComposerColumnState extends ConsumerState<ChatComposerColumn>
                 widget.autocompletePanelScrollController,
           ),
         ),
-        if (widget.showInlineEmojiPicker && isMobileLayout(context))
-          const BottomInputSpacer(),
+        if (isMobileLayout(context)) const BottomInputSpacer(),
       ],
     );
   }

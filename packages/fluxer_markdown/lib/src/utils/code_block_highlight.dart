@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
+import 'package:fluxer_markdown/src/utils/bounded_text.dart';
 import 'package:fluxer_markdown/src/utils/code_block_highlight_theme.dart';
 import 'package:fluxer_markdown/src/utils/highlight_languages.dart';
 import 'package:highlight/highlight.dart' show Node, highlight;
@@ -113,7 +114,7 @@ class FluxerHighlightedCode extends StatelessWidget {
       color: backgroundColor,
       child: Padding(
         padding: padding,
-        child: RichText(
+        child: buildFluxerBoundedRichText(
           text: TextSpan(
             style: textStyle,
             children: highlightedCodeSpans(
@@ -122,6 +123,7 @@ class FluxerHighlightedCode extends StatelessWidget {
               isDark: isDark,
             ),
           ),
+          baseStyle: textStyle,
         ),
       ),
     );

@@ -5,8 +5,8 @@ import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/member_role_color_dot.dart';
 import 'package:fluxer_app/features/members/utils/member_role_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/role_color_utils.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class MemberRoleBadge extends ConsumerWidget {
@@ -93,6 +93,7 @@ class MemberRoleBadge extends ConsumerWidget {
                     fontWeight: FontWeight.w600,
                     height: 1.33,
                   ),
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),

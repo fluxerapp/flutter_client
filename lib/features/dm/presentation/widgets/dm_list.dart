@@ -17,6 +17,7 @@ import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.d
 import 'package:fluxer_app/features/channels/utils/show_channel_debug_sheet.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/utils/delete_my_messages_in_channel_action.dart';
 import 'package:fluxer_app/features/dm/domain/create_dm_restriction.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
@@ -48,11 +49,11 @@ import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/utils/call_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/sheets/add_friend_sheet.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/navigation_item_semantics.dart';
 import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class DMList extends ConsumerStatefulWidget {
@@ -435,6 +436,7 @@ class _DMListState extends ConsumerState<DMList> {
     required Widget child,
     VoidCallback? onTap,
     VoidCallback? onLongPress,
+    GestureTapUpCallback? onSecondaryTapUp,
     double? height,
     String? semanticLabel,
   }) => FluxerSelectableRow(
@@ -450,6 +452,7 @@ class _DMListState extends ConsumerState<DMList> {
     semanticLabel: semanticLabel,
     onTap: onTap,
     onLongPress: onLongPress,
+    onSecondaryTapUp: onSecondaryTapUp,
     child: child,
   );
 
@@ -910,6 +913,9 @@ class _DMListState extends ConsumerState<DMList> {
             unawaited(_navigateToDmChannel(c.id));
           },
           onLongPress: isMobile ? () => _showDmContextMenu(context, c) : null,
+          onSecondaryTapUp: isMobile
+              ? null
+              : (_) => unawaited(_showDmContextMenu(context, c)),
           child: Row(
             children: [
               Consumer(
@@ -1340,6 +1346,15 @@ class _DMListState extends ConsumerState<DMList> {
                 ),
               );
         }
+      case _DmAction.deleteMyMessages:
+        unawaited(
+          confirmAndDeleteMyMessagesInChannel(
+            context,
+            ref,
+            channelId: convo.id,
+            isPrivateConversation: true,
+          ),
+        );
       case _DmAction.closeDm:
         if (!mounted) {
           break;
@@ -1522,6 +1537,7 @@ enum _DmAction {
   ignoreFriendRequest,
   block,
   unblock,
+  deleteMyMessages,
   closeDm,
   debugUser,
   debugChannel,
@@ -1655,6 +1671,14 @@ class _DmBottomSheet extends ConsumerWidget {
             ),
         ]);
       }
+      children.add(
+        FluxerBottomSheetMenuItem(
+          icon: PhosphorIconsFill.trash,
+          label: l10n.channelMenuDeleteMyMessagesConfirm,
+          isDanger: true,
+          onTap: () => pop(_DmAction.deleteMyMessages),
+        ),
+      );
       children.add(
         FluxerBottomSheetMenuItem(
           icon: PhosphorIconsFill.xCircle,

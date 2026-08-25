@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:io' show Platform;
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:fluxer_app/core/audio/app_audio_session_restore.dart';
 import 'package:fluxer_app/features/voice/tts/tts_rate_utils.dart';
 import 'package:fluxer_app/features/voice/tts/tts_text_formatter.dart';
 
@@ -209,6 +211,9 @@ class FluxerTts {
     _onError = null;
     _currentTarget = null;
     _setSpeaking(false);
+    if (!kIsWeb && (Platform.isIOS || Platform.isMacOS)) {
+      unawaited(restorePreferredAppAudioSession());
+    }
     if (error) {
       onError?.call();
       return;

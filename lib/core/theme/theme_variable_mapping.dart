@@ -1,5 +1,5 @@
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 const Map<String, String> kThemeCssVariableToProperty = {
   '--accent-danger': 'accentDanger',

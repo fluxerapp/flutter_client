@@ -17,7 +17,7 @@ import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart'
         FluxerMenuRadioIndicator;
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 /// Builder for action menu items that receives a close callback.

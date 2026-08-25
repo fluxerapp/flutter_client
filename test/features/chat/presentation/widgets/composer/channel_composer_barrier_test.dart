@@ -7,7 +7,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/channel_composer_barrier.dart';
 import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 import '../../../../../helpers/test_l10n.dart';
 

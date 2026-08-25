@@ -13,9 +13,9 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/typing_in
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../../helpers/test_l10n.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/router/shell_location_resolver.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_ui/material_ui.dart';
 
 void main() {
   group('resolveShellLocation', () {

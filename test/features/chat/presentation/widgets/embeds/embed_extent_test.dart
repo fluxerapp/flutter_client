@@ -12,7 +12,7 @@ import 'package:fluxer_app/features/chat/utils/embed_gallery_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 /// The reservation contract: a media tile's box exists at first layout and
 /// never changes when (or whether) the bytes arrive. In the test environment

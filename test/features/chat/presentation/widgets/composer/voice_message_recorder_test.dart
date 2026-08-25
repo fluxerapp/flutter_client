@@ -7,7 +7,7 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_recorder.dart';
 import 'package:fluxer_app/features/shell/providers/shell_manual_gesture_block_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 Widget _buildRecorderTestApp({
   required ProviderContainer container,

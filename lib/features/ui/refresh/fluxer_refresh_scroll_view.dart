@@ -5,7 +5,7 @@ import 'package:cupertino_ui/cupertino_ui.dart'
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 /// [CustomScrollView] with pull-to-refresh using [FluxerLoadingSpinner].
 ///

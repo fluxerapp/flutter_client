@@ -6,7 +6,7 @@ import 'package:fluxer_app/features/chat/utils/slowmode_format.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 void listenSlowmodeRateLimitedAlerts(WidgetRef ref, BuildContext context) {
   ref.listen<Duration?>(slowmodeRateLimitedAlertProvider, (

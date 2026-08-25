@@ -92,11 +92,11 @@ import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/markdown/message_markdown_settings.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kUnreadDividerHeight = 16.0;
@@ -1184,6 +1184,20 @@ class _MessageListState extends ConsumerState<MessageList> {
     if (next.any((Message m) => m.id == anchor)) {
       return;
     }
+    // An acked own send renames the anchor's id instead of removing the row,
+    // and nonces reach every recipient, so only the sender's row may claim it.
+    final String? currentUserId = ref.read(currentUserIdProvider);
+    if (currentUserId != null && currentUserId.isNotEmpty) {
+      for (final Message message in next.reversed) {
+        if (message.clientNonce == anchor &&
+            message.authorId == currentUserId) {
+          setState(() {
+            _anchorId = message.id;
+          });
+          return;
+        }
+      }
+    }
     String? nearestOlder;
     for (final Message message in next.reversed) {
       if (compareSnowflakeIds(message.id, anchor) < 0) {
@@ -1659,6 +1673,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     required bool swipeToReplyEnabled,
     bool renderDaySeparator = true,
     bool prependUnreadSeparator = false,
+    bool forceLeadingSpacing = false,
   }) {
     final bool isNewDay =
         renderDaySeparator &&
@@ -1679,14 +1694,13 @@ class _MessageListState extends ConsumerState<MessageList> {
       isGroupStart: !isGrouped,
       isNewDay: isNewDay,
       isUnreadBoundary: isUnreadBoundary,
-      hasPrevious: previousMessage != null,
+      hasPrevious: previousMessage != null || forceLeadingSpacing,
       bothSystem:
           message.isSystemMessage &&
           (previousMessage?.isSystemMessage ?? false),
       spacing: renderSettings.messageGroupSpacing,
     );
-    final Object signature = (
-      message,
+    final Object layoutSignature = (
       isNewDay,
       isGrouped,
       isUnreadBoundary,
@@ -1705,7 +1719,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       swipeToReplyEnabled,
       renderSettings.messageDisplayCompact,
     );
-    return _tileCache.resolve(message.id, signature, () {
+    return _tileCache.resolve(message.id, layoutSignature, () {
       if (message.isSystemMessage) {
         final bool canDelete = canDeleteMessage(
           message: message,
@@ -1799,6 +1813,7 @@ class _MessageListState extends ConsumerState<MessageList> {
         leadingGroupSpacing: leading,
         child: RepaintBoundary(
           child: MessageItem(
+            key: ValueKey<String>(message.id),
             message: message,
             isGrouped: isGrouped,
             renderSettings: renderSettings,
@@ -1880,7 +1895,7 @@ class _MessageListState extends ConsumerState<MessageList> {
           ),
         ),
       );
-    });
+    }, message: message);
   }
 
   Widget _buildStreamItem({
@@ -1921,12 +1936,18 @@ class _MessageListState extends ConsumerState<MessageList> {
         final String? groupKey = item.groupKey;
         final bool isRevealed =
             groupKey != null && revealedCollapsedGroupKey == groupKey;
+        final double leadingSpacing = leadingGroupSpacingBeforeStreamItem(
+          stream,
+          dataIndex,
+          spacing: renderSettings.messageGroupSpacing,
+        );
         final Object signature = (
           item.type,
           item.messages.length,
           isRevealed,
           highlightedMessageId,
           swipeToReplyEnabled,
+          leadingSpacing,
         );
         return _tileCache.resolve('group-$groupKey', signature, () {
           return _wrapWithUnreadSeparator(
@@ -1934,6 +1955,7 @@ class _MessageListState extends ConsumerState<MessageList> {
             BlockedMessageGroups(
               item: item,
               isRevealed: isRevealed,
+              leadingGroupSpacing: leadingSpacing,
               leadingPreviousMessage: resolvePreviousMessageForStreamItem(
                 stream,
                 dataIndex,
@@ -1989,6 +2011,7 @@ class _MessageListState extends ConsumerState<MessageList> {
             context: context,
             message: message,
             previousMessage: previousMessage,
+            forceLeadingSpacing: followsCollapsedGroup(stream, dataIndex),
             visualUnreadId: visualUnreadId,
             highlightedMessageId: highlightedMessageId,
             currentUserId: currentUserId,
@@ -2542,16 +2565,16 @@ class _MessageListState extends ConsumerState<MessageList> {
           (
             BuildContext context,
             MessageRenderSettings messageRenderSettings,
-            String? guildId,
-            bool isGuildSendDisabled,
-            ({
+            String? guildId, {
+            required bool isGuildSendDisabled,
+            required ({
               bool canSendMessages,
               bool canAddReactions,
               bool canPinMessage,
               bool canManageMessages,
             })
             channelActions,
-          ) {
+          }) {
             final bool swipeToReplyEnabled = !isCompactWideDrawerPeekMode(
               context,
               shellLocation: ref.watch(shellLocationProvider),
@@ -2914,16 +2937,16 @@ class _MessageListSettingsLayer extends ConsumerWidget {
   final Widget Function(
     BuildContext context,
     MessageRenderSettings settings,
-    String? guildId,
-    bool isGuildSendDisabled,
-    ({
+    String? guildId, {
+    required bool isGuildSendDisabled,
+    required ({
       bool canSendMessages,
       bool canAddReactions,
       bool canPinMessage,
       bool canManageMessages,
     })
     channelActions,
-  )
+  })
   builder;
 
   @override
@@ -3011,23 +3034,29 @@ class _MessageListSettingsLayer extends ConsumerWidget {
         selectionContextMenuBuilder: selectionMenuBuilderFor(searchEngines),
       ),
     );
-    return builder(context, settings, guildId, isGuildSendDisabled, (
-      canSendMessages: channelMessagePerms.canSendMessages,
-      canAddReactions: canAddReactionsInChannel(
-        isDmChannel: isDmChannel,
-        channelPermissionBits: channelPermissionBits,
-        interactionsBlocked: interactionsBlocked,
+    return builder(
+      context,
+      settings,
+      guildId,
+      isGuildSendDisabled: isGuildSendDisabled,
+      channelActions: (
+        canSendMessages: channelMessagePerms.canSendMessages,
+        canAddReactions: canAddReactionsInChannel(
+          isDmChannel: isDmChannel,
+          channelPermissionBits: channelPermissionBits,
+          interactionsBlocked: interactionsBlocked,
+        ),
+        canPinMessage: canPinMessageInChannel(
+          isDmChannel: isDmChannel,
+          channelPermissionBits: channelPermissionBits,
+          interactionsBlocked: interactionsBlocked,
+        ),
+        canManageMessages: canManageMessagesInChannel(
+          isDmChannel: isDmChannel,
+          channelPermissionBits: channelPermissionBits,
+        ),
       ),
-      canPinMessage: canPinMessageInChannel(
-        isDmChannel: isDmChannel,
-        channelPermissionBits: channelPermissionBits,
-        interactionsBlocked: interactionsBlocked,
-      ),
-      canManageMessages: canManageMessagesInChannel(
-        isDmChannel: isDmChannel,
-        channelPermissionBits: channelPermissionBits,
-      ),
-    ));
+    );
   }
 }
 

@@ -3,13 +3,13 @@ import 'package:fluxer_app/features/settings/presentation/sheets/hide_muted_chan
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_confirm_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 Future<void> handleTrustAllDomainsChange(
   BuildContext context,
-  WidgetRef ref,
-  bool value,
-) async {
+  WidgetRef ref, {
+  required bool value,
+}) async {
   final notifier = ref.read(userSettingsViewModelProvider.notifier);
   final l10n = FluxerLocalizations.of(context);
 
@@ -42,9 +42,9 @@ Future<void> handleTrustAllDomainsChange(
 
 Future<void> handleDefaultHideMutedChannelsChange(
   BuildContext context,
-  WidgetRef ref,
-  bool value,
-) async {
+  WidgetRef ref, {
+  required bool value,
+}) async {
   final notifier = ref.read(userSettingsViewModelProvider.notifier);
   final choice = await showHideMutedChannelsConfirmSheet(context, value: value);
   if (choice == null) {

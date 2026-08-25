@@ -6,8 +6,8 @@ import 'package:fluxer_app/features/auth/utils/phone_verification_error_l10n.dar
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
-import 'package:material_ui/material_ui.dart';
 
 class PhoneInboundWaitingStep extends ConsumerStatefulWidget {
   const PhoneInboundWaitingStep({

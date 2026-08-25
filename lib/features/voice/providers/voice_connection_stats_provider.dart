@@ -37,7 +37,7 @@ class VoiceConnectionStatsNotifier extends _$VoiceConnectionStatsNotifier {
   VoiceConnectionStats build() {
     ref.onDispose(() {
       _timer?.cancel();
-      _listener?.dispose();
+      unawaited(_listener?.dispose());
     });
     ref.listen<VoiceSessionState>(voiceSessionProvider, (
       VoiceSessionState? previous,
@@ -87,7 +87,7 @@ class VoiceConnectionStatsNotifier extends _$VoiceConnectionStatsNotifier {
   }
 
   void _detachListener() {
-    _listener?.dispose();
+    unawaited(_listener?.dispose());
     _listener = null;
   }
 

@@ -25,7 +25,7 @@ import 'package:fluxer_app/features/members/providers/member_list_desired_ranges
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
 import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class ShellRouteListeners extends ConsumerStatefulWidget {
   const ShellRouteListeners({required this.child, super.key});

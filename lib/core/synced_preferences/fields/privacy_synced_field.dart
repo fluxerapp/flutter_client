@@ -1,12 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/synced_preferences/engine/synced_field_adapter.dart';
+import 'package:fluxer_app/core/synced_preferences/engine/proto_synced_field_adapter.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/preferences.pb.dart'
     as pb;
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
-import 'package:protobuf/protobuf.dart' as $pb;
 
+@immutable
 class PrivacyLocalState {
   const PrivacyLocalState({
     required this.showActiveNow,
@@ -15,9 +16,20 @@ class PrivacyLocalState {
 
   final bool showActiveNow;
   final AdvancedPrivacyLocalState advanced;
+
+  @override
+  bool operator ==(Object other) {
+    return other is PrivacyLocalState &&
+        other.showActiveNow == showActiveNow &&
+        other.advanced == advanced;
+  }
+
+  @override
+  int get hashCode => Object.hash(showActiveNow, advanced);
 }
 
-class PrivacySyncedField extends SyncedFieldAdapter<PrivacyLocalState> {
+class PrivacySyncedField
+    extends ProtoSyncedFieldAdapter<PrivacyLocalState, pb.PrivacyPreferences> {
   PrivacySyncedField(this._ref);
 
   final Ref _ref;
@@ -49,76 +61,55 @@ class PrivacySyncedField extends SyncedFieldAdapter<PrivacyLocalState> {
   }
 
   @override
-  PrivacyLocalState? readFromProto(pb.SyncedPreferences message) {
-    if (!message.hasPrivacy()) {
-      return null;
-    }
-    final privacy = message.privacy;
+  bool hasField(pb.SyncedPreferences message) => message.hasPrivacy();
+
+  @override
+  pb.PrivacyPreferences readSubMessage(pb.SyncedPreferences message) {
+    return message.privacy;
+  }
+
+  @override
+  PrivacyLocalState fromProto(pb.PrivacyPreferences proto) {
     return PrivacyLocalState(
-      showActiveNow: !privacy.hasShowActiveNow() || privacy.showActiveNow,
+      showActiveNow: !proto.hasShowActiveNow() || proto.showActiveNow,
       advanced: AdvancedPrivacyLocalState(
         preuploadMessageAttachments:
-            !privacy.hasPreuploadMessageAttachments() ||
-            privacy.preuploadMessageAttachments,
+            !proto.hasPreuploadMessageAttachments() ||
+            proto.preuploadMessageAttachments,
         disableStreamPreviews:
-            privacy.hasDisableStreamPreviews() && privacy.disableStreamPreviews,
+            proto.hasDisableStreamPreviews() && proto.disableStreamPreviews,
       ),
     );
   }
 
   @override
-  $pb.GeneratedMessage? readWireSubMessage(pb.SyncedPreferences wire) {
-    return wire.hasPrivacy() ? wire.privacy : null;
+  void writeProto(pb.PrivacyPreferences proto, PrivacyLocalState local) {
+    proto
+      ..showActiveNow = local.showActiveNow
+      ..preuploadMessageAttachments = local.advanced.preuploadMessageAttachments
+      ..disableStreamPreviews = local.advanced.disableStreamPreviews;
   }
 
   @override
-  $pb.GeneratedMessage toProtoMessage(PrivacyLocalState local) {
-    return toProtoForPush(local: local);
+  pb.PrivacyPreferences createEmptyProto() => pb.PrivacyPreferences();
+
+  @override
+  pb.SyncedPreferences wrapProto(pb.PrivacyPreferences proto) {
+    return pb.SyncedPreferences(privacy: proto);
   }
 
   @override
-  $pb.GeneratedMessage toProtoMessageForPush(
-    PrivacyLocalState local, {
-    $pb.GeneratedMessage? wireSubMessage,
-  }) {
-    return toProtoForPush(
-      local: local,
-      wireBase: wireSubMessage as pb.PrivacyPreferences?,
-    );
-  }
-
-  @override
-  bool statesEqual(PrivacyLocalState a, PrivacyLocalState b) {
-    return a.showActiveNow == b.showActiveNow &&
-        a.advanced.preuploadMessageAttachments ==
-            b.advanced.preuploadMessageAttachments &&
-        a.advanced.disableStreamPreviews == b.advanced.disableStreamPreviews;
-  }
-
-  @override
-  PrivacyLocalState mergeForMigration({
-    required PrivacyLocalState local,
-    required PrivacyLocalState remote,
-  }) {
-    return remote;
-  }
-
-  @override
-  bool verifyRoundtrip(PrivacyLocalState candidate) {
-    final proto = toProtoMessage(candidate) as pb.PrivacyPreferences;
-    final roundtripped = readFromProto(pb.SyncedPreferences(privacy: proto));
-    return roundtripped != null && statesEqual(candidate, roundtripped);
-  }
+  bool statesEqual(PrivacyLocalState a, PrivacyLocalState b) => a == b;
 
   static pb.PrivacyPreferences toProtoForPush({
     required PrivacyLocalState local,
     pb.PrivacyPreferences? wireBase,
   }) {
-    return (wireBase != null
-          ? (pb.PrivacyPreferences()..mergeFromMessage(wireBase))
-          : pb.PrivacyPreferences())
+    final proto = mergeOrCreate(wireBase, pb.PrivacyPreferences.new);
+    proto
       ..showActiveNow = local.showActiveNow
       ..preuploadMessageAttachments = local.advanced.preuploadMessageAttachments
       ..disableStreamPreviews = local.advanced.disableStreamPreviews;
+    return proto;
   }
 }

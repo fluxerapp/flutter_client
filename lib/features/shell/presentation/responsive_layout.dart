@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 abstract final class Breakpoints {
   /// Shortest side breakpoint between phone and tablet sized layouts.

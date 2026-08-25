@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/shell/navigation/root_overlay_navigation.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_ui/material_ui.dart';
 
 class RootOverlayBackScope extends ConsumerWidget {
   const RootOverlayBackScope({required this.child, super.key});

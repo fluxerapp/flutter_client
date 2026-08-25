@@ -12,7 +12,7 @@ import 'package:fluxer_app/features/notifications/providers/notifications_provid
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class NotificationsPage extends ConsumerStatefulWidget {
@@ -141,8 +141,11 @@ class _NotificationsPageState extends ConsumerState<NotificationsPage> {
                       ],
                       onChanged: (NotificationsInboxTab next) {
                         ref
-                            .read(notificationsInboxSegmentProvider.notifier)
-                            .set(next);
+                                .read(
+                                  notificationsInboxSegmentProvider.notifier,
+                                )
+                                .segment =
+                            next;
                       },
                     ),
                   ],

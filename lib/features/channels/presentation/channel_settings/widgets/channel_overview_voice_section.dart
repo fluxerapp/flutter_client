@@ -5,9 +5,9 @@ import 'package:fluxer_app/features/channels/presentation/channel_settings/widge
 import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 import 'package:fluxer_app/features/ui/slider/fluxer_slider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:material_ui/material_ui.dart';
 
 class ChannelOverviewVoiceSection extends StatelessWidget {
   const ChannelOverviewVoiceSection({

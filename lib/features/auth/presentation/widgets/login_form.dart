@@ -15,15 +15,14 @@ import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/keyboard_focus_restore.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class LoginForm extends ConsumerStatefulWidget {
-  const LoginForm({required this.showBrowserLogin, this.heading, super.key});
+  const LoginForm({this.heading, super.key});
 
-  final bool showBrowserLogin;
   final String? heading;
 
   @override
@@ -283,14 +282,6 @@ class _LoginFormState extends ConsumerState<LoginForm>
               SsoButton(
                 enabled: !vm.isLoggingIn,
                 subtitle: strings.preferSso(ssoProviderName),
-              ),
-            ],
-            if (widget.showBrowserLogin) ...[
-              SizedBox(height: layout.s2),
-              FluxerButton.secondary(
-                onPressed: () {},
-                icon: PhosphorIconsFill.monitor,
-                label: strings.logInViaBrowser,
               ),
             ],
             SizedBox(height: layout.s5),

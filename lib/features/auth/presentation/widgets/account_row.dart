@@ -8,7 +8,7 @@ import 'package:fluxer_app/features/ui/action_menu/fluxer_action_menu.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class AccountRow extends StatelessWidget {

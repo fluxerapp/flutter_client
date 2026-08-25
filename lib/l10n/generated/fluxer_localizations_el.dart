@@ -98,6 +98,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Fluxer doesn\'t have access to your camera. You can enable it in your device privacy settings.';
 
   @override
+  String get systemPermissionPhotosMessage =>
+      'Fluxer doesn\'t have access to your photo library. You can enable it in your device privacy settings.';
+
+  @override
   String get systemPermissionNotificationsMessage =>
       'Fluxer doesn\'t have permission to send notifications. You can enable it in your device settings.';
 
@@ -615,6 +619,14 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get registerHaveAccount => 'Έχετε ήδη λογαριασμό; ';
 
   @override
+  String get registerPendingApproval =>
+      'Your account request is pending approval. You can sign in after an admin approves it.';
+
+  @override
+  String get registerClosed =>
+      'Registration is currently closed. Use a registration link from an admin to create an account.';
+
+  @override
   String get passkeyNoCredentials =>
       'Δεν βρέθηκαν κλειδιά πρόσβασης για αυτήν την εφαρμογή. Συνδεθείτε με email και κωδικό πρόσβασης αντ\' αυτού.';
 
@@ -1025,6 +1037,14 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
+  String get dmDeleteMyMessagesTitle =>
+      'Delete your messages in this conversation?';
+
+  @override
+  String get dmDeleteMyMessagesDescription =>
+      'This will permanently delete every message you have ever sent in this conversation. This cannot be undone.';
+
+  @override
   String get dmCopyChannelId => 'Αντιγραφή αναγνωριστικού καναλιού';
 
   @override
@@ -1342,8 +1362,12 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Ολοκλήρωσε την εγγραφή σου για να στείλεις αιτήματα φιλίας.';
 
   @override
-  String get addFriendSendFailedGeneric =>
-      'Δεν ήταν δυνατή η αποστολή του αιτήματος φιλίας. Δοκίμασε ξανά.';
+  String get addFriendVerifyToSend =>
+      'Verify your email before sending friend requests.';
+
+  @override
+  String get addFriendFriendsListFull =>
+      'Your friends list is full, or theirs is. Remove someone and try again.';
 
   @override
   String get userTagBot => 'BOT';
@@ -1360,6 +1384,41 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get emojiAutocompleteDefaultLabel => 'Προεπιλεγμένο emoji';
+
+  @override
+  String emojiInfoDefaultDescription(String productName) {
+    return 'This is a default emoji on $productName.';
+  }
+
+  @override
+  String get emojiInfoCustomGuildDescription =>
+      'This emoji is from this community. You can use it everywhere.';
+
+  @override
+  String get emojiInfoCustomUnknownDescription =>
+      'This is a custom emoji from a community.';
+
+  @override
+  String get emojiInfoCustomInviteRequiredDescription =>
+      'This is a custom emoji from a community. Ask the author for an invite to use this emoji.';
+
+  @override
+  String get emojiInfoFromHeader => 'This emoji is from';
+
+  @override
+  String get emojiInfoDiscoverableCommunity => 'Discoverable community';
+
+  @override
+  String get emojiInfoPrivateCommunity => 'Private community';
+
+  @override
+  String get emojiInfoVerifiedCommunity => 'Verified community';
+
+  @override
+  String get emojiInfoAddToFavorites => 'Add to Favorites';
+
+  @override
+  String get emojiInfoRemoveFromFavorites => 'Remove from Favorites';
 
   @override
   String get emojiFrequentlyUsed => 'Συχνά χρησιμοποιούμενα';
@@ -4533,6 +4592,72 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get favoritesAddToFavorites => 'Προσθήκη στα Αγαπημένα';
 
   @override
+  String get favoritesAddToSavedMedia => 'Add to saved media';
+
+  @override
+  String get favoritesRemoveFromSavedMedia => 'Remove from saved media';
+
+  @override
+  String get favoritesAddToUrlOnlyGifFavorites =>
+      'Add to URL-only GIF favorites';
+
+  @override
+  String get favoritesRemoveFromUrlOnlyGifFavorites =>
+      'Remove from URL-only GIF favorites';
+
+  @override
+  String get savedMediaAddTitle => 'Add to saved media';
+
+  @override
+  String get savedMediaFormNameLabel => 'Name';
+
+  @override
+  String get savedMediaFormNameHint => 'My awesome media';
+
+  @override
+  String get savedMediaFormAltTextLabel => 'Alt text';
+
+  @override
+  String get savedMediaFormAltTextHint => 'Describe the media';
+
+  @override
+  String get savedMediaFormTagsLabel => 'Tags';
+
+  @override
+  String get savedMediaFormTagsHint => 'funny, reaction, work';
+
+  @override
+  String get savedMediaSaveError => 'Could not update saved media.';
+
+  @override
+  String get savedMediaNameRequired => 'Name is required.';
+
+  @override
+  String get gifFavoriteFirstTimeTitle =>
+      'How should we save your GIF favorites?';
+
+  @override
+  String get gifFavoriteFirstTimeDescription =>
+      'You can store starred GIFs as URL-only favorites or upload them to your saved media. Pick the one that fits how you use them. You can change it any time in Settings > Advanced > Media.';
+
+  @override
+  String get gifFavoriteFirstTimeUrlOnlyDetails =>
+      'URL-only favorites (default): synced across your devices, no upload, doesn\'t count against saved media. The original media may disappear if its host removes it.';
+
+  @override
+  String get gifFavoriteFirstTimeSavedMediaDetails =>
+      'Saved media: uploaded, taggable, searchable, and persistent, but counts against your saved media limit.';
+
+  @override
+  String get gifFavoriteFirstTimeHint => 'We\'ll only ask once.';
+
+  @override
+  String get gifFavoriteFirstTimeUseUrlOnly => 'Use URL-only (recommended)';
+
+  @override
+  String get gifFavoriteFirstTimeUseSavedMedia => 'Use saved media';
+
+  @override
   String get favoritesHideConfirmTitle => 'Απόκρυψη αγαπημένων';
 
   @override
@@ -5479,6 +5604,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get voicePanelShowOwnCameraLabel => 'Show my own camera';
+
+  @override
+  String get voicePrioritizeSpeakersLabel => 'Prioritize speakers';
 
   @override
   String get voiceTextChatShow => 'Εμφάνιση συνομιλίας';
@@ -7759,6 +7887,20 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Members will appear here once the community data is loaded.';
 
   @override
+  String get memberListPermissionDeniedTitle => 'You can\'t view members';
+
+  @override
+  String get memberListPermissionDeniedBody =>
+      'You can\'t view the members of this channel in this community';
+
+  @override
+  String get memberListUnavailableTitle => 'Member list unavailable';
+
+  @override
+  String get memberListUnavailableBody =>
+      'Member lists are temporarily unavailable in this community';
+
+  @override
   String get channelDetailsPinsLoadFailedTitle => 'Pins could not be loaded';
 
   @override
@@ -8400,6 +8542,26 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get composerShowKeyboard => 'Show keyboard';
+
+  @override
+  String get composerCloseAttachmentPanel => 'Close attachment picker';
+
+  @override
+  String get chatAttachmentPanelPhotos => 'Photos';
+
+  @override
+  String get chatAttachmentPanelFiles => 'Files';
+
+  @override
+  String get chatAttachmentLibraryPermissionTitle =>
+      'Photo library access needed';
+
+  @override
+  String get chatAttachmentLibraryPermissionBody =>
+      'Allow photo library access to browse and attach recent photos and videos.';
+
+  @override
+  String get chatAttachmentLibraryPermissionSettings => 'Open settings';
 
   @override
   String messageAccessibilityLabel(String author, String summary) {
@@ -10041,6 +10203,30 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get userSettingsNavWhatsNew => 'Τι νέο υπάρχει';
+
+  @override
+  String get userSettingsJoinFluxerLabs => 'Join Fluxer Labs';
+
+  @override
+  String get userSettingsNavAppLicenses => 'App Licenses';
+
+  @override
+  String get userSettingsAppLicensesDescription =>
+      'Open-source software used by this app. This app is built with Flutter.';
+
+  @override
+  String get userSettingsAppLicensesLoadError => 'Could not load app licenses.';
+
+  @override
+  String userSettingsAppLicensesPackageCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count licenses',
+      one: '1 license',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get userSettingsNavLogOut => 'Αποσύνδεση';
@@ -13548,6 +13734,12 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   @override
   String get keybindActionToggleCompactCallView =>
       'Expand or collapse compact call view';
+
+  @override
+  String get keybindActionPushToTalkPriority => 'Push to talk (priority)';
+
+  @override
+  String get keybindActionVoiceActivityPriority => 'Voice activity priority';
 
   @override
   String get keybindActionOpenHelp => 'Open help';

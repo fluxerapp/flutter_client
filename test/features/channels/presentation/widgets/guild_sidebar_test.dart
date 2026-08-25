@@ -36,8 +36,8 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/material_ui.dart' hide SensitiveContent;
 import 'package:go_router/go_router.dart';
-import 'package:material_ui/material_ui.dart' hide SensitiveContent;
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../helpers/open_test_database.dart';

@@ -7,8 +7,8 @@ import 'package:fluxer_app/core/router/shell_location_resolver.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_layout_mode.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_ui/material_ui.dart';
 
 void main() {
   group('Home tab return', () {

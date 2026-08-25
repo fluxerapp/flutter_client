@@ -7,7 +7,7 @@ import 'package:fluxer_app/features/mature_content/providers/mature_content_agre
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 /// Returns `true` when the user may continue into the channel.
 Future<bool> showChannelAccessGateSheet({

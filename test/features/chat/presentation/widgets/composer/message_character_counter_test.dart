@@ -6,7 +6,7 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/message_character_counter.dart';
 import 'package:fluxer_app/features/ui/character_counter/fluxer_character_counter.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 Widget _buildTestApp(Widget child) {
   final colorTheme = buildDarkColorTheme();

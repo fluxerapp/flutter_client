@@ -63,7 +63,7 @@ class FavoritesSyncedField extends SyncedFieldAdapter<FavoritesLocalState> {
 
   @override
   FavoritesLocalState readLocal() {
-    return FavoritesLocalState.empty;
+    throw UnsupportedError('Use readLocalValue for favorites');
   }
 
   @override

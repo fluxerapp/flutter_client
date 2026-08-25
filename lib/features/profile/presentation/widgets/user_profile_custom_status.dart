@@ -1,5 +1,5 @@
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
-import 'package:material_ui/material_ui.dart';
 
 class UserProfileCustomStatus extends StatelessWidget {
   const UserProfileCustomStatus({required this.text, super.key});

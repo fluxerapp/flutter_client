@@ -1,4 +1,4 @@
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class FluxerMotionTheme extends ThemeExtension<FluxerMotionTheme> {
   const FluxerMotionTheme({

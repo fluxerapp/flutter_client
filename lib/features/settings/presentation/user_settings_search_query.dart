@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 mixin UserSettingsSearchQueryMixin<T extends StatefulWidget> on State<T> {
   final TextEditingController searchController = TextEditingController();

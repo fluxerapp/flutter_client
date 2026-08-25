@@ -1,11 +1,12 @@
-import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:cupertino_ui/cupertino_ui.dart'
+    hide RichText, SelectableText, Text;
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/obscuring_overlay_tracker_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 typedef FluxerScrollablePageSheetBuilder =

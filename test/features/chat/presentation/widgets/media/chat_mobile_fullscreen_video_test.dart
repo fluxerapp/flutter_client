@@ -11,7 +11,7 @@ import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_fullscreen_video.dart';
 import 'package:fluxer_app/features/ui/media_viewer/media_viewer_dismissible.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 Widget _wrap(Widget child) {
   final colorTheme = buildDarkColorTheme();

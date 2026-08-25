@@ -1,7 +1,7 @@
 import 'package:fluxer_app/features/shell/domain/service_status_maintenance.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:intl/intl.dart';
-import 'package:material_ui/material_ui.dart';
 
 String formatMaintenanceDurationLabel({
   required int durationMinutes,

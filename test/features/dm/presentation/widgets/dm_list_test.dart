@@ -31,12 +31,13 @@ import 'package:fluxer_app/features/settings/providers/appearance_preferences_pr
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../helpers/open_test_database.dart';
+import '../../../../helpers/rendered_text_test_helpers.dart';
 import '../../../../helpers/wide_layout_test_sizes.dart';
 
 void main() {
@@ -357,7 +358,7 @@ void main() {
         FluxerAvatar avatarFor(String name) => tester.widget<FluxerAvatar>(
           find.descendant(
             of: find
-                .ancestor(of: find.text(name), matching: find.byType(InkWell))
+                .ancestor(of: findAppText(name), matching: find.byType(InkWell))
                 .first,
             matching: find.byType(FluxerAvatar),
           ),
@@ -368,8 +369,8 @@ void main() {
 
         // Sibling widgets that MUST be reused (not recreated) when only
         // Alice's presence changes — proof the parent list did not rebuild.
-        final aliceNameBefore = tester.widget<Text>(find.text('Alice'));
-        final bobNameBefore = tester.widget<Text>(find.text('Bob'));
+        final aliceNameBefore = tester.widget<Text>(findAppText('Alice'));
+        final bobNameBefore = tester.widget<Text>(findAppText('Bob'));
 
         alicePresence.add(_testUser(id: '200', status: 'offline'));
         bobPresence.add(_testUser(id: '201', status: 'online'));
@@ -382,11 +383,11 @@ void main() {
         // Scoping: a list-level presence watch would recreate every row
         // widget and fail these identity checks.
         expect(
-          identical(aliceNameBefore, tester.widget<Text>(find.text('Alice'))),
+          identical(aliceNameBefore, tester.widget<Text>(findAppText('Alice'))),
           isTrue,
         );
         expect(
-          identical(bobNameBefore, tester.widget<Text>(find.text('Bob'))),
+          identical(bobNameBefore, tester.widget<Text>(findAppText('Bob'))),
           isTrue,
         );
       },

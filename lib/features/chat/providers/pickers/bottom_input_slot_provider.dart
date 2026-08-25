@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
 import 'package:fluxer_app/features/chat/utils/bottom_input_slot_layout.dart';
+import 'package:fluxer_app/features/chat/utils/composer_panel.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'bottom_input_slot_provider.g.dart';
@@ -26,11 +28,13 @@ class BottomInputSlotState {
 @Riverpod()
 class BottomInputSlot extends _$BottomInputSlot {
   Timer? _transitionTimeout;
+  double _heldSlotHeight = 0;
 
   @override
   BottomInputSlotState build() {
     ref
-      ..listen<bool>(expressionPanelProvider, _onExpressionPanelChanged)
+      ..listen<bool>(expressionPanelProvider, _onComposerPanelChanged)
+      ..listen<bool>(attachmentPanelProvider, _onComposerPanelChanged)
       ..listen<MobileKeyboardMetricsState>(
         mobileKeyboardMetricsProvider,
         _onKeyboardMetricsChanged,
@@ -40,7 +44,15 @@ class BottomInputSlot extends _$BottomInputSlot {
     return _resolveState();
   }
 
-  void _onExpressionPanelChanged(bool? previous, bool isPanelOpen) {
+  bool _isComposerPanelOpen() {
+    return isComposerPanelOpen(
+      expressionPanelOpen: ref.read(expressionPanelProvider),
+      attachmentPanelOpen: ref.read(attachmentPanelProvider),
+    );
+  }
+
+  void _onComposerPanelChanged(bool? previous, bool _) {
+    final bool isPanelOpen = _isComposerPanelOpen();
     if (isPanelOpen) {
       if (state.transition == BottomInputTransition.lockingToPanel) {
         return;
@@ -88,7 +100,7 @@ class BottomInputSlot extends _$BottomInputSlot {
     if (state.transition != BottomInputTransition.idle) {
       return;
     }
-    if (ref.read(expressionPanelProvider)) {
+    if (_isComposerPanelOpen()) {
       return;
     }
     state = _resolveState(preserveTransition: true);
@@ -156,6 +168,19 @@ class BottomInputSlot extends _$BottomInputSlot {
     );
   }
 
+  void holdSlotHeight(double height) {
+    _heldSlotHeight = quantizeBottomInputHeight(height);
+    state = _resolveState();
+  }
+
+  void clearHeldSlotHeight() {
+    if (_heldSlotHeight <= 0) {
+      return;
+    }
+    _heldSlotHeight = 0;
+    state = _resolveState();
+  }
+
   void settlePanelHeight(double height) {
     final MobileKeyboardMetricsState metrics = ref.read(
       mobileKeyboardMetricsProvider,
@@ -187,7 +212,7 @@ class BottomInputSlot extends _$BottomInputSlot {
     double? panelHeight,
     bool preserveTransition = false,
   }) {
-    final bool isPanelOpen = ref.read(expressionPanelProvider);
+    final bool isPanelOpen = _isComposerPanelOpen();
     final MobileKeyboardMetricsState metrics = ref.read(
       mobileKeyboardMetricsProvider,
     );
@@ -217,6 +242,7 @@ class BottomInputSlot extends _$BottomInputSlot {
       liveKeyboardHeight: metrics.liveKeyboardHeight,
       isKeyboardVisible: metrics.isKeyboardVisible,
       safeAreaBottom: metrics.safeAreaBottom,
+      heldSlotHeight: _heldSlotHeight,
     );
     return BottomInputSlotState(
       mode: resolvedMode,

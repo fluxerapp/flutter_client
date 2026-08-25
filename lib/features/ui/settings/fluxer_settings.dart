@@ -6,7 +6,7 @@ import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/features/ui/toggle_switch/fluxer_switch_control.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class FluxerSettingsHeader extends StatelessWidget {

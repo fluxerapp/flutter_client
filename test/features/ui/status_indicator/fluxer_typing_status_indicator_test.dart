@@ -4,7 +4,7 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_typing_status_indicator.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../helpers/test_l10n.dart';

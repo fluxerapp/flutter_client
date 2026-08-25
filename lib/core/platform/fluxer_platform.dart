@@ -5,7 +5,7 @@ import 'dart:ui';
 import 'package:cupertino_ui/cupertino_ui.dart' show WidgetsFlutterBinding;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart' show WidgetsFlutterBinding;
-import 'package:material_ui/material_ui.dart' show WidgetsFlutterBinding;
+import 'package:fluxer_app/material_ui.dart' show WidgetsFlutterBinding;
 
 const double kFluxerMobileFormFactorMaxShortestSide = 600;
 

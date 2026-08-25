@@ -8,7 +8,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_i
 import 'package:fluxer_app/features/chat/utils/message_grouping_utils.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 const int _kMaxPreviewMessages = 24;
 const double _kPreviewLoaderHeight = 80;

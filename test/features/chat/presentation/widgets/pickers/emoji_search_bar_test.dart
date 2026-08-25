@@ -4,8 +4,8 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/emoji_search_bar.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
-import 'package:material_ui/material_ui.dart';
 
 import '../../../../../helpers/test_l10n.dart';
 

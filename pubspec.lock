@@ -49,6 +49,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.14.14"
+  android_file_picker:
+    dependency: transitive
+    description:
+      name: android_file_picker
+      sha256: "665a5a57dfca27f91a715d300e4852a784f9f98e503dcff281bec9afb55767be"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   ansicolor:
     dependency: transitive
     description:
@@ -61,10 +69,10 @@ packages:
     dependency: "direct main"
     description:
       name: app_badge_plus
-      sha256: "695ba21895bb0f927943ed28f421eead00f948b179ecd8a0ddb8617b3e5a9887"
+      sha256: a22719127af1b80c6d5803fb80c02b600ceb14f726210c12b6198fe11b8bc025
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.2"
+    version: "1.3.4"
   app_links:
     dependency: "direct main"
     description:
@@ -101,10 +109,10 @@ packages:
     dependency: "direct main"
     description:
       name: app_settings
-      sha256: "5e7d6e5b60e90c40b3409d6fb33d1844497be3a2e959935da8b77bc437221db8"
+      sha256: "880b7086bd6789ff9cf1b027d68349ba4c2c933ea25c0ff120d340bfe496629d"
       url: "https://pub.dev"
     source: hosted
-    version: "8.0.3"
+    version: "9.0.0"
   archive:
     dependency: transitive
     description:
@@ -449,14 +457,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.7"
-  csslib:
-    dependency: transitive
-    description:
-      name: csslib
-      sha256: "09bad715f418841f976c77db72d5398dc1253c21fb9c0c7f0b0b985860b2d58e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.2"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -693,10 +693,42 @@ packages:
     dependency: "direct main"
     description:
       name: file_picker
-      sha256: fdc6a37f715d19f35b131decf1ce39242eeed5ddae18c0818c3eccb731ab76be
+      sha256: afbaa8015d9efabd224f41084ed9fdeddfa65389ebd7cd3a9eb1476aca66b46d
       url: "https://pub.dev"
     source: hosted
-    version: "12.0.0-beta.7"
+    version: "12.0.0"
+  file_picker_darwin:
+    dependency: transitive
+    description:
+      name: file_picker_darwin
+      sha256: "5d87d156c1d63920447a662b7117d3498c67e3444a44d2cb01ed955d6efa62ef"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
+  file_picker_linux:
+    dependency: transitive
+    description:
+      name: file_picker_linux
+      sha256: "93d3f62f97c657053e7b184fe0f5e22347d85067c053640a30b1ac8ad7844e3b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
+  file_picker_platform_interface:
+    dependency: transitive
+    description:
+      name: file_picker_platform_interface
+      sha256: "9e7a7e01e179929241f0afeb2c8c69ac95e29e17c0abea36ed193881c6bef90c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
+  file_picker_web:
+    dependency: transitive
+    description:
+      name: file_picker_web
+      sha256: f1af38b3c91fafe0ca97f659b5c6818a057473ef09bb8b722f9f3f5364aa7eed
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   file_selector_linux:
     dependency: transitive
     description:
@@ -1011,10 +1043,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_web_auth_2
-      sha256: "8f9303471dcd96670878c9b7c0c4e14c37595b2add67465f6a868f17a5872dfc"
+      sha256: a7655829251ee63aae64a748f8512f36670d8eba4657b0055cdf5ef304a9d164
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.3"
+    version: "5.1.0"
   flutter_web_auth_2_platform_interface:
     dependency: transitive
     description:
@@ -1158,14 +1190,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.3"
-  html:
-    dependency: transitive
-    description:
-      name: html
-      sha256: "6d1264f2dffa1b1101c25a91dff0dc2daee4c18e87cd8538729773c073dbf602"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.15.6"
   http:
     dependency: transitive
     description:
@@ -1868,6 +1892,14 @@ packages:
       url: "https://github.com/Niural/phosphor_flutter"
     source: git
     version: "3.0.0"
+  photo_manager:
+    dependency: "direct main"
+    description:
+      name: photo_manager
+      sha256: "2d00a785b501bf1e5f6180bbef772846e767be11d45d11112b63092ef54a419e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.12.0"
   pixel_snap:
     dependency: transitive
     description:
@@ -2316,14 +2348,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
-  simple_sparse_list:
-    dependency: transitive
-    description:
-      name: simple_sparse_list
-      sha256: aa648fd240fa39b49dcd11c19c266990006006de6699a412de485695910fbc1f
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.4"
   skeletonizer:
     dependency: "direct main"
     description:
@@ -2633,14 +2657,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.7.0"
-  unicode:
-    dependency: transitive
-    description:
-      name: unicode
-      sha256: a6f7bcfc8ea1d5ce1f6c0b1c39117a9919f4953edd9fd7a64090a9796c499b57
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.9"
   unified_analytics:
     dependency: transitive
     description:
@@ -2953,6 +2969,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.4"
+  windows_file_picker:
+    dependency: transitive
+    description:
+      name: windows_file_picker
+      sha256: "72cf23466e146f2c0f19e1d78be97ff6409dc15b0c090f8eb284f94f4a33de26"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   xdg_directories:
     dependency: transitive
     description:
@@ -2985,14 +3009,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.4"
-  youtube_explode_dart:
-    dependency: "direct main"
-    description:
-      name: youtube_explode_dart
-      sha256: "10134a53989b2f3dc576121735aec8fc6d88784956f4a2ad1a2525b006373a76"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.1.0"
   zstd_dart:
     dependency: transitive
     description:

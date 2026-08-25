@@ -1,5 +1,5 @@
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
-import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
+import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_dirty.dart';
 import 'package:fluxer_app/features/shell/domain/nagbar_dismissals_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -71,8 +71,6 @@ class NagbarDismissals extends _$NagbarDismissals {
     NagbarDismissalsState Function(NagbarDismissalsState current) update,
   ) async {
     state = update(state);
-    ref
-        .read(syncedPreferencesStoreProvider)
-        .markDirty(SyncedPreferenceField.nagbars);
+    ref.markSyncedDirty(SyncedPreferenceField.nagbars);
   }
 }

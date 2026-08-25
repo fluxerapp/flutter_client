@@ -5,7 +5,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_section.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_subsection.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 Widget buildTestApp(Widget child) {
   final colorTheme = buildDarkColorTheme();

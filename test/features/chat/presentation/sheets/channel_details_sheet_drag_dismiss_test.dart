@@ -12,7 +12,7 @@ import 'package:fluxer_app/features/chat/presentation/sheets/channel_details_she
 import 'package:fluxer_app/features/members/providers/member_list_subscription_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../helpers/open_test_database.dart';

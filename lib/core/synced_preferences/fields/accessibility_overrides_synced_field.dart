@@ -1,12 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/synced_preferences/engine/synced_field_adapter.dart';
+import 'package:fluxer_app/core/synced_preferences/engine/proto_synced_field_adapter.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/accessibility.pb.dart'
     as accessibility_pb;
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/preferences.pb.dart'
     as pb;
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
-import 'package:protobuf/protobuf.dart' as $pb;
 
 class AccessibilityOverridesLocalState {
   const AccessibilityOverridesLocalState({
@@ -21,7 +20,11 @@ class AccessibilityOverridesLocalState {
 }
 
 class AccessibilityOverridesSyncedField
-    extends SyncedFieldAdapter<AccessibilityOverridesLocalState> {
+    extends
+        ProtoSyncedFieldAdapter<
+          AccessibilityOverridesLocalState,
+          accessibility_pb.AccessibilityOverrides
+        > {
   AccessibilityOverridesSyncedField(this._ref);
 
   final Ref _ref;
@@ -58,41 +61,49 @@ class AccessibilityOverridesSyncedField
   }
 
   @override
-  AccessibilityOverridesLocalState? readFromProto(
+  bool hasField(pb.SyncedPreferences message) {
+    return message.hasAccessibilityOverrides();
+  }
+
+  @override
+  accessibility_pb.AccessibilityOverrides readSubMessage(
     pb.SyncedPreferences message,
   ) {
-    if (!message.hasAccessibilityOverrides()) {
-      return null;
-    }
-    final overrides = message.accessibilityOverrides;
+    return message.accessibilityOverrides;
+  }
+
+  @override
+  AccessibilityOverridesLocalState fromProto(
+    accessibility_pb.AccessibilityOverrides proto,
+  ) {
     return AccessibilityOverridesLocalState(
-      keepGifAutoPlayUnderReducedMotion: overrides.gifAutoplayDirty,
-      keepAnimatedEmojiUnderReducedMotion: overrides.animateEmojiDirty,
-      keepStickerAnimationUnderReducedMotion: overrides.animateStickersDirty,
+      keepGifAutoPlayUnderReducedMotion: proto.gifAutoplayDirty,
+      keepAnimatedEmojiUnderReducedMotion: proto.animateEmojiDirty,
+      keepStickerAnimationUnderReducedMotion: proto.animateStickersDirty,
     );
   }
 
   @override
-  $pb.GeneratedMessage? readWireSubMessage(pb.SyncedPreferences wire) {
-    return wire.hasAccessibilityOverrides()
-        ? wire.accessibilityOverrides
-        : null;
+  void writeProto(
+    accessibility_pb.AccessibilityOverrides proto,
+    AccessibilityOverridesLocalState local,
+  ) {
+    proto
+      ..gifAutoplayDirty = local.keepGifAutoPlayUnderReducedMotion
+      ..animateEmojiDirty = local.keepAnimatedEmojiUnderReducedMotion
+      ..animateStickersDirty = local.keepStickerAnimationUnderReducedMotion;
   }
 
   @override
-  $pb.GeneratedMessage toProtoMessage(AccessibilityOverridesLocalState local) {
-    return toProtoForPush(local: local);
+  accessibility_pb.AccessibilityOverrides createEmptyProto() {
+    return accessibility_pb.AccessibilityOverrides();
   }
 
   @override
-  $pb.GeneratedMessage toProtoMessageForPush(
-    AccessibilityOverridesLocalState local, {
-    $pb.GeneratedMessage? wireSubMessage,
-  }) {
-    return toProtoForPush(
-      local: local,
-      wireBase: wireSubMessage as accessibility_pb.AccessibilityOverrides?,
-    );
+  pb.SyncedPreferences wrapProto(
+    accessibility_pb.AccessibilityOverrides proto,
+  ) {
+    return pb.SyncedPreferences(accessibilityOverrides: proto);
   }
 
   @override
@@ -108,34 +119,18 @@ class AccessibilityOverridesSyncedField
             b.keepStickerAnimationUnderReducedMotion;
   }
 
-  @override
-  AccessibilityOverridesLocalState mergeForMigration({
-    required AccessibilityOverridesLocalState local,
-    required AccessibilityOverridesLocalState remote,
-  }) {
-    return remote;
-  }
-
-  @override
-  bool verifyRoundtrip(AccessibilityOverridesLocalState candidate) {
-    final proto =
-        toProtoMessage(candidate) as accessibility_pb.AccessibilityOverrides;
-    final roundtripped = readFromProto(
-      pb.SyncedPreferences(accessibilityOverrides: proto),
-    );
-    return roundtripped != null && statesEqual(candidate, roundtripped);
-  }
-
   static accessibility_pb.AccessibilityOverrides toProtoForPush({
     required AccessibilityOverridesLocalState local,
     accessibility_pb.AccessibilityOverrides? wireBase,
   }) {
-    return (wireBase != null
-          ? (accessibility_pb.AccessibilityOverrides()
-              ..mergeFromMessage(wireBase))
-          : accessibility_pb.AccessibilityOverrides())
+    final proto = mergeOrCreate(
+      wireBase,
+      accessibility_pb.AccessibilityOverrides.new,
+    );
+    proto
       ..gifAutoplayDirty = local.keepGifAutoPlayUnderReducedMotion
       ..animateEmojiDirty = local.keepAnimatedEmojiUnderReducedMotion
       ..animateStickersDirty = local.keepStickerAnimationUnderReducedMotion;
+    return proto;
   }
 }

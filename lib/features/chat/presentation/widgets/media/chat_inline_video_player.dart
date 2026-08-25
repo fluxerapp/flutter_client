@@ -17,8 +17,8 @@ import 'package:fluxer_app/features/settings/providers/chat_preferences_provider
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/widgets/shared_video_controls.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart' as mkv;
 

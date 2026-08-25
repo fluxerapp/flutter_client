@@ -2,7 +2,7 @@ import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:fluxer_app/features/chat/utils/voice_message_constants.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class VoiceMessageMobileWaveform extends StatelessWidget {
   const VoiceMessageMobileWaveform({required this.bars, super.key});

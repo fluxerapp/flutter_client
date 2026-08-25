@@ -5,7 +5,7 @@ import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_sto
 import 'package:fluxer_app/features/settings/providers/textual_preview_preferences_provider.dart';
 
 class _FakeSyncedPreferencesStore extends SyncedPreferencesStore {
-  _FakeSyncedPreferencesStore(super.ref);
+  _FakeSyncedPreferencesStore(super._ref);
 
   final List<SyncedPreferenceField> dirty = <SyncedPreferenceField>[];
 
@@ -23,10 +23,9 @@ void main() {
     late _FakeSyncedPreferencesStore store;
     final ProviderContainer container = ProviderContainer(
       overrides: [
-        syncedPreferencesStoreProvider.overrideWith((Ref ref) {
-          store = _FakeSyncedPreferencesStore(ref);
-          return store;
-        }),
+        syncedPreferencesStoreProvider.overrideWith(
+          (Ref ref) => store = _FakeSyncedPreferencesStore(ref),
+        ),
       ],
     );
     addTearDown(container.dispose);

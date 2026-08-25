@@ -6,7 +6,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_chat_panel.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_composer_layout.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 void main() {
   testWidgets('ChannelChatComposerBoundary paints the composer fade overlay', (

@@ -126,6 +126,11 @@ class Guild {
   /// `SEND_MESSAGE` is bit `1 << 4` of the `disabled_operations` bitmask.
   bool get isSendDisabled => (disabledOperations & (1 << 4)) != 0;
 
+  /// Whether member list gateway updates are disabled guild-wide.
+  ///
+  /// `MEMBER_LIST_UPDATES` is bit `1 << 6` of the `disabled_operations` bitmask.
+  bool get isMemberListUpdatesDisabled => (disabledOperations & (1 << 6)) != 0;
+
   int get effectiveVerificationLevel =>
       effectiveGuildVerificationLevel(verificationLevel, isDiscoverable);
 

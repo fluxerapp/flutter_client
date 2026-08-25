@@ -3,7 +3,7 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 import 'package:fluxer_app/features/mature_content/presentation/sheets/channel_access_gate_sheet.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 /// Whether the caller may proceed into [channelId].
 ///

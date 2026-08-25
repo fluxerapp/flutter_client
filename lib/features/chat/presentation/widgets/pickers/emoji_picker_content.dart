@@ -23,20 +23,23 @@ import 'package:fluxer_app/features/chat/utils/emoji_picker_visibility.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
+import 'package:fluxer_app/features/emoji/domain/emoji_info_data.dart';
+import 'package:fluxer_app/features/emoji/presentation/sheets/emoji_info_bottom_sheet.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
-import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji_sprite_sheet.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kGridColumns = 9;
 const _kMobileGridColumns = 8;
-const _kEmojiSize = 40.0;
+// 32 logical is a 1:1 blit of the 64px @2x cell at DPR 2 and matches the web picker.
+const _kUnicodeEmojiSize = 32.0;
+const _kCustomEmojiSize = 40.0;
 const _kCellSize = 48.0;
 const double _kMobileCategoryBarHeight = 44;
 const int _kCustomEmojiRequestSize = kCustomEmojiPickerFetchSize;
@@ -406,11 +409,9 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     if (!widget.isMobile) {
       return;
     }
-    final key = unicodeEmojiFavoriteKey(emoji);
-    _showFavoriteActionSheet(
-      title: ':${emoji.primaryName}:',
-      favoriteKey: key,
-      isFavorite: _isFavoriteEmoji(key),
+    openEmojiInfoBottomSheet(
+      context,
+      emoji: EmojiInfoData.fromEmojiEntry(emoji),
     );
   }
 
@@ -418,53 +419,9 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     if (!widget.isMobile) {
       return;
     }
-    final key = emoji.favoriteKey;
-    _showFavoriteActionSheet(
-      title: ':${emoji.name}:',
-      favoriteKey: key,
-      isFavorite: _isFavoriteEmoji(key),
-    );
-  }
-
-  bool _isFavoriteEmoji(String key) =>
-      (ref.read(favoriteEmojiKeysProvider).value ?? const <String>[]).contains(
-        key,
-      );
-
-  void _showFavoriteActionSheet({
-    required String title,
-    required String favoriteKey,
-    required bool isFavorite,
-  }) {
-    unawaited(
-      FluxerBottomSheet.show<void>(
-        context,
-        title: title,
-        variant: FluxerBottomSheetVariant.menu,
-        builder: (sheetContext, close) => FluxerBottomSheetContent(
-          scrollable: false,
-          child: FluxerMenuGroup(
-            children: [
-              FluxerBottomSheetMenuItem(
-                label: isFavorite
-                    ? 'Remove from Favorites'
-                    : 'Add to Favorites',
-                icon: isFavorite
-                    ? PhosphorIconsBold.star
-                    : PhosphorIconsFill.star,
-                onTap: () {
-                  close();
-                  unawaited(
-                    ref
-                        .read(favoriteEmojiKeysProvider.notifier)
-                        .toggle(favoriteKey),
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
+    openEmojiInfoBottomSheet(
+      context,
+      emoji: EmojiInfoData.fromGuildEmoji(emoji),
     );
   }
 
@@ -1362,10 +1319,10 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
         ? SpriteEmoji(
             index: emoji.spriteIndex,
             diversityIndex: emoji.diversityIndex,
-            size: _kEmojiSize,
+            size: _kUnicodeEmojiSize,
             skinTone: widget.skinTone,
           )
-        : SpriteEmoji(index: emoji.spriteIndex, size: _kEmojiSize);
+        : SpriteEmoji(index: emoji.spriteIndex, size: _kUnicodeEmojiSize);
 
     if (!usesHover) {
       return _PressableEmojiCell(
@@ -1416,14 +1373,14 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
       animated: widget.isMobile && emoji.animated,
       isInView: widget.isMobile && emoji.animated ? animate : null,
       requestSize: _kCustomEmojiRequestSize,
-      size: _kEmojiSize,
+      size: _kCustomEmojiSize,
       errorBuilder: (ctx) => SizedBox(
-        width: _kEmojiSize,
-        height: _kEmojiSize,
+        width: _kCustomEmojiSize,
+        height: _kCustomEmojiSize,
         child: Center(
           child: PhosphorIcon(
             PhosphorIconsBold.imageBroken,
-            size: _kEmojiSize * 0.55,
+            size: _kCustomEmojiSize * 0.55,
             color: colors.textTertiary,
           ),
         ),

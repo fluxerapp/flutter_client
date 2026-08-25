@@ -12,21 +12,25 @@ import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
 import 'package:fluxer_app/features/chat/utils/hdr_aware_image_url.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
+import 'package:fluxer_app/features/chat/utils/spoiler_utils.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:intl/intl.dart';
-import 'package:material_ui/material_ui.dart';
 
 class AttachmentMediaGrid extends ConsumerWidget {
   const AttachmentMediaGrid({
     required this.attachments,
     required this.revealSpoilers,
     required this.dimensionSize,
+    this.spoilerSyncController,
     this.channelId,
     this.messageId,
+    this.spoilerSyncScope,
     this.mediaActionScope,
     super.key,
   });
@@ -34,8 +38,10 @@ class AttachmentMediaGrid extends ConsumerWidget {
   final List<Attachment> attachments;
   final bool revealSpoilers;
   final MediaDimensionSize dimensionSize;
+  final FluxerSpoilerSyncController? spoilerSyncController;
   final String? channelId;
   final String? messageId;
+  final String? spoilerSyncScope;
   final MessageMediaActionScope? mediaActionScope;
 
   @override
@@ -288,6 +294,11 @@ class AttachmentMediaGrid extends ConsumerWidget {
       child: SpoilerOverlay(
         isSpoiler: attachment.isSpoiler,
         initiallyRevealed: revealSpoilers,
+        spoilerSyncController: spoilerSyncController,
+        syncKeys: spoilerSyncKeysForAttachment(
+          scope: spoilerSyncScope ?? messageId ?? '',
+          attachment: attachment,
+        ),
         child: MatureMediaOverlay(
           channelId: channelId,
           isMatureMedia: attachment.isMatureMedia,
@@ -350,6 +361,7 @@ class AttachmentMediaGrid extends ConsumerWidget {
                 proxyUrl: item.proxyUrl,
                 contentType: item.contentType,
                 isExpired: item.expired ?? false,
+                contentHash: item.contentHash,
               ),
             )
             .toList(),

@@ -6,8 +6,8 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/swipe_to_reply.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
-import 'package:material_ui/material_ui.dart';
 
 import '../../../../../shared/gestures/wide_markdown_table_test_helpers.dart';
 

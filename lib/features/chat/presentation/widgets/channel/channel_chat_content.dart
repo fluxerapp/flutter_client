@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/voice/dm_embedded_
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_header_search_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_sync_provider.dart';
@@ -22,7 +23,7 @@ import 'package:fluxer_app/features/chat/utils/bottom_input_slot_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/dm_call_e2ee_footer.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 /// Composite chat view that assembles the top bar, message list,
 /// and input field. Works for both server channels and DMs.
@@ -163,6 +164,7 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
     if (_lastClosedPanelRequest != closeRequest) {
       _lastClosedPanelRequest = closeRequest;
       ref.read(expressionPanelProvider.notifier).close();
+      ref.read(attachmentPanelProvider.notifier).close();
     }
     await ref
         .read(chatViewModelProvider.notifier)

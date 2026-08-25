@@ -1,8 +1,6 @@
-import 'dart:io' show File, Platform;
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path_lib;
 
@@ -80,21 +78,25 @@ abstract final class ExpressionFilePicker {
     required List<String> extensions,
     required bool allowMultiple,
   }) async {
-    final FilePickerResult? result = await FilePicker.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: extensions,
-      withData: !(!kIsWeb && (Platform.isAndroid || Platform.isIOS)),
-      allowMultiple: allowMultiple,
-    );
-    if (result == null || result.files.isEmpty) {
+    final List<PlatformFile> files;
+    if (allowMultiple) {
+      files = await FilePicker.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: extensions,
+      );
+    } else {
+      final PlatformFile? file = await FilePicker.pickFile(
+        type: FileType.custom,
+        allowedExtensions: extensions,
+      );
+      files = file == null ? const <PlatformFile>[] : <PlatformFile>[file];
+    }
+    if (files.isEmpty) {
       return const <ExpressionPickResult>[];
     }
     final List<ExpressionPickResult> picked = <ExpressionPickResult>[];
-    for (final PlatformFile file in result.files) {
-      final Uint8List? bytes = await _readPlatformFileBytes(file);
-      if (bytes == null) {
-        continue;
-      }
+    for (final PlatformFile file in files) {
+      final Uint8List bytes = await file.readAsBytes();
       picked.add(ExpressionPickResult(name: file.name, bytes: bytes));
     }
     return picked;
@@ -111,18 +113,6 @@ abstract final class ExpressionFilePicker {
       );
     }
     return picked;
-  }
-
-  static Future<Uint8List?> _readPlatformFileBytes(PlatformFile file) async {
-    final Uint8List? bytes = file.bytes;
-    if (bytes != null) {
-      return bytes;
-    }
-    final String? path = file.path;
-    if (path == null || path.isEmpty) {
-      return null;
-    }
-    return File(path).readAsBytes();
   }
 
   static String _filenameFromXFile(XFile file) {

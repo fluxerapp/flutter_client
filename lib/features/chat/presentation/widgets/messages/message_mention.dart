@@ -25,12 +25,12 @@ import 'package:fluxer_app/features/settings/utils/open_user_settings_deep_link.
 import 'package:fluxer_app/features/settings/utils/user_settings_billing_nav.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class ChannelMention extends ConsumerWidget {

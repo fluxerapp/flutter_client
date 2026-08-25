@@ -42,7 +42,9 @@ List<String> parseMemberRoleIds(String roleIdsJson) {
     if (decoded is List) {
       return decoded.cast<String>();
     }
-  } on Object {}
+  } on Object {
+    return <String>[];
+  }
   return <String>[];
 }
 

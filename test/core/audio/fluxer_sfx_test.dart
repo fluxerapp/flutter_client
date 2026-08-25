@@ -71,18 +71,27 @@ void main() {
     });
   });
 
-  group('shouldRestoreAppMediaAudioAfterSfxContext', () {
-    test('only incoming ring restores app media audio', () {
+  group('usesAmbientSfxContext', () {
+    test('notification and incoming ring contexts are ambient', () {
+      expect(usesAmbientSfxContext(kNotificationSfxContext), isTrue);
+      expect(usesAmbientSfxContext(kIncomingRingLoopContext), isTrue);
+      expect(usesAmbientSfxContext(kSessionFeedbackSfxContext), isFalse);
+      expect(usesAmbientSfxContext(kAppMediaAudioContext), isFalse);
+    });
+  });
+
+  group('shouldRestorePreferredAudioAfterOneShot', () {
+    test('only incoming ring restores preferred audio session', () {
       expect(
-        shouldRestoreAppMediaAudioAfterSfxContext(kNotificationSfxContext),
+        shouldRestorePreferredAudioAfterOneShot(kNotificationSfxContext),
         isFalse,
       );
       expect(
-        shouldRestoreAppMediaAudioAfterSfxContext(kIncomingRingLoopContext),
+        shouldRestorePreferredAudioAfterOneShot(kIncomingRingLoopContext),
         isTrue,
       );
       expect(
-        shouldRestoreAppMediaAudioAfterSfxContext(kSessionFeedbackSfxContext),
+        shouldRestorePreferredAudioAfterOneShot(kSessionFeedbackSfxContext),
         isFalse,
       );
     });

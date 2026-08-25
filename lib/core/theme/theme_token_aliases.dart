@@ -1,4 +1,4 @@
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 /// When source is overridden, dependents
 /// receive the same color unless they were explicitly overridden in CSS.

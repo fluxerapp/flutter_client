@@ -6,11 +6,11 @@ import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_co
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_timezone_section.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_icon_avatar.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
-import 'package:material_ui/material_ui.dart';
 
 class UserProfileBioCard extends StatelessWidget {
   const UserProfileBioCard({

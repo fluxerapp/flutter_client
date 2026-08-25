@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 import 'package:fluxer_markdown/src/renderers/fluxer_markdown_renderers.dart';
+import 'package:fluxer_markdown/src/utils/bounded_text.dart';
 import 'package:fluxer_markdown/src/utils/jumbo_emoji.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 import 'package:material_ui/material_ui.dart';
@@ -356,7 +357,7 @@ int _richTextCountInListItemBody(WidgetTester tester, String marker) {
   final Column column = tester.widget<Column>(columnFinder);
   var count = 0;
   for (final Widget child in column.children) {
-    if (child is RichText) {
+    if (child is RichText || child is FluxerBoundedTextClip) {
       count++;
     }
   }
@@ -382,6 +383,18 @@ Finder _markerFinder(String marker) {
   );
 }
 
+bool _isListMarkerSizedBoxChild(Widget? child, String marker) {
+  if (child is RichText && child.text.toPlainText() == marker) {
+    return true;
+  }
+  if (child is FluxerBoundedTextClip &&
+      child.child is RichText &&
+      (child.child as RichText).text.toPlainText() == marker) {
+    return true;
+  }
+  return false;
+}
+
 Finder _listItemRowFinder(String marker) {
   return find.ancestor(
     of: _markerFinder(marker),
@@ -391,8 +404,7 @@ Finder _listItemRowFinder(String marker) {
           widget.children.any(
             (Widget child) =>
                 child is SizedBox &&
-                child.child is RichText &&
-                (child.child! as RichText).text.toPlainText() == marker,
+                _isListMarkerSizedBoxChild(child.child, marker),
           ),
     ),
   );
@@ -404,8 +416,7 @@ Finder _listMarkerSizedBoxFinder(String marker) {
     matching: find.byWidgetPredicate(
       (Widget widget) =>
           widget is SizedBox &&
-          widget.child is RichText &&
-          (widget.child! as RichText).text.toPlainText() == marker,
+          _isListMarkerSizedBoxChild(widget.child, marker),
     ),
   );
 }

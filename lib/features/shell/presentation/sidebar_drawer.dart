@@ -13,8 +13,8 @@ import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:fluxer_app/features/shell/providers/drawer_reveal_sync_trigger_provider.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/shell/providers/shell_blocks_horizontal_gestures_provider.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
-import 'package:material_ui/material_ui.dart';
 
 /// Compact wide mobile peeks the drawer at the channel list edge.
 class SidebarDrawer extends ConsumerStatefulWidget {

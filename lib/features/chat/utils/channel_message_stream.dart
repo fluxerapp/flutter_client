@@ -269,26 +269,53 @@ int findChannelStreamSplitIndex(
   return dataIndex;
 }
 
-Message? resolvePreviousMessageForStreamItem(
+ChannelStreamItem? previousRenderableStreamItem(
   List<ChannelStreamItem> stream,
   int index,
 ) {
   if (index <= 0 || index >= stream.length) {
     return null;
   }
-  final bool resetAfterCollapsedGroup =
-      stream[index].type == ChannelStreamType.message;
   for (var i = index - 1; i >= 0; i--) {
     final ChannelStreamItem item = stream[i];
     if (item.type == ChannelStreamType.divider || item.messages.isEmpty) {
       continue;
     }
-    if (resetAfterCollapsedGroup && item.type.isCollapsedGroup) {
-      return null;
-    }
-    return item.messages.last;
+    return item;
   }
   return null;
+}
+
+bool followsCollapsedGroup(List<ChannelStreamItem> stream, int index) =>
+    previousRenderableStreamItem(stream, index)?.type.isCollapsedGroup ?? false;
+
+double leadingGroupSpacingBeforeStreamItem(
+  List<ChannelStreamItem> stream,
+  int index, {
+  required double spacing,
+}) {
+  if (spacing <= 0 || previousRenderableStreamItem(stream, index) == null) {
+    return 0;
+  }
+  return spacing;
+}
+
+Message? resolvePreviousMessageForStreamItem(
+  List<ChannelStreamItem> stream,
+  int index,
+) {
+  final ChannelStreamItem? previousItem = previousRenderableStreamItem(
+    stream,
+    index,
+  );
+  if (previousItem == null) {
+    return null;
+  }
+  if (stream[index].type == ChannelStreamType.message &&
+      previousItem.type.isCollapsedGroup) {
+    return null;
+  }
+  return previousItem.messages.last;
 }
 
 bool isMessageInRevealedCollapsedGroup({

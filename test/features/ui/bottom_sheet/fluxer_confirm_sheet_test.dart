@@ -8,7 +8,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 import '../../../helpers/test_l10n.dart';
 

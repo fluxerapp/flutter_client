@@ -22,8 +22,10 @@ class NotificationsInboxSegment extends _$NotificationsInboxSegment {
   @override
   NotificationsInboxTab build() => NotificationsInboxTab.mentions;
 
-  void set(NotificationsInboxTab segment) {
-    state = segment;
+  NotificationsInboxTab get segment => state;
+
+  set segment(NotificationsInboxTab value) {
+    state = value;
   }
 }
 

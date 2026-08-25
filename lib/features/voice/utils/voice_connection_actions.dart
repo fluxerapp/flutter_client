@@ -18,8 +18,8 @@ import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart'
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/voice_session_errors.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/gateway.dart';
-import 'package:material_ui/material_ui.dart';
 
 const Duration _kOtherDeviceDisconnectTimeout = Duration(seconds: 3);
 const Duration _kOtherDeviceDisconnectPollInterval = Duration(
@@ -330,6 +330,9 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
     }
     return VoiceJoinResult.succeeded;
   }
+  if (context == null || !context.mounted) {
+    return VoiceJoinResult.failed;
+  }
   final BuildContext? modalContext = _modalContext(context);
   if (modalContext == null) {
     talker.warning(
@@ -345,6 +348,9 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
   if (suppressNewDeviceAlerts) {
     choice = VoiceConnectionConfirmResult.justJoin;
   } else {
+    if (!modalContext.mounted) {
+      return VoiceJoinResult.failed;
+    }
     choice = await showVoiceConnectionConfirmModal(
       modalContext,
       otherDeviceCount: others.length,

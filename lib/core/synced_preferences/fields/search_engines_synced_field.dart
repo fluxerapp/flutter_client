@@ -1,13 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/synced_preferences/engine/synced_field_adapter.dart';
+import 'package:fluxer_app/core/synced_preferences/engine/proto_synced_field_adapter.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/preferences.pb.dart'
     as pb;
 import 'package:fluxer_app/features/settings/domain/search_provider_engine.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
-import 'package:protobuf/protobuf.dart' as $pb;
 
-class SearchEnginesSyncedField extends SyncedFieldAdapter<SearchEnginesState> {
+class SearchEnginesSyncedField
+    extends
+        ProtoSyncedFieldAdapter<SearchEnginesState, pb.SearchEngineSettings> {
   SearchEnginesSyncedField(this._ref);
 
   final Ref _ref;
@@ -28,43 +29,39 @@ class SearchEnginesSyncedField extends SyncedFieldAdapter<SearchEnginesState> {
   }
 
   @override
-  SearchEnginesState? readFromProto(pb.SyncedPreferences message) {
-    if (!message.hasSearchEngines()) {
-      return null;
-    }
-    final engines = message.searchEngines;
+  bool hasField(pb.SyncedPreferences message) => message.hasSearchEngines();
+
+  @override
+  pb.SearchEngineSettings readSubMessage(pb.SyncedPreferences message) {
+    return message.searchEngines;
+  }
+
+  @override
+  SearchEnginesState fromProto(pb.SearchEngineSettings proto) {
     return SearchEnginesState.defaults().mergeSyncedDefaults(
-      textSearchEngineId: engines.hasTextSearchEngineId()
-          ? engines.textSearchEngineId
+      textSearchEngineId: proto.hasTextSearchEngineId()
+          ? proto.textSearchEngineId
           : null,
-      reverseImageSearchEngineId: engines.hasReverseImageSearchEngineId()
-          ? engines.reverseImageSearchEngineId
+      reverseImageSearchEngineId: proto.hasReverseImageSearchEngineId()
+          ? proto.reverseImageSearchEngineId
           : null,
-      translatorEngineId: engines.hasTranslationProviderId()
-          ? engines.translationProviderId
+      translatorEngineId: proto.hasTranslationProviderId()
+          ? proto.translationProviderId
           : null,
     );
   }
 
   @override
-  $pb.GeneratedMessage? readWireSubMessage(pb.SyncedPreferences wire) {
-    return wire.hasSearchEngines() ? wire.searchEngines : null;
+  void writeProto(pb.SearchEngineSettings proto, SearchEnginesState local) {
+    writeSearchEnginesProto(proto, local);
   }
 
   @override
-  $pb.GeneratedMessage toProtoMessage(SearchEnginesState local) {
-    return toProtoForPush(local: local);
-  }
+  pb.SearchEngineSettings createEmptyProto() => pb.SearchEngineSettings();
 
   @override
-  $pb.GeneratedMessage toProtoMessageForPush(
-    SearchEnginesState local, {
-    $pb.GeneratedMessage? wireSubMessage,
-  }) {
-    return toProtoForPush(
-      local: local,
-      wireBase: wireSubMessage as pb.SearchEngineSettings?,
-    );
+  pb.SyncedPreferences wrapProto(pb.SearchEngineSettings proto) {
+    return pb.SyncedPreferences(searchEngines: proto);
   }
 
   @override
@@ -86,45 +83,39 @@ class SearchEnginesSyncedField extends SyncedFieldAdapter<SearchEnginesState> {
     );
   }
 
-  @override
-  bool verifyRoundtrip(SearchEnginesState candidate) {
-    final proto = toProtoMessage(candidate) as pb.SearchEngineSettings;
-    final roundtripped = readFromProto(
-      pb.SyncedPreferences(searchEngines: proto),
-    );
-    return roundtripped != null && statesEqual(candidate, roundtripped);
-  }
-
   static pb.SearchEngineSettings toProtoForPush({
     required SearchEnginesState local,
     pb.SearchEngineSettings? wireBase,
   }) {
-    final settings = wireBase != null
-        ? (pb.SearchEngineSettings()..mergeFromMessage(wireBase))
-        : pb.SearchEngineSettings();
+    final settings = mergeOrCreate(wireBase, pb.SearchEngineSettings.new);
+    writeSearchEnginesProto(settings, local);
+    return settings;
+  }
 
+  static void writeSearchEnginesProto(
+    pb.SearchEngineSettings proto,
+    SearchEnginesState local,
+  ) {
     final textSearchEngineId = local.textSearchEngineId;
     if (textSearchEngineId != null && textSearchEngineId.isNotEmpty) {
-      settings.textSearchEngineId = textSearchEngineId;
+      proto.textSearchEngineId = textSearchEngineId;
     } else {
-      settings.clearTextSearchEngineId();
+      proto.clearTextSearchEngineId();
     }
 
     final reverseImageSearchEngineId = local.reverseImageSearchEngineId;
     if (reverseImageSearchEngineId != null &&
         reverseImageSearchEngineId.isNotEmpty) {
-      settings.reverseImageSearchEngineId = reverseImageSearchEngineId;
+      proto.reverseImageSearchEngineId = reverseImageSearchEngineId;
     } else {
-      settings.clearReverseImageSearchEngineId();
+      proto.clearReverseImageSearchEngineId();
     }
 
     final translatorEngineId = local.translatorEngineId;
     if (translatorEngineId != null && translatorEngineId.isNotEmpty) {
-      settings.translationProviderId = translatorEngineId;
+      proto.translationProviderId = translatorEngineId;
     } else {
-      settings.clearTranslationProviderId();
+      proto.clearTranslationProviderId();
     }
-
-    return settings;
   }
 }

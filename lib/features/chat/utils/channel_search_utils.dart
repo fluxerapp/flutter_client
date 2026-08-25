@@ -5,7 +5,7 @@ import 'package:fluxer_app/features/chat/domain/channel_search_chip_filters.dart
 import 'package:fluxer_app/features/chat/domain/channel_search_segments.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 List<MessageSearchScopeFilter> channelSearchScopeOptions({
@@ -210,9 +210,17 @@ String formatChannelSearchDate(DateTime date) {
       '${date.day.toString().padLeft(2, '0')}';
 }
 
+String? visibleUserDiscriminator(String? discriminator) {
+  final String trimmed = (discriminator ?? '').trim();
+  if (trimmed.isEmpty || trimmed == '0') {
+    return null;
+  }
+  return trimmed;
+}
+
 String formatChannelSearchUserTag(String username, String? discriminator) {
-  final String disc = (discriminator ?? '').trim();
-  if (disc.isEmpty || disc == '0') {
+  final String? disc = visibleUserDiscriminator(discriminator);
+  if (disc == null) {
     return username;
   }
   return '$username#$disc';

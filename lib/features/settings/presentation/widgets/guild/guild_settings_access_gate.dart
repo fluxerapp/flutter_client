@@ -6,8 +6,8 @@ import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
-import 'package:material_ui/material_ui.dart';
 
 class GuildSettingsAccessGate extends ConsumerStatefulWidget {
   const GuildSettingsAccessGate({

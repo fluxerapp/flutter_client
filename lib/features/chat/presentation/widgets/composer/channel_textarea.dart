@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui' show BoxWidthStyle;
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -42,6 +41,7 @@ import 'package:fluxer_app/features/chat/providers/channel/channel_message_permi
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/guild/guild_composer_access_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_length_limits_provider.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
@@ -53,16 +53,18 @@ import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_rate_limite
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/service/composer_mention_controller.dart';
+import 'package:fluxer_app/features/chat/utils/attachment_native_pickers.dart';
 import 'package:fluxer_app/features/chat/utils/bottom_input_slot_layout.dart';
 import 'package:fluxer_app/features/chat/utils/composer_clipboard_paste.dart';
 import 'package:fluxer_app/features/chat/utils/composer_command.dart';
 import 'package:fluxer_app/features/chat/utils/composer_emoji_resolution.dart';
 import 'package:fluxer_app/features/chat/utils/composer_expression_tabs.dart';
+import 'package:fluxer_app/features/chat/utils/composer_panel.dart';
 import 'package:fluxer_app/features/chat/utils/composer_scroll.dart';
 import 'package:fluxer_app/features/chat/utils/composer_sendable_content.dart';
 import 'package:fluxer_app/features/chat/utils/composer_upload_file.dart';
 import 'package:fluxer_app/features/chat/utils/composer_voice_button_visibility.dart';
-import 'package:fluxer_app/features/chat/utils/file_upload_constants.dart';
+import 'package:fluxer_app/features/chat/utils/file_upload_validation_l10n.dart';
 import 'package:fluxer_app/features/chat/utils/file_upload_validator.dart';
 import 'package:fluxer_app/features/chat/utils/paste_text_attachment.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
@@ -83,12 +85,12 @@ import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_app/shared/utils/keyboard_focus_restore.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kComposerDisabledOpacity = 0.6;
@@ -379,7 +381,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (!mounted || !isMobileLayout(context)) {
       return false;
     }
-    if (ref.read(expressionPanelProvider)) {
+    if (isComposerPanelOpen(
+      expressionPanelOpen: ref.read(expressionPanelProvider),
+      attachmentPanelOpen: ref.read(attachmentPanelProvider),
+    )) {
       return false;
     }
     if (!_focusNode.canRequestFocus) {
@@ -395,7 +400,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (!mounted || !isMobileLayout(context)) {
       return false;
     }
-    if (ref.read(expressionPanelProvider)) {
+    if (isComposerPanelOpen(
+      expressionPanelOpen: ref.read(expressionPanelProvider),
+      attachmentPanelOpen: ref.read(attachmentPanelProvider),
+    )) {
       return false;
     }
     return _focusNode.canRequestFocus;
@@ -667,6 +675,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           perms.canShowAttachControls && perms.isAttachEnabled,
       onPasteExceedsLimit: (String pastedText) =>
           unawaited(_handlePasteExceedsLimit(pastedText, channelId)),
+      onPasteLostContent: _showCorruptedCustomEmojiToast,
       onValidationResult: _toastUploadValidation,
       builder:
           (
@@ -696,45 +705,59 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                       child: Semantics(
                         label: _resolveHintText(),
                         textField: true,
-                        child: TextField(
-                          controller: _controller,
-                          focusNode: focusNode,
-                          scrollController: _composerScrollController,
-                          enabled: perms.isComposerEnabled,
-                          style: context.textStyles.inputText,
-                          minLines: minLines,
+                        child: wrapBoundedTextClip(
                           maxLines: maxLines,
-                          selectionWidthStyle: BoxWidthStyle.tight,
-                          decoration: effectiveDecoration,
-                          textAlignVertical: textAlignVertical,
-                          textCapitalization: TextCapitalization.sentences,
-                          contextMenuBuilder: clipboardScope.buildContextMenu,
-                          contentInsertionConfiguration: perms.isAttachEnabled
-                              ? ContentInsertionConfiguration(
-                                  onContentInserted:
-                                      (KeyboardInsertedContent content) {
-                                        unawaited(() async {
-                                          final FileUploadValidationResult?
-                                          result =
-                                              await handleComposerContentInserted(
-                                                ref: ref,
-                                                channelId: channelId,
-                                                content: content,
-                                                isAttachEnabled:
-                                                    perms.isAttachEnabled,
-                                              );
-                                          if (result != null) {
-                                            _toastUploadValidation(result);
-                                          }
-                                        }());
-                                      },
-                                )
-                              : null,
-                          onTap: () {
-                            if (ref.read(expressionPanelProvider)) {
-                              _closeExpressionPanelAndFocusComposer();
-                            }
-                          },
+                          child: TextField(
+                            controller: _controller,
+                            focusNode: focusNode,
+                            scrollController: _composerScrollController,
+                            enabled: perms.isComposerEnabled,
+                            style: context.textStyles.inputText,
+                            strutStyle: boundedStrutFor(
+                              context.textStyles.inputText,
+                              forceHeight: false,
+                            ),
+                            minLines: minLines,
+                            maxLines: maxLines,
+                            selectionWidthStyle: BoxWidthStyle.tight,
+                            decoration: effectiveDecoration,
+                            textAlignVertical: textAlignVertical,
+                            textCapitalization: TextCapitalization.sentences,
+                            contextMenuBuilder: clipboardScope.buildContextMenu,
+                            contentInsertionConfiguration: perms.isAttachEnabled
+                                ? ContentInsertionConfiguration(
+                                    onContentInserted:
+                                        (KeyboardInsertedContent content) {
+                                          unawaited(() async {
+                                            final FileUploadValidationResult?
+                                            result =
+                                                await handleComposerContentInserted(
+                                                  ref: ref,
+                                                  channelId: channelId,
+                                                  content: content,
+                                                  isAttachEnabled:
+                                                      perms.isAttachEnabled,
+                                                );
+                                            if (result != null) {
+                                              _toastUploadValidation(result);
+                                            }
+                                          }());
+                                        },
+                                  )
+                                : null,
+                            onTap: () {
+                              if (isComposerPanelOpen(
+                                expressionPanelOpen: ref.read(
+                                  expressionPanelProvider,
+                                ),
+                                attachmentPanelOpen: ref.read(
+                                  attachmentPanelProvider,
+                                ),
+                              )) {
+                                _closeComposerPanelsAndFocusComposer();
+                              }
+                            },
+                          ),
                         ),
                       ),
                     ),
@@ -927,7 +950,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       ),
     );
     final bool mobileComposer = isMobileLayout(context);
-    final bool isPanelOpen = ref.watch(expressionPanelProvider);
+    final bool isPanelOpen = isComposerPanelOpen(
+      expressionPanelOpen: ref.watch(expressionPanelProvider),
+      attachmentPanelOpen: ref.watch(attachmentPanelProvider),
+    );
     final double bottomSlotHeight = ref.watch(
       bottomInputSlotProvider.select(
         (BottomInputSlotState state) => state.slotHeight,
@@ -1219,7 +1245,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
               iconSize: touchActions ? 20 : _kDesktopComposerAttachIconSize,
               tooltip: l10n.chatAttachmentSourceBrowse,
               onPressed: perms.isAttachEnabled
-                  ? () => unawaited(_pickAttachments(context))
+                  ? () => _onAttachPressed(context)
                   : null,
             ),
             SizedBox(
@@ -1470,6 +1496,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         channelId,
       ).select((CloudComposerAttachments a) => a.items.length),
     );
+    final bool isAttachmentPanelOpen = ref.watch(attachmentPanelProvider);
 
     final int maxMessageLength = ref.watch(maxMessageLengthProvider);
     final int premiumMaxLength = ref.watch(premiumMaxMessageLengthProvider);
@@ -1502,12 +1529,18 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             _composerOpacity(
               enabled: perms.isAttachEnabled,
               child: FluxerButton.circleAlt(
-                icon: PhosphorIconsBold.plus,
-                semanticLabel: FluxerLocalizations.of(
-                  context,
-                ).chatAttachmentSourceBrowse,
+                icon: isAttachmentPanelOpen
+                    ? PhosphorIconsBold.x
+                    : PhosphorIconsBold.plus,
+                semanticLabel: isAttachmentPanelOpen
+                    ? FluxerLocalizations.of(
+                        context,
+                      ).composerCloseAttachmentPanel
+                    : FluxerLocalizations.of(
+                        context,
+                      ).chatAttachmentSourceBrowse,
                 onPressed: perms.isAttachEnabled
-                    ? () => unawaited(_pickAttachments(context))
+                    ? () => _onAttachPressed(context)
                     : null,
               ),
             ),
@@ -1718,9 +1751,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       );
       if (slowmodeRemaining != null) {
         ref.read(slowmodeIndicatorShakeProvider.notifier).requestShake();
-        ref
-            .read(slowmodeRateLimitedAlertProvider.notifier)
-            .show(slowmodeRemaining);
+        ref.read(slowmodeRateLimitedAlertProvider.notifier).remaining =
+            slowmodeRemaining;
         return;
       }
     }
@@ -1920,12 +1952,16 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     return confirmed ?? false;
   }
 
-  void _closeExpressionPanelAndFocusComposer() {
-    if (!ref.read(expressionPanelProvider)) {
+  void _closeComposerPanelsAndFocusComposer() {
+    if (!isComposerPanelOpen(
+      expressionPanelOpen: ref.read(expressionPanelProvider),
+      attachmentPanelOpen: ref.read(attachmentPanelProvider),
+    )) {
       return;
     }
-    _beginExpressionPanelToKeyboardTransition();
+    _beginComposerPanelToKeyboardTransition();
     ref.read(expressionPanelProvider.notifier).close();
+    ref.read(attachmentPanelProvider.notifier).close();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) {
         return;
@@ -1934,7 +1970,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     });
   }
 
-  void _beginExpressionPanelToKeyboardTransition() {
+  void _beginComposerPanelToKeyboardTransition() {
     if (!isMobileLayout(context)) {
       return;
     }
@@ -1949,10 +1985,53 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         .beginKeyboardTransition(lockHeight);
   }
 
+  void _prepareComposerPanelFromKeyboard() {
+    if (!isMobileLayout(context)) {
+      return;
+    }
+    if (isComposerPanelOpen(
+      expressionPanelOpen: ref.read(expressionPanelProvider),
+      attachmentPanelOpen: ref.read(attachmentPanelProvider),
+    )) {
+      return;
+    }
+    final MobileKeyboardMetricsState metrics = ref.read(
+      mobileKeyboardMetricsProvider,
+    );
+    if (metrics.isKeyboardVisible) {
+      final double grossLock = resolveTransitionLockHeight(
+        liveKeyboardHeight: metrics.liveKeyboardHeight,
+        anchorHeight: metrics.resolveAnchorHeight(),
+      );
+      ref
+          .read(bottomInputSlotProvider.notifier)
+          .beginPanelTransition(grossLock);
+    }
+  }
+
+  void _onAttachPressed(BuildContext context) {
+    if (!_useMobileAttachmentSheet()) {
+      unawaited(_pickAttachments(context));
+      return;
+    }
+    if (ref.read(attachmentPanelProvider)) {
+      _closeComposerPanelsAndFocusComposer();
+      return;
+    }
+    _prepareComposerPanelFromKeyboard();
+    ref.read(expressionPanelProvider.notifier).close();
+    ref.read(attachmentPanelProvider.notifier).open();
+    FocusScope.of(context).unfocus();
+  }
+
   void _focusComposerAfterReplyOrEdit({required bool forEdit}) {
-    if (ref.read(expressionPanelProvider)) {
-      _beginExpressionPanelToKeyboardTransition();
+    if (isComposerPanelOpen(
+      expressionPanelOpen: ref.read(expressionPanelProvider),
+      attachmentPanelOpen: ref.read(attachmentPanelProvider),
+    )) {
+      _beginComposerPanelToKeyboardTransition();
       ref.read(expressionPanelProvider.notifier).close();
+      ref.read(attachmentPanelProvider.notifier).close();
     }
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!mounted) {
@@ -1999,20 +2078,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             ? null
             : () {
                 if (isPanelOpen) {
-                  _closeExpressionPanelAndFocusComposer();
+                  _closeComposerPanelsAndFocusComposer();
                 } else {
-                  final MobileKeyboardMetricsState metrics = ref.read(
-                    mobileKeyboardMetricsProvider,
-                  );
-                  if (metrics.isKeyboardVisible) {
-                    final double grossLock = resolveTransitionLockHeight(
-                      liveKeyboardHeight: metrics.liveKeyboardHeight,
-                      anchorHeight: metrics.resolveAnchorHeight(),
-                    );
-                    ref
-                        .read(bottomInputSlotProvider.notifier)
-                        .beginPanelTransition(grossLock);
-                  }
+                  _prepareComposerPanelFromKeyboard();
+                  ref.read(attachmentPanelProvider.notifier).close();
                   ref.read(expressionPanelProvider.notifier).open();
                   FocusScope.of(context).unfocus();
                 }
@@ -2210,122 +2279,31 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
 
   Future<void> _pickAttachments(BuildContext context) async {
     if (_useMobileAttachmentSheet()) {
-      await FluxerBottomSheet.show<void>(
-        context,
-        variant: FluxerBottomSheetVariant.menu,
-        builder: (BuildContext sheetContext, VoidCallback close) {
-          final FluxerLocalizations l10n = FluxerLocalizations.of(sheetContext);
-          return Padding(
-            padding: FluxerBottomSheet.scrollViewPadding(
-              sheetContext,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-            ),
-            child: FluxerBottomSheetGroupColumn(
-              children: [
-                FluxerMenuGroup(
-                  children: [
-                    FluxerBottomSheetMenuItem(
-                      icon: PhosphorIconsFill.image,
-                      label: l10n.chatAttachmentSourceGallery,
-                      onTap: () async {
-                        close();
-                        final ImagePicker picker = ImagePicker();
-                        final List<XFile> media = await picker
-                            .pickMultipleMedia(
-                              limit: kMaxAttachmentsPerMessage,
-                            );
-                        if (media.isEmpty) {
-                          return;
-                        }
-                        if (!mounted) {
-                          return;
-                        }
-                        await _addPickedFiles(
-                          composerUploadFilesFromImagePicker(media),
-                        );
-                      },
-                    ),
-                    FluxerBottomSheetMenuItem(
-                      icon: PhosphorIconsFill.camera,
-                      label: l10n.chatAttachmentSourceCamera,
-                      onTap: () async {
-                        close();
-                        final ImagePicker picker = ImagePicker();
-                        final XFile? image = await picker.pickImage(
-                          source: ImageSource.camera,
-                        );
-                        if (image == null) {
-                          return;
-                        }
-                        if (!mounted) {
-                          return;
-                        }
-                        await _addPickedFiles(<ComposerUploadFile>[
-                          composerUploadFileFromImagePicker(image),
-                        ]);
-                      },
-                    ),
-                    FluxerBottomSheetMenuItem(
-                      icon: PhosphorIconsFill.folder,
-                      label: l10n.chatAttachmentSourceBrowse,
-                      onTap: () async {
-                        close();
-                        final FilePickerResult? res =
-                            await FilePicker.pickFiles();
-                        if (res == null) {
-                          return;
-                        }
-                        if (!mounted) {
-                          return;
-                        }
-                        final List<ComposerUploadFile> files =
-                            composerUploadFilesFromPlatformFiles(res.files);
-                        if (files.isEmpty) {
-                          return;
-                        }
-                        await _addPickedFiles(files);
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
-        },
+      final String channelId = ref.read(chatViewModelProvider).channelId;
+      final int limit = remainingAttachmentPickLimit(
+        ref.read(cloudUploadControllerProvider(channelId)).items.length,
       );
+      await _addPickedFiles(await pickNativeGalleryUploads(limit: limit));
       return;
     }
-    final FilePickerResult? res = await FilePicker.pickFiles();
-    if (res == null || !mounted) {
-      return;
-    }
-    final List<ComposerUploadFile> files = composerUploadFilesFromPlatformFiles(
-      res.files,
-    );
-    if (files.isEmpty) {
-      return;
-    }
-    await _addPickedFiles(files);
+    await _addPickedFiles(await pickNativeFileUploads());
   }
 
   void _toastUploadValidation(FileUploadValidationResult result) {
-    if (result.isValid || !mounted) {
+    if (!mounted) {
       return;
     }
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final String msg = switch (result.error!) {
-      FileUploadValidationError.tooManyAttachments =>
-        l10n.chatAttachmentTooMany(kMaxAttachmentsPerMessage),
-      FileUploadValidationError.fileTooLarge => l10n.chatAttachmentFileTooLarge,
-      FileUploadValidationError.multipartRequestTooLarge =>
-        l10n.chatAttachmentPayloadTooLarge,
-      FileUploadValidationError.noFiles => '',
-    };
-    if (msg.isEmpty) {
+    final String? message = fileUploadValidationMessage(
+      FluxerLocalizations.of(context),
+      result,
+    );
+    if (message == null) {
       return;
     }
     ref
         .read(toastProvider.notifier)
-        .show(FluxerToast(message: msg, variant: FluxerToastVariant.warning));
+        .show(
+          FluxerToast(message: message, variant: FluxerToastVariant.warning),
+        );
   }
 }

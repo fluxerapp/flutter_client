@@ -16,13 +16,13 @@ import 'package:fluxer_app/features/chat/utils/channel_message_stream.dart';
 import 'package:fluxer_app/features/chat/utils/mention_reply_preference_utils.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart'
     show GuildUserDisplay, messagePrefersPersistedAuthorDisplay;
 import 'package:fluxer_dart/models/mention_reply_preferences.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kReplyPreviewFontSize = 14;
@@ -324,6 +324,55 @@ class ReplyConnectorPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant ReplyConnectorPainter oldDelegate) =>
       avatarCenterX != oldDelegate.avatarCenterX ||
+      lineTop != oldDelegate.lineTop ||
+      lineBottom != oldDelegate.lineBottom ||
+      horizontalEnd != oldDelegate.horizontalEnd ||
+      color != oldDelegate.color;
+}
+
+class CompactReplyConnectorPainter extends CustomPainter {
+  final double spineCenterX;
+  final double lineTop;
+  final double lineBottom;
+  final double horizontalEnd;
+  final Color color;
+
+  CompactReplyConnectorPainter({
+    required this.spineCenterX,
+    required this.lineTop,
+    required this.lineBottom,
+    required this.horizontalEnd,
+    required this.color,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (horizontalEnd <= spineCenterX) {
+      return;
+    }
+    final paint = Paint()
+      ..color = color
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round;
+
+    const radius = 6.0;
+
+    final path = Path()
+      ..moveTo(spineCenterX, lineBottom)
+      ..lineTo(spineCenterX, lineTop + radius)
+      ..arcToPoint(
+        Offset(spineCenterX + radius, lineTop),
+        radius: const Radius.circular(radius),
+      )
+      ..lineTo(horizontalEnd, lineTop);
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CompactReplyConnectorPainter oldDelegate) =>
+      spineCenterX != oldDelegate.spineCenterX ||
       lineTop != oldDelegate.lineTop ||
       lineBottom != oldDelegate.lineBottom ||
       horizontalEnd != oldDelegate.horizontalEnd ||

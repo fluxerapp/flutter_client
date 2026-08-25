@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/inline_expression_panel.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
@@ -16,9 +17,9 @@ import 'package:fluxer_app/features/chat/utils/bottom_input_slot_layout.dart';
 import 'package:fluxer_app/features/chat/utils/inline_expression_panel_layout.dart';
 import 'package:fluxer_app/features/chat/utils/inline_expression_panel_scroll_physics.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/expandable_sheet_gestures.dart';
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
-import 'package:material_ui/material_ui.dart';
 
 const Key kChatExpressionSheetKey = kExpressionPanelShellGestureBlockKey;
 const Key kChatExpressionSheetDragHandleKey = Key(
@@ -127,6 +128,10 @@ class ChatExpressionExpandableSheetState
   @override
   void didUpdateWidget(ChatExpressionExpandableSheet oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (oldWidget.contentBuilder != widget.contentBuilder &&
+        _scrollController.hasClients) {
+      _scrollController.jumpTo(0);
+    }
     _refreshExpandedHeight();
     if (_isSearchFocused || _isExpanded) {
       return;
@@ -335,20 +340,24 @@ class ChatExpressionExpandableSheetState
       return;
     }
     _contentVelocityTracker.addPosition(event.timeStamp, event.position);
-    if (!_isExpanded && event.delta.dy < 0) {
-      return;
-    }
     if (!inlineExpressionPanelControllerIsAtTop(_scrollController)) {
       return;
     }
-    if (event.delta.dy <= 0) {
+    final double deltaDy = event.delta.dy;
+    if (deltaDy > 0 && _height <= _minHeight + 1) {
       return;
     }
-    _contentDragSlopAccumulated += event.delta.dy;
+    if (deltaDy < 0 && _height >= _maxHeight - 1) {
+      return;
+    }
+    if (deltaDy == 0) {
+      return;
+    }
+    _contentDragSlopAccumulated += deltaDy.abs();
     if (_contentDragSlopAccumulated < kExpressionSheetContentDragSlop) {
       return;
     }
-    _adjustSheetHeight(event.delta.dy);
+    _adjustSheetHeight(deltaDy);
   }
 
   void _onContentPointerEnd(PointerEvent event) {
@@ -422,6 +431,7 @@ class ChatExpressionExpandableSheetState
         }
         setState(() => _isClosing = false);
         ref.read(expressionPanelProvider.notifier).close();
+        ref.read(attachmentPanelProvider.notifier).close();
       },
     );
   }
@@ -481,6 +491,7 @@ class ChatExpressionExpandableSheetState
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final Color sheetBackground = colors.chatInputBackground;
     final double homeIndicatorInset = inlineExpressionPanelHomeIndicatorInset(
       MediaQuery.of(context),
     );
@@ -498,14 +509,14 @@ class ChatExpressionExpandableSheetState
               context: context,
               isDragging: isDragging,
               height: _totalHeightFor(height),
-              child: ClipRect(
+              decoration: BoxDecoration(color: sheetBackground),
+              child: ClipRRect(
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(16),
+                ),
                 child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: colors.backgroundSecondary,
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(16),
-                    ),
-                    boxShadow: const <BoxShadow>[
+                  decoration: const BoxDecoration(
+                    boxShadow: <BoxShadow>[
                       BoxShadow(
                         color: Color.fromRGBO(0, 0, 0, 0.15),
                         blurRadius: 12,
@@ -513,48 +524,43 @@ class ChatExpressionExpandableSheetState
                       ),
                     ],
                   ),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(16),
-                    ),
-                    child: Opacity(
-                      opacity: _isClosing ? 0 : 1,
-                      child: IgnorePointer(
-                        ignoring: _isClosing,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            ExpandableSheetDragTarget(
-                              key: kChatExpressionSheetDragHeaderKey,
-                              onVerticalDragStart: _onHeaderDragStart,
-                              onVerticalDragUpdate: _onHeaderDragUpdate,
-                              onVerticalDragEnd: _onHeaderDragEnd,
-                              child: SizedBox(
-                                key: kChatExpressionSheetDragHandleKey,
-                                height: widget.dragHandleHeight,
-                                width: double.infinity,
-                                child: const IgnorePointer(
-                                  child: FluxerBottomSheetDragHandle(
-                                    includeTopPadding: false,
-                                  ),
+                  child: Opacity(
+                    opacity: _isClosing ? 0 : 1,
+                    child: IgnorePointer(
+                      ignoring: _isClosing,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          ExpandableSheetDragTarget(
+                            key: kChatExpressionSheetDragHeaderKey,
+                            onVerticalDragStart: _onHeaderDragStart,
+                            onVerticalDragUpdate: _onHeaderDragUpdate,
+                            onVerticalDragEnd: _onHeaderDragEnd,
+                            child: SizedBox(
+                              key: kChatExpressionSheetDragHandleKey,
+                              height: widget.dragHandleHeight,
+                              width: double.infinity,
+                              child: const IgnorePointer(
+                                child: FluxerBottomSheetDragHandle(
+                                  includeTopPadding: false,
                                 ),
                               ),
                             ),
-                            Expanded(
-                              child: ClipRect(
-                                child: OverflowBox(
-                                  alignment: Alignment.topCenter,
-                                  maxHeight: double.infinity,
-                                  child: SizedBox(
-                                    height: math.max(height, _minHeight),
-                                    width: double.infinity,
-                                    child: child,
-                                  ),
+                          ),
+                          Expanded(
+                            child: ClipRect(
+                              child: OverflowBox(
+                                alignment: Alignment.topCenter,
+                                maxHeight: double.infinity,
+                                child: SizedBox(
+                                  height: math.max(height, _minHeight),
+                                  width: double.infinity,
+                                  child: child,
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -589,7 +595,7 @@ class ChatExpressionExpandableSheetState
       children: <Widget>[
         sheetBody,
         ColoredBox(
-          color: colors.backgroundSecondary,
+          color: sheetBackground,
           child: SizedBox(height: homeIndicatorInset),
         ),
       ],

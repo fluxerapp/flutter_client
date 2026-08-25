@@ -35,6 +35,8 @@ class VoiceParticipantMenuCapabilities {
     required this.showStreamControls,
     required this.streamVolumePercent,
     required this.isStreamMuted,
+    required this.showDisplayPreferences,
+    required this.prioritizeSpeakingParticipants,
     this.streamKey,
   });
 
@@ -55,6 +57,8 @@ class VoiceParticipantMenuCapabilities {
   final bool showStreamControls;
   final int streamVolumePercent;
   final bool isStreamMuted;
+  final bool showDisplayPreferences;
+  final bool prioritizeSpeakingParticipants;
   final String? streamKey;
 }
 
@@ -171,6 +175,12 @@ VoiceParticipantMenuCapabilities buildVoiceParticipantMenuCapabilities({
       isViewerInVoice &&
       !target.isScreenShareTile &&
       !isOwnDevice;
+  final bool showDisplayPreferences = isCurrentUser && isViewerInVoice;
+  final bool prioritizeSpeakingParticipants = ref.watch(
+    voiceSettingsProvider.select(
+      (VoiceSettingsState settings) => settings.prioritizeSpeakingParticipants,
+    ),
+  );
   return VoiceParticipantMenuCapabilities(
     isCurrentUser: isCurrentUser,
     canFocus: canFocus,
@@ -189,6 +199,8 @@ VoiceParticipantMenuCapabilities buildVoiceParticipantMenuCapabilities({
     showStreamControls: showStreamControls,
     streamVolumePercent: streamVolumePercent,
     isStreamMuted: isStreamMuted,
+    showDisplayPreferences: showDisplayPreferences,
+    prioritizeSpeakingParticipants: prioritizeSpeakingParticipants,
     streamKey: streamKey,
   );
 }

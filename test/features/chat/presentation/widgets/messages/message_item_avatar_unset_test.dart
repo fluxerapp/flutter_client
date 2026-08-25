@@ -11,11 +11,11 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:material_ui/material_ui.dart';
 
 import '../../../../../helpers/test_l10n.dart';
 

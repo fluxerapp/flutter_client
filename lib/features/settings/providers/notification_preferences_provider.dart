@@ -6,7 +6,7 @@ import 'package:fluxer_app/core/system_permissions/system_permission_service.dar
 import 'package:fluxer_app/features/settings/domain/tts_notification_mode.dart';
 import 'package:fluxer_app/features/shell/providers/push_notification_permission_status_provider.dart';
 import 'package:fluxer_app/features/ui/system_permissions/system_permission_settings_prompt.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

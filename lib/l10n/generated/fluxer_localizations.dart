@@ -295,6 +295,12 @@ abstract class FluxerLocalizations {
   /// **'Fluxer doesn\'t have access to your camera. You can enable it in your device privacy settings.'**
   String get systemPermissionCameraMessage;
 
+  /// Body text when photo library access must be enabled in system settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluxer doesn\'t have access to your photo library. You can enable it in your device privacy settings.'**
+  String get systemPermissionPhotosMessage;
+
   /// Body text when notification permission must be enabled in system settings.
   ///
   /// In en, this message translates to:
@@ -1210,6 +1216,18 @@ abstract class FluxerLocalizations {
   /// **'Already have an account? '**
   String get registerHaveAccount;
 
+  /// Notice shown after registering on an instance that requires admin approval.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account request is pending approval. You can sign in after an admin approves it.'**
+  String get registerPendingApproval;
+
+  /// Notice shown on the register screen when the instance has registration closed.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration is currently closed. Use a registration link from an admin to create an account.'**
+  String get registerClosed;
+
   /// Error when user has no passkeys registered and tries passkey login.
   ///
   /// In en, this message translates to:
@@ -1876,6 +1894,18 @@ abstract class FluxerLocalizations {
   /// **'Are you sure you want to close your DM with {username}? You can always reopen it later.'**
   String dmCloseDmConfirmDescription(String username);
 
+  /// Confirmation title for deleting all of the caller's messages in a DM or group DM.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete your messages in this conversation?'**
+  String get dmDeleteMyMessagesTitle;
+
+  /// Confirmation description for deleting all of the caller's messages in a DM or group DM.
+  ///
+  /// In en, this message translates to:
+  /// **'This will permanently delete every message you have ever sent in this conversation. This cannot be undone.'**
+  String get dmDeleteMyMessagesDescription;
+
   /// DM context menu action to copy the channel ID.
   ///
   /// In en, this message translates to:
@@ -2446,11 +2476,17 @@ abstract class FluxerLocalizations {
   /// **'Finish signing up to send friend requests.'**
   String get addFriendClaimToSend;
 
-  /// Generic error when sending a friend request fails.
+  /// Error when an unverified account tries to send a friend request.
   ///
   /// In en, this message translates to:
-  /// **'Couldn\'t send the friend request. Try again.'**
-  String get addFriendSendFailedGeneric;
+  /// **'Verify your email before sending friend requests.'**
+  String get addFriendVerifyToSend;
+
+  /// Error when either user's friends list is at the limit.
+  ///
+  /// In en, this message translates to:
+  /// **'Your friends list is full, or theirs is. Remove someone and try again.'**
+  String get addFriendFriendsListFull;
 
   /// Tag label shown next to bot user names.
   ///
@@ -2481,6 +2517,66 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Default emoji'**
   String get emojiAutocompleteDefaultLabel;
+
+  /// Emoji info sheet description for built-in unicode emoji.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a default emoji on {productName}.'**
+  String emojiInfoDefaultDescription(String productName);
+
+  /// Emoji info sheet description when the user can use a custom emoji from their community.
+  ///
+  /// In en, this message translates to:
+  /// **'This emoji is from this community. You can use it everywhere.'**
+  String get emojiInfoCustomGuildDescription;
+
+  /// Emoji info sheet description when the source community is unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a custom emoji from a community.'**
+  String get emojiInfoCustomUnknownDescription;
+
+  /// Emoji info sheet description when the user is not in the source community.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a custom emoji from a community. Ask the author for an invite to use this emoji.'**
+  String get emojiInfoCustomInviteRequiredDescription;
+
+  /// Section header above the source community in the emoji info sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'This emoji is from'**
+  String get emojiInfoFromHeader;
+
+  /// Subtitle for a discoverable source community in the emoji info sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Discoverable community'**
+  String get emojiInfoDiscoverableCommunity;
+
+  /// Subtitle for a non-discoverable source community in the emoji info sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Private community'**
+  String get emojiInfoPrivateCommunity;
+
+  /// Tooltip for the verified badge on a source community in the emoji info sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified community'**
+  String get emojiInfoVerifiedCommunity;
+
+  /// Accessibility label for adding an emoji to favorites from the emoji info sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to Favorites'**
+  String get emojiInfoAddToFavorites;
+
+  /// Accessibility label for removing an emoji from favorites from the emoji info sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from Favorites'**
+  String get emojiInfoRemoveFromFavorites;
 
   /// Frequently used emojis section.
   ///
@@ -7492,6 +7588,126 @@ abstract class FluxerLocalizations {
   /// **'Add to Favorites'**
   String get favoritesAddToFavorites;
 
+  /// Action that adds the selected media to saved media.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to saved media'**
+  String get favoritesAddToSavedMedia;
+
+  /// Action that removes the selected media from saved media.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from saved media'**
+  String get favoritesRemoveFromSavedMedia;
+
+  /// Media context menu action that saves a GIF favorite by URL without uploading it.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to URL-only GIF favorites'**
+  String get favoritesAddToUrlOnlyGifFavorites;
+
+  /// Media context menu action that removes a GIF favorite saved by URL.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from URL-only GIF favorites'**
+  String get favoritesRemoveFromUrlOnlyGifFavorites;
+
+  /// Title for the add saved media form.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to saved media'**
+  String get savedMediaAddTitle;
+
+  /// Form field label for saved media name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get savedMediaFormNameLabel;
+
+  /// Placeholder for saved media name input.
+  ///
+  /// In en, this message translates to:
+  /// **'My awesome media'**
+  String get savedMediaFormNameHint;
+
+  /// Form field label for saved media alt text.
+  ///
+  /// In en, this message translates to:
+  /// **'Alt text'**
+  String get savedMediaFormAltTextLabel;
+
+  /// Placeholder for saved media alt text input.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe the media'**
+  String get savedMediaFormAltTextHint;
+
+  /// Form field label for saved media tags.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get savedMediaFormTagsLabel;
+
+  /// Placeholder for saved media tags input.
+  ///
+  /// In en, this message translates to:
+  /// **'funny, reaction, work'**
+  String get savedMediaFormTagsHint;
+
+  /// Error shown when saving saved media fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not update saved media.'**
+  String get savedMediaSaveError;
+
+  /// Validation error when saved media name is empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Name is required.'**
+  String get savedMediaNameRequired;
+
+  /// Title for the first-time GIF favorite storage prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'How should we save your GIF favorites?'**
+  String get gifFavoriteFirstTimeTitle;
+
+  /// Description for the first-time GIF favorite storage prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'You can store starred GIFs as URL-only favorites or upload them to your saved media. Pick the one that fits how you use them. You can change it any time in Settings > Advanced > Media.'**
+  String get gifFavoriteFirstTimeDescription;
+
+  /// Details for URL-only GIF favorite storage option.
+  ///
+  /// In en, this message translates to:
+  /// **'URL-only favorites (default): synced across your devices, no upload, doesn\'t count against saved media. The original media may disappear if its host removes it.'**
+  String get gifFavoriteFirstTimeUrlOnlyDetails;
+
+  /// Details for saved media GIF favorite storage option.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved media: uploaded, taggable, searchable, and persistent, but counts against your saved media limit.'**
+  String get gifFavoriteFirstTimeSavedMediaDetails;
+
+  /// Hint shown on the first-time GIF favorite storage prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll only ask once.'**
+  String get gifFavoriteFirstTimeHint;
+
+  /// Primary action on the first-time GIF favorite storage prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Use URL-only (recommended)'**
+  String get gifFavoriteFirstTimeUseUrlOnly;
+
+  /// Secondary action on the first-time GIF favorite storage prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Use saved media'**
+  String get gifFavoriteFirstTimeUseSavedMedia;
+
   /// Title for hide favorites confirmation.
   ///
   /// In en, this message translates to:
@@ -9007,6 +9223,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Show my own camera'**
   String get voicePanelShowOwnCameraLabel;
+
+  /// Voice display preference that moves active speakers toward the front of the call grid when enabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Prioritize speakers'**
+  String get voicePrioritizeSpeakersLabel;
 
   /// Accessibility label for opening voice channel text chat.
   ///
@@ -12754,6 +12976,30 @@ abstract class FluxerLocalizations {
   /// **'Members will appear here once the community data is loaded.'**
   String get channelDetailsMembersEmptyBody;
 
+  /// Title when the user lacks permission to view a channel member list.
+  ///
+  /// In en, this message translates to:
+  /// **'You can\'t view members'**
+  String get memberListPermissionDeniedTitle;
+
+  /// Body when the user lacks permission to view a channel member list.
+  ///
+  /// In en, this message translates to:
+  /// **'You can\'t view the members of this channel in this community'**
+  String get memberListPermissionDeniedBody;
+
+  /// Title when member list updates are disabled for the community.
+  ///
+  /// In en, this message translates to:
+  /// **'Member list unavailable'**
+  String get memberListUnavailableTitle;
+
+  /// Body when member list updates are disabled for the community.
+  ///
+  /// In en, this message translates to:
+  /// **'Member lists are temporarily unavailable in this community'**
+  String get memberListUnavailableBody;
+
   /// Error title when pinned messages fail to load in channel details.
   ///
   /// In en, this message translates to:
@@ -13881,6 +14127,42 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Show keyboard'**
   String get composerShowKeyboard;
+
+  /// Accessibility label for the composer button that closes the attachment gallery panel.
+  ///
+  /// In en, this message translates to:
+  /// **'Close attachment picker'**
+  String get composerCloseAttachmentPanel;
+
+  /// Label for the native photo picker action on the attachment panel.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos'**
+  String get chatAttachmentPanelPhotos;
+
+  /// Label for the native file picker action on the attachment panel.
+  ///
+  /// In en, this message translates to:
+  /// **'Files'**
+  String get chatAttachmentPanelFiles;
+
+  /// Title shown when the attachment gallery cannot read the photo library.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo library access needed'**
+  String get chatAttachmentLibraryPermissionTitle;
+
+  /// Body text when the attachment gallery is blocked by photo library permission.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow photo library access to browse and attach recent photos and videos.'**
+  String get chatAttachmentLibraryPermissionBody;
+
+  /// Button that opens system settings so the user can grant photo library access.
+  ///
+  /// In en, this message translates to:
+  /// **'Open settings'**
+  String get chatAttachmentLibraryPermissionSettings;
 
   /// Screen reader label for a chat message row.
   ///
@@ -16691,6 +16973,36 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'What\'s New'**
   String get userSettingsNavWhatsNew;
+
+  /// User settings What's New action to join the Fluxer Labs community.
+  ///
+  /// In en, this message translates to:
+  /// **'Join Fluxer Labs'**
+  String get userSettingsJoinFluxerLabs;
+
+  /// User settings navigation item to open open-source app licenses.
+  ///
+  /// In en, this message translates to:
+  /// **'App Licenses'**
+  String get userSettingsNavAppLicenses;
+
+  /// Description shown at the top of the app licenses settings page.
+  ///
+  /// In en, this message translates to:
+  /// **'Open-source software used by this app. This app is built with Flutter.'**
+  String get userSettingsAppLicensesDescription;
+
+  /// Error message when the app licenses list fails to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load app licenses.'**
+  String get userSettingsAppLicensesLoadError;
+
+  /// Subtitle on an app licenses list row showing how many license entries apply to a package.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 license} other{{count} licenses}}'**
+  String userSettingsAppLicensesPackageCount(int count);
 
   /// User settings navigation item to sign out of the account.
   ///
@@ -22556,6 +22868,18 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Expand or collapse compact call view'**
   String get keybindActionToggleCompactCallView;
+
+  /// No description provided for @keybindActionPushToTalkPriority.
+  ///
+  /// In en, this message translates to:
+  /// **'Push to talk (priority)'**
+  String get keybindActionPushToTalkPriority;
+
+  /// No description provided for @keybindActionVoiceActivityPriority.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice activity priority'**
+  String get keybindActionVoiceActivityPriority;
 
   /// No description provided for @keybindActionOpenHelp.
   ///

@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 typedef FluxerPasteCallback = Future<void> Function();
 

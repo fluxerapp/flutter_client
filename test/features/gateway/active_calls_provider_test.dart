@@ -15,9 +15,9 @@ void main() {
     });
 
     test('updateCall resets pendingRingUserIds from ringing payload', () {
-      final ActiveCalls notifier = container.read(activeCallsProvider.notifier);
-      notifier.createCall('channel-1', ringing: <String>['user-1', 'user-2']);
-      notifier.updateCall('channel-1', ringing: <String>['user-2']);
+      container.read(activeCallsProvider.notifier)
+        ..createCall('channel-1', ringing: <String>['user-1', 'user-2'])
+        ..updateCall('channel-1', ringing: <String>['user-2']);
 
       final CallState? call = container.read(activeCallsProvider)['channel-1'];
       expect(call?.pendingRingUserIds, {'user-2'});
@@ -25,9 +25,9 @@ void main() {
     });
 
     test('updateCall with empty ringing clears pendingRingUserIds', () {
-      final ActiveCalls notifier = container.read(activeCallsProvider.notifier);
-      notifier.createCall('channel-1', ringing: <String>['user-1']);
-      notifier.updateCall('channel-1', ringing: <String>[]);
+      container.read(activeCallsProvider.notifier)
+        ..createCall('channel-1', ringing: <String>['user-1'])
+        ..updateCall('channel-1', ringing: <String>[]);
 
       final CallState? call = container.read(activeCallsProvider)['channel-1'];
       expect(call?.pendingRingUserIds, isEmpty);
@@ -35,9 +35,9 @@ void main() {
     });
 
     test('updateCall without ringing keeps existing pendingRingUserIds', () {
-      final ActiveCalls notifier = container.read(activeCallsProvider.notifier);
-      notifier.createCall('channel-1', ringing: <String>['user-1']);
-      notifier.updateCall('channel-1', region: 'us-east');
+      container.read(activeCallsProvider.notifier)
+        ..createCall('channel-1', ringing: <String>['user-1'])
+        ..updateCall('channel-1', region: 'us-east');
 
       final CallState? call = container.read(activeCallsProvider)['channel-1'];
       expect(call?.pendingRingUserIds, {'user-1'});
@@ -45,20 +45,17 @@ void main() {
     });
 
     test('removeUserFromPendingRing clears one user', () {
-      final ActiveCalls notifier = container.read(activeCallsProvider.notifier);
-      notifier.createCall('channel-1', ringing: <String>['user-1', 'user-2']);
-      notifier.removeUserFromPendingRing(
-        channelId: 'channel-1',
-        userId: 'user-1',
-      );
+      container.read(activeCallsProvider.notifier)
+        ..createCall('channel-1', ringing: <String>['user-1', 'user-2'])
+        ..removeUserFromPendingRing(channelId: 'channel-1', userId: 'user-1');
 
       final CallState? call = container.read(activeCallsProvider)['channel-1'];
       expect(call?.pendingRingUserIds, {'user-2'});
     });
 
     test('isChannelPendingRingForUser reflects pending set', () {
-      final ActiveCalls notifier = container.read(activeCallsProvider.notifier);
-      notifier.createCall('channel-1', ringing: <String>['user-1']);
+      final ActiveCalls notifier = container.read(activeCallsProvider.notifier)
+        ..createCall('channel-1', ringing: <String>['user-1']);
 
       expect(
         notifier.isChannelPendingRingForUser(

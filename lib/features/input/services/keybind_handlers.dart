@@ -41,12 +41,14 @@ import 'package:fluxer_app/features/settings/presentation/user_settings_modal.da
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/voice/providers/local_voice_state_provider.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_priority_speaker_provider.dart';
 import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
 import 'package:fluxer_app/features/voice/tts/tts_locale_utils.dart';
 import 'package:fluxer_app/features/voice/utils/incoming_voice_call_actions.dart';
+import 'package:fluxer_app/features/voice/utils/voice_push_to_talk_utils.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
-import 'package:material_ui/material_ui.dart';
 
 void registerKeybindHandlers({
   required WidgetRef ref,
@@ -368,6 +370,24 @@ void registerKeybindHandlers({
         return false;
       }
       await executeDeclineIncomingVoiceCall(ref, context, pending.first);
+      return true;
+    })
+    ..register(KeybindAction.voicePushToTalkPriority, () async {
+      if (!isPushToTalkEffective()) {
+        return false;
+      }
+      ref
+          .read(voicePrioritySpeakerProvider.notifier)
+          .setPrioritySpeakerHeld(held: true);
+      return true;
+    })
+    ..register(KeybindAction.voicePriorityVad, () async {
+      if (isPushToTalkEffective()) {
+        return false;
+      }
+      ref
+          .read(voicePrioritySpeakerProvider.notifier)
+          .setPrioritySpeakerHeld(held: true);
       return true;
     })
     ..register(KeybindAction.messageEdit, () {

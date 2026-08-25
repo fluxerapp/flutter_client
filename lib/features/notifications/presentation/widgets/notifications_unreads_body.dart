@@ -10,7 +10,7 @@ import 'package:fluxer_app/features/notifications/providers/notifications_provid
 import 'package:fluxer_app/features/ui/refresh/fluxer_refresh_scroll_view.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class NotificationsUnreadsBody extends ConsumerWidget {

@@ -14,11 +14,12 @@ import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_p
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
-import 'package:material_ui/material_ui.dart';
 
+import '../../../../../helpers/rendered_text_test_helpers.dart';
 import '../../../../../helpers/test_l10n.dart';
 
 /// Every message type routed to [SystemMessage] (i.e. not a user message).
@@ -190,12 +191,9 @@ void main() {
       roleColor: roleColor,
     );
 
-    final RichText line = tester.widget(
-      find.byWidgetPredicate(
-        (w) => w is RichText && w.text.toPlainText().startsWith('Sample User'),
-      ),
-    );
-    expect(_findSpan(line.text, 'Sample User')?.style?.color, roleColor);
+    expect(findAppText('Sample User'), findsOneWidget);
+    final Text authorName = tester.widget<Text>(findAppText('Sample User'));
+    expect(authorName.style?.color, roleColor);
   });
 
   group('reactions', () {
@@ -333,22 +331,4 @@ void main() {
       semantics.dispose();
     });
   });
-}
-
-TextSpan? _findSpan(InlineSpan span, String text) {
-  if (span is TextSpan) {
-    if (span.text == text) {
-      return span;
-    }
-    final children = span.children;
-    if (children != null) {
-      for (final child in children) {
-        final match = _findSpan(child, text);
-        if (match != null) {
-          return match;
-        }
-      }
-    }
-  }
-  return null;
 }

@@ -8,8 +8,8 @@ import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_mutual_list.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_mutuals_section.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:material_ui/material_ui.dart';
 
 import '../../../../helpers/test_l10n.dart';
 

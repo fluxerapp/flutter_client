@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/utils/clipboard_attachment_reader.dart';
 import 'package:fluxer_app/features/chat/utils/composer_clipboard_paste.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:super_clipboard/super_clipboard.dart';
 
 void main() {

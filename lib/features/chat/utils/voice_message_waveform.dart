@@ -142,6 +142,42 @@ List<int> downsampleVoiceMessageWaveformToBars(
   return result;
 }
 
+double voiceMessagePlayerCurrentSeconds({
+  required Duration position,
+  required Duration trackDuration,
+  required double durationSeconds,
+  required bool hasStarted,
+  required double prePlaySeconds,
+}) {
+  if (hasStarted && trackDuration > Duration.zero) {
+    return position.inMilliseconds / 1000;
+  }
+  if (!hasStarted && durationSeconds > 0) {
+    return prePlaySeconds;
+  }
+  return 0;
+}
+
+double voiceMessagePlayerProgressPercent({
+  required Duration position,
+  required Duration trackDuration,
+  required double durationSeconds,
+  required bool hasStarted,
+  required double prePlaySeconds,
+}) {
+  if (durationSeconds <= 0) {
+    return 0;
+  }
+  final double currentSeconds = voiceMessagePlayerCurrentSeconds(
+    position: position,
+    trackDuration: trackDuration,
+    durationSeconds: durationSeconds,
+    hasStarted: hasStarted,
+    prePlaySeconds: prePlaySeconds,
+  );
+  return (currentSeconds / durationSeconds * 100).clamp(0, 100);
+}
+
 List<int> voiceMessagePlayerWaveformBars(String? base64Waveform) {
   final List<int> decoded = base64Waveform == null || base64Waveform.isEmpty
       ? const <int>[]

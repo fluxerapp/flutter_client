@@ -4,8 +4,8 @@ import 'package:fluxer_app/features/channels/providers/channel_list_view_model.d
 import 'package:fluxer_app/features/chat/presentation/sheets/channel_details_sheet.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
-import 'package:material_ui/material_ui.dart';
 
 Future<void> showChannelPinsSheet(
   BuildContext context,

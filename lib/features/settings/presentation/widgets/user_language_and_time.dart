@@ -11,11 +11,11 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/l10n/fluxer_localizations_utils.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/app_locale_display.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/models/locale.dart' as sdk;
-import 'package:material_ui/material_ui.dart';
 
 class UserLanguageAndTime extends ConsumerWidget {
   const UserLanguageAndTime({super.key, this.scrollController});

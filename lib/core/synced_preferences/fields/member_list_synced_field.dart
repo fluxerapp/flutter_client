@@ -1,18 +1,28 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/synced_preferences/engine/synced_field_adapter.dart';
+import 'package:fluxer_app/core/synced_preferences/engine/proto_synced_field_adapter.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/preferences.pb.dart'
     as pb;
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
-import 'package:protobuf/protobuf.dart' as $pb;
 
+@immutable
 class MemberListLocalState {
   const MemberListLocalState({required this.membersOpen});
 
   final bool membersOpen;
+
+  @override
+  bool operator ==(Object other) {
+    return other is MemberListLocalState && other.membersOpen == membersOpen;
+  }
+
+  @override
+  int get hashCode => membersOpen.hashCode;
 }
 
-class MemberListSyncedField extends SyncedFieldAdapter<MemberListLocalState> {
+class MemberListSyncedField
+    extends ProtoSyncedFieldAdapter<MemberListLocalState, pb.MemberListState> {
   MemberListSyncedField(this._ref);
 
   final Ref _ref;
@@ -40,38 +50,36 @@ class MemberListSyncedField extends SyncedFieldAdapter<MemberListLocalState> {
   }
 
   @override
-  MemberListLocalState? readFromProto(pb.SyncedPreferences message) {
-    if (!message.hasMemberList() || !message.memberList.hasMembersOpen()) {
-      return null;
-    }
-    return MemberListLocalState(membersOpen: message.memberList.membersOpen);
+  bool hasField(pb.SyncedPreferences message) {
+    return message.hasMemberList() && message.memberList.hasMembersOpen();
   }
 
   @override
-  $pb.GeneratedMessage toProtoMessage(MemberListLocalState local) {
-    return pb.MemberListState(membersOpen: local.membersOpen);
+  pb.MemberListState readSubMessage(pb.SyncedPreferences message) {
+    return message.memberList;
   }
 
   @override
-  bool statesEqual(MemberListLocalState a, MemberListLocalState b) {
-    return a.membersOpen == b.membersOpen;
+  MemberListLocalState fromProto(pb.MemberListState proto) {
+    return MemberListLocalState(membersOpen: proto.membersOpen);
   }
 
   @override
-  MemberListLocalState mergeForMigration({
-    required MemberListLocalState local,
-    required MemberListLocalState remote,
-  }) {
-    return remote;
+  void writeProto(pb.MemberListState proto, MemberListLocalState local) {
+    proto.membersOpen = local.membersOpen;
   }
+
+  @override
+  pb.MemberListState createEmptyProto() => pb.MemberListState();
+
+  @override
+  pb.SyncedPreferences wrapProto(pb.MemberListState proto) {
+    return pb.SyncedPreferences(memberList: proto);
+  }
+
+  @override
+  bool statesEqual(MemberListLocalState a, MemberListLocalState b) => a == b;
 
   @override
   bool hasLocalData(MemberListLocalState local) => false;
-
-  @override
-  bool verifyRoundtrip(MemberListLocalState candidate) {
-    final proto = toProtoMessage(candidate) as pb.MemberListState;
-    final roundtripped = readFromProto(pb.SyncedPreferences(memberList: proto));
-    return roundtripped != null && statesEqual(candidate, roundtripped);
-  }
 }

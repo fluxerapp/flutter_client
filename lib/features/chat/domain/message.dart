@@ -105,7 +105,9 @@ class EmbedMedia {
   final int? width;
   final int? height;
   final String? contentType;
+  final String? placeholder;
   final int flags;
+  final String? contentHash;
 
   const EmbedMedia({
     required this.url,
@@ -113,7 +115,9 @@ class EmbedMedia {
     this.width,
     this.height,
     this.contentType,
+    this.placeholder,
     this.flags = 0,
+    this.contentHash,
   });
 
   bool get isAnimated =>
@@ -126,7 +130,9 @@ class EmbedMedia {
     width: sdk.width,
     height: sdk.height,
     contentType: sdk.contentType,
+    placeholder: sdk.placeholder,
     flags: sdk.flags,
+    contentHash: sdk.contentHash,
   );
 
   factory EmbedMedia.fromJson(Map<String, dynamic> json) => EmbedMedia(
@@ -135,7 +141,10 @@ class EmbedMedia {
     width: json['width'] as int?,
     height: json['height'] as int?,
     contentType: (json['contentType'] ?? json['content_type']) as String?,
+    placeholder: json['placeholder'] as String?,
     flags: json['flags'] as int? ?? 0,
+    contentHash:
+        (json['content_hash'] as String?) ?? (json['contentHash'] as String?),
   );
 
   Map<String, dynamic> toJson() => {
@@ -144,7 +153,9 @@ class EmbedMedia {
     'width': width,
     'height': height,
     'contentType': contentType,
+    'placeholder': placeholder,
     'flags': flags,
+    if (contentHash != null) 'content_hash': contentHash,
   };
 }
 
@@ -189,6 +200,7 @@ class Embed {
   final EmbedMedia? video;
   final List<EmbedField> fields;
   final String? providerName;
+  final String? providerUrl;
   final bool? nsfw;
 
   const Embed({
@@ -205,6 +217,7 @@ class Embed {
     this.video,
     this.fields = const [],
     this.providerName,
+    this.providerUrl,
     this.nsfw,
   });
 
@@ -226,6 +239,7 @@ class Embed {
     video: sdk.video != null ? EmbedMedia.fromSdk(sdk.video!) : null,
     fields: sdk.fields?.map(EmbedField.fromSdk).toList() ?? const [],
     providerName: sdk.provider?.name,
+    providerUrl: sdk.provider?.url,
     nsfw: sdk.nsfw,
   );
 
@@ -259,6 +273,9 @@ class Embed {
     providerName:
         (json['providerName'] as String?) ??
         ((json['provider'] as Map<String, dynamic>?)?['name'] as String?),
+    providerUrl:
+        (json['providerUrl'] as String?) ??
+        ((json['provider'] as Map<String, dynamic>?)?['url'] as String?),
     nsfw: json['nsfw'] as bool?,
   );
 
@@ -276,6 +293,7 @@ class Embed {
     'video': video?.toJson(),
     'fields': fields.map((f) => f.toJson()).toList(),
     'providerName': providerName,
+    'providerUrl': providerUrl,
     'nsfw': nsfw,
   };
 
@@ -306,6 +324,7 @@ class Attachment {
   final DateTime? expiresAt;
   final int? duration;
   final String? waveform;
+  final String? contentHash;
 
   const Attachment({
     required this.id,
@@ -325,6 +344,7 @@ class Attachment {
     this.flags = 0,
     this.duration,
     this.waveform,
+    this.contentHash,
   });
 
   factory Attachment.fromSdk(MessageAttachmentResponse sdk) {
@@ -346,6 +366,7 @@ class Attachment {
       expiresAt: DateTime.tryParse(sdk.expiresAt ?? ''),
       duration: sdk.duration,
       waveform: sdk.waveform,
+      contentHash: sdk.contentHash,
     );
   }
 
@@ -368,6 +389,8 @@ class Attachment {
       expiresAt: DateTime.tryParse((json['expires_at'] as String?) ?? ''),
       duration: json['duration'] as int?,
       waveform: json['waveform'] as String?,
+      contentHash:
+          (json['content_hash'] as String?) ?? (json['contentHash'] as String?),
     );
   }
 
@@ -389,6 +412,7 @@ class Attachment {
     'expires_at': expiresAt?.toIso8601String(),
     if (duration != null) 'duration': duration,
     if (waveform != null) 'waveform': waveform,
+    if (contentHash != null) 'content_hash': contentHash,
   };
 
   Attachment copyWithDescription(String? description) {
@@ -410,6 +434,7 @@ class Attachment {
       expiresAt: expiresAt,
       duration: duration,
       waveform: waveform,
+      contentHash: contentHash,
     );
   }
 
@@ -443,6 +468,7 @@ class Attachment {
   }
 
   bool get isPreviewMedia => isImage || isVideo;
+  bool get isSavableMedia => isImage || isVideo || isAudio;
   bool get isSpoiler => (flags & attachmentFlagIsSpoiler) != 0;
   bool get isMatureMedia =>
       (nsfw ?? false) || (flags & attachmentFlagContainsExplicitMedia) != 0;

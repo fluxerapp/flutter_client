@@ -1,7 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class UserProfileNoteCard extends StatelessWidget {
@@ -70,6 +70,9 @@ class UserProfileNoteCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: colors.backgroundTertiary,
                   shape: BoxShape.circle,
+                  border: Border.all(
+                    color: FluxerButtonVariant.secondary.borderColor(colors)!,
+                  ),
                 ),
                 child: Padding(
                   padding: EdgeInsets.all(layout.s2),

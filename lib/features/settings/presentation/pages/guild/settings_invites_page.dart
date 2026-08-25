@@ -4,7 +4,7 @@ import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dar
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/guild_settings_page_shell.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/invites/guild_invites_widget.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_invites_provider.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class SettingsInvitesPage extends ConsumerWidget {
   const SettingsInvitesPage({required this.guildId, super.key});

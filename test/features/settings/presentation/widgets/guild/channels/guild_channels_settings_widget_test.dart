@@ -15,7 +15,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels/guild_channel_settings_draggable.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels/guild_channel_settings_row.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels/guild_channels_settings_widget.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../../../../../../helpers/test_l10n.dart';

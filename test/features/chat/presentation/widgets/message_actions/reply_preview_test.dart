@@ -9,8 +9,8 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/reply_preview.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:material_ui/material_ui.dart';
 
 import '../../../../../helpers/test_l10n.dart';
 

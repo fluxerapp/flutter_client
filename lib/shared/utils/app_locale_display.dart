@@ -1,7 +1,7 @@
 import 'package:country_flags/country_flags.dart';
 import 'package:fluxer_app/l10n/fluxer_localizations_utils.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/models/locale.dart' as sdk;
-import 'package:material_ui/material_ui.dart';
 
 class AppLocaleDisplayInfo {
   const AppLocaleDisplayInfo({

@@ -24,7 +24,38 @@ const audio_session.AudioSessionConfiguration kAppMediaAudioSessionConfig =
           audio_session.AndroidAudioFocusGainType.gainTransientMayDuck,
     );
 
-Future<void> restoreAppMediaAudioSession() async {
+const audio_session.AudioSessionConfiguration kMixableIdleAudioSessionConfig =
+    audio_session.AudioSessionConfiguration(
+      avAudioSessionCategory: audio_session.AVAudioSessionCategory.ambient,
+      avAudioSessionCategoryOptions:
+          audio_session.AVAudioSessionCategoryOptions.mixWithOthers,
+    );
+
+Future<void> prepareAppMediaAudioSession() async {
+  if (kIsWeb || !(Platform.isAndroid || Platform.isIOS)) {
+    return;
+  }
+  try {
+    await AudioPlayer.global.setAudioContext(kAppMediaAudioContext);
+  } on Object {}
+  final audio_session.AudioSession session =
+      await audio_session.AudioSession.instance;
+  await session.configure(kAppMediaAudioSessionConfig);
+}
+
+Future<void> activateAppMediaAudioSession() async {
+  if (kIsWeb || !(Platform.isAndroid || Platform.isIOS)) {
+    return;
+  }
+  await prepareAppMediaAudioSession();
+  try {
+    final audio_session.AudioSession session =
+        await audio_session.AudioSession.instance;
+    await session.setActive(true);
+  } on Object {}
+}
+
+Future<void> releaseAppAudioSessionForMixing() async {
   if (kIsWeb || !(Platform.isAndroid || Platform.isIOS)) {
     return;
   }
@@ -34,5 +65,9 @@ Future<void> restoreAppMediaAudioSession() async {
   final audio_session.AudioSession session =
       await audio_session.AudioSession.instance;
   await session.setActive(false);
-  await session.configure(kAppMediaAudioSessionConfig);
+  if (Platform.isIOS) {
+    await session.configure(kMixableIdleAudioSessionConfig);
+  }
 }
+
+Future<void> restoreAppMediaAudioSession() => activateAppMediaAudioSession();

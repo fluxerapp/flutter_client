@@ -1,6 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 enum FluxerUnreadBarEdge { left, right, top, bottom }
 

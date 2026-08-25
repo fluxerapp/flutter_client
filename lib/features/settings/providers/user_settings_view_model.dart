@@ -425,6 +425,7 @@ class UserSettingsViewState {
       type: GuildMemberMediaType.banner,
       hash: hash,
       size: MediaProxySizes.profileBannerModal,
+      animated: true,
     );
   }
 

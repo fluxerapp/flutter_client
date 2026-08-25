@@ -4,7 +4,7 @@ import 'package:fluxer_app/features/channels/presentation/channel_settings/tabs/
 import 'package:fluxer_app/features/channels/presentation/channel_settings/tabs/channel_overview_widget.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/tabs/channel_permissions_settings_widget.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/tabs/channel_webhooks_widget.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class ChannelSettingsTabBody extends StatelessWidget {
   const ChannelSettingsTabBody({

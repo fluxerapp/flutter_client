@@ -4879,9 +4879,9 @@ class ChatViewModel extends _$ChatViewModel {
     }
     final int? retryAfterMs = slowmodeRetryAfterMsFromError(error);
     if (retryAfterMs != null) {
-      ref
-          .read(slowmodeRateLimitedAlertProvider.notifier)
-          .show(Duration(milliseconds: retryAfterMs));
+      ref.read(slowmodeRateLimitedAlertProvider.notifier).remaining = Duration(
+        milliseconds: retryAfterMs,
+      );
     }
     ref.read(slowmodeIndicatorShakeProvider.notifier).requestShake();
   }
@@ -4941,7 +4941,8 @@ class ChatViewModel extends _$ChatViewModel {
             );
       case _SendBlockReason.slowmode:
         if (remaining != null && remaining > Duration.zero) {
-          ref.read(slowmodeRateLimitedAlertProvider.notifier).show(remaining);
+          ref.read(slowmodeRateLimitedAlertProvider.notifier).remaining =
+              remaining;
         }
         ref.read(slowmodeIndicatorShakeProvider.notifier).requestShake();
       case _SendBlockReason.channelNotReady:
@@ -5176,6 +5177,8 @@ class ChatViewModel extends _$ChatViewModel {
     final Message? deletedSnapshot = messageIndex == -1
         ? null
         : state.messages[messageIndex];
+    final bool clearReply = state.replyingTo?.id == messageId;
+    final bool clearEdit = state.editingMessage?.id == messageId;
     final List<Message>? optimisticallyRemoved = _removeIds(state.messages, {
       messageId,
     });
@@ -5185,7 +5188,14 @@ class ChatViewModel extends _$ChatViewModel {
           messages: optimisticallyRemoved,
           origin: MessagesOrigin.localMutation,
         ),
+        replyingTo: clearReply ? null : state.replyingTo,
+        replyMentioning: !clearReply && state.replyMentioning,
+        editingMessage: clearEdit ? null : state.editingMessage,
+        messageText: clearEdit ? '' : state.messageText,
       );
+      if (clearReply || clearEdit) {
+        unawaited(_flushComposerDraftSave());
+      }
     }
     // A page already in flight was fetched before the server saw this, so it
     // still carries the row. The tombstone survives the request completing,

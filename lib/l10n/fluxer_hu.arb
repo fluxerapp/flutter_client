@@ -1356,10 +1356,6 @@
     "@addFriendClaimToSend": {
         "description": "Error when an unclaimed account tries to send a friend request."
     },
-    "addFriendSendFailedGeneric": "Nem sikerült elküldeni a barátfelkérést. Próbáld újra.",
-    "@addFriendSendFailedGeneric": {
-        "description": "Generic error when sending a friend request fails."
-    },
     "userTagBot": "BOT",
     "@userTagBot": {
         "description": "Tag label shown next to bot user names."

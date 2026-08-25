@@ -2,15 +2,15 @@ import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_binding.dart';
-import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_sync.dart';
+import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_playback.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/widgets/playback_seek_gesture_target.dart';
 import 'package:fluxer_app/shared/widgets/volume_popout_control.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class AttachmentAudio extends StatefulWidget {
@@ -34,7 +34,8 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
   bool _isLoading = false;
   bool _hasPreparedSource = false;
   bool _playbackFinished = false;
-  Duration _position = Duration.zero;
+  final ChatAttachmentAudioPosition _audioPosition =
+      ChatAttachmentAudioPosition();
   Duration _duration = Duration.zero;
   double _volume = 1;
   bool _isMuted = false;
@@ -46,6 +47,15 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
         resumePlayback: _resumeFromMediaSession,
         seekPlayback: _seekFromMediaSession,
         stopPlayback: _stopFromMediaSession,
+      );
+  late final ChatAttachmentAudioSessionReporter _sessionReporter =
+      ChatAttachmentAudioSessionReporter(
+        binding: _mediaSessionBinding,
+        attachment: widget.attachment,
+        title: () => widget.attachment.filename,
+        totalDuration: () => _mediaSessionTotalDuration,
+        playbackRate: () => _playbackRate,
+        position: _audioPosition,
       );
 
   Future<void> _pauseFromMediaSession() async {
@@ -84,9 +94,9 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
     setState(() {
       _isPlaying = false;
       _playbackFinished = false;
-      _position = Duration.zero;
       _hasPreparedSource = false;
     });
+    _audioPosition.update(Duration.zero);
   }
 
   Duration get _mediaSessionTotalDuration {
@@ -100,27 +110,13 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
     return Duration.zero;
   }
 
-  void _syncMediaSession({
-    required bool playing,
-    bool loading = false,
-    bool completed = false,
-  }) {
-    syncChatAttachmentAudioSession(
-      binding: _mediaSessionBinding,
-      attachment: widget.attachment,
-      title: widget.attachment.filename,
-      playing: playing,
-      position: _position,
-      totalDuration: _mediaSessionTotalDuration,
-      playbackRate: _playbackRate,
-      loading: loading,
-      completed: completed,
-    );
-  }
+  bool get _isAtEndOfTrack =>
+      _duration > Duration.zero && _audioPosition.value >= _duration;
 
   @override
   void dispose() {
     _mediaSessionBinding.release();
+    _audioPosition.dispose();
     unawaited(_playerStateSubscription?.cancel());
     unawaited(_playerCompleteSubscription?.cancel());
     unawaited(_positionSubscription?.cancel());
@@ -135,7 +131,7 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
     }
     if (_isPlaying) {
       await _player?.pause();
-      _syncMediaSession(playing: false);
+      _sessionReporter.sync(playing: false);
       return;
     }
     setState(() {
@@ -145,16 +141,16 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
       final AudioPlayer player = _ensurePlayer();
       if (_playbackFinished || _isAtEndOfTrack) {
         await _replayFromStart(player);
-        _syncMediaSession(playing: true);
+        _sessionReporter.sync(playing: true);
         return;
       }
       if (!_hasPreparedSource) {
-        _syncMediaSession(playing: false, loading: true);
+        _sessionReporter.sync(playing: false, loading: true);
         await player.setSourceUrl(widget.attachment.url);
         _hasPreparedSource = true;
       }
       await player.resume();
-      _syncMediaSession(playing: true);
+      _sessionReporter.sync(playing: true);
     } on Object {
       if (!mounted || _hasPreparedSource) {
         return;
@@ -169,9 +165,6 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
     }
   }
 
-  bool get _isAtEndOfTrack =>
-      _duration > Duration.zero && _position >= _duration;
-
   Future<void> _prepareFromStart(AudioPlayer player) async {
     _playbackFinished = false;
     if (!_hasPreparedSource) {
@@ -185,9 +178,7 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
       }
     }
     if (mounted) {
-      setState(() {
-        _position = Duration.zero;
-      });
+      _audioPosition.update(Duration.zero);
     }
   }
 
@@ -224,20 +215,23 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
       setState(() {
         _isPlaying = playerState == PlayerState.playing;
       });
-      _syncMediaSession(playing: playerState == PlayerState.playing);
+      _sessionReporter.sync(playing: playerState == PlayerState.playing);
     });
     _playerCompleteSubscription = player.onPlayerComplete.listen((_) {
       if (!mounted) {
         return;
       }
+      final Duration endPosition = _duration > Duration.zero
+          ? _duration
+          : Duration.zero;
       setState(() {
         _isPlaying = false;
         _playbackFinished = true;
-        if (_duration > Duration.zero) {
-          _position = _duration;
-        }
       });
-      _syncMediaSession(playing: false, completed: true);
+      if (endPosition > Duration.zero) {
+        _audioPosition.update(endPosition);
+      }
+      _sessionReporter.sync(playing: false, completed: true);
     });
     _positionSubscription = player.onPositionChanged.listen((
       Duration position,
@@ -245,11 +239,9 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
       if (!mounted) {
         return;
       }
-      setState(() {
-        _position = position;
-      });
+      _audioPosition.update(position);
       if (_isPlaying) {
-        _syncMediaSession(playing: true);
+        _sessionReporter.syncPositionIfDue(playing: true);
       }
     });
     _durationSubscription = player.onDurationChanged.listen((
@@ -262,7 +254,7 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
         _duration = duration;
       });
       if (_mediaSessionBinding.isActive) {
-        _syncMediaSession(playing: _isPlaying);
+        _sessionReporter.sync(playing: _isPlaying);
       }
     });
     return player;
@@ -298,7 +290,7 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
     });
     await _player?.setPlaybackRate(nextRate);
     if (_mediaSessionBinding.isActive) {
-      _syncMediaSession(playing: _isPlaying);
+      _sessionReporter.sync(playing: _isPlaying);
     }
   }
 
@@ -331,11 +323,11 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
       await _safeSeek(player, target);
     }
     if (mounted) {
+      _audioPosition.update(target);
       setState(() {
-        _position = target;
         _playbackFinished = false;
       });
-      _syncMediaSession(playing: _isPlaying);
+      _sessionReporter.sync(playing: _isPlaying);
     }
   }
 
@@ -348,141 +340,150 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
       fileSize: widget.attachment.size,
       duration: _duration,
     );
-    final double progress = _duration.inMilliseconds <= 0
-        ? 0
-        : (_position.inMilliseconds / _duration.inMilliseconds).clamp(0, 1);
-    final String timeText = formatAttachmentElapsedTotalMmSs(
-      elapsed: _position,
-      total: _duration,
-    );
-    return Container(
-      constraints: const BoxConstraints(maxWidth: 400),
-      margin: const EdgeInsets.only(top: 4),
-      padding: const EdgeInsets.only(right: 12, left: 12, top: 12, bottom: 8),
-      decoration: BoxDecoration(
-        color: colors.backgroundSecondary,
-        border: Border.all(color: colors.backgroundModifierAccent),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              _AudioPlayButton(
-                isLoading: _isLoading,
-                isPlaying: _isPlaying,
-                onPressed: _togglePlayback,
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    RichText(
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      text: TextSpan(
-                        style: context.textStyles.bodySmall.copyWith(
-                          color: colors.textPrimary,
-                          fontWeight: FontWeight.w600,
+    return RepaintBoundary(
+      child: Container(
+        constraints: const BoxConstraints(maxWidth: 400),
+        margin: const EdgeInsets.only(top: 4),
+        padding: const EdgeInsets.only(right: 12, left: 12, top: 12, bottom: 8),
+        decoration: BoxDecoration(
+          color: colors.backgroundSecondary,
+          border: Border.all(color: colors.backgroundModifierAccent),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                _AudioPlayButton(
+                  isLoading: _isLoading,
+                  isPlaying: _isPlaying,
+                  onPressed: _togglePlayback,
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RichText(
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        text: TextSpan(
+                          style: context.textStyles.bodySmall.copyWith(
+                            color: colors.textPrimary,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          children: [
+                            TextSpan(text: stem),
+                            TextSpan(
+                              text: extension,
+                              style: context.textStyles.bodySmall.copyWith(
+                                color: colors.textTertiary,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
                         ),
-                        children: [
-                          TextSpan(text: stem),
-                          TextSpan(
-                            text: extension,
-                            style: context.textStyles.bodySmall.copyWith(
-                              color: colors.textTertiary,
-                              fontWeight: FontWeight.w500,
+                      ),
+                      if (metaText.isNotEmpty) ...[
+                        const SizedBox(height: 2),
+                        Text(
+                          metaText,
+                          style: context.textStyles.smallText.copyWith(
+                            color: colors.textTertiary,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 6),
+            ValueListenableBuilder<Duration>(
+              valueListenable: _audioPosition.notifier,
+              builder:
+                  (BuildContext context, Duration position, Widget? child) {
+                    final double progress = _duration.inMilliseconds <= 0
+                        ? 0
+                        : (position.inMilliseconds / _duration.inMilliseconds)
+                              .clamp(0, 1);
+                    final String timeText = formatAttachmentElapsedTotalMmSs(
+                      elapsed: position,
+                      total: _duration,
+                    );
+                    return Row(
+                      children: [
+                        Expanded(
+                          child: PlaybackSeekGestureTarget(
+                            onSeekFraction: (double fraction) {
+                              unawaited(_seekToRelativePosition(fraction));
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(99),
+                              child: LinearProgressIndicator(
+                                value: progress,
+                                minHeight: 4,
+                                backgroundColor: colors.textTertiary.withValues(
+                                  alpha: 0.35,
+                                ),
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  colors.brandPrimary,
+                                ),
+                              ),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                    if (metaText.isNotEmpty) ...[
-                      const SizedBox(height: 2),
-                      Text(
-                        metaText,
-                        style: context.textStyles.smallText.copyWith(
-                          color: colors.textTertiary,
                         ),
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          Row(
-            children: [
-              Expanded(
-                child: PlaybackSeekGestureTarget(
-                  onSeekFraction: (double fraction) {
-                    unawaited(_seekToRelativePosition(fraction));
+                        const SizedBox(width: 10),
+                        Text(
+                          timeText,
+                          style: context.textStyles.smallText.copyWith(
+                            color: colors.textTertiary,
+                            fontFeatures: const [FontFeature.tabularFigures()],
+                          ),
+                        ),
+                      ],
+                    );
                   },
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(99),
-                    child: LinearProgressIndicator(
-                      value: progress,
-                      minHeight: 4,
-                      backgroundColor: colors.textTertiary.withValues(
-                        alpha: 0.35,
-                      ),
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        colors.brandPrimary,
-                      ),
+            ),
+            const SizedBox(height: 2),
+            Row(
+              children: [
+                VolumePopoutControl(
+                  volume: _volume,
+                  isMuted: _isMuted,
+                  onVolumeChanged: _setVolume,
+                  onToggleMute: _toggleMute,
+                ),
+                const Spacer(),
+                TextButton(
+                  onPressed: _cyclePlaybackRate,
+                  style: TextButton.styleFrom(
+                    minimumSize: const Size(44, 28),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                  ),
+                  child: Text(
+                    '${_playbackRate}x',
+                    style: context.textStyles.smallText.copyWith(
+                      color: colors.textSecondary,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 10),
-              Text(
-                timeText,
-                style: context.textStyles.smallText.copyWith(
-                  color: colors.textTertiary,
-                  fontFeatures: const [FontFeature.tabularFigures()],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 2),
-          Row(
-            children: [
-              VolumePopoutControl(
-                volume: _volume,
-                isMuted: _isMuted,
-                onVolumeChanged: _setVolume,
-                onToggleMute: _toggleMute,
-              ),
-              const Spacer(),
-              TextButton(
-                onPressed: _cyclePlaybackRate,
-                style: TextButton.styleFrom(
-                  minimumSize: const Size(44, 28),
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                ),
-                child: Text(
-                  '${_playbackRate}x',
-                  style: context.textStyles.smallText.copyWith(
-                    color: colors.textSecondary,
-                    fontWeight: FontWeight.w600,
+                const SizedBox(width: 4),
+                Tooltip(
+                  message: 'Download',
+                  child: FluxerButton.circle(
+                    onPressed: _downloadAudio,
+                    variant: FluxerButtonVariant.ghost,
+                    size: FluxerButtonSize.compact,
+                    icon: PhosphorIconsBold.downloadSimple,
                   ),
                 ),
-              ),
-              const SizedBox(width: 4),
-              Tooltip(
-                message: 'Download',
-                child: FluxerButton.circle(
-                  onPressed: _downloadAudio,
-                  variant: FluxerButtonVariant.ghost,
-                  size: FluxerButtonSize.compact,
-                  icon: PhosphorIconsBold.downloadSimple,
-                ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

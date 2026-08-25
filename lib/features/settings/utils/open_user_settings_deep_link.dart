@@ -4,8 +4,8 @@ import 'package:fluxer_app/features/settings/presentation/user_settings_modal.da
 import 'package:fluxer_app/features/settings/presentation/user_settings_nav.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_field_registry.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class UserSettingsDeepLinkPresentation {

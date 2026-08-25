@@ -161,6 +161,11 @@ class VoiceSettings extends _$VoiceSettings {
     _schedulePersist();
   }
 
+  Future<void> setPrioritizeSpeakingParticipants({required bool value}) async {
+    state = state.copyWith(prioritizeSpeakingParticipants: value);
+    _schedulePersist();
+  }
+
   int participantVolumeFor(String userId) {
     return state.participantVolumes[userId] ?? kDefaultVoiceVolumePercent;
   }

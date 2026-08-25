@@ -4,7 +4,7 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

@@ -1,5 +1,5 @@
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class FluxerScroller extends StatefulWidget {
   const FluxerScroller({required this.child, this.controller, super.key});

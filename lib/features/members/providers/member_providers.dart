@@ -88,6 +88,7 @@ Stream<String> guildRolePermissionsIdentity(Ref ref, String guildId) {
   }).distinct();
 }
 
+// Tuple-keyed member row lookup.
 // ignore: specify_nonobvious_property_types
 final memberRowByGuildProvider = StreamProvider.autoDispose
     .family<db.Member?, (String, String)>(

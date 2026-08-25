@@ -7,8 +7,8 @@ import 'package:fluxer_app/features/shell/presentation/desktop_shell_scaffold.da
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:fluxer_app/features/shell/providers/shell_blocks_horizontal_gestures_provider.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_ui/material_ui.dart';
 
 class MobileHomeUtilityShell extends ConsumerStatefulWidget {
   const MobileHomeUtilityShell({

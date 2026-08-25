@@ -7,7 +7,7 @@ import 'package:fluxer_app/features/settings/presentation/sheets/privacy_dm_conf
 import 'package:fluxer_app/features/settings/providers/privacy_dashboard_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class PrivacyConnectionsSection extends ConsumerWidget {
   const PrivacyConnectionsSection({super.key});

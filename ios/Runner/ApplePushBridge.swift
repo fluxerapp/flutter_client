@@ -309,7 +309,7 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
     let content = UNMutableNotificationContent()
     content.title = title
     content.body = body
-    content.sound = .default
+    content.sound = PushNotificationPayload.resolveNotificationSound(from: userInfo) ?? .default
     content.userInfo = Self.userInfoDictionary(userInfo)
     if !attachments.isEmpty {
       content.attachments = attachments

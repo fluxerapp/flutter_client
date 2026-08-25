@@ -218,18 +218,21 @@ void main() {
   test('session-expired toast retains the locale active before sign-out', () {
     fakeAsync((FakeAsync async) {
       final _TestGatewayConnection connection = _TestGatewayConnection();
-      final ProviderContainer container = ProviderContainer(
-        overrides: <Override>[
-          gatewayConnectionProvider.overrideWithValue(connection),
-          accountManagerProvider.overrideWith(_ExpiringAccountManager.new),
-          appLocalizationsProvider.overrideWith(
-            (Ref ref) =>
-                lookupFluxerLocalizations(ref.watch(_testLocaleProvider)),
-          ),
-        ],
-      );
-      container.read(authStateProvider.notifier).setAuthenticated(value: true);
-      container.read(gatewayStateListenerProvider);
+      final ProviderContainer container =
+          ProviderContainer(
+              overrides: <Override>[
+                gatewayConnectionProvider.overrideWithValue(connection),
+                accountManagerProvider.overrideWith(
+                  _ExpiringAccountManager.new,
+                ),
+                appLocalizationsProvider.overrideWith(
+                  (Ref ref) =>
+                      lookupFluxerLocalizations(ref.watch(_testLocaleProvider)),
+                ),
+              ],
+            )
+            ..read(authStateProvider.notifier).setAuthenticated(value: true)
+            ..read(gatewayStateListenerProvider);
 
       connection.emit(GatewayState.failed);
       async.flushMicrotasks();
@@ -252,8 +255,7 @@ void main() {
         overrides: <Override>[
           gatewayConnectionProvider.overrideWithValue(connection),
         ],
-      );
-      container.read(gatewayReconnectToastListenerProvider);
+      )..read(gatewayReconnectToastListenerProvider);
 
       connection
         ..emit(GatewayState.connected)

@@ -68,8 +68,6 @@ message FavoriteGifEntry {
   uint32 height = 4;
   map<string, FavoriteGifMediaFormat> media = 5;
   string content_type = 6;
-  // Compact thumbhash placeholder captured at favourite-time so the picker can show a blurred
-  // preview while the GIF loads, and a fallback if the source URL is later deleted.
   string placeholder = 7;
 }
 

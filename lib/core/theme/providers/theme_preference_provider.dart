@@ -7,7 +7,6 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
-import 'package:fluxer_app/core/synced_preferences/synced_theme_hydration.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/custom_theme_css.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
@@ -369,10 +368,6 @@ class ThemePreference extends _$ThemePreference {
           settings,
           themeCustomizationApplier: applySyncedThemeCustomization,
         );
-    await applySyncedThemeFromUserSettings(
-      settings,
-      applySyncedThemeCustomization,
-    );
     if (state.syncAcrossDevices && state.mode != FluxerThemeMode.system) {
       await applyServerSettings(settings);
     }

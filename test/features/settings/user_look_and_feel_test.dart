@@ -18,8 +18,8 @@ import 'package:fluxer_app/features/settings/presentation/widgets/user_look_and_
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_sync_service.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:material_ui/material_ui.dart';
 
 import '../../helpers/open_test_database.dart';
 

@@ -9,7 +9,7 @@ import 'package:fluxer_app/features/chat/service/composer_mention_controller.dar
 import 'package:fluxer_app/features/chat/utils/composer_clipboard_paste.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 Future<ComposerMentionController> _pumpMentionController(
   WidgetTester tester,
@@ -153,6 +153,27 @@ void main() {
 
       expect(attachCalled, isFalse);
       expect(controller.toWireText(), 'hello world');
+    });
+
+    testWidgets('reports a paste that is only private-use glyphs', (
+      WidgetTester tester,
+    ) async {
+      final ComposerMentionController controller = await _pumpMentionController(
+        tester,
+      );
+      _mockClipboardText('\uE056');
+      var lostContent = false;
+
+      await pasteIntoComposer(
+        controller: controller,
+        maxLength: 100,
+        canAttachOnExceed: true,
+        onPasteExceedsLimit: (_) => fail('should not exceed'),
+        onPasteLostContent: () => lostContent = true,
+      );
+
+      expect(lostContent, isTrue);
+      expect(controller.toWireText(), isEmpty);
     });
   });
 

@@ -1,6 +1,6 @@
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class FluxerNagbarButton extends StatelessWidget {
   const FluxerNagbarButton({

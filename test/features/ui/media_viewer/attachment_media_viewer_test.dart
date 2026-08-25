@@ -6,10 +6,14 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
+import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
+import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
 import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart';
 import 'package:fluxer_app/features/ui/media_viewer/touch_media_viewer_page.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
-import 'package:material_ui/material_ui.dart';
 
 import '../../../helpers/test_l10n.dart';
 
@@ -58,6 +62,52 @@ Widget _mouseApp(Widget child) {
     child: _materialApp(child),
   );
 }
+
+Widget _mouseAppWithFavorites(Widget child) {
+  return ProviderScope(
+    overrides: [
+      inputModalityProvider.overrideWith(_MousePrimaryModality.new),
+      favoriteMemesProvider.overrideWith(
+        (Ref ref) => Stream<List<FavoriteMeme>>.value(const <FavoriteMeme>[]),
+      ),
+    ],
+    child: _materialApp(child),
+  );
+}
+
+final Message _favoriteViewerMessage = Message(
+  id: 'message',
+  channelId: 'channel',
+  authorId: 'author',
+  authorName: 'Author',
+  content: '',
+  timestamp: DateTime(2026),
+  attachments: const [
+    Attachment(
+      id: 'attachment',
+      filename: _testAttachmentImageFilename,
+      url: _testAttachmentImageUrl,
+      contentType: 'image/png',
+    ),
+  ],
+);
+
+final MessageMediaActionScope _favoriteViewerActionScope =
+    MessageMediaActionScope(
+      message: _favoriteViewerMessage,
+      permissions: const MessageActionPermissions(
+        isOwnMessage: true,
+        isDmChannel: false,
+        canDelete: false,
+        canReport: false,
+        canAddReactions: false,
+        canPinMessage: false,
+        canManageMessages: false,
+        canSendMessages: true,
+        developerMode: false,
+      ),
+      callbacks: const MessageActionCallbacks(),
+    );
 
 Widget _materialApp(Widget child) {
   final colorTheme = buildDarkColorTheme();
@@ -141,10 +191,37 @@ void main() {
       );
       await tester.pump();
 
-      expect(find.byTooltip('Media options'), findsNothing);
+      expect(find.byTooltip('Media options'), findsOneWidget);
       expect(find.byTooltip('Open in browser'), findsOneWidget);
       expect(find.byTooltip('Close media viewer'), findsOneWidget);
       expect(find.byType(TouchMediaViewerPage), findsNothing);
+    });
+
+    testWidgets('shows favorite button when message action scope is provided', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(1400, 900);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+
+      await tester.pumpWidget(
+        _mouseAppWithFavorites(
+          AttachmentMediaViewerShell(
+            items: const [
+              AttachmentMediaViewerItem(
+                url: _testAttachmentImageUrl,
+                filename: _testAttachmentImageFilename,
+                attachmentId: 'attachment',
+              ),
+            ],
+            initialIndex: 0,
+            actionScope: _favoriteViewerActionScope,
+          ),
+        ),
+      );
+      await tester.pump();
+
+      expect(find.byTooltip('Add to Favorites'), findsOneWidget);
     });
 
     testWidgets('uses touch gesture page when touch is primary', (

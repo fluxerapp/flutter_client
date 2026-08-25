@@ -10,7 +10,7 @@ import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_upload_progress.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_upload_sessions_provider.dart';
 import 'package:fluxer_app/features/chat/utils/uploading_attachment_utils.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 import '../../../../../helpers/test_l10n.dart';
 

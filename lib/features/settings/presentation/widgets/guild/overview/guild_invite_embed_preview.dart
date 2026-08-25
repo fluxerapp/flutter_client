@@ -6,8 +6,8 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_guild_badge.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
-import 'package:material_ui/material_ui.dart';
 
 class GuildInviteEmbedPreview extends StatelessWidget {
   const GuildInviteEmbedPreview({

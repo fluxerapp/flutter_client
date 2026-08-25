@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 /// Mixin that manages a resend countdown timer for verification code flows.
 ///

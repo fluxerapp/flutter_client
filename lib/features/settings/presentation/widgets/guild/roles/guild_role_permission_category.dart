@@ -5,7 +5,7 @@ import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_permi
 import 'package:fluxer_app/features/settings/providers/guild/permission_layout_provider.dart';
 import 'package:fluxer_app/features/ui/switch_group/fluxer_switch_group.dart';
 import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class GuildRolePermissionCategory extends ConsumerWidget {
   const GuildRolePermissionCategory({

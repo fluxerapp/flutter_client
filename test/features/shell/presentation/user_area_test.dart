@@ -21,8 +21,8 @@ import 'package:fluxer_app/features/voice/providers/local_voice_state_provider.d
 import 'package:fluxer_app/features/voice/providers/voice_connection_stats_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/gateway.dart' show VoiceState;
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 

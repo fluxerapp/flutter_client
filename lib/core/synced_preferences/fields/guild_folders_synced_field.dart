@@ -70,8 +70,6 @@ class GuildFoldersSyncedField
 
   @override
   bool hasRemoteData(GuildFoldersLocalState remote) {
-    /// Empty set is valid remote state when field 105
-    /// is present in the wire blob.
     return true;
   }
 

@@ -149,8 +149,8 @@ class ChannelSearchHistoryRepository {
         (ChannelSearchHistoryEntry e) =>
             e.contextKey == entry.contextKey &&
             e.displayText == entry.displayText,
-      );
-    all.insert(0, entry);
+      )
+      ..insert(0, entry);
     final List<ChannelSearchHistoryEntry> trimmed = all
         .take(_kMaxHistoryEntries)
         .toList();

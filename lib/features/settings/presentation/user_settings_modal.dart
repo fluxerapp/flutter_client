@@ -18,9 +18,11 @@ import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
+import 'package:fluxer_app/features/guilds/utils/invite_link_navigator.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_nav.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_search_query.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/app_licenses.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/settings_sidebar.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_accessibility.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_advanced_settings.dart';
@@ -54,10 +56,10 @@ import 'package:fluxer_app/features/settings/utils/user_settings_staff_only_util
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/relative_time.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 String _userSettingsFooterText(AppRuntimeInfo info, FluxerLocalizations l10n) {
@@ -344,6 +346,10 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
       unawaited(_logout());
       return;
     }
+    if (entry.isJoinFluxerLabs) {
+      unawaited(handleInviteLinkTap(context, kFluxerLabsInviteUrl));
+      return;
+    }
     if (entry.isSeparator) {
       return;
     }
@@ -565,6 +571,7 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
               l10n: l10n,
               onOpenSection: _openSettingsPage,
               onOpenAppLogs: _openAppLogs,
+              onJoinFluxerLabs: _joinFluxerLabs,
               onLogout: _logout,
               showBilling: showBilling,
               isTouchPrimary: isTouchPrimary,
@@ -618,6 +625,10 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
             ),
       ),
     );
+  }
+
+  void _joinFluxerLabs() {
+    unawaited(handleInviteLinkTap(context, kFluxerLabsInviteUrl));
   }
 
   void _openAppLogs() {
@@ -841,6 +852,10 @@ Widget _buildUserSettingsSectionContent({
       return scrollController == null
           ? const UserDeveloperTools()
           : UserDeveloperTools(scrollController: scrollController);
+    case UserSettingsSection.appLicenses:
+      return scrollController == null
+          ? const AppLicenses()
+          : AppLicenses(scrollController: scrollController);
   }
 }
 

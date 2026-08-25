@@ -24,9 +24,9 @@ import 'package:fluxer_app/features/ui/input/emoji_text_editing_controller.dart'
 import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/image_utils.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const int _kMaxDisplayNameLength = 32;

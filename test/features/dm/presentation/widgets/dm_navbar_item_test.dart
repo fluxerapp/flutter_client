@@ -19,8 +19,8 @@ import 'package:fluxer_app/features/profile/providers/user_presence_provider.dar
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar_cluster.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 void main() {

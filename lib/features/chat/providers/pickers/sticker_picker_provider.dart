@@ -58,7 +58,7 @@ class StickerEntry {
 }
 
 String stickerFavoriteKey(StickerEntry sticker) =>
-    'sticker:${sticker.guildId}:${sticker.id}';
+    '${sticker.guildId}:${sticker.id}';
 
 final allGuildStickersForPickerProvider = rp.StreamProvider<List<StickerEntry>>(
   (ref) {

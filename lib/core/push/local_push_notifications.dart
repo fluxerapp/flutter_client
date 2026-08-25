@@ -11,6 +11,7 @@ import 'package:fluxer_app/core/push/push_notification_ids.dart'
         pushNotificationCancelIds;
 import 'package:fluxer_app/core/push/push_notification_payload.dart';
 import 'package:fluxer_app/core/push/push_notification_permission.dart';
+import 'package:fluxer_app/core/push/push_notification_sound.dart';
 
 final class LocalPushNotifications {
   factory LocalPushNotifications() => _instance;
@@ -229,6 +230,8 @@ final class LocalPushNotifications {
     final String? messageTag = resolvePushDisplayTag(payload);
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
+        final AndroidNotificationSound? androidSound =
+            resolvePushNotificationAndroidSound(payload);
         return NotificationDetails(
           android: AndroidNotificationDetails(
             _channelId,
@@ -240,12 +243,22 @@ final class LocalPushNotifications {
             number: badgeCount,
             groupKey: groupKey,
             tag: messageTag,
+            sound: androidSound,
+            playSound: androidSound != null,
           ),
         );
       case TargetPlatform.iOS:
-        return const NotificationDetails(iOS: DarwinNotificationDetails());
+        return NotificationDetails(
+          iOS: DarwinNotificationDetails(
+            sound: resolvePushNotificationDarwinSound(payload),
+          ),
+        );
       case TargetPlatform.macOS:
-        return const NotificationDetails(macOS: DarwinNotificationDetails());
+        return NotificationDetails(
+          macOS: DarwinNotificationDetails(
+            sound: resolvePushNotificationDarwinSound(payload),
+          ),
+        );
       case TargetPlatform.linux:
         return const NotificationDetails(
           linux: LinuxNotificationDetails(

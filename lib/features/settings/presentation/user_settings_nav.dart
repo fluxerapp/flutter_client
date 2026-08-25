@@ -9,8 +9,13 @@ import 'package:fluxer_app/features/settings/utils/user_settings_search.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_staff_only_utils.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+
+const String kFluxerLabsInviteUrl = 'https://fluxer.gg/fluxer-labs';
+
+bool get isUserSettingsJoinFluxerLabsAvailable =>
+    AppBuildConfig.isBeta || AppBuildConfig.isCanary;
 
 class UserSettingsDesktopNavEntry {
   const UserSettingsDesktopNavEntry._({
@@ -19,6 +24,7 @@ class UserSettingsDesktopNavEntry {
     this.icon,
     this.isSeparator = false,
     this.isLogout = false,
+    this.isJoinFluxerLabs = false,
   });
 
   const UserSettingsDesktopNavEntry.separator([UserSettingsNavGroup? group])
@@ -32,11 +38,15 @@ class UserSettingsDesktopNavEntry {
   const UserSettingsDesktopNavEntry.logout()
     : this._(icon: PhosphorIconsFill.signOut, isLogout: true);
 
+  const UserSettingsDesktopNavEntry.joinFluxerLabs()
+    : this._(icon: PhosphorIconsFill.testTube, isJoinFluxerLabs: true);
+
   final UserSettingsNavGroup? group;
   final UserSettingsSection? section;
   final IconData? icon;
   final bool isSeparator;
   final bool isLogout;
+  final bool isJoinFluxerLabs;
 
   SettingsSidebarItem toSidebarItem(FluxerLocalizations l10n) {
     if (isSeparator) {
@@ -54,6 +64,9 @@ class UserSettingsDesktopNavEntry {
         isDestructive: true,
       );
     }
+    if (isJoinFluxerLabs) {
+      return SettingsSidebarItem(l10n.userSettingsJoinFluxerLabs, icon: icon);
+    }
     return SettingsSidebarItem(
       userSettingsSectionLabel(l10n, section!),
       icon: icon,
@@ -63,6 +76,9 @@ class UserSettingsDesktopNavEntry {
   String displayLabel(FluxerLocalizations l10n) {
     if (isLogout) {
       return l10n.userSettingsNavLogOut;
+    }
+    if (isJoinFluxerLabs) {
+      return l10n.userSettingsJoinFluxerLabs;
     }
     return userSettingsSectionLabel(l10n, section!);
   }
@@ -178,13 +194,21 @@ const _userSettingsDesktopNavStaffOnly = [
   ),
 ];
 
-const _userSettingsDesktopNavAfterStaffOnly = [
+const _userSettingsDesktopNavWhatsNew = [
   UserSettingsDesktopNavEntry.link(
     UserSettingsSection.whatsNew,
     icon: PhosphorIconsFill.megaphone,
   ),
-  UserSettingsDesktopNavEntry.logout(),
 ];
+
+const _userSettingsDesktopNavAppLicenses = [
+  UserSettingsDesktopNavEntry.link(
+    UserSettingsSection.appLicenses,
+    icon: PhosphorIconsFill.scroll,
+  ),
+];
+
+const _userSettingsDesktopNavLogout = [UserSettingsDesktopNavEntry.logout()];
 
 List<UserSettingsDesktopNavEntry> buildUserSettingsDesktopNav({
   required bool showBilling,
@@ -202,7 +226,11 @@ List<UserSettingsDesktopNavEntry> buildUserSettingsDesktopNav({
     ),
   ..._userSettingsDesktopNavAfterLanguageAndTime,
   if (AppBuildConfig.isCanary) ..._userSettingsDesktopNavStaffOnly,
-  ..._userSettingsDesktopNavAfterStaffOnly,
+  ..._userSettingsDesktopNavWhatsNew,
+  if (isUserSettingsJoinFluxerLabsAvailable)
+    const UserSettingsDesktopNavEntry.joinFluxerLabs(),
+  ..._userSettingsDesktopNavAppLicenses,
+  ..._userSettingsDesktopNavLogout,
 ];
 
 int? indexForUserSettingsSection(
@@ -251,6 +279,7 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
   required FluxerLocalizations l10n,
   required void Function(UserSettingsSection section) onOpenSection,
   required VoidCallback onOpenAppLogs,
+  required VoidCallback onJoinFluxerLabs,
   required VoidCallback onLogout,
   required bool showBilling,
   required bool isTouchPrimary,
@@ -326,6 +355,13 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
     FluxerSettingsNavGroup(
       items: [
         link(UserSettingsSection.whatsNew, PhosphorIconsFill.megaphone),
+        if (isUserSettingsJoinFluxerLabsAvailable)
+          FluxerSettingsNavItem(
+            label: l10n.userSettingsJoinFluxerLabs,
+            icon: PhosphorIconsFill.testTube,
+            onTap: onJoinFluxerLabs,
+          ),
+        link(UserSettingsSection.appLicenses, PhosphorIconsFill.scroll),
         FluxerSettingsNavItem(
           label: l10n.userSettingsNavLogOut,
           icon: PhosphorIconsFill.signOut,

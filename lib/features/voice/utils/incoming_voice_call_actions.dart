@@ -1,15 +1,36 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_connection_actions.dart';
+import 'package:fluxer_app/features/voice/voice_session_errors.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:go_router/go_router.dart';
+
+void _showIncomingVoiceJoinErrorToast(
+  ProviderContainer container,
+  FluxerLocalizations l10n,
+) {
+  final String? errorMessage = container
+      .read(voiceSessionProvider)
+      .errorMessage;
+  final String message = errorMessage == null
+      ? l10n.voiceJoinIncomingCallFailed
+      : resolveVoiceSessionErrorMessage(errorMessage, l10n);
+  container
+      .read(toastProvider.notifier)
+      .show(FluxerToast(message: message, variant: FluxerToastVariant.danger));
+}
 
 Future<void> executeAcceptIncomingVoiceCall(
   WidgetRef ref,
@@ -35,19 +56,24 @@ Future<void> executeAcceptIncomingVoiceCall(
     return;
   }
   try {
-    await joinVoiceChannelWithConfirmation(
+    final VoiceJoinResult result = await joinVoiceChannelWithConfirmation(
       ref: ref,
       context: ctx,
       guildId: guildIdForJoin,
       channelId: channelId,
     );
-  } on Object {
-    if (!ctx.mounted) {
+    if (result == VoiceJoinResult.failed) {
+      _showIncomingVoiceJoinErrorToast(ref.container, l10n);
       return;
     }
-    ScaffoldMessenger.of(
-      ctx,
-    ).showSnackBar(SnackBar(content: Text(l10n.voiceJoinIncomingCallFailed)));
+    if (result != VoiceJoinResult.succeeded) {
+      return;
+    }
+    if (guildIdForJoin == null && ctx.mounted) {
+      unawaited(ctx.push(RoutePaths.dmChannelCall(channelId)));
+    }
+  } on Object {
+    _showIncomingVoiceJoinErrorToast(ref.container, l10n);
   }
 }
 
@@ -118,10 +144,10 @@ Future<void> executeAcceptIncomingVoiceCallFromCallKit(
     if (ctx == null || !ctx.mounted) {
       return;
     }
-    final FluxerLocalizations l10n = FluxerLocalizations.of(ctx);
-    ScaffoldMessenger.of(
-      ctx,
-    ).showSnackBar(SnackBar(content: Text(l10n.voiceJoinIncomingCallFailed)));
+    _showIncomingVoiceJoinErrorToast(
+      ref.container,
+      FluxerLocalizations.of(ctx),
+    );
   }
 }
 

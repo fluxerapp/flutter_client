@@ -1,5 +1,5 @@
 import 'package:crop_your_image/crop_your_image.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 const imageCropCornerHandleSize = 52.0;
 const _cornerArmLength = 18.0;

@@ -1,4 +1,5 @@
-import 'package:flutter/semantics.dart';
+import 'dart:ui' show CheckedState;
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
@@ -11,8 +12,8 @@ import 'package:fluxer_app/features/channels/presentation/channel_settings/tabs/
 import 'package:fluxer_app/features/channels/providers/channel_settings_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../../helpers/test_l10n.dart';
@@ -109,7 +110,7 @@ void main() {
     await tester.pumpWidget(
       _buildTestApp(
         overrides: <Override>[
-          guildByIdProvider(guildId).overrideWith((Ref ref) async => guild),
+          guildByIdProvider(guildId).overrideWith((Ref ref) => guild),
         ],
         child: ChannelOverviewWidget(
           channel: categoryChannel,
@@ -125,8 +126,9 @@ void main() {
         tester
             .getSemantics(find.text('On'))
             .getSemanticsData()
-            .hasFlag(SemanticsFlag.isChecked),
-        isTrue,
+            .flagsCollection
+            .isChecked,
+        CheckedState.isTrue,
       );
 
       await tester.tap(find.text('Inherit'));
@@ -136,15 +138,17 @@ void main() {
         tester
             .getSemantics(find.text('Inherit'))
             .getSemanticsData()
-            .hasFlag(SemanticsFlag.isChecked),
-        isTrue,
+            .flagsCollection
+            .isChecked,
+        CheckedState.isTrue,
       );
       expect(
         tester
             .getSemantics(find.text('On'))
             .getSemanticsData()
-            .hasFlag(SemanticsFlag.isChecked),
-        isFalse,
+            .flagsCollection
+            .isChecked,
+        CheckedState.isFalse,
       );
     } finally {
       handle.dispose();

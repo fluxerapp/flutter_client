@@ -16,8 +16,8 @@ import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
-import 'package:material_ui/material_ui.dart';
 
 import '../../../../../helpers/open_test_database.dart';
 import '../../../../../helpers/test_l10n.dart';

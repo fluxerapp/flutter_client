@@ -5,7 +5,7 @@ import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/utils/link_channel_navigator.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class LinkChannelRouteHandler extends ConsumerStatefulWidget {
   const LinkChannelRouteHandler({

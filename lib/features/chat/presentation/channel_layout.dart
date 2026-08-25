@@ -22,7 +22,7 @@ import 'package:fluxer_app/features/voice/presentation/voice_channel_page_view.d
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 /// Wrapper screen for the chat area content.
 /// Takes guildId and channelId from go_router params.

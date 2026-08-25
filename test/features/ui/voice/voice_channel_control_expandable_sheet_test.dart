@@ -13,7 +13,7 @@ import 'package:fluxer_app/features/voice/providers/screen_share_capability_prov
 import 'package:fluxer_app/features/voice/providers/voice_channel_text_chat_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:riverpod/src/framework.dart' show Override, Ref;
 

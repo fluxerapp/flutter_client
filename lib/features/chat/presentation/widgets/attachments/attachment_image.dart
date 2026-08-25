@@ -15,7 +15,7 @@ import 'package:fluxer_app/features/settings/providers/chat_preferences_provider
 import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class AttachmentImage extends ConsumerWidget {
@@ -223,6 +223,7 @@ class AttachmentImage extends ConsumerWidget {
       proxyUrl: value.proxyUrl,
       contentType: value.contentType,
       isExpired: value.expired ?? false,
+      contentHash: value.contentHash,
     );
   }
 }

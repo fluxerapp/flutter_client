@@ -176,7 +176,7 @@ class GatewayEventHandler {
   final MessageDeleteCallback? onMessageDelete;
   final MessageDeleteBulkCallback? onMessageDeleteBulk;
   final MessageReactionChangeCallback? onMessageReactionChange;
-  final void Function(String channelId, String messageId)? onOwnMessageCreated;
+  final void Function(String channelId, DateTime sentAt)? onOwnMessageCreated;
   final void Function(String channelId, {required bool manual})? onMessageAcked;
   final void Function(String? idHash)? onAuthSessionIdHashChanged;
   final ConnectionsUpdateCallback? onConnectionsUpdate;
@@ -369,7 +369,7 @@ class GatewayEventHandler {
           ),
         );
         for (final channel in event.channels) {
-          _handleChannelUpsert(channel);
+          unawaited(_handleChannelUpsert(channel));
         }
       case ChannelPinsUpdateEvent():
         _logGatewayDebug(
@@ -1362,6 +1362,7 @@ class GatewayEventHandler {
   }
 
   Future<void> _handleFavoriteMemeDelete(FavoriteMemeDeleteEvent event) async {
+    if (event.id.isEmpty) return;
     await database.favoriteMemesDao.deleteMeme(event.id);
   }
 
@@ -1607,7 +1608,7 @@ class GatewayEventHandler {
           clearSticky: true,
           markDmRead: true,
         );
-        onOwnMessageCreated?.call(msg.channelId, msg.id);
+        onOwnMessageCreated?.call(msg.channelId, msg.timestamp);
         return;
       case ReadStateIncomingMessageKind.ackAutomaticMessage:
       case ReadStateIncomingMessageKind.ackBlockedMessage:
@@ -2419,7 +2420,7 @@ class GatewayEventHandler {
       _logGatewayDebug(
         () => talker.debug('[Gateway]   channel: ${channel.id}'),
       );
-      _handleChannelUpsert(channel);
+      unawaited(_handleChannelUpsert(channel));
     }
 
     for (final id in event.deletedChannelIds ?? const <String>[]) {

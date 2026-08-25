@@ -25,7 +25,7 @@ import 'package:fluxer_app/features/voice/providers/voice_join_eligibility_provi
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/voice_session_errors.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 import 'package:visibility_detector/visibility_detector.dart';
 

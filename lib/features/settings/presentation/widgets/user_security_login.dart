@@ -27,9 +27,9 @@ import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/relative_time.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:material_ui/material_ui.dart';
 
 // TODO(Elias): Re-enable if needed for phone eligibility rules.
 const int _kMaxPasskeys = 10;
@@ -69,7 +69,6 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
     final state = ref.watch(userSettingsViewModelProvider);
     final passkeyState = ref.watch(webauthnCredentialsViewModelProvider);
     final colors = context.colors;
-    final layout = context.layout;
     final l10n = FluxerLocalizations.of(context);
 
     return SingleChildScrollView(

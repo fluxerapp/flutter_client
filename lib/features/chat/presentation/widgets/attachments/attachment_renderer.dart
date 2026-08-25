@@ -16,8 +16,9 @@ import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_m
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:intl/intl.dart';
-import 'package:material_ui/material_ui.dart';
 
 class AttachmentRenderer extends ConsumerWidget {
   const AttachmentRenderer({
@@ -25,6 +26,8 @@ class AttachmentRenderer extends ConsumerWidget {
     required this.inlineAttachmentMedia,
     required this.dimensionSize,
     required this.revealSpoilers,
+    this.spoilerSyncController,
+    this.spoilerSyncKeys = const [],
     this.imageGallery,
     this.imageGalleryIndex = 0,
     this.messageId,
@@ -39,6 +42,8 @@ class AttachmentRenderer extends ConsumerWidget {
   final bool inlineAttachmentMedia;
   final MediaDimensionSize dimensionSize;
   final bool revealSpoilers;
+  final FluxerSpoilerSyncController? spoilerSyncController;
+  final List<String> spoilerSyncKeys;
   final List<Attachment>? imageGallery;
   final int imageGalleryIndex;
   final String? messageId;
@@ -73,6 +78,8 @@ class AttachmentRenderer extends ConsumerWidget {
           SpoilerOverlay(
             isSpoiler: attachment.isSpoiler,
             initiallyRevealed: revealSpoilers,
+            spoilerSyncController: spoilerSyncController,
+            syncKeys: spoilerSyncKeys,
             child: _wrapMatureMedia(content),
           ),
           if (expiryFootnoteText != null &&

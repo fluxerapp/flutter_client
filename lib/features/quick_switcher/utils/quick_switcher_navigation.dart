@@ -6,8 +6,8 @@ import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_types.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_ui/material_ui.dart';
 
 String settingsTargetPath(QuickSwitcherSettingsTarget target) =>
     switch (target) {

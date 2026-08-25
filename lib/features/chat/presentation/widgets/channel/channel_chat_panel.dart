@@ -10,21 +10,24 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_comp
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_unread_review.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/neko_sprite.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/attachment_panel_content.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_composer_column.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_expression_expandable_sheet.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
 import 'package:fluxer_app/features/chat/utils/bottom_input_slot_layout.dart';
+import 'package:fluxer_app/features/chat/utils/composer_panel.dart';
 import 'package:fluxer_app/features/chat/utils/inline_expression_panel_layout.dart';
 import 'package:fluxer_app/features/chat/utils/inline_expression_panel_scroll_physics.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/utils/mobile_scaffold_resize_policy.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 const double _kChannelChatNekoBottom = 0;
 const double _kChannelChatNekoBottomAboveSlowmode =
@@ -109,10 +112,16 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
           isExpressionPanelOpen: false,
         );
     final bool isMobile = isMobileLayout(context);
-    final bool isPanelOpen =
+    final bool isExpressionOpen =
         isMobile &&
         widget.showInlineEmojiPicker &&
         ref.watch(expressionPanelProvider);
+    final bool isAttachmentOpen =
+        isMobile && ref.watch(attachmentPanelProvider);
+    final bool isPanelOpen = isComposerPanelOpen(
+      expressionPanelOpen: isExpressionOpen,
+      attachmentPanelOpen: isAttachmentOpen,
+    );
     final Widget messageList = MessageList(
       key: ValueKey<String>(listChannelId),
       expectedChannelId: listChannelId,
@@ -237,6 +246,13 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                     ),
                     dragHandleHeight: dragHandleHeight,
                     parentHeight: constraints.maxHeight,
+                    contentBuilder: isAttachmentOpen
+                        ? (BuildContext context, ScrollController controller) {
+                            return AttachmentPanelContent(
+                              scrollController: controller,
+                            );
+                          }
+                        : null,
                   ),
                 ),
             ],

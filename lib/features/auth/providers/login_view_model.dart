@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/auth/domain/ip_authorization_challenge.dart'
 import 'package:fluxer_app/features/auth/domain/login_error.dart';
 import 'package:fluxer_app/features/auth/domain/login_result.dart';
 import 'package:fluxer_app/features/auth/domain/mfa_challenge.dart';
+import 'package:fluxer_app/features/auth/domain/registration_result.dart';
 import 'package:fluxer_app/features/auth/providers/add_account_instance_guard_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/auth/providers/ban_view_provider.dart';
@@ -52,6 +53,7 @@ class LoginViewState {
   final List<String> usernameSuggestions;
   final bool isStartingSso;
   final String? ssoError;
+  final String? pendingApprovalUserId;
 
   const LoginViewState({
     required this.email,
@@ -71,6 +73,7 @@ class LoginViewState {
     required this.showRegister,
     required this.isStartingSso,
     required this.ssoError,
+    required this.pendingApprovalUserId,
     this.usernameSuggestions = const [],
   });
 
@@ -102,6 +105,7 @@ class LoginViewState {
     List<String>? usernameSuggestions,
     bool? isStartingSso,
     Object? ssoError = _unset,
+    Object? pendingApprovalUserId = _unset,
   }) {
     return LoginViewState(
       email: email ?? this.email,
@@ -135,6 +139,9 @@ class LoginViewState {
       usernameSuggestions: usernameSuggestions ?? this.usernameSuggestions,
       isStartingSso: isStartingSso ?? this.isStartingSso,
       ssoError: ssoError == _unset ? this.ssoError : ssoError as String?,
+      pendingApprovalUserId: pendingApprovalUserId == _unset
+          ? this.pendingApprovalUserId
+          : pendingApprovalUserId as String?,
     );
   }
 }
@@ -164,6 +171,7 @@ class LoginViewModel extends _$LoginViewModel {
       showRegister: false,
       isStartingSso: false,
       ssoError: null,
+      pendingApprovalUserId: null,
     );
   }
 
@@ -294,6 +302,7 @@ class LoginViewModel extends _$LoginViewModel {
       resetToken: null,
       errorMessage: null,
       fieldErrors: const {},
+      pendingApprovalUserId: null,
     );
   }
 
@@ -343,11 +352,12 @@ class LoginViewModel extends _$LoginViewModel {
       errorMessage: null,
       errorType: null,
       fieldErrors: const {},
+      pendingApprovalUserId: null,
     );
 
     try {
       final inviteCode = ref.read(pendingInviteCodeProvider.notifier).consume();
-      final session = await ref
+      final result = await ref
           .read(authRepositoryProvider)
           .register(
             email: email,
@@ -359,7 +369,17 @@ class LoginViewModel extends _$LoginViewModel {
           );
 
       ref.read(registrationDraftProvider.notifier).clear();
-      ref.read(fluxerAuthTokenProvider.notifier).setToken(session.token);
+
+      switch (result) {
+        case RegistrationPendingApproval(:final userId):
+          state = state.copyWith(
+            pendingApprovalUserId: userId,
+            isLoggingIn: false,
+          );
+          return;
+        case RegistrationSuccess(:final session):
+          ref.read(fluxerAuthTokenProvider.notifier).setToken(session.token);
+      }
       final restored = await _restoreAuthenticatedSession();
       if (!restored) {
         state = state.copyWith(
@@ -747,7 +767,10 @@ class LoginViewModel extends _$LoginViewModel {
             .restoreActiveInstance();
       }
       talker.error('[LoginViewModel] Passkey error: $e');
-      state = state.copyWith(isLoggingIn: false);
+      state = state.copyWith(
+        errorType: LoginError.passkeyFailed,
+        isLoggingIn: false,
+      );
     }
   }
 }

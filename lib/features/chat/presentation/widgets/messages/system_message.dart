@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/message_reactions_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_reactions_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_row_layout.dart';
 import 'package:fluxer_app/features/chat/utils/message_timestamp_format.dart';
@@ -16,10 +17,10 @@ import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/utils/voice_connection_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const Color _kSystemMessageOnlineIconColor = Color(0xFF22C55E);
@@ -168,6 +169,15 @@ class SystemMessage extends ConsumerWidget {
         locale,
         use12Hour: use12Hour,
       );
+      final TextStyle compactTimestampStyle = compactTimestampTextStyle(
+        base: context.textStyles.timestamp,
+        color: context.colors.textPrimaryMuted,
+      );
+      final double timestampColumnWidth = measureCompactTimestampColumnWidth(
+        compactTimestampStyle,
+        locale,
+        use12Hour: use12Hour,
+      );
       content = Padding(
         padding: const EdgeInsets.fromLTRB(
           kMessageRowPaddingHorizontal,
@@ -181,11 +191,16 @@ class SystemMessage extends ConsumerWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  compactTime,
-                  style: context.textStyles.timestamp.copyWith(
-                    color: context.colors.textTertiaryMuted,
-                    fontSize: kSystemMessageTimestampFontSize,
+                SizedBox(
+                  width: timestampColumnWidth,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      compactTime,
+                      style: compactTimestampStyle,
+                      softWrap: false,
+                      maxLines: 1,
+                    ),
                   ),
                 ),
                 const SizedBox(width: kCompactTimestampGap),
@@ -203,7 +218,7 @@ class SystemMessage extends ConsumerWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: kCompactAuthorGap),
+                const SizedBox(width: kCompactTimestampGap),
                 Expanded(
                   child: Text.rich(
                     TextSpan(children: textSpans),
@@ -224,6 +239,15 @@ class SystemMessage extends ConsumerWidget {
                         emojiId: emojiId,
                         animated: animated,
                       ),
+                  onReactionLongPress: (reaction) {
+                    unawaited(
+                      showMessageReactionsSheet(
+                        context,
+                        message: message,
+                        initialReaction: reaction,
+                      ),
+                    );
+                  },
                   showAddReaction: canAddReactions && onReaction != null,
                   isMobile: isMobileLayout(context),
                 ),
@@ -294,6 +318,15 @@ class SystemMessage extends ConsumerWidget {
                         emojiId: emojiId,
                         animated: animated,
                       ),
+                  onReactionLongPress: (reaction) {
+                    unawaited(
+                      showMessageReactionsSheet(
+                        context,
+                        message: message,
+                        initialReaction: reaction,
+                      ),
+                    );
+                  },
                   showAddReaction: canAddReactions && onReaction != null,
                   isMobile: isMobileLayout(context),
                 ),

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:fluxer_app/core/push/services/unified_push_service.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_functions.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_no_distributor_dismissal_storage.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:unifiedpush_ui/unifiedpush_ui.dart';
 
 /// Shows the official UnifiedPush distributor picker or install guidance.

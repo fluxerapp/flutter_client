@@ -3,7 +3,9 @@ import 'dart:math' as math;
 
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -26,8 +28,8 @@ import 'package:fluxer_app/features/members/providers/member_providers.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double kChannelHeaderSearchFieldWidth = 244;
@@ -335,35 +337,32 @@ class _ChannelHeaderSearchFieldState
       discriminators = await search.discriminatorsFor(members);
     } else if (widget.dm != null) {
       final DmConversation dm = widget.dm!;
-      if (dm.isGroup) {
-        members = dm.groupMembers
-            .where(
-              (GroupMemberInfo member) =>
-                  normalized.isEmpty ||
-                  member.name.toLowerCase().contains(normalized),
-            )
-            .map(
-              (GroupMemberInfo member) => Member(
-                id: member.id,
-                username: member.name,
-                avatar: member.avatar,
-              ),
-            )
-            .toList();
-      } else if (normalized.isEmpty || _dmRecipientMatches(dm, normalized)) {
-        members = <Member>[
-          Member(
-            id: dm.recipientId,
-            username: dm.recipientUsername ?? dm.recipientName,
-            globalName: dm.recipientName,
-            avatar: dm.recipientAvatar,
-          ),
-        ];
-        final String disc = (dm.recipientDiscriminator ?? '').trim();
-        if (disc.isNotEmpty && disc != '0') {
-          discriminators = <String, String>{dm.recipientId: disc};
-        }
-      }
+      final String? currentUserId = ref.read(currentUserIdProvider);
+      final Set<String> userIds = <String>{
+        ...dm.remoteRecipientIds,
+        if (currentUserId != null && currentUserId.isNotEmpty) currentUserId,
+      };
+      final List<db.User> users = await ref
+          .read(fluxerDatabaseProvider)
+          .userDao
+          .getUsersByIds(userIds.toList());
+      members = <Member>[
+        for (final db.User user in users)
+          if (normalized.isEmpty || _dmUserMatchesSearch(user, normalized))
+            Member(
+              id: user.id,
+              username: user.username,
+              globalName: user.globalName,
+              avatar: user.avatar,
+              avatarColor: user.avatarColor,
+            ),
+      ];
+      discriminators = <String, String>{
+        for (final db.User user in users)
+          if (visibleUserDiscriminator(user.discriminator)
+              case final String disc)
+            user.id: disc,
+      };
     }
     return (
       members: members.take(limit).toList(),
@@ -439,12 +438,13 @@ class _ChannelHeaderSearchFieldState
     }
   }
 
-  bool _dmRecipientMatches(DmConversation dm, String normalizedQuery) {
-    if (dm.recipientName.toLowerCase().contains(normalizedQuery)) {
+  bool _dmUserMatchesSearch(db.User user, String normalizedQuery) {
+    if (user.username.toLowerCase().contains(normalizedQuery)) {
       return true;
     }
-    final String? username = dm.recipientUsername;
-    return username != null && username.toLowerCase().contains(normalizedQuery);
+    final String? globalName = user.globalName;
+    return globalName != null &&
+        globalName.toLowerCase().contains(normalizedQuery);
   }
 
   List<ChannelSearchAutocompleteEntry> _buildEntries() {

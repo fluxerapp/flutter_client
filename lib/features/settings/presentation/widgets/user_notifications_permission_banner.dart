@@ -8,7 +8,7 @@ import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class UserNotificationsPermissionBanner extends ConsumerWidget {
   const UserNotificationsPermissionBanner({super.key});

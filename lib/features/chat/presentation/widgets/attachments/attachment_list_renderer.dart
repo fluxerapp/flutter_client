@@ -2,8 +2,10 @@ import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_con
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_media_grid.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_renderer.dart';
+import 'package:fluxer_app/features/chat/utils/spoiler_utils.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_markdown/fluxer_markdown.dart';
 
 class AttachmentListRenderer extends StatelessWidget {
   const AttachmentListRenderer({
@@ -11,8 +13,10 @@ class AttachmentListRenderer extends StatelessWidget {
     required this.inlineAttachmentMedia,
     required this.dimensionSize,
     required this.revealSpoilers,
+    this.spoilerSyncController,
     this.topPadding = 0,
     this.messageId,
+    this.spoilerSyncScope,
     this.messageNonce,
     this.channelId,
     this.messageFlags = 0,
@@ -24,8 +28,10 @@ class AttachmentListRenderer extends StatelessWidget {
   final bool inlineAttachmentMedia;
   final MediaDimensionSize dimensionSize;
   final bool revealSpoilers;
+  final FluxerSpoilerSyncController? spoilerSyncController;
   final double topPadding;
   final String? messageId;
+  final String? spoilerSyncScope;
   final String? messageNonce;
   final String? channelId;
   final int messageFlags;
@@ -45,6 +51,7 @@ class AttachmentListRenderer extends StatelessWidget {
         )
         .toList();
     final bool shouldRenderMediaGrid = mediaAttachments.length > 1;
+    final String syncScope = spoilerSyncScope ?? messageId ?? '';
     bool hasRenderedGrid = false;
     final List<Widget> children = <Widget>[];
     for (final Attachment attachment in attachments) {
@@ -60,9 +67,11 @@ class AttachmentListRenderer extends StatelessWidget {
               child: AttachmentMediaGrid(
                 attachments: mediaAttachments,
                 revealSpoilers: revealSpoilers,
+                spoilerSyncController: spoilerSyncController,
                 dimensionSize: dimensionSize,
                 channelId: channelId,
                 messageId: messageId,
+                spoilerSyncScope: syncScope,
                 mediaActionScope: mediaActionScope,
               ),
             ),
@@ -77,6 +86,11 @@ class AttachmentListRenderer extends StatelessWidget {
           inlineAttachmentMedia: inlineAttachmentMedia,
           dimensionSize: dimensionSize,
           revealSpoilers: revealSpoilers,
+          spoilerSyncController: spoilerSyncController,
+          spoilerSyncKeys: spoilerSyncKeysForAttachment(
+            scope: syncScope,
+            attachment: attachment,
+          ),
           imageGallery: mediaAttachments,
           imageGalleryIndex: isMediaAttachment
               ? mediaAttachments.indexOf(attachment)

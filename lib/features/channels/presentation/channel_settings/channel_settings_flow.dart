@@ -1,6 +1,6 @@
 import 'package:fluxer_app/features/channels/domain/channel_settings_tab.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/channel_settings_modal.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class ChannelSettingsFlow {
   ChannelSettingsFlow._();

@@ -3,7 +3,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 enum DmNavbarAction {
@@ -14,6 +14,7 @@ enum DmNavbarAction {
   unpinDm,
   alwaysShow,
   removeAlwaysShow,
+  deleteMyMessages,
   closeDm,
   copyChannelId,
   copyUserId,
@@ -145,6 +146,12 @@ List<FluxerBottomSheetMenuItem> _buildBottomSheetItems({
       icon: PhosphorIconsBold.hash,
       label: l10n.dmCopyChannelId,
       onTap: () => pop(DmNavbarAction.copyChannelId),
+    ),
+    FluxerBottomSheetMenuItem(
+      icon: PhosphorIconsBold.trash,
+      label: l10n.channelMenuDeleteMyMessagesConfirm,
+      isDanger: true,
+      onTap: () => pop(DmNavbarAction.deleteMyMessages),
     ),
     FluxerBottomSheetMenuItem(
       icon: PhosphorIconsBold.x,
@@ -333,6 +340,12 @@ List<Widget> _buildMenuItems({
       onTap: () => pop(DmNavbarAction.copyChannelId),
     ),
     const ContextMenuDivider(),
+    ContextMenuItem(
+      icon: PhosphorIconsBold.trash,
+      label: l10n.channelMenuDeleteMyMessagesConfirm,
+      isDanger: true,
+      onTap: () => pop(DmNavbarAction.deleteMyMessages),
+    ),
     ContextMenuItem(
       icon: PhosphorIconsBold.x,
       label: l10n.dmCloseDm,

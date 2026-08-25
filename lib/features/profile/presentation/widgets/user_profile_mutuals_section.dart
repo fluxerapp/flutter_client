@@ -5,8 +5,8 @@ import 'package:fluxer_app/features/profile/presentation/sheets/user_profile_mut
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_mutual_list.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class UserProfileMutualsSection extends StatelessWidget {

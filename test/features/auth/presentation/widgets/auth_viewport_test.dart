@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_viewport.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 void main() {
   testWidgets('keeps tall auth content scrollable above the keyboard', (

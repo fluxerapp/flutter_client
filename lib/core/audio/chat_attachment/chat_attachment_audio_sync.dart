@@ -60,3 +60,24 @@ void syncChatAttachmentAudioSession({
     );
   }
 }
+
+void syncChatAttachmentAudioSessionPosition({
+  required ChatAttachmentAudioBinding binding,
+  required bool playing,
+  required Duration position,
+  required Duration totalDuration,
+  required double playbackRate,
+}) {
+  if (!binding.isAvailable || !binding.isActive) {
+    return;
+  }
+  final Duration bufferedPosition = totalDuration > Duration.zero
+      ? totalDuration
+      : position;
+  binding.updatePosition(
+    playing: playing,
+    position: position,
+    bufferedPosition: bufferedPosition,
+    speed: playbackRate,
+  );
+}

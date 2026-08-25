@@ -5,8 +5,8 @@ import 'package:fluxer_app/features/voice/presentation/widgets/voice_e2ee_indica
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_e2ee_display.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/gateway.dart';
-import 'package:material_ui/material_ui.dart';
 
 /// Pre-join E2EE status for an ongoing DM/GDM call, matching desktop placement
 /// in the compact call control footer when not in the call.

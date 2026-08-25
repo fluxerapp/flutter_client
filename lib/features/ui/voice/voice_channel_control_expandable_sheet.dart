@@ -10,8 +10,8 @@ import 'package:fluxer_app/features/voice/providers/screen_share_capability_prov
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/expandable_sheet_gestures.dart';
-import 'package:material_ui/material_ui.dart';
 
 const double _kExpandedSheetHeightFraction = 0.88;
 const double _kNarrowVoiceControlBarWidth = 360;

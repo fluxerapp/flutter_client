@@ -1,1 +1,1 @@
-enum SystemPermissionKind { microphone, camera, notifications }
+enum SystemPermissionKind { microphone, camera, photos, notifications }

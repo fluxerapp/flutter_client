@@ -13,8 +13,8 @@ import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_m
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
-import 'package:material_ui/material_ui.dart';
 
 /// An inline image / gifv embed
 class EmbedImage extends ConsumerWidget {

@@ -273,8 +273,9 @@ List<VoiceChannelParticipantData> voiceChannelParticipants(
   }
   final Set<String> userIds = inChannel.map((VoiceState v) => v.userId).toSet();
   final String userIdsKey = voiceParticipantUserIdsKey(userIds);
-  ref.watch(voiceParticipantUsersLoaderProvider(userIdsKey));
-  ref.watch(friendNicknamesLoaderProvider);
+  ref
+    ..watch(voiceParticipantUsersLoaderProvider(userIdsKey))
+    ..watch(friendNicknamesLoaderProvider);
   final Map<String, String?> nicknameByUserId =
       _friendNicknamesCache ?? const <String, String?>{};
   final Map<String, database.User> byId = _cachedUsersForIds(userIds);
@@ -406,9 +407,10 @@ List<VoiceSidebarParticipant> voiceChannelSidebarParticipants(
   final Set<String> userIds = byUser.keys.toSet();
   final String userIdsKey = voiceParticipantUserIdsKey(userIds);
   final String guildMembersKey = voiceGuildMembersKey(guildId, userIds);
-  ref.watch(voiceParticipantUsersLoaderProvider(userIdsKey));
-  ref.watch(voiceGuildMembersLoaderProvider(guildMembersKey));
-  ref.watch(friendNicknamesLoaderProvider);
+  ref
+    ..watch(voiceParticipantUsersLoaderProvider(userIdsKey))
+    ..watch(voiceGuildMembersLoaderProvider(guildMembersKey))
+    ..watch(friendNicknamesLoaderProvider);
   final Map<String, database.User> usersById = _cachedUsersForIds(userIds);
   final Map<String, database.Member> membersByUserId =
       <String, database.Member>{

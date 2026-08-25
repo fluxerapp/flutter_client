@@ -15,7 +15,7 @@ import 'package:fluxer_app/features/ui/switch_group/fluxer_switch_group.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 enum GuildCloneAllowedKind { emoji, sticker }
 

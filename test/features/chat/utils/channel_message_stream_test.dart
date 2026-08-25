@@ -283,6 +283,41 @@ void main() {
     });
   });
 
+  group('stream spacing helpers', () {
+    test('followsCollapsedGroup is true after a blocked group', () {
+      final List<Message> messages = <Message>[
+        _message(id: '1', authorId: 'blocked'),
+        _message(id: '2', authorId: 'visible'),
+      ];
+      final List<ChannelStreamItem> stream = createChannelStream(
+        messages: messages,
+        oldestUnreadMessageId: null,
+        context: _context,
+      );
+      final int visibleIndex = findChannelStreamDataIndex(stream, '2')!;
+      expect(followsCollapsedGroup(stream, visibleIndex), isTrue);
+      expect(resolvePreviousMessageForStreamItem(stream, visibleIndex), isNull);
+    });
+
+    test('leadingGroupSpacingBeforeStreamItem ignores dividers', () {
+      final List<Message> messages = <Message>[
+        _message(id: '1', authorId: 'blocked'),
+      ];
+      final List<ChannelStreamItem> stream = createChannelStream(
+        messages: messages,
+        oldestUnreadMessageId: null,
+        context: _context,
+      );
+      final int groupIndex = stream.indexWhere(
+        (ChannelStreamItem item) => item.type.isCollapsedGroup,
+      );
+      expect(
+        leadingGroupSpacingBeforeStreamItem(stream, groupIndex, spacing: 16),
+        0,
+      );
+    });
+  });
+
   group('resolvePreviousMessageForStreamItem', () {
     test('returns null after a collapsed blocked group', () {
       final List<Message> messages = <Message>[

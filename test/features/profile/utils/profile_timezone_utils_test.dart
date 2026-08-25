@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/profile/utils/profile_timezone_utils.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:material_ui/material_ui.dart';
 
 Future<FluxerLocalizations> _loadL10n() {
   WidgetsFlutterBinding.ensureInitialized();

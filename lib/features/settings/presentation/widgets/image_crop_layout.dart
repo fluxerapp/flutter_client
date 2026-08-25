@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:image/image.dart' as img;
-import 'package:material_ui/material_ui.dart';
 
 const imageCropViewportInset = 24.0;
 

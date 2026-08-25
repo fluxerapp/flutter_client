@@ -9,8 +9,8 @@ import 'package:fluxer_app/core/utils/channel_jump_link.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_ui/material_ui.dart';
 
 import '../../../helpers/open_test_database.dart';
 

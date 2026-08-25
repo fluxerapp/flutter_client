@@ -1,6 +1,6 @@
 import 'package:fluxer_app/features/ui/media_viewer/media_viewer_dismiss.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class MediaViewerDismissible extends StatefulWidget {
   const MediaViewerDismissible({

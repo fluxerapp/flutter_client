@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/friends/domain/friend_request_exception.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
@@ -11,9 +12,9 @@ import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/fluxer_tag_parser.dart';
 import 'package:fluxer_app/shared/utils/relationship_error_messages.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 enum _FormResultStatus { success, error }
@@ -83,14 +84,14 @@ class _AddFriendFormState extends ConsumerState<AddFriendForm> {
         _resultStatus = _FormResultStatus.error;
         _errorMessage = getSendFriendRequestErrorFromException(l10n, e);
       });
-    } on Exception catch (_) {
+    } on Exception catch (e) {
       if (!mounted) {
         return;
       }
       setState(() {
         _isLoading = false;
         _resultStatus = _FormResultStatus.error;
-        _errorMessage = l10n.addFriendSendFailedGeneric;
+        _errorMessage = userFacingErrorMessage(e, '');
       });
     }
   }

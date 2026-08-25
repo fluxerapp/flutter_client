@@ -1,6 +1,6 @@
 import 'package:fluxer_app/features/chat/utils/chat_spinner_debug.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class ChatLoadingSpinner extends StatefulWidget {
   const ChatLoadingSpinner({required this.reason, this.color, super.key});

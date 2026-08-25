@@ -10,7 +10,7 @@ import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar.dart';
 import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar_button.dart';
 import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar_content.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class GiftInventoryNagbar extends ConsumerWidget implements NagbarWidget {
   const GiftInventoryNagbar({super.key});

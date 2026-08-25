@@ -2,8 +2,9 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
+import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_wire_codec.dart';
 import 'package:fluxer_app/core/synced_preferences/favorites_state_codec.dart';
-import 'package:fluxer_app/core/synced_preferences/synced_preferences_wire_codec.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -166,13 +167,7 @@ void main() {
         hideMutedChannels: false,
         muted: false,
       );
-      const server = FavoritesLocalState(
-        channels: [],
-        categories: [],
-        collapsedCategoryIds: [],
-        hideMutedChannels: false,
-        muted: false,
-      );
+      const server = FavoritesLocalState.empty;
 
       final merged = FavoritesStateCodec.mergeForMigration(
         local: local,
@@ -194,13 +189,7 @@ void main() {
         hideMutedChannels: false,
         muted: false,
       );
-      const syncedLocal = FavoritesLocalState(
-        channels: [],
-        categories: [],
-        collapsedCategoryIds: [],
-        hideMutedChannels: false,
-        muted: false,
-      );
+      const syncedLocal = FavoritesLocalState.empty;
       const server = syncedLocal;
 
       final merged = FavoritesStateCodec.mergeForMigration(
@@ -274,6 +263,7 @@ void main() {
         SyncedPreferencesWireCodec.verifyWirePreservesForeignFields(
           before: combined,
           after: updated,
+          replacedFieldNumber: SyncedPreferenceField.favorites.fieldNumber,
         ),
         isTrue,
       );

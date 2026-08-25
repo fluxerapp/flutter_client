@@ -1,6 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/voice/providers/voice_connection_stats_provider.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class VoiceSignalStrengthIcon extends StatelessWidget {
   const VoiceSignalStrengthIcon({

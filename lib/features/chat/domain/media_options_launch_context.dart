@@ -11,6 +11,7 @@ class MediaOptionsLaunchContext {
     this.filename,
     this.proxyUrl,
     this.isExpired = false,
+    this.contentHash,
   });
 
   factory MediaOptionsLaunchContext.fromVideoLaunchContext(
@@ -25,6 +26,7 @@ class MediaOptionsLaunchContext {
       filename: attachment?.filename,
       proxyUrl: attachment?.proxyUrl,
       isExpired: attachment?.expired ?? false,
+      contentHash: attachment?.contentHash,
     );
   }
 
@@ -40,6 +42,7 @@ class MediaOptionsLaunchContext {
       filename: item.filename,
       proxyUrl: item.proxyUrl,
       isExpired: item.isExpired,
+      contentHash: item.contentHash,
     );
   }
 
@@ -50,6 +53,7 @@ class MediaOptionsLaunchContext {
   final String? filename;
   final String? proxyUrl;
   final bool isExpired;
+  final String? contentHash;
 
   bool get hasOptionsMenu =>
       fallbackUrl.trim().isNotEmpty || actionScope != null;

@@ -544,11 +544,12 @@ class OrganizedGuildList extends _$OrganizedGuildList {
     if (item is! GuildNavbarFolder) {
       return;
     }
-    items.removeAt(folderIndex);
-    items.insertAll(
-      folderIndex,
-      item.guilds.map((Guild g) => GuildNavbarGuild(guild: g)),
-    );
+    items
+      ..removeAt(folderIndex)
+      ..insertAll(
+        folderIndex,
+        item.guilds.map((Guild g) => GuildNavbarGuild(guild: g)),
+      );
     _commitLocalMutation(items);
   }
 

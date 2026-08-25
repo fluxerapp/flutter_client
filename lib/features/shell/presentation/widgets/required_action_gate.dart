@@ -7,8 +7,8 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/auth/domain/required_action_flow.dart';
 import 'package:fluxer_app/features/auth/presentation/required_action_modal.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_ui/material_ui.dart';
 
 class RequiredActionGate extends ConsumerStatefulWidget {
   const RequiredActionGate({required this.child, super.key});

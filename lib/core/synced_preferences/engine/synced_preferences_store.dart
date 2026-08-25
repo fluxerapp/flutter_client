@@ -4,23 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_field_adapter.dart';
+import 'package:fluxer_app/core/synced_preferences/engine/synced_field_registry.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_engine.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_wire_codec.dart';
-import 'package:fluxer_app/core/synced_preferences/fields/accessibility_overrides_synced_field.dart';
-import 'package:fluxer_app/core/synced_preferences/fields/accessibility_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/favorites_synced_field.dart';
-import 'package:fluxer_app/core/synced_preferences/fields/guild_folders_synced_field.dart';
-import 'package:fluxer_app/core/synced_preferences/fields/local_spam_overrides_synced_field.dart';
-import 'package:fluxer_app/core/synced_preferences/fields/member_list_synced_field.dart';
-import 'package:fluxer_app/core/synced_preferences/fields/nagbar_dismissals_synced_field.dart';
-import 'package:fluxer_app/core/synced_preferences/fields/privacy_synced_field.dart';
-import 'package:fluxer_app/core/synced_preferences/fields/search_engines_synced_field.dart';
-import 'package:fluxer_app/core/synced_preferences/fields/sidebar_synced_field.dart';
-import 'package:fluxer_app/core/synced_preferences/fields/sound_synced_field.dart';
-import 'package:fluxer_app/core/synced_preferences/fields/textual_preview_synced_field.dart';
-import 'package:fluxer_app/core/synced_preferences/fields/unread_channels_synced_field.dart';
-import 'package:fluxer_app/core/synced_preferences/fields/voice_prompts_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/preferences.pb.dart'
     as pb;
 import 'package:fluxer_app/core/synced_preferences/synced_theme_hydration.dart';
@@ -68,22 +56,11 @@ class SyncedPreferencesStore {
   int _rateLimitAttempts = 0;
 
   void registerDefaultAdapters() {
-    registerAdapter(
-      FavoritesSyncedField(_ref, readSyncedLocal: _readSyncedLocalFavorites),
+    registerDefaultSyncedFieldAdapters(
+      registerAdapter: registerAdapter,
+      ref: _ref,
+      readSyncedLocalFavorites: _readSyncedLocalFavorites,
     );
-    registerAdapter(AccessibilitySyncedField(_ref));
-    registerAdapter(AccessibilityOverridesSyncedField(_ref));
-    registerAdapter(SearchEnginesSyncedField(_ref));
-    registerAdapter(SidebarSyncedField(_ref));
-    registerAdapter(PrivacySyncedField(_ref));
-    registerAdapter(MemberListSyncedField(_ref));
-    registerAdapter(UnreadChannelsSyncedField(_ref));
-    registerAdapter(VoicePromptsSyncedField(_ref));
-    registerAdapter(SoundSyncedField(_ref));
-    registerAdapter(GuildFoldersSyncedField(_ref));
-    registerAdapter(LocalSpamOverridesSyncedField(_ref));
-    registerAdapter(NagbarDismissalsSyncedField(_ref));
-    registerAdapter(TextualPreviewSyncedField(_ref));
   }
 
   void registerAdapter<T>(SyncedFieldAdapter<T> adapter) {
@@ -440,7 +417,10 @@ class SyncedPreferencesStore {
       if (!_ref.mounted) {
         return;
       }
-      final encoded = await _encodeLocalSnapshot(inFlightSnapshot);
+      final encoded = await _encodeLocalSnapshot(
+        inFlightSnapshot,
+        fieldsToEncode: fieldsInRequest,
+      );
       if (!_ref.mounted || encoded.isEmpty) {
         return;
       }
@@ -547,16 +527,22 @@ class SyncedPreferencesStore {
     return snapshot;
   }
 
-  Future<String> _encodeLocalSnapshot(pb.SyncedPreferences snapshot) async {
+  Future<String> _encodeLocalSnapshot(
+    pb.SyncedPreferences snapshot, {
+    required Iterable<SyncedPreferenceField> fieldsToEncode,
+  }) async {
     final wire = _wireBlob.isEmpty
         ? SyncedPreferencesEngine.createEmpty()
         : SyncedPreferencesEngine.decodeLenient(_wireBlob);
     final fieldMessages = <int, Uint8List>{};
-    for (final entry in _adapters.entries) {
+    for (final field in fieldsToEncode) {
       if (!_ref.mounted) {
         return '';
       }
-      final adapter = entry.value;
+      final adapter = _adapters[field];
+      if (adapter == null) {
+        continue;
+      }
       final Object? local = await adapter.readLocalValue();
       fieldMessages[adapter.fieldNumber] = _buildProtoForPush(
         adapter,

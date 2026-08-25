@@ -25,6 +25,7 @@ import 'package:fluxer_app/features/channels/presentation/sheets/create_category
 import 'package:fluxer_app/features/channels/presentation/sheets/create_channel_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
+import 'package:fluxer_app/features/chat/utils/delete_my_messages_in_channel_action.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_navbar_context_menu.dart';
@@ -84,6 +85,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
@@ -93,7 +95,6 @@ import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 enum _NavbarListEntryKind {
@@ -601,6 +602,15 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         dmFolderNotifier.addToAllowlist(dm.id);
       case DmNavbarAction.removeAlwaysShow:
         dmFolderNotifier.removeFromAllowlist(dm.id);
+      case DmNavbarAction.deleteMyMessages:
+        unawaited(
+          confirmAndDeleteMyMessagesInChannel(
+            context,
+            ref,
+            channelId: dm.id,
+            isPrivateConversation: true,
+          ),
+        );
       case DmNavbarAction.closeDm:
         await _confirmCloseDm(context, dm: dm);
       case DmNavbarAction.copyChannelId:

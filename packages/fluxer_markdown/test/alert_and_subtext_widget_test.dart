@@ -8,6 +8,7 @@ const FluxerMarkdownConfig _testMarkdownConfig = FluxerMarkdownConfig(
   unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
   customEmojiUrlBuilder: _noopCustomEmojiUrl,
   alertBuilder: _testAlertBuilder,
+  codeTextStyle: TextStyle(fontFamily: 'monospace', fontSize: 16),
 );
 
 String? _noopEmojiShortcode(String name) => null;
@@ -64,6 +65,43 @@ void main() {
 
       final RichText richText = tester.widget<RichText>(find.byType(RichText));
       expect(richText.text.style?.fontSize, closeTo(13, 0.5));
+    });
+
+    testWidgets('inline code in subtext scales with subtext size', (
+      tester,
+    ) async {
+      const TextStyle baseStyle = TextStyle(fontSize: 16);
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: FluxerMarkdown(
+              data: '-# subtext `with code text`',
+              config: _testMarkdownConfig,
+              baseStyle: baseStyle,
+            ),
+          ),
+        ),
+      );
+
+      final RichText richText = tester.widget<RichText>(find.byType(RichText));
+      const double subtextFontSize = 16 * 0.8125;
+      expect(richText.text.style?.fontSize, closeTo(subtextFontSize, 0.01));
+
+      double? inlineCodeFontSize;
+      void visit(InlineSpan span) {
+        if (span is TextSpan) {
+          if (span.text == 'with code text') {
+            inlineCodeFontSize = span.style?.fontSize;
+          }
+          for (final InlineSpan child
+              in span.children ?? const <InlineSpan>[]) {
+            visit(child);
+          }
+        }
+      }
+
+      visit(richText.text);
+      expect(inlineCodeFontSize, closeTo(subtextFontSize * 0.85, 0.01));
     });
 
     testWidgets('preserves blank line between subtext and regular text', (

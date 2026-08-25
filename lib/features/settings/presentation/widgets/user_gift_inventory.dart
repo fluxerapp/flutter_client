@@ -12,8 +12,8 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 import 'package:fluxer_app/features/settings/utils/open_user_billing_settings.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class UserGiftInventory extends ConsumerStatefulWidget {
@@ -293,7 +293,7 @@ class _UserGiftInventoryState extends ConsumerState<UserGiftInventory> {
       ref: ref,
       code: code,
       onSuccess: () {
-        ref.read(giftInventoryProvider.notifier).refresh();
+        unawaited(ref.read(giftInventoryProvider.notifier).refresh());
         _codeController.clear();
         ref
             .read(toastProvider.notifier)

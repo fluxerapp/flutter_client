@@ -4,6 +4,7 @@
 export 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 export 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 export 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
+export 'package:fluxer_markdown/src/utils/bounded_text.dart';
 export 'package:fluxer_markdown/src/utils/code_block_highlight_theme.dart';
 export 'package:fluxer_markdown/src/utils/emoji_asset_cache.dart';
 export 'package:fluxer_markdown/src/utils/highlight_languages.dart';

@@ -10,8 +10,8 @@ import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_menu_data.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 List<VoiceParticipantMenuEntry> buildVoiceParticipantGuildModerationEntries({

@@ -15,9 +15,9 @@ import 'package:fluxer_app/features/ui/toast/fluxer_toast_overlay.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/incoming_voice_call_layer.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/widgets/beta_banner.dart';
 import 'package:fluxer_app/shared/widgets/input_modality_listener.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:window_manager/window_manager.dart';
 
 class FluxerApp extends ConsumerWidget {

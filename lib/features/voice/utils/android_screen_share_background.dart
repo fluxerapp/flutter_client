@@ -53,7 +53,7 @@ Future<bool> enableAndroidScreenShareBackground({
     if (!hasPermissions) {
       return false;
     }
-    return _verifyAndroidScreenShareBackgroundRunning();
+    return await _verifyAndroidScreenShareBackgroundRunning();
   } on Object {
     if (!isRetry) {
       await Future<void>.delayed(const Duration(seconds: 1));

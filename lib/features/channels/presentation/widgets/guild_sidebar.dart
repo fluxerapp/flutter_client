@@ -42,6 +42,7 @@ import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/channels/utils/channel_scroll_indicator_severity.dart';
 import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/channels/utils/show_channel_debug_sheet.dart';
+import 'package:fluxer_app/features/chat/utils/delete_my_messages_in_channel_action.dart';
 import 'package:fluxer_app/features/chat/utils/message_link.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
@@ -68,6 +69,7 @@ import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart'
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_e2ee_display.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
@@ -75,7 +77,6 @@ import 'package:fluxer_app/shared/utils/navigation_item_semantics.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class GuildSidebar extends ConsumerStatefulWidget {
@@ -563,6 +564,9 @@ class _GuildSidebarChannelListState
       padding: const EdgeInsets.only(top: 12),
       itemCount: membersOffset + sidebarEntries.length,
       itemBuilder: (BuildContext context, int index) {
+        final int entryIndex = showMembersEntry && index >= membersOffset
+            ? index - membersOffset
+            : index;
         if (showMembersEntry) {
           if (index == 0) {
             return _MembersSidebarTile(
@@ -578,9 +582,8 @@ class _GuildSidebarChannelListState
               color: context.colors.borderColor,
             );
           }
-          index -= membersOffset;
         }
-        final GuildSidebarEntry entry = sidebarEntries[index];
+        final GuildSidebarEntry entry = sidebarEntries[entryIndex];
         switch (entry.kind) {
           case GuildSidebarEntryKind.categoryHeader:
             return _CategoryHeader(
@@ -1082,41 +1085,12 @@ class _ChannelTile extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) async {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final bool? confirmed = await FluxerConfirmModal.show(
+    await confirmAndDeleteMyMessagesInChannel(
       context,
-      title: l10n.channelMenuDeleteMyMessagesTitle,
-      description: l10n.channelMenuDeleteMyMessagesDescription,
-      confirmLabel: l10n.channelMenuDeleteMyMessagesConfirm,
-      isDanger: true,
-      onConfirm: () {},
+      ref,
+      channelId: channel.id,
+      isPrivateConversation: false,
     );
-    if (confirmed != true) {
-      return;
-    }
-    final toast = ref.read(toastProvider.notifier);
-    try {
-      await ref
-          .read(fluxerClientProvider)
-          .channels
-          .bulkDeleteMyMessagesInChannel(
-            channelId: channel.id,
-            body: const SudoVerificationSchema(),
-          );
-      toast.show(
-        FluxerToast(
-          message: l10n.channelMenuDeletedYourMessages,
-          variant: FluxerToastVariant.success,
-        ),
-      );
-    } on Object {
-      toast.show(
-        FluxerToast(
-          message: l10n.channelMenuCouldNotDeleteYourMessages,
-          variant: FluxerToastVariant.danger,
-        ),
-      );
-    }
   }
 
   Future<void> _showDebugChannelSheet(BuildContext context, WidgetRef ref) =>

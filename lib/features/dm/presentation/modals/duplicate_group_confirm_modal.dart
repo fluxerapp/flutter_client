@@ -7,9 +7,9 @@ import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:intl/intl.dart';
-import 'package:material_ui/material_ui.dart';
 
 Future<void> showDuplicateGroupConfirmModal(
   BuildContext context,

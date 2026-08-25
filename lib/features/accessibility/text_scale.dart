@@ -1,4 +1,4 @@
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 const double kAppTextScaleMin = 0.8;
 const double kAppTextScaleMax = 2;

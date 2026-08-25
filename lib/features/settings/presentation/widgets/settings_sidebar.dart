@@ -1,7 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_settings_search_field.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class SettingsSidebar extends StatelessWidget {

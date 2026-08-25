@@ -96,8 +96,8 @@ class ForwardDestination {
 ///
 /// DMs are returned first (in recency order), then guild channels grouped by
 /// guild name then channel name, so the sheet can build sections by walking
-/// consecutive runs. The source channel is excluded; non-text-based channel
-/// types (category/link) are filtered out.
+/// consecutive runs. Non-text-based channel types (category/link) are filtered
+/// out.
 @riverpod
 Future<List<ForwardDestination>> forwardDestinations(
   Ref ref, {
@@ -120,9 +120,6 @@ Future<List<ForwardDestination>> forwardDestinations(
   final List<ForwardDestination> destinations = <ForwardDestination>[];
 
   for (final DmConversation dm in conversations) {
-    if (dm.id == sourceChannelId) {
-      continue;
-    }
     final ForwardDestinationKind kind = dm.isPersonalNotes
         ? ForwardDestinationKind.personalNotes
         : dm.isGroup
@@ -155,9 +152,8 @@ Future<List<ForwardDestination>> forwardDestinations(
       allChannels
           .where(
             (Channel c) =>
-                c.id != sourceChannelId &&
-                (c.type == ChannelType.guildText ||
-                    c.type == ChannelType.guildVoice),
+                c.type == ChannelType.guildText ||
+                c.type == ChannelType.guildVoice,
           )
           .toList()
         ..sort((Channel a, Channel b) {

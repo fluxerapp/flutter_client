@@ -6,9 +6,9 @@ import 'package:fluxer_app/features/dm/providers/dm_list_presence_provider.dart'
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
-import 'package:material_ui/material_ui.dart';
 
 class DmListTileSubtext extends ConsumerWidget {
   const DmListTileSubtext({

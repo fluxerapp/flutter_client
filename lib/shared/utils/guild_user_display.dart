@@ -3,9 +3,9 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_hash.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:material_ui/material_ui.dart';
 
 const int guildProfileDefaultAccentColor = 0x4641D9;
 const int guildProfileAvatarUnsetFlag = 1 << 0;
@@ -315,6 +315,7 @@ GuildUserDisplay resolveGuildUserDisplayFromProfile({
           type: GuildMemberMediaType.banner,
           hash: guildBanner,
           size: MediaProxySizes.profileBannerModal,
+          animated: true,
         )
       : FluxerMediaUrl.userBanner(
           userId: user.id,

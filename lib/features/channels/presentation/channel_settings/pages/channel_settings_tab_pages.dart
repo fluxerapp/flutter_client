@@ -4,7 +4,7 @@ import 'package:fluxer_app/features/channels/domain/channel_settings_tab.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/channel_settings_gate.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/channel_settings_page_shell.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/channel_settings_tab_body.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class ChannelSettingsOverviewPage extends ConsumerWidget {
   const ChannelSettingsOverviewPage({required this.channelId, super.key});

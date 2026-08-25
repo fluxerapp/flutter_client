@@ -3,10 +3,10 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/markdown_timestamp_format.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/markdown/fluxer_markdown_adapter.dart';
 import 'package:fluxer_app/shared/markdown/message_markdown_settings.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
-import 'package:material_ui/material_ui.dart';
 
 class MessageMarkdown extends ConsumerWidget {
   const MessageMarkdown({
@@ -46,39 +46,41 @@ class MessageMarkdown extends ConsumerWidget {
         MessageMarkdownSettingsScope.maybeOf(context) ??
         MessageMarkdownSettings.watch(ref, context);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    return MessageMarkdownBinding(
-      channelId: channelId,
-      guildId: guildId,
-      mentionChannels: mentionChannels,
-      child: FluxerMarkdown(
-        data: data,
-        parseCacheKey: messageId,
-        config: createFluxerMarkdownConfig(
-          context: context,
-          revealSpoilers: revealSpoilers,
-          spoilerSyncController: spoilerSyncController,
-          alwaysUnderlineLinks: settings.alwaysUnderlineLinks,
-          dimStrikethroughText: settings.dimStrikethroughText,
-          animateCustomEmoji: settings.animateCustomEmoji,
-          selectionContextMenuBuilder: selectable
-              ? settings.selectionContextMenuBuilder ??
-                    selectionMenuBuilderFor(settings.searchEngines)
-              : null,
-          timestampFormatter: (DateTime localDateTime, String style) {
-            return formatMarkdownTimestamp(
-              localDateTime,
-              style,
-              l10n,
-              use12Hour: settings.use12Hour,
-            );
-          },
+    return FluxerBoundedTextClip(
+      child: MessageMarkdownBinding(
+        channelId: channelId,
+        guildId: guildId,
+        mentionChannels: mentionChannels,
+        child: FluxerMarkdown(
+          data: data,
+          parseCacheKey: messageId,
+          config: createFluxerMarkdownConfig(
+            context: context,
+            revealSpoilers: revealSpoilers,
+            spoilerSyncController: spoilerSyncController,
+            alwaysUnderlineLinks: settings.alwaysUnderlineLinks,
+            dimStrikethroughText: settings.dimStrikethroughText,
+            animateCustomEmoji: settings.animateCustomEmoji,
+            selectionContextMenuBuilder: selectable
+                ? settings.selectionContextMenuBuilder ??
+                      selectionMenuBuilderFor(settings.searchEngines)
+                : null,
+            timestampFormatter: (DateTime localDateTime, String style) {
+              return formatMarkdownTimestamp(
+                localDateTime,
+                style,
+                l10n,
+                use12Hour: settings.use12Hour,
+              );
+            },
+          ),
+          baseStyle: baseStyle ?? context.textStyles.messageText,
+          selectable: selectable,
+          context: markdownContext,
+          maxLines: maxLines,
+          overflow: overflow,
+          trailingInlineWidget: trailingInlineWidget,
         ),
-        baseStyle: baseStyle ?? context.textStyles.messageText,
-        selectable: selectable,
-        context: markdownContext,
-        maxLines: maxLines,
-        overflow: overflow,
-        trailingInlineWidget: trailingInlineWidget,
       ),
     );
   }

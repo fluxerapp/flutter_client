@@ -2,11 +2,11 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji_sprite_sheet.dart';
 import 'package:fluxer_app/shared/utils/emoji_utils.dart'
     show kSkinToneSurrogates;
-import 'package:material_ui/material_ui.dart';
 
 final RegExp _customWirePattern = RegExp(r'<(a?):([a-zA-Z0-9_]+):(\d+)>');
 final RegExp _skinToneShortcodePattern = RegExp(
@@ -93,20 +93,55 @@ String substituteEmojiTokens(
     return allocate(EmojiInlineToken(displayName: name, wireText: ':$name:'));
   });
 
+  return substituteUnicodeEmojiTokens(result, allocate).text;
+}
+
+/// A range holding one registry-resolvable raw unicode emoji.
+typedef UnicodeEmojiRange = ({int start, int end});
+
+/// Text with raw unicode emoji swapped for sentinels, plus the ranges they
+/// occupied, in order, for remapping offsets.
+typedef UnicodeEmojiSubstitution = ({
+  String text,
+  List<UnicodeEmojiRange> replaced,
+});
+
+/// Rewrites registry-resolvable raw unicode emoji in [raw] into freshly
+/// allocated sentinels.
+UnicodeEmojiSubstitution substituteUnicodeEmojiTokens(
+  String raw,
+  String Function(EmojiInlineToken token) allocate,
+) {
   final RegExp? unicodePattern = EmojiRegistry.unicodeEmojiRegexSync;
-  if (unicodePattern == null) {
-    return result;
+  // No registry sequence is built from code units below U+00A9.
+  if (unicodePattern == null ||
+      raw.codeUnits.every((int unit) => unit < 0xA9)) {
+    return (text: raw, replaced: const <UnicodeEmojiRange>[]);
   }
-  return result.replaceAllMapped(unicodePattern, (Match match) {
+  final List<UnicodeEmojiRange> replaced = <UnicodeEmojiRange>[];
+  final StringBuffer buffer = StringBuffer();
+  int cursor = 0;
+  for (final RegExpMatch match in unicodePattern.allMatches(raw)) {
     final String surrogate = match.group(0)!;
     final EmojiEntry? entry = EmojiRegistry.entryBySurrogates(surrogate);
     if (entry == null) {
-      return surrogate;
+      continue;
     }
-    return allocate(
-      EmojiInlineToken(displayName: entry.primaryName, wireText: surrogate),
-    );
-  });
+    buffer
+      ..write(raw.substring(cursor, match.start))
+      ..write(
+        allocate(
+          EmojiInlineToken(displayName: entry.primaryName, wireText: surrogate),
+        ),
+      );
+    cursor = match.end;
+    replaced.add((start: match.start, end: match.end));
+  }
+  if (replaced.isEmpty) {
+    return (text: raw, replaced: const <UnicodeEmojiRange>[]);
+  }
+  buffer.write(raw.substring(cursor));
+  return (text: buffer.toString(), replaced: replaced);
 }
 
 class _EmojiChip extends StatelessWidget {

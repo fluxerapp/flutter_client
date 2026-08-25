@@ -10,7 +10,7 @@ import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/radio_group/fluxer_radio_group.dart';
 import 'package:fluxer_app/features/ui/switch_group/fluxer_switch_group.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class ChannelOverviewMatureContentSection extends ConsumerWidget {
   const ChannelOverviewMatureContentSection({

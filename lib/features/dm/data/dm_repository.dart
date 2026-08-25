@@ -231,7 +231,7 @@ class DmRepository {
       await _db.dmChannelDao.upsertDmChannels(companions);
 
       final rows = await _db.dmChannelDao.getDmChannels();
-      return _buildConversations(rows);
+      return await _buildConversations(rows);
     } on DioException catch (e) {
       throw Exception(
         e.response?.statusMessage ?? 'Failed to fetch DM channels',

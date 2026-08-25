@@ -7,7 +7,7 @@ import 'package:fluxer_app/features/settings/providers/voice_settings_provider.d
 import 'package:fluxer_app/features/settings/utils/advanced_setting_visibility.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 Future<void> showAdvancedMediaButtonsSheet(BuildContext context) {
   final l10n = FluxerLocalizations.of(context);

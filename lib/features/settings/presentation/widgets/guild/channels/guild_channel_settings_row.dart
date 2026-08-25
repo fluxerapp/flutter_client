@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
@@ -7,7 +9,7 @@ import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.d
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels/guild_channel_drop_indicator.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels/guild_channel_settings_draggable.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels/guild_channel_settings_entries.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 typedef GuildChannelDropHoverCallback =
     void Function(
@@ -163,7 +165,9 @@ class _GuildChannelSettingsRowState
                     onDragEnded: widget.onDragEnded,
                     onDragMove: widget.onDragMove ?? (_) {},
                     onTap: () {
-                      ChannelSettingsFlow.show(context, channelId: entry.id);
+                      unawaited(
+                        ChannelSettingsFlow.show(context, channelId: entry.id),
+                      );
                     },
                   ),
                   if (!isBeingDragged && showTopIndicator)

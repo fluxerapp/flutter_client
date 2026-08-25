@@ -11,8 +11,8 @@ import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.d
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_nav_list.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class ChannelSettingsNavPage extends ConsumerWidget {

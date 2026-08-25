@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 /// Restarts the local camera track after device orientation changes.
 class LocalCameraOrientationSync extends ConsumerStatefulWidget {

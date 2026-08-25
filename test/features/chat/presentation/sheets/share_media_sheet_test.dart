@@ -23,7 +23,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart'
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../helpers/open_test_database.dart';

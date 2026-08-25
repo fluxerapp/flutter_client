@@ -10,8 +10,8 @@ import 'package:fluxer_app/features/voice/providers/voice_call_display_preferenc
 import 'package:fluxer_app/features/voice/providers/voice_channel_text_chat_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_noise_filter_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:livekit_client/livekit_client.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const Key kVoiceControlPanelSettingsKey = Key('voice-control-panel-settings');
@@ -24,6 +24,9 @@ const Key kVoiceControlPanelOnlyShowVideosKey = Key(
 );
 const Key kVoiceControlPanelShowOwnCameraKey = Key(
   'voice-control-panel-show-own-camera',
+);
+const Key kVoiceControlPanelPrioritizeSpeakersKey = Key(
+  'voice-control-panel-prioritize-speakers',
 );
 
 class VoiceChannelControlPanelSettings extends ConsumerWidget {
@@ -147,6 +150,19 @@ class VoiceChannelControlPanelSettings extends ConsumerWidget {
                 value: displayPreferences.showOwnCamera,
                 onChanged: (bool value) {
                   displayNotifier.setShowOwnCamera(value: value);
+                },
+              ),
+              VoicePanelSettingSwitchRow(
+                key: kVoiceControlPanelPrioritizeSpeakersKey,
+                icon: PhosphorIconsFill.handTap,
+                label: l10n.voicePrioritizeSpeakersLabel,
+                value: settings.prioritizeSpeakingParticipants,
+                onChanged: (bool value) {
+                  unawaited(
+                    settingsNotifier.setPrioritizeSpeakingParticipants(
+                      value: value,
+                    ),
+                  );
                 },
               ),
             ],

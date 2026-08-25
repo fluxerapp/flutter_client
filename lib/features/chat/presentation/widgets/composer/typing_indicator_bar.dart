@@ -13,10 +13,10 @@ import 'package:fluxer_app/features/settings/providers/blocked_users_view_model.
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar_stack.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
-import 'package:material_ui/material_ui.dart';
 
 const double _kAvatarSize = 12;
 const int _kMaxVisibleAvatars = 5;

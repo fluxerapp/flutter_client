@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/ui/input/emoji_text_editing_controller.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 List<InlineSpan> _flattenInlineSpans(InlineSpan span) {
   if (span is TextSpan && span.children != null) {
@@ -449,6 +449,16 @@ void main() {
       test('returns zero for empty text', () {
         expect(controller.actualTextLength, 0);
       });
+
+      test('counts a keyboard-committed emoji as its two wire chars', () {
+        controller.value = const TextEditingValue(
+          text: '\u{1F600}',
+          selection: TextSelection.collapsed(offset: 2),
+        );
+
+        expect(controller.actualTextLength, controller.actualText.length);
+        expect(controller.actualTextLength, 2);
+      });
     });
 
     group('buildTextSpan', () {
@@ -780,6 +790,16 @@ void main() {
 
         expect(controller.actualText, ':x:');
         expect(controller.text.length, 1);
+      });
+
+      test('keeps the caret off a surrogate pair when stripping sentinels', () {
+        controller.value = const TextEditingValue(
+          text: '\u{1F600}\uE000',
+          selection: TextSelection.collapsed(offset: 2),
+        );
+
+        expect(controller.text, '\u{1F600}');
+        expect(controller.selection.baseOffset, 2);
       });
     });
   });

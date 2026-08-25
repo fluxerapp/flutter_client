@@ -9,11 +9,14 @@ import 'package:fluxer_app/features/chat/presentation/sheets/attachment_alt_text
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/message_bottom_sheet.dart';
 import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/attachment_download_service.dart';
+import 'package:fluxer_app/features/chat/utils/favorite_media_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media_favorite_state.dart';
+import 'package:fluxer_app/features/chat/utils/save_message_media_favorite.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 Future<void> showMobileMediaOptionsSheet({
@@ -71,7 +74,38 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
     final String linkUrl = launchContext.fallbackUrl.trim();
     final String? downloadUrl = _downloadUrl();
     final MessageMediaActionScope? actionScope = launchContext.actionScope;
+    final Attachment? attachment = actionScope == null
+        ? null
+        : resolveMessageAttachment(
+            actionScope.message,
+            launchContext.attachmentId,
+          );
+    final MessageMediaFavoriteTarget? favoriteTarget =
+        favoriteTargetForMessageMedia(
+          actionScope: actionScope,
+          attachmentId: launchContext.attachmentId,
+          embedIndex: launchContext.embedIndex,
+          filename: launchContext.filename,
+          fallbackContentHash: launchContext.contentHash,
+          attachment: attachment,
+        );
+    final MediaFavoriteState favoriteState = watchMediaFavoriteState(
+      ref,
+      target: favoriteTarget,
+    );
     final List<Widget> mediaItems = <Widget>[
+      ...buildMediaFavoriteMenuItems(
+        l10n: l10n,
+        state: favoriteState,
+        hint: launchContext.filename,
+        onAction: (MediaFavoriteMenuAction action) => unawaited(
+          _handleFavoriteAction(
+            actionScope: actionScope,
+            favoriteState: favoriteState,
+            action: action,
+          ),
+        ),
+      ),
       if (linkUrl.isNotEmpty)
         FluxerBottomSheetMenuItem(
           icon: PhosphorIconsBold.link,
@@ -113,6 +147,7 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
             },
           ),
           attachmentIdFilter: launchContext.attachmentId,
+          includeAttachmentFavoriteActions: false,
           onCloseMenu: onCloseSheet,
         ),
       );
@@ -124,6 +159,24 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
         padding: EdgeInsets.symmetric(horizontal: context.layout.s4),
       ),
       child: FluxerBottomSheetGroupColumn(children: groups),
+    );
+  }
+
+  Future<void> _handleFavoriteAction({
+    required MessageMediaActionScope? actionScope,
+    required MediaFavoriteState favoriteState,
+    required MediaFavoriteMenuAction action,
+  }) async {
+    onCloseSheet();
+    if (!hostContext.mounted || actionScope == null) {
+      return;
+    }
+    await handleMediaFavoriteMenuAction(
+      ref: hostRef,
+      context: hostContext,
+      message: actionScope.message,
+      state: favoriteState,
+      action: action,
     );
   }
 
@@ -163,40 +216,18 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
     if (!hostContext.mounted) {
       return;
     }
-    final Attachment? resolved = _resolveAttachment(
-      actionScope.message,
-      attachment,
-      launchContext.attachmentId,
-    );
-    if (resolved == null) {
-      return;
-    }
+    final Attachment resolved =
+        resolveMessageAttachment(
+          actionScope.message,
+          launchContext.attachmentId,
+        ) ??
+        attachment;
     await editMessageAttachmentAltText(
       hostContext,
       hostRef,
       messageId: actionScope.message.id,
       attachment: resolved,
     );
-  }
-
-  Attachment? _resolveAttachment(
-    Message message,
-    Attachment attachment,
-    String? viewedAttachmentId,
-  ) {
-    if (viewedAttachmentId != null && viewedAttachmentId.isNotEmpty) {
-      for (final Attachment candidate in message.attachments) {
-        if (candidate.id == viewedAttachmentId) {
-          return candidate;
-        }
-      }
-    }
-    for (final Attachment candidate in message.attachments) {
-      if (candidate.id == attachment.id) {
-        return candidate;
-      }
-    }
-    return null;
   }
 
   Future<void> _handleMessageAction(

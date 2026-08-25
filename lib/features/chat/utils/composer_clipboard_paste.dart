@@ -7,7 +7,7 @@ import 'package:fluxer_app/features/chat/utils/clipboard_attachment_reader.dart'
 import 'package:fluxer_app/features/chat/utils/composer_upload_file.dart';
 import 'package:fluxer_app/features/chat/utils/file_upload_validator.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 export 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart'
     show readClipboardPlainText;
@@ -40,6 +40,7 @@ Future<void> pasteIntoComposer({
   required int maxLength,
   required bool canAttachOnExceed,
   required void Function(String pastedText) onPasteExceedsLimit,
+  void Function()? onPasteLostContent,
 }) async {
   final String? clipboardText = await readClipboardPlainText();
   if (clipboardText == null || clipboardText.isEmpty) {
@@ -47,6 +48,12 @@ Future<void> pasteIntoComposer({
   }
   final String sanitized = stripPrivateUseCharacters(clipboardText);
   if (sanitized.isEmpty) {
+    if (wireTextLostContentAfterSanitize(
+      rawWireText: clipboardText,
+      sanitizedWireText: sanitized,
+    )) {
+      onPasteLostContent?.call();
+    }
     return;
   }
   if (canAttachOnExceed) {
@@ -70,6 +77,7 @@ Future<void> handleComposerPaste({
   int? maxMessageLength,
   bool Function()? canAttachOnExceed,
   void Function(String pastedText)? onPasteExceedsLimit,
+  void Function()? onPasteLostContent,
   void Function(FileUploadValidationResult result)? onValidationResult,
 }) async {
   final FileUploadValidationResult? attachmentResult =
@@ -91,6 +99,7 @@ Future<void> handleComposerPaste({
       maxLength: maxMessageLength,
       canAttachOnExceed: canAttachOnExceed(),
       onPasteExceedsLimit: onPasteExceedsLimit,
+      onPasteLostContent: onPasteLostContent,
     );
     return;
   }

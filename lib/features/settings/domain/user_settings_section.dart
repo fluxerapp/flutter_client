@@ -22,4 +22,5 @@ enum UserSettingsSection {
   limitsConfig,
   featureFlags,
   whatsNew,
+  appLicenses,
 }

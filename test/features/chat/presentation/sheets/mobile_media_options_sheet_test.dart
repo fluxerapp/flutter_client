@@ -7,12 +7,14 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
+import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/media_options_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/mobile_media_options_sheet.dart';
 import 'package:fluxer_app/features/chat/providers/messages/saved_message_provider.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../helpers/test_l10n.dart';
@@ -27,7 +29,12 @@ const String _externalEmbedUrl =
 Widget _wrap(Widget child, {List<Override> overrides = const []}) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
-    overrides: overrides,
+    overrides: <Override>[
+      favoriteMemesProvider.overrideWith(
+        (Ref ref) => Stream<List<FavoriteMeme>>.value(const <FavoriteMeme>[]),
+      ),
+      ...overrides,
+    ],
     child: MaterialApp(
       locale: kTestLocale,
       theme: buildFluxerTheme(

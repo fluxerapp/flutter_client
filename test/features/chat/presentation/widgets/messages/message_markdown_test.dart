@@ -8,9 +8,11 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-import 'package:material_ui/material_ui.dart';
+
+import '../../../../../helpers/rendered_text_test_helpers.dart';
 
 Widget _app({
   required Locale locale,
@@ -38,10 +40,8 @@ Widget _app({
   );
 }
 
-List<String> _renderedTexts(WidgetTester tester) => tester
-    .widgetList<RichText>(find.byType(RichText))
-    .map((RichText richText) => richText.text.toPlainText())
-    .toList();
+List<String> _renderedTexts(WidgetTester tester) =>
+    renderedTextContents(tester);
 
 void main() {
   setUpAll(() async {

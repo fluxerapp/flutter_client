@@ -9,8 +9,8 @@ import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_context_menu.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_menu_data.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class VoiceChannelParticipantsList extends ConsumerWidget {

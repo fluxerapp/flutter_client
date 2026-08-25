@@ -23,7 +23,7 @@ class UnreadChannelsSyncedField
 
   @override
   UnreadChannelsLocalState readLocal() {
-    return const UnreadChannelsLocalState(collapsedChannelIds: []);
+    throw UnsupportedError('Use readLocalValue for unread channels');
   }
 
   @override

@@ -13,8 +13,8 @@ import 'package:fluxer_app/features/settings/providers/notification_preferences_
 import 'package:fluxer_app/features/settings/providers/sound_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_sync_service.dart';
 import 'package:fluxer_app/features/shell/providers/push_notification_permission_status_provider.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:material_ui/material_ui.dart';
 
 import '../../helpers/test_l10n.dart';
 

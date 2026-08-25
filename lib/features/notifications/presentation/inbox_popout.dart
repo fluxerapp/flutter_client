@@ -17,7 +17,7 @@ import 'package:fluxer_app/features/ui/settings/fluxer_settings_confirm_sheet.da
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 enum InboxTab { unreads, bookmarks, mentions }

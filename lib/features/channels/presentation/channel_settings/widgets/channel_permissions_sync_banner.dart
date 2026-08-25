@@ -3,7 +3,7 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class ChannelPermissionsSyncBanner extends StatelessWidget {
   const ChannelPermissionsSyncBanner({

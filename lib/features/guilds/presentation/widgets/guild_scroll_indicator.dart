@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_scroll_indicator_selection.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 enum GuildScrollIndicatorSeverity { unread, mention }
 

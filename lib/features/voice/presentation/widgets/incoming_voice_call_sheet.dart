@@ -10,8 +10,8 @@ import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const String kIncomingVoiceResultAccept = 'accept';
@@ -77,7 +77,7 @@ Future<String?> showIncomingVoiceCallSheet(
   );
 }
 
-class _IncomingVoiceCallSheetBody extends ConsumerWidget {
+class _IncomingVoiceCallSheetBody extends ConsumerStatefulWidget {
   const _IncomingVoiceCallSheetBody({
     required this.sheetContext,
     required this.scrollController,
@@ -88,27 +88,47 @@ class _IncomingVoiceCallSheetBody extends ConsumerWidget {
   final ScrollController scrollController;
   final String channelId;
 
+  @override
+  ConsumerState<_IncomingVoiceCallSheetBody> createState() =>
+      _IncomingVoiceCallSheetBodyState();
+}
+
+class _IncomingVoiceCallSheetBodyState
+    extends ConsumerState<_IncomingVoiceCallSheetBody> {
+  bool _hasPopped = false;
+
   void _pop(String value) {
-    Navigator.of(sheetContext, rootNavigator: true).pop<String>(value);
+    if (_hasPopped || !widget.sheetContext.mounted) {
+      return;
+    }
+    final NavigatorState navigator = Navigator.of(
+      widget.sheetContext,
+      rootNavigator: true,
+    );
+    if (!navigator.canPop()) {
+      return;
+    }
+    _hasPopped = true;
+    navigator.pop<String>(value);
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef bodyRef) {
-    bodyRef.listen<List<String>>(pendingIncomingVoiceChannelIdsProvider, (
+  Widget build(BuildContext context) {
+    ref.listen<List<String>>(pendingIncomingVoiceChannelIdsProvider, (
       List<String>? _,
       List<String> next,
     ) {
-      if (!next.contains(channelId)) {
+      if (!next.contains(widget.channelId)) {
         _pop(kIncomingVoiceResultRemoteDismiss);
       }
     });
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final List<DmConversation> conversations = bodyRef.watch(
+    final List<DmConversation> conversations = ref.watch(
       dmViewModelProvider.select((DmViewState s) => s.conversations),
     );
-    final DmConversation? dm = findDmById(conversations, channelId);
-    final AsyncValue<Channel?> channelWatch = bodyRef.watch(
-      channelByIdProvider(channelId),
+    final DmConversation? dm = findDmById(conversations, widget.channelId);
+    final AsyncValue<Channel?> channelWatch = ref.watch(
+      channelByIdProvider(widget.channelId),
     );
     final Channel? guildChannel = switch (channelWatch) {
       AsyncData(:final value) => value,
@@ -117,12 +137,12 @@ class _IncomingVoiceCallSheetBody extends ConsumerWidget {
     final String centeredName = _resolveSheetHeaderTitle(
       dm: dm,
       guildChannel: guildChannel,
-      channelId: channelId,
+      channelId: widget.channelId,
       l10n: l10n,
     );
     final layout = context.layout;
     return SingleChildScrollView(
-      controller: scrollController,
+      controller: widget.scrollController,
       padding: FluxerBottomSheet.scrollViewPadding(
         context,
         padding: EdgeInsets.symmetric(horizontal: layout.s4),

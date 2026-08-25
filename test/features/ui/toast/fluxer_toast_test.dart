@@ -7,7 +7,7 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast_overlay.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 import '../../../helpers/test_l10n.dart';
 

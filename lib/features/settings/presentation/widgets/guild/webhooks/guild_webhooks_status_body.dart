@@ -1,7 +1,7 @@
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/webhooks/guild_webhooks_header.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class GuildWebhooksStatusBody extends StatelessWidget {
   const GuildWebhooksStatusBody({

@@ -4,7 +4,7 @@ import 'package:fluxer_app/core/theme/custom_theme_css.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/themes/coal.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 void main() {
   group('custom_theme_css', () {

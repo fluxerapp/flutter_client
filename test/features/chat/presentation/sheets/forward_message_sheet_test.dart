@@ -26,7 +26,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart'
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_popout.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
@@ -302,18 +302,17 @@ void main() {
   });
 
   group('showForwardMessageSheet', () {
-    testWidgets('renders destinations and excludes the source channel', (
+    testWidgets('renders destinations including the source channel', (
       WidgetTester tester,
     ) async {
       final FluxerDatabase db = await _seedDb();
       await _openSheet(tester, db);
 
       expect(find.text('general'), findsOneWidget);
+      await _ensureDestinationVisible(tester, 'source-chan');
+      expect(find.text('source-chan'), findsOneWidget);
       await _ensureDestinationVisible(tester, 'voice-room');
       expect(find.text('voice-room'), findsOneWidget);
-      expect(find.text('Alice'), findsOneWidget);
-      // The source channel is never a forward destination.
-      expect(find.text('source-chan'), findsNothing);
     });
 
     testWidgets('updates the send count as destinations are selected', (
@@ -362,6 +361,25 @@ void main() {
       expect(find.text('voice-room'), findsOneWidget);
       expect(find.text('general'), findsNothing);
       expect(find.text('Alice'), findsNothing);
+    });
+
+    testWidgets('includes the source channel when searching by its name', (
+      WidgetTester tester,
+    ) async {
+      final FluxerDatabase db = await _seedDb();
+      await _openSheet(tester, db);
+
+      await tester.enterText(find.byType(TextField).first, 'source-chan');
+      await tester.pump();
+
+      expect(
+        find.descendant(
+          of: find.byType(ListView),
+          matching: find.text('source-chan'),
+        ),
+        findsOneWidget,
+      );
+      expect(find.text('general'), findsNothing);
     });
 
     testWidgets('keeps the destination list visible while it reloads', (
@@ -442,8 +460,8 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('general'), findsOneWidget);
-      // The source channel is never a forward destination.
-      expect(find.text('source-chan'), findsNothing);
+      await _ensureDestinationVisible(tester, 'source-chan');
+      expect(find.text('source-chan'), findsOneWidget);
     });
 
     testWidgets('surfaces the comment counter past the 80% threshold', (

@@ -7,7 +7,7 @@ import 'package:fluxer_app/features/dm/presentation/widgets/create_dm_body.dart'
 import 'package:fluxer_app/features/dm/providers/create_dm_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class CreateDmBottomSheet {
   CreateDmBottomSheet._();

@@ -10,10 +10,10 @@ import 'package:fluxer_app/features/guilds/providers/guild_drag_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_folder_icon.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class GuildDragData {

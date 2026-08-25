@@ -14,6 +14,7 @@ import 'package:fluxer_markdown/src/parsing/inline_parse_chunks.dart';
 import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
 import 'package:fluxer_markdown/src/syntaxes/fluxer_markdown_syntaxes.dart';
 import 'package:fluxer_markdown/src/utils/ansi_text_parser.dart';
+import 'package:fluxer_markdown/src/utils/bounded_text.dart';
 import 'package:fluxer_markdown/src/utils/code_block_highlight.dart';
 import 'package:fluxer_markdown/src/utils/highlight_languages.dart';
 import 'package:fluxer_markdown/src/utils/jumbo_emoji.dart';
@@ -278,15 +279,15 @@ Widget buildFluxerMarkdownTextFlow({
     return const SizedBox.shrink();
   }
   if (text.replaceAll('\n', '').isEmpty) {
-    final RichText richText = RichText(
-      text: TextSpan(text: text, style: baseStyle),
-      textScaler: MediaQuery.textScalerOf(context),
-      maxLines: maxLines,
-      overflow: overflow ?? TextOverflow.clip,
-      textWidthBasis: TextWidthBasis.longestLine,
-    );
     return wrapFluxerMarkdownSelectable(
-      body: richText,
+      body: buildFluxerBoundedRichText(
+        text: TextSpan(text: text, style: baseStyle),
+        baseStyle: baseStyle,
+        textScaler: MediaQuery.textScalerOf(context),
+        maxLines: maxLines,
+        overflow: overflow,
+        textWidthBasis: TextWidthBasis.longestLine,
+      ),
       selectable: selectable,
       config: config,
     );
@@ -305,50 +306,66 @@ Widget buildFluxerMarkdownTextFlow({
       allowJumboEmoji &&
       features.allowJumboEmoji &&
       _textFlowAllowsJumboEmoji(chunkNodesList);
-  final spans = <InlineSpan>[];
-  for (var i = 0; i < chunks.length; i++) {
-    if (i > 0) {
-      spans.add(
-        TextSpan(
-          text: features.isRestrictedInlinePreview ? ' ' : '\n',
-          style: baseStyle,
-        ),
-      );
+  final bool mayHaveInlineSpoilers = text.contains('||');
+  final _SpoilerIndexCounter spoilerIndexCounter = _SpoilerIndexCounter();
+
+  Widget buildRichTextWidget(BuildContext buildContext) {
+    spoilerIndexCounter.reset();
+    final spans = <InlineSpan>[];
+    for (var i = 0; i < chunks.length; i++) {
+      if (i > 0) {
+        spans.add(
+          TextSpan(
+            text: features.isRestrictedInlinePreview ? ' ' : '\n',
+            style: baseStyle,
+          ),
+        );
+      }
+      final chunkNodes = chunkNodesList[i];
+      if (chunkNodes.isEmpty) {
+        continue;
+      }
+      final chunkSpans = _MarkdownInlineRenderer(
+        context: buildContext,
+        baseStyle: baseStyle,
+        config: config,
+        features: features,
+        isDark: isDark,
+        jumbo: useJumbo,
+        maxLines: maxLines,
+        overflow: overflow,
+        spoilerIndexCounter: spoilerIndexCounter,
+      ).build(chunkNodes);
+      spans.addAll(chunkSpans);
     }
-    final chunkNodes = chunkNodesList[i];
-    if (chunkNodes.isEmpty) {
-      continue;
+    if (spans.isEmpty) {
+      return const SizedBox.shrink();
     }
-    final chunkSpans = _MarkdownInlineRenderer(
-      context: context,
+    if (trailingInlineWidget != null) {
+      appendTrailingInlineWidget(spans, baseStyle, trailingInlineWidget);
+    }
+    final Widget richText = buildFluxerBoundedRichText(
+      text: TextSpan(style: baseStyle, children: spans),
       baseStyle: baseStyle,
-      config: config,
-      features: features,
-      isDark: isDark,
-      jumbo: useJumbo,
+      textScaler: MediaQuery.textScalerOf(buildContext),
       maxLines: maxLines,
       overflow: overflow,
-    ).build(chunkNodes);
-    spans.addAll(chunkSpans);
+      textWidthBasis: trailingInlineWidget != null || maxLines != null
+          ? TextWidthBasis.parent
+          : TextWidthBasis.longestLine,
+    );
+    if (trailingInlineWidget != null) {
+      return SizedBox(width: double.infinity, child: richText);
+    }
+    return richText;
   }
-  if (spans.isEmpty) {
-    return const SizedBox.shrink();
-  }
-  if (trailingInlineWidget != null) {
-    appendTrailingInlineWidget(spans, baseStyle, trailingInlineWidget);
-  }
-  final RichText richText = RichText(
-    text: TextSpan(style: baseStyle, children: spans),
-    textScaler: MediaQuery.textScalerOf(context),
-    maxLines: maxLines,
-    overflow: overflow ?? TextOverflow.clip,
-    textWidthBasis: trailingInlineWidget != null || maxLines != null
-        ? TextWidthBasis.parent
-        : TextWidthBasis.longestLine,
-  );
-  final Widget body = trailingInlineWidget != null
-      ? SizedBox(width: double.infinity, child: richText)
-      : richText;
+
+  final Widget body =
+      maxLines == null &&
+          !config.spoilersInitiallyRevealed &&
+          mayHaveInlineSpoilers
+      ? _FluxerSpoilerRevealHost(config: config, builder: buildRichTextWidget)
+      : buildRichTextWidget(context);
   return wrapFluxerMarkdownSelectable(
     body: body,
     selectable: selectable,
@@ -458,11 +475,12 @@ class _MarkdownBlockRenderer {
     if (spans.isEmpty) {
       return const SizedBox.shrink();
     }
-    return RichText(
+    return buildFluxerBoundedRichText(
       text: TextSpan(style: baseStyle, children: spans),
+      baseStyle: baseStyle,
       textScaler: MediaQuery.textScalerOf(context),
       maxLines: maxLines,
-      overflow: overflow ?? TextOverflow.clip,
+      overflow: overflow,
     );
   }
 
@@ -511,6 +529,7 @@ class _MarkdownBlockRenderer {
           jumbo: false,
           maxLines: maxLines,
           overflow: overflow,
+          spoilerIndexCounter: _SpoilerIndexCounter(),
         ).build(node.children ?? const []);
       case 'pre':
         final codeElement = node.children
@@ -546,6 +565,7 @@ class _MarkdownBlockRenderer {
             jumbo: false,
             maxLines: maxLines,
             overflow: overflow,
+            spoilerIndexCounter: _SpoilerIndexCounter(),
           ).build([node]);
         }
         final spans = <InlineSpan>[];
@@ -640,27 +660,30 @@ class _MarkdownBlockRenderer {
           style == null && features.allowJumboEmoji && _allNodesAreEmoji(nodes),
       maxLines: maxLines,
       overflow: overflow,
+      spoilerIndexCounter: _SpoilerIndexCounter(),
     ).build(nodes);
 
     if (spans.isEmpty) {
-      return RichText(
+      return buildFluxerBoundedRichText(
         text: TextSpan(text: '\n', style: effectiveStyle),
+        baseStyle: effectiveStyle,
         textAlign: textAlign ?? TextAlign.start,
         textScaler: MediaQuery.textScalerOf(context),
         maxLines: maxLines,
-        overflow: overflow ?? TextOverflow.clip,
+        overflow: overflow,
         textWidthBasis: maxLines != null
             ? TextWidthBasis.parent
             : TextWidthBasis.longestLine,
       );
     }
 
-    return RichText(
+    return buildFluxerBoundedRichText(
       text: TextSpan(style: effectiveStyle, children: spans),
+      baseStyle: effectiveStyle,
       textAlign: textAlign ?? TextAlign.start,
       textScaler: MediaQuery.textScalerOf(context),
       maxLines: maxLines,
-      overflow: overflow ?? TextOverflow.clip,
+      overflow: overflow,
       textWidthBasis: maxLines != null
           ? TextWidthBasis.parent
           : TextWidthBasis.longestLine,
@@ -885,11 +908,13 @@ class _MarkdownBlockRenderer {
       children: [
         SizedBox(
           width: markerColumnWidth,
-          child: RichText(
+          child: buildFluxerBoundedRichText(
             text: TextSpan(text: marker, style: baseStyle),
+            baseStyle: baseStyle,
             textAlign: markerTextAlign,
             textScaler: textScaler,
             maxLines: 1,
+            overflow: TextOverflow.clip,
             softWrap: false,
           ),
         ),
@@ -1067,13 +1092,14 @@ class _MarkdownBlockRenderer {
 }
 
 class _MarkdownInlineRenderer {
-  const _MarkdownInlineRenderer({
+  _MarkdownInlineRenderer({
     required this.context,
     required this.baseStyle,
     required this.config,
     required this.features,
     required this.isDark,
     required this.jumbo,
+    required this.spoilerIndexCounter,
     this.maxLines,
     this.overflow,
   });
@@ -1084,6 +1110,7 @@ class _MarkdownInlineRenderer {
   final FluxerMarkdownFeatures features;
   final bool isDark;
   final bool jumbo;
+  final _SpoilerIndexCounter spoilerIndexCounter;
   final int? maxLines;
   final TextOverflow? overflow;
 
@@ -1220,37 +1247,13 @@ class _MarkdownInlineRenderer {
           ),
         );
       case FluxerSpoilerSyntax.tag:
-        final List<InlineSpan> spoilerChildren = build(
-          node.children ?? const [],
-          style: effectiveStyle,
-        );
-        if (config.spoilersInitiallyRevealed && maxLines != null) {
-          return TextSpan(style: effectiveStyle, children: spoilerChildren);
-        }
-        final bool constrainToSingleLine = maxLines != null;
-        return WidgetSpan(
-          alignment: constrainToSingleLine
-              ? PlaceholderAlignment.baseline
-              : PlaceholderAlignment.middle,
-          baseline: constrainToSingleLine ? TextBaseline.alphabetic : null,
-          child: _FluxerSpoilerSpan(
-            initiallyRevealed: config.spoilersInitiallyRevealed,
-            spoilerBackgroundColor: config.spoilerBackgroundColor,
-            spoilerSyncController: config.spoilerSyncController,
-            syncKeys: _collectSpoilerSyncKeys(
-              node,
-              config.spoilerSyncKeyNormalizer,
-            ),
-            child: RichText(
-              text: TextSpan(style: effectiveStyle, children: spoilerChildren),
-              textScaler: MediaQuery.textScalerOf(context),
-              maxLines: maxLines,
-              overflow: overflow ?? TextOverflow.clip,
-              textWidthBasis: constrainToSingleLine
-                  ? TextWidthBasis.parent
-                  : TextWidthBasis.longestLine,
-            ),
+        return _buildInlineSpoilerSpan(
+          node: node,
+          spoilerChildren: build(
+            node.children ?? const [],
+            style: effectiveStyle,
           ),
+          effectiveStyle: effectiveStyle,
         );
       // Jumbo only changes size; emoji always render as images (issue #655).
       case FluxerUnicodeEmojiToneSyntax.tag:
@@ -1263,6 +1266,7 @@ class _MarkdownInlineRenderer {
             unicodeEmojiUrlBuilder: config.unicodeEmojiUrlBuilder,
             customEmojiUrlBuilder: config.customEmojiUrlBuilder,
             animateCustomEmoji: config.animateCustomEmoji,
+            onEmojiLongPress: config.onEmojiLongPress,
             jumbo: jumbo,
           ),
         );
@@ -1456,6 +1460,86 @@ class _MarkdownInlineRenderer {
     }
     await launchUrl(uri, mode: LaunchMode.externalApplication);
   }
+
+  InlineSpan _buildInlineSpoilerSpan({
+    required md.Element node,
+    required List<InlineSpan> spoilerChildren,
+    required TextStyle effectiveStyle,
+  }) {
+    final List<String> syncKeys = _collectSpoilerSyncKeys(
+      node,
+      config.spoilerSyncKeyNormalizer,
+    );
+    if (maxLines != null) {
+      if (config.spoilersInitiallyRevealed) {
+        return TextSpan(style: effectiveStyle, children: spoilerChildren);
+      }
+      return WidgetSpan(
+        alignment: PlaceholderAlignment.baseline,
+        baseline: TextBaseline.alphabetic,
+        child: _FluxerSpoilerSpan(
+          initiallyRevealed: config.spoilersInitiallyRevealed,
+          spoilerBackgroundColor: config.spoilerBackgroundColor,
+          spoilerSyncController: config.spoilerSyncController,
+          syncKeys: syncKeys,
+          child: buildFluxerBoundedRichText(
+            text: TextSpan(style: effectiveStyle, children: spoilerChildren),
+            baseStyle: effectiveStyle,
+            textScaler: MediaQuery.textScalerOf(context),
+            maxLines: maxLines,
+            overflow: overflow,
+          ),
+        ),
+      );
+    }
+
+    final String spoilerId = _inlineSpoilerId(
+      node,
+      syncKeys,
+      spoilerIndexCounter.next(),
+    );
+    final _FluxerSpoilerRevealScope? revealScope =
+        _FluxerSpoilerRevealScope.maybeOf(context);
+    final bool revealed =
+        config.spoilersInitiallyRevealed ||
+        (revealScope?.isRevealed(spoilerId, syncKeys) ?? false);
+    if (revealed) {
+      final double revealOpacity =
+          revealScope?.revealOpacity(spoilerId, syncKeys) ?? 1.0;
+      if (revealOpacity >= 1.0) {
+        return TextSpan(style: effectiveStyle, children: spoilerChildren);
+      }
+      final Color hiddenBackground = _spoilerHiddenBackground(context, config);
+      return TextSpan(
+        style: effectiveStyle,
+        children: _applySpoilerRevealOpacity(
+          spoilerChildren,
+          baseStyle: effectiveStyle,
+          hiddenBackground: hiddenBackground,
+          opacity: revealOpacity,
+        ),
+      );
+    }
+
+    final Color hiddenBackground = _spoilerHiddenBackground(context, config);
+    final TextStyle hiddenStyle = _hiddenSpoilerTextStyle(
+      effectiveStyle,
+      hiddenBackground,
+    );
+    return TextSpan(
+      style: hiddenStyle,
+      mouseCursor: SystemMouseCursors.click,
+      children: _concealSpoilerInlineSpans(
+        spoilerChildren,
+        hiddenStyle: hiddenStyle,
+        hiddenBackground: hiddenBackground,
+        baseStyle: effectiveStyle,
+        obtainTapRecognizer: (VoidCallback onTap) =>
+            _obtainSpoilerTapRecognizer(context, onTap),
+        onTap: () => revealScope?.reveal(spoilerId, syncKeys),
+      ),
+    );
+  }
 }
 
 class _EmojiOnlyAnalysis {
@@ -1583,6 +1667,376 @@ List<String> _collectSpoilerSyncKeys(
   }
 
   return List<String>.unmodifiable(keys);
+}
+
+class _SpoilerIndexCounter {
+  int _next = 0;
+
+  void reset() => _next = 0;
+
+  int next() => _next++;
+}
+
+class _FluxerSpoilerRevealScope extends InheritedWidget {
+  const _FluxerSpoilerRevealScope({
+    required this.isRevealed,
+    required this.reveal,
+    required this.revealOpacity,
+    required this.obtainRecognizer,
+    required super.child,
+  });
+
+  final bool Function(String id, List<String> syncKeys) isRevealed;
+  final void Function(String id, List<String> syncKeys) reveal;
+  final double Function(String id, List<String> syncKeys) revealOpacity;
+  final TapGestureRecognizer Function(VoidCallback onTap) obtainRecognizer;
+
+  static _FluxerSpoilerRevealScope? maybeOf(BuildContext context) {
+    return context
+        .dependOnInheritedWidgetOfExactType<_FluxerSpoilerRevealScope>();
+  }
+
+  @override
+  bool updateShouldNotify(covariant _FluxerSpoilerRevealScope oldWidget) {
+    return true;
+  }
+}
+
+class _FluxerSpoilerRevealHost extends StatefulWidget {
+  const _FluxerSpoilerRevealHost({required this.config, required this.builder});
+
+  final FluxerMarkdownConfig config;
+  final Widget Function(BuildContext context) builder;
+
+  @override
+  State<_FluxerSpoilerRevealHost> createState() =>
+      _FluxerSpoilerRevealHostState();
+}
+
+class _FluxerSpoilerRevealHostState extends State<_FluxerSpoilerRevealHost>
+    with TickerProviderStateMixin {
+  final Set<String> _localRevealedIds = <String>{};
+  final Map<String, AnimationController> _fadeControllers =
+      <String, AnimationController>{};
+  List<TapGestureRecognizer> _recognizers = <TapGestureRecognizer>[];
+  List<TapGestureRecognizer> _retiringRecognizers = <TapGestureRecognizer>[];
+
+  @override
+  void initState() {
+    super.initState();
+    widget.config.spoilerSyncController?.addListener(_handleSyncChanged);
+  }
+
+  @override
+  void didUpdateWidget(covariant _FluxerSpoilerRevealHost oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.config.spoilerSyncController !=
+        widget.config.spoilerSyncController) {
+      oldWidget.config.spoilerSyncController?.removeListener(
+        _handleSyncChanged,
+      );
+      widget.config.spoilerSyncController?.addListener(_handleSyncChanged);
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.config.spoilerSyncController?.removeListener(_handleSyncChanged);
+    for (final AnimationController controller in _fadeControllers.values) {
+      controller.dispose();
+    }
+    _fadeControllers.clear();
+    _disposeRecognizers(_recognizers);
+    _disposeRecognizers(_retiringRecognizers);
+    super.dispose();
+  }
+
+  void _disposeRecognizers(List<TapGestureRecognizer> recognizers) {
+    for (final TapGestureRecognizer recognizer in recognizers) {
+      recognizer.dispose();
+    }
+    recognizers.clear();
+  }
+
+  void _beginRecognizerRebuild() {
+    _disposeRecognizers(_retiringRecognizers);
+    _retiringRecognizers = _recognizers;
+    _recognizers = <TapGestureRecognizer>[];
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      _disposeRecognizers(_retiringRecognizers);
+    });
+  }
+
+  TapGestureRecognizer _obtainRecognizer(VoidCallback onTap) {
+    final TapGestureRecognizer recognizer = TapGestureRecognizer()
+      ..onTap = onTap;
+    _recognizers.add(recognizer);
+    return recognizer;
+  }
+
+  void _handleSyncChanged() {
+    setState(() {});
+  }
+
+  bool _isRevealed(String id, List<String> syncKeys) {
+    if (_localRevealedIds.contains(id)) {
+      return true;
+    }
+    return widget.config.spoilerSyncController?.isRevealed(syncKeys) ?? false;
+  }
+
+  bool _revealedViaSync(String id, List<String> syncKeys) {
+    return !_localRevealedIds.contains(id) &&
+        (widget.config.spoilerSyncController?.isRevealed(syncKeys) ?? false);
+  }
+
+  double _revealOpacity(String id, List<String> syncKeys) {
+    if (!_isRevealed(id, syncKeys)) {
+      return 0;
+    }
+    if (_revealedViaSync(id, syncKeys)) {
+      return 1;
+    }
+    return _fadeControllers[id]?.value ?? 1;
+  }
+
+  void _reveal(String id, List<String> syncKeys) {
+    if (_isRevealed(id, syncKeys)) {
+      return;
+    }
+    setState(() => _localRevealedIds.add(id));
+    widget.config.spoilerSyncController?.reveal(syncKeys);
+    final AnimationController controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    )..addListener(() => setState(() {}));
+    _fadeControllers[id] = controller;
+    unawaited(
+      controller.forward().then((_) {
+        if (!mounted) {
+          return;
+        }
+        controller.dispose();
+        setState(() => _fadeControllers.remove(id));
+      }),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _beginRecognizerRebuild();
+    return _FluxerSpoilerRevealScope(
+      isRevealed: _isRevealed,
+      reveal: _reveal,
+      revealOpacity: _revealOpacity,
+      obtainRecognizer: _obtainRecognizer,
+      child: Builder(builder: widget.builder),
+    );
+  }
+}
+
+String _inlineSpoilerId(md.Element node, List<String> syncKeys, int index) {
+  final String contentKey = syncKeys.isNotEmpty
+      ? syncKeys.join('\u0000')
+      : node.textContent;
+  return '$index:$contentKey';
+}
+
+Color _spoilerHiddenBackground(
+  BuildContext context,
+  FluxerMarkdownConfig config,
+) {
+  return config.spoilerBackgroundColor ??
+      Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.2);
+}
+
+const Color _kHiddenSpoilerTextColor = Color(0x00000000);
+
+Paint _spoilerBackgroundPaint(Color color) => Paint()..color = color;
+
+TextStyle _hiddenSpoilerTextStyle(TextStyle base, Color hiddenBackground) {
+  return base.copyWith(
+    color: _kHiddenSpoilerTextColor,
+    background: _spoilerBackgroundPaint(hiddenBackground),
+    decoration: TextDecoration.none,
+  );
+}
+
+TapGestureRecognizer _obtainSpoilerTapRecognizer(
+  BuildContext context,
+  VoidCallback onTap,
+) {
+  final FluxerMarkdownLinkRegistry? registry =
+      FluxerMarkdownLinkRegistry.maybeOf(context);
+  if (registry != null) {
+    return registry.obtainRecognizer(onTap);
+  }
+  final _FluxerSpoilerRevealScope? scope = _FluxerSpoilerRevealScope.maybeOf(
+    context,
+  );
+  if (scope != null) {
+    return scope.obtainRecognizer(onTap);
+  }
+  return TapGestureRecognizer()..onTap = onTap;
+}
+
+double _concealedWidgetSpanSize(WidgetSpan span, TextStyle baseStyle) {
+  final Widget child = span.child;
+  if (child is FluxerEmojiWidget) {
+    if (child.jumbo) {
+      return kFluxerMarkdownEmojiSizeJumbo;
+    }
+    return (child.baseStyle.fontSize ?? 16) *
+        kFluxerMarkdownEmojiSizeMultiplier;
+  }
+  return (baseStyle.fontSize ?? FluxerMarkupSpacing.rootFontSize) *
+      (baseStyle.height ?? 1.2);
+}
+
+TextStyle _concealedSpoilerTextStyle(TextStyle? style, Color hiddenBackground) {
+  return (style ?? const TextStyle()).copyWith(
+    color: _kHiddenSpoilerTextColor,
+    background: _spoilerBackgroundPaint(hiddenBackground),
+    decoration: TextDecoration.none,
+  );
+}
+
+List<InlineSpan> _concealSpoilerInlineSpans(
+  List<InlineSpan> spans, {
+  required TextStyle hiddenStyle,
+  required Color hiddenBackground,
+  required TextStyle baseStyle,
+  required TapGestureRecognizer Function(VoidCallback onTap)
+  obtainTapRecognizer,
+  VoidCallback? onTap,
+}) {
+  return spans
+      .map(
+        (InlineSpan span) => _concealSpoilerInlineSpan(
+          span,
+          hiddenStyle: hiddenStyle,
+          hiddenBackground: hiddenBackground,
+          baseStyle: baseStyle,
+          obtainTapRecognizer: obtainTapRecognizer,
+          onTap: onTap,
+        ),
+      )
+      .toList();
+}
+
+InlineSpan _concealSpoilerInlineSpan(
+  InlineSpan span, {
+  required TextStyle hiddenStyle,
+  required Color hiddenBackground,
+  required TextStyle baseStyle,
+  required TapGestureRecognizer Function(VoidCallback onTap)
+  obtainTapRecognizer,
+  VoidCallback? onTap,
+}) {
+  if (span is TextSpan) {
+    final List<InlineSpan>? children = span.children;
+    if (children != null && children.isNotEmpty) {
+      return TextSpan(
+        style: _concealedSpoilerTextStyle(span.style, hiddenBackground),
+        children: _concealSpoilerInlineSpans(
+          children,
+          hiddenStyle: hiddenStyle,
+          hiddenBackground: hiddenBackground,
+          baseStyle: baseStyle,
+          obtainTapRecognizer: obtainTapRecognizer,
+          onTap: onTap,
+        ),
+      );
+    }
+    return TextSpan(
+      text: span.text,
+      style: _concealedSpoilerTextStyle(span.style, hiddenBackground),
+      mouseCursor: onTap == null ? null : SystemMouseCursors.click,
+      recognizer: onTap == null ? null : obtainTapRecognizer(onTap),
+    );
+  }
+  if (span is WidgetSpan) {
+    final double size = _concealedWidgetSpanSize(span, baseStyle);
+    return WidgetSpan(
+      alignment: span.alignment,
+      baseline: span.baseline,
+      child: GestureDetector(
+        onTap: onTap,
+        behavior: HitTestBehavior.opaque,
+        child: SizedBox(
+          width: size,
+          height: size,
+          child: ColoredBox(color: hiddenBackground),
+        ),
+      ),
+    );
+  }
+  return span;
+}
+
+List<InlineSpan> _applySpoilerRevealOpacity(
+  List<InlineSpan> spans, {
+  required TextStyle baseStyle,
+  required Color hiddenBackground,
+  required double opacity,
+}) {
+  return spans
+      .map(
+        (InlineSpan span) => _applySpoilerRevealOpacityToSpan(
+          span,
+          baseStyle: baseStyle,
+          hiddenBackground: hiddenBackground,
+          opacity: opacity,
+        ),
+      )
+      .toList();
+}
+
+InlineSpan _applySpoilerRevealOpacityToSpan(
+  InlineSpan span, {
+  required TextStyle baseStyle,
+  required Color hiddenBackground,
+  required double opacity,
+}) {
+  if (span is TextSpan) {
+    final TextStyle? style = span.style;
+    final Color? targetColor = style?.color ?? baseStyle.color;
+    final Color? fadedColor = targetColor == null
+        ? null
+        : Color.lerp(_kHiddenSpoilerTextColor, targetColor, opacity);
+    final TextStyle fadedStyle = (style ?? baseStyle).copyWith(
+      color: fadedColor,
+      background: opacity < 1.0
+          ? _spoilerBackgroundPaint(
+              Color.lerp(hiddenBackground, const Color(0x00000000), opacity)!,
+            )
+          : null,
+    );
+    final List<InlineSpan>? children = span.children;
+    if (children != null && children.isNotEmpty) {
+      return TextSpan(
+        style: fadedStyle,
+        children: _applySpoilerRevealOpacity(
+          children,
+          baseStyle: baseStyle,
+          hiddenBackground: hiddenBackground,
+          opacity: opacity,
+        ),
+      );
+    }
+    return TextSpan(text: span.text, style: fadedStyle);
+  }
+  if (span is WidgetSpan) {
+    return WidgetSpan(
+      alignment: span.alignment,
+      baseline: span.baseline,
+      child: Opacity(opacity: opacity, child: span.child),
+    );
+  }
+  return span;
 }
 
 class _FluxerSpoilerSpan extends StatefulWidget {
@@ -1783,11 +2237,12 @@ class FluxerCodeBlockWidget extends StatelessWidget {
           width: double.infinity,
           decoration: BoxDecoration(color: bgColor, borderRadius: _kRadius),
           padding: _kPadding,
-          child: RichText(
+          child: buildFluxerBoundedRichText(
             text: TextSpan(
               style: monoStyle,
               children: parseAnsiTextSpans(code, monoStyle),
             ),
+            baseStyle: monoStyle,
           ),
         ),
       );
@@ -1935,6 +2390,7 @@ class FluxerEmojiWidget extends StatelessWidget {
     required this.unicodeEmojiUrlBuilder,
     required this.customEmojiUrlBuilder,
     this.animateCustomEmoji = true,
+    this.onEmojiLongPress,
     this.jumbo = false,
     super.key,
   });
@@ -1945,16 +2401,53 @@ class FluxerEmojiWidget extends StatelessWidget {
   final bool animateCustomEmoji;
   final FluxerUnicodeEmojiUrlBuilder unicodeEmojiUrlBuilder;
   final FluxerCustomEmojiUrlBuilder customEmojiUrlBuilder;
+  final FluxerEmojiLongPressHandler? onEmojiLongPress;
 
   @override
   Widget build(BuildContext context) {
     final size = jumbo
         ? kFluxerMarkdownEmojiSizeJumbo
         : (baseStyle.fontSize ?? 16) * kFluxerMarkdownEmojiSizeMultiplier;
+    final Widget emoji;
     if (element.tag == FluxerCustomEmojiSyntax.tag) {
-      return _buildCustom(context, size);
+      emoji = _buildCustom(context, size);
+    } else {
+      emoji = _buildUnicode(size);
     }
-    return _buildUnicode(size);
+    return _wrapLongPress(context, emoji);
+  }
+
+  Widget _wrapLongPress(BuildContext context, Widget emoji) {
+    final handler = onEmojiLongPress;
+    if (handler == null) {
+      return emoji;
+    }
+
+    final isCustom = element.tag == FluxerCustomEmojiSyntax.tag;
+    final String name;
+    final String? emojiId;
+    final bool animated;
+    if (isCustom) {
+      name = element.textContent;
+      emojiId = element.attributes['id'];
+      animated = animateCustomEmoji && element.attributes['animated'] == 'true';
+    } else {
+      name = element.attributes['surrogate'] ?? element.textContent;
+      emojiId = null;
+      animated = false;
+    }
+
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onLongPress: () => handler(
+        context,
+        emojiId: emojiId,
+        name: name,
+        animated: animated,
+        isCustom: isCustom,
+      ),
+      child: emoji,
+    );
   }
 
   Widget _buildSystemUnicodeEmoji(String surrogate, double size) {

@@ -13,7 +13,7 @@ import 'package:fluxer_app/features/chat/providers/channel/channel_details_provi
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class ChannelPinsContent extends ConsumerStatefulWidget {

@@ -6,7 +6,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/service/composer_mention_controller.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 /// Builds a [ComposerMentionController] inside a live, themed widget tree and
 /// returns it once the [TextField] using it has been pumped. The controller is
@@ -54,13 +54,13 @@ void main() {
 
     controller
       ..text = '@msu'
-      ..selection = const TextSelection.collapsed(offset: 4);
-    controller.insertUserMentionPlaceholder(
-      matchStart: 0,
-      matchEnd: 4,
-      userId: '1481621807877361924',
-      displayName: 'msubizo',
-    );
+      ..selection = const TextSelection.collapsed(offset: 4)
+      ..insertUserMentionPlaceholder(
+        matchStart: 0,
+        matchEnd: 4,
+        userId: '1481621807877361924',
+        displayName: 'msubizo',
+      );
     await tester.pump();
 
     expect(find.text('@msubizo'), findsOneWidget);
@@ -77,13 +77,13 @@ void main() {
 
       controller
         ..text = '@msu'
-        ..selection = const TextSelection.collapsed(offset: 4);
-      controller.insertUserMentionPlaceholder(
-        matchStart: 0,
-        matchEnd: 3,
-        userId: '1481621807877361924',
-        displayName: 'msubizo',
-      );
+        ..selection = const TextSelection.collapsed(offset: 4)
+        ..insertUserMentionPlaceholder(
+          matchStart: 0,
+          matchEnd: 3,
+          userId: '1481621807877361924',
+          displayName: 'msubizo',
+        );
       await tester.pump();
 
       expect(find.text('@msubizo'), findsOneWidget);

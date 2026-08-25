@@ -4,11 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/router/shell_popup_overlay_sync.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/incoming_voice_call_sheet.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
 import 'package:fluxer_app/features/voice/utils/incoming_voice_call_actions.dart';
 import 'package:fluxer_app/features/voice/utils/voice_callkit_policy.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 /// Presents ringing calls in a Fluxer draggable bottom sheet like fluxer-web
 /// IncomingCallUI on mobile.
@@ -88,6 +89,7 @@ class _IncomingVoiceCallLayerState
       }
     } finally {
       _sheetOpen = false;
+      reconcileShellPopupOverlayForContainer(ref.container);
       if (mounted) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _enqueuePresentSheet();

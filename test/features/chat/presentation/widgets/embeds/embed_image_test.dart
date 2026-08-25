@@ -11,7 +11,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animat
 import 'package:fluxer_app/features/chat/presentation/widgets/media/fluxer_animated_image.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 Widget _wrap(Widget child) {

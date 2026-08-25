@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_participant_layouts.dart';
 import 'package:fluxer_app/features/voice/utils/voice_grid_layout/voice_hangout_layout.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 void main() {
   group('voiceGridPaginateTiles', () {

@@ -10,8 +10,8 @@ import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/role_color_utils.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const int _kMemberPreviewLimit = 10;

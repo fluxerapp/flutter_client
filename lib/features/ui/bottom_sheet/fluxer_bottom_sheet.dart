@@ -12,7 +12,7 @@ import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart'
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // ---------------------------------------------------------------------------
@@ -197,21 +197,15 @@ class FluxerBottomSheet {
                     ),
                   ],
                   Flexible(
-                    child: isMenuVariant
-                        ? FluxerBottomSheetScope(
-                            bottomScrollPadding: bottomPadding,
-                            child: _FluxerBottomSheetInsetChild(
-                              bottomPadding: 0,
-                              child: Builder(
-                                builder: (scopedContext) =>
-                                    builder(scopedContext, close),
-                              ),
-                            ),
-                          )
-                        : _FluxerBottomSheetInsetChild(
-                            bottomPadding: bottomPadding,
-                            child: builder(sheetContext, close),
-                          ),
+                    child: _FluxerBottomSheetInsetChild(
+                      bottomPadding: bottomPadding,
+                      child: isMenuVariant
+                          ? Builder(
+                              builder: (scopedContext) =>
+                                  builder(scopedContext, close),
+                            )
+                          : builder(sheetContext, close),
+                    ),
                   ),
                 ],
               ),

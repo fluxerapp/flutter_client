@@ -1,7 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class UserProfileActionCardRow extends StatelessWidget {
@@ -95,6 +95,11 @@ class _ProfileActionCard extends StatelessWidget {
     final Color iconColor = usesBrandPrimaryCircle
         ? colors.textOnBrandPrimary
         : colors.interactiveNormal;
+    final Color circleBorderColor =
+        (usesBrandPrimaryCircle
+                ? FluxerButtonVariant.primary
+                : FluxerButtonVariant.secondary)
+            .borderColor(colors)!;
     return FluxerTappable(
       onTap: () async {
         await onTap();
@@ -116,6 +121,7 @@ class _ProfileActionCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: circleColor,
                   shape: BoxShape.circle,
+                  border: Border.all(color: circleBorderColor),
                 ),
                 child: PhosphorIcon(icon, size: 24, color: iconColor),
               ),

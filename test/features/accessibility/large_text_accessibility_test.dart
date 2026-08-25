@@ -6,7 +6,7 @@ import 'package:fluxer_app/features/profile/providers/user_presence_provider.dar
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/app_bottom_nav_bar.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_icon_avatar.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 import '../../helpers/pump_fluxer_app.dart';
 

@@ -5,15 +5,17 @@ import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_gallery_media.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_shared.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_youtube.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_inline_video_player.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/utils/embed_gallery_utils.dart';
 import 'package:fluxer_app/features/chat/utils/embed_media_viewer_utils.dart';
+import 'package:fluxer_app/features/chat/utils/embed_youtube_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
-import 'package:material_ui/material_ui.dart';
 
 /// A rich embed card
 class EmbedRich extends StatelessWidget {
@@ -49,8 +51,21 @@ class EmbedRich extends StatelessWidget {
     final ChatVideoSource? videoSource = embed.video != null
         ? ChatVideoSource.fromEmbed(embed)
         : null;
-    final bool hasVideo = videoSource != null && videoSource.hasPlayableContent;
-    final ChatFullscreenVideoLaunchContext? videoLaunchContext = hasVideo
+    final bool isYouTube = isYouTubeEmbed(embed);
+    final ChatFullscreenVideoLaunchContext? youtubeLaunchContext =
+        canRenderYouTubeEmbed(embed)
+        ? ChatFullscreenVideoLaunchContext.fromYouTubeEmbed(
+            embed: embed,
+            embedIndex: embedIndex,
+            actionScope: videoActionScope,
+          )
+        : null;
+    final bool hasYouTubePlayer = youtubeLaunchContext != null;
+    final bool hasVideo =
+        hasYouTubePlayer ||
+        (videoSource != null && videoSource.hasPlayableContent && !isYouTube);
+    final ChatFullscreenVideoLaunchContext? videoLaunchContext =
+        hasVideo && !hasYouTubePlayer
         ? ChatFullscreenVideoLaunchContext.fromEmbed(
             embed: embed,
             embedIndex: embedIndex,
@@ -107,7 +122,7 @@ class EmbedRich extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 4),
                       child: EmbedTitle(title: embed.title!, url: embed.url),
                     ),
-                  if (embed.description != null)
+                  if (embed.description != null && !isYouTube)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 6),
                       child: MessageMarkdown(
@@ -128,7 +143,16 @@ class EmbedRich extends StatelessWidget {
                         spoilerSyncController: spoilerSyncController,
                       ),
                     ),
-                  if (hasVideo)
+                  if (youtubeLaunchContext != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4, bottom: 4),
+                      child: EmbedYouTube(
+                        embed: embed,
+                        launchContext: youtubeLaunchContext,
+                        dimensionSize: dimensionSize,
+                      ),
+                    )
+                  else if (hasVideo)
                     Padding(
                       padding: const EdgeInsets.only(top: 4, bottom: 4),
                       child: ClipRRect(

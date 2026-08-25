@@ -6,7 +6,7 @@ import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provid
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 
 class FluxerEmojiPickerSheet {
   FluxerEmojiPickerSheet._();

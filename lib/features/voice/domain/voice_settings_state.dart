@@ -113,6 +113,7 @@ class VoiceSettingsState {
     this.preferredScreenShareCodec = ScreenShareCodecPreference.auto,
     this.suppressNewDeviceAlerts = false,
     this.pauseOwnScreenSharePreviewOnUnfocus = true,
+    this.prioritizeSpeakingParticipants = false,
   });
 
   final String inputDeviceId;
@@ -140,6 +141,7 @@ class VoiceSettingsState {
   final ScreenShareCodecPreference preferredScreenShareCodec;
   final bool suppressNewDeviceAlerts;
   final bool pauseOwnScreenSharePreviewOnUnfocus;
+  final bool prioritizeSpeakingParticipants;
 
   bool get shouldMirrorOwnCamera =>
       mirrorCamera && cameraFacing == VoiceCameraFacing.front;
@@ -170,6 +172,7 @@ class VoiceSettingsState {
     ScreenShareCodecPreference? preferredScreenShareCodec,
     bool? suppressNewDeviceAlerts,
     bool? pauseOwnScreenSharePreviewOnUnfocus,
+    bool? prioritizeSpeakingParticipants,
   }) {
     return VoiceSettingsState(
       inputDeviceId: inputDeviceId ?? this.inputDeviceId,
@@ -205,6 +208,8 @@ class VoiceSettingsState {
       pauseOwnScreenSharePreviewOnUnfocus:
           pauseOwnScreenSharePreviewOnUnfocus ??
           this.pauseOwnScreenSharePreviewOnUnfocus,
+      prioritizeSpeakingParticipants:
+          prioritizeSpeakingParticipants ?? this.prioritizeSpeakingParticipants,
     );
   }
 
@@ -236,6 +241,7 @@ class VoiceSettingsState {
       'suppressNewDeviceAlerts': suppressNewDeviceAlerts,
       'pauseOwnScreenSharePreviewOnUnfocus':
           pauseOwnScreenSharePreviewOnUnfocus,
+      'prioritizeSpeakingParticipants': prioritizeSpeakingParticipants,
     };
   }
 
@@ -279,6 +285,8 @@ class VoiceSettingsState {
           json['suppressNewDeviceAlerts'] as bool? ?? false,
       pauseOwnScreenSharePreviewOnUnfocus:
           json['pauseOwnScreenSharePreviewOnUnfocus'] as bool? ?? true,
+      prioritizeSpeakingParticipants:
+          json['prioritizeSpeakingParticipants'] as bool? ?? false,
     );
   }
 }

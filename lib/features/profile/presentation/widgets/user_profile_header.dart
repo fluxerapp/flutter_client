@@ -3,7 +3,7 @@ import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_badges.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_custom_status.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class UserProfileHeader extends StatelessWidget {

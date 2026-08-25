@@ -14,8 +14,8 @@ import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart
 import 'package:fluxer_app/features/notifications/presentation/widgets/unread_inbox_card_header.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/unread_inbox_card_preview.dart';
 import 'package:fluxer_app/features/notifications/providers/notifications_providers.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_ui/material_ui.dart';
 
 /// Inbox unread card matching web unread channel previews.
 class UnreadChannelInboxCard extends ConsumerStatefulWidget {

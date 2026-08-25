@@ -22,8 +22,8 @@ import 'package:fluxer_app/features/ui/background/starfield_background.dart';
 import 'package:fluxer_app/features/ui/icons/fluxer_brand_logo.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
-import 'package:material_ui/material_ui.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
