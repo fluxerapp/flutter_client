@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/features/guilds/data/guild_local_cleanup.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
@@ -35,11 +36,13 @@ class GuildRepository {
     try {
       final guilds = await _client.guilds.listGuilds();
       final guildOrder = await _fetchGuildOrder();
+      final unavailableIds = await _unavailableGuildIds();
       final companions = guilds.map((guild) {
         final position = guildOrder.indexOf(guild.id);
         return guildFromSdk(
           guild,
           position: position >= 0 ? position : guildOrder.length,
+          unavailable: unavailableIds.contains(guild.id),
         );
       }).toList();
       await _db.guildDao.upsertServers(companions);
@@ -54,7 +57,41 @@ class GuildRepository {
     await removeGuildFromLocalDb(_db, guildId);
   }
 
+  Future<void> stageGuildJoinFromInvite(
+    InviteResponseSchemaGuildInviteResponse invite,
+  ) async {
+    final guild = invite.guild;
+    await _db.guildDao.upsertServer(
+      db.ServersCompanion.insert(
+        id: guild.id,
+        name: guild.name,
+        icon: Value(guild.icon),
+        banner: Value(guild.banner),
+        splash: Value(guild.splash),
+        embedSplash: Value(guild.embedSplash),
+        splashCardAlignment: Value(guild.splashCardAlignment.json ?? 0),
+        featuresJson: Value(jsonEncode(guild.features)),
+        memberCount: Value(invite.memberCount),
+        onlineCount: Value(invite.presenceCount),
+      ),
+    );
+    final channel = invite.channel;
+    await _db.channelDao.upsertChannelsMerged([
+      db.ChannelsCompanion.insert(
+        id: channel.id,
+        guildId: guild.id,
+        name: channel.name ?? 'general',
+        type: Value(channel.type),
+      ),
+    ]);
+  }
+
   /// Fetches ordered guild IDs from user settings guild folders.
+  Future<Set<String>> _unavailableGuildIds() async {
+    final rows = await _db.guildDao.getServers();
+    return rows.where((row) => row.unavailable).map((row) => row.id).toSet();
+  }
+
   Future<List<String>> _fetchGuildOrder() async {
     try {
       final session = await _db.authSessionDao.getActiveSession();
@@ -87,8 +124,11 @@ class GuildRepository {
   Future<Guild> getServer(String guildId) async {
     try {
       final guild = await _client.guilds.getGuild(guildId: guildId);
+      final existing = await _db.guildDao.getServerById(guildId);
 
-      await _db.guildDao.upsertServer(guildFromSdk(guild));
+      await _db.guildDao.upsertServer(
+        guildFromSdk(guild, unavailable: existing?.unavailable ?? false),
+      );
 
       final row = await _db.guildDao.getServerById(guildId);
       if (row == null) {

@@ -118,8 +118,9 @@ class Guild {
   bool get isPartnered => features.contains('PARTNERED');
   bool get isDiscoverable => features.contains('DISCOVERABLE');
   bool get hasVoiceE2ee => features.contains('VOICE_E2EE');
-  bool get isUnavailable =>
-      unavailable || features.contains('UNAVAILABLE_FOR_EVERYONE_BUT_STAFF');
+  bool get isStaffOnlyAccessible =>
+      features.contains('UNAVAILABLE_FOR_EVERYONE_BUT_STAFF');
+  bool get isUnavailable => unavailable || isStaffOnlyAccessible;
 
   /// Whether sending messages is disabled guild-wide.
   ///

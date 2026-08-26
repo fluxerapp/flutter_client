@@ -186,6 +186,8 @@ class _EmbedStaticImage extends StatelessWidget {
           memCacheWidth: cache.width,
           memCacheHeight: cache.height,
           fit: BoxFit.contain,
+          fadeInDuration: Duration.zero,
+          fadeOutDuration: Duration.zero,
           errorBuilder: (_, Object _, StackTrace? _) => placeholder,
         );
       },

@@ -2050,6 +2050,14 @@ class GatewayEventHandler {
 
   void _handleGuildCreate(GuildCreateEvent event) {
     final guildId = event.guild.guild.id;
+    if (event.guild.shouldTreatAsUnavailable) {
+      unawaited(
+        _handleGuildDelete(
+          GuildDeleteEvent(guildId: guildId, unavailable: true),
+        ),
+      );
+      return;
+    }
     onGuildAvailable?.call(guildId);
 
     unawaited(
@@ -2136,8 +2144,9 @@ class GatewayEventHandler {
       unavailableHidden: event.unavailableHidden,
     );
     if (event.unavailable) {
-      // Guild went unavailable. Keep it in the list but mark it.
+      await clearGuildContentButKeepServer(database, event.guildId);
       await database.guildDao.markUnavailable(event.guildId);
+      onGuildPermissionsEvict?.call(event.guildId);
       return;
     }
     await _removeGuildLocally(event.guildId);

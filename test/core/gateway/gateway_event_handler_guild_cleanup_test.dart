@@ -142,6 +142,68 @@ void main() {
       expect(await ctx.database.guildDao.getServerById('g1'), isNull);
       expect(ctx.evictedGuildIds, contains('g1'));
     });
+
+    test('GUILD_DELETE unavailable keeps server and clears content', () async {
+      final ctx = await buildHandler();
+      await ctx.database.guildDao.upsertServer(
+        ServersCompanion.insert(id: 'g1', name: 'Guild One'),
+      );
+      await ctx.database.channelDao.upsertChannelsMerged([
+        ChannelsCompanion.insert(
+          id: 'c1',
+          guildId: 'g1',
+          name: 'general',
+          type: const Value(0),
+        ),
+      ]);
+
+      await ctx.handler.handle(
+        const GuildDeleteEvent(guildId: 'g1', unavailable: true),
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+
+      final server = await ctx.database.guildDao.getServerById('g1');
+      expect(server, isNotNull);
+      expect(server!.unavailable, isTrue);
+      expect(await ctx.database.channelDao.getChannels('g1'), isEmpty);
+      expect(ctx.evictedGuildIds, contains('g1'));
+    });
+
+    test('incomplete GUILD_CREATE marks guild unavailable', () async {
+      final ctx = await buildHandler();
+      await ctx.database.guildDao.upsertServer(
+        ServersCompanion.insert(id: 'g1', name: 'Guild One'),
+      );
+      ctx.handler.handle(
+        GuildCreateEvent(
+          guild: GuildCreateData.fromJson({
+            'id': 'g1',
+            'properties': {
+              'id': 'g1',
+              'name': 'Guild g1',
+              'splash_card_alignment': 0,
+              'owner_id': '100',
+              'system_channel_flags': 0,
+              'afk_timeout': 300,
+              'features': <String>[],
+              'verification_level': 0,
+              'mfa_level': 0,
+              'nsfw_level': 0,
+              'nsfw': false,
+              'content_warning_level': 0,
+              'explicit_content_filter': 0,
+              'default_message_notifications': 0,
+              'disabled_operations': 0,
+            },
+          }),
+        ),
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+
+      final server = await ctx.database.guildDao.getServerById('g1');
+      expect(server, isNotNull);
+      expect(server!.unavailable, isTrue);
+    });
   });
 }
 

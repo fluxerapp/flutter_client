@@ -121,7 +121,12 @@ class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
       return;
     }
     _localVisible = visible;
-    _controller?.updateVisibility(widget.visibilityKey, info.visibleFraction);
+    _controller?.updateVisibility(
+      widget.visibilityKey,
+      info.visibleFraction,
+      top: info.visibleBounds.top,
+      left: info.visibleBounds.left,
+    );
     if (visible) {
       _hideScheduled = false;
       _syncPlaying();

@@ -69,7 +69,11 @@ class EmbedAuthorRow extends StatelessWidget {
             imageUrl: author.proxyIconUrl ?? author.iconUrl!,
             width: 20,
             height: 20,
+            memCacheWidth: (20 * MediaQuery.devicePixelRatioOf(context))
+                .round(),
             fit: BoxFit.cover,
+            fadeInDuration: Duration.zero,
+            fadeOutDuration: Duration.zero,
             errorBuilder: (_, e, s) => const SizedBox.shrink(),
           ),
         ),
@@ -122,7 +126,11 @@ class EmbedFooterRow extends StatelessWidget {
               imageUrl: footer.proxyIconUrl ?? footer.iconUrl!,
               width: 16,
               height: 16,
+              memCacheWidth: (16 * MediaQuery.devicePixelRatioOf(context))
+                  .round(),
               fit: BoxFit.cover,
+              fadeInDuration: Duration.zero,
+              fadeOutDuration: Duration.zero,
               errorBuilder: (_, e, s) => const SizedBox.shrink(),
             ),
           ),

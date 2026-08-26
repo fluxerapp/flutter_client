@@ -6,6 +6,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/haptics_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/settings/utils/advanced_setting_visibility.dart';
@@ -186,6 +187,14 @@ class UserAdvancedSettings extends ConsumerWidget {
                 onChanged: (value) => ref
                     .read(advancedPreferencesProvider.notifier)
                     .setShowVideoSeekPreviewThumbnails(value: value),
+              ),
+              FluxerSettingsSwitchItem(
+                label: l10n.advancedSettingHapticFeedbackLabel,
+                description: l10n.advancedSettingHapticFeedbackDescription,
+                value: ref.watch(hapticsPreferencesProvider),
+                onChanged: (value) => ref
+                    .read(hapticsPreferencesProvider.notifier)
+                    .setEnabled(value: value),
               ),
             ],
           ),

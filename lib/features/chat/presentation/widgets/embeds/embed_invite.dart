@@ -426,6 +426,8 @@ class _InviteCard extends StatelessWidget {
       imageUrl: url,
       fit: BoxFit.cover,
       width: double.infinity,
+      fadeInDuration: Duration.zero,
+      fadeOutDuration: Duration.zero,
       errorBuilder: (_, _, _) => const SizedBox.shrink(),
     );
     if (ratio != null && ratio > 0) {
@@ -516,7 +518,11 @@ class _CircleAvatar extends StatelessWidget {
               imageUrl: url!,
               width: 44,
               height: 44,
+              memCacheWidth: (44 * MediaQuery.devicePixelRatioOf(context))
+                  .round(),
               fit: BoxFit.cover,
+              fadeInDuration: Duration.zero,
+              fadeOutDuration: Duration.zero,
               errorBuilder: (_, _, _) => _buildFallback(context),
             )
           : _buildFallback(context),

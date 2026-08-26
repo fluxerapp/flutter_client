@@ -1,4 +1,5 @@
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
 
 enum AttachmentRenderType { image, video, audio, file }
 
@@ -14,14 +15,14 @@ class AttachmentRenderState {
   final bool canRenderInlineMedia;
 
   bool get shouldRenderAsFile =>
-      !canRenderInlineMedia || attachment.url.isEmpty;
+      !canRenderInlineMedia || !attachmentHasLoadableUrl(attachment);
 }
 
 AttachmentRenderState buildAttachmentRenderState({
   required Attachment attachment,
   required bool inlineAttachmentMedia,
 }) {
-  final bool hasUrl = attachment.url.isNotEmpty;
+  final bool hasUrl = attachmentHasLoadableUrl(attachment);
   final bool canRenderInlineMedia = inlineAttachmentMedia && hasUrl;
   if (attachment.isImage) {
     return AttachmentRenderState(

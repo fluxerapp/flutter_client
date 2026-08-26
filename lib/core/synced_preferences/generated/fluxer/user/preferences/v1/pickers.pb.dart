@@ -8,7 +8,7 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: curly_braces_in_flow_control_structures
 // ignore_for_file: deprecated_member_use_from_same_package, library_prefixes
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, prefer_relative_imports
 
 import 'dart:core' as $core;
 
@@ -702,8 +702,6 @@ class FavoriteGifEntry extends $pb.GeneratedMessage {
   @$pb.TagNumber(6)
   void clearContentType() => $_clearField(6);
 
-  /// Compact thumbhash placeholder captured at favourite-time so the picker can show a blurred
-  /// preview while the GIF loads, and a fallback if the source URL is later deleted.
   @$pb.TagNumber(7)
   $core.String get placeholder => $_getSZ(6);
   @$pb.TagNumber(7)

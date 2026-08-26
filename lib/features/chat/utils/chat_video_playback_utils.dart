@@ -1,5 +1,22 @@
 import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
 
+enum ChatInlineVideoOffscreenAction { none, pause, resume }
+
+ChatInlineVideoOffscreenAction resolveInlineVideoOffscreenAction({
+  required bool visible,
+  required bool isPlaying,
+  required bool pausedOffscreen,
+}) {
+  if (!visible) {
+    return isPlaying
+        ? ChatInlineVideoOffscreenAction.pause
+        : ChatInlineVideoOffscreenAction.none;
+  }
+  return pausedOffscreen
+      ? ChatInlineVideoOffscreenAction.resume
+      : ChatInlineVideoOffscreenAction.none;
+}
+
 const double kDefaultChatVideoAspectRatio = 16 / 9;
 
 double resolveChatVideoAspectRatio({int? width, int? height}) {

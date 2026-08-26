@@ -130,6 +130,34 @@ void main() {
       expect(items.every((item) => item is GuildNavbarGuild), isTrue);
     });
 
+    test('excludes unavailable guilds when folders are empty', () {
+      final guilds = [_guild('a'), _guild('b', unavailable: true)];
+      final items = computeOrganizedGuildList(guilds: guilds, folders: []);
+      expect(items.length, 1);
+      expect((items[0] as GuildNavbarGuild).guild.id, 'a');
+    });
+
+    test('excludes unavailable guilds from folders', () {
+      final guilds = [_guild('a'), _guild('b', unavailable: true)];
+      final folders = [
+        _folder(id: -1, guildIds: ['a', 'b']),
+      ];
+      final items = computeOrganizedGuildList(guilds: guilds, folders: folders);
+      expect(items.length, 1);
+      expect((items[0] as GuildNavbarGuild).guild.id, 'a');
+    });
+
+    test('excludes tracked outage guilds before db unavailable flag syncs', () {
+      final guilds = [_guild('a'), _guild('b')];
+      final items = computeOrganizedGuildList(
+        guilds: guilds,
+        folders: [],
+        trackedUnavailableGuildIds: {'b'},
+      );
+      expect(items.length, 1);
+      expect((items[0] as GuildNavbarGuild).guild.id, 'a');
+    });
+
     test('excludes unavailable guilds from unplaced prepend', () {
       final guilds = [_guild('a'), _guild('b', unavailable: true)];
       final folders = [

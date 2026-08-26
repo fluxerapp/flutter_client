@@ -42,7 +42,7 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
   double _playbackRate = 1;
   late final ChatAttachmentAudioBinding _mediaSessionBinding =
       ChatAttachmentAudioBinding(
-        hostId: widget.attachment.url,
+        hostId: _playbackUrl,
         pausePlayback: _pauseFromMediaSession,
         resumePlayback: _resumeFromMediaSession,
         seekPlayback: _seekFromMediaSession,
@@ -58,12 +58,14 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
         position: _audioPosition,
       );
 
+  String get _playbackUrl => attachmentEffectiveUrl(widget.attachment);
+
   Future<void> _pauseFromMediaSession() async {
     await _player?.pause();
   }
 
   Future<void> _resumeFromMediaSession() async {
-    if (_isLoading || widget.attachment.url.isEmpty) {
+    if (_isLoading || !attachmentHasLoadableUrl(widget.attachment)) {
       return;
     }
     final AudioPlayer player = _ensurePlayer();
@@ -72,7 +74,7 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
       return;
     }
     if (!_hasPreparedSource) {
-      await player.setSourceUrl(widget.attachment.url);
+      await player.setSourceUrl(_playbackUrl);
       _hasPreparedSource = true;
     }
     await player.resume();
@@ -126,7 +128,7 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
   }
 
   Future<void> _togglePlayback() async {
-    if (_isLoading || widget.attachment.url.isEmpty) {
+    if (_isLoading || !attachmentHasLoadableUrl(widget.attachment)) {
       return;
     }
     if (_isPlaying) {
@@ -146,7 +148,7 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
       }
       if (!_hasPreparedSource) {
         _sessionReporter.sync(playing: false, loading: true);
-        await player.setSourceUrl(widget.attachment.url);
+        await player.setSourceUrl(_playbackUrl);
         _hasPreparedSource = true;
       }
       await player.resume();
@@ -155,7 +157,7 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
       if (!mounted || _hasPreparedSource) {
         return;
       }
-      await handleExternalLinkTap(context, widget.attachment.url);
+      await handleExternalLinkTap(context, _playbackUrl);
     } finally {
       if (mounted) {
         setState(() {
@@ -168,12 +170,12 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
   Future<void> _prepareFromStart(AudioPlayer player) async {
     _playbackFinished = false;
     if (!_hasPreparedSource) {
-      await player.setSourceUrl(widget.attachment.url);
+      await player.setSourceUrl(_playbackUrl);
       _hasPreparedSource = true;
     } else {
       final bool seeked = await _safeSeek(player, Duration.zero);
       if (!seeked) {
-        await player.setSourceUrl(widget.attachment.url);
+        await player.setSourceUrl(_playbackUrl);
         _hasPreparedSource = true;
       }
     }
@@ -295,10 +297,15 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
   }
 
   Future<void> _downloadAudio() async {
-    if (widget.attachment.url.isEmpty || !mounted) {
+    final String? downloadUrl = attachmentEffectiveDownloadUrl(
+      url: widget.attachment.url,
+      isExpired: widget.attachment.expired ?? false,
+      proxyUrl: widget.attachment.proxyUrl,
+    );
+    if (downloadUrl == null || !mounted) {
       return;
     }
-    await handleExternalLinkTap(context, widget.attachment.url);
+    await handleExternalLinkTap(context, downloadUrl);
   }
 
   Future<void> _seekToRelativePosition(double relative) async {
@@ -318,7 +325,7 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
     }
     final bool seeked = await _safeSeek(player, target);
     if (!seeked) {
-      await player.setSourceUrl(widget.attachment.url);
+      await player.setSourceUrl(_playbackUrl);
       _hasPreparedSource = true;
       await _safeSeek(player, target);
     }

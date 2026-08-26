@@ -1,4 +1,5 @@
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
 
 final RegExp _spoilerRegex = RegExp(r'\|\|([\s\S]*?)\|\|');
 final RegExp _urlRegex = RegExp(
@@ -77,10 +78,11 @@ List<String> spoilerSyncKeysForAttachment({
     return const [];
   }
 
+  final String effectiveUrl = attachmentEffectiveUrl(attachment);
   final String attachmentKey = attachment.id.isNotEmpty
       ? attachment.id
-      : attachment.url.isNotEmpty
-      ? attachment.url
+      : effectiveUrl.isNotEmpty
+      ? effectiveUrl
       : attachment.filename;
   if (attachmentKey.isEmpty) {
     return const [];

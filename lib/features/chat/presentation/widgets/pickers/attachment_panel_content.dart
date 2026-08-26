@@ -13,12 +13,14 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/attachment
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/attachment_panel_source_bar.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
+import 'package:fluxer_app/features/chat/utils/attachment_download_service.dart';
 import 'package:fluxer_app/features/chat/utils/attachment_native_pickers.dart';
 import 'package:fluxer_app/features/chat/utils/composer_upload_file.dart';
 import 'package:fluxer_app/features/chat/utils/file_upload_constants.dart';
 import 'package:fluxer_app/features/chat/utils/file_upload_validation_l10n.dart';
 import 'package:fluxer_app/features/chat/utils/file_upload_validator.dart';
 import 'package:fluxer_app/features/chat/utils/gallery_attachment_selection.dart';
+import 'package:fluxer_app/features/settings/providers/chat_input_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
@@ -267,7 +269,12 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
     if (!allowed || !mounted) {
       return;
     }
-    await _addUploads(await pickNativeCameraUpload());
+    final List<ComposerUploadFile> uploads = await pickNativeCameraUpload();
+    if (uploads.isNotEmpty &&
+        ref.read(chatInputPreferencesProvider).saveCameraCapturesToDevice) {
+      await saveLocalAttachmentToDeviceGallery(uploads.first.file);
+    }
+    await _addUploads(uploads);
   }
 
   Future<void> _onPhotosPressed() async {

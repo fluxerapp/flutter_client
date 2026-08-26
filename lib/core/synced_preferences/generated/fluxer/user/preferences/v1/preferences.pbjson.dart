@@ -8,7 +8,8 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: curly_braces_in_flow_control_structures
 // ignore_for_file: deprecated_member_use_from_same_package, library_prefixes
-// ignore_for_file: non_constant_identifier_names, unused_import
+// ignore_for_file: non_constant_identifier_names, prefer_relative_imports
+// ignore_for_file: unused_import
 
 import 'dart:convert' as $convert;
 import 'dart:core' as $core;
@@ -1391,13 +1392,25 @@ const ChatInputSettings$json = {
       '10': 'convertEmoticons',
       '17': true
     },
+    {
+      '1': 'save_camera_captures_to_device',
+      '3': 2,
+      '4': 1,
+      '5': 8,
+      '9': 1,
+      '10': 'saveCameraCapturesToDevice',
+      '17': true
+    },
   ],
   '8': [
     {'1': '_convert_emoticons'},
+    {'1': '_save_camera_captures_to_device'},
   ],
 };
 
 /// Descriptor for `ChatInputSettings`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List chatInputSettingsDescriptor = $convert.base64Decode(
     'ChFDaGF0SW5wdXRTZXR0aW5ncxIwChFjb252ZXJ0X2Vtb3RpY29ucxgBIAEoCEgAUhBjb252ZX'
-    'J0RW1vdGljb25ziAEBQhQKEl9jb252ZXJ0X2Vtb3RpY29ucw==');
+    'J0RW1vdGljb25ziAEBEkcKHnNhdmVfY2FtZXJhX2NhcHR1cmVzX3RvX2RldmljZRgCIAEoCEgB'
+    'UhpzYXZlQ2FtZXJhQ2FwdHVyZXNUb0RldmljZYgBAUIUChJfY29udmVydF9lbW90aWNvbnNCIQ'
+    'ofX3NhdmVfY2FtZXJhX2NhcHR1cmVzX3RvX2RldmljZQ==');

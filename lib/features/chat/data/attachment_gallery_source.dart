@@ -32,6 +32,10 @@ abstract class AttachmentGallerySource {
 }
 
 class PhotoManagerAttachmentGallerySource implements AttachmentGallerySource {
+  static final FilterOptionGroup _galleryFilter = FilterOptionGroup(
+    orders: const <OrderOption>[OrderOption()],
+  );
+
   final Map<String, AssetEntity> _assetsById = <String, AssetEntity>{};
 
   @override
@@ -46,6 +50,7 @@ class PhotoManagerAttachmentGallerySource implements AttachmentGallerySource {
   Future<AssetPathEntity?> _recentAlbum() async {
     final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
       onlyAll: true,
+      filterOption: _galleryFilter,
     );
     if (albums.isEmpty) {
       return null;

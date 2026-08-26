@@ -7354,6 +7354,45 @@ abstract class FluxerLocalizations {
   /// **'{count, plural, =1{1 community is temporarily unavailable due to a flux capacitor malfunction.} other{{count} communities are temporarily unavailable due to a flux capacitor malfunction.}}'**
   String guildUnavailableOutageTooltip(int count);
 
+  /// Title shown when a community is temporarily offline.
+  ///
+  /// In en, this message translates to:
+  /// **'Community temporarily unavailable'**
+  String get communityTemporarilyUnavailable;
+
+  /// Body shown when a community is temporarily offline.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. We\'re working on it.'**
+  String get guildUnavailableDescription;
+
+  /// Title shown when the active community is missing.
+  ///
+  /// In en, this message translates to:
+  /// **'This is not the community you\'re looking for.'**
+  String get guildNotFoundTitle;
+
+  /// Body shown when the active community is missing.
+  ///
+  /// In en, this message translates to:
+  /// **'The community you\'re looking for may have been deleted or you may not have access to it.'**
+  String get guildNotFoundDescription;
+
+  /// Nagbar shown when a community is only accessible to staff.
+  ///
+  /// In en, this message translates to:
+  /// **'{communityName} is currently only accessible to {productName} staff members'**
+  String guildStaffOnlyAccessibleNagbar(
+    String communityName,
+    String productName,
+  );
+
+  /// Accessibility label suffix for unavailable guild icons.
+  ///
+  /// In en, this message translates to:
+  /// **'temporarily unavailable'**
+  String get guildNavbarTemporarilyUnavailable;
+
   /// Toggle label — collapse unread DMs into the Fluxer button folder.
   ///
   /// In en, this message translates to:
@@ -8007,6 +8046,24 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Automatically send GIFs when selected'**
   String get messagesMediaGifsAutoSendLabel;
+
+  /// Section title for camera capture upload settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera uploads'**
+  String get messagesMediaCameraUploadsSectionTitle;
+
+  /// Section description for camera capture upload settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose whether photos and videos taken with the in-app camera are kept on your device'**
+  String get messagesMediaCameraUploadsSectionDescription;
+
+  /// Toggle label for saving camera captures to the device gallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to device'**
+  String get messagesMediaCameraUploadsSaveToDeviceLabel;
 
   /// Section title for expression autocomplete settings.
   ///
@@ -16113,6 +16170,18 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Thumbnail or live frame while scrubbing video'**
   String get advancedSettingVideoSeekThumbnailsDescription;
+
+  /// Toggle label for enabling haptic feedback in advanced settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Haptic feedback'**
+  String get advancedSettingHapticFeedbackLabel;
+
+  /// Toggle description for the local-only haptic feedback setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Vibration feedback for taps and actions. Won\'t sync across devices.'**
+  String get advancedSettingHapticFeedbackDescription;
 
   /// No description provided for @advancedSettingShowNekoLabel.
   ///

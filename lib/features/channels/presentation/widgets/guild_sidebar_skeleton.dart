@@ -1,32 +1,68 @@
-import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class GuildSidebarSkeleton extends StatelessWidget {
   const GuildSidebarSkeleton({super.key});
 
-  static const int itemCount = 24;
-  static const int _cycleLength = 5;
+  static const List<int> _fallbackCategoryChannelCounts = <int>[3, 5, 4, 6];
+  static const List<double> _channelLabelWidths = <double>[
+    88,
+    104,
+    72,
+    96,
+    112,
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return ListView(
       padding: const EdgeInsets.only(top: 12),
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: itemCount,
-      itemBuilder: (BuildContext context, int index) {
-        final int cycleIndex = index % _cycleLength;
-        if (cycleIndex == 0) {
-          return const _GuildSidebarCategorySkeleton();
-        }
-        return const _GuildSidebarChannelSkeleton();
-      },
+      children: [
+        for (
+          var categoryIndex = 0;
+          categoryIndex < _fallbackCategoryChannelCounts.length;
+          categoryIndex++
+        )
+          _GuildSidebarCategoryGroupSkeleton(
+            channelCount: _fallbackCategoryChannelCounts[categoryIndex],
+            categoryIndex: categoryIndex,
+          ),
+      ],
+    );
+  }
+}
+
+class _GuildSidebarCategoryGroupSkeleton extends StatelessWidget {
+  const _GuildSidebarCategoryGroupSkeleton({
+    required this.channelCount,
+    required this.categoryIndex,
+  });
+
+  final int channelCount;
+  final int categoryIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        _GuildSidebarCategorySkeleton(
+          labelWidth: 72 + (categoryIndex % 3) * 16,
+        ),
+        for (var channelIndex = 0; channelIndex < channelCount; channelIndex++)
+          _GuildSidebarChannelSkeleton(
+            labelWidth:
+                GuildSidebarSkeleton._channelLabelWidths[(categoryIndex +
+                        channelIndex) %
+                    GuildSidebarSkeleton._channelLabelWidths.length],
+          ),
+      ],
     );
   }
 }
 
 class _GuildSidebarSkeletonBar extends StatelessWidget {
-  const _GuildSidebarSkeletonBar({required this.width, this.height = 12});
+  const _GuildSidebarSkeletonBar({required this.width, required this.height});
 
   final double width;
   final double height;
@@ -45,40 +81,68 @@ class _GuildSidebarSkeletonBar extends StatelessWidget {
 }
 
 class _GuildSidebarCategorySkeleton extends StatelessWidget {
-  const _GuildSidebarCategorySkeleton();
+  const _GuildSidebarCategorySkeleton({required this.labelWidth});
+
+  final double labelWidth;
+
+  static const double _lineHeight = 20;
 
   @override
   Widget build(BuildContext context) {
-    final FluxerLayoutTheme layout = context.layout;
     return Padding(
-      padding: EdgeInsets.fromLTRB(layout.s2, layout.s3, layout.s2, layout.s1),
-      child: const _GuildSidebarSkeletonBar(width: 96, height: 10),
+      padding: const EdgeInsets.only(left: 12, right: 8, top: 16, bottom: 4),
+      child: SizedBox(
+        height: _lineHeight,
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: _GuildSidebarSkeletonBar(width: labelWidth, height: 10),
+              ),
+            ),
+            const SizedBox(width: 4),
+            Container(
+              width: 12,
+              height: 12,
+              decoration: BoxDecoration(
+                color: context.colors.backgroundSecondaryAlt,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
 
 class _GuildSidebarChannelSkeleton extends StatelessWidget {
-  const _GuildSidebarChannelSkeleton();
+  const _GuildSidebarChannelSkeleton({required this.labelWidth});
+
+  final double labelWidth;
+
+  static const double _iconSize = 20;
+  static const double _labelHeight = 16;
 
   @override
   Widget build(BuildContext context) {
-    final FluxerLayoutTheme layout = context.layout;
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 1),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: layout.s2),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
         child: Row(
           children: <Widget>[
             Container(
-              width: 16,
-              height: 16,
+              width: _iconSize,
+              height: _iconSize,
               decoration: BoxDecoration(
                 color: context.colors.backgroundSecondaryAlt,
                 borderRadius: BorderRadius.circular(4),
               ),
             ),
-            const SizedBox(width: 8),
-            const _GuildSidebarSkeletonBar(width: 120),
+            const SizedBox(width: 6),
+            _GuildSidebarSkeletonBar(width: labelWidth, height: _labelHeight),
           ],
         ),
       ),

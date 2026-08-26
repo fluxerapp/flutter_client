@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/forward_message_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
+import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/embed_animated_image_url.dart';
 import 'package:fluxer_app/features/chat/utils/hdr_aware_image_url.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
@@ -72,7 +73,7 @@ class AttachmentImage extends ConsumerWidget {
       height: attachment.height,
     );
     final bool animate = attachment.isAnimated;
-    final String effectiveUrl = attachment.proxyUrl ?? attachment.url;
+    final String effectiveUrl = attachmentEffectiveUrl(attachment);
     final Widget image = Stack(
       clipBehavior: Clip.none,
       children: [
@@ -206,7 +207,7 @@ class AttachmentImage extends ConsumerWidget {
     if (imageGallery != null && imageGallery!.isNotEmpty) {
       return imageGallery!;
     }
-    if (attachment.url.isEmpty) {
+    if (!attachmentHasLoadableUrl(attachment)) {
       return const <Attachment>[];
     }
     return <Attachment>[attachment];
@@ -275,6 +276,8 @@ class _AttachmentStaticImage extends StatelessWidget {
           memCacheWidth: memCacheWidth,
           memCacheHeight: memCacheHeight,
           fit: BoxFit.contain,
+          fadeInDuration: Duration.zero,
+          fadeOutDuration: Duration.zero,
           placeholder: (BuildContext _, String _) => placeholder,
         );
       },

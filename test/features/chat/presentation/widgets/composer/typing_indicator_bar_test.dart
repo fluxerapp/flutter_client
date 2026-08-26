@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.da
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
+import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../../helpers/test_l10n.dart';
@@ -120,6 +121,16 @@ void main() {
       ),
       findsNothing,
     );
+    container.read(typingIndicatorsProvider.notifier).clearAll();
+  });
+
+  testWidgets('typing indicator label avoids bounded text clipping', (
+    WidgetTester tester,
+  ) async {
+    await _pumpTypingIndicatorBar(tester, compact: false);
+
+    expect(find.textContaining('is typing'), findsOneWidget);
+    expect(find.byType(FluxerBoundedTextClip), findsNothing);
     container.read(typingIndicatorsProvider.notifier).clearAll();
   });
 

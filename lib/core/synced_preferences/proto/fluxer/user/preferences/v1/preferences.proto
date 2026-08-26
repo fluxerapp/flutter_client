@@ -258,4 +258,5 @@ enum MfaMethod {
 
 message ChatInputSettings {
   optional bool convert_emoticons = 1;
+  optional bool save_camera_captures_to_device = 2;
 }

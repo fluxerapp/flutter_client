@@ -5637,6 +5637,38 @@
             }
         }
     },
+    "communityTemporarilyUnavailable": "Community temporarily unavailable",
+    "@communityTemporarilyUnavailable": {
+        "description": "Title shown when a community is temporarily offline."
+    },
+    "guildUnavailableDescription": "Something went wrong. We're working on it.",
+    "@guildUnavailableDescription": {
+        "description": "Body shown when a community is temporarily offline."
+    },
+    "guildNotFoundTitle": "This is not the community you're looking for.",
+    "@guildNotFoundTitle": {
+        "description": "Title shown when the active community is missing."
+    },
+    "guildNotFoundDescription": "The community you're looking for may have been deleted or you may not have access to it.",
+    "@guildNotFoundDescription": {
+        "description": "Body shown when the active community is missing."
+    },
+    "guildStaffOnlyAccessibleNagbar": "{communityName} is currently only accessible to {productName} staff members",
+    "@guildStaffOnlyAccessibleNagbar": {
+        "description": "Nagbar shown when a community is only accessible to staff.",
+        "placeholders": {
+            "communityName": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "guildNavbarTemporarilyUnavailable": "temporarily unavailable",
+    "@guildNavbarTemporarilyUnavailable": {
+        "description": "Accessibility label suffix for unavailable guild icons."
+    },
     "lookAndFeelCollapseDMsLabel": "Collapse DMs Into Folder",
     "@lookAndFeelCollapseDMsLabel": {
         "description": "Toggle label — collapse unread DMs into the Fluxer button folder."
@@ -6072,6 +6104,18 @@
     "messagesMediaGifsAutoSendLabel": "Automatically send GIFs when selected",
     "@messagesMediaGifsAutoSendLabel": {
         "description": "Toggle label for auto-sending GIFs from picker."
+    },
+    "messagesMediaCameraUploadsSectionTitle": "Camera uploads",
+    "@messagesMediaCameraUploadsSectionTitle": {
+        "description": "Section title for camera capture upload settings."
+    },
+    "messagesMediaCameraUploadsSectionDescription": "Choose whether photos and videos taken with the in-app camera are kept on your device",
+    "@messagesMediaCameraUploadsSectionDescription": {
+        "description": "Section description for camera capture upload settings."
+    },
+    "messagesMediaCameraUploadsSaveToDeviceLabel": "Save to device",
+    "@messagesMediaCameraUploadsSaveToDeviceLabel": {
+        "description": "Toggle label for saving camera captures to the device gallery."
     },
     "messagesMediaAutocompleteSectionTitle": "Expression autocomplete (colon autocomplete)",
     "@messagesMediaAutocompleteSectionTitle": {
@@ -11865,6 +11909,14 @@
     "advancedSettingEnableTextSelectionDescription": "Allow selecting text in the app",
     "advancedSettingVideoSeekThumbnailsLabel": "Enable video seek thumbnails",
     "advancedSettingVideoSeekThumbnailsDescription": "Thumbnail or live frame while scrubbing video",
+    "advancedSettingHapticFeedbackLabel": "Haptic feedback",
+    "@advancedSettingHapticFeedbackLabel": {
+        "description": "Toggle label for enabling haptic feedback in advanced settings."
+    },
+    "advancedSettingHapticFeedbackDescription": "Vibration feedback for taps and actions. Won't sync across devices.",
+    "@advancedSettingHapticFeedbackDescription": {
+        "description": "Toggle description for the local-only haptic feedback setting."
+    },
     "advancedSettingShowNekoLabel": "Show Neko",
     "advancedSettingShowNekoDescription": "Neko cat that chases your cursor",
     "advancedSettingShowNekoDescriptionTouch": "Show Neko on your chat input",

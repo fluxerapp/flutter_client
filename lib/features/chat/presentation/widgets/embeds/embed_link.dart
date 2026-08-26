@@ -125,6 +125,7 @@ class EmbedLink extends StatelessWidget {
                     // never shifts the chat and portrait sources cannot
                     // reserve unbounded height.
                     child: _thumbnailBox(
+                      context: context,
                       thumbnail: embed.thumbnail!,
                       dimensions: dimensions,
                     ),
@@ -146,6 +147,7 @@ class EmbedLink extends StatelessWidget {
   }
 
   Widget _thumbnailBox({
+    required BuildContext context,
     required EmbedMedia thumbnail,
     required FluxerMediaDimensions dimensions,
   }) {
@@ -154,9 +156,23 @@ class EmbedLink extends StatelessWidget {
       width: thumbnail.width,
       height: thumbnail.height,
     );
+    final double dpr = MediaQuery.devicePixelRatioOf(context);
+    final double cellWidth = displaySize?.width ?? dimensions.maxWidth;
+    final double cellHeight = displaySize?.height ?? kEmbedMediaFallbackHeight;
+    final ({int? width, int? height}) cache = coverDecodeCacheSize(
+      cellWidth: cellWidth,
+      cellHeight: cellHeight,
+      devicePixelRatio: dpr,
+      sourceWidth: thumbnail.width,
+      sourceHeight: thumbnail.height,
+    );
     final Widget image = CachedNetworkImage(
-      imageUrl: thumbnail.proxyUrl ?? thumbnail.url,
+      imageUrl: embedMediaEffectiveUrl(thumbnail),
       fit: BoxFit.cover,
+      memCacheWidth: cache.width,
+      memCacheHeight: cache.height,
+      fadeInDuration: Duration.zero,
+      fadeOutDuration: Duration.zero,
       errorBuilder: (_, e, s) => const SizedBox.shrink(),
     );
     if (displaySize != null) {

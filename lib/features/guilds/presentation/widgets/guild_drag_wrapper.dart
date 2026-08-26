@@ -256,8 +256,10 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper> {
 
     final bool collapseSource =
         useLongPressDrag &&
-        dragState.dragItemId == widget.itemId &&
-        dragState.hasMovedFromHoldPoint;
+        dragState.shouldCollapseDragSource(
+          itemId: widget.itemId,
+          useLongPressDrag: useLongPressDrag,
+        );
 
     final Widget peekHostChild = !widget.enabled
         ? dragTarget

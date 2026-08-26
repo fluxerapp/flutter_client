@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/attachment_preview_utils.dart';
 
 enum TextualAttachmentPreviewStatus { idle, loading, loaded, error }
@@ -38,7 +39,7 @@ Future<TextualAttachmentContentResult> fetchTextualAttachmentContent({
   CancelToken? cancelToken,
   Dio? dio,
 }) async {
-  if (attachment.url.isEmpty) {
+  if (!attachmentHasLoadableUrl(attachment)) {
     return const TextualAttachmentContentResult.error(
       TextualAttachmentPreviewError(
         type: TextualAttachmentPreviewErrorType.network,
@@ -57,7 +58,7 @@ Future<TextualAttachmentContentResult> fetchTextualAttachmentContent({
   final Dio client = dio ?? _textualPreviewDio;
   try {
     final Response<dynamic> response = await client.get<dynamic>(
-      attachment.url,
+      attachmentEffectiveUrl(attachment),
       cancelToken: cancelToken,
       options: Options(responseType: ResponseType.plain),
     );

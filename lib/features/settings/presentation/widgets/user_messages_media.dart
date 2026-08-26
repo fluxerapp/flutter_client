@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
+import 'package:fluxer_app/features/settings/providers/chat_input_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_domain_actions.dart';
@@ -20,6 +22,10 @@ class UserMessagesMedia extends ConsumerWidget {
     final notifier = ref.read(userSettingsViewModelProvider.notifier);
     final chat = ref.watch(chatPreferencesProvider);
     final chatNotifier = ref.read(chatPreferencesProvider.notifier);
+    final chatInputPrefs = ref.watch(chatInputPreferencesProvider);
+    final chatInputPrefsNotifier = ref.read(
+      chatInputPreferencesProvider.notifier,
+    );
     final l10n = FluxerLocalizations.of(context);
 
     final mediaSizeItems = [
@@ -161,6 +167,20 @@ class UserMessagesMedia extends ConsumerWidget {
                   ),
                 ],
               ),
+              if (isFluxerNativeMobileOs)
+                FluxerSettingsSubsection(
+                  title: l10n.messagesMediaCameraUploadsSectionTitle,
+                  description:
+                      l10n.messagesMediaCameraUploadsSectionDescription,
+                  children: [
+                    FluxerSettingsSwitchItem(
+                      label: l10n.messagesMediaCameraUploadsSaveToDeviceLabel,
+                      value: chatInputPrefs.saveCameraCapturesToDevice,
+                      onChanged: (value) => chatInputPrefsNotifier
+                          .setSaveCameraCapturesToDevice(value: value),
+                    ),
+                  ],
+                ),
             ],
           ),
           FluxerSettingsSection(

@@ -1,12 +1,19 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-typedef FluxerPasteCallback = Future<void> Function();
+typedef FluxerPasteCallback = Future<void> Function({bool attachmentsOnly});
+
+typedef FluxerNativeTextPasteCallback =
+    Future<void> Function({
+      required String textBefore,
+      required TextSelection selectionBefore,
+    });
 
 class FluxerClipboardScope extends StatefulWidget {
   const FluxerClipboardScope({
@@ -14,6 +21,7 @@ class FluxerClipboardScope extends StatefulWidget {
     required this.builder,
     this.focusNode,
     this.onPaste,
+    this.onNativeTextPaste,
     this.injectPasteWhenMissing = false,
     super.key,
   });
@@ -21,6 +29,7 @@ class FluxerClipboardScope extends StatefulWidget {
   final TextEditingController controller;
   final FocusNode? focusNode;
   final FluxerPasteCallback? onPaste;
+  final FluxerNativeTextPasteCallback? onNativeTextPaste;
   final bool injectPasteWhenMissing;
   final Widget Function(
     BuildContext context,
@@ -126,9 +135,9 @@ class FluxerClipboardScopeState extends State<FluxerClipboardScope> {
     await cutInlineTokenSelection(widget.controller);
   }
 
-  Future<void> handlePaste() async {
+  Future<void> handlePaste({bool attachmentsOnly = false}) async {
     if (widget.onPaste != null) {
-      await widget.onPaste!();
+      await widget.onPaste!(attachmentsOnly: attachmentsOnly);
       return;
     }
     await pasteIntoTextController(widget.controller);
@@ -172,6 +181,20 @@ class FluxerClipboardScopeState extends State<FluxerClipboardScope> {
     EditableTextState editableTextState,
   ) async {
     final String before = widget.controller.text;
+    final TextSelection selectionBefore = widget.controller.selection;
+    if (_shouldPreferNativeTextPaste) {
+      await editableTextState.pasteText(SelectionChangedCause.toolbar);
+      if (widget.controller.text != before) {
+        await _finishNativeTextPaste(
+          textBefore: before,
+          selectionBefore: selectionBefore,
+        );
+      } else if (widget.onPaste != null) {
+        await handlePaste(attachmentsOnly: true);
+      }
+      ContextMenuController.removeAny();
+      return;
+    }
     if (widget.onPaste != null || _isInlineTokenController) {
       await handlePaste();
     } else {
@@ -188,6 +211,30 @@ class FluxerClipboardScopeState extends State<FluxerClipboardScope> {
     // empty on Android, so remove it only once the text landed.
     ContextMenuController.removeAny();
   }
+
+  Future<void> _finishNativeTextPaste({
+    required String textBefore,
+    required TextSelection selectionBefore,
+  }) async {
+    if (widget.onNativeTextPaste != null) {
+      await widget.onNativeTextPaste!(
+        textBefore: textBefore,
+        selectionBefore: selectionBefore,
+      );
+      return;
+    }
+    if (_isInlineTokenController) {
+      await reprocessNativeInlineTokenPaste(
+        controller: widget.controller as InlineTokenTextEditingController,
+        textBefore: textBefore,
+        selectionBefore: selectionBefore,
+      );
+    }
+  }
+
+  bool get _shouldPreferNativeTextPaste =>
+      defaultTargetPlatform == TargetPlatform.iOS &&
+      (widget.onPaste != null || _isInlineTokenController);
 
   void _showPasteFailedFeedback() {
     final FluxerLocalizations? l10n = Localizations.of<FluxerLocalizations>(

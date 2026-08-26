@@ -4436,6 +4436,33 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   }
 
   @override
+  String get communityTemporarilyUnavailable =>
+      'Community temporarily unavailable';
+
+  @override
+  String get guildUnavailableDescription =>
+      'Something went wrong. We\'re working on it.';
+
+  @override
+  String get guildNotFoundTitle =>
+      'This is not the community you\'re looking for.';
+
+  @override
+  String get guildNotFoundDescription =>
+      'The community you\'re looking for may have been deleted or you may not have access to it.';
+
+  @override
+  String guildStaffOnlyAccessibleNagbar(
+    String communityName,
+    String productName,
+  ) {
+    return '$communityName is currently only accessible to $productName staff members';
+  }
+
+  @override
+  String get guildNavbarTemporarilyUnavailable => 'temporarily unavailable';
+
+  @override
   String get lookAndFeelCollapseDMsLabel => 'Kokoa yksityisviestit kansioon';
 
   @override
@@ -4809,6 +4836,16 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   @override
   String get messagesMediaGifsAutoSendLabel =>
       'Lähetä GIF-tiedostot automaattisesti valittaessa';
+
+  @override
+  String get messagesMediaCameraUploadsSectionTitle => 'Camera uploads';
+
+  @override
+  String get messagesMediaCameraUploadsSectionDescription =>
+      'Choose whether photos and videos taken with the in-app camera are kept on your device';
+
+  @override
+  String get messagesMediaCameraUploadsSaveToDeviceLabel => 'Save to device';
 
   @override
   String get messagesMediaAutocompleteSectionTitle =>
@@ -9648,6 +9685,13 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   @override
   String get advancedSettingVideoSeekThumbnailsDescription =>
       'Thumbnail or live frame while scrubbing video';
+
+  @override
+  String get advancedSettingHapticFeedbackLabel => 'Haptic feedback';
+
+  @override
+  String get advancedSettingHapticFeedbackDescription =>
+      'Vibration feedback for taps and actions. Won\'t sync across devices.';
 
   @override
   String get advancedSettingShowNekoLabel => 'Show Neko';

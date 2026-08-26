@@ -50,8 +50,10 @@ import 'package:fluxer_app/features/guilds/data/guild_user_settings_repository.d
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_navbar.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_scroll_indicator.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_provider.dart';
+import 'package:fluxer_app/features/guilds/utils/guild_outage_availability.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
 import 'package:fluxer_app/features/members/utils/guild_members_page_permissions.dart';
@@ -115,10 +117,20 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
 
   @override
   Widget build(BuildContext context) {
+    final String? guildId = ref.watch(activeGuildIdProvider);
+    final Set<String> trackedUnavailableGuildIds = ref.watch(
+      guildAvailabilityProvider,
+    );
     final Guild? guild = ref.watch(
       channelListViewModelProvider.select((s) => s.guild),
     );
-    final String? guildId = ref.watch(activeGuildIdProvider);
+    final bool guildOutageUnavailable =
+        guildId != null &&
+        isGuildOutageUnavailable(
+          guildId: guildId,
+          trackedUnavailableGuildIds: trackedUnavailableGuildIds,
+          guild: guild,
+        );
     final bool hasReceivedInitialChannelList = ref.watch(
       channelListViewModelProvider.select(
         (s) => s.hasReceivedInitialChannelList,
@@ -136,9 +148,16 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
       ),
       child: Column(
         children: [
-          _buildServerHeader(context, guild),
+          _buildServerHeader(
+            context,
+            guild,
+            outageUnavailable: guildOutageUnavailable,
+          ),
           Expanded(
-            child: !guildReady || !hasReceivedInitialChannelList
+            child:
+                guildOutageUnavailable ||
+                    !guildReady ||
+                    !hasReceivedInitialChannelList
                 ? const GuildSidebarSkeleton()
                 : _GuildSidebarChannelListHost(
                     activeGuildId: guildId,
@@ -150,8 +169,16 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
     );
   }
 
-  Widget _buildServerHeader(BuildContext context, Guild? guild) {
-    final bool hasImage = guild?.banner != null;
+  Widget _buildServerHeader(
+    BuildContext context,
+    Guild? guild, {
+    bool outageUnavailable = false,
+  }) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String headerTitle = outageUnavailable
+        ? (guild?.name ?? l10n.communityTemporarilyUnavailable)
+        : guild?.name ?? '';
+    final bool hasImage = !outageUnavailable && guild?.banner != null;
     const double headerHeight = 56;
     final List<Shadow> bannerShadows = hasImage
         ? <Shadow>[
@@ -165,7 +192,7 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
     final Color? bannerForegroundColor = hasImage ? Colors.white : null;
     final Widget headerContent = FluxerGestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: guild == null
+      onTap: outageUnavailable || guild == null
           ? null
           : () => unawaited(_handleServerHeaderTap(context, guild)),
       child: Row(
@@ -174,6 +201,7 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
             : CrossAxisAlignment.center,
         children: [
           if (guild != null &&
+              !outageUnavailable &&
               (guild.isPartnered || guild.isVerified || guild.isDiscoverable))
             Padding(
               padding: const EdgeInsets.only(right: 4),
@@ -186,7 +214,7 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
             ),
           Expanded(
             child: Text(
-              guild?.name ?? '',
+              headerTitle,
               style: context.textStyles.channelName.copyWith(
                 color: bannerForegroundColor,
                 shadows: bannerShadows,
@@ -194,12 +222,13 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          PhosphorIcon(
-            PhosphorIconsFill.caretDown,
-            color: bannerForegroundColor ?? context.colors.textChat,
-            size: 16,
-            shadows: bannerShadows,
-          ),
+          if (!outageUnavailable)
+            PhosphorIcon(
+              PhosphorIconsFill.caretDown,
+              color: bannerForegroundColor ?? context.colors.textChat,
+              size: 16,
+              shadows: bannerShadows,
+            ),
         ],
       ),
     );

@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attach
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_inline_video_player.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_fullscreen_video.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
+import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/hdr_aware_image_url.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 import 'package:fluxer_app/features/chat/utils/spoiler_utils.dart';
@@ -266,7 +267,7 @@ class AttachmentMediaGrid extends ConsumerWidget {
     required double cellHeight,
   }) {
     final bool isVideo = attachment.isVideo;
-    final bool canOpen = attachment.url.isNotEmpty;
+    final bool canOpen = attachmentHasLoadableUrl(attachment);
     final HdrDisplayMode hdrDisplayMode = ProviderScope.containerOf(
       context,
     ).read(appearancePreferencesProvider).hdrDisplayMode;
@@ -278,7 +279,7 @@ class AttachmentMediaGrid extends ConsumerWidget {
         ? (ChatVideoSource.fromAttachment(attachment, dimensions).posterUrl ??
               '')
         : buildHdrAwareImageUrl(
-            url: attachment.proxyUrl ?? attachment.url,
+            url: attachmentEffectiveUrl(attachment),
             mode: hdrDisplayMode,
             contentType: attachment.contentType,
           );
@@ -316,6 +317,8 @@ class AttachmentMediaGrid extends ConsumerWidget {
                     memCacheWidth: cache.width,
                     memCacheHeight: cache.height,
                     fit: BoxFit.cover,
+                    fadeInDuration: Duration.zero,
+                    fadeOutDuration: Duration.zero,
                     errorBuilder: (_, _, _) =>
                         const ColoredBox(color: Colors.black),
                   ),

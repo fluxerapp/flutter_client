@@ -553,7 +553,10 @@ class _DirectMessageAvatar extends StatelessWidget {
         imageUrl: data.avatarUrl!,
         width: 16,
         height: 16,
+        memCacheWidth: (16 * MediaQuery.devicePixelRatioOf(context)).round(),
         fit: BoxFit.cover,
+        fadeInDuration: Duration.zero,
+        fadeOutDuration: Duration.zero,
         errorBuilder: (_, _, _) => PhosphorIcon(
           PhosphorIconsFill.chatCircle,
           size: 14,
@@ -599,7 +602,10 @@ class _GuildSourceIcon extends StatelessWidget {
         imageUrl: guild.iconUrl!,
         width: 16,
         height: 16,
+        memCacheWidth: (16 * MediaQuery.devicePixelRatioOf(context)).round(),
         fit: BoxFit.cover,
+        fadeInDuration: Duration.zero,
+        fadeOutDuration: Duration.zero,
         errorBuilder: (_, _, _) => const SizedBox.shrink(),
       ),
     );

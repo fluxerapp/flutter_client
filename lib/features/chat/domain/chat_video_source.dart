@@ -41,14 +41,12 @@ class ChatVideoSource {
             layoutDimensions: layoutDimensions,
           );
     return ChatVideoSource(
-      directMediaUrl: attachment.url.trim().isEmpty
-          ? null
-          : attachment.url.trim(),
+      directMediaUrl: proxyOrUrl.isEmpty ? null : proxyOrUrl,
       posterUrl: posterUrl,
       placeholder: attachment.placeholder,
       width: attachment.width,
       height: attachment.height,
-      fallbackUrl: attachment.url.trim(),
+      fallbackUrl: proxyOrUrl,
     );
   }
 

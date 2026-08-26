@@ -1,4 +1,5 @@
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/utils/embed_media_viewer_utils.dart';
 
 const int kMaxEmbedGalleryMedia = 10;
 
@@ -22,7 +23,7 @@ String? normalizeEmbedUrl(String? url) {
 }
 
 bool isValidEmbedGalleryMedia(EmbedMedia? media) {
-  return media != null && media.url.isNotEmpty;
+  return media != null && embedMediaEffectiveUrl(media).isNotEmpty;
 }
 
 EmbedMedia? galleryMediaForEmbed(Embed embed) {
@@ -89,7 +90,7 @@ _EmbedListRenderMetadata _buildEmbedListRenderMetadata(List<Embed> embedList) {
       firstIndex,
       () => <String>{},
     );
-    final String mediaKey = media!.url;
+    final String mediaKey = embedMediaEffectiveUrl(media!);
     if (seenMediaKeys.contains(mediaKey)) {
       return;
     }
@@ -200,9 +201,9 @@ List<Attachment> buildGalleryAttachments({
       .map(
         (MapEntry<int, EmbedMedia> entry) => Attachment(
           id: '$idPrefix-gallery-${entry.key}',
-          filename: deriveFilenameFromUrl(entry.value.url),
+          filename: deriveFilenameFromUrl(embedMediaEffectiveUrl(entry.value)),
           title: embed.title,
-          url: entry.value.url,
+          url: embedMediaEffectiveUrl(entry.value),
           proxyUrl: entry.value.proxyUrl ?? entry.value.url,
           width: entry.value.width,
           height: entry.value.height,

@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/service/voice_message_send.dart';
+import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media_proxy_url.dart';
 import 'package:fluxer_app/features/chat/utils/voice_message_constants.dart';
 import 'package:fluxer_app/features/chat/utils/voice_message_waveform.dart';
@@ -81,7 +82,7 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
   }
 
   Future<void> _resumeFromMediaSession() async {
-    if (_isLoading || widget.attachment.url.isEmpty) {
+    if (_isLoading || !attachmentHasLoadableUrl(widget.attachment)) {
       return;
     }
     final AudioPlayer player = _ensurePlayer();
@@ -156,8 +157,7 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
   }
 
   String get _playbackUrl {
-    final String rawUrl = widget.attachment.proxyUrl ?? widget.attachment.url;
-    return buildMediaProxyUrl(rawUrl);
+    return buildMediaProxyUrl(attachmentEffectiveUrl(widget.attachment));
   }
 
   double get _displayDurationSeconds {
@@ -182,7 +182,7 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
   bool get _isActive => _isPlaying || (_hasStarted && _isLoading);
 
   Future<void> _togglePlayback() async {
-    if (_isLoading || widget.attachment.url.isEmpty) {
+    if (_isLoading || !attachmentHasLoadableUrl(widget.attachment)) {
       return;
     }
     if (_isPlaying) {

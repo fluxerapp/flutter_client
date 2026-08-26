@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/providers/well_known_provider.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
+import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/guilds/utils/invite_link_parser.dart';
@@ -97,6 +98,16 @@ Future<void> _joinGuildInvite({
   if (existingGuild == null) {
     final client = ref.read(fluxerClientProvider);
     await client.invites.acceptInvite(inviteCode: code);
+    await ref.read(guildRepositoryProvider).stageGuildJoinFromInvite(invite);
+    ref.invalidate(guildByIdProvider(guildId));
+    final Guild? stagedGuild = await ref.read(
+      guildByIdProvider(guildId).future,
+    );
+    if (stagedGuild != null) {
+      ref
+          .read(channelListViewModelProvider.notifier)
+          .loadChannels(guildId, guild: stagedGuild);
+    }
   }
   _navigateToContent(ref, RoutePaths.guildChannel(guildId, channelId));
 }

@@ -238,6 +238,8 @@ class _MessageListState extends ConsumerState<MessageList> {
   // Survives ScrollEnd (including ballistic) so onUserScrollEnd's 64px hold
   // cannot re-arm follow.
   bool _followDisarmed = false;
+  bool _pinnedTailGlueScheduled = false;
+  bool _pinnedTailGlueIgnorePin = false;
 
   // Invalidates deferred scroll effects scheduled against a previous UI
   // world: bumped on channel reload and on every wholesale window
@@ -501,6 +503,8 @@ class _MessageListState extends ConsumerState<MessageList> {
       ..removeListener(_onScroll)
       ..dispose();
     _animatedImagePlaybackController.dispose();
+    _pinnedTailGlueScheduled = false;
+    _pinnedTailGlueIgnorePin = false;
     super.dispose();
   }
 
@@ -769,8 +773,15 @@ class _MessageListState extends ConsumerState<MessageList> {
     if (_scrollController.hasClients) {
       _lastViewportDimension ??= _scrollController.position.viewportDimension;
     }
+    _syncAnimatedImageScrollPause();
     _publishDemandGeometry();
     _syncReadViewport();
+  }
+
+  void _syncAnimatedImageScrollPause() {
+    _animatedImagePlaybackController.setScrollActive(
+      active: _isUserDrivenScroll,
+    );
   }
 
   bool get _isUserDrivenScroll =>
@@ -906,10 +917,7 @@ class _MessageListState extends ConsumerState<MessageList> {
           !_useCompactScrollCache) {
         return;
       }
-      // The unified viewport keeps the compact cache only for the opening
-      // frames; expansion is safe once idle regardless of the anchor.
-      // Finger drag only; programmatic scroll must still expand cache.
-      if (_userDragActive) {
+      if (_isUserDrivenScroll) {
         _scheduleScrollCacheExpansionWhenIdle();
         return;
       }
@@ -930,9 +938,20 @@ class _MessageListState extends ConsumerState<MessageList> {
     if (notification is ScrollStartNotification &&
         notification.dragDetails != null) {
       _userDragActive = true;
+      _syncAnimatedImageScrollPause();
     } else if (notification is ScrollEndNotification) {
       _userDragActive = false;
-      _maybeExpandScrollCache();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+        _syncAnimatedImageScrollPause();
+        if (!_isUserDrivenScroll) {
+          _maybeExpandScrollCache();
+        } else {
+          _scheduleScrollCacheExpansionWhenIdle();
+        }
+      });
     }
     if (notification.depth != 0) {
       return false;
@@ -1234,16 +1253,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     _lastViewportDimension = viewport;
     if (previous != null && viewport < previous - 0.5 && _pin.pinned) {
       // Keyboard/viewport shrink while pinned: stay glued to the live tail.
-      final int epoch = _uiEpoch;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _runIfSameEpoch(epoch, () {
-          if (_scrollController.hasClients && _pin.pinned) {
-            _scrollController.jumpTo(
-              _scrollController.position.maxScrollExtent,
-            );
-          }
-        });
-      });
+      _schedulePinnedTailGlue();
     }
     // The fraction was measured against content that may since have shrunk
     // (bulk delete, trim, collapse) or a viewport that grew. Metrics
@@ -1533,19 +1543,27 @@ class _MessageListState extends ConsumerState<MessageList> {
     });
   }
 
-  // Scroll into the trailing inset so the newest message clears the composer
-  // fade. The center anchor at fraction 1.0 parks at offset 0; maxScrollExtent
-  // is the visual tail.
-  // A scroll update between the request and this callback unpins, so
-  // [ignorePin] is what keeps an accepted to-tail intent from being dropped.
-  void _settlePinnedTailScroll({bool ignorePin = false}) {
-    final int epoch = _uiEpoch;
+  void _schedulePinnedTailGlue({bool ignorePin = false}) {
+    if (_pinnedTailGlueScheduled) {
+      _pinnedTailGlueIgnorePin = _pinnedTailGlueIgnorePin || ignorePin;
+      return;
+    }
+    _pinnedTailGlueScheduled = true;
+    _pinnedTailGlueIgnorePin = ignorePin;
+    final int glueEpoch = _uiEpoch;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _runIfSameEpoch(epoch, () {
-        if (!_scrollController.hasClients || (!_pin.pinned && !ignorePin)) {
+      final bool scheduledIgnorePin = _pinnedTailGlueIgnorePin;
+      _pinnedTailGlueScheduled = false;
+      _pinnedTailGlueIgnorePin = false;
+      _runIfSameEpoch(glueEpoch, () {
+        if (!_scrollController.hasClients ||
+            (!_pin.pinned && !scheduledIgnorePin)) {
           return;
         }
         if (ref.read(chatViewModelProvider).hasMoreNewerMessages) {
+          return;
+        }
+        if (!scheduledIgnorePin && (_followDisarmed || _isUserDrivenScroll)) {
           return;
         }
         _jumpToLiveTailExtent(_scrollController.position);
@@ -1553,6 +1571,9 @@ class _MessageListState extends ConsumerState<MessageList> {
       });
     });
   }
+
+  void _settlePinnedTailScroll({bool ignorePin = false}) =>
+      _schedulePinnedTailGlue(ignorePin: ignorePin);
 
   void _jumpToLiveTailExtent(ScrollPosition position) {
     if (position.pixels < position.maxScrollExtent) {
@@ -2203,49 +2224,11 @@ class _MessageListState extends ConsumerState<MessageList> {
             _pin.onOwnSend();
             _followDisarmed = false;
           }
-          if ((origin == MessagesOrigin.liveCreate ||
-                  origin == MessagesOrigin.ownSend) &&
-              _pin.pinned) {
-            // Follow: authorized by the write's own origin AND the
-            // event-sourced pin - never recomputed from geometry here. The
-            // terminal newer page of the user's own pagination lands with
-            // pinned == false (they were detached) and preserves. A live
-            // drag/fling or a disarmed leave owns the position.
-            final int followEpoch = _uiEpoch;
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              _runIfSameEpoch(followEpoch, () {
-                if (!_scrollController.hasClients ||
-                    !_pin.pinned ||
-                    _followDisarmed ||
-                    _isUserDrivenScroll) {
-                  return;
-                }
-                _scrollController.jumpTo(
-                  _scrollController.position.maxScrollExtent,
-                );
-              });
-            });
-          }
-          if (origin == MessagesOrigin.realtimeEvent && _pin.pinned) {
-            // A delete or an edit changes the trailing extent under a reader
-            // sitting AT the tail. The framework clamps an offset that grew
-            // too large but never grows one that got too small, so a row that
-            // got taller pushes the newest message below the fold. jumpTo goes
-            // idle first, so a live drag/fling or a disarmed leave must own
-            // the position.
-            final int glueEpoch = _uiEpoch;
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              _runIfSameEpoch(glueEpoch, () {
-                if (!_scrollController.hasClients ||
-                    !_pin.pinned ||
-                    _followDisarmed ||
-                    _isUserDrivenScroll) {
-                  return;
-                }
-                final ScrollPosition position = _scrollController.position;
-                _jumpToLiveTailExtent(position);
-              });
-            });
+          if (_pin.pinned &&
+              (origin == MessagesOrigin.liveCreate ||
+                  origin == MessagesOrigin.ownSend ||
+                  origin == MessagesOrigin.realtimeEvent)) {
+            _schedulePinnedTailGlue();
           }
           // Every other origin: structurally scroll-stable by construction -
           // prepends/appends land at the far ends of the leading/trailing

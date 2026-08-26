@@ -22,6 +22,7 @@ void main() {
       SyncedPreferenceField.emojiPicker,
       SyncedPreferenceField.stickerPicker,
       SyncedPreferenceField.favoriteGifs,
+      SyncedPreferenceField.chatInput,
     });
   });
 }

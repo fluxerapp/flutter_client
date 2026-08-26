@@ -17,9 +17,11 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
+import 'package:material_ui/material_ui.dart' as material;
 
 const double _kAvatarSize = 12;
 const int _kMaxVisibleAvatars = 5;
+const double _kStatusFontSize = 12;
 
 /// Floating pill shown over the chat area when other users are typing.
 class TypingIndicatorBar extends ConsumerWidget {
@@ -152,17 +154,20 @@ class _TypingPill extends ConsumerWidget {
         ],
       ),
     );
-    final Widget content = Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        indicator,
-        SizedBox(width: compact ? 8 : 6),
-        avatarStack,
-        SizedBox(width: compact ? 8 : 8),
-        Flexible(
-          child: _buildText(context, ref, total, resolvedUsers, guildId),
-        ),
-      ],
+    final Widget content = SizedBox(
+      height: WideComposerLayout.statusLineHeight,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          indicator,
+          SizedBox(width: compact ? 8 : 6),
+          avatarStack,
+          SizedBox(width: compact ? 8 : 8),
+          Flexible(
+            child: _buildText(context, ref, total, resolvedUsers, guildId),
+          ),
+        ],
+      ),
     );
     final Widget body = compact
         ? content
@@ -170,10 +175,7 @@ class _TypingPill extends ConsumerWidget {
             constraints: const BoxConstraints(
               maxWidth: WideComposerLayout.typingMaxWidth,
             ),
-            child: SizedBox(
-              height: WideComposerLayout.statusLineHeight,
-              child: content,
-            ),
+            child: content,
           );
     return Semantics(
       liveRegion: true,
@@ -222,19 +224,13 @@ class _TypingPill extends ConsumerWidget {
         : wideComposerStatusTextShadows(surfaceColor);
     final baseStyle = context.textStyles.timestamp.copyWith(
       color: compact ? colors.textSecondary : colors.textPrimaryMuted,
-      fontSize: 12,
-      height: compact ? null : 18 / 12,
+      fontSize: _kStatusFontSize,
       fontWeight: FontWeight.w600,
       shadows: shadows,
     );
     final bulkText = resolveTypingIndicatorBulkText(l10n, total);
     if (bulkText != null) {
-      return Text(
-        bulkText,
-        style: baseStyle,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-      );
+      return _statusLabelText(text: bulkText, style: baseStyle);
     }
     final names = resolved.take(total).toList();
     final raw = typingIndicatorNamedTemplate(l10n, total);
@@ -260,10 +256,33 @@ class _TypingPill extends ConsumerWidget {
         );
       }
     }
-    return Text.rich(
-      TextSpan(style: baseStyle, children: spans),
+    return _statusLabelText(
+      textSpan: TextSpan(style: baseStyle, children: spans),
+      style: baseStyle,
+    );
+  }
+
+  Widget _statusLabelText({
+    required TextStyle style,
+    String? text,
+    InlineSpan? textSpan,
+  }) {
+    assert(text != null || textSpan != null);
+    if (textSpan != null) {
+      return material.Text.rich(
+        textSpan,
+        style: style,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        textScaler: TextScaler.noScaling,
+      );
+    }
+    return material.Text(
+      text!,
+      style: style,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
+      textScaler: TextScaler.noScaling,
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
 
 const int kTextPreviewMaxBytes = 128 * 1024;
 const int kDefaultPreviewLines = 6;
@@ -185,7 +186,7 @@ String normalizeAttachmentContentType(String? contentType) {
 }
 
 bool isTextualAttachment(Attachment attachment) {
-  if (attachment.url.isEmpty) {
+  if (!attachmentHasLoadableUrl(attachment)) {
     return false;
   }
   if (attachment.expired ?? false) {

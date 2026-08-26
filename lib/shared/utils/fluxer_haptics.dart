@@ -12,60 +12,80 @@ abstract final class FluxerHaptics {
 
   static String? _sendAhap;
   static Future<String>? _sendAhapLoad;
+  static bool _enabled = true;
 
   static bool get supportsExpressive =>
       !kIsWeb && (Platform.isIOS || Platform.isAndroid);
 
-  static void selection() => Gaimon.selection();
+  static bool get enabled => _enabled;
 
-  static void light() => Gaimon.light();
+  static void setEnabled(bool value) {
+    _enabled = value;
+  }
 
-  static void medium() => Gaimon.medium();
+  static void selection() => _run(Gaimon.selection);
 
-  static void heavy() => Gaimon.heavy();
+  static void light() => _run(Gaimon.light);
+
+  static void medium() => _run(Gaimon.medium);
+
+  static void heavy() => _run(Gaimon.heavy);
 
   static void soft() {
-    if (supportsExpressive) {
-      Gaimon.soft();
-      return;
-    }
-    Gaimon.light();
+    _run(() {
+      if (supportsExpressive) {
+        Gaimon.soft();
+        return;
+      }
+      Gaimon.light();
+    });
   }
 
   static void rigid() {
-    if (supportsExpressive) {
-      Gaimon.rigid();
-      return;
-    }
-    Gaimon.heavy();
+    _run(() {
+      if (supportsExpressive) {
+        Gaimon.rigid();
+        return;
+      }
+      Gaimon.heavy();
+    });
   }
 
   static void success() {
-    if (supportsExpressive) {
-      Gaimon.success();
-      return;
-    }
-    Gaimon.medium();
+    _run(() {
+      if (supportsExpressive) {
+        Gaimon.success();
+        return;
+      }
+      Gaimon.medium();
+    });
   }
 
   static void error() {
-    if (supportsExpressive) {
-      Gaimon.error();
-      return;
-    }
-    Gaimon.heavy();
+    _run(() {
+      if (supportsExpressive) {
+        Gaimon.error();
+        return;
+      }
+      Gaimon.heavy();
+    });
   }
 
   static void warning() {
-    if (supportsExpressive) {
-      Gaimon.warning();
-      return;
-    }
-    Gaimon.medium();
+    _run(() {
+      if (supportsExpressive) {
+        Gaimon.warning();
+        return;
+      }
+      Gaimon.medium();
+    });
   }
 
   /// Soft flick for sending a message.
   static void send() {
+    if (!_enabled) {
+      return;
+    }
     if (!supportsExpressive) {
       Gaimon.soft();
       return;
@@ -84,7 +104,7 @@ abstract final class FluxerHaptics {
 
   /// Preload the send AHAP so the first send feels instant (instead of delayed)
   static Future<void> warmSend() {
-    if (!supportsExpressive) {
+    if (!_enabled || !supportsExpressive) {
       return Future<void>.value();
     }
     return _loadSendAhap();
@@ -101,17 +121,24 @@ abstract final class FluxerHaptics {
 
   /// Play a custom AHAP JSON pattern
   static void pattern(String ahapJson) {
-    if (!supportsExpressive) {
+    if (!_enabled || !supportsExpressive) {
       return;
     }
     Gaimon.patternFromData(ahapJson);
   }
 
   static void stop() {
-    if (!supportsExpressive) {
+    if (!_enabled || !supportsExpressive) {
       return;
     }
     Gaimon.stop();
+  }
+
+  static void _run(void Function() action) {
+    if (!_enabled) {
+      return;
+    }
+    action();
   }
 
   static Future<String> _loadSendAhap() {

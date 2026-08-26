@@ -42,7 +42,7 @@ class ComposerClipboardScope extends ConsumerStatefulWidget {
 
 class _ComposerClipboardScopeState
     extends ConsumerState<ComposerClipboardScope> {
-  Future<void> _handlePaste() {
+  Future<void> _handlePaste({bool attachmentsOnly = false}) {
     return handleComposerPaste(
       ref: ref,
       channelId: widget.channelId,
@@ -53,6 +53,22 @@ class _ComposerClipboardScopeState
       onPasteExceedsLimit: widget.onPasteExceedsLimit,
       onPasteLostContent: widget.onPasteLostContent,
       onValidationResult: widget.onValidationResult,
+      attachmentsOnly: attachmentsOnly,
+    );
+  }
+
+  Future<void> _handleNativeTextPaste({
+    required String textBefore,
+    required TextSelection selectionBefore,
+  }) {
+    return finishComposerNativeTextPaste(
+      controller: widget.controller,
+      textBefore: textBefore,
+      selectionBefore: selectionBefore,
+      maxMessageLength: widget.maxMessageLength,
+      canAttachOnExceed: widget.canAttachOnExceed,
+      onPasteExceedsLimit: widget.onPasteExceedsLimit,
+      onPasteLostContent: widget.onPasteLostContent,
     );
   }
 
@@ -62,6 +78,7 @@ class _ComposerClipboardScopeState
       controller: widget.controller,
       focusNode: widget.focusNode,
       onPaste: _handlePaste,
+      onNativeTextPaste: _handleNativeTextPaste,
       injectPasteWhenMissing: widget.isAttachEnabled,
       builder: widget.builder,
     );

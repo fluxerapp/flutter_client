@@ -2,6 +2,7 @@ import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_con
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_media_grid.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_renderer.dart';
+import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/spoiler_utils.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -47,7 +48,7 @@ class AttachmentListRenderer extends StatelessWidget {
           (Attachment attachment) =>
               inlineAttachmentMedia &&
               attachment.isPreviewMedia &&
-              attachment.url.isNotEmpty,
+              attachmentHasLoadableUrl(attachment),
         )
         .toList();
     final bool shouldRenderMediaGrid = mediaAttachments.length > 1;
@@ -58,7 +59,7 @@ class AttachmentListRenderer extends StatelessWidget {
       final bool isMediaAttachment =
           inlineAttachmentMedia &&
           attachment.isPreviewMedia &&
-          attachment.url.isNotEmpty;
+          attachmentHasLoadableUrl(attachment);
       if (shouldRenderMediaGrid && isMediaAttachment) {
         if (!hasRenderedGrid) {
           children.add(

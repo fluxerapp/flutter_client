@@ -5,8 +5,10 @@ import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_fiel
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
 import 'package:fluxer_app/features/guilds/data/guild_order_repository.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_drag_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
+import 'package:fluxer_app/features/guilds/utils/guild_outage_availability.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_dart/models/user_settings_response_guild_folders.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -46,11 +48,23 @@ class GuildNavbarGuild extends GuildNavbarItem {
 List<GuildNavbarItem> computeOrganizedGuildList({
   required List<Guild> guilds,
   required List<UserSettingsResponseGuildFolders> folders,
+  Set<String> trackedUnavailableGuildIds = const {},
 }) {
+  final List<Guild> visibleGuilds = guilds
+      .where(
+        (Guild guild) => isGuildVisibleOnGuildRail(
+          guildId: guild.id,
+          trackedUnavailableGuildIds: trackedUnavailableGuildIds,
+          guild: guild,
+        ),
+      )
+      .toList();
   if (folders.isEmpty) {
-    return guilds.map((Guild g) => GuildNavbarGuild(guild: g)).toList();
+    return visibleGuilds.map((Guild g) => GuildNavbarGuild(guild: g)).toList();
   }
-  final guildMap = <String, Guild>{for (final Guild g in guilds) g.id: g};
+  final guildMap = <String, Guild>{
+    for (final Guild g in visibleGuilds) g.id: g,
+  };
   final placedGuildIds = <String>{};
   final items = <GuildNavbarItem>[];
   for (final folder in folders) {
@@ -83,8 +97,8 @@ List<GuildNavbarItem> computeOrganizedGuildList({
       );
     }
   }
-  final unplacedGuilds = guilds
-      .where((Guild g) => !placedGuildIds.contains(g.id) && !g.isUnavailable)
+  final unplacedGuilds = visibleGuilds
+      .where((Guild g) => !placedGuildIds.contains(g.id))
       .toList();
   if (unplacedGuilds.isEmpty) {
     return items;
@@ -94,6 +108,53 @@ List<GuildNavbarItem> computeOrganizedGuildList({
       GuildNavbarGuild(guild: unplacedGuilds[i]),
   ];
   return [...prefix, ...items];
+}
+
+List<GuildNavbarItem> stripOutageUnavailableFromNavbarItems({
+  required List<GuildNavbarItem> items,
+  required List<Guild> guilds,
+  required Set<String> trackedUnavailableGuildIds,
+}) {
+  final Map<String, Guild> guildById = {
+    for (final Guild guild in guilds) guild.id: guild,
+  };
+  bool isVisible(Guild guild) => isGuildVisibleOnGuildRail(
+    guildId: guild.id,
+    trackedUnavailableGuildIds: trackedUnavailableGuildIds,
+    guild: guildById[guild.id] ?? guild,
+  );
+  final List<GuildNavbarItem> result = <GuildNavbarItem>[];
+  for (final GuildNavbarItem item in items) {
+    switch (item) {
+      case GuildNavbarGuild(:final guild):
+        if (isVisible(guild)) {
+          result.add(item);
+        }
+      case GuildNavbarFolder():
+        final List<Guild> visibleFolderGuilds = item.guilds
+            .map((Guild guild) => guildById[guild.id] ?? guild)
+            .where(isVisible)
+            .toList();
+        if (visibleFolderGuilds.isEmpty) {
+          continue;
+        }
+        if (visibleFolderGuilds.length == 1) {
+          result.add(GuildNavbarGuild(guild: visibleFolderGuilds.first));
+        } else {
+          result.add(
+            GuildNavbarFolder(
+              id: item.id,
+              name: item.name,
+              color: item.color,
+              flags: item.flags,
+              icon: item.icon,
+              guilds: visibleFolderGuilds,
+            ),
+          );
+        }
+    }
+  }
+  return result;
 }
 
 List<Guild> flattenOrganizedGuildList(List<GuildNavbarItem> items) {
@@ -172,9 +233,13 @@ class OrganizedGuildList extends _$OrganizedGuildList {
   List<GuildNavbarItem> build() {
     final folders = ref.watch(guildFoldersProvider).value ?? [];
     final GuildListViewState guildState = ref.watch(guildListViewModelProvider);
+    final Set<String> trackedUnavailableGuildIds = ref.watch(
+      guildAvailabilityProvider,
+    );
     final computed = computeOrganizedGuildList(
       guilds: guildState.guilds,
       folders: folders,
+      trackedUnavailableGuildIds: trackedUnavailableGuildIds,
     );
 
     ref.listen(guildFoldersProvider, (previous, next) {
@@ -189,6 +254,7 @@ class OrganizedGuildList extends _$OrganizedGuildList {
       state = computeOrganizedGuildList(
         guilds: ref.read(guildListViewModelProvider).guilds,
         folders: incoming,
+        trackedUnavailableGuildIds: ref.read(guildAvailabilityProvider),
       );
     });
 
@@ -196,7 +262,11 @@ class OrganizedGuildList extends _$OrganizedGuildList {
       return computed;
     }
 
-    return _refreshGuildsInItems(state, guildState.guilds);
+    return stripOutageUnavailableFromNavbarItems(
+      items: _refreshGuildsInItems(state, guildState.guilds),
+      guilds: guildState.guilds,
+      trackedUnavailableGuildIds: trackedUnavailableGuildIds,
+    );
   }
 
   void reorder({

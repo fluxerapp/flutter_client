@@ -104,11 +104,27 @@ class _YouTubeThumbnail extends StatelessWidget {
         else
           const ColoredBox(color: Colors.black),
         Positioned.fill(
-          child: CachedNetworkImage(
-            imageUrl: posterUrl,
-            fit: BoxFit.cover,
-            placeholder: (_, _) => const SizedBox.shrink(),
-            errorBuilder: (_, _, _) => const SizedBox.shrink(),
+          child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              final double dpr = MediaQuery.devicePixelRatioOf(context);
+              final ({int? width, int? height}) cache = coverDecodeCacheSize(
+                cellWidth: constraints.maxWidth,
+                cellHeight: constraints.maxHeight,
+                devicePixelRatio: dpr,
+                sourceWidth: thumbnail.width,
+                sourceHeight: thumbnail.height,
+              );
+              return CachedNetworkImage(
+                imageUrl: posterUrl,
+                fit: BoxFit.cover,
+                memCacheWidth: cache.width,
+                memCacheHeight: cache.height,
+                fadeInDuration: Duration.zero,
+                fadeOutDuration: Duration.zero,
+                placeholder: (_, _) => const SizedBox.shrink(),
+                errorBuilder: (_, _, _) => const SizedBox.shrink(),
+              );
+            },
           ),
         ),
         ColoredBox(color: Colors.black.withValues(alpha: 0.18)),

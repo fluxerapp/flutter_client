@@ -8,7 +8,7 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: curly_braces_in_flow_control_structures
 // ignore_for_file: deprecated_member_use_from_same_package, library_prefixes
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, prefer_relative_imports
 
 import 'dart:core' as $core;
 
@@ -2981,9 +2981,12 @@ class KeybindCombo extends $pb.GeneratedMessage {
 class ChatInputSettings extends $pb.GeneratedMessage {
   factory ChatInputSettings({
     $core.bool? convertEmoticons,
+    $core.bool? saveCameraCapturesToDevice,
   }) {
     final result = create();
     if (convertEmoticons != null) result.convertEmoticons = convertEmoticons;
+    if (saveCameraCapturesToDevice != null)
+      result.saveCameraCapturesToDevice = saveCameraCapturesToDevice;
     return result;
   }
 
@@ -3002,6 +3005,7 @@ class ChatInputSettings extends $pb.GeneratedMessage {
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
       createEmptyInstance: create)
     ..aOB(1, _omitFieldNames ? '' : 'convertEmoticons')
+    ..aOB(2, _omitFieldNames ? '' : 'saveCameraCapturesToDevice')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -3031,6 +3035,15 @@ class ChatInputSettings extends $pb.GeneratedMessage {
   $core.bool hasConvertEmoticons() => $_has(0);
   @$pb.TagNumber(1)
   void clearConvertEmoticons() => $_clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.bool get saveCameraCapturesToDevice => $_getBF(1);
+  @$pb.TagNumber(2)
+  set saveCameraCapturesToDevice($core.bool value) => $_setBool(1, value);
+  @$pb.TagNumber(2)
+  $core.bool hasSaveCameraCapturesToDevice() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearSaveCameraCapturesToDevice() => $_clearField(2);
 }
 
 const $core.bool _omitFieldNames =

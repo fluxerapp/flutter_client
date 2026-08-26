@@ -21,6 +21,7 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/widgets/shared_video_controls.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart' as mkv;
+import 'package:visibility_detector/visibility_detector.dart';
 
 typedef ChatVideoControlsBuilder = Widget Function(mkv.VideoState state);
 
@@ -68,6 +69,7 @@ class _ChatInlineVideoPlayerState extends ConsumerState<ChatInlineVideoPlayer> {
   bool _isMuted = false;
   double _playbackRate = 1;
   Timer? _controlsHideTimer;
+  bool _pausedOffscreen = false;
 
   @override
   void dispose() {
@@ -217,12 +219,47 @@ class _ChatInlineVideoPlayerState extends ConsumerState<ChatInlineVideoPlayer> {
             ),
     );
     if (!widget.applyMaxHeight) {
-      return player;
+      return _wrapVisibility(player);
     }
-    return ConstrainedBox(
-      constraints: BoxConstraints(maxHeight: dimensions.maxHeight),
-      child: player,
+    return _wrapVisibility(
+      ConstrainedBox(
+        constraints: BoxConstraints(maxHeight: dimensions.maxHeight),
+        child: player,
+      ),
     );
+  }
+
+  Widget _wrapVisibility(Widget child) {
+    return VisibilityDetector(
+      key: ValueKey<String>(
+        'inline-video-${widget.source.directMediaUrl ?? widget.source.pageUrl ?? ''}',
+      ),
+      onVisibilityChanged: _onVisibilityChanged,
+      child: child,
+    );
+  }
+
+  void _onVisibilityChanged(VisibilityInfo info) {
+    final Player? player = _player;
+    if (player == null || !_hasLoadedMedia) {
+      return;
+    }
+    final ChatInlineVideoOffscreenAction action =
+        resolveInlineVideoOffscreenAction(
+          visible: info.visibleFraction > 0,
+          isPlaying: _isPlaying,
+          pausedOffscreen: _pausedOffscreen,
+        );
+    switch (action) {
+      case ChatInlineVideoOffscreenAction.none:
+        return;
+      case ChatInlineVideoOffscreenAction.pause:
+        _pausedOffscreen = true;
+        unawaited(player.pause());
+      case ChatInlineVideoOffscreenAction.resume:
+        _pausedOffscreen = false;
+        unawaited(player.play());
+    }
   }
 
   Player _ensurePlayer() {
@@ -466,6 +503,8 @@ class _ChatInlineVideoPlayerState extends ConsumerState<ChatInlineVideoPlayer> {
                 fit: widget.posterFit,
                 memCacheWidth: cache.width,
                 memCacheHeight: cache.height,
+                fadeInDuration: Duration.zero,
+                fadeOutDuration: Duration.zero,
                 placeholder: (_, _) => const SizedBox.shrink(),
                 errorBuilder: (_, _, _) => const SizedBox.shrink(),
               );

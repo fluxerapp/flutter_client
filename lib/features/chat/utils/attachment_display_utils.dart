@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const Set<String> kImageAttachmentExtensions = <String>{
@@ -141,6 +142,18 @@ IconData phosphorFillIconForChatAttachmentFilename(String filename) {
     return PhosphorIconsFill.filePpt;
   }
   return PhosphorIconsFill.file;
+}
+
+String attachmentEffectiveUrl(Attachment attachment) {
+  final String? proxyUrl = attachment.proxyUrl?.trim();
+  if (proxyUrl != null && proxyUrl.isNotEmpty) {
+    return proxyUrl;
+  }
+  return attachment.url.trim();
+}
+
+bool attachmentHasLoadableUrl(Attachment attachment) {
+  return attachmentEffectiveUrl(attachment).isNotEmpty;
 }
 
 String? attachmentEffectiveDownloadUrl({

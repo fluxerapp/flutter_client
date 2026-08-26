@@ -112,6 +112,69 @@ int projectedWireLengthAfterPaste(
   return (beforeWire + sanitized + afterWire).trim().length;
 }
 
+String extractInsertedDisplayText({
+  required String textBefore,
+  required String textAfter,
+  required TextSelection selectionBefore,
+}) {
+  final int start = selectionBefore.isValid
+      ? selectionBefore.start
+      : textBefore.length;
+  final int end = selectionBefore.isValid ? selectionBefore.end : start;
+  final String prefix = textBefore.substring(0, start);
+  final String suffix = textBefore.substring(end);
+  if (textAfter.startsWith(prefix) && textAfter.endsWith(suffix)) {
+    return textAfter.substring(prefix.length, textAfter.length - suffix.length);
+  }
+  if (textBefore.isEmpty) {
+    return textAfter;
+  }
+  if (textAfter.length > textBefore.length &&
+      textAfter.startsWith(textBefore)) {
+    return textAfter.substring(textBefore.length);
+  }
+  return textAfter;
+}
+
+Future<bool> reprocessNativeTextPaste({
+  required TextEditingController controller,
+  required String textBefore,
+  required TextSelection selectionBefore,
+  required Future<bool> Function(String inserted) applyPaste,
+}) async {
+  if (controller.text == textBefore) {
+    return false;
+  }
+  final String inserted = extractInsertedDisplayText(
+    textBefore: textBefore,
+    textAfter: controller.text,
+    selectionBefore: selectionBefore,
+  );
+  if (inserted.isEmpty) {
+    return true;
+  }
+  controller.value = controller.value.copyWith(
+    text: textBefore,
+    selection: selectionBefore,
+    composing: TextRange.empty,
+  );
+  return applyPaste(inserted);
+}
+
+Future<bool> reprocessNativeInlineTokenPaste({
+  required InlineTokenTextEditingController controller,
+  required String textBefore,
+  required TextSelection selectionBefore,
+}) {
+  return reprocessNativeTextPaste(
+    controller: controller,
+    textBefore: textBefore,
+    selectionBefore: selectionBefore,
+    applyPaste: (String inserted) =>
+        pasteWireTextIntoInlineTokenController(controller, inserted),
+  );
+}
+
 Future<bool> pasteWireTextIntoInlineTokenController(
   TextEditingController controller,
   String clipboardText,
@@ -174,14 +237,13 @@ Future<String?> readClipboardPlainText() async {
   }
 }
 
-Future<void> pasteIntoTextController(TextEditingController controller) async {
+Future<bool> pasteIntoTextController(TextEditingController controller) async {
   final String? text = await readClipboardPlainText();
   if (text == null || text.isEmpty) {
-    return;
+    return false;
   }
   if (controller is InlineTokenTextEditingController) {
-    await pasteWireTextIntoInlineTokenController(controller, text);
-    return;
+    return pasteWireTextIntoInlineTokenController(controller, text);
   }
   final TextEditingValue oldValue = controller.value;
   final TextSelection selection = oldValue.selection;
@@ -199,4 +261,5 @@ Future<void> pasteIntoTextController(TextEditingController controller) async {
     selection: TextSelection.collapsed(offset: insertStart + text.length),
     composing: TextRange.empty,
   );
+  return true;
 }

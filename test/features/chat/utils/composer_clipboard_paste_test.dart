@@ -56,6 +56,65 @@ void _mockClipboardText(String text) {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
+  group('clipboardLikelyHasFileAttachments', () {
+    test('returns false when clipboard has strings', () {
+      expect(clipboardLikelyHasFileAttachments(hasStrings: true), isFalse);
+    });
+
+    test('returns true when clipboard has no strings', () {
+      expect(clipboardLikelyHasFileAttachments(hasStrings: false), isTrue);
+    });
+
+    test('returns true when clipboard string presence is unknown', () {
+      expect(clipboardLikelyHasFileAttachments(hasStrings: null), isTrue);
+    });
+  });
+
+  group('readClipboardLikelyHasFileAttachments', () {
+    tearDown(() {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform, null);
+    });
+
+    test('reads clipboard string presence from the platform', () async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform, (
+            MethodCall methodCall,
+          ) async {
+            if (methodCall.method == 'Clipboard.hasStrings') {
+              return <String, bool>{'value': true};
+            }
+            return null;
+          });
+
+      expect(await readClipboardLikelyHasFileAttachments(), isFalse);
+    });
+  });
+
+  group('finishComposerNativeTextPaste', () {
+    testWidgets('re-chips pasted mention wire text after native paste', (
+      WidgetTester tester,
+    ) async {
+      final ComposerMentionController controller = await _pumpMentionController(
+        tester,
+      );
+      controller.text = 'hi <@123>';
+
+      await finishComposerNativeTextPaste(
+        controller: controller,
+        textBefore: '',
+        selectionBefore: const TextSelection.collapsed(offset: 0),
+        maxMessageLength: 100,
+        canAttachOnExceed: () => false,
+        onPasteExceedsLimit: (_) => fail('should not exceed'),
+      );
+      await tester.pump();
+
+      expect(controller.text, isNot(contains('<@123>')));
+      expect(controller.toWireText(), 'hi <@123>');
+    });
+  });
+
   group('projectedWireLengthAfterPaste', () {
     testWidgets('projects wire length for insertion at caret', (
       WidgetTester tester,

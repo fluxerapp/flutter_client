@@ -48,6 +48,17 @@ class DragState {
   bool get showMobileDragFeedback =>
       isDragging && hasMovedFromHoldPoint && dragFeedbackGlobalY != null;
 
+  /// Whether [itemId] should visually collapse while being dragged.
+  bool shouldCollapseDragSource({
+    required String itemId,
+    required bool useLongPressDrag,
+  }) {
+    if (dragItemId != itemId) {
+      return false;
+    }
+    return !useLongPressDrag || hasMovedFromHoldPoint;
+  }
+
   DragState copyWith({
     String? dragItemId,
     bool? dragSourceIsFolder,

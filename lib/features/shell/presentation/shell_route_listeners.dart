@@ -20,7 +20,9 @@ import 'package:fluxer_app/core/share/shared_media_payload.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/share_media_sheet.dart';
 import 'package:fluxer_app/features/gateway/providers/guild_sync_provider.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
+import 'package:fluxer_app/features/guilds/utils/guild_outage_availability.dart';
 import 'package:fluxer_app/features/members/providers/member_list_desired_ranges_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
@@ -172,6 +174,13 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
   void _applyActiveGuildEffects(String guildId) {
     final guilds = ref.read(guildListViewModelProvider).guilds;
     final guild = guilds.where((g) => g.id == guildId).firstOrNull;
+    if (isGuildOutageUnavailable(
+      guildId: guildId,
+      trackedUnavailableGuildIds: ref.read(guildAvailabilityProvider),
+      guild: guild,
+    )) {
+      return;
+    }
     ref
         .read(channelListViewModelProvider.notifier)
         .loadChannels(guildId, guild: guild);

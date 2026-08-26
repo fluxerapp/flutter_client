@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/user_advanced_
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/haptics_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/settings/utils/platform_desktop_utils.dart';
@@ -85,6 +86,11 @@ class _FakeObservabilityReporting extends ObservabilityReporting {
   bool build() => false;
 }
 
+class _FakeHapticsPreferences extends HapticsPreferences {
+  @override
+  bool build() => true;
+}
+
 List<Override> _overrides() {
   return [
     syncedPreferencesStoreProvider.overrideWith(
@@ -98,6 +104,7 @@ List<Override> _overrides() {
     observabilityReportingProvider.overrideWith(
       _FakeObservabilityReporting.new,
     ),
+    hapticsPreferencesProvider.overrideWith(_FakeHapticsPreferences.new),
   ];
 }
 

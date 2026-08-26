@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
+import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/guilds/utils/guild_outage_availability.dart';
 
 const int _kGuildCategoryType = 4;
 const int _kGuildLinkType = 998;
@@ -13,11 +15,20 @@ Future<String?> resolveGuildRootRedirect({
   required String? guildId,
   required String fullPath,
   required FluxerDatabase db,
+  Set<String> trackedUnavailableGuildIds = const {},
 }) async {
   if (guildId == null) {
     return RoutePaths.me;
   }
   if (RegExp('^/channels/[^/]+/.+').hasMatch(fullPath)) {
+    return null;
+  }
+  final existing = await db.guildDao.getServerById(guildId);
+  if (isGuildOutageUnavailable(
+    guildId: guildId,
+    trackedUnavailableGuildIds: trackedUnavailableGuildIds,
+    guild: existing == null ? null : Guild.fromRow(existing),
+  )) {
     return null;
   }
   final String? lastChannelId = await db.guildLastChannelDao.getLastChannel(

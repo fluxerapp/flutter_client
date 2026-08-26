@@ -15,7 +15,8 @@ QuickSwitcherCandidateSets buildQuickSwitcherCandidateSets(
   QuickSwitcherBuildInput input,
 ) {
   final Map<String, Guild> guildsById = <String, Guild>{
-    for (final Guild guild in input.guilds) guild.id: guild,
+    for (final Guild guild in input.guilds)
+      if (!guild.unavailable) guild.id: guild,
   };
   final Map<String, String?> friendNicknameById = friendNicknamesById(
     input.friends,
@@ -112,7 +113,10 @@ QuickSwitcherCandidateSets buildQuickSwitcherCandidateSets(
       continue;
     }
     final Guild? guild = guildsById[channel.guildId];
-    final String guildName = guild?.name ?? '';
+    if (guild == null) {
+      continue;
+    }
+    final String guildName = guild.name ?? '';
     final int sortWeight = _channelSortWeight(channel);
     final QuickSwitcherChannelCandidate candidate =
         QuickSwitcherChannelCandidate(
@@ -122,7 +126,7 @@ QuickSwitcherCandidateSets buildQuickSwitcherCandidateSets(
           channelId: channel.id,
           guildId: channel.guildId,
           guildName: guildName,
-          guildIcon: guild?.icon,
+          guildIcon: guild.icon,
           isVoice: channel.type == ChannelType.guildVoice,
           searchValues: <String>[channel.name, guildName, channel.id],
           sortWeight: sortWeight,
