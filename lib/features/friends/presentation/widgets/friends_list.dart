@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -134,14 +135,19 @@ class FriendsList extends ConsumerWidget {
                   FriendsTab.pending,
                   activeTab,
                 ),
-                FluxerButton.primary(
-                  label: FluxerLocalizations.of(
-                    context,
-                  ).profileSendFriendRequest,
-                  size: FluxerButtonSize.compact,
-                  fitContent: true,
-                  onPressed: () => AddFriendSheet.show(context),
-                ),
+                if (!ref.watch(
+                  instanceRuntimeConfigProvider.select(
+                    (config) => config.directMessagesDisabled,
+                  ),
+                ))
+                  FluxerButton.primary(
+                    label: FluxerLocalizations.of(
+                      context,
+                    ).profileSendFriendRequest,
+                    size: FluxerButtonSize.compact,
+                    fitContent: true,
+                    onPressed: () => AddFriendSheet.show(context),
+                  ),
               ],
             ),
           ),
@@ -645,6 +651,9 @@ class FriendsList extends ConsumerWidget {
     WidgetRef ref,
     Friend friend,
   ) async {
+    if (ref.read(instanceRuntimeConfigProvider).directMessagesDisabled) {
+      return;
+    }
     final String channelId = await ref
         .read(dmRepositoryProvider)
         .ensureDmChannel(friend.id);

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_notifications_permission_banner.dart';
@@ -49,7 +50,13 @@ class UserNotificationsSettings extends ConsumerWidget {
         : l10n.notificationsEnableNotificationsLabel;
     final String notificationsDescription = isDesktopOs
         ? l10n.notificationsEnableDesktopNotificationsDescription
-        : l10n.notificationsEnableNotificationsDescription('Fluxer');
+        : l10n.notificationsEnableNotificationsDescription(
+            ref.watch(
+              instanceRuntimeConfigProvider.select(
+                (config) => config.productName,
+              ),
+            ),
+          );
     final timeoutItems = List<FluxerSelectItem<int>>.generate(
       _kMaxAfkTimeoutMinutes,
       (int index) {
@@ -95,7 +102,13 @@ class UserNotificationsSettings extends ConsumerWidget {
                 ),
                 SizedBox(height: layout.s1),
                 Text(
-                  l10n.notificationsPushInactiveTimeoutDescription('Fluxer'),
+                  l10n.notificationsPushInactiveTimeoutDescription(
+                    ref.watch(
+                      instanceRuntimeConfigProvider.select(
+                        (config) => config.productName,
+                      ),
+                    ),
+                  ),
                   style: textStyles.smallText.copyWith(
                     color: colors.textSecondary,
                   ),

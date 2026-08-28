@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_context_menu_item.dart';
@@ -57,6 +58,9 @@ Future<GuildAction?> showGuildContextMenu(
     hideMutedChannels: hideMutedChannels,
     developerMode: developerMode,
     isTouchPrimary: isTouchPrimary,
+    isStockCommunity: ProviderScope.containerOf(
+      context,
+    ).read(instanceRuntimeConfigProvider).isStockCommunityGuild(guild.id),
     guild: guild,
   );
 

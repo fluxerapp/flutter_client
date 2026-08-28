@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_thumbhash/flutter_thumbhash.dart';
+import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
@@ -12,6 +13,7 @@ import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/chat_video_hdr_player_config.dart';
 import 'package:fluxer_app/features/chat/utils/chat_video_playback_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media_kit_player_lifecycle.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -70,17 +72,33 @@ class _ChatInlineVideoPlayerState extends ConsumerState<ChatInlineVideoPlayer> {
   double _playbackRate = 1;
   Timer? _controlsHideTimer;
   bool _pausedOffscreen = false;
+  final MediaKitForegroundResumeController _foregroundResume =
+      MediaKitForegroundResumeController();
 
   @override
   void dispose() {
     _controlsHideTimer?.cancel();
-    unawaited(_playingSubscription?.cancel());
-    unawaited(_bufferingSubscription?.cancel());
-    unawaited(_positionSubscription?.cancel());
-    unawaited(_durationSubscription?.cancel());
-    unawaited(_errorSubscription?.cancel());
-    unawaited(_player?.dispose());
+    unawaited(_disposePlayer());
     super.dispose();
+  }
+
+  Future<void> _disposePlayer() async {
+    await _playingSubscription?.cancel();
+    await _bufferingSubscription?.cancel();
+    await _positionSubscription?.cancel();
+    await _durationSubscription?.cancel();
+    await _errorSubscription?.cancel();
+    _playingSubscription = null;
+    _bufferingSubscription = null;
+    _positionSubscription = null;
+    _durationSubscription = null;
+    _errorSubscription = null;
+    final Player? player = _player;
+    _player = null;
+    _controller = null;
+    if (player != null) {
+      await MediaKitPlayerLifecycleCoordinator.instance.stopAndDispose(player);
+    }
   }
 
   double _resolveAspectRatio() {
@@ -144,6 +162,19 @@ class _ChatInlineVideoPlayerState extends ConsumerState<ChatInlineVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<bool>(appUiForegroundProvider, (bool? previous, bool next) {
+      _foregroundResume.handleAppForegroundChanged(
+        isForeground: next,
+        isPlaying: _isPlaying,
+        canResume: _hasLoadedMedia && !_pausedOffscreen && !_playbackFailed,
+        onResume: () async {
+          final Player? player = _player;
+          if (player != null) {
+            await player.play();
+          }
+        },
+      );
+    });
     ref.listen<HdrDisplayMode>(
       appearancePreferencesProvider.select(
         (AppearancePreferencesState state) => state.hdrDisplayMode,
@@ -267,7 +298,8 @@ class _ChatInlineVideoPlayerState extends ConsumerState<ChatInlineVideoPlayer> {
     if (existingPlayer != null) {
       return existingPlayer;
     }
-    final Player player = Player();
+    final Player player = MediaKitPlayerLifecycleCoordinator.instance
+        .createPlayer();
     _player = player;
     unawaited(player.setVolume(_volume));
     unawaited(player.setRate(_playbackRate));

@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/shell/providers/shell_manual_gesture_block_provider.dart';
 import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
+import 'package:fluxer_app/features/voice/utils/voice_phone_call_layout.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class MobileChatBackScope extends ConsumerWidget {
@@ -22,8 +23,9 @@ class MobileChatBackScope extends ConsumerWidget {
       return child;
     }
 
-    ref.watch(expressionPanelProvider);
-    ref.watch(attachmentPanelProvider);
+    ref
+      ..watch(expressionPanelProvider)
+      ..watch(attachmentPanelProvider);
 
     return PopScope(
       canPop: false,
@@ -43,6 +45,7 @@ class MobileChatBackScope extends ConsumerWidget {
             ),
             revealSide: ref.read(currentRevealSideProvider),
             shellLocation: ref.read(shellLocationProvider),
+            minimizePhoneVoiceCall: shouldMinimizePhoneVoiceCall(context, ref),
           ),
           closeExpressionPanel: () {
             ref.read(expressionPanelProvider.notifier).close();

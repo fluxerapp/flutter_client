@@ -3,10 +3,11 @@ import 'package:fluxer_app/features/chat/providers/channel/channel_message_permi
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 
 List<ExpressionPickerTab> expressionPanelVisibleTabs(
-  ChannelMessagePermissions perms,
-) {
+  ChannelMessagePermissions perms, {
+  bool gifEnabled = true,
+}) {
   return <ExpressionPickerTab>[
-    if (perms.canShowEmbedControls) ExpressionPickerTab.gifs,
+    if (perms.canShowEmbedControls && gifEnabled) ExpressionPickerTab.gifs,
     if (perms.canShowAttachControls) ExpressionPickerTab.memes,
     ExpressionPickerTab.stickers,
     ExpressionPickerTab.emojis,
@@ -16,9 +17,10 @@ List<ExpressionPickerTab> expressionPanelVisibleTabs(
 List<ExpressionPickerTab> composerInputButtonVisibleTabs({
   required ChannelMessagePermissions perms,
   required AdvancedPreferencesState advanced,
+  bool gifEnabled = true,
 }) {
   return <ExpressionPickerTab>[
-    if (perms.canShowEmbedControls && advanced.showGifButton)
+    if (perms.canShowEmbedControls && advanced.showGifButton && gifEnabled)
       ExpressionPickerTab.gifs,
     if (perms.canShowAttachControls && advanced.showMemesButton)
       ExpressionPickerTab.memes,

@@ -3,6 +3,7 @@ abstract final class InstanceConstants {
   static const String defaultApiBaseUrl = 'https://api.fluxer.app/v1';
   static const String defaultInstanceInputUrl = 'api.fluxer.app/v1';
   static const String defaultMarketingBaseUrl = 'https://fluxer.app';
+  static const String defaultProductName = 'Fluxer';
   static const int maxRecentInstances = 5;
 
   static const Set<String> officialInstanceHosts = <String>{

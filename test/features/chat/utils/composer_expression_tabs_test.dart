@@ -22,5 +22,22 @@ void main() {
         expect(panelTabs, contains(ExpressionPickerTab.memes));
       },
     );
+
+    test('hides gifs when the instance disables them', () {
+      const ChannelMessagePermissions perms = ChannelMessagePermissions.all;
+      const advanced = AdvancedPreferencesState();
+      final List<ExpressionPickerTab> composerTabs =
+          composerInputButtonVisibleTabs(
+            perms: perms,
+            advanced: advanced,
+            gifEnabled: false,
+          );
+      final List<ExpressionPickerTab> panelTabs = expressionPanelVisibleTabs(
+        perms,
+        gifEnabled: false,
+      );
+      expect(composerTabs, isNot(contains(ExpressionPickerTab.gifs)));
+      expect(panelTabs, isNot(contains(ExpressionPickerTab.gifs)));
+    });
   });
 }

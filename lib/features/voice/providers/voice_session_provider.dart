@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/audio/enums/fluxer_sfx_clip.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
+import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/fluxer_sfx_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -26,6 +27,7 @@ import 'package:fluxer_app/features/voice/providers/local_voice_state_provider.d
 import 'package:fluxer_app/features/voice/providers/screen_share_capability_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_display_preferences_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_permissions_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_join_eligibility_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_priority_speaker_provider.dart';
@@ -41,6 +43,7 @@ import 'package:fluxer_app/features/voice/utils/voice_channel_join_guard.dart';
 import 'package:fluxer_app/features/voice/utils/voice_channel_permissions.dart';
 import 'package:fluxer_app/features/voice/utils/voice_connection_voice_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_effective_audio_state.dart';
+import 'package:fluxer_app/features/voice/utils/voice_join_timing.dart';
 import 'package:fluxer_app/features/voice/utils/voice_participant_volume_utils.dart';
 import 'package:fluxer_app/features/voice/voice_session_errors.dart';
 import 'package:fluxer_dart/export.dart';
@@ -104,6 +107,7 @@ class VoiceSession extends _$VoiceSession {
   bool _intentionalLiveKitTeardown = false;
   ChannelE2eeStatus? _lastLoggedE2eeChannelStatus;
   Future<void>? _connectLiveKitInFlight;
+  Future<void>? _leaveVoiceInFlight;
   Timer? _deferredServerDisconnectTimer;
   String? _pendingServerDisconnectConnectionId;
   int? _boundRoomAttemptId;
@@ -116,6 +120,7 @@ class VoiceSession extends _$VoiceSession {
   Set<String>? _pendingRecoveryInputIds;
   bool _isRecoveringAudioRoute = false;
   VoiceChannelPermissions? _channelPermissions;
+  VoiceJoinTiming? _joinTiming;
 
   @override
   VoiceSessionState build() {
@@ -455,24 +460,12 @@ class VoiceSession extends _$VoiceSession {
     if (!forceJoin) {
       await _clearStaleVoiceSessionIfNeeded(channelId);
     }
-    final bool micOk = await _ensureSystemPermissionForVoice(
-      SystemPermissionKind.microphone,
-      deniedErrorCode: kVoiceSessionErrorMicPermission,
-    );
-    if (!micOk) {
-      talker.warning(
-        '[Voice] Join aborted: microphone permission denied '
-        '(channelId=$channelId).',
-      );
-      return false;
-    }
     final bool isGuildVoiceJoin = guildId != null && guildId.isNotEmpty;
-    final VoiceJoinEligibility eligibility = isGuildVoiceJoin
-        ? await readVoiceJoinEligibility(ref, channelId)
-        : await readPrivateVoiceConnectPreflight(ref, channelId);
-    if (!ref.mounted) {
-      return false;
-    }
+    final VoiceJoinEligibility eligibility = readCachedVoiceJoinEligibility(
+      ref,
+      guildId: guildId,
+      channelId: channelId,
+    );
     if (!eligibility.canJoin) {
       talker.warning(
         '[Voice] Join aborted: not eligible to join '
@@ -563,6 +556,8 @@ class VoiceSession extends _$VoiceSession {
       guildId: _expectedGuildId,
       channelId: channelId,
     );
+    _joinTiming = VoiceJoinTiming(channelId: channelId);
+    _joinTiming?.mark('opcode');
     final bool selfMute = resolvedSelfMute;
     final bool selfDeaf = resolvedSelfDeaf;
     final bool joinSent = gateway.updateVoiceState(
@@ -607,7 +602,35 @@ class VoiceSession extends _$VoiceSession {
       return false;
     }
     _armConnectWatchdog(_connectGeneration);
+    unawaited(_warmupMicrophoneForJoin(channelId: channelId));
+    if (initialSelfVideo) {
+      unawaited(requestSystemPermission(SystemPermissionKind.camera));
+    }
+    prefetchVoiceParticipantsForChannel(
+      ref,
+      guildId: _expectedGuildId,
+      channelId: channelId,
+    );
     return true;
+  }
+
+  Future<void> _warmupMicrophoneForJoin({required String channelId}) async {
+    final SystemPermissionOutcome outcome = await requestSystemPermission(
+      SystemPermissionKind.microphone,
+    );
+    if (outcome == SystemPermissionOutcome.granted) {
+      return;
+    }
+    talker.info(
+      '[Voice] Microphone warmup denied; joining listen-only '
+      '(channelId=$channelId).',
+    );
+    if (outcome == SystemPermissionOutcome.requiresSettings) {
+      await ensureSystemPermission(
+        resolveSystemPermissionContext(null),
+        SystemPermissionKind.microphone,
+      );
+    }
   }
 
   void handleVoiceServerUpdate(VoiceServerUpdateEvent event) {
@@ -695,6 +718,7 @@ class VoiceSession extends _$VoiceSession {
       '(channelId=$resolvedChannelId, connectionId=${event.connectionId}, '
       'e2eeKey=$hasE2eeKey).',
     );
+    _joinTiming?.mark('voice_server_update');
     _cancelConnectWatchdog();
     _cancelLiveKitConnectWatchdog();
     final int attempt = _connectGeneration;
@@ -1028,17 +1052,13 @@ class VoiceSession extends _$VoiceSession {
     );
     _armLiveKitConnectWatchdog(attempt);
     try {
-      await applicator.applySpeakerOutput(settings: voiceSettings);
-      try {
-        await room.prepareConnection(event.endpoint, event.token);
-      } on Object catch (e) {
-        talker.debug('[Voice] prepareConnection failed (non-fatal): $e');
-      }
+      unawaited(applicator.applySpeakerOutput(settings: voiceSettings));
       await room.connect(
         event.endpoint,
         event.token,
         connectOptions: connectOptions,
       );
+      _joinTiming?.mark('room.connect');
       if (keyProvider != null) {
         await room.setE2EEEnabled(true);
         _logVoiceE2eeSnapshot(
@@ -1084,7 +1104,9 @@ class VoiceSession extends _$VoiceSession {
       }
       if (_startWithVideoAfterConnect && attempt == _connectGeneration) {
         _startWithVideoAfterConnect = false;
-        await _enableCameraAfterLiveKitConnect(room: room, attempt: attempt);
+        unawaited(
+          _enableCameraAfterLiveKitConnect(room: room, attempt: attempt),
+        );
       }
     } on Object catch (e) {
       talker.error('[Voice] LiveKit transport connect failed: $e');
@@ -1201,6 +1223,26 @@ class VoiceSession extends _$VoiceSession {
   }
 
   Future<void> leaveVoice({bool endCall = true}) async {
+    if (_leaveVoiceInFlight != null) {
+      await _leaveVoiceInFlight;
+      return;
+    }
+    final Completer<void> leaveCompleter = Completer<void>();
+    _leaveVoiceInFlight = leaveCompleter.future;
+    try {
+      await _leaveVoiceImpl(endCall: endCall);
+    } finally {
+      if (!leaveCompleter.isCompleted) {
+        leaveCompleter.complete();
+      }
+      _leaveVoiceInFlight = null;
+      _intentionalLiveKitTeardown = false;
+    }
+  }
+
+  Future<void> _leaveVoiceImpl({required bool endCall}) async {
+    _joinTiming = null;
+    _intentionalLiveKitTeardown = true;
     _cancelConnectWatchdog();
     _cancelLiveKitConnectWatchdog();
     _cancelDeferredServerDisconnect();
@@ -1229,6 +1271,9 @@ class VoiceSession extends _$VoiceSession {
     _outboundRingRecipients = null;
     _lastLoggedE2eeChannelStatus = null;
     _resetPendingSelfAudioFlags();
+    while (_connectLiveKitInFlight != null) {
+      await _connectLiveKitInFlight;
+    }
     if (channelId != null) {
       _clearOutgoingCallInitiator(channelId);
     }
@@ -1271,6 +1316,7 @@ class VoiceSession extends _$VoiceSession {
   }
 
   Future<void> _disconnectAndDisposeRoom(Room room, {String? reason}) async {
+    final bool teardownAlreadyArmed = _intentionalLiveKitTeardown;
     _intentionalLiveKitTeardown = true;
     final String reasonSuffix = reason == null ? '' : ' after $reason';
     try {
@@ -1283,7 +1329,9 @@ class VoiceSession extends _$VoiceSession {
       } on Object catch (e) {
         talker.warning('[Voice] failed to dispose room$reasonSuffix: $e');
       }
-      _intentionalLiveKitTeardown = false;
+      if (!teardownAlreadyArmed) {
+        _intentionalLiveKitTeardown = false;
+      }
     }
   }
 
@@ -1302,13 +1350,15 @@ class VoiceSession extends _$VoiceSession {
     if (roomToDisconnect == null) {
       return;
     }
-    final LocalParticipant? localParticipant =
-        roomToDisconnect.localParticipant;
-    if (localParticipant != null) {
-      try {
-        await localParticipant.setMicrophoneEnabled(false);
-      } on Object catch (error) {
-        talker.debug('[Voice] failed to disable mic on disconnect: $error');
+    if (!_intentionalLiveKitTeardown) {
+      final LocalParticipant? localParticipant =
+          roomToDisconnect.localParticipant;
+      if (localParticipant != null) {
+        try {
+          await localParticipant.setMicrophoneEnabled(false);
+        } on Object catch (error) {
+          talker.debug('[Voice] failed to disable mic on disconnect: $error');
+        }
       }
     }
     if (!skipGatewayDisconnect) {
@@ -2035,8 +2085,9 @@ class VoiceSession extends _$VoiceSession {
       _pendingRingAfterConnect = false;
       _pendingRingSilently = false;
     }
-    await _reconcileRemoteAudioForSelfConnection(reason: 'room_connected');
-    await _applyVoiceOutputRouting(ref.read(voiceSettingsProvider));
+    _joinTiming?.mark('connected');
+    unawaited(_reconcileRemoteAudioForSelfConnection(reason: 'room_connected'));
+    unawaited(_applyVoiceOutputRouting(ref.read(voiceSettingsProvider)));
     _attachMediaDeviceChangeListener();
     unawaited(
       _ensureLocalMicrophone(reason: 'room_connected', attempt: attempt),
@@ -2105,28 +2156,21 @@ class VoiceSession extends _$VoiceSession {
 
     _isRecoveringAudioRoute = true;
     try {
-      if (inputChanged) {
-        await _runAudioRouteRecoveryStep('setEngineAvailability', () {
-          // LiveKit CallKit audio ownership APIs are marked @experimental.
-          // ignore: experimental_member_use
-          return AudioManager.instance.setEngineAvailability(
-            // LiveKit experimental API.
-            // ignore: experimental_member_use
-            AudioEngineAvailability.defaultAvailability,
-          );
-        });
-      }
       await _runAudioRouteRecoveryStep(
         'applySpeakerOutput',
         () => applicator.applySpeakerOutput(settings: settings),
       );
-      if (inputChanged && _shouldPublishMicrophone()) {
+      if (inputChanged &&
+          shouldRefreshMicrophoneOnAudioRouteChange(
+            isIos: Platform.isIOS,
+            isForeground: ref.read(appUiForegroundProvider),
+          ) &&
+          _shouldPublishMicrophone()) {
         await _runAudioRouteRecoveryStep(
           'refreshMicrophone',
-          () => applicator.refreshMicrophone(
+          () => applicator.refreshMicrophoneAfterRouteChange(
             room: room!,
             settings: settings,
-            microphoneEnabled: true,
           ),
         );
       }
@@ -2310,6 +2354,7 @@ class VoiceSession extends _$VoiceSession {
     }
     try {
       await publication.subscribe();
+      _joinTiming?.markOnce('first_remote_audio');
       await _applyParticipantVolumeForPublication(publication);
     } on Object catch (e) {
       talker.warning('[Voice] Failed to subscribe remote track: $e');
@@ -2327,6 +2372,7 @@ class VoiceSession extends _$VoiceSession {
     if (!state.isConnected && !state.isConnecting) {
       return;
     }
+    final List<Future<void>> pending = <Future<void>>[];
     for (final RemoteParticipant participant
         in room.remoteParticipants.values) {
       for (final RemoteTrackPublication publication
@@ -2336,9 +2382,9 @@ class VoiceSession extends _$VoiceSession {
         }
         try {
           if (deaf && publication.subscribed) {
-            await publication.unsubscribe();
+            pending.add(publication.unsubscribe());
           } else if (!deaf && !publication.subscribed) {
-            await publication.subscribe();
+            pending.add(publication.subscribe());
           }
         } on Object catch (e) {
           talker.warning(
@@ -2347,6 +2393,9 @@ class VoiceSession extends _$VoiceSession {
           );
         }
       }
+    }
+    if (pending.isNotEmpty) {
+      await Future.wait(pending);
     }
   }
 

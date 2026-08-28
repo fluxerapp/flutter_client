@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
-import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -20,9 +19,6 @@ import 'package:fluxer_app/features/chat/utils/emoji_picker_layout_index.dart';
 import 'package:fluxer_app/features/chat/utils/emoji_picker_precache.dart';
 import 'package:fluxer_app/features/chat/utils/emoji_picker_rendering_policy.dart';
 import 'package:fluxer_app/features/chat/utils/emoji_picker_visibility.dart';
-import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
-import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
-import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/emoji/domain/emoji_info_data.dart';
 import 'package:fluxer_app/features/emoji/presentation/sheets/emoji_info_bottom_sheet.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
@@ -425,39 +421,14 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     );
   }
 
-  bool _pickerShowsAllGuildEmojis({
-    required String? channelId,
-    required bool hasGlobalExpressions,
-    required List<DmConversation> dmConversations,
-    required String? currentUserId,
-  }) {
-    return composerHasDirectChatEmojiAccess(
-      channelId: channelId,
-      dmConversations: dmConversations,
-      currentUserId: currentUserId,
-      hasGlobalExpressions: hasGlobalExpressions,
-    );
-  }
-
   _EmojiPickerData _watchPickerData() {
     final activeGuildId = ref.watch(contextualGuildIdProvider);
     final guilds = _guildsFor(
       organized: ref.watch(organizedGuildListProvider),
       activeGuildId: activeGuildId,
     );
-    final String? channelId = widget.channelId;
-    final List<DmConversation> dmConversations = ref.watch(
-      dmViewModelProvider.select((s) => s.conversations),
-    );
-    final String? currentUserId = ref.watch(currentUserIdProvider);
     final bool hasGlobalExpressions = ref.watch(
       instanceFeatureEnabledProvider(LimitKeys.featureGlobalExpressions),
-    );
-    final bool hasPlutoniumEmojiAccess = _pickerShowsAllGuildEmojis(
-      channelId: channelId,
-      hasGlobalExpressions: hasGlobalExpressions,
-      dmConversations: dmConversations,
-      currentUserId: currentUserId,
     );
     final canUseExternalEmojis = _watchCanUseExternalEmojis();
     final allGuildEmojis =
@@ -470,7 +441,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     final guildEmojisByGuild = _groupedEmojisFor(
       guilds: guilds,
       activeGuildId: activeGuildId,
-      isPremium: hasPlutoniumEmojiAccess,
+      isPremium: hasGlobalExpressions,
       canUseExternalEmojis: canUseExternalEmojis,
       allGuildEmojis: allGuildEmojis,
     );
@@ -485,7 +456,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     return _EmojiPickerData(
       guilds: guilds,
       activeGuildId: activeGuildId,
-      isPremium: hasPlutoniumEmojiAccess,
+      isPremium: hasGlobalExpressions,
       canUseExternalEmojis: canUseExternalEmojis,
       allGuildEmojis: allGuildEmojis,
       frecent: frecent,
@@ -512,22 +483,15 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
       organized: ref.read(organizedGuildListProvider),
       activeGuildId: activeGuildId,
     );
-    final String? channelId = widget.channelId;
     final bool hasGlobalExpressions = ref.read(
       instanceFeatureEnabledProvider(LimitKeys.featureGlobalExpressions),
-    );
-    final bool hasPlutoniumEmojiAccess = _pickerShowsAllGuildEmojis(
-      channelId: channelId,
-      hasGlobalExpressions: hasGlobalExpressions,
-      dmConversations: ref.read(dmViewModelProvider).conversations,
-      currentUserId: ref.read(currentUserIdProvider),
     );
     final canUseExternalEmojis = _readCanUseExternalEmojis();
     final emojis = ref.read(allGuildEmojisForPickerProvider).value ?? const [];
     return _groupedEmojisFor(
       guilds: guilds,
       activeGuildId: activeGuildId,
-      isPremium: hasPlutoniumEmojiAccess,
+      isPremium: hasGlobalExpressions,
       canUseExternalEmojis: canUseExternalEmojis,
       allGuildEmojis: emojis,
     );

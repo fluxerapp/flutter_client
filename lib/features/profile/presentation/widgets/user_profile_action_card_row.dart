@@ -14,6 +14,7 @@ class UserProfileActionCardRow extends StatelessWidget {
     required this.onVideoCall,
     required this.onEditProfile,
     this.canCall = true,
+    this.showMessage = true,
     super.key,
   });
 
@@ -21,6 +22,7 @@ class UserProfileActionCardRow extends StatelessWidget {
   final bool isFriend;
   final bool isBlocked;
   final bool canCall;
+  final bool showMessage;
   final Future<void> Function() onMessage;
   final Future<void> Function() onVoiceCall;
   final Future<void> Function() onVideoCall;
@@ -40,17 +42,24 @@ class UserProfileActionCardRow extends StatelessWidget {
       );
     }
 
+    if (!showMessage && !(isFriend && canCall)) {
+      return const SizedBox.shrink();
+    }
+
     return Row(
       spacing: 10,
       children: [
-        Expanded(
-          child: _ProfileActionCard(
-            label: isBlocked ? l10n.userProfileOpenDm : l10n.userProfileMessage,
-            icon: PhosphorIconsFill.chatTeardrop,
-            onTap: onMessage,
-            usesBrandPrimaryCircle: true,
+        if (showMessage)
+          Expanded(
+            child: _ProfileActionCard(
+              label: isBlocked
+                  ? l10n.userProfileOpenDm
+                  : l10n.userProfileMessage,
+              icon: PhosphorIconsFill.chatTeardrop,
+              onTap: onMessage,
+              usesBrandPrimaryCircle: true,
+            ),
           ),
-        ),
         if (isFriend && canCall) ...[
           Expanded(
             child: _ProfileActionCard(

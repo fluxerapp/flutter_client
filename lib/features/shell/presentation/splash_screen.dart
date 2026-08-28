@@ -19,7 +19,7 @@ import 'package:fluxer_app/features/shell/providers/service_status_incident_prov
 import 'package:fluxer_app/features/shell/utils/splash_quotes.dart';
 import 'package:fluxer_app/features/ui/animation/animation_controller_visibility_extension.dart';
 import 'package:fluxer_app/features/ui/background/starfield_background.dart';
-import 'package:fluxer_app/features/ui/icons/fluxer_brand_logo.dart';
+import 'package:fluxer_app/features/ui/icons/instance_branding_image.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -386,7 +386,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                             if (!_exitRevealStarted)
                               KeyedSubtree(
                                 key: _logoKey,
-                                child: FluxerBrandLogo(
+                                child: InstanceBrandMark(
                                   size: _logoHeight,
                                   backgroundColor: context.colors.brandPrimary,
                                 ),

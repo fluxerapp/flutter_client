@@ -9,6 +9,17 @@ import 'package:fluxer_app/features/guilds/utils/guild_outage_availability.dart'
 const int _kGuildCategoryType = 4;
 const int _kGuildLinkType = 998;
 
+/// GoRouter extra that keeps `/channels/:guildId` on the channel list instead
+/// of restoring the last opened channel.
+const String kGuildRootStayOnListExtra = 'guild-root-list';
+
+bool shouldStayOnGuildChannelList({required Uri uri, Object? extra}) {
+  if (extra == kGuildRootStayOnListExtra) {
+    return true;
+  }
+  return uri.queryParameters[RoutePaths.guildStayOnListQuery] == '1';
+}
+
 const String kFavoritesLastChannelKey = '@favorites';
 
 Future<String?> resolveGuildRootRedirect({

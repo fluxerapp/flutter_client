@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
 import 'package:fluxer_app/core/instance/instance_endpoints.dart';
+import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
 import 'package:fluxer_dart/export.dart';
 
 class InstanceConfigSnapshot {
@@ -116,18 +117,34 @@ class InstanceConfigSnapshot {
     return '$marketing/$marketingPath';
   }
 
-  String? get instanceDisplayName {
-    final Object? appPublic = wellKnown?.appPublic;
-    if (appPublic is Map<String, dynamic>) {
-      final Object? branding = appPublic['branding'];
-      if (branding is Map<String, dynamic>) {
-        final Object? productName = branding['product_name'];
-        if (productName is String && productName.trim().isNotEmpty) {
-          return productName.trim();
-        }
-      }
+  String get productName {
+    final String? name = wellKnown?.appPublic.branding.productName.trim();
+    if (name == null || name.isEmpty) {
+      return InstanceConstants.defaultProductName;
     }
-    return null;
+    return name;
+  }
+
+  String? get instanceDisplayName {
+    final String name = productName;
+    if (name == InstanceConstants.defaultProductName && wellKnown == null) {
+      return null;
+    }
+    if (wellKnown == null) {
+      return null;
+    }
+    return name;
+  }
+
+  bool get emailsEnabled => wellKnown?.features.emailsEnabled ?? true;
+
+  bool get collectDateOfBirth =>
+      wellKnown?.appPublic.registration.collectDateOfBirth ?? true;
+
+  bool canPublicRegister({String? registrationUrlCode}) {
+    return InstanceRuntimeConfig.fromWellKnown(
+      wellKnown,
+    ).canPublicRegister(registrationUrlCode: registrationUrlCode);
   }
 
   static String _resolveApiBaseUrl(WellKnownFluxerResponseEndpoints endpoints) {

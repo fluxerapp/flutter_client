@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
+import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -10,6 +12,7 @@ import 'package:fluxer_app/features/auth/domain/registration_result.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/register_screen.dart';
 import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
+import 'package:fluxer_app/features/auth/providers/pending_registration_url_code_provider.dart';
 import 'package:fluxer_app/features/auth/providers/registration_draft_provider.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/checkbox/fluxer_checkbox.dart';
@@ -151,20 +154,78 @@ void main() {
     expect(_submitButton(tester).onPressed, isNotNull);
   });
 
+  testWidgets(
+    'allows closed registration when a registration URL code is stored',
+    (tester) async {
+      final ProviderContainer container = _containerFor(
+        _snapshot(
+          selfHosted: true,
+          mode: WellKnownFluxerResponseRegistrationModeMode.closed,
+          adminRegistrationUrlsEnabled: true,
+        ),
+      );
+      container.read(pendingRegistrationUrlCodeProvider.notifier).store('abc');
+      container.read(registrationDraftProvider.notifier).update(_completeDraft);
+
+      await tester.pumpWidget(_app(container));
+      await tester.pumpAndSettle();
+
+      expect(find.text(testL10n.registerClosed), findsNothing);
+      expect(_submitButton(tester).onPressed, isNotNull);
+    },
+  );
+
+  testWidgets(
+    'keeps registration closed when admin registration URLs are disabled',
+    (tester) async {
+      final ProviderContainer container = _containerFor(
+        _snapshot(
+          selfHosted: true,
+          mode: WellKnownFluxerResponseRegistrationModeMode.closed,
+        ),
+      );
+      container.read(pendingRegistrationUrlCodeProvider.notifier).store('abc');
+      container.read(registrationDraftProvider.notifier).update(_completeDraft);
+
+      await tester.pumpWidget(_app(container));
+      await tester.pumpAndSettle();
+
+      expect(find.text(testL10n.registerClosed), findsOneWidget);
+      expect(_submitButton(tester).onPressed, isNull);
+    },
+  );
+
+  testWidgets('hides date of birth when the instance does not collect it', (
+    tester,
+  ) async {
+    final ProviderContainer container = _containerFor(
+      _snapshot(selfHosted: true, collectDateOfBirth: false),
+    );
+    container
+        .read(registrationDraftProvider.notifier)
+        .update(
+          const RegistrationDraft(
+            email: 'user@example.com',
+            password: 'hunter2hunter2',
+            confirmPassword: 'hunter2hunter2',
+            consent: true,
+          ),
+        );
+
+    await tester.pumpWidget(_app(container));
+    await tester.pumpAndSettle();
+
+    expect(find.text(testL10n.registerDateOfBirth), findsNothing);
+    expect(_submitButton(tester).onPressed, isNotNull);
+  });
+
   testWidgets('shows the pending notice after an approval-mode signup', (
     tester,
   ) async {
-    final ProviderContainer container = ProviderContainer(
-      overrides: [
-        authInstanceSnapshotProvider.overrideWith(
-          (ref) => _snapshot(selfHosted: true),
-        ),
-        authRepositoryProvider.overrideWithValue(
-          _PendingApprovalAuthRepository(),
-        ),
-      ],
+    final ProviderContainer container = _containerFor(
+      _snapshot(selfHosted: true),
+      repository: _PendingApprovalAuthRepository(),
     );
-    addTearDown(container.dispose);
     container.read(registrationDraftProvider.notifier).update(_completeDraft);
 
     await tester.pumpWidget(_app(container));
@@ -261,10 +322,11 @@ class _PendingApprovalAuthRepository implements AuthRepository {
   Future<RegistrationResult> register({
     required String email,
     required String password,
-    required String dateOfBirth,
+    String? dateOfBirth,
     String? username,
     String? displayName,
     String? inviteCode,
+    String? registrationUrlCode,
   }) async {
     registerCalls++;
     return const RegistrationPendingApproval('900000000000000001');
@@ -281,6 +343,9 @@ ProviderContainer _containerFor(
   final ProviderContainer container = ProviderContainer(
     overrides: [
       authInstanceSnapshotProvider.overrideWith((ref) => snapshot),
+      instanceRuntimeConfigProvider.overrideWithValue(
+        InstanceRuntimeConfig.fromWellKnown(snapshot.wellKnown),
+      ),
       if (repository != null)
         authRepositoryProvider.overrideWithValue(repository),
     ],
@@ -315,6 +380,8 @@ InstanceConfigSnapshot _snapshot({
   String? privacyUrl,
   WellKnownFluxerResponseRegistrationModeMode mode =
       WellKnownFluxerResponseRegistrationModeMode.open,
+  bool collectDateOfBirth = true,
+  bool adminRegistrationUrlsEnabled = false,
 }) {
   return InstanceConfigSnapshot(
     apiBaseUrl: 'https://self.example/api',
@@ -360,7 +427,7 @@ InstanceConfigSnapshot _snapshot({
       ),
       registration: WellKnownFluxerResponseRegistration(
         mode: mode,
-        adminRegistrationUrlsEnabled: false,
+        adminRegistrationUrlsEnabled: adminRegistrationUrlsEnabled,
       ),
       community: const WellKnownFluxerResponseCommunity(
         singleCommunity: false,
@@ -397,8 +464,8 @@ InstanceConfigSnapshot _snapshot({
           termsUrl: termsUrl,
           privacyUrl: privacyUrl,
         ),
-        registration: const WellKnownFluxerResponseAppPublicRegistration(
-          collectDateOfBirth: true,
+        registration: WellKnownFluxerResponseAppPublicRegistration(
+          collectDateOfBirth: collectDateOfBirth,
         ),
       ),
     ),

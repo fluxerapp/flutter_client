@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
@@ -8,8 +9,6 @@ import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar.dart';
 import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar_content.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-
-const String kProductName = 'Fluxer';
 
 class StaffOnlyGuildNagbar extends ConsumerWidget {
   const StaffOnlyGuildNagbar({required this.guildId, super.key});
@@ -30,7 +29,14 @@ class StaffOnlyGuildNagbar extends ConsumerWidget {
       textColor: Colors.white,
       child: FluxerNagbarContent(
         isMobile: isMobile,
-        message: l10n.guildStaffOnlyAccessibleNagbar(guild.name, kProductName),
+        message: l10n.guildStaffOnlyAccessibleNagbar(
+          guild.name,
+          ref.watch(
+            instanceRuntimeConfigProvider.select(
+              (config) => config.productName,
+            ),
+          ),
+        ),
       ),
     );
   }

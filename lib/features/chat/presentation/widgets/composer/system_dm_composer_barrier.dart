@@ -1,16 +1,27 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-class SystemDmComposerBarrier extends StatelessWidget {
-  const SystemDmComposerBarrier({super.key});
+class SystemDmComposerBarrier extends ConsumerWidget {
+  const SystemDmComposerBarrier({this.message, super.key});
 
-  static const String _productName = 'Fluxer';
+  final String? message;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String body =
+        message ??
+        l10n.systemDmComposerBarrier(
+          ref.watch(
+            instanceRuntimeConfigProvider.select(
+              (config) => config.productName,
+            ),
+          ),
+        );
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -34,7 +45,7 @@ class SystemDmComposerBarrier extends StatelessWidget {
               ),
               Expanded(
                 child: Text(
-                  l10n.systemDmComposerBarrier(_productName),
+                  body,
                   style: context.textStyles.bodyMedium.copyWith(
                     color: context.colors.textSecondary,
                     height: 1.35,

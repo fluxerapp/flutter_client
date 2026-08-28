@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/data/favorite_media_repository.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_gif_entry.dart';
@@ -132,6 +134,27 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
       ..removeListener(_onSearchChanged)
       ..dispose();
     super.dispose();
+  }
+
+  Widget? _gifAttributionLabel(
+    BuildContext context,
+    GifProviderKind? provider,
+  ) {
+    final ({bool attributionRequired, String? displayName}) gif = ref.watch(
+      instanceRuntimeConfigProvider.select(
+        (InstanceRuntimeConfig config) => (
+          attributionRequired: config.gifAttributionRequired,
+          displayName: config.gifDisplayName,
+        ),
+      ),
+    );
+    if (!gif.attributionRequired && provider != GifProviderKind.klipy) {
+      return null;
+    }
+    final String label =
+        gif.displayName ??
+        FluxerLocalizations.of(context).gifPickerPoweredByKlipy;
+    return _PoweredByLabel(label);
   }
 
   void _onSearchChanged() {
@@ -270,9 +293,7 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
         },
         showBackButton: _searchController.text.isNotEmpty,
         onBackButtonClick: _searchController.clear,
-        rightCustomElement: provider == GifProviderKind.klipy
-            ? _PoweredByKlipyLabel()
-            : null,
+        rightCustomElement: _gifAttributionLabel(context, provider),
         horizontalPadding: widget.searchHorizontalPadding ?? layout.s4,
         topPadding: widget.searchTopPadding ?? layout.s3,
         bottomPadding: widget.searchBottomPadding ?? layout.s3,
@@ -1577,12 +1598,16 @@ class _GifMediaPlaceholder extends StatelessWidget {
   );
 }
 
-class _PoweredByKlipyLabel extends StatelessWidget {
+class _PoweredByLabel extends StatelessWidget {
+  const _PoweredByLabel(this.label);
+
+  final String label;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     return Text(
-      FluxerLocalizations.of(context).gifPickerPoweredByKlipy,
+      label,
       style: context.textStyles.smallText.copyWith(
         color: colors.textTertiary,
         fontSize: 11,

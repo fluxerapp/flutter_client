@@ -112,6 +112,35 @@ void main() {
     });
   });
 
+  group('shouldStayOnGuildChannelList', () {
+    const guildId = 'guild-1';
+    test('is true for list query', () {
+      expect(
+        shouldStayOnGuildChannelList(
+          uri: Uri.parse(RoutePaths.guildChannelList(guildId)),
+        ),
+        isTrue,
+      );
+    });
+
+    test('is true for extra', () {
+      expect(
+        shouldStayOnGuildChannelList(
+          uri: Uri.parse(RoutePaths.guild(guildId)),
+          extra: kGuildRootStayOnListExtra,
+        ),
+        isTrue,
+      );
+    });
+
+    test('is false for a plain guild root', () {
+      expect(
+        shouldStayOnGuildChannelList(uri: Uri.parse(RoutePaths.guild(guildId))),
+        isFalse,
+      );
+    });
+  });
+
   group('resolveFavoritesRootRedirect', () {
     Future<void> addFavorite(
       String channelId, {

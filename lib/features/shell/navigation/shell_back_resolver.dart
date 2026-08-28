@@ -9,6 +9,7 @@ enum ShellBackAction {
   closeDrawer,
   revealDrawer,
   leaveChat,
+  minimizePhoneVoiceCall,
   noop,
 }
 
@@ -18,6 +19,7 @@ ShellBackAction resolveShellBackAction({
   required bool hasExpressionPanelOpen,
   required RevealSide revealSide,
   required String shellLocation,
+  bool minimizePhoneVoiceCall = false,
 }) {
   if (hasPopupOverlay) {
     return ShellBackAction.popOverlay;
@@ -27,6 +29,9 @@ ShellBackAction resolveShellBackAction({
   }
   if (hasExpressionPanelOpen) {
     return ShellBackAction.closePanel;
+  }
+  if (minimizePhoneVoiceCall) {
+    return ShellBackAction.minimizePhoneVoiceCall;
   }
   if (isSidebarDrawerLockedForLocation(shellLocation)) {
     return ShellBackAction.noop;

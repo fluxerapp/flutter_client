@@ -195,13 +195,13 @@ Map<Guild, List<GuildEmojiEntry>> _groupEmojiEntriesByGuild({
   return result;
 }
 
-/// Whether a guild emoji can be inserted or sent in the current composer context.
+/// Custom emoji are usable in their source guild, or anywhere with global expressions.
 bool composerCanUseGuildEmoji({
   required GuildEmojiEntry emoji,
   required bool hasGlobalEmojiAccess,
   required bool isDirectChat,
   required String? activeGuildId,
-}) => hasGlobalEmojiAccess || isDirectChat || emoji.guildId == activeGuildId;
+}) => hasGlobalEmojiAccess || (!isDirectChat && emoji.guildId == activeGuildId);
 
 @Riverpod(keepAlive: true)
 class EmojiSkinTone extends _$EmojiSkinTone {

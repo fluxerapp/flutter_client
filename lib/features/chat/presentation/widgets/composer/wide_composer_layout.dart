@@ -44,7 +44,7 @@ Color composerStatusSurfaceColor(BuildContext context) {
 
 Color wideComposerRingColor(BuildContext context, {required bool focused}) {
   final Color accent = context.colors.backgroundModifierAccent;
-  return accent.withValues(alpha: focused ? 0.45 : 0.20);
+  return accent.withValues(alpha: accent.a * (focused ? 0.45 : 0.20));
 }
 
 Color wideComposerActionStackColor(BuildContext context) {

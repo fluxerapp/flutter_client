@@ -13,6 +13,7 @@ class UserProfileRelationshipButton extends StatelessWidget {
     required this.onAcceptRequest,
     required this.onCancelRequest,
     required this.onSendFriendRequest,
+    this.allowFriendRequests = true,
     super.key,
   });
 
@@ -23,6 +24,7 @@ class UserProfileRelationshipButton extends StatelessWidget {
   final VoidCallback onAcceptRequest;
   final VoidCallback onCancelRequest;
   final VoidCallback onSendFriendRequest;
+  final bool allowFriendRequests;
 
   ({PhosphorIconData icon, VoidCallback onTap, String semanticLabel})? _resolve(
     FluxerLocalizations l10n,
@@ -42,21 +44,30 @@ class UserProfileRelationshipButton extends StatelessWidget {
         onTap: onUnblock,
         semanticLabel: l10n.profileUnblockUser,
       ),
-      FriendStatus.pendingIncoming => (
-        icon: PhosphorIconsFill.checkCircle,
-        onTap: onAcceptRequest,
-        semanticLabel: l10n.profileAcceptFriendRequest,
-      ),
-      FriendStatus.pendingOutgoing => (
-        icon: PhosphorIconsFill.clockCounterClockwise,
-        onTap: onCancelRequest,
-        semanticLabel: l10n.profileCancelFriendRequest,
-      ),
-      null => (
-        icon: PhosphorIconsFill.userPlus,
-        onTap: onSendFriendRequest,
-        semanticLabel: l10n.profileSendFriendRequest,
-      ),
+      FriendStatus.pendingIncoming =>
+        allowFriendRequests
+            ? (
+                icon: PhosphorIconsFill.checkCircle,
+                onTap: onAcceptRequest,
+                semanticLabel: l10n.profileAcceptFriendRequest,
+              )
+            : null,
+      FriendStatus.pendingOutgoing =>
+        allowFriendRequests
+            ? (
+                icon: PhosphorIconsFill.clockCounterClockwise,
+                onTap: onCancelRequest,
+                semanticLabel: l10n.profileCancelFriendRequest,
+              )
+            : null,
+      null =>
+        allowFriendRequests
+            ? (
+                icon: PhosphorIconsFill.userPlus,
+                onTap: onSendFriendRequest,
+                semanticLabel: l10n.profileSendFriendRequest,
+              )
+            : null,
     };
   }
 

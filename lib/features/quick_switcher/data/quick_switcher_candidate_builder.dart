@@ -29,53 +29,56 @@ QuickSwitcherCandidateSets buildQuickSwitcherCandidateSets(
       <QuickSwitcherChannelCandidate>[];
   final List<QuickSwitcherChannelCandidate> voiceChannels =
       <QuickSwitcherChannelCandidate>[];
-  for (final DmConversation convo in input.conversations) {
-    if (convo.isGroup) {
-      groupDms.add(
-        quickSwitcherGroupDmCandidate(
-          convo,
-          l10n: input.l10n,
-          currentUserId: input.currentUserId,
+  if (!input.directMessagesDisabled) {
+    for (final DmConversation convo in input.conversations) {
+      if (convo.isGroup) {
+        groupDms.add(
+          quickSwitcherGroupDmCandidate(
+            convo,
+            l10n: input.l10n,
+            currentUserId: input.currentUserId,
+          ),
+        );
+        continue;
+      }
+      if (convo.isPersonalNotes) {
+        continue;
+      }
+      final String resolvedName = convo.displayNameWith(
+        friendNicknameById[convo.recipientId],
+      );
+      final QuickSwitcherUserCandidate userCandidate =
+          QuickSwitcherUserCandidate(
+            id: convo.recipientId,
+            title: resolvedName,
+            subtitle: convo.recipientUsername ?? convo.recipientName,
+            userId: convo.recipientId,
+            dmChannelId: convo.id,
+            avatar: convo.recipientAvatar,
+            status: convo.recipientStatus,
+            searchValues: <String>[
+              resolvedName,
+              convo.displayName,
+              convo.recipientName,
+              if (convo.recipientUsername != null) convo.recipientUsername!,
+              convo.id,
+            ],
+            sortWeight: convo.lastMessageTime.millisecondsSinceEpoch,
+          );
+      users[convo.recipientId] = userCandidate;
+    }
+    for (final Friend friend in input.friends) {
+      if (friend.friendStatus != FriendStatus.accepted) {
+        continue;
+      }
+      users.putIfAbsent(
+        friend.id,
+        () => quickSwitcherUserCandidateFromFriend(
+          friend,
+          dmChannelId: _dmChannelIdForUser(input.conversations, friend.id),
         ),
       );
-      continue;
     }
-    if (convo.isPersonalNotes) {
-      continue;
-    }
-    final String resolvedName = convo.displayNameWith(
-      friendNicknameById[convo.recipientId],
-    );
-    final QuickSwitcherUserCandidate userCandidate = QuickSwitcherUserCandidate(
-      id: convo.recipientId,
-      title: resolvedName,
-      subtitle: convo.recipientUsername ?? convo.recipientName,
-      userId: convo.recipientId,
-      dmChannelId: convo.id,
-      avatar: convo.recipientAvatar,
-      status: convo.recipientStatus,
-      searchValues: <String>[
-        resolvedName,
-        convo.displayName,
-        convo.recipientName,
-        if (convo.recipientUsername != null) convo.recipientUsername!,
-        convo.id,
-      ],
-      sortWeight: convo.lastMessageTime.millisecondsSinceEpoch,
-    );
-    users[convo.recipientId] = userCandidate;
-  }
-  for (final Friend friend in input.friends) {
-    if (friend.friendStatus != FriendStatus.accepted) {
-      continue;
-    }
-    users.putIfAbsent(
-      friend.id,
-      () => quickSwitcherUserCandidateFromFriend(
-        friend,
-        dmChannelId: _dmChannelIdForUser(input.conversations, friend.id),
-      ),
-    );
   }
   for (final Member member in input.guildMembers) {
     if (member.id == input.currentUserId) {
@@ -150,14 +153,15 @@ QuickSwitcherCandidateSets buildQuickSwitcherCandidateSets(
       .toList();
   final List<QuickSwitcherVirtualGuildCandidate> virtualGuilds =
       <QuickSwitcherVirtualGuildCandidate>[
-        QuickSwitcherVirtualGuildCandidate(
-          id: 'home',
-          title: input.l10n.quickSwitcherHomeLabel,
-          subtitle: input.l10n.quickSwitcherDirectMessagesLabel,
-          virtualGuildType: QuickSwitcherVirtualGuildType.home,
-          searchValues: _homeVirtualGuildSearchValues(input.l10n),
-          sortWeight: DateTime.now().millisecondsSinceEpoch,
-        ),
+        if (!input.directMessagesDisabled)
+          QuickSwitcherVirtualGuildCandidate(
+            id: 'home',
+            title: input.l10n.quickSwitcherHomeLabel,
+            subtitle: input.l10n.quickSwitcherDirectMessagesLabel,
+            virtualGuildType: QuickSwitcherVirtualGuildType.home,
+            searchValues: _homeVirtualGuildSearchValues(input.l10n),
+            sortWeight: DateTime.now().millisecondsSinceEpoch,
+          ),
         if (input.hasFavorites)
           QuickSwitcherVirtualGuildCandidate(
             id: 'favorites',

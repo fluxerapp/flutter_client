@@ -34,19 +34,23 @@ class FluxerAnimatedImage extends StatelessWidget {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final double devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
-        // Cap one decode axis only. Both axes would trigger
-        // ResizeImagePolicy.exact and stretch the bitmap to the cell shape.
-        final ({int? width, int? height}) cacheSize = fit == BoxFit.contain
-            ? containDecodeCacheSize(
-                cellWidth: constraints.maxWidth,
-                cellHeight: constraints.maxHeight,
-                devicePixelRatio: devicePixelRatio,
-              )
-            : coverDecodeCacheSize(
-                cellWidth: constraints.maxWidth,
-                cellHeight: constraints.maxHeight,
-                devicePixelRatio: devicePixelRatio,
-              );
+        // Skip resize while playing; ResizeImage freezes animated WebP.
+        final ({int? width, int? height}) cacheSize;
+        if (playing) {
+          cacheSize = (width: null, height: null);
+        } else if (fit == BoxFit.contain) {
+          cacheSize = containDecodeCacheSize(
+            cellWidth: constraints.maxWidth,
+            cellHeight: constraints.maxHeight,
+            devicePixelRatio: devicePixelRatio,
+          );
+        } else {
+          cacheSize = coverDecodeCacheSize(
+            cellWidth: constraints.maxWidth,
+            cellHeight: constraints.maxHeight,
+            devicePixelRatio: devicePixelRatio,
+          );
+        }
         final int? cacheWidth = cacheSize.width;
         final int? cacheHeight = cacheSize.height;
         final Widget fallback = placeholder ?? const SizedBox.shrink();

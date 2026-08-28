@@ -3,6 +3,7 @@ import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_back_resolver.dart';
 import 'package:fluxer_app/features/shell/utils/shell_popup_navigation.dart';
+import 'package:fluxer_app/features/voice/utils/voice_session_navigation.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 void applyShellBackAction({
@@ -28,5 +29,8 @@ void applyShellBackAction({
     case ShellBackAction.leaveChat:
       FocusManager.instance.primaryFocus?.unfocus();
       DrawerNavigationCoordinator.navigateToContent(container, RoutePaths.me);
+    case ShellBackAction.minimizePhoneVoiceCall:
+      FocusManager.instance.primaryFocus?.unfocus();
+      minimizePhoneVoiceCall(context: context, container: container);
   }
 }

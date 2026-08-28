@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/accessibility/effective_motion_preferences_provider.dart';
 import 'package:fluxer_app/features/accessibility/motion_preferences.dart';
-import 'package:fluxer_app/features/chat/utils/system_message_text.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -96,7 +96,11 @@ class UserAccessibilityAnimationSection extends ConsumerWidget {
               label: isMobile
                   ? l10n.accessibilityAutoPlayGifsMobileLabel
                   : l10n.accessibilityAutoPlayGifsDesktopLabel(
-                      kFluxerProductName,
+                      ref.watch(
+                        instanceRuntimeConfigProvider.select(
+                          (config) => config.productName,
+                        ),
+                      ),
                     ),
               description: gifDescription,
               value: model.effectiveGifAutoPlay,

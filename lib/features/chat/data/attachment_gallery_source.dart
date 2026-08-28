@@ -1,6 +1,7 @@
-import 'dart:typed_data';
+import 'dart:async';
 
 import 'package:cross_file/cross_file.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:photo_manager/photo_manager.dart';
 
@@ -29,6 +30,10 @@ abstract class AttachmentGallerySource {
   Future<Uint8List?> loadThumbnail(String id, {required int size});
 
   Future<XFile?> resolveFile(String id);
+
+  void addChangeListener(VoidCallback listener) {}
+
+  void removeChangeListener(VoidCallback listener) {}
 }
 
 class PhotoManagerAttachmentGallerySource implements AttachmentGallerySource {
@@ -37,6 +42,34 @@ class PhotoManagerAttachmentGallerySource implements AttachmentGallerySource {
   );
 
   final Map<String, AssetEntity> _assetsById = <String, AssetEntity>{};
+  final List<VoidCallback> _changeListeners = <VoidCallback>[];
+  bool _changeNotifyStarted = false;
+
+  void _onGalleryChange(MethodCall call) {
+    for (final VoidCallback listener in _changeListeners.toList()) {
+      listener();
+    }
+  }
+
+  @override
+  void addChangeListener(VoidCallback listener) {
+    if (_changeListeners.isEmpty) {
+      PhotoManager.addChangeCallback(_onGalleryChange);
+      unawaited(PhotoManager.startChangeNotify());
+      _changeNotifyStarted = true;
+    }
+    _changeListeners.add(listener);
+  }
+
+  @override
+  void removeChangeListener(VoidCallback listener) {
+    _changeListeners.remove(listener);
+    if (_changeListeners.isEmpty && _changeNotifyStarted) {
+      PhotoManager.removeChangeCallback(_onGalleryChange);
+      unawaited(PhotoManager.stopChangeNotify());
+      _changeNotifyStarted = false;
+    }
+  }
 
   @override
   Future<AttachmentGalleryAccess> requestAccess() async {
@@ -81,9 +114,13 @@ class PhotoManagerAttachmentGallerySource implements AttachmentGallerySource {
     required int page,
     required int pageSize,
   }) async {
-    final AssetPathEntity? album = await _recentAlbum();
+    AssetPathEntity? album = await _recentAlbum();
     if (album == null) {
       return const <AttachmentGalleryItem>[];
+    }
+    if (page == 0) {
+      _assetsById.clear();
+      album = await album.obtainForNewProperties();
     }
     final List<AssetEntity> assets = await album.getAssetListPaged(
       page: page,

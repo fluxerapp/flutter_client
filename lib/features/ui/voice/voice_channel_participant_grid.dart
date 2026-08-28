@@ -23,13 +23,16 @@ import 'package:fluxer_app/features/voice/providers/voice_call_display_preferenc
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_pip_providers.dart';
 import 'package:fluxer_app/features/voice/providers/voice_screen_share_watch_tile_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_grid_layout/voice_grid_layout.dart';
 import 'package:fluxer_app/features/voice/utils/voice_grid_layout/voice_hangout_layout.dart';
 import 'package:fluxer_app/features/voice/utils/voice_grid_speaking_order.dart';
+import 'package:fluxer_app/features/voice/utils/voice_participant_tile_id.dart';
 import 'package:fluxer_app/features/voice/utils/voice_participant_track_resolver.dart';
+import 'package:fluxer_app/features/voice/utils/voice_pip_morph.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
@@ -46,15 +49,11 @@ class _VoiceGridTileItem {
   const _VoiceGridTileItem({required this.data, required this.source});
   final VoiceChannelParticipantData data;
   final VoiceParticipantTileSource source;
-  String get tileId {
-    final VoiceState voice = data.voice;
-    final String identity =
-        voice.connectionId ?? voice.sessionId ?? data.userId;
-    final String sourceValue = source == VoiceParticipantTileSource.camera
-        ? 'camera'
-        : 'screen';
-    return '$identity|$sourceValue';
-  }
+  String get tileId => voiceParticipantTileId(
+    voice: data.voice,
+    userId: data.userId,
+    source: source,
+  );
 }
 
 List<_VoiceGridTileItem> _buildTileItems({
@@ -1288,7 +1287,17 @@ class _VoiceChannelParticipantGridState
     bool isFilmstrip = false,
     bool fillContainer = false,
   }) {
-    return _VoiceParticipantCard(
+    final String? featuredTileId = ref.watch(voicePipFeaturedTileIdProvider);
+    final VoicePipOverlayPhase pipPhase = ref.watch(
+      voicePipOverlayPhaseProvider,
+    );
+    final bool featured = tile.tileId == featuredTileId;
+    final bool hostFeatured = featured && voicePipHostsFeatured(pipPhase);
+    final bool hideFeatured = featured && voicePipHidesFeaturedTile(pipPhase);
+    final bool isConnected = ref.watch(
+      voiceSessionProvider.select((VoiceSessionState s) => s.isConnected),
+    );
+    final Widget card = _VoiceParticipantCard(
       data: tile.data,
       guildId: widget.guildId,
       channelId: widget.channelId,
@@ -1316,7 +1325,22 @@ class _VoiceChannelParticipantGridState
           _showParticipantMenu(context, ref, tile, position: position),
       showOverlay: isOverlayVisible,
       l10n: l10n,
+      omitVideoTrack: hostFeatured || !isConnected,
     );
+    Widget wrapped = card;
+    if (hideFeatured) {
+      wrapped = Visibility(
+        visible: false,
+        maintainSize: true,
+        maintainAnimation: true,
+        maintainState: true,
+        child: card,
+      );
+    }
+    if (featured && (hostFeatured || voicePipIsInFlight(pipPhase))) {
+      return KeyedSubtree(key: kVoicePipExpandSlotKey, child: wrapped);
+    }
+    return wrapped;
   }
 }
 
@@ -1367,6 +1391,7 @@ class _VoiceParticipantCard extends ConsumerWidget {
     required this.onContextMenu,
     required this.showOverlay,
     required this.l10n,
+    this.omitVideoTrack = false,
   });
 
   final VoiceChannelParticipantData data;
@@ -1387,6 +1412,7 @@ class _VoiceParticipantCard extends ConsumerWidget {
   final void Function(Offset position) onContextMenu;
   final bool showOverlay;
   final FluxerLocalizations l10n;
+  final bool omitVideoTrack;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -1425,6 +1451,28 @@ class _VoiceParticipantCard extends ConsumerWidget {
         localConnectionId != null &&
         voice.connectionId == localConnectionId;
     final Color ringColor = context.colors.statusOnline;
+    final Widget media = VoiceParticipantMediaTile(
+      room: room,
+      userId: data.userId,
+      currentUserId: currentUserId,
+      localConnectionId: localConnectionId,
+      voice: voice,
+      display: display,
+      backgroundColor: cardColor,
+      user: user,
+      tileSource: tileSource,
+      isActiveScreenShare: isActiveScreenShare,
+      isFilmstrip: isFilmstrip,
+      fillContainer: fillContainer,
+      streamPreviewUrl: streamPreviewUrl,
+      authToken: authToken,
+      isTileFocused: isFocusMain,
+      pauseOwnScreenSharePreviewOnUnfocus: ref
+          .watch(voiceSettingsProvider)
+          .pauseOwnScreenSharePreviewOnUnfocus,
+      mirrorCamera: ref.watch(voiceSettingsProvider).shouldMirrorOwnCamera,
+      omitVideoTrack: omitVideoTrack,
+    );
     final Widget card = Material(
       color: cardColor,
       borderRadius: BorderRadius.circular(12),
@@ -1441,29 +1489,7 @@ class _VoiceParticipantCard extends ConsumerWidget {
           child: Stack(
             clipBehavior: Clip.none,
             children: <Widget>[
-              VoiceParticipantMediaTile(
-                room: room,
-                userId: data.userId,
-                currentUserId: currentUserId,
-                localConnectionId: localConnectionId,
-                voice: voice,
-                display: display,
-                backgroundColor: cardColor,
-                user: user,
-                tileSource: tileSource,
-                isActiveScreenShare: isActiveScreenShare,
-                isFilmstrip: isFilmstrip,
-                fillContainer: fillContainer,
-                streamPreviewUrl: streamPreviewUrl,
-                authToken: authToken,
-                isTileFocused: isFocusMain,
-                pauseOwnScreenSharePreviewOnUnfocus: ref
-                    .watch(voiceSettingsProvider)
-                    .pauseOwnScreenSharePreviewOnUnfocus,
-                mirrorCamera: ref
-                    .watch(voiceSettingsProvider)
-                    .shouldMirrorOwnCamera,
-              ),
+              media,
               if (tileSource == VoiceParticipantTileSource.screenShare &&
                   !isOwnScreenShareTile &&
                   !isActiveScreenShare &&

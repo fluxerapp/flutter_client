@@ -1,6 +1,8 @@
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_endpoints.dart';
+import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -23,15 +25,39 @@ class WellKnown extends _$WellKnown {
     return response;
   }
 
-  Future<void> refresh() async {
-    state = const AsyncLoading<WellKnownFluxerResponse>();
-    state = await AsyncValue.guard(() async {
+  Future<void> refresh({bool silent = true}) async {
+    if (!silent) {
+      state = const AsyncLoading<WellKnownFluxerResponse>();
+    }
+    try {
       final FluxerClient client = ref.read(fluxerClientProvider);
       final WellKnownFluxerResponse response = await client.instance
           .getWellKnownFluxer();
       InstanceEndpoints.apply(response);
-      return response;
-    });
+      state = AsyncData<WellKnownFluxerResponse>(response);
+      try {
+        final InstanceConfigSnapshot current = ref.read(activeInstanceProvider);
+        await ref
+            .read(authRepositoryProvider)
+            .persistInstanceSnapshot(
+              InstanceConfigSnapshot(
+                apiBaseUrl: current.apiBaseUrl,
+                gatewayUrl: current.gatewayUrl,
+                displayDomain: current.displayDomain,
+                wellKnown: response,
+              ),
+            );
+      } on Object catch (error, stackTrace) {
+        talker.warning(
+          '[WellKnown] Failed to persist instance snapshot: $error\n$stackTrace',
+        );
+      }
+    } on Object catch (error, stackTrace) {
+      if (silent && state.hasValue) {
+        return;
+      }
+      state = AsyncError<WellKnownFluxerResponse>(error, stackTrace);
+    }
   }
 }
 

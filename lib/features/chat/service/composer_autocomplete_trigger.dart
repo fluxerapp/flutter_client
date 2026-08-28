@@ -1,7 +1,18 @@
 import 'package:flutter/foundation.dart';
 
-/// Autocomplete triggers for @mentions, #channels, and colon emoji names.
-enum ComposerAutocompleteTriggerKind { emojiReaction, mention, channel, emoji }
+/// Autocomplete triggers for composer typeahead.
+enum ComposerAutocompleteTriggerKind {
+  emojiReaction,
+  commandArgMention,
+  commandArg,
+  mention,
+  channel,
+  emoji,
+  meme,
+  gif,
+  sticker,
+  command,
+}
 
 @immutable
 class ComposerAutocompleteTrigger {
@@ -10,15 +21,25 @@ class ComposerAutocompleteTrigger {
     required this.matchStart,
     required this.matchEnd,
     required this.matchedText,
+    this.commandName,
   });
 
   final ComposerAutocompleteTriggerKind kind;
   final int matchStart;
   final int matchEnd;
   final String matchedText;
+  final String? commandName;
 
   static final RegExp _emojiReaction = RegExp(
     r'^\s*\+:([a-z0-9_+-]*):?$',
+    caseSensitive: false,
+  );
+  static final RegExp _commandArgMention = RegExp(
+    r'(^\s*)/(kick|ban|msg|saved)\s+@(\S*)$',
+    caseSensitive: false,
+  );
+  static final RegExp _commandArg = RegExp(
+    r'(^\s*)/(kick|ban|msg)\s+(\S*)$',
     caseSensitive: false,
   );
   static final RegExp _mention = RegExp(r'(^|[\s\uE000-\uF8FF])@(\S*)$');
@@ -27,6 +48,10 @@ class ComposerAutocompleteTrigger {
     r'(^|\s):([a-z0-9_+-]{2,})$',
     caseSensitive: false,
   );
+  static final RegExp _memeSearch = RegExp(r'(^\s*)/saved\s*(.*)$');
+  static final RegExp _gifSearch = RegExp(r'(^\s*)/(gif|klipy)\s*(.*)$');
+  static final RegExp _stickerSearch = RegExp(r'(^\s*)/sticker\s*(.*)$');
+  static final RegExp _command = RegExp(r'(^\s*)/(\S*)$');
 
   /// Odd number of ``` fences before [caretIndex] in [fullText] suppresses
   /// autocomplete.
@@ -40,8 +65,6 @@ class ComposerAutocompleteTrigger {
     return count.isOdd;
   }
 
-  /// Start index of the trigger character (@, #, or :) within a match whose
-  /// first group is optional leading whitespace.
   static int _triggerCharStart(RegExpMatch m) {
     final String? leading = m.group(1);
     if (leading == null || leading.isEmpty) {
@@ -63,6 +86,28 @@ class ComposerAutocompleteTrigger {
         matchStart: m.start,
         matchEnd: m.end,
         matchedText: m.group(1) ?? '',
+      );
+    }
+
+    m = _commandArgMention.firstMatch(textUpToCursor);
+    if (m != null) {
+      return ComposerAutocompleteTrigger(
+        kind: ComposerAutocompleteTriggerKind.commandArgMention,
+        matchStart: _triggerCharStart(m),
+        matchEnd: m.end,
+        matchedText: m.group(3) ?? '',
+        commandName: m.group(2),
+      );
+    }
+
+    m = _commandArg.firstMatch(textUpToCursor);
+    if (m != null) {
+      return ComposerAutocompleteTrigger(
+        kind: ComposerAutocompleteTriggerKind.commandArg,
+        matchStart: _triggerCharStart(m),
+        matchEnd: m.end,
+        matchedText: m.group(3) ?? '',
+        commandName: m.group(2),
       );
     }
 
@@ -97,6 +142,46 @@ class ComposerAutocompleteTrigger {
         matchStart: _triggerCharStart(m),
         matchEnd: m.end,
         matchedText: namePart,
+      );
+    }
+
+    m = _memeSearch.firstMatch(textUpToCursor);
+    if (m != null) {
+      return ComposerAutocompleteTrigger(
+        kind: ComposerAutocompleteTriggerKind.meme,
+        matchStart: _triggerCharStart(m),
+        matchEnd: m.end,
+        matchedText: m.group(2) ?? '',
+      );
+    }
+
+    m = _gifSearch.firstMatch(textUpToCursor);
+    if (m != null) {
+      return ComposerAutocompleteTrigger(
+        kind: ComposerAutocompleteTriggerKind.gif,
+        matchStart: _triggerCharStart(m),
+        matchEnd: m.end,
+        matchedText: m.group(3) ?? '',
+      );
+    }
+
+    m = _stickerSearch.firstMatch(textUpToCursor);
+    if (m != null) {
+      return ComposerAutocompleteTrigger(
+        kind: ComposerAutocompleteTriggerKind.sticker,
+        matchStart: _triggerCharStart(m),
+        matchEnd: m.end,
+        matchedText: m.group(2) ?? '',
+      );
+    }
+
+    m = _command.firstMatch(textUpToCursor);
+    if (m != null) {
+      return ComposerAutocompleteTrigger(
+        kind: ComposerAutocompleteTriggerKind.command,
+        matchStart: _triggerCharStart(m),
+        matchEnd: m.end,
+        matchedText: m.group(2) ?? '',
       );
     }
 

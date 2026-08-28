@@ -5,7 +5,7 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_panel.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -137,5 +137,68 @@ void main() {
     await tester.pump(const Duration(milliseconds: 250));
 
     expect(find.byType(ListView), findsNothing);
+  });
+
+  testWidgets('command heading renders uppercase above rows', (tester) async {
+    final host = ComposerAutocompletePanelHost(null);
+    addTearDown(host.dispose);
+    final scrollController = ScrollController();
+    addTearDown(scrollController.dispose);
+
+    await tester.pumpWidget(
+      _app(
+        SizedBox(
+          width: 320,
+          child: ComposerAutocompletePanelStrip(
+            host: host,
+            scrollController: scrollController,
+          ),
+        ),
+      ),
+    );
+
+    host.value = ComposerAutocompletePanelSnapshot(
+      heading: 'Commands',
+      selectedIndex: 0,
+      rows: <ComposerAutocompletePanelRow>[
+        ComposerAutocompletePanelRow(title: '/me', onTap: () {}),
+      ],
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 250));
+
+    expect(find.text('COMMANDS'), findsOneWidget);
+    expect(find.text('/me'), findsOneWidget);
+  });
+
+  testWidgets('gif empty state shows title and search hint', (tester) async {
+    final host = ComposerAutocompletePanelHost(null);
+    addTearDown(host.dispose);
+    final scrollController = ScrollController();
+    addTearDown(scrollController.dispose);
+
+    await tester.pumpWidget(
+      _app(
+        SizedBox(
+          width: 320,
+          child: ComposerAutocompletePanelStrip(
+            host: host,
+            scrollController: scrollController,
+          ),
+        ),
+      ),
+    );
+
+    host.value = const ComposerAutocompletePanelSnapshot(
+      rows: <ComposerAutocompletePanelRow>[],
+      selectedIndex: 0,
+      gifEmpty: true,
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 250));
+
+    expect(find.text('GIFs'), findsOneWidget);
+    expect(find.text('No GIFs found'), findsOneWidget);
+    expect(find.text('Try another search term'), findsOneWidget);
   });
 }

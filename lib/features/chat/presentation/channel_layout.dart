@@ -281,7 +281,7 @@ class _VoiceChannelHeader extends ConsumerWidget {
     );
     return ClipRect(
       child: AnimatedAlign(
-        duration: const Duration(milliseconds: 220),
+        duration: const Duration(milliseconds: 320),
         curve: Curves.easeOutCubic,
         alignment: Alignment.topCenter,
         heightFactor: showsOverlay ? 1 : 0,

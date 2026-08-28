@@ -161,10 +161,11 @@ class AuthRepository {
   Future<RegistrationResult> register({
     required String email,
     required String password,
-    required String dateOfBirth,
+    String? dateOfBirth,
     String? username,
     String? displayName,
     String? inviteCode,
+    String? registrationUrlCode,
   }) async {
     try {
       final response = await _client.auth.registerAccount(
@@ -180,6 +181,7 @@ class AuthRepository {
               ? displayName!.trim()
               : null,
           inviteCode: inviteCode,
+          registrationUrlCode: registrationUrlCode,
         ),
       );
 
@@ -305,6 +307,20 @@ class AuthRepository {
       discriminator: discriminator,
       avatar: avatar,
       instanceSnapshotJson: _readInstanceSnapshot().toJson(),
+    );
+  }
+
+  Future<void> persistInstanceSnapshot(InstanceConfigSnapshot snapshot) async {
+    final row = await _db.authSessionDao.getActiveSession();
+    if (row == null) {
+      return;
+    }
+    await _db.authSessionDao.saveSessionMetadata(
+      userId: row.userId,
+      username: row.username,
+      discriminator: row.discriminator,
+      avatar: row.avatar,
+      instanceSnapshotJson: snapshot.toJson(),
     );
   }
 

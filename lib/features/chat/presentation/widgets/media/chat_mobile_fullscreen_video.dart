@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
@@ -13,6 +14,7 @@ import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/chat_video_hdr_player_config.dart';
 import 'package:fluxer_app/features/chat/utils/chat_video_playback_utils.dart';
 import 'package:fluxer_app/features/chat/utils/favorite_media_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media_kit_player_lifecycle.dart';
 import 'package:fluxer_app/features/chat/utils/save_message_media_favorite.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/providers/shell_manual_gesture_block_provider.dart';
@@ -84,6 +86,8 @@ class _ChatMobileFullscreenVideoPageState
   bool _isPlaying = false;
   bool _isBuffering = false;
   bool _hudVisible = true;
+  final MediaKitForegroundResumeController _foregroundResume =
+      MediaKitForegroundResumeController();
   Duration _position = Duration.zero;
   Duration _duration = Duration.zero;
   bool _isMuted = false;
@@ -126,7 +130,8 @@ class _ChatMobileFullscreenVideoPageState
       if (!mounted) {
         return;
       }
-      final Player player = Player();
+      final Player player = MediaKitPlayerLifecycleCoordinator.instance
+          .createPlayer();
       _player = player;
       unawaited(player.setVolume(_kUnmutedVolume));
       _controller = mkv.VideoController(player);
@@ -216,7 +221,7 @@ class _ChatMobileFullscreenVideoPageState
     _player = null;
     _controller = null;
     if (player != null) {
-      await player.dispose();
+      await MediaKitPlayerLifecycleCoordinator.instance.stopAndDispose(player);
     }
   }
 
@@ -248,17 +253,7 @@ class _ChatMobileFullscreenVideoPageState
     if (player == null) {
       return;
     }
-    try {
-      await player.pause();
-      await player.stop();
-    } on Object {
-      // Player may already be in a failed native state.
-    }
-    try {
-      await player.dispose();
-    } on Object {
-      // Ignore cleanup errors after playback failure.
-    }
+    await MediaKitPlayerLifecycleCoordinator.instance.stopAndDispose(player);
   }
 
   void _markPlaybackFailed() {
@@ -399,6 +394,19 @@ class _ChatMobileFullscreenVideoPageState
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<bool>(appUiForegroundProvider, (bool? previous, bool next) {
+      _foregroundResume.handleAppForegroundChanged(
+        isForeground: next,
+        isPlaying: _isPlaying,
+        canResume: !_playbackFailed,
+        onResume: () async {
+          final Player? player = _player;
+          if (player != null) {
+            await player.play();
+          }
+        },
+      );
+    });
     ref.listen<HdrDisplayMode>(
       appearancePreferencesProvider.select(
         (AppearancePreferencesState state) => state.hdrDisplayMode,

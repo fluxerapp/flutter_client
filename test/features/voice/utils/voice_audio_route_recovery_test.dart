@@ -34,6 +34,38 @@ void main() {
     });
   });
 
+  group('shouldRefreshMicrophoneOnAudioRouteChange', () {
+    test('allows refresh on Android when backgrounded', () {
+      expect(
+        shouldRefreshMicrophoneOnAudioRouteChange(
+          isIos: false,
+          isForeground: false,
+        ),
+        isTrue,
+      );
+    });
+
+    test('allows refresh on iOS when foreground', () {
+      expect(
+        shouldRefreshMicrophoneOnAudioRouteChange(
+          isIos: true,
+          isForeground: true,
+        ),
+        isTrue,
+      );
+    });
+
+    test('skips refresh on iOS when backgrounded', () {
+      expect(
+        shouldRefreshMicrophoneOnAudioRouteChange(
+          isIos: true,
+          isForeground: false,
+        ),
+        isFalse,
+      );
+    });
+  });
+
   group('didAudioInputDeviceIdsChange', () {
     test('returns false when previous snapshot is missing', () {
       expect(

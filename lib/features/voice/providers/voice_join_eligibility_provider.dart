@@ -1,15 +1,21 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
+import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
+import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -63,7 +69,11 @@ VoiceJoinEligibility resolveVoiceJoinEligibility({
   required bool isGuildOwner,
   required int userLimit,
   required int occupiedConnectionCount,
+  bool voiceEnabled = true,
 }) {
+  if (!voiceEnabled) {
+    return const VoiceJoinEligibility(canJoin: false);
+  }
   if (!channelExists) {
     return const VoiceJoinEligibility(canJoin: false);
   }
@@ -132,10 +142,10 @@ Future<_VoiceJoinChannelContext?> _readVoiceJoinChannelContext(
   );
 }
 
-Future<VoiceJoinEligibility> readPrivateVoiceConnectPreflight(
+VoiceJoinEligibility readCachedPrivateVoiceConnectPreflight(
   Ref ref,
   String channelId,
-) async {
+) {
   if (channelId.isEmpty) {
     return const VoiceJoinEligibility(canJoin: false);
   }
@@ -145,17 +155,87 @@ Future<VoiceJoinEligibility> readPrivateVoiceConnectPreflight(
   if (!settings.isKnownUnclaimed) {
     return const VoiceJoinEligibility(canJoin: true);
   }
-  final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
-  final db.DmChannel? dmRow = await database.dmChannelDao.getDmChannelById(
+  final DmConversation? dm = findDmById(
+    ref.read(dmViewModelProvider).conversations,
     channelId,
   );
-  if (dmRow == null) {
+  if (dm == null) {
     return const VoiceJoinEligibility(canJoin: true);
   }
-  if (isDmChannelType(dmRow.type)) {
+  if (isDmChannelType(dm.type)) {
     return const VoiceJoinEligibility(canJoin: false);
   }
   return const VoiceJoinEligibility(canJoin: true);
+}
+
+VoiceJoinEligibility readCachedVoiceJoinEligibility(
+  Ref ref, {
+  required String? guildId,
+  required String channelId,
+}) {
+  if (channelId.isEmpty) {
+    return const VoiceJoinEligibility(canJoin: false);
+  }
+  final bool voiceEnabled = ref
+      .read(instanceRuntimeConfigProvider)
+      .voiceEnabled;
+  if (!voiceEnabled) {
+    return const VoiceJoinEligibility(canJoin: false);
+  }
+  final bool isGuildVoiceJoin = guildId != null && guildId.isNotEmpty;
+  if (!isGuildVoiceJoin) {
+    return readCachedPrivateVoiceConnectPreflight(ref, channelId);
+  }
+  final Channel? channel = findChannelById(
+    ref.read(channelListViewModelProvider),
+    channelId,
+  );
+  if (channel == null) {
+    return const VoiceJoinEligibility(canJoin: true);
+  }
+  final UserSettingsViewState settings = ref.read(
+    userSettingsViewModelProvider,
+  );
+  final String userId = settings.userId;
+  String? ownerId;
+  for (final Guild guild in ref.read(guildListViewModelProvider).guilds) {
+    if (guild.id == guildId) {
+      ownerId = guild.ownerId;
+      break;
+    }
+  }
+  final int? connectPermissionBits = ref
+      .read(channelPermissionCacheProvider.notifier)
+      .getChannelBits(channelId);
+  final Map<String, VoiceState> voiceStatesMap = ref.read(
+    voiceStatesMapProvider,
+  );
+  final List<VoiceState> voiceStates = <VoiceState>[
+    for (final VoiceState vs in voiceStatesMap.values)
+      if (vs.channelId == channelId && vs.guildId == guildId) vs,
+  ];
+  return resolveVoiceJoinEligibility(
+    channelExists: true,
+    guildId: guildId,
+    channelType: channel.type,
+    isTimedOut: false,
+    connectPermissionBits: connectPermissionBits,
+    isUnclaimed: settings.isKnownUnclaimed,
+    isGuildOwner: userId.isNotEmpty && ownerId != null && userId == ownerId,
+    userLimit: channel.userLimit ?? 0,
+    occupiedConnectionCount: occupiedVoiceConnectionsForJoinLimit(
+      voiceStates: voiceStates,
+      currentConnectionId: null,
+    ),
+    voiceEnabled: voiceEnabled,
+  );
+}
+
+Future<VoiceJoinEligibility> readPrivateVoiceConnectPreflight(
+  Ref ref,
+  String channelId,
+) async {
+  return readCachedPrivateVoiceConnectPreflight(ref, channelId);
 }
 
 @riverpod
@@ -183,7 +263,10 @@ Future<VoiceJoinEligibility> voiceJoinEligibility(
     ..watch(channelPermissionCacheProvider)
     ..watch(guildListViewModelProvider)
     ..watch(currentUserMemberIdentityProvider(guildId))
-    ..watch(guildRolePermissionsIdentityProvider(guildId));
+    ..watch(guildRolePermissionsIdentityProvider(guildId))
+    ..watch(
+      instanceRuntimeConfigProvider.select((config) => config.voiceEnabled),
+    );
   if (guildId.isNotEmpty && userId.isNotEmpty) {
     ref.watch(memberRowByGuildProvider((userId, guildId)));
   }
@@ -267,5 +350,6 @@ Future<VoiceJoinEligibility> readVoiceJoinEligibility(
       voiceStates: voiceStates,
       currentConnectionId: null,
     ),
+    voiceEnabled: ref.read(instanceRuntimeConfigProvider).voiceEnabled,
   );
 }

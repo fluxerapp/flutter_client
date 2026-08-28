@@ -32,6 +32,30 @@ import 'package:fluxer_app/material_ui.dart';
 const double _kChannelChatNekoBottom = 0;
 const double _kChannelChatNekoBottomAboveSlowmode =
     WideComposerLayout.statusLineHeight;
+const double _kChannelChatJumpToBottomPaddingBottom = 10;
+const double _kChannelChatJumpToBottomNekoLowerInset = 10;
+
+@visibleForTesting
+double channelChatJumpToBottomBottomOffset({
+  required bool isMobile,
+  required bool showNeko,
+  required bool showSlowmode,
+}) {
+  final double fadeHeight = WideComposerLayout.fadeHeightFor(
+    isMobile: isMobile,
+  );
+  if (!showNeko) {
+    return fadeHeight;
+  }
+  final double nekoBottom = showSlowmode
+      ? _kChannelChatNekoBottomAboveSlowmode
+      : _kChannelChatNekoBottom;
+  final double nekoTop = nekoBottom + kNekoSpriteSize;
+  final double defaultButtonBottom =
+      fadeHeight - _kChannelChatJumpToBottomPaddingBottom;
+  final double raiseBy = math.max(0, nekoTop - defaultButtonBottom);
+  return fadeHeight + raiseBy - _kChannelChatJumpToBottomNekoLowerInset;
+}
 
 void listenChatViewModelErrors(WidgetRef ref) {
   ref.listen<String?>(
@@ -212,6 +236,8 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                         _ChannelChatScrollOverlay(
                           channelId: listChannelId,
                           loadMessages: widget.loadMessages,
+                          showNeko: showNeko,
+                          showSlowmode: showSlowmode,
                           onClose: onClose,
                         ),
                         Positioned(
@@ -267,11 +293,15 @@ class _ChannelChatScrollOverlay extends ConsumerWidget {
   const _ChannelChatScrollOverlay({
     required this.channelId,
     required this.loadMessages,
+    required this.showNeko,
+    required this.showSlowmode,
     this.onClose,
   });
 
   final String channelId;
   final bool loadMessages;
+  final bool showNeko;
+  final bool showSlowmode;
   final VoidCallback? onClose;
 
   @override
@@ -313,10 +343,13 @@ class _ChannelChatScrollOverlay extends ConsumerWidget {
           viewportHeight: viewport.viewportHeight,
           hasMoreNewerMessages: hasMoreNewerMessages,
         );
+    final bool isMobile = isMobileLayout(context);
     return Positioned(
       right: 8,
-      bottom: WideComposerLayout.fadeHeightFor(
-        isMobile: isMobileLayout(context),
+      bottom: channelChatJumpToBottomBottomOffset(
+        isMobile: isMobile,
+        showNeko: showNeko,
+        showSlowmode: showSlowmode,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,

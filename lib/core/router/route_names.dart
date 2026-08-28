@@ -72,6 +72,9 @@ abstract final class RoutePaths {
   static String favoritesChannelMessage(String channelId, String messageId) =>
       '/channels/@favorites/$channelId/$messageId';
   static String guild(String guildId) => '/channels/$guildId';
+  static const guildStayOnListQuery = 'list';
+  static String guildChannelList(String guildId) =>
+      '/channels/$guildId?$guildStayOnListQuery=1';
   static String guildMembers(String guildId) => '/channels/$guildId/members';
   static String guildChannel(String guildId, String channelId) =>
       '/channels/$guildId/$channelId';

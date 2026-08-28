@@ -2,11 +2,14 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
+import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_form_error_text.dart';
 import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
 import 'package:fluxer_app/features/auth/providers/login_error_l10n.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
+import 'package:fluxer_app/features/auth/providers/pending_registration_url_code_provider.dart';
 import 'package:fluxer_app/features/auth/providers/registration_draft_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -198,13 +201,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     super.dispose();
   }
 
-  bool _isFormValid({required bool requiresConsent}) {
+  bool _isFormValid({
+    required bool requiresConsent,
+    required bool requiresDateOfBirth,
+  }) {
     return _emailRegex.hasMatch(_emailController.text.trim()) &&
         _passwordController.text.isNotEmpty &&
         _confirmController.text.isNotEmpty &&
-        _birthMonth != null &&
-        _birthDay != null &&
-        _birthYear != null &&
+        (!requiresDateOfBirth ||
+            (_birthMonth != null && _birthDay != null && _birthYear != null)) &&
         (!requiresConsent || _consent);
   }
 
@@ -225,9 +230,21 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     final InstanceConfigSnapshot instance = ref.read(
       authInstanceSnapshotProvider,
     );
-    if (instance.isRegistrationClosed ||
+    final InstanceRuntimeConfig runtime = ref.read(
+      instanceRuntimeConfigProvider,
+    );
+    final String? registrationUrlCode = ref.read(
+      pendingRegistrationUrlCodeProvider,
+    );
+    final bool canRegister = runtime.canPublicRegister(
+      registrationUrlCode: registrationUrlCode,
+    );
+    if (!canRegister ||
         ref.read(loginViewModelProvider).pendingApprovalUserId != null ||
-        !_isFormValid(requiresConsent: _requiresConsent(instance))) {
+        !_isFormValid(
+          requiresConsent: _requiresConsent(instance),
+          requiresDateOfBirth: runtime.collectDateOfBirth,
+        )) {
       return;
     }
     final l10n = FluxerLocalizations.of(context);
@@ -238,8 +255,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       return;
     }
 
-    final dob = _dateOfBirth;
-    if (dob == null) {
+    final dob = runtime.collectDateOfBirth ? _dateOfBirth : null;
+    if (runtime.collectDateOfBirth && dob == null) {
       return;
     }
 
@@ -267,7 +284,21 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     final String? termsUrl = instance.termsUrl;
     final String? privacyUrl = instance.privacyUrl;
     final bool requiresConsent = _requiresConsent(instance);
-    final bool isRegistrationClosed = instance.isRegistrationClosed;
+    final bool collectDateOfBirth = ref.watch(
+      instanceRuntimeConfigProvider.select(
+        (InstanceRuntimeConfig config) => config.collectDateOfBirth,
+      ),
+    );
+    final String? registrationUrlCode = ref.watch(
+      pendingRegistrationUrlCodeProvider,
+    );
+    final bool canRegister = ref.watch(
+      instanceRuntimeConfigProvider.select(
+        (InstanceRuntimeConfig config) =>
+            config.canPublicRegister(registrationUrlCode: registrationUrlCode),
+      ),
+    );
+    final bool isRegistrationClosed = !canRegister;
     final String? pendingApprovalUserId = vm.pendingApprovalUserId;
 
     return AbsorbPointer(
@@ -401,116 +432,125 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             ),
             SizedBox(height: layout.s5),
 
-            // Date of birth
-            Text(
-              l10n.registerDateOfBirth,
-              style: textStyles.label.copyWith(color: colors.textPrimary),
-            ),
-            SizedBox(height: layout.s2),
-            if (isMobileLayout(context))
-              FluxerGestureDetector(
-                onTap: _pickDateOfBirth,
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
-                  ),
-                  decoration: BoxDecoration(
-                    color: colors.backgroundTertiary,
-                    borderRadius: layout.radiusMd,
-                    border: Border.all(
-                      color: vm.fieldErrors['date_of_birth'] != null
-                          ? colors.textDanger
-                          : colors.backgroundModifierAccent,
+            if (collectDateOfBirth) ...[
+              // Date of birth
+              Text(
+                l10n.registerDateOfBirth,
+                style: textStyles.label.copyWith(color: colors.textPrimary),
+              ),
+              SizedBox(height: layout.s2),
+              if (isMobileLayout(context))
+                FluxerGestureDetector(
+                  onTap: _pickDateOfBirth,
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                    decoration: BoxDecoration(
+                      color: colors.backgroundTertiary,
+                      borderRadius: layout.radiusMd,
+                      border: Border.all(
+                        color: vm.fieldErrors['date_of_birth'] != null
+                            ? colors.textDanger
+                            : colors.backgroundModifierAccent,
+                      ),
+                    ),
+                    child: Text(
+                      _formattedDateOfBirth.isNotEmpty
+                          ? _formattedDateOfBirth
+                          : DateFormat.yMd(
+                                  Localizations.localeOf(context).toString(),
+                                )
+                                .format(DateTime(2000, 12, 30))
+                                .replaceAll('2000', 'yyyy')
+                                .replaceAll('30', 'dd')
+                                .replaceAll('12', 'mm'),
+                      style: textStyles.bodySmall.copyWith(
+                        color: _formattedDateOfBirth.isNotEmpty
+                            ? colors.textPrimary
+                            : colors.textTertiary,
+                      ),
                     ),
                   ),
-                  child: Text(
-                    _formattedDateOfBirth.isNotEmpty
-                        ? _formattedDateOfBirth
-                        : DateFormat.yMd(
-                                Localizations.localeOf(context).toString(),
-                              )
-                              .format(DateTime(2000, 12, 30))
-                              .replaceAll('2000', 'yyyy')
-                              .replaceAll('30', 'dd')
-                              .replaceAll('12', 'mm'),
-                    style: textStyles.bodySmall.copyWith(
-                      color: _formattedDateOfBirth.isNotEmpty
-                          ? colors.textPrimary
-                          : colors.textTertiary,
-                    ),
-                  ),
-                ),
-              )
-            else
-              Builder(
-                builder: (context) {
-                  final locale = Localizations.localeOf(context).toString();
-                  final fields = <String, Widget>{
-                    'month': Expanded(
-                      flex: 4,
-                      child: FluxerSelect<int>(
-                        hint: l10n.registerMonth,
-                        value: _birthMonth,
-                        onChanged: _onMonthChanged,
-                        items: List.generate(
-                          12,
-                          (i) => FluxerSelectItem(
-                            value: i + 1,
-                            label: _monthName(i + 1),
+                )
+              else
+                Builder(
+                  builder: (context) {
+                    final locale = Localizations.localeOf(context).toString();
+                    final fields = <String, Widget>{
+                      'month': Expanded(
+                        flex: 4,
+                        child: FluxerSelect<int>(
+                          hint: l10n.registerMonth,
+                          value: _birthMonth,
+                          onChanged: _onMonthChanged,
+                          items: List.generate(
+                            12,
+                            (i) => FluxerSelectItem(
+                              value: i + 1,
+                              label: _monthName(i + 1),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    'day': Expanded(
-                      flex: 3,
-                      child: FluxerSelect<int>(
-                        hint: l10n.registerDay,
-                        value: _birthDay,
-                        onChanged: (v) {
-                          setState(() => _birthDay = v);
-                          _saveDraft();
-                        },
-                        items: List.generate(
-                          _daysInMonth,
-                          (i) =>
-                              FluxerSelectItem(value: i + 1, label: '${i + 1}'),
+                      'day': Expanded(
+                        flex: 3,
+                        child: FluxerSelect<int>(
+                          hint: l10n.registerDay,
+                          value: _birthDay,
+                          onChanged: (v) {
+                            setState(() => _birthDay = v);
+                            _saveDraft();
+                          },
+                          items: List.generate(
+                            _daysInMonth,
+                            (i) => FluxerSelectItem(
+                              value: i + 1,
+                              label: '${i + 1}',
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    'year': Expanded(
-                      flex: 3,
-                      child: FluxerSelect<int>(
-                        hint: l10n.registerYear,
-                        value: _birthYear,
-                        onChanged: _onYearChanged,
-                        items: List.generate(150, (i) {
-                          final year = DateTime.now().year - i;
-                          return FluxerSelectItem(value: year, label: '$year');
-                        }),
+                      'year': Expanded(
+                        flex: 3,
+                        child: FluxerSelect<int>(
+                          hint: l10n.registerYear,
+                          value: _birthYear,
+                          onChanged: _onYearChanged,
+                          items: List.generate(150, (i) {
+                            final year = DateTime.now().year - i;
+                            return FluxerSelectItem(
+                              value: year,
+                              label: '$year',
+                            );
+                          }),
+                        ),
                       ),
-                    ),
-                  };
-                  final order = _dateFieldOrder(locale);
-                  return Row(
-                    children: [
-                      for (var i = 0; i < order.length; i++) ...[
-                        if (i > 0) SizedBox(width: layout.s2),
-                        fields[order[i]]!,
+                    };
+                    final order = _dateFieldOrder(locale);
+                    return Row(
+                      children: [
+                        for (var i = 0; i < order.length; i++) ...[
+                          if (i > 0) SizedBox(width: layout.s2),
+                          fields[order[i]]!,
+                        ],
                       ],
-                    ],
-                  );
-                },
-              ),
-            if (vm.fieldErrors['date_of_birth'] != null) ...[
-              SizedBox(height: layout.s1),
-              Text(
-                vm.fieldErrors['date_of_birth']!,
-                style: textStyles.bodySmall.copyWith(color: colors.textDanger),
-              ),
+                    );
+                  },
+                ),
+              if (vm.fieldErrors['date_of_birth'] != null) ...[
+                SizedBox(height: layout.s1),
+                Text(
+                  vm.fieldErrors['date_of_birth']!,
+                  style: textStyles.bodySmall.copyWith(
+                    color: colors.textDanger,
+                  ),
+                ),
+              ],
+              SizedBox(height: layout.s5),
             ],
-            SizedBox(height: layout.s5),
 
             // Terms consent
             if (requiresConsent) ...[
@@ -565,9 +605,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             // Submit
             FluxerButton.primary(
               onPressed:
-                  _isFormValid(requiresConsent: requiresConsent) &&
+                  _isFormValid(
+                        requiresConsent: requiresConsent,
+                        requiresDateOfBirth: collectDateOfBirth,
+                      ) &&
                       !vm.isLoggingIn &&
-                      !isRegistrationClosed &&
+                      canRegister &&
                       pendingApprovalUserId == null
                   ? _submit
                   : null,

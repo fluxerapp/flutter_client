@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/presentation/sheets/instance_selector_sheet.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_form_error_text.dart';
@@ -176,6 +177,9 @@ class _LoginFormState extends ConsumerState<LoginForm>
     final WellKnownFluxerResponseSso? ssoConfig = ref
         .watch(authInstanceSnapshotProvider)
         .ssoConfig;
+    final bool emailsEnabled = ref.watch(
+      instanceRuntimeConfigProvider.select((config) => config.emailsEnabled),
+    );
     final String ssoProviderName = ssoConfig?.displayName ?? 'Single Sign-On';
 
     ref
@@ -242,12 +246,13 @@ class _LoginFormState extends ConsumerState<LoginForm>
               onSuffixTap: notifier.togglePassword,
             ),
             SizedBox(height: layout.s1),
-            FluxerTextLink(
-              text: strings.forgotPassword,
-              onTap: notifier.showForgotPasswordScreen,
-              style: context.textStyles.bodySmall,
-              color: context.colors.textTertiary,
-            ),
+            if (emailsEnabled)
+              FluxerTextLink(
+                text: strings.forgotPassword,
+                onTap: notifier.showForgotPasswordScreen,
+                style: context.textStyles.bodySmall,
+                color: context.colors.textTertiary,
+              ),
             SizedBox(height: layout.s6),
             AnimatedSize(
               duration: context.motion.fast,

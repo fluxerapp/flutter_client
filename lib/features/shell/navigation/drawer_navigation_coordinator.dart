@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/router/guild_root_redirect.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/shell/providers/drawer_reveal_sync_trigger_provider.dart';
@@ -50,6 +51,20 @@ class DrawerNavigationCoordinator {
     talker.debug('[DrawerNavigation] selectGuild guildId=$guildId');
     revealDrawer(container);
     container.read(fluxerRouterProvider).go(RoutePaths.guild(guildId));
+  }
+
+  static void openGuildChannelList(
+    ProviderContainer container,
+    String guildId,
+  ) {
+    talker.debug('[DrawerNavigation] openGuildChannelList guildId=$guildId');
+    revealDrawer(container);
+    container
+        .read(fluxerRouterProvider)
+        .go(
+          RoutePaths.guildChannelList(guildId),
+          extra: kGuildRootStayOnListExtra,
+        );
   }
 
   static void selectFavorites(ProviderContainer container) {

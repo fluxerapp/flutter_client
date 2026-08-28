@@ -64,6 +64,17 @@ void main() {
 
       expect(result.keys.map((guild) => guild.id), ['2', '1']);
     });
+
+    test('hides all guild sections in DMs without premium', () {
+      final result = guildEmojiEntriesForPicker(
+        guilds: guilds,
+        emojis: emojis,
+        activeGuildId: null,
+        isPremium: false,
+      );
+
+      expect(result, isEmpty);
+    });
   });
 
   test('lockedGuildEmojiEntriesForUpsell returns non-active guild emojis', () {
@@ -84,6 +95,83 @@ void main() {
     );
 
     expect(result.map((emoji) => emoji.id), ['b']);
+  });
+
+  test('lockedGuildEmojiEntriesForUpsell includes every guild in DMs', () {
+    const guilds = <Guild>[
+      Guild(id: '1', name: 'One'),
+      Guild(id: '2', name: 'Two'),
+    ];
+    final emojis = <GuildEmojiEntry>[
+      GuildEmojiEntry(id: 'a', name: 'one', animated: false, guildId: '1'),
+      GuildEmojiEntry(id: 'b', name: 'two', animated: false, guildId: '2'),
+    ];
+
+    final result = lockedGuildEmojiEntriesForUpsell(
+      guilds: guilds,
+      emojis: emojis,
+      activeGuildId: null,
+      isPremium: false,
+    );
+
+    expect(result.map((emoji) => emoji.id), ['a', 'b']);
+  });
+
+  group('composerCanUseGuildEmoji', () {
+    final emoji = GuildEmojiEntry(
+      id: 'a',
+      name: 'one',
+      animated: false,
+      guildId: '1',
+    );
+
+    test('allows source-guild emoji without premium', () {
+      expect(
+        composerCanUseGuildEmoji(
+          emoji: emoji,
+          hasGlobalEmojiAccess: false,
+          isDirectChat: false,
+          activeGuildId: '1',
+        ),
+        isTrue,
+      );
+    });
+
+    test('blocks cross-guild emoji without premium', () {
+      expect(
+        composerCanUseGuildEmoji(
+          emoji: emoji,
+          hasGlobalEmojiAccess: false,
+          isDirectChat: false,
+          activeGuildId: '2',
+        ),
+        isFalse,
+      );
+    });
+
+    test('blocks custom emoji in DMs without premium', () {
+      expect(
+        composerCanUseGuildEmoji(
+          emoji: emoji,
+          hasGlobalEmojiAccess: false,
+          isDirectChat: true,
+          activeGuildId: '1',
+        ),
+        isFalse,
+      );
+    });
+
+    test('allows custom emoji in DMs with global expressions', () {
+      expect(
+        composerCanUseGuildEmoji(
+          emoji: emoji,
+          hasGlobalEmojiAccess: true,
+          isDirectChat: true,
+          activeGuildId: null,
+        ),
+        isTrue,
+      );
+    });
   });
 
   group('buildPickerFrecentEmojis', () {

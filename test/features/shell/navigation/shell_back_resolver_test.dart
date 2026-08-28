@@ -114,5 +114,19 @@ void main() {
         ShellBackAction.revealDrawer,
       );
     });
+
+    test('minimizes a phone voice call instead of opening the drawer', () {
+      expect(
+        resolveShellBackAction(
+          hasPopupOverlay: false,
+          hasManualGestureBlock: false,
+          hasExpressionPanelOpen: false,
+          revealSide: RevealSide.main,
+          shellLocation: '/channels/guild/voice',
+          minimizePhoneVoiceCall: true,
+        ),
+        ShellBackAction.minimizePhoneVoiceCall,
+      );
+    });
   });
 }

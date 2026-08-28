@@ -731,7 +731,7 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
         cacheKey: sticker.cacheKeyForSize(_kStickerRequestSize),
         width: _imageSize,
         height: _imageSize,
-        memCacheWidth: _imageSize.toInt(),
+        memCacheWidth: sticker.animated ? null : _imageSize.toInt(),
         fadeInDuration: Duration.zero,
         fadeOutDuration: Duration.zero,
         fit: BoxFit.contain,

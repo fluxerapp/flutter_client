@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -81,6 +83,9 @@ Widget _wrap(Widget child) {
   final colorTheme = buildDarkColorTheme();
   final ProviderContainer container = ProviderContainer(
     overrides: [
+      instanceRuntimeConfigProvider.overrideWithValue(
+        InstanceRuntimeConfig.defaults,
+      ),
       syncedPreferencesStoreProvider.overrideWith(
         _InertSyncedPreferencesStore.new,
       ),

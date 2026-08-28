@@ -1,10 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
-import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
-import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
@@ -13,7 +10,6 @@ import 'package:fluxer_app/features/voice/utils/voice_connection_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
-import 'package:fluxer_dart/export.dart';
 import 'package:go_router/go_router.dart';
 
 typedef StartDirectVoiceCallResult = ({
@@ -76,56 +72,6 @@ Future<StartDirectVoiceCallResult> startDirectVoiceCall(
       );
     }
   }
-  final bool micOk = await ensureSystemPermission(
-    context,
-    SystemPermissionKind.microphone,
-  );
-  if (!micOk) {
-    return (
-      ok: false,
-      microphoneDenied: true,
-      cameraDenied: false,
-      notEligible: false,
-      joinAttemptFailed: false,
-    );
-  }
-  if (!context.mounted) {
-    return (
-      ok: false,
-      microphoneDenied: true,
-      cameraDenied: false,
-      notEligible: false,
-      joinAttemptFailed: false,
-    );
-  }
-  if (startWithVideo) {
-    final bool camOk = await ensureSystemPermission(
-      context,
-      SystemPermissionKind.camera,
-    );
-    if (!camOk) {
-      return (
-        ok: false,
-        microphoneDenied: false,
-        cameraDenied: true,
-        notEligible: false,
-        joinAttemptFailed: false,
-      );
-    }
-  }
-  final FluxerClient client = ref.read(fluxerClientProvider);
-  final response = await client.channels.getCallEligibility(
-    channelId: channelId,
-  );
-  if (!response.ringable) {
-    return (
-      ok: false,
-      microphoneDenied: false,
-      cameraDenied: false,
-      notEligible: true,
-      joinAttemptFailed: false,
-    );
-  }
   if (!context.mounted) {
     return (
       ok: false,
@@ -142,7 +88,6 @@ Future<StartDirectVoiceCallResult> startDirectVoiceCall(
       guildId: null,
       channelId: channelId,
       startOutgoingCall: true,
-      ringSilently: response.silent,
       outboundRingRecipients: outboundRingRecipients,
       initialSelfVideo: startWithVideo,
     );

@@ -178,7 +178,7 @@ class AppStartup extends _$AppStartup {
       ..read(gatewayEventListenerProvider)
       ..read(gatewayStateListenerProvider)
       ..read(gatewayForegroundListenerProvider)
-      ..read(gatewayReconnectToastListenerProvider)
+      ..read(gatewayReconnectBannerListenerProvider)
       ..read(connectivityListenerProvider)
       ..read(gatewayEphemeralStateRecoveryListenerProvider)
       ..read(ackBatcherGatewayListenerProvider)

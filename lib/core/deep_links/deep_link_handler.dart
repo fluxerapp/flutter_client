@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:app_links/app_links.dart';
 import 'package:fluxer_app/core/deep_links/deep_link_path_policy.dart';
 import 'package:fluxer_app/core/deep_links/user_settings_deep_link.dart';
+import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/providers/well_known_provider.dart';
 import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -13,6 +15,7 @@ import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/utils/channel_jump_link.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
 import 'package:fluxer_app/features/auth/providers/pending_invite_code_provider.dart';
+import 'package:fluxer_app/features/auth/providers/pending_registration_url_code_provider.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/guilds/utils/invite_link_parser.dart';
 import 'package:fluxer_app/features/settings/providers/default_apps_preferences_provider.dart';
@@ -70,6 +73,8 @@ class DeepLinkHandler extends _$DeepLinkHandler {
       return;
     }
 
+    _extractRegistrationUrlCode(normalizedUri);
+
     if (!isAllowedDeepLinkPath(normalizedUri)) {
       talker.info(
         '[DeepLink] Ignored non-routable path: ${normalizedUri.path}',
@@ -103,7 +108,11 @@ class DeepLinkHandler extends _$DeepLinkHandler {
   }
 
   void _extractInviteCode(Uri uri) {
-    final String? code = parseInviteCode(uri.toString());
+    final String inviteBase = ref.read(instanceInviteBaseUrlProvider);
+    final String? code = parseInviteCode(
+      uri.toString(),
+      inviteUrlBases: <String>[inviteBase],
+    );
     if (code != null) {
       ref.read(pendingInviteCodeProvider.notifier).store(code);
       talker.info('[DeepLink] Stored invite code for auth flow');
@@ -114,6 +123,15 @@ class DeepLinkHandler extends _$DeepLinkHandler {
       ref.read(pendingInviteCodeProvider.notifier).store(codeFromPath);
       talker.info('[DeepLink] Stored invite code for auth flow');
     }
+  }
+
+  void _extractRegistrationUrlCode(Uri uri) {
+    final String? code = parseRegistrationUrlCode(uri.toString());
+    if (code == null) {
+      return;
+    }
+    ref.read(pendingRegistrationUrlCodeProvider.notifier).store(code);
+    talker.info('[DeepLink] Stored registration URL code');
   }
 
   /// Handles `/reset#token=<TOKEN>` or `/reset?token=<TOKEN>` deep links.
@@ -183,6 +201,10 @@ class DeepLinkHandler extends _$DeepLinkHandler {
       case 'invite' when segments.length >= 2:
         router.go(RoutePaths.inviteLink(segments[1]));
       case 'gift' when segments.length >= 2:
+        if (!ref.read(instanceRuntimeConfigProvider).giftsEnabled) {
+          talker.info('[DeepLink] Ignored gift link on instance without gifts');
+          return;
+        }
         router.go(RoutePaths.giftLink(segments[1]));
       case 'users' when segments.length >= 2:
         talker.info('[DeepLink] User profile: ${segments[1]}');

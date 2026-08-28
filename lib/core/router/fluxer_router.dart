@@ -670,33 +670,41 @@ GoRouter fluxerRouter(Ref ref) {
                         path: 'call',
                         name: RouteNames.dmChannelCall,
                         parentNavigatorKey: rootNavigatorKey,
-                        pageBuilder: (context, state) =>
-                            shellMobileRootPushTransitionPage(
+                        pageBuilder: (context, state) {
+                          final Widget callPage = FutureBuilder<void>(
+                            future: dm_voice_call.loadLibrary(),
+                            builder:
+                                (
+                                  BuildContext context,
+                                  AsyncSnapshot<void> snapshot,
+                                ) {
+                                  if (snapshot.connectionState !=
+                                      ConnectionState.done) {
+                                    return const Scaffold(
+                                      body: Center(
+                                        child: FluxerLoadingSpinner(),
+                                      ),
+                                    );
+                                  }
+                                  return dm_voice_call.DmVoiceCallFullscreenPage(
+                                    channelId:
+                                        state.pathParameters['channelId'] ?? '',
+                                  );
+                                },
+                          );
+                          if (isPhoneVoiceOverlay(context)) {
+                            return shellPhoneVoiceCallTransitionPage(
                               context: context,
                               key: state.pageKey,
-                              child: FutureBuilder<void>(
-                                future: dm_voice_call.loadLibrary(),
-                                builder:
-                                    (
-                                      BuildContext context,
-                                      AsyncSnapshot<void> snapshot,
-                                    ) {
-                                      if (snapshot.connectionState !=
-                                          ConnectionState.done) {
-                                        return const Scaffold(
-                                          body: Center(
-                                            child: FluxerLoadingSpinner(),
-                                          ),
-                                        );
-                                      }
-                                      return dm_voice_call.DmVoiceCallFullscreenPage(
-                                        channelId:
-                                            state.pathParameters['channelId'] ??
-                                            '',
-                                      );
-                                    },
-                              ),
-                            ),
+                              child: callPage,
+                            );
+                          }
+                          return shellMobileRootPushTransitionPage(
+                            context: context,
+                            key: state.pageKey,
+                            child: callPage,
+                          );
+                        },
                       ),
                       GoRoute(
                         path: ':messageId',
@@ -758,6 +766,12 @@ GoRouter fluxerRouter(Ref ref) {
                 path: '/channels/:guildId',
                 name: RouteNames.guild,
                 redirect: (context, state) {
+                  if (shouldStayOnGuildChannelList(
+                    uri: state.uri,
+                    extra: state.extra,
+                  )) {
+                    return null;
+                  }
                   return resolveGuildRootRedirect(
                     guildId: state.pathParameters['guildId'],
                     fullPath: state.uri.path,

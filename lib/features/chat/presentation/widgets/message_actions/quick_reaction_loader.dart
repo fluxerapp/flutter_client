@@ -16,9 +16,7 @@ Future<List<QuickReactionItem>?> loadQuickReactionItems(
   try {
     final db = ref.read(fluxerDatabaseProvider);
     final keys = await db.emojiUsageDao.getQuickReactionMixedKeys(12);
-    // Mirror the emoji picker's eligibility: a custom emoji shows if it's
-    // from this guild, or the user has global access (premium + external
-    // emojis), the only path in DMs, where there's no guild to match.
+    // Same-guild custom emoji, or global expressions plus external emoji.
     final hasGlobalEmojiAccess =
         ref.read(
           instanceFeatureEnabledProvider(LimitKeys.featureGlobalExpressions),

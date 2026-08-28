@@ -1,4 +1,4 @@
-import 'dart:async' show unawaited;
+import 'dart:async' show Timer, unawaited;
 import 'dart:ui' show ImageFilter;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,21 +6,23 @@ import 'package:fluxer_app/core/api/session_authorization_header.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as database;
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
-import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
+import 'package:fluxer_app/features/ui/voice/voice_call_avatar.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_stream_audio_provider.dart';
 import 'package:fluxer_app/features/voice/utils/voice_participant_track_resolver.dart';
 import 'package:fluxer_app/features/voice/utils/voice_stream_audio_utils.dart';
+import 'package:fluxer_app/features/voice/utils/voice_video_subscription.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:livekit_client/livekit_client.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 enum VoiceParticipantTileSource { camera, screenShare }
 
 /// Renders a LiveKit camera/screen-share track, or an avatar fallback.
-class VoiceParticipantMediaTile extends StatelessWidget {
+class VoiceParticipantMediaTile extends StatefulWidget {
   const VoiceParticipantMediaTile({
     required this.room,
     required this.userId,
@@ -39,6 +41,7 @@ class VoiceParticipantMediaTile extends StatelessWidget {
     this.fillContainer = false,
     this.user,
     this.mirrorCamera = false,
+    this.omitVideoTrack = false,
     super.key,
   });
 
@@ -59,186 +62,363 @@ class VoiceParticipantMediaTile extends StatelessWidget {
   final String? authToken;
   final database.User? user;
   final bool mirrorCamera;
+  final bool omitVideoTrack;
+
+  @override
+  State<VoiceParticipantMediaTile> createState() =>
+      _VoiceParticipantMediaTileState();
+}
+
+class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
+  bool _tileVisible = false;
+  bool _blurReady = false;
+  bool _trackSyncScheduled = false;
+  Timer? _unsubscribeGrace;
+  String? _lastVideoIntent;
+  String? _lastAudioIntent;
+
+  @override
+  void initState() {
+    super.initState();
+    _maybeArmScreenShareBlur();
+  }
+
+  @override
+  void didUpdateWidget(covariant VoiceParticipantMediaTile oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _maybeArmScreenShareBlur();
+    _scheduleRemoteTrackSync();
+  }
+
+  @override
+  void dispose() {
+    _unsubscribeGrace?.cancel();
+    super.dispose();
+  }
+
+  Key get _visibilityKey {
+    return ValueKey<String>(
+      'voice-tile-vis-${widget.userId}-'
+      '${widget.voice.connectionId}-${widget.tileSource.name}',
+    );
+  }
+
+  void _maybeArmScreenShareBlur() {
+    if (_blurReady) {
+      return;
+    }
+    if (widget.tileSource != VoiceParticipantTileSource.screenShare ||
+        widget.isActiveScreenShare) {
+      return;
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _blurReady) {
+        return;
+      }
+      setState(() => _blurReady = true);
+    });
+  }
+
+  void _scheduleRemoteTrackSync() {
+    if (_trackSyncScheduled) {
+      return;
+    }
+    _trackSyncScheduled = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _trackSyncScheduled = false;
+      if (!mounted) {
+        return;
+      }
+      _applyRemoteTrackSync();
+    });
+  }
+
+  void _onVisibilityChanged(VisibilityInfo info) {
+    if (!mounted) {
+      return;
+    }
+    final bool visible = info.visibleFraction > 0;
+    if (visible == _tileVisible && _unsubscribeGrace == null) {
+      return;
+    }
+    _unsubscribeGrace?.cancel();
+    if (visible) {
+      _unsubscribeGrace = null;
+      if (!_tileVisible) {
+        setState(() => _tileVisible = true);
+      }
+      _scheduleRemoteTrackSync();
+      return;
+    }
+    _unsubscribeGrace = Timer(kVoiceVideoUnsubscribeGrace, () {
+      if (!mounted) {
+        return;
+      }
+      setState(() => _tileVisible = false);
+      _scheduleRemoteTrackSync();
+    });
+  }
+
+  void _applyRemoteTrackSync() {
+    final Participant? participant = _resolveParticipant();
+    if (participant == null) {
+      return;
+    }
+    final bool isScreenShareTile =
+        widget.tileSource == VoiceParticipantTileSource.screenShare;
+    _syncRemoteVideo(
+      publication: isScreenShareTile
+          ? _screenShareVideoPublication(participant, false)
+          : _cameraPublication(participant),
+      isScreenShareTile: isScreenShareTile,
+    );
+    if (isScreenShareTile) {
+      _syncRemoteScreenShareAudio(
+        publication: _screenShareAudioPublication(participant, false),
+      );
+    }
+  }
+
+  void _syncRemoteVideo({
+    required TrackPublication? publication,
+    required bool isScreenShareTile,
+  }) {
+    if (publication is! RemoteTrackPublication) {
+      return;
+    }
+    final bool shouldSubscribe = isScreenShareTile
+        ? shouldSubscribeRemoteScreenShare(
+            isActiveScreenShare: widget.isActiveScreenShare,
+          )
+        : shouldSubscribeRemoteCamera(
+            tileVisible: _tileVisible,
+            omitVideoTrack: widget.omitVideoTrack,
+          );
+    final String intent = '${publication.sid}:$shouldSubscribe';
+    if (intent == _lastVideoIntent) {
+      return;
+    }
+    _lastVideoIntent = intent;
+    unawaited(
+      syncRemoteVideoSubscription(
+        publication: publication,
+        shouldSubscribe: shouldSubscribe,
+      ),
+    );
+  }
+
+  void _syncRemoteScreenShareAudio({required TrackPublication? publication}) {
+    if (publication is! RemoteTrackPublication) {
+      return;
+    }
+    final bool shouldSubscribe = widget.isActiveScreenShare;
+    final String intent = '${publication.sid}:$shouldSubscribe';
+    if (intent == _lastAudioIntent) {
+      return;
+    }
+    _lastAudioIntent = intent;
+    if (shouldSubscribe && !publication.subscribed) {
+      unawaited(publication.subscribe());
+    } else if (!shouldSubscribe && publication.subscribed) {
+      unawaited(publication.unsubscribe());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final Participant? participant = _resolveParticipant();
     if (participant == null) {
-      return _avatarStack(
-        context,
-        showVideoPending: false,
-        backgroundColor: backgroundColor,
+      return VisibilityDetector(
+        key: _visibilityKey,
+        onVisibilityChanged: _onVisibilityChanged,
+        child: _avatarStack(
+          context,
+          showVideoPending: false,
+          backgroundColor: widget.backgroundColor,
+        ),
       );
     }
     final bool isScreenShareTile =
-        tileSource == VoiceParticipantTileSource.screenShare;
+        widget.tileSource == VoiceParticipantTileSource.screenShare;
     final String? streamKey = isScreenShareTile
-        ? buildViewerStreamKey(voice: voice, isScreenShareTile: true)
+        ? buildViewerStreamKey(voice: widget.voice, isScreenShareTile: true)
         : null;
     final bool isOwnScreenShareTile =
         isScreenShareTile &&
-        currentUserId != null &&
-        userId == currentUserId &&
-        localConnectionId != null &&
-        voice.connectionId == localConnectionId;
+        widget.currentUserId != null &&
+        widget.userId == widget.currentUserId &&
+        widget.localConnectionId != null &&
+        widget.voice.connectionId == widget.localConnectionId;
     final bool hasOwnScreenSharePublication =
         isScreenShareTile &&
         _screenShareVideoPublication(participant, false) != null;
     if (isOwnScreenShareTile &&
         hasOwnScreenSharePublication &&
-        pauseOwnScreenSharePreviewOnUnfocus &&
-        !isTileFocused) {
-      return _buildOwnScreenShareBroadcastingTile(context, backgroundColor);
+        widget.pauseOwnScreenSharePreviewOnUnfocus &&
+        !widget.isTileFocused) {
+      return _buildOwnScreenShareBroadcastingTile(
+        context,
+        widget.backgroundColor,
+      );
     }
-    return ListenableBuilder(
-      listenable: participant,
-      builder: (BuildContext context, Widget? _) {
-        final TrackPublication? publication = isScreenShareTile
-            ? _screenShareVideoPublication(participant, false)
-            : _cameraPublication(participant);
-        final Track? publicationTrack = publication?.track;
-        final VideoTrack? track = publicationTrack is VideoTrack
-            ? publicationTrack
-            : null;
-        if (isScreenShareTile && publication is RemoteTrackPublication) {
-          if (isActiveScreenShare && !publication.subscribed) {
-            unawaited(publication.subscribe());
-          }
-          if (!isActiveScreenShare && publication.subscribed) {
-            unawaited(publication.unsubscribe());
-          }
-        }
-        // Remote cameras are not auto-subscribed (autoSubscribe is off), so
-        // subscribe here whenever the tile is displayed.
-        if (!isScreenShareTile &&
-            publication is RemoteTrackPublication &&
-            !publication.subscribed) {
-          unawaited(publication.subscribe());
-        }
-        TrackPublication? audioPublication;
-        AudioTrack? audioTrack;
-        if (isScreenShareTile) {
-          audioPublication = _screenShareAudioPublication(participant, false);
-          if (audioPublication is RemoteTrackPublication) {
-            if (isActiveScreenShare && !audioPublication.subscribed) {
-              unawaited(audioPublication.subscribe());
-            }
-            if (!isActiveScreenShare && audioPublication.subscribed) {
-              unawaited(audioPublication.unsubscribe());
-            }
-          }
-          final Track? audioPublicationTrack = audioPublication?.track;
-          audioTrack = audioPublicationTrack is AudioTrack
-              ? audioPublicationTrack
+    return VisibilityDetector(
+      key: _visibilityKey,
+      onVisibilityChanged: _onVisibilityChanged,
+      child: ListenableBuilder(
+        listenable: participant,
+        builder: (BuildContext context, Widget? _) {
+          _scheduleRemoteTrackSync();
+          final TrackPublication? publication = isScreenShareTile
+              ? _screenShareVideoPublication(participant, false)
+              : _cameraPublication(participant);
+          final Track? publicationTrack = publication?.track;
+          final VideoTrack? track = publicationTrack is VideoTrack
+              ? publicationTrack
               : null;
-        }
-        if (track != null) {
-          final bool isOwnCameraTile =
-              tileSource == VoiceParticipantTileSource.camera &&
-              currentUserId != null &&
-              userId == currentUserId;
-          final VideoViewFit fit = isScreenShareTile || fillContainer
-              ? VideoViewFit.contain
-              : VideoViewFit.cover;
-          final VideoViewMirrorMode mirrorMode;
-          if (!isOwnCameraTile || isScreenShareTile) {
-            mirrorMode = VideoViewMirrorMode.off;
-          } else if (mirrorCamera) {
-            mirrorMode = VideoViewMirrorMode.mirror;
-          } else {
-            mirrorMode = VideoViewMirrorMode.off;
+          AudioTrack? audioTrack;
+          if (isScreenShareTile) {
+            final Track? audioPublicationTrack = _screenShareAudioPublication(
+              participant,
+              false,
+            )?.track;
+            audioTrack = audioPublicationTrack is AudioTrack
+                ? audioPublicationTrack
+                : null;
           }
-          final Widget videoChild = VideoTrackRenderer(
-            track,
-            fit: fit,
-            mirrorMode: mirrorMode,
-          );
-          final Widget videoWidget = ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: ColoredBox(
-              color: backgroundColor,
-              child: SizedBox.expand(child: videoChild),
-            ),
-          );
-          if (isScreenShareTile && !isActiveScreenShare) {
+          if (track != null) {
+            if (widget.omitVideoTrack) {
+              Widget hole = ColoredBox(color: widget.backgroundColor);
+              if (isScreenShareTile &&
+                  widget.isActiveScreenShare &&
+                  audioTrack != null) {
+                hole = Stack(
+                  fit: StackFit.expand,
+                  children: <Widget>[
+                    hole,
+                    Positioned.fill(
+                      child: IgnorePointer(
+                        child: _ScreenShareAudioPlayback(
+                          streamKey: streamKey,
+                          audioTrack: audioTrack,
+                          isActiveScreenShare: widget.isActiveScreenShare,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              }
+              return hole;
+            }
+            final bool isOwnCameraTile =
+                widget.tileSource == VoiceParticipantTileSource.camera &&
+                widget.currentUserId != null &&
+                widget.userId == widget.currentUserId;
+            final VideoViewFit fit = isScreenShareTile || widget.fillContainer
+                ? VideoViewFit.contain
+                : VideoViewFit.cover;
+            final VideoViewMirrorMode mirrorMode;
+            if (!isOwnCameraTile || isScreenShareTile) {
+              mirrorMode = VideoViewMirrorMode.off;
+            } else if (widget.mirrorCamera) {
+              mirrorMode = VideoViewMirrorMode.mirror;
+            } else {
+              mirrorMode = VideoViewMirrorMode.off;
+            }
+            final Widget videoChild = VideoTrackRenderer(
+              track,
+              fit: fit,
+              mirrorMode: mirrorMode,
+            );
+            final Widget videoWidget = ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: ColoredBox(
+                color: widget.backgroundColor,
+                child: SizedBox.expand(child: videoChild),
+              ),
+            );
+            if (isScreenShareTile && !widget.isActiveScreenShare) {
+              return Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  Positioned.fill(child: _nonWatchingPreviewLayer(videoWidget)),
+                  const Positioned.fill(
+                    child: ColoredBox(color: Color(0x55000000)),
+                  ),
+                  if (_blurReady)
+                    Positioned.fill(
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+                        child: const ColoredBox(color: Color(0x22000000)),
+                      ),
+                    ),
+                ],
+              );
+            }
+            if (!isScreenShareTile) {
+              return videoWidget;
+            }
+            if (!widget.isActiveScreenShare || audioTrack == null) {
+              return videoWidget;
+            }
             return Stack(
               fit: StackFit.expand,
               children: <Widget>[
-                Positioned.fill(child: _nonWatchingPreviewLayer(videoWidget)),
-                const Positioned.fill(
-                  child: ColoredBox(color: Color(0x55000000)),
-                ),
+                videoWidget,
                 Positioned.fill(
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-                    child: const ColoredBox(color: Color(0x22000000)),
+                  child: IgnorePointer(
+                    child: _ScreenShareAudioPlayback(
+                      streamKey: streamKey,
+                      audioTrack: audioTrack,
+                      isActiveScreenShare: widget.isActiveScreenShare,
+                    ),
                   ),
                 ),
               ],
             );
           }
-          if (!isScreenShareTile) {
-            return videoWidget;
+          Widget fallbackWidget = _avatarStack(
+            context,
+            showVideoPending: isScreenShareTile
+                ? widget.voice.selfStream
+                : widget.voice.selfVideo,
+            backgroundColor: widget.backgroundColor,
+          );
+          if (isScreenShareTile &&
+              !widget.isActiveScreenShare &&
+              widget.isFilmstrip) {
+            fallbackWidget = _nonWatchingPreviewLayer(fallbackWidget);
           }
-          if (!isActiveScreenShare || audioTrack == null) {
-            return videoWidget;
+          if (!isScreenShareTile ||
+              !widget.isActiveScreenShare ||
+              audioTrack == null) {
+            return fallbackWidget;
           }
           return Stack(
-            fit: StackFit.expand,
             children: <Widget>[
-              videoWidget,
+              fallbackWidget,
               Positioned.fill(
                 child: IgnorePointer(
                   child: _ScreenShareAudioPlayback(
                     streamKey: streamKey,
                     audioTrack: audioTrack,
-                    isActiveScreenShare: isActiveScreenShare,
+                    isActiveScreenShare: widget.isActiveScreenShare,
                   ),
                 ),
               ),
             ],
           );
-        }
-        Widget fallbackWidget = _avatarStack(
-          context,
-          showVideoPending: isScreenShareTile
-              ? voice.selfStream
-              : voice.selfVideo,
-          backgroundColor: backgroundColor,
-        );
-        // In the filmstrip a not-watched screen-share shows its preview
-        // image (falling back to the avatar) instead of a watch button.
-        if (isScreenShareTile && !isActiveScreenShare && isFilmstrip) {
-          fallbackWidget = _nonWatchingPreviewLayer(fallbackWidget);
-        }
-        if (!isScreenShareTile || !isActiveScreenShare || audioTrack == null) {
-          return fallbackWidget;
-        }
-        return Stack(
-          children: <Widget>[
-            fallbackWidget,
-            Positioned.fill(
-              child: IgnorePointer(
-                child: _ScreenShareAudioPlayback(
-                  streamKey: streamKey,
-                  audioTrack: audioTrack,
-                  isActiveScreenShare: isActiveScreenShare,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
+        },
+      ),
     );
   }
 
   Participant? _resolveParticipant() {
     return resolveVoiceParticipant(
-      room: room,
-      voice: voice,
-      userId: userId,
-      currentUserId: currentUserId,
-      localConnectionId: localConnectionId,
+      room: widget.room,
+      voice: widget.voice,
+      userId: widget.userId,
+      currentUserId: widget.currentUserId,
+      localConnectionId: widget.localConnectionId,
     );
   }
 
@@ -273,45 +453,31 @@ class VoiceParticipantMediaTile extends StatelessWidget {
   }) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
-      child: ColoredBox(
-        color: backgroundColor,
-        child: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            if (user != null)
-              Center(
-                child: FluxerAvatar.fromUserRow(
-                  user!,
-                  size: 72,
-                  showStatus: false,
-                ),
-              )
-            else
-              Center(
-                child: FluxerAvatar.user(
-                  userId: userId,
-                  fallbackText: display,
-                  size: 72,
-                  showStatus: false,
-                ),
+      child: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          VoiceCallAvatar(
+            background: backgroundColor,
+            userId: widget.userId,
+            user: widget.user,
+            fallbackText: widget.display,
+          ),
+          if (showVideoPending)
+            const Center(
+              child: SizedBox(
+                width: 32,
+                height: 32,
+                child: FluxerLoadingSpinner(),
               ),
-            if (showVideoPending)
-              const Center(
-                child: SizedBox(
-                  width: 32,
-                  height: 32,
-                  child: FluxerLoadingSpinner(),
-                ),
-              ),
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }
 
   Widget _nonWatchingPreviewLayer(Widget fallbackVideo) {
-    final String? previewUrl = streamPreviewUrl;
-    final String? token = authToken;
+    final String? previewUrl = widget.streamPreviewUrl;
+    final String? token = widget.authToken;
     if (previewUrl == null || previewUrl.isEmpty) {
       return fallbackVideo;
     }

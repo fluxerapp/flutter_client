@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
@@ -245,6 +246,9 @@ class QuickSwitcher extends _$QuickSwitcher {
         guilds: guilds,
         guildMembers: guildMembers,
         hasFavorites: favorites.isNotEmpty,
+        directMessagesDisabled: ref
+            .read(instanceRuntimeConfigProvider)
+            .directMessagesDisabled,
       ),
     );
   }

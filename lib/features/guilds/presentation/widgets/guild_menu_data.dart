@@ -125,6 +125,7 @@ List<GuildMenuGroup> buildGuildMenuGroups({
   bool hideMutedChannels = false,
   bool developerMode = false,
   bool isTouchPrimary = false,
+  bool isStockCommunity = false,
   Guild? guild,
 }) {
   final p = permissions;
@@ -220,12 +221,13 @@ List<GuildMenuGroup> buildGuildMenuGroups({
           action: GuildAction.deleteMyMessages,
           isDanger: true,
         ),
-        GuildMenuAction(
-          label: l10n.guildNavbarLeaveCommunityConfirm,
-          icon: PhosphorIconsFill.signOut,
-          action: GuildAction.leaveGuild,
-          isDanger: true,
-        ),
+        if (!isStockCommunity)
+          GuildMenuAction(
+            label: l10n.guildNavbarLeaveCommunityConfirm,
+            icon: PhosphorIconsFill.signOut,
+            action: GuildAction.leaveGuild,
+            isDanger: true,
+          ),
         GuildMenuAction(
           label: l10n.guildMenuReportCommunity,
           icon: PhosphorIconsFill.flag,

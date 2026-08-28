@@ -62,32 +62,6 @@ bool isComposerDirectChat({
   return findDmById(dmConversations, channelId) != null;
 }
 
-/// DM and Personal Notes composers show guild emojis like plutonium.
-bool composerHasDirectChatEmojiAccess({
-  required String? channelId,
-  required List<DmConversation> dmConversations,
-  required String? currentUserId,
-  required bool hasGlobalExpressions,
-}) {
-  if (hasGlobalExpressions) {
-    return true;
-  }
-  if (channelId == null || channelId.isEmpty) {
-    return false;
-  }
-  if (isPersonalNotesChannelRoute(
-    channelId: channelId,
-    currentUserId: currentUserId,
-  )) {
-    return true;
-  }
-  return isComposerDirectChat(
-    channelId: channelId,
-    dmConversations: dmConversations,
-    currentUserId: currentUserId,
-  );
-}
-
 bool isPersonalNotesChannel({
   required int? type,
   required String channelId,

@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/features/voice/utils/voice_pip_visibility.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
@@ -19,14 +20,6 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 const double _kDmEmbeddedVoiceMinHeight = 160;
 const double _kDmEmbeddedVoiceMaxHeight = 520;
 const double _kDmEmbeddedVoiceDefaultHeight = 280;
-
-bool _showsEmbeddedDmVoice(String channelId, VoiceSessionState voice) {
-  final bool isPrivate = voice.guildId == null || voice.guildId!.isEmpty;
-  return isPrivate &&
-      voice.channelId == channelId &&
-      voice.isConnected &&
-      voice.errorMessage == null;
-}
 
 class DmEmbeddedVoiceCallPanel extends ConsumerStatefulWidget {
   const DmEmbeddedVoiceCallPanel({required this.channelId, super.key});
@@ -45,7 +38,7 @@ class _DmEmbeddedVoiceCallPanelState
   @override
   Widget build(BuildContext context) {
     final VoiceSessionState voice = ref.watch(voiceSessionProvider);
-    if (!_showsEmbeddedDmVoice(widget.channelId, voice)) {
+    if (!showsEmbeddedDmVoicePanel(channelId: widget.channelId, voice: voice)) {
       return const SizedBox.shrink();
     }
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);

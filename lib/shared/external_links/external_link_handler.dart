@@ -19,7 +19,7 @@ Future<void> handleExternalLinkTap(
     return;
   }
 
-  final uri = Uri.tryParse(url);
+  final uri = parseExternalLinkUri(url);
   if (uri == null) {
     return;
   }

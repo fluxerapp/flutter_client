@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_expandable_sheet.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_join_empty_state.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_phone_surface.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
@@ -93,7 +94,7 @@ class _DmVoiceCallFullscreenPageState
             (s.guildId == null || s.guildId!.isEmpty),
       ),
     );
-    return Scaffold(
+    final Widget scaffold = Scaffold(
       backgroundColor: context.colors.chatBackground,
       appBar: usePhoneVoiceOverlay && !showsOverlay
           ? null
@@ -141,5 +142,9 @@ class _DmVoiceCallFullscreenPageState
               ),
             ),
     );
+    if (usePhoneVoiceOverlay) {
+      return VoiceCallJoinChrome(child: scaffold);
+    }
+    return scaffold;
   }
 }

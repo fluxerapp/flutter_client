@@ -1,6 +1,20 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_reveal_overlay.dart';
 import 'package:fluxer_app/material_ui.dart';
+
+Widget _wrap(Widget child) {
+  return ProviderScope(
+    overrides: [
+      instanceRuntimeConfigProvider.overrideWithValue(
+        InstanceRuntimeConfig.defaults,
+      ),
+    ],
+    child: MaterialApp(home: child),
+  );
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -9,8 +23,8 @@ void main() {
     testWidgets('completes zoom transition without throwing', (tester) async {
       var completed = false;
       await tester.pumpWidget(
-        MaterialApp(
-          home: Builder(
+        _wrap(
+          Builder(
             builder: (BuildContext context) {
               return Scaffold(
                 body: Center(
@@ -46,8 +60,8 @@ void main() {
 
     testWidgets('disposing mid-animation does not throw', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Builder(
+        _wrap(
+          Builder(
             builder: (BuildContext context) {
               return Scaffold(
                 body: Center(

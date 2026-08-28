@@ -6,10 +6,15 @@ import 'package:fluxer_app/features/settings/providers/chat_input_preferences_pr
 
 void main() {
   group('ChatInputSyncedField', () {
-    test('defaults saveCameraCapturesToDevice to true when proto field absent', () {
-      final state = ChatInputSyncedField.fromProtoSettings(pb.ChatInputSettings());
-      expect(state.saveCameraCapturesToDevice, isTrue);
-    });
+    test(
+      'defaults saveCameraCapturesToDevice to true when proto field absent',
+      () {
+        final state = ChatInputSyncedField.fromProtoSettings(
+          pb.ChatInputSettings(),
+        );
+        expect(state.saveCameraCapturesToDevice, isTrue);
+      },
+    );
 
     test('writes absent proto value when enabled (default)', () {
       final proto = pb.ChatInputSettings();

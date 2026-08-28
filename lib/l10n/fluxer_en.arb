@@ -10,11 +10,11 @@
     },
     "gatewayReconnectingToast": "Reconnecting…",
     "@gatewayReconnectingToast": {
-        "description": "Toast shown when the gateway connection is lost and reconnecting."
+        "description": "Banner shown when the gateway connection is lost and reconnecting."
     },
     "gatewayConnectedToast": "Connected",
     "@gatewayConnectedToast": {
-        "description": "Toast shown when the gateway connection is restored."
+        "description": "Banner shown when the gateway connection is restored."
     },
     "sessionExpiredToast": "Your session has expired. Please sign in again.",
     "@sessionExpiredToast": {
@@ -8988,6 +8988,193 @@
     "composerAutocompleteRoleMentionDescription": "Notify users with this role who have permission to view this channel.",
     "@composerAutocompleteRoleMentionDescription": {
         "description": "Secondary line in the @ mention autocomplete when the row is a mentionable guild role."
+    },
+    "composerAutocompleteSuggestions": "Suggestions",
+    "@composerAutocompleteSuggestions": {
+        "description": "Accessibility label for the composer autocomplete list."
+    },
+    "composerAutocompleteCommandsHeading": "Commands",
+    "@composerAutocompleteCommandsHeading": {
+        "description": "Section heading in composer autocomplete for slash commands."
+    },
+    "composerAutocompleteChoicesHeading": "Choices",
+    "@composerAutocompleteChoicesHeading": {
+        "description": "Section heading in composer autocomplete for slash-command argument choices."
+    },
+    "composerAutocompleteOptionalArgumentsHeading": "Optional arguments",
+    "@composerAutocompleteOptionalArgumentsHeading": {
+        "description": "Section heading in composer autocomplete for adding optional slash-command arguments."
+    },
+    "composerAutocompleteChannelsHeading": "Channels",
+    "@composerAutocompleteChannelsHeading": {
+        "description": "Section heading in composer autocomplete for channel suggestions."
+    },
+    "composerAutocompleteMembersHeading": "Members",
+    "@composerAutocompleteMembersHeading": {
+        "description": "Section heading in composer autocomplete for member suggestions."
+    },
+    "composerAutocompleteUsersHeading": "Users",
+    "@composerAutocompleteUsersHeading": {
+        "description": "Section heading in composer autocomplete for user suggestions."
+    },
+    "composerAutocompleteMentionsHeading": "Mentions",
+    "@composerAutocompleteMentionsHeading": {
+        "description": "Section heading in composer autocomplete for mixed mention suggestions."
+    },
+    "composerAutocompleteRolesHeading": "Roles",
+    "@composerAutocompleteRolesHeading": {
+        "description": "Section heading in composer autocomplete for role suggestions."
+    },
+    "composerAutocompleteMediaHeading": "Media",
+    "@composerAutocompleteMediaHeading": {
+        "description": "Section heading in composer autocomplete for saved media."
+    },
+    "composerAutocompleteStickersHeading": "Stickers",
+    "@composerAutocompleteStickersHeading": {
+        "description": "Section heading in composer autocomplete for stickers."
+    },
+    "composerAutocompleteGifsHeading": "GIFs",
+    "@composerAutocompleteGifsHeading": {
+        "description": "Heading above GIF autocomplete results."
+    },
+    "composerAutocompleteNoGifs": "No GIFs found",
+    "@composerAutocompleteNoGifs": {
+        "description": "Empty-state title when GIF autocomplete finds no results."
+    },
+    "composerCommandShrugDescription": "Appends ¯\\_(ツ)_/¯ to your message.",
+    "@composerCommandShrugDescription": {
+        "description": "Slash-command description for /shrug."
+    },
+    "composerCommandTableflipDescription": "Appends (╯°□°)╯︵ ┻━┻ to your message.",
+    "@composerCommandTableflipDescription": {
+        "description": "Slash-command description for /tableflip."
+    },
+    "composerCommandUnflipDescription": "Appends ┬─┬ ノ( ゜-゜ノ) to your message.",
+    "@composerCommandUnflipDescription": {
+        "description": "Slash-command description for /unflip."
+    },
+    "composerCommandMeDescription": "Send an action message (wraps in italics).",
+    "@composerCommandMeDescription": {
+        "description": "Slash-command description for /me."
+    },
+    "composerCommandSpoilerDescription": "Send a spoiler message (wraps in spoiler tags).",
+    "@composerCommandSpoilerDescription": {
+        "description": "Slash-command description for /spoiler."
+    },
+    "composerCommandTtsDescription": "Send a text-to-speech message.",
+    "@composerCommandTtsDescription": {
+        "description": "Slash-command description for /tts."
+    },
+    "composerCommandNickDescription": "Change your nickname in this community.",
+    "@composerCommandNickDescription": {
+        "description": "Slash-command description for /nick."
+    },
+    "composerCommandKickDescription": "Kick a member from this community.",
+    "@composerCommandKickDescription": {
+        "description": "Slash-command description for /kick."
+    },
+    "composerCommandBanDescription": "Ban a member from this community.",
+    "@composerCommandBanDescription": {
+        "description": "Slash-command description for /ban."
+    },
+    "composerCommandMsgDescription": "Send a direct message to a user.",
+    "@composerCommandMsgDescription": {
+        "description": "Slash-command description for /msg."
+    },
+    "composerCommandSavedDescription": "Send a saved media item.",
+    "@composerCommandSavedDescription": {
+        "description": "Slash-command description for /saved."
+    },
+    "composerCommandStickerDescription": "Send a sticker.",
+    "@composerCommandStickerDescription": {
+        "description": "Slash-command description for /sticker."
+    },
+    "composerCommandGifDescription": "Search for and send a GIF.",
+    "@composerCommandGifDescription": {
+        "description": "Slash-command description for /gif."
+    },
+    "composerCommandMemberOption": "The member to target.",
+    "@composerCommandMemberOption": {
+        "description": "Description for the member option of a moderation slash command."
+    },
+    "composerCommandReasonOption": "Reason (optional).",
+    "@composerCommandReasonOption": {
+        "description": "Description for an optional moderation slash-command reason."
+    },
+    "composerCommandMessageOption": "The message to send.",
+    "@composerCommandMessageOption": {
+        "description": "Description for a required message option in a slash command."
+    },
+    "composerCommandQueryOption": "What to search for.",
+    "@composerCommandQueryOption": {
+        "description": "Description for a media search slash-command query."
+    },
+    "composerCommandNicknameOption": "Your new nickname, or leave blank to reset it.",
+    "@composerCommandNicknameOption": {
+        "description": "Description for the /nick nickname option."
+    },
+    "composerCommandDeleteMessagesOption": "How much of the member's recent message history to delete.",
+    "@composerCommandDeleteMessagesOption": {
+        "description": "Description for the /ban delete_messages option."
+    },
+    "composerCommandDeleteMessagesNone": "Don't delete any",
+    "@composerCommandDeleteMessagesNone": {
+        "description": "Choice label for retaining all messages when banning a member."
+    },
+    "composerCommandDeleteMessagesDays": "Previous {count} days",
+    "@composerCommandDeleteMessagesDays": {
+        "description": "Choice label for deleting multiple days of messages when banning a member.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "composerCommandDeleteMessagesOneDay": "Previous 24 hours",
+    "@composerCommandDeleteMessagesOneDay": {
+        "description": "Choice label for deleting one day of messages when banning a member."
+    },
+    "composerCommandOptionRequired": "This option is required. Please provide a value.",
+    "@composerCommandOptionRequired": {
+        "description": "Notice shown when a required slash-command argument was left empty."
+    },
+    "composerCommandClear": "Clear command",
+    "@composerCommandClear": {
+        "description": "Accessible label for the button that clears the slash command being composed."
+    },
+    "composerCommandNicknameChanged": "You changed your nickname in this community from **{previousNickname}** to **{newNickname}**.",
+    "@composerCommandNicknameChanged": {
+        "description": "Local system message after the user changes their community nickname with a slash command.",
+        "placeholders": {
+            "previousNickname": {
+                "type": "String"
+            },
+            "newNickname": {
+                "type": "String"
+            }
+        }
+    },
+    "composerCommandUnknownUser": "Unknown user",
+    "@composerCommandUnknownUser": {
+        "description": "Fallback name in local command system messages when the current user is unavailable."
+    },
+    "composerCommandMsgFailed": "Failed to send a message to **{username}**. They may have DMs disabled or you may be blocked.",
+    "@composerCommandMsgFailed": {
+        "description": "Local system message when /msg cannot open a DM.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "composerCommandOptionalMore": "+{count} more",
+    "@composerCommandOptionalMore": {
+        "description": "Hint shown after required slash-command slots for remaining optional arguments.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
     },
     "addGuildModalTitle": "Add a community",
     "@addGuildModalTitle": {

@@ -90,30 +90,4 @@ void main() {
       );
     });
   });
-
-  group('composerHasDirectChatEmojiAccess', () {
-    test('returns true for personal notes without plutonium', () {
-      expect(
-        composerHasDirectChatEmojiAccess(
-          channelId: 'self',
-          dmConversations: const <DmConversation>[],
-          currentUserId: 'self',
-          hasGlobalExpressions: false,
-        ),
-        isTrue,
-      );
-    });
-
-    test('returns false for guild channels without plutonium', () {
-      expect(
-        composerHasDirectChatEmojiAccess(
-          channelId: 'guild-channel',
-          dmConversations: const <DmConversation>[],
-          currentUserId: 'self',
-          hasGlobalExpressions: false,
-        ),
-        isFalse,
-      );
-    });
-  });
 }

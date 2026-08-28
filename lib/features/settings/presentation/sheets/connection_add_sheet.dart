@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
@@ -46,7 +47,9 @@ class ConnectionAddSheet {
     _ConnectionType? defaultType,
   }) {
     final l10n = FluxerLocalizations.of(context);
-    final blueskyEnabled = AppBuildConfig.isBlueskyEnabled;
+    final blueskyEnabled =
+        AppBuildConfig.isBlueskyEnabled &&
+        ref.read(instanceRuntimeConfigProvider).blueskyEnabled;
     final initialType =
         defaultType ??
         (blueskyEnabled ? _ConnectionType.bluesky : _ConnectionType.domain);

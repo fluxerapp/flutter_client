@@ -1,3 +1,4 @@
+import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
@@ -46,7 +47,7 @@ EmojiAttribution resolveEmojiAttribution({
 String emojiAttributionDescription(
   FluxerLocalizations l10n,
   EmojiAttribution attribution, {
-  String productName = 'Fluxer',
+  String productName = InstanceConstants.defaultProductName,
 }) {
   return switch (attribution.type) {
     EmojiAttributionType.defaultEmoji => l10n.emojiInfoDefaultDescription(

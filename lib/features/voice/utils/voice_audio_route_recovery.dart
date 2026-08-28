@@ -1,10 +1,20 @@
-const Duration kVoiceAudioRouteRecoveryDebounce = Duration(milliseconds: 400);
+const Duration kVoiceAudioRouteRecoveryDebounce = Duration(milliseconds: 800);
 
 bool shouldRecoverVoiceAudioOnDeviceChange({
   required bool isConnected,
   required bool hasLiveKitRoom,
 }) {
   return isConnected && hasLiveKitRoom;
+}
+
+bool shouldRefreshMicrophoneOnAudioRouteChange({
+  required bool isIos,
+  required bool isForeground,
+}) {
+  if (!isIos) {
+    return true;
+  }
+  return isForeground;
 }
 
 bool didAudioInputDeviceIdsChange({

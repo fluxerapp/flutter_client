@@ -221,6 +221,53 @@ code
       final List<md.Node> nodes = document.parse(processed);
       expect(_collectMarkdownText(nodes), input);
     });
+
+    test('escapes triple-marker emphasis with invisible-only inner', () {
+      expect(
+        preprocessFluxerMarkdown('***\u200b***', features),
+        '\\*\\*\\*\u200b\\*\\*\\*',
+      );
+      expect(
+        preprocessFluxerMarkdown('___\u200b___', features),
+        '\\_\\_\\_\u200b\\_\\_\\_',
+      );
+    });
+
+    test('escapes inline code with invisible-only content', () {
+      expect(preprocessFluxerMarkdown('`\u200b`', features), '\\`\u200b\\`');
+      expect(
+        preprocessFluxerMarkdown('``\u200b``', features),
+        '\\`\\`\u200b\\`\\`',
+      );
+    });
+
+    test('parsed output keeps invisible spans literal for every marker', () {
+      const List<String> inputs = <String>[
+        '*\u200b*',
+        '**\u200b**',
+        '***\u200b***',
+        '_\u200b_',
+        '___\u200b___',
+        '~~\u200b~~',
+        '`\u200b`',
+      ];
+      final md.Document document = md.Document(encodeHtml: false);
+      for (final String input in inputs) {
+        final List<md.Node> nodes = document.parse(
+          preprocessFluxerMarkdown(input, features),
+        );
+        expect(_collectMarkdownText(nodes), input, reason: 'input was $input');
+        expect(_collectMarkdownTags(nodes), <String>[
+          'p',
+        ], reason: 'input was $input');
+      }
+    });
+
+    test('leaves visible triple emphasis and inline code untouched', () {
+      expect(preprocessFluxerMarkdown('***bold***', features), '***bold***');
+      expect(preprocessFluxerMarkdown('___bold___', features), '___bold___');
+      expect(preprocessFluxerMarkdown('`code`', features), '`code`');
+    });
   });
 }
 
@@ -234,4 +281,16 @@ String _collectMarkdownText(List<md.Node> nodes) {
     }
   }
   return buffer.toString();
+}
+
+List<String> _collectMarkdownTags(List<md.Node> nodes) {
+  final List<String> tags = <String>[];
+  for (final md.Node node in nodes) {
+    if (node is md.Element) {
+      tags
+        ..add(node.tag)
+        ..addAll(_collectMarkdownTags(node.children ?? const []));
+    }
+  }
+  return tags;
 }

@@ -83,6 +83,38 @@ void main() {
       expect(parsed?.emojiId?.toString(), '123');
       expect(parsed?.emojiAnimated, isTrue);
     });
+
+    test('never surfaces stored json as status text', () {
+      const String stored =
+          '{"emoji_id":"","emoji_name":"\u{1F916}","text":null,'
+          '"expires_at":null}';
+      final CustomStatusResponse? parsed = parseStoredCustomStatus(stored);
+      expect(parsed?.text, isNull);
+      expect(parsed?.emojiName, '\u{1F916}');
+      expect(parsed?.emojiId, isNull);
+      expect(parsed?.emojiAnimated, isFalse);
+    });
+
+    test('returns null when json has neither text nor emoji', () {
+      const String stored = '{"emoji_id":"","text":null,"expires_at":null}';
+      expect(parseStoredCustomStatus(stored), isNull);
+    });
+
+    test('keeps text from json missing emoji_animated', () {
+      const String stored = '{"emoji_id":"","text":"hello"}';
+      final CustomStatusResponse? parsed = parseStoredCustomStatus(stored);
+      expect(parsed?.text, 'hello');
+    });
+
+    test('treats a brace-prefixed non-json string as plain text', () {
+      final CustomStatusResponse? parsed = parseStoredCustomStatus('{not json');
+      expect(parsed?.text, '{not json');
+    });
+
+    test('keeps a json object without status keys as plain text', () {
+      const String stored = '{"a":1}';
+      expect(parseStoredCustomStatus(stored)?.text, stored);
+    });
   });
 
   group('hasVisibleCustomStatus', () {

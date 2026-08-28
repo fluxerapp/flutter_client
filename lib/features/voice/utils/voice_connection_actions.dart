@@ -4,8 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
-import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
-import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
@@ -25,7 +23,6 @@ const Duration _kOtherDeviceDisconnectTimeout = Duration(seconds: 3);
 const Duration _kOtherDeviceDisconnectPollInterval = Duration(
   milliseconds: 100,
 );
-const Duration _kPostDeviceSwitchSettleDelay = Duration(milliseconds: 250);
 
 enum VoiceJoinResult { cancelled, succeeded, failed }
 
@@ -60,41 +57,7 @@ Future<bool> _connectToVoiceChannel({
   bool initialSelfDeaf = false,
   bool initialSelfVideo = false,
   bool forceJoin = false,
-}) async {
-  final BuildContext? permissionContext = _modalContext(null);
-  final bool micOk = await ensureSystemPermission(
-    permissionContext,
-    SystemPermissionKind.microphone,
-  );
-  if (!micOk) {
-    talker.warning(
-      '[Voice] Join aborted: microphone permission denied '
-      '(channelId=$channelId).',
-    );
-    container
-        .read(voiceSessionProvider.notifier)
-        .reportJoinError(kVoiceSessionErrorMicPermission);
-    return false;
-  }
-  if (initialSelfVideo) {
-    if (permissionContext != null && !permissionContext.mounted) {
-      return false;
-    }
-    final bool camOk = await ensureSystemPermission(
-      permissionContext,
-      SystemPermissionKind.camera,
-    );
-    if (!camOk) {
-      talker.warning(
-        '[Voice] Join aborted: camera permission denied '
-        '(channelId=$channelId).',
-      );
-      container
-          .read(voiceSessionProvider.notifier)
-          .reportJoinError(kVoiceSessionErrorCameraPermission);
-      return false;
-    }
-  }
+}) {
   return container
       .read(voiceSessionProvider.notifier)
       .connectToVoiceChannel(
@@ -223,7 +186,6 @@ Future<void> _prepareForVoiceJoinAfterDeviceSwitch({
   if (session.isInVoice || session.isConnecting) {
     await notifier.leaveVoice(endCall: false);
   }
-  await Future<void>.delayed(_kPostDeviceSwitchSettleDelay);
 }
 
 Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({

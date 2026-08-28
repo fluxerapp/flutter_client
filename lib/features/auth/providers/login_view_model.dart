@@ -22,6 +22,7 @@ import 'package:fluxer_app/features/auth/providers/ban_view_provider.dart';
 import 'package:fluxer_app/features/auth/providers/instance_selector_provider.dart';
 import 'package:fluxer_app/features/auth/providers/passkey_error.dart';
 import 'package:fluxer_app/features/auth/providers/pending_invite_code_provider.dart';
+import 'package:fluxer_app/features/auth/providers/pending_registration_url_code_provider.dart';
 import 'package:fluxer_app/features/auth/providers/registration_draft_provider.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:passkeys/authenticator.dart';
@@ -343,7 +344,7 @@ class LoginViewModel extends _$LoginViewModel {
   Future<void> submitRegister({
     required String email,
     required String password,
-    required String dateOfBirth,
+    String? dateOfBirth,
     String? username,
     String? displayName,
   }) async {
@@ -356,7 +357,10 @@ class LoginViewModel extends _$LoginViewModel {
     );
 
     try {
-      final inviteCode = ref.read(pendingInviteCodeProvider.notifier).consume();
+      final String? inviteCode = ref.read(pendingInviteCodeProvider);
+      final String? registrationUrlCode = ref.read(
+        pendingRegistrationUrlCodeProvider,
+      );
       final result = await ref
           .read(authRepositoryProvider)
           .register(
@@ -366,8 +370,11 @@ class LoginViewModel extends _$LoginViewModel {
             username: username,
             displayName: displayName,
             inviteCode: inviteCode,
+            registrationUrlCode: registrationUrlCode,
           );
 
+      ref.read(pendingInviteCodeProvider.notifier).consume();
+      ref.read(pendingRegistrationUrlCodeProvider.notifier).consume();
       ref.read(registrationDraftProvider.notifier).clear();
 
       switch (result) {

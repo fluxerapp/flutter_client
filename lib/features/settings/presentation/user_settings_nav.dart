@@ -1,5 +1,8 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
+import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
+import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_nav_group.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/settings_sidebar.dart';
@@ -14,8 +17,13 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const String kFluxerLabsInviteUrl = 'https://fluxer.gg/fluxer-labs';
 
-bool get isUserSettingsJoinFluxerLabsAvailable =>
-    AppBuildConfig.isBeta || AppBuildConfig.isCanary;
+bool userSettingsShowJoinFluxerLabsNav(WidgetRef ref) {
+  if (!(AppBuildConfig.isBeta || AppBuildConfig.isCanary)) {
+    return false;
+  }
+  return ref.watch(fluxerBaseUrlProvider) ==
+      InstanceConstants.defaultApiBaseUrl;
+}
 
 class UserSettingsDesktopNavEntry {
   const UserSettingsDesktopNavEntry._({
@@ -212,6 +220,7 @@ const _userSettingsDesktopNavLogout = [UserSettingsDesktopNavEntry.logout()];
 
 List<UserSettingsDesktopNavEntry> buildUserSettingsDesktopNav({
   required bool showBilling,
+  required bool showJoinFluxerLabs,
   required bool isTouchPrimary,
 }) => [
   ..._userSettingsDesktopNavYourAccount,
@@ -227,8 +236,7 @@ List<UserSettingsDesktopNavEntry> buildUserSettingsDesktopNav({
   ..._userSettingsDesktopNavAfterLanguageAndTime,
   if (AppBuildConfig.isCanary) ..._userSettingsDesktopNavStaffOnly,
   ..._userSettingsDesktopNavWhatsNew,
-  if (isUserSettingsJoinFluxerLabsAvailable)
-    const UserSettingsDesktopNavEntry.joinFluxerLabs(),
+  if (showJoinFluxerLabs) const UserSettingsDesktopNavEntry.joinFluxerLabs(),
   ..._userSettingsDesktopNavAppLicenses,
   ..._userSettingsDesktopNavLogout,
 ];
@@ -236,6 +244,7 @@ List<UserSettingsDesktopNavEntry> buildUserSettingsDesktopNav({
 int? indexForUserSettingsSection(
   UserSettingsSection section, {
   required bool showBilling,
+  required bool showJoinFluxerLabs,
   required bool isTouchPrimary,
 }) {
   if (!isUserSettingsStaffOnlySectionAvailable(section)) {
@@ -249,6 +258,7 @@ int? indexForUserSettingsSection(
   }
   final List<UserSettingsDesktopNavEntry> nav = buildUserSettingsDesktopNav(
     showBilling: showBilling,
+    showJoinFluxerLabs: showJoinFluxerLabs,
     isTouchPrimary: isTouchPrimary,
   );
   for (var i = 0; i < nav.length; i++) {
@@ -262,10 +272,12 @@ int? indexForUserSettingsSection(
 IconData? iconForUserSettingsSection(
   UserSettingsSection section, {
   required bool showBilling,
+  required bool showJoinFluxerLabs,
   required bool isTouchPrimary,
 }) {
   for (final UserSettingsDesktopNavEntry entry in buildUserSettingsDesktopNav(
     showBilling: showBilling,
+    showJoinFluxerLabs: showJoinFluxerLabs,
     isTouchPrimary: isTouchPrimary,
   )) {
     if (entry.section == section) {
@@ -282,6 +294,7 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
   required VoidCallback onJoinFluxerLabs,
   required VoidCallback onLogout,
   required bool showBilling,
+  required bool showJoinFluxerLabs,
   required bool isTouchPrimary,
 }) {
   FluxerSettingsNavItem link(UserSettingsSection section, IconData icon) {
@@ -355,7 +368,7 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
     FluxerSettingsNavGroup(
       items: [
         link(UserSettingsSection.whatsNew, PhosphorIconsFill.megaphone),
-        if (isUserSettingsJoinFluxerLabsAvailable)
+        if (showJoinFluxerLabs)
           FluxerSettingsNavItem(
             label: l10n.userSettingsJoinFluxerLabs,
             icon: PhosphorIconsFill.testTube,
@@ -376,11 +389,13 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
 IconData _searchSectionIcon(
   UserSettingsSection section, {
   required bool showBilling,
+  required bool showJoinFluxerLabs,
   required bool isTouchPrimary,
 }) {
   return iconForUserSettingsSection(
         section,
         showBilling: showBilling,
+        showJoinFluxerLabs: showJoinFluxerLabs,
         isTouchPrimary: isTouchPrimary,
       ) ??
       PhosphorIconsFill.gear;
@@ -419,6 +434,7 @@ UserSettingsSearchSidebar buildUserSettingsSearchSidebar({
     final IconData icon = _searchSectionIcon(
       section,
       showBilling: showBilling,
+      showJoinFluxerLabs: false,
       isTouchPrimary: isTouchPrimary,
     );
     for (final UserSettingsSearchHit hit in sectionHits) {
@@ -452,6 +468,7 @@ List<FluxerSettingsNavGroup> buildUserSettingsSearchNavGroups({
               icon: _searchSectionIcon(
                 entry.key,
                 showBilling: showBilling,
+                showJoinFluxerLabs: false,
                 isTouchPrimary: isTouchPrimary,
               ),
               onTap: () => onOpen(entry.key, initialFieldId: hit.fieldId),

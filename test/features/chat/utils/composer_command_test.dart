@@ -35,8 +35,56 @@ void main() {
     });
 
     test('an unknown slash command is plain content sent verbatim', () {
-      final cmd = parseComposerCommand('/nick foo') as ComposerContentSend;
-      expect(cmd.content, '/nick foo');
+      final cmd = parseComposerCommand('/foo bar') as ComposerContentSend;
+      expect(cmd.content, '/foo bar');
+    });
+
+    test('/nick parses nickname including empty reset', () {
+      expect(
+        (parseComposerCommand('/nick') as ComposerNickCommand).nickname,
+        '',
+      );
+      expect(
+        (parseComposerCommand('/nick Cool') as ComposerNickCommand).nickname,
+        'Cool',
+      );
+    });
+
+    test('/kick parses mention and reason', () {
+      final cmd =
+          parseComposerCommand('/kick <@123> being rude')
+              as ComposerKickCommand;
+      expect(cmd.userId, '123');
+      expect(cmd.reason, 'being rude');
+    });
+
+    test('/ban parses delete days and reason', () {
+      final cmd =
+          parseComposerCommand('/ban <@9> 3 spam') as ComposerBanCommand;
+      expect(cmd.userId, '9');
+      expect(cmd.deleteMessageDays, 3);
+      expect(cmd.reason, 'spam');
+    });
+
+    test('/ban with invalid extra digits is unknown content', () {
+      expect(
+        parseComposerCommand('/ban <@9> 12 x'),
+        isA<ComposerContentSend>(),
+      );
+    });
+
+    test('/msg requires a message after the mention', () {
+      expect(parseComposerCommand('/msg <@1>'), isA<ComposerContentSend>());
+      final cmd = parseComposerCommand('/msg <@1> hello') as ComposerMsgCommand;
+      expect(cmd.userId, '1');
+      expect(cmd.message, 'hello');
+    });
+
+    test('/gif without picking a result is a media search command', () {
+      final cmd =
+          parseComposerCommand('/gif cats') as ComposerMediaSearchCommand;
+      expect(cmd.kind, 'gif');
+      expect(cmd.query, 'cats');
     });
 
     test('@everyone text is plain content', () {

@@ -52,17 +52,21 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
   bool _hasMore = true;
   bool _isResolvingAsset = false;
   int _page = 0;
+  Timer? _galleryRefreshDebounce;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     widget.scrollController.addListener(_onScroll);
+    _source.addChangeListener(_onGalleryChanged);
     unawaited(_bootstrap());
   }
 
   @override
   void dispose() {
+    _galleryRefreshDebounce?.cancel();
+    _source.removeChangeListener(_onGalleryChanged);
     WidgetsBinding.instance.removeObserver(this);
     widget.scrollController.removeListener(_onScroll);
     super.dispose();
@@ -70,10 +74,26 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed &&
-        _access == AttachmentGalleryAccess.denied) {
-      unawaited(_bootstrap());
+    if (state != AppLifecycleState.resumed) {
+      return;
     }
+    if (_access == AttachmentGalleryAccess.denied) {
+      unawaited(_bootstrap());
+      return;
+    }
+    unawaited(_loadMore(reset: true));
+  }
+
+  void _onGalleryChanged() {
+    if (_access != AttachmentGalleryAccess.granted) {
+      return;
+    }
+    _galleryRefreshDebounce?.cancel();
+    _galleryRefreshDebounce = Timer(const Duration(milliseconds: 300), () {
+      if (mounted) {
+        unawaited(_loadMore(reset: true));
+      }
+    });
   }
 
   AttachmentGallerySource get _source =>
@@ -126,7 +146,7 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
   }
 
   Future<void> _loadMore({bool reset = false}) async {
-    if (_loadingMore) {
+    if (_loadingMore && !reset) {
       return;
     }
     setState(() {
@@ -270,11 +290,16 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
       return;
     }
     final List<ComposerUploadFile> uploads = await pickNativeCameraUpload();
-    if (uploads.isNotEmpty &&
-        ref.read(chatInputPreferencesProvider).saveCameraCapturesToDevice) {
+    final bool savedToGallery =
+        uploads.isNotEmpty &&
+        ref.read(chatInputPreferencesProvider).saveCameraCapturesToDevice;
+    if (savedToGallery) {
       await saveLocalAttachmentToDeviceGallery(uploads.first.file);
     }
     await _addUploads(uploads);
+    if (savedToGallery) {
+      await _loadMore(reset: true);
+    }
   }
 
   Future<void> _onPhotosPressed() async {

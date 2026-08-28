@@ -6,6 +6,9 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/desktop_shell_scaffold.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_phone_surface.dart';
+import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
+import 'package:fluxer_app/features/voice/utils/voice_pip_visibility.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class MobileChannelDrawerShell extends ConsumerWidget {
@@ -23,6 +26,19 @@ class MobileChannelDrawerShell extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bool isOnChatRoute = _isChatRoute(shellLocation);
+    if (isPhoneVoiceOverlay(context) &&
+        voicePipIsOnSessionCallRoute(
+          voice: ref.watch(voiceSessionProvider),
+          location: shellLocation,
+          routeGuildId: extractGuildId(shellLocation),
+          routeChannelId: extractChannelId(shellLocation),
+        )) {
+      return Scaffold(
+        backgroundColor: context.colors.chatBackground,
+        resizeToAvoidBottomInset: false,
+        body: VoiceCallPhoneSurface(child: navigationShell),
+      );
+    }
     final bool compactWide = isCompactWideMobileLayout(context);
     final bool drawerLocked = isSidebarDrawerLockedForLocation(shellLocation);
     final double screenWidth = MediaQuery.sizeOf(context).width;

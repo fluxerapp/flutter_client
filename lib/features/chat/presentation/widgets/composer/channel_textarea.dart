@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
@@ -14,6 +15,7 @@ import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -31,6 +33,8 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/channel_c
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_clipboard_scope.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/message_character_counter.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/slash_command_composer.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/slash_command_param_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/system_dm_composer_barrier.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_composer_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_recorder.dart';
@@ -53,10 +57,12 @@ import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_rate_limite
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/service/composer_mention_controller.dart';
+import 'package:fluxer_app/features/chat/service/composer_slash_session.dart';
 import 'package:fluxer_app/features/chat/utils/attachment_native_pickers.dart';
 import 'package:fluxer_app/features/chat/utils/bottom_input_slot_layout.dart';
 import 'package:fluxer_app/features/chat/utils/composer_clipboard_paste.dart';
 import 'package:fluxer_app/features/chat/utils/composer_command.dart';
+import 'package:fluxer_app/features/chat/utils/composer_command_execute.dart';
 import 'package:fluxer_app/features/chat/utils/composer_emoji_resolution.dart';
 import 'package:fluxer_app/features/chat/utils/composer_expression_tabs.dart';
 import 'package:fluxer_app/features/chat/utils/composer_panel.dart';
@@ -233,6 +239,7 @@ class ChannelTextarea extends ConsumerStatefulWidget {
 class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     with WidgetsBindingObserver {
   late final ComposerMentionController _controller;
+  final ComposerSlashSession _slashSession = ComposerSlashSession();
   final FocusNode _focusNode = FocusNode();
   late final KeyboardFocusRestoreHandle _keyboardRestore;
   final ScrollController _composerScrollController = ScrollController();
@@ -369,6 +376,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     _composerFocused = _focusNode.hasFocus;
     _focusNode.addListener(_handleComposerFocusChange);
     _controller.addListener(_syncStateFromController);
+    _slashSession.addListener(_onSlashSessionChanged);
     unawaited(FluxerHaptics.warmSend());
   }
 
@@ -448,8 +456,19 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     }
   }
 
-  String _sendableWireText() =>
-      stripPrivateUseCharacters(_controller.toWireText());
+  void _onSlashSessionChanged() {
+    if (!mounted) {
+      return;
+    }
+    setState(() {});
+  }
+
+  String _sendableWireText() {
+    if (_slashSession.isActive) {
+      return _slashSession.toWireText();
+    }
+    return stripPrivateUseCharacters(_controller.toWireText());
+  }
 
   Duration? _activeSlowmodeRemainingForSend(String channelId) {
     final Channel? channel = ref.read(channelByIdProvider(channelId)).value;
@@ -550,6 +569,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     _focusNode
       ..removeListener(_handleComposerFocusChange)
       ..unfocus()
+      ..dispose();
+    _slashSession
+      ..removeListener(_onSlashSessionChanged)
       ..dispose();
     _composerScrollController.dispose();
     _controller.dispose();
@@ -707,57 +729,78 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                         textField: true,
                         child: wrapBoundedTextClip(
                           maxLines: maxLines,
-                          child: TextField(
-                            controller: _controller,
-                            focusNode: focusNode,
-                            scrollController: _composerScrollController,
-                            enabled: perms.isComposerEnabled,
-                            style: context.textStyles.inputText,
-                            strutStyle: boundedStrutFor(
-                              context.textStyles.inputText,
-                              forceHeight: false,
-                            ),
-                            minLines: minLines,
-                            maxLines: maxLines,
-                            selectionWidthStyle: BoxWidthStyle.tight,
-                            decoration: effectiveDecoration,
-                            textAlignVertical: textAlignVertical,
-                            textCapitalization: TextCapitalization.sentences,
-                            contextMenuBuilder: clipboardScope.buildContextMenu,
-                            contentInsertionConfiguration: perms.isAttachEnabled
-                                ? ContentInsertionConfiguration(
-                                    onContentInserted:
-                                        (KeyboardInsertedContent content) {
-                                          unawaited(() async {
-                                            final FileUploadValidationResult?
-                                            result =
-                                                await handleComposerContentInserted(
-                                                  ref: ref,
-                                                  channelId: channelId,
-                                                  content: content,
-                                                  isAttachEnabled:
-                                                      perms.isAttachEnabled,
-                                                );
-                                            if (result != null) {
-                                              _toastUploadValidation(result);
-                                            }
-                                          }());
-                                        },
-                                  )
-                                : null,
-                            onTap: () {
-                              if (isComposerPanelOpen(
-                                expressionPanelOpen: ref.read(
-                                  expressionPanelProvider,
+                          child: _slashSession.isActive
+                              ? SlashCommandComposer(
+                                  session: _slashSession,
+                                  enabled: perms.isComposerEnabled,
+                                  style: context.textStyles.inputText,
+                                  onKeyEvent: (KeyEvent event) =>
+                                      handleComposerAutocompleteKey(
+                                        _composerFieldKey.currentState,
+                                        event,
+                                      ),
+                                  onSubmit: () {
+                                    unawaited(_onSendPressed());
+                                  },
+                                )
+                              : TextField(
+                                  controller: _controller,
+                                  focusNode: focusNode,
+                                  scrollController: _composerScrollController,
+                                  enabled: perms.isComposerEnabled,
+                                  style: context.textStyles.inputText,
+                                  strutStyle: boundedStrutFor(
+                                    context.textStyles.inputText,
+                                    forceHeight: false,
+                                  ),
+                                  minLines: minLines,
+                                  maxLines: maxLines,
+                                  selectionWidthStyle: BoxWidthStyle.tight,
+                                  decoration: effectiveDecoration,
+                                  textAlignVertical: textAlignVertical,
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
+                                  contextMenuBuilder:
+                                      clipboardScope.buildContextMenu,
+                                  contentInsertionConfiguration:
+                                      perms.isAttachEnabled
+                                      ? ContentInsertionConfiguration(
+                                          onContentInserted:
+                                              (
+                                                KeyboardInsertedContent content,
+                                              ) {
+                                                unawaited(() async {
+                                                  final FileUploadValidationResult?
+                                                  result =
+                                                      await handleComposerContentInserted(
+                                                        ref: ref,
+                                                        channelId: channelId,
+                                                        content: content,
+                                                        isAttachEnabled: perms
+                                                            .isAttachEnabled,
+                                                      );
+                                                  if (result != null) {
+                                                    _toastUploadValidation(
+                                                      result,
+                                                    );
+                                                  }
+                                                }());
+                                              },
+                                        )
+                                      : null,
+                                  onTap: () {
+                                    if (isComposerPanelOpen(
+                                      expressionPanelOpen: ref.read(
+                                        expressionPanelProvider,
+                                      ),
+                                      attachmentPanelOpen: ref.read(
+                                        attachmentPanelProvider,
+                                      ),
+                                    )) {
+                                      _closeComposerPanelsAndFocusComposer();
+                                    }
+                                  },
                                 ),
-                                attachmentPanelOpen: ref.read(
-                                  attachmentPanelProvider,
-                                ),
-                              )) {
-                                _closeComposerPanelsAndFocusComposer();
-                              }
-                            },
-                          ),
                         ),
                       ),
                     ),
@@ -855,6 +898,16 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     );
     if (dm != null && isSystemDmConversation(dm)) {
       return const SystemDmComposerBarrier();
+    }
+    final bool directMessagesDisabled = ref.watch(
+      instanceRuntimeConfigProvider.select(
+        (InstanceRuntimeConfig config) => config.directMessagesDisabled,
+      ),
+    );
+    if (directMessagesDisabled && dm != null && !dm.isPersonalNotes) {
+      return SystemDmComposerBarrier(
+        message: FluxerLocalizations.of(context).channelNoSendPermissionHint,
+      );
     }
     final Set<String> blockedUserIds = ref.watch(blockedUserIdsProvider);
     final bool isBlockedDmRecipient =
@@ -973,7 +1026,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     );
     final bool hasWideActionStack =
         !mobileComposer &&
-        (replyTo != null || editingMessage != null || hasAttachments);
+        (replyTo != null ||
+            editingMessage != null ||
+            hasAttachments ||
+            _slashSession.focusedSlot != null);
     final Widget composerInput = _buildComposerInput(
       context: context,
       chatNotifier: chatNotifier,
@@ -988,6 +1044,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           )
         : null;
 
+    final bool slashParamBarVisible = _slashSession.focusedSlot != null;
     if (mobileComposer) {
       return Column(
         mainAxisSize: MainAxisSize.min,
@@ -1007,18 +1064,46 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           DecoratedBox(
             decoration: BoxDecoration(
               color: composerBackgroundColor,
-              border: Border(
-                top: BorderSide(color: context.colors.userAreaDividerColor),
-              ),
+              border: replyTo == null && editingMessage == null
+                  ? null
+                  : Border(
+                      top: BorderSide(
+                        color: context.colors.userAreaDividerColor,
+                      ),
+                    ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(
-                8,
-                _kMobileComposerTopPadding,
-                8,
-                8,
-              ),
-              child: composerInput,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                if (slashParamBarVisible)
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Color.lerp(
+                        composerBackgroundColor,
+                        context.colors.backgroundTertiary,
+                        0.16,
+                      ),
+                      border: Border(
+                        bottom: BorderSide(
+                          color: wideComposerRingColor(context, focused: false),
+                        ),
+                      ),
+                    ),
+                    child: SlashCommandParamBar(
+                      session: _slashSession,
+                      onClear: _clearSlashSession,
+                    ),
+                  ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                    8,
+                    _kMobileComposerTopPadding,
+                    8,
+                    8,
+                  ),
+                  child: composerInput,
+                ),
+              ],
             ),
           ),
           ?composerSafeBar,
@@ -1081,13 +1166,18 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         ),
         border: Border(
           bottom: BorderSide(
-            color: wideComposerRingColor(context, focused: _composerFocused),
+            color: wideComposerRingColor(context, focused: false),
           ),
         ),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          if (_slashSession.focusedSlot != null)
+            SlashCommandParamBar(
+              session: _slashSession,
+              onClear: _clearSlashSession,
+            ),
           if (replyTo != null)
             ConstrainedBox(
               constraints: const BoxConstraints(
@@ -1196,13 +1286,20 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           showStickersButton: showStickersButton,
           showEmojiButton: showEmojiButton,
         );
+    final bool gifEnabled = ref.watch(
+      instanceRuntimeConfigProvider.select(
+        (InstanceRuntimeConfig config) => config.gifEnabled,
+      ),
+    );
     final List<ExpressionPickerTab> composerButtonTabs =
         composerInputButtonVisibleTabs(
           perms: perms,
           advanced: composerButtonPrefs,
+          gifEnabled: gifEnabled,
         );
     final List<ExpressionPickerTab> popoutTabs = expressionPanelVisibleTabs(
       perms,
+      gifEnabled: gifEnabled,
     );
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final bool touchInputStyle = isTouchPrimaryInput(ref);
@@ -1271,11 +1368,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             listenable: _controller,
             builder: (BuildContext context, Widget? child) {
               final String sendableWire = _sendableWireText();
-              final bool hasSendable = composerHasSendableContent(
-                ref,
-                channelId,
-                sendableWire,
-              );
+              final bool hasSendable =
+                  composerHasSendableContent(ref, channelId, sendableWire) ||
+                  _slashSession.isActive;
               final bool isOverCharacterLimit =
                   _composerContentLength(sendableWire) > maxMessageLength;
               return Wrap(
@@ -1473,6 +1568,28 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           : AutocompleteRenderMode.overlay,
       panelHost: widget.autocompletePanelHost,
       panelScrollController: widget.autocompletePanelScrollController,
+      slashSession: _slashSession,
+      onSelectGif: (GifPickerGif gif) {
+        _handleGifSelection(
+          FluxerSelectedGif(
+            provider: gif.provider,
+            id: gif.id,
+            title: gif.title,
+            url: gif.url,
+            src: gif.src,
+            proxySrc: gif.proxySrc,
+            width: gif.width,
+            height: gif.height,
+            autoSend: true,
+          ),
+        );
+      },
+      onSelectSticker: _handleStickerSelection,
+      onSelectMeme: (FavoriteMeme meme) {
+        _handleFavoriteMemeSelection(
+          FavoriteMemeSelection(meme: meme, autoSend: true),
+        );
+      },
       child: isMobileLayout(context)
           ? _buildMobileLayout(context, chatNotifier, perms)
           : _buildLargeLayout(context, chatNotifier, perms),
@@ -1563,11 +1680,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             listenable: _controller,
             builder: (BuildContext context, Widget? child) {
               final String sendableWire = _sendableWireText();
-              final bool hasSendable = composerHasSendableContent(
-                ref,
-                channelId,
-                sendableWire,
-              );
+              final bool hasSendable =
+                  composerHasSendableContent(ref, channelId, sendableWire) ||
+                  _slashSession.isActive;
               final bool isOverCharacterLimit =
                   _composerContentLength(sendableWire) > maxMessageLength;
               return Padding(
@@ -1591,6 +1706,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
 
   void _handleGifSelection(FluxerSelectedGif selection) {
     if (selection.autoSend) {
+      _clearSlashSession();
+      _controller.clear();
+      ref.read(chatViewModelProvider.notifier).updateMessageText('');
       unawaited(
         ref
             .read(chatViewModelProvider.notifier)
@@ -1604,6 +1722,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   }
 
   void _handleStickerSelection(StickerEntry sticker) {
+    _clearSlashSession();
+    _controller.clear();
+    ref.read(chatViewModelProvider.notifier).updateMessageText('');
     unawaited(
       ref.read(chatViewModelProvider.notifier).sendStickerMessage(sticker),
     );
@@ -1619,6 +1740,11 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     FavoriteMemeSelection selection,
   ) async {
     final meme = selection.meme;
+    if (selection.autoSend) {
+      _clearSlashSession();
+      _controller.clear();
+      ref.read(chatViewModelProvider.notifier).updateMessageText('');
+    }
     if (!selection.autoSend) {
       _insertGifUrl(meme.shareUrl);
       _focusNode.requestFocus();
@@ -1702,6 +1828,12 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     );
   }
 
+  void _clearSlashSession() {
+    if (_slashSession.isActive) {
+      _slashSession.clear();
+    }
+  }
+
   void _showNoSendPermissionToast() {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     ref
@@ -1718,12 +1850,21 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     final String channelId = ref.read(
       chatViewModelProvider.select((s) => s.channelId),
     );
-    final String rawWireText = _controller.toWireText();
-    final String wireText = _sendableWireText();
-    if (wireTextLostContentAfterSanitize(
-      rawWireText: rawWireText,
-      sanitizedWireText: wireText,
-    )) {
+    final String rawWireText = _slashSession.isActive
+        ? _slashSession.toWireText()
+        : _controller.toWireText();
+    final String wireText = _slashSession.isActive
+        ? rawWireText
+        : _sendableWireText();
+    if (_slashSession.isActive && !_slashSession.isSubmitValid) {
+      _slashSession.markRequiredError();
+      return;
+    }
+    if (!_slashSession.isActive &&
+        wireTextLostContentAfterSanitize(
+          rawWireText: rawWireText,
+          sanitizedWireText: wireText,
+        )) {
       _showCorruptedCustomEmojiToast();
       return;
     }
@@ -1745,6 +1886,11 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
 
     final ComposerCommand command = parseComposerCommand(wireText);
 
+    if (composerCommandDispatchKind(command) ==
+        ComposerCommandDispatch.blocked) {
+      return;
+    }
+
     if (command is! ComposerReplaceCommand) {
       final Duration? slowmodeRemaining = _activeSlowmodeRemainingForSend(
         channelId,
@@ -1758,12 +1904,30 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     }
 
     if (command is ComposerReplaceCommand) {
+      _clearSlashSession();
       _controller.clear();
       vm.updateMessageText('');
       await vm.applyComposerReplace(
         source: command.source,
         replacement: command.replacement,
         global: command.global,
+      );
+      return;
+    }
+
+    if (composerCommandDispatchKind(command) ==
+        ComposerCommandDispatch.executed) {
+      FluxerHaptics.send();
+      _clearSlashSession();
+      _controller.clear();
+      vm.updateMessageText('');
+      final String? guildId = ref.read(contextualGuildIdProvider);
+      await executeComposerSideEffect(
+        ref: ref,
+        command: command,
+        channelId: channelId,
+        guildId: guildId,
+        l10n: FluxerLocalizations.of(context),
       );
       return;
     }
@@ -1777,6 +1941,11 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       ComposerTtsCommand(:final content) => content,
       ComposerContentSend(:final content) => content,
       ComposerReplaceCommand() => wireText,
+      ComposerNickCommand() ||
+      ComposerKickCommand() ||
+      ComposerBanCommand() ||
+      ComposerMsgCommand() ||
+      ComposerMediaSearchCommand() => wireText,
     };
     final String resolved = resolveTypedCustomEmojiShortcodes(
       innerContent,
@@ -1788,6 +1957,11 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       ComposerTtsCommand() => resolved,
       ComposerContentSend() => resolved,
       ComposerReplaceCommand() => resolved,
+      ComposerNickCommand() ||
+      ComposerKickCommand() ||
+      ComposerBanCommand() ||
+      ComposerMsgCommand() ||
+      ComposerMediaSearchCommand() => resolved,
     };
     final bool tts =
         command is ComposerTtsCommand &&
@@ -1811,6 +1985,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       return;
     }
 
+    _clearSlashSession();
     unawaited(vm.sendMessage(text: baseContent.trim(), tts: tts));
   }
 

@@ -102,6 +102,35 @@ void main() {
       expect(image.playing, isFalse);
     });
 
+    testWidgets('keeps playing while the playback controller is scrolling', (
+      tester,
+    ) async {
+      final AnimatedImagePlaybackController controller =
+          AnimatedImagePlaybackController();
+      await tester.pumpWidget(
+        _wrap(
+          AnimatedImagePlaybackScope(
+            controller: controller,
+            child: const SizedBox(
+              height: 200,
+              child: EmbedAnimatedImage(
+                animatedUrl: 'https://x/a.webp',
+                staticUrl: 'https://x/a.png',
+                visibilityKey: 'v1',
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+      controller.setScrollActive(active: true);
+      await tester.pump();
+      final FluxerAnimatedImage image = tester.widget<FluxerAnimatedImage>(
+        find.byType(FluxerAnimatedImage),
+      );
+      expect(image.playing, isTrue);
+    });
+
     testWidgets('plays all visible images in scope', (tester) async {
       final AnimatedImagePlaybackController controller =
           AnimatedImagePlaybackController();

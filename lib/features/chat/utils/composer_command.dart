@@ -42,6 +42,50 @@ class ComposerTtsCommand extends ComposerCommand {
   final String content;
 }
 
+/// `/nick [nickname]` — change or reset guild nickname.
+class ComposerNickCommand extends ComposerCommand {
+  const ComposerNickCommand(this.nickname);
+
+  final String nickname;
+}
+
+/// `/kick <@user> [reason]`.
+class ComposerKickCommand extends ComposerCommand {
+  const ComposerKickCommand({required this.userId, this.reason});
+
+  final String userId;
+  final String? reason;
+}
+
+/// `/ban <@user> [0-7] [reason]`.
+class ComposerBanCommand extends ComposerCommand {
+  const ComposerBanCommand({
+    required this.userId,
+    required this.deleteMessageDays,
+    this.reason,
+  });
+
+  final String userId;
+  final int deleteMessageDays;
+  final String? reason;
+}
+
+/// `/msg <@user> message`.
+class ComposerMsgCommand extends ComposerCommand {
+  const ComposerMsgCommand({required this.userId, required this.message});
+
+  final String userId;
+  final String message;
+}
+
+/// `/saved`, `/sticker`, or `/gif` — must pick a result before submit.
+class ComposerMediaSearchCommand extends ComposerCommand {
+  const ComposerMediaSearchCommand({required this.kind, required this.query});
+
+  final String kind;
+  final String query;
+}
+
 /// `s/<source>/<replacement>[/g]` — edits the last own message in place.
 class ComposerReplaceCommand extends ComposerCommand {
   const ComposerReplaceCommand({
@@ -56,6 +100,7 @@ class ComposerReplaceCommand extends ComposerCommand {
 }
 
 final RegExp _replaceCommandRegex = RegExp(r'^s/(.+?)/(.*?)(?:/(g)?)?$');
+final RegExp _userMentionWire = RegExp(r'<@!?(\d+)>');
 
 /// Parses [wireText] (the composer's wire representation) into a
 /// [ComposerCommand]. Pure; intended to be called exactly once per send.
@@ -74,6 +119,68 @@ ComposerCommand parseComposerCommand(String wireText) {
     }
   }
 
+  if (trimmed == '/nick') {
+    return const ComposerNickCommand('');
+  }
+  if (trimmed.startsWith('/nick ')) {
+    return ComposerNickCommand(trimmed.substring(6).trim());
+  }
+
+  if (trimmed.startsWith('/kick ')) {
+    final String rest = trimmed.substring(6).trim();
+    final RegExpMatch? userMatch = _userMentionWire.firstMatch(rest);
+    if (userMatch == null) {
+      return ComposerContentSend(wireText);
+    }
+    final String userId = userMatch.group(1)!;
+    final String after = rest.substring(userMatch.end).trim();
+    return ComposerKickCommand(
+      userId: userId,
+      reason: after.isEmpty ? null : after,
+    );
+  }
+
+  if (trimmed.startsWith('/ban ')) {
+    final String rest = trimmed.substring(5).trim();
+    final RegExpMatch? userMatch = _userMentionWire.firstMatch(rest);
+    if (userMatch == null) {
+      return ComposerContentSend(wireText);
+    }
+    final String userId = userMatch.group(1)!;
+    final String after = rest.substring(userMatch.end).trim();
+    final List<String> parts = after.isEmpty
+        ? const <String>[]
+        : after.split(RegExp(r'\s+'));
+    var deleteMessageDays = 1;
+    var reasonStart = 0;
+    if (parts.isNotEmpty && RegExp(r'^[0-7]$').hasMatch(parts.first)) {
+      deleteMessageDays = int.parse(parts.first);
+      reasonStart = 1;
+    } else if (parts.isNotEmpty && RegExp(r'^\d+$').hasMatch(parts.first)) {
+      return ComposerContentSend(wireText);
+    }
+    final String reasonText = parts.skip(reasonStart).join(' ').trim();
+    return ComposerBanCommand(
+      userId: userId,
+      deleteMessageDays: deleteMessageDays,
+      reason: reasonText.isEmpty ? null : reasonText,
+    );
+  }
+
+  if (trimmed.startsWith('/msg ')) {
+    final String rest = trimmed.substring(5).trim();
+    final RegExpMatch? userMatch = _userMentionWire.firstMatch(rest);
+    if (userMatch == null) {
+      return ComposerContentSend(wireText);
+    }
+    final String userId = userMatch.group(1)!;
+    final String message = rest.substring(userMatch.end).trim();
+    if (message.isEmpty) {
+      return ComposerContentSend(wireText);
+    }
+    return ComposerMsgCommand(userId: userId, message: message);
+  }
+
   final String? me = _commandArg(trimmed, '/me ');
   if (me != null) {
     return ComposerMeCommand(me);
@@ -85,6 +192,16 @@ ComposerCommand parseComposerCommand(String wireText) {
   final String? tts = _commandArg(trimmed, '/tts ');
   if (tts != null) {
     return ComposerTtsCommand(tts);
+  }
+
+  for (final String type in const <String>['saved', 'sticker', 'gif']) {
+    final String prefix = '/$type';
+    if (trimmed == prefix || trimmed.startsWith('$prefix ')) {
+      return ComposerMediaSearchCommand(
+        kind: type,
+        query: trimmed.substring(prefix.length).trim(),
+      );
+    }
   }
 
   return ComposerContentSend(wireText);

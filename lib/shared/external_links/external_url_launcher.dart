@@ -36,6 +36,8 @@ class FluxerChromeSafariBrowser extends ChromeSafariBrowser {}
 final FluxerChromeSafariBrowser _chromeSafariBrowser =
     FluxerChromeSafariBrowser();
 
+final RegExp _bareEmailPattern = RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$');
+
 ChromeSafariBrowserSettings _buildBrowserSettings(
   ExternalUrlBrowserStyle style,
 ) {
@@ -51,14 +53,39 @@ ChromeSafariBrowserSettings _buildBrowserSettings(
   );
 }
 
-bool _isHttpOrHttps(Uri uri) => uri.scheme == 'http' || uri.scheme == 'https';
+Uri? parseExternalLinkUri(String url) {
+  final String trimmed = url.trim();
+  final Uri? uri = Uri.tryParse(trimmed);
+  if (uri == null) {
+    return null;
+  }
+  if (uri.scheme.isEmpty && _bareEmailPattern.hasMatch(trimmed)) {
+    return Uri(scheme: 'mailto', path: trimmed);
+  }
+  return uri;
+}
 
-Future<bool> _tryLaunchInNativeApp(Uri uri) async {
+bool _canOpenInSafariView(Uri uri) {
+  final String scheme = uri.scheme.toLowerCase();
+  if (scheme != 'http' && scheme != 'https') {
+    return false;
+  }
+  return uri.host.isNotEmpty && uri.userInfo.isEmpty;
+}
+
+Future<bool> _tryLaunch(Uri uri, LaunchMode mode) async {
   try {
-    return await launchUrl(uri, mode: LaunchMode.externalNonBrowserApplication);
+    return await launchUrl(uri, mode: mode);
   } on Object {
     return false;
   }
+}
+
+Future<bool> _launchNativeApp(Uri uri) async {
+  if (await _tryLaunch(uri, LaunchMode.externalNonBrowserApplication)) {
+    return true;
+  }
+  return _tryLaunch(uri, LaunchMode.externalApplication);
 }
 
 Future<void> closeInAppBrowserIfOpen() async {
@@ -120,14 +147,25 @@ Future<bool> openExternalUrl(
   ExternalUrlBrowserStyle? style,
   DefaultWebBrowser browser = DefaultWebBrowser.inApp,
 }) async {
-  if (isFluxerNativeMobileOs && _isHttpOrHttps(uri)) {
-    if (await _tryLaunchInNativeApp(uri)) {
-      return true;
-    }
-    if (browser == DefaultWebBrowser.inApp) {
-      return _openInAppBrowser(uri, style: style);
-    }
-    return launchInDefaultWebBrowser(uri, browser);
+  if (!isFluxerNativeMobileOs) {
+    return launchUrl(uri, mode: LaunchMode.externalApplication);
   }
-  return launchUrl(uri, mode: LaunchMode.externalApplication);
+
+  final String scheme = uri.scheme.toLowerCase();
+  if (scheme == 'mailto' || scheme == 'tel' || scheme == 'sms') {
+    return _launchNativeApp(uri);
+  }
+
+  if (!_canOpenInSafariView(uri)) {
+    return launchUrl(uri, mode: LaunchMode.externalApplication);
+  }
+
+  if (await _tryLaunch(uri, LaunchMode.externalNonBrowserApplication)) {
+    return true;
+  }
+
+  if (browser == DefaultWebBrowser.inApp) {
+    return _openInAppBrowser(uri, style: style);
+  }
+  return launchInDefaultWebBrowser(uri, browser);
 }

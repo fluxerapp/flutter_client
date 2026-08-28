@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -48,7 +49,9 @@ class ConnectionsViewModel extends _$ConnectionsViewModel {
   ConnectionsViewState build() {
     unawaited(Future.microtask(load));
     return ConnectionsViewState(
-      blueskyEnabled: AppBuildConfig.isBlueskyEnabled,
+      blueskyEnabled:
+          AppBuildConfig.isBlueskyEnabled &&
+          ref.read(instanceRuntimeConfigProvider).blueskyEnabled,
     );
   }
 
@@ -75,6 +78,9 @@ class ConnectionsViewModel extends _$ConnectionsViewModel {
       state = state.copyWith(
         isLoading: false,
         connections: response,
+        blueskyEnabled:
+            AppBuildConfig.isBlueskyEnabled &&
+            ref.read(instanceRuntimeConfigProvider).blueskyEnabled,
         error: () => null,
       );
     } on Object catch (e, st) {

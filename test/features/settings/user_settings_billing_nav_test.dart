@@ -38,10 +38,15 @@ void main() {
       final List<UserSettingsDesktopNavEntry> withoutBilling =
           buildUserSettingsDesktopNav(
             showBilling: false,
+            showJoinFluxerLabs: false,
             isTouchPrimary: false,
           );
       final List<UserSettingsDesktopNavEntry> withBilling =
-          buildUserSettingsDesktopNav(showBilling: true, isTouchPrimary: false);
+          buildUserSettingsDesktopNav(
+            showBilling: true,
+            showJoinFluxerLabs: false,
+            isTouchPrimary: false,
+          );
 
       expect(
         withoutBilling.any(
@@ -66,6 +71,7 @@ void main() {
     test('hides shortcuts entry on touch-primary devices', () {
       final touchNav = buildUserSettingsDesktopNav(
         showBilling: false,
+        showJoinFluxerLabs: false,
         isTouchPrimary: true,
       );
       expect(
@@ -75,6 +81,7 @@ void main() {
 
       final pointerNav = buildUserSettingsDesktopNav(
         showBilling: false,
+        showJoinFluxerLabs: false,
         isTouchPrimary: false,
       );
       expect(
@@ -92,6 +99,7 @@ void main() {
         indexForUserSettingsSection(
           UserSettingsSection.giftsAndCodes,
           showBilling: false,
+          showJoinFluxerLabs: false,
           isTouchPrimary: false,
         ),
         isNull,
@@ -103,6 +111,7 @@ void main() {
         indexForUserSettingsSection(
           UserSettingsSection.shortcuts,
           showBilling: false,
+          showJoinFluxerLabs: false,
           isTouchPrimary: true,
         ),
         isNull,

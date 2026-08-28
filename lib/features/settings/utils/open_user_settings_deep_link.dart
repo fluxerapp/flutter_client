@@ -45,6 +45,7 @@ UserSettingsDeepLinkPresentation buildUserSettingsDeepLinkPresentation({
       : iconForUserSettingsSection(
               target.section!,
               showBilling: showBilling,
+              showJoinFluxerLabs: false,
               isTouchPrimary: isTouchPrimary,
             ) ??
             PhosphorIconsFill.gear;

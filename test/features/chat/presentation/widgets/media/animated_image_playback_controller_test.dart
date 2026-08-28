@@ -52,9 +52,25 @@ void main() {
         ..expectPlaying('b', isTrue);
     });
 
-    test('suppresses playback while scrolling', () {
+    test('keeps visible images playing while scrolling', () {
       final AnimatedImagePlaybackController controller =
           AnimatedImagePlaybackController();
+
+      controller
+        ..register('a', 1)
+        ..register('b', 1)
+        ..expectPlaying('a', isTrue)
+        ..setScrollActive(active: true)
+        ..expectPlaying('a', isTrue)
+        ..expectPlaying('b', isTrue)
+        ..updateVisibility('b', 0)
+        ..expectPlaying('b', isFalse)
+        ..expectPlaying('a', isTrue);
+    });
+
+    test('can suppress playback while scrolling when enabled', () {
+      final AnimatedImagePlaybackController controller =
+          AnimatedImagePlaybackController(suppressWhileScrolling: true);
 
       controller
         ..register('a', 1)
@@ -100,7 +116,7 @@ void main() {
         ..register('a', 1)
         ..setScrollActive(active: true)
         ..setScrollActive(active: true);
-      expect(notificationCount, 2);
+      expect(notificationCount, 1);
     });
 
     test('does not recompute when register values are unchanged', () {

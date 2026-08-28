@@ -21,7 +21,6 @@ class VoiceSettingsApplicator {
     );
     final String? audioDeviceId = _resolveDeviceId(settings.inputDeviceId);
     return RoomOptions(
-      adaptiveStream: true,
       dynacast: true,
       defaultAudioCaptureOptions: AudioCaptureOptions(
         deviceId: audioDeviceId,
@@ -175,6 +174,32 @@ class VoiceSettingsApplicator {
   }
 
   Future<void> applyNoiseFilterBypass(VoiceSettingsState settings) async {}
+
+  Future<void> refreshMicrophoneAfterRouteChange({
+    required Room room,
+    required VoiceSettingsState settings,
+  }) async {
+    final LocalParticipant? participant = room.localParticipant;
+    if (participant == null) {
+      return;
+    }
+    await applyNoiseFilterBypass(settings);
+    final LocalAudioTrack? track = _microphoneTrack(participant);
+    final AudioCaptureOptions options = buildAudioCaptureOptions(settings);
+    if (track != null) {
+      await track.restartTrack(options);
+      await attachNoiseFilterToMicrophone(
+        participant: participant,
+        settings: settings,
+      );
+      return;
+    }
+    await refreshMicrophone(
+      room: room,
+      settings: settings,
+      microphoneEnabled: true,
+    );
+  }
 
   Future<void> refreshMicrophone({
     required Room room,

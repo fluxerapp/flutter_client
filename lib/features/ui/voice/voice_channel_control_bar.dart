@@ -2,14 +2,9 @@ import 'dart:async';
 import 'dart:ui' show lerpDouble;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/router/navigate_to_content.dart';
-import 'package:fluxer_app/core/router/route_names.dart';
-import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
-import 'package:fluxer_app/features/favorites/utils/favorites_shell_navigation.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
-import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_variant.dart';
@@ -21,6 +16,7 @@ import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.
 import 'package:fluxer_app/features/voice/providers/voice_channel_text_chat_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/features/voice/utils/voice_session_navigation.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/gateway.dart';
@@ -329,17 +325,7 @@ class VoiceChannelControlBarContent extends ConsumerWidget {
         tooltip: l10n.voiceControlDisconnect,
         icon: PhosphorIconsFill.phoneDisconnect,
         onPressed: () {
-          onControlPressed(() {
-            if (context.mounted && isMobileLayout(context)) {
-              final String location = ref.read(currentLocationProvider);
-              if (isFavoritesChannelRoute(location)) {
-                returnToFavoritesList(ref);
-              } else if (guildId != null && guildId!.isNotEmpty) {
-                navigateToContent(context, RoutePaths.guild(guildId!));
-              }
-            }
-            unawaited(ref.read(voiceSessionProvider.notifier).leaveVoice());
-          });
+          unawaited(endPhoneVoiceCall(context: context, ref: ref));
         },
       ),
     ];

@@ -80,11 +80,11 @@ class VoiceCallMobilePageLayout extends ConsumerWidget {
                 right: 0,
                 bottom: 0,
                 child: AnimatedSlide(
-                  duration: const Duration(milliseconds: 220),
+                  duration: const Duration(milliseconds: 320),
                   curve: Curves.easeOutCubic,
                   offset: showsOverlay ? Offset.zero : const Offset(0, 1.2),
                   child: AnimatedOpacity(
-                    duration: const Duration(milliseconds: 180),
+                    duration: const Duration(milliseconds: 240),
                     opacity: showsOverlay ? 1 : 0,
                     child: IgnorePointer(
                       ignoring: !showsOverlay,

@@ -5016,6 +5016,19 @@ class ChatViewModel extends _$ChatViewModel {
     );
   }
 
+  void insertClientSystemMessage(String content) {
+    if (state.channelId.isEmpty) {
+      return;
+    }
+    final List<Message> nextMessages = List<Message>.from(state.messages)
+      ..add(
+        createClientSystemMessage(channelId: state.channelId, content: content),
+      );
+    state = state.copyWith(
+      write: (messages: nextMessages, origin: MessagesOrigin.localMutation),
+    );
+  }
+
   void dismissClientSystemMessage(String messageId) {
     final int messageIndex = state.messages.indexWhere(
       (Message m) => m.id == messageId,

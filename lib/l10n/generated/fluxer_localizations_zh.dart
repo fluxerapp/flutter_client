@@ -6829,6 +6829,153 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
       '通知具有此角色的用户，他们有权查看此频道。';
 
   @override
+  String get composerAutocompleteSuggestions => 'Suggestions';
+
+  @override
+  String get composerAutocompleteCommandsHeading => 'Commands';
+
+  @override
+  String get composerAutocompleteChoicesHeading => 'Choices';
+
+  @override
+  String get composerAutocompleteOptionalArgumentsHeading =>
+      'Optional arguments';
+
+  @override
+  String get composerAutocompleteChannelsHeading => 'Channels';
+
+  @override
+  String get composerAutocompleteMembersHeading => 'Members';
+
+  @override
+  String get composerAutocompleteUsersHeading => 'Users';
+
+  @override
+  String get composerAutocompleteMentionsHeading => 'Mentions';
+
+  @override
+  String get composerAutocompleteRolesHeading => 'Roles';
+
+  @override
+  String get composerAutocompleteMediaHeading => 'Media';
+
+  @override
+  String get composerAutocompleteStickersHeading => 'Stickers';
+
+  @override
+  String get composerAutocompleteGifsHeading => 'GIFs';
+
+  @override
+  String get composerAutocompleteNoGifs => 'No GIFs found';
+
+  @override
+  String get composerCommandShrugDescription =>
+      'Appends ¯\\_(ツ)_/¯ to your message.';
+
+  @override
+  String get composerCommandTableflipDescription =>
+      'Appends (╯°□°)╯︵ ┻━┻ to your message.';
+
+  @override
+  String get composerCommandUnflipDescription =>
+      'Appends ┬─┬ ノ( ゜-゜ノ) to your message.';
+
+  @override
+  String get composerCommandMeDescription =>
+      'Send an action message (wraps in italics).';
+
+  @override
+  String get composerCommandSpoilerDescription =>
+      'Send a spoiler message (wraps in spoiler tags).';
+
+  @override
+  String get composerCommandTtsDescription => 'Send a text-to-speech message.';
+
+  @override
+  String get composerCommandNickDescription =>
+      'Change your nickname in this community.';
+
+  @override
+  String get composerCommandKickDescription =>
+      'Kick a member from this community.';
+
+  @override
+  String get composerCommandBanDescription =>
+      'Ban a member from this community.';
+
+  @override
+  String get composerCommandMsgDescription =>
+      'Send a direct message to a user.';
+
+  @override
+  String get composerCommandSavedDescription => 'Send a saved media item.';
+
+  @override
+  String get composerCommandStickerDescription => 'Send a sticker.';
+
+  @override
+  String get composerCommandGifDescription => 'Search for and send a GIF.';
+
+  @override
+  String get composerCommandMemberOption => 'The member to target.';
+
+  @override
+  String get composerCommandReasonOption => 'Reason (optional).';
+
+  @override
+  String get composerCommandMessageOption => 'The message to send.';
+
+  @override
+  String get composerCommandQueryOption => 'What to search for.';
+
+  @override
+  String get composerCommandNicknameOption =>
+      'Your new nickname, or leave blank to reset it.';
+
+  @override
+  String get composerCommandDeleteMessagesOption =>
+      'How much of the member\'s recent message history to delete.';
+
+  @override
+  String get composerCommandDeleteMessagesNone => 'Don\'t delete any';
+
+  @override
+  String composerCommandDeleteMessagesDays(int count) {
+    return 'Previous $count days';
+  }
+
+  @override
+  String get composerCommandDeleteMessagesOneDay => 'Previous 24 hours';
+
+  @override
+  String get composerCommandOptionRequired =>
+      'This option is required. Please provide a value.';
+
+  @override
+  String get composerCommandClear => 'Clear command';
+
+  @override
+  String composerCommandNicknameChanged(
+    String previousNickname,
+    String newNickname,
+  ) {
+    return 'You changed your nickname in this community from **$previousNickname** to **$newNickname**.';
+  }
+
+  @override
+  String get composerCommandUnknownUser => 'Unknown user';
+
+  @override
+  String composerCommandMsgFailed(String username) {
+    return 'Failed to send a message to **$username**. They may have DMs disabled or you may be blocked.';
+  }
+
+  @override
+  String composerCommandOptionalMore(int count) {
+    return '+$count more';
+  }
+
+  @override
   String get addGuildModalTitle => '添加社区';
 
   @override

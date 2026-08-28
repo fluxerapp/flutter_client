@@ -40,6 +40,7 @@ import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/call_actions.dart';
 import 'package:fluxer_app/features/voice/utils/voice_camera_platform.dart';
 import 'package:fluxer_app/features/voice/utils/voice_e2ee_display.dart';
+import 'package:fluxer_app/features/voice/utils/voice_phone_call_layout.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
@@ -614,6 +615,7 @@ class ChannelHeader extends ConsumerWidget {
         hasExpressionPanelOpen: false,
         revealSide: ref.read(currentRevealSideProvider),
         shellLocation: ref.read(shellLocationProvider),
+        minimizePhoneVoiceCall: shouldMinimizePhoneVoiceCall(context, ref),
       ),
     );
   }

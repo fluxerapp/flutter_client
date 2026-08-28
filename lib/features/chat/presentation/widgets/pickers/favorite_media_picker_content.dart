@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
@@ -15,6 +16,7 @@ import 'package:fluxer_app/features/chat/utils/gif_media_selection.dart';
 import 'package:fluxer_app/features/chat/utils/gif_preview_playback_policy.dart';
 import 'package:fluxer_app/features/chat/utils/gif_preview_player_config.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media_kit_player_lifecycle.dart';
 import 'package:fluxer_app/features/chat/utils/media_proxy_url.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -961,7 +963,7 @@ class _FavoriteMediaPreview extends StatelessWidget {
   );
 }
 
-class _FavoriteMediaVideoPreview extends StatefulWidget {
+class _FavoriteMediaVideoPreview extends ConsumerStatefulWidget {
   const _FavoriteMediaVideoPreview({
     required this.url,
     required this.isVisible,
@@ -973,12 +975,12 @@ class _FavoriteMediaVideoPreview extends StatefulWidget {
   final bool allowPlayback;
 
   @override
-  State<_FavoriteMediaVideoPreview> createState() =>
+  ConsumerState<_FavoriteMediaVideoPreview> createState() =>
       _FavoriteMediaVideoPreviewState();
 }
 
 class _FavoriteMediaVideoPreviewState
-    extends State<_FavoriteMediaVideoPreview> {
+    extends ConsumerState<_FavoriteMediaVideoPreview> {
   Player? _player;
   mkv.VideoController? _controller;
   String? _openedUrl;
@@ -991,10 +993,16 @@ class _FavoriteMediaVideoPreviewState
   }
 
   @override
+  void dispose() {
+    unawaited(_disposePlayer());
+    super.dispose();
+  }
+
+  @override
   void didUpdateWidget(_FavoriteMediaVideoPreview oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.url != widget.url) {
-      _disposePlayer();
+      unawaited(_disposePlayer());
       _failed = false;
     }
     if (oldWidget.url != widget.url ||
@@ -1002,12 +1010,6 @@ class _FavoriteMediaVideoPreviewState
         oldWidget.allowPlayback != widget.allowPlayback) {
       _syncPlayback();
     }
-  }
-
-  @override
-  void dispose() {
-    _disposePlayer();
-    super.dispose();
   }
 
   void _syncPlayback() {
@@ -1029,7 +1031,9 @@ class _FavoriteMediaVideoPreviewState
   }
 
   void _openVideoPlayer(String url) {
-    final player = Player(configuration: gifPreviewPlayerConfiguration);
+    final player = MediaKitPlayerLifecycleCoordinator.instance.createPlayer(
+      configuration: gifPreviewPlayerConfiguration,
+    );
     _player = player;
     _controller = mkv.VideoController(
       player,
@@ -1061,18 +1065,23 @@ class _FavoriteMediaVideoPreviewState
     }
   }
 
-  void _disposePlayer() {
+  Future<void> _disposePlayer() async {
     final player = _player;
     _player = null;
     _controller = null;
     _openedUrl = null;
     if (player != null) {
-      unawaited(player.dispose());
+      await MediaKitPlayerLifecycleCoordinator.instance.stopAndDispose(player);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<bool>(appUiForegroundProvider, (bool? previous, bool next) {
+      if (next) {
+        _syncPlayback();
+      }
+    });
     if (_failed) {
       return const _PreviewPlaceholder();
     }

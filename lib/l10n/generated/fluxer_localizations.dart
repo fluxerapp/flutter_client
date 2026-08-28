@@ -157,13 +157,13 @@ abstract class FluxerLocalizations {
   /// **'Something is wrong with the servers.\nShould be fixed in a second!'**
   String get reconnectingBody;
 
-  /// Toast shown when the gateway connection is lost and reconnecting.
+  /// Banner shown when the gateway connection is lost and reconnecting.
   ///
   /// In en, this message translates to:
   /// **'Reconnecting…'**
   String get gatewayReconnectingToast;
 
-  /// Toast shown when the gateway connection is restored.
+  /// Banner shown when the gateway connection is restored.
   ///
   /// In en, this message translates to:
   /// **'Connected'**
@@ -11786,6 +11786,255 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Notify users with this role who have permission to view this channel.'**
   String get composerAutocompleteRoleMentionDescription;
+
+  /// Accessibility label for the composer autocomplete list.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggestions'**
+  String get composerAutocompleteSuggestions;
+
+  /// Section heading in composer autocomplete for slash commands.
+  ///
+  /// In en, this message translates to:
+  /// **'Commands'**
+  String get composerAutocompleteCommandsHeading;
+
+  /// Section heading in composer autocomplete for slash-command argument choices.
+  ///
+  /// In en, this message translates to:
+  /// **'Choices'**
+  String get composerAutocompleteChoicesHeading;
+
+  /// Section heading in composer autocomplete for adding optional slash-command arguments.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional arguments'**
+  String get composerAutocompleteOptionalArgumentsHeading;
+
+  /// Section heading in composer autocomplete for channel suggestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Channels'**
+  String get composerAutocompleteChannelsHeading;
+
+  /// Section heading in composer autocomplete for member suggestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Members'**
+  String get composerAutocompleteMembersHeading;
+
+  /// Section heading in composer autocomplete for user suggestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Users'**
+  String get composerAutocompleteUsersHeading;
+
+  /// Section heading in composer autocomplete for mixed mention suggestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Mentions'**
+  String get composerAutocompleteMentionsHeading;
+
+  /// Section heading in composer autocomplete for role suggestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Roles'**
+  String get composerAutocompleteRolesHeading;
+
+  /// Section heading in composer autocomplete for saved media.
+  ///
+  /// In en, this message translates to:
+  /// **'Media'**
+  String get composerAutocompleteMediaHeading;
+
+  /// Section heading in composer autocomplete for stickers.
+  ///
+  /// In en, this message translates to:
+  /// **'Stickers'**
+  String get composerAutocompleteStickersHeading;
+
+  /// Heading above GIF autocomplete results.
+  ///
+  /// In en, this message translates to:
+  /// **'GIFs'**
+  String get composerAutocompleteGifsHeading;
+
+  /// Empty-state title when GIF autocomplete finds no results.
+  ///
+  /// In en, this message translates to:
+  /// **'No GIFs found'**
+  String get composerAutocompleteNoGifs;
+
+  /// Slash-command description for /shrug.
+  ///
+  /// In en, this message translates to:
+  /// **'Appends ¯\\_(ツ)_/¯ to your message.'**
+  String get composerCommandShrugDescription;
+
+  /// Slash-command description for /tableflip.
+  ///
+  /// In en, this message translates to:
+  /// **'Appends (╯°□°)╯︵ ┻━┻ to your message.'**
+  String get composerCommandTableflipDescription;
+
+  /// Slash-command description for /unflip.
+  ///
+  /// In en, this message translates to:
+  /// **'Appends ┬─┬ ノ( ゜-゜ノ) to your message.'**
+  String get composerCommandUnflipDescription;
+
+  /// Slash-command description for /me.
+  ///
+  /// In en, this message translates to:
+  /// **'Send an action message (wraps in italics).'**
+  String get composerCommandMeDescription;
+
+  /// Slash-command description for /spoiler.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a spoiler message (wraps in spoiler tags).'**
+  String get composerCommandSpoilerDescription;
+
+  /// Slash-command description for /tts.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a text-to-speech message.'**
+  String get composerCommandTtsDescription;
+
+  /// Slash-command description for /nick.
+  ///
+  /// In en, this message translates to:
+  /// **'Change your nickname in this community.'**
+  String get composerCommandNickDescription;
+
+  /// Slash-command description for /kick.
+  ///
+  /// In en, this message translates to:
+  /// **'Kick a member from this community.'**
+  String get composerCommandKickDescription;
+
+  /// Slash-command description for /ban.
+  ///
+  /// In en, this message translates to:
+  /// **'Ban a member from this community.'**
+  String get composerCommandBanDescription;
+
+  /// Slash-command description for /msg.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a direct message to a user.'**
+  String get composerCommandMsgDescription;
+
+  /// Slash-command description for /saved.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a saved media item.'**
+  String get composerCommandSavedDescription;
+
+  /// Slash-command description for /sticker.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a sticker.'**
+  String get composerCommandStickerDescription;
+
+  /// Slash-command description for /gif.
+  ///
+  /// In en, this message translates to:
+  /// **'Search for and send a GIF.'**
+  String get composerCommandGifDescription;
+
+  /// Description for the member option of a moderation slash command.
+  ///
+  /// In en, this message translates to:
+  /// **'The member to target.'**
+  String get composerCommandMemberOption;
+
+  /// Description for an optional moderation slash-command reason.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason (optional).'**
+  String get composerCommandReasonOption;
+
+  /// Description for a required message option in a slash command.
+  ///
+  /// In en, this message translates to:
+  /// **'The message to send.'**
+  String get composerCommandMessageOption;
+
+  /// Description for a media search slash-command query.
+  ///
+  /// In en, this message translates to:
+  /// **'What to search for.'**
+  String get composerCommandQueryOption;
+
+  /// Description for the /nick nickname option.
+  ///
+  /// In en, this message translates to:
+  /// **'Your new nickname, or leave blank to reset it.'**
+  String get composerCommandNicknameOption;
+
+  /// Description for the /ban delete_messages option.
+  ///
+  /// In en, this message translates to:
+  /// **'How much of the member\'s recent message history to delete.'**
+  String get composerCommandDeleteMessagesOption;
+
+  /// Choice label for retaining all messages when banning a member.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t delete any'**
+  String get composerCommandDeleteMessagesNone;
+
+  /// Choice label for deleting multiple days of messages when banning a member.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous {count} days'**
+  String composerCommandDeleteMessagesDays(int count);
+
+  /// Choice label for deleting one day of messages when banning a member.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous 24 hours'**
+  String get composerCommandDeleteMessagesOneDay;
+
+  /// Notice shown when a required slash-command argument was left empty.
+  ///
+  /// In en, this message translates to:
+  /// **'This option is required. Please provide a value.'**
+  String get composerCommandOptionRequired;
+
+  /// Accessible label for the button that clears the slash command being composed.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear command'**
+  String get composerCommandClear;
+
+  /// Local system message after the user changes their community nickname with a slash command.
+  ///
+  /// In en, this message translates to:
+  /// **'You changed your nickname in this community from **{previousNickname}** to **{newNickname}**.'**
+  String composerCommandNicknameChanged(
+    String previousNickname,
+    String newNickname,
+  );
+
+  /// Fallback name in local command system messages when the current user is unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown user'**
+  String get composerCommandUnknownUser;
+
+  /// Local system message when /msg cannot open a DM.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to send a message to **{username}**. They may have DMs disabled or you may be blocked.'**
+  String composerCommandMsgFailed(String username);
+
+  /// Hint shown after required slash-command slots for remaining optional arguments.
+  ///
+  /// In en, this message translates to:
+  /// **'+{count} more'**
+  String composerCommandOptionalMore(int count);
 
   /// Landing-view title of the add community modal.
   ///

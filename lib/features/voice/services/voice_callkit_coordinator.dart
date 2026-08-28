@@ -659,7 +659,7 @@ class VoiceCallKitCoordinatorLogic {
       case CallEventActionCallDecline(:final callKitParams):
         await _handleDecline(callKitParams);
       case CallEventActionCallEnded(:final callKitParams):
-        await _handleEnded(callKitParams);
+        _scheduleSync(() => _handleEnded(callKitParams));
       case CallEventActionCallTimeout(:final id):
         await _handleTimeout(id);
       case CallEventActionCallToggleMute(:final id, :final isMuted):
@@ -754,6 +754,15 @@ class VoiceCallKitCoordinatorLogic {
     await executeDeclineIncomingVoiceCallFromCallKit(_ref, channelId);
   }
 
+  void _unregisterCallKitSessionForChannel(String channelId) {
+    final String? callKitId = _sessions.callKitIdForChannel(channelId);
+    if (callKitId != null) {
+      _sessions.unregisterSession(callKitId, channelId: channelId);
+    } else {
+      _sessions.clearPresentedIncoming(channelId);
+    }
+  }
+
   Future<void> _handleEnded(CallKitParams params) async {
     if (_shouldIgnoreUserCallKitEndEvent()) {
       return;
@@ -768,7 +777,9 @@ class VoiceCallKitCoordinatorLogic {
     final VoiceCallKitVoiceSnapshot voice = _voiceCallKitVoiceSnapshot(
       _ref.read(voiceSessionProvider),
     );
-    await _endCallKitForChannel(channelId);
+    // CallKit already ended the native session when the user tapped End.
+    _unregisterCallKitSessionForChannel(channelId);
+    await _exitCallKitAudioOwnership();
     if (shouldLeaveVoiceFromCallKitEnd(voice: voice, channelId: channelId)) {
       await _ref.read(voiceSessionProvider.notifier).leaveVoice();
       return;

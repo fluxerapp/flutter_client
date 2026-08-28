@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
@@ -149,6 +150,9 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
         : watchChannelMessagePermissionsForComposer(ref, channelId);
     final List<ExpressionPickerTab> visibleTabs = expressionPanelVisibleTabs(
       perms,
+      gifEnabled: ref.watch(
+        instanceRuntimeConfigProvider.select((config) => config.gifEnabled),
+      ),
     );
     final ExpressionPickerTab storedTab = ref.watch(expressionPanelTabProvider);
     final ExpressionPickerTab selectedTab = resolveVisibleExpressionTab(

@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/permissions/permission_resolver.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart' show RoutePaths;
@@ -420,6 +421,11 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                           UserProfileRelationshipButton(
                             relationshipStatus: relationship?.friendStatus,
                             isCurrentUser: isCurrentUser,
+                            allowFriendRequests: !ref.watch(
+                              instanceRuntimeConfigProvider.select(
+                                (config) => config.directMessagesDisabled,
+                              ),
+                            ),
                             onUnblock: () => _handleRelationshipAction(
                               repoCall: () => ref
                                   .read(friendRepositoryProvider)
@@ -560,7 +566,20 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                     isFriend:
                         relationship?.friendStatus == FriendStatus.accepted,
                     isBlocked: isBlocked,
-                    canCall: canCall,
+                    canCall:
+                        canCall &&
+                        !ref.watch(
+                          instanceRuntimeConfigProvider.select(
+                            (config) =>
+                                config.directMessagesDisabled ||
+                                !config.voiceEnabled,
+                          ),
+                        ),
+                    showMessage: !ref.watch(
+                      instanceRuntimeConfigProvider.select(
+                        (config) => config.directMessagesDisabled,
+                      ),
+                    ),
                     onMessage: () =>
                         _handleMessage(userId, isBlocked, username),
                     onVoiceCall: () => _handleOutboundDmCall(

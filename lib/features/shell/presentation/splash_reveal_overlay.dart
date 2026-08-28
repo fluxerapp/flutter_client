@@ -3,7 +3,7 @@ import 'dart:ui' show lerpDouble;
 import 'package:flutter/scheduler.dart';
 import 'package:fluxer_app/core/theme/color_utils.dart';
 import 'package:fluxer_app/features/ui/background/starfield_background.dart';
-import 'package:fluxer_app/features/ui/icons/fluxer_brand_logo.dart';
+import 'package:fluxer_app/features/ui/icons/instance_branding_image.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class SplashRevealOverlay {
@@ -235,7 +235,7 @@ class _SplashRevealOverlayWidgetState extends State<_SplashRevealOverlayWidget>
               opacity: coverOpacity,
               child: Transform.scale(
                 scale: scale,
-                child: FluxerBrandLogo(
+                child: InstanceBrandMark(
                   size: SplashRevealOverlay.logoSize,
                   backgroundColor: logoFill,
                   symbolColor: logoSymbol,

@@ -19,7 +19,7 @@ class _AnimatedImageCandidate {
 class AnimatedImagePlaybackController extends ChangeNotifier {
   AnimatedImagePlaybackController({
     this.maxActiveVideos = kMaxActiveGifVideos,
-    this.suppressWhileScrolling = true,
+    this.suppressWhileScrolling = false,
   });
 
   final int? maxActiveVideos;

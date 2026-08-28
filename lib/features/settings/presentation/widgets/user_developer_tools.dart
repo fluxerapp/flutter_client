@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -26,8 +27,11 @@ class _UserDeveloperToolsState extends ConsumerState<UserDeveloperTools> {
   static const String _unsupportedMessage =
       'Custom haptics are only available on iOS and Android devices.';
 
+  static const Duration _previewHold = Duration(seconds: 3);
+
   late final TextEditingController _ahapController;
   String? _inputError;
+  Timer? _bannerPreviewTimer;
 
   @override
   void initState() {
@@ -43,8 +47,52 @@ class _UserDeveloperToolsState extends ConsumerState<UserDeveloperTools> {
 
   @override
   void dispose() {
+    _cancelBannerPreview();
     _ahapController.dispose();
     super.dispose();
+  }
+
+  GatewayReconnectBanner get _banner {
+    return ref.read(gatewayReconnectBannerProvider.notifier);
+  }
+
+  void _cancelBannerPreview() {
+    _bannerPreviewTimer?.cancel();
+    _bannerPreviewTimer = null;
+  }
+
+  void _showReconnectBanner() {
+    _cancelBannerPreview();
+    _banner.showReconnecting();
+  }
+
+  void _showConnectedBanner() {
+    _cancelBannerPreview();
+    _banner.showConnected();
+  }
+
+  void _hideReconnectBanner() {
+    _cancelBannerPreview();
+    _banner.hide();
+  }
+
+  void _playReconnectBannerSequence() {
+    _cancelBannerPreview();
+    _banner.showReconnecting();
+    _bannerPreviewTimer = Timer(_previewHold, () {
+      if (!mounted) {
+        return;
+      }
+      _banner.showConnected();
+    });
+  }
+
+  String _bannerPhaseLabel(GatewayReconnectBannerPhase phase) {
+    return switch (phase) {
+      GatewayReconnectBannerPhase.hidden => 'Hidden',
+      GatewayReconnectBannerPhase.reconnecting => 'Reconnecting',
+      GatewayReconnectBannerPhase.connected => 'Connected',
+    };
   }
 
   void _showToast(String message, {FluxerToastVariant? variant}) {
@@ -149,7 +197,6 @@ class _UserDeveloperToolsState extends ConsumerState<UserDeveloperTools> {
                   }
                 },
               ),
-              SizedBox(height: layout.s3),
               Wrap(
                 spacing: layout.s2,
                 runSpacing: layout.s2,
@@ -167,6 +214,47 @@ class _UserDeveloperToolsState extends ConsumerState<UserDeveloperTools> {
                   FluxerButton.secondary(
                     onPressed: () => unawaited(_loadSendSample()),
                     label: 'Load send sample',
+                    fitContent: true,
+                  ),
+                ],
+              ),
+            ],
+          ),
+          FluxerSettingsSection(
+            sectionId: 'developer-tools-reconnect-banner',
+            title: 'Gateway reconnect banner',
+            description:
+                'Preview the overlay without dropping the gateway socket. '
+                'Play sequence holds reconnecting for 3 seconds, then the connected animation.',
+            children: [
+              Text(
+                'Phase: ${_bannerPhaseLabel(ref.watch(gatewayReconnectBannerProvider))}',
+                style: context.textStyles.bodySmall.copyWith(
+                  color: context.colors.textSecondary,
+                ),
+              ),
+              Wrap(
+                spacing: layout.s2,
+                runSpacing: layout.s2,
+                children: [
+                  FluxerButton.primary(
+                    onPressed: _showReconnectBanner,
+                    label: 'Show reconnecting',
+                    fitContent: true,
+                  ),
+                  FluxerButton.secondary(
+                    onPressed: _showConnectedBanner,
+                    label: 'Show connected',
+                    fitContent: true,
+                  ),
+                  FluxerButton.secondary(
+                    onPressed: _playReconnectBannerSequence,
+                    label: 'Play sequence',
+                    fitContent: true,
+                  ),
+                  FluxerButton.secondary(
+                    onPressed: _hideReconnectBanner,
+                    label: 'Hide',
                     fitContent: true,
                   ),
                 ],

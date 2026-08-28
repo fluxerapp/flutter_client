@@ -52,7 +52,10 @@ String _preprocessFluxerMarkdownUncached(
   final output = <String>[];
 
   for (final line in lines) {
-    var next = _mapOutsideInlineCode(line, _normalizeSpacedInlineMarkdown);
+    var next = _mapOutsideInlineCode(
+      _escapeInvisibleInlineCode(line),
+      _normalizeSpacedInlineMarkdown,
+    );
     next = _mapOutsideInlineCode(next, _preserveAsciiArtBackslashUnderscores);
     next = _mapOutsideInlineCode(next, _normalizeAngleMaskedLinkDestinations);
     next = _mapOutsideInlineCode(next, _neutralizeInvalidMaskedLinks);
@@ -212,13 +215,38 @@ String _escapeAutolinks(String line) {
 
 String _escapeInvisibleInlineFormatting(String text) {
   var current = text;
-  for (final String marker in const <String>['||', '~~', '__', '**']) {
+  for (final String marker in const <String>[
+    '***',
+    '___',
+    '||',
+    '~~',
+    '__',
+    '**',
+  ]) {
     current = _escapeInvisibleMarkerContent(current, marker);
   }
   for (final String marker in const <String>['*', '_']) {
     current = _escapeInvisibleMarkerContent(current, marker, single: true);
   }
   return current;
+}
+
+// Runs before _mapOutsideInlineCode, which copies code spans verbatim.
+String _escapeInvisibleInlineCode(String line) {
+  if (!line.contains('`')) {
+    return line;
+  }
+  return line.replaceAllMapped(RegExp(r'(?<!\\)(`+)([^`]+?)\1(?!`)'), (
+    Match match,
+  ) {
+    final String fence = match.group(1)!;
+    final String content = match.group(2)!;
+    if (hasVisibleContent(content)) {
+      return match.group(0)!;
+    }
+    final String escaped = r'\`' * fence.length;
+    return '$escaped$content$escaped';
+  });
 }
 
 String _escapeInvisibleMarkerContent(
