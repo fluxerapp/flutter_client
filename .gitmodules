@@ -2,3 +2,7 @@
 	path = dart_sdk
 	url = https://github.com/fluxerapp/dart_sdk.git
 	branch = main
+[submodule "fluxer"]
+	path = fluxer
+	url = https://github.com/fluxerapp/fluxer.git
+	shallow = true

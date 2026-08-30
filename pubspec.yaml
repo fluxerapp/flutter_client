@@ -52,6 +52,8 @@ dependencies:
     path: dart_sdk
   fluxer_markdown:
     path: packages/fluxer_markdown
+  fluxer_markdown_native:
+    path: packages/fluxer_markdown_native
   gaimon: ^1.4.3
   gal: ^2.3.3
   go_router: ^17.2.1

@@ -116,6 +116,7 @@ jobs:
         package:
           - fluxer_markdown
           - fluxer_fcm
+          - fluxer_markdown_native
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
@@ -134,8 +135,25 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pub-
 
+      - name: Set up Rust
+        if: matrix.package == 'fluxer_markdown_native'
+        run: |
+          if ! command -v cargo >/dev/null 2>&1; then
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+              | sh -s -- -y --profile minimal --default-toolchain stable
+            echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
+          fi
+          rustup show active-toolchain || rustup toolchain install stable
+
+      - name: Enable native asset build hooks
+        run: flutter config --enable-native-assets
+
       - name: Run package tests
         run: |
           cd packages/${{ matrix.package }}
           flutter pub get
-          flutter test
+          if [ "${{ matrix.package }}" = "fluxer_markdown_native" ]; then
+            dart test
+          else
+            flutter test
+          fi

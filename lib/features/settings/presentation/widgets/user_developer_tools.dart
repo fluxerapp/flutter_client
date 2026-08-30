@@ -5,6 +5,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/native_markdown_tester.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -260,6 +261,14 @@ class _UserDeveloperToolsState extends ConsumerState<UserDeveloperTools> {
                 ],
               ),
             ],
+          ),
+          const FluxerSettingsSection(
+            sectionId: 'developer-tools-native-markdown',
+            title: 'Native markdown parser',
+            description:
+                'Parses input with the experimental Rust parser bundled via '
+                'native assets and shows the canonical AST plus timing.',
+            children: [NativeMarkdownTester()],
           ),
         ],
       ),

@@ -1,0 +1,27 @@
+name: fluxer_markdown_native
+description: >-
+  Dart bindings for the canonical Fluxer Rust markdown parser, built and
+  bundled via Dart native asset build hooks. Flutter-agnostic.
+version: 0.1.0
+publish_to: none
+
+platforms:
+  android:
+  ios:
+  linux:
+  macos:
+  windows:
+
+environment:
+  sdk: ^3.11.0
+
+dependencies:
+  # hooks/code_assets span two majors on purpose: the APIs used here were
+  # verified against 1.0.3 (app resolution via zstd_dart) and 2.1.0.
+  code_assets: '>=1.0.0 <2.0.0'
+  ffi: ^2.1.0
+  hooks: '>=1.0.2 <3.0.0'
+
+dev_dependencies:
+  test: ^1.25.0
+  very_good_analysis: ^10.2.0
