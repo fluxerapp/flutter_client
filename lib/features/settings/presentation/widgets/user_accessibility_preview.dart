@@ -3,11 +3,13 @@ import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/accessibility/effective_motion_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/native_markdown_parser_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/markdown/fluxer_markdown_adapter.dart';
+import 'package:fluxer_app/shared/markdown/native_markdown_parser.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
 const String kAccessibilityLinkPreviewExampleUrl = 'https://fluxer.app';
@@ -112,6 +114,9 @@ class UserAccessibilityPreview extends ConsumerWidget {
                       baseStyle: context.textStyles.messageText.copyWith(
                         color: colors.textChat,
                       ),
+                      astParser: ref.watch(nativeMarkdownParserSettingProvider)
+                          ? parseNativeFluxerMarkdownAst
+                          : null,
                     ),
                   ],
                 ),

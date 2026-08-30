@@ -1,5 +1,6 @@
 export 'src/ast.dart';
 export 'src/flags.dart';
+export 'src/markdown_bridge.dart';
 export 'src/parser.dart'
     show
         FluxerMarkdownParseException,

@@ -215,6 +215,66 @@ Widget buildFluxerMarkdownAst({
   );
 }
 
+/// Renders a pre-parsed AST through the same renderers as
+/// [buildFluxerMarkdownAst]; hosts inline spoiler reveal state itself because
+/// the text-flow path never runs for provided ASTs.
+Widget buildFluxerMarkdownProvidedAst({
+  required BuildContext context,
+  required List<md.Node> nodes,
+  required TextStyle baseStyle,
+  required FluxerMarkdownConfig config,
+  required FluxerMarkdownFeatures features,
+  required bool selectable,
+  required bool isDark,
+  int? maxLines,
+  TextOverflow? overflow,
+  Widget? trailingInlineWidget,
+}) {
+  Widget buildBody(BuildContext hostContext) {
+    final renderer = _MarkdownBlockRenderer(
+      context: hostContext,
+      baseStyle: baseStyle,
+      config: config,
+      features: features,
+      isDark: isDark,
+      maxLines: maxLines,
+      overflow: overflow,
+    );
+    if (trailingInlineWidget == null || features.isRestrictedInlinePreview) {
+      return renderer.build(nodes);
+    }
+    return renderer.buildWithTrailingInlineWidget(nodes, trailingInlineWidget);
+  }
+
+  final bool hostSpoilers =
+      maxLines == null &&
+      !config.spoilersInitiallyRevealed &&
+      _containsInlineSpoiler(nodes);
+  final Widget body = hostSpoilers
+      ? _FluxerSpoilerRevealHost(config: config, builder: buildBody)
+      : buildBody(context);
+  return wrapFluxerMarkdownSelectable(
+    body: body,
+    selectable: selectable,
+    config: config,
+  );
+}
+
+bool _containsInlineSpoiler(List<md.Node> nodes) {
+  for (final md.Node node in nodes) {
+    if (node is! md.Element) {
+      continue;
+    }
+    if (node.tag == FluxerSpoilerSyntax.tag) {
+      return true;
+    }
+    if (_containsInlineSpoiler(node.children ?? const [])) {
+      return true;
+    }
+  }
+  return false;
+}
+
 final MarkdownParseCache<(String, FluxerMarkdownFeatures), List<md.Node>>
 _inlineNodeCache =
     MarkdownParseCache<(String, FluxerMarkdownFeatures), List<md.Node>>();
@@ -470,6 +530,50 @@ class _MarkdownBlockRenderer {
     );
   }
 
+  Widget buildWithTrailingInlineWidget(List<md.Node> nodes, Widget trailing) {
+    _hasRenderedBlock = false;
+    final children = <Widget>[];
+    var trailingApplied = false;
+    for (var i = 0; i < nodes.length; i++) {
+      final md.Node node = nodes[i];
+      if (i == nodes.length - 1 && _isTrailingParagraphNode(node)) {
+        children.add(_buildTrailingParagraph(node, trailing));
+        trailingApplied = true;
+        continue;
+      }
+      final Widget? widget = buildBlock(node);
+      if (widget != null) {
+        children.add(widget);
+      }
+    }
+    if (!trailingApplied) {
+      children.add(trailing);
+    }
+    if (children.length == 1) {
+      return children.first;
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: _blockSpacingForStyle(baseStyle),
+      children: children,
+    );
+  }
+
+  bool _isTrailingParagraphNode(md.Node node) {
+    if (node is md.Text) {
+      return true;
+    }
+    return node is md.Element &&
+        (node.tag == 'p' || _isInlineOnlyTag(node.tag));
+  }
+
+  Widget _buildTrailingParagraph(md.Node node, Widget trailing) {
+    final List<md.Node> children = node is md.Element && node.tag == 'p'
+        ? node.children ?? const []
+        : <md.Node>[node];
+    return _buildParagraph(children, trailingInlineWidget: trailing);
+  }
+
   Widget _buildRestrictedInlinePreview(List<md.Node> nodes) {
     final spans = collectRestrictedInlinePreviewSpans(nodes);
     if (spans.isEmpty) {
@@ -554,6 +658,15 @@ class _MarkdownBlockRenderer {
             ),
           ),
         ];
+      case 'alert':
+        return const <InlineSpan>[];
+      case 'block-spoiler':
+        return [
+          WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: _buildBlockSpoilerElement(node),
+          ),
+        ];
       default:
         if (_isInlineOnlyTag(node.tag)) {
           return _MarkdownInlineRenderer(
@@ -614,6 +727,12 @@ class _MarkdownBlockRenderer {
         return _buildTable(node);
       case 'hr':
         return _buildParagraph([md.Text(node.textContent)]);
+      case 'alert':
+        return _buildAlert(node);
+      case 'subtext':
+        return _buildSubtext(node);
+      case 'block-spoiler':
+        return _buildBlockSpoilerElement(node);
       default:
         if (_isInlineOnlyTag(node.tag)) {
           return _buildParagraph([node]);
@@ -648,6 +767,7 @@ class _MarkdownBlockRenderer {
     List<md.Node> nodes, {
     TextStyle? style,
     TextAlign? textAlign,
+    Widget? trailingInlineWidget,
   }) {
     final effectiveStyle = style ?? baseStyle;
     final spans = _MarkdownInlineRenderer(
@@ -664,6 +784,9 @@ class _MarkdownBlockRenderer {
     ).build(nodes);
 
     if (spans.isEmpty) {
+      if (trailingInlineWidget != null) {
+        return trailingInlineWidget;
+      }
       return buildFluxerBoundedRichText(
         text: TextSpan(text: '\n', style: effectiveStyle),
         baseStyle: effectiveStyle,
@@ -677,16 +800,63 @@ class _MarkdownBlockRenderer {
       );
     }
 
-    return buildFluxerBoundedRichText(
+    if (trailingInlineWidget != null) {
+      appendTrailingInlineWidget(spans, effectiveStyle, trailingInlineWidget);
+    }
+    final Widget richText = buildFluxerBoundedRichText(
       text: TextSpan(style: effectiveStyle, children: spans),
       baseStyle: effectiveStyle,
       textAlign: textAlign ?? TextAlign.start,
       textScaler: MediaQuery.textScalerOf(context),
       maxLines: maxLines,
       overflow: overflow,
-      textWidthBasis: maxLines != null
+      textWidthBasis: maxLines != null || trailingInlineWidget != null
           ? TextWidthBasis.parent
           : TextWidthBasis.longestLine,
+    );
+    if (trailingInlineWidget != null) {
+      return SizedBox(width: double.infinity, child: richText);
+    }
+    return richText;
+  }
+
+  Widget _buildAlert(md.Element node) {
+    final FluxerAlertType type =
+        tryParseFluxerAlertType(node.attributes['type'] ?? '') ??
+        FluxerAlertType.note;
+    final Widget body = _MarkdownBlockRenderer(
+      context: context,
+      baseStyle: baseStyle,
+      config: config,
+      features: features,
+      isDark: isDark,
+      maxLines: maxLines,
+      overflow: overflow,
+    ).build(node.children ?? const []);
+    return (config.alertBuilder ?? defaultFluxerAlertBuilder)(
+      context,
+      type,
+      body,
+      baseStyle,
+    );
+  }
+
+  Widget _buildSubtext(md.Element node) {
+    final TextStyle subtextStyle = baseStyle.copyWith(
+      fontSize: (baseStyle.fontSize ?? 16) * 0.8125,
+      color: Theme.of(context).colorScheme.onSurfaceVariant,
+      height: 1.375,
+    );
+    return _buildParagraph(node.children ?? const [], style: subtextStyle);
+  }
+
+  Widget _buildBlockSpoilerElement(md.Element node) {
+    return _FluxerSpoilerSpan(
+      initiallyRevealed: config.spoilersInitiallyRevealed,
+      spoilerBackgroundColor: config.spoilerBackgroundColor,
+      spoilerSyncController: config.spoilerSyncController,
+      syncKeys: _collectSpoilerSyncKeys(node, config.spoilerSyncKeyNormalizer),
+      child: _buildParagraph(node.children ?? const []),
     );
   }
 

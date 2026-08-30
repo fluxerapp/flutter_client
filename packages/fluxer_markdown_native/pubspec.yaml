@@ -21,6 +21,7 @@ dependencies:
   code_assets: '>=1.0.0 <2.0.0'
   ffi: ^2.1.0
   hooks: '>=1.0.2 <3.0.0'
+  markdown: ^7.3.1
 
 dev_dependencies:
   test: ^1.25.0

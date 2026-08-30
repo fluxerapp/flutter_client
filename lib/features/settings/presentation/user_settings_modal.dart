@@ -32,6 +32,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/user_blocked_u
 import 'package:fluxer_app/features/settings/presentation/widgets/user_connections.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_default_apps.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_developer_tools.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_feature_flags.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_gift_inventory.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_language_and_time.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_linked_devices.dart';
@@ -865,13 +866,16 @@ Widget _buildUserSettingsSectionContent({
           : UserShortcuts(scrollController: scrollController);
     case UserSettingsSection.applications:
     case UserSettingsSection.limitsConfig:
-    case UserSettingsSection.featureFlags:
     case UserSettingsSection.whatsNew:
       return _buildUserSettingsPlaceholder(
         context,
         section,
         scrollController: scrollController,
       );
+    case UserSettingsSection.featureFlags:
+      return scrollController == null
+          ? const UserFeatureFlags()
+          : UserFeatureFlags(scrollController: scrollController);
     case UserSettingsSection.developerTools:
       return scrollController == null
           ? const UserDeveloperTools()

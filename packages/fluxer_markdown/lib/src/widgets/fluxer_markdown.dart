@@ -7,6 +7,7 @@ import 'package:fluxer_markdown/src/parsing/fluxer_inline_syntaxes.dart';
 import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
 import 'package:fluxer_markdown/src/parsing/markdown_preprocessor.dart';
 import 'package:fluxer_markdown/src/parsing/message_line_parser.dart';
+import 'package:fluxer_markdown/src/parsing/provided_ast_emoji.dart';
 import 'package:fluxer_markdown/src/renderers/fluxer_markdown_renderers.dart';
 import 'package:fluxer_markdown/src/utils/bounded_text.dart';
 import 'package:fluxer_markdown/src/utils/highlight_languages.dart';
@@ -14,9 +15,23 @@ import 'package:fluxer_markdown/src/widgets/fluxer_markdown_link_registry.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:material_ui/material_ui.dart';
 
+/// Pre-parsed AST source for [FluxerMarkdown]; `null` falls back to the
+/// classic pipeline. MUST be a stable function reference; a fresh closure per
+/// build defeats the layout cache.
+typedef FluxerMarkdownAstParser =
+    List<md.Node>? Function(String data, FluxerMarkdownFeatures features);
+
 final MarkdownParseCache<(String, FluxerMarkdownFeatures), List<md.Node>>
 _blockNodeCache =
     MarkdownParseCache<(String, FluxerMarkdownFeatures), List<md.Node>>();
+
+final MarkdownParseCache<(String, FluxerMarkdownFeatures), List<md.Node>>
+_providedAstNodeCache =
+    MarkdownParseCache<(String, FluxerMarkdownFeatures), List<md.Node>>();
+
+final List<md.Node> _providedAstParseFailed = List<md.Node>.unmodifiable(
+  <md.Node>[],
+);
 
 class FluxerMarkdown extends StatefulWidget {
   const FluxerMarkdown({
@@ -29,6 +44,7 @@ class FluxerMarkdown extends StatefulWidget {
     this.maxLines,
     this.overflow,
     this.trailingInlineWidget,
+    this.astParser,
     super.key,
   });
 
@@ -41,6 +57,7 @@ class FluxerMarkdown extends StatefulWidget {
   final int? maxLines;
   final TextOverflow? overflow;
   final Widget? trailingInlineWidget;
+  final FluxerMarkdownAstParser? astParser;
 
   @override
   State<FluxerMarkdown> createState() => _FluxerMarkdownState();
@@ -111,6 +128,7 @@ class _FluxerMarkdownState extends State<FluxerMarkdown> {
       widget.overflow,
       widget.parseCacheKey,
       widget.trailingInlineWidget,
+      widget.astParser,
       widget.baseStyle,
       style,
       isDark,
@@ -169,6 +187,17 @@ class _FluxerMarkdownState extends State<FluxerMarkdown> {
     final FluxerMarkdownFeatures features = FluxerMarkdownFeatures.forContext(
       widget.context,
     );
+    if (widget.astParser != null) {
+      final Widget? provided = _buildProvidedAstMarkdown(
+        context: context,
+        style: style,
+        isDark: isDark,
+        features: features,
+      );
+      if (provided != null) {
+        return provided;
+      }
+    }
     final String processedText = preprocessFluxerMarkdown(
       widget.data,
       features,
@@ -268,6 +297,52 @@ class _FluxerMarkdownState extends State<FluxerMarkdown> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: segmentWidgets,
+    );
+  }
+
+  Widget? _buildProvidedAstMarkdown({
+    required BuildContext context,
+    required TextStyle style,
+    required bool isDark,
+    required FluxerMarkdownFeatures features,
+  }) {
+    final List<md.Node> nodes = _providedAstNodeCache.resolve(
+      (markdownParseCacheKey(widget.data, widget.parseCacheKey), features),
+      () {
+        final List<md.Node>? parsed = widget.astParser!(widget.data, features);
+        if (parsed == null) {
+          return _providedAstParseFailed;
+        }
+        return applyFluxerMarkdownEmojiPostPass(parsed, _createEmojiDocument());
+      },
+    );
+    if (identical(nodes, _providedAstParseFailed)) {
+      return null;
+    }
+    return buildFluxerMarkdownProvidedAst(
+      context: context,
+      nodes: nodes,
+      baseStyle: style,
+      config: widget.config,
+      features: features,
+      selectable: widget.selectable,
+      isDark: isDark,
+      maxLines: widget.maxLines,
+      overflow: widget.overflow,
+      trailingInlineWidget: widget.trailingInlineWidget,
+    );
+  }
+
+  md.Document _createEmojiDocument() {
+    return md.Document(
+      encodeHtml: false,
+      withDefaultBlockSyntaxes: false,
+      withDefaultInlineSyntaxes: false,
+      blockSyntaxes: const [],
+      inlineSyntaxes: fluxerEmojiInlineSyntaxes(
+        resolveEmojiShortcode: widget.config.resolveEmojiShortcode,
+        unicodeEmojiPattern: widget.config.unicodeEmojiPattern,
+      ),
     );
   }
 

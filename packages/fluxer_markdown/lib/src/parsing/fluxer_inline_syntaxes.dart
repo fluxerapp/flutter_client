@@ -57,3 +57,17 @@ List<md.InlineSyntax> fluxerInlineSyntaxes({
     ...fluxerStandardInlineSyntaxes(),
   ];
 }
+
+/// Excludes [FluxerCustomEmojiSyntax]: the native parser already emits
+/// custom emoji nodes.
+List<md.InlineSyntax> fluxerEmojiInlineSyntaxes({
+  required FluxerShortcodeResolver resolveEmojiShortcode,
+  RegExp? unicodeEmojiPattern,
+}) {
+  return <md.InlineSyntax>[
+    FluxerUnicodeEmojiToneSyntax(resolveEmojiShortcode),
+    FluxerUnicodeEmojiSyntax(resolveEmojiShortcode),
+    if (unicodeEmojiPattern != null)
+      FluxerRawUnicodeEmojiSyntax(unicodeEmojiPattern),
+  ];
+}
