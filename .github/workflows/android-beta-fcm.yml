@@ -85,6 +85,13 @@ jobs:
 
       - name: Set up Rust for the native markdown parser
         run: |
+          if ! command -v cargo >/dev/null 2>&1; then
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+              | sh -s -- -y --profile minimal --default-toolchain stable
+            echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
+            . "$HOME/.cargo/env"
+          fi
+          rustup show active-toolchain || rustup toolchain install stable
           rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-android
           flutter config --enable-native-assets
 
