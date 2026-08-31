@@ -30,11 +30,15 @@ Future<void> openDmChannel(WidgetTester tester) async {
   await tapBottomNav(tester, 'Home');
   await pumpUntil(
     tester,
-    find.byKey(const ValueKey<String>('dm-${IntegrationTestConfig.dmChannelId}')),
+    find.byKey(
+      const ValueKey<String>('dm-${IntegrationTestConfig.dmChannelId}'),
+    ),
   );
 
   await tester.tap(
-    find.byKey(const ValueKey<String>('dm-${IntegrationTestConfig.dmChannelId}')),
+    find.byKey(
+      const ValueKey<String>('dm-${IntegrationTestConfig.dmChannelId}'),
+    ),
   );
   await tester.pump();
   await pumpUntil(

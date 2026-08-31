@@ -25,7 +25,9 @@ void main() {
     await ensureAuthenticated(tester);
 
     await tester.tap(
-      find.byKey(const ValueKey<String>('guild-${IntegrationTestConfig.guildId}')),
+      find.byKey(
+        const ValueKey<String>('guild-${IntegrationTestConfig.guildId}'),
+      ),
     );
     await tester.pump();
     await tester.pump(const Duration(seconds: 2));

@@ -9,7 +9,9 @@ import '../support/test_account.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('bottom nav switches between main tabs', (WidgetTester tester) async {
+  testWidgets('bottom nav switches between main tabs', (
+    WidgetTester tester,
+  ) async {
     if (kIsWeb) {
       return;
     }
