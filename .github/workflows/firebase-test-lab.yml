@@ -163,7 +163,6 @@ jobs:
           set -euo pipefail
           chmod +x android/gradlew
 
-          TEST_APK_SRC="build/app/outputs/apk/androidTest/canaryUnifiedpush/debug/app-canaryunifiedpush-debug-androidTest.apk"
           mkdir -p test-apks
 
           while IFS= read -r entry; do
@@ -176,10 +175,13 @@ jobs:
               -Ptarget="../${target}"
             popd >/dev/null
 
-            if [ ! -f "$TEST_APK_SRC" ]; then
-              echo "::error::Instrumentation APK not found at ${TEST_APK_SRC}"
+            TEST_APK_SRC="$(find build/app/outputs/apk/androidTest -name '*-androidTest.apk' -type f | head -n 1)"
+            if [ -z "${TEST_APK_SRC:-}" ] || [ ! -f "$TEST_APK_SRC" ]; then
+              echo "::error::Instrumentation APK not found under build/app/outputs/apk/androidTest"
+              find build/app/outputs -name '*.apk' -type f || true
               exit 1
             fi
+            echo "Using instrumentation APK: ${TEST_APK_SRC}"
 
             mkdir -p "test-apks/${id}"
             cp "$TEST_APK_SRC" "test-apks/${id}/androidTest.apk"
