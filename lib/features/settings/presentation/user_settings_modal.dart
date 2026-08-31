@@ -351,13 +351,21 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
       return;
     }
     if (entry.isJoinFluxerLabs) {
-      unawaited(handleInviteLinkTap(context, kFluxerLabsInviteUrl));
+      unawaited(_joinFluxerLabs());
       return;
     }
     if (entry.isSeparator) {
       return;
     }
     setState(() => _selectedIndex = index);
+  }
+
+  Future<void> _joinFluxerLabs() async {
+    await handleInviteLinkTap(context, kFluxerLabsInviteUrl);
+    if (!mounted) {
+      return;
+    }
+    Navigator.of(context).pop();
   }
 
   void _onSearchHitSelected(UserSettingsSearchHit? hit) {
@@ -581,7 +589,7 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
               l10n: l10n,
               onOpenSection: _openSettingsPage,
               onOpenAppLogs: _openAppLogs,
-              onJoinFluxerLabs: _joinFluxerLabs,
+              onJoinFluxerLabs: () => unawaited(_joinFluxerLabs()),
               onLogout: _logout,
               showBilling: showBilling,
               showJoinFluxerLabs: showJoinFluxerLabs,
@@ -638,8 +646,12 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
     );
   }
 
-  void _joinFluxerLabs() {
-    unawaited(handleInviteLinkTap(context, kFluxerLabsInviteUrl));
+  Future<void> _joinFluxerLabs() async {
+    await handleInviteLinkTap(context, kFluxerLabsInviteUrl);
+    if (!mounted) {
+      return;
+    }
+    widget.onClose();
   }
 
   void _openAppLogs() {
