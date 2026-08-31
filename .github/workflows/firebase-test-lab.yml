@@ -203,11 +203,11 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
-  package-payload:
-    name: Package · ${{ matrix.id }}
+  firebase-test-lab:
+    name: Firebase · ${{ matrix.id }}
     needs: [prepare, build-apks]
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
@@ -224,39 +224,6 @@ jobs:
         with:
           name: test-lab-test-apks
           path: test-apks
-
-      - name: Assemble Test Lab payload
-        env:
-          TARGET_ID: ${{ matrix.id }}
-        run: |
-          set -euo pipefail
-          mkdir -p payload
-          cp "staging/app-canaryunifiedpush-debug.apk" payload/app.apk
-          cp "test-apks/${TARGET_ID}/androidTest.apk" payload/androidTest.apk
-
-      - name: Upload Test Lab payload
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
-        with:
-          name: test-lab-payload-${{ matrix.id }}
-          path: payload/
-          if-no-files-found: error
-          retention-days: 1
-
-  firebase-test-lab:
-    name: Firebase · ${{ matrix.id }}
-    needs: [prepare, package-payload]
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
-    strategy:
-      fail-fast: false
-      matrix:
-        include: ${{ fromJson(needs.prepare.outputs.matrix) }}
-    steps:
-      - name: Download Test Lab payload
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
-        with:
-          name: test-lab-payload-${{ matrix.id }}
-          path: payload
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@c200f3691d83b41bf9bbd8638997a462592937ed
@@ -275,12 +242,12 @@ jobs:
         run: |
           set -euo pipefail
 
-          APP_APK="payload/app.apk"
-          TEST_APK="payload/androidTest.apk"
+          APP_APK="staging/app-canaryunifiedpush-debug.apk"
+          TEST_APK="test-apks/${TARGET_ID}/androidTest.apk"
           RESULT_DIR="test-lab-results/${TARGET_ID}"
 
           if [ ! -f "$APP_APK" ] || [ ! -f "$TEST_APK" ]; then
-            echo "::error::Missing payload APKs for ${TARGET_ID}"
+            echo "::error::Missing APKs for ${TARGET_ID}"
             exit 1
           fi
 
