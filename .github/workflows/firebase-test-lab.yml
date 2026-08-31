@@ -55,13 +55,13 @@ jobs:
           )"
           echo "matrix=${MATRIX_JSON}" >> "$GITHUB_OUTPUT"
 
-  build:
-    name: Build app APK
+  build-apks:
+    name: Build APKs
     needs: prepare
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 90
     steps:
-      - name: Validate required secrets
+      - name: Validate build secrets
         env:
           GCP_PROJECT_ID: ${{ secrets.FIREBASE_TEST_LAB_PROJECT_ID }}
           HAS_SA_JSON: ${{ secrets.FIREBASE_TEST_LAB_SA_JSON != '' }}
@@ -86,6 +86,17 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
+
+      - name: Restore Gradle cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-test-lab-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-test-lab-
+            ${{ runner.os }}-gradle-
 
       - name: Set up Flutter
         uses: axi92/flutter-action@72633a794ba0b23276fa4fc465a6cacb758a90c5
@@ -145,6 +156,35 @@ jobs:
             --flavor canaryUnifiedpush \
             "${DART_DEFINES[@]}"
 
+      - name: Build instrumentation APKs
+        env:
+          MATRIX_JSON: ${{ needs.prepare.outputs.matrix }}
+        run: |
+          set -euo pipefail
+          chmod +x android/gradlew
+
+          TEST_APK_SRC="build/app/outputs/apk/androidTest/canaryUnifiedpush/debug/app-canaryunifiedpush-debug-androidTest.apk"
+          mkdir -p test-apks
+
+          while IFS= read -r entry; do
+            target="$(echo "$entry" | jq -r '.target')"
+            id="$(echo "$entry" | jq -r '.id')"
+            echo "Building instrumentation APK for ${target}"
+
+            pushd android >/dev/null
+            ./gradlew "app:assembleCanaryUnifiedpushDebugAndroidTest" \
+              -Ptarget="../${target}"
+            popd >/dev/null
+
+            if [ ! -f "$TEST_APK_SRC" ]; then
+              echo "::error::Instrumentation APK not found at ${TEST_APK_SRC}"
+              exit 1
+            fi
+
+            mkdir -p "test-apks/${id}"
+            cp "$TEST_APK_SRC" "test-apks/${id}/androidTest.apk"
+          done < <(echo "$MATRIX_JSON" | jq -c '.[]')
+
       - name: Upload app APK
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
@@ -153,9 +193,56 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
-  test-lab:
-    name: Test Lab · ${{ matrix.id }}
-    needs: [prepare, build]
+      - name: Upload instrumentation APKs
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: test-lab-test-apks
+          path: test-apks/
+          if-no-files-found: error
+          retention-days: 1
+
+  package-payload:
+    name: Package · ${{ matrix.id }}
+    needs: [prepare, build-apks]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJson(needs.prepare.outputs.matrix) }}
+    steps:
+      - name: Download app APK
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          name: test-lab-app-apk
+          path: staging
+
+      - name: Download instrumentation APKs
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          name: test-lab-test-apks
+          path: test-apks
+
+      - name: Assemble Test Lab payload
+        env:
+          TARGET_ID: ${{ matrix.id }}
+        run: |
+          set -euo pipefail
+          mkdir -p payload
+          cp "staging/app-canaryunifiedpush-debug.apk" payload/app.apk
+          cp "test-apks/${TARGET_ID}/androidTest.apk" payload/androidTest.apk
+
+      - name: Upload Test Lab payload
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: test-lab-payload-${{ matrix.id }}
+          path: payload/
+          if-no-files-found: error
+          retention-days: 1
+
+  firebase-test-lab:
+    name: Firebase · ${{ matrix.id }}
+    needs: [prepare, package-payload]
     runs-on: ubuntu-latest
     timeout-minutes: 60
     strategy:
@@ -163,52 +250,11 @@ jobs:
       matrix:
         include: ${{ fromJson(needs.prepare.outputs.matrix) }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-        with:
-          submodules: recursive
-
-      - name: Download app APK
+      - name: Download Test Lab payload
         uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
         with:
-          name: test-lab-app-apk
-          path: build/app/outputs/flutter-apk
-
-      - name: Set up Java
-        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
-        with:
-          distribution: temurin
-          java-version: "17"
-
-      - name: Restore Gradle cache
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-test-lab-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-test-lab-
-            ${{ runner.os }}-gradle-
-
-      - name: Set up Flutter
-        uses: axi92/flutter-action@72633a794ba0b23276fa4fc465a6cacb758a90c5
-        with:
-          channel: stable
-
-      - name: Restore pub cache
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
-        with:
-          path: ~/.pub-cache
-          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pub-
-
-      - name: Strip Firebase dependencies if present
-        run: dart tool/strip_firebase_deps.dart
-
-      - name: Install dependencies
-        run: flutter pub get
+          name: test-lab-payload-${{ matrix.id }}
+          path: payload
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@c200f3691d83b41bf9bbd8638997a462592937ed
@@ -218,53 +264,38 @@ jobs:
       - name: Set up gcloud
         uses: google-github-actions/setup-gcloud@e427ad8a34f8676edf47cf7d7925499adf3eb74f
 
-      - name: Run on Firebase Test Lab
-        id: test_lab
+      - name: Submit to Firebase Test Lab and collect results
+        id: firebase
         env:
           GCP_PROJECT_ID: ${{ secrets.FIREBASE_TEST_LAB_PROJECT_ID }}
-          TEST_TARGET: ${{ matrix.target }}
           TARGET_ID: ${{ matrix.id }}
           TIMEOUT_MINUTES: ${{ inputs.timeout_minutes }}
         run: |
           set -euo pipefail
-          chmod +x android/gradlew
 
-          TARGET_NAME="$TARGET_ID"
-          APP_APK="build/app/outputs/flutter-apk/app-canaryunifiedpush-debug.apk"
-          if [ ! -f "$APP_APK" ]; then
-            echo "::error::App APK not found at $APP_APK"
+          APP_APK="payload/app.apk"
+          TEST_APK="payload/androidTest.apk"
+          RESULT_DIR="test-lab-results/${TARGET_ID}"
+
+          if [ ! -f "$APP_APK" ] || [ ! -f "$TEST_APK" ]; then
+            echo "::error::Missing payload APKs for ${TARGET_ID}"
             exit 1
           fi
 
-          mkdir -p "test-lab-results/${TARGET_NAME}"
+          mkdir -p "$RESULT_DIR"
 
-          pushd android >/dev/null
-          ./gradlew "app:assembleCanaryUnifiedpushDebugAndroidTest" \
-            -Ptarget="../$TEST_TARGET"
-          popd >/dev/null
-
-          TEST_APK="build/app/outputs/apk/androidTest/canaryUnifiedpush/debug/app-canaryunifiedpush-debug-androidTest.apk"
-          if [ ! -f "$TEST_APK" ]; then
-            echo "::error::Test APK not found at $TEST_APK"
-            exit 1
-          fi
-
-          RESULT_JSON="$RUNNER_TEMP/test-lab-${TARGET_NAME}.json"
-          RESULT_STDERR="$RUNNER_TEMP/test-lab-${TARGET_NAME}.stderr"
-          RESULT_STDOUT="$RUNNER_TEMP/test-lab-${TARGET_NAME}.stdout"
-
-          DEVICE_FLAGS=(
-            --device "model=husky,version=34,locale=en,orientation=portrait"
-            --device "model=bluejay,version=33,locale=en,orientation=portrait"
-            --device "model=a10,version=29,locale=en,orientation=portrait"
-          )
+          RESULT_JSON="$RUNNER_TEMP/matrix.json"
+          RESULT_STDERR="$RUNNER_TEMP/gcloud.stderr"
+          RESULT_STDOUT="$RUNNER_TEMP/gcloud.stdout"
 
           set +e
           gcloud firebase test android run \
             --type instrumentation \
             --app "$APP_APK" \
             --test "$TEST_APK" \
-            "${DEVICE_FLAGS[@]}" \
+            --device "model=husky,version=34,locale=en,orientation=portrait" \
+            --device "model=bluejay,version=33,locale=en,orientation=portrait" \
+            --device "model=a10,version=29,locale=en,orientation=portrait" \
             --timeout "${TIMEOUT_MINUTES}m" \
             --project "$GCP_PROJECT_ID" \
             --format=json > "$RESULT_STDOUT" 2> "$RESULT_STDERR"
@@ -278,9 +309,9 @@ jobs:
             echo '{}' > "$RESULT_JSON"
           fi
 
-          cp "$RESULT_JSON" "test-lab-results/${TARGET_NAME}/matrix.json"
+          cp "$RESULT_JSON" "${RESULT_DIR}/matrix.json"
           if [ -s "$RESULT_STDERR" ]; then
-            cp "$RESULT_STDERR" "test-lab-results/${TARGET_NAME}/gcloud.stderr"
+            cp "$RESULT_STDERR" "${RESULT_DIR}/gcloud.stderr"
           fi
 
           GCS_PATH="$(jq -r '.resultStorage.googleCloudStorage.gcsPath // empty' "$RESULT_JSON")"
@@ -289,7 +320,7 @@ jobs:
           CONSOLE_URL="$(grep -Eo 'https://console.firebase.google.com[^ ]+' "$RESULT_STDERR" | head -1 || true)"
 
           {
-            echo "### ${TARGET_NAME}"
+            echo "### ${TARGET_ID}"
             echo ""
             echo "Devices: Pixel 8 Pro, Pixel 6a, Galaxy A10"
             if [ -n "$MATRIX_ID" ]; then
@@ -308,23 +339,23 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
           if [ -n "$GCS_PATH" ]; then
-            if ! gcloud storage cp --recursive "${GCS_PATH}" "test-lab-results/${TARGET_NAME}/artifacts"; then
+            if ! gcloud storage cp --recursive "${GCS_PATH}" "${RESULT_DIR}/artifacts"; then
               echo "::warning::Could not download Test Lab artifacts from ${GCS_PATH}"
             fi
           else
-            echo "::warning::No GCS results path returned for ${TARGET_NAME}"
+            echo "::warning::No GCS results path returned for ${TARGET_ID}"
           fi
 
           if [ "$GCLOUD_EXIT" -ne 0 ]; then
-            echo "::error::Test Lab run failed for ${TEST_TARGET} (exit ${GCLOUD_EXIT})"
+            echo "::error::Firebase Test Lab failed for ${TARGET_ID} (exit ${GCLOUD_EXIT})"
             exit 1
           fi
 
-      - name: Upload Test Lab results
-        if: always() && steps.test_lab.conclusion != 'skipped'
+      - name: Upload results
+        if: always() && steps.firebase.conclusion != 'skipped'
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
-          name: test-lab-${{ matrix.id }}
+          name: test-lab-results-${{ matrix.id }}
           path: test-lab-results/
           if-no-files-found: warn
           retention-days: 14
