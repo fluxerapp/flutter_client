@@ -13,9 +13,3 @@ void requireGuildChannelConfig() {
     fail('Set TEST_LAB_GUILD_ID and TEST_LAB_CHANNEL_ID dart-defines');
   }
 }
-
-void requireDmChannelConfig() {
-  if (!IntegrationTestConfig.hasDmChannel) {
-    fail('Set TEST_LAB_DM_CHANNEL_ID dart-define');
-  }
-}

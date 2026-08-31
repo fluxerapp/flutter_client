@@ -21,29 +21,20 @@ Future<void> openGuildChannel(WidgetTester tester) async {
     tester,
     find.bySemanticsLabel('Loading messages'),
     found: false,
+    timeout: IntegrationTestConfig.navigationTimeout,
   );
 }
 
-Future<void> openDmChannel(WidgetTester tester) async {
-  requireDmChannelConfig();
-
+Future<void> openPersonalNotes(WidgetTester tester) async {
   await tapBottomNav(tester, 'Home');
-  await pumpUntil(
-    tester,
-    find.byKey(
-      const ValueKey<String>('dm-${IntegrationTestConfig.dmChannelId}'),
-    ),
-  );
+  await pumpUntil(tester, find.text(IntegrationTestConfig.personalNotesTitle));
 
-  await tester.tap(
-    find.byKey(
-      const ValueKey<String>('dm-${IntegrationTestConfig.dmChannelId}'),
-    ),
-  );
+  await tester.tap(find.text(IntegrationTestConfig.personalNotesTitle));
   await tester.pump();
   await pumpUntil(
     tester,
     find.bySemanticsLabel('Loading messages'),
     found: false,
+    timeout: IntegrationTestConfig.navigationTimeout,
   );
 }

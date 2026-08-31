@@ -3,31 +3,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
-import '../support/app_launcher.dart';
+import '../support/navigation_helpers.dart';
 import '../support/perf_utils.dart';
-import '../support/scroll_utils.dart';
-import '../support/test_account.dart';
+import '../support/session_helpers.dart';
 
 void main() {
   final IntegrationTestWidgetsFlutterBinding binding =
       IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('dm home list scroll perf', (WidgetTester tester) async {
+  testWidgets('personal notes message list scroll perf', (
+    WidgetTester tester,
+  ) async {
     if (kIsWeb) {
       return;
     }
 
-    await launchFluxerApp(tester);
-    await ensureAuthenticated(tester);
-    await tapBottomNav(tester, 'Home');
+    await bootstrapAuthenticatedApp(tester);
+    await openPersonalNotes(tester);
 
-    expect(find.byType(Scrollable), findsWidgets);
+    expect(find.byType(ListView), findsWidgets);
 
     await traceScrollPerf(
       binding,
       tester,
-      reportKey: 'dm_list_scroll',
-      scrollTarget: findPrimaryScrollable(),
+      reportKey: 'personal_notes_scroll',
+      scrollTarget: find.byType(ListView).first,
     );
   });
 }

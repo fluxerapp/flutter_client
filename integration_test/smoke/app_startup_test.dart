@@ -28,7 +28,6 @@ void main() {
       return;
     }
 
-    await launchFluxerApp(tester);
     await ensureAuthenticated(tester);
 
     expect(find.bySemanticsLabel('Home'), findsOneWidget);

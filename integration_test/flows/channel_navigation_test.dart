@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
-import '../support/app_launcher.dart';
 import '../support/navigation_helpers.dart';
-import '../support/test_account.dart';
+import '../support/session_helpers.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -15,22 +14,20 @@ void main() {
       return;
     }
 
-    await launchFluxerApp(tester);
-    await ensureAuthenticated(tester);
+    await bootstrapAuthenticatedApp(tester);
     await openGuildChannel(tester);
 
     expect(find.byType(ListView), findsWidgets);
     expect(find.bySemanticsLabel('Loading messages'), findsNothing);
   });
 
-  testWidgets('open dm channel from home list', (WidgetTester tester) async {
+  testWidgets('open personal notes from home', (WidgetTester tester) async {
     if (kIsWeb) {
       return;
     }
 
-    await launchFluxerApp(tester);
-    await ensureAuthenticated(tester);
-    await openDmChannel(tester);
+    await bootstrapAuthenticatedApp(tester);
+    await openPersonalNotes(tester);
 
     expect(find.byType(ListView), findsWidgets);
     expect(find.bySemanticsLabel('Loading messages'), findsNothing);
