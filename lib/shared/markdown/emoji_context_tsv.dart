@@ -68,9 +68,7 @@ void _appendShortcodeRecords(StringBuffer buffer, String input) {
     if (seen.add('C:$name')) {
       final String? raw = EmojiRegistry.resolveSync(name);
       if (raw != null) {
-        buffer.writeln(
-          ['C', name, raw, emojiToCodePoints(raw)].join('\t'),
-        );
+        buffer.writeln(['C', name, raw, emojiToCodePoints(raw)].join('\t'));
       }
     }
     for (var tone = 1; tone <= 5; tone++) {
@@ -87,7 +85,6 @@ void _appendShortcodeRecords(StringBuffer buffer, String input) {
   }
 }
 
-String _stripTrailingVs16(String candidate) =>
-    candidate.endsWith('\uFE0F')
+String _stripTrailingVs16(String candidate) => candidate.endsWith('\uFE0F')
     ? candidate.substring(0, candidate.length - 1)
     : candidate;
