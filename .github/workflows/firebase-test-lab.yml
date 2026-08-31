@@ -60,7 +60,6 @@ jobs:
     needs: prepare
     runs-on: ubuntu-latest
     timeout-minutes: 60
-    environment: release-builds
     steps:
       - name: Validate required secrets
         env:
@@ -159,7 +158,6 @@ jobs:
     needs: [prepare, build]
     runs-on: ubuntu-latest
     timeout-minutes: 60
-    environment: release-builds
     strategy:
       fail-fast: false
       matrix:
