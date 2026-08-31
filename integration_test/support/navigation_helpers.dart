@@ -21,7 +21,6 @@ Future<void> openGuildChannel(WidgetTester tester) async {
     tester,
     find.bySemanticsLabel('Loading messages'),
     found: false,
-    timeout: IntegrationTestConfig.navigationTimeout,
   );
 }
 
@@ -35,6 +34,5 @@ Future<void> openPersonalNotes(WidgetTester tester) async {
     tester,
     find.bySemanticsLabel('Loading messages'),
     found: false,
-    timeout: IntegrationTestConfig.navigationTimeout,
   );
 }

@@ -1,0 +1,332 @@
+name: Firebase Test Lab
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_target:
+        description: Integration test target
+        required: true
+        default: all
+        type: choice
+        options:
+          - all
+          - smoke/app_startup_test.dart
+          - smoke/bottom_nav_test.dart
+          - perf/message_list_scroll_test.dart
+          - perf/personal_notes_scroll_test.dart
+          - perf/guild_navbar_scroll_test.dart
+          - perf/notifications_scroll_test.dart
+          - perf/settings_scroll_test.dart
+          - flows/channel_navigation_test.dart
+      timeout_minutes:
+        description: Per-test timeout in minutes
+        required: true
+        default: "20"
+        type: string
+
+jobs:
+  prepare:
+    name: Resolve test targets
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set_targets.outputs.matrix }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          submodules: recursive
+
+      - name: Resolve targets
+        id: set_targets
+        env:
+          TEST_TARGET_INPUT: ${{ inputs.test_target }}
+        run: |
+          set -euo pipefail
+          if [ "$TEST_TARGET_INPUT" = "all" ]; then
+            mapfile -t TARGETS < <(find integration_test/smoke integration_test/perf integration_test/flows -name '*_test.dart' | sort)
+          else
+            TARGETS=("integration_test/$TEST_TARGET_INPUT")
+          fi
+          MATRIX_JSON="$(
+            printf '%s\n' "${TARGETS[@]}" | while IFS= read -r target; do
+              id="$(echo "$target" | sed 's|^integration_test/||' | tr '/' '-' | sed 's|\.dart$||')"
+              jq -n --arg target "$target" --arg id "$id" '{target: $target, id: $id}'
+            done | jq -s -c .
+          )"
+          echo "matrix=${MATRIX_JSON}" >> "$GITHUB_OUTPUT"
+
+  build:
+    name: Build app APK
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    environment: release-builds
+    steps:
+      - name: Validate required secrets
+        env:
+          GCP_PROJECT_ID: ${{ secrets.FIREBASE_TEST_LAB_PROJECT_ID }}
+          HAS_SA_JSON: ${{ secrets.FIREBASE_TEST_LAB_SA_JSON != '' }}
+        run: |
+          set -euo pipefail
+          if [ -z "${GCP_PROJECT_ID:-}" ]; then
+            echo "::error::FIREBASE_TEST_LAB_PROJECT_ID secret is required"
+            exit 1
+          fi
+          if [ "${HAS_SA_JSON}" != "true" ]; then
+            echo "::error::FIREBASE_TEST_LAB_SA_JSON secret is required"
+            exit 1
+          fi
+
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          submodules: recursive
+
+      - name: Set up Java
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Flutter
+        uses: axi92/flutter-action@72633a794ba0b23276fa4fc465a6cacb758a90c5
+        with:
+          channel: stable
+
+      - name: Restore pub cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
+      - name: Restore build_runner cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: .dart_tool/build
+          key: ${{ runner.os }}-build-runner-${{ hashFiles('pubspec.lock', 'lib/**', 'build.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-runner-
+
+      - name: Strip Firebase dependencies if present
+        run: dart tool/strip_firebase_deps.dart
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run code generation
+        run: dart run build_runner build
+
+      - name: Build debug app APK
+        env:
+          TEST_LAB_EMAIL: ${{ secrets.TEST_LAB_EMAIL }}
+          TEST_LAB_PASSWORD: ${{ secrets.TEST_LAB_PASSWORD }}
+          TEST_LAB_GUILD_ID: ${{ secrets.TEST_LAB_GUILD_ID }}
+          TEST_LAB_CHANNEL_ID: ${{ secrets.TEST_LAB_CHANNEL_ID }}
+        run: |
+          set -euo pipefail
+          DART_DEFINES=(
+            --dart-define-from-file=tool/dart_defines/canary.json
+            --dart-define=PUSH_PROVIDER=unifiedpush
+          )
+          if [ -n "${TEST_LAB_EMAIL:-}" ]; then
+            DART_DEFINES+=(--dart-define=TEST_LAB_EMAIL="$TEST_LAB_EMAIL")
+          fi
+          if [ -n "${TEST_LAB_PASSWORD:-}" ]; then
+            DART_DEFINES+=(--dart-define=TEST_LAB_PASSWORD="$TEST_LAB_PASSWORD")
+          fi
+          if [ -n "${TEST_LAB_GUILD_ID:-}" ]; then
+            DART_DEFINES+=(--dart-define=TEST_LAB_GUILD_ID="$TEST_LAB_GUILD_ID")
+          fi
+          if [ -n "${TEST_LAB_CHANNEL_ID:-}" ]; then
+            DART_DEFINES+=(--dart-define=TEST_LAB_CHANNEL_ID="$TEST_LAB_CHANNEL_ID")
+          fi
+          flutter build apk --debug \
+            --flavor canaryUnifiedpush \
+            "${DART_DEFINES[@]}"
+
+      - name: Upload app APK
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: test-lab-app-apk
+          path: build/app/outputs/flutter-apk/app-canaryunifiedpush-debug.apk
+          if-no-files-found: error
+          retention-days: 1
+
+  test-lab:
+    name: Test Lab · ${{ matrix.id }}
+    needs: [prepare, build]
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    environment: release-builds
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJson(needs.prepare.outputs.matrix) }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          submodules: recursive
+
+      - name: Download app APK
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          name: test-lab-app-apk
+          path: build/app/outputs/flutter-apk
+
+      - name: Set up Java
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Restore Gradle cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-test-lab-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-test-lab-
+            ${{ runner.os }}-gradle-
+
+      - name: Set up Flutter
+        uses: axi92/flutter-action@72633a794ba0b23276fa4fc465a6cacb758a90c5
+        with:
+          channel: stable
+
+      - name: Restore pub cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
+      - name: Strip Firebase dependencies if present
+        run: dart tool/strip_firebase_deps.dart
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@c200f3691d83b41bf9bbd8638997a462592937ed
+        with:
+          credentials_json: ${{ secrets.FIREBASE_TEST_LAB_SA_JSON }}
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@e427ad8a34f8676edf47cf7d7925499adf3eb74f
+
+      - name: Run on Firebase Test Lab
+        id: test_lab
+        env:
+          GCP_PROJECT_ID: ${{ secrets.FIREBASE_TEST_LAB_PROJECT_ID }}
+          TEST_TARGET: ${{ matrix.target }}
+          TARGET_ID: ${{ matrix.id }}
+          TIMEOUT_MINUTES: ${{ inputs.timeout_minutes }}
+        run: |
+          set -euo pipefail
+          chmod +x android/gradlew
+
+          TARGET_NAME="$TARGET_ID"
+          APP_APK="build/app/outputs/flutter-apk/app-canaryunifiedpush-debug.apk"
+          if [ ! -f "$APP_APK" ]; then
+            echo "::error::App APK not found at $APP_APK"
+            exit 1
+          fi
+
+          mkdir -p "test-lab-results/${TARGET_NAME}"
+
+          pushd android >/dev/null
+          ./gradlew "app:assembleCanaryUnifiedpushDebugAndroidTest" \
+            -Ptarget="../$TEST_TARGET"
+          popd >/dev/null
+
+          TEST_APK="build/app/outputs/apk/androidTest/canaryUnifiedpush/debug/app-canaryunifiedpush-debug-androidTest.apk"
+          if [ ! -f "$TEST_APK" ]; then
+            echo "::error::Test APK not found at $TEST_APK"
+            exit 1
+          fi
+
+          RESULT_JSON="$RUNNER_TEMP/test-lab-${TARGET_NAME}.json"
+          RESULT_STDERR="$RUNNER_TEMP/test-lab-${TARGET_NAME}.stderr"
+          RESULT_STDOUT="$RUNNER_TEMP/test-lab-${TARGET_NAME}.stdout"
+
+          DEVICE_FLAGS=(
+            --device "model=husky,version=34,locale=en,orientation=portrait"
+            --device "model=bluejay,version=33,locale=en,orientation=portrait"
+            --device "model=a10,version=29,locale=en,orientation=portrait"
+          )
+
+          set +e
+          gcloud firebase test android run \
+            --type instrumentation \
+            --app "$APP_APK" \
+            --test "$TEST_APK" \
+            "${DEVICE_FLAGS[@]}" \
+            --timeout "${TIMEOUT_MINUTES}m" \
+            --project "$GCP_PROJECT_ID" \
+            --format=json > "$RESULT_STDOUT" 2> "$RESULT_STDERR"
+          GCLOUD_EXIT=$?
+          set -e
+
+          cat "$RESULT_STDERR" || true
+          if [ -s "$RESULT_STDOUT" ]; then
+            cp "$RESULT_STDOUT" "$RESULT_JSON"
+          else
+            echo '{}' > "$RESULT_JSON"
+          fi
+
+          cp "$RESULT_JSON" "test-lab-results/${TARGET_NAME}/matrix.json"
+          if [ -s "$RESULT_STDERR" ]; then
+            cp "$RESULT_STDERR" "test-lab-results/${TARGET_NAME}/gcloud.stderr"
+          fi
+
+          GCS_PATH="$(jq -r '.resultStorage.googleCloudStorage.gcsPath // empty' "$RESULT_JSON")"
+          MATRIX_ID="$(jq -r '.testMatrixId // empty' "$RESULT_JSON")"
+          MATRIX_STATE="$(jq -r '.state // empty' "$RESULT_JSON")"
+          CONSOLE_URL="$(grep -Eo 'https://console.firebase.google.com[^ ]+' "$RESULT_STDERR" | head -1 || true)"
+
+          {
+            echo "### ${TARGET_NAME}"
+            echo ""
+            echo "Devices: Pixel 8 Pro, Pixel 6a, Galaxy A10"
+            if [ -n "$MATRIX_ID" ]; then
+              echo "- Matrix ID: \`${MATRIX_ID}\`"
+            fi
+            if [ -n "$MATRIX_STATE" ]; then
+              echo "- State: \`${MATRIX_STATE}\`"
+            fi
+            if [ -n "$CONSOLE_URL" ]; then
+              echo "- [Firebase Console](${CONSOLE_URL})"
+            fi
+            if [ -n "$GCS_PATH" ]; then
+              echo "- Source: \`${GCS_PATH}\`"
+            fi
+            echo ""
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ -n "$GCS_PATH" ]; then
+            if ! gcloud storage cp --recursive "${GCS_PATH}" "test-lab-results/${TARGET_NAME}/artifacts"; then
+              echo "::warning::Could not download Test Lab artifacts from ${GCS_PATH}"
+            fi
+          else
+            echo "::warning::No GCS results path returned for ${TARGET_NAME}"
+          fi
+
+          if [ "$GCLOUD_EXIT" -ne 0 ]; then
+            echo "::error::Test Lab run failed for ${TEST_TARGET} (exit ${GCLOUD_EXIT})"
+            exit 1
+          fi
+
+      - name: Upload Test Lab results
+        if: always() && steps.test_lab.conclusion != 'skipped'
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: test-lab-${{ matrix.id }}
+          path: test-lab-results/
+          if-no-files-found: warn
+          retention-days: 14
