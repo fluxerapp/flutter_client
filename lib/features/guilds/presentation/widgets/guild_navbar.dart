@@ -858,7 +858,9 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
                     temporary: temporary,
                   ),
                 );
-                final code = invite.toGuildInviteMetadataResponse().code;
+                final code = GuildInviteMetadataResponse.fromJson(
+                  invite.toJson(),
+                ).code;
                 return (url: '$inviteBase/$code', channelName: invitable.name);
               },
           onGetRecipients: () async {
@@ -1502,7 +1504,9 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
                       temporary: temporary,
                     ),
                   );
-                  final code = invite.toGuildInviteMetadataResponse().code;
+                  final code = GuildInviteMetadataResponse.fromJson(
+                    invite.toJson(),
+                  ).code;
                   return (
                     url: '$inviteBase/$code',
                     channelName: invitable.name,
@@ -1943,7 +1947,9 @@ Widget _buildGuildMenuActionItem({
               temporary: temporary,
             ),
           );
-          final code = invite.toGuildInviteMetadataResponse().code;
+          final code = GuildInviteMetadataResponse.fromJson(
+            invite.toJson(),
+          ).code;
           return (url: '$inviteBase/$code', channelName: invitable.name);
         },
     onGetRecipients: () async {

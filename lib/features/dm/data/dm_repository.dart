@@ -437,7 +437,7 @@ class DmRepository {
               temporary: false,
             ),
           );
-      return invite.toGroupDmInviteMetadataResponse().code;
+      return GroupDmInviteMetadataResponse.fromJson(invite.toJson()).code;
     } on DioException catch (e) {
       throw Exception(e.response?.statusMessage ?? 'Failed to create invite');
     }
