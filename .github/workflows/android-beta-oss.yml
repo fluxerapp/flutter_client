@@ -78,6 +78,11 @@ jobs:
       - name: Strip Firebase dependencies if present
         run: dart tool/strip_firebase_deps.dart
 
+      - name: Set up Rust for the native markdown parser
+        run: |
+          rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-android
+          flutter config --enable-native-assets
+
       - name: Get dependencies
         run: flutter pub get
 

@@ -95,6 +95,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-runner-
 
+      - name: Set up Rust
+        run: |
+          if ! command -v cargo >/dev/null 2>&1; then
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+              | sh -s -- -y --profile minimal --default-toolchain stable
+            echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
+          fi
+          rustup show active-toolchain || rustup toolchain install stable
+
+      - name: Enable native asset build hooks
+        run: flutter config --enable-native-assets
+
       - name: Strip Firebase dependencies if present
         run: dart tool/strip_firebase_deps.dart
 

@@ -28,6 +28,16 @@ jobs:
         uses: axi92/flutter-action@72633a794ba0b23276fa4fc465a6cacb758a90c5
         with:
           channel: stable
+
+      - name: Set up Rust and native asset build hooks
+        run: |
+          if ! command -v cargo >/dev/null 2>&1; then
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+              | sh -s -- -y --profile minimal --default-toolchain stable
+            echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
+          fi
+          rustup show active-toolchain || rustup toolchain install stable
+          flutter config --enable-native-assets
       - name: Restore pub cache
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
