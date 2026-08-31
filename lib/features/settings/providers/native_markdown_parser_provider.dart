@@ -12,14 +12,14 @@ bool nativeMarkdownParserIsAvailable() => AppBuildConfig.isCanary;
 @Riverpod(keepAlive: true)
 class NativeMarkdownParserSetting extends _$NativeMarkdownParserSetting {
   @override
-  bool build() => false;
+  bool build() => nativeMarkdownParserIsAvailable();
 
   Future<void> load() async {
     if (!nativeMarkdownParserIsAvailable()) {
       return;
     }
     final SharedPreferences preferences = await SharedPreferences.getInstance();
-    state = preferences.getBool(_kNativeMarkdownParserEnabledKey) ?? false;
+    state = preferences.getBool(_kNativeMarkdownParserEnabledKey) ?? true;
   }
 
   Future<void> setEnabled({required bool value}) async {

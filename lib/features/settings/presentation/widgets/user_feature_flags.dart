@@ -28,9 +28,9 @@ class UserFeatureFlags extends ConsumerWidget {
               FluxerSettingsSwitchItem(
                 label: 'Native markdown parser',
                 description:
-                    'Parse messages with the canonical Rust parser instead '
-                    'of the Dart reimplementation. Falls back to the Dart '
-                    'parser on any native failure.',
+                    'Parse messages with the canonical Rust parser (default '
+                    'on canary). Turning this off, or any native failure, '
+                    'falls back to the Dart parser.',
                 value: ref.watch(nativeMarkdownParserSettingProvider),
                 enabled: nativeMarkdownParserIsAvailable(),
                 onChanged: (bool value) => ref
