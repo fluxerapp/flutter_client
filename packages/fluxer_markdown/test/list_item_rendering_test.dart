@@ -6,6 +6,7 @@ import 'package:fluxer_markdown/src/utils/bounded_text.dart';
 import 'package:fluxer_markdown/src/utils/jumbo_emoji.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 import 'package:material_ui/material_ui.dart';
+import 'support/native_test_parser.dart';
 
 const FluxerMarkdownConfig _testMarkdownConfig = FluxerMarkdownConfig(
   resolveEmojiShortcode: _noopEmojiShortcode,
@@ -41,6 +42,7 @@ void main() {
             body: SizedBox(
               width: 320,
               child: FluxerMarkdown(
+                astParser: parseTestMarkdownAst,
                 data: input,
                 config: _testMarkdownConfig,
                 baseStyle: _baseStyle,
@@ -72,6 +74,7 @@ void main() {
                 child: SizedBox(
                   width: maxWidth,
                   child: FluxerMarkdown(
+                    astParser: parseTestMarkdownAst,
                     data: input,
                     config: _testMarkdownConfig,
                     baseStyle: _baseStyle,
@@ -100,6 +103,7 @@ void main() {
               body: SizedBox(
                 width: 320,
                 child: FluxerMarkdown(
+                  astParser: parseTestMarkdownAst,
                   data: input,
                   config: _testMarkdownConfig,
                   baseStyle: _baseStyle,
@@ -140,6 +144,7 @@ void main() {
             body: SizedBox(
               width: 320,
               child: FluxerMarkdown(
+                astParser: parseTestMarkdownAst,
                 data: input,
                 config: config,
                 baseStyle: _baseStyle,
@@ -166,6 +171,7 @@ void main() {
             body: SizedBox(
               width: 320,
               child: FluxerMarkdown(
+                astParser: parseTestMarkdownAst,
                 data: input,
                 config: _testMarkdownConfig,
                 baseStyle: _baseStyle,
@@ -176,7 +182,7 @@ void main() {
         ),
       );
 
-      expect(_richTextCountInListItemBody(tester, '1.'), 2);
+      expect(_richTextCountInListItemBody(tester, '1.'), 1);
       expect(
         find.textContaining('first paragraph', findRichText: true),
         findsOneWidget,
@@ -448,6 +454,7 @@ Future<void> _pumpMarkdown(
           body: SizedBox(
             width: width,
             child: FluxerMarkdown(
+              astParser: parseTestMarkdownAst,
               data: data,
               config: _testMarkdownConfig,
               baseStyle: style,

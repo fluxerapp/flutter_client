@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
+import 'package:fluxer_app/shared/markdown/native_markdown_parser.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 import 'package:go_router/go_router.dart';
 
@@ -519,6 +520,7 @@ Widget _drawerHarnessWithWideTable() {
       width: 400,
       height: 120,
       child: FluxerMarkdown(
+        astParser: parseNativeFluxerMarkdownAst,
         data: kWideMarkdownTable,
         config: kWideTableMarkdownConfig,
       ),

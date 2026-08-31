@@ -1,10 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
+import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 import 'package:material_ui/material_ui.dart';
 
-import 'support/markdown_parse_test_helper.dart';
+import 'support/native_test_parser.dart';
 
 const FluxerMarkdownConfig _testMarkdownConfig = FluxerMarkdownConfig(
   resolveEmojiShortcode: _noopEmojiShortcode,
@@ -23,7 +24,7 @@ String _noopCustomEmojiUrl({
 }) => '';
 
 void main() {
-  final features = MarkdownParseTestHelper.featuresFor(
+  final features = FluxerMarkdownFeatures.forContext(
     FluxerMarkdownContext.restrictedUserBio,
   );
 
@@ -50,41 +51,36 @@ void main() {
     });
 
     test('does not parse role or everyone mentions', () {
-      final nodes = MarkdownParseTestHelper.parseInline(
-        '@everyone <@&123>',
-        features,
-      );
-      expect(MarkdownParseTestHelper.collectText(nodes), '@everyone <@&123>');
+      final nodes = parseTestMarkdownAst('@everyone <@&123>', features);
+      expect(containsMarkdownTag(nodes, 'mention-role'), isFalse);
+      expect(containsMarkdownTag(nodes, 'mention-everyone'), isFalse);
+      expect(collectMarkdownText(nodes), '@everyone <@&123>');
     });
 
-    test('escapes headings, subtext, and fenced code blocks', () {
-      final processed = MarkdownParseTestHelper.preprocess(
+    test('keeps headings, subtext, and fenced code blocks literal', () {
+      final nodes = parseTestMarkdownAst(
         '# heading\n-# note\n```\ncode\n```',
         features,
       );
-      expect(processed, contains(r'\# heading'));
-      expect(processed, contains(r'\-# note'));
-      expect(processed, contains(r'\```'));
+      expect(containsMarkdownTag(nodes, 'h1'), isFalse);
+      expect(containsMarkdownTag(nodes, 'subtext'), isFalse);
+      expect(containsMarkdownTag(nodes, 'pre'), isFalse);
+      final String text = collectMarkdownText(nodes);
+      expect(text, contains('# heading'));
+      expect(text, contains('-# note'));
+      expect(text, contains('```'));
     });
 
     test('keeps blockquotes and lists enabled', () {
-      final processed = MarkdownParseTestHelper.preprocess(
-        '> quote\n- item',
-        features,
-      );
-      expect(processed, '> quote\n- item');
+      final nodes = parseTestMarkdownAst('> quote\n- item', features);
+      expect(containsMarkdownTag(nodes, 'blockquote'), isTrue);
+      expect(containsMarkdownTag(nodes, 'ul'), isTrue);
     });
 
     test('parses user mentions and inline spoilers', () {
-      final nodes = MarkdownParseTestHelper.parseInline(
-        '<@123> ||secret||',
-        features,
-      );
-      expect(
-        MarkdownParseTestHelper.containsTag(nodes, 'mention-user'),
-        isTrue,
-      );
-      expect(MarkdownParseTestHelper.containsTag(nodes, 'spoiler'), isTrue);
+      final nodes = parseTestMarkdownAst('<@123> ||secret||', features);
+      expect(containsMarkdownTag(nodes, 'mention-user'), isTrue);
+      expect(containsMarkdownTag(nodes, 'spoiler'), isTrue);
     });
 
     testWidgets('renders blockquotes and lists as block content', (
@@ -94,6 +90,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: FluxerMarkdown(
+              astParser: parseTestMarkdownAst,
               data: '> quote\n- item',
               config: _testMarkdownConfig,
               context: FluxerMarkdownContext.restrictedUserBio,

@@ -6,6 +6,7 @@ import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 import 'package:fluxer_markdown/src/widgets/system_emoji_fallback.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:material_ui/material_ui.dart';
+import 'support/native_test_parser.dart';
 
 const FluxerMarkdownConfig _testConfig = FluxerMarkdownConfig(
   resolveEmojiShortcode: _noopEmojiShortcode,
@@ -43,13 +44,13 @@ md.Element _element(
   return element;
 }
 
-List<md.Node>? _paragraphParser(String data, FluxerMarkdownFeatures features) {
+List<md.Node> _paragraphParser(String data, FluxerMarkdownFeatures features) {
   return [
     _element('p', [md.Text(data)]),
   ];
 }
 
-List<md.Node>? _alertParser(String data, FluxerMarkdownFeatures features) {
+List<md.Node> _alertParser(String data, FluxerMarkdownFeatures features) {
   return [
     _element(
       'alert',
@@ -61,13 +62,13 @@ List<md.Node>? _alertParser(String data, FluxerMarkdownFeatures features) {
   ];
 }
 
-List<md.Node>? _subtextParser(String data, FluxerMarkdownFeatures features) {
+List<md.Node> _subtextParser(String data, FluxerMarkdownFeatures features) {
   return [
     _element('subtext', [md.Text(data)]),
   ];
 }
 
-List<md.Node>? _blockSpoilerParser(
+List<md.Node> _blockSpoilerParser(
   String data,
   FluxerMarkdownFeatures features,
 ) {
@@ -75,9 +76,6 @@ List<md.Node>? _blockSpoilerParser(
     _element('block-spoiler', [md.Text(data)]),
   ];
 }
-
-List<md.Node>? _fallbackParser(String data, FluxerMarkdownFeatures features) =>
-    null;
 
 Widget _wrap(Widget child) => MaterialApp(home: Scaffold(body: child));
 
@@ -149,7 +147,7 @@ void main() {
   });
 
   testWidgets('inline spoiler in provided AST reveals on tap', (tester) async {
-    List<md.Node>? spoilerParser(String data, FluxerMarkdownFeatures features) {
+    List<md.Node> spoilerParser(String data, FluxerMarkdownFeatures features) {
       return [
         _element('p', [
           md.Text('before '),
@@ -200,39 +198,15 @@ void main() {
     expect(find.byType(RichText), findsOneWidget);
   });
 
-  testWidgets('null parser result falls back to the classic pipeline', (
+  testWidgets('emoji context turns unicode emoji into emoji widgets', (
     tester,
   ) async {
     await tester.pumpWidget(
       _wrap(
         const FluxerMarkdown(
-          data: '**classic fallback bold**',
+          data: 'native emoji \u{1F600} case',
           config: _testConfig,
-          astParser: _fallbackParser,
-        ),
-      ),
-    );
-    expect(
-      find.textContaining('classic fallback bold', findRichText: true),
-      findsOneWidget,
-    );
-  });
-
-  testWidgets('emoji post-pass expands unicode emoji in text leaves', (
-    tester,
-  ) async {
-    final config = FluxerMarkdownConfig(
-      resolveEmojiShortcode: _noopEmojiShortcode,
-      unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
-      customEmojiUrlBuilder: _noopCustomEmojiUrl,
-      unicodeEmojiPattern: RegExp('\u{1F600}'),
-    );
-    await tester.pumpWidget(
-      _wrap(
-        FluxerMarkdown(
-          data: 'emoji postpass \u{1F600} case',
-          config: config,
-          astParser: _paragraphParser,
+          astParser: parseTestMarkdownAst,
         ),
       ),
     );
@@ -242,7 +216,7 @@ void main() {
   testWidgets('restricted inline preview flattens provided AST to one line', (
     tester,
   ) async {
-    List<md.Node>? multiBlockParser(
+    List<md.Node> multiBlockParser(
       String data,
       FluxerMarkdownFeatures features,
     ) {

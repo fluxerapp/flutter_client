@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 import 'package:material_ui/material_ui.dart';
+import 'support/native_test_parser.dart';
 
 const FluxerMarkdownConfig _testMarkdownConfig = FluxerMarkdownConfig(
   resolveEmojiShortcode: _noopEmojiShortcode,
@@ -37,6 +38,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: FluxerMarkdown(
+              astParser: parseTestMarkdownAst,
               data: '> [!NOTE]\n> Body text',
               config: _testMarkdownConfig,
             ),
@@ -55,6 +57,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: FluxerMarkdown(
+              astParser: parseTestMarkdownAst,
               data: '-# smaller text',
               config: _testMarkdownConfig,
               baseStyle: baseStyle,
@@ -75,6 +78,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: FluxerMarkdown(
+              astParser: parseTestMarkdownAst,
               data: '-# subtext `with code text`',
               config: _testMarkdownConfig,
               baseStyle: baseStyle,
@@ -118,6 +122,7 @@ void main() {
                 child: SizedBox(
                   width: 320,
                   child: FluxerMarkdown(
+                    astParser: parseTestMarkdownAst,
                     data: input,
                     config: _testMarkdownConfig,
                     baseStyle: baseStyle,
@@ -132,7 +137,16 @@ void main() {
       final RichText regularText = tester.widget<RichText>(
         find.textContaining('regular text below', findRichText: true),
       );
-      expect(regularText.text.toPlainText(), '\nregular text below');
+      expect(regularText.text.toPlainText(), 'regular text below');
+      final double subtextBottom = tester
+          .getBottomLeft(find.textContaining('small text', findRichText: true))
+          .dy;
+      final double regularTop = tester
+          .getTopLeft(
+            find.textContaining('regular text below', findRichText: true),
+          )
+          .dy;
+      expect(regularTop, greaterThan(subtextBottom));
     });
   });
 }

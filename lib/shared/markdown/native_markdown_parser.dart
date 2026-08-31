@@ -1,4 +1,5 @@
 import 'package:fluxer_app/core/observability/fluxer_observability.dart';
+import 'package:fluxer_app/shared/markdown/emoji_context_tsv.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:fluxer_markdown_native/fluxer_markdown_native.dart' as native;
 import 'package:markdown/markdown.dart' as md;
@@ -60,9 +61,9 @@ int fluxerParserFlagsForFeatures(FluxerMarkdownFeatures features) {
 }
 
 /// Top-level on purpose: [FluxerMarkdown.astParser] participates in the
-/// widget's layout cache key. `null` on native failure falls back to the
-/// classic pipeline.
-List<md.Node>? parseNativeFluxerMarkdownAst(
+/// widget's layout cache key. Failures render the raw text and are recorded;
+/// there is no Dart parser to fall back to.
+List<md.Node> parseNativeFluxerMarkdownAst(
   String data,
   FluxerMarkdownFeatures features,
 ) {
@@ -70,6 +71,9 @@ List<md.Node>? parseNativeFluxerMarkdownAst(
     final nodes = native.parseFluxerMarkdownBinary(
       data,
       flags: fluxerParserFlagsForFeatures(features),
+      emojiContextTsv: _mayContainEmoji(data)
+          ? buildFluxerEmojiContextTsv(data)
+          : '',
     );
     return native.fluxerNativeAstToMarkdown(nodes);
   } on Object catch (error, stackTrace) {
@@ -79,6 +83,18 @@ List<md.Node>? parseNativeFluxerMarkdownAst(
       stackTrace: stackTrace,
       context: 'length=${data.length}',
     );
-    return null;
+    return [md.Text(data)];
   }
+}
+
+bool _mayContainEmoji(String data) {
+  if (data.contains(':')) {
+    return true;
+  }
+  for (final int unit in data.codeUnits) {
+    if (unit > 0x7f) {
+      return true;
+    }
+  }
+  return false;
 }

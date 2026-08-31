@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/markdown_timestamp_format.dart';
-import 'package:fluxer_app/features/settings/providers/native_markdown_parser_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/markdown/fluxer_markdown_adapter.dart';
@@ -48,7 +47,6 @@ class MessageMarkdown extends ConsumerWidget {
         MessageMarkdownSettingsScope.maybeOf(context) ??
         MessageMarkdownSettings.watch(ref, context);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final bool useNativeParser = ref.watch(nativeMarkdownParserSettingProvider);
     return FluxerBoundedTextClip(
       child: MessageMarkdownBinding(
         channelId: channelId,
@@ -83,7 +81,7 @@ class MessageMarkdown extends ConsumerWidget {
           maxLines: maxLines,
           overflow: overflow,
           trailingInlineWidget: trailingInlineWidget,
-          astParser: useNativeParser ? parseNativeFluxerMarkdownAst : null,
+          astParser: parseNativeFluxerMarkdownAst,
         ),
       ),
     );

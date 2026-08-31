@@ -9,16 +9,14 @@ import 'package:flutter_highlight/themes/github.dart';
 import 'package:flutter_highlight/themes/vs2015.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
-import 'package:fluxer_markdown/src/parsing/fluxer_inline_syntaxes.dart';
-import 'package:fluxer_markdown/src/parsing/inline_parse_chunks.dart';
-import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
-import 'package:fluxer_markdown/src/syntaxes/fluxer_markdown_syntaxes.dart';
+import 'package:fluxer_markdown/src/renderers/fluxer_markdown_element_tags.dart';
 import 'package:fluxer_markdown/src/utils/ansi_text_parser.dart';
 import 'package:fluxer_markdown/src/utils/bounded_text.dart';
 import 'package:fluxer_markdown/src/utils/code_block_highlight.dart';
 import 'package:fluxer_markdown/src/utils/highlight_languages.dart';
 import 'package:fluxer_markdown/src/utils/jumbo_emoji.dart';
 import 'package:fluxer_markdown/src/utils/markup_spacing.dart';
+import 'package:fluxer_markdown/src/utils/masked_link_guards.dart';
 import 'package:fluxer_markdown/src/utils/monospace_text_style.dart';
 import 'package:fluxer_markdown/src/widgets/emoji_asset_image.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown_link_registry.dart';
@@ -265,7 +263,7 @@ bool _containsInlineSpoiler(List<md.Node> nodes) {
     if (node is! md.Element) {
       continue;
     }
-    if (node.tag == FluxerSpoilerSyntax.tag) {
+    if (node.tag == FluxerMarkdownElementTags.spoiler) {
       return true;
     }
     if (_containsInlineSpoiler(node.children ?? const [])) {
@@ -274,10 +272,6 @@ bool _containsInlineSpoiler(List<md.Node> nodes) {
   }
   return false;
 }
-
-final MarkdownParseCache<(String, FluxerMarkdownFeatures), List<md.Node>>
-_inlineNodeCache =
-    MarkdownParseCache<(String, FluxerMarkdownFeatures), List<md.Node>>();
 
 String collapseRestrictedInlineText(String text) {
   return text.replaceAll('\n', ' ').replaceAll(RegExp(r'\s+'), ' ');
@@ -318,158 +312,6 @@ void appendTrailingInlineWidget(
         child: trailingInlineWidget,
       ),
     );
-}
-
-Widget buildFluxerMarkdownTextFlow({
-  required BuildContext context,
-  required String text,
-  required TextStyle baseStyle,
-  required FluxerMarkdownConfig config,
-  required FluxerMarkdownFeatures features,
-  required md.Document inlineDocument,
-  required bool selectable,
-  required bool isDark,
-  String? parseCacheKey,
-  int? maxLines,
-  TextOverflow? overflow,
-  Widget? trailingInlineWidget,
-  bool allowJumboEmoji = true,
-}) {
-  if (text.isEmpty) {
-    return const SizedBox.shrink();
-  }
-  if (text.replaceAll('\n', '').isEmpty) {
-    return wrapFluxerMarkdownSelectable(
-      body: buildFluxerBoundedRichText(
-        text: TextSpan(text: text, style: baseStyle),
-        baseStyle: baseStyle,
-        textScaler: MediaQuery.textScalerOf(context),
-        maxLines: maxLines,
-        overflow: overflow,
-        textWidthBasis: TextWidthBasis.longestLine,
-      ),
-      selectable: selectable,
-      config: config,
-    );
-  }
-  final chunks = splitIntoInlineParseChunks(text);
-  final chunkNodesList = <List<md.Node>>[];
-  for (final chunk in chunks) {
-    chunkNodesList.add(
-      _inlineNodeCache.resolve((
-        markdownParseCacheKey(chunk, parseCacheKey),
-        features,
-      ), () => inlineDocument.parseInline(chunk)),
-    );
-  }
-  final useJumbo =
-      allowJumboEmoji &&
-      features.allowJumboEmoji &&
-      _textFlowAllowsJumboEmoji(chunkNodesList);
-  final bool mayHaveInlineSpoilers = text.contains('||');
-  final _SpoilerIndexCounter spoilerIndexCounter = _SpoilerIndexCounter();
-
-  Widget buildRichTextWidget(BuildContext buildContext) {
-    spoilerIndexCounter.reset();
-    final spans = <InlineSpan>[];
-    for (var i = 0; i < chunks.length; i++) {
-      if (i > 0) {
-        spans.add(
-          TextSpan(
-            text: features.isRestrictedInlinePreview ? ' ' : '\n',
-            style: baseStyle,
-          ),
-        );
-      }
-      final chunkNodes = chunkNodesList[i];
-      if (chunkNodes.isEmpty) {
-        continue;
-      }
-      final chunkSpans = _MarkdownInlineRenderer(
-        context: buildContext,
-        baseStyle: baseStyle,
-        config: config,
-        features: features,
-        isDark: isDark,
-        jumbo: useJumbo,
-        maxLines: maxLines,
-        overflow: overflow,
-        spoilerIndexCounter: spoilerIndexCounter,
-      ).build(chunkNodes);
-      spans.addAll(chunkSpans);
-    }
-    if (spans.isEmpty) {
-      return const SizedBox.shrink();
-    }
-    if (trailingInlineWidget != null) {
-      appendTrailingInlineWidget(spans, baseStyle, trailingInlineWidget);
-    }
-    final Widget richText = buildFluxerBoundedRichText(
-      text: TextSpan(style: baseStyle, children: spans),
-      baseStyle: baseStyle,
-      textScaler: MediaQuery.textScalerOf(buildContext),
-      maxLines: maxLines,
-      overflow: overflow,
-      textWidthBasis: trailingInlineWidget != null || maxLines != null
-          ? TextWidthBasis.parent
-          : TextWidthBasis.longestLine,
-    );
-    if (trailingInlineWidget != null) {
-      return SizedBox(width: double.infinity, child: richText);
-    }
-    return richText;
-  }
-
-  final Widget body =
-      maxLines == null &&
-          !config.spoilersInitiallyRevealed &&
-          mayHaveInlineSpoilers
-      ? _FluxerSpoilerRevealHost(config: config, builder: buildRichTextWidget)
-      : buildRichTextWidget(context);
-  return wrapFluxerMarkdownSelectable(
-    body: body,
-    selectable: selectable,
-    config: config,
-  );
-}
-
-Widget buildFluxerBlockSpoiler({
-  required BuildContext context,
-  required String text,
-  required TextStyle baseStyle,
-  required FluxerMarkdownConfig config,
-  required FluxerMarkdownFeatures features,
-  required md.Document inlineDocument,
-  required bool selectable,
-  required bool isDark,
-  String? parseCacheKey,
-}) {
-  final Widget body = buildFluxerMarkdownTextFlow(
-    context: context,
-    text: text,
-    baseStyle: baseStyle,
-    config: config,
-    features: features,
-    inlineDocument: inlineDocument,
-    selectable: selectable,
-    isDark: isDark,
-    parseCacheKey: parseCacheKey,
-  );
-  final List<md.Node> inlineNodes = inlineDocument.parseInline(text);
-  final md.Element spoilerElement = md.Element(
-    FluxerSpoilerSyntax.tag,
-    inlineNodes,
-  );
-  return _FluxerSpoilerSpan(
-    initiallyRevealed: config.spoilersInitiallyRevealed,
-    spoilerBackgroundColor: config.spoilerBackgroundColor,
-    spoilerSyncController: config.spoilerSyncController,
-    syncKeys: _collectSpoilerSyncKeys(
-      spoilerElement,
-      config.spoilerSyncKeyNormalizer,
-    ),
-    child: body,
-  );
 }
 
 bool _hasApostropheInLinkAuthority(String href) {
@@ -1368,36 +1210,36 @@ class _MarkdownInlineRenderer {
         return const TextSpan(text: '\n');
       case 'a':
         return _buildLink(node, effectiveStyle);
-      case FluxerJumpLinkSyntax.tag:
+      case FluxerMarkdownElementTags.jumpLink:
         return _buildJumpLink(node, effectiveStyle);
-      case FluxerUserMentionSyntax.tag:
+      case FluxerMarkdownElementTags.mentionUser:
         return _buildMention(
           node,
           effectiveStyle,
           prefix: '@',
           builder: config.userMentionBuilder,
         );
-      case FluxerChannelMentionSyntax.tag:
+      case FluxerMarkdownElementTags.mentionChannel:
         return _buildMention(
           node,
           effectiveStyle,
           prefix: '#',
           builder: config.channelMentionBuilder,
         );
-      case FluxerRoleMentionSyntax.tag:
+      case FluxerMarkdownElementTags.mentionRole:
         return _buildMention(
           node,
           effectiveStyle,
           prefix: '@',
           builder: config.roleMentionBuilder,
         );
-      case FluxerEveryoneMentionSyntax.tag:
+      case FluxerMarkdownElementTags.mentionEveryone:
         return _buildEveryoneMention(node, effectiveStyle);
-      case FluxerCommandMentionSyntax.tag:
+      case FluxerMarkdownElementTags.mentionCommand:
         return _buildCommandMention(node, effectiveStyle);
-      case FluxerGuildNavigationSyntax.tag:
+      case FluxerMarkdownElementTags.mentionGuildNav:
         return _buildGuildNavigationMention(node, effectiveStyle);
-      case FluxerTimestampSyntax.tag:
+      case FluxerMarkdownElementTags.timestamp:
         final timestampText = _formatTimestampText(
           node,
           localeName: Localizations.localeOf(context).toLanguageTag(),
@@ -1416,7 +1258,7 @@ class _MarkdownInlineRenderer {
                       .withValues(alpha: 0.08),
           ),
         );
-      case FluxerSpoilerSyntax.tag:
+      case FluxerMarkdownElementTags.spoiler:
         return _buildInlineSpoilerSpan(
           node: node,
           spoilerChildren: build(
@@ -1426,8 +1268,8 @@ class _MarkdownInlineRenderer {
           effectiveStyle: effectiveStyle,
         );
       // Jumbo only changes size; emoji always render as images (issue #655).
-      case FluxerUnicodeEmojiToneSyntax.tag:
-      case FluxerCustomEmojiSyntax.tag:
+      case FluxerMarkdownElementTags.emojiUnicode:
+      case FluxerMarkdownElementTags.emojiCustom:
         return WidgetSpan(
           alignment: PlaceholderAlignment.middle,
           child: FluxerEmojiWidget(
@@ -1734,8 +1576,8 @@ _EmojiOnlyAnalysis _analyzeEmojiOnlyNodes(List<md.Node> nodes) {
     if (node is! md.Element) {
       return const _EmojiOnlyAnalysis(isEmojiOnly: false, emojiCount: 0);
     }
-    if (node.tag == FluxerUnicodeEmojiToneSyntax.tag ||
-        node.tag == FluxerCustomEmojiSyntax.tag) {
+    if (node.tag == FluxerMarkdownElementTags.emojiUnicode ||
+        node.tag == FluxerMarkdownElementTags.emojiCustom) {
       emojiCount++;
       continue;
     }
@@ -1751,22 +1593,6 @@ bool _allNodesAreEmoji(List<md.Node> nodes) {
       analysis.emojiCount <= kFluxerMarkdownJumboMaxCount;
 }
 
-bool _textFlowAllowsJumboEmoji(List<List<md.Node>> chunkNodes) {
-  var totalEmojiCount = 0;
-  for (final List<md.Node> nodes in chunkNodes) {
-    if (nodes.isEmpty) {
-      continue;
-    }
-    final _EmojiOnlyAnalysis analysis = _analyzeEmojiOnlyNodes(nodes);
-    if (!analysis.isEmojiOnly) {
-      return false;
-    }
-    totalEmojiCount += analysis.emojiCount;
-  }
-  return totalEmojiCount >= 1 &&
-      totalEmojiCount <= kFluxerMarkdownJumboMaxCount;
-}
-
 bool _isInlineListNode(md.Node node) {
   if (node is md.Text) {
     return true;
@@ -1780,15 +1606,15 @@ bool _isInlineListNode(md.Node node) {
 bool _isInlineOnlyTag(String tag) {
   return switch (tag) {
     'strong' || 'em' || 'del' || 'underline' || 'code' || 'a' || 'br' => true,
-    FluxerJumpLinkSyntax.tag ||
-    FluxerUserMentionSyntax.tag ||
-    FluxerChannelMentionSyntax.tag ||
-    FluxerRoleMentionSyntax.tag ||
-    FluxerEveryoneMentionSyntax.tag ||
-    FluxerTimestampSyntax.tag ||
-    FluxerSpoilerSyntax.tag ||
-    FluxerUnicodeEmojiToneSyntax.tag ||
-    FluxerCustomEmojiSyntax.tag => true,
+    FluxerMarkdownElementTags.jumpLink ||
+    FluxerMarkdownElementTags.mentionUser ||
+    FluxerMarkdownElementTags.mentionChannel ||
+    FluxerMarkdownElementTags.mentionRole ||
+    FluxerMarkdownElementTags.mentionEveryone ||
+    FluxerMarkdownElementTags.timestamp ||
+    FluxerMarkdownElementTags.spoiler ||
+    FluxerMarkdownElementTags.emojiUnicode ||
+    FluxerMarkdownElementTags.emojiCustom => true,
     _ => false,
   };
 }
@@ -2579,7 +2405,7 @@ class FluxerEmojiWidget extends StatelessWidget {
         ? kFluxerMarkdownEmojiSizeJumbo
         : (baseStyle.fontSize ?? 16) * kFluxerMarkdownEmojiSizeMultiplier;
     final Widget emoji;
-    if (element.tag == FluxerCustomEmojiSyntax.tag) {
+    if (element.tag == FluxerMarkdownElementTags.emojiCustom) {
       emoji = _buildCustom(context, size);
     } else {
       emoji = _buildUnicode(size);
@@ -2593,7 +2419,7 @@ class FluxerEmojiWidget extends StatelessWidget {
       return emoji;
     }
 
-    final isCustom = element.tag == FluxerCustomEmojiSyntax.tag;
+    final isCustom = element.tag == FluxerMarkdownElementTags.emojiCustom;
     final String name;
     final String? emojiId;
     final bool animated;

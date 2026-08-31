@@ -1,10 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
+import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 import 'package:material_ui/material_ui.dart';
 
-import 'support/markdown_parse_test_helper.dart';
+import 'support/native_test_parser.dart';
 
 const FluxerMarkdownConfig _testMarkdownConfig = FluxerMarkdownConfig(
   resolveEmojiShortcode: _noopEmojiShortcode,
@@ -23,28 +24,25 @@ String _noopCustomEmojiUrl({
 }) => '';
 
 void main() {
-  final features = MarkdownParseTestHelper.featuresFor(
+  final features = FluxerMarkdownFeatures.forContext(
     FluxerMarkdownContext.restrictedUserBio,
   );
 
   test('__**text**__ parses nested bold inside underline in messages', () {
-    final messageFeatures = MarkdownParseTestHelper.featuresFor(
+    final messageFeatures = FluxerMarkdownFeatures.forContext(
       FluxerMarkdownContext.standardWithJumbo,
     );
-    final nodes = MarkdownParseTestHelper.parseInline(
-      '__**text**__',
-      messageFeatures,
-    );
-    expect(MarkdownParseTestHelper.containsTag(nodes, 'underline'), isTrue);
-    expect(MarkdownParseTestHelper.containsTag(nodes, 'strong'), isTrue);
-    expect(MarkdownParseTestHelper.collectText(nodes), 'text');
+    final nodes = parseTestMarkdownAst('__**text**__', messageFeatures);
+    expect(containsMarkdownTag(nodes, 'underline'), isTrue);
+    expect(containsMarkdownTag(nodes, 'strong'), isTrue);
+    expect(collectMarkdownText(nodes), 'text');
   });
 
   test('__**text**__ parses nested bold inside underline in bios', () {
-    final nodes = MarkdownParseTestHelper.parseInline('__**text**__', features);
-    expect(MarkdownParseTestHelper.containsTag(nodes, 'underline'), isTrue);
-    expect(MarkdownParseTestHelper.containsTag(nodes, 'strong'), isTrue);
-    expect(MarkdownParseTestHelper.collectText(nodes), 'text');
+    final nodes = parseTestMarkdownAst('__**text**__', features);
+    expect(containsMarkdownTag(nodes, 'underline'), isTrue);
+    expect(containsMarkdownTag(nodes, 'strong'), isTrue);
+    expect(collectMarkdownText(nodes), 'text');
   });
 
   testWidgets('__**text**__ renders bold and underline', (tester) async {
@@ -52,6 +50,7 @@ void main() {
       const MaterialApp(
         home: Scaffold(
           body: FluxerMarkdown(
+            astParser: parseTestMarkdownAst,
             data: '__**text**__',
             config: _testMarkdownConfig,
             context: FluxerMarkdownContext.restrictedUserBio,

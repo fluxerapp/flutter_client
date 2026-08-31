@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 import 'package:material_ui/material_ui.dart';
+import 'support/native_test_parser.dart';
 
 String? _noopEmojiShortcode(String name) => null;
 
@@ -29,6 +30,7 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: FluxerMarkdown(
+              astParser: parseTestMarkdownAst,
               data: '<a:party:111111111111111111>',
               config: config,
               baseStyle: const TextStyle(fontSize: 16),
@@ -68,6 +70,7 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: FluxerMarkdown(
+            astParser: parseTestMarkdownAst,
             data: '<a:party:111111111111111111>',
             config: config,
             baseStyle: const TextStyle(fontSize: 16),

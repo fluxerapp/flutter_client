@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 import 'package:material_ui/material_ui.dart';
+import 'support/native_test_parser.dart';
 
 String? _noopEmojiShortcode(String name) => null;
 
@@ -30,6 +31,7 @@ Future<void> _pumpTimestamp(
     MaterialApp(
       home: Scaffold(
         body: FluxerMarkdown(
+          astParser: parseTestMarkdownAst,
           data: '<t:1618936830:t>',
           config: _configWithTimestamp(formatter),
           baseStyle: const TextStyle(fontSize: 16),

@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/swipe_to_reply.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/markdown/native_markdown_parser.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 
 import '../../../../../shared/gestures/wide_markdown_table_test_helpers.dart';
@@ -374,6 +375,7 @@ void main() {
           child: SwipeToReply(
             onReply: () => replyCount++,
             child: const FluxerMarkdown(
+              astParser: parseNativeFluxerMarkdownAst,
               data: kNarrowMarkdownTable,
               config: kWideTableMarkdownConfig,
             ),

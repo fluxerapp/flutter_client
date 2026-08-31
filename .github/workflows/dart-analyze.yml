@@ -148,7 +148,7 @@ jobs:
             ${{ runner.os }}-pub-
 
       - name: Set up Rust
-        if: matrix.package == 'fluxer_markdown_native'
+        if: startsWith(matrix.package, 'fluxer_markdown')
         run: |
           if ! command -v cargo >/dev/null 2>&1; then
             curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \

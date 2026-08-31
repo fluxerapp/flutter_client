@@ -2,9 +2,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
-import 'package:fluxer_markdown/src/parsing/message_line_parser.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 import 'package:material_ui/material_ui.dart';
+import 'support/native_test_parser.dart';
 
 const FluxerMarkdownConfig _testMarkdownConfig = FluxerMarkdownConfig(
   resolveEmojiShortcode: _resolveEmojiShortcode,
@@ -28,13 +28,6 @@ void main() {
   );
 
   group('restricted channel topic', () {
-    test('uses message line parsing', () {
-      expect(
-        usesMessageLineParsing(FluxerMarkdownContext.restrictedChannelTopic),
-        isTrue,
-      );
-    });
-
     test('does not collapse to restricted inline preview', () {
       expect(features.isRestrictedInlinePreview, isFalse);
       expect(features.allowHeadings, isFalse);
@@ -50,6 +43,7 @@ void main() {
             body: SizedBox(
               width: 320,
               child: FluxerMarkdown(
+                astParser: parseTestMarkdownAst,
                 data: input,
                 config: _testMarkdownConfig,
                 context: FluxerMarkdownContext.restrictedChannelTopic,

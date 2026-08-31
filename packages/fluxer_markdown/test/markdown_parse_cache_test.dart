@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
 import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
-import 'package:fluxer_markdown/src/parsing/markdown_preprocessor.dart';
 
 void main() {
   group('MarkdownParseCache', () {
@@ -76,29 +75,6 @@ void main() {
         FluxerMarkdownContext.restrictedUserBio,
       );
       expect(a, isNot(equals(b)));
-    });
-  });
-
-  group('wired parse caches', () {
-    test('parseFluxerMarkdownSegments returns identical list on cache hit', () {
-      final features = FluxerMarkdownFeatures.forContext(
-        FluxerMarkdownContext.standardWithJumbo,
-      );
-      const text = '> [!NOTE]\n> hello world';
-      final first = parseFluxerMarkdownSegments(text, features);
-      final second = parseFluxerMarkdownSegments(text, features);
-      expect(identical(first, second), isTrue);
-    });
-
-    test('preprocessFluxerMarkdown is stable across calls', () {
-      final features = FluxerMarkdownFeatures.forContext(
-        FluxerMarkdownContext.standardWithJumbo,
-      );
-      const input = r'¯\_(ツ)_/¯';
-      final first = preprocessFluxerMarkdown(input, features);
-      final second = preprocessFluxerMarkdown(input, features);
-      expect(first, second);
-      expect(identical(first, second), isTrue);
     });
   });
 }
