@@ -147,10 +147,8 @@ final class MdSubtext extends MdNode {
 final class MdListItem {
   const MdListItem(this.children, {this.ordinal});
 
-  factory MdListItem.fromJson(Map<String, Object?> json) => MdListItem(
-    MdNode._children(json),
-    ordinal: json['ordinal'] as int?,
-  );
+  factory MdListItem.fromJson(Map<String, Object?> json) =>
+      MdListItem(MdNode._children(json), ordinal: json['ordinal'] as int?);
 
   final List<MdNode> children;
   final int? ordinal;

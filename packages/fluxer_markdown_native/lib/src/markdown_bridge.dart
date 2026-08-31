@@ -158,10 +158,7 @@ md.Node _convertInline(MdNode node) => switch (node) {
     md.Text('$timestamp'),
   ])..attributes['flag'] = _timestampFlag(style),
   MdEmoji(:final kind) => _convertEmoji(kind),
-  MdTableRow(:final cells) => md.Element(
-    'span',
-    _convertInlineChildren(cells),
-  ),
+  MdTableRow(:final cells) => md.Element('span', _convertInlineChildren(cells)),
   MdTableCell(:final children) => md.Element(
     'span',
     _convertInlineChildren(children),
@@ -240,16 +237,12 @@ md.Node _convertMention(MdMentionKind kind) => switch (kind) {
   MdUserMention(:final id) => md.Element('mention-user', [md.Text(id)]),
   MdChannelMention(:final id) => md.Element('mention-channel', [md.Text(id)]),
   MdRoleMention(:final id) => md.Element('mention-role', [md.Text(id)]),
-  MdEveryoneMention() => md.Element('mention-everyone', [
-    md.Text('@everyone'),
-  ]),
+  MdEveryoneMention() => md.Element('mention-everyone', [md.Text('@everyone')]),
   MdHereMention() => md.Element('mention-everyone', [md.Text('@here')]),
   MdCommandMention() => _convertCommandMention(kind),
   MdGuildNavigationMention(:final navigationType, :final id) => md.Element(
     'mention-guild-nav',
-    [
-      md.Text(_guildNavigationName(navigationType)),
-    ],
+    [md.Text(_guildNavigationName(navigationType))],
   )..attributes.addAll({'nav-id': ?id}),
 };
 

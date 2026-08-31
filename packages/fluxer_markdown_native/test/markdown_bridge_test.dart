@@ -55,10 +55,7 @@ void main() {
   test('inline spoiler stays inline, multiline spoiler becomes block', () {
     final inline = elementAt(bridge('a ||b|| c'), 0);
     expect(inline.tag, 'p');
-    expect(
-      inline.children!.whereType<md.Element>().single.tag,
-      'spoiler',
-    );
+    expect(inline.children!.whereType<md.Element>().single.tag, 'spoiler');
 
     final block = elementAt(bridge('||line1\nline2||'), 0);
     expect(block.tag, 'block-spoiler');
