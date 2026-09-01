@@ -1442,6 +1442,12 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   String get gifPickerFavorites => 'Preferiti';
 
   @override
+  String get gifPickerFavoritesEmptyTitle => 'No favorite GIFs yet';
+
+  @override
+  String get gifPickerFavoritesEmptyDescription => 'Star a GIF to see it here.';
+
+  @override
   String get gifPickerTrending => 'GIF di tendenza';
 
   @override

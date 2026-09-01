@@ -266,7 +266,7 @@ class _ExpressionPickerState extends ConsumerState<ExpressionPicker> {
       return GifPickerContent(
         scrollController: widget.scrollController,
         onClose: widget.onClose,
-        onFavoritesTap: widget.visibleTabs.contains(ExpressionPickerTab.memes)
+        onShowSavedMedia: widget.visibleTabs.contains(ExpressionPickerTab.memes)
             ? () => _selectTab(ExpressionPickerTab.memes)
             : null,
         onGifSelect: widget.onGifSelect,

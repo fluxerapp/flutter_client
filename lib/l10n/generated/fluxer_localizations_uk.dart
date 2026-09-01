@@ -1447,6 +1447,12 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get gifPickerFavorites => 'Вибране';
 
   @override
+  String get gifPickerFavoritesEmptyTitle => 'No favorite GIFs yet';
+
+  @override
+  String get gifPickerFavoritesEmptyDescription => 'Star a GIF to see it here.';
+
+  @override
   String get gifPickerTrending => 'Популярні GIF';
 
   @override

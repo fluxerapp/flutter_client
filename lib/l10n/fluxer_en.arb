@@ -1893,6 +1893,14 @@
     "@gifPickerFavorites": {
         "description": "Favorites category tile in the GIF picker."
     },
+    "gifPickerFavoritesEmptyTitle": "No favorite GIFs yet",
+    "@gifPickerFavoritesEmptyTitle": {
+        "description": "Empty state title for the GIF picker favorites view."
+    },
+    "gifPickerFavoritesEmptyDescription": "Star a GIF to see it here.",
+    "@gifPickerFavoritesEmptyDescription": {
+        "description": "Empty state description for the GIF picker favorites view."
+    },
     "gifPickerTrending": "Trending GIFs",
     "@gifPickerTrending": {
         "description": "Trending GIFs category and view title."

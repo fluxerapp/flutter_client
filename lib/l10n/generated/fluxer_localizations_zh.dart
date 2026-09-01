@@ -1390,6 +1390,12 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get gifPickerFavorites => '收藏';
 
   @override
+  String get gifPickerFavoritesEmptyTitle => 'No favorite GIFs yet';
+
+  @override
+  String get gifPickerFavoritesEmptyDescription => 'Star a GIF to see it here.';
+
+  @override
   String get gifPickerTrending => '热门 GIF';
 
   @override

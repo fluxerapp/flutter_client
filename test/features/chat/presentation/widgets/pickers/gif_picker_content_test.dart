@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/chat/domain/favorite_gif_entry.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/gif_picker_content.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_gifs_provider.dart';
@@ -44,44 +45,75 @@ Widget buildTestApp({
   );
 }
 
+class _SeededFavoriteGifs extends FavoriteGifs {
+  @override
+  FavoriteGifsState build() => const FavoriteGifsState(
+    entries: [
+      FavoriteGifEntry(
+        url: 'https://tenor.com/view/wave-gif-1',
+        proxyUrl: 'https://cdn.example/wave.gif',
+        width: 220,
+        height: 202,
+      ),
+    ],
+    seenFirstTimePrompt: true,
+  );
+}
+
+class _SavedMediaAdvancedPreferences extends AdvancedPreferences {
+  @override
+  AdvancedPreferencesState build() =>
+      const AdvancedPreferencesState(saveGifFavoritesAsSavedMedia: true);
+}
+
 void main() {
   const locale = sdk.Locale.enUs;
 
-  testWidgets('landing page starts with favorites and trending tiles', (
+  List<Override> pickerOverrides({
+    Override? favoriteGifs,
+    Override? advancedPreferences,
+  }) {
+    return [
+      favoriteMemesProvider.overrideWith((ref) => Stream.value(const [])),
+      favoriteGifs ?? favoriteGifsProvider.overrideWith(FavoriteGifs.new),
+      advancedPreferences ??
+          advancedPreferencesProvider.overrideWith(AdvancedPreferences.new),
+      activeGifProviderProvider.overrideWith((ref) => GifProviderKind.tenor),
+      gifFeaturedProvider(locale).overrideWith(
+        (ref) => const GifPickerFeatured(
+          gifs: [
+            GifPickerGif(
+              provider: GifProviderKind.tenor,
+              id: 'gif-1',
+              title: 'Trollface',
+              url: 'https://tenor.com/view/trollface-gif-1',
+              src: 'https://media.tenor.com/trollface.gif',
+              proxySrc: 'https://cdn.example/trollface.gif',
+              width: 220,
+              height: 202,
+            ),
+          ],
+          categories: [],
+        ),
+      ),
+    ];
+  }
+
+  testWidgets('favorites tile opens the in-picker favorites view', (
     tester,
   ) async {
-    var favoritesTapped = false;
+    var showSavedMediaCalled = false;
 
     await tester.pumpWidget(
       buildTestApp(
-        overrides: [
-          favoriteMemesProvider.overrideWith((ref) => Stream.value(const [])),
-          favoriteGifsProvider.overrideWith(FavoriteGifs.new),
-          advancedPreferencesProvider.overrideWith(AdvancedPreferences.new),
-          activeGifProviderProvider.overrideWith(
-            (ref) => GifProviderKind.tenor,
+        overrides: pickerOverrides(
+          favoriteGifs: favoriteGifsProvider.overrideWith(
+            _SeededFavoriteGifs.new,
           ),
-          gifFeaturedProvider(locale).overrideWith(
-            (ref) => const GifPickerFeatured(
-              gifs: [
-                GifPickerGif(
-                  provider: GifProviderKind.tenor,
-                  id: 'gif-1',
-                  title: 'Trollface',
-                  url: 'https://tenor.com/view/trollface-gif-1',
-                  src: 'https://media.tenor.com/trollface.gif',
-                  proxySrc: 'https://cdn.example/trollface.gif',
-                  width: 220,
-                  height: 202,
-                ),
-              ],
-              categories: [],
-            ),
-          ),
-        ],
+        ),
         child: GifPickerContent(
           onClose: () {},
-          onFavoritesTap: () => favoritesTapped = true,
+          onShowSavedMedia: () => showSavedMediaCalled = true,
         ),
       ),
     );
@@ -91,8 +123,88 @@ void main() {
     expect(find.text('Trending GIFs'), findsOneWidget);
 
     await tester.tap(find.text('Favorites'));
+    await tester.pump();
 
-    expect(favoritesTapped, isTrue);
+    expect(showSavedMediaCalled, isFalse);
+    expect(find.text('Trending GIFs'), findsNothing);
+    expect(find.text('Favorites'), findsOneWidget);
+    expect(find.text('No favorite GIFs yet'), findsNothing);
+  });
+
+  testWidgets('favorites tile stays in the picker in saved media mode when URL '
+      'favorites exist', (tester) async {
+    var showSavedMediaCalled = false;
+
+    await tester.pumpWidget(
+      buildTestApp(
+        overrides: pickerOverrides(
+          favoriteGifs: favoriteGifsProvider.overrideWith(
+            _SeededFavoriteGifs.new,
+          ),
+          advancedPreferences: advancedPreferencesProvider.overrideWith(
+            _SavedMediaAdvancedPreferences.new,
+          ),
+        ),
+        child: GifPickerContent(
+          onClose: () {},
+          onShowSavedMedia: () => showSavedMediaCalled = true,
+        ),
+      ),
+    );
+    await tester.pump();
+
+    await tester.tap(find.text('Favorites'));
+    await tester.pump();
+
+    expect(showSavedMediaCalled, isFalse);
+    expect(find.text('Trending GIFs'), findsNothing);
+  });
+
+  testWidgets(
+    'favorites tile defers to saved media in saved media mode without URL '
+    'favorites',
+    (tester) async {
+      var showSavedMediaCalled = false;
+
+      await tester.pumpWidget(
+        buildTestApp(
+          overrides: pickerOverrides(
+            advancedPreferences: advancedPreferencesProvider.overrideWith(
+              _SavedMediaAdvancedPreferences.new,
+            ),
+          ),
+          child: GifPickerContent(
+            onClose: () {},
+            onShowSavedMedia: () => showSavedMediaCalled = true,
+          ),
+        ),
+      );
+      await tester.pump();
+
+      await tester.tap(find.text('Favorites'));
+      await tester.pump();
+
+      expect(showSavedMediaCalled, isTrue);
+      expect(find.text('Trending GIFs'), findsOneWidget);
+    },
+  );
+
+  testWidgets('favorites view shows an empty state without any favorites', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      buildTestApp(
+        overrides: pickerOverrides(),
+        child: GifPickerContent(onClose: () {}),
+      ),
+    );
+    await tester.pump();
+
+    await tester.tap(find.text('Favorites'));
+    await tester.pump();
+
+    expect(find.text('No favorite GIFs yet'), findsOneWidget);
+    expect(find.text('Star a GIF to see it here.'), findsOneWidget);
   });
 
   testWidgets('loading states use a skeleton grid instead of a spinner', (

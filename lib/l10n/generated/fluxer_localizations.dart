@@ -2638,6 +2638,18 @@ abstract class FluxerLocalizations {
   /// **'Favorites'**
   String get gifPickerFavorites;
 
+  /// Empty state title for the GIF picker favorites view.
+  ///
+  /// In en, this message translates to:
+  /// **'No favorite GIFs yet'**
+  String get gifPickerFavoritesEmptyTitle;
+
+  /// Empty state description for the GIF picker favorites view.
+  ///
+  /// In en, this message translates to:
+  /// **'Star a GIF to see it here.'**
+  String get gifPickerFavoritesEmptyDescription;
+
   /// Trending GIFs category and view title.
   ///
   /// In en, this message translates to:
