@@ -26,6 +26,19 @@ void persistAppLocation(FluxerDatabase db, String location) {
   );
 }
 
+Future<void> clearPersistedLocation(FluxerDatabase db, String location) async {
+  final String path = location.split('?').first;
+  await db.guildLastChannelDao.removeGuild(kAppLastLocationKey);
+  if (path.startsWith('${RoutePaths.favoritesBase}/')) {
+    await db.guildLastChannelDao.removeGuild(kFavoritesLastChannelKey);
+    return;
+  }
+  final String? guildId = extractGuildId(path);
+  if (guildId != null) {
+    await db.guildLastChannelDao.removeGuild(guildId);
+  }
+}
+
 Future<String?> readPersistedAppLocation(FluxerDatabase db) async {
   final String? location = await db.guildLastChannelDao.getLastChannel(
     kAppLastLocationKey,

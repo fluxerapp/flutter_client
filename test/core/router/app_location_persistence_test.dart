@@ -3,10 +3,29 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/router/app_location_persistence.dart';
+import 'package:fluxer_app/core/router/guild_root_redirect.dart';
+import 'package:fluxer_app/core/router/pending_app_location.dart';
 import 'package:fluxer_app/core/router/pre_reconnecting_location_provider.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 
 import '../../helpers/open_test_database.dart';
+
+class _PendingStore implements PendingAppLocationStore {
+  String? value;
+
+  @override
+  Future<String?> read() async => value;
+
+  @override
+  Future<void> write(String location) async {
+    value = location;
+  }
+
+  @override
+  Future<void> clear() async {
+    value = null;
+  }
+}
 
 void main() {
   late FluxerDatabase db;
@@ -113,6 +132,10 @@ void main() {
     test('uses memory then disk', () async {
       final container = ProviderContainer();
       addTearDown(container.dispose);
+      final PendingAppLocation pending = PendingAppLocation(
+        store: _PendingStore(),
+      );
+      addTearDown(pending.dispose);
 
       persistAppLocation(db, '/notifications');
       container
@@ -122,16 +145,159 @@ void main() {
       expect(
         await container
             .read(preReconnectingLocationProvider.notifier)
-            .takeOrRestore(db),
+            .takeOrRestore(db, pending: pending),
         '/you',
       );
       await Future<void>.delayed(Duration.zero);
       expect(
         await container
             .read(preReconnectingLocationProvider.notifier)
-            .takeOrRestore(db),
+            .takeOrRestore(db, pending: pending),
         '/notifications',
       );
+    });
+
+    test('skips pending guild restore and clears last channel', () async {
+      await addGuild('guild-1');
+      await addGuildChannel('chan-1', 'guild-1');
+      await addGuildChannel('chan-2', 'guild-1');
+      persistAppLocation(db, '/channels/guild-1/chan-1');
+      persistGuildChannelFromLocation(db, '/channels/guild-1/chan-1');
+      await Future<void>.delayed(Duration.zero);
+
+      final _PendingStore store = _PendingStore();
+      final PendingAppLocation crashed = PendingAppLocation(store: store);
+      await crashed.mark('/channels/guild-1/chan-1');
+      crashed.dispose();
+
+      final PendingAppLocation nextLaunch = PendingAppLocation(store: store);
+      addTearDown(nextLaunch.dispose);
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+
+      expect(
+        await container
+            .read(preReconnectingLocationProvider.notifier)
+            .takeOrRestore(db, pending: nextLaunch),
+        RoutePaths.me,
+      );
+      expect(await readPersistedAppLocation(db), isNull);
+      expect(await db.guildLastChannelDao.getLastChannel('guild-1'), isNull);
+    });
+
+    test('skips pending favorites restore', () async {
+      await db.favoriteChannelsDao.addChannel(channelId: 'fav-1');
+      persistAppLocation(db, '/channels/@favorites/fav-1');
+      persistGuildChannelFromLocation(db, '/channels/@favorites/fav-1');
+      await Future<void>.delayed(Duration.zero);
+
+      final _PendingStore store = _PendingStore();
+      final PendingAppLocation crashed = PendingAppLocation(store: store);
+      await crashed.mark('/channels/@favorites/fav-1');
+      crashed.dispose();
+
+      final PendingAppLocation nextLaunch = PendingAppLocation(store: store);
+      addTearDown(nextLaunch.dispose);
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+
+      expect(
+        await container
+            .read(preReconnectingLocationProvider.notifier)
+            .takeOrRestore(db, pending: nextLaunch),
+        RoutePaths.me,
+      );
+      expect(await readPersistedAppLocation(db), isNull);
+      expect(
+        await db.guildLastChannelDao.getLastChannel(kFavoritesLastChannelKey),
+        isNull,
+      );
+    });
+
+    test('restores after the previous launch cleared pending', () async {
+      await addGuild('guild-1');
+      await addGuildChannel('chan-1', 'guild-1');
+      persistAppLocation(db, '/channels/guild-1/chan-1');
+      persistGuildChannelFromLocation(db, '/channels/guild-1/chan-1');
+      await Future<void>.delayed(Duration.zero);
+
+      final _PendingStore store = _PendingStore();
+      final PendingAppLocation previous = PendingAppLocation(store: store);
+      addTearDown(previous.dispose);
+      await previous.mark('/channels/guild-1/chan-1');
+      await previous.clear();
+
+      final PendingAppLocation nextLaunch = PendingAppLocation(store: store);
+      addTearDown(nextLaunch.dispose);
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+
+      expect(
+        await container
+            .read(preReconnectingLocationProvider.notifier)
+            .takeOrRestore(db, pending: nextLaunch),
+        '/channels/guild-1/chan-1',
+      );
+      expect(await db.guildLastChannelDao.getLastChannel('guild-1'), 'chan-1');
+    });
+
+    test('keeps in-memory restore when pending is still set', () async {
+      await addGuild('guild-1');
+      await addGuildChannel('chan-1', 'guild-1');
+      persistAppLocation(db, '/channels/guild-1/chan-1');
+      persistGuildChannelFromLocation(db, '/channels/guild-1/chan-1');
+      await Future<void>.delayed(Duration.zero);
+
+      final _PendingStore store = _PendingStore();
+      final PendingAppLocation pending = PendingAppLocation(store: store);
+      addTearDown(pending.dispose);
+      await pending.mark('/channels/guild-1/chan-1');
+
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+      container
+          .read(preReconnectingLocationProvider.notifier)
+          .remember(path: '/channels/guild-1/chan-1', query: '');
+
+      expect(
+        await container
+            .read(preReconnectingLocationProvider.notifier)
+            .takeOrRestore(db, pending: pending),
+        '/channels/guild-1/chan-1',
+      );
+      await Future<void>.delayed(Duration.zero);
+      expect(await db.guildLastChannelDao.getLastChannel('guild-1'), 'chan-1');
+    });
+  });
+
+  group('clearPersistedLocation', () {
+    test('clears app location and guild last channel', () async {
+      persistAppLocation(db, '/channels/guild-1/chan-1');
+      persistGuildChannelFromLocation(db, '/channels/guild-1/chan-1');
+      persistGuildChannelFromLocation(db, '/channels/guild-2/other');
+      await Future<void>.delayed(Duration.zero);
+
+      await clearPersistedLocation(db, '/channels/guild-1/chan-1');
+
+      expect(await readPersistedAppLocation(db), isNull);
+      expect(await db.guildLastChannelDao.getLastChannel('guild-1'), isNull);
+      expect(await db.guildLastChannelDao.getLastChannel('guild-2'), 'other');
+    });
+  });
+
+  group('PendingAppLocation', () {
+    test('clears pending after the delay', () async {
+      final _PendingStore store = _PendingStore();
+      final PendingAppLocation pending = PendingAppLocation(
+        store: store,
+        clearDelay: Duration.zero,
+      );
+      addTearDown(pending.dispose);
+
+      await pending.mark('/channels/guild-1/chan-1');
+      expect(store.value, '/channels/guild-1/chan-1');
+      await Future<void>.delayed(Duration.zero);
+      expect(store.value, isNull);
     });
   });
 }
