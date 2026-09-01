@@ -326,14 +326,7 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
           RepaintBoundary(child: widget.base),
           AnimatedBuilder(
             animation: _animationController,
-            child: IgnorePointer(
-              ignoring: isCompactWideDrawerPeekMode(
-                context,
-                shellLocation: ref.watch(shellLocationProvider),
-                revealSide: ref.watch(currentRevealSideProvider),
-              ),
-              child: RepaintBoundary(child: widget.slider),
-            ),
+            child: _DrawerSliderLayer(slider: widget.slider),
             builder: (context, slider) {
               return Transform.translate(
                 offset: Offset(_animationController.value, 0),
@@ -342,6 +335,28 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
             },
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _DrawerSliderLayer extends ConsumerWidget {
+  const _DrawerSliderLayer({required this.slider});
+
+  final Widget slider;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bool peek = isCompactWideDrawerPeekMode(
+      context,
+      shellLocation: ref.watch(shellLocationProvider),
+      revealSide: ref.watch(currentRevealSideProvider),
+    );
+    return ChatSwipeToReplyScope(
+      enabled: !peek,
+      child: IgnorePointer(
+        ignoring: peek,
+        child: RepaintBoundary(child: slider),
       ),
     );
   }
@@ -369,6 +384,29 @@ bool isSidebarDrawerLockedForLocation(String location) {
   return classifyRoute(location) == RouteKind.channelsRoot &&
       extractGuildId(location) != null &&
       extractChannelId(location) == null;
+}
+
+/// False in compact-wide peek.
+class ChatSwipeToReplyScope extends InheritedWidget {
+  const ChatSwipeToReplyScope({
+    required this.enabled,
+    required super.child,
+    super.key,
+  });
+
+  final bool enabled;
+
+  static bool enabledOf(BuildContext context) {
+    return context
+            .dependOnInheritedWidgetOfExactType<ChatSwipeToReplyScope>()
+            ?.enabled ??
+        true;
+  }
+
+  @override
+  bool updateShouldNotify(ChatSwipeToReplyScope oldWidget) {
+    return enabled != oldWidget.enabled;
+  }
 }
 
 bool isCompactWideDrawerPeekMode(

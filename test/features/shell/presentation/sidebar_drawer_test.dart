@@ -260,6 +260,12 @@ void main() {
 
     expect(_sliderDx(tester), peekWidth);
     expect(_sliderDx(tester), lessThan(compactWideSize.width));
+    expect(
+      tester
+          .widget<ChatSwipeToReplyScope>(find.byType(ChatSwipeToReplyScope))
+          .enabled,
+      isFalse,
+    );
   });
 
   testWidgets('fully reveals when drawer is locked on compact-wide', (
@@ -360,6 +366,26 @@ void main() {
     await tester.pump();
 
     expect(_sliderDx(tester), 0);
+  });
+
+  testWidgets('keeps swipe-to-reply enabled while the chat is full screen', (
+    tester,
+  ) async {
+    final router = _routerFor('/channels/guild/channel');
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(
+      _buildDrawerApp(container: container, router: router),
+    );
+    await tester.pump();
+
+    expect(
+      tester
+          .widget<ChatSwipeToReplyScope>(find.byType(ChatSwipeToReplyScope))
+          .enabled,
+      isTrue,
+    );
   });
 
   testWidgets('wraps drawer layers in repaint boundaries', (tester) async {

@@ -87,8 +87,6 @@ import 'package:fluxer_app/features/settings/providers/chat_preferences_provider
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
-import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -1693,7 +1691,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     required MessageRenderSettings renderSettings,
     required Set<String> blockedUserIds,
     required bool isGuildSendDisabled,
-    required bool swipeToReplyEnabled,
     bool renderDaySeparator = true,
     bool prependUnreadSeparator = false,
     bool forceLeadingSpacing = false,
@@ -1739,7 +1736,6 @@ class _MessageListState extends ConsumerState<MessageList> {
       renderSettings,
       leading,
       isGuildSendDisabled,
-      swipeToReplyEnabled,
       renderSettings.messageDisplayCompact,
     );
     return _tileCache.resolve(message.id, layoutSignature, () {
@@ -1849,7 +1845,6 @@ class _MessageListState extends ConsumerState<MessageList> {
             canSendMessages: channelCanSendMessages,
             isDmChannel: isDmChannel,
             isSendDisabled: isGuildSendDisabled,
-            swipeToReplyEnabled: swipeToReplyEnabled,
             onReply: () =>
                 ref.read(chatViewModelProvider.notifier).startReply(message),
             onForward: () =>
@@ -1939,7 +1934,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     required Set<String> blockedUserIds,
     required String? revealedCollapsedGroupKey,
     required bool isGuildSendDisabled,
-    required bool swipeToReplyEnabled,
   }) {
     final ChannelStreamItem item = stream[dataIndex];
     final bool streamOwnsUnreadBoundary =
@@ -1969,7 +1963,6 @@ class _MessageListState extends ConsumerState<MessageList> {
           item.messages.length,
           isRevealed,
           highlightedMessageId,
-          swipeToReplyEnabled,
           leadingSpacing,
         );
         return _tileCache.resolve('group-$groupKey', signature, () {
@@ -2012,7 +2005,6 @@ class _MessageListState extends ConsumerState<MessageList> {
                   renderDaySeparator: false,
                   prependUnreadSeparator: streamOwnsUnreadBoundary,
                   isGuildSendDisabled: isGuildSendDisabled,
-                  swipeToReplyEnabled: swipeToReplyEnabled,
                 );
               },
             ),
@@ -2050,7 +2042,6 @@ class _MessageListState extends ConsumerState<MessageList> {
             renderDaySeparator: false,
             prependUnreadSeparator: streamOwnsUnreadBoundary,
             isGuildSendDisabled: isGuildSendDisabled,
-            swipeToReplyEnabled: swipeToReplyEnabled,
           ),
           show: item.showUnreadDividerBefore,
         );
@@ -2075,7 +2066,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     required Set<String> blockedUserIds,
     required String? revealedCollapsedGroupKey,
     required bool isGuildSendDisabled,
-    required bool swipeToReplyEnabled,
   }) {
     final ChannelStreamItem item = stream[dataIndex];
     final String keyValue = item.type.isCollapsedGroup
@@ -2101,7 +2091,6 @@ class _MessageListState extends ConsumerState<MessageList> {
         blockedUserIds: blockedUserIds,
         revealedCollapsedGroupKey: revealedCollapsedGroupKey,
         isGuildSendDisabled: isGuildSendDisabled,
-        swipeToReplyEnabled: swipeToReplyEnabled,
       ),
     );
   }
@@ -2560,11 +2549,6 @@ class _MessageListState extends ConsumerState<MessageList> {
             })
             channelActions,
           }) {
-            final bool swipeToReplyEnabled = !isCompactWideDrawerPeekMode(
-              context,
-              shellLocation: ref.watch(shellLocationProvider),
-              revealSide: ref.watch(currentRevealSideProvider),
-            );
             final Widget body;
             if (messages.isEmpty &&
                 (isLoading || (!_anchorResolved && hasJumpTarget))) {
@@ -2687,7 +2671,6 @@ class _MessageListState extends ConsumerState<MessageList> {
                         blockedUserIds: blockedUserIds,
                         revealedCollapsedGroupKey: revealedCollapsedGroupKey,
                         isGuildSendDisabled: isGuildSendDisabled,
-                        swipeToReplyEnabled: swipeToReplyEnabled,
                       ),
                   childIndexForKey:
                       (

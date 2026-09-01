@@ -201,7 +201,7 @@ class MessageItem extends ConsumerStatefulWidget {
   final bool isJumpHighlighted;
   final bool isSendDisabled;
 
-  /// False in compact drawer peek; set by the message list.
+  /// False to disable swipe-to-reply on this row.
   final bool swipeToReplyEnabled;
 
   /// When set, resolves author guild role highlight for inbox previews
