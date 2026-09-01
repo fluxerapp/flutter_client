@@ -5,14 +5,18 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/forwarded_message_content.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
+import 'package:fluxer_app/features/chat/utils/save_message_media_favorite.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
+import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../../helpers/test_l10n.dart';
 import '../../../../../helpers/wide_layout_test_sizes.dart';
@@ -107,6 +111,70 @@ void main() {
       expect(find.byTooltip(_forwardTooltip(tester)), findsOneWidget);
     },
   );
+
+  testWidgets(
+    'snapshot media exposes the media action scope and viewer favorite button',
+    (tester) async {
+      tester.view.physicalSize = kWideTestViewportSize;
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final Attachment attachment = _imageAttachment(filename: 'image.png');
+      final MessageSnapshot snapshot = MessageSnapshot(
+        timestamp: DateTime(2026, 5, 9),
+        attachments: [attachment],
+      );
+      final MessageMediaActionScope scope = MessageMediaActionScope(
+        message: Message(
+          id: _messageId,
+          channelId: _channelId,
+          authorId: 'user-1',
+          authorName: 'User',
+          content: '',
+          timestamp: DateTime(2026, 5, 9),
+          attachments: [attachment],
+          messageSnapshots: [snapshot],
+        ),
+        permissions: const MessageActionPermissions(
+          isOwnMessage: false,
+          isDmChannel: true,
+          canDelete: false,
+          canReport: false,
+          canAddReactions: false,
+          canPinMessage: false,
+          canManageMessages: false,
+          canSendMessages: true,
+          developerMode: false,
+        ),
+        callbacks: const MessageActionCallbacks(),
+      );
+
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: [
+            favoriteMemesProvider.overrideWith((ref) => Stream.value(const [])),
+          ],
+          child: _content(
+            snapshot: snapshot,
+            renderEmbeds: false,
+            mediaActionScope: scope,
+          ),
+        ),
+      );
+
+      final AttachmentImage image = tester.widget<AttachmentImage>(
+        find.byType(AttachmentImage),
+      );
+      expect(image.mediaActionScope, same(scope));
+
+      await tester.tap(find.byType(CachedNetworkImage).first);
+      await tester.pump();
+
+      expect(find.byType(AttachmentMediaViewerShell), findsOneWidget);
+      expect(find.byType(SavedMediaFavoriteToolbarButton), findsOneWidget);
+    },
+  );
 }
 
 String _forwardTooltip(WidgetTester tester) {
@@ -118,6 +186,7 @@ String _forwardTooltip(WidgetTester tester) {
 Widget _content({
   required MessageSnapshot snapshot,
   required bool renderEmbeds,
+  MessageMediaActionScope? mediaActionScope,
 }) {
   return ForwardedMessageContent(
     message: Message(
@@ -134,6 +203,7 @@ Widget _content({
     revealSpoilers: false,
     chatPreferences: const ChatPreferencesState(),
     spoilerSyncController: FluxerSpoilerSyncController(),
+    mediaActionScope: mediaActionScope,
   );
 }
 
@@ -148,9 +218,13 @@ Attachment _imageAttachment({required String filename}) {
   );
 }
 
-Widget _buildTestApp({required Widget child}) {
+Widget _buildTestApp({
+  required Widget child,
+  List<Override> overrides = const [],
+}) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
+    overrides: overrides,
     child: MaterialApp(
       locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,

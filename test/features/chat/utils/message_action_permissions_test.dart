@@ -13,6 +13,7 @@ Message _domainMessage({
   int type = 0,
   int flags = 0,
   List<Embed> embeds = const [],
+  List<MessageSnapshot> messageSnapshots = const [],
 }) {
   return Message(
     id: id,
@@ -24,8 +25,12 @@ Message _domainMessage({
     type: type,
     flags: flags,
     embeds: embeds,
+    messageSnapshots: messageSnapshots,
   );
 }
+
+MessageSnapshot _forwardSnapshot() =>
+    MessageSnapshot(timestamp: DateTime.utc(2026));
 
 Embed _imageEmbed() => const Embed(type: EmbedType.image, url: 'https://x/y');
 
@@ -336,6 +341,16 @@ void main() {
         isFalse,
       );
     });
+
+    test('returns false for own message with forward snapshots', () {
+      final Message message = _domainMessage(
+        messageSnapshots: [_forwardSnapshot()],
+      );
+      expect(
+        canDeleteAttachmentOnMessage(message: message, isOwnMessage: true),
+        isFalse,
+      );
+    });
   });
 
   group('canEditAttachmentAltText', () {
@@ -429,6 +444,23 @@ void main() {
           isOwnMessage: false,
           attachment: attachment,
           canManageMessages: false,
+          isDmChannel: false,
+        ),
+        isFalse,
+      );
+    });
+
+    test('returns false for own attachment on a forwarded message', () {
+      final Message message = _domainMessage(
+        messageSnapshots: [_forwardSnapshot()],
+      );
+      final Attachment attachment = _domainAttachment(contentType: 'image/png');
+      expect(
+        canEditAttachmentAltText(
+          message: message,
+          isOwnMessage: true,
+          attachment: attachment,
+          canManageMessages: true,
           isDmChannel: false,
         ),
         isFalse,

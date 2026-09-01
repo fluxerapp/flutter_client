@@ -122,6 +122,9 @@ bool canDeleteAttachmentOnMessage({
   required bool isOwnMessage,
   bool isSendDisabled = false,
 }) {
+  if (message.hasForwardSnapshots) {
+    return false;
+  }
   if (!isOwnMessage) {
     return false;
   }
@@ -139,6 +142,9 @@ bool canEditAttachmentAltText({
   required bool canManageMessages,
   required bool isDmChannel,
 }) {
+  if (message.hasForwardSnapshots) {
+    return false;
+  }
   if (!attachment.isPreviewMedia) {
     return false;
   }

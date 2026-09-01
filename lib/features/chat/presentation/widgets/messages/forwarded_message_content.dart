@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/utils/channel_jump_link.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
+import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_list_renderer.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_image.dart';
@@ -39,6 +40,7 @@ class ForwardedMessageContent extends ConsumerWidget {
     required this.revealSpoilers,
     required this.chatPreferences,
     required this.spoilerSyncController,
+    this.mediaActionScope,
     super.key,
   });
 
@@ -49,6 +51,7 @@ class ForwardedMessageContent extends ConsumerWidget {
   final bool revealSpoilers;
   final ChatPreferencesState chatPreferences;
   final FluxerSpoilerSyncController spoilerSyncController;
+  final MessageMediaActionScope? mediaActionScope;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -112,6 +115,7 @@ class ForwardedMessageContent extends ConsumerWidget {
                     messageId: message.id,
                     spoilerSyncScope: snapshotScope,
                     messageFlags: snapshot.flags,
+                    mediaActionScope: mediaActionScope,
                   ),
                 if (renderEmbeds)
                   ...() {
@@ -141,6 +145,7 @@ class ForwardedMessageContent extends ConsumerWidget {
                               channelId: message.channelId,
                               messageId: message.id,
                               embedIndex: embedIndex,
+                              mediaActionScope: mediaActionScope,
                             ),
                           );
                         });
@@ -199,6 +204,7 @@ class _ForwardedEmbed extends StatelessWidget {
     this.channelId,
     this.messageId,
     this.embedIndex,
+    this.mediaActionScope,
   });
 
   final Embed embed;
@@ -211,6 +217,7 @@ class _ForwardedEmbed extends StatelessWidget {
   final String? channelId;
   final String? messageId;
   final int? embedIndex;
+  final MessageMediaActionScope? mediaActionScope;
 
   @override
   Widget build(BuildContext context) {
@@ -224,6 +231,7 @@ class _ForwardedEmbed extends StatelessWidget {
         spoilerSyncController: spoilerSyncController,
         channelId: channelId,
         messageId: messageId,
+        videoActionScope: mediaActionScope,
       ),
       EmbedType.image || EmbedType.gifv => EmbedImage(
         embed: embed,
@@ -235,6 +243,7 @@ class _ForwardedEmbed extends StatelessWidget {
         channelId: channelId,
         messageId: messageId,
         embedIndex: embedIndex,
+        mediaActionScope: mediaActionScope,
       ),
       EmbedType.link => EmbedLink(
         embed: embed,
@@ -254,6 +263,8 @@ class _ForwardedEmbed extends StatelessWidget {
         spoilerSyncController: spoilerSyncController,
         spoilerSyncKeys: spoilerSyncKeys,
         channelId: channelId,
+        embedIndex: embedIndex,
+        videoActionScope: mediaActionScope,
       ),
     };
 
