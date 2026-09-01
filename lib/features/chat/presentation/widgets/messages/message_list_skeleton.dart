@@ -10,6 +10,15 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+class MessageListMismatchPlaceholder extends StatelessWidget {
+  const MessageListMismatchPlaceholder({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ColoredBox(color: context.colors.chatBackground);
+  }
+}
+
 class MessageListSkeleton extends ConsumerWidget {
   const MessageListSkeleton({required this.channelId, super.key});
 

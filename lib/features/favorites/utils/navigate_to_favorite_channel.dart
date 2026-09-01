@@ -45,6 +45,7 @@ Future<void> navigateToFavoriteChannel({
       guildId: guildId,
       channel: resolvedChannel,
       chatPath: chatPath,
+      targetMessageId: messageId,
     );
     return;
   }

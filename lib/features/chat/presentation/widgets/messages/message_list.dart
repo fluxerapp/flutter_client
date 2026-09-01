@@ -2236,7 +2236,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     if (expectedChannelId != null &&
         expectedChannelId.isNotEmpty &&
         channelId != expectedChannelId) {
-      return MessageListSkeleton(channelId: expectedChannelId);
+      return const MessageListMismatchPlaceholder();
     }
     final String? stickyUnreadId = ref.watch(
       chatViewModelProvider.select(

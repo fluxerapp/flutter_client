@@ -133,7 +133,7 @@ class MessageRepository {
   Stream<List<Message>> watchMessages(String channelId) {
     return _db.messageDao
         .watchMessages(channelId)
-        .map((rows) => rows.map(Message.fromRow).toList());
+        .asyncMap(Message.fromRowsAsync);
   }
 
   Future<List<Message>> getCachedMessages(
@@ -141,7 +141,7 @@ class MessageRepository {
     int limit = 30,
   }) async {
     final rows = await _db.messageDao.getMessages(channelId, limit: limit);
-    return rows.map(Message.fromRow).toList();
+    return Message.fromRowsAsync(rows);
   }
 
   Future<List<Message>> getCachedMessagesBefore(
@@ -154,7 +154,7 @@ class MessageRepository {
       limit: limit,
       beforeId: beforeId,
     );
-    return rows.map(Message.fromRow).toList();
+    return Message.fromRowsAsync(rows);
   }
 
   Future<List<Message>> getCachedMessagesAfter(
@@ -167,7 +167,7 @@ class MessageRepository {
       afterId,
       limit: limit,
     );
-    return rows.map(Message.fromRow).toList();
+    return Message.fromRowsAsync(rows);
   }
 
   Future<List<Message>> getMessages({

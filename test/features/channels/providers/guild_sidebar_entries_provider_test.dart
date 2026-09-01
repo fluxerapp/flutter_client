@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/guild_sidebar_entries_provider.dart';
@@ -197,6 +198,25 @@ void main() {
             .map((GuildSidebarEntry e) => e.channel?.id)
             .toList(),
         <String?>['c1', 'c2'],
+      );
+    });
+  });
+
+  group('GuildSidebarEntry equality', () {
+    test('channel entries with the same channel are equal', () {
+      const Channel channel = Channel(id: 'c1', guildId: 'g1', name: 'general');
+      const GuildSidebarEntry a = GuildSidebarEntry(
+        kind: GuildSidebarEntryKind.channel,
+        channel: channel,
+      );
+      const GuildSidebarEntry b = GuildSidebarEntry(
+        kind: GuildSidebarEntryKind.channel,
+        channel: channel,
+      );
+      expect(a, b);
+      expect(
+        listEquals(<GuildSidebarEntry>[a], <GuildSidebarEntry>[b]),
+        isTrue,
       );
     });
   });

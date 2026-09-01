@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -373,6 +375,92 @@ void main() {
       );
       expect(updated.translation, isNotNull);
       expect(updated.translation!.translatedContent, 'Hello world');
+    });
+  });
+
+  group('Message.fromRows', () {
+    test('matches fromRow for embed and attachment JSON', () {
+      final db.Message row = db.Message(
+        id: '0001',
+        channelId: 'channel-1',
+        authorId: 'author-1',
+        authorName: 'Author',
+        authorIsBot: false,
+        authorIsSystem: false,
+        authorPublicFlags: 0,
+        content: 'hello',
+        timestamp: DateTime.utc(2026),
+        embedsJson: jsonEncode(<Map<String, Object?>>[
+          <String, Object?>{
+            'type': 'image',
+            'url': 'https://example.test/a.png',
+          },
+        ]),
+        attachmentsJson: jsonEncode(<Map<String, Object?>>[
+          <String, Object?>{
+            'id': 'a1',
+            'filename': 'f.png',
+            'url': 'https://example.test/f.png',
+          },
+        ]),
+        stickersJson: '[]',
+        reactionsJson: jsonEncode(<Map<String, Object?>>[
+          <String, Object?>{'emoji': '👍', 'count': 2},
+        ]),
+        messageSnapshotsJson: '[]',
+        pinned: false,
+        isMentioned: false,
+        mentionedUserIdsJson: '[]',
+        mentionChannelsJson: '[]',
+        type: 0,
+        flags: 0,
+        deliveryState: 1,
+        translationShowOriginal: false,
+      );
+      final List<db.Message> rows = List<db.Message>.filled(8, row);
+      final List<Message> decoded = Message.fromRows(rows);
+      expect(decoded, hasLength(8));
+      expect(decoded.first.isRenderEquivalent(Message.fromRow(row)), isTrue);
+      expect(decoded.first.embeds, hasLength(1));
+      expect(decoded.first.attachments, hasLength(1));
+      expect(decoded.first.reactions, hasLength(1));
+    });
+
+    test('fromRowsAsync isolate path matches fromRows', () async {
+      final db.Message row = _emptyRow();
+      final List<db.Message> rows = <db.Message>[
+        for (int i = 0; i < 8; i++)
+          db.Message(
+            id: '$i',
+            channelId: row.channelId,
+            authorId: row.authorId,
+            authorName: row.authorName,
+            authorIsBot: row.authorIsBot,
+            authorIsSystem: row.authorIsSystem,
+            authorPublicFlags: row.authorPublicFlags,
+            content: row.content,
+            timestamp: row.timestamp,
+            embedsJson: row.embedsJson,
+            attachmentsJson: row.attachmentsJson,
+            stickersJson: row.stickersJson,
+            reactionsJson: row.reactionsJson,
+            messageSnapshotsJson: row.messageSnapshotsJson,
+            pinned: row.pinned,
+            isMentioned: row.isMentioned,
+            mentionedUserIdsJson: row.mentionedUserIdsJson,
+            mentionChannelsJson: row.mentionChannelsJson,
+            type: row.type,
+            flags: row.flags,
+            deliveryState: row.deliveryState,
+            translationShowOriginal: row.translationShowOriginal,
+          ),
+      ];
+      final List<Message> isolated = await Message.fromRowsAsync(rows);
+      final List<Message> sync = Message.fromRows(rows);
+      expect(isolated, hasLength(sync.length));
+      for (int i = 0; i < sync.length; i++) {
+        expect(isolated[i].isRenderEquivalent(sync[i]), isTrue);
+      }
     });
   });
 }

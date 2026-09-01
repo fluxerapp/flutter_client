@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/utils/channel_jump_link.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/utils/link_channel_navigator.dart';
+import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.dart';
 import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
@@ -57,6 +58,7 @@ Future<void> navigateToChannelContent({
       guildId: guildId,
       channel: resolvedChannel,
       chatPath: chatPath,
+      targetMessageId: messageId,
     );
     return;
   }
@@ -87,6 +89,11 @@ Future<void> navigateToDmChannelContent({
   ref
       .read(recentChannelVisitsProvider.notifier)
       .recordVisit(channelId: channelId);
+  unawaited(
+    ref
+        .read(chatViewModelProvider.notifier)
+        .switchChannel(channelId, targetMessageId: messageId),
+  );
   navigateToContent(context, path);
 }
 
@@ -114,6 +121,7 @@ Future<void> navigateToGuildChannelContent({
     channel: channel,
     chatPath: chatPath,
     effectivePermissionBits: effectivePermissionBits,
+    targetMessageId: messageId,
   );
 }
 
@@ -135,6 +143,7 @@ Future<void> openGuildChannelContent({
   required Channel channel,
   required String chatPath,
   int? effectivePermissionBits,
+  String? targetMessageId,
 }) async {
   if (await tryOpenLinkChannel(
     context: context,
@@ -169,6 +178,13 @@ Future<void> openGuildChannelContent({
     ref
         .read(recentChannelVisitsProvider.notifier)
         .recordVisit(channelId: channel.id, guildId: guildId);
+    if (channel.type == ChannelType.guildText) {
+      unawaited(
+        ref
+            .read(chatViewModelProvider.notifier)
+            .switchChannel(channel.id, targetMessageId: targetMessageId),
+      );
+    }
     if (context.mounted) {
       navigateToContent(context, chatPath);
       return;

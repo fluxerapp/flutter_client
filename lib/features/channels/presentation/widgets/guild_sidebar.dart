@@ -576,16 +576,18 @@ class _GuildSidebarChannelListState
           _scheduleScrollClamp();
         }
       });
-    final String? selectedId = ref.watch(activeChannelIdProvider);
-    final RouteState routeState = ref.watch(routeStateProvider);
     final bool showMembersEntry =
         !isMobileLayout(context) &&
         hasMembersPagePermission(
           ref.watch(guildPermissionsProvider)[widget.guildId] ?? 0,
         );
-    final bool isMembersSelected =
-        routeState.kind == RouteKind.guildMembers &&
-        routeState.guildId == widget.guildId;
+    final bool isMembersSelected = ref.watch(
+      routeStateProvider.select(
+        (RouteState routeState) =>
+            routeState.kind == RouteKind.guildMembers &&
+            routeState.guildId == widget.guildId,
+      ),
+    );
     final int membersOffset = showMembersEntry ? 2 : 0;
     final Widget channelListView = ListView.builder(
       controller: _scrollController,
@@ -628,7 +630,6 @@ class _GuildSidebarChannelListState
                 key: ValueKey<String>(channelId),
                 tileKey: _channelKeys.putIfAbsent(channelId, GlobalKey.new),
                 channel: entry.channel!,
-                isSelected: channelId == selectedId,
                 guildId: widget.guildId,
                 guild: widget.guild,
               ),
@@ -661,7 +662,6 @@ class _GuildSidebarChannelListState
 class _ChannelTile extends ConsumerWidget {
   const _ChannelTile({
     required this.channel,
-    required this.isSelected,
     required this.guildId,
     required this.guild,
     this.tileKey,
@@ -669,13 +669,15 @@ class _ChannelTile extends ConsumerWidget {
   });
 
   final Channel channel;
-  final bool isSelected;
   final String guildId;
   final Guild guild;
   final GlobalKey? tileKey;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final bool isSelected = ref.watch(
+      activeChannelIdProvider.select((String? id) => id == channel.id),
+    );
     final unread = ref.watch(channelUnreadProvider(channel.id)).value;
     final bool hasUnread = unread?.hasUnread ?? false;
     final int mentionCount = unread?.mentionCount ?? 0;

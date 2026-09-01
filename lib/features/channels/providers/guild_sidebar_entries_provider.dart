@@ -1,3 +1,6 @@
+import 'dart:collection';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
@@ -19,6 +22,7 @@ part 'guild_sidebar_entries_provider.g.dart';
 
 enum GuildSidebarEntryKind { categoryHeader, channel, voiceParticipants }
 
+@immutable
 class GuildSidebarEntry {
   const GuildSidebarEntry({
     required this.kind,
@@ -33,6 +37,33 @@ class GuildSidebarEntry {
   final bool isCategoryCollapsed;
   final Channel? channel;
   final String? guildId;
+
+  @override
+  bool operator ==(Object other) {
+    return other is GuildSidebarEntry &&
+        kind == other.kind &&
+        isCategoryCollapsed == other.isCategoryCollapsed &&
+        category == other.category &&
+        channel == other.channel &&
+        guildId == other.guildId;
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(kind, isCategoryCollapsed, category, channel, guildId);
+}
+
+@immutable
+class _GuildSidebarEntries extends UnmodifiableListView<GuildSidebarEntry> {
+  _GuildSidebarEntries(super.source);
+
+  @override
+  bool operator ==(Object other) {
+    return other is List<GuildSidebarEntry> && listEquals(this, other);
+  }
+
+  @override
+  int get hashCode => Object.hashAll(this);
 }
 
 bool _hasVisibleUnreadForChannel({
@@ -188,12 +219,14 @@ List<GuildSidebarEntry> guildSidebarEntries(Ref ref) {
   final Set<String> collapsed =
       ref.watch(guildCollapsedCategoriesProvider(guild.id)).value ??
       const <String>{};
-  final bool shouldWatchUnreadSnapshot =
+  final bool selectionChangesMembership =
       hideMutedChannels || collapsed.isNotEmpty;
-  final Map<String, UnreadState> unreadSnapshot = shouldWatchUnreadSnapshot
+  final Map<String, UnreadState> unreadSnapshot = selectionChangesMembership
       ? ref.watch(guildChannelUnreadSnapshotProvider(guildId))
       : const <String, UnreadState>{};
-  final String? selectedId = ref.watch(activeChannelIdProvider);
+  final String? selectedId = selectionChangesMembership
+      ? ref.watch(activeChannelIdProvider)
+      : null;
   final String? connectedChannelId = ref.watch(
     voiceSessionProvider.select((VoiceSessionState s) => s.channelId),
   );
@@ -202,15 +235,17 @@ List<GuildSidebarEntry> guildSidebarEntries(Ref ref) {
       (AppearancePreferencesState s) => s.showFadedUnreadOnMutedChannels,
     ),
   );
-  return flattenGuildSidebarEntries(
-    categories: categories,
-    collapsed: collapsed,
-    mutedSet: mutedSet,
-    hideMuted: hideMutedChannels,
-    selectedId: selectedId,
-    connectedChannelId: connectedChannelId,
-    showFadedUnread: showFadedUnread,
-    guildId: guildId,
-    unreadForChannel: (String channelId) => unreadSnapshot[channelId],
+  return _GuildSidebarEntries(
+    flattenGuildSidebarEntries(
+      categories: categories,
+      collapsed: collapsed,
+      mutedSet: mutedSet,
+      hideMuted: hideMutedChannels,
+      selectedId: selectedId,
+      connectedChannelId: connectedChannelId,
+      showFadedUnread: showFadedUnread,
+      guildId: guildId,
+      unreadForChannel: (String channelId) => unreadSnapshot[channelId],
+    ),
   );
 }

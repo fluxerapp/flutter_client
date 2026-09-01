@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:cross_file/cross_file.dart';
@@ -84,6 +85,7 @@ part 'chat_view_model.g.dart';
 
 const _kPageSize = 50;
 const _kInitialPageSize = 50;
+const _kMaxParkedWindows = 4;
 const _kJumpToPresentPageSize = 50;
 const Duration _kChannelNetworkRefreshTtl = Duration(seconds: 30);
 const _kReadAckMinInterval = Duration(seconds: 1);
@@ -529,6 +531,18 @@ class _WindowSwapCommit {
   final Completer<bool> done = Completer<bool>();
 }
 
+class _ParkedChannelWindow {
+  const _ParkedChannelWindow({
+    required this.messages,
+    required this.hasMoreMessages,
+    required this.hasMoreNewerMessages,
+  });
+
+  final List<Message> messages;
+  final bool hasMoreMessages;
+  final bool hasMoreNewerMessages;
+}
+
 @Riverpod(keepAlive: true)
 class ChatViewModel extends _$ChatViewModel {
   StreamSubscription<MessageRealtimeEvent>? _eventsSub;
@@ -564,6 +578,8 @@ class ChatViewModel extends _$ChatViewModel {
   ({String channelId, String? targetMessageId, bool loadMessages})?
   _switchInFlightRequest;
   Future<void>? _switchInFlightFuture;
+  final LinkedHashMap<String, _ParkedChannelWindow> _parkedWindows =
+      LinkedHashMap<String, _ParkedChannelWindow>();
   // Bumped whenever the loaded window is replaced wholesale. In-flight page
   // loads compare it before applying, so a slow response cannot resurrect
   // the window it was fetched for after a jump replaced it.
@@ -1735,6 +1751,74 @@ class ChatViewModel extends _$ChatViewModel {
     );
   }
 
+  void _parkLoadedWindow(String channelId) {
+    if (channelId.isEmpty || state.messages.isEmpty) {
+      return;
+    }
+    _parkedWindows.remove(channelId);
+    _parkedWindows[channelId] = _ParkedChannelWindow(
+      messages: List<Message>.unmodifiable(state.messages),
+      hasMoreMessages: state.hasMoreMessages,
+      hasMoreNewerMessages: state.hasMoreNewerMessages,
+    );
+    while (_parkedWindows.length > _kMaxParkedWindows) {
+      _parkedWindows.remove(_parkedWindows.keys.first);
+    }
+  }
+
+  Future<void> _applyReadComposerDraft({
+    required String channelId,
+    required Future<({String text, Message? reply, bool replyMentioning})>
+    draftFuture,
+    required bool Function() isCurrentSwitch,
+    required void Function(String name) mark,
+  }) async {
+    final ({String text, Message? reply, bool replyMentioning}) loaded =
+        await draftFuture;
+    if (!isCurrentSwitch()) {
+      return;
+    }
+    mark('draft');
+    _applyComposerDraftIfCurrent(
+      channelId: channelId,
+      draft: (text: loaded.text, reply: loaded.reply),
+      replyMentioning: loaded.replyMentioning,
+    );
+  }
+
+  void _applyComposerDraftIfCurrent({
+    required String channelId,
+    required ({String text, Message? reply}) draft,
+    required bool replyMentioning,
+  }) {
+    if (!ref.mounted || state.channelId != channelId) {
+      return;
+    }
+    state = state.copyWith(
+      messageText: draft.text,
+      replyingTo: draft.reply,
+      replyMentioning: replyMentioning,
+    );
+  }
+
+  Future<({String text, Message? reply, bool replyMentioning})>
+  _readComposerDraft(String channelId) async {
+    final ({String text, Message? reply}) draft = await _loadComposerDraft(
+      channelId,
+    );
+    if (draft.reply == null) {
+      return (text: draft.text, reply: null, replyMentioning: false);
+    }
+    return (
+      text: draft.text,
+      reply: draft.reply,
+      replyMentioning: await _defaultReplyMentionFor(
+        message: draft.reply!,
+        channelId: channelId,
+      ),
+    );
+  }
+
   Future<({String text, Message? reply})> _loadComposerDraft(
     String channelId,
   ) async {
@@ -1963,6 +2047,7 @@ class ChatViewModel extends _$ChatViewModel {
       final bool isChannelChange =
           previousChannelId.isNotEmpty && previousChannelId != channelId;
       if (isChannelChange) {
+        _parkLoadedWindow(previousChannelId);
         _contiguity.invalidate();
         final String previousText = state.messageText;
         final Message? previousReply = state.replyingTo;
@@ -1984,30 +2069,19 @@ class ChatViewModel extends _$ChatViewModel {
           );
         }
       }
-      final draft = await _loadComposerDraft(channelId);
-      if (!isCurrentSwitch()) {
-        return;
-      }
-      mark('draft');
-      final bool replyMentioning;
-      if (draft.reply == null) {
-        replyMentioning = false;
-      } else {
-        replyMentioning = await _defaultReplyMentionFor(
-          message: draft.reply!,
-          channelId: channelId,
-        );
+      final Future<({String text, Message? reply, bool replyMentioning})>
+      draftFuture = _readComposerDraft(channelId);
+      if (!loadMessages) {
+        final loadedDraft = await draftFuture;
         if (!isCurrentSwitch()) {
           return;
         }
-      }
-      mark('mention');
-      if (!loadMessages) {
+        mark('draft');
         state = _switchedChannelState(
           channelId: channelId,
           messages: isChannelChange ? const [] : state.messages,
-          draft: draft,
-          replyMentioning: replyMentioning,
+          draft: (text: loadedDraft.text, reply: loadedDraft.reply),
+          replyMentioning: loadedDraft.replyMentioning,
           scrollToBottomSignal: state.scrollToBottomSignal,
           isLoading: false,
           isSyncingMessages: false,
@@ -2044,8 +2118,8 @@ class ChatViewModel extends _$ChatViewModel {
         state = _switchedChannelState(
           channelId: channelId,
           messages: const [],
-          draft: draft,
-          replyMentioning: replyMentioning,
+          draft: (text: '', reply: null),
+          replyMentioning: false,
           scrollToBottomSignal: state.scrollToBottomSignal,
           isLoading: true,
           isSyncingMessages: false,
@@ -2060,6 +2134,12 @@ class ChatViewModel extends _$ChatViewModel {
           channelId,
           targetMessageId: targetMessageId,
           shouldApplyResult: isCurrentSwitch,
+        );
+        await _applyReadComposerDraft(
+          channelId: channelId,
+          draftFuture: draftFuture,
+          isCurrentSwitch: isCurrentSwitch,
+          mark: mark,
         );
         if (isCurrentSwitch() && state.channelId == channelId) {
           talker.debug(
@@ -2104,9 +2184,65 @@ class ChatViewModel extends _$ChatViewModel {
       final repo = ref.read(messageRepositoryProvider);
       final int cacheOrdinal = _beginPageFetch();
       cacheFetchOrdinal = cacheOrdinal;
+      final Future<bool> unreadFuture = _channelHasNewUnreadMessages(channelId);
+      final Future<List<Message>> cacheFuture = repo.getCachedMessages(
+        channelId,
+        limit: _kInitialPageSize,
+      );
+      final _ParkedChannelWindow? parked = _parkedWindows[channelId];
+      if (parked != null && parked.messages.isNotEmpty) {
+        final bool hasUnread = await unreadFuture;
+        if (!isCurrentSwitch()) {
+          return;
+        }
+        if (!hasUnread) {
+          mark('reads');
+          final bool willRefresh = _shouldRefreshChannelFromNetwork(channelId);
+          state = _switchedChannelState(
+            channelId: channelId,
+            messages: _finalizeLoadedMessages(
+              channelId,
+              parked.messages,
+              cacheOrdinal,
+            ),
+            draft: (text: '', reply: null),
+            replyMentioning: false,
+            scrollToBottomSignal: state.scrollToBottomSignal,
+            isLoading: false,
+            isSyncingMessages: willRefresh,
+            isLoadingMore: false,
+            isLoadingNewer: false,
+            hasMoreMessages: parked.hasMoreMessages,
+            hasMoreNewerMessages: parked.hasMoreNewerMessages,
+            replaceWindow: true,
+          );
+          _invalidateMessageCacheTrust();
+          _deferMessageReferencesLoaded(
+            channelId: channelId,
+            messages: parked.messages,
+          );
+          if (willRefresh) {
+            unawaited(
+              _refreshMessagesFromNetwork(
+                channelId,
+                isDirectLatestLoad: false,
+                preserveLoadedWindow: true,
+                shouldApplyResult: isCurrentSwitch,
+              ),
+            );
+          }
+          await _applyReadComposerDraft(
+            channelId: channelId,
+            draftFuture: draftFuture,
+            isCurrentSwitch: isCurrentSwitch,
+            mark: mark,
+          );
+          return;
+        }
+      }
       final (List<Message> cachedRows, bool hasUnread) = await (
-        repo.getCachedMessages(channelId, limit: _kInitialPageSize),
-        _channelHasNewUnreadMessages(channelId),
+        cacheFuture,
+        unreadFuture,
       ).wait;
       if (!isCurrentSwitch()) {
         return;
@@ -2123,8 +2259,8 @@ class ChatViewModel extends _$ChatViewModel {
         state = _switchedChannelState(
           channelId: channelId,
           messages: _finalizeLoadedMessages(channelId, cached, cacheOrdinal),
-          draft: draft,
-          replyMentioning: replyMentioning,
+          draft: (text: '', reply: null),
+          replyMentioning: false,
           scrollToBottomSignal: state.scrollToBottomSignal,
           isLoading: false,
           isSyncingMessages: willRefresh,
@@ -2146,13 +2282,19 @@ class ChatViewModel extends _$ChatViewModel {
             ),
           );
         }
+        await _applyReadComposerDraft(
+          channelId: channelId,
+          draftFuture: draftFuture,
+          isCurrentSwitch: isCurrentSwitch,
+          mark: mark,
+        );
         return;
       }
       state = _switchedChannelState(
         channelId: channelId,
         messages: const [],
-        draft: draft,
-        replyMentioning: replyMentioning,
+        draft: (text: '', reply: null),
+        replyMentioning: false,
         scrollToBottomSignal: state.scrollToBottomSignal,
         isLoading: true,
         isSyncingMessages: false,
@@ -2185,6 +2327,12 @@ class ChatViewModel extends _$ChatViewModel {
         shouldApplyResult: isCurrentSwitch,
       );
       mark('net');
+      await _applyReadComposerDraft(
+        channelId: channelId,
+        draftFuture: draftFuture,
+        isCurrentSwitch: isCurrentSwitch,
+        mark: mark,
+      );
     } finally {
       if (cacheFetchOrdinal != null) {
         _endPageFetch(cacheFetchOrdinal);

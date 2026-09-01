@@ -161,49 +161,52 @@ void main() {
       },
     );
 
-    testWidgets('shows skeleton until view model channel id matches panel', (
-      WidgetTester tester,
-    ) async {
-      tester.view.physicalSize = const Size(390, 844);
-      tester.view.devicePixelRatio = 1;
-      addTearDown(tester.view.resetPhysicalSize);
-      addTearDown(tester.view.resetDevicePixelRatio);
+    testWidgets(
+      'shows a cheap placeholder until view model channel id matches',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(390, 844);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
 
-      final db.FluxerDatabase database = await _openDatabase();
-      addTearDown(database.close);
-      final Message message = _message(
-        id: '555555555555555555',
-        content: 'After sync',
-      );
-      final _HarnessChatViewModel chatViewModel = _HarnessChatViewModel(
-        _loadedState(channelId: '', messages: <Message>[message]),
-      );
+        final db.FluxerDatabase database = await _openDatabase();
+        addTearDown(database.close);
+        final Message message = _message(
+          id: '555555555555555555',
+          content: 'After sync',
+        );
+        final _HarnessChatViewModel chatViewModel = _HarnessChatViewModel(
+          _loadedState(channelId: '', messages: <Message>[message]),
+        );
 
-      await tester.pumpWidget(
-        _surfaceApp(
-          database: database,
-          chatViewModel: chatViewModel,
-          child: _panelMessageSurface(
-            const MessageList(expectedChannelId: _channelId),
+        await tester.pumpWidget(
+          _surfaceApp(
+            database: database,
+            chatViewModel: chatViewModel,
+            child: _panelMessageSurface(
+              const MessageList(expectedChannelId: _channelId),
+            ),
           ),
-        ),
-      );
-      await tester.pump();
+        );
+        await tester.pump();
 
-      expect(find.byType(MessageListSkeleton), findsOneWidget);
-      expect(find.text('After sync'), findsNothing);
+        expect(find.byType(MessageListMismatchPlaceholder), findsOneWidget);
+        expect(find.byType(MessageListSkeleton), findsNothing);
+        expect(find.text('After sync'), findsNothing);
 
-      chatViewModel.harnessState = _loadedState(
-        channelId: _channelId,
-        messages: <Message>[message],
-      );
-      await tester.pump();
-      await tester.pump();
+        chatViewModel.harnessState = _loadedState(
+          channelId: _channelId,
+          messages: <Message>[message],
+        );
+        await tester.pump();
+        await tester.pump();
 
-      expect(find.byType(MessageListSkeleton), findsNothing);
-      expect(find.byType(MessageItem), findsOneWidget);
-      await _disposeWidgetTree(tester);
-    });
+        expect(find.byType(MessageListMismatchPlaceholder), findsNothing);
+        expect(find.byType(MessageListSkeleton), findsNothing);
+        expect(find.byType(MessageItem), findsOneWidget);
+        await _disposeWidgetTree(tester);
+      },
+    );
 
     testWidgets(
       'keeps messages visible under drawer-style transform wrapping',

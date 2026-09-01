@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:isolate';
 
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
@@ -1233,6 +1234,19 @@ class Message {
             ),
       translation: translationFromRow(row),
     );
+  }
+
+  static const int _kFromRowsIsolateMinCount = 8;
+
+  static List<Message> fromRows(List<db.Message> rows) => <Message>[
+    for (final db.Message row in rows) Message.fromRow(row),
+  ];
+
+  static Future<List<Message>> fromRowsAsync(List<db.Message> rows) {
+    if (rows.length < _kFromRowsIsolateMinCount) {
+      return Future<List<Message>>.value(fromRows(rows));
+    }
+    return Isolate.run(() => fromRows(rows));
   }
 
   static MessageTranslation? translationFromRow(db.Message row) {
