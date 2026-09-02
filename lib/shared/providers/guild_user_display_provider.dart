@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -70,6 +71,9 @@ GuildUserDisplay watchMessageAuthorDisplay({
     message: message,
     guildId: guildId,
     guildDisplay: guildDisplay,
+    productName: ref.watch(
+      instanceRuntimeConfigProvider.select((config) => config.productName),
+    ),
   );
 }
 

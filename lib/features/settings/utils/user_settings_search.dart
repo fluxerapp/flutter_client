@@ -1,3 +1,4 @@
+import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_billing_utils.dart';
@@ -109,6 +110,7 @@ List<UserSettingsSearchHit> searchVisibleUserSettings({
   required String query,
   required bool showBilling,
   required bool isTouchPrimary,
+  String productName = InstanceConstants.defaultProductName,
 }) {
   if (query.trim().isEmpty) {
     return const [];
@@ -121,6 +123,7 @@ List<UserSettingsSearchHit> searchVisibleUserSettings({
       isTouchPrimary: isTouchPrimary,
     ),
     isTouchPrimary: isTouchPrimary,
+    productName: productName,
   );
 }
 
@@ -129,6 +132,7 @@ List<UserSettingsSearchHit> searchUserSettings({
   required String query,
   required Set<UserSettingsSection> visibleSections,
   required bool isTouchPrimary,
+  String productName = InstanceConstants.defaultProductName,
 }) {
   final List<String> queryWords = userSettingsSearchQueryWords(query);
   if (queryWords.isEmpty) {
@@ -150,19 +154,19 @@ List<UserSettingsSearchHit> searchUserSettings({
         )) {
       continue;
     }
-    final String label = descriptor.label(l10n);
+    final String label = descriptor.label(l10n, productName: productName);
     if (label.isEmpty) {
       continue;
     }
     final List<String> keywords = [
       for (final UserSettingsSearchLabel keyword in descriptor.keywords)
-        keyword(l10n),
+        keyword(l10n, productName: productName),
     ];
     final int score = scoreUserSettingsSearchMatch(
       label: label,
       keywords: keywords,
       queryWords: queryWords,
-      description: descriptor.description?.call(l10n),
+      description: descriptor.description?.call(l10n, productName: productName),
     );
     if (score <= 0) {
       continue;

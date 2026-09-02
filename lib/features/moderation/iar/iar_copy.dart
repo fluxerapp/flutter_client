@@ -1,5 +1,6 @@
 // Localized copy for the IAR flow, mirroring web `IARModalCopy.ts`.
 
+import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_flow.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_resolved_context.dart';
 import 'package:fluxer_app/features/ui/radio_group/fluxer_radio_group.dart';
@@ -71,8 +72,9 @@ String? iarMessageReasonLabel(FluxerLocalizations l10n, IarRuleReason reason) {
 
 String? iarMessageReasonDescription(
   FluxerLocalizations l10n,
-  IarRuleReason reason,
-) {
+  IarRuleReason reason, {
+  String productName = InstanceConstants.defaultProductName,
+}) {
   return switch (reason) {
     IarRuleReason.harassment => l10n.iarReasonHarassmentMessageDescription,
     IarRuleReason.hate => l10n.iarReasonHateMessageDescription,
@@ -89,7 +91,7 @@ String? iarMessageReasonDescription(
       l10n.iarReasonImpersonationMessageDescription,
     IarRuleReason.illegalActivity => l10n.iarReasonIllegalDescription,
     IarRuleReason.selfHarm => l10n.iarReasonSelfHarmMessageDescription,
-    IarRuleReason.other => l10n.iarReasonOtherDescription,
+    IarRuleReason.other => l10n.iarReasonOtherDescription(productName),
     IarRuleReason.terrorismExtremism => null,
     IarRuleReason.raidCoordination => null,
     IarRuleReason.inappropriateProfile => null,
@@ -198,8 +200,9 @@ List<FluxerRadioItem<IarRuleCategory>> iarCategoryOptions(
 /// message-report taxonomy.
 List<FluxerRadioItem<IarRuleReason>> iarMessageReasonOptions(
   FluxerLocalizations l10n,
-  IarRuleCategory? category,
-) {
+  IarRuleCategory? category, {
+  String productName = InstanceConstants.defaultProductName,
+}) {
   final pool = category == null
       ? IarRuleReason.values
       : ruleReasonsByCategory[category] ?? const <IarRuleReason>[];
@@ -213,7 +216,11 @@ List<FluxerRadioItem<IarRuleReason>> iarMessageReasonOptions(
       FluxerRadioItem(
         value: reason,
         label: label,
-        description: iarMessageReasonDescription(l10n, reason),
+        description: iarMessageReasonDescription(
+          l10n,
+          reason,
+          productName: productName,
+        ),
       ),
     );
   }
@@ -223,8 +230,9 @@ List<FluxerRadioItem<IarRuleReason>> iarMessageReasonOptions(
 /// Reason dropdown options for the simple mobile message-report flow: the flat
 /// [messageReportReasons] list in web `getMessageRuleReasonOptions` order.
 List<FluxerSelectItem<IarRuleReason>> iarFlatMessageReasonSelectOptions(
-  FluxerLocalizations l10n,
-) {
+  FluxerLocalizations l10n, {
+  String productName = InstanceConstants.defaultProductName,
+}) {
   final items = <FluxerSelectItem<IarRuleReason>>[];
   for (final reason in messageReportReasons) {
     final label = iarMessageReasonLabel(l10n, reason);
@@ -235,7 +243,11 @@ List<FluxerSelectItem<IarRuleReason>> iarFlatMessageReasonSelectOptions(
       FluxerSelectItem(
         value: reason,
         label: label,
-        description: iarMessageReasonDescription(l10n, reason),
+        description: iarMessageReasonDescription(
+          l10n,
+          reason,
+          productName: productName,
+        ),
       ),
     );
   }
@@ -255,8 +267,9 @@ String? iarUserReasonLabel(FluxerLocalizations l10n, IarRuleReason reason) {
 /// Reason dropdown options for the simple mobile user-report flow: the flat
 /// [userReportReasons] list in web `getUserRuleReasonOptions` order.
 List<FluxerSelectItem<IarRuleReason>> iarFlatUserReasonSelectOptions(
-  FluxerLocalizations l10n,
-) {
+  FluxerLocalizations l10n, {
+  String productName = InstanceConstants.defaultProductName,
+}) {
   final items = <FluxerSelectItem<IarRuleReason>>[];
   for (final reason in userReportReasons) {
     final label = iarUserReasonLabel(l10n, reason);
@@ -269,7 +282,11 @@ List<FluxerSelectItem<IarRuleReason>> iarFlatUserReasonSelectOptions(
         label: label,
         description: reason == IarRuleReason.inappropriateProfile
             ? l10n.iarReasonInappropriateProfileDescription
-            : iarMessageReasonDescription(l10n, reason),
+            : iarMessageReasonDescription(
+                l10n,
+                reason,
+                productName: productName,
+              ),
       ),
     );
   }
@@ -300,8 +317,9 @@ String? iarGuildReasonLabel(FluxerLocalizations l10n, IarRuleReason reason) {
 
 String? iarGuildReasonDescription(
   FluxerLocalizations l10n,
-  IarRuleReason reason,
-) {
+  IarRuleReason reason, {
+  String productName = InstanceConstants.defaultProductName,
+}) {
   return switch (reason) {
     IarRuleReason.harassment => l10n.iarReasonHarassmentGuildDescription,
     IarRuleReason.hate => l10n.iarReasonHateGuildDescription,
@@ -316,7 +334,7 @@ String? iarGuildReasonDescription(
     IarRuleReason.privacy => l10n.iarReasonPrivacyGuildDescription,
     IarRuleReason.illegalActivity => l10n.iarReasonIllegalDescription,
     IarRuleReason.selfHarm => l10n.iarReasonSelfHarmGuildDescription,
-    IarRuleReason.other => l10n.iarReasonOtherDescription,
+    IarRuleReason.other => l10n.iarReasonOtherDescription(productName),
     IarRuleReason.violence => null,
     IarRuleReason.impersonation => null,
     IarRuleReason.inappropriateProfile => null,
@@ -324,8 +342,9 @@ String? iarGuildReasonDescription(
 }
 
 List<FluxerSelectItem<IarRuleReason>> iarFlatGuildReasonSelectOptions(
-  FluxerLocalizations l10n,
-) {
+  FluxerLocalizations l10n, {
+  String productName = InstanceConstants.defaultProductName,
+}) {
   final items = <FluxerSelectItem<IarRuleReason>>[];
   for (final reason in guildReportReasons) {
     final label = iarGuildReasonLabel(l10n, reason);
@@ -336,7 +355,11 @@ List<FluxerSelectItem<IarRuleReason>> iarFlatGuildReasonSelectOptions(
       FluxerSelectItem(
         value: reason,
         label: label,
-        description: iarGuildReasonDescription(l10n, reason),
+        description: iarGuildReasonDescription(
+          l10n,
+          reason,
+          productName: productName,
+        ),
       ),
     );
   }

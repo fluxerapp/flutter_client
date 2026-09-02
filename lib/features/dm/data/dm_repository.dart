@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/dm/data/dm_conversation_mapper.dart';
@@ -19,12 +20,14 @@ class DmRepository {
   final db.FluxerDatabase _db;
   final GuildUserSettingsRepository _guildUserSettingsRepository;
   final ReadStateRepository? _readStateRepository;
+  final String _productName;
 
   const DmRepository(
     this._client,
     this._db,
     this._guildUserSettingsRepository, {
     this._readStateRepository,
+    this._productName = InstanceConstants.defaultProductName,
   });
 
   ReadStateRepository get _readStateRepo =>
@@ -97,7 +100,11 @@ class DmRepository {
   }
 
   Future<DmConversation> conversationFromChannelRow(db.DmChannel row) {
-    return buildDmConversationFromChannelRow(_db, row);
+    return buildDmConversationFromChannelRow(
+      _db,
+      row,
+      productName: _productName,
+    );
   }
 
   Future<List<DmConversation>> _buildConversations(
@@ -177,6 +184,7 @@ class DmRepository {
           mentionCount: readState?.mentionCount ?? 0,
           cachedUnreadCount: row.unreadCount,
         ),
+        productName: _productName,
       );
     }).toList();
   }

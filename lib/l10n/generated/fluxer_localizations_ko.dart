@@ -89,20 +89,24 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get systemPermissionSettingsOpenSettings => 'Open settings';
 
   @override
-  String get systemPermissionMicrophoneMessage =>
-      'Fluxer doesn\'t have access to your microphone. You can enable it in your device privacy settings.';
+  String systemPermissionMicrophoneMessage(String productName) {
+    return '$productName doesn\'t have access to your microphone. You can enable it in your device privacy settings.';
+  }
 
   @override
-  String get systemPermissionCameraMessage =>
-      'Fluxer doesn\'t have access to your camera. You can enable it in your device privacy settings.';
+  String systemPermissionCameraMessage(String productName) {
+    return '$productName doesn\'t have access to your camera. You can enable it in your device privacy settings.';
+  }
 
   @override
-  String get systemPermissionPhotosMessage =>
-      'Fluxer doesn\'t have access to your photo library. You can enable it in your device privacy settings.';
+  String systemPermissionPhotosMessage(String productName) {
+    return '$productName doesn\'t have access to your photo library. You can enable it in your device privacy settings.';
+  }
 
   @override
-  String get systemPermissionNotificationsMessage =>
-      'Fluxer doesn\'t have permission to send notifications. You can enable it in your device settings.';
+  String systemPermissionNotificationsMessage(String productName) {
+    return '$productName doesn\'t have permission to send notifications. You can enable it in your device settings.';
+  }
 
   @override
   String nagbarPremiumGracePeriod(String productName, String graceDate) {
@@ -1482,7 +1486,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get externalLinkWarningTitle => '외부 링크 경고';
 
   @override
-  String get externalLinkWarningLeaving => 'Fluxer를 벗어나려고 합니다.';
+  String externalLinkWarningLeaving(String productName) {
+    return '$productName를 벗어나려고 합니다.';
+  }
 
   @override
   String get externalLinkWarningDescription => '외부 링크는 위험할 수 있습니다. 주의하세요.';
@@ -1832,7 +1838,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get profilePreviewMessage => '메시지';
 
   @override
-  String get profilePreviewMemberSince => 'Fluxer 가입일';
+  String profilePreviewMemberSince(String productName) {
+    return '$productName 가입일';
+  }
 
   @override
   String get unclaimedAccountTitle => '미청구 계정';
@@ -1919,8 +1927,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get securityLoginEmailSectionTitle => '이메일 설정';
 
   @override
-  String get securityLoginEmailSectionDescription =>
-      'Fluxer에 로그인하는 데 사용하는 이메일 주소를 관리하세요.';
+  String securityLoginEmailSectionDescription(String productName) {
+    return '$productName에 로그인하는 데 사용하는 이메일 주소를 관리하세요.';
+  }
 
   @override
   String get securityLoginEmailAddressLabel => '이메일 주소';
@@ -2354,27 +2363,31 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get requiredActionTitle => 'Account verification required';
 
   @override
-  String get requiredActionIntroGeneric =>
-      'Complete the required verification to continue using Fluxer.';
+  String requiredActionIntroGeneric(String productName) {
+    return 'Complete the required verification to continue using $productName.';
+  }
 
   @override
   String get requiredActionIntroPhone =>
       'Your registration needs an extra anti-spam check before you can continue.';
 
   @override
-  String get requiredActionIntroEmailOrPhone =>
-      'Verify your email or phone to continue using Fluxer.';
+  String requiredActionIntroEmailOrPhone(String productName) {
+    return 'Verify your email or phone to continue using $productName.';
+  }
 
   @override
-  String get requiredActionIntroEmailAndPhone =>
-      'Complete the required email and phone verification steps below to continue using Fluxer.';
+  String requiredActionIntroEmailAndPhone(String productName) {
+    return 'Complete the required email and phone verification steps below to continue using $productName.';
+  }
 
   @override
   String get requiredActionChooseMethodTitle => 'Choose a verification method';
 
   @override
-  String get requiredActionChooseMethodDescription =>
-      'Complete one of the verification paths below to continue using Fluxer.';
+  String requiredActionChooseMethodDescription(String productName) {
+    return 'Complete one of the verification paths below to continue using $productName.';
+  }
 
   @override
   String get requiredActionUseEmail => 'Use email';
@@ -2639,7 +2652,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get authorizedAppsTitle => '승인된 애플리케이션';
 
   @override
-  String get authorizedAppsDescription => '다음 애플리케이션에 Fluxer 계정 액세스가 허용되었습니다.';
+  String authorizedAppsDescription(String productName) {
+    return '다음 애플리케이션에 $productName 계정 액세스가 허용되었습니다.';
+  }
 
   @override
   String get authorizedAppsEmptyTitle => '승인된 애플리케이션 없음';
@@ -2745,31 +2760,49 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get userProfileEditProfile => '프로필 수정';
 
   @override
-  String get userProfileStaffBadgeTooltip => 'Fluxer 팀';
-
-  @override
-  String get userProfileCtpBadgeTooltip => 'Fluxer 커뮤니티 팀';
-
-  @override
-  String get userProfilePartnerBadgeTooltip => 'Fluxer 파트너';
-
-  @override
-  String get userProfileBugHunterBadgeTooltip => 'Fluxer 버그 헌터';
-
-  @override
-  String get userProfilePlutoniumBadgeTooltip => 'Fluxer 플루토늄';
-
-  @override
-  String userProfilePlutoniumSubscriberSinceTooltip(String date) {
-    return '$date부터 Fluxer 플루토늄 구독자';
+  String userProfileStaffBadgeTooltip(String productName) {
+    return '$productName 팀';
   }
 
   @override
-  String get userProfileVisionaryBadgeTooltip => 'Fluxer 비저너리';
+  String userProfileCtpBadgeTooltip(String productName) {
+    return '$productName 커뮤니티 팀';
+  }
 
   @override
-  String userProfileVisionaryBadgeSinceTooltip(String date) {
-    return '$date부터 Fluxer 비저너리';
+  String userProfilePartnerBadgeTooltip(String productName) {
+    return '$productName 파트너';
+  }
+
+  @override
+  String userProfileBugHunterBadgeTooltip(String productName) {
+    return '$productName 버그 헌터';
+  }
+
+  @override
+  String userProfilePlutoniumBadgeTooltip(String productName) {
+    return '$productName 플루토늄';
+  }
+
+  @override
+  String userProfilePlutoniumSubscriberSinceTooltip(
+    String productName,
+    String date,
+  ) {
+    return '$date부터 $productName 플루토늄 구독자';
+  }
+
+  @override
+  String userProfileVisionaryBadgeTooltip(String productName) {
+    return '$productName 비저너리';
+  }
+
+  @override
+  String userProfileVisionaryBadgeSinceTooltip(
+    String productName,
+    String date,
+  ) {
+    return '$date부터 $productName 비저너리';
   }
 
   @override
@@ -3974,8 +4007,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get connectionsTitle => '연결';
 
   @override
-  String get connectionsDescription =>
-      '외부 계정 및 도메인을 Fluxer 프로필에 연결하세요. 인증된 연결은 프로필에 표시되어 다른 사용자가 볼 수 있습니다.';
+  String connectionsDescription(String productName) {
+    return '외부 계정 및 도메인을 $productName 프로필에 연결하세요. 인증된 연결은 프로필에 표시되어 다른 사용자가 볼 수 있습니다.';
+  }
 
   @override
   String get connectionsEmptyTitle => '아직 연결된 항목이 없습니다';
@@ -4405,8 +4439,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get lookAndFeelCollapseDMsLabel => 'DM을 폴더로 축소';
 
   @override
-  String get lookAndFeelCollapseDMsDescription =>
-      '활성화하면 서버 사이드바의 읽지 않은 DM이 Fluxer 버튼 폴더로 축소됩니다. 폴더를 확장하거나 축소하려면 DM 페이지에서 Fluxer 버튼을 클릭하세요.';
+  String lookAndFeelCollapseDMsDescription(String productName) {
+    return '활성화하면 서버 사이드바의 읽지 않은 DM이 $productName 버튼 폴더로 축소됩니다. 폴더를 확장하거나 축소하려면 DM 페이지에서 $productName 버튼을 클릭하세요.';
+  }
 
   @override
   String get lookAndFeelChannelListSectionTitle => '채널 목록';
@@ -4675,7 +4710,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get messagesMediaDisplayInlineEmbedLabel => '채팅에 링크로 게시될 때';
 
   @override
-  String get messagesMediaDisplayInlineAttachmentLabel => 'Fluxer에 직접 업로드될 때';
+  String messagesMediaDisplayInlineAttachmentLabel(String productName) {
+    return '$productName에 직접 업로드될 때';
+  }
 
   @override
   String get messagesMediaLinkPreviewsSectionTitle => '링크 미리 보기';
@@ -4851,8 +4888,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get accessibilityScreenReaderGroupTitle => 'Screen reader';
 
   @override
-  String get accessibilityScreenReaderGroupDescription =>
-      'Control how Fluxer works with screen readers.';
+  String accessibilityScreenReaderGroupDescription(String productName) {
+    return 'Control how $productName works with screen readers.';
+  }
 
   @override
   String get accessibilityScreenReaderAnnounceNewMessagesLabel =>
@@ -6628,8 +6666,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get iarReasonOtherLabel => '명백한 다른 규칙 위반';
 
   @override
-  String get iarReasonOtherDescription =>
-      'Fluxer 규칙을 명확하게 위반하고 위에 해당하지 않는 경우에만 사용하세요.';
+  String iarReasonOtherDescription(String productName) {
+    return '$productName 규칙을 명확하게 위반하고 위에 해당하지 않는 경우에만 사용하세요.';
+  }
 
   @override
   String iarUseChildSafetyInstead(String childSafetyReason) {
@@ -9623,15 +9662,17 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get advancedPerformanceReportingTitle => '성능 보고';
 
   @override
-  String get advancedPerformanceReportingSectionDescription =>
-      '익명의 충돌 및 성능 데이터를 공유하여 Fluxer를 개선하세요.';
+  String advancedPerformanceReportingSectionDescription(String productName) {
+    return '익명의 충돌 및 성능 데이터를 공유하여 $productName를 개선하세요.';
+  }
 
   @override
   String get advancedPerformanceReportingLabel => '충돌 및 성능 보고서 보내기';
 
   @override
-  String get advancedPerformanceReportingDescription =>
-      '보고된 모든 데이터는 익명이며 Fluxer 자체 모니터링 서비스로만 전송됩니다. 제3자 제공업체는 사용되지 않습니다.';
+  String advancedPerformanceReportingDescription(String productName) {
+    return '보고된 모든 데이터는 익명이며 $productName 자체 모니터링 서비스로만 전송됩니다. 제3자 제공업체는 사용되지 않습니다.';
+  }
 
   @override
   String get advancedSettingsConfigure => 'Configure';
@@ -10892,7 +10933,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   }
 
   @override
-  String get guildNavbarStaffOnlyAccessible => 'Fluxer 직원만 액세스할 수 있습니다';
+  String guildNavbarStaffOnlyAccessible(String productName) {
+    return '$productName 직원만 액세스할 수 있습니다';
+  }
 
   @override
   String get guildNavbarInvitesPaused => '이 커뮤니티의 초대가 일시 중지되었습니다';

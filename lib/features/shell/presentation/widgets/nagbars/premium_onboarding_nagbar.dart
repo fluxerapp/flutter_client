@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/shell/data/nagbar_user_updates.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -11,8 +12,6 @@ import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar_content.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-const String kPremiumProductFullName = 'Fluxer Plutonium';
-
 class PremiumOnboardingNagbar extends ConsumerWidget implements NagbarWidget {
   const PremiumOnboardingNagbar({super.key});
 
@@ -20,6 +19,9 @@ class PremiumOnboardingNagbar extends ConsumerWidget implements NagbarWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final bool isMobile = isMobileLayout(context);
+    final String productName = ref.watch(
+      instanceRuntimeConfigProvider.select((config) => config.productName),
+    );
     Future<void> dismiss() async {
       await ref
           .read(nagbarDismissalsProvider.notifier)
@@ -36,7 +38,7 @@ class PremiumOnboardingNagbar extends ConsumerWidget implements NagbarWidget {
       child: FluxerNagbarContent(
         isMobile: isMobile,
         message: l10n.nagbarPremiumOnboardingDefault(
-          kPremiumProductFullName,
+          '$productName $kPremiumProductName',
           kPremiumProductName,
         ),
         onDismiss: dismiss,

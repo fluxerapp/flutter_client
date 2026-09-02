@@ -1,10 +1,11 @@
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fluxer_app/core/constants/assets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_connections_section.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_timezone_section.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_icon_avatar.dart';
+import 'package:fluxer_app/features/ui/icons/instance_branding_image.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
@@ -12,7 +13,7 @@ import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
-class UserProfileBioCard extends StatelessWidget {
+class UserProfileBioCard extends ConsumerWidget {
   const UserProfileBioCard({
     required this.bio,
     required this.userId,
@@ -37,7 +38,7 @@ class UserProfileBioCard extends StatelessWidget {
   final int? timezoneOffset;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.colors;
     final textStyles = context.textStyles;
     final layout = context.layout;
@@ -104,23 +105,15 @@ class UserProfileBioCard extends StatelessWidget {
                     spacing: 4,
                     children: <Widget>[
                       if (guildMemberSince != null)
-                        Container(
-                          width: 16,
-                          height: 16,
-                          decoration: BoxDecoration(
-                            color: colors.brandPrimary,
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          alignment: Alignment.center,
-                          child: SvgPicture.asset(
-                            Assets.fluxerSymbol,
-                            width: 12,
-                            height: 12,
-                            colorFilter: ColorFilter.mode(
-                              colors.textOnBrandPrimary,
-                              BlendMode.srcIn,
+                        Tooltip(
+                          message: l10n.profilePreviewMemberSince(
+                            ref.watch(
+                              instanceRuntimeConfigProvider.select(
+                                (config) => config.productName,
+                              ),
                             ),
                           ),
+                          child: const InstanceBrandMark(size: 16),
                         ),
                       Text(
                         formatUserMediumDate(

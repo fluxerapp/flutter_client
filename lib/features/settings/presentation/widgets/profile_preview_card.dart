@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -28,16 +30,16 @@ const double _kBannerAspectRatio = 17 / 6;
 const double _kContentPaddingH = 16;
 const double _kAvatarLeft = 10;
 
-class ProfilePreviewCard extends StatefulWidget {
+class ProfilePreviewCard extends ConsumerStatefulWidget {
   const ProfilePreviewCard({required this.state, super.key});
 
   final UserSettingsViewState state;
 
   @override
-  State<ProfilePreviewCard> createState() => _ProfilePreviewCardState();
+  ConsumerState<ProfilePreviewCard> createState() => _ProfilePreviewCardState();
 }
 
-class _ProfilePreviewCardState extends State<ProfilePreviewCard> {
+class _ProfilePreviewCardState extends ConsumerState<ProfilePreviewCard> {
   String? _lastAvatarUri;
   Uint8List? _cachedAvatarBytes;
   String? _lastBannerUri;
@@ -186,10 +188,15 @@ class _ProfilePreviewCardState extends State<ProfilePreviewCard> {
     FluxerLocalizations l10n,
   ) {
     final effectiveBio = _effectiveBio();
-    final showPremiumBadge = s.isPremium && !s.effectivePremiumBadgeHidden;
+    final bool selfHosted = ref.watch(
+      instanceRuntimeConfigProvider.select((config) => config.selfHosted),
+    );
+    final showPremiumBadge =
+        !selfHosted && s.isPremium && !s.effectivePremiumBadgeHidden;
     final hasBadges = UserProfileBadges.hasBadges(
       flags: s.publicFlags,
       hasPlutonium: showPremiumBadge,
+      selfHosted: selfHosted,
     );
     final premiumLifetimeSequence =
         showPremiumBadge &&
@@ -441,7 +448,13 @@ class _ProfilePreviewCardState extends State<ProfilePreviewCard> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          l10n.profilePreviewMemberSince,
+          l10n.profilePreviewMemberSince(
+            ref.watch(
+              instanceRuntimeConfigProvider.select(
+                (config) => config.productName,
+              ),
+            ),
+          ),
           style: textStyles.bodySmall.copyWith(
             color: colors.textPrimary,
             fontWeight: FontWeight.w600,

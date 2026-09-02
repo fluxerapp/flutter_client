@@ -83,7 +83,7 @@ class _GuildMembersMobileListViewState
       guildMembersSearchProvider(widget.guildId).notifier,
     );
     final InstanceConfigSnapshot instance = ref.watch(activeInstanceProvider);
-    final String productName = instance.instanceDisplayName ?? 'Fluxer';
+    final String productName = instance.productName;
     final String? ownerId = ref
         .watch(guildByIdProvider(widget.guildId))
         .value

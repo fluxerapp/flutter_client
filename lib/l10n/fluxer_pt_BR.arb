@@ -1510,9 +1510,14 @@
     "@externalLinkWarningTitle": {
         "description": "Title of the external link warning modal."
     },
-    "externalLinkWarningLeaving": "Você está prestes a sair do Fluxer",
+    "externalLinkWarningLeaving": "Você está prestes a sair do {productName}",
     "@externalLinkWarningLeaving": {
-        "description": "Primary warning text shown in the external link warning modal."
+        "description": "Primary warning text shown in the external link warning modal.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "externalLinkWarningDescription": "Links externos podem ser perigosos. Por favor, tenha cuidado.",
     "@externalLinkWarningDescription": {
@@ -1975,9 +1980,14 @@
     "@profilePreviewMessage": {
         "description": "Disabled message button in the profile preview card."
     },
-    "profilePreviewMemberSince": "Membro Fluxer Desde",
+    "profilePreviewMemberSince": "Membro {productName} Desde",
     "@profilePreviewMemberSince": {
-        "description": "Label for the member-since date in the profile preview card."
+        "description": "Label for the member-since date in the profile preview card.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "unclaimedAccountTitle": "Conta Não Reivindicada",
     "@unclaimedAccountTitle": {
@@ -2087,9 +2097,14 @@
     "@securityLoginEmailSectionTitle": {
         "description": "Title for email settings section in Security & Login."
     },
-    "securityLoginEmailSectionDescription": "Gerencie o endereço de e-mail que você usa para fazer login no Fluxer",
+    "securityLoginEmailSectionDescription": "Gerencie o endereço de e-mail que você usa para fazer login no {productName}",
     "@securityLoginEmailSectionDescription": {
-        "description": "Description for email settings section."
+        "description": "Description for email settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "securityLoginEmailAddressLabel": "Endereço de E-mail",
     "@securityLoginEmailAddressLabel": {
@@ -2732,9 +2747,14 @@
     "@authorizedAppsTitle": {
         "description": "Title for the Authorized Applications settings section."
     },
-    "authorizedAppsDescription": "Estes aplicativos receberam acesso à sua conta Fluxer.",
+    "authorizedAppsDescription": "Estes aplicativos receberam acesso à sua conta {productName}.",
     "@authorizedAppsDescription": {
-        "description": "Description under the Authorized Applications section title."
+        "description": "Description under the Authorized Applications section title.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "authorizedAppsEmptyTitle": "Nenhum Aplicativo Autorizado",
     "@authorizedAppsEmptyTitle": {
@@ -2875,43 +2895,79 @@
     "@userProfileEditProfile": {
         "description": "Action card label shown on the current user's own profile sheet."
     },
-    "userProfileStaffBadgeTooltip": "Equipe Fluxer",
+    "userProfileStaffBadgeTooltip": "Equipe {productName}",
     "@userProfileStaffBadgeTooltip": {
-        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
-    "userProfileCtpBadgeTooltip": "Equipe da Comunidade Fluxer",
+    "userProfileCtpBadgeTooltip": "Equipe da Comunidade {productName}",
     "@userProfileCtpBadgeTooltip": {
-        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
-    "userProfilePartnerBadgeTooltip": "Parceiro Fluxer",
+    "userProfilePartnerBadgeTooltip": "Parceiro {productName}",
     "@userProfilePartnerBadgeTooltip": {
-        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
-    "userProfileBugHunterBadgeTooltip": "Caçador de Bugs do Fluxer",
+    "userProfileBugHunterBadgeTooltip": "Caçador de Bugs do {productName}",
     "@userProfileBugHunterBadgeTooltip": {
-        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
-    "userProfilePlutoniumBadgeTooltip": "Fluxer Plutonium",
+    "userProfilePlutoniumBadgeTooltip": "{productName} Plutonium",
     "@userProfilePlutoniumBadgeTooltip": {
-        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
-    "userProfilePlutoniumSubscriberSinceTooltip": "Assinante Plutonium do Fluxer desde {date}",
+    "userProfilePlutoniumSubscriberSinceTooltip": "Assinante Plutonium do {productName} desde {date}",
     "@userProfilePlutoniumSubscriberSinceTooltip": {
         "description": "Badge label with a date in the user profile badges popout. Preserve {date}; it is inserted by code. In English, keep \"subscriber since\" lowercase. Other locales should use natural local capitalization.",
         "placeholders": {
+            "productName": {
+                "type": "String"
+            },
             "date": {
                 "type": "String"
             }
         }
     },
-    "userProfileVisionaryBadgeTooltip": "Visionário do Fluxer",
+    "userProfileVisionaryBadgeTooltip": "Visionário do {productName}",
     "@userProfileVisionaryBadgeTooltip": {
-        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
-    "userProfileVisionaryBadgeSinceTooltip": "Visionário do Fluxer desde {date}",
+    "userProfileVisionaryBadgeSinceTooltip": "Visionário do {productName} desde {date}",
     "@userProfileVisionaryBadgeSinceTooltip": {
         "description": "Badge title with a date in the user profile badges popout. Preserve {date}; it is inserted by code. English locales use Title Case for the badge title part; other locales should use natural local capitalization.",
         "placeholders": {
+            "productName": {
+                "type": "String"
+            },
             "date": {
                 "type": "String"
             }
@@ -4141,9 +4197,14 @@
     "@connectionsTitle": {
         "description": "Title of the Connections settings page."
     },
-    "connectionsDescription": "Vincule contas e domínios externos ao seu perfil Fluxer. Conexões verificadas serão exibidas em seu perfil para que outros vejam.",
+    "connectionsDescription": "Vincule contas e domínios externos ao seu perfil {productName}. Conexões verificadas serão exibidas em seu perfil para que outros vejam.",
     "@connectionsDescription": {
-        "description": "Description shown under the Connections settings page title."
+        "description": "Description shown under the Connections settings page title.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "connectionsEmptyTitle": "Nenhuma conexão ainda",
     "@connectionsEmptyTitle": {
@@ -4556,9 +4617,14 @@
     "@lookAndFeelCollapseDMsLabel": {
         "description": "Toggle label — collapse unread DMs into the Fluxer button folder."
     },
-    "lookAndFeelCollapseDMsDescription": "Quando ativado, DMs não lidas na barra lateral da comunidade são recolhidas em uma pasta no botão Fluxer. Clique no botão Fluxer enquanto estiver na página de DMs para expandir ou recolher a pasta.",
+    "lookAndFeelCollapseDMsDescription": "Quando ativado, DMs não lidas na barra lateral da comunidade são recolhidas em uma pasta no botão {productName}. Clique no botão {productName} enquanto estiver na página de DMs para expandir ou recolher a pasta.",
     "@lookAndFeelCollapseDMsDescription": {
-        "description": "Toggle description for the DM folder collapse behavior."
+        "description": "Toggle description for the DM folder collapse behavior.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "lookAndFeelChannelListSectionTitle": "Lista de Canais",
     "@lookAndFeelChannelListSectionTitle": {
@@ -4800,9 +4866,14 @@
     "@messagesMediaDisplayInlineEmbedLabel": {
         "description": "Toggle label for inlining media when posted as links."
     },
-    "messagesMediaDisplayInlineAttachmentLabel": "Quando enviado diretamente para o Fluxer",
+    "messagesMediaDisplayInlineAttachmentLabel": "Quando enviado diretamente para o {productName}",
     "@messagesMediaDisplayInlineAttachmentLabel": {
-        "description": "Toggle label for inlining media for direct uploads."
+        "description": "Toggle label for inlining media for direct uploads.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "messagesMediaLinkPreviewsSectionTitle": "Pré-visualizações de Links",
     "@messagesMediaLinkPreviewsSectionTitle": {
@@ -5857,9 +5928,14 @@
     "@iarReasonOtherLabel": {
         "description": "Rule-reason label for the catch-all option in the IAR message flow."
     },
-    "iarReasonOtherDescription": "Use apenas se violar claramente as regras do Fluxer e não se encaixar nas opções acima.",
+    "iarReasonOtherDescription": "Use apenas se violar claramente as regras do {productName} e não se encaixar nas opções acima.",
     "@iarReasonOtherDescription": {
-        "description": "Rule-reason description for the catch-all option."
+        "description": "Rule-reason description for the catch-all option.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "iarUseChildSafetyInstead": "Se um menor estiver envolvido, use \"{childSafetyReason}\" em vez disso.",
     "@iarUseChildSafetyInstead": {
@@ -6562,17 +6638,27 @@
     "@advancedPerformanceReportingTitle": {
         "description": "Advanced settings section title for crash and performance reporting."
     },
-    "advancedPerformanceReportingSectionDescription": "Ajude a melhorar o Fluxer compartilhando dados anônimos de falhas e desempenho.",
+    "advancedPerformanceReportingSectionDescription": "Ajude a melhorar o {productName} compartilhando dados anônimos de falhas e desempenho.",
     "@advancedPerformanceReportingSectionDescription": {
-        "description": "Advanced settings section description for crash and performance reporting."
+        "description": "Advanced settings section description for crash and performance reporting.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "advancedPerformanceReportingLabel": "Enviar relatórios de falhas e desempenho",
     "@advancedPerformanceReportingLabel": {
         "description": "Toggle label for opting into crash and performance reporting."
     },
-    "advancedPerformanceReportingDescription": "Todos os dados relatados são anônimos e enviados apenas para o próprio serviço de monitoramento do Fluxer — nenhum provedor de terceiros é usado.",
+    "advancedPerformanceReportingDescription": "Todos os dados relatados são anônimos e enviados apenas para o próprio serviço de monitoramento do {productName} — nenhum provedor de terceiros é usado.",
     "@advancedPerformanceReportingDescription": {
-        "description": "Toggle description explaining anonymous self-hosted performance reporting."
+        "description": "Toggle description explaining anonymous self-hosted performance reporting.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "userSettingsNavApplications": "Aplicativos",
     "@userSettingsNavApplications": {
@@ -7257,9 +7343,14 @@
             }
         }
     },
-    "guildNavbarStaffOnlyAccessible": "Acessível apenas para a equipe Fluxer",
+    "guildNavbarStaffOnlyAccessible": "Acessível apenas para a equipe {productName}",
     "@guildNavbarStaffOnlyAccessible": {
-        "description": "Guild tooltip when the community is staff-only."
+        "description": "Guild tooltip when the community is staff-only.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "guildNavbarInvitesPaused": "Convites estão atualmente pausados nesta comunidade",
     "@guildNavbarInvitesPaused": {

@@ -11,6 +11,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/instance/instance_endpoints.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -552,7 +553,13 @@ class _IarReportBodyState extends ConsumerState<_IarReportBody> {
     BuildContext sheetContext,
     FluxerLocalizations l10n,
   ) {
-    final options = iarMessageReasonOptions(l10n, _selectedCategory);
+    final options = iarMessageReasonOptions(
+      l10n,
+      _selectedCategory,
+      productName: ref.watch(
+        instanceRuntimeConfigProvider.select((config) => config.productName),
+      ),
+    );
     final routingNote = iarChildSafetyRoutingNote(l10n, _selectedReason);
     final safetyNote = iarSpecialSafetyNote(l10n, _selectedReason);
     final layout = sheetContext.layout;

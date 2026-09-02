@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/accessibility/resolve_reduced_motion.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/accessibility_saturation_slider.dart';
@@ -122,6 +123,13 @@ class UserAccessibility extends ConsumerWidget {
           FluxerSettingsSection(
             sectionId: 'screen-reader',
             title: l10n.accessibilityScreenReaderGroupTitle,
+            description: l10n.accessibilityScreenReaderGroupDescription(
+              ref.watch(
+                instanceRuntimeConfigProvider.select(
+                  (config) => config.productName,
+                ),
+              ),
+            ),
             children: [
               FluxerSettingsSwitchGroup(
                 children: [

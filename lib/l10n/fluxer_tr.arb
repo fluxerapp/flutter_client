@@ -1510,9 +1510,14 @@
     "@externalLinkWarningTitle": {
         "description": "Title of the external link warning modal."
     },
-    "externalLinkWarningLeaving": "Fluxer'dan ayrılmak üzeresiniz",
+    "externalLinkWarningLeaving": "{productName}'dan ayrılmak üzeresiniz",
     "@externalLinkWarningLeaving": {
-        "description": "Primary warning text shown in the external link warning modal."
+        "description": "Primary warning text shown in the external link warning modal.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "externalLinkWarningDescription": "Harici bağlantılar tehlikeli olabilir. Lütfen dikkatli olun.",
     "@externalLinkWarningDescription": {
@@ -1975,9 +1980,14 @@
     "@profilePreviewMessage": {
         "description": "Disabled message button in the profile preview card."
     },
-    "profilePreviewMemberSince": "Fluxer Üyeliği",
+    "profilePreviewMemberSince": "{productName} Üyeliği",
     "@profilePreviewMemberSince": {
-        "description": "Label for the member-since date in the profile preview card."
+        "description": "Label for the member-since date in the profile preview card.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "unclaimedAccountTitle": "Talep Edilmemiş Hesap",
     "@unclaimedAccountTitle": {
@@ -2087,9 +2097,14 @@
     "@securityLoginEmailSectionTitle": {
         "description": "Title for email settings section in Security & Login."
     },
-    "securityLoginEmailSectionDescription": "Fluxer'a giriş yapmak için kullandığın e-posta adresini yönet",
+    "securityLoginEmailSectionDescription": "{productName}'a giriş yapmak için kullandığın e-posta adresini yönet",
     "@securityLoginEmailSectionDescription": {
-        "description": "Description for email settings section."
+        "description": "Description for email settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "securityLoginEmailAddressLabel": "E-posta Adresi",
     "@securityLoginEmailAddressLabel": {
@@ -2732,9 +2747,14 @@
     "@authorizedAppsTitle": {
         "description": "Title for the Authorized Applications settings section."
     },
-    "authorizedAppsDescription": "Bu uygulamalara Fluxer hesabınıza erişim izni verilmiştir.",
+    "authorizedAppsDescription": "Bu uygulamalara {productName} hesabınıza erişim izni verilmiştir.",
     "@authorizedAppsDescription": {
-        "description": "Description under the Authorized Applications section title."
+        "description": "Description under the Authorized Applications section title.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "authorizedAppsEmptyTitle": "Yetkili Uygulama Yok",
     "@authorizedAppsEmptyTitle": {
@@ -2875,43 +2895,79 @@
     "@userProfileEditProfile": {
         "description": "Action card label shown on the current user's own profile sheet."
     },
-    "userProfileStaffBadgeTooltip": "Fluxer Ekibi",
+    "userProfileStaffBadgeTooltip": "{productName} Ekibi",
     "@userProfileStaffBadgeTooltip": {
-        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
-    "userProfileCtpBadgeTooltip": "Fluxer Topluluk Ekibi",
+    "userProfileCtpBadgeTooltip": "{productName} Topluluk Ekibi",
     "@userProfileCtpBadgeTooltip": {
-        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
-    "userProfilePartnerBadgeTooltip": "Fluxer Partner",
+    "userProfilePartnerBadgeTooltip": "{productName} Partner",
     "@userProfilePartnerBadgeTooltip": {
-        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
-    "userProfileBugHunterBadgeTooltip": "Fluxer Hata Avcısı",
+    "userProfileBugHunterBadgeTooltip": "{productName} Hata Avcısı",
     "@userProfileBugHunterBadgeTooltip": {
-        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
-    "userProfilePlutoniumBadgeTooltip": "Fluxer Plutonium",
+    "userProfilePlutoniumBadgeTooltip": "{productName} Plutonium",
     "@userProfilePlutoniumBadgeTooltip": {
-        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
-    "userProfilePlutoniumSubscriberSinceTooltip": "Fluxer Plutonium abonesi {date} tarihinden beri",
+    "userProfilePlutoniumSubscriberSinceTooltip": "{productName} Plutonium abonesi {date} tarihinden beri",
     "@userProfilePlutoniumSubscriberSinceTooltip": {
         "description": "Badge label with a date in the user profile badges popout. Preserve {date}; it is inserted by code. In English, keep \"subscriber since\" lowercase. Other locales should use natural local capitalization.",
         "placeholders": {
+            "productName": {
+                "type": "String"
+            },
             "date": {
                 "type": "String"
             }
         }
     },
-    "userProfileVisionaryBadgeTooltip": "Fluxer Vizyoner",
+    "userProfileVisionaryBadgeTooltip": "{productName} Vizyoner",
     "@userProfileVisionaryBadgeTooltip": {
-        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
-    "userProfileVisionaryBadgeSinceTooltip": "Fluxer Vizyoner {date} tarihinden beri",
+    "userProfileVisionaryBadgeSinceTooltip": "{productName} Vizyoner {date} tarihinden beri",
     "@userProfileVisionaryBadgeSinceTooltip": {
         "description": "Badge title with a date in the user profile badges popout. Preserve {date}; it is inserted by code. English locales use Title Case for the badge title part; other locales should use natural local capitalization.",
         "placeholders": {
+            "productName": {
+                "type": "String"
+            },
             "date": {
                 "type": "String"
             }
@@ -4141,9 +4197,14 @@
     "@connectionsTitle": {
         "description": "Title of the Connections settings page."
     },
-    "connectionsDescription": "Harici hesapları ve alan adlarını Fluxer profilinize bağlayın. Doğrulanmış bağlantılar profilinizde başkalarının görebilmesi için görüntülenecektir.",
+    "connectionsDescription": "Harici hesapları ve alan adlarını {productName} profilinize bağlayın. Doğrulanmış bağlantılar profilinizde başkalarının görebilmesi için görüntülenecektir.",
     "@connectionsDescription": {
-        "description": "Description shown under the Connections settings page title."
+        "description": "Description shown under the Connections settings page title.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "connectionsEmptyTitle": "Henüz bağlantı yok",
     "@connectionsEmptyTitle": {
@@ -4556,9 +4617,14 @@
     "@lookAndFeelCollapseDMsLabel": {
         "description": "Toggle label — collapse unread DMs into the Fluxer button folder."
     },
-    "lookAndFeelCollapseDMsDescription": "Etkinleştirildiğinde, sunucu kenar çubuğundaki okunmamış DM'ler Fluxer düğmesindeki bir klasöre daraltılır. Klasörü genişletmek veya daraltmak için DM'ler sayfasındayken Fluxer düğmesine tıklayın.",
+    "lookAndFeelCollapseDMsDescription": "Etkinleştirildiğinde, sunucu kenar çubuğundaki okunmamış DM'ler {productName} düğmesindeki bir klasöre daraltılır. Klasörü genişletmek veya daraltmak için DM'ler sayfasındayken {productName} düğmesine tıklayın.",
     "@lookAndFeelCollapseDMsDescription": {
-        "description": "Toggle description for the DM folder collapse behavior."
+        "description": "Toggle description for the DM folder collapse behavior.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "lookAndFeelChannelListSectionTitle": "Kanal Listesi",
     "@lookAndFeelChannelListSectionTitle": {
@@ -4800,9 +4866,14 @@
     "@messagesMediaDisplayInlineEmbedLabel": {
         "description": "Toggle label for inlining media when posted as links."
     },
-    "messagesMediaDisplayInlineAttachmentLabel": "Doğrudan Fluxer'a yüklendiğinde",
+    "messagesMediaDisplayInlineAttachmentLabel": "Doğrudan {productName}'a yüklendiğinde",
     "@messagesMediaDisplayInlineAttachmentLabel": {
-        "description": "Toggle label for inlining media for direct uploads."
+        "description": "Toggle label for inlining media for direct uploads.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "messagesMediaLinkPreviewsSectionTitle": "Bağlantı Önizlemeleri",
     "@messagesMediaLinkPreviewsSectionTitle": {
@@ -5857,9 +5928,14 @@
     "@iarReasonOtherLabel": {
         "description": "Rule-reason label for the catch-all option in the IAR message flow."
     },
-    "iarReasonOtherDescription": "Yalnızca Fluxer'ın kurallarını açıkça ihlal ediyorsa ve yukarıdakilere uymuyorsa kullanın.",
+    "iarReasonOtherDescription": "Yalnızca {productName}'ın kurallarını açıkça ihlal ediyorsa ve yukarıdakilere uymuyorsa kullanın.",
     "@iarReasonOtherDescription": {
-        "description": "Rule-reason description for the catch-all option."
+        "description": "Rule-reason description for the catch-all option.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "iarUseChildSafetyInstead": "Eğer bir reşit olmayan dahilse, bunun yerine \"{childSafetyReason}\" kullanın.",
     "@iarUseChildSafetyInstead": {
@@ -6562,17 +6638,27 @@
     "@advancedPerformanceReportingTitle": {
         "description": "Advanced settings section title for crash and performance reporting."
     },
-    "advancedPerformanceReportingSectionDescription": "Anonim çökme ve performans verilerini paylaşarak Fluxer'ı geliştirmeye yardımcı olun.",
+    "advancedPerformanceReportingSectionDescription": "Anonim çökme ve performans verilerini paylaşarak {productName}'ı geliştirmeye yardımcı olun.",
     "@advancedPerformanceReportingSectionDescription": {
-        "description": "Advanced settings section description for crash and performance reporting."
+        "description": "Advanced settings section description for crash and performance reporting.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "advancedPerformanceReportingLabel": "Çökme ve performans raporları gönder",
     "@advancedPerformanceReportingLabel": {
         "description": "Toggle label for opting into crash and performance reporting."
     },
-    "advancedPerformanceReportingDescription": "Raporlanan tüm veriler anonimdir ve yalnızca Fluxer'ın kendi izleme hizmetine gönderilir — üçüncü taraf sağlayıcı kullanılmaz.",
+    "advancedPerformanceReportingDescription": "Raporlanan tüm veriler anonimdir ve yalnızca {productName}'ın kendi izleme hizmetine gönderilir — üçüncü taraf sağlayıcı kullanılmaz.",
     "@advancedPerformanceReportingDescription": {
-        "description": "Toggle description explaining anonymous self-hosted performance reporting."
+        "description": "Toggle description explaining anonymous self-hosted performance reporting.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "userSettingsNavApplications": "Uygulamalar",
     "@userSettingsNavApplications": {
@@ -7257,9 +7343,14 @@
             }
         }
     },
-    "guildNavbarStaffOnlyAccessible": "Yalnızca Fluxer personeli tarafından erişilebilir",
+    "guildNavbarStaffOnlyAccessible": "Yalnızca {productName} personeli tarafından erişilebilir",
     "@guildNavbarStaffOnlyAccessible": {
-        "description": "Guild tooltip when the community is staff-only."
+        "description": "Guild tooltip when the community is staff-only.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "guildNavbarInvitesPaused": "Bu toplulukta davetler şu anda duraklatıldı",
     "@guildNavbarInvitesPaused": {

@@ -1,6 +1,7 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -102,7 +103,13 @@ class _UserAuthorizedAppsState extends ConsumerState<UserAuthorizedApps> {
           children: [
             FluxerSettingsSection(
               title: l10n.authorizedAppsTitle,
-              description: l10n.authorizedAppsDescription,
+              description: l10n.authorizedAppsDescription(
+                ref.watch(
+                  instanceRuntimeConfigProvider.select(
+                    (config) => config.productName,
+                  ),
+                ),
+              ),
               isFirst: true,
               children: [
                 for (final authorization in state.authorizations)
