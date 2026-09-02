@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_copy.dart';
@@ -143,11 +144,23 @@ class _SimpleIarReportBodyState extends ConsumerState<_SimpleIarReportBody> {
   Widget build(BuildContext context) {
     final l10n = FluxerLocalizations.of(context);
     final layout = context.layout;
+    final String productName = ref.watch(
+      instanceRuntimeConfigProvider.select((config) => config.productName),
+    );
 
     final options = switch (widget.iarContext) {
-      IarMessageContext() => iarFlatMessageReasonSelectOptions(l10n),
-      IarUserContext() => iarFlatUserReasonSelectOptions(l10n),
-      IarGuildContext() => iarFlatGuildReasonSelectOptions(l10n),
+      IarMessageContext() => iarFlatMessageReasonSelectOptions(
+        l10n,
+        productName: productName,
+      ),
+      IarUserContext() => iarFlatUserReasonSelectOptions(
+        l10n,
+        productName: productName,
+      ),
+      IarGuildContext() => iarFlatGuildReasonSelectOptions(
+        l10n,
+        productName: productName,
+      ),
     };
     final routingNote = iarChildSafetyRoutingNote(l10n, _selectedReason);
     final safetyNote = iarSpecialSafetyNote(l10n, _selectedReason);

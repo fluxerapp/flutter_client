@@ -10,6 +10,18 @@ import 'package:fluxer_dart/export.dart';
 
 const String fluxerBotUserId = '0';
 
+String resolveSystemBotDisplayName({
+  required String userId,
+  required String fallbackName,
+  required String productName,
+}) {
+  if (userId != fluxerBotUserId) {
+    return fallbackName;
+  }
+  final String trimmed = productName.trim();
+  return trimmed.isEmpty ? fallbackName : trimmed;
+}
+
 bool messageAuthorShowsUserTag({
   required bool authorIsBot,
   required bool authorIsSystem,

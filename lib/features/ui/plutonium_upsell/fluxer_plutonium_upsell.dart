@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
+import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/utils/open_user_billing_settings.dart';
@@ -12,7 +14,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const String _kPlutoniumUrl = 'https://fluxer.app/plutonium';
 
-class FluxerPlutoniumUpsell extends StatelessWidget {
+class FluxerPlutoniumUpsell extends ConsumerWidget {
   const FluxerPlutoniumUpsell({
     required this.text,
     this.buttonLabel,
@@ -29,7 +31,10 @@ class FluxerPlutoniumUpsell extends StatelessWidget {
   final Widget? child;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    if (!ref.watch(shouldShowPremiumCommerceProvider)) {
+      return const SizedBox.shrink();
+    }
     final colors = context.colors;
     final layout = context.layout;
     final textStyles = context.textStyles;

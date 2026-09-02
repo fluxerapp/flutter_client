@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/utils/group_dm_display_name.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -146,12 +147,19 @@ class DmConversation {
     Map<String, String> channelNicks = const {},
     List<String> remoteRecipientIds = const [],
     int? unreadCount,
+    String productName = InstanceConstants.defaultProductName,
   }) {
+    final String rawRecipientName =
+        recipient?.globalName ?? recipient?.username ?? 'Unknown';
     return DmConversation(
       id: row.id,
       type: row.type,
       recipientId: row.recipientId,
-      recipientName: recipient?.globalName ?? recipient?.username ?? 'Unknown',
+      recipientName: resolveSystemBotDisplayName(
+        userId: row.recipientId,
+        fallbackName: rawRecipientName,
+        productName: productName,
+      ),
       recipientUsername: recipient?.username,
       recipientDiscriminator: recipient?.discriminator,
       recipientAvatar: recipient?.avatar,
@@ -167,8 +175,14 @@ class DmConversation {
       lastMessageType: cachedLastMessage?.type ?? 0,
       lastMessageHasAttachments: _hasAttachments(cachedLastMessage),
       lastMessageAuthorId: cachedLastMessage?.authorId,
-      lastMessageAuthorName:
-          lastMessageAuthor?.globalName ?? lastMessageAuthor?.username,
+      lastMessageAuthorName: lastMessageAuthor == null
+          ? null
+          : resolveSystemBotDisplayName(
+              userId: lastMessageAuthor.id,
+              fallbackName:
+                  lastMessageAuthor.globalName ?? lastMessageAuthor.username,
+              productName: productName,
+            ),
       lastMessageMentionedUserId: _firstMentionedUserId(cachedLastMessage),
       lastMessageMentionedUserName:
           lastMessageMentionedUser?.globalName ??

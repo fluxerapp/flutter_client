@@ -632,7 +632,9 @@ class _UserProfileState extends ConsumerState<UserProfile> {
                           behavior: HitTestBehavior.opaque,
                           child: ProfilePreviewCard(state: state),
                         ),
-                        if (state.isPremium && !state.isPerGuildProfile) ...[
+                        if (shouldShowPremiumCommerce &&
+                            state.isPremium &&
+                            !state.isPerGuildProfile) ...[
                           SizedBox(height: layout.s8),
                           FluxerGestureDetector(
                             onTap: () =>

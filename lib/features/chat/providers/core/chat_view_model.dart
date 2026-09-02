@@ -15,6 +15,7 @@ import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
@@ -5147,6 +5148,7 @@ class ChatViewModel extends _$ChatViewModel {
         createClientSystemMessage(
           channelId: state.channelId,
           content: systemMessageContent,
+          productName: ref.read(instanceRuntimeConfigProvider).productName,
         ),
       );
       state = state.copyWith(
@@ -5170,7 +5172,11 @@ class ChatViewModel extends _$ChatViewModel {
     }
     final List<Message> nextMessages = List<Message>.from(state.messages)
       ..add(
-        createClientSystemMessage(channelId: state.channelId, content: content),
+        createClientSystemMessage(
+          channelId: state.channelId,
+          content: content,
+          productName: ref.read(instanceRuntimeConfigProvider).productName,
+        ),
       );
     state = state.copyWith(
       write: (messages: nextMessages, origin: MessagesOrigin.localMutation),
@@ -5293,6 +5299,7 @@ class ChatViewModel extends _$ChatViewModel {
           createClientSystemMessage(
             channelId: message.channelId,
             content: systemMessageContent,
+            productName: ref.read(instanceRuntimeConfigProvider).productName,
           ),
         );
         state = state.copyWith(

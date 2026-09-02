@@ -90,20 +90,24 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get systemPermissionSettingsOpenSettings => 'Open settings';
 
   @override
-  String get systemPermissionMicrophoneMessage =>
-      'Fluxer doesn\'t have access to your microphone. You can enable it in your device privacy settings.';
+  String systemPermissionMicrophoneMessage(String productName) {
+    return '$productName doesn\'t have access to your microphone. You can enable it in your device privacy settings.';
+  }
 
   @override
-  String get systemPermissionCameraMessage =>
-      'Fluxer doesn\'t have access to your camera. You can enable it in your device privacy settings.';
+  String systemPermissionCameraMessage(String productName) {
+    return '$productName doesn\'t have access to your camera. You can enable it in your device privacy settings.';
+  }
 
   @override
-  String get systemPermissionPhotosMessage =>
-      'Fluxer doesn\'t have access to your photo library. You can enable it in your device privacy settings.';
+  String systemPermissionPhotosMessage(String productName) {
+    return '$productName doesn\'t have access to your photo library. You can enable it in your device privacy settings.';
+  }
 
   @override
-  String get systemPermissionNotificationsMessage =>
-      'Fluxer doesn\'t have permission to send notifications. You can enable it in your device settings.';
+  String systemPermissionNotificationsMessage(String productName) {
+    return '$productName doesn\'t have permission to send notifications. You can enable it in your device settings.';
+  }
 
   @override
   String nagbarPremiumGracePeriod(String productName, String graceDate) {
@@ -1527,7 +1531,9 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get externalLinkWarningTitle => 'Aviso de link externo';
 
   @override
-  String get externalLinkWarningLeaving => 'Você está prestes a sair do Fluxer';
+  String externalLinkWarningLeaving(String productName) {
+    return 'Você está prestes a sair do $productName';
+  }
 
   @override
   String get externalLinkWarningDescription =>
@@ -1895,7 +1901,9 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get profilePreviewMessage => 'Mensagem';
 
   @override
-  String get profilePreviewMemberSince => 'Membro Fluxer Desde';
+  String profilePreviewMemberSince(String productName) {
+    return 'Membro $productName Desde';
+  }
 
   @override
   String get unclaimedAccountTitle => 'Conta Não Reivindicada';
@@ -1984,8 +1992,9 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get securityLoginEmailSectionTitle => 'Configurações de E-mail';
 
   @override
-  String get securityLoginEmailSectionDescription =>
-      'Gerencie o endereço de e-mail que você usa para fazer login no Fluxer';
+  String securityLoginEmailSectionDescription(String productName) {
+    return 'Gerencie o endereço de e-mail que você usa para fazer login no $productName';
+  }
 
   @override
   String get securityLoginEmailAddressLabel => 'Endereço de E-mail';
@@ -2436,27 +2445,31 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get requiredActionTitle => 'Account verification required';
 
   @override
-  String get requiredActionIntroGeneric =>
-      'Complete the required verification to continue using Fluxer.';
+  String requiredActionIntroGeneric(String productName) {
+    return 'Complete the required verification to continue using $productName.';
+  }
 
   @override
   String get requiredActionIntroPhone =>
       'Your registration needs an extra anti-spam check before you can continue.';
 
   @override
-  String get requiredActionIntroEmailOrPhone =>
-      'Verify your email or phone to continue using Fluxer.';
+  String requiredActionIntroEmailOrPhone(String productName) {
+    return 'Verify your email or phone to continue using $productName.';
+  }
 
   @override
-  String get requiredActionIntroEmailAndPhone =>
-      'Complete the required email and phone verification steps below to continue using Fluxer.';
+  String requiredActionIntroEmailAndPhone(String productName) {
+    return 'Complete the required email and phone verification steps below to continue using $productName.';
+  }
 
   @override
   String get requiredActionChooseMethodTitle => 'Choose a verification method';
 
   @override
-  String get requiredActionChooseMethodDescription =>
-      'Complete one of the verification paths below to continue using Fluxer.';
+  String requiredActionChooseMethodDescription(String productName) {
+    return 'Complete one of the verification paths below to continue using $productName.';
+  }
 
   @override
   String get requiredActionUseEmail => 'Use email';
@@ -2727,8 +2740,9 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get authorizedAppsTitle => 'Aplicativos Autorizados';
 
   @override
-  String get authorizedAppsDescription =>
-      'Estes aplicativos receberam acesso à sua conta Fluxer.';
+  String authorizedAppsDescription(String productName) {
+    return 'Estes aplicativos receberam acesso à sua conta $productName.';
+  }
 
   @override
   String get authorizedAppsEmptyTitle => 'Nenhum Aplicativo Autorizado';
@@ -2839,31 +2853,49 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get userProfileEditProfile => 'Editar Perfil';
 
   @override
-  String get userProfileStaffBadgeTooltip => 'Equipe Fluxer';
-
-  @override
-  String get userProfileCtpBadgeTooltip => 'Equipe da Comunidade Fluxer';
-
-  @override
-  String get userProfilePartnerBadgeTooltip => 'Parceiro Fluxer';
-
-  @override
-  String get userProfileBugHunterBadgeTooltip => 'Caçador de Bugs do Fluxer';
-
-  @override
-  String get userProfilePlutoniumBadgeTooltip => 'Fluxer Plutonium';
-
-  @override
-  String userProfilePlutoniumSubscriberSinceTooltip(String date) {
-    return 'Assinante Plutonium do Fluxer desde $date';
+  String userProfileStaffBadgeTooltip(String productName) {
+    return 'Equipe $productName';
   }
 
   @override
-  String get userProfileVisionaryBadgeTooltip => 'Visionário do Fluxer';
+  String userProfileCtpBadgeTooltip(String productName) {
+    return 'Equipe da Comunidade $productName';
+  }
 
   @override
-  String userProfileVisionaryBadgeSinceTooltip(String date) {
-    return 'Visionário do Fluxer desde $date';
+  String userProfilePartnerBadgeTooltip(String productName) {
+    return 'Parceiro $productName';
+  }
+
+  @override
+  String userProfileBugHunterBadgeTooltip(String productName) {
+    return 'Caçador de Bugs do $productName';
+  }
+
+  @override
+  String userProfilePlutoniumBadgeTooltip(String productName) {
+    return '$productName Plutonium';
+  }
+
+  @override
+  String userProfilePlutoniumSubscriberSinceTooltip(
+    String productName,
+    String date,
+  ) {
+    return 'Assinante Plutonium do $productName desde $date';
+  }
+
+  @override
+  String userProfileVisionaryBadgeTooltip(String productName) {
+    return 'Visionário do $productName';
+  }
+
+  @override
+  String userProfileVisionaryBadgeSinceTooltip(
+    String productName,
+    String date,
+  ) {
+    return 'Visionário do $productName desde $date';
   }
 
   @override
@@ -4095,8 +4127,9 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get connectionsTitle => 'Conexões';
 
   @override
-  String get connectionsDescription =>
-      'Vincule contas e domínios externos ao seu perfil Fluxer. Conexões verificadas serão exibidas em seu perfil para que outros vejam.';
+  String connectionsDescription(String productName) {
+    return 'Vincule contas e domínios externos ao seu perfil $productName. Conexões verificadas serão exibidas em seu perfil para que outros vejam.';
+  }
 
   @override
   String get connectionsEmptyTitle => 'Nenhuma conexão ainda';
@@ -4549,8 +4582,9 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get lookAndFeelCollapseDMsLabel => 'Recolher DMs em Pasta';
 
   @override
-  String get lookAndFeelCollapseDMsDescription =>
-      'Quando ativado, DMs não lidas na barra lateral da comunidade são recolhidas em uma pasta no botão Fluxer. Clique no botão Fluxer enquanto estiver na página de DMs para expandir ou recolher a pasta.';
+  String lookAndFeelCollapseDMsDescription(String productName) {
+    return 'Quando ativado, DMs não lidas na barra lateral da comunidade são recolhidas em uma pasta no botão $productName. Clique no botão $productName enquanto estiver na página de DMs para expandir ou recolher a pasta.';
+  }
 
   @override
   String get lookAndFeelChannelListSectionTitle => 'Lista de Canais';
@@ -4826,8 +4860,9 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
       'Quando postado como links para o chat';
 
   @override
-  String get messagesMediaDisplayInlineAttachmentLabel =>
-      'Quando enviado diretamente para o Fluxer';
+  String messagesMediaDisplayInlineAttachmentLabel(String productName) {
+    return 'Quando enviado diretamente para o $productName';
+  }
 
   @override
   String get messagesMediaLinkPreviewsSectionTitle =>
@@ -5020,8 +5055,9 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get accessibilityScreenReaderGroupTitle => 'Screen reader';
 
   @override
-  String get accessibilityScreenReaderGroupDescription =>
-      'Control how Fluxer works with screen readers.';
+  String accessibilityScreenReaderGroupDescription(String productName) {
+    return 'Control how $productName works with screen readers.';
+  }
 
   @override
   String get accessibilityScreenReaderAnnounceNewMessagesLabel =>
@@ -6837,8 +6873,9 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get iarReasonOtherLabel => 'Outra violação clara de regras';
 
   @override
-  String get iarReasonOtherDescription =>
-      'Use apenas se violar claramente as regras do Fluxer e não se encaixar nas opções acima.';
+  String iarReasonOtherDescription(String productName) {
+    return 'Use apenas se violar claramente as regras do $productName e não se encaixar nas opções acima.';
+  }
 
   @override
   String iarUseChildSafetyInstead(String childSafetyReason) {
@@ -9865,16 +9902,18 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get advancedPerformanceReportingTitle => 'Relatórios de desempenho';
 
   @override
-  String get advancedPerformanceReportingSectionDescription =>
-      'Ajude a melhorar o Fluxer compartilhando dados anônimos de falhas e desempenho.';
+  String advancedPerformanceReportingSectionDescription(String productName) {
+    return 'Ajude a melhorar o $productName compartilhando dados anônimos de falhas e desempenho.';
+  }
 
   @override
   String get advancedPerformanceReportingLabel =>
       'Enviar relatórios de falhas e desempenho';
 
   @override
-  String get advancedPerformanceReportingDescription =>
-      'Todos os dados relatados são anônimos e enviados apenas para o próprio serviço de monitoramento do Fluxer — nenhum provedor de terceiros é usado.';
+  String advancedPerformanceReportingDescription(String productName) {
+    return 'Todos os dados relatados são anônimos e enviados apenas para o próprio serviço de monitoramento do $productName — nenhum provedor de terceiros é usado.';
+  }
 
   @override
   String get advancedSettingsConfigure => 'Configure';
@@ -11159,8 +11198,9 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   }
 
   @override
-  String get guildNavbarStaffOnlyAccessible =>
-      'Acessível apenas para a equipe Fluxer';
+  String guildNavbarStaffOnlyAccessible(String productName) {
+    return 'Acessível apenas para a equipe $productName';
+  }
 
   @override
   String get guildNavbarInvitesPaused =>
@@ -15180,7 +15220,9 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get externalLinkWarningTitle => 'Aviso de link externo';
 
   @override
-  String get externalLinkWarningLeaving => 'Você está prestes a sair do Fluxer';
+  String externalLinkWarningLeaving(String productName) {
+    return 'Você está prestes a sair do $productName';
+  }
 
   @override
   String get externalLinkWarningDescription =>
@@ -15548,7 +15590,9 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get profilePreviewMessage => 'Mensagem';
 
   @override
-  String get profilePreviewMemberSince => 'Membro Fluxer Desde';
+  String profilePreviewMemberSince(String productName) {
+    return 'Membro $productName Desde';
+  }
 
   @override
   String get unclaimedAccountTitle => 'Conta Não Reivindicada';
@@ -15637,8 +15681,9 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get securityLoginEmailSectionTitle => 'Configurações de E-mail';
 
   @override
-  String get securityLoginEmailSectionDescription =>
-      'Gerencie o endereço de e-mail que você usa para fazer login no Fluxer';
+  String securityLoginEmailSectionDescription(String productName) {
+    return 'Gerencie o endereço de e-mail que você usa para fazer login no $productName';
+  }
 
   @override
   String get securityLoginEmailAddressLabel => 'Endereço de E-mail';
@@ -16177,8 +16222,9 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get authorizedAppsTitle => 'Aplicativos Autorizados';
 
   @override
-  String get authorizedAppsDescription =>
-      'Estes aplicativos receberam acesso à sua conta Fluxer.';
+  String authorizedAppsDescription(String productName) {
+    return 'Estes aplicativos receberam acesso à sua conta $productName.';
+  }
 
   @override
   String get authorizedAppsEmptyTitle => 'Nenhum Aplicativo Autorizado';
@@ -16286,31 +16332,49 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get userProfileEditProfile => 'Editar Perfil';
 
   @override
-  String get userProfileStaffBadgeTooltip => 'Equipe Fluxer';
-
-  @override
-  String get userProfileCtpBadgeTooltip => 'Equipe da Comunidade Fluxer';
-
-  @override
-  String get userProfilePartnerBadgeTooltip => 'Parceiro Fluxer';
-
-  @override
-  String get userProfileBugHunterBadgeTooltip => 'Caçador de Bugs do Fluxer';
-
-  @override
-  String get userProfilePlutoniumBadgeTooltip => 'Fluxer Plutonium';
-
-  @override
-  String userProfilePlutoniumSubscriberSinceTooltip(String date) {
-    return 'Assinante Plutonium do Fluxer desde $date';
+  String userProfileStaffBadgeTooltip(String productName) {
+    return 'Equipe $productName';
   }
 
   @override
-  String get userProfileVisionaryBadgeTooltip => 'Visionário do Fluxer';
+  String userProfileCtpBadgeTooltip(String productName) {
+    return 'Equipe da Comunidade $productName';
+  }
 
   @override
-  String userProfileVisionaryBadgeSinceTooltip(String date) {
-    return 'Visionário do Fluxer desde $date';
+  String userProfilePartnerBadgeTooltip(String productName) {
+    return 'Parceiro $productName';
+  }
+
+  @override
+  String userProfileBugHunterBadgeTooltip(String productName) {
+    return 'Caçador de Bugs do $productName';
+  }
+
+  @override
+  String userProfilePlutoniumBadgeTooltip(String productName) {
+    return '$productName Plutonium';
+  }
+
+  @override
+  String userProfilePlutoniumSubscriberSinceTooltip(
+    String productName,
+    String date,
+  ) {
+    return 'Assinante Plutonium do $productName desde $date';
+  }
+
+  @override
+  String userProfileVisionaryBadgeTooltip(String productName) {
+    return 'Visionário do $productName';
+  }
+
+  @override
+  String userProfileVisionaryBadgeSinceTooltip(
+    String productName,
+    String date,
+  ) {
+    return 'Visionário do $productName desde $date';
   }
 
   @override
@@ -17254,8 +17318,9 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get connectionsTitle => 'Conexões';
 
   @override
-  String get connectionsDescription =>
-      'Vincule contas e domínios externos ao seu perfil Fluxer. Conexões verificadas serão exibidas em seu perfil para que outros vejam.';
+  String connectionsDescription(String productName) {
+    return 'Vincule contas e domínios externos ao seu perfil $productName. Conexões verificadas serão exibidas em seu perfil para que outros vejam.';
+  }
 
   @override
   String get connectionsEmptyTitle => 'Nenhuma conexão ainda';
@@ -17610,8 +17675,9 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get lookAndFeelCollapseDMsLabel => 'Recolher DMs em Pasta';
 
   @override
-  String get lookAndFeelCollapseDMsDescription =>
-      'Quando ativado, DMs não lidas na barra lateral da comunidade são recolhidas em uma pasta no botão Fluxer. Clique no botão Fluxer enquanto estiver na página de DMs para expandir ou recolher a pasta.';
+  String lookAndFeelCollapseDMsDescription(String productName) {
+    return 'Quando ativado, DMs não lidas na barra lateral da comunidade são recolhidas em uma pasta no botão $productName. Clique no botão $productName enquanto estiver na página de DMs para expandir ou recolher a pasta.';
+  }
 
   @override
   String get lookAndFeelChannelListSectionTitle => 'Lista de Canais';
@@ -17821,8 +17887,9 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
       'Quando postado como links para o chat';
 
   @override
-  String get messagesMediaDisplayInlineAttachmentLabel =>
-      'Quando enviado diretamente para o Fluxer';
+  String messagesMediaDisplayInlineAttachmentLabel(String productName) {
+    return 'Quando enviado diretamente para o $productName';
+  }
 
   @override
   String get messagesMediaLinkPreviewsSectionTitle =>
@@ -18688,8 +18755,9 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get iarReasonOtherLabel => 'Outra violação clara de regras';
 
   @override
-  String get iarReasonOtherDescription =>
-      'Use apenas se violar claramente as regras do Fluxer e não se encaixar nas opções acima.';
+  String iarReasonOtherDescription(String productName) {
+    return 'Use apenas se violar claramente as regras do $productName e não se encaixar nas opções acima.';
+  }
 
   @override
   String iarUseChildSafetyInstead(String childSafetyReason) {
@@ -19284,16 +19352,18 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get advancedPerformanceReportingTitle => 'Relatórios de desempenho';
 
   @override
-  String get advancedPerformanceReportingSectionDescription =>
-      'Ajude a melhorar o Fluxer compartilhando dados anônimos de falhas e desempenho.';
+  String advancedPerformanceReportingSectionDescription(String productName) {
+    return 'Ajude a melhorar o $productName compartilhando dados anônimos de falhas e desempenho.';
+  }
 
   @override
   String get advancedPerformanceReportingLabel =>
       'Enviar relatórios de falhas e desempenho';
 
   @override
-  String get advancedPerformanceReportingDescription =>
-      'Todos os dados relatados são anônimos e enviados apenas para o próprio serviço de monitoramento do Fluxer — nenhum provedor de terceiros é usado.';
+  String advancedPerformanceReportingDescription(String productName) {
+    return 'Todos os dados relatados são anônimos e enviados apenas para o próprio serviço de monitoramento do $productName — nenhum provedor de terceiros é usado.';
+  }
 
   @override
   String get userSettingsNavApplications => 'Aplicativos';
@@ -19832,8 +19902,9 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   }
 
   @override
-  String get guildNavbarStaffOnlyAccessible =>
-      'Acessível apenas para a equipe Fluxer';
+  String guildNavbarStaffOnlyAccessible(String productName) {
+    return 'Acessível apenas para a equipe $productName';
+  }
 
   @override
   String get guildNavbarInvitesPaused =>

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/account_delete_sheet.dart';
@@ -108,7 +109,11 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
   ) {
     return FluxerSettingsSubsection(
       title: l10n.securityLoginEmailSectionTitle,
-      description: l10n.securityLoginEmailSectionDescription,
+      description: l10n.securityLoginEmailSectionDescription(
+        ref.watch(
+          instanceRuntimeConfigProvider.select((config) => config.productName),
+        ),
+      ),
       children: [
         if (!s.hasVerifiedEmail) ...[
           FluxerWarningAlert(message: l10n.securityLoginNoEmailSet),

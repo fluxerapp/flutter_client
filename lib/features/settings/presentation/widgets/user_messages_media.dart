@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/chat_input_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
@@ -66,7 +67,13 @@ class UserMessagesMedia extends ConsumerWidget {
                             notifier.setInlineEmbedMedia(value: value),
                       ),
                       FluxerSettingsSwitchItem.grouped(
-                        label: l10n.messagesMediaDisplayInlineAttachmentLabel,
+                        label: l10n.messagesMediaDisplayInlineAttachmentLabel(
+                          ref.watch(
+                            instanceRuntimeConfigProvider.select(
+                              (config) => config.productName,
+                            ),
+                          ),
+                        ),
                         value: state.inlineAttachmentMedia,
                         onChanged: (value) =>
                             notifier.setInlineAttachmentMedia(value: value),

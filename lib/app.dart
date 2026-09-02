@@ -93,10 +93,15 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
         darkThemeData = theme;
     }
 
+    final String productName = ref.watch(
+      instanceRuntimeConfigProvider.select((config) => config.productName),
+    );
+    if (isFluxerDesktopOs) {
+      unawaited(windowManager.setTitle(productName));
+    }
+
     return MaterialApp.router(
-      title: ref.watch(
-        instanceRuntimeConfigProvider.select((config) => config.productName),
-      ),
+      title: productName,
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
         FluxerLocalizations.delegate,

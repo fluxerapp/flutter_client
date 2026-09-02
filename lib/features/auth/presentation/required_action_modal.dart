@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/domain/phone_verification.dart';
 import 'package:fluxer_app/features/auth/domain/required_action_flow.dart';
@@ -114,12 +115,16 @@ class _RequiredActionModalState extends ConsumerState<RequiredActionModal> {
     };
   }
 
-  String _introDescription(FluxerLocalizations l10n) {
+  String _introDescription(FluxerLocalizations l10n, String productName) {
     return switch (widget.flow.mode) {
       VerificationMode.phone => l10n.requiredActionIntroPhone,
-      VerificationMode.emailOrPhone => l10n.requiredActionIntroEmailOrPhone,
-      VerificationMode.emailAndPhone => l10n.requiredActionIntroEmailAndPhone,
-      VerificationMode.email => l10n.requiredActionIntroGeneric,
+      VerificationMode.emailOrPhone => l10n.requiredActionIntroEmailOrPhone(
+        productName,
+      ),
+      VerificationMode.emailAndPhone => l10n.requiredActionIntroEmailAndPhone(
+        productName,
+      ),
+      VerificationMode.email => l10n.requiredActionIntroGeneric(productName),
     };
   }
 
@@ -296,9 +301,12 @@ class _RequiredActionModalState extends ConsumerState<RequiredActionModal> {
     UserSettingsViewState settings,
     PhoneVerificationViewState phoneState,
   ) {
+    final String productName = ref.watch(
+      instanceRuntimeConfigProvider.select((config) => config.productName),
+    );
     return switch (_viewState.view) {
       RequiredActionViewKind.intro => Text(
-        _introDescription(l10n),
+        _introDescription(l10n, productName),
         style: context.textStyles.bodySmall.copyWith(
           color: context.colors.textSecondary,
         ),
@@ -307,7 +315,7 @@ class _RequiredActionModalState extends ConsumerState<RequiredActionModal> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            l10n.requiredActionChooseMethodDescription,
+            l10n.requiredActionChooseMethodDescription(productName),
             style: context.textStyles.bodySmall.copyWith(
               color: context.colors.textSecondary,
             ),

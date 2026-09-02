@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 
@@ -44,8 +45,9 @@ List<GroupMemberInfo> buildDmGroupMembers(
 
 Future<DmConversation> buildDmConversationFromChannelRow(
   db.FluxerDatabase database,
-  db.DmChannel row,
-) async {
+  db.DmChannel row, {
+  String productName = InstanceConstants.defaultProductName,
+}) async {
   final List<String> recipientIds = parseDmChannelRecipientIds(
     row.recipientIds,
   );
@@ -71,5 +73,6 @@ Future<DmConversation> buildDmConversationFromChannelRow(
       recipientIds,
       row.recipientId,
     ),
+    productName: productName,
   );
 }

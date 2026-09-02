@@ -90,20 +90,24 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get systemPermissionSettingsOpenSettings => 'Open settings';
 
   @override
-  String get systemPermissionMicrophoneMessage =>
-      'Fluxer doesn\'t have access to your microphone. You can enable it in your device privacy settings.';
+  String systemPermissionMicrophoneMessage(String productName) {
+    return '$productName doesn\'t have access to your microphone. You can enable it in your device privacy settings.';
+  }
 
   @override
-  String get systemPermissionCameraMessage =>
-      'Fluxer doesn\'t have access to your camera. You can enable it in your device privacy settings.';
+  String systemPermissionCameraMessage(String productName) {
+    return '$productName doesn\'t have access to your camera. You can enable it in your device privacy settings.';
+  }
 
   @override
-  String get systemPermissionPhotosMessage =>
-      'Fluxer doesn\'t have access to your photo library. You can enable it in your device privacy settings.';
+  String systemPermissionPhotosMessage(String productName) {
+    return '$productName doesn\'t have access to your photo library. You can enable it in your device privacy settings.';
+  }
 
   @override
-  String get systemPermissionNotificationsMessage =>
-      'Fluxer doesn\'t have permission to send notifications. You can enable it in your device settings.';
+  String systemPermissionNotificationsMessage(String productName) {
+    return '$productName doesn\'t have permission to send notifications. You can enable it in your device settings.';
+  }
 
   @override
   String nagbarPremiumGracePeriod(String productName, String graceDate) {
@@ -1528,7 +1532,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get externalLinkWarningTitle => 'Įspėjimas apie išorinį saitą';
 
   @override
-  String get externalLinkWarningLeaving => 'Jūs ketinate išeiti iš Fluxer';
+  String externalLinkWarningLeaving(String productName) {
+    return 'Jūs ketinate išeiti iš $productName';
+  }
 
   @override
   String get externalLinkWarningDescription =>
@@ -1900,7 +1906,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get profilePreviewMessage => 'Žinutė';
 
   @override
-  String get profilePreviewMemberSince => 'Fluxer narys nuo';
+  String profilePreviewMemberSince(String productName) {
+    return '$productName narys nuo';
+  }
 
   @override
   String get unclaimedAccountTitle => 'Nepareikalautas paskyra';
@@ -1991,8 +1999,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get securityLoginEmailSectionTitle => 'El. pašto nustatymai';
 
   @override
-  String get securityLoginEmailSectionDescription =>
-      'Tvarkykite el. pašto adresą, kurį naudojate prisijungdami prie Fluxer';
+  String securityLoginEmailSectionDescription(String productName) {
+    return 'Tvarkykite el. pašto adresą, kurį naudojate prisijungdami prie $productName';
+  }
 
   @override
   String get securityLoginEmailAddressLabel => 'El. pašto adresas';
@@ -2444,27 +2453,31 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get requiredActionTitle => 'Account verification required';
 
   @override
-  String get requiredActionIntroGeneric =>
-      'Complete the required verification to continue using Fluxer.';
+  String requiredActionIntroGeneric(String productName) {
+    return 'Complete the required verification to continue using $productName.';
+  }
 
   @override
   String get requiredActionIntroPhone =>
       'Your registration needs an extra anti-spam check before you can continue.';
 
   @override
-  String get requiredActionIntroEmailOrPhone =>
-      'Verify your email or phone to continue using Fluxer.';
+  String requiredActionIntroEmailOrPhone(String productName) {
+    return 'Verify your email or phone to continue using $productName.';
+  }
 
   @override
-  String get requiredActionIntroEmailAndPhone =>
-      'Complete the required email and phone verification steps below to continue using Fluxer.';
+  String requiredActionIntroEmailAndPhone(String productName) {
+    return 'Complete the required email and phone verification steps below to continue using $productName.';
+  }
 
   @override
   String get requiredActionChooseMethodTitle => 'Choose a verification method';
 
   @override
-  String get requiredActionChooseMethodDescription =>
-      'Complete one of the verification paths below to continue using Fluxer.';
+  String requiredActionChooseMethodDescription(String productName) {
+    return 'Complete one of the verification paths below to continue using $productName.';
+  }
 
   @override
   String get requiredActionUseEmail => 'Use email';
@@ -2735,8 +2748,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get authorizedAppsTitle => 'Įgaliotos programos';
 
   @override
-  String get authorizedAppsDescription =>
-      'Šioms programoms buvo suteikta prieiga prie jūsų Fluxer paskyros.';
+  String authorizedAppsDescription(String productName) {
+    return 'Šioms programoms buvo suteikta prieiga prie jūsų $productName paskyros.';
+  }
 
   @override
   String get authorizedAppsEmptyTitle => 'Nėra įgaliotų programų';
@@ -2848,31 +2862,49 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get userProfileEditProfile => 'Redaguoti profilį';
 
   @override
-  String get userProfileStaffBadgeTooltip => 'Fluxer personalas';
-
-  @override
-  String get userProfileCtpBadgeTooltip => 'Fluxer bendruomenės komanda';
-
-  @override
-  String get userProfilePartnerBadgeTooltip => 'Fluxer partneris';
-
-  @override
-  String get userProfileBugHunterBadgeTooltip => 'Fluxer Bug Hunter';
-
-  @override
-  String get userProfilePlutoniumBadgeTooltip => 'Fluxer Plutonium';
-
-  @override
-  String userProfilePlutoniumSubscriberSinceTooltip(String date) {
-    return 'Fluxer Plutonium prenumerata nuo $date';
+  String userProfileStaffBadgeTooltip(String productName) {
+    return '$productName personalas';
   }
 
   @override
-  String get userProfileVisionaryBadgeTooltip => 'Fluxer Visionary';
+  String userProfileCtpBadgeTooltip(String productName) {
+    return '$productName bendruomenės komanda';
+  }
 
   @override
-  String userProfileVisionaryBadgeSinceTooltip(String date) {
-    return 'Fluxer Visionary nuo $date';
+  String userProfilePartnerBadgeTooltip(String productName) {
+    return '$productName partneris';
+  }
+
+  @override
+  String userProfileBugHunterBadgeTooltip(String productName) {
+    return '$productName Bug Hunter';
+  }
+
+  @override
+  String userProfilePlutoniumBadgeTooltip(String productName) {
+    return '$productName Plutonium';
+  }
+
+  @override
+  String userProfilePlutoniumSubscriberSinceTooltip(
+    String productName,
+    String date,
+  ) {
+    return '$productName Plutonium prenumerata nuo $date';
+  }
+
+  @override
+  String userProfileVisionaryBadgeTooltip(String productName) {
+    return '$productName Visionary';
+  }
+
+  @override
+  String userProfileVisionaryBadgeSinceTooltip(
+    String productName,
+    String date,
+  ) {
+    return '$productName Visionary nuo $date';
   }
 
   @override
@@ -4107,8 +4139,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get connectionsTitle => 'Ryšiai';
 
   @override
-  String get connectionsDescription =>
-      'Susiekite išorinius paskyras ir domenus su savo Fluxer profiliu. Patvirtinti ryšiai bus rodomi jūsų profilyje, kad kiti galėtų juos matyti.';
+  String connectionsDescription(String productName) {
+    return 'Susiekite išorinius paskyras ir domenus su savo $productName profiliu. Patvirtinti ryšiai bus rodomi jūsų profilyje, kad kiti galėtų juos matyti.';
+  }
 
   @override
   String get connectionsEmptyTitle => 'Dar nėra ryšių';
@@ -4560,8 +4593,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get lookAndFeelCollapseDMsLabel => 'Suskleisti DM į aplanką';
 
   @override
-  String get lookAndFeelCollapseDMsDescription =>
-      'Kai įjungta, neskaityti DM bendruomenės šoninėje juostoje suskleidžiami į aplanką „Fluxer“ mygtuke. Spustelėkite „Fluxer“ mygtuką, kai esate DM puslapyje, kad išskleistumėte arba suskleistumėte aplanką.';
+  String lookAndFeelCollapseDMsDescription(String productName) {
+    return 'Kai įjungta, neskaityti DM bendruomenės šoninėje juostoje suskleidžiami į aplanką „$productName“ mygtuke. Spustelėkite „$productName“ mygtuką, kai esate DM puslapyje, kad išskleistumėte arba suskleistumėte aplanką.';
+  }
 
   @override
   String get lookAndFeelChannelListSectionTitle => 'Kanalų sąrašas';
@@ -4836,8 +4870,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Kai skelbiami kaip nuorodos į pokalbį';
 
   @override
-  String get messagesMediaDisplayInlineAttachmentLabel =>
-      'Kai įkeliami tiesiogiai į Fluxer';
+  String messagesMediaDisplayInlineAttachmentLabel(String productName) {
+    return 'Kai įkeliami tiesiogiai į $productName';
+  }
 
   @override
   String get messagesMediaLinkPreviewsSectionTitle => 'Nuorodų peržiūros';
@@ -5029,8 +5064,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get accessibilityScreenReaderGroupTitle => 'Screen reader';
 
   @override
-  String get accessibilityScreenReaderGroupDescription =>
-      'Control how Fluxer works with screen readers.';
+  String accessibilityScreenReaderGroupDescription(String productName) {
+    return 'Control how $productName works with screen readers.';
+  }
 
   @override
   String get accessibilityScreenReaderAnnounceNewMessagesLabel =>
@@ -6888,8 +6924,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get iarReasonOtherLabel => 'Kitas akivaizdus taisyklių pažeidimas';
 
   @override
-  String get iarReasonOtherDescription =>
-      'Naudokite tik jei akivaizdžiai pažeidžiamos Fluxer taisyklės ir tai netinka aukščiau.';
+  String iarReasonOtherDescription(String productName) {
+    return 'Naudokite tik jei akivaizdžiai pažeidžiamos $productName taisyklės ir tai netinka aukščiau.';
+  }
 
   @override
   String iarUseChildSafetyInstead(String childSafetyReason) {
@@ -9917,16 +9954,18 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get advancedPerformanceReportingTitle => 'Našumo ataskaitos';
 
   @override
-  String get advancedPerformanceReportingSectionDescription =>
-      'Padėkite tobulinti Fluxer, bendrindami anoniminius duomenis apie gedimus ir našumą.';
+  String advancedPerformanceReportingSectionDescription(String productName) {
+    return 'Padėkite tobulinti $productName, bendrindami anoniminius duomenis apie gedimus ir našumą.';
+  }
 
   @override
   String get advancedPerformanceReportingLabel =>
       'Siųsti ataskaitas apie gedimus ir našumą';
 
   @override
-  String get advancedPerformanceReportingDescription =>
-      'Visi pranešti duomenys yra anonimiški ir siunčiami tik į Fluxer nuosavą stebėjimo tarnybą – nenaudojami jokie trečiųjų šalių paslaugų teikėjai.';
+  String advancedPerformanceReportingDescription(String productName) {
+    return 'Visi pranešti duomenys yra anonimiški ir siunčiami tik į $productName nuosavą stebėjimo tarnybą – nenaudojami jokie trečiųjų šalių paslaugų teikėjai.';
+  }
 
   @override
   String get advancedSettingsConfigure => 'Configure';
@@ -11209,8 +11248,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String get guildNavbarStaffOnlyAccessible =>
-      'Pasiekiama tik Fluxer darbuotojams';
+  String guildNavbarStaffOnlyAccessible(String productName) {
+    return 'Pasiekiama tik $productName darbuotojams';
+  }
 
   @override
   String get guildNavbarInvitesPaused =>

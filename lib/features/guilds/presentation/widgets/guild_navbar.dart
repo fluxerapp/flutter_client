@@ -4373,7 +4373,13 @@ class _GuildTooltipContent extends ConsumerWidget {
                 )) ...[
                   const SizedBox(height: 6),
                   Text(
-                    l10n.guildNavbarStaffOnlyAccessible,
+                    l10n.guildNavbarStaffOnlyAccessible(
+                      ref.watch(
+                        instanceRuntimeConfigProvider.select(
+                          (config) => config.productName,
+                        ),
+                      ),
+                    ),
                     style: context.textStyles.bodySmall.copyWith(
                       color: context.colors.statusDanger,
                     ),

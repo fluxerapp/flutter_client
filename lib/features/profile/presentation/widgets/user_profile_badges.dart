@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
@@ -58,14 +59,20 @@ class _FlagBadgeSpec {
   final String asset;
   final _FlagBadgeTooltip tooltip;
 
+  bool get officialOnly => tooltip != _FlagBadgeTooltip.staff;
+
   bool isSet(int flags) => flags & flag != 0;
 
-  String tooltipText(FluxerLocalizations l10n) {
+  String tooltipText(FluxerLocalizations l10n, String productName) {
     return switch (tooltip) {
-      _FlagBadgeTooltip.staff => l10n.userProfileStaffBadgeTooltip,
-      _FlagBadgeTooltip.ctp => l10n.userProfileCtpBadgeTooltip,
-      _FlagBadgeTooltip.partner => l10n.userProfilePartnerBadgeTooltip,
-      _FlagBadgeTooltip.bugHunter => l10n.userProfileBugHunterBadgeTooltip,
+      _FlagBadgeTooltip.staff => l10n.userProfileStaffBadgeTooltip(productName),
+      _FlagBadgeTooltip.ctp => l10n.userProfileCtpBadgeTooltip(productName),
+      _FlagBadgeTooltip.partner => l10n.userProfilePartnerBadgeTooltip(
+        productName,
+      ),
+      _FlagBadgeTooltip.bugHunter => l10n.userProfileBugHunterBadgeTooltip(
+        productName,
+      ),
     };
   }
 }
@@ -84,7 +91,7 @@ TextStyle visionaryIdBadgeTextStyle(BuildContext context) {
   );
 }
 
-class UserProfileBadges extends StatelessWidget {
+class UserProfileBadges extends ConsumerWidget {
   const UserProfileBadges({
     required this.flags,
     this.hasPlutonium = false,
@@ -100,8 +107,16 @@ class UserProfileBadges extends StatelessWidget {
   final String? premiumSince;
   final int? premiumLifetimeSequence;
 
-  static bool hasBadges({required int flags, bool hasPlutonium = false}) {
-    return hasPlutonium || _kFlagBadgeSpecs.any((badge) => badge.isSet(flags));
+  static bool hasBadges({
+    required int flags,
+    bool hasPlutonium = false,
+    bool selfHosted = false,
+  }) {
+    final bool showPremium = hasPlutonium && !selfHosted;
+    return showPremium ||
+        _kFlagBadgeSpecs.any(
+          (badge) => badge.isSet(flags) && (!selfHosted || !badge.officialOnly),
+        );
   }
 
   Widget _wrapBadge(
@@ -140,16 +155,16 @@ class UserProfileBadges extends StatelessWidget {
     );
   }
 
-  String _premiumTooltip(FluxerLocalizations l10n) {
+  String _premiumTooltip(FluxerLocalizations l10n, String productName) {
     final String? since = _formatPremiumSince(premiumSince, l10n.localeName);
     if (isLifetimePlutonium) {
       return since == null
-          ? l10n.userProfileVisionaryBadgeTooltip
-          : l10n.userProfileVisionaryBadgeSinceTooltip(since);
+          ? l10n.userProfileVisionaryBadgeTooltip(productName)
+          : l10n.userProfileVisionaryBadgeSinceTooltip(productName, since);
     }
     return since == null
-        ? l10n.userProfilePlutoniumBadgeTooltip
-        : l10n.userProfilePlutoniumSubscriberSinceTooltip(since);
+        ? l10n.userProfilePlutoniumBadgeTooltip(productName)
+        : l10n.userProfilePlutoniumSubscriberSinceTooltip(productName, since);
   }
 
   static String? _formatPremiumSince(String? premiumSince, String localeName) {
@@ -164,33 +179,43 @@ class UserProfileBadges extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final ({bool selfHosted, String productName}) branding = ref.watch(
+      instanceRuntimeConfigProvider.select(
+        (config) =>
+            (selfHosted: config.selfHosted, productName: config.productName),
+      ),
+    );
     final List<Widget> children = <Widget>[];
 
     for (final badge in _kFlagBadgeSpecs) {
       if (!badge.isSet(flags)) {
         continue;
       }
+      if (branding.selfHosted && badge.officialOnly) {
+        continue;
+      }
       children.add(
         _buildBadge(
           context,
           asset: badge.asset,
-          tooltip: badge.tooltipText(l10n),
+          tooltip: badge.tooltipText(l10n, branding.productName),
         ),
       );
     }
 
-    if (hasPlutonium) {
+    final bool showPremium = hasPlutonium && !branding.selfHosted;
+    if (showPremium) {
       children.add(
         _buildBadge(
           context,
           asset: _kPlutoniumBadgeAsset,
-          tooltip: _premiumTooltip(l10n),
+          tooltip: _premiumTooltip(l10n, branding.productName),
         ),
       );
     }
-    if (hasPlutonium && premiumLifetimeSequence != null) {
+    if (showPremium && premiumLifetimeSequence != null) {
       final tooltip = l10n.userProfileVisionaryIdTooltip(
         premiumLifetimeSequence!,
       );
