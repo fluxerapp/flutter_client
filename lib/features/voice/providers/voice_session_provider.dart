@@ -21,6 +21,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart'
 import 'package:fluxer_app/features/settings/providers/sound_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/settings/utils/sound_sfx_playback.dart';
+import 'package:fluxer_app/features/voice/domain/local_voice_state_data.dart';
 import 'package:fluxer_app/features/voice/domain/voice_connect_failed_target.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/local_voice_state_provider.dart';
@@ -1527,39 +1528,22 @@ class VoiceSession extends _$VoiceSession {
     }
     final VoiceState? vs = _selfConnectionVoiceState();
     final bool isDeaf = vs?.selfDeaf ?? false;
-    if (isDeaf) {
-      await _applySelfVoiceState(
-        selfMute: false,
-        selfDeaf: false,
-        selfVideo: vs?.selfVideo ?? false,
-      );
-      await ref
-          .read(localVoiceStateProvider.notifier)
-          .setSelfDeaf(deafened: false);
-      unawaited(
-        playFluxerSoundEffect(
-          prefs: ref.read(soundPreferencesProvider),
-          sfx: ref.read(fluxerSfxProvider),
-          clip: FluxerSfxClip.undeaf,
-        ),
-      );
-    } else {
-      await _applySelfVoiceState(
-        selfMute: true,
-        selfDeaf: true,
-        selfVideo: vs?.selfVideo ?? false,
-      );
-      await ref
-          .read(localVoiceStateProvider.notifier)
-          .setSelfDeaf(deafened: true);
-      unawaited(
-        playFluxerSoundEffect(
-          prefs: ref.read(soundPreferencesProvider),
-          sfx: ref.read(fluxerSfxProvider),
-          clip: FluxerSfxClip.deaf,
-        ),
-      );
-    }
+    await ref
+        .read(localVoiceStateProvider.notifier)
+        .setSelfDeaf(deafened: !isDeaf);
+    final LocalVoiceStateData local = ref.read(localVoiceStateProvider);
+    await _applySelfVoiceState(
+      selfMute: local.selfMute,
+      selfDeaf: local.selfDeaf,
+      selfVideo: vs?.selfVideo ?? false,
+    );
+    unawaited(
+      playFluxerSoundEffect(
+        prefs: ref.read(soundPreferencesProvider),
+        sfx: ref.read(fluxerSfxProvider),
+        clip: isDeaf ? FluxerSfxClip.undeaf : FluxerSfxClip.deaf,
+      ),
+    );
   }
 
   Future<void> toggleSelfVideo() async {

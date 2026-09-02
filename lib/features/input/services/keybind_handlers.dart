@@ -42,6 +42,7 @@ import 'package:fluxer_app/features/settings/providers/appearance_preferences_pr
 import 'package:fluxer_app/features/voice/providers/local_voice_state_provider.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_priority_speaker_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
 import 'package:fluxer_app/features/voice/tts/tts_locale_utils.dart';
 import 'package:fluxer_app/features/voice/utils/incoming_voice_call_actions.dart';
@@ -346,10 +347,7 @@ void registerKeybindHandlers({
       return true;
     })
     ..register(KeybindAction.voiceToggleDeafen, () async {
-      final voice = ref.read(localVoiceStateProvider);
-      await ref
-          .read(localVoiceStateProvider.notifier)
-          .setSelfDeaf(deafened: !voice.selfDeaf);
+      await ref.read(voiceSessionProvider.notifier).toggleSelfDeafen();
       return true;
     })
     ..register(KeybindAction.voiceAnswerCall, () async {
