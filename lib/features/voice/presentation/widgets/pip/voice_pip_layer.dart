@@ -7,11 +7,9 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
-import 'package:fluxer_app/features/ui/voice/fluxer_live_badge.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/pip/voice_pip_video.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
-import 'package:fluxer_app/features/voice/providers/voice_active_speakers_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_pip_providers.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
@@ -373,8 +371,6 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
 
   Widget _flightVideo({
     required String tileId,
-    required bool speaking,
-    required bool isScreen,
     required double t,
     bool dragging = false,
   }) {
@@ -386,49 +382,28 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
       scale: dragging ? 1.04 : 1,
       duration: const Duration(milliseconds: 180),
       curve: Curves.easeOutCubic,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(radius),
-          boxShadow: lift <= 0.01
-              ? const <BoxShadow>[]
-              : <BoxShadow>[
-                  BoxShadow(
-                    color: Colors.black.withValues(
-                      alpha: (dragging ? 0.45 : 0.28) * lift,
-                    ),
-                    blurRadius: (dragging ? 22 : 16) * lift,
-                    offset: Offset(0, (dragging ? 10 : 8) * lift),
-                  ),
-                ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(radius),
-          child: Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              VoicePipVideo(tileId: tileId),
-              if (decoration > 0.01 && speaking && t < 0.35)
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: context.colors.statusOnline.withValues(
-                        alpha: decoration,
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(radius),
+        clipBehavior: Clip.antiAlias,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(radius),
+            boxShadow: lift <= 0.01
+                ? const <BoxShadow>[]
+                : <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.black.withValues(
+                        alpha: (dragging ? 0.45 : 0.28) * lift,
                       ),
-                      width: 2.5 * decoration,
+                      blurRadius: (dragging ? 22 : 16) * lift,
+                      offset: Offset(0, (dragging ? 10 : 8) * lift),
                     ),
-                    borderRadius: BorderRadius.circular(radius),
-                  ),
-                ),
-              if (decoration > 0.01 && isScreen)
-                Positioned(
-                  left: 8,
-                  bottom: 8,
-                  child: Opacity(
-                    opacity: decoration,
-                    child: const FluxerLiveBadge(),
-                  ),
-                ),
-            ],
+                  ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(radius),
+            child: VoicePipVideo(tileId: tileId),
           ),
         ),
       ),
@@ -467,15 +442,6 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
       safeRect: safe,
     );
     final Rect pipRect = origin & card;
-    final bool speaking =
-        !isScreen &&
-        parsed != null &&
-        ref.watch(
-          voiceActiveSpeakersProvider.select(
-            (VoiceActiveSpeakersState s) =>
-                s.speakingKeys.contains(parsed.identity),
-          ),
-        );
     if (voicePipIsInFlight(_phase)) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
@@ -510,12 +476,7 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
           opacity: fade,
           child: KeyedSubtree(
             key: kVoicePipFlightKey,
-            child: _flightVideo(
-              tileId: tileId,
-              speaking: speaking,
-              isScreen: isScreen,
-              t: t,
-            ),
+            child: _flightVideo(tileId: tileId, t: t),
           ),
         ),
       );
@@ -525,13 +486,7 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
       child: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          _flightVideo(
-            tileId: tileId,
-            speaking: speaking,
-            isScreen: isScreen,
-            t: 0,
-            dragging: _dragging,
-          ),
+          _flightVideo(tileId: tileId, t: 0, dragging: _dragging),
           FluxerGestureDetector(
             key: kVoiceInAppPipKey,
             behavior: HitTestBehavior.opaque,
