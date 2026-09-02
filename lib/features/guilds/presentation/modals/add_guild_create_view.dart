@@ -26,6 +26,54 @@ import 'package:fluxer_app/shared/utils/image_utils.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+Future<String?> pickAddGuildIconDataUri({
+  required BuildContext context,
+  required WidgetRef ref,
+}) async {
+  final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+  final ({Uint8List bytes, String name})? picked = await ImageUtils.pickImage();
+  if (picked == null || !context.mounted) {
+    return null;
+  }
+  if (ImageUtils.isOverSizeLimit(picked.bytes)) {
+    ref
+        .read(toastProvider.notifier)
+        .show(
+          FluxerToast(
+            message: l10n.imageFileTooLarge,
+            variant: FluxerToastVariant.danger,
+          ),
+        );
+    return null;
+  }
+  final AnimationCheckResult animCheck = ImageUtils.checkAnimated(picked.bytes);
+  if (animCheck.isAnimated) {
+    ref
+        .read(toastProvider.notifier)
+        .show(
+          FluxerToast(
+            message: l10n.addGuildCreateAnimatedIconUnsupported,
+            variant: FluxerToastVariant.warning,
+          ),
+        );
+    return null;
+  }
+  if (!context.mounted) {
+    return null;
+  }
+  final Uint8List? croppedBytes = await showImageCropSheet(
+    context,
+    imageBytes: picked.bytes,
+    aspectRatio: 1,
+    title: l10n.cropAvatar,
+    maskShape: CropMaskShape.circle,
+  );
+  if (croppedBytes == null) {
+    return null;
+  }
+  return ImageUtils.toDataUri(croppedBytes);
+}
+
 class AddGuildCreateView extends ConsumerStatefulWidget {
   const AddGuildCreateView({
     required this.nameController,
@@ -45,79 +93,17 @@ class AddGuildCreateView extends ConsumerStatefulWidget {
 class AddGuildCreateViewState extends ConsumerState<AddGuildCreateView> {
   String? _iconDataUri;
 
-  @override
-  void initState() {
-    super.initState();
-    widget.nameController.addListener(_onNameControllerChanged);
-  }
-
-  @override
-  void didUpdateWidget(AddGuildCreateView oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.nameController != widget.nameController) {
-      oldWidget.nameController.removeListener(_onNameControllerChanged);
-      widget.nameController.addListener(_onNameControllerChanged);
-    }
-  }
-
-  @override
-  void dispose() {
-    widget.nameController.removeListener(_onNameControllerChanged);
-    super.dispose();
-  }
-
-  void _onNameControllerChanged() {
-    setState(() {});
-  }
-
   String? get iconDataUri => _iconDataUri;
 
   Future<void> _handleIconUpload() async {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final ({Uint8List bytes, String name})? picked =
-        await ImageUtils.pickImage();
-    if (picked == null || !mounted) {
-      return;
-    }
-    if (ImageUtils.isOverSizeLimit(picked.bytes)) {
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: l10n.imageFileTooLarge,
-              variant: FluxerToastVariant.danger,
-            ),
-          );
-      return;
-    }
-    final AnimationCheckResult animCheck = ImageUtils.checkAnimated(
-      picked.bytes,
+    final String? dataUri = await pickAddGuildIconDataUri(
+      context: context,
+      ref: ref,
     );
-    if (animCheck.isAnimated) {
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: l10n.addGuildCreateAnimatedIconUnsupported,
-              variant: FluxerToastVariant.warning,
-            ),
-          );
+    if (dataUri == null || !mounted) {
       return;
     }
-    if (!mounted) {
-      return;
-    }
-    final Uint8List? croppedBytes = await showImageCropSheet(
-      context,
-      imageBytes: picked.bytes,
-      aspectRatio: 1,
-      title: l10n.cropAvatar,
-      maskShape: CropMaskShape.circle,
-    );
-    if (croppedBytes == null || !mounted) {
-      return;
-    }
-    setState(() => _iconDataUri = ImageUtils.toDataUri(croppedBytes));
+    setState(() => _iconDataUri = dataUri);
   }
 
   void _clearIcon() {
@@ -134,7 +120,7 @@ class AddGuildCreateViewState extends ConsumerState<AddGuildCreateView> {
       return const Center(child: FluxerLoadingSpinner());
     }
     if (!settings.hasVerifiedEmail) {
-      return _AddGuildCreateGate(
+      return AddGuildCreateGate(
         icon: PhosphorIconsFill.shieldWarning,
         title: l10n.addGuildCreateClaimTitle,
         description: l10n.addGuildCreateClaimDescription,
@@ -143,7 +129,7 @@ class AddGuildCreateViewState extends ConsumerState<AddGuildCreateView> {
       );
     }
     if (!settings.verified) {
-      return _AddGuildCreateGate(
+      return AddGuildCreateGate(
         icon: PhosphorIconsFill.envelopeSimple,
         title: l10n.addGuildCreateVerifyTitle,
         description: l10n.addGuildCreateVerifyDescription,
@@ -198,7 +184,6 @@ class AddGuildCreateViewState extends ConsumerState<AddGuildCreateView> {
   }
 
   Widget _buildIconSection(BuildContext context, FluxerLocalizations l10n) {
-    final String name = widget.nameController.text;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -212,7 +197,15 @@ class AddGuildCreateViewState extends ConsumerState<AddGuildCreateView> {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _CreateGuildIconPreview(name: name, iconDataUri: _iconDataUri),
+            ListenableBuilder(
+              listenable: widget.nameController,
+              builder: (BuildContext context, Widget? child) {
+                return AddGuildIconPreview(
+                  name: widget.nameController.text,
+                  iconDataUri: _iconDataUri,
+                );
+              },
+            ),
             const SizedBox(width: 16),
             Expanded(
               child: Column(
@@ -280,10 +273,11 @@ class AddGuildCreateViewState extends ConsumerState<AddGuildCreateView> {
   }
 }
 
-class _CreateGuildIconPreview extends StatelessWidget {
-  const _CreateGuildIconPreview({
+class AddGuildIconPreview extends StatelessWidget {
+  const AddGuildIconPreview({
     required this.name,
     required this.iconDataUri,
+    super.key,
   });
 
   static const double _size = 80;
@@ -364,13 +358,14 @@ class _CreateGuildIconPreview extends StatelessWidget {
   }
 }
 
-class _AddGuildCreateGate extends StatelessWidget {
-  const _AddGuildCreateGate({
+class AddGuildCreateGate extends StatelessWidget {
+  const AddGuildCreateGate({
     required this.icon,
     required this.title,
     required this.description,
     required this.actionLabel,
     required this.onAction,
+    super.key,
   });
 
   final IconData icon;
