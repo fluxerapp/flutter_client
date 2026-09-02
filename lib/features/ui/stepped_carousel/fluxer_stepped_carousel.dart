@@ -47,22 +47,20 @@ class _FluxerSteppedCarouselState<T> extends State<FluxerSteppedCarousel<T>> {
         curve: motion.curve,
         alignment: Alignment.topCenter,
         child: AnimatedSwitcher(
-          duration: reduceMotion ? Duration.zero : const Duration(milliseconds: 280),
+          duration: reduceMotion
+              ? Duration.zero
+              : const Duration(milliseconds: 280),
           reverseDuration: reduceMotion
               ? Duration.zero
               : const Duration(milliseconds: 100),
           switchInCurve: motion.curve,
           switchOutCurve: Curves.easeIn,
-          layoutBuilder:
-              (Widget? currentChild, List<Widget> previousChildren) {
-                return Stack(
-                  alignment: Alignment.topCenter,
-                  children: <Widget>[
-                    ...previousChildren,
-                    ?currentChild,
-                  ],
-                );
-              },
+          layoutBuilder: (Widget? currentChild, List<Widget> previousChildren) {
+            return Stack(
+              alignment: Alignment.topCenter,
+              children: <Widget>[...previousChildren, ?currentChild],
+            );
+          },
           transitionBuilder: (Widget child, Animation<double> animation) {
             return _SteppedCarouselTransition(
               animation: animation,
@@ -114,10 +112,7 @@ class _SteppedCarouselTransition extends StatelessWidget {
 
         return Opacity(
           opacity: animation.value.clamp(0, 1),
-          child: Transform.translate(
-            offset: Offset(offset, 0),
-            child: child,
-          ),
+          child: Transform.translate(offset: Offset(offset, 0), child: child),
         );
       },
     );

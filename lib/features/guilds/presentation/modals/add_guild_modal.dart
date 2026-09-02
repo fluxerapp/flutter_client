@@ -6,11 +6,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/instance/instance_endpoints.dart';
 import 'package:fluxer_app/core/providers/well_known_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/guilds/data/discord_template_fetcher.dart';
 import 'package:fluxer_app/features/guilds/presentation/modals/add_guild_create_view.dart';
+import 'package:fluxer_app/features/guilds/presentation/modals/add_guild_import_template_view.dart';
 import 'package:fluxer_app/features/guilds/presentation/modals/add_guild_landing_view.dart';
 import 'package:fluxer_app/features/guilds/providers/add_guild_enabled_provider.dart';
 import 'package:fluxer_app/features/guilds/services/create_community_service.dart';
 import 'package:fluxer_app/features/guilds/services/join_community_service.dart';
+import 'package:fluxer_app/features/guilds/utils/discord_template_parser.dart';
 import 'package:fluxer_app/features/guilds/utils/invite_link_parser.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -24,12 +27,13 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-enum _AddGuildModalView { landing, create, join }
+enum _AddGuildModalView { landing, create, join, importTemplate }
 
 const List<_AddGuildModalView> _addGuildViewOrder = <_AddGuildModalView>[
   _AddGuildModalView.landing,
   _AddGuildModalView.create,
   _AddGuildModalView.join,
+  _AddGuildModalView.importTemplate,
 ];
 
 enum _AddGuildPresentation { modal, bottomSheet }
@@ -74,13 +78,27 @@ class _AddGuildFlow extends ConsumerStatefulWidget {
 
 class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
   _AddGuildModalView _view = _AddGuildModalView.landing;
+  AddGuildImportStep _importStep = AddGuildImportStep.url;
   final TextEditingController _inviteController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _templateUrlController = TextEditingController();
+  final TextEditingController _importNameController = TextEditingController();
   final GlobalKey<AddGuildCreateViewState> _createViewKey =
       GlobalKey<AddGuildCreateViewState>();
+  final GlobalKey<AddGuildImportTemplateViewState> _importViewKey =
+      GlobalKey<AddGuildImportTemplateViewState>();
   String? _inviteErrorText;
   String? _createErrorText;
+  String? _templateUrlErrorText;
+  String? _importCreateErrorText;
+  DiscordGuildTemplate? _importedTemplate;
   bool _isSubmitting = false;
+  bool _isFetchingTemplate = false;
+  bool _syncingImportName = false;
+  bool _inviteCodeValid = false;
+  bool _createNameHasText = false;
+  bool _templateUrlHasText = false;
+  bool _importNameHasText = false;
   String _invitePlaceholder = '';
   List<String> _instanceInviteUrlBases = const <String>[];
 
@@ -89,6 +107,8 @@ class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
     super.initState();
     _inviteController.addListener(_onInviteInputChanged);
     _nameController.addListener(_onNameInputChanged);
+    _templateUrlController.addListener(_onTemplateUrlInputChanged);
+    _importNameController.addListener(_onImportNameInputChanged);
     unawaited(_loadInvitePlaceholder());
   }
 
@@ -100,30 +120,89 @@ class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
     _nameController
       ..removeListener(_onNameInputChanged)
       ..dispose();
+    _templateUrlController
+      ..removeListener(_onTemplateUrlInputChanged)
+      ..dispose();
+    _importNameController
+      ..removeListener(_onImportNameInputChanged)
+      ..dispose();
     super.dispose();
   }
 
   void _onInviteInputChanged() {
+    final bool isValid =
+        parseInviteCode(
+          _inviteController.text,
+          inviteUrlBases: _instanceInviteUrlBases,
+        ) !=
+        null;
+    if (_inviteErrorText == null && isValid == _inviteCodeValid) {
+      return;
+    }
     setState(() {
-      if (_inviteErrorText != null) {
-        _inviteErrorText = null;
-      }
+      _inviteCodeValid = isValid;
+      _inviteErrorText = null;
     });
   }
 
   void _onNameInputChanged() {
+    final bool hasText = _nameController.text.trim().isNotEmpty;
+    if (_createErrorText == null && hasText == _createNameHasText) {
+      return;
+    }
     setState(() {
-      if (_createErrorText != null) {
-        _createErrorText = null;
-      }
+      _createNameHasText = hasText;
+      _createErrorText = null;
     });
   }
 
+  void _onTemplateUrlInputChanged() {
+    final bool hasText = _templateUrlController.text.trim().isNotEmpty;
+    if (_templateUrlErrorText == null && hasText == _templateUrlHasText) {
+      return;
+    }
+    setState(() {
+      _templateUrlHasText = hasText;
+      _templateUrlErrorText = null;
+    });
+  }
+
+  void _onImportNameInputChanged() {
+    if (_syncingImportName) {
+      return;
+    }
+    final bool hasText = _importNameController.text.trim().isNotEmpty;
+    if (_importCreateErrorText == null && hasText == _importNameHasText) {
+      return;
+    }
+    setState(() {
+      _importNameHasText = hasText;
+      _importCreateErrorText = null;
+    });
+  }
+
+  bool _canCreateCommunities(UserSettingsViewState settings) {
+    return settings.hasVerifiedEmail && settings.verified;
+  }
+
   bool _canSubmitCreate(UserSettingsViewState settings) {
-    final bool showingForm = settings.hasVerifiedEmail && settings.verified;
-    return showingForm &&
+    return _canCreateCommunities(settings) &&
         !_isSubmitting &&
-        _nameController.text.trim().isNotEmpty;
+        _createNameHasText;
+  }
+
+  bool _canSubmitImportCreate(UserSettingsViewState settings) {
+    return _canCreateCommunities(settings) &&
+        !_isSubmitting &&
+        _importedTemplate != null &&
+        _importNameHasText;
+  }
+
+  bool get _canFetchTemplate {
+    if (_isSubmitting || _isFetchingTemplate) {
+      return false;
+    }
+    return _templateUrlHasText;
   }
 
   Future<void> _loadInvitePlaceholder() async {
@@ -137,6 +216,12 @@ class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
       setState(() {
         _instanceInviteUrlBases = <String>[inviteBase];
         _invitePlaceholder = '$inviteBase/$randomCode';
+        _inviteCodeValid =
+            parseInviteCode(
+              _inviteController.text,
+              inviteUrlBases: _instanceInviteUrlBases,
+            ) !=
+            null;
       });
     } on Object {
       if (!mounted) {
@@ -167,6 +252,9 @@ class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
       _view = _AddGuildModalView.landing;
       _inviteErrorText = null;
       _createErrorText = null;
+      _templateUrlErrorText = null;
+      _importCreateErrorText = null;
+      _importStep = AddGuildImportStep.url;
     });
   }
 
@@ -184,21 +272,31 @@ class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
     });
   }
 
+  void _goToImport() {
+    setState(() {
+      _view = _AddGuildModalView.importTemplate;
+      _importStep = AddGuildImportStep.url;
+      _templateUrlErrorText = null;
+      _importCreateErrorText = null;
+    });
+  }
+
+  void _goToImportUrl() {
+    setState(() {
+      _importStep = AddGuildImportStep.url;
+      _importCreateErrorText = null;
+    });
+  }
+
   String _title(FluxerLocalizations l10n) => switch (_view) {
     _AddGuildModalView.landing => l10n.addGuildModalTitle,
     _AddGuildModalView.create => l10n.addGuildCreateTitle,
     _AddGuildModalView.join => l10n.addGuildJoinTitle,
+    _AddGuildModalView.importTemplate => l10n.addGuildImportDiscordTemplate,
   };
 
   bool get _canSubmitJoin {
-    if (_isSubmitting) {
-      return false;
-    }
-    return parseInviteCode(
-          _inviteController.text,
-          inviteUrlBases: _instanceInviteUrlBases,
-        ) !=
-        null;
+    return !_isSubmitting && _inviteCodeValid;
   }
 
   Future<void> _submitJoin() async {
@@ -289,15 +387,138 @@ class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
     }
   }
 
+  Future<void> _fetchTemplate() async {
+    if (!_canFetchTemplate) {
+      return;
+    }
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String? code = parseTemplateCode(_templateUrlController.text);
+    if (code == null) {
+      setState(() => _templateUrlErrorText = l10n.addGuildImportUrlInvalid);
+      return;
+    }
+    setState(() {
+      _isFetchingTemplate = true;
+      _templateUrlErrorText = null;
+    });
+    try {
+      final DiscordGuildTemplate template = await fetchDiscordGuildTemplate(
+        code: code,
+      );
+      if (!mounted) {
+        return;
+      }
+      _syncingImportName = true;
+      try {
+        _importNameController.text = template.sourceGuild.name;
+        _importNameHasText = _importNameController.text.trim().isNotEmpty;
+      } finally {
+        _syncingImportName = false;
+      }
+      setState(() {
+        _importedTemplate = template;
+        _importStep = AddGuildImportStep.create;
+        _importCreateErrorText = null;
+        _isFetchingTemplate = false;
+      });
+    } on DiscordTemplateFetchException catch (e) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _isFetchingTemplate = false;
+        _templateUrlErrorText = switch (e.kind) {
+          DiscordTemplateFetchFailureKind.invalid =>
+            l10n.addGuildImportInvalidResponse,
+          DiscordTemplateFetchFailureKind.network =>
+            l10n.addGuildImportFetchFailed,
+        };
+      });
+    } on Object {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _isFetchingTemplate = false;
+        _templateUrlErrorText = l10n.addGuildImportFetchFailed;
+      });
+    }
+  }
+
+  Future<void> _submitImportCreate() async {
+    final UserSettingsViewState settings = ref.read(
+      userSettingsViewModelProvider,
+    );
+    if (!_canSubmitImportCreate(settings)) {
+      return;
+    }
+    final DiscordGuildTemplate? template = _importedTemplate;
+    if (template == null) {
+      return;
+    }
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    setState(() {
+      _isSubmitting = true;
+      _importCreateErrorText = null;
+    });
+    try {
+      await createCommunity(
+        context: context,
+        ref: ref,
+        name: _importNameController.text,
+        l10n: l10n,
+        iconDataUri: _importViewKey.currentState?.iconDataUri,
+        template: template.sourceGuild,
+      );
+      if (!mounted) {
+        return;
+      }
+      _close();
+    } on CreateCommunityException catch (e) {
+      if (!mounted) {
+        return;
+      }
+      if (e.kind == CreateCommunityFailureKind.apiError &&
+          e.message == l10n.addGuildCreateClaimDescription) {
+        setState(() {
+          _isSubmitting = false;
+          _importCreateErrorText = null;
+        });
+        return;
+      }
+      if (e.kind == CreateCommunityFailureKind.maxGuilds ||
+          e.kind == CreateCommunityFailureKind.singleCommunity) {
+        showCreateCommunityFailureToast(ref: ref, error: e, l10n: l10n);
+        setState(() {
+          _isSubmitting = false;
+          _importCreateErrorText = null;
+        });
+        return;
+      }
+      setState(() {
+        _isSubmitting = false;
+        _importCreateErrorText = e.message;
+      });
+    } on Object {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _isSubmitting = false;
+        _importCreateErrorText = l10n.addGuildCreateFailed;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final UserSettingsViewState userSettings = ref.watch(
       userSettingsViewModelProvider,
     );
-    final bool showingCreateForm =
-        userSettings.hasVerifiedEmail && userSettings.verified;
+    final bool showingCreateForm = _canCreateCommunities(userSettings);
     final bool canSubmitCreate = _canSubmitCreate(userSettings);
+    final bool canSubmitImportCreate = _canSubmitImportCreate(userSettings);
     final layout = context.layout;
     final dialogTheme = DialogTheme.of(context);
     final themeShape = dialogTheme.shape as RoundedRectangleBorder?;
@@ -319,6 +540,7 @@ class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
       _AddGuildModalView.landing => AddGuildLandingView(
         onCreateTap: _goToCreate,
         onJoinTap: _goToJoin,
+        onImportTap: _goToImport,
       ),
       _AddGuildModalView.create => AddGuildCreateView(
         key: _createViewKey,
@@ -349,6 +571,17 @@ class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
           ),
         ],
       ),
+      _AddGuildModalView.importTemplate => AddGuildImportTemplateView(
+        key: _importViewKey,
+        urlController: _templateUrlController,
+        nameController: _importNameController,
+        step: _importStep,
+        template: _importedTemplate,
+        urlErrorText: _templateUrlErrorText,
+        createErrorText: _importCreateErrorText,
+        enabled: !_isSubmitting && !_isFetchingTemplate,
+        onUrlSubmitted: () => unawaited(_fetchTemplate()),
+      ),
     };
     final List<Widget> footerActions = switch (_view) {
       _AddGuildModalView.landing => const <Widget>[],
@@ -372,6 +605,33 @@ class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
           isLoading: _isSubmitting,
           label: l10n.addGuildJoinSubmit,
         ),
+      ],
+      _AddGuildModalView.importTemplate => <Widget>[
+        FluxerButton.secondary(
+          onPressed: _isSubmitting || _isFetchingTemplate
+              ? null
+              : _importStep == AddGuildImportStep.create
+              ? _goToImportUrl
+              : _goToLanding,
+          label: l10n.back,
+        ),
+        if (showingCreateForm)
+          switch (_importStep) {
+            AddGuildImportStep.url => FluxerButton.primary(
+              onPressed: _canFetchTemplate
+                  ? () => unawaited(_fetchTemplate())
+                  : null,
+              isLoading: _isFetchingTemplate,
+              label: l10n.next,
+            ),
+            AddGuildImportStep.create => FluxerButton.primary(
+              onPressed: canSubmitImportCreate
+                  ? () => unawaited(_submitImportCreate())
+                  : null,
+              isLoading: _isSubmitting,
+              label: l10n.addGuildCreateSubmit,
+            ),
+          },
       ],
     };
     Widget buildFlowContent() {

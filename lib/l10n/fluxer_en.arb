@@ -413,6 +413,10 @@
     "@back": {
         "description": "Generic back button label."
     },
+    "next": "Next",
+    "@next": {
+        "description": "Generic next button label."
+    },
     "mfaTitle": "Two-factor authentication",
     "@mfaTitle": {
         "description": "Title for the MFA challenge screen."
@@ -9480,6 +9484,56 @@
     "addGuildCreateIconHint": "PNG, JPEG, WebP, AVIF, HEIC, HEIF, JXL, SVG. Max 10MB. Recommended: 512×512px",
     "@addGuildCreateIconHint": {
         "description": "Helper text under the community icon upload buttons listing accepted formats and size guidance."
+    },
+    "addGuildImportDescription": "Paste a Discord template URL to import its structure into a new community.",
+    "@addGuildImportDescription": {
+        "description": "Body text on the import Discord template URL step."
+    },
+    "addGuildImportUrlLabel": "Template URL",
+    "@addGuildImportUrlLabel": {
+        "description": "Label for the Discord template URL or code input."
+    },
+    "addGuildImportUrlInvalid": "Enter a valid Discord template URL or code.",
+    "@addGuildImportUrlInvalid": {
+        "description": "Validation error when the Discord template URL or code cannot be parsed."
+    },
+    "addGuildImportFetchFailed": "Failed to fetch the community template. The template may not exist or the external service is unavailable.",
+    "@addGuildImportFetchFailed": {
+        "description": "Error when fetching a Discord community template from Discord fails."
+    },
+    "addGuildImportInvalidResponse": "This doesn't look like a valid template response.",
+    "@addGuildImportInvalidResponse": {
+        "description": "Error when Discord returns a payload that is not a guild template."
+    },
+    "addGuildImportTemplateLabel": "Template",
+    "@addGuildImportTemplateLabel": {
+        "description": "Uppercase-style label above the imported template name in the preview card."
+    },
+    "addGuildImportTemplateStats": "{textChannelCount} text, {voiceChannelCount} voice, {categoryCount} categories, {roleCount} roles",
+    "@addGuildImportTemplateStats": {
+        "description": "Imported template preview counts for text channels, voice channels, categories, and roles.",
+        "placeholders": {
+            "textChannelCount": {
+                "type": "int"
+            },
+            "voiceChannelCount": {
+                "type": "int"
+            },
+            "categoryCount": {
+                "type": "int"
+            },
+            "roleCount": {
+                "type": "int"
+            }
+        }
+    },
+    "addGuildImportRemoveIcon": "Remove icon",
+    "@addGuildImportRemoveIcon": {
+        "description": "Button label to clear the selected community icon on the import-template create step."
+    },
+    "addGuildImportTemplateInvalid": "The community template data is invalid or malformed.",
+    "@addGuildImportTemplateInvalid": {
+        "description": "API error when Fluxer rejects the imported community template payload."
     },
     "addGuildPackInstalled": "Pack installed successfully.",
     "@addGuildPackInstalled": {

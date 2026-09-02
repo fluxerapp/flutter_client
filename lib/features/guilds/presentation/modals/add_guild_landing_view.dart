@@ -8,11 +8,13 @@ class AddGuildLandingView extends StatelessWidget {
   const AddGuildLandingView({
     required this.onCreateTap,
     required this.onJoinTap,
+    required this.onImportTap,
     super.key,
   });
 
   final VoidCallback onCreateTap;
   final VoidCallback onJoinTap;
+  final VoidCallback onImportTap;
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +56,7 @@ class AddGuildLandingView extends StatelessWidget {
           icon: PhosphorIconsBold.downloadSimple,
           label: l10n.addGuildImportDiscordTemplate,
           layout: AddGuildActionButtonLayout.row,
-          isDisabled: true,
-          onTap: null,
+          onTap: onImportTap,
         ),
       ],
     );

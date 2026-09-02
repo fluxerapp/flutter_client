@@ -141,10 +141,12 @@ class GuildRepository {
   Future<GuildResponse> createGuild({
     required String name,
     String? iconDataUri,
+    TemplateSerializedGuild? template,
   }) async {
     final GuildCreateRequest body = GuildCreateRequest(
       name: name.trim(),
       icon: iconDataUri,
+      template: template,
     );
     final GuildResponse guild = await _client.guilds.createGuild(body: body);
     final List<String> guildOrder = await _fetchGuildOrder();

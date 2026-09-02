@@ -604,6 +604,12 @@ abstract class FluxerLocalizations {
   /// **'Back'**
   String get back;
 
+  /// Generic next button label.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
+
   /// Title for the MFA challenge screen.
   ///
   /// In en, this message translates to:
@@ -12254,6 +12260,65 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'PNG, JPEG, WebP, AVIF, HEIC, HEIF, JXL, SVG. Max 10MB. Recommended: 512×512px'**
   String get addGuildCreateIconHint;
+
+  /// Body text on the import Discord template URL step.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste a Discord template URL to import its structure into a new community.'**
+  String get addGuildImportDescription;
+
+  /// Label for the Discord template URL or code input.
+  ///
+  /// In en, this message translates to:
+  /// **'Template URL'**
+  String get addGuildImportUrlLabel;
+
+  /// Validation error when the Discord template URL or code cannot be parsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid Discord template URL or code.'**
+  String get addGuildImportUrlInvalid;
+
+  /// Error when fetching a Discord community template from Discord fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to fetch the community template. The template may not exist or the external service is unavailable.'**
+  String get addGuildImportFetchFailed;
+
+  /// Error when Discord returns a payload that is not a guild template.
+  ///
+  /// In en, this message translates to:
+  /// **'This doesn\'t look like a valid template response.'**
+  String get addGuildImportInvalidResponse;
+
+  /// Uppercase-style label above the imported template name in the preview card.
+  ///
+  /// In en, this message translates to:
+  /// **'Template'**
+  String get addGuildImportTemplateLabel;
+
+  /// Imported template preview counts for text channels, voice channels, categories, and roles.
+  ///
+  /// In en, this message translates to:
+  /// **'{textChannelCount} text, {voiceChannelCount} voice, {categoryCount} categories, {roleCount} roles'**
+  String addGuildImportTemplateStats(
+    int textChannelCount,
+    int voiceChannelCount,
+    int categoryCount,
+    int roleCount,
+  );
+
+  /// Button label to clear the selected community icon on the import-template create step.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove icon'**
+  String get addGuildImportRemoveIcon;
+
+  /// API error when Fluxer rejects the imported community template payload.
+  ///
+  /// In en, this message translates to:
+  /// **'The community template data is invalid or malformed.'**
+  String get addGuildImportTemplateInvalid;
 
   /// Toast shown after accepting an emoji or sticker pack invite.
   ///
