@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
+import 'instance_runtime_config_override.dart';
 import 'test_l10n.dart';
 
 Widget pumpFluxerApp({
@@ -16,7 +17,7 @@ Widget pumpFluxerApp({
 }) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
-    overrides: overrides,
+    overrides: <Override>[instanceRuntimeConfigOverride(), ...overrides],
     child: MaterialApp(
       locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,

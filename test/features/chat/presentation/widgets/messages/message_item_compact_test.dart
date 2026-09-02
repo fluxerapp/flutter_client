@@ -14,6 +14,7 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_dart/export.dart';
 
+import '../../../../../helpers/instance_runtime_config_override.dart';
 import '../../../../../helpers/rendered_text_test_helpers.dart';
 import '../../../../../helpers/test_l10n.dart';
 
@@ -52,7 +53,10 @@ MessageRenderSettings _settings({
 Widget _app(Widget child, {bool use12Hour = false, Size? viewportSize}) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
-    overrides: [use12HourTimeFormatProvider.overrideWithValue(use12Hour)],
+    overrides: [
+      instanceRuntimeConfigOverride(),
+      use12HourTimeFormatProvider.overrideWithValue(use12Hour),
+    ],
     child: MaterialApp(
       locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
