@@ -19,6 +19,7 @@ import 'package:fluxer_markdown/src/utils/markup_spacing.dart';
 import 'package:fluxer_markdown/src/utils/masked_link_guards.dart';
 import 'package:fluxer_markdown/src/utils/monospace_text_style.dart';
 import 'package:fluxer_markdown/src/widgets/emoji_asset_image.dart';
+import 'package:fluxer_markdown/src/widgets/fluxer_live_timestamp.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown_link_registry.dart';
 import 'package:fluxer_markdown/src/widgets/system_emoji_fallback.dart';
 import 'package:intl/intl.dart';
@@ -1240,24 +1241,41 @@ class _MarkdownInlineRenderer {
       case FluxerMarkdownElementTags.mentionGuildNav:
         return _buildGuildNavigationMention(node, effectiveStyle);
       case FluxerMarkdownElementTags.timestamp:
+        final timestampStyle = effectiveStyle.copyWith(
+          background: Paint()
+            ..color =
+                (effectiveStyle.color ??
+                        Theme.of(context).colorScheme.onSurface)
+                    .withValues(alpha: 0.08),
+        );
+        final localeName = Localizations.localeOf(context).toLanguageTag();
+        final formatter = config.timestampFormatter;
+        final flag = node.attributes['flag'] ?? 'f';
+        if (flag == 'R') {
+          return WidgetSpan(
+            alignment: PlaceholderAlignment.baseline,
+            baseline: TextBaseline.alphabetic,
+            child: FluxerLiveTimestamp(
+              format: () =>
+                  _formatTimestampText(
+                    node,
+                    localeName: localeName,
+                    formatter: formatter,
+                  ) ??
+                  '',
+              style: timestampStyle,
+            ),
+          );
+        }
         final timestampText = _formatTimestampText(
           node,
-          localeName: Localizations.localeOf(context).toLanguageTag(),
-          formatter: config.timestampFormatter,
+          localeName: localeName,
+          formatter: formatter,
         );
         if (timestampText == null) {
           return const TextSpan(text: '');
         }
-        return TextSpan(
-          text: timestampText,
-          style: effectiveStyle.copyWith(
-            background: Paint()
-              ..color =
-                  (effectiveStyle.color ??
-                          Theme.of(context).colorScheme.onSurface)
-                      .withValues(alpha: 0.08),
-          ),
-        );
+        return TextSpan(text: timestampText, style: timestampStyle);
       case FluxerMarkdownElementTags.spoiler:
         return _buildInlineSpoilerSpan(
           node: node,

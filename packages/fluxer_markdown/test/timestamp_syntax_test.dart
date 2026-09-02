@@ -3,6 +3,7 @@ import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
 import 'package:fluxer_markdown/src/renderers/fluxer_markdown_element_tags.dart';
+import 'package:fluxer_markdown/src/widgets/fluxer_live_timestamp.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 import 'package:intl/intl.dart';
 import 'package:markdown/markdown.dart' as md;
@@ -189,5 +190,66 @@ void main() {
           .toList();
       expect(renderedTexts, contains('localised timestamp'));
     });
+
+    testWidgets('relative timestamps tick without rebuilding markdown', (
+      tester,
+    ) async {
+      var markdownBuilds = 0;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: _MarkdownBuildCounter(
+              onBuild: () => markdownBuilds++,
+              child: FluxerMarkdown(
+                astParser: parseTestMarkdownAst,
+                data: '<t:1618936830:R>',
+                config: FluxerMarkdownConfig(
+                  resolveEmojiShortcode: _noopEmojiShortcode,
+                  unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
+                  customEmojiUrlBuilder: _noopCustomEmojiUrl,
+                  timestampFormatter: (DateTime _, String style) {
+                    if (style != 'R') {
+                      return 'static';
+                    }
+                    return 'tick ${DateTime.now().millisecondsSinceEpoch}';
+                  },
+                ),
+                baseStyle: baseStyle,
+              ),
+            ),
+          ),
+        ),
+      );
+
+      expect(find.byType(FluxerLiveTimestamp), findsOneWidget);
+      final String before = tester.widget<Text>(find.byType(Text).first).data!;
+      expect(before, startsWith('tick '));
+      expect(markdownBuilds, 1);
+
+      await tester.pump(const Duration(seconds: 1));
+
+      final String after = tester.widget<Text>(find.byType(Text).first).data!;
+      expect(after, startsWith('tick '));
+      expect(after, isNot(before));
+      expect(markdownBuilds, 1);
+    });
   });
+}
+
+class _MarkdownBuildCounter extends StatefulWidget {
+  const _MarkdownBuildCounter({required this.child, required this.onBuild});
+
+  final Widget child;
+  final VoidCallback onBuild;
+
+  @override
+  State<_MarkdownBuildCounter> createState() => _MarkdownBuildCounterState();
+}
+
+class _MarkdownBuildCounterState extends State<_MarkdownBuildCounter> {
+  @override
+  Widget build(BuildContext context) {
+    widget.onBuild();
+    return widget.child;
+  }
 }

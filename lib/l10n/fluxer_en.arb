@@ -3362,6 +3362,69 @@
             }
         }
     },
+    "relativeTimeWeeks": "{count, plural, =1{1 week ago} other{{count} weeks ago}}",
+    "@relativeTimeWeeks": {
+        "description": "Relative time in weeks.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "relativeTimeInMinutes": "{count, plural, =1{in 1 minute} other{in {count} minutes}}",
+    "@relativeTimeInMinutes": {
+        "description": "Relative time in future minutes.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "relativeTimeInHours": "{count, plural, =1{in 1 hour} other{in {count} hours}}",
+    "@relativeTimeInHours": {
+        "description": "Relative time in future hours.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "relativeTimeInDays": "{count, plural, =1{in 1 day} other{in {count} days}}",
+    "@relativeTimeInDays": {
+        "description": "Relative time in future days.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "relativeTimeInWeeks": "{count, plural, =1{in 1 week} other{in {count} weeks}}",
+    "@relativeTimeInWeeks": {
+        "description": "Relative time in future weeks.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "relativeTimeInMonths": "{count, plural, =1{in 1 month} other{in {count} months}}",
+    "@relativeTimeInMonths": {
+        "description": "Relative time in future months.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "relativeTimeInYears": "{count, plural, =1{in 1 year} other{in {count} years}}",
+    "@relativeTimeInYears": {
+        "description": "Relative time in future years.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "relativeTimeJustNow": "just now",
     "@relativeTimeJustNow": {
         "description": "Relative time for very recent events."

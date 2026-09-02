@@ -24,6 +24,55 @@ String relativeTime(DateTime date, FluxerLocalizations l10n, {DateTime? now}) {
   return l10n.relativeTimeJustNow;
 }
 
+/// Relative time for markdown timestamps (`<t:unix:R>`).
+///
+/// Matches the web unit cascade for both past and future instants.
+String relativeTimestamp(
+  DateTime date,
+  FluxerLocalizations l10n, {
+  DateTime? now,
+}) {
+  final Duration delta = date.difference(now ?? DateTime.now());
+  final bool future = !delta.isNegative;
+  final Duration abs = delta.abs();
+  final int absDays = abs.inDays;
+
+  if (absDays >= 365) {
+    final int years = absDays ~/ 365;
+    return future
+        ? l10n.relativeTimeInYears(years)
+        : l10n.relativeTimeYears(years);
+  }
+  if (absDays >= 30) {
+    final int months = absDays ~/ 30;
+    return future
+        ? l10n.relativeTimeInMonths(months)
+        : l10n.relativeTimeMonths(months);
+  }
+  if (absDays >= 7) {
+    final int weeks = absDays ~/ 7;
+    return future
+        ? l10n.relativeTimeInWeeks(weeks)
+        : l10n.relativeTimeWeeks(weeks);
+  }
+  if (absDays > 0) {
+    return future
+        ? l10n.relativeTimeInDays(absDays)
+        : l10n.relativeTimeDays(absDays);
+  }
+  if (abs.inHours > 0) {
+    return future
+        ? l10n.relativeTimeInHours(abs.inHours)
+        : l10n.relativeTimeHours(abs.inHours);
+  }
+  if (abs.inMinutes > 0) {
+    return future
+        ? l10n.relativeTimeInMinutes(abs.inMinutes)
+        : l10n.relativeTimeMinutes(abs.inMinutes);
+  }
+  return l10n.relativeTimeJustNow;
+}
+
 /// Short-form relative time (e.g. "5m", "2h", "3d", "2mo", "1y", "now").
 ///
 /// Mirrors the web app's `formatShortRelativeTime` output. Used in compact

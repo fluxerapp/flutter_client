@@ -4606,6 +4606,48 @@ abstract class FluxerLocalizations {
   /// **'{count, plural, =1{1 minute ago} other{{count} minutes ago}}'**
   String relativeTimeMinutes(int count);
 
+  /// Relative time in weeks.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 week ago} other{{count} weeks ago}}'**
+  String relativeTimeWeeks(int count);
+
+  /// Relative time in future minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{in 1 minute} other{in {count} minutes}}'**
+  String relativeTimeInMinutes(int count);
+
+  /// Relative time in future hours.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{in 1 hour} other{in {count} hours}}'**
+  String relativeTimeInHours(int count);
+
+  /// Relative time in future days.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{in 1 day} other{in {count} days}}'**
+  String relativeTimeInDays(int count);
+
+  /// Relative time in future weeks.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{in 1 week} other{in {count} weeks}}'**
+  String relativeTimeInWeeks(int count);
+
+  /// Relative time in future months.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{in 1 month} other{in {count} months}}'**
+  String relativeTimeInMonths(int count);
+
+  /// Relative time in future years.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{in 1 year} other{in {count} years}}'**
+  String relativeTimeInYears(int count);
+
   /// Relative time for very recent events.
   ///
   /// In en, this message translates to:
