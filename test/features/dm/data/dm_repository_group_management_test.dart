@@ -9,6 +9,44 @@ import 'package:fluxer_dart/export.dart';
 
 import '../../../helpers/open_test_database.dart';
 
+class _FakeInvitesApi implements InvitesApi {
+  ChannelInviteCreateRequest? lastBody;
+  String? lastChannelId;
+
+  @override
+  Future<InviteMetadataResponseSchema> createChannelInvite({
+    required SnowflakeType channelId,
+    required ChannelInviteCreateRequest body,
+  }) async {
+    lastChannelId = channelId;
+    lastBody = body;
+    return InviteMetadataResponseSchema1(
+      code: 'invite-code',
+      type: GroupDmInviteMetadataResponseTypeType.value1,
+      channel: const ChannelPartialResponse(id: 'group-1', type: 3),
+      inviter: null,
+      memberCount: 3,
+      expiresAt: null,
+      temporary: false,
+      createdAt: DateTime.utc(2026),
+      uses: 0,
+      maxUses: 0,
+    );
+  }
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+class _FakeClient extends FluxerClient {
+  _FakeClient(this._invitesApi) : super(Dio());
+
+  final InvitesApi _invitesApi;
+
+  @override
+  InvitesApi get invites => _invitesApi;
+}
+
 ProviderContainer _createContainer(Dio dio) {
   final db = openTestDatabase();
   return ProviderContainer(
@@ -21,6 +59,21 @@ ProviderContainer _createContainer(Dio dio) {
 
 DmRepository _createRepository(Dio dio) {
   final container = _createContainer(dio);
+  return DmRepository(
+    container.read(fluxerClientProvider),
+    container.read(fluxerDatabaseProvider),
+    container.read(guildUserSettingsRepositoryProvider),
+  );
+}
+
+DmRepository _createRepositoryWithClient(FluxerClient client) {
+  final db = openTestDatabase();
+  final container = ProviderContainer(
+    overrides: [
+      fluxerDatabaseProvider.overrideWithValue(db),
+      fluxerClientProvider.overrideWithValue(client),
+    ],
+  );
   return DmRepository(
     container.read(fluxerClientProvider),
     container.read(fluxerDatabaseProvider),
@@ -90,41 +143,18 @@ void main() {
     });
 
     test('createGroupDmInvite requests 24 hour invite', () async {
-      RequestOptions? captured;
-      final Dio dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'));
-      dio.interceptors.add(
-        InterceptorsWrapper(
-          onRequest:
-              (RequestOptions options, RequestInterceptorHandler handler) {
-                captured = options;
-                handler.resolve(
-                  Response<Map<String, dynamic>>(
-                    requestOptions: options,
-                    data: <String, dynamic>{
-                      'type': 1,
-                      'code': 'invite-code',
-                      'channel': <String, dynamic>{'id': 'group-1', 'type': 3},
-                      'member_count': 3,
-                      'uses': 0,
-                      'max_uses': 0,
-                      'max_age': 86400,
-                      'temporary': false,
-                      'created_at': '2026-01-01T00:00:00.000Z',
-                    },
-                  ),
-                );
-              },
-        ),
+      final _FakeInvitesApi invitesApi = _FakeInvitesApi();
+      final DmRepository repo = _createRepositoryWithClient(
+        _FakeClient(invitesApi),
       );
 
-      final DmRepository repo = _createRepository(dio);
       final String code = await repo.createGroupDmInvite(channelId: 'group-1');
 
       expect(code, 'invite-code');
-      expect(captured?.method, 'POST');
-      expect(captured?.path, endsWith('/channels/group-1/invites'));
-      final Map<String, dynamic> body = captured!.data as Map<String, dynamic>;
-      expect(body['max_age'], 86400);
+      expect(invitesApi.lastChannelId, 'group-1');
+      expect(invitesApi.lastBody?.maxAge, 86400);
+      expect(invitesApi.lastBody?.maxUses, 0);
+      expect(invitesApi.lastBody?.temporary, isFalse);
     });
   });
 }
