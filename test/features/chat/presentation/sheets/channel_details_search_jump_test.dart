@@ -24,6 +24,7 @@ import 'package:fluxer_app/features/settings/providers/appearance_preferences_pr
 import 'package:fluxer_app/material_ui.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../helpers/instance_runtime_config_override.dart';
 import '../../../../helpers/open_test_database.dart';
 import '../../../../helpers/test_l10n.dart';
 
@@ -139,6 +140,7 @@ void main() {
   ProviderContainer buildContainer() {
     final ProviderContainer container = ProviderContainer(
       overrides: [
+        instanceRuntimeConfigOverride(),
         fluxerDatabaseProvider.overrideWithValue(database),
         fluxerRouterProvider.overrideWithValue(router),
         activeChannelIdProvider.overrideWithValue(null),

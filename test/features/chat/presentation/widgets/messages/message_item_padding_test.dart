@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/settings/providers/chat_preferences_provider
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
 
+import '../../../../../helpers/instance_runtime_config_override.dart';
 import '../../../../../helpers/test_l10n.dart';
 
 // Webhook author lets the row resolve its display with no provider/DB read.
@@ -38,6 +39,7 @@ const MessageRenderSettings _settings = MessageRenderSettings(
 Widget _app(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
+    overrides: [instanceRuntimeConfigOverride()],
     child: MaterialApp(
       locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,

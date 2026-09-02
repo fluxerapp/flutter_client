@@ -43,6 +43,7 @@ import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
+import '../../../../../helpers/instance_runtime_config_override.dart';
 import '../../../../../helpers/message_realtime_test_helpers.dart';
 import '../../../../../helpers/noop_guild_member_hydration_service.dart';
 import '../../../../../helpers/open_test_database.dart';
@@ -365,6 +366,7 @@ ProviderContainer _container(
   );
   return ProviderContainer(
     overrides: [
+      instanceRuntimeConfigOverride(),
       fluxerDatabaseProvider.overrideWithValue(database),
       appUiForegroundProvider.overrideWithValue(true),
       fluxerDioProvider.overrideWithValue(dio),

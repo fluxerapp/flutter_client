@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
 
+import '../../../../../helpers/instance_runtime_config_override.dart';
 import '../../../../../helpers/test_l10n.dart';
 
 Message _message() {
@@ -53,7 +54,10 @@ const MessageRenderSettings _denseSettings = MessageRenderSettings(
 Widget _app(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
-    overrides: [use12HourTimeFormatProvider.overrideWithValue(false)],
+    overrides: [
+      instanceRuntimeConfigOverride(),
+      use12HourTimeFormatProvider.overrideWithValue(false),
+    ],
     child: MaterialApp(
       locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,

@@ -21,6 +21,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
 
+import '../../helpers/instance_runtime_config_override.dart';
 import '../../helpers/open_test_database.dart';
 
 class _NoopUserSettingsSyncService extends UserSettingsSyncService {
@@ -134,6 +135,7 @@ Widget _wrap(Widget child, {required FluxerDatabase db}) {
   final colorTheme = buildDarkColorTheme();
   final container = ProviderContainer(
     overrides: [
+      instanceRuntimeConfigOverride(),
       fluxerDatabaseProvider.overrideWithValue(db),
       userSettingsSyncProvider.overrideWith(_NoopUserSettingsSyncService.new),
     ],
@@ -208,6 +210,7 @@ void main() {
 
     final container = ProviderContainer(
       overrides: [
+        instanceRuntimeConfigOverride(),
         fluxerDatabaseProvider.overrideWithValue(db),
         userSettingsSyncProvider.overrideWith(_NoopUserSettingsSyncService.new),
         syncedPreferencesStoreProvider.overrideWith(
@@ -253,6 +256,7 @@ void main() {
 
     final container = ProviderContainer(
       overrides: [
+        instanceRuntimeConfigOverride(),
         fluxerDatabaseProvider.overrideWithValue(db),
         userSettingsSyncProvider.overrideWith(_NoopUserSettingsSyncService.new),
         syncedPreferencesStoreProvider.overrideWith(
@@ -308,6 +312,7 @@ void main() {
   test('setTheme blocks subsequent taps while a PATCH is in flight', () async {
     final container = ProviderContainer(
       overrides: [
+        instanceRuntimeConfigOverride(),
         fluxerDatabaseProvider.overrideWithValue(db),
         userSettingsSyncProvider.overrideWith(
           (ref) => _BlockingUserSettingsSyncService(ref)..hold(),
@@ -350,6 +355,7 @@ void main() {
   test('setTheme reverts inflight on PATCH failure and rethrows', () async {
     final container = ProviderContainer(
       overrides: [
+        instanceRuntimeConfigOverride(),
         fluxerDatabaseProvider.overrideWithValue(db),
         userSettingsSyncProvider.overrideWith(
           _FailingUserSettingsSyncService.new,
@@ -387,6 +393,7 @@ void main() {
 
     final container = ProviderContainer(
       overrides: [
+        instanceRuntimeConfigOverride(),
         fluxerDatabaseProvider.overrideWithValue(db),
         userSettingsSyncProvider.overrideWith(_NoopUserSettingsSyncService.new),
       ],
@@ -414,6 +421,7 @@ void main() {
     () async {
       final container = ProviderContainer(
         overrides: [
+          instanceRuntimeConfigOverride(),
           fluxerDatabaseProvider.overrideWithValue(db),
           userSettingsSyncProvider.overrideWith(
             (ref) => _BlockingUserSettingsSyncService(ref)..hold(),
@@ -473,6 +481,7 @@ void main() {
 
       final container = ProviderContainer(
         overrides: [
+          instanceRuntimeConfigOverride(),
           fluxerDatabaseProvider.overrideWithValue(db),
           userSettingsSyncProvider.overrideWith(
             _NoopUserSettingsSyncService.new,
@@ -517,6 +526,7 @@ void main() {
 
     final container = ProviderContainer(
       overrides: [
+        instanceRuntimeConfigOverride(),
         fluxerDatabaseProvider.overrideWithValue(db),
         userSettingsSyncProvider.overrideWith(_NoopUserSettingsSyncService.new),
       ],
@@ -535,6 +545,7 @@ void main() {
   test('load clears inflightTheme from the previous user', () async {
     final container = ProviderContainer(
       overrides: [
+        instanceRuntimeConfigOverride(),
         fluxerDatabaseProvider.overrideWithValue(db),
         userSettingsSyncProvider.overrideWith(
           (ref) => _BlockingUserSettingsSyncService(ref)..hold(),
@@ -567,6 +578,7 @@ void main() {
     () async {
       final container = ProviderContainer(
         overrides: [
+          instanceRuntimeConfigOverride(),
           fluxerDatabaseProvider.overrideWithValue(db),
           userSettingsSyncProvider.overrideWith(
             _LightThemeUserSettingsSyncService.new,
@@ -600,6 +612,7 @@ void main() {
 
       final container = ProviderContainer(
         overrides: [
+          instanceRuntimeConfigOverride(),
           fluxerDatabaseProvider.overrideWithValue(db),
           userSettingsSyncProvider.overrideWith(
             _LightThemeUserSettingsSyncService.new,
@@ -631,6 +644,7 @@ void main() {
 
     final container = ProviderContainer(
       overrides: [
+        instanceRuntimeConfigOverride(),
         fluxerDatabaseProvider.overrideWithValue(db),
         userSettingsSyncProvider.overrideWith(_NoopUserSettingsSyncService.new),
         currentUserIdProvider.overrideWithValue('user-b'),
