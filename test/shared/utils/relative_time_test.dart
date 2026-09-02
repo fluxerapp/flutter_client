@@ -65,6 +65,41 @@ void main() {
     });
   });
 
+  group('relativeTimestamp', () {
+    test('returns future hours', () async {
+      final l10n = await _loadL10n();
+      final DateTime now = DateTime(2026, 7, 20, 16);
+      final result = relativeTimestamp(
+        now.add(const Duration(hours: 5)),
+        l10n,
+        now: now,
+      );
+      expect(result, 'in 5 hours');
+    });
+
+    test('returns future days', () async {
+      final l10n = await _loadL10n();
+      final DateTime now = DateTime(2026, 7, 20, 16);
+      final result = relativeTimestamp(
+        now.add(const Duration(days: 2)),
+        l10n,
+        now: now,
+      );
+      expect(result, 'in 2 days');
+    });
+
+    test('returns past weeks', () async {
+      final l10n = await _loadL10n();
+      final DateTime now = DateTime(2026, 7, 20, 16);
+      final result = relativeTimestamp(
+        now.subtract(const Duration(days: 14)),
+        l10n,
+        now: now,
+      );
+      expect(result, '2 weeks ago');
+    });
+  });
+
   group('relativeTimeShort', () {
     test('returns "now" for under one minute', () async {
       final l10n = await _loadL10n();

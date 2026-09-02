@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/utils/markdown_timestamp_format.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
@@ -76,7 +75,7 @@ void main() {
     );
     expect(
       formatMarkdownTimestamp(future, 'R', french, use12Hour: false, now: now),
-      formatUserMediumDateTime(future, 'fr', use12Hour: false),
+      french.relativeTimeInDays(2),
     );
   });
 }
