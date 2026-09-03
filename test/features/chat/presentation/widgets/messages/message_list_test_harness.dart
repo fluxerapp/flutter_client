@@ -517,6 +517,8 @@ class InstrumentedChatViewModel extends ChatViewModel {
   final ChatViewState _initialState;
   final bool enableTrimToNewestWindow;
   int loadNewerCallCount = 0;
+  int trimAroundVisibleCallCount = 0;
+  final List<bool> userScrollActiveLog = <bool>[];
   String? _latestReplacementNewestId;
 
   @override
@@ -628,6 +630,18 @@ class InstrumentedChatViewModel extends ChatViewModel {
       return;
     }
     super.trimToNewestWindow();
+  }
+
+  @override
+  void trimAroundVisible(String visibleMessageId) {
+    trimAroundVisibleCallCount += 1;
+    super.trimAroundVisible(visibleMessageId);
+  }
+
+  @override
+  void setUserScrollActive({required String channelId, required bool active}) {
+    userScrollActiveLog.add(active);
+    super.setUserScrollActive(channelId: channelId, active: active);
   }
 
   @override

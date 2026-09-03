@@ -382,4 +382,62 @@ void main() {
       await disposeMessageList(tester);
     });
   });
+
+  group('hold during fling', () {
+    Future<({InstrumentedChatViewModel vm, TestGesture hold, int epoch})>
+    flingThenHold(WidgetTester tester) async {
+      final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+        tester,
+        hasMoreNewer: false,
+        count: kMaxLoadedMessages + 30,
+      );
+      await tester.fling(messageListScrollable(), const Offset(0, 300), 3000);
+      await tester.pump(const Duration(milliseconds: 40));
+      final ScrollPosition position = messageListScrollPosition(tester);
+      expect(position.isScrollingNotifier.value, isTrue);
+      chatViewModel.userScrollActiveLog.clear();
+      final int epoch = messageListAnchorEpoch(tester);
+
+      final TestGesture hold = await tester.startGesture(
+        tester.getCenter(messageListScrollable()),
+      );
+      await tester.pump();
+      return (vm: chatViewModel, hold: hold, epoch: epoch);
+    }
+
+    testWidgets('touch-down mid-fling does not trim, remount, or release the '
+        'scroll lock until the finger lifts', (WidgetTester tester) async {
+      final held = await flingThenHold(tester);
+
+      expect(held.vm.trimAroundVisibleCallCount, 0);
+      expect(messageListAnchorEpoch(tester), held.epoch);
+      expect(held.vm.userScrollActiveLog, isNot(contains(false)));
+
+      await held.hold.up();
+      await tester.pump();
+      await tester.pump();
+
+      expect(held.vm.trimAroundVisibleCallCount, 1);
+      expect(held.vm.userScrollActiveLog.where((bool v) => !v).length, 1);
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('a drag after the hold settles once, at the end of its fling', (
+      WidgetTester tester,
+    ) async {
+      final held = await flingThenHold(tester);
+
+      await held.hold.moveBy(const Offset(0, 40));
+      await held.hold.moveBy(const Offset(0, 40));
+      await tester.pump();
+      expect(held.vm.trimAroundVisibleCallCount, 0);
+
+      await held.hold.up();
+      await pumpFluxerFrames(tester);
+
+      expect(held.vm.trimAroundVisibleCallCount, 1);
+      expect(held.vm.userScrollActiveLog.where((bool v) => !v).length, 1);
+      await disposeMessageList(tester);
+    });
+  });
 }

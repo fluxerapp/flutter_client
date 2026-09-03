@@ -51,6 +51,8 @@ class MessageListViewport extends StatelessWidget {
     required this.scrollCacheExtentPixels,
     required this.onScrollNotification,
     required this.onScrollMetricsNotification,
+    required this.onPointerDown,
+    required this.onPointerUp,
     required this.isLoadingMore,
     required this.isLoadingNewer,
     required this.trailingInset,
@@ -94,6 +96,11 @@ class MessageListViewport extends StatelessWidget {
   final bool Function(ScrollNotification notification) onScrollNotification;
   final bool Function(ScrollMetricsNotification notification)
   onScrollMetricsNotification;
+
+  /// Pointer bookkeeping lives ABOVE the epoch-keyed subtree so a remount
+  /// under a finger cannot lose the count.
+  final void Function(PointerDownEvent event) onPointerDown;
+  final void Function(PointerEvent event) onPointerUp;
   final bool isLoadingMore;
   final bool isLoadingNewer;
 
@@ -123,55 +130,65 @@ class MessageListViewport extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        NotificationListener<ScrollNotification>(
-          onNotification: onScrollNotification,
-          child: NotificationListener<ScrollMetricsNotification>(
-            onNotification: onScrollMetricsNotification,
-            child: KeyedSubtree(
-              key: ValueKey<int>(anchorEpoch),
-              child: CustomScrollView(
-                controller: controller,
-                center: centerKey,
-                anchor: effectiveAnchor,
-                scrollCacheExtent: ScrollCacheExtent.pixels(
-                  scrollCacheExtentPixels,
-                ),
-                slivers: [
-                  if (startOfChannelHeader != null)
-                    SliverToBoxAdapter(child: startOfChannelHeader),
-                  if (leadingPad > 0)
-                    SliverToBoxAdapter(child: SizedBox(height: leadingPad)),
-                  SliverPadding(
-                    padding: const EdgeInsets.only(top: 8),
-                    sliver: SliverList(
+        Listener(
+          behavior: HitTestBehavior.translucent,
+          onPointerDown: onPointerDown,
+          onPointerUp: onPointerUp,
+          onPointerCancel: onPointerUp,
+          child: NotificationListener<ScrollNotification>(
+            onNotification: onScrollNotification,
+            child: NotificationListener<ScrollMetricsNotification>(
+              onNotification: onScrollMetricsNotification,
+              child: KeyedSubtree(
+                key: ValueKey<int>(anchorEpoch),
+                child: CustomScrollView(
+                  controller: controller,
+                  center: centerKey,
+                  anchor: effectiveAnchor,
+                  scrollCacheExtent: ScrollCacheExtent.pixels(
+                    scrollCacheExtentPixels,
+                  ),
+                  slivers: [
+                    if (startOfChannelHeader != null)
+                      SliverToBoxAdapter(child: startOfChannelHeader),
+                    if (leadingPad > 0)
+                      SliverToBoxAdapter(child: SizedBox(height: leadingPad)),
+                    SliverPadding(
+                      padding: const EdgeInsets.only(top: 8),
+                      sliver: SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) =>
+                              itemBuilder(context, splitIndex - 1 - index),
+                          childCount: splitIndex,
+                          findChildIndexCallback: (Key key) => childIndexForKey(
+                            key,
+                            0,
+                            splitIndex,
+                            reverse: true,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      key: centerKey,
+                      child: const SizedBox.shrink(),
+                    ),
+                    SliverList(
                       delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) =>
-                            itemBuilder(context, splitIndex - 1 - index),
-                        childCount: splitIndex,
-                        findChildIndexCallback: (Key key) =>
-                            childIndexForKey(key, 0, splitIndex, reverse: true),
+                            itemBuilder(context, splitIndex + index),
+                        childCount: stream.length - splitIndex,
+                        findChildIndexCallback: (Key key) => childIndexForKey(
+                          key,
+                          splitIndex,
+                          stream.length,
+                          reverse: false,
+                        ),
                       ),
                     ),
-                  ),
-                  SliverToBoxAdapter(
-                    key: centerKey,
-                    child: const SizedBox.shrink(),
-                  ),
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) =>
-                          itemBuilder(context, splitIndex + index),
-                      childCount: stream.length - splitIndex,
-                      findChildIndexCallback: (Key key) => childIndexForKey(
-                        key,
-                        splitIndex,
-                        stream.length,
-                        reverse: false,
-                      ),
-                    ),
-                  ),
-                  SliverToBoxAdapter(child: SizedBox(height: trailingInset)),
-                ],
+                    SliverToBoxAdapter(child: SizedBox(height: trailingInset)),
+                  ],
+                ),
               ),
             ),
           ),

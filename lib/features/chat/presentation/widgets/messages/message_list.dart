@@ -231,6 +231,12 @@ class _MessageListState extends ConsumerState<MessageList> {
   double? _lastViewportDimension;
 
   bool _userDragActive = false;
+  // A touch-down mid-fling makes Scrollable hold(), which dispatches
+  // ScrollEnd like a settle. Settling under a finger remounts the Scrollable
+  // (trim/re-anchor) and the drag that follows is lost (#713), so the settle
+  // waits until the pointer lifts without dragging.
+  int _activePointers = 0;
+  bool _settleDeferredForHold = false;
   // Stays true after a user-driven leave of the 8px engage zone until the
   // reader returns to the tail or an explicit jump/send re-engages it.
   // Survives ScrollEnd (including ballistic) so onUserScrollEnd's 64px hold
@@ -955,6 +961,9 @@ class _MessageListState extends ConsumerState<MessageList> {
       return false;
     }
     if (notification is ScrollStartNotification) {
+      // A drag, ballistic, or programmatic start after a hold owns the next
+      // End; the held settle is superseded.
+      _settleDeferredForHold = false;
       // Drag, ballistic, or programmatic - each pairs with an End, and the
       // VM defers recovery window swaps while any of them is live.
       _chatViewModel.setUserScrollActive(
@@ -991,9 +1000,39 @@ class _MessageListState extends ConsumerState<MessageList> {
         _demandSource.onOverscrollTowardEdge(edge);
       }
     } else if (notification is ScrollEndNotification) {
-      _onUserScrollSettled();
+      // The hold's End is dispatched from the Scrollable's own pointer
+      // handler, which runs BEFORE the outer viewport Listener sees the same
+      // PointerDown; a microtask reads the pointer count after both.
+      scheduleMicrotask(_settleUnlessHeld);
     }
     return false;
+  }
+
+  void _settleUnlessHeld() {
+    if (!mounted) {
+      return;
+    }
+    if (_activePointers > 0) {
+      _settleDeferredForHold = true;
+      return;
+    }
+    _settleDeferredForHold = false;
+    _onUserScrollSettled();
+  }
+
+  void _onViewportPointerDown(PointerDownEvent event) {
+    _activePointers++;
+  }
+
+  void _onViewportPointerUp(PointerEvent event) {
+    if (_activePointers > 0) {
+      _activePointers--;
+    }
+    if (_activePointers == 0 && _settleDeferredForHold) {
+      // Lifted without dragging: the hold cancelled straight to idle, which
+      // dispatches no End, so the withheld settle runs here.
+      scheduleMicrotask(_settleUnlessHeld);
+    }
   }
 
   /// A depth-0 scroll settled: update the pin latch, apply the re-center
@@ -2692,6 +2731,8 @@ class _MessageListState extends ConsumerState<MessageList> {
                   onScrollMetricsNotification: _onScrollMetricsNotification,
                   isLoadingMore: isLoadingMore,
                   isLoadingNewer: isLoadingNewer,
+                  onPointerDown: _onViewportPointerDown,
+                  onPointerUp: _onViewportPointerUp,
                   trailingInset: _statusOverlayInset(context),
                   leadingPad: _unreadOpenLayout ? _unreadLeadingPad : 0,
                   startOfChannelHeader: startOfChannelHeader,
