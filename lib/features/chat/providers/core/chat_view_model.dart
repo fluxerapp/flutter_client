@@ -4048,19 +4048,11 @@ class ChatViewModel extends _$ChatViewModel {
     }
   }
 
-  /// One pointer value per channel proven orphaned by a terminal latest-page
-  /// fetch; only this exact value may be acked above the visible tail. A
-  /// pointer that advances past it is a fresh, unproven claim.
-  ({String channelId, String pointerId})? _provenOrphanPointer;
-
-  /// Live-tail ack target: max(visibleTail, channel.lastMessageId) for web
-  /// parity. A pointer ahead of the visible tail is either an orphan left by
-  /// a deleted tail (ack it, like web ackWithStickyUnread) or a real create
-  /// whose pointer write raced ahead of its message event (never ack unseen
-  /// rows). Locally identical, so a fresh latest-page fetch decides: the
-  /// pointer was read before the fetch left, so a page whose newest row is
-  /// still [visibleTailId] proves the pointer row is not visibly there.
-  /// Every other answer falls back to the validated visible tail.
+  /// Live-tail ack target: max(visibleTail, channel.lastMessageId), matching
+  /// web ackWithStickyUnread. The server never rewinds last_message_id when
+  /// the tail is deleted (ChannelDataRepository.updateLastMessageId is
+  /// monotonic), so a pointer ahead of the visible tail is acked as-is;
+  /// ReadStateService.ackMessage accepts ids with no row behind them.
   Future<String> _liveTailAckTargetId({
     required String channelId,
     required String visibleTailId,
@@ -4079,41 +4071,7 @@ class ChatViewModel extends _$ChatViewModel {
     if (compareSnowflakeIds(pointer, visibleTailId) <= 0) {
       return visibleTailId;
     }
-    final ({String channelId, String pointerId})? proven = _provenOrphanPointer;
-    if (proven != null &&
-        proven.channelId == channelId &&
-        proven.pointerId == pointer) {
-      // A standing verdict for this exact value: an orphaned pointer cannot
-      // age back into a live row, so re-probing buys nothing.
-      return pointer;
-    }
-    try {
-      // `fresh` is load-bearing: an in-flight latest page with the same key
-      // could carry a server snapshot that predates the pointer read, and
-      // equality against it would launder a real raced pointer into an
-      // "orphan" verdict.
-      final MessageListLoadResult page = await ref
-          .read(messageRepositoryProvider)
-          .loadMessagePage(
-            channelId: channelId,
-            limit: _kPageSize,
-            fresh: true,
-          );
-      final String? channelNewestId = newestServerBackedMessageId(
-        page.messages,
-      );
-      if (channelNewestId == visibleTailId) {
-        _provenOrphanPointer = (channelId: channelId, pointerId: pointer);
-        return pointer;
-      }
-      talker.debug(
-        '[ChatViewModel] pointer $pointer unproven above tail '
-        '$visibleTailId (server newest=${channelNewestId ?? '<none>'})',
-      );
-    } on Exception catch (e) {
-      talker.warning('[ChatViewModel] orphan pointer probe failed', e);
-    }
-    return visibleTailId;
+    return pointer;
   }
 
   Future<void> ackCurrentChannel({bool force = false}) async {

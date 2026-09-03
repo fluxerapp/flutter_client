@@ -8380,6 +8380,10 @@
     "@chatMessageCopyText": {
         "description": "Action label for copying message text."
     },
+    "chatMessageCopyEmbedText": "Copy Embed Text",
+    "@chatMessageCopyEmbedText": {
+        "description": "Action label for copying the text of a message's embeds."
+    },
     "chatMessageTranslate": "Translate",
     "@chatMessageTranslate": {
         "description": "Action label for translating a message on-device."

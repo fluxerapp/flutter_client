@@ -6640,6 +6640,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatMessageCopyText => 'Üzenet másolása';
 
   @override
+  String get chatMessageCopyEmbedText => 'Copy Embed Text';
+
+  @override
   String get chatMessageTranslate => 'Translate';
 
   @override

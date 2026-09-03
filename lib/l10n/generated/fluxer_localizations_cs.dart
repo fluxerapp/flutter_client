@@ -6612,6 +6612,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get chatMessageCopyText => 'Zkopírovat zprávu';
 
   @override
+  String get chatMessageCopyEmbedText => 'Copy Embed Text';
+
+  @override
   String get chatMessageTranslate => 'Translate';
 
   @override

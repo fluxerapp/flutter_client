@@ -10752,6 +10752,12 @@ abstract class FluxerLocalizations {
   /// **'Copy Message'**
   String get chatMessageCopyText;
 
+  /// Action label for copying the text of a message's embeds.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy Embed Text'**
+  String get chatMessageCopyEmbedText;
+
   /// Action label for translating a message on-device.
   ///
   /// In en, this message translates to:

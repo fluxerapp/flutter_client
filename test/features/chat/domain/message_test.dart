@@ -161,6 +161,46 @@ void main() {
     });
   });
 
+  group('Message.embedsCopyableText', () {
+    const Embed richEmbed = Embed(
+      type: EmbedType.rich,
+      providerName: 'Provider',
+      author: EmbedAuthor(name: 'Author'),
+      title: 'Title',
+      description: 'Description',
+      fields: [EmbedField(name: 'Field', value: 'Value')],
+      footer: EmbedFooter(text: 'Footer'),
+    );
+
+    test('joins every text part in render order, one per line', () {
+      expect(
+        _message(embeds: const [richEmbed]).embedsCopyableText,
+        'Provider\nAuthor\nTitle\nDescription\nField: Value\nFooter',
+      );
+    });
+
+    test('skips media-only embeds and separates embeds with a blank line', () {
+      final Message message = _message(
+        embeds: const [
+          Embed(type: EmbedType.image, url: 'https://x/y.png'),
+          Embed(type: EmbedType.link, title: 'One', description: ' '),
+          Embed(type: EmbedType.link, description: 'Two'),
+        ],
+      );
+      expect(message.embedsCopyableText, 'One\n\nTwo');
+    });
+
+    test('is empty when embeds are suppressed', () {
+      expect(
+        _message(
+          embeds: const [richEmbed],
+          flags: messageFlagSuppressEmbeds,
+        ).embedsCopyableText,
+        isEmpty,
+      );
+    });
+  });
+
   group('Message.fromRow empty sub-objects', () {
     test('returns shared const empty lists without decoding', () {
       // Fast path returns a canonical const []; old decode allocated fresh.
