@@ -45,6 +45,8 @@ import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_list_overlay.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_list_pin.dart';
+import 'package:fluxer_app/features/chat/presentation/'
+    'widgets/messages/message_list_placeholder_specs.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_skeleton.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_list_unread_review.dart';
@@ -237,6 +239,10 @@ class _MessageListState extends ConsumerState<MessageList> {
   // waits until the pointer lifts without dragging.
   int _activePointers = 0;
   bool _settleDeferredForHold = false;
+  // Extent the older-edge skeleton filler adds above the oldest row; demand
+  // geometry measures to the rows, not the skeleton, so pagination fires as
+  // the reader approaches real history, not when they run out of filler.
+  double _leadingFillerExtent = 0;
   // Stays true after a user-driven leave of the 8px engage zone until the
   // reader returns to the tail or an explicit jump/send re-engages it.
   // Survives ScrollEnd (including ballistic) so onUserScrollEnd's 64px hold
@@ -779,6 +785,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
     _syncAnimatedImageScrollPause();
     _publishDemandGeometry();
+    _signalFillerEntry();
     _syncReadViewport();
   }
 
@@ -818,7 +825,7 @@ class _MessageListState extends ConsumerState<MessageList> {
   }
 
   double _centerLeadingDistance(ScrollPosition position) =>
-      position.pixels - position.minScrollExtent;
+      position.pixels - position.minScrollExtent - _leadingFillerExtent;
 
   double _statusOverlayInset(BuildContext context) => isMobileLayout(context)
       ? _kMessageListStatusOverlayInsetMobile
@@ -829,6 +836,20 @@ class _MessageListState extends ConsumerState<MessageList> {
               position.pixels -
               _statusOverlayInset(context))
           .clamp(0, double.infinity);
+
+  /// With skeleton filler past the oldest row there is no hard wall to press
+  /// into; a user-driven scroll carrying the reader onto the filler is the
+  /// same "give me more" signal, collapsed per gesture upstream.
+  void _signalFillerEntry() {
+    if (_leadingFillerExtent <= 0 ||
+        !_isUserDrivenScroll ||
+        !_scrollController.hasClients) {
+      return;
+    }
+    if (_centerLeadingDistance(_scrollController.position) < 0) {
+      _demandSource.onOverscrollTowardEdge(PaginationEdge.older);
+    }
+  }
 
   /// Sign adapter for scroll deltas: positive = toward the OLDER edge.
   double _towardOlderDelta(double scrollDelta) =>
@@ -2680,6 +2701,15 @@ class _MessageListState extends ConsumerState<MessageList> {
                     )
                     .map((ChannelStreamItem item) => 'group-${item.groupKey}'),
               });
+              final MessageListPlaceholderSpecs? leadingSpecs = hasMoreMessages
+                  ? buildMessageListPlaceholderSpecs(
+                      seedKey: channelId,
+                      compact: messageRenderSettings.messageDisplayCompact,
+                      groupSpacing: messageRenderSettings.messageGroupSpacing,
+                      fontSize: chatFontSize.toDouble(),
+                    )
+                  : null;
+              _leadingFillerExtent = leadingSpecs?.totalHeight ?? 0;
               body = AnimatedImagePlaybackScope(
                 controller: _animatedImagePlaybackController,
                 child: MessageListViewport(
@@ -2689,6 +2719,7 @@ class _MessageListState extends ConsumerState<MessageList> {
                   anchorFraction: _anchorFraction,
                   anchorEdge: _anchorEdge,
                   controller: _scrollController,
+                  leadingFillerSpecs: leadingSpecs,
                   centerKey: _unreadCenterKey,
                   itemBuilder: (BuildContext context, int dataIndex) =>
                       _centerStreamTile(

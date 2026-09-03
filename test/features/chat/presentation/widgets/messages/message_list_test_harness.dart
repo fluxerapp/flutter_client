@@ -150,6 +150,16 @@ int messageListAnchorEpoch(WidgetTester tester) {
   return viewport.anchorEpoch;
 }
 
+/// Scroll offset at which the oldest LOADED row tops the viewport: the min
+/// extent plus whatever skeleton filler stands in for unloaded history.
+double messageListOldestRowOffset(WidgetTester tester) {
+  final MessageListViewport viewport = tester.widget<MessageListViewport>(
+    find.byType(MessageListViewport),
+  );
+  return messageListScrollPosition(tester).minScrollExtent +
+      viewport.leadingFillerExtent;
+}
+
 class AroundAckMessageListHarness {
   AroundAckMessageListHarness({
     required this.database,
@@ -713,6 +723,19 @@ List<Message> newerRows(
         id: snowflakeForUtc(last.add(Duration(minutes: index + 1))),
         content: '$label $index',
         timestamp: last.add(Duration(minutes: index + 1)),
+      ),
+  ];
+}
+
+/// Rows strictly older than [before]'s first row, oldest first.
+List<Message> olderRows(List<Message> before, {required int count}) {
+  final DateTime first = before.first.timestamp;
+  return <Message>[
+    for (int index = count; index >= 1; index -= 1)
+      harnessMessage(
+        id: snowflakeForUtc(first.subtract(Duration(minutes: index))),
+        content: 'older $index',
+        timestamp: first.subtract(Duration(minutes: index)),
       ),
   ];
 }

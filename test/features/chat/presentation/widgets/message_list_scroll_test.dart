@@ -640,7 +640,9 @@ void main() {
           lessThanOrEqualTo(kMessageListReadBottomThreshold),
         );
 
-        position.jumpTo(position.minScrollExtent * 0.5);
+        position.jumpTo(
+          (messageListOldestRowOffset(tester) + position.maxScrollExtent) * 0.5,
+        );
         await pumpFluxerFrames(tester);
         expect(
           position.maxScrollExtent - position.pixels,
@@ -718,7 +720,9 @@ void main() {
         expect(collapsedGroup, findsOneWidget);
 
         final ScrollPosition position = messageListScrollPosition(tester);
-        position.jumpTo(position.minScrollExtent * 0.5);
+        position.jumpTo(
+          (messageListOldestRowOffset(tester) + position.maxScrollExtent) * 0.5,
+        );
         await pumpFluxerFrames(tester);
 
         final String anchorId = centerVisibleMessageItemId(tester);
@@ -768,8 +772,8 @@ void main() {
         );
         await pumpFluxerFrames(tester);
 
-        final ScrollPosition position = messageListScrollPosition(tester);
-        position.jumpTo(position.minScrollExtent);
+        final ScrollPosition position = messageListScrollPosition(tester)
+          ..jumpTo(messageListOldestRowOffset(tester));
         await pumpFluxerFrames(tester);
         expect(
           position.maxScrollExtent - position.pixels,
@@ -1166,7 +1170,7 @@ void main() {
         );
 
         position.jumpTo(
-          (position.minScrollExtent + position.maxScrollExtent) * 0.5,
+          (messageListOldestRowOffset(tester) + position.maxScrollExtent) * 0.5,
         );
         await tester.pump();
         await tester.pump();
@@ -4926,7 +4930,7 @@ void main() {
         // Deep into history, more than a viewport above the anchor line.
         ScrollPosition position = messageListScrollPosition(tester);
         expect(position.maxScrollExtent, greaterThan(0));
-        position.jumpTo(position.minScrollExtent);
+        position.jumpTo(messageListOldestRowOffset(tester));
         await pumpFluxerFrames(tester);
         final double pixelsBefore = position.pixels;
         expect(pixelsBefore, lessThan(-tester.view.physicalSize.height / 2));

@@ -224,8 +224,9 @@ class MessageListDemandSource {
   }
 
   /// A gesture pressing into a hard edge moves zero pixels, so no scroll
-  /// fires - the overscroll itself is the "give me more" signal. Repeated
-  /// overscrolls in one gesture carry the same id and collapse upstream.
+  /// fires - the overscroll itself is the "give me more" signal. A user
+  /// scroll onto an edge's skeleton filler reports the same way.
+  /// Repeated signals in one gesture carry the same id and collapse upstream.
   void onOverscrollTowardEdge(PaginationEdge edge) {
     final ContextToken? context = _context;
     if (context == null) {

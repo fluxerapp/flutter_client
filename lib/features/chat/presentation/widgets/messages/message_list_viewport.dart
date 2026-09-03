@@ -18,6 +18,8 @@ library;
 import 'package:flutter/rendering.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/chat_loading_spinner.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_placeholder_specs.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_skeleton.dart';
 import 'package:fluxer_app/features/chat/utils/channel_message_stream.dart';
 import 'package:fluxer_app/features/chat/utils/chat_spinner_debug.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -58,6 +60,7 @@ class MessageListViewport extends StatelessWidget {
     required this.trailingInset,
     this.leadingPad = 0,
     this.startOfChannelHeader,
+    this.leadingFillerSpecs,
     super.key,
   });
 
@@ -113,6 +116,16 @@ class MessageListViewport extends StatelessWidget {
 
   final Widget? startOfChannelHeader;
 
+  /// Skeleton history standing in for unloaded older history: the outermost
+  /// sliver above the oldest row, mutually exclusive with
+  /// [startOfChannelHeader]. Null once the channel start is loaded. The
+  /// newer edge keeps its hard wall: the tail-follow, pin, and read-viewport
+  /// invariants all read [ScrollMetrics.maxScrollExtent] as the loaded tail.
+  final MessageListPlaceholderSpecs? leadingFillerSpecs;
+
+  /// Extent the filler adds beyond the oldest loaded row.
+  double get leadingFillerExtent => leadingFillerSpecs?.totalHeight ?? 0;
+
   @override
   Widget build(BuildContext context) {
     final String? anchor = anchorId;
@@ -149,6 +162,14 @@ class MessageListViewport extends StatelessWidget {
                     scrollCacheExtentPixels,
                   ),
                   slivers: [
+                    if (leadingFillerSpecs != null)
+                      SliverToBoxAdapter(
+                        child: MessageListEdgeFiller(
+                          key: const ValueKey<String>('edge-filler-older'),
+                          specs: leadingFillerSpecs!,
+                          alignment: Alignment.bottomCenter,
+                        ),
+                      ),
                     if (startOfChannelHeader != null)
                       SliverToBoxAdapter(child: startOfChannelHeader),
                     if (leadingPad > 0)
