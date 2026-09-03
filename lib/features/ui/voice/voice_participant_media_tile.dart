@@ -212,14 +212,19 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
       return;
     }
     final bool shouldSubscribe = widget.isActiveScreenShare;
-    final String intent = '${publication.sid}:$shouldSubscribe';
+    if (shouldSubscribe) {
+      if (!publication.subscribed) {
+        unawaited(publication.subscribe());
+      }
+      _lastAudioIntent = null;
+      return;
+    }
+    final String intent = '${publication.sid}:false';
     if (intent == _lastAudioIntent) {
       return;
     }
     _lastAudioIntent = intent;
-    if (shouldSubscribe && !publication.subscribed) {
-      unawaited(publication.subscribe());
-    } else if (!shouldSubscribe && publication.subscribed) {
+    if (publication.subscribed) {
       unawaited(publication.unsubscribe());
     }
   }
