@@ -221,21 +221,36 @@ class _VoiceChannelParticipantGridState
     }
   }
 
+  void _hideOverlay() {
+    _cancelOverlayHideTimer();
+    if (isPhoneVoiceOverlay(context)) {
+      ref.read(voiceCallOverlayProvider.notifier).hide();
+    }
+    if (isOverlayVisible) {
+      setState(() => isOverlayVisible = false);
+    }
+  }
+
+  bool get _isCallOverlayVisible {
+    if (isPhoneVoiceOverlay(context)) {
+      return ref.read(voiceCallOverlayProvider).showsOverlay;
+    }
+    return isOverlayVisible;
+  }
+
+  void _toggleCallOverlay() {
+    if (_isCallOverlayVisible) {
+      _hideOverlay();
+      return;
+    }
+    _revealOverlay();
+  }
+
   void _onBackgroundTap() {
     if (!isPhoneVoiceOverlay(context)) {
       return;
     }
-    final VoiceCallOverlayState overlay = ref.read(voiceCallOverlayProvider);
-    if (overlay.showsOverlay) {
-      ref.read(voiceCallOverlayProvider.notifier).hide();
-      _cancelOverlayHideTimer();
-      if (isOverlayVisible) {
-        setState(() => isOverlayVisible = false);
-      }
-      return;
-    }
-    ref.read(voiceCallOverlayProvider.notifier).reveal();
-    _revealOverlay();
+    _toggleCallOverlay();
   }
 
   Participant? _resolveParticipant(
@@ -361,20 +376,13 @@ class _VoiceChannelParticipantGridState
     });
   }
 
+  void _stopWatching() {
+    ref.read(voiceCallLayoutProvider.notifier).unpin();
+  }
+
   void _onTileTap(_VoiceGridTileItem item, bool isFocusMain) {
-    if (isPhoneVoiceOverlay(context)) {
-      final VoiceCallOverlayState overlay = ref.read(voiceCallOverlayProvider);
-      if (!overlay.showsOverlay) {
-        ref.read(voiceCallOverlayProvider.notifier).reveal();
-        return;
-      }
-    }
     if (isFocusMain) {
-      if (!isOverlayVisible) {
-        _revealOverlay();
-        return;
-      }
-      ref.read(voiceCallLayoutProvider.notifier).unpin();
+      _toggleCallOverlay();
       return;
     }
     ref.read(voiceCallLayoutProvider.notifier).pin(item.tileId);
@@ -1321,6 +1329,7 @@ class _VoiceChannelParticipantGridState
             ),
       authToken: authToken,
       onTap: () => _onTileTap(tile, isFocusMain),
+      onStopWatching: _stopWatching,
       onContextMenu: (Offset position) =>
           _showParticipantMenu(context, ref, tile, position: position),
       showOverlay: isOverlayVisible,
@@ -1388,6 +1397,7 @@ class _VoiceParticipantCard extends ConsumerWidget {
     required this.streamPreviewUrl,
     required this.authToken,
     required this.onTap,
+    required this.onStopWatching,
     required this.onContextMenu,
     required this.showOverlay,
     required this.l10n,
@@ -1409,6 +1419,7 @@ class _VoiceParticipantCard extends ConsumerWidget {
   final String? streamPreviewUrl;
   final String? authToken;
   final VoidCallback onTap;
+  final VoidCallback onStopWatching;
   final void Function(Offset position) onContextMenu;
   final bool showOverlay;
   final FluxerLocalizations l10n;
@@ -1503,7 +1514,7 @@ class _VoiceParticipantCard extends ConsumerWidget {
                   left: 8,
                   child: _TileHudVisibility(
                     visible: showOverlay,
-                    child: _StopWatchingButton(onStopWatching: onTap),
+                    child: _StopWatchingButton(onStopWatching: onStopWatching),
                   ),
                 ),
               if (tileSource == VoiceParticipantTileSource.screenShare)
