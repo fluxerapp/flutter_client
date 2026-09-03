@@ -6637,6 +6637,9 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   String get chatMessageCopyText => 'Kopiuj wiadomość';
 
   @override
+  String get chatMessageCopyEmbedText => 'Copy Embed Text';
+
+  @override
   String get chatMessageTranslate => 'Translate';
 
   @override

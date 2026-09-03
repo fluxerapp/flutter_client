@@ -224,6 +224,23 @@ class Embed {
 
   bool get isMatureMedia => nsfw ?? false;
 
+  /// Human-readable text of this embed, top to bottom as rendered, one part
+  /// per line. Empty when the embed is media-only.
+  String get copyableText {
+    final List<String> parts = <String>[
+      ?providerName,
+      ?author?.name,
+      ?title,
+      ?description,
+      for (final EmbedField field in fields) '${field.name}: ${field.value}',
+      ?footer?.text,
+    ];
+    return parts
+        .map((String part) => part.trim())
+        .where((String part) => part.isNotEmpty)
+        .join('\n');
+  }
+
   factory Embed.fromSdk(MessageEmbedResponse sdk) => Embed(
     type: _parseEmbedType(sdk.type),
     title: sdk.title,
@@ -1608,6 +1625,19 @@ class Message {
 
   bool get hasForwardSnapshots => messageSnapshots.isNotEmpty;
   bool get suppressEmbeds => (flags & messageFlagSuppressEmbeds) != 0;
+
+  /// Text of every rendered embed, embeds separated by a blank line. Empty
+  /// when embeds are suppressed or carry no text.
+  String get embedsCopyableText {
+    if (suppressEmbeds) {
+      return '';
+    }
+    return embeds
+        .map((Embed embed) => embed.copyableText)
+        .where((String text) => text.isNotEmpty)
+        .join('\n\n');
+  }
+
   bool get hasCompactAttachments =>
       (flags & messageFlagCompactAttachments) != 0;
   bool get isVoiceMessage => (flags & kMessageFlagVoiceMessage) != 0;

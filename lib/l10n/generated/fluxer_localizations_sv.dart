@@ -6609,6 +6609,9 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get chatMessageCopyText => 'Kopiera meddelande';
 
   @override
+  String get chatMessageCopyEmbedText => 'Copy Embed Text';
+
+  @override
   String get chatMessageTranslate => 'Translate';
 
   @override

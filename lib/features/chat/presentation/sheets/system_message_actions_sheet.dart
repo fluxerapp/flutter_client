@@ -150,6 +150,7 @@ Future<void> showSystemMessageActionsSheet(
     case MessageAction.pin:
     case MessageAction.bookmark:
     case MessageAction.suppressEmbeds:
+    case MessageAction.copyEmbedText:
     case MessageAction.report:
     case MessageAction.retry:
     case MessageAction.deleteFailed:

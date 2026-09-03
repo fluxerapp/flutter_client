@@ -6442,6 +6442,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get chatMessageCopyText => 'メッセージをコピー';
 
   @override
+  String get chatMessageCopyEmbedText => 'Copy Embed Text';
+
+  @override
   String get chatMessageTranslate => 'Translate';
 
   @override
