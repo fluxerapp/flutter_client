@@ -90,7 +90,7 @@ SSO (Single Sign-On) login is supported on the mobile client. For it to fully wo
 
 ## Contributing (for developers)
 
-During the current beta, we are only accepting contributions for bug fixes. To submit a PR, it must be for a linked reported issue.
+During the current beta, we are only accepting contributions for bug fixes. To submit a PR, it must be for a linked reported issue. Please message us on the Fluxer Labs community first (we hope to come up with a better way to reduce spam PR's in the future). [Join Link](https://fluxer.gg/fluxer-labs)
 
 After the beta period, we will be updating these guidelines.
 
