@@ -160,6 +160,16 @@ double messageListOldestRowOffset(WidgetTester tester) {
       viewport.leadingFillerExtent;
 }
 
+/// Scroll offset at which the newest LOADED row's trailing edge meets the
+/// viewport bottom: the max extent minus any skeleton filler past it.
+double messageListNewestRowOffset(WidgetTester tester) {
+  final MessageListViewport viewport = tester.widget<MessageListViewport>(
+    find.byType(MessageListViewport),
+  );
+  return messageListScrollPosition(tester).maxScrollExtent -
+      viewport.trailingFillerExtent;
+}
+
 class AroundAckMessageListHarness {
   AroundAckMessageListHarness({
     required this.database,

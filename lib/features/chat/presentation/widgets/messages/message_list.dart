@@ -239,10 +239,11 @@ class _MessageListState extends ConsumerState<MessageList> {
   // waits until the pointer lifts without dragging.
   int _activePointers = 0;
   bool _settleDeferredForHold = false;
-  // Extent the older-edge skeleton filler adds above the oldest row; demand
+  // Extent the edge skeleton fillers add beyond the loaded rows; demand
   // geometry measures to the rows, not the skeleton, so pagination fires as
   // the reader approaches real history, not when they run out of filler.
   double _leadingFillerExtent = 0;
+  double _trailingFillerExtent = 0;
   // Stays true after a user-driven leave of the 8px engage zone until the
   // reader returns to the tail or an explicit jump/send re-engages it.
   // Survives ScrollEnd (including ballistic) so onUserScrollEnd's 64px hold
@@ -831,23 +832,36 @@ class _MessageListState extends ConsumerState<MessageList> {
       ? _kMessageListStatusOverlayInsetMobile
       : _kMessageListStatusOverlayInsetWide;
 
+  /// Distance from the reader to the newest LOADED row's trailing edge; the
+  /// skeleton filler and status inset past it are not history.
   double _centerTrailingDistance(ScrollPosition position) =>
-      (position.maxScrollExtent -
-              position.pixels -
-              _statusOverlayInset(context))
-          .clamp(0, double.infinity);
+      _rawTrailingDistance(position).clamp(0, double.infinity);
 
-  /// With skeleton filler past the oldest row there is no hard wall to press
+  double _rawTrailingDistance(ScrollPosition position) =>
+      position.maxScrollExtent -
+      position.pixels -
+      _statusOverlayInset(context) -
+      _trailingFillerExtent;
+
+  /// Scroll offset of the newest loaded row's trailing edge: the live-tail
+  /// landing spot, which is [ScrollMetrics.maxScrollExtent] only while no
+  /// trailing filler stands past it.
+  double _loadedTailExtent(ScrollPosition position) =>
+      position.maxScrollExtent - _trailingFillerExtent;
+
+  /// With skeleton filler past a loaded edge there is no hard wall to press
   /// into; a user-driven scroll carrying the reader onto the filler is the
   /// same "give me more" signal, collapsed per gesture upstream.
   void _signalFillerEntry() {
-    if (_leadingFillerExtent <= 0 ||
-        !_isUserDrivenScroll ||
-        !_scrollController.hasClients) {
+    if (!_isUserDrivenScroll || !_scrollController.hasClients) {
       return;
     }
-    if (_centerLeadingDistance(_scrollController.position) < 0) {
+    final ScrollPosition position = _scrollController.position;
+    if (_leadingFillerExtent > 0 && _centerLeadingDistance(position) < 0) {
       _demandSource.onOverscrollTowardEdge(PaginationEdge.older);
+    }
+    if (_trailingFillerExtent > 0 && _rawTrailingDistance(position) < 0) {
+      _demandSource.onOverscrollTowardEdge(PaginationEdge.newer);
     }
   }
 
@@ -1634,8 +1648,9 @@ class _MessageListState extends ConsumerState<MessageList> {
       _schedulePinnedTailGlue(ignorePin: ignorePin);
 
   void _jumpToLiveTailExtent(ScrollPosition position) {
-    if (position.pixels < position.maxScrollExtent) {
-      position.jumpTo(position.maxScrollExtent);
+    final double tail = _loadedTailExtent(position);
+    if (position.pixels < tail) {
+      position.jumpTo(tail);
     }
   }
 
@@ -2701,15 +2716,20 @@ class _MessageListState extends ConsumerState<MessageList> {
                     )
                     .map((ChannelStreamItem item) => 'group-${item.groupKey}'),
               });
+              MessageListPlaceholderSpecs fillerSpecs(String edge) =>
+                  buildMessageListPlaceholderSpecs(
+                    seedKey: '$channelId|$edge',
+                    compact: messageRenderSettings.messageDisplayCompact,
+                    groupSpacing: messageRenderSettings.messageGroupSpacing,
+                    fontSize: chatFontSize.toDouble(),
+                  );
               final MessageListPlaceholderSpecs? leadingSpecs = hasMoreMessages
-                  ? buildMessageListPlaceholderSpecs(
-                      seedKey: channelId,
-                      compact: messageRenderSettings.messageDisplayCompact,
-                      groupSpacing: messageRenderSettings.messageGroupSpacing,
-                      fontSize: chatFontSize.toDouble(),
-                    )
+                  ? fillerSpecs('older')
                   : null;
+              final MessageListPlaceholderSpecs? trailingSpecs =
+                  hasMoreNewerMessages ? fillerSpecs('newer') : null;
               _leadingFillerExtent = leadingSpecs?.totalHeight ?? 0;
+              _trailingFillerExtent = trailingSpecs?.totalHeight ?? 0;
               body = AnimatedImagePlaybackScope(
                 controller: _animatedImagePlaybackController,
                 child: MessageListViewport(
@@ -2720,6 +2740,7 @@ class _MessageListState extends ConsumerState<MessageList> {
                   anchorEdge: _anchorEdge,
                   controller: _scrollController,
                   leadingFillerSpecs: leadingSpecs,
+                  trailingFillerSpecs: trailingSpecs,
                   centerKey: _unreadCenterKey,
                   itemBuilder: (BuildContext context, int dataIndex) =>
                       _centerStreamTile(

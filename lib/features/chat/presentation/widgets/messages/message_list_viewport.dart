@@ -61,6 +61,7 @@ class MessageListViewport extends StatelessWidget {
     this.leadingPad = 0,
     this.startOfChannelHeader,
     this.leadingFillerSpecs,
+    this.trailingFillerSpecs,
     super.key,
   });
 
@@ -116,15 +117,18 @@ class MessageListViewport extends StatelessWidget {
 
   final Widget? startOfChannelHeader;
 
-  /// Skeleton history standing in for unloaded older history: the outermost
-  /// sliver above the oldest row, mutually exclusive with
-  /// [startOfChannelHeader]. Null once the channel start is loaded. The
-  /// newer edge keeps its hard wall: the tail-follow, pin, and read-viewport
-  /// invariants all read [ScrollMetrics.maxScrollExtent] as the loaded tail.
+  /// Skeleton standing in for unloaded history at each edge: the leading one
+  /// is the outermost sliver above the oldest row (mutually exclusive with
+  /// [startOfChannelHeader]); the trailing one sits below the newest row,
+  /// before [trailingInset]. Null once that edge is loaded. Every
+  /// "distance to the loaded tail" the host derives from
+  /// [ScrollMetrics.maxScrollExtent] subtracts [trailingFillerExtent].
   final MessageListPlaceholderSpecs? leadingFillerSpecs;
+  final MessageListPlaceholderSpecs? trailingFillerSpecs;
 
-  /// Extent the filler adds beyond the oldest loaded row.
+  /// Extent each filler adds beyond the loaded rows.
   double get leadingFillerExtent => leadingFillerSpecs?.totalHeight ?? 0;
+  double get trailingFillerExtent => trailingFillerSpecs?.totalHeight ?? 0;
 
   @override
   Widget build(BuildContext context) {
@@ -207,6 +211,14 @@ class MessageListViewport extends StatelessWidget {
                         ),
                       ),
                     ),
+                    if (trailingFillerSpecs != null)
+                      SliverToBoxAdapter(
+                        child: MessageListEdgeFiller(
+                          key: const ValueKey<String>('edge-filler-newer'),
+                          specs: trailingFillerSpecs!,
+                          alignment: Alignment.topCenter,
+                        ),
+                      ),
                     SliverToBoxAdapter(child: SizedBox(height: trailingInset)),
                   ],
                 ),

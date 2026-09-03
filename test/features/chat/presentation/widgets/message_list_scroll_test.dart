@@ -167,7 +167,7 @@ void main() {
           messageListScrollable(),
         );
         final double distanceFromTrailingEdge =
-            scrollable.position.maxScrollExtent - scrollable.position.pixels;
+            messageListNewestRowOffset(tester) - scrollable.position.pixels;
         expect(
           distanceFromTrailingEdge,
           lessThanOrEqualTo(
@@ -416,7 +416,7 @@ void main() {
       await disposeMessageList(tester);
     });
     testWidgets(
-      'a drag against the hard newer edge still requests newer pages',
+      'a drag past the loaded newer edge onto the skeleton requests newer pages',
       (WidgetTester tester) async {
         // The starvation case from the device log (21:19:01-21:19:24: seven
         // fling gestures, zero requests, user bailed to jump-to-present). At
@@ -466,20 +466,19 @@ void main() {
 
         final ScrollPosition position = messageListScrollPosition(tester);
         expect(
-          position.maxScrollExtent - position.pixels,
+          messageListNewestRowOffset(tester) - position.pixels,
           lessThanOrEqualTo(kMessageListReadBottomThreshold),
           reason: 'a bottom open parks the viewport at the loaded newer edge',
         );
         final int loadNewerBefore = chatViewModel.loadNewerCallCount;
 
-        // Toward newer; the wall means the position cannot move at all.
         await tester.drag(messageListScrollable(), const Offset(0, -400));
         await tester.pump();
 
         expect(
           position.pixels,
-          moreOrLessEquals(position.maxScrollExtent, epsilon: 1),
-          reason: 'the drag really was against the wall - the max extent',
+          greaterThan(messageListNewestRowOffset(tester)),
+          reason: 'the drag carried the reader past the loaded newer edge',
         );
         expect(
           chatViewModel.loadNewerCallCount,
@@ -933,7 +932,7 @@ void main() {
         final ScrollableState scrollable = tester.state<ScrollableState>(
           messageListScrollable(),
         );
-        scrollable.position.jumpTo(scrollable.position.maxScrollExtent);
+        scrollable.position.jumpTo(messageListNewestRowOffset(tester));
         await pumpFluxerFrames(tester);
 
         final Finder loadedTailMessage = messageItemFor(harness.newestLoadedId);
@@ -941,8 +940,8 @@ void main() {
         final Rect loadedTailRectBefore = tester.getRect(loadedTailMessage);
         final double loadedTailTopBefore = loadedTailRectBefore.top;
         final double pixelsBefore = scrollable.position.pixels;
-        final double maxBefore = scrollable.position.maxScrollExtent;
-        expect(pixelsBefore, moreOrLessEquals(maxBefore, epsilon: 1));
+        final double tailBefore = messageListNewestRowOffset(tester);
+        expect(pixelsBefore, moreOrLessEquals(tailBefore, epsilon: 1));
 
         harness.appendNewerMessages(count: 6);
         await tester.pump();
@@ -958,7 +957,7 @@ void main() {
           moreOrLessEquals(pixelsBefore, epsilon: 1),
         );
         expect(
-          scrollable.position.maxScrollExtent - scrollable.position.pixels,
+          messageListNewestRowOffset(tester) - scrollable.position.pixels,
           // The appended rows land beyond the viewport; at least a row of
           // extent must now separate it from the trailing edge.
           greaterThan(80),
@@ -4419,8 +4418,8 @@ void main() {
           ),
         );
         await pumpFluxerFrames(tester);
-        final ScrollPosition position = messageListScrollPosition(tester);
-        position.jumpTo(position.maxScrollExtent);
+        final ScrollPosition position = messageListScrollPosition(tester)
+          ..jumpTo(messageListNewestRowOffset(tester));
         await pumpFluxerFrames(tester);
         final double pixelsBefore = position.pixels;
 
