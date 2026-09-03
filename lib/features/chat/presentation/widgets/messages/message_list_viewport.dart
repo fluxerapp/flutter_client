@@ -18,6 +18,8 @@ library;
 import 'package:flutter/rendering.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/chat_loading_spinner.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_placeholder_specs.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_skeleton.dart';
 import 'package:fluxer_app/features/chat/utils/channel_message_stream.dart';
 import 'package:fluxer_app/features/chat/utils/chat_spinner_debug.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -51,11 +53,15 @@ class MessageListViewport extends StatelessWidget {
     required this.scrollCacheExtentPixels,
     required this.onScrollNotification,
     required this.onScrollMetricsNotification,
+    required this.onPointerDown,
+    required this.onPointerUp,
     required this.isLoadingMore,
     required this.isLoadingNewer,
     required this.trailingInset,
     this.leadingPad = 0,
     this.startOfChannelHeader,
+    this.leadingFillerSpecs,
+    this.trailingFillerSpecs,
     super.key,
   });
 
@@ -94,6 +100,11 @@ class MessageListViewport extends StatelessWidget {
   final bool Function(ScrollNotification notification) onScrollNotification;
   final bool Function(ScrollMetricsNotification notification)
   onScrollMetricsNotification;
+
+  /// Pointer bookkeeping lives ABOVE the epoch-keyed subtree so a remount
+  /// under a finger cannot lose the count.
+  final void Function(PointerDownEvent event) onPointerDown;
+  final void Function(PointerEvent event) onPointerUp;
   final bool isLoadingMore;
   final bool isLoadingNewer;
 
@@ -105,6 +116,19 @@ class MessageListViewport extends StatelessWidget {
   final double leadingPad;
 
   final Widget? startOfChannelHeader;
+
+  /// Skeleton standing in for unloaded history at each edge: the leading one
+  /// is the outermost sliver above the oldest row (mutually exclusive with
+  /// [startOfChannelHeader]); the trailing one sits below the newest row,
+  /// before [trailingInset]. Null once that edge is loaded. Every
+  /// "distance to the loaded tail" the host derives from
+  /// [ScrollMetrics.maxScrollExtent] subtracts [trailingFillerExtent].
+  final MessageListPlaceholderSpecs? leadingFillerSpecs;
+  final MessageListPlaceholderSpecs? trailingFillerSpecs;
+
+  /// Extent each filler adds beyond the loaded rows.
+  double get leadingFillerExtent => leadingFillerSpecs?.totalHeight ?? 0;
+  double get trailingFillerExtent => trailingFillerSpecs?.totalHeight ?? 0;
 
   @override
   Widget build(BuildContext context) {
@@ -123,55 +147,81 @@ class MessageListViewport extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        NotificationListener<ScrollNotification>(
-          onNotification: onScrollNotification,
-          child: NotificationListener<ScrollMetricsNotification>(
-            onNotification: onScrollMetricsNotification,
-            child: KeyedSubtree(
-              key: ValueKey<int>(anchorEpoch),
-              child: CustomScrollView(
-                controller: controller,
-                center: centerKey,
-                anchor: effectiveAnchor,
-                scrollCacheExtent: ScrollCacheExtent.pixels(
-                  scrollCacheExtentPixels,
-                ),
-                slivers: [
-                  if (startOfChannelHeader != null)
-                    SliverToBoxAdapter(child: startOfChannelHeader),
-                  if (leadingPad > 0)
-                    SliverToBoxAdapter(child: SizedBox(height: leadingPad)),
-                  SliverPadding(
-                    padding: const EdgeInsets.only(top: 8),
-                    sliver: SliverList(
+        Listener(
+          behavior: HitTestBehavior.translucent,
+          onPointerDown: onPointerDown,
+          onPointerUp: onPointerUp,
+          onPointerCancel: onPointerUp,
+          child: NotificationListener<ScrollNotification>(
+            onNotification: onScrollNotification,
+            child: NotificationListener<ScrollMetricsNotification>(
+              onNotification: onScrollMetricsNotification,
+              child: KeyedSubtree(
+                key: ValueKey<int>(anchorEpoch),
+                child: CustomScrollView(
+                  controller: controller,
+                  center: centerKey,
+                  anchor: effectiveAnchor,
+                  scrollCacheExtent: ScrollCacheExtent.pixels(
+                    scrollCacheExtentPixels,
+                  ),
+                  slivers: [
+                    if (leadingFillerSpecs != null)
+                      SliverToBoxAdapter(
+                        child: MessageListEdgeFiller(
+                          key: const ValueKey<String>('edge-filler-older'),
+                          specs: leadingFillerSpecs!,
+                          alignment: Alignment.bottomCenter,
+                        ),
+                      ),
+                    if (startOfChannelHeader != null)
+                      SliverToBoxAdapter(child: startOfChannelHeader),
+                    if (leadingPad > 0)
+                      SliverToBoxAdapter(child: SizedBox(height: leadingPad)),
+                    SliverPadding(
+                      padding: const EdgeInsets.only(top: 8),
+                      sliver: SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) =>
+                              itemBuilder(context, splitIndex - 1 - index),
+                          childCount: splitIndex,
+                          findChildIndexCallback: (Key key) => childIndexForKey(
+                            key,
+                            0,
+                            splitIndex,
+                            reverse: true,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      key: centerKey,
+                      child: const SizedBox.shrink(),
+                    ),
+                    SliverList(
                       delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) =>
-                            itemBuilder(context, splitIndex - 1 - index),
-                        childCount: splitIndex,
-                        findChildIndexCallback: (Key key) =>
-                            childIndexForKey(key, 0, splitIndex, reverse: true),
+                            itemBuilder(context, splitIndex + index),
+                        childCount: stream.length - splitIndex,
+                        findChildIndexCallback: (Key key) => childIndexForKey(
+                          key,
+                          splitIndex,
+                          stream.length,
+                          reverse: false,
+                        ),
                       ),
                     ),
-                  ),
-                  SliverToBoxAdapter(
-                    key: centerKey,
-                    child: const SizedBox.shrink(),
-                  ),
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) =>
-                          itemBuilder(context, splitIndex + index),
-                      childCount: stream.length - splitIndex,
-                      findChildIndexCallback: (Key key) => childIndexForKey(
-                        key,
-                        splitIndex,
-                        stream.length,
-                        reverse: false,
+                    if (trailingFillerSpecs != null)
+                      SliverToBoxAdapter(
+                        child: MessageListEdgeFiller(
+                          key: const ValueKey<String>('edge-filler-newer'),
+                          specs: trailingFillerSpecs!,
+                          alignment: Alignment.topCenter,
+                        ),
                       ),
-                    ),
-                  ),
-                  SliverToBoxAdapter(child: SizedBox(height: trailingInset)),
-                ],
+                    SliverToBoxAdapter(child: SizedBox(height: trailingInset)),
+                  ],
+                ),
               ),
             ),
           ),

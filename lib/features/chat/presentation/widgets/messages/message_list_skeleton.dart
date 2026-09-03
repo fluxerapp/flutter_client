@@ -82,26 +82,74 @@ class MessageListSkeleton extends ConsumerWidget {
   }
 }
 
-class _MessageListSkeletonContent extends StatelessWidget {
-  const _MessageListSkeletonContent({required this.specs});
+/// Stands in for unloaded history at a loaded edge of the message list, so a
+/// fling runs into skeleton rows instead of a wall while the page loads.
+/// Sized to [MessageListPlaceholderSpecs.totalHeight] and clipped, so the
+/// host knows the extent it adds without measuring.
+class MessageListEdgeFiller extends StatelessWidget {
+  const MessageListEdgeFiller({
+    required this.specs,
+    required this.alignment,
+    super.key,
+  });
 
   final MessageListPlaceholderSpecs specs;
 
+  /// Groups hug the loaded rows: bottom-aligned above the oldest row,
+  /// top-aligned below the newest.
+  final Alignment alignment;
+
   @override
   Widget build(BuildContext context) {
-    final int groupCount =
-        specs.messageCounts.length < kMessageListLoadingSkeletonGroups
-        ? specs.messageCounts.length
-        : kMessageListLoadingSkeletonGroups;
+    return Semantics(
+      label: FluxerLocalizations.of(context).chatLoadingMessages,
+      child: ExcludeSemantics(
+        child: SizedBox(
+          height: specs.totalHeight,
+          child: ClipRect(
+            child: OverflowBox(
+              alignment: alignment,
+              minHeight: 0,
+              maxHeight: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: kMessageRowPaddingHorizontal,
+                  vertical: 12,
+                ),
+                child: _MessageListSkeletonContent(
+                  specs: specs,
+                  groupCount: specs.messageCounts.length,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _MessageListSkeletonContent extends StatelessWidget {
+  const _MessageListSkeletonContent({
+    required this.specs,
+    this.groupCount = kMessageListLoadingSkeletonGroups,
+  });
+
+  final MessageListPlaceholderSpecs specs;
+  final int groupCount;
+
+  @override
+  Widget build(BuildContext context) {
+    final int count = min(specs.messageCounts.length, groupCount);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: List<Widget>.generate(groupCount, (int groupIndex) {
+      children: List<Widget>.generate(count, (int groupIndex) {
         return _MessageListSkeletonGroup(
           groupIndex: groupIndex,
           messageLineCount: specs.messageCounts[groupIndex],
           attachment: specs.attachmentSpecs[groupIndex],
-          groupSpacing: groupIndex == groupCount - 1 ? 0 : specs.groupSpacing,
+          groupSpacing: groupIndex == count - 1 ? 0 : specs.groupSpacing,
         );
       }),
     );
@@ -148,6 +196,12 @@ class _MessageListSkeletonGroup extends StatelessWidget {
             child: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
                 final double maxWidth = constraints.maxWidth;
+                final double usernameWidth =
+                    maxWidth * usernamePercent.clamp(0, 92) / 100;
+                final double timestampWidth = min(
+                  maxWidth * timestampPercent.clamp(0, 24) / 100,
+                  maxWidth - usernameWidth - _headerGap,
+                ).clamp(0, double.infinity);
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -156,15 +210,13 @@ class _MessageListSkeletonGroup extends StatelessWidget {
                       child: Row(
                         children: <Widget>[
                           _MessageListSkeletonBar(
-                            width:
-                                maxWidth * usernamePercent.clamp(0, 92) / 100,
+                            width: usernameWidth,
                             height: 12,
                             opacity: 0.55,
                           ),
                           const SizedBox(width: _headerGap),
                           _MessageListSkeletonBar(
-                            width:
-                                maxWidth * timestampPercent.clamp(0, 24) / 100,
+                            width: timestampWidth,
                             height: 10,
                             opacity: 0.35,
                           ),

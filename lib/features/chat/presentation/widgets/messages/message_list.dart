@@ -45,6 +45,8 @@ import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_list_overlay.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_list_pin.dart';
+import 'package:fluxer_app/features/chat/presentation/'
+    'widgets/messages/message_list_placeholder_specs.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_skeleton.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_list_unread_review.dart';
@@ -231,6 +233,17 @@ class _MessageListState extends ConsumerState<MessageList> {
   double? _lastViewportDimension;
 
   bool _userDragActive = false;
+  // A touch-down mid-fling makes Scrollable hold(), which dispatches
+  // ScrollEnd like a settle. Settling under a finger remounts the Scrollable
+  // (trim/re-anchor) and the drag that follows is lost (#713), so the settle
+  // waits until the pointer lifts without dragging.
+  int _activePointers = 0;
+  bool _settleDeferredForHold = false;
+  // Extent the edge skeleton fillers add beyond the loaded rows; demand
+  // geometry measures to the rows, not the skeleton, so pagination fires as
+  // the reader approaches real history, not when they run out of filler.
+  double _leadingFillerExtent = 0;
+  double _trailingFillerExtent = 0;
   // Stays true after a user-driven leave of the 8px engage zone until the
   // reader returns to the tail or an explicit jump/send re-engages it.
   // Survives ScrollEnd (including ballistic) so onUserScrollEnd's 64px hold
@@ -773,6 +786,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
     _syncAnimatedImageScrollPause();
     _publishDemandGeometry();
+    _signalFillerEntry();
     _syncReadViewport();
   }
 
@@ -812,17 +826,44 @@ class _MessageListState extends ConsumerState<MessageList> {
   }
 
   double _centerLeadingDistance(ScrollPosition position) =>
-      position.pixels - position.minScrollExtent;
+      position.pixels - position.minScrollExtent - _leadingFillerExtent;
 
   double _statusOverlayInset(BuildContext context) => isMobileLayout(context)
       ? _kMessageListStatusOverlayInsetMobile
       : _kMessageListStatusOverlayInsetWide;
 
+  /// Distance from the reader to the newest LOADED row's trailing edge; the
+  /// skeleton filler and status inset past it are not history.
   double _centerTrailingDistance(ScrollPosition position) =>
-      (position.maxScrollExtent -
-              position.pixels -
-              _statusOverlayInset(context))
-          .clamp(0, double.infinity);
+      _rawTrailingDistance(position).clamp(0, double.infinity);
+
+  double _rawTrailingDistance(ScrollPosition position) =>
+      position.maxScrollExtent -
+      position.pixels -
+      _statusOverlayInset(context) -
+      _trailingFillerExtent;
+
+  /// Scroll offset of the newest loaded row's trailing edge: the live-tail
+  /// landing spot, which is [ScrollMetrics.maxScrollExtent] only while no
+  /// trailing filler stands past it.
+  double _loadedTailExtent(ScrollPosition position) =>
+      position.maxScrollExtent - _trailingFillerExtent;
+
+  /// With skeleton filler past a loaded edge there is no hard wall to press
+  /// into; a user-driven scroll carrying the reader onto the filler is the
+  /// same "give me more" signal, collapsed per gesture upstream.
+  void _signalFillerEntry() {
+    if (!_isUserDrivenScroll || !_scrollController.hasClients) {
+      return;
+    }
+    final ScrollPosition position = _scrollController.position;
+    if (_leadingFillerExtent > 0 && _centerLeadingDistance(position) < 0) {
+      _demandSource.onOverscrollTowardEdge(PaginationEdge.older);
+    }
+    if (_trailingFillerExtent > 0 && _rawTrailingDistance(position) < 0) {
+      _demandSource.onOverscrollTowardEdge(PaginationEdge.newer);
+    }
+  }
 
   /// Sign adapter for scroll deltas: positive = toward the OLDER edge.
   double _towardOlderDelta(double scrollDelta) =>
@@ -955,6 +996,9 @@ class _MessageListState extends ConsumerState<MessageList> {
       return false;
     }
     if (notification is ScrollStartNotification) {
+      // A drag, ballistic, or programmatic start after a hold owns the next
+      // End; the held settle is superseded.
+      _settleDeferredForHold = false;
       // Drag, ballistic, or programmatic - each pairs with an End, and the
       // VM defers recovery window swaps while any of them is live.
       _chatViewModel.setUserScrollActive(
@@ -991,9 +1035,39 @@ class _MessageListState extends ConsumerState<MessageList> {
         _demandSource.onOverscrollTowardEdge(edge);
       }
     } else if (notification is ScrollEndNotification) {
-      _onUserScrollSettled();
+      // The hold's End is dispatched from the Scrollable's own pointer
+      // handler, which runs BEFORE the outer viewport Listener sees the same
+      // PointerDown; a microtask reads the pointer count after both.
+      scheduleMicrotask(_settleUnlessHeld);
     }
     return false;
+  }
+
+  void _settleUnlessHeld() {
+    if (!mounted) {
+      return;
+    }
+    if (_activePointers > 0) {
+      _settleDeferredForHold = true;
+      return;
+    }
+    _settleDeferredForHold = false;
+    _onUserScrollSettled();
+  }
+
+  void _onViewportPointerDown(PointerDownEvent event) {
+    _activePointers++;
+  }
+
+  void _onViewportPointerUp(PointerEvent event) {
+    if (_activePointers > 0) {
+      _activePointers--;
+    }
+    if (_activePointers == 0 && _settleDeferredForHold) {
+      // Lifted without dragging: the hold cancelled straight to idle, which
+      // dispatches no End, so the withheld settle runs here.
+      scheduleMicrotask(_settleUnlessHeld);
+    }
   }
 
   /// A depth-0 scroll settled: update the pin latch, apply the re-center
@@ -1574,8 +1648,9 @@ class _MessageListState extends ConsumerState<MessageList> {
       _schedulePinnedTailGlue(ignorePin: ignorePin);
 
   void _jumpToLiveTailExtent(ScrollPosition position) {
-    if (position.pixels < position.maxScrollExtent) {
-      position.jumpTo(position.maxScrollExtent);
+    final double tail = _loadedTailExtent(position);
+    if (position.pixels < tail) {
+      position.jumpTo(tail);
     }
   }
 
@@ -2641,6 +2716,20 @@ class _MessageListState extends ConsumerState<MessageList> {
                     )
                     .map((ChannelStreamItem item) => 'group-${item.groupKey}'),
               });
+              MessageListPlaceholderSpecs fillerSpecs(String edge) =>
+                  buildMessageListPlaceholderSpecs(
+                    seedKey: '$channelId|$edge',
+                    compact: messageRenderSettings.messageDisplayCompact,
+                    groupSpacing: messageRenderSettings.messageGroupSpacing,
+                    fontSize: chatFontSize.toDouble(),
+                  );
+              final MessageListPlaceholderSpecs? leadingSpecs = hasMoreMessages
+                  ? fillerSpecs('older')
+                  : null;
+              final MessageListPlaceholderSpecs? trailingSpecs =
+                  hasMoreNewerMessages ? fillerSpecs('newer') : null;
+              _leadingFillerExtent = leadingSpecs?.totalHeight ?? 0;
+              _trailingFillerExtent = trailingSpecs?.totalHeight ?? 0;
               body = AnimatedImagePlaybackScope(
                 controller: _animatedImagePlaybackController,
                 child: MessageListViewport(
@@ -2650,6 +2739,8 @@ class _MessageListState extends ConsumerState<MessageList> {
                   anchorFraction: _anchorFraction,
                   anchorEdge: _anchorEdge,
                   controller: _scrollController,
+                  leadingFillerSpecs: leadingSpecs,
+                  trailingFillerSpecs: trailingSpecs,
                   centerKey: _unreadCenterKey,
                   itemBuilder: (BuildContext context, int dataIndex) =>
                       _centerStreamTile(
@@ -2692,6 +2783,8 @@ class _MessageListState extends ConsumerState<MessageList> {
                   onScrollMetricsNotification: _onScrollMetricsNotification,
                   isLoadingMore: isLoadingMore,
                   isLoadingNewer: isLoadingNewer,
+                  onPointerDown: _onViewportPointerDown,
+                  onPointerUp: _onViewportPointerUp,
                   trailingInset: _statusOverlayInset(context),
                   leadingPad: _unreadOpenLayout ? _unreadLeadingPad : 0,
                   startOfChannelHeader: startOfChannelHeader,
