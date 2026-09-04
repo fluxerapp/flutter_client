@@ -95,6 +95,7 @@ class GuildUnavailableRouteShell extends ConsumerWidget {
   const GuildUnavailableRouteShell({
     required this.title,
     required this.description,
+    this.headerTitle = '',
     this.icon = PhosphorIconsFill.networkSlash,
     this.actionLabel,
     this.onAction,
@@ -104,6 +105,7 @@ class GuildUnavailableRouteShell extends ConsumerWidget {
 
   final String title;
   final String description;
+  final String headerTitle;
   final IconData icon;
   final String? actionLabel;
   final VoidCallback? onAction;
@@ -132,7 +134,7 @@ class GuildUnavailableRouteShell extends ConsumerWidget {
           children: [
             if (isMobile)
               _GuildUnavailableMobileHeader(
-                title: title,
+                title: headerTitle,
                 channelId: channelIdForBackUnread,
               ),
             Expanded(child: content),
@@ -177,14 +179,15 @@ class _GuildUnavailableMobileHeader extends ConsumerWidget {
             },
           ),
           const SizedBox(width: 6),
-          Expanded(
-            child: Text(
-              title,
-              style: context.textStyles.channelName,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
+          if (title.isNotEmpty)
+            Expanded(
+              child: Text(
+                title,
+                style: context.textStyles.channelName,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
             ),
-          ),
         ],
       ),
     );
@@ -216,7 +219,7 @@ class GuildNotFoundScreen extends StatelessWidget {
     return GuildUnavailableRouteShell(
       title: l10n.guildNotFoundTitle,
       description: l10n.guildNotFoundDescription,
-      icon: PhosphorIconsFill.question,
+      icon: PhosphorIconsRegular.question,
       actionLabel: l10n.invalidDeepLinkGoHomeButton,
       onAction: () => context.go(RoutePaths.me),
     );

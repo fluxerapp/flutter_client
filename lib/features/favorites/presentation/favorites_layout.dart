@@ -3,6 +3,7 @@ import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/channel_layout.dart';
 import 'package:fluxer_app/features/dm/presentation/dm_layout.dart';
+import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
 import 'package:fluxer_app/features/favorites/presentation/widgets/favorites_welcome.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
 import 'package:fluxer_app/features/gateway/providers/guild_sync_provider.dart';
@@ -53,8 +54,8 @@ class FavoritesLayout extends ConsumerWidget {
           );
         }
 
-        final guildId = favorite.guildId;
-        if (guildId != null && guildId.isNotEmpty) {
+        final String? guildId = favorite.guildId;
+        if (!isFavoriteDmGuildId(guildId) && guildId != null) {
           return _FavoritesGuildChannel(
             guildId: guildId,
             channelId: channelId,
