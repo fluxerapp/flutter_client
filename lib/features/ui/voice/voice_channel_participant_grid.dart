@@ -18,9 +18,12 @@ import 'package:fluxer_app/features/ui/voice/voice_channel_participant_layouts.d
 import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
 import 'package:fluxer_app/features/ui/voice/voice_speaking_ring.dart';
 import 'package:fluxer_app/features/ui/voice/voice_tile_metrics.dart';
+import 'package:fluxer_app/features/voice/domain/local_voice_state_data.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_context_menu.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_menu_data.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/voice_join_empty_state.dart';
+import 'package:fluxer_app/features/voice/providers/local_voice_state_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_active_speakers_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_display_preferences_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
@@ -81,6 +84,7 @@ List<_VoiceGridTileItem> _buildTileItems({
   required String? localConnectionId,
   required bool onlyShowVideos,
   required bool showOwnCamera,
+  String? forceShowUserId,
 }) {
   final List<_VoiceGridTileItem> tileItems = <_VoiceGridTileItem>[];
   for (final VoiceChannelParticipantData participant in participants) {
@@ -88,7 +92,9 @@ List<_VoiceGridTileItem> _buildTileItems({
         currentUserId != null && participant.userId == currentUserId;
     final bool includeCameraTile = showOwnCamera || !isOwnParticipant;
     final bool includeVideoParticipant =
-        !onlyShowVideos || participant.voice.selfVideo;
+        !onlyShowVideos ||
+        participant.voice.selfVideo ||
+        participant.userId == forceShowUserId;
     if (includeCameraTile && includeVideoParticipant) {
       tileItems.add(
         _VoiceGridTileItem(
@@ -126,6 +132,32 @@ List<_VoiceGridTileItem> _buildTileItems({
 bool _isVoiceMuted(VoiceState voice) =>
     voice.selfMute || voice.mute || voice.suppress;
 
+VoiceState _withLocalAudio(
+  VoiceState voice, {
+  required bool selfMute,
+  required bool selfDeaf,
+}) {
+  if (voice.selfMute == selfMute && voice.selfDeaf == selfDeaf) {
+    return voice;
+  }
+  return VoiceState(
+    userId: voice.userId,
+    channelId: voice.channelId,
+    guildId: voice.guildId,
+    sessionId: voice.sessionId,
+    connectionId: voice.connectionId,
+    selfMute: selfMute,
+    selfDeaf: selfDeaf,
+    selfVideo: voice.selfVideo,
+    selfStream: voice.selfStream,
+    mute: voice.mute,
+    deaf: voice.deaf,
+    suppress: voice.suppress,
+    isMobile: voice.isMobile,
+    e2eeCapable: voice.e2eeCapable,
+  );
+}
+
 class VoiceChannelParticipantGrid extends ConsumerStatefulWidget {
   const VoiceChannelParticipantGrid({
     required this.channelId,
@@ -151,7 +183,6 @@ class _VoiceChannelParticipantGridState
   VoicePipOverlayPhase _pipPhase = VoicePipOverlayPhase.hidden;
   bool _isConnected = false;
   bool _disableStreamPreviews = false;
-  bool _isReconnecting = false;
 
   VoiceGridPackedLayoutMetrics? _cachedLayoutMetrics;
   int? _cachedLayoutKey;
@@ -420,12 +451,6 @@ class _VoiceChannelParticipantGridState
                 : s.guildId == widget.guildId),
       ),
     );
-    final bool isReconnecting = ref.watch(
-      voiceSessionProvider.select(
-        (VoiceSessionState s) =>
-            s.isReconnecting && s.channelId == widget.channelId,
-      ),
-    );
     final VoiceCallLayoutState layout = ref.watch(voiceCallLayoutProvider);
     final VoiceCallDisplayPreferencesState displayPreferences = ref.watch(
       voiceCallDisplayPreferencesProvider,
@@ -441,29 +466,23 @@ class _VoiceChannelParticipantGridState
     final List<VoiceChannelParticipantData> list = ref.read(
       voiceChannelParticipantsProvider(participantKey),
     );
+    final bool missingSelf =
+        me != null &&
+        !list.any((VoiceChannelParticipantData p) => p.userId == me);
+    final List<VoiceChannelParticipantData> participants =
+        onThisChannel && me != null && missingSelf
+        ? <VoiceChannelParticipantData>[
+            connectingSelfVoiceParticipant(
+              currentUserId: me,
+              channelId: widget.channelId,
+              guildId: widget.guildId,
+              connectionId: localConnectionId,
+            ),
+            ...list,
+          ]
+        : list;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    if (list.isEmpty) {
-      final bool isConnecting = ref.read(
-        voiceSessionProvider.select((VoiceSessionState s) => s.isConnecting),
-      );
-      if (onThisChannel && isConnecting) {
-        return Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              const FluxerLoadingSpinner(),
-              const SizedBox(height: 12),
-              Text(
-                l10n.voiceChannelStatusConnecting,
-                textAlign: TextAlign.center,
-                style: context.textStyles.bodyMedium.copyWith(
-                  color: context.colors.textSecondary,
-                ),
-              ),
-            ],
-          ),
-        );
-      }
+    if (participants.isEmpty) {
       return Center(
         child: Text(
           l10n.voiceChannelStatusConnecting,
@@ -475,12 +494,13 @@ class _VoiceChannelParticipantGridState
       );
     }
     final List<_VoiceGridTileItem> builtTiles = _buildTileItems(
-      participants: list,
+      participants: participants,
       room: liveKit,
       currentUserId: me,
       localConnectionId: localConnectionId,
       onlyShowVideos: displayPreferences.onlyShowVideos,
       showOwnCamera: displayPreferences.showOwnCamera,
+      forceShowUserId: onThisChannel && missingSelf ? me : null,
     );
     final List<VoiceConsolidatedTile<_VoiceGridTileItem>> consolidated =
         consolidateVoiceGridTiles<_VoiceGridTileItem>(
@@ -547,7 +567,6 @@ class _VoiceChannelParticipantGridState
     _pipPhase = pipPhase;
     _isConnected = isConnected;
     _disableStreamPreviews = disableStreamPreviews;
-    _isReconnecting = isReconnecting;
     return Listener(
       onPointerHover: _onPointerHover,
       child: LayoutBuilder(
@@ -744,11 +763,10 @@ class _VoiceChannelParticipantGridState
           fit: StackFit.expand,
           children: <Widget>[
             child,
-            if (_isReconnecting)
-              const Align(
-                alignment: Alignment.topCenter,
-                child: _VoiceReconnectPill(),
-              ),
+            _VoiceCallStatusOverlay(
+              channelId: widget.channelId,
+              guildId: widget.guildId,
+            ),
           ],
         ),
       ),
@@ -1529,10 +1547,18 @@ class _VoiceParticipantCard extends ConsumerWidget {
         : data.userId;
     final String display = resolvedDisplay?.displayName ?? fallbackDisplay;
     final String? connectionId = data.voice.connectionId;
-    final VoiceState voice = connectionId == null
-        ? data.voice
-        : ref.watch(voiceStateForConnectionProvider(connectionId)) ??
-              data.voice;
+    final VoiceState? liveVoice = connectionId == null
+        ? null
+        : ref.watch(voiceStateForConnectionProvider(connectionId));
+    VoiceState voice = liveVoice ?? data.voice;
+    if (liveVoice == null && data.userId == currentUserId) {
+      final (bool selfMute, bool selfDeaf) = ref.watch(
+        localVoiceStateProvider.select(
+          (LocalVoiceStateData local) => (local.selfMute, local.selfDeaf),
+        ),
+      );
+      voice = _withLocalAudio(voice, selfMute: selfMute, selfDeaf: selfDeaf);
+    }
     final int? avatarArgb = user?.avatarColor;
     final Color cardColor = avatarArgb == null
         ? context.colors.brandPrimary
@@ -2142,40 +2168,86 @@ class _ExtraDevicesChip extends StatelessWidget {
   }
 }
 
-class _VoiceReconnectPill extends StatelessWidget {
-  const _VoiceReconnectPill();
+class _VoiceCallStatusOverlay extends ConsumerWidget {
+  const _VoiceCallStatusOverlay({required this.channelId, this.guildId});
+
+  final String channelId;
+  final String? guildId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final (bool connecting, bool reconnecting, String? joinError) = ref.watch(
+      voiceSessionProvider.select((VoiceSessionState session) {
+        final bool here =
+            session.isInVoice &&
+            session.channelId == channelId &&
+            (guildId == null
+                ? session.guildId == null || session.guildId!.isEmpty
+                : session.guildId == guildId);
+        return (
+          here && session.isConnecting,
+          here && session.isReconnecting,
+          here ? session.errorMessage : null,
+        );
+      }),
+    );
+    if (!connecting && !reconnecting && joinError == null) {
+      return const SizedBox.shrink();
+    }
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    return SafeArea(
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              if (reconnecting || connecting)
+                _VoiceStatusPill(
+                  label: reconnecting
+                      ? l10n.gatewayReconnectingToast
+                      : l10n.voiceChannelStatusConnecting,
+                ),
+              if (joinError != null) ...<Widget>[
+                if (reconnecting || connecting) const SizedBox(height: 8),
+                VoiceJoinErrorBanner(message: joinError),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _VoiceStatusPill extends StatelessWidget {
+  const _VoiceStatusPill({required this.label});
+
+  final String label;
 
   @override
   Widget build(BuildContext context) {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    return SafeArea(
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: context.colors.backgroundFloating,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: context.colors.backgroundTertiary),
+      ),
       child: Padding(
-        padding: const EdgeInsets.only(top: 12),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: context.colors.backgroundFloating,
-            borderRadius: BorderRadius.circular(999),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                const SizedBox(
-                  width: 12,
-                  height: 12,
-                  child: FluxerLoadingSpinner(),
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  l10n.gatewayReconnectingToast,
-                  style: context.textStyles.smallText.copyWith(
-                    color: context.colors.textPrimary,
-                  ),
-                ),
-              ],
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            FluxerLoadingSpinner(color: context.colors.textPrimary),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: context.textStyles.smallText.copyWith(
+                color: context.colors.textPrimary,
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
     show FluxerDatabase;
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -15,10 +16,12 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
+import 'package:fluxer_app/features/ui/voice/voice_call_avatar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_join_button.dart';
-import 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
+import 'package:fluxer_app/features/voice/domain/local_voice_state_data.dart';
 import 'package:fluxer_app/features/voice/presentation/voice_channel_page_view.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_channel_join_empty_state.dart';
+import 'package:fluxer_app/features/voice/providers/local_voice_state_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_text_chat_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_join_eligibility_provider.dart';
@@ -26,6 +29,8 @@ import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart'
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/voice_session_errors.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
+import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -69,7 +74,7 @@ void main() {
       expect(find.text('Connecting…'), findsNothing);
     });
 
-    testWidgets('shows connecting shell without participant grid', (
+    testWidgets('shows self voice card while connecting', (
       WidgetTester tester,
     ) async {
       final _MutableVoiceSession session = _MutableVoiceSession();
@@ -83,15 +88,15 @@ void main() {
       );
       await tester.pump();
 
-      expect(find.text('Connecting…'), findsOneWidget);
-      expect(find.byType(VoiceChannelParticipantGrid), findsNothing);
       expect(
         find.byKey(const ValueKey<String>('voice-participant-grid')),
-        findsNothing,
+        findsOneWidget,
       );
+      expect(find.byType(VoiceCallAvatar), findsOneWidget);
+      expect(find.text('Connecting…'), findsOneWidget);
     });
 
-    testWidgets('shows participant grid after connected', (
+    testWidgets('hides connecting pill after connected', (
       WidgetTester tester,
     ) async {
       final _MutableVoiceSession session = _MutableVoiceSession();
@@ -104,7 +109,7 @@ void main() {
         ),
       );
       await tester.pump();
-      expect(find.byType(VoiceChannelParticipantGrid), findsNothing);
+      expect(find.text('Connecting…'), findsOneWidget);
 
       session.setSession(
         const VoiceSessionState(
@@ -253,6 +258,12 @@ List<Override> _voicePageOverrides({
           ],
         ),
       ),
+    ),
+    currentUserIdProvider.overrideWithValue('me'),
+    localVoiceStateProvider.overrideWithValue(const LocalVoiceStateData()),
+    guildUserDisplayFromDbProvider.overrideWith(
+      (Ref ref, (String, String?) args) =>
+          const AsyncValue<GuildUserDisplay?>.data(null),
     ),
     voiceJoinEligibilityProvider(
       _channelId,
