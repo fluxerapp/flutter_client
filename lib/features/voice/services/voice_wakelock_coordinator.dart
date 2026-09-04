@@ -45,11 +45,11 @@ void voiceWakelockCoordinator(Ref ref) {
     }
   }
 
-  ref.listen<bool>(
-    voiceWakelockEnabledProvider,
-    (_, bool shouldEnable) => unawaited(apply(shouldEnable)),
-    fireImmediately: true,
-  );
-
-  ref.onDispose(() => unawaited(WakelockPlus.disable()));
+  ref
+    ..listen<bool>(
+      voiceWakelockEnabledProvider,
+      (_, bool shouldEnable) => unawaited(apply(shouldEnable)),
+      fireImmediately: true,
+    )
+    ..onDispose(() => unawaited(WakelockPlus.disable()));
 }

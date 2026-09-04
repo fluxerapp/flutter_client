@@ -138,6 +138,44 @@ void main() {
     expect(bulkCalls.single.single.guildId, '200');
   });
 
+  test('READY skips post-commit callbacks after dispose', () async {
+    final database = openTestDatabase();
+    var readyCalled = false;
+    var unavailableCalled = false;
+    var hydrateCalled = false;
+    final handler = GatewayEventHandler(
+      database: database,
+      onReady: () {
+        readyCalled = true;
+      },
+      onUnavailableGuildsReady: (_) {
+        unavailableCalled = true;
+      },
+      onUserSettingsHydrate: (_) {
+        hydrateCalled = true;
+      },
+    );
+
+    final Future<void> ready = handler.handle(
+      ReadyEvent(
+        sessionId: 'session-id',
+        user: _user(),
+        guilds: const [],
+        rawGuilds: const [],
+        privateChannels: const [],
+        relationships: const [],
+        readStates: const [],
+        presences: const [],
+      ),
+    );
+    handler.dispose();
+    await ready;
+
+    expect(readyCalled, isFalse);
+    expect(unavailableCalled, isFalse);
+    expect(hydrateCalled, isFalse);
+  });
+
   test('READY persists guild stickers from raw guild payload', () async {
     final database = openTestDatabase();
 
