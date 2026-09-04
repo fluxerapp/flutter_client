@@ -1678,15 +1678,14 @@ class _VoiceParticipantCard extends ConsumerWidget {
                             ),
                           ),
                         Positioned(
-                          left: metrics.inset,
-                          right: metrics.inset,
-                          bottom: metrics.inset,
+                          left: 8,
+                          right: 8,
+                          bottom: 8,
                           child: _TileHudVisibility(
                             child: _VoiceParticipantNameplate(
                               l10n: l10n,
                               voice: voice,
                               display: display,
-                              metrics: metrics,
                             ),
                           ),
                         ),
@@ -1982,13 +1981,11 @@ class _VoiceParticipantNameplate extends StatelessWidget {
     required this.l10n,
     required this.voice,
     required this.display,
-    required this.metrics,
   });
 
   final FluxerLocalizations l10n;
   final VoiceState voice;
   final String display;
-  final VoiceTileMetrics metrics;
 
   @override
   Widget build(BuildContext context) {
@@ -2002,75 +1999,119 @@ class _VoiceParticipantNameplate extends StatelessWidget {
         ? context.colors.statusDanger
         : const Color(0xFFFFFFFF);
     final String? connectionId = voice.connectionId;
-    return Align(
-      alignment: Alignment.bottomLeft,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: context.colors.backgroundSecondary,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: metrics.compactNameplate ? 6 : 8,
-            vertical: metrics.compactNameplate ? 4 : 6,
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              if (showMute) ...<Widget>[
-                PhosphorIcon(
-                  PhosphorIconsFill.microphoneSlash,
-                  size: 14,
-                  color: micColor,
+    final StringBuffer semantics = StringBuffer(display);
+    if (connectionId != null && connectionId.isNotEmpty) {
+      semantics.write(' $connectionId');
+    }
+    if (showMute) {
+      semantics.write(
+        ' ${hasCommunityMic ? l10n.voiceParticipantTooltipCommunityMuted : l10n.voiceParticipantTooltipMuted}',
+      );
+    }
+    if (showDeaf) {
+      semantics.write(
+        ' ${voice.deaf ? l10n.voiceParticipantTooltipCommunityDeafened : l10n.voiceParticipantTooltipDeafened}',
+      );
+    }
+    return Semantics(
+      label: semantics.toString(),
+      child: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          return Align(
+            alignment: Alignment.bottomLeft,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: constraints.maxWidth),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: context.colors.backgroundSecondary,
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                const SizedBox(width: 4),
-              ],
-              if (showDeaf) ...<Widget>[
-                PhosphorIcon(
-                  PhosphorIconsFill.speakerSlash,
-                  size: 14,
-                  color: deafColor,
-                ),
-                const SizedBox(width: 4),
-              ],
-              if (!metrics.hideDeviceIcon) ...<Widget>[
-                PhosphorIcon(
-                  voice.isMobile
-                      ? PhosphorIconsFill.deviceMobile
-                      : PhosphorIconsFill.desktop,
-                  size: 14,
-                  color: const Color(0xFFFFFFFF),
-                ),
-                const SizedBox(width: 4),
-              ],
-              Flexible(
-                child: Text.rich(
-                  TextSpan(
-                    style: context.textStyles.bodySmall.copyWith(
-                      color: context.colors.textPrimary,
-                      fontWeight: FontWeight.w500,
-                      fontSize: metrics.compactNameplate ? 11 : null,
-                    ),
-                    children: <InlineSpan>[
-                      TextSpan(text: display),
-                      if (!metrics.hideConnectionId &&
-                          connectionId != null &&
-                          connectionId.isNotEmpty)
-                        TextSpan(
-                          text: ' ($connectionId)',
-                          style: context.textStyles.bodySmall.copyWith(
-                            color: context.colors.textSecondary,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 6,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      if (showMute) ...<Widget>[
+                        Tooltip(
+                          message: hasCommunityMic
+                              ? l10n.voiceParticipantTooltipCommunityMuted
+                              : l10n.voiceParticipantTooltipMuted,
+                          child: PhosphorIcon(
+                            PhosphorIconsFill.microphoneSlash,
+                            size: 14,
+                            color: micColor,
                           ),
                         ),
+                        const SizedBox(width: 4),
+                      ],
+                      if (showDeaf) ...<Widget>[
+                        Tooltip(
+                          message: voice.deaf
+                              ? l10n.voiceParticipantTooltipCommunityDeafened
+                              : l10n.voiceParticipantTooltipDeafened,
+                          child: PhosphorIcon(
+                            PhosphorIconsFill.speakerSlash,
+                            size: 14,
+                            color: deafColor,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                      ],
+                      Tooltip(
+                        message: voice.isMobile
+                            ? l10n.voiceParticipantTooltipMobileDevice
+                            : l10n.voiceParticipantTooltipDesktopDevice,
+                        child: PhosphorIcon(
+                          voice.isMobile
+                              ? PhosphorIconsFill.deviceMobile
+                              : PhosphorIconsFill.desktop,
+                          size: 14,
+                          color: const Color(0xFFFFFFFF),
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Flexible(
+                        child: Tooltip(
+                          message:
+                              connectionId != null && connectionId.isNotEmpty
+                              ? l10n.voiceParticipantTooltipConnection(
+                                  connectionId,
+                                )
+                              : display,
+                          child: Text.rich(
+                            TextSpan(
+                              style: context.textStyles.bodySmall.copyWith(
+                                color: context.colors.textPrimary,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              children: <InlineSpan>[
+                                TextSpan(text: display),
+                                if (connectionId != null &&
+                                    connectionId.isNotEmpty)
+                                  TextSpan(
+                                    text: ' ($connectionId)',
+                                    style: context.textStyles.bodySmall
+                                        .copyWith(
+                                          color: context.colors.textSecondary,
+                                        ),
+                                  ),
+                              ],
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
