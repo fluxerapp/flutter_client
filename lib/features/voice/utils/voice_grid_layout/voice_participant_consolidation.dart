@@ -1,8 +1,5 @@
 class VoiceConsolidatedTile<T> {
-  const VoiceConsolidatedTile({
-    required this.tile,
-    this.extraDeviceCount = 0,
-  });
+  const VoiceConsolidatedTile({required this.tile, this.extraDeviceCount = 0});
 
   final T tile;
   final int extraDeviceCount;
