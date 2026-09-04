@@ -169,15 +169,9 @@ class VoiceCallKitCoordinatorLogic {
         '[VoiceCallKit] audio session recovery setEngineAvailability failed: $error',
       );
     }
-    try {
-      await _ref
-          .read(voiceSettingsApplicatorProvider)
-          .applySpeakerOutput(settings: _ref.read(voiceSettingsProvider));
-    } on Object catch (error) {
-      talker.warning(
-        '[VoiceCallKit] audio session recovery applySpeakerOutput failed: $error',
-      );
-    }
+    await _applySpeakerOutputForCallKitAudioSession(
+      reason: 'audio session recovery',
+    );
   }
 
   Future<void> _enterCallKitAudioOwnership() async {
@@ -219,16 +213,41 @@ class VoiceCallKitCoordinatorLogic {
   }
 
   Future<void> _handleToggleAudioSession({required bool isActive}) async {
+    VoiceCallKitVoiceSnapshot? voice;
     if (isActive) {
-      final VoiceCallKitVoiceSnapshot voice = _voiceCallKitVoiceSnapshot(
-        _ref.read(voiceSessionProvider),
-      );
+      voice = _voiceCallKitVoiceSnapshot(_ref.read(voiceSessionProvider));
       if (!voice.isConnected) {
         return;
       }
       _cancelAudioSessionRecovery();
       await _enterCallKitAudioOwnership();
     }
+    await _setEngineAvailabilityForCallKitAudioSession(isActive: isActive);
+    if (isActive) {
+      if (shouldReapplySpeakerOutputOnCallKitAudioSessionActive(
+        isAudioSessionActive: true,
+        isInVoice: voice?.isInVoice ?? false,
+      )) {
+        await _applySpeakerOutputForCallKitAudioSession(
+          reason: 'audio session activate',
+        );
+        _scheduleAudioSessionRecovery();
+      }
+      return;
+    }
+    if (shouldScheduleCallKitAudioSessionRecovery(
+      isAudioSessionActive: false,
+      hasActiveVoiceSession: _sessions.hasActiveVoiceSession,
+    )) {
+      _scheduleAudioSessionRecovery();
+      return;
+    }
+    await _exitCallKitAudioOwnership();
+  }
+
+  Future<void> _setEngineAvailabilityForCallKitAudioSession({
+    required bool isActive,
+  }) async {
     final bool enableEngine = shouldEnableLiveKitEngineForCallKitAudioSession(
       isAudioSessionActive: isActive,
     );
@@ -241,15 +260,19 @@ class VoiceCallKitCoordinatorLogic {
     } on Object catch (error) {
       talker.warning('[VoiceCallKit] setEngineAvailability failed: $error');
     }
-    if (!isActive) {
-      if (shouldScheduleCallKitAudioSessionRecovery(
-        isAudioSessionActive: false,
-        hasActiveVoiceSession: _sessions.hasActiveVoiceSession,
-      )) {
-        _scheduleAudioSessionRecovery();
-        return;
-      }
-      await _exitCallKitAudioOwnership();
+  }
+
+  Future<void> _applySpeakerOutputForCallKitAudioSession({
+    required String reason,
+  }) async {
+    try {
+      await _ref
+          .read(voiceSettingsApplicatorProvider)
+          .applySpeakerOutput(settings: _ref.read(voiceSettingsProvider));
+    } on Object catch (error) {
+      talker.warning(
+        '[VoiceCallKit] $reason applySpeakerOutput failed: $error',
+      );
     }
   }
 
