@@ -15,11 +15,15 @@ class VoiceCallLayoutState {
     this.mode = VoiceCallLayoutMode.grid,
     this.pinnedTileId,
     this.isFilmstripCollapsed = false,
+    this.isFocusMiniGridExpanded = false,
+    this.expandedUserIds = const <String>{},
   });
 
   final VoiceCallLayoutMode mode;
   final String? pinnedTileId;
   final bool isFilmstripCollapsed;
+  final bool isFocusMiniGridExpanded;
+  final Set<String> expandedUserIds;
 
   bool isPinned(String tileId) => pinnedTileId == tileId;
 
@@ -27,6 +31,8 @@ class VoiceCallLayoutState {
     VoiceCallLayoutMode? mode,
     String? pinnedTileId,
     bool? isFilmstripCollapsed,
+    bool? isFocusMiniGridExpanded,
+    Set<String>? expandedUserIds,
     bool clearPinnedTileId = false,
   }) {
     return VoiceCallLayoutState(
@@ -35,6 +41,9 @@ class VoiceCallLayoutState {
           ? null
           : (pinnedTileId ?? this.pinnedTileId),
       isFilmstripCollapsed: isFilmstripCollapsed ?? this.isFilmstripCollapsed,
+      isFocusMiniGridExpanded:
+          isFocusMiniGridExpanded ?? this.isFocusMiniGridExpanded,
+      expandedUserIds: expandedUserIds ?? this.expandedUserIds,
     );
   }
 }
@@ -46,10 +55,9 @@ class VoiceCallLayout extends _$VoiceCallLayout {
   VoiceCallLayoutState build() => const VoiceCallLayoutState();
 
   void pin(String tileId) {
-    state = VoiceCallLayoutState(
+    state = state.copyWith(
       mode: VoiceCallLayoutMode.focus,
       pinnedTileId: tileId,
-      isFilmstripCollapsed: state.isFilmstripCollapsed,
     );
   }
 
@@ -77,6 +85,21 @@ class VoiceCallLayout extends _$VoiceCallLayout {
 
   void toggleFilmstripCollapsed() {
     setFilmstripCollapsed(value: !state.isFilmstripCollapsed);
+  }
+
+  void setFocusMiniGridExpanded({required bool value}) {
+    if (state.isFocusMiniGridExpanded == value) {
+      return;
+    }
+    state = state.copyWith(isFocusMiniGridExpanded: value);
+  }
+
+  void toggleExpandedUser(String userId) {
+    final Set<String> next = Set<String>.from(state.expandedUserIds);
+    if (!next.add(userId)) {
+      next.remove(userId);
+    }
+    state = state.copyWith(expandedUserIds: next);
   }
 
   void reset() {

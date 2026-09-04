@@ -120,10 +120,11 @@ void main() {
       );
     });
 
-    test('tile avatars scale with the card up to 72', () {
-      expect(voiceTileAvatarSize(100), closeTo(56, 0.01));
-      expect(voiceTileAvatarSize(220), kVoiceTileAvatarSize);
+    test('tile avatars scale with the card up to 192', () {
+      expect(voiceTileAvatarSize(100), closeTo(50, 0.01));
+      expect(voiceTileAvatarSize(220), closeTo(110, 0.01));
       expect(voiceTileAvatarSize(40), 32);
+      expect(voiceTileAvatarSize(800), kVoiceTileAvatarMaxSize);
     });
   });
 }

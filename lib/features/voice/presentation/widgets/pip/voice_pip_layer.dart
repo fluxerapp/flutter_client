@@ -105,6 +105,7 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
       curve: Curves.fastOutSlowIn,
       reverseCurve: Curves.fastOutSlowIn.flipped,
     );
+    _morphController.addListener(_onMorphTick);
     _settleController = AnimationController(
       vsync: this,
       duration: kVoicePipSettleDuration,
@@ -125,6 +126,10 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
     _morphController.dispose();
     _paintTick.dispose();
     super.dispose();
+  }
+
+  void _onMorphTick() {
+    _maybeFollowExpandSlot();
   }
 
   void _markPaint() {
@@ -153,12 +158,12 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
   Rect? _slotRect() => voicePipSlotRectOf(context);
 
   EdgeInsets _safeInsets(BuildContext context) {
-    final MediaQueryData mq = MediaQuery.of(context);
+    final EdgeInsets padding = MediaQuery.paddingOf(context);
     final FluxerLayoutTheme layout = context.layout;
-    double bottom = mq.padding.bottom + mq.viewInsets.bottom;
-    double left = mq.padding.left;
-    final double top = mq.padding.top;
-    final double right = mq.padding.right;
+    double bottom = padding.bottom;
+    double left = padding.left;
+    final double top = padding.top;
+    final double right = padding.right;
     if (isMobileLayout(context)) {
       bottom += layout.mobileBottomNavHeight + 1;
     } else {
@@ -206,7 +211,16 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
       return;
     }
     _lastSlotRect = slot;
-    _flight?.end = slot;
+    final VoicePipHeroFlight? flight = _flight;
+    if (flight == null) {
+      return;
+    }
+    final double t = _phase == VoicePipOverlayPhase.settling
+        ? 1
+        : _morphT.value;
+    if (flight.retarget(newEnd: slot, t: t)) {
+      _markPaint();
+    }
   }
 
   void _scheduleExpandFlight() {
@@ -415,6 +429,8 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
     required BuildContext context,
     required String tileId,
     required VoiceSessionState voice,
+    required bool hasVideo,
+    required Offset? storedOrigin,
   }) {
     final ({String identity, VoiceParticipantTileSource source})? parsed =
         parseVoiceParticipantTileId(tileId);
@@ -424,7 +440,7 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
     final Size measured = voicePipCardSize(
       viewport: viewport,
       isScreenShare: isScreen,
-      hasVideo: ref.watch(voicePipFeaturedHasVideoProvider),
+      hasVideo: hasVideo,
     );
     final Size card = _phase == VoicePipOverlayPhase.pip && _pipCardSize != null
         ? _pipCardSize!
@@ -434,8 +450,7 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
       insets: _safeInsets(context),
     );
     final Offset stored =
-        ref.watch(voicePipPlacementProvider) ??
-        voicePipDefaultOrigin(safeRect: safe, cardSize: card);
+        storedOrigin ?? voicePipDefaultOrigin(safeRect: safe, cardSize: card);
     final Offset origin = voicePipClampOrigin(
       origin: _dragging ? (_dragOrigin ?? stored) : (_visualOrigin ?? stored),
       cardSize: card,
@@ -443,11 +458,6 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
     );
     final Rect pipRect = origin & card;
     if (voicePipIsInFlight(_phase)) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          _maybeFollowExpandSlot();
-        }
-      });
       final VoicePipHeroFlight flight =
           _flight ??
           VoicePipHeroFlight(
@@ -467,9 +477,7 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
         ),
         _ => voicePipFlightRect(flight: flight, t: t, slot: slot),
       };
-      final double fade = _phase == VoicePipOverlayPhase.settling
-          ? 1 - _settleController.value
-          : 1;
+      const double fade = 1;
       return Positioned.fromRect(
         rect: liveRect,
         child: Opacity(
@@ -653,9 +661,11 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
             _phase == VoicePipOverlayPhase.settling)) {
       _armCollapse(pipRect: _currentPipRect(featuredTileId: featuredTileId));
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          _startArmedCollapse();
+        if (!mounted) {
+          return;
         }
+        _setPhase(VoicePipOverlayPhase.collapsing);
+        _startArmedCollapse();
       });
     }
 
@@ -705,6 +715,8 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
             _phase == VoicePipOverlayPhase.pip ||
             overlayPhase == VoicePipOverlayPhase.pip);
 
+    final bool hasFeaturedVideo = ref.watch(voicePipFeaturedHasVideoProvider);
+    final Offset? pipPlacement = ref.watch(voicePipPlacementProvider);
     return Stack(
       children: <Widget>[
         widget.child,
@@ -716,6 +728,8 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
                 context: context,
                 tileId: featuredTileId,
                 voice: voice,
+                hasVideo: hasFeaturedVideo,
+                storedOrigin: pipPlacement,
               );
             },
           ),

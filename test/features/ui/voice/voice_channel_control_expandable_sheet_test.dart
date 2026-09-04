@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/ui/voice/voice_channel_control_expandable_sh
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_panel_settings.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/screen_share_capability_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_text_chat_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
@@ -145,7 +146,7 @@ void main() {
 
   group('VoiceCallMobilePageLayout', () {
     testWidgets(
-      'keeps collapsed footprint while bar expands over call screen',
+      'keeps the call stage full height when chrome shows, expands, or hides',
       (tester) async {
         await tester.binding.setSurfaceSize(_kMobileViewport);
         addTearDown(() => tester.binding.setSurfaceSize(null));
@@ -175,22 +176,13 @@ void main() {
           ),
         );
         await tester.pumpAndSettle();
-        final BuildContext layoutContext = tester.element(
-          find.byType(VoiceCallMobilePageLayout),
-        );
-        final double footprint = voiceChannelControlCollapsedFootprint(
-          layoutContext,
-        );
         final double layoutHeight = tester
             .getSize(find.byType(VoiceCallMobilePageLayout))
             .height;
         final double gridHeightCollapsed = tester
             .getSize(find.byKey(const Key('grid')))
             .height;
-        expect(
-          layoutHeight - gridHeightCollapsed,
-          greaterThanOrEqualTo(footprint - 1),
-        );
+        expect(gridHeightCollapsed, closeTo(layoutHeight, 1));
         await tester.drag(
           find.byKey(kVoiceControlSheetDragHandleKey),
           const Offset(0, -280),
@@ -200,6 +192,15 @@ void main() {
             .getSize(find.byKey(const Key('grid')))
             .height;
         expect(gridHeightExpanded, closeTo(gridHeightCollapsed, 1));
+        final ProviderContainer container = ProviderScope.containerOf(
+          tester.element(find.byKey(const Key('grid'))),
+        );
+        container.read(voiceCallOverlayProvider.notifier).hide();
+        await tester.pumpAndSettle();
+        expect(
+          tester.getSize(find.byKey(const Key('grid'))).height,
+          closeTo(gridHeightCollapsed, 1),
+        );
       },
     );
   });

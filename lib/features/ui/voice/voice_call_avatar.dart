@@ -21,18 +21,6 @@ class VoiceCallAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Widget avatar = user != null
-        ? FluxerAvatar.fromUserRow(
-            user!,
-            size: kVoiceTileAvatarSize,
-            showStatus: false,
-          )
-        : FluxerAvatar.user(
-            userId: userId,
-            fallbackText: fallbackText,
-            size: kVoiceTileAvatarSize,
-            showStatus: false,
-          );
     return ColoredBox(
       color: background,
       child: LayoutBuilder(
@@ -43,10 +31,18 @@ class VoiceCallAvatar extends StatelessWidget {
           );
           final double display = voiceTileAvatarSize(shortest);
           return Center(
-            child: Transform.scale(
-              scale: display / kVoiceTileAvatarSize,
-              child: avatar,
-            ),
+            child: user != null
+                ? FluxerAvatar.fromUserRow(
+                    user!,
+                    size: display,
+                    showStatus: false,
+                  )
+                : FluxerAvatar.user(
+                    userId: userId,
+                    fallbackText: fallbackText,
+                    size: display,
+                    showStatus: false,
+                  ),
           );
         },
       ),

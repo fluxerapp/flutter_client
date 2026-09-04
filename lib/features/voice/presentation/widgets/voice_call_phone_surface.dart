@@ -7,17 +7,17 @@ import 'package:fluxer_app/features/voice/utils/voice_phone_call_layout.dart';
 import 'package:fluxer_app/features/voice/utils/voice_pip_morph.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-class VoiceCallJoinChrome extends ConsumerStatefulWidget {
-  const VoiceCallJoinChrome({required this.child, super.key});
+class VoiceCallJoinOverlay extends ConsumerStatefulWidget {
+  const VoiceCallJoinOverlay({required this.child, super.key});
 
   final Widget child;
 
   @override
-  ConsumerState<VoiceCallJoinChrome> createState() =>
-      _VoiceCallJoinChromeState();
+  ConsumerState<VoiceCallJoinOverlay> createState() =>
+      _VoiceCallJoinOverlayState();
 }
 
-class _VoiceCallJoinChromeState extends ConsumerState<VoiceCallJoinChrome> {
+class _VoiceCallJoinOverlayState extends ConsumerState<VoiceCallJoinOverlay> {
   @override
   void initState() {
     super.initState();
@@ -29,7 +29,7 @@ class _VoiceCallJoinChromeState extends ConsumerState<VoiceCallJoinChrome> {
         ref.read(voiceCallOverlayProvider.notifier).reveal();
         return;
       }
-      ref.read(voiceCallOverlayProvider.notifier).armJoinChrome();
+      ref.read(voiceCallOverlayProvider.notifier).armJoinOverlay();
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) {
           return;
@@ -50,7 +50,7 @@ class VoiceCallPhoneSurface extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return VoiceCallJoinChrome(child: _VoiceCallPhoneEnter(child: child));
+    return VoiceCallJoinOverlay(child: _VoiceCallPhoneEnter(child: child));
   }
 }
 
