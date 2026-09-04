@@ -2,6 +2,7 @@ import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_noise_filter_provider.dart';
 import 'package:fluxer_app/features/voice/utils/camera_resolution_presets.dart';
 import 'package:fluxer_app/features/voice/utils/screen_share_presets.dart';
+import 'package:fluxer_app/features/voice/utils/voice_callkit_policy.dart';
 import 'package:fluxer_app/features/voice/utils/voice_camera_platform.dart';
 import 'package:fluxer_app/features/voice/utils/voice_processing_profile.dart';
 import 'package:livekit_client/livekit_client.dart';
@@ -266,9 +267,22 @@ class VoiceSettingsApplicator {
     if (!AudioManager.instance.canSwitchSpeakerphone) {
       return;
     }
+    // CallKit stays on earpiece unless speaker is forced.
+    final bool forceSpeaker = shouldForceSpeakerOutputForCallKit(
+      preferSpeakerOutput: settings.preferSpeakerOutput,
+      callKitOwnsAudioSession: _callKitOwnsAudioSession(),
+    );
     await AudioManager.instance.setSpeakerOutputPreferred(
       settings.preferSpeakerOutput,
+      force: forceSpeaker,
     );
+  }
+
+  bool _callKitOwnsAudioSession() {
+    return AudioManager.instance.managementMode ==
+        // LiveKit experimental API.
+        // ignore: experimental_member_use
+        AudioSessionManagementMode.externalCallSystem;
   }
 
   String? _resolveDeviceId(String deviceId) {

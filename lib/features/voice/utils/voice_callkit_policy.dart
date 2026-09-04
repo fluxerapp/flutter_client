@@ -192,6 +192,20 @@ bool shouldScheduleCallKitAudioSessionRecovery({
   return !isAudioSessionActive && hasActiveVoiceSession;
 }
 
+bool shouldReapplySpeakerOutputOnCallKitAudioSessionActive({
+  required bool isAudioSessionActive,
+  required bool isInVoice,
+}) {
+  return isAudioSessionActive && isInVoice;
+}
+
+bool shouldForceSpeakerOutputForCallKit({
+  required bool preferSpeakerOutput,
+  required bool callKitOwnsAudioSession,
+}) {
+  return preferSpeakerOutput && callKitOwnsAudioSession;
+}
+
 const Duration kVoiceCallKitAudioSessionRecoveryDelay = Duration(
   milliseconds: 750,
 );
