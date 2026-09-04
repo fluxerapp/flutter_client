@@ -2,11 +2,11 @@
     "@@locale": "en",
     "reconnectingTitle": "We fluxed up!",
     "@reconnectingTitle": {
-        "description": "Title on the reconnecting / server error screen."
+        "description": "Title on the reconnecting / instance error screen."
     },
-    "reconnectingBody": "Something is wrong with the servers.\nShould be fixed in a second!",
+    "reconnectingBody": "Something is wrong with the instance.\nShould be fixed in a second!",
     "@reconnectingBody": {
-        "description": "Subtitle on the reconnecting screen explaining temporary server issues."
+        "description": "Subtitle on the reconnecting screen explaining a temporary instance outage."
     },
     "gatewayReconnectingToast": "Reconnecting…",
     "@gatewayReconnectingToast": {
@@ -884,6 +884,10 @@
     "errorUnableToSignIn": "Unable to sign in right now. Please try again.",
     "@errorUnableToSignIn": {
         "description": "Generic fallback error when login fails unexpectedly."
+    },
+    "errorServiceUnavailable": "This instance is temporarily unavailable. Try again in a moment.",
+    "@errorServiceUnavailable": {
+        "description": "Login error when the API returns 502, 503, or 504."
     },
     "errorInvalidEmailOrPassword": "Invalid email or password.",
     "@errorInvalidEmailOrPassword": {

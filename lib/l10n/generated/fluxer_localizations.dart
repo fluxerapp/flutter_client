@@ -145,16 +145,16 @@ abstract class FluxerLocalizations {
     Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
   ];
 
-  /// Title on the reconnecting / server error screen.
+  /// Title on the reconnecting / instance error screen.
   ///
   /// In en, this message translates to:
   /// **'We fluxed up!'**
   String get reconnectingTitle;
 
-  /// Subtitle on the reconnecting screen explaining temporary server issues.
+  /// Subtitle on the reconnecting screen explaining a temporary instance outage.
   ///
   /// In en, this message translates to:
-  /// **'Something is wrong with the servers.\nShould be fixed in a second!'**
+  /// **'Something is wrong with the instance.\nShould be fixed in a second!'**
   String get reconnectingBody;
 
   /// Banner shown when the gateway connection is lost and reconnecting.
@@ -1281,6 +1281,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Unable to sign in right now. Please try again.'**
   String get errorUnableToSignIn;
+
+  /// Login error when the API returns 502, 503, or 504.
+  ///
+  /// In en, this message translates to:
+  /// **'This instance is temporarily unavailable. Try again in a moment.'**
+  String get errorServiceUnavailable;
 
   /// Error shown on the login screen when the email and password combination is incorrect.
   ///

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:fluxer_app/core/api/service_unavailable.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide AuthSession;
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
@@ -575,6 +576,13 @@ class AuthRepository {
   }
 
   AuthFailure _failureFromDio(DioException error) {
+    if (isHttpServiceUnavailable(error)) {
+      return const AuthFailure(
+        'This instance is temporarily unavailable.',
+        kind: AuthFailureKind.serviceUnavailable,
+      );
+    }
+
     final responseData = error.response?.data;
 
     if (responseData is Map<String, dynamic>) {

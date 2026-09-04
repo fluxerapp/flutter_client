@@ -663,6 +663,10 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Kirjautuminen ei onnistu tällä hetkellä. Yritä uudelleen.';
 
   @override
+  String get errorServiceUnavailable =>
+      'This instance is temporarily unavailable. Try again in a moment.';
+
+  @override
   String get errorInvalidEmailOrPassword =>
       'Virheellinen sähköpostiosoite tai salasana.';
 

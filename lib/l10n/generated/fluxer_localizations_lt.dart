@@ -663,6 +663,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Šiuo metu nepavyksta prisijungti. Pabandykite dar kartą.';
 
   @override
+  String get errorServiceUnavailable =>
+      'This instance is temporarily unavailable. Try again in a moment.';
+
+  @override
   String get errorInvalidEmailOrPassword =>
       'Neteisingas el. paštas arba slaptažodis.';
 

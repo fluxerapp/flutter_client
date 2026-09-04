@@ -643,6 +643,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get errorUnableToSignIn => '現在サインインできません。もう一度お試しください。';
 
   @override
+  String get errorServiceUnavailable =>
+      'This instance is temporarily unavailable. Try again in a moment.';
+
+  @override
   String get errorInvalidEmailOrPassword => 'メールアドレスまたはパスワードが無効です。';
 
   @override

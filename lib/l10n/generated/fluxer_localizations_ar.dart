@@ -663,6 +663,10 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
       'تعذر تسجيل الدخول الآن. يرجى المحاولة مرة أخرى.';
 
   @override
+  String get errorServiceUnavailable =>
+      'This instance is temporarily unavailable. Try again in a moment.';
+
+  @override
   String get errorInvalidEmailOrPassword =>
       'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
 

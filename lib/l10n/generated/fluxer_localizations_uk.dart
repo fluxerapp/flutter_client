@@ -666,6 +666,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Зараз не вдається увійти. Спробуйте ще раз.';
 
   @override
+  String get errorServiceUnavailable =>
+      'This instance is temporarily unavailable. Try again in a moment.';
+
+  @override
   String get errorInvalidEmailOrPassword =>
       'Неправильна електронна пошта або пароль.';
 

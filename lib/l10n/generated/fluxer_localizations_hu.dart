@@ -666,6 +666,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Jelenleg nem tudunk bejelentkezni. Kérjük, próbálkozzon újra.';
 
   @override
+  String get errorServiceUnavailable =>
+      'This instance is temporarily unavailable. Try again in a moment.';
+
+  @override
   String get errorInvalidEmailOrPassword =>
       'Érvénytelen e-mail cím vagy jelszó.';
 

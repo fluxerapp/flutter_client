@@ -16,4 +16,5 @@ enum LoginError {
   passkeyFailed,
   ssoCancelled,
   ssoFailed,
+  serviceUnavailable,
 }

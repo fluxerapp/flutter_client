@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
+import 'package:fluxer_app/core/api/service_unavailable.dart';
 import 'package:fluxer_app/core/constants/external_urls.dart';
 import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/providers/app_startup_provider.dart';
@@ -15,6 +16,7 @@ import 'package:fluxer_app/features/auth/presentation/widgets/offline_account_sw
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/domain/service_status_incident.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_reveal_overlay.dart';
+import 'package:fluxer_app/features/shell/presentation/widgets/service_status_connection_footer.dart';
 import 'package:fluxer_app/features/shell/providers/service_status_incident_provider.dart';
 import 'package:fluxer_app/features/shell/utils/splash_quotes.dart';
 import 'package:fluxer_app/features/ui/animation/animation_controller_visibility_extension.dart';
@@ -51,9 +53,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   Timer? _statusTimer;
   Timer? _statusPrefetchTimer;
   Timer? _problemsTimer;
+  Timer? _outageRetryTimer;
   bool _showStatusData = false;
   bool _showProblems = false;
   bool _timersStarted = false;
+  bool _serviceUnavailableOutage = false;
   bool _exitRevealStarted = false;
   SplashRevealComplete? _revealComplete;
   final GlobalKey _logoKey = GlobalKey();
@@ -81,6 +85,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       final AsyncValue<void> startup = ref.read(appStartupProvider);
       if (startup is AsyncError<dynamic>) {
         revealComplete.complete();
+        if (isHttpServiceUnavailable(startup.error)) {
+          _activateServiceUnavailableUi();
+        }
         return;
       }
       _ensureSplashTimers();
@@ -111,6 +118,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     _statusTimer = null;
     _problemsTimer?.cancel();
     _problemsTimer = null;
+    _outageRetryTimer?.cancel();
+    _outageRetryTimer = null;
   }
 
   void _cancelSplashIfReady() {
@@ -222,6 +231,37 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     });
   }
 
+  void _activateServiceUnavailableUi() {
+    _serviceUnavailableOutage = true;
+    _statusPrefetchTimer?.cancel();
+    _statusTimer?.cancel();
+    _problemsTimer?.cancel();
+    _timersStarted = false;
+    _showStatusData = true;
+    _showProblems = true;
+    if (mounted) {
+      setState(() {});
+    }
+    unawaited(ref.read(serviceStatusIncidentReadProvider.notifier).refresh());
+    _scheduleOutageRetry();
+  }
+
+  void _clearServiceUnavailableUi() {
+    _outageRetryTimer?.cancel();
+    _outageRetryTimer = null;
+    _serviceUnavailableOutage = false;
+  }
+
+  void _scheduleOutageRetry() {
+    _outageRetryTimer?.cancel();
+    _outageRetryTimer = Timer(kServiceUnavailableRetryDelay, () {
+      if (!mounted || !_serviceUnavailableOutage) {
+        return;
+      }
+      unawaited(ref.read(appStartupProvider.notifier).retry());
+    });
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -235,9 +275,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   Widget build(BuildContext context) {
     final FluxerLocalizations strings = FluxerLocalizations.of(context);
     final AsyncValue<void> startup = ref.watch(appStartupProvider);
+    final bool serviceUnavailable =
+        _serviceUnavailableOutage ||
+        (startup is AsyncError<dynamic> &&
+            isHttpServiceUnavailable(startup.error));
     final AsyncError<dynamic>? startupError = startup is AsyncError<dynamic>
         ? startup
         : null;
+    final bool showStartupError = startupError != null && !serviceUnavailable;
     final String statusText = strings.splashStartupFailed(
       startupError?.error == null
           ? ''
@@ -258,7 +303,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
         AsyncValue<void>? previous,
         AsyncValue<void> next,
       ) {
+        if (next is AsyncError<dynamic> &&
+            isHttpServiceUnavailable(next.error)) {
+          _activateServiceUnavailableUi();
+          return;
+        }
         if (next is AsyncError<dynamic>) {
+          _clearServiceUnavailableUi();
           _cancelSplashTimers();
           _timersStarted = false;
           if (mounted) {
@@ -268,6 +319,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
             });
           }
           return;
+        }
+        if (next is AsyncLoading<void> && _serviceUnavailableOutage) {
+          return;
+        }
+        if (next is AsyncData<void>) {
+          _clearServiceUnavailableUi();
         }
         _ensureSplashTimers();
         _cancelSplashIfReady();
@@ -287,19 +344,18 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
         ? liveIncident
         : _frozenIncident;
     final String displayText = isReady ? liveText : _frozenDisplayText;
-    final ServiceStatusIncident? footerIncident = ref.watch(
-      serviceStatusIncidentReadProvider,
-    );
     final bool isOfficialInstance = ref.watch(isActiveInstanceOfficialProvider);
     final String displayDomain = ref.watch(activeInstanceDisplayDomainProvider);
     final bool showConnectionProblemsFooter =
-        _showProblems && !isReady && visibleIncident == null;
+        !isReady &&
+        (serviceUnavailable || (_showProblems && visibleIncident == null));
     final bool showConnectionFooter =
         showConnectionProblemsFooter && isOfficialInstance;
     final bool showSelfHostedAccountSwitcher =
-        showConnectionProblemsFooter && !isOfficialInstance;
-    final String secondLinkUrl =
-        footerIncident?.url ?? ExternalUrls.serviceStatusHistory;
+        showConnectionProblemsFooter &&
+        !isOfficialInstance &&
+        !serviceUnavailable &&
+        !showStartupError;
     final TextStyle footerPromptStyle = context.textStyles.bodySmall.copyWith(
       fontSize: 13,
       height: 1.4,
@@ -397,15 +453,30 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                       _fadeExitContent(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 32),
-                          child: startupError == null
-                              ? _buildNormalMessageArea(
-                                  context,
-                                  strings,
-                                  visibleIncident,
-                                  displayText,
-                                  incidentCtaStyle,
+                          child: serviceUnavailable
+                              ? Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      strings.splashConnectionLost,
+                                      style: context.textStyles.smallText
+                                          .copyWith(
+                                            color: _splashQuoteText,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      strings.reconnectingBody,
+                                      style: context.textStyles.smallText
+                                          .copyWith(color: _splashMutedText),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
                                 )
-                              : Text(
+                              : showStartupError
+                              ? Text(
                                   statusText,
                                   style: context.textStyles.smallText.copyWith(
                                     color: context.colors.textDanger,
@@ -413,19 +484,33 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                                   textAlign: TextAlign.center,
                                   maxLines: 3,
                                   overflow: TextOverflow.ellipsis,
+                                )
+                              : _buildNormalMessageArea(
+                                  context,
+                                  strings,
+                                  visibleIncident,
+                                  displayText,
+                                  incidentCtaStyle,
                                 ),
                         ),
                       ),
-                      if (startupError != null)
+                      if (serviceUnavailable || showStartupError)
                         _fadeExitContent(
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               const SizedBox(height: 16),
                               FilledButton(
-                                onPressed: () => ref
-                                    .read(appStartupProvider.notifier)
-                                    .retry(),
+                                onPressed: () {
+                                  if (serviceUnavailable) {
+                                    _scheduleOutageRetry();
+                                  }
+                                  unawaited(
+                                    ref
+                                        .read(appStartupProvider.notifier)
+                                        .retry(),
+                                  );
+                                },
                                 style: FilledButton.styleFrom(
                                   backgroundColor: context.colors.brandPrimary,
                                 ),
@@ -457,55 +542,15 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text(
-                                  strings.splashConnectionIssuesPrompt,
-                                  style: footerPromptStyle,
-                                  textAlign: TextAlign.center,
+                                ServiceStatusConnectionFooter(
+                                  promptStyle: footerPromptStyle,
+                                  linkStyle: footerLinkStyle,
                                 ),
-                                const SizedBox(height: 8),
-                                Wrap(
-                                  alignment: WrapAlignment.center,
-                                  crossAxisAlignment: WrapCrossAlignment.center,
-                                  spacing: 8,
-                                  children: [
-                                    MouseRegion(
-                                      cursor: SystemMouseCursors.click,
-                                      child: FluxerGestureDetector(
-                                        onTap: () => handleExternalLinkTap(
-                                          context,
-                                          ExternalUrls.serviceStatus,
-                                        ),
-                                        child: Text(
-                                          strings.splashStatusPageLink,
-                                          style: footerLinkStyle,
-                                        ),
-                                      ),
-                                    ),
-                                    Text(
-                                      '·',
-                                      style: footerPromptStyle.copyWith(
-                                        color: _splashMutedText,
-                                      ),
-                                    ),
-                                    MouseRegion(
-                                      cursor: SystemMouseCursors.click,
-                                      child: FluxerGestureDetector(
-                                        onTap: () => handleExternalLinkTap(
-                                          context,
-                                          secondLinkUrl,
-                                        ),
-                                        child: Text(
-                                          footerIncident != null
-                                              ? strings.splashReadIncident
-                                              : strings.splashIncidentHistory,
-                                          style: footerLinkStyle,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 12),
-                                const OfflineAccountSwitcherLink(),
+                                if (!serviceUnavailable &&
+                                    !showStartupError) ...[
+                                  const SizedBox(height: 12),
+                                  const OfflineAccountSwitcherLink(),
+                                ],
                               ],
                             ),
                           ),

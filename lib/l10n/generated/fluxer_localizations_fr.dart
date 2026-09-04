@@ -669,6 +669,10 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Impossible de vous connecter pour le moment. Veuillez réessayer.';
 
   @override
+  String get errorServiceUnavailable =>
+      'This instance is temporarily unavailable. Try again in a moment.';
+
+  @override
   String get errorInvalidEmailOrPassword =>
       'Adresse e-mail ou mot de passe invalide.';
 

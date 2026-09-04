@@ -665,6 +665,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Şu anda giriş yapılamıyor. Lütfen tekrar deneyin.';
 
   @override
+  String get errorServiceUnavailable =>
+      'This instance is temporarily unavailable. Try again in a moment.';
+
+  @override
   String get errorInvalidEmailOrPassword => 'Geçersiz e-posta veya parola.';
 
   @override

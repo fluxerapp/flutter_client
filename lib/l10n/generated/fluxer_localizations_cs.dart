@@ -665,6 +665,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Přihlášení právě teď není možné. Zkuste to prosím znovu.';
 
   @override
+  String get errorServiceUnavailable =>
+      'This instance is temporarily unavailable. Try again in a moment.';
+
+  @override
   String get errorInvalidEmailOrPassword => 'Neplatný e-mail nebo heslo.';
 
   @override

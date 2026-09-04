@@ -14,9 +14,11 @@ Widget pumpFluxerApp({
   required Widget child,
   List<Override> overrides = const [],
   ThemeData? theme,
+  Duration? Function(int retryCount, Object error)? retry,
 }) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
+    retry: retry,
     overrides: <Override>[instanceRuntimeConfigOverride(), ...overrides],
     child: MaterialApp(
       locale: kTestLocale,

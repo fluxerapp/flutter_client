@@ -13,7 +13,7 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get reconnectingBody =>
-      'Something is wrong with the servers.\nShould be fixed in a second!';
+      'Something is wrong with the instance.\nShould be fixed in a second!';
 
   @override
   String get gatewayReconnectingToast => 'Reconnecting…';
@@ -660,6 +660,10 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   @override
   String get errorUnableToSignIn =>
       'Unable to sign in right now. Please try again.';
+
+  @override
+  String get errorServiceUnavailable =>
+      'This instance is temporarily unavailable. Try again in a moment.';
 
   @override
   String get errorInvalidEmailOrPassword => 'Invalid email or password.';
@@ -14030,7 +14034,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get reconnectingBody =>
-      'Something is wrong with the servers.\nShould be fixed in a second!';
+      'Something is wrong with the instance.\nShould be fixed in a second!';
 
   @override
   String get gatewayReconnectingToast => 'Reconnecting…';
@@ -21192,7 +21196,7 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get reconnectingBody =>
-      'Something is wrong with the servers.\nShould be fixed in a second!';
+      'Something is wrong with the instance.\nShould be fixed in a second!';
 
   @override
   String get gatewayReconnectingToast => 'Reconnecting…';
