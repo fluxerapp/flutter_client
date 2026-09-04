@@ -8,3 +8,5 @@ List<T> voiceGridTilesForDisplay<T>({
   }
   return orderBySpeaking(tiles);
 }
+
+String voiceGridOrderSignature(Iterable<String> tileIds) => tileIds.join('|');

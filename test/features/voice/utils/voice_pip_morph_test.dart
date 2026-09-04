@@ -96,23 +96,23 @@ void main() {
   });
 
   group('voicePipHostsFeatured', () {
-    test('hosts during pip and both flight phases', () {
+    test('hosts during pip, flight, and settling', () {
       expect(voicePipHostsFeatured(VoicePipOverlayPhase.hidden), isFalse);
       expect(voicePipHostsFeatured(VoicePipOverlayPhase.pip), isTrue);
       expect(voicePipHostsFeatured(VoicePipOverlayPhase.expanding), isTrue);
       expect(voicePipHostsFeatured(VoicePipOverlayPhase.collapsing), isTrue);
-      expect(voicePipHostsFeatured(VoicePipOverlayPhase.settling), isFalse);
+      expect(voicePipHostsFeatured(VoicePipOverlayPhase.settling), isTrue);
     });
   });
 
   group('voicePipHidesFeaturedTile', () {
-    test('hides the destination tile only while the overlay is flying', () {
+    test('hides the destination tile while flying and settling', () {
       expect(voicePipHidesFeaturedTile(VoicePipOverlayPhase.expanding), isTrue);
       expect(
         voicePipHidesFeaturedTile(VoicePipOverlayPhase.collapsing),
         isTrue,
       );
-      expect(voicePipHidesFeaturedTile(VoicePipOverlayPhase.settling), isFalse);
+      expect(voicePipHidesFeaturedTile(VoicePipOverlayPhase.settling), isTrue);
       expect(voicePipHidesFeaturedTile(VoicePipOverlayPhase.hidden), isFalse);
     });
   });

@@ -80,12 +80,12 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
 
   @override
   Widget build(BuildContext context) {
-    final ChannelListState listState = ref.watch(
-      channelListViewModelProvider.select((s) => s),
-    );
     final Channel? channel =
-        findChannelById(listState, widget.channelId) ??
-        ref.watch(channelByIdProvider(widget.channelId)).value;
+        ref.watch(channelByIdProvider(widget.channelId)).value ??
+        findChannelById(
+          ref.read(channelListViewModelProvider),
+          widget.channelId,
+        );
     final String name = channel?.name ?? '';
     final (bool inThisChannel, bool isConnecting, bool isConnected) = ref.watch(
       voiceSessionProvider.select(
@@ -150,8 +150,7 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
           ),
         ),
         AnimatedSize(
-          duration: const Duration(milliseconds: 220),
-          curve: Curves.easeOutCubic,
+          duration: Duration.zero,
           child: _isChatPanelOpen
               ? _DesktopVoiceChatDock(
                   channelId: widget.channelId,

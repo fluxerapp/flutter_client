@@ -7,10 +7,10 @@ enum VoicePipCorner { topLeft, topRight, bottomLeft, bottomRight }
 const double kVoicePipEdgeMargin = 8;
 const double kVoicePipFlingVelocity = 280;
 const Size kVoicePipCompactSize = Size.square(100);
-const double kVoiceTileAvatarSize = 72;
+const double kVoiceTileAvatarMaxSize = 192;
 
 double voiceTileAvatarSize(double shortestSide) {
-  return (shortestSide * 0.56).clamp(32.0, kVoiceTileAvatarSize);
+  return (shortestSide * 0.5).clamp(32.0, kVoiceTileAvatarMaxSize);
 }
 
 Size voicePipCardSize({

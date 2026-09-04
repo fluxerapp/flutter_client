@@ -46,4 +46,20 @@ void main() {
       );
     });
   });
+
+  group('voiceGridOrderSignature', () {
+    test('is stable for the same tile order', () {
+      expect(
+        voiceGridOrderSignature(<String>['a', 'b', 'c']),
+        voiceGridOrderSignature(<String>['a', 'b', 'c']),
+      );
+    });
+
+    test('changes when tile order changes', () {
+      expect(
+        voiceGridOrderSignature(<String>['a', 'b']),
+        isNot(voiceGridOrderSignature(<String>['b', 'a'])),
+      );
+    });
+  });
 }

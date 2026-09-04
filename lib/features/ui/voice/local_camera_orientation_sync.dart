@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
+import 'package:fluxer_app/features/voice/utils/voice_camera_platform.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 /// Restarts the local camera track after device orientation changes.
@@ -22,7 +23,9 @@ class _LocalCameraOrientationSyncState
   @override
   Widget build(BuildContext context) {
     final Orientation orientation = MediaQuery.orientationOf(context);
-    if (_lastOrientation != null && _lastOrientation != orientation) {
+    if (_lastOrientation != null &&
+        _lastOrientation != orientation &&
+        isMobileVoiceCameraPlatform()) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
           unawaited(
