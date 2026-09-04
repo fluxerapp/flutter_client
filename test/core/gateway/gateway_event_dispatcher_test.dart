@@ -126,4 +126,16 @@ void main() {
     block.complete();
     await dispatcher.dispose();
   });
+
+  test('dispose flushes write batchers', () async {
+    var flushed = 0;
+    final GatewayEventDispatcher dispatcher = GatewayEventDispatcher(
+      onEvent: (_) async {},
+      onFlushWriteBatchers: () async {
+        flushed += 1;
+      },
+    );
+    await dispatcher.dispose();
+    expect(flushed, 1);
+  });
 }
