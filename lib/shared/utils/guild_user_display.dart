@@ -328,11 +328,13 @@ GuildUserDisplay resolveGuildUserDisplayFromProfile({
           userId: user.id,
           type: GuildMemberMediaType.avatar,
           hash: guildAvatar,
+          animated: true,
         )
       : FluxerMediaUrl.userAvatar(
           userId: user.id,
           hash: user.avatar,
           size: MediaProxySizes.avatarProfile,
+          animated: true,
         );
   final String? bannerUrl = isBannerUnset
       ? null

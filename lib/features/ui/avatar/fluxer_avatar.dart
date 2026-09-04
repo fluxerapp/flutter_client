@@ -413,13 +413,15 @@ Widget buildFluxerNetworkAvatarImage({
       onFinalError?.call() ?? SizedBox(width: size, height: size);
 
   Widget networkImage(String url, {required Widget Function() onError}) {
+    final bool animated = url.contains('animated=true');
     return ClipRRect(
       borderRadius: resolvedBorderRadius,
       child: CachedNetworkImage(
         imageUrl: url,
         width: size,
         height: size,
-        memCacheWidth: (size * devicePixelRatio).round(),
+        // Skip resize on animated frames; ResizeImage freezes multi-frame decode.
+        memCacheWidth: animated ? null : (size * devicePixelRatio).round(),
         fit: BoxFit.cover,
         errorBuilder: (_, _, _) => onError(),
       ),
