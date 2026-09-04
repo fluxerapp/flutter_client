@@ -21,4 +21,19 @@ void main() {
     expect(unique.map((p) => p.userId), <String>['1', '2']);
     expect(unique.first.voice, first);
   });
+
+  test('connectingSelfVoiceParticipant uses channel identity', () {
+    final VoiceChannelParticipantData self = connectingSelfVoiceParticipant(
+      currentUserId: 'me',
+      channelId: 'voice-1',
+      guildId: '',
+      connectionId: 'conn-1',
+    );
+
+    expect(self.userId, 'me');
+    expect(self.voice.channelId, 'voice-1');
+    expect(self.voice.guildId, isNull);
+    expect(self.voice.connectionId, 'conn-1');
+    expect(self.voice.selfVideo, isFalse);
+  });
 }
