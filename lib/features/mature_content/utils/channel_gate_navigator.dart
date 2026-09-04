@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
-import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 import 'package:fluxer_app/features/mature_content/presentation/sheets/channel_access_gate_sheet.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -19,10 +18,10 @@ Future<bool> promptForChannelGateIfNeeded({
   String? guildId,
   ChannelType? channelType,
 }) async {
-  final MatureContentGateReason reason = await container.read(
-    matureContentGateReasonProvider(channelId).future,
+  final bool gateRequired = await container.read(
+    shouldShowMatureContentGateProvider(channelId).future,
   );
-  if (reason == MatureContentGateReason.none) {
+  if (!gateRequired) {
     return true;
   }
   if (context == null || !context.mounted) {

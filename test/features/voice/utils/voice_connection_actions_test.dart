@@ -12,6 +12,8 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
+import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_connection_actions.dart';
@@ -292,6 +294,25 @@ void main() {
       expect(result, VoiceJoinResult.succeeded);
       expect(voiceSession.connectCallCount, 1);
     });
+
+    testWidgets('does not join when a content warning gate is required', (
+      WidgetTester tester,
+    ) async {
+      final _RecordingGateway gateway = _RecordingGateway();
+      final _RecordingVoiceSession voiceSession = _RecordingVoiceSession();
+      addTearDown(gateway.dispose);
+
+      final VoiceJoinResult? result = await _runJoinFromHarness(
+        tester,
+        gateway: gateway,
+        voiceSession: voiceSession,
+        gateReason: MatureContentGateReason.consentRequired,
+      );
+
+      expect(result, VoiceJoinResult.gated);
+      expect(voiceSession.connectCallCount, 0);
+      expect(gateway.voiceStateUpdates, isEmpty);
+    });
   });
 }
 
@@ -311,11 +332,12 @@ Future<VoiceJoinResult?> _runJoinFromHarness(
   WidgetTester tester, {
   required _RecordingGateway gateway,
   required _RecordingVoiceSession voiceSession,
-  required Future<void> Function(WidgetTester tester) afterModalOpens,
+  Future<void> Function(WidgetTester tester)? afterModalOpens,
   Map<String, VoiceState>? initialVoiceStates,
   void Function(WidgetRef ref, GatewayVoiceStateUpdate update)?
   onVoiceStateUpdate,
   bool popBranchAfterModalOpens = false,
+  MatureContentGateReason gateReason = MatureContentGateReason.none,
 }) async {
   final GlobalKey<NavigatorState> branchNavigatorKey =
       GlobalKey<NavigatorState>();
@@ -334,6 +356,7 @@ Future<VoiceJoinResult?> _runJoinFromHarness(
     gateway: gateway,
     voiceSession: voiceSession,
     branchNavigatorKey: branchNavigatorKey,
+    gateReason: gateReason,
     onRefCaptured: (WidgetRef ref) => capturedRef = ref,
     onJoinPressed: (WidgetRef ref, BuildContext branchContext) {
       unawaited(
@@ -361,7 +384,9 @@ Future<VoiceJoinResult?> _runJoinFromHarness(
     await tester.pumpAndSettle();
   }
 
-  await afterModalOpens(tester);
+  if (afterModalOpens != null) {
+    await afterModalOpens(tester);
+  }
   return resultCompleter.future;
 }
 
@@ -372,6 +397,7 @@ Future<void> _pumpJoinHarness(
   GlobalKey<NavigatorState>? branchNavigatorKey,
   void Function(WidgetRef ref)? onRefCaptured,
   void Function(WidgetRef ref, BuildContext branchContext)? onJoinPressed,
+  MatureContentGateReason gateReason = MatureContentGateReason.none,
 }) async {
   final GlobalKey<NavigatorState> branchKey =
       branchNavigatorKey ?? GlobalKey<NavigatorState>();
@@ -383,6 +409,9 @@ Future<void> _pumpJoinHarness(
         gatewayConnectionProvider.overrideWithValue(gateway),
         currentUserIdProvider.overrideWithValue(_userId),
         voiceSessionProvider.overrideWith(() => voiceSession),
+        shouldShowMatureContentGateProvider(
+          _channelId,
+        ).overrideWith((ref) => gateReason != MatureContentGateReason.none),
       ],
       child: MaterialApp(
         navigatorKey: rootNavigatorKey,
