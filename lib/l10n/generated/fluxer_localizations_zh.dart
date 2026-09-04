@@ -636,6 +636,10 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get errorUnableToSignIn => '暂时无法登录。请重试。';
 
   @override
+  String get errorServiceUnavailable =>
+      'This instance is temporarily unavailable. Try again in a moment.';
+
+  @override
   String get errorInvalidEmailOrPassword => '电子邮件或密码无效。';
 
   @override

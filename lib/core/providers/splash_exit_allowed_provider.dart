@@ -23,6 +23,9 @@ class SplashRevealComplete extends _$SplashRevealComplete {
   bool build() => true;
 
   void complete() {
+    if (!ref.mounted) {
+      return;
+    }
     state = true;
   }
 

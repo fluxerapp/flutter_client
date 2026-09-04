@@ -666,6 +666,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Αδύνατη η σύνδεση αυτήν τη στιγμή. Δοκιμάστε ξανά.';
 
   @override
+  String get errorServiceUnavailable =>
+      'This instance is temporarily unavailable. Try again in a moment.';
+
+  @override
   String get errorInvalidEmailOrPassword =>
       'Μη έγκυρο email ή κωδικός πρόσβασης.';
 

@@ -640,6 +640,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get errorUnableToSignIn => '지금 로그인할 수 없습니다. 다시 시도해 주세요.';
 
   @override
+  String get errorServiceUnavailable =>
+      'This instance is temporarily unavailable. Try again in a moment.';
+
+  @override
   String get errorInvalidEmailOrPassword => '잘못된 이메일 또는 비밀번호입니다.';
 
   @override

@@ -668,6 +668,10 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
       'Anmeldung derzeit nicht möglich. Bitte versuche es erneut.';
 
   @override
+  String get errorServiceUnavailable =>
+      'This instance is temporarily unavailable. Try again in a moment.';
+
+  @override
   String get errorInvalidEmailOrPassword =>
       'Ungültige E-Mail-Adresse oder Passwort.';
 

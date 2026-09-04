@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/api/service_unavailable.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/deep_links/deep_link_handler.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
@@ -191,6 +192,15 @@ class AppStartup extends _$AppStartup {
           await database.authSessionDao.markInvalid(session.userId);
           session = await authRepository.getActiveSession();
           continue;
+        }
+        if (isHttpServiceUnavailable(e)) {
+          debugPrint('[AppStartup] Service unavailable: $e');
+          if (!ref.mounted) {
+            return;
+          }
+          ref.read(authStateProvider.notifier).setAuthenticated(value: true);
+          ref.read(currentUserIdProvider.notifier).set(session.userId);
+          throw ServiceUnavailableException(statusCode: e.response?.statusCode);
         }
         debugPrint('[AppStartup] Server unreachable: $e');
         break;

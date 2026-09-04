@@ -662,6 +662,10 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get errorUnableToSignIn => 'Kunde inte logga in just nu. Försök igen.';
 
   @override
+  String get errorServiceUnavailable =>
+      'This instance is temporarily unavailable. Try again in a moment.';
+
+  @override
   String get errorInvalidEmailOrPassword =>
       'Ogiltig e-postadress eller lösenord.';
 

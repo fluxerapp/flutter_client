@@ -191,6 +191,25 @@ void main() {
     expect(state.errorMessage, isNull);
   });
 
+  test('a service-unavailable failure uses the outage error type', () async {
+    final container = _containerFor(
+      const AuthFailure(
+        'This instance is temporarily unavailable.',
+        kind: AuthFailureKind.serviceUnavailable,
+      ),
+    );
+    container.read(loginViewModelProvider.notifier)
+      ..updateEmail('user@example.com')
+      ..updatePassword('secret');
+
+    await container.read(loginViewModelProvider.notifier).login();
+
+    final state = container.read(loginViewModelProvider);
+    expect(state.errorType, LoginError.serviceUnavailable);
+    expect(state.fieldErrors, isEmpty);
+    expect(state.errorMessage, isNull);
+  });
+
   test('a field validation failure keeps per-field errors', () async {
     final container = _containerFor(
       const AuthFailure(

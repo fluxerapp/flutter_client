@@ -1,10 +1,18 @@
+import 'dart:typed_data';
+
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/api/service_unavailable.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
 import 'package:fluxer_app/core/providers/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/well_known_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/features/auth/data/auth_token_storage.dart';
+import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_dart/export.dart';
 
 import '../../helpers/open_test_database.dart';
@@ -113,7 +121,7 @@ void main() {
           }
           return AppRuntimeInfo(
             appName: 'Fluxer',
-            packageName: 'app.fluxer.test',
+            packageName: 'com.fluxer',
             version: '1.0.0',
             buildNumber: '1',
             environment: AppBuildConfig.environment,
@@ -168,4 +176,76 @@ void main() {
       );
     },
   );
+
+  test('503 on getCurrentUser is a ServiceUnavailableException', () async {
+    final db = openTestDatabase();
+    final MapAuthTokenStorage tokens = MapAuthTokenStorage();
+    await db.authSessionDao.saveSessionMetadata(userId: 'user-1');
+    await tokens.saveToken(userId: 'user-1', token: 'token-1');
+
+    final Dio dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+      ..httpClientAdapter = const _UsersMeAdapter(statusCode: 503);
+
+    final container = ProviderContainer(
+      retry: (int retryCount, Object error) => null,
+      overrides: [
+        fluxerDatabaseProvider.overrideWithValue(db),
+        wellKnownProvider.overrideWith(_FakeWellKnown.new),
+        appRuntimeInfoProvider.overrideWith((Ref ref) => _testRuntimeInfo),
+        authTokenStorageProvider.overrideWithValue(tokens),
+        fluxerClientProvider.overrideWithValue(
+          FluxerClient(dio, baseUrl: 'https://api.fluxer.app/v1'),
+        ),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    await expectLater(
+      container.read(appStartupProvider.future),
+      throwsA(isA<ServiceUnavailableException>()),
+    );
+    expect(container.read(appStartupProvider), isA<AsyncError<void>>());
+    expect(
+      (container.read(appStartupProvider) as AsyncError<void>).error,
+      isA<ServiceUnavailableException>(),
+    );
+    expect(container.read(authStateProvider), isTrue);
+    expect(container.read(currentUserIdProvider), 'user-1');
+    expect(container.read(fluxerAuthTokenProvider), 'token-1');
+  });
+}
+
+final AppRuntimeInfo _testRuntimeInfo = AppRuntimeInfo(
+  appName: 'Fluxer',
+  packageName: 'com.fluxer',
+  version: '1.0.0',
+  buildNumber: '1',
+  environment: AppBuildConfig.environment,
+  pushProvider: AppBuildConfig.pushProvider,
+  buildTimestamp: '',
+);
+
+class _UsersMeAdapter implements HttpClientAdapter {
+  const _UsersMeAdapter({this.statusCode});
+
+  final int? statusCode;
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    return ResponseBody.fromString(
+      'unavailable',
+      statusCode ?? 503,
+      statusMessage: 'Service Unavailable',
+      headers: <String, List<String>>{
+        Headers.contentTypeHeader: <String>['text/html'],
+      },
+    );
+  }
+
+  @override
+  void close({bool force = false}) {}
 }

@@ -666,6 +666,10 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
       'No se ha podido iniciar sesión en este momento. Inténtalo de nuevo.';
 
   @override
+  String get errorServiceUnavailable =>
+      'This instance is temporarily unavailable. Try again in a moment.';
+
+  @override
   String get errorInvalidEmailOrPassword =>
       'Correo electrónico o contraseña no válidos.';
 
