@@ -156,20 +156,23 @@ Future<void> openGuildChannelContent({
     return;
   }
 
-  final bool canProceed = await promptForChannelGateIfNeeded(
-    context: context,
-    container: ref.container,
-    channelId: channel.id,
-    guildId: guildId,
-    channelType: channel.type,
-  );
-  if (!context.mounted || !canProceed) {
-    return;
+  final bool isVoiceChannel = channel.type == ChannelType.guildVoice;
+  if (!isVoiceChannel) {
+    final bool canProceed = await promptForChannelGateIfNeeded(
+      context: context,
+      container: ref.container,
+      channelId: channel.id,
+      guildId: guildId,
+      channelType: channel.type,
+    );
+    if (!context.mounted || !canProceed) {
+      return;
+    }
   }
 
   final VoiceSessionState voiceSession = ref.read(voiceSessionProvider);
   final bool isInCurrentVoiceChannel =
-      channel.type == ChannelType.guildVoice &&
+      isVoiceChannel &&
       voiceSession.isInVoice &&
       voiceSession.guildId == guildId &&
       voiceSession.channelId == channel.id;
@@ -192,7 +195,24 @@ Future<void> openGuildChannelContent({
     navigateToContentViaContainer(ref.container, chatPath);
   }
 
-  if (channel.type == ChannelType.guildVoice && isMobileLayout(context)) {
+  Future<void> joinAndOpen({
+    bool initialSelfMute = false,
+    bool initialSelfDeaf = false,
+  }) async {
+    final VoiceJoinResult joinResult = await joinVoiceChannelWithConfirmation(
+      ref: ref,
+      context: context,
+      guildId: guildId,
+      channelId: channel.id,
+      initialSelfMute: initialSelfMute,
+      initialSelfDeaf: initialSelfDeaf,
+    );
+    if (joinResult.shouldOpenChannel) {
+      recordAndNavigate();
+    }
+  }
+
+  if (isVoiceChannel && isMobileLayout(context)) {
     if (isInCurrentVoiceChannel) {
       recordAndNavigate();
       return;
@@ -209,6 +229,16 @@ Future<void> openGuildChannelContent({
     }
     switch (joinResult) {
       case VoiceChannelJoinOpenChat():
+        final bool canProceed = await promptForChannelGateIfNeeded(
+          context: context,
+          container: ref.container,
+          channelId: channel.id,
+          guildId: guildId,
+          channelType: channel.type,
+        );
+        if (!context.mounted || !canProceed) {
+          return;
+        }
         ref
             .read(recentChannelVisitsProvider.notifier)
             .recordVisit(channelId: channel.id, guildId: guildId);
@@ -227,23 +257,15 @@ Future<void> openGuildChannelContent({
         :final initialSelfMute,
         :final initialSelfDeaf,
       ):
-        final VoiceJoinResult joinResult =
-            await joinVoiceChannelWithConfirmation(
-              ref: ref,
-              context: context,
-              guildId: guildId,
-              channelId: channel.id,
-              initialSelfMute: initialSelfMute,
-              initialSelfDeaf: initialSelfDeaf,
-            );
-        if (joinResult == VoiceJoinResult.succeeded) {
-          recordAndNavigate();
-        }
+        await joinAndOpen(
+          initialSelfMute: initialSelfMute,
+          initialSelfDeaf: initialSelfDeaf,
+        );
     }
     return;
   }
 
-  if (channel.type == ChannelType.guildVoice && !isInCurrentVoiceChannel) {
+  if (isVoiceChannel && !isInCurrentVoiceChannel) {
     final bool voiceChannelJoinRequiresDoubleClick = ref.read(
       advancedPreferencesProvider.select(
         (state) => state.voiceChannelJoinRequiresDoubleClick,
@@ -256,15 +278,7 @@ Future<void> openGuildChannelContent({
       return;
     }
     if (eligibility.canJoin && !voiceChannelJoinRequiresDoubleClick) {
-      final VoiceJoinResult joinResult = await joinVoiceChannelWithConfirmation(
-        ref: ref,
-        context: context,
-        guildId: guildId,
-        channelId: channel.id,
-      );
-      if (joinResult == VoiceJoinResult.succeeded) {
-        recordAndNavigate();
-      }
+      await joinAndOpen();
       return;
     }
   }
