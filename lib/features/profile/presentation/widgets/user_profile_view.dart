@@ -765,6 +765,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
               userId: profile.id,
               hash: profile.avatar,
               size: MediaProxySizes.avatarProfile,
+              animated: true,
             ),
             avatarColor: profile.avatarColor,
             bannerColor: resolveGuildProfileBannerColor(
