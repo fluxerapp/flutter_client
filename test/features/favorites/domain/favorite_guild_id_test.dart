@@ -24,4 +24,17 @@ void main() {
       );
     });
   });
+
+  group('isFavoriteDmGuildId', () {
+    test('treats missing and @me ids as direct messages', () {
+      expect(isFavoriteDmGuildId(null), isTrue);
+      expect(isFavoriteDmGuildId(''), isTrue);
+      expect(isFavoriteDmGuildId('  '), isTrue);
+      expect(isFavoriteDmGuildId(favoriteDmGuildId), isTrue);
+    });
+
+    test('treats real guild ids as communities', () {
+      expect(isFavoriteDmGuildId('guild-1'), isFalse);
+    });
+  });
 }
