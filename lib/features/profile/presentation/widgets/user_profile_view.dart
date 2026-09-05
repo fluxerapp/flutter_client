@@ -106,6 +106,11 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     onCloseRequested();
   }
 
+  void _openProfileTabMenu() {
+    FluxerHaptics.medium();
+    unawaited(ProfileTabMenuSheet.show(context, ref));
+  }
+
   Future<void> _handleMessage(
     String userId,
     bool isBlocked,
@@ -397,20 +402,15 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                   Positioned(
                     left: layout.s4,
                     top: _kBannerHeight - _kAvatarOverlap,
-                    child: Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: colors.backgroundPrimary,
-                      ),
-                      child: FluxerAvatar.userPresence(
-                        fallbackText: displayName,
-                        userId: userId,
-                        imageUrl: avatarUrl,
-                        avatarColor: avatarColor,
-                        showStatus: !isWebhook,
-                        size: _kAvatarSize,
-                      ),
+                    child: _ProfileIdentityAvatar(
+                      userId: userId,
+                      displayName: displayName,
+                      avatarUrl: avatarUrl,
+                      avatarColor: avatarColor,
+                      showStatus: !isWebhook,
+                      onTap: widget.useCurrentUserCache
+                          ? _openProfileTabMenu
+                          : null,
                     ),
                   ),
                   if (!isWebhook)
@@ -554,10 +554,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                   isBot: isBot || isWebhook,
                   isSystem: isSystem,
                   onDisplayNameTap: widget.useCurrentUserCache
-                      ? () {
-                          FluxerHaptics.medium();
-                          unawaited(ProfileTabMenuSheet.show(context, ref));
-                        }
+                      ? _openProfileTabMenu
                       : null,
                 ),
                 if (!isWebhook) ...[
@@ -1017,6 +1014,50 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
           timezoneOffset: response.timezoneOffset,
         );
       },
+    );
+  }
+}
+
+class _ProfileIdentityAvatar extends StatelessWidget {
+  const _ProfileIdentityAvatar({
+    required this.userId,
+    required this.displayName,
+    required this.avatarUrl,
+    required this.avatarColor,
+    required this.showStatus,
+    this.onTap,
+  });
+
+  final String userId;
+  final String displayName;
+  final String? avatarUrl;
+  final int? avatarColor;
+  final bool showStatus;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final Widget avatar = Container(
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: context.colors.backgroundPrimary,
+      ),
+      child: FluxerAvatar.userPresence(
+        fallbackText: displayName,
+        userId: userId,
+        imageUrl: avatarUrl,
+        avatarColor: avatarColor,
+        showStatus: showStatus,
+        size: _kAvatarSize,
+      ),
+    );
+    if (onTap == null) {
+      return avatar;
+    }
+    return FluxerTappable(
+      onTap: onTap,
+      builder: (BuildContext context, Set<WidgetState> states) => avatar,
     );
   }
 }
