@@ -37,6 +37,7 @@ Future<EmojiTextEditingController> _pumpBioField(
   VoidCallback? onApplied,
   Widget Function(TextEditingController controller, FocusNode focusNode)?
   childBuilder,
+  Widget Function(Widget field)? layout,
   double? width,
 }) async {
   final controller = EmojiTextEditingController();
@@ -57,11 +58,14 @@ Future<EmojiTextEditingController> _pumpBioField(
         childBuilder?.call(controller, focusNode) ??
         TextField(controller: controller, focusNode: focusNode),
   );
-  final Widget body = width == null
+  Widget body = width == null
       ? field
       : Center(
           child: SizedBox(width: width, child: field),
         );
+  if (layout != null) {
+    body = layout(field);
+  }
 
   await tester.pumpWidget(
     ProviderScope(
@@ -341,4 +345,47 @@ void main() {
       expect(find.text('Linux Hub'), findsOneWidget);
     },
   );
+
+  testWidgets('overlay autocomplete stays below the top safe inset', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(400, 800);
+    tester.view.devicePixelRatio = 1;
+    tester.view.padding = const FakeViewPadding(top: 50);
+    tester.view.viewPadding = const FakeViewPadding(top: 50);
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    addTearDown(tester.view.resetPadding);
+    addTearDown(tester.view.resetViewPadding);
+
+    final db = openTestDatabase();
+    await _pumpBioField(
+      tester,
+      db: db,
+      custom: <GuildEmojiEntry>[
+        for (int i = 0; i < 10; i++)
+          GuildEmojiEntry(
+            id: 'e$i',
+            name: 'test$i',
+            animated: false,
+            guildId: 'g1',
+          ),
+      ],
+      layout: (Widget field) => Column(
+        children: <Widget>[const Spacer(), field, const SizedBox(height: 24)],
+      ),
+    );
+
+    await tester.enterText(find.byType(TextField), ':test');
+    await _settleAutocomplete(tester);
+
+    expect(_fieldState(tester).hasOpenMenu, isTrue);
+    final Rect panelRect = tester.getRect(
+      find.byType(ComposerAutocompletePanelBody),
+    );
+    expect(
+      panelRect.top,
+      greaterThanOrEqualTo(50 + kComposerAutocompletePanelSafeGap - 0.5),
+    );
+  });
 }

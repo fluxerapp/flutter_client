@@ -61,9 +61,7 @@ class ComposerAutocompleteFieldState
   String? _panelHeading;
   bool _gifEmpty = false;
 
-  final LayerLink _layerLink = LayerLink();
   final OverlayPortalController _overlayController = OverlayPortalController();
-  final GlobalKey _targetKey = GlobalKey();
   final ScrollController _scrollController = ScrollController();
   late final AnimationController _animationController;
   late final Animation<double> _fadeAnimation;
@@ -1927,15 +1925,25 @@ class ComposerAutocompleteFieldState
 
   bool get hasOpenMenu => _rows.isNotEmpty || _gifEmpty;
 
-  Widget _buildOverlay(BuildContext context) {
+  Widget _buildOverlay(BuildContext context, OverlayChildLayoutInfo info) {
     if (_rows.isEmpty && !_gifEmpty) {
       return const SizedBox.shrink();
     }
-    final RenderBox? renderBox =
-        _targetKey.currentContext?.findRenderObject() as RenderBox?;
-    final double targetWidth = (renderBox?.hasSize ?? false)
-        ? renderBox!.size.width
-        : double.infinity;
+    final Rect target = MatrixUtils.transformRect(
+      info.childPaintTransform,
+      Offset.zero & info.childSize,
+    );
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+    final ({bool openAbove, double maxHeight}) placement =
+        composerAutocompleteOverlayPlacement(
+          target: target,
+          overlaySize: info.overlaySize,
+          topSafePadding: mediaQuery.padding.top,
+          bottomSafePadding: math.max(
+            mediaQuery.padding.bottom,
+            mediaQuery.viewInsets.bottom,
+          ),
+        );
     return Stack(
       children: <Widget>[
         Positioned.fill(
@@ -1945,18 +1953,20 @@ class ComposerAutocompleteFieldState
             child: const ColoredBox(color: Colors.transparent),
           ),
         ),
-        CompositedTransformFollower(
-          link: _layerLink,
-          followerAnchor: Alignment.bottomLeft,
+        Positioned(
+          left: target.left,
+          width: target.width,
+          top: placement.openAbove ? null : target.bottom,
+          bottom: placement.openAbove
+              ? info.overlaySize.height - target.top
+              : null,
           child: FadeTransition(
             opacity: _fadeAnimation,
             child: TextFieldTapRegion(
-              child: SizedBox(
-                width: targetWidth,
-                child: ComposerAutocompletePanelBody(
-                  snap: _panelSnapshot(),
-                  scrollController: _scrollController,
-                ),
+              child: ComposerAutocompletePanelBody(
+                snap: _panelSnapshot(),
+                scrollController: _scrollController,
+                maxHeight: placement.maxHeight,
               ),
             ),
           ),
@@ -1971,20 +1981,14 @@ class ComposerAutocompleteFieldState
     if (_usesInStackPanel) {
       return widget.child;
     }
-    return OverlayPortal(
+    return OverlayPortal.overlayChildLayoutBuilder(
       controller: _overlayController,
       overlayChildBuilder: _buildOverlay,
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           final double maxW = constraints.maxWidth;
           final bool hasWidth = maxW.isFinite && maxW > 0;
-          return SizedBox(
-            width: hasWidth ? maxW : null,
-            child: CompositedTransformTarget(
-              link: _layerLink,
-              child: KeyedSubtree(key: _targetKey, child: widget.child),
-            ),
-          );
+          return SizedBox(width: hasWidth ? maxW : null, child: widget.child);
         },
       ),
     );

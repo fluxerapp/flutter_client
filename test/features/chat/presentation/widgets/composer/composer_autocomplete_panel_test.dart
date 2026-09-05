@@ -32,7 +32,56 @@ Widget _app(Widget child, {List<Override> overrides = const <Override>[]}) {
   );
 }
 
+List<ComposerAutocompletePanelRow> _rows(
+  int count, {
+  ValueChanged<int>? onTap,
+}) {
+  return List<ComposerAutocompletePanelRow>.generate(
+    count,
+    (int i) => ComposerAutocompletePanelRow(
+      title: ':row$i:',
+      onTap: () => onTap?.call(i),
+      emojiSurrogates: '\u{1F604}',
+    ),
+  );
+}
+
 void main() {
+  test('panel max height caps at the default and at available space', () {
+    expect(
+      composerAutocompletePanelMaxHeight(availableHeight: 800),
+      kComposerAutocompletePanelMaxHeight,
+    );
+    expect(composerAutocompletePanelMaxHeight(availableHeight: 180), 180);
+    expect(composerAutocompletePanelMaxHeight(availableHeight: -10), 0);
+    expect(
+      composerAutocompletePanelMaxHeight(availableHeight: double.infinity),
+      kComposerAutocompletePanelMaxHeight,
+    );
+  });
+
+  test('overlay placement prefers the side with more room inside insets', () {
+    final ({bool openAbove, double maxHeight}) above =
+        composerAutocompleteOverlayPlacement(
+          target: const Rect.fromLTWH(0, 500, 100, 48),
+          overlaySize: const Size(400, 800),
+          topSafePadding: 47,
+          bottomSafePadding: 34,
+        );
+    expect(above.openAbove, isTrue);
+    expect(above.maxHeight, 500 - 47 - kComposerAutocompletePanelSafeGap);
+
+    final ({bool openAbove, double maxHeight}) below =
+        composerAutocompleteOverlayPlacement(
+          target: const Rect.fromLTWH(0, 80, 100, 48),
+          overlaySize: const Size(400, 400),
+          topSafePadding: 47,
+          bottomSafePadding: 34,
+        );
+    expect(below.openAbove, isFalse);
+    expect(below.maxHeight, 400 - 128 - 34 - kComposerAutocompletePanelSafeGap);
+  });
+
   testWidgets('unicode emoji row renders the glyph and the :name: label', (
     tester,
   ) async {
@@ -200,5 +249,100 @@ void main() {
     expect(find.text('GIFs'), findsOneWidget);
     expect(find.text('No GIFs found'), findsOneWidget);
     expect(find.text('Try another search term'), findsOneWidget);
+  });
+
+  testWidgets('panel strip stays inside a short stack', (tester) async {
+    final host = ComposerAutocompletePanelHost(null);
+    addTearDown(host.dispose);
+    final scrollController = ScrollController();
+    addTearDown(scrollController.dispose);
+    const Key stackKey = Key('autocomplete-stack');
+
+    await tester.pumpWidget(
+      _app(
+        SizedBox(
+          key: stackKey,
+          width: 320,
+          height: 180,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: <Widget>[
+              ComposerAutocompletePanelLayer(
+                host: host,
+                scrollController: scrollController,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    host.value = ComposerAutocompletePanelSnapshot(
+      rows: _rows(20),
+      selectedIndex: 0,
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 250));
+
+    final Rect stackRect = tester.getRect(find.byKey(stackKey));
+    final Rect panelRect = tester.getRect(
+      find.byType(ComposerAutocompletePanelBody),
+    );
+    expect(panelRect.top, greaterThanOrEqualTo(stackRect.top));
+    expect(panelRect.height, lessThanOrEqualTo(stackRect.height));
+    expect(panelRect.height, lessThan(kComposerAutocompletePanelMaxHeight));
+  });
+
+  testWidgets('panel absorbs taps over widgets stacked behind it', (
+    tester,
+  ) async {
+    final host = ComposerAutocompletePanelHost(null);
+    addTearDown(host.dispose);
+    final scrollController = ScrollController();
+    addTearDown(scrollController.dispose);
+    var behindTaps = 0;
+    var rowTaps = 0;
+
+    await tester.pumpWidget(
+      _app(
+        SizedBox(
+          width: 320,
+          height: 400,
+          child: Stack(
+            children: <Widget>[
+              Positioned.fill(
+                child: GestureDetector(
+                  onTap: () => behindTaps++,
+                  child: const ColoredBox(color: Color(0xFFFF0000)),
+                ),
+              ),
+              ComposerAutocompletePanelLayer(
+                host: host,
+                scrollController: scrollController,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    host.value = ComposerAutocompletePanelSnapshot(
+      rows: _rows(8, onTap: (_) => rowTaps++),
+      selectedIndex: 0,
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 250));
+
+    final Rect panelRect = tester.getRect(
+      find.byType(ComposerAutocompletePanelBody),
+    );
+    await tester.tapAt(panelRect.topCenter);
+    await tester.pump();
+    expect(behindTaps, 0);
+
+    await tester.tap(find.text(':row0:'));
+    await tester.pump();
+    expect(rowTaps, 1);
+    expect(behindTaps, 0);
   });
 }

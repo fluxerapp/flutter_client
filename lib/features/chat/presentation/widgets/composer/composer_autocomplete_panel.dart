@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
@@ -9,6 +11,7 @@ import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double kComposerAutocompletePanelMaxHeight = 490;
+const double kComposerAutocompletePanelSafeGap = 8;
 const double kComposerAutocompleteScrollRowStride = 48;
 const double _kAutocompleteBorderRadius = 8;
 const double _kAutocompleteScrollerVerticalPadding = 8;
@@ -26,6 +29,34 @@ const double _kAutocompleteGifTileWidth = 192;
 const double _kAutocompleteGifTileHeight = 128;
 const double _kAutocompleteGifContainerHeight = 192;
 const Duration _kAutocompletePanelExpandDuration = Duration(milliseconds: 220);
+
+double composerAutocompletePanelMaxHeight({required double availableHeight}) {
+  return math.max(
+    0,
+    math.min(kComposerAutocompletePanelMaxHeight, availableHeight),
+  );
+}
+
+({bool openAbove, double maxHeight}) composerAutocompleteOverlayPlacement({
+  required Rect target,
+  required Size overlaySize,
+  required double topSafePadding,
+  required double bottomSafePadding,
+}) {
+  final double above = composerAutocompletePanelMaxHeight(
+    availableHeight:
+        target.top - topSafePadding - kComposerAutocompletePanelSafeGap,
+  );
+  final double below = composerAutocompletePanelMaxHeight(
+    availableHeight:
+        overlaySize.height -
+        target.bottom -
+        bottomSafePadding -
+        kComposerAutocompletePanelSafeGap,
+  );
+  final bool openAbove = above >= below;
+  return (openAbove: openAbove, maxHeight: openAbove ? above : below);
+}
 
 typedef ComposerAutocompletePanelHost =
     ValueNotifier<ComposerAutocompletePanelSnapshot?>;
@@ -131,6 +162,13 @@ class ComposerAutocompletePanelStrip extends StatelessWidget {
                   final double width = constraints.maxWidth.isFinite
                       ? constraints.maxWidth
                       : MediaQuery.sizeOf(context).width;
+                  final double availableHeight = constraints.maxHeight.isFinite
+                      ? constraints.maxHeight
+                      : MediaQuery.sizeOf(context).height -
+                            MediaQuery.paddingOf(context).top;
+                  final double maxHeight = composerAutocompletePanelMaxHeight(
+                    availableHeight: availableHeight,
+                  );
                   return ClipRect(
                     child: AnimatedSize(
                       duration: _kAutocompletePanelExpandDuration,
@@ -142,6 +180,7 @@ class ComposerAutocompletePanelStrip extends StatelessWidget {
                               child: ComposerAutocompletePanelBody(
                                 snap: snap,
                                 scrollController: scrollController,
+                                maxHeight: maxHeight,
                               ),
                             )
                           : SizedBox(width: width, height: 0),
@@ -155,15 +194,42 @@ class ComposerAutocompletePanelStrip extends StatelessWidget {
   }
 }
 
+/// Bottom-aligned [Stack] child with a bounded height.
+class ComposerAutocompletePanelLayer extends StatelessWidget {
+  const ComposerAutocompletePanelLayer({
+    required this.host,
+    required this.scrollController,
+    super.key,
+  });
+
+  final ComposerAutocompletePanelHost host;
+  final ScrollController scrollController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned.fill(
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: ComposerAutocompletePanelStrip(
+          host: host,
+          scrollController: scrollController,
+        ),
+      ),
+    );
+  }
+}
+
 class ComposerAutocompletePanelBody extends StatelessWidget {
   const ComposerAutocompletePanelBody({
     required this.snap,
     required this.scrollController,
+    this.maxHeight = kComposerAutocompletePanelMaxHeight,
     super.key,
   });
 
   final ComposerAutocompletePanelSnapshot snap;
   final ScrollController scrollController;
+  final double maxHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -172,108 +238,114 @@ class ComposerAutocompletePanelBody extends StatelessWidget {
     return Semantics(
       container: true,
       label: FluxerLocalizations.of(context).composerAutocompleteSuggestions,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: panelBg,
-          borderRadius: BorderRadius.circular(_kAutocompleteBorderRadius),
-          border: Border.all(color: accent),
-          boxShadow: const <BoxShadow>[
-            BoxShadow(
-              color: Color(0x3D000000),
-              offset: Offset(0, 8),
-              blurRadius: 16,
-            ),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(_kAutocompleteBorderRadius),
-          child: Material(
+      child: Listener(
+        behavior: HitTestBehavior.opaque,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
             color: panelBg,
-            shadowColor: Colors.transparent,
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxHeight: kComposerAutocompletePanelMaxHeight,
+            borderRadius: BorderRadius.circular(_kAutocompleteBorderRadius),
+            border: Border.all(color: accent),
+            boxShadow: const <BoxShadow>[
+              BoxShadow(
+                color: Color(0x3D000000),
+                offset: Offset(0, 8),
+                blurRadius: 16,
               ),
-              child: snap.gifEmpty || snap.gifs.isNotEmpty
-                  ? ComposerAutocompleteGifGrid(
-                      gifs: snap.gifs,
-                      selectedIndex: snap.selectedIndex,
-                      empty: snap.gifEmpty,
-                    )
-                  : ListView.separated(
-                      controller: scrollController,
-                      padding: const EdgeInsets.symmetric(
-                        vertical: _kAutocompleteScrollerVerticalPadding,
-                      ),
-                      shrinkWrap: true,
-                      itemCount:
-                          snap.rows.length + (snap.heading != null ? 1 : 0),
-                      separatorBuilder: (BuildContext _, int index) {
-                        if (snap.heading != null && index == 0) {
-                          return const SizedBox.shrink();
-                        }
-                        return const SizedBox(height: _kAutocompleteRowGap);
-                      },
-                      itemBuilder: (BuildContext _, int i) {
-                        if (snap.heading != null) {
-                          if (i == 0) {
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(_kAutocompleteBorderRadius),
+            child: Material(
+              color: panelBg,
+              shadowColor: Colors.transparent,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: maxHeight),
+                child: snap.gifEmpty || snap.gifs.isNotEmpty
+                    ? ComposerAutocompleteGifGrid(
+                        gifs: snap.gifs,
+                        selectedIndex: snap.selectedIndex,
+                        empty: snap.gifEmpty,
+                      )
+                    : ListView.separated(
+                        controller: scrollController,
+                        padding: const EdgeInsets.symmetric(
+                          vertical: _kAutocompleteScrollerVerticalPadding,
+                        ),
+                        shrinkWrap: true,
+                        itemCount:
+                            snap.rows.length + (snap.heading != null ? 1 : 0),
+                        separatorBuilder: (BuildContext _, int index) {
+                          if (snap.heading != null && index == 0) {
+                            return const SizedBox.shrink();
+                          }
+                          return const SizedBox(height: _kAutocompleteRowGap);
+                        },
+                        itemBuilder: (BuildContext _, int i) {
+                          if (snap.heading != null) {
+                            if (i == 0) {
+                              return Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                  12,
+                                  4,
+                                  12,
+                                  4,
+                                ),
+                                child: Text(
+                                  snap.heading!.toUpperCase(),
+                                  style: context.textStyles.timestamp.copyWith(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: context.colors.textPrimaryMuted,
+                                    letterSpacing: 0,
+                                  ),
+                                ),
+                              );
+                            }
+                            i -= 1;
+                          }
+                          final ComposerAutocompletePanelRow row = snap.rows[i];
+                          if (row.isDivider) {
+                            return Divider(
+                              height: 1,
+                              thickness: 1,
+                              color: context.colors.backgroundModifierHover,
+                            );
+                          }
+                          if (row.isSectionHeading) {
                             return Padding(
                               padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
                               child: Text(
-                                snap.heading!.toUpperCase(),
+                                row.title.toUpperCase(),
                                 style: context.textStyles.timestamp.copyWith(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
                                   color: context.colors.textPrimaryMuted,
-                                  letterSpacing: 0,
                                 ),
                               ),
                             );
                           }
-                          i -= 1;
-                        }
-                        final ComposerAutocompletePanelRow row = snap.rows[i];
-                        if (row.isDivider) {
-                          return Divider(
-                            height: 1,
-                            thickness: 1,
-                            color: context.colors.backgroundModifierHover,
+                          final int selectedIndex = snap.selectedIndex;
+                          return ComposerAutocompletePanelListTile(
+                            title: row.title,
+                            isSelected: i == selectedIndex,
+                            onTap: row.onTap,
+                            subtitle: row.subtitle,
+                            titleColor: row.titleColor,
+                            channelRowType: row.channelRowType,
+                            userAvatarUserId: row.userAvatarUserId,
+                            userAvatarImageUrl: row.userAvatarImageUrl,
+                            userAvatarFallbackText: row.userAvatarFallbackText,
+                            userAvatarColor: row.userAvatarColor,
+                            userAvatarStatus: row.userAvatarStatus,
+                            emojiSurrogates: row.emojiSurrogates,
+                            emojiImageUrl: row.emojiImageUrl,
+                            emojiCacheKey: row.emojiCacheKey,
+                            mediaPreviewUrl: row.mediaPreviewUrl,
+                            mediaPreviewCacheKey: row.mediaPreviewCacheKey,
                           );
-                        }
-                        if (row.isSectionHeading) {
-                          return Padding(
-                            padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
-                            child: Text(
-                              row.title.toUpperCase(),
-                              style: context.textStyles.timestamp.copyWith(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: context.colors.textPrimaryMuted,
-                              ),
-                            ),
-                          );
-                        }
-                        final int selectedIndex = snap.selectedIndex;
-                        return ComposerAutocompletePanelListTile(
-                          title: row.title,
-                          isSelected: i == selectedIndex,
-                          onTap: row.onTap,
-                          subtitle: row.subtitle,
-                          titleColor: row.titleColor,
-                          channelRowType: row.channelRowType,
-                          userAvatarUserId: row.userAvatarUserId,
-                          userAvatarImageUrl: row.userAvatarImageUrl,
-                          userAvatarFallbackText: row.userAvatarFallbackText,
-                          userAvatarColor: row.userAvatarColor,
-                          userAvatarStatus: row.userAvatarStatus,
-                          emojiSurrogates: row.emojiSurrogates,
-                          emojiImageUrl: row.emojiImageUrl,
-                          emojiCacheKey: row.emojiCacheKey,
-                          mediaPreviewUrl: row.mediaPreviewUrl,
-                          mediaPreviewCacheKey: row.mediaPreviewCacheKey,
-                        );
-                      },
-                    ),
+                        },
+                      ),
+              ),
             ),
           ),
         ),
