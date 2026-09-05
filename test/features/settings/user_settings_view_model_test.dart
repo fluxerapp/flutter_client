@@ -129,6 +129,42 @@ void main() {
       );
     });
 
+    test('animated hashes preview as animated media, fixes #737', () {
+      final state = _baseSettings(
+        avatar: 'a_global_avatar',
+        banner: 'a_global_banner',
+      );
+
+      expect(
+        state.previewAvatarUrl,
+        contains('/avatars/1/a_global_avatar.gif?animated=true'),
+      );
+      expect(
+        state.previewBannerUrl,
+        contains('/banners/1/a_global_banner.gif?animated=true'),
+      );
+      expect(state.avatarUrl, contains('/avatars/1/global_avatar.webp'));
+
+      final guildState = _baseSettings(
+        avatar: 'a_global_avatar',
+        banner: 'a_global_banner',
+        selectedGuildId: '10',
+        guildAvatar: 'a_guild_avatar',
+        guildBanner: 'a_guild_banner',
+        guildAvatarMode: GuildAssetMode.custom,
+        guildBannerMode: GuildAssetMode.custom,
+      );
+
+      expect(
+        guildState.previewAvatarUrl,
+        contains('/guilds/10/users/1/avatars/a_guild_avatar.gif?animated=true'),
+      );
+      expect(
+        guildState.previewBannerUrl,
+        contains('/guilds/10/users/1/banners/a_guild_banner.gif?animated=true'),
+      );
+    });
+
     test('guild inherit mode falls back to global assets', () {
       final state = _baseSettings(
         avatar: 'global_avatar',
