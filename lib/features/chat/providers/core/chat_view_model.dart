@@ -2762,11 +2762,6 @@ class ChatViewModel extends _$ChatViewModel {
         return;
       }
 
-      // Around page missing the requested anchor: the server was not centred
-      // where we asked, so the page shape cannot seal the older edge. Newer
-      // still comes from the pointer consult - a missing anchor already makes
-      // aroundPageReachesLiveTail false (detached), and pointer equality can
-      // still prove the live tail (deleted/filtered ack near the present).
       final bool aroundTargetMissing =
           effectiveAroundMessageId != null &&
           !page.messages.any(
@@ -2848,9 +2843,8 @@ class ChatViewModel extends _$ChatViewModel {
       );
       // AFTER the commit, and only here: the probe pages forward from the window
       // this install just published, so firing it before the commit would have
-      // it fetch from whatever the window used to end on. A missing around
-      // target leaves the older edge open without a trustworthy shape to probe.
-      if (newerConsult.needsTailProbe && !aroundTargetMissing) {
+      // it fetch from whatever the window used to end on.
+      if (newerConsult.needsTailProbe) {
         _confirmProvisionalTail(channelId);
       }
       if (targetMessageId == null) {
@@ -5772,8 +5766,6 @@ class ChatViewModel extends _$ChatViewModel {
               ),
               origin: MessagesOrigin.windowSwap,
             ),
-            // Missing around target: keep the older edge open. Newer comes
-            // from the pointer consult (detached when the anchor is absent).
             hasMoreMessages:
                 aroundTargetMissing || page.messages.length >= _kPageSize,
             hasMoreNewerMessages: hasMoreNewer,
@@ -5800,7 +5792,7 @@ class ChatViewModel extends _$ChatViewModel {
         messages: state.messages,
         embeddedReplyParents: page.embeddedReplyParents,
       );
-      if (newerConsult.needsTailProbe && !aroundTargetMissing) {
+      if (newerConsult.needsTailProbe) {
         _confirmProvisionalTail(channelId);
       }
       scrollToMessage(messageId);
