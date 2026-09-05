@@ -536,6 +536,10 @@ void main() {
         response: Response(
           requestOptions: RequestOptions(path: '/users/@me/settings'),
           statusCode: 429,
+          headers: Headers.fromMap(<String, List<String>>{
+            'retry-after': <String>['5'],
+          }),
+          data: <String, dynamic>{'retry_after': 5},
         ),
       );
 
