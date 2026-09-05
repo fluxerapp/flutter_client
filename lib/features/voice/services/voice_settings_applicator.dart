@@ -1,10 +1,13 @@
+import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_noise_filter_provider.dart';
 import 'package:fluxer_app/features/voice/utils/camera_resolution_presets.dart';
 import 'package:fluxer_app/features/voice/utils/screen_share_presets.dart';
+import 'package:fluxer_app/features/voice/utils/voice_audio_publish_options.dart';
 import 'package:fluxer_app/features/voice/utils/voice_callkit_policy.dart';
 import 'package:fluxer_app/features/voice/utils/voice_camera_platform.dart';
 import 'package:fluxer_app/features/voice/utils/voice_processing_profile.dart';
+import 'package:fluxer_app/features/voice/utils/voice_volume_utils.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -15,12 +18,19 @@ class VoiceSettingsApplicator {
 
   final bool noiseFilterSupported;
 
-  RoomOptions buildRoomOptions(VoiceSettingsState settings) {
+  RoomOptions buildRoomOptions(
+    VoiceSettingsState settings, {
+    int? channelBitrate,
+  }) {
     final ResolvedVoiceProcessing processing = resolveVoiceProcessing(
       settings: settings,
       noiseFilterSupported: noiseFilterSupported,
     );
     final String? audioDeviceId = _resolveDeviceId(settings.inputDeviceId);
+    final AudioPublishOptions? audioPublish = buildMicrophonePublishOptions(
+      channelBitrate: channelBitrate,
+      processingMode: settings.voiceProcessingMode,
+    );
     return RoomOptions(
       dynacast: true,
       defaultAudioCaptureOptions: AudioCaptureOptions(
@@ -28,7 +38,9 @@ class VoiceSettingsApplicator {
         echoCancellation: processing.echoCancellation,
         noiseSuppression: processing.noiseSuppression,
         autoGainControl: processing.autoGainControl,
+        voiceIsolation: false,
       ),
+      defaultAudioPublishOptions: audioPublish ?? const AudioPublishOptions(),
       defaultCameraCaptureOptions: cameraCaptureOptionsFor(
         resolution: settings.cameraResolution,
         deviceId: settings.videoDeviceId,
@@ -51,6 +63,7 @@ class VoiceSettingsApplicator {
       echoCancellation: processing.echoCancellation,
       noiseSuppression: processing.noiseSuppression,
       autoGainControl: processing.autoGainControl,
+      voiceIsolation: false,
     );
   }
 
@@ -75,6 +88,139 @@ class VoiceSettingsApplicator {
         .getTrackPublicationBySource(TrackSource.microphone);
     final LocalTrack? track = publication?.track;
     return track is LocalAudioTrack ? track : null;
+  }
+
+  Future<void> applyInputVolumeToMicrophone({
+    required LocalParticipant participant,
+    required int inputVolumePercent,
+  }) async {
+    final LocalAudioTrack? track = _microphoneTrack(participant);
+    if (track == null) {
+      return;
+    }
+    try {
+      await Helper.setVolume(
+        inputVoiceVolumePercentToGain(inputVolumePercent),
+        track.mediaStreamTrack,
+      );
+    } on Object {
+      return;
+    }
+  }
+
+  Future<void> applyMicrophonePublishSettings({
+    required Room room,
+    required VoiceSettingsState settings,
+    int? channelBitrate,
+  }) async {
+    final LocalParticipant? participant = room.localParticipant;
+    if (participant == null) {
+      return;
+    }
+    final LocalAudioTrack? track = _microphoneTrack(participant);
+    final RTCRtpSender? sender = track?.sender;
+    if (sender == null) {
+      return;
+    }
+    final AudioPublishOptions? publishOptions = buildMicrophonePublishOptions(
+      channelBitrate: channelBitrate,
+      processingMode: settings.voiceProcessingMode,
+    );
+    final int? maxBitrate = publishOptions?.encoding?.maxBitrate;
+    if (maxBitrate == null) {
+      return;
+    }
+    final RTCRtpParameters parameters = sender.parameters;
+    final List<RTCRtpEncoding> encodings = List<RTCRtpEncoding>.from(
+      parameters.encodings ?? const <RTCRtpEncoding>[],
+    );
+    if (encodings.isEmpty) {
+      encodings.add(RTCRtpEncoding(maxBitrate: maxBitrate));
+    } else {
+      final bool alreadyApplied = encodings.every(
+        (RTCRtpEncoding encoding) => encoding.maxBitrate == maxBitrate,
+      );
+      if (alreadyApplied) {
+        return;
+      }
+      for (final RTCRtpEncoding encoding in encodings) {
+        encoding.maxBitrate = maxBitrate;
+      }
+    }
+    parameters.encodings = encodings;
+    try {
+      await sender.setParameters(parameters);
+    } on Object {
+      return;
+    }
+  }
+
+  Future<void> setMicrophoneEnabled({
+    required Room room,
+    required VoiceSettingsState settings,
+    required bool enabled,
+    int? channelBitrate,
+  }) async {
+    final LocalParticipant? participant = room.localParticipant;
+    if (participant == null) {
+      return;
+    }
+    final AudioCaptureOptions captureOptions = buildAudioCaptureOptions(
+      settings,
+    );
+    final AudioPublishOptions? publishOptions = enabled
+        ? buildMicrophonePublishOptions(
+            channelBitrate: channelBitrate,
+            processingMode: settings.voiceProcessingMode,
+          )
+        : null;
+    await _withAudioPublishOptions(
+      room: room,
+      publishOptions: publishOptions,
+      action: () => participant.setMicrophoneEnabled(
+        enabled,
+        audioCaptureOptions: captureOptions,
+      ),
+    );
+    if (!enabled) {
+      return;
+    }
+    await attachNoiseFilterToMicrophone(
+      participant: participant,
+      settings: settings,
+    );
+    await applyInputVolumeToMicrophone(
+      participant: participant,
+      inputVolumePercent: settings.inputVolume,
+    );
+    await applyMicrophonePublishSettings(
+      room: room,
+      settings: settings,
+      channelBitrate: channelBitrate,
+    );
+  }
+
+  Future<T> _withAudioPublishOptions<T>({
+    required Room room,
+    required AudioPublishOptions? publishOptions,
+    required Future<T> Function() action,
+  }) async {
+    if (publishOptions == null) {
+      return action();
+    }
+    final RoomOptions roomOptions = room.roomOptions;
+    // setMicrophoneEnabled has no publishOptions param.
+    // ignore: invalid_use_of_internal_member
+    room.engine.roomOptions = roomOptions.copyWith(
+      defaultAudioPublishOptions: publishOptions,
+    );
+    try {
+      return await action();
+    } finally {
+      // LiveKit internal API.
+      // ignore: invalid_use_of_internal_member
+      room.engine.roomOptions = roomOptions;
+    }
   }
 
   CameraCaptureOptions buildCameraCaptureOptions(VoiceSettingsState settings) {
@@ -128,6 +274,9 @@ class VoiceSettingsApplicator {
     room.engine.roomOptions = roomOptions.copyWith(
       defaultVideoPublishOptions: publishOptions,
       defaultScreenShareCaptureOptions: captureOptions,
+      defaultAudioPublishOptions: captureScreenAudio
+          ? kScreenShareAudioPublishOptions
+          : roomOptions.defaultAudioPublishOptions,
     );
     try {
       await participant.setScreenShareEnabled(
@@ -179,6 +328,7 @@ class VoiceSettingsApplicator {
   Future<void> refreshMicrophoneAfterRouteChange({
     required Room room,
     required VoiceSettingsState settings,
+    int? channelBitrate,
   }) async {
     final LocalParticipant? participant = room.localParticipant;
     if (participant == null) {
@@ -193,12 +343,22 @@ class VoiceSettingsApplicator {
         participant: participant,
         settings: settings,
       );
+      await applyInputVolumeToMicrophone(
+        participant: participant,
+        inputVolumePercent: settings.inputVolume,
+      );
+      await applyMicrophonePublishSettings(
+        room: room,
+        settings: settings,
+        channelBitrate: channelBitrate,
+      );
       return;
     }
     await refreshMicrophone(
       room: room,
       settings: settings,
       microphoneEnabled: true,
+      channelBitrate: channelBitrate,
     );
   }
 
@@ -206,6 +366,7 @@ class VoiceSettingsApplicator {
     required Room room,
     required VoiceSettingsState settings,
     required bool microphoneEnabled,
+    int? channelBitrate,
   }) async {
     final LocalParticipant? participant = room.localParticipant;
     if (participant == null) {
@@ -215,17 +376,17 @@ class VoiceSettingsApplicator {
     if (!microphoneEnabled) {
       return;
     }
-    await participant.setMicrophoneEnabled(
-      false,
-      audioCaptureOptions: buildAudioCaptureOptions(settings),
-    );
-    await participant.setMicrophoneEnabled(
-      true,
-      audioCaptureOptions: buildAudioCaptureOptions(settings),
-    );
-    await attachNoiseFilterToMicrophone(
-      participant: participant,
+    await setMicrophoneEnabled(
+      room: room,
       settings: settings,
+      enabled: false,
+      channelBitrate: channelBitrate,
+    );
+    await setMicrophoneEnabled(
+      room: room,
+      settings: settings,
+      enabled: true,
+      channelBitrate: channelBitrate,
     );
   }
 

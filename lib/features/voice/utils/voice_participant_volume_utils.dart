@@ -25,13 +25,10 @@ double resolveParticipantTrackVolume({
   required int participantVolumePercent,
   required int outputVolumePercent,
 }) {
-  final double participantGain = boostedVoiceVolumePercentToTrackVolume(
+  return composedBoostedVoiceTrackVolume(<int>[
     participantVolumePercent,
-  );
-  final double outputGain = boostedVoiceVolumePercentToTrackVolume(
     outputVolumePercent,
-  );
-  return participantGain * outputGain;
+  ]);
 }
 
 Future<void> applyParticipantVolumeToTrack({
@@ -43,8 +40,29 @@ Future<void> applyParticipantVolumeToTrack({
     participantVolumePercent: participantVolumePercent,
     outputVolumePercent: outputVolumePercent,
   );
-  final MediaStreamTrack mediaTrack = track.mediaStreamTrack;
-  await Helper.setVolume(volume, mediaTrack);
+  await Helper.setVolume(volume, track.mediaStreamTrack);
+}
+
+Future<void> applyParticipantVolumeToParticipant({
+  required RemoteParticipant participant,
+  required int participantVolumePercent,
+  required int outputVolumePercent,
+}) async {
+  for (final RemoteTrackPublication publication
+      in participant.audioTrackPublications) {
+    if (publication.source != TrackSource.microphone) {
+      continue;
+    }
+    final Track? publishedTrack = publication.track;
+    if (publishedTrack is! RemoteAudioTrack) {
+      continue;
+    }
+    await applyParticipantVolumeToTrack(
+      track: publishedTrack,
+      participantVolumePercent: participantVolumePercent,
+      outputVolumePercent: outputVolumePercent,
+    );
+  }
 }
 
 Future<void> applyParticipantVolumeToRoom({
@@ -63,21 +81,11 @@ Future<void> applyParticipantVolumeToRoom({
     )) {
       continue;
     }
-    for (final RemoteTrackPublication publication
-        in participant.audioTrackPublications) {
-      if (publication.source != TrackSource.microphone) {
-        continue;
-      }
-      final Track? publishedTrack = publication.track;
-      if (publishedTrack is! RemoteAudioTrack) {
-        continue;
-      }
-      await applyParticipantVolumeToTrack(
-        track: publishedTrack,
-        participantVolumePercent: participantVolumePercent,
-        outputVolumePercent: outputVolumePercent,
-      );
-    }
+    await applyParticipantVolumeToParticipant(
+      participant: participant,
+      participantVolumePercent: participantVolumePercent,
+      outputVolumePercent: outputVolumePercent,
+    );
   }
 }
 
@@ -86,14 +94,22 @@ Future<void> applyAllParticipantVolumesToRoom({
   required Map<String, int> participantVolumes,
   required int outputVolumePercent,
 }) async {
-  if (room == null || participantVolumes.isEmpty) {
+  if (room == null) {
     return;
   }
-  for (final MapEntry<String, int> entry in participantVolumes.entries) {
-    await applyParticipantVolumeToRoom(
-      room: room,
-      userId: entry.key,
-      participantVolumePercent: entry.value,
+  for (final RemoteParticipant participant in room.remoteParticipants.values) {
+    final String? userId = parseUserIdFromParticipantIdentity(
+      participant.identity,
+    );
+    if (userId == null) {
+      continue;
+    }
+    await applyParticipantVolumeToParticipant(
+      participant: participant,
+      participantVolumePercent: defaultParticipantVolumeForUser(
+        participantVolumes: participantVolumes,
+        userId: userId,
+      ),
       outputVolumePercent: outputVolumePercent,
     );
   }

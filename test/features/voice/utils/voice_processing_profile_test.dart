@@ -4,6 +4,20 @@ import 'package:fluxer_app/features/voice/utils/voice_processing_profile.dart';
 
 void main() {
   group('resolveVoiceProcessing', () {
+    test(
+      'focused voice uses platform NS and AGC when the filter is missing',
+      () {
+        final ResolvedVoiceProcessing result = resolveVoiceProcessing(
+          settings: const VoiceSettingsState(),
+          noiseFilterSupported: false,
+        );
+        expect(result.useNoiseFilter, isFalse);
+        expect(result.echoCancellation, isTrue);
+        expect(result.noiseSuppression, isTrue);
+        expect(result.autoGainControl, isTrue);
+      },
+    );
+
     test('focused voice enables noise filter when supported', () {
       final ResolvedVoiceProcessing result = resolveVoiceProcessing(
         settings: const VoiceSettingsState(),

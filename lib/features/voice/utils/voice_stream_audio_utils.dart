@@ -6,9 +6,10 @@ double resolveStreamTrackVolume({
   required int streamVolumePercent,
   required int outputVolumePercent,
 }) {
-  return boostedVoiceVolumePercentToTrackVolume(
-    composeVoiceVolumePercent(<int>[streamVolumePercent, outputVolumePercent]),
-  );
+  return composedBoostedVoiceTrackVolume(<int>[
+    streamVolumePercent,
+    outputVolumePercent,
+  ]);
 }
 
 Future<void> applyStreamVolumeToTrack({

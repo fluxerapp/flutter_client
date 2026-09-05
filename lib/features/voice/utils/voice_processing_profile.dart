@@ -34,8 +34,8 @@ ResolvedVoiceProcessing resolveVoiceProcessing({
       return ResolvedVoiceProcessing(
         useNoiseFilter: noiseFilterSupported,
         echoCancellation: true,
-        noiseSuppression: false,
-        autoGainControl: false,
+        noiseSuppression: !noiseFilterSupported,
+        autoGainControl: !noiseFilterSupported,
       );
   }
 }

@@ -17,4 +17,18 @@ void main() {
       lessThan(boostedVoiceVolumePercentToTrackVolume(100)),
     );
   });
+
+  test('composeVoiceVolumePercent multiplies then clamps', () {
+    expect(composeVoiceVolumePercent(<int>[100, 100]), 100);
+    expect(composeVoiceVolumePercent(<int>[50, 50]), 25);
+    expect(composeVoiceVolumePercent(<int>[150, 150]), 200);
+    expect(composeVoiceVolumePercent(<int>[50, 100]), 50);
+  });
+
+  test('composedBoostedVoiceTrackVolume matches compose then boost', () {
+    expect(
+      composedBoostedVoiceTrackVolume(<int>[50, 50]),
+      closeTo(boostedVoiceVolumePercentToTrackVolume(25), 0.0001),
+    );
+  });
 }
