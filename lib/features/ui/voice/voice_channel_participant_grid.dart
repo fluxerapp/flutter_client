@@ -1644,10 +1644,11 @@ class _VoiceParticipantCard extends ConsumerWidget {
               children: <Widget>[
                 media,
                 Positioned.fill(
-                  child: VoiceSpeakingRingOverlay(
+                  child: VoiceSpeakingRingLayer(
                     enabled: ringEnabled,
                     identity: speakingIdentity,
                     sid: speakingSid,
+                    aroundAvatar: omitVideoTrack || !voice.selfVideo,
                   ),
                 ),
                 if (tileSource == VoiceParticipantTileSource.screenShare &&

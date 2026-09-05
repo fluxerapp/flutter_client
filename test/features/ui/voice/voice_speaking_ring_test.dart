@@ -67,4 +67,8 @@ void main() {
     expect(inner!.minWidth, 200);
     expect(inner!.minHeight, 120);
   });
+
+  test('avatar speaking ring is sized around the tile avatar', () {
+    expect(voiceSpeakingAvatarRingSize(200), 100 + kVoiceSpeakingRingWidth * 2);
+  });
 }
