@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.da
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/fluxer_sfx_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -1000,8 +1001,10 @@ class VoiceSession extends _$VoiceSession {
     final VoiceSettingsApplicator applicator = ref.read(
       voiceSettingsApplicatorProvider,
     );
+    final int? channelBitrate = await _bitrateForChannel(resolvedChannelId);
     final RoomOptions baseRoomOptions = applicator.buildRoomOptions(
       voiceSettings,
+      channelBitrate: channelBitrate,
     );
     final RoomOptions roomOptions = RoomOptions(
       adaptiveStream: baseRoomOptions.adaptiveStream,
@@ -1010,6 +1013,7 @@ class VoiceSession extends _$VoiceSession {
           ? E2EEOptions(keyProvider: keyProvider)
           : null,
       defaultAudioCaptureOptions: baseRoomOptions.defaultAudioCaptureOptions,
+      defaultAudioPublishOptions: baseRoomOptions.defaultAudioPublishOptions,
       defaultCameraCaptureOptions: baseRoomOptions.defaultCameraCaptureOptions,
       defaultScreenShareCaptureOptions:
           baseRoomOptions.defaultScreenShareCaptureOptions,
@@ -1853,19 +1857,10 @@ class VoiceSession extends _$VoiceSession {
       serverDeaf: current?.deaf ?? false,
     );
     final Room? room = _room;
-    final LocalParticipant? lp = room?.localParticipant;
-    if (lp != null && state.isConnected) {
+    if (room?.localParticipant != null && state.isConnected) {
       final bool micOn = audio.micShouldPublish && _canPublishAudioInChannel();
       try {
-        await lp.setMicrophoneEnabled(micOn);
-        if (micOn) {
-          await ref
-              .read(voiceSettingsApplicatorProvider)
-              .attachNoiseFilterToMicrophone(
-                participant: lp,
-                settings: ref.read(voiceSettingsProvider),
-              );
-        }
+        await _setSessionMicrophoneEnabled(enabled: micOn);
       } on Object catch (e) {
         if (isTrackPublishFailure(e)) {
           talker.warning('[Voice] setMicrophoneEnabled failed: $e');
@@ -2152,9 +2147,10 @@ class VoiceSession extends _$VoiceSession {
           _shouldPublishMicrophone()) {
         await _runAudioRouteRecoveryStep(
           'refreshMicrophone',
-          () => applicator.refreshMicrophoneAfterRouteChange(
+          () async => applicator.refreshMicrophoneAfterRouteChange(
             room: room!,
             settings: settings,
+            channelBitrate: await _currentChannelBitrate(),
           ),
         );
       }
@@ -2177,6 +2173,36 @@ class VoiceSession extends _$VoiceSession {
   bool _shouldPublishMicrophone() {
     final EffectiveAudioState audio = _effectiveAudioStateForSelfConnection();
     return audio.micShouldPublish && _canPublishAudioInChannel();
+  }
+
+  Future<int?> _currentChannelBitrate() {
+    return _bitrateForChannel(state.channelId ?? _expectedChannelId);
+  }
+
+  Future<int?> _bitrateForChannel(String? channelId) async {
+    if (channelId == null || channelId.isEmpty) {
+      return null;
+    }
+    final row = await ref
+        .read(fluxerDatabaseProvider)
+        .channelDao
+        .getChannelById(channelId);
+    return row?.bitrate;
+  }
+
+  Future<void> _setSessionMicrophoneEnabled({required bool enabled}) async {
+    final Room? room = state.liveKitRoom;
+    if (room == null) {
+      return;
+    }
+    await ref
+        .read(voiceSettingsApplicatorProvider)
+        .setMicrophoneEnabled(
+          room: room,
+          settings: ref.read(voiceSettingsProvider),
+          enabled: enabled,
+          channelBitrate: await _currentChannelBitrate(),
+        );
   }
 
   Future<void> _applyVoiceOutputRouting(VoiceSettingsState settings) async {
@@ -2227,6 +2253,8 @@ class VoiceSession extends _$VoiceSession {
         previous.echoCancellation != next.echoCancellation ||
         previous.noiseSuppression != next.noiseSuppression ||
         previous.autoGainControl != next.autoGainControl;
+    final bool inputVolumeChanged =
+        previous == null || previous.inputVolume != next.inputVolume;
     final bool cameraChanged =
         previous == null ||
         previous.videoDeviceId != next.videoDeviceId ||
@@ -2240,7 +2268,16 @@ class VoiceSession extends _$VoiceSession {
         room: room,
         settings: next,
         microphoneEnabled: micEnabled,
+        channelBitrate: await _currentChannelBitrate(),
       );
+    } else if (inputVolumeChanged) {
+      final LocalParticipant? participant = room.localParticipant;
+      if (participant != null) {
+        await applicator.applyInputVolumeToMicrophone(
+          participant: participant,
+          inputVolumePercent: next.inputVolume,
+        );
+      }
     }
     if (cameraChanged) {
       final VoiceState? vs = _selfConnectionVoiceState();
@@ -2381,6 +2418,9 @@ class VoiceSession extends _$VoiceSession {
     if (pending.isNotEmpty) {
       await Future.wait(pending);
     }
+    if (!deaf) {
+      await applyAllParticipantVolumes();
+    }
   }
 
   Future<void> _ensureLocalMicrophone({
@@ -2417,7 +2457,7 @@ class VoiceSession extends _$VoiceSession {
       return;
     }
     if (!_canPublishAudioInChannel()) {
-      await lp.setMicrophoneEnabled(false);
+      await _setSessionMicrophoneEnabled(enabled: false);
       final VoiceState? vs = _selfConnectionVoiceState();
       if (vs != null && !vs.selfMute) {
         await _applySelfVoiceState(
@@ -2434,7 +2474,7 @@ class VoiceSession extends _$VoiceSession {
       'effectiveMute=${audio.effectiveMute}',
     );
     if (!audio.micShouldPublish) {
-      await lp.setMicrophoneEnabled(false);
+      await _setSessionMicrophoneEnabled(enabled: false);
       return;
     }
     Object? lastError;
@@ -2443,13 +2483,7 @@ class VoiceSession extends _$VoiceSession {
         return;
       }
       try {
-        await lp.setMicrophoneEnabled(true);
-        await ref
-            .read(voiceSettingsApplicatorProvider)
-            .attachNoiseFilterToMicrophone(
-              participant: lp,
-              settings: ref.read(voiceSettingsProvider),
-            );
+        await _setSessionMicrophoneEnabled(enabled: true);
         if (state.errorMessage == kVoiceSessionErrorMicPublish) {
           state = state.copyWith(clearError: true);
         }
@@ -2471,7 +2505,7 @@ class VoiceSession extends _$VoiceSession {
       '[Voice] Microphone publish failed (staying in channel listen-only): '
       '$lastError',
     );
-    await lp.setMicrophoneEnabled(false);
+    await _setSessionMicrophoneEnabled(enabled: false);
     final VoiceState? current = _selfConnectionVoiceState();
     await _applySelfVoiceState(
       selfMute: true,
