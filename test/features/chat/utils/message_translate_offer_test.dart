@@ -19,6 +19,14 @@ void main() {
     });
   });
 
+  group('translatableMessageText', () {
+    test('drops custom emoji markup so only prose is judged', () {
+      expect(translatableMessageText('<:pepe:123> <a:dance:456>'), isEmpty);
+      expect(translatableMessageText('hello <:pepe:123>'), 'hello');
+      expect(translatableMessageText('  привет  '), 'привет');
+    });
+  });
+
   group('shouldOfferMessageTranslate', () {
     test('hides until detection finishes for latin text', () {
       expect(

@@ -49,7 +49,8 @@ class TranslatingMessageIds extends _$TranslatingMessageIds {
 }
 
 bool watchCanOfferMessageTranslate(WidgetRef ref, Message message) {
-  if (message.content.trim().isEmpty || message.hasValidTranslation) {
+  final String text = translatableMessageText(message.content);
+  if (text.isEmpty || message.hasValidTranslation) {
     return false;
   }
   if (!(ref.watch(messageTranslationAvailableProvider).value ?? false)) {
@@ -63,15 +64,12 @@ bool watchCanOfferMessageTranslate(WidgetRef ref, Message message) {
     return false;
   }
   final String appLanguage = ref.watch(effectiveAppLocaleProvider).languageCode;
-  final TranslateOfferHint hint = translateOfferHint(
-    message.content,
-    appLanguage,
-  );
+  final TranslateOfferHint hint = translateOfferHint(text, appLanguage);
   if (hint != TranslateOfferHint.detect) {
     return shouldOfferMessageTranslate(hint: hint, appLanguage: appLanguage);
   }
   final AsyncValue<String?> detected = ref.watch(
-    detectedMessageLanguageProvider(languageDetectionSample(message.content)),
+    detectedMessageLanguageProvider(languageDetectionSample(text)),
   );
   return shouldOfferMessageTranslate(
     hint: hint,
