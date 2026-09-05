@@ -1,14 +1,61 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/voice/providers/voice_active_speakers_provider.dart';
+import 'package:fluxer_app/features/voice/utils/voice_pip_snap.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 const Duration kVoiceSpeakingRingInDuration = Duration.zero;
 const Duration kVoiceSpeakingRingOutDuration = Duration(milliseconds: 200);
 const Duration kVoiceSpeakingRingOutDelay = Duration(milliseconds: 100);
 const double kVoiceSpeakingRingWidth = 2.5;
+
+double voiceSpeakingAvatarRingSize(double shortestSide) {
+  return voiceTileAvatarSize(shortestSide) + kVoiceSpeakingRingWidth * 2;
+}
+
+class VoiceSpeakingRingLayer extends StatelessWidget {
+  const VoiceSpeakingRingLayer({
+    required this.enabled,
+    required this.identity,
+    required this.aroundAvatar,
+    this.sid,
+    super.key,
+  });
+
+  final bool enabled;
+  final String identity;
+  final String? sid;
+  final bool aroundAvatar;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!enabled || identity.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    final Widget overlay = VoiceSpeakingRingOverlay(
+      enabled: true,
+      identity: identity,
+      sid: sid,
+      circular: aroundAvatar,
+    );
+    if (!aroundAvatar) {
+      return overlay;
+    }
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final double size = voiceSpeakingAvatarRingSize(
+          math.min(constraints.maxWidth, constraints.maxHeight),
+        );
+        return Center(
+          child: SizedBox(width: size, height: size, child: overlay),
+        );
+      },
+    );
+  }
+}
 
 class VoiceSpeakingRingOverlay extends ConsumerWidget {
   const VoiceSpeakingRingOverlay({
