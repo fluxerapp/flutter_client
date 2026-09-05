@@ -3030,7 +3030,9 @@ void main() {
   //   M-D  cached-pointer rung seals                         -> m16s
   //   M-E  detachedWindow rung deleted                       -> m16, m16j, m16n
   //   M-F  goToRepliedMessage hardcodes detachedWindow: true -> m16f
-  //   M-G  quota drops the anchor-present requirement        -> quota unit test
+  //   M-G  quota re-adds an anchor-present requirement     -> quota unit, m16w
+  //   M-G2 install sites gate the confirmation on the anchor being present
+  //        (the shipped code before m16w)                   -> m16w
   //   M-H  quota boundary <= instead of <                    -> quota unit, m16e,
   //        m16, m16j
   //   M-I  quota derives `limit` instead of `limit ~/ 2`     -> quota unit, m16e,
@@ -5325,6 +5327,75 @@ void main() {
           "the rescue's included - leaked to hold the boundary down. The "
           "second op's ack sits ABOVE the rescue ordinal, so a leaked "
           'rescueOrdinal (ledger M-AF) strands it at count 1',
+    );
+  });
+
+  test('m16w: an unread open whose ack row was deleted still reaches the live '
+      'tail', () async {
+    // 206 messages with 200 deleted server-side. Ack at 200, pointer at 203
+    // (the MESSAGE_DELETE rewind lands on the last cached row), real tail 205:
+    // the around page ends on 205 with five newer rows against a quota of 25.
+    final _GatedDatabase database = await seedChannel(
+      lastMessageId: _snowflakeForIndex(203),
+    );
+    await database.readStateDao.upsertReadState(
+      db.ReadStatesCompanion(
+        channelId: const Value(_channelId),
+        lastMessageId: Value(_snowflakeForIndex(200)),
+      ),
+    );
+    final adapter = _MessageApiAdapter(
+      messages: _channelMessages(206)
+        ..removeWhere((m) => m['id'] == _snowflakeForIndex(200)),
+    );
+    final container = _container(database, adapter);
+    addTearDown(container.dispose);
+
+    final notifier = container.read(chatViewModelProvider.notifier);
+    await notifier.switchChannel(_channelId);
+    await _flushAsync();
+
+    final ChatViewState landed = container.read(chatViewModelProvider);
+    expect(
+      adapter.aroundFetchCalls,
+      1,
+      reason: 'the unread open builds its window around the ack',
+    );
+    expect(
+      landed.messages.any((Message m) => m.id == _snowflakeForIndex(200)),
+      isFalse,
+      reason: 'the deleted ack row is not in the page',
+    );
+    expect(
+      landed.messages.last.id,
+      _snowflakeForIndex(205),
+      reason: 'the page ends on the newest message the server has',
+    );
+    expect(
+      adapter.latestFetchCalls,
+      1,
+      reason:
+          'the pointer sits behind the window, so the tail is provisional and '
+          'owes exactly one latest-page confirmation',
+    );
+    expect(
+      landed.hasMoreNewerMessages,
+      isFalse,
+      reason:
+          'the confirmation named 205 against our 205: this window holds the '
+          'live tail, deleted anchor or not',
+    );
+
+    final String liveId = _snowflakeForIndex(206);
+    adapter.messages.add(
+      _messageJson(id: liveId, channelId: _channelId, authorId: 'other'),
+    );
+    _emitCreated(container, id: liveId);
+    await _flushAsync();
+    expect(
+      container.read(chatViewModelProvider).messages.last.id,
+      liveId,
+      reason: 'a create adjacent to a live-tail window must APPEND, not vanish',
     );
   });
 

@@ -361,18 +361,28 @@ void main() {
           limit: 30,
         ),
         isFalse,
-        reason: 'a page that never carried the anchor makes no tail claim',
+        reason: 'an empty page has no newer side to read',
       );
       expect(
         aroundPageReachesLiveTail(
-          anchorId: idD,
-          page: <Message>[_message(idA), _message(idB)],
+          anchorId: idB,
+          page: <Message>[_message(idA), _message(idC)],
           limit: 30,
         ),
-        isFalse,
+        isTrue,
         reason:
-            'an anchor absent from the page was not the centre the server '
-            'used, so its shape cannot be read as a quota at all',
+            'a deleted anchor still splits the page where the server split '
+            'it: one newer row against a quota of 15 is the newer side '
+            'exhausted (m16w)',
+      );
+      expect(
+        aroundPageReachesLiveTail(
+          anchorId: idB,
+          page: <Message>[_message(idA), _message(idC), _message(idD)],
+          limit: 4,
+        ),
+        isFalse,
+        reason: 'and a missing anchor with a filled newer side is truncated',
       );
       expect(
         aroundPageReachesLiveTail(
