@@ -240,14 +240,9 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                           showSlowmode: showSlowmode,
                           onClose: onClose,
                         ),
-                        Positioned(
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          child: ComposerAutocompletePanelStrip(
-                            host: _composerAutocompletePanelHost,
-                            scrollController: _composerAutocompletePanelScroll,
-                          ),
+                        ComposerAutocompletePanelLayer(
+                          host: _composerAutocompletePanelHost,
+                          scrollController: _composerAutocompletePanelScroll,
                         ),
                       ],
                     ),
