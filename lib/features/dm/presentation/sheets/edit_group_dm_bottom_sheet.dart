@@ -13,7 +13,6 @@ class EditGroupDmBottomSheet {
       context,
       title: l10n.groupDmEditTitle,
       useRootNavigator: true,
-      initialChildSize: 0.85,
       builder:
           (
             BuildContext sheetContext,

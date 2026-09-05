@@ -32,7 +32,6 @@ class ChannelAddOverrideSheet {
       context,
       title: l10n.channelSettingsPermissionsAddOverride,
       useRootNavigator: true,
-      initialChildSize: 0.6,
       minChildSize: 0.35,
       builder:
           (

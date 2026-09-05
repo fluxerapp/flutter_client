@@ -925,7 +925,6 @@ class _ChannelTile extends ConsumerWidget {
       return FluxerBottomSheet.showScrollable<void>(
         context,
         title: channel.name,
-        initialChildSize: 0.5,
         minChildSize: 0.25,
         builder: (sheetContext, scrollController, close) {
           return channelMenuGroupsToBottomSheetContent(
@@ -1373,7 +1372,6 @@ class _CategoryHeader extends ConsumerWidget {
       return FluxerBottomSheet.showScrollable<void>(
         context,
         title: category.name,
-        initialChildSize: 0.5,
         minChildSize: 0.25,
         builder: (sheetContext, scrollController, close) {
           return categoryMenuGroupsToBottomSheetContent(

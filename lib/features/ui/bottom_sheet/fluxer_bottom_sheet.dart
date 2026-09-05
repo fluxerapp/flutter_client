@@ -61,6 +61,8 @@ class FluxerBottomSheetScope extends InheritedWidget {
 class FluxerBottomSheet {
   FluxerBottomSheet._();
 
+  static const double scrollableSheetSize = 0.9;
+
   /// Bottom inset to append to scrollable content inside a bottom sheet.
   static double scrollBottomPaddingOf(BuildContext context) {
     return FluxerBottomSheetScope.maybeOf(context)?.bottomScrollPadding ?? 0;
@@ -242,9 +244,9 @@ class FluxerBottomSheet {
     VoidCallback? onBack,
     bool showDragHandle = true,
     bool useRootNavigator = false,
-    double initialChildSize = 0.8,
+    double initialChildSize = scrollableSheetSize,
     double minChildSize = 0.4,
-    double maxChildSize = 0.8,
+    double maxChildSize = scrollableSheetSize,
     ValueNotifier<bool>? canDismissNotifier,
     double? maxHeight,
     bool disableTopPadding = false,

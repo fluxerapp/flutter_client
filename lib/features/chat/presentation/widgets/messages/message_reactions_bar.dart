@@ -37,7 +37,6 @@ Future<void> openReactionPickerSheet(
 }) {
   return FluxerEmojiPickerSheet.show(
     context,
-    maxHeight: 0.88,
     channelId: channelId,
     visibleTabs: const [ExpressionPickerTab.emojis],
     trackEmojiUsageOnSelect: false,

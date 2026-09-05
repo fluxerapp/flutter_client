@@ -641,7 +641,6 @@ class _ShareMediaSheetBodyState extends ConsumerState<_ShareMediaSheetBody> {
       FluxerEmojiPickerSheet.show(
         context,
         title: FluxerLocalizations.of(context).emojiPickerTitle,
-        maxHeight: 0.88,
         visibleTabs: const <ExpressionPickerTab>[ExpressionPickerTab.emojis],
         onEmojiSelected: (FluxerSelectedEmoji emoji) =>
             _messageController.insertEmoji(emoji.name, emoji.surrogates),

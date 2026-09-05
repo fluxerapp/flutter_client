@@ -22,7 +22,6 @@ Future<void> showMessageDebugSheet(
   return FluxerBottomSheet.showScrollable<void>(
     context,
     title: FluxerLocalizations.of(context).chatMessageDebugSheetTitle,
-    initialChildSize: 0.85,
     minChildSize: 0.5,
     builder: (sheetContext, scrollController, close) => _MessageDebugSheetBody(
       message: message,

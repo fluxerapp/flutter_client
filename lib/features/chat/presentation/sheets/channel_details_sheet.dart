@@ -189,7 +189,6 @@ Future<ChannelDetailsJumpRequest?> showChannelDetailsSheet(
 }) {
   return FluxerBottomSheet.showScrollable<ChannelDetailsJumpRequest>(
     context,
-    maxChildSize: 0.94,
     builder: (sheetContext, scrollController, close) => ChannelDetailsSheet(
       channel: channel,
       dm: dm,

@@ -20,8 +20,6 @@ class UserProfileMutualsSheet {
       context,
       title: _titleFor(context, initialType),
       useRootNavigator: true,
-      initialChildSize: 0.72,
-      maxChildSize: 0.9,
       builder: (sheetContext, scrollController, close) => _MutualsSheetBody(
         friends: friends,
         communities: communities,

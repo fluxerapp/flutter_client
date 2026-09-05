@@ -13,7 +13,6 @@ class BookmarksSheet {
       title: l10n.quickSwitcherBookmarksLabel,
       useRootNavigator: true,
       minChildSize: 0.5,
-      maxChildSize: 0.92,
       builder:
           (
             BuildContext sheetContext,

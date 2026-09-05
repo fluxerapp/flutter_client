@@ -21,8 +21,6 @@ class AddFriendsToGroupBottomSheet {
       title: l10n.createDmSelectFriends,
       useRootNavigator: true,
       minChildSize: 0.55,
-      maxChildSize: 0.92,
-      initialChildSize: 0.92,
       builder:
           (
             BuildContext sheetContext,

@@ -67,7 +67,6 @@ Future<void> showSystemMessageActionsSheet(
       unawaited(
         FluxerEmojiPickerSheet.show(
           context,
-          maxHeight: 0.88,
           channelId: message.channelId,
           visibleTabs: const [ExpressionPickerTab.emojis],
           trackEmojiUsageOnSelect: false,
