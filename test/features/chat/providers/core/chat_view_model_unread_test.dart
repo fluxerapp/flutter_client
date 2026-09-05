@@ -2614,7 +2614,7 @@ void main() {
   });
 
   test(
-    'a pointer ahead of the visible tail is not acked without orphan proof',
+    'a pointer ahead of the visible tail is acked without a probe (web parity)',
     () async {
       final db = openTestDatabase();
       final String priorId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
@@ -2648,10 +2648,8 @@ void main() {
       _setViewportActive(container, channelId: 'channel-1');
       await _flushAsync();
 
-      // The raced create: MessageWriteBatcher's pointer write lands before
-      // the message event is delivered, and the server's latest page already
-      // contains the raced row. The eligibility token still validates the
-      // OLD tail, so the ack may run - but it must not cover the raced row.
+      // Pointer ahead of the loaded tail with no local row: a probe that
+      // refused it left deleted-tail orphans unread forever (#520).
       await db.channelDao.upsertChannel(
         ChannelsCompanion.insert(
           id: 'channel-1',
@@ -2669,14 +2667,8 @@ void main() {
       await _flushAsync();
 
       final readState = await db.readStateDao.getReadState('channel-1');
-      expect(
-        readState?.lastMessageId,
-        tailId,
-        reason:
-            'the terminal probe finds the raced row, so the ack must fall '
-            'back to the tail this attempt actually validated',
-      );
-      expect(adapter.ackedMessageIds, [tailId]);
+      expect(readState?.lastMessageId, racedId);
+      expect(adapter.ackedMessageIds, [racedId]);
     },
   );
 

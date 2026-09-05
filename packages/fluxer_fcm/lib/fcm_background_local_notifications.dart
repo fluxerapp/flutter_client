@@ -4,8 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluxer_fcm/fcm_android_system_notification_cancel.dart';
-import 'package:fluxer_fcm/fcm_background_notification_tap_hooks.dart';
 import 'package:fluxer_fcm/fcm_background_notification_display.dart';
+import 'package:fluxer_fcm/fcm_background_notification_tap_hooks.dart';
+import 'package:fluxer_fcm/fcm_notification_clear_targets.dart';
 import 'package:fluxer_fcm/fcm_push_message.dart';
 import 'package:fluxer_fcm/fcm_push_notification_ids.dart';
 import 'package:fluxer_fcm/fcm_push_notification_sound.dart';
@@ -71,6 +72,20 @@ void _onBackgroundNotificationResponse(NotificationResponse response) {
   FcmBackgroundNotificationTapHooks.handleTap(response.payload);
 }
 
+Future<FlutterLocalNotificationsPlugin>
+resolveFcmBackgroundNotificationsPlugin() async {
+  try {
+    await ensureFcmBackgroundNotificationsReady();
+  } on Object catch (error, stackTrace) {
+    if (kDebugMode) {
+      debugPrint(
+        '[FcmBackgroundNotifications] ready failed: $error\n$stackTrace',
+      );
+    }
+  }
+  return _backgroundPlugin ?? FlutterLocalNotificationsPlugin();
+}
+
 Future<void> showFcmBackgroundNotification(FcmPushMessage message) async {
   if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) {
     return;
@@ -89,6 +104,7 @@ Future<void> showFcmBackgroundNotification(FcmPushMessage message) async {
   final Map<String, String> payloadWithMessageId = buildFcmBackgroundTapPayload(
     message,
   );
+  final String? channelTag = resolveFcmClearChannelTag(message.payload);
   final Iterable<String> messageIds = collectFcmCandidateMessageIds(
     messageId: message.id,
     payload: message.payload,
@@ -113,6 +129,7 @@ Future<void> showFcmBackgroundNotification(FcmPushMessage message) async {
               importance: Importance.high,
               priority: Priority.high,
               icon: kFcmBackgroundNotificationIcon,
+              tag: channelTag,
               sound: androidSound,
               playSound: androidSound != null,
             ),

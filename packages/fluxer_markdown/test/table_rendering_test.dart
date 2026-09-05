@@ -3,6 +3,7 @@ import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 import 'package:material_ui/material_ui.dart';
+import 'support/native_test_parser.dart';
 
 const Color _headerBackgroundColor = Color(0xFF112233);
 const Color _rowOddBackgroundColor = Color(0xFF223344);
@@ -56,6 +57,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: FluxerMarkdown(
+              astParser: parseTestMarkdownAst,
               data: input,
               config: _testMarkdownConfig,
               baseStyle: _baseStyle,
@@ -85,6 +87,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: FluxerMarkdown(
+              astParser: parseTestMarkdownAst,
               data: input,
               config: _testMarkdownConfig,
               baseStyle: _baseStyle,
@@ -114,6 +117,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: FluxerMarkdown(
+              astParser: parseTestMarkdownAst,
               data: input,
               config: _testMarkdownConfig,
               baseStyle: _baseStyle,
@@ -139,6 +143,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: FluxerMarkdown(
+              astParser: parseTestMarkdownAst,
               data: input,
               config: _testMarkdownConfig,
               baseStyle: _baseStyle,
@@ -175,6 +180,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: FluxerMarkdown(
+              astParser: parseTestMarkdownAst,
               data: input,
               config: _testMarkdownConfig,
               baseStyle: _baseStyle,
@@ -214,6 +220,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: FluxerMarkdown(
+              astParser: parseTestMarkdownAst,
               data: input,
               config: _testMarkdownConfig,
               context: FluxerMarkdownContext.restrictedEmbedDescription,
@@ -241,6 +248,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: FluxerMarkdown(
+              astParser: parseTestMarkdownAst,
               data: input,
               config: _testMarkdownConfig,
               baseStyle: _baseStyle,
@@ -277,6 +285,7 @@ void main() {
             body: SizedBox(
               width: 350,
               child: FluxerMarkdown(
+                astParser: parseTestMarkdownAst,
                 data: input,
                 config: _testMarkdownConfig,
                 baseStyle: _baseStyle,
@@ -316,6 +325,7 @@ void main() {
             body: SizedBox(
               width: 280,
               child: FluxerMarkdown(
+                astParser: parseTestMarkdownAst,
                 data: input,
                 config: _testMarkdownConfig,
                 baseStyle: _baseStyle,
@@ -348,6 +358,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: FluxerMarkdown(
+              astParser: parseTestMarkdownAst,
               data: input,
               config: _testMarkdownConfig,
               baseStyle: _baseStyle,
@@ -372,6 +383,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: FluxerMarkdown(
+              astParser: parseTestMarkdownAst,
               data: input,
               config: _testMarkdownConfig,
               baseStyle: _baseStyle,
@@ -412,6 +424,7 @@ void main() {
             body: SizedBox(
               width: 350,
               child: FluxerMarkdown(
+                astParser: parseTestMarkdownAst,
                 data: input,
                 config: _testMarkdownConfig,
                 baseStyle: _baseStyle,

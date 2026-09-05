@@ -90,20 +90,24 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get systemPermissionSettingsOpenSettings => 'Open settings';
 
   @override
-  String get systemPermissionMicrophoneMessage =>
-      'Fluxer doesn\'t have access to your microphone. You can enable it in your device privacy settings.';
+  String systemPermissionMicrophoneMessage(String productName) {
+    return '$productName doesn\'t have access to your microphone. You can enable it in your device privacy settings.';
+  }
 
   @override
-  String get systemPermissionCameraMessage =>
-      'Fluxer doesn\'t have access to your camera. You can enable it in your device privacy settings.';
+  String systemPermissionCameraMessage(String productName) {
+    return '$productName doesn\'t have access to your camera. You can enable it in your device privacy settings.';
+  }
 
   @override
-  String get systemPermissionPhotosMessage =>
-      'Fluxer doesn\'t have access to your photo library. You can enable it in your device privacy settings.';
+  String systemPermissionPhotosMessage(String productName) {
+    return '$productName doesn\'t have access to your photo library. You can enable it in your device privacy settings.';
+  }
 
   @override
-  String get systemPermissionNotificationsMessage =>
-      'Fluxer doesn\'t have permission to send notifications. You can enable it in your device settings.';
+  String systemPermissionNotificationsMessage(String productName) {
+    return '$productName doesn\'t have permission to send notifications. You can enable it in your device settings.';
+  }
 
   @override
   String nagbarPremiumGracePeriod(String productName, String graceDate) {
@@ -285,6 +289,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get back => 'ย้อนกลับ';
+
+  @override
+  String get next => 'Next';
 
   @override
   String get mfaTitle => 'การยืนยันตัวตนสองปัจจัย';
@@ -650,6 +657,10 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   @override
   String get errorUnableToSignIn =>
       'ไม่สามารถลงชื่อเข้าใช้ได้ในขณะนี้ โปรดลองอีกครั้ง';
+
+  @override
+  String get errorServiceUnavailable =>
+      'This instance is temporarily unavailable. Try again in a moment.';
 
   @override
   String get errorInvalidEmailOrPassword => 'อีเมลหรือรหัสผ่านไม่ถูกต้อง';
@@ -1433,6 +1444,12 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get gifPickerFavorites => 'รายการโปรด';
 
   @override
+  String get gifPickerFavoritesEmptyTitle => 'No favorite GIFs yet';
+
+  @override
+  String get gifPickerFavoritesEmptyDescription => 'Star a GIF to see it here.';
+
+  @override
   String get gifPickerTrending => 'GIF ยอดนิยม';
 
   @override
@@ -1509,7 +1526,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get externalLinkWarningTitle => 'คำเตือนลิงก์ภายนอก';
 
   @override
-  String get externalLinkWarningLeaving => 'คุณกำลังจะออกจาก Fluxer';
+  String externalLinkWarningLeaving(String productName) {
+    return 'คุณกำลังจะออกจาก $productName';
+  }
 
   @override
   String get externalLinkWarningDescription =>
@@ -1875,7 +1894,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get profilePreviewMessage => 'ข้อความ';
 
   @override
-  String get profilePreviewMemberSince => 'สมาชิก Fluxer ตั้งแต่';
+  String profilePreviewMemberSince(String productName) {
+    return 'สมาชิก $productName ตั้งแต่';
+  }
 
   @override
   String get unclaimedAccountTitle => 'บัญชีที่ยังไม่ถูกอ้างสิทธิ์';
@@ -1965,8 +1986,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get securityLoginEmailSectionTitle => 'การตั้งค่าอีเมล';
 
   @override
-  String get securityLoginEmailSectionDescription =>
-      'จัดการที่อยู่อีเมลที่คุณใช้ลงชื่อเข้าใช้ Fluxer';
+  String securityLoginEmailSectionDescription(String productName) {
+    return 'จัดการที่อยู่อีเมลที่คุณใช้ลงชื่อเข้าใช้ $productName';
+  }
 
   @override
   String get securityLoginEmailAddressLabel => 'ที่อยู่อีเมล';
@@ -2414,27 +2436,31 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get requiredActionTitle => 'Account verification required';
 
   @override
-  String get requiredActionIntroGeneric =>
-      'Complete the required verification to continue using Fluxer.';
+  String requiredActionIntroGeneric(String productName) {
+    return 'Complete the required verification to continue using $productName.';
+  }
 
   @override
   String get requiredActionIntroPhone =>
       'Your registration needs an extra anti-spam check before you can continue.';
 
   @override
-  String get requiredActionIntroEmailOrPhone =>
-      'Verify your email or phone to continue using Fluxer.';
+  String requiredActionIntroEmailOrPhone(String productName) {
+    return 'Verify your email or phone to continue using $productName.';
+  }
 
   @override
-  String get requiredActionIntroEmailAndPhone =>
-      'Complete the required email and phone verification steps below to continue using Fluxer.';
+  String requiredActionIntroEmailAndPhone(String productName) {
+    return 'Complete the required email and phone verification steps below to continue using $productName.';
+  }
 
   @override
   String get requiredActionChooseMethodTitle => 'Choose a verification method';
 
   @override
-  String get requiredActionChooseMethodDescription =>
-      'Complete one of the verification paths below to continue using Fluxer.';
+  String requiredActionChooseMethodDescription(String productName) {
+    return 'Complete one of the verification paths below to continue using $productName.';
+  }
 
   @override
   String get requiredActionUseEmail => 'Use email';
@@ -2621,14 +2647,92 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   }
 
   @override
+  String relativeTimeWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count weeks ago',
+      one: '1 week ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeInMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'in $count minutes',
+      one: 'in 1 minute',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeInHours(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'in $count hours',
+      one: 'in 1 hour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeInDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'in $count days',
+      one: 'in 1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeInWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'in $count weeks',
+      one: 'in 1 week',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeInMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'in $count months',
+      one: 'in 1 month',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeInYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'in $count years',
+      one: 'in 1 year',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get relativeTimeJustNow => 'เมื่อสักครู่';
 
   @override
   String get authorizedAppsTitle => 'แอปพลิเคชันที่ได้รับอนุญาต';
 
   @override
-  String get authorizedAppsDescription =>
-      'แอปพลิเคชันเหล่านี้ได้รับอนุญาตให้เข้าถึงบัญชี Fluxer ของคุณ';
+  String authorizedAppsDescription(String productName) {
+    return 'แอปพลิเคชันเหล่านี้ได้รับอนุญาตให้เข้าถึงบัญชี $productName ของคุณ';
+  }
 
   @override
   String get authorizedAppsEmptyTitle => 'ไม่มีแอปพลิเคชันที่ได้รับอนุญาต';
@@ -2737,31 +2841,49 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get userProfileEditProfile => 'แก้ไขโปรไฟล์';
 
   @override
-  String get userProfileStaffBadgeTooltip => 'ทีมงาน Fluxer';
-
-  @override
-  String get userProfileCtpBadgeTooltip => 'ทีมชุมชน Fluxer';
-
-  @override
-  String get userProfilePartnerBadgeTooltip => 'พันธมิตร Fluxer';
-
-  @override
-  String get userProfileBugHunterBadgeTooltip => 'ผู้ล่าบั๊ก Fluxer';
-
-  @override
-  String get userProfilePlutoniumBadgeTooltip => 'Fluxer Plutonium';
-
-  @override
-  String userProfilePlutoniumSubscriberSinceTooltip(String date) {
-    return 'สมาชิก Fluxer Plutonium ตั้งแต่ $date';
+  String userProfileStaffBadgeTooltip(String productName) {
+    return 'ทีมงาน $productName';
   }
 
   @override
-  String get userProfileVisionaryBadgeTooltip => 'Fluxer Visionary';
+  String userProfileCtpBadgeTooltip(String productName) {
+    return 'ทีมชุมชน $productName';
+  }
 
   @override
-  String userProfileVisionaryBadgeSinceTooltip(String date) {
-    return 'Fluxer Visionary ตั้งแต่ $date';
+  String userProfilePartnerBadgeTooltip(String productName) {
+    return 'พันธมิตร $productName';
+  }
+
+  @override
+  String userProfileBugHunterBadgeTooltip(String productName) {
+    return 'ผู้ล่าบั๊ก $productName';
+  }
+
+  @override
+  String userProfilePlutoniumBadgeTooltip(String productName) {
+    return '$productName Plutonium';
+  }
+
+  @override
+  String userProfilePlutoniumSubscriberSinceTooltip(
+    String productName,
+    String date,
+  ) {
+    return 'สมาชิก $productName Plutonium ตั้งแต่ $date';
+  }
+
+  @override
+  String userProfileVisionaryBadgeTooltip(String productName) {
+    return '$productName Visionary';
+  }
+
+  @override
+  String userProfileVisionaryBadgeSinceTooltip(
+    String productName,
+    String date,
+  ) {
+    return '$productName Visionary ตั้งแต่ $date';
   }
 
   @override
@@ -3982,8 +4104,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get connectionsTitle => 'การเชื่อมต่อ';
 
   @override
-  String get connectionsDescription =>
-      'เชื่อมโยงบัญชีและโดเมนภายนอกเข้ากับโปรไฟล์ Fluxer ของคุณ การเชื่อมต่อที่ยืนยันแล้วจะแสดงบนโปรไฟล์ของคุณเพื่อให้ผู้อื่นเห็น';
+  String connectionsDescription(String productName) {
+    return 'เชื่อมโยงบัญชีและโดเมนภายนอกเข้ากับโปรไฟล์ $productName ของคุณ การเชื่อมต่อที่ยืนยันแล้วจะแสดงบนโปรไฟล์ของคุณเพื่อให้ผู้อื่นเห็น';
+  }
 
   @override
   String get connectionsEmptyTitle => 'ยังไม่มีการเชื่อมต่อ';
@@ -4433,8 +4556,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get lookAndFeelCollapseDMsLabel => 'ยุบ DM เป็นโฟลเดอร์';
 
   @override
-  String get lookAndFeelCollapseDMsDescription =>
-      'เมื่อเปิดใช้งาน DM ที่ยังไม่ได้อ่านในแถบด้านข้างเซิร์ฟเวอร์จะถูกยุบเป็นโฟลเดอร์ในปุ่ม Fluxer คลิกปุ่ม Fluxer ขณะที่อยู่ในหน้า DM เพื่อขยายหรือยุบโฟลเดอร์';
+  String lookAndFeelCollapseDMsDescription(String productName) {
+    return 'เมื่อเปิดใช้งาน DM ที่ยังไม่ได้อ่านในแถบด้านข้างเซิร์ฟเวอร์จะถูกยุบเป็นโฟลเดอร์ในปุ่ม $productName คลิกปุ่ม $productName ขณะที่อยู่ในหน้า DM เพื่อขยายหรือยุบโฟลเดอร์';
+  }
 
   @override
   String get lookAndFeelChannelListSectionTitle => 'รายการช่อง';
@@ -4709,8 +4833,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'เมื่อโพสต์เป็นลิงก์ไปยังแชท';
 
   @override
-  String get messagesMediaDisplayInlineAttachmentLabel =>
-      'เมื่ออัปโหลดโดยตรงไปยัง Fluxer';
+  String messagesMediaDisplayInlineAttachmentLabel(String productName) {
+    return 'เมื่ออัปโหลดโดยตรงไปยัง $productName';
+  }
 
   @override
   String get messagesMediaLinkPreviewsSectionTitle => 'ตัวอย่างลิงก์';
@@ -4897,8 +5022,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get accessibilityScreenReaderGroupTitle => 'Screen reader';
 
   @override
-  String get accessibilityScreenReaderGroupDescription =>
-      'Control how Fluxer works with screen readers.';
+  String accessibilityScreenReaderGroupDescription(String productName) {
+    return 'Control how $productName works with screen readers.';
+  }
 
   @override
   String get accessibilityScreenReaderAnnounceNewMessagesLabel =>
@@ -6458,6 +6584,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get chatMessageCopyText => 'คัดลอกข้อความ';
 
   @override
+  String get chatMessageCopyEmbedText => 'Copy Embed Text';
+
+  @override
   String get chatMessageTranslate => 'Translate';
 
   @override
@@ -6710,8 +6839,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get iarReasonOtherLabel => 'การละเมิดกฎที่ชัดเจนอื่นๆ';
 
   @override
-  String get iarReasonOtherDescription =>
-      'ใช้เฉพาะเมื่อละเมิดกฎของ Fluxer อย่างชัดเจนและไม่เข้าข่ายข้างต้น';
+  String iarReasonOtherDescription(String productName) {
+    return 'ใช้เฉพาะเมื่อละเมิดกฎของ $productName อย่างชัดเจนและไม่เข้าข่ายข้างต้น';
+  }
 
   @override
   String iarUseChildSafetyInstead(String childSafetyReason) {
@@ -7327,6 +7457,45 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   @override
   String get addGuildCreateIconHint =>
       'PNG, JPEG, WebP, AVIF, HEIC, HEIF, JXL, SVG. Max 10MB. Recommended: 512×512px';
+
+  @override
+  String get addGuildImportDescription =>
+      'Paste a Discord template URL to import its structure into a new community.';
+
+  @override
+  String get addGuildImportUrlLabel => 'Template URL';
+
+  @override
+  String get addGuildImportUrlInvalid =>
+      'Enter a valid Discord template URL or code.';
+
+  @override
+  String get addGuildImportFetchFailed =>
+      'Failed to fetch the community template. The template may not exist or the external service is unavailable.';
+
+  @override
+  String get addGuildImportInvalidResponse =>
+      'This doesn\'t look like a valid template response.';
+
+  @override
+  String get addGuildImportTemplateLabel => 'Template';
+
+  @override
+  String addGuildImportTemplateStats(
+    int textChannelCount,
+    int voiceChannelCount,
+    int categoryCount,
+    int roleCount,
+  ) {
+    return '$textChannelCount text, $voiceChannelCount voice, $categoryCount categories, $roleCount roles';
+  }
+
+  @override
+  String get addGuildImportRemoveIcon => 'Remove icon';
+
+  @override
+  String get addGuildImportTemplateInvalid =>
+      'The community template data is invalid or malformed.';
 
   @override
   String get addGuildPackInstalled => 'ติดตั้งแพ็กสำเร็จแล้ว';
@@ -9721,16 +9890,18 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get advancedPerformanceReportingTitle => 'การรายงานประสิทธิภาพ';
 
   @override
-  String get advancedPerformanceReportingSectionDescription =>
-      'ช่วยปรับปรุง Fluxer ด้วยการแชร์ข้อมูลประสิทธิภาพและข้อมูลขัดข้องแบบไม่ระบุตัวตน';
+  String advancedPerformanceReportingSectionDescription(String productName) {
+    return 'ช่วยปรับปรุง $productName ด้วยการแชร์ข้อมูลประสิทธิภาพและข้อมูลขัดข้องแบบไม่ระบุตัวตน';
+  }
 
   @override
   String get advancedPerformanceReportingLabel =>
       'ส่งรายงานข้อขัดข้องและประสิทธิภาพ';
 
   @override
-  String get advancedPerformanceReportingDescription =>
-      'ข้อมูลที่รายงานทั้งหมดไม่ระบุตัวตนและจะถูกส่งไปยังบริการตรวจสอบของ Fluxer เท่านั้น — ไม่มีผู้ให้บริการบุคคลที่สาม';
+  String advancedPerformanceReportingDescription(String productName) {
+    return 'ข้อมูลที่รายงานทั้งหมดไม่ระบุตัวตนและจะถูกส่งไปยังบริการตรวจสอบของ $productName เท่านั้น — ไม่มีผู้ให้บริการบุคคลที่สาม';
+  }
 
   @override
   String get advancedSettingsConfigure => 'Configure';
@@ -11003,8 +11174,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   }
 
   @override
-  String get guildNavbarStaffOnlyAccessible =>
-      'เข้าถึงได้โดยเจ้าหน้าที่ Fluxer เท่านั้น';
+  String guildNavbarStaffOnlyAccessible(String productName) {
+    return 'เข้าถึงได้โดยเจ้าหน้าที่ $productName เท่านั้น';
+  }
 
   @override
   String get guildNavbarInvitesPaused => 'การเชิญถูกระงับชั่วคราวในชุมชนนี้';

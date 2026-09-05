@@ -21,8 +21,9 @@ void main() {
         hasMoreNewer: false,
         count: 80,
       );
-      final ScrollPosition position = messageListScrollPosition(tester);
-      position.jumpTo(position.minScrollExtent);
+      messageListScrollPosition(
+        tester,
+      ).jumpTo(messageListOldestRowOffset(tester));
       await pumpFluxerFrames(tester);
 
       final ({String id, Rect rect}) before = anchorSample(
@@ -58,8 +59,7 @@ void main() {
         tester,
         hasMoreNewer: true,
       );
-      final ScrollPosition position = messageListScrollPosition(tester);
-      position.jumpTo(0);
+      messageListScrollPosition(tester).jumpTo(0);
       await pumpFluxerFrames(tester);
 
       final ({String id, Rect rect}) before = anchorSample(
@@ -155,8 +155,9 @@ void main() {
         hasMoreNewer: false,
         count: 80,
       );
-      final ScrollPosition position = messageListScrollPosition(tester);
-      position.jumpTo(position.minScrollExtent);
+      messageListScrollPosition(
+        tester,
+      ).jumpTo(messageListOldestRowOffset(tester));
       await pumpFluxerFrames(tester);
 
       final String probeId = centerVisibleMessageItemId(tester);
@@ -270,8 +271,8 @@ void main() {
         hasMoreNewer: false,
         count: 80,
       );
-      final ScrollPosition position = messageListScrollPosition(tester);
-      position.jumpTo(position.minScrollExtent);
+      final ScrollPosition position = messageListScrollPosition(tester)
+        ..jumpTo(messageListOldestRowOffset(tester));
       await pumpFluxerFrames(tester);
 
       final ({String id, Rect rect}) before = anchorSample(
@@ -312,8 +313,9 @@ void main() {
         hasMoreNewer: false,
         count: 80,
       );
-      final ScrollPosition position = messageListScrollPosition(tester);
-      position.jumpTo(position.minScrollExtent);
+      messageListScrollPosition(
+        tester,
+      ).jumpTo(messageListOldestRowOffset(tester));
       await pumpFluxerFrames(tester);
 
       final ({String id, Rect rect}) before = anchorSample(
@@ -379,6 +381,259 @@ void main() {
         messageItemFor(chatViewModel.testState.messages.last.id),
       );
       expect(newestRect.bottom, lessThanOrEqualTo(viewport.bottom + 1));
+      await disposeMessageList(tester);
+    });
+  });
+
+  group('hold during fling', () {
+    Future<({InstrumentedChatViewModel vm, TestGesture hold, int epoch})>
+    flingThenHold(WidgetTester tester) async {
+      final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+        tester,
+        hasMoreNewer: false,
+        count: kMaxLoadedMessages + 30,
+      );
+      await tester.fling(messageListScrollable(), const Offset(0, 300), 3000);
+      await tester.pump(const Duration(milliseconds: 40));
+      final ScrollPosition position = messageListScrollPosition(tester);
+      expect(position.isScrollingNotifier.value, isTrue);
+      chatViewModel.userScrollActiveLog.clear();
+      final int epoch = messageListAnchorEpoch(tester);
+
+      final TestGesture hold = await tester.startGesture(
+        tester.getCenter(messageListScrollable()),
+      );
+      await tester.pump();
+      return (vm: chatViewModel, hold: hold, epoch: epoch);
+    }
+
+    testWidgets('touch-down mid-fling does not trim, remount, or release the '
+        'scroll lock until the finger lifts', (WidgetTester tester) async {
+      final held = await flingThenHold(tester);
+
+      expect(held.vm.trimAroundVisibleCallCount, 0);
+      expect(messageListAnchorEpoch(tester), held.epoch);
+      expect(held.vm.userScrollActiveLog, isNot(contains(false)));
+
+      await held.hold.up();
+      await tester.pump();
+      await tester.pump();
+
+      expect(held.vm.trimAroundVisibleCallCount, 1);
+      expect(held.vm.userScrollActiveLog.where((bool v) => !v).length, 1);
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('a drag after the hold settles once, at the end of its fling', (
+      WidgetTester tester,
+    ) async {
+      final held = await flingThenHold(tester);
+
+      await held.hold.moveBy(const Offset(0, 40));
+      await held.hold.moveBy(const Offset(0, 40));
+      await tester.pump();
+      expect(held.vm.trimAroundVisibleCallCount, 0);
+
+      await held.hold.up();
+      await pumpFluxerFrames(tester);
+
+      expect(held.vm.trimAroundVisibleCallCount, 1);
+      expect(held.vm.userScrollActiveLog.where((bool v) => !v).length, 1);
+      await disposeMessageList(tester);
+    });
+  });
+
+  group('edge filler', () {
+    final Finder olderFiller = find.byKey(
+      const ValueKey<String>('edge-filler-older'),
+    );
+
+    testWidgets('a fling past the oldest row runs into skeleton, and the '
+        'page lands where the skeleton was', (WidgetTester tester) async {
+      final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+        tester,
+        hasMoreNewer: false,
+      );
+      final ScrollPosition position = messageListScrollPosition(tester)
+        ..jumpTo(messageListOldestRowOffset(tester) + 200);
+      await tester.pump();
+      await tester.fling(messageListScrollable(), const Offset(0, 100), 1500);
+      for (int i = 0; i < 8; i += 1) {
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+
+      expect(
+        position.isScrollingNotifier.value,
+        isTrue,
+        reason: 'skeleton history keeps the ballistic alive past the rows',
+      );
+      expect(position.pixels, lessThan(messageListOldestRowOffset(tester)));
+      expect(olderFiller, findsOneWidget);
+      expect(position.pixels, greaterThan(position.minScrollExtent));
+
+      for (int i = 0; i < 90 && position.isScrollingNotifier.value; i += 1) {
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+      final double restingPixels = position.pixels;
+      final List<Message> old = chatViewModel.testState.messages;
+      final List<Message> page = olderRows(old, count: 60);
+      chatViewModel.testState = chatViewModel.testState.copyWith(
+        write: (
+          messages: <Message>[...page, ...old],
+          origin: MessagesOrigin.olderPage,
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+
+      expect(position.pixels, moreOrLessEquals(restingPixels, epsilon: 1));
+      expect(
+        page.map((Message m) => m.id),
+        contains(centerVisibleMessageItemId(tester)),
+        reason: 'the page lands under the reader, where the skeleton was',
+      );
+      await pumpFluxerFrames(tester);
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('the terminal page removes the filler without moving rows', (
+      WidgetTester tester,
+    ) async {
+      final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+        tester,
+        hasMoreNewer: false,
+      );
+      messageListScrollPosition(
+        tester,
+      ).jumpTo(messageListOldestRowOffset(tester));
+      await pumpFluxerFrames(tester);
+      final ({String id, Rect rect}) before = anchorSample(
+        tester,
+        centerVisibleMessageItemId(tester),
+      );
+
+      chatViewModel.testState = chatViewModel.testState.copyWith(
+        hasMoreMessages: false,
+      );
+      await tester.pump();
+      await tester.pump();
+
+      expect(olderFiller, findsNothing);
+      expectPreserved(
+        tester,
+        before,
+        reason: 'collapsing the filler above must not yank the reader',
+      );
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('a reader inside the filler lands on the oldest row when the '
+        'channel start arrives', (WidgetTester tester) async {
+      final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+        tester,
+        hasMoreNewer: false,
+      );
+      final ScrollPosition position = messageListScrollPosition(tester)
+        ..jumpTo(messageListOldestRowOffset(tester) - 300);
+      await pumpFluxerFrames(tester);
+      expect(olderFiller, findsOneWidget);
+
+      chatViewModel.testState = chatViewModel.testState.copyWith(
+        hasMoreMessages: false,
+      );
+      await pumpFluxerFrames(tester);
+
+      expect(olderFiller, findsNothing);
+      expect(position.pixels, greaterThanOrEqualTo(position.minScrollExtent));
+      expect(
+        messageItemFor(chatViewModel.testState.messages.first.id),
+        findsOneWidget,
+      );
+      await disposeMessageList(tester);
+    });
+
+    final Finder newerFiller = find.byKey(
+      const ValueKey<String>('edge-filler-newer'),
+    );
+
+    testWidgets('a fling past the newest row runs into skeleton, and the '
+        'newer page lands where the skeleton was', (WidgetTester tester) async {
+      final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+        tester,
+        hasMoreNewer: true,
+      );
+      final ScrollPosition position = messageListScrollPosition(tester)
+        ..jumpTo(messageListNewestRowOffset(tester) - 200);
+      await tester.pump();
+      await tester.fling(messageListScrollable(), const Offset(0, -100), 1500);
+      for (int i = 0; i < 8; i += 1) {
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+
+      expect(position.isScrollingNotifier.value, isTrue);
+      expect(position.pixels, greaterThan(messageListNewestRowOffset(tester)));
+      expect(newerFiller, findsOneWidget);
+      expect(position.pixels, lessThan(position.maxScrollExtent));
+
+      for (int i = 0; i < 90 && position.isScrollingNotifier.value; i += 1) {
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+      final double restingPixels = position.pixels;
+      final List<Message> old = chatViewModel.testState.messages;
+      final List<Message> page = newerRows(old, count: 60);
+      chatViewModel.testState = chatViewModel.testState.copyWith(
+        write: (
+          messages: <Message>[...old, ...page],
+          origin: MessagesOrigin.newerPage,
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+
+      expect(position.pixels, moreOrLessEquals(restingPixels, epsilon: 1));
+      // The reader is only a few hundred pixels onto the skeleton, so the
+      // page shows at the viewport bottom, not at its center.
+      final Rect viewport = tester.getRect(messageListScrollable());
+      expect(
+        page.where(
+          (Message m) =>
+              messageItemFor(m.id).evaluate().isNotEmpty &&
+              tester.getRect(messageItemFor(m.id)).overlaps(viewport),
+        ),
+        isNotEmpty,
+        reason: 'the page lands under the reader, where the skeleton was',
+      );
+      await pumpFluxerFrames(tester);
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('the terminal newer page removes the filler without moving '
+        'rows', (WidgetTester tester) async {
+      final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+        tester,
+        hasMoreNewer: true,
+      );
+      messageListScrollPosition(
+        tester,
+      ).jumpTo(messageListNewestRowOffset(tester) - 300);
+      await pumpFluxerFrames(tester);
+      final ({String id, Rect rect}) before = anchorSample(
+        tester,
+        centerVisibleMessageItemId(tester),
+      );
+
+      chatViewModel.testState = chatViewModel.testState.copyWith(
+        hasMoreNewerMessages: false,
+      );
+      await tester.pump();
+      await tester.pump();
+
+      expect(newerFiller, findsNothing);
+      expectPreserved(
+        tester,
+        before,
+        reason: 'collapsing the filler below must not yank the reader',
+      );
       await disposeMessageList(tester);
     });
   });

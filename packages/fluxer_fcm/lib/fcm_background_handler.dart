@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluxer_fcm/fcm_background_handler_policy.dart';
 import 'package:fluxer_fcm/fcm_background_local_notifications.dart';
+import 'package:fluxer_fcm/fcm_background_notification_clear.dart';
 import 'package:fluxer_fcm/fcm_message_mapper.dart';
 import 'package:fluxer_fcm/fcm_push_message.dart';
 import 'package:fluxer_fcm/firebase_options.dart';
@@ -26,6 +27,10 @@ Future<void> fcmBackgroundMessageHandler(RemoteMessage message) async {
       );
     }
     final FcmPushMessage mapped = mapRemoteMessage(message);
+    if (shouldHandleFcmBackgroundNotificationClear(mapped)) {
+      await handleFcmBackgroundNotificationClear(mapped);
+      return;
+    }
     if (FluxerFcmBootstrap.shouldSaveTapPayloadCache(mapped.payload)) {
       await FluxerFcmBootstrap.saveTapPayloadCache(
         payload: mapped.payload,

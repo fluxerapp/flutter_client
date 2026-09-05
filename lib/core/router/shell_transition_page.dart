@@ -1,10 +1,32 @@
 import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
+import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_transition_policy.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:fluxer_app/features/voice/utils/voice_phone_call_layout.dart';
 import 'package:fluxer_app/features/voice/utils/voice_pip_morph.dart';
 import 'package:go_router/go_router.dart';
+
+ValueKey<String> guildChatPageKey(String guildId) =>
+    ValueKey<String>('guild-chat:$guildId');
+
+const ValueKey<String> kDmChatPageKey = ValueKey<String>('dm-chat');
+
+const ValueKey<String> kFavoritesChatPageKey = ValueKey<String>(
+  'favorites-chat',
+);
+
+/// Nested `@me` routes share one navigator stack. Only the `:channelId` route
+/// may use [kDmChatPageKey]; parent and message pages must keep [routePageKey].
+LocalKey dmShellPageKeyForRoute({
+  required String? routeName,
+  required LocalKey routePageKey,
+}) {
+  if (routeName == RouteNames.dmChannel) {
+    return kDmChatPageKey;
+  }
+  return routePageKey;
+}
 
 CustomTransitionPage<void> shellInstantTransitionPage({
   required LocalKey key,

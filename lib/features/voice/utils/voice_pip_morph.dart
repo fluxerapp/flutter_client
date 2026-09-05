@@ -15,12 +15,14 @@ enum VoicePipOverlayPhase { hidden, pip, expanding, collapsing, settling }
 bool voicePipHostsFeatured(VoicePipOverlayPhase phase) {
   return phase == VoicePipOverlayPhase.pip ||
       phase == VoicePipOverlayPhase.expanding ||
-      phase == VoicePipOverlayPhase.collapsing;
+      phase == VoicePipOverlayPhase.collapsing ||
+      phase == VoicePipOverlayPhase.settling;
 }
 
 bool voicePipHidesFeaturedTile(VoicePipOverlayPhase phase) {
   return phase == VoicePipOverlayPhase.expanding ||
-      phase == VoicePipOverlayPhase.collapsing;
+      phase == VoicePipOverlayPhase.collapsing ||
+      phase == VoicePipOverlayPhase.settling;
 }
 
 bool voicePipIsInFlight(VoicePipOverlayPhase phase) {

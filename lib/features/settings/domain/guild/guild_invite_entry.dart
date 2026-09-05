@@ -34,19 +34,43 @@ class GuildInviteEntry {
   final int? inviterAvatarColor;
 
   factory GuildInviteEntry.fromResponse(InviteMetadataResponseSchema response) {
-    final InviteMetadataResponseSchemaGuildInviteMetadataResponse invite =
-        response.toGuildInviteMetadataResponse();
-    final ChannelPartialResponse channel = invite.channel;
-    final UserPartialResponse? inviter = invite.inviter;
+    final (
+      String code,
+      ChannelPartialResponse channel,
+      int uses,
+      int maxUses,
+      DateTime createdAt,
+      DateTime? expiresAt,
+      UserPartialResponse? inviter,
+    ) = switch (response) {
+      InviteMetadataResponseSchema0() => (
+        response.code,
+        response.channel,
+        response.uses,
+        response.maxUses,
+        response.createdAt,
+        response.expiresAt,
+        response.inviter,
+      ),
+      InviteMetadataResponseSchema1() => (
+        response.code,
+        response.channel,
+        response.uses,
+        response.maxUses,
+        response.createdAt,
+        response.expiresAt,
+        response.inviter,
+      ),
+    };
     return GuildInviteEntry(
-      code: invite.code,
+      code: code,
       channelId: channel.id,
       channelName: channel.name ?? '',
       channelType: channel.type,
-      uses: invite.uses,
-      maxUses: invite.maxUses,
-      createdAt: invite.createdAt,
-      expiresAt: invite.expiresAt,
+      uses: uses,
+      maxUses: maxUses,
+      createdAt: createdAt,
+      expiresAt: expiresAt,
       inviterId: inviter?.id,
       inviterUsername: inviter?.username,
       inviterGlobalName: inviter?.globalName,

@@ -161,7 +161,6 @@ class _UserProfileState extends ConsumerState<UserProfile> {
         FluxerEmojiPickerSheet.show(
           context,
           title: FluxerLocalizations.of(context).emojiPickerTitle,
-          maxHeight: 0.88,
           onEmojiSelected: (emoji) {
             controller.insertEmoji(
               emoji.name,
@@ -632,7 +631,9 @@ class _UserProfileState extends ConsumerState<UserProfile> {
                           behavior: HitTestBehavior.opaque,
                           child: ProfilePreviewCard(state: state),
                         ),
-                        if (state.isPremium && !state.isPerGuildProfile) ...[
+                        if (shouldShowPremiumCommerce &&
+                            state.isPremium &&
+                            !state.isPerGuildProfile) ...[
                           SizedBox(height: layout.s8),
                           FluxerGestureDetector(
                             onTap: () =>

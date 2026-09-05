@@ -12,3 +12,8 @@ String? resolveFavoriteGuildId({
   }
   return null;
 }
+
+bool isFavoriteDmGuildId(String? guildId) {
+  final String? trimmed = guildId?.trim();
+  return trimmed == null || trimmed.isEmpty || trimmed == favoriteDmGuildId;
+}

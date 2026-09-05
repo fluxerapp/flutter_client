@@ -49,6 +49,20 @@ void main() {
       );
       expect(retryAfterMsFromDioException(error), isNull);
     });
+
+    test('falls back to Retry-After header when body has no window', () {
+      final DioException error = DioException(
+        requestOptions: RequestOptions(path: '/test'),
+        response: Response<dynamic>(
+          requestOptions: RequestOptions(path: '/test'),
+          data: <String, dynamic>{},
+          headers: Headers.fromMap(<String, List<String>>{
+            'retry-after': <String>['3'],
+          }),
+        ),
+      );
+      expect(retryAfterMsFromDioException(error), 3000);
+    });
   });
 
   group('dioExceptionMessage', () {

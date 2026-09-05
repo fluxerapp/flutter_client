@@ -77,7 +77,7 @@ class _GuildInviteCard extends StatelessWidget {
     required this.isAlreadyMember,
   });
 
-  final InviteResponseSchemaGuildInviteResponse invite;
+  final GuildInviteResponse invite;
   final String code;
   final FluxerLocalizations l10n;
   final WidgetRef ref;
@@ -230,7 +230,7 @@ class _GroupDmInviteCard extends StatelessWidget {
     required this.ref,
   });
 
-  final InviteResponseSchemaGroupDmInviteResponse invite;
+  final GroupDmInviteResponse invite;
   final String code;
   final FluxerLocalizations l10n;
   final WidgetRef ref;

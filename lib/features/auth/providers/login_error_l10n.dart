@@ -18,6 +18,7 @@ extension LoginErrorL10n on LoginError {
       LoginError.passkeyFailed => l10n.passkeyFailed,
       LoginError.ssoCancelled => l10n.ssoCancelled,
       LoginError.ssoFailed => l10n.failedToStartSso,
+      LoginError.serviceUnavailable => l10n.errorServiceUnavailable,
     };
   }
 }

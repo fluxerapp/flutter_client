@@ -17,6 +17,15 @@ final class PushNotificationClear {
     'fluxer_app/apple_push',
   );
 
+  static Future<void> handleBackgroundClearPayload(
+    Map<String, String> payload,
+  ) async {
+    final int? badgeCount = parsePushBadgeCount(payload);
+    if (badgeCount != null) {
+      await AppIconBadgeService.update(badgeCount);
+    }
+  }
+
   static Future<void> handleClearPayload(Map<String, String> payload) async {
     final String? channelId = resolvePushChannelId(payload);
     if (channelId == null) {

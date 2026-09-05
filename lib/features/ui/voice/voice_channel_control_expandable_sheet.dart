@@ -41,8 +41,8 @@ class VoiceCallMobilePageLayout extends ConsumerWidget {
       bool isInVoice,
       bool isConnected,
       String? connectionId,
-      String? channelId,
-      String? guildId,
+      String? sessionChannelId,
+      String? sessionGuildId,
     ) = ref.watch(
       voiceSessionProvider.select(
         (VoiceSessionState s) => (
@@ -62,18 +62,54 @@ class VoiceCallMobilePageLayout extends ConsumerWidget {
         (VoiceCallOverlayState state) => state.showsOverlay,
       ),
     );
-    final double footprint = showsOverlay
-        ? voiceChannelControlCollapsedFootprint(context)
-        : 0;
     return VoiceCallSystemUiSync(
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           return Stack(
             fit: StackFit.expand,
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(bottom: footprint),
-                child: child,
+              child,
+              Positioned(
+                left: 0,
+                right: 0,
+                top: 0,
+                height: 88,
+                child: IgnorePointer(
+                  child: AnimatedOpacity(
+                    duration: const Duration(milliseconds: 240),
+                    opacity: showsOverlay ? 1 : 0,
+                    child: const DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: <Color>[Color(0x99000000), Color(0x00000000)],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                height: 140,
+                child: IgnorePointer(
+                  child: AnimatedOpacity(
+                    duration: const Duration(milliseconds: 240),
+                    opacity: showsOverlay ? 1 : 0,
+                    child: const DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                          colors: <Color>[Color(0x99000000), Color(0x00000000)],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
               Positioned(
                 left: 0,
@@ -89,8 +125,8 @@ class VoiceCallMobilePageLayout extends ConsumerWidget {
                     child: IgnorePointer(
                       ignoring: !showsOverlay,
                       child: VoiceChannelControlExpandableSheet(
-                        channelId: this.channelId ?? channelId,
-                        guildId: this.guildId ?? guildId,
+                        channelId: channelId ?? sessionChannelId,
+                        guildId: guildId ?? sessionGuildId,
                         isConnected: isConnected,
                         connectionId: connectionId,
                         parentHeight: constraints.maxHeight,
@@ -435,108 +471,111 @@ class _VoiceChannelControlExpandableSheetState
                         final BorderRadius borderRadius = BorderRadius.circular(
                           barRadius,
                         );
-                        return KeyedSubtree(
-                          key: kVoiceControlMorphingBarKey,
-                          child: expandableSheetAnimatedSize(
-                            context: context,
-                            isDragging: isDragging,
-                            width: barWidth,
-                            height: height,
-                            child: DecoratedBox(
-                              decoration:
-                                  voiceChannelControlMorphingSurfaceDecoration(
-                                    context,
-                                    borderRadius: borderRadius,
-                                  ),
-                              child: ClipRRect(
-                                borderRadius: borderRadius,
-                                child: LayoutBuilder(
-                                  builder:
-                                      (
-                                        BuildContext context,
-                                        BoxConstraints constraints,
-                                      ) {
-                                        final double measuredBarInnerWidth =
-                                            constraints.maxWidth -
-                                            (kVoiceControlMorphingBarBorderWidth *
-                                                2);
-                                        final double widthExpansion =
-                                            voiceChannelControlMorphingWidthExpansion(
-                                              barInnerWidth:
-                                                  measuredBarInnerWidth,
-                                              collapsedBarInnerWidth:
-                                                  collapsedBarInnerWidth,
-                                              expandedBarInnerWidth:
-                                                  expandedBarInnerWidth,
-                                            );
-                                        return Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.stretch,
-                                          children: <Widget>[
-                                            ExpandableSheetDragTarget(
-                                              key:
-                                                  kVoiceControlSheetDragHeaderKey,
-                                              onVerticalDragStart:
-                                                  _onVerticalDragStart,
-                                              onVerticalDragUpdate:
-                                                  _onVerticalDragUpdate,
-                                              onVerticalDragEnd:
-                                                  _onVerticalDragEnd,
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.stretch,
-                                                children: <Widget>[
-                                                  const VoiceChannelControlSheetDragHandle(
-                                                    key:
-                                                        kVoiceControlSheetDragHandleKey,
-                                                  ),
-                                                  ClipRect(
-                                                    child: VoiceChannelControlBarContent(
-                                                      channelId:
-                                                          widget.channelId,
-                                                      guildId: widget.guildId,
-                                                      connectionId:
-                                                          widget.connectionId,
-                                                      isConnected:
-                                                          widget.isConnected,
-                                                      style:
-                                                          VoiceChannelControlBarStyle
-                                                              .embedded,
-                                                      barInnerWidth:
-                                                          measuredBarInnerWidth,
-                                                      expansion: widthExpansion,
-                                                      canScreenShare:
-                                                          _canScreenShare,
-                                                      useCompactControls:
-                                                          useNarrowControls,
+                        return TickerMode(
+                          enabled: !isDragging,
+                          child: KeyedSubtree(
+                            key: kVoiceControlMorphingBarKey,
+                            child: expandableSheetAnimatedSize(
+                              context: context,
+                              isDragging: isDragging,
+                              width: barWidth,
+                              height: height,
+                              child: DecoratedBox(
+                                decoration:
+                                    voiceChannelControlMorphingSurfaceDecoration(
+                                      context,
+                                      borderRadius: borderRadius,
+                                    ),
+                                child: ClipRRect(
+                                  borderRadius: borderRadius,
+                                  child: LayoutBuilder(
+                                    builder:
+                                        (
+                                          BuildContext context,
+                                          BoxConstraints constraints,
+                                        ) {
+                                          final double measuredBarInnerWidth =
+                                              constraints.maxWidth -
+                                              (kVoiceControlMorphingBarBorderWidth *
+                                                  2);
+                                          final double widthExpansion =
+                                              voiceChannelControlMorphingWidthExpansion(
+                                                barInnerWidth:
+                                                    measuredBarInnerWidth,
+                                                collapsedBarInnerWidth:
+                                                    collapsedBarInnerWidth,
+                                                expandedBarInnerWidth:
+                                                    expandedBarInnerWidth,
+                                              );
+                                          return Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.stretch,
+                                            children: <Widget>[
+                                              ExpandableSheetDragTarget(
+                                                key:
+                                                    kVoiceControlSheetDragHeaderKey,
+                                                onVerticalDragStart:
+                                                    _onVerticalDragStart,
+                                                onVerticalDragUpdate:
+                                                    _onVerticalDragUpdate,
+                                                onVerticalDragEnd:
+                                                    _onVerticalDragEnd,
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .stretch,
+                                                  children: <Widget>[
+                                                    const VoiceChannelControlSheetDragHandle(
+                                                      key:
+                                                          kVoiceControlSheetDragHandleKey,
                                                     ),
-                                                  ),
-                                                ],
+                                                    ClipRect(
+                                                      child: VoiceChannelControlBarContent(
+                                                        channelId:
+                                                            widget.channelId,
+                                                        guildId: widget.guildId,
+                                                        connectionId:
+                                                            widget.connectionId,
+                                                        isConnected:
+                                                            widget.isConnected,
+                                                        style:
+                                                            VoiceChannelControlBarStyle
+                                                                .embedded,
+                                                        barInnerWidth:
+                                                            measuredBarInnerWidth,
+                                                        expansion:
+                                                            widthExpansion,
+                                                        canScreenShare:
+                                                            _canScreenShare,
+                                                        useCompactControls:
+                                                            useNarrowControls,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                            if (_panelBodyVisible)
-                                              Expanded(child: child),
-                                          ],
-                                        );
-                                      },
+                                              if (_panelBodyVisible)
+                                                Expanded(child: child),
+                                            ],
+                                          );
+                                        },
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         );
                       },
-                  child: TickerMode(
-                    enabled: !_isDraggingNotifier.value,
-                    child: RepaintBoundary(
-                      child: _VoiceControlPanelSettingsBody(
-                        scrollController: _scrollController,
-                        channelId: widget.channelId,
-                        panelBodyVisible: _panelBodyVisible,
-                        onPointerMove: _onPanelPointerMove,
-                        onPointerEnd: _onPanelPointerEnd,
-                      ),
+                  child: RepaintBoundary(
+                    child: _VoiceControlPanelSettingsBody(
+                      scrollController: _scrollController,
+                      channelId: widget.channelId,
+                      panelBodyVisible: _panelBodyVisible,
+                      onPointerMove: _onPanelPointerMove,
+                      onPointerEnd: _onPanelPointerEnd,
                     ),
                   ),
                 ),

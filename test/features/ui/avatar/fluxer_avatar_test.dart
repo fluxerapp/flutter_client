@@ -202,6 +202,31 @@ void main() {
       },
     );
 
+    testWidgets('skips memory cache resize for animated avatar urls', (
+      tester,
+    ) async {
+      tester.view.devicePixelRatio = 3.0;
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      await tester.pumpWidget(
+        buildTestApp(
+          const FluxerAvatar.user(
+            userId: '6',
+            imageUrl:
+                'https://cdn.example/avatars/6/a_avatar.gif?animated=true&size=80',
+            fallbackText: 'Alice',
+            showStatus: false,
+          ),
+        ),
+      );
+
+      final image = tester.widget<CachedNetworkImage>(
+        find.byType(CachedNetworkImage),
+      );
+      expect(image.memCacheWidth, isNull);
+      expect(image.memCacheHeight, isNull);
+    });
+
     testWidgets(
       'avatar cluster renders overlapping members without layout errors',
       (tester) async {

@@ -17,6 +17,7 @@ import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
+import '../../../../helpers/instance_runtime_config_override.dart';
 import '../../../../helpers/open_test_database.dart';
 import '../../../../helpers/test_l10n.dart';
 
@@ -63,6 +64,7 @@ ProviderContainer _container(
   bool seedSearch = false,
 }) {
   final List<Override> overrides = <Override>[
+    instanceRuntimeConfigOverride(),
     fluxerDatabaseProvider.overrideWithValue(database),
     appearancePreferencesProvider.overrideWith(_FakeAppearance.new),
     memberListDetailsSubscriptionProvider(

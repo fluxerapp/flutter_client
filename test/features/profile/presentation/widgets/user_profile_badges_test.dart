@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -11,9 +13,14 @@ import 'package:fluxer_app/material_ui.dart';
 
 import '../../../../helpers/test_l10n.dart';
 
-Widget _buildApp(Widget child) {
+Widget _buildApp(Widget child, {InstanceRuntimeConfig? config}) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
+    overrides: [
+      instanceRuntimeConfigProvider.overrideWithValue(
+        config ?? InstanceRuntimeConfig.defaults,
+      ),
+    ],
     child: MaterialApp(
       locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
@@ -174,6 +181,44 @@ void main() {
           const UserProfileBadges(flags: 0, premiumLifetimeSequence: 42),
         ),
       );
+      expect(find.text('#42'), findsNothing);
+    });
+
+    testWidgets('hides official and Plutonium badges on self-hosted', (
+      tester,
+    ) async {
+      const InstanceRuntimeConfig selfHosted = InstanceRuntimeConfig(
+        productName: 'Acme',
+        selfHosted: true,
+        stripeEnabled: true,
+        emailsEnabled: true,
+        voiceEnabled: true,
+        presignedAttachmentUploads: true,
+        gifEnabled: true,
+        blueskyEnabled: true,
+        gifAttributionRequired: false,
+        singleCommunity: false,
+        directMessagesDisabled: false,
+        registrationClosed: false,
+        adminRegistrationUrlsEnabled: false,
+        collectDateOfBirth: true,
+      );
+      await tester.pumpWidget(
+        _buildApp(
+          const UserProfileBadges(
+            flags: 1 | 2 | 4 | 8,
+            hasPlutonium: true,
+            premiumLifetimeSequence: 42,
+          ),
+          config: selfHosted,
+        ),
+      );
+      expect(find.byType(SvgPicture), findsOneWidget);
+      expect(find.byTooltip('Acme Staff'), findsOneWidget);
+      expect(find.byTooltip('Acme Community Team'), findsNothing);
+      expect(find.byTooltip('Acme Partner'), findsNothing);
+      expect(find.byTooltip('Acme Bug Hunter'), findsNothing);
+      expect(find.byTooltip('Acme Plutonium'), findsNothing);
       expect(find.text('#42'), findsNothing);
     });
   });

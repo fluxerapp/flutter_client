@@ -1510,9 +1510,14 @@
     "@externalLinkWarningTitle": {
         "description": "Title of the external link warning modal."
     },
-    "externalLinkWarningLeaving": "Estás a punto de salir de Fluxer",
+    "externalLinkWarningLeaving": "Estás a punto de salir de {productName}",
     "@externalLinkWarningLeaving": {
-        "description": "Primary warning text shown in the external link warning modal."
+        "description": "Primary warning text shown in the external link warning modal.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "externalLinkWarningDescription": "Los enlaces externos pueden ser peligrosos. Ten cuidado.",
     "@externalLinkWarningDescription": {
@@ -1975,9 +1980,14 @@
     "@profilePreviewMessage": {
         "description": "Disabled message button in the profile preview card."
     },
-    "profilePreviewMemberSince": "Miembro de Fluxer desde",
+    "profilePreviewMemberSince": "Miembro de {productName} desde",
     "@profilePreviewMemberSince": {
-        "description": "Label for the member-since date in the profile preview card."
+        "description": "Label for the member-since date in the profile preview card.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "unclaimedAccountTitle": "Cuenta no reclamada",
     "@unclaimedAccountTitle": {
@@ -2087,9 +2097,14 @@
     "@securityLoginEmailSectionTitle": {
         "description": "Title for email settings section in Security & Login."
     },
-    "securityLoginEmailSectionDescription": "Gestiona la dirección de correo electrónico que usas para iniciar sesión en Fluxer",
+    "securityLoginEmailSectionDescription": "Gestiona la dirección de correo electrónico que usas para iniciar sesión en {productName}",
     "@securityLoginEmailSectionDescription": {
-        "description": "Description for email settings section."
+        "description": "Description for email settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "securityLoginEmailAddressLabel": "Dirección de correo electrónico",
     "@securityLoginEmailAddressLabel": {
@@ -2732,9 +2747,14 @@
     "@authorizedAppsTitle": {
         "description": "Title for the Authorized Applications settings section."
     },
-    "authorizedAppsDescription": "A estas aplicaciones se les ha concedido acceso a tu cuenta de Fluxer.",
+    "authorizedAppsDescription": "A estas aplicaciones se les ha concedido acceso a tu cuenta de {productName}.",
     "@authorizedAppsDescription": {
-        "description": "Description under the Authorized Applications section title."
+        "description": "Description under the Authorized Applications section title.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "authorizedAppsEmptyTitle": "Sin aplicaciones autorizadas",
     "@authorizedAppsEmptyTitle": {
@@ -2875,43 +2895,79 @@
     "@userProfileEditProfile": {
         "description": "Action card label shown on the current user's own profile sheet."
     },
-    "userProfileStaffBadgeTooltip": "Equipo de Fluxer",
+    "userProfileStaffBadgeTooltip": "Equipo de {productName}",
     "@userProfileStaffBadgeTooltip": {
-        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
-    "userProfileCtpBadgeTooltip": "Equipo de la comunidad de Fluxer",
+    "userProfileCtpBadgeTooltip": "Equipo de la comunidad de {productName}",
     "@userProfileCtpBadgeTooltip": {
-        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
-    "userProfilePartnerBadgeTooltip": "Socio de Fluxer",
+    "userProfilePartnerBadgeTooltip": "Socio de {productName}",
     "@userProfilePartnerBadgeTooltip": {
-        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
-    "userProfileBugHunterBadgeTooltip": "Cazador de errores de Fluxer",
+    "userProfileBugHunterBadgeTooltip": "Cazador de errores de {productName}",
     "@userProfileBugHunterBadgeTooltip": {
-        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
-    "userProfilePlutoniumBadgeTooltip": "Fluxer Plutonium",
+    "userProfilePlutoniumBadgeTooltip": "{productName} Plutonium",
     "@userProfilePlutoniumBadgeTooltip": {
-        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
-    "userProfilePlutoniumSubscriberSinceTooltip": "Suscriptor de Fluxer Plutonium desde {date}",
+    "userProfilePlutoniumSubscriberSinceTooltip": "Suscriptor de {productName} Plutonium desde {date}",
     "@userProfilePlutoniumSubscriberSinceTooltip": {
         "description": "Badge label with a date in the user profile badges popout. Preserve {date}; it is inserted by code. In English, keep \"subscriber since\" lowercase. Other locales should use natural local capitalization.",
         "placeholders": {
+            "productName": {
+                "type": "String"
+            },
             "date": {
                 "type": "String"
             }
         }
     },
-    "userProfileVisionaryBadgeTooltip": "Visionario de Fluxer",
+    "userProfileVisionaryBadgeTooltip": "Visionario de {productName}",
     "@userProfileVisionaryBadgeTooltip": {
-        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
-    "userProfileVisionaryBadgeSinceTooltip": "Visionario de Fluxer desde {date}",
+    "userProfileVisionaryBadgeSinceTooltip": "Visionario de {productName} desde {date}",
     "@userProfileVisionaryBadgeSinceTooltip": {
         "description": "Badge title with a date in the user profile badges popout. Preserve {date}; it is inserted by code. English locales use Title Case for the badge title part; other locales should use natural local capitalization.",
         "placeholders": {
+            "productName": {
+                "type": "String"
+            },
             "date": {
                 "type": "String"
             }
@@ -4141,9 +4197,14 @@
     "@connectionsTitle": {
         "description": "Title of the Connections settings page."
     },
-    "connectionsDescription": "Vincula cuentas y dominios externos a tu perfil de Fluxer. Las conexiones verificadas se mostrarán en tu perfil para que otros las vean.",
+    "connectionsDescription": "Vincula cuentas y dominios externos a tu perfil de {productName}. Las conexiones verificadas se mostrarán en tu perfil para que otros las vean.",
     "@connectionsDescription": {
-        "description": "Description shown under the Connections settings page title."
+        "description": "Description shown under the Connections settings page title.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "connectionsEmptyTitle": "Aún no hay conexiones",
     "@connectionsEmptyTitle": {
@@ -4556,9 +4617,14 @@
     "@lookAndFeelCollapseDMsLabel": {
         "description": "Toggle label — collapse unread DMs into the Fluxer button folder."
     },
-    "lookAndFeelCollapseDMsDescription": "Cuando está activado, los DMs no leídos en la barra lateral de la comunidad se colapsan en una carpeta en el botón de Fluxer. Haz clic en el botón de Fluxer mientras estás en la página de DMs para expandir o colapsar la carpeta.",
+    "lookAndFeelCollapseDMsDescription": "Cuando está activado, los DMs no leídos en la barra lateral de la comunidad se colapsan en una carpeta en el botón de {productName}. Haz clic en el botón de {productName} mientras estás en la página de DMs para expandir o colapsar la carpeta.",
     "@lookAndFeelCollapseDMsDescription": {
-        "description": "Toggle description for the DM folder collapse behavior."
+        "description": "Toggle description for the DM folder collapse behavior.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "lookAndFeelChannelListSectionTitle": "Lista de canales",
     "@lookAndFeelChannelListSectionTitle": {
@@ -4800,9 +4866,14 @@
     "@messagesMediaDisplayInlineEmbedLabel": {
         "description": "Toggle label for inlining media when posted as links."
     },
-    "messagesMediaDisplayInlineAttachmentLabel": "Cuando se suben directamente a Fluxer",
+    "messagesMediaDisplayInlineAttachmentLabel": "Cuando se suben directamente a {productName}",
     "@messagesMediaDisplayInlineAttachmentLabel": {
-        "description": "Toggle label for inlining media for direct uploads."
+        "description": "Toggle label for inlining media for direct uploads.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "messagesMediaLinkPreviewsSectionTitle": "Vistas previas de enlaces",
     "@messagesMediaLinkPreviewsSectionTitle": {
@@ -5857,9 +5928,14 @@
     "@iarReasonOtherLabel": {
         "description": "Rule-reason label for the catch-all option in the IAR message flow."
     },
-    "iarReasonOtherDescription": "Úsalo solo si infringe claramente las normas de Fluxer y no encaja en las anteriores.",
+    "iarReasonOtherDescription": "Úsalo solo si infringe claramente las normas de {productName} y no encaja en las anteriores.",
     "@iarReasonOtherDescription": {
-        "description": "Rule-reason description for the catch-all option."
+        "description": "Rule-reason description for the catch-all option.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "iarUseChildSafetyInstead": "Si hay un menor involucrado, usa \"{childSafetyReason}\" en su lugar.",
     "@iarUseChildSafetyInstead": {
@@ -6562,17 +6638,27 @@
     "@advancedPerformanceReportingTitle": {
         "description": "Advanced settings section title for crash and performance reporting."
     },
-    "advancedPerformanceReportingSectionDescription": "Ayuda a mejorar Fluxer compartiendo datos anónimos de rendimiento y fallos.",
+    "advancedPerformanceReportingSectionDescription": "Ayuda a mejorar {productName} compartiendo datos anónimos de rendimiento y fallos.",
     "@advancedPerformanceReportingSectionDescription": {
-        "description": "Advanced settings section description for crash and performance reporting."
+        "description": "Advanced settings section description for crash and performance reporting.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "advancedPerformanceReportingLabel": "Enviar informes de fallos y rendimiento",
     "@advancedPerformanceReportingLabel": {
         "description": "Toggle label for opting into crash and performance reporting."
     },
-    "advancedPerformanceReportingDescription": "Todos los datos notificados son anónimos y solo se envían al propio servicio de monitorización de Fluxer; no se utilizan proveedores de terceros.",
+    "advancedPerformanceReportingDescription": "Todos los datos notificados son anónimos y solo se envían al propio servicio de monitorización de {productName}; no se utilizan proveedores de terceros.",
     "@advancedPerformanceReportingDescription": {
-        "description": "Toggle description explaining anonymous self-hosted performance reporting."
+        "description": "Toggle description explaining anonymous self-hosted performance reporting.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "userSettingsNavApplications": "Aplicaciones",
     "@userSettingsNavApplications": {
@@ -7257,9 +7343,14 @@
             }
         }
     },
-    "guildNavbarStaffOnlyAccessible": "Solo accesible para el personal de Fluxer",
+    "guildNavbarStaffOnlyAccessible": "Solo accesible para el personal de {productName}",
     "@guildNavbarStaffOnlyAccessible": {
-        "description": "Guild tooltip when the community is staff-only."
+        "description": "Guild tooltip when the community is staff-only.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "guildNavbarInvitesPaused": "Las invitaciones están actualmente pausadas en esta comunidad",
     "@guildNavbarInvitesPaused": {
@@ -9119,17 +9210,32 @@
     "@systemPermissionSettingsOpenSettings": {
         "description": "Primary action that opens the device app settings for a blocked permission."
     },
-    "systemPermissionMicrophoneMessage": "Fluxer no tiene acceso a tu micrófono. Puedes habilitarlo en los ajustes de privacidad de tu dispositivo.",
+    "systemPermissionMicrophoneMessage": "{productName} no tiene acceso a tu micrófono. Puedes habilitarlo en los ajustes de privacidad de tu dispositivo.",
     "@systemPermissionMicrophoneMessage": {
-        "description": "Body text when microphone access must be enabled in system settings."
+        "description": "Body text when microphone access must be enabled in system settings.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
-    "systemPermissionCameraMessage": "Fluxer no tiene acceso a tu cámara. Puedes habilitarla en los ajustes de privacidad de tu dispositivo.",
+    "systemPermissionCameraMessage": "{productName} no tiene acceso a tu cámara. Puedes habilitarla en los ajustes de privacidad de tu dispositivo.",
     "@systemPermissionCameraMessage": {
-        "description": "Body text when camera access must be enabled in system settings."
+        "description": "Body text when camera access must be enabled in system settings.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
-    "systemPermissionNotificationsMessage": "Fluxer no tiene permiso para enviar notificaciones. Puedes habilitarlo en los ajustes de tu dispositivo.",
+    "systemPermissionNotificationsMessage": "{productName} no tiene permiso para enviar notificaciones. Puedes habilitarlo en los ajustes de tu dispositivo.",
     "@systemPermissionNotificationsMessage": {
-        "description": "Body text when notification permission must be enabled in system settings."
+        "description": "Body text when notification permission must be enabled in system settings.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "nagbarManageSubscription": "Gestionar suscripción",
     "@nagbarManageSubscription": {
@@ -9320,25 +9426,40 @@
     "@requiredActionTitle": {
         "description": "Title for required action blocking modal."
     },
-    "requiredActionIntroGeneric": "Completa la verificación para continuar utilizando Fluxer.",
+    "requiredActionIntroGeneric": "Completa la verificación para continuar utilizando {productName}.",
     "@requiredActionIntroGeneric": {
-        "description": "Generic required action intro."
+        "description": "Generic required action intro.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "requiredActionIntroPhone": "Tu registro necesita una comprobación anti-spam adicional antes de poder continuar.",
     "@requiredActionIntroPhone": {
         "description": "Phone-only required action intro."
     },
-    "requiredActionIntroEmailOrPhone": "Verifica tu correo o teléfono para continuar utilizando Fluxer.",
+    "requiredActionIntroEmailOrPhone": "Verifica tu correo o teléfono para continuar utilizando {productName}.",
     "@requiredActionIntroEmailOrPhone": {
-        "description": "Email or phone required action intro."
+        "description": "Email or phone required action intro.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "requiredActionChooseMethodTitle": "Escoge un método de verificación",
     "@requiredActionChooseMethodTitle": {
         "description": "Title when user can pick email or phone."
     },
-    "requiredActionChooseMethodDescription": "Completa uno de los siguientes métodos de verificación para continuar utilizando Fluxer.",
+    "requiredActionChooseMethodDescription": "Completa uno de los siguientes métodos de verificación para continuar utilizando {productName}.",
     "@requiredActionChooseMethodDescription": {
-        "description": "Description when user can pick email or phone."
+        "description": "Description when user can pick email or phone.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
     },
     "requiredActionUsePhone": "Utilizar teléfono",
     "@requiredActionUsePhone": {

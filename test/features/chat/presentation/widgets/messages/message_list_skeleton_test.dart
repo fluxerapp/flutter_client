@@ -292,7 +292,9 @@ void main() {
     await _disposeWidgetTree(tester);
   });
 
-  testWidgets('shows skeleton when panel channel is not ready', (tester) async {
+  testWidgets('shows mismatch placeholder when panel channel is not ready', (
+    tester,
+  ) async {
     final db.FluxerDatabase database = await _openDatabase();
     addTearDown(database.close);
     final _LoadingChatViewModel chatViewModel = _LoadingChatViewModel(
@@ -308,7 +310,8 @@ void main() {
     );
     await tester.pump();
 
-    expect(find.byType(MessageListSkeleton), findsOneWidget);
+    expect(find.byType(MessageListMismatchPlaceholder), findsOneWidget);
+    expect(find.byType(MessageListSkeleton), findsNothing);
     expect(find.byType(ChatLoadingSpinner), findsNothing);
     await _disposeWidgetTree(tester);
   });

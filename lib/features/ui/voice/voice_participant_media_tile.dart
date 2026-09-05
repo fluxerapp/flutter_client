@@ -1,5 +1,4 @@
 import 'dart:async' show Timer, unawaited;
-import 'dart:ui' show ImageFilter;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/session_authorization_header.dart';
@@ -42,6 +41,7 @@ class VoiceParticipantMediaTile extends StatefulWidget {
     this.user,
     this.mirrorCamera = false,
     this.omitVideoTrack = false,
+    this.subscribeQuality = kVoiceCameraSubscribeQuality,
     super.key,
   });
 
@@ -63,6 +63,7 @@ class VoiceParticipantMediaTile extends StatefulWidget {
   final database.User? user;
   final bool mirrorCamera;
   final bool omitVideoTrack;
+  final VideoQuality subscribeQuality;
 
   @override
   State<VoiceParticipantMediaTile> createState() =>
@@ -71,22 +72,20 @@ class VoiceParticipantMediaTile extends StatefulWidget {
 
 class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
   bool _tileVisible = false;
-  bool _blurReady = false;
   bool _trackSyncScheduled = false;
   Timer? _unsubscribeGrace;
   String? _lastVideoIntent;
   String? _lastAudioIntent;
+  bool _hadScreenShareFrame = false;
 
   @override
   void initState() {
     super.initState();
-    _maybeArmScreenShareBlur();
   }
 
   @override
   void didUpdateWidget(covariant VoiceParticipantMediaTile oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _maybeArmScreenShareBlur();
     _scheduleRemoteTrackSync();
   }
 
@@ -101,22 +100,6 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
       'voice-tile-vis-${widget.userId}-'
       '${widget.voice.connectionId}-${widget.tileSource.name}',
     );
-  }
-
-  void _maybeArmScreenShareBlur() {
-    if (_blurReady) {
-      return;
-    }
-    if (widget.tileSource != VoiceParticipantTileSource.screenShare ||
-        widget.isActiveScreenShare) {
-      return;
-    }
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted || _blurReady) {
-        return;
-      }
-      setState(() => _blurReady = true);
-    });
   }
 
   void _scheduleRemoteTrackSync() {
@@ -194,7 +177,8 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
             tileVisible: _tileVisible,
             omitVideoTrack: widget.omitVideoTrack,
           );
-    final String intent = '${publication.sid}:$shouldSubscribe';
+    final String intent =
+        '${publication.sid}:$shouldSubscribe:${widget.subscribeQuality.name}';
     if (intent == _lastVideoIntent) {
       return;
     }
@@ -203,6 +187,7 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
       syncRemoteVideoSubscription(
         publication: publication,
         shouldSubscribe: shouldSubscribe,
+        quality: widget.subscribeQuality,
       ),
     );
   }
@@ -212,14 +197,19 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
       return;
     }
     final bool shouldSubscribe = widget.isActiveScreenShare;
-    final String intent = '${publication.sid}:$shouldSubscribe';
+    if (shouldSubscribe) {
+      if (!publication.subscribed) {
+        unawaited(publication.subscribe());
+      }
+      _lastAudioIntent = null;
+      return;
+    }
+    final String intent = '${publication.sid}:false';
     if (intent == _lastAudioIntent) {
       return;
     }
     _lastAudioIntent = intent;
-    if (shouldSubscribe && !publication.subscribed) {
-      unawaited(publication.subscribe());
-    } else if (!shouldSubscribe && publication.subscribed) {
+    if (publication.subscribed) {
       unawaited(publication.unsubscribe());
     }
   }
@@ -344,19 +334,13 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
                   const Positioned.fill(
                     child: ColoredBox(color: Color(0x55000000)),
                   ),
-                  if (_blurReady)
-                    Positioned.fill(
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-                        child: const ColoredBox(color: Color(0x22000000)),
-                      ),
-                    ),
                 ],
               );
             }
             if (!isScreenShareTile) {
               return videoWidget;
             }
+            _hadScreenShareFrame = true;
             if (!widget.isActiveScreenShare || audioTrack == null) {
               return videoWidget;
             }
@@ -371,6 +355,26 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
                       audioTrack: audioTrack,
                       isActiveScreenShare: widget.isActiveScreenShare,
                     ),
+                  ),
+                ),
+              ],
+            );
+          }
+          if (isScreenShareTile &&
+              widget.isActiveScreenShare &&
+              _hadScreenShareFrame) {
+            return Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                ColoredBox(color: widget.backgroundColor),
+                const Positioned.fill(
+                  child: ColoredBox(color: Color(0x66000000)),
+                ),
+                const Center(
+                  child: SizedBox(
+                    width: 32,
+                    height: 32,
+                    child: FluxerLoadingSpinner(),
                   ),
                 ),
               ],

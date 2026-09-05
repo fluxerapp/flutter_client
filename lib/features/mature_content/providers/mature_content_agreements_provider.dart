@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/daos/user_preferences_dao.dart'
@@ -19,10 +17,12 @@ part 'mature_content_agreements_provider.g.dart';
 
 @Riverpod(keepAlive: true)
 class MatureContentAgreements extends _$MatureContentAgreements {
+  Future<void>? _loadInFlight;
+
   @override
   MatureContentAgreementsState build() {
     ref.watch(userSettingsViewModelProvider.select((state) => state.userId));
-    unawaited(_load());
+    _loadInFlight = _load();
     return const MatureContentAgreementsState();
   }
 
@@ -43,7 +43,17 @@ class MatureContentAgreements extends _$MatureContentAgreements {
     );
   }
 
-  Future<void> reload() => _load();
+  Future<void> reload() {
+    _loadInFlight = _load();
+    return _loadInFlight!;
+  }
+
+  Future<void> ensureLoaded() {
+    if (state.isLoaded) {
+      return Future<void>.value();
+    }
+    return _loadInFlight ??= _load();
+  }
 
   Future<void> _persist() async {
     final String userId = ref.read(userSettingsViewModelProvider).userId;
@@ -186,12 +196,20 @@ Future<MatureContentGateReason> matureContentGateReason(
   String channelId,
 ) async {
   final SensitiveContentState settings = ref.watch(sensitiveContentProvider);
-  final MatureContentAgreementsState agreements = ref.watch(
+  MatureContentAgreementsState agreements = ref.watch(
     matureContentAgreementsProvider,
   );
-  final ResolvedMatureGateContext? context = await ref.watch(
+  final Future<ResolvedMatureGateContext?> contextFuture = ref.watch(
     matureGateContextProvider(channelId).future,
   );
+  if (!agreements.isLoaded) {
+    await ref.read(matureContentAgreementsProvider.notifier).ensureLoaded();
+    if (!ref.mounted) {
+      return MatureContentGateReason.none;
+    }
+    agreements = ref.read(matureContentAgreementsProvider);
+  }
+  final ResolvedMatureGateContext? context = await contextFuture;
   if (!ref.mounted || context == null) {
     return MatureContentGateReason.none;
   }

@@ -135,6 +135,23 @@ Map<String, database.User> _cachedUsersForIds(Set<String> userIds) {
   return byId;
 }
 
+VoiceChannelParticipantData connectingSelfVoiceParticipant({
+  required String currentUserId,
+  required String channelId,
+  String? guildId,
+  String? connectionId,
+}) {
+  return VoiceChannelParticipantData(
+    userId: currentUserId,
+    voice: VoiceState(
+      userId: currentUserId,
+      channelId: channelId,
+      guildId: guildId == null || guildId.isEmpty ? null : guildId,
+      connectionId: connectionId,
+    ),
+  );
+}
+
 class VoiceChannelParticipantData {
   const VoiceChannelParticipantData({
     required this.userId,

@@ -9,8 +9,6 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-const double _kAppLicensePackageSheetMaxHeight = 0.9;
-
 Future<void> showAppLicensePackageSheet(
   BuildContext context, {
   required String packageName,
@@ -20,7 +18,6 @@ Future<void> showAppLicensePackageSheet(
     context,
     title: packageName,
     useRootNavigator: true,
-    maxHeight: _kAppLicensePackageSheetMaxHeight,
     builder: (sheetContext, scrollController, _) {
       final colors = sheetContext.colors;
 

@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/markdown/native_markdown_parser.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 
@@ -48,6 +49,7 @@ Widget buildWideMarkdownTable({double width = 400, double height = 120}) {
     width: width,
     height: height,
     child: const FluxerMarkdown(
+      astParser: parseNativeFluxerMarkdownAst,
       data: kWideMarkdownTable,
       config: kWideTableMarkdownConfig,
     ),

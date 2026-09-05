@@ -35,7 +35,9 @@ Future<void> showChannelInviteModal(
           temporary: false,
         ),
       );
-      final String code = invite.toGuildInviteMetadataResponse().code;
+      final String code = GuildInviteMetadataResponse.fromJson(
+        invite.toJson(),
+      ).code;
       inviteUrl = '$inviteBase/$code';
     } on Object {
       if (context.mounted) {

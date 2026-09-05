@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/auth/domain/login_error.dart';
 import 'package:fluxer_app/features/auth/presentation/sheets/instance_selector_sheet.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_form_error_text.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/instance_selector.dart';
@@ -12,6 +13,7 @@ import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provid
 import 'package:fluxer_app/features/auth/providers/instance_selector_provider.dart';
 import 'package:fluxer_app/features/auth/providers/login_error_l10n.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
+import 'package:fluxer_app/features/shell/presentation/widgets/service_status_connection_footer.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
@@ -261,7 +263,19 @@ class _LoginFormState extends ConsumerState<LoginForm>
               child: errorText != null
                   ? Padding(
                       padding: EdgeInsets.only(bottom: layout.s2),
-                      child: AuthFormErrorText(errorText),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AuthFormErrorText(errorText),
+                          if (vm.errorType ==
+                              LoginError.serviceUnavailable) ...[
+                            SizedBox(height: layout.s2),
+                            OfficialInstanceStatusPageLink(
+                              style: context.textStyles.bodySmall,
+                            ),
+                          ],
+                        ],
+                      ),
                     )
                   : const SizedBox.shrink(),
             ),

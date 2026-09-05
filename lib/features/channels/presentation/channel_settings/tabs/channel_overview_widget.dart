@@ -113,7 +113,6 @@ class _ChannelOverviewWidgetState extends ConsumerState<ChannelOverviewWidget> {
         FluxerEmojiPickerSheet.show(
           context,
           title: l10n.emojiPickerTitle,
-          maxHeight: 0.88,
           visibleTabs: const <ExpressionPickerTab>[ExpressionPickerTab.emojis],
           onEmojiSelected: (emoji) {
             _topicController.insertEmoji(

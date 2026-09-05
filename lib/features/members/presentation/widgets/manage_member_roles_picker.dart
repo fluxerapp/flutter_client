@@ -87,7 +87,6 @@ class ManageMemberRolesSheet {
       context,
       title: title ?? l10n.permissionManageRoles,
       useRootNavigator: true,
-      initialChildSize: 0.6,
       minChildSize: 0.35,
       builder: (sheetContext, scrollController, close) {
         return ListView(

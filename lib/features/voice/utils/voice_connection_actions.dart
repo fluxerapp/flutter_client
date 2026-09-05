@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -24,7 +25,17 @@ const Duration _kOtherDeviceDisconnectPollInterval = Duration(
   milliseconds: 100,
 );
 
-enum VoiceJoinResult { cancelled, succeeded, failed }
+enum VoiceJoinResult {
+  cancelled,
+  succeeded,
+  failed,
+  gated;
+
+  bool get shouldOpenChannel => switch (this) {
+    succeeded || gated => true,
+    cancelled || failed => false,
+  };
+}
 
 void sendVoiceStateDisconnect(
   ProviderContainer container, {
@@ -226,6 +237,12 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
     if (confirmed != true) {
       return VoiceJoinResult.cancelled;
     }
+  }
+  final bool blockedByGate = await container.read(
+    shouldShowMatureContentGateProvider(channelId).future,
+  );
+  if (blockedByGate) {
+    return VoiceJoinResult.gated;
   }
   final String? currentUserId = container.read(currentUserIdProvider);
   if (currentUserId == null) {

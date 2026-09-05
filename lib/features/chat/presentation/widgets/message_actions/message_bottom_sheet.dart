@@ -45,6 +45,7 @@ enum MessageAction {
   reply,
   forward,
   copyText,
+  copyEmbedText,
   pin,
   bookmark,
   markAsUnread,
@@ -90,9 +91,7 @@ Future<MessageAction?> showMessageBottomSheet(
   );
   return FluxerBottomSheet.showScrollable<MessageAction>(
     context,
-    initialChildSize: 0.6,
     minChildSize: 0.3,
-    maxChildSize: 0.9,
     builder: (sheetContext, scrollController, _) => _MessageBottomSheetBody(
       message: message,
       permissions: permissions,
@@ -133,6 +132,10 @@ Future<void> dispatchMessageAction({
     case MessageAction.copyText:
       unawaited(
         copyToClipboard(context: context, value: message.displayedContent),
+      );
+    case MessageAction.copyEmbedText:
+      unawaited(
+        copyToClipboard(context: context, value: message.embedsCopyableText),
       );
     case MessageAction.copyMessageId:
       unawaited(copyToClipboard(context: context, value: message.id));
@@ -495,6 +498,12 @@ List<Widget> buildMessageActionMenuGroups({
         icon: PhosphorIconsFill.copy,
         label: l10n.chatMessageCopyText,
         onTap: () => onAction(MessageAction.copyText),
+      ),
+    if (message.embedsCopyableText.isNotEmpty)
+      FluxerBottomSheetMenuItem(
+        icon: PhosphorIconsFill.textAlignLeft,
+        label: l10n.chatMessageCopyEmbedText,
+        onTap: () => onAction(MessageAction.copyEmbedText),
       ),
     FluxerBottomSheetMenuItem(
       icon: PhosphorIconsBold.snowflake,

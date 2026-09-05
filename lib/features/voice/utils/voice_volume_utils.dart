@@ -4,6 +4,7 @@ import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 
 const int _unityGainPercent = 100;
 const double _quietRangeExponent = 1.2;
+const double kMaxVoiceTrackVolume = 3;
 
 double inputVoiceVolumePercentToGain(int value) {
   return clampVoiceVolumePercent(value) / _unityGainPercent;
@@ -38,4 +39,22 @@ int composeVoiceVolumePercent(Iterable<int> volumeParts) {
     composed *= clampVoiceVolumePercent(part) / _unityGainPercent;
   }
   return clampVoiceVolumePercent(composed.round());
+}
+
+double composedBoostedVoiceTrackVolume(Iterable<int> volumeParts) {
+  return clampVoiceTrackVolume(
+    boostedVoiceVolumePercentToTrackVolume(
+      composeVoiceVolumePercent(volumeParts),
+    ),
+  );
+}
+
+double clampVoiceTrackVolume(double volume) {
+  if (!volume.isFinite || volume <= 0) {
+    return 0;
+  }
+  if (volume >= kMaxVoiceTrackVolume) {
+    return kMaxVoiceTrackVolume;
+  }
+  return volume;
 }

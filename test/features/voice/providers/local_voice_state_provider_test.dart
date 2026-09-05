@@ -77,5 +77,24 @@ void main() {
       expect(container.read(localVoiceStateProvider).selfDeaf, isFalse);
       expect(container.read(localVoiceStateProvider).selfMute, isFalse);
     });
+
+    test('undeafen keeps mute when user was muted before deafen', () async {
+      SharedPreferences.setMockInitialValues(<String, Object>{});
+      final ProviderContainer container = ProviderContainer();
+      addTearDown(container.dispose);
+
+      await waitForHydration(container);
+      final LocalVoiceState notifier = container.read(
+        localVoiceStateProvider.notifier,
+      );
+
+      await notifier.toggleSelfMute();
+      await notifier.toggleSelfDeaf();
+      await notifier.toggleSelfDeaf();
+
+      final LocalVoiceStateData state = container.read(localVoiceStateProvider);
+      expect(state.selfDeaf, isFalse);
+      expect(state.selfMute, isTrue);
+    });
   });
 }

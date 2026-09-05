@@ -11,12 +11,21 @@ void main() {
     );
     expect(message.type, messageTypeClientSystem);
     expect(message.authorId, fluxerBotUserId);
-    expect(message.authorName, 'Fluxerbot');
+    expect(message.authorName, 'Fluxer');
     expect(message.authorIsBot, isTrue);
     expect(message.authorIsSystem, isTrue);
     expect(message.isClientSystemMessage, isTrue);
     expect(message.content, 'Delivery failed.');
     expect(message.deliveryState, MessageDeliveryState.sent);
     expect(message.clientNonce, message.id);
+  });
+
+  test('createClientSystemMessage brands the system bot with productName', () {
+    final Message message = createClientSystemMessage(
+      channelId: 'channel-1',
+      content: 'Delivery failed.',
+      productName: 'Acme',
+    );
+    expect(message.authorName, 'Acme');
   });
 }

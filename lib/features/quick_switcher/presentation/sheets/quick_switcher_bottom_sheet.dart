@@ -26,7 +26,6 @@ class QuickSwitcherBottomSheet {
       context,
       useRootNavigator: true,
       minChildSize: 0.5,
-      maxChildSize: 0.92,
       builder: (sheetContext, scrollController, close) {
         return _QuickSwitcherSheetBody(
           scrollController: scrollController,

@@ -39,6 +39,17 @@ jobs:
       - name: Strip Firebase dependencies if present
         run: dart tool/strip_firebase_deps.dart
 
+      - name: Set up Rust and native asset build hooks
+        run: |
+          if ! command -v cargo >/dev/null 2>&1; then
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+              | sh -s -- -y --profile minimal --default-toolchain stable
+            echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
+            . "$HOME/.cargo/env"
+          fi
+          rustup target add aarch64-apple-ios
+          flutter config --enable-native-assets
+
       - name: Get dependencies
         run: flutter pub get
 

@@ -3,6 +3,7 @@ import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/utils/code_block_highlight.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 import 'package:material_ui/material_ui.dart';
+import 'support/native_test_parser.dart';
 
 const FluxerMarkdownConfig _testMarkdownConfig = FluxerMarkdownConfig(
   resolveEmojiShortcode: _noopEmojiShortcode,
@@ -27,6 +28,7 @@ Future<void> _pumpMarkdown(WidgetTester tester, String data) async {
     MaterialApp(
       home: Scaffold(
         body: FluxerMarkdown(
+          astParser: parseTestMarkdownAst,
           data: data,
           config: _testMarkdownConfig,
           baseStyle: _baseStyle,

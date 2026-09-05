@@ -222,17 +222,6 @@ class _InviteAcceptModalBodyState extends ConsumerState<InviteAcceptModalBody> {
             ),
           ),
         ),
-        InviteAcceptPack(:final invite) => _InviteAcceptBackground(
-          splashUrl: null,
-          child: _InviteAcceptCard(
-            child: _PackInviteContent(
-              invite: invite,
-              l10n: l10n,
-              isAccepting: _isAccepting,
-              onInstall: () => unawaited(_acceptInvite()),
-            ),
-          ),
-        ),
       },
     );
   }
@@ -432,7 +421,7 @@ class _GuildInviteContent extends StatelessWidget {
     required this.onGoTo,
   });
 
-  final InviteResponseSchemaGuildInviteResponse invite;
+  final GuildInviteResponse invite;
   final FluxerLocalizations l10n;
   final bool isAccepting;
   final bool isAlreadyMember;
@@ -588,7 +577,7 @@ class _GroupDmInviteContent extends StatelessWidget {
     required this.onJoin,
   });
 
-  final InviteResponseSchemaGroupDmInviteResponse invite;
+  final GroupDmInviteResponse invite;
   final FluxerLocalizations l10n;
   final bool isAccepting;
   final VoidCallback onJoin;
@@ -639,79 +628,6 @@ class _GroupDmInviteContent extends StatelessWidget {
           onPressed: onJoin,
           isLoading: isAccepting,
           label: l10n.inviteAcceptJoinGroupButton,
-        ),
-      ],
-    );
-  }
-}
-
-class _PackInviteContent extends StatelessWidget {
-  const _PackInviteContent({
-    required this.invite,
-    required this.l10n,
-    required this.isAccepting,
-    required this.onInstall,
-  });
-
-  final InviteResponseSchemaPackInviteResponse invite;
-  final FluxerLocalizations l10n;
-  final bool isAccepting;
-  final VoidCallback onInstall;
-
-  bool get _isEmojiPack =>
-      invite.pack.type == PackInviteResponsePackTypeType.emoji;
-
-  @override
-  Widget build(BuildContext context) {
-    final PackInviteResponsePack pack = invite.pack;
-    final String packTypeLabel = _isEmojiPack
-        ? l10n.inviteAcceptEmojiPack
-        : l10n.inviteAcceptStickerPack;
-    final String installLabel = _isEmojiPack
-        ? l10n.inviteAcceptInstallEmojiPack
-        : l10n.inviteAcceptInstallStickerPack;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        Text(
-          pack.name,
-          textAlign: TextAlign.center,
-          style: context.textStyles.channelName,
-        ),
-        const SizedBox(height: 4),
-        Text(
-          packTypeLabel,
-          textAlign: TextAlign.center,
-          style: context.textStyles.bodySmall.copyWith(
-            color: context.colors.textTertiaryMuted,
-          ),
-        ),
-        if (pack.description != null &&
-            pack.description!.isNotEmpty) ...<Widget>[
-          const SizedBox(height: 12),
-          Text(
-            pack.description!,
-            textAlign: TextAlign.center,
-            style: context.textStyles.bodySmall.copyWith(
-              color: context.colors.textSecondary,
-              height: 1.4,
-            ),
-          ),
-        ],
-        const SizedBox(height: 12),
-        Text(
-          l10n.inviteAcceptPackInstallNote,
-          textAlign: TextAlign.center,
-          style: context.textStyles.bodySmall.copyWith(
-            color: context.colors.textTertiaryMuted,
-            height: 1.4,
-          ),
-        ),
-        const SizedBox(height: 20),
-        FluxerButton.primary(
-          onPressed: onInstall,
-          isLoading: isAccepting,
-          label: installLabel,
         ),
       ],
     );

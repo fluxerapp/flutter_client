@@ -646,6 +646,14 @@ class LoginViewModel extends _$LoginViewModel {
         );
         return false;
       }
+      if (error.kind == AuthFailureKind.serviceUnavailable) {
+        state = state.copyWith(
+          errorType: LoginError.serviceUnavailable,
+          fieldErrors: const {},
+          isLoggingIn: false,
+        );
+        return false;
+      }
       state = state.copyWith(
         errorMessage: error.fieldErrors.isEmpty ? error.message : null,
         fieldErrors: error.fieldErrors,

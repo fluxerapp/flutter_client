@@ -5,8 +5,10 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/swipe_to_reply.dart';
+import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/markdown/native_markdown_parser.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 
 import '../../../../../shared/gestures/wide_markdown_table_test_helpers.dart';
@@ -274,6 +276,38 @@ void main() {
     expect(editCount, 0);
   });
 
+  testWidgets('drawer peek scope disables reply without rebuilding the child', (
+    tester,
+  ) async {
+    var replyCount = 0;
+    await tester.pumpWidget(
+      _buildApp(
+        ChatSwipeToReplyScope(
+          enabled: false,
+          child: SwipeToReply(
+            onReply: () => replyCount++,
+            child: const ColoredBox(color: Color(0xFF112233)),
+          ),
+        ),
+      ),
+    );
+    final BuildContext ctx = tester.element(
+      find.byKey(const ValueKey<String>('swipeViewport')),
+    );
+    final double reserve = leadingEdgeHorizontalSwipeReserveWidth(ctx);
+    final RenderBox viewport =
+        tester.renderObject(find.byKey(const ValueKey<String>('swipeViewport')))
+            as RenderBox;
+    final Offset startLocal = Offset(reserve + 40, viewport.size.height / 2);
+    final TestGesture gesture = await tester.startGesture(
+      viewport.localToGlobal(startLocal),
+    );
+    await gesture.moveBy(const Offset(-150, 0));
+    await gesture.up();
+    await tester.pumpAndSettle();
+    expect(replyCount, 0);
+  });
+
   testWidgets('wraps the child in a RepaintBoundary so the slide composites', (
     tester,
   ) async {
@@ -374,6 +408,7 @@ void main() {
           child: SwipeToReply(
             onReply: () => replyCount++,
             child: const FluxerMarkdown(
+              astParser: parseNativeFluxerMarkdownAst,
               data: kNarrowMarkdownTable,
               config: kWideTableMarkdownConfig,
             ),

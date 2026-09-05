@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:isolate';
 
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
@@ -222,6 +223,23 @@ class Embed {
   });
 
   bool get isMatureMedia => nsfw ?? false;
+
+  /// Human-readable text of this embed, top to bottom as rendered, one part
+  /// per line. Empty when the embed is media-only.
+  String get copyableText {
+    final List<String> parts = <String>[
+      ?providerName,
+      ?author?.name,
+      ?title,
+      ?description,
+      for (final EmbedField field in fields) '${field.name}: ${field.value}',
+      ?footer?.text,
+    ];
+    return parts
+        .map((String part) => part.trim())
+        .where((String part) => part.isNotEmpty)
+        .join('\n');
+  }
 
   factory Embed.fromSdk(MessageEmbedResponse sdk) => Embed(
     type: _parseEmbedType(sdk.type),
@@ -1235,6 +1253,19 @@ class Message {
     );
   }
 
+  static const int _kFromRowsIsolateMinCount = 8;
+
+  static List<Message> fromRows(List<db.Message> rows) => <Message>[
+    for (final db.Message row in rows) Message.fromRow(row),
+  ];
+
+  static Future<List<Message>> fromRowsAsync(List<db.Message> rows) {
+    if (rows.length < _kFromRowsIsolateMinCount) {
+      return Future<List<Message>>.value(fromRows(rows));
+    }
+    return Isolate.run(() => fromRows(rows));
+  }
+
   static MessageTranslation? translationFromRow(db.Message row) {
     return MessageTranslation.tryParse(
       translatedContent: row.translatedContent,
@@ -1594,6 +1625,19 @@ class Message {
 
   bool get hasForwardSnapshots => messageSnapshots.isNotEmpty;
   bool get suppressEmbeds => (flags & messageFlagSuppressEmbeds) != 0;
+
+  /// Text of every rendered embed, embeds separated by a blank line. Empty
+  /// when embeds are suppressed or carry no text.
+  String get embedsCopyableText {
+    if (suppressEmbeds) {
+      return '';
+    }
+    return embeds
+        .map((Embed embed) => embed.copyableText)
+        .where((String text) => text.isNotEmpty)
+        .join('\n\n');
+  }
+
   bool get hasCompactAttachments =>
       (flags & messageFlagCompactAttachments) != 0;
   bool get isVoiceMessage => (flags & kMessageFlagVoiceMessage) != 0;

@@ -2,6 +2,7 @@ import 'dart:async' show unawaited;
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/router/app_location_persistence.dart';
+import 'package:fluxer_app/core/router/pending_app_location.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'pre_reconnecting_location_provider.g.dart';
@@ -30,17 +31,29 @@ class PreReconnectingLocation extends _$PreReconnectingLocation {
     state = location;
   }
 
-  Future<String> takeOrRestore(FluxerDatabase db) {
+  Future<String> takeOrRestore(
+    FluxerDatabase db, {
+    PendingAppLocation? pending,
+  }) async {
+    final PendingAppLocation pendingLocation =
+        pending ?? PendingAppLocation.instance;
     final String? saved = state;
     if (saved != null) {
       unawaited(
         Future<void>(() {
-          if (state == saved) {
-            state = null;
+          if (!ref.mounted || state != saved) {
+            return;
           }
+          state = null;
         }),
       );
     }
-    return restoreAppLocation(db: db, inMemory: saved);
+    final String? pendingPath = await pendingLocation.take();
+    if (saved == null && pendingPath != null && pendingPath.isNotEmpty) {
+      await clearPersistedLocation(db, pendingPath);
+    }
+    final String location = await restoreAppLocation(db: db, inMemory: saved);
+    await pendingLocation.mark(location);
+    return location;
   }
 }

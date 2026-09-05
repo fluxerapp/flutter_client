@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -255,6 +256,9 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
       query: debouncedSearchQuery,
       showBilling: showBilling,
       isTouchPrimary: isTouchPrimaryInput(ref),
+      productName: ref.watch(
+        instanceRuntimeConfigProvider.select((config) => config.productName),
+      ),
     );
     final UserSettingsSearchSidebar? searchSidebar = isSettingsSearchActive
         ? buildUserSettingsSearchSidebar(
@@ -351,13 +355,21 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
       return;
     }
     if (entry.isJoinFluxerLabs) {
-      unawaited(handleInviteLinkTap(context, kFluxerLabsInviteUrl));
+      unawaited(_joinFluxerLabs());
       return;
     }
     if (entry.isSeparator) {
       return;
     }
     setState(() => _selectedIndex = index);
+  }
+
+  Future<void> _joinFluxerLabs() async {
+    await handleInviteLinkTap(context, kFluxerLabsInviteUrl);
+    if (!mounted) {
+      return;
+    }
+    Navigator.of(context).pop();
   }
 
   void _onSearchHitSelected(UserSettingsSearchHit? hit) {
@@ -555,6 +567,9 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
       query: debouncedSearchQuery,
       showBilling: showBilling,
       isTouchPrimary: isTouchPrimary,
+      productName: ref.watch(
+        instanceRuntimeConfigProvider.select((config) => config.productName),
+      ),
     );
     return FluxerSettingsNavList(
       controller: widget.scrollController,
@@ -581,7 +596,7 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
               l10n: l10n,
               onOpenSection: _openSettingsPage,
               onOpenAppLogs: _openAppLogs,
-              onJoinFluxerLabs: _joinFluxerLabs,
+              onJoinFluxerLabs: () => unawaited(_joinFluxerLabs()),
               onLogout: _logout,
               showBilling: showBilling,
               showJoinFluxerLabs: showJoinFluxerLabs,
@@ -638,8 +653,12 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
     );
   }
 
-  void _joinFluxerLabs() {
-    unawaited(handleInviteLinkTap(context, kFluxerLabsInviteUrl));
+  Future<void> _joinFluxerLabs() async {
+    await handleInviteLinkTap(context, kFluxerLabsInviteUrl);
+    if (!mounted) {
+      return;
+    }
+    widget.onClose();
   }
 
   void _openAppLogs() {

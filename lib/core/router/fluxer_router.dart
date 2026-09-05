@@ -125,11 +125,19 @@ CustomTransitionPage<void> _dmShellTransitionPage(
   BuildContext context,
   GoRouterState state,
 ) {
-  final String? channelId = state.pathParameters['channelId'];
-  final String? messageId = state.pathParameters['messageId'];
+  final String? routeName = state.name;
+  final String? channelId = routeName == RouteNames.dms
+      ? null
+      : state.pathParameters['channelId'];
+  final String? messageId = routeName == RouteNames.dmMessage
+      ? state.pathParameters['messageId']
+      : null;
   return shellSlideTransitionPage(
     context: context,
-    key: state.pageKey,
+    key: dmShellPageKeyForRoute(
+      routeName: routeName,
+      routePageKey: state.pageKey,
+    ),
     parallaxOutgoing: true,
     child: DMLayout(channelId: channelId, targetMessageId: messageId),
   );
@@ -736,7 +744,7 @@ GoRouter fluxerRouter(Ref ref) {
                     name: RouteNames.favoritesChannel,
                     pageBuilder: (context, state) => shellSlideTransitionPage(
                       context: context,
-                      key: state.pageKey,
+                      key: kFavoritesChatPageKey,
                       parallaxOutgoing: true,
                       child: FavoritesLayout(
                         channelId: state.pathParameters['channelId'],
@@ -808,7 +816,7 @@ GoRouter fluxerRouter(Ref ref) {
                       final channelId = state.pathParameters['channelId']!;
                       return shellSlideTransitionPage(
                         context: context,
-                        key: state.pageKey,
+                        key: guildChatPageKey(guildId),
                         name: state.uri.path,
                         parallaxOutgoing: true,
                         child: ChannelLayout(

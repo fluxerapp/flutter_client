@@ -96,11 +96,20 @@ class _DmVoiceCallFullscreenPageState
     );
     final Widget scaffold = Scaffold(
       backgroundColor: context.colors.chatBackground,
-      appBar: usePhoneVoiceOverlay && !showsOverlay
-          ? null
-          : AppBar(
-              backgroundColor: context.colors.chatInputBackground,
+      extendBodyBehindAppBar: usePhoneVoiceOverlay,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: IgnorePointer(
+          ignoring: usePhoneVoiceOverlay && !showsOverlay,
+          child: AnimatedOpacity(
+            duration: const Duration(milliseconds: 240),
+            opacity: showsOverlay ? 1 : 0,
+            child: AppBar(
+              backgroundColor: usePhoneVoiceOverlay
+                  ? Colors.transparent
+                  : context.colors.chatInputBackground,
               foregroundColor: context.colors.textPrimary,
+              elevation: 0,
               leading: BackButton(onPressed: () => context.pop()),
               title: Text(
                 _resolveAppBarTitle(l10n),
@@ -114,6 +123,9 @@ class _DmVoiceCallFullscreenPageState
                 ),
               ],
             ),
+          ),
+        ),
+      ),
       body: inThisChannel
           ? LocalCameraOrientationSync(
               child: usePhoneVoiceOverlay
@@ -143,7 +155,7 @@ class _DmVoiceCallFullscreenPageState
             ),
     );
     if (usePhoneVoiceOverlay) {
-      return VoiceCallJoinChrome(child: scaffold);
+      return VoiceCallJoinOverlay(child: scaffold);
     }
     return scaffold;
   }

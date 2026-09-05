@@ -3,7 +3,8 @@ import 'package:fluxer_app/features/settings/utils/user_settings_field_registry.
 import 'package:fluxer_app/features/settings/utils/user_settings_nav_l10n.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
-typedef UserSettingsSearchLabel = String Function(FluxerLocalizations l10n);
+typedef UserSettingsSearchLabel =
+    String Function(FluxerLocalizations l10n, {required String productName});
 
 final class UserSettingsSearchDescriptor {
   const UserSettingsSearchDescriptor({
@@ -45,7 +46,7 @@ List<UserSettingsSearchDescriptor> _buildDescriptors() {
       UserSettingsSearchDescriptor(
         id: 'section:${section.name}',
         section: section,
-        label: (l10n) => userSettingsSectionLabel(l10n, section),
+        label: _l((l10n) => userSettingsSectionLabel(l10n, section)),
       ),
     );
   }
@@ -81,7 +82,9 @@ List<UserSettingsSearchDescriptor> _buildDescriptors() {
           id: id,
           section: _sectionForScrollField(tab, scrollId),
           fieldId: scrollId,
-          label: (l10n) => userSettingsFieldLabel(l10n, tab, scrollId) ?? '',
+          label: _l(
+            (l10n) => userSettingsFieldLabel(l10n, tab, scrollId) ?? '',
+          ),
           keywords: _extraKeywordsForScrollField(scrollId),
           description: _descriptionForScrollField(scrollId),
         ),
@@ -144,7 +147,12 @@ final class _UserSettingsSearchOption {
 }
 
 UserSettingsSearchLabel _l(String Function(FluxerLocalizations l10n) label) =>
-    label;
+    (l10n, {required String productName}) => label(l10n);
+
+UserSettingsSearchLabel _lp(
+  String Function(FluxerLocalizations l10n, String productName) label,
+) =>
+    (l10n, {required String productName}) => label(l10n, productName);
 
 final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
   // Look & feel
@@ -215,6 +223,10 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     section: UserSettingsSection.lookAndFeel,
     fieldId: 'interface',
     label: _l((l10n) => l10n.lookAndFeelCollapseDMsLabel),
+    description: _lp(
+      (l10n, productName) =>
+          l10n.lookAndFeelCollapseDMsDescription(productName),
+    ),
     keywords: [_l((l10n) => l10n.lookAndFeelGuildSidebarTitle)],
   ),
   _UserSettingsSearchOption(
@@ -316,7 +328,10 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     id: 'chat:inline-attachments',
     section: UserSettingsSection.chat,
     fieldId: 'display',
-    label: _l((l10n) => l10n.messagesMediaDisplayInlineAttachmentLabel),
+    label: _lp(
+      (l10n, productName) =>
+          l10n.messagesMediaDisplayInlineAttachmentLabel(productName),
+    ),
   ),
   _UserSettingsSearchOption(
     id: 'chat:link-previews',
@@ -695,6 +710,10 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-performance',
     label: _l((l10n) => l10n.advancedPerformanceReportingLabel),
+    description: _lp(
+      (l10n, productName) =>
+          l10n.advancedPerformanceReportingSectionDescription(productName),
+    ),
   ),
 ];
 

@@ -3,6 +3,7 @@ import 'dart:ui' show BoxWidthStyle;
 
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
@@ -543,7 +544,9 @@ class _ForwardMessageSheetBodyState
                         .trim()
                         .length,
                     maxLength: maxMessageLength,
-                    canUpgrade: maxMessageLength < premiumMaxLength,
+                    canUpgrade:
+                        maxMessageLength < premiumMaxLength &&
+                        ref.watch(shouldShowPremiumCommerceProvider),
                     premiumMaxLength: premiumMaxLength,
                   ),
                 ],
@@ -650,7 +653,6 @@ class _ForwardMessageSheetBodyState
       FluxerEmojiPickerSheet.show(
         context,
         title: FluxerLocalizations.of(context).emojiPickerTitle,
-        maxHeight: 0.88,
         channelId: widget.sourceChannelId,
         visibleTabs: const <ExpressionPickerTab>[ExpressionPickerTab.emojis],
         onEmojiSelected: (FluxerSelectedEmoji emoji) =>

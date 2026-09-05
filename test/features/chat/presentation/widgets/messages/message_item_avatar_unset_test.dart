@@ -17,6 +17,7 @@ import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_dart/export.dart';
 
+import '../../../../../helpers/instance_runtime_config_override.dart';
 import '../../../../../helpers/test_l10n.dart';
 
 /// Author snowflake used by every case in this file.
@@ -85,6 +86,7 @@ Widget _app({
   return ProviderScope(
     key: ValueKey<Object>(authorDisplay.avatarUrl ?? 'unset'),
     overrides: [
+      instanceRuntimeConfigOverride(),
       guildUserDisplayProvider((
         _authorId,
         _guildId,

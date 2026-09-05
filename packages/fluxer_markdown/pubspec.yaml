@@ -34,4 +34,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  fluxer_markdown_native:
+    path: ../fluxer_markdown_native
   lint_hard: ^7.1.2

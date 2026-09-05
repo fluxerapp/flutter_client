@@ -1,4 +1,4 @@
-enum AuthFailureKind { invalidCredentials }
+enum AuthFailureKind { invalidCredentials, serviceUnavailable }
 
 class AuthFailure implements Exception {
   final String message;

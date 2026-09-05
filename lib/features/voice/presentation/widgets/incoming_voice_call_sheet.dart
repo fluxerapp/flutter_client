@@ -64,9 +64,7 @@ Future<String?> showIncomingVoiceCallSheet(
     useRootNavigator: true,
     title: headerTitle,
     isDismissible: false,
-    initialChildSize: 0.58,
     minChildSize: 0.28,
-    maxChildSize: 0.92,
     builder: (BuildContext sheetContext, ScrollController scrollController, _) {
       return _IncomingVoiceCallSheetBody(
         sheetContext: sheetContext,

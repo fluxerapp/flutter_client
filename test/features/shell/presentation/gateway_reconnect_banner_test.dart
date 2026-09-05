@@ -1,11 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
 import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
-import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/gateway_reconnect_banner.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../helpers/pump_fluxer_app.dart';
 import '../../../helpers/test_l10n.dart';
@@ -14,14 +11,8 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   Future<ProviderContainer> pumpBanner(WidgetTester tester) async {
-    final List<Override> overrides = <Override>[
-      instanceRuntimeConfigProvider.overrideWithValue(
-        InstanceRuntimeConfig.defaults,
-      ),
-    ];
     await tester.pumpWidget(
       pumpFluxerApp(
-        overrides: overrides,
         child: const GatewayReconnectBannerOverlay(child: SizedBox.expand()),
       ),
     );
@@ -54,11 +45,6 @@ void main() {
   testWidgets('renders reconnecting copy with reduced motion', (tester) async {
     await tester.pumpWidget(
       pumpFluxerApp(
-        overrides: <Override>[
-          instanceRuntimeConfigProvider.overrideWithValue(
-            InstanceRuntimeConfig.defaults,
-          ),
-        ],
         child: const MediaQuery(
           data: MediaQueryData(disableAnimations: true),
           child: GatewayReconnectBannerOverlay(child: SizedBox.expand()),

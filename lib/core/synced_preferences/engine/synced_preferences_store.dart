@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_field_adapter.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_field_registry.dart';
@@ -23,8 +24,27 @@ part 'synced_preferences_store.g.dart';
 
 const Duration _kSyncDebounce = Duration(milliseconds: 500);
 const Duration _kRecentAckWindow = Duration(seconds: 60);
-const Duration _kRateLimitBaseDelay = Duration(seconds: 5);
 const int _kRateLimitMaxAttempts = 6;
+const int _kRateLimitBackoffCapMs = 60000;
+const int _kRateLimitRetryAfterMinMs = 250;
+
+Duration syncedPreferencesRateLimitRetryDelay({
+  required int consecutive429s,
+  int? retryAfterMs,
+}) {
+  if (retryAfterMs != null && retryAfterMs > 0) {
+    return Duration(
+      milliseconds: retryAfterMs.clamp(
+        _kRateLimitRetryAfterMinMs,
+        _kRateLimitBackoffCapMs,
+      ),
+    );
+  }
+  final int exp = consecutive429s.clamp(1, _kRateLimitMaxAttempts);
+  return Duration(
+    milliseconds: (1000 * (1 << exp)).clamp(0, _kRateLimitBackoffCapMs),
+  );
+}
 
 @Riverpod(keepAlive: true)
 SyncedPreferencesStore syncedPreferencesStore(Ref ref) {
@@ -470,7 +490,7 @@ class SyncedPreferencesStore {
       talker.error('[SyncedPreferences] Wire encode failed', error, stackTrace);
     } on Object catch (error, stackTrace) {
       if (_isRateLimitError(error)) {
-        _scheduleRateLimitRetry();
+        _scheduleRateLimitRetry(error);
         talker.warning('[SyncedPreferences] Push rate-limited, will retry');
         return;
       }
@@ -690,7 +710,7 @@ class SyncedPreferencesStore {
     });
   }
 
-  void _scheduleRateLimitRetry() {
+  void _scheduleRateLimitRetry(Object error) {
     _pendingPush = true;
     _pushTimer?.cancel();
     _rateLimitTimer?.cancel();
@@ -698,10 +718,12 @@ class SyncedPreferencesStore {
       1,
       _kRateLimitMaxAttempts,
     );
-    final delay = Duration(
-      milliseconds:
-          _kRateLimitBaseDelay.inMilliseconds *
-          (1 << (_rateLimitAttempts - 1).clamp(0, 4)),
+    final int? retryAfterMs = error is DioException
+        ? retryAfterMsFromDioException(error)
+        : null;
+    final delay = syncedPreferencesRateLimitRetryDelay(
+      consecutive429s: _rateLimitAttempts,
+      retryAfterMs: retryAfterMs,
     );
     _rateLimitTimer = Timer(delay, () {
       if (!_ref.mounted) {

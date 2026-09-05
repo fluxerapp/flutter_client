@@ -90,7 +90,7 @@ SSO (Single Sign-On) login is supported on the mobile client. For it to fully wo
 
 ## Contributing (for developers)
 
-During the current beta, we are only accepting contributions for bug fixes. To submit a PR, it must be for a linked reported issue.
+During the current beta, we are only accepting contributions for bug fixes. To submit a PR, it must be for a linked reported issue. Please message us on the Fluxer Labs community first (we hope to come up with a better way to reduce spam PR's in the future). [Join Link](https://fluxer.gg/fluxer-labs)
 
 After the beta period, we will be updating these guidelines.
 
@@ -137,6 +137,20 @@ Riverpod generated files are not committed, so you need to generate them before 
 
 ```text
 dart run build_runner build
+```
+
+### Native markdown parser (experimental)
+
+The `fluxer/` submodule vendors the canonical Rust markdown parser. A Dart
+native-assets build hook (`packages/fluxer_markdown_native`) compiles it with
+cargo during `flutter build` and bundles it into the app.
+
+Prerequisites: [rustup](https://rustup.rs) with the stable toolchain, and
+`flutter config --enable-native-assets`. For Android builds also add the
+cross-compilation targets:
+
+```text
+rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-android
 ```
 
 ### Mobile builds

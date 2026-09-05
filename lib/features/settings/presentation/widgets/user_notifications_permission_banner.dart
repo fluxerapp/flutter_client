@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -36,7 +37,13 @@ class UserNotificationsPermissionBanner extends ConsumerWidget {
           children: [
             FluxerWarningAlert(
               title: l10n.notificationsPermissionDeniedTitle,
-              message: l10n.systemPermissionNotificationsMessage,
+              message: l10n.systemPermissionNotificationsMessage(
+                ref.watch(
+                  instanceRuntimeConfigProvider.select(
+                    (config) => config.productName,
+                  ),
+                ),
+              ),
             ),
             SizedBox(height: layout.s2),
             Align(

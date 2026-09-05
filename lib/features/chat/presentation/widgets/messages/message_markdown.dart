@@ -6,6 +6,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/markdown/fluxer_markdown_adapter.dart';
 import 'package:fluxer_app/shared/markdown/message_markdown_settings.dart';
+import 'package:fluxer_app/shared/markdown/native_markdown_parser.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
 class MessageMarkdown extends ConsumerWidget {
@@ -80,6 +81,7 @@ class MessageMarkdown extends ConsumerWidget {
           maxLines: maxLines,
           overflow: overflow,
           trailingInlineWidget: trailingInlineWidget,
+          astParser: parseNativeFluxerMarkdownAst,
         ),
       ),
     );

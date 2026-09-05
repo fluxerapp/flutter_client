@@ -70,14 +70,16 @@ ReactionWriteBatcher reactionWriteBatcher(Ref ref) {
 
 @Riverpod(keepAlive: true)
 Future<void> Function() gatewayWriteBatcherFlushAll(Ref ref) {
-  return () async {
-    await Future.wait(<Future<void>>[
-      ref.read(readStateWriteBatcherProvider).flushAll(),
-      ref.read(messageWriteBatcherProvider).flushAll(),
-      ref.read(mentionFeedWriteBatcherProvider).flushAll(),
-      ref.read(reactionWriteBatcherProvider).flushAll(),
-    ]);
-  };
+  final readStateWriteBatcher = ref.watch(readStateWriteBatcherProvider);
+  final messageWriteBatcher = ref.watch(messageWriteBatcherProvider);
+  final mentionFeedWriteBatcher = ref.watch(mentionFeedWriteBatcherProvider);
+  final reactionWriteBatcher = ref.watch(reactionWriteBatcherProvider);
+  return () => Future.wait(<Future<void>>[
+    readStateWriteBatcher.flushAll(),
+    messageWriteBatcher.flushAll(),
+    mentionFeedWriteBatcher.flushAll(),
+    reactionWriteBatcher.flushAll(),
+  ]);
 }
 
 void _wireWriteBatcherLifecycle(Ref ref, Future<void> Function() flush) {

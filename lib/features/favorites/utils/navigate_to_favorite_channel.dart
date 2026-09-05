@@ -3,6 +3,7 @@ import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
+import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
 import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -18,9 +19,9 @@ Future<void> navigateToFavoriteChannel({
   final String chatPath = messageId == null || messageId.isEmpty
       ? RoutePaths.favoritesChannel(channelId)
       : RoutePaths.favoritesChannelMessage(channelId, messageId);
-  final bool isDm = guildId == null || guildId.isEmpty;
+  final String? favoriteGuildId = guildId;
 
-  if (isDm) {
+  if (favoriteGuildId == null || isFavoriteDmGuildId(favoriteGuildId)) {
     final bool canProceed = await promptForChannelGateIfNeeded(
       context: context,
       container: ref.container,
@@ -42,9 +43,10 @@ Future<void> navigateToFavoriteChannel({
     await openGuildChannelContent(
       context: context,
       ref: ref,
-      guildId: guildId,
+      guildId: favoriteGuildId,
       channel: resolvedChannel,
       chatPath: chatPath,
+      targetMessageId: messageId,
     );
     return;
   }
@@ -53,7 +55,7 @@ Future<void> navigateToFavoriteChannel({
     context: context,
     container: ref.container,
     channelId: channelId,
-    guildId: guildId,
+    guildId: favoriteGuildId,
   );
   if (!context.mounted || !canProceed) {
     return;

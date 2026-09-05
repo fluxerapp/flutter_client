@@ -7,7 +7,9 @@ import 'package:fluxer_app/core/push/fcm/fcm_android_system_notification_cancel_
 import 'package:fluxer_app/core/push/fcm/fcm_background_handler_policy.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_pending_notification_tap.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_tap_payload_cache.dart';
+import 'package:fluxer_app/core/push/push_notification_clear.dart';
 import 'package:fluxer_fcm/fcm_background_handler.dart';
+import 'package:fluxer_fcm/fcm_notification_clear_hooks.dart';
 import 'package:fluxer_fcm/fcm_push_message.dart';
 import 'package:fluxer_fcm/fluxer_fcm_bootstrap.dart';
 
@@ -27,6 +29,8 @@ void _configureFcmBootstrap() {
         FcmAndroidSystemNotificationCancelBridge.cancelFcmSystemDuplicates,
     shouldDisplayBackgroundLocalNotification: _shouldDisplayBackgroundLocal,
   );
+  FcmNotificationClearHooks.onClear =
+      PushNotificationClear.handleBackgroundClearPayload;
 }
 
 bool _shouldDisplayBackgroundLocal(FcmPushMessage message) {

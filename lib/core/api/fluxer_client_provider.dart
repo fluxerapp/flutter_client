@@ -4,6 +4,7 @@ import 'package:fluxer_app/core/api/captcha_dialog.dart';
 import 'package:fluxer_app/core/api/captcha_interceptor.dart';
 import 'package:fluxer_app/core/api/fluxer_api_features.dart';
 import 'package:fluxer_app/core/api/fluxer_client_properties.dart';
+import 'package:fluxer_app/core/api/rate_limit_interceptor.dart';
 import 'package:fluxer_app/core/api/retry_interceptor.dart';
 import 'package:fluxer_app/core/api/session_auth_interceptor.dart';
 import 'package:fluxer_app/core/api/skip_auth_interceptor.dart';
@@ -66,6 +67,7 @@ Dio _buildFluxerDio({required Ref ref, required String baseUrl}) {
   );
   dio.interceptors.add(SkipAuthInterceptor());
   dio.interceptors.add(RetryInterceptor(dio: dio));
+  dio.interceptors.add(RateLimitInterceptor(pacer: sharedRateLimitPacer));
   dio.interceptors.add(const FluxerOtelDioInterceptor());
   dio.interceptors.add(
     CaptchaInterceptor(

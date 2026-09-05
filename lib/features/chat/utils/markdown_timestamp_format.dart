@@ -19,12 +19,7 @@ String formatMarkdownTimestamp(
     'd' => DateFormat.yMd(locale).format(localDateTime),
     'D' => DateFormat.yMMMMd(locale).format(localDateTime),
     'F' => _fullDateTime(localDateTime, locale, use12Hour: use12Hour),
-    'R' => _relativeOrFutureDateTime(
-      localDateTime,
-      l10n,
-      use12Hour: use12Hour,
-      now: now ?? DateTime.now(),
-    ),
+    'R' => relativeTimestamp(localDateTime, l10n, now: now ?? DateTime.now()),
     _ => _longDateTime(localDateTime, locale, use12Hour: use12Hour),
   };
 }
@@ -71,20 +66,4 @@ String _fullDateTime(
       ? DateFormat.yMMMMEEEEd(locale).add_jm()
       : DateFormat.yMMMMEEEEd(locale).add_Hm();
   return formatter.format(localDateTime);
-}
-
-String _relativeOrFutureDateTime(
-  DateTime localDateTime,
-  FluxerLocalizations l10n, {
-  required bool use12Hour,
-  required DateTime now,
-}) {
-  if (!localDateTime.isAfter(now)) {
-    return relativeTime(localDateTime, l10n, now: now);
-  }
-  return formatUserMediumDateTime(
-    localDateTime,
-    l10n.localeName,
-    use12Hour: use12Hour,
-  );
 }

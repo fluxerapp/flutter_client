@@ -631,7 +631,71 @@ void main() {
         expect(tokenStorage.tokens, isEmpty);
       },
     );
+
+    test('login maps 503 HTML bodies to serviceUnavailable', () async {
+      final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+        ..httpClientAdapter = const _RawResponseAdapter(
+          expectedPath: '/v1/auth/login',
+          statusCode: 503,
+          statusMessage: 'Service Unavailable',
+          body: '<html>Service Unavailable</html>',
+        );
+
+      final repo = AuthRepository(
+        FluxerClient(dio),
+        db,
+        tokenStorage,
+        readInstanceSnapshot: InstanceConfigSnapshot.officialDefault,
+      );
+
+      await expectLater(
+        repo.login(email: 'user@example.com', password: 'secret'),
+        throwsA(
+          isA<AuthFailure>().having(
+            (AuthFailure e) => e.kind,
+            'kind',
+            AuthFailureKind.serviceUnavailable,
+          ),
+        ),
+      );
+    });
   });
+}
+
+class _RawResponseAdapter implements HttpClientAdapter {
+  const _RawResponseAdapter({
+    required this.expectedPath,
+    required this.body,
+    required this.statusCode,
+    this.statusMessage = 'OK',
+  });
+
+  final String expectedPath;
+  final String body;
+  final int statusCode;
+  final String statusMessage;
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    expect(options.method, 'POST');
+    expect(options.uri.path, expectedPath);
+
+    return ResponseBody.fromString(
+      body,
+      statusCode,
+      statusMessage: statusMessage,
+      headers: <String, List<String>>{
+        Headers.contentTypeHeader: <String>['text/html'],
+      },
+    );
+  }
+
+  @override
+  void close({bool force = false}) {}
 }
 
 class _JsonResponseAdapter implements HttpClientAdapter {

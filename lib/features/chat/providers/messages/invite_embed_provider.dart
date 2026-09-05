@@ -15,12 +15,12 @@ class InviteEmbedNotFound extends InviteEmbedState {}
 
 class InviteEmbedGuild extends InviteEmbedState {
   InviteEmbedGuild(this.invite);
-  final InviteResponseSchemaGuildInviteResponse invite;
+  final GuildInviteResponse invite;
 }
 
 class InviteEmbedGroupDm extends InviteEmbedState {
   InviteEmbedGroupDm(this.invite);
-  final InviteResponseSchemaGroupDmInviteResponse invite;
+  final GroupDmInviteResponse invite;
 }
 
 // Fetches invite data by code
@@ -29,12 +29,13 @@ Future<InviteEmbedState> inviteEmbed(Ref ref, String code) async {
   final client = ref.watch(fluxerClientProvider);
   try {
     final schema = await client.invites.getInvite(inviteCode: code);
-    final raw = schema.toJson();
-    final typeVal = raw['type'] as int?;
-    return switch (typeVal) {
-      0 => InviteEmbedGuild(schema.toGuildInviteResponse()),
-      1 => InviteEmbedGroupDm(schema.toGroupDmInviteResponse()),
-      _ => InviteEmbedNotFound(),
+    return switch (schema) {
+      InviteResponseSchema0() => InviteEmbedGuild(
+        GuildInviteResponse.fromJson(schema.toJson()),
+      ),
+      InviteResponseSchema1() => InviteEmbedGroupDm(
+        GroupDmInviteResponse.fromJson(schema.toJson()),
+      ),
     };
   } on DioException catch (e) {
     if (e.response?.statusCode == 404) {

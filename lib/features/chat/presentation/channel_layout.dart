@@ -187,6 +187,15 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
       channelId: widget.channelId,
       forceVoiceCallStyle: forceVoiceCallStyle,
     );
+    final bool hideableVoiceHeader =
+        forceVoiceCallStyle && isPhoneVoiceOverlay(context);
+    final bool showsVoiceOverlay =
+        !hideableVoiceHeader ||
+        ref.watch(
+          voiceCallOverlayProvider.select(
+            (VoiceCallOverlayState state) => state.showsOverlay,
+          ),
+        );
     final bool reserveBottomSafeArea = chatLayoutReservesBottomSafeArea(
       isMobile: isMobile,
       keyboardSlotOccupied:
@@ -220,24 +229,44 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
                     children: [
                       if (isGuildStaffOnlyAccessible(guild))
                         StaffOnlyGuildNagbar(guildId: widget.guildId),
-                      header,
+                      if (!hideableVoiceHeader) header,
                       Expanded(
-                        child: Row(
+                        child: Stack(
                           children: [
-                            Expanded(child: primaryContent),
-                            if (isSearchActive)
-                              ChannelSearchResultsPanel(
-                                channelId: widget.channelId,
-                                guildId: widget.guildId,
-                                onClose: () => ref
-                                    .read(channelHeaderSearchProvider.notifier)
-                                    .closeSearch(),
-                              ),
-                            if (showMemberList)
-                              ChannelMembers(
-                                key: ValueKey<String>(widget.channelId),
-                                guildId: widget.guildId,
-                                channelId: widget.channelId,
+                            Row(
+                              children: [
+                                Expanded(child: primaryContent),
+                                if (isSearchActive)
+                                  ChannelSearchResultsPanel(
+                                    channelId: widget.channelId,
+                                    guildId: widget.guildId,
+                                    onClose: () => ref
+                                        .read(
+                                          channelHeaderSearchProvider.notifier,
+                                        )
+                                        .closeSearch(),
+                                  ),
+                                if (showMemberList)
+                                  ChannelMembers(
+                                    key: ValueKey<String>(widget.channelId),
+                                    guildId: widget.guildId,
+                                    channelId: widget.channelId,
+                                  ),
+                              ],
+                            ),
+                            if (hideableVoiceHeader)
+                              Positioned(
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                child: IgnorePointer(
+                                  ignoring: !showsVoiceOverlay,
+                                  child: AnimatedOpacity(
+                                    duration: const Duration(milliseconds: 240),
+                                    opacity: showsVoiceOverlay ? 1 : 0,
+                                    child: header,
+                                  ),
+                                ),
                               ),
                           ],
                         ),
@@ -254,7 +283,7 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
   }
 }
 
-class _VoiceChannelHeader extends ConsumerWidget {
+class _VoiceChannelHeader extends StatelessWidget {
   const _VoiceChannelHeader({
     required this.channelId,
     required this.forceVoiceCallStyle,
@@ -264,29 +293,10 @@ class _VoiceChannelHeader extends ConsumerWidget {
   final bool forceVoiceCallStyle;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final Widget header = ChannelHeader(
+  Widget build(BuildContext context) {
+    return ChannelHeader(
       channelId: channelId,
       forceVoiceCallStyle: forceVoiceCallStyle,
-    );
-    final bool hideableOverlay =
-        forceVoiceCallStyle && isPhoneVoiceOverlay(context);
-    if (!hideableOverlay) {
-      return header;
-    }
-    final bool showsOverlay = ref.watch(
-      voiceCallOverlayProvider.select(
-        (VoiceCallOverlayState state) => state.showsOverlay,
-      ),
-    );
-    return ClipRect(
-      child: AnimatedAlign(
-        duration: const Duration(milliseconds: 320),
-        curve: Curves.easeOutCubic,
-        alignment: Alignment.topCenter,
-        heightFactor: showsOverlay ? 1 : 0,
-        child: header,
-      ),
     );
   }
 }

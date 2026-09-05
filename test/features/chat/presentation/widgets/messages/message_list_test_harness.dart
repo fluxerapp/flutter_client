@@ -150,6 +150,26 @@ int messageListAnchorEpoch(WidgetTester tester) {
   return viewport.anchorEpoch;
 }
 
+/// Scroll offset at which the oldest LOADED row tops the viewport: the min
+/// extent plus whatever skeleton filler stands in for unloaded history.
+double messageListOldestRowOffset(WidgetTester tester) {
+  final MessageListViewport viewport = tester.widget<MessageListViewport>(
+    find.byType(MessageListViewport),
+  );
+  return messageListScrollPosition(tester).minScrollExtent +
+      viewport.leadingFillerExtent;
+}
+
+/// Scroll offset at which the newest LOADED row's trailing edge meets the
+/// viewport bottom: the max extent minus any skeleton filler past it.
+double messageListNewestRowOffset(WidgetTester tester) {
+  final MessageListViewport viewport = tester.widget<MessageListViewport>(
+    find.byType(MessageListViewport),
+  );
+  return messageListScrollPosition(tester).maxScrollExtent -
+      viewport.trailingFillerExtent;
+}
+
 class AroundAckMessageListHarness {
   AroundAckMessageListHarness({
     required this.database,
@@ -517,6 +537,8 @@ class InstrumentedChatViewModel extends ChatViewModel {
   final ChatViewState _initialState;
   final bool enableTrimToNewestWindow;
   int loadNewerCallCount = 0;
+  int trimAroundVisibleCallCount = 0;
+  final List<bool> userScrollActiveLog = <bool>[];
   String? _latestReplacementNewestId;
 
   @override
@@ -631,6 +653,18 @@ class InstrumentedChatViewModel extends ChatViewModel {
   }
 
   @override
+  void trimAroundVisible(String visibleMessageId) {
+    trimAroundVisibleCallCount += 1;
+    super.trimAroundVisible(visibleMessageId);
+  }
+
+  @override
+  void setUserScrollActive({required String channelId, required bool active}) {
+    userScrollActiveLog.add(active);
+    super.setUserScrollActive(channelId: channelId, active: active);
+  }
+
+  @override
   void clearCurrentManualUnread() {}
 
   @override
@@ -699,6 +733,19 @@ List<Message> newerRows(
         id: snowflakeForUtc(last.add(Duration(minutes: index + 1))),
         content: '$label $index',
         timestamp: last.add(Duration(minutes: index + 1)),
+      ),
+  ];
+}
+
+/// Rows strictly older than [before]'s first row, oldest first.
+List<Message> olderRows(List<Message> before, {required int count}) {
+  final DateTime first = before.first.timestamp;
+  return <Message>[
+    for (int index = count; index >= 1; index -= 1)
+      harnessMessage(
+        id: snowflakeForUtc(first.subtract(Duration(minutes: index))),
+        content: 'older $index',
+        timestamp: first.subtract(Duration(minutes: index)),
       ),
   ];
 }

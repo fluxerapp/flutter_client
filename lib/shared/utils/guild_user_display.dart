@@ -1,8 +1,10 @@
 import 'package:fluxer_app/core/constants/media_proxy_sizes.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/media/fluxer_media_hash.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_dart/export.dart';
@@ -239,10 +241,15 @@ GuildUserDisplay resolveMessageAuthorDisplay({
   required Message message,
   required String? guildId,
   GuildUserDisplay? guildDisplay,
+  String productName = InstanceConstants.defaultProductName,
 }) {
   final GuildUserDisplay messageDisplay = resolveGuildUserDisplayFromMessage(
     userId: message.authorId,
-    fallbackDisplayName: message.authorName,
+    fallbackDisplayName: resolveSystemBotDisplayName(
+      userId: message.authorId,
+      fallbackName: message.authorName,
+      productName: productName,
+    ),
     fallbackAvatarHash: message.authorAvatar,
     fallbackAvatarColor: message.authorAvatarColor,
     member: null,
@@ -267,7 +274,28 @@ GuildUserDisplay resolveMessageAuthorDisplay({
       )) {
     return messageDisplay;
   }
-  return guildDisplay;
+  final String branded = resolveSystemBotDisplayName(
+    userId: message.authorId,
+    fallbackName: guildDisplay.displayName,
+    productName: productName,
+  );
+  if (branded == guildDisplay.displayName) {
+    return guildDisplay;
+  }
+  return GuildUserDisplay(
+    displayName: branded,
+    accountDisplayName: branded,
+    isBot: guildDisplay.isBot,
+    avatarUrl: guildDisplay.avatarUrl,
+    avatarHash: guildDisplay.avatarHash,
+    avatarColor: guildDisplay.avatarColor,
+    bannerUrl: guildDisplay.bannerUrl,
+    bannerColor: guildDisplay.bannerColor,
+    bio: guildDisplay.bio,
+    pronouns: guildDisplay.pronouns,
+    hasGuildProfile: guildDisplay.hasGuildProfile,
+    isShowingGlobalProfile: guildDisplay.isShowingGlobalProfile,
+  );
 }
 
 GuildUserDisplay resolveGuildUserDisplayFromProfile({
@@ -300,11 +328,13 @@ GuildUserDisplay resolveGuildUserDisplayFromProfile({
           userId: user.id,
           type: GuildMemberMediaType.avatar,
           hash: guildAvatar,
+          animated: true,
         )
       : FluxerMediaUrl.userAvatar(
           userId: user.id,
           hash: user.avatar,
           size: MediaProxySizes.avatarProfile,
+          animated: true,
         );
   final String? bannerUrl = isBannerUnset
       ? null

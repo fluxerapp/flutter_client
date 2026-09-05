@@ -43,10 +43,10 @@ List<ResolvedFavoriteEntry> resolveFavoriteEntries({
           channel: channelById[favorite.channelId],
           dm: dmById[favorite.channelId],
           guildId: _resolveFavoriteGuildId(favorite.guildId),
-          guildName: _isDmFavoriteGuildId(favorite.guildId)
+          guildName: isFavoriteDmGuildId(favorite.guildId)
               ? null
               : guildById[favorite.guildId]?.name,
-          guild: _isDmFavoriteGuildId(favorite.guildId)
+          guild: isFavoriteDmGuildId(favorite.guildId)
               ? null
               : guildById[favorite.guildId],
         ),
@@ -126,8 +126,8 @@ bool _isAccessible(
   if (!hideMuted) {
     return true;
   }
-  final guildId = entry.guildId;
-  if (guildId == null || guildId.isEmpty || guildId == favoriteDmGuildId) {
+  final String? guildId = entry.guildId;
+  if (guildId == null || isFavoriteDmGuildId(guildId)) {
     return true;
   }
   final mutedSet =
@@ -138,15 +138,8 @@ bool _isAccessible(
   );
 }
 
-bool _isDmFavoriteGuildId(String? guildId) {
-  if (guildId == null || guildId.isEmpty) {
-    return true;
-  }
-  return guildId == favoriteDmGuildId;
-}
-
 String? _resolveFavoriteGuildId(String? guildId) {
-  if (_isDmFavoriteGuildId(guildId)) {
+  if (isFavoriteDmGuildId(guildId)) {
     return null;
   }
   return guildId;

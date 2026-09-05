@@ -241,7 +241,6 @@ void main() {
                     FluxerBottomSheet.showScrollable(
                       context,
                       initialChildSize: 0.7,
-                      maxChildSize: 0.9,
                       builder: (context, scrollController, close) {
                         return ListView.builder(
                           controller: scrollController,
@@ -286,7 +285,6 @@ void main() {
                     FluxerBottomSheet.showScrollable(
                       context,
                       initialChildSize: 0.7,
-                      maxChildSize: 0.9,
                       // Empty/loading states never attach the controller, so
                       // the handle has no sheet extent to move.
                       builder: (context, scrollController, close) =>
@@ -329,7 +327,6 @@ void main() {
                     FluxerBottomSheet.showScrollable(
                       context,
                       initialChildSize: 0.7,
-                      maxChildSize: 0.9,
                       builder: (context, scrollController, close) {
                         return ListView.builder(
                           controller: scrollController,
@@ -378,7 +375,6 @@ void main() {
                     FluxerBottomSheet.showScrollable(
                       context,
                       initialChildSize: 0.7,
-                      maxChildSize: 0.9,
                       builder: (context, scrollController, close) {
                         return ListView.builder(
                           controller: scrollController,
@@ -1076,6 +1072,67 @@ void main() {
       final double bothParamsHeight = await measureSheetHeight(maxHeight: cap);
 
       expect(bothParamsHeight, closeTo(maxChildOnlyHeight, 1));
+    });
+
+    testWidgets('showScrollable opens at 90% of available height by default', (
+      tester,
+    ) async {
+      const Size screenSize = Size(400, 800);
+      const double topInset = 40;
+      tester.view.physicalSize = screenSize;
+      tester.view.devicePixelRatio = 1;
+      tester.view.padding = const FakeViewPadding(top: topInset);
+      tester.view.viewPadding = const FakeViewPadding(top: topInset);
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      addTearDown(tester.view.resetPadding);
+      addTearDown(tester.view.resetViewPadding);
+
+      await tester.pumpWidget(
+        buildTestApp(
+          Builder(
+            builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  unawaited(
+                    FluxerBottomSheet.showScrollable(
+                      context,
+                      builder: (context, scrollController, close) {
+                        return ListView(
+                          controller: scrollController,
+                          children: const [SizedBox(height: 2000)],
+                        );
+                      },
+                    ),
+                  );
+                },
+                child: const Text('Open'),
+              );
+            },
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+
+      final DraggableScrollableSheet sheet = tester.widget(
+        find.byType(DraggableScrollableSheet),
+      );
+      expect(sheet.initialChildSize, FluxerBottomSheet.scrollableSheetSize);
+      expect(sheet.maxChildSize, FluxerBottomSheet.scrollableSheetSize);
+
+      final RenderBox sheetBox = tester.renderObject(
+        find.byType(DraggableScrollableSheet),
+      );
+      expect(
+        sheetBox.size.height,
+        closeTo(
+          sheetBox.constraints.maxHeight *
+              FluxerBottomSheet.scrollableSheetSize,
+          1,
+        ),
+      );
     });
 
     testWidgets('system bottom inset is zero while keyboard is open', (

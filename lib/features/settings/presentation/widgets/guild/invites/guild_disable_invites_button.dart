@@ -48,7 +48,7 @@ class GuildDisableInvitesButton extends ConsumerWidget {
       GuildFeatures.raidDetected,
     );
     final InstanceConfigSnapshot instance = ref.watch(activeInstanceProvider);
-    final String productName = instance.instanceDisplayName ?? 'Fluxer';
+    final String productName = instance.productName;
     final Widget content = Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[

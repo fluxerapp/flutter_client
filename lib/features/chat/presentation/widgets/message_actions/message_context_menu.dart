@@ -252,6 +252,12 @@ class _ContextMenuPage extends ConsumerWidget {
           icon: PhosphorIconsBold.copy,
           onTap: () => pop(MessageAction.copyText),
         ),
+      if (message.embedsCopyableText.isNotEmpty)
+        _MenuItem(
+          label: l10n.chatMessageCopyEmbedText,
+          icon: PhosphorIconsBold.textAlignLeft,
+          onTap: () => pop(MessageAction.copyEmbedText),
+        ),
       _MenuItem(
         label: message.isPinned ? l10n.chatMessageUnpin : l10n.chatMessagePin,
         icon: PhosphorIconsBold.pushPin,

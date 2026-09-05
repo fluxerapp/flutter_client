@@ -60,7 +60,10 @@ void main() {
         tester.element(find.byType(ElevatedButton)),
       );
       expect(find.text(l10n.systemPermissionSettingsTitle), findsOneWidget);
-      expect(find.text(l10n.systemPermissionMicrophoneMessage), findsOneWidget);
+      expect(
+        find.text(l10n.systemPermissionMicrophoneMessage('Fluxer')),
+        findsOneWidget,
+      );
       expect(
         find.widgetWithText(
           FluxerButton,

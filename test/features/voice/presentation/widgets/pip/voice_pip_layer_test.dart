@@ -39,7 +39,7 @@ const RouteState _onCallRoute = RouteState(
 
 void main() {
   group('VoicePipCard', () {
-    testWidgets('renders live badge for a stream without a name', (
+    testWidgets('renders stream content without live indicators', (
       tester,
     ) async {
       final colorTheme = buildDarkColorTheme();
@@ -57,17 +57,12 @@ void main() {
             body: SizedBox(
               width: 160,
               height: 90,
-              child: VoicePipCard(
-                speaking: false,
-                isScreenShare: true,
-                child: ColoredBox(color: Color(0xFF222222)),
-              ),
+              child: VoicePipCard(child: ColoredBox(color: Color(0xFF222222))),
             ),
           ),
         ),
       );
-      expect(find.text('Alex'), findsNothing);
-      expect(find.text('LIVE'), findsOneWidget);
+      expect(find.text('LIVE'), findsNothing);
     });
   });
 

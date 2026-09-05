@@ -630,7 +630,6 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
         await FluxerBottomSheet.showScrollable<List<Channel>>(
           context,
           title: l10n.channelDetailsSearchFilterByChannel,
-          initialChildSize: 0.85,
           minChildSize: 0.5,
           builder: (sheetContext, scrollController, close) {
             return ChannelSearchChannelFilterSheet(
@@ -656,7 +655,6 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
         await FluxerBottomSheet.showScrollable<List<_PickerUser>>(
           context,
           title: l10n.channelDetailsSearchFilterMentions,
-          initialChildSize: 0.85,
           minChildSize: 0.5,
           builder: (sheetContext, scrollController, close) {
             if (guildId != null) {
@@ -688,7 +686,6 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
         await FluxerBottomSheet.showScrollable<ChannelSearchMoreFiltersResult>(
           context,
           title: l10n.channelDetailsSearchFilterMore,
-          initialChildSize: 0.9,
           minChildSize: 0.5,
           builder: (sheetContext, scrollController, close) {
             return ChannelSearchMoreFiltersSheet(
@@ -723,7 +720,6 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
         await FluxerBottomSheet.showScrollable<List<_PickerUser>>(
           context,
           title: l10n.channelDetailsSearchFilterByUser,
-          initialChildSize: 0.85,
           minChildSize: 0.5,
           builder: (sheetContext, scrollController, close) {
             if (guildId != null) {
@@ -758,7 +754,6 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
         await FluxerBottomSheet.showScrollable<Set<MessageSearchContentFilter>>(
           context,
           title: l10n.channelDetailsSearchFilterByContent,
-          initialChildSize: 0.85,
           minChildSize: 0.5,
           builder: (sheetContext, scrollController, close) => _HasFilterSheet(
             initialSelected: state.query.contentTypes,

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
@@ -311,7 +312,13 @@ class UserLookAndFeel extends ConsumerWidget {
                 children: [
                   FluxerSwitchGroupItem(
                     label: l10n.lookAndFeelCollapseDMsLabel,
-                    description: l10n.lookAndFeelCollapseDMsDescription,
+                    description: l10n.lookAndFeelCollapseDMsDescription(
+                      ref.watch(
+                        instanceRuntimeConfigProvider.select(
+                          (config) => config.productName,
+                        ),
+                      ),
+                    ),
                     value: appearance.collapseDMs,
                     onChanged: (value) => unawaited(
                       ref

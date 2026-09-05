@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/gestures.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
@@ -195,7 +196,7 @@ class _SwipeToReplyState extends State<SwipeToReply>
 
   @override
   Widget build(BuildContext context) {
-    if (!widget.enabled) {
+    if (!widget.enabled || !ChatSwipeToReplyScope.enabledOf(context)) {
       return widget.child;
     }
     if (_maxDrag == 0) {

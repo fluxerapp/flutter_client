@@ -25,9 +25,9 @@ dependencies:
   desktop_drop: ^0.8.2
   device_info_plus: ^13.2.0
   dio: ^5.10.0
-  drift: ^2.34.3
+  drift: ^2.34.4
   drift_flutter: ^0.3.1
-  file_picker: ^12.0.0
+  file_picker: ^12.2.0
   fixnum: ^1.1.1
   flutter:
     sdk: flutter
@@ -52,7 +52,9 @@ dependencies:
     path: dart_sdk
   fluxer_markdown:
     path: packages/fluxer_markdown
-  gaimon: ^1.4.3
+  fluxer_markdown_native:
+    path: packages/fluxer_markdown_native
+  gaimon: ^1.5.0
   gal: ^2.3.3
   go_router: ^17.2.1
   highlight: ^0.7.0
@@ -64,6 +66,7 @@ dependencies:
   livekit_client: ^2.11.0
   local_translation: ^0.1.0
   lucid_validation: ^1.3.1
+  markdown: ^7.3.1
   material_ui: ^1.0.0
   media_kit: ^1.2.6
   media_kit_libs_video: ^1.0.7
@@ -88,7 +91,7 @@ dependencies:
   shared_preferences: ^2.5.3
   skeletonizer: ^2.1.3
   smart_keyboard_insets: ^0.0.1
-  sqlite3: ^3.3.3
+  sqlite3: ^3.5.2
   super_clipboard: ^0.9.1
   talker: ^5.1.20
   talker_dio_logger: ^5.1.20
@@ -100,6 +103,7 @@ dependencies:
   visibility_detector: ^0.4.0+2
   web_socket_channel: ^3.0.2
   window_manager: ^0.5.1
+  wakelock_plus: ^1.8.0
 
 dependency_overrides:
   # mockito >=5.6.5 requires analyzer ^13, incompatible with the overrides below.

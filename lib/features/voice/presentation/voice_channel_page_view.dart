@@ -10,14 +10,12 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/upload_dr
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/utils/chat_route_sync_guard.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/voice/local_camera_orientation_sync.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_expandable_sheet.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_channel_join_empty_state.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_chat_unread_badge.dart';
-import 'package:fluxer_app/features/voice/presentation/widgets/voice_join_empty_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_text_chat_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
@@ -80,35 +78,21 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
 
   @override
   Widget build(BuildContext context) {
-    final ChannelListState listState = ref.watch(
-      channelListViewModelProvider.select((s) => s),
-    );
     final Channel? channel =
-        findChannelById(listState, widget.channelId) ??
-        ref.watch(channelByIdProvider(widget.channelId)).value;
+        ref.watch(channelByIdProvider(widget.channelId)).value ??
+        findChannelById(
+          ref.read(channelListViewModelProvider),
+          widget.channelId,
+        );
     final String name = channel?.name ?? '';
-    final (bool inThisChannel, bool isConnecting, bool isConnected) = ref.watch(
+    final bool inThisChannel = ref.watch(
       voiceSessionProvider.select(
-        (VoiceSessionState s) => (
-          s.isInVoice && s.channelId == widget.channelId,
-          s.isConnecting && s.channelId == widget.channelId,
-          s.isConnected && s.channelId == widget.channelId,
-        ),
+        (VoiceSessionState s) => s.isInVoice && s.channelId == widget.channelId,
       ),
     );
     final bool usePhoneVoiceOverlay = isPhoneVoiceOverlay(context);
     final Widget content = inThisChannel
-        ? isConnected
-              ? _buildConnected(
-                  context,
-                  channelName: name,
-                  usePhoneVoiceOverlay: usePhoneVoiceOverlay,
-                )
-              : _buildConnecting(
-                  context,
-                  channelName: name,
-                  usePhoneVoiceOverlay: usePhoneVoiceOverlay,
-                )
+        ? _buildConnected(context, usePhoneVoiceOverlay: usePhoneVoiceOverlay)
         : _buildEmpty(channel: channel);
     if (usePhoneVoiceOverlay) {
       return content;
@@ -150,8 +134,7 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
           ),
         ),
         AnimatedSize(
-          duration: const Duration(milliseconds: 220),
-          curve: Curves.easeOutCubic,
+          duration: Duration.zero,
           child: _isChatPanelOpen
               ? _DesktopVoiceChatDock(
                   channelId: widget.channelId,
@@ -172,75 +155,8 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
     );
   }
 
-  Widget _buildConnecting(
-    BuildContext context, {
-    required String channelName,
-    required bool usePhoneVoiceOverlay,
-  }) {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final String? joinError = ref.watch(
-      voiceSessionProvider.select((VoiceSessionState s) => s.errorMessage),
-    );
-    final Widget connectingBody = Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            if (channelName.isNotEmpty) ...<Widget>[
-              Text(
-                channelName,
-                textAlign: TextAlign.center,
-                style: context.textStyles.channelName.copyWith(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                  color: context.colors.textPrimary,
-                ),
-              ),
-              const SizedBox(height: 16),
-            ],
-            const FluxerLoadingSpinner(),
-            const SizedBox(height: 12),
-            if (joinError != null) ...<Widget>[
-              VoiceJoinErrorBanner(message: joinError),
-              const SizedBox(height: 12),
-            ],
-            Text(
-              l10n.voiceChannelStatusConnecting,
-              textAlign: TextAlign.center,
-              style: context.textStyles.bodyMedium.copyWith(
-                color: context.colors.textSecondary,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-    return ColoredBox(
-      color: context.colors.chatBackground,
-      child: SafeArea(
-        top: false,
-        child: usePhoneVoiceOverlay
-            ? VoiceCallMobilePageLayout(
-                channelId: widget.channelId,
-                guildId: widget.guildId,
-                child: connectingBody,
-              )
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Expanded(child: connectingBody),
-                  VoiceChannelControlBar(channelId: widget.channelId),
-                ],
-              ),
-      ),
-    );
-  }
-
   Widget _buildConnected(
     BuildContext context, {
-    required String channelName,
     required bool usePhoneVoiceOverlay,
   }) {
     return LocalCameraOrientationSync(

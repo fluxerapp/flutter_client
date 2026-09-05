@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
+import 'package:fluxer_markdown/src/renderers/fluxer_markdown_element_tags.dart';
 import 'package:fluxer_markdown/src/renderers/fluxer_markdown_renderers.dart';
-import 'package:fluxer_markdown/src/syntaxes/fluxer_markdown_syntaxes.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:material_ui/material_ui.dart';
 
@@ -165,8 +165,10 @@ void main() {
     required String surrogate,
     required String name,
   }) async {
-    final element = md.Element.text(FluxerUnicodeEmojiToneSyntax.tag, name)
-      ..attributes['surrogate'] = surrogate;
+    final element = md.Element.text(
+      FluxerMarkdownElementTags.emojiUnicode,
+      name,
+    )..attributes['surrogate'] = surrogate;
     await tester.runAsync(() async {
       await tester.pumpWidget(
         MaterialApp(

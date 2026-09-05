@@ -1,11 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
+import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:material_ui/material_ui.dart';
 
-import 'support/markdown_parse_test_helper.dart';
+import 'support/native_test_parser.dart';
 
 String? _noopEmojiShortcode(String name) => null;
 
@@ -17,109 +18,124 @@ String _noopCustomEmojiUrl({
   required int size,
 }) => '';
 
+const FluxerMarkdownConfig _config = FluxerMarkdownConfig(
+  resolveEmojiShortcode: _noopEmojiShortcode,
+  unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
+  customEmojiUrlBuilder: _noopCustomEmojiUrl,
+);
+
+Widget _wrap(String data) => MaterialApp(
+  home: Scaffold(
+    body: FluxerMarkdown(
+      astParser: parseTestMarkdownAst,
+      data: data,
+      config: _config,
+    ),
+  ),
+);
+
 void main() {
-  final features = MarkdownParseTestHelper.featuresFor(
+  final FluxerMarkdownFeatures features = FluxerMarkdownFeatures.forContext(
     FluxerMarkdownContext.standardWithJumbo,
   );
 
+  List<md.Node> parse(String input) => parseTestMarkdownAst(input, features);
+
   group('link regressions', () {
     test('angle-bracket https links parse as autolinks', () {
-      const String input = '<https://example.com/path>';
-      final nodes = MarkdownParseTestHelper.parseInline(input, features);
-      expect(MarkdownParseTestHelper.containsTag(nodes, 'a'), isTrue);
-      final md.Element link = nodes.whereType<md.Element>().firstWhere(
-        (md.Element node) => node.tag == 'a',
-      );
-      expect(link.attributes['href'], 'https://example.com/path');
+      final nodes = parse('<https://example.com/path>');
+      final md.Element? link = findMarkdownTag(nodes, 'a');
+      expect(link, isNotNull);
+      expect(link!.attributes['href'], 'https://example.com/path');
       expect(link.textContent, 'https://example.com/path');
     });
 
     test('angle destinations in masked links parse', () {
-      const String input = '[click](<https://example.com>)';
-      expect(
-        MarkdownParseTestHelper.preprocess(input, features),
-        '[click](https://example.com)',
-      );
-      final nodes = MarkdownParseTestHelper.parseInline(input, features);
-      expect(MarkdownParseTestHelper.containsTag(nodes, 'a'), isTrue);
-      final md.Element link = nodes.whereType<md.Element>().firstWhere(
-        (md.Element node) => node.tag == 'a',
-      );
-      expect(link.attributes['href'], 'https://example.com');
+      final nodes = parse('[click](<https://example.com>)');
+      final md.Element? link = findMarkdownTag(nodes, 'a');
+      expect(link, isNotNull);
+      expect(link!.attributes['href'], 'https://example.com');
       expect(link.textContent, 'click');
     });
 
     test('image syntax is treated as bang plus masked link', () {
-      const String input = '![alt](https://example.com/x.png)';
-      final nodes = MarkdownParseTestHelper.parseInline(input, features);
-      expect(MarkdownParseTestHelper.containsTag(nodes, 'img'), isFalse);
-      expect(MarkdownParseTestHelper.containsTag(nodes, 'a'), isTrue);
-      expect(MarkdownParseTestHelper.collectText(nodes), '!alt');
+      final nodes = parse('![alt](https://example.com/x.png)');
+      expect(containsMarkdownTag(nodes, 'img'), isFalse);
+      expect(containsMarkdownTag(nodes, 'a'), isTrue);
+      expect(collectMarkdownText(nodes), '!alt');
     });
 
     test('javascript angle links are not autolinked', () {
-      const String input = '<javascript:alert(1)>';
-      final nodes = MarkdownParseTestHelper.parseInline(input, features);
-      expect(MarkdownParseTestHelper.containsTag(nodes, 'a'), isFalse);
+      expect(containsMarkdownTag(parse('<javascript:alert(1)>'), 'a'), isFalse);
     });
 
-    test('misleading url-like masked labels are rejected', () {
-      const String input = '[https://evil.example](https://good.example)';
-      final nodes = MarkdownParseTestHelper.parseInline(input, features);
-      expect(MarkdownParseTestHelper.containsTag(nodes, 'a'), isFalse);
+    testWidgets('misleading url-like masked labels render literally', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _wrap('[https://evil.example](https://good.example)'),
+      );
+      expect(
+        find.textContaining(
+          '[https://evil.example](https://good.example)',
+          findRichText: true,
+        ),
+        findsOneWidget,
+      );
     });
 
-    test('same-url masked labels remain links', () {
-      const String input =
-          '[https://example.com/path](https://example.com/path)';
-      final nodes = MarkdownParseTestHelper.parseInline(input, features);
-      expect(MarkdownParseTestHelper.containsTag(nodes, 'a'), isTrue);
+    testWidgets('same-url masked labels remain links', (tester) async {
+      await tester.pumpWidget(
+        _wrap('[https://example.com/path](https://example.com/path)'),
+      );
+      expect(
+        find.textContaining('[https://', findRichText: true),
+        findsNothing,
+      );
+      expect(
+        find.textContaining('https://example.com/path', findRichText: true),
+        findsOneWidget,
+      );
     });
 
     test('autolinks after zero-width space parse as links', () {
-      const String input = '\u200bhttps://example.com/path';
-      final nodes = MarkdownParseTestHelper.parseInline(input, features);
-      expect(MarkdownParseTestHelper.containsTag(nodes, 'a'), isTrue);
-      final md.Element link = nodes.whereType<md.Element>().firstWhere(
-        (md.Element node) => node.tag == 'a',
-      );
-      expect(link.attributes['href'], 'https://example.com/path');
-      expect(link.textContent, 'https://example.com/path');
+      final nodes = parse('\u200bhttps://example.com/path');
+      final md.Element? link = findMarkdownTag(nodes, 'a');
+      expect(link, isNotNull);
+      expect(link!.attributes['href'], 'https://example.com/path');
     });
 
-    test('masked links with userinfo are rejected', () {
-      const String input = '[x](https://user:pass@example.com)';
-      final nodes = MarkdownParseTestHelper.parseInline(input, features);
-      expect(MarkdownParseTestHelper.containsTag(nodes, 'a'), isFalse);
+    testWidgets('masked links with userinfo render literally', (tester) async {
+      await tester.pumpWidget(_wrap('[x](https://user:pass@example.com)'));
+      expect(
+        find.textContaining(
+          '[x](https://user:pass@example.com)',
+          findRichText: true,
+        ),
+        findsOneWidget,
+      );
     });
 
     test('valid masked links inside inline code stay literal', () {
-      const String input = '`[label](https://example.com)`';
-      final nodes = MarkdownParseTestHelper.parseInline(input, features);
-      expect(MarkdownParseTestHelper.containsTag(nodes, 'code'), isTrue);
-      expect(MarkdownParseTestHelper.containsTag(nodes, 'a'), isFalse);
-      expect(
-        MarkdownParseTestHelper.collectText(nodes),
-        '[label](https://example.com)',
-      );
+      final nodes = parse('`[label](https://example.com)`');
+      expect(containsMarkdownTag(nodes, 'code'), isTrue);
+      expect(containsMarkdownTag(nodes, 'a'), isFalse);
+      expect(collectMarkdownText(nodes), '[label](https://example.com)');
     });
 
     test('invalid masked links inside inline code stay literal', () {
-      const String input = '`[](https://example.com)`';
-      expect(MarkdownParseTestHelper.preprocess(input, features), input);
-      final nodes = MarkdownParseTestHelper.parseInline(input, features);
-      expect(MarkdownParseTestHelper.containsTag(nodes, 'code'), isTrue);
-      expect(MarkdownParseTestHelper.containsTag(nodes, 'a'), isFalse);
-      expect(
-        MarkdownParseTestHelper.collectText(nodes),
-        '[](https://example.com)',
-      );
+      final nodes = parse('`[](https://example.com)`');
+      expect(containsMarkdownTag(nodes, 'code'), isTrue);
+      expect(containsMarkdownTag(nodes, 'a'), isFalse);
+      expect(collectMarkdownText(nodes), '[](https://example.com)');
     });
 
-    test('masked links outside code still neutralize when invalid', () {
-      const String input = '[](https://example.com)';
-      final nodes = MarkdownParseTestHelper.parseInline(input, features);
-      expect(MarkdownParseTestHelper.containsTag(nodes, 'a'), isFalse);
+    testWidgets('blank masked link labels render literally', (tester) async {
+      await tester.pumpWidget(_wrap('[](https://example.com)'));
+      expect(
+        find.textContaining('[](https://example.com)', findRichText: true),
+        findsOneWidget,
+      );
     });
 
     testWidgets('angle email links render as tappable mailto', (tester) async {
@@ -136,7 +152,11 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: FluxerMarkdown(data: '<user@example.com>', config: config),
+            body: FluxerMarkdown(
+              astParser: parseTestMarkdownAst,
+              data: '<user@example.com>',
+              config: config,
+            ),
           ),
         ),
       );
@@ -165,7 +185,11 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: FluxerMarkdown(data: '<https://example.com>', config: config),
+            body: FluxerMarkdown(
+              astParser: parseTestMarkdownAst,
+              data: '<https://example.com>',
+              config: config,
+            ),
           ),
         ),
       );

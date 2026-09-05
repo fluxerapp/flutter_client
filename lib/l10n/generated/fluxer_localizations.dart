@@ -145,16 +145,16 @@ abstract class FluxerLocalizations {
     Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
   ];
 
-  /// Title on the reconnecting / server error screen.
+  /// Title on the reconnecting / instance error screen.
   ///
   /// In en, this message translates to:
   /// **'We fluxed up!'**
   String get reconnectingTitle;
 
-  /// Subtitle on the reconnecting screen explaining temporary server issues.
+  /// Subtitle on the reconnecting screen explaining a temporary instance outage.
   ///
   /// In en, this message translates to:
-  /// **'Something is wrong with the servers.\nShould be fixed in a second!'**
+  /// **'Something is wrong with the instance.\nShould be fixed in a second!'**
   String get reconnectingBody;
 
   /// Banner shown when the gateway connection is lost and reconnecting.
@@ -286,26 +286,26 @@ abstract class FluxerLocalizations {
   /// Body text when microphone access must be enabled in system settings.
   ///
   /// In en, this message translates to:
-  /// **'Fluxer doesn\'t have access to your microphone. You can enable it in your device privacy settings.'**
-  String get systemPermissionMicrophoneMessage;
+  /// **'{productName} doesn\'t have access to your microphone. You can enable it in your device privacy settings.'**
+  String systemPermissionMicrophoneMessage(String productName);
 
   /// Body text when camera access must be enabled in system settings.
   ///
   /// In en, this message translates to:
-  /// **'Fluxer doesn\'t have access to your camera. You can enable it in your device privacy settings.'**
-  String get systemPermissionCameraMessage;
+  /// **'{productName} doesn\'t have access to your camera. You can enable it in your device privacy settings.'**
+  String systemPermissionCameraMessage(String productName);
 
   /// Body text when photo library access must be enabled in system settings.
   ///
   /// In en, this message translates to:
-  /// **'Fluxer doesn\'t have access to your photo library. You can enable it in your device privacy settings.'**
-  String get systemPermissionPhotosMessage;
+  /// **'{productName} doesn\'t have access to your photo library. You can enable it in your device privacy settings.'**
+  String systemPermissionPhotosMessage(String productName);
 
   /// Body text when notification permission must be enabled in system settings.
   ///
   /// In en, this message translates to:
-  /// **'Fluxer doesn\'t have permission to send notifications. You can enable it in your device settings.'**
-  String get systemPermissionNotificationsMessage;
+  /// **'{productName} doesn\'t have permission to send notifications. You can enable it in your device settings.'**
+  String systemPermissionNotificationsMessage(String productName);
 
   /// Premium grace period nagbar body.
   ///
@@ -603,6 +603,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Back'**
   String get back;
+
+  /// Generic next button label.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
 
   /// Title for the MFA challenge screen.
   ///
@@ -1275,6 +1281,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Unable to sign in right now. Please try again.'**
   String get errorUnableToSignIn;
+
+  /// Login error when the API returns 502, 503, or 504.
+  ///
+  /// In en, this message translates to:
+  /// **'This instance is temporarily unavailable. Try again in a moment.'**
+  String get errorServiceUnavailable;
 
   /// Error shown on the login screen when the email and password combination is incorrect.
   ///
@@ -2638,6 +2650,18 @@ abstract class FluxerLocalizations {
   /// **'Favorites'**
   String get gifPickerFavorites;
 
+  /// Empty state title for the GIF picker favorites view.
+  ///
+  /// In en, this message translates to:
+  /// **'No favorite GIFs yet'**
+  String get gifPickerFavoritesEmptyTitle;
+
+  /// Empty state description for the GIF picker favorites view.
+  ///
+  /// In en, this message translates to:
+  /// **'Star a GIF to see it here.'**
+  String get gifPickerFavoritesEmptyDescription;
+
   /// Trending GIFs category and view title.
   ///
   /// In en, this message translates to:
@@ -2755,8 +2779,8 @@ abstract class FluxerLocalizations {
   /// Primary warning text shown in the external link warning modal.
   ///
   /// In en, this message translates to:
-  /// **'You are about to leave Fluxer'**
-  String get externalLinkWarningLeaving;
+  /// **'You are about to leave {productName}'**
+  String externalLinkWarningLeaving(String productName);
 
   /// Supporting text shown in the external link warning modal.
   ///
@@ -3361,8 +3385,8 @@ abstract class FluxerLocalizations {
   /// Label for the member-since date in the profile preview card.
   ///
   /// In en, this message translates to:
-  /// **'Fluxer Member Since'**
-  String get profilePreviewMemberSince;
+  /// **'{productName} Member Since'**
+  String profilePreviewMemberSince(String productName);
 
   /// Title for the unclaimed account warning bar.
   ///
@@ -3529,8 +3553,8 @@ abstract class FluxerLocalizations {
   /// Description for email settings section.
   ///
   /// In en, this message translates to:
-  /// **'Manage the email address you use to sign in to Fluxer'**
-  String get securityLoginEmailSectionDescription;
+  /// **'Manage the email address you use to sign in to {productName}'**
+  String securityLoginEmailSectionDescription(String productName);
 
   /// Label for email address row.
   ///
@@ -4315,8 +4339,8 @@ abstract class FluxerLocalizations {
   /// Generic required action intro.
   ///
   /// In en, this message translates to:
-  /// **'Complete the required verification to continue using Fluxer.'**
-  String get requiredActionIntroGeneric;
+  /// **'Complete the required verification to continue using {productName}.'**
+  String requiredActionIntroGeneric(String productName);
 
   /// Phone-only required action intro.
   ///
@@ -4327,14 +4351,14 @@ abstract class FluxerLocalizations {
   /// Email or phone required action intro.
   ///
   /// In en, this message translates to:
-  /// **'Verify your email or phone to continue using Fluxer.'**
-  String get requiredActionIntroEmailOrPhone;
+  /// **'Verify your email or phone to continue using {productName}.'**
+  String requiredActionIntroEmailOrPhone(String productName);
 
   /// Email and phone required action intro.
   ///
   /// In en, this message translates to:
-  /// **'Complete the required email and phone verification steps below to continue using Fluxer.'**
-  String get requiredActionIntroEmailAndPhone;
+  /// **'Complete the required email and phone verification steps below to continue using {productName}.'**
+  String requiredActionIntroEmailAndPhone(String productName);
 
   /// Title when user can pick email or phone.
   ///
@@ -4345,8 +4369,8 @@ abstract class FluxerLocalizations {
   /// Description when user can pick email or phone.
   ///
   /// In en, this message translates to:
-  /// **'Complete one of the verification paths below to continue using Fluxer.'**
-  String get requiredActionChooseMethodDescription;
+  /// **'Complete one of the verification paths below to continue using {productName}.'**
+  String requiredActionChooseMethodDescription(String productName);
 
   /// Button to choose email verification.
   ///
@@ -4594,6 +4618,48 @@ abstract class FluxerLocalizations {
   /// **'{count, plural, =1{1 minute ago} other{{count} minutes ago}}'**
   String relativeTimeMinutes(int count);
 
+  /// Relative time in weeks.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 week ago} other{{count} weeks ago}}'**
+  String relativeTimeWeeks(int count);
+
+  /// Relative time in future minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{in 1 minute} other{in {count} minutes}}'**
+  String relativeTimeInMinutes(int count);
+
+  /// Relative time in future hours.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{in 1 hour} other{in {count} hours}}'**
+  String relativeTimeInHours(int count);
+
+  /// Relative time in future days.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{in 1 day} other{in {count} days}}'**
+  String relativeTimeInDays(int count);
+
+  /// Relative time in future weeks.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{in 1 week} other{in {count} weeks}}'**
+  String relativeTimeInWeeks(int count);
+
+  /// Relative time in future months.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{in 1 month} other{in {count} months}}'**
+  String relativeTimeInMonths(int count);
+
+  /// Relative time in future years.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{in 1 year} other{in {count} years}}'**
+  String relativeTimeInYears(int count);
+
   /// Relative time for very recent events.
   ///
   /// In en, this message translates to:
@@ -4609,8 +4675,8 @@ abstract class FluxerLocalizations {
   /// Description under the Authorized Applications section title.
   ///
   /// In en, this message translates to:
-  /// **'These applications have been granted access to your Fluxer account.'**
-  String get authorizedAppsDescription;
+  /// **'These applications have been granted access to your {productName} account.'**
+  String authorizedAppsDescription(String productName);
 
   /// Title shown when the user has no authorized OAuth2 applications.
   ///
@@ -4807,50 +4873,53 @@ abstract class FluxerLocalizations {
   /// Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.
   ///
   /// In en, this message translates to:
-  /// **'Fluxer Staff'**
-  String get userProfileStaffBadgeTooltip;
+  /// **'{productName} Staff'**
+  String userProfileStaffBadgeTooltip(String productName);
 
   /// Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.
   ///
   /// In en, this message translates to:
-  /// **'Fluxer Community Team'**
-  String get userProfileCtpBadgeTooltip;
+  /// **'{productName} Community Team'**
+  String userProfileCtpBadgeTooltip(String productName);
 
   /// Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.
   ///
   /// In en, this message translates to:
-  /// **'Fluxer Partner'**
-  String get userProfilePartnerBadgeTooltip;
+  /// **'{productName} Partner'**
+  String userProfilePartnerBadgeTooltip(String productName);
 
   /// Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.
   ///
   /// In en, this message translates to:
-  /// **'Fluxer Bug Hunter'**
-  String get userProfileBugHunterBadgeTooltip;
+  /// **'{productName} Bug Hunter'**
+  String userProfileBugHunterBadgeTooltip(String productName);
 
   /// Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.
   ///
   /// In en, this message translates to:
-  /// **'Fluxer Plutonium'**
-  String get userProfilePlutoniumBadgeTooltip;
+  /// **'{productName} Plutonium'**
+  String userProfilePlutoniumBadgeTooltip(String productName);
 
   /// Badge label with a date in the user profile badges popout. Preserve {date}; it is inserted by code. In English, keep "subscriber since" lowercase. Other locales should use natural local capitalization.
   ///
   /// In en, this message translates to:
-  /// **'Fluxer Plutonium subscriber since {date}'**
-  String userProfilePlutoniumSubscriberSinceTooltip(String date);
+  /// **'{productName} Plutonium subscriber since {date}'**
+  String userProfilePlutoniumSubscriberSinceTooltip(
+    String productName,
+    String date,
+  );
 
   /// Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.
   ///
   /// In en, this message translates to:
-  /// **'Fluxer Visionary'**
-  String get userProfileVisionaryBadgeTooltip;
+  /// **'{productName} Visionary'**
+  String userProfileVisionaryBadgeTooltip(String productName);
 
   /// Badge title with a date in the user profile badges popout. Preserve {date}; it is inserted by code. English locales use Title Case for the badge title part; other locales should use natural local capitalization.
   ///
   /// In en, this message translates to:
-  /// **'Fluxer Visionary since {date}'**
-  String userProfileVisionaryBadgeSinceTooltip(String date);
+  /// **'{productName} Visionary since {date}'**
+  String userProfileVisionaryBadgeSinceTooltip(String productName, String date);
 
   /// Short label in the user profile badges popout. Keep it concise. Preserve {sequence}; it is inserted by code.
   ///
@@ -6637,8 +6706,8 @@ abstract class FluxerLocalizations {
   /// Description shown under the Connections settings page title.
   ///
   /// In en, this message translates to:
-  /// **'Link external accounts and domains to your Fluxer profile. Verified connections will be displayed on your profile for others to see.'**
-  String get connectionsDescription;
+  /// **'Link external accounts and domains to your {productName} profile. Verified connections will be displayed on your profile for others to see.'**
+  String connectionsDescription(String productName);
 
   /// Empty-state title when the user has no connections.
   ///
@@ -7402,8 +7471,8 @@ abstract class FluxerLocalizations {
   /// Toggle description for the DM folder collapse behavior.
   ///
   /// In en, this message translates to:
-  /// **'When enabled, unread DMs in the guild sidebar are collapsed into a folder on the Fluxer button. Click the Fluxer button while on the DMs page to expand or collapse the folder.'**
-  String get lookAndFeelCollapseDMsDescription;
+  /// **'When enabled, unread DMs in the guild sidebar are collapsed into a folder on the {productName} button. Click the {productName} button while on the DMs page to expand or collapse the folder.'**
+  String lookAndFeelCollapseDMsDescription(String productName);
 
   /// Section title for channel list options.
   ///
@@ -7888,8 +7957,8 @@ abstract class FluxerLocalizations {
   /// Toggle label for inlining media for direct uploads.
   ///
   /// In en, this message translates to:
-  /// **'When uploaded directly to Fluxer'**
-  String get messagesMediaDisplayInlineAttachmentLabel;
+  /// **'When uploaded directly to {productName}'**
+  String messagesMediaDisplayInlineAttachmentLabel(String productName);
 
   /// Section title for link preview settings.
   ///
@@ -8212,8 +8281,8 @@ abstract class FluxerLocalizations {
   /// Section description for screen reader accessibility settings.
   ///
   /// In en, this message translates to:
-  /// **'Control how Fluxer works with screen readers.'**
-  String get accessibilityScreenReaderGroupDescription;
+  /// **'Control how {productName} works with screen readers.'**
+  String accessibilityScreenReaderGroupDescription(String productName);
 
   /// Toggle label for announcing incoming messages to screen readers.
   ///
@@ -10689,6 +10758,12 @@ abstract class FluxerLocalizations {
   /// **'Copy Message'**
   String get chatMessageCopyText;
 
+  /// Action label for copying the text of a message's embeds.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy Embed Text'**
+  String get chatMessageCopyEmbedText;
+
   /// Action label for translating a message on-device.
   ///
   /// In en, this message translates to:
@@ -11142,8 +11217,8 @@ abstract class FluxerLocalizations {
   /// Rule-reason description for the catch-all option.
   ///
   /// In en, this message translates to:
-  /// **'Use only if it clearly breaks Fluxer\'s rules and doesn\'t fit above.'**
-  String get iarReasonOtherDescription;
+  /// **'Use only if it clearly breaks {productName}\'s rules and doesn\'t fit above.'**
+  String iarReasonOtherDescription(String productName);
 
   /// Inline routing nudge shown under reasons (e.g. mature content) that overlap with child safety.
   ///
@@ -12197,6 +12272,65 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'PNG, JPEG, WebP, AVIF, HEIC, HEIF, JXL, SVG. Max 10MB. Recommended: 512×512px'**
   String get addGuildCreateIconHint;
+
+  /// Body text on the import Discord template URL step.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste a Discord template URL to import its structure into a new community.'**
+  String get addGuildImportDescription;
+
+  /// Label for the Discord template URL or code input.
+  ///
+  /// In en, this message translates to:
+  /// **'Template URL'**
+  String get addGuildImportUrlLabel;
+
+  /// Validation error when the Discord template URL or code cannot be parsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid Discord template URL or code.'**
+  String get addGuildImportUrlInvalid;
+
+  /// Error when fetching a Discord community template from Discord fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to fetch the community template. The template may not exist or the external service is unavailable.'**
+  String get addGuildImportFetchFailed;
+
+  /// Error when Discord returns a payload that is not a guild template.
+  ///
+  /// In en, this message translates to:
+  /// **'This doesn\'t look like a valid template response.'**
+  String get addGuildImportInvalidResponse;
+
+  /// Uppercase-style label above the imported template name in the preview card.
+  ///
+  /// In en, this message translates to:
+  /// **'Template'**
+  String get addGuildImportTemplateLabel;
+
+  /// Imported template preview counts for text channels, voice channels, categories, and roles.
+  ///
+  /// In en, this message translates to:
+  /// **'{textChannelCount} text, {voiceChannelCount} voice, {categoryCount} categories, {roleCount} roles'**
+  String addGuildImportTemplateStats(
+    int textChannelCount,
+    int voiceChannelCount,
+    int categoryCount,
+    int roleCount,
+  );
+
+  /// Button label to clear the selected community icon on the import-template create step.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove icon'**
+  String get addGuildImportRemoveIcon;
+
+  /// API error when Fluxer rejects the imported community template payload.
+  ///
+  /// In en, this message translates to:
+  /// **'The community template data is invalid or malformed.'**
+  String get addGuildImportTemplateInvalid;
 
   /// Toast shown after accepting an emoji or sticker pack invite.
   ///
@@ -16333,8 +16467,8 @@ abstract class FluxerLocalizations {
   /// Advanced settings section description for crash and performance reporting.
   ///
   /// In en, this message translates to:
-  /// **'Help improve Fluxer by sharing anonymous crash and performance data.'**
-  String get advancedPerformanceReportingSectionDescription;
+  /// **'Help improve {productName} by sharing anonymous crash and performance data.'**
+  String advancedPerformanceReportingSectionDescription(String productName);
 
   /// Toggle label for opting into crash and performance reporting.
   ///
@@ -16345,8 +16479,8 @@ abstract class FluxerLocalizations {
   /// Toggle description explaining anonymous self-hosted performance reporting.
   ///
   /// In en, this message translates to:
-  /// **'All reported data is anonymous and is sent only to Fluxer\'s own monitoring service — no third-party providers are used.'**
-  String get advancedPerformanceReportingDescription;
+  /// **'All reported data is anonymous and is sent only to {productName}\'s own monitoring service — no third-party providers are used.'**
+  String advancedPerformanceReportingDescription(String productName);
 
   /// Button label that opens a dedicated advanced settings modal.
   ///
@@ -18561,8 +18695,8 @@ abstract class FluxerLocalizations {
   /// Guild tooltip when the community is staff-only.
   ///
   /// In en, this message translates to:
-  /// **'Only accessible to Fluxer staff'**
-  String get guildNavbarStaffOnlyAccessible;
+  /// **'Only accessible to {productName} staff'**
+  String guildNavbarStaffOnlyAccessible(String productName);
 
   /// Guild tooltip when invites are disabled.
   ///

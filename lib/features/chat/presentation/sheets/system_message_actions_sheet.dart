@@ -67,7 +67,6 @@ Future<void> showSystemMessageActionsSheet(
       unawaited(
         FluxerEmojiPickerSheet.show(
           context,
-          maxHeight: 0.88,
           channelId: message.channelId,
           visibleTabs: const [ExpressionPickerTab.emojis],
           trackEmojiUsageOnSelect: false,
@@ -150,6 +149,7 @@ Future<void> showSystemMessageActionsSheet(
     case MessageAction.pin:
     case MessageAction.bookmark:
     case MessageAction.suppressEmbeds:
+    case MessageAction.copyEmbedText:
     case MessageAction.report:
     case MessageAction.retry:
     case MessageAction.deleteFailed:

@@ -85,26 +85,37 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
   final mentionCache = ref.watch(messageMentionContextCacheProvider);
   ({String? guildId})? pendingReadyHeavyWork;
 
-  void runReadyHeavyWork(String? guildId) {
-    unawaited(
-      ref
-          .read(channelPermissionCacheProvider.notifier)
-          .rebuildAfterReady(priorityGuildId: guildId),
-    );
-    ref
-      ..invalidate(effectiveGuildChannelPermissionBitsProvider)
-      ..invalidate(channelLocalGuildChannelPermissionBitsProvider);
-    if (guildId != null) {
-      ref.read(guildSyncProvider.notifier).syncIfNeeded(guildId, force: true);
+  void ifMounted(void Function() action) {
+    if (!ref.mounted) {
+      return;
     }
+    action();
+  }
+
+  void runReadyHeavyWork(String? guildId) {
+    ifMounted(() {
+      unawaited(
+        ref
+            .read(channelPermissionCacheProvider.notifier)
+            .rebuildAfterReady(priorityGuildId: guildId),
+      );
+      ref
+        ..invalidate(effectiveGuildChannelPermissionBitsProvider)
+        ..invalidate(channelLocalGuildChannelPermissionBitsProvider);
+      if (guildId != null) {
+        ref.read(guildSyncProvider.notifier).syncIfNeeded(guildId, force: true);
+      }
+    });
   }
 
   void scheduleReadyHeavyWork(String? guildId) {
-    if (ref.read(splashRevealCompleteProvider)) {
-      runReadyHeavyWork(guildId);
-      return;
-    }
-    pendingReadyHeavyWork = (guildId: guildId);
+    ifMounted(() {
+      if (ref.read(splashRevealCompleteProvider)) {
+        runReadyHeavyWork(guildId);
+        return;
+      }
+      pendingReadyHeavyWork = (guildId: guildId);
+    });
   }
 
   ref
@@ -133,10 +144,11 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     reactionWriteBatcher: ref.read(reactionWriteBatcherProvider),
     currentUserId: currentUserId,
     isAutoAckActive: (channelId) {
+      if (!ref.mounted) {
+        return false;
+      }
       final chat = ref.read(chatViewModelProvider);
       if (chat.channelId != channelId) {
-        // Not the channel the user is looking at: never auto-ack it on the
-        // strength of a stale viewport row mid channel-handoff.
         return false;
       }
       return isAutoAckEligible(
@@ -146,7 +158,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
         currentTailId: newestServerBackedMessageId(chat.messages),
       );
     },
-    onReady: () {
+    onReady: () => ifMounted(() {
       talker.info('[Gateway] Setting gatewayReady = true');
       if (!kReleaseMode) {
         final stats = connection.compressionStats;
@@ -166,22 +178,22 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       ref.read(gatewaySessionRecoveryProvider.notifier).bump();
       ref.read(gatewayFullRecoveryProvider.notifier).bump();
       ref.read(pendingPushNotificationPathProvider.notifier).flushIfReady();
-    },
-    onResumed: () {
+    }),
+    onResumed: () => ifMounted(() {
       talker.info('[Gateway] RESUMED, light recovery');
       ref.read(gatewayReadyProvider.notifier).setReady();
       ref.read(gatewaySessionRecoveryProvider.notifier).bump();
       ref.read(pendingPushNotificationPathProvider.notifier).flushIfReady();
-    },
-    onTypingStart: (channelId, userId) {
+    }),
+    onTypingStart: (channelId, userId) => ifMounted(() {
       ref.read(typingIndicatorsProvider.notifier).addTyping(channelId, userId);
-    },
-    onTypingClear: (channelId, userId) {
+    }),
+    onTypingClear: (channelId, userId) => ifMounted(() {
       ref
           .read(typingIndicatorsProvider.notifier)
           .removeTyping(channelId, userId);
-    },
-    onVoiceStateUpdate: (voiceState) {
+    }),
+    onVoiceStateUpdate: (voiceState) => ifMounted(() {
       ref.read(voiceStatesMapProvider.notifier).update(voiceState);
       ref
           .read(voiceSessionProvider.notifier)
@@ -194,8 +206,8 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
           voiceState.guildId == session.guildId) {
         ref.read(voiceSessionProvider.notifier).syncE2eeFromVoiceStates();
       }
-    },
-    onVoiceStatesBulk: (states) {
+    }),
+    onVoiceStatesBulk: (states) => ifMounted(() {
       ref.read(voiceStatesMapProvider.notifier).updateBulk(states);
       final String? userId = currentUserId;
       if (userId != null) {
@@ -219,14 +231,14 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
           ref.read(voiceSessionProvider.notifier).syncE2eeFromVoiceStates();
         }
       }
-    },
-    onGatewayError: (event) {
+    }),
+    onGatewayError: (event) => ifMounted(() {
       ref.read(voiceSessionProvider.notifier).handleGatewayError(event);
-    },
-    onVoiceServerUpdate: (event) {
+    }),
+    onVoiceServerUpdate: (event) => ifMounted(() {
       ref.read(voiceSessionProvider.notifier).handleVoiceServerUpdate(event);
-    },
-    onCallCreate: (event) {
+    }),
+    onCallCreate: (event) => ifMounted(() {
       ref
           .read(activeCallsProvider.notifier)
           .createCall(
@@ -236,8 +248,8 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
             ringing: event.ringing,
             voiceStates: event.voiceStates,
           );
-    },
-    onCallUpdate: (event) {
+    }),
+    onCallUpdate: (event) => ifMounted(() {
       ref
           .read(activeCallsProvider.notifier)
           .updateCall(
@@ -267,20 +279,20 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
           }
         }
       }
-    },
-    onCallDelete: (channelId) {
+    }),
+    onCallDelete: (channelId) => ifMounted(() {
       ref.read(activeCallsProvider.notifier).deleteCall(channelId);
       ref
           .read(outgoingVoiceCallInitiatorProvider.notifier)
           .clearChannel(channelId);
-    },
-    onInviteCreate: (data) {
+    }),
+    onInviteCreate: (data) => ifMounted(() {
       ref.read(inviteCacheProvider.notifier).addInvite(data);
-    },
-    onInviteDelete: (code) {
+    }),
+    onInviteDelete: (code) => ifMounted(() {
       ref.read(inviteCacheProvider.notifier).removeInvite(code);
-    },
-    onGuildPermissionsChanged: (guildId) {
+    }),
+    onGuildPermissionsChanged: (guildId) => ifMounted(() {
       unawaited(
         ref.read(guildPermissionsProvider.notifier).refreshPermissions(guildId),
       );
@@ -290,14 +302,14 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       ref
         ..invalidate(effectiveGuildChannelPermissionBitsProvider)
         ..invalidate(channelLocalGuildChannelPermissionBitsProvider);
-    },
-    onGuildPermissionsEvict: (guildId) {
+    }),
+    onGuildPermissionsEvict: (guildId) => ifMounted(() {
       ref.read(guildPermissionsProvider.notifier).evict(guildId);
       unawaited(
         ref.read(channelPermissionCacheProvider.notifier).evictGuild(guildId),
       );
-    },
-    onChannelPermissionChanged: (channelId) {
+    }),
+    onChannelPermissionChanged: (channelId) => ifMounted(() {
       unawaited(
         ref
             .read(channelPermissionCacheProvider.notifier)
@@ -306,27 +318,37 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       ref
         ..invalidate(effectiveGuildChannelPermissionBitsProvider(channelId))
         ..invalidate(channelLocalGuildChannelPermissionBitsProvider(channelId));
-    },
-    onChannelDelete: (channelId) {
+    }),
+    onChannelDelete: (channelId) => ifMounted(() {
       ref.read(slowmodeTrackerProvider.notifier).clearChannel(channelId);
-    },
-    onPermissionsClearAll: () {
+    }),
+    onPermissionsClearAll: () => ifMounted(() {
       ref.read(guildPermissionsProvider.notifier).clearAll();
       ref.read(channelPermissionCacheProvider.notifier).clearAll();
       ref
         ..invalidate(effectiveGuildChannelPermissionBitsProvider)
         ..invalidate(channelLocalGuildChannelPermissionBitsProvider);
-    },
-    onMessageCreate: (MessageCreateDispatch dispatch) => messageBus.emit(
-      MessageCreated(event: dispatch.event, snapshot: dispatch.snapshot),
-    ),
-    onMessageUpdate: (event) => messageBus.emit(MessageUpdated(event)),
-    onMessageDelete: (event) => messageBus.emit(MessageDeleted(event)),
-    onMessageDeleteBulk: (event) => messageBus.emit(MessagesDeletedBulk(event)),
-    onMessageReactionChange: (channelId, messageId) => messageBus.emit(
-      MessageReactionsChanged(channelId: channelId, messageId: messageId),
-    ),
-    onOwnMessageCreated: (channelId, sentAt) {
+    }),
+    onMessageCreate: (MessageCreateDispatch dispatch) => ifMounted(() {
+      messageBus.emit(
+        MessageCreated(event: dispatch.event, snapshot: dispatch.snapshot),
+      );
+    }),
+    onMessageUpdate: (event) => ifMounted(() {
+      messageBus.emit(MessageUpdated(event));
+    }),
+    onMessageDelete: (event) => ifMounted(() {
+      messageBus.emit(MessageDeleted(event));
+    }),
+    onMessageDeleteBulk: (event) => ifMounted(() {
+      messageBus.emit(MessagesDeletedBulk(event));
+    }),
+    onMessageReactionChange: (channelId, messageId) => ifMounted(() {
+      messageBus.emit(
+        MessageReactionsChanged(channelId: channelId, messageId: messageId),
+      );
+    }),
+    onOwnMessageCreated: (channelId, sentAt) => ifMounted(() {
       ref.read(chatViewModelProvider.notifier)
         ..clearStickyUnreadFor(channelId)
         ..cancelPendingOutgoingAck(channelId);
@@ -336,48 +358,49 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       unawaited(
         ref.read(slowmodeSyncProvider.notifier).fetchIfNeeded(channelId),
       );
-    },
-    onMessageAcked: (channelId, {required manual}) {
+    }),
+    onMessageAcked: (channelId, {required manual}) => ifMounted(() {
       ref
           .read(chatViewModelProvider.notifier)
           .applyExternalAck(channelId, manual: manual);
-    },
-    onAuthSessionIdHashChanged: (idHash) {
+    }),
+    onAuthSessionIdHashChanged: (idHash) => ifMounted(() {
       ref.read(currentAuthSessionIdHashProvider.notifier).update(idHash);
-    },
-    onConnectionsUpdate: (connections) {
+    }),
+    onConnectionsUpdate: (connections) => ifMounted(() {
       ref
           .read(connectionsViewModelProvider.notifier)
           .setConnections(connections);
-    },
-    onWebauthnCredentialsUpdate: (credentials) {
+    }),
+    onWebauthnCredentialsUpdate: (credentials) => ifMounted(() {
       ref
           .read(webauthnCredentialsViewModelProvider.notifier)
           .setCredentials(credentials);
-    },
-    onSessionChanging: () {
+    }),
+    onSessionChanging: () => ifMounted(() {
       ref.read(syncedPreferencesStoreProvider).markSessionChanging();
-    },
-    onUserSettingsHydrate: (settings) {
+    }),
+    onUserSettingsHydrate: (settings) => ifMounted(() {
       unawaited(_handleUserSettingsHydrate(ref, settings));
-    },
-    onUnavailableGuildsReady: (rawGuilds) {
+    }),
+    onUnavailableGuildsReady: (rawGuilds) => ifMounted(() {
       ref.read(guildAvailabilityProvider.notifier).loadFromReady(rawGuilds);
-    },
+    }),
     onGuildAvailabilityChanged:
-        (guildId, {required unavailable, unavailableHidden = false}) {
-          ref
-              .read(guildAvailabilityProvider.notifier)
-              .handleGuildAvailability(
-                guildId,
-                unavailable: unavailable,
-                unavailableHidden: unavailableHidden,
-              );
-        },
-    onGuildAvailable: (guildId) {
+        (guildId, {required unavailable, unavailableHidden = false}) =>
+            ifMounted(() {
+              ref
+                  .read(guildAvailabilityProvider.notifier)
+                  .handleGuildAvailability(
+                    guildId,
+                    unavailable: unavailable,
+                    unavailableHidden: unavailableHidden,
+                  );
+            }),
+    onGuildAvailable: (guildId) => ifMounted(() {
       ref.read(guildAvailabilityProvider.notifier).setGuildAvailable(guildId);
-    },
-    onMembersChunk: (guildId, userIds, {nonce}) {
+    }),
+    onMembersChunk: (guildId, userIds, {nonce}) => ifMounted(() {
       ref
           .read(guildMemberChunkWaiterProvider)
           .notifyChunk(
@@ -396,9 +419,9 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
               ),
             ),
       );
-    },
+    }),
     onMembersChunkProgress:
-        (guildId, chunkIndex, chunkCount, userIds, {nonce}) {
+        (guildId, chunkIndex, chunkCount, userIds, {nonce}) => ifMounted(() {
           ref
               .read(guildMemberChunkWaiterProvider)
               .notifyChunkProgress(
@@ -408,11 +431,12 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
                 userIds: userIds,
                 requestId: GuildMemberChunkWaiter.requestIdFromNonce(nonce),
               );
-        },
-    onMemberListUpdate: (event) {
+        }),
+    onMemberListUpdate: (event) => ifMounted(() {
       ref.read(memberListUpdateBatcherProvider).enqueue(event);
-    },
+    }),
     resolveDefaultHideMutedChannels: () =>
+        ref.mounted &&
         ref.read(userSettingsViewModelProvider).defaultHideMutedChannels,
   );
 
@@ -429,9 +453,9 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
   );
 
   ref.onDispose(() {
+    handler.dispose();
     unawaited(subscription.cancel());
     unawaited(dispatcher.dispose());
-    handler.dispose();
   });
   return subscription;
 }
@@ -440,12 +464,17 @@ Future<void> _handleUserSettingsHydrate(
   Ref ref,
   UserSettingsResponse settings,
 ) async {
+  if (!ref.mounted) {
+    return;
+  }
   final notifier = ref.read(themePreferenceProvider.notifier);
-  await ref
-      .read(syncedPreferencesStoreProvider)
-      .hydrateFromUserSettings(
-        settings,
-        themeCustomizationApplier: notifier.applySyncedThemeCustomization,
-      );
+  final store = ref.read(syncedPreferencesStoreProvider);
+  await store.hydrateFromUserSettings(
+    settings,
+    themeCustomizationApplier: notifier.applySyncedThemeCustomization,
+  );
+  if (!ref.mounted) {
+    return;
+  }
   await notifier.applyServerSettings(settings);
 }

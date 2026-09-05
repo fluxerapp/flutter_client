@@ -5,6 +5,7 @@ import 'dart:ui' show BoxWidthStyle;
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
@@ -462,7 +463,9 @@ class _ShareMediaSheetBodyState extends ConsumerState<_ShareMediaSheetBody> {
               MessageCharacterCounter(
                 currentLength: _messageController.toWireText().trim().length,
                 maxLength: maxMessageLength,
-                canUpgrade: maxMessageLength < premiumMaxLength,
+                canUpgrade:
+                    maxMessageLength < premiumMaxLength &&
+                    ref.watch(shouldShowPremiumCommerceProvider),
                 premiumMaxLength: premiumMaxLength,
               ),
             ],
@@ -638,7 +641,6 @@ class _ShareMediaSheetBodyState extends ConsumerState<_ShareMediaSheetBody> {
       FluxerEmojiPickerSheet.show(
         context,
         title: FluxerLocalizations.of(context).emojiPickerTitle,
-        maxHeight: 0.88,
         visibleTabs: const <ExpressionPickerTab>[ExpressionPickerTab.emojis],
         onEmojiSelected: (FluxerSelectedEmoji emoji) =>
             _messageController.insertEmoji(emoji.name, emoji.surrogates),

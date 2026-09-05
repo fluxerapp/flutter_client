@@ -32,11 +32,12 @@ Future<void> createCommunity({
   required String name,
   required FluxerLocalizations l10n,
   String? iconDataUri,
+  TemplateSerializedGuild? template,
 }) async {
   try {
     final GuildResponse guild = await ref
         .read(guildRepositoryProvider)
-        .createGuild(name: name, iconDataUri: iconDataUri);
+        .createGuild(name: name, iconDataUri: iconDataUri, template: template);
     await ref.read(channelRepositoryProvider).getChannels(guild.id);
     final Guild? localGuild = await ref.read(
       guildByIdProvider(guild.id).future,
@@ -70,6 +71,11 @@ Future<void> createCommunity({
         throw CreateCommunityException(
           kind: CreateCommunityFailureKind.maxGuilds,
           message: l10n.discoveryJoinErrorMaxGuildsMessage,
+        );
+      case 'GUILD_TEMPLATE_INVALID':
+        throw CreateCommunityException(
+          kind: CreateCommunityFailureKind.apiError,
+          message: l10n.addGuildImportTemplateInvalid,
         );
       default:
         throw CreateCommunityException(
