@@ -12518,5 +12518,354 @@
     "giftSettingsAlreadyRedeemed": "Este regalo ya ha sido canjeado",
     "giftSettingsRedeemForYourself": "Canjear para ti",
     "premiumRedeemGiftCode": "Canjear código de regalo",
-    "premiumGiftSubscriptionBlocksRecurring": "Actualmente tienes una suscripción de regalo. No se renovará automáticamente. Puedes canjear más códigos de regalo para extenderla. Las suscripciones recurrentes se pueden iniciar una vez que finalice el tiempo de tu regalo."
+    "premiumGiftSubscriptionBlocksRecurring": "Actualmente tienes una suscripción de regalo. No se renovará automáticamente. Puedes canjear más códigos de regalo para extenderla. Las suscripciones recurrentes se pueden iniciar una vez que finalice el tiempo de tu regalo.",
+    "systemPermissionPhotosMessage": "Fluxer no tiene acceso a tu galería de fotos. Puedes habilitarlo en la configuración de privacidad de tu dispositivo.",
+    "@systemPermissionPhotosMessage": {
+        "description": "Body text when photo library access must be enabled in system settings."
+    },
+    "addFriendVerifyToSend": "Verifica tu correo electrónico antes de enviar solicitudes de amistad.",
+    "@addFriendVerifyToSend": {
+        "description": "Error when an unverified account tries to send a friend request."
+    },
+    "addFriendFriendsListFull": "Tu lista de amigos está llena, o la de la otra persona. Elimina a alguien e inténtalo de nuevo.",
+    "@addFriendFriendsListFull": {
+        "description": "Error when either user's friends list is at the limit."
+    },
+    "phoneNotEligible": "La verificación por teléfono no está disponible para esta cuenta. Usa otro método o contacta con soporte.",
+    "@phoneNotEligible": {
+        "description": "Account not eligible for phone verification."
+    },
+    "phoneCaptchaRequired": "Se requiere una comprobación del navegador antes de la verificación por teléfono. Vuelve a intentarlo desde la página de inicio de sesión o contacta con soporte.",
+    "@phoneCaptchaRequired": {
+        "description": "Captcha required for phone verification."
+    },
+    "phoneSomethingWentWrong": "Algo salió mal. Inténtalo de nuevo.",
+    "@phoneSomethingWentWrong": {
+        "description": "Generic phone verification error."
+    },
+    "phoneInboundExpensiveDescription": "Enviar un SMS a este número de teléfono es muy costoso, por lo que necesitamos que tú nos envíes un SMS en su lugar. También puedes contactar con soporte para que retiremos este requisito de tu cuenta.",
+    "@phoneInboundExpensiveDescription": {
+        "description": "Inbound challenge reason for expensive destinations."
+    },
+    "phoneInboundDefaultDescription": "Necesitamos que nos envíes un SMS para verificar tu número de teléfono.",
+    "@phoneInboundDefaultDescription": {
+        "description": "Default inbound challenge description."
+    },
+    "phoneInboundStepOpenMessaging": "Abre la aplicación de mensajes de tu teléfono y crea un nuevo mensaje de texto.",
+    "@phoneInboundStepOpenMessaging": {
+        "description": "Inbound verification step 1."
+    },
+    "phoneInboundStepSendCode": "Envía el código {code} al {number}.",
+    "@phoneInboundStepSendCode": {
+        "description": "Inbound verification step 2.",
+        "placeholders": {
+            "code": {
+                "type": "String"
+            },
+            "number": {
+                "type": "String"
+            }
+        }
+    },
+    "phoneInboundStepWait": "Espera a que recibamos tu mensaje. Esto puede tardar un minuto.",
+    "@phoneInboundStepWait": {
+        "description": "Inbound verification step 3."
+    },
+    "phoneInboundGetNewCode": "Obtener nuevo código",
+    "@phoneInboundGetNewCode": {
+        "description": "Button to refresh inbound challenge."
+    },
+    "phoneInboundChallengeCodeLabel": "Código a enviar",
+    "@phoneInboundChallengeCodeLabel": {
+        "description": "Label for inbound challenge code."
+    },
+    "requiredActionTitle": "Se requiere verificación de cuenta",
+    "@requiredActionTitle": {
+        "description": "Title for required action blocking modal."
+    },
+    "requiredActionIntroGeneric": "Completa la verificación requerida para seguir usando Fluxer.",
+    "@requiredActionIntroGeneric": {
+        "description": "Generic required action intro."
+    },
+    "requiredActionIntroPhone": "Tu registro necesita una comprobación anti-spam adicional antes de que puedas continuar.",
+    "@requiredActionIntroPhone": {
+        "description": "Phone-only required action intro."
+    },
+    "requiredActionIntroEmailOrPhone": "Verifica tu correo electrónico o teléfono para seguir usando Fluxer.",
+    "@requiredActionIntroEmailOrPhone": {
+        "description": "Email or phone required action intro."
+    },
+    "requiredActionIntroEmailAndPhone": "Completa los pasos obligatorios de verificación por correo electrónico y teléfono que aparecen a continuación para seguir usando Fluxer.",
+    "@requiredActionIntroEmailAndPhone": {
+        "description": "Email and phone required action intro."
+    },
+    "requiredActionChooseMethodTitle": "Elige un método de verificación",
+    "@requiredActionChooseMethodTitle": {
+        "description": "Title when user can pick email or phone."
+    },
+    "requiredActionChooseMethodDescription": "Completa una de las rutas de verificación de abajo para seguir usando Fluxer.",
+    "@requiredActionChooseMethodDescription": {
+        "description": "Description when user can pick email or phone."
+    },
+    "requiredActionCheckEmailTitle": "Revisa tu correo electrónico",
+    "@requiredActionCheckEmailTitle": {
+        "description": "Title for email verification instructions."
+    },
+    "requiredActionCheckEmailDescription": "Hemos enviado un enlace de verificación a tu dirección de correo electrónico. Ábrelo para continuar.",
+    "@requiredActionCheckEmailDescription": {
+        "description": "Description for email verification instructions."
+    },
+    "requiredActionResendVerificationEmail": "Reenviar correo de verificación",
+    "@requiredActionResendVerificationEmail": {
+        "description": "Button to resend verification email."
+    },
+    "requiredActionVerificationEmailSent": "Correo de verificación enviado. Revisa tu bandeja de entrada.",
+    "@requiredActionVerificationEmailSent": {
+        "description": "Toast after resending verification email."
+    },
+    "networkErrorMessage": "Algo salió mal. Por favor, inténtalo de nuevo.",
+    "@networkErrorMessage": {
+        "description": "Generic message shown when a network request fails."
+    },
+    "memberRoleRemove": "Eliminar rol {roleName}",
+    "@memberRoleRemove": {
+        "description": "Button label to remove a role from a member.",
+        "placeholders": {
+            "roleName": {
+                "type": "String"
+            }
+        }
+    },
+    "userProfileNoRolesInCommunity": "Este usuario no tiene ningún rol en esta comunidad.",
+    "@userProfileNoRolesInCommunity": {
+        "description": "Empty state when a member has no assigned roles."
+    },
+    "memberRolesNoRolesYet": "Aún no hay roles. Añade roles en {rolesSettingsPath}",
+    "@memberRolesNoRolesYet": {
+        "description": "Empty state in the role picker when the community has no roles.",
+        "placeholders": {
+            "rolesSettingsPath": {
+                "type": "String"
+            }
+        }
+    },
+    "memberRolesNoRolesAvailable": "No hay roles disponibles",
+    "@memberRolesNoRolesAvailable": {
+        "description": "Title when there are no roles to assign."
+    },
+    "memberRolesNoRolesAvailableDescription": "No hay roles para asignar en esta comunidad en este momento, pero puedes crear uno nuevo en {rolesSettingsPath}.",
+    "@memberRolesNoRolesAvailableDescription": {
+        "description": "Body when there are no roles to assign.",
+        "placeholders": {
+            "rolesSettingsPath": {
+                "type": "String"
+            }
+        }
+    },
+    "userProfileSameTimeAsYou": "La misma hora que tú",
+    "@userProfileSameTimeAsYou": {
+        "description": "Profile timezone difference when the target matches the viewer."
+    },
+    "userProfileTimeAheadOfYou": "{duration} por delante de ti",
+    "@userProfileTimeAheadOfYou": {
+        "description": "Profile timezone difference when the target is ahead of the viewer.",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "userProfileTimeBehindYou": "{duration} por detrás de ti",
+    "@userProfileTimeBehindYou": {
+        "description": "Profile timezone difference when the target is behind the viewer.",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "userProfileTimezoneDurationHoursMinutes": "{hours, plural, =1{1 hora} other{{hours} horas}} {minutes, plural, =1{1 minuto} other{{minutes} minutos}}",
+    "@userProfileTimezoneDurationHoursMinutes": {
+        "description": "Duration phrase in the profile timezone section.",
+        "placeholders": {
+            "hours": {
+                "type": "int"
+            },
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "userProfileTimezoneDurationHours": "{hours, plural, =1{1 hora} other{{hours} horas}}",
+    "@userProfileTimezoneDurationHours": {
+        "description": "Hours-only duration phrase in the profile timezone section.",
+        "placeholders": {
+            "hours": {
+                "type": "int"
+            }
+        }
+    },
+    "userProfileTimezoneDurationMinutes": "{minutes, plural, =1{1 minuto} other{{minutes} minutos}}",
+    "@userProfileTimezoneDurationMinutes": {
+        "description": "Minutes-only duration phrase in the profile timezone section.",
+        "placeholders": {
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "iarReportGuildPreconfirmBody": "Si este reporte es sobre un mensaje específico de esta comunidad, reporta ese mensaje en su lugar. Los reportes de mensajes proporcionan al equipo de seguridad el contexto más claro, y añadir detalles en los comentarios puede ayudar a que lo revisemos más rápido. Continúa con el reporte de la comunidad en su conjunto únicamente si reportar un mensaje no reflejaría el problema general.",
+    "@iarReportGuildPreconfirmBody": {
+        "description": "Body shown in the pre-confirm dialog before opening the community report sheet."
+    },
+    "iarContinueToReportCommunity": "Continuar reportando la comunidad",
+    "@iarContinueToReportCommunity": {
+        "description": "Primary button in the community report pre-confirm dialog."
+    },
+    "iarReasonHarassmentGuildLabel": "Acoso o abuso dirigido",
+    "@iarReasonHarassmentGuildLabel": {
+        "description": "Community-report reason label for harassment or targeted abuse."
+    },
+    "iarReasonHarassmentGuildDescription": "La comunidad facilita ataques masivos o acoso dirigido.",
+    "@iarReasonHarassmentGuildDescription": {
+        "description": "Community-report reason description for harassment or targeted abuse."
+    },
+    "iarReasonTerrorismLabel": "Terrorismo o extremismo violento",
+    "@iarReasonTerrorismLabel": {
+        "description": "Community-report reason label for terrorism or violent extremism."
+    },
+    "iarReasonTerrorismDescription": "Promueve, recluta para, o coordina actividad violenta extremista.",
+    "@iarReasonTerrorismDescription": {
+        "description": "Community-report reason description for terrorism or violent extremism."
+    },
+    "chatAttachmentDownloadedToast": "Guardado en fotos",
+    "@chatAttachmentDownloadedToast": {
+        "description": "Toast shown after an attachment is saved to the device."
+    },
+    "chatTextualPreviewExpandLines": "{count, plural, one{Expandir ({count} línea)} other{Expandir ({count} líneas)}}",
+    "@chatTextualPreviewExpandLines": {
+        "description": "Expand button for textual attachment preview by line count.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "chatTextualPreviewCollapseLines": "{count, plural, one{Reducir ({count} línea)} other{Reducir ({count} líneas)}}",
+    "@chatTextualPreviewCollapseLines": {
+        "description": "Collapse button for textual attachment preview by line count.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "chatTextualPreviewExpandRows": "{count, plural, one{Expandir ({count} fila)} other{Expandir ({count} filas)}}",
+    "@chatTextualPreviewExpandRows": {
+        "description": "Expand button for CSV attachment preview by row count.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "chatTextualPreviewCollapseRows": "{count, plural, one{Reducir ({count} fila)} other{Reducir ({count} filas)}}",
+    "@chatTextualPreviewCollapseRows": {
+        "description": "Collapse button for CSV attachment preview by row count.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "iarReasonMatureContentGuildLabel": "Contenido para adultos o acceso inseguro",
+    "@iarReasonMatureContentGuildLabel": {
+        "description": "Community-report reason label for mature content or unsafe gating."
+    },
+    "iarReasonMatureContentGuildDescription": "Contenido para adultos sin restricción apropiada.",
+    "@iarReasonMatureContentGuildDescription": {
+        "description": "Community-report reason description for mature content or unsafe gating."
+    },
+    "iarReasonChildSafetyGuildDescription": "Pone en peligro a menores o aloja contenido de explotación infantil.",
+    "@iarReasonChildSafetyGuildDescription": {
+        "description": "Community-report reason description for child safety."
+    },
+    "iarReasonRaidDescription": "Coordina ataques masivos, campañas de asedio o acoso contra personas o comunidades.",
+    "@iarReasonRaidDescription": {
+        "description": "Community-report reason description for raid coordination."
+    },
+    "iarReasonSpamGuildDescription": "La comunidad existe para hacer spam, estafar o abusar de la plataforma.",
+    "@iarReasonSpamGuildDescription": {
+        "description": "Community-report reason description for spam, scams, or phishing."
+    },
+    "iarReasonMalwareGuildDescription": "Distribuye malware, robo de credenciales o archivos dañinos.",
+    "@iarReasonMalwareGuildDescription": {
+        "description": "Community-report reason description for malware distribution."
+    },
+    "iarReasonPrivacyGuildLabel": "Violación de la privacidad o doxxing",
+    "@iarReasonPrivacyGuildLabel": {
+        "description": "Community-report reason label for privacy violation or doxxing."
+    },
+    "iarReasonPrivacyGuildDescription": "Comparte información personal, acosa a usuarios o coordina abusos de privacidad.",
+    "@iarReasonPrivacyGuildDescription": {
+        "description": "Community-report reason description for privacy violation or doxxing."
+    },
+    "iarReasonSelfHarmGuildDescription": "Fomenta el suicidio, las autolesiones o los trastornos alimentarios.",
+    "@iarReasonSelfHarmGuildDescription": {
+        "description": "Community-report reason description for self-harm encouragement."
+    },
+    "slowmodeStatusEnabled": "El modo lento está activado",
+    "@slowmodeStatusEnabled": {
+        "description": "Short label in the wide composer slowmode indicator when the reader is free to send."
+    },
+    "slowmodeStatusActive": "Modo lento activo ({remaining})",
+    "@slowmodeStatusActive": {
+        "description": "Short label in the wide composer slowmode indicator while the countdown runs.",
+        "placeholders": {
+            "remaining": {
+                "type": "String",
+                "example": "00:30"
+            }
+        }
+    },
+    "lookAndFeelChatFontSizeLabel": "Tamaño de fuente del chat",
+    "@lookAndFeelChatFontSizeLabel": {
+        "description": "Label for the chat font size select in Look & Feel."
+    },
+    "lookAndFeelAppZoomTitle": "Nivel de zoom de la aplicación",
+    "@lookAndFeelAppZoomTitle": {
+        "description": "Section title for the app zoom slider."
+    },
+    "lookAndFeelAppZoomDescription": "Ajusta el nivel de zoom de la aplicación.",
+    "@lookAndFeelAppZoomDescription": {
+        "description": "Section description for the app zoom slider."
+    },
+    "lookAndFeelMessagesSectionDescription": "Elige cómo se muestran los mensajes en canales de chat.",
+    "@lookAndFeelMessagesSectionDescription": {
+        "description": "Section description for message layout settings in Look & Feel."
+    },
+    "lookAndFeelMessageGroupSpacingLabel": "Espacio entre grupos de mensajes",
+    "@lookAndFeelMessageGroupSpacingLabel": {
+        "description": "Label for message group spacing select in Look & Feel."
+    },
+    "savedMediaFormNameLabel": "Nombre",
+    "@savedMediaFormNameLabel": {
+        "description": "Form field label for saved media name."
+    },
+    "savedMediaFormAltTextLabel": "Texto alternativo",
+    "@savedMediaFormAltTextLabel": {
+        "description": "Form field label for saved media alt text."
+    },
+    "savedMediaFormTagsLabel": "Etiquetas",
+    "@savedMediaFormTagsLabel": {
+        "description": "Form field label for saved media tags."
+    },
+    "savedMediaFormTagsHint": "divertido, reacción, trabajo",
+    "@savedMediaFormTagsHint": {
+        "description": "Placeholder for saved media tags input."
+    },
+    "gifFavoriteFirstTimeTitle": "¿Cómo deberíamos guardar tus GIF favoritos?",
+    "@gifFavoriteFirstTimeTitle": {
+        "description": "Title for the first-time GIF favorite storage prompt."
+    }
 }
