@@ -17,9 +17,7 @@ Future<void> showTextualAttachmentPreviewSheet({
   return FluxerBottomSheet.showScrollable<void>(
     context,
     title: attachmentPreviewFileName(attachment),
-    initialChildSize: 0.85,
     minChildSize: 0.45,
-    maxChildSize: 0.92,
     builder: (BuildContext sheetContext, ScrollController scrollController, _) {
       return Padding(
         padding: EdgeInsets.only(

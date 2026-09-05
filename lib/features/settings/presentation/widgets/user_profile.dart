@@ -161,7 +161,6 @@ class _UserProfileState extends ConsumerState<UserProfile> {
         FluxerEmojiPickerSheet.show(
           context,
           title: FluxerLocalizations.of(context).emojiPickerTitle,
-          maxHeight: 0.88,
           onEmojiSelected: (emoji) {
             controller.insertEmoji(
               emoji.name,

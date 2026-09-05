@@ -220,7 +220,6 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     return FluxerBottomSheet.showScrollable<void>(
       context,
       useRootNavigator: true,
-      initialChildSize: 0.95,
       minChildSize: 0.5,
       showDragHandle: false,
       disableTopPadding: true,

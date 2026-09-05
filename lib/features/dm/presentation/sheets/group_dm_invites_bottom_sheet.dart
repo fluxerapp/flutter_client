@@ -14,7 +14,6 @@ class GroupDmInvitesBottomSheet {
       title: l10n.channelDetailsGroupInvites,
       useRootNavigator: true,
       minChildSize: 0.45,
-      initialChildSize: 0.85,
       builder:
           (
             BuildContext sheetContext,

@@ -18,7 +18,6 @@ class FluxerUserProfileSheet {
     return FluxerBottomSheet.showScrollable<void>(
       context,
       useRootNavigator: true,
-      initialChildSize: 0.95,
       minChildSize: 0.5,
       disableTopPadding: true,
       showDragHandle: false,

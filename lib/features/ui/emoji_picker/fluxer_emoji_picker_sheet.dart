@@ -18,7 +18,6 @@ class FluxerEmojiPickerSheet {
     ValueChanged<StickerEntry>? onStickerSelected,
     ValueChanged<FavoriteMemeSelection>? onFavoriteMemeSelected,
     String? title,
-    double? maxHeight,
     List<ExpressionPickerTab> visibleTabs = const [
       ExpressionPickerTab.gifs,
       ExpressionPickerTab.memes,
@@ -29,12 +28,9 @@ class FluxerEmojiPickerSheet {
     String? channelId,
     bool trackEmojiUsageOnSelect = true,
   }) {
-    final double sheetSize = maxHeight ?? 0.9;
     return FluxerBottomSheet.showScrollable<void>(
       context,
       title: title,
-      initialChildSize: sheetSize,
-      maxChildSize: sheetSize,
       builder: (context, scrollController, close) {
         return _SheetContent(
           scrollController: scrollController,

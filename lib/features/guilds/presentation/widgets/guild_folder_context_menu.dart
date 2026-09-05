@@ -11,8 +11,6 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 const _kSubmenuGap = 4.0;
-const _kFolderSubmenuSheetInitialChildSize = 0.7;
-const _kFolderSubmenuSheetMaxChildSize = 0.92;
 
 Future<FolderMenuAction?> showFolderContextMenu(
   BuildContext context, {
@@ -167,8 +165,6 @@ class _FolderContextMenuPageState extends State<_FolderContextMenuPage> {
         context,
         title: submenu.label,
         onBack: () => Navigator.of(context).pop(),
-        initialChildSize: _kFolderSubmenuSheetInitialChildSize,
-        maxChildSize: _kFolderSubmenuSheetMaxChildSize,
         builder: (sheetContext, scrollController, close) {
           final layout = sheetContext.layout;
           void pop(FolderMenuAction action) =>

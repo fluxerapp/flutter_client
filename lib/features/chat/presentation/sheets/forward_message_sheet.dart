@@ -653,7 +653,6 @@ class _ForwardMessageSheetBodyState
       FluxerEmojiPickerSheet.show(
         context,
         title: FluxerLocalizations.of(context).emojiPickerTitle,
-        maxHeight: 0.88,
         channelId: widget.sourceChannelId,
         visibleTabs: const <ExpressionPickerTab>[ExpressionPickerTab.emojis],
         onEmojiSelected: (FluxerSelectedEmoji emoji) =>
