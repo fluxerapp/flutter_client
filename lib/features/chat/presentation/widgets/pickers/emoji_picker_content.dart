@@ -674,19 +674,23 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     }
     final double scrollOffset = _scrollController.offset;
     final bool scrollSettled = _isScrollSettled;
+    final int maxAnimated = emojiPickerMaxAnimatedEmojis(
+      columns: _columns,
+      viewportHeight: _viewportHeight,
+    );
     final Set<String> animatedIds = _searchCustomResults != null
         ? animatedCustomEmojiIdsForSearchGrid(
             customResults: _searchCustomResults!,
             columns: _columns,
             scrollOffset: scrollOffset,
             viewportHeight: _viewportHeight,
-            maxAnimated: kEmojiPickerMaxAnimatedEmojis,
+            maxAnimated: maxAnimated,
             scrollSettled: scrollSettled,
           )
         : _layoutIndex?.animatedCustomEmojiIds(
                 scrollOffset: scrollOffset,
                 viewportHeight: _viewportHeight,
-                maxAnimated: kEmojiPickerMaxAnimatedEmojis,
+                maxAnimated: maxAnimated,
                 scrollSettled: scrollSettled,
               ) ??
               const <String>{};

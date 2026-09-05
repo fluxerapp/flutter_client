@@ -6,8 +6,15 @@ void main() {
     expect(kEmojiPickerOverscanRows, 2);
     expect(emojiPickerCacheExtent(rowHeight: 48), 96);
     expect(kCustomEmojiPickerFetchSize, 48);
-    expect(kEmojiPickerMaxAnimatedEmojis, 6);
   });
+
+  test(
+    'animation budget covers every cell the viewport can show, fixes #704',
+    () {
+      expect(emojiPickerMaxAnimatedEmojis(columns: 8, viewportHeight: 480), 88);
+      expect(emojiPickerMaxAnimatedEmojis(columns: 8, viewportHeight: 500), 96);
+    },
+  );
 
   test('does not track hover state on mobile', () {
     expect(emojiPickerUsesHoverTracking(isMobile: true), isFalse);
