@@ -27,6 +27,7 @@ import 'package:fluxer_app/features/moderation/iar/iar_flow.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_message_preview.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_resolved_context.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
+import 'package:fluxer_app/features/settings/providers/guild/known_guild_bans_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -373,6 +374,7 @@ class _IarReportBodyState extends ConsumerState<_IarReportBody> {
     required FluxerLocalizations l10n,
     required IarResolvedContext resolved,
     required bool includeModerationActions,
+    required bool alreadyBanned,
   }) {
     final ctx = widget.iarContext;
     final reportedUser = resolved.reportedUser;
@@ -468,8 +470,14 @@ class _IarReportBodyState extends ConsumerState<_IarReportBody> {
             id: 'ban-user',
             title: l10n.iarActionBanUserTitle,
             description: l10n.iarActionBanUserDescription,
-            label: l10n.iarActionBanUserButton,
+            label: alreadyBanned
+                ? l10n.iarActionBanUserBannedButton
+                : l10n.iarActionBanUserButton,
             style: IarActionCardButtonStyle.dangerSecondary,
+            disabled: alreadyBanned,
+            disabledTooltip: alreadyBanned
+                ? l10n.iarActionBanUserBannedTooltip
+                : null,
             onPressed: () =>
                 unawaited(_handleBanUser(sheetContext, banGuildId)),
           ),
@@ -596,13 +604,15 @@ class _IarReportBodyState extends ConsumerState<_IarReportBody> {
   Widget _renderGuidanceStep(
     BuildContext sheetContext,
     FluxerLocalizations l10n,
-    IarResolvedContext resolved,
-  ) {
+    IarResolvedContext resolved, {
+    required bool alreadyBanned,
+  }) {
     final cards = _buildActionCards(
       sheetContext: sheetContext,
       l10n: l10n,
       resolved: resolved,
       includeModerationActions: false,
+      alreadyBanned: alreadyBanned,
     );
     return IarActionCardList(cards: cards);
   }
@@ -610,13 +620,15 @@ class _IarReportBodyState extends ConsumerState<_IarReportBody> {
   Widget _renderSuccessStep(
     BuildContext sheetContext,
     FluxerLocalizations l10n,
-    IarResolvedContext resolved,
-  ) {
+    IarResolvedContext resolved, {
+    required bool alreadyBanned,
+  }) {
     final cards = _buildActionCards(
       sheetContext: sheetContext,
       l10n: l10n,
       resolved: resolved,
       includeModerationActions: true,
+      alreadyBanned: alreadyBanned,
     );
     final layout = sheetContext.layout;
     final textStyles = sheetContext.textStyles;
@@ -656,13 +668,33 @@ class _IarReportBodyState extends ConsumerState<_IarReportBody> {
   Widget build(BuildContext context) {
     final l10n = FluxerLocalizations.of(context);
     final resolved = resolveIarContext(ref, l10n, widget.iarContext);
+    final String? banGuildId = resolved.banGuildId;
+    final String? reportedUserId = resolved.reportedUser?.id;
+    final bool alreadyBanned = ref.watch(
+      knownGuildBansProvider.select((Map<String, Set<String>> bans) {
+        if (banGuildId == null || reportedUserId == null) {
+          return false;
+        }
+        return bans[banGuildId]?.contains(reportedUserId) ?? false;
+      }),
+    );
 
     final Widget body = switch (_step) {
       IarStep.path => _renderPathStep(context, l10n, resolved),
       IarStep.category => _renderCategoryStep(context, l10n),
       IarStep.reason => _renderReasonStep(context, l10n),
-      IarStep.guidance => _renderGuidanceStep(context, l10n, resolved),
-      IarStep.success => _renderSuccessStep(context, l10n, resolved),
+      IarStep.guidance => _renderGuidanceStep(
+        context,
+        l10n,
+        resolved,
+        alreadyBanned: alreadyBanned,
+      ),
+      IarStep.success => _renderSuccessStep(
+        context,
+        l10n,
+        resolved,
+        alreadyBanned: alreadyBanned,
+      ),
     };
 
     final layout = context.layout;

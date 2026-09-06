@@ -82,7 +82,17 @@ typedef GuildMembersChunkProgressCallback =
     });
 typedef GuildMemberListUpdateCallback =
     void Function(GuildMemberListUpdateEvent event);
+typedef GuildCountsUpdateCallback = void Function(GuildCountsUpdateEvent event);
+typedef ChannelMemberCountsUpdateCallback =
+    void Function(ChannelMemberCountsUpdateEvent event);
+typedef GuildBanCallback =
+    void Function(String guildId, UserPartialResponse user);
+typedef WebhooksUpdateCallback =
+    void Function(String guildId, String channelId);
+typedef EntranceSoundPlayCallback = void Function(EntranceSoundPlayEvent event);
+typedef AuthSessionChangeCallback = void Function(AuthSessionChangeEvent event);
 typedef VoiceServerUpdateCallback = void Function(VoiceServerUpdateEvent event);
+typedef VoiceStateAckCallback = void Function(VoiceStateAckEvent event);
 typedef DefaultHideMutedChannelsResolver = bool Function();
 typedef GatewayErrorCallback = void Function(GatewayErrorEvent event);
 
@@ -111,6 +121,7 @@ class GatewayEventHandler {
     this.onVoiceStateUpdate,
     this.onVoiceStatesBulk,
     this.onVoiceServerUpdate,
+    this.onVoiceStateAck,
     this.onGatewayError,
     this.onCallCreate,
     this.onCallUpdate,
@@ -129,6 +140,7 @@ class GatewayEventHandler {
     this.onMessageReactionChange,
     this.onOwnMessageCreated,
     this.onMessageAcked,
+    this.onAuthSessionChange,
     this.onAuthSessionIdHashChanged,
     this.onConnectionsUpdate,
     this.onWebauthnCredentialsUpdate,
@@ -140,6 +152,12 @@ class GatewayEventHandler {
     this.onMembersChunk,
     this.onMembersChunkProgress,
     this.onMemberListUpdate,
+    this.onGuildCountsUpdate,
+    this.onChannelMemberCountsUpdate,
+    this.onGuildBanAdd,
+    this.onGuildBanRemove,
+    this.onWebhooksUpdate,
+    this.onEntranceSoundPlay,
     this.resolveDefaultHideMutedChannels,
   });
 
@@ -160,6 +178,7 @@ class GatewayEventHandler {
   final VoiceStateCallback? onVoiceStateUpdate;
   final VoiceBulkCallback? onVoiceStatesBulk;
   final VoiceServerUpdateCallback? onVoiceServerUpdate;
+  final VoiceStateAckCallback? onVoiceStateAck;
   final GatewayErrorCallback? onGatewayError;
   final CallCreateCallback? onCallCreate;
   final CallUpdateCallback? onCallUpdate;
@@ -178,6 +197,7 @@ class GatewayEventHandler {
   final MessageReactionChangeCallback? onMessageReactionChange;
   final void Function(String channelId, DateTime sentAt)? onOwnMessageCreated;
   final void Function(String channelId, {required bool manual})? onMessageAcked;
+  final AuthSessionChangeCallback? onAuthSessionChange;
   final void Function(String? idHash)? onAuthSessionIdHashChanged;
   final ConnectionsUpdateCallback? onConnectionsUpdate;
   final WebauthnCredentialsUpdateCallback? onWebauthnCredentialsUpdate;
@@ -189,6 +209,12 @@ class GatewayEventHandler {
   final GuildMembersChunkCallback? onMembersChunk;
   final GuildMembersChunkProgressCallback? onMembersChunkProgress;
   final GuildMemberListUpdateCallback? onMemberListUpdate;
+  final GuildCountsUpdateCallback? onGuildCountsUpdate;
+  final ChannelMemberCountsUpdateCallback? onChannelMemberCountsUpdate;
+  final GuildBanCallback? onGuildBanAdd;
+  final GuildBanCallback? onGuildBanRemove;
+  final WebhooksUpdateCallback? onWebhooksUpdate;
+  final EntranceSoundPlayCallback? onEntranceSoundPlay;
   final DefaultHideMutedChannelsResolver? resolveDefaultHideMutedChannels;
 
   late final PresenceUpdateBatcher _presenceUpdateBatcher =
@@ -458,10 +484,12 @@ class GatewayEventHandler {
         _logGatewayDebug(
           () => talker.debug('[Gateway] GUILD_BAN_ADD: ${event.guildId}'),
         );
+        _emit(() => onGuildBanAdd?.call(event.guildId, event.user));
       case GuildBanRemoveEvent():
         _logGatewayDebug(
           () => talker.debug('[Gateway] GUILD_BAN_REMOVE: ${event.guildId}'),
         );
+        _emit(() => onGuildBanRemove?.call(event.guildId, event.user));
       case GuildEmojisUpdateEvent():
         _logGatewayDebug(
           () => talker.debug(
@@ -493,6 +521,20 @@ class GatewayEventHandler {
         await _handleMembersChunk(event);
       case GuildMemberListUpdateEvent():
         unawaited(_handleMemberListUpdate(event));
+      case GuildCountsUpdateEvent():
+        _logGatewayDebug(
+          () => talker.debug(
+            '[Gateway] GUILD_COUNTS_UPDATE: ${event.counts.length}',
+          ),
+        );
+        unawaited(_handleGuildCountsUpdate(event));
+      case ChannelMemberCountsUpdateEvent():
+        _logGatewayDebug(
+          () => talker.debug(
+            '[Gateway] CHANNEL_MEMBER_COUNTS_UPDATE: ${event.counts.length}',
+          ),
+        );
+        _emit(() => onChannelMemberCountsUpdate?.call(event));
       case PresenceUpdateBulkEvent():
         _logGatewayDebug(
           () => talker.debug(
@@ -514,6 +556,12 @@ class GatewayEventHandler {
           'channelId=${e.channelId}',
         );
         _emit(() => onVoiceServerUpdate?.call(e));
+      case VoiceStateAckEvent():
+        _logGatewayDebug(
+          () =>
+              talker.debug('[Gateway] VOICE_STATE_ACK status=${event.status}'),
+        );
+        _emit(() => onVoiceStateAck?.call(event));
       case CallCreateEvent():
         _logGatewayDebug(
           () => talker.debug('[Gateway] CALL_CREATE: ${event.channelId}'),
@@ -529,6 +577,12 @@ class GatewayEventHandler {
           () => talker.debug('[Gateway] CALL_DELETE: ${event.channelId}'),
         );
         _emit(() => onCallDelete?.call(event.channelId));
+      case EntranceSoundPlayEvent():
+        _logGatewayDebug(
+          () =>
+              talker.debug('[Gateway] ENTRANCE_SOUND_PLAY: ${event.channelId}'),
+        );
+        _emit(() => onEntranceSoundPlay?.call(event));
       case UserSettingsUpdateEvent():
         _logGatewayDebug(() => talker.debug('[Gateway] USER_SETTINGS_UPDATE'));
         unawaited(_handleUserSettingsUpdate(event));
@@ -561,6 +615,7 @@ class GatewayEventHandler {
         _emit(() => onWebauthnCredentialsUpdate?.call(event.credentials));
       case AuthSessionChangeEvent():
         _logGatewayDebug(() => talker.debug('[Gateway] AUTH_SESSION_CHANGE'));
+        _emit(() => onAuthSessionChange?.call(event));
         _emit(
           () => onAuthSessionIdHashChanged?.call(event.newAuthSessionIdHash),
         );
@@ -597,6 +652,7 @@ class GatewayEventHandler {
         _logGatewayDebug(
           () => talker.debug('[Gateway] WEBHOOKS_UPDATE: ${event.channelId}'),
         );
+        _emit(() => onWebhooksUpdate?.call(event.guildId, event.channelId));
       case FavoriteMemeCreateEvent():
         _logGatewayDebug(() => talker.debug('[Gateway] FAVORITE_MEME_CREATE'));
         unawaited(_handleFavoriteMemeCreate(event));
@@ -2157,6 +2213,24 @@ class GatewayEventHandler {
 
   void _handleGuildUpdate(GuildUpdateEvent event) {
     unawaited(database.guildDao.upsertServer(guildFromSdk(event.guild.guild)));
+  }
+
+  Future<void> _handleGuildCountsUpdate(GuildCountsUpdateEvent event) async {
+    if (event.counts.isEmpty) {
+      return;
+    }
+    await database.guildDao.updateServerCountsBulk(
+      event.counts
+          .map(
+            (GuildCountEntry count) => (
+              id: count.guildId,
+              memberCount: count.memberCount,
+              onlineCount: count.onlineCount,
+            ),
+          )
+          .toList(),
+    );
+    _emit(() => onGuildCountsUpdate?.call(event));
   }
 
   Future<void> _handleGuildDelete(GuildDeleteEvent event) async {

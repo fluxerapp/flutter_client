@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/features/settings/providers/guild/webhook_live_refresh_provider.dart';
 import 'package:fluxer_app/features/settings/utils/guild_webhook_updates.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -9,7 +12,25 @@ part 'guild_webhooks_provider.g.dart';
 class GuildWebhooks extends _$GuildWebhooks {
   @override
   Future<List<WebhookResponse>> build(String guildId) {
+    ref.listen(webhookLiveRefreshProvider, (previous, next) {
+      if (next.guildId == guildId &&
+          (previous == null || next.generation != previous.generation)) {
+        unawaited(refreshQuietly());
+      }
+    });
     return _loadWebhooks();
+  }
+
+  Future<void> refreshQuietly() async {
+    try {
+      final List<WebhookResponse> loaded = await _loadWebhooks();
+      if (!ref.mounted) {
+        return;
+      }
+      state = AsyncData<List<WebhookResponse>>(loaded);
+    } on Object {
+      // Keep the last successful list if a live refresh fails
+    }
   }
 
   Future<void> reload() async {

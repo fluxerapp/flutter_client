@@ -40,6 +40,12 @@ const String kVoiceSessionErrorTransportFailed = 'VOICE_ERR_TRANSPORT';
 const String kVoiceSessionErrorMultiDeviceDisconnectFailed =
     'VOICE_ERR_MULTI_DEVICE_DISCONNECT';
 
+const String kVoiceCameraUserLimitErrorCode = 'VOICE_CAMERA_USER_LIMIT';
+
+bool shouldNotifyCameraUserLimitRejection({String? status, String? errorCode}) {
+  return status == 'rejected' && errorCode == kVoiceCameraUserLimitErrorCode;
+}
+
 /// Maps a stored `VoiceSessionState.errorMessage` to a localized
 /// human-readable string.
 String resolveVoiceSessionErrorMessage(

@@ -1,10 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-class GuildBottomSheetStats extends ConsumerWidget {
+class GuildBottomSheetStats extends ConsumerStatefulWidget {
   final String guildId;
   final Guild fallbackGuild;
 
@@ -15,15 +16,39 @@ class GuildBottomSheetStats extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<GuildBottomSheetStats> createState() =>
+      _GuildBottomSheetStatsState();
+}
+
+class _GuildBottomSheetStatsState extends ConsumerState<GuildBottomSheetStats> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      try {
+        ref.read(gatewayConnectionProvider).requestGuildCounts(<String>[
+          widget.guildId,
+        ]);
+      } on Object {
+        // Stats still render from the last stored counts.
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final Guild guild =
         ref.watch(
           guildListViewModelProvider.select(
-            (GuildListViewState state) =>
-                state.guilds.where((Guild g) => g.id == guildId).firstOrNull,
+            (GuildListViewState state) => state.guilds
+                .where((Guild g) => g.id == widget.guildId)
+                .firstOrNull,
           ),
         ) ??
-        fallbackGuild;
+        widget.fallbackGuild;
     final colors = context.colors;
     final textStyle = context.textStyles.timestamp;
 

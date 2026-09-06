@@ -21,7 +21,9 @@ class CurrentAuthSessionIdHash extends _$CurrentAuthSessionIdHash {
   @override
   String? build() {
     ref.listen(fluxerAuthTokenProvider, (previous, next) {
-      if (previous != next) {
+      final bool previousAuthed = previous != null && previous.isNotEmpty;
+      final bool nextAuthed = next != null && next.isNotEmpty;
+      if (previousAuthed != nextAuthed) {
         state = null;
       }
     });

@@ -13,14 +13,22 @@ part 'gateway_connection_provider.g.dart';
 const int kGatewayDebounceMessageReactions = 1 << 1;
 
 @Riverpod(keepAlive: true)
+bool gatewayHasAuthToken(Ref ref) {
+  final String? token = ref.watch(fluxerAuthTokenProvider);
+  return token != null && token.isNotEmpty;
+}
+
+@Riverpod(keepAlive: true)
 GatewayConnection gatewayConnection(Ref ref) {
   final Dio dio = ref.watch(fluxerDioProvider);
-  final String? token = ref.watch(fluxerAuthTokenProvider);
+  final bool hasToken = ref.watch(gatewayHasAuthTokenProvider);
   ref.watch(activeInstanceProvider);
 
-  if (token == null || token.isEmpty) {
+  if (!hasToken) {
     throw StateError('Cannot create gateway connection without auth token');
   }
+
+  final String token = ref.read(fluxerAuthTokenProvider)!;
 
   final bool isDesktop = isFluxerDesktopOs;
 

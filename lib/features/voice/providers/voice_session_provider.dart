@@ -38,6 +38,7 @@ import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/services/voice_settings_applicator.dart';
 import 'package:fluxer_app/features/voice/utils/android_screen_share_background.dart';
 import 'package:fluxer_app/features/voice/utils/channel_e2ee_status.dart';
+import 'package:fluxer_app/features/voice/utils/entrance_sound_playback.dart';
 import 'package:fluxer_app/features/voice/utils/microphone_permission.dart';
 import 'package:fluxer_app/features/voice/utils/voice_audio_route_recovery.dart';
 import 'package:fluxer_app/features/voice/utils/voice_camera_platform.dart';
@@ -888,6 +889,77 @@ class VoiceSession extends _$VoiceSession {
     if (state.isConnected) {
       unawaited(_reconcileLocalAudioPublish(reason: 'voice_state_update'));
     }
+  }
+
+  void handleVoiceStateAck(VoiceStateAckEvent event) {
+    if (shouldNotifyCameraUserLimitRejection(
+      status: event.status,
+      errorCode: event.errorCode,
+    )) {
+      unawaited(_turnCameraOffAfterLimitRejection());
+    }
+    final VoiceState? canonical = event.canonicalState;
+    if (canonical == null ||
+        canonical.channelId == null ||
+        canonical.connectionId == null) {
+      return;
+    }
+    final VoiceState? current = _selfConnectionVoiceState();
+    if (current != null &&
+        current.channelId == canonical.channelId &&
+        current.connectionId == canonical.connectionId &&
+        current.selfMute == canonical.selfMute &&
+        current.selfDeaf == canonical.selfDeaf &&
+        current.selfVideo == canonical.selfVideo &&
+        current.mute == canonical.mute &&
+        current.deaf == canonical.deaf &&
+        current.suppress == canonical.suppress) {
+      return;
+    }
+    handleSelfVoiceStateUpdate(canonical);
+  }
+
+  void handleEntranceSoundPlay(EntranceSoundPlayEvent event) {
+    if (!state.isConnected || state.channelId != event.channelId) {
+      return;
+    }
+    if (_effectiveAudioStateForSelfConnection().effectiveDeaf) {
+      return;
+    }
+    final SoundPreferencesState prefs = ref.read(soundPreferencesProvider);
+    if (prefs.allSoundsDisabled) {
+      return;
+    }
+    final double volume = entranceSoundPlayerVolume(
+      masterVolumePercent: prefs.masterVolume,
+      outputVolumePercent: ref.read(voiceSettingsProvider).outputVolume,
+    );
+    if (volume <= 0) {
+      return;
+    }
+    unawaited(
+      ref
+          .read(entranceSoundPlayerProvider)
+          .play(url: event.url, volume: volume),
+    );
+  }
+
+  Future<void> _turnCameraOffAfterLimitRejection() async {
+    talker.warning('[Voice] Camera rejected: channel camera user limit');
+    final LocalParticipant? lp = state.liveKitRoom?.localParticipant;
+    if (lp != null) {
+      try {
+        await lp.setCameraEnabled(false);
+      } on Object catch (e) {
+        talker.warning('[Voice] Failed to disable camera after limit: $e');
+      }
+    }
+    final VoiceState? vs = _selfConnectionVoiceState();
+    await _applySelfVoiceState(
+      selfMute: vs?.selfMute ?? false,
+      selfDeaf: vs?.selfDeaf ?? false,
+      selfVideo: false,
+    );
   }
 
   void handleGatewayError(GatewayErrorEvent event) {

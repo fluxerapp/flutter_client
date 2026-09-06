@@ -15,6 +15,7 @@ import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
@@ -79,6 +80,7 @@ import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/guilds/providers/channel_member_count_cache_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
 import 'package:fluxer_app/features/input/providers/chat_keybind_effects_provider.dart';
@@ -2085,19 +2087,36 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (!mentionsEveryone && !mentionsHere && roleImpact == null) {
       return true;
     }
+    if (mentionsEveryone || mentionsHere) {
+      try {
+        ref
+            .read(gatewayConnectionProvider)
+            .requestChannelMemberCounts(
+              guildId: guildId,
+              channelIds: <String>[channelId],
+            );
+      } on Object {
+        // Fall back to stored guild counts.
+      }
+    }
     if (!mounted) {
       return false;
     }
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final ChannelMemberCounts? liveCounts = ref
+        .read(channelMemberCountCacheProvider.notifier)
+        .getCounts(guildId, channelId);
+    final int memberCount = liveCounts?.memberCount ?? guild.memberCount;
+    final int onlineCount = liveCounts?.onlineCount ?? guild.onlineCount;
     String? description;
     if (canMentionEveryone &&
         mentionsEveryone &&
-        guild.memberCount > kMentionConfirmThreshold) {
-      description = l10n.mentionConfirmEveryoneBody(guild.memberCount);
+        memberCount > kMentionConfirmThreshold) {
+      description = l10n.mentionConfirmEveryoneBody(memberCount);
     } else if (canMentionEveryone &&
         mentionsHere &&
-        guild.onlineCount > kMentionConfirmThreshold) {
-      description = l10n.mentionConfirmHereBody(guild.onlineCount);
+        onlineCount > kMentionConfirmThreshold) {
+      description = l10n.mentionConfirmHereBody(onlineCount);
     } else if (roleImpact != null) {
       description = l10n.mentionConfirmRoleBody(
         roleImpact.memberCount,
