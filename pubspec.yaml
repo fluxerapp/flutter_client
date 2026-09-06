@@ -83,6 +83,7 @@ dependencies:
     git:
       url: https://github.com/Niural/phosphor_flutter
   protobuf: ^6.0.0
+  qr: ^4.0.0
   receive_sharing_intent: ^1.9.0
   record: ^7.1.1
   riverpod: ^3.4.1
