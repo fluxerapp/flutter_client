@@ -34,6 +34,7 @@ import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_window.dart';
+import 'package:fluxer_app/features/chat/domain/pagination_pump_policy.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_chat_content.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
@@ -3700,6 +3701,99 @@ void main() {
       expect(adapter.afterFetchCalls, 0);
     },
   );
+
+  Future<({ProviderContainer container, _MessageApiAdapter adapter})>
+  openOrphanedPointerChannel() async {
+    final _GatedDatabase database = await seedChannel(
+      lastMessageId: _snowflakeForIndex(399),
+    );
+    await database.readStateDao.upsertReadState(
+      db.ReadStatesCompanion(
+        channelId: const Value(_channelId),
+        lastMessageId: Value(_snowflakeForIndex(370)),
+        manual: const Value(true),
+      ),
+    );
+    final adapter = _MessageApiAdapter(messages: _channelMessages(373))
+      ..messages.removeWhere((m) => m['id'] == _snowflakeForIndex(370))
+      ..holdLatestFetch = true
+      ..holdAfterFetch = true;
+    final container = _container(database, adapter);
+    addTearDown(container.dispose);
+    final notifier = container.read(chatViewModelProvider.notifier);
+    await notifier.switchChannel(_channelId);
+    await _flushAsync();
+    final ChatViewState opened = container.read(chatViewModelProvider);
+    expect(opened.messages.last.id, _snowflakeForIndex(372));
+    expect(opened.hasMoreNewerMessages, isTrue, reason: 'probe in flight');
+    expect(adapter.latestFetchCalls, 1);
+    return (container: container, adapter: adapter);
+  }
+
+  test('m16z: an empty newer page racing the confirmation does not overwrite '
+      'the proof', () async {
+    // Device log 2026-09-06 23:25: the newer filler was already in demand when
+    // the around install landed, so `after=<tail>` went out before the probe
+    // answered. The probe confirmed and wrote false; the empty page then
+    // consulted, was deduped against that very verdict, and wrote true back.
+    final (:container, :adapter) = await openOrphanedPointerChannel();
+    final notifier = container.read(chatViewModelProvider.notifier);
+
+    final Future<PageLoadResult> newerLoad = notifier.loadNewer();
+    await _flushAsync();
+    expect(adapter.afterFetchCalls, 1, reason: 'the newer page is in flight');
+
+    adapter.releaseLatestFetch();
+    await _flushAsync();
+    expect(
+      container.read(chatViewModelProvider).hasMoreNewerMessages,
+      isFalse,
+      reason: 'the confirmation landed first and sealed the tail',
+    );
+
+    adapter.releaseAfterFetch();
+    final PageLoadResult result = await newerLoad;
+    await _flushAsync();
+    expect(result.status, PageLoadStatus.empty);
+    expect(
+      result.hasMoreAtEdge,
+      isFalse,
+      reason: 'an empty page for a confirmed tail agrees with the proof',
+    );
+    expect(container.read(chatViewModelProvider).hasMoreNewerMessages, isFalse);
+    expect(adapter.latestFetchCalls, 1, reason: 'no second probe was owed');
+
+    await notifier.loadNewer();
+    await _flushAsync();
+    expect(adapter.afterFetchCalls, 1, reason: 'a sealed tail refuses');
+  });
+
+  test('m16aa: an empty newer page landing before the confirmation is '
+      'corrected by it', () async {
+    final (:container, :adapter) = await openOrphanedPointerChannel();
+    final notifier = container.read(chatViewModelProvider.notifier);
+
+    final Future<PageLoadResult> newerLoad = notifier.loadNewer();
+    await _flushAsync();
+    adapter.releaseAfterFetch();
+    final PageLoadResult result = await newerLoad;
+    await _flushAsync();
+    expect(result.status, PageLoadStatus.empty);
+    expect(
+      result.hasMoreAtEdge,
+      isTrue,
+      reason: 'no verdict yet: the empty page stays pessimistic',
+    );
+    expect(adapter.latestFetchCalls, 1, reason: 'deduped onto the open probe');
+
+    adapter.releaseLatestFetch();
+    await _flushAsync();
+    expect(
+      container.read(chatViewModelProvider).hasMoreNewerMessages,
+      isFalse,
+      reason: 'the confirmation commits over the pessimistic write',
+    );
+  });
 
   test('m16g: an unread open measures its newer side against the quota for ITS '
       'own limit', () async {

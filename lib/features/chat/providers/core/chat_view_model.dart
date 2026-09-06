@@ -938,8 +938,20 @@ class ChatViewModel extends _$ChatViewModel {
   /// repeated empty results on one cursor re-use the standing verdict instead
   /// of paying a full latest fetch each (the device log priced one at 1.9s).
   /// A confirmation that ends WITHOUT a verdict (network failure) clears its
-  /// entry so the next install may re-owe. m17d pins the dedupe.
-  ({String channelId, String tailId, int windowGeneration})? _tailProbeLedger;
+  /// entry so the next install may re-owe. m17d pins the dedupe. The verdict
+  /// itself is `confirmed`: a newer page that comes back EMPTY for a confirmed
+  /// tail must not write the consult's pessimistic flag over the proof.
+  ({String channelId, String tailId, int windowGeneration, bool confirmed})?
+  _tailProbeLedger;
+
+  bool _isTailConfirmed(String channelId, String tailId) {
+    final probed = _tailProbeLedger;
+    return probed != null &&
+        probed.confirmed &&
+        probed.channelId == channelId &&
+        probed.tailId == tailId &&
+        probed.windowGeneration == _windowGeneration;
+  }
 
   /// Visible for testing: the unread-boundary key must record SUCCESSFUL loads
   /// only, so a discarded attempt leaves it empty and a later attempt proceeds.
@@ -3423,7 +3435,14 @@ class ChatViewModel extends _$ChatViewModel {
             page.messages.isEmpty ? requestedAfterId : page.messages.last.id,
             detachedWindow: page.messages.length >= _kPageSize,
           );
-      final bool pageIndicatesMoreNewer = newerConsult.hasMoreNewer;
+      // An EMPTY page is the server saying nothing follows this tail; with a
+      // confirmation already standing for it, the two agree and the consult's
+      // pessimistic flag would only overwrite the proof (m16z).
+      final bool tailConfirmed =
+          page.messages.isEmpty &&
+          _isTailConfirmed(channelId, requestedAfterId);
+      final bool pageIndicatesMoreNewer =
+          newerConsult.hasMoreNewer && !tailConfirmed;
       if (isStale()) {
         return newer(
           status: PageLoadStatus.superseded,
@@ -3477,7 +3496,7 @@ class ChatViewModel extends _$ChatViewModel {
           _releaseLoadingNewer(fetchOrdinal);
           // Fired AFTER the install, so the confirmation captures THIS page's
           // tail as its anchor rather than the one we paged away from.
-          if (newerConsult.needsTailProbe) {
+          if (newerConsult.needsTailProbe && !tailConfirmed) {
             _confirmProvisionalTail(channelId);
           }
           talker.debug(
@@ -3881,8 +3900,7 @@ class ChatViewModel extends _$ChatViewModel {
     if (windowTailId == null) {
       return;
     }
-    final ({String channelId, String tailId, int windowGeneration})? probed =
-        _tailProbeLedger;
+    final probed = _tailProbeLedger;
     if (probed != null &&
         probed.channelId == channelId &&
         probed.tailId == windowTailId &&
@@ -3898,6 +3916,7 @@ class ChatViewModel extends _$ChatViewModel {
       channelId: channelId,
       tailId: windowTailId,
       windowGeneration: _windowGeneration,
+      confirmed: false,
     );
     final int windowGeneration = _windowGeneration;
     final int switchGeneration = _channelSwitchGeneration;
@@ -3979,7 +3998,15 @@ class ChatViewModel extends _$ChatViewModel {
         channelId,
         fetchOrdinal,
         stillValid,
-        () => state = state.copyWith(hasMoreNewerMessages: false),
+        () {
+          state = state.copyWith(hasMoreNewerMessages: false);
+          _tailProbeLedger = (
+            channelId: channelId,
+            tailId: windowTailId,
+            windowGeneration: windowGeneration,
+            confirmed: true,
+          );
+        },
       );
       // Consumed like every other commit caller: the lane may have refused, and
       // the resume after it can still land on a newer owner's window.
@@ -3992,8 +4019,7 @@ class ChatViewModel extends _$ChatViewModel {
       talker.warning('[ChatPagination] tail confirmation failed', e);
       // No verdict was obtained, so the dedupe entry must not stand for one:
       // the next install owing this tail may re-ask.
-      final ({String channelId, String tailId, int windowGeneration})? probed =
-          _tailProbeLedger;
+      final probed = _tailProbeLedger;
       if (probed != null &&
           probed.channelId == channelId &&
           probed.tailId == windowTailId) {
