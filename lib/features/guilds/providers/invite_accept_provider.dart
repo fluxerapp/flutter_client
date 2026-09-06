@@ -13,12 +13,12 @@ class InviteAcceptNotFound extends InviteAcceptState {}
 
 class InviteAcceptGuild extends InviteAcceptState {
   InviteAcceptGuild(this.invite);
-  final GuildInviteResponse invite;
+  final InviteResponseSchema0 invite;
 }
 
 class InviteAcceptGroupDm extends InviteAcceptState {
   InviteAcceptGroupDm(this.invite);
-  final GroupDmInviteResponse invite;
+  final InviteResponseSchema1 invite;
 }
 
 @riverpod
@@ -29,12 +29,8 @@ Future<InviteAcceptState> inviteAccept(Ref ref, String code) async {
       inviteCode: code,
     );
     return switch (schema) {
-      InviteResponseSchema0() => InviteAcceptGuild(
-        GuildInviteResponse.fromJson(schema.toJson()),
-      ),
-      InviteResponseSchema1() => InviteAcceptGroupDm(
-        GroupDmInviteResponse.fromJson(schema.toJson()),
-      ),
+      InviteResponseSchema0() => InviteAcceptGuild(schema),
+      InviteResponseSchema1() => InviteAcceptGroupDm(schema),
     };
   } on DioException catch (e) {
     if (e.response?.statusCode == 404) {

@@ -12,7 +12,7 @@ import 'package:fluxer_app/features/guilds/utils/invite_link_parser.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/export.dart';
 
-enum JoinCommunityFailureKind { invalidInvite, apiError, unsupported }
+enum JoinCommunityFailureKind { invalidInvite, apiError }
 
 class JoinCommunityException implements Exception {
   const JoinCommunityException({required this.kind, required this.message});
@@ -50,21 +50,12 @@ Future<void> joinCommunityViaInvite({
       case InviteResponseSchema0():
         await _joinGuildInvite(
           ref: ref,
-          invite: GuildInviteResponse.fromJson(schema.toJson()),
+          invite: schema,
           code: parsedCode,
           l10n: l10n,
         );
       case InviteResponseSchema1():
-        await _joinGroupDmInvite(
-          ref: ref,
-          invite: GroupDmInviteResponse.fromJson(schema.toJson()),
-          code: parsedCode,
-        );
-      default:
-        throw JoinCommunityException(
-          kind: JoinCommunityFailureKind.unsupported,
-          message: l10n.addGuildJoinFailed,
-        );
+        await _joinGroupDmInvite(ref: ref, invite: schema, code: parsedCode);
     }
   } on JoinCommunityException {
     rethrow;
@@ -80,7 +71,7 @@ Future<void> joinCommunityViaInvite({
 
 Future<void> _joinGuildInvite({
   required WidgetRef ref,
-  required GuildInviteResponse invite,
+  required InviteResponseSchema0 invite,
   required String code,
   required FluxerLocalizations l10n,
 }) async {
@@ -108,7 +99,7 @@ Future<void> _joinGuildInvite({
 
 Future<void> _joinGroupDmInvite({
   required WidgetRef ref,
-  required GroupDmInviteResponse invite,
+  required InviteResponseSchema1 invite,
   required String code,
 }) async {
   final client = ref.read(fluxerClientProvider);
