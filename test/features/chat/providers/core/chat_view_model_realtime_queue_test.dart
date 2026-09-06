@@ -3027,7 +3027,7 @@ void main() {
   //        server-backed id, so a pointer IN the window can never be strictly
   //        ahead of it. No test in test/features/chat executes the branch (probed
   //        by throwing inside it).
-  //   M-D  cached-pointer rung seals                         -> m16s
+  //   M-D  pointer-ahead rung seals on a cached row           -> m16s, m16y
   //   M-E  detachedWindow rung deleted                       -> m16, m16j, m16n
   //   M-F  goToRepliedMessage hardcodes detachedWindow: true -> m16f
   //   M-G  quota re-adds an anchor-present requirement     -> quota unit, m16w
@@ -3040,10 +3040,11 @@ void main() {
   //   M-J  quota reverts to zero-newer                       -> quota unit, m16e,
   //        m16d, m16f, m16g, m16i, m16n, m16p, m16q
   //   M-K  install-site consult limit hardcoded              -> m16g
-  //   M-L  ack rung claims the tail outright                 -> m16i, m16j, m16k,
-  //        m16l, m16m, m16n, m16o
+  //   M-L  pointer-ahead rung claims the tail outright        -> m16i, m16j, m16k,
+  //        m16l, m16m, m16n, m16o, m16x
   //   M-M  no rung ever asks for a probe                     -> m16d, m16f, m16g,
-  //        m16i, m16j, m16k, m16l, m16m, m16n, m16o, m16p, m16q
+  //        m16i, m16j, m16k, m16l, m16m, m16n, m16o, m16p, m16q, m16s, m16x,
+  //        m16y
   //   M-N  confirmation gutted (never writes)                -> m16d, m16f, m16g,
   //        m16i, m16j, m16m, m16p, m16q
   //   M-O  confirmation never fired at any install site      -> m16d, m16f, m16g,
@@ -3507,20 +3508,11 @@ void main() {
     );
   });
 
-  test('m16s: a cached pointer row is a proof, so it seals without a '
+  test('m16s: a cached pointer row keeps the flag true and owes ONE '
       'confirmation', () async {
-    // The OTHER positive proof, and the one the ladder's own comment leans on
-    // when it says warm channels escaped the cold-channel bug: the pointer is
-    // ahead of this window and its row is IN the cache, so the row it names
-    // exists, is newer than everything we hold, and is not loaded - unloaded
-    // newer history, proven, with nothing left to ask the server. It answers
-    // immediately and owes no confirmation, exactly like the equality rung
-    // (m16c) and unlike the three non-proof rungs (m16p, m16q, m16j).
-    //
-    // Warm channel: the open caches 350..399 including the pointer's own row,
-    // and then a reply jump lands deep in history - far outside that window, so
-    // it really does fetch - on a page the filter shortened below the server's
-    // quota, which is the shape that would otherwise fall through to a count.
+    // The pointer's row is cached and real, so the owed confirmation
+    // mismatches and installs nothing. The reply jump lands far outside the
+    // cached window on a page the filter shortened below the quota.
     final _GatedDatabase database = await seedChannel(
       lastMessageId: _snowflakeForIndex(399),
     );
@@ -3559,14 +3551,14 @@ void main() {
       isTrue,
       reason:
           'the pointer names 399, that row is in the cache, and it is not in '
-          'this window: unloaded newer history, proven outright',
+          'this window: unloaded newer history, flagged pessimistically',
     );
     expect(
       adapter.latestFetchCalls,
-      latestFetchesBefore,
+      latestFetchesBefore + 1,
       reason:
-          'and proven for free - a positive proof seals on the spot, so no '
-          'confirmation is owed and none is fired',
+          'a cached row is not a proof, so the confirmation is owed: its '
+          'latest page ends at 399, not 225, and installs nothing',
     );
 
     // The proof is load-bearing in the same way the provisional verdict is: a
@@ -3593,6 +3585,121 @@ void main() {
     );
     expect(jumped.hasMoreNewerMessages, isFalse);
   });
+
+  test('m16x: an unread open around a deleted ack under an orphaned pointer '
+      'confirms the tail instead of looping on empty newer pages', () async {
+    // Device log 2026-09-06 21:21: ack and tail both deleted, pointer left
+    // ahead of every row the server still serves, `after` pages empty forever.
+    final _GatedDatabase database = await seedChannel(
+      lastMessageId: _snowflakeForIndex(399),
+    );
+    await database.readStateDao.upsertReadState(
+      db.ReadStatesCompanion(
+        channelId: const Value(_channelId),
+        lastMessageId: Value(_snowflakeForIndex(370)),
+        manual: const Value(true),
+      ),
+    );
+    final adapter = _MessageApiAdapter(messages: _channelMessages(373))
+      ..messages.removeWhere((m) => m['id'] == _snowflakeForIndex(370));
+    final container = _container(database, adapter);
+    addTearDown(container.dispose);
+
+    final notifier = container.read(chatViewModelProvider.notifier);
+    await notifier.switchChannel(_channelId);
+    await _flushAsync();
+
+    final ChatViewState opened = container.read(chatViewModelProvider);
+    expect(adapter.aroundFetchCalls, 1);
+    expect(
+      opened.messages.map((Message m) => m.id),
+      isNot(contains(_snowflakeForIndex(370))),
+      reason: 'the ack row is gone server-side',
+    );
+    expect(opened.messages.last.id, _snowflakeForIndex(372));
+    expect(
+      adapter.latestFetchCalls,
+      1,
+      reason: 'pointer ahead of a short newer side owes one confirmation',
+    );
+    expect(
+      opened.hasMoreNewerMessages,
+      isFalse,
+      reason: 'the latest page ends at 372, our tail: proven live',
+    );
+
+    await notifier.loadNewer();
+    await _flushAsync();
+    expect(
+      adapter.afterFetchCalls,
+      0,
+      reason: 'a proven tail refuses the newer edge outright',
+    );
+
+    final String liveId = _snowflakeForIndex(373);
+    adapter.messages.add(
+      _messageJson(id: liveId, channelId: _channelId, authorId: 'other'),
+    );
+    _emitCreated(container, id: liveId);
+    await _flushAsync();
+    expect(
+      container.read(chatViewModelProvider).messages.last.id,
+      liveId,
+      reason: 'and the next create lands on the live window',
+    );
+  });
+
+  test(
+    'm16y: a cached row for an orphaned pointer is not a proof either',
+    () async {
+      final _GatedDatabase database = await seedChannel(
+        lastMessageId: _snowflakeForIndex(399),
+      );
+      final adapter = _MessageApiAdapter(messages: _channelMessages(400));
+      final container = _container(database, adapter);
+      addTearDown(container.dispose);
+
+      final notifier = container.read(chatViewModelProvider.notifier);
+      await notifier.switchChannel(_channelId);
+      await _flushAsync();
+      expect(
+        await database.messageDao.getMessage(_snowflakeForIndex(399)),
+        isNotNull,
+        reason: 'the first open cached the pointer row',
+      );
+      await notifier.switchChannel(_otherChannelId, loadMessages: false);
+      await _flushAsync();
+
+      adapter.messages.removeWhere((m) {
+        final String id = m['id']! as String;
+        return id == _snowflakeForIndex(370) ||
+            adapter._compare(id, _snowflakeForIndex(372)) > 0;
+      });
+      await database.readStateDao.upsertReadState(
+        db.ReadStatesCompanion(
+          channelId: const Value(_channelId),
+          lastMessageId: Value(_snowflakeForIndex(370)),
+          manual: const Value(true),
+        ),
+      );
+      final int latestFetchesBefore = adapter.latestFetchCalls;
+      await notifier.switchChannel(_channelId);
+      await _flushAsync();
+
+      final ChatViewState reopened = container.read(chatViewModelProvider);
+      expect(reopened.messages.last.id, _snowflakeForIndex(372));
+      expect(adapter.latestFetchCalls, latestFetchesBefore + 1);
+      expect(
+        reopened.hasMoreNewerMessages,
+        isFalse,
+        reason: 'the stale cached row does not outvote the latest page',
+      );
+
+      await notifier.loadNewer();
+      await _flushAsync();
+      expect(adapter.afterFetchCalls, 0);
+    },
+  );
 
   test('m16g: an unread open measures its newer side against the quota for ITS '
       'own limit', () async {
@@ -4944,8 +5051,11 @@ void main() {
     final ChatViewState opened = container.read(chatViewModelProvider);
     expect(
       adapter.latestFetchCalls,
-      1,
-      reason: 'one latest fetch, which came back empty',
+      2,
+      reason:
+          'the direct load came back empty, and the rescued tail sits under a '
+          'pointer ahead of it, so the consult owes one confirmation: also '
+          'empty, so it proves nothing and fails open',
     );
     expect(
       adapter.olderFetchCalls,
@@ -4970,7 +5080,7 @@ void main() {
     expect(
       adapter.afterFetchCalls,
       0,
-      reason: 'no probe owed: the ack rung never fired (no read state seeded)',
+      reason: 'the confirmation is a latest page, never an after page',
     );
     expect(
       opened.hasMoreMessages,

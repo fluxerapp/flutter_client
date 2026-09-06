@@ -8,7 +8,7 @@ part 'guild_membership_cta_visibility_provider.g.dart';
 
 const String kFluxerHqInviteCode = 'fluxer-hq';
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<bool> guildMembershipCtaVisible(Ref ref) async {
   final AsyncValue<WellKnownFluxerResponse> wellKnown = ref.watch(
     wellKnownProvider,
@@ -27,6 +27,8 @@ Future<bool> guildMembershipCtaVisible(Ref ref) async {
     );
     return switch (schema) {
       InviteResponseSchema0(:final guild) =>
+        // One-off snapshot; read does not retain the autoDispose family.
+        // ignore: riverpod_lint/only_use_keep_alive_inside_keep_alive
         (await ref.read(guildByIdProvider(guild.id).future)) == null,
       _ => false,
     };
