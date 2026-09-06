@@ -58,6 +58,7 @@ class AccessibilityLocalState {
     this.scaleFactor = kDefaultLayoutZoomLevel,
     this.hasFontSizeInProto = false,
     this.hasZoomLevelInProto = false,
+    this.hasMobileSplashZoomAnimationInProto = false,
     this.hdrDisplayMode = HdrDisplayMode.full,
   });
 
@@ -102,6 +103,7 @@ class AccessibilityLocalState {
   final double scaleFactor;
   final bool hasFontSizeInProto;
   final bool hasZoomLevelInProto;
+  final bool hasMobileSplashZoomAnimationInProto;
   final HdrDisplayMode hdrDisplayMode;
 }
 
@@ -353,7 +355,9 @@ class AccessibilitySyncedField
       mobileGifAutoplayValue: remote.mobileGifAutoplayValue,
       mobileAnimateEmojiValue: remote.mobileAnimateEmojiValue,
       mobileStickerAnimationValue: remote.mobileStickerAnimationValue,
-      mobileSplashZoomAnimation: remote.mobileSplashZoomAnimation,
+      mobileSplashZoomAnimation: remote.hasMobileSplashZoomAnimationInProto
+          ? remote.mobileSplashZoomAnimation
+          : local.mobileSplashZoomAnimation,
       hdrDisplayMode: remote.hdrDisplayMode,
       chatFontSize: remote.hasFontSizeInProto
           ? remote.chatFontSize
@@ -369,6 +373,9 @@ class AccessibilitySyncedField
       hasFontSizeInProto: remote.hasFontSizeInProto || local.hasFontSizeInProto,
       hasZoomLevelInProto:
           remote.hasZoomLevelInProto || local.hasZoomLevelInProto,
+      hasMobileSplashZoomAnimationInProto:
+          remote.hasMobileSplashZoomAnimationInProto ||
+          local.hasMobileSplashZoomAnimationInProto,
     );
   }
 
@@ -516,6 +523,7 @@ class AccessibilitySyncedField
           : kDefaultLayoutZoomLevel,
       hasFontSizeInProto: proto.hasFontSize(),
       hasZoomLevelInProto: proto.hasZoomLevel(),
+      hasMobileSplashZoomAnimationInProto: proto.hasMobileSplashZoomAnimation(),
     );
   }
 
