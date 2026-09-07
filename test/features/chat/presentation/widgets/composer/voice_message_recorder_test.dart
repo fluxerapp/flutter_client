@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_recorder.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_recording_controller.dart';
 import 'package:fluxer_app/features/shell/providers/shell_manual_gesture_block_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -29,6 +30,38 @@ Widget _buildRecorderTestApp({
   );
 }
 
+class _RecorderHarness extends ConsumerStatefulWidget {
+  const _RecorderHarness();
+
+  @override
+  ConsumerState<_RecorderHarness> createState() => _RecorderHarnessState();
+}
+
+class _RecorderHarnessState extends ConsumerState<_RecorderHarness> {
+  late final VoiceMessageRecordingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VoiceMessageRecordingController(ref: ref, onPrepareUi: () {});
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return VoiceMessageRecorder(
+      channelId: 'channel',
+      disabled: false,
+      controller: _controller,
+    );
+  }
+}
+
 void main() {
   testWidgets('shell gesture block is off before recording', (tester) async {
     final ProviderContainer container = ProviderContainer();
@@ -36,10 +69,7 @@ void main() {
     await tester.pumpWidget(
       _buildRecorderTestApp(
         container: container,
-        child: const VoiceMessageRecorder(
-          channelId: 'channel',
-          disabled: false,
-        ),
+        child: const _RecorderHarness(),
       ),
     );
     await tester.pump();

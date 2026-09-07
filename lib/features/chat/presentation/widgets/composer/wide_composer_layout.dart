@@ -7,7 +7,7 @@ abstract final class WideComposerLayout {
   static const double boxInset = 6;
   static const double boxRadius = 8;
   static const double boxMinHeight = 58;
-  static const double densePaddingY = 13;
+  static const double densePaddingY = 10;
   static const double denseColumnGap = 12;
   static const double actionButtonExtent = 32;
   static const double statusLineHeight = 18;
@@ -87,11 +87,13 @@ class WideComposerFloatingBox extends StatelessWidget {
   const WideComposerFloatingBox({
     required this.focused,
     required this.child,
+    this.clipBehavior = Clip.antiAlias,
     super.key,
   });
 
   final bool focused;
   final Widget child;
+  final Clip clipBehavior;
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +109,7 @@ class WideComposerFloatingBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(WideComposerLayout.boxRadius),
         border: Border.all(color: ringColor),
       ),
-      clipBehavior: Clip.antiAlias,
+      clipBehavior: clipBehavior,
       child: child,
     );
   }

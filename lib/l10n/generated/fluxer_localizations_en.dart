@@ -3750,7 +3750,7 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get voiceMessageHoldHint =>
-      'Hold to record. Drag up to lock, or release to send.';
+      'Hold to record. Drag to trash to delete, slide up to lock, or release to send.';
 
   @override
   String get voiceMessageDiscard => 'Discard voice message';

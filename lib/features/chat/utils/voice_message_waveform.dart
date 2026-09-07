@@ -67,32 +67,6 @@ VoiceWaveformResult computeVoiceWaveformFromWavBytes(Uint8List wavBytes) {
   return computeVoiceWaveformFromPcm(pcm);
 }
 
-List<double> computePeaksFromPcm(
-  VoiceMessagePcmSlice pcm, {
-  int binCount = kVoiceMessageTrimPeakBinCount,
-}) {
-  final int count = math.max(1, binCount);
-  final int samplesPerBin = math.max(1, pcm.samples.length ~/ count);
-  final List<double> peaks = List<double>.filled(count, 0);
-  for (int i = 0; i < count; i++) {
-    final int start = i * samplesPerBin;
-    final int end = math.min(pcm.samples.length, start + samplesPerBin);
-    double peak = 0;
-    for (int j = start; j < end; j++) {
-      final double abs = pcm.samples[j].abs();
-      if (abs > peak) {
-        peak = abs;
-      }
-    }
-    peaks[i] = peak;
-  }
-  final double maxPeak = peaks.reduce(math.max);
-  if (maxPeak <= 0) {
-    return peaks;
-  }
-  return peaks.map((double v) => v / maxPeak).toList();
-}
-
 List<int> decodeVoiceMessageWaveform(String base64Waveform) {
   try {
     final Uint8List bytes = base64Decode(base64Waveform);

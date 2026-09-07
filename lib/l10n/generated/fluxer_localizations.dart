@@ -6160,7 +6160,7 @@ abstract class FluxerLocalizations {
   /// Hint shown next to the hold-to-record microphone button.
   ///
   /// In en, this message translates to:
-  /// **'Hold to record. Drag up to lock, or release to send.'**
+  /// **'Hold to record. Drag to trash to delete, slide up to lock, or release to send.'**
   String get voiceMessageHoldHint;
 
   /// Accessibility label for discarding a voice recording.

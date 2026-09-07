@@ -28,7 +28,6 @@ class VoiceMessagePreparedRecording {
 
 enum VoiceMessageCaptureMode { pcmStream, fileWithAmplitude }
 
-// Captures mono audio, writes WAV on stop, and feeds the live waveform UI.
 class VoiceMessageRecordingService {
   VoiceMessageRecordingService({AudioRecorder? recorder})
     : _recorder = recorder ?? AudioRecorder();
@@ -42,11 +41,7 @@ class VoiceMessageRecordingService {
   final Uint8List _pcmWindowSnapshot = Uint8List(
     kVoiceMessageLivePcmWindowSamples * 2,
   );
-  final List<double> _amplitudeHistory = <double>[];
-  List<double> _smoothedWaveformBars = List<double>.filled(
-    kVoiceMessageWaveformBarCount,
-    0,
-  );
+  double _lastAmplitude = 0;
 
   StreamSubscription<Uint8List>? _pcmSubscription;
   StreamSubscription<Amplitude>? _amplitudeSubscription;
@@ -66,11 +61,7 @@ class VoiceMessageRecordingService {
 
   VoiceMessageCaptureMode get captureMode => _captureMode;
 
-  bool get usesPcmLiveWaveform =>
-      _captureMode == VoiceMessageCaptureMode.pcmStream;
-
-  List<double> get liveWaveformBars =>
-      List<double>.unmodifiable(_smoothedWaveformBars);
+  bool get usesPcmCapture => _captureMode == VoiceMessageCaptureMode.pcmStream;
 
   int get capturedDurationMs {
     if (!isRecording) {
@@ -84,7 +75,7 @@ class VoiceMessageRecordingService {
   }
 
   Uint8List get livePcmWindow {
-    if (!usesPcmLiveWaveform) {
+    if (!usesPcmCapture) {
       return Uint8List(0);
     }
     if (_pcmWindowSnapshotDirty) {
@@ -189,38 +180,14 @@ class VoiceMessageRecordingService {
   }
 
   void _onAmplitudeSample(Amplitude amplitude) {
-    final double normalised = ((amplitude.current + 60) / 60).clamp(0.0, 1.0);
-    _amplitudeHistory.add(normalised);
-    if (_amplitudeHistory.length > 600) {
-      _amplitudeHistory.removeAt(0);
-    }
-  }
-
-  void tickLiveWaveform() {
-    if (!isRecording) {
-      return;
-    }
-    if (usesPcmLiveWaveform) {
-      _smoothedWaveformBars = computeLiveWaveformBarsFromPcmWindow(
-        pcmLe16: livePcmWindow,
-        previous: _smoothedWaveformBars,
-      );
-      return;
-    }
-    _smoothedWaveformBars = computeLiveWaveformBarsFromAmplitudeHistory(
-      previous: _smoothedWaveformBars,
-      amplitudes: _amplitudeHistory,
-    );
+    _lastAmplitude = ((amplitude.current + 60) / 60).clamp(0.0, 1.0);
   }
 
   double get liveRmsLevel {
-    if (usesPcmLiveWaveform) {
+    if (usesPcmCapture) {
       return computeLiveRmsAmplitudeFromPcmWindow(livePcmWindow);
     }
-    if (_amplitudeHistory.isEmpty) {
-      return 0;
-    }
-    return (_amplitudeHistory.last * 2.5).clamp(0.0, 1.0);
+    return (_lastAmplitude * 2.5).clamp(0.0, 1.0);
   }
 
   void _writePcmRing(Uint8List chunk) {
@@ -372,11 +339,7 @@ class VoiceMessageRecordingService {
     _pcmRingWriteBytes = 0;
     _pcmTotalBytes = 0;
     _pcmWindowSnapshotDirty = true;
-    _amplitudeHistory.clear();
-    _smoothedWaveformBars = List<double>.filled(
-      kVoiceMessageWaveformBarCount,
-      0,
-    );
+    _lastAmplitude = 0;
   }
 
   Future<void> _deleteTempFiles() async {

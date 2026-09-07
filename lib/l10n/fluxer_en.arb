@@ -4893,7 +4893,7 @@
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
     },
-    "voiceMessageHoldHint": "Hold to record. Drag up to lock, or release to send.",
+    "voiceMessageHoldHint": "Hold to record. Drag to trash to delete, slide up to lock, or release to send.",
     "@voiceMessageHoldHint": {
         "description": "Hint shown next to the hold-to-record microphone button."
     },
