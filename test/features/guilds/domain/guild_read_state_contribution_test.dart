@@ -50,6 +50,13 @@ void main() {
       );
       expect(allMessages.mentionAllowed, isTrue);
       expect(allMessages.unreadAllowed, isTrue);
+
+      final GuildReadStateContribution allMessagesMuted = _contribution(
+        unreadBadgesLevel: UserNotificationSettings.allMessages,
+        isMutedForUnread: true,
+      );
+      expect(allMessagesMuted.mentionAllowed, isTrue);
+      expect(allMessagesMuted.unreadAllowed, isTrue);
     });
 
     test(
