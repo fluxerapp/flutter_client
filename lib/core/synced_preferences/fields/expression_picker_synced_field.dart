@@ -233,6 +233,11 @@ class _ExpressionPickerSyncedField
   }
 
   @override
+  ExpressionPickerSyncedLocalState? clearedRemoteValue() {
+    return ExpressionPickerSyncedLocalState.empty;
+  }
+
+  @override
   bool hasRemoteAdditions(
     ExpressionPickerSyncedLocalState local,
     ExpressionPickerSyncedLocalState remote,

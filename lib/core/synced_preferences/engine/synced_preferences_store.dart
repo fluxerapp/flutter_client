@@ -233,6 +233,8 @@ class SyncedPreferencesStore {
         } else if (hasLocal && encodedIsEmpty()) {
           _dirtyFields.add(field);
           scheduleFlush();
+        } else {
+          await _applyOmittedFieldClear(adapter: adapter, local: local);
         }
         continue;
       }
@@ -245,6 +247,15 @@ class SyncedPreferencesStore {
           );
           if (!_statesEqual(adapter, local, target)) {
             await _applyAdapterRemote(adapter, target);
+          }
+        } else if (!_dirtyFields.contains(field) &&
+            adapter.clearedRemoteValue() != null) {
+          if (remote != null) {
+            if (!_statesEqual(adapter, local, remote)) {
+              await _applyAdapterRemote(adapter, remote);
+            }
+          } else {
+            await _applyOmittedFieldClear(adapter: adapter, local: local);
           }
         }
         continue;
@@ -288,6 +299,20 @@ class SyncedPreferencesStore {
   }
 
   bool encodedIsEmpty() => _wireBlob.isEmpty;
+
+  Future<void> _applyOmittedFieldClear({
+    required SyncedFieldAdapter<Object?> adapter,
+    required Object? local,
+  }) async {
+    if (!adapter.hasLocalData(local) || encodedIsEmpty()) {
+      return;
+    }
+    final cleared = adapter.clearedRemoteValue();
+    if (cleared == null || _statesEqual(adapter, local, cleared)) {
+      return;
+    }
+    await _applyAdapterRemote(adapter, cleared);
+  }
 
   FavoritesLocalState? _readSyncedLocalFavorites() {
     final adapter = _adapters[SyncedPreferenceField.favorites];
