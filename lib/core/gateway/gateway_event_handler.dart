@@ -159,7 +159,15 @@ class GatewayEventHandler {
     this.onWebhooksUpdate,
     this.onEntranceSoundPlay,
     this.resolveDefaultHideMutedChannels,
-  });
+  }) {
+    final ReactionWriteBatcher? batcher = reactionWriteBatcher;
+    if (batcher == null) {
+      return;
+    }
+    batcher.onFlush = (String channelId, String messageId) {
+      _emit(() => onMessageReactionChange?.call(channelId, messageId));
+    };
+  }
 
   final db.FluxerDatabase database;
   final ReadStateRepository? readStateRepository;
@@ -2293,9 +2301,11 @@ class GatewayEventHandler {
       isAdd: true,
       userId: event.userId,
     );
-    _emit(
-      () => onMessageReactionChange?.call(event.channelId, event.messageId),
-    );
+    if (reactionWriteBatcher == null) {
+      _emit(
+        () => onMessageReactionChange?.call(event.channelId, event.messageId),
+      );
+    }
   }
 
   Future<void> _handleReactionRemove(MessageReactionRemoveEvent event) async {
@@ -2306,9 +2316,11 @@ class GatewayEventHandler {
       isAdd: false,
       userId: event.userId,
     );
-    _emit(
-      () => onMessageReactionChange?.call(event.channelId, event.messageId),
-    );
+    if (reactionWriteBatcher == null) {
+      _emit(
+        () => onMessageReactionChange?.call(event.channelId, event.messageId),
+      );
+    }
   }
 
   Future<void> _enqueueReactionChange({
@@ -2334,27 +2346,27 @@ class GatewayEventHandler {
   }
 
   void _handleReactionRemoveAll(MessageReactionRemoveAllEvent event) {
-    unawaited(
-      database.messageDao.updateReactions(event.messageId, '[]').then((_) {
-        _emit(
-          () => onMessageReactionChange?.call(event.channelId, event.messageId),
-        );
-      }),
-    );
+    unawaited(() async {
+      await reactionWriteBatcher?.flush(event.messageId);
+      await database.messageDao.updateReactions(event.messageId, '[]');
+      _emit(
+        () => onMessageReactionChange?.call(event.channelId, event.messageId),
+      );
+    }());
   }
 
   void _handleReactionRemoveEmoji(MessageReactionRemoveEmojiEvent event) {
-    unawaited(
-      _removeEmojiReaction(
+    unawaited(() async {
+      await reactionWriteBatcher?.flush(event.messageId);
+      await _removeEmojiReaction(
         event.messageId,
         event.emoji.name,
         event.emoji.id,
-      ).then((_) {
-        _emit(
-          () => onMessageReactionChange?.call(event.channelId, event.messageId),
-        );
-      }),
-    );
+      );
+      _emit(
+        () => onMessageReactionChange?.call(event.channelId, event.messageId),
+      );
+    }());
   }
 
   Future<void> _modifyReaction(
@@ -2482,6 +2494,7 @@ class GatewayEventHandler {
 
   void _handleReactionAddMany(MessageReactionAddManyEvent event) {
     unawaited(() async {
+      await reactionWriteBatcher?.flush(event.messageId);
       final msg = await database.messageDao.getMessage(event.messageId);
       if (msg == null) {
         return;

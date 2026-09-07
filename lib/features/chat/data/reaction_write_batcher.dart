@@ -8,14 +8,19 @@ import 'package:fluxer_dart/gateway.dart';
 
 const int kReactionWriteBatchMs = 50;
 
+typedef ReactionWriteBatcherFlushCallback =
+    void Function(String channelId, String messageId);
+
 class ReactionWriteBatcher {
   ReactionWriteBatcher({
     required this._database,
     this._window = const Duration(milliseconds: kReactionWriteBatchMs),
+    this.onFlush,
   });
 
   final FluxerDatabase _database;
   final Duration _window;
+  ReactionWriteBatcherFlushCallback? onFlush;
   final Map<String, _PendingReactionBatch> _pending =
       <String, _PendingReactionBatch>{};
   final Map<String, Future<void>> _flushing = <String, Future<void>>{};
@@ -44,28 +49,35 @@ class ReactionWriteBatcher {
   Future<void> flush(String messageId) {
     final Future<void>? inFlight = _flushing[messageId];
     if (inFlight != null) {
-      return inFlight;
+      return inFlight.then((_) => flush(messageId));
     }
-    final _PendingReactionBatch? batch = _pending.remove(messageId);
-    if (batch == null) {
-      return Future<void>.value();
-    }
-    batch.timer.cancel();
-    if (batch.deltas.isEmpty) {
-      return Future<void>.value();
-    }
-    final Future<void> future = _applyFlush(messageId, batch);
+    final Future<void> future = _drain(messageId);
     _flushing[messageId] = future;
     return future.whenComplete(() => _flushing.remove(messageId));
   }
 
   Future<void> flushAll() async {
-    for (final String messageId in _pending.keys.toList()) {
+    final Set<String> ids = <String>{..._pending.keys, ..._flushing.keys};
+    for (final String messageId in ids) {
       await flush(messageId);
     }
   }
 
   Future<void> dispose() => flushAll();
+
+  Future<void> _drain(String messageId) async {
+    while (true) {
+      final _PendingReactionBatch? batch = _pending.remove(messageId);
+      if (batch == null) {
+        return;
+      }
+      batch.timer.cancel();
+      if (batch.deltas.isEmpty) {
+        continue;
+      }
+      await _applyFlush(messageId, batch);
+    }
+  }
 
   Future<void> _applyFlush(
     String messageId,
@@ -96,6 +108,7 @@ class ReactionWriteBatcher {
         messageId,
         jsonEncode(reactions),
       );
+      onFlush?.call(batch.channelId, messageId);
     } on Object catch (e, st) {
       talker.error('[ReactionWriteBatcher] flush failed for $messageId', e, st);
     }
