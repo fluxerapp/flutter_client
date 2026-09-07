@@ -21,8 +21,8 @@ class FluxerConfirmSheet {
   static Future<bool?> show(
     BuildContext context, {
     required String title,
-    required VoidCallback onConfirm,
     required String confirmLabel,
+    VoidCallback? onConfirm,
     String? description,
     Widget? body,
     bool isDanger = false,
@@ -47,6 +47,14 @@ class FluxerConfirmSheet {
                 ),
               );
 
+        void confirm() {
+          if (isDanger) {
+            FluxerHaptics.warning();
+          }
+          onConfirm?.call();
+          Navigator.of(sheetContext).pop(true);
+        }
+
         return Padding(
           padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, 0),
           child: SingleChildScrollView(
@@ -61,21 +69,11 @@ class FluxerConfirmSheet {
                 SizedBox(height: layout.s4),
                 if (isDanger)
                   FluxerButton.dangerPrimary(
-                    onPressed: () {
-                      FluxerHaptics.warning();
-                      onConfirm();
-                      Navigator.of(sheetContext).pop(true);
-                    },
+                    onPressed: confirm,
                     label: confirmLabel,
                   )
                 else
-                  FluxerButton.primary(
-                    onPressed: () {
-                      onConfirm();
-                      Navigator.of(sheetContext).pop(true);
-                    },
-                    label: confirmLabel,
-                  ),
+                  FluxerButton.primary(onPressed: confirm, label: confirmLabel),
               ],
             ),
           ),

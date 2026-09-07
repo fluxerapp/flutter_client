@@ -1326,6 +1326,87 @@ void main() {
     );
   });
 
+  test('deleting a reply then the parent keeps both gone', () async {
+    final _GatedDatabase database = await seedChannel();
+    final String parentId = _snowflakeForIndex(0);
+    final String replyId = _snowflakeForIndex(1);
+    final adapter = _MessageApiAdapter(
+      messages: <Map<String, Object?>>[
+        _messageJson(id: parentId, channelId: _channelId, authorId: 'me'),
+        _messageJson(
+            id: replyId,
+            channelId: _channelId,
+            authorId: 'me',
+            content: 'reply',
+          )
+          ..['type'] = 19
+          ..['message_reference'] = <String, Object?>{
+            'channel_id': _channelId,
+            'message_id': parentId,
+            'type': 0,
+          },
+      ],
+    );
+    final container = _container(database, adapter);
+    addTearDown(container.dispose);
+
+    final notifier = container.read(chatViewModelProvider.notifier);
+    await notifier.switchChannel(_channelId);
+    await _flushAsync();
+
+    expect(
+      container.read(chatViewModelProvider).messages.map((Message m) => m.id),
+      <String>[parentId, replyId],
+    );
+
+    await notifier.deleteMessage(replyId);
+    await _flushAsync();
+    adapter.messages.removeWhere(
+      (Map<String, Object?> m) => m['id'] == replyId,
+    );
+    expect(
+      container.read(chatViewModelProvider).messages.map((Message m) => m.id),
+      <String>[parentId],
+    );
+
+    adapter.holdDelete = true;
+    adapter.holdLatestFetch = true;
+    final Future<void> parentDelete = notifier.deleteMessage(parentId);
+    await _flushAsync();
+    expect(
+      container.read(chatViewModelProvider).messages.map((Message m) => m.id),
+      isEmpty,
+    );
+
+    _activateViewport(container);
+    final Future<void> refresh = notifier.refreshAfterSessionRecovery();
+    await _flushAsync();
+    adapter.releaseLatestFetch();
+    await refresh;
+    await _flushAsync();
+
+    expect(
+      container.read(chatViewModelProvider).messages.map((Message m) => m.id),
+      isEmpty,
+      reason:
+          'a stale page must not resurrect the parent after the reply '
+          'delete',
+    );
+
+    adapter.messages.removeWhere(
+      (Map<String, Object?> m) => m['id'] == parentId,
+    );
+    adapter.releaseDelete();
+    await parentDelete;
+    await _flushAsync();
+    await notifier.refreshAfterSessionRecovery();
+    await _flushAsync();
+    expect(
+      container.read(chatViewModelProvider).messages.map((Message m) => m.id),
+      isEmpty,
+    );
+  });
+
   test('m10c-ack: a completed edit still beats an older page in the '
       'lane', () async {
     // Edit twin of m10b-ack: the edit is server confirmed before the older

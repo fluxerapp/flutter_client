@@ -448,7 +448,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       return;
     }
     FluxerHaptics.medium();
-    final action = await showMessageBottomSheet(
+    final VoidCallback? onDelete = widget.onDelete;
+    final MessageAction? action = await showMessageBottomSheet(
       context,
       message: widget.message,
       isOwnMessage: widget.message.authorId == widget.currentUserId,
@@ -467,10 +468,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       onQuickReaction: _dispatchQuickReaction,
       attachmentCallbacks: _videoActionScope.callbacks,
     );
-    if (!context.mounted) {
-      return;
-    }
-    _handleAction(action, isMobile: true);
+    _dispatchMenuAction(action, onDelete: onDelete, isMobile: true);
   }
 
   Future<void> _showContextMenu(BuildContext context, Offset position) async {
@@ -479,7 +477,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       return;
     }
 
-    final action = await showMessageContextMenu(
+    final VoidCallback? onDelete = widget.onDelete;
+    final MessageAction? action = await showMessageContextMenu(
       context,
       position: position,
       message: widget.message,
@@ -488,10 +487,24 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       onQuickReaction: _dispatchQuickReaction,
       quickItems: frecent,
     );
+    _dispatchMenuAction(action, onDelete: onDelete, isMobile: false);
+  }
+
+  void _dispatchMenuAction(
+    MessageAction? action, {
+    required VoidCallback? onDelete,
+    required bool isMobile,
+  }) {
+    if (action == MessageAction.delete) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        onDelete?.call();
+      });
+      return;
+    }
     if (!context.mounted) {
       return;
     }
-    _handleAction(action, isMobile: false);
+    _handleAction(action, isMobile: isMobile);
   }
 
   @override

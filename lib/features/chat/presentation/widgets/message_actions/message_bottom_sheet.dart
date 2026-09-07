@@ -128,7 +128,9 @@ Future<void> dispatchMessageAction({
     case MessageAction.edit:
       callbacks.onEdit?.call();
     case MessageAction.delete:
-      _runAfterModalSettles(context, () => callbacks.onDelete?.call());
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        callbacks.onDelete?.call();
+      });
     case MessageAction.retry:
       callbacks.onRetry?.call();
     case MessageAction.deleteFailed:
