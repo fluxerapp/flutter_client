@@ -234,7 +234,7 @@ class SelectableText extends material.StatelessWidget {
     this.selectionColor,
     this.showCursor = true,
     this.autofocus = false,
-    this.contextMenuBuilder,
+    this.contextMenuBuilder = _defaultContextMenuBuilder,
     this.magnifierConfiguration,
     this.onSelectionChanged,
     this.selectionControls,
@@ -271,7 +271,7 @@ class SelectableText extends material.StatelessWidget {
     this.selectionColor,
     this.showCursor = true,
     this.autofocus = false,
-    this.contextMenuBuilder,
+    this.contextMenuBuilder = _defaultContextMenuBuilder,
     this.magnifierConfiguration,
     this.onSelectionChanged,
     this.selectionControls,
@@ -315,6 +315,20 @@ class SelectableText extends material.StatelessWidget {
   final BoxHeightStyle selectionHeightStyle;
   final BoxWidthStyle selectionWidthStyle;
   final material.GestureTapCallback? onTap;
+
+  static material.Widget _defaultContextMenuBuilder(
+    material.BuildContext context,
+    material.EditableTextState editableTextState,
+  ) {
+    if (material.SystemContextMenu.isSupportedByField(editableTextState)) {
+      return material.SystemContextMenu.editableText(
+        editableTextState: editableTextState,
+      );
+    }
+    return material.AdaptiveTextSelectionToolbar.editableText(
+      editableTextState: editableTextState,
+    );
+  }
 
   @override
   material.Widget build(material.BuildContext context) {
