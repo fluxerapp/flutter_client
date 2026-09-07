@@ -273,6 +273,94 @@ void main() {
     expect(find.text(testL10n.chatMessageTranslate), findsNothing);
   });
 
+  testWidgets('hides Translate for a custom-emoji-only message, fixes #698', (
+    tester,
+  ) async {
+    final Message emojiMessage = message.copyWith(
+      content: '<:pepe:123> <a:dance:456>',
+    );
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: baseOverrides(
+          emojiMessage.id,
+          translationAvailable: true,
+          extra: [
+            appearancePreferencesProvider.overrideWithValue(
+              const AppearancePreferencesState(),
+            ),
+            detectedMessageLanguageProvider(
+              emojiMessage.content,
+            ).overrideWith((ref) => 'fr'),
+          ],
+        ),
+        child: buildTestApp(
+          onOpen: (context) => showMessageBottomSheet(
+            context,
+            message: emojiMessage,
+            isOwnMessage: true,
+            isDmChannel: false,
+            canDelete: false,
+            canReport: false,
+            canAddReactions: false,
+            canPinMessage: false,
+            canManageMessages: false,
+            canSendMessages: true,
+            developerMode: false,
+          ),
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('Open'));
+    await tester.pumpAndSettle();
+
+    expect(find.text(testL10n.chatMessageTranslate), findsNothing);
+  });
+
+  testWidgets('hides Translate for a klipy gif url-only message', (
+    tester,
+  ) async {
+    final Message gifMessage = message.copyWith(
+      content: 'https://klipy.com/gifs/bonjour-chat',
+    );
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: baseOverrides(
+          gifMessage.id,
+          translationAvailable: true,
+          extra: [
+            appearancePreferencesProvider.overrideWithValue(
+              const AppearancePreferencesState(),
+            ),
+            detectedMessageLanguageProvider(
+              gifMessage.content,
+            ).overrideWith((ref) => 'fr'),
+          ],
+        ),
+        child: buildTestApp(
+          onOpen: (context) => showMessageBottomSheet(
+            context,
+            message: gifMessage,
+            isOwnMessage: true,
+            isDmChannel: false,
+            canDelete: false,
+            canReport: false,
+            canAddReactions: false,
+            canPinMessage: false,
+            canManageMessages: false,
+            canSendMessages: true,
+            developerMode: false,
+          ),
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('Open'));
+    await tester.pumpAndSettle();
+
+    expect(find.text(testL10n.chatMessageTranslate), findsNothing);
+  });
+
   testWidgets('hides Translate when no source is available', (tester) async {
     await tester.pumpWidget(
       ProviderScope(
@@ -359,6 +447,49 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text(testL10n.chatMessageCopyEmbedText), findsNothing);
+    });
+  });
+
+  group('dispatchMessageAction', () {
+    testWidgets('defers onForward until the next frame', (tester) async {
+      var forwarded = false;
+      late WidgetRef capturedRef;
+      late BuildContext capturedContext;
+
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: baseOverrides(message.id),
+          child: MaterialApp(
+            locale: kTestLocale,
+            localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+            supportedLocales: FluxerLocalizations.supportedLocales,
+            theme: buildFluxerTheme(
+              colorTheme: buildDarkColorTheme(),
+              textTheme: FluxerTextTheme.fromColors(buildDarkColorTheme()),
+              layoutTheme: FluxerLayoutTheme.scaled(),
+            ),
+            home: Consumer(
+              builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                capturedRef = ref;
+                capturedContext = context;
+                return const SizedBox();
+              },
+            ),
+          ),
+        ),
+      );
+
+      final Future<void> dispatched = dispatchMessageAction(
+        ref: capturedRef,
+        context: capturedContext,
+        message: message,
+        action: MessageAction.forward,
+        callbacks: MessageActionCallbacks(onForward: () => forwarded = true),
+      );
+      expect(forwarded, isFalse);
+      await tester.pump();
+      expect(forwarded, isTrue);
+      await dispatched;
     });
   });
 }

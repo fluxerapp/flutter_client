@@ -910,6 +910,74 @@ void main() {
       expect(await database.userDao.getUserById('u-sync'), isNotNull);
     });
   });
+
+  group('favorite memes', () {
+    ReadyEvent ready({List<Map<String, dynamic>>? favoriteMemes}) {
+      return ReadyEvent(
+        sessionId: 'session-id',
+        user: _user(),
+        guilds: const [],
+        rawGuilds: const [],
+        privateChannels: const [],
+        relationships: const [],
+        readStates: const [],
+        presences: const [],
+        favoriteMemes: favoriteMemes,
+      );
+    }
+
+    Map<String, dynamic> meme(Object id) => {
+      'id': id,
+      'user_id': '100',
+      'name': 'Meme $id',
+      'tags': <String>[],
+      'attachment_id': 'att-$id',
+      'filename': '$id.png',
+      'content_type': 'image/png',
+      'size': 1,
+      'url': 'https://cdn.example/$id.png',
+    };
+
+    test('READY replaces saved media snapshot including removals', () async {
+      final database = openTestDatabase();
+      final handler = GatewayEventHandler(database: database);
+
+      await handler.handle(ready(favoriteMemes: [meme('1'), meme('2')]));
+      expect(
+        (await database.favoriteMemesDao.getAll()).map((row) => row.id),
+        unorderedEquals(['1', '2']),
+      );
+
+      await handler.handle(ready(favoriteMemes: [meme('2')]));
+      expect((await database.favoriteMemesDao.getAll()).map((row) => row.id), [
+        '2',
+      ]);
+    });
+
+    test('READY stores numeric meme ids as strings', () async {
+      final database = openTestDatabase();
+      final handler = GatewayEventHandler(database: database);
+
+      await handler.handle(ready(favoriteMemes: [meme(99)]));
+
+      final rows = await database.favoriteMemesDao.getAll();
+      expect(rows, hasLength(1));
+      expect(rows.single.id, '99');
+    });
+
+    test('FAVORITE_MEME_DELETE removes the local row', () async {
+      final database = openTestDatabase();
+      final handler = GatewayEventHandler(database: database);
+
+      await handler.handle(ready(favoriteMemes: [meme('1'), meme('2')]));
+      await handler.handle(const FavoriteMemeDeleteEvent(id: '1'));
+      await pumpEventQueue();
+
+      expect((await database.favoriteMemesDao.getAll()).map((row) => row.id), [
+        '2',
+      ]);
+    });
+  });
 }
 
 UserPrivateResponse _user() => UserPrivateResponse.fromJson({

@@ -57,7 +57,7 @@ class GuildRepository {
     await removeGuildFromLocalDb(_db, guildId);
   }
 
-  Future<void> stageGuildJoinFromInvite(GuildInviteResponse invite) async {
+  Future<void> stageGuildJoinFromInvite(InviteResponseSchema0 invite) async {
     final guild = invite.guild;
     await _db.guildDao.upsertServer(
       db.ServersCompanion.insert(

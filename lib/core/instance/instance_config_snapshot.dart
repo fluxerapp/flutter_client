@@ -45,15 +45,32 @@ class InstanceConfigSnapshot {
 
   factory InstanceConfigSnapshot.fromJson(String json) {
     final Map<String, dynamic> map = jsonDecode(json) as Map<String, dynamic>;
-    final Object? wellKnownJson = map['well_known'];
     return InstanceConfigSnapshot(
       apiBaseUrl: map['api_base_url'] as String,
       gatewayUrl: map['gateway_url'] as String? ?? '',
       displayDomain: map['display_domain'] as String,
-      wellKnown: wellKnownJson is Map<String, Object?>
-          ? WellKnownFluxerResponse.fromJson(wellKnownJson)
-          : null,
+      wellKnown: _wellKnownFromJson(map['well_known']),
     );
+  }
+
+  InstanceConfigSnapshot withWellKnown(WellKnownFluxerResponse wellKnown) {
+    return InstanceConfigSnapshot(
+      apiBaseUrl: apiBaseUrl,
+      gatewayUrl: gatewayUrl,
+      displayDomain: displayDomain,
+      wellKnown: wellKnown,
+    );
+  }
+
+  static WellKnownFluxerResponse? _wellKnownFromJson(Object? value) {
+    if (value is! Map) {
+      return null;
+    }
+    try {
+      return WellKnownFluxerResponse.fromJson(Map<String, dynamic>.from(value));
+    } on Object {
+      return null;
+    }
   }
 
   String toJson() {
@@ -66,12 +83,12 @@ class InstanceConfigSnapshot {
   }
 
   void apply() {
-    final WellKnownFluxerResponse? response = wellKnown;
-    if (response != null) {
-      InstanceEndpoints.apply(response);
-      return;
+    switch (wellKnown) {
+      case final WellKnownFluxerResponse response:
+        InstanceEndpoints.apply(response);
+      case null:
+        InstanceEndpoints.resetToDefaults();
     }
-    InstanceEndpoints.resetToDefaults();
   }
 
   WellKnownFluxerResponseSso? get ssoConfig => wellKnown?.sso;

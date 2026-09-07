@@ -45,18 +45,20 @@ class InstanceBrandMark extends ConsumerWidget {
     if (imageUrl == null) {
       return fallback;
     }
-    return SizedBox(
-      width: size,
-      height: size,
-      child: ClipOval(
-        child: ColoredBox(
-          color: fill,
-          child: _RemoteBrandImage(
-            url: imageUrl,
-            width: size,
-            height: size,
-            fit: BoxFit.cover,
-            error: fallback,
+    return ExcludeSemantics(
+      child: SizedBox(
+        width: size,
+        height: size,
+        child: ClipOval(
+          child: ColoredBox(
+            color: fill,
+            child: _RemoteBrandImage(
+              url: imageUrl,
+              width: size,
+              height: size,
+              fit: BoxFit.cover,
+              error: fallback,
+            ),
           ),
         ),
       ),
@@ -81,16 +83,22 @@ class InstanceWordmark extends ConsumerWidget {
     final Color tint = color ?? context.colors.textPrimary;
     final String? wordmarkUrl = branding.wordmarkUrl;
     if (wordmarkUrl != null) {
-      return SizedBox(
-        height: height,
-        child: _RemoteBrandImage(
-          url: wordmarkUrl,
-          height: height,
-          fit: BoxFit.contain,
-          error: _FallbackWordmark(
+      return Semantics(
+        label: branding.productName,
+        image: true,
+        child: ExcludeSemantics(
+          child: SizedBox(
             height: height,
-            color: tint,
-            productName: branding.productName,
+            child: _RemoteBrandImage(
+              url: wordmarkUrl,
+              height: height,
+              fit: BoxFit.contain,
+              error: _FallbackWordmark(
+                height: height,
+                color: tint,
+                productName: branding.productName,
+              ),
+            ),
           ),
         ),
       );
@@ -163,10 +171,16 @@ class _FallbackWordmark extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (productName == InstanceConstants.defaultProductName) {
-      return SvgPicture.asset(
-        Assets.fluxerWordmarkMonochrome,
-        height: height,
-        theme: SvgTheme(currentColor: color),
+      return Semantics(
+        label: productName,
+        image: true,
+        child: ExcludeSemantics(
+          child: SvgPicture.asset(
+            Assets.fluxerWordmarkMonochrome,
+            height: height,
+            theme: SvgTheme(currentColor: color),
+          ),
+        ),
       );
     }
     return Text(

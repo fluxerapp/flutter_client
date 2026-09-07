@@ -11,40 +11,47 @@ import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+BuildContext? _deleteConfirmSheetContext(BuildContext? fallback) {
+  final BuildContext? root = rootNavigatorKey.currentContext;
+  if (root != null && root.mounted) {
+    return root;
+  }
+  if (fallback != null && fallback.mounted) {
+    return fallback;
+  }
+  return null;
+}
+
 /// Shows a confirmation bottom sheet for deleting a chat message.
 ///
-/// Resolves to `true` when the user taps Delete; `null` when dismissed
-/// without confirming.
+/// [context] may be null or unmounted; the sheet is presented from the root
+/// navigator. The message is removed only after the sheet closes.
 Future<bool?> showDeleteMessageConfirmSheet(
-  BuildContext context,
+  BuildContext? context,
   WidgetRef ref, {
   required Message message,
   String? guildId,
-}) {
-  final l10n = FluxerLocalizations.of(context);
-  final completer = Completer<bool?>();
-  WidgetsBinding.instance.addPostFrameCallback((_) async {
-    if (!context.mounted) {
-      completer.complete(null);
-      return;
-    }
-    completer.complete(
-      await FluxerConfirmSheet.show(
-        context,
-        title: l10n.chatMessageDeleteConfirmTitle,
-        description: l10n.chatMessageDeleteConfirmDescription,
-        body: _DeleteMessagePreview(message: message, guildId: guildId),
-        confirmLabel: l10n.chatMessageDelete,
-        isDanger: true,
-        onConfirm: () {
-          unawaited(
-            ref.read(chatViewModelProvider.notifier).deleteMessage(message.id),
-          );
-        },
-      ),
+}) async {
+  final BuildContext? sheetContext = _deleteConfirmSheetContext(context);
+  if (sheetContext == null) {
+    return null;
+  }
+  final l10n = FluxerLocalizations.of(sheetContext);
+  final String messageId = message.id;
+  final bool? confirmed = await FluxerConfirmSheet.show(
+    sheetContext,
+    title: l10n.chatMessageDeleteConfirmTitle,
+    description: l10n.chatMessageDeleteConfirmDescription,
+    body: _DeleteMessagePreview(message: message, guildId: guildId),
+    confirmLabel: l10n.chatMessageDelete,
+    isDanger: true,
+  );
+  if (confirmed ?? false) {
+    unawaited(
+      ref.read(chatViewModelProvider.notifier).deleteMessage(messageId),
     );
-  });
-  return completer.future;
+  }
+  return confirmed;
 }
 
 class _DeleteMessagePreview extends ConsumerWidget {

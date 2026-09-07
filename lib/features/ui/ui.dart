@@ -40,6 +40,7 @@ export 'package:fluxer_app/features/ui/page_sheet/fluxer_page_sheet.dart';
 export 'package:fluxer_app/features/ui/painter/dashed_border_painter.dart';
 export 'package:fluxer_app/features/ui/plutonium_upsell/fluxer_plutonium_upsell.dart';
 export 'package:fluxer_app/features/ui/popout/fluxer_popout.dart';
+export 'package:fluxer_app/features/ui/qr_code/fluxer_qr_code.dart';
 export 'package:fluxer_app/features/ui/radio_group/fluxer_radio_group.dart';
 export 'package:fluxer_app/features/ui/refresh/fluxer_refresh_scroll_view.dart';
 export 'package:fluxer_app/features/ui/select/fluxer_select.dart';

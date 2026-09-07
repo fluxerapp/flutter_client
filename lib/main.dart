@@ -15,10 +15,12 @@ import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 import 'package:fluxer_app/core/observability/fluxer_observability.dart';
 import 'package:fluxer_app/core/observability/observability_reporting_provider.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
+import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/providers/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_entrypoint.dart';
 import 'package:fluxer_app/core/push/services/unified_push_service.dart';
+import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/settings/providers/haptics_preferences_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:image_picker_android/image_picker_android.dart';
@@ -151,6 +153,17 @@ Future<void> _bootstrapFluxer(List<String> args) async {
       },
     );
   }
+
+  await FluxerObservability.instance.traceAsync(
+    'app.bootstrap.active_instance',
+    () => container
+        .read(activeInstanceProvider.notifier)
+        .restorePersistedSnapshot(
+          container
+              .read(authRepositoryProvider)
+              .resolveActiveInstanceSnapshot(),
+        ),
+  );
 
   // First frame no longer waits for session validation: the router keeps the
   // splash up until startup settles and the gateway delivers READY, and the

@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/favorites/utils/favorites_shell_navigation.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/shell/utils/shell_popup_navigation.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
@@ -21,12 +22,9 @@ void navigateToActiveVoiceSession(
   if (channelId == null || channelId.isEmpty) {
     return;
   }
-  final bool isGuild = voice.guildId != null && voice.guildId!.isNotEmpty;
-  if (isGuild) {
-    final String? guildId = voice.guildId;
-    if (guildId == null || guildId.isEmpty) {
-      return;
-    }
+  final String? guildId = voice.guildId;
+  popShellCoveringPages();
+  if (guildId != null && guildId.isNotEmpty) {
     navigateToContent(context, RoutePaths.guildChannel(guildId, channelId));
     return;
   }

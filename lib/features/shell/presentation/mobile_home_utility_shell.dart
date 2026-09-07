@@ -101,6 +101,7 @@ class _MobileHomeUtilityShellState extends ConsumerState<MobileHomeUtilityShell>
               bottom: 0,
               width: leadingEdgeHorizontalSwipeReserveWidth(context),
               child: FluxerGestureDetector(
+                excludeFromSemantics: true,
                 behavior: HitTestBehavior.translucent,
                 onHorizontalDragUpdate: (DragUpdateDetails details) {
                   final double primaryDelta = details.primaryDelta ?? 0;

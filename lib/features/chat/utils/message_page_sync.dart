@@ -42,10 +42,9 @@ bool networkPageOverlapsWindow({
 /// client models the same rule as `messagesNewer >= expectedNewer`
 /// (`MessagePaginationUtils.ts::calculateAroundPaginationState`).
 ///
-/// The anchor itself must be PRESENT in the page. A page that never carried it
-/// was not centred where we asked, so its shape cannot be read as a quota at
-/// all and there is no tail claim to make. A limit with no newer quota to fill
-/// (`limit <= 1`) is unreadable for the same reason.
+/// The anchor need not be present: `shard_impl.rs::get_around` fetches the
+/// target, the newer side and the older side independently, each split at the
+/// requested id, so a deleted or filtered target leaves the newer quota intact.
 ///
 /// A tail claim from this predicate is therefore NOT final on its own: the
 /// server truncates the raw scan to the limit and only then drops invisible and
@@ -70,17 +69,17 @@ bool aroundPageReachesLiveTail({
   required List<Message> page,
   required int limit,
 }) {
-  final int expectedNewer = limit <= 0 ? 0 : limit ~/ 2;
-  bool sawAnchor = false;
+  if (limit <= 1 || page.isEmpty) {
+    return false;
+  }
+  final int expectedNewer = limit ~/ 2;
   int newerCount = 0;
   for (final Message message in page) {
-    if (message.id == anchorId) {
-      sawAnchor = true;
-    } else if (compareSnowflakeIds(message.id, anchorId) > 0) {
+    if (compareSnowflakeIds(message.id, anchorId) > 0) {
       newerCount++;
     }
   }
-  return sawAnchor && newerCount < expectedNewer;
+  return newerCount < expectedNewer;
 }
 
 /// Scroll target for a message jump: [jumpTargetId] when it is already loaded,

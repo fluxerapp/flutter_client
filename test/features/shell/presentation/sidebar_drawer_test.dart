@@ -11,6 +11,7 @@ import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
 import 'package:fluxer_app/shared/markdown/native_markdown_parser.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 import 'package:go_router/go_router.dart';
+import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../shared/gestures/wide_markdown_table_test_helpers.dart';
 
@@ -505,22 +506,74 @@ void main() {
 
     expect(_sliderDx(tester), 0);
   });
+
+  testWidgets('exposes only chat pane semantics when chat is full screen', (
+    tester,
+  ) async {
+    final SemanticsHandle handle = tester.ensureSemantics();
+    final router = _routerFor(
+      '/channels/guild/channel',
+      harness: _drawerHarnessWithPaneLabels,
+    );
+    addTearDown(router.dispose);
+    final container = _containerFor(
+      router,
+      extraOverrides: <Override>[
+        currentRevealSideProvider.overrideWithValue(RevealSide.main),
+      ],
+    );
+
+    await tester.pumpWidget(
+      _buildDrawerApp(container: container, router: router),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.bySemanticsLabel('Chat pane'), findsOneWidget);
+    expect(find.bySemanticsLabel('Sidebar pane'), findsNothing);
+    handle.dispose();
+  });
+
+  testWidgets('exposes only sidebar pane semantics when drawer is open', (
+    tester,
+  ) async {
+    final SemanticsHandle handle = tester.ensureSemantics();
+    final router = _routerFor(
+      '/channels/guild/channel',
+      harness: _drawerHarnessWithPaneLabels,
+    );
+    addTearDown(router.dispose);
+    final container = _containerFor(
+      router,
+      extraOverrides: <Override>[
+        currentRevealSideProvider.overrideWithValue(RevealSide.left),
+      ],
+    );
+
+    await tester.pumpWidget(
+      _buildDrawerApp(container: container, router: router),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.bySemanticsLabel('Sidebar pane'), findsOneWidget);
+    expect(find.bySemanticsLabel('Chat pane'), findsNothing);
+    handle.dispose();
+  });
 }
 
 const _sliderKey = ValueKey<String>('slider');
 
-GoRouter _routerFor(String initialLocation) {
+GoRouter _routerFor(
+  String initialLocation, {
+  Widget Function() harness = _drawerHarness,
+}) {
   return GoRouter(
     initialLocation: initialLocation,
     routes: [
       GoRoute(
         path: '/channels/:guildId',
-        builder: (context, state) => _drawerHarness(),
+        builder: (context, state) => harness(),
         routes: [
-          GoRoute(
-            path: ':channelId',
-            builder: (context, state) => _drawerHarness(),
-          ),
+          GoRoute(path: ':channelId', builder: (context, state) => harness()),
         ],
       ),
     ],
@@ -610,9 +663,32 @@ Widget _drawerHarnessWithExpressionPanel() {
   );
 }
 
-ProviderContainer _containerFor(GoRouter router) {
+Widget _drawerHarnessWithPaneLabels() {
+  return SidebarDrawer(
+    revealDuration: Duration.zero,
+    snapBackDuration: Duration.zero,
+    base: Semantics(
+      container: true,
+      label: 'Sidebar pane',
+      child: const ColoredBox(color: Colors.blue),
+    ),
+    slider: Semantics(
+      container: true,
+      label: 'Chat pane',
+      child: const ColoredBox(key: _sliderKey, color: Colors.red),
+    ),
+  );
+}
+
+ProviderContainer _containerFor(
+  GoRouter router, {
+  List<Override> extraOverrides = const <Override>[],
+}) {
   final container = ProviderContainer(
-    overrides: [fluxerRouterProvider.overrideWithValue(router)],
+    overrides: <Override>[
+      fluxerRouterProvider.overrideWithValue(router),
+      ...extraOverrides,
+    ],
   );
   addTearDown(container.dispose);
   return container;

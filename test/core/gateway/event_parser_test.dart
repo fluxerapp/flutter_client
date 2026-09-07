@@ -37,4 +37,33 @@ void main() {
       expect(event, isNull);
     });
   });
+
+  group('FAVORITE_MEME_DELETE', () {
+    test('parses string ids', () {
+      final event = parser.parse('FAVORITE_MEME_DELETE', <String, dynamic>{
+        'id': '123',
+      });
+
+      expect(event, isA<FavoriteMemeDeleteEvent>());
+      expect((event as FavoriteMemeDeleteEvent).id, '123');
+    });
+
+    test('parses meme_id when id is absent', () {
+      final event = parser.parse('FAVORITE_MEME_DELETE', <String, dynamic>{
+        'meme_id': '456',
+      });
+
+      expect(event, isA<FavoriteMemeDeleteEvent>());
+      expect((event as FavoriteMemeDeleteEvent).id, '456');
+    });
+
+    test('trims whitespace around ids', () {
+      final event = parser.parse('FAVORITE_MEME_DELETE', <String, dynamic>{
+        'id': ' 123 ',
+      });
+
+      expect(event, isA<FavoriteMemeDeleteEvent>());
+      expect((event as FavoriteMemeDeleteEvent).id, '123');
+    });
+  });
 }

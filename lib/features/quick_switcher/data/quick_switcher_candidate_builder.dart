@@ -119,7 +119,7 @@ QuickSwitcherCandidateSets buildQuickSwitcherCandidateSets(
     if (guild == null) {
       continue;
     }
-    final String guildName = guild.name ?? '';
+    final String guildName = guild.name;
     final int sortWeight = _channelSortWeight(channel);
     final QuickSwitcherChannelCandidate candidate =
         QuickSwitcherChannelCandidate(

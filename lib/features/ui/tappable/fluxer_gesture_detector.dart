@@ -102,7 +102,7 @@ class FluxerGestureDetector extends StatelessWidget {
       onPanEnd: onPanEnd,
       onPanCancel: onPanCancel,
       behavior: behavior,
-      excludeFromSemantics: excludeFromSemantics,
+      excludeFromSemantics: excludeFromSemantics || !_isClickable,
       dragStartBehavior: dragStartBehavior,
       child: child,
     );

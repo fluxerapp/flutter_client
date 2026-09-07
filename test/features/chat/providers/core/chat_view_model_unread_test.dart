@@ -1413,6 +1413,10 @@ void main() {
       await db.messageDao.upsertMessages([
         _cachedMessage(id: newId, channelId: 'channel-1', authorId: 'other'),
       ]);
+      adapter.messagesByChannel['channel-1']!.insert(
+        0,
+        _messageJson(id: newId, channelId: 'channel-1', authorId: 'other'),
+      );
       container.read(appUiForegroundProvider.notifier).setResumed(false);
       container.read(appUiForegroundProvider.notifier).setResumed(true);
       await _flushAsync();

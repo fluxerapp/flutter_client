@@ -19,6 +19,27 @@ void main() {
     });
   });
 
+  group('translatableMessageText', () {
+    test('drops custom emoji markup so only prose is judged', () {
+      expect(translatableMessageText('<:pepe:123> <a:dance:456>'), isEmpty);
+      expect(translatableMessageText('hello <:pepe:123>'), 'hello');
+      expect(translatableMessageText('  привет  '), 'привет');
+    });
+
+    test('drops gif share urls so only prose is judged', () {
+      expect(
+        translatableMessageText('https://klipy.com/gifs/bonjour-chat'),
+        isEmpty,
+      );
+      expect(
+        translatableMessageText(
+          'check this https://klipy.com/gifs/bonjour-chat',
+        ),
+        'check this',
+      );
+    });
+  });
+
   group('shouldOfferMessageTranslate', () {
     test('hides until detection finishes for latin text', () {
       expect(

@@ -41,6 +41,9 @@ abstract class SyncedFieldAdapter<T> {
 
   bool hasRemoteData(T remote) => true;
 
+  /// Proto3 default when a later snapshot omits this field.
+  T? clearedRemoteValue() => null;
+
   bool hasRemoteAdditions(T local, T remote) => false;
 
   bool hasInboundUpdatesWhileProtected(T local, T remote) {

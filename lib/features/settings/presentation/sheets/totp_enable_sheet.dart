@@ -1,28 +1,23 @@
-import 'dart:math';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/backup_codes_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/utils/totp_secret.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
+import 'package:fluxer_app/features/ui/qr_code/fluxer_qr_code.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
-
-String _generateTotpSecret() {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
-  final rng = Random.secure();
-  return List.generate(32, (_) => chars[rng.nextInt(chars.length)]).join();
-}
 
 class TotpEnableSheet extends ConsumerStatefulWidget {
   const TotpEnableSheet({super.key});
@@ -41,10 +36,29 @@ class TotpEnableSheet extends ConsumerStatefulWidget {
 }
 
 class _TotpEnableSheetState extends ConsumerState<TotpEnableSheet> {
-  late final String _secret = _generateTotpSecret();
+  final String _secret = generateTotpSecret();
+  late final String _encodedSecret;
+  late final String _otpauthUrl;
   final _codeController = TextEditingController();
   bool _loading = false;
   String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    final UserSettingsViewState settings = ref.read(
+      userSettingsViewModelProvider,
+    );
+    final String productName = ref
+        .read(instanceRuntimeConfigProvider)
+        .productName;
+    _encodedSecret = encodeTotpSecret(_secret);
+    _otpauthUrl = encodeTotpSecretAsUrl(
+      accountName: settings.email ?? '',
+      secret: _secret,
+      issuer: productName,
+    );
+  }
 
   @override
   void dispose() {
@@ -68,7 +82,7 @@ class _TotpEnableSheetState extends ConsumerState<TotpEnableSheet> {
     try {
       final client = ref.read(fluxerClientProvider);
       final response = await client.users.enableTotpMfa(
-        body: EnableMfaTotpRequest(secret: _secret, code: code),
+        body: EnableMfaTotpRequest(secret: _encodedSecret, code: code),
       );
 
       ref
@@ -123,18 +137,9 @@ class _TotpEnableSheetState extends ConsumerState<TotpEnableSheet> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: SizedBox(
-                width: 200,
-                height: 200,
-                child: Center(
-                  child: Text(
-                    'QR Code\n(scan with authenticator)',
-                    textAlign: TextAlign.center,
-                    style: context.textStyles.timestamp.copyWith(
-                      color: Colors.grey.shade600,
-                    ),
-                  ),
-                ),
+              child: FluxerQrCode(
+                data: _otpauthUrl,
+                semanticLabel: l10n.totpEnableDescription,
               ),
             ),
           ),
@@ -142,7 +147,7 @@ class _TotpEnableSheetState extends ConsumerState<TotpEnableSheet> {
 
           Center(
             child: SelectableText(
-              _secret,
+              _encodedSecret,
               style: context.textStyles.codeText.copyWith(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,

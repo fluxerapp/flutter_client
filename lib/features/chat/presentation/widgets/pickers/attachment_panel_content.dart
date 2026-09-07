@@ -53,20 +53,22 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
   bool _isResolvingAsset = false;
   int _page = 0;
   Timer? _galleryRefreshDebounce;
+  late final AttachmentGallerySource _gallerySource;
 
   @override
   void initState() {
     super.initState();
+    _gallerySource = ref.read(attachmentGallerySourceProvider);
     WidgetsBinding.instance.addObserver(this);
     widget.scrollController.addListener(_onScroll);
-    _source.addChangeListener(_onGalleryChanged);
+    _gallerySource.addChangeListener(_onGalleryChanged);
     unawaited(_bootstrap());
   }
 
   @override
   void dispose() {
     _galleryRefreshDebounce?.cancel();
-    _source.removeChangeListener(_onGalleryChanged);
+    _gallerySource.removeChangeListener(_onGalleryChanged);
     WidgetsBinding.instance.removeObserver(this);
     widget.scrollController.removeListener(_onScroll);
     super.dispose();
@@ -96,9 +98,6 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
     });
   }
 
-  AttachmentGallerySource get _source =>
-      ref.read(attachmentGallerySourceProvider);
-
   String get _channelId =>
       ref.read(chatViewModelProvider.select((ChatViewState s) => s.channelId));
 
@@ -108,7 +107,7 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
   Future<Uint8List?> _loadThumbnail(String id) {
     return _thumbnailFutures.putIfAbsent(
       id,
-      () => _source.loadThumbnail(id, size: 180),
+      () => _gallerySource.loadThumbnail(id, size: 180),
     );
   }
 
@@ -127,7 +126,8 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
 
   Future<void> _bootstrap() async {
     try {
-      final AttachmentGalleryAccess access = await _source.requestAccess();
+      final AttachmentGalleryAccess access = await _gallerySource
+          .requestAccess();
       if (!mounted) {
         return;
       }
@@ -160,7 +160,7 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
       }
     });
     try {
-      final List<AttachmentGalleryItem> next = await _source.loadPage(
+      final List<AttachmentGalleryItem> next = await _gallerySource.loadPage(
         page: _page,
         pageSize: _pageSize,
       );
@@ -249,7 +249,7 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
     }
     _isResolvingAsset = true;
     try {
-      final XFile? file = await _source.resolveFile(item.id);
+      final XFile? file = await _gallerySource.resolveFile(item.id);
       if (!mounted) {
         return;
       }

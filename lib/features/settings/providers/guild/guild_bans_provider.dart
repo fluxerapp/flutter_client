@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_ban_entry.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_bans_state.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_repository_provider.dart';
+import 'package:fluxer_app/features/settings/providers/guild/known_guild_bans_provider.dart';
 import 'package:fluxer_app/features/settings/utils/guild_bans_utils.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -18,6 +20,19 @@ class GuildBans extends _$GuildBans {
   @override
   Future<GuildBansState> build(String guildId) {
     ref.onDispose(() => _searchDebounce?.cancel());
+    ref.listen(
+      knownGuildBansProvider.select(
+        (Map<String, Set<String>> bans) => bans[guildId] ?? const <String>{},
+      ),
+      (Set<String>? previous, Set<String> next) {
+        final Set<String> previousIds = previous ?? const <String>{};
+        if (previousIds.length == next.length &&
+            previousIds.containsAll(next)) {
+          return;
+        }
+        unawaited(refreshQuietly());
+      },
+    );
     return _loadState();
   }
 
@@ -41,6 +56,33 @@ class GuildBans extends _$GuildBans {
         latest.copyWith(debouncedSearchQuery: query, filteredIndices: indices),
       );
     });
+  }
+
+  Future<void> refreshQuietly() async {
+    try {
+      final GuildBansState loaded = await _loadState();
+      if (!ref.mounted) {
+        return;
+      }
+      final GuildBansState? current = state.value;
+      if (current == null) {
+        state = AsyncData<GuildBansState>(loaded);
+        return;
+      }
+      final List<int> indices = GuildBansUtils.filterBanIndices(
+        loaded.bans,
+        current.debouncedSearchQuery,
+      );
+      state = AsyncData<GuildBansState>(
+        loaded.copyWith(
+          searchQuery: current.searchQuery,
+          debouncedSearchQuery: current.debouncedSearchQuery,
+          filteredIndices: indices,
+        ),
+      );
+    } on Object {
+      // Keep the last successful list if a live refresh fails
+    }
   }
 
   Future<void> reload() async {

@@ -8,8 +8,10 @@ import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.da
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
+import 'package:fluxer_app/features/voice/domain/local_voice_state_data.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_chat_unread_badge.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_e2ee_indicator.dart';
+import 'package:fluxer_app/features/voice/providers/local_voice_state_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_text_chat_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_join_eligibility_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
@@ -58,7 +60,7 @@ Future<VoiceChannelJoinSheetResult?> showVoiceChannelJoinBottomSheet(
   );
 }
 
-class _VoiceChannelJoinSheetContent extends ConsumerStatefulWidget {
+class _VoiceChannelJoinSheetContent extends ConsumerWidget {
   const _VoiceChannelJoinSheetContent({
     required this.guildId,
     required this.channelId,
@@ -68,17 +70,7 @@ class _VoiceChannelJoinSheetContent extends ConsumerStatefulWidget {
   final String channelId;
 
   @override
-  ConsumerState<_VoiceChannelJoinSheetContent> createState() =>
-      _VoiceChannelJoinSheetContentState();
-}
-
-class _VoiceChannelJoinSheetContentState
-    extends ConsumerState<_VoiceChannelJoinSheetContent> {
-  bool _lobbyMute = false;
-  bool _lobbyDeaf = false;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final double horizontalPadding = context.layout.s4;
     final (
@@ -95,21 +87,26 @@ class _VoiceChannelJoinSheetContentState
     final VoiceState? selfVs = connectionId == null
         ? null
         : ref.watch(voiceStateForConnectionProvider(connectionId));
-    final bool isMuted = inVoice ? (selfVs?.selfMute ?? false) : _lobbyMute;
-    final bool isDeafened = inVoice ? (selfVs?.selfDeaf ?? false) : _lobbyDeaf;
+    final bool isMuted;
+    final bool isDeafened;
+    if (inVoice) {
+      isMuted = selfVs?.selfMute ?? false;
+      isDeafened = selfVs?.selfDeaf ?? false;
+    } else {
+      final LocalVoiceStateData localVoice = ref.watch(localVoiceStateProvider);
+      isMuted = localVoice.selfMute;
+      isDeafened = localVoice.selfDeaf;
+    }
     final AsyncValue<bool> textChatSupportedAsync = ref.watch(
-      voiceChannelTextChatSupportedProvider(widget.channelId),
+      voiceChannelTextChatSupportedProvider(channelId),
     );
     final bool showChatButton = textChatSupportedAsync.value ?? false;
     final bool canJoinVoice =
-        ref
-            .watch(voiceJoinEligibilityProvider(widget.channelId))
-            .value
-            ?.canJoin ??
+        ref.watch(voiceJoinEligibilityProvider(channelId)).value?.canJoin ??
         true;
-    final UnreadState? unread = ref
-        .watch(channelUnreadProvider(widget.channelId))
-        .value;
+    final UnreadState? unread = showChatButton
+        ? ref.watch(channelUnreadProvider(channelId)).value
+        : null;
     final String chatSemanticsLabel = voiceChatAccessibilityLabel(
       l10n: l10n,
       unread: unread,
@@ -126,7 +123,14 @@ class _VoiceChannelJoinSheetContentState
           child: canJoinVoice
               ? FluxerButton.primary(
                   label: l10n.voiceChannelJoinConnect,
-                  onPressed: () => _onConnect(inVoice: inVoice, selfVs: selfVs),
+                  onPressed: () {
+                    Navigator.of(context).pop(
+                      VoiceChannelJoinConnectResult(
+                        initialSelfMute: isDeafened || isMuted,
+                        initialSelfDeaf: isDeafened,
+                      ),
+                    );
+                  },
                 )
               : Tooltip(
                   message: l10n.voiceChannelNoConnectPermission,
@@ -138,8 +142,8 @@ class _VoiceChannelJoinSheetContentState
         Padding(
           padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
           child: VoiceE2eeIndicator(
-            guildId: widget.guildId,
-            channelId: widget.channelId,
+            guildId: guildId,
+            channelId: channelId,
             variant: VoiceE2eeIndicatorVariant.voiceChannel,
           ),
         ),
@@ -159,24 +163,17 @@ class _VoiceChannelJoinSheetContentState
                 icon: isMuted
                     ? PhosphorIconsFill.microphoneSlash
                     : PhosphorIconsFill.microphone,
-                onPressed: inVoice
-                    ? () {
-                        unawaited(
-                          ref
+                onPressed: () {
+                  unawaited(
+                    inVoice
+                        ? ref
                               .read(voiceSessionProvider.notifier)
+                              .toggleSelfMute()
+                        : ref
+                              .read(localVoiceStateProvider.notifier)
                               .toggleSelfMute(),
-                        );
-                      }
-                    : () {
-                        setState(() {
-                          if (_lobbyDeaf) {
-                            _lobbyDeaf = false;
-                            _lobbyMute = false;
-                          } else {
-                            _lobbyMute = !_lobbyMute;
-                          }
-                        });
-                      },
+                  );
+                },
               ),
               const SizedBox(width: _kLobbyActionGap),
               _LobbyActionTile(
@@ -189,25 +186,17 @@ class _VoiceChannelJoinSheetContentState
                 icon: isDeafened
                     ? PhosphorIconsFill.speakerSlash
                     : PhosphorIconsFill.speakerHigh,
-                onPressed: inVoice
-                    ? () {
-                        unawaited(
-                          ref
+                onPressed: () {
+                  unawaited(
+                    inVoice
+                        ? ref
                               .read(voiceSessionProvider.notifier)
-                              .toggleSelfDeafen(),
-                        );
-                      }
-                    : () {
-                        setState(() {
-                          if (_lobbyDeaf) {
-                            _lobbyDeaf = false;
-                            _lobbyMute = false;
-                          } else {
-                            _lobbyDeaf = true;
-                            _lobbyMute = true;
-                          }
-                        });
-                      },
+                              .toggleSelfDeafen()
+                        : ref
+                              .read(localVoiceStateProvider.notifier)
+                              .toggleSelfDeaf(),
+                  );
+                },
               ),
               if (showChatButton) ...<Widget>[
                 const SizedBox(width: _kLobbyActionGap),
@@ -229,7 +218,7 @@ class _VoiceChannelJoinSheetContentState
                         }
                       },
                     ),
-                    VoiceChatUnreadBadge(channelId: widget.channelId),
+                    VoiceChatUnreadBadge(channelId: channelId),
                   ],
                 ),
               ],
@@ -238,26 +227,6 @@ class _VoiceChannelJoinSheetContentState
         ),
       ],
     );
-  }
-
-  void _onConnect({required bool inVoice, required VoiceState? selfVs}) {
-    final VoiceChannelJoinConnectResult outcome;
-    if (inVoice) {
-      outcome = VoiceChannelJoinConnectResult(
-        initialSelfMute: selfVs?.selfMute ?? false,
-        initialSelfDeaf: selfVs?.selfDeaf ?? false,
-      );
-    } else {
-      final bool selfDeaf = _lobbyDeaf;
-      final bool selfMute = selfDeaf || _lobbyMute;
-      outcome = VoiceChannelJoinConnectResult(
-        initialSelfMute: selfMute,
-        initialSelfDeaf: selfDeaf,
-      );
-    }
-    if (context.mounted) {
-      Navigator.of(context).pop(outcome);
-    }
   }
 }
 

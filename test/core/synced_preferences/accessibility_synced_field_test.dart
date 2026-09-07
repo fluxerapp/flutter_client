@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/accessibility_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/accessibility.pb.dart'
@@ -6,6 +7,36 @@ import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/prefere
     as pb;
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+
+AccessibilityLocalState _splashZoomLocal({
+  required bool enabled,
+  bool hasInProto = false,
+}) {
+  return AccessibilityLocalState(
+    hideKeyboardHints: false,
+    channelTypingIndicatorMode: ChannelTypingIndicatorMode.avatars,
+    showSelectedChannelTypingIndicator: false,
+    showFadedUnreadOnMutedChannels: false,
+    dmMessagePreviewMode: DmMessagePreviewMode.all,
+    showFavorites: true,
+    useSystemLocaleForTimeFormat: false,
+    messageGroupSpacing: 16,
+    compactMessageGroupSpacing: 0,
+    saturationFactor: 1,
+    customThemeCss: null,
+    mobileSplashZoomAnimation: enabled,
+    hasMobileSplashZoomAnimationInProto: hasInProto,
+    advanced: kDefaultAdvancedAccessibility,
+  );
+}
+
+AccessibilitySyncedField _splashZoomField() {
+  final container = ProviderContainer();
+  addTearDown(container.dispose);
+  return container.read(
+    Provider<AccessibilitySyncedField>(AccessibilitySyncedField.new),
+  );
+}
 
 void main() {
   group('AccessibilitySyncedField', () {
@@ -250,27 +281,57 @@ void main() {
         accessibility_pb.AccessibilitySettings(),
       );
       expect(restored.mobileSplashZoomAnimation, isTrue);
+      expect(restored.hasMobileSplashZoomAnimationInProto, isFalse);
     });
 
     test('roundtrips mobile splash zoom animation', () {
-      const local = AccessibilityLocalState(
-        hideKeyboardHints: false,
-        channelTypingIndicatorMode: ChannelTypingIndicatorMode.avatars,
-        showSelectedChannelTypingIndicator: false,
-        showFadedUnreadOnMutedChannels: false,
-        dmMessagePreviewMode: DmMessagePreviewMode.all,
-        showFavorites: true,
-        useSystemLocaleForTimeFormat: false,
-        messageGroupSpacing: 16,
-        compactMessageGroupSpacing: 0,
-        saturationFactor: 1,
-        customThemeCss: null,
-        mobileSplashZoomAnimation: false,
-        advanced: kDefaultAdvancedAccessibility,
-      );
+      final local = _splashZoomLocal(enabled: false);
       final proto = AccessibilitySyncedField.toProto(local);
       final restored = AccessibilitySyncedField.fromProto(proto);
       expect(restored.mobileSplashZoomAnimation, isFalse);
+      expect(restored.hasMobileSplashZoomAnimationInProto, isTrue);
+    });
+
+    test(
+      'mergeForMigration keeps local splash zoom when remote omits the field',
+      () {
+        final field = _splashZoomField();
+        final local = _splashZoomLocal(enabled: false, hasInProto: true);
+        final remote = AccessibilitySyncedField.fromProto(
+          accessibility_pb.AccessibilitySettings(),
+        );
+        final merged = field.mergeForMigration(local: local, remote: remote);
+        expect(merged.mobileSplashZoomAnimation, isFalse);
+        expect(merged.hasMobileSplashZoomAnimationInProto, isTrue);
+      },
+    );
+
+    test('mergeForMigration applies remote splash zoom when present', () {
+      final field = _splashZoomField();
+      final local = _splashZoomLocal(enabled: true, hasInProto: true);
+
+      final remoteOff = AccessibilitySyncedField.fromProto(
+        accessibility_pb.AccessibilitySettings(
+          mobileSplashZoomAnimation: false,
+        ),
+      );
+      expect(
+        field
+            .mergeForMigration(local: local, remote: remoteOff)
+            .mobileSplashZoomAnimation,
+        isFalse,
+      );
+
+      final remoteOn = AccessibilitySyncedField.fromProto(
+        accessibility_pb.AccessibilitySettings(mobileSplashZoomAnimation: true),
+      );
+      final localOff = _splashZoomLocal(enabled: false, hasInProto: true);
+      expect(
+        field
+            .mergeForMigration(local: localOff, remote: remoteOn)
+            .mobileSplashZoomAnimation,
+        isTrue,
+      );
     });
 
     test('toProtoForPush keeps wire custom theme css when local has none', () {

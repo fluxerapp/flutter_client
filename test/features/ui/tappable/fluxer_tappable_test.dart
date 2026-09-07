@@ -176,5 +176,26 @@ void main() {
       expect(constrainedBox.constraints.minWidth, 48);
       expect(constrainedBox.constraints.minHeight, 52);
     });
+
+    testWidgets('exposes semanticLabel and tap action', (tester) async {
+      final SemanticsHandle handle = tester.ensureSemantics();
+      var tapped = false;
+
+      await tester.pumpWidget(
+        buildTestApp(
+          FluxerTappable(
+            onTap: () => tapped = true,
+            semanticLabel: 'Open menu',
+            builder: (context, states) =>
+                const SizedBox(width: 100, height: 100),
+          ),
+        ),
+      );
+
+      expect(find.bySemanticsLabel('Open menu'), findsOneWidget);
+      await tester.tap(find.bySemanticsLabel('Open menu'));
+      expect(tapped, isTrue);
+      handle.dispose();
+    });
   });
 }

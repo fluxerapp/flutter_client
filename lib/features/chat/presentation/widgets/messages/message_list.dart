@@ -20,8 +20,6 @@ import 'package:fluxer_app/features/chat/domain/pagination_pump_policy.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'sheets/attachment_alt_text_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/'
-    'sheets/channel_pins_sheet.dart';
-import 'package:fluxer_app/features/chat/presentation/'
     'sheets/delete_message_confirm_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'sheets/forward_message_sheet.dart';
@@ -562,7 +560,6 @@ class _MessageListState extends ConsumerState<MessageList> {
       messages: messages,
       ackLastMessageId: effectiveAckId,
       mentionCount: readState?.mentionCount ?? 0,
-      currentUserId: currentUserId,
       channelLastMessageId: _channelLastMessageIdFor(channelId),
       hasMoreNewerMessages: hasMoreNewerMessages,
       hasMoreOlderMessages: hasMoreMessages,
@@ -575,7 +572,6 @@ class _MessageListState extends ConsumerState<MessageList> {
       ),
       stickyUnreadId: stickyUnreadId,
       oldestUnreadId: oldestUnreadId,
-      currentUserId: currentUserId,
     );
     final List<ChannelStreamItem> channelStream = _channelStreamFor(
       messages: messages,
@@ -993,13 +989,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       case ChatKeybindEffect.scrollPageDown:
         _scrollByPage(up: false);
       case ChatKeybindEffect.togglePins:
-        unawaited(
-          showChannelPinsSheet(
-            context,
-            ref,
-            channelId: ref.read(chatViewModelProvider).channelId,
-          ),
-        );
+        requestOpenChannelPins(ref);
       case ChatKeybindEffect.addReaction:
         _openReactionPickerForFocusedMessage();
       case ChatKeybindEffect.triggerUpload:
@@ -2055,7 +2045,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     required List<Message> messages,
     required String? ackLastMessageId,
     required int mentionCount,
-    required String? currentUserId,
     required String? channelLastMessageId,
     required bool hasMoreNewerMessages,
     required bool hasMoreOlderMessages,
@@ -2064,7 +2053,6 @@ class _MessageListState extends ConsumerState<MessageList> {
       messages,
       ackLastMessageId,
       mentionCount,
-      currentUserId,
       channelLastMessageId,
       hasMoreNewerMessages,
       hasMoreOlderMessages,
@@ -2080,7 +2068,6 @@ class _MessageListState extends ConsumerState<MessageList> {
       ),
       ackLastMessageId: ackLastMessageId,
       mentionCount: mentionCount,
-      currentUserId: currentUserId,
       channelLastMessageId: channelLastMessageId,
       hasMoreNewerMessages: hasMoreNewerMessages,
       hasMoreOlderMessages: hasMoreOlderMessages,
@@ -2464,13 +2451,7 @@ class _MessageListState extends ConsumerState<MessageList> {
                   )
                 : null,
             onViewAllPins: isPinSystemMessage
-                ? () => unawaited(
-                    showChannelPinsSheet(
-                      context,
-                      ref,
-                      channelId: message.channelId,
-                    ),
-                  )
+                ? () => requestOpenChannelPins(ref)
                 : null,
             onLongPress: useTouchMessageActions
                 ? () => unawaited(

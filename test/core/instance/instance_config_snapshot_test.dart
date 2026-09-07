@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
+import 'package:fluxer_app/core/instance/instance_endpoints.dart';
 import 'package:fluxer_dart/export.dart';
+
+import '../../helpers/well_known_fixture.dart';
 
 void main() {
   group('InstanceConfigSnapshot.fromWellKnown', () {
@@ -94,6 +99,41 @@ void main() {
 
       expect(snapshot.apiBaseUrl, InstanceConstants.defaultApiBaseUrl);
       expect(snapshot.displayDomain, 'fluxer.app');
+    });
+  });
+
+  group('InstanceConfigSnapshot JSON round-trip', () {
+    tearDown(InstanceEndpoints.resetToDefaults);
+
+    test('restores well-known media endpoints after jsonDecode', () {
+      final InstanceConfigSnapshot restored = InstanceConfigSnapshot.fromJson(
+        selfHostedInstanceSnapshot().toJson(),
+      );
+
+      expect(restored.wellKnown, isNotNull);
+      expect(restored.wellKnown!.endpoints.media, 'https://chat.example/media');
+      expect(
+        restored.wellKnown!.endpoints.staticCdn,
+        'https://chat.example/static',
+      );
+
+      restored.apply();
+      expect(InstanceEndpoints.media, 'https://chat.example/media');
+      expect(InstanceEndpoints.staticCdn, 'https://chat.example/static');
+    });
+
+    test('drops unreadable well_known without losing the instance URL', () {
+      final InstanceConfigSnapshot restored = InstanceConfigSnapshot.fromJson(
+        jsonEncode(<String, dynamic>{
+          'api_base_url': 'https://chat.example/api',
+          'gateway_url': 'wss://chat.example/gateway',
+          'display_domain': 'chat.example',
+          'well_known': <String, dynamic>{'nope': true},
+        }),
+      );
+
+      expect(restored.apiBaseUrl, 'https://chat.example/api');
+      expect(restored.wellKnown, isNull);
     });
   });
 }

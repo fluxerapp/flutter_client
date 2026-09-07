@@ -341,6 +341,9 @@ class ChannelHeader extends ConsumerWidget {
                           : FluxerButtonVariant.secondary,
                       size: FluxerButtonSize.small,
                       iconSize: 20,
+                      semanticLabel: isFavorite
+                          ? l10n.favoritesRemoveFromFavorites
+                          : l10n.favoritesAddToFavorites,
                       onPressedAsync: () => _toggleFavorite(
                         context,
                         ref,
@@ -356,6 +359,7 @@ class ChannelHeader extends ConsumerWidget {
                     variant: FluxerButtonVariant.secondary,
                     size: FluxerButtonSize.small,
                     iconSize: 20,
+                    semanticLabel: l10n.uiStartCall,
                     onPressed: () => _executeOutboundDmCall(
                       ref: ref,
                       context: context,
@@ -367,6 +371,7 @@ class ChannelHeader extends ConsumerWidget {
                     variant: FluxerButtonVariant.secondary,
                     size: FluxerButtonSize.small,
                     iconSize: 20,
+                    semanticLabel: l10n.uiStartVideoCall,
                     onPressed: () => _executeOutboundDmCall(
                       ref: ref,
                       context: context,
@@ -381,6 +386,7 @@ class ChannelHeader extends ConsumerWidget {
                     variant: FluxerButtonVariant.secondary,
                     size: FluxerButtonSize.small,
                     iconSize: 20,
+                    semanticLabel: l10n.uiSearch,
                     onPressed: () => unawaited(
                       showChannelSearchPageAndJump(
                         context,

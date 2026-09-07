@@ -421,7 +421,7 @@ class _GuildInviteContent extends StatelessWidget {
     required this.onGoTo,
   });
 
-  final GuildInviteResponse invite;
+  final InviteResponseSchema0 invite;
   final FluxerLocalizations l10n;
   final bool isAccepting;
   final bool isAlreadyMember;
@@ -577,7 +577,7 @@ class _GroupDmInviteContent extends StatelessWidget {
     required this.onJoin,
   });
 
-  final GroupDmInviteResponse invite;
+  final InviteResponseSchema1 invite;
   final FluxerLocalizations l10n;
   final bool isAccepting;
   final VoidCallback onJoin;

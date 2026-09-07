@@ -938,8 +938,20 @@ class ChatViewModel extends _$ChatViewModel {
   /// repeated empty results on one cursor re-use the standing verdict instead
   /// of paying a full latest fetch each (the device log priced one at 1.9s).
   /// A confirmation that ends WITHOUT a verdict (network failure) clears its
-  /// entry so the next install may re-owe. m17d pins the dedupe.
-  ({String channelId, String tailId, int windowGeneration})? _tailProbeLedger;
+  /// entry so the next install may re-owe. m17d pins the dedupe. The verdict
+  /// itself is `confirmed`: a newer page that comes back EMPTY for a confirmed
+  /// tail must not write the consult's pessimistic flag over the proof.
+  ({String channelId, String tailId, int windowGeneration, bool confirmed})?
+  _tailProbeLedger;
+
+  bool _isTailConfirmed(String channelId, String tailId) {
+    final probed = _tailProbeLedger;
+    return probed != null &&
+        probed.confirmed &&
+        probed.channelId == channelId &&
+        probed.tailId == tailId &&
+        probed.windowGeneration == _windowGeneration;
+  }
 
   /// Visible for testing: the unread-boundary key must record SUCCESSFUL loads
   /// only, so a discarded attempt leaves it empty and a later attempt proceeds.
@@ -1725,6 +1737,7 @@ class ChatViewModel extends _$ChatViewModel {
       channelId: state.channelId,
       content: state.messageText,
       reply: state.replyingTo,
+      replyMentioning: state.replyingTo == null ? null : state.replyMentioning,
     );
   }
 
@@ -1732,6 +1745,7 @@ class ChatViewModel extends _$ChatViewModel {
     required String channelId,
     required String content,
     Message? reply,
+    bool? replyMentioning,
   }) async {
     if (channelId.isEmpty) {
       return;
@@ -1749,6 +1763,7 @@ class ChatViewModel extends _$ChatViewModel {
       channelId: channelId,
       content: sanitizedContent,
       replyToMessageId: replyId,
+      replyMentioning: replyId == null ? null : replyMentioning,
     );
   }
 
@@ -1804,31 +1819,27 @@ class ChatViewModel extends _$ChatViewModel {
 
   Future<({String text, Message? reply, bool replyMentioning})>
   _readComposerDraft(String channelId) async {
-    final ({String text, Message? reply}) draft = await _loadComposerDraft(
-      channelId,
-    );
-    if (draft.reply == null) {
-      return (text: draft.text, reply: null, replyMentioning: false);
-    }
+    final ({String text, Message? reply, bool? replyMentioning}) draft =
+        await _loadComposerDraft(channelId);
     return (
       text: draft.text,
       reply: draft.reply,
-      replyMentioning: await _defaultReplyMentionFor(
-        message: draft.reply!,
+      replyMentioning: await _resolvedReplyMentioning(
+        reply: draft.reply,
+        storedMentioning: draft.replyMentioning,
         channelId: channelId,
       ),
     );
   }
 
-  Future<({String text, Message? reply})> _loadComposerDraft(
-    String channelId,
-  ) async {
+  Future<({String text, Message? reply, bool? replyMentioning})>
+  _loadComposerDraft(String channelId) async {
     final row = await ref
         .read(fluxerDatabaseProvider)
         .composerDraftDao
         .getDraft(channelId);
     if (row == null) {
-      return (text: '', reply: null);
+      return (text: '', reply: null, replyMentioning: null);
     }
     final messageDao = ref.read(fluxerDatabaseProvider).messageDao;
     Message? reply;
@@ -1838,7 +1849,25 @@ class ChatViewModel extends _$ChatViewModel {
       );
       reply = dbMsg == null ? null : Message.fromRow(dbMsg);
     }
-    return (text: stripPrivateUseCharacters(row.content), reply: reply);
+    return (
+      text: stripPrivateUseCharacters(row.content),
+      reply: reply,
+      replyMentioning: row.replyMentioning,
+    );
+  }
+
+  Future<bool> _resolvedReplyMentioning({
+    required Message? reply,
+    required bool? storedMentioning,
+    required String channelId,
+  }) async {
+    if (reply == null) {
+      return false;
+    }
+    if (storedMentioning != null) {
+      return storedMentioning;
+    }
+    return _defaultReplyMentionFor(message: reply, channelId: channelId);
   }
 
   Future<void> _restoreComposerDraftFromDb() async {
@@ -1847,12 +1876,11 @@ class ChatViewModel extends _$ChatViewModel {
       return;
     }
     final draft = await _loadComposerDraft(channelId);
-    final bool replyMentioning =
-        !(draft.reply == null) &&
-        await _defaultReplyMentionFor(
-          message: draft.reply!,
-          channelId: channelId,
-        );
+    final bool replyMentioning = await _resolvedReplyMentioning(
+      reply: draft.reply,
+      storedMentioning: draft.replyMentioning,
+      channelId: channelId,
+    );
     state = state.copyWith(
       messageText: draft.text,
       replyingTo: draft.reply,
@@ -2052,6 +2080,9 @@ class ChatViewModel extends _$ChatViewModel {
         _contiguity.invalidate();
         final String previousText = state.messageText;
         final Message? previousReply = state.replyingTo;
+        final bool? previousReplyMentioning = previousReply == null
+            ? null
+            : state.replyMentioning;
         _draftSaveTimer?.cancel();
         _draftSaveTimer = null;
         _readAckRetryTimer?.cancel();
@@ -2066,6 +2097,7 @@ class ChatViewModel extends _$ChatViewModel {
               channelId: previousChannelId,
               content: previousText,
               reply: previousReply,
+              replyMentioning: previousReplyMentioning,
             ),
           );
         }
@@ -2762,11 +2794,6 @@ class ChatViewModel extends _$ChatViewModel {
         return;
       }
 
-      // Around page missing the requested anchor: the server was not centred
-      // where we asked, so the page shape cannot seal the older edge. Newer
-      // still comes from the pointer consult - a missing anchor already makes
-      // aroundPageReachesLiveTail false (detached), and pointer equality can
-      // still prove the live tail (deleted/filtered ack near the present).
       final bool aroundTargetMissing =
           effectiveAroundMessageId != null &&
           !page.messages.any(
@@ -2848,9 +2875,8 @@ class ChatViewModel extends _$ChatViewModel {
       );
       // AFTER the commit, and only here: the probe pages forward from the window
       // this install just published, so firing it before the commit would have
-      // it fetch from whatever the window used to end on. A missing around
-      // target leaves the older edge open without a trustworthy shape to probe.
-      if (newerConsult.needsTailProbe && !aroundTargetMissing) {
+      // it fetch from whatever the window used to end on.
+      if (newerConsult.needsTailProbe) {
         _confirmProvisionalTail(channelId);
       }
       if (targetMessageId == null) {
@@ -2976,7 +3002,7 @@ class ChatViewModel extends _$ChatViewModel {
         .read(fluxerDatabaseProvider)
         .readStateDao
         .getReadState(channelId);
-    final unreadId = _firstUnreadForCurrentMessages(readState: readState);
+    final unreadId = _stickyUnreadIdForCurrentMessages(readState: readState);
     // Record the sticky divider anchor only. MessageList parks the divider
     // at mid-viewport on first render of an unread channel.
     if (unreadId != null) {
@@ -3429,7 +3455,14 @@ class ChatViewModel extends _$ChatViewModel {
             page.messages.isEmpty ? requestedAfterId : page.messages.last.id,
             detachedWindow: page.messages.length >= _kPageSize,
           );
-      final bool pageIndicatesMoreNewer = newerConsult.hasMoreNewer;
+      // An EMPTY page is the server saying nothing follows this tail; with a
+      // confirmation already standing for it, the two agree and the consult's
+      // pessimistic flag would only overwrite the proof (m16z).
+      final bool tailConfirmed =
+          page.messages.isEmpty &&
+          _isTailConfirmed(channelId, requestedAfterId);
+      final bool pageIndicatesMoreNewer =
+          newerConsult.hasMoreNewer && !tailConfirmed;
       if (isStale()) {
         return newer(
           status: PageLoadStatus.superseded,
@@ -3483,7 +3516,7 @@ class ChatViewModel extends _$ChatViewModel {
           _releaseLoadingNewer(fetchOrdinal);
           // Fired AFTER the install, so the confirmation captures THIS page's
           // tail as its anchor rather than the one we paged away from.
-          if (newerConsult.needsTailProbe) {
+          if (newerConsult.needsTailProbe && !tailConfirmed) {
             _confirmProvisionalTail(channelId);
           }
           talker.debug(
@@ -3799,21 +3832,9 @@ class ChatViewModel extends _$ChatViewModel {
       // suppressed until the user scrolled. m16c pins this branch.
       return const (hasMoreNewer: false, needsTailProbe: false);
     }
-    // Past here the pointer is strictly AHEAD of our newest row, and every
-    // test below asks one question: is that pointer REAL, or an orphan left by
-    // a deleted tail? Fair for a tail-built window, and the wrong question for
-    // a window built AROUND a target, which ends mid-history by construction:
-    // whatever lies between it and a pointer ahead of it is unloaded newer
-    // history, and no verdict about the pointer's own existence can turn that
-    // into a live tail. A channel this session never opened is where it bites,
-    // because both orphan tests below misfire on it. READY seeds the row
-    // pointer and the read state for every channel but caches no messages, so
-    // the cache lookup misses and the ack, sitting at or past a searched
-    // message, seals the around-window as the tail: jump-to-latest
-    // short-circuits, loadNewer refuses, and MESSAGE_CREATE appends across the
-    // gap. Warm channels escape only because opening them cached the pointer's
-    // row. m16 pins this branch, on the shape a device log confirmed: a search
-    // hit two days behind a pointer READY had just seeded.
+    // Pointer strictly AHEAD of our newest row. A window built AROUND a target
+    // with a FULL newer side ends mid-history by construction, so nothing about
+    // the pointer's own existence can make it a live tail (m16).
     if (detachedWindow) {
       return const (hasMoreNewer: true, needsTailProbe: false);
     }
@@ -3821,37 +3842,13 @@ class ChatViewModel extends _$ChatViewModel {
     if (knownLoadedMessageIds?.contains(lastMessageId) ?? false) {
       return const (hasMoreNewer: true, needsTailProbe: false);
     }
-    final database = ref.read(fluxerDatabaseProvider);
-    final pointerExists =
-        await database.messageDao.getMessage(lastMessageId) != null;
-    if (pointerExists) {
-      return const (hasMoreNewer: true, needsTailProbe: false);
-    }
-    final readState = await database.readStateDao.getReadState(state.channelId);
-    final String? ackMessageId = readState?.lastMessageId;
-    if (ackMessageId != null &&
-        ackMessageId.isNotEmpty &&
-        compareSnowflakeIds(ackMessageId, messageId) >= 0) {
-      // THE genuinely ambiguous signature, as opposed to the two rungs above
-      // that are merely uninformed. The pointer is ahead, its row is nowhere
-      // (not loaded, not cached), and the ack has passed our newest row. Two
-      // worlds fit that description exactly: an orphaned pointer left by a
-      // deleted tail, where this window IS the tail; and a short read whose
-      // missing rows were filtered out of a raw scan that had already been
-      // truncated (shard_impl.rs:610-628), where real messages sit just past
-      // us. This used to answer "tail", which glues the next MESSAGE_CREATE
-      // onto the far side of that gap and silently loses everything in
-      // between. Answer with the pessimistic flag instead and let the install
-      // site settle it with _runTailConfirmation's ONE LATEST page, compared
-      // by ID: equality with our newest server-backed row is positive proof of
-      // the live tail and seals the flag false; a mismatch installs NOTHING
-      // (that page is anchored to the channel's tail, not to our window) and
-      // leaves the flag true for ordinary pagination to fill the gap in order;
-      // an EMPTY page proves nothing and fails open, flag still true.
-      // m16j pins the orphan resolution, m16i the filtered one.
-      return const (hasMoreNewer: true, needsTailProbe: true);
-    }
-    return const (hasMoreNewer: true, needsTailProbe: false);
+    // A SHORT newer side and a pointer ahead of it disagree, and this client
+    // cannot tell which is stale: an orphaned pointer (a deleted tail never
+    // moves it back) and a raw scan filtered below the limit look identical,
+    // and a cached row for the pointer proves only that it once existed.
+    // Flag pessimistically and let the install site settle it with ONE latest
+    // page compared by ID (_runTailConfirmation). m16s, m16x, m16y.
+    return const (hasMoreNewer: true, needsTailProbe: true);
   }
 
   /// Settles a provisionally detached window with ONE after-fetch from its own
@@ -3923,8 +3920,7 @@ class ChatViewModel extends _$ChatViewModel {
     if (windowTailId == null) {
       return;
     }
-    final ({String channelId, String tailId, int windowGeneration})? probed =
-        _tailProbeLedger;
+    final probed = _tailProbeLedger;
     if (probed != null &&
         probed.channelId == channelId &&
         probed.tailId == windowTailId &&
@@ -3940,6 +3936,7 @@ class ChatViewModel extends _$ChatViewModel {
       channelId: channelId,
       tailId: windowTailId,
       windowGeneration: _windowGeneration,
+      confirmed: false,
     );
     final int windowGeneration = _windowGeneration;
     final int switchGeneration = _channelSwitchGeneration;
@@ -4021,7 +4018,15 @@ class ChatViewModel extends _$ChatViewModel {
         channelId,
         fetchOrdinal,
         stillValid,
-        () => state = state.copyWith(hasMoreNewerMessages: false),
+        () {
+          state = state.copyWith(hasMoreNewerMessages: false);
+          _tailProbeLedger = (
+            channelId: channelId,
+            tailId: windowTailId,
+            windowGeneration: windowGeneration,
+            confirmed: true,
+          );
+        },
       );
       // Consumed like every other commit caller: the lane may have refused, and
       // the resume after it can still land on a newer owner's window.
@@ -4034,8 +4039,7 @@ class ChatViewModel extends _$ChatViewModel {
       talker.warning('[ChatPagination] tail confirmation failed', e);
       // No verdict was obtained, so the dedupe entry must not stand for one:
       // the next install owing this tail may re-ask.
-      final ({String channelId, String tailId, int windowGeneration})? probed =
-          _tailProbeLedger;
+      final probed = _tailProbeLedger;
       if (probed != null &&
           probed.channelId == channelId &&
           probed.tailId == windowTailId) {
@@ -4159,7 +4163,7 @@ class ChatViewModel extends _$ChatViewModel {
       if (_stickySnapshotArmed && state.channelId == channelId) {
         _stickySnapshotArmed = false;
         if (!force && state.stickyUnreadMessageId == null) {
-          final String? unreadId = _firstUnreadForCurrentMessages(
+          final String? unreadId = _stickyUnreadIdForCurrentMessages(
             readState: readState,
           );
           if (unreadId != null) {
@@ -4306,12 +4310,6 @@ class ChatViewModel extends _$ChatViewModel {
     }
   }
 
-  bool _isOwnMessage(Message message, String? currentUserId) {
-    return currentUserId != null &&
-        currentUserId.isNotEmpty &&
-        message.authorId == currentUserId;
-  }
-
   String? _firstUnreadForCurrentMessages({required db.ReadState? readState}) {
     if (state.messages.isEmpty) {
       return null;
@@ -4328,13 +4326,33 @@ class ChatViewModel extends _$ChatViewModel {
     if (!boundaryLoaded) {
       return null;
     }
-    final currentUserId = ref.read(currentUserIdProvider);
     return oldestUnreadMessageId(
-      messageIds: state.messages
-          .where((message) => !_isOwnMessage(message, currentUserId))
-          .map((message) => message.id),
+      messageIds: state.messages.map((message) => message.id),
       ackLastMessageId: ack,
     );
+  }
+
+  // Own messages can be first unread, but must not become sticky: live-tail
+  // auto-ack would leave a leftover NEW divider on a just-acked own send.
+  String? _stickyUnreadIdForCurrentMessages({
+    required db.ReadState? readState,
+  }) {
+    final String? unreadId = _firstUnreadForCurrentMessages(
+      readState: readState,
+    );
+    if (unreadId == null) {
+      return null;
+    }
+    final String? currentUserId = ref.read(currentUserIdProvider);
+    if (currentUserId == null || currentUserId.isEmpty) {
+      return unreadId;
+    }
+    for (final Message message in state.messages) {
+      if (message.id == unreadId) {
+        return message.authorId == currentUserId ? null : unreadId;
+      }
+    }
+    return unreadId;
   }
 
   String _unreadBoundaryKey(String channelId, String ackMessageId) =>
@@ -5008,6 +5026,8 @@ class ChatViewModel extends _$ChatViewModel {
   }
 
   Future<void> _recordSlowmodeSendOnSuccess(String channelId) async {
+    // One-off snapshot; read does not retain the autoDispose family.
+    // ignore: riverpod_lint/only_use_keep_alive_inside_keep_alive
     if (await ref.read(isSlowmodeImmuneProvider(channelId).future)) {
       return;
     }
@@ -5772,8 +5792,6 @@ class ChatViewModel extends _$ChatViewModel {
               ),
               origin: MessagesOrigin.windowSwap,
             ),
-            // Missing around target: keep the older edge open. Newer comes
-            // from the pointer consult (detached when the anchor is absent).
             hasMoreMessages:
                 aroundTargetMissing || page.messages.length >= _kPageSize,
             hasMoreNewerMessages: hasMoreNewer,
@@ -5800,7 +5818,7 @@ class ChatViewModel extends _$ChatViewModel {
         messages: state.messages,
         embeddedReplyParents: page.embeddedReplyParents,
       );
-      if (newerConsult.needsTailProbe && !aroundTargetMissing) {
+      if (newerConsult.needsTailProbe) {
         _confirmProvisionalTail(channelId);
       }
       scrollToMessage(messageId);
@@ -5920,12 +5938,16 @@ class ChatViewModel extends _$ChatViewModel {
     if (channelId.isEmpty) {
       return;
     }
+    // One-off snapshot; read does not retain the autoDispose family.
+    // ignore: riverpod_lint/only_use_keep_alive_inside_keep_alive
     final GuildComposerAccess? access = ref
         .read(guildComposerAccessProvider(channelId))
         .value;
     if (access != null && !access.canAccess) {
       return;
     }
+    // One-off snapshot; read does not retain the autoDispose family.
+    // ignore: riverpod_lint/only_use_keep_alive_inside_keep_alive
     final ChannelMessagePermissions? perms = ref
         .read(channelMessagePermissionsProvider(channelId))
         .value;
@@ -5940,6 +5962,8 @@ class ChatViewModel extends _$ChatViewModel {
   Future<GuildComposerAccess?> _resolveGuildComposerBlock(
     String channelId,
   ) async {
+    // One-off snapshot; read does not retain the autoDispose family.
+    // ignore: riverpod_lint/only_use_keep_alive_inside_keep_alive
     final GuildComposerAccess access = await ref.read(
       guildComposerAccessProvider(channelId).future,
     );

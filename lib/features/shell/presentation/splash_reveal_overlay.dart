@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/scheduler.dart';
@@ -41,6 +42,26 @@ class SplashRevealOverlay {
 
     final OverlayState overlay = Overlay.of(context, rootOverlay: true);
     late final OverlayEntry entry;
+    var finished = false;
+    Timer? failsafe;
+    void finish() {
+      if (finished) {
+        return;
+      }
+      finished = true;
+      failsafe?.cancel();
+      failsafe = null;
+      if (entry.mounted) {
+        entry.remove();
+      }
+      onComplete?.call();
+    }
+
+    final Duration revealDuration = !enabled
+        ? SplashRevealOverlay.reducedMotionDuration
+        : useLogoZoomTransition
+        ? SplashRevealOverlay.totalDuration
+        : SplashRevealOverlay.fadeOnlyDuration;
     entry = OverlayEntry(
       builder: (BuildContext overlayContext) {
         return _SplashRevealOverlayWidget(
@@ -50,16 +71,19 @@ class SplashRevealOverlay {
           logoCenterGlobal: logoCenterGlobal,
           useLogoZoomTransition: useLogoZoomTransition,
           reducedMotion: !enabled,
-          onComplete: () {
-            if (entry.mounted) {
-              entry.remove();
-            }
-            onComplete?.call();
+          onComplete: finish,
+          onDispose: () {
+            failsafe?.cancel();
+            failsafe = null;
           },
         );
       },
     );
     overlay.insert(entry);
+    failsafe = Timer(
+      revealDuration + const Duration(milliseconds: 400),
+      finish,
+    );
   }
 }
 
@@ -72,6 +96,7 @@ class _SplashRevealOverlayWidget extends StatefulWidget {
     required this.useLogoZoomTransition,
     required this.reducedMotion,
     required this.onComplete,
+    this.onDispose,
   });
 
   final Color coverColor;
@@ -81,6 +106,7 @@ class _SplashRevealOverlayWidget extends StatefulWidget {
   final bool useLogoZoomTransition;
   final bool reducedMotion;
   final VoidCallback onComplete;
+  final VoidCallback? onDispose;
 
   @override
   State<_SplashRevealOverlayWidget> createState() =>
@@ -117,6 +143,7 @@ class _SplashRevealOverlayWidgetState extends State<_SplashRevealOverlayWidget>
 
   @override
   void dispose() {
+    widget.onDispose?.call();
     _ticker?.dispose();
     super.dispose();
   }
@@ -183,21 +210,23 @@ class _SplashRevealOverlayWidgetState extends State<_SplashRevealOverlayWidget>
     );
 
     if (coverOpacity <= 0) {
-      return const IgnorePointer();
+      return const ExcludeSemantics(child: IgnorePointer());
     }
 
     if (expandPhase) {
-      return IgnorePointer(
-        child: CustomPaint(
-          painter: _SplashRevealPainter(
-            coverColor: widget.coverColor,
-            symbolColor: SplashRevealOverlay.silhouetteSymbolColor,
-            center: center,
-            scale: scale,
-            opacity: coverOpacity,
-            symbolOpacity: splashRevealSymbolOpacity(_progress),
+      return ExcludeSemantics(
+        child: IgnorePointer(
+          child: CustomPaint(
+            painter: _SplashRevealPainter(
+              coverColor: widget.coverColor,
+              symbolColor: SplashRevealOverlay.silhouetteSymbolColor,
+              center: center,
+              scale: scale,
+              opacity: coverOpacity,
+              symbolOpacity: splashRevealSymbolOpacity(_progress),
+            ),
+            child: const SizedBox.expand(),
           ),
-          child: const SizedBox.expand(),
         ),
       );
     }
@@ -221,29 +250,31 @@ class _SplashRevealOverlayWidgetState extends State<_SplashRevealOverlayWidget>
       logoSymbol = symbol;
     }
 
-    return IgnorePointer(
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Opacity(opacity: coverOpacity, child: const StarfieldBackground()),
-          Positioned(
-            left: center.dx - logoHalf,
-            top: center.dy - logoHalf,
-            width: SplashRevealOverlay.logoSize,
-            height: SplashRevealOverlay.logoSize,
-            child: Opacity(
-              opacity: coverOpacity,
-              child: Transform.scale(
-                scale: scale,
-                child: InstanceBrandMark(
-                  size: SplashRevealOverlay.logoSize,
-                  backgroundColor: logoFill,
-                  symbolColor: logoSymbol,
+    return ExcludeSemantics(
+      child: IgnorePointer(
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Opacity(opacity: coverOpacity, child: const StarfieldBackground()),
+            Positioned(
+              left: center.dx - logoHalf,
+              top: center.dy - logoHalf,
+              width: SplashRevealOverlay.logoSize,
+              height: SplashRevealOverlay.logoSize,
+              child: Opacity(
+                opacity: coverOpacity,
+                child: Transform.scale(
+                  scale: scale,
+                  child: InstanceBrandMark(
+                    size: SplashRevealOverlay.logoSize,
+                    backgroundColor: logoFill,
+                    symbolColor: logoSymbol,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

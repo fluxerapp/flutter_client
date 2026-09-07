@@ -1,3 +1,5 @@
+import 'package:fluxer_app/features/chat/utils/message_content_stripper.dart';
+
 const int _kLanguageDetectionSampleLength = 512;
 const int _kDominantScriptSampleLetters = 64;
 
@@ -22,6 +24,14 @@ String languageDetectionSample(String content) {
     return trimmed;
   }
   return trimmed.substring(0, _kLanguageDetectionSampleLength);
+}
+
+/// Custom emoji and URLs are not judged as translatable strings.
+String translatableMessageText(String content) {
+  return content
+      .replaceAll(MessageContentPatterns.customEmoji, '')
+      .replaceAll(MessageContentPatterns.url, '')
+      .trim();
 }
 
 bool isDetectedForeignLanguage(String? detectedLanguage, String appLanguage) {

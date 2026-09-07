@@ -19,6 +19,17 @@ class FavoriteMemesDao extends DatabaseAccessor<FluxerDatabase>
   Future<void> upsert(FavoriteMemesTableCompanion entry) =>
       into(favoriteMemesTable).insertOnConflictUpdate(entry);
 
+  Future<void> replaceAll(List<FavoriteMemesTableCompanion> entries) async {
+    await transaction(() async {
+      await delete(favoriteMemesTable).go();
+      await batch((b) {
+        for (final entry in entries) {
+          b.insert(favoriteMemesTable, entry);
+        }
+      });
+    });
+  }
+
   Future<void> deleteMeme(String id) =>
       (delete(favoriteMemesTable)..where((t) => t.id.equals(id))).go();
 

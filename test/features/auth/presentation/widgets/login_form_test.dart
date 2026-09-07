@@ -179,6 +179,30 @@ void main() {
 
     expect(focusNode.hasFocus, isTrue);
   });
+
+  testWidgets('exposes labeled email, password, and submit semantics', (
+    tester,
+  ) async {
+    final SemanticsHandle handle = tester.ensureSemantics();
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          authInstanceSnapshotProvider.overrideWith(
+            (ref) => InstanceConfigSnapshot.officialDefault(),
+          ),
+        ],
+        child: _app(const LoginForm()),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.bySemanticsLabel(testL10n.email), findsWidgets);
+    expect(find.bySemanticsLabel(testL10n.password), findsWidgets);
+    expect(find.bySemanticsLabel(testL10n.logIn), findsOneWidget);
+    expect(find.bySemanticsLabel(testL10n.authShowPassword), findsOneWidget);
+    handle.dispose();
+  });
 }
 
 void _mockClipboardText(String text) {

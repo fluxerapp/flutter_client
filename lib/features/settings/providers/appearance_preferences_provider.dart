@@ -364,7 +364,9 @@ class AppearancePreferences extends _$AppearancePreferences {
         mobileGifAutoplayValue: value.mobileGifAutoplayValue,
         mobileAnimateEmojiValue: value.mobileAnimateEmojiValue,
         mobileStickerAnimationValue: value.mobileStickerAnimationValue,
-        mobileSplashZoomAnimation: value.mobileSplashZoomAnimation,
+        mobileSplashZoomAnimation: value.hasMobileSplashZoomAnimationInProto
+            ? value.mobileSplashZoomAnimation
+            : state.mobileSplashZoomAnimation,
         hdrDisplayMode: value.hdrDisplayMode,
       );
       await _persist();

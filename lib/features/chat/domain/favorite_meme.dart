@@ -73,8 +73,8 @@ class FavoriteMeme {
       slug: json['gif_slug'] as String?,
     );
     return FavoriteMeme(
-      id: _requiredString(json, 'id'),
-      userId: _requiredString(json, 'user_id'),
+      id: _requiredId(json, 'id'),
+      userId: _requiredId(json, 'user_id'),
       name: _requiredString(json, 'name'),
       altText: json['alt_text'] as String?,
       tags:
@@ -82,7 +82,7 @@ class FavoriteMeme {
               ?.map((tag) => tag.toString())
               .toList(growable: false) ??
           const [],
-      attachmentId: _requiredString(json, 'attachment_id'),
+      attachmentId: _requiredId(json, 'attachment_id'),
       filename: _requiredString(json, 'filename'),
       contentType: _requiredString(json, 'content_type'),
       contentHash: json['content_hash'] as String?,
@@ -199,6 +199,19 @@ class FavoriteMeme {
 
 String _requiredString(Map<String, Object?> json, String key) =>
     json[key] as String? ?? (throw FormatException('Missing $key'));
+
+String _requiredId(Map<String, Object?> json, String key) {
+  final value = json[key];
+  if (value is String) {
+    final trimmed = value.trim();
+    if (trimmed.isNotEmpty) {
+      return trimmed;
+    }
+  } else if (value is int || value is BigInt) {
+    return value.toString();
+  }
+  throw FormatException('Missing $key');
+}
 
 num _requiredNum(Map<String, Object?> json, String key) =>
     json[key] as num? ?? (throw FormatException('Missing $key'));

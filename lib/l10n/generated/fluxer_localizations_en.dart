@@ -3750,7 +3750,7 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get voiceMessageHoldHint =>
-      'Hold to record. Drag up to lock, or release to send.';
+      'Hold to record. Drag to trash to delete, slide up to lock, or release to send.';
 
   @override
   String get voiceMessageDiscard => 'Discard voice message';
@@ -10638,6 +10638,27 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get uiLoading => 'Loading';
+
+  @override
+  String get uiSearch => 'Search';
+
+  @override
+  String get uiStartCall => 'Start call';
+
+  @override
+  String get uiStartVideoCall => 'Start video call';
+
+  @override
+  String get uiPlay => 'Play';
+
+  @override
+  String get uiPause => 'Pause';
+
+  @override
+  String get uiDownload => 'Download';
+
+  @override
+  String get uiMoreActions => 'More actions';
 
   @override
   String get uiUnsavedChanges => 'Unsaved changes';

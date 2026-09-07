@@ -59,6 +59,17 @@ Future<void> showSystemMessageActionsSheet(
     quickItems: quickItems,
     onQuickReaction: (item) => _toggleQuickReaction(ref, message, item),
   );
+  if (action == MessageAction.delete) {
+    unawaited(
+      showDeleteMessageConfirmSheet(
+        null,
+        ref,
+        message: message,
+        guildId: guildId,
+      ),
+    );
+    return;
+  }
   if (action == null || !context.mounted) {
     return;
   }
@@ -135,14 +146,7 @@ Future<void> showSystemMessageActionsSheet(
         ),
       );
     case MessageAction.delete:
-      unawaited(
-        showDeleteMessageConfirmSheet(
-          context,
-          ref,
-          message: message,
-          guildId: guildId,
-        ),
-      );
+      break;
     case MessageAction.reply:
     case MessageAction.forward:
     case MessageAction.edit:

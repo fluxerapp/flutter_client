@@ -84,17 +84,25 @@ typedef FluxerEmojiLongPressHandler =
 
 class FluxerSpoilerSyncController extends ChangeNotifier {
   final Set<String> _revealedKeys = <String>{};
+  var _isDisposed = false;
+
+  @override
+  void dispose() {
+    _isDisposed = true;
+    super.dispose();
+  }
 
   bool isRevealed(Iterable<String> keys) {
-    for (final key in keys) {
-      if (_revealedKeys.contains(key)) {
-        return true;
-      }
+    if (_isDisposed) {
+      return false;
     }
-    return false;
+    return keys.any(_revealedKeys.contains);
   }
 
   void reveal(Iterable<String> keys) {
+    if (_isDisposed) {
+      return;
+    }
     var changed = false;
     for (final key in keys) {
       if (key.isEmpty) {

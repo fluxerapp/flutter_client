@@ -66,6 +66,7 @@ class FriendRequestSheetItem extends ConsumerWidget {
           FluxerButton.circleAlt(
             icon: PhosphorIconsBold.dotsThreeVertical,
             size: FluxerButtonSize.compact,
+            semanticLabel: l10n.uiMoreActions,
             onPressed: () => unawaited(_showMenu(context, ref)),
           ),
         ],
@@ -78,7 +79,6 @@ class FriendRequestSheetItem extends ConsumerWidget {
     await FluxerBottomSheet.show<void>(
       context,
       variant: FluxerBottomSheetVariant.menu,
-      showDragHandle: false,
       builder: (sheetContext, close) {
         final groups = <Widget>[
           FluxerMenuGroup(

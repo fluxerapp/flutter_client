@@ -6,7 +6,6 @@ import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/service/voice_message_recording_service.dart';
 import 'package:fluxer_app/features/chat/utils/voice_message_wav_encoder.dart';
 import 'package:fluxer_app/features/chat/utils/voice_message_waveform.dart';
-import 'package:path_provider/path_provider.dart';
 
 Future<void> sendPreparedVoiceMessage({
   required WidgetRef ref,
@@ -18,37 +17,6 @@ Future<void> sendPreparedVoiceMessage({
         filePath: prepared.filePath,
         duration: prepared.duration,
         waveform: prepared.waveform,
-      );
-}
-
-Future<void> sendTrimmedVoiceMessage({
-  required WidgetRef ref,
-  required String channelId,
-  required VoiceMessagePcmSlice pcm,
-  required double startSeconds,
-  required double endSeconds,
-}) async {
-  final VoiceMessagePcmSlice slice = slicePcm(
-    source: pcm,
-    startSeconds: startSeconds,
-    endSeconds: endSeconds,
-  );
-  final Uint8List wavBytes = encodePcmSliceToWav(
-    samples: slice.samples,
-    sampleRate: slice.sampleRate,
-  );
-  final VoiceWaveformResult waveform = computeVoiceWaveformFromPcm(slice);
-  final Directory dir = await getTemporaryDirectory();
-  final String path =
-      '${dir.path}/fluxer_voice_send_${DateTime.now().microsecondsSinceEpoch}.wav';
-  final File file = File(path);
-  await file.writeAsBytes(wavBytes, flush: true);
-  await ref
-      .read(chatViewModelProvider.notifier)
-      .sendVoiceMessage(
-        filePath: path,
-        duration: waveform.duration,
-        waveform: waveform.waveform,
       );
 }
 

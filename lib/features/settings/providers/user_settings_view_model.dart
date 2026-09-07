@@ -373,24 +373,41 @@ class UserSettingsViewState {
 
   String? get previewAvatarUrl {
     if (!isPerGuildProfile) {
-      return avatarUrl;
+      return _previewUserAvatarUrl();
     }
     return switch (guildAvatarMode) {
       GuildAssetMode.unset => null,
       GuildAssetMode.custom => _previewGuildAvatarUrl(),
-      GuildAssetMode.inherit => avatarUrl,
+      GuildAssetMode.inherit => _previewUserAvatarUrl(),
     };
   }
 
   String? get previewBannerUrl {
     if (!isPerGuildProfile) {
-      return bannerUrl;
+      return _previewUserBannerUrl();
     }
     return switch (guildBannerMode) {
       GuildAssetMode.unset => null,
       GuildAssetMode.custom => _previewGuildBannerUrl(),
-      GuildAssetMode.inherit => bannerUrl,
+      GuildAssetMode.inherit => _previewUserBannerUrl(),
     };
+  }
+
+  String? _previewUserAvatarUrl() {
+    return FluxerMediaUrl.userAvatar(
+      userId: userId,
+      hash: avatar,
+      size: MediaProxySizes.avatarProfile,
+      animated: true,
+    );
+  }
+
+  String? _previewUserBannerUrl() {
+    return FluxerMediaUrl.userBanner(
+      userId: userId,
+      hash: banner,
+      animated: true,
+    );
   }
 
   String? _previewGuildAvatarUrl() {
@@ -407,6 +424,7 @@ class UserSettingsViewState {
       userId: userId,
       type: GuildMemberMediaType.avatar,
       hash: hash,
+      animated: true,
     );
   }
 

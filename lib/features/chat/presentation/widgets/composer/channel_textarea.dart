@@ -15,6 +15,7 @@ import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
@@ -36,8 +37,9 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/message_c
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/slash_command_composer.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/slash_command_param_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/system_dm_composer_barrier.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_composer_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_recorder.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_recording_bar.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_recording_controller.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_composer_layout.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/reply_preview.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
@@ -79,6 +81,7 @@ import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/guilds/providers/channel_member_count_cache_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
 import 'package:fluxer_app/features/input/providers/chat_keybind_effects_provider.dart';
@@ -110,11 +113,11 @@ const double _kMobileComposerSuffixWidth =
 const double _kMobileComposerSuffixHeight =
     _kMobileComposerSuffixVerticalPadding * 2 +
     _kMobileComposerSuffixButtonExtent;
-const double _kMobileComposerTopPadding = 3;
+const double _kMobileComposerTopPadding = 4;
+const double _kTouchComposerActionSpacing = 8;
 const double _kDesktopComposerAttachIconSize = 26;
 const double _kWideComposerActionExtent = WideComposerLayout.actionButtonExtent;
 const double _kWideComposerIconSize = 24;
-const double _kTouchComposerActionSpacing = 6;
 
 bool _useMobileAttachmentSheet() {
   return !kIsWeb && (Platform.isIOS || Platform.isAndroid);
@@ -245,6 +248,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   final ScrollController _composerScrollController = ScrollController();
   final GlobalKey<ComposerAutocompleteFieldState> _composerFieldKey =
       GlobalKey<ComposerAutocompleteFieldState>();
+  late final VoiceMessageRecordingController _voiceRecording;
   final _expressionPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
   final _gifPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
   final _mediaPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
@@ -281,7 +285,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     required BuildContext context,
     required IconData icon,
     required VoidCallback? onPressed,
-    String? tooltip,
+    required String tooltip,
     double iconSize = _kWideComposerIconSize,
     FluxerButtonSize touchSize = FluxerButtonSize.small,
     bool leadingTouchGap = false,
@@ -377,7 +381,20 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     _focusNode.addListener(_handleComposerFocusChange);
     _controller.addListener(_syncStateFromController);
     _slashSession.addListener(_onSlashSessionChanged);
+    _voiceRecording = VoiceMessageRecordingController(
+      ref: ref,
+      onPrepareUi: _prepareVoiceRecordingUi,
+    );
     unawaited(FluxerHaptics.warmSend());
+  }
+
+  void _prepareVoiceRecordingUi() {
+    if (!mounted) {
+      return;
+    }
+    _focusNode.unfocus();
+    ref.read(expressionPanelProvider.notifier).close();
+    ref.read(attachmentPanelProvider.notifier).close();
   }
 
   @override
@@ -575,6 +592,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       ..dispose();
     _composerScrollController.dispose();
     _controller.dispose();
+    _voiceRecording.dispose();
     super.dispose();
   }
 
@@ -1118,29 +1136,37 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           color: composerBackgroundColor,
           child: Padding(
             padding: const EdgeInsets.all(WideComposerLayout.boxInset),
-            child: WideComposerFloatingBox(
-              focused: _composerFocused,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  if (hasWideActionStack)
-                    _buildWideComposerActionStack(
-                      context: context,
-                      channelId: channelId,
-                      guildId: guildId,
-                      replyTo: replyTo,
-                      editingMessage: editingMessage,
-                      replyMentioning: replyMentioning,
-                      chatNotifier: chatNotifier,
-                    ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: WideComposerLayout.densePaddingY,
-                    ),
-                    child: composerInput,
+            child: ListenableBuilder(
+              listenable: _voiceRecording,
+              builder: (BuildContext context, Widget? _) {
+                return WideComposerFloatingBox(
+                  focused: _composerFocused,
+                  clipBehavior: _voiceRecording.isActive
+                      ? Clip.none
+                      : Clip.antiAlias,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      if (hasWideActionStack)
+                        _buildWideComposerActionStack(
+                          context: context,
+                          channelId: channelId,
+                          guildId: guildId,
+                          replyTo: replyTo,
+                          editingMessage: editingMessage,
+                          replyMentioning: replyMentioning,
+                          chatNotifier: chatNotifier,
+                        ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: WideComposerLayout.densePaddingY,
+                        ),
+                        child: composerInput,
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                );
+              },
             ),
           ),
         ),
@@ -1249,6 +1275,31 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     return l10n.composerHint;
   }
 
+  Widget _voiceComposerMorph({
+    required bool recording,
+    required Widget recordingChild,
+    required Widget idleChild,
+  }) {
+    return FluxerConstrainedUiTextScale(
+      child: AnimatedSwitcher(
+        duration: context.motion.panel,
+        switchInCurve: context.motion.emphasizedCurve,
+        switchOutCurve: context.motion.curve,
+        layoutBuilder: (Widget? currentChild, List<Widget> previousChildren) {
+          return Stack(
+            alignment: Alignment.bottomCenter,
+            clipBehavior: Clip.none,
+            children: <Widget>[...previousChildren, ?currentChild],
+          );
+        },
+        child: KeyedSubtree(
+          key: ValueKey<bool>(recording),
+          child: recording ? recordingChild : idleChild,
+        ),
+      ),
+    );
+  }
+
   Widget _buildLargeLayout(
     BuildContext context,
     ChatViewModel chatNotifier,
@@ -1329,83 +1380,117 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             contentPadding: const EdgeInsets.symmetric(vertical: 2),
             isDense: true,
           );
-    return FluxerConstrainedUiTextScale(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          if (perms.canShowAttachControls) ...[
-            _buildComposerActionButton(
-              context: context,
-              icon: touchActions
-                  ? PhosphorIconsBold.plus
-                  : PhosphorIconsFill.plusCircle,
-              iconSize: touchActions ? 20 : _kDesktopComposerAttachIconSize,
-              tooltip: l10n.chatAttachmentSourceBrowse,
-              onPressed: perms.isAttachEnabled
-                  ? () => _onAttachPressed(context)
-                  : null,
-            ),
-            SizedBox(
-              width: touchActions
-                  ? _kTouchComposerActionSpacing
-                  : WideComposerLayout.denseColumnGap,
-            ),
-          ],
-          Expanded(
-            child: _buildComposerField(
-              context: context,
-              channelId: channelId,
+    return ListenableBuilder(
+      listenable: _voiceRecording,
+      builder: (BuildContext context, Widget? _) {
+        final bool recording = _voiceRecording.isActive;
+        final FluxerButtonSize actionSize = touchActions
+            ? FluxerButtonSize.small
+            : FluxerButtonSize.compact;
+        final double leadingGap = touchActions
+            ? _kTouchComposerActionSpacing
+            : WideComposerLayout.denseColumnGap;
+        return _voiceComposerMorph(
+          recording: recording,
+          recordingChild: VoiceMessageRecordingBar(
+            controller: _voiceRecording,
+            actionSize: actionSize,
+            trailing: _sendAndVoiceButton(
+              context,
+              chatNotifier,
               perms: perms,
-              maxMessageLength: maxMessageLength,
-              premiumMaxLength: premiumMaxLength,
-              minLines: 1,
-              maxLines: 5,
-              decoration: inputDecoration,
+              hasSendable: false,
+              isOverCharacterLimit: false,
+              useHoldToRecord: false,
             ),
           ),
-          SizedBox(width: touchActions ? _kTouchComposerActionSpacing : 4),
-          ListenableBuilder(
-            listenable: _controller,
-            builder: (BuildContext context, Widget? child) {
-              final String sendableWire = _sendableWireText();
-              final bool hasSendable =
-                  composerHasSendableContent(ref, channelId, sendableWire) ||
-                  _slashSession.isActive;
-              final bool isOverCharacterLimit =
-                  _composerContentLength(sendableWire) > maxMessageLength;
-              return Wrap(
-                alignment: WrapAlignment.end,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                spacing: touchActions ? _kTouchComposerActionSpacing : 4,
-                children: [
-                  if (!hasSendable)
-                    _buildLargeExpressionPickerActions(
-                      context: context,
-                      channelId: channelId,
-                      perms: perms,
-                      composerButtonTabs: composerButtonTabs,
-                      popoutTabs: popoutTabs,
-                    ),
-                  if (!touchActions)
-                    VerticalDivider(
-                      color: context.colors.borderColor,
-                      width: 16,
-                      thickness: 1,
-                    ),
-                  _sendAndVoiceButton(
-                    context,
-                    chatNotifier,
-                    perms: perms,
-                    hasSendable: hasSendable,
-                    isOverCharacterLimit: isOverCharacterLimit,
-                    useHoldToRecord: false,
+          idleChild: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: VoiceMessageRecordingBar.heightFor(actionSize),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                if (perms.canShowAttachControls) ...<Widget>[
+                  _buildComposerActionButton(
+                    context: context,
+                    icon: touchActions
+                        ? PhosphorIconsBold.plus
+                        : PhosphorIconsFill.plusCircle,
+                    iconSize: touchActions
+                        ? 20
+                        : _kDesktopComposerAttachIconSize,
+                    tooltip: l10n.chatAttachmentSourceBrowse,
+                    onPressed: perms.isAttachEnabled
+                        ? () => _onAttachPressed(context)
+                        : null,
                   ),
+                  SizedBox(width: leadingGap),
                 ],
-              );
-            },
+                Expanded(
+                  child: _buildComposerField(
+                    context: context,
+                    channelId: channelId,
+                    perms: perms,
+                    maxMessageLength: maxMessageLength,
+                    premiumMaxLength: premiumMaxLength,
+                    minLines: 1,
+                    maxLines: 5,
+                    decoration: inputDecoration,
+                  ),
+                ),
+                SizedBox(
+                  width: touchActions ? _kTouchComposerActionSpacing : 4,
+                ),
+                ListenableBuilder(
+                  listenable: _controller,
+                  builder: (BuildContext context, Widget? child) {
+                    final String sendableWire = _sendableWireText();
+                    final bool hasSendable =
+                        composerHasSendableContent(
+                          ref,
+                          channelId,
+                          sendableWire,
+                        ) ||
+                        _slashSession.isActive;
+                    final bool isOverCharacterLimit =
+                        _composerContentLength(sendableWire) > maxMessageLength;
+                    return Wrap(
+                      alignment: WrapAlignment.end,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      spacing: touchActions ? _kTouchComposerActionSpacing : 4,
+                      children: <Widget>[
+                        if (!hasSendable)
+                          _buildLargeExpressionPickerActions(
+                            context: context,
+                            channelId: channelId,
+                            perms: perms,
+                            composerButtonTabs: composerButtonTabs,
+                            popoutTabs: popoutTabs,
+                          ),
+                        if (!touchActions)
+                          VerticalDivider(
+                            color: context.colors.borderColor,
+                            width: 16,
+                            thickness: 1,
+                          ),
+                        _sendAndVoiceButton(
+                          context,
+                          chatNotifier,
+                          perms: perms,
+                          hasSendable: hasSendable,
+                          isOverCharacterLimit: isOverCharacterLimit,
+                          useHoldToRecord: false,
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -1623,7 +1708,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           ? FluxerLocalizations.of(context).channelNoSendPermissionHint
           : _resolveHintText(),
       enabled: perms.isComposerEnabled,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       suffixIcon: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: _kMobileComposerSuffixVerticalPadding,
@@ -1638,69 +1723,108 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         maxHeight: _kMobileComposerSuffixHeight,
       ),
     );
-    return FluxerConstrainedUiTextScale(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          if (perms.canShowAttachControls) ...[
-            _composerOpacity(
-              enabled: perms.isAttachEnabled,
-              child: FluxerButton.circleAlt(
-                icon: isAttachmentPanelOpen
-                    ? PhosphorIconsBold.x
-                    : PhosphorIconsBold.plus,
-                semanticLabel: isAttachmentPanelOpen
-                    ? FluxerLocalizations.of(
-                        context,
-                      ).composerCloseAttachmentPanel
-                    : FluxerLocalizations.of(
-                        context,
-                      ).chatAttachmentSourceBrowse,
-                onPressed: perms.isAttachEnabled
-                    ? () => _onAttachPressed(context)
-                    : null,
-              ),
-            ),
-            const SizedBox(width: 8),
-          ],
-          Expanded(
-            child: _buildComposerField(
-              context: context,
-              channelId: channelId,
-              perms: perms,
-              maxMessageLength: maxMessageLength,
-              premiumMaxLength: premiumMaxLength,
-              minLines: 1,
-              maxLines: 6,
-              decoration: mobileDecoration,
-            ),
-          ),
-          const SizedBox(width: 8),
-          ListenableBuilder(
-            listenable: _controller,
-            builder: (BuildContext context, Widget? child) {
-              final String sendableWire = _sendableWireText();
-              final bool hasSendable =
-                  composerHasSendableContent(ref, channelId, sendableWire) ||
-                  _slashSession.isActive;
-              final bool isOverCharacterLimit =
-                  _composerContentLength(sendableWire) > maxMessageLength;
-              return Padding(
-                padding: const EdgeInsetsGeometry.only(bottom: 1),
-                child: _sendAndVoiceButton(
+    return ListenableBuilder(
+      listenable: _voiceRecording,
+      builder: (BuildContext context, Widget? _) {
+        final bool recording = _voiceRecording.isActive;
+        return _voiceComposerMorph(
+          recording: recording,
+          recordingChild: Stack(
+            clipBehavior: Clip.none,
+            children: <Widget>[
+              VoiceMessageRecordingBar(
+                controller: _voiceRecording,
+                actionSize: FluxerButtonSize.small,
+                trailing: _sendAndVoiceButton(
                   context,
                   chatNotifier,
                   perms: perms,
-                  hasSendable: hasSendable,
-                  isOverCharacterLimit: isOverCharacterLimit,
+                  hasSendable: false,
+                  isOverCharacterLimit: false,
                   size: FluxerButtonSize.small,
                   useHoldToRecord: true,
                 ),
-              );
-            },
+              ),
+              if (!_voiceRecording.isLocked)
+                Positioned(
+                  right: 8,
+                  top: -52,
+                  child: VoiceMessageLockChip(controller: _voiceRecording),
+                ),
+            ],
           ),
-        ],
-      ),
+          idleChild: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: VoiceMessageRecordingBar.heightFor(
+                FluxerButtonSize.small,
+              ),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                if (perms.canShowAttachControls) ...<Widget>[
+                  _composerOpacity(
+                    enabled: perms.isAttachEnabled,
+                    child: FluxerButton.circleAlt(
+                      icon: isAttachmentPanelOpen
+                          ? PhosphorIconsBold.x
+                          : PhosphorIconsBold.plus,
+                      semanticLabel: isAttachmentPanelOpen
+                          ? FluxerLocalizations.of(
+                              context,
+                            ).composerCloseAttachmentPanel
+                          : FluxerLocalizations.of(
+                              context,
+                            ).chatAttachmentSourceBrowse,
+                      onPressed: perms.isAttachEnabled
+                          ? () => _onAttachPressed(context)
+                          : null,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                ],
+                Expanded(
+                  child: _buildComposerField(
+                    context: context,
+                    channelId: channelId,
+                    perms: perms,
+                    maxMessageLength: maxMessageLength,
+                    premiumMaxLength: premiumMaxLength,
+                    minLines: 1,
+                    maxLines: 6,
+                    decoration: mobileDecoration,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                ListenableBuilder(
+                  listenable: _controller,
+                  builder: (BuildContext context, Widget? child) {
+                    final String sendableWire = _sendableWireText();
+                    final bool hasSendable =
+                        composerHasSendableContent(
+                          ref,
+                          channelId,
+                          sendableWire,
+                        ) ||
+                        _slashSession.isActive;
+                    final bool isOverCharacterLimit =
+                        _composerContentLength(sendableWire) > maxMessageLength;
+                    return _sendAndVoiceButton(
+                      context,
+                      chatNotifier,
+                      perms: perms,
+                      hasSendable: hasSendable,
+                      isOverCharacterLimit: isOverCharacterLimit,
+                      size: FluxerButtonSize.small,
+                      useHoldToRecord: true,
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -2085,19 +2209,36 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (!mentionsEveryone && !mentionsHere && roleImpact == null) {
       return true;
     }
+    if (mentionsEveryone || mentionsHere) {
+      try {
+        ref
+            .read(gatewayConnectionProvider)
+            .requestChannelMemberCounts(
+              guildId: guildId,
+              channelIds: <String>[channelId],
+            );
+      } on Object {
+        // Fall back to stored guild counts.
+      }
+    }
     if (!mounted) {
       return false;
     }
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final ChannelMemberCounts? liveCounts = ref
+        .read(channelMemberCountCacheProvider.notifier)
+        .getCounts(guildId, channelId);
+    final int memberCount = liveCounts?.memberCount ?? guild.memberCount;
+    final int onlineCount = liveCounts?.onlineCount ?? guild.onlineCount;
     String? description;
     if (canMentionEveryone &&
         mentionsEveryone &&
-        guild.memberCount > kMentionConfirmThreshold) {
-      description = l10n.mentionConfirmEveryoneBody(guild.memberCount);
+        memberCount > kMentionConfirmThreshold) {
+      description = l10n.mentionConfirmEveryoneBody(memberCount);
     } else if (canMentionEveryone &&
         mentionsHere &&
-        guild.onlineCount > kMentionConfirmThreshold) {
-      description = l10n.mentionConfirmHereBody(guild.onlineCount);
+        onlineCount > kMentionConfirmThreshold) {
+      description = l10n.mentionConfirmHereBody(onlineCount);
     } else if (roleImpact != null) {
       description = l10n.mentionConfirmRoleBody(
         roleImpact.memberCount,
@@ -2315,16 +2456,62 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         perms.isComposerEnabled && sendOnPressed != null && !isSlowmodeBlocked;
     final bool voiceVisuallyEnabled = !voiceDisabled;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final bool touchActions = isTouchPrimaryInput(ref);
+    final FluxerButtonSize voiceSize = useHoldToRecord
+        ? size
+        : (touchActions ? FluxerButtonSize.small : FluxerButtonSize.compact);
+    Widget wrapWideAction(Widget child) {
+      if (useHoldToRecord || touchActions) {
+        return child;
+      }
+      return SizedBox(
+        width: _kWideComposerActionExtent,
+        height: _kWideComposerActionExtent,
+        child: child,
+      );
+    }
+
+    if (_voiceRecording.isActive) {
+      if (_voiceRecording.isLocked) {
+        return wrapWideAction(
+          VoiceMessageRecordingSendButton(
+            key: const ValueKey<String>('voice-send'),
+            controller: _voiceRecording,
+            size: voiceSize,
+          ),
+        );
+      }
+      return wrapWideAction(
+        VoiceMessageRecorder(
+          key: const ValueKey<String>('voice'),
+          channelId: channelId,
+          disabled: voiceDisabled,
+          controller: _voiceRecording,
+          holdToRecord: useHoldToRecord,
+          buttonSize: voiceSize,
+        ),
+      );
+    }
+    final Widget voiceMic = _composerOpacity(
+      key: const ValueKey<String>('voice'),
+      enabled: voiceVisuallyEnabled,
+      child: VoiceMessageRecorder(
+        channelId: channelId,
+        disabled: voiceDisabled,
+        controller: _voiceRecording,
+        holdToRecord: useHoldToRecord,
+        buttonSize: voiceSize,
+      ),
+    );
     if (!useHoldToRecord) {
-      final bool touchActions = isTouchPrimaryInput(ref);
       if (touchActions) {
         return AnimatedSwitcher(
           duration: context.motion.panel,
-          transitionBuilder: (child, animation) =>
+          transitionBuilder: (Widget child, Animation<double> animation) =>
               FadeTransition(opacity: animation, child: child),
           child: showSendButton
               ? _composerOpacity(
-                  key: const ValueKey('send'),
+                  key: const ValueKey<String>('send'),
                   enabled: sendVisuallyEnabled,
                   child: FluxerButton.circle(
                     icon: PhosphorIconsBold.arrowUp,
@@ -2335,23 +2522,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                   ),
                 )
               : showVoiceButton
-              ? _composerOpacity(
-                  key: const ValueKey('voice'),
-                  enabled: voiceVisuallyEnabled,
-                  child: FluxerButton.circleAlt(
-                    icon: PhosphorIconsFill.microphone,
-                    semanticLabel: l10n.voiceMessageTitle,
-                    onPressed: voiceDisabled
-                        ? null
-                        : () => unawaited(
-                            VoiceMessageComposerSheet.show(
-                              context,
-                              channelId: channelId,
-                            ),
-                          ),
-                  ),
-                )
-              : const SizedBox.shrink(key: ValueKey('voice-hidden')),
+              ? voiceMic
+              : const SizedBox.shrink(key: ValueKey<String>('voice-hidden')),
         );
       }
       return SizedBox(
@@ -2359,11 +2531,11 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         height: _kWideComposerActionExtent,
         child: AnimatedSwitcher(
           duration: context.motion.panel,
-          transitionBuilder: (child, animation) =>
+          transitionBuilder: (Widget child, Animation<double> animation) =>
               FadeTransition(opacity: animation, child: child),
           child: showSendButton
               ? _composerOpacity(
-                  key: const ValueKey('send'),
+                  key: const ValueKey<String>('send'),
                   enabled: sendVisuallyEnabled,
                   child: _wideComposerIconButton(
                     context: context,
@@ -2374,34 +2546,18 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                   ),
                 )
               : showVoiceButton
-              ? _composerOpacity(
-                  key: const ValueKey('voice'),
-                  enabled: voiceVisuallyEnabled,
-                  child: _wideComposerIconButton(
-                    context: context,
-                    icon: PhosphorIconsFill.microphone,
-                    tooltip: l10n.voiceMessageTitle,
-                    onPressed: voiceDisabled
-                        ? null
-                        : () => unawaited(
-                            VoiceMessageComposerSheet.show(
-                              context,
-                              channelId: channelId,
-                            ),
-                          ),
-                  ),
-                )
-              : const SizedBox.shrink(key: ValueKey('voice-hidden')),
+              ? voiceMic
+              : const SizedBox.shrink(key: ValueKey<String>('voice-hidden')),
         ),
       );
     }
     return AnimatedSwitcher(
       duration: context.motion.panel,
-      transitionBuilder: (child, animation) =>
+      transitionBuilder: (Widget child, Animation<double> animation) =>
           FadeTransition(opacity: animation, child: child),
       child: showSendButton
           ? _composerOpacity(
-              key: const ValueKey('send'),
+              key: const ValueKey<String>('send'),
               enabled: sendVisuallyEnabled,
               child: FluxerButton.circle(
                 icon: PhosphorIconsBold.arrowUp,
@@ -2412,30 +2568,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
               ),
             )
           : showVoiceButton
-          ? _composerOpacity(
-              key: const ValueKey('voice'),
-              enabled: voiceVisuallyEnabled,
-              child: useHoldToRecord
-                  ? VoiceMessageRecorder(
-                      channelId: channelId,
-                      disabled: voiceDisabled,
-                      buttonSize: size,
-                    )
-                  : FluxerButton.circleAlt(
-                      icon: PhosphorIconsFill.microphone,
-                      size: size,
-                      semanticLabel: l10n.voiceMessageTitle,
-                      onPressed: voiceDisabled
-                          ? null
-                          : () => unawaited(
-                              VoiceMessageComposerSheet.show(
-                                context,
-                                channelId: channelId,
-                              ),
-                            ),
-                    ),
-            )
-          : const SizedBox.shrink(key: ValueKey('voice-hidden')),
+          ? voiceMic
+          : const SizedBox.shrink(key: ValueKey<String>('voice-hidden')),
     );
   }
 

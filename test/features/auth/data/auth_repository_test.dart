@@ -231,6 +231,15 @@ void main() {
       expect(sessionTwo?.token, 'token-2');
     });
 
+    test('persistRotatedToken updates the active session token', () async {
+      await db.authSessionDao.saveSessionMetadata(userId: 'user-1');
+      await tokenStorage.saveToken(userId: 'user-1', token: 'old-token');
+
+      await repository.persistRotatedToken('new-token');
+
+      expect(tokenStorage.tokens['user-1'], 'new-token');
+    });
+
     test('login surfaces an IP authorization challenge', () async {
       final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
         ..httpClientAdapter = const _JsonResponseAdapter(

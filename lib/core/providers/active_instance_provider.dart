@@ -74,6 +74,16 @@ class ActiveInstance extends _$ActiveInstance {
     _applySnapshot(snapshot);
   }
 
+  Future<void> restorePersistedSnapshot(
+    Future<InstanceConfigSnapshot?> snapshot,
+  ) async {
+    final InstanceConfigSnapshot? resolved = await snapshot;
+    if (resolved == null) {
+      return;
+    }
+    applySnapshot(resolved);
+  }
+
   void _applySnapshot(InstanceConfigSnapshot snapshot) {
     snapshot.apply();
     state = snapshot;

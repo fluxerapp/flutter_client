@@ -28,6 +28,19 @@ void main() {
       );
       expect(request.authorId, isNull);
       expect(request.has, isNull);
+      expect(request.includeNsfw, isNull);
+    });
+
+    test('maps nsfw:true onto includeNsfw', () {
+      final request = buildGlobalSearchMessagesRequest(
+        MessageSearchQuery.build(
+          channelId: 'channel-1',
+          guildId: 'guild-1',
+          rawQuery: 'hello nsfw:true',
+        ),
+      );
+
+      expect(request.includeNsfw, isTrue);
     });
 
     test('maps author, content types, scope, sort, and page filters', () {

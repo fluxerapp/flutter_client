@@ -145,6 +145,20 @@ void main() {
       await tester.tap(find.byIcon(Icons.visibility));
       expect(tapped, isTrue);
     });
+
+    testWidgets('associates the visible label with the text field', (
+      tester,
+    ) async {
+      final SemanticsHandle handle = tester.ensureSemantics();
+
+      await tester.pumpWidget(
+        buildTestApp(const FluxerInput(label: 'Username')),
+      );
+
+      expect(find.bySemanticsLabel('Username'), findsWidgets);
+      expect(find.text('Username'), findsOneWidget);
+      handle.dispose();
+    });
   });
 }
 

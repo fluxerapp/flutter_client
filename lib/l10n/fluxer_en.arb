@@ -4893,7 +4893,7 @@
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
     },
-    "voiceMessageHoldHint": "Hold to record. Drag up to lock, or release to send.",
+    "voiceMessageHoldHint": "Hold to record. Drag to trash to delete, slide up to lock, or release to send.",
     "@voiceMessageHoldHint": {
         "description": "Hint shown next to the hold-to-record microphone button."
     },
@@ -12724,6 +12724,34 @@
     "uiLoading": "Loading",
     "@uiLoading": {
         "description": "Accessible label announced while a control is loading."
+    },
+    "uiSearch": "Search",
+    "@uiSearch": {
+        "description": "Accessible label for icon-only search buttons."
+    },
+    "uiStartCall": "Start call",
+    "@uiStartCall": {
+        "description": "Accessible label for icon-only voice call buttons."
+    },
+    "uiStartVideoCall": "Start video call",
+    "@uiStartVideoCall": {
+        "description": "Accessible label for icon-only video call buttons."
+    },
+    "uiPlay": "Play",
+    "@uiPlay": {
+        "description": "Accessible label for icon-only play buttons."
+    },
+    "uiPause": "Pause",
+    "@uiPause": {
+        "description": "Accessible label for icon-only pause buttons."
+    },
+    "uiDownload": "Download",
+    "@uiDownload": {
+        "description": "Accessible label for icon-only download buttons."
+    },
+    "uiMoreActions": "More actions",
+    "@uiMoreActions": {
+        "description": "Accessible label for icon-only overflow menus."
     },
     "uiUnsavedChanges": "Unsaved changes",
     "@uiUnsavedChanges": {

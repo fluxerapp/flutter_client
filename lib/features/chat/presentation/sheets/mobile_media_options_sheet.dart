@@ -234,20 +234,25 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
     MessageAction action,
   ) async {
     onCloseSheet();
-    if (!hostContext.mounted) {
-      return;
-    }
-    await dispatchMessageAction(
-      ref: hostRef,
-      context: hostContext,
-      message: actionScope.message,
-      action: action,
-      callbacks: actionScope.callbacks,
-      previewRoleGuildId: actionScope.previewRoleGuildId,
-    );
-    if (shouldCloseMediaViewerForMessageAction(action)) {
-      onCloseViewer?.call();
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!hostContext.mounted) {
+        return;
+      }
+      await dispatchMessageAction(
+        ref: hostRef,
+        context: hostContext,
+        message: actionScope.message,
+        action: action,
+        callbacks: actionScope.callbacks,
+        previewRoleGuildId: actionScope.previewRoleGuildId,
+      );
+      if (!shouldCloseMediaViewerForMessageAction(action)) {
+        return;
+      }
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        onCloseViewer?.call();
+      });
+    });
   }
 
   String? _downloadUrl() {

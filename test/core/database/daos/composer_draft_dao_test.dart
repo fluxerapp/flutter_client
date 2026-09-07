@@ -15,6 +15,33 @@ void main() {
     final draft = await db.composerDraftDao.getDraft('channel-1');
     expect(draft?.content, 'Hello draft');
     expect(draft?.replyToMessageId, 'msg-reply');
+    expect(draft?.replyMentioning, isNull);
+  });
+
+  test('upsertDraft stores and updates reply mentioning', () async {
+    final db = openTestDatabase();
+
+    await db.composerDraftDao.upsertDraft(
+      channelId: 'channel-1',
+      content: 'Hello draft',
+      replyToMessageId: 'msg-reply',
+      replyMentioning: true,
+    );
+    expect(
+      (await db.composerDraftDao.getDraft('channel-1'))?.replyMentioning,
+      isTrue,
+    );
+
+    await db.composerDraftDao.upsertDraft(
+      channelId: 'channel-1',
+      content: 'Hello draft',
+      replyToMessageId: 'msg-reply',
+      replyMentioning: false,
+    );
+    expect(
+      (await db.composerDraftDao.getDraft('channel-1'))?.replyMentioning,
+      isFalse,
+    );
   });
 
   test('upsertDraft updates existing draft for channel', () async {

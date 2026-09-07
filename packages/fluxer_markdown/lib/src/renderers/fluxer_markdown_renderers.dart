@@ -1883,11 +1883,6 @@ TapGestureRecognizer _obtainSpoilerTapRecognizer(
   BuildContext context,
   VoidCallback onTap,
 ) {
-  final FluxerMarkdownLinkRegistry? registry =
-      FluxerMarkdownLinkRegistry.maybeOf(context);
-  if (registry != null) {
-    return registry.obtainRecognizer(onTap);
-  }
   final _FluxerSpoilerRevealScope? scope = _FluxerSpoilerRevealScope.maybeOf(
     context,
   );
@@ -2091,7 +2086,7 @@ class _FluxerSpoilerSpanState extends State<_FluxerSpoilerSpan>
   void initState() {
     super.initState();
     _isRevealed = _shouldReveal;
-    widget.spoilerSyncController?.addListener(_handleSyncChanged);
+    widget.spoilerSyncController?.addListener(_applyRevealState);
     _controller = AnimationController(
       vsync: this,
       duration: _kDuration,
@@ -2104,8 +2099,8 @@ class _FluxerSpoilerSpanState extends State<_FluxerSpoilerSpan>
   void didUpdateWidget(covariant _FluxerSpoilerSpan oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.spoilerSyncController != widget.spoilerSyncController) {
-      oldWidget.spoilerSyncController?.removeListener(_handleSyncChanged);
-      widget.spoilerSyncController?.addListener(_handleSyncChanged);
+      oldWidget.spoilerSyncController?.removeListener(_applyRevealState);
+      widget.spoilerSyncController?.addListener(_applyRevealState);
     }
     if (!listEquals(oldWidget.syncKeys, widget.syncKeys)) {
       _manuallyRevealed = false;
@@ -2115,13 +2110,9 @@ class _FluxerSpoilerSpanState extends State<_FluxerSpoilerSpan>
 
   @override
   void dispose() {
-    widget.spoilerSyncController?.removeListener(_handleSyncChanged);
+    widget.spoilerSyncController?.removeListener(_applyRevealState);
     _controller.dispose();
     super.dispose();
-  }
-
-  void _handleSyncChanged() {
-    _applyRevealState();
   }
 
   void _applyRevealState() {
@@ -2150,22 +2141,26 @@ class _FluxerSpoilerSpanState extends State<_FluxerSpoilerSpan>
     final Color hiddenBackground =
         widget.spoilerBackgroundColor ??
         Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.2);
+    final Widget body = ClipRRect(
+      borderRadius: BorderRadius.circular(4),
+      child: Stack(
+        children: [
+          IgnorePointer(
+            ignoring: !_isRevealed,
+            child: FadeTransition(opacity: _opacity, child: widget.child),
+          ),
+          if (!_isRevealed)
+            Positioned.fill(child: ColoredBox(color: hiddenBackground)),
+        ],
+      ),
+    );
+    if (_isRevealed) {
+      return body;
+    }
     return GestureDetector(
       onTap: _reveal,
       behavior: HitTestBehavior.opaque,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(4),
-        child: Stack(
-          children: [
-            IgnorePointer(
-              ignoring: !_isRevealed,
-              child: FadeTransition(opacity: _opacity, child: widget.child),
-            ),
-            if (!_isRevealed)
-              Positioned.fill(child: ColoredBox(color: hiddenBackground)),
-          ],
-        ),
-      ),
+      child: body,
     );
   }
 }

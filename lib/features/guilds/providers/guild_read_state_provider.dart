@@ -512,7 +512,7 @@ class GuildReadState extends _$GuildReadState {
       }
     }
     return GuildReadStateEntry(
-      hasUnread: anyUnread || totalMentions > 0,
+      hasUnread: anyUnread,
       hasPlainUnread: anyPlainUnread,
       mentionCount: totalMentions,
       mentionChannels: mentionChannels,
@@ -637,25 +637,28 @@ class GuildReadState extends _$GuildReadState {
       mentionCount: 0,
       isGuildChannel: true,
     );
+    final isMutedForUnread = isGuildOrCategoryOrChannelMuted(
+      channel: channel,
+      guildSettings: guildSettings,
+      now: now,
+    );
     final contribution = resolveGuildReadStateContribution(
       isEligibleTextChannel: isGuildTextBasedChannel(channel.type),
       isPrivate: false,
-      unreadBadgesLevel: resolveGuildUnreadBadgesLevel(
-        channel: channel,
-        guildSettings: guildSettings,
-        guildContext: _guildNotificationContexts[channel.guildId],
-      ),
-      isMutedForUnread: isGuildOrCategoryOrChannelMuted(
-        channel: channel,
-        guildSettings: guildSettings,
-        now: now,
-      ),
+      unreadBadgesLevel: isMutedForUnread
+          ? UserNotificationSettings.noMessages
+          : resolveGuildUnreadBadgesLevel(
+              channel: channel,
+              guildSettings: guildSettings,
+              guildContext: _guildNotificationContexts[channel.guildId],
+            ),
+      isMutedForUnread: isMutedForUnread,
       hasUnread: hasUnreadMessage,
       mentionCount: rawMentions,
     );
     final hasPlainUnread = contribution.unreadAllowed && rawMentions == 0;
     return _Contribution(
-      unreadEligible: contribution.mentionAllowed || contribution.unreadAllowed,
+      unreadEligible: contribution.unreadAllowed,
       hasPlainUnread: hasPlainUnread,
       mentions: contribution.mentionAllowed ? rawMentions : 0,
     );

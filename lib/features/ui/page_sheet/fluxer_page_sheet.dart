@@ -1,5 +1,4 @@
-import 'package:cupertino_ui/cupertino_ui.dart'
-    hide RichText, SelectableText, Text;
+import 'package:cupertino_ui/cupertino_ui.dart' hide RichText, Text;
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/obscuring_overlay_tracker_provider.dart';

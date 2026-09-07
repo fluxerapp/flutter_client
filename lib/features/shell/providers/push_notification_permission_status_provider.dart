@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'push_notification_permission_status_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<bool> pushNotificationPermissionGranted(Ref ref) {
   ref.watch(appUiForegroundProvider);
   return isPushNotificationPermissionGranted();

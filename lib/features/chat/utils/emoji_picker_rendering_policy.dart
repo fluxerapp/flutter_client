@@ -3,7 +3,6 @@ const int kEmojiPickerOverscanRows = 2;
 const int kEmojiPickerPrecacheLimit = 64;
 const int kEmojiPickerPrecacheConcurrency = 4;
 const int kEmojiPickerScrollAheadCount = 24;
-const int kEmojiPickerMaxAnimatedEmojis = 6;
 
 const int kCustomEmojiPickerFetchSize = 48;
 
@@ -19,6 +18,13 @@ double emojiPickerCacheExtent({
   required double rowHeight,
   int overscanRows = kEmojiPickerOverscanRows,
 }) => rowHeight * overscanRows;
+
+/// The extra row covers partial rows cut at both viewport edges.
+int emojiPickerMaxAnimatedEmojis({
+  required int columns,
+  required double viewportHeight,
+  double cellSize = kEmojiPickerCellSize,
+}) => columns * ((viewportHeight / cellSize).ceil() + 1);
 
 bool emojiPickerUsesHoverTracking({required bool isMobile}) => !isMobile;
 

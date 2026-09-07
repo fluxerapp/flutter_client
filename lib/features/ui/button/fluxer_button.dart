@@ -205,6 +205,7 @@ class FluxerButton extends StatefulWidget {
 
   const FluxerButton.circle({
     required IconData this.icon,
+    required String this.semanticLabel,
     this.onPressed,
     this.onPressedAsync,
     this._variant = FluxerButtonVariant.primary,
@@ -212,7 +213,6 @@ class FluxerButton extends StatefulWidget {
     double? iconSize,
     this.isLoading = false,
     this.recording = false,
-    this.semanticLabel,
     super.key,
   }) : _isCircle = true,
        _isCircleAltStyle = false,
@@ -230,13 +230,13 @@ class FluxerButton extends StatefulWidget {
 
   const FluxerButton.circleAlt({
     required IconData this.icon,
+    required String this.semanticLabel,
     this.onPressed,
     this.onPressedAsync,
     this.size = FluxerButtonSize.small,
     double? iconSize = 20,
     this.isLoading = false,
     this.recording = false,
-    this.semanticLabel,
     super.key,
   }) : _variant = FluxerButtonVariant.secondary,
        _isCircle = true,
@@ -334,7 +334,7 @@ class _FluxerButtonState extends State<FluxerButton> {
       onTap: _enabled ? _handleTap : null,
       enabled: _enabled,
       semanticLabel: _resolveSemanticsLabel(context),
-      excludeChildSemantics: _effectiveLoading,
+      excludeChildSemantics: true,
       builder: (context, states) {
         final isHovered = states.contains(WidgetState.hovered);
         final fill = widget.recording
@@ -582,6 +582,7 @@ Widget fluxerButtonMediaOverlayPreview() {
         onPressed: () {},
         icon: PhosphorIconsBold.x,
         isSquare: true,
+        semanticLabel: 'Close',
       ),
     ),
   );
@@ -589,10 +590,18 @@ Widget fluxerButtonMediaOverlayPreview() {
 
 @FluxerWidgetPreview(name: 'Circle icon', group: 'FluxerButton')
 Widget fluxerButtonCirclePreview() {
-  return FluxerButton.circle(onPressed: () {}, icon: PhosphorIconsBold.plus);
+  return FluxerButton.circle(
+    onPressed: () {},
+    icon: PhosphorIconsBold.plus,
+    semanticLabel: 'Add',
+  );
 }
 
 @FluxerWidgetPreview(name: 'Circle alt', group: 'FluxerButton')
 Widget fluxerButtonCircleAltPreview() {
-  return FluxerButton.circleAlt(onPressed: () {}, icon: PhosphorIconsBold.gear);
+  return FluxerButton.circleAlt(
+    onPressed: () {},
+    icon: PhosphorIconsBold.gear,
+    semanticLabel: 'Settings',
+  );
 }

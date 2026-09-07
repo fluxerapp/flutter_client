@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 part 'unified_push_no_distributor_dismissal_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 UnifiedPushNoDistributorDismissalStorage
 unifiedPushNoDistributorDismissalStorage(Ref ref) {
   return SharedPreferencesUnifiedPushNoDistributorDismissalStorage(

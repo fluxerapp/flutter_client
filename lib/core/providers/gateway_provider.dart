@@ -18,6 +18,7 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
+import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/auth/providers/current_auth_session_provider.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/providers/read_state_write_batcher_provider.dart';
@@ -31,6 +32,7 @@ import 'package:fluxer_app/features/chat/utils/message_page_sync.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/gateway/providers/guild_sync_provider.dart';
+import 'package:fluxer_app/features/guilds/providers/channel_member_count_cache_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
 import 'package:fluxer_app/features/members/data/member_cache_evictor.dart';
@@ -40,6 +42,8 @@ import 'package:fluxer_app/features/members/providers/guild_roles_provider.dart'
 import 'package:fluxer_app/features/members/providers/member_list_desired_ranges_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';
 import 'package:fluxer_app/features/settings/providers/connections_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/guild/known_guild_bans_provider.dart';
+import 'package:fluxer_app/features/settings/providers/guild/webhook_live_refresh_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/webauthn_credentials_view_model.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
@@ -238,6 +242,9 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     onVoiceServerUpdate: (event) => ifMounted(() {
       ref.read(voiceSessionProvider.notifier).handleVoiceServerUpdate(event);
     }),
+    onVoiceStateAck: (event) => ifMounted(() {
+      ref.read(voiceSessionProvider.notifier).handleVoiceStateAck(event);
+    }),
     onCallCreate: (event) => ifMounted(() {
       ref
           .read(activeCallsProvider.notifier)
@@ -364,6 +371,16 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
           .read(chatViewModelProvider.notifier)
           .applyExternalAck(channelId, manual: manual);
     }),
+    onAuthSessionChange: (event) => ifMounted(() {
+      final String? newToken = event.newToken;
+      if (newToken != null && newToken.isNotEmpty) {
+        connection.setToken(newToken);
+        ref.read(fluxerAuthTokenProvider.notifier).setToken(newToken);
+        unawaited(
+          ref.read(authRepositoryProvider).persistRotatedToken(newToken),
+        );
+      }
+    }),
     onAuthSessionIdHashChanged: (idHash) => ifMounted(() {
       ref.read(currentAuthSessionIdHashProvider.notifier).update(idHash);
     }),
@@ -434,6 +451,25 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
         }),
     onMemberListUpdate: (event) => ifMounted(() {
       ref.read(memberListUpdateBatcherProvider).enqueue(event);
+    }),
+    onChannelMemberCountsUpdate: (event) => ifMounted(() {
+      ref
+          .read(channelMemberCountCacheProvider.notifier)
+          .applyUpdates(event.counts);
+    }),
+    onGuildBanAdd: (guildId, user) => ifMounted(() {
+      ref.read(knownGuildBansProvider.notifier).noteBan(guildId, user.id);
+    }),
+    onGuildBanRemove: (guildId, user) => ifMounted(() {
+      ref.read(knownGuildBansProvider.notifier).noteUnban(guildId, user.id);
+    }),
+    onWebhooksUpdate: (guildId, channelId) => ifMounted(() {
+      ref
+          .read(webhookLiveRefreshProvider.notifier)
+          .markUpdated(guildId: guildId, channelId: channelId);
+    }),
+    onEntranceSoundPlay: (event) => ifMounted(() {
+      ref.read(voiceSessionProvider.notifier).handleEntranceSoundPlay(event);
     }),
     resolveDefaultHideMutedChannels: () =>
         ref.mounted &&

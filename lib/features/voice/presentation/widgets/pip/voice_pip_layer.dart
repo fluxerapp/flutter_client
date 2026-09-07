@@ -499,8 +499,8 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
             key: kVoiceInAppPipKey,
             behavior: HitTestBehavior.opaque,
             onTap: () {
-              _beginExpand(pipRect: pipRect);
               navigateToActiveVoiceSession(context, voice: voice);
+              _beginExpand(pipRect: pipRect);
             },
             onPanStart: (_) {
               _stopMove();

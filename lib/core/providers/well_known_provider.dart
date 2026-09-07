@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_endpoints.dart';
@@ -18,10 +20,14 @@ class WellKnown extends _$WellKnown {
       InstanceEndpoints.apply(cached);
       return cached;
     }
-    final FluxerClient client = ref.watch(fluxerClientProvider);
-    final WellKnownFluxerResponse response = await client.instance
+    final WellKnownFluxerResponse response = await ref
+        .watch(fluxerClientProvider)
+        .instance
         .getWellKnownFluxer();
-    InstanceEndpoints.apply(response);
+    if (!_applyIfMounted(response)) {
+      return response;
+    }
+    unawaited(_persistSnapshot(response));
     return response;
   }
 
@@ -30,33 +36,45 @@ class WellKnown extends _$WellKnown {
       state = const AsyncLoading<WellKnownFluxerResponse>();
     }
     try {
-      final FluxerClient client = ref.read(fluxerClientProvider);
-      final WellKnownFluxerResponse response = await client.instance
+      final WellKnownFluxerResponse response = await ref
+          .read(fluxerClientProvider)
+          .instance
           .getWellKnownFluxer();
-      InstanceEndpoints.apply(response);
-      state = AsyncData<WellKnownFluxerResponse>(response);
-      try {
-        final InstanceConfigSnapshot current = ref.read(activeInstanceProvider);
-        await ref
-            .read(authRepositoryProvider)
-            .persistInstanceSnapshot(
-              InstanceConfigSnapshot(
-                apiBaseUrl: current.apiBaseUrl,
-                gatewayUrl: current.gatewayUrl,
-                displayDomain: current.displayDomain,
-                wellKnown: response,
-              ),
-            );
-      } on Object catch (error, stackTrace) {
-        talker.warning(
-          '[WellKnown] Failed to persist instance snapshot: $error\n$stackTrace',
-        );
+      if (!_applyIfMounted(response)) {
+        return;
       }
+      state = AsyncData<WellKnownFluxerResponse>(response);
+      await _persistSnapshot(response);
     } on Object catch (error, stackTrace) {
       if (silent && state.hasValue) {
         return;
       }
       state = AsyncError<WellKnownFluxerResponse>(error, stackTrace);
+    }
+  }
+
+  bool _applyIfMounted(WellKnownFluxerResponse response) {
+    if (!ref.mounted) {
+      return false;
+    }
+    InstanceEndpoints.apply(response);
+    return true;
+  }
+
+  Future<void> _persistSnapshot(WellKnownFluxerResponse response) async {
+    if (!ref.mounted) {
+      return;
+    }
+    try {
+      await ref
+          .read(authRepositoryProvider)
+          .persistInstanceSnapshot(
+            ref.read(activeInstanceProvider).withWellKnown(response),
+          );
+    } on Object catch (error, stackTrace) {
+      talker.warning(
+        '[WellKnown] Failed to persist instance snapshot: $error\n$stackTrace',
+      );
     }
   }
 }

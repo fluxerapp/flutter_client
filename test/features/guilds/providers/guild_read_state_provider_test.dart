@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,6 +13,7 @@ import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_ready_provider.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
+import 'package:fluxer_dart/export.dart';
 
 import '../../../helpers/open_test_database.dart';
 
@@ -106,6 +109,46 @@ Future<void> _waitForGuildState(
     final entry = container.read(guildReadStateProvider)[guildId];
     return entry != null && (entry.hasUnread || entry.mentionCount > 0);
   });
+}
+
+Future<void> _waitUntilReady(ProviderContainer container) async {
+  await _waitFor(() => container.read(guildReadStateReadyProvider));
+}
+
+Future<void> _seedMutedChannelOverrides(
+  FluxerDatabase db,
+  String guildId,
+  Iterable<String> channelIds, {
+  UserNotificationSettings messageNotifications =
+      UserNotificationSettings.allMessages,
+}) async {
+  await db.userGuildSettingsDao.upsert(
+    UserGuildSettingsTableCompanion.insert(
+      guildId: guildId,
+      data: jsonEncode(
+        UserGuildSettingsResponse(
+          guildId: guildId,
+          messageNotifications: messageNotifications,
+          muted: false,
+          muteConfig: null,
+          mobilePush: true,
+          suppressEveryone: false,
+          suppressRoles: false,
+          hideMutedChannels: false,
+          channelOverrides: {
+            for (final id in channelIds)
+              id: const ChannelOverrides(
+                collapsed: false,
+                messageNotifications: UserNotificationSettings.inherit,
+                muted: true,
+                muteConfig: null,
+              ),
+          },
+          version: 1,
+        ).toJson(),
+      ),
+    ),
+  );
 }
 
 void main() {
@@ -974,6 +1017,202 @@ void main() {
       final deny = container.read(guildReadStateProvider)['guild-deny'];
       expect(deny?.hasUnread ?? false, isFalse);
       expect(deny?.mentionCount ?? 0, 0);
+    },
+  );
+
+  test(
+    'muted channel unread does not light guild hasUnread when other channels are clean',
+    () async {
+      final db = openTestDatabase();
+      final mutedLast = _recentSnowflake();
+      final cleanLast = _recentSnowflake(ago: const Duration(minutes: 10));
+      await _seedGuild(
+        db,
+        'guild-1',
+        channels: [
+          (id: 'muted-1', name: 'muted', type: 0, lastMessageId: mutedLast),
+          (id: 'clean-1', name: 'clean', type: 0, lastMessageId: cleanLast),
+        ],
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('muted-1'),
+          lastMessageId: Value(snowflakeAtPreviousMillisecond(mutedLast)),
+        ),
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('clean-1'),
+          lastMessageId: Value(cleanLast),
+        ),
+      );
+      await _seedMutedChannelOverrides(db, 'guild-1', ['muted-1']);
+
+      final container = _container(db);
+      addTearDown(container.dispose);
+      container.read(gatewayReadyProvider.notifier).setReady();
+      final sub = container.listen(
+        guildReadStateProvider,
+        (_, _) {},
+        fireImmediately: true,
+      );
+      addTearDown(sub.close);
+      await _waitUntilReady(container);
+
+      final entry = container.read(guildReadStateProvider)['guild-1'];
+      expect(entry?.hasUnread, isFalse);
+      expect(entry?.hasPlainUnread, isFalse);
+      expect(entry?.mentionCount, 0);
+    },
+  );
+
+  test(
+    'muted channel mentions keep mentionCount but do not light guild hasUnread',
+    () async {
+      final db = openTestDatabase();
+      final mutedLast = _recentSnowflake();
+      final cleanLast = _recentSnowflake(ago: const Duration(minutes: 10));
+      await _seedGuild(
+        db,
+        'guild-1',
+        channels: [
+          (id: 'muted-1', name: 'muted', type: 0, lastMessageId: mutedLast),
+          (id: 'clean-1', name: 'clean', type: 0, lastMessageId: cleanLast),
+        ],
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('muted-1'),
+          lastMessageId: Value(snowflakeAtPreviousMillisecond(mutedLast)),
+          mentionCount: const Value(3),
+        ),
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('clean-1'),
+          lastMessageId: Value(cleanLast),
+        ),
+      );
+      await _seedMutedChannelOverrides(db, 'guild-1', ['muted-1']);
+
+      final container = _container(db);
+      addTearDown(container.dispose);
+      container.read(gatewayReadyProvider.notifier).setReady();
+      final sub = container.listen(
+        guildReadStateProvider,
+        (_, _) {},
+        fireImmediately: true,
+      );
+      addTearDown(sub.close);
+      await _waitForGuildState(container, 'guild-1');
+
+      final entry = container.read(guildReadStateProvider)['guild-1']!;
+      expect(entry.hasUnread, isFalse);
+      expect(entry.hasPlainUnread, isFalse);
+      expect(entry.mentionCount, 3);
+    },
+  );
+
+  test(
+    'unmuted channel unread still lights guild hasUnread when another channel is muted',
+    () async {
+      final db = openTestDatabase();
+      final mutedLast = _recentSnowflake();
+      final unmutedLast = _recentSnowflake(ago: const Duration(minutes: 5));
+      await _seedGuild(
+        db,
+        'guild-1',
+        channels: [
+          (id: 'muted-1', name: 'muted', type: 0, lastMessageId: mutedLast),
+          (
+            id: 'unmuted-1',
+            name: 'unmuted',
+            type: 0,
+            lastMessageId: unmutedLast,
+          ),
+        ],
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('muted-1'),
+          lastMessageId: Value(snowflakeAtPreviousMillisecond(mutedLast)),
+        ),
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('unmuted-1'),
+          lastMessageId: Value(snowflakeAtPreviousMillisecond(unmutedLast)),
+        ),
+      );
+      await _seedMutedChannelOverrides(db, 'guild-1', ['muted-1']);
+
+      final container = _container(db);
+      addTearDown(container.dispose);
+      container.read(gatewayReadyProvider.notifier).setReady();
+      final sub = container.listen(
+        guildReadStateProvider,
+        (_, _) {},
+        fireImmediately: true,
+      );
+      addTearDown(sub.close);
+      await _waitForGuildState(container, 'guild-1');
+
+      final entry = container.read(guildReadStateProvider)['guild-1']!;
+      expect(entry.hasUnread, isTrue);
+      expect(entry.hasPlainUnread, isTrue);
+      expect(entry.mentionCount, 0);
+    },
+  );
+
+  test(
+    'category mute suppresses child channel unread from guild hasUnread',
+    () async {
+      final db = openTestDatabase();
+      final lastMessageId = _recentSnowflake();
+      await _seedGuild(
+        db,
+        'guild-1',
+        channels: [
+          (id: 'category-1', name: 'muted-cat', type: 4, lastMessageId: null),
+          (
+            id: 'channel-1',
+            name: 'general',
+            type: 0,
+            lastMessageId: lastMessageId,
+          ),
+        ],
+      );
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          parentId: const Value('category-1'),
+          lastMessageId: Value(lastMessageId),
+        ),
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(snowflakeAtPreviousMillisecond(lastMessageId)),
+        ),
+      );
+      await _seedMutedChannelOverrides(db, 'guild-1', ['category-1']);
+
+      final container = _container(db);
+      addTearDown(container.dispose);
+      container.read(gatewayReadyProvider.notifier).setReady();
+      final sub = container.listen(
+        guildReadStateProvider,
+        (_, _) {},
+        fireImmediately: true,
+      );
+      addTearDown(sub.close);
+      await _waitUntilReady(container);
+
+      final entry = container.read(guildReadStateProvider)['guild-1'];
+      expect(entry?.hasUnread, isFalse);
+      expect(entry?.mentionCount, 0);
     },
   );
 }

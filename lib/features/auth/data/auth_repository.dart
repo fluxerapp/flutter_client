@@ -311,6 +311,17 @@ class AuthRepository {
     );
   }
 
+  Future<void> persistRotatedToken(String token) async {
+    if (token.isEmpty) {
+      return;
+    }
+    final row = await _db.authSessionDao.getActiveSession();
+    if (row == null) {
+      return;
+    }
+    await _tokenStorage.saveToken(userId: row.userId, token: token);
+  }
+
   Future<void> persistInstanceSnapshot(InstanceConfigSnapshot snapshot) async {
     final row = await _db.authSessionDao.getActiveSession();
     if (row == null) {

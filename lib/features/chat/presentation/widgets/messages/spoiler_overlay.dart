@@ -48,7 +48,7 @@ class _SpoilerOverlayState extends State<SpoilerOverlay>
   void initState() {
     super.initState();
     _revealed = _shouldReveal;
-    widget.spoilerSyncController?.addListener(_handleSyncChanged);
+    widget.spoilerSyncController?.addListener(_applyRevealState);
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 160),
@@ -60,8 +60,8 @@ class _SpoilerOverlayState extends State<SpoilerOverlay>
   void didUpdateWidget(covariant SpoilerOverlay oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.spoilerSyncController != widget.spoilerSyncController) {
-      oldWidget.spoilerSyncController?.removeListener(_handleSyncChanged);
-      widget.spoilerSyncController?.addListener(_handleSyncChanged);
+      oldWidget.spoilerSyncController?.removeListener(_applyRevealState);
+      widget.spoilerSyncController?.addListener(_applyRevealState);
     }
     if (!listEquals(oldWidget.syncKeys, widget.syncKeys) ||
         oldWidget.isSpoiler != widget.isSpoiler) {
@@ -72,13 +72,9 @@ class _SpoilerOverlayState extends State<SpoilerOverlay>
 
   @override
   void dispose() {
-    widget.spoilerSyncController?.removeListener(_handleSyncChanged);
+    widget.spoilerSyncController?.removeListener(_applyRevealState);
     _controller.dispose();
     super.dispose();
-  }
-
-  void _handleSyncChanged() {
-    _applyRevealState();
   }
 
   void _applyRevealState() {
@@ -109,62 +105,61 @@ class _SpoilerOverlayState extends State<SpoilerOverlay>
     }
 
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    return ClipRRect(
-      borderRadius: widget.borderRadius,
-      child: Semantics(
-        button: true,
-        label: l10n.chatMediaSpoilerRevealLabel,
-        onTap: _reveal,
-        child: FluxerGestureDetector(
-          onTap: _reveal,
-          child: Stack(
-            fit: StackFit.passthrough,
-            children: [
-              FadeTransition(
-                opacity: _controller,
-                child: IgnorePointer(ignoring: !_revealed, child: widget.child),
-              ),
-              Positioned.fill(
-                child: IgnorePointer(
-                  ignoring: _revealed,
-                  child: FadeTransition(
-                    opacity: ReverseAnimation(_controller),
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: context.colors.spoilerBackground,
-                        borderRadius: widget.borderRadius,
+    Widget body = Stack(
+      fit: StackFit.passthrough,
+      children: [
+        FadeTransition(
+          opacity: _controller,
+          child: IgnorePointer(ignoring: !_revealed, child: widget.child),
+        ),
+        Positioned.fill(
+          child: IgnorePointer(
+            ignoring: _revealed,
+            child: FadeTransition(
+              opacity: ReverseAnimation(_controller),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: context.colors.spoilerBackground,
+                  borderRadius: widget.borderRadius,
+                ),
+                child: Center(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: context.colors.backgroundSecondary.withValues(
+                        alpha: 0.3,
                       ),
-                      child: Center(
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: context.colors.backgroundSecondary
-                                .withValues(alpha: 0.3),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 4,
-                            ),
-                            child: Text(
-                              l10n.chatMediaSpoilerOverlayLabel,
-                              style: context.textStyles.bodySmall.copyWith(
-                                color: context.colors.textPrimary,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 0.42,
-                              ),
-                            ),
-                          ),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      child: Text(
+                        l10n.chatMediaSpoilerOverlayLabel,
+                        style: context.textStyles.bodySmall.copyWith(
+                          color: context.colors.textPrimary,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.42,
                         ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ],
+            ),
           ),
         ),
-      ),
+      ],
     );
+    if (!_revealed) {
+      body = Semantics(
+        button: true,
+        label: l10n.chatMediaSpoilerRevealLabel,
+        onTap: _reveal,
+        child: FluxerGestureDetector(onTap: _reveal, child: body),
+      );
+    }
+    return ClipRRect(borderRadius: widget.borderRadius, child: body);
   }
 }

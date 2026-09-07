@@ -42,6 +42,82 @@ String _noopCustomEmojiUrl({
   required int size,
 }) => 'https://example.com/emoji/$id';
 
+FluxerMarkdownConfig _syncConfig(FluxerSpoilerSyncController controller) {
+  return FluxerMarkdownConfig(
+    resolveEmojiShortcode: _resolveEmojiShortcode,
+    unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
+    customEmojiUrlBuilder: _noopCustomEmojiUrl,
+    spoilerSyncController: controller,
+    spoilerSyncKeyNormalizer: (String url) => url,
+  );
+}
+
+Future<void> _pumpMarkdown(
+  WidgetTester tester,
+  String text, {
+  FluxerMarkdownConfig config = _testMarkdownConfig,
+  FluxerMarkdownContext context = FluxerMarkdownContext.standardWithJumbo,
+  double? width,
+  int? maxLines,
+  TextOverflow? overflow,
+}) async {
+  final Widget markdown = FluxerMarkdown(
+    astParser: parseTestMarkdownAst,
+    data: text,
+    config: config,
+    context: context,
+    baseStyle: _baseStyle,
+    maxLines: maxLines,
+    overflow: overflow,
+  );
+  await tester.pumpWidget(
+    MaterialApp(
+      home: Scaffold(
+        body: width == null
+            ? markdown
+            : SizedBox(width: width, child: markdown),
+      ),
+    ),
+  );
+}
+
+bool _hasHiddenSpoilerText(WidgetTester tester) {
+  for (final RichText richText in tester.widgetList<RichText>(
+    find.byType(RichText),
+  )) {
+    var hidden = false;
+    richText.text.visitChildren((InlineSpan span) {
+      if (span is TextSpan && span.style?.color == const Color(0x00000000)) {
+        hidden = true;
+        return false;
+      }
+      return true;
+    });
+    if (hidden) {
+      return true;
+    }
+  }
+  return false;
+}
+
+Future<void> _tapPlainText(WidgetTester tester, String value) async {
+  final RenderParagraph paragraph = tester.renderObject<RenderParagraph>(
+    find.byType(RichText),
+  );
+  final String plainText = paragraph.text.toPlainText();
+  final int start = plainText.indexOf(value);
+  expect(start, greaterThanOrEqualTo(0));
+  await tester.tapAt(
+    paragraph
+        .getBoxesForSelection(
+          TextSelection(baseOffset: start, extentOffset: start + 1),
+        )
+        .first
+        .toRect()
+        .center,
+  );
+}
+
 void main() {
   final FluxerMarkdownFeatures features = FluxerMarkdownFeatures.forContext(
     FluxerMarkdownContext.standardWithJumbo,
@@ -108,39 +184,10 @@ void main() {
   });
 
   group('spoiler rendering', () {
-    Future<void> pumpMarkdown(
-      WidgetTester tester,
-      String text, {
-      FluxerMarkdownConfig config = _testMarkdownConfig,
-      FluxerMarkdownContext context = FluxerMarkdownContext.standardWithJumbo,
-      double? width,
-      int? maxLines,
-      TextOverflow? overflow,
-    }) async {
-      final Widget markdown = FluxerMarkdown(
-        astParser: parseTestMarkdownAst,
-        data: text,
-        config: config,
-        context: context,
-        baseStyle: _baseStyle,
-        maxLines: maxLines,
-        overflow: overflow,
-      );
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: width == null
-                ? markdown
-                : SizedBox(width: width, child: markdown),
-          ),
-        ),
-      );
-    }
-
     testWidgets('renders custom emoji inside a revealed spoiler as a widget', (
       tester,
     ) async {
-      await pumpMarkdown(
+      await _pumpMarkdown(
         tester,
         _customEmojiInput,
         config: _revealedMarkdownConfig,
@@ -157,7 +204,7 @@ void main() {
     testWidgets('conceals custom emoji inside a hidden spoiler', (
       tester,
     ) async {
-      await pumpMarkdown(tester, _customEmojiInput);
+      await _pumpMarkdown(tester, _customEmojiInput);
       expect(find.byType(FluxerEmojiWidget), findsNothing);
       expect(
         find.descendant(
@@ -169,7 +216,7 @@ void main() {
     });
 
     testWidgets('blocks taps to inner content until revealed', (tester) async {
-      await pumpMarkdown(tester, _customEmojiInput);
+      await _pumpMarkdown(tester, _customEmojiInput);
 
       expect(find.byType(FluxerEmojiWidget), findsNothing);
 
@@ -182,7 +229,7 @@ void main() {
     testWidgets(
       'hidden spoiler keeps the same layout metrics as surrounding text',
       (tester) async {
-        await pumpMarkdown(tester, 'before ||spoiler|| after');
+        await _pumpMarkdown(tester, 'before ||spoiler|| after');
         final RenderParagraph paragraph = tester.renderObject<RenderParagraph>(
           find.byType(RichText),
         );
@@ -207,14 +254,14 @@ void main() {
     );
 
     testWidgets('does not blur hidden spoiler content', (tester) async {
-      await pumpMarkdown(tester, _customEmojiInput);
+      await _pumpMarkdown(tester, _customEmojiInput);
       expect(find.byType(ImageFiltered), findsNothing);
     });
 
     testWidgets('covers hidden spoilers when no spoiler color is set', (
       tester,
     ) async {
-      await pumpMarkdown(tester, '||secret||');
+      await _pumpMarkdown(tester, '||secret||');
       expect(find.textContaining('secret', findRichText: true), findsOneWidget);
       final RichText richText = tester.widget<RichText>(find.byType(RichText));
       final TextSpan rootSpan = richText.text as TextSpan;
@@ -227,7 +274,7 @@ void main() {
     testWidgets('conceals formatted text inside hidden spoiler', (
       tester,
     ) async {
-      await pumpMarkdown(tester, '||**secret**||');
+      await _pumpMarkdown(tester, '||**secret**||');
       final RichText richText = tester.widget<RichText>(find.byType(RichText));
       final TextSpan rootSpan = richText.text as TextSpan;
       final TextSpan spoilerSpan = rootSpan.children!.single as TextSpan;
@@ -238,7 +285,7 @@ void main() {
     });
 
     testWidgets('reveals duplicate spoilers independently', (tester) async {
-      await pumpMarkdown(tester, '||same|| mid ||same||');
+      await _pumpMarkdown(tester, '||same|| mid ||same||');
       final RenderParagraph paragraph = tester.renderObject<RenderParagraph>(
         find.byType(RichText),
       );
@@ -271,7 +318,7 @@ void main() {
     testWidgets('flattens revealed spoiler for single-line ellipsis', (
       tester,
     ) async {
-      await pumpMarkdown(
+      await _pumpMarkdown(
         tester,
         _longSpoiledLink,
         config: _revealedMarkdownConfig,
@@ -291,7 +338,7 @@ void main() {
     testWidgets('constrains unrevealed spoiler for single-line ellipsis', (
       tester,
     ) async {
-      await pumpMarkdown(
+      await _pumpMarkdown(
         tester,
         _longSpoiledLink,
         context: FluxerMarkdownContext.restrictedInlineReply,
@@ -315,7 +362,7 @@ void main() {
     testWidgets('keeps spoiler inline when maxLines is not set', (
       tester,
     ) async {
-      await pumpMarkdown(tester, _longSpoiledLink);
+      await _pumpMarkdown(tester, _longSpoiledLink);
 
       expect(find.byType(GestureDetector), findsNothing);
       expect(find.byType(RichText), findsOneWidget);
@@ -324,7 +371,7 @@ void main() {
     testWidgets('keeps trailing text on the same line after wrapped spoiler', (
       tester,
     ) async {
-      await pumpMarkdown(
+      await _pumpMarkdown(
         tester,
         '||this is a longer spoiler that should wrap|| ok',
         config: _revealedMarkdownConfig,
@@ -356,5 +403,56 @@ void main() {
       expect(trailingRect.top, closeTo(wrapRect.top, 1));
       expect(trailingRect.left, greaterThan(wrapRect.left));
     });
+  });
+
+  group('spoiler sync', () {
+    test('reveal after dispose does not throw', () {
+      final FluxerSpoilerSyncController controller =
+          FluxerSpoilerSyncController()..dispose();
+      expect(() => controller.reveal(['https://fluxer.app']), returnsNormally);
+      expect(controller.isRevealed(['https://fluxer.app']), isFalse);
+    });
+
+    testWidgets('reveals spoilered url when a matching embed key is synced', (
+      tester,
+    ) async {
+      final FluxerSpoilerSyncController controller =
+          FluxerSpoilerSyncController();
+      addTearDown(controller.dispose);
+      await _pumpMarkdown(
+        tester,
+        '||https://fluxer.app||',
+        config: _syncConfig(controller),
+      );
+      expect(_hasHiddenSpoilerText(tester), isTrue);
+
+      controller.reveal(['https://fluxer.app']);
+      await tester.pump();
+
+      expect(_hasHiddenSpoilerText(tester), isFalse);
+    });
+
+    testWidgets(
+      'keeps inline spoiler tappable after an unrelated sync reveal',
+      (tester) async {
+        final FluxerSpoilerSyncController controller =
+            FluxerSpoilerSyncController();
+        addTearDown(controller.dispose);
+        await _pumpMarkdown(
+          tester,
+          '||secret||',
+          config: _syncConfig(controller),
+        );
+        expect(_hasHiddenSpoilerText(tester), isTrue);
+
+        controller.reveal(['https://fluxer.app']);
+        await tester.pump();
+        expect(_hasHiddenSpoilerText(tester), isTrue);
+
+        await _tapPlainText(tester, 'secret');
+        await tester.pumpAndSettle();
+        expect(_hasHiddenSpoilerText(tester), isFalse);
+      },
+    );
   });
 }

@@ -21,24 +21,26 @@ class FluxerBrandLogo extends StatelessWidget {
     final Color fill = backgroundColor ?? context.colors.brandPrimary;
     final Color mark =
         symbolColor ?? ColorUtils.bestContrastColor(fill.toARGB32());
-    return SizedBox(
-      width: size,
-      height: size,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Container(
-            width: size,
-            height: size,
-            decoration: BoxDecoration(shape: BoxShape.circle, color: fill),
-          ),
-          SvgPicture.asset(
-            Assets.fluxerSymbol,
-            width: size,
-            height: size,
-            colorFilter: ColorFilter.mode(mark, BlendMode.srcIn),
-          ),
-        ],
+    return ExcludeSemantics(
+      child: SizedBox(
+        width: size,
+        height: size,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Container(
+              width: size,
+              height: size,
+              decoration: BoxDecoration(shape: BoxShape.circle, color: fill),
+            ),
+            SvgPicture.asset(
+              Assets.fluxerSymbol,
+              width: size,
+              height: size,
+              colorFilter: ColorFilter.mode(mark, BlendMode.srcIn),
+            ),
+          ],
+        ),
       ),
     );
   }

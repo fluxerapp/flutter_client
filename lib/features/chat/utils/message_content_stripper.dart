@@ -2,6 +2,10 @@ abstract final class MessageContentPatterns {
   const MessageContentPatterns._();
   static final RegExp spoiler = RegExp(r'\|\|([\s\S]*?)\|\|');
   static final RegExp customEmoji = RegExp(r'<a?:([^:>]+):\d+>');
+  static final RegExp url = RegExp(
+    r'''https?:\/\/[^\s<>"']+''',
+    caseSensitive: false,
+  );
   static final RegExp userMention = RegExp(r'<@!?(\d+)>');
   static final RegExp roleMention = RegExp(r'<@&(\d+)>');
   static final RegExp channelMention = RegExp(r'<#(\d+)>');

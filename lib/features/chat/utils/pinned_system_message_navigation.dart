@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/providers/channel/channel_pins_open_request_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 
 Future<void> jumpToPinnedSystemMessage(
@@ -16,4 +17,8 @@ Future<void> jumpToPinnedSystemMessage(
         channelId: message.channelId,
         messageId: pinnedMessageId,
       );
+}
+
+void requestOpenChannelPins(WidgetRef ref) {
+  ref.read(channelPinsOpenRequestProvider.notifier).open();
 }

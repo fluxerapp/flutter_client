@@ -3,7 +3,6 @@ import 'package:fluxer_app/features/settings/providers/appearance_preferences_pr
 
 const Set<String> kNativeHdrImageContentTypes = {
   'image/avif',
-  'image/jxl',
   'image/heic',
   'image/heif',
 };
@@ -19,17 +18,23 @@ String? _normalizedImageContentType(String? contentType) {
 
 bool isNativeHdrCapableImageContentType(String? contentType) {
   final String? normalized = _normalizedImageContentType(contentType);
-  if (normalized == null) {
-    return false;
+  return normalized != null && kNativeHdrImageContentTypes.contains(normalized);
+}
+
+bool _isJpegXlImage({String? contentType, String? url}) {
+  if (_normalizedImageContentType(contentType) == 'image/jxl') {
+    return true;
   }
-  return kNativeHdrImageContentTypes.contains(normalized);
+  return Uri.tryParse(url ?? '')?.path.toLowerCase().endsWith('.jxl') ?? false;
 }
 
 HdrImageProxyFormatAction hdrImageProxyFormatAction({
   required HdrDisplayMode mode,
   String? contentType,
+  String? url,
 }) {
-  if (mode == HdrDisplayMode.standard) {
+  if (mode == HdrDisplayMode.standard ||
+      _isJpegXlImage(contentType: contentType, url: url)) {
     return HdrImageProxyFormatAction.setWebp;
   }
   if (isNativeHdrCapableImageContentType(contentType)) {
@@ -49,6 +54,7 @@ String buildHdrAwareImageUrl({
   return switch (hdrImageProxyFormatAction(
     mode: mode,
     contentType: contentType,
+    url: url,
   )) {
     HdrImageProxyFormatAction.setWebp => buildMediaProxyUrl(
       url,

@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/widgets/playback_seek_gesture_target.dart';
@@ -479,12 +480,13 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
                 ),
                 const SizedBox(width: 4),
                 Tooltip(
-                  message: 'Download',
+                  message: FluxerLocalizations.of(context).uiDownload,
                   child: FluxerButton.circle(
                     onPressed: _downloadAudio,
                     variant: FluxerButtonVariant.ghost,
                     size: FluxerButtonSize.compact,
                     icon: PhosphorIconsBold.downloadSimple,
+                    semanticLabel: FluxerLocalizations.of(context).uiDownload,
                   ),
                 ),
               ],
@@ -514,6 +516,9 @@ class _AudioPlayButton extends StatelessWidget {
       size: FluxerButtonSize.compact,
       isLoading: isLoading,
       icon: isPlaying ? PhosphorIconsFill.pause : PhosphorIconsFill.play,
+      semanticLabel: isPlaying
+          ? FluxerLocalizations.of(context).uiPause
+          : FluxerLocalizations.of(context).uiPlay,
     );
   }
 }

@@ -114,6 +114,8 @@ Future<void> _pumpSystemMessage(
   Color? roleColor,
   bool canAddReactions = false,
   ReactionToggleCallback? onReaction,
+  VoidCallback? onJumpToPinnedMessage,
+  VoidCallback? onViewAllPins,
   UserSettingsViewModel Function()? userSettingsOverride,
 }) async {
   final colorTheme = buildDarkColorTheme();
@@ -167,6 +169,8 @@ Future<void> _pumpSystemMessage(
             guildId: 'g1',
             canAddReactions: canAddReactions,
             onReaction: onReaction,
+            onJumpToPinnedMessage: onJumpToPinnedMessage,
+            onViewAllPins: onViewAllPins,
           ),
         ),
       ),
@@ -181,6 +185,26 @@ Future<void> _pumpSystemMessage(
 }
 
 void main() {
+  testWidgets('pin links invoke jump and view-all callbacks', (tester) async {
+    var jumped = false;
+    var viewedAll = false;
+    await _pumpSystemMessage(
+      tester,
+      message: _systemMessage(messageTypeChannelPinnedMessage),
+      onJumpToPinnedMessage: () => jumped = true,
+      onViewAllPins: () => viewedAll = true,
+    );
+
+    await tester.tap(findAppText('a message'));
+    await tester.pump();
+    expect(jumped, isTrue);
+    expect(viewedAll, isFalse);
+
+    await tester.tap(findAppText('all pinned messages'));
+    await tester.pump();
+    expect(viewedAll, isTrue);
+  });
+
   testWidgets('colours the system-message author name with the role colour', (
     tester,
   ) async {

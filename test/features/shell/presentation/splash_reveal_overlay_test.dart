@@ -1,8 +1,14 @@
+// Root ProviderScope built by a helper; the lint only exempts a
+// ProviderScope written inline in pumpWidget.
+// ignore_for_file: riverpod_lint/scoped_providers_should_specify_dependencies
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_reveal_overlay.dart';
+import 'package:fluxer_app/features/ui/background/starfield_background.dart';
+import 'package:fluxer_app/features/ui/icons/instance_branding_image.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 Widget _wrap(Widget child) {
@@ -93,6 +99,61 @@ void main() {
       await tester.pump();
 
       expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('excludes overlay content from the semantics tree', (
+      tester,
+    ) async {
+      final SemanticsHandle handle = tester.ensureSemantics();
+
+      await tester.pumpWidget(
+        _wrap(
+          Builder(
+            builder: (BuildContext context) {
+              return Scaffold(
+                body: Center(
+                  child: TextButton(
+                    onPressed: () {
+                      SplashRevealOverlay.show(
+                        context: context,
+                        coverColor: const Color(0xFF080616),
+                        logoBrandColor: const Color(0xFF7A57BF),
+                        logoBrandSymbolColor: Colors.white,
+                        logoCenterGlobal: const Offset(200, 400),
+                        useLogoZoomTransition: true,
+                        animationsEnabled: true,
+                      );
+                    },
+                    child: const Text('reveal'),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('reveal'));
+      await tester.pump();
+
+      expect(find.byType(StarfieldBackground), findsOneWidget);
+      expect(
+        find.ancestor(
+          of: find.byType(StarfieldBackground),
+          matching: find.byType(ExcludeSemantics),
+        ),
+        findsWidgets,
+      );
+      expect(
+        find.ancestor(
+          of: find.byType(InstanceBrandMark),
+          matching: find.byType(ExcludeSemantics),
+        ),
+        findsWidgets,
+      );
+
+      await tester.pumpAndSettle();
+      handle.dispose();
     });
   });
 

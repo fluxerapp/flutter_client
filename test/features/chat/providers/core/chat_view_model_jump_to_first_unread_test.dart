@@ -67,7 +67,6 @@ void main() {
       );
       final String ackId = ids[47];
       final String ownAfterAckId = ids[48];
-      final String firstUnreadId = ids[49];
       final List<Map<String, Object?>> window = <Map<String, Object?>>[
         for (final id in ids)
           _messageJson(
@@ -116,9 +115,9 @@ void main() {
 
       final ChatViewState state = container.read(chatViewModelProvider);
       // ids[48] is the user's own message right after the ack. The first
-      // unread must skip it and land on the next foreign message.
-      expect(state.scrollToMessageSignal?.$1, firstUnreadId);
-      expect(state.highlightedMessageId, firstUnreadId);
+      // unread includes it, matching web oldest-unread.
+      expect(state.scrollToMessageSignal?.$1, ownAfterAckId);
+      expect(state.highlightedMessageId, ownAfterAckId);
       expect(adapter.messageRequestUris.length, fetchesAfterLoad);
       expect(adapter.aroundQueries, [ackId]);
     },

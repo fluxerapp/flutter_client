@@ -6160,7 +6160,7 @@ abstract class FluxerLocalizations {
   /// Hint shown next to the hold-to-record microphone button.
   ///
   /// In en, this message translates to:
-  /// **'Hold to record. Drag up to lock, or release to send.'**
+  /// **'Hold to record. Drag to trash to delete, slide up to lock, or release to send.'**
   String get voiceMessageHoldHint;
 
   /// Accessibility label for discarding a voice recording.
@@ -17701,6 +17701,48 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Loading'**
   String get uiLoading;
+
+  /// Accessible label for icon-only search buttons.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get uiSearch;
+
+  /// Accessible label for icon-only voice call buttons.
+  ///
+  /// In en, this message translates to:
+  /// **'Start call'**
+  String get uiStartCall;
+
+  /// Accessible label for icon-only video call buttons.
+  ///
+  /// In en, this message translates to:
+  /// **'Start video call'**
+  String get uiStartVideoCall;
+
+  /// Accessible label for icon-only play buttons.
+  ///
+  /// In en, this message translates to:
+  /// **'Play'**
+  String get uiPlay;
+
+  /// Accessible label for icon-only pause buttons.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get uiPause;
+
+  /// Accessible label for icon-only download buttons.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get uiDownload;
+
+  /// Accessible label for icon-only overflow menus.
+  ///
+  /// In en, this message translates to:
+  /// **'More actions'**
+  String get uiMoreActions;
 
   /// Status label shown when settings have unsaved edits.
   ///
