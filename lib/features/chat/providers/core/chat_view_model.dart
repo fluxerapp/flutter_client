@@ -1737,6 +1737,7 @@ class ChatViewModel extends _$ChatViewModel {
       channelId: state.channelId,
       content: state.messageText,
       reply: state.replyingTo,
+      replyMentioning: state.replyingTo == null ? null : state.replyMentioning,
     );
   }
 
@@ -1744,6 +1745,7 @@ class ChatViewModel extends _$ChatViewModel {
     required String channelId,
     required String content,
     Message? reply,
+    bool? replyMentioning,
   }) async {
     if (channelId.isEmpty) {
       return;
@@ -1761,6 +1763,7 @@ class ChatViewModel extends _$ChatViewModel {
       channelId: channelId,
       content: sanitizedContent,
       replyToMessageId: replyId,
+      replyMentioning: replyId == null ? null : replyMentioning,
     );
   }
 
@@ -1816,31 +1819,27 @@ class ChatViewModel extends _$ChatViewModel {
 
   Future<({String text, Message? reply, bool replyMentioning})>
   _readComposerDraft(String channelId) async {
-    final ({String text, Message? reply}) draft = await _loadComposerDraft(
-      channelId,
-    );
-    if (draft.reply == null) {
-      return (text: draft.text, reply: null, replyMentioning: false);
-    }
+    final ({String text, Message? reply, bool? replyMentioning}) draft =
+        await _loadComposerDraft(channelId);
     return (
       text: draft.text,
       reply: draft.reply,
-      replyMentioning: await _defaultReplyMentionFor(
-        message: draft.reply!,
+      replyMentioning: await _resolvedReplyMentioning(
+        reply: draft.reply,
+        storedMentioning: draft.replyMentioning,
         channelId: channelId,
       ),
     );
   }
 
-  Future<({String text, Message? reply})> _loadComposerDraft(
-    String channelId,
-  ) async {
+  Future<({String text, Message? reply, bool? replyMentioning})>
+  _loadComposerDraft(String channelId) async {
     final row = await ref
         .read(fluxerDatabaseProvider)
         .composerDraftDao
         .getDraft(channelId);
     if (row == null) {
-      return (text: '', reply: null);
+      return (text: '', reply: null, replyMentioning: null);
     }
     final messageDao = ref.read(fluxerDatabaseProvider).messageDao;
     Message? reply;
@@ -1850,7 +1849,25 @@ class ChatViewModel extends _$ChatViewModel {
       );
       reply = dbMsg == null ? null : Message.fromRow(dbMsg);
     }
-    return (text: stripPrivateUseCharacters(row.content), reply: reply);
+    return (
+      text: stripPrivateUseCharacters(row.content),
+      reply: reply,
+      replyMentioning: row.replyMentioning,
+    );
+  }
+
+  Future<bool> _resolvedReplyMentioning({
+    required Message? reply,
+    required bool? storedMentioning,
+    required String channelId,
+  }) async {
+    if (reply == null) {
+      return false;
+    }
+    if (storedMentioning != null) {
+      return storedMentioning;
+    }
+    return _defaultReplyMentionFor(message: reply, channelId: channelId);
   }
 
   Future<void> _restoreComposerDraftFromDb() async {
@@ -1859,12 +1876,11 @@ class ChatViewModel extends _$ChatViewModel {
       return;
     }
     final draft = await _loadComposerDraft(channelId);
-    final bool replyMentioning =
-        !(draft.reply == null) &&
-        await _defaultReplyMentionFor(
-          message: draft.reply!,
-          channelId: channelId,
-        );
+    final bool replyMentioning = await _resolvedReplyMentioning(
+      reply: draft.reply,
+      storedMentioning: draft.replyMentioning,
+      channelId: channelId,
+    );
     state = state.copyWith(
       messageText: draft.text,
       replyingTo: draft.reply,
@@ -2064,6 +2080,9 @@ class ChatViewModel extends _$ChatViewModel {
         _contiguity.invalidate();
         final String previousText = state.messageText;
         final Message? previousReply = state.replyingTo;
+        final bool? previousReplyMentioning = previousReply == null
+            ? null
+            : state.replyMentioning;
         _draftSaveTimer?.cancel();
         _draftSaveTimer = null;
         _readAckRetryTimer?.cancel();
@@ -2078,6 +2097,7 @@ class ChatViewModel extends _$ChatViewModel {
               channelId: previousChannelId,
               content: previousText,
               reply: previousReply,
+              replyMentioning: previousReplyMentioning,
             ),
           );
         }

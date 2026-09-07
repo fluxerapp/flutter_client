@@ -352,6 +352,70 @@ void main() {
   );
 
   test(
+    'reply mention toggle survives leaving and revisiting the channel',
+    () async {
+      final db = openTestDatabase();
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+        ),
+      );
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-2',
+          guildId: 'guild-1',
+          name: 'offtopic',
+        ),
+      );
+      final Message replyTo = _msg(
+        id: 'm-reply',
+        authorId: 'other',
+        content: 'hi',
+      );
+      await db.messageDao.upsertMessage(
+        MessagesCompanion.insert(
+          id: replyTo.id,
+          channelId: replyTo.channelId,
+          authorId: replyTo.authorId,
+          content: replyTo.content,
+          timestamp: replyTo.timestamp,
+        ),
+      );
+      final container = _container(
+        db,
+        _SendAdapter(
+          serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12)),
+        ),
+      );
+      addTearDown(container.dispose);
+
+      final notifier = container.read(chatViewModelProvider.notifier);
+      await notifier.switchChannel('channel-1');
+      await _flushAsync();
+
+      notifier.startReply(replyTo);
+      await _flushAsync();
+      expect(container.read(chatViewModelProvider).replyMentioning, isTrue);
+
+      notifier.setReplyMentioning(mentioning: false);
+      await _flushAsync();
+      expect(container.read(chatViewModelProvider).replyMentioning, isFalse);
+
+      await notifier.switchChannel('channel-2');
+      await _flushAsync();
+
+      await notifier.switchChannel('channel-1');
+      await _flushAsync();
+
+      final ChatViewState state = container.read(chatViewModelProvider);
+      expect(state.replyingTo?.id, 'm-reply');
+      expect(state.replyMentioning, isFalse);
+    },
+  );
+
+  test(
     'send failure with DM restriction adds Fluxerbot system message',
     () async {
       final FluxerLocalizations l10n = lookupFluxerLocalizations(
