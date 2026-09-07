@@ -7,7 +7,6 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/api/service_unavailable.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/deep_links/deep_link_handler.dart';
-import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
 import 'package:fluxer_app/core/premium/premium_state_sync_provider.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
@@ -124,13 +123,13 @@ class AppStartup extends _$AppStartup {
     }
     final database = ref.read(fluxerDatabaseProvider);
     final authRepository = ref.read(authRepositoryProvider);
-    final InstanceConfigSnapshot? activeSnapshot = await authRepository
-        .resolveActiveInstanceSnapshot();
+    await ref
+        .read(activeInstanceProvider.notifier)
+        .restorePersistedSnapshot(
+          authRepository.resolveActiveInstanceSnapshot(),
+        );
     if (!ref.mounted) {
       return;
-    }
-    if (activeSnapshot != null) {
-      ref.read(activeInstanceProvider.notifier).applySnapshot(activeSnapshot);
     }
 
     final Future<void> emojiPreload = EmojiRegistry.preload();
