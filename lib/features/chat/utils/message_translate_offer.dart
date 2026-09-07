@@ -26,9 +26,12 @@ String languageDetectionSample(String content) {
   return trimmed.substring(0, _kLanguageDetectionSampleLength);
 }
 
-/// Custom emoji names read as prose to the script and language checks.
+/// Custom emoji and URLs are not judged as translatable strings.
 String translatableMessageText(String content) {
-  return content.replaceAll(MessageContentPatterns.customEmoji, '').trim();
+  return content
+      .replaceAll(MessageContentPatterns.customEmoji, '')
+      .replaceAll(MessageContentPatterns.url, '')
+      .trim();
 }
 
 bool isDetectedForeignLanguage(String? detectedLanguage, String appLanguage) {

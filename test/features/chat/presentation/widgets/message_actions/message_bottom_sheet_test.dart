@@ -317,6 +317,50 @@ void main() {
     expect(find.text(testL10n.chatMessageTranslate), findsNothing);
   });
 
+  testWidgets('hides Translate for a klipy gif url-only message', (
+    tester,
+  ) async {
+    final Message gifMessage = message.copyWith(
+      content: 'https://klipy.com/gifs/bonjour-chat',
+    );
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: baseOverrides(
+          gifMessage.id,
+          translationAvailable: true,
+          extra: [
+            appearancePreferencesProvider.overrideWithValue(
+              const AppearancePreferencesState(),
+            ),
+            detectedMessageLanguageProvider(
+              gifMessage.content,
+            ).overrideWith((ref) => 'fr'),
+          ],
+        ),
+        child: buildTestApp(
+          onOpen: (context) => showMessageBottomSheet(
+            context,
+            message: gifMessage,
+            isOwnMessage: true,
+            isDmChannel: false,
+            canDelete: false,
+            canReport: false,
+            canAddReactions: false,
+            canPinMessage: false,
+            canManageMessages: false,
+            canSendMessages: true,
+            developerMode: false,
+          ),
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('Open'));
+    await tester.pumpAndSettle();
+
+    expect(find.text(testL10n.chatMessageTranslate), findsNothing);
+  });
+
   testWidgets('hides Translate when no source is available', (tester) async {
     await tester.pumpWidget(
       ProviderScope(
