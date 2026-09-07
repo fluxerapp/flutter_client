@@ -203,7 +203,14 @@ void main() {
       await awaitSprite(tester);
       await tester.tap(find.byType(NekoSprite));
       await tester.pump();
-      expect(find.byIcon(PhosphorIconsFill.heart), findsOneWidget);
+      final Finder heart = find.byIcon(PhosphorIconsFill.heart);
+      expect(heart, findsOneWidget);
+      expect(
+        tester.getCenter(heart).dx,
+        tester.getTopLeft(find.byType(NekoSprite)).dx +
+            kNekoSpriteSize / 2 +
+            0.5,
+      );
       await tester.pumpWidget(const SizedBox());
     });
   });

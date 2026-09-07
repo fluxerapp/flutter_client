@@ -28,6 +28,7 @@ const int _kSleepingEndFrame = 192;
 const int _kSleepingFrameStride = 4;
 const int _kScratchEndFrame = 9;
 const Color _kNekoHeartColor = Color(0xFFFF5C8A);
+const double _kNekoHeartOffsetX = 0.5;
 
 typedef _SpriteFrame = (int x, int y);
 
@@ -466,8 +467,8 @@ class _NekoSpriteState extends ConsumerState<NekoSprite> {
                                 for (final int id in hearts)
                                   Positioned(
                                     key: ValueKey<int>(id),
-                                    left: 0,
-                                    right: 0,
+                                    left: _kNekoHeartOffsetX,
+                                    right: -_kNekoHeartOffsetX,
                                     top: -4,
                                     child: IgnorePointer(
                                       child: _NekoHeart(
