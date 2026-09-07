@@ -257,7 +257,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   bool _animateJumpHighlight = false;
 
   FluxerSpoilerSyncController get _spoilerSyncController => ref
-      .read(channelSpoilerSyncProvider(widget.message.channelId).notifier)
+      .watch(channelSpoilerSyncProvider(widget.message.channelId).notifier)
       .controller;
 
   late final Listenable _actionBarVisibility = Listenable.merge([
