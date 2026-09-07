@@ -79,7 +79,6 @@ class FriendRequestSheetItem extends ConsumerWidget {
     await FluxerBottomSheet.show<void>(
       context,
       variant: FluxerBottomSheetVariant.menu,
-      showDragHandle: false,
       builder: (sheetContext, close) {
         final groups = <Widget>[
           FluxerMenuGroup(
