@@ -103,6 +103,15 @@ Future<MessageAction?> showMessageBottomSheet(
   );
 }
 
+void _runAfterModalSettles(BuildContext context, VoidCallback action) {
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    if (!context.mounted) {
+      return;
+    }
+    action();
+  });
+}
+
 Future<void> dispatchMessageAction({
   required WidgetRef ref,
   required BuildContext context,
@@ -115,16 +124,11 @@ Future<void> dispatchMessageAction({
     case MessageAction.reply:
       callbacks.onReply?.call();
     case MessageAction.forward:
-      callbacks.onForward?.call();
+      _runAfterModalSettles(context, () => callbacks.onForward?.call());
     case MessageAction.edit:
       callbacks.onEdit?.call();
     case MessageAction.delete:
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!context.mounted) {
-          return;
-        }
-        callbacks.onDelete?.call();
-      });
+      _runAfterModalSettles(context, () => callbacks.onDelete?.call());
     case MessageAction.retry:
       callbacks.onRetry?.call();
     case MessageAction.deleteFailed:
@@ -209,12 +213,10 @@ Future<void> dispatchMessageAction({
         ),
       );
     case MessageAction.viewReactions:
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!context.mounted) {
-          return;
-        }
-        unawaited(showMessageReactionsSheet(context, message: message));
-      });
+      _runAfterModalSettles(
+        context,
+        () => unawaited(showMessageReactionsSheet(context, message: message)),
+      );
     case MessageAction.removeAllReactions:
       callbacks.onRemoveAllReactions?.call();
     case MessageAction.report:

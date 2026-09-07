@@ -10,15 +10,20 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
     show ChannelsCompanion, FluxerDatabase;
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
+import 'package:fluxer_app/features/chat/data/message_repository.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/forward_message_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
+import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
+import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/forward_destinations_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_length_limits_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
@@ -27,10 +32,12 @@ import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
+import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_popout.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:go_router/go_router.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
@@ -305,6 +312,17 @@ void main() {
     });
   });
 
+  group('shouldNavigateAfterForward', () {
+    test('is true for a single destination', () {
+      expect(shouldNavigateAfterForward(1), isTrue);
+    });
+
+    test('is false for no destinations or multiple destinations', () {
+      expect(shouldNavigateAfterForward(0), isFalse);
+      expect(shouldNavigateAfterForward(2), isFalse);
+    });
+  });
+
   group('showForwardMessageSheet', () {
     testWidgets('renders destinations including the source channel', (
       WidgetTester tester,
@@ -510,4 +528,106 @@ void main() {
       );
     });
   });
+
+  group('successful send', () {
+    testWidgets('pops the sheet before navigating to the destination', (
+      WidgetTester tester,
+    ) async {
+      final FluxerDatabase db = await _seedDb();
+      final _FakeMessageRepository repository = _FakeMessageRepository();
+      final _RecordingRouter router = _RecordingRouter();
+
+      await tester.pumpWidget(
+        _app(
+          db,
+          _message(channelId: 'source-chan'),
+          extraOverrides: <Override>[
+            messageRepositoryProvider.overrideWithValue(repository),
+            fluxerRouterProvider.overrideWithValue(router),
+            chatViewModelProvider.overrideWith(_FakeChatViewModel.new),
+            shouldShowMatureContentGateProvider(
+              'general',
+            ).overrideWith((ref) => false),
+            channelByIdProvider('general').overrideWith(
+              (ref) => Stream<Channel?>.value(
+                const Channel(
+                  id: 'general',
+                  guildId: _guildId,
+                  name: 'general',
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('general'));
+      await tester.pump();
+      await tester.tap(
+        find.text(testL10n.forwardSendButton(1, kForwardSelectionLimit)),
+      );
+      await tester.pumpAndSettle();
+
+      expect(repository.calls, 1);
+      expect(find.text(testL10n.forwardMessageTitle), findsNothing);
+      expect(router.locations, <String>[
+        RoutePaths.guildChannel(_guildId, 'general'),
+      ]);
+    });
+  });
+}
+
+class _FakeMessageRepository extends Fake implements MessageRepository {
+  int calls = 0;
+
+  @override
+  Future<void> forwardMessage({
+    required String sourceChannelId,
+    required String sourceMessageId,
+    required List<String> destinationChannelIds,
+    String? sourceGuildId,
+    List<String>? attachmentIds,
+    List<int>? embedIndices,
+    String? comment,
+  }) async {
+    calls += 1;
+  }
+}
+
+class _RecordingRouter extends Fake implements GoRouter {
+  final List<String> locations = <String>[];
+
+  @override
+  void go(String location, {Object? extra}) {
+    locations.add(location);
+  }
+}
+
+class _FakeChatViewModel extends ChatViewModel {
+  @override
+  ChatViewState build() => const ChatViewState(
+    channelId: 'source-chan',
+    messages: <Message>[],
+    replyingTo: null,
+    replyMentioning: false,
+    editingMessage: null,
+    messageText: '',
+    scrollToBottomSignal: 0,
+    isLoading: false,
+    isSyncingMessages: false,
+    isLoadingMore: false,
+    isLoadingNewer: false,
+    hasMoreMessages: false,
+    hasMoreNewerMessages: false,
+    errorMessage: null,
+  );
+
+  @override
+  Future<void> switchChannel(
+    String channelId, {
+    String? targetMessageId,
+    bool loadMessages = true,
+  }) async {}
 }

@@ -4,11 +4,12 @@ import 'dart:ui' show BoxWidthStyle;
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
+import 'package:fluxer_app/core/router/navigate_to_content.dart';
+import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
-import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/message_character_counter.dart';
@@ -17,12 +18,15 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/forward_destination_avatar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
+import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/forward_destinations_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_length_limits_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
 import 'package:fluxer_app/features/chat/service/composer_mention_controller.dart';
 import 'package:fluxer_app/features/chat/utils/slowmode_format.dart';
 import 'package:fluxer_app/features/chat/utils/slowmode_utils.dart';
+import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.dart';
+import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -31,6 +35,11 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 /// Maximum number of destinations a single forward may target (web parity).
 const int kForwardSelectionLimit = 5;
+
+/// Whether to open the destination after a successful forward (web parity).
+bool shouldNavigateAfterForward(int destinationCount) {
+  return destinationCount == 1;
+}
 
 /// Opens the mobile-first forward sheet for [message]: a searchable,
 /// multi-select destination picker (up to [kForwardSelectionLimit]) with an
@@ -78,23 +87,91 @@ Future<void> _showForwardSheet(
   required bool sourceHasAttachments,
   List<String>? attachmentIds,
   List<int>? embedIndices,
-}) {
+}) async {
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-  return FluxerBottomSheet.showScrollable<void>(
+  final String? destinationId = await FluxerBottomSheet.showScrollable<String?>(
     context,
     title: l10n.forwardMessageTitle,
-    builder: (sheetContext, scrollController, close) =>
-        _ForwardMessageSheetBody(
-          sourceChannelId: sourceChannelId,
-          sourceMessageId: sourceMessageId,
-          sourceHasEmbeds: sourceHasEmbeds,
-          sourceHasAttachments: sourceHasAttachments,
-          attachmentIds: attachmentIds,
-          embedIndices: embedIndices,
-          scrollController: scrollController,
-          onClose: close,
-        ),
+    builder: (sheetContext, scrollController, _) => _ForwardMessageSheetBody(
+      sourceChannelId: sourceChannelId,
+      sourceMessageId: sourceMessageId,
+      sourceHasEmbeds: sourceHasEmbeds,
+      sourceHasAttachments: sourceHasAttachments,
+      attachmentIds: attachmentIds,
+      embedIndices: embedIndices,
+      scrollController: scrollController,
+    ),
   );
+  if (destinationId == null || !context.mounted) {
+    return;
+  }
+  final ProviderContainer container = ProviderScope.containerOf(context);
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    if (!context.mounted) {
+      return;
+    }
+    unawaited(
+      _navigateToForwardDestination(
+        hostContext: context,
+        container: container,
+        channelId: destinationId,
+      ),
+    );
+  });
+}
+
+Future<void> _navigateToForwardDestination({
+  required BuildContext hostContext,
+  required ProviderContainer container,
+  required String channelId,
+}) async {
+  if (!hostContext.mounted) {
+    return;
+  }
+  final Channel? channel = _channelForDestination(container, channelId);
+  final String? guildId = channel != null && channel.guildId.isNotEmpty
+      ? channel.guildId
+      : null;
+  final bool canProceed = await promptForChannelGateIfNeeded(
+    context: hostContext,
+    container: container,
+    channelId: channelId,
+    guildId: guildId,
+    channelType: channel?.type,
+  );
+  if (!hostContext.mounted || !canProceed) {
+    return;
+  }
+  final bool isDm = guildId == null || guildId.isEmpty;
+  container
+      .read(recentChannelVisitsProvider.notifier)
+      .recordVisit(channelId: channelId, guildId: guildId);
+  if (isDm || channel == null || channel.type == ChannelType.guildText) {
+    unawaited(
+      container.read(chatViewModelProvider.notifier).switchChannel(channelId),
+    );
+  }
+  navigateToContent(
+    hostContext,
+    isDm
+        ? RoutePaths.dmChannel(channelId)
+        : RoutePaths.guildChannel(guildId, channelId),
+  );
+}
+
+Channel? _channelForDestination(ProviderContainer container, String channelId) {
+  final Channel? watched = container.read(channelByIdProvider(channelId)).value;
+  if (watched != null) {
+    return watched;
+  }
+  final List<Channel> all =
+      container.read(allChannelsProvider).value ?? const <Channel>[];
+  for (final Channel channel in all) {
+    if (channel.id == channelId) {
+      return channel;
+    }
+  }
+  return null;
 }
 
 /// Whether the source [message] carries embeds (directly or via a forwarded
@@ -120,7 +197,6 @@ class _ForwardMessageSheetBody extends ConsumerStatefulWidget {
     required this.sourceHasEmbeds,
     required this.sourceHasAttachments,
     required this.scrollController,
-    required this.onClose,
     this.attachmentIds,
     this.embedIndices,
   });
@@ -132,7 +208,6 @@ class _ForwardMessageSheetBody extends ConsumerStatefulWidget {
   final List<String>? attachmentIds;
   final List<int>? embedIndices;
   final ScrollController scrollController;
-  final VoidCallback onClose;
 
   @override
   ConsumerState<_ForwardMessageSheetBody> createState() =>
@@ -245,20 +320,6 @@ class _ForwardMessageSheetBodyState
     return channel.guildId;
   }
 
-  Future<void> _navigateToDestination(String channelId) async {
-    final Channel? channel = ref.read(channelByIdProvider(channelId)).value;
-    final String? guildId = channel != null && channel.guildId.isNotEmpty
-        ? channel.guildId
-        : null;
-    await navigateToChannelContent(
-      context: context,
-      ref: ref,
-      channelId: channelId,
-      guildId: guildId,
-      channel: channel,
-    );
-  }
-
   Future<void> _forward(bool commentDisabled) async {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final List<String> destinations = _selected.toList();
@@ -291,10 +352,6 @@ class _ForwardMessageSheetBodyState
       if (!mounted) {
         return;
       }
-      await _navigateToDestination(destinations.first);
-      if (!mounted) {
-        return;
-      }
       ref
           .read(toastProvider.notifier)
           .show(
@@ -303,7 +360,11 @@ class _ForwardMessageSheetBodyState
               variant: FluxerToastVariant.success,
             ),
           );
-      widget.onClose();
+      Navigator.of(context).pop(
+        shouldNavigateAfterForward(destinations.length)
+            ? destinations.first
+            : null,
+      );
     } on Object catch (error) {
       final SlowmodeTracker tracker = ref.read(
         slowmodeTrackerProvider.notifier,

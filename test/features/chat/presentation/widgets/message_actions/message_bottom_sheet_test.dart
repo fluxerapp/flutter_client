@@ -405,4 +405,47 @@ void main() {
       expect(find.text(testL10n.chatMessageCopyEmbedText), findsNothing);
     });
   });
+
+  group('dispatchMessageAction', () {
+    testWidgets('defers onForward until the next frame', (tester) async {
+      var forwarded = false;
+      late WidgetRef capturedRef;
+      late BuildContext capturedContext;
+
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: baseOverrides(message.id),
+          child: MaterialApp(
+            locale: kTestLocale,
+            localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+            supportedLocales: FluxerLocalizations.supportedLocales,
+            theme: buildFluxerTheme(
+              colorTheme: buildDarkColorTheme(),
+              textTheme: FluxerTextTheme.fromColors(buildDarkColorTheme()),
+              layoutTheme: FluxerLayoutTheme.scaled(),
+            ),
+            home: Consumer(
+              builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                capturedRef = ref;
+                capturedContext = context;
+                return const SizedBox();
+              },
+            ),
+          ),
+        ),
+      );
+
+      final Future<void> dispatched = dispatchMessageAction(
+        ref: capturedRef,
+        context: capturedContext,
+        message: message,
+        action: MessageAction.forward,
+        callbacks: MessageActionCallbacks(onForward: () => forwarded = true),
+      );
+      expect(forwarded, isFalse);
+      await tester.pump();
+      expect(forwarded, isTrue);
+      await dispatched;
+    });
+  });
 }
