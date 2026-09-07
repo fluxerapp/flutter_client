@@ -549,9 +549,9 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
     try {
       final String url = favoriteGifUrl(gif);
       final notifier = ref.read(favoriteGifsProvider.notifier);
-      if (favoriteLookup.hasUrlFavorite(url)) {
+      final hasUrlFavorite = favoriteLookup.hasUrlFavorite(url);
+      if (hasUrlFavorite) {
         notifier.removeByUrl(url);
-        return;
       }
 
       if (favoriteLookup.saveAsSavedMedia) {
@@ -562,6 +562,10 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
         } else {
           await repository.createFromGif(gif);
         }
+        return;
+      }
+
+      if (hasUrlFavorite) {
         return;
       }
 

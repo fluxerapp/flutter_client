@@ -71,8 +71,12 @@ class FavoriteMediaRepository {
   }
 
   Future<void> deleteFavoriteMeme(FavoriteMeme meme) async {
-    await _client.savedMedia.deleteFavoriteMeme(memeId: meme.id);
-    await _db.favoriteMemesDao.deleteMeme(meme.id);
+    final id = meme.id.trim();
+    await _client.savedMedia.deleteFavoriteMeme(memeId: id);
+    await _db.favoriteMemesDao.deleteMeme(id);
+    if (id != meme.id) {
+      await _db.favoriteMemesDao.deleteMeme(meme.id);
+    }
   }
 
   Future<FavoriteMeme> _upsertResponse(

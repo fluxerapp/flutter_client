@@ -112,19 +112,7 @@ class FavoriteGifsSyncedField
     pickers_pb.FavoriteGifSettings proto,
     FavoriteGifsSyncedLocalState local,
   ) {
-    final wireEntriesByUrl = {
-      for (final entry in proto.entries) entry.url: entry,
-    };
-    proto.entries
-      ..clear()
-      ..addAll(
-        local.entries.map(
-          (entry) =>
-              _entryToProto(entry, wireEntry: wireEntriesByUrl[entry.url]),
-        ),
-      );
-    proto.saveAsSavedMedia = local.saveAsSavedMedia;
-    proto.seenFirstTimePrompt = local.seenFirstTimePrompt;
+    _writeProto(proto, local);
   }
 
   @override
@@ -135,6 +123,16 @@ class FavoriteGifsSyncedField
   @override
   pb.SyncedPreferences wrapProto(pickers_pb.FavoriteGifSettings proto) {
     return pb.SyncedPreferences(favoriteGifs: proto);
+  }
+
+  @override
+  bool hasLocalData(FavoriteGifsSyncedLocalState local) {
+    return local.entries.isNotEmpty;
+  }
+
+  @override
+  FavoriteGifsSyncedLocalState? clearedRemoteValue() {
+    return FavoriteGifsSyncedLocalState.empty;
   }
 
   @override

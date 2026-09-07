@@ -663,10 +663,10 @@ class GatewayEventHandler {
         _emit(() => onWebhooksUpdate?.call(event.guildId, event.channelId));
       case FavoriteMemeCreateEvent():
         _logGatewayDebug(() => talker.debug('[Gateway] FAVORITE_MEME_CREATE'));
-        unawaited(_handleFavoriteMemeCreate(event));
+        unawaited(_upsertFavoriteMeme(event.data));
       case FavoriteMemeUpdateEvent():
         _logGatewayDebug(() => talker.debug('[Gateway] FAVORITE_MEME_UPDATE'));
-        unawaited(_handleFavoriteMemeUpdate(event));
+        unawaited(_upsertFavoriteMeme(event.data));
       case FavoriteMemeDeleteEvent():
         _logGatewayDebug(
           () => talker.debug('[Gateway] FAVORITE_MEME_DELETE: ${event.id}'),
@@ -1147,18 +1147,9 @@ class GatewayEventHandler {
 
       final favoriteMemes = event.favoriteMemes;
       if (favoriteMemes != null) {
-        for (final meme in favoriteMemes) {
-          final id = meme['id'] as String?;
-          if (id == null) {
-            continue;
-          }
-          await database.favoriteMemesDao.upsert(
-            db.FavoriteMemesTableCompanion(
-              id: Value(id),
-              data: Value(jsonEncode(meme)),
-            ),
-          );
-        }
+        await database.favoriteMemesDao.replaceAll(
+          _favoriteMemeCompanions(favoriteMemes),
+        );
       }
 
       final rtcRegions = event.rtcRegions;
@@ -1417,33 +1408,20 @@ class GatewayEventHandler {
     await database.pinnedDmsDao.replaceAll(companions);
   }
 
-  Future<void> _handleFavoriteMemeCreate(FavoriteMemeCreateEvent event) async {
-    final id = event.data['id'] as String? ?? '';
-    if (id.isNotEmpty) {
-      await database.favoriteMemesDao.upsert(
-        db.FavoriteMemesTableCompanion(
-          id: Value(id),
-          data: Value(jsonEncode(event.data)),
-        ),
-      );
-    }
-  }
-
-  Future<void> _handleFavoriteMemeUpdate(FavoriteMemeUpdateEvent event) async {
-    final id = event.data['id'] as String? ?? '';
-    if (id.isNotEmpty) {
-      await database.favoriteMemesDao.upsert(
-        db.FavoriteMemesTableCompanion(
-          id: Value(id),
-          data: Value(jsonEncode(event.data)),
-        ),
-      );
-    }
-  }
-
   Future<void> _handleFavoriteMemeDelete(FavoriteMemeDeleteEvent event) async {
-    if (event.id.isEmpty) return;
-    await database.favoriteMemesDao.deleteMeme(event.id);
+    final id = event.id.trim();
+    if (id.isEmpty) {
+      return;
+    }
+    await database.favoriteMemesDao.deleteMeme(id);
+  }
+
+  Future<void> _upsertFavoriteMeme(Map<String, dynamic> data) async {
+    final companion = _favoriteMemeCompanion(data);
+    if (companion == null) {
+      return;
+    }
+    await database.favoriteMemesDao.upsert(companion);
   }
 
   Future<void> _handleMessageCreate(MessageCreateEvent event) async {
@@ -2630,4 +2608,45 @@ class GatewayEventHandler {
       messageMentionContextCache?.invalidateGuild(guildId);
     }
   }
+}
+
+List<db.FavoriteMemesTableCompanion> _favoriteMemeCompanions(
+  List<Map<String, dynamic>> memes,
+) {
+  final companions = <db.FavoriteMemesTableCompanion>[];
+  for (final meme in memes) {
+    final companion = _favoriteMemeCompanion(meme);
+    if (companion != null) {
+      companions.add(companion);
+    }
+  }
+  return companions;
+}
+
+db.FavoriteMemesTableCompanion? _favoriteMemeCompanion(
+  Map<String, dynamic> meme,
+) {
+  final id = _gatewaySnowflakeId(meme['id']);
+  if (id == null) {
+    return null;
+  }
+  final data = Map<String, dynamic>.from(meme)..['id'] = id;
+  return db.FavoriteMemesTableCompanion(
+    id: Value(id),
+    data: Value(jsonEncode(data)),
+  );
+}
+
+String? _gatewaySnowflakeId(Object? value) {
+  if (value is String) {
+    final trimmed = value.trim();
+    return trimmed.isEmpty ? null : trimmed;
+  }
+  if (value is int) {
+    return value.toString();
+  }
+  if (value is BigInt) {
+    return value.toString();
+  }
+  return null;
 }

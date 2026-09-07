@@ -152,6 +152,25 @@ void main() {
 
     expect(favorite.media?['webp']?.proxySrc, 'https://cdn.example/cat.webp');
   });
+
+  test('FavoriteMeme coerces numeric ids to strings', () {
+    final meme = FavoriteMeme.fromJson({
+      ..._memeJson(),
+      'id': 99,
+      'user_id': 100,
+      'attachment_id': 101,
+    });
+
+    expect(meme.id, '99');
+    expect(meme.userId, '100');
+    expect(meme.attachmentId, '101');
+  });
+
+  test('FavoriteMeme trims snowflake ids', () {
+    final meme = FavoriteMeme.fromJson({..._memeJson(), 'id': ' 123 '});
+
+    expect(meme.id, '123');
+  });
 }
 
 Map<String, Object?> _memeJson() => {
