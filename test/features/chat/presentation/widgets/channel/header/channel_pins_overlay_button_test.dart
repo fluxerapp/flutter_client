@@ -84,6 +84,8 @@ Widget _buildApp(Widget child) {
       textTheme: FluxerTextTheme.fromColors(colorTheme),
       layoutTheme: FluxerLayoutTheme.scaled(),
     ),
-    home: Scaffold(body: Align(alignment: Alignment.topRight, child: child)),
+    home: Scaffold(
+      body: Align(alignment: Alignment.topRight, child: child),
+    ),
   );
 }

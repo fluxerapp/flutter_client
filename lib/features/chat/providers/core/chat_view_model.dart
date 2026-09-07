@@ -2982,7 +2982,7 @@ class ChatViewModel extends _$ChatViewModel {
         .read(fluxerDatabaseProvider)
         .readStateDao
         .getReadState(channelId);
-    final unreadId = _firstUnreadForCurrentMessages(readState: readState);
+    final unreadId = _stickyUnreadIdForCurrentMessages(readState: readState);
     // Record the sticky divider anchor only. MessageList parks the divider
     // at mid-viewport on first render of an unread channel.
     if (unreadId != null) {
@@ -4143,7 +4143,7 @@ class ChatViewModel extends _$ChatViewModel {
       if (_stickySnapshotArmed && state.channelId == channelId) {
         _stickySnapshotArmed = false;
         if (!force && state.stickyUnreadMessageId == null) {
-          final String? unreadId = _firstUnreadForCurrentMessages(
+          final String? unreadId = _stickyUnreadIdForCurrentMessages(
             readState: readState,
           );
           if (unreadId != null) {
@@ -4290,12 +4290,6 @@ class ChatViewModel extends _$ChatViewModel {
     }
   }
 
-  bool _isOwnMessage(Message message, String? currentUserId) {
-    return currentUserId != null &&
-        currentUserId.isNotEmpty &&
-        message.authorId == currentUserId;
-  }
-
   String? _firstUnreadForCurrentMessages({required db.ReadState? readState}) {
     if (state.messages.isEmpty) {
       return null;
@@ -4312,13 +4306,33 @@ class ChatViewModel extends _$ChatViewModel {
     if (!boundaryLoaded) {
       return null;
     }
-    final currentUserId = ref.read(currentUserIdProvider);
     return oldestUnreadMessageId(
-      messageIds: state.messages
-          .where((message) => !_isOwnMessage(message, currentUserId))
-          .map((message) => message.id),
+      messageIds: state.messages.map((message) => message.id),
       ackLastMessageId: ack,
     );
+  }
+
+  // Own messages can be first unread, but must not become sticky: live-tail
+  // auto-ack would leave a leftover NEW divider on a just-acked own send.
+  String? _stickyUnreadIdForCurrentMessages({
+    required db.ReadState? readState,
+  }) {
+    final String? unreadId = _firstUnreadForCurrentMessages(
+      readState: readState,
+    );
+    if (unreadId == null) {
+      return null;
+    }
+    final String? currentUserId = ref.read(currentUserIdProvider);
+    if (currentUserId == null || currentUserId.isEmpty) {
+      return unreadId;
+    }
+    for (final Message message in state.messages) {
+      if (message.id == unreadId) {
+        return message.authorId == currentUserId ? null : unreadId;
+      }
+    }
+    return unreadId;
   }
 
   String _unreadBoundaryKey(String channelId, String ackMessageId) =>

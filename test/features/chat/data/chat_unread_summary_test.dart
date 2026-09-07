@@ -2,24 +2,45 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/data/chat_unread_summary.dart';
 
 void main() {
-  test('finds oldest unread excluding own messages', () {
+  test('finds oldest unread including own messages', () {
     final summary = computeChatUnreadSummary(
       messages: const [
+        ChatUnreadMessageRef(id: '90', authorId: 'other'),
         ChatUnreadMessageRef(id: '100', authorId: 'me'),
         ChatUnreadMessageRef(id: '110', authorId: 'other'),
         ChatUnreadMessageRef(id: '120', authorId: 'other'),
       ],
-      ackLastMessageId: '105',
+      ackLastMessageId: '90',
       mentionCount: 0,
-      currentUserId: 'me',
       channelLastMessageId: '120',
       hasMoreNewerMessages: false,
       hasMoreOlderMessages: false,
     );
 
-    expect(summary.oldestUnreadMessageId, '110');
+    expect(summary.oldestUnreadMessageId, '100');
+    expect(summary.loadedUnreadCount, 3);
+    expect(summary.displayUnreadCount, 3);
+    expect(summary.isEstimated, isFalse);
+  });
+
+  test('anchors unread on own messages when they are the only unread', () {
+    final summary = computeChatUnreadSummary(
+      messages: const [
+        ChatUnreadMessageRef(id: '90', authorId: 'other'),
+        ChatUnreadMessageRef(id: '100', authorId: 'me'),
+        ChatUnreadMessageRef(id: '110', authorId: 'me'),
+      ],
+      ackLastMessageId: '90',
+      mentionCount: 0,
+      channelLastMessageId: '110',
+      hasMoreNewerMessages: false,
+      hasMoreOlderMessages: false,
+    );
+
+    expect(summary.oldestUnreadMessageId, '100');
     expect(summary.loadedUnreadCount, 2);
     expect(summary.displayUnreadCount, 2);
+    expect(summary.hasUnread, isTrue);
     expect(summary.isEstimated, isFalse);
   });
 
@@ -32,7 +53,6 @@ void main() {
       ],
       ackLastMessageId: '100',
       mentionCount: 0,
-      currentUserId: 'me',
       channelLastMessageId: '120',
       hasMoreNewerMessages: false,
       hasMoreOlderMessages: false,
@@ -52,7 +72,6 @@ void main() {
       ],
       ackLastMessageId: '100',
       mentionCount: 0,
-      currentUserId: 'me',
       channelLastMessageId: '210',
       hasMoreNewerMessages: false,
       hasMoreOlderMessages: true,
@@ -72,7 +91,6 @@ void main() {
       ],
       ackLastMessageId: '100',
       mentionCount: 0,
-      currentUserId: 'me',
       channelLastMessageId: '210',
       hasMoreNewerMessages: false,
       hasMoreOlderMessages: false,
@@ -89,7 +107,6 @@ void main() {
       messages: const [ChatUnreadMessageRef(id: '200', authorId: 'other')],
       ackLastMessageId: '100',
       mentionCount: 5,
-      currentUserId: 'me',
       channelLastMessageId: '200',
       hasMoreNewerMessages: false,
       hasMoreOlderMessages: true,
@@ -105,7 +122,6 @@ void main() {
       messages: const [ChatUnreadMessageRef(id: '200', authorId: 'other')],
       ackLastMessageId: null,
       mentionCount: 5,
-      currentUserId: 'me',
       channelLastMessageId: '200',
       hasMoreNewerMessages: false,
       hasMoreOlderMessages: false,
@@ -135,7 +151,6 @@ void main() {
         ],
         ackLastMessageId: '90',
         mentionCount: 0,
-        currentUserId: 'me',
         channelLastMessageId: '200',
         hasMoreNewerMessages: false,
         hasMoreOlderMessages: false,
@@ -159,7 +174,6 @@ void main() {
           messages: messages,
           stickyUnreadId: null,
           oldestUnreadId: '110',
-          currentUserId: 'me',
         ),
         '110',
       );
@@ -171,7 +185,6 @@ void main() {
           messages: messages,
           stickyUnreadId: '110',
           oldestUnreadId: '120',
-          currentUserId: 'me',
         ),
         '110',
       );
@@ -183,21 +196,19 @@ void main() {
           messages: messages,
           stickyUnreadId: '999',
           oldestUnreadId: '120',
-          currentUserId: 'me',
         ),
         '120',
       );
     });
 
-    test('ignores a sticky pointing at an own message', () {
+    test('keeps a sticky pointing at an own message', () {
       expect(
         resolveVisualUnreadId(
           messages: messages,
           stickyUnreadId: '100',
           oldestUnreadId: '120',
-          currentUserId: 'me',
         ),
-        '120',
+        '100',
       );
     });
 
@@ -207,7 +218,6 @@ void main() {
           messages: messages,
           stickyUnreadId: '110',
           oldestUnreadId: null,
-          currentUserId: 'me',
         ),
         '110',
       );
@@ -219,7 +229,6 @@ void main() {
           messages: messages,
           stickyUnreadId: null,
           oldestUnreadId: null,
-          currentUserId: 'me',
         ),
         isNull,
       );
