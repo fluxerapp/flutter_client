@@ -36,12 +36,29 @@ void main() {
         ),
         HdrImageProxyFormatAction.stripFormat,
       );
+    });
+
+    test('FULL requests webp for jpeg xl', () {
       expect(
         hdrImageProxyFormatAction(
           mode: HdrDisplayMode.full,
           contentType: 'image/jxl',
         ),
-        HdrImageProxyFormatAction.stripFormat,
+        HdrImageProxyFormatAction.setWebp,
+      );
+      expect(
+        hdrImageProxyFormatAction(
+          mode: HdrDisplayMode.full,
+          contentType: 'image/jxl; codecs=jxl',
+        ),
+        HdrImageProxyFormatAction.setWebp,
+      );
+      expect(
+        hdrImageProxyFormatAction(
+          mode: HdrDisplayMode.full,
+          url: 'https://cdn.example.com/photo.jxl',
+        ),
+        HdrImageProxyFormatAction.setWebp,
       );
     });
 
@@ -79,6 +96,22 @@ void main() {
       final Uri uri = Uri.parse(actual);
       expect(uri.queryParameters.containsKey('format'), isFalse);
       expect(uri.queryParameters['width'], '400');
+    });
+
+    test('FULL keeps webp for jpeg xl urls', () {
+      final String fromType = buildHdrAwareImageUrl(
+        url: 'https://cdn.example.com/a.jxl?width=400',
+        mode: HdrDisplayMode.full,
+        contentType: 'image/jxl',
+      );
+      expect(Uri.parse(fromType).queryParameters['format'], 'webp');
+      expect(Uri.parse(fromType).queryParameters['width'], '400');
+
+      final String fromPath = buildHdrAwareImageUrl(
+        url: 'https://cdn.example.com/a.jxl?format=webp&width=400',
+        mode: HdrDisplayMode.full,
+      );
+      expect(Uri.parse(fromPath).queryParameters['format'], 'webp');
     });
   });
 
