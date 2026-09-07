@@ -5,11 +5,15 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/chat/data/channel_pins_repository.dart';
 import 'package:fluxer_app/features/chat/data/channel_search_query_parser.dart';
+import 'package:fluxer_app/features/chat/data/message_search_mature_content.dart';
 import 'package:fluxer_app/features/chat/data/message_search_repository.dart';
 import 'package:fluxer_app/features/chat/domain/channel_search_chip_filters.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
+import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
+import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
+import 'package:fluxer_app/features/mature_content/utils/content_warning_utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'channel_details_providers.g.dart';
@@ -288,19 +292,16 @@ class ChannelSearch extends _$ChannelSearch {
       errorMessage: null,
     );
     try {
-      final page = await ref
-          .read(messageSearchRepositoryProvider)
-          .searchMessages(nextQuery);
-      state = state.copyWith(
-        query: nextQuery,
-        results: page.results,
-        total: page.total,
-        hasMore: page.hasMore,
-        isSearching: false,
-        indexing: page.indexing,
-        errorMessage: null,
-      );
+      final ({MessageSearchQuery query, MessageSearchPage page})? result =
+          await _executeSearch(nextQuery);
+      if (!ref.mounted || result == null) {
+        return;
+      }
+      _setSearchPage(result.query, result.page);
     } on Exception {
+      if (!ref.mounted) {
+        return;
+      }
       state = state.copyWith(isSearching: false, errorMessage: 'Search failed');
     }
   }
@@ -318,19 +319,16 @@ class ChannelSearch extends _$ChannelSearch {
       errorMessage: null,
     );
     try {
-      final MessageSearchPage resultPage = await ref
-          .read(messageSearchRepositoryProvider)
-          .searchMessages(nextQuery);
-      state = state.copyWith(
-        query: nextQuery,
-        results: resultPage.results,
-        total: resultPage.total,
-        hasMore: resultPage.hasMore,
-        isSearching: false,
-        indexing: resultPage.indexing,
-        errorMessage: null,
-      );
+      final ({MessageSearchQuery query, MessageSearchPage page})? result =
+          await _executeSearch(nextQuery);
+      if (!ref.mounted || result == null) {
+        return;
+      }
+      _setSearchPage(result.query, result.page);
     } on Exception {
+      if (!ref.mounted) {
+        return;
+      }
       state = state.copyWith(isSearching: false, errorMessage: 'Search failed');
     }
   }
@@ -348,24 +346,113 @@ class ChannelSearch extends _$ChannelSearch {
     );
     state = state.copyWith(isLoadingMore: true);
     try {
-      final MessageSearchPage page = await ref
-          .read(messageSearchRepositoryProvider)
-          .searchMessages(nextQuery);
-      state = state.copyWith(
-        query: nextQuery,
-        results: [...state.results, ...page.results],
-        total: page.total,
-        hasMore: page.hasMore,
-        isLoadingMore: false,
-        indexing: page.indexing,
-        errorMessage: null,
+      final ({MessageSearchQuery query, MessageSearchPage page})? result =
+          await _executeSearch(nextQuery);
+      if (!ref.mounted || result == null) {
+        return;
+      }
+      _setSearchPage(
+        result.query,
+        result.page,
+        results: [...state.results, ...result.page.results],
       );
     } on Exception {
+      if (!ref.mounted) {
+        return;
+      }
       state = state.copyWith(
         isLoadingMore: false,
         errorMessage: 'Failed to load more results',
       );
     }
+  }
+
+  void _setSearchPage(
+    MessageSearchQuery query,
+    MessageSearchPage page, {
+    List<MessageSearchResultEntry>? results,
+  }) {
+    state = state.copyWith(
+      query: query,
+      results: results ?? page.results,
+      total: page.total,
+      hasMore: page.hasMore,
+      isSearching: false,
+      isLoadingMore: false,
+      indexing: page.indexing,
+      errorMessage: null,
+    );
+  }
+
+  Future<({MessageSearchQuery query, MessageSearchPage page})?> _executeSearch(
+    MessageSearchQuery query,
+  ) async {
+    final bool shouldShowGate = await ref.read(
+      shouldShowMatureContentGateProvider(channelId).future,
+    );
+    if (!ref.mounted) {
+      return null;
+    }
+    if (shouldShowGate) {
+      return (
+        query: query,
+        page: MessageSearchPage(
+          results: const <MessageSearchResultEntry>[],
+          total: 0,
+          page: query.page,
+          hitsPerPage: kMessageSearchPageSize,
+          indexing: false,
+        ),
+      );
+    }
+
+    final bool includeNsfw = await _shouldIncludeNsfw(query);
+    if (!ref.mounted) {
+      return null;
+    }
+    final MessageSearchQuery prepared = applyMatureContentToSearchQuery(
+      query,
+      includeNsfw: includeNsfw,
+    );
+    final MessageSearchPage page = await ref
+        .read(messageSearchRepositoryProvider)
+        .searchMessages(prepared);
+    if (!ref.mounted) {
+      return null;
+    }
+    return (query: prepared, page: page);
+  }
+
+  Future<bool> _shouldIncludeNsfw(MessageSearchQuery query) async {
+    final Set<String> channelIds = <String>{
+      channelId,
+      ...query.parsed.channelIds,
+    };
+    for (final String targetChannelId in channelIds) {
+      if (await _isConsentedGatedChannel(targetChannelId)) {
+        return true;
+      }
+      if (!ref.mounted) {
+        return false;
+      }
+    }
+    return false;
+  }
+
+  Future<bool> _isConsentedGatedChannel(String targetChannelId) async {
+    final ResolvedMatureGateContext? context = await ref.read(
+      matureGateContextProvider(targetChannelId).future,
+    );
+    if (!ref.mounted || context == null || !isGatedMatureContent(context)) {
+      return false;
+    }
+    final bool showingGate = await ref.read(
+      shouldShowMatureContentGateProvider(targetChannelId).future,
+    );
+    if (!ref.mounted) {
+      return false;
+    }
+    return !showingGate;
   }
 }
 
