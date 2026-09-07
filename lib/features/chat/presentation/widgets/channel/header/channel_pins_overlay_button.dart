@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/channel_pins_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_header_icon_button.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_pins_content.dart';
+import 'package:fluxer_app/features/chat/providers/channel/channel_pins_open_request_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -72,17 +73,26 @@ class _ChannelPinsOverlayButtonState
   }
 
   void _toggle() {
+    if (!isMobileLayout(context) && _overlayController.isShowing) {
+      _close();
+      return;
+    }
+    _open();
+  }
+
+  void _open() {
+    if (!mounted) {
+      return;
+    }
     if (isMobileLayout(context)) {
       unawaited(
         showChannelPinsSheet(context, ref, channelId: widget.channelId),
       );
       return;
     }
-    if (_overlayController.isShowing) {
-      _close();
-      return;
+    if (!_overlayController.isShowing) {
+      _overlayController.show();
     }
-    _overlayController.show();
     _animationController.forward();
   }
 
@@ -138,6 +148,9 @@ class _ChannelPinsOverlayButtonState
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<int>(channelPinsOpenRequestProvider, (int? _, int _) {
+      _open();
+    });
     final bool isOpen = _overlayController.isShowing;
     if (isMobileLayout(context)) {
       return widget.anchorBuilder(context, isOpen: false, toggle: _toggle);

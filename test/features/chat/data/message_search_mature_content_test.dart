@@ -14,9 +14,10 @@ void main() {
 
     test('sets includeNsfw when searching consented gated content', () {
       expect(
-        applyMatureContentToSearchQuery(query(), includeNsfw: true)
-            .parsed
-            .includeNsfw,
+        applyMatureContentToSearchQuery(
+          query(),
+          includeNsfw: true,
+        ).parsed.includeNsfw,
         isTrue,
       );
     });
@@ -36,9 +37,10 @@ void main() {
       final MessageSearchQuery original = query(rawQuery: 'hello nsfw:false');
       expect(original.parsed.includeNsfw, isFalse);
       expect(
-        applyMatureContentToSearchQuery(original, includeNsfw: true)
-            .parsed
-            .includeNsfw,
+        applyMatureContentToSearchQuery(
+          original,
+          includeNsfw: true,
+        ).parsed.includeNsfw,
         isTrue,
       );
     });

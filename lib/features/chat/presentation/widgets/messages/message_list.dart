@@ -20,8 +20,6 @@ import 'package:fluxer_app/features/chat/domain/pagination_pump_policy.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'sheets/attachment_alt_text_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/'
-    'sheets/channel_pins_sheet.dart';
-import 'package:fluxer_app/features/chat/presentation/'
     'sheets/delete_message_confirm_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'sheets/forward_message_sheet.dart';
@@ -993,13 +991,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       case ChatKeybindEffect.scrollPageDown:
         _scrollByPage(up: false);
       case ChatKeybindEffect.togglePins:
-        unawaited(
-          showChannelPinsSheet(
-            context,
-            ref,
-            channelId: ref.read(chatViewModelProvider).channelId,
-          ),
-        );
+        requestOpenChannelPins(ref);
       case ChatKeybindEffect.addReaction:
         _openReactionPickerForFocusedMessage();
       case ChatKeybindEffect.triggerUpload:
@@ -2464,13 +2456,7 @@ class _MessageListState extends ConsumerState<MessageList> {
                   )
                 : null,
             onViewAllPins: isPinSystemMessage
-                ? () => unawaited(
-                    showChannelPinsSheet(
-                      context,
-                      ref,
-                      channelId: message.channelId,
-                    ),
-                  )
+                ? () => requestOpenChannelPins(ref)
                 : null,
             onLongPress: useTouchMessageActions
                 ? () => unawaited(
