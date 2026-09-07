@@ -480,6 +480,9 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                           if (actionUser == null)
                             FluxerButton.circleAlt(
                               icon: PhosphorIconsFill.gear,
+                              semanticLabel: FluxerLocalizations.of(
+                                context,
+                              ).nagbarOpenSettings,
                               onPressed: () => UserSettingsModal.show(context),
                             )
                           else
@@ -1088,6 +1091,7 @@ class _MoreButtonState extends State<_MoreButton> {
       key: _key,
       onPressed: _emit,
       icon: PhosphorIconsBold.dotsThree,
+      semanticLabel: FluxerLocalizations.of(context).uiMoreActions,
     );
   }
 }
@@ -1142,6 +1146,7 @@ class _ErrorState extends StatelessWidget {
             child: FluxerButton.circleAlt(
               onPressed: onClose,
               icon: PhosphorIconsBold.x,
+              semanticLabel: l10n.uiClose,
             ),
           ),
       ],

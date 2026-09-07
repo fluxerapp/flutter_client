@@ -335,19 +335,25 @@ class _StarfieldBackgroundState extends State<StarfieldBackground>
               _parallaxOffset,
             ]),
             builder: (BuildContext context, Widget? _) {
-              return CustomPaint(
-                painter: _StarfieldPainter(
-                  fineProgress: _quantizeProgress(
-                    Curves.easeInOut.transform(_fineDrift.value) *
-                        motionIntensity,
-                  ),
-                  coarseProgress: _quantizeProgress(
-                    Curves.easeInOut.transform(1 - _coarseDrift.value) *
-                        motionIntensity,
-                  ),
-                  parallaxOffset: Offset(
-                    _quantizePixels(_parallaxOffset.value.dx * motionIntensity),
-                    _quantizePixels(_parallaxOffset.value.dy * motionIntensity),
+              return ExcludeSemantics(
+                child: CustomPaint(
+                  painter: _StarfieldPainter(
+                    fineProgress: _quantizeProgress(
+                      Curves.easeInOut.transform(_fineDrift.value) *
+                          motionIntensity,
+                    ),
+                    coarseProgress: _quantizeProgress(
+                      Curves.easeInOut.transform(1 - _coarseDrift.value) *
+                          motionIntensity,
+                    ),
+                    parallaxOffset: Offset(
+                      _quantizePixels(
+                        _parallaxOffset.value.dx * motionIntensity,
+                      ),
+                      _quantizePixels(
+                        _parallaxOffset.value.dy * motionIntensity,
+                      ),
+                    ),
                   ),
                 ),
               );

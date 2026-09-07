@@ -283,7 +283,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     required BuildContext context,
     required IconData icon,
     required VoidCallback? onPressed,
-    String? tooltip,
+    required String tooltip,
     double iconSize = _kWideComposerIconSize,
     FluxerButtonSize touchSize = FluxerButtonSize.small,
     bool leadingTouchGap = false,

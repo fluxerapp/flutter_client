@@ -107,38 +107,36 @@ class _AppBottomNavItem extends StatelessWidget {
     return FluxerTappable(
       onTap: onTap,
       onLongPress: onLongPress,
+      selected: isSelected,
+      semanticLabel: config.label,
+      excludeChildSemantics: true,
       builder: (BuildContext context, Set<WidgetState> states) {
-        return Semantics(
-          button: true,
-          selected: isSelected,
-          label: config.label,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (config.isProfile)
-                AnimatedOpacity(
-                  duration: context.motion.panel,
-                  opacity: isSelected ? 1 : 0.5,
-                  child: FluxerAvatar.userPresence(
-                    fallbackText: user.displayName,
-                    userId: user.userId,
-                    imageUrl: user.avatarUrl,
-                    avatarColor: user.avatarColor,
-                    size: 24,
-                  ),
-                )
-              else
-                PhosphorIcon(config.icon!, color: itemColor, size: 24),
-              const SizedBox(height: 4),
-              Text(
-                config.label,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: context.textStyles.timestamp.copyWith(color: itemColor),
-              ),
-            ],
-          ),
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (config.isProfile)
+              AnimatedOpacity(
+                duration: context.motion.panel,
+                opacity: isSelected ? 1 : 0.5,
+                child: FluxerAvatar.userPresence(
+                  fallbackText: user.displayName,
+                  userId: user.userId,
+                  imageUrl: user.avatarUrl,
+                  avatarColor: user.avatarColor,
+                  size: 24,
+                ),
+              )
+            else
+              PhosphorIcon(config.icon!, color: itemColor, size: 24),
+            const SizedBox(height: 4),
+            Text(
+              config.label,
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: context.textStyles.timestamp.copyWith(color: itemColor),
+            ),
+          ],
         );
       },
     );

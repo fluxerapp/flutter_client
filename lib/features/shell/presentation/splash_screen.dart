@@ -440,58 +440,66 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                                 },
                               ),
                             if (!_exitRevealStarted)
-                              KeyedSubtree(
-                                key: _logoKey,
-                                child: InstanceBrandMark(
-                                  size: _logoHeight,
-                                  backgroundColor: context.colors.brandPrimary,
+                              ExcludeSemantics(
+                                child: KeyedSubtree(
+                                  key: _logoKey,
+                                  child: InstanceBrandMark(
+                                    size: _logoHeight,
+                                    backgroundColor:
+                                        context.colors.brandPrimary,
+                                  ),
                                 ),
                               ),
                           ],
                         ),
                       ),
                       _fadeExitContent(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 32),
-                          child: serviceUnavailable
-                              ? Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      strings.splashConnectionLost,
-                                      style: context.textStyles.smallText
-                                          .copyWith(
-                                            color: _splashQuoteText,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      strings.reconnectingBody,
-                                      style: context.textStyles.smallText
-                                          .copyWith(color: _splashMutedText),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                )
-                              : showStartupError
-                              ? Text(
-                                  statusText,
-                                  style: context.textStyles.smallText.copyWith(
-                                    color: context.colors.textDanger,
+                        child: Semantics(
+                          container: true,
+                          liveRegion: true,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 32),
+                            child: serviceUnavailable
+                                ? Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        strings.splashConnectionLost,
+                                        style: context.textStyles.smallText
+                                            .copyWith(
+                                              color: _splashQuoteText,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        strings.reconnectingBody,
+                                        style: context.textStyles.smallText
+                                            .copyWith(color: _splashMutedText),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  )
+                                : showStartupError
+                                ? Text(
+                                    statusText,
+                                    style: context.textStyles.smallText
+                                        .copyWith(
+                                          color: context.colors.textDanger,
+                                        ),
+                                    textAlign: TextAlign.center,
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                  )
+                                : _buildNormalMessageArea(
+                                    context,
+                                    strings,
+                                    visibleIncident,
+                                    displayText,
+                                    incidentCtaStyle,
                                   ),
-                                  textAlign: TextAlign.center,
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                )
-                              : _buildNormalMessageArea(
-                                  context,
-                                  strings,
-                                  visibleIncident,
-                                  displayText,
-                                  incidentCtaStyle,
-                                ),
+                          ),
                         ),
                       ),
                       if (serviceUnavailable || showStartupError)

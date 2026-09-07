@@ -782,6 +782,7 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
               child: FluxerButton.circle(
                 key: _micKey,
                 icon: PhosphorIconsFill.microphone,
+                semanticLabel: l10n.voiceMessageTitle,
                 variant: FluxerButtonVariant.secondary,
                 iconSize: 20,
                 size: widget.buttonSize,

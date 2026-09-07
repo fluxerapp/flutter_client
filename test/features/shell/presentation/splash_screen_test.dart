@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/providers/splash_exit_allowed_provider.dart';
 import 'package:fluxer_app/features/shell/domain/service_status_incident.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_screen.dart';
 import 'package:fluxer_app/features/shell/providers/service_status_incident_provider.dart';
+import 'package:fluxer_app/features/ui/icons/instance_branding_image.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
@@ -110,4 +111,43 @@ void main() {
       expect(find.text('Connection lost'), findsNothing);
     },
   );
+
+  testWidgets('exposes a live status region and hides decorative branding', (
+    tester,
+  ) async {
+    final SemanticsHandle handle = tester.ensureSemantics();
+
+    await tester.pumpWidget(
+      pumpFluxerApp(
+        overrides: <Override>[
+          appStartupProvider.overrideWith(_PendingAppStartup.new),
+        ],
+        child: const SplashScreen(),
+      ),
+    );
+    await tester.pump();
+
+    expect(
+      find.byWidgetPredicate(
+        (Widget widget) =>
+            widget is Semantics && (widget.properties.liveRegion ?? false),
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.ancestor(
+        of: find.byType(InstanceBrandMark),
+        matching: find.byType(ExcludeSemantics),
+      ),
+      findsWidgets,
+    );
+    expect(
+      find.ancestor(
+        of: find.byType(CustomPaint),
+        matching: find.byType(ExcludeSemantics),
+      ),
+      findsWidgets,
+    );
+    handle.dispose();
+  });
 }

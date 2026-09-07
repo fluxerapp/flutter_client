@@ -10626,6 +10626,27 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get uiLoading => 'جارٍ التحميل';
 
   @override
+  String get uiSearch => 'Search';
+
+  @override
+  String get uiStartCall => 'Start call';
+
+  @override
+  String get uiStartVideoCall => 'Start video call';
+
+  @override
+  String get uiPlay => 'Play';
+
+  @override
+  String get uiPause => 'Pause';
+
+  @override
+  String get uiDownload => 'Download';
+
+  @override
+  String get uiMoreActions => 'More actions';
+
+  @override
   String get uiUnsavedChanges => 'تغييرات غير محفوظة';
 
   @override

@@ -109,6 +109,8 @@ class _FluxerTappableState extends State<FluxerTappable> {
       expanded: widget.expanded,
       header: widget.header,
       container: widget.container,
+      onTap: widget.enabled ? widget.onTap : null,
+      onLongPress: widget.enabled ? widget.onLongPress : null,
       child: MouseRegion(
         cursor: widget.enabled
             ? SystemMouseCursors.click
@@ -125,6 +127,7 @@ class _FluxerTappableState extends State<FluxerTappable> {
           onFocusChange: (focused) => setState(() => _isFocused = focused),
           child: GestureDetector(
             behavior: widget.hitTestBehavior,
+            excludeFromSemantics: true,
             onTap: widget.enabled ? widget.onTap : null,
             onLongPress: widget.enabled ? widget.onLongPress : null,
             onTapDown: _handleTapDown,

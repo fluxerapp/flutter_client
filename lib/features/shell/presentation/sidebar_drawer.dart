@@ -318,15 +318,28 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
                 ),
           };
 
+    final RevealSide revealSide = ref.watch(currentRevealSideProvider);
+    final bool peek = isCompactWideDrawerPeekMode(
+      context,
+      shellLocation: ref.watch(shellLocationProvider),
+      revealSide: revealSide,
+    );
     return RawGestureDetector(
+      excludeFromSemantics: true,
       gestures: drawerGestures,
       child: Stack(
         fit: StackFit.expand,
         children: [
-          RepaintBoundary(child: widget.base),
+          ExcludeSemantics(
+            excluding: !peek && revealSide == RevealSide.main,
+            child: RepaintBoundary(child: widget.base),
+          ),
           AnimatedBuilder(
             animation: _animationController,
-            child: _DrawerSliderLayer(slider: widget.slider),
+            child: ExcludeSemantics(
+              excluding: !peek && revealSide == RevealSide.left,
+              child: _DrawerSliderLayer(slider: widget.slider),
+            ),
             builder: (context, slider) {
               return Transform.translate(
                 offset: Offset(_animationController.value, 0),
