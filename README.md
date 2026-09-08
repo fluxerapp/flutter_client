@@ -53,13 +53,6 @@ Download the latest **beta** build from [GitHub releases](https://github.com/flu
 
 **Degoogled phones (GrapheneOS, no Google apps):** install the **OSS** APK (`betaoss`) and set up [UnifiedPush](https://unifiedpush.org) (e.g. ntfy).
 
-<details>
-<summary>APK naming (optional)</summary>
-
-Files look like `app-<cpu>-beta<fcm|oss>-release.apk`. FCM and OSS are separate installs; installing one replaces the other.
-
-</details>
-
 #### Auto-updates with Obtainium
 
 **Easiest install:** use [Obtainium](https://obtainium.imranr.dev/) to install and auto-update from GitHub. Beta releases are marked **pre-release** on GitHub, so the link must enable that option — the simple `obtainium://add/...` URL cannot do this.
@@ -77,6 +70,8 @@ Stable, beta, and canary Android release builds on GitHub are signed with this S
 ## Bug reporting
 
 You must report bugs or feedback in [Fluxer Labs community](https://fluxer.gg/fluxer-labs) and bugs are synced to Github from the community.
+
+Please do not report mobile issues on the main Fluxer Github repo.
 
 ## Self-hosted instances
 
