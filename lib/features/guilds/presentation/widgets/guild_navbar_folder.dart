@@ -501,57 +501,24 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
                   int maxAge = 604800,
                   int maxUses = 0,
                   bool temporary = false,
-                }) async {
-                  final db = ref.read(fluxerDatabaseProvider);
-                  final client = ref.read(fluxerClientProvider);
-                  final channels = await db.channelDao.getChannels(guild.id);
-                  final invitable = channels
-                      .where((c) => isGuildTextBasedChannel(c.type))
-                      .firstOrNull;
-                  if (invitable == null) {
-                    return null;
-                  }
-                  final String inviteBase = ref.read(
-                    instanceInviteBaseUrlProvider,
-                  );
-                  final invite = await client.invites.createChannelInvite(
-                    channelId: invitable.id,
-                    body: ChannelInviteCreateRequest(
-                      maxAge: maxAge,
-                      maxUses: maxUses,
-                      temporary: temporary,
-                    ),
-                  );
-                  final code = GuildInviteMetadataResponse.fromJson(
-                    invite.toJson(),
-                  ).code;
-                  return (
-                    url: '$inviteBase/$code',
-                    channelName: invitable.name,
+                }) {
+                  return createGuildInviteLink(
+                    ref: ref,
+                    guildId: guild.id,
+                    maxAge: maxAge,
+                    maxUses: maxUses,
+                    temporary: temporary,
                   );
                 },
-            onGetRecipients: () async {
-              final friendRepo = ref.read(friendRepositoryProvider);
-              final dmRepo = ref.read(dmRepositoryProvider);
-              final friends = await friendRepo.getRelationships();
-              final dms = await dmRepo.getDmChannels();
-              return _buildRecipientList(friends, dms, l10n);
-            },
-            onSendInviteTo: (channelId, recipientId, url) async {
-              final client = ref.read(fluxerClientProvider);
-              var targetId = channelId;
-              if (targetId == null && recipientId != null) {
-                final ch = await client.users.createPrivateChannel(
-                  body: CreatePrivateChannelRequest(recipientId: recipientId),
-                );
-                targetId = ch.id;
-              }
-              if (targetId != null) {
-                await client.channels.sendMessage(
-                  channelId: targetId,
-                  content: url,
-                );
-              }
+            onGetRecipients: () =>
+                loadInvitePeopleRecipients(ref: ref, l10n: l10n),
+            onSendInviteTo: (channelId, recipientId, url) {
+              return sendInviteLinkMessage(
+                ref: ref,
+                channelId: channelId,
+                recipientId: recipientId,
+                url: url,
+              );
             },
             onGetPrivacyState: () => getGuildPrivacyState(
               db: ref.read(fluxerDatabaseProvider),
@@ -709,65 +676,6 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
       await _handleFolderMenuAction(action);
     }
   }
-}
-
-String _inviteExpirationDurationLabel(int maxAge, FluxerLocalizations l10n) {
-  return switch (maxAge) {
-    0 => l10n.guildNavbarDurationNever,
-    1800 => l10n.guildNavbarDuration30Minutes,
-    3600 => l10n.guildNavbarDuration1Hour,
-    21600 => l10n.guildNavbarDuration6Hours,
-    43200 => l10n.guildNavbarDuration12Hours,
-    86400 => l10n.guildNavbarDuration1Day,
-    604800 => l10n.guildNavbarDuration7Days,
-    _ => l10n.guildNavbarDurationSeconds(maxAge),
-  };
-}
-
-List<_InviteRecipient> _buildRecipientList(
-  List<Friend> friends,
-  List<DmConversation> dms,
-  FluxerLocalizations l10n,
-) {
-  final accepted = friends.where(
-    (f) => f.friendStatus == FriendStatus.accepted,
-  );
-  final dmByRecipient = <String, DmConversation>{};
-  final recipients = <_InviteRecipient>[];
-
-  for (final dm in dms) {
-    if (dm.isGroup) {
-      recipients.add(
-        _InviteRecipient(
-          id: dm.id,
-          displayName: dm.displayName,
-          secondaryText: l10n.guildNavbarGroupDm,
-          channelId: dm.id,
-        ),
-      );
-    } else {
-      dmByRecipient[dm.recipientId] = dm;
-    }
-  }
-
-  for (final friend in accepted) {
-    final dm = dmByRecipient[friend.id];
-    final avatarUrl = friend.avatar != null
-        ? FluxerMediaUrl.userAvatar(userId: friend.id, hash: friend.avatar)
-        : null;
-    recipients.add(
-      _InviteRecipient(
-        id: friend.id,
-        displayName: friend.displayName,
-        secondaryText: friend.username,
-        avatarUrl: avatarUrl,
-        status: friend.status,
-        channelId: dm?.id,
-      ),
-    );
-  }
-
-  return recipients;
 }
 
 Future<int> _resolveGuildMenuPermissions(WidgetRef ref, String guildId) async {
@@ -946,49 +854,23 @@ Widget _buildGuildMenuActionItem({
       );
     },
     onCreateInvite:
-        ({int maxAge = 604800, int maxUses = 0, bool temporary = false}) async {
-          final db = ref.read(fluxerDatabaseProvider);
-          final client = ref.read(fluxerClientProvider);
-          final channels = await db.channelDao.getChannels(guild.id);
-          final invitable = channels
-              .where((c) => isGuildTextBasedChannel(c.type))
-              .firstOrNull;
-          if (invitable == null) {
-            return null;
-          }
-          final String inviteBase = ref.read(instanceInviteBaseUrlProvider);
-          final invite = await client.invites.createChannelInvite(
-            channelId: invitable.id,
-            body: ChannelInviteCreateRequest(
-              maxAge: maxAge,
-              maxUses: maxUses,
-              temporary: temporary,
-            ),
+        ({int maxAge = 604800, int maxUses = 0, bool temporary = false}) {
+          return createGuildInviteLink(
+            ref: ref,
+            guildId: guild.id,
+            maxAge: maxAge,
+            maxUses: maxUses,
+            temporary: temporary,
           );
-          final code = GuildInviteMetadataResponse.fromJson(
-            invite.toJson(),
-          ).code;
-          return (url: '$inviteBase/$code', channelName: invitable.name);
         },
-    onGetRecipients: () async {
-      final friendRepo = ref.read(friendRepositoryProvider);
-      final dmRepo = ref.read(dmRepositoryProvider);
-      final friends = await friendRepo.getRelationships();
-      final dms = await dmRepo.getDmChannels();
-      return _buildRecipientList(friends, dms, l10n);
-    },
-    onSendInviteTo: (String? channelId, String? recipientId, String url) async {
-      final client = ref.read(fluxerClientProvider);
-      var targetId = channelId;
-      if (targetId == null && recipientId != null) {
-        final ch = await client.users.createPrivateChannel(
-          body: CreatePrivateChannelRequest(recipientId: recipientId),
-        );
-        targetId = ch.id;
-      }
-      if (targetId != null) {
-        await client.channels.sendMessage(channelId: targetId, content: url);
-      }
+    onGetRecipients: () => loadInvitePeopleRecipients(ref: ref, l10n: l10n),
+    onSendInviteTo: (String? channelId, String? recipientId, String url) {
+      return sendInviteLinkMessage(
+        ref: ref,
+        channelId: channelId,
+        recipientId: recipientId,
+        url: url,
+      );
     },
     onGetPrivacyState: () => getGuildPrivacyState(
       db: ref.read(fluxerDatabaseProvider),

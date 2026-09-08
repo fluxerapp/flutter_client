@@ -27,12 +27,16 @@ class AddFriendsToGroupBody extends ConsumerStatefulWidget {
 
 class _AddFriendsToGroupBodyState extends ConsumerState<AddFriendsToGroupBody> {
   late final TextEditingController _searchController;
+  late final TextEditingController _inviteController;
 
   @override
   void initState() {
     super.initState();
     _searchController = TextEditingController(
       text: widget.controller.searchQuery,
+    );
+    _inviteController = TextEditingController(
+      text: widget.controller.inviteLink ?? '',
     );
     _searchController.addListener(_handleSearchChanged);
     widget.controller.addListener(_handleControllerChanged);
@@ -44,6 +48,7 @@ class _AddFriendsToGroupBodyState extends ConsumerState<AddFriendsToGroupBody> {
     _searchController
       ..removeListener(_handleSearchChanged)
       ..dispose();
+    _inviteController.dispose();
     super.dispose();
   }
 
@@ -62,6 +67,10 @@ class _AddFriendsToGroupBodyState extends ConsumerState<AddFriendsToGroupBody> {
           offset: widget.controller.searchQuery.length,
         ),
       );
+    }
+    final String inviteText = widget.controller.inviteLink ?? '';
+    if (_inviteController.text != inviteText) {
+      _inviteController.text = inviteText;
     }
     setState(() {});
   }
@@ -116,26 +125,20 @@ class _AddFriendsToGroupBodyState extends ConsumerState<AddFriendsToGroupBody> {
               ),
             ),
             SizedBox(height: context.layout.s2),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: FluxerInput(
-                    readOnly: true,
-                    hint: l10n.groupDmGenerateInviteLink,
-                    controller: TextEditingController(
-                      text: controller.inviteLink ?? '',
-                    ),
-                  ),
-                ),
-                SizedBox(width: context.layout.s2),
-                FluxerButton.primary(
+            FluxerInput(
+              readOnly: true,
+              hint: l10n.groupDmGenerateInviteLink,
+              controller: _inviteController,
+              trailing: Padding(
+                padding: EdgeInsets.all(context.layout.s1),
+                child: FluxerButton.primary(
                   label: controller.inviteLink == null
                       ? l10n.groupDmCreateInvite
                       : l10n.channelDetailsCopyLink,
                   size: FluxerButtonSize.small,
                   fitContent: true,
                   isLoading: controller.isGeneratingInvite,
-                  onPressed: controller.isGeneratingInvite
+                  onPressedAsync: controller.isGeneratingInvite
                       ? null
                       : () async {
                           final bool copied = await controller
@@ -165,7 +168,7 @@ class _AddFriendsToGroupBodyState extends ConsumerState<AddFriendsToGroupBody> {
                               );
                         },
                 ),
-              ],
+              ),
             ),
             SizedBox(height: context.layout.s2),
             Text(

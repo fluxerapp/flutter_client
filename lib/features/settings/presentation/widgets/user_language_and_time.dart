@@ -171,6 +171,7 @@ class UserLanguageAndTime extends ConsumerWidget {
                 value: selectedLocale,
                 enableSearch: false,
                 scrollableSheet: true,
+                stretch: true,
                 items: <FluxerSelectItem<sdk.Locale>>[
                   for (final sdk.Locale locale in sortedAppSdkLocales())
                     FluxerSelectItem<sdk.Locale>(

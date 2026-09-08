@@ -2037,14 +2037,15 @@ class ChatViewModel extends _$ChatViewModel {
 
     if (state.channelId == channelId &&
         targetMessageId != null &&
-        state.isLoading) {
+        state.isLoading &&
+        state.highlightedMessageId == targetMessageId) {
       return;
     }
     if (state.channelId == channelId &&
         targetMessageId == null &&
         loadMessages &&
         (state.isLoading || state.isSyncingMessages) &&
-        state.messages.isNotEmpty) {
+        (state.messages.isNotEmpty || state.highlightedMessageId != null)) {
       return;
     }
     // A switch replaces the window wholesale; a stale scroll-active flag
@@ -2129,7 +2130,8 @@ class ChatViewModel extends _$ChatViewModel {
       if (targetMessageId != null) {
         if (state.channelId == channelId &&
             state.isLoading &&
-            !isChannelChange) {
+            !isChannelChange &&
+            state.highlightedMessageId == targetMessageId) {
           talker.debug(
             '[ChatViewModel] target load already in progress channel=$channelId',
           );

@@ -59,6 +59,32 @@ void main() {
     );
   });
 
+  test('keeps voice on touch when send button preference is enabled', () {
+    expect(
+      shouldShowComposerVoiceButton(
+        permissions: ChannelMessagePermissions.all,
+        hasSendable: _emptyComposer.hasSendable,
+        isEditing: _emptyComposer.isEditing,
+        showMessageSendButtonPreference: true,
+        isTouchPrimary: true,
+      ),
+      isTrue,
+    );
+  });
+
+  test('hides voice on touch when composer has sendable content', () {
+    expect(
+      shouldShowComposerVoiceButton(
+        permissions: ChannelMessagePermissions.all,
+        hasSendable: true,
+        isEditing: false,
+        showMessageSendButtonPreference: true,
+        isTouchPrimary: true,
+      ),
+      isFalse,
+    );
+  });
+
   test('shows send fallback when empty composer and attachments denied', () {
     expect(
       shouldShowComposerSendButtonFallback(

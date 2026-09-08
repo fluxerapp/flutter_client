@@ -234,7 +234,8 @@ class FluxerBottomSheet {
   ///
   /// The sheet snaps to [scrollableSheetHalfSize] or [scrollableSheetSize].
   /// Releasing between those points animates to whichever is closer. Dragging
-  /// below the half mark closes the sheet.
+  /// below the half mark closes the sheet. While the finger is down the sheet
+  /// follows past half without resting there.
   ///
   /// Pass [scrollableSheetHalfSize] as [initialChildSize] to open at half
   /// height. The default opens at the full snap.
@@ -304,18 +305,10 @@ class FluxerBottomSheet {
             0,
             effectiveMaxChildSize,
           );
-          double effectiveMinChildSize = math.min(
-            minChildSize,
-            effectiveMaxChildSize,
+          final double effectiveMinChildSize = math.min(
+            kFluxerBottomSheetDragMinSize,
+            math.min(minChildSize, effectiveMaxChildSize),
           );
-          // The sheet must be able to shrink past the half snap so a release
-          // below that mark can dismiss.
-          if (effectiveMinChildSize >= halfChildSize && halfChildSize > 0) {
-            effectiveMinChildSize = (halfChildSize - 0.2).clamp(
-              0,
-              effectiveMaxChildSize,
-            );
-          }
 
           final sheet = _FluxerDraggableScrollableSheet(
             minChildSize: effectiveMinChildSize,
@@ -726,41 +719,58 @@ class _FluxerDraggableScrollableSheetState
                   duration: widget.sheetContext.motion.normal,
                   curve: widget.sheetContext.motion.curve,
                   padding: EdgeInsets.only(bottom: widget.bottomInset),
-                  child: Column(
-                    children: [
-                      if (widget.showDragHandle)
-                        FluxerBottomSheetDragHandle(
-                          sheetController: _sheetController,
-                          minChildSize: widget.minChildSize,
-                          maxChildSize: widget.maxChildSize,
-                          onDismiss: _dismiss,
-                          includeTopPadding: !widget.disableTopPadding,
-                        ),
-                      if (!widget.showDragHandle && widget.hasHeader)
-                        SizedBox(height: layout.s4),
-                      if (widget.hasHeader) ...[
-                        FluxerBottomSheetHeader(
-                          title: widget.title ?? '',
-                          subtitle: widget.subtitle,
-                          leading: widget.leading,
-                          trailing: widget.trailing,
-                          onBack: widget.onBack,
-                        ),
-                        SizedBox(height: layout.s2),
-                      ],
-                      Expanded(
-                        child: FluxerBottomSheetScope(
-                          bottomScrollPadding: widget.bottomScrollPadding,
-                          child: Builder(
-                            builder: (scopedContext) => widget.builder(
-                              scopedContext,
-                              scrollController,
-                              _dismiss,
-                            ),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      final double layoutHeight = math.max(
+                        constraints.maxHeight,
+                        160,
+                      );
+                      return OverflowBox(
+                        alignment: Alignment.topCenter,
+                        minHeight: layoutHeight,
+                        maxHeight: layoutHeight,
+                        child: SizedBox(
+                          height: layoutHeight,
+                          child: Column(
+                            children: [
+                              if (widget.showDragHandle)
+                                FluxerBottomSheetDragHandle(
+                                  sheetController: _sheetController,
+                                  minChildSize: widget.minChildSize,
+                                  maxChildSize: widget.maxChildSize,
+                                  onDismiss: _dismiss,
+                                  includeTopPadding: !widget.disableTopPadding,
+                                ),
+                              if (!widget.showDragHandle && widget.hasHeader)
+                                SizedBox(height: layout.s4),
+                              if (widget.hasHeader) ...[
+                                FluxerBottomSheetHeader(
+                                  title: widget.title ?? '',
+                                  subtitle: widget.subtitle,
+                                  leading: widget.leading,
+                                  trailing: widget.trailing,
+                                  onBack: widget.onBack,
+                                ),
+                                SizedBox(height: layout.s2),
+                              ],
+                              Expanded(
+                                child: FluxerBottomSheetScope(
+                                  bottomScrollPadding:
+                                      widget.bottomScrollPadding,
+                                  child: Builder(
+                                    builder: (scopedContext) => widget.builder(
+                                      scopedContext,
+                                      scrollController,
+                                      _dismiss,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
                 ),
               );
@@ -1094,6 +1104,9 @@ class FluxerBottomSheetFooter extends StatelessWidget {
     final colors = context.colors;
     final layout = context.layout;
 
+    final bool inScrollableSheet =
+        FluxerBottomSheetScope.maybeOf(context) != null;
+
     return DecoratedBox(
       decoration: BoxDecoration(
         border: showTopBorder
@@ -1104,12 +1117,15 @@ class FluxerBottomSheetFooter extends StatelessWidget {
               )
             : null,
       ),
-      child: Padding(
-        padding: FluxerBottomSheet.scrollViewPadding(
-          context,
+      child: SafeArea(
+        top: false,
+        left: false,
+        right: false,
+        maintainBottomViewPadding: inScrollableSheet,
+        child: Padding(
           padding: padding ?? EdgeInsets.all(layout.s4),
+          child: child,
         ),
-        child: child,
       ),
     );
   }

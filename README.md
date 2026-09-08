@@ -53,13 +53,6 @@ Download the latest **beta** build from [GitHub releases](https://github.com/flu
 
 **Degoogled phones (GrapheneOS, no Google apps):** install the **OSS** APK (`betaoss`) and set up [UnifiedPush](https://unifiedpush.org) (e.g. ntfy).
 
-<details>
-<summary>APK naming (optional)</summary>
-
-Files look like `app-<cpu>-beta<fcm|oss>-release.apk`. FCM and OSS are separate installs; installing one replaces the other.
-
-</details>
-
 #### Auto-updates with Obtainium
 
 **Easiest install:** use [Obtainium](https://obtainium.imranr.dev/) to install and auto-update from GitHub. Beta releases are marked **pre-release** on GitHub, so the link must enable that option — the simple `obtainium://add/...` URL cannot do this.
@@ -78,6 +71,8 @@ Stable, beta, and canary Android release builds on GitHub are signed with this S
 
 You must report bugs or feedback in [Fluxer Labs community](https://fluxer.gg/fluxer-labs) and bugs are synced to Github from the community.
 
+Please do not report mobile issues on the main Fluxer Github repo.
+
 ## Self-hosted instances
 
 The mobile app supports self-hosted instances now! Push notifications are currently only supported for users using the Android OSS build.
@@ -88,96 +83,9 @@ SSO (Single Sign-On) login is supported on the mobile client. For it to fully wo
 
 `fluxer://auth/sso/callback`
 
-## Contributing (for developers)
+## Contributing
 
-During the current beta, we are only accepting contributions for bug fixes. To submit a PR, it must be for a linked reported issue. Please message us on the Fluxer Labs community first (we hope to come up with a better way to reduce spam PR's in the future). [Join Link](https://fluxer.gg/fluxer-labs)
-
-After the beta period, we will be updating these guidelines.
-
-Pull requests should target the `canary` branch. For local testing, use the `canary` build flavor so your build matches that branch (see Mobile builds below).
-
-Before committing, run `bash tool/before_commit.sh` to apply `dart fix` and format tracked Dart files (generated and vendored paths are skipped). CI uses the same file list.
-
-### Contribution licensing and sign-off
-
-By contributing you agree your contribution is licensed under the AGPLv3 together with the App Store additional permission (see [`LICENSE-APPSTORE-EXCEPTION`](./LICENSE-APPSTORE-EXCEPTION)), and you sign off each commit under the [Developer Certificate of Origin](./DCO) with `git commit -s`. There is no signed CLA. See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for details; this is checked automatically on every pull request.
-
-### Translating
-
-App translations are welcome at any time.
-
-Strings are managed on [Weblate](https://weblate.fluxer.tools/projects/flutter-client/). You can translate in the browser — no repository checkout or pull request is needed. English is the source language.
-
-### Tech stack
-
-- **Flutter / Dart** — cross platform UI (mobile today, desktop in progress)
-- **Riverpod** — state management (with code generation)
-- **go_router** — navigation and deep links
-- **Drift** — local SQLite database
-- **Dio** — HTTP client
-- **[fluxer_dart](https://github.com/fluxerapp/dart_sdk)** — Fluxer API client (OpenAPI generated)
-- **WebSockets** — real time gateway events
-- **LiveKit / WebRTC** — voice and video calls
-- **FCM / UnifiedPush / APNs** — push notifications (platform dependent)
-
-### Version numbers
-
-> [!NOTE]
-> We will transition to this version method after the V1 update.
-
-Releases use `{year}.{month}.{public release number}`, for example `2026.07.100`.
-
-- **Year** and **month** are when the release was published.
-- **Public release number** is the release counter for that month. It resets at the start of each month.
-- Counters start at **100**, then **200**, **300**, and so on (not 1, 2, 3) so they are not mistaken for a day of the month.
-
-### Build generated files
-
-Riverpod generated files are not committed, so you need to generate them before running the project.
-
-```text
-dart run build_runner build
-```
-
-### Native markdown parser (experimental)
-
-The `fluxer/` submodule vendors the canonical Rust markdown parser. A Dart
-native-assets build hook (`packages/fluxer_markdown_native`) compiles it with
-cargo during `flutter build` and bundles it into the app.
-
-Prerequisites: [rustup](https://rustup.rs) with the stable toolchain, and
-`flutter config --enable-native-assets`. For Android builds also add the
-cross-compilation targets:
-
-```text
-rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-android
-```
-
-### Mobile builds
-
-**Environments** are `canary`, `beta`, and `stable`. Pass compile-time defines with `--dart-define-from-file=tool/dart_defines/<environment>.json` (each file sets `APP_ENVIRONMENT`) plus `--dart-define=PUSH_PROVIDER=...` as needed.
-
-**Application ID / bundle ID:** `beta` and `stable` use `com.fluxer`. `canary` uses `com.fluxer.canary`
-
-**Android** uses two Gradle flavor dimensions: environment plus push (`fcm` or `unifiedpush`). The variant name combines both in camelCase (for example `stableFcm`, `betaUnifiedpush`). `PUSH_PROVIDER` must match the push dimension: `fcm` for Firebase Cloud Messaging (adds deps via `pubspec.firebase.deps.yaml`) or `unifiedpush` for UnifiedPush.
-
-**iOS** uses schemes with the same environment names (`canary`, `beta`, `stable`). There is no push flavor dimension; push is always Apple Push Notification service, so use `PUSH_PROVIDER=apns`.
-
-Example (Android, stable with FCM):
-
-```text
-flutter run --flavor stableFcm --dart-define-from-file=tool/dart_defines/stable.json --dart-define=PUSH_PROVIDER=fcm
-```
-
-For the same environment on iOS, swap the flavor for the scheme and set `PUSH_PROVIDER=apns`, for example `--flavor stable`, `--dart-define-from-file=tool/dart_defines/stable.json`, and `--dart-define=PUSH_PROVIDER=apns`.
-
-```text
-flutter build ios --flavor canary --dart-define-from-file=tool/dart_defines/canary.json --dart-define=PUSH_PROVIDER=apns
-```
-
-### Desktop builds
-
-We plan to provide desktop builds in the future but they will be labled as Fluxer Lite clients. These builds will not replace the Electron verison but be a seperate version you can download.
+See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for developer setup, builds, translations, and pull request guidelines.
 
 ## License
 

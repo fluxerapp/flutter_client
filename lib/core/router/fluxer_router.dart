@@ -129,9 +129,7 @@ CustomTransitionPage<void> _dmShellTransitionPage(
   final String? channelId = routeName == RouteNames.dms
       ? null
       : state.pathParameters['channelId'];
-  final String? messageId = routeName == RouteNames.dmMessage
-      ? state.pathParameters['messageId']
-      : null;
+  final String? messageId = state.pathParameters['messageId'];
   return shellSlideTransitionPage(
     context: context,
     key: dmShellPageKeyForRoute(
@@ -748,6 +746,7 @@ GoRouter fluxerRouter(Ref ref) {
                       parallaxOutgoing: true,
                       child: FavoritesLayout(
                         channelId: state.pathParameters['channelId'],
+                        messageId: state.pathParameters['messageId'],
                       ),
                     ),
                     routes: [
@@ -822,6 +821,7 @@ GoRouter fluxerRouter(Ref ref) {
                         child: ChannelLayout(
                           guildId: guildId,
                           channelId: channelId,
+                          messageId: state.pathParameters['messageId'],
                         ),
                       );
                     },

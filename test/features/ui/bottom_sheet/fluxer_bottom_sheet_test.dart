@@ -475,6 +475,67 @@ void main() {
       );
     });
 
+    testWidgets('dragging past half keeps following the finger', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          Builder(
+            builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  unawaited(
+                    FluxerBottomSheet.showScrollable(
+                      context,
+                      builder: (context, scrollController, close) {
+                        return ListView.builder(
+                          controller: scrollController,
+                          itemCount: 20,
+                          itemBuilder: (context, index) =>
+                              ListTile(title: Text('Scroll Item $index')),
+                        );
+                      },
+                    ),
+                  );
+                },
+                child: const Text('Open'),
+              );
+            },
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+
+      final Finder handle = find.byType(FluxerBottomSheetDragHandle);
+      final RenderBox sheetBox = tester.renderObject(
+        find.byType(DraggableScrollableSheet),
+      );
+      final double parentHeight = sheetBox.constraints.maxHeight;
+      final double fullHeight = sheetBox.size.height;
+
+      final TestGesture gesture = await tester.startGesture(
+        tester.getCenter(handle),
+      );
+      await gesture.moveBy(Offset(0, parentHeight * 0.7));
+      await tester.pump();
+
+      final RenderBox draggedBox = tester.renderObject(
+        find.byType(DraggableScrollableSheet),
+      );
+      expect(
+        draggedBox.size.height,
+        lessThan(parentHeight * FluxerBottomSheet.scrollableSheetHalfSize),
+      );
+      expect(draggedBox.size.height, lessThan(fullHeight * 0.55));
+
+      await gesture.up();
+      await tester.pumpAndSettle();
+
+      expect(find.text('Scroll Item 0'), findsNothing);
+    });
+
     testWidgets('upward handle drag from half settles at the full snap', (
       tester,
     ) async {
@@ -815,6 +876,62 @@ void main() {
       expect(find.text('Section title'), findsOneWidget);
       expect(find.text('Section content'), findsOneWidget);
       expect(find.text('Footer action'), findsOneWidget);
+    });
+
+    testWidgets('scrollable footer stays above the view padding inset', (
+      tester,
+    ) async {
+      const double viewInset = 34;
+      tester.view.physicalSize = const Size(400, 800);
+      tester.view.devicePixelRatio = 1;
+      tester.view.padding = FakeViewPadding.zero;
+      tester.view.viewPadding = const FakeViewPadding(bottom: viewInset);
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      addTearDown(tester.view.resetPadding);
+      addTearDown(tester.view.resetViewPadding);
+
+      await tester.pumpWidget(
+        buildTestApp(
+          Builder(
+            builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  unawaited(
+                    FluxerBottomSheet.showScrollable(
+                      context,
+                      builder: (sheetContext, scrollController, close) {
+                        return Column(
+                          children: [
+                            Expanded(
+                              child: ListView(
+                                controller: scrollController,
+                                children: const [Text('Body')],
+                              ),
+                            ),
+                            const FluxerBottomSheetFooter(
+                              child: Text('Footer action'),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  );
+                },
+                child: const Text('Open'),
+              );
+            },
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+
+      final double footerBottom = tester
+          .getBottomLeft(find.text('Footer action'))
+          .dy;
+      expect(footerBottom, lessThanOrEqualTo(800 - viewInset));
     });
 
     testWidgets('system back dismisses a default sheet', (tester) async {

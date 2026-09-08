@@ -2425,6 +2425,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         !isEditing &&
         (ref.watch(isSlowmodeBlockedProvider(channelId)).value ?? false);
     final bool canUseVoice = perms.isVoiceEnabled && !isSlowmodeBlocked;
+    final bool touchActions = isTouchPrimaryInput(ref);
     final bool showSendButtonPreference = ref.watch(
       advancedPreferencesProvider.select(
         (state) => state.showMessageSendButton,
@@ -2435,15 +2436,17 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       hasSendable: hasSendable,
       isEditing: isEditing,
       showMessageSendButtonPreference: showSendButtonPreference,
+      isTouchPrimary: touchActions,
     );
     final bool showSendButton =
         hasSendable ||
-        showSendButtonPreference ||
+        (!touchActions && showSendButtonPreference) ||
         shouldShowComposerSendButtonFallback(
           permissions: perms,
           hasSendable: hasSendable,
           isEditing: isEditing,
           showMessageSendButtonPreference: showSendButtonPreference,
+          isTouchPrimary: touchActions,
         );
     final bool voiceDisabled =
         !canUseVoice || !perms.isComposerEnabled || isOverCharacterLimit;
@@ -2456,7 +2459,6 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         perms.isComposerEnabled && sendOnPressed != null && !isSlowmodeBlocked;
     final bool voiceVisuallyEnabled = !voiceDisabled;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final bool touchActions = isTouchPrimaryInput(ref);
     final FluxerButtonSize voiceSize = useHoldToRecord
         ? size
         : (touchActions ? FluxerButtonSize.small : FluxerButtonSize.compact);
