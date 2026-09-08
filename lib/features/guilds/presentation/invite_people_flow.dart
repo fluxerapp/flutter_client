@@ -97,11 +97,14 @@ class InvitePeopleFlow {
               final layout = context.layout;
               return Column(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 spacing: layout.s4,
                 children: <Widget>[
                   FluxerSelect<int>(
                     label: l10n.guildNavbarExpireAfter,
                     value: maxAge,
+                    stretch: true,
+                    enableSearch: false,
                     items: <FluxerSelectItem<int>>[
                       FluxerSelectItem(value: 0, label: l10n.guildNavbarNever),
                       FluxerSelectItem(
@@ -134,6 +137,8 @@ class InvitePeopleFlow {
                   FluxerSelect<int>(
                     label: l10n.guildNavbarMaxUses,
                     value: maxUses,
+                    stretch: true,
+                    enableSearch: false,
                     items: <FluxerSelectItem<int>>[
                       FluxerSelectItem(
                         value: 0,
