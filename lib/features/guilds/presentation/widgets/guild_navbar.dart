@@ -7,12 +7,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Channel;
-import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
-import 'package:fluxer_app/core/providers/well_known_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
@@ -27,7 +25,6 @@ import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.d
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/utils/delete_my_messages_in_channel_action.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
-import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_navbar_context_menu.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_navbar_item.dart';
 import 'package:fluxer_app/features/dm/providers/dm_folder_view_model.dart';
@@ -36,11 +33,11 @@ import 'package:fluxer_app/features/dm/providers/dm_pinned_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
 import 'package:fluxer_app/features/favorites/providers/favorites_unread_provider.dart';
-import 'package:fluxer_app/features/friends/domain/friend.dart';
-import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/gateway/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/guilds/data/guild_user_settings_repository.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/guilds/domain/invite_people_recipient.dart';
+import 'package:fluxer_app/features/guilds/presentation/invite_people_flow.dart';
 import 'package:fluxer_app/features/guilds/presentation/modals/add_guild_modal.dart';
 import 'package:fluxer_app/features/guilds/presentation/'
     'widgets/guild_bottom_sheet.dart';
@@ -76,6 +73,8 @@ import 'package:fluxer_app/features/guilds/utils/guild_folder_icon.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_folder_menu_actions.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_outage_availability.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_settings_actions.dart';
+import 'package:fluxer_app/features/guilds/utils/invite_people_actions.dart';
+import 'package:fluxer_app/features/guilds/utils/invite_people_recipients.dart';
 import 'package:fluxer_app/features/guilds/utils/leave_guild_action.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_report_guild.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
@@ -841,58 +840,24 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
             );
           },
           onCreateInvite:
-              ({
-                int maxAge = 604800,
-                int maxUses = 0,
-                bool temporary = false,
-              }) async {
-                final db = ref.read(fluxerDatabaseProvider);
-                final client = ref.read(fluxerClientProvider);
-                final channels = await db.channelDao.getChannels(guild.id);
-                final invitable = channels
-                    .where((c) => isGuildTextBasedChannel(c.type))
-                    .firstOrNull;
-                if (invitable == null) {
-                  return null;
-                }
-                final String inviteBase = ref.read(
-                  instanceInviteBaseUrlProvider,
+              ({int maxAge = 604800, int maxUses = 0, bool temporary = false}) {
+                return createGuildInviteLink(
+                  ref: ref,
+                  guildId: guild.id,
+                  maxAge: maxAge,
+                  maxUses: maxUses,
+                  temporary: temporary,
                 );
-                final invite = await client.invites.createChannelInvite(
-                  channelId: invitable.id,
-                  body: ChannelInviteCreateRequest(
-                    maxAge: maxAge,
-                    maxUses: maxUses,
-                    temporary: temporary,
-                  ),
-                );
-                final code = GuildInviteMetadataResponse.fromJson(
-                  invite.toJson(),
-                ).code;
-                return (url: '$inviteBase/$code', channelName: invitable.name);
               },
-          onGetRecipients: () async {
-            final friendRepo = ref.read(friendRepositoryProvider);
-            final dmRepo = ref.read(dmRepositoryProvider);
-            final friends = await friendRepo.getRelationships();
-            final dms = await dmRepo.getDmChannels();
-            return _buildRecipientList(friends, dms, l10n);
-          },
-          onSendInviteTo: (channelId, recipientId, url) async {
-            final client = ref.read(fluxerClientProvider);
-            var targetId = channelId;
-            if (targetId == null && recipientId != null) {
-              final ch = await client.users.createPrivateChannel(
-                body: CreatePrivateChannelRequest(recipientId: recipientId),
-              );
-              targetId = ch.id;
-            }
-            if (targetId != null) {
-              await client.channels.sendMessage(
-                channelId: targetId,
-                content: url,
-              );
-            }
+          onGetRecipients: () =>
+              loadInvitePeopleRecipients(ref: ref, l10n: l10n),
+          onSendInviteTo: (channelId, recipientId, url) {
+            return sendInviteLinkMessage(
+              ref: ref,
+              channelId: channelId,
+              recipientId: recipientId,
+              url: url,
+            );
           },
           onGetPrivacyState: () => getGuildPrivacyState(
             db: ref.read(fluxerDatabaseProvider),

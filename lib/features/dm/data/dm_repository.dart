@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/domain/group_dm_utils.dart';
 import 'package:fluxer_app/features/guilds/data/guild_user_settings_repository.dart';
+import 'package:fluxer_app/features/guilds/utils/invite_code.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
@@ -445,10 +446,7 @@ class DmRepository {
               temporary: false,
             ),
           );
-      return switch (invite) {
-        InviteMetadataResponseSchema1(:final code) => code,
-        _ => throw Exception('Failed to create invite'),
-      };
+      return inviteCodeOf(invite);
     } on DioException catch (e) {
       throw Exception(e.response?.statusMessage ?? 'Failed to create invite');
     }
