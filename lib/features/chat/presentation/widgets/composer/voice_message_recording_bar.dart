@@ -31,10 +31,10 @@ class VoiceMessageDiscardButton extends StatelessWidget {
         ? null
         : () => unawaited(controller.stop(send: false));
     return IgnorePointer(
+      key: controller.trashKey,
       ignoring: !locked,
       child: armed
           ? FluxerButton.circle(
-              key: controller.trashKey,
               icon: PhosphorIconsFill.trash,
               semanticLabel: l10n.voiceMessageDiscard,
               variant: FluxerButtonVariant.dangerPrimary,
@@ -43,7 +43,6 @@ class VoiceMessageDiscardButton extends StatelessWidget {
               onPressed: onPressed,
             )
           : FluxerButton.circleAlt(
-              key: controller.trashKey,
               icon: PhosphorIconsFill.trash,
               semanticLabel: l10n.voiceMessageDiscard,
               size: size,

@@ -65,24 +65,38 @@ class _VoiceMessageRecorderState extends State<VoiceMessageRecorder> {
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    return Semantics(
-      label: l10n.voiceMessageTitle,
-      hint: widget.holdToRecord ? l10n.voiceMessageHoldHint : null,
-      button: true,
-      child: Listener(
-        behavior: HitTestBehavior.opaque,
-        onPointerDown: widget.disabled ? null : _handlePointerDown,
-        child: IgnorePointer(
-          child: ExcludeSemantics(
-            child: FluxerButton.circleAlt(
-              icon: PhosphorIconsFill.microphone,
-              semanticLabel: l10n.voiceMessageTitle,
-              size: widget.buttonSize,
-              onPressed: widget.disabled ? null : () {},
+    return ListenableBuilder(
+      listenable: widget.controller,
+      builder: (BuildContext context, Widget? _) {
+        final bool recording = widget.controller.isActive;
+        return Semantics(
+          label: l10n.voiceMessageTitle,
+          hint: widget.holdToRecord ? l10n.voiceMessageHoldHint : null,
+          button: true,
+          child: Listener(
+            behavior: HitTestBehavior.opaque,
+            onPointerDown: widget.disabled ? null : _handlePointerDown,
+            child: IgnorePointer(
+              child: ExcludeSemantics(
+                child: recording
+                    ? FluxerButton.circle(
+                        icon: PhosphorIconsFill.microphone,
+                        semanticLabel: l10n.voiceMessageTitle,
+                        size: widget.buttonSize,
+                        iconSize: 20,
+                        onPressed: widget.disabled ? null : () {},
+                      )
+                    : FluxerButton.circleAlt(
+                        icon: PhosphorIconsFill.microphone,
+                        semanticLabel: l10n.voiceMessageTitle,
+                        size: widget.buttonSize,
+                        onPressed: widget.disabled ? null : () {},
+                      ),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

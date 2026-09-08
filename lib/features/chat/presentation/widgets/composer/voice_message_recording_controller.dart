@@ -42,7 +42,9 @@ class VoiceMessageRecordingController extends ChangeNotifier {
   StreamSubscription<void>? _maxDurationSubscription;
   int? _pointerId;
   Offset? _pointerStart;
+  Offset? _lastPointerPosition;
   PointerRoute? _pointerRoute;
+  int _previewSyncAttempts = 0;
   String _channelId = '';
   bool _isActive = false;
   bool _isRecording = false;
@@ -59,6 +61,12 @@ class VoiceMessageRecordingController extends ChangeNotifier {
   bool get lockPreview => _lockPreview;
   bool get discardPreview => _discardPreview;
   String get channelId => _channelId;
+
+  @visibleForTesting
+  void debugSetActive({required bool value}) {
+    _isActive = value;
+    _emit();
+  }
 
   void _emit() {
     if (_disposed) {
@@ -156,8 +164,10 @@ class VoiceMessageRecordingController extends ChangeNotifier {
     }
     _channelId = channelId;
     _pointerStart = event.position;
+    _lastPointerPosition = event.position;
     _attachPointerRoute(event.pointer);
     _beginSession(locked: false);
+    _schedulePreviewSync();
     await _startRecording(context);
   }
 
@@ -263,15 +273,12 @@ class VoiceMessageRecordingController extends ChangeNotifier {
       return;
     }
     _isRecording = true;
-    if (!_isLocked) {
-      _lockPreview = false;
-      _discardPreview = false;
-    }
     durationMs.value = 0;
     FluxerHaptics.medium();
     _emit();
     _listenForMaxDuration();
     _startMeters();
+    _schedulePreviewSync();
   }
 
   Future<void> cancel() async {
@@ -284,6 +291,7 @@ class VoiceMessageRecordingController extends ChangeNotifier {
     }
     _pointerId = null;
     _pointerStart = null;
+    _lastPointerPosition = null;
     _resetUi();
   }
 
@@ -361,15 +369,40 @@ class VoiceMessageRecordingController extends ChangeNotifier {
     _isSending = false;
     _lockPreview = false;
     _discardPreview = false;
+    _previewSyncAttempts = 0;
+    _lastPointerPosition = null;
     durationMs.value = 0;
     rmsLevel.value = 0;
     _emit();
   }
 
-  void _updateHoldPreviews(Offset globalPosition) {
-    if (_isLocked || _pointerId == null || !_isRecording) {
+  void _schedulePreviewSync() {
+    if (_isLocked || _pointerId == null) {
       return;
     }
+    _previewSyncAttempts = 0;
+    WidgetsBinding.instance.addPostFrameCallback(_onPreviewSyncFrame);
+  }
+
+  void _onPreviewSyncFrame(Duration _) {
+    if (_disposed || !_isActive || _isLocked || _pointerId == null) {
+      return;
+    }
+    final Offset? position = _lastPointerPosition ?? _pointerStart;
+    if (position != null) {
+      _updateHoldPreviews(position);
+    }
+    if (voiceMessageHitRect(trashKey) == null && _previewSyncAttempts < 8) {
+      _previewSyncAttempts++;
+      WidgetsBinding.instance.addPostFrameCallback(_onPreviewSyncFrame);
+    }
+  }
+
+  void _updateHoldPreviews(Offset globalPosition) {
+    if (_isLocked || _pointerId == null || !_isActive) {
+      return;
+    }
+    _lastPointerPosition = globalPosition;
     final VoiceMessageHoldPreview next = voiceMessageHoldPreview(
       globalPosition: globalPosition,
       pointerStart: _pointerStart,
@@ -380,8 +413,12 @@ class VoiceMessageRecordingController extends ChangeNotifier {
         next.lockPreview == _lockPreview) {
       return;
     }
-    if ((next.discardPreview && !_discardPreview) ||
-        (next.lockPreview && !_lockPreview)) {
+    if (voiceMessageDiscardPreviewJustArmed(
+      previous: _discardPreview,
+      next: next.discardPreview,
+    )) {
+      FluxerHaptics.medium();
+    } else if (next.lockPreview && !_lockPreview) {
       FluxerHaptics.soft();
     }
     _discardPreview = next.discardPreview;
@@ -405,6 +442,7 @@ class VoiceMessageRecordingController extends ChangeNotifier {
     _detachPointerRoute();
     _pointerId = null;
     _pointerStart = null;
+    _lastPointerPosition = null;
     switch (action) {
       case VoiceMessageHoldReleaseAction.lock:
         FluxerHaptics.success();
@@ -425,6 +463,7 @@ class VoiceMessageRecordingController extends ChangeNotifier {
     if (_pointerId != event.pointer || _isLocked) {
       return;
     }
+    _lastPointerPosition = event.position;
     _updateHoldPreviews(event.position);
   }
 
