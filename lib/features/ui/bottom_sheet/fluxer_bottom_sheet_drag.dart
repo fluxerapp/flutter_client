@@ -3,6 +3,9 @@ const double kFluxerBottomSheetDismissVelocity = 300;
 const double kFluxerBottomSheetHalfSize = 0.5;
 const double kFluxerBottomSheetFullSize = 0.95;
 
+/// Floor used while dragging so the sheet can follow the finger past half.
+const double kFluxerBottomSheetDragMinSize = 0.05;
+
 const double _kSnapEpsilon = 0.001;
 const double _kSnapProjectionSeconds = 0.2;
 

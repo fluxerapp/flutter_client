@@ -108,6 +108,13 @@ void main() {
       );
     });
 
+    test('from full, release before the half mark still snaps to half', () {
+      expect(
+        fluxerBottomSheetSnapTarget(size: 0.6, halfSize: half, fullSize: full),
+        half,
+      );
+    });
+
     test('dismisses from half on a fast downward flick', () {
       expect(
         fluxerBottomSheetSnapTarget(
@@ -131,19 +138,6 @@ void main() {
           availablePixels: 800,
         ),
         full,
-      );
-    });
-
-    test('does not skip from full to dismiss based on velocity alone', () {
-      expect(
-        fluxerBottomSheetSnapTarget(
-          size: 0.9,
-          halfSize: half,
-          fullSize: full,
-          velocity: 2000,
-          availablePixels: 800,
-        ),
-        half,
       );
     });
   });

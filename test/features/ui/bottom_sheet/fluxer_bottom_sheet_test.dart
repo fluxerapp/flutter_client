@@ -475,6 +475,67 @@ void main() {
       );
     });
 
+    testWidgets('dragging past half keeps following the finger', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          Builder(
+            builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  unawaited(
+                    FluxerBottomSheet.showScrollable(
+                      context,
+                      builder: (context, scrollController, close) {
+                        return ListView.builder(
+                          controller: scrollController,
+                          itemCount: 20,
+                          itemBuilder: (context, index) =>
+                              ListTile(title: Text('Scroll Item $index')),
+                        );
+                      },
+                    ),
+                  );
+                },
+                child: const Text('Open'),
+              );
+            },
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+
+      final Finder handle = find.byType(FluxerBottomSheetDragHandle);
+      final RenderBox sheetBox = tester.renderObject(
+        find.byType(DraggableScrollableSheet),
+      );
+      final double parentHeight = sheetBox.constraints.maxHeight;
+      final double fullHeight = sheetBox.size.height;
+
+      final TestGesture gesture = await tester.startGesture(
+        tester.getCenter(handle),
+      );
+      await gesture.moveBy(Offset(0, parentHeight * 0.7));
+      await tester.pump();
+
+      final RenderBox draggedBox = tester.renderObject(
+        find.byType(DraggableScrollableSheet),
+      );
+      expect(
+        draggedBox.size.height,
+        lessThan(parentHeight * FluxerBottomSheet.scrollableSheetHalfSize),
+      );
+      expect(draggedBox.size.height, lessThan(fullHeight * 0.55));
+
+      await gesture.up();
+      await tester.pumpAndSettle();
+
+      expect(find.text('Scroll Item 0'), findsNothing);
+    });
+
     testWidgets('upward handle drag from half settles at the full snap', (
       tester,
     ) async {
