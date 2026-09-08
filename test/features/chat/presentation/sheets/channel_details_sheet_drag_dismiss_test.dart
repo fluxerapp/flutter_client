@@ -88,7 +88,9 @@ Future<void> _openSheet(
 Finder get _handle => find.byType(FluxerBottomSheetDragHandle);
 
 void main() {
-  testWidgets('member list drawer closes on a short pill drag', (tester) async {
+  testWidgets('member list drawer closes when dragged below the half snap', (
+    tester,
+  ) async {
     final FluxerDatabase database = openTestDatabase();
     final ProviderContainer container = _container(database);
     addTearDown(container.dispose);
@@ -101,7 +103,9 @@ void main() {
     );
     expect(_handle, findsOneWidget);
 
-    await tester.drag(_handle, const Offset(0, 100));
+    // Full-height scrollable sheets snap between half and full. Closing the
+    // handle requires releasing below the half mark.
+    await tester.drag(_handle, const Offset(0, 300));
     await tester.pumpAndSettle();
 
     expect(_handle, findsNothing);
@@ -120,8 +124,17 @@ void main() {
           showChannelDetailsSheet(context, channel: _channel, dm: null),
     );
 
-    // 45px of travel stays under the 50px distance threshold, so only the
-    // velocity half of the dismiss contract (>300px/s) can close the sheet.
+    final RenderBox sheetBox = tester.renderObject(
+      find.byType(DraggableScrollableSheet),
+    );
+    await tester.drag(
+      _handle,
+      Offset(0, sheetBox.constraints.maxHeight * 0.35),
+    );
+    await tester.pumpAndSettle();
+    expect(_handle, findsOneWidget);
+
+    // At the half snap, a short flick above 300px/s dismisses.
     final TestGesture gesture = await tester.startGesture(
       tester.getCenter(_handle),
     );

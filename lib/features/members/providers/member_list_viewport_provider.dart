@@ -60,6 +60,9 @@ class MemberListViewport extends _$MemberListViewport {
   }
 
   void clearChannel({required String guildId, required String channelId}) {
+    if (!ref.mounted) {
+      return;
+    }
     final String channelKey = _channelAliasKey(guildId, channelId);
     final Map<String, MemberListViewportListState> lists =
         Map<String, MemberListViewportListState>.from(state.lists);
