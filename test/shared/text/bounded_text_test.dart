@@ -95,4 +95,19 @@ void main() {
 
     expect(find.byType(FluxerBoundedTextClip), findsOneWidget);
   });
+
+  test('inlineSpanHasWidget walks nested spans', () {
+    expect(inlineSpanHasWidget(const TextSpan(text: 'hello')), isFalse);
+    expect(
+      inlineSpanHasWidget(
+        const TextSpan(
+          children: [
+            TextSpan(text: 'a'),
+            WidgetSpan(child: SizedBox.shrink()),
+          ],
+        ),
+      ),
+      isTrue,
+    );
+  });
 }

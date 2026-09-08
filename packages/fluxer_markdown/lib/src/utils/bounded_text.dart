@@ -16,6 +16,20 @@ StrutStyle boundedStrutFor(TextStyle style, {bool forceHeight = true}) {
 
 bool shouldApplyBoundedTextMetrics({int? maxLines}) => maxLines != null;
 
+bool inlineSpanHasWidget(InlineSpan span) {
+  if (span is WidgetSpan) {
+    return true;
+  }
+  if (span is TextSpan) {
+    for (final InlineSpan child in span.children ?? const <InlineSpan>[]) {
+      if (inlineSpanHasWidget(child)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 class FluxerBoundedTextClip extends StatelessWidget {
   const FluxerBoundedTextClip({required this.child, super.key});
 
@@ -45,7 +59,7 @@ Widget buildFluxerBoundedRichText({
   TextDirection? textDirection,
   bool softWrap = true,
 }) {
-  final bool forceLineHeight = maxLines != null;
+  final bool forceLineHeight = maxLines != null && !inlineSpanHasWidget(text);
   return FluxerBoundedTextClip(
     child: RichText(
       text: text,
