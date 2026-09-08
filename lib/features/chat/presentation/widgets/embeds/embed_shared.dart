@@ -1,7 +1,10 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/core/utils/channel_jump_link.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
+import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
@@ -31,6 +34,15 @@ class EmbedTitle extends StatelessWidget {
 
   Future<void> _launch(BuildContext context) async {
     if (url == null) {
+      return;
+    }
+    final ChannelJumpLink? jump = parseChannelJumpLink(url!);
+    if (jump != null) {
+      await navigateToChannelJumpLink(
+        container: ProviderScope.containerOf(context),
+        context: context,
+        link: jump,
+      );
       return;
     }
     await handleExternalLinkTap(context, url!);

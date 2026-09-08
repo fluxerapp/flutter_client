@@ -3592,6 +3592,109 @@ void main() {
     );
 
     test(
+      'a targeted switchChannel still highlights when a latest load is in flight',
+      () async {
+        final db = openTestDatabase();
+        await db.channelDao.upsertChannel(
+          ChannelsCompanion.insert(
+            id: 'channel-1',
+            guildId: 'guild-1',
+            name: 'general',
+          ),
+        );
+        final String targetId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+        final adapter = _ChatAdapter(
+          messagesByChannel: <String, List<Map<String, Object?>>>{
+            'channel-1': <Map<String, Object?>>[
+              _messageJson(
+                id: targetId,
+                channelId: 'channel-1',
+                authorId: 'other',
+              ),
+            ],
+          },
+        )..holdMessageFetch = true;
+        final container = _container(db, adapter);
+        addTearDown(container.dispose);
+        final notifier = container.read(chatViewModelProvider.notifier);
+        unawaited(notifier.switchChannel('channel-1'));
+        await _flushAsync();
+        expect(container.read(chatViewModelProvider).isLoading, isTrue);
+
+        unawaited(
+          notifier.switchChannel('channel-1', targetMessageId: targetId),
+        );
+        await _flushAsync();
+        expect(
+          container.read(chatViewModelProvider).highlightedMessageId,
+          targetId,
+        );
+
+        adapter.releaseMessageFetch();
+        await _flushAsync();
+        expect(
+          container.read(chatViewModelProvider).highlightedMessageId,
+          targetId,
+        );
+        expect(
+          container.read(chatViewModelProvider).scrollToMessageSignal?.$1,
+          targetId,
+        );
+      },
+    );
+
+    test(
+      'an untargeted switchChannel does not clear an in-flight jump highlight',
+      () async {
+        final db = openTestDatabase();
+        await db.channelDao.upsertChannel(
+          ChannelsCompanion.insert(
+            id: 'channel-1',
+            guildId: 'guild-1',
+            name: 'general',
+          ),
+        );
+        final String targetId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+        final adapter = _ChatAdapter(
+          messagesByChannel: <String, List<Map<String, Object?>>>{
+            'channel-1': <Map<String, Object?>>[
+              _messageJson(
+                id: targetId,
+                channelId: 'channel-1',
+                authorId: 'other',
+              ),
+            ],
+          },
+        )..holdMessageFetch = true;
+        final container = _container(db, adapter);
+        addTearDown(container.dispose);
+        final notifier = container.read(chatViewModelProvider.notifier);
+        unawaited(
+          notifier.switchChannel('channel-1', targetMessageId: targetId),
+        );
+        await _flushAsync();
+        expect(
+          container.read(chatViewModelProvider).highlightedMessageId,
+          targetId,
+        );
+
+        unawaited(notifier.switchChannel('channel-1'));
+        await _flushAsync();
+        expect(
+          container.read(chatViewModelProvider).highlightedMessageId,
+          targetId,
+        );
+
+        adapter.releaseMessageFetch();
+        await _flushAsync();
+        expect(
+          container.read(chatViewModelProvider).highlightedMessageId,
+          targetId,
+        );
+      },
+    );
+
+    test(
       'switchChannel keeps both edges open when around omits the target',
       () async {
         final db = openTestDatabase();
