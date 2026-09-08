@@ -161,5 +161,5 @@ jobs:
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: beta-fcm-aab
-          path: build/app/outputs/bundle/betaFcmRelease/app-betafcm-release.aab
+          path: build/app/outputs/bundle/betaFcmRelease/app-beta-fcm-release.aab
           if-no-files-found: error
