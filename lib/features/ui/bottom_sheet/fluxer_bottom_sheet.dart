@@ -1094,6 +1094,9 @@ class FluxerBottomSheetFooter extends StatelessWidget {
     final colors = context.colors;
     final layout = context.layout;
 
+    final bool inScrollableSheet =
+        FluxerBottomSheetScope.maybeOf(context) != null;
+
     return DecoratedBox(
       decoration: BoxDecoration(
         border: showTopBorder
@@ -1104,12 +1107,15 @@ class FluxerBottomSheetFooter extends StatelessWidget {
               )
             : null,
       ),
-      child: Padding(
-        padding: FluxerBottomSheet.scrollViewPadding(
-          context,
+      child: SafeArea(
+        top: false,
+        left: false,
+        right: false,
+        maintainBottomViewPadding: inScrollableSheet,
+        child: Padding(
           padding: padding ?? EdgeInsets.all(layout.s4),
+          child: child,
         ),
-        child: child,
       ),
     );
   }

@@ -202,64 +202,8 @@ class _InvitePeopleContentState extends State<InvitePeopleContent> {
     final colors = context.colors;
     final textStyles = context.textStyles;
     final layout = context.layout;
-    final Widget list = FutureBuilder<List<InvitePeopleRecipient>>(
-      future: _recipientsFuture,
-      builder:
-          (
-            BuildContext context,
-            AsyncSnapshot<List<InvitePeopleRecipient>> snapshot,
-          ) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Padding(
-                padding: EdgeInsets.symmetric(vertical: layout.s8),
-                child: Center(
-                  child: FluxerLoadingSpinner(color: colors.brandPrimary),
-                ),
-              );
-            }
-            final List<InvitePeopleRecipient> recipients =
-                snapshot.data ?? <InvitePeopleRecipient>[];
-            final List<InvitePeopleRecipient> filtered = recipients.where((
-              InvitePeopleRecipient r,
-            ) {
-              if (_searchQuery.isEmpty) {
-                return true;
-              }
-              final String q = _searchQuery.toLowerCase();
-              return r.displayName.toLowerCase().contains(q) ||
-                  (r.secondaryText?.toLowerCase().contains(q) ?? false);
-            }).toList();
-            if (filtered.isEmpty) {
-              return Center(
-                child: Text(
-                  recipients.isEmpty
-                      ? l10n.guildNavbarNoFriendsYet
-                      : l10n.guildNavbarNoResults,
-                  style: textStyles.bodySmall.copyWith(
-                    color: colors.textSecondary,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              );
-            }
-            return ListView.builder(
-              controller: widget.scrollController,
-              padding: EdgeInsets.symmetric(vertical: layout.s2),
-              itemCount: filtered.length,
-              itemBuilder: (BuildContext context, int index) {
-                return _InviteRecipientRow(
-                  recipient: filtered[index],
-                  inviteState: _inviteState,
-                  sentTo: _sentTo,
-                  sendingTo: _sendingTo,
-                  onInvite: _sendTo,
-                );
-              },
-            );
-          },
-    );
-
-    final Widget body = Column(
+    final Widget header = Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         ValueListenableBuilder<InviteLinkState?>(
@@ -293,27 +237,69 @@ class _InvitePeopleContentState extends State<InvitePeopleContent> {
           onChanged: (String v) => setState(() => _searchQuery = v),
         ),
         SizedBox(height: layout.s2),
-        if (widget.fill)
-          Expanded(child: list)
-        else
-          SizedBox(height: 280, child: list),
-        FluxerBottomSheetFooter(
-          showTopBorder: true,
-          padding: EdgeInsets.fromLTRB(0, layout.s3, 0, layout.s3),
-          child: _InviteLinkFooter(
-            l10n: l10n,
-            linkController: _linkController,
-            inviteState: _inviteState,
-            copied: _copied,
-            creating: _creating,
-            canEdit: widget.vanityUrl == null,
-            expiryText: (InviteLinkState? state) => _expiryText(l10n, state),
-            onCopy: _copyLink,
-            onEdit: _editLink,
-          ),
-        ),
       ],
     );
+
+    final Widget list = FutureBuilder<List<InvitePeopleRecipient>>(
+      future: _recipientsFuture,
+      builder:
+          (
+            BuildContext context,
+            AsyncSnapshot<List<InvitePeopleRecipient>> snapshot,
+          ) {
+            return CustomScrollView(
+              controller: widget.scrollController,
+              slivers: <Widget>[
+                SliverToBoxAdapter(child: header),
+                ..._recipientSlivers(context, l10n, snapshot),
+              ],
+            );
+          },
+    );
+
+    final Widget footer = FluxerBottomSheetFooter(
+      showTopBorder: true,
+      padding: EdgeInsets.fromLTRB(0, layout.s3, 0, layout.s3),
+      child: _InviteLinkFooter(
+        l10n: l10n,
+        linkController: _linkController,
+        inviteState: _inviteState,
+        copied: _copied,
+        creating: _creating,
+        canEdit: widget.vanityUrl == null,
+        expiryText: (InviteLinkState? state) => _expiryText(l10n, state),
+        onCopy: _copyLink,
+        onEdit: _editLink,
+      ),
+    );
+
+    final Widget body = widget.fill
+        ? LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Expanded(child: list),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxHeight: constraints.maxHeight,
+                    ),
+                    child: SingleChildScrollView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      child: footer,
+                    ),
+                  ),
+                ],
+              );
+            },
+          )
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              SizedBox(height: 280, child: list),
+              footer,
+            ],
+          );
 
     if (widget.scrollController == null) {
       return body;
@@ -322,6 +308,78 @@ class _InvitePeopleContentState extends State<InvitePeopleContent> {
       padding: EdgeInsets.symmetric(horizontal: layout.s4),
       child: body,
     );
+  }
+
+  List<Widget> _recipientSlivers(
+    BuildContext context,
+    FluxerLocalizations l10n,
+    AsyncSnapshot<List<InvitePeopleRecipient>> snapshot,
+  ) {
+    final colors = context.colors;
+    final textStyles = context.textStyles;
+    final layout = context.layout;
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return <Widget>[
+        SliverFillRemaining(
+          hasScrollBody: false,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: layout.s8),
+            child: Center(
+              child: FluxerLoadingSpinner(color: colors.brandPrimary),
+            ),
+          ),
+        ),
+      ];
+    }
+    final List<InvitePeopleRecipient> recipients =
+        snapshot.data ?? <InvitePeopleRecipient>[];
+    final List<InvitePeopleRecipient> filtered = recipients.where((
+      InvitePeopleRecipient r,
+    ) {
+      if (_searchQuery.isEmpty) {
+        return true;
+      }
+      final String q = _searchQuery.toLowerCase();
+      return r.displayName.toLowerCase().contains(q) ||
+          (r.secondaryText?.toLowerCase().contains(q) ?? false);
+    }).toList();
+    if (filtered.isEmpty) {
+      return <Widget>[
+        SliverFillRemaining(
+          hasScrollBody: false,
+          child: Center(
+            child: Text(
+              recipients.isEmpty
+                  ? l10n.guildNavbarNoFriendsYet
+                  : l10n.guildNavbarNoResults,
+              style: textStyles.bodySmall.copyWith(
+                color: colors.textSecondary,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ),
+      ];
+    }
+    return <Widget>[
+      SliverPadding(
+        padding: EdgeInsets.symmetric(vertical: layout.s2),
+        sliver: SliverList(
+          delegate: SliverChildBuilderDelegate((
+            BuildContext context,
+            int index,
+          ) {
+            return _InviteRecipientRow(
+              recipient: filtered[index],
+              inviteState: _inviteState,
+              sentTo: _sentTo,
+              sendingTo: _sendingTo,
+              onInvite: _sendTo,
+            );
+          }, childCount: filtered.length),
+        ),
+      ),
+    ];
   }
 }
 

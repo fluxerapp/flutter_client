@@ -817,6 +817,62 @@ void main() {
       expect(find.text('Footer action'), findsOneWidget);
     });
 
+    testWidgets('scrollable footer stays above the view padding inset', (
+      tester,
+    ) async {
+      const double viewInset = 34;
+      tester.view.physicalSize = const Size(400, 800);
+      tester.view.devicePixelRatio = 1;
+      tester.view.padding = FakeViewPadding.zero;
+      tester.view.viewPadding = const FakeViewPadding(bottom: viewInset);
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      addTearDown(tester.view.resetPadding);
+      addTearDown(tester.view.resetViewPadding);
+
+      await tester.pumpWidget(
+        buildTestApp(
+          Builder(
+            builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  unawaited(
+                    FluxerBottomSheet.showScrollable(
+                      context,
+                      builder: (sheetContext, scrollController, close) {
+                        return Column(
+                          children: [
+                            Expanded(
+                              child: ListView(
+                                controller: scrollController,
+                                children: const [Text('Body')],
+                              ),
+                            ),
+                            const FluxerBottomSheetFooter(
+                              child: Text('Footer action'),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  );
+                },
+                child: const Text('Open'),
+              );
+            },
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+
+      final double footerBottom = tester
+          .getBottomLeft(find.text('Footer action'))
+          .dy;
+      expect(footerBottom, lessThanOrEqualTo(800 - viewInset));
+    });
+
     testWidgets('system back dismisses a default sheet', (tester) async {
       await tester.pumpWidget(
         buildTestApp(
