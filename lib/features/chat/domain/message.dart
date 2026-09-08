@@ -224,6 +224,27 @@ class Embed {
 
   bool get isMatureMedia => nsfw ?? false;
 
+  bool get hasRichEmbedContent {
+    if (title != null ||
+        (description != null && description!.isNotEmpty) ||
+        author != null ||
+        footer != null ||
+        fields.isNotEmpty) {
+      return true;
+    }
+    final bool hasProvider =
+        (providerName != null && providerName!.isNotEmpty) ||
+        (providerUrl != null && providerUrl!.isNotEmpty);
+    return hasProvider && type != EmbedType.gifv;
+  }
+
+  bool get isMediaOnlyEmbed {
+    if (hasRichEmbedContent) {
+      return false;
+    }
+    return image != null || thumbnail != null || video != null;
+  }
+
   /// Human-readable text of this embed, top to bottom as rendered, one part
   /// per line. Empty when the embed is media-only.
   String get copyableText {
@@ -1646,10 +1667,7 @@ class Message {
     if (!renderEmbeds || suppressEmbeds || embeds.isEmpty) {
       return false;
     }
-    final allMedia = embeds.every(
-      (e) => e.type == EmbedType.image || e.type == EmbedType.gifv,
-    );
-    if (!allMedia) {
+    if (!embeds.every((Embed embed) => embed.isMediaOnlyEmbed)) {
       return false;
     }
     final trimmed = content.trim();
