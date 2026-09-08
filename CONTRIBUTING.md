@@ -3,6 +3,9 @@
 Thanks for your interest in contributing. Please read this before opening a pull
 request.
 
+> [!CAUTION]
+> Please contact us on the Fluxer Labs community if you would like to upstream a fix. We will grant you access to create PR's.
+
 ## Scope during beta
 
 During the current beta we only accept contributions for **bug fixes**, and a pull
