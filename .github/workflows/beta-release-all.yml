@@ -32,7 +32,7 @@ jobs:
     secrets: inherit
 
   publish-release-assets:
-    name: Upload APKs to draft release
+    name: Upload Android assets to draft release
     needs: [draft-release, android-fcm, android-oss]
     if: |
       always() &&
@@ -45,6 +45,13 @@ jobs:
         uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
         with:
           name: beta-fcm-apk
+          path: release-assets/fcm
+
+      - name: Download FCM AAB artifact
+        if: needs.android-fcm.result == 'success'
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          name: beta-fcm-aab
           path: release-assets/fcm
 
       - name: Download OSS APK artifacts
@@ -64,7 +71,7 @@ jobs:
           repositories: flutter_client
           permission-contents: write
 
-      - name: Upload APKs to draft release
+      - name: Upload Android assets to draft release
         env:
           GH_TOKEN: ${{ steps.create-token.outputs.token }}
           TAG: ${{ needs.draft-release.outputs.tag_name }}
@@ -75,11 +82,11 @@ jobs:
             exit 1
           fi
           shopt -s globstar nullglob
-          apks=(release-assets/**/*.apk)
-          if [ "${#apks[@]}" -eq 0 ]; then
-            echo "::error::No APK files found to upload"
+          assets=(release-assets/**/*.apk release-assets/**/*.aab)
+          if [ "${#assets[@]}" -eq 0 ]; then
+            echo "::error::No Android files found to upload"
             exit 1
           fi
-          echo "Uploading ${#apks[@]} APK(s) to release $TAG"
-          gh release upload "$TAG" "${apks[@]}" --repo "${{ github.repository }}" --clobber
+          echo "Uploading ${#assets[@]} Android asset(s) to release $TAG"
+          gh release upload "$TAG" "${assets[@]}" --repo "${{ github.repository }}" --clobber
           gh release view "$TAG" --repo "${{ github.repository }}"

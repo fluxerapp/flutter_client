@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   build-beta:
-    name: Build beta APK
+    name: Build beta APK and AAB
     runs-on: macos-26
     environment: release-builds
     steps:
@@ -145,6 +145,9 @@ jobs:
       - name: Build beta combined APK
         run: flutter build apk --release --flavor betaFcm --build-name ${{ steps.beta_version_name.outputs.version_name }} --build-number ${{ steps.android_build_number.outputs.build_number }} --dart-define-from-file=tool/dart_defines/beta.json --dart-define=PUSH_PROVIDER=fcm --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)" --dart-define=BETA_NUMBER=${{ steps.beta_version_name.outputs.beta_number }}
 
+      - name: Build beta app bundle
+        run: flutter build appbundle --release --flavor betaFcm --build-name ${{ steps.beta_version_name.outputs.version_name }} --build-number ${{ steps.android_build_number.outputs.build_number }} --dart-define-from-file=tool/dart_defines/beta.json --dart-define=PUSH_PROVIDER=fcm --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)" --dart-define=BETA_NUMBER=${{ steps.beta_version_name.outputs.beta_number }}
+
       - name: Upload beta APK artifacts
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
@@ -152,4 +155,11 @@ jobs:
           path: |
             build/app/outputs/flutter-apk/app-*-betafcm-release.apk
             build/app/outputs/flutter-apk/app-betafcm-release.apk
+          if-no-files-found: error
+
+      - name: Upload beta AAB artifact
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: beta-fcm-aab
+          path: build/app/outputs/bundle/betaFcmRelease/app-betafcm-release.aab
           if-no-files-found: error
