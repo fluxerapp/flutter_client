@@ -44,6 +44,7 @@ class EmbedVideo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isMediaOnly = embed.isMediaOnlyEmbed;
     final sideColor = embed.color != null
         ? Color(0xFF000000 | (embed.color! & 0xFFFFFF))
         : context.colors.backgroundSecondaryAlt;
@@ -65,6 +66,52 @@ class EmbedVideo extends StatelessWidget {
             actionScope: videoActionScope,
           )
         : null;
+    final double mediaRadius = isMediaOnly ? 8 : 4;
+    final Widget player = youtubeLaunchContext != null
+        ? EmbedYouTube(
+            embed: embed,
+            launchContext: youtubeLaunchContext,
+            dimensionSize: dimensionSize,
+          )
+        : launchContext == null
+        ? const SizedBox.shrink()
+        : ChatInlineVideoPlayer(
+            source: launchContext.source,
+            launchContext: launchContext,
+            dimensionSize: dimensionSize,
+            posterFit: isMediaOnly ? BoxFit.cover : BoxFit.contain,
+          );
+    final Widget media = SpoilerOverlay(
+      isSpoiler: isSpoiler,
+      initiallyRevealed: revealSpoiler,
+      borderRadius: BorderRadius.circular(mediaRadius),
+      spoilerSyncController: spoilerSyncController,
+      syncKeys: spoilerSyncKeys,
+      child: MatureMediaOverlay(
+        channelId: channelId,
+        isMatureMedia: embed.isMatureMedia,
+        borderRadius: BorderRadius.circular(mediaRadius),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(mediaRadius),
+          child: player,
+        ),
+      ),
+    );
+
+    if (isMediaOnly) {
+      return Container(
+        margin: const EdgeInsets.only(top: 4, bottom: 3),
+        constraints: BoxConstraints(
+          maxWidth: dimensions.maxWidth,
+          maxHeight: dimensions.maxHeight,
+        ),
+        decoration: BoxDecoration(
+          color: context.colors.backgroundSecondaryAlt,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: media,
+      );
+    }
 
     return Container(
       margin: const EdgeInsets.only(top: 4),
@@ -105,35 +152,7 @@ class EmbedVideo extends StatelessWidget {
             ),
           Padding(
             padding: const EdgeInsets.fromLTRB(12, 0, 12, 10),
-            child: SpoilerOverlay(
-              isSpoiler: isSpoiler,
-              initiallyRevealed: revealSpoiler,
-              borderRadius: BorderRadius.circular(4),
-              spoilerSyncController: spoilerSyncController,
-              syncKeys: spoilerSyncKeys,
-              child: MatureMediaOverlay(
-                channelId: channelId,
-                isMatureMedia: embed.isMatureMedia,
-                borderRadius: BorderRadius.circular(4),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
-                  child: youtubeLaunchContext != null
-                      ? EmbedYouTube(
-                          embed: embed,
-                          launchContext: youtubeLaunchContext,
-                          dimensionSize: dimensionSize,
-                        )
-                      : launchContext == null
-                      ? const SizedBox.shrink()
-                      : ChatInlineVideoPlayer(
-                          source: launchContext.source,
-                          launchContext: launchContext,
-                          dimensionSize: dimensionSize,
-                          posterFit: BoxFit.contain,
-                        ),
-                ),
-              ),
-            ),
+            child: media,
           ),
         ],
       ),

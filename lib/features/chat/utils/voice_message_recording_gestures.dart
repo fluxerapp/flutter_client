@@ -68,6 +68,13 @@ VoiceMessageHoldPreview voiceMessageHoldPreview({
   return VoiceMessageHoldPreview(discardPreview: false, lockPreview: lock);
 }
 
+bool voiceMessageDiscardPreviewJustArmed({
+  required bool previous,
+  required bool next,
+}) {
+  return next && !previous;
+}
+
 VoiceMessageHoldReleaseAction resolveVoiceMessageHoldRelease({
   required bool isLocked,
   required bool isSending,

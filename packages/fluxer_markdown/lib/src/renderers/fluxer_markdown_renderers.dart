@@ -1298,6 +1298,7 @@ class _MarkdownInlineRenderer {
             animateCustomEmoji: config.animateCustomEmoji,
             onEmojiLongPress: config.onEmojiLongPress,
             jumbo: jumbo,
+            fitToLineHeight: features.isRestrictedInlinePreview,
           ),
         );
       default:
@@ -1629,6 +1630,8 @@ bool _isInlineOnlyTag(String tag) {
     FluxerMarkdownElementTags.mentionChannel ||
     FluxerMarkdownElementTags.mentionRole ||
     FluxerMarkdownElementTags.mentionEveryone ||
+    FluxerMarkdownElementTags.mentionCommand ||
+    FluxerMarkdownElementTags.mentionGuildNav ||
     FluxerMarkdownElementTags.timestamp ||
     FluxerMarkdownElementTags.spoiler ||
     FluxerMarkdownElementTags.emojiUnicode ||
@@ -1895,11 +1898,7 @@ TapGestureRecognizer _obtainSpoilerTapRecognizer(
 double _concealedWidgetSpanSize(WidgetSpan span, TextStyle baseStyle) {
   final Widget child = span.child;
   if (child is FluxerEmojiWidget) {
-    if (child.jumbo) {
-      return kFluxerMarkdownEmojiSizeJumbo;
-    }
-    return (child.baseStyle.fontSize ?? 16) *
-        kFluxerMarkdownEmojiSizeMultiplier;
+    return child.size;
   }
   return (baseStyle.fontSize ?? FluxerMarkupSpacing.rootFontSize) *
       (baseStyle.height ?? 1.2);
@@ -2401,22 +2400,29 @@ class FluxerEmojiWidget extends StatelessWidget {
     this.animateCustomEmoji = true,
     this.onEmojiLongPress,
     this.jumbo = false,
+    this.fitToLineHeight = false,
     super.key,
   });
 
   final md.Element element;
   final TextStyle baseStyle;
   final bool jumbo;
+  final bool fitToLineHeight;
   final bool animateCustomEmoji;
   final FluxerUnicodeEmojiUrlBuilder unicodeEmojiUrlBuilder;
   final FluxerCustomEmojiUrlBuilder customEmojiUrlBuilder;
   final FluxerEmojiLongPressHandler? onEmojiLongPress;
 
+  double get size => fluxerMarkdownEmojiSize(
+    fontSize: baseStyle.fontSize,
+    height: baseStyle.height,
+    jumbo: jumbo,
+    fitToLineHeight: fitToLineHeight,
+  );
+
   @override
   Widget build(BuildContext context) {
-    final size = jumbo
-        ? kFluxerMarkdownEmojiSizeJumbo
-        : (baseStyle.fontSize ?? 16) * kFluxerMarkdownEmojiSizeMultiplier;
+    final double size = this.size;
     final Widget emoji;
     if (element.tag == FluxerMarkdownElementTags.emojiCustom) {
       emoji = _buildCustom(context, size);

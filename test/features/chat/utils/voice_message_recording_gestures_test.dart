@@ -86,6 +86,27 @@ void main() {
     });
   });
 
+  group('voiceMessageDiscardPreviewJustArmed', () {
+    test('is true only on the rising edge', () {
+      expect(
+        voiceMessageDiscardPreviewJustArmed(previous: false, next: true),
+        isTrue,
+      );
+      expect(
+        voiceMessageDiscardPreviewJustArmed(previous: true, next: true),
+        isFalse,
+      );
+      expect(
+        voiceMessageDiscardPreviewJustArmed(previous: true, next: false),
+        isFalse,
+      );
+      expect(
+        voiceMessageDiscardPreviewJustArmed(previous: false, next: false),
+        isFalse,
+      );
+    });
+  });
+
   group('resolveVoiceMessageHoldRelease', () {
     test('locks when lock preview is armed', () {
       expect(

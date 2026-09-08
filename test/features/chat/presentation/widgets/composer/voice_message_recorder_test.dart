@@ -31,7 +31,9 @@ Widget _buildRecorderTestApp({
 }
 
 class _RecorderHarness extends ConsumerStatefulWidget {
-  const _RecorderHarness();
+  const _RecorderHarness({this.onCreated});
+
+  final ValueChanged<VoiceMessageRecordingController>? onCreated;
 
   @override
   ConsumerState<_RecorderHarness> createState() => _RecorderHarnessState();
@@ -44,6 +46,7 @@ class _RecorderHarnessState extends ConsumerState<_RecorderHarness> {
   void initState() {
     super.initState();
     _controller = VoiceMessageRecordingController(ref: ref, onPrepareUi: () {});
+    widget.onCreated?.call(_controller);
   }
 
   @override
@@ -62,6 +65,16 @@ class _RecorderHarnessState extends ConsumerState<_RecorderHarness> {
   }
 }
 
+Color? _micFill(WidgetTester tester) {
+  final AnimatedContainer container = tester.widget<AnimatedContainer>(
+    find.descendant(
+      of: find.byType(VoiceMessageRecorder),
+      matching: find.byType(AnimatedContainer),
+    ),
+  );
+  return (container.decoration! as BoxDecoration).color;
+}
+
 void main() {
   testWidgets('shell gesture block is off before recording', (tester) async {
     final ProviderContainer container = ProviderContainer();
@@ -74,5 +87,29 @@ void main() {
     );
     await tester.pump();
     expect(container.read(shellManualGestureBlockProvider), isFalse);
+  });
+
+  testWidgets('mic uses brand primary while recording', (tester) async {
+    final ProviderContainer container = ProviderContainer();
+    addTearDown(container.dispose);
+    late VoiceMessageRecordingController controller;
+    await tester.pumpWidget(
+      _buildRecorderTestApp(
+        container: container,
+        child: _RecorderHarness(
+          onCreated: (VoiceMessageRecordingController value) {
+            controller = value;
+          },
+        ),
+      ),
+    );
+    await tester.pump();
+
+    final colors = buildDarkColorTheme();
+    expect(_micFill(tester), colors.backgroundTertiary);
+
+    controller.debugSetActive(value: true);
+    await tester.pump();
+    expect(_micFill(tester), colors.brandPrimary);
   });
 }

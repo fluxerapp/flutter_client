@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/chat/providers/messages/message_realtime_eve
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 const Duration _kNekoFrameInterval = Duration(milliseconds: 100);
@@ -26,8 +27,8 @@ const int _kTiredFrames = 8;
 const int _kSleepingEndFrame = 192;
 const int _kSleepingFrameStride = 4;
 const int _kScratchEndFrame = 9;
-const String _kNekoHeartGlyph = '♥';
 const Color _kNekoHeartColor = Color(0xFFFF5C8A);
+const double _kNekoHeartOffsetX = 0.5;
 
 typedef _SpriteFrame = (int x, int y);
 
@@ -466,8 +467,8 @@ class _NekoSpriteState extends ConsumerState<NekoSprite> {
                                 for (final int id in hearts)
                                   Positioned(
                                     key: ValueKey<int>(id),
-                                    left: 0,
-                                    right: 0,
+                                    left: _kNekoHeartOffsetX,
+                                    right: -_kNekoHeartOffsetX,
                                     top: -4,
                                     child: IgnorePointer(
                                       child: _NekoHeart(
@@ -526,10 +527,10 @@ class _NekoHeart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Text heart = Text(
-      _kNekoHeartGlyph,
-      textAlign: TextAlign.center,
-      style: TextStyle(color: _kNekoHeartColor, fontSize: 12, height: 1),
+    const PhosphorIcon heart = PhosphorIcon(
+      PhosphorIconsFill.heart,
+      size: 12,
+      color: _kNekoHeartColor,
     );
     if (reducedMotion) {
       return heart;

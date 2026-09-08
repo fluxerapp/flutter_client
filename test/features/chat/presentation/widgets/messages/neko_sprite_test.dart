@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/neko_sprite.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class _AlwaysIdleAnimationRandom implements Random {
@@ -202,7 +203,14 @@ void main() {
       await awaitSprite(tester);
       await tester.tap(find.byType(NekoSprite));
       await tester.pump();
-      expect(find.text('♥'), findsOneWidget);
+      final Finder heart = find.byIcon(PhosphorIconsFill.heart);
+      expect(heart, findsOneWidget);
+      expect(
+        tester.getCenter(heart).dx,
+        tester.getTopLeft(find.byType(NekoSprite)).dx +
+            kNekoSpriteSize / 2 +
+            0.5,
+      );
       await tester.pumpWidget(const SizedBox());
     });
   });

@@ -67,6 +67,36 @@ void _expectAllEmojisJumbo(WidgetTester tester) {
 }
 
 void main() {
+  group('fluxerMarkdownEmojiSize', () {
+    test('uses 1.5x font size for normal inline emoji', () {
+      expect(
+        fluxerMarkdownEmojiSize(fontSize: 16, height: 1.375, jumbo: false),
+        24,
+      );
+    });
+
+    test('uses the line box for restricted inline previews', () {
+      expect(
+        fluxerMarkdownEmojiSize(
+          fontSize: 14,
+          height: 18 / 14,
+          jumbo: false,
+          fitToLineHeight: true,
+        ),
+        18,
+      );
+      expect(
+        fluxerMarkdownEmojiSize(
+          fontSize: 16,
+          height: null,
+          jumbo: false,
+          fitToLineHeight: true,
+        ),
+        16 * kFluxerMarkdownRestrictedInlineEmojiEm,
+      );
+    });
+  });
+
   group('jumbo emoji text flow', () {
     testWidgets('mixed emoji-only line and text line uses normal size', (
       tester,

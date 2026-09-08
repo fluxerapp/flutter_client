@@ -161,6 +161,134 @@ void main() {
     });
   });
 
+  group('Embed.isMediaOnlyEmbed', () {
+    test('is true for a Fluxer video link with no rich fields', () {
+      const Embed embed = Embed(
+        type: EmbedType.video,
+        url: 'https://cdn.fluxer.app/attachments/1/2/clip.mp4',
+        video: EmbedMedia(
+          url: 'https://cdn.fluxer.app/attachments/1/2/clip.mp4',
+          width: 1280,
+          height: 720,
+        ),
+      );
+      expect(embed.hasRichEmbedContent, isFalse);
+      expect(embed.isMediaOnlyEmbed, isTrue);
+    });
+
+    test('is false for a video embed with a provider', () {
+      const Embed embed = Embed(
+        type: EmbedType.video,
+        url: 'https://www.youtube.com/watch?v=abc',
+        providerName: 'YouTube',
+        providerUrl: 'https://www.youtube.com',
+        title: 'A clip',
+        video: EmbedMedia(
+          url: 'https://www.youtube.com/embed/abc',
+          width: 1280,
+          height: 720,
+        ),
+      );
+      expect(embed.hasRichEmbedContent, isTrue);
+      expect(embed.isMediaOnlyEmbed, isFalse);
+    });
+
+    test('treats gifv provider as media-only', () {
+      const Embed embed = Embed(
+        type: EmbedType.gifv,
+        url: 'https://tenor.example/a',
+        providerName: 'Tenor',
+        video: EmbedMedia(url: 'https://tenor.example/a.mp4'),
+        thumbnail: EmbedMedia(url: 'https://tenor.example/a.gif'),
+      );
+      expect(embed.hasRichEmbedContent, isFalse);
+      expect(embed.isMediaOnlyEmbed, isTrue);
+    });
+  });
+
+  group('Message.shouldHideContent', () {
+    const Embed imageEmbed = Embed(
+      type: EmbedType.image,
+      url: 'https://cdn.fluxer.app/attachments/1/2/pic.png',
+      thumbnail: EmbedMedia(
+        url: 'https://cdn.fluxer.app/attachments/1/2/pic.png',
+      ),
+    );
+    const Embed videoEmbed = Embed(
+      type: EmbedType.video,
+      url: 'https://cdn.fluxer.app/attachments/1/2/clip.mp4',
+      video: EmbedMedia(
+        url: 'https://cdn.fluxer.app/attachments/1/2/clip.mp4',
+        width: 1280,
+        height: 720,
+      ),
+    );
+
+    test('hides a pasted image url when embeds are rendered', () {
+      expect(
+        _message(
+          content: 'https://cdn.fluxer.app/attachments/1/2/pic.png',
+          embeds: const [imageEmbed],
+        ).shouldHideContent(renderEmbeds: true),
+        isTrue,
+      );
+    });
+
+    test('hides a pasted Fluxer video url when embeds are rendered', () {
+      expect(
+        _message(
+          content: 'https://cdn.fluxer.app/attachments/1/2/clip.mp4',
+          embeds: const [videoEmbed],
+        ).shouldHideContent(renderEmbeds: true),
+        isTrue,
+      );
+    });
+
+    test('keeps youtube-style video urls visible', () {
+      expect(
+        _message(
+          content: 'https://www.youtube.com/watch?v=abc',
+          embeds: const [
+            Embed(
+              type: EmbedType.video,
+              url: 'https://www.youtube.com/watch?v=abc',
+              providerName: 'YouTube',
+              providerUrl: 'https://www.youtube.com',
+              title: 'A clip',
+              video: EmbedMedia(
+                url: 'https://www.youtube.com/embed/abc',
+                width: 1280,
+                height: 720,
+              ),
+            ),
+          ],
+        ).shouldHideContent(renderEmbeds: true),
+        isFalse,
+      );
+    });
+
+    test('keeps the url when extra text is present', () {
+      expect(
+        _message(
+          content: 'watch https://cdn.fluxer.app/attachments/1/2/clip.mp4',
+          embeds: const [videoEmbed],
+        ).shouldHideContent(renderEmbeds: true),
+        isFalse,
+      );
+    });
+
+    test('keeps the url when embeds are suppressed', () {
+      expect(
+        _message(
+          content: 'https://cdn.fluxer.app/attachments/1/2/clip.mp4',
+          embeds: const [videoEmbed],
+          flags: messageFlagSuppressEmbeds,
+        ).shouldHideContent(renderEmbeds: true),
+        isFalse,
+      );
+    });
+  });
+
   group('Message.embedsCopyableText', () {
     const Embed richEmbed = Embed(
       type: EmbedType.rich,
