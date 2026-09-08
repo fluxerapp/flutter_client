@@ -189,14 +189,14 @@ void main() {
                 controller: sheetController,
                 initialChildSize: 0.7,
                 minChildSize: 0.4,
-                maxChildSize: 0.9,
+                maxChildSize: 0.95,
                 builder: (context, scrollController) {
                   return Column(
                     children: [
                       FluxerBottomSheetDragHandle(
                         sheetController: sheetController,
                         minChildSize: 0.4,
-                        maxChildSize: 0.9,
+                        maxChildSize: 0.95,
                       ),
                       Expanded(
                         child: ListView.builder(
@@ -284,7 +284,8 @@ void main() {
                   unawaited(
                     FluxerBottomSheet.showScrollable(
                       context,
-                      initialChildSize: 0.7,
+                      initialChildSize:
+                          FluxerBottomSheet.scrollableSheetHalfSize,
                       // Empty/loading states never attach the controller, so
                       // the handle has no sheet extent to move.
                       builder: (context, scrollController, close) =>
@@ -305,7 +306,7 @@ void main() {
 
       await tester.drag(
         find.byType(FluxerBottomSheetDragHandle),
-        const Offset(0, 100),
+        const Offset(0, 200),
       );
       await tester.pumpAndSettle();
 
@@ -363,8 +364,8 @@ void main() {
       expect(find.text('Open'), findsOneWidget);
     });
 
-    testWidgets('partial handle drag springs the sheet back to its initial '
-        'size', (tester) async {
+    testWidgets('partial handle drag springs the sheet back to the nearest '
+        'snap', (tester) async {
       await tester.pumpWidget(
         buildTestApp(
           Builder(
@@ -374,7 +375,6 @@ void main() {
                   unawaited(
                     FluxerBottomSheet.showScrollable(
                       context,
-                      initialChildSize: 0.7,
                       builder: (context, scrollController, close) {
                         return ListView.builder(
                           controller: scrollController,
@@ -413,7 +413,7 @@ void main() {
       expect(tester.getTopLeft(handle).dy, closeTo(restTop, 0.5));
     });
 
-    testWidgets('upward handle drag keeps the expanded sheet size', (
+    testWidgets('handle drag between half and full snaps to the closer point', (
       tester,
     ) async {
       await tester.pumpWidget(
@@ -425,7 +425,70 @@ void main() {
                   unawaited(
                     FluxerBottomSheet.showScrollable(
                       context,
-                      initialChildSize: 0.4,
+                      builder: (context, scrollController, close) {
+                        return ListView.builder(
+                          controller: scrollController,
+                          itemCount: 20,
+                          itemBuilder: (context, index) =>
+                              ListTile(title: Text('Scroll Item $index')),
+                        );
+                      },
+                    ),
+                  );
+                },
+                child: const Text('Open'),
+              );
+            },
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+
+      final RenderBox sheetBox = tester.renderObject(
+        find.byType(DraggableScrollableSheet),
+      );
+      final double parentHeight = sheetBox.constraints.maxHeight;
+      final double fullTop = tester
+          .getTopLeft(find.byType(FluxerBottomSheetDragHandle))
+          .dy;
+
+      await tester.drag(
+        find.byType(FluxerBottomSheetDragHandle),
+        Offset(0, parentHeight * 0.35),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('Scroll Item 0'), findsOneWidget);
+      final double halfTop = tester
+          .getTopLeft(find.byType(FluxerBottomSheetDragHandle))
+          .dy;
+      expect(
+        halfTop - fullTop,
+        closeTo(
+          parentHeight *
+              (FluxerBottomSheet.scrollableSheetSize -
+                  FluxerBottomSheet.scrollableSheetHalfSize),
+          2,
+        ),
+      );
+    });
+
+    testWidgets('upward handle drag from half settles at the full snap', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          Builder(
+            builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  unawaited(
+                    FluxerBottomSheet.showScrollable(
+                      context,
+                      initialChildSize:
+                          FluxerBottomSheet.scrollableSheetHalfSize,
                       builder: (context, scrollController, close) {
                         return ListView.builder(
                           controller: scrollController,
@@ -462,6 +525,72 @@ void main() {
 
       expect(find.text('Scroll Item 0'), findsOneWidget);
       expect(tester.getTopLeft(handle).dy, lessThan(initialTop - 20));
+
+      final RenderBox sheetBox = tester.renderObject(
+        find.byType(DraggableScrollableSheet),
+      );
+      expect(
+        sheetBox.size.height,
+        closeTo(
+          sheetBox.constraints.maxHeight *
+              FluxerBottomSheet.scrollableSheetSize,
+          2,
+        ),
+      );
+    });
+
+    testWidgets('scrolling content at half expands the sheet to full', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          Builder(
+            builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  unawaited(
+                    FluxerBottomSheet.showScrollable(
+                      context,
+                      initialChildSize:
+                          FluxerBottomSheet.scrollableSheetHalfSize,
+                      builder: (context, scrollController, close) {
+                        return ListView.builder(
+                          controller: scrollController,
+                          itemCount: 40,
+                          itemBuilder: (context, index) =>
+                              ListTile(title: Text('Scroll Item $index')),
+                        );
+                      },
+                    ),
+                  );
+                },
+                child: const Text('Open'),
+              );
+            },
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+
+      final RenderBox initialBox = tester.renderObject(
+        find.byType(DraggableScrollableSheet),
+      );
+      final double initialHeight = initialBox.size.height;
+      final double parentHeight = initialBox.constraints.maxHeight;
+
+      await tester.drag(find.text('Scroll Item 0'), const Offset(0, -220));
+      await tester.pumpAndSettle();
+
+      final RenderBox expandedBox = tester.renderObject(
+        find.byType(DraggableScrollableSheet),
+      );
+      expect(expandedBox.size.height, greaterThan(initialHeight + 20));
+      expect(
+        expandedBox.size.height,
+        closeTo(parentHeight * FluxerBottomSheet.scrollableSheetSize, 2),
+      );
     });
 
     testWidgets(
@@ -1074,7 +1203,7 @@ void main() {
       expect(bothParamsHeight, closeTo(maxChildOnlyHeight, 1));
     });
 
-    testWidgets('showScrollable opens at 90% of available height by default', (
+    testWidgets('showScrollable opens at 95% of available height by default', (
       tester,
     ) async {
       const Size screenSize = Size(400, 800);

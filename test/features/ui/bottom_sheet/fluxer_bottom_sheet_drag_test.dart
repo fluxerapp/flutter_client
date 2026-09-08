@@ -10,7 +10,7 @@ void main() {
           deltaDy: 80,
           availablePixels: 800,
           minChildSize: 0.4,
-          maxChildSize: 0.9,
+          maxChildSize: 0.95,
         ),
         closeTo(0.7, 0.001),
       );
@@ -23,7 +23,7 @@ void main() {
           deltaDy: -80,
           availablePixels: 600,
           minChildSize: 0.4,
-          maxChildSize: 0.9,
+          maxChildSize: 0.95,
         ),
         closeTo(0.733, 0.001),
       );
@@ -36,7 +36,7 @@ void main() {
           deltaDy: 200,
           availablePixels: 450,
           minChildSize: 0.4,
-          maxChildSize: 0.9,
+          maxChildSize: 0.95,
         ),
         0.4,
       );
@@ -46,9 +46,9 @@ void main() {
           deltaDy: -200,
           availablePixels: 850,
           minChildSize: 0.4,
-          maxChildSize: 0.9,
+          maxChildSize: 0.95,
         ),
-        0.9,
+        0.95,
       );
     });
   });
@@ -75,6 +75,75 @@ void main() {
           velocity: 100,
         ),
         isFalse,
+      );
+    });
+  });
+
+  group('fluxerBottomSheetSnapTarget', () {
+    const double half = 0.5;
+    const double full = 0.95;
+
+    test('dismisses when released below the half mark', () {
+      expect(
+        fluxerBottomSheetSnapTarget(size: 0.4, halfSize: half, fullSize: full),
+        isNull,
+      );
+    });
+
+    test('stays at half when released at the half mark', () {
+      expect(
+        fluxerBottomSheetSnapTarget(size: 0.5, halfSize: half, fullSize: full),
+        half,
+      );
+    });
+
+    test('snaps to whichever of half or full is closer', () {
+      expect(
+        fluxerBottomSheetSnapTarget(size: 0.6, halfSize: half, fullSize: full),
+        half,
+      );
+      expect(
+        fluxerBottomSheetSnapTarget(size: 0.85, halfSize: half, fullSize: full),
+        full,
+      );
+    });
+
+    test('dismisses from half on a fast downward flick', () {
+      expect(
+        fluxerBottomSheetSnapTarget(
+          size: 0.5,
+          halfSize: half,
+          fullSize: full,
+          velocity: 400,
+          availablePixels: 800,
+        ),
+        isNull,
+      );
+    });
+
+    test('upward flick from below the midpoint expands to full', () {
+      expect(
+        fluxerBottomSheetSnapTarget(
+          size: 0.6,
+          halfSize: half,
+          fullSize: full,
+          velocity: -800,
+          availablePixels: 800,
+        ),
+        full,
+      );
+    });
+
+    test('does not skip from full to dismiss based on velocity alone', () {
+      expect(
+        fluxerBottomSheetSnapTarget(
+          size: 0.9,
+          halfSize: half,
+          fullSize: full,
+          velocity: 2000,
+          availablePixels: 800,
+        ),
+        half,
       );
     });
   });

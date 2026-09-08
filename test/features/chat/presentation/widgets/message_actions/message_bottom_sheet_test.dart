@@ -86,6 +86,45 @@ void main() {
   }
 
   group('showMessageBottomSheet attachment actions', () {
+    testWidgets('opens at the half-screen snap', (tester) async {
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: baseOverrides(
+            message.id,
+            extra: [
+              appearancePreferencesProvider.overrideWithValue(
+                const AppearancePreferencesState(),
+              ),
+            ],
+          ),
+          child: buildTestApp(
+            onOpen: (context) => showMessageBottomSheet(
+              context,
+              message: message,
+              isOwnMessage: true,
+              isDmChannel: false,
+              canDelete: true,
+              canReport: false,
+              canAddReactions: false,
+              canPinMessage: false,
+              canManageMessages: false,
+              canSendMessages: true,
+              developerMode: false,
+            ),
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+
+      final DraggableScrollableSheet sheet = tester.widget(
+        find.byType(DraggableScrollableSheet),
+      );
+      expect(sheet.initialChildSize, FluxerBottomSheet.scrollableSheetHalfSize);
+      expect(sheet.maxChildSize, FluxerBottomSheet.scrollableSheetSize);
+    });
+
     testWidgets('shows delete and edit alt text for own attachments', (
       tester,
     ) async {

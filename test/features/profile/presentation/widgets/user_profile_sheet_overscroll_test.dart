@@ -138,7 +138,6 @@ void main() {
             (context) => unawaited(
               FluxerBottomSheet.showScrollable<void>(
                 context,
-                initialChildSize: 0.95,
                 minChildSize: 0.5,
                 disableTopPadding: true,
                 showDragHandle: false,
