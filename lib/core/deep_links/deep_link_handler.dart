@@ -264,6 +264,7 @@ class DeepLinkHandler extends _$DeepLinkHandler {
         );
         return;
       }
+      router.go(RoutePaths.me);
       return;
     }
     final ChannelJumpLink? link = channelJumpLinkFromPathSegments(segments);

@@ -13705,6 +13705,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   @override
   String get clipboardPasteFailed =>
       'Couldn\'t paste. The clipboard was empty or blocked for this app.';
+
+  @override
+  String get homeQuickActionDms => 'DMs';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).

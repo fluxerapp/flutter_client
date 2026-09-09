@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dar
 import 'package:fluxer_app/core/push/push_notification_clear.dart';
 import 'package:fluxer_app/core/push/services/unified_push_service.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_mobile_device_registration.dart';
+import 'package:fluxer_app/core/quick_actions/pending_home_quick_action_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 
 enum LeavePushAccountMode { switchAccount, signOut }
@@ -24,6 +25,7 @@ final class PushAccountLifecycle {
       return;
     }
     ref.read(pendingPushNotificationPathProvider.notifier).clear();
+    ref.read(pendingHomeQuickActionProvider.notifier).clear();
     await AppIconBadgeService.clear();
     await PushNotificationClear.clearAllDelivered();
     if (PushProviderGuard.isApple) {

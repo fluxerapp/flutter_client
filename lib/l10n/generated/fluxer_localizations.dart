@@ -23458,6 +23458,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t paste. The clipboard was empty or blocked for this app.'**
   String get clipboardPasteFailed;
+
+  /// Home screen quick action that opens Direct Messages.
+  ///
+  /// In en, this message translates to:
+  /// **'DMs'**
+  String get homeQuickActionDms;
 }
 
 class _FluxerLocalizationsDelegate

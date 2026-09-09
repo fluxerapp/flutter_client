@@ -2,7 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/badge/app_icon_badge_coordinator.dart';
+import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/push/push_notifications_coordinator.dart';
 import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
@@ -45,6 +47,9 @@ void main() {
         gatewayConnectionProvider.overrideWithValue(gatewayConnection),
         pushNotificationsCoordinatorProvider.overrideWithValue(false),
         appIconBadgeCoordinatorProvider.overrideWithValue(null),
+        instanceRuntimeConfigProvider.overrideWithValue(
+          InstanceRuntimeConfig.defaults,
+        ),
       ],
     );
     addTearDown(container.dispose);
@@ -92,6 +97,9 @@ void main() {
         gatewayConnectionProvider.overrideWithValue(gatewayConnection),
         pushNotificationsCoordinatorProvider.overrideWithValue(false),
         appIconBadgeCoordinatorProvider.overrideWithValue(null),
+        instanceRuntimeConfigProvider.overrideWithValue(
+          InstanceRuntimeConfig.defaults,
+        ),
       ],
     );
     addTearDown(container.dispose);
