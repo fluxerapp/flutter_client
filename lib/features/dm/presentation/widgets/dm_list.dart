@@ -578,9 +578,7 @@ class _DMListState extends ConsumerState<DMList> {
                 context,
                 onTap: () =>
                     unawaited(QuickSwitcherBottomSheet.show(context, ref)),
-                width: 32,
-                height: 32,
-                borderRadius: BorderRadius.circular(16),
+                padding: const EdgeInsets.all(8),
                 child: PhosphorIcon(
                   PhosphorIconsBold.magnifyingGlass,
                   size: 20,
