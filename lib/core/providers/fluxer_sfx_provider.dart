@@ -4,10 +4,9 @@ import 'package:drift/drift.dart' show CancellationException;
 import 'package:fluxer_app/core/audio/enums/fluxer_sfx_clip.dart';
 import 'package:fluxer_app/core/audio/fluxer_sfx.dart';
 import 'package:fluxer_app/core/audio/message_notification_sfx_scheduler.dart';
-import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/notifications/system_notification_sound_policy.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
-import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/obscuring_overlay_tracker_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
@@ -15,6 +14,8 @@ import 'package:fluxer_app/features/chat/providers/messages/message_realtime_eve
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
 import 'package:fluxer_app/features/chat/service/message_notification_sfx_gate.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
+import 'package:fluxer_app/features/profile/domain/presence_notification_policy.dart';
+import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_app/features/settings/providers/sound_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/utils/sound_type_utils.dart';
 import 'package:fluxer_app/features/settings/utils/sound_volume_utils.dart';
@@ -69,9 +70,9 @@ void fluxerMessageSfxBinding(Ref ref) {
           if (uid == null) {
             return;
           }
-          final db = ref.read(fluxerDatabaseProvider);
-          final User? self = await db.userDao.getUserById(uid);
-          final bool selfDnd = self?.status == 'dnd';
+          final bool selfDnd = isPresenceDoNotDisturb(
+            ref.read(userSettingsStatusProvider)?.status,
+          );
           final bool foreground = ref.read(appUiForegroundProvider);
           final String? activeCh = ref.read(activeChannelIdProvider);
           final MessageNotificationSfxPlayRequest? request =
@@ -90,7 +91,7 @@ void fluxerMessageSfxBinding(Ref ref) {
           if (request == null) {
             return;
           }
-          if (await executeReadSystemFocusModeEnabled()) {
+          if (await isSystemNotificationSoundSuppressed()) {
             return;
           }
           final SoundPreferencesState soundPrefs = ref.read(

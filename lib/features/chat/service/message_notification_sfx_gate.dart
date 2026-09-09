@@ -6,8 +6,6 @@ import 'package:fluxer_app/features/chat/providers/messages/message_realtime_eve
 import 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
 import 'package:fluxer_dart/export.dart';
 
-Future<bool> executeReadSystemFocusModeEnabled() async => false;
-
 class MessageNotificationSfxDeduper {
   MessageNotificationSfxDeduper({required this._capacity});
 
