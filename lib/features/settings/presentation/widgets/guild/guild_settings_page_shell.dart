@@ -58,7 +58,10 @@ class GuildSettingsPageShell extends StatelessWidget {
         title: Text(guildSettingsTabTitle(l10n, tab)),
         actions: <Widget>[...actions],
       ),
-      body: GuildSettingsAccessGate(guildId: guildId, tab: tab, child: body),
+      body: SafeArea(
+        top: false,
+        child: GuildSettingsAccessGate(guildId: guildId, tab: tab, child: body),
+      ),
     );
   }
 }

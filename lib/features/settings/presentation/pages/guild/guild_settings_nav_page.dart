@@ -62,9 +62,12 @@ class _GuildSettingsNavPageState extends ConsumerState<GuildSettingsNavPage> {
           onPressed: () => context.pop(),
         ),
       ),
-      body: FluxerSettingsNavList(
-        padding: settingsScrollPadding(context),
-        groups: _buildNavGroups(l10n, tabs, context, widget.guildId, ref),
+      body: SafeArea(
+        top: false,
+        child: FluxerSettingsNavList(
+          padding: settingsScrollPadding(context),
+          groups: _buildNavGroups(l10n, tabs, context, widget.guildId, ref),
+        ),
       ),
     );
   }

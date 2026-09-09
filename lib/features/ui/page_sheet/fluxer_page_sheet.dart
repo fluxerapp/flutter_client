@@ -242,7 +242,7 @@ class _FluxerPageSheetScaffold extends StatelessWidget {
           onPressed: onClose,
         ),
       ),
-      body: child,
+      body: SafeArea(top: false, child: child),
     );
   }
 }

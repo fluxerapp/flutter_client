@@ -445,70 +445,75 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
         ),
         title: Text(l10n.channelDetailsSearchTitle),
       ),
-      body: Column(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.fromLTRB(layout.s4, layout.s3, layout.s4, 0),
-            child: FluxerInput(
-              controller: _textController,
-              focusNode: _focusNode,
-              hint: l10n.channelDetailsSearchHint,
-              prefixIcon: const PhosphorIcon(PhosphorIconsBold.magnifyingGlass),
-              suffixIcon: showClear
-                  ? const PhosphorIcon(PhosphorIconsBold.x)
-                  : null,
-              onSuffixTap: showClear ? _clearAll : null,
-              textInputAction: TextInputAction.search,
-              onSubmitted: (_) => _runSearch(),
-            ),
-          ),
-          SizedBox(height: layout.s3),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            padding: EdgeInsets.symmetric(horizontal: layout.s4),
-            child: Row(
-              children: <Widget>[
-                for (final (int index, Widget chip)
-                    in filterChips.indexed) ...<Widget>[
-                  if (index > 0) SizedBox(width: layout.s2),
-                  chip,
-                ],
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(
-              layout.s4,
-              layout.s3,
-              layout.s4,
-              layout.s3,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                FluxerButton.primary(
-                  label: l10n.channelDetailsActionSearch,
-                  onPressed: _canSearch(state) ? _runSearch : null,
+      body: SafeArea(
+        top: false,
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.fromLTRB(layout.s4, layout.s3, layout.s4, 0),
+              child: FluxerInput(
+                controller: _textController,
+                focusNode: _focusNode,
+                hint: l10n.channelDetailsSearchHint,
+                prefixIcon: const PhosphorIcon(
+                  PhosphorIconsBold.magnifyingGlass,
                 ),
-                if (!state.hasSearched && recentHistory.isNotEmpty)
-                  _RecentSearchHistory(
-                    entries: recentHistory,
-                    onSelect: _restoreHistoryEntry,
-                  ),
-                if (showResultCount) ...<Widget>[
-                  SizedBox(height: layout.s2),
-                  Text(
-                    l10n.channelDetailsSearchResultCount(state.total),
-                    style: context.textStyles.bodySmall.copyWith(
-                      color: context.colors.textSecondary,
-                    ),
-                  ),
-                ],
-              ],
+                suffixIcon: showClear
+                    ? const PhosphorIcon(PhosphorIconsBold.x)
+                    : null,
+                onSuffixTap: showClear ? _clearAll : null,
+                textInputAction: TextInputAction.search,
+                onSubmitted: (_) => _runSearch(),
+              ),
             ),
-          ),
-          Expanded(child: _buildResults(context, state)),
-        ],
+            SizedBox(height: layout.s3),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.symmetric(horizontal: layout.s4),
+              child: Row(
+                children: <Widget>[
+                  for (final (int index, Widget chip)
+                      in filterChips.indexed) ...<Widget>[
+                    if (index > 0) SizedBox(width: layout.s2),
+                    chip,
+                  ],
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                layout.s4,
+                layout.s3,
+                layout.s4,
+                layout.s3,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  FluxerButton.primary(
+                    label: l10n.channelDetailsActionSearch,
+                    onPressed: _canSearch(state) ? _runSearch : null,
+                  ),
+                  if (!state.hasSearched && recentHistory.isNotEmpty)
+                    _RecentSearchHistory(
+                      entries: recentHistory,
+                      onSelect: _restoreHistoryEntry,
+                    ),
+                  if (showResultCount) ...<Widget>[
+                    SizedBox(height: layout.s2),
+                    Text(
+                      l10n.channelDetailsSearchResultCount(state.total),
+                      style: context.textStyles.bodySmall.copyWith(
+                        color: context.colors.textSecondary,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            Expanded(child: _buildResults(context, state)),
+          ],
+        ),
       ),
     );
   }

@@ -16,6 +16,7 @@ class GuildMembersPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return MessageListPageShell(
+      hasBottomNav: true,
       icon: PhosphorIcon(
         PhosphorIconsFill.users,
         size: 24,

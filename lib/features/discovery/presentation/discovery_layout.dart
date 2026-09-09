@@ -16,7 +16,7 @@ class DiscoveryLayout extends StatelessWidget {
     return RootOverlayBackScope(
       child: Scaffold(
         backgroundColor: context.colors.backgroundPrimary,
-        body: page,
+        body: const SafeArea(top: false, child: page),
       ),
     );
   }

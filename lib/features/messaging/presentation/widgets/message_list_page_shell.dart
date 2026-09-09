@@ -10,6 +10,7 @@ class MessageListPageShell extends StatelessWidget {
     required this.title,
     required this.body,
     this.trailing,
+    this.hasBottomNav = false,
     super.key,
   });
 
@@ -17,6 +18,7 @@ class MessageListPageShell extends StatelessWidget {
   final String title;
   final Widget body;
   final Widget? trailing;
+  final bool hasBottomNav;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class MessageListPageShell extends StatelessWidget {
     return ColoredBox(
       color: colors.backgroundSecondary,
       child: SafeArea(
-        bottom: false,
+        bottom: !hasBottomNav,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
