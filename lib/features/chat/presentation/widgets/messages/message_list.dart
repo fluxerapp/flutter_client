@@ -483,6 +483,9 @@ class _MessageListState extends ConsumerState<MessageList> {
     final String? highlightedMessageId = ref.watch(
       chatViewModelProvider.select((ChatViewState s) => s.highlightedMessageId),
     );
+    final String? replyingToMessageId = ref.watch(
+      chatViewModelProvider.select((ChatViewState s) => s.replyingTo?.id),
+    );
     final String? revealedCollapsedGroupKey = ref.watch(
       chatViewModelProvider.select(
         (ChatViewState s) => s.revealedCollapsedGroupKey,
@@ -904,6 +907,7 @@ class _MessageListState extends ConsumerState<MessageList> {
                         dataIndex: dataIndex,
                         visualUnreadId: visualUnreadId,
                         highlightedMessageId: highlightedMessageId,
+                        replyingToMessageId: replyingToMessageId,
                         currentUserId: currentUserId,
                         isDmChannel: isDmChannel,
                         guildId: guildId,
@@ -2364,6 +2368,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     required Message? previousMessage,
     required String? visualUnreadId,
     required String? highlightedMessageId,
+    required String? replyingToMessageId,
     required String? currentUserId,
     required bool isDmChannel,
     required String? guildId,
@@ -2388,7 +2393,8 @@ class _MessageListState extends ConsumerState<MessageList> {
       previousMessage: previousMessage,
       isNewDay: isNewDay,
     );
-    final bool isJumpHighlighted = message.id == highlightedMessageId;
+    final bool isJumpHighlighted =
+        message.id == highlightedMessageId || message.id == replyingToMessageId;
     final bool isUnreadBoundary =
         !prependUnreadSeparator && message.id == visualUnreadId;
     final bool isAuthorBlocked = blockedUserIds.contains(message.authorId);
@@ -2600,6 +2606,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     required int dataIndex,
     required String? visualUnreadId,
     required String? highlightedMessageId,
+    required String? replyingToMessageId,
     required String? currentUserId,
     required bool isDmChannel,
     required String? guildId,
@@ -2641,6 +2648,7 @@ class _MessageListState extends ConsumerState<MessageList> {
           item.messages.length,
           isRevealed,
           highlightedMessageId,
+          replyingToMessageId,
           leadingSpacing,
         );
         return _tileCache.resolve('group-$groupKey', signature, () {
@@ -2670,6 +2678,7 @@ class _MessageListState extends ConsumerState<MessageList> {
                   previousMessage: previousMessage,
                   visualUnreadId: visualUnreadId,
                   highlightedMessageId: highlightedMessageId,
+                  replyingToMessageId: replyingToMessageId,
                   currentUserId: currentUserId,
                   isDmChannel: isDmChannel,
                   guildId: guildId,
@@ -2707,6 +2716,7 @@ class _MessageListState extends ConsumerState<MessageList> {
             forceLeadingSpacing: followsCollapsedGroup(stream, dataIndex),
             visualUnreadId: visualUnreadId,
             highlightedMessageId: highlightedMessageId,
+            replyingToMessageId: replyingToMessageId,
             currentUserId: currentUserId,
             isDmChannel: isDmChannel,
             guildId: guildId,
@@ -2732,6 +2742,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     required int dataIndex,
     required String? visualUnreadId,
     required String? highlightedMessageId,
+    required String? replyingToMessageId,
     required String? currentUserId,
     required bool isDmChannel,
     required String? guildId,
@@ -2757,6 +2768,7 @@ class _MessageListState extends ConsumerState<MessageList> {
         dataIndex: dataIndex,
         visualUnreadId: visualUnreadId,
         highlightedMessageId: highlightedMessageId,
+        replyingToMessageId: replyingToMessageId,
         currentUserId: currentUserId,
         isDmChannel: isDmChannel,
         guildId: guildId,
