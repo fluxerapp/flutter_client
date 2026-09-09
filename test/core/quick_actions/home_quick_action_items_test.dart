@@ -32,22 +32,20 @@ void main() {
         includeDms: true,
       );
 
-      expect(
-        items.map((ShortcutItem item) => item.type).toList(),
-        <String>['fluxer.dms', 'fluxer.search', 'fluxer.notifications'],
-      );
+      expect(items.map((ShortcutItem item) => item.type).toList(), <String>[
+        'fluxer.dms',
+        'fluxer.search',
+        'fluxer.notifications',
+      ]);
       expect(
         items.map((ShortcutItem item) => item.localizedTitle).toList(),
         <String>['DMs', 'Search', 'Notifications'],
       );
-      expect(
-        items.map((ShortcutItem item) => item.icon).toList(),
-        <String?>[
-          'quick_action_dms',
-          'quick_action_search',
-          'quick_action_notifications',
-        ],
-      );
+      expect(items.map((ShortcutItem item) => item.icon).toList(), <String?>[
+        'quick_action_dms',
+        'quick_action_search',
+        'quick_action_notifications',
+      ]);
     });
 
     test('omits DMs when they are disabled', () {
@@ -56,10 +54,10 @@ void main() {
         includeDms: false,
       );
 
-      expect(
-        items.map((ShortcutItem item) => item.type).toList(),
-        <String>['fluxer.search', 'fluxer.notifications'],
-      );
+      expect(items.map((ShortcutItem item) => item.type).toList(), <String>[
+        'fluxer.search',
+        'fluxer.notifications',
+      ]);
     });
   });
 }

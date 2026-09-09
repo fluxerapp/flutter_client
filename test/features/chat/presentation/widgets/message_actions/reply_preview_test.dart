@@ -13,8 +13,10 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/reply_preview.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../../../../../helpers/test_l10n.dart';
 
@@ -50,6 +52,73 @@ void main() {
 
     expect(find.text('@Sample User'), findsOneWidget);
     expect(find.text('Sample User'), findsNothing);
+
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump(const Duration(milliseconds: 1));
+  });
+
+  testWidgets('dense mode hides the replied-to author avatar', (tester) async {
+    final parent = _message(
+      id: 'parent-1',
+      authorId: '1001',
+      authorName: 'Sample User',
+    );
+    final reply = _message(
+      id: 'reply-1',
+      authorId: '1002',
+      authorName: 'August',
+      type: messageTypeReply,
+      messageReference: const MessageReference(
+        channelId: 'channel-1',
+        messageId: 'parent-1',
+        type: MessageReferenceType.valueDefault,
+      ),
+    );
+
+    await tester.pumpWidget(
+      _buildTestApp(
+        chatState: _chatState(messages: [parent]),
+        child: InlineReplyPreview(message: reply, messageDisplayCompact: true),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byType(FluxerAvatar), findsNothing);
+    expect(find.byIcon(PhosphorIconsFill.arrowBendUpLeft), findsOneWidget);
+    expect(find.text('Sample User'), findsOneWidget);
+
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump(const Duration(milliseconds: 1));
+  });
+
+  testWidgets('cozy mode shows the replied-to author avatar', (tester) async {
+    final parent = _message(
+      id: 'parent-1',
+      authorId: '1001',
+      authorName: 'Sample User',
+    );
+    final reply = _message(
+      id: 'reply-1',
+      authorId: '1002',
+      authorName: 'August',
+      type: messageTypeReply,
+      messageReference: const MessageReference(
+        channelId: 'channel-1',
+        messageId: 'parent-1',
+        type: MessageReferenceType.valueDefault,
+      ),
+    );
+
+    await tester.pumpWidget(
+      _buildTestApp(
+        chatState: _chatState(messages: [parent]),
+        child: InlineReplyPreview(message: reply),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byType(FluxerAvatar), findsOneWidget);
+    expect(find.byIcon(PhosphorIconsFill.arrowBendUpLeft), findsNothing);
 
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pump(const Duration(milliseconds: 1));
