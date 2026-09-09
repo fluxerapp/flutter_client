@@ -1,13 +1,17 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media_proxy_url.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Renders an animated image through Flutter's native image pipeline,
-/// showing [animatedUrl] while [playing] and [staticUrl] otherwise.
+/// Renders an animated image through Flutter's native image pipeline.
+///
+/// Animated bytes load while [loadAnimated] is true (defaults to [playing])
+/// and advance only while [playing] is true.
 class FluxerAnimatedImage extends StatelessWidget {
   const FluxerAnimatedImage({
     required this.animatedUrl,
     required this.playing,
+    this.loadAnimated,
     this.staticUrl,
     this.fit = BoxFit.cover,
     this.placeholder,
@@ -20,69 +24,102 @@ class FluxerAnimatedImage extends StatelessWidget {
 
   final bool playing;
 
+  /// Defaults to [playing]. False unloads the animated decoder.
+  final bool? loadAnimated;
+
   final BoxFit fit;
 
   /// Shown while loading, on error, and when the resolved URL is empty.
   final Widget? placeholder;
 
+  bool get _loadAnimated => loadAnimated ?? playing;
+
   @override
   Widget build(BuildContext context) {
-    final String url = playing ? animatedUrl : (staticUrl ?? '');
-    if (url.isEmpty) {
+    final String? resolvedStaticUrl = staticUrl;
+    final String? posterUrl =
+        resolvedStaticUrl == null || resolvedStaticUrl.isEmpty
+        ? null
+        : resolvedStaticUrl;
+    if (animatedUrl.isEmpty && posterUrl == null) {
       return placeholder ?? const SizedBox.shrink();
     }
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final double devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
-        // Skip resize while playing; ResizeImage freezes animated WebP.
-        final ({int? width, int? height}) cacheSize;
-        if (playing) {
-          cacheSize = (width: null, height: null);
-        } else if (fit == BoxFit.contain) {
-          cacheSize = containDecodeCacheSize(
-            cellWidth: constraints.maxWidth,
-            cellHeight: constraints.maxHeight,
-            devicePixelRatio: devicePixelRatio,
-          );
-        } else {
-          cacheSize = coverDecodeCacheSize(
-            cellWidth: constraints.maxWidth,
-            cellHeight: constraints.maxHeight,
-            devicePixelRatio: devicePixelRatio,
+        final ({int? width, int? height}) posterCache = _cellCacheSize(
+          constraints: constraints,
+          devicePixelRatio: devicePixelRatio,
+        );
+        final ({int? width, int? height}) animatedProxySize = _cellCacheSize(
+          constraints: constraints,
+          devicePixelRatio: animatedImagePixelRatio(devicePixelRatio),
+        );
+        final Widget fallback = placeholder ?? const SizedBox.shrink();
+        final Widget? poster = posterUrl == null
+            ? null
+            : CachedNetworkImage(
+                imageUrl: posterUrl,
+                fit: fit,
+                memCacheWidth: posterCache.width,
+                memCacheHeight: posterCache.height,
+                maxWidthDiskCache: posterCache.width,
+                maxHeightDiskCache: posterCache.height,
+                fadeInDuration: Duration.zero,
+                fadeOutDuration: Duration.zero,
+                placeholder: (_, _) => fallback,
+                errorBuilder: (_, _, _) => fallback,
+              );
+        final Widget loading = poster ?? fallback;
+        if (!_loadAnimated || animatedUrl.isEmpty) {
+          return SizedBox(
+            width: constraints.maxWidth.isFinite ? constraints.maxWidth : null,
+            height: constraints.maxHeight.isFinite
+                ? constraints.maxHeight
+                : null,
+            child: loading,
           );
         }
-        final int? cacheWidth = cacheSize.width;
-        final int? cacheHeight = cacheSize.height;
-        final Widget fallback = placeholder ?? const SizedBox.shrink();
+        final String sizedAnimatedUrl = buildMediaProxyUrl(
+          animatedUrl,
+          width: animatedProxySize.width,
+          height: animatedProxySize.height,
+        );
         return SizedBox(
           width: constraints.maxWidth.isFinite ? constraints.maxWidth : null,
           height: constraints.maxHeight.isFinite ? constraints.maxHeight : null,
-          child: AnimatedSwitcher(
-            duration: Duration.zero,
-            layoutBuilder:
-                (Widget? currentChild, List<Widget> previousChildren) {
-                  return Stack(
-                    fit: StackFit.passthrough,
-                    alignment: Alignment.center,
-                    children: <Widget>[...previousChildren, ?currentChild],
-                  );
-                },
+          child: TickerMode(
+            key: const ValueKey<String>('fluxer-animated-image-ticker'),
+            enabled: playing,
             child: CachedNetworkImage(
-              key: ValueKey<String>(url),
-              imageUrl: url,
+              imageUrl: sizedAnimatedUrl,
               fit: fit,
-              memCacheWidth: cacheWidth,
-              memCacheHeight: cacheHeight,
-              maxWidthDiskCache: cacheWidth,
-              maxHeightDiskCache: cacheHeight,
               fadeInDuration: Duration.zero,
               fadeOutDuration: Duration.zero,
-              placeholder: (_, _) => fallback,
-              errorBuilder: (_, _, _) => fallback,
+              placeholder: (_, _) => loading,
+              errorBuilder: (_, _, _) => loading,
             ),
           ),
         );
       },
+    );
+  }
+
+  ({int? width, int? height}) _cellCacheSize({
+    required BoxConstraints constraints,
+    required double devicePixelRatio,
+  }) {
+    if (fit == BoxFit.contain) {
+      return containDecodeCacheSize(
+        cellWidth: constraints.maxWidth,
+        cellHeight: constraints.maxHeight,
+        devicePixelRatio: devicePixelRatio,
+      );
+    }
+    return coverDecodeCacheSize(
+      cellWidth: constraints.maxWidth,
+      cellHeight: constraints.maxHeight,
+      devicePixelRatio: devicePixelRatio,
     );
   }
 }

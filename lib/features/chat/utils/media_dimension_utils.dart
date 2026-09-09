@@ -34,6 +34,17 @@ FluxerMediaDimensions mediaDimensionsForSize(MediaDimensionSize size) {
 /// or late-loading images shift the chat under the reader.
 const double kEmbedMediaFallbackHeight = 200;
 
+/// Animated WebP cannot be resized by Flutter's decoder, so proxy requests
+/// cap at 2x. Extra pixels on 3x screens do not pay off for GIF content.
+const double kAnimatedImageMaxDevicePixelRatio = 2;
+
+double animatedImagePixelRatio(double devicePixelRatio) {
+  if (!devicePixelRatio.isFinite || devicePixelRatio <= 0) {
+    return 1;
+  }
+  return math.min(devicePixelRatio, kAnimatedImageMaxDevicePixelRatio);
+}
+
 Size? constrainMediaSize({
   required FluxerMediaDimensions dimensions,
   required int? width,

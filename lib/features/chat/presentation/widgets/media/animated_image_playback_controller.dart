@@ -1,4 +1,3 @@
-import 'package:fluxer_app/features/chat/utils/gif_preview_playback_policy.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class _AnimatedImageCandidate {
@@ -16,9 +15,12 @@ class _AnimatedImageCandidate {
 }
 
 /// Coordinates animated image playback in a scrollable feed.
+///
+/// [maxActiveVideos] limits how many visible images animate. Null plays every
+/// visible image.
 class AnimatedImagePlaybackController extends ChangeNotifier {
   AnimatedImagePlaybackController({
-    this.maxActiveVideos = kMaxActiveGifVideos,
+    this.maxActiveVideos,
     this.suppressWhileScrolling = false,
   });
 

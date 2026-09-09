@@ -2,6 +2,7 @@
 // ProviderScope written inline in pumpWidget.
 // ignore_for_file: riverpod_lint/scoped_providers_should_specify_dependencies
 
+import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/animated_image_playback_controller.dart';
@@ -106,6 +107,42 @@ void main() {
       expect(image.playing, isFalse);
     });
 
+    testWidgets('unmounts the animated decoder when offscreen', (tester) async {
+      await tester.pumpWidget(
+        _wrap(
+          const ClipRect(
+            child: Stack(
+              children: <Widget>[
+                Positioned(
+                  left: 0,
+                  top: 5000,
+                  child: SizedBox(
+                    width: 200,
+                    height: 200,
+                    child: EmbedAnimatedImage(
+                      animatedUrl: 'https://x/a.webp',
+                      staticUrl: 'https://x/a.png',
+                      visibilityKey: 'v-off',
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+      final List<CachedNetworkImage> images = tester
+          .widgetList<CachedNetworkImage>(find.byType(CachedNetworkImage))
+          .toList();
+      expect(images, hasLength(1));
+      expect(images.single.imageUrl, 'https://x/a.png');
+      expect(
+        find.byKey(const ValueKey<String>('fluxer-animated-image-ticker')),
+        findsNothing,
+      );
+    });
+
     testWidgets('keeps playing while the playback controller is scrolling', (
       tester,
     ) async {
@@ -171,6 +208,42 @@ void main() {
           .toList();
       final int activeCount = images.where((img) => img.playing).length;
       expect(activeCount, 2);
+    });
+
+    testWidgets('plays every visible image when more than six are on screen', (
+      tester,
+    ) async {
+      final AnimatedImagePlaybackController controller =
+          AnimatedImagePlaybackController();
+      await tester.pumpWidget(
+        _wrap(
+          AnimatedImagePlaybackScope(
+            controller: controller,
+            child: Column(
+              children: <Widget>[
+                for (int index = 0; index < 7; index += 1)
+                  SizedBox(
+                    height: 80,
+                    child: EmbedAnimatedImage(
+                      animatedUrl: 'https://x/$index.webp',
+                      staticUrl: 'https://x/$index.png',
+                      visibilityKey: 'v$index',
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+      final List<FluxerAnimatedImage> images = tester
+          .widgetList<FluxerAnimatedImage>(find.byType(FluxerAnimatedImage))
+          .toList();
+      expect(images, hasLength(7));
+      expect(
+        images.every((FluxerAnimatedImage image) => image.playing),
+        isTrue,
+      );
     });
 
     testWidgets('sticker mode stays static when never animate', (tester) async {

@@ -113,4 +113,15 @@ void main() {
       expect(cache.width == null || cache.height == null, isTrue);
     });
   });
+
+  group('animatedImagePixelRatio', () {
+    test('passes through ratios at or below 2x', () {
+      expect(animatedImagePixelRatio(1), 1);
+      expect(animatedImagePixelRatio(2), 2);
+    });
+
+    test('caps 3x screens at 2x', () {
+      expect(animatedImagePixelRatio(3), 2);
+    });
+  });
 }
