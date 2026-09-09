@@ -16,9 +16,8 @@ Future<bool> isSystemNotificationSoundSuppressed() async {
     return false;
   }
   try {
-    final bool? suppressed = await _androidNotificationsChannel.invokeMethod<bool>(
-      'isNotificationSoundSuppressed',
-    );
+    final bool? suppressed = await _androidNotificationsChannel
+        .invokeMethod<bool>('isNotificationSoundSuppressed');
     return suppressed ?? false;
   } on PlatformException {
     return false;

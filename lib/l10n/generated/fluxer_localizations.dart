@@ -1360,6 +1360,36 @@ abstract class FluxerLocalizations {
   /// **'Already joined'**
   String get embedInviteAlreadyJoined;
 
+  /// Disabled button label on a community invite embed when invites are paused or anti-raid mode is active.
+  ///
+  /// In en, this message translates to:
+  /// **'Invites disabled'**
+  String get embedInviteDisabled;
+
+  /// Status message on a community invite embed when invites are paused by community admins.
+  ///
+  /// In en, this message translates to:
+  /// **'Invites are paused for this community.'**
+  String get embedInvitePaused;
+
+  /// Anti-raid status message on a community invite embed.
+  ///
+  /// In en, this message translates to:
+  /// **'{productName} detected a potential raid, so new users can\'t join right now.'**
+  String embedInvitePausedRaid(String productName);
+
+  /// Invite modal notice when community admins have paused invites.
+  ///
+  /// In en, this message translates to:
+  /// **'This community has paused invites. You can try again later.'**
+  String get inviteAcceptInvitesPausedTryAgain;
+
+  /// Invite modal notice when automated raid protection pauses invites.
+  ///
+  /// In en, this message translates to:
+  /// **'{productName} detected a potential raid in this community. Invites are paused, so new users cannot join right now.'**
+  String inviteAcceptRaidInvitesPaused(String productName);
+
   /// Title of the invite accept modal.
   ///
   /// In en, this message translates to:

@@ -5,12 +5,15 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/guilds/providers/invite_accept_provider.dart';
 import 'package:fluxer_app/features/guilds/services/join_community_service.dart';
+import 'package:fluxer_app/features/guilds/utils/guild_invite_action_state.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_guild_badge.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -203,8 +206,6 @@ class _InviteAcceptModalBodyState extends ConsumerState<InviteAcceptModalBody> {
           invite: invite,
           l10n: l10n,
           isAccepting: _isAccepting,
-          isAlreadyMember:
-              ref.watch(guildByIdProvider(invite.guild.id)).value != null,
           onJoin: () => unawaited(_acceptInvite()),
           onGoTo: () => _navigateToGuild(
             guildId: invite.guild.id,
@@ -411,12 +412,11 @@ class _InviteAcceptError extends StatelessWidget {
   }
 }
 
-class _GuildInviteContent extends StatelessWidget {
+class _GuildInviteContent extends ConsumerWidget {
   const _GuildInviteContent({
     required this.invite,
     required this.l10n,
     required this.isAccepting,
-    required this.isAlreadyMember,
     required this.onJoin,
     required this.onGoTo,
   });
@@ -424,7 +424,6 @@ class _GuildInviteContent extends StatelessWidget {
   final InviteResponseSchema0 invite;
   final FluxerLocalizations l10n;
   final bool isAccepting;
-  final bool isAlreadyMember;
   final VoidCallback onJoin;
   final VoidCallback onGoTo;
 
@@ -445,9 +444,22 @@ class _GuildInviteContent extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final Guild? localGuild = ref
+        .watch(guildByIdProvider(invite.guild.id))
+        .value;
+    final List<String> features = localGuild?.features ?? invite.guild.features;
+    final GuildInviteActionState actionState = resolveGuildInviteActionState(
+      features: features,
+      isMember: localGuild != null,
+    );
+    final String productName = ref.watch(activeInstanceProvider).productName;
     final String onlineStr = _formatCount(invite.presenceCount);
     final String memberStr = _formatCount(invite.memberCount);
+    final String? pausedMessage = actionState.pausedStatusMessage(
+      paused: l10n.inviteAcceptInvitesPausedTryAgain,
+      raidPaused: l10n.inviteAcceptRaidInvitesPaused(productName),
+    );
     return _InviteAcceptBackground(
       splashUrl: _splashUrl,
       child: _InviteAcceptCard(
@@ -457,21 +469,36 @@ class _GuildInviteContent extends StatelessWidget {
             _InviteGuildHeader(
               iconUrl: _iconUrl,
               guildName: invite.guild.name,
-              features: invite.guild.features,
+              features: features,
               subtitle: l10n.inviteAcceptTitle,
               onlineLabel: l10n.embedInviteOnline(onlineStr),
               membersLabel: l10n.embedInviteMembers(memberStr),
             ),
+            if (pausedMessage != null) ...<Widget>[
+              const SizedBox(height: 12),
+              Text(
+                pausedMessage,
+                textAlign: TextAlign.center,
+                style: context.textStyles.bodySmall.copyWith(
+                  color: context.colors.textSecondary,
+                  height: 1.4,
+                ),
+              ),
+            ],
             const SizedBox(height: 16),
             Align(
               child: SizedBox(
                 width: double.infinity,
                 child: FluxerButton.primary(
-                  onPressed: isAlreadyMember ? onGoTo : onJoin,
-                  isLoading: isAccepting && !isAlreadyMember,
-                  label: isAlreadyMember
-                      ? l10n.inviteAcceptGoToButton
-                      : l10n.inviteAcceptJoinButton,
+                  onPressed: actionState.isActionDisabled
+                      ? null
+                      : (actionState.isMember ? onGoTo : onJoin),
+                  isLoading: isAccepting && !actionState.isMember,
+                  label: actionState.primaryActionLabel(
+                    joinLabel: l10n.inviteAcceptJoinButton,
+                    goToLabel: l10n.inviteAcceptGoToButton,
+                    disabledLabel: l10n.inviteAcceptInvitesPaused,
+                  ),
                 ),
               ),
             ),

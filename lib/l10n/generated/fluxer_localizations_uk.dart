@@ -714,6 +714,26 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get embedInviteAlreadyJoined => 'Already joined';
 
   @override
+  String get embedInviteDisabled => 'Invites disabled';
+
+  @override
+  String get embedInvitePaused => 'Invites are paused for this community.';
+
+  @override
+  String embedInvitePausedRaid(String productName) {
+    return '$productName detected a potential raid, so new users can\'t join right now.';
+  }
+
+  @override
+  String get inviteAcceptInvitesPausedTryAgain =>
+      'This community has paused invites. You can try again later.';
+
+  @override
+  String inviteAcceptRaidInvitesPaused(String productName) {
+    return '$productName detected a potential raid in this community. Invites are paused, so new users cannot join right now.';
+  }
+
+  @override
   String get inviteAcceptTitle => 'Вас запросили приєднатися';
 
   @override
