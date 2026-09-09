@@ -1380,6 +1380,7 @@ class ChatViewModel extends _$ChatViewModel {
     MessageRealtimeEvent ev,
     db.Message? prefetchedRow,
   ) {
+    _dropDeletedFromParkedWindow(ev);
     final List<Message>? next = _nextMessagesForSync(
       ev,
       messages: state.messages,
@@ -1544,6 +1545,44 @@ class ChatViewModel extends _$ChatViewModel {
       MessagesDeletedBulk(:final event) => event.ids.toSet(),
       _ => const {},
     };
+  }
+
+  /// parked windows need this too, not just the live one above - they don't
+  /// get gateway events while parked, so a delete that happens while a
+  /// channel's closed just sits there and comes right back when you reopen
+  void _dropDeletedFromParkedWindow(MessageRealtimeEvent ev) {
+    final String channelId = switch (ev) {
+      MessageDeleted(:final event) => event.channelId,
+      MessagesDeletedBulk(:final event) => event.channelId,
+      _ => '',
+    };
+    if (channelId.isEmpty) {
+      return;
+    }
+    final Set<String> deletedIds = _deletedMessageIdsFor(ev);
+    if (deletedIds.isEmpty) {
+      return;
+    }
+    final _ParkedChannelWindow? parked = _parkedWindows[channelId];
+    if (parked == null || parked.messages.isEmpty) {
+      return;
+    }
+    final List<Message> remaining = <Message>[
+      for (final Message message in parked.messages)
+        if (!deletedIds.contains(message.id)) message,
+    ];
+    if (remaining.length == parked.messages.length) {
+      return;
+    }
+    if (remaining.isEmpty) {
+      _parkedWindows.remove(channelId);
+      return;
+    }
+    _parkedWindows[channelId] = _ParkedChannelWindow(
+      messages: List<Message>.unmodifiable(remaining),
+      hasMoreMessages: parked.hasMoreMessages,
+      hasMoreNewerMessages: parked.hasMoreNewerMessages,
+    );
   }
 
   /// The one and only database read a reducer performs, hoisted out of the

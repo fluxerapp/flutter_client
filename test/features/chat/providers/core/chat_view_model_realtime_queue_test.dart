@@ -1407,6 +1407,50 @@ void main() {
     );
   });
 
+  test('a parked window drops a message deleted while another channel is '
+      'open', () async {
+    // Regression: MESSAGE_DELETE for a parked channel wiped the DB row but
+    // left the parked window untouched - so reopening just replayed the
+    // park and the message came right back like nothing happened
+    final _GatedDatabase database = await seedChannel();
+    final String targetId = _snowflakeForIndex(0);
+    final adapter = _MessageApiAdapter(
+      messages: <Map<String, Object?>>[
+        _messageJson(id: targetId, channelId: _channelId, authorId: 'other'),
+      ],
+    );
+    final container = _container(database, adapter);
+    addTearDown(container.dispose);
+
+    final notifier = container.read(chatViewModelProvider.notifier);
+    await notifier.switchChannel(_channelId);
+    await _flushAsync();
+    expect(
+      container.read(chatViewModelProvider).messages.map((Message m) => m.id),
+      <String>[targetId],
+    );
+
+    await notifier.switchChannel(_otherChannelId, loadMessages: false);
+    await _flushAsync();
+    // Delete arrives from outside while this channel is closed
+    await database.messageDao.deleteMessages(<String>[targetId]);
+    adapter.messages.removeWhere(
+      (Map<String, Object?> m) => m['id'] == targetId,
+    );
+    _emitDeleted(container, id: targetId);
+    await _flushAsync();
+
+    await notifier.switchChannel(_channelId);
+    await _flushAsync();
+    expect(
+      container.read(chatViewModelProvider).messages.map((Message m) => m.id),
+      isNot(contains(targetId)),
+      reason:
+          'a parked window must not resurrect a message deleted while '
+          'another channel was open',
+    );
+  });
+
   test('m10c-ack: a completed edit still beats an older page in the '
       'lane', () async {
     // Edit twin of m10b-ack: the edit is server confirmed before the older
