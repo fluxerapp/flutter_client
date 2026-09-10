@@ -24,10 +24,24 @@ class VoiceParticipantVolume extends _$VoiceParticipantVolume {
     return state[userId] ?? kDefaultVoiceVolumePercent;
   }
 
+  bool isMuted(String userId) {
+    return ref.read(voiceSettingsProvider).participantLocalMutes[userId] ??
+        false;
+  }
+
   Future<void> setVolume(String userId, int percent) async {
     await ref
         .read(voiceSettingsProvider.notifier)
         .setParticipantVolume(userId, percent);
+    await ref
+        .read(voiceSessionProvider.notifier)
+        .applyParticipantVolume(userId);
+  }
+
+  Future<void> setMuted(String userId, {required bool muted}) async {
+    await ref
+        .read(voiceSettingsProvider.notifier)
+        .setParticipantLocalMuted(userId, muted: muted);
     await ref
         .read(voiceSessionProvider.notifier)
         .applyParticipantVolume(userId);

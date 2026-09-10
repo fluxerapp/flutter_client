@@ -7345,6 +7345,10 @@
     "@voiceParticipantMenuStreamVolume": {
         "description": "Voice participant context menu slider label for screen share audio volume."
     },
+    "voiceParticipantMenuStopStreaming": "Stop streaming",
+    "@voiceParticipantMenuStopStreaming": {
+        "description": "Voice screen-share context menu action that stops the current user stream."
+    },
     "voiceParticipantModerationFailed": "Couldn't update that member. Please try again.",
     "@voiceParticipantModerationFailed": {
         "description": "Toast shown when a voice participant moderation action fails."

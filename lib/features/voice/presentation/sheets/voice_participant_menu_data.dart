@@ -86,6 +86,9 @@ class VoiceParticipantMenuLabels {
     required this.userVolume,
     required this.streamVolume,
     required this.prioritizeSpeakers,
+    required this.watchStream,
+    required this.stopWatching,
+    required this.stopStreaming,
   });
 
   final String viewProfile;
@@ -99,6 +102,9 @@ class VoiceParticipantMenuLabels {
   final String userVolume;
   final String streamVolume;
   final String prioritizeSpeakers;
+  final String watchStream;
+  final String stopWatching;
+  final String stopStreaming;
 }
 
 void _addMenuGroupIfNotEmpty(
@@ -124,8 +130,23 @@ List<VoiceParticipantMenuGroup> buildVoiceParticipantMenuGroups({
   required ValueChanged<int> onVolumeChanged,
   required ValueChanged<int> onStreamVolumeChanged,
   required ValueChanged<bool> onToggleStreamMute,
+  required ValueChanged<bool> onToggleLocalMute,
   required ValueChanged<bool> onTogglePrioritizeSpeakers,
+  required VoidCallback onWatchStream,
+  required VoidCallback onStopWatching,
+  required VoidCallback onStopStreaming,
 }) {
+  if (capabilities.isScreenShareTile) {
+    return _buildStreamMenuGroups(
+      capabilities: capabilities,
+      labels: labels,
+      onWatchStream: onWatchStream,
+      onStopWatching: onStopWatching,
+      onStopStreaming: onStopStreaming,
+      onStreamVolumeChanged: onStreamVolumeChanged,
+      onToggleStreamMute: onToggleStreamMute,
+    );
+  }
   final List<VoiceParticipantMenuGroup> groups = <VoiceParticipantMenuGroup>[];
   final List<VoiceParticipantMenuEntry> primaryEntries =
       <VoiceParticipantMenuEntry>[
@@ -192,24 +213,6 @@ List<VoiceParticipantMenuGroup> buildVoiceParticipantMenuGroups({
   if (controlEntries.isNotEmpty) {
     _addMenuGroupIfNotEmpty(groups, controlEntries);
   }
-  final List<VoiceParticipantMenuEntry> streamControlEntries =
-      <VoiceParticipantMenuEntry>[];
-  if (capabilities.showStreamControls) {
-    streamControlEntries.addAll(<VoiceParticipantMenuEntry>[
-      VoiceParticipantMenuVolumeEntry(
-        label: labels.streamVolume,
-        value: capabilities.streamVolumePercent,
-        onChanged: onStreamVolumeChanged,
-      ),
-      VoiceParticipantMenuCheckboxEntry(
-        label: labels.mute,
-        icon: PhosphorIconsFill.speakerSlash,
-        isChecked: capabilities.isStreamMuted,
-        onChanged: onToggleStreamMute,
-      ),
-    ]);
-  }
-  _addMenuGroupIfNotEmpty(groups, streamControlEntries);
   if (capabilities.showDisplayPreferences) {
     _addMenuGroupIfNotEmpty(groups, <VoiceParticipantMenuEntry>[
       VoiceParticipantMenuCheckboxEntry(
@@ -242,6 +245,74 @@ List<VoiceParticipantMenuGroup> buildVoiceParticipantMenuGroups({
             label: labels.userVolume,
             value: capabilities.volumePercent,
             onChanged: onVolumeChanged,
+          ),
+          VoiceParticipantMenuCheckboxEntry(
+            label: labels.mute,
+            icon: PhosphorIconsFill.speakerSlash,
+            isChecked: capabilities.isLocallyMuted,
+            onChanged: onToggleLocalMute,
+          ),
+        ],
+      ),
+    );
+  }
+  return groups;
+}
+
+List<VoiceParticipantMenuGroup> _buildStreamMenuGroups({
+  required VoiceParticipantMenuCapabilities capabilities,
+  required VoiceParticipantMenuLabels labels,
+  required VoidCallback onWatchStream,
+  required VoidCallback onStopWatching,
+  required VoidCallback onStopStreaming,
+  required ValueChanged<int> onStreamVolumeChanged,
+  required ValueChanged<bool> onToggleStreamMute,
+}) {
+  final List<VoiceParticipantMenuGroup> groups = <VoiceParticipantMenuGroup>[];
+  if (capabilities.isOwnScreenShare) {
+    groups.add(
+      VoiceParticipantMenuGroup(
+        entries: <VoiceParticipantMenuEntry>[
+          VoiceParticipantMenuActionEntry(
+            label: labels.stopStreaming,
+            icon: PhosphorIconsFill.monitor,
+            isDanger: true,
+            onPressed: onStopStreaming,
+          ),
+        ],
+      ),
+    );
+    return groups;
+  }
+  groups.add(
+    VoiceParticipantMenuGroup(
+      entries: <VoiceParticipantMenuEntry>[
+        VoiceParticipantMenuActionEntry(
+          label: capabilities.isWatching
+              ? labels.stopWatching
+              : labels.watchStream,
+          icon: capabilities.isWatching
+              ? PhosphorIconsFill.eyeSlash
+              : PhosphorIconsFill.eye,
+          onPressed: capabilities.isWatching ? onStopWatching : onWatchStream,
+        ),
+      ],
+    ),
+  );
+  if (capabilities.showStreamControls) {
+    groups.add(
+      VoiceParticipantMenuGroup(
+        entries: <VoiceParticipantMenuEntry>[
+          VoiceParticipantMenuCheckboxEntry(
+            label: labels.mute,
+            icon: PhosphorIconsFill.speakerSlash,
+            isChecked: capabilities.isStreamMuted,
+            onChanged: onToggleStreamMute,
+          ),
+          VoiceParticipantMenuVolumeEntry(
+            label: labels.streamVolume,
+            value: capabilities.streamVolumePercent,
+            onChanged: onStreamVolumeChanged,
           ),
         ],
       ),

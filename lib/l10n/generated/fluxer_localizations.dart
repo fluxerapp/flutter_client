@@ -9338,6 +9338,12 @@ abstract class FluxerLocalizations {
   /// **'Stream volume'**
   String get voiceParticipantMenuStreamVolume;
 
+  /// Voice screen-share context menu action that stops the current user stream.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop streaming'**
+  String get voiceParticipantMenuStopStreaming;
+
   /// Toast shown when a voice participant moderation action fails.
   ///
   /// In en, this message translates to:
