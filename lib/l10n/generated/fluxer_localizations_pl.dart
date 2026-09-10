@@ -5755,6 +5755,15 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   String get voiceControlChat => 'Czat';
 
   @override
+  String get voiceCallViewModeLabel => 'View';
+
+  @override
+  String get voiceCallViewModeGrid => 'Grid';
+
+  @override
+  String get voiceCallViewModeFocus => 'Focus';
+
+  @override
   String get voicePanelSettingsSectionTitle => 'Voice settings';
 
   @override

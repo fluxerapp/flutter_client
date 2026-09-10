@@ -1,12 +1,12 @@
 import 'dart:async' show Timer, unawaited;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/api/session_authorization_header.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as database;
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/voice/voice_call_avatar.dart';
+import 'package:fluxer_app/features/ui/voice/voice_stream_preview_image.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_stream_audio_provider.dart';
 import 'package:fluxer_app/features/voice/utils/voice_participant_track_resolver.dart';
@@ -33,11 +33,10 @@ class VoiceParticipantMediaTile extends StatefulWidget {
     required this.tileSource,
     required this.isActiveScreenShare,
     required this.streamPreviewUrl,
-    required this.authToken,
     this.isTileFocused = true,
     this.pauseOwnScreenSharePreviewOnUnfocus = true,
-    this.isFilmstrip = false,
     this.fillContainer = false,
+    this.videoCornerRadius = 12,
     this.user,
     this.mirrorCamera = false,
     this.omitVideoTrack = false,
@@ -54,12 +53,11 @@ class VoiceParticipantMediaTile extends StatefulWidget {
   final Color backgroundColor;
   final VoiceParticipantTileSource tileSource;
   final bool isActiveScreenShare;
-  final bool isFilmstrip;
   final bool fillContainer;
+  final double videoCornerRadius;
   final bool isTileFocused;
   final bool pauseOwnScreenSharePreviewOnUnfocus;
   final String? streamPreviewUrl;
-  final String? authToken;
   final database.User? user;
   final bool mirrorCamera;
   final bool omitVideoTrack;
@@ -217,28 +215,34 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
   @override
   Widget build(BuildContext context) {
     final Participant? participant = _resolveParticipant();
-    if (participant == null) {
-      return VisibilityDetector(
-        key: _visibilityKey,
-        onVisibilityChanged: _onVisibilityChanged,
-        child: _avatarStack(
-          context,
-          showVideoPending: false,
-          backgroundColor: widget.backgroundColor,
-        ),
-      );
-    }
     final bool isScreenShareTile =
         widget.tileSource == VoiceParticipantTileSource.screenShare;
-    final String? streamKey = isScreenShareTile
-        ? buildViewerStreamKey(voice: widget.voice, isScreenShareTile: true)
-        : null;
     final bool isOwnScreenShareTile =
         isScreenShareTile &&
         widget.currentUserId != null &&
         widget.userId == widget.currentUserId &&
         widget.localConnectionId != null &&
         widget.voice.connectionId == widget.localConnectionId;
+    final bool showRemoteStreamPreview =
+        isScreenShareTile &&
+        !isOwnScreenShareTile &&
+        !widget.isActiveScreenShare;
+    if (participant == null) {
+      return VisibilityDetector(
+        key: _visibilityKey,
+        onVisibilityChanged: _onVisibilityChanged,
+        child: showRemoteStreamPreview
+            ? _nonWatchingPreviewLayer(_emptyStreamSurface())
+            : _avatarStack(
+                context,
+                showVideoPending: false,
+                backgroundColor: widget.backgroundColor,
+              ),
+      );
+    }
+    final String? streamKey = isScreenShareTile
+        ? buildViewerStreamKey(voice: widget.voice, isScreenShareTile: true)
+        : null;
     final bool hasOwnScreenSharePublication =
         isScreenShareTile &&
         _screenShareVideoPublication(participant, false) != null;
@@ -277,6 +281,9 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
           }
           if (track != null) {
             if (widget.omitVideoTrack) {
+              if (showRemoteStreamPreview) {
+                return _nonWatchingPreviewLayer(_emptyStreamSurface());
+              }
               Widget hole = ColoredBox(color: widget.backgroundColor);
               if (isScreenShareTile &&
                   widget.isActiveScreenShare &&
@@ -319,23 +326,18 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
               fit: fit,
               mirrorMode: mirrorMode,
             );
-            final Widget videoWidget = ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: ColoredBox(
-                color: widget.backgroundColor,
-                child: SizedBox.expand(child: videoChild),
-              ),
+            Widget videoWidget = ColoredBox(
+              color: widget.backgroundColor,
+              child: SizedBox.expand(child: videoChild),
             );
-            if (isScreenShareTile && !widget.isActiveScreenShare) {
-              return Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-                  Positioned.fill(child: _nonWatchingPreviewLayer(videoWidget)),
-                  const Positioned.fill(
-                    child: ColoredBox(color: Color(0x55000000)),
-                  ),
-                ],
+            if (widget.videoCornerRadius > 0) {
+              videoWidget = ClipRRect(
+                borderRadius: BorderRadius.circular(widget.videoCornerRadius),
+                child: videoWidget,
               );
+            }
+            if (showRemoteStreamPreview) {
+              return _nonWatchingPreviewLayer(videoWidget);
             }
             if (!isScreenShareTile) {
               return videoWidget;
@@ -380,18 +382,15 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
               ],
             );
           }
-          Widget fallbackWidget = _avatarStack(
-            context,
-            showVideoPending: isScreenShareTile
-                ? widget.voice.selfStream
-                : widget.voice.selfVideo,
-            backgroundColor: widget.backgroundColor,
-          );
-          if (isScreenShareTile &&
-              !widget.isActiveScreenShare &&
-              widget.isFilmstrip) {
-            fallbackWidget = _nonWatchingPreviewLayer(fallbackWidget);
-          }
+          final Widget fallbackWidget = showRemoteStreamPreview
+              ? _nonWatchingPreviewLayer(_emptyStreamSurface())
+              : _avatarStack(
+                  context,
+                  showVideoPending: isScreenShareTile
+                      ? widget.voice.selfStream
+                      : widget.voice.selfVideo,
+                  backgroundColor: widget.backgroundColor,
+                );
           if (!isScreenShareTile ||
               !widget.isActiveScreenShare ||
               audioTrack == null) {
@@ -479,31 +478,20 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
     );
   }
 
+  Widget _emptyStreamSurface() {
+    return ColoredBox(color: widget.backgroundColor);
+  }
+
   Widget _nonWatchingPreviewLayer(Widget fallbackVideo) {
     final String? previewUrl = widget.streamPreviewUrl;
-    final String? token = widget.authToken;
     if (previewUrl == null || previewUrl.isEmpty) {
       return fallbackVideo;
     }
-    final Map<String, String>? headers = token == null || token.isEmpty
-        ? null
-        : <String, String>{
-            'Authorization': formatSessionAuthorizationHeader(token),
-          };
-    return Image.network(
-      previewUrl,
-      fit: BoxFit.contain,
-      headers: headers,
-      errorBuilder: (BuildContext _, Object _, StackTrace? _) {
-        return fallbackVideo;
-      },
-      loadingBuilder:
-          (BuildContext _, Widget child, ImageChunkEvent? progress) {
-            if (progress == null) {
-              return child;
-            }
-            return fallbackVideo;
-          },
+    return SizedBox.expand(
+      child: VoiceStreamPreviewImage(
+        previewUrl: previewUrl,
+        fallback: fallbackVideo,
+      ),
     );
   }
 

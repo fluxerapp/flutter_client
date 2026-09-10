@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart'
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_stream_audio_provider.dart';
 import 'package:fluxer_app/features/voice/utils/voice_effective_audio_state.dart';
+import 'package:fluxer_app/features/voice/utils/voice_grid_layout/voice_call_visual_layout.dart';
 import 'package:fluxer_app/features/voice/utils/voice_participant_track_resolver.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:livekit_client/livekit_client.dart';
@@ -112,7 +113,12 @@ VoiceParticipantMenuCapabilities buildVoiceParticipantMenuCapabilities({
   final bool isViewerInVoice =
       session.isInVoice && session.channelId == target.channelId;
   final VoiceCallLayoutState layout = ref.watch(voiceCallLayoutProvider);
-  final bool isFocused = layout.isPinned(target.tileId);
+  final bool isFocused = voiceCallTileIsFocused(
+    isFocusMode: layout.mode == VoiceCallLayoutMode.focus,
+    pinnedTileId: layout.pinnedTileId,
+    tileId: target.tileId,
+    effectiveMainTileId: layout.pinnedTileId,
+  );
   final bool canFocus = isViewerInVoice;
   final EffectiveAudioState selfAudio = effectiveAudioStateFromVoiceState(
     voiceState: isCurrentUser ? voice : null,

@@ -145,7 +145,11 @@ class VoicePipFeatured extends Notifier<String?> {
       previous: _result,
       now: DateTime.now(),
       tiles: tiles,
-      watchedTileId: ref.watch(voiceScreenShareWatchTileProvider),
+      watchedTileId: ref.watch(
+        voiceScreenShareWatchTileProvider.select(
+          (Set<String> ids) => ids.isEmpty ? null : ids.first,
+        ),
+      ),
       pinnedTileId: ref.watch(
         voiceCallLayoutProvider.select(
           (VoiceCallLayoutState s) => s.pinnedTileId,

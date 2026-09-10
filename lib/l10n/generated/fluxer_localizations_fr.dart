@@ -5788,6 +5788,15 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get voiceControlChat => 'Chat';
 
   @override
+  String get voiceCallViewModeLabel => 'View';
+
+  @override
+  String get voiceCallViewModeGrid => 'Grid';
+
+  @override
+  String get voiceCallViewModeFocus => 'Focus';
+
+  @override
   String get voicePanelSettingsSectionTitle => 'Voice settings';
 
   @override

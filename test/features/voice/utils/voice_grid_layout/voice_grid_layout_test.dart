@@ -170,31 +170,27 @@ void main() {
                   compact: compact,
                   containerHeight: height,
                 );
-                final bool gapBudgetFits =
-                    padding.verticalPadding * 2 +
-                        gap * (metrics.rows - 1).clamp(0, double.infinity) <=
-                    height + _epsilon;
+                expect(gap, greaterThanOrEqualTo(0));
                 expect(metrics.tileWidth, greaterThanOrEqualTo(0));
                 expect(metrics.tileHeight, greaterThanOrEqualTo(0));
                 if (metrics.tileWidth > 0) {
                   expect(
-                    metrics.tileWidth / metrics.tileHeight,
-                    closeTo(voiceGridTileAspectRatio, 0.0001),
+                    metrics.tileWidth,
+                    lessThanOrEqualTo(metrics.availableWidth + _epsilon),
+                  );
+                  expect(
+                    metrics.tileHeight,
+                    lessThanOrEqualTo(metrics.availableHeight + _epsilon),
                   );
                 }
                 expect(
                   metrics.contentWidth,
                   lessThanOrEqualTo(width + _epsilon),
                 );
-                if (gapBudgetFits) {
-                  expect(
-                    metrics.contentHeight,
-                    lessThanOrEqualTo(height + _epsilon),
-                  );
-                } else {
-                  expect(metrics.tileWidth, 0);
-                  expect(metrics.tileHeight, 0);
-                }
+                expect(
+                  metrics.contentHeight,
+                  lessThanOrEqualTo(height + _epsilon),
+                );
               }
             }
           }
@@ -202,25 +198,72 @@ void main() {
       }
     });
 
-    test('contains a compact single tile at 16:9 inside the frame', () {
+    test('fills the mosaic instead of letterboxing a 16:9 island', () {
+      final VoiceGridLayoutMetrics metrics = resolveVoiceGridLayoutMetrics(
+        tileCount: 2,
+        containerWidth: 390,
+        containerHeight: 700,
+        compact: true,
+      );
+      expect(metrics.columns, 1);
+      expect(metrics.rows, 2);
+      expect(metrics.tileWidth, closeTo(metrics.availableWidth, _epsilon));
+      expect(
+        metrics.tileHeight * 2 + metrics.gap,
+        closeTo(metrics.availableHeight, _epsilon),
+      );
+    });
+
+    test('squares a lone avatar tile', () {
+      final ({double width, double height}) size = voiceGridPlacedTileSize(
+        cellWidth: 350,
+        cellHeight: 700,
+        tileCount: 1,
+        squareTile: true,
+      );
+      expect(size.width, closeTo(350, _epsilon));
+      expect(size.height, closeTo(350, _epsilon));
+    });
+
+    test('keeps filled cells when the lone tile is not a square avatar', () {
+      final ({double width, double height}) size = voiceGridPlacedTileSize(
+        cellWidth: 350,
+        cellHeight: 700,
+        tileCount: 1,
+        squareTile: false,
+      );
+      expect(size.width, closeTo(350, _epsilon));
+      expect(size.height, closeTo(700, _epsilon));
+    });
+
+    test('contains a compact single tile inside the frame', () {
       final VoiceGridLayoutMetrics metrics = resolveVoiceGridLayoutMetrics(
         tileCount: 1,
         containerWidth: 1600,
         containerHeight: 500,
         compact: true,
       );
-      expect(metrics.tileWidth, lessThan(metrics.availableWidth));
-      expect(
-        metrics.tileWidth,
-        closeTo(metrics.availableHeight * voiceGridTileAspectRatio, 0.0001),
-      );
-      expect(metrics.tileHeight, closeTo(metrics.availableHeight, 0.0001));
-      expect(metrics.contentWidth, lessThan(1600));
-      expect(metrics.contentHeight, closeTo(500, 0.0001));
+      expect(metrics.tileWidth, closeTo(metrics.availableWidth, _epsilon));
+      expect(metrics.tileHeight, closeTo(metrics.availableHeight, _epsilon));
+      expect(metrics.contentWidth, closeTo(1600, _epsilon));
+      expect(metrics.contentHeight, closeTo(500, _epsilon));
     });
   });
 
   group('resolveVoiceGridPackedLayoutMetrics', () {
+    test('stacks two portrait tiles instead of side-by-side strips', () {
+      final VoiceGridPackedLayoutMetrics packed =
+          resolveVoiceGridPackedLayoutMetrics(
+            tileCount: 2,
+            containerWidth: 390,
+            containerHeight: 700,
+            compact: true,
+          );
+      expect(packed.visibleTileCount, 2);
+      expect(packed.metrics.columns, 1);
+      expect(packed.metrics.rows, 2);
+    });
+
     test('limits visible tiles before they fall below the minimum size', () {
       final int capacity = voiceGridVisibleTileCapacity(
         tileCount: 64,

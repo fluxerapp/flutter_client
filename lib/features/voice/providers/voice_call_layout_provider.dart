@@ -55,17 +55,50 @@ class VoiceCallLayout extends _$VoiceCallLayout {
   VoiceCallLayoutState build() => const VoiceCallLayoutState();
 
   void pin(String tileId) {
+    if (state.mode == VoiceCallLayoutMode.focus &&
+        state.pinnedTileId == tileId) {
+      return;
+    }
     state = state.copyWith(
       mode: VoiceCallLayoutMode.focus,
       pinnedTileId: tileId,
     );
   }
 
-  void unpin() {
-    if (state.pinnedTileId == null && state.mode == VoiceCallLayoutMode.grid) {
+  void setMode(VoiceCallLayoutMode mode) {
+    if (mode == VoiceCallLayoutMode.grid) {
+      if (state.mode == VoiceCallLayoutMode.grid &&
+          state.pinnedTileId == null) {
+        return;
+      }
+      state = state.copyWith(
+        mode: VoiceCallLayoutMode.grid,
+        clearPinnedTileId: true,
+      );
       return;
     }
-    state = const VoiceCallLayoutState();
+    if (state.mode == VoiceCallLayoutMode.focus) {
+      return;
+    }
+    state = state.copyWith(mode: VoiceCallLayoutMode.focus);
+  }
+
+  void unpin() {
+    if (state.mode == VoiceCallLayoutMode.grid && state.pinnedTileId == null) {
+      return;
+    }
+    if (state.mode == VoiceCallLayoutMode.focus) {
+      setMode(VoiceCallLayoutMode.grid);
+      return;
+    }
+    state = state.copyWith(clearPinnedTileId: true);
+  }
+
+  void clearStalePin() {
+    if (state.pinnedTileId == null) {
+      return;
+    }
+    state = state.copyWith(clearPinnedTileId: true);
   }
 
   void togglePin(String tileId) {

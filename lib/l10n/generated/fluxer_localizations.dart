@@ -9350,6 +9350,24 @@ abstract class FluxerLocalizations {
   /// **'Chat'**
   String get voiceControlChat;
 
+  /// Section header for choosing grid or focus layout during a voice call.
+  ///
+  /// In en, this message translates to:
+  /// **'View'**
+  String get voiceCallViewModeLabel;
+
+  /// Voice call layout option that shows participants in a grid.
+  ///
+  /// In en, this message translates to:
+  /// **'Grid'**
+  String get voiceCallViewModeGrid;
+
+  /// Voice call layout option that enlarges one participant.
+  ///
+  /// In en, this message translates to:
+  /// **'Focus'**
+  String get voiceCallViewModeFocus;
+
   /// Section header for in-call voice settings in the expandable control panel.
   ///
   /// In en, this message translates to:
