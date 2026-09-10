@@ -183,7 +183,7 @@ class _EmojiChip extends StatelessWidget {
           size: 96,
         ),
         // Shares the message renderers' cache entries (same key convention).
-        cacheKey: 'emoji_${id}_${animated ? 'a' : 's'}_96',
+        cacheKey: 'emoji_${id}_${animated ? 'a2' : 's'}_96',
         // Cap one decode axis only; capping both stretches non-square emoji
         // (issue #445). Skip resize on animated frames.
         memCacheWidth: animated ? null : px,

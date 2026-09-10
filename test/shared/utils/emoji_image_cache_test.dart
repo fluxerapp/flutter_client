@@ -82,6 +82,40 @@ void main() {
     },
   );
 
+  testWidgets('animated emoji load error renders the static rendition (#776)', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      wrapEmoji(
+        onScreen: true,
+        emoji: CachedEmojiImage(
+          emojiId: '456',
+          animated: true,
+          pauseWhenOffscreen: false,
+          requestSize: 48,
+          size: 32,
+          errorBuilder: (_) => const SizedBox.shrink(),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    final CachedNetworkImage animated = tester.widget(
+      find.byType(CachedNetworkImage),
+    );
+    final Widget fallback = animated.errorBuilder!(
+      tester.element(find.byType(CachedNetworkImage)),
+      Exception('decode failed'),
+      StackTrace.empty,
+    );
+    expect(fallback, isA<CachedNetworkImage>());
+    expect(
+      (fallback as CachedNetworkImage).imageUrl,
+      isNot(contains('animated=true')),
+    );
+    expect(fallback.imageUrl, contains('quality=lossless'));
+  });
+
   testWidgets('animated emoji pauses when off-screen', (tester) async {
     await tester.pumpWidget(
       wrapEmoji(
