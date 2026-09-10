@@ -5767,6 +5767,9 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get voiceParticipantMenuStreamVolume => 'Volumen del directo';
 
   @override
+  String get voiceParticipantMenuStopStreaming => 'Stop streaming';
+
+  @override
   String get voiceParticipantModerationFailed =>
       'No se pudo actualizar a ese miembro. Por favor, inténtalo de nuevo.';
 

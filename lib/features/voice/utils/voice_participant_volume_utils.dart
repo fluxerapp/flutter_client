@@ -24,7 +24,11 @@ bool participantIdentityMatchesUserId({
 double resolveParticipantTrackVolume({
   required int participantVolumePercent,
   required int outputVolumePercent,
+  bool locallyMuted = false,
 }) {
+  if (locallyMuted) {
+    return 0;
+  }
   return composedBoostedVoiceTrackVolume(<int>[
     participantVolumePercent,
     outputVolumePercent,
@@ -35,10 +39,12 @@ Future<void> applyParticipantVolumeToTrack({
   required AudioTrack track,
   required int participantVolumePercent,
   required int outputVolumePercent,
+  bool locallyMuted = false,
 }) async {
   final double volume = resolveParticipantTrackVolume(
     participantVolumePercent: participantVolumePercent,
     outputVolumePercent: outputVolumePercent,
+    locallyMuted: locallyMuted,
   );
   await Helper.setVolume(volume, track.mediaStreamTrack);
 }
@@ -47,6 +53,7 @@ Future<void> applyParticipantVolumeToParticipant({
   required RemoteParticipant participant,
   required int participantVolumePercent,
   required int outputVolumePercent,
+  bool locallyMuted = false,
 }) async {
   for (final RemoteTrackPublication publication
       in participant.audioTrackPublications) {
@@ -61,6 +68,7 @@ Future<void> applyParticipantVolumeToParticipant({
       track: publishedTrack,
       participantVolumePercent: participantVolumePercent,
       outputVolumePercent: outputVolumePercent,
+      locallyMuted: locallyMuted,
     );
   }
 }
@@ -70,6 +78,7 @@ Future<void> applyParticipantVolumeToRoom({
   required String userId,
   required int participantVolumePercent,
   required int outputVolumePercent,
+  bool locallyMuted = false,
 }) async {
   if (room == null || userId.isEmpty) {
     return;
@@ -85,6 +94,7 @@ Future<void> applyParticipantVolumeToRoom({
       participant: participant,
       participantVolumePercent: participantVolumePercent,
       outputVolumePercent: outputVolumePercent,
+      locallyMuted: locallyMuted,
     );
   }
 }
@@ -92,6 +102,7 @@ Future<void> applyParticipantVolumeToRoom({
 Future<void> applyAllParticipantVolumesToRoom({
   required Room? room,
   required Map<String, int> participantVolumes,
+  required Map<String, bool> participantLocalMutes,
   required int outputVolumePercent,
 }) async {
   if (room == null) {
@@ -111,6 +122,7 @@ Future<void> applyAllParticipantVolumesToRoom({
         userId: userId,
       ),
       outputVolumePercent: outputVolumePercent,
+      locallyMuted: participantLocalMutes[userId] ?? false,
     );
   }
 }

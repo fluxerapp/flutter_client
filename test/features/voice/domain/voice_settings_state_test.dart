@@ -57,4 +57,20 @@ void main() {
       },
     );
   });
+
+  group('VoiceSettingsState participantLocalMutes', () {
+    test('defaults to empty', () {
+      expect(const VoiceSettingsState().participantLocalMutes, isEmpty);
+    });
+
+    test('round-trips through json', () {
+      const VoiceSettingsState settings = VoiceSettingsState(
+        participantLocalMutes: <String, bool>{'42': true},
+      );
+      final VoiceSettingsState restored = VoiceSettingsState.fromJson(
+        settings.toJson(),
+      );
+      expect(restored.participantLocalMutes, <String, bool>{'42': true});
+    });
+  });
 }

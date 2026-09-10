@@ -180,6 +180,22 @@ class VoiceSettings extends _$VoiceSettings {
     _schedulePersist();
   }
 
+  bool isParticipantLocallyMuted(String userId) {
+    return state.participantLocalMutes[userId] ?? false;
+  }
+
+  Future<void> setParticipantLocalMuted(
+    String userId, {
+    required bool muted,
+  }) async {
+    final Map<String, bool> nextMuted = Map<String, bool>.from(
+      state.participantLocalMutes,
+    );
+    nextMuted[userId] = muted;
+    state = state.copyWith(participantLocalMutes: nextMuted);
+    _schedulePersist();
+  }
+
   Future<void> setStreamVolume(String streamKey, int value) async {
     final int clamped = clampVoiceVolumePercent(value);
     final Map<String, int> nextVolumes = Map<String, int>.from(

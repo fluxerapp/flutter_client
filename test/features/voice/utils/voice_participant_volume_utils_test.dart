@@ -44,6 +44,17 @@ void main() {
         closeTo(boostedVoiceVolumePercentToTrackVolume(50), 0.0001),
       );
     });
+
+    test('local mute applies zero gain', () {
+      expect(
+        resolveParticipantTrackVolume(
+          participantVolumePercent: 150,
+          outputVolumePercent: 100,
+          locallyMuted: true,
+        ),
+        0,
+      );
+    });
   });
 
   test('defaultParticipantVolumeForUser uses 100 when unset', () {
