@@ -35,9 +35,16 @@ void main() {
       expect(features.allowCodeBlocks, isTrue);
       expect(features.allowSubtext, isTrue);
       expect(features.allowBlockquotes, isFalse);
-      expect(features.allowLists, isFalse);
       expect(features.isRestrictedInlinePreview, isTrue);
     });
+
+    test(
+      'enables headings and lists so the preview can flatten them (#769)',
+      () {
+        expect(features.allowHeadings, isTrue);
+        expect(features.allowLists, isTrue);
+      },
+    );
 
     test('parses fenced code blocks instead of escaping them', () {
       const input = '```\nsecret code\n```';
@@ -222,5 +229,57 @@ void main() {
       expect(find.byKey(commandKey), findsOneWidget);
       expect(find.text('/ban user'), findsOneWidget);
     });
+
+    testWidgets('renders a heading without its marker (#769)', (tester) async {
+      await _pumpPreview(tester, '# Heading');
+
+      expect(_previewText(tester), 'Heading');
+    });
+
+    testWidgets('renders a bullet item without its marker (#769)', (
+      tester,
+    ) async {
+      await _pumpPreview(tester, '- item');
+
+      expect(_previewText(tester), 'item');
+    });
+
+    testWidgets('joins ordered list items on one line (#769)', (tester) async {
+      await _pumpPreview(tester, '1. one\n2. two');
+
+      expect(_previewText(tester), 'one two');
+    });
+
+    testWidgets('consumes the escape in front of a dash (#769)', (
+      tester,
+    ) async {
+      await _pumpPreview(tester, r'\- item');
+
+      expect(_previewText(tester), '- item');
+    });
   });
 }
+
+Future<void> _pumpPreview(WidgetTester tester, String data) async {
+  await tester.pumpWidget(
+    MaterialApp(
+      home: Scaffold(
+        body: SizedBox(
+          width: 240,
+          child: FluxerMarkdown(
+            astParser: parseTestMarkdownAst,
+            data: data,
+            config: _testMarkdownConfig,
+            context: FluxerMarkdownContext.restrictedInlineReply,
+          ),
+        ),
+      ),
+    ),
+  );
+  await tester.pumpAndSettle();
+}
+
+String _previewText(WidgetTester tester) => tester
+    .widgetList<RichText>(find.byType(RichText))
+    .map((RichText richText) => richText.text.toPlainText())
+    .join();

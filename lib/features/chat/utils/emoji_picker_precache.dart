@@ -58,7 +58,7 @@ Future<void> prefetchEmojiPickerCustomEmojis({
         animated: true,
         size: requestSize,
       );
-      final String animatedKey = 'emoji_${emoji.id}_a_$requestSize';
+      final String animatedKey = 'emoji_${emoji.id}_a2_$requestSize';
       await prefetchUrl(animatedUrl, animatedKey);
     }
   }

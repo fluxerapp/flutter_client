@@ -95,8 +95,9 @@ class _CachedEmojiImageState extends ConsumerState<CachedEmojiImage> {
           );
     return CachedNetworkImage(
       imageUrl: url,
+      // 'a2' bypasses lossy animated entries cached before #776.
       cacheKey:
-          'emoji_${widget.emojiId}_${animated ? 'a' : 's'}_${widget.requestSize}',
+          'emoji_${widget.emojiId}_${animated ? 'a2' : 's'}_${widget.requestSize}',
       width: widget.size,
       height: widget.size,
       memCacheWidth: cache.width,
@@ -107,7 +108,9 @@ class _CachedEmojiImageState extends ConsumerState<CachedEmojiImage> {
       placeholder:
           loadingPlaceholder ??
           (_, _) => SizedBox(width: widget.size, height: widget.size),
-      errorBuilder: widget.errorBuilder != null
+      errorBuilder: animated
+          ? (BuildContext ctx, _, _) => _buildImage(ctx, animated: false)
+          : widget.errorBuilder != null
           ? (ctx, _, _) => widget.errorBuilder!(ctx)
           : (_, _, _) => SizedBox(width: widget.size, height: widget.size),
     );

@@ -6532,6 +6532,12 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get chatMessageCopyMessageLink => 'メッセージリンクをコピー';
 
   @override
+  String get chatMessageOpenLink => 'Open link';
+
+  @override
+  String get chatMessageCopyLink => 'Copy link';
+
+  @override
   String get chatMessageCopyMessageId => 'メッセージIDをコピー';
 
   @override

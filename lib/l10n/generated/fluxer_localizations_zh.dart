@@ -6442,6 +6442,12 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get chatMessageCopyMessageLink => '复制消息链接';
 
   @override
+  String get chatMessageOpenLink => 'Open link';
+
+  @override
+  String get chatMessageCopyLink => 'Copy link';
+
+  @override
   String get chatMessageCopyMessageId => '复制消息ID';
 
   @override

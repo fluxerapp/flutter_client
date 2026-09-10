@@ -6746,6 +6746,12 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get chatMessageCopyMessageLink => 'Αντιγραφή συνδέσμου μηνύματος';
 
   @override
+  String get chatMessageOpenLink => 'Open link';
+
+  @override
+  String get chatMessageCopyLink => 'Copy link';
+
+  @override
   String get chatMessageCopyMessageId => 'Αντιγραφή αναγνωριστικού μηνύματος';
 
   @override

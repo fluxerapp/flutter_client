@@ -6670,6 +6670,12 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get chatMessageCopyMessageLink => 'คัดลอกลิงก์ข้อความ';
 
   @override
+  String get chatMessageOpenLink => 'Open link';
+
+  @override
+  String get chatMessageCopyLink => 'Copy link';
+
+  @override
   String get chatMessageCopyMessageId => 'คัดลอก ID ข้อความ';
 
   @override

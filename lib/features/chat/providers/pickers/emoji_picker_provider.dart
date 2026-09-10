@@ -47,7 +47,7 @@ class GuildEmojiEntry {
       FluxerMediaUrl.customEmoji(id: id, animated: animated, size: size);
 
   String cacheKeyForSize(int size) =>
-      'emoji_${id}_${animated ? 'a' : 's'}_$size';
+      'emoji_${id}_${animated ? 'a2' : 's'}_$size';
 
   /// Markdown token inserted into the message text.
   String get markdown =>

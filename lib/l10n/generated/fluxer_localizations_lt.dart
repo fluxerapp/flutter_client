@@ -6764,6 +6764,12 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get chatMessageCopyMessageLink => 'Kopijuoti žinutės nuorodą';
 
   @override
+  String get chatMessageOpenLink => 'Open link';
+
+  @override
+  String get chatMessageCopyLink => 'Copy link';
+
+  @override
   String get chatMessageCopyMessageId => 'Kopijuoti žinutės ID';
 
   @override
