@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.dart';
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
 import 'package:fluxer_app/shared/markdown/native_markdown_parser.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
@@ -269,6 +270,27 @@ void main() {
     );
 
     await tester.flingFrom(const Offset(200, 400), const Offset(0, 300), 2000);
+    await tester.pumpAndSettle();
+    expect(_sliderDx(tester), 0);
+  });
+
+  testWidgets('coasting message list defers the drawer', (tester) async {
+    final router = _routerFor(
+      '/channels/guild/channel',
+      harness: _drawerHarnessWithCoastDefer,
+    );
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(
+      _buildDrawerApp(container: container, router: router),
+    );
+
+    final gesture = await tester.startGesture(const Offset(200, 400));
+    await gesture.moveBy(const Offset(80, 0));
+    await tester.pump();
+    expect(_sliderDx(tester), 0);
+    await gesture.up();
     await tester.pumpAndSettle();
     expect(_sliderDx(tester), 0);
   });
@@ -666,6 +688,18 @@ Widget _drawerHarness() {
     snapBackDuration: Duration.zero,
     base: ColoredBox(color: Colors.blue),
     slider: ColoredBox(key: _sliderKey, color: Colors.red),
+  );
+}
+
+Widget _drawerHarnessWithCoastDefer() {
+  return const SidebarDrawer(
+    revealDuration: Duration.zero,
+    snapBackDuration: Duration.zero,
+    base: ColoredBox(color: Colors.blue),
+    slider: DeferHorizontalDragWhileCoasting(
+      defer: true,
+      child: ColoredBox(key: _sliderKey, color: Colors.red),
+    ),
   );
 }
 

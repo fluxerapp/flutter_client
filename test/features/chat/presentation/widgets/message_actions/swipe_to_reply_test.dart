@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/sw
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.dart';
 import 'package:fluxer_app/shared/markdown/native_markdown_parser.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 
@@ -506,6 +507,26 @@ void main() {
     await gesture.up();
     await tester.pumpAndSettle();
     expect(replyCount, 1);
+  });
+
+  testWidgets('coasting defer drops swipe so it does not reply', (
+    tester,
+  ) async {
+    var replyCount = 0;
+    await tester.pumpWidget(
+      _buildApp(
+        DeferHorizontalDragWhileCoasting(
+          defer: true,
+          child: SwipeToReply(
+            onReply: () => replyCount++,
+            child: const ColoredBox(color: Color(0xFF112233)),
+          ),
+        ),
+      ),
+    );
+    await _slowDrag(tester, _swipeBodyStart(tester), const Offset(-160, 0));
+    await tester.pumpAndSettle();
+    expect(replyCount, 0);
   });
 
   testWidgets('leftward reply then later vertical drag still scrolls', (
