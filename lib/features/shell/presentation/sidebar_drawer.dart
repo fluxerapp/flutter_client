@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/shell/providers/drawer_reveal_sync_trigger_p
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/shell/providers/shell_blocks_horizontal_gestures_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/gestures/horizontal_drag_axis_lock.dart';
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
 
 /// Compact wide mobile peeks the drawer at the channel list edge.
@@ -380,13 +381,55 @@ class _DrawerHorizontalDragRecognizer extends HorizontalDragGestureRecognizer {
 
   final bool Function(PointerDownEvent event) shouldDeferDrawerGesture;
 
+  final Map<int, Offset> _initialPositions = <int, Offset>{};
+  final Set<int> _resolved = <int>{};
+
   @override
   void addAllowedPointer(PointerDownEvent event) {
     if (shouldDeferDrawerGesture(event)) {
       resolve(GestureDisposition.rejected);
       return;
     }
+    _initialPositions[event.pointer] = event.position;
     super.addAllowedPointer(event);
+  }
+
+  @override
+  void handleEvent(PointerEvent event) {
+    if (event is PointerMoveEvent && !_resolved.contains(event.pointer)) {
+      final Offset? start = _initialPositions[event.pointer];
+      if (start != null) {
+        final HorizontalDragAxisLockDecision decision =
+            resolveHorizontalDragAxisLock(
+              deltaFromStart: event.position - start,
+              slop: computeHitSlop(event.kind, gestureSettings),
+            );
+        if (decision == HorizontalDragAxisLockDecision.yieldToVertical) {
+          _resolved.add(event.pointer);
+          resolve(GestureDisposition.rejected);
+          return;
+        }
+        if (decision == HorizontalDragAxisLockDecision.keepHorizontal ||
+            decision == HorizontalDragAxisLockDecision.yieldToRightward) {
+          _resolved.add(event.pointer);
+        }
+      }
+    }
+    super.handleEvent(event);
+  }
+
+  @override
+  void didStopTrackingLastPointer(int pointer) {
+    _initialPositions.remove(pointer);
+    _resolved.remove(pointer);
+    super.didStopTrackingLastPointer(pointer);
+  }
+
+  @override
+  void rejectGesture(int pointer) {
+    _initialPositions.remove(pointer);
+    _resolved.remove(pointer);
+    super.rejectGesture(pointer);
   }
 }
 

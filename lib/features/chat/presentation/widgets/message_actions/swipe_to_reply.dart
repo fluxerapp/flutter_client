@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/gestures/horizontal_drag_axis_lock.dart';
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -379,8 +380,8 @@ class _HoldRingPainter extends CustomPainter {
 }
 
 /// Horizontal drag recognizer that drops out of the gesture arena as soon
-/// as the dominant drag direction is rightward, leaving the parent shell
-/// drawer free to claim the gesture and open the drawer.
+/// as the dominant drag direction is vertical (so the message list can
+/// scroll) or rightward (so the parent shell drawer can open).
 class _LeftwardHorizontalDragRecognizer
     extends HorizontalDragGestureRecognizer {
   _LeftwardHorizontalDragRecognizer({
@@ -407,13 +408,19 @@ class _LeftwardHorizontalDragRecognizer
     if (event is PointerMoveEvent && !_resolved.contains(event.pointer)) {
       final start = _initialPositions[event.pointer];
       if (start != null) {
-        final delta = event.position - start;
-        if (delta.dx.abs() >= kTouchSlop &&
-            delta.dx.abs() > delta.dy.abs() &&
-            delta.dx > 0) {
+        final HorizontalDragAxisLockDecision decision =
+            resolveHorizontalDragAxisLock(
+              deltaFromStart: event.position - start,
+              slop: computeHitSlop(event.kind, gestureSettings),
+            );
+        if (decision == HorizontalDragAxisLockDecision.yieldToVertical ||
+            decision == HorizontalDragAxisLockDecision.yieldToRightward) {
           _resolved.add(event.pointer);
           resolve(GestureDisposition.rejected);
           return;
+        }
+        if (decision == HorizontalDragAxisLockDecision.keepHorizontal) {
+          _resolved.add(event.pointer);
         }
       }
     }
