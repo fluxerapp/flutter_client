@@ -172,5 +172,51 @@ void main() {
 
       expect(findCommunitySettingsSubmenu(groups), isNotNull);
     });
+
+    test('hides invite when canInvite is false', () {
+      final List<GuildMenuGroup> groups = buildGuildMenuGroups(
+        l10n: l10n,
+        hasUnread: false,
+        isMuted: false,
+        isOwner: false,
+        permissions: Permission.createInstantInvite.value,
+        canInvite: false,
+        locale: 'en_US',
+        use12Hour: true,
+      );
+      expect(
+        groups
+            .expand((GuildMenuGroup group) => group)
+            .whereType<GuildMenuAction>()
+            .any(
+              (GuildMenuAction action) =>
+                  action.action == GuildAction.inviteMembers,
+            ),
+        isFalse,
+      );
+    });
+
+    test('shows invite when canInvite is true without guild invite bits', () {
+      final List<GuildMenuGroup> groups = buildGuildMenuGroups(
+        l10n: l10n,
+        hasUnread: false,
+        isMuted: false,
+        isOwner: false,
+        permissions: Permission.viewChannel.value,
+        canInvite: true,
+        locale: 'en_US',
+        use12Hour: true,
+      );
+      expect(
+        groups
+            .expand((GuildMenuGroup group) => group)
+            .whereType<GuildMenuAction>()
+            .any(
+              (GuildMenuAction action) =>
+                  action.action == GuildAction.inviteMembers,
+            ),
+        isTrue,
+      );
+    });
   });
 }

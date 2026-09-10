@@ -27,6 +27,7 @@ import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.d
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/channel_mute_provider.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
+import 'package:fluxer_app/features/channels/utils/channel_invite_capability.dart';
 import 'package:fluxer_app/features/channels/utils/show_channel_debug_sheet.dart';
 import 'package:fluxer_app/features/chat/data/channel_pins_repository.dart';
 import 'package:fluxer_app/features/chat/data/channel_search_history_repository.dart';
@@ -63,6 +64,7 @@ import 'package:fluxer_app/features/favorites/providers/favorite_channels_provid
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/guilds/data/guild_user_settings_repository.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/members/data/guild_mention_member_search.dart';
 import 'package:fluxer_app/features/members/domain/group_dm_member_groups.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
@@ -86,12 +88,12 @@ import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 part '../pages/channel_search_page.dart';
-part 'channel_details_identity.dart';
-part 'channel_details_tabs.dart';
 part 'channel_details_dm_members.dart';
 part 'channel_details_filters.dart';
-part 'channel_details_sheet_states.dart';
+part 'channel_details_identity.dart';
 part 'channel_details_more_sheet.dart';
+part 'channel_details_sheet_states.dart';
+part 'channel_details_tabs.dart';
 
 const _kSheetLoadMoreThreshold = 160.0;
 

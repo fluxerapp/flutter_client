@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/domain/group_dm_utils.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/dm/utils/create_dm_api_errors.dart';
+import 'package:fluxer_app/features/guilds/utils/invite_create_errors.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -109,7 +110,7 @@ class AddFriendsToGroupController extends ChangeNotifier {
     if (inviteLink != null && inviteLink!.isNotEmpty) {
       return _copyInviteLink(context);
     }
-    final String? link = await handleGenerateInvite();
+    final String? link = await handleGenerateInvite(context);
     if (link == null) {
       return false;
     }
@@ -119,7 +120,7 @@ class AddFriendsToGroupController extends ChangeNotifier {
     return _copyInviteLink(context);
   }
 
-  Future<String?> handleGenerateInvite() async {
+  Future<String?> handleGenerateInvite(BuildContext context) async {
     if (isGeneratingInvite) {
       return inviteLink;
     }
@@ -146,7 +147,22 @@ class AddFriendsToGroupController extends ChangeNotifier {
       inviteLink = link;
       notifyListeners();
       return link;
-    } on Object {
+    } on Object catch (error) {
+      if (context.mounted) {
+        final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+        _container
+            .read(toastProvider.notifier)
+            .show(
+              FluxerToast(
+                message: inviteCreateFailureMessage(
+                  error: error,
+                  l10n: l10n,
+                  isGroupDm: true,
+                ),
+                variant: FluxerToastVariant.danger,
+              ),
+            );
+      }
       return null;
     } finally {
       isGeneratingInvite = false;

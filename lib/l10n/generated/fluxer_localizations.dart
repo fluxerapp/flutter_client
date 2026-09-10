@@ -14490,6 +14490,30 @@ abstract class FluxerLocalizations {
   /// **'Couldn\'t generate an invite link. Please try again.'**
   String get groupDmCreateInviteFailedBody;
 
+  /// Fallback error when creating a community invite link fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t create an invite link. Please try again.'**
+  String get guildNavbarCreateInviteFailed;
+
+  /// Error when the user lacks CREATE_INSTANT_INVITE on the chosen channel.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have permission to create an invite in this channel.'**
+  String get guildNavbarCreateInviteMissingPermissions;
+
+  /// Error when the community is at MAX_INVITES.
+  ///
+  /// In en, this message translates to:
+  /// **'This community has reached its invite limit.'**
+  String get guildNavbarCreateInviteMaxInvites;
+
+  /// Error when instant invites are temporarily disabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite creation is temporarily disabled for this community.'**
+  String get guildNavbarCreateInviteTemporarilyDisabled;
+
   /// Error when copying a group DM invite link fails.
   ///
   /// In en, this message translates to:
