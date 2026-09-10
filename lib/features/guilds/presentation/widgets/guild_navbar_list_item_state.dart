@@ -487,6 +487,7 @@ class _GuildListItemState extends State<_GuildListItem>
     await FluxerBottomSheet.showScrollable<void>(
       context,
       title: l10n.notificationSettings,
+      initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
       builder: (sheetContext, scrollController, close) {
         final layout = sheetContext.layout;
         final colors = sheetContext.colors;

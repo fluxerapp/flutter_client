@@ -16,6 +16,7 @@ Future<String?> showTextualAttachmentLanguageSheet({
   return FluxerBottomSheet.showScrollable<String>(
     context,
     title: l10n.chatTextualPreviewSyntaxHighlighting,
+    initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
     minChildSize: 0.45,
     builder:
         (

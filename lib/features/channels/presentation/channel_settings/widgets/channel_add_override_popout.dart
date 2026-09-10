@@ -32,6 +32,7 @@ class ChannelAddOverrideSheet {
       context,
       title: l10n.channelSettingsPermissionsAddOverride,
       useRootNavigator: true,
+      initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
       minChildSize: 0.35,
       builder:
           (

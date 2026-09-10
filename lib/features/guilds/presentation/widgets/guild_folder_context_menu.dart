@@ -165,6 +165,7 @@ class _FolderContextMenuPageState extends State<_FolderContextMenuPage> {
         context,
         title: submenu.label,
         onBack: () => Navigator.of(context).pop(),
+        initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
         builder: (sheetContext, scrollController, close) {
           final layout = sheetContext.layout;
           void pop(FolderMenuAction action) =>
