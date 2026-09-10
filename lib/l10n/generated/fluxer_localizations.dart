@@ -10914,6 +10914,18 @@ abstract class FluxerLocalizations {
   /// **'Copy Message Link'**
   String get chatMessageCopyMessageLink;
 
+  /// Action label in the message actions sheet that opens the long-pressed link.
+  ///
+  /// In en, this message translates to:
+  /// **'Open link'**
+  String get chatMessageOpenLink;
+
+  /// Action label in the message actions sheet that copies the long-pressed link to the clipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy link'**
+  String get chatMessageCopyLink;
+
   /// Action label for copying the message's snowflake ID to the clipboard.
   ///
   /// In en, this message translates to:

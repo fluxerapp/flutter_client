@@ -6522,6 +6522,12 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get chatMessageCopyMessageLink => '메시지 링크 복사';
 
   @override
+  String get chatMessageOpenLink => 'Open link';
+
+  @override
+  String get chatMessageCopyLink => 'Copy link';
+
+  @override
   String get chatMessageCopyMessageId => '메시지 ID 복사';
 
   @override

@@ -6699,6 +6699,12 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get chatMessageCopyMessageLink => 'Kopiera meddelandelänk';
 
   @override
+  String get chatMessageOpenLink => 'Open link';
+
+  @override
+  String get chatMessageCopyLink => 'Copy link';
+
+  @override
   String get chatMessageCopyMessageId => 'Kopiera meddelande-ID';
 
   @override

@@ -1369,14 +1369,14 @@ class _MarkdownInlineRenderer {
           text: span.text,
           style: span.style,
           mouseCursor: SystemMouseCursors.click,
-          recognizer: registry.obtainRecognizer(onTap),
+          recognizer: registry.obtainRecognizer(href, onTap),
         );
       }
       return TextSpan(
         text: span.text,
         style: span.style,
         mouseCursor: SystemMouseCursors.click,
-        recognizer: TapGestureRecognizer()..onTap = onTap,
+        recognizer: FluxerMarkdownLinkRecognizer(href: href)..onTap = onTap,
       );
     }
     return TextSpan(

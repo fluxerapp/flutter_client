@@ -6719,6 +6719,12 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Скопіювати посилання на повідомлення';
 
   @override
+  String get chatMessageOpenLink => 'Open link';
+
+  @override
+  String get chatMessageCopyLink => 'Copy link';
+
+  @override
   String get chatMessageCopyMessageId => 'Скопіювати ID повідомлення';
 
   @override

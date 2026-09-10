@@ -84,9 +84,12 @@ class _FluxerMarkdownState extends State<FluxerMarkdown> {
     });
   }
 
-  TapGestureRecognizer _obtainRecognizer(VoidCallback onTap) {
-    final TapGestureRecognizer recognizer = TapGestureRecognizer()
-      ..onTap = onTap;
+  FluxerMarkdownLinkRecognizer _obtainRecognizer(
+    String href,
+    VoidCallback onTap,
+  ) {
+    final FluxerMarkdownLinkRecognizer recognizer =
+        FluxerMarkdownLinkRecognizer(href: href)..onTap = onTap;
     _linkRecognizers.add(recognizer);
     return recognizer;
   }

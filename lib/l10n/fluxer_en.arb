@@ -8503,6 +8503,14 @@
     "@chatMessageCopyMessageLink": {
         "description": "Action label for copying a message's deep link."
     },
+    "chatMessageOpenLink": "Open link",
+    "@chatMessageOpenLink": {
+        "description": "Action label in the message actions sheet that opens the long-pressed link."
+    },
+    "chatMessageCopyLink": "Copy link",
+    "@chatMessageCopyLink": {
+        "description": "Action label in the message actions sheet that copies the long-pressed link to the clipboard."
+    },
     "chatMessageCopyMessageId": "Copy Message ID",
     "@chatMessageCopyMessageId": {
         "description": "Action label for copying the message's snowflake ID to the clipboard."

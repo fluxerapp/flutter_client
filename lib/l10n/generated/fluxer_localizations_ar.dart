@@ -6669,6 +6669,12 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get chatMessageCopyMessageLink => 'نسخ رابط الرسالة';
 
   @override
+  String get chatMessageOpenLink => 'Open link';
+
+  @override
+  String get chatMessageCopyLink => 'Copy link';
+
+  @override
   String get chatMessageCopyMessageId => 'نسخ معرف الرسالة';
 
   @override

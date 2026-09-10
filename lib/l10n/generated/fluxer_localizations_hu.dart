@@ -6730,6 +6730,12 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatMessageCopyMessageLink => 'Üzenet hivatkozásának másolása';
 
   @override
+  String get chatMessageOpenLink => 'Open link';
+
+  @override
+  String get chatMessageCopyLink => 'Copy link';
+
+  @override
   String get chatMessageCopyMessageId => 'Üzenet ID másolása';
 
   @override
