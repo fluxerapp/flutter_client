@@ -68,5 +68,62 @@ void main() {
       expect(rect.left, 0);
       expect(rect.top, greaterThan(0));
     });
+
+    test('fits ultrawide stream aspect without filling height', () {
+      final Rect rect = voiceHangoutCenteredAspectRect(
+        width: 390,
+        height: 700,
+        aspectRatio: 21 / 9,
+      );
+      expect(rect.width, closeTo(390, 0.01));
+      expect(rect.height, closeTo(390 * 9 / 21, 0.01));
+      expect(rect.height, lessThan(700));
+    });
+  });
+
+  group('voiceVideoAspectRatio', () {
+    test('returns null for invalid sizes', () {
+      expect(voiceVideoAspectRatio(width: 0, height: 720), isNull);
+      expect(voiceVideoAspectRatio(width: 1280, height: 0), isNull);
+    });
+
+    test('keeps arbitrary stream ratios', () {
+      expect(
+        voiceVideoAspectRatio(width: 1280, height: 720),
+        closeTo(16 / 9, 0.0001),
+      );
+      expect(
+        voiceVideoAspectRatio(width: 1080, height: 1920),
+        closeTo(9 / 16, 0.0001),
+      );
+      expect(
+        voiceVideoAspectRatio(width: 2560, height: 1080),
+        closeTo(2560 / 1080, 0.0001),
+      );
+    });
+
+    test('reads width and height from track settings', () {
+      expect(
+        voiceVideoAspectRatioFromSettings(<String, dynamic>{
+          'width': 2560,
+          'height': 1080.4,
+        }),
+        closeTo(2560 / 1080, 0.0001),
+      );
+      expect(
+        voiceVideoAspectRatioFromSettings(<String, dynamic>{
+          'width': '1280',
+          'height': '720',
+        }),
+        closeTo(16 / 9, 0.0001),
+      );
+      expect(
+        voiceVideoAspectRatioFromSettings(<String, dynamic>{
+          'width': 0,
+          'height': 720,
+        }),
+        isNull,
+      );
+    });
   });
 }
