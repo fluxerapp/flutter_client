@@ -12,9 +12,22 @@ extension _ControllerExpects on AnimatedImagePlaybackController {
 
 void main() {
   group('AnimatedImagePlaybackController', () {
-    test('activates visible images up to the configured cap', () {
+    test('plays every visible image when no cap is set', () {
       final AnimatedImagePlaybackController controller =
           AnimatedImagePlaybackController();
+
+      for (int index = 0; index < 8; index += 1) {
+        controller.register('gif-$index', 1, top: index.toDouble());
+      }
+
+      for (int index = 0; index < 8; index += 1) {
+        controller.expectPlaying('gif-$index', isTrue);
+      }
+    });
+
+    test('activates visible images up to the configured cap', () {
+      final AnimatedImagePlaybackController controller =
+          AnimatedImagePlaybackController(maxActiveVideos: 6);
 
       for (int index = 0; index < 8; index += 1) {
         controller.register('gif-$index', 1, top: index.toDouble());

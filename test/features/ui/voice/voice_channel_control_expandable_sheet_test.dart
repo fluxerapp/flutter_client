@@ -98,6 +98,7 @@ void main() {
       );
       await tester.pumpAndSettle();
       expect(find.byKey(kVoiceControlPanelSettingsKey), findsOneWidget);
+      expect(find.byKey(kVoiceControlPanelViewModeKey), findsOneWidget);
       expect(find.byKey(kVoiceControlPanelOnlyShowVideosKey), findsOneWidget);
       expect(find.byKey(kVoiceControlPanelShowOwnCameraKey), findsOneWidget);
       expect(

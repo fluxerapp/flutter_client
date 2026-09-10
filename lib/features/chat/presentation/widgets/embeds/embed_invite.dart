@@ -12,7 +12,9 @@ import 'package:fluxer_app/features/chat/providers/messages/invite_embed_provide
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/dm/utils/group_dm_display_name.dart';
+import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
+import 'package:fluxer_app/features/guilds/utils/guild_invite_action_state.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_guild_badge.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
@@ -54,8 +56,6 @@ class EmbedInvite extends ConsumerWidget {
           code: code,
           l10n: l10n,
           ref: ref,
-          isAlreadyMember:
-              ref.watch(guildByIdProvider(invite.guild.id)).value != null,
         ),
         InviteEmbedGroupDm(:final invite) => _GroupDmInviteCard(
           invite: invite,
@@ -74,14 +74,12 @@ class _GuildInviteCard extends StatelessWidget {
     required this.code,
     required this.l10n,
     required this.ref,
-    required this.isAlreadyMember,
   });
 
   final InviteResponseSchema0 invite;
   final String code;
   final FluxerLocalizations l10n;
   final WidgetRef ref;
-  final bool isAlreadyMember;
 
   String? get _iconUrl {
     final icon = invite.guild.icon;
@@ -133,8 +131,8 @@ class _GuildInviteCard extends StatelessWidget {
     );
   }
 
-  void _onJoin(BuildContext context) {
-    if (isAlreadyMember) {
+  void _onJoin({required bool isMember}) {
+    if (isMember) {
       ref
           .read(fluxerRouterProvider)
           .go(RoutePaths.guildChannel(invite.guild.id, invite.channel.id));
@@ -157,8 +155,21 @@ class _GuildInviteCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final onlineStr = _formatInviteCount(invite.presenceCount);
-    final memberStr = _formatInviteCount(invite.memberCount);
+    final Guild? localGuild = ref
+        .watch(guildByIdProvider(invite.guild.id))
+        .value;
+    final List<String> features = localGuild?.features ?? invite.guild.features;
+    final GuildInviteActionState actionState = resolveGuildInviteActionState(
+      features: features,
+      isMember: localGuild != null,
+    );
+    final String productName = ref.watch(activeInstanceProvider).productName;
+    final String onlineStr = _formatInviteCount(invite.presenceCount);
+    final String memberStr = _formatInviteCount(invite.memberCount);
+    final String? pausedMessage = actionState.pausedStatusMessage(
+      paused: l10n.embedInvitePaused,
+      raidPaused: l10n.embedInvitePausedRaid(productName),
+    );
 
     return FluxerGestureDetector(
       onSecondaryTapDown: (TapDownDetails details) {
@@ -188,34 +199,54 @@ class _GuildInviteCard extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 4),
-              child: FluxerGuildBadge(features: invite.guild.features),
+              child: FluxerGuildBadge(features: features),
             ),
           ],
         ),
-        stats: Row(
+        stats: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const _StatDot(online: true),
-            const SizedBox(width: 4),
-            Text(
-              l10n.embedInviteOnline(onlineStr),
-              style: context.textStyles.embedFooter.copyWith(
-                color: context.colors.textTertiaryMuted,
-              ),
+            Row(
+              children: [
+                const _StatDot(online: true),
+                const SizedBox(width: 4),
+                Text(
+                  l10n.embedInviteOnline(onlineStr),
+                  style: context.textStyles.embedFooter.copyWith(
+                    color: context.colors.textTertiaryMuted,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                const _StatDot(online: false),
+                const SizedBox(width: 4),
+                Text(
+                  l10n.embedInviteMembers(memberStr),
+                  style: context.textStyles.embedFooter.copyWith(
+                    color: context.colors.textTertiaryMuted,
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(width: 10),
-            const _StatDot(online: false),
-            const SizedBox(width: 4),
-            Text(
-              l10n.embedInviteMembers(memberStr),
-              style: context.textStyles.embedFooter.copyWith(
-                color: context.colors.textTertiaryMuted,
+            if (pausedMessage != null) ...[
+              const SizedBox(height: 4),
+              Text(
+                pausedMessage,
+                style: context.textStyles.embedFooter.copyWith(
+                  color: context.colors.textTertiaryMuted,
+                ),
               ),
-            ),
+            ],
           ],
         ),
         footer: FluxerButton.primary(
-          onPressed: () => _onJoin(context),
-          label: isAlreadyMember ? l10n.embedInviteGoTo : l10n.embedInviteJoin,
+          onPressed: actionState.isActionDisabled
+              ? null
+              : () => _onJoin(isMember: actionState.isMember),
+          label: actionState.primaryActionLabel(
+            joinLabel: l10n.embedInviteJoin,
+            goToLabel: l10n.embedInviteGoTo,
+            disabledLabel: l10n.embedInviteDisabled,
+          ),
         ),
       ),
     );

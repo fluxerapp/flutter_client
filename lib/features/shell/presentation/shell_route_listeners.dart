@@ -11,9 +11,12 @@ import 'package:fluxer_app/core/push/push_notifications_coordinator.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_distributor_setup.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_distributor_ui.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_no_distributor_dismissal_provider.dart';
+import 'package:fluxer_app/core/quick_actions/home_quick_action.dart';
+import 'package:fluxer_app/core/quick_actions/pending_home_quick_action_provider.dart';
 import 'package:fluxer_app/core/router/app_location_persistence.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/guild_root_redirect.dart';
+import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/share/pending_share_provider.dart';
 import 'package:fluxer_app/core/share/shared_media_payload.dart';
@@ -25,6 +28,8 @@ import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart'
 import 'package:fluxer_app/features/guilds/utils/guild_outage_availability.dart';
 import 'package:fluxer_app/features/members/providers/member_list_desired_ranges_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';
+import 'package:fluxer_app/features/quick_switcher/presentation/sheets/quick_switcher_bottom_sheet.dart';
+import 'package:fluxer_app/features/quick_switcher/providers/quick_switcher_provider.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
 import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -120,6 +125,21 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
       });
     }
 
+    ref.listenManual<HomeQuickAction?>(pendingHomeQuickActionProvider, (
+      HomeQuickAction? previous,
+      HomeQuickAction? next,
+    ) {
+      if (next == null) {
+        return;
+      }
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+        _presentHomeQuickAction(next);
+      });
+    }, fireImmediately: true);
+
     ref.listenManual<SharedMediaPayload?>(pendingShareProvider, (
       SharedMediaPayload? previous,
       SharedMediaPayload? next,
@@ -150,6 +170,38 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
         );
       });
     });
+  }
+
+  void _presentHomeQuickAction(HomeQuickAction action, {bool retried = false}) {
+    final HomeQuickAction? pending = ref.read(pendingHomeQuickActionProvider);
+    if (pending != action) {
+      return;
+    }
+    final BuildContext? rootContext = rootNavigatorKey.currentContext;
+    if (rootContext == null || !rootContext.mounted) {
+      if (retried) {
+        return;
+      }
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+        _presentHomeQuickAction(action, retried: true);
+      });
+      return;
+    }
+    ref.read(pendingHomeQuickActionProvider.notifier).clear();
+    switch (action) {
+      case HomeQuickAction.dms:
+        ref.read(fluxerRouterProvider).go(RoutePaths.me);
+      case HomeQuickAction.search:
+        if (ref.read(quickSwitcherProvider).isOpen) {
+          return;
+        }
+        unawaited(QuickSwitcherBottomSheet.show(rootContext, ref));
+      case HomeQuickAction.notifications:
+        ref.read(fluxerRouterProvider).go(RoutePaths.notificationsPath);
+    }
   }
 
   void _scheduleActiveGuildEffects({

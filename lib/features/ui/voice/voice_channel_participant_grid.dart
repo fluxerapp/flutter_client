@@ -8,7 +8,6 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as database;
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
-import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
@@ -41,6 +40,7 @@ import 'package:fluxer_app/features/voice/utils/voice_grid_speaking_order.dart';
 import 'package:fluxer_app/features/voice/utils/voice_participant_tile_id.dart';
 import 'package:fluxer_app/features/voice/utils/voice_participant_track_resolver.dart';
 import 'package:fluxer_app/features/voice/utils/voice_pip_morph.dart';
+import 'package:fluxer_app/features/voice/utils/voice_stream_info.dart';
 import 'package:fluxer_app/features/voice/utils/voice_video_subscription.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -53,12 +53,25 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const Duration _kTileMoveDuration = Duration(milliseconds: 260);
 const Curve _kTileMoveCurve = Curves.easeOutCubic;
+const Key kVoiceCallViewModeToggleKey = Key('voice-call-view-mode-toggle');
 
 Duration _tileMoveDuration(BuildContext context) {
   if (MediaQuery.disableAnimationsOf(context)) {
     return Duration.zero;
   }
   return _kTileMoveDuration;
+}
+
+bool _sameViewerStreamKeys(List<String> a, List<String> b) {
+  if (a.length != b.length) {
+    return false;
+  }
+  for (int i = 0; i < a.length; i++) {
+    if (a[i] != b[i]) {
+      return false;
+    }
+  }
+  return true;
 }
 
 class _VoiceGridTileItem {
@@ -176,13 +189,14 @@ class VoiceChannelParticipantGrid extends ConsumerStatefulWidget {
 
 class _VoiceChannelParticipantGridState
     extends ConsumerState<VoiceChannelParticipantGrid> {
-  String? lastViewerStreamKey;
+  List<String> lastViewerStreamKeys = const <String>[];
   late final PageController _galleryPageController;
   late final ValueNotifier<int> _galleryPageIndex;
   String? _featuredTileId;
   VoicePipOverlayPhase _pipPhase = VoicePipOverlayPhase.hidden;
   bool _isConnected = false;
-  bool _disableStreamPreviews = false;
+
+  bool _stalePinScheduled = false;
 
   VoiceGridPackedLayoutMetrics? _cachedLayoutMetrics;
   int? _cachedLayoutKey;
@@ -342,89 +356,104 @@ class _VoiceChannelParticipantGridState
         .toList();
   }
 
-  void _syncWatch(
-    String? activeScreenShareTileId,
+  void _syncViewerKeys(
     List<_VoiceGridTileItem> tiles,
+    Set<String> watchedTileIds,
   ) {
-    final String? current = ref.read(voiceScreenShareWatchTileProvider);
-    if (current != activeScreenShareTileId) {
+    if (watchedTileIds.isEmpty) {
+      if (lastViewerStreamKeys.isNotEmpty) {
+        lastViewerStreamKeys = const <String>[];
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) {
+            return;
+          }
+          ref
+              .read(voiceSessionProvider.notifier)
+              .updateViewerStreamKeys(const <String>[]);
+        });
+      }
+      return;
+    }
+    final Set<String> aliveScreenShareIds = <String>{
+      for (final _VoiceGridTileItem tile in tiles)
+        if (tile.source == VoiceParticipantTileSource.screenShare) tile.tileId,
+    };
+    if (watchedTileIds.any(
+      (String tileId) => !aliveScreenShareIds.contains(tileId),
+    )) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) {
           return;
         }
         ref
             .read(voiceScreenShareWatchTileProvider.notifier)
-            .setActiveTileId(activeScreenShareTileId);
+            .retainTileIds(aliveScreenShareIds);
       });
     }
-    String? nextKey;
-    if (activeScreenShareTileId != null) {
-      for (final _VoiceGridTileItem tile in tiles) {
-        if (tile.tileId == activeScreenShareTileId) {
-          nextKey = buildViewerStreamKey(
-            voice: tile.data.voice,
-            isScreenShareTile:
-                tile.source == VoiceParticipantTileSource.screenShare,
-          );
-          break;
+    final List<String> nextKeys = voiceViewerStreamKeysForWatchedTiles(
+      watchedTileIds: watchedTileIds,
+      streamKeyForTile: (String tileId) {
+        for (final _VoiceGridTileItem tile in tiles) {
+          if (tile.tileId == tileId) {
+            return buildViewerStreamKey(
+              voice: tile.data.voice,
+              isScreenShareTile:
+                  tile.source == VoiceParticipantTileSource.screenShare,
+            );
+          }
         }
-      }
-    }
-    if (nextKey == lastViewerStreamKey) {
+        return null;
+      },
+    );
+    if (_sameViewerStreamKeys(lastViewerStreamKeys, nextKeys)) {
       return;
     }
-    lastViewerStreamKey = nextKey;
+    lastViewerStreamKeys = nextKeys;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) {
         return;
       }
-      ref
-          .read(voiceSessionProvider.notifier)
-          .updateViewerStreamKeys(
-            nextKey == null ? const <String>[] : <String>[nextKey],
-          );
+      ref.read(voiceSessionProvider.notifier).updateViewerStreamKeys(nextKeys);
     });
   }
 
-  void _stopWatching() {
-    ref.read(voiceCallLayoutProvider.notifier).unpin();
+  void _watchStream(_VoiceGridTileItem item) {
+    if (item.source != VoiceParticipantTileSource.screenShare) {
+      return;
+    }
+    ref.read(voiceScreenShareWatchTileProvider.notifier).watch(item.tileId);
+  }
+
+  void _stopWatching(String tileId) {
+    ref.read(voiceScreenShareWatchTileProvider.notifier).unwatch(tileId);
   }
 
   void _onTileTap(_VoiceGridTileItem item, bool isFocusMain) {
+    if (item.source == VoiceParticipantTileSource.screenShare) {
+      final bool alreadyWatching = ref
+          .read(voiceScreenShareWatchTileProvider)
+          .contains(item.tileId);
+      _watchStream(item);
+      if (isFocusMain && alreadyWatching) {
+        ref
+            .read(voiceCallLayoutProvider.notifier)
+            .setMode(VoiceCallLayoutMode.grid);
+        return;
+      }
+      if (!isFocusMain) {
+        ref.read(voiceCallLayoutProvider.notifier).pin(item.tileId);
+        _revealOverlay();
+      }
+      return;
+    }
     if (isFocusMain) {
-      _toggleCallOverlay();
+      ref
+          .read(voiceCallLayoutProvider.notifier)
+          .setMode(VoiceCallLayoutMode.grid);
       return;
     }
     ref.read(voiceCallLayoutProvider.notifier).pin(item.tileId);
     _revealOverlay();
-  }
-
-  _VoiceGridTileItem? _findSelfTile(
-    List<_VoiceGridTileItem> tiles,
-    String? me,
-  ) {
-    if (me == null) {
-      return null;
-    }
-    for (final _VoiceGridTileItem tile in tiles) {
-      if (tile.data.userId == me &&
-          tile.source == VoiceParticipantTileSource.camera) {
-        return tile;
-      }
-    }
-    return null;
-  }
-
-  List<_VoiceGridTileItem> _tilesWithoutSelf(
-    List<_VoiceGridTileItem> tiles,
-    _VoiceGridTileItem? selfTile,
-  ) {
-    if (selfTile == null) {
-      return tiles;
-    }
-    return tiles
-        .where((_VoiceGridTileItem tile) => tile.tileId != selfTile.tileId)
-        .toList();
   }
 
   @override
@@ -461,7 +490,6 @@ class _VoiceChannelParticipantGridState
             settings.prioritizeSpeakingParticipants,
       ),
     );
-    final String? watchedTileId = ref.watch(voiceScreenShareWatchTileProvider);
     ref.watch(voiceChannelGridStructureProvider(participantKey));
     final List<VoiceChannelParticipantData> list = ref.read(
       voiceChannelParticipantsProvider(participantKey),
@@ -549,12 +577,9 @@ class _VoiceChannelParticipantGridState
     } else {
       tileItems = consolidatedTiles;
     }
-    final String? authToken = ref.watch(fluxerAuthTokenProvider);
     final String? baseUrl = ref.watch(fluxerBaseUrlProvider);
-    final bool disableStreamPreviews = ref.watch(
-      advancedPreferencesProvider.select(
-        (AdvancedPreferencesState value) => value.disableStreamPreviews,
-      ),
+    final Set<String> watchedTileIds = ref.watch(
+      voiceScreenShareWatchTileProvider,
     );
     final String? featuredTileId = ref.watch(voicePipFeaturedTileIdProvider);
     final VoicePipOverlayPhase pipPhase = ref.watch(
@@ -566,7 +591,13 @@ class _VoiceChannelParticipantGridState
     _featuredTileId = featuredTileId;
     _pipPhase = pipPhase;
     _isConnected = isConnected;
-    _disableStreamPreviews = disableStreamPreviews;
+    _syncViewerKeys(tileItems, watchedTileIds);
+    if (layout.pinnedTileId != null &&
+        !tileItems.any(
+          (_VoiceGridTileItem tile) => tile.tileId == layout.pinnedTileId,
+        )) {
+      _scheduleClearStalePin();
+    }
     return Listener(
       onPointerHover: _onPointerHover,
       child: LayoutBuilder(
@@ -575,13 +606,11 @@ class _VoiceChannelParticipantGridState
             context: context,
             constraints: cons,
             tiles: tileItems,
+            watchedTileIds: watchedTileIds,
             layout: layout,
-            displayPreferences: displayPreferences,
-            watchedTileId: watchedTileId,
             room: liveKit,
             me: me,
             localConnectionId: localConnectionId,
-            authToken: authToken,
             baseUrl: baseUrl,
             l10n: l10n,
           );
@@ -594,35 +623,28 @@ class _VoiceChannelParticipantGridState
     required BuildContext context,
     required BoxConstraints constraints,
     required List<_VoiceGridTileItem> tiles,
+    required Set<String> watchedTileIds,
     required VoiceCallLayoutState layout,
-    required VoiceCallDisplayPreferencesState displayPreferences,
-    required String? watchedTileId,
     required Room? room,
     required String? me,
     required String? localConnectionId,
-    required String? authToken,
     required String? baseUrl,
     required FluxerLocalizations l10n,
   }) {
     final double maxWidth = constraints.maxWidth;
     final double maxHeight = constraints.maxHeight;
-    final bool compact = maxWidth < 520 || maxHeight < 360;
+    final EdgeInsets stageInsets = MediaQuery.paddingOf(context);
+    final double innerWidth = math.max(0, maxWidth - stageInsets.horizontal);
+    final double innerHeight = math.max(0, maxHeight - stageInsets.vertical);
+    final bool compact = innerWidth < 520 || innerHeight < 360;
     final int count = tiles.length;
-    final bool isPinned = layout.pinnedTileId != null;
-    final bool isWatchingScreenShare = watchedTileId != null;
-    final _VoiceGridTileItem? selfTile = displayPreferences.showOwnCamera
-        ? _findSelfTile(tiles, me)
-        : null;
-    // Float self only when there is at least one other tile to keep primary.
-    final bool canFloatSelf = selfTile != null && count > 1;
 
     final VoiceGridPackedLayoutMetrics packed = _resolveLayoutMetrics(
       tileCount: count,
-      containerWidth: maxWidth,
-      containerHeight: maxHeight,
+      containerWidth: innerWidth,
+      containerHeight: innerHeight,
       compact: compact,
     );
-    final bool gridOverflow = packed.visibleTileCount < count;
 
     _VoiceGridTileItem? pinned;
     if (layout.pinnedTileId != null) {
@@ -634,118 +656,113 @@ class _VoiceChannelParticipantGridState
       }
     }
 
-    final bool useHangout =
-        !isPinned &&
-        !isWatchingScreenShare &&
-        layout.mode != VoiceCallLayoutMode.focus &&
-        count <= 4 &&
-        count > 0;
-    final bool useFocus =
-        isPinned ||
-        isWatchingScreenShare ||
-        layout.mode == VoiceCallLayoutMode.focus;
+    final VoiceCallVisualLayout visual = resolveVoiceCallVisualLayout(
+      isFocusMode: layout.mode == VoiceCallLayoutMode.focus,
+      pinnedTileId: pinned?.tileId,
+      tileCount: count,
+      visibleTileCount: packed.visibleTileCount,
+    );
 
-    if (useHangout) {
-      _syncWatch(null, tiles);
-      final List<_VoiceGridTileItem> hangoutTiles = canFloatSelf
-          ? _tilesWithoutSelf(tiles, selfTile)
-          : tiles;
+    if (visual == VoiceCallVisualLayout.packedGrid) {
       return _wrapLayoutSurface(
         maxWidth: maxWidth,
         maxHeight: maxHeight,
-        child: _buildHangout(
-          context: context,
-          maxWidth: maxWidth,
-          maxHeight: maxHeight,
-          tiles: hangoutTiles,
-          selfTile: canFloatSelf ? selfTile : null,
-          compact: compact,
-          displayPreferences: displayPreferences,
-          room: room,
-          me: me,
-          localConnectionId: localConnectionId,
-          authToken: authToken,
-          baseUrl: baseUrl,
-          l10n: l10n,
+        child: Padding(
+          padding: stageInsets,
+          child: _buildGrid(
+            context: context,
+            maxWidth: innerWidth,
+            maxHeight: innerHeight,
+            metrics: packed.metrics,
+            tiles: tiles,
+            watchedTileIds: watchedTileIds,
+            room: room,
+            me: me,
+            localConnectionId: localConnectionId,
+            baseUrl: baseUrl,
+            l10n: l10n,
+          ),
         ),
       );
     }
 
-    if (!useFocus && !gridOverflow) {
-      _syncWatch(null, tiles);
+    if (visual == VoiceCallVisualLayout.paginatedGrid) {
       return _wrapLayoutSurface(
         maxWidth: maxWidth,
         maxHeight: maxHeight,
-        child: _buildGrid(
-          context: context,
-          maxWidth: maxWidth,
-          maxHeight: maxHeight,
-          metrics: packed.metrics,
-          tiles: tiles,
-          room: room,
-          me: me,
-          localConnectionId: localConnectionId,
-          authToken: authToken,
-          baseUrl: baseUrl,
-          l10n: l10n,
+        child: Padding(
+          padding: stageInsets,
+          child: _buildPaginatedGrid(
+            context: context,
+            maxWidth: innerWidth,
+            maxHeight: innerHeight,
+            tiles: tiles,
+            watchedTileIds: watchedTileIds,
+            tilesPerPage: packed.visibleTileCount,
+            compact: compact,
+            room: room,
+            me: me,
+            localConnectionId: localConnectionId,
+            baseUrl: baseUrl,
+            l10n: l10n,
+          ),
         ),
       );
     }
 
-    if (!useFocus && gridOverflow) {
-      _syncWatch(null, tiles);
+    if (tiles.isEmpty) {
       return _wrapLayoutSurface(
         maxWidth: maxWidth,
         maxHeight: maxHeight,
-        child: _buildPaginatedGrid(
-          context: context,
-          maxWidth: maxWidth,
-          maxHeight: maxHeight,
-          tiles: tiles,
-          tilesPerPage: packed.visibleTileCount,
-          compact: compact,
-          room: room,
-          me: me,
-          localConnectionId: localConnectionId,
-          authToken: authToken,
-          baseUrl: baseUrl,
-          l10n: l10n,
-        ),
+        child: const SizedBox.expand(),
       );
     }
 
-    final _VoiceGridTileItem mainTile = pinned ?? _autoMainTile(tiles);
+    final _VoiceGridTileItem mainTile = pinned ?? _autoMainTile(tiles, me: me);
     final List<_VoiceGridTileItem> secondary = tiles
         .where((_VoiceGridTileItem t) => t.tileId != mainTile.tileId)
         .toList();
-    final bool isActiveScreenShareMain =
+    final bool isScreenShareMain =
         mainTile.source == VoiceParticipantTileSource.screenShare;
-    final String? activeScreenShareTileId = isActiveScreenShareMain
-        ? mainTile.tileId
-        : null;
-    _syncWatch(activeScreenShareTileId, tiles);
 
     return _wrapLayoutSurface(
       maxWidth: maxWidth,
       maxHeight: maxHeight,
-      child: _buildFocus(
-        context: context,
-        maxWidth: maxWidth,
-        maxHeight: maxHeight,
-        mainTile: mainTile,
-        secondary: secondary,
-        compact: compact,
-        expandMiniGrid: layout.isFocusMiniGridExpanded,
-        isFilmstripCollapsed:
-            layout.isFilmstripCollapsed || isActiveScreenShareMain,
-        room: room,
-        me: me,
-        localConnectionId: localConnectionId,
-        authToken: authToken,
-        baseUrl: baseUrl,
-        l10n: l10n,
+      child: Padding(
+        padding: stageInsets,
+        child: _buildFocus(
+          context: context,
+          maxWidth: innerWidth,
+          maxHeight: innerHeight,
+          mainTile: mainTile,
+          secondary: secondary,
+          watchedTileIds: watchedTileIds,
+          compact: compact,
+          expandMiniGrid: layout.isFocusMiniGridExpanded,
+          isFilmstripCollapsed:
+              layout.isFilmstripCollapsed || isScreenShareMain,
+          room: room,
+          me: me,
+          localConnectionId: localConnectionId,
+          baseUrl: baseUrl,
+          l10n: l10n,
+        ),
       ),
     );
+  }
+
+  void _scheduleClearStalePin() {
+    if (_stalePinScheduled) {
+      return;
+    }
+    _stalePinScheduled = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _stalePinScheduled = false;
+      if (!mounted) {
+        return;
+      }
+      ref.read(voiceCallLayoutProvider.notifier).clearStalePin();
+    });
   }
 
   Widget _wrapLayoutSurface({
@@ -767,246 +784,33 @@ class _VoiceChannelParticipantGridState
               channelId: widget.channelId,
               guildId: widget.guildId,
             ),
+            const _VoiceCallViewModeToggle(),
           ],
         ),
       ),
     );
   }
 
-  _VoiceGridTileItem _autoMainTile(List<_VoiceGridTileItem> tiles) {
-    // Default to the highest-priority non-screen-share tile so that watching a
-    // stream stays an explicit choice (tap to watch / stop watching). A
-    // screen-share only becomes the main tile when there is nothing else to
-    // show, or when the user explicitly pins it.
-    for (final _VoiceGridTileItem tile in tiles) {
-      if (tile.source != VoiceParticipantTileSource.screenShare) {
-        return tile;
-      }
-    }
-    return tiles.first;
-  }
-
-  double? _resolveTileAspectRatio(
-    _VoiceGridTileItem tile,
-    Room? room,
+  _VoiceGridTileItem _autoMainTile(
+    List<_VoiceGridTileItem> tiles, {
     String? me,
-    String? localConnectionId,
-  ) {
-    final Participant? participant = _resolveParticipant(
-      tile,
-      room,
-      me,
-      localConnectionId,
-    );
-    if (participant == null) {
-      return null;
-    }
-    final TrackPublication? publication =
-        tile.source == VoiceParticipantTileSource.screenShare
-        ? resolveScreenShareVideoPublication(
-            participant: participant,
-            requireTrack: false,
-          )
-        : resolveCameraPublicationAllowingNoTrack(participant);
-    final VideoDimensions? dimensions = publication?.dimensions;
-    if (dimensions == null || dimensions.width <= 0 || dimensions.height <= 0) {
-      return null;
-    }
-    return dimensions.width / dimensions.height;
-  }
-
-  Widget _buildHangout({
-    required BuildContext context,
-    required double maxWidth,
-    required double maxHeight,
-    required List<_VoiceGridTileItem> tiles,
-    required _VoiceGridTileItem? selfTile,
-    required bool compact,
-    required VoiceCallDisplayPreferencesState displayPreferences,
-    required Room? room,
-    required String? me,
-    required String? localConnectionId,
-    required String? authToken,
-    required String? baseUrl,
-    required FluxerLocalizations l10n,
   }) {
-    final bool landscape = maxWidth > maxHeight;
-    const EdgeInsets padding = EdgeInsets.all(voiceGridEdgePaddingPx);
-    final double innerWidth = maxWidth - padding.horizontal;
-    final double innerHeight = maxHeight - padding.vertical;
-    final double? singleAspect = tiles.length == 1
-        ? _resolveTileAspectRatio(tiles.first, room, me, localConnectionId)
-        : null;
-    final List<Rect> rects = tiles.length == 1
-        ? <Rect>[
-            voiceHangoutCenteredAspectRect(
-              width: innerWidth,
-              height: innerHeight,
-              aspectRatio: singleAspect ?? voiceGridTileAspectRatio,
-            ),
-          ]
-        : voiceHangoutTileRects(
-            tileCount: tiles.length,
-            width: innerWidth,
-            height: innerHeight,
-            landscape: landscape,
-          );
-    final List<Widget> positioned = <Widget>[];
-    final Duration moveDuration = _tileMoveDuration(context);
-    for (int i = 0; i < tiles.length; i++) {
-      final Rect rect = rects[i];
-      positioned.add(
-        AnimatedPositioned(
-          key: ValueKey<String>(tiles[i].tileId),
-          duration: moveDuration,
-          curve: _kTileMoveCurve,
-          left: padding.left + rect.left,
-          top: padding.top + rect.top,
-          width: rect.width,
-          height: rect.height,
-          child: RepaintBoundary(
-            child: _TileEnterAnimation(
-              child: _buildCard(
-                context: context,
-                tile: tiles[i],
-                room: room,
-                me: me,
-                localConnectionId: localConnectionId,
-                authToken: authToken,
-                baseUrl: baseUrl,
-                l10n: l10n,
-                isFocusMain: tiles.length == 1,
-                isActiveScreenShare: false,
-                fillContainer: true,
-              ),
-            ),
-          ),
-        ),
-      );
+    _VoiceGridTileItem? selfCamera;
+    for (final _VoiceGridTileItem tile in tiles) {
+      if (tile.source == VoiceParticipantTileSource.screenShare) {
+        continue;
+      }
+      final bool isSelfCamera =
+          me != null &&
+          tile.data.userId == me &&
+          tile.source == VoiceParticipantTileSource.camera;
+      if (isSelfCamera) {
+        selfCamera = tile;
+        continue;
+      }
+      return tile;
     }
-    if (selfTile != null) {
-      positioned.add(
-        _buildFloatingSelfTile(
-          context: context,
-          tile: selfTile,
-          compact: compact,
-          isMinimized: displayPreferences.isSelfViewMinimized,
-          room: room,
-          me: me,
-          localConnectionId: localConnectionId,
-          authToken: authToken,
-          baseUrl: baseUrl,
-          l10n: l10n,
-        ),
-      );
-    }
-    return Stack(children: positioned);
-  }
-
-  Widget _buildFloatingSelfTile({
-    required BuildContext context,
-    required _VoiceGridTileItem tile,
-    required bool compact,
-    required bool isMinimized,
-    required Room? room,
-    required String? me,
-    required String? localConnectionId,
-    required String? authToken,
-    required String? baseUrl,
-    required FluxerLocalizations l10n,
-  }) {
-    final EdgeInsets viewPadding = MediaQuery.viewPaddingOf(context);
-    if (isMinimized) {
-      return AnimatedPositioned(
-        key: ValueKey<String>('float-${tile.tileId}'),
-        duration: _tileMoveDuration(context),
-        curve: _kTileMoveCurve,
-        right: 8 + viewPadding.right,
-        bottom: 8 + viewPadding.bottom,
-        child: Material(
-          color: context.colors.backgroundFloating,
-          borderRadius: const BorderRadius.horizontal(
-            left: Radius.circular(14),
-          ),
-          child: InkWell(
-            borderRadius: const BorderRadius.horizontal(
-              left: Radius.circular(14),
-            ),
-            onTap: () {
-              ref
-                  .read(voiceCallDisplayPreferencesProvider.notifier)
-                  .setSelfViewMinimized(value: false);
-            },
-            child: SizedBox(
-              width: 28,
-              height: 56,
-              child: Center(
-                child: PhosphorIcon(
-                  PhosphorIconsBold.caretLeft,
-                  color: context.colors.textSecondary,
-                  size: 16,
-                ),
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-    final double width = voiceHangoutFloatingSelfWidth(compact: compact);
-    final double height = voiceHangoutFloatingSelfHeight(compact: compact);
-    return AnimatedPositioned(
-      key: ValueKey<String>('float-${tile.tileId}'),
-      duration: _tileMoveDuration(context),
-      curve: _kTileMoveCurve,
-      right: 12 + viewPadding.right,
-      bottom: 12 + viewPadding.bottom,
-      child: SizedBox(
-        width: width,
-        height: height,
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: <Widget>[
-            _buildCard(
-              context: context,
-              tile: tile,
-              room: room,
-              me: me,
-              localConnectionId: localConnectionId,
-              authToken: authToken,
-              baseUrl: baseUrl,
-              l10n: l10n,
-              isFocusMain: false,
-              isActiveScreenShare: false,
-              isFilmstrip: true,
-            ),
-            Positioned(
-              top: 4,
-              right: 4,
-              child: Material(
-                color: context.colors.backgroundFloating.withValues(alpha: 0.9),
-                shape: const CircleBorder(),
-                child: InkWell(
-                  customBorder: const CircleBorder(),
-                  onTap: () {
-                    ref
-                        .read(voiceCallDisplayPreferencesProvider.notifier)
-                        .setSelfViewMinimized(value: true);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: PhosphorIcon(
-                      PhosphorIconsBold.minus,
-                      size: 14,
-                      color: context.colors.textPrimary,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+    return selfCamera ?? tiles.first;
   }
 
   Widget _buildPaginatedGrid({
@@ -1014,12 +818,12 @@ class _VoiceChannelParticipantGridState
     required double maxWidth,
     required double maxHeight,
     required List<_VoiceGridTileItem> tiles,
+    required Set<String> watchedTileIds,
     required int tilesPerPage,
     required bool compact,
     required Room? room,
     required String? me,
     required String? localConnectionId,
-    required String? authToken,
     required String? baseUrl,
     required FluxerLocalizations l10n,
   }) {
@@ -1062,10 +866,10 @@ class _VoiceChannelParticipantGridState
                   maxHeight: maxHeight - 24,
                   metrics: packed.metrics,
                   tiles: pages[pageIndex],
+                  watchedTileIds: watchedTileIds,
                   room: room,
                   me: me,
                   localConnectionId: localConnectionId,
-                  authToken: authToken,
                   baseUrl: baseUrl,
                   l10n: l10n,
                 ),
@@ -1092,16 +896,25 @@ class _VoiceChannelParticipantGridState
     required double maxHeight,
     required VoiceGridLayoutMetrics metrics,
     required List<_VoiceGridTileItem> tiles,
+    required Set<String> watchedTileIds,
     required Room? room,
     required String? me,
     required String? localConnectionId,
-    required String? authToken,
     required String? baseUrl,
     required FluxerLocalizations l10n,
   }) {
+    final ({double width, double height}) placed = voiceGridPlacedTileSize(
+      cellWidth: metrics.tileWidth,
+      cellHeight: metrics.tileHeight,
+      tileCount: tiles.length,
+      squareTile:
+          tiles.length == 1 &&
+          tiles.first.source == VoiceParticipantTileSource.camera &&
+          !tiles.first.data.voice.selfVideo,
+    );
     final int columns = math.max(1, metrics.columns);
-    final double tileW = metrics.tileWidth;
-    final double tileH = metrics.tileHeight;
+    final double tileW = placed.width;
+    final double tileH = placed.height;
     final double gap = metrics.gap;
     final double availableWidth = metrics.availableWidth;
     final double availableHeight = metrics.availableHeight;
@@ -1141,11 +954,11 @@ class _VoiceChannelParticipantGridState
                 room: room,
                 me: me,
                 localConnectionId: localConnectionId,
-                authToken: authToken,
                 baseUrl: baseUrl,
                 l10n: l10n,
                 isFocusMain: false,
-                isActiveScreenShare: false,
+                isActiveScreenShare: watchedTileIds.contains(tile.tileId),
+                fillContainer: true,
               ),
             ),
           ),
@@ -1165,13 +978,13 @@ class _VoiceChannelParticipantGridState
     required double maxHeight,
     required _VoiceGridTileItem mainTile,
     required List<_VoiceGridTileItem> secondary,
+    required Set<String> watchedTileIds,
     required bool compact,
     required bool expandMiniGrid,
     required bool isFilmstripCollapsed,
     required Room? room,
     required String? me,
     required String? localConnectionId,
-    required String? authToken,
     required String? baseUrl,
     required FluxerLocalizations l10n,
   }) {
@@ -1181,14 +994,16 @@ class _VoiceChannelParticipantGridState
       compact: compact,
       landscape: landscape,
     );
-    final bool isActiveScreenShareMain =
+    final bool isScreenShareMain =
         mainTile.source == VoiceParticipantTileSource.screenShare;
-    final double? trackAspect = _resolveTileAspectRatio(
-      mainTile,
-      room,
-      me,
-      localConnectionId,
-    );
+    final EdgeInsets mainPadding = isScreenShareMain
+        ? EdgeInsets.zero
+        : EdgeInsets.fromLTRB(
+            voiceGridEdgePaddingPx,
+            voiceGridEdgePaddingPx,
+            landscape && hasSecondary ? 0 : voiceGridEdgePaddingPx,
+            !landscape && hasSecondary ? 0 : voiceGridEdgePaddingPx,
+          );
     final Widget mainStage = RepaintBoundary(
       child: _buildCard(
         context: context,
@@ -1196,31 +1011,21 @@ class _VoiceChannelParticipantGridState
         room: room,
         me: me,
         localConnectionId: localConnectionId,
-        authToken: authToken,
         baseUrl: baseUrl,
         l10n: l10n,
         isFocusMain: true,
-        isActiveScreenShare: isActiveScreenShareMain,
+        isActiveScreenShare: watchedTileIds.contains(mainTile.tileId),
         fillContainer: true,
+        edgeToEdge: isScreenShareMain,
       ),
     );
-    final Widget mainExpanded = isActiveScreenShareMain
+    final Widget mainExpanded = isScreenShareMain
         ? mainStage
-        : LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              final Rect rect = voiceHangoutCenteredAspectRect(
-                width: constraints.maxWidth,
-                height: constraints.maxHeight,
-                aspectRatio: trackAspect ?? voiceGridTileAspectRatio,
-              );
-              return Align(
-                child: SizedBox(
-                  width: rect.width,
-                  height: rect.height,
-                  child: mainStage,
-                ),
-              );
-            },
+        : Align(
+            child: AspectRatio(
+              aspectRatio: voiceGridTileAspectRatio,
+              child: mainStage,
+            ),
           );
     Widget filmstripTile(_VoiceGridTileItem tile) {
       final bool isFocusedMirror = tile.tileId == mainTile.tileId;
@@ -1233,11 +1038,10 @@ class _VoiceChannelParticipantGridState
             room: room,
             me: me,
             localConnectionId: localConnectionId,
-            authToken: authToken,
             baseUrl: baseUrl,
             l10n: l10n,
             isFocusMain: false,
-            isActiveScreenShare: false,
+            isActiveScreenShare: watchedTileIds.contains(tile.tileId),
             isFilmstrip: true,
             omitVideoTrack: isFocusedMirror,
           ),
@@ -1257,15 +1061,7 @@ class _VoiceChannelParticipantGridState
       return Row(
         children: <Widget>[
           Expanded(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(
-                voiceGridEdgePaddingPx,
-                voiceGridEdgePaddingPx,
-                hasSecondary ? 0 : voiceGridEdgePaddingPx,
-                voiceGridEdgePaddingPx,
-              ),
-              child: mainExpanded,
-            ),
+            child: Padding(padding: mainPadding, child: mainExpanded),
           ),
           if (hasSecondary) ...<Widget>[
             const SizedBox(width: 10),
@@ -1299,15 +1095,7 @@ class _VoiceChannelParticipantGridState
     return Column(
       children: <Widget>[
         Expanded(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(
-              voiceGridEdgePaddingPx,
-              voiceGridEdgePaddingPx,
-              voiceGridEdgePaddingPx,
-              hasSecondary ? 0 : voiceGridEdgePaddingPx,
-            ),
-            child: mainExpanded,
-          ),
+          child: Padding(padding: mainPadding, child: mainExpanded),
         ),
         if (hasSecondary) ...<Widget>[
           const SizedBox(height: 10),
@@ -1407,7 +1195,6 @@ class _VoiceChannelParticipantGridState
     required Room? room,
     required String? me,
     required String? localConnectionId,
-    required String? authToken,
     required String? baseUrl,
     required FluxerLocalizations l10n,
     required bool isFocusMain,
@@ -1415,6 +1202,7 @@ class _VoiceChannelParticipantGridState
     bool isFilmstrip = false,
     bool fillContainer = false,
     bool omitVideoTrack = false,
+    bool edgeToEdge = false,
   }) {
     final bool featured = tile.tileId == _featuredTileId;
     final bool hostFeatured = featured && voicePipHostsFeatured(_pipPhase);
@@ -1433,21 +1221,20 @@ class _VoiceChannelParticipantGridState
       isFilmstrip: isFilmstrip,
       fillContainer: fillContainer,
       extraDeviceCount: tile.extraDeviceCount,
-      streamPreviewUrl: _disableStreamPreviews
-          ? null
-          : buildViewerStreamPreviewUrl(
-              baseUrl: baseUrl,
-              voice: tile.data.voice,
-              isScreenShareTile:
-                  tile.source == VoiceParticipantTileSource.screenShare,
-            ),
-      authToken: authToken,
+      streamPreviewUrl: buildViewerStreamPreviewUrl(
+        baseUrl: baseUrl,
+        voice: tile.data.voice,
+        isScreenShareTile:
+            tile.source == VoiceParticipantTileSource.screenShare,
+      ),
       onTap: () => _onTileTap(tile, isFocusMain),
-      onStopWatching: _stopWatching,
+      onWatch: () => _watchStream(tile),
+      onStopWatching: () => _stopWatching(tile.tileId),
       onContextMenu: (Offset position) =>
           _showParticipantMenu(context, ref, tile, position: position),
       l10n: l10n,
       omitVideoTrack: omitVideoTrack || hostFeatured || !_isConnected,
+      edgeToEdge: edgeToEdge,
     );
     Widget wrapped = card;
     if (hideFeatured) {
@@ -1506,13 +1293,14 @@ class _VoiceParticipantCard extends ConsumerWidget {
     required this.isFilmstrip,
     required this.fillContainer,
     required this.streamPreviewUrl,
-    required this.authToken,
     required this.onTap,
+    required this.onWatch,
     required this.onStopWatching,
     required this.onContextMenu,
     required this.l10n,
     this.omitVideoTrack = false,
     this.extraDeviceCount = 0,
+    this.edgeToEdge = false,
   });
 
   final VoiceChannelParticipantData data;
@@ -1527,10 +1315,11 @@ class _VoiceParticipantCard extends ConsumerWidget {
   final bool isFocusMain;
   final bool isFilmstrip;
   final bool fillContainer;
+  final bool edgeToEdge;
   final int extraDeviceCount;
   final String? streamPreviewUrl;
-  final String? authToken;
   final VoidCallback onTap;
+  final VoidCallback onWatch;
   final VoidCallback onStopWatching;
   final void Function(Offset position) onContextMenu;
   final FluxerLocalizations l10n;
@@ -1560,9 +1349,6 @@ class _VoiceParticipantCard extends ConsumerWidget {
       voice = _withLocalAudio(voice, selfMute: selfMute, selfDeaf: selfDeaf);
     }
     final int? avatarArgb = user?.avatarColor;
-    final Color cardColor = avatarArgb == null
-        ? context.colors.brandPrimary
-        : Color(0xFF000000 | avatarArgb);
     final Participant? participant = resolveVoiceParticipant(
       room: room,
       voice: voice,
@@ -1589,7 +1375,13 @@ class _VoiceParticipantCard extends ConsumerWidget {
     );
     final String speakingIdentity = participant?.identity ?? data.userId;
     final String? speakingSid = participant?.sid;
-    final BorderRadius radius = BorderRadius.circular(12);
+    final BorderRadius radius = BorderRadius.circular(edgeToEdge ? 0 : 12);
+    final Color streamSurface = context.colors.backgroundPrimary;
+    final Color cardColor = tileSource == VoiceParticipantTileSource.screenShare
+        ? streamSurface
+        : (avatarArgb == null
+              ? context.colors.brandPrimary
+              : Color(0xFF000000 | avatarArgb));
     final Widget media = VoiceParticipantMediaTile(
       room: room,
       userId: data.userId,
@@ -1601,17 +1393,16 @@ class _VoiceParticipantCard extends ConsumerWidget {
       user: user,
       tileSource: tileSource,
       isActiveScreenShare: isActiveScreenShare,
-      isFilmstrip: isFilmstrip,
       fillContainer: fillContainer,
+      videoCornerRadius: edgeToEdge ? 0 : 12,
       streamPreviewUrl: streamPreviewUrl,
-      authToken: authToken,
       isTileFocused: isFocusMain,
       pauseOwnScreenSharePreviewOnUnfocus: pauseOwnPreview,
       mirrorCamera: mirrorCamera,
       omitVideoTrack: omitVideoTrack,
       subscribeQuality: voiceCameraSubscribeQuality(
         isFilmstrip: isFilmstrip,
-        isFocusMain: isFocusMain,
+        isFocusMain: isFocusMain || (isActiveScreenShare && !isFilmstrip),
         tileWidth: fillContainer ? 800 : 0,
         tileHeight: fillContainer ? 450 : 0,
       ),
@@ -1655,7 +1446,7 @@ class _VoiceParticipantCard extends ConsumerWidget {
                     !isOwnScreenShareTile &&
                     !isActiveScreenShare &&
                     !isFilmstrip)
-                  Positioned.fill(child: _WatchStreamOverlay(onWatch: onTap)),
+                  Positioned.fill(child: _WatchStreamOverlay(onWatch: onWatch)),
                 LayoutBuilder(
                   builder: (BuildContext context, BoxConstraints constraints) {
                     final VoiceTileMetrics metrics = voiceTileMetricsForSize(
@@ -1683,8 +1474,8 @@ class _VoiceParticipantCard extends ConsumerWidget {
                             top: metrics.inset,
                             right: metrics.inset,
                             child: _StreamStatusBadge(
-                              l10n: l10n,
                               participant: participant,
+                              collectQuality: isActiveScreenShare,
                             ),
                           ),
                         if (extraDeviceCount > 0)
@@ -1729,136 +1520,206 @@ class _VoiceParticipantCard extends ConsumerWidget {
   }
 }
 
-class _StreamTrackInfo {
-  const _StreamTrackInfo({required this.height, required this.fps});
+class _StreamStatusBadge extends StatefulWidget {
+  const _StreamStatusBadge({
+    required this.participant,
+    required this.collectQuality,
+  });
 
-  final int height;
-  final int fps;
+  final Participant? participant;
+  final bool collectQuality;
+
+  @override
+  State<_StreamStatusBadge> createState() => _StreamStatusBadgeState();
 }
 
-class _StreamStatusBadge extends StatelessWidget {
-  const _StreamStatusBadge({required this.l10n, required this.participant});
+class _StreamStatusBadgeState extends State<_StreamStatusBadge> {
+  static const Duration _kPollInterval = Duration(seconds: 1);
 
-  final FluxerLocalizations l10n;
-  final Participant? participant;
+  Timer? _poll;
+  int _height = 0;
+  int _fps = 0;
+  bool _refreshing = false;
 
-  static const List<int> _kResolutionHeights = <int>[
-    480,
-    720,
-    1080,
-    1440,
-    2160,
-  ];
+  @override
+  void initState() {
+    super.initState();
+    widget.participant?.addListener(_onParticipantChanged);
+    _syncPolling();
+    unawaited(_refresh());
+  }
 
-  int _closestResolutionHeight(int height) {
-    var closest = _kResolutionHeights.first;
-    var smallestDiff = (height - closest).abs();
-    for (final int value in _kResolutionHeights) {
-      final int diff = (height - value).abs();
-      if (diff < smallestDiff) {
-        closest = value;
-        smallestDiff = diff;
+  @override
+  void didUpdateWidget(covariant _StreamStatusBadge oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.participant != widget.participant) {
+      oldWidget.participant?.removeListener(_onParticipantChanged);
+      widget.participant?.addListener(_onParticipantChanged);
+    }
+    if (oldWidget.collectQuality != widget.collectQuality) {
+      if (!widget.collectQuality) {
+        _apply(height: 0, fps: 0);
       }
+      _syncPolling();
     }
-    return closest;
+    unawaited(_refresh());
   }
 
-  String _buildResolutionLabel(int height) {
-    final int target = _closestResolutionHeight(height);
-    if (target == 2160) {
-      return '4K';
-    }
-    return '${target}p';
+  @override
+  void dispose() {
+    _poll?.cancel();
+    widget.participant?.removeListener(_onParticipantChanged);
+    super.dispose();
   }
 
-  int _extractFps(TrackPublication publication) {
-    final Track? publicationTrack = publication.track;
-    if (publicationTrack is! VideoTrack) {
-      return 0;
+  void _syncPolling() {
+    _poll?.cancel();
+    _poll = null;
+    if (!widget.collectQuality) {
+      return;
     }
+    _poll = Timer.periodic(_kPollInterval, (_) {
+      unawaited(_refresh());
+    });
+  }
+
+  void _onParticipantChanged() {
+    unawaited(_refresh());
+  }
+
+  Future<void> _refresh() async {
+    if (_refreshing) {
+      return;
+    }
+    if (!widget.collectQuality) {
+      _apply(height: 0, fps: 0);
+      return;
+    }
+    final Participant? participant = widget.participant;
+    if (participant == null) {
+      _apply(height: 0, fps: 0);
+      return;
+    }
+    _refreshing = true;
     try {
-      final Map<String, dynamic> settings = publicationTrack.mediaStreamTrack
-          .getSettings();
-      final Object? rawFrameRate =
-          settings['frameRate'] ?? settings['framerate'];
-      if (rawFrameRate is num && rawFrameRate.isFinite) {
-        return rawFrameRate.round();
+      final TrackPublication? publication = resolveScreenShareVideoPublication(
+        participant: participant,
+        requireTrack: false,
+      );
+      if (publication == null) {
+        _apply(height: 0, fps: 0);
+        return;
       }
-      if (rawFrameRate is String) {
-        return double.tryParse(rawFrameRate)?.round() ?? 0;
+      final VideoDimensions? dimensions = publication.dimensions;
+      final Track? track = publication.track;
+      var settingsWidth = 0;
+      var settingsHeight = 0;
+      var settingsFps = 0;
+      if (track is VideoTrack) {
+        try {
+          final Map<String, dynamic> settings = track.mediaStreamTrack
+              .getSettings();
+          settingsFps = voiceStreamFpsFromSettings(settings);
+          settingsWidth = voiceStreamDimensionFromSettings(settings, 'width');
+          settingsHeight = voiceStreamDimensionFromSettings(settings, 'height');
+        } on Object {
+          settingsFps = 0;
+        }
       }
-    } on Object {
-      return 0;
+      var statsFps = 0;
+      var statsHeight = 0;
+      if (track is RemoteVideoTrack) {
+        try {
+          final stats = await track.getReceiverStats();
+          statsFps = parsePositiveFrameRate(stats?.framesPerSecond);
+          statsHeight = parsePositiveInt(stats?.frameHeight);
+        } on Object {
+          statsFps = 0;
+        }
+      } else if (track is LocalVideoTrack) {
+        try {
+          final stats = await track.getSenderStats();
+          statsFps = maxPositiveFrameRate(
+            stats.map((item) => item.framesPerSecond),
+          );
+          statsHeight = voiceStreamHeightFromLargestFrame(
+            widths: stats.map((item) => item.frameWidth),
+            heights: stats.map((item) => item.frameHeight),
+          );
+        } on Object {
+          statsFps = 0;
+        }
+      }
+      var captureFps = 0;
+      if (track is LocalVideoTrack) {
+        final VideoCaptureOptions options = track.currentOptions;
+        captureFps = firstPositiveFrameRate(<int>[
+          parsePositiveFrameRate(options.maxFrameRate),
+          parsePositiveFrameRate(options.params.encoding?.maxFramerate),
+        ]);
+      }
+      _apply(
+        height: resolveVoiceStreamLabelHeight(
+          statsHeight: statsHeight,
+          settingsWidth: settingsWidth,
+          settingsHeight: settingsHeight,
+          publicationWidth: dimensions?.width ?? 0,
+          publicationHeight: dimensions?.height ?? 0,
+        ),
+        fps: firstPositiveFrameRate(<int>[settingsFps, statsFps, captureFps]),
+      );
+    } finally {
+      _refreshing = false;
     }
-    return 0;
   }
 
-  _StreamTrackInfo? _resolveInfo() {
-    final Participant? p = participant;
-    if (p == null) {
-      return null;
+  void _apply({required int height, required int fps}) {
+    if (!mounted) {
+      return;
     }
-    final TrackPublication? publication = resolveScreenShareVideoPublication(
-      participant: p,
-      requireTrack: false,
-    );
-    if (publication == null) {
-      return null;
+    if (height == _height && fps == _fps) {
+      return;
     }
-    final VideoDimensions? dimensions = publication.dimensions;
-    if (dimensions == null || dimensions.width <= 0 || dimensions.height <= 0) {
-      return null;
-    }
-    return _StreamTrackInfo(
-      height: math.min(dimensions.width, dimensions.height),
-      fps: _extractFps(publication),
-    );
+    setState(() {
+      _height = height;
+      _fps = fps;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final Participant? p = participant;
-    if (p == null) {
-      return const FluxerLiveBadge();
+    if (_height <= 0) {
+      return const FluxerLiveBadge(tone: FluxerLiveBadgeTone.voiceTile);
     }
-    return ListenableBuilder(
-      listenable: p,
-      builder: (BuildContext context, Widget? child) {
-        final _StreamTrackInfo? info = _resolveInfo();
-        if (info == null) {
-          return const FluxerLiveBadge();
-        }
-        final String resolutionText = _buildResolutionLabel(info.height);
-        final String fpsText = info.fps > 0 ? '${info.fps} FPS' : '';
-        final String label = fpsText.isEmpty
-            ? resolutionText
-            : '$resolutionText $fpsText';
-        return Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            DecoratedBox(
-              decoration: BoxDecoration(
-                color: context.colors.backgroundSecondary,
-                borderRadius: BorderRadius.circular(9999),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+    final String label = voiceStreamQualityLabel(height: _height, fps: _fps);
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        DecoratedBox(
+          decoration: voiceTileHudChipDecoration(
+            color: const Color(0xFF000000),
+          ),
+          child: SizedBox(
+            height: kVoiceTileHudChipHeight,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6),
+              child: Center(
                 child: Text(
                   label,
-                  style: context.textStyles.timestamp.copyWith(
-                    color: context.colors.textSecondary,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w500,
+                  style: const TextStyle(
+                    color: Color(0xFFFFFFFF),
+                    fontSize: 10,
+                    fontWeight: FontWeight.w600,
                     height: 1.2,
                   ),
                 ),
               ),
             ),
-            const SizedBox(width: 6),
-            const FluxerLiveBadge(),
-          ],
-        );
-      },
+          ),
+        ),
+        const SizedBox(width: 4),
+        const FluxerLiveBadge(tone: FluxerLiveBadgeTone.voiceTile),
+      ],
     );
   }
 }
@@ -1880,50 +1741,45 @@ class _WatchStreamOverlay extends StatelessWidget {
         Center(
           child: Material(
             color: Colors.transparent,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6),
-                    color: context.colors.backgroundSecondary,
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.18),
-                        blurRadius: 4,
-                        offset: const Offset(0, 1),
+            child: InkWell(
+              onTap: onWatch,
+              borderRadius: BorderRadius.circular(6),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6),
+                  color: context.colors.backgroundSecondary,
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.18),
+                      blurRadius: 4,
+                      offset: const Offset(0, 1),
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      PhosphorIcon(
+                        PhosphorIconsFill.monitorPlay,
+                        size: 18,
+                        color: context.colors.textPrimary,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        l10n.voiceWatchStream,
+                        style: context.textStyles.categoryName.copyWith(
+                          color: context.colors.textPrimary,
+                        ),
                       ),
                     ],
                   ),
-                  child: InkWell(
-                    onTap: onWatch,
-                    borderRadius: BorderRadius.circular(6),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          PhosphorIcon(
-                            PhosphorIconsFill.monitorPlay,
-                            size: 18,
-                            color: context.colors.textPrimary,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            l10n.voiceWatchStream,
-                            style: context.textStyles.categoryName.copyWith(
-                              color: context.colors.textPrimary,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
                 ),
-              ],
+              ),
             ),
           ),
         ),
@@ -2162,6 +2018,73 @@ class _ExtraDevicesChip extends StatelessWidget {
           '+$count',
           style: context.textStyles.smallText.copyWith(
             color: context.colors.textPrimary,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _VoiceCallViewModeToggle extends ConsumerWidget {
+  const _VoiceCallViewModeToggle();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final VoiceCallLayoutMode mode = ref.watch(
+      voiceCallLayoutProvider.select(
+        (VoiceCallLayoutState state) => state.mode,
+      ),
+    );
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final bool isFocus = mode == VoiceCallLayoutMode.focus;
+    final String label = isFocus
+        ? l10n.voiceCallViewModeGrid
+        : l10n.voiceCallViewModeFocus;
+    return _TileHudVisibility(
+      child: SafeArea(
+        child: Align(
+          alignment: AlignmentDirectional.topStart,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+            child: Semantics(
+              button: true,
+              label: label,
+              child: Tooltip(
+                message: label,
+                child: Material(
+                  color: context.colors.backgroundFloating.withValues(
+                    alpha: 0.85,
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                  child: InkWell(
+                    key: kVoiceCallViewModeToggleKey,
+                    onTap: () {
+                      ref
+                          .read(voiceCallLayoutProvider.notifier)
+                          .setMode(
+                            isFocus
+                                ? VoiceCallLayoutMode.grid
+                                : VoiceCallLayoutMode.focus,
+                          );
+                    },
+                    borderRadius: BorderRadius.circular(20),
+                    child: SizedBox(
+                      width: 40,
+                      height: 40,
+                      child: Center(
+                        child: PhosphorIcon(
+                          isFocus
+                              ? PhosphorIconsFill.squaresFour
+                              : PhosphorIconsFill.userFocus,
+                          size: 20,
+                          color: context.colors.textPrimary,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
         ),
       ),

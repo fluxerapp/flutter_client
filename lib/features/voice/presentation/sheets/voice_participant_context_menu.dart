@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_participant_menu_widgets.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_participant_volume_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_screen_share_watch_tile_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_stream_audio_provider.dart';
 import 'package:fluxer_app/features/voice/utils/voice_participant_menu_capabilities.dart';
@@ -58,6 +59,7 @@ class VoiceParticipantContextMenu {
     return FluxerBottomSheet.showScrollable<void>(
       context,
       useRootNavigator: true,
+      initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
       minChildSize: 0.25,
       builder: (sheetContext, scrollController, close) {
         return _VoiceParticipantContextMenuPanel(
@@ -128,6 +130,9 @@ class VoiceParticipantContextMenu {
             userVolume: l10n.voiceParticipantMenuUserVolume,
             streamVolume: l10n.voiceParticipantMenuStreamVolume,
             prioritizeSpeakers: l10n.voicePrioritizeSpeakersLabel,
+            watchStream: l10n.voiceWatchStream,
+            stopWatching: l10n.voiceStopWatching,
+            stopStreaming: l10n.voiceParticipantMenuStopStreaming,
           ),
           onViewProfile: () {
             close();
@@ -216,6 +221,13 @@ class VoiceParticipantContextMenu {
               _setStreamVolume(ref, capabilities.streamKey, value),
           onToggleStreamMute: (bool muted) =>
               _setStreamMuted(ref, capabilities.streamKey, muted: muted),
+          onToggleLocalMute: (bool muted) {
+            unawaited(
+              ref
+                  .read(voiceParticipantVolumeProvider.notifier)
+                  .setMuted(userId, muted: muted),
+            );
+          },
           onTogglePrioritizeSpeakers: (bool value) {
             unawaited(
               ref
@@ -223,7 +235,34 @@ class VoiceParticipantContextMenu {
                   .setPrioritizeSpeakingParticipants(value: value),
             );
           },
+          onWatchStream: () {
+            ref
+                .read(voiceScreenShareWatchTileProvider.notifier)
+                .watch(target.tileId);
+            close();
+          },
+          onStopWatching: () {
+            ref
+                .read(voiceScreenShareWatchTileProvider.notifier)
+                .unwatch(target.tileId);
+            close();
+          },
+          onStopStreaming: () {
+            close();
+            unawaited(
+              ref
+                  .read(voiceSessionProvider.notifier)
+                  .toggleSelfStream(
+                    screenShareNotificationText:
+                        l10n.voiceScreenShareNotificationText,
+                  ),
+            );
+          },
         );
+
+    if (capabilities.isScreenShareTile) {
+      return groups;
+    }
 
     if ((roleMenuState?.shouldShowRolesSubmenu ?? false) && guildId != null) {
       final GuildMemberMenuState menuState = roleMenuState!;

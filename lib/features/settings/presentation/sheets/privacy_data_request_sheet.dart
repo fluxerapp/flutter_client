@@ -36,6 +36,7 @@ class PrivacyDataRequestSheet extends ConsumerStatefulWidget {
       context,
       title: title,
       useRootNavigator: true,
+      initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
       builder: (sheetContext, scrollController, close) {
         return PrivacyDataRequestSheet(variant: variant, onClose: close);
       },

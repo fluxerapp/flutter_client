@@ -2369,9 +2369,14 @@ class VoiceSession extends _$VoiceSession {
     final bool participantVolumesChanged =
         previous == null ||
         previous.participantVolumes != next.participantVolumes;
+    final bool participantLocalMutesChanged =
+        previous == null ||
+        previous.participantLocalMutes != next.participantLocalMutes;
     final bool outputVolumeChanged =
         previous == null || previous.outputVolume != next.outputVolume;
-    if (participantVolumesChanged || outputVolumeChanged) {
+    if (participantVolumesChanged ||
+        participantLocalMutesChanged ||
+        outputVolumeChanged) {
       await applyAllParticipantVolumes();
     }
   }
@@ -2386,6 +2391,7 @@ class VoiceSession extends _$VoiceSession {
         userId: userId,
       ),
       outputVolumePercent: settings.outputVolume,
+      locallyMuted: settings.participantLocalMutes[userId] ?? false,
     );
   }
 
@@ -2394,6 +2400,7 @@ class VoiceSession extends _$VoiceSession {
     await applyAllParticipantVolumesToRoom(
       room: state.liveKitRoom,
       participantVolumes: settings.participantVolumes,
+      participantLocalMutes: settings.participantLocalMutes,
       outputVolumePercent: settings.outputVolume,
     );
   }
@@ -2424,6 +2431,7 @@ class VoiceSession extends _$VoiceSession {
           userId: userId,
         ),
         outputVolumePercent: settings.outputVolume,
+        locallyMuted: settings.participantLocalMutes[userId] ?? false,
       );
     } on Object catch (error) {
       talker.warning('[Voice] Failed to apply participant volume: $error');

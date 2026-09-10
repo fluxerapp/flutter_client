@@ -147,12 +147,13 @@ abstract final class FluxerMediaUrl {
     bool animated = false,
     int? size,
   }) {
+    // Animated renditions must stay lossless: the proxy's lossy re-encode
+    // returns VP8+ALPH that Flutter's codec cannot decode (#776).
     final Map<String, String> query = <String, String>{};
     if (animated) {
       query['animated'] = 'true';
-    } else {
-      query['quality'] = 'lossless';
     }
+    query['quality'] = 'lossless';
     if (size != null) {
       query['size'] = '$size';
     }

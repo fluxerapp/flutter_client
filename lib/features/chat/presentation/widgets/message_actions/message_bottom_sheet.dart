@@ -32,6 +32,7 @@ import 'package:fluxer_app/features/voice/tts/tts_locale_utils.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -76,6 +77,7 @@ Future<MessageAction?> showMessageBottomSheet(
   ValueChanged<QuickReactionItem>? onQuickReaction,
   MessageActionCallbacks? attachmentCallbacks,
   bool isSendDisabled = false,
+  String? linkUrl,
 }) {
   final MessageActionPermissions permissions = MessageActionPermissions(
     isOwnMessage: isOwnMessage,
@@ -100,6 +102,8 @@ Future<MessageAction?> showMessageBottomSheet(
       onQuickReaction: onQuickReaction,
       attachmentCallbacks: attachmentCallbacks,
       scrollController: scrollController,
+      hostContext: context,
+      linkUrl: linkUrl,
     ),
   );
 }
@@ -129,9 +133,7 @@ Future<void> dispatchMessageAction({
     case MessageAction.edit:
       callbacks.onEdit?.call();
     case MessageAction.delete:
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        callbacks.onDelete?.call();
-      });
+      _runAfterModalSettles(context, () => callbacks.onDelete?.call());
     case MessageAction.retry:
       callbacks.onRetry?.call();
     case MessageAction.deleteFailed:
@@ -624,8 +626,10 @@ class _MessageBottomSheetBody extends ConsumerWidget {
     required this.permissions,
     required this.quickItems,
     required this.scrollController,
+    required this.hostContext,
     this.onQuickReaction,
     this.attachmentCallbacks,
+    this.linkUrl,
   });
 
   final Message message;
@@ -634,12 +638,49 @@ class _MessageBottomSheetBody extends ConsumerWidget {
   final ValueChanged<QuickReactionItem>? onQuickReaction;
   final MessageActionCallbacks? attachmentCallbacks;
   final ScrollController scrollController;
+  final BuildContext hostContext;
+  final String? linkUrl;
 
   void _pop(BuildContext context, MessageAction action) =>
       Navigator.of(context).pop(action);
 
+  Future<void> _openLink(BuildContext context, String url) async {
+    Navigator.of(context).pop();
+    if (!hostContext.mounted) {
+      return;
+    }
+    await handleExternalLinkTap(hostContext, url);
+  }
+
+  Future<void> _copyLink(BuildContext context, String url) async {
+    Navigator.of(context).pop();
+    if (!hostContext.mounted) {
+      return;
+    }
+    await copyToClipboard(context: hostContext, value: url);
+  }
+
+  Widget _linkGroup(BuildContext context, String url) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    return FluxerMenuGroup(
+      children: [
+        FluxerBottomSheetMenuItem(
+          icon: PhosphorIconsFill.arrowSquareOut,
+          label: l10n.chatMessageOpenLink,
+          onTap: () => unawaited(_openLink(context, url)),
+        ),
+        FluxerBottomSheetMenuItem(
+          icon: PhosphorIconsBold.link,
+          label: l10n.chatMessageCopyLink,
+          onTap: () => unawaited(_copyLink(context, url)),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final String? url = linkUrl;
     final List<Widget> groups = buildMessageActionMenuGroups(
       context: context,
       ref: ref,
@@ -678,7 +719,9 @@ class _MessageBottomSheetBody extends ConsumerWidget {
             ),
             const SizedBox(height: 8),
           ],
-          FluxerBottomSheetGroupColumn(children: groups),
+          FluxerBottomSheetGroupColumn(
+            children: [if (url != null) _linkGroup(context, url), ...groups],
+          ),
         ],
       ),
     );

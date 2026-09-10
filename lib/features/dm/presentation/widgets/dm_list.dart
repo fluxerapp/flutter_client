@@ -578,9 +578,7 @@ class _DMListState extends ConsumerState<DMList> {
                 context,
                 onTap: () =>
                     unawaited(QuickSwitcherBottomSheet.show(context, ref)),
-                width: 32,
-                height: 32,
-                borderRadius: BorderRadius.circular(16),
+                padding: const EdgeInsets.all(8),
                 child: PhosphorIcon(
                   PhosphorIconsBold.magnifyingGlass,
                   size: 20,
@@ -1047,6 +1045,7 @@ class _DMListState extends ConsumerState<DMList> {
       title: displayName,
       leading: _DmContextMenuLeading(convo: convo, displayName: displayName),
       subtitle: convo.isGroup ? _DmContextMenuSubtitle(convo: convo) : null,
+      initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
       builder: (sheetContext, scrollController, _) => _DmBottomSheet(
         convo: convo,
         scrollController: scrollController,
@@ -1838,6 +1837,7 @@ class _DmBottomSheet extends ConsumerWidget {
         context,
         title: l10n.dmMuteConversation,
         onBack: () => Navigator.of(context).pop(),
+        initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
         builder: (sheetContext, scrollController, _) {
           final layout = sheetContext.layout;
           return ListView(
@@ -1871,6 +1871,7 @@ class _DmBottomSheet extends ConsumerWidget {
         context,
         title: l10n.dmInviteToCommunity,
         onBack: () => Navigator.of(context).pop(),
+        initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
         builder: (sheetContext, scrollController, _) =>
             _DmInviteSheet(scrollController: scrollController),
       ).then((result) {

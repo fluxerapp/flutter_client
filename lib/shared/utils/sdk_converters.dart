@@ -70,6 +70,7 @@ db.ServersCompanion guildFromSdk(
     defaultMessageNotifications: Value(
       sdk.defaultMessageNotifications.json ?? 0,
     ),
+    vanityUrlCode: Value(sdk.vanityUrlCode),
   );
 }
 

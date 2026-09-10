@@ -7,11 +7,12 @@ import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_menu_data.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
-import 'package:fluxer_app/features/voice/providers/voice_participant_volume_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_screen_share_watch_tile_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_stream_audio_provider.dart';
 import 'package:fluxer_app/features/voice/utils/voice_effective_audio_state.dart';
+import 'package:fluxer_app/features/voice/utils/voice_grid_layout/voice_call_visual_layout.dart';
 import 'package:fluxer_app/features/voice/utils/voice_participant_track_resolver.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:livekit_client/livekit_client.dart';
@@ -30,8 +31,12 @@ class VoiceParticipantMenuCapabilities {
     required this.isSelfDeafened,
     required this.isCommunityMuted,
     required this.isCommunityDeafened,
+    required this.isScreenShareTile,
+    required this.isOwnScreenShare,
+    required this.isWatching,
     required this.showVolume,
     required this.volumePercent,
+    required this.isLocallyMuted,
     required this.showStreamControls,
     required this.streamVolumePercent,
     required this.isStreamMuted,
@@ -52,8 +57,12 @@ class VoiceParticipantMenuCapabilities {
   final bool isSelfDeafened;
   final bool isCommunityMuted;
   final bool isCommunityDeafened;
+  final bool isScreenShareTile;
+  final bool isOwnScreenShare;
+  final bool isWatching;
   final bool showVolume;
   final int volumePercent;
+  final bool isLocallyMuted;
   final bool showStreamControls;
   final int streamVolumePercent;
   final bool isStreamMuted;
@@ -112,7 +121,12 @@ VoiceParticipantMenuCapabilities buildVoiceParticipantMenuCapabilities({
   final bool isViewerInVoice =
       session.isInVoice && session.channelId == target.channelId;
   final VoiceCallLayoutState layout = ref.watch(voiceCallLayoutProvider);
-  final bool isFocused = layout.isPinned(target.tileId);
+  final bool isFocused = voiceCallTileIsFocused(
+    isFocusMode: layout.mode == VoiceCallLayoutMode.focus,
+    pinnedTileId: layout.pinnedTileId,
+    tileId: target.tileId,
+    effectiveMainTileId: layout.pinnedTileId,
+  );
   final bool canFocus = isViewerInVoice;
   final EffectiveAudioState selfAudio = effectiveAudioStateFromVoiceState(
     voiceState: isCurrentUser ? voice : null,
@@ -136,6 +150,13 @@ VoiceParticipantMenuCapabilities buildVoiceParticipantMenuCapabilities({
     localConnectionId: session.activeConnectionId,
   );
   final bool isOwnScreenShare = target.isScreenShareTile && isOwnDevice;
+  final bool isWatching =
+      target.isScreenShareTile &&
+      ref.watch(
+        voiceScreenShareWatchTileProvider.select(
+          (Set<String> tileIds) => tileIds.contains(target.tileId),
+        ),
+      );
   final String? streamKey = buildViewerStreamKey(
     voice: voice,
     isScreenShareTile: target.isScreenShareTile,
@@ -149,15 +170,12 @@ VoiceParticipantMenuCapabilities buildVoiceParticipantMenuCapabilities({
         currentUserId: currentUserId,
         localConnectionId: session.activeConnectionId,
       );
-  final bool showConnectionVolumeControls = ref.watch(
-    voiceSettingsProvider.select((state) => state.showConnectionVolumeControls),
-  );
   final bool showStreamControls =
-      showConnectionVolumeControls &&
       target.isScreenShareTile &&
       !isOwnScreenShare &&
       hasScreenShareAudio &&
-      isViewerInVoice;
+      isViewerInVoice &&
+      isWatching;
   final VoiceStreamAudioPrefsState streamAudioPrefs = ref.watch(
     voiceStreamAudioProvider,
   );
@@ -166,21 +184,18 @@ VoiceParticipantMenuCapabilities buildVoiceParticipantMenuCapabilities({
       : streamAudioPrefs.volumeFor(streamKey);
   final bool isStreamMuted =
       streamKey != null && streamAudioPrefs.isMuted(streamKey);
-  final int volumePercent = ref
-      .watch(voiceParticipantVolumeProvider.notifier)
-      .volumeFor(userId);
+  final VoiceSettingsState settings = ref.watch(voiceSettingsProvider);
+  final int volumePercent =
+      settings.participantVolumes[userId] ?? kDefaultVoiceVolumePercent;
+  final bool isLocallyMuted = settings.participantLocalMutes[userId] ?? false;
   final bool showVolume =
-      showConnectionVolumeControls &&
       !isCurrentUser &&
       isViewerInVoice &&
       !target.isScreenShareTile &&
       !isOwnDevice;
   final bool showDisplayPreferences = isCurrentUser && isViewerInVoice;
-  final bool prioritizeSpeakingParticipants = ref.watch(
-    voiceSettingsProvider.select(
-      (VoiceSettingsState settings) => settings.prioritizeSpeakingParticipants,
-    ),
-  );
+  final bool prioritizeSpeakingParticipants =
+      settings.prioritizeSpeakingParticipants;
   return VoiceParticipantMenuCapabilities(
     isCurrentUser: isCurrentUser,
     canFocus: canFocus,
@@ -194,8 +209,12 @@ VoiceParticipantMenuCapabilities buildVoiceParticipantMenuCapabilities({
     isSelfDeafened: selfAudio.selfDeaf,
     isCommunityMuted: isCommunityMuted,
     isCommunityDeafened: isCommunityDeafened,
+    isScreenShareTile: target.isScreenShareTile,
+    isOwnScreenShare: isOwnScreenShare,
+    isWatching: isWatching,
     showVolume: showVolume,
     volumePercent: volumePercent,
+    isLocallyMuted: isLocallyMuted,
     showStreamControls: showStreamControls,
     streamVolumePercent: streamVolumePercent,
     isStreamMuted: isStreamMuted,

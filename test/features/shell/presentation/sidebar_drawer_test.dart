@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -7,6 +8,7 @@ import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.dart';
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
 import 'package:fluxer_app/shared/markdown/native_markdown_parser.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
@@ -191,6 +193,106 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(_sliderDx(tester), 400);
+  });
+
+  testWidgets('committed drawer drag keeps tracking after a vertical arc', (
+    tester,
+  ) async {
+    final router = _routerFor('/channels/guild/channel');
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(
+      _buildDrawerApp(container: container, router: router),
+    );
+
+    final gesture = await tester.startGesture(const Offset(200, 400));
+    await gesture.moveBy(const Offset(80, 0));
+    await tester.pump();
+    expect(_sliderDx(tester), 80);
+
+    await gesture.moveBy(const Offset(100, 200));
+    await tester.pump();
+    expect(_sliderDx(tester), 180);
+
+    await gesture.up();
+    await tester.pumpAndSettle();
+    expect(_sliderDx(tester), 400);
+  });
+
+  testWidgets('vertical-dominant drag from mid-chat does not open the drawer', (
+    tester,
+  ) async {
+    final router = _routerFor('/channels/guild/channel');
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(
+      _buildDrawerApp(container: container, router: router),
+    );
+
+    final gesture = await tester.startGesture(const Offset(200, 400));
+    await gesture.moveBy(const Offset(12, 40));
+    await gesture.moveBy(const Offset(0, 160));
+    await tester.pump();
+    expect(_sliderDx(tester), 0);
+    await gesture.up();
+    await tester.pumpAndSettle();
+    expect(_sliderDx(tester), 0);
+  });
+
+  testWidgets('batched first move Offset(12, 40) does not open the drawer', (
+    tester,
+  ) async {
+    final router = _routerFor('/channels/guild/channel');
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(
+      _buildDrawerApp(container: container, router: router, touchSlop: 8),
+    );
+
+    final gesture = await tester.startGesture(const Offset(200, 400));
+    await gesture.moveBy(const Offset(12, 40));
+    await gesture.moveBy(const Offset(0, 200));
+    await gesture.up();
+    await tester.pumpAndSettle();
+    expect(_sliderDx(tester), 0);
+  });
+
+  testWidgets('vertical fling does not open the drawer', (tester) async {
+    final router = _routerFor('/channels/guild/channel');
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(
+      _buildDrawerApp(container: container, router: router),
+    );
+
+    await tester.flingFrom(const Offset(200, 400), const Offset(0, 300), 2000);
+    await tester.pumpAndSettle();
+    expect(_sliderDx(tester), 0);
+  });
+
+  testWidgets('coasting message list defers the drawer', (tester) async {
+    final router = _routerFor(
+      '/channels/guild/channel',
+      harness: _drawerHarnessWithCoastDefer,
+    );
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(
+      _buildDrawerApp(container: container, router: router),
+    );
+
+    final gesture = await tester.startGesture(const Offset(200, 400));
+    await gesture.moveBy(const Offset(80, 0));
+    await tester.pump();
+    expect(_sliderDx(tester), 0);
+    await gesture.up();
+    await tester.pumpAndSettle();
+    expect(_sliderDx(tester), 0);
   });
 
   testWidgets('blocks closing swipe on guild root without a channel', (
@@ -589,6 +691,18 @@ Widget _drawerHarness() {
   );
 }
 
+Widget _drawerHarnessWithCoastDefer() {
+  return const SidebarDrawer(
+    revealDuration: Duration.zero,
+    snapBackDuration: Duration.zero,
+    base: ColoredBox(color: Colors.blue),
+    slider: DeferHorizontalDragWhileCoasting(
+      defer: true,
+      child: ColoredBox(key: _sliderKey, color: Colors.red),
+    ),
+  );
+}
+
 Widget _drawerHarnessWithWideTable() {
   return const SidebarDrawer(
     revealDuration: Duration.zero,
@@ -698,13 +812,19 @@ Widget _buildDrawerApp({
   required ProviderContainer container,
   required GoRouter router,
   Size size = const Size(400, 800),
+  double? touchSlop,
 }) {
   return UncontrolledProviderScope(
     container: container,
     child: MaterialApp.router(
       routerConfig: router,
       builder: (context, child) => MediaQuery(
-        data: MediaQueryData(size: size),
+        data: MediaQueryData(
+          size: size,
+          gestureSettings: touchSlop == null
+              ? const DeviceGestureSettings(touchSlop: kTouchSlop)
+              : DeviceGestureSettings(touchSlop: touchSlop),
+        ),
         child: child ?? const SizedBox.shrink(),
       ),
     ),

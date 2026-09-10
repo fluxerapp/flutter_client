@@ -711,6 +711,26 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get embedInviteAlreadyJoined => 'Already joined';
 
   @override
+  String get embedInviteDisabled => 'Invites disabled';
+
+  @override
+  String get embedInvitePaused => 'Invites are paused for this community.';
+
+  @override
+  String embedInvitePausedRaid(String productName) {
+    return '$productName detected a potential raid, so new users can\'t join right now.';
+  }
+
+  @override
+  String get inviteAcceptInvitesPausedTryAgain =>
+      'This community has paused invites. You can try again later.';
+
+  @override
+  String inviteAcceptRaidInvitesPaused(String productName) {
+    return '$productName detected a potential raid in this community. Invites are paused, so new users cannot join right now.';
+  }
+
+  @override
   String get inviteAcceptTitle => 'Jūs buvote pakviestas prisijungti';
 
   @override
@@ -5766,11 +5786,23 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get voiceParticipantMenuStreamVolume => 'Stream volume';
 
   @override
+  String get voiceParticipantMenuStopStreaming => 'Stop streaming';
+
+  @override
   String get voiceParticipantModerationFailed =>
       'Couldn\'t update that member. Please try again.';
 
   @override
   String get voiceControlChat => 'Pokalbis';
+
+  @override
+  String get voiceCallViewModeLabel => 'View';
+
+  @override
+  String get voiceCallViewModeGrid => 'Grid';
+
+  @override
+  String get voiceCallViewModeFocus => 'Focus';
 
   @override
   String get voicePanelSettingsSectionTitle => 'Voice settings';
@@ -6730,6 +6762,12 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get chatMessageCopyMessageLink => 'Kopijuoti žinutės nuorodą';
+
+  @override
+  String get chatMessageOpenLink => 'Open link';
+
+  @override
+  String get chatMessageCopyLink => 'Copy link';
 
   @override
   String get chatMessageCopyMessageId => 'Kopijuoti žinutės ID';
@@ -8843,6 +8881,22 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get groupDmCreateInviteFailedBody =>
       'Couldn\'t generate an invite link. Please try again.';
+
+  @override
+  String get guildNavbarCreateInviteFailed =>
+      'Couldn\'t create an invite link. Please try again.';
+
+  @override
+  String get guildNavbarCreateInviteMissingPermissions =>
+      'You don\'t have permission to create an invite in this channel.';
+
+  @override
+  String get guildNavbarCreateInviteMaxInvites =>
+      'This community has reached its invite limit.';
+
+  @override
+  String get guildNavbarCreateInviteTemporarilyDisabled =>
+      'Invite creation is temporarily disabled for this community.';
 
   @override
   String get groupDmCopyInviteFailed => 'Failed to copy invite link';
@@ -14158,4 +14212,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get clipboardPasteFailed =>
       'Couldn\'t paste. The clipboard was empty or blocked for this app.';
+
+  @override
+  String get homeQuickActionDms => 'DMs';
 }

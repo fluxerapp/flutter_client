@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_channel_chat_sheet.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_display_preferences_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_text_chat_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_noise_filter_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -28,6 +29,7 @@ const Key kVoiceControlPanelShowOwnCameraKey = Key(
 const Key kVoiceControlPanelPrioritizeSpeakersKey = Key(
   'voice-control-panel-prioritize-speakers',
 );
+const Key kVoiceControlPanelViewModeKey = Key('voice-control-panel-view-mode');
 
 class VoiceChannelControlPanelSettings extends ConsumerWidget {
   const VoiceChannelControlPanelSettings({
@@ -66,6 +68,10 @@ class VoiceChannelControlPanelSettings extends ConsumerWidget {
     );
     final VoiceCallDisplayPreferences displayNotifier = ref.read(
       voiceCallDisplayPreferencesProvider.notifier,
+    );
+    final VoiceCallLayoutState callLayout = ref.watch(voiceCallLayoutProvider);
+    final VoiceCallLayout callLayoutNotifier = ref.read(
+      voiceCallLayoutProvider.notifier,
     );
     final bool noiseFilterSupported = ref
         .watch(voiceNoiseFilterProvider)
@@ -118,6 +124,30 @@ class VoiceChannelControlPanelSettings extends ConsumerWidget {
             ),
             SizedBox(height: layout.s4),
           ],
+          FluxerListSection(
+            header: l10n.voiceCallViewModeLabel,
+            children: <Widget>[
+              Padding(
+                key: kVoiceControlPanelViewModeKey,
+                padding: EdgeInsets.all(layout.s4),
+                child: FluxerRadioGroup<VoiceCallLayoutMode>(
+                  value: callLayout.mode,
+                  onChanged: callLayoutNotifier.setMode,
+                  items: <FluxerRadioItem<VoiceCallLayoutMode>>[
+                    FluxerRadioItem(
+                      value: VoiceCallLayoutMode.grid,
+                      label: l10n.voiceCallViewModeGrid,
+                    ),
+                    FluxerRadioItem(
+                      value: VoiceCallLayoutMode.focus,
+                      label: l10n.voiceCallViewModeFocus,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: layout.s4),
           FluxerListSection(
             header: l10n.voicePanelSettingsSectionTitle,
             children: <Widget>[

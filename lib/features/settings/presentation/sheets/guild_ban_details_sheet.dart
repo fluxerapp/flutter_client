@@ -31,6 +31,7 @@ class GuildBanDetailsSheet {
         context,
         title: l10n.guildSettingsBanDetailsTitle,
         useRootNavigator: true,
+        initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
         builder:
             (
               BuildContext sheetContext,

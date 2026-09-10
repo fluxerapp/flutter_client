@@ -17,6 +17,7 @@ class AddFriendSheet {
       context,
       title: l10n.addFriendSheetTitle,
       useRootNavigator: true,
+      initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
       builder: (sheetContext, scrollController, close) {
         return _AddFriendSheetBody(scrollController: scrollController);
       },

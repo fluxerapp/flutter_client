@@ -25,6 +25,33 @@ List<List<T>> voiceGridPaginateTiles<T>({
   return pages;
 }
 
+double? voiceVideoAspectRatio({required int width, required int height}) {
+  if (width <= 0 || height <= 0) {
+    return null;
+  }
+  return width / height;
+}
+
+double? voiceVideoAspectRatioFromSettings(Map<String, dynamic> settings) {
+  return voiceVideoAspectRatio(
+    width: _voiceVideoIntSetting(settings['width']),
+    height: _voiceVideoIntSetting(settings['height']),
+  );
+}
+
+int _voiceVideoIntSetting(Object? value) {
+  if (value is int) {
+    return value;
+  }
+  if (value is num && value.isFinite) {
+    return value.round();
+  }
+  if (value is String) {
+    return double.tryParse(value)?.round() ?? 0;
+  }
+  return 0;
+}
+
 Rect voiceHangoutCenteredAspectRect({
   required double width,
   required double height,

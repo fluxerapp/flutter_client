@@ -30,8 +30,8 @@ const double _kReplyPreviewLineHeight = 18 / _kReplyPreviewFontSize;
 const double _kReplyPreviewAuthorMaxWidthRatio = 0.3;
 
 /// The inline reply indicator shown above a message that
-/// is a reply. Displays the replied-to message's avatar,
-/// author name, and a single-line content preview.
+/// is a reply. Displays the replied-to author's avatar or
+/// reply icon in dense mode, plus name and content preview.
 ///
 /// The curved connector line is handled by
 /// [ReplyConnectorPainter] in [MessageItem].
@@ -39,11 +39,13 @@ class InlineReplyPreview extends ConsumerWidget {
   final Message message;
   final String? guildId;
   final String? currentUserId;
+  final bool messageDisplayCompact;
 
   const InlineReplyPreview({
     required this.message,
     this.guildId,
     this.currentUserId,
+    this.messageDisplayCompact = false,
     super.key,
   });
 
@@ -165,14 +167,21 @@ class InlineReplyPreview extends ConsumerWidget {
               ] else if (resolution.state == MessageReferenceState.loaded &&
                   replyMsg != null &&
                   replyAuthorDisplay != null) ...[
-                FluxerAvatar.user(
-                  fallbackText: replyAuthorDisplay.displayName,
-                  userId: replyMsg.authorId,
-                  imageUrl: replyAuthorDisplay.avatarUrl,
-                  avatarColor: replyAuthorDisplay.avatarColor,
-                  size: 16,
-                  showStatus: false,
-                ),
+                if (messageDisplayCompact)
+                  PhosphorIcon(
+                    PhosphorIconsFill.arrowBendUpLeft,
+                    size: 12,
+                    color: context.colors.textPrimaryMuted,
+                  )
+                else
+                  FluxerAvatar.user(
+                    fallbackText: replyAuthorDisplay.displayName,
+                    userId: replyMsg.authorId,
+                    imageUrl: replyAuthorDisplay.avatarUrl,
+                    avatarColor: replyAuthorDisplay.avatarColor,
+                    size: 16,
+                    showStatus: false,
+                  ),
                 const SizedBox(width: 4),
                 ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: maxAuthorWidth),

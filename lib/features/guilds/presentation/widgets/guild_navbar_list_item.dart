@@ -41,11 +41,8 @@ class _GuildListItem extends StatefulWidget {
   final void Function(GuildAction)? onGuildSettingsAction;
   final void Function(String name)? onCreateCategory;
   final void Function(ChannelCreateRequest request)? onCreateChannel;
-  final Future<({String url, String channelName})?> Function({
-    int maxAge,
-    int maxUses,
-    bool temporary,
-  })?
+  final Future<({String url, String channelName, bool useVanityUrl})?>
+  Function({int maxAge, int maxUses, bool temporary})?
   onCreateInvite;
   final Future<List<InvitePeopleRecipient>> Function()? onGetRecipients;
   final Future<void> Function(
@@ -96,6 +93,7 @@ class _GuildListItem extends StatefulWidget {
   final bool enableLongPressMenu;
   final bool opaqueHitTarget;
   final Future<int> Function()? resolveMenuPermissions;
+  final Future<bool> Function()? resolveCanInvite;
 
   const _GuildListItem({
     required this.label,
@@ -142,6 +140,7 @@ class _GuildListItem extends StatefulWidget {
     this.enableLongPressMenu = true,
     this.opaqueHitTarget = false,
     this.resolveMenuPermissions,
+    this.resolveCanInvite,
   }) : svgAsset = null;
 
   @override

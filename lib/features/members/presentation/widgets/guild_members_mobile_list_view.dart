@@ -379,6 +379,7 @@ class _MobileFilterChips extends ConsumerWidget {
     await FluxerBottomSheet.showScrollable<void>(
       context,
       title: title,
+      initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
       minChildSize: 0.35,
       builder:
           (
@@ -429,6 +430,7 @@ class _MobileFilterChips extends ConsumerWidget {
     await FluxerBottomSheet.showScrollable<void>(
       context,
       title: l10n.guildMembersFilterJoinMethod,
+      initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
       minChildSize: 0.35,
       builder:
           (
@@ -490,6 +492,7 @@ class _MobileFilterChips extends ConsumerWidget {
     await FluxerBottomSheet.showScrollable<void>(
       context,
       title: l10n.guildMembersFilterRoles,
+      initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
       minChildSize: 0.35,
       builder:
           (

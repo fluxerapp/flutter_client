@@ -105,6 +105,7 @@ class VoiceSettingsState {
     this.screenshareResolution = ScreenshareResolution.medium,
     this.videoFrameRate = kDefaultVideoFrameRate,
     this.participantVolumes = const <String, int>{},
+    this.participantLocalMutes = const <String, bool>{},
     this.streamAudioVolumes = const <String, int>{},
     this.streamAudioMuted = const <String, bool>{},
     this.showVoiceConnectionAvatarStack = true,
@@ -133,6 +134,7 @@ class VoiceSettingsState {
   final ScreenshareResolution screenshareResolution;
   final int videoFrameRate;
   final Map<String, int> participantVolumes;
+  final Map<String, bool> participantLocalMutes;
   final Map<String, int> streamAudioVolumes;
   final Map<String, bool> streamAudioMuted;
   final bool showVoiceConnectionAvatarStack;
@@ -164,6 +166,7 @@ class VoiceSettingsState {
     ScreenshareResolution? screenshareResolution,
     int? videoFrameRate,
     Map<String, int>? participantVolumes,
+    Map<String, bool>? participantLocalMutes,
     Map<String, int>? streamAudioVolumes,
     Map<String, bool>? streamAudioMuted,
     bool? showVoiceConnectionAvatarStack,
@@ -193,6 +196,8 @@ class VoiceSettingsState {
           screenshareResolution ?? this.screenshareResolution,
       videoFrameRate: videoFrameRate ?? this.videoFrameRate,
       participantVolumes: participantVolumes ?? this.participantVolumes,
+      participantLocalMutes:
+          participantLocalMutes ?? this.participantLocalMutes,
       streamAudioVolumes: streamAudioVolumes ?? this.streamAudioVolumes,
       streamAudioMuted: streamAudioMuted ?? this.streamAudioMuted,
       showVoiceConnectionAvatarStack:
@@ -232,6 +237,7 @@ class VoiceSettingsState {
       'screenshareResolution': screenshareResolution.toJson(),
       'videoFrameRate': videoFrameRate,
       'participantVolumes': participantVolumes,
+      'participantLocalMutes': participantLocalMutes,
       'streamAudioVolumes': streamAudioVolumes,
       'streamAudioMuted': streamAudioMuted,
       'showVoiceConnectionAvatarStack': showVoiceConnectionAvatarStack,
@@ -271,6 +277,9 @@ class VoiceSettingsState {
       ),
       videoFrameRate: _clampFrameRate(json['videoFrameRate']),
       participantVolumes: _parseParticipantVolumes(json['participantVolumes']),
+      participantLocalMutes: _parseStreamAudioMuted(
+        json['participantLocalMutes'],
+      ),
       streamAudioVolumes: _parseParticipantVolumes(json['streamAudioVolumes']),
       streamAudioMuted: _parseStreamAudioMuted(json['streamAudioMuted']),
       showVoiceConnectionAvatarStack:

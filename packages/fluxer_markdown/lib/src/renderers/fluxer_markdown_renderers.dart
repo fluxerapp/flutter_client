@@ -478,6 +478,10 @@ class _MarkdownBlockRenderer {
           overflow: overflow,
           spoilerIndexCounter: _SpoilerIndexCounter(),
         ).build(node.children ?? const []);
+      case 'ul':
+      case 'ol':
+      case 'li':
+        return collectRestrictedInlinePreviewSpans(node.children ?? const []);
       case 'pre':
         final codeElement = node.children
             ?.whereType<md.Element>()
@@ -1369,14 +1373,14 @@ class _MarkdownInlineRenderer {
           text: span.text,
           style: span.style,
           mouseCursor: SystemMouseCursors.click,
-          recognizer: registry.obtainRecognizer(onTap),
+          recognizer: registry.obtainRecognizer(href, onTap),
         );
       }
       return TextSpan(
         text: span.text,
         style: span.style,
         mouseCursor: SystemMouseCursors.click,
-        recognizer: TapGestureRecognizer()..onTap = onTap,
+        recognizer: FluxerMarkdownLinkRecognizer(href: href)..onTap = onTap,
       );
     }
     return TextSpan(
@@ -2485,30 +2489,59 @@ class FluxerEmojiWidget extends StatelessWidget {
     final animated =
         animateCustomEmoji && element.attributes['animated'] == 'true';
     final cdnSize = jumbo ? 240 : 96;
-    final url = customEmojiUrlBuilder(
-      id: id,
-      animated: animated,
-      size: cdnSize,
-    );
     final dpr = MediaQuery.devicePixelRatioOf(context);
     final px = (size * dpr).round();
+    final Widget staticImage = _buildCustomImage(
+      id: id,
+      animated: false,
+      cdnSize: cdnSize,
+      size: size,
+      px: px,
+      errorChild: Text(':$name:'),
+    );
     return SizedBox(
       width: size,
       height: size,
-      child: CachedNetworkImage(
-        imageUrl: url,
-        cacheKey: 'emoji_${id}_${animated ? 'a' : 's'}_$cdnSize',
-        width: size,
-        height: size,
-        // Cap one decode axis only. Capping both forces ResizeImagePolicy.exact,
-        // which stretches non-square emoji into a square (issue #445).
-        // Skip resize on animated frames; ResizeImage lags multi-frame decode.
-        memCacheWidth: animated ? null : px,
-        fadeInDuration: Duration.zero,
-        fadeOutDuration: Duration.zero,
-        fit: BoxFit.contain,
-        errorBuilder: (_, _, _) => Text(':$name:'),
+      // The text fallback clips inside this box, so a failed animated frame
+      // retries the static frame first (issue #776).
+      child: animated
+          ? _buildCustomImage(
+              id: id,
+              animated: true,
+              cdnSize: cdnSize,
+              size: size,
+              px: px,
+              errorChild: staticImage,
+            )
+          : staticImage,
+    );
+  }
+
+  Widget _buildCustomImage({
+    required String id,
+    required bool animated,
+    required int cdnSize,
+    required double size,
+    required int px,
+    required Widget errorChild,
+  }) {
+    return CachedNetworkImage(
+      imageUrl: customEmojiUrlBuilder(
+        id: id,
+        animated: animated,
+        size: cdnSize,
       ),
+      cacheKey: 'emoji_${id}_${animated ? 'a2' : 's'}_$cdnSize',
+      width: size,
+      height: size,
+      // Cap one decode axis only. Capping both forces ResizeImagePolicy.exact,
+      // which stretches non-square emoji into a square (issue #445).
+      // Skip resize on animated frames; ResizeImage lags multi-frame decode.
+      memCacheWidth: animated ? null : px,
+      fadeInDuration: Duration.zero,
+      fadeOutDuration: Duration.zero,
+      fit: BoxFit.contain,
+      errorBuilder: (_, _, _) => errorChild,
     );
   }
 }

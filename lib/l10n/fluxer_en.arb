@@ -947,6 +947,36 @@
     "@embedInviteAlreadyJoined": {
         "description": "Disabled button label on a group DM invite embed when the user is already a member."
     },
+    "embedInviteDisabled": "Invites disabled",
+    "@embedInviteDisabled": {
+        "description": "Disabled button label on a community invite embed when invites are paused or anti-raid mode is active."
+    },
+    "embedInvitePaused": "Invites are paused for this community.",
+    "@embedInvitePaused": {
+        "description": "Status message on a community invite embed when invites are paused by community admins."
+    },
+    "embedInvitePausedRaid": "{productName} detected a potential raid, so new users can't join right now.",
+    "@embedInvitePausedRaid": {
+        "description": "Anti-raid status message on a community invite embed.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "inviteAcceptInvitesPausedTryAgain": "This community has paused invites. You can try again later.",
+    "@inviteAcceptInvitesPausedTryAgain": {
+        "description": "Invite modal notice when community admins have paused invites."
+    },
+    "inviteAcceptRaidInvitesPaused": "{productName} detected a potential raid in this community. Invites are paused, so new users cannot join right now.",
+    "@inviteAcceptRaidInvitesPaused": {
+        "description": "Invite modal notice when automated raid protection pauses invites.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
     "inviteAcceptTitle": "You've been invited to join",
     "@inviteAcceptTitle": {
         "description": "Title of the invite accept modal."
@@ -7315,6 +7345,10 @@
     "@voiceParticipantMenuStreamVolume": {
         "description": "Voice participant context menu slider label for screen share audio volume."
     },
+    "voiceParticipantMenuStopStreaming": "Stop streaming",
+    "@voiceParticipantMenuStopStreaming": {
+        "description": "Voice screen-share context menu action that stops the current user stream."
+    },
     "voiceParticipantModerationFailed": "Couldn't update that member. Please try again.",
     "@voiceParticipantModerationFailed": {
         "description": "Toast shown when a voice participant moderation action fails."
@@ -7322,6 +7356,18 @@
     "voiceControlChat": "Chat",
     "@voiceControlChat": {
         "description": "Label for the chat button in voice lobby and call control surfaces."
+    },
+    "voiceCallViewModeLabel": "View",
+    "@voiceCallViewModeLabel": {
+        "description": "Section header for choosing grid or focus layout during a voice call."
+    },
+    "voiceCallViewModeGrid": "Grid",
+    "@voiceCallViewModeGrid": {
+        "description": "Voice call layout option that shows participants in a grid."
+    },
+    "voiceCallViewModeFocus": "Focus",
+    "@voiceCallViewModeFocus": {
+        "description": "Voice call layout option that enlarges one participant."
     },
     "voicePanelSettingsSectionTitle": "Voice settings",
     "@voicePanelSettingsSectionTitle": {
@@ -8456,6 +8502,14 @@
     "chatMessageCopyMessageLink": "Copy Message Link",
     "@chatMessageCopyMessageLink": {
         "description": "Action label for copying a message's deep link."
+    },
+    "chatMessageOpenLink": "Open link",
+    "@chatMessageOpenLink": {
+        "description": "Action label in the message actions sheet that opens the long-pressed link."
+    },
+    "chatMessageCopyLink": "Copy link",
+    "@chatMessageCopyLink": {
+        "description": "Action label in the message actions sheet that copies the long-pressed link to the clipboard."
     },
     "chatMessageCopyMessageId": "Copy Message ID",
     "@chatMessageCopyMessageId": {
@@ -11109,6 +11163,22 @@
     "groupDmCreateInviteFailedBody": "Couldn't generate an invite link. Please try again.",
     "@groupDmCreateInviteFailedBody": {
         "description": "Body when invite link generation fails."
+    },
+    "guildNavbarCreateInviteFailed": "Couldn't create an invite link. Please try again.",
+    "@guildNavbarCreateInviteFailed": {
+        "description": "Fallback error when creating a community invite link fails."
+    },
+    "guildNavbarCreateInviteMissingPermissions": "You don't have permission to create an invite in this channel.",
+    "@guildNavbarCreateInviteMissingPermissions": {
+        "description": "Error when the user lacks CREATE_INSTANT_INVITE on the chosen channel."
+    },
+    "guildNavbarCreateInviteMaxInvites": "This community has reached its invite limit.",
+    "@guildNavbarCreateInviteMaxInvites": {
+        "description": "Error when the community is at MAX_INVITES."
+    },
+    "guildNavbarCreateInviteTemporarilyDisabled": "Invite creation is temporarily disabled for this community.",
+    "@guildNavbarCreateInviteTemporarilyDisabled": {
+        "description": "Error when instant invites are temporarily disabled."
     },
     "groupDmCopyInviteFailed": "Failed to copy invite link",
     "@groupDmCopyInviteFailed": {
@@ -16737,5 +16807,9 @@
     "clipboardPasteFailed": "Couldn't paste. The clipboard was empty or blocked for this app.",
     "@clipboardPasteFailed": {
         "description": "Shown when a context-menu paste finds no readable clipboard text."
+    },
+    "homeQuickActionDms": "DMs",
+    "@homeQuickActionDms": {
+        "description": "Home screen quick action that opens Direct Messages."
     }
 }

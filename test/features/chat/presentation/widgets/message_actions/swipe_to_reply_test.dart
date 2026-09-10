@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/sw
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.dart';
 import 'package:fluxer_app/shared/markdown/native_markdown_parser.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 
@@ -429,4 +430,175 @@ void main() {
     await tester.pumpAndSettle();
     expect(replyCount, 1);
   });
+
+  testWidgets('vertical drag over swipe yields to parent scroll', (
+    tester,
+  ) async {
+    var replyCount = 0;
+    var editCount = 0;
+    await tester.pumpWidget(
+      _buildVerticalScrollApp(
+        SwipeToReply(
+          onReply: () => replyCount++,
+          onEdit: () => editCount++,
+          child: const ColoredBox(color: Color(0xFF112233)),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    final ScrollPosition position = _parentVerticalPosition(tester);
+    position.jumpTo(300);
+    await tester.pump();
+    final double before = position.pixels;
+    final Offset start = _swipeBodyStart(tester);
+    await _slowDrag(tester, start, const Offset(0, 180));
+    await tester.pumpAndSettle();
+    expect(position.pixels, lessThan(before - 40));
+    expect(replyCount, 0);
+    expect(editCount, 0);
+  });
+
+  testWidgets('batched first move Offset(12, 40) scrolls instead of reply', (
+    tester,
+  ) async {
+    var replyCount = 0;
+    await tester.pumpWidget(
+      _buildVerticalScrollApp(
+        SwipeToReply(
+          onReply: () => replyCount++,
+          child: const ColoredBox(color: Color(0xFF112233)),
+        ),
+        touchSlop: 8,
+      ),
+    );
+    await tester.pumpAndSettle();
+    final ScrollPosition position = _parentVerticalPosition(tester);
+    position.jumpTo(300);
+    await tester.pump();
+    final double before = position.pixels;
+    final TestGesture gesture = await tester.startGesture(
+      _swipeBodyStart(tester),
+    );
+    await gesture.moveBy(const Offset(12, 40));
+    await gesture.moveBy(const Offset(0, 120));
+    await gesture.up();
+    await tester.pumpAndSettle();
+    expect(position.pixels, lessThan(before - 40));
+    expect(replyCount, 0);
+  });
+
+  testWidgets('committed leftward swipe keeps tracking after a vertical arc', (
+    tester,
+  ) async {
+    var replyCount = 0;
+    await tester.pumpWidget(
+      _buildApp(
+        SwipeToReply(
+          onReply: () => replyCount++,
+          child: const ColoredBox(color: Color(0xFF112233)),
+        ),
+      ),
+    );
+    final Offset start = _swipeBodyStart(tester);
+    final TestGesture gesture = await tester.startGesture(start);
+    await gesture.moveBy(const Offset(-40, 0));
+    await tester.pump();
+    await gesture.moveBy(const Offset(-80, 200));
+    await gesture.up();
+    await tester.pumpAndSettle();
+    expect(replyCount, 1);
+  });
+
+  testWidgets('coasting defer drops swipe so it does not reply', (
+    tester,
+  ) async {
+    var replyCount = 0;
+    await tester.pumpWidget(
+      _buildApp(
+        DeferHorizontalDragWhileCoasting(
+          defer: true,
+          child: SwipeToReply(
+            onReply: () => replyCount++,
+            child: const ColoredBox(color: Color(0xFF112233)),
+          ),
+        ),
+      ),
+    );
+    await _slowDrag(tester, _swipeBodyStart(tester), const Offset(-160, 0));
+    await tester.pumpAndSettle();
+    expect(replyCount, 0);
+  });
+
+  testWidgets('leftward reply then later vertical drag still scrolls', (
+    tester,
+  ) async {
+    var replyCount = 0;
+    await tester.pumpWidget(
+      _buildVerticalScrollApp(
+        SwipeToReply(
+          onReply: () => replyCount++,
+          child: const ColoredBox(color: Color(0xFF112233)),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    final Offset start = _swipeBodyStart(tester);
+    await _slowDrag(tester, start, const Offset(-160, 0));
+    await tester.pumpAndSettle();
+    expect(replyCount, 1);
+
+    final ScrollPosition position = _parentVerticalPosition(tester);
+    position.jumpTo(300);
+    await tester.pump();
+    final double before = position.pixels;
+    await _slowDrag(tester, start, const Offset(0, 180));
+    await tester.pumpAndSettle();
+    expect(position.pixels, lessThan(before - 40));
+    expect(replyCount, 1);
+  });
+}
+
+Widget _buildVerticalScrollApp(Widget child, {double touchSlop = 18}) {
+  final colorTheme = buildDarkColorTheme();
+  return MaterialApp(
+    theme: buildFluxerTheme(
+      colorTheme: colorTheme,
+      textTheme: FluxerTextTheme.fromColors(colorTheme),
+      layoutTheme: FluxerLayoutTheme.scaled(),
+    ),
+    home: MediaQuery(
+      data: MediaQueryData(
+        size: const Size(400, 800),
+        gestureSettings: DeviceGestureSettings(touchSlop: touchSlop),
+      ),
+      child: Scaffold(
+        body: ListView(
+          children: <Widget>[
+            const SizedBox(height: 400),
+            SizedBox(
+              key: const ValueKey<String>('swipeViewport'),
+              height: 80,
+              child: child,
+            ),
+            const SizedBox(height: 1200),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+ScrollPosition _parentVerticalPosition(WidgetTester tester) {
+  return tester.state<ScrollableState>(find.byType(Scrollable)).position;
+}
+
+Offset _swipeBodyStart(WidgetTester tester) {
+  final BuildContext ctx = tester.element(
+    find.byKey(const ValueKey<String>('swipeViewport')),
+  );
+  final double reserve = leadingEdgeHorizontalSwipeReserveWidth(ctx);
+  final RenderBox viewport =
+      tester.renderObject(find.byKey(const ValueKey<String>('swipeViewport')))
+          as RenderBox;
+  return viewport.localToGlobal(Offset(reserve + 40, viewport.size.height / 2));
 }

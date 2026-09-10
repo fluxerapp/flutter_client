@@ -302,6 +302,9 @@ class _GuildListItemState extends State<_GuildListItem>
     final int permissions = widget.resolveMenuPermissions != null
         ? await widget.resolveMenuPermissions!()
         : widget.permissions;
+    final bool canInvite = widget.resolveCanInvite != null
+        ? await widget.resolveCanInvite!()
+        : hasPermission(permissions, Permission.createInstantInvite);
     if (!context.mounted) {
       return;
     }
@@ -313,6 +316,7 @@ class _GuildListItemState extends State<_GuildListItem>
       isMuted: widget.isMuted,
       isOwner: widget.isOwner,
       permissions: permissions,
+      canInvite: canInvite,
       muteEndTime: widget.muteEndTime,
       hideMutedChannels: widget.hideMutedChannels,
       developerMode: widget.developerMode,
@@ -334,6 +338,9 @@ class _GuildListItemState extends State<_GuildListItem>
     final int permissions = widget.resolveMenuPermissions != null
         ? await widget.resolveMenuPermissions!()
         : widget.permissions;
+    final bool canInvite = widget.resolveCanInvite != null
+        ? await widget.resolveCanInvite!()
+        : hasPermission(permissions, Permission.createInstantInvite);
     if (!context.mounted) {
       return;
     }
@@ -344,6 +351,7 @@ class _GuildListItemState extends State<_GuildListItem>
       isMuted: widget.isMuted,
       isOwner: widget.isOwner,
       permissions: permissions,
+      canInvite: canInvite,
       muteEndTime: widget.muteEndTime,
       hideMutedChannels: widget.hideMutedChannels,
       developerMode: widget.developerMode,
@@ -370,11 +378,8 @@ class _GuildListItemState extends State<_GuildListItem>
   }
 
   Future<void> _showInviteMembersModal(BuildContext context) async {
-    final Future<({String url, String channelName})?> Function({
-      int maxAge,
-      int maxUses,
-      bool temporary,
-    })?
+    final Future<({String url, String channelName, bool useVanityUrl})?>
+    Function({int maxAge, int maxUses, bool temporary})?
     createInvite = widget.onCreateInvite;
     final Future<List<InvitePeopleRecipient>> Function()? getRecipients =
         widget.onGetRecipients;
@@ -482,6 +487,7 @@ class _GuildListItemState extends State<_GuildListItem>
     await FluxerBottomSheet.showScrollable<void>(
       context,
       title: l10n.notificationSettings,
+      initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
       builder: (sheetContext, scrollController, close) {
         final layout = sheetContext.layout;
         final colors = sheetContext.colors;

@@ -546,9 +546,8 @@ class _FluxerDraggableScrollableSheetState
   final DraggableScrollableController _sheetController =
       DraggableScrollableController();
 
-  /// Both the drag handle and the enclosing modal route's min-extent hook can
-  /// ask to close this sheet. Whichever fires first wins and the other is
-  /// swallowed, so the route is never popped twice.
+  /// True once this route is popping. Stops a leftover pointer snap from
+  /// popping the route that replaced this sheet.
   bool _dismissed = false;
   bool _snapQueued = false;
   int _activePointers = 0;
@@ -557,6 +556,7 @@ class _FluxerDraggableScrollableSheetState
   int _lastSizeUs = 0;
   double _sizePerSecond = 0;
   double _releaseDownVelocity = 0;
+  Animation<double>? _routeAnimation;
 
   @override
   void initState() {
@@ -565,10 +565,33 @@ class _FluxerDraggableScrollableSheetState
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final Animation<double>? animation = ModalRoute.of(context)?.animation;
+    if (identical(animation, _routeAnimation)) {
+      return;
+    }
+    _routeAnimation?.removeStatusListener(_markDismissedIfRouteClosing);
+    _routeAnimation = animation;
+    _routeAnimation?.addStatusListener(_markDismissedIfRouteClosing);
+    final AnimationStatus? status = _routeAnimation?.status;
+    if (status != null) {
+      _markDismissedIfRouteClosing(status);
+    }
+  }
+
+  @override
   void dispose() {
+    _routeAnimation?.removeStatusListener(_markDismissedIfRouteClosing);
     _sheetController.removeListener(_handleSheetSize);
     _sheetController.dispose();
     super.dispose();
+  }
+
+  void _markDismissedIfRouteClosing(AnimationStatus status) {
+    if (status == AnimationStatus.reverse) {
+      _dismissed = true;
+    }
   }
 
   void _handleSheetSize() {
@@ -592,6 +615,13 @@ class _FluxerDraggableScrollableSheetState
       return;
     }
     _dismissed = true;
+    if (!mounted) {
+      return;
+    }
+    final ModalRoute<dynamic>? route = ModalRoute.of(context);
+    if (route != null && !route.isCurrent) {
+      return;
+    }
     widget.onDismiss();
   }
 
@@ -634,7 +664,7 @@ class _FluxerDraggableScrollableSheetState
     _snapQueued = true;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _snapQueued = false;
-      if (!mounted || _activePointers > 0) {
+      if (!mounted || _dismissed || _activePointers > 0) {
         return;
       }
       _snapOrDismiss(velocity: _releaseDownVelocity);
@@ -686,8 +716,11 @@ class _FluxerDraggableScrollableSheetState
       return false;
     }
     if (_dismissed) {
-      // Already closed by an explicit dismiss — stop the notification here so
-      // the modal route's min-extent hook cannot pop a second time.
+      return true;
+    }
+    final ModalRoute<dynamic>? route = ModalRoute.of(context);
+    if (route != null && !route.isCurrent) {
+      _dismissed = true;
       return true;
     }
     _dismissed = true;

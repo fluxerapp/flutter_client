@@ -126,10 +126,12 @@ List<GuildMenuGroup> buildGuildMenuGroups({
   bool developerMode = false,
   bool isTouchPrimary = false,
   bool isStockCommunity = false,
+  bool? canInvite,
   Guild? guild,
 }) {
   final p = permissions;
-  final canInvite = hasPermission(p, Permission.createInstantInvite);
+  final canInviteMembers =
+      canInvite ?? hasPermission(p, Permission.createInstantInvite);
   final canManageChannels = hasPermission(p, Permission.manageChannels);
   final canAccessSettings = canOpenGuildSettings(
     permissions: p,
@@ -145,7 +147,7 @@ List<GuildMenuGroup> buildGuildMenuGroups({
           icon: PhosphorIconsFill.eye,
           action: GuildAction.markAsRead,
         ),
-      if (canInvite)
+      if (canInviteMembers)
         GuildMenuAction(
           label: l10n.guildMenuInviteMembers,
           icon: PhosphorIconsFill.userPlus,

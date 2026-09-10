@@ -916,6 +916,7 @@ class _ChannelTile extends ConsumerWidget {
         ),
       ),
       mutedHint: mutedHint,
+      vanityUrlCode: guild.vanityUrlCode,
     );
     final List<ChannelMenuGroup> groups = buildChannelMenuGroups(
       l10n: l10n,
@@ -925,6 +926,7 @@ class _ChannelTile extends ConsumerWidget {
       return FluxerBottomSheet.showScrollable<void>(
         context,
         title: channel.name,
+        initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
         minChildSize: 0.25,
         builder: (sheetContext, scrollController, close) {
           return channelMenuGroupsToBottomSheetContent(
@@ -1372,6 +1374,7 @@ class _CategoryHeader extends ConsumerWidget {
       return FluxerBottomSheet.showScrollable<void>(
         context,
         title: category.name,
+        initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
         minChildSize: 0.25,
         builder: (sheetContext, scrollController, close) {
           return categoryMenuGroupsToBottomSheetContent(

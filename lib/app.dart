@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/core/quick_actions/home_quick_actions_binding.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
@@ -44,6 +45,7 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(homeQuickActionsBindingProvider);
     final router = ref.watch(fluxerRouterProvider);
     final themePref = ref.watch(themePreferenceProvider);
     final Locale appLocale = ref.watch(effectiveAppLocaleProvider);

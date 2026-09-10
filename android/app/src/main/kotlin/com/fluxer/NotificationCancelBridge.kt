@@ -43,6 +43,9 @@ class NotificationCancelBridge(
                     val cancelled = cancelFcmSystemDuplicates(messageIds, excludeNotificationId)
                     result.success(cancelled)
                 }
+                METHOD_IS_NOTIFICATION_SOUND_SUPPRESSED -> {
+                    result.success(isNotificationSoundSuppressed())
+                }
                 else -> result.notImplemented()
             }
         }
@@ -242,11 +245,18 @@ class NotificationCancelBridge(
         return null
     }
 
+    private fun isNotificationSoundSuppressed(): Boolean {
+        val manager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        return manager.currentInterruptionFilter != NotificationManager.INTERRUPTION_FILTER_ALL
+    }
+
     companion object {
         const val CHANNEL_NAME = "fluxer_app/android_notifications"
         const val METHOD_CANCEL_FOR_CHANNEL = "cancelForChannel"
         const val METHOD_CANCEL_ALL = "cancelAll"
         const val METHOD_CANCEL_FCM_SYSTEM_DUPLICATES = "cancelFcmSystemDuplicates"
+        const val METHOD_IS_NOTIFICATION_SOUND_SUPPRESSED = "isNotificationSoundSuppressed"
         const val ARG_CHANNEL_ID = "channelId"
         const val ARG_MESSAGE_IDS = "messageIds"
         const val ARG_EXCLUDE_NOTIFICATION_ID = "excludeNotificationId"

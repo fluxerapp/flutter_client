@@ -329,6 +329,25 @@ void main() {
       expect(request, isNull);
     });
 
+    test('dnd still allows same-channel clip while viewing channel', () async {
+      final FluxerDatabase db = await _guildDb();
+      final MessageNotificationSfxPlayRequest? request = await _evaluate(
+        db: db,
+        selfIsDnd: true,
+        foreground: true,
+        viewingChannel: true,
+        message: _message(
+          id: '1000000000000000013',
+          channelId: 'channel-1',
+          authorId: 'other',
+        ),
+      );
+      expect(
+        request?.clipKind,
+        MessageNotificationSfxClipKind.sameChannelMessage,
+      );
+    });
+
     test(
       'foreground viewing channel without overlay uses same-channel clip',
       () async {

@@ -23,6 +23,7 @@ import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dar
 import 'package:fluxer_app/core/push/push_notification_tap_handler.dart';
 import 'package:fluxer_app/core/push/services/firebase_messaging_push_service.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_mobile_device_registration.dart';
+import 'package:fluxer_app/core/quick_actions/pending_home_quick_action_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
@@ -261,6 +262,7 @@ class AppStartup extends _$AppStartup {
 
     ref.read(deepLinkHandlerProvider.notifier).processPendingDeepLink();
     ref.read(pendingPushNotificationPathProvider.notifier).flushIfReady();
+    ref.read(pendingHomeQuickActionProvider.notifier).flushIfReady();
 
     debugPrint(
       '[AppStartup] Completed in ${startupStopwatch.elapsedMilliseconds}ms',

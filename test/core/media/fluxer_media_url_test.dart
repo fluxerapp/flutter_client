@@ -193,15 +193,17 @@ void main() {
       );
     });
 
-    test('includes animated and size query params without lossless', () {
+    test('keeps animated requests lossless (#776)', () {
       final String actual = FluxerMediaUrl.customEmoji(
         id: '123',
         animated: true,
         size: 48,
       );
-      expect(actual, isNot(contains('quality=lossless')));
-      expect(actual, contains('animated=true'));
-      expect(actual, contains('size=48'));
+      expect(
+        actual,
+        'https://fluxerusercontent.com/emojis/123.webp'
+        '?animated=true&quality=lossless&size=48',
+      );
     });
   });
 

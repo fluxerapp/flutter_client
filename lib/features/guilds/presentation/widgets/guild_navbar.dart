@@ -774,6 +774,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
           },
           resolveMenuPermissions: () =>
               _resolveGuildMenuPermissions(ref, guild.id),
+          resolveCanInvite: () => _resolveGuildCanInvite(ref, guild.id),
           onMarkAsRead: () {
             unawaited(
               markGuildAsRead(
