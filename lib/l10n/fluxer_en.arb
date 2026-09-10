@@ -7353,6 +7353,18 @@
     "@voiceControlChat": {
         "description": "Label for the chat button in voice lobby and call control surfaces."
     },
+    "voiceCallViewModeLabel": "View",
+    "@voiceCallViewModeLabel": {
+        "description": "Section header for choosing grid or focus layout during a voice call."
+    },
+    "voiceCallViewModeGrid": "Grid",
+    "@voiceCallViewModeGrid": {
+        "description": "Voice call layout option that shows participants in a grid."
+    },
+    "voiceCallViewModeFocus": "Focus",
+    "@voiceCallViewModeFocus": {
+        "description": "Voice call layout option that enlarges one participant."
+    },
     "voicePanelSettingsSectionTitle": "Voice settings",
     "@voicePanelSettingsSectionTitle": {
         "description": "Section header for in-call voice settings in the expandable control panel."

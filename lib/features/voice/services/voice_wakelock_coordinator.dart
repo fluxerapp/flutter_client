@@ -15,7 +15,11 @@ part 'voice_wakelock_coordinator.g.dart';
 final voiceWakelockEnabledProvider = Provider<bool>((Ref ref) {
   return voiceWakelockShouldBeEnabled(
     voice: ref.watch(voiceSessionProvider),
-    watchedTileId: ref.watch(voiceScreenShareWatchTileProvider),
+    watchedTileId: ref.watch(
+      voiceScreenShareWatchTileProvider.select(
+        (Set<String> ids) => ids.isEmpty ? null : ids.first,
+      ),
+    ),
     route: ref.watch(routeStateProvider),
     showsOverlay: ref.watch(
       voiceCallOverlayProvider.select(

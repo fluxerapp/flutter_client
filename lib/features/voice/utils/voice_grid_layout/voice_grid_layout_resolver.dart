@@ -3,6 +3,21 @@ import 'dart:math' as math;
 import 'package:fluxer_app/features/voice/utils/voice_grid_layout/voice_grid_layout_config.dart';
 import 'package:fluxer_app/features/voice/utils/voice_grid_layout/voice_grid_layout_metrics.dart';
 
+({double width, double height}) voiceGridPlacedTileSize({
+  required double cellWidth,
+  required double cellHeight,
+  required int tileCount,
+  required bool squareTile,
+}) {
+  final double width = math.max(0, cellWidth);
+  final double height = math.max(0, cellHeight);
+  if (squareTile && tileCount == 1) {
+    final double side = math.min(width, height);
+    return (width: side, height: side);
+  }
+  return (width: width, height: height);
+}
+
 int _sanitizeCount(int tileCount) => math.max(0, tileCount);
 
 double _sanitizeDimension(double value) {
@@ -187,19 +202,25 @@ VoiceGridLayoutMetrics _metricsForColumns({
     0,
     height - padding.verticalPadding * 2,
   );
+  final double columnGapTotal = gap * math.max(0, resolvedColumns - 1);
+  final double rowGapTotal = gap * math.max(0, rows - 1);
+  if (columnGapTotal > availableWidth + 1e-6 ||
+      rowGapTotal > availableHeight + 1e-6) {
+    return _emptyMetrics(
+      tileCount: count,
+      containerWidth: containerWidth,
+      containerHeight: containerHeight,
+      compact: compact,
+      edgeToEdge: edgeToEdge,
+    );
+  }
   final double columnWidth = math.max(
     0,
-    (availableWidth - gap * math.max(0, resolvedColumns - 1)) / resolvedColumns,
+    (availableWidth - columnGapTotal) / resolvedColumns,
   );
-  final double rowHeight = math.max(
-    0,
-    (availableHeight - gap * math.max(0, rows - 1)) / rows,
-  );
-  final double tileWidth = math.min(
-    columnWidth,
-    rowHeight * voiceGridTileAspectRatio,
-  );
-  final double tileHeight = tileWidth / voiceGridTileAspectRatio;
+  final double rowHeight = math.max(0, (availableHeight - rowGapTotal) / rows);
+  final double tileWidth = columnWidth;
+  final double tileHeight = rowHeight;
   final int columnsInUse = math.min(count, resolvedColumns);
   final double contentWidth =
       padding.sidePadding * 2 +
@@ -282,7 +303,19 @@ VoiceGridPackedLayoutMetrics resolveVoiceGridPackedLayoutMetrics({
   );
   for (int visibleCount = count; visibleCount >= 1; visibleCount--) {
     VoiceGridLayoutMetrics? best;
-    for (int columns = 1; columns <= visibleCount; columns++) {
+    final int preferredColumns = voiceGridColumnCount(
+      tileCount: visibleCount,
+      containerWidth: width,
+      containerHeight: height,
+    );
+    final int columnLimit = height >= width
+        ? math.max(1, preferredColumns)
+        : visibleCount;
+    for (
+      int columns = 1;
+      columns <= math.min(visibleCount, columnLimit);
+      columns++
+    ) {
       final VoiceGridLayoutMetrics metrics = _metricsForColumns(
         tileCount: visibleCount,
         containerWidth: width,
