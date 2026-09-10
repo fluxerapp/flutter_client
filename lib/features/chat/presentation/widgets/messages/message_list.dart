@@ -91,6 +91,7 @@ import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.dart';
 import 'package:fluxer_app/shared/markdown/message_markdown_settings.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
@@ -238,6 +239,12 @@ class _MessageListState extends ConsumerState<MessageList> {
   // (trim/re-anchor) and the drag that follows is lost (#713), so the settle
   // waits until the pointer lifts without dragging.
   int _activePointers = 0;
+  // True while the list is ballistic. Horizontal competitors read the last
+  // built value, so a catch-fling pointer-down still defers them after hold()
+  // has already stopped the coast.
+  final ValueNotifier<bool> _deferHorizontalWhileCoasting = ValueNotifier<bool>(
+    false,
+  );
   bool _settleDeferredForHold = false;
   // Extent the edge skeleton fillers add beyond the loaded rows; demand
   // geometry measures to the rows, not the skeleton, so pagination fires as
@@ -352,6 +359,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
+    _deferHorizontalWhileCoasting.dispose();
     _animatedImagePlaybackController.dispose();
     _pinnedTailGlueScheduled = false;
     _pinnedTailGlueIgnorePin = false;
@@ -890,63 +898,74 @@ class _MessageListState extends ConsumerState<MessageList> {
               _trailingFillerExtent = trailingSpecs?.totalHeight ?? 0;
               body = AnimatedImagePlaybackScope(
                 controller: _animatedImagePlaybackController,
-                child: MessageListViewport(
-                  anchorEpoch: _anchorEpoch,
-                  stream: channelStream,
-                  anchorId: _anchorId,
-                  anchorFraction: _anchorFraction,
-                  anchorEdge: _anchorEdge,
-                  controller: _scrollController,
-                  leadingFillerSpecs: leadingSpecs,
-                  trailingFillerSpecs: trailingSpecs,
-                  centerKey: _unreadCenterKey,
-                  itemBuilder: (BuildContext context, int dataIndex) =>
-                      _centerStreamTile(
-                        context: context,
-                        stream: channelStream,
-                        dataIndex: dataIndex,
-                        visualUnreadId: visualUnreadId,
-                        highlightedMessageId: highlightedMessageId,
-                        replyingToMessageId: replyingToMessageId,
-                        currentUserId: currentUserId,
-                        isDmChannel: isDmChannel,
-                        guildId: guildId,
-                        channelPermissionBits: channelPermissionBits,
-                        channelCanSendMessages: channelActions.canSendMessages,
-                        channelCanAddReactions: channelActions.canAddReactions,
-                        channelCanPinMessage: channelActions.canPinMessage,
-                        channelCanManageMessages:
-                            channelActions.canManageMessages,
-                        renderSettings: messageRenderSettings,
-                        blockedUserIds: blockedUserIds,
-                        revealedCollapsedGroupKey: revealedCollapsedGroupKey,
-                        isGuildSendDisabled: isGuildSendDisabled,
-                      ),
-                  childIndexForKey:
-                      (
-                        Key key,
-                        int startInclusive,
-                        int endExclusive, {
-                        required bool reverse,
-                      }) => _centerChildIndexForStream(
-                        key,
-                        channelStream,
-                        startInclusive,
-                        endExclusive,
-                        reverse: reverse,
-                      ),
-                  scrollCacheExtentPixels: _useCompactScrollCache
-                      ? _kMessageListCompactScrollCacheExtent
-                      : _kMessageListScrollCacheExtent,
-                  onScrollNotification: _onScrollNotification,
-                  onScrollMetricsNotification: _onScrollMetricsNotification,
-                  isLoadingMore: isLoadingMore,
-                  isLoadingNewer: isLoadingNewer,
-                  onPointerDown: _onViewportPointerDown,
-                  onPointerUp: _onViewportPointerUp,
-                  trailingInset: _statusOverlayInset(context),
-                  leadingPad: _unreadOpenLayout ? _unreadLeadingPad : 0,
-                  startOfChannelHeader: startOfChannelHeader,
+                child: ListenableBuilder(
+                  listenable: _deferHorizontalWhileCoasting,
+                  builder: (BuildContext context, Widget? child) {
+                    return DeferHorizontalDragWhileCoasting(
+                      defer: _deferHorizontalWhileCoasting.value,
+                      child: child!,
+                    );
+                  },
+                  child: MessageListViewport(
+                    anchorEpoch: _anchorEpoch,
+                    stream: channelStream,
+                    anchorId: _anchorId,
+                    anchorFraction: _anchorFraction,
+                    anchorEdge: _anchorEdge,
+                    controller: _scrollController,
+                    leadingFillerSpecs: leadingSpecs,
+                    trailingFillerSpecs: trailingSpecs,
+                    centerKey: _unreadCenterKey,
+                    itemBuilder: (BuildContext context, int dataIndex) =>
+                        _centerStreamTile(
+                          context: context,
+                          stream: channelStream,
+                          dataIndex: dataIndex,
+                          visualUnreadId: visualUnreadId,
+                          highlightedMessageId: highlightedMessageId,
+                          replyingToMessageId: replyingToMessageId,
+                          currentUserId: currentUserId,
+                          isDmChannel: isDmChannel,
+                          guildId: guildId,
+                          channelPermissionBits: channelPermissionBits,
+                          channelCanSendMessages:
+                              channelActions.canSendMessages,
+                          channelCanAddReactions:
+                              channelActions.canAddReactions,
+                          channelCanPinMessage: channelActions.canPinMessage,
+                          channelCanManageMessages:
+                              channelActions.canManageMessages,
+                          renderSettings: messageRenderSettings,
+                          blockedUserIds: blockedUserIds,
+                          revealedCollapsedGroupKey: revealedCollapsedGroupKey,
+                          isGuildSendDisabled: isGuildSendDisabled,
+                        ),
+                    childIndexForKey:
+                        (
+                          Key key,
+                          int startInclusive,
+                          int endExclusive, {
+                          required bool reverse,
+                        }) => _centerChildIndexForStream(
+                          key,
+                          channelStream,
+                          startInclusive,
+                          endExclusive,
+                          reverse: reverse,
+                        ),
+                    scrollCacheExtentPixels: _useCompactScrollCache
+                        ? _kMessageListCompactScrollCacheExtent
+                        : _kMessageListScrollCacheExtent,
+                    onScrollNotification: _onScrollNotification,
+                    onScrollMetricsNotification: _onScrollMetricsNotification,
+                    isLoadingMore: isLoadingMore,
+                    isLoadingNewer: isLoadingNewer,
+                    onPointerDown: _onViewportPointerDown,
+                    onPointerUp: _onViewportPointerUp,
+                    trailingInset: _statusOverlayInset(context),
+                    leadingPad: _unreadOpenLayout ? _unreadLeadingPad : 0,
+                    startOfChannelHeader: startOfChannelHeader,
+                  ),
                 ),
               );
             }
@@ -1394,6 +1413,7 @@ class _MessageListState extends ConsumerState<MessageList> {
   }
 
   void _onScroll() {
+    _syncCoastingDefer();
     if (!_anchorResolved) {
       return;
     }
@@ -1404,6 +1424,19 @@ class _MessageListState extends ConsumerState<MessageList> {
     _publishDemandGeometry();
     _signalFillerEntry();
     _syncReadViewport();
+  }
+
+  /// A user fling goes Drag -> Ballistic with no new ScrollStart, so the
+  /// coasting flag cannot be driven from start notifications alone. While the
+  /// position is still scrolling, horizontal competitors must drop out so a
+  /// catch-fling can keep the hold's velocity.
+  void _syncCoastingDefer() {
+    if (!_scrollController.hasClients) {
+      return;
+    }
+    if (_scrollController.position.isScrollingNotifier.value) {
+      _deferHorizontalWhileCoasting.value = true;
+    }
   }
 
   void _syncAnimatedImageScrollPause() {
@@ -1615,6 +1648,10 @@ class _MessageListState extends ConsumerState<MessageList> {
       // A drag, ballistic, or programmatic start after a hold owns the next
       // End; the held settle is superseded.
       _settleDeferredForHold = false;
+      if (notification.dragDetails == null) {
+        _deferHorizontalWhileCoasting.value = true;
+      }
+      _syncCoastingDefer();
       // Drag, ballistic, or programmatic - each pairs with an End, and the
       // VM defers recovery window swaps while any of them is live.
       _chatViewModel.setUserScrollActive(
@@ -1627,6 +1664,9 @@ class _MessageListState extends ConsumerState<MessageList> {
         _demandSource.onDragStart();
       }
     } else if (notification is ScrollUpdateNotification) {
+      if (notification.dragDetails == null) {
+        _deferHorizontalWhileCoasting.value = true;
+      }
       final double? delta = notification.scrollDelta;
       if (delta != null && delta != 0) {
         // Real scroll motion only: layout-time corrections dispatch no
@@ -1689,6 +1729,7 @@ class _MessageListState extends ConsumerState<MessageList> {
   /// A depth-0 scroll settled: update the pin latch, apply the re-center
   /// policy, trim the window at the tail, and republish the read viewport.
   void _onUserScrollSettled() {
+    _deferHorizontalWhileCoasting.value = false;
     if (!_anchorResolved || !_scrollController.hasClients) {
       _chatViewModel.setUserScrollActive(
         channelId: _viewportChannelId,

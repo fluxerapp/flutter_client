@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../../helpers/open_test_database.dart';
@@ -402,6 +403,71 @@ void main() {
       await disposeMessageList(tester);
     });
   });
+
+  group('catch fling', () {
+    testWidgets('second vertical swipe while coasting continues the scroll', (
+      WidgetTester tester,
+    ) async {
+      await _pumpList(tester);
+      await _jumpToMid(tester);
+      await tester.fling(messageListScrollable(), const Offset(0, 300), 3000);
+      await tester.pump(const Duration(milliseconds: 40));
+      final ScrollPosition position = messageListScrollPosition(tester);
+      expect(position.isScrollingNotifier.value, isTrue);
+      expect(_coastDefer(tester), isTrue);
+      final TestGesture boost = await tester.startGesture(
+        _messageBodyStart(tester),
+      );
+      await tester.pump();
+      final double held = position.pixels;
+      await boost.moveBy(const Offset(-20, 50));
+      await boost.moveBy(const Offset(-10, 90));
+      await boost.up();
+      await tester.pump();
+      expect(position.pixels, lessThan(held - 20));
+      expect(_replying(tester), isNull);
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('leftward-dominant boost while coasting still scrolls', (
+      WidgetTester tester,
+    ) async {
+      await _pumpList(tester);
+      await _jumpToMid(tester);
+      await tester.fling(messageListScrollable(), const Offset(0, 300), 3000);
+      await tester.pump(const Duration(milliseconds: 40));
+      expect(_coastDefer(tester), isTrue);
+      final ScrollPosition position = messageListScrollPosition(tester);
+      final double held = position.pixels;
+      final TestGesture boost = await tester.startGesture(
+        _messageBodyStart(tester),
+      );
+      await boost.moveBy(const Offset(-40, 30));
+      await boost.moveBy(const Offset(0, 100));
+      await boost.up();
+      await tester.pump();
+      expect(position.pixels, lessThan(held - 20));
+      expect(_replying(tester), isNull);
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('leftward swipe while coasting does not reply', (
+      WidgetTester tester,
+    ) async {
+      await _pumpList(tester);
+      await tester.fling(messageListScrollable(), const Offset(0, 300), 3000);
+      await tester.pump(const Duration(milliseconds: 40));
+      expect(
+        messageListScrollPosition(tester).isScrollingNotifier.value,
+        isTrue,
+      );
+      expect(_coastDefer(tester), isTrue);
+      await _slowDrag(tester, _messageBodyStart(tester), const Offset(-160, 0));
+      await tester.pumpAndSettle();
+      expect(_replying(tester), isNull);
+      await disposeMessageList(tester);
+    });
+  });
 }
 
 Future<void> _pumpList(
@@ -501,4 +567,12 @@ String? _replying(WidgetTester tester) {
           ).read(chatViewModelProvider.notifier)
           as InstrumentedChatViewModel;
   return model.testState.replyingTo?.id;
+}
+
+bool _coastDefer(WidgetTester tester) {
+  return tester
+      .widget<DeferHorizontalDragWhileCoasting>(
+        find.byType(DeferHorizontalDragWhileCoasting),
+      )
+      .defer;
 }

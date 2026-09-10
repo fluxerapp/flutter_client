@@ -3,7 +3,6 @@ import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart'
     show TargetPlatform, defaultTargetPlatform, kIsWeb, visibleForTesting;
-import 'package:flutter/gestures.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
@@ -14,6 +13,8 @@ import 'package:fluxer_app/features/shell/providers/drawer_reveal_sync_trigger_p
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/shell/providers/shell_blocks_horizontal_gestures_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/gestures/axis_locking_horizontal_drag_recognizer.dart';
+import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.dart';
 import 'package:fluxer_app/shared/gestures/horizontal_drag_axis_lock.dart';
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
 
@@ -239,6 +240,13 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
   }
 
   bool _shouldDeferDrawerGesture(PointerDownEvent event) {
+    if (isPointerOverHorizontalDragCoastDefer(
+      context,
+      event.position,
+      viewId: event.viewId,
+    )) {
+      return true;
+    }
     if (isPointerOverOverflowingHorizontalScrollable(
       context,
       event.position,
@@ -303,12 +311,15 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
         blocksHorizontalGestures
         ? <Type, GestureRecognizerFactory>{}
         : <Type, GestureRecognizerFactory>{
-            _DrawerHorizontalDragRecognizer:
+            AxisLockingHorizontalDragRecognizer:
                 GestureRecognizerFactoryWithHandlers<
-                  _DrawerHorizontalDragRecognizer
+                  AxisLockingHorizontalDragRecognizer
                 >(
-                  () => _DrawerHorizontalDragRecognizer(
-                    shouldDeferDrawerGesture: _shouldDeferDrawerGesture,
+                  () => AxisLockingHorizontalDragRecognizer(
+                    shouldDefer: _shouldDeferDrawerGesture,
+                    shouldReject: (HorizontalDragAxisLockDecision decision) =>
+                        decision ==
+                        HorizontalDragAxisLockDecision.yieldToVertical,
                   ),
                   (recognizer) {
                     recognizer
@@ -373,63 +384,6 @@ class _DrawerSliderLayer extends ConsumerWidget {
         child: RepaintBoundary(child: slider),
       ),
     );
-  }
-}
-
-class _DrawerHorizontalDragRecognizer extends HorizontalDragGestureRecognizer {
-  _DrawerHorizontalDragRecognizer({required this.shouldDeferDrawerGesture});
-
-  final bool Function(PointerDownEvent event) shouldDeferDrawerGesture;
-
-  final Map<int, Offset> _initialPositions = <int, Offset>{};
-  final Set<int> _resolved = <int>{};
-
-  @override
-  void addAllowedPointer(PointerDownEvent event) {
-    if (shouldDeferDrawerGesture(event)) {
-      resolve(GestureDisposition.rejected);
-      return;
-    }
-    _initialPositions[event.pointer] = event.position;
-    super.addAllowedPointer(event);
-  }
-
-  @override
-  void handleEvent(PointerEvent event) {
-    if (event is PointerMoveEvent && !_resolved.contains(event.pointer)) {
-      final Offset? start = _initialPositions[event.pointer];
-      if (start != null) {
-        final HorizontalDragAxisLockDecision decision =
-            resolveHorizontalDragAxisLock(
-              deltaFromStart: event.position - start,
-              slop: computeHitSlop(event.kind, gestureSettings),
-            );
-        if (decision == HorizontalDragAxisLockDecision.yieldToVertical) {
-          _resolved.add(event.pointer);
-          resolve(GestureDisposition.rejected);
-          return;
-        }
-        if (decision == HorizontalDragAxisLockDecision.keepHorizontal ||
-            decision == HorizontalDragAxisLockDecision.yieldToRightward) {
-          _resolved.add(event.pointer);
-        }
-      }
-    }
-    super.handleEvent(event);
-  }
-
-  @override
-  void didStopTrackingLastPointer(int pointer) {
-    _initialPositions.remove(pointer);
-    _resolved.remove(pointer);
-    super.didStopTrackingLastPointer(pointer);
-  }
-
-  @override
-  void rejectGesture(int pointer) {
-    _initialPositions.remove(pointer);
-    _resolved.remove(pointer);
-    super.rejectGesture(pointer);
   }
 }
 

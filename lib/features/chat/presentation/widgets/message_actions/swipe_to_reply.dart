@@ -1,11 +1,12 @@
 import 'dart:math' as math;
 
-import 'package:flutter/gestures.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/gestures/axis_locking_horizontal_drag_recognizer.dart';
+import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.dart';
 import 'package:fluxer_app/shared/gestures/horizontal_drag_axis_lock.dart';
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
@@ -184,6 +185,9 @@ class _SwipeToReplyState extends State<SwipeToReply>
   }
 
   bool _shouldDeferToHorizontalScroll(PointerDownEvent event) {
+    if (DeferHorizontalDragWhileCoasting.of(context)) {
+      return true;
+    }
     final BuildContext? searchRoot = _contentKey.currentContext;
     if (searchRoot == null) {
       return false;
@@ -254,13 +258,17 @@ class _SwipeToReplyState extends State<SwipeToReply>
           child: RawGestureDetector(
             behavior: HitTestBehavior.translucent,
             gestures: <Type, GestureRecognizerFactory>{
-              _LeftwardHorizontalDragRecognizer:
+              AxisLockingHorizontalDragRecognizer:
                   GestureRecognizerFactoryWithHandlers<
-                    _LeftwardHorizontalDragRecognizer
+                    AxisLockingHorizontalDragRecognizer
                   >(
-                    () => _LeftwardHorizontalDragRecognizer(
-                      shouldDeferToHorizontalScroll:
-                          _shouldDeferToHorizontalScroll,
+                    () => AxisLockingHorizontalDragRecognizer(
+                      shouldDefer: _shouldDeferToHorizontalScroll,
+                      shouldReject: (HorizontalDragAxisLockDecision decision) =>
+                          decision ==
+                              HorizontalDragAxisLockDecision.yieldToVertical ||
+                          decision ==
+                              HorizontalDragAxisLockDecision.yieldToRightward,
                     ),
                     (recognizer) {
                       recognizer
@@ -377,67 +385,4 @@ class _HoldRingPainter extends CustomPainter {
       oldDelegate.progress != progress ||
       oldDelegate.color != color ||
       oldDelegate.trackColor != trackColor;
-}
-
-/// Horizontal drag recognizer that drops out of the gesture arena as soon
-/// as the dominant drag direction is vertical (so the message list can
-/// scroll) or rightward (so the parent shell drawer can open).
-class _LeftwardHorizontalDragRecognizer
-    extends HorizontalDragGestureRecognizer {
-  _LeftwardHorizontalDragRecognizer({
-    required this.shouldDeferToHorizontalScroll,
-  });
-
-  final bool Function(PointerDownEvent event) shouldDeferToHorizontalScroll;
-
-  final Map<int, Offset> _initialPositions = <int, Offset>{};
-  final Set<int> _resolved = <int>{};
-
-  @override
-  void addAllowedPointer(PointerDownEvent event) {
-    if (shouldDeferToHorizontalScroll(event)) {
-      resolve(GestureDisposition.rejected);
-      return;
-    }
-    _initialPositions[event.pointer] = event.position;
-    super.addAllowedPointer(event);
-  }
-
-  @override
-  void handleEvent(PointerEvent event) {
-    if (event is PointerMoveEvent && !_resolved.contains(event.pointer)) {
-      final start = _initialPositions[event.pointer];
-      if (start != null) {
-        final HorizontalDragAxisLockDecision decision =
-            resolveHorizontalDragAxisLock(
-              deltaFromStart: event.position - start,
-              slop: computeHitSlop(event.kind, gestureSettings),
-            );
-        if (decision == HorizontalDragAxisLockDecision.yieldToVertical ||
-            decision == HorizontalDragAxisLockDecision.yieldToRightward) {
-          _resolved.add(event.pointer);
-          resolve(GestureDisposition.rejected);
-          return;
-        }
-        if (decision == HorizontalDragAxisLockDecision.keepHorizontal) {
-          _resolved.add(event.pointer);
-        }
-      }
-    }
-    super.handleEvent(event);
-  }
-
-  @override
-  void didStopTrackingLastPointer(int pointer) {
-    _initialPositions.remove(pointer);
-    _resolved.remove(pointer);
-    super.didStopTrackingLastPointer(pointer);
-  }
-
-  @override
-  void rejectGesture(int pointer) {
-    _initialPositions.remove(pointer);
-    _resolved.remove(pointer);
-    super.rejectGesture(pointer);
-  }
 }
