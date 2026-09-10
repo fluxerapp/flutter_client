@@ -87,6 +87,7 @@ class ManageMemberRolesSheet {
       context,
       title: title ?? l10n.permissionManageRoles,
       useRootNavigator: true,
+      initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
       minChildSize: 0.35,
       builder: (sheetContext, scrollController, close) {
         return ListView(

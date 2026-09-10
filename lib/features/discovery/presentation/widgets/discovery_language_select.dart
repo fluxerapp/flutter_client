@@ -62,6 +62,7 @@ Future<void> showDiscoveryLanguagePicker({
       await FluxerBottomSheet.showScrollable<_DiscoveryLanguagePickerResult>(
         context,
         title: l10n.discoveryFilterByLanguage,
+        initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
         builder:
             (BuildContext sheetContext, ScrollController scrollController, _) {
               return _DiscoveryLanguageSelectSheet(

@@ -270,6 +270,9 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
         sheetHostContext,
         title: label,
         useRootNavigator: sheetUsesRootNavigator,
+        initialChildSize: enableSearch
+            ? FluxerBottomSheet.scrollableSheetSize
+            : FluxerBottomSheet.scrollableSheetHalfSize,
         builder: (sheetContext, scrollController, close) {
           return _FluxerSelectSheet<T>(
             items: items,

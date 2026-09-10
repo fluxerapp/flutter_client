@@ -58,6 +58,7 @@ class VoiceParticipantContextMenu {
     return FluxerBottomSheet.showScrollable<void>(
       context,
       useRootNavigator: true,
+      initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
       minChildSize: 0.25,
       builder: (sheetContext, scrollController, close) {
         return _VoiceParticipantContextMenuPanel(
