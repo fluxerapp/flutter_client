@@ -478,6 +478,10 @@ class _MarkdownBlockRenderer {
           overflow: overflow,
           spoilerIndexCounter: _SpoilerIndexCounter(),
         ).build(node.children ?? const []);
+      case 'ul':
+      case 'ol':
+      case 'li':
+        return collectRestrictedInlinePreviewSpans(node.children ?? const []);
       case 'pre':
         final codeElement = node.children
             ?.whereType<md.Element>()
