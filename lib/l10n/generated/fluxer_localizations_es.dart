@@ -8860,6 +8860,22 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
       'No se pudo generar un enlace de invitación. Por favor, inténtalo de nuevo.';
 
   @override
+  String get guildNavbarCreateInviteFailed =>
+      'Couldn\'t create an invite link. Please try again.';
+
+  @override
+  String get guildNavbarCreateInviteMissingPermissions =>
+      'You don\'t have permission to create an invite in this channel.';
+
+  @override
+  String get guildNavbarCreateInviteMaxInvites =>
+      'This community has reached its invite limit.';
+
+  @override
+  String get guildNavbarCreateInviteTemporarilyDisabled =>
+      'Invite creation is temporarily disabled for this community.';
+
+  @override
   String get groupDmCopyInviteFailed =>
       'No se pudo copiar el enlace de invitación';
 

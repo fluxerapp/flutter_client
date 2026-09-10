@@ -58,9 +58,24 @@ Future<void> _showDetailsMoreSheet(
       final canManageChannel =
           channel != null &&
           hasPermission(channelPermissionBits, Permission.manageChannels);
-      final canCreateInvite =
-          channel != null &&
-          hasPermission(channelPermissionBits, Permission.createInstantInvite);
+      ChannelInviteCapability inviteCapability = const ChannelInviteCapability(
+        canInvite: false,
+      );
+      final Channel? inviteChannel = channel;
+      if (inviteChannel != null) {
+        inviteCapability = resolveChannelInviteCapability(
+          permissionBits: channelPermissionBits,
+          channel: inviteChannel,
+          guildId: inviteChannel.guildId,
+          vanityUrlCode: ref
+              .read(guildListViewModelProvider)
+              .guilds
+              .where((guild) => guild.id == inviteChannel.guildId)
+              .firstOrNull
+              ?.vanityUrlCode,
+        );
+      }
+      final bool canCreateInvite = inviteCapability.canInvite;
 
       final commonItems = <Widget>[
         if (showFavorite)
@@ -85,20 +100,22 @@ Future<void> _showDetailsMoreSheet(
             icon: PhosphorIconsBold.pushPin,
             onTap: () => run(() => onToggleDmPin(isPinned: isDmPinned)),
           ),
-        if (canCreateInvite)
+        if (inviteChannel != null && canCreateInvite)
           FluxerBottomSheetMenuItem(
             label: l10n.channelDetailsInvitePeople,
             icon: PhosphorIconsBold.userPlus,
             onTap: () {
+              final Channel target = inviteChannel;
               close();
               unawaited(
                 showChannelInviteModal(
                   context,
                   ref,
-                  channelId: channel.id,
-                  channelName: channel.name,
-                  guildId: channel.guildId,
-                  useVanityUrl: false,
+                  channelId: target.id,
+                  channelName: target.name,
+                  guildId: target.guildId,
+                  useVanityUrl: inviteCapability.useVanityUrl,
+                  vanityUrlCode: inviteCapability.vanityUrlCode,
                 ),
               );
             },

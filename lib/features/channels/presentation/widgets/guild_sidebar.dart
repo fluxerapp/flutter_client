@@ -916,6 +916,7 @@ class _ChannelTile extends ConsumerWidget {
         ),
       ),
       mutedHint: mutedHint,
+      vanityUrlCode: guild.vanityUrlCode,
     );
     final List<ChannelMenuGroup> groups = buildChannelMenuGroups(
       l10n: l10n,

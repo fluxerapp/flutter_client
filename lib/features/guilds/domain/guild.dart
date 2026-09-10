@@ -34,6 +34,7 @@ class Guild {
   final int contentWarningLevel;
   final String? contentWarningText;
   final int defaultMessageNotifications;
+  final String? vanityUrlCode;
 
   const Guild({
     required this.id,
@@ -58,6 +59,7 @@ class Guild {
     this.contentWarningLevel = 0,
     this.contentWarningText,
     this.defaultMessageNotifications = 0,
+    this.vanityUrlCode,
   });
 
   factory Guild.fromRow(db.Server row) {
@@ -84,6 +86,7 @@ class Guild {
       contentWarningLevel: row.contentWarningLevel,
       contentWarningText: row.contentWarningText,
       defaultMessageNotifications: row.defaultMessageNotifications,
+      vanityUrlCode: row.vanityUrlCode,
     );
   }
 
@@ -111,6 +114,7 @@ class Guild {
       contentWarningLevel: Value(contentWarningLevel),
       contentWarningText: Value(contentWarningText),
       defaultMessageNotifications: Value(defaultMessageNotifications),
+      vanityUrlCode: Value(vanityUrlCode),
     );
   }
 

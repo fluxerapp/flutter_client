@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/invite_people_recipient.dart';
+import 'package:fluxer_app/features/guilds/utils/invite_create_errors.dart';
 import 'package:fluxer_app/features/guilds/utils/invite_people_actions.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -57,7 +58,12 @@ class _InvitePeopleContentState extends State<InvitePeopleContent> {
     _recipientsFuture = widget.getRecipients();
     final String? vanityUrl = widget.vanityUrl;
     if (vanityUrl != null && vanityUrl.isNotEmpty) {
-      _inviteState.value = (url: vanityUrl, channelName: '', maxAge: 0);
+      _inviteState.value = (
+        url: vanityUrl,
+        channelName: '',
+        maxAge: 0,
+        useVanityUrl: true,
+      );
       _linkController.text = vanityUrl;
     } else {
       unawaited(_loadInvite());
@@ -103,12 +109,13 @@ class _InvitePeopleContentState extends State<InvitePeopleContent> {
       _inviteState.value = (
         url: result.url,
         channelName: result.channelName,
-        maxAge: maxAge,
+        maxAge: result.useVanityUrl ? 0 : maxAge,
+        useVanityUrl: result.useVanityUrl,
       );
       _copied.value = false;
-    } on Object {
+    } on Object catch (error) {
       if (mounted) {
-        _showCreateFailed();
+        _showCreateFailed(error);
       }
     } finally {
       if (mounted) {
@@ -126,8 +133,13 @@ class _InvitePeopleContentState extends State<InvitePeopleContent> {
         .show(FluxerToast(message: message, variant: variant));
   }
 
-  void _showCreateFailed() {
-    _showToast(FluxerLocalizations.of(context).groupDmCreateInviteFailedBody);
+  void _showCreateFailed([Object? error]) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    _showToast(
+      error == null
+          ? l10n.guildNavbarCreateInviteFailed
+          : inviteCreateFailureMessage(error: error, l10n: l10n),
+    );
   }
 
   Future<void> _copyLink() async {
@@ -170,7 +182,8 @@ class _InvitePeopleContentState extends State<InvitePeopleContent> {
   }
 
   Future<void> _editLink() async {
-    if (widget.vanityUrl != null) {
+    if ((widget.vanityUrl != null && widget.vanityUrl!.isNotEmpty) ||
+        (_inviteState.value?.useVanityUrl ?? false)) {
       return;
     }
     final settings = await widget.onEditLink();
@@ -185,7 +198,8 @@ class _InvitePeopleContentState extends State<InvitePeopleContent> {
   }
 
   String _expiryText(FluxerLocalizations l10n, InviteLinkState? state) {
-    if (widget.vanityUrl != null || (state != null && state.maxAge == 0)) {
+    if ((widget.vanityUrl != null && widget.vanityUrl!.isNotEmpty) ||
+        (state != null && (state.useVanityUrl || state.maxAge == 0))) {
       return l10n.guildNavbarInviteNeverExpires;
     }
     if (state == null || state.maxAge == kDefaultInviteMaxAgeSeconds) {
@@ -266,7 +280,7 @@ class _InvitePeopleContentState extends State<InvitePeopleContent> {
         inviteState: _inviteState,
         copied: _copied,
         creating: _creating,
-        canEdit: widget.vanityUrl == null,
+        canEdit: widget.vanityUrl == null || widget.vanityUrl!.isEmpty,
         expiryText: (InviteLinkState? state) => _expiryText(l10n, state),
         onCopy: _copyLink,
         onEdit: _editLink,
@@ -455,12 +469,12 @@ class _InviteLinkFooter extends StatelessWidget {
           valueListenable: inviteState,
           builder: (_, InviteLinkState? state, _) {
             return FluxerGestureDetector(
-              onTap: canEdit ? onEdit : null,
+              onTap: canEdit && !(state?.useVanityUrl ?? false) ? onEdit : null,
               child: Text.rich(
                 TextSpan(
                   children: <InlineSpan>[
                     TextSpan(text: '${expiryText(state)} '),
-                    if (canEdit)
+                    if (canEdit && !(state?.useVanityUrl ?? false))
                       TextSpan(
                         text: l10n.guildNavbarEditInviteLink,
                         style: textStyles.timestamp.copyWith(

@@ -430,6 +430,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
             },
             resolveMenuPermissions: () =>
                 _resolveGuildMenuPermissions(ref, guild.id),
+            resolveCanInvite: () => _resolveGuildCanInvite(ref, guild.id),
             onMarkAsRead: () {
               unawaited(
                 markGuildAsRead(
@@ -683,6 +684,11 @@ Future<int> _resolveGuildMenuPermissions(WidgetRef ref, String guildId) async {
   return ref.read(guildPermissionsProvider)[guildId] ?? 0;
 }
 
+Future<bool> _resolveGuildCanInvite(WidgetRef ref, String guildId) async {
+  return (await resolveGuildInvitableChannel(ref: ref, guildId: guildId)) !=
+      null;
+}
+
 Future<void> presentGuildMenuSheet(
   BuildContext context,
   WidgetRef ref, {
@@ -698,6 +704,7 @@ Future<void> presentGuildMenuSheet(
   final unread = ref.read(guildReadStateProvider)[guild.id];
   final muteState = ref.read(guildMuteProvider(guild.id)).value;
   final int permissions = await _resolveGuildMenuPermissions(ref, guild.id);
+  final bool canInvite = await _resolveGuildCanInvite(ref, guild.id);
   if (!context.mounted) {
     return;
   }
@@ -712,6 +719,7 @@ Future<void> presentGuildMenuSheet(
     isMuted: muteState?.isMuted ?? false,
     isOwner: sheetGuild.ownerId == currentUserId,
     permissions: permissions,
+    canInvite: canInvite,
     muteEndTime: muteState?.muteEndTime,
     hideMutedChannels: muteState?.hideMutedChannels ?? false,
     developerMode: developerMode,

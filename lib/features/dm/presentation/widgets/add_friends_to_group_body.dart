@@ -147,18 +147,6 @@ class _AddFriendsToGroupBodyState extends ConsumerState<AddFriendsToGroupBody> {
                             return;
                           }
                           if (!copied) {
-                            if (controller.inviteLink == null &&
-                                !controller.isGeneratingInvite) {
-                              ref
-                                  .read(toastProvider.notifier)
-                                  .show(
-                                    FluxerToast(
-                                      message:
-                                          l10n.groupDmCreateInviteFailedBody,
-                                      variant: FluxerToastVariant.danger,
-                                    ),
-                                  );
-                            }
                             return;
                           }
                           ref
