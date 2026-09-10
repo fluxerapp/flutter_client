@@ -91,6 +91,7 @@ Future<void> _showForwardSheet(
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
   final String? destinationId = await FluxerBottomSheet.showScrollable<String?>(
     context,
+    useRootNavigator: true,
     title: l10n.forwardMessageTitle,
     builder: (sheetContext, scrollController, _) => _ForwardMessageSheetBody(
       sourceChannelId: sourceChannelId,
