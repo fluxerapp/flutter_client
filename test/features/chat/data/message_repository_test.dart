@@ -12,6 +12,29 @@ import 'package:fluxer_dart/export.dart';
 
 import '../../../helpers/open_test_database.dart';
 
+Map<String, dynamic> _pageMessageJson(String id) => MessageResponseSchema(
+  id: id,
+  channelId: 'channel-1',
+  author: const UserPartialResponse(
+    id: 'other',
+    username: 'other',
+    discriminator: '0001',
+    globalName: null,
+    avatar: null,
+    avatarColor: null,
+    flags: 0,
+  ),
+  type: MessageResponseSchemaTypeType.valueDefault,
+  flags: 0,
+  content: id,
+  timestamp: DateTime.utc(2026, 5, 6, 12),
+  pinned: false,
+  mentionEveryone: false,
+  tts: false,
+  mentions: const [],
+  mentionRoles: const [],
+).toJson();
+
 void main() {
   test('buildMessageCreateBody sends favorite meme ids compactly', () {
     final body = buildMessageCreateBody(content: '', favoriteMemeId: 'meme-1');
@@ -284,6 +307,104 @@ void main() {
     expect(await db.messageDao.getMessage(keptId), isNotNull);
   });
 
+  test('latest page removes a cached tail the server no longer has', () async {
+    final db = openTestDatabase();
+    const anchorId = '1501554121113600000';
+    const deletedTailId = '1501554121113610000';
+    for (final String messageId in <String>[anchorId, deletedTailId]) {
+      await db.messageDao.upsertMessage(
+        MessagesCompanion.insert(
+          id: messageId,
+          channelId: 'channel-1',
+          authorId: 'other',
+          content: messageId,
+          timestamp: DateTime.utc(2026, 5, 6, 12),
+        ),
+      );
+    }
+    final adapter = _StubMessagesAdapter(
+      jsonEncode(<Map<String, dynamic>>[_pageMessageJson(anchorId)]),
+    );
+    final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+      ..httpClientAdapter = adapter;
+    final client = FluxerClient(dio, baseUrl: 'https://api.fluxer.app/v1');
+    final repo = MessageRepository(client, dio, db, 'me');
+
+    await repo.loadMessagePage(channelId: 'channel-1');
+
+    expect(await db.messageDao.getMessage(anchorId), isNotNull);
+    expect(await db.messageDao.getMessage(deletedTailId), isNull);
+  });
+
+  test('around page keeps a cached row newer than the page', () async {
+    final db = openTestDatabase();
+    const anchorId = '1501554121113600000';
+    const newerId = '1501554121113610000';
+    for (final String messageId in <String>[anchorId, newerId]) {
+      await db.messageDao.upsertMessage(
+        MessagesCompanion.insert(
+          id: messageId,
+          channelId: 'channel-1',
+          authorId: 'other',
+          content: messageId,
+          timestamp: DateTime.utc(2026, 5, 6, 12),
+        ),
+      );
+    }
+    final adapter = _StubMessagesAdapter(
+      jsonEncode(<Map<String, dynamic>>[_pageMessageJson(anchorId)]),
+    );
+    final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+      ..httpClientAdapter = adapter;
+    final client = FluxerClient(dio, baseUrl: 'https://api.fluxer.app/v1');
+    final repo = MessageRepository(client, dio, db, 'me');
+
+    await repo.loadMessagePage(channelId: 'channel-1', around: anchorId);
+
+    expect(await db.messageDao.getMessage(anchorId), isNotNull);
+    expect(await db.messageDao.getMessage(newerId), isNotNull);
+  });
+
+  test('latest page keeps a row persisted while it was in flight', () async {
+    final db = openTestDatabase();
+    const anchorId = '1501554121113600000';
+    const deletedTailId = '1501554121113610000';
+    const inFlightId = '1501554121113620000';
+    for (final String messageId in <String>[anchorId, deletedTailId]) {
+      await db.messageDao.upsertMessage(
+        MessagesCompanion.insert(
+          id: messageId,
+          channelId: 'channel-1',
+          authorId: 'other',
+          content: messageId,
+          timestamp: DateTime.utc(2026, 5, 6, 12),
+        ),
+      );
+    }
+    final adapter = _StubMessagesAdapter(
+      jsonEncode(<Map<String, dynamic>>[_pageMessageJson(anchorId)]),
+      onMessagesRequest: () => db.messageDao.upsertMessage(
+        MessagesCompanion.insert(
+          id: inFlightId,
+          channelId: 'channel-1',
+          authorId: 'other',
+          content: inFlightId,
+          timestamp: DateTime.utc(2026, 5, 6, 12, 1),
+        ),
+      ),
+    );
+    final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+      ..httpClientAdapter = adapter;
+    final client = FluxerClient(dio, baseUrl: 'https://api.fluxer.app/v1');
+    final repo = MessageRepository(client, dio, db, 'me');
+
+    await repo.loadMessagePage(channelId: 'channel-1');
+
+    expect(await db.messageDao.getMessage(anchorId), isNotNull);
+    expect(await db.messageDao.getMessage(deletedTailId), isNull);
+    expect(await db.messageDao.getMessage(inFlightId), isNotNull);
+  });
+
   test('deleteMessage removes local row when server succeeds', () async {
     final db = openTestDatabase();
     const messageId = '1501554121113600000';
@@ -531,9 +652,10 @@ class _DeleteMessageAdapter implements HttpClientAdapter {
 }
 
 class _StubMessagesAdapter implements HttpClientAdapter {
-  _StubMessagesAdapter(this.body);
+  _StubMessagesAdapter(this.body, {this.onMessagesRequest});
 
   final String body;
+  final Future<void> Function()? onMessagesRequest;
 
   @override
   Future<ResponseBody> fetch(
@@ -543,6 +665,7 @@ class _StubMessagesAdapter implements HttpClientAdapter {
   ) async {
     final String path = options.uri.path;
     if (options.method == 'GET' && path.endsWith('/messages')) {
+      await onMessagesRequest?.call();
       return ResponseBody.fromString(
         body,
         200,
