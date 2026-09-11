@@ -13,7 +13,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get reconnectingBody =>
-      'Κάτι δεν πάει καλά με τους διακομιστές.\nΘα φτιαχτεί σε ένα δευτερόλεπτο!';
+      'Κάτι πήγε στραβά με την παρουσία.\nΘα διορθωθεί σε μια στιγμή!';
 
   @override
   String get gatewayReconnectingToast => 'Επανασύνδεση…';
@@ -23,7 +23,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get sessionExpiredToast =>
-      'Your session has expired. Please sign in again.';
+      'Η συνεδρία σας έχει λήξει. Παρακαλώ συνδεθείτε ξανά.';
 
   @override
   String splashStartupFailed(String error) {
@@ -55,132 +55,132 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get splashIncidentHistory => 'Ιστορικό συμβάντων';
 
   @override
-  String get nagbarLearnMore => 'Learn more';
+  String get nagbarLearnMore => 'Μάθετε περισσότερα';
 
   @override
   String nagbarMaintenanceScheduled(String localizedTime, String duration) {
-    return 'Maintenance is scheduled for $localizedTime. Expected duration: $duration.';
+    return 'Έχει προγραμματιστεί συντήρηση για $localizedTime. Αναμενόμενη διάρκεια: $duration.';
   }
 
   @override
   String nagbarMaintenanceInProgress(String duration) {
-    return 'Maintenance is in progress. Expected duration: $duration.';
+    return 'Πραγματοποιείται συντήρηση. Αναμενόμενη διάρκεια: $duration.';
   }
 
   @override
-  String get nagbarMaintenanceComplete => 'Maintenance is complete.';
+  String get nagbarMaintenanceComplete => 'Η συντήρηση ολοκληρώθηκε.';
 
   @override
   String nagbarUnclaimedAccountMessage(String displayName) {
-    return 'Hey $displayName, claim your account to prevent losing access.';
+    return 'Γεια σου $displayName, διεκδίκησε τον λογαριασμό σου για να μην χάσεις την πρόσβαση.';
   }
 
   @override
   String nagbarEmailVerificationMessage(String displayName) {
-    return 'Hey $displayName, please verify your email address.';
+    return 'Γεια σου $displayName, επιβεβαίωσε τη διεύθυνση email σου.';
   }
 
   @override
-  String get nagbarOpenSettings => 'Open settings';
+  String get nagbarOpenSettings => 'Άνοιγμα ρυθμίσεων';
 
   @override
-  String get systemPermissionSettingsTitle => 'Enable permission';
+  String get systemPermissionSettingsTitle => 'Ενεργοποίηση άδειας';
 
   @override
-  String get systemPermissionSettingsOpenSettings => 'Open settings';
+  String get systemPermissionSettingsOpenSettings => 'Άνοιγμα ρυθμίσεων';
 
   @override
   String systemPermissionMicrophoneMessage(String productName) {
-    return '$productName doesn\'t have access to your microphone. You can enable it in your device privacy settings.';
+    return 'Το $productName δεν έχει πρόσβαση στο μικρόφωνό σας. Μπορείτε να το ενεργοποιήσετε στις ρυθμίσεις απορρήτου της συσκευής σας.';
   }
 
   @override
   String systemPermissionCameraMessage(String productName) {
-    return '$productName doesn\'t have access to your camera. You can enable it in your device privacy settings.';
+    return 'Το $productName δεν έχει πρόσβαση στην κάμερά σας. Μπορείτε να την ενεργοποιήσετε στις ρυθμίσεις απορρήτου της συσκευής σας.';
   }
 
   @override
   String systemPermissionPhotosMessage(String productName) {
-    return '$productName doesn\'t have access to your photo library. You can enable it in your device privacy settings.';
+    return 'Το $productName δεν έχει πρόσβαση στη βιβλιοθήκη φωτογραφιών σας. Μπορείτε να την ενεργοποιήσετε στις ρυθμίσεις απορρήτου της συσκευής σας.';
   }
 
   @override
   String systemPermissionNotificationsMessage(String productName) {
-    return '$productName doesn\'t have permission to send notifications. You can enable it in your device settings.';
+    return 'Το $productName δεν έχει άδεια αποστολής ειδοποιήσεων. Μπορείτε να την ενεργοποιήσετε στις ρυθμίσεις της συσκευής σας.';
   }
 
   @override
   String nagbarPremiumGracePeriod(String productName, String graceDate) {
-    return 'Your subscription failed to renew, but you still have access to $productName perks until $graceDate. Take action now or you\'ll lose all perks.';
+    return 'Η συνδρομή σας δεν ανανεώθηκε, αλλά εξακολουθείτε να έχετε πρόσβαση στα προνόμια του $productName έως τις $graceDate. Αναλάβετε δράση τώρα, αλλιώς θα χάσετε όλα τα προνόμια.';
   }
 
   @override
   String nagbarPremiumExpired(String productName) {
-    return 'Your $productName subscription has expired. Renew now to keep your perks.';
+    return 'Η συνδρομή σας στο $productName έχει λήξει. Ανανεώστε τώρα για να διατηρήσετε τα προνόμιά σας.';
   }
 
   @override
-  String get nagbarManageSubscription => 'Manage subscription';
+  String get nagbarManageSubscription => 'Διαχείριση συνδρομής';
 
   @override
   String nagbarPremiumOnboardingDefault(
     String productFullName,
     String productName,
   ) {
-    return 'Welcome to $productFullName. Explore your $productName perks and manage your subscription.';
+    return 'Καλώς ήρθες στο $productFullName. Εξερεύνησε τα προνόμια του $productName και διαχειρίσου τη συνδρομή σου.';
   }
 
   @override
   String nagbarViewPremiumFeatures(String productName) {
-    return 'View $productName features';
+    return 'Προβολή λειτουργιών $productName';
   }
 
   @override
   String get nagbarGiftInventoryOne =>
-      'You have a new gift code waiting in your gift inventory.';
+      'Ένας νέος κωδικός δώρου σε περιμένει στο απόθεμα δώρων σου.';
 
   @override
   String nagbarGiftInventoryMany(int count) {
-    return 'You have $count new gift codes waiting in your gift inventory.';
+    return 'Έχεις $count νέους κωδικούς δώρου που περιμένουν στο απόθεμα δώρων σου.';
   }
 
   @override
-  String get nagbarViewGiftInventory => 'View gift inventory';
+  String get nagbarViewGiftInventory => 'Προβολή αποθέματος δώρων';
 
   @override
   String get nagbarVisionaryMfa =>
-      'Enable two-factor authentication to protect your Visionary account.';
+      'Ενεργοποιήστε τον έλεγχο ταυτότητας δύο παραγόντων για να προστατεύσετε τον λογαριασμό σας Visionary.';
 
   @override
-  String get nagbarEnableMfa => 'Enable 2FA';
+  String get nagbarEnableMfa => 'Ενεργοποίηση 2FA';
 
   @override
   String get nagbarTermsAcceptance =>
-      'We\'ve updated our terms. Please review and accept them to continue.';
+      'Ενημερώσαμε τους όρους μας. Παρακαλούμε, ελέγξτε τους και αποδεχτείτε τους για να συνεχίσετε.';
 
   @override
-  String get nagbarReviewTerms => 'Review terms';
+  String get nagbarReviewTerms => 'Αναθεώρηση όρων';
 
   @override
   String nagbarGuildMembershipCta(String communityName) {
-    return 'Join $communityName to chat with the team and stay up to date.';
+    return 'Εγγραφείτε στην κοινότητα $communityName για να συνομιλήσετε με την ομάδα και να μείνετε ενημερωμένοι.';
   }
 
   @override
   String nagbarJoinCommunity(String communityName) {
-    return 'Join $communityName';
+    return 'Συμμετοχή στο $communityName';
   }
 
   @override
   String get nagbarPushNotification =>
-      'Enable notifications so you don\'t miss messages and mentions.';
+      'Ενεργοποιήστε τις ειδοποιήσεις για να μην χάνετε μηνύματα και αναφορές.';
 
   @override
-  String get nagbarEnableNotifications => 'Enable notifications';
+  String get nagbarEnableNotifications => 'Ενεργοποίηση ειδοποιήσεων';
 
   @override
   String get nagbarBillingPortalFailed =>
-      'Couldn\'t open the billing portal. Please try again in a moment.';
+      'Δεν ήταν δυνατή η άνοιξη της πύλης χρέωσης. Δοκιμάστε ξανά σε λίγο.';
 
   @override
   String get welcomeBack => 'Καλώς ήρθες ξανά';
@@ -293,7 +293,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get back => 'Πίσω';
 
   @override
-  String get next => 'Next';
+  String get next => 'Επόμενο';
 
   @override
   String get mfaTitle => 'Έλεγχος ταυτότητας δύο παραγόντων';
@@ -627,11 +627,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get registerPendingApproval =>
-      'Your account request is pending approval. You can sign in after an admin approves it.';
+      'Το αίτημα λογαριασμού σου εκκρεμεί για έγκριση. Μπορείς να συνδεθείς αφού το εγκρίνει ένας διαχειριστής.';
 
   @override
   String get registerClosed =>
-      'Registration is currently closed. Use a registration link from an admin to create an account.';
+      'Οι εγγραφές είναι προς το παρόν κλειστές. Χρησιμοποίησε έναν σύνδεσμο εγγραφής από διαχειριστή για να δημιουργήσεις λογαριασμό.';
 
   @override
   String get passkeyNoCredentials =>
@@ -667,7 +667,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get errorServiceUnavailable =>
-      'This instance is temporarily unavailable. Try again in a moment.';
+      'Αυτή η παρουσία είναι προσωρινά μη διαθέσιμη. Δοκιμάστε ξανά σε λίγο.';
 
   @override
   String get errorInvalidEmailOrPassword =>
@@ -708,29 +708,30 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get embedInviteUnavailable => 'Η πρόσκληση δεν είναι διαθέσιμη';
 
   @override
-  String get embedInviteJoinGroup => 'Join group';
+  String get embedInviteJoinGroup => 'Συμμετοχή στην ομάδα';
 
   @override
-  String get embedInviteAlreadyJoined => 'Already joined';
+  String get embedInviteAlreadyJoined => 'Έχετε ήδη γίνει μέλος';
 
   @override
-  String get embedInviteDisabled => 'Invites disabled';
+  String get embedInviteDisabled => 'Οι προσκλήσεις απενεργοποιήθηκαν';
 
   @override
-  String get embedInvitePaused => 'Invites are paused for this community.';
+  String get embedInvitePaused =>
+      'Οι προσκλήσεις έχουν τεθεί σε παύση για αυτήν την κοινότητα.';
 
   @override
   String embedInvitePausedRaid(String productName) {
-    return '$productName detected a potential raid, so new users can\'t join right now.';
+    return 'Το $productName εντόπισε μια πιθανή επιδρομή, οπότε οι νέοι χρήστες δεν μπορούν να συμμετάσχουν αυτήν τη στιγμή.';
   }
 
   @override
   String get inviteAcceptInvitesPausedTryAgain =>
-      'This community has paused invites. You can try again later.';
+      'Αυτή η κοινότητα έχει θέσει σε παύση τις προσκλήσεις. Μπορείτε να δοκιμάσετε ξανά αργότερα.';
 
   @override
   String inviteAcceptRaidInvitesPaused(String productName) {
-    return '$productName detected a potential raid in this community. Invites are paused, so new users cannot join right now.';
+    return 'Το $productName εντόπισε μια πιθανή επιδρομή σε αυτήν την κοινότητα. Οι προσκλήσεις έχουν τεθεί σε παύση, επομένως οι νέοι χρήστες δεν μπορούν να συμμετάσχουν αυτήν τη στιγμή.';
   }
 
   @override
@@ -753,14 +754,14 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Αυτή η πρόσκληση ενδέχεται να έχει λήξει ή να είναι μη έγκυρη.';
 
   @override
-  String get invalidDeepLinkTitle => 'Link couldn\'t be opened';
+  String get invalidDeepLinkTitle => 'Ο σύνδεσμος δεν άνοιξε';
 
   @override
   String get invalidDeepLinkDescription =>
-      'This link may be broken, only available on the web, or you might not have access. Check the link and try again.';
+      'Αυτός ο σύνδεσμος ενδέχεται να είναι κατεστραμμένος, να είναι διαθέσιμος μόνο στο διαδίκτυο ή να μην έχετε πρόσβαση. Ελέγξτε τον σύνδεσμο και δοκιμάστε ξανά.';
 
   @override
-  String get invalidDeepLinkGoHomeButton => 'Go to home';
+  String get invalidDeepLinkGoHomeButton => 'Πήγαινε στην αρχική';
 
   @override
   String get inviteAcceptJoinGroupButton => 'Συμμετοχή στην ομάδα';
@@ -818,7 +819,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
-    return 'Visionary (lifetime $productName)';
+    return 'Οραματιστής (ισόβια $productName)';
   }
 
   @override
@@ -826,8 +827,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count days of $productName',
-      one: '1 day of $productName',
+      other: '$count ημέρες $productName',
+      one: '1 ημέρα $productName',
     );
     return '$_temp0';
   }
@@ -837,8 +838,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count weeks of $productName',
-      one: '1 week of $productName',
+      other: '$count εβδομάδες $productName',
+      one: '1 εβδομάδα $productName',
     );
     return '$_temp0';
   }
@@ -848,8 +849,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count months of $productName',
-      one: '1 month of $productName',
+      other: '$count μήνες $productName',
+      one: '1 μήνας $productName',
     );
     return '$_temp0';
   }
@@ -859,96 +860,97 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count years of $productName',
-      one: '1 year of $productName',
+      other: '$count έτη $productName',
+      one: '1 έτος $productName',
     );
     return '$_temp0';
   }
 
   @override
   String embedGiftFrom(String creatorTag) {
-    return 'From $creatorTag';
+    return 'Από $creatorTag';
   }
 
   @override
-  String get embedGiftClaimHelp => 'Click to claim your gift!';
+  String get embedGiftClaimHelp => 'Πατήστε για να λάβετε το δώρο σας!';
 
   @override
-  String get embedGiftAlreadyRedeemed => 'Already redeemed';
+  String get embedGiftAlreadyRedeemed => 'Έχει ήδη εξαργυρωθεί';
 
   @override
   String get embedGiftClaimAccountHelp =>
-      'Claim your account to redeem this gift.';
+      'Διεκδικήστε τον λογαριασμό σας για να εξαργυρώσετε αυτό το δώρο.';
 
   @override
-  String get embedGiftClaim => 'Claim gift';
+  String get embedGiftClaim => 'Διεκδίκηση δώρου';
 
   @override
-  String get embedGiftClaimed => 'Gift claimed';
+  String get embedGiftClaimed => 'Το δώρο παραλήφθηκε';
 
   @override
-  String get embedGiftClaimAccount => 'Claim account to redeem';
+  String get embedGiftClaimAccount => 'Διεκδίκηση λογαριασμού για εξαργύρωση';
 
   @override
-  String get embedGiftUnknownTitle => 'Unknown gift';
+  String get embedGiftUnknownTitle => 'Άγνωστο δώρο';
 
   @override
   String get embedGiftUnknownSubtitle =>
-      'This gift code is invalid or already claimed.';
+      'Αυτός ο κωδικός δώρου δεν είναι έγκυρος ή έχει ήδη χρησιμοποιηθεί.';
 
   @override
-  String get embedGiftUnavailable => 'Gift unavailable';
+  String get embedGiftUnavailable => 'Το δώρο δεν είναι διαθέσιμο';
 
   @override
   String giftAcceptClaimSubscription(String productName) {
-    return 'Claim your gift to activate your $productName subscription!';
+    return 'Διεκδίκησε το δώρο σου για να ενεργοποιήσεις τη συνδρομή σου στο $productName!';
   }
 
   @override
-  String get giftAcceptAlreadyClaimed => 'This gift has already been claimed.';
+  String get giftAcceptAlreadyClaimed => 'Αυτό το δώρο έχει ήδη εξαργυρωθεί.';
 
   @override
-  String get giftAcceptMaybeLater => 'Maybe later';
+  String get giftAcceptMaybeLater => 'Ίσως αργότερα';
 
   @override
-  String get giftRedeemedToast => 'Gift redeemed!';
+  String get giftRedeemedToast => 'Το δώρο εξαργυρώθηκε!';
 
   @override
-  String get giftRedeemInvalidTitle => 'Invalid gift code';
+  String get giftRedeemInvalidTitle => 'Μη έγκυρος κωδικός δώρου';
 
   @override
   String get giftRedeemInvalidMessage =>
-      'This code is invalid or already used.';
+      'Αυτός ο κωδικός είναι μη έγκυρος ή έχει ήδη χρησιμοποιηθεί.';
 
   @override
-  String get giftRedeemAlreadyRedeemedTitle => 'Gift already redeemed';
+  String get giftRedeemAlreadyRedeemedTitle => 'Το δώρο έχει ήδη εξαργυρωθεί';
 
   @override
   String get giftRedeemAlreadyRedeemedMessage =>
-      'This code was already redeemed.';
+      'Αυτός ο κωδικός έχει ήδη εξαργυρωθεί.';
 
   @override
-  String get giftRedeemNotFoundTitle => 'Gift not found';
+  String get giftRedeemNotFoundTitle => 'Το δώρο δεν βρέθηκε';
 
   @override
-  String get giftRedeemNotFoundMessage => 'This code doesn\'t exist.';
+  String get giftRedeemNotFoundMessage => 'Αυτός ο κωδικός δεν υπάρχει.';
 
   @override
-  String get giftRedeemFailedTitle => 'Failed to redeem gift';
+  String get giftRedeemFailedTitle => 'Αποτυχία εξαργύρωσης δώρου';
 
   @override
   String get giftRedeemFailedMessage =>
-      'Couldn\'t redeem this gift. Try again.';
+      'Δεν ήταν δυνατή η εξαργύρωση αυτού του δώρου. Δοκιμάστε ξανά.';
 
   @override
-  String get giftVisionaryCannotRedeemTitle => 'Can\'t redeem this gift';
+  String get giftVisionaryCannotRedeemTitle =>
+      'Δεν μπορείτε να εξαργυρώσετε αυτό το δώρο';
 
   @override
   String get giftVisionaryCannotRedeemMessage =>
-      'Visionary accounts can\'t redeem Plutonium gifts. Copy the link to share it with a friend instead.';
+      'Οι λογαριασμοί Visionary δεν μπορούν να εξαργυρώσουν δώρα Plutonium. Αντιγράψτε τον σύνδεσμο για να τον μοιραστείτε με έναν φίλο.';
 
   @override
-  String get giftCopyLink => 'Copy gift link';
+  String get giftCopyLink => 'Αντιγραφή συνδέσμου δώρου';
 
   @override
   String get privacySettings => 'Ρυθμίσεις απορρήτου';
@@ -1027,10 +1029,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get notificationUnmuteChannel => 'Κατάργηση σίγασης καναλιού';
 
   @override
-  String get notificationUseCategoryDefault => 'Use Category Default';
+  String get notificationUseCategoryDefault => 'Χρήση προεπιλογής κατηγορίας';
 
   @override
-  String get notificationUseCommunityDefault => 'Use Community Default';
+  String get notificationUseCommunityDefault => 'Χρήση προεπιλογής κοινότητας';
 
   @override
   String get notificationNoCategory => 'Χωρίς κατηγορία';
@@ -1069,11 +1071,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get dmDeleteMyMessagesTitle =>
-      'Delete your messages in this conversation?';
+      'Να διαγραφούν τα μηνύματά σας σε αυτήν τη συνομιλία;';
 
   @override
   String get dmDeleteMyMessagesDescription =>
-      'This will permanently delete every message you have ever sent in this conversation. This cannot be undone.';
+      'Αυτό θα διαγράψει οριστικά κάθε μήνυμα που έχετε στείλει ποτέ σε αυτήν τη συνομιλία. Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.';
 
   @override
   String get dmCopyChannelId => 'Αντιγραφή αναγνωριστικού καναλιού';
@@ -1181,11 +1183,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get dmUnpinGroupDm => 'Αποκαρφίτσωμα Ομαδικής Συνομιλίας';
 
   @override
-  String get dmUnnamedGroup => 'Unnamed group';
+  String get dmUnnamedGroup => 'Ομάδα χωρίς όνομα';
 
   @override
   String dmOwnersGroup(String resolvedName) {
-    return '$resolvedName\'s group';
+    return 'Ομάδα του/της $resolvedName';
   }
 
   @override
@@ -1229,7 +1231,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get dmDebugChannel => 'Εντοπισμός Σφαλμάτων Καναλιού';
 
   @override
-  String get dmDebugCategory => 'Debug Category';
+  String get dmDebugCategory => 'Εντοπισμός σφαλμάτων κατηγορίας';
 
   @override
   String get dmPinned => 'Καρφιτσωμένη Συνομιλία';
@@ -1394,11 +1396,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get addFriendVerifyToSend =>
-      'Verify your email before sending friend requests.';
+      'Επαληθεύστε το email σας πριν στείλετε αιτήματα φιλίας.';
 
   @override
   String get addFriendFriendsListFull =>
-      'Your friends list is full, or theirs is. Remove someone and try again.';
+      'Η λίστα φίλων σας είναι πλήρης ή η δική τους. Αφαιρέστε κάποιον και δοκιμάστε ξανά.';
 
   @override
   String get userTagBot => 'BOT';
@@ -1418,38 +1420,38 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String emojiInfoDefaultDescription(String productName) {
-    return 'This is a default emoji on $productName.';
+    return 'Αυτό είναι ένα προεπιλεγμένο emoji στο $productName.';
   }
 
   @override
   String get emojiInfoCustomGuildDescription =>
-      'This emoji is from this community. You can use it everywhere.';
+      'Αυτό το emoji προέρχεται από αυτήν την κοινότητα. Μπορείς να το χρησιμοποιήσεις παντού.';
 
   @override
   String get emojiInfoCustomUnknownDescription =>
-      'This is a custom emoji from a community.';
+      'Αυτό είναι ένα προσαρμοσμένο emoji από μια κοινότητα.';
 
   @override
   String get emojiInfoCustomInviteRequiredDescription =>
-      'This is a custom emoji from a community. Ask the author for an invite to use this emoji.';
+      'Αυτό είναι ένα προσαρμοσμένο emoji από μια κοινότητα. Ζήτησε από τον δημιουργό μια πρόσκληση για να χρησιμοποιήσεις αυτό το emoji.';
 
   @override
-  String get emojiInfoFromHeader => 'This emoji is from';
+  String get emojiInfoFromHeader => 'Αυτό το emoji προέρχεται από';
 
   @override
-  String get emojiInfoDiscoverableCommunity => 'Discoverable community';
+  String get emojiInfoDiscoverableCommunity => 'Κοινότητα προς ανακάλυψη';
 
   @override
-  String get emojiInfoPrivateCommunity => 'Private community';
+  String get emojiInfoPrivateCommunity => 'Ιδιωτική κοινότητα';
 
   @override
-  String get emojiInfoVerifiedCommunity => 'Verified community';
+  String get emojiInfoVerifiedCommunity => 'Επαληθευμένη κοινότητα';
 
   @override
-  String get emojiInfoAddToFavorites => 'Add to Favorites';
+  String get emojiInfoAddToFavorites => 'Προσθήκη στα αγαπημένα';
 
   @override
-  String get emojiInfoRemoveFromFavorites => 'Remove from Favorites';
+  String get emojiInfoRemoveFromFavorites => 'Αφαίρεση από τα Αγαπημένα';
 
   @override
   String get emojiFrequentlyUsed => 'Συχνά χρησιμοποιούμενα';
@@ -1482,10 +1484,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get gifPickerFavorites => 'Αγαπημένα';
 
   @override
-  String get gifPickerFavoritesEmptyTitle => 'No favorite GIFs yet';
+  String get gifPickerFavoritesEmptyTitle => 'Δεν υπάρχουν ακόμα αγαπημένα GIF';
 
   @override
-  String get gifPickerFavoritesEmptyDescription => 'Star a GIF to see it here.';
+  String get gifPickerFavoritesEmptyDescription =>
+      'Κάνε αστέρι ένα GIF για να το δεις εδώ.';
 
   @override
   String get gifPickerTrending => 'Δημοφιλή GIF';
@@ -2396,7 +2399,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get phoneAddFooter =>
-      'Εισαγάγετε τον αριθμό τηλεφώνου σας. Θα σας στείλουμε έναν κωδικό επαλήθευσης μέσω SMS.';
+      'Θα στείλουμε έναν κωδικό SMS όταν είναι διαθέσιμος. Ο αριθμός σας δεν συνδέεται με τον λογαριασμό σας. Διατηρούμε μόνο έναν κρυπτογραφημένο δείκτη, χωρίς αναγνωριστικό χρήστη, για να επιτρέψουμε το πολύ 2 επαληθεύσεις σε περίπου 30 ημέρες.';
 
   @override
   String get phoneAddSendCode => 'Αποστολή Κωδικού';
@@ -2409,134 +2412,135 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Εισαγάγετε τον κωδικό επαλήθευσης που στάλθηκε στον αριθμό τηλεφώνου σας.';
 
   @override
-  String get phoneAddSuccess => 'Ο αριθμός τηλεφώνου προστέθηκε';
+  String get phoneAddSuccess => 'Ο αριθμός τηλεφώνου επαληθεύτηκε';
 
   @override
-  String get phoneCountryLabel => 'Country';
+  String get phoneCountryLabel => 'Χώρα';
 
   @override
-  String get phoneSearchCountries => 'Search countries...';
+  String get phoneSearchCountries => 'Αναζήτηση χωρών...';
 
   @override
-  String get phoneNumberRequired => 'Phone number is required';
+  String get phoneNumberRequired => 'Απαιτείται αριθμός τηλεφώνου';
 
   @override
-  String get phoneEnterValidNumber => 'Enter a valid mobile phone number.';
+  String get phoneEnterValidNumber =>
+      'Εισαγάγετε έναν έγκυρο αριθμό κινητού τηλεφώνου.';
 
   @override
   String get phoneCannotBeUsed =>
-      'This phone number cannot be used. Try another mobile number or contact support.';
+      'Αυτός ο αριθμός τηλεφώνου δεν μπορεί να χρησιμοποιηθεί. Δοκιμάστε έναν άλλο αριθμό κινητού ή επικοινωνήστε με την υποστήριξη.';
 
   @override
   String get phoneAlreadyUsed =>
-      'This phone number has already been used. Try another number or contact support.';
+      'Αυτός ο αριθμός τηλεφώνου έχει ήδη χρησιμοποιηθεί. Δοκιμάστε έναν άλλο αριθμό ή επικοινωνήστε με την υποστήριξη.';
 
   @override
   String get phoneCodeDidNotWork =>
-      'That code didn\'t work. Check it and try again.';
+      'Αυτός ο κωδικός δεν λειτούργησε. Ελέγξτε τον και δοκιμάστε ξανά.';
 
   @override
   String get phoneTooManyAttempts =>
-      'Too many attempts. Wait a bit, then try again.';
+      'Πολλές προσπάθειες. Περιμένετε λίγο και δοκιμάστε ξανά.';
 
   @override
   String get phoneSmsUnavailable =>
-      'SMS verification is unavailable right now. Try again later or contact support.';
+      'Η επαλήθευση SMS δεν είναι διαθέσιμη αυτήν τη στιγμή. Δοκιμάστε ξανά αργότερα ή επικοινωνήστε με την υποστήριξη.';
 
   @override
   String get phoneNotEligible =>
-      'Phone verification is not available for this account. Use another method or contact support.';
+      'Η επαλήθευση τηλεφώνου δεν είναι διαθέσιμη για αυτόν τον λογαριασμό. Χρησιμοποιήστε άλλη μέθοδο ή επικοινωνήστε με την υποστήριξη.';
 
   @override
   String get phoneCaptchaRequired =>
-      'A browser check is required before phone verification. Try again from the sign-in page or contact support.';
+      'Απαιτείται έλεγχος προγράμματος περιήγησης πριν από την επαλήθευση τηλεφώνου. Δοκιμάστε ξανά από τη σελίδα σύνδεσης ή επικοινωνήστε με την υποστήριξη.';
 
   @override
-  String get phoneSomethingWentWrong => 'Something went wrong. Try again.';
+  String get phoneSomethingWentWrong => 'Κάτι πήγε στραβά. Δοκιμάστε ξανά.';
 
   @override
   String get phoneInboundExpensiveDescription =>
-      'Sending an SMS to this phone number is too expensive, so we need you to send us an SMS instead. You can also contact support to have us lift this requirement from your account.';
+      'Η αποστολή SMS σε αυτόν τον αριθμό τηλεφώνου είναι πολύ ακριβή, οπότε χρειαζόμαστε εσείς να μας στείλετε ένα SMS. Μπορείτε επίσης να επικοινωνήσετε με την υποστήριξη για να αφαιρέσουμε αυτήν την απαίτηση από τον λογαριασμό σας.';
 
   @override
   String get phoneInboundDefaultDescription =>
-      'We need you to send us an SMS to verify your phone number.';
+      'Πρέπει να μας στείλετε ένα SMS για να επαληθεύσουμε τον αριθμό τηλεφώνου σας.';
 
   @override
   String get phoneInboundStepOpenMessaging =>
-      'Open your phone\'s messaging app and create a new text message.';
+      'Άνοιξε την εφαρμογή μηνυμάτων του τηλεφώνου σου και δημιούργησε ένα νέο μήνυμα.';
 
   @override
   String phoneInboundStepSendCode(String code, String number) {
-    return 'Send the code $code to $number.';
+    return 'Στείλτε τον κωδικό $code στο $number.';
   }
 
   @override
   String get phoneInboundStepWait =>
-      'Wait for us to receive your message. This can take a minute.';
+      'Περιμένετε να λάβουμε το μήνυμά σας. Αυτό μπορεί να διαρκέσει ένα λεπτό.';
 
   @override
-  String get phoneInboundGetNewCode => 'Get new code';
+  String get phoneInboundGetNewCode => 'Λήψη νέου κωδικού';
 
   @override
-  String get phoneInboundChallengeCodeLabel => 'Code to send';
+  String get phoneInboundChallengeCodeLabel => 'Κωδικός για αποστολή';
 
   @override
-  String get phoneInboundOurNumberLabel => 'Send to';
+  String get phoneInboundOurNumberLabel => 'Αποστολή σε';
 
   @override
-  String get requiredActionTitle => 'Account verification required';
+  String get requiredActionTitle => 'Απαιτείται επαλήθευση λογαριασμού';
 
   @override
   String requiredActionIntroGeneric(String productName) {
-    return 'Complete the required verification to continue using $productName.';
+    return 'Ολοκληρώστε την απαιτούμενη επαλήθευση για να συνεχίσετε να χρησιμοποιείτε το $productName.';
   }
 
   @override
   String get requiredActionIntroPhone =>
-      'Your registration needs an extra anti-spam check before you can continue.';
+      'Η εγγραφή σου χρειάζεται έναν επιπλέον έλεγχο anti-spam πριν μπορέσεις να συνεχίσεις.';
 
   @override
   String requiredActionIntroEmailOrPhone(String productName) {
-    return 'Verify your email or phone to continue using $productName.';
+    return 'Επαληθεύστε το email ή το τηλέφωνό σας για να συνεχίσετε να χρησιμοποιείτε το $productName.';
   }
 
   @override
   String requiredActionIntroEmailAndPhone(String productName) {
-    return 'Complete the required email and phone verification steps below to continue using $productName.';
+    return 'Ολοκληρώστε τα απαιτούμενα βήματα επαλήθευσης email και τηλεφώνου παρακάτω για να συνεχίσετε να χρησιμοποιείτε το $productName.';
   }
 
   @override
-  String get requiredActionChooseMethodTitle => 'Choose a verification method';
+  String get requiredActionChooseMethodTitle => 'Επιλέξτε μέθοδο επαλήθευσης';
 
   @override
   String requiredActionChooseMethodDescription(String productName) {
-    return 'Complete one of the verification paths below to continue using $productName.';
+    return 'Ολοκληρώστε μία από τις παρακάτω διαδρομές επαλήθευσης για να συνεχίσετε να χρησιμοποιείτε το $productName.';
   }
 
   @override
-  String get requiredActionUseEmail => 'Use email';
+  String get requiredActionUseEmail => 'Χρήση email';
 
   @override
-  String get requiredActionUsePhone => 'Use phone';
+  String get requiredActionUsePhone => 'Χρήση τηλεφώνου';
 
   @override
-  String get requiredActionCheckEmailTitle => 'Check your email';
+  String get requiredActionCheckEmailTitle => 'Έλεγξε το email σου';
 
   @override
   String get requiredActionCheckEmailDescription =>
-      'We sent a verification link to your email address. Open it to continue.';
+      'Στείλαμε έναν σύνδεσμο επαλήθευσης στη διεύθυνση email σας. Ανοίξτε τον για να συνεχίσετε.';
 
   @override
   String get requiredActionResendVerificationEmail =>
-      'Resend verification email';
+      'Επαναποστολή email επαλήθευσης';
 
   @override
   String get requiredActionVerificationEmailSent =>
-      'Verification email sent. Check your inbox.';
+      'Στάλθηκε email επαλήθευσης. Ελέγξτε τα εισερχόμενά σας.';
 
   @override
-  String get requiredActionSignOut => 'Sign out';
+  String get requiredActionSignOut => 'Αποσύνδεση';
 
   @override
   String get dangerZoneSectionTitle => 'Ζώνη Κινδύνου';
@@ -2639,7 +2643,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get genericError => 'Προέκυψε ένα σφάλμα';
 
   @override
-  String get networkErrorMessage => 'Something went wrong. Please try again.';
+  String get networkErrorMessage =>
+      'Κάτι πήγε στραβά. Παρακαλώ, προσπαθήστε ξανά.';
 
   @override
   String get invalidCode => 'Μη έγκυρος κωδικός';
@@ -2704,8 +2709,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count weeks ago',
-      one: '1 week ago',
+      other: 'πριν από $count εβδομάδες',
+      one: 'πριν από 1 εβδομάδα',
     );
     return '$_temp0';
   }
@@ -2715,8 +2720,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'in $count minutes',
-      one: 'in 1 minute',
+      other: 'σε $count λεπτά',
+      one: 'σε 1 λεπτό',
     );
     return '$_temp0';
   }
@@ -2726,8 +2731,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'in $count hours',
-      one: 'in 1 hour',
+      other: 'σε $count ώρες',
+      one: 'σε 1 ώρα',
     );
     return '$_temp0';
   }
@@ -2737,8 +2742,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'in $count days',
-      one: 'in 1 day',
+      other: 'σε $count ημέρες',
+      one: 'σε 1 ημέρα',
     );
     return '$_temp0';
   }
@@ -2748,8 +2753,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'in $count weeks',
-      one: 'in 1 week',
+      other: 'σε $count εβδομάδες',
+      one: 'σε 1 εβδομάδα',
     );
     return '$_temp0';
   }
@@ -2759,8 +2764,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'in $count months',
-      one: 'in 1 month',
+      other: 'σε $count μήνες',
+      one: 'σε 1 μήνα',
     );
     return '$_temp0';
   }
@@ -2770,8 +2775,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'in $count years',
-      one: 'in 1 year',
+      other: 'σε $count χρόνια',
+      one: 'σε 1 χρόνο',
     );
     return '$_temp0';
   }
@@ -2882,7 +2887,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get userProfileLoadError => 'Αδυναμία φόρτωσης προφίλ';
 
   @override
-  String get userProfileLoading => 'Loading profile';
+  String get userProfileLoading => 'Φόρτωση προφίλ';
 
   @override
   String get userProfileRetry => 'Δοκιμάστε ξανά';
@@ -3014,56 +3019,56 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get userProfileAboutMe => 'Σχετικά με εμένα';
 
   @override
-  String get userProfileRoles => 'Roles';
+  String get userProfileRoles => 'Ρόλοι';
 
   @override
-  String get memberRoleAdd => 'Add role';
+  String get memberRoleAdd => 'Προσθήκη ρόλου';
 
   @override
   String memberRoleRemove(String roleName) {
-    return 'Remove role $roleName';
+    return 'Κατάργηση ρόλου $roleName';
   }
 
   @override
   String get userProfileNoRolesInCommunity =>
-      'This user has no roles in this community.';
+      'Αυτός ο χρήστης δεν έχει ρόλους σε αυτήν την κοινότητα.';
 
   @override
   String memberRolesNoRolesYet(String rolesSettingsPath) {
-    return 'No roles yet. Add roles in $rolesSettingsPath';
+    return 'Δεν υπάρχουν ρόλοι ακόμα. Πρόσθεσε ρόλους στο $rolesSettingsPath';
   }
 
   @override
-  String get memberRolesNoRolesAvailable => 'No roles available';
+  String get memberRolesNoRolesAvailable => 'Δεν υπάρχουν διαθέσιμοι ρόλοι';
 
   @override
   String memberRolesNoRolesAvailableDescription(String rolesSettingsPath) {
-    return 'There are no roles to assign in this community at this time, but you can create a new role in $rolesSettingsPath.';
+    return 'Δεν υπάρχουν ρόλοι για ανάθεση σε αυτήν την κοινότητα αυτήν τη στιγμή, αλλά μπορείτε να δημιουργήσετε έναν νέο ρόλο στο $rolesSettingsPath.';
   }
 
   @override
-  String get guildSettingsTitle => 'Community settings';
+  String get guildSettingsTitle => 'Ρυθμίσεις κοινότητας';
 
   @override
-  String get guildSettingsRolesTab => 'Roles';
+  String get guildSettingsRolesTab => 'Ρόλοι';
 
   @override
   String get memberRolesConfirmOk => 'OK';
 
   @override
-  String get userProfileLocalTime => 'Local time';
+  String get userProfileLocalTime => 'Τοπική ώρα';
 
   @override
-  String get userProfileSameTimeAsYou => 'Same time as you';
+  String get userProfileSameTimeAsYou => 'Ίδια ώρα με εσάς';
 
   @override
   String userProfileTimeAheadOfYou(String duration) {
-    return '$duration ahead of you';
+    return '$duration μπροστά από εσάς';
   }
 
   @override
   String userProfileTimeBehindYou(String duration) {
-    return '$duration behind you';
+    return '$duration πίσω σας';
   }
 
   @override
@@ -3071,14 +3076,14 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '$hours hours',
-      one: '1 hour',
+      other: '$hours ώρες',
+      one: '1 ώρα',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '$minutes minutes',
-      one: '1 minute',
+      other: '$minutes λεπτά',
+      one: '1 λεπτό',
     );
     return '$_temp0 $_temp1';
   }
@@ -3088,8 +3093,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '$hours hours',
-      one: '1 hour',
+      other: '$hours ώρες',
+      one: '1 ώρα',
     );
     return '$_temp0';
   }
@@ -3099,8 +3104,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '$minutes minutes',
-      one: '1 minute',
+      other: '$minutes λεπτά',
+      one: '1 λεπτό',
     );
     return '$_temp0';
   }
@@ -3340,79 +3345,80 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get iarReportUserTitle => 'Αναφορά χρήστη';
 
   @override
-  String get iarReportGuildTitle => 'Report community';
+  String get iarReportGuildTitle => 'Αναφορά κοινότητας';
 
   @override
   String get iarReportGuildPreconfirmBody =>
-      'If this report is about a specific message in this community, report that message instead. Message reports give our safety team the clearest context, and adding details in the comments can help us review it faster. Only continue with reporting the community as a whole if reporting a message would not capture the broader issue.';
+      'Αν αυτή η αναφορά αφορά ένα συγκεκριμένο μήνυμα σε αυτήν την κοινότητα, αναφέρετε αυτό το μήνυμα αντ\' αυτού. Οι αναφορές μηνυμάτων δίνουν στην ομάδα ασφαλείας μας το σαφέστερο πλαίσιο και η προσθήκη λεπτομερειών στα σχόλια μπορεί να μας βοηθήσει να το εξετάσουμε πιο γρήγορα. Συνεχίστε με την αναφορά ολόκληρης της κοινότητας μόνο αν η αναφορά ενός μηνύματος δεν θα κάλυπτε το ευρύτερο ζήτημα.';
 
   @override
-  String get iarContinueToReportCommunity => 'Continue to report community';
+  String get iarContinueToReportCommunity => 'Συνέχεια αναφοράς κοινότητας';
 
   @override
-  String get iarPreviewCommunitySubtitle => 'Community';
+  String get iarPreviewCommunitySubtitle => 'Κοινότητα';
 
   @override
-  String get iarReasonHarassmentGuildLabel => 'Harassment or targeted abuse';
+  String get iarReasonHarassmentGuildLabel =>
+      'Παρενόχληση ή στοχευμένη κακοποίηση';
 
   @override
   String get iarReasonHarassmentGuildDescription =>
-      'Community facilitates pile-ons or targeted abuse.';
+      'Η κοινότητα διευκολύνει τις ομαδικές επιθέσεις ή τη στοχευμένη κακοποίηση.';
 
   @override
   String get iarReasonHateGuildDescription =>
-      'Promotes hatred against protected groups.';
+      'Προωθεί το μίσος κατά προστατευμένων ομάδων.';
 
   @override
-  String get iarReasonTerrorismLabel => 'Terrorism or violent extremism';
+  String get iarReasonTerrorismLabel => 'Τρομοκρατία ή βίαιος εξτρεμισμός';
 
   @override
   String get iarReasonTerrorismDescription =>
-      'Promotes, recruits for, or coordinates violent extremist activity.';
+      'Προωθεί, στρατολογεί ή συντονίζει βίαιες εξτρεμιστικές δραστηριότητες.';
 
   @override
   String get iarReasonMatureContentGuildLabel =>
-      'Mature content or unsafe gating';
+      'Περιεχόμενο για ενήλικες ή μη ασφαλής περίφραξη';
 
   @override
   String get iarReasonMatureContentGuildDescription =>
-      'Mature content without proper gating.';
+      'Περιεχόμενο ενηλίκων χωρίς κατάλληλη περίφραξη.';
 
   @override
   String get iarReasonChildSafetyGuildDescription =>
-      'Endangers minors or hosts child-exploitation content.';
+      'Θέτει σε κίνδυνο ανηλίκους ή φιλοξενεί περιεχόμενο παιδικής εκμετάλλευσης.';
 
   @override
-  String get iarReasonRaidLabel => 'Raid coordination';
+  String get iarReasonRaidLabel => 'Συντονισμός επιδρομής';
 
   @override
   String get iarReasonRaidDescription =>
-      'Coordinates raids, brigading, or harassment against people or communities.';
+      'Συντονίζει επιθέσεις, οργανωμένες παρενοχλήσεις ή παρενοχλήσεις εναντίον ατόμων ή κοινοτήτων.';
 
   @override
   String get iarReasonSpamGuildDescription =>
-      'Community exists to spam, scam, or abuse the platform.';
+      'Η κοινότητα υπάρχει για να στέλνει spam, να εξαπατά ή να κάνει κατάχρηση της πλατφόρμας.';
 
   @override
-  String get iarReasonMalwareGuildLabel => 'Malware distribution';
+  String get iarReasonMalwareGuildLabel => 'Διανομή κακόβουλου λογισμικού';
 
   @override
   String get iarReasonMalwareGuildDescription =>
-      'Distributes malware, credential theft, or harmful files.';
+      'Διανέμει κακόβουλο λογισμικό, κλεμμένα διαπιστευτήρια ή επιβλαβή αρχεία.';
 
   @override
-  String get iarReasonPrivacyGuildLabel => 'Privacy violation or doxxing';
+  String get iarReasonPrivacyGuildLabel => 'Παραβίαση απορρήτου ή doxxing';
 
   @override
   String get iarReasonPrivacyGuildDescription =>
-      'Shares personal info, stalks users, or coordinates privacy abuse.';
+      'Κοινοποιεί προσωπικά δεδομένα, παρακολουθεί χρήστες ή συντονίζει την κατάχρηση απορρήτου.';
 
   @override
-  String get iarReasonSelfHarmGuildLabel => 'Encourages self-harm';
+  String get iarReasonSelfHarmGuildLabel => 'Ενθαρρύνει τον αυτοτραυματισμό';
 
   @override
   String get iarReasonSelfHarmGuildDescription =>
-      'Encourages suicide, self-harm, or eating disorders.';
+      'Ενθαρρύνει την αυτοκτονία, τον αυτοτραυματισμό ή τις διατροφικές διαταραχές.';
 
   @override
   String get iarReasonInappropriateProfile => 'Ακατάλληλο προφίλ';
@@ -3721,26 +3727,26 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Η αργή λειτουργία είναι ενεργή, αλλά είστε άνοσος.';
 
   @override
-  String get slowmodeStatusEnabled => 'Slowmode is enabled';
+  String get slowmodeStatusEnabled => 'Η αργή λειτουργία είναι ενεργοποιημένη';
 
   @override
   String slowmodeStatusActive(String remaining) {
-    return 'Slowmode is active ($remaining)';
+    return 'Η αργή λειτουργία είναι ενεργή ($remaining)';
   }
 
   @override
   String slowmodeTooltipSetImmune(String durationLabel) {
-    return 'Slowmode is set to $durationLabel, but you are immune.';
+    return 'Η αργή λειτουργία έχει οριστεί σε $durationLabel, αλλά εσείς είστε εξαιρούμενος.';
   }
 
   @override
   String slowmodeTooltipSetWait(String durationLabel) {
-    return 'Slowmode is set to $durationLabel. Wait before sending another message.';
+    return 'Η αργή λειτουργία έχει οριστεί σε $durationLabel. Περιμένετε πριν στείλετε άλλο μήνυμα.';
   }
 
   @override
   String slowmodeTooltipSetChannel(String durationLabel) {
-    return 'Slowmode is set to $durationLabel for this channel.';
+    return 'Η αργή λειτουργία έχει οριστεί σε $durationLabel για αυτό το κανάλι.';
   }
 
   @override
@@ -3814,7 +3820,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get voiceMessageHoldHint =>
-      'Κρατήστε για εγγραφή. Σύρετε προς τα πάνω για κλείδωμα ή αφήστε για αποστολή.';
+      'Κράτα πατημένο για εγγραφή. Σύρε προς τα σκουπίδια για διαγραφή, σύρε προς τα πάνω για κλείδωμα ή άφησε για αποστολή.';
 
   @override
   String get voiceMessageDiscard => 'Απόρριψη φωνητικού μηνύματος';
@@ -3866,10 +3872,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get voiceMessagePause => 'Παύση';
 
   @override
-  String get voiceMessageSeekForward => 'Seek forward';
+  String get voiceMessageSeekForward => 'Προώθηση';
 
   @override
-  String get voiceMessageSeekBackward => 'Seek backward';
+  String get voiceMessageSeekBackward => 'Μετακίνηση προς τα πίσω';
 
   @override
   String voiceMessageSelectionTooShort(num seconds) {
@@ -3903,11 +3909,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get chatAttachmentDownload => 'Λήψη';
 
   @override
-  String get chatAttachmentDownloadedToast => 'Saved to photos';
+  String get chatAttachmentDownloadedToast => 'Αποθηκεύτηκε στις φωτογραφίες';
 
   @override
-  String get chatAttachmentDownloadFailedToast =>
-      'Couldn\'t download attachment';
+  String get chatAttachmentDownloadFailedToast => 'Αδυναμία λήψης συνημμένου';
 
   @override
   String get chatAttachmentExpiredTooltip => 'Το συνημμένο έχει λήξει';
@@ -3917,8 +3922,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Expand ($count lines)',
-      one: 'Expand ($count line)',
+      other: 'Εμφάνιση ($count γραμμές)',
+      one: 'Εμφάνιση ($count γραμμή)',
     );
     return '$_temp0';
   }
@@ -3928,8 +3933,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Collapse ($count lines)',
-      one: 'Collapse ($count line)',
+      other: 'Σύμπτυξη ($count γραμμές)',
+      one: 'Σύμπτυξη ($count γραμμή)',
     );
     return '$_temp0';
   }
@@ -3939,8 +3944,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Expand ($count rows)',
-      one: 'Expand ($count row)',
+      other: 'Εμφάνιση ($count γραμμές)',
+      one: 'Εμφάνιση ($count γραμμή)',
     );
     return '$_temp0';
   }
@@ -3950,8 +3955,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Collapse ($count rows)',
-      one: 'Collapse ($count row)',
+      other: 'Σύμπτυξη ($count γραμμές)',
+      one: 'Σύμπτυξη ($count γραμμή)',
     );
     return '$_temp0';
   }
@@ -3961,8 +3966,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '... ($count lines left)',
-      one: '... ($count line left)',
+      other: '... ($count γραμμές απομένουν)',
+      one: '... ($count γραμμή απομένει)',
     );
     return '$_temp0';
   }
@@ -3972,46 +3977,47 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '... ($count rows left)',
-      one: '... ($count row left)',
+      other: '... ($count γραμμές απομένουν)',
+      one: '... ($count γραμμή απομένει)',
     );
     return '$_temp0';
   }
 
   @override
-  String get chatTextualPreviewViewWholeFile => 'View whole file';
+  String get chatTextualPreviewViewWholeFile => 'Προβολή όλου του αρχείου';
 
   @override
-  String get chatTextualPreviewChangeLanguage => 'Change language';
+  String get chatTextualPreviewChangeLanguage => 'Αλλαγή γλώσσας';
 
   @override
-  String get chatTextualPreviewSearchLanguage => 'Search language…';
+  String get chatTextualPreviewSearchLanguage => 'Αναζήτηση γλώσσας…';
 
   @override
-  String get chatTextualPreviewSyntaxHighlighting => 'Syntax highlighting';
+  String get chatTextualPreviewSyntaxHighlighting => 'Επισήμανση σύνταξης';
 
   @override
-  String get chatTextualPreviewNoLanguagesFound => 'No results found';
+  String get chatTextualPreviewNoLanguagesFound => 'Δεν βρέθηκαν αποτελέσματα';
 
   @override
-  String get chatTextualPreviewMoreOptions => 'More options';
+  String get chatTextualPreviewMoreOptions => 'Περισσότερες επιλογές';
 
   @override
-  String get chatTextualPreviewWrapText => 'Wrap text';
+  String get chatTextualPreviewWrapText => 'Αναδίπλωση κειμένου';
 
   @override
   String chatTextualPreviewSizeError(int previewLimitKb) {
-    return 'File is too large for inline preview (limit $previewLimitKb KB).';
+    return 'Το αρχείο είναι πολύ μεγάλο για ενσωματωμένη προεπισκόπηση (όριο $previewLimitKb KB).';
   }
 
   @override
-  String get chatTextualPreviewLoadError => 'Unable to load preview.';
+  String get chatTextualPreviewLoadError =>
+      'Δεν είναι δυνατή η φόρτωση της προεπισκόπησης.';
 
   @override
-  String get chatTextualPreviewLanguagePlaintext => 'Plain text';
+  String get chatTextualPreviewLanguagePlaintext => 'Απλό κείμενο';
 
   @override
-  String get chatTextualPreviewCopy => 'Copy';
+  String get chatTextualPreviewCopy => 'Αντιγραφή';
 
   @override
   String get chatAttachmentSourceGallery => 'Συλλογή';
@@ -4023,7 +4029,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get chatAttachmentSourceBrowse => 'Περιήγηση αρχείων';
 
   @override
-  String get chatAttachmentPasteTooltip => 'Επικόλληση εικόνας από το πρόχειρο';
+  String get chatAttachmentPasteTooltip => 'Επικόλληση αρχείου από το πρόχειρο';
 
   @override
   String get chatAttachmentSpoiler => 'Spoiler';
@@ -4383,29 +4389,29 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Επιλέξτε μεταξύ σκούρου, ανθρακί ή φωτεινού θέματος.';
 
   @override
-  String get lookAndFeelHdrSectionTitle => 'High dynamic range';
+  String get lookAndFeelHdrSectionTitle => 'Υψηλό δυναμικό εύρος';
 
   @override
   String get lookAndFeelHdrSectionDescription =>
-      'Control how HDR images are displayed on HDR-capable monitors.';
+      'Έλεγχος του τρόπου εμφάνισης των εικόνων HDR σε οθόνες συμβατές με HDR.';
 
   @override
-  String get lookAndFeelHdrFullName => 'Full dynamic range';
+  String get lookAndFeelHdrFullName => 'Πλήρες δυναμικό εύρος';
 
   @override
   String get lookAndFeelHdrFullDescription =>
-      'Display HDR images at full brightness and color range.';
+      'Εμφάνιση εικόνων HDR με πλήρη φωτεινότητα και χρωματική γκάμα.';
 
   @override
-  String get lookAndFeelHdrStandardName => 'Standard range';
+  String get lookAndFeelHdrStandardName => 'Τυπικό εύρος';
 
   @override
   String get lookAndFeelHdrStandardDescription =>
-      'Tone-map HDR images to standard range, reducing peak brightness.';
+      'Προσαρμόστε τις εικόνες HDR στο τυπικό εύρος, μειώνοντας τη μέγιστη φωτεινότητα.';
 
   @override
   String get lookAndFeelHdrDisplayModeLabel =>
-      'High dynamic range display mode';
+      'Λειτουργία οθόνης υψηλού δυναμικού εύρους';
 
   @override
   String get lookAndFeelThemeDark => 'Σκούρο Θέμα';
@@ -4437,32 +4443,71 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get lookAndFeelChatFontScalingTitle =>
-      'Κλιμάκωση γραμματοσειράς συνομιλίας';
+      'Μέγεθος γραμματοσειράς συνομιλίας';
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
       'Προσαρμόστε το μέγεθος της γραμματοσειράς στην περιοχή συνομιλίας.';
 
   @override
-  String get lookAndFeelChatFontSizeLabel => 'Chat font size';
+  String get lookAndFeelChatFontSizeLabel =>
+      'Μέγεθος γραμματοσειράς συνομιλίας';
 
   @override
-  String get lookAndFeelAppZoomTitle => 'App zoom level';
+  String get lookAndFeelAppZoomTitle => 'Επίπεδο ζουμ εφαρμογής';
 
   @override
   String get lookAndFeelAppZoomDescription =>
-      'Adjust the application\'s zoom level.';
+      'Προσαρμόστε το επίπεδο ζουμ της εφαρμογής.';
 
   @override
-  String get lookAndFeelMessagesSectionTitle => 'Messages';
+  String get lookAndFeelChatWallpaperTitle => 'Ταπετσαρία συνομιλίας';
+
+  @override
+  String get lookAndFeelChatWallpaperDescription =>
+      'Επίλεξε ένα φόντο για τη συνομιλία. Αυτό παραμένει σε αυτήν τη συσκευή.';
+
+  @override
+  String get lookAndFeelChatWallpaperLocalOnlyTooltip =>
+      'Αυτή η ρύθμιση παραμένει σε αυτήν τη συσκευή';
+
+  @override
+  String get lookAndFeelChatWallpaperLocalOnlyToast =>
+      'Η ταπετσαρία συνομιλίας αποθηκεύεται μόνο σε αυτήν τη συσκευή και δεν συγχρονίζεται με άλλες συσκευές.';
+
+  @override
+  String get lookAndFeelChatWallpaperDefaultLabel => 'Προεπιλογή';
+
+  @override
+  String get lookAndFeelChatWallpaperCustomLabel => 'Προσαρμοσμένη εικόνα';
+
+  @override
+  String lookAndFeelChatWallpaperColorLabel(String id) {
+    return 'Χρώμα $id';
+  }
+
+  @override
+  String lookAndFeelChatWallpaperGradientLabel(String id) {
+    return 'Ντεγκραντέ $id';
+  }
+
+  @override
+  String get lookAndFeelChatWallpaperDimLabel => 'Σκίαση ταπετσαρίας';
+
+  @override
+  String get lookAndFeelChatWallpaperPickFailed =>
+      'Δεν ήταν δυνατή η ρύθμιση αυτής της εικόνας ως ταπετσαρία σας.';
+
+  @override
+  String get lookAndFeelMessagesSectionTitle => 'Μηνύματα';
 
   @override
   String get lookAndFeelMessagesSectionDescription =>
-      'Choose how messages are displayed in chat channels.';
+      'Επίλεξε πώς θα εμφανίζονται τα μηνύματα στις συνομιλίες.';
 
   @override
   String get lookAndFeelMessageGroupSpacingLabel =>
-      'Space between message groups';
+      'Διάστημα μεταξύ ομάδων μηνυμάτων';
 
   @override
   String lookAndFeelMessageGroupSpacingValue(int spacing) {
@@ -4470,24 +4515,25 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get lookAndFeelMessageDisplayModeLabel => 'Message display mode';
+  String get lookAndFeelMessageDisplayModeLabel =>
+      'Λειτουργία εμφάνισης μηνυμάτων';
 
   @override
-  String get lookAndFeelMessageDisplayComfyName => 'Comfy';
+  String get lookAndFeelMessageDisplayComfyName => 'Άνετο';
 
   @override
   String get lookAndFeelMessageDisplayComfyDescription =>
-      'Spacious layout with clear visual separation between messages.';
+      'Ευρύχωρη διάταξη με σαφή οπτικό διαχωρισμό μεταξύ των μηνυμάτων.';
 
   @override
-  String get lookAndFeelMessageDisplayDenseName => 'Dense';
+  String get lookAndFeelMessageDisplayDenseName => 'Πυκνή';
 
   @override
   String get lookAndFeelMessageDisplayDenseDescription =>
-      'Maximizes visible messages with minimal spacing.';
+      'Μεγιστοποιεί τα ορατά μηνύματα με ελάχιστη απόσταση.';
 
   @override
-  String get lookAndFeelHideUserAvatarsLabel => 'Hide user avatars';
+  String get lookAndFeelHideUserAvatarsLabel => 'Απόκρυψη avatar χρηστών';
 
   @override
   String get lookAndFeelInterfaceTitle => 'Διεπαφή';
@@ -4608,30 +4654,28 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get communityTemporarilyUnavailable =>
-      'Community temporarily unavailable';
+      'Η κοινότητα είναι προσωρινά μη διαθέσιμη';
 
   @override
-  String get guildUnavailableDescription =>
-      'Something went wrong. We\'re working on it.';
+  String get guildUnavailableDescription => 'Κάτι πήγε στραβά. Το διορθώνουμε.';
 
   @override
-  String get guildNotFoundTitle =>
-      'This is not the community you\'re looking for.';
+  String get guildNotFoundTitle => 'Αυτή δεν είναι η κοινότητα που ψάχνεις.';
 
   @override
   String get guildNotFoundDescription =>
-      'The community you\'re looking for may have been deleted or you may not have access to it.';
+      'Η κοινότητα που ψάχνεις μπορεί να έχει διαγραφεί ή να μην έχεις πρόσβαση σε αυτήν.';
 
   @override
   String guildStaffOnlyAccessibleNagbar(
     String communityName,
     String productName,
   ) {
-    return '$communityName is currently only accessible to $productName staff members';
+    return 'Η κοινότητα $communityName είναι προς το παρόν προσβάσιμη μόνο σε μέλη του προσωπικού του $productName';
   }
 
   @override
-  String get guildNavbarTemporarilyUnavailable => 'temporarily unavailable';
+  String get guildNavbarTemporarilyUnavailable => 'προσωρινά μη διαθέσιμο';
 
   @override
   String get lookAndFeelCollapseDMsLabel => 'Σύμπτυξη DM σε φάκελο';
@@ -4764,70 +4808,73 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get favoritesAddToFavorites => 'Προσθήκη στα Αγαπημένα';
 
   @override
-  String get favoritesAddToSavedMedia => 'Add to saved media';
+  String get favoritesAddToSavedMedia => 'Προσθήκη στα αποθηκευμένα πολυμέσα';
 
   @override
-  String get favoritesRemoveFromSavedMedia => 'Remove from saved media';
+  String get favoritesRemoveFromSavedMedia =>
+      'Αφαίρεση από τα αποθηκευμένα πολυμέσα';
 
   @override
   String get favoritesAddToUrlOnlyGifFavorites =>
-      'Add to URL-only GIF favorites';
+      'Προσθήκη στα αγαπημένα GIF που αποθηκεύονται μόνο μέσω URL';
 
   @override
   String get favoritesRemoveFromUrlOnlyGifFavorites =>
-      'Remove from URL-only GIF favorites';
+      'Αφαίρεση από τις αγαπημένες GIF που έχουν αποθηκευτεί με URL';
 
   @override
-  String get savedMediaAddTitle => 'Add to saved media';
+  String get savedMediaAddTitle => 'Προσθήκη στα αποθηκευμένα πολυμέσα';
 
   @override
-  String get savedMediaFormNameLabel => 'Name';
+  String get savedMediaFormNameLabel => 'Όνομα';
 
   @override
-  String get savedMediaFormNameHint => 'My awesome media';
+  String get savedMediaFormNameHint => 'Τα τέλεια πολυμέσα μου';
 
   @override
-  String get savedMediaFormAltTextLabel => 'Alt text';
+  String get savedMediaFormAltTextLabel => 'Εναλλακτικό κείμενο';
 
   @override
-  String get savedMediaFormAltTextHint => 'Describe the media';
+  String get savedMediaFormAltTextHint => 'Περιγράψτε το μέσο';
 
   @override
-  String get savedMediaFormTagsLabel => 'Tags';
+  String get savedMediaFormTagsLabel => 'Ετικέτες';
 
   @override
-  String get savedMediaFormTagsHint => 'funny, reaction, work';
+  String get savedMediaFormTagsHint => 'αστείο, αντίδραση, εργασία';
 
   @override
-  String get savedMediaSaveError => 'Could not update saved media.';
+  String get savedMediaSaveError =>
+      'Αδυναμία ενημέρωσης των αποθηκευμένων πολυμέσων.';
 
   @override
-  String get savedMediaNameRequired => 'Name is required.';
+  String get savedMediaNameRequired => 'Απαιτείται όνομα.';
 
   @override
   String get gifFavoriteFirstTimeTitle =>
-      'How should we save your GIF favorites?';
+      'Πώς θέλεις να αποθηκεύουμε τα αγαπημένα σου GIF;';
 
   @override
   String get gifFavoriteFirstTimeDescription =>
-      'You can store starred GIFs as URL-only favorites or upload them to your saved media. Pick the one that fits how you use them. You can change it any time in Settings > Advanced > Media.';
+      'Μπορείς να αποθηκεύεις τα αγαπημένα σου GIF ως αγαπημένα μόνο με URL ή να τα ανεβάσεις στα αποθηκευμένα μέσα σου. Διάλεξε αυτό που ταιριάζει στον τρόπο που τα χρησιμοποιείς. Μπορείς να το αλλάξεις οποιαδήποτε στιγμή στις Ρυθμίσεις > Για προχωρημένους > Μέσα.';
 
   @override
   String get gifFavoriteFirstTimeUrlOnlyDetails =>
-      'URL-only favorites (default): synced across your devices, no upload, doesn\'t count against saved media. The original media may disappear if its host removes it.';
+      'Αγαπημένα μόνο με URL (προεπιλογή): συγχρονίζονται σε όλες τις συσκευές σας, χωρίς μεταφόρτωση, δεν προσμετρώνται στα αποθηκευμένα μέσα. Το αρχικό μέσο μπορεί να εξαφανιστεί αν ο διακομιστής του το αφαιρέσει.';
 
   @override
   String get gifFavoriteFirstTimeSavedMediaDetails =>
-      'Saved media: uploaded, taggable, searchable, and persistent, but counts against your saved media limit.';
+      'Αποθηκευμένα μέσα: μεταφορτωμένα, με δυνατότητα επισήμανσης, αναζήτησης και μόνιμα, αλλά μετρούν στο όριο των αποθηκευμένων μέσων σας.';
 
   @override
-  String get gifFavoriteFirstTimeHint => 'We\'ll only ask once.';
+  String get gifFavoriteFirstTimeHint => 'Θα σας ρωτήσουμε μόνο μία φορά.';
 
   @override
-  String get gifFavoriteFirstTimeUseUrlOnly => 'Use URL-only (recommended)';
+  String get gifFavoriteFirstTimeUseUrlOnly => 'Χρήση μόνο URL (προτείνεται)';
 
   @override
-  String get gifFavoriteFirstTimeUseSavedMedia => 'Use saved media';
+  String get gifFavoriteFirstTimeUseSavedMedia =>
+      'Χρήση αποθηκευμένων πολυμέσων';
 
   @override
   String get favoritesHideConfirmTitle => 'Απόκρυψη αγαπημένων';
@@ -5014,14 +5061,15 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Αυτόματη αποστολή GIF κατά την επιλογή';
 
   @override
-  String get messagesMediaCameraUploadsSectionTitle => 'Camera uploads';
+  String get messagesMediaCameraUploadsSectionTitle => 'Μεταφορτώσεις κάμερας';
 
   @override
   String get messagesMediaCameraUploadsSectionDescription =>
-      'Choose whether photos and videos taken with the in-app camera are kept on your device';
+      'Επιλέξτε αν οι φωτογραφίες και τα βίντεο που λαμβάνονται με την κάμερα της εφαρμογής θα διατηρούνται στη συσκευή σας';
 
   @override
-  String get messagesMediaCameraUploadsSaveToDeviceLabel => 'Save to device';
+  String get messagesMediaCameraUploadsSaveToDeviceLabel =>
+      'Αποθήκευση στη συσκευή';
 
   @override
   String get messagesMediaAutocompleteSectionTitle =>
@@ -5059,20 +5107,22 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Διατήρηση πρόχειρου επεξεργασίας κατά την ακύρωση';
 
   @override
-  String get accessibilitySaturationTitle => 'Saturation';
+  String get accessibilitySaturationTitle => 'Κορεσμός';
 
   @override
   String get accessibilitySaturationDescription =>
-      'Adjust how vivid theme colors appear across the app.';
+      'Προσαρμόστε πόσο έντονα εμφανίζονται τα χρώματα του θέματος σε όλη την εφαρμογή.';
 
   @override
-  String get accessibilityVisualGroupTitle => 'Visual';
+  String get accessibilityVisualGroupTitle => 'Οπτικά';
 
   @override
-  String get accessibilityAlwaysUnderlineLinksLabel => 'Always underline links';
+  String get accessibilityAlwaysUnderlineLinksLabel =>
+      'Να υπογραμμίζονται πάντα οι σύνδεσμοι';
 
   @override
-  String get accessibilityDimStrikethroughTextLabel => 'Dim strikethrough text';
+  String get accessibilityDimStrikethroughTextLabel =>
+      'Αμύδρωση διαγραμμένου κειμένου';
 
   @override
   String get accessibilityDmMessagePreviewGroupTitle =>
@@ -5109,227 +5159,228 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Μην εμφανίζετε προεπισκοπήσεις μηνυμάτων στη λίστα DM';
 
   @override
-  String get accessibilityScreenReaderGroupTitle => 'Screen reader';
+  String get accessibilityScreenReaderGroupTitle => 'Ανάγνωση οθόνης';
 
   @override
   String accessibilityScreenReaderGroupDescription(String productName) {
-    return 'Control how $productName works with screen readers.';
+    return 'Έλεγχος του τρόπου λειτουργίας του $productName με προγράμματα ανάγνωσης οθόνης.';
   }
 
   @override
   String get accessibilityScreenReaderAnnounceNewMessagesLabel =>
-      'Announce new messages';
+      'Ανακοίνωση νέων μηνυμάτων';
 
   @override
   String get accessibilityScreenReaderAnnounceNewMessagesDescription =>
-      'Let screen readers announce new messages as they arrive in the open channel. Notification sounds are unaffected.';
+      'Οι αναγνώστες οθόνης να ανακοινώνουν τα νέα μηνύματα καθώς φτάνουν στο ανοιχτό κανάλι. Οι ήχοι ειδοποιήσεων δεν επηρεάζονται.';
 
   @override
-  String get accessibilityTtsGroupTitle => 'Text-to-speech';
+  String get accessibilityTtsGroupTitle => 'Κείμενο σε ομιλία';
 
   @override
   String get accessibilityTtsGroupDescription =>
-      'Choose a speed for spoken text.';
+      'Επιλέξτε μια ταχύτητα για το αναγνωσμένο κείμενο.';
 
   @override
   String get accessibilityTtsSpeechPlaybackSpeedLabel =>
-      'Speech playback speed';
+      'Ταχύτητα αναπαραγωγής ομιλίας';
 
   @override
-  String get accessibilityTtsPlaySampleLabel => 'Play sample';
+  String get accessibilityTtsPlaySampleLabel => 'Αναπαραγωγή δείγματος';
 
   @override
-  String get accessibilityTtsSilenceSampleLabel => 'Silence sample';
+  String get accessibilityTtsSilenceSampleLabel => 'Σίγαση δείγματος';
 
   @override
-  String get accessibilityPreviewButtonLabel => 'Preview button';
+  String get accessibilityPreviewButtonLabel => 'Κουμπί προεπισκόπησης';
 
   @override
   String accessibilityPreviewLinksMessage(String linkPreviewExampleUrl) {
-    return 'This shows how links appear: $linkPreviewExampleUrl';
+    return 'Έτσι εμφανίζονται οι σύνδεσμοι: $linkPreviewExampleUrl';
   }
 
   @override
-  String get accessibilityPreviewUserName => 'Preview User';
+  String get accessibilityPreviewUserName => 'Προεπισκόπηση χρήστη';
 
   @override
-  String get accessibilityKeyboardGroupTitle => 'Keyboard';
+  String get accessibilityKeyboardGroupTitle => 'Πληκτρολόγιο';
 
   @override
   String get accessibilityShowTextareaFocusRingLabel =>
-      'Show focus ring on chat textarea';
+      'Εμφάνιση περιγράμματος εστίασης στο πεδίο κειμένου συνομιλίας';
 
   @override
   String get accessibilityEscapeExitsKeyboardModeLabel =>
-      'Escape key exits keyboard mode';
+      'Το πλήκτρο Esc βγαίνει από τη λειτουργία πληκτρολογίου';
 
   @override
   String get accessibilityShowContextMenuShortcutsLabel =>
-      'Show context menu shortcuts';
+      'Εμφάνιση συντομεύσεων μενού περιβάλλοντος';
 
   @override
   String get accessibilityConfirmBeforeStartingCallsLabel =>
-      'Confirm before starting calls';
+      'Επιβεβαίωση πριν την έναρξη κλήσεων';
 
   @override
-  String get accessibilityAnimationGroupTitle => 'Animation';
+  String get accessibilityAnimationGroupTitle => 'Κίνηση';
 
   @override
   String get accessibilityReducedMotionActiveNote =>
-      'Reduced motion is on, so content animations are paused by default. You can still turn any of these back on to keep it playing.';
+      'Η μειωμένη κίνηση είναι ενεργή, επομένως οι κινούμενες εικόνες περιεχομένου είναι σε παύση από προεπιλογή. Μπορείτε να ενεργοποιήσετε οποιαδήποτε από αυτές ξανά για να συνεχίσει να παίζει.';
 
   @override
-  String get accessibilityPlayAnimatedEmojisLabel => 'Play animated emojis';
+  String get accessibilityPlayAnimatedEmojisLabel =>
+      'Αναπαραγωγή κινούμενων emoji';
 
   @override
-  String get accessibilityAutoPlayGifsMobileLabel => 'Automatically play GIFs';
+  String get accessibilityAutoPlayGifsMobileLabel => 'Αυτόματη αναπαραγωγή GIF';
 
   @override
   String accessibilityAutoPlayGifsDesktopLabel(String productName) {
-    return 'Automatically play GIFs when $productName is focused';
+    return 'Αυτόματη αναπαραγωγή GIF όταν το $productName είναι σε εστίαση';
   }
 
   @override
   String get accessibilityPlayingDespiteReducedMotion =>
-      'Playing despite reduced motion.';
+      'Αναπαραγωγή παρά την περιορισμένη κίνηση.';
 
   @override
   String get accessibilityPausedEmojiByReducedMotion =>
-      'Paused by reduced motion. Turn on to keep animated emojis playing.';
+      'Σε παύση λόγω μειωμένης κίνησης. Ενεργοποιήστε για να συνεχίσουν να παίζουν τα κινούμενα emoji.';
 
   @override
   String get accessibilityPausedGifByReducedMotion =>
-      'Paused by reduced motion. Turn on to keep GIFs playing.';
+      'Σε παύση λόγω μειωμένης κίνησης. Ενεργοποιήστε το για να συνεχίσουν να παίζουν τα GIF.';
 
   @override
   String get accessibilityGifDefaultsOffOnMobile =>
-      'Defaults to off on mobile to preserve battery life and data usage.';
+      'Είναι απενεργοποιημένο από προεπιλογή σε κινητά για εξοικονόμηση μπαταρίας και δεδομένων.';
 
   @override
-  String get accessibilityStickerAnimationsTitle => 'Sticker animations';
+  String get accessibilityStickerAnimationsTitle => 'Κινούμενα αυτοκόλλητα';
 
   @override
   String get accessibilityStickerAnimationPreferenceLabel =>
-      'Sticker animation preference';
+      'Προτίμηση κινούμενων αυτοκόλλητων';
 
   @override
-  String get accessibilityStickerAlwaysAnimateName => 'Always animate';
+  String get accessibilityStickerAlwaysAnimateName => 'Πάντα κινούμενη εικόνα';
 
   @override
   String get accessibilityStickerAlwaysAnimateDescription =>
-      'Stickers will always animate';
+      'Τα αυτοκόλλητα θα έχουν πάντα κινούμενη εικόνα';
 
   @override
   String get accessibilityStickerAnimateOnInteractionName =>
-      'Animate on interaction';
+      'Εφέ κίνησης στην αλληλεπίδραση';
 
   @override
   String get accessibilityStickerAnimateOnPressDescription =>
-      'Stickers will animate when you press them';
+      'Τα αυτοκόλλητα θα έχουν κινούμενη εικόνα όταν τα πατάτε';
 
   @override
   String get accessibilityStickerAnimateOnHoverDescription =>
-      'Stickers will animate when you hover or interact with them';
+      'Τα αυτοκόλλητα θα έχουν κινούμενη εικόνα όταν περνάτε το ποντίκι από πάνω τους ή αλληλεπιδράτε με αυτά';
 
   @override
-  String get accessibilityStickerNeverAnimateName => 'Never animate';
+  String get accessibilityStickerNeverAnimateName => 'Ποτέ κινούμενη εικόνα';
 
   @override
   String get accessibilityStickerNeverAnimateDescription =>
-      'Stickers will never animate';
+      'Τα αυτοκόλλητα δεν θα έχουν ποτέ κινούμενη εικόνα';
 
   @override
   String get accessibilityStickersAlwaysDespiteReducedMotion =>
-      'Always animating despite reduced motion.';
+      'Πάντα κινούμενη, παρά τη μειωμένη κίνηση.';
 
   @override
   String get accessibilityStickersReducedMotionHint =>
-      'Reduced motion limits stickers to animate on interaction. Choose always animate to override.';
+      'Η μειωμένη κίνηση περιορίζει τα αυτοκόλλητα να κινούνται μόνο κατά την αλληλεπίδραση. Επιλέξτε «Πάντα κινούμενα» για παράκαμψη.';
 
   @override
   String get accessibilityStickersDefaultsOnMobile =>
-      'Defaults to animate on interaction on mobile to preserve battery life.';
+      'Εκ προεπιλογής, οι κινούμενες εικόνες ενεργοποιούνται με την αλληλεπίδραση στο κινητό, για εξοικονόμηση μπαταρίας.';
 
   @override
-  String get accessibilityMotionGroupTitle => 'Motion';
+  String get accessibilityMotionGroupTitle => 'Κίνηση';
 
   @override
   String get accessibilitySyncReducedMotionWithSystemLabel =>
-      'Sync reduced motion setting with system';
+      'Συγχρονισμός ρύθμισης μειωμένης κίνησης με το σύστημα';
 
   @override
   String get accessibilitySyncReducedMotionWithSystemDescription =>
-      'Use this device\'s system reduced motion preference, or customize it below.';
+      'Χρησιμοποιήστε την προτίμηση μειωμένης κίνησης του συστήματος αυτής της συσκευής ή προσαρμόστε την παρακάτω.';
 
   @override
-  String get accessibilityReducedMotionOverrideLabel => 'Reduce motion';
+  String get accessibilityReducedMotionOverrideLabel => 'Μείωση κίνησης';
 
   @override
   String get accessibilityReducedMotionOverrideSyncedDescription =>
-      'Disable animations and transitions. Currently controlled by your system setting.';
+      'Απενεργοποίηση κινούμενων σχεδίων και μεταβάσεων. Ελέγχεται αυτήν τη στιγμή από τις ρυθμίσεις του συστήματός σας.';
 
   @override
   String get accessibilityReducedMotionOverrideManualDescription =>
-      'Disable animations and transitions throughout the app.';
+      'Απενεργοποίηση κινούμενων σχεδίων και μεταβάσεων σε όλη την εφαρμογή.';
 
   @override
   String get accessibilityReducedMotionAnimationTabHint =>
-      'Animated emojis, GIFs and stickers stay under your control in the Animation tab.';
+      'Τα κινούμενα emoji, τα GIF και τα αυτοκόλλητα παραμένουν υπό τον έλεγχό σας στην καρτέλα Κίνηση.';
 
   @override
-  String get accessibilityConfirmStartCallTitle => 'Start call?';
+  String get accessibilityConfirmStartCallTitle => 'Έναρξη κλήσης;';
 
   @override
   String get accessibilityConfirmStartCallDescription =>
-      'Are you sure you want to start this call?';
+      'Είστε σίγουροι ότι θέλετε να ξεκινήσετε αυτήν την κλήση;';
 
   @override
-  String get accessibilityConfirmStartCallConfirmLabel => 'Start call';
+  String get accessibilityConfirmStartCallConfirmLabel => 'Έναρξη κλήσης';
 
   @override
   String get accessibilityTtsSampleDescription =>
-      'Hear the sample line spoken with your chosen speed.';
+      'Ακούστε τη δοκιμαστική πρόταση στην επιλεγμένη ταχύτητα.';
 
   @override
   String get accessibilityTtsSampleText =>
-      'Doc, I\'m from the future. I came here in a time machine that you invented. Now, I need your help to get back to the year 1985.';
+      'Γιατρέ, έρχομαι από το μέλλον. Ήρθα εδώ με μια χρονομηχανή που εφηύρατε εσείς. Τώρα, χρειάζομαι τη βοήθειά σας για να επιστρέψω στο έτος 1985.';
 
   @override
   String get accessibilityTtsUnsupportedDescription =>
-      'Speech synthesis is unavailable on this device.';
+      'Η σύνθεση ομιλίας δεν είναι διαθέσιμη σε αυτήν τη συσκευή.';
 
   @override
   String get accessibilityTtsPlaybackFailedDescription =>
-      'Speech playback failed. Try again, or check that audio output is working.';
+      'Η αναπαραγωγή ομιλίας απέτυχε. Δοκιμάστε ξανά ή ελέγξτε αν λειτουργεί η έξοδος ήχου.';
 
   @override
-  String get ttsSubstitutionUnknownUser => 'unknown user';
+  String get ttsSubstitutionUnknownUser => 'άγνωστος χρήστης';
 
   @override
-  String get ttsSubstitutionUnknownRole => 'unknown role';
+  String get ttsSubstitutionUnknownRole => 'άγνωστος ρόλος';
 
   @override
-  String get ttsSubstitutionUnknownChannel => 'unknown channel';
+  String get ttsSubstitutionUnknownChannel => 'άγνωστο κανάλι';
 
   @override
-  String get ttsSubstitutionCodeBlock => 'code block';
+  String get ttsSubstitutionCodeBlock => 'μπλοκ κώδικα';
 
   @override
-  String get ttsSubstitutionSpoiler => 'spoiler';
+  String get ttsSubstitutionSpoiler => 'αποκάλυψη';
 
   @override
   String ttsSubstitutionEmoji(String emojiName) {
-    return 'emoji $emojiName';
+    return 'εμότζι $emojiName';
   }
 
   @override
   String ttsSubstitutionSlashCommand(String commandName) {
-    return 'slash $commandName';
+    return '/$commandName';
   }
 
   @override
   String ttsAuthorSaid(String authorName, String formatted) {
-    return '$authorName said: $formatted';
+    return 'Ο/Η $authorName είπε: $formatted';
   }
 
   @override
@@ -5338,7 +5389,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String authorName,
     String formatted,
   ) {
-    return 'Replying to $replyAuthorName, $authorName said: $formatted';
+    return 'Απάντηση σε $replyAuthorName, ο/η $authorName είπε: $formatted';
   }
 
   @override
@@ -5347,22 +5398,22 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get ttsSentSticker => 'sent a sticker';
+  String get ttsSentSticker => 'έστειλε ένα αυτοκόλλητο';
 
   @override
-  String get ttsSentAttachment => 'sent an attachment';
+  String get ttsSentAttachment => 'έστειλε ένα συνημμένο';
 
   @override
   String ttsSentAttachments(int count) {
-    return 'sent $count attachments';
+    return 'απεστάλησαν $count συνημμένα';
   }
 
   @override
-  String get ttsSentEmbed => 'sent an embed';
+  String get ttsSentEmbed => 'έστειλε ένα ενσωματωμένο μήνυμα';
 
   @override
   String messageScreenReaderAnnouncement(String author, String summary) {
-    return '$author sent $summary';
+    return 'Ο/Η $author έστειλε $summary';
   }
 
   @override
@@ -5419,77 +5470,77 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get systemCallJoinTheCall => 'Join the call';
+  String get systemCallJoinTheCall => 'Συμμετοχή στην κλήση';
 
   @override
   String systemCallStartedThatLasted(String username, String duration) {
-    return '$username started a call that lasted $duration.';
+    return 'Ο/Η $username ξεκίνησε μια κλήση που διήρκεσε $duration.';
   }
 
   @override
   String systemCallMissedWithDuration(String username, String duration) {
-    return 'You missed a call from $username that lasted $duration.';
+    return 'Χάσατε μια κλήση από τον/την $username που διήρκεσε $duration.';
   }
 
   @override
   String systemCallMissed(String username) {
-    return 'You missed a call from $username.';
+    return 'Χάσατε μια κλήση από τον/την $username.';
   }
 
   @override
-  String get systemCallDurationFewSeconds => 'a few seconds';
+  String get systemCallDurationFewSeconds => 'πριν λίγα δευτερόλεπτα';
 
   @override
-  String get systemCallDurationMinute => 'a minute';
+  String get systemCallDurationMinute => 'ένα λεπτό';
 
   @override
-  String get systemCallDurationOneYear => '1 year';
+  String get systemCallDurationOneYear => '1 χρόνος';
 
   @override
-  String get systemCallDurationOneMonth => '1 month';
+  String get systemCallDurationOneMonth => '1 μήνας';
 
   @override
-  String get systemCallDurationOneWeek => '1 week';
+  String get systemCallDurationOneWeek => '1 εβδομάδα';
 
   @override
-  String get systemCallDurationOneDay => '1 day';
+  String get systemCallDurationOneDay => '1 ημέρα';
 
   @override
-  String get systemCallDurationOneHour => '1 hour';
+  String get systemCallDurationOneHour => '1 ώρα';
 
   @override
   String systemCallDurationYears(int count) {
-    return '$count years';
+    return '$count χρόνια';
   }
 
   @override
   String systemCallDurationMonths(int count) {
-    return '$count months';
+    return '$count μήνες';
   }
 
   @override
   String systemCallDurationWeeks(int count) {
-    return '$count weeks';
+    return '$count εβδομάδες';
   }
 
   @override
   String systemCallDurationDays(int count) {
-    return '$count days';
+    return '$count ημέρες';
   }
 
   @override
   String systemCallDurationHours(int count) {
-    return '$count hours';
+    return '$count ώρες';
   }
 
   @override
   String systemCallDurationMinutes(int count) {
-    return '$count minutes';
+    return '$count λεπτά';
   }
 
   @override
   String systemUnknownMessage(String productName) {
-    return 'Update $productName to view this message.';
+    return 'Ενημερώστε το $productName για να δείτε αυτό το μήνυμα.';
   }
 
   @override
@@ -5520,21 +5571,21 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Να μην γίνει τίποτα, δεν θέλω να συνδεθώ';
 
   @override
-  String get voiceJoinFailedTitle => 'Couldn\'t Join Voice';
+  String get voiceJoinFailedTitle => 'Αδυναμία συμμετοχής στη φωνητική κλήση';
 
   @override
   String get voiceMultiDeviceDisconnectFailed =>
-      'Couldn\'t disconnect your other devices. Try again in a moment.';
+      'Δεν ήταν δυνατή η αποσύνδεση των άλλων συσκευών σας. Δοκιμάστε ξανά σε λίγο.';
 
   @override
   String get voiceChannelEmptyDescription =>
       'Αυτό είναι ένα φωνητικό κανάλι. Συνδεθείτε για να αρχίσετε να μιλάτε!';
 
   @override
-  String get voiceChannelJoin => 'Σύνδεση στο Φωνητικό Κανάλι';
+  String get voiceChannelJoin => 'Συμμετοχή στο κανάλι φωνητικής συνομιλίας';
 
   @override
-  String get voiceCallJoin => 'Join call';
+  String get voiceCallJoin => 'Συμμετοχή στην κλήση';
 
   @override
   String get voiceChannelJoinConnect => 'Σύνδεση στη Φωνή';
@@ -5631,7 +5682,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get voiceControlVideo => 'Βίντεο';
 
   @override
-  String get voiceControlFlipCamera => 'Flip camera';
+  String get voiceControlFlipCamera => 'Αλλαγή κάμερας';
 
   @override
   String get voiceControlScreenShare => 'Κοινή χρήση οθόνης';
@@ -5647,19 +5698,19 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get voiceControlDisconnect => 'Αποσύνδεση';
 
   @override
-  String get voiceInChat => 'In voice chat';
+  String get voiceInChat => 'Σε φωνητική συνομιλία';
 
   @override
-  String get voiceConnectionFailed => 'Connection failed';
+  String get voiceConnectionFailed => 'Η σύνδεση απέτυχε';
 
   @override
-  String get voiceConnectionRetry => 'Try again';
+  String get voiceConnectionRetry => 'Δοκιμάστε ξανά';
 
   @override
-  String get voiceConnectionDismiss => 'Dismiss';
+  String get voiceConnectionDismiss => 'Απόρριψη';
 
   @override
-  String get voiceConnectionDisconnected => 'Disconnected';
+  String get voiceConnectionDisconnected => 'Αποσυνδέθηκε';
 
   @override
   String voicePingMs(int currentLatency) {
@@ -5667,58 +5718,58 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get voiceMeasuringLatency => 'Measuring latency...';
+  String get voiceMeasuringLatency => 'Μέτρηση καθυστέρησης...';
 
   @override
   String voiceJumpToChannel(String channelSourceLabel) {
-    return 'Jump to $channelSourceLabel';
+    return 'Μετάβαση στο $channelSourceLabel';
   }
 
   @override
-  String get voiceConnectionTitle => 'Voice connection';
+  String get voiceConnectionTitle => 'Σύνδεση φωνής';
 
   @override
-  String get voiceConnectionAdvancedStats => 'Advanced';
+  String get voiceConnectionAdvancedStats => 'Για προχωρημένους';
 
   @override
-  String get voiceShowCallAvatars => 'Show call avatars';
+  String get voiceShowCallAvatars => 'Εμφάνιση avatar κλήσης';
 
   @override
-  String get voiceShowConnectionId => 'Show connection ID';
+  String get voiceShowConnectionId => 'Εμφάνιση αναγνωριστικού σύνδεσης';
 
   @override
-  String get voiceAudioProcessing => 'Audio processing';
+  String get voiceAudioProcessing => 'Επεξεργασία ήχου';
 
   @override
-  String get voiceConnectionSessionSection => 'Session';
+  String get voiceConnectionSessionSection => 'Συνεδρία';
 
   @override
-  String get voiceConnectionDurationLabel => 'Duration';
+  String get voiceConnectionDurationLabel => 'Διάρκεια';
 
   @override
-  String get voiceConnectionParticipantsLabel => 'Participants';
+  String get voiceConnectionParticipantsLabel => 'Συμμετέχοντες';
 
   @override
-  String get voiceConnectionNetworkSection => 'Network';
+  String get voiceConnectionNetworkSection => 'Δίκτυο';
 
   @override
-  String get voiceConnectionPingLabel => 'Ping';
+  String get voiceConnectionPingLabel => 'Πινγκ';
 
   @override
-  String get voiceConnectionJitterLabel => 'Jitter';
+  String get voiceConnectionJitterLabel => 'Αστάθεια (Jitter)';
 
   @override
-  String get voiceConnectionSendLabel => 'Send';
+  String get voiceConnectionSendLabel => 'Αποστολή';
 
   @override
-  String get voiceConnectionReceiveLabel => 'Receive';
+  String get voiceConnectionReceiveLabel => 'Λήψη';
 
   @override
   String get voiceConnectionUnavailable => '—';
 
   @override
   String voiceConnectionDuration(int minutes, int seconds) {
-    return '${minutes}m ${seconds}s';
+    return '$minutesλ $secondsδ';
   }
 
   @override
@@ -5737,72 +5788,73 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get userAreaMuteMicrophone => 'Mute microphone';
+  String get userAreaMuteMicrophone => 'Σίγαση μικροφώνου';
 
   @override
-  String get userAreaUnmuteMicrophone => 'Unmute microphone';
+  String get userAreaUnmuteMicrophone => 'Ενεργοποίηση μικροφώνου';
 
   @override
-  String get userAreaUserSettings => 'User settings';
+  String get userAreaUserSettings => 'Ρυθμίσεις χρήστη';
 
   @override
-  String get voiceParticipantMenuViewProfile => 'View profile';
+  String get voiceParticipantMenuViewProfile => 'Προβολή προφίλ';
 
   @override
-  String get voiceParticipantMenuFocus => 'Focus this person';
+  String get voiceParticipantMenuFocus => 'Εστίαση σε αυτό το άτομο';
 
   @override
-  String get voiceParticipantMenuUnfocus => 'Unfocus';
+  String get voiceParticipantMenuUnfocus => 'Αποεστίαση';
 
   @override
-  String get voiceParticipantMenuCommunityMute => 'Community mute';
+  String get voiceParticipantMenuCommunityMute =>
+      'Σίγαση μέλους στην κοινότητα';
 
   @override
-  String get voiceParticipantMenuCommunityDeafen => 'Community deafen';
+  String get voiceParticipantMenuCommunityDeafen => 'Αποσιώπηση στην κοινότητα';
 
   @override
-  String get voiceParticipantMenuUserVolume => 'User volume';
+  String get voiceParticipantMenuUserVolume => 'Ένταση χρήστη';
 
   @override
-  String get voiceParticipantMenuStreamVolume => 'Stream volume';
+  String get voiceParticipantMenuStreamVolume => 'Ένταση ροής';
 
   @override
-  String get voiceParticipantMenuStopStreaming => 'Stop streaming';
+  String get voiceParticipantMenuStopStreaming => 'Διακοπή ροής';
 
   @override
   String get voiceParticipantModerationFailed =>
-      'Couldn\'t update that member. Please try again.';
+      'Δεν ήταν δυνατή η ενημέρωση αυτού του μέλους. Δοκιμάστε ξανά.';
 
   @override
   String get voiceControlChat => 'Συνομιλία';
 
   @override
-  String get voiceCallViewModeLabel => 'View';
+  String get voiceCallViewModeLabel => 'Προβολή';
 
   @override
-  String get voiceCallViewModeGrid => 'Grid';
+  String get voiceCallViewModeGrid => 'Πλέγμα';
 
   @override
-  String get voiceCallViewModeFocus => 'Focus';
+  String get voiceCallViewModeFocus => 'Εστίαση';
 
   @override
-  String get voicePanelSettingsSectionTitle => 'Voice settings';
+  String get voicePanelSettingsSectionTitle => 'Ρυθμίσεις φωνής';
 
   @override
-  String get voicePanelUseEarpieceLabel => 'Use earpiece';
+  String get voicePanelUseEarpieceLabel => 'Χρήση ακουστικού';
 
   @override
-  String get voicePanelOnlyShowVideosLabel => 'Only show videos';
+  String get voicePanelOnlyShowVideosLabel => 'Εμφάνιση μόνο βίντεο';
 
   @override
   String get voicePanelOnlyShowVideosDescription =>
-      'Only show participants who have their camera on.';
+      'Εμφάνιση μόνο των συμμετεχόντων που έχουν ενεργοποιήσει την κάμερά τους.';
 
   @override
-  String get voicePanelShowOwnCameraLabel => 'Show my own camera';
+  String get voicePanelShowOwnCameraLabel => 'Εμφάνιση της κάμεράς μου';
 
   @override
-  String get voicePrioritizeSpeakersLabel => 'Prioritize speakers';
+  String get voicePrioritizeSpeakersLabel => 'Προτεραιότητα σε ομιλητές';
 
   @override
   String get voiceTextChatShow => 'Εμφάνιση συνομιλίας';
@@ -6013,464 +6065,473 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get privacyDashboardCommunicationSection => 'Επικοινωνία';
 
   @override
-  String get privacyDashboardProfilePrivacySection => 'Profile privacy';
+  String get privacyDashboardProfilePrivacySection => 'Απόρρητο προφίλ';
 
   @override
   String get privacyDashboardFriendsAndDirectMessagesSection =>
-      'Friends & direct messages';
+      'Φίλοι και άμεσες ανταλλαγές μηνυμάτων';
 
   @override
-  String get privacyDashboardActivitySharingSection => 'Activity sharing';
+  String get privacyDashboardActivitySharingSection =>
+      'Κοινή χρήση δραστηριοτήτων';
 
   @override
-  String get privacyDashboardSensitiveContentSection => 'Sensitive content';
+  String get privacyDashboardSensitiveContentSection => 'Ευαίσθητο περιεχόμενο';
 
   @override
-  String get privacyDashboardDataExportSection => 'Data export';
+  String get privacyDashboardDataExportSection => 'Εξαγωγή δεδομένων';
 
   @override
-  String get privacyDashboardDataDeletionSection => 'Data deletion';
+  String get privacyDashboardDataDeletionSection => 'Διαγραφή δεδομένων';
 
   @override
   String get privacyDashboardProfilePrivacyTitle =>
-      'Who can see your full profile';
+      'Ποιος μπορεί να δει το πλήρες προφίλ σας';
 
   @override
   String get privacyDashboardProfilePrivacyAllCommunities =>
-      'Friends and all communities';
+      'Φίλοι και όλες οι κοινότητες';
 
   @override
   String get privacyDashboardProfilePrivacyAllCommunitiesDesc =>
-      'Your full profile is visible to friends and to anyone in your communities';
+      'Το πλήρες προφίλ σας είναι ορατό σε φίλους και σε οποιονδήποτε βρίσκεται στις κοινότητές σας';
 
   @override
   String get privacyDashboardProfilePrivacySmallCommunities =>
-      'Friends and small communities only';
+      'Μόνο φίλοι και μικρές κοινότητες';
 
   @override
   String get privacyDashboardProfilePrivacySmallCommunitiesDesc =>
-      'Your full profile is visible to friends and members of your communities with 200 or fewer members';
+      'Το πλήρες προφίλ σας είναι ορατό σε φίλους και μέλη των κοινοτήτων σας με 200 ή λιγότερα μέλη';
 
   @override
-  String get privacyDashboardProfilePrivacyFriendsOnly => 'Friends only';
+  String get privacyDashboardProfilePrivacyFriendsOnly => 'Μόνο φίλοι';
 
   @override
   String get privacyDashboardProfilePrivacyFriendsOnlyDesc =>
-      'Your full profile is only visible to your friends';
+      'Το πλήρες προφίλ σας είναι ορατό μόνο στους φίλους σας';
 
   @override
-  String get privacyDashboardFriendRequestsTitle => 'Friend requests';
+  String get privacyDashboardFriendRequestsTitle => 'Αιτήματα φιλίας';
 
   @override
-  String get privacyDashboardFriendRequestsEveryone => 'Everyone';
+  String get privacyDashboardFriendRequestsEveryone => 'Όλοι';
 
   @override
   String get privacyDashboardFriendRequestsEveryoneDesc =>
-      'Allow anyone to send you friend requests';
+      'Να επιτρέπεται σε οποιονδήποτε να σας στέλνει αιτήματα φιλίας';
 
   @override
-  String get privacyDashboardFriendRequestsFriendsOfFriends =>
-      'Friends of Friends';
+  String get privacyDashboardFriendRequestsFriendsOfFriends => 'Φίλοι φίλων';
 
   @override
   String get privacyDashboardFriendRequestsFriendsOfFriendsDesc =>
-      'Allow friends of your friends to send you requests';
+      'Να επιτρέπεται στους φίλους των φίλων σας να σας στέλνουν αιτήματα';
 
   @override
   String get privacyDashboardFriendRequestsCommunityMembers =>
-      'Community Members';
+      'Μέλη κοινότητας';
 
   @override
   String get privacyDashboardFriendRequestsCommunityMembersDesc =>
-      'Allow members from communities you\'re in to send you requests';
+      'Να επιτρέπεται στα μέλη από κοινότητες στις οποίες ανήκετε να σας στέλνουν αιτήματα';
 
   @override
-  String get privacyDashboardDirectMessagesTitle => 'Direct messages';
+  String get privacyDashboardDirectMessagesTitle => 'Απευθείας μηνύματα';
 
   @override
   String get privacyDashboardDirectMessagesMembers =>
-      'Allow direct messages from community members';
+      'Να επιτρέπονται τα απευθείας μηνύματα από μέλη της κοινότητας';
 
   @override
   String get privacyDashboardDirectMessagesMembersDesc =>
-      'Allow members from communities you\'re in to send you direct messages';
+      'Να επιτρέπεται στα μέλη από κοινότητες στις οποίες ανήκετε να σας στέλνουν απευθείας μηνύματα';
 
   @override
   String get privacyDashboardDirectMessagesBots =>
-      'Allow direct messages from community bots';
+      'Να επιτρέπονται τα απευθείας μηνύματα από bot κοινοτήτων';
 
   @override
   String get privacyDashboardDirectMessagesBotsDesc =>
-      'Allow bots from communities you\'re in to send you direct messages';
+      'Να επιτρέπεται στα bots από κοινότητες στις οποίες ανήκετε να σας στέλνουν απευθείας μηνύματα';
 
   @override
   String get privacyDashboardConnectionsSectionDesc =>
-      'Control who can send you friend requests and direct messages';
+      'Έλεγξε ποιος μπορεί να σου στείλει αιτήματα φιλίας και απευθείας μηνύματα';
 
   @override
   String get privacyDashboardCommunicationSectionDesc =>
-      'Control who can call you and add you to group chats';
+      'Έλεγξε ποιος μπορεί να σε καλεί και να σε προσθέτει σε ομαδικές συνομιλίες';
 
   @override
-  String get privacyDashboardIncomingCallsTitle => 'Incoming calls';
+  String get privacyDashboardIncomingCallsTitle => 'Εισερχόμενες κλήσεις';
 
   @override
-  String get privacyDashboardIncomingCallsDesc => 'Control who can call you';
+  String get privacyDashboardIncomingCallsDesc =>
+      'Έλεγξε ποιος μπορεί να σε καλέσει';
 
   @override
-  String get privacyDashboardAllowedCallers => 'Allowed callers';
+  String get privacyDashboardAllowedCallers => 'Επιτρεπόμενοι καλούντες';
 
   @override
-  String get privacyDashboardIncomingCallNobody => 'Nobody';
+  String get privacyDashboardIncomingCallNobody => 'Κανείς';
 
   @override
   String get privacyDashboardIncomingCallNobodyDesc =>
-      'Block all incoming calls';
+      'Αποκλεισμός όλων των εισερχόμενων κλήσεων';
 
   @override
-  String get privacyDashboardIncomingCallFriendsOnly => 'Friends Only';
+  String get privacyDashboardIncomingCallFriendsOnly => 'Μόνο φίλοι';
 
   @override
   String get privacyDashboardIncomingCallFriendsOnlyDesc =>
-      'Only allow friends to call you (recommended)';
+      'Επιτρέψτε μόνο στους φίλους σας να σας καλούν (προτείνεται)';
 
   @override
-  String get privacyDashboardIncomingCallCustom => 'Friends + Custom';
+  String get privacyDashboardIncomingCallCustom => 'Φίλοι + Προσαρμοσμένο';
 
   @override
   String get privacyDashboardIncomingCallCustomDesc =>
-      'Allow friends plus additional groups you choose';
+      'Να επιτρέπονται φίλοι και επιπλέον ομάδες που θα επιλέξετε';
 
   @override
-  String get privacyDashboardIncomingCallEveryone => 'Everyone';
+  String get privacyDashboardIncomingCallEveryone => 'Όλοι';
 
   @override
   String get privacyDashboardIncomingCallEveryoneDesc =>
-      'Allow anyone to call you, even strangers';
+      'Να δέχεσαι κλήσεις από οποιονδήποτε, ακόμη και από αγνώστους';
 
   @override
-  String get privacyDashboardAdditionalGroups => 'Additional Groups';
+  String get privacyDashboardAdditionalGroups => 'Πρόσθετες Ομάδες';
 
   @override
   String get privacyDashboardCallFriendsOfFriendsDesc =>
-      'People who are friends with your friends can call you';
+      'Οι φίλοι των φίλων σου μπορούν να σε καλέσουν';
 
   @override
   String get privacyDashboardCallGuildMembersDesc =>
-      'People from communities you\'re both in can call you';
+      'Άτομα από κοινότητες στις οποίες ανήκετε και οι δύο μπορούν να σας καλέσουν';
 
   @override
-  String get privacyDashboardRingBehavior => 'Ring Behavior';
+  String get privacyDashboardRingBehavior => 'Συμπεριφορά δακτυλίου';
 
   @override
-  String get privacyDashboardSilentCalls => 'Silent calls from everyone';
+  String get privacyDashboardSilentCalls => 'Σίγαση κλήσεων από όλους';
 
   @override
   String get privacyDashboardSilentCallsDesc =>
-      'All calls will notify silently instead of ringing. By default, calls from non-friends are always silent.';
+      'Όλες οι κλήσεις θα ειδοποιούν σιωπηλά αντί να χτυπούν. Εξ ορισμού, οι κλήσεις από μη φίλους είναι πάντα σιωπηλές.';
 
   @override
-  String get privacyDashboardGroupDmTitle => 'Who Can Add You to Group Chats';
+  String get privacyDashboardGroupDmTitle =>
+      'Ποιος μπορεί να σας προσθέσει σε ομαδικές συνομιλίες';
 
   @override
   String get privacyDashboardGroupDmDesc =>
-      'Control who can add you to group chats without asking. Anyone can still send you invite links to join.';
+      'Έλεγξε ποιος μπορεί να σε προσθέσει σε ομαδικές συνομιλίες χωρίς να ρωτήσει. Οποιοσδήποτε μπορεί ακόμα να σου στείλει συνδέσμους πρόσκλησης για να συμμετάχεις.';
 
   @override
-  String get privacyDashboardAllowedInvites => 'Allowed invites';
+  String get privacyDashboardAllowedInvites => 'Επιτρεπόμενες προσκλήσεις';
 
   @override
   String get privacyDashboardGroupDmNobodyDesc =>
-      'Don\'t let anyone add you to group chats without asking';
+      'Κανείς να μην μπορεί να σε προσθέσει σε ομαδικές συνομιλίες χωρίς να ρωτήσει';
 
   @override
   String get privacyDashboardGroupDmFriendsOnlyDesc =>
-      'Only allow friends to add you without asking (recommended)';
+      'Επιτρέψτε μόνο στους φίλους να σας προσθέσουν χωρίς άδεια (προτείνεται)';
 
   @override
   String get privacyDashboardGroupDmCustomDesc =>
-      'Allow friends plus additional groups to add you';
+      'Να επιτρέπεται σε φίλους και επιπλέον ομάδες να σας προσθέτουν';
 
   @override
   String get privacyDashboardGroupDmEveryoneDesc =>
-      'Allow anyone to add you to group chats without asking';
+      'Να επιτρέπεται σε οποιονδήποτε να σας προσθέτει σε ομαδικές συνομιλίες χωρίς να ρωτά';
 
   @override
   String get privacyDashboardGroupDmFriendsOfFriendsDesc =>
-      'People who are friends with your friends can add you to group chats';
+      'Άτομα που είναι φίλοι με τους φίλους σας μπορούν να σας προσθέσουν σε ομαδικές συνομιλίες';
 
   @override
   String get privacyDashboardGroupDmGuildMembersDesc =>
-      'People from communities you\'re both in can add you to group chats';
+      'Άτομα από κοινότητες που ανήκετε και οι δύο μπορούν να σας προσθέσουν σε ομαδικές συνομιλίες';
 
   @override
   String get privacyDashboardVoiceActivityTitle =>
-      'Voice activity on active now';
+      'Δραστηριότητα φωνής στο «Ενεργός τώρα»';
 
   @override
   String get privacyDashboardShareVoiceActivity =>
-      'Share your voice activity with friends';
+      'Κοινοποίηση της φωνητικής σας δραστηριότητας με φίλους';
 
   @override
   String get privacyDashboardVoiceActivityEnableTitle =>
-      'Share voice activity with all friends?';
+      'Κοινή χρήση δραστηριότητας φωνής με όλους τους φίλους;';
 
   @override
   String get privacyDashboardVoiceActivityDisableTitle =>
-      'Stop sharing voice activity with all friends?';
+      'Να σταματήσει η κοινοποίηση της φωνητικής δραστηριότητας σε όλους τους φίλους;';
 
   @override
   String get privacyDashboardVoiceActivityEnableDesc =>
-      'You\'re about to start sharing your voice activity with every friend you have, including future ones. This sends an update to all of them and can only be changed again in 24 hours.';
+      'Πρόκειται να αρχίσετε να μοιράζεστε τη φωνητική σας δραστηριότητα με όλους τους φίλους σας, συμπεριλαμβανομένων και των μελλοντικών. Αυτό στέλνει μια ενημέρωση σε όλους και μπορεί να αλλάξει ξανά μόνο μετά από 24 ώρες.';
 
   @override
   String get privacyDashboardVoiceActivityDisableDesc =>
-      'You\'re about to stop sharing your voice activity with every friend you have, including future ones. This sends an update to all of them and can only be changed again in 24 hours.';
+      'Πρόκειται να σταματήσετε να μοιράζεστε τη φωνητική σας δραστηριότητα με όλους τους φίλους σας, συμπεριλαμβανομένων και των μελλοντικών. Αυτό στέλνει μια ενημέρωση σε όλους και μπορεί να αλλάξει ξανά μόνο μετά από 24 ώρες.';
 
   @override
   String get privacyDashboardVoiceActivityEnableConfirm =>
-      'Yes, share with all friends';
+      'Ναι, κοινοποίηση σε όλους τους φίλους';
 
   @override
-  String get privacyDashboardVoiceActivityDisableConfirm => 'Yes, stop sharing';
+  String get privacyDashboardVoiceActivityDisableConfirm =>
+      'Ναι, διακοπή κοινοποίησης';
 
   @override
   String privacyDashboardVoiceActivityCooldown(String time) {
-    return 'Available again in $time';
+    return 'Διαθέσιμο ξανά σε $time';
   }
 
   @override
   String get privacyDashboardVoiceActivityUpdated =>
-      'Voice activity sharing updated';
+      'Η κοινοποίηση φωνητικής δραστηριότητας ενημερώθηκε';
 
   @override
   String get privacyDashboardVoiceActivityUpdateFailed =>
-      'Couldn\'t update voice activity sharing right now';
+      'Δεν ήταν δυνατή η ενημέρωση της κοινοποίησης δραστηριότητας φωνής αυτή τη στιγμή';
 
   @override
   String get privacyDashboardDataExportDesc =>
-      'Build a downloadable archive of your account data, including messages and attachment URLs. Most people want everything, but you can narrow the scope below.';
+      'Δημιουργήστε ένα αρχείο με δυνατότητα λήψης των δεδομένων του λογαριασμού σας, συμπεριλαμβανομένων των μηνυμάτων και των διευθύνσεων URL των συνημμένων. Οι περισσότεροι θέλουν τα πάντα, αλλά μπορείτε να περιορίσετε το εύρος παρακάτω.';
 
   @override
-  String get privacyDashboardExportMyData => 'Export my data';
+  String get privacyDashboardExportMyData => 'Εξαγωγή των δεδομένων μου';
 
   @override
   String get privacyDashboardDataDeletionDesc =>
-      'Permanently remove messages you have sent across DMs, group DMs, and communities. The work runs in the background, and you will get a DM when it finishes.';
+      'Οριστική διαγραφή των μηνυμάτων που έχετε στείλει σε προσωπικές συνομιλίες, ομαδικές προσωπικές συνομιλίες και κοινότητες. Η διαδικασία εκτελείται στο παρασκήνιο και θα λάβετε ένα προσωπικό μήνυμα όταν ολοκληρωθεί.';
 
   @override
-  String get privacyDashboardDeleteMyMessages => 'Delete my messages';
+  String get privacyDashboardDeleteMyMessages => 'Διαγραφή των μηνυμάτων μου';
 
   @override
   String get privacyDashboardDmConfirmAllowMembersTitle =>
-      'Allow direct messages from community members?';
+      'Να επιτρέπονται τα απευθείας μηνύματα από μέλη της κοινότητας;';
 
   @override
   String get privacyDashboardDmConfirmBlockMembersTitle =>
-      'Block direct messages from community members?';
+      'Να αποκλείονται τα απευθείας μηνύματα από μέλη της κοινότητας;';
 
   @override
   String get privacyDashboardDmConfirmAllowBotsTitle =>
-      'Allow bots to send you direct messages?';
+      'Να επιτρέπεται στα bot να σου στέλνουν απευθείας μηνύματα;';
 
   @override
   String get privacyDashboardDmConfirmBlockBotsTitle =>
-      'Block bots from sending you direct messages?';
+      'Να μπλοκάρονται τα bot από το να σου στέλνουν απευθείας μηνύματα;';
 
   @override
   String get privacyDashboardDmConfirmAllowMembersDesc =>
-      'Do you also want to allow direct messages from members of your existing communities?';
+      'Θέλεις να επιτρέψεις και τα απευθείας μηνύματα από μέλη των υπαρχουσών κοινοτήτων σου;';
 
   @override
   String get privacyDashboardDmConfirmBlockMembersDesc =>
-      'Do you also want to block direct messages from members of your existing communities?';
+      'Θέλετε να μπλοκάρετε και τα απευθείας μηνύματα από μέλη των υπαρχουσών κοινοτήτων σας;';
 
   @override
   String get privacyDashboardDmConfirmAllowBotsDesc =>
-      'Do you also want to allow bots from your existing communities to send you direct messages?';
+      'Θέλετε να επιτρέψετε και στα bot από τις υπάρχουσες κοινότητές σας να σας στέλνουν απευθείας μηνύματα;';
 
   @override
   String get privacyDashboardDmConfirmBlockBotsDesc =>
-      'Do you also want to block bots from your existing communities?';
+      'Θέλετε να μπλοκάρετε και τα bots από τις υπάρχουσες κοινότητές σας;';
 
   @override
   String get privacyDashboardDmConfirmPerCommunityHint =>
-      'You can also change this setting per-community by long-pressing the community name and selecting Privacy Settings.';
+      'Μπορείς επίσης να αλλάξεις αυτήν τη ρύθμιση ανά κοινότητα, πατώντας παρατεταμένα το όνομα της κοινότητας και επιλέγοντας Ρυθμίσεις απορρήτου.';
 
   @override
-  String get privacyDashboardDmConfirmAllowAll => 'Allow for all communities';
+  String get privacyDashboardDmConfirmAllowAll =>
+      'Να επιτρέπεται σε όλες τις κοινότητες';
 
   @override
-  String get privacyDashboardDmConfirmBlockAll => 'Block for all communities';
+  String get privacyDashboardDmConfirmBlockAll =>
+      'Αποκλεισμός για όλες τις κοινότητες';
 
   @override
-  String get privacyDashboardDmConfirmSkip => 'Skip this step';
+  String get privacyDashboardDmConfirmSkip => 'Παράλειψη αυτού του βήματος';
 
   @override
-  String get privacyDashboardDataRequestGoBack => 'Go back';
+  String get privacyDashboardDataRequestGoBack => 'Πίσω';
 
   @override
-  String get privacyDashboardDataRequestExportTitle => 'Export my data';
+  String get privacyDashboardDataRequestExportTitle =>
+      'Εξαγωγή των δεδομένων μου';
 
   @override
-  String get privacyDashboardDataRequestDeleteTitle => 'Delete my messages';
+  String get privacyDashboardDataRequestDeleteTitle =>
+      'Διαγραφή των μηνυμάτων μου';
 
   @override
   String get privacyDashboardDataRequestExportSuccess =>
-      'We\'ll process this as soon as possible. You\'ll get an email when your archive is ready.';
+      'Θα το επεξεργαστούμε το συντομότερο δυνατό. Θα λάβετε ένα email όταν το αρχείο σας είναι έτοιμο.';
 
   @override
   String get privacyDashboardDataRequestDeleteSuccess =>
-      'We\'ll process this as soon as possible. You\'ll get a DM from us when it\'s done.';
+      'Θα το επεξεργαστούμε το συντομότερο δυνατό. Θα λάβετε ένα προσωπικό μήνυμα από εμάς όταν ολοκληρωθεί.';
 
   @override
-  String get privacyDashboardDataRequestScopeTitle => 'What to include';
+  String get privacyDashboardDataRequestScopeTitle => 'Τι να συμπεριλάβετε';
 
   @override
-  String get privacyDashboardDataRequestExportEverything => 'Everything';
+  String get privacyDashboardDataRequestExportEverything => 'Τα πάντα';
 
   @override
   String get privacyDashboardDataRequestExportEverythingDesc =>
-      'Export every message you have ever sent, plus all of your account settings, memberships, and metadata.';
+      'Εξαγωγή κάθε μηνύματος που έχετε στείλει, καθώς και όλων των ρυθμίσεων του λογαριασμού σας, των συνδρομών και των μεταδεδομένων σας.';
 
   @override
-  String get privacyDashboardDataRequestExportCustom => 'Custom selection';
+  String get privacyDashboardDataRequestExportCustom => 'Προσαρμοσμένη επιλογή';
 
   @override
   String get privacyDashboardDataRequestExportCustomDesc =>
-      'Choose which conversation kinds, communities, and time window to include in the archive.';
+      'Επιλέξτε ποιους τύπους συνομιλιών, κοινότητες και χρονικό διάστημα θα συμπεριλάβετε στο αρχείο.';
 
   @override
   String get privacyDashboardDataRequestDeleteSelected =>
-      'Choose what to include';
+      'Επιλέξτε τι θα συμπεριλάβετε';
 
   @override
   String get privacyDashboardDataRequestDeleteSelectedDesc =>
-      'Pick which kinds of conversations to clean up.';
+      'Επιλέξτε ποια είδη συνομιλιών θα καθαρίσετε.';
 
   @override
   String get privacyDashboardDataRequestDeleteInaccessible =>
-      'Only places I can\'t access anymore';
+      'Μόνο μέρη στα οποία δεν έχω πλέον πρόσβαση';
 
   @override
   String get privacyDashboardDataRequestDeleteInaccessibleDesc =>
-      'Only delete messages from communities and group DMs you have left or been removed from.';
+      'Να διαγραφούν μόνο μηνύματα από κοινότητες και ομαδικά DM από τα οποία έχετε αποχωρήσει ή έχετε αφαιρεθεί.';
 
   @override
-  String get privacyDashboardDataRequestKindsTitle => 'Which conversations';
+  String get privacyDashboardDataRequestKindsTitle => 'Ποιες συνομιλίες';
 
   @override
   String get privacyDashboardDataRequestKindsBody =>
-      'Toggle the kinds of conversations you want included.';
+      'Επιλέξτε τα είδη συνομιλιών που θέλετε να συμπεριλάβετε.';
 
   @override
-  String get privacyDashboardDataRequestKindDms => 'Open DMs';
+  String get privacyDashboardDataRequestKindDms => 'Ανοιχτά DM';
 
   @override
-  String get privacyDashboardDataRequestKindDmsClosed => 'Closed DMs';
+  String get privacyDashboardDataRequestKindDmsClosed => 'Κλειστά DM';
 
   @override
-  String get privacyDashboardDataRequestKindGroupDms => 'Group DMs';
+  String get privacyDashboardDataRequestKindGroupDms => 'Ομαδικές συνομιλίες';
 
   @override
-  String get privacyDashboardDataRequestKindCommunities => 'Communities';
+  String get privacyDashboardDataRequestKindCommunities => 'Κοινότητες';
 
   @override
-  String get privacyDashboardDataRequestCommunitiesTitle => 'Which communities';
+  String get privacyDashboardDataRequestCommunitiesTitle => 'Ποιες κοινότητες';
 
   @override
-  String get privacyDashboardDataRequestGuildFilterMode => 'Community filter';
+  String get privacyDashboardDataRequestGuildFilterMode => 'Φίλτρο κοινότητας';
 
   @override
   String get privacyDashboardDataRequestGuildFilterExclude =>
-      'Include all except selected';
+      'Να συμπεριληφθούν όλα εκτός από τα επιλεγμένα';
 
   @override
   String get privacyDashboardDataRequestGuildFilterInclude =>
-      'Only the selected ones';
+      'Μόνο οι επιλεγμένοι';
 
   @override
   String get privacyDashboardDataRequestCommunitiesEmpty =>
-      'You aren\'t in any communities right now.';
+      'Δεν είστε σε καμία κοινότητα αυτήν τη στιγμή.';
 
   @override
-  String get privacyDashboardDataRequestWhenTitle => 'Time range';
+  String get privacyDashboardDataRequestWhenTitle => 'Εύρος χρόνου';
 
   @override
-  String get privacyDashboardDataRequestDateMode => 'Time range';
+  String get privacyDashboardDataRequestDateMode => 'Εύρος χρόνου';
 
   @override
-  String get privacyDashboardDataRequestAllTime => 'All time';
+  String get privacyDashboardDataRequestAllTime => 'Όλη την ώρα';
 
   @override
-  String get privacyDashboardDataRequestCustomRange => 'Custom range';
+  String get privacyDashboardDataRequestCustomRange => 'Προσαρμοσμένο εύρος';
 
   @override
-  String get privacyDashboardDataRequestStartDate => 'Start date';
+  String get privacyDashboardDataRequestStartDate => 'Ημερομηνία έναρξης';
 
   @override
-  String get privacyDashboardDataRequestEndDate => 'End date';
+  String get privacyDashboardDataRequestEndDate => 'Ημερομηνία λήξης';
 
   @override
   String get privacyDashboardDataRequestDateHelper =>
-      'Leave either field blank to leave that end of the window unbounded.';
+      'Αφήστε οποιοδήποτε πεδίο κενό για να αφήσετε αυτό το άκρο του παραθύρου απεριόριστο.';
 
   @override
   String get privacyDashboardDataRequestNeedInclusion =>
-      'Pick at least one kind of conversation to include.';
+      'Επιλέξτε τουλάχιστον έναν τύπο συνομιλίας για συμπερίληψη.';
 
   @override
   String get privacyDashboardDataRequestDateRangeError =>
-      'Start date must be earlier than end date.';
+      'Η ημερομηνία έναρξης πρέπει να είναι νωρίτερα από την ημερομηνία λήξης.';
 
   @override
-  String get privacyDashboardDataRequestConfirmTitle => 'Review and confirm';
+  String get privacyDashboardDataRequestConfirmTitle =>
+      'Επισκόπηση και επιβεβαίωση';
 
   @override
   String get privacyDashboardDataRequestExportConfirmEverything =>
-      'We\'ll build a downloadable archive of every message you have ever sent and email you when it\'s ready. The download link in that email expires after 7 days.';
+      'Θα δημιουργήσουμε ένα αρχείο με όλα τα μηνύματα που έχετε στείλει και θα σας στείλουμε email όταν είναι έτοιμο. Ο σύνδεσμος λήψης σε αυτό το email λήγει μετά από 7 ημέρες.';
 
   @override
   String get privacyDashboardDataRequestExportConfirmCustom =>
-      'We\'ll build a downloadable archive that matches the filters below and email you when it\'s ready. The download link in that email expires after 7 days.';
+      'Θα δημιουργήσουμε ένα αρχείο με δυνατότητα λήψης που να ταιριάζει με τα παρακάτω φίλτρα και θα σας στείλουμε email όταν είναι έτοιμο. Ο σύνδεσμος λήψης σε αυτό το email λήγει μετά από 7 ημέρες.';
 
   @override
   String get privacyDashboardDataRequestDeleteConfirm =>
-      'Permanently delete the messages that match the filters below. This cannot be undone.';
+      'Διαγραφή οριστικά των μηνυμάτων που ταιριάζουν με τα παρακάτω φίλτρα. Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.';
 
   @override
   String get privacyDashboardDataRequestDeleteDanger =>
-      'There is no recovery once this starts. We will DM you when it finishes.';
+      'Δεν υπάρχει ανάκτηση μόλις ξεκινήσει αυτή η διαδικασία. Θα σας στείλουμε DM όταν ολοκληρωθεί.';
 
   @override
-  String get privacyDashboardDataRequestRequestExport => 'Request export';
+  String get privacyDashboardDataRequestRequestExport =>
+      'Αίτημα εξαγωγής δεδομένων';
 
   @override
-  String get privacyDashboardDataRequestDeleteMessages => 'Delete messages';
+  String get privacyDashboardDataRequestDeleteMessages => 'Διαγραφή μηνυμάτων';
 
   @override
-  String get privacyDashboardDataRequestSummaryScope => 'Scope';
+  String get privacyDashboardDataRequestSummaryScope => 'Πεδίο εφαρμογής';
 
   @override
-  String get privacyDashboardDataRequestSummaryConversations => 'Conversations';
+  String get privacyDashboardDataRequestSummaryConversations => 'Συνομιλίες';
 
   @override
-  String get privacyDashboardDataRequestSummaryCommunities => 'Communities';
+  String get privacyDashboardDataRequestSummaryCommunities => 'Κοινότητες';
 
   @override
-  String get privacyDashboardDataRequestSummaryTimeRange => 'Time range';
+  String get privacyDashboardDataRequestSummaryTimeRange => 'Εύρος χρόνου';
 
   @override
-  String get privacyDashboardDataRequestSummaryNone => 'None';
+  String get privacyDashboardDataRequestSummaryNone => 'Κανένα';
 
   @override
   String privacyDashboardDataRequestSummaryFrom(String start) {
-    return 'From $start';
+    return 'Από $start';
   }
 
   @override
   String privacyDashboardDataRequestSummaryUntil(String end) {
-    return 'Until $end';
+    return 'Μέχρι $end';
   }
 
   @override
@@ -6483,10 +6544,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# communities',
-      one: '# community',
+      other: '# κοινότητες',
+      one: '# κοινότητα',
     );
-    return 'All except $_temp0';
+    return 'Όλες εκτός από $_temp0';
   }
 
   @override
@@ -6494,46 +6555,47 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# communities',
-      one: '# community',
+      other: '# κοινότητες',
+      one: '# κοινότητα',
     );
-    return 'Only $_temp0';
+    return 'Μόνο $_temp0';
   }
 
   @override
   String get privacyDashboardDataRequestSummaryDmsOpen =>
-      'Open direct messages';
+      'Ανοιχτά προσωπικά μηνύματα';
 
   @override
   String get privacyDashboardDataRequestSummaryDmsClosed =>
-      'Closed direct messages';
+      'Κλειστά απευθείας μηνύματα';
 
   @override
   String get privacyDashboardDataRequestSummaryDmsBoth =>
-      'Direct messages (open and closed)';
+      'Απευθείας μηνύματα (ανοιχτά και κλειστά)';
 
   @override
-  String get privacyDashboardDataRequestSummaryGroupDms => 'Group DMs';
+  String get privacyDashboardDataRequestSummaryGroupDms =>
+      'Ομαδικές συνομιλίες';
 
   @override
   String get privacyDashboardDataRequestSummaryCommunitiesIncluded =>
-      'Communities';
+      'Κοινότητες';
 
   @override
   String privacyDashboardDurationHoursMinutes(int hours, int minutes) {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# hours',
-      one: '# hour',
+      other: '# ώρες',
+      one: '# ώρα',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# minutes',
-      one: '# minute',
+      other: '# λεπτά',
+      one: '# λεπτό',
     );
-    return '$_temp0 and $_temp1';
+    return '$_temp0 και $_temp1';
   }
 
   @override
@@ -6541,8 +6603,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# hours',
-      one: '# hour',
+      other: '# ώρες',
+      one: '# ώρα',
     );
     return '$_temp0';
   }
@@ -6552,8 +6614,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# minutes',
-      one: '# minute',
+      other: '# λεπτά',
+      one: '# λεπτό',
     );
     return '$_temp0';
   }
@@ -6563,24 +6625,26 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: '# seconds',
-      one: '# second',
+      other: '# δευτερόλεπτα',
+      one: '# δευτερόλεπτο',
     );
     return '$_temp0';
   }
 
   @override
-  String get privacyDashboardLoadFailed => 'Failed to load privacy settings';
+  String get privacyDashboardLoadFailed =>
+      'Απέτυχε η φόρτωση των ρυθμίσεων απορρήτου';
 
   @override
-  String get privacyDashboardRetry => 'Retry';
+  String get privacyDashboardRetry => 'Επανάληψη';
 
   @override
   String get privacyDashboardSensitiveContentSaveFailed =>
-      'Failed to save sensitive content settings.';
+      'Απέτυχε η αποθήκευση των ρυθμίσεων για ευαίσθητο περιεχόμενο.';
 
   @override
-  String get privacyDashboardDataRequestFailed => 'Failed to complete request.';
+  String get privacyDashboardDataRequestFailed =>
+      'Απέτυχε η ολοκλήρωση του αιτήματος.';
 
   @override
   String get chatMessageDeleteFailed => 'Αποτυχία διαγραφής μηνύματος';
@@ -6629,39 +6693,39 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get forwardSendSlowmodeBlocked =>
-      'Waiting for slowmode in one or more selected channels to expire.';
+      'Αναμονή λήξης της αργής λειτουργίας σε ένα ή περισσότερα επιλεγμένα κανάλια.';
 
   @override
-  String get slowmodeRateLimitedTitle => 'Slowmode active';
+  String get slowmodeRateLimitedTitle => 'Ενεργή αργή λειτουργία';
 
   @override
   String slowmodeRateLimitedMessage(String duration) {
-    return 'Slowmode is on — wait $duration before sending another.';
+    return 'Η αργή λειτουργία είναι ενεργοποιημένη — περιμένετε $duration πριν στείλετε άλλο μήνυμα.';
   }
 
   @override
   String get chatAttachmentDropSlowmodeDisabled =>
-      'Direct upload is disabled during slowmode.';
+      'Η απευθείας μεταφόρτωση είναι απενεργοποιημένη κατά τη λειτουργία αργής ταχύτητας.';
 
   @override
-  String get shareMediaTitle => 'Share to';
+  String get shareMediaTitle => 'Κοινοποίηση σε';
 
   @override
-  String get shareMediaMessageHint => 'Add an optional message…';
+  String get shareMediaMessageHint => 'Προσθήκη προαιρετικού μηνύματος…';
 
   @override
-  String get shareMediaSendButton => 'Send';
+  String get shareMediaSendButton => 'Αποστολή';
 
   @override
-  String get shareMediaSuccessToast => 'Media shared';
+  String get shareMediaSuccessToast => 'Μέσα κοινοποιήθηκαν';
 
   @override
   String shareMediaPartialSuccessToast(int count) {
-    return 'Shared to $count destinations';
+    return 'Κοινοποιήθηκε σε $count προορισμούς';
   }
 
   @override
-  String get shareMediaFailedToast => 'Failed to share media';
+  String get shareMediaFailedToast => 'Αποτυχία κοινοποίησης πολυμέσων';
 
   @override
   String get forwardDestinationNoSendPermission =>
@@ -6692,37 +6756,38 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get chatMessageCopyText => 'Αντιγραφή μηνύματος';
 
   @override
-  String get chatMessageCopyEmbedText => 'Copy Embed Text';
+  String get chatMessageCopyEmbedText => 'Αντιγραφή κειμένου ενσωμάτωσης';
 
   @override
-  String get chatMessageTranslate => 'Translate';
+  String get chatMessageTranslate => 'Μετάφραση';
 
   @override
   String chatMessageTranslatedFrom(String language) {
-    return 'Translated from $language';
+    return 'Μεταφράστηκε από $language';
   }
 
   @override
-  String get chatMessageSeeOriginal => 'See original';
+  String get chatMessageSeeOriginal => 'Δείτε το πρωτότυπο';
 
   @override
-  String get chatMessageSeeTranslation => 'See translation';
+  String get chatMessageSeeTranslation => 'Δείτε τη μετάφραση';
 
   @override
-  String get chatMessageTranslating => 'Translating…';
+  String get chatMessageTranslating => 'Μεταφράζοντας…';
 
   @override
-  String get chatMessageTranslateFailed => 'Couldn\'t translate this message.';
+  String get chatMessageTranslateFailed =>
+      'Δεν ήταν δυνατή η μετάφραση αυτού του μηνύματος.';
 
   @override
   String get chatMessageTranslateUnavailable =>
-      'Translation isn\'t available on this device.';
+      'Η μετάφραση δεν είναι διαθέσιμη σε αυτήν τη συσκευή.';
 
   @override
-  String get chatMessageSpeak => 'Speak message';
+  String get chatMessageSpeak => 'Εκφώνηση μηνύματος';
 
   @override
-  String get chatMessageStopSpeaking => 'Stop speaking';
+  String get chatMessageStopSpeaking => 'Διακοπή ομιλίας';
 
   @override
   String get chatMessagePin => 'Καρφίτσωμα μηνύματος';
@@ -6746,10 +6811,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get chatMessageCopyMessageLink => 'Αντιγραφή συνδέσμου μηνύματος';
 
   @override
-  String get chatMessageOpenLink => 'Open link';
+  String get chatMessageOpenLink => 'Άνοιγμα συνδέσμου';
 
   @override
-  String get chatMessageCopyLink => 'Copy link';
+  String get chatMessageCopyLink => 'Αντιγραφή συνδέσμου';
 
   @override
   String get chatMessageCopyMessageId => 'Αντιγραφή αναγνωριστικού μηνύματος';
@@ -6781,10 +6846,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Κανείς δεν έχει αντιδράσει ακόμα σε αυτό.';
 
   @override
-  String get chatReactionAddFailed => 'Failed to add reaction';
+  String get chatReactionAddFailed => 'Αποτυχία προσθήκης αντίδρασης';
 
   @override
-  String get chatReactionRemoveFailed => 'Failed to remove reaction';
+  String get chatReactionRemoveFailed => 'Αποτυχία αφαίρεσης αντίδρασης';
 
   @override
   String get chatMessageReport => 'Αναφορά μηνύματος';
@@ -7157,10 +7222,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Είστε σίγουροι ότι θέλετε να διαγράψετε αυτό το μήνυμα;';
 
   @override
-  String get chatMessageDeleteAttachment => 'Delete Attachment';
+  String get chatMessageDeleteAttachment => 'Διαγραφή συνημμένου';
 
   @override
-  String get chatMessageEditAttachmentAltText => 'Edit Alt Text';
+  String get chatMessageEditAttachmentAltText =>
+      'Επεξεργασία εναλλακτικού κειμένου';
 
   @override
   String get chatMessageMore => 'Περισσότερα';
@@ -7182,8 +7248,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count blocked messages',
-      one: '1 blocked message',
+      other: '$count αποκλεισμένα μηνύματα',
+      one: '1 αποκλεισμένο μήνυμα',
     );
     return '$_temp0';
   }
@@ -7193,25 +7259,25 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count potential spammer messages',
-      one: '1 potential spammer message',
+      other: '$count πιθανά μηνύματα spammer',
+      one: '1 πιθανό μήνυμα spammer',
     );
     return '$_temp0';
   }
 
   @override
   String get chatReplyHiddenBlockedAuthor =>
-      'Reply hidden because the original author is blocked.';
+      'Η απάντηση είναι κρυφή, επειδή ο αρχικός συντάκτης έχει αποκλειστεί.';
 
   @override
   String get chatReplyHiddenSpammerAuthor =>
-      'Reply hidden because the original author is marked as a spammer.';
+      'Η απάντηση αποκρύφτηκε επειδή ο αρχικός συντάκτης έχει επισημανθεί ως ανεπιθύμητος.';
 
   @override
-  String get devMarkAsSpamLocally => 'Mark as spam locally';
+  String get devMarkAsSpamLocally => 'Σήμανση ως ανεπιθύμητο τοπικά';
 
   @override
-  String get devIgnoreSpamFlag => 'Ignore spam flag';
+  String get devIgnoreSpamFlag => 'Παράβλεψη επισήμανσης ανεπιθύμητου';
 
   @override
   String get chatMessagesLoadError => 'Δεν ήταν δυνατή η φόρτωση μηνυμάτων.';
@@ -7245,10 +7311,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Αναφορά χρήστη στον οποίο απαντάτε';
 
   @override
-  String get chatReplyMentionOn => 'Ενεργό';
+  String get chatReplyMentionOn => 'ON';
 
   @override
-  String get chatReplyMentionOff => 'Ανενεργό';
+  String get chatReplyMentionOff => 'OFF';
 
   @override
   String get chatReplyCancel => 'Ακύρωση απάντησης';
@@ -7289,10 +7355,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get mediaViewerOpenInBrowser => 'Άνοιγμα στο πρόγραμμα περιήγησης';
 
   @override
-  String get mediaViewerOptions => 'Media options';
+  String get mediaViewerOptions => 'Επιλογές πολυμέσων';
 
   @override
-  String get mediaViewerCopyLink => 'Copy link';
+  String get mediaViewerCopyLink => 'Αντιγραφή συνδέσμου';
 
   @override
   String get mediaViewerForward => 'Προώθηση';
@@ -7316,11 +7382,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String mediaViewerAttachmentThumbnail(int index) {
-    return 'Attachment $index';
+    return 'Συνημμένο $index';
   }
 
   @override
-  String get mediaViewerDismissBackdrop => 'Dismiss';
+  String get mediaViewerDismissBackdrop => 'Κλείσιμο';
 
   @override
   String get chatAttachmentVideoToggleControls => 'Εναλλαγή ελέγχων βίντεο';
@@ -7349,150 +7415,153 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Ειδοποιήστε τους χρήστες με αυτόν τον ρόλο που έχουν δικαίωμα προβολής αυτού του καναλιού.';
 
   @override
-  String get composerAutocompleteSuggestions => 'Suggestions';
+  String get composerAutocompleteSuggestions => 'Προτάσεις';
 
   @override
-  String get composerAutocompleteCommandsHeading => 'Commands';
+  String get composerAutocompleteCommandsHeading => 'Εντολές';
 
   @override
-  String get composerAutocompleteChoicesHeading => 'Choices';
+  String get composerAutocompleteChoicesHeading => 'Επιλογές';
 
   @override
   String get composerAutocompleteOptionalArgumentsHeading =>
-      'Optional arguments';
+      'Προαιρετικά ορίσματα';
 
   @override
-  String get composerAutocompleteChannelsHeading => 'Channels';
+  String get composerAutocompleteChannelsHeading => 'Κανάλια';
 
   @override
-  String get composerAutocompleteMembersHeading => 'Members';
+  String get composerAutocompleteMembersHeading => 'Μέλη';
 
   @override
-  String get composerAutocompleteUsersHeading => 'Users';
+  String get composerAutocompleteUsersHeading => 'Χρήστες';
 
   @override
-  String get composerAutocompleteMentionsHeading => 'Mentions';
+  String get composerAutocompleteMentionsHeading => 'Αναφορές';
 
   @override
-  String get composerAutocompleteRolesHeading => 'Roles';
+  String get composerAutocompleteRolesHeading => 'Ρόλοι';
 
   @override
-  String get composerAutocompleteMediaHeading => 'Media';
+  String get composerAutocompleteMediaHeading => 'Μέσα';
 
   @override
-  String get composerAutocompleteStickersHeading => 'Stickers';
+  String get composerAutocompleteStickersHeading => 'Αυτοκόλλητα';
 
   @override
-  String get composerAutocompleteGifsHeading => 'GIFs';
+  String get composerAutocompleteGifsHeading => 'GIF';
 
   @override
-  String get composerAutocompleteNoGifs => 'No GIFs found';
+  String get composerAutocompleteNoGifs => 'Δεν βρέθηκαν GIFs';
 
   @override
   String get composerCommandShrugDescription =>
-      'Appends ¯\\_(ツ)_/¯ to your message.';
+      'Προσθέτει ¯\\_(ツ)_/¯ στο μήνυμά σου.';
 
   @override
   String get composerCommandTableflipDescription =>
-      'Appends (╯°□°)╯︵ ┻━┻ to your message.';
+      'Προσθέτει (╯°□°)╯︵ ┻━┻ στο μήνυμά σου.';
 
   @override
   String get composerCommandUnflipDescription =>
-      'Appends ┬─┬ ノ( ゜-゜ノ) to your message.';
+      'Προσθέτει ┬─┬ ノ( ゜-゜ノ) στο μήνυμά σου.';
 
   @override
   String get composerCommandMeDescription =>
-      'Send an action message (wraps in italics).';
+      'Στείλε ένα μήνυμα ενέργειας (εμφανίζεται με πλάγια γραφή).';
 
   @override
   String get composerCommandSpoilerDescription =>
-      'Send a spoiler message (wraps in spoiler tags).';
+      'Στείλε μήνυμα-έκπληξη (το κρύβει με ετικέτες spoiler).';
 
   @override
-  String get composerCommandTtsDescription => 'Send a text-to-speech message.';
+  String get composerCommandTtsDescription =>
+      'Στείλτε ένα μήνυμα μετατροπής κειμένου σε ομιλία.';
 
   @override
   String get composerCommandNickDescription =>
-      'Change your nickname in this community.';
+      'Άλλαξε το ψευδώνυμό σου σε αυτήν την κοινότητα.';
 
   @override
   String get composerCommandKickDescription =>
-      'Kick a member from this community.';
+      'Διαγραφή μέλους από αυτήν την κοινότητα.';
 
   @override
   String get composerCommandBanDescription =>
-      'Ban a member from this community.';
+      'Αποκλεισμός μέλους από αυτήν την κοινότητα.';
 
   @override
   String get composerCommandMsgDescription =>
-      'Send a direct message to a user.';
+      'Στείλτε ένα απευθείας μήνυμα σε έναν χρήστη.';
 
   @override
-  String get composerCommandSavedDescription => 'Send a saved media item.';
+  String get composerCommandSavedDescription =>
+      'Στείλε ένα αποθηκευμένο πολυμεσικό στοιχείο.';
 
   @override
-  String get composerCommandStickerDescription => 'Send a sticker.';
+  String get composerCommandStickerDescription => 'Στείλε ένα αυτοκόλλητο.';
 
   @override
-  String get composerCommandGifDescription => 'Search for and send a GIF.';
+  String get composerCommandGifDescription => 'Αναζήτηση και αποστολή GIF.';
 
   @override
-  String get composerCommandMemberOption => 'The member to target.';
+  String get composerCommandMemberOption =>
+      'Το μέλος στο οποίο θα γίνει στόχευση.';
 
   @override
-  String get composerCommandReasonOption => 'Reason (optional).';
+  String get composerCommandReasonOption => 'Λόγος (προαιρετικό).';
 
   @override
-  String get composerCommandMessageOption => 'The message to send.';
+  String get composerCommandMessageOption => 'Το μήνυμα για αποστολή.';
 
   @override
-  String get composerCommandQueryOption => 'What to search for.';
+  String get composerCommandQueryOption => 'Τι να αναζητήσετε.';
 
   @override
   String get composerCommandNicknameOption =>
-      'Your new nickname, or leave blank to reset it.';
+      'Το νέο σου ψευδώνυμο, ή άφησέ το κενό για επαναφορά.';
 
   @override
   String get composerCommandDeleteMessagesOption =>
-      'How much of the member\'s recent message history to delete.';
+      'Πόσο από το πρόσφατο ιστορικό μηνυμάτων του μέλους θέλετε να διαγράψετε.';
 
   @override
-  String get composerCommandDeleteMessagesNone => 'Don\'t delete any';
+  String get composerCommandDeleteMessagesNone => 'Να μην διαγραφούν';
 
   @override
   String composerCommandDeleteMessagesDays(int count) {
-    return 'Previous $count days';
+    return 'Προηγούμενες $count ημέρες';
   }
 
   @override
-  String get composerCommandDeleteMessagesOneDay => 'Previous 24 hours';
+  String get composerCommandDeleteMessagesOneDay => 'Προηγούμενες 24 ώρες';
 
   @override
   String get composerCommandOptionRequired =>
-      'This option is required. Please provide a value.';
+      'Αυτή η επιλογή είναι απαραίτητη. Παρακαλώ δώστε μια τιμή.';
 
   @override
-  String get composerCommandClear => 'Clear command';
+  String get composerCommandClear => 'Εκκαθάριση εντολής';
 
   @override
   String composerCommandNicknameChanged(
     String previousNickname,
     String newNickname,
   ) {
-    return 'You changed your nickname in this community from **$previousNickname** to **$newNickname**.';
+    return 'Άλλαξες το ψευδώνυμό σου σε αυτήν την κοινότητα από **$previousNickname** σε **$newNickname**.';
   }
 
   @override
-  String get composerCommandUnknownUser => 'Unknown user';
+  String get composerCommandUnknownUser => 'Άγνωστος χρήστης';
 
   @override
   String composerCommandMsgFailed(String username) {
-    return 'Failed to send a message to **$username**. They may have DMs disabled or you may be blocked.';
+    return 'Απέτυχε η αποστολή μηνύματος στον/στην **$username**. Πιθανόν να έχει απενεργοποιήσει τα απευθείας μηνύματα ή να σε έχει μπλοκάρει.';
   }
 
   @override
   String composerCommandOptionalMore(int count) {
-    return '+$count more';
+    return '+$count περισσότερα';
   }
 
   @override
@@ -7533,84 +7602,84 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Δεν ήταν δυνατή η σύνδεση στην κοινότητα. Παρακαλώ δοκιμάστε ξανά.';
 
   @override
-  String get addGuildCreateTitle => 'Create a community';
+  String get addGuildCreateTitle => 'Δημιουργία κοινότητας';
 
   @override
   String get addGuildCreateDescription =>
-      'Create a community for you and your friends to chat.';
+      'Δημιούργησε μια κοινότητα για να συνομιλείς με τους φίλους σου.';
 
   @override
-  String get addGuildCreateNameLabel => 'Community name';
+  String get addGuildCreateNameLabel => 'Όνομα κοινότητας';
 
   @override
-  String get addGuildCreateSubmit => 'Create community';
+  String get addGuildCreateSubmit => 'Δημιουργία κοινότητας';
 
   @override
   String get addGuildCreateFailed =>
-      'Could not create community. Please try again.';
+      'Δεν ήταν δυνατή η δημιουργία της κοινότητας. Δοκιμάστε ξανά.';
 
   @override
-  String get addGuildCreateClaimTitle => 'Claim your account';
+  String get addGuildCreateClaimTitle => 'Διεκδίκησε τον λογαριασμό σου';
 
   @override
   String get addGuildCreateClaimDescription =>
-      'You need to claim your account before you can create a community.';
+      'Πρέπει να επιβεβαιώσεις τον λογαριασμό σου πριν δημιουργήσεις μια κοινότητα.';
 
   @override
-  String get addGuildCreateVerifyTitle => 'Verify your email';
+  String get addGuildCreateVerifyTitle => 'Επαληθεύστε το email σας';
 
   @override
   String get addGuildCreateVerifyDescription =>
-      'You need to verify your email address before you can create a community.';
+      'Πρέπει να επιβεβαιώσεις τη διεύθυνση email σου πριν δημιουργήσεις μια κοινότητα.';
 
   @override
   String get addGuildCreateAnimatedIconUnsupported =>
-      'Animated icons are not supported when creating a new community. Use a static image.';
+      'Οι κινούμενες εικονίδια δεν υποστηρίζονται κατά τη δημιουργία μιας νέας κοινότητας. Χρησιμοποιήστε μια στατική εικόνα.';
 
   @override
   String get addGuildCreateGuidelinesBefore =>
-      'By creating a community, you agree to follow and uphold the ';
+      'Δημιουργώντας μια κοινότητα, συμφωνείτε να ακολουθείτε και να τηρείτε τις ';
 
   @override
   String addGuildCreateGuidelinesLink(String productName) {
-    return '$productName community guidelines';
+    return 'Οδηγίες κοινότητας του $productName';
   }
 
   @override
   String get addGuildCreateSingleCommunityBlocked =>
-      'This instance is a single community, so additional communities cannot be created.';
+      'Αυτό το instance είναι μια μοναδική κοινότητα, οπότε δεν μπορούν να δημιουργηθούν επιπλέον κοινότητες.';
 
   @override
-  String get addGuildCreateChangeIcon => 'Change icon';
+  String get addGuildCreateChangeIcon => 'Αλλαγή εικονιδίου';
 
   @override
-  String get addGuildCreateIconLabel => 'Community icon';
+  String get addGuildCreateIconLabel => 'Εικονίδιο κοινότητας';
 
   @override
   String get addGuildCreateIconHint =>
-      'PNG, JPEG, WebP, AVIF, HEIC, HEIF, JXL, SVG. Max 10MB. Recommended: 512×512px';
+      'PNG, JPEG, WebP, AVIF, HEIC, HEIF, JXL, SVG. Μέγιστο 10MB. Προτεινόμενο: 512×512px';
 
   @override
   String get addGuildImportDescription =>
-      'Paste a Discord template URL to import its structure into a new community.';
+      'Επικολλήστε μια διεύθυνση URL προτύπου Discord για να εισαγάγετε τη δομή του σε μια νέα κοινότητα.';
 
   @override
-  String get addGuildImportUrlLabel => 'Template URL';
+  String get addGuildImportUrlLabel => 'URL προτύπου';
 
   @override
   String get addGuildImportUrlInvalid =>
-      'Enter a valid Discord template URL or code.';
+      'Εισαγάγετε έγκυρο σύνδεσμο ή κωδικό προτύπου Discord.';
 
   @override
   String get addGuildImportFetchFailed =>
-      'Failed to fetch the community template. The template may not exist or the external service is unavailable.';
+      'Απέτυχε η λήψη του προτύπου κοινότητας. Το πρότυπο ενδέχεται να μην υπάρχει ή η εξωτερική υπηρεσία να μην είναι διαθέσιμη.';
 
   @override
   String get addGuildImportInvalidResponse =>
-      'This doesn\'t look like a valid template response.';
+      'Αυτό δεν μοιάζει με έγκυρη απάντηση προτύπου.';
 
   @override
-  String get addGuildImportTemplateLabel => 'Template';
+  String get addGuildImportTemplateLabel => 'Πρότυπο';
 
   @override
   String addGuildImportTemplateStats(
@@ -7619,15 +7688,15 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     int categoryCount,
     int roleCount,
   ) {
-    return '$textChannelCount text, $voiceChannelCount voice, $categoryCount categories, $roleCount roles';
+    return '$textChannelCount κανάλια κειμένου, $voiceChannelCount κανάλια φωνής, $categoryCount κατηγορίες, $roleCount ρόλοι';
   }
 
   @override
-  String get addGuildImportRemoveIcon => 'Remove icon';
+  String get addGuildImportRemoveIcon => 'Αφαίρεση εικονιδίου';
 
   @override
   String get addGuildImportTemplateInvalid =>
-      'The community template data is invalid or malformed.';
+      'Τα δεδομένα του προτύπου κοινότητας είναι άκυρα ή έχουν λανθασμένη μορφή.';
 
   @override
   String get addGuildPackInstalled => 'Το πακέτο εγκαταστάθηκε με επιτυχία.';
@@ -7670,128 +7739,129 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Τα καρφιτσωμένα μηνύματα εμφανίζονται εδώ.';
 
   @override
-  String get channelDetailsFallbackTitle => 'Details';
+  String get channelDetailsFallbackTitle => 'Λεπτομέρειες';
 
   @override
   String channelDetailsGroupDmSubtitle(int count) {
-    return 'Group DM · $count members';
+    return 'Ομαδικό DM · $count μέλη';
   }
 
   @override
   String channelDetailsCloseDmDescription(String name) {
-    return 'Close your conversation with $name?';
+    return 'Κλείνεις τη συνομιλία σου με τον/την $name;';
   }
 
   @override
   String channelDetailsLeaveGroupDescription(String name) {
-    return 'Leave $name?';
+    return 'Έξοδος από την ομάδα $name;';
   }
 
   @override
-  String get channelDetailsChannelSettingsTitle => 'Channel settings';
+  String get channelDetailsChannelSettingsTitle => 'Ρυθμίσεις καναλιού';
 
   @override
-  String get channelDetailsGroupSettingsTitle => 'Group Settings';
+  String get channelDetailsGroupSettingsTitle => 'Ρυθμίσεις Ομάδας';
 
   @override
-  String get channelDetailsDmSettingsTitle => 'DM Settings';
+  String get channelDetailsDmSettingsTitle => 'Ρυθμίσεις απευθείας μηνυμάτων';
 
   @override
-  String get channelDetailsInvitePeople => 'Invite People';
+  String get channelDetailsInvitePeople => 'Πρόσκληση ατόμων';
 
   @override
-  String get channelDetailsCopyLink => 'Copy Link';
+  String get channelDetailsCopyLink => 'Αντιγραφή συνδέσμου';
 
   @override
-  String get channelMenuCopyChannelLink => 'Copy channel link';
+  String get channelMenuCopyChannelLink => 'Αντιγραφή συνδέσμου καναλιού';
 
   @override
-  String get channelMenuCopyRedirectLink => 'Copy redirect link';
+  String get channelMenuCopyRedirectLink =>
+      'Αντιγραφή συνδέσμου ανακατεύθυνσης';
 
   @override
-  String get channelDetailsAddFriendsToGroup => 'Add friends to group';
+  String get channelDetailsAddFriendsToGroup => 'Προσθήκη φίλων στην ομάδα';
 
   @override
-  String get channelDetailsGroupInvites => 'Group invites';
+  String get channelDetailsGroupInvites => 'Προσκλήσεις ομάδας';
 
   @override
-  String get channelDetailsEditChannel => 'Edit channel';
+  String get channelDetailsEditChannel => 'Επεξεργασία καναλιού';
 
   @override
-  String get channelDetailsDeleteChannel => 'Delete channel';
+  String get channelDetailsDeleteChannel => 'Διαγραφή καναλιού';
 
   @override
-  String get channelSettingsCategorySettingsTitle => 'Category settings';
+  String get channelSettingsCategorySettingsTitle => 'Ρυθμίσεις κατηγορίας';
 
   @override
-  String get channelSettingsEditCategory => 'Edit category';
+  String get channelSettingsEditCategory => 'Επεξεργασία κατηγορίας';
 
   @override
-  String get channelSettingsTabOverview => 'Overview';
+  String get channelSettingsTabOverview => 'Επισκόπηση';
 
   @override
-  String get channelSettingsTabPermissions => 'Permissions';
+  String get channelSettingsTabPermissions => 'Δικαιώματα';
 
   @override
-  String get channelSettingsTabInvites => 'Invites';
+  String get channelSettingsTabInvites => 'Προσκλήσεις';
 
   @override
   String get channelSettingsTabWebhooks => 'Webhooks';
 
   @override
-  String get channelSettingsDeleteChannel => 'Delete channel';
+  String get channelSettingsDeleteChannel => 'Διαγραφή καναλιού';
 
   @override
   String channelSettingsDeleteChannelConfirm(String channelName) {
-    return 'Are you sure you want to delete $channelName? This cannot be undone.';
+    return 'Είστε σίγουροι ότι θέλετε να διαγράψετε το $channelName; Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.';
   }
 
   @override
   String channelSettingsDeleteCategoryConfirm(String categoryName) {
-    return 'Are you sure you want to delete $categoryName? This cannot be undone.';
+    return 'Είστε σίγουροι ότι θέλετε να διαγράψετε το $categoryName; Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.';
   }
 
   @override
-  String get channelSettingsDeleteCategory => 'Delete category';
+  String get channelSettingsDeleteCategory => 'Διαγραφή κατηγορίας';
 
   @override
-  String get channelSettingsChannelUpdated => 'Channel updated';
+  String get channelSettingsChannelUpdated => 'Το κανάλι ενημερώθηκε';
 
   @override
-  String get channelSettingsChannelName => 'Channel name';
+  String get channelSettingsChannelName => 'Όνομα καναλιού';
 
   @override
-  String get channelSettingsCategoryName => 'Category name';
+  String get channelSettingsCategoryName => 'Όνομα κατηγορίας';
 
   @override
-  String get channelSettingsMyCategory => 'My category';
+  String get channelSettingsMyCategory => 'Η κατηγορία μου';
 
   @override
-  String get categoryExpandCategory => 'Expand category';
+  String get categoryExpandCategory => 'Ανάπτυξη κατηγορίας';
 
   @override
-  String get categoryCollapseCategory => 'Collapse category';
+  String get categoryCollapseCategory => 'Σύμπτυξη κατηγορίας';
 
   @override
-  String get categoryExpandAllCategories => 'Expand all categories';
+  String get categoryExpandAllCategories => 'Ανάπτυξη όλων των κατηγοριών';
 
   @override
-  String get categoryCollapseAllCategories => 'Collapse all categories';
+  String get categoryCollapseAllCategories => 'Σύμπτυξη όλων των κατηγοριών';
 
   @override
-  String get categoryMuteCategory => 'Mute category';
+  String get categoryMuteCategory => 'Σίγαση κατηγορίας';
 
   @override
-  String get categoryUnmuteCategory => 'Unmute category';
+  String get categoryUnmuteCategory => 'Κατάργηση σίγασης κατηγορίας';
 
   @override
-  String get categoryCopyCategoryId => 'Copy category ID';
+  String get categoryCopyCategoryId => 'Αντιγραφή αναγνωριστικού κατηγορίας';
 
   @override
-  String get categoryIdCopied => 'Category ID copied';
+  String get categoryIdCopied => 'Αντιγράφηκε το αναγνωριστικό κατηγορίας';
 
   @override
-  String get channelSettingsChannelNamePlaceholder => 'general';
+  String get channelSettingsChannelNamePlaceholder => 'Γενικά';
 
   @override
   String get channelSettingsUrl => 'URL';
@@ -7800,65 +7870,67 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get channelSettingsUrlPlaceholder => 'https://example.com';
 
   @override
-  String get channelSettingsTopic => 'Topic';
+  String get channelSettingsTopic => 'Θέμα';
 
   @override
-  String get channelSettingsTopicPlaceholder => 'Add a topic to this channel';
+  String get channelSettingsTopicPlaceholder =>
+      'Πρόσθεσε ένα θέμα σε αυτό το κανάλι';
 
   @override
-  String get channelSettingsInsertEmoji => 'Insert emoji';
+  String get channelSettingsInsertEmoji => 'Εισαγωγή emoji';
 
   @override
-  String get channelSettingsTopicTooLongTitle => 'Channel topic is too long.';
+  String get channelSettingsTopicTooLongTitle =>
+      'Το θέμα του καναλιού είναι πολύ μεγάλο.';
 
   @override
   String get channelSettingsTopicTooLongMessage =>
-      'Shorten the topic and try again.';
+      'Συντομεύστε το θέμα και δοκιμάστε ξανά.';
 
   @override
-  String get channelSettingsSlowmode => 'Slowmode';
+  String get channelSettingsSlowmode => 'Αργή λειτουργία';
 
   @override
   String channelSettingsSlowmodeDescription(
     String bypassSlowmodePermissionLabel,
   ) {
-    return 'Wait between messages. \"$bypassSlowmodePermissionLabel\" can bypass it.';
+    return 'Χρονικό διάστημα μεταξύ των μηνυμάτων. Η άδεια \"$bypassSlowmodePermissionLabel\" μπορεί να το παρακάμψει.';
   }
 
   @override
-  String get channelSettingsSlowmodeOff => 'Off';
+  String get channelSettingsSlowmodeOff => 'Ανενεργό';
 
   @override
   String channelSettingsSlowmodeSeconds(int seconds) {
-    return '$seconds seconds';
+    return '$seconds δευτερόλεπτα';
   }
 
   @override
   String channelSettingsSlowmodeMinutes(int minutes) {
-    return '$minutes minutes';
+    return '$minutes λεπτά';
   }
 
   @override
   String channelSettingsSlowmodeHours(int hours) {
-    return '$hours hours';
+    return '$hours ώρες';
   }
 
   @override
   String channelSettingsSlowmodeOneMinute(int oneMinute) {
-    return '$oneMinute minute';
+    return '$oneMinute λεπτό';
   }
 
   @override
   String channelSettingsSlowmodeOneHour(int oneHour) {
-    return '$oneHour hour';
+    return '$oneHour ώρα';
   }
 
   @override
-  String get channelSettingsVoiceQuality => 'Voice quality';
+  String get channelSettingsVoiceQuality => 'Ποιότητα φωνής';
 
   @override
   String get channelSettingsVoiceQualityDescription =>
-      'Higher bitrate = better quality and higher bandwidth usage.';
+      'Υψηλότερο bitrate = καλύτερη ποιότητα και υψηλότερη χρήση εύρους ζώνης.';
 
   @override
   String channelSettingsVoiceQualityKbps(int kilobits) {
@@ -7866,639 +7938,657 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get channelSettingsParticipantLimit => 'Participant limit';
+  String get channelSettingsParticipantLimit => 'Όριο συμμετεχόντων';
 
   @override
   String get channelSettingsParticipantLimitDescription =>
-      'Maximum members who can join at once. 0 means unlimited.';
+      'Μέγιστος αριθμός μελών που μπορούν να συμμετάσχουν ταυτόχρονα. Το 0 σημαίνει απεριόριστο.';
 
   @override
   String channelSettingsParticipantLimitValue(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count participants',
-      one: '1 participant',
-      zero: '∞ No limit',
+      other: '$count συμμετέχοντες',
+      one: '1 συμμετέχων',
+      zero: '∞ Κανένα όριο',
     );
     return '$_temp0';
   }
 
   @override
-  String get channelSettingsConnectionLimit => 'Connection limit';
+  String get channelSettingsConnectionLimit => 'Όριο συνδέσεων';
 
   @override
   String get channelSettingsConnectionLimitDescription =>
-      'Maximum active connections one member can keep in this channel.';
+      'Μέγιστος αριθμός ενεργών συνδέσεων που μπορεί να διατηρήσει ένα μέλος σε αυτό το κανάλι.';
 
   @override
   String channelSettingsConnectionLimitValue(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count connections',
-      one: '1 connection',
+      other: '$count συνδέσεις',
+      one: '1 σύνδεση',
     );
     return '$_temp0';
   }
 
   @override
-  String get channelSettingsVoiceRegion => 'Voice region';
+  String get channelSettingsVoiceRegion => 'Περιοχή φωνής';
 
   @override
   String get channelSettingsVoiceRegionDescription =>
-      'Select a voice region for this channel. Automatic uses the closest region.';
+      'Επιλέξτε μια περιοχή φωνής για αυτό το κανάλι. Η Αυτόματη χρησιμοποιεί την πλησιέστερη περιοχή.';
 
   @override
-  String get channelSettingsVoiceRegionAutomatic => 'Automatic';
+  String get channelSettingsVoiceRegionAutomatic => 'Αυτόματο';
 
   @override
   String get channelSettingsVoiceRegionsLoadFailed =>
-      'Couldn\'t load voice regions';
+      'Δεν ήταν δυνατή η φόρτωση των περιοχών φωνής';
 
   @override
   String get channelSettingsVoiceRegionsLoadFailedDescription =>
-      'Try again in a moment.';
+      'Δοκιμάστε ξανά σε λίγο.';
 
   @override
-  String get channelSettingsResetSlider => 'Reset slider to default value';
+  String get channelSettingsResetSlider =>
+      'Επαναφορά ρυθμιστικού στην προεπιλεγμένη τιμή';
 
   @override
-  String get channelSettingsAdvanced => 'Advanced';
+  String get channelSettingsAdvanced => 'Για προχωρημένους';
 
   @override
-  String get channelSettingsMatureContentOverride => 'Mature content override';
+  String get channelSettingsMatureContentOverride =>
+      'Παράκαμψη περιεχομένου ενηλίκων';
 
   @override
   String channelSettingsMatureContentSectionDescription(String scopeLevel) {
-    return 'Override the $scopeLevel-level setting for this channel. Mature content is shown behind a gate before entry.';
+    return 'Παράκαμψη της ρύθμισης επιπέδου $scopeLevel για αυτό το κανάλι. Το περιεχόμενο ακατάλληλο για ανηλίκους εμφανίζεται πίσω από μια πύλη πριν την είσοδο.';
   }
 
   @override
-  String get channelSettingsMatureContentInherit => 'Inherit';
+  String get channelSettingsMatureContentInherit => 'Κληρονομία';
 
   @override
-  String get channelSettingsMatureContentOn => 'On';
+  String get channelSettingsMatureContentOn => 'Ενεργό';
 
   @override
-  String get channelSettingsMatureContentOff => 'Off';
+  String get channelSettingsMatureContentOff => 'Ανενεργό';
 
   @override
   String get channelSettingsMatureContentOnDescription =>
-      'Marks this channel for mature content.';
+      'Σηματοδοτεί αυτό το κανάλι για περιεχόμενο ακατάλληλο για ανηλίκους.';
 
   @override
   String get channelSettingsMatureContentOffDescription =>
-      'Leave this channel ungated for mature content.';
+      'Αφήστε αυτό το κανάλι χωρίς περιορισμούς για περιεχόμενο ακατάλληλο για ανηλίκους.';
 
   @override
   String channelSettingsMatureContentInheritsOn(String inheritedSourceLabel) {
-    return 'Inherited from $inheritedSourceLabel: on';
+    return 'Κληρονομήθηκε από $inheritedSourceLabel: ενεργό';
   }
 
   @override
   String channelSettingsMatureContentInheritsOff(String inheritedSourceLabel) {
-    return 'Inherited from $inheritedSourceLabel: off';
+    return 'Κληρονομήθηκε από $inheritedSourceLabel: απενεργοποιημένο';
   }
 
   @override
-  String get channelSettingsMatureContentCategorySource => 'category';
+  String get channelSettingsMatureContentCategorySource => 'κατηγορία';
 
   @override
-  String get channelSettingsMatureContentCommunitySource => 'community';
+  String get channelSettingsMatureContentCommunitySource => 'κοινότητα';
 
   @override
-  String get channelSettingsMatureContentCategoryScope => 'Category';
+  String get channelSettingsMatureContentCategoryScope => 'Κατηγορία';
 
   @override
-  String get channelSettingsMatureContentCommunityScope => 'Community';
+  String get channelSettingsMatureContentCommunityScope => 'Κοινότητα';
 
   @override
   String get channelSettingsContentWarningToggle =>
-      'Show a content warning in this channel';
+      'Εμφάνιση προειδοποίησης περιεχομένου σε αυτό το κανάλι';
 
   @override
   String get channelSettingsContentWarningToggleDescription =>
-      'Turns on a consent prompt before entering this channel.';
+      'Ενεργοποιεί μια προτροπή συναίνεσης πριν την είσοδο σε αυτό το κανάλι.';
 
   @override
-  String get channelSettingsContentWarningText => 'Custom warning text';
+  String get channelSettingsContentWarningText =>
+      'Προσαρμοσμένο κείμενο προειδοποίησης';
 
   @override
   String get channelSettingsContentWarningDefault =>
-      'This contains sensitive content.';
+      'Περιέχει ευαίσθητο περιεχόμενο.';
 
   @override
   String channelSettingsPermissionsNeedManageChannels(
     String manageChannelsPermissionLabel,
   ) {
-    return 'You need the \"$manageChannelsPermissionLabel\" permission to edit these permissions.';
+    return 'Χρειάζεστε την άδεια \"$manageChannelsPermissionLabel\" για να επεξεργαστείτε αυτές τις άδειες.';
   }
 
   @override
   String channelSettingsPermissionsNeedManageRoles(
     String manageRolesPermissionLabel,
   ) {
-    return 'You need the \"$manageRolesPermissionLabel\" permission to edit these permissions.';
+    return 'Χρειάζεστε την άδεια \"$manageRolesPermissionLabel\" για να επεξεργαστείτε αυτές τις άδειες.';
   }
 
   @override
-  String get channelSettingsUnknownRole => 'Unknown role';
+  String get channelSettingsUnknownRole => 'Άγνωστος ρόλος';
 
   @override
-  String get channelSettingsUnknownUser => 'Unknown user';
+  String get channelSettingsUnknownUser => 'Άγνωστος χρήστης';
 
   @override
   String get channelSettingsEveryoneRole => '@everyone';
 
   @override
-  String get channelSettingsPermissionsAccessOverrides => 'Access overrides';
+  String get channelSettingsPermissionsAccessOverrides =>
+      'Παρακάμψεις πρόσβασης';
 
   @override
   String channelSettingsPermissionsEditAccessFor(String name) {
-    return 'Edit access for $name';
+    return 'Επεξεργασία πρόσβασης για $name';
   }
 
   @override
-  String get channelSettingsPermissionsBackToOverrides => 'Back to overrides';
+  String get channelSettingsPermissionsBackToOverrides =>
+      'Πίσω στις εξαιρέσεις';
 
   @override
   String get channelSettingsPermissionsConfigureBaseAccess =>
-      'Configure base access for this channel';
+      'Διαμόρφωση βασικής πρόσβασης για αυτό το κανάλι';
 
   @override
   String get channelSettingsPermissionsConfigureRoleOverrides =>
-      'Configure overrides for this role';
+      'Διαμόρφωση εξαιρέσεων για αυτόν τον ρόλο';
 
   @override
   String get channelSettingsPermissionsConfigureMemberOverrides =>
-      'Configure overrides for this member';
+      'Διαμόρφωση εξαιρέσεων για αυτό το μέλος';
 
   @override
   String get channelSettingsPermissionsSearchPlaceholder =>
-      'Search permissions…';
+      'Αναζήτηση δικαιωμάτων…';
 
   @override
   String get channelSettingsPermissionsChannelAccessUpdated =>
-      'Channel access updated';
+      'Η πρόσβαση στο κανάλι ενημερώθηκε';
 
   @override
-  String get channelSettingsPermissionsTitle => 'Access control';
+  String get channelSettingsPermissionsTitle => 'Έλεγχος πρόσβασης';
 
   @override
   String get channelSettingsPermissionsSyncedWithParentPrefix =>
-      'This channel is synced with the parent category ';
+      'Αυτό το κανάλι συγχρονίζεται με τη γονική κατηγορία ';
 
   @override
   String get channelSettingsPermissionsSyncedWithParentSuffix => '.';
 
   @override
   String get channelSettingsPermissionsNotSyncedWithParentPrefix =>
-      'This channel is not synced with the parent category ';
+      'Αυτό το κανάλι δεν συγχρονίζεται με τη γονική κατηγορία ';
 
   @override
   String get channelSettingsPermissionsNotSyncedWithParentSuffix => '.';
 
   @override
-  String get channelSettingsPermissionsSyncWithCategory => 'Sync with category';
+  String get channelSettingsPermissionsSyncWithCategory =>
+      'Συγχρονισμός με την κατηγορία';
 
   @override
   String get channelSettingsPermissionsSyncedWithParentToast =>
-      'Channel synced with parent category';
+      'Το κανάλι συγχρονίστηκε με τη γονική κατηγορία';
 
   @override
-  String get channelSettingsPermissionsAddOverride => 'Add override';
+  String get channelSettingsPermissionsAddOverride => 'Προσθήκη εξαίρεσης';
 
   @override
   String get channelSettingsPermissionsSearchRolesOrMembers =>
-      'Search roles or members…';
+      'Αναζήτηση ρόλων ή μελών…';
 
   @override
-  String get channelSettingsPermissionsRolesAndMembers => 'Roles and members';
+  String get channelSettingsPermissionsRolesAndMembers => 'Ρόλοι και μέλη';
 
   @override
-  String get channelSettingsDeleteInvite => 'Delete invite';
+  String get channelSettingsDeleteInvite => 'Διαγραφή πρόσκλησης';
 
   @override
   String get channelSettingsDeleteInviteConfirm =>
-      'Delete this invite? Can\'t be undone.';
+      'Να διαγραφεί αυτή η πρόσκληση; Δεν μπορεί να αναιρεθεί.';
 
   @override
-  String get channelSettingsCopyInviteCode => 'Copy invite code';
+  String get channelSettingsCopyInviteCode => 'Αντιγραφή κωδικού πρόσκλησης';
 
   @override
-  String get channelSettingsCopyInviteUrl => 'Copy invite URL';
+  String get channelSettingsCopyInviteUrl => 'Αντιγραφή URL πρόσκλησης';
 
   @override
-  String get channelSettingsWebhookCreated => 'Webhook created';
+  String get channelSettingsWebhookCreated => 'Το webhook δημιουργήθηκε';
 
   @override
-  String get channelSettingsWebhookCreateFailed => 'Failed to create webhook';
+  String get channelSettingsWebhookCreateFailed =>
+      'Αποτυχία δημιουργίας webhook';
 
   @override
-  String get channelSettingsCreateWebhook => 'Create webhook';
+  String get channelSettingsCreateWebhook => 'Δημιουργία webhook';
 
   @override
   String get channelSettingsInvitesDescription =>
-      'Manage invite links for this channel.';
+      'Διαχείριση συνδέσμων πρόσκλησης για αυτό το κανάλι.';
 
   @override
-  String get channelSettingsInvitesCreate => 'Create invite';
+  String get channelSettingsInvitesCreate => 'Δημιουργία πρόσκλησης';
 
   @override
-  String get channelSettingsInvitesEmpty => 'No invite links';
+  String get channelSettingsInvitesEmpty => 'Δεν υπάρχουν σύνδεσμοι πρόσκλησης';
 
   @override
   String get channelSettingsInvitesEmptyDescription =>
-      'This channel doesn\'t have any invite links yet. Create one to invite people to this channel.';
+      'Αυτό το κανάλι δεν έχει συνδέσμους πρόσκλησης ακόμα. Δημιουργήστε έναν για να προσκαλέσετε άτομα σε αυτό το κανάλι.';
 
   @override
   String get channelSettingsInvitesLoadFailedDescription =>
-      'There was an error loading the invite links for this channel. Try again.';
+      'Παρουσιάστηκε σφάλμα κατά τη φόρτωση των συνδέσμων πρόσκλησης για αυτό το κανάλι. Δοκιμάστε ξανά.';
 
   @override
   String get channelSettingsWebhooksDescription =>
-      'Manage incoming webhooks that can post messages into this channel.';
+      'Διαχειριστείτε τα εισερχόμενα webhooks που μπορούν να δημοσιεύουν μηνύματα σε αυτό το κανάλι.';
 
   @override
-  String get channelSettingsWebhooksEmpty => 'No webhooks';
+  String get channelSettingsWebhooksEmpty => 'Δεν υπάρχουν webhooks';
 
   @override
   String get channelSettingsWebhooksEmptyDescription =>
-      'There are no webhooks configured for this channel. Create a webhook to allow external applications to post messages.';
+      'Δεν έχουν ρυθμιστεί webhooks για αυτό το κανάλι. Δημιουργήστε ένα webhook για να επιτρέψετε σε εξωτερικές εφαρμογές να δημοσιεύουν μηνύματα.';
 
   @override
   String get channelSettingsWebhooksUnsupported =>
-      'This channel does not support webhooks.';
+      'Αυτό το κανάλι δεν υποστηρίζει webhooks.';
 
   @override
   String channelSettingsWebhooksPermissionRequired(String permission) {
-    return 'You need the \"$permission\" permission to view and edit webhooks for this channel.';
+    return 'Χρειάζεστε την άδεια \"$permission\" για να προβάλετε και να επεξεργαστείτε τα webhooks για αυτό το κανάλι.';
   }
 
   @override
   String get channelSettingsWebhooksLoadFailedTitle =>
-      'Failed to load webhooks';
+      'Αποτυχία φόρτωσης webhooks';
 
   @override
   String get channelSettingsWebhooksLoadFailedDescription =>
-      'There was an error loading the webhooks for this channel. Try again.';
+      'Παρουσιάστηκε σφάλμα κατά τη φόρτωση των webhooks για αυτό το κανάλι. Δοκιμάστε ξανά.';
 
   @override
   String channelSettingsWebhooksCreatedBy(String creator, String date) {
-    return 'Created by $creator on $date';
+    return 'Δημιουργήθηκε από τον/την $creator στις $date';
   }
 
   @override
-  String get channelSettingsWebhooksUnknownUser => 'Unknown user';
+  String get channelSettingsWebhooksUnknownUser => 'Άγνωστος χρήστης';
 
   @override
-  String get channelSettingsWebhooksAvatar => 'Avatar';
+  String get channelSettingsWebhooksAvatar => 'Εικόνα προφίλ';
 
   @override
-  String get channelSettingsWebhooksUploadImage => 'Upload image';
+  String get channelSettingsWebhooksUploadImage => 'Αποστολή εικόνας';
 
   @override
-  String get channelSettingsWebhooksRemove => 'Remove';
+  String get channelSettingsWebhooksRemove => 'Αφαίρεση';
 
   @override
-  String get channelSettingsWebhooksName => 'Name';
+  String get channelSettingsWebhooksName => 'Όνομα';
 
   @override
-  String get channelSettingsWebhooksNamePlaceholder => 'Webhook name';
+  String get channelSettingsWebhooksNamePlaceholder => 'Όνομα webhook';
 
   @override
-  String get channelSettingsWebhooksChannel => 'Channel';
+  String get channelSettingsWebhooksChannel => 'Κανάλι';
 
   @override
-  String get channelSettingsWebhooksUrl => 'Webhook URL';
+  String get channelSettingsWebhooksUrl => 'URL Webhook';
 
   @override
-  String get channelSettingsWebhooksCopyUrl => 'Copy webhook URL';
+  String get channelSettingsWebhooksCopyUrl => 'Αντιγραφή URL webhook';
 
   @override
-  String get channelSettingsWebhooksDelete => 'Delete webhook';
+  String get channelSettingsWebhooksDelete => 'Διαγραφή webhook';
 
   @override
   String get channelSettingsWebhooksDeleteFailed =>
-      'Couldn\'t delete this webhook';
+      'Αδυναμία διαγραφής αυτού του webhook';
 
   @override
   String get channelSettingsWebhooksDeleteConfirm =>
-      'Delete this webhook? Can\'t be undone.';
+      'Διαγραφή αυτού του webhook; Δεν αναιρείται.';
 
   @override
   String get channelSettingsWebhookTryAgainInAMoment =>
-      'Try again in a moment.';
+      'Δοκιμάστε ξανά σε λίγο.';
 
   @override
-  String get channelMenuOpenChat => 'Open chat';
+  String get channelMenuOpenChat => 'Άνοιγμα συνομιλίας';
 
   @override
-  String get channelMenuDuplicateChannel => 'Duplicate channel';
+  String get channelMenuDuplicateChannel => 'Αντιγραφή καναλιού';
 
   @override
   String get channelMenuResetMatureContentAgreeState =>
-      'Reset mature content agreement state';
+      'Επαναφορά κατάστασης συμφωνίας περιεχομένου ενηλίκων';
 
   @override
   String get channelMenuDeleteMyMessagesTitle =>
-      'Delete your messages in this channel?';
+      'Να διαγραφούν τα μηνύματά σας σε αυτό το κανάλι;';
 
   @override
   String get channelMenuDeleteMyMessagesDescription =>
-      'This will permanently delete every message you have ever sent in this channel. This cannot be undone.';
+      'Αυτό θα διαγράψει οριστικά κάθε μήνυμα που έχετε στείλει ποτέ σε αυτό το κανάλι. Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.';
 
   @override
-  String get channelMenuDeleteMyMessagesConfirm => 'Delete My Messages';
+  String get channelMenuDeleteMyMessagesConfirm => 'Διαγραφή των μηνυμάτων μου';
 
   @override
-  String get channelMenuDeletedYourMessages => 'Deleted your messages';
+  String get channelMenuDeletedYourMessages => 'Διέγραψες τα μηνύματά σου';
 
   @override
   String get channelMenuCouldNotDeleteYourMessages =>
-      'Couldn\'t delete your messages';
+      'Δεν ήταν δυνατή η διαγραφή των μηνυμάτων σας';
 
   @override
-  String get channelDetailsSystemMessage => 'System message';
+  String get channelDetailsSystemMessage => 'Μήνυμα συστήματος';
 
   @override
-  String get channelDetailsTextChannel => 'Text channel';
+  String get channelDetailsTextChannel => 'Κανάλι κειμένου';
 
   @override
-  String get channelDetailsVoiceChannel => 'Voice channel';
+  String get channelDetailsVoiceChannel => 'Κανάλι φωνής';
 
   @override
-  String get channelDetailsCategory => 'Category';
+  String get channelDetailsCategory => 'Κατηγορία';
 
   @override
-  String get channelDetailsLinkChannel => 'Link channel';
+  String get channelDetailsLinkChannel => 'Σύνδεση καναλιού';
 
   @override
-  String get channelDetailsGenericChannel => 'Channel';
+  String get channelDetailsGenericChannel => 'Κανάλι';
 
   @override
-  String get channelDetailsMutedConversation => 'Muted conversation';
+  String get channelDetailsMutedConversation => 'Σίγαση συνομιλίας';
 
   @override
-  String get channelDetailsUnmutedConversation => 'Unmuted conversation';
+  String get channelDetailsUnmutedConversation =>
+      'Η συνομιλία έχει γίνει ξανά ορατή';
 
   @override
-  String get channelDetailsMutedChannel => 'Muted channel';
+  String get channelDetailsMutedChannel => 'Κανάλι σε σίγαση';
 
   @override
-  String get channelDetailsUnmutedChannel => 'Unmuted channel';
+  String get channelDetailsUnmutedChannel => 'Κανάλι μη σε σίγαση';
 
   @override
   String get channelDetailsNotificationSettingsUpdated =>
-      'Notification settings updated';
+      'Οι ρυθμίσεις ειδοποιήσεων ενημερώθηκαν';
 
   @override
-  String get channelDetailsTabMembers => 'Members';
+  String get channelDetailsTabMembers => 'Μέλη';
 
   @override
-  String get channelDetailsTabPins => 'Pins';
+  String get channelDetailsTabPins => 'Καρφιτσωμένα';
 
   @override
-  String get channelDetailsActionMute => 'Mute';
+  String get channelDetailsActionMute => 'Σίγαση';
 
   @override
-  String get channelDetailsActionUnmute => 'Unmute';
+  String get channelDetailsActionUnmute => 'Κατάργηση σίγασης';
 
   @override
-  String get channelDetailsActionSearch => 'Search';
+  String get channelDetailsActionSearch => 'Αναζήτηση';
 
   @override
-  String get channelDetailsActionMore => 'More';
+  String get channelDetailsActionMore => 'Περισσότερα';
 
   @override
-  String get channelDetailsMembersEmptyTitle => 'No members to show';
+  String get channelDetailsMembersEmptyTitle =>
+      'Δεν υπάρχουν μέλη για εμφάνιση';
 
   @override
   String get channelDetailsMembersEmptyBody =>
-      'Members will appear here once the community data is loaded.';
+      'Τα μέλη θα εμφανιστούν εδώ μόλις φορτώσουν τα δεδομένα της κοινότητας.';
 
   @override
-  String get memberListPermissionDeniedTitle => 'You can\'t view members';
+  String get memberListPermissionDeniedTitle => 'Δεν μπορείς να δεις τα μέλη';
 
   @override
   String get memberListPermissionDeniedBody =>
-      'You can\'t view the members of this channel in this community';
+      'Δεν μπορείτε να δείτε τα μέλη αυτού του καναλιού σε αυτήν την κοινότητα';
 
   @override
-  String get memberListUnavailableTitle => 'Member list unavailable';
+  String get memberListUnavailableTitle => 'Η λίστα μελών δεν είναι διαθέσιμη';
 
   @override
   String get memberListUnavailableBody =>
-      'Member lists are temporarily unavailable in this community';
+      'Οι λίστες μελών είναι προσωρινά μη διαθέσιμες σε αυτήν την κοινότητα';
 
   @override
-  String get channelDetailsPinsLoadFailedTitle => 'Pins could not be loaded';
+  String get channelDetailsPinsLoadFailedTitle =>
+      'Τα καρφιτσωμένα μηνύματα δεν φορτώθηκαν';
 
   @override
   String get channelDetailsPinsGuildEndHint =>
-      'Members with the \"Pin Messages\" permission can pin messages for everyone to see.';
+      'Τα μέλη με την άδεια \"Καρφίτσωμα μηνυμάτων\" μπορούν να καρφιτσώνουν μηνύματα για να τα βλέπουν όλοι.';
 
   @override
   String get channelDetailsPinsDmEndHint =>
-      'You can pin messages in this conversation for everyone to see.';
+      'Μπορείς να καρφιτσώσεις μηνύματα σε αυτή τη συνομιλία για να τα δουν όλοι.';
 
   @override
-  String get channelDetailsPinsEndReached => 'You\'ve reached the end';
+  String get channelDetailsPinsEndReached => 'Έφτασες στο τέλος';
 
   @override
-  String get channelHeaderOpenDetails => 'Open channel details';
+  String get channelHeaderOpenDetails => 'Άνοιγμα λεπτομερειών καναλιού';
 
   @override
-  String get channelHeaderPinnedMessages => 'Pinned messages';
+  String get channelHeaderPinnedMessages => 'Καρφιτσωμένα μηνύματα';
 
   @override
-  String get channelHeaderPinnedMessagesUnread => 'Pinned messages, unread';
+  String get channelHeaderPinnedMessagesUnread =>
+      'Καρφιτσωμένα μηνύματα, αδιάβαστα';
 
   @override
-  String get channelHeaderMemberList => 'Member list';
+  String get channelHeaderMemberList => 'Λίστα μελών';
 
   @override
-  String get channelHeaderInbox => 'Inbox';
+  String get channelHeaderInbox => 'Εισερχόμενα';
 
   @override
   String get channelHeaderNotificationSettingsMuted =>
-      'Notification settings, muted';
+      'Ρυθμίσεις ειδοποιήσεων, σε σίγαση';
 
   @override
-  String get channelDetailsSearchTitle => 'Search';
+  String get channelDetailsSearchTitle => 'Αναζήτηση';
 
   @override
-  String get channelDetailsSearchHint => 'Search Messages';
+  String get channelDetailsSearchHint => 'Αναζήτηση μηνυμάτων';
 
   @override
-  String get channelDetailsSearchFilterFrom => 'From';
+  String get channelDetailsSearchFilterFrom => 'Από';
 
   @override
-  String get channelDetailsSearchFilterHas => 'Has';
+  String get channelDetailsSearchFilterHas => 'Έχει';
 
   @override
-  String get channelDetailsSearchFilterIn => 'In';
+  String get channelDetailsSearchFilterIn => 'Σε';
 
   @override
-  String get channelDetailsSearchFilterMentions => 'Mentions';
+  String get channelDetailsSearchFilterMentions => 'Αναφορές';
 
   @override
-  String get channelDetailsSearchFilterMore => 'More';
+  String get channelDetailsSearchFilterMore => 'Περισσότερα';
 
   @override
-  String get channelDetailsSearchMoreFiltersActive => 'Active';
+  String get channelDetailsSearchMoreFiltersActive => 'Ενεργό';
 
   @override
   String channelDetailsSearchChannelsCount(int count) {
-    return '$count channels';
+    return '$count κανάλια';
   }
 
   @override
   String channelDetailsSearchUsersCount(int count) {
-    return '$count users';
+    return '$count χρήστες';
   }
 
   @override
-  String get channelDetailsSearchAuthorTypeUser => 'User';
+  String get channelDetailsSearchAuthorTypeUser => 'Χρήστης';
 
   @override
-  String get channelDetailsSearchAuthorTypeBot => 'Bot';
+  String get channelDetailsSearchAuthorTypeBot => 'Μποτ';
 
   @override
   String get channelDetailsSearchAuthorTypeWebhook => 'Webhook';
 
   @override
-  String get channelDetailsSearchFilterByChannel => 'Filter by channel';
+  String get channelDetailsSearchFilterByChannel => 'Φιλτράρισμα ανά κανάλι';
 
   @override
-  String get channelDetailsSearchChannelsHint => 'Search channels';
+  String get channelDetailsSearchChannelsHint => 'Αναζήτηση καναλιών';
 
   @override
-  String get channelDetailsSearchChannelsEmpty => 'No channels found';
+  String get channelDetailsSearchChannelsEmpty => 'Δεν βρέθηκαν κανάλια';
 
   @override
-  String get channelDetailsSearchMoreFiltersPinned => 'Pinned';
+  String get channelDetailsSearchMoreFiltersPinned => 'Καρφιτσωμένα';
 
   @override
-  String get channelDetailsSearchPinnedTrue => 'Pinned only';
+  String get channelDetailsSearchPinnedTrue => 'Μόνο καρφιτσωμένα';
 
   @override
-  String get channelDetailsSearchPinnedFalse => 'Exclude pinned';
+  String get channelDetailsSearchPinnedFalse => 'Εξαίρεση καρφιτσωμένων';
 
   @override
-  String get channelDetailsSearchClearFilter => 'Clear';
+  String get channelDetailsSearchClearFilter => 'Εκκαθάριση';
 
   @override
-  String get channelDetailsSearchMoreFiltersAuthorType => 'Author type';
+  String get channelDetailsSearchMoreFiltersAuthorType => 'Τύπος συγγραφέα';
 
   @override
-  String get channelDetailsSearchMoreFiltersDate => 'Date';
+  String get channelDetailsSearchMoreFiltersDate => 'Ημερομηνία';
 
   @override
-  String get channelDetailsSearchMoreFiltersDateMode => 'Date mode';
+  String get channelDetailsSearchMoreFiltersDateMode => 'Ημερομηνία';
 
   @override
-  String get channelDetailsSearchMoreFiltersPickDate => 'Pick a date';
+  String get channelDetailsSearchMoreFiltersPickDate => 'Επιλογή ημερομηνίας';
 
   @override
-  String get channelDetailsSearchMoreFiltersLink => 'Link hostname';
+  String get channelDetailsSearchMoreFiltersLink =>
+      'Σύνδεση ονόματος κεντρικού υπολογιστή';
 
   @override
-  String get channelDetailsSearchMoreFiltersFileName => 'Filename contains';
+  String get channelDetailsSearchMoreFiltersFileName =>
+      'Το όνομα αρχείου περιέχει';
 
   @override
-  String get channelDetailsSearchMoreFiltersFileType => 'File extension';
+  String get channelDetailsSearchMoreFiltersFileType => 'Επέκταση αρχείου';
 
   @override
-  String get channelDetailsSearchContentPoll => 'Poll';
+  String get channelDetailsSearchContentPoll => 'Δημοσκόπηση';
 
   @override
   String get channelDetailsSearchContentPollDescription =>
-      'Messages with a poll';
+      'Μηνύματα με δημοσκόπηση';
 
   @override
-  String get channelDetailsSearchContentForward => 'Forward';
+  String get channelDetailsSearchContentForward => 'Προώθηση';
 
   @override
   String get channelDetailsSearchContentForwardDescription =>
-      'Forwarded messages';
+      'Προωθούμενα μηνύματα';
 
   @override
-  String get channelDetailsSearchFilterSort => 'Sort';
+  String get channelDetailsSearchFilterSort => 'Ταξινόμηση';
 
   @override
-  String get channelHeaderSearchFiltersTitle => 'Search Filters';
+  String get channelHeaderSearchFiltersTitle => 'Φίλτρα αναζήτησης';
 
   @override
-  String get channelHeaderSearchRecentTitle => 'Recent Searches';
+  String get channelHeaderSearchRecentTitle => 'Πρόσφατες αναζητήσεις';
 
   @override
-  String get channelHeaderSearchUsersTitle => 'Users';
+  String get channelHeaderSearchUsersTitle => 'Χρήστες';
 
   @override
-  String get channelHeaderSearchChannelsTitle => 'Channels';
+  String get channelHeaderSearchChannelsTitle => 'Κανάλια';
 
   @override
-  String get channelHeaderSearchValuesTitle => 'Values';
+  String get channelHeaderSearchValuesTitle => 'Τιμές';
 
   @override
-  String get channelHeaderSearchDatesTitle => 'Dates';
+  String get channelHeaderSearchDatesTitle => 'Ημερομηνίες';
 
   @override
-  String get channelHeaderSearchDefaultBadge => 'Default';
+  String get channelHeaderSearchDefaultBadge => 'Προεπιλογή';
 
   @override
-  String get channelHeaderSearchClearHistory => 'Clear';
+  String get channelHeaderSearchClearHistory => 'Εκκαθάριση';
 
   @override
-  String get channelHeaderSearchFilterDescFrom => 'a user';
+  String get channelHeaderSearchFilterDescFrom => 'ένας χρήστης';
 
   @override
-  String get channelHeaderSearchFilterDescMentions => 'a user';
+  String get channelHeaderSearchFilterDescMentions => 'ένας χρήστης';
 
   @override
   String get channelHeaderSearchFilterDescHas =>
-      'link, embed, image, video, sound, file, sticker, …';
+      'σύνδεσμος, ενσωμάτωση, εικόνα, βίντεο, ήχος, αρχείο, αυτοκόλλητο, …';
 
   @override
-  String get channelHeaderSearchFilterDescBefore => 'a date or date range';
+  String get channelHeaderSearchFilterDescBefore =>
+      'μια ημερομηνία ή εύρος ημερομηνιών';
 
   @override
-  String get channelHeaderSearchFilterDescOn => 'a date or date range';
+  String get channelHeaderSearchFilterDescOn =>
+      'μια ημερομηνία ή εύρος ημερομηνιών';
 
   @override
-  String get channelHeaderSearchFilterDescDuring => 'a date or date range';
+  String get channelHeaderSearchFilterDescDuring =>
+      'μια ημερομηνία ή εύρος ημερομηνιών';
 
   @override
-  String get channelHeaderSearchFilterDescAfter => 'a date or date range';
+  String get channelHeaderSearchFilterDescAfter =>
+      'μια ημερομηνία ή εύρος ημερομηνιών';
 
   @override
-  String get channelHeaderSearchFilterDescIn => 'a channel';
+  String get channelHeaderSearchFilterDescIn => 'ένα κανάλι';
 
   @override
-  String get channelHeaderSearchFilterDescPinned => 'true or false';
+  String get channelHeaderSearchFilterDescPinned => 'σωστό ή λάθος';
 
   @override
-  String get channelHeaderSearchFilterDescAuthorType => 'user, bot, or webhook';
+  String get channelHeaderSearchFilterDescAuthorType =>
+      'χρήστης, bot ή webhook';
 
   @override
   String get channelHeaderSearchFilterDescLinkFrom =>
-      'a hostname, e.g. example.com';
+      'ένα όνομα κεντρικού υπολογιστή, π.χ. example.com';
 
   @override
   String get channelHeaderSearchFilterDescFileName =>
-      'part of an attachment filename';
+      'μέρος ονόματος αρχείου συνημμένου';
 
   @override
   String get channelHeaderSearchFilterDescFileType =>
-      'a file extension, e.g. png';
+      'μια επέκταση αρχείου, π.χ. png';
 
   @override
-  String get channelHeaderSearchFilterDescSort => 'timestamp or relevance';
+  String get channelHeaderSearchFilterDescSort => 'χρονική σήμανση ή συνάφεια';
 
   @override
-  String get channelHeaderSearchFilterDescOrder => 'asc or desc';
+  String get channelHeaderSearchFilterDescOrder => 'αύξουσα ή φθίνουσα';
 
   @override
   String channelDetailsSearchResultCount(int count) {
@@ -8509,234 +8599,243 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$countString Results',
-      one: '1 Result',
+      other: '$countString αποτελέσματα',
+      one: '1 αποτέλεσμα',
     );
     return '$_temp0';
   }
 
   @override
-  String get channelDetailsSearchFilterByUser => 'Filter by user';
+  String get channelDetailsSearchFilterByUser => 'Φιλτράρισμα ανά χρήστη';
 
   @override
-  String get channelDetailsSearchFilterByContent => 'Filter by content';
+  String get channelDetailsSearchFilterByContent =>
+      'Φιλτράρισμα κατά περιεχόμενο';
 
   @override
-  String get channelDetailsSearchSortBy => 'Sort results by';
+  String get channelDetailsSearchSortBy => 'Ταξινόμηση αποτελεσμάτων κατά';
 
   @override
-  String get channelDetailsSearchIn => 'Search In';
+  String get channelDetailsSearchIn => 'Αναζήτηση σε';
 
   @override
-  String get channelDetailsSearchEmptyTitle => 'Search this conversation';
+  String get channelDetailsSearchEmptyTitle =>
+      'Αναζήτηση σε αυτήν τη συνομιλία';
 
   @override
   String get channelDetailsSearchEmptyBody =>
-      'Enter text, an author, or a content filter to find messages.';
+      'Πληκτρολογήστε κείμενο, συγγραφέα ή φίλτρο περιεχομένου για να βρείτε μηνύματα.';
 
   @override
-  String get channelDetailsSearchIndexingTitle => 'Messages are indexing';
+  String get channelDetailsSearchIndexingTitle =>
+      'Οι συνομιλίες γίνονται ευρετηρίαση';
 
   @override
   String get channelDetailsSearchIndexingBody =>
-      'Try again shortly once search finishes indexing this scope.';
+      'Δοκιμάστε ξανά σύντομα, μόλις ολοκληρωθεί η ευρετηρίαση της αναζήτησης σε αυτό το εύρος.';
 
   @override
-  String get channelDetailsSearchNoResultsTitle => 'No results';
+  String get channelDetailsSearchNoResultsTitle => 'Κανένα αποτέλεσμα';
 
   @override
   String get channelDetailsSearchNoResultsBody =>
-      'Try different search terms or filters.';
+      'Δοκιμάστε διαφορετικούς όρους αναζήτησης ή φίλτρα.';
 
   @override
-  String get channelDetailsMembersOnline => 'Online';
+  String get channelDetailsMembersOnline => 'Συνδεδεμένοι';
 
   @override
-  String get channelDetailsMembersOffline => 'Offline';
+  String get channelDetailsMembersOffline => 'Εκτός σύνδεσης';
 
   @override
-  String get channelDetailsMemberYou => 'You';
+  String get channelDetailsMemberYou => 'Εσείς';
 
   @override
-  String get channelDetailsSearchUsersHint => 'Search users';
+  String get channelDetailsSearchUsersHint => 'Αναζήτηση χρηστών';
 
   @override
-  String get channelDetailsSearchUsersTypeToSearch => 'Type to search members';
+  String get channelDetailsSearchUsersTypeToSearch =>
+      'Πληκτρολογήστε για αναζήτηση μελών';
 
   @override
-  String get channelDetailsSearchUsersEmpty => 'No users found';
+  String get channelDetailsSearchUsersEmpty => 'Δεν βρέθηκαν χρήστες';
 
   @override
-  String get channelDetailsSearchUsersNoAvailable => 'No users available';
+  String get channelDetailsSearchUsersNoAvailable =>
+      'Δεν υπάρχουν διαθέσιμοι χρήστες';
 
   @override
-  String get channelDetailsDone => 'Done';
+  String get channelDetailsDone => 'Τέλος';
 
   @override
-  String get channelDetailsHasFilterPrompt => 'Show messages that contain:';
+  String get channelDetailsHasFilterPrompt =>
+      'Εμφάνιση μηνυμάτων που περιέχουν:';
 
   @override
-  String get channelDetailsRetry => 'Retry';
+  String get channelDetailsRetry => 'Επανάληψη';
 
   @override
-  String get channelDetailsPinnedMessageTitle => 'Pinned Message';
+  String get channelDetailsPinnedMessageTitle => 'Καρφιτσωμένο μήνυμα';
 
   @override
-  String get channelDetailsSearchResultTitle => 'Search Result';
+  String get channelDetailsSearchResultTitle => 'Αποτέλεσμα αναζήτησης';
 
   @override
-  String get channelDetailsJumpToMessage => 'Jump to Message';
+  String get channelDetailsJumpToMessage => 'Μετάβαση στο μήνυμα';
 
   @override
-  String get channelDetailsUnpinMessage => 'Unpin Message';
+  String get channelDetailsUnpinMessage => 'Αποκατάσταση μηνύματος';
 
   @override
-  String get channelDetailsCopyMessageLink => 'Copy Message Link';
+  String get channelDetailsCopyMessageLink => 'Αντιγραφή συνδέσμου μηνύματος';
 
   @override
-  String get channelDetailsCopyMessageId => 'Copy Message ID';
+  String get channelDetailsCopyMessageId =>
+      'Αντιγραφή αναγνωριστικού μηνύματος';
 
   @override
-  String get channelDetailsMessageUnpinned => 'Message unpinned';
+  String get channelDetailsMessageUnpinned => 'Το μήνυμα αποκαρφιτσώθηκε';
 
   @override
-  String get channelDetailsSearchScopeCurrentCommunity => 'Current Community';
+  String get channelDetailsSearchScopeCurrentCommunity => 'Τρέχουσα Κοινότητα';
 
   @override
-  String get channelDetailsSearchScopeCurrentDm => 'Current DM';
+  String get channelDetailsSearchScopeCurrentDm => 'Τρέχουσα συνομιλία';
 
   @override
-  String get channelDetailsSearchScopeAllCommunities => 'All Communities';
+  String get channelDetailsSearchScopeAllCommunities => 'Όλες οι κοινότητες';
 
   @override
-  String get channelDetailsSearchScopeAllDmsOnlyGuild => 'All DMs Only';
+  String get channelDetailsSearchScopeAllDmsOnlyGuild =>
+      'Μόνο όλα τα απευθείας μηνύματα';
 
   @override
-  String get channelDetailsSearchScopeAllDms => 'All DMs';
+  String get channelDetailsSearchScopeAllDms => 'Όλες οι συζητήσεις';
 
   @override
-  String get channelDetailsSearchScopeOpenDmsOnlyGuild => 'Open DMs Only';
+  String get channelDetailsSearchScopeOpenDmsOnlyGuild => 'Μόνο άμεσα μηνύματα';
 
   @override
-  String get channelDetailsSearchScopeOpenDms => 'Open DMs';
+  String get channelDetailsSearchScopeOpenDms => 'Ανοιχτά DM';
 
   @override
   String get channelDetailsSearchScopeAllDmsAndCommunities =>
-      'All DMs + Communities';
+      'Όλα τα άμεσα μηνύματα + Κοινότητες';
 
   @override
   String get channelDetailsSearchScopeOpenDmsAndCommunities =>
-      'Open DMs + Communities';
+      'Ανοιχτά απευθείας μηνύματα + Κοινότητες';
 
   @override
   String get channelDetailsSearchScopeCurrentCommunityDescription =>
-      'Search only in the current Community';
+      'Αναζήτηση μόνο στην τρέχουσα Κοινότητα';
 
   @override
   String get channelDetailsSearchScopeCurrentDmDescription =>
-      'Search only in the current DM';
+      'Αναζήτηση μόνο σε αυτήν τη συνομιλία';
 
   @override
   String get channelDetailsSearchScopeAllCommunitiesDescription =>
-      'Across all Communities you\'re currently in';
+      'Σε όλες τις Κοινότητες στις οποίες βρίσκεστε αυτήν τη στιγμή';
 
   @override
   String get channelDetailsSearchScopeAllDmsOnlyGuildDescription =>
-      'Across all DMs you\'ve ever been in only';
+      'Μόνο σε όλες τις προσωπικές συνομιλίες στις οποίες συμμετείχατε';
 
   @override
   String get channelDetailsSearchScopeAllDmsDescription =>
-      'Across all DMs you\'ve ever been in';
+      'Σε όλες τις συνομιλίες που έχεις συμμετάσχει';
 
   @override
   String get channelDetailsSearchScopeOpenDmsOnlyGuildDescription =>
-      'Across all DMs you currently have open only';
+      'Σε όλα τα απευθείας μηνύματα που έχεις ανοιχτά μόνο';
 
   @override
   String get channelDetailsSearchScopeOpenDmsDescription =>
-      'Across all DMs you currently have open';
+      'Σε όλα τα άμεσα μηνύματα που έχεις ανοιχτά';
 
   @override
   String get channelDetailsSearchScopeAllDmsAndCommunitiesDescription =>
-      'Across all DMs you\'ve ever been in + all Communities you\'re currently in';
+      'Σε όλα τα άμεσα μηνύματα που είχατε ποτέ + όλες τις Κοινότητες που βρίσκεστε τώρα';
 
   @override
   String get channelDetailsSearchScopeOpenDmsAndCommunitiesDescription =>
-      'Across all DMs you currently have open + all Communities you\'re currently in';
+      'Σε όλα τα άμεσα μηνύματα που έχεις ανοιχτά + σε όλες τις Κοινότητες που είσαι μέλος';
 
   @override
-  String get channelDetailsSearchSortNewest => 'Newest First';
+  String get channelDetailsSearchSortNewest => 'Νεότερα Πρώτα';
 
   @override
-  String get channelDetailsSearchSortOldest => 'Oldest First';
+  String get channelDetailsSearchSortOldest => 'Παλαιότερα Πρώτα';
 
   @override
-  String get channelDetailsSearchSortRelevance => 'Most Relevant';
+  String get channelDetailsSearchSortRelevance => 'Πιο Σχετικά';
 
   @override
   String get channelDetailsSearchSortNewestDescription =>
-      'Show most recent messages first';
+      'Εμφάνιση πρώτα των πιο πρόσφατων μηνυμάτων';
 
   @override
   String get channelDetailsSearchSortOldestDescription =>
-      'Show oldest messages first';
+      'Εμφάνιση πρώτα των παλαιότερων μηνυμάτων';
 
   @override
   String get channelDetailsSearchSortRelevanceDescription =>
-      'Show most relevant messages first';
+      'Εμφάνιση πρώτα των πιο σχετικών μηνυμάτων';
 
   @override
-  String get channelDetailsSearchContentImage => 'Image Upload';
+  String get channelDetailsSearchContentImage => 'Μεταφόρτωση εικόνας';
 
   @override
-  String get channelDetailsSearchContentVideo => 'Video Upload';
+  String get channelDetailsSearchContentVideo => 'Μεταφόρτωση βίντεο';
 
   @override
-  String get channelDetailsSearchContentAudio => 'Audio Upload';
+  String get channelDetailsSearchContentAudio => 'Μεταφόρτωση ήχου';
 
   @override
-  String get channelDetailsSearchContentFile => 'File Upload';
+  String get channelDetailsSearchContentFile => 'Μεταφόρτωση αρχείου';
 
   @override
-  String get channelDetailsSearchContentLink => 'Link';
+  String get channelDetailsSearchContentLink => 'Σύνδεσμος';
 
   @override
-  String get channelDetailsSearchContentEmbed => 'Link Preview or Embed';
+  String get channelDetailsSearchContentEmbed =>
+      'Προεπισκόπηση συνδέσμου ή ενσωμάτωση';
 
   @override
-  String get channelDetailsSearchContentSticker => 'Sticker';
+  String get channelDetailsSearchContentSticker => 'Αυτοκόλλητο';
 
   @override
   String get channelDetailsSearchContentImageDescription =>
-      'Uploaded image files only';
+      'Μόνο αρχεία εικόνων που ανέβηκαν';
 
   @override
   String get channelDetailsSearchContentVideoDescription =>
-      'Uploaded video files only';
+      'Μόνο βίντεο που ανέβηκαν';
 
   @override
   String get channelDetailsSearchContentAudioDescription =>
-      'Uploaded audio files only';
+      'Μόνο ανεβασμένα αρχεία ήχου';
 
   @override
   String get channelDetailsSearchContentFileDescription =>
-      'Any uploaded attachment';
+      'Οποιοδήποτε ανεβασμένο συνημμένο';
 
   @override
   String get channelDetailsSearchContentLinkDescription =>
-      'Typed URL in the message text';
+      'Πληκτρολογημένη διεύθυνση URL στο κείμενο μηνύματος';
 
   @override
   String get channelDetailsSearchContentEmbedDescription =>
-      'Resolved previews and rich embeds, not uploads';
+      'Επιλύθηκαν προεπισκοπήσεις και εμπλουτισμένες ενσωματώσεις, όχι μεταφορτώσεις';
 
   @override
   String get channelDetailsSearchContentStickerDescription =>
-      'Sticker attached to the message';
+      'Αυτοκόλλητο συνημμένο στο μήνυμα';
 
   @override
   String channelDetailsSearchContentTypesCount(int count) {
-    return '$count types';
+    return '$count τύποι';
   }
 
   @override
@@ -8748,167 +8847,175 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String groupDmWelcome(String displayName) {
-    return 'Welcome to $displayName. Add friends to get the group going.';
+    return 'Καλώς ήρθες στο $displayName. Πρόσθεσε φίλους για να ξεκινήσει η συζήτηση.';
   }
 
   @override
-  String get groupDmWelcomeEditGroup => 'Edit group';
+  String get groupDmWelcomeEditGroup => 'Επεξεργασία ομάδας';
 
   @override
-  String get groupDmWelcomeAddFriends => 'Add friends to group';
+  String get groupDmWelcomeAddFriends => 'Προσθήκη φίλων στην ομάδα';
 
   @override
-  String get dmGroupInvites => 'Invites';
+  String get dmGroupInvites => 'Προσκλήσεις';
 
   @override
-  String get groupDmEditTitle => 'Edit group';
+  String get groupDmEditTitle => 'Επεξεργασία ομάδας';
 
   @override
-  String get groupDmEditDetailsTooltip => 'Edit group details';
+  String get groupDmEditDetailsTooltip => 'Επεξεργασία στοιχείων ομάδας';
 
   @override
-  String get groupDmGroupName => 'Group name';
+  String get groupDmGroupName => 'Όνομα ομάδας';
 
   @override
-  String get groupDmMyGroup => 'My group';
+  String get groupDmMyGroup => 'Η ομάδα μου';
 
   @override
   String get groupDmGroupNameMaxLength =>
-      'Group name must not exceed 100 characters';
+      'Το όνομα της ομάδας δεν πρέπει να υπερβαίνει τους 100 χαρακτήρες';
 
   @override
-  String get groupDmGroupIcon => 'Group icon';
+  String get groupDmGroupIcon => 'Εικονίδιο ομάδας';
 
   @override
-  String get groupDmUploadIcon => 'Upload icon';
+  String get groupDmUploadIcon => 'Αποστολή εικονιδίου';
 
   @override
-  String get groupDmChangeIcon => 'Change icon';
+  String get groupDmChangeIcon => 'Αλλαγή εικονιδίου';
 
   @override
-  String get groupDmRemoveIcon => 'Remove icon';
+  String get groupDmRemoveIcon => 'Αφαίρεση εικονιδίου';
 
   @override
-  String get groupDmUpdated => 'Group updated';
+  String get groupDmUpdated => 'Η ομάδα ενημερώθηκε';
 
   @override
-  String get groupDmUpdateFailed => 'Couldn\'t update group. Try again.';
+  String get groupDmUpdateFailed =>
+      'Αδυναμία ενημέρωσης της ομάδας. Δοκιμάστε ξανά.';
 
   @override
   String get groupDmAnimatedIconNotSupported =>
-      'Animated icons are not supported. Use a static image.';
+      'Οι κινούμενες εικονίδια δεν υποστηρίζονται. Χρησιμοποιήστε μια στατική εικόνα.';
 
   @override
   String get groupDmAnimatedIconNotSupportedTitle =>
-      'Animated icons are not supported';
+      'Οι κινούμενες εικόνες δεν υποστηρίζονται';
 
   @override
-  String get groupDmIconFileTooLargeTitle => 'Icon file is too large';
+  String get groupDmIconFileTooLargeTitle =>
+      'Το αρχείο εικονιδίου είναι πολύ μεγάλο';
 
   @override
   String groupDmIconFileTooLargeBody(String maxSize) {
-    return 'Icon file is too large. Choose a file smaller than $maxSize.';
+    return 'Το αρχείο εικονιδίου είναι πολύ μεγάλο. Επιλέξτε ένα αρχείο μικρότερο από $maxSize.';
   }
 
   @override
-  String get groupDmUnsupportedIconFormat => 'Unsupported icon format';
+  String get groupDmUnsupportedIconFormat =>
+      'Μη υποστηριζόμενη μορφή εικονιδίου';
 
   @override
-  String get groupDmUnsupportedIconFormatBody => 'Unsupported file type.';
+  String get groupDmUnsupportedIconFormatBody =>
+      'Μη υποστηριζόμενος τύπος αρχείου.';
 
   @override
-  String get groupDmCouldntProcessImage => 'Couldn\'t process image';
+  String get groupDmCouldntProcessImage =>
+      'Δεν ήταν δυνατή η επεξεργασία της εικόνας';
 
   @override
   String get groupDmFailedToProcessCroppedImage =>
-      'Failed to process the cropped image. Try again.';
+      'Αποτυχία επεξεργασίας της περικομμένης εικόνας. Δοκιμάστε ξανά.';
 
   @override
-  String get groupDmInvalidImage => 'Invalid image';
+  String get groupDmInvalidImage => 'Μη έγκυρη εικόνα';
 
   @override
   String get groupDmInvalidImageBody =>
-      'That image is invalid. Try another one.';
+      'Αυτή η εικόνα δεν είναι έγκυρη. Δοκιμάστε μια άλλη.';
 
   @override
-  String get groupDmAddFriends => 'Add';
+  String get groupDmAddFriends => 'Προσθήκη';
 
   @override
-  String get groupDmOrSendInvite => 'or send an invite to a friend:';
+  String get groupDmOrSendInvite => 'ή στείλε μια πρόσκληση σε ένα φίλο:';
 
   @override
-  String get groupDmGenerateInviteLink => 'Generate invite link';
+  String get groupDmGenerateInviteLink => 'Δημιουργία συνδέσμου πρόσκλησης';
 
   @override
-  String get groupDmCreateInvite => 'Create';
+  String get groupDmCreateInvite => 'Δημιουργία';
 
   @override
-  String get groupDmInviteExpires24Hours => 'Your invite expires in 24 hours';
+  String get groupDmInviteExpires24Hours => 'Η πρόσκλησή σου λήγει σε 24 ώρες';
 
   @override
   String get groupDmAddFriendFailed =>
-      'Couldn\'t add this friend to the group. Please try again.';
+      'Δεν ήταν δυνατή η προσθήκη αυτού του φίλου στην ομάδα. Δοκιμάστε ξανά.';
 
   @override
-  String get groupDmAddFailed => 'Couldn\'t add to group';
+  String get groupDmAddFailed => 'Δεν ήταν δυνατή η προσθήκη στην ομάδα';
 
   @override
   String get groupDmGroupFull =>
-      'This group is full. Remove someone before adding more people.';
+      'Αυτή η ομάδα είναι πλήρης. Αφαιρέστε κάποιον πριν προσθέσετε κι άλλα άτομα.';
 
   @override
   String get groupDmRateLimited =>
-      'You\'re going too fast. Wait a moment and try again.';
+      'Πηγαίνεις πολύ γρήγορα. Περίμενε λίγο και δοκίμασε ξανά.';
 
   @override
-  String get groupDmCreateInviteFailed => 'Couldn\'t create invite link';
+  String get groupDmCreateInviteFailed =>
+      'Δεν ήταν δυνατή η δημιουργία συνδέσμου πρόσκλησης';
 
   @override
   String get groupDmCreateInviteFailedBody =>
-      'Couldn\'t generate an invite link. Please try again.';
+      'Δεν ήταν δυνατή η δημιουργία συνδέσμου πρόσκλησης. Δοκιμάστε ξανά.';
 
   @override
   String get guildNavbarCreateInviteFailed =>
-      'Couldn\'t create an invite link. Please try again.';
+      'Δεν ήταν δυνατή η δημιουργία συνδέσμου πρόσκλησης. Δοκιμάστε ξανά.';
 
   @override
   String get guildNavbarCreateInviteMissingPermissions =>
-      'You don\'t have permission to create an invite in this channel.';
+      'Δεν έχετε άδεια να δημιουργήσετε πρόσκληση σε αυτό το κανάλι.';
 
   @override
   String get guildNavbarCreateInviteMaxInvites =>
-      'This community has reached its invite limit.';
+      'Αυτό το community έχει φτάσει στο όριο προσκλήσεων.';
 
   @override
   String get guildNavbarCreateInviteTemporarilyDisabled =>
-      'Invite creation is temporarily disabled for this community.';
+      'Η δημιουργία προσκλήσεων έχει απενεργοποιηθεί προσωρινά για αυτήν την κοινότητα.';
 
   @override
-  String get groupDmCopyInviteFailed => 'Failed to copy invite link';
+  String get groupDmCopyInviteFailed =>
+      'Αποτυχία αντιγραφής συνδέσμου πρόσκλησης';
 
   @override
   String get groupDmInvitesOwnerOnly =>
-      'Only the group owner can manage invites.';
+      'Μόνο ο κάτοχος της ομάδας μπορεί να διαχειριστεί τις προσκλήσεις.';
 
   @override
-  String get groupDmNoInvitesCreated => 'No invites created';
+  String get groupDmNoInvitesCreated => 'Δεν έχουν δημιουργηθεί προσκλήσεις';
 
   @override
-  String get groupDmLoadingInvites => 'Loading invites...';
+  String get groupDmLoadingInvites => 'Φόρτωση προσκλήσεων...';
 
   @override
-  String get groupDmInvitesLoadFailed => 'Failed to load invites. Try again.';
+  String get groupDmInvitesLoadFailed =>
+      'Αποτυχία φόρτωσης προσκλήσεων. Δοκιμάστε ξανά.';
 
   @override
   String get groupDmInvitesRevokeConfirm =>
-      'Revoke this invite? Can\'t be undone.';
+      'Να ανακαλέσετε αυτήν την πρόσκληση; Δεν μπορεί να αναιρεθεί.';
 
   @override
-  String get groupDmInviteRevoked => 'Invite revoked';
+  String get groupDmInviteRevoked => 'Η πρόσκληση ανακλήθηκε';
 
   @override
   String groupDmInviteCreatedByExpires(String name, String time) {
-    return 'Created by $name. Expires in $time.';
+    return 'Δημιουργήθηκε από τον/την $name. Λήγει σε $time.';
   }
 
   @override
@@ -8946,30 +9053,30 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get composerHint => 'Message';
 
   @override
-  String get composerOpenExpressionPicker => 'Open expression picker';
+  String get composerOpenExpressionPicker => 'Άνοιγμα επιλογέα εκφράσεων';
 
   @override
-  String get composerShowKeyboard => 'Show keyboard';
+  String get composerShowKeyboard => 'Εμφάνιση πληκτρολογίου';
 
   @override
-  String get composerCloseAttachmentPanel => 'Close attachment picker';
+  String get composerCloseAttachmentPanel => 'Κλείσιμο συλλογής συνημμένων';
 
   @override
-  String get chatAttachmentPanelPhotos => 'Photos';
+  String get chatAttachmentPanelPhotos => 'Φωτογραφίες';
 
   @override
-  String get chatAttachmentPanelFiles => 'Files';
+  String get chatAttachmentPanelFiles => 'Αρχεία';
 
   @override
   String get chatAttachmentLibraryPermissionTitle =>
-      'Photo library access needed';
+      'Χρειάζεται πρόσβαση στη βιβλιοθήκη φωτογραφιών';
 
   @override
   String get chatAttachmentLibraryPermissionBody =>
-      'Allow photo library access to browse and attach recent photos and videos.';
+      'Να επιτρέψετε πρόσβαση στη βιβλιοθήκη φωτογραφιών για να περιηγηθείτε και να επισυνάψετε πρόσφατες φωτογραφίες και βίντεο.';
 
   @override
-  String get chatAttachmentLibraryPermissionSettings => 'Open settings';
+  String get chatAttachmentLibraryPermissionSettings => 'Άνοιγμα ρυθμίσεων';
 
   @override
   String messageAccessibilityLabel(String author, String summary) {
@@ -8977,47 +9084,47 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get messageAccessibilitySendingSuffix => ', sending';
+  String get messageAccessibilitySendingSuffix => ', αποστέλλεται';
 
   @override
-  String get messageAccessibilityFailedSuffix => ', failed to send';
+  String get messageAccessibilityFailedSuffix => ', αποτυχία αποστολής';
 
   @override
-  String get messageAccessibilityAttachmentSummary => 'an attachment';
+  String get messageAccessibilityAttachmentSummary => 'ένα συνημμένο';
 
   @override
   String messageAccessibilityAttachmentsSummary(int count) {
-    return '$count attachments';
+    return '$count συνημμένα';
   }
 
   @override
-  String get messageAccessibilityImageSummary => 'an image';
+  String get messageAccessibilityImageSummary => 'μια εικόνα';
 
   @override
-  String get messageAccessibilityVideoSummary => 'a video';
+  String get messageAccessibilityVideoSummary => 'ένα βίντεο';
 
   @override
-  String get messageAccessibilityAudioSummary => 'an audio file';
+  String get messageAccessibilityAudioSummary => 'ένα αρχείο ήχου';
 
   @override
   String messageAccessibilityStickerSummary(String name) {
-    return 'sticker $name';
+    return 'αυτοκόλλητο $name';
   }
 
   @override
   String messageAccessibilityFileSummary(String filename) {
-    return 'file $filename';
+    return 'αρχείο $filename';
   }
 
   @override
   String get messageAccessibilitySpoilerAttachmentSummary =>
-      'a spoiler attachment';
+      'συνημμένο με απόκρυψη';
 
   @override
-  String get messageAccessibilityEmbedSummary => 'an embed';
+  String get messageAccessibilityEmbedSummary => 'ένα ενσωματωμένο';
 
   @override
-  String get messageAccessibilityEmptySummary => 'a message';
+  String get messageAccessibilityEmptySummary => 'ένα μήνυμα';
 
   @override
   String get personalNotesPrivateSpace => 'Ο ιδιωτικός σας χώρος';
@@ -9061,16 +9168,16 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get userSettingsGroupStaffOnly => 'STAFF-ONLY';
 
   @override
-  String get userSettingsSearchPlaceholder => 'Search settings...';
+  String get userSettingsSearchPlaceholder => 'Αναζήτηση ρυθμίσεων...';
 
   @override
-  String get userSettingsSearchFieldLabel => 'Search settings';
+  String get userSettingsSearchFieldLabel => 'Αναζήτηση ρυθμίσεων';
 
   @override
-  String get userSettingsSearchClear => 'Clear search';
+  String get userSettingsSearchClear => 'Εκκαθάριση αναζήτησης';
 
   @override
-  String get userSettingsSearchNoResults => 'No settings found';
+  String get userSettingsSearchNoResults => 'Δεν βρέθηκαν ρυθμίσεις';
 
   @override
   String get userSettingsNavProfile => 'Προφίλ';
@@ -9082,429 +9189,434 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => 'Δώρα & Κωδικοί';
+  String get userSettingsNavGiftsAndCodes => 'Δώρα';
 
   @override
-  String get giftSettingsClaimAccountTitle => 'Claim your account';
+  String get giftSettingsClaimAccountTitle => 'Διεκδίκησε τον λογαριασμό σου';
 
   @override
   String get giftSettingsClaimAccountDescription =>
-      'Claim your account to redeem or manage Plutonium gift codes.';
+      'Διεκδικήστε τον λογαριασμό σας για να εξαργυρώσετε ή να διαχειριστείτε κωδικούς δώρου Plutonium.';
 
   @override
-  String get giftSettingsRedeemTitle => 'Redeem a gift';
+  String get giftSettingsRedeemTitle => 'Εξαργύρωση δώρου';
 
   @override
   String get giftSettingsRedeemDescription =>
-      'Enter a gift code to redeem Plutonium for your account.';
+      'Εισαγάγετε έναν κωδικό δώρου για να εξαργυρώσετε Plutonium για τον λογαριασμό σας.';
 
   @override
-  String get giftSettingsRedeemPlaceholder => 'Enter gift code…';
+  String get giftSettingsRedeemPlaceholder => 'Εισαγωγή κωδικού δώρου…';
 
   @override
-  String get giftSettingsRedeemButton => 'Redeem';
+  String get giftSettingsRedeemButton => 'Εξαργύρωση';
 
   @override
   String get giftSettingsRedeemSuccess =>
-      'Gift redeemed successfully. Enjoy your Plutonium.';
+      'Το δώρο εξαργυρώθηκε με επιτυχία. Απόλαυσε το Plutonium σου.';
 
   @override
-  String get giftSettingsPurchasedTitle => 'Purchased gifts';
+  String get giftSettingsPurchasedTitle => 'Αγορασμένα δώρα';
 
   @override
   String get giftSettingsPurchasedDescription =>
-      'Manage your purchased Plutonium gift codes. Share the gift URL with someone special or redeem it for yourself!';
+      'Διαχειριστείτε τους κωδικούς δώρου Plutonium που αγοράσατε. Μοιραστείτε το URL του δώρου με κάποιον ξεχωριστό ή εξαργυρώστε το για τον εαυτό σας!';
 
   @override
-  String get giftSettingsEmptyTitle => 'No gifts yet';
+  String get giftSettingsEmptyTitle => 'Δεν υπάρχουν δώρα ακόμα';
 
   @override
   String get giftSettingsEmptyDescription =>
-      'Buy a Plutonium gift from the Plutonium tab to share with friends.';
+      'Αγόρασε ένα δώρο Plutonium από την καρτέλα Plutonium για να μοιραστείς με φίλους.';
 
   @override
-  String get giftSettingsGoToPlutonium => 'Go to Plutonium';
+  String get giftSettingsGoToPlutonium => 'Μετάβαση στο Plutonium';
 
   @override
-  String get giftSettingsLoadFailedTitle => 'Failed to load gift inventory';
+  String get giftSettingsLoadFailedTitle =>
+      'Αποτυχία φόρτωσης αποθέματος δώρων';
 
   @override
-  String get giftSettingsLoadFailedDescription => 'Try again later.';
+  String get giftSettingsLoadFailedDescription => 'Δοκιμάστε ξανά αργότερα.';
 
   @override
-  String get giftSettingsTryAgain => 'Try again';
+  String get giftSettingsTryAgain => 'Δοκιμάστε ξανά';
 
   @override
-  String get giftSettingsGiftUrl => 'Gift URL';
+  String get giftSettingsGiftUrl => 'URL δώρου';
 
   @override
-  String get giftSettingsCopy => 'Copy';
+  String get giftSettingsCopy => 'Αντιγραφή';
 
   @override
-  String get giftSettingsCopied => 'Copied';
+  String get giftSettingsCopied => 'Αντιγράφηκε';
 
   @override
-  String get giftSettingsGiftUrlCopied => 'Gift URL copied to clipboard!';
+  String get giftSettingsGiftUrlCopied =>
+      'Αντιγράφηκε το URL του δώρου στο πρόχειρο!';
 
   @override
-  String get giftSettingsGiftUrlCopyFailed => 'Couldn\'t copy gift URL';
+  String get giftSettingsGiftUrlCopyFailed =>
+      'Δεν ήταν δυνατή η αντιγραφή της διεύθυνσης URL του δώρου';
 
   @override
   String giftSettingsPurchasedDate(String date) {
-    return 'Purchased $date';
+    return 'Αγοράστηκε $date';
   }
 
   @override
   String giftSettingsRedeemedDate(String date) {
-    return 'Redeemed $date';
+    return 'Εξαργυρώθηκε $date';
   }
 
   @override
   String giftSettingsRedeemedBy(String name) {
-    return 'Redeemed by $name';
+    return 'Εξαργυρώθηκε από τον/την $name';
   }
 
   @override
-  String get giftSettingsAlreadyRedeemed => 'This gift has been redeemed';
+  String get giftSettingsAlreadyRedeemed => 'Αυτό το δώρο έχει εξαργυρωθεί';
 
   @override
-  String get giftSettingsRedeemForYourself => 'Redeem for yourself';
+  String get giftSettingsRedeemForYourself => 'Εξαργύρωση για εσάς';
 
   @override
-  String get giftSettingsShareWithFriend => 'Share with a friend';
+  String get giftSettingsShareWithFriend => 'Κοινή χρήση με φίλο';
 
   @override
   String get premiumPlutoniumTagline =>
-      'Unlock higher limits and exclusive features while supporting an independent communication platform.';
+      'Ξεκλείδωσε υψηλότερα όρια και αποκλειστικές λειτουργίες, ενώ υποστηρίζεις μια ανεξάρτητη πλατφόρμα επικοινωνίας.';
 
   @override
-  String get premiumPurchaseMode => 'Purchase mode';
+  String get premiumPurchaseMode => 'Τρόπος αγοράς';
 
   @override
-  String get premiumForMe => 'For me';
+  String get premiumForMe => 'Για μένα';
 
   @override
-  String get premiumAsAGift => 'As a gift';
+  String get premiumAsAGift => 'Ως δώρο';
 
   @override
-  String get premiumMonthly => 'Monthly';
+  String get premiumMonthly => 'Μηνιαία';
 
   @override
-  String get premiumYearly => 'Yearly';
+  String get premiumYearly => 'Ετήσιο';
 
   @override
-  String get premiumPerMonth => 'per month';
+  String get premiumPerMonth => 'ανά μήνα';
 
   @override
-  String get premiumPerYear => 'per year';
+  String get premiumPerYear => 'ανά έτος';
 
   @override
-  String get premiumOneTimePurchase => 'one-time purchase';
+  String get premiumOneTimePurchase => 'εφάπαξ αγορά';
 
   @override
-  String get premiumSave17 => 'Save 17%';
+  String get premiumSave17 => 'Εξοικονομήστε 17%';
 
   @override
-  String get premiumUpgradeNow => 'Upgrade now';
+  String get premiumUpgradeNow => 'Αναβάθμιση τώρα';
 
   @override
-  String get premiumBuyGift => 'Buy gift';
+  String get premiumBuyGift => 'Αγορά δώρου';
 
   @override
-  String get premiumOneYearGift => '1 year gift';
+  String get premiumOneYearGift => 'Δώρο 1 έτους';
 
   @override
-  String get premiumOneMonthGift => '1 month gift';
+  String get premiumOneMonthGift => 'Δώρο 1 μήνα';
 
   @override
-  String get premiumMostPopular => 'Most popular';
+  String get premiumMostPopular => 'Πιο δημοφιλές';
 
   @override
   String get premiumScrollPrompt =>
-      'Scroll down to view all the perks included with Plutonium';
+      'Κάνε κύλιση προς τα κάτω για να δεις όλα τα προνόμια που περιλαμβάνονται με το Plutonium';
 
   @override
-  String get premiumFreeVsPlutonium => 'Free vs Plutonium';
+  String get premiumFreeVsPlutonium => 'Δωρεάν έναντι Plutonium';
 
   @override
-  String get premiumFreeColumn => 'Free';
+  String get premiumFreeColumn => 'Δωρεάν';
 
   @override
-  String get premiumGiftSectionTitle => 'Gift Plutonium';
+  String get premiumGiftSectionTitle => 'Δώσε Plutonium';
 
   @override
   String get premiumGiftSectionDescription =>
-      'Share the Plutonium experience with your friends by purchasing a gift subscription.';
+      'Μοιράσου την εμπειρία Plutonium με τους φίλους σου αγοράζοντας μια συνδρομή δώρου.';
 
   @override
   String get premiumGiftBannerOne =>
-      'You have a new gift code waiting for you!';
+      'Έχεις έναν νέο κωδικό δώρου που σε περιμένει!';
 
   @override
   String premiumGiftBannerMany(int count) {
-    return 'You have $count new gift codes waiting for you!';
+    return 'Έχεις $count νέους κωδικούς δώρου να σε περιμένουν!';
   }
 
   @override
-  String get premiumViewGifts => 'View gifts';
+  String get premiumViewGifts => 'Προβολή δώρων';
 
   @override
-  String get premiumReadyToUpgrade => 'Ready to upgrade?';
+  String get premiumReadyToUpgrade => 'Έτοιμοι για αναβάθμιση;';
 
   @override
-  String get premiumReadyToBuyGift => 'Ready to buy a gift?';
+  String get premiumReadyToBuyGift => 'Έτοιμος/η να αγοράσεις ένα δώρο;';
 
   @override
   String premiumMonthlyPrice(String price) {
-    return 'Monthly $price';
+    return 'Μηνιαία $price';
   }
 
   @override
   String premiumYearlyPrice(String price) {
-    return 'Yearly $price';
+    return 'Ετήσια $price';
   }
 
   @override
   String premiumOneYearPrice(String price) {
-    return '1 year $price';
+    return '1 έτος $price';
   }
 
   @override
   String premiumOneMonthPrice(String price) {
-    return '1 month $price';
+    return '1 μήνας $price';
   }
 
   @override
-  String get premiumManageSubscription => 'Manage subscription';
+  String get premiumManageSubscription => 'Διαχείριση συνδρομής';
 
   @override
-  String get premiumRedeemGiftCode => 'Redeem gift code';
+  String get premiumRedeemGiftCode => 'Εξαργύρωση κωδικού δώρου';
 
   @override
-  String get premiumGiftBadge => 'Gift';
+  String get premiumGiftBadge => 'Δώρο';
 
   @override
-  String get premiumCancelSubscriptionTitle => 'Cancel subscription?';
+  String get premiumCancelSubscriptionTitle => 'Ακύρωση συνδρομής;';
 
   @override
   String get premiumCancelSubscriptionBody =>
-      'You keep your perks until your next renewal date, then have a 3-day grace period to resubscribe and keep your subscriber history.';
+      'Διατηρείτε τα προνόμιά σας μέχρι την επόμενη ημερομηνία ανανέωσης και, στη συνέχεια, έχετε μια περίοδο χάριτος 3 ημερών για να εγγραφείτε ξανά και να διατηρήσετε το ιστορικό συνδρομών σας.';
 
   @override
-  String get premiumCancelSubscriptionConfirm => 'Cancel subscription';
+  String get premiumCancelSubscriptionConfirm => 'Ακύρωση συνδρομής';
 
   @override
-  String get premiumKeepSubscription => 'Keep subscription';
+  String get premiumKeepSubscription => 'Διατήρηση συνδρομής';
 
   @override
-  String get premiumPurchaseHistoryTitle => 'Purchase history';
+  String get premiumPurchaseHistoryTitle => 'Ιστορικό αγορών';
 
   @override
   String get premiumPurchaseHistoryDescription =>
-      'Your recent invoices. To change the payment method for your subscription, add or choose one in the billing portal and make it the default.';
+      'Τα πρόσφατα τιμολόγιά σας. Για να αλλάξετε τον τρόπο πληρωμής για τη συνδρομή σας, προσθέστε ή επιλέξτε έναν στην πύλη χρεώσεων και ορίστε τον ως προεπιλογή.';
 
   @override
-  String get premiumManagePaymentMethods => 'Manage payment methods';
+  String get premiumManagePaymentMethods => 'Διαχείριση τρόπων πληρωμής';
 
   @override
-  String get premiumBillingHistory => 'Billing history';
+  String get premiumBillingHistory => 'Ιστορικό χρεώσεων';
 
   @override
-  String get premiumSelfServeRefundTitle => 'Self-serve refund';
+  String get premiumSelfServeRefundTitle => 'Αυτόματη επιστροφή χρημάτων';
 
   @override
-  String get premiumSelfServeRefundButton => 'Refund latest purchase';
+  String get premiumSelfServeRefundButton =>
+      'Επιστροφή χρημάτων τελευταίας αγοράς';
 
   @override
   String get premiumDisclaimerAgreementPrefix =>
-      'By purchasing, you agree to our ';
+      'Με την αγορά, συμφωνείτε με τους ';
 
   @override
   String get premiumDisclaimerAgreementPastPrefix =>
-      'By purchasing, you agreed to our ';
+      'Με την αγορά, συμφωνήσατε με τους ';
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' and ';
+  String get premiumDisclaimerAgreementMiddle => ' και ';
 
   @override
   String premiumActiveUntil(String date) {
-    return 'Active until $date';
+    return 'Ενεργό έως $date';
   }
 
   @override
-  String get premiumSubscriptionCanceling => 'Canceling';
+  String get premiumSubscriptionCanceling => 'Ακύρωση';
 
   @override
   String premiumCancelsOn(String date) {
-    return 'Cancels on $date. Perks remain active until then.';
+    return 'Ακυρώνεται στις $date. Τα προνόμια παραμένουν ενεργά μέχρι τότε.';
   }
 
   @override
-  String get premiumReactivateSubscription => 'Reactivate';
+  String get premiumReactivateSubscription => 'Ενεργοποίηση ξανά';
 
   @override
   String premiumGiftedUntil(String date) {
-    return 'Gifted until $date. Does not renew automatically.';
+    return 'Δωρεάν μέχρι $date. Δεν ανανεώνεται αυτόματα.';
   }
 
   @override
-  String get premiumComparisonFeatureColumn => 'Feature';
+  String get premiumComparisonFeatureColumn => 'Λειτουργία';
 
   @override
   String premiumDisclaimerPurchased(String terms, String privacy) {
-    return 'By purchasing, you agreed to our $terms and $privacy.';
+    return 'Με την αγορά, συμφωνείτε με τους $terms και την $privacy μας.';
   }
 
   @override
   String get premiumDisclaimerRefund =>
-      'Self-serve refunds available within 3 days of payment, once every 30 days. Refunding a subscription cancels it. EU/EEA buyers waive the 14-day right of withdrawal at checkout to access content immediately. Use the in-app refund button instead of a chargeback. Chargebacks can permanently restrict your account. Stripe handles payment securely. We never see your full card number.';
+      'Αυτοματοποιημένες επιστροφές χρημάτων είναι διαθέσιμες εντός 3 ημερών από την πληρωμή, μία φορά κάθε 30 ημέρες. Η επιστροφή χρημάτων μιας συνδρομής την ακυρώνει. Οι αγοραστές από ΕΕ/ΕΟΧ παραιτούνται από το δικαίωμα υπαναχώρησης 14 ημερών κατά την ολοκλήρωση της αγοράς για άμεση πρόσβαση στο περιεχόμενο. Χρησιμοποιήστε το κουμπί επιστροφής χρημάτων εντός της εφαρμογής αντί για αντιστροφή χρέωσης. Οι αντιστροφές χρεώσεων μπορούν να περιορίσουν μόνιμα τον λογαριασμό σας. Η Stripe χειρίζεται την πληρωμή με ασφάλεια. Δεν βλέπουμε ποτέ τον πλήρη αριθμό της κάρτας σας.';
 
   @override
-  String get premiumTermsOfService => 'Terms of service';
+  String get premiumTermsOfService => 'Όροι χρήσης';
 
   @override
-  String get premiumPrivacyPolicy => 'Privacy policy';
+  String get premiumPrivacyPolicy => 'Πολιτική απορρήτου';
 
   @override
-  String get premiumCheckoutStartFailedTitle => 'Couldn\'t start checkout';
+  String get premiumCheckoutStartFailedTitle =>
+      'Δεν ήταν δυνατή η έναρξη της ολοκλήρωσης αγοράς';
 
   @override
   String get premiumCheckoutStartFailedBody =>
-      'Something went wrong while starting checkout. Please try again in a moment.';
+      'Κάτι πήγε στραβά κατά την έναρξη της ολοκλήρωσης αγοράς. Δοκιμάστε ξανά σε λίγο.';
 
   @override
   String get premiumGiftSubscriptionBlocksRecurring =>
-      'You\'re currently on a gift subscription. It won\'t renew. You can redeem more gift codes to extend it. Recurring subscriptions can be started after your gift time ends.';
+      'Έχεις συνδρομή δώρου. Δεν θα ανανεωθεί αυτόματα. Μπορείς να εξαργυρώσεις κι άλλους κωδικούς δώρου για να την επεκτείνεις. Οι συνδρομές με αυτόματη ανανέωση μπορούν να ξεκινήσουν αφού λήξει η συνδρομή δώρου.';
 
   @override
   String get premiumPlanUnavailable =>
-      'This plan isn\'t available. Contact support.';
+      'Αυτό το πρόγραμμα δεν είναι διαθέσιμο. Επικοινωνήστε με την υποστήριξη.';
 
   @override
-  String get premiumCompletePaymentTitle => 'Complete payment';
+  String get premiumCompletePaymentTitle => 'Ολοκλήρωση πληρωμής';
 
   @override
   String get premiumCompletePaymentBody =>
-      'You are now navigating to Stripe to complete the payment. Return to Fluxer once you\'ve completed it.';
+      'Μεταβαίνετε τώρα στο Stripe για να ολοκληρώσετε την πληρωμή. Επιστρέψτε στο Fluxer μόλις την ολοκληρώσετε.';
 
   @override
-  String get premiumChoosePaymentMethodTitle => 'Choose payment method';
+  String get premiumChoosePaymentMethodTitle => 'Επιλέξτε τρόπο πληρωμής';
 
   @override
   String get premiumPixPaymentPromptDescription =>
-      'Pay with Pix automático to authorize recurring charges directly from your Brazilian bank. Or choose use card to enter a credit card on Stripe\'s next screen.';
+      'Πληρώστε με Pix αυτόματο για να εξουσιοδοτήσετε επαναλαμβανόμενες χρεώσεις απευθείας από την τράπεζά σας στη Βραζιλία. Εναλλακτικά, επιλέξτε χρήση κάρτας για να εισαγάγετε μια πιστωτική κάρτα στην επόμενη οθόνη του Stripe.';
 
   @override
-  String get premiumUsePix => 'Use Pix';
+  String get premiumUsePix => 'Χρησιμοποιήστε Pix';
 
   @override
   String get premiumUpiPaymentPromptDescription =>
-      'Pay with UPI to set up an RBI-compliant e-mandate from your Indian bank. Or choose use card to enter a credit card on Stripe\'s next screen.';
+      'Πληρώστε με UPI για να δημιουργήσετε μια ειδοποίηση συμμόρφωσης με την RBI από την ινδική τράπεζά σας. Εναλλακτικά, επιλέξτε χρήση κάρτας για να εισαγάγετε μια πιστωτική κάρτα στην επόμενη οθόνη του Stripe.';
 
   @override
-  String get premiumUseUpi => 'Use UPI';
+  String get premiumUseUpi => 'Χρήση UPI';
 
   @override
-  String get premiumUseCard => 'Use card';
+  String get premiumUseCard => 'Χρήση κάρτας';
 
   @override
   String get premiumCustomerPortalOpenFailedTitle =>
-      'Couldn\'t open the billing portal';
+      'Δεν ήταν δυνατή η φόρτωση της πύλης χρέωσης';
 
   @override
   String get premiumCustomerPortalOpenFailedBody =>
-      'Something went wrong while opening the billing portal. Please try again in a moment.';
+      'Κάτι πήγε στραβά κατά το άνοιγμα της πύλης χρέωσης. Δοκιμάστε ξανά σε λίγο.';
 
   @override
-  String get premiumAlreadyVisionaryTitle => 'You\'re already Visionary';
+  String get premiumAlreadyVisionaryTitle => 'Είστε ήδη Visionary';
 
   @override
   String get premiumAlreadyVisionaryBody =>
-      'Visionary already includes permanent access, so a recurring subscription isn\'t needed. You can still buy gifts for others.';
+      'Το Visionary περιλαμβάνει ήδη μόνιμη πρόσβαση, οπότε δεν χρειάζεται επαναλαμβανόμενη συνδρομή. Μπορείτε να αγοράσετε δώρα για άλλους.';
 
   @override
-  String get premiumExistingSubscriptionTitle => 'Subscription already exists';
+  String get premiumExistingSubscriptionTitle => 'Η συνδρομή υπάρχει ήδη';
 
   @override
   String get premiumExistingSubscriptionBody =>
-      'We found an existing Fluxer Plutonium subscription for this account. Manage it in the secure billing portal to update payment details or check renewal status. If you just paid, wait a minute and reopen this page.';
+      'Βρήκαμε μια υπάρχουσα συνδρομή Fluxer Plutonium για αυτόν τον λογαριασμό. Διαχειριστείτε την στην ασφαλή πύλη χρεώσεων για να ενημερώσετε τα στοιχεία πληρωμής ή να ελέγξετε την κατάσταση ανανέωσης. Αν μόλις πληρώσατε, περιμένετε ένα λεπτό και ξανανοίξτε αυτήν τη σελίδα.';
 
   @override
-  String get premiumPurchasesDisabledTitle => 'Purchases unavailable';
+  String get premiumPurchasesDisabledTitle => 'Οι αγορές δεν είναι διαθέσιμες';
 
   @override
   String get premiumPurchasesDisabledBody =>
-      'Purchases are disabled for this account. Contact support@fluxer.app if this looks wrong.';
+      'Οι αγορές έχουν απενεργοποιηθεί για αυτόν τον λογαριασμό. Επικοινωνήστε με το support@fluxer.app αν αυτό φαίνεται λάθος.';
 
   @override
   String get premiumClaimAccountToPurchase =>
-      'Claim your account to purchase Fluxer Plutonium.';
+      'Διεκδίκησε τον λογαριασμό σου για να αγοράσεις Fluxer Plutonium.';
 
   @override
   String get premiumVerifyEmailToPurchase =>
-      'You need to verify your email before you can purchase Fluxer Plutonium.';
+      'Πρέπει να επαληθεύσεις το email σου πριν αγοράσεις το Fluxer Plutonium.';
 
   @override
-  String get premiumPerkCustomUsernameTag => 'Custom username tag';
+  String get premiumPerkCustomUsernameTag => 'Προσαρμοσμένο όνομα χρήστη';
 
   @override
-  String get premiumPerkPerCommunityProfiles => 'Per-community profiles';
+  String get premiumPerkPerCommunityProfiles => 'Προφίλ ανά κοινότητα';
 
   @override
-  String get premiumPerkMessageScheduling => 'Message scheduling';
+  String get premiumPerkMessageScheduling => 'Προγραμματισμός μηνυμάτων';
 
   @override
-  String get premiumPerkProfileBadge => 'Profile badge';
+  String get premiumPerkProfileBadge => 'Σήμα προφίλ';
 
   @override
-  String get premiumPerkCustomVideoBackgrounds => 'Custom video backgrounds';
+  String get premiumPerkCustomVideoBackgrounds => 'Προσαρμοσμένα φόντα βίντεο';
 
   @override
-  String get premiumPerkEntranceSounds => 'Entrance sounds';
+  String get premiumPerkEntranceSounds => 'Ήχοι εισόδου';
 
   @override
-  String get premiumPerkCommunities => 'Communities';
+  String get premiumPerkCommunities => 'Κοινότητες';
 
   @override
-  String get premiumPerkMessageCharacterLimit => 'Message character limit';
+  String get premiumPerkMessageCharacterLimit => 'Όριο χαρακτήρων μηνύματος';
 
   @override
-  String get premiumPerkBookmarkedMessages => 'Bookmarked messages';
+  String get premiumPerkBookmarkedMessages => 'Σελιδοδεικτοποιημένα μηνύματα';
 
   @override
-  String get premiumPerkFileUploadSize => 'File upload size';
+  String get premiumPerkFileUploadSize => 'Μέγεθος αρχείου προς αποστολή';
 
   @override
-  String get premiumPerkEmojiStickerPacks => 'Emoji & sticker packs';
+  String get premiumPerkEmojiStickerPacks => 'Πακέτα emoji & αυτοκόλλητων';
 
   @override
-  String get premiumPerkSavedMedia => 'Saved media';
+  String get premiumPerkSavedMedia => 'Αποθηκευμένα πολυμέσα';
 
   @override
-  String get premiumPerkUseAnimatedEmojis => 'Use animated emojis';
+  String get premiumPerkUseAnimatedEmojis => 'Χρήση κινούμενων emoji';
 
   @override
   String get premiumPerkGlobalEmojiStickerAccess =>
-      'Global emoji & sticker access';
+      'Παγκόσμια πρόσβαση σε emoji και αυτοκόλλητα';
 
   @override
-  String get premiumPerkVideoQuality => 'Video quality';
+  String get premiumPerkVideoQuality => 'Ποιότητα βίντεο';
 
   @override
   String get premiumPerkAnimatedAvatarsBanners =>
-      'Animated avatars & profile banners';
+      'Κινούμενα avatar και banner προφίλ';
 
   @override
-  String get premiumPerkEarlyAccess => 'Early access to new features';
+  String get premiumPerkEarlyAccess => 'Πρόσβαση σε νέες λειτουργίες νωρίτερα';
 
   @override
-  String get premiumPerkCustomThemes => 'Custom themes';
+  String get premiumPerkCustomThemes => 'Προσαρμοσμένα θέματα';
 
   @override
   String get premiumPerkVideoQualityRestricted => '720p/30fps';
 
   @override
-  String get premiumPerkVideoQualityStock => 'Up to 4K/60fps';
+  String get premiumPerkVideoQualityStock => 'Έως 4K/60fps';
 
   @override
   String get userSettingsNavPrivacyDashboard => 'Πίνακας Ελέγχου Απορρήτου';
@@ -9534,119 +9646,121 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get userSettingsNavAudioAndVideo => 'Ήχος & Βίντεο';
 
   @override
-  String get userSettingsNavShortcuts => 'Shortcuts';
+  String get userSettingsNavShortcuts => 'Συντομεύσεις';
 
   @override
-  String get audioAndVideoAudioSectionTitle => 'Audio';
+  String get audioAndVideoAudioSectionTitle => 'Ήχος';
 
   @override
   String get audioAndVideoAudioSectionDescription =>
-      'Configure your microphone, speakers, and voice processing.';
+      'Ρύθμισε το μικρόφωνο, τα ηχεία και την επεξεργασία φωνής σου.';
 
   @override
-  String get audioAndVideoVideoSectionTitle => 'Video';
+  String get audioAndVideoVideoSectionTitle => 'Βίντεο';
 
   @override
   String get audioAndVideoVideoSectionDescription =>
-      'Configure your camera and screen sharing quality.';
+      'Ρυθμίστε την ποιότητα της κάμερας και της κοινής χρήσης οθόνης σας.';
 
   @override
-  String get audioAndVideoInCallBehaviorSectionTitle => 'In-call behavior';
+  String get audioAndVideoInCallBehaviorSectionTitle =>
+      'Συμπεριφορά κατά τη διάρκεια κλήσης';
 
   @override
   String get audioAndVideoInCallBehaviorSectionDescription =>
-      'Control confirmation prompts during voice and video calls.';
+      'Έλεγχος των προτροπών επιβεβαίωσης κατά τη διάρκεια φωνητικών και βιντεοκλήσεων.';
 
   @override
-  String get audioAndVideoInputDeviceLabel => 'Input device';
+  String get audioAndVideoInputDeviceLabel => 'Συσκευή εισόδου';
 
   @override
-  String get audioAndVideoOutputDeviceLabel => 'Output device';
+  String get audioAndVideoOutputDeviceLabel => 'Συσκευή εξόδου';
 
   @override
-  String get audioAndVideoDefaultDeviceLabel => 'Default';
+  String get audioAndVideoDefaultDeviceLabel => 'Προεπιλογή';
 
   @override
-  String get audioAndVideoUseSpeakerLabel => 'Use speaker';
+  String get audioAndVideoUseSpeakerLabel => 'Χρήση ηχείου';
 
   @override
   String get audioAndVideoUseSpeakerDescription =>
-      'When off, audio plays through the earpiece or connected headphones.';
+      'Όταν είναι απενεργοποιημένο, ο ήχος αναπαράγεται από το ακουστικό ή τα συνδεδεμένα ακουστικά.';
 
   @override
-  String get audioAndVideoInputVolumeLabel => 'Input volume';
+  String get audioAndVideoInputVolumeLabel => 'Ένταση εισόδου';
 
   @override
-  String get audioAndVideoOutputVolumeLabel => 'Output volume';
+  String get audioAndVideoOutputVolumeLabel => 'Ένταση εξόδου';
 
   @override
-  String get audioAndVideoVoiceProcessingSectionTitle => 'Voice processing';
+  String get audioAndVideoVoiceProcessingSectionTitle => 'Επεξεργασία φωνής';
 
   @override
-  String get audioAndVideoFocusedVoiceLabel => 'Focused voice';
+  String get audioAndVideoFocusedVoiceLabel => 'Εστιασμένη φωνή';
 
   @override
   String get audioAndVideoFocusedVoiceDescription =>
-      'Recommended. Cleans up your mic for clear speech.';
+      'Προτείνεται. Καθαρίζει το μικρόφωνό σας για καθαρή ομιλία.';
 
   @override
-  String get audioAndVideoDirectInputLabel => 'Direct input';
+  String get audioAndVideoDirectInputLabel => 'Απευθείας είσοδος';
 
   @override
   String get audioAndVideoDirectInputDescription =>
-      'Sends your audio untouched. Best if you\'re using external audio software.';
+      'Στέλνει τον ήχο σας χωρίς επεξεργασία. Ιδανικό αν χρησιμοποιείτε εξωτερικό λογισμικό ήχου.';
 
   @override
-  String get audioAndVideoCustomProfileLabel => 'Custom';
+  String get audioAndVideoCustomProfileLabel => 'Προσαρμοσμένο';
 
   @override
   String get audioAndVideoCustomProfileDescription =>
-      'Adjust each setting yourself: noise suppression, echo cancellation, and gain.';
+      'Προσαρμόστε κάθε ρύθμιση μόνοι σας: καταστολή θορύβου, ακύρωση ηχούς και ενίσχυση.';
 
   @override
-  String get audioAndVideoNoiseSuppressionSectionTitle => 'Noise suppression';
+  String get audioAndVideoNoiseSuppressionSectionTitle => 'Καταστολή θορύβου';
 
   @override
-  String get audioAndVideoNoiseSuppressionEnhancedLabel => 'Enhanced';
+  String get audioAndVideoNoiseSuppressionEnhancedLabel => 'Βελτιωμένη';
 
   @override
-  String get audioAndVideoNoiseSuppressionStandardLabel => 'Standard';
+  String get audioAndVideoNoiseSuppressionStandardLabel => 'Τυπική';
 
   @override
-  String get audioAndVideoNoiseSuppressionNoneLabel => 'None';
+  String get audioAndVideoNoiseSuppressionNoneLabel => 'Κανένα';
 
   @override
-  String get audioAndVideoEchoCancellationLabel => 'Echo cancellation';
+  String get audioAndVideoEchoCancellationLabel => 'Ακύρωση ηχούς';
 
   @override
-  String get audioAndVideoAutomaticGainControlLabel => 'Automatic gain control';
+  String get audioAndVideoAutomaticGainControlLabel =>
+      'Αυτόματος έλεγχος απολαβής';
 
   @override
   String get audioAndVideoAutomaticGainControlDescription =>
-      'Evens out your mic volume. Off when enhanced suppression is on.';
+      'Εξισορροπεί την ένταση του μικροφώνου σας. Απενεργοποιείται όταν η ενισχυμένη καταστολή είναι ενεργή.';
 
   @override
-  String get audioAndVideoMicTestSectionTitle => 'Mic test';
+  String get audioAndVideoMicTestSectionTitle => 'Δοκιμή μικροφώνου';
 
   @override
-  String get audioAndVideoMicTestStartLabel => 'Start mic test';
+  String get audioAndVideoMicTestStartLabel => 'Έναρξη ελέγχου μικροφώνου';
 
   @override
-  String get audioAndVideoMicTestStopLabel => 'Stop mic test';
+  String get audioAndVideoMicTestStopLabel => 'Διακοπή ελέγχου μικροφώνου';
 
   @override
   String audioAndVideoMicTestPermissionRequired(String productName) {
-    return '$productName needs microphone access to test your input.';
+    return 'Το $productName χρειάζεται πρόσβαση στο μικρόφωνο για να ελέγξει την είσοδό σας.';
   }
 
   @override
-  String get audioAndVideoCameraLabel => 'Camera';
+  String get audioAndVideoCameraLabel => 'Κάμερα';
 
   @override
-  String get audioAndVideoMirrorCameraLabel => 'Mirror camera';
+  String get audioAndVideoMirrorCameraLabel => 'Αντικατοπτρισμός κάμερας';
 
   @override
-  String get audioAndVideoCameraQualitySectionTitle => 'Camera quality';
+  String get audioAndVideoCameraQualitySectionTitle => 'Ποιότητα κάμερας';
 
   @override
   String get audioAndVideoCameraQuality480pLabel => '480p';
@@ -9659,381 +9773,393 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get audioAndVideoScreenShareQualitySectionTitle =>
-      'Screen share quality';
+      'Ποιότητα κοινής χρήσης οθόνης';
 
   @override
-  String get audioAndVideoFrameRateSectionTitle => 'Frame rate';
+  String get audioAndVideoFrameRateSectionTitle => 'Ρυθμός καρέ';
 
   @override
-  String get audioAndVideoFrameRate15Label => '15 FPS';
+  String get audioAndVideoFrameRate15Label => '15 καρέ/δευτ.';
 
   @override
-  String get audioAndVideoFrameRate30Label => '30 FPS';
+  String get audioAndVideoFrameRate30Label => '30 καρέ/δευτ';
 
   @override
-  String get audioAndVideoFrameRate60Label => '60 FPS';
+  String get audioAndVideoFrameRate60Label => '60 καρέ/δευτ';
 
   @override
   String audioAndVideoHigherQualityRequiresPremium(String premiumProductName) {
-    return '1080p and 60 FPS require $premiumProductName.';
+    return 'Το 1080p και τα 60 FPS απαιτούν $premiumProductName.';
   }
 
   @override
   String get audioAndVideoInstanceVideoQualityLimit =>
-      'This instance currently allows screen share up to 720p at 30 FPS.';
+      'Αυτή η παρουσία αυτήν τη στιγμή επιτρέπει κοινή χρήση οθόνης έως 720p στα 30 FPS.';
 
   @override
   String audioAndVideoMicrophonePermissionRequired(String productName) {
-    return '$productName needs microphone access to list your devices.';
+    return 'Το $productName χρειάζεται πρόσβαση στο μικρόφωνο για να εμφανίσει τις συσκευές σας.';
   }
 
   @override
   String audioAndVideoCameraPermissionRequired(String productName) {
-    return '$productName needs camera access to list your devices.';
+    return 'Το $productName χρειάζεται πρόσβαση στην κάμερα για να εμφανίσει τις συσκευές σας.';
   }
 
   @override
   String get audioAndVideoSkipHideOwnCameraConfirmLabel =>
-      'Don\'t ask when hiding my camera';
+      'Μην ρωτάς όταν κρύβω την κάμερά μου';
 
   @override
   String get audioAndVideoSkipHideOwnScreenshareConfirmLabel =>
-      'Don\'t ask when hiding my screen share';
+      'Μην ρωτάς όταν κρύβω την κοινή χρήση οθόνης μου';
 
   @override
-  String get userSettingsNavNotifications => 'Notifications';
+  String get userSettingsNavNotifications => 'Ειδοποιήσεις';
 
   @override
-  String get notificationsGeneralSectionTitle => 'General';
+  String get notificationsGeneralSectionTitle => 'Γενικά';
 
   @override
-  String get notificationsEnableNotificationsLabel => 'Enable notifications';
+  String get notificationsEnableNotificationsLabel =>
+      'Ενεργοποίηση ειδοποιήσεων';
 
   @override
   String notificationsEnableNotificationsDescription(String productName) {
-    return 'Get notified when you receive messages. You may need to allow notifications for $productName in your device settings. For per-channel/per-community controls, open notification settings from a community\'s menu.';
+    return 'Λάβετε ειδοποιήσεις όταν λαμβάνετε μηνύματα. Ίσως χρειαστεί να επιτρέψετε τις ειδοποιήσεις για το $productName στις ρυθμίσεις της συσκευής σας. Για έλεγχο ανά κανάλι/ανά κοινότητα, ανοίξτε τις ρυθμίσεις ειδοποιήσεων από το μενού μιας κοινότητας.';
   }
 
   @override
   String get notificationsEnableDesktopNotificationsLabel =>
-      'Enable desktop notifications';
+      'Ενεργοποίηση ειδοποιήσεων στην επιφάνεια εργασίας';
 
   @override
   String get notificationsEnableDesktopNotificationsDescription =>
-      'Uses the OS notification center. For per-channel/per-community controls, right-click a community icon and open notification settings.';
+      'Χρησιμοποιεί το κέντρο γνωστοποιήσεων του λειτουργικού συστήματος. Για έλεγχο ανά κανάλι/κοινότητα, κάντε δεξί κλικ στο εικονίδιο μιας κοινότητας και ανοίξτε τις ρυθμίσεις γνωστοποιήσεων.';
 
   @override
   String get notificationsEnableBrowserNotificationsLabel =>
-      'Enable browser notifications';
+      'Ενεργοποίηση ειδοποιήσεων προγράμματος περιήγησης';
 
   @override
   String get notificationsEnableBrowserNotificationsDescription =>
-      'Get notified when you receive messages. You may need to allow notifications in your browser settings. For per-channel/per-community controls, right-click a community icon and open notification settings.';
+      'Λάβετε ειδοποιήσεις όταν λαμβάνετε μηνύματα. Ίσως χρειαστεί να επιτρέψετε τις ειδοποιήσεις στις ρυθμίσεις του προγράμματος περιήγησής σας. Για έλεγχο ανά κανάλι/κοινότητα, κάντε δεξί κλικ σε ένα εικονίδιο κοινότητας και ανοίξτε τις ρυθμίσεις ειδοποιήσεων.';
 
   @override
   String get notificationsPushInactiveTimeoutLabel =>
-      'Push notification inactive timeout';
+      'Χρονικό όριο αδράνειας ειδοποιήσεων push';
 
   @override
   String notificationsPushInactiveTimeoutDescription(String productName) {
-    return '$productName avoids sending push notifications to your mobile devices when you are at your computer. Choose how long you need to be inactive on desktop before you receive push notifications.';
+    return 'Το $productName αποφεύγει την αποστολή ειδοποιήσεων μέσω push στις κινητές σας συσκευές όταν βρίσκεστε στον υπολογιστή σας. Επιλέξτε για πόσο καιρό πρέπει να είστε ανενεργός στην επιφάνεια εργασίας πριν λάβετε ειδοποιήσεις μέσω push.';
   }
 
   @override
   String notificationsPushInactiveTimeoutOneMinute(int oneMinute) {
-    return '$oneMinute minute';
+    return '$oneMinute λεπτό';
   }
 
   @override
   String notificationsPushInactiveTimeoutMinutes(int minutes) {
-    return '$minutes minutes';
+    return '$minutes λεπτά';
   }
 
   @override
-  String get notificationsMentionPreferenceSectionTitle => 'Mention preference';
+  String get notificationsMentionPreferenceSectionTitle => 'Προτίμηση αναφορών';
 
   @override
   String get notificationsReplyMentionPreferenceAriaLabel =>
-      'Reply mention preference';
+      'Προτίμηση αναφοράς σε απάντηση';
 
   @override
-  String get notificationsMentionNoPreferenceName => 'No preference';
+  String get notificationsMentionNoPreferenceName => 'Καμία προτίμηση';
 
   @override
   String get notificationsMentionNoPreferenceDescription =>
-      'Respect the sender\'s intent, with no warning when they toggle the @ mention';
+      'Σεβαστείτε την πρόθεση του αποστολέα, χωρίς προειδοποίηση όταν ενεργοποιεί την αναφορά @';
 
   @override
-  String get notificationsMentionPreferMentionName => 'Prefer @mention';
+  String get notificationsMentionPreferMentionName => 'Προτίμηση αναφοράς με @';
 
   @override
   String get notificationsMentionPreferMentionDescription =>
-      'Default replies to @mention you, and warn the sender if they disable it';
+      'Απαντάει αυτόματα σε αναφορές με @ σε εσάς και προειδοποιεί τον αποστολέα αν το απενεργοποιήσει';
 
   @override
-  String get notificationsMentionPreferNoMentionName => 'Prefer no @mention';
+  String get notificationsMentionPreferNoMentionName =>
+      'Προτίμηση χωρίς αναφορές (@mention)';
 
   @override
   String get notificationsMentionPreferNoMentionDescription =>
-      'Default replies to omit the @mention, and warn the sender if they enable it';
+      'Οι προεπιλεγμένες απαντήσεις παραλείπουν την αναφορά @, και προειδοποιούν τον αποστολέα αν την ενεργοποιήσει';
 
   @override
-  String get notificationsTtsSectionTitle => 'Text-to-speech notifications';
+  String get notificationsTtsSectionTitle => 'Ειδοποιήσεις κειμένου σε ομιλία';
 
   @override
   String get notificationsTtsEnableCommandLabel =>
-      'Enable /tts speech playback';
+      'Ενεργοποίηση αναπαραγωγής ομιλίας /tts';
 
   @override
   String get notificationsTtsEnableCommandDescription =>
-      'Let /tts read your message aloud. Disabling the setting keeps those commands as regular text.';
+      'Αφήστε το /tts να διαβάσει το μήνυμά σας δυνατά. Η απενεργοποίηση της ρύθμισης διατηρεί αυτές τις εντολές ως κανονικό κείμενο.';
 
   @override
   String get notificationsTtsAccessibilityLinkPrefix =>
-      'Adjust playback speed in ';
+      'Προσαρμόστε την ταχύτητα αναπαραγωγής στις ';
 
   @override
-  String get notificationsTtsAccessibilityLinkLabel => 'Accessibility';
+  String get notificationsTtsAccessibilityLinkLabel => 'Προσβασιμότητα';
 
   @override
   String get notificationsTtsAccessibilityLinkSuffix => '.';
 
   @override
   String get notificationsTtsAutoNarrationTitle =>
-      'Automatic message narration';
+      'Αυτόματη ανάγνωση μηνυμάτων';
 
   @override
   String get notificationsTtsAutoNarrationDescription =>
-      'Converts incoming content to speech, regardless of whether it came from /tts.';
+      'Μετατρέπει το εισερχόμενο περιεχόμενο σε ομιλία, ανεξάρτητα από το αν προήλθε από το /tts.';
 
   @override
-  String get notificationsTtsModeAllChannelsName => 'Every channel';
+  String get notificationsTtsModeAllChannelsName => 'Όλα τα κανάλια';
 
   @override
   String get notificationsTtsModeAllChannelsDescription =>
-      'Let every incoming message be spoken, regardless of which channel is open.';
+      'Να διαβάζεται κάθε εισερχόμενο μήνυμα, ανεξάρτητα από το ποιο κανάλι είναι ανοιχτό.';
 
   @override
-  String get notificationsTtsModeCurrentChannelName => 'Active channel only';
+  String get notificationsTtsModeCurrentChannelName => 'Μόνο το ενεργό κανάλι';
 
   @override
   String get notificationsTtsModeCurrentChannelDescription =>
-      'Narrates only the channel you\'re viewing. Narration follows you between channels.';
+      'Αφηγείται μόνο το κανάλι που βλέπετε. Η αφήγηση σας ακολουθεί μεταξύ των καναλιών.';
 
   @override
-  String get notificationsTtsModeNeverName => 'Never automatically';
+  String get notificationsTtsModeNeverName => 'Ποτέ αυτόματα';
 
   @override
   String get notificationsTtsModeNeverDescription =>
-      'Remain silent unless someone runs /tts manually.';
+      'Να παραμένει σιωπηλό, εκτός αν κάποιος εκτελέσει το /tts χειροκίνητα.';
 
   @override
-  String get notificationsTtsModeAriaLabel => 'Speak all messages out loud';
+  String get notificationsTtsModeAriaLabel =>
+      'Να διαβάζονται όλα τα μηνύματα δυνατά';
 
   @override
-  String get notificationsSoundsSectionTitle => 'Sounds';
+  String get notificationsSoundsSectionTitle => 'Ήχοι';
 
   @override
-  String get notificationsMasterVolumeLabel => 'Master volume';
+  String get notificationsMasterVolumeLabel => 'Κύρια ένταση';
 
   @override
   String get notificationsMasterVolumeDescription =>
-      'Sets the level for every sound effect. Per-sound overrides ignore this.';
+      'Ορίζει την ένταση για όλα τα ηχητικά εφέ. Οι μεμονωμένες ρυθμίσεις ήχου αγνοούν αυτήν την επιλογή.';
 
   @override
-  String get notificationsResetToDefaultVolume => 'Reset to default volume';
+  String get notificationsResetToDefaultVolume =>
+      'Επαναφορά στην προεπιλεγμένη ένταση';
 
   @override
   String get notificationsDisableAllSoundsLabel =>
-      'Disable all notification sounds';
+      'Απενεργοποίηση όλων των ήχων ειδοποιήσεων';
 
   @override
   String get notificationsDisableAllSoundsDescription =>
-      'Your existing notification sound settings will be preserved.';
+      'Οι υπάρχουσες ρυθμίσεις ήχου ειδοποιήσεων θα διατηρηθούν.';
 
   @override
-  String get notificationsShowMoreSoundEffects => 'Show more sound effects';
+  String get notificationsShowMoreSoundEffects =>
+      'Εμφάνιση περισσότερων ηχητικών εφέ';
 
   @override
-  String get notificationsShowFewerSoundEffects => 'Show fewer sound effects';
+  String get notificationsShowFewerSoundEffects =>
+      'Εμφάνιση λιγότερων ηχητικών εφέ';
 
   @override
-  String get notificationsPreviewSound => 'Preview sound';
+  String get notificationsPreviewSound => 'Προεπισκόπηση ήχου';
 
   @override
-  String get notificationsPerSoundVolumeTitle => 'Per-sound volume';
+  String get notificationsPerSoundVolumeTitle => 'Ένταση ήχου ανά ήχο';
 
   @override
   String get notificationsPerSoundVolumeDescription =>
-      'Set custom volumes for individual sounds. Sounds without an override follow the master volume.';
+      'Ορίστε προσαρμοσμένες εντάσεις για μεμονωμένους ήχους. Οι ήχοι χωρίς παράκαμψη ακολουθούν την κύρια ένταση.';
 
   @override
   String notificationsPerSoundVolumeOverrideDescription(int overrideCount) {
-    return 'Active custom sound volume overrides: $overrideCount.';
+    return 'Ενεργές προσαρμοσμένες ρυθμίσεις έντασης ήχου: $overrideCount.';
   }
 
   @override
   String notificationsFollowingMasterVolume(int effectiveValue) {
-    return 'Following master • $effectiveValue%';
+    return 'Ακολουθεί κύρια ρύθμιση • $effectiveValue%';
   }
 
   @override
   String notificationsResetSoundToMasterVolume(String label) {
-    return 'Reset $label to master volume';
+    return 'Επαναφορά $label στην κύρια ένταση';
   }
 
   @override
-  String get notificationsResetAllOverrides => 'Reset all overrides';
+  String get notificationsResetAllOverrides => 'Επαναφορά όλων των εξαιρέσεων';
 
   @override
   String notificationsMuteSound(String label) {
-    return 'Mute $label';
+    return 'Σίγαση $label';
   }
 
   @override
   String notificationsUnmuteSound(String label) {
-    return 'Unmute $label';
+    return 'Άρση σίγασης $label';
   }
 
   @override
-  String get notificationsSoundMessage => 'Community message notifications';
+  String get notificationsSoundMessage => 'Ειδοποιήσεις μηνυμάτων κοινότητας';
 
   @override
-  String get notificationsSoundDirectMessage => 'Direct message notifications';
+  String get notificationsSoundDirectMessage =>
+      'Ειδοποιήσεις απευθείας μηνυμάτων';
 
   @override
   String get notificationsSoundSameChannelMessage =>
-      'Current channel message notifications';
+      'Ειδοποιήσεις μηνυμάτων τρέχοντος καναλιού';
 
   @override
-  String get notificationsSoundMute => 'Voice mute';
+  String get notificationsSoundMute => 'Σίγαση φωνής';
 
   @override
-  String get notificationsSoundUnmute => 'Voice unmute';
+  String get notificationsSoundUnmute => 'Κατάργηση σίγασης φωνής';
 
   @override
-  String get notificationsSoundDeaf => 'Voice deafen';
+  String get notificationsSoundDeaf => 'Απενεργοποίηση ήχου φωνής';
 
   @override
-  String get notificationsSoundUndeaf => 'Voice undeafen';
+  String get notificationsSoundUndeaf => 'Απενεργοποίηση σίγασης φωνής';
 
   @override
-  String get notificationsSoundUserJoin => 'User joins channel';
+  String get notificationsSoundUserJoin => 'Ο χρήστης μπήκε στο κανάλι';
 
   @override
-  String get notificationsSoundUserLeave => 'User leaves channel';
+  String get notificationsSoundUserLeave => 'Ο χρήστης αποχωρεί από το κανάλι';
 
   @override
-  String get notificationsSoundUserMove => 'User moved channel';
+  String get notificationsSoundUserMove => 'Ο χρήστης μετακίνησε το κανάλι';
 
   @override
-  String get notificationsSoundViewerJoin => 'Viewer joins stream';
+  String get notificationsSoundViewerJoin => 'Ο θεατής μπαίνει στη ροή';
 
   @override
-  String get notificationsSoundViewerLeave => 'Viewer leaves stream';
+  String get notificationsSoundViewerLeave => 'Ο θεατής αποχωρεί από τη ροή';
 
   @override
-  String get notificationsSoundVoiceDisconnect => 'Voice disconnected';
+  String get notificationsSoundVoiceDisconnect =>
+      'Η φωνητική κλήση αποσυνδέθηκε';
 
   @override
-  String get notificationsSoundIncomingRing => 'Incoming call';
+  String get notificationsSoundIncomingRing => 'Εισερχόμενη κλήση';
 
   @override
-  String get notificationsSoundCameraOn => 'Camera on';
+  String get notificationsSoundCameraOn => 'Κάμερα ανοιχτή';
 
   @override
-  String get notificationsSoundCameraOff => 'Camera off';
+  String get notificationsSoundCameraOff => 'Κάμερα απενεργοποιημένη';
 
   @override
-  String get notificationsSoundScreenShareStart => 'Screen share start';
+  String get notificationsSoundScreenShareStart =>
+      'Έναρξη κοινής χρήσης οθόνης';
 
   @override
-  String get notificationsSoundScreenShareStop => 'Screen share stop';
+  String get notificationsSoundScreenShareStop =>
+      'Διακοπή κοινής χρήσης οθόνης';
 
   @override
   String get notificationsAfkTimeoutSyncFailed =>
-      'Couldn\'t update push notification timeout. Try again.';
+      'Δεν ήταν δυνατή η ενημέρωση του χρονικού ορίου ειδοποιήσεων push. Δοκιμάστε ξανά.';
 
   @override
   String get notificationsMentionPreferenceSyncFailed =>
-      'Couldn\'t update mention preference. Try again.';
+      'Δεν ήταν δυνατή η ενημέρωση της προτίμησης αναφοράς. Δοκιμάστε ξανά.';
 
   @override
-  String get notificationsPermissionDeniedTitle => 'Notifications blocked';
+  String get notificationsPermissionDeniedTitle =>
+      'Οι ειδοποιήσεις έχουν αποκλειστεί';
 
   @override
   String get notificationsEnableNotificationsPermissionDenied =>
-      'Couldn\'t enable notifications. Allow notification permission to continue.';
+      'Δεν ήταν δυνατή η ενεργοποίηση των ειδοποιήσεων. Επιτρέψτε την άδεια ειδοποιήσεων για να συνεχίσετε.';
 
   @override
   String get userSettingsNavLanguageAndTime => 'Γλώσσα & Ώρα';
 
   @override
-  String get languageAndTimeLanguageSectionTitle => 'Interface language';
+  String get languageAndTimeLanguageSectionTitle => 'Γλώσσα διεπαφής';
 
   @override
   String get languageAndTimeLanguageSectionDescription =>
-      'Choose the language used throughout the app';
+      'Επιλέξτε τη γλώσσα που θα χρησιμοποιείται σε όλη την εφαρμογή';
 
   @override
-  String get languageAndTimeOpenLanguageSettings => 'Open language settings';
+  String get languageAndTimeOpenLanguageSettings => 'Άνοιγμα ρυθμίσεων γλώσσας';
 
   @override
-  String get languageAndTimeTimeFormatSectionTitle => 'Time format';
+  String get languageAndTimeTimeFormatSectionTitle => 'Μορφή ώρας';
 
   @override
   String get languageAndTimeTimeFormatSectionDescription =>
-      'Choose how times are displayed throughout the app';
+      'Επιλέξτε πώς θα εμφανίζονται οι ώρες στην εφαρμογή';
 
   @override
-  String get languageAndTimeTimeFormatSelectionLabel => 'Time format selection';
+  String get languageAndTimeTimeFormatSelectionLabel => 'Επιλογή μορφής ώρας';
 
   @override
-  String get languageAndTimeTimeFormatAuto => 'Auto';
+  String get languageAndTimeTimeFormatAuto => 'Αυτόματα';
 
   @override
-  String get languageAndTimeTimeFormat12Hour => '12-hour';
+  String get languageAndTimeTimeFormat12Hour => '12ωρο';
 
   @override
-  String get languageAndTimeTimeFormat24Hour => '24-hour';
+  String get languageAndTimeTimeFormat24Hour => '24ωρο';
 
   @override
   String languageAndTimeTimeFormatAppLanguage(String format) {
-    return 'App language: $format';
+    return 'Γλώσσα εφαρμογής: $format';
   }
 
   @override
   String languageAndTimeTimeFormatSystemLocale(String format) {
-    return 'System locale: $format';
+    return 'Γλώσσα συστήματος: $format';
   }
 
   @override
   String get languageAndTimeUseSystemLocaleForTimeFormat =>
-      'Use system locale for time format';
+      'Χρήση τοπικών ρυθμίσεων συστήματος για τη μορφή ώρας';
 
   @override
   String get languageAndTimeTimeFormatSyncFailed =>
-      'Failed to update time format';
+      'Αποτυχία ενημέρωσης μορφής ώρας';
 
   @override
-  String get userSettingsNavDefaultApps => 'Default Apps';
+  String get userSettingsNavDefaultApps => 'Προεπιλεγμένες εφαρμογές';
 
   @override
-  String get defaultAppsWebBrowserSectionTitle => 'Web Browser';
+  String get defaultAppsWebBrowserSectionTitle => 'Πρόγραμμα περιήγησης Ιστού';
 
   @override
   String get defaultAppsWebBrowserSectionDescription =>
-      'Choose which browser opens when you tap a link.';
+      'Επιλέξτε ποιο πρόγραμμα περιήγησης θα ανοίγει όταν πατάτε έναν σύνδεσμο.';
 
   @override
   String get defaultAppsWebBrowserNativeAppNote =>
-      'If an app is installed for a site, links will open in that app first.';
+      'Αν μια εφαρμογή είναι εγκατεστημένη για έναν ιστότοπο, οι σύνδεσμοι θα ανοίγουν πρώτα σε αυτήν την εφαρμογή.';
 
   @override
-  String get defaultAppsWebBrowserInApp => 'In-app browser';
+  String get defaultAppsWebBrowserInApp =>
+      'Πρόγραμμα περιήγησης εντός εφαρμογής';
 
   @override
-  String get defaultAppsWebBrowserExternal => 'External browser';
+  String get defaultAppsWebBrowserExternal => 'Εξωτερικό πρόγραμμα περιήγησης';
 
   @override
   String get userSettingsNavAdvanced => 'Για προχωρημένους';
@@ -10056,310 +10182,322 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get advancedSettingsConfigure => 'Configure';
+  String get advancedSettingsConfigure => 'Ρυθμίσεις';
 
   @override
-  String get advancedSettingsCategoryPrivacy => 'Privacy';
+  String get advancedSettingsCategoryPrivacy => 'Απόρρητο';
 
   @override
-  String get advancedSettingsCategoryAppearance => 'Appearance';
+  String get advancedSettingsCategoryAppearance => 'Εμφάνιση';
 
   @override
-  String get advancedSettingsCategoryAccessibility => 'Accessibility';
+  String get advancedSettingsCategoryAccessibility => 'Προσβασιμότητα';
 
   @override
-  String get advancedSettingsCategoryChat => 'Chat';
+  String get advancedSettingsCategoryChat => 'Συνομιλία';
 
   @override
-  String get advancedSettingsCategoryMedia => 'Media';
+  String get advancedSettingsCategoryMedia => 'Μέσα';
 
   @override
-  String get advancedSettingsCategoryVoice => 'Voice';
+  String get advancedSettingsCategoryVoice => 'Φωνή';
 
   @override
-  String get advancedSettingsCategoryDeveloper => 'Developer';
+  String get advancedSettingsCategoryDeveloper => 'Προγραμματιστής';
 
   @override
-  String get advancedSettingEnableTextSelectionLabel => 'Enable text selection';
+  String get advancedSettingEnableTextSelectionLabel =>
+      'Ενεργοποίηση επιλογής κειμένου';
 
   @override
   String get advancedSettingEnableTextSelectionDescription =>
-      'Allow selecting text in the app';
+      'Επιτρέπει την επιλογή κειμένου στην εφαρμογή';
 
   @override
   String get advancedSettingVideoSeekThumbnailsLabel =>
-      'Enable video seek thumbnails';
+      'Ενεργοποίηση μικρογραφιών αναζήτησης βίντεο';
 
   @override
   String get advancedSettingVideoSeekThumbnailsDescription =>
-      'Thumbnail or live frame while scrubbing video';
+      'Μικρογραφία ή ζωντανή εικόνα κατά την προεπισκόπηση βίντεο';
 
   @override
-  String get advancedSettingHapticFeedbackLabel => 'Haptic feedback';
+  String get advancedSettingHapticFeedbackLabel => 'Απτική ανάδραση';
 
   @override
   String get advancedSettingHapticFeedbackDescription =>
-      'Vibration feedback for taps and actions. Won\'t sync across devices.';
+      'Δόνηση για αγγίγματα και ενέργειες. Δεν συγχρονίζεται μεταξύ συσκευών.';
 
   @override
-  String get advancedSettingShowNekoLabel => 'Show Neko';
+  String get advancedSettingShowNekoLabel => 'Εμφάνιση Neko';
 
   @override
   String get advancedSettingShowNekoDescription =>
-      'Neko cat that chases your cursor';
+      'Γάτα Neko που κυνηγά τον κέρσορά σου';
 
   @override
   String get advancedSettingShowNekoDescriptionTouch =>
-      'Show Neko on your chat input';
+      'Εμφάνιση Neko στην εισαγωγή συνομιλίας σας';
 
   @override
   String get advancedSettingMobileSplashZoomAnimationLabel =>
-      'Splash zoom animation';
+      'Κίνηση ζουμ κατά την εκκίνηση';
 
   @override
   String get advancedSettingMobileSplashZoomAnimationDescription =>
-      'Zoom the logo out when leaving the splash screen';
+      'Σμίκρυνση του λογότυπου κατά την έξοδο από την οθόνη εκκίνησης';
 
   @override
-  String get advancedSettingKeyboardHintsLabel => 'Keyboard hints';
+  String get advancedSettingKeyboardHintsLabel => 'Υποδείξεις πληκτρολογίου';
 
   @override
   String get advancedSettingKeyboardHintsDescription =>
-      'Keyboard shortcut hints in tooltips';
+      'Υπενθυμίσεις συντομεύσεων πληκτρολογίου στις συμβουλές εργαλείων';
 
   @override
-  String get advancedSettingEnableFavoritesLabel => 'Enable favorites';
+  String get advancedSettingEnableFavoritesLabel => 'Ενεργοποίηση αγαπημένων';
 
   @override
   String get advancedSettingEnableFavoritesDescription =>
-      'Show favorites throughout the app';
+      'Εμφάνιση των αγαπημένων σε όλη την εφαρμογή';
 
   @override
   String get advancedSettingVoiceChannelJoinBehaviorLabel =>
-      'Voice channel join behavior';
+      'Συμπεριφορά εισόδου σε κανάλι φωνής';
 
   @override
   String get advancedSettingVoiceChannelJoinBehaviorDescription =>
-      'Confirmation or double-click for community voice joins';
+      'Επιβεβαίωση ή διπλό κλικ για συμμετοχή σε φωνητικά κανάλια της κοινότητας';
 
   @override
   String get advancedSettingRequireDoubleClickJoinLabel =>
-      'Require double-click to join voice channels';
+      'Απαίτηση διπλού κλικ για είσοδο σε κανάλια φωνής';
 
   @override
   String get advancedSettingConfirmBeforeJoiningVoiceLabel =>
-      'Confirm before joining voice channels';
+      'Επιβεβαίωση πριν την είσοδο σε κανάλια φωνής';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
-      'Automatically send GIFs when selected';
+      'Αυτόματη αποστολή GIF όταν επιλεγεί';
 
   @override
   String get advancedSettingAutoSendGifsDescription =>
-      'Automatically send GIFs from the picker without confirmation';
+      'Αυτόματη αποστολή GIF από την επιλογή χωρίς επιβεβαίωση';
 
   @override
   String get advancedSettingSaveGifFavoritesLabel =>
-      'Save GIF favorites as saved media';
+      'Αποθήκευση αγαπημένων GIF ως αποθηκευμένα πολυμέσα';
 
   @override
   String get advancedSettingSaveGifFavoritesDescription =>
-      'Choose how starred GIF favorites are stored';
+      'Επιλέξτε πώς αποθηκεύονται τα αγαπημένα GIF με αστέρι';
 
   @override
-  String get advancedSettingMediaButtonsLabel => 'Media buttons';
+  String get advancedSettingMediaButtonsLabel => 'Κουμπιά πολυμέσων';
 
   @override
   String get advancedSettingMediaButtonsDescription =>
-      'Customize which buttons and indicators appear on media attachments and embeds';
+      'Προσαρμόστε ποια κουμπιά και ενδείξεις θα εμφανίζονται στις επισυναπτόμενες φωτογραφίες και στα ενσωματωμένα περιεχόμενα';
 
   @override
   String get advancedSettingPreuploadAttachmentsLabel =>
-      'Upload attachments before sending';
+      'Ανεβάστε συνημμένα πριν στείλετε';
 
   @override
   String get advancedSettingPreuploadAttachmentsDescription =>
-      'Start uploading attachments as soon as they are added to the message input';
+      'Ξεκινήστε την αποστολή των συνημμένων μόλις αυτά προστεθούν στο πλαίσιο εισαγωγής μηνυμάτων';
 
   @override
   String get advancedSettingStripTrackingLabel =>
-      'Strip tracking parameters from URLs';
+      'Αφαίρεση παραμέτρων παρακολούθησης από URL';
 
   @override
   String get advancedSettingStripTrackingDescription =>
-      'Automatically remove tracking parameters from URLs in messages you send';
+      'Αυτόματη κατάργηση παραμέτρων παρακολούθησης από URL σε μηνύματα που στέλνετε';
 
   @override
-  String get advancedSettingTrustAllLinksLabel => 'Trust all external links';
+  String get advancedSettingTrustAllLinksLabel =>
+      'Να εμπιστεύεστε όλους τους εξωτερικούς συνδέσμους';
 
   @override
   String get advancedSettingTrustAllLinksDescription =>
-      'Skip the external link warning for all domains';
+      'Παράλειψη προειδοποίησης εξωτερικού συνδέσμου για όλους τους τομείς';
 
   @override
-  String get advancedSettingSearchEnginesLabel => 'Search engines';
+  String get advancedSettingSearchEnginesLabel => 'Μηχανές αναζήτησης';
 
   @override
   String get advancedSettingSearchEnginesDescription =>
-      'Configure search engines used from selected text';
+      'Διαμόρφωση των μηχανών αναζήτησης που χρησιμοποιούνται για κείμενο που έχει επιλεγεί';
 
   @override
-  String get advancedSettingTranslatorsLabel => 'Translators';
+  String get advancedSettingTranslatorsLabel => 'Μεταφραστές';
 
   @override
   String get advancedSettingTranslatorsDescription =>
-      'Configure translator providers used from selected text';
+      'Διαμόρφωση των παρόχων μεταφραστών που χρησιμοποιούνται για το επιλεγμένο κείμενο';
 
   @override
-  String get advancedSettingReverseImageSearchLabel => 'Reverse image search';
+  String get advancedSettingReverseImageSearchLabel => 'Αναζήτηση εικόνας';
 
   @override
   String get advancedSettingReverseImageSearchDescription =>
-      'Reverse image search providers';
+      'Πάροχοι υπηρεσιών αντίστροφης αναζήτησης εικόνων';
 
   @override
-  String get advancedSettingMessageActionBarLabel => 'Message action bar';
+  String get advancedSettingMessageActionBarLabel =>
+      'Γραμμή ενεργειών μηνύματος';
 
   @override
   String get advancedSettingMessageActionBarDescription =>
-      'Customize the action bar that appears when hovering over messages';
+      'Προσαρμόστε τη γραμμή ενεργειών που εμφανίζεται όταν τοποθετείτε τον δείκτη του ποντικιού πάνω από μηνύματα';
 
   @override
   String get advancedSettingExpressionAutocompleteLabel =>
-      'Expression autocomplete';
+      'Αυτόματη συμπλήρωση εκφράσεων';
 
   @override
   String get advancedSettingExpressionAutocompleteDescription =>
-      'Pick what appears when you type a colon in the message input';
+      'Επιλέξτε τι εμφανίζεται όταν πληκτρολογείτε άνω τελεία στο πεδίο εισαγωγής μηνυμάτων';
 
   @override
-  String get advancedSettingInputButtonsLabel => 'Message input buttons';
+  String get advancedSettingInputButtonsLabel => 'Κουμπιά εισαγωγής μηνυμάτων';
 
   @override
   String get advancedSettingInputButtonsDescription =>
-      'Pick which buttons show in the message input';
+      'Επιλέξτε ποια κουμπιά θα εμφανίζονται στην περιοχή εισαγωγής μηνυμάτων';
 
   @override
   String get advancedSettingScrollToBottomOnSendLabel =>
-      'Scroll to bottom when sending a message';
+      'Κύλιση προς τα κάτω κατά την αποστολή μηνύματος';
 
   @override
   String get advancedSettingScrollToBottomOnSendDescription =>
-      'Choose how chat moves after you send a message';
+      'Επιλέξτε πώς θα μετακινούνται τα μηνύματα στη συνομιλία μετά την αποστολή τους';
 
   @override
   String get advancedSettingSkipMarkAllAsReadLabel =>
-      'Skip \"Mark all as read\" confirmation';
+      'Παράλειψη επιβεβαίωσης \"Επισήμανση όλων ως αναγνωσμένων\"';
 
   @override
   String get advancedSettingSkipMarkAllAsReadDescription =>
-      'Mark all unread inbox channels as read immediately, without asking to confirm';
+      'Να επισημανθούν όλα τα αδιάβαστα κανάλια εισερχομένων ως αναγνωσμένα αμέσως, χωρίς επιβεβαίωση';
 
   @override
   String get advancedSettingHideMutedChannelsLabel =>
-      'Hide muted channels by default';
+      'Απόκρυψη σιωπηλών καναλιών από προεπιλογή';
 
   @override
   String get advancedSettingHideMutedChannelsDescription =>
-      'Hide channels you\'ve muted from community sidebars';
+      'Απόκρυψη καναλιών που έχετε θέσει σε σίγαση από τις πλαϊνές μπάρες κοινοτήτων';
 
   @override
-  String get advancedSettingShowGifIndicatorLabel => 'Show GIF indicator';
+  String get advancedSettingShowGifIndicatorLabel => 'Εμφάνιση ένδειξης GIF';
 
   @override
   String get advancedSettingShowAttachmentExpiryLabel =>
-      'Show attachment expiry indicator';
+      'Εμφάνιση ένδειξης λήξης συνημμένου';
 
   @override
-  String get advancedSettingShowMediaDeleteLabel => 'Show delete button';
+  String get advancedSettingShowMediaDeleteLabel =>
+      'Εμφάνιση κουμπιού διαγραφής';
 
   @override
-  String get advancedSettingShowMediaDownloadLabel => 'Show download button';
+  String get advancedSettingShowMediaDownloadLabel => 'Εμφάνιση κουμπιού λήψης';
 
   @override
-  String get advancedSettingShowMediaFavoriteLabel => 'Show favorite button';
+  String get advancedSettingShowMediaFavoriteLabel =>
+      'Εμφάνιση κουμπιού αγαπημένων';
 
   @override
   String get advancedSettingShowSuppressEmbedsLabel =>
-      'Show suppress embeds button';
+      'Εμφάνιση κουμπιού απόκρυψης ενσωματώσεων';
 
   @override
   String get advancedSettingShowMessageActionBarLabel =>
-      'Show message action bar';
+      'Εμφάνιση γραμμής ενεργειών μηνύματος';
 
   @override
-  String get advancedSettingShowOnlyMoreButtonLabel => 'Show only more button';
+  String get advancedSettingShowOnlyMoreButtonLabel =>
+      'Να εμφανίζεται μόνο το κουμπί \"Περισσότερα\"';
 
   @override
-  String get advancedSettingShowQuickReactionsLabel => 'Show quick reactions';
+  String get advancedSettingShowQuickReactionsLabel =>
+      'Εμφάνιση γρήγορων αντιδράσεων';
 
   @override
   String get advancedSettingEnableShiftToExpandLabel =>
-      'Enable Shift to expand';
+      'Ενεργοποίηση Shift για επέκταση';
 
   @override
   String get advancedSettingShowDefaultEmojisAutocompleteLabel =>
-      'Show default emojis in expression autocomplete';
+      'Εμφάνιση προεπιλεγμένων emoji στην αυτόματη συμπλήρωση εκφράσεων';
 
   @override
   String get advancedSettingShowCustomEmojisAutocompleteLabel =>
-      'Show custom emojis in expression autocomplete';
+      'Εμφάνιση προσαρμοσμένων emoji στην αυτόματη συμπλήρωση εκφράσεων';
 
   @override
   String get advancedSettingShowStickersAutocompleteLabel =>
-      'Show stickers in expression autocomplete';
+      'Εμφάνιση αυτοκόλλητων στην αυτόματη συμπλήρωση εκφράσεων';
 
   @override
   String get advancedSettingShowSavedMediaAutocompleteLabel =>
-      'Show saved media in expression autocomplete';
+      'Εμφάνιση αποθηκευμένων πολυμέσων στην αυτόματη συμπλήρωση εκφράσεων';
 
   @override
-  String get advancedSettingShowGifsButtonLabel => 'Show GIFs button';
+  String get advancedSettingShowGifsButtonLabel => 'Εμφάνιση κουμπιού GIF';
 
   @override
-  String get advancedSettingShowMediaButtonLabel => 'Show media button';
+  String get advancedSettingShowMediaButtonLabel =>
+      'Εμφάνιση κουμπιού πολυμέσων';
 
   @override
-  String get advancedSettingShowStickersButtonLabel => 'Show stickers button';
+  String get advancedSettingShowStickersButtonLabel =>
+      'Εμφάνιση κουμπιού αυτοκόλλητων';
 
   @override
-  String get advancedSettingShowEmojiButtonLabel => 'Show emoji button';
+  String get advancedSettingShowEmojiButtonLabel => 'Εμφάνιση κουμπιού emoji';
 
   @override
-  String get advancedSettingShowSendButtonLabel => 'Show send button';
+  String get advancedSettingShowSendButtonLabel =>
+      'Εμφάνιση κουμπιού αποστολής';
 
   @override
-  String get advancedSettingNewDeviceAlertsLabel => 'Show new device alerts';
+  String get advancedSettingNewDeviceAlertsLabel =>
+      'Εμφάνιση ειδοποιήσεων νέων συσκευών';
 
   @override
   String get advancedSettingNewDeviceAlertsDescription =>
-      'Prompt for new audio devices';
+      'Εμφάνιση ειδοποίησης για νέες συσκευές ήχου';
 
   @override
   String get advancedSettingConnectionVolumeControlsLabel =>
-      'Connection volume controls';
+      'Έλεγχοι έντασης σύνδεσης';
 
   @override
   String get advancedSettingConnectionVolumeControlsDescription =>
-      'Show per-device participant volume sliders in voice menus';
+      'Εμφάνιση ρυθμιστικών έντασης ήχου συμμετεχόντων ανά συσκευή στα μενού φωνής';
 
   @override
   String get advancedSettingScreenSharePreviewBehaviorLabel =>
-      'Screen share preview behavior';
+      'Συμπεριφορά προεπισκόπησης κοινής χρήσης οθόνης';
 
   @override
   String get advancedSettingScreenSharePreviewBehaviorDescription =>
-      'Preview, popout, and stream thumbnail behavior';
+      'Προεπισκόπηση, εμφάνιση σε ξεχωριστό παράθυρο και συμπεριφορά της μικρογραφίας ροής';
 
   @override
-  String get advancedSettingScreenShareCodecLabel => 'Screen share codec';
+  String get advancedSettingScreenShareCodecLabel =>
+      'Κωδικοποιητής κοινής χρήσης οθόνης';
 
   @override
   String get advancedSettingScreenShareCodecDescription =>
-      'Video codec for screen sharing';
+      'Κωδικοποιητής βίντεο για κοινή χρήση οθόνης';
 
   @override
-  String get advancedSettingScreenShareCodecAuto => 'Automatic (recommended)';
+  String get advancedSettingScreenShareCodecAuto => 'Αυτόματο (προτείνεται)';
 
   @override
   String get advancedSettingScreenShareCodecAv1 => 'AV1';
@@ -10378,17 +10516,19 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get advancedSettingPauseScreenSharePreviewLabel =>
-      'Pause my screen share preview in the background';
+      'Παύση της προεπισκόπησης κοινής χρήσης οθόνης στο παρασκήνιο';
 
   @override
   String get advancedSettingHideStreamPreviewLabel =>
-      'Hide my stream preview thumbnail';
+      'Απόκρυψη μικρογραφίας προεπισκόπησης ροής μου';
 
   @override
-  String get advancedSettingDeveloperModeLabel => 'Enable developer mode';
+  String get advancedSettingDeveloperModeLabel =>
+      'Ενεργοποίηση λειτουργίας προγραμματιστή';
 
   @override
-  String get advancedSettingDeveloperModeDescription => 'Enable developer mode';
+  String get advancedSettingDeveloperModeDescription =>
+      'Ενεργοποίηση λειτουργίας προγραμματιστή';
 
   @override
   String get advancedSettingSearchEngineGoogle => 'Google';
@@ -10406,201 +10546,211 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get advancedSettingSearchEngineTinEye => 'TinEye';
 
   @override
-  String get advancedSettingTranslatorGoogle => 'Google Translate';
+  String get advancedSettingTranslatorGoogle => 'Μετάφραση Google';
 
   @override
   String get advancedSettingTranslatorDeepL => 'DeepL';
 
   @override
-  String get advancedSettingDefaultSearchEngineLabel => 'Default search engine';
+  String get advancedSettingDefaultSearchEngineLabel =>
+      'Προεπιλεγμένη μηχανή αναζήτησης';
 
   @override
   String get advancedSettingDefaultSearchEngineDescription =>
-      'Choose which search engine is used by default when searching selected text.';
+      'Επιλέξτε ποια μηχανή αναζήτησης θα χρησιμοποιείται από προεπιλογή κατά την αναζήτηση επιλεγμένου κειμένου.';
 
   @override
   String get advancedSettingBuiltInSearchEnginesLabel =>
-      'Built-in search engines';
+      'Ενσωματωμένες μηχανές αναζήτησης';
 
   @override
   String get advancedSettingBuiltInSearchEnginesDescription =>
-      'Enable or disable built-in search engines. Enabled engines appear in the message context menu when text is selected.';
+      'Ενεργοποιήστε ή απενεργοποιήστε τις ενσωματωμένες μηχανές αναζήτησης. Οι ενεργοποιημένες μηχανές εμφανίζονται στο μενού περιβάλλοντος μηνύματος όταν επιλέγεται κείμενο.';
 
   @override
-  String get advancedSettingCustomSearchEnginesLabel => 'Custom search engines';
+  String get advancedSettingCustomSearchEnginesLabel =>
+      'Προσαρμοσμένες μηχανές αναζήτησης';
 
   @override
   String advancedSettingCustomSearchEnginesDescription(Object query) {
-    return 'Add your own search engines with a custom URL pattern. Use \'$query\' as a placeholder for the search text.';
+    return 'Προσθέστε τις δικές σας μηχανές αναζήτησης με ένα προσαρμοσμένο μοτίβο URL. Χρησιμοποιήστε το \'$query\' ως σύμβολο κράτησης θέσης για το κείμενο αναζήτησης.';
   }
 
   @override
-  String get advancedSettingAddSearchEngineLabel => 'Add search engine';
+  String get advancedSettingAddSearchEngineLabel =>
+      'Προσθήκη μηχανής αναζήτησης';
 
   @override
   String get advancedSettingEnableAtLeastOneSearchEngineLabel =>
-      'Enable at least one search engine below.';
+      'Ενεργοποιήστε τουλάχιστον μία μηχανή αναζήτησης παρακάτω.';
 
   @override
-  String get advancedSettingRemoveSearchEngineLabel => 'Remove search engine';
+  String get advancedSettingRemoveSearchEngineLabel =>
+      'Κατάργηση μηχανής αναζήτησης';
 
   @override
-  String get advancedSettingDefaultTranslatorLabel => 'Default translator';
+  String get advancedSettingDefaultTranslatorLabel =>
+      'Προεπιλεγμένος μεταφραστής';
 
   @override
   String get advancedSettingDefaultTranslatorDescription =>
-      'Choose which translator is used by default when translating selected text.';
+      'Επιλέξτε ποιος μεταφραστής θα χρησιμοποιείται από προεπιλογή κατά τη μετάφραση επιλεγμένου κειμένου.';
 
   @override
-  String get advancedSettingBuiltInTranslatorsLabel => 'Built-in translators';
+  String get advancedSettingBuiltInTranslatorsLabel =>
+      'Ενσωματωμένοι μεταφραστές';
 
   @override
   String get advancedSettingBuiltInTranslatorsDescription =>
-      'Enable or disable built-in translators. Enabled translators appear in the message context menu when text is selected.';
+      'Ενεργοποιήστε ή απενεργοποιήστε τους ενσωματωμένους μεταφραστές. Οι ενεργοποιημένοι μεταφραστές εμφανίζονται στο μενού περιβάλλοντος μηνύματος όταν επιλέγεται κείμενο.';
 
   @override
-  String get advancedSettingCustomTranslatorsLabel => 'Custom translators';
+  String get advancedSettingCustomTranslatorsLabel =>
+      'Προσαρμοσμένοι μεταφραστές';
 
   @override
   String advancedSettingCustomTranslatorsDescription(Object query) {
-    return 'Add your own translators with a custom URL pattern. Use \'$query\' as a placeholder for the text to translate.';
+    return 'Προσθέστε τους δικούς σας μεταφραστές με ένα προσαρμοσμένο μοτίβο URL. Χρησιμοποιήστε το \'$query\' ως σύμβολο κράτησης θέσης για το κείμενο προς μετάφραση.';
   }
 
   @override
-  String get advancedSettingAddTranslatorLabel => 'Add translator';
+  String get advancedSettingAddTranslatorLabel => 'Προσθήκη μεταφραστή';
 
   @override
   String get advancedSettingEnableAtLeastOneTranslatorLabel =>
-      'Enable at least one translator below.';
+      'Ενεργοποιήστε τουλάχιστον έναν μεταφραστή παρακάτω.';
 
   @override
-  String get advancedSettingRemoveTranslatorLabel => 'Remove translator';
+  String get advancedSettingRemoveTranslatorLabel => 'Κατάργηση μεταφραστή';
 
   @override
   String get advancedSettingDefaultReverseImageSearchLabel =>
-      'Default reverse image search';
+      'Προεπιλεγμένη αντίστροφη αναζήτηση εικόνας';
 
   @override
   String get advancedSettingDefaultReverseImageSearchDescription =>
-      'Choose which reverse image search service is used by default when searching an image.';
+      'Επιλέξτε ποια υπηρεσία αντίστροφης αναζήτησης εικόνων θα χρησιμοποιείται από προεπιλογή κατά την αναζήτηση μιας εικόνας.';
 
   @override
   String get advancedSettingBuiltInReverseImageSearchLabel =>
-      'Built-in reverse image search';
+      'Ενσωματωμένη αναζήτηση αντίστροφης εικόνας';
 
   @override
   String get advancedSettingBuiltInReverseImageSearchDescription =>
-      'Enable or disable built-in reverse image search providers. Enabled providers appear in the context menu of images, avatars, banners, stickers, and emoji.';
+      'Ενεργοποιήστε ή απενεργοποιήστε τους ενσωματωμένους παρόχους αντίστροφης αναζήτησης εικόνων. Οι ενεργοποιημένοι πάροχοι εμφανίζονται στο μενού περιβάλλοντος εικόνων, avatar, banner, αυτοκόλλητων και emoji.';
 
   @override
   String get advancedSettingCustomReverseImageSearchLabel =>
-      'Custom reverse image search';
+      'Προσαρμοσμένη αναζήτηση εικόνων';
 
   @override
   String advancedSettingCustomReverseImageSearchDescription(Object url) {
-    return 'Add your own reverse image search providers with a custom URL pattern. Use \'$url\' as a placeholder for the image URL.';
+    return 'Προσθέστε τους δικούς σας παρόχους αναζήτησης εικόνων με ένα προσαρμοσμένο μοτίβο URL. Χρησιμοποιήστε το \'$url\' ως σύμβολο κράτησης θέσης για τη διεύθυνση URL της εικόνας.';
   }
 
   @override
   String get advancedSettingAddReverseImageSearchLabel =>
-      'Add reverse image search';
+      'Προσθήκη αντίστροφης αναζήτησης εικόνων';
 
   @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
-      'Enable at least one reverse image search provider below.';
+      'Ενεργοποιήστε τουλάχιστον έναν πάροχο αντίστροφης αναζήτησης εικόνων παρακάτω.';
 
   @override
   String get advancedSettingRemoveReverseImageSearchLabel =>
-      'Remove reverse image search';
+      'Κατάργηση αντίστροφης αναζήτησης εικόνας';
 
   @override
-  String get advancedSettingAddSearchEngineTitle => 'Add search engine';
+  String get advancedSettingAddSearchEngineTitle =>
+      'Προσθήκη μηχανής αναζήτησης';
 
   @override
-  String get advancedSettingEditSearchEngineTitle => 'Edit search engine';
+  String get advancedSettingEditSearchEngineTitle =>
+      'Επεξεργασία μηχανής αναζήτησης';
 
   @override
-  String get advancedSettingAddTranslatorTitle => 'Add translation provider';
+  String get advancedSettingAddTranslatorTitle => 'Προσθήκη παρόχου μετάφρασης';
 
   @override
-  String get advancedSettingEditTranslatorTitle => 'Edit translation provider';
+  String get advancedSettingEditTranslatorTitle =>
+      'Επεξεργασία παρόχου μετάφρασης';
 
   @override
   String get advancedSettingAddReverseImageSearchTitle =>
-      'Add reverse image search engine';
+      'Προσθήκη μηχανής αναζήτησης αντίστροφης εικόνας';
 
   @override
   String get advancedSettingEditReverseImageSearchTitle =>
-      'Edit reverse image search engine';
+      'Επεξεργασία μηχανής αναζήτησης αντίστροφης εικόνας';
 
   @override
-  String get advancedSettingSearchProviderNameLabel => 'Name';
+  String get advancedSettingSearchProviderNameLabel => 'Όνομα';
 
   @override
-  String get advancedSettingSearchProviderUrlLabel => 'URL pattern';
+  String get advancedSettingSearchProviderUrlLabel => 'Μοτίβο URL';
 
   @override
   String get advancedSettingSearchProviderNameTextPlaceholder =>
-      'My search engine';
+      'Η μηχανή αναζήτησής μου';
 
   @override
   String get advancedSettingSearchProviderNameTranslatePlaceholder =>
-      'My translator';
+      'Ο μεταφραστής μου';
 
   @override
   String get advancedSettingSearchProviderNameImagePlaceholder =>
-      'My reverse image search';
+      'Η αντίστροφη αναζήτηση εικόνων μου';
 
   @override
   String advancedSettingSearchProviderUrlTextHint(Object query) {
-    return 'Use \'$query\' where the search text should be inserted.';
+    return 'Χρησιμοποιήστε το \'$query\' όπου πρέπει να εισαχθεί το κείμενο αναζήτησης.';
   }
 
   @override
   String advancedSettingSearchProviderUrlTranslateHint(Object query) {
-    return 'Use \'$query\' where the text to translate should be inserted.';
+    return 'Χρησιμοποιήστε το \'$query\' όπου πρέπει να εισαχθεί το κείμενο προς μετάφραση.';
   }
 
   @override
   String advancedSettingSearchProviderUrlImageHint(Object url) {
-    return 'Use \'$url\' where the image URL should be inserted.';
+    return 'Χρησιμοποιήστε το \'$url\' όπου πρέπει να εισαχθεί η διεύθυνση URL της εικόνας.';
   }
 
   @override
-  String get advancedSettingSearchProviderNameRequired => 'Name is required.';
+  String get advancedSettingSearchProviderNameRequired => 'Απαιτείται όνομα.';
 
   @override
   String get advancedSettingSearchProviderUrlRequired =>
-      'URL pattern is required.';
+      'Απαιτείται μοτίβο URL.';
 
   @override
   String advancedSettingSearchProviderUrlMustContainQuery(Object query) {
-    return 'URL pattern must contain \'$query\' placeholder.';
+    return 'Το μοτίβο URL πρέπει να περιέχει το placeholder \'$query\'.';
   }
 
   @override
   String advancedSettingSearchProviderUrlMustContainUrl(Object url) {
-    return 'URL pattern must contain \'$url\' placeholder.';
+    return 'Το μοτίβο URL πρέπει να περιέχει το placeholder \'$url\'.';
   }
 
   @override
   String get advancedSettingSearchProviderUrlMustBeValid =>
-      'URL pattern must be a valid URL.';
+      'Το μοτίβο URL πρέπει να είναι ένα έγκυρο URL.';
 
   @override
-  String get advancedSettingAddSearchProviderAction => 'Add';
+  String get advancedSettingAddSearchProviderAction => 'Προσθήκη';
 
   @override
-  String get advancedSettingEditSearchProviderAction => 'Edit';
+  String get advancedSettingEditSearchProviderAction => 'Επεξεργασία';
 
   @override
-  String get advancedSettingRemoveSearchProviderConfirmAction => 'Remove';
+  String get advancedSettingRemoveSearchProviderConfirmAction => 'Αφαίρεση';
 
   @override
   String advancedSettingRemoveSearchProviderConfirmDescription(
     String engineName,
   ) {
-    return 'Are you sure you want to remove $engineName?';
+    return 'Είστε σίγουροι ότι θέλετε να αφαιρέσετε το $engineName;';
   }
 
   @override
@@ -10622,25 +10772,26 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get userSettingsNavWhatsNew => 'Τι νέο υπάρχει';
 
   @override
-  String get userSettingsJoinFluxerLabs => 'Join Fluxer Labs';
+  String get userSettingsJoinFluxerLabs => 'Εγγραφή στο Fluxer Labs';
 
   @override
-  String get userSettingsNavAppLicenses => 'App Licenses';
+  String get userSettingsNavAppLicenses => 'Άδειες εφαρμογής';
 
   @override
   String get userSettingsAppLicensesDescription =>
-      'Open-source software used by this app. This app is built with Flutter.';
+      'Λογισμικό ανοιχτού κώδικα που χρησιμοποιείται από αυτήν την εφαρμογή. Αυτή η εφαρμογή είναι χτισμένη με Flutter.';
 
   @override
-  String get userSettingsAppLicensesLoadError => 'Could not load app licenses.';
+  String get userSettingsAppLicensesLoadError =>
+      'Δεν ήταν δυνατή η φόρτωση των αδειών χρήσης της εφαρμογής.';
 
   @override
   String userSettingsAppLicensesPackageCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count licenses',
-      one: '1 license',
+      other: '$count άδειες',
+      one: '1 άδεια',
     );
     return '$_temp0';
   }
@@ -10705,17 +10856,17 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get quickSwitcherBookmarksLabel => 'Σελιδοδείκτες';
 
   @override
-  String get savedMessagesEmptyTitle => 'No bookmarks';
+  String get savedMessagesEmptyTitle => 'Χωρίς σελιδοδείκτες';
 
   @override
   String get savedMessagesEmptyBody =>
-      'Bookmark messages to save them for later.';
+      'Προσθέστε σελιδοδείκτες σε μηνύματα για να τα αποθηκεύσετε για αργότερα.';
 
   @override
-  String get savedMessagesEndBody => 'There\'s nothing more to see here.';
+  String get savedMessagesEndBody => 'Δεν υπάρχει κάτι άλλο εδώ.';
 
   @override
-  String get savedMessagesRemoveTooltip => 'Remove bookmark';
+  String get savedMessagesRemoveTooltip => 'Κατάργηση σελιδοδείκτη';
 
   @override
   String get quickSwitcherMentionsLabel => 'Αναφορές';
@@ -10775,25 +10926,25 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get uiLoading => 'Φόρτωση';
 
   @override
-  String get uiSearch => 'Search';
+  String get uiSearch => 'Αναζήτηση';
 
   @override
-  String get uiStartCall => 'Start call';
+  String get uiStartCall => 'Έναρξη κλήσης';
 
   @override
-  String get uiStartVideoCall => 'Start video call';
+  String get uiStartVideoCall => 'Έναρξη βιντεοκλήσης';
 
   @override
-  String get uiPlay => 'Play';
+  String get uiPlay => 'Αναπαραγωγή';
 
   @override
-  String get uiPause => 'Pause';
+  String get uiPause => 'Παύση';
 
   @override
-  String get uiDownload => 'Download';
+  String get uiDownload => 'Λήψη';
 
   @override
-  String get uiMoreActions => 'More actions';
+  String get uiMoreActions => 'Περισσότερες ενέργειες';
 
   @override
   String get uiUnsavedChanges => 'Μη αποθηκευμένες αλλαγές';
@@ -10834,7 +10985,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String mentionConfirmRoleBody(int count, String roleName) {
-    return 'This will notify $count members with the $roleName role. Continue?';
+    return 'Αυτό θα ειδοποιήσει $count μέλη με τον ρόλο $roleName. Συνέχεια;';
   }
 
   @override
@@ -11046,157 +11197,165 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get guildNavbarGuildSelected => 'selected';
+  String get guildNavbarGuildSelected => 'επιλεγμένο';
 
   @override
-  String get guildNavbarGuildUnread => 'unread';
+  String get guildNavbarGuildUnread => 'μη αναγνωσμένο';
 
   @override
   String guildNavbarGuildMentions(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count mentions',
-      one: '1 mention',
+      other: '$count αναφορές',
+      one: '1 αναφορά',
     );
     return '$_temp0';
   }
 
   @override
-  String get navigationItemMuted => 'muted';
+  String get navigationItemMuted => 'σε σίγαση';
 
   @override
-  String get authShowPassword => 'Show password';
+  String get authShowPassword => 'Εμφάνιση κωδικού';
 
   @override
-  String get authHidePassword => 'Hide password';
+  String get authHidePassword => 'Απόκρυψη κωδικού';
 
   @override
-  String get chatLoadingMessages => 'Loading messages';
+  String get chatLoadingMessages => 'Φόρτωση μηνυμάτων';
 
   @override
-  String get friendsMessageFriend => 'Message';
+  String get friendsMessageFriend => 'Μήνυμα';
 
   @override
-  String get friendsFriendActions => 'Friend actions';
+  String get friendsFriendActions => 'Ενέργειες φίλου';
 
   @override
-  String get friendsAcceptRequest => 'Accept friend request';
+  String get friendsAcceptRequest => 'Αποδοχή αιτήματος φιλίας';
 
   @override
-  String get friendsDeclineRequest => 'Decline friend request';
+  String get friendsDeclineRequest => 'Απόρριψη αιτήματος φιλίας';
 
   @override
-  String get friendsCancelRequest => 'Cancel friend request';
+  String get friendsCancelRequest => 'Ακύρωση αιτήματος φιλίας';
 
   @override
-  String get friendsOpenInbox => 'Inbox';
+  String get friendsOpenInbox => 'Εισερχόμενα';
 
   @override
-  String get profileRemoveFriend => 'Remove friend';
+  String get profileRemoveFriend => 'Κατάργηση φίλου';
 
   @override
-  String get profileUnblockUser => 'Unblock user';
+  String get profileUnblockUser => 'Ξεμπλοκάρισμα χρήστη';
 
   @override
-  String get profileAcceptFriendRequest => 'Accept friend request';
+  String get profileAcceptFriendRequest => 'Αποδοχή αιτήματος φιλίας';
 
   @override
-  String get profileCancelFriendRequest => 'Cancel friend request';
+  String get profileCancelFriendRequest => 'Ακύρωση αιτήματος φιλίας';
 
   @override
-  String get profileSendFriendRequest => 'Add friend';
+  String get profileSendFriendRequest => 'Προσθήκη φίλου';
 
   @override
-  String get accountOverflowMenu => 'Account options';
+  String get accountOverflowMenu => 'Επιλογές λογαριασμού';
 
   @override
-  String get navHome => 'Home';
+  String get navHome => 'Αρχική';
 
   @override
-  String get navNotifications => 'Notifications';
+  String get navNotifications => 'Ειδοποιήσεις';
 
   @override
-  String get navYou => 'You';
+  String get navYou => 'Εσείς';
 
   @override
-  String get guildFolderSettingsTitle => 'Folder settings';
+  String get guildFolderSettingsTitle => 'Ρυθμίσεις φακέλου';
 
   @override
-  String get guildFolderNameLabel => 'Folder name';
+  String get guildFolderNameLabel => 'Όνομα φακέλου';
 
   @override
-  String get guildFolderColorLabel => 'Folder color';
+  String get guildFolderColorLabel => 'Χρώμα φακέλου';
 
   @override
-  String get guildFolderShowIconWhenCollapsed => 'Show icon when collapsed';
+  String get guildFolderShowIconWhenCollapsed =>
+      'Εμφάνιση εικονιδίου όταν είναι συμπτυγμένο';
 
   @override
-  String get guildFolderIconLabel => 'Folder icon';
+  String get guildFolderIconLabel => 'Εικονίδιο φακέλου';
 
   @override
-  String get guildFolderDelete => 'Delete folder';
+  String get guildFolderDelete => 'Διαγραφή φακέλου';
 
   @override
-  String get guildFolderIconFolder => 'Folder';
+  String get guildFolderIconFolder => 'Φάκελος';
 
   @override
-  String get guildFolderIconStar => 'Star';
+  String get guildFolderIconStar => 'Με αστέρι';
 
   @override
-  String get guildFolderIconHeart => 'Heart';
+  String get guildFolderIconHeart => 'Καρδιά';
 
   @override
-  String get guildFolderIconBookmark => 'Bookmark';
+  String get guildFolderIconBookmark => 'Σελιδοδείκτης';
 
   @override
-  String get guildFolderIconGameController => 'Game controller';
+  String get guildFolderIconGameController => 'Χειριστήριο παιχνιδιών';
 
   @override
-  String get guildFolderIconShield => 'Shield';
+  String get guildFolderIconShield => 'Ασπίδα';
 
   @override
-  String get guildFolderIconMusicNote => 'Music note';
+  String get guildFolderIconMusicNote => 'Νότα μουσικής';
 
   @override
-  String get guildFolderMarkAsRead => 'Mark folder as read';
+  String get guildFolderMarkAsRead => 'Σήμανση φακέλου ως αναγνωσμένου';
 
   @override
-  String get guildBulkMuteCommunities => 'Mute communities';
+  String get guildBulkMuteCommunities => 'Σίγαση κοινοτήτων';
 
   @override
-  String get guildBulkUnmuteCommunities => 'Unmute communities';
+  String get guildBulkUnmuteCommunities => 'Κατάργηση σίγασης κοινοτήτων';
 
   @override
   String get guildBulkCommunityNotificationSettings =>
-      'Community notification settings';
+      'Ρυθμίσεις ειδοποιήσεων κοινότητας';
 
   @override
-  String get guildBulkCommunityPrivacySettings => 'Community privacy settings';
+  String get guildBulkCommunityPrivacySettings =>
+      'Ρυθμίσεις απορρήτου κοινότητας';
 
   @override
-  String get guildBulkAllowEveryoneAndHere => 'Allow @everyone and @here';
+  String get guildBulkAllowEveryoneAndHere =>
+      'Να επιτρέπονται οι αναφορές @everyone και @here';
 
   @override
-  String get guildBulkAllowRoleMentions => 'Allow role mentions';
+  String get guildBulkAllowRoleMentions => 'Να επιτρέπονται οι αναφορές ρόλων';
 
   @override
-  String get guildBulkEnableMobilePush => 'Enable mobile push notifications';
+  String get guildBulkEnableMobilePush =>
+      'Ενεργοποίηση ειδοποιήσεων push σε κινητό';
 
   @override
-  String get guildBulkDisableMobilePush => 'Disable mobile push notifications';
+  String get guildBulkDisableMobilePush =>
+      'Απενεργοποίηση ειδοποιήσεων push σε κινητό';
 
   @override
-  String get guildBulkAllowDirectMessages => 'Allow direct messages';
+  String get guildBulkAllowDirectMessages =>
+      'Να επιτρέπονται τα απευθείας μηνύματα';
 
   @override
-  String get guildBulkBlockDirectMessages => 'Block direct messages';
+  String get guildBulkBlockDirectMessages => 'Αποκλεισμός απευθείας μηνυμάτων';
 
   @override
-  String get guildBulkAllowBotDirectMessages => 'Allow bot direct messages';
+  String get guildBulkAllowBotDirectMessages =>
+      'Να επιτρέπονται απευθείας μηνύματα από bot';
 
   @override
-  String get guildBulkBlockBotDirectMessages => 'Block bot direct messages';
+  String get guildBulkBlockBotDirectMessages =>
+      'Αποκλεισμός απευθείας μηνυμάτων από bot';
 
   @override
   String get guildNavbarGroupDm => 'Ομαδικό DM';
@@ -11241,7 +11400,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildNavbarUrlHint => 'https://example.com';
 
   @override
-  String get guildNavbarChannelTypeSelection => 'Channel type selection';
+  String get guildNavbarChannelTypeSelection => 'Επιλογή τύπου καναλιού';
 
   @override
   String get guildNavbarCreateCategory => 'Δημιουργία κατηγορίας';
@@ -11453,10 +11612,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildMenuSettingsRoles => 'Ρόλοι & Δικαιώματα';
 
   @override
-  String get guildMenuSettingsEmoji => 'Προσαρμοσμένα emoji';
+  String get guildMenuSettingsEmoji => 'Emoji';
 
   @override
-  String get guildMenuSettingsStickers => 'Προσαρμοσμένα αυτοκόλλητα';
+  String get guildMenuSettingsStickers => 'Αυτοκόλλητα';
 
   @override
   String get guildMenuSettingsSafetyModeration => 'Ασφάλεια & Εποπτεία';
@@ -11477,13 +11636,13 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildMenuSettingsMembers => 'Μέλη';
 
   @override
-  String get guildMenuSettingsInviteLinks => 'Σύνδεσμοι πρόσκλησης';
+  String get guildMenuSettingsInviteLinks => 'Προσκλήσεις';
 
   @override
   String get guildMenuSettingsBans => 'Απαγορεύσεις';
 
   @override
-  String get guildMenuSettingsChannels => 'Channels';
+  String get guildMenuSettingsChannels => 'Κανάλια';
 
   @override
   String get guildSettingsNoPermission =>
@@ -11528,426 +11687,439 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildSettingsRolesListTitle => 'Ρόλοι';
 
   @override
-  String get guildSettingsRolesNewRole => 'New role';
+  String get guildSettingsRolesNewRole => 'Νέος ρόλος';
 
   @override
-  String get guildSettingsRolesDeleteRole => 'Delete role';
+  String get guildSettingsRolesDeleteRole => 'Διαγραφή ρόλου';
 
   @override
-  String get guildSettingsRolesBackToRoles => 'Back to roles';
+  String get guildSettingsRolesBackToRoles => 'Πίσω στους ρόλους';
 
   @override
-  String get guildSettingsBackToSettings => 'Back to settings';
+  String get guildSettingsBackToSettings => 'Επιστροφή στις ρυθμίσεις';
 
   @override
   String guildSettingsRolesEditTitle(String name) {
-    return 'Edit \"$name\"';
+    return 'Επεξεργασία του \"$name\"';
   }
 
   @override
   String get guildSettingsRolesEditSubtitle =>
-      'Configure role settings and permissions';
+      'Διαμόρφωση ρυθμίσεων και δικαιωμάτων ρόλου';
 
   @override
-  String get guildSettingsRolesDisplaySection => 'Display';
+  String get guildSettingsRolesDisplaySection => 'Εμφάνιση';
 
   @override
-  String get guildSettingsRolesRoleName => 'Role name';
+  String get guildSettingsRolesRoleName => 'Όνομα ρόλου';
 
   @override
-  String get guildSettingsRolesRoleColor => 'Role color';
+  String get guildSettingsRolesRoleColor => 'Χρώμα ρόλου';
 
   @override
   String get guildSettingsRolesRoleColorHelper =>
-      'Type a color (hex, rgb(), hsl(), or name) or use the picker.';
+      'Πληκτρολογήστε ένα χρώμα (δεκαεξαδικό, rgb(), hsl() ή όνομα) ή χρησιμοποιήστε την επιλογή.';
 
   @override
-  String get guildSettingsRolesShowSeparately => 'Show this role separately';
+  String get guildSettingsRolesShowSeparately =>
+      'Εμφάνιση αυτού του ρόλου ξεχωριστά';
 
   @override
   String get guildSettingsRolesShowSeparatelyHelper =>
-      'Lists members with this role in their own section in the member list.';
+      'Εμφανίζει τα μέλη με αυτόν τον ρόλο σε δική τους ενότητα στη λίστα μελών.';
 
   @override
-  String get guildSettingsRolesAllowMentions => 'Allow mentions for this role';
+  String get guildSettingsRolesAllowMentions =>
+      'Να επιτρέπονται οι αναφορές για αυτόν τον ρόλο';
 
   @override
   String guildSettingsRolesAllowMentionsHelper(String permission) {
-    return 'Members with the \"$permission\" permission can always mention roles, regardless of this setting.';
+    return 'Τα μέλη με την άδεια \"$permission\" μπορούν πάντα να κάνουν αναφορά σε ρόλους, ανεξάρτητα από αυτήν τη ρύθμιση.';
   }
 
   @override
   String get guildSettingsRolesClearPermissionsHelp =>
-      'Use this button to quickly clear all permissions.';
+      'Χρησιμοποιήστε αυτό το κουμπί για γρήγορη εκκαθάριση όλων των δικαιωμάτων.';
 
   @override
-  String get guildSettingsRolesClearPermissions => 'Clear permissions';
+  String get guildSettingsRolesClearPermissions => 'Εκκαθάριση δικαιωμάτων';
 
   @override
-  String get guildSettingsRolesPermissionsSection => 'Permissions';
+  String get guildSettingsRolesPermissionsSection => 'Δικαιώματα';
 
   @override
-  String get guildSettingsRolesSearchPermissions => 'Search permissions';
+  String get guildSettingsRolesSearchPermissions => 'Αναζήτηση δικαιωμάτων';
 
   @override
-  String get guildSettingsRolesDenseLayout => 'Dense layout';
+  String get guildSettingsRolesDenseLayout => 'Συμπαγής διάταξη';
 
   @override
-  String get guildSettingsRolesComfyLayout => 'Comfy layout';
+  String get guildSettingsRolesComfyLayout => 'Βολική διάταξη';
 
   @override
-  String get guildSettingsRolesSwitchToDenseLayout => 'Switch to dense layout';
+  String get guildSettingsRolesSwitchToDenseLayout => 'Συμπυκνωμένη διάταξη';
 
   @override
-  String get guildSettingsRolesSwitchToComfyLayout => 'Switch to comfy layout';
+  String get guildSettingsRolesSwitchToComfyLayout =>
+      'Εναλλαγή σε άνετη διάταξη';
 
   @override
-  String get guildSettingsRolesSingleColumn => 'Single column';
+  String get guildSettingsRolesSingleColumn => 'Μία στήλη';
 
   @override
-  String get guildSettingsRolesTwoColumns => 'Two columns';
+  String get guildSettingsRolesTwoColumns => 'Δύο στήλες';
 
   @override
-  String get guildSettingsRolesSwitchToSingleColumn =>
-      'Switch to single column';
+  String get guildSettingsRolesSwitchToSingleColumn => 'Εναλλαγή σε μονή στήλη';
 
   @override
-  String get guildSettingsRolesSwitchToTwoColumns => 'Switch to two columns';
+  String get guildSettingsRolesSwitchToTwoColumns => 'Εναλλαγή σε δύο στήλες';
 
   @override
-  String get guildSettingsRolesNoPermissionsFound => 'No permissions found';
+  String get guildSettingsRolesNoPermissionsFound => 'Δεν βρέθηκαν δικαιώματα';
 
   @override
-  String get guildSettingsRolesCustomHoistOrder => 'Custom hoist order';
+  String get guildSettingsRolesCustomHoistOrder =>
+      'Προσαρμοσμένη σειρά εμφάνισης';
 
   @override
-  String get guildSettingsRolesHoistOrder => 'Hoist order';
+  String get guildSettingsRolesHoistOrder => 'Σειρά εμφάνισης';
 
   @override
-  String get guildSettingsRolesResetHoistOrder => 'Reset to default';
+  String get guildSettingsRolesResetHoistOrder => 'Επαναφορά στις προεπιλογές';
 
   @override
   String get guildSettingsRolesHoistOrderHelp =>
-      'Drag roles to customize the order they appear in the member list.';
+      'Σύρετε τους ρόλους για να προσαρμόσετε τη σειρά εμφάνισής τους στη λίστα μελών.';
 
   @override
   String get guildSettingsRolesNoHoistedRoles =>
-      'No hoisted roles. Enable \"Show this role separately\" on a role to see it here.';
+      'Δεν υπάρχουν εμφανείς ρόλοι. Ενεργοποίησε την επιλογή \"Εμφάνιση αυτού του ρόλου ξεχωριστά\" σε έναν ρόλο για να τον δεις εδώ.';
 
   @override
   String get guildSettingsRolesLockedTooltip =>
-      'You cannot edit this role because it is your highest role or above you';
+      'Δεν μπορείτε να επεξεργαστείτε αυτόν τον ρόλο επειδή είναι ο υψηλότερος ρόλος σας ή είναι ανώτερος από εσάς';
 
   @override
   String guildSettingsRolesNeedManageRolesPermission(String permission) {
-    return 'You need the \"$permission\" permission to edit these permissions';
+    return 'Χρειάζεσαι την άδεια \"$permission\" για να επεξεργαστείς αυτές τις άδειες';
   }
 
   @override
   String get guildSettingsRolesCannotEditHigherRole =>
-      'You cannot edit a role at or above your highest role';
+      'Δεν μπορείς να επεξεργαστείς έναν ρόλο που είναι ίδιος ή ανώτερος από τον δικό σου';
 
   @override
   String get guildSettingsRolesCannotGrantPermission =>
-      'You cannot grant a permission you don\'t have';
+      'Δεν μπορείς να δώσεις μια άδεια που δεν έχεις';
 
   @override
   String get guildSettingsRolesCannotRemoveOwnPermission =>
-      'You cannot remove this permission because it would remove it from yourself';
+      'Δεν μπορείς να αφαιρέσεις αυτήν την άδεια, γιατί θα την αφαιρούσες και από τον εαυτό σου';
 
   @override
-  String get guildSettingsRolesUpdatedSuccess => 'Roles updated successfully';
+  String get guildSettingsRolesUpdatedSuccess =>
+      'Οι ρόλοι ενημερώθηκαν επιτυχώς';
 
   @override
-  String get guildSettingsRolesCreatedSuccess => 'Role created successfully';
+  String get guildSettingsRolesCreatedSuccess => 'Ο ρόλος δημιουργήθηκε';
 
   @override
-  String get guildSettingsRolesDeletedSuccess => 'Role deleted successfully';
+  String get guildSettingsRolesDeletedSuccess =>
+      'Ο ρόλος διαγράφηκε με επιτυχία';
 
   @override
   String get guildSettingsRolesHoistResetSuccess =>
-      'Hoist order reset to default';
+      'Η σειρά εμφάνισης επαναφέρθηκε στην προεπιλογή';
 
   @override
-  String get guildSettingsRolesNameRequiredTitle => 'Role name is required';
+  String get guildSettingsRolesNameRequiredTitle => 'Απαιτείται όνομα ρόλου';
 
   @override
   String get guildSettingsRolesNameRequiredBody =>
-      'Give the role a name before saving.';
+      'Δώστε έναν τίτλο στον ρόλο πριν την αποθήκευση.';
 
   @override
-  String get guildSettingsRolesCreateFailedTitle => 'Couldn\'t create role';
+  String get guildSettingsRolesCreateFailedTitle =>
+      'Δεν ήταν δυνατή η δημιουργία ρόλου';
 
   @override
-  String get guildSettingsRolesUpdateFailedTitle => 'Couldn\'t update roles';
+  String get guildSettingsRolesUpdateFailedTitle =>
+      'Δεν ήταν δυνατή η ενημέρωση των ρόλων';
 
   @override
-  String get guildSettingsRolesDeleteFailedTitle => 'Couldn\'t delete role';
+  String get guildSettingsRolesDeleteFailedTitle =>
+      'Δεν ήταν δυνατή η διαγραφή του ρόλου';
 
   @override
   String guildSettingsRolesDeleteFailedBody(String name) {
-    return '\"$name\" wouldn\'t delete. Try again.';
+    return 'Το \"$name\" δεν θα διαγραφόταν. Δοκιμάστε ξανά.';
   }
 
   @override
   String get guildSettingsRolesResetHoistFailedTitle =>
-      'Couldn\'t reset hoist order';
+      'Δεν ήταν δυνατή η επαναφορά της σειράς ανύψωσης';
 
   @override
-  String get guildSettingsRolesTryAgainInAMoment => 'Try again in a moment.';
+  String get guildSettingsRolesTryAgainInAMoment => 'Δοκιμάστε ξανά σε λίγο.';
 
   @override
   String guildSettingsRolesDeleteConfirm(String name) {
-    return 'Are you sure you want to delete the $name role? Any members with this role will no longer have it.';
+    return 'Είστε σίγουροι ότι θέλετε να διαγράψετε τον ρόλο $name; Οποιαδήποτε μέλη με αυτόν τον ρόλο δεν θα τον έχουν πλέον.';
   }
 
   @override
-  String get permissionCategoryCommunityWide => 'Community-wide';
+  String get permissionCategoryCommunityWide => 'Σε όλη την κοινότητα';
 
   @override
-  String get permissionCategoryMessagesMedia => 'Messages & media';
+  String get permissionCategoryMessagesMedia => 'Μηνύματα και πολυμέσα';
 
   @override
-  String get permissionCategoryModeration => 'Moderation';
+  String get permissionCategoryModeration => 'Συντονισμός';
 
   @override
-  String get permissionCategoryChannelAccess => 'Channel access';
+  String get permissionCategoryChannelAccess => 'Πρόσβαση σε κανάλι';
 
   @override
-  String get permissionCategoryChannelManagement => 'Channel management';
+  String get permissionCategoryChannelManagement => 'Διαχείριση καναλιών';
 
   @override
-  String get permissionCategoryAudioVideo => 'Audio & video';
+  String get permissionCategoryAudioVideo => 'Ήχος και βίντεο';
 
   @override
-  String get permissionUnknown => 'Unknown permission';
+  String get permissionUnknown => 'Άγνωστη άδεια';
 
   @override
-  String get permissionAdministrator => 'Administrator';
+  String get permissionAdministrator => 'Διαχειριστής';
 
   @override
   String get permissionAdministratorDescription =>
-      'Grants all permissions and bypasses channel restrictions. Highly sensitive.';
+      'Παρέχει όλες τις άδειες και παρακάμπτει τους περιορισμούς καναλιών. Εξαιρετικά ευαίσθητο.';
 
   @override
-  String get permissionViewActivityLog => 'View activity log';
+  String get permissionViewActivityLog =>
+      'Προβολή αρχείου καταγραφής δραστηριότητας';
 
   @override
   String get permissionViewActivityLogDescription =>
-      'Read the community\'s activity log of changes and moderation actions.';
+      'Διαβάστε το αρχείο καταγραφής δραστηριότητας της κοινότητας για αλλαγές και ενέργειες συντονισμού.';
 
   @override
-  String get permissionManageCommunity => 'Manage community';
+  String get permissionManageCommunity => 'Διαχείριση κοινότητας';
 
   @override
   String get permissionManageCommunityDescription =>
-      'Edit global settings like name, description, and icon.';
+      'Επεξεργασία γενικών ρυθμίσεων, όπως όνομα, περιγραφή και εικονίδιο.';
 
   @override
-  String get permissionManageRoles => 'Manage roles';
+  String get permissionManageRoles => 'Διαχείριση ρόλων';
 
   @override
   String get permissionManageRolesDescription =>
-      'Create, edit, or delete roles below your highest role. Also allows editing channel permission overwrites.';
+      'Δημιουργία, επεξεργασία ή διαγραφή ρόλων κάτω από τον υψηλότερο ρόλο σας. Επίσης, επιτρέπει την επεξεργασία των αντικαταστάσεων δικαιωμάτων καναλιού.';
 
   @override
-  String get permissionManageChannels => 'Manage channels';
+  String get permissionManageChannels => 'Διαχείριση καναλιών';
 
   @override
-  String get permissionManageChannel => 'Manage channel';
+  String get permissionManageChannel => 'Διαχείριση καναλιού';
 
   @override
   String get permissionManageChannelDescription =>
-      'Rename and edit this channel\'s settings.';
+      'Μετονομασία και επεξεργασία των ρυθμίσεων αυτού του καναλιού.';
 
   @override
-  String get permissionManagePermissions => 'Manage permissions';
+  String get permissionManagePermissions => 'Διαχείριση δικαιωμάτων';
 
   @override
   String get permissionManagePermissionsDescription =>
-      'Edit overwrites for roles and members in this channel.';
+      'Επεξεργασία εξαιρέσεων για ρόλους και μέλη σε αυτό το κανάλι.';
 
   @override
   String get permissionManageWebhooksChannelDescription =>
-      'Create, edit, or delete webhooks for this channel.';
+      'Δημιουργία, επεξεργασία ή διαγραφή webhooks για αυτό το κανάλι.';
 
   @override
   String get permissionViewChannelMembersChannelDescription =>
-      'See the member list for this channel.';
+      'Δείτε τη λίστα μελών για αυτό το κανάλι.';
 
   @override
   String get permissionCreateInviteLinksChannelDescription =>
-      'Manage invite links for this channel.';
+      'Διαχείριση συνδέσμων πρόσκλησης για αυτό το κανάλι.';
 
   @override
-  String get permissionOverwriteDeny => 'Deny';
+  String get permissionOverwriteDeny => 'Άρνηση';
 
   @override
-  String get permissionOverwriteInherit => 'Neutral (inherit)';
+  String get permissionOverwriteInherit => 'Ουδέτερο (κληρονομείται)';
 
   @override
-  String get permissionOverwriteAllow => 'Allow';
+  String get permissionOverwriteAllow => 'Να επιτρέπεται';
 
   @override
   String get permissionOverwriteSetAllHelp =>
-      'Use these buttons to quickly set all permissions.';
+      'Χρησιμοποιήστε αυτά τα κουμπιά για να ορίσετε γρήγορα όλες τις άδειες.';
 
   @override
   String get permissionManageChannelsDescription =>
-      'Create, edit, or delete channels and categories.';
+      'Δημιουργία, επεξεργασία ή διαγραφή καναλιών και κατηγοριών.';
 
   @override
-  String get permissionKickMembers => 'Kick members';
+  String get permissionKickMembers => 'Αποβολή μελών';
 
   @override
-  String get permissionBanMembers => 'Ban members';
+  String get permissionBanMembers => 'Αποκλεισμός μελών';
 
   @override
-  String get permissionCreateInviteLinks => 'Create invite links';
+  String get permissionCreateInviteLinks => 'Δημιουργία συνδέσμων πρόσκλησης';
 
   @override
-  String get permissionChangeOwnNickname => 'Change own nickname';
+  String get permissionChangeOwnNickname => 'Αλλαγή δικού του ψευδώνυμου';
 
   @override
   String get permissionChangeOwnNicknameDescription =>
-      'Update your own nickname.';
+      'Ενημέρωσε το ψευδώνυμό σου.';
 
   @override
-  String get permissionManageNicknames => 'Manage nicknames';
+  String get permissionManageNicknames => 'Διαχείριση ψευδώνυμων';
 
   @override
   String get permissionManageNicknamesDescription =>
-      'Change other members\' nicknames.';
+      'Αλλαγή ψευδώνυμων άλλων μελών.';
 
   @override
-  String get permissionCreateEmojiStickers => 'Create emoji & stickers';
+  String get permissionCreateEmojiStickers =>
+      'Δημιουργία emoji και αυτοκόλλητων';
 
   @override
   String get permissionCreateEmojiStickersDescription =>
-      'Upload new emoji and stickers, and manage your own creations.';
+      'Ανεβάστε νέα emoji και αυτοκόλλητα, και διαχειριστείτε τις δικές σας δημιουργίες.';
 
   @override
-  String get permissionManageEmojiStickers => 'Manage emoji & stickers';
+  String get permissionManageEmojiStickers =>
+      'Διαχείριση emoji και αυτοκόλλητων';
 
   @override
   String get permissionManageEmojiStickersDescription =>
-      'Edit or delete emoji and stickers created by other members.';
+      'Επεξεργασία ή διαγραφή emoji και αυτοκόλλητων που δημιουργήθηκαν από άλλα μέλη.';
 
   @override
-  String get permissionManageWebhooks => 'Manage webhooks';
+  String get permissionManageWebhooks => 'Διαχείριση webhooks';
 
   @override
   String get permissionManageWebhooksDescription =>
-      'Create, edit, or delete webhooks.';
+      'Δημιουργία, επεξεργασία ή διαγραφή webhooks.';
 
   @override
-  String get permissionSendMessages => 'Send messages';
+  String get permissionSendMessages => 'Αποστολή μηνυμάτων';
 
   @override
-  String get permissionSendTtsMessages => 'Send TTS messages';
+  String get permissionSendTtsMessages =>
+      'Αποστολή μηνυμάτων κειμένου σε ομιλία';
 
   @override
   String get permissionSendTtsMessagesDescription =>
-      'Send text-to-speech messages.';
+      'Αποστολή μηνυμάτων κειμένου σε ομιλία.';
 
   @override
-  String get permissionManageMessages => 'Manage messages';
+  String get permissionManageMessages => 'Διαχείριση μηνυμάτων';
 
   @override
   String get permissionManageMessagesDescription =>
-      'Delete other members\' messages. Pinning is controlled separately.';
+      'Διαγραφή μηνυμάτων άλλων μελών. Η καρφίτσωμα ελέγχεται ξεχωριστά.';
 
   @override
-  String get permissionPinMessages => 'Pin messages';
+  String get permissionPinMessages => 'Καρφίτσωμα μηνυμάτων';
 
   @override
-  String get permissionEmbedLinks => 'Embed links';
+  String get permissionEmbedLinks => 'Ενσωμάτωση συνδέσμων';
 
   @override
-  String get permissionAttachFiles => 'Attach files';
+  String get permissionAttachFiles => 'Επισύναψη αρχείων';
 
   @override
-  String get permissionMentionEveryone => 'Use @everyone/@here and @role';
+  String get permissionMentionEveryone =>
+      'Χρησιμοποιήστε @everyone/@here και @ρόλο';
 
   @override
   String get permissionMentionEveryoneDescription =>
-      'Mention everyone or any role (even if the role isn\'t set to be mentionable).';
+      'Αναφορά σε όλους ή σε οποιονδήποτε ρόλο (ακόμα κι αν ο ρόλος δεν έχει οριστεί ως αναφοράς).';
 
   @override
-  String get permissionUseExternalEmoji => 'Use external emoji';
+  String get permissionUseExternalEmoji => 'Χρήση εξωτερικών emoji';
 
   @override
   String get permissionUseExternalEmojiDescription =>
-      'Use emoji from other communities.';
+      'Χρησιμοποιήστε emoji από άλλες κοινότητες.';
 
   @override
-  String get permissionUseExternalStickers => 'Use external stickers';
+  String get permissionUseExternalStickers => 'Χρήση εξωτερικών αυτοκόλλητων';
 
   @override
-  String get permissionAddReactions => 'Add reactions';
+  String get permissionAddReactions => 'Προσθήκη αντιδράσεων';
 
   @override
   String get permissionAddReactionsDescription =>
-      'Add new reactions to messages.';
+      'Προσθήκη νέων αντιδράσεων στα μηνύματα.';
 
   @override
-  String get permissionBypassSlowmode => 'Bypass slowmode';
+  String get permissionBypassSlowmode => 'Παράκαμψη αργής λειτουργίας';
 
   @override
   String get permissionBypassSlowmodeDescription =>
-      'Ignore per-channel message rate limits.';
+      'Παράβλεψη ορίων ρυθμού μηνυμάτων ανά κανάλι.';
 
   @override
-  String get permissionTimeOutMembers => 'Time out members';
+  String get permissionTimeOutMembers => 'Θέση σε προσωρινή αναστολή μελών';
 
   @override
   String get permissionTimeOutMembersDescription =>
-      'Prevent members from sending messages, reacting, and joining voice for a duration.';
+      'Αποτροπή των μελών από την αποστολή μηνυμάτων, την αντίδραση και τη συμμετοχή σε φωνητική συνομιλία για συγκεκριμένο χρονικό διάστημα.';
 
   @override
-  String get permissionViewChannel => 'View channel';
+  String get permissionViewChannel => 'Προβολή καναλιού';
 
   @override
-  String get permissionViewChannelMembers => 'View channel members';
+  String get permissionViewChannelMembers => 'Προβολή μελών καναλιού';
 
   @override
   String get permissionViewChannelMembersDescription =>
-      'See the member list for channels in this community.';
+      'Δείτε τη λίστα μελών για κανάλια σε αυτήν την κοινότητα.';
 
   @override
-  String get permissionConnect => 'Connect';
+  String get permissionConnect => 'Σύνδεση';
 
   @override
-  String get permissionSpeak => 'Speak';
+  String get permissionSpeak => 'Ομιλία';
 
   @override
-  String get permissionStreamVideo => 'Stream video';
+  String get permissionStreamVideo => 'Μετάδοση βίντεο';
 
   @override
-  String get permissionUseVoiceActivity => 'Use voice activity';
+  String get permissionUseVoiceActivity => 'Χρήση φωνητικής δραστηριότητας';
 
   @override
   String get permissionUseVoiceActivityDescription =>
-      'Without this permission, push-to-talk is required.';
+      'Χωρίς αυτήν την άδεια, απαιτείται η λειτουργία push-to-talk.';
 
   @override
-  String get permissionPrioritySpeaker => 'Priority speaker';
+  String get permissionPrioritySpeaker => 'Ομιλητής προτεραιότητας';
 
   @override
-  String get permissionMuteMembers => 'Mute members';
+  String get permissionMuteMembers => 'Σίγαση μελών';
 
   @override
-  String get permissionDeafenMembers => 'Deafen members';
+  String get permissionDeafenMembers => 'Σίγαση μελών';
 
   @override
-  String get permissionMoveMembers => 'Move members';
+  String get permissionMoveMembers => 'Μετακίνηση μελών';
 
   @override
   String get permissionMoveMembersDescription =>
-      'Drag members between channels they can access.';
+      'Σύρε μέλη μεταξύ καναλιών στα οποία μπορούν να έχουν πρόσβαση.';
 
   @override
-  String get permissionSetVoiceRegion => 'Set voice region';
+  String get permissionSetVoiceRegion => 'Ορισμός περιοχής φωνής';
 
   @override
   String guildSettingsEmojiSlotInfo(int staticCount, int animatedCount) {
@@ -12619,36 +12791,38 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsWebhooksDescription =>
-      'Διαχείριση webhook που δημοσιεύουν μηνύματα σε κανάλια.';
+      'Δείτε και διαχειριστείτε κάθε webhook που έχει ρυθμιστεί στην κοινότητά σας.';
 
   @override
-  String get guildSettingsWebhooksEmpty => 'Δεν έχουν ρυθμιστεί webhook.';
+  String get guildSettingsWebhooksEmpty => 'Δεν υπάρχουν webhooks';
 
   @override
   String guildSettingsWebhooksEmptyDescription(String channelSettingsPath) {
-    return 'This community doesn\'t have any webhooks yet. Go to $channelSettingsPath to create one.';
+    return 'Αυτή η κοινότητα δεν έχει ακόμη κανένα webhook. Μεταβείτε στο $channelSettingsPath για να δημιουργήσετε ένα.';
   }
 
   @override
   String guildSettingsWebhooksPermissionRequired(String permission) {
-    return 'You need the \"$permission\" permission to view and edit webhooks for this community.';
+    return 'Χρειάζεστε την άδεια \"$permission\" για να προβάλετε και να επεξεργαστείτε τα webhooks για αυτήν την κοινότητα.';
   }
 
   @override
-  String get guildSettingsWebhooksLoadFailedTitle => 'Failed to load webhooks';
+  String get guildSettingsWebhooksLoadFailedTitle =>
+      'Αποτυχία φόρτωσης webhooks';
 
   @override
   String get guildSettingsWebhooksLoadFailedDescription =>
-      'There was an error loading the webhooks. Try again.';
+      'Παρουσιάστηκε σφάλμα κατά τη φόρτωση των webhooks. Δοκιμάστε ξανά.';
 
   @override
-  String get guildSettingsWebhooksUpdated => 'Webhooks updated';
+  String get guildSettingsWebhooksUpdated => 'Τα webhook ενημερώθηκαν';
 
   @override
-  String get guildSettingsWebhooksUpdateFailed => 'Failed to update webhooks';
+  String get guildSettingsWebhooksUpdateFailed =>
+      'Αποτυχία ενημέρωσης webhooks';
 
   @override
-  String get guildSettingsUnknownChannel => 'Unknown channel';
+  String get guildSettingsUnknownChannel => 'Άγνωστο κανάλι';
 
   @override
   String get guildSettingsCopyUrl => 'Αντιγραφή URL';
@@ -12679,147 +12853,149 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Κάντε αίτηση για να συμπεριληφθείτε στην ανακάλυψη διακομιστών.';
+      'Καταχώρισε την κοινότητά σου στην Ανακάλυψη, ώστε να μπορούν να τη βρουν και να συμμετάσχουν σε αυτήν και άλλοι.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
-      'Not enough members';
+      'Δεν υπάρχουν αρκετά μέλη';
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Απαιτούνται τουλάχιστον $count μέλη για την υποβολή αίτησης.';
+    return 'Η κοινότητά σας χρειάζεται τουλάχιστον $count μέλη για να μπορεί να εμφανιστεί στην Ανακάλυψη.';
   }
 
   @override
-  String get guildSettingsDiscoveryStatusLabel => 'Status:';
+  String get guildSettingsDiscoveryStatusLabel => 'Κατάσταση:';
 
   @override
-  String get guildSettingsDiscoveryStatusPending => 'Pending';
+  String get guildSettingsDiscoveryStatusPending => 'Σε εκκρεμότητα';
 
   @override
-  String get guildSettingsDiscoveryStatusApproved => 'Approved';
+  String get guildSettingsDiscoveryStatusApproved => 'Εγκεκριμένο';
 
   @override
-  String get guildSettingsDiscoveryStatusRejected => 'Rejected';
+  String get guildSettingsDiscoveryStatusRejected => 'Απορρίφθηκε';
 
   @override
-  String get guildSettingsDiscoveryStatusRemoved => 'Removed';
+  String get guildSettingsDiscoveryStatusRemoved => 'Καταργήθηκε';
 
   @override
   String guildSettingsDiscoveryReason(String reason) {
-    return 'Reason: $reason';
+    return 'Λόγος: $reason';
   }
 
   @override
   String get guildSettingsDiscoveryApprovedInfo =>
-      'Your community is listed in Discovery. You can update your listing details below or withdraw to remove it.';
+      'Η κοινότητά σας είναι καταχωρισμένη στην Ανακάλυψη. Μπορείτε να ενημερώσετε τα στοιχεία της καταχώρισής σας παρακάτω ή να την αποσύρετε για να την καταργήσετε.';
 
   @override
   String get guildSettingsDiscoveryPendingInfo =>
-      'Your application is pending review. You can still update your listing details or withdraw the application.';
+      'Η αίτησή σας εκκρεμεί για έλεγχο. Μπορείτε ακόμα να ενημερώσετε τα στοιχεία της καταχώρισής σας ή να αποσύρετε την αίτηση.';
 
   @override
   String get guildSettingsDiscoveryCategory => 'Κατηγορία';
 
   @override
   String get guildSettingsDiscoveryCategoryHelp =>
-      'Choose the category that best describes your community. You can change this any time.';
+      'Επίλεξε την κατηγορία που περιγράφει καλύτερα την κοινότητά σου. Μπορείς να την αλλάξεις οποιαδήποτε στιγμή.';
 
   @override
-  String get guildSettingsDiscoveryPrimaryLanguage => 'Primary language';
+  String get guildSettingsDiscoveryPrimaryLanguage => 'Κύρια γλώσσα';
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'The language most of your community speaks. Used to filter Discovery results.';
+      'Η γλώσσα που μιλάει η κοινότητά σου. Χρησιμοποιείται για το φιλτράρισμα των αποτελεσμάτων στην Ανακάλυψη.';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'Περιγραφή';
 
   @override
   String get guildSettingsDiscoveryDescriptionPlaceholder =>
-      'Describe what your community is about';
+      'Περιέγραψε την κοινότητά σου';
 
   @override
   String get guildSettingsDiscoveryDescriptionRequired =>
-      'A description is required.';
+      'Απαιτείται περιγραφή.';
 
   @override
   String guildSettingsDiscoveryDescriptionMinLength(int minLength) {
-    return 'Description must be at least $minLength characters.';
+    return 'Η περιγραφή πρέπει να έχει τουλάχιστον $minLength χαρακτήρες.';
   }
 
   @override
   String guildSettingsDiscoveryDescriptionMaxLength(int maxLength) {
-    return 'Description must be no more than $maxLength characters.';
+    return 'Η περιγραφή δεν πρέπει να υπερβαίνει τους $maxLength χαρακτήρες.';
   }
 
   @override
-  String get guildSettingsDiscoveryTags => 'Ετικέτες';
+  String get guildSettingsDiscoveryTags => 'Προσαρμοσμένες ετικέτες';
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'Up to $maxTags tags help people find your community. They show up in Discovery search.';
+    return 'Έως $maxTags ετικέτες βοηθούν τους χρήστες να βρουν την κοινότητά σας. Εμφανίζονται στην αναζήτηση του Discovery.';
   }
 
   @override
-  String get guildSettingsDiscoveryTagsHint => 'gaming, art, music';
+  String get guildSettingsDiscoveryTagsHint =>
+      'Πρόσθεσε μια ετικέτα και πάτησε Enter';
 
   @override
-  String get guildSettingsDiscoveryAddTag => 'Add';
+  String get guildSettingsDiscoveryAddTag => 'Προσθήκη';
 
   @override
   String guildSettingsDiscoveryRemoveTag(String tag) {
-    return 'Remove tag $tag';
+    return 'Κατάργηση ετικέτας $tag';
   }
 
   @override
-  String get guildSettingsDiscoveryTagErrorTitle => 'Couldn\'t add tag';
+  String get guildSettingsDiscoveryTagErrorTitle =>
+      'Δεν ήταν δυνατή η προσθήκη ετικέτας';
 
   @override
   String guildSettingsDiscoveryTagRequirements(int maxLength) {
-    return 'Tags must be 2 to $maxLength characters and alphanumeric.';
+    return 'Οι ετικέτες πρέπει να είναι 2 έως $maxLength χαρακτήρες και να περιέχουν μόνο αλφαριθμητικούς χαρακτήρες.';
   }
 
   @override
   String guildSettingsDiscoveryTagLimit(int maxTags) {
-    return 'You can only add up to $maxTags tags.';
+    return 'Μπορείτε να προσθέσετε έως $maxTags ετικέτες.';
   }
 
   @override
-  String get guildSettingsDiscoveryApply => 'Υποβολή Αίτησης';
+  String get guildSettingsDiscoveryApply => 'Εφαρμογή';
 
   @override
-  String get guildSettingsDiscoverySave => 'Save';
+  String get guildSettingsDiscoverySave => 'Αποθήκευση';
 
   @override
   String get guildSettingsDiscoveryWithdraw => 'Απόσυρση';
 
   @override
   String get guildSettingsDiscoveryApplicationSent =>
-      'Discovery application sent';
+      'Η αίτηση ανακάλυψης στάλθηκε';
 
   @override
   String get guildSettingsDiscoveryListingUpdated =>
-      'Discovery listing updated';
+      'Η καταχώριση στην Ανακάλυψη ενημερώθηκε';
 
   @override
   String get guildSettingsDiscoveryApplicationWithdrawn =>
-      'Discovery application withdrawn';
+      'Η αίτηση ανακάλυψης αποσύρθηκε';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle =>
-      'Couldn\'t withdraw application';
+      'Αδυναμία ανάκλησης αίτησης';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorDescription =>
-      'Try again in a moment.';
+      'Δοκιμάστε ξανά σε λίγο.';
 
   @override
   String get guildSettingsMembersDescription =>
       'Αναζήτηση και διαχείριση μελών διακομιστή.';
 
   @override
-  String get guildSettingsMembersSearchHint => 'Αναζήτηση μελών';
+  String get guildSettingsMembersSearchHint => 'Αναζήτηση με όνομα χρήστη ή ID';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
@@ -12827,165 +13003,168 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get guildMembersRecentTitle => 'Recent members';
+  String get guildMembersRecentTitle => 'Πρόσφατα μέλη';
 
   @override
   String guildMembersShowingCount(int displayedCount, int totalCount) {
-    return 'Showing $displayedCount of $totalCount total members';
+    return 'Εμφανίζονται $displayedCount από $totalCount συνολικά μέλη';
   }
 
   @override
-  String get guildMembersSort => 'Sort';
+  String get guildMembersSort => 'Ταξινόμηση';
 
   @override
   String get guildSettingsMembersSortNewest => 'Νεότεροι πρώτα';
 
   @override
-  String get guildMembersSortOldest => 'Oldest first';
+  String get guildMembersSortOldest => 'Παλαιότερα πρώτα';
 
   @override
-  String get guildMembersColumnName => 'Name';
+  String get guildMembersColumnName => 'Όνομα';
 
   @override
-  String get guildMembersColumnMemberSince => 'Member since';
+  String get guildMembersColumnMemberSince => 'Μέλος από';
 
   @override
   String guildMembersColumnJoinedProduct(String productName) {
-    return 'Joined $productName';
+    return 'Έγινε μέλος στο $productName';
   }
 
   @override
-  String get guildMembersColumnJoinMethod => 'Join method';
+  String get guildMembersColumnJoinMethod => 'Τρόπος συμμετοχής';
 
   @override
-  String get guildMembersColumnRoles => 'Roles';
+  String get guildMembersColumnRoles => 'Ρόλοι';
 
   @override
-  String get guildMembersColumnActions => 'Actions';
+  String get guildMembersColumnActions => 'Ενέργειες';
 
   @override
-  String get guildMembersFilterMemberSince => 'Filter by member since';
+  String get guildMembersFilterMemberSince =>
+      'Φιλτράρισμα κατά ημερομηνία εγγραφής μέλους';
 
   @override
   String get guildMembersFilterJoinedProduct =>
-      'Filter by account creation date';
+      'Φιλτράρισμα κατά ημερομηνία δημιουργίας λογαριασμού';
 
   @override
-  String get guildMembersFilterJoinMethod => 'Filter by join method';
+  String get guildMembersFilterJoinMethod => 'Φιλτράρισμα κατά μέθοδο σύνδεσης';
 
   @override
-  String get guildMembersFilterRoles => 'Filter by roles';
+  String get guildMembersFilterRoles => 'Φιλτράρισμα κατά ρόλους';
 
   @override
-  String get guildMembersFilterAll => 'All';
+  String get guildMembersFilterAll => 'Όλα';
 
   @override
-  String get guildMembersFilterPast1Hour => 'Past 1 hour';
+  String get guildMembersFilterPast1Hour => 'Τελευταία ώρα';
 
   @override
-  String get guildMembersFilterPast24Hours => 'Past 24 hours';
+  String get guildMembersFilterPast24Hours => 'Τελευταίες 24 ώρες';
 
   @override
-  String get guildMembersFilterPast7Days => 'Past 7 days';
+  String get guildMembersFilterPast7Days => 'Τελευταίες 7 ημέρες';
 
   @override
-  String get guildMembersFilterPast2Weeks => 'Past 2 weeks';
+  String get guildMembersFilterPast2Weeks => 'Τελευταίες 2 εβδομάδες';
 
   @override
-  String get guildMembersFilterPast3Weeks => 'Past 3 weeks';
+  String get guildMembersFilterPast3Weeks => 'Τελευταίες 3 εβδομάδες';
 
   @override
-  String get guildMembersFilterPast4Weeks => 'Past 4 weeks';
+  String get guildMembersFilterPast4Weeks => 'Τελευταίες 4 εβδομάδες';
 
   @override
-  String get guildMembersFilterPast3Months => 'Past 3 months';
+  String get guildMembersFilterPast3Months => 'Τελευταίοι 3 μήνες';
 
   @override
-  String get guildMembersFilterCustomRange => 'Custom range...';
+  String get guildMembersFilterCustomRange => 'Προσαρμοσμένο εύρος...';
 
   @override
-  String get guildMembersDateRangeTitle => 'Custom date range';
+  String get guildMembersDateRangeTitle => 'Προσαρμοσμένο εύρος ημερομηνιών';
 
   @override
-  String get guildMembersDateAfter => 'After date';
+  String get guildMembersDateAfter => 'Μετά την ημερομηνία';
 
   @override
-  String get guildMembersDateBefore => 'Before date';
+  String get guildMembersDateBefore => 'Πριν από την ημερομηνία';
 
   @override
-  String get guildMembersClearAll => 'Clear all';
+  String get guildMembersClearAll => 'Εκκαθάριση όλων';
 
   @override
-  String get guildMembersRowsPerPage => 'Rows per page';
+  String get guildMembersRowsPerPage => 'Σειρές ανά σελίδα';
 
   @override
-  String get guildMembersEmptySearch => 'Nobody matches that search.';
+  String get guildMembersEmptySearch =>
+      'Κανείς δεν ταιριάζει με αυτήν την αναζήτηση.';
 
   @override
   String get guildMembersLoadError =>
-      'Something went wrong loading members. Try again later.';
+      'Κάτι πήγε στραβά κατά τη φόρτωση των μελών. Δοκιμάστε ξανά αργότερα.';
 
   @override
-  String get guildMembersIndexing => 'Indexing members…';
+  String get guildMembersIndexing => 'Ευρετηρίαση μελών…';
 
   @override
-  String get guildMembersGoToPage => 'Go to page';
+  String get guildMembersGoToPage => 'Μετάβαση στη σελίδα';
 
   @override
   String guildMembersGoToPageItem(int page) {
-    return 'Go to page $page';
+    return 'Πήγαινε στη σελίδα $page';
   }
 
   @override
-  String get guildMembersJumpToPage => 'Jump to page';
+  String get guildMembersJumpToPage => 'Μετάβαση στη σελίδα';
 
   @override
-  String get guildMembersJoinSourceCreator => 'Community creator';
+  String get guildMembersJoinSourceCreator => 'Δημιουργός κοινότητας';
 
   @override
-  String get guildMembersJoinSourceInvite => 'Invite';
+  String get guildMembersJoinSourceInvite => 'Πρόσκληση';
 
   @override
   String guildMembersJoinSourceInviteCode(String code) {
-    return 'Invite ($code)';
+    return 'Πρόσκληση ($code)';
   }
 
   @override
   String guildMembersJoinSourceInvitedBy(String name) {
-    return 'Invited by $name';
+    return 'Προσκλήθηκε από τον/την $name';
   }
 
   @override
-  String get guildMembersJoinSourceVanityUrl => 'Vanity URL';
+  String get guildMembersJoinSourceVanityUrl =>
+      'Διεύθυνση URL προσαρμοσμένης μορφής';
 
   @override
-  String get guildMembersJoinSourceBotInvite => 'Bot invite';
+  String get guildMembersJoinSourceBotInvite => 'Πρόσκληση bot';
 
   @override
-  String get guildMembersJoinSourcePlatformAdmin => 'Platform admin';
+  String get guildMembersJoinSourcePlatformAdmin => 'Διαχειριστής πλατφόρμας';
 
   @override
-  String get guildMembersJoinSourceDiscovery => 'Discovery';
+  String get guildMembersJoinSourceDiscovery => 'Ανακάλυψη';
 
   @override
-  String get guildMembersJoinMethodUnknown => 'Unknown';
+  String get guildMembersJoinMethodUnknown => 'Άγνωστο';
 
   @override
-  String get guildMembersCommunityOwner => 'Community owner';
+  String get guildMembersCommunityOwner => 'Κάτοχος κοινότητας';
 
   @override
-  String get guildMembersViewAllRoles => 'View all roles';
+  String get guildMembersViewAllRoles => 'Προβολή όλων των ρόλων';
 
   @override
-  String get guildMembersJoinedJustNow => 'Just now';
+  String get guildMembersJoinedJustNow => 'Μόλις τώρα';
 
   @override
   String guildMembersJoinedMinutesAgo(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count minutes ago',
-      one: '1 minute ago',
+      other: '$count λεπτά πριν',
+      one: '1 λεπτό πριν',
     );
     return '$_temp0';
   }
@@ -12995,8 +13174,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count hours ago',
-      one: '1 hour ago',
+      other: 'πριν από $count ώρες',
+      one: 'πριν από 1 ώρα',
     );
     return '$_temp0';
   }
@@ -13006,122 +13185,124 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count days ago',
-      one: '1 day ago',
+      other: 'πριν από $count ημέρες',
+      one: 'πριν από 1 ημέρα',
     );
     return '$_temp0';
   }
 
   @override
-  String get guildMembersChannelListLabel => 'Members';
+  String get guildMembersChannelListLabel => 'Μέλη';
 
   @override
-  String get guildMembersChannelListSelected => 'Members, selected';
+  String get guildMembersChannelListSelected => 'Μέλη, επιλεγμένα';
 
   @override
-  String get guildSettingsInvitesTitle => 'Invites';
+  String get guildSettingsInvitesTitle => 'Προσκλήσεις';
 
   @override
   String get guildSettingsInvitesDescription =>
-      'Προβολή και ανάκληση ενεργών συνδέσμων πρόσκλησης.';
+      'Δείτε όλες τις προσκλήσεις για αυτήν την κοινότητα. Για να δημιουργήσετε μια νέα πρόσκληση, μεταβείτε σε ένα κανάλι και χρησιμοποιήστε το κουμπί πρόσκλησης.';
 
   @override
-  String get guildSettingsInvitesEmpty => 'Δεν υπάρχουν ενεργές προσκλήσεις.';
+  String get guildSettingsInvitesEmpty => 'Δεν υπάρχουν σύνδεσμοι πρόσκλησης';
 
   @override
   String get guildSettingsInvitesEmptyDescription =>
-      'This community doesn\'t have any invite links yet. Go to a channel and create an invite to invite people.';
+      'Αυτή η κοινότητα δεν έχει συνδέσμους πρόσκλησης ακόμα. Πήγαινε σε ένα κανάλι και δημιούργησε μια πρόσκληση για να καλέσεις άτομα.';
 
   @override
-  String get guildSettingsInvitesLoadFailedTitle => 'Failed to load invites';
+  String get guildSettingsInvitesLoadFailedTitle =>
+      'Αποτυχία φόρτωσης προσκλήσεων';
 
   @override
   String get guildSettingsInvitesLoadFailedDescription =>
-      'There was an error loading the invites. Try again.';
+      'Παρουσιάστηκε σφάλμα κατά τη φόρτωση των προσκλήσεων. Δοκιμάστε ξανά.';
 
   @override
-  String get guildSettingsInvitesTryAgain => 'Try again';
+  String get guildSettingsInvitesTryAgain => 'Δοκιμάστε ξανά';
 
   @override
   String get guildSettingsInvitesShowCreatedDate =>
-      'Show creation date instead of expiration date';
+      'Εμφάνιση ημερομηνίας δημιουργίας αντί για ημερομηνία λήξης';
 
   @override
-  String get guildSettingsInvitesPauseInvites => 'Pause invites';
+  String get guildSettingsInvitesPauseInvites => 'Παύση προσκλήσεων';
 
   @override
-  String get guildSettingsInvitesEnableInvites => 'Enable invites';
+  String get guildSettingsInvitesEnableInvites => 'Ενεργοποίηση προσκλήσεων';
 
   @override
   String get guildSettingsInvitesPauseForCommunityTitle =>
-      'Pause invites for this community';
+      'Παύση προσκλήσεων για αυτήν την κοινότητα';
 
   @override
   String get guildSettingsInvitesEnableForCommunityTitle =>
-      'Enable invites for this community';
+      'Ενεργοποίηση προσκλήσεων για αυτήν την κοινότητα';
 
   @override
   String get guildSettingsInvitesPauseConfirmDescription =>
-      'Pause invites? New users won\'t be able to join through invite links until you re-enable them. Existing members won\'t be affected.';
+      'Παύση προσκλήσεων; Οι νέοι χρήστες δεν θα μπορούν να μπουν μέσω συνδέσμων πρόσκλησης μέχρι να τις ενεργοποιήσεις ξανά. Τα υπάρχοντα μέλη δεν θα επηρεαστούν.';
 
   @override
   String get guildSettingsInvitesEnableConfirmDescription =>
-      'Enable invites? Users will be able to join this community through invite links again.';
+      'Ενεργοποίηση προσκλήσεων; Οι χρήστες θα μπορούν να ξαναμπούν σε αυτήν την κοινότητα μέσω συνδέσμων πρόσκλησης.';
 
   @override
-  String get guildSettingsInvitesPause => 'Pause';
+  String get guildSettingsInvitesPause => 'Παύση';
 
   @override
   String get guildSettingsInvitesPausedForCommunity =>
-      'Invites are paused for this community.';
+      'Οι προσκλήσεις έχουν τεθεί σε παύση για αυτήν την κοινότητα.';
 
   @override
   String guildSettingsInvitesPausedBecauseRaid(String productName) {
-    return 'Invites are paused because $productName detected a potential raid. New users can\'t join right now.';
+    return 'Οι προσκλήσεις έχουν τεθεί σε παύση επειδή το $productName εντόπισε μια πιθανή επιδρομή. Οι νέοι χρήστες δεν μπορούν να συμμετάσχουν αυτήν τη στιγμή.';
   }
 
   @override
-  String get guildSettingsInvitesLabelInviter => 'Inviter:';
+  String get guildSettingsInvitesLabelInviter => 'Προσκαλών:';
 
   @override
-  String get guildSettingsInvitesLabelChannel => 'Channel:';
+  String get guildSettingsInvitesLabelChannel => 'Κανάλι:';
 
   @override
-  String get guildSettingsInvitesLabelCode => 'Code:';
+  String get guildSettingsInvitesLabelCode => 'Κωδικός:';
 
   @override
-  String get guildSettingsInvitesLabelUses => 'Uses:';
+  String get guildSettingsInvitesLabelUses => 'Χρήσεις:';
 
   @override
-  String get guildSettingsInvitesLabelCreated => 'Created:';
+  String get guildSettingsInvitesLabelCreated => 'Δημιουργήθηκε:';
 
   @override
-  String get guildSettingsInvitesLabelExpires => 'Expires:';
+  String get guildSettingsInvitesLabelExpires => 'Λήγει:';
 
   @override
-  String get guildSettingsInvitesUnknown => 'Unknown';
+  String get guildSettingsInvitesUnknown => 'Άγνωστο';
 
   @override
-  String get guildSettingsInvitesNoCategory => 'No category';
+  String get guildSettingsInvitesNoCategory => 'Χωρίς κατηγορία';
 
   @override
-  String get guildSettingsInvitesExpired => 'Expired';
+  String get guildSettingsInvitesExpired => 'Έληξε';
 
   @override
-  String get guildSettingsInvitesNever => 'Never';
+  String get guildSettingsInvitesNever => 'Ποτέ';
 
   @override
-  String get guildSettingsInvitesCopyLink => 'Copy invite link';
+  String get guildSettingsInvitesCopyLink => 'Αντιγραφή συνδέσμου πρόσκλησης';
 
   @override
-  String get guildSettingsInvitesRevoke => 'Revoke invite';
+  String get guildSettingsInvitesRevoke => 'Ανάκληση πρόσκλησης';
 
   @override
-  String get guildSettingsInvitesRevokeFailedTitle => 'Couldn\'t revoke invite';
+  String get guildSettingsInvitesRevokeFailedTitle =>
+      'Δεν ήταν δυνατή η ανάκληση της πρόσκλησης';
 
   @override
   String get guildSettingsInvitesRevokeFailedDescription =>
-      'The link may still work. Try again in a moment.';
+      'Ο σύνδεσμος ενδέχεται να εξακολουθεί να λειτουργεί. Δοκιμάστε ξανά σε λίγο.';
 
   @override
   String guildSettingsInviteUses(int uses, int maxUses) {
@@ -13544,36 +13725,38 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildSettingsEmojiSearchHint => 'Αναζήτηση emoji';
 
   @override
-  String get guildSettingsEmojiUploadTitle => 'Μεταφόρτωση Emoji';
+  String get guildSettingsEmojiUploadTitle => 'Αποστολή emoji';
 
   @override
-  String get guildSettingsEmojiSlotsTitle => 'Emoji slots';
+  String get guildSettingsEmojiSlotsTitle => 'Θέσεις για emoji';
 
   @override
-  String get guildSettingsEmojiDropZone => 'Drag and drop emoji files here';
+  String get guildSettingsEmojiDropZone =>
+      'Σύρετε και αποθέστε αρχεία emoji εδώ';
 
   @override
   String get guildSettingsEmojiLoadFailed =>
-      'Failed to load emojis. Try again later.';
+      'Αποτυχία φόρτωσης emoji. Δοκιμάστε ξανά αργότερα.';
 
   @override
   String get guildSettingsEmojiSearchEmpty =>
-      'No emojis found matching your search.';
+      'Δεν βρέθηκαν emoji που να ταιριάζουν στην αναζήτησή σου.';
 
   @override
-  String get guildSettingsEmojiNoSlots => 'No emoji slots available';
+  String get guildSettingsEmojiNoSlots =>
+      'Δεν υπάρχουν διαθέσιμες θέσεις για emoji';
 
   @override
   String get guildSettingsEmojiSlotsFull =>
-      'You\'ve reached the maximum number of emojis. Delete some existing emojis to make room.';
+      'Έχετε φτάσει τον μέγιστο αριθμό emoji. Διαγράψτε κάποια υπάρχοντα emoji για να δημιουργήσετε χώρο.';
 
   @override
   String guildSettingsEmojiUploadRequirements(String maxSize) {
-    return 'Emoji names need at least 2 characters and can use letters, numbers, and underscores. Emojis must be under $maxSize. Static images are resized to 128x128 pixels and compressed automatically. Animated emojis and SVGs must already fit the limit.';
+    return 'Τα ονόματα emoji πρέπει να έχουν τουλάχιστον 2 χαρακτήρες και μπορούν να χρησιμοποιούν γράμματα, αριθμούς και κάτω παύλες. Τα emoji πρέπει να είναι μικρότερα από $maxSize. Οι στατικές εικόνες αλλάζουν αυτόματα μέγεθος σε 128x128 εικονοστοιχία και συμπιέζονται αυτόματα. Τα κινούμενα emoji και τα SVG πρέπει ήδη να ταιριάζουν με το όριο.';
   }
 
   @override
-  String get guildSettingsEmojiUploadingTitle => 'Uploading emojis';
+  String get guildSettingsEmojiUploadingTitle => 'Ανέβασμα emoji';
 
   @override
   String guildSettingsEmojiUploadingBody(int count) {
@@ -13583,129 +13766,129 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       other: '# emojis',
       one: '# emoji',
     );
-    return 'Uploading $_temp0. This may take a little while.';
+    return 'Μεταφόρτωση $_temp0. Αυτό μπορεί να πάρει λίγο χρόνο.';
   }
 
   @override
   String get guildSettingsEmojiUploadFailed =>
-      'Failed to upload emojis. Try again.';
+      'Αποτυχία μεταφόρτωσης emoji. Δοκιμάστε ξανά.';
 
   @override
   String get guildSettingsEmojiSomeFailedTitle =>
-      'Some emojis couldn\'t be added';
+      'Δεν ήταν δυνατή η προσθήκη ορισμένων emoji';
 
   @override
   String get guildSettingsEmojiSomeFailedBody =>
-      'Review these files and try again with smaller or simpler images.';
+      'Ελέγξτε αυτά τα αρχεία και δοκιμάστε ξανά με μικρότερες ή απλούστερες εικόνες.';
 
   @override
-  String get guildSettingsEmojiRenameTitle => 'Rename emoji';
+  String get guildSettingsEmojiRenameTitle => 'Μετονομασία emoji';
 
   @override
   String get guildSettingsEmojiRenameHint =>
-      '2-32 characters, letters, numbers, underscores.';
+      '2-32 χαρακτήρες, γράμματα, αριθμοί, κάτω παύλες.';
 
   @override
   String get guildSettingsEmojiColumnEmoji => 'Emoji';
 
   @override
-  String get guildSettingsEmojiColumnName => 'Name';
+  String get guildSettingsEmojiColumnName => 'Όνομα';
 
   @override
-  String get guildSettingsEmojiColumnUploader => 'Uploaded by';
+  String get guildSettingsEmojiColumnUploader => 'Αναρτήθηκε από';
 
   @override
-  String get guildSettingsEmojiUnknownUploader => 'Unknown';
+  String get guildSettingsEmojiUnknownUploader => 'Άγνωστο';
 
   @override
-  String get guildSettingsEmojiDeleteTitle => 'Delete emoji';
+  String get guildSettingsEmojiDeleteTitle => 'Διαγραφή emoji';
 
   @override
   String guildSettingsEmojiDeleteBody(String name) {
-    return 'Delete :$name:? Can\'t be undone.';
+    return 'Διαγραφή του :$name:; Δεν αναιρείται.';
   }
 
   @override
   String get guildSettingsEmojiPurgeLabel =>
-      'Purge this emoji from storage and CDN';
+      'Εκκαθάριση αυτού του emoji από τον χώρο αποθήκευσης και το CDN';
 
   @override
   String get guildSettingsEmojiNameTooShort =>
-      'Emoji name must be at least 2 characters long';
+      'Το όνομα emoji πρέπει να έχει τουλάχιστον 2 χαρακτήρες';
 
   @override
   String get guildSettingsEmojiNameTooLong =>
-      'Emoji name must be at most 32 characters long';
+      'Το όνομα emoji πρέπει να έχει έως 32 χαρακτήρες';
 
   @override
-  String get guildSettingsEmojiInvalidNameTitle => 'Invalid emoji name';
+  String get guildSettingsEmojiInvalidNameTitle => 'Μη έγκυρο όνομα emoji';
 
   @override
   String get guildSettingsEmojiRenameFailedTitle =>
-      'Couldn\'t rename this emoji';
+      'Αδυναμία μετονομασίας αυτού του emoji';
 
   @override
   String get guildSettingsEmojiRenameFailedBody =>
-      'The name was reverted to what it was before. Please try again in a moment.';
+      'Το όνομα επανήλθε στην προηγούμενη του κατάσταση. Δοκιμάστε ξανά σε λίγο.';
 
   @override
-  String get guildSettingsEmojiGoneTitle => 'This emoji no longer exists';
+  String get guildSettingsEmojiGoneTitle => 'Αυτό το emoji δεν υπάρχει πλέον';
 
   @override
   String get guildSettingsEmojiGoneBody =>
-      'It may have been deleted. The name was reverted to what it was before.';
+      'Ενδέχεται να έχει διαγραφεί. Το όνομα επανήλθε στην προηγούμενη κατάστασή του.';
 
   @override
   String get guildSettingsEmojiNoPermissionRenameTitle =>
-      'You can\'t rename this emoji';
+      'Δεν μπορείτε να μετονομάσετε αυτό το emoji';
 
   @override
   String get guildSettingsEmojiNoPermissionRenameBody =>
-      'You don\'t have permission to rename this emoji. The name was reverted to what it was before.';
+      'Δεν έχετε δικαίωμα να μετονομάσετε αυτό το emoji. Το όνομα επανήλθε στην προηγούμενη του κατάσταση.';
 
   @override
-  String get guildSettingsEmojiRateLimitedTitle => 'You\'re going too fast';
+  String get guildSettingsEmojiRateLimitedTitle => 'Προχωράτε πολύ γρήγορα';
 
   @override
   String get guildSettingsEmojiRateLimitedBody =>
-      'Please wait a moment and try renaming again.';
+      'Παρακαλώ περιμένετε λίγο και δοκιμάστε να μετονομάσετε ξανά.';
 
   @override
   String get guildSettingsEmojiDeleteFailedTitle =>
-      'Couldn\'t delete this emoji';
+      'Αδυναμία διαγραφής αυτού του emoji';
 
   @override
   String get guildSettingsEmojiDeleteNoPermissionTitle =>
-      'You can\'t delete this emoji';
+      'Δεν μπορείτε να διαγράψετε αυτό το emoji';
 
   @override
   String get guildSettingsCloneEmojiTitle =>
-      'Allow others to clone your emojis';
+      'Να επιτρέπεται σε άλλους να κλωνοποιούν τα emoji σου';
 
   @override
   String get guildSettingsCloneEmojiDescription =>
-      'When enabled, members of other communities can use the in-app one-click \"Clone\" shortcut on your custom emojis. This does not prevent them from saving the image and uploading it themselves.';
+      'Όταν είναι ενεργοποιημένο, τα μέλη άλλων κοινοτήτων μπορούν να χρησιμοποιήσουν τη συντόμευση \"Κλωνοποίηση\" με ένα κλικ εντός της εφαρμογής για τα προσαρμοσμένα emoji σας. Αυτό δεν τους εμποδίζει να αποθηκεύσουν την εικόνα και να την ανεβάσουν οι ίδιοι.';
 
   @override
   String get guildSettingsCloneStickerTitle =>
-      'Allow others to clone your stickers';
+      'Να επιτρέπεται σε άλλους να αντιγράφουν τα αυτοκόλλητά σου';
 
   @override
   String get guildSettingsCloneStickerDescription =>
-      'When enabled, members of other communities can use the in-app one-click \"Clone\" shortcut on your custom stickers. This does not prevent them from saving the image and uploading it themselves.';
+      'Όταν είναι ενεργοποιημένο, τα μέλη άλλων κοινοτήτων μπορούν να χρησιμοποιήσουν την εντός εφαρμογής συντόμευση \"Κλωνοποίηση\" με ένα κλικ στα προσαρμοσμένα αυτοκόλλητά σας. Αυτό δεν τους εμποδίζει να αποθηκεύσουν την εικόνα και να την ανεβάσουν οι ίδιοι.';
 
   @override
   String guildSettingsClonePermissionHint(String permission) {
-    return 'Only members with the \"$permission\" permission can change this.';
+    return 'Μόνο μέλη με την άδεια \"$permission\" μπορούν να αλλάξουν αυτό.';
   }
 
   @override
   String get guildSettingsCloneEmojiUpdateFailed =>
-      'Couldn\'t update emoji cloning';
+      'Δεν ήταν δυνατή η ενημέρωση της κλωνοποίησης emoji';
 
   @override
   String get guildSettingsCloneStickerUpdateFailed =>
-      'Couldn\'t update sticker cloning';
+      'Δεν ήταν δυνατή η ενημέρωση της κλωνοποίησης αυτοκόλλητων';
 
   @override
   String guildSettingsNonAnimatedEmoji(int count) {
@@ -13721,131 +13904,135 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildSettingsStickersSearchHint => 'Αναζήτηση αυτοκόλλητων';
 
   @override
-  String get guildSettingsStickerSlotsTitle => 'Sticker slots';
+  String get guildSettingsStickerSlotsTitle => 'Θέσεις για αυτοκόλλητα';
 
   @override
-  String get guildSettingsStickerUploadTitle => 'Upload sticker';
+  String get guildSettingsStickerUploadTitle => 'Ανέβασμα αυτοκόλλητου';
 
   @override
   String get guildSettingsStickerDropZone =>
-      'Drag and drop a sticker file here (one at a time)';
+      'Σύρετε και αποθέστε ένα αρχείο αυτοκόλλητου εδώ (ένα κάθε φορά)';
 
   @override
-  String get guildSettingsStickerDensity => 'Sticker density';
+  String get guildSettingsStickerDensity => 'Πυκνότητα αυτοκόλλητων';
 
   @override
-  String get guildSettingsStickerDensityCozy => 'Cozy';
+  String get guildSettingsStickerDensityCozy => 'Ζεστό';
 
   @override
-  String get guildSettingsStickerDensityCompact => 'Compact';
+  String get guildSettingsStickerDensityCompact => 'Συμπαγής';
 
   @override
-  String get guildSettingsStickersLoadFailedTitle => 'Failed to load stickers';
+  String get guildSettingsStickersLoadFailedTitle =>
+      'Αποτυχία φόρτωσης αυτοκόλλητων';
 
   @override
   String get guildSettingsStickersLoadFailedBody =>
-      'There was an error loading the stickers. Try again.';
+      'Παρουσιάστηκε σφάλμα κατά τη φόρτωση των αυτοκόλλητων. Δοκιμάστε ξανά.';
 
   @override
   String get guildSettingsStickersSearchEmpty =>
-      'No stickers found matching your search.';
+      'Δεν βρέθηκαν αυτοκόλλητα που να ταιριάζουν στην αναζήτησή σας.';
 
   @override
-  String get guildSettingsStickersEmptySearch => 'No stickers found';
+  String get guildSettingsStickersEmptySearch => 'Δεν βρέθηκαν αυτοκόλλητα';
 
   @override
-  String get guildSettingsStickerNoSlots => 'No sticker slots available';
+  String get guildSettingsStickerNoSlots =>
+      'Δεν υπάρχουν διαθέσιμες θέσεις αυτοκόλλητων';
 
   @override
   String get guildSettingsStickerSlotsFull =>
-      'You\'ve reached the maximum number of stickers. Delete some existing stickers to make room.';
+      'Έχετε φτάσει τον μέγιστο αριθμό αυτοκόλλητων. Διαγράψτε μερικά υπάρχοντα αυτοκόλλητα για να δημιουργήσετε χώρο.';
 
   @override
   String guildSettingsStickerUploadRequirements(String maxSize) {
-    return 'Stickers are saved at 320x320 pixels and must be under $maxSize. Static images are resized and compressed automatically. Animated stickers and SVGs must already fit the limit.';
+    return 'Τα αυτοκόλλητα αποθηκεύονται σε 320x320 εικονοστοιχία και πρέπει να είναι μικρότερα από $maxSize. Οι στατικές εικόνες αλλάζουν αυτόματα μέγεθος και συμπιέζονται. Τα κινούμενα αυτοκόλλητα και τα SVG πρέπει ήδη να ταιριάζουν με το όριο.';
   }
 
   @override
-  String get guildSettingsStickerUnsupportedTitle => 'Unsupported sticker file';
+  String get guildSettingsStickerUnsupportedTitle =>
+      'Μη υποστηριζόμενο αρχείο αυτοκόλλητου';
 
   @override
-  String get guildSettingsStickerAddTitle => 'Add sticker';
+  String get guildSettingsStickerAddTitle => 'Προσθήκη αυτοκόλλητου';
 
   @override
-  String get guildSettingsStickerEditTitle => 'Edit sticker';
+  String get guildSettingsStickerEditTitle => 'Επεξεργασία αυτοκόλλητου';
 
   @override
-  String get guildSettingsStickerNameLabel => 'Name';
+  String get guildSettingsStickerNameLabel => 'Όνομα';
 
   @override
-  String get guildSettingsStickerNameHint => 'My awesome sticker';
+  String get guildSettingsStickerNameHint => 'Το τέλειο αυτοκόλλητό μου';
 
   @override
-  String get guildSettingsStickerDescriptionLabel => 'Description';
+  String get guildSettingsStickerDescriptionLabel => 'Περιγραφή';
 
   @override
-  String get guildSettingsStickerDescriptionHint => 'Describe the sticker';
+  String get guildSettingsStickerDescriptionHint => 'Περιέγραψε το αυτοκόλλητο';
 
   @override
   String guildSettingsStickerTagsLabel(int count, int limit) {
-    return 'Tags ($count/$limit)';
+    return 'Ετικέτες ($count/$limit)';
   }
 
   @override
-  String get guildSettingsStickerTagHint => 'Add a tag';
+  String get guildSettingsStickerTagHint => 'Προσθήκη ετικέτας';
 
   @override
-  String get guildSettingsStickerTagAdd => 'Add';
+  String get guildSettingsStickerTagAdd => 'Προσθήκη';
 
   @override
-  String get guildSettingsStickerNameRequired => 'Name is required';
+  String get guildSettingsStickerNameRequired => 'Απαιτείται όνομα';
 
   @override
   String get guildSettingsStickerNameTooShort =>
-      'Name must be at least 2 characters';
+      'Το όνομα πρέπει να έχει τουλάχιστον 2 χαρακτήρες';
 
   @override
   String get guildSettingsStickerNameTooLong =>
-      'Name must be 30 characters or less';
+      'Το όνομα πρέπει να έχει έως 30 χαρακτήρες';
 
   @override
   String get guildSettingsStickerDescriptionTooLong =>
-      'Description must be 500 characters or less';
+      'Η περιγραφή πρέπει να είναι έως 500 χαρακτήρες';
 
   @override
   String get guildSettingsStickerCreateFailedTitle =>
-      'Couldn\'t create this sticker';
+      'Δεν ήταν δυνατή η δημιουργία αυτού του αυτοκόλλητου';
 
   @override
-  String get guildSettingsStickerTooLargeTitle => 'Sticker is too large';
+  String get guildSettingsStickerTooLargeTitle =>
+      'Το αυτοκόλλητο είναι πολύ μεγάλο';
 
   @override
   String get guildSettingsStickerCompressFailedTitle =>
-      'Sticker couldn\'t be compressed enough';
+      'Το αυτοκόλλητο δεν συμπιέστηκε αρκετά';
 
   @override
-  String get guildSettingsStickerDeleteTitle => 'Delete sticker';
+  String get guildSettingsStickerDeleteTitle => 'Διαγραφή αυτοκόλλητου';
 
   @override
   String guildSettingsStickerDeleteBody(String name) {
-    return 'Delete \"$name\"? Can\'t be undone.';
+    return 'Διαγραφή του \"$name\"; δεν μπορεί να αναιρεθεί.';
   }
 
   @override
   String get guildSettingsStickerPurgeLabel =>
-      'Purge this sticker from storage and CDN';
+      'Διαγραφή αυτού του αυτοκόλλητου από τον χώρο αποθήκευσης και το CDN';
 
   @override
   String get guildSettingsStickerDeleteFailedTitle =>
-      'Couldn\'t delete this sticker';
+      'Αδυναμία διαγραφής αυτού του αυτοκόλλητου';
 
   @override
   String get guildSettingsStickerDeleteNoPermissionTitle =>
-      'You can\'t delete this sticker';
+      'Δεν μπορείς να διαγράψεις αυτό το αυτοκόλλητο';
 
   @override
   String guildSettingsWebhooksInfo(String channelSettingsPath) {
-    return 'Δημιουργήστε webhooks από τις ρυθμίσεις καναλιού. Επεξεργαστείτε τα εδώ.';
+    return 'Για να δημιουργήσεις ένα webhook, άνοιξε το $channelSettingsPath. Μπορείς ακόμα να επεξεργαστείς και να οργανώσεις όλα τα υπάρχοντα webhooks εδώ.';
   }
 
   @override
@@ -13874,7 +14061,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildSettingsInvitesTableCreated => 'Δημιουργήθηκε';
 
   @override
-  String get guildSettingsInvitesTableExpires => 'Expires';
+  String get guildSettingsInvitesTableExpires => 'Λήγει';
 
   @override
   String get guildSettingsAuditLogFilterUser => 'Φιλτράρισμα κατά χρήστη';
@@ -13883,331 +14070,353 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildSettingsAuditLogFilterAction => 'Φιλτράρισμα κατά ενέργειας';
 
   @override
-  String get createDm => 'Create DM';
+  String get createDm => 'Δημιουργία νέας συνομιλίας';
 
   @override
-  String get createGroupDm => 'Create group DM';
+  String get createGroupDm => 'Δημιουργία ομαδικής συνομιλίας';
 
   @override
-  String get createDmNewMessage => 'New message';
+  String get createDmNewMessage => 'Νέο μήνυμα';
 
   @override
-  String get createDmSelectFriends => 'Select friends';
+  String get createDmSelectFriends => 'Επιλογή φίλων';
 
   @override
-  String get createDmChooseFriendsSubtitle => 'Choose friends to message.';
+  String get createDmChooseFriendsSubtitle =>
+      'Επιλέξτε φίλους για αποστολή μηνύματος.';
 
   @override
-  String get createDmSearchFriends => 'Search friends';
+  String get createDmSearchFriends => 'Αναζήτηση φίλων';
 
   @override
-  String get createDmNoFriendsFound => 'No friends found';
+  String get createDmNoFriendsFound => 'Δεν βρέθηκαν φίλοι';
 
   @override
-  String get createDmNoFriendsYet => 'You have no friends yet';
+  String get createDmNoFriendsYet => 'Δεν έχεις φίλους ακόμα';
 
   @override
-  String get createDmClaimToStartDms => 'Claim your account to start DMs.';
+  String get createDmClaimToStartDms =>
+      'Διεκδικήστε τον λογαριασμό σας για να ξεκινήσετε απευθείας μηνύματα.';
 
   @override
-  String get createDmVerifyToStartDms => 'Verify your email to start DMs.';
+  String get createDmVerifyToStartDms =>
+      'Επαληθεύστε το email σας για να ξεκινήσετε απευθείας μηνύματα.';
 
   @override
-  String get createDmVerifyYourEmail => 'Verify your email';
+  String get createDmVerifyYourEmail => 'Επαληθεύστε το email σας';
 
   @override
-  String get createDmNewGroup => 'New group';
+  String get createDmNewGroup => 'Νέα ομάδα';
 
   @override
   String createDmCreateGroupWithRecipient(String userName) {
-    return 'Create a new group with $userName';
+    return 'Δημιουργία νέας ομάδας με τον/την $userName';
   }
 
   @override
-  String get createDmConfirmNewGroup => 'Confirm new group';
+  String get createDmConfirmNewGroup => 'Επιβεβαίωση νέας ομάδας';
 
   @override
-  String get createDmCreateNewGroup => 'Create new group';
+  String get createDmCreateNewGroup => 'Δημιουργία νέας ομάδας';
 
   @override
   String createDmRemoveFriend(String displayName) {
-    return 'Remove $displayName';
+    return 'Κατάργηση $displayName';
   }
 
   @override
   String get createDmDuplicateGroupDescription =>
-      'You already have a group with these users. Do you really want to create a new one? That\'s fine too!';
+      'Έχεις ήδη μια ομάδα με αυτούς τους χρήστες. Θέλεις όντως να δημιουργήσεις μια νέα; Κανένα πρόβλημα!';
 
   @override
-  String get createDmNoActivityYet => 'No activity yet';
+  String get createDmNoActivityYet => 'Καμία δραστηριότητα ακόμα';
 
   @override
-  String get createDmSomeUsersCantBeAdded => 'Some users can\'t be added';
+  String get createDmSomeUsersCantBeAdded =>
+      'Ορισμένοι χρήστες δεν μπορούν να προστεθούν';
 
   @override
-  String get createDmCreateWithoutThem => 'Create without them';
+  String get createDmCreateWithoutThem => 'Δημιουργία χωρίς αυτούς';
 
   @override
   String get createDmUnaddableIntro =>
-      'The following people can\'t be added to this group DM:';
+      'Τα παρακάτω άτομα δεν μπορούν να προστεθούν σε αυτήν την ομαδική συνομιλία:';
 
   @override
   String createDmUnaddableProceed(int count) {
-    return 'Create the group DM with the remaining $count recipient(s) and skip the others?';
+    return 'Δημιουργία της ομαδικής συνομιλίας με τους υπόλοιπους $count παραλήπτη(ες) και παράλειψη των άλλων;';
   }
 
   @override
   String get createDmUnaddableNoneRemaining =>
-      'No remaining recipients to create a group DM with.';
+      'Δεν υπάρχουν άλλοι παραλήπτες για να δημιουργήσετε ομαδική συνομιλία.';
 
   @override
-  String get createDmUnaddableUserNotFound => 'User not found';
+  String get createDmUnaddableUserNotFound => 'Ο χρήστης δεν βρέθηκε';
 
   @override
-  String get createDmUnaddableBlocked => 'You can\'t message this user';
+  String get createDmUnaddableBlocked =>
+      'Δεν μπορείς να στείλεις μήνυμα σε αυτόν τον χρήστη';
 
   @override
-  String get createDmUnaddableNotFriends => 'Not on your friends list';
+  String get createDmUnaddableNotFriends => 'Δεν είναι στη λίστα φίλων σου';
 
   @override
   String get createDmUnaddableGroupDisabled =>
-      'Doesn\'t allow being added to group DMs';
+      'Δεν επιτρέπει την προσθήκη σε ομαδικές συνομιλίες';
 
   @override
-  String get createDmFailed => 'Couldn\'t create the conversation. Try again.';
+  String get createDmFailed =>
+      'Δεν ήταν δυνατή η δημιουργία της συνομιλίας. Δοκιμάστε ξανά.';
 
   @override
-  String get dmListMessagesTitle => 'Messages';
+  String get dmListMessagesTitle => 'Μηνύματα';
 
   @override
-  String get dmListDirectMessagesTitle => 'Direct Messages';
+  String get dmListDirectMessagesTitle => 'Άμεσα μηνύματα';
 
   @override
-  String get keybindsSearchShortcuts => 'Search shortcuts';
+  String get keybindsSearchShortcuts => 'Αναζήτηση συντομεύσεων';
 
   @override
-  String get keybindSectionDefaults => 'Defaults';
+  String get keybindSectionDefaults => 'Προεπιλογές';
 
   @override
-  String get keybindSectionMessages => 'Messages';
+  String get keybindSectionMessages => 'Μηνύματα';
 
   @override
-  String get keybindSectionNavigation => 'Navigation';
+  String get keybindSectionNavigation => 'Πλοήγηση';
 
   @override
-  String get keybindSectionDragAndDrop => 'Drag and drop';
+  String get keybindSectionDragAndDrop => 'Σύρετε και αποθέστε';
 
   @override
-  String get keybindSectionChat => 'Chat';
+  String get keybindSectionChat => 'Συνομιλία';
 
   @override
-  String get keybindSectionVoiceAndVideo => 'Voice and video';
+  String get keybindSectionVoiceAndVideo => 'Φωνή και βίντεο';
 
   @override
-  String get keybindSectionMisc => 'Miscellaneous';
+  String get keybindSectionMisc => 'Διάφορα';
 
   @override
-  String get keybindActionShowShortcutsList => 'Show keyboard shortcuts list';
+  String get keybindActionShowShortcutsList =>
+      'Εμφάνιση λίστας συντομεύσεων πληκτρολογίου';
 
   @override
-  String get keybindActionCopyText => 'Copy text';
+  String get keybindActionCopyText => 'Αντιγραφή κειμένου';
 
   @override
-  String get keybindActionMarkUnread => 'Mark as unread';
+  String get keybindActionMarkUnread => 'Σήμανση ως μη αναγνωσμένο';
 
   @override
-  String get keybindActionFocusTextarea => 'Focus text area';
+  String get keybindActionFocusTextarea => 'Εστίαση στο πεδίο κειμένου';
 
   @override
-  String get keybindActionSwitchCommunities => 'Switch between communities';
+  String get keybindActionSwitchCommunities => 'Εναλλαγή μεταξύ κοινοτήτων';
 
   @override
-  String get keybindActionSwitchChannels => 'Switch between channels';
+  String get keybindActionSwitchChannels => 'Εναλλαγή καναλιών';
 
   @override
   String get keybindActionHistoryBack =>
-      'Move back through viewed channel history';
+      'Πλοήγηση προς τα πίσω στο ιστορικό καναλιών που προβλήθηκαν';
 
   @override
   String get keybindActionHistoryForward =>
-      'Move forward through viewed channel history';
+      'Μετακίνηση προς τα εμπρός στο ιστορικό καναλιών που προβλήθηκαν';
 
   @override
-  String get keybindActionJumpUnreadChannels => 'Jump between unread channels';
+  String get keybindActionJumpUnreadChannels =>
+      'Μετάβαση μεταξύ μη αναγνωσμένων καναλιών';
 
   @override
   String get keybindActionJumpMentionChannels =>
-      'Jump between unread channels with mentions';
+      'Μετάβαση σε μη αναγνωσμένα κανάλια με αναφορές';
 
   @override
-  String get keybindActionJumpCurrentCall => 'Jump to the current call';
+  String get keybindActionJumpCurrentCall => 'Μετάβαση στην τρέχουσα κλήση';
 
   @override
   String get keybindActionToggleLastGuildDms =>
-      'Toggle between last community and DMs';
+      'Εναλλαγή μεταξύ τελευταίας κοινότητας και προσωπικών μηνυμάτων';
 
   @override
   String get keybindActionPreviousCommunityOrDms =>
-      'Switch to previous community or DMs';
+      'Εναλλαγή στην προηγούμενη κοινότητα ή στα DM';
 
   @override
   String get keybindActionNextCommunityOrDms =>
-      'Switch to next community or DMs';
+      'Εναλλαγή στην επόμενη κοινότητα ή στα DM';
 
   @override
-  String get keybindActionGoToDms => 'Go to Direct Messages';
+  String get keybindActionGoToDms => 'Μετάβαση στα άμεσα μηνύματα';
 
   @override
-  String get keybindActionGoToFirstCommunity => 'Go to first community';
+  String get keybindActionGoToFirstCommunity => 'Μετάβαση στην πρώτη κοινότητα';
 
   @override
-  String get keybindActionGoToSecondCommunity => 'Go to second community';
+  String get keybindActionGoToSecondCommunity =>
+      'Μετάβαση στη δεύτερη κοινότητα';
 
   @override
-  String get keybindActionGoToThirdCommunity => 'Go to third community';
+  String get keybindActionGoToThirdCommunity => 'Μετάβαση στην τρίτη κοινότητα';
 
   @override
-  String get keybindActionGoToFourthCommunity => 'Go to fourth community';
+  String get keybindActionGoToFourthCommunity =>
+      'Μετάβαση στην τέταρτη κοινότητα';
 
   @override
-  String get keybindActionGoToFifthCommunity => 'Go to fifth community';
+  String get keybindActionGoToFifthCommunity =>
+      'Μετάβαση στην πέμπτη κοινότητα';
 
   @override
-  String get keybindActionGoToSixthCommunity => 'Go to sixth community';
+  String get keybindActionGoToSixthCommunity => 'Πήγαινε στην έκτη κοινότητα';
 
   @override
-  String get keybindActionGoToSeventhCommunity => 'Go to seventh community';
+  String get keybindActionGoToSeventhCommunity =>
+      'Πήγαινε στην έβδομη κοινότητα';
 
   @override
-  String get keybindActionGoToEighthCommunity => 'Go to eighth community';
+  String get keybindActionGoToEighthCommunity =>
+      'Μετάβαση στην όγδοη κοινότητα';
 
   @override
-  String get keybindActionToggleQuickSwitcher => 'Toggle quick switcher';
+  String get keybindActionToggleQuickSwitcher => 'Εναλλαγή γρήγορης εναλλαγής';
 
   @override
-  String get keybindActionCreateOrJoinCommunity => 'Create or join a community';
+  String get keybindActionCreateOrJoinCommunity =>
+      'Δημιουργία ή συμμετοχή σε κοινότητα';
 
   @override
-  String get keybindActionStartDragAndDrop => 'Start drag and drop';
+  String get keybindActionStartDragAndDrop => 'Έναρξη μεταφοράς και απόθεσης';
 
   @override
-  String get keybindActionMove => 'Move';
+  String get keybindActionMove => 'Μετακίνηση';
 
   @override
-  String get keybindActionDropItem => 'Drop item';
+  String get keybindActionDropItem => 'Απόθεση αντικειμένου';
 
   @override
-  String get keybindActionCancel => 'Cancel';
+  String get keybindActionCancel => 'Ακύρωση';
 
   @override
-  String get keybindActionMarkCommunityRead => 'Mark community as read';
+  String get keybindActionMarkCommunityRead =>
+      'Σήμανση κοινότητας ως αναγνωσμένη';
 
   @override
-  String get keybindActionMarkChannelRead => 'Mark channel as read';
+  String get keybindActionMarkChannelRead => 'Σήμανση καναλιού ως αναγνωσμένου';
 
   @override
-  String get keybindActionStartGroupDm => 'Start a group DM';
+  String get keybindActionStartGroupDm => 'Έναρξη ομαδικής συνομιλίας';
 
   @override
-  String get keybindActionTogglePinnedMessages => 'Toggle pinned messages';
+  String get keybindActionTogglePinnedMessages =>
+      'Εναλλαγή καρφιτσωμένων μηνυμάτων';
 
   @override
-  String get keybindActionToggleInbox => 'Toggle the inbox';
+  String get keybindActionToggleInbox => 'Εναλλαγή εισερχομένων';
 
   @override
-  String get keybindActionMarkTopInboxRead => 'Mark top inbox channel as read';
+  String get keybindActionMarkTopInboxRead =>
+      'Σήμανση του κορυφαίου καναλιού εισερχομένων ως αναγνωσμένου';
 
   @override
-  String get keybindActionMarkAllInboxRead => 'Mark all inbox channels as read';
+  String get keybindActionMarkAllInboxRead =>
+      'Σήμανση όλων των συνομιλιών εισερχομένων ως αναγνωσμένων';
 
   @override
   String get keybindActionToggleMemberList =>
-      'Toggle the member list or voice chat';
+      'Εναλλαγή λίστας μελών ή φωνητικής συνομιλίας';
 
   @override
-  String get keybindActionToggleEmojiPicker => 'Toggle the emoji picker';
+  String get keybindActionToggleEmojiPicker => 'Εναλλαγή επιλογέα emoji';
 
   @override
-  String get keybindActionToggleGifPicker => 'Toggle the GIF picker';
+  String get keybindActionToggleGifPicker => 'Εναλλαγή επιλογής GIF';
 
   @override
-  String get keybindActionToggleStickerPicker => 'Toggle the sticker picker';
+  String get keybindActionToggleStickerPicker =>
+      'Εναλλαγή επιλογής αυτοκόλλητων';
 
   @override
-  String get keybindActionScrollChatUp => 'Scroll chat up';
+  String get keybindActionScrollChatUp => 'Κύλιση συνομιλίας προς τα πάνω';
 
   @override
-  String get keybindActionScrollChatDown => 'Scroll chat down';
+  String get keybindActionScrollChatDown => 'Κύλιση συνομιλίας προς τα κάτω';
 
   @override
   String get keybindActionJumpOldestUnread =>
-      'Jump to the oldest unread message';
+      'Μετάβαση στο παλαιότερο μη αναγνωσμένο μήνυμα';
 
   @override
-  String get keybindActionFocusComposer => 'Focus the text area';
+  String get keybindActionFocusComposer => 'Εστίαση στο πεδίο κειμένου';
 
   @override
-  String get keybindActionUploadFile => 'Upload a file';
+  String get keybindActionUploadFile => 'Αποστολή αρχείου';
 
   @override
-  String get keybindActionCopyChannelLink => 'Copy channel link';
+  String get keybindActionCopyChannelLink => 'Αντιγραφή συνδέσμου καναλιού';
 
   @override
-  String get keybindActionToggleSavedMedia => 'Toggle saved media';
+  String get keybindActionToggleSavedMedia =>
+      'Εναλλαγή αποθηκευμένων πολυμέσων';
 
   @override
-  String get keybindActionSendVoiceMessage => 'Send voice message';
+  String get keybindActionSendVoiceMessage => 'Αποστολή φωνητικού μηνύματος';
 
   @override
-  String get keybindActionAnswerCall => 'Answer the incoming call';
+  String get keybindActionAnswerCall => 'Απάντηση στην εισερχόμενη κλήση';
 
   @override
-  String get keybindActionDeclineCall => 'Decline the incoming call';
+  String get keybindActionDeclineCall => 'Απόρριψη εισερχόμενης κλήσης';
 
   @override
-  String get keybindActionStartDmCall => 'Start a call in a DM or group';
+  String get keybindActionStartDmCall => 'Ξεκινήστε μια κλήση σε DM ή ομάδα';
 
   @override
-  String get keybindActionToggleSoundboard => 'Toggle the soundboard';
+  String get keybindActionToggleSoundboard => 'Εναλλαγή ηχοσανίδας';
 
   @override
   String get keybindActionToggleCompactCallView =>
-      'Expand or collapse compact call view';
+      'Ανάπτυξη ή σύμπτυξη της συμπαγούς προβολής κλήσης';
 
   @override
-  String get keybindActionPushToTalkPriority => 'Push to talk (priority)';
+  String get keybindActionPushToTalkPriority => 'Push to talk (προτεραιότητα)';
 
   @override
-  String get keybindActionVoiceActivityPriority => 'Voice activity priority';
+  String get keybindActionVoiceActivityPriority =>
+      'Προτεραιότητα δραστηριότητας φωνής';
 
   @override
-  String get keybindActionOpenHelp => 'Open help';
+  String get keybindActionOpenHelp => 'Άνοιγμα βοήθειας';
 
   @override
-  String get keybindActionSearchMessages => 'Search messages';
+  String get keybindActionSearchMessages => 'Αναζήτηση μηνυμάτων';
 
   @override
-  String get keybindActionOpenContextMenu => 'Open the context menu';
+  String get keybindActionOpenContextMenu => 'Άνοιγμα του μενού περιβάλλοντος';
 
   @override
-  String get keybindActionOpenSettings => 'Open your settings';
+  String get keybindActionOpenSettings => 'Άνοιγμα ρυθμίσεων';
 
   @override
-  String get keybindActionOpenThemeStudio => 'Open theme studio popout';
+  String get keybindActionOpenThemeStudio =>
+      'Άνοιγμα αναδυόμενου παραθύρου στούντιο θεμάτων';
 
   @override
-  String get keybindActionZoomIn => 'Zoom in';
+  String get keybindActionZoomIn => 'Μεγέθυνση';
 
   @override
-  String get keybindActionZoomOut => 'Zoom out';
+  String get keybindActionZoomOut => 'Σμίκρυνση';
 
   @override
-  String get keybindActionZoomReset => 'Reset zoom';
+  String get keybindActionZoomReset => 'Επαναφορά ζουμ';
 
   @override
   String get clipboardPasteFailed =>
-      'Couldn\'t paste. The clipboard was empty or blocked for this app.';
+      'Δεν ήταν δυνατή η επικόλληση. Το πρόχειρο ήταν κενό ή μπλοκαρισμένο για αυτήν την εφαρμογή.';
 
   @override
-  String get homeQuickActionDms => 'DMs';
+  String get homeQuickActionDms => 'Άμεσα μηνύματα';
 }

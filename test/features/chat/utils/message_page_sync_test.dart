@@ -186,6 +186,70 @@ void main() {
     expect(actual[1].deliveryState, MessageDeliveryState.sending);
   });
 
+  test('latest page retires a server row past its newest message', () {
+    final String deletedTailId = _snowflakeForUtc(
+      DateTime.utc(2026, 5, 10, 13),
+    );
+    final String sendingId = _snowflakeForUtc(DateTime.utc(2026, 5, 10, 14));
+    final List<Message> actual = reconcileMessagesWithNetworkPage(
+      current: [
+        _message(idA),
+        _message(idB),
+        _message(idC),
+        _message(deletedTailId),
+        _message(sendingId, deliveryState: MessageDeliveryState.sending),
+      ],
+      networkPage: [_message(idA), _message(idB), _message(idC)],
+      isLatestPage: true,
+    );
+    expect(actual.map((Message message) => message.id), [
+      idA,
+      idB,
+      idC,
+      sendingId,
+    ]);
+  });
+
+  test('anchored page keeps a server row past its newest message', () {
+    final String newerId = _snowflakeForUtc(DateTime.utc(2026, 5, 10, 13));
+    final String sendingId = _snowflakeForUtc(DateTime.utc(2026, 5, 10, 14));
+    final List<Message> actual = reconcileMessagesWithNetworkPage(
+      current: [
+        _message(idA),
+        _message(idB),
+        _message(idC),
+        _message(newerId),
+        _message(sendingId, deliveryState: MessageDeliveryState.sending),
+      ],
+      networkPage: [_message(idA), _message(idB), _message(idC)],
+    );
+    expect(actual.map((Message message) => message.id), [
+      idA,
+      idB,
+      idC,
+      newerId,
+      sendingId,
+    ]);
+  });
+
+  test('loaded-window latest reconciliation drops the deleted tail', () {
+    final String deletedTailId = _snowflakeForUtc(
+      DateTime.utc(2026, 5, 10, 13),
+    );
+    final String sendingId = _snowflakeForUtc(DateTime.utc(2026, 5, 10, 14));
+    final List<Message> actual = reconcileStaleDeletionsInLoadedWindow(
+      current: [
+        _message(idA),
+        _message(idB),
+        _message(deletedTailId),
+        _message(sendingId, deliveryState: MessageDeliveryState.sending),
+      ],
+      networkPage: [_message(idA), _message(idB)],
+      isLatestPage: true,
+    );
+    expect(actual.map((Message message) => message.id), [idA, idB, sendingId]);
+  });
+
   test('networkPageStaleLocalIds ignores messages outside page range', () {
     final String idOlder = _snowflakeForUtc(DateTime.utc(2026, 5, 9, 12));
     final List<String> stale = networkPageStaleLocalIds(

@@ -931,7 +931,10 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     bool messageDisplayCompact = false,
     bool showCompactTimestampColumn = false,
   }) {
-    const replyAreaHeight = _kReplyRowHeight + _kReplyBottomGap;
+    final double replyRowHeight = MediaQuery.textScalerOf(
+      context,
+    ).scale(_kReplyRowHeight);
+    final double replyAreaHeight = replyRowHeight + _kReplyBottomGap;
     if (messageDisplayCompact) {
       final double contentStart = showCompactTimestampColumn
           ? compactMessageBodyStart(
@@ -943,7 +946,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         child: CustomPaint(
           painter: CompactReplyConnectorPainter(
             spineCenterX: kCompactReplySpineInlineOffset,
-            lineTop: _kReplyRowHeight / 2,
+            lineTop: replyRowHeight / 2,
             lineBottom: replyAreaHeight - 5,
             horizontalEnd: contentStart - _kReplyLineEndGap,
             color: context.colors.interactiveMuted,
@@ -954,7 +957,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               bottom: _kReplyBottomGap,
             ),
             child: SizedBox(
-              height: _kReplyRowHeight,
+              height: replyRowHeight,
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: InlineReplyPreview(
@@ -970,8 +973,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       );
     }
     const avatarCenterX = 20.0;
-    const lineTop = _kReplyRowHeight / 2;
-    const lineBottom = replyAreaHeight - 5;
+    final double lineTop = replyRowHeight / 2;
+    final double lineBottom = replyAreaHeight - 5;
     const horizontalEnd = kMessageAvatarColumnWidth - 5;
     const replyContentLeft = horizontalEnd + _kReplyLineEndGap;
 
@@ -991,7 +994,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
             bottom: _kReplyBottomGap,
           ),
           child: SizedBox(
-            height: _kReplyRowHeight,
+            height: replyRowHeight,
             child: Align(
               alignment: Alignment.centerLeft,
               child: InlineReplyPreview(

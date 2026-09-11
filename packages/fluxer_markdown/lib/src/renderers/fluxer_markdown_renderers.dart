@@ -131,6 +131,17 @@ double _listMarkerColumnWidth({
   return maxWidth + textScaler.scale(fontSize) * 0.25;
 }
 
+double _textLineHeight(TextStyle style, TextScaler textScaler) {
+  final TextPainter painter = TextPainter(
+    text: TextSpan(text: 'x', style: style),
+    textDirection: ui.TextDirection.ltr,
+    textScaler: textScaler,
+  )..layout();
+  final double height = painter.height;
+  painter.dispose();
+  return height;
+}
+
 final RegExp _spoilerSyncUrlPattern = RegExp(
   r'''https?:\/\/[^\s<>"']+''',
   caseSensitive: false,
@@ -551,6 +562,8 @@ class _MarkdownBlockRenderer {
     switch (node.tag) {
       case 'p':
         return _buildParagraph(node.children ?? const []);
+      case 'blank-lines':
+        return _buildBlankLines(node);
       case 'h1':
         return _buildHeadingParagraph(node.children ?? const [], level: 1);
       case 'h2':
@@ -665,6 +678,15 @@ class _MarkdownBlockRenderer {
       return SizedBox(width: double.infinity, child: richText);
     }
     return richText;
+  }
+
+  // The enclosing column already contributes one block gap (#545).
+  Widget _buildBlankLines(md.Element node) {
+    final int count = int.tryParse(node.attributes['count'] ?? '') ?? 0;
+    final double lines =
+        count * _textLineHeight(baseStyle, MediaQuery.textScalerOf(context));
+    final double height = lines - _blockSpacingForStyle(baseStyle);
+    return SizedBox(height: height > 0 ? height : 0);
   }
 
   Widget _buildAlert(md.Element node) {

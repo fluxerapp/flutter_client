@@ -8,6 +8,15 @@ List<md.Node> bridge(String input) =>
 md.Element elementAt(List<md.Node> nodes, int index) =>
     nodes[index] as md.Element;
 
+List<String> blockShape(List<md.Node> nodes) => [
+  for (final element in nodes.cast<md.Element>())
+    switch (element.tag) {
+      'blank-lines' => 'blank-lines:${element.attributes['count']}',
+      'p' => 'p:${element.textContent}',
+      _ => element.tag,
+    },
+];
+
 void main() {
   test('inline run groups into a single paragraph', () {
     final nodes = bridge('plain **bold** *em* __under__ ~~strike~~');
@@ -171,5 +180,78 @@ void main() {
     expect(mention.tag, 'mention-command');
     expect(mention.attributes['id'], '99');
     expect(mention.textContent, 'ban user');
+  });
+
+  test('keeps one typed blank line on each side of a list (#545)', () {
+    expect(blockShape(bridge('intro\n\n- one\n- two\n\noutro')), <String>[
+      'p:intro',
+      'blank-lines:1',
+      'ul',
+      'blank-lines:1',
+      'p:outro',
+    ]);
+  });
+
+  test('keeps two typed blank lines on each side of a list (#545)', () {
+    expect(blockShape(bridge('intro\n\n\n- one\n- two\n\n\noutro')), <String>[
+      'p:intro',
+      'blank-lines:2',
+      'ul',
+      'blank-lines:2',
+      'p:outro',
+    ]);
+  });
+
+  test('keeps three typed blank lines on each side of a list (#545)', () {
+    expect(
+      blockShape(bridge('intro\n\n\n\n- one\n- two\n\n\n\noutro')),
+      <String>['p:intro', 'blank-lines:3', 'ul', 'blank-lines:3', 'p:outro'],
+    );
+  });
+
+  test('keeps the blank line when the list is the first block (#545)', () {
+    expect(blockShape(bridge('- one\n\noutro')), <String>[
+      'ul',
+      'blank-lines:1',
+      'p:outro',
+    ]);
+  });
+
+  test('keeps the blank line when the list is the last block (#545)', () {
+    expect(blockShape(bridge('intro\n\n- one')), <String>[
+      'p:intro',
+      'blank-lines:1',
+      'ul',
+    ]);
+  });
+
+  test('adds nothing when no blank line was typed around a list (#545)', () {
+    expect(blockShape(bridge('intro\n- one\n- two\noutro')), <String>[
+      'p:intro',
+      'ul',
+      'p:outro',
+    ]);
+  });
+
+  test('keeps blank lines typed between two blocks (#545)', () {
+    expect(blockShape(bridge('- one\n\n\n> quote')), <String>[
+      'ul',
+      'blank-lines:2',
+      'blockquote',
+    ]);
+  });
+
+  test('trims blank lines typed at the document end (#545)', () {
+    expect(blockShape(bridge('intro\n\n\n- one\n\n')), <String>[
+      'p:intro',
+      'blank-lines:2',
+      'ul',
+    ]);
+  });
+
+  test('leaves blank lines inside a paragraph literal (#545)', () {
+    expect(blockShape(bridge('intro\n\n\noutro')), <String>[
+      'p:intro\n\n\noutro',
+    ]);
   });
 }

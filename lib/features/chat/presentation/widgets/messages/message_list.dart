@@ -45,6 +45,8 @@ import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_list_pin.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_list_placeholder_specs.dart';
+import 'package:fluxer_app/features/chat/presentation/'
+    'widgets/messages/message_list_scroll_metrics.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_skeleton.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_list_unread_review.dart';
@@ -56,6 +58,7 @@ import 'package:fluxer_app/features/chat/presentation/'
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/system_message.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
+import 'package:fluxer_app/features/chat/providers/chat_wallpaper_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/core/message_pagination_coordinator.dart';
@@ -65,6 +68,7 @@ import 'package:fluxer_app/features/chat/utils/message_action_permissions.dart';
 import 'package:fluxer_app/features/chat/utils/message_grouping_utils.dart';
 import 'package:fluxer_app/features/chat/utils/message_page_sync.dart';
 import 'package:fluxer_app/features/chat/utils/pinned_system_message_navigation.dart';
+import 'package:fluxer_app/features/chat/wallpaper/chat_wallpaper.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_welcome_section.dart';
@@ -232,6 +236,8 @@ class _MessageListState extends ConsumerState<MessageList> {
   bool _scrollCacheExpansionPending = false;
   bool _messagesWereLoading = false;
   double? _lastViewportDimension;
+  double? _lastMinScrollExtent;
+  double? _lastMaxScrollExtent;
 
   bool _userDragActive = false;
   // A touch-down mid-fling makes Scrollable hold(), which dispatches
@@ -640,6 +646,7 @@ class _MessageListState extends ConsumerState<MessageList> {
           _anchorFraction = _kUnreadOpenAnchor;
           _anchorEdge = MessageListAnchorEdge.before;
           _scheduleUnderfillBottomReanchor();
+          _scheduleJumpHighlightConfirm(jumpRequestId!);
         } else {
           _anchorId = messages.isEmpty ? null : messages.last.id;
           _anchorFraction = 1.0;
@@ -742,6 +749,7 @@ class _MessageListState extends ConsumerState<MessageList> {
         _demandSource.resetApproachVelocity();
         _scheduleAnchorCenterCorrection(scrollId);
         _scheduleUnderfillBottomReanchor();
+        _scheduleJumpHighlightConfirm(target);
       } else if (messageLoadFailed) {
         // The page that would carry the target will not arrive.
         talker.debug(
@@ -1565,6 +1573,8 @@ class _MessageListState extends ConsumerState<MessageList> {
       _clearPendingScrollTarget();
     }
     _lastViewportDimension = null;
+    _lastMinScrollExtent = null;
+    _lastMaxScrollExtent = null;
     _useCompactScrollCache = true;
     _lastMessageCount = 0;
     _scrollCacheExpansionPending = false;
@@ -1969,32 +1979,42 @@ class _MessageListState extends ConsumerState<MessageList> {
   }
 
   bool _onScrollMetricsNotification(ScrollMetricsNotification notification) {
-    // A dimension change (keyboard, rotation, layout swap) invalidates any
-    // built-up approach velocity and is itself geometry progress.
-    _demandSource.resetApproachVelocity();
-    _publishDemandGeometry();
-    // A re-anchor remount attaches a fresh position without any scroll, so
-    // the read viewport (auto-ack, jump-to-bottom button) must republish
-    // here - the metrics change IS the attach signal.
-    _syncReadViewport();
-    final double viewport = notification.metrics.viewportDimension;
-    final double? previous = _lastViewportDimension;
-    _lastViewportDimension = viewport;
-    if (previous != null && viewport < previous - 0.5 && _pin.pinned) {
-      // Keyboard/viewport shrink while pinned: stay glued to the live tail.
-      _schedulePinnedTailGlue();
-    }
-    // The fraction was measured against content that may since have shrunk
-    // (bulk delete, trim, collapse) or a viewport that grew. Metrics
-    // notifications also fire per scrolling frame (extentBefore/extentAfter
-    // move with pixels), so the condition is pre-read off the notification
-    // instead of arming a post-frame pass on every one.
     final ScrollMetrics metrics = notification.metrics;
+    final double viewport = metrics.viewportDimension;
+    final double minExtent = metrics.minScrollExtent;
+    final double extent = metrics.maxScrollExtent;
+    final double? previousViewport = _lastViewportDimension;
+    final double? previousMinExtent = _lastMinScrollExtent;
+    final double? previousExtent = _lastMaxScrollExtent;
+    final bool pixelOnly = isPixelOnlyScrollMetricsChange(
+      viewportDimension: viewport,
+      minScrollExtent: minExtent,
+      maxScrollExtent: extent,
+      lastViewportDimension: previousViewport,
+      lastMinScrollExtent: previousMinExtent,
+      lastMaxScrollExtent: previousExtent,
+    );
+    _lastViewportDimension = viewport;
+    _lastMinScrollExtent = minExtent;
+    _lastMaxScrollExtent = extent;
+    if (!pixelOnly) {
+      // Keyboard, rotation, content-extent jump, or first attach. Pixel
+      // slides already flow through _onScroll / ScrollUpdate.
+      _demandSource.resetApproachVelocity();
+      _publishDemandGeometry();
+      _syncReadViewport();
+      if (previousViewport != null &&
+          viewport < previousViewport - kMessageListMetricsEpsilon &&
+          _pin.pinned) {
+        _schedulePinnedTailGlue();
+      }
+    }
     if (_anchorId != null &&
         _anchorFraction < 1.0 &&
         !_unreadOpenLayout &&
         metrics.maxScrollExtent <= 0 &&
-        metrics.pixels >= metrics.maxScrollExtent - 0.5) {
+        metrics.pixels >=
+            metrics.maxScrollExtent - kMessageListMetricsEpsilon) {
       _scheduleUnderfillBottomReanchor();
     }
     return false;
@@ -2038,6 +2058,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       }
       talker.debug('[MessageList] pending target $messageId expired');
       _clearPendingScrollTarget();
+      _scheduleJumpHighlightConfirm(messageId);
       _onScroll();
     });
   }
@@ -2344,6 +2365,15 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
   }
 
+  void _scheduleJumpHighlightConfirm(String messageId) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      _confirmJumpHighlightScroll(messageId);
+    });
+  }
+
   void _onScrollToMessage(String messageId) {
     talker.debug(
       '[MessageList] _onScrollToMessage $messageId '
@@ -2393,14 +2423,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
     _clearPendingScrollTarget();
     _reanchor(scrollId, _kUnreadOpenAnchor, edge: MessageListAnchorEdge.before);
-    final int highlightEpoch = _uiEpoch;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _runIfSameEpoch(highlightEpoch, () {
-        // The jump landed atomically this frame: keep the highlight visible
-        // for its full duration from the moment the user can see it.
-        _confirmJumpHighlightScroll(messageId);
-      });
-    });
+    _scheduleJumpHighlightConfirm(messageId);
   }
 
   Widget _buildMessageTile({
@@ -2943,24 +2966,7 @@ class _MessageListState extends ConsumerState<MessageList> {
                 ),
               ],
             ),
-            ColoredBox(
-              color: context.colors.chatBackground,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Text(
-                  formatted,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: context.textStyles.smallText.copyWith(
-                    color: danger,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    height: 1,
-                    letterSpacing: 0,
-                  ),
-                ),
-              ),
-            ),
+            _UnreadDateLabel(formatted: formatted, danger: danger),
           ],
         ),
       ),
@@ -3014,6 +3020,45 @@ class _MessageListState extends ConsumerState<MessageList> {
           ),
           Expanded(child: Divider(color: context.colors.borderColor)),
         ],
+      ),
+    );
+  }
+}
+
+class _UnreadDateLabel extends ConsumerWidget {
+  const _UnreadDateLabel({required this.formatted, required this.danger});
+
+  final String formatted;
+  final Color danger;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bool useOpaqueFill = ref.watch(
+      chatWallpaperProvider.select(
+        (ChatWallpaperSnapshot snapshot) => snapshot.resolved.isThemeBackground,
+      ),
+    );
+    return ColoredBox(
+      color: useOpaqueFill ? context.colors.chatBackground : Colors.transparent,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Text(
+          formatted,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: context.textStyles.smallText.copyWith(
+            color: danger,
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            height: 1,
+            letterSpacing: 0,
+            shadows: useOpaqueFill
+                ? null
+                : const <Shadow>[
+                    Shadow(color: Color(0xCC000000), blurRadius: 4),
+                  ],
+          ),
+        ),
       ),
     );
   }

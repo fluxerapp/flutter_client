@@ -3,6 +3,8 @@ import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/database/tables/messages.dart';
+import 'package:fluxer_app/features/chat/domain/message.dart'
+    show MessageDeliveryState;
 import 'package:fluxer_app/features/chat/domain/message_translation.dart';
 
 part 'message_dao.g.dart';
@@ -196,6 +198,24 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
             ..limit(1))
           .getSingleOrNull();
 
+  /// Id of the newest row of [channelId] the server has confirmed.
+  Future<String?> newestServerMessageId(String channelId) async {
+    final Message? row =
+        await (select(messages)
+              ..where(
+                (m) =>
+                    m.channelId.equals(channelId) &
+                    m.deliveryState.equals(MessageDeliveryState.sent.index),
+              )
+              ..orderBy([
+                (m) => OrderingTerm.desc(m.timestamp),
+                (m) => OrderingTerm.desc(m.id.cast<int>()),
+              ])
+              ..limit(1))
+            .getSingleOrNull();
+    return row?.id;
+  }
+
   Stream<Message?> watchLastMessage(String channelId) =>
       (select(messages)
             ..where((m) => m.channelId.equals(channelId))
@@ -296,6 +316,25 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
       return Future.value();
     }
     return (delete(messages)..where((m) => m.id.isIn(ids))).go();
+  }
+
+  /// Deletes server-backed rows of [channelId] in (afterId, upToId] (#474).
+  Future<void> deleteServerMessagesBetween(
+    String channelId, {
+    required String afterId,
+    required String upToId,
+  }) {
+    // Numeric compare: a TEXT compare misorders ids of different length.
+    final int afterSnowflake = int.parse(afterId);
+    final int upToSnowflake = int.parse(upToId);
+    return (delete(messages)..where(
+          (m) =>
+              m.channelId.equals(channelId) &
+              m.id.cast<int>().isBiggerThanValue(afterSnowflake) &
+              m.id.cast<int>().isSmallerOrEqualValue(upToSnowflake) &
+              m.deliveryState.equals(MessageDeliveryState.sent.index),
+        ))
+        .go();
   }
 
   Future<void> deleteMessagesForChannel(String channelId) =>

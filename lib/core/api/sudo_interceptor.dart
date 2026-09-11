@@ -114,6 +114,10 @@ class SudoInterceptor extends Interceptor {
       _extractAndCacheToken(retryResponse);
       handler.resolve(retryResponse);
     } on DioException catch (retryError) {
+      final retryResponse = retryError.response;
+      if (retryResponse != null) {
+        _extractAndCacheToken(retryResponse);
+      }
       talker.warning(
         '[SudoInterceptor] Retry failed: '
         '${retryError.response?.statusCode} ${retryError.message}',
@@ -130,10 +134,14 @@ class SudoInterceptor extends Interceptor {
     Map<String, dynamic> credentials,
   ) {
     final data = opts.data;
-    if (data is Map<String, dynamic>) {
-      opts.data = <String, dynamic>{...data, ...credentials};
+    if (data is Map) {
+      opts.data = <String, dynamic>{
+        for (final entry in data.entries)
+          if (entry.key is String) entry.key as String: entry.value,
+        ...credentials,
+      };
     } else if (data == null) {
-      opts.data = credentials;
+      opts.data = Map<String, dynamic>.from(credentials);
     } else {
       throw StateError(
         'Cannot merge sudo credentials into non-map request body: '
@@ -153,8 +161,9 @@ class SudoInterceptor extends Interceptor {
 
   String? _extractErrorCode(Response<dynamic> response) {
     final data = response.data;
-    if (data is Map<String, dynamic>) {
-      return data['code'] as String?;
+    if (data is Map) {
+      final code = data['code'];
+      return code is String ? code : null;
     }
     if (data is String) {
       try {

@@ -1290,6 +1290,106 @@ void main() {
     },
   );
 
+  // Nothing replays a delete that landed while the process was dead (#474).
+  test(
+    'first open of a fully cached channel fetches the latest page',
+    () async {
+      final db = openTestDatabase();
+      final List<String> liveIds = <String>[
+        for (int minute = 0; minute < 50; minute++)
+          _snowflakeForUtc(DateTime.utc(2026, 5, 16, 10, minute)),
+      ];
+      final String deletedTailId = _snowflakeForUtc(
+        DateTime.utc(2026, 5, 16, 10, 50),
+      );
+      final String channel2MessageId = _snowflakeForUtc(
+        DateTime.utc(2026, 5, 16, 11),
+      );
+      await db.messageDao.upsertMessages([
+        for (final String id in <String>[...liveIds, deletedTailId])
+          _cachedMessage(id: id, channelId: 'channel-1', authorId: 'other'),
+        _cachedMessage(
+          id: channel2MessageId,
+          channelId: 'channel-2',
+          authorId: 'other',
+        ),
+      ]);
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(deletedTailId),
+        ),
+      );
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-2',
+          guildId: 'guild-1',
+          name: 'other',
+          lastMessageId: Value(channel2MessageId),
+        ),
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(deletedTailId),
+          mentionCount: const Value(0),
+        ),
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-2'),
+          lastMessageId: Value(channel2MessageId),
+          mentionCount: const Value(0),
+        ),
+      );
+      final adapter = _ChatAdapter(
+        messagesByChannel: <String, List<Map<String, Object?>>>{
+          'channel-1': <Map<String, Object?>>[
+            for (final String id in liveIds.reversed)
+              _messageJson(id: id, channelId: 'channel-1', authorId: 'other'),
+          ],
+          'channel-2': <Map<String, Object?>>[
+            _messageJson(
+              id: channel2MessageId,
+              channelId: 'channel-2',
+              authorId: 'other',
+            ),
+          ],
+        },
+      );
+      int anchorlessRequests(String channelId) => adapter.messageRequestUris
+          .where(
+            (Uri uri) =>
+                uri.path.endsWith('/channels/$channelId/messages') &&
+                uri.queryParameters['around'] == null &&
+                uri.queryParameters['before'] == null &&
+                uri.queryParameters['after'] == null,
+          )
+          .length;
+      final container = _container(db, adapter);
+      addTearDown(container.dispose);
+
+      final notifier = container.read(chatViewModelProvider.notifier);
+      await notifier.switchChannel('channel-1');
+      await _flushAsync();
+
+      final state = container.read(chatViewModelProvider);
+      expect(state.messages.map((m) => m.id), liveIds);
+      expect(await db.messageDao.getMessage(deletedTailId), null);
+      expect(adapter.aroundQueries, isEmpty);
+      expect(anchorlessRequests('channel-1'), 1);
+
+      await notifier.switchChannel('channel-2');
+      await _flushAsync();
+      await notifier.switchChannel('channel-1');
+      await _flushAsync();
+
+      expect(anchorlessRequests('channel-1'), 1);
+    },
+  );
+
   test('app foreground resume near tail loads newer messages', () async {
     final db = openTestDatabase();
     final anchorId = _snowflakeForUtc(DateTime.utc(2026, 5, 16, 10));

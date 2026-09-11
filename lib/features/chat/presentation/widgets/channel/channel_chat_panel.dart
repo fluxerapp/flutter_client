@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/neko_spri
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/attachment_panel_content.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_composer_column.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_expression_expandable_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_backdrop.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
@@ -152,134 +153,144 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
       targetMessageId: widget.targetMessageId,
       visible: widget.loadMessages,
     );
-    return ColoredBox(
-      color: context.colors.chatBackground,
-      child: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          double sheetContentHeight = 0;
-          double dragHandleHeight = 0;
-          if (isPanelOpen) {
-            final ({
-              double? anchoredKeyboardHeight,
-              double fallbackKeyboardHeight,
-            })
-            panelMetrics = ref.watch(
-              mobileKeyboardMetricsProvider.select(
-                (MobileKeyboardMetricsState metrics) => (
-                  anchoredKeyboardHeight: metrics.anchoredKeyboardHeight,
-                  fallbackKeyboardHeight: metrics.fallbackKeyboardHeight,
+    return Stack(
+      fit: StackFit.expand,
+      children: <Widget>[
+        const ChatWallpaperBackdrop(),
+        LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            double sheetContentHeight = 0;
+            double dragHandleHeight = 0;
+            if (isPanelOpen) {
+              final ({
+                double? anchoredKeyboardHeight,
+                double fallbackKeyboardHeight,
+              })
+              panelMetrics = ref.watch(
+                mobileKeyboardMetricsProvider.select(
+                  (MobileKeyboardMetricsState metrics) => (
+                    anchoredKeyboardHeight: metrics.anchoredKeyboardHeight,
+                    fallbackKeyboardHeight: metrics.fallbackKeyboardHeight,
+                  ),
                 ),
-              ),
-            );
-            final double slotHeight = ref.watch(
-              bottomInputSlotProvider.select(
-                (BottomInputSlotState state) => state.slotHeight,
-              ),
-            );
-            final double panelAnchorHeight = inlineExpressionPanelAnchorHeight(
-              anchoredKeyboardHeight: panelMetrics.anchoredKeyboardHeight,
-              fallbackHeight: panelMetrics.fallbackKeyboardHeight,
-            );
-            dragHandleHeight = inlineExpressionPanelDragHandleHeight(
-              bottomSpacing: context.layout.s2,
-            );
-            final double reservedHeight = resolvePanelReservedLayoutHeight(
-              slotHeight: slotHeight,
-              netAnchorHeight: panelAnchorHeight,
-              grossAnchorHeight: panelAnchorHeight,
-            );
-            final double homeIndicatorInset =
-                inlineExpressionPanelHomeIndicatorInset(MediaQuery.of(context));
-            sheetContentHeight = inlineExpressionPanelDockedContentHeight(
-              keyboardAnchorNet: inlineExpressionPanelDockedReservedBodyHeight(
-                reservedHeight: reservedHeight,
-                homeIndicatorInset: homeIndicatorInset,
-              ),
-              dragHandleHeight: dragHandleHeight,
-            );
-          }
-          return Stack(
-            clipBehavior: Clip.none,
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Expanded(
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: <Widget>[
-                        Positioned.fill(
-                          child: Listener(
-                            behavior: HitTestBehavior.translucent,
-                            onPointerDown: (_) =>
-                                FocusManager.instance.primaryFocus?.unfocus(),
-                            child: stripKeyboardInsets
-                                ? MediaQuery.removeViewInsets(
-                                    context: context,
-                                    removeBottom: true,
-                                    child: messageList,
-                                  )
-                                : messageList,
+              );
+              final double slotHeight = ref.watch(
+                bottomInputSlotProvider.select(
+                  (BottomInputSlotState state) => state.slotHeight,
+                ),
+              );
+              final double panelAnchorHeight =
+                  inlineExpressionPanelAnchorHeight(
+                    anchoredKeyboardHeight: panelMetrics.anchoredKeyboardHeight,
+                    fallbackHeight: panelMetrics.fallbackKeyboardHeight,
+                  );
+              dragHandleHeight = inlineExpressionPanelDragHandleHeight(
+                bottomSpacing: context.layout.s2,
+              );
+              final double reservedHeight = resolvePanelReservedLayoutHeight(
+                slotHeight: slotHeight,
+                netAnchorHeight: panelAnchorHeight,
+                grossAnchorHeight: panelAnchorHeight,
+              );
+              final double homeIndicatorInset =
+                  inlineExpressionPanelHomeIndicatorInset(
+                    MediaQuery.of(context),
+                  );
+              sheetContentHeight = inlineExpressionPanelDockedContentHeight(
+                keyboardAnchorNet:
+                    inlineExpressionPanelDockedReservedBodyHeight(
+                      reservedHeight: reservedHeight,
+                      homeIndicatorInset: homeIndicatorInset,
+                    ),
+                dragHandleHeight: dragHandleHeight,
+              );
+            }
+            return Stack(
+              clipBehavior: Clip.none,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: <Widget>[
+                          Positioned.fill(
+                            child: Listener(
+                              behavior: HitTestBehavior.translucent,
+                              onPointerDown: (_) =>
+                                  FocusManager.instance.primaryFocus?.unfocus(),
+                              child: stripKeyboardInsets
+                                  ? MediaQuery.removeViewInsets(
+                                      context: context,
+                                      removeBottom: true,
+                                      child: messageList,
+                                    )
+                                  : messageList,
+                            ),
                           ),
-                        ),
-                        Positioned(
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          height: WideComposerLayout.fadeHeightFor(
-                            isMobile: isMobile,
+                          Positioned(
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            height: WideComposerLayout.fadeHeightFor(
+                              isMobile: isMobile,
+                            ),
+                            child: _buildStatusOverlay(
+                              showNeko: showNeko,
+                              showSlowmode: showSlowmode,
+                            ),
                           ),
-                          child: _buildStatusOverlay(
+                          _ChannelChatScrollOverlay(
+                            channelId: listChannelId,
+                            loadMessages: widget.loadMessages,
                             showNeko: showNeko,
                             showSlowmode: showSlowmode,
+                            onClose: onClose,
                           ),
-                        ),
-                        _ChannelChatScrollOverlay(
-                          channelId: listChannelId,
-                          loadMessages: widget.loadMessages,
-                          showNeko: showNeko,
-                          showSlowmode: showSlowmode,
-                          onClose: onClose,
-                        ),
-                        ComposerAutocompletePanelLayer(
-                          host: _composerAutocompletePanelHost,
-                          scrollController: _composerAutocompletePanelScroll,
-                        ),
-                      ],
+                          ComposerAutocompletePanelLayer(
+                            host: _composerAutocompletePanelHost,
+                            scrollController: _composerAutocompletePanelScroll,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  ChatComposerColumn(
-                    autocompletePanelHost: _composerAutocompletePanelHost,
-                    autocompletePanelScrollController:
-                        _composerAutocompletePanelScroll,
-                    showInlineEmojiPicker: widget.showInlineEmojiPicker,
-                  ),
-                ],
-              ),
-              if (isPanelOpen)
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: ChatExpressionExpandableSheet(
-                    collapsedHeight: math.max(
-                      sheetContentHeight,
-                      kExpressionPanelMinContentHeight,
+                    ChatComposerColumn(
+                      autocompletePanelHost: _composerAutocompletePanelHost,
+                      autocompletePanelScrollController:
+                          _composerAutocompletePanelScroll,
+                      showInlineEmojiPicker: widget.showInlineEmojiPicker,
                     ),
-                    dragHandleHeight: dragHandleHeight,
-                    parentHeight: constraints.maxHeight,
-                    contentBuilder: isAttachmentOpen
-                        ? (BuildContext context, ScrollController controller) {
-                            return AttachmentPanelContent(
-                              scrollController: controller,
-                            );
-                          }
-                        : null,
-                  ),
+                  ],
                 ),
-            ],
-          );
-        },
-      ),
+                if (isPanelOpen)
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: ChatExpressionExpandableSheet(
+                      collapsedHeight: math.max(
+                        sheetContentHeight,
+                        kExpressionPanelMinContentHeight,
+                      ),
+                      dragHandleHeight: dragHandleHeight,
+                      parentHeight: constraints.maxHeight,
+                      contentBuilder: isAttachmentOpen
+                          ? (
+                              BuildContext context,
+                              ScrollController controller,
+                            ) {
+                              return AttachmentPanelContent(
+                                scrollController: controller,
+                              );
+                            }
+                          : null,
+                    ),
+                  ),
+              ],
+            );
+          },
+        ),
+      ],
     );
   }
 }
@@ -405,7 +416,7 @@ class ChannelChatComposerBoundary extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: <Widget>[
-        WideComposerFade(surfaceColor: context.colors.chatBackground),
+        const ChatWallpaperComposerFade(),
         Positioned(
           left: statusRailPadding,
           right: statusRailPadding,

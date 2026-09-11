@@ -183,6 +183,7 @@ bool shouldPreserveLocalMessage({
   required Message message,
   required String newestNetworkId,
   required String? syncBaselineOldestId,
+  bool isLatestPage = false,
 }) {
   if (isLocalOnlyMessage(message)) {
     return true;
@@ -192,7 +193,8 @@ bool shouldPreserveLocalMessage({
     return true;
   }
   if (compareSnowflakeIds(message.id, newestNetworkId) > 0) {
-    return true;
+    // A latest page ends at the channel tail, an anchored one does not (#474).
+    return !isLatestPage;
   }
   return false;
 }
@@ -249,6 +251,7 @@ List<Message> reconcileMessagesWithNetworkPage({
   required List<Message> current,
   required List<Message> networkPage,
   String? syncBaselineOldestId,
+  bool isLatestPage = false,
 }) {
   if (networkPage.isEmpty) {
     return current;
@@ -262,6 +265,7 @@ List<Message> reconcileMessagesWithNetworkPage({
           message: message,
           newestNetworkId: newestId,
           syncBaselineOldestId: baselineId,
+          isLatestPage: isLatestPage,
         ),
       )
       .toList();
@@ -275,10 +279,12 @@ List<Message> reconcileMessagesWithNetworkPage({
 List<Message> reconcileStaleDeletionsInLoadedWindow({
   required List<Message> current,
   required List<Message> networkPage,
+  bool isLatestPage = false,
 }) {
   if (networkPage.isEmpty) {
     return current;
   }
+  final String newestNetworkId = networkPage.last.id;
   final Set<String> staleIds = networkPageStaleLocalIds(
     localMessageIds: current
         .where((Message message) => !isLocalOnlyMessage(message))
@@ -292,6 +298,12 @@ List<Message> reconcileStaleDeletionsInLoadedWindow({
   final List<Message> updated = <Message>[];
   for (final Message message in current) {
     if (staleIds.contains(message.id)) {
+      changed = true;
+      continue;
+    }
+    if (isLatestPage &&
+        !isLocalOnlyMessage(message) &&
+        compareSnowflakeIds(message.id, newestNetworkId) > 0) {
       changed = true;
       continue;
     }

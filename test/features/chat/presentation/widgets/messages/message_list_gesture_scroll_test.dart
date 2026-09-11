@@ -8,7 +8,9 @@ import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/gestures/axis_locking_horizontal_drag_recognizer.dart';
 import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.dart';
+import 'package:fluxer_app/shared/gestures/horizontal_drag_axis_lock.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../../helpers/open_test_database.dart';
@@ -44,6 +46,79 @@ void main() {
         messageListScrollPosition(tester).pixels,
         greaterThan(before + 40),
       );
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('short vertical nudge just past slop scrolls', (
+      WidgetTester tester,
+    ) async {
+      await _pumpList(tester);
+      await _jumpToMid(tester);
+      final double before = messageListScrollPosition(tester).pixels;
+      final TestGesture gesture = await tester.startGesture(
+        _messageBodyStart(tester),
+      );
+      await gesture.moveBy(const Offset(0, 24));
+      await gesture.moveBy(const Offset(0, 80));
+      await gesture.up();
+      await tester.pumpAndSettle();
+      expect(messageListScrollPosition(tester).pixels, lessThan(before - 20));
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('coalesced straight vertical jump scrolls', (
+      WidgetTester tester,
+    ) async {
+      await _pumpList(tester);
+      await _jumpToMid(tester);
+      final double before = messageListScrollPosition(tester).pixels;
+      final TestGesture gesture = await tester.startGesture(
+        _messageBodyStart(tester),
+      );
+      await gesture.moveBy(const Offset(0, 80));
+      await gesture.moveBy(const Offset(8, 120));
+      await gesture.up();
+      await tester.pumpAndSettle();
+      expect(messageListScrollPosition(tester).pixels, lessThan(before - 20));
+      expect(_replying(tester), isNull);
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('near-vertical coalesced jump with small dx scrolls', (
+      WidgetTester tester,
+    ) async {
+      await _pumpList(tester);
+      await _jumpToMid(tester);
+      final double before = messageListScrollPosition(tester).pixels;
+      final TestGesture gesture = await tester.startGesture(
+        _messageBodyStart(tester),
+      );
+      await gesture.moveBy(const Offset(12, 80));
+      await gesture.moveBy(const Offset(0, 80));
+      await gesture.up();
+      await tester.pumpAndSettle();
+      expect(messageListScrollPosition(tester).pixels, lessThan(before - 20));
+      expect(_replying(tester), isNull);
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('sideways start then vertical still scrolls', (
+      WidgetTester tester,
+    ) async {
+      await _pumpList(tester);
+      await _jumpToMid(tester);
+      final double before = messageListScrollPosition(tester).pixels;
+      final TestGesture gesture = await tester.startGesture(
+        _messageBodyStart(tester),
+      );
+      await gesture.moveBy(const Offset(-8, 6));
+      await tester.pump();
+      await gesture.moveBy(const Offset(-12, 40));
+      await gesture.moveBy(const Offset(0, 120));
+      await gesture.up();
+      await tester.pumpAndSettle();
+      expect(messageListScrollPosition(tester).pixels, lessThan(before - 20));
+      expect(_replying(tester), isNull);
       await disposeMessageList(tester);
     });
 
@@ -194,6 +269,78 @@ void main() {
       await _slowDrag(tester, _messageBodyStart(tester), const Offset(-160, 8));
       await tester.pumpAndSettle();
       expect(_replying(tester), isNotNull);
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('noisy first move Offset(36, 10) still scrolls', (
+      WidgetTester tester,
+    ) async {
+      await _pumpList(tester);
+      await _jumpToMid(tester);
+      final double before = messageListScrollPosition(tester).pixels;
+      final TestGesture gesture = await tester.startGesture(
+        _messageBodyStart(tester),
+      );
+      await gesture.moveBy(const Offset(36, 10));
+      await gesture.moveBy(const Offset(0, 120));
+      await gesture.up();
+      await tester.pumpAndSettle();
+      expect(messageListScrollPosition(tester).pixels, lessThan(before - 20));
+      expect(_replying(tester), isNull);
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('fast coalesced arc Offset(80, 16) still scrolls', (
+      WidgetTester tester,
+    ) async {
+      await _pumpList(tester);
+      await _jumpToMid(tester);
+      final double before = messageListScrollPosition(tester).pixels;
+      final TestGesture gesture = await tester.startGesture(
+        _messageBodyStart(tester),
+      );
+      await gesture.moveBy(const Offset(80, 16));
+      await gesture.moveBy(const Offset(0, 160));
+      await gesture.up();
+      await tester.pumpAndSettle();
+      expect(messageListScrollPosition(tester).pixels, lessThan(before - 20));
+      expect(_replying(tester), isNull);
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('fast diagonal fling still scrolls', (
+      WidgetTester tester,
+    ) async {
+      await _pumpList(tester);
+      await _jumpToMid(tester);
+      final double before = messageListScrollPosition(tester).pixels;
+      await tester.flingFrom(
+        _messageBodyStart(tester),
+        const Offset(48, 240),
+        2200,
+      );
+      await tester.pumpAndSettle();
+      expect(messageListScrollPosition(tester).pixels, lessThan(before - 40));
+      expect(_replying(tester), isNull);
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('arched diagonal drag still scrolls', (
+      WidgetTester tester,
+    ) async {
+      await _pumpList(tester);
+      await _jumpToMid(tester);
+      final double before = messageListScrollPosition(tester).pixels;
+      final TestGesture gesture = await tester.startGesture(
+        _messageBodyStart(tester),
+      );
+      await gesture.moveBy(const Offset(-16, 12));
+      await gesture.moveBy(const Offset(-8, 40));
+      await gesture.moveBy(const Offset(4, 80));
+      await gesture.up();
+      await tester.pump();
+      expect(messageListScrollPosition(tester).pixels, lessThan(before - 40));
+      expect(_replying(tester), isNull);
       await disposeMessageList(tester);
     });
 
@@ -451,6 +598,28 @@ void main() {
       await disposeMessageList(tester);
     });
 
+    testWidgets('opposite vertical drag while coasting reverses the list', (
+      WidgetTester tester,
+    ) async {
+      await _pumpList(tester);
+      await _jumpToMid(tester);
+      await tester.fling(messageListScrollable(), const Offset(0, 300), 3000);
+      await tester.pump(const Duration(milliseconds: 40));
+      expect(_coastDefer(tester), isTrue);
+      final ScrollPosition position = messageListScrollPosition(tester);
+      final double held = position.pixels;
+      final TestGesture reverse = await tester.startGesture(
+        _messageBodyStart(tester),
+      );
+      await reverse.moveBy(const Offset(8, -50));
+      await reverse.moveBy(const Offset(0, -120));
+      await reverse.up();
+      await tester.pump();
+      expect(position.pixels, greaterThan(held + 20));
+      expect(_replying(tester), isNull);
+      await disposeMessageList(tester);
+    });
+
     testWidgets('leftward swipe while coasting does not reply', (
       WidgetTester tester,
     ) async {
@@ -515,10 +684,16 @@ Future<void> _pumpList(
 Widget _wrapParentHorizontal(_ParentHorizontalProbe probe, Widget list) {
   return RawGestureDetector(
     gestures: <Type, GestureRecognizerFactory>{
-      HorizontalDragGestureRecognizer:
-          GestureRecognizerFactoryWithHandlers<HorizontalDragGestureRecognizer>(
-            HorizontalDragGestureRecognizer.new,
-            (HorizontalDragGestureRecognizer recognizer) {
+      AxisLockingHorizontalDragRecognizer:
+          GestureRecognizerFactoryWithHandlers<
+            AxisLockingHorizontalDragRecognizer
+          >(
+            () => AxisLockingHorizontalDragRecognizer(
+              shouldDefer: (_) => false,
+              shouldReject: (HorizontalDragAxisLockDecision decision) =>
+                  decision == HorizontalDragAxisLockDecision.yieldToVertical,
+            ),
+            (AxisLockingHorizontalDragRecognizer recognizer) {
               recognizer
                 ..onStart = (_) {
                   probe.starts++;

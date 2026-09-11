@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/accessibility/text_scale.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/chat_wallpaper_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/look_and_feel_messages_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/theme_swatch_button.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/typing_indicator_preview.dart';
@@ -207,6 +208,13 @@ class UserLookAndFeel extends ConsumerWidget {
                 ),
               ),
             ],
+          ),
+          FluxerSettingsSection(
+            sectionId: 'chat-wallpaper',
+            title: l10n.lookAndFeelChatWallpaperTitle,
+            description: l10n.lookAndFeelChatWallpaperDescription,
+            titleTrailing: const ChatWallpaperLocalOnlyButton(),
+            children: const [ChatWallpaperSection()],
           ),
           FluxerSettingsSection(
             sectionId: 'messages',

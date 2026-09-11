@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'fluxer_localizations_ar.dart';
+import 'fluxer_localizations_bg.dart';
 import 'fluxer_localizations_cs.dart';
 import 'fluxer_localizations_da.dart';
 import 'fluxer_localizations_de.dart';
@@ -14,19 +15,26 @@ import 'fluxer_localizations_en.dart';
 import 'fluxer_localizations_es.dart';
 import 'fluxer_localizations_fi.dart';
 import 'fluxer_localizations_fr.dart';
+import 'fluxer_localizations_he.dart';
+import 'fluxer_localizations_hi.dart';
+import 'fluxer_localizations_hr.dart';
 import 'fluxer_localizations_hu.dart';
+import 'fluxer_localizations_id.dart';
 import 'fluxer_localizations_it.dart';
 import 'fluxer_localizations_ja.dart';
 import 'fluxer_localizations_ko.dart';
 import 'fluxer_localizations_lt.dart';
 import 'fluxer_localizations_nb.dart';
+import 'fluxer_localizations_nl.dart';
 import 'fluxer_localizations_pl.dart';
 import 'fluxer_localizations_pt.dart';
+import 'fluxer_localizations_ro.dart';
 import 'fluxer_localizations_ru.dart';
 import 'fluxer_localizations_sv.dart';
 import 'fluxer_localizations_th.dart';
 import 'fluxer_localizations_tr.dart';
 import 'fluxer_localizations_uk.dart';
+import 'fluxer_localizations_vi.dart';
 import 'fluxer_localizations_zh.dart';
 
 // ignore_for_file: type=lint
@@ -117,6 +125,7 @@ abstract class FluxerLocalizations {
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
     Locale('ar'),
+    Locale('bg'),
     Locale('cs'),
     Locale('da'),
     Locale('de'),
@@ -127,20 +136,27 @@ abstract class FluxerLocalizations {
     Locale('es', '419'),
     Locale('fi'),
     Locale('fr'),
+    Locale('he'),
+    Locale('hi'),
+    Locale('hr'),
     Locale('hu'),
+    Locale('id'),
     Locale('it'),
     Locale('ja'),
     Locale('ko'),
     Locale('lt'),
     Locale('nb'),
+    Locale('nl'),
     Locale('pl'),
     Locale('pt'),
     Locale('pt', 'BR'),
+    Locale('ro'),
     Locale('ru'),
     Locale('sv'),
     Locale('th'),
     Locale('tr'),
     Locale('uk'),
+    Locale('vi'),
     Locale('zh'),
     Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
   ];
@@ -7218,6 +7234,66 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Adjust the application\'s zoom level.'**
   String get lookAndFeelAppZoomDescription;
+
+  /// Look and Feel section title for chat wallpaper presets.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat Wallpaper'**
+  String get lookAndFeelChatWallpaperTitle;
+
+  /// Look and Feel section description for chat wallpaper presets.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a background for chat. This stays on this device.'**
+  String get lookAndFeelChatWallpaperDescription;
+
+  /// Accessibility label for the icon indicating chat wallpaper does not sync.
+  ///
+  /// In en, this message translates to:
+  /// **'This setting stays on this device'**
+  String get lookAndFeelChatWallpaperLocalOnlyTooltip;
+
+  /// Toast shown when tapping the local-only icon on Chat Wallpaper.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat wallpaper is saved on this device only and does not sync to other devices.'**
+  String get lookAndFeelChatWallpaperLocalOnlyToast;
+
+  /// Chat wallpaper preset that uses the theme chat background.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get lookAndFeelChatWallpaperDefaultLabel;
+
+  /// Chat wallpaper option that picks an image from the gallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom image'**
+  String get lookAndFeelChatWallpaperCustomLabel;
+
+  /// Accessibility label for a solid color wallpaper preset.
+  ///
+  /// In en, this message translates to:
+  /// **'Color {id}'**
+  String lookAndFeelChatWallpaperColorLabel(String id);
+
+  /// Accessibility label for a gradient wallpaper preset.
+  ///
+  /// In en, this message translates to:
+  /// **'Gradient {id}'**
+  String lookAndFeelChatWallpaperGradientLabel(String id);
+
+  /// Slider label for how dark the overlay on the chat wallpaper is.
+  ///
+  /// In en, this message translates to:
+  /// **'Dim wallpaper'**
+  String get lookAndFeelChatWallpaperDimLabel;
+
+  /// Toast shown when a custom wallpaper image cannot be decoded or saved.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not set that image as your wallpaper.'**
+  String get lookAndFeelChatWallpaperPickFailed;
 
   /// Section title for message layout settings in Look & Feel.
   ///
@@ -23540,6 +23616,7 @@ class _FluxerLocalizationsDelegate
   @override
   bool isSupported(Locale locale) => <String>[
     'ar',
+    'bg',
     'cs',
     'da',
     'de',
@@ -23548,19 +23625,26 @@ class _FluxerLocalizationsDelegate
     'es',
     'fi',
     'fr',
+    'he',
+    'hi',
+    'hr',
     'hu',
+    'id',
     'it',
     'ja',
     'ko',
     'lt',
     'nb',
+    'nl',
     'pl',
     'pt',
+    'ro',
     'ru',
     'sv',
     'th',
     'tr',
     'uk',
+    'vi',
     'zh',
   ].contains(locale.languageCode);
 
@@ -23615,6 +23699,8 @@ FluxerLocalizations lookupFluxerLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'ar':
       return FluxerLocalizationsAr();
+    case 'bg':
+      return FluxerLocalizationsBg();
     case 'cs':
       return FluxerLocalizationsCs();
     case 'da':
@@ -23631,8 +23717,16 @@ FluxerLocalizations lookupFluxerLocalizations(Locale locale) {
       return FluxerLocalizationsFi();
     case 'fr':
       return FluxerLocalizationsFr();
+    case 'he':
+      return FluxerLocalizationsHe();
+    case 'hi':
+      return FluxerLocalizationsHi();
+    case 'hr':
+      return FluxerLocalizationsHr();
     case 'hu':
       return FluxerLocalizationsHu();
+    case 'id':
+      return FluxerLocalizationsId();
     case 'it':
       return FluxerLocalizationsIt();
     case 'ja':
@@ -23643,10 +23737,14 @@ FluxerLocalizations lookupFluxerLocalizations(Locale locale) {
       return FluxerLocalizationsLt();
     case 'nb':
       return FluxerLocalizationsNb();
+    case 'nl':
+      return FluxerLocalizationsNl();
     case 'pl':
       return FluxerLocalizationsPl();
     case 'pt':
       return FluxerLocalizationsPt();
+    case 'ro':
+      return FluxerLocalizationsRo();
     case 'ru':
       return FluxerLocalizationsRu();
     case 'sv':
@@ -23657,6 +23755,8 @@ FluxerLocalizations lookupFluxerLocalizations(Locale locale) {
       return FluxerLocalizationsTr();
     case 'uk':
       return FluxerLocalizationsUk();
+    case 'vi':
+      return FluxerLocalizationsVi();
     case 'zh':
       return FluxerLocalizationsZh();
   }

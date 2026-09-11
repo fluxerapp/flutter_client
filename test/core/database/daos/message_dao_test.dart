@@ -11,13 +11,17 @@ String _snowflakeForUtc(DateTime utc) {
   return internal.toString();
 }
 
-Message _msg(String id) => Message(
+Message _msg(
+  String id, {
+  MessageDeliveryState deliveryState = MessageDeliveryState.sent,
+}) => Message(
   id: id,
   channelId: 'ch',
   authorId: 'author',
   authorName: 'Author',
   content: 'body',
   timestamp: dateTimeFromUserSnowflakeOrNull(id)!,
+  deliveryState: deliveryState,
 );
 
 Message _msgAt(String id, DateTime timestamp) => Message(
@@ -75,6 +79,71 @@ void main() {
 
     final after = await db.messageDao.getMessagesAfter('ch', '99');
     expect(after.map((m) => m.id).toList(), ['100']);
+  });
+
+  // An unsent row's id is a client nonce, always past the server tail (#474).
+  test('deleteServerMessagesBetween drops sent rows inside the bound and '
+      'keeps unsent, newer and other-channel ones', () async {
+    final db = await seed([idA, idB, idC, idD]);
+    final String pendingId = _snowflakeForUtc(DateTime.utc(2026, 5, 10, 14));
+    await db.messageDao.upsertMessage(
+      _msg(
+        pendingId,
+        deliveryState: MessageDeliveryState.sending,
+      ).toCompanion(),
+    );
+    final String otherChannelMessageId = _snowflakeForUtc(
+      DateTime.utc(2026, 5, 10, 15),
+    );
+    await db.messageDao.upsertMessage(
+      _msg(otherChannelMessageId).copyWith(channelId: 'other-ch').toCompanion(),
+    );
+
+    await db.messageDao.deleteServerMessagesBetween(
+      'ch',
+      afterId: idB,
+      upToId: idC,
+    );
+
+    expect(await db.messageDao.getMessage(idA), isNotNull);
+    expect(await db.messageDao.getMessage(idB), isNotNull);
+    expect(await db.messageDao.getMessage(idC), isNull);
+    expect(await db.messageDao.getMessage(idD), isNotNull);
+    expect(await db.messageDao.getMessage(pendingId), isNotNull);
+    expect(
+      await db.messageDao.getAllMessagesForChannel('other-ch'),
+      hasLength(1),
+    );
+  });
+
+  test('deleteServerMessagesBetween orders ids numerically', () async {
+    final db = openTestDatabase();
+    final DateTime ts = DateTime.utc(2026, 5, 10, 10);
+    await db.messageDao.upsertMessage(_msgAt('99', ts).toCompanion());
+    await db.messageDao.upsertMessage(_msgAt('100', ts).toCompanion());
+
+    await db.messageDao.deleteServerMessagesBetween(
+      'ch',
+      afterId: '99',
+      upToId: '100',
+    );
+
+    expect(await db.messageDao.getMessage('99'), isNotNull);
+    expect(await db.messageDao.getMessage('100'), isNull);
+  });
+
+  test('newestServerMessageId ignores unsent rows', () async {
+    final db = await seed([idA, idB]);
+    final String pendingId = _snowflakeForUtc(DateTime.utc(2026, 5, 10, 14));
+    await db.messageDao.upsertMessage(
+      _msg(
+        pendingId,
+        deliveryState: MessageDeliveryState.sending,
+      ).toCompanion(),
+    );
+
+    expect(await db.messageDao.newestServerMessageId('ch'), idB);
+    expect(await db.messageDao.newestServerMessageId('other-ch'), null);
   });
 
   test(

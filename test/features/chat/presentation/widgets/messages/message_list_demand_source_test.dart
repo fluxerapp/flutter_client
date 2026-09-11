@@ -150,6 +150,21 @@ void main() {
         reason: "stale velocity must not widen a fresh layout's horizon",
       );
     });
+
+    test('resetting velocity every frame prevents lookahead from forming', () {
+      sample(older: 2000, newer: 2000);
+      for (int i = 0; i < 10; i += 1) {
+        fakeElapsed += const Duration(milliseconds: 16);
+        source.onScrollDelta(48);
+        source.resetApproachVelocity();
+        sample(older: 2000 - i.toDouble(), newer: 2000 + i.toDouble());
+      }
+      expect(
+        port.lastFor(PaginationEdge.older)!.active,
+        isFalse,
+        reason: 'pixel-only metrics must not zero the EMA each frame',
+      );
+    });
   });
 
   group('revision semantics', () {
