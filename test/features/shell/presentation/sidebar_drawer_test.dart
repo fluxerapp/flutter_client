@@ -279,7 +279,28 @@ void main() {
     expect(_sliderDx(tester), 0);
   });
 
-  testWidgets('noisy first move Offset(36, 10) does not open the drawer', (
+  testWidgets('ambiguous first move Offset(20, 16) does not open the drawer', (
+    tester,
+  ) async {
+    final router = _routerFor('/channels/guild/channel');
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(
+      _buildDrawerApp(container: container, router: router),
+    );
+
+    final gesture = await tester.startGesture(const Offset(200, 400));
+    await gesture.moveBy(const Offset(20, 16));
+    await gesture.moveBy(const Offset(8, 160));
+    await tester.pump();
+    expect(_sliderDx(tester), 0);
+    await gesture.up();
+    await tester.pumpAndSettle();
+    expect(_sliderDx(tester), 0);
+  });
+
+  testWidgets('coalesced first jump Offset(36, 10) does not open the drawer', (
     tester,
   ) async {
     final router = _routerFor('/channels/guild/channel');
@@ -300,7 +321,7 @@ void main() {
     expect(_sliderDx(tester), 0);
   });
 
-  testWidgets('fast coalesced arc Offset(80, 16) does not open the drawer', (
+  testWidgets('coalesced first jump Offset(80, 16) does not open the drawer', (
     tester,
   ) async {
     final router = _routerFor('/channels/guild/channel');
@@ -313,6 +334,27 @@ void main() {
 
     final gesture = await tester.startGesture(const Offset(200, 400));
     await gesture.moveBy(const Offset(80, 16));
+    await gesture.moveBy(const Offset(8, 160));
+    await tester.pump();
+    expect(_sliderDx(tester), 0);
+    await gesture.up();
+    await tester.pumpAndSettle();
+    expect(_sliderDx(tester), 0);
+  });
+
+  testWidgets('45 degree coalesced jump does not open the drawer', (
+    tester,
+  ) async {
+    final router = _routerFor('/channels/guild/channel');
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(
+      _buildDrawerApp(container: container, router: router),
+    );
+
+    final gesture = await tester.startGesture(const Offset(200, 400));
+    await gesture.moveBy(const Offset(40, 40));
     await gesture.moveBy(const Offset(8, 160));
     await tester.pump();
     expect(_sliderDx(tester), 0);

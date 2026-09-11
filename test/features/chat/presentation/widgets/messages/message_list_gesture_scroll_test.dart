@@ -272,7 +272,25 @@ void main() {
       await disposeMessageList(tester);
     });
 
-    testWidgets('noisy first move Offset(36, 10) still scrolls', (
+    testWidgets('ambiguous first move Offset(20, 16) still scrolls', (
+      WidgetTester tester,
+    ) async {
+      await _pumpList(tester);
+      await _jumpToMid(tester);
+      final double before = messageListScrollPosition(tester).pixels;
+      final TestGesture gesture = await tester.startGesture(
+        _messageBodyStart(tester),
+      );
+      await gesture.moveBy(const Offset(20, 16));
+      await gesture.moveBy(const Offset(0, 120));
+      await gesture.up();
+      await tester.pumpAndSettle();
+      expect(messageListScrollPosition(tester).pixels, lessThan(before - 20));
+      expect(_replying(tester), isNull);
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('coalesced first jump Offset(36, 10) still scrolls', (
       WidgetTester tester,
     ) async {
       await _pumpList(tester);
@@ -290,7 +308,7 @@ void main() {
       await disposeMessageList(tester);
     });
 
-    testWidgets('fast coalesced arc Offset(80, 16) still scrolls', (
+    testWidgets('coalesced first jump Offset(80, 16) still scrolls', (
       WidgetTester tester,
     ) async {
       await _pumpList(tester);
@@ -300,6 +318,24 @@ void main() {
         _messageBodyStart(tester),
       );
       await gesture.moveBy(const Offset(80, 16));
+      await gesture.moveBy(const Offset(0, 160));
+      await gesture.up();
+      await tester.pumpAndSettle();
+      expect(messageListScrollPosition(tester).pixels, lessThan(before - 20));
+      expect(_replying(tester), isNull);
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('45 degree coalesced jump still scrolls', (
+      WidgetTester tester,
+    ) async {
+      await _pumpList(tester);
+      await _jumpToMid(tester);
+      final double before = messageListScrollPosition(tester).pixels;
+      final TestGesture gesture = await tester.startGesture(
+        _messageBodyStart(tester),
+      );
+      await gesture.moveBy(const Offset(40, 40));
       await gesture.moveBy(const Offset(0, 160));
       await gesture.up();
       await tester.pumpAndSettle();
