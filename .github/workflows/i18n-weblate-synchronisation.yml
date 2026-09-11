@@ -83,6 +83,9 @@ jobs:
             exit 0
           fi
 
+          dart tool/strip_firebase_deps.dart
+          flutter pub get
+
           flutter gen-l10n
           dart format lib/l10n/generated
           if ! git diff --quiet -- lib/l10n/generated; then
