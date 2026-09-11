@@ -2669,6 +2669,179 @@ void main() {
     );
 
     testWidgets(
+      'clears a deep-link jump highlight a few seconds after the target lands',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(420, 640);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+
+        final StreamController<db.ReadState?> readStateController =
+            StreamController<db.ReadState?>.broadcast();
+        addTearDown(readStateController.close);
+
+        final AroundAckMessageListHarness source =
+            await createBottomMessageListHarness();
+        final String targetId = source.messages[24].id;
+
+        final InstrumentedChatViewModel loadingChatViewModel =
+            InstrumentedChatViewModel(
+              ChatViewState(
+                channelId: messageListChannelId,
+                messages: const <Message>[],
+                replyingTo: null,
+                replyMentioning: false,
+                editingMessage: null,
+                messageText: '',
+                scrollToBottomSignal: 0,
+                isLoading: true,
+                isSyncingMessages: false,
+                isLoadingMore: false,
+                isLoadingNewer: false,
+                hasMoreMessages: true,
+                hasMoreNewerMessages: false,
+                errorMessage: null,
+                highlightedMessageId: targetId,
+              ),
+            );
+
+        await tester.pumpWidget(
+          messageListApp(
+            database: source.database,
+            chatViewModel: loadingChatViewModel,
+            body: MessageList(
+              expectedChannelId: messageListChannelId,
+              targetMessageId: targetId,
+            ),
+            overrides: <Override>[
+              messageListReadStateProvider(
+                messageListChannelId,
+              ).overrideWith((ref) => readStateController.stream),
+            ],
+          ),
+        );
+        await tester.pump();
+
+        loadingChatViewModel.highlightJumpMessage(targetId);
+        loadingChatViewModel.testState = loadingChatViewModel.testState
+            .copyWith(
+              write: (
+                messages: source.messages,
+                origin: MessagesOrigin.windowSwap,
+              ),
+              isLoading: false,
+            );
+        readStateController.add(null);
+        await tester.pump();
+        await tester.pump();
+        await tester.pump();
+        await pumpFluxerFrames(tester);
+
+        expect(
+          tester
+              .widget<MessageItem>(messageItemFor(targetId))
+              .isJumpHighlighted,
+          isTrue,
+        );
+        expect(loadingChatViewModel.testState.highlightedMessageId, targetId);
+
+        await tester.pump(const Duration(seconds: 2));
+        expect(loadingChatViewModel.testState.highlightedMessageId, isNull);
+        expect(
+          tester
+              .widget<MessageItem>(messageItemFor(targetId))
+              .isJumpHighlighted,
+          isFalse,
+        );
+
+        await disposeMessageList(tester);
+      },
+    );
+
+    testWidgets(
+      'keeps the jump highlight while composing a reply to that message',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(420, 640);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+
+        final StreamController<db.ReadState?> readStateController =
+            StreamController<db.ReadState?>.broadcast();
+        addTearDown(readStateController.close);
+
+        final AroundAckMessageListHarness source =
+            await createBottomMessageListHarness();
+        final Message target = source.messages[24];
+
+        final InstrumentedChatViewModel loadingChatViewModel =
+            InstrumentedChatViewModel(
+              ChatViewState(
+                channelId: messageListChannelId,
+                messages: const <Message>[],
+                replyingTo: target,
+                replyMentioning: false,
+                editingMessage: null,
+                messageText: '',
+                scrollToBottomSignal: 0,
+                isLoading: true,
+                isSyncingMessages: false,
+                isLoadingMore: false,
+                isLoadingNewer: false,
+                hasMoreMessages: true,
+                hasMoreNewerMessages: false,
+                errorMessage: null,
+                highlightedMessageId: target.id,
+              ),
+            );
+
+        await tester.pumpWidget(
+          messageListApp(
+            database: source.database,
+            chatViewModel: loadingChatViewModel,
+            body: MessageList(
+              expectedChannelId: messageListChannelId,
+              targetMessageId: target.id,
+            ),
+            overrides: <Override>[
+              messageListReadStateProvider(
+                messageListChannelId,
+              ).overrideWith((ref) => readStateController.stream),
+            ],
+          ),
+        );
+        await tester.pump();
+
+        loadingChatViewModel.highlightJumpMessage(target.id);
+        loadingChatViewModel.testState = loadingChatViewModel.testState
+            .copyWith(
+              write: (
+                messages: source.messages,
+                origin: MessagesOrigin.windowSwap,
+              ),
+              isLoading: false,
+              replyingTo: target,
+            );
+        readStateController.add(null);
+        await tester.pump();
+        await tester.pump();
+        await tester.pump();
+        await pumpFluxerFrames(tester);
+
+        await tester.pump(const Duration(seconds: 2));
+        expect(loadingChatViewModel.testState.highlightedMessageId, isNull);
+        expect(
+          tester
+              .widget<MessageItem>(messageItemFor(target.id))
+              .isJumpHighlighted,
+          isTrue,
+        );
+
+        await disposeMessageList(tester);
+      },
+    );
+
+    testWidgets(
       'centers a fresh scrollToMessage signal after its around-window loads',
       (WidgetTester tester) async {
         tester.view.physicalSize = const Size(420, 640);
