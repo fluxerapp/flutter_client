@@ -330,7 +330,7 @@
     "@logInViaBrowser": {
         "description": "Secondary login that opens or uses the system browser."
     },
-    "needAccountPrompt": "Trebaš račun?",
+    "needAccountPrompt": "Trebaš račun? ",
     "@needAccountPrompt": {
         "description": "Lead text before a register link; trailing space keeps spacing before the link."
     },
@@ -816,7 +816,7 @@
     "@registerConsent": {
         "description": "Consent checkbox label for registration (plain text fallback)."
     },
-    "registerConsentPrefix": "Slažem se s",
+    "registerConsentPrefix": "Slažem se s ",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
     },
@@ -824,7 +824,7 @@
     "@registerConsentTerms": {
         "description": "Terms of Service link text in the consent checkbox."
     },
-    "registerConsentAnd": "i",
+    "registerConsentAnd": " i ",
     "@registerConsentAnd": {
         "description": "Conjunction between Terms and Privacy links."
     },
@@ -840,7 +840,7 @@
     "@registerSubmit": {
         "description": "Button to submit the registration form."
     },
-    "registerHaveAccount": "Već imaš račun?",
+    "registerHaveAccount": "Već imaš račun? ",
     "@registerHaveAccount": {
         "description": "Text before the login link on the register screen."
     },
@@ -2077,11 +2077,11 @@
     "@externalLinksSectionDescription": {
         "description": "Description for the external links settings section."
     },
-    "externalLinkWarningTrustPrefix": "Uvijek vjeruj",
+    "externalLinkWarningTrustPrefix": "Uvijek vjeruj ",
     "@externalLinkWarningTrustPrefix": {
         "description": "Prefix before the hostname in the trust-domain checkbox label."
     },
-    "externalLinkWarningTrustSuffix": "— preskoči ovo upozorenje sljedeći put",
+    "externalLinkWarningTrustSuffix": " — preskoči ovo upozorenje sljedeći put",
     "@externalLinkWarningTrustSuffix": {
         "description": "Suffix after the hostname in the trust-domain checkbox label."
     },
@@ -9517,7 +9517,7 @@
     "@addGuildCreateAnimatedIconUnsupported": {
         "description": "Error when the user picks an animated image for a new community icon."
     },
-    "addGuildCreateGuidelinesBefore": "Stvaranjem zajednice prihvaćate da ćete slijediti i pridržavati se",
+    "addGuildCreateGuidelinesBefore": "Stvaranjem zajednice prihvaćate da ćete slijediti i pridržavati se ",
     "@addGuildCreateGuidelinesBefore": {
         "description": "Text before the community guidelines link on the create sub-view."
     },
@@ -10147,7 +10147,7 @@
     "@channelSettingsPermissionsTitle": {
         "description": "Page title for the channel permissions settings tab."
     },
-    "channelSettingsPermissionsSyncedWithParentPrefix": "Ovaj kanal je usklađen s nadređenom kategorijom",
+    "channelSettingsPermissionsSyncedWithParentPrefix": "Ovaj kanal je usklađen s nadređenom kategorijom ",
     "@channelSettingsPermissionsSyncedWithParentPrefix": {
         "description": "Prefix for the synced-with-parent banner in channel permissions."
     },
@@ -10155,7 +10155,7 @@
     "@channelSettingsPermissionsSyncedWithParentSuffix": {
         "description": "Suffix for the synced-with-parent banner in channel permissions."
     },
-    "channelSettingsPermissionsNotSyncedWithParentPrefix": "Ovaj kanal nije usklađen s nadređenom kategorijom",
+    "channelSettingsPermissionsNotSyncedWithParentPrefix": "Ovaj kanal nije usklađen s nadređenom kategorijom ",
     "@channelSettingsPermissionsNotSyncedWithParentPrefix": {
         "description": "Prefix for the not-synced-with-parent banner in channel permissions."
     },
@@ -11592,9 +11592,9 @@
     "premiumBillingHistory": "Povijest naplate",
     "premiumSelfServeRefundTitle": "Samostalni povrat",
     "premiumSelfServeRefundButton": "Vrati zadnju kupnju",
-    "premiumDisclaimerAgreementPrefix": "Kupnjom prihvaćate naše",
-    "premiumDisclaimerAgreementPastPrefix": "Kupnjom ste prihvatili naše",
-    "premiumDisclaimerAgreementMiddle": "i",
+    "premiumDisclaimerAgreementPrefix": "Kupnjom prihvaćate naše ",
+    "premiumDisclaimerAgreementPastPrefix": "Kupnjom ste prihvatili naše ",
+    "premiumDisclaimerAgreementMiddle": " i ",
     "premiumActiveUntil": "Aktivno do {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -12050,7 +12050,7 @@
     "@notificationsTtsEnableCommandDescription": {
         "description": "Toggle description for enabling /tts speech playback."
     },
-    "notificationsTtsAccessibilityLinkPrefix": "Prilagodi brzinu reprodukcije u",
+    "notificationsTtsAccessibilityLinkPrefix": "Prilagodi brzinu reprodukcije u ",
     "@notificationsTtsAccessibilityLinkPrefix": {
         "description": "Prefix before the Accessibility settings link in TTS notifications settings."
     },

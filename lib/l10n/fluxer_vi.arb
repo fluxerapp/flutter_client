@@ -330,7 +330,7 @@
     "@logInViaBrowser": {
         "description": "Secondary login that opens or uses the system browser."
     },
-    "needAccountPrompt": "Cần tài khoản?",
+    "needAccountPrompt": "Cần tài khoản? ",
     "@needAccountPrompt": {
         "description": "Lead text before a register link; trailing space keeps spacing before the link."
     },
@@ -816,7 +816,7 @@
     "@registerConsent": {
         "description": "Consent checkbox label for registration (plain text fallback)."
     },
-    "registerConsentPrefix": "Tôi đồng ý với",
+    "registerConsentPrefix": "Tôi đồng ý với ",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
     },
@@ -824,7 +824,7 @@
     "@registerConsentTerms": {
         "description": "Terms of Service link text in the consent checkbox."
     },
-    "registerConsentAnd": "và",
+    "registerConsentAnd": " và ",
     "@registerConsentAnd": {
         "description": "Conjunction between Terms and Privacy links."
     },
@@ -840,7 +840,7 @@
     "@registerSubmit": {
         "description": "Button to submit the registration form."
     },
-    "registerHaveAccount": "Đã có tài khoản?",
+    "registerHaveAccount": "Đã có tài khoản? ",
     "@registerHaveAccount": {
         "description": "Text before the login link on the register screen."
     },
@@ -2077,11 +2077,11 @@
     "@externalLinksSectionDescription": {
         "description": "Description for the external links settings section."
     },
-    "externalLinkWarningTrustPrefix": "Luôn tin cậy",
+    "externalLinkWarningTrustPrefix": "Luôn tin cậy ",
     "@externalLinkWarningTrustPrefix": {
         "description": "Prefix before the hostname in the trust-domain checkbox label."
     },
-    "externalLinkWarningTrustSuffix": "— bỏ qua cảnh báo này lần tới",
+    "externalLinkWarningTrustSuffix": " — bỏ qua cảnh báo này lần tới",
     "@externalLinkWarningTrustSuffix": {
         "description": "Suffix after the hostname in the trust-domain checkbox label."
     },
@@ -5102,7 +5102,7 @@
     "@chatTextualPreviewChangeLanguage": {
         "description": "Opens language picker for textual attachment syntax highlighting."
     },
-    "chatTextualPreviewSearchLanguage": "Tìm ngôn ngữ...",
+    "chatTextualPreviewSearchLanguage": "Tìm ngôn ngữ…",
     "@chatTextualPreviewSearchLanguage": {
         "description": "Search field hint in textual preview language picker."
     },
@@ -9517,7 +9517,7 @@
     "@addGuildCreateAnimatedIconUnsupported": {
         "description": "Error when the user picks an animated image for a new community icon."
     },
-    "addGuildCreateGuidelinesBefore": "Khi tạo cộng đồng, bạn đồng ý tuân thủ và duy trì",
+    "addGuildCreateGuidelinesBefore": "Khi tạo cộng đồng, bạn đồng ý tuân thủ và duy trì ",
     "@addGuildCreateGuidelinesBefore": {
         "description": "Text before the community guidelines link on the create sub-view."
     },
@@ -10147,7 +10147,7 @@
     "@channelSettingsPermissionsTitle": {
         "description": "Page title for the channel permissions settings tab."
     },
-    "channelSettingsPermissionsSyncedWithParentPrefix": "Kênh này được đồng bộ với danh mục cha",
+    "channelSettingsPermissionsSyncedWithParentPrefix": "Kênh này được đồng bộ với danh mục cha ",
     "@channelSettingsPermissionsSyncedWithParentPrefix": {
         "description": "Prefix for the synced-with-parent banner in channel permissions."
     },
@@ -10155,7 +10155,7 @@
     "@channelSettingsPermissionsSyncedWithParentSuffix": {
         "description": "Suffix for the synced-with-parent banner in channel permissions."
     },
-    "channelSettingsPermissionsNotSyncedWithParentPrefix": "Kênh này không được đồng bộ với danh mục cha",
+    "channelSettingsPermissionsNotSyncedWithParentPrefix": "Kênh này không được đồng bộ với danh mục cha ",
     "@channelSettingsPermissionsNotSyncedWithParentPrefix": {
         "description": "Prefix for the not-synced-with-parent banner in channel permissions."
     },
@@ -11592,9 +11592,9 @@
     "premiumBillingHistory": "Lịch sử thanh toán",
     "premiumSelfServeRefundTitle": "Hoàn tiền tự phục vụ",
     "premiumSelfServeRefundButton": "Hoàn tiền giao dịch gần nhất",
-    "premiumDisclaimerAgreementPrefix": "Khi mua, bạn đồng ý với",
-    "premiumDisclaimerAgreementPastPrefix": "Bằng việc mua hàng, bạn đã đồng ý với",
-    "premiumDisclaimerAgreementMiddle": "và",
+    "premiumDisclaimerAgreementPrefix": "Khi mua, bạn đồng ý với ",
+    "premiumDisclaimerAgreementPastPrefix": "Bằng việc mua hàng, bạn đã đồng ý với ",
+    "premiumDisclaimerAgreementMiddle": " và ",
     "premiumActiveUntil": "Còn hiệu lực đến {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -12050,7 +12050,7 @@
     "@notificationsTtsEnableCommandDescription": {
         "description": "Toggle description for enabling /tts speech playback."
     },
-    "notificationsTtsAccessibilityLinkPrefix": "Điều chỉnh tốc độ phát trong",
+    "notificationsTtsAccessibilityLinkPrefix": "Điều chỉnh tốc độ phát trong ",
     "@notificationsTtsAccessibilityLinkPrefix": {
         "description": "Prefix before the Accessibility settings link in TTS notifications settings."
     },

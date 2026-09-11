@@ -14362,7 +14362,7 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String systemPermissionPhotosMessage(String productName) {
-    return 'Fluxer no tiene acceso a tu galería de fotos. Puedes habilitarlo en la configuración de privacidad de tu dispositivo.';
+    return '$productName no tiene acceso a tu galería de fotos. Puedes habilitarlo en la configuración de privacidad de tu dispositivo.';
   }
 
   @override
@@ -14551,6 +14551,9 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get back => 'Volver';
+
+  @override
+  String get next => 'Siguiente';
 
   @override
   String get mfaTitle => 'Autenticación en dos pasos';
@@ -14924,6 +14927,10 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
       'No se puede iniciar sesión en este momento. Por favor, inténtelo de nuevo.';
 
   @override
+  String get errorServiceUnavailable =>
+      'Esta instancia no está disponible temporalmente. Inténtalo de nuevo en un momento.';
+
+  @override
   String get errorInvalidEmailOrPassword =>
       'Correo electrónico o contraseña no válidos.';
 
@@ -14966,6 +14973,27 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get embedInviteAlreadyJoined => 'Ya unido';
+
+  @override
+  String get embedInviteDisabled => 'Invitaciones desactivadas';
+
+  @override
+  String get embedInvitePaused =>
+      'Las invitaciones están pausadas para esta comunidad.';
+
+  @override
+  String embedInvitePausedRaid(String productName) {
+    return '$productName ha detectado un posible ataque masivo, por lo que los nuevos usuarios no pueden unirse en este momento.';
+  }
+
+  @override
+  String get inviteAcceptInvitesPausedTryAgain =>
+      'Esta comunidad ha pausado las invitaciones. Puedes intentarlo más tarde.';
+
+  @override
+  String inviteAcceptRaidInvitesPaused(String productName) {
+    return '$productName ha detectado un posible ataque masivo en esta comunidad. Las invitaciones están pausadas, por lo que los nuevos usuarios no pueden unirse en este momento.';
+  }
 
   @override
   String get inviteAcceptTitle => 'Te invitaron a unirte';
@@ -15715,6 +15743,13 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get gifPickerFavorites => 'Favoritos';
+
+  @override
+  String get gifPickerFavoritesEmptyTitle => 'Aún no hay GIF favoritos';
+
+  @override
+  String get gifPickerFavoritesEmptyDescription =>
+      'Marca un GIF para verlo aquí.';
 
   @override
   String get gifPickerTrending => 'GIFs en tendencia';
@@ -16722,7 +16757,7 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String requiredActionIntroGeneric(String productName) {
-    return 'Completa la verificación requerida para seguir usando Fluxer.';
+    return 'Completa la verificación requerida para seguir usando $productName.';
   }
 
   @override
@@ -16731,12 +16766,12 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String requiredActionIntroEmailOrPhone(String productName) {
-    return 'Verifica tu correo electrónico o teléfono para seguir usando Fluxer.';
+    return 'Verifica tu correo electrónico o teléfono para seguir usando $productName';
   }
 
   @override
   String requiredActionIntroEmailAndPhone(String productName) {
-    return 'Completa los pasos obligatorios de verificación por correo electrónico y teléfono que aparecen a continuación para seguir usando Fluxer.';
+    return 'Completa los pasos obligatorios de verificación por correo electrónico y teléfono que aparecen a continuación para seguir usando $productName';
   }
 
   @override
@@ -16745,7 +16780,7 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String requiredActionChooseMethodDescription(String productName) {
-    return 'Completa una de las rutas de verificación de abajo para seguir usando Fluxer.';
+    return 'Completa una de las rutas de verificación de abajo para seguir usando $productName.';
   }
 
   @override
@@ -16930,6 +16965,83 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
       locale: localeName,
       other: 'hace $count minutos',
       one: 'hace 1 minuto',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'hace $count semanas',
+      one: 'hace 1 semana',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeInMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'en $count minutos',
+      one: 'en 1 minuto',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeInHours(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'en $count horas',
+      one: 'en 1 hora',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeInDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'en $count días',
+      one: 'en 1 día',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeInWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'en $count semanas',
+      one: 'en 1 semana',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeInMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'en $count meses',
+      one: 'en 1 mes',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeInYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'en $count años',
+      one: 'en 1 año',
     );
     return '$_temp0';
   }
@@ -17882,6 +17994,21 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   }
 
   @override
+  String slowmodeTooltipSetImmune(String durationLabel) {
+    return 'El modo lento está configurado en $durationLabel, pero eres inmune.';
+  }
+
+  @override
+  String slowmodeTooltipSetWait(String durationLabel) {
+    return 'El modo lento está configurado en $durationLabel. Espera antes de enviar otro mensaje.';
+  }
+
+  @override
+  String slowmodeTooltipSetChannel(String durationLabel) {
+    return 'El modo lento está configurado en $durationLabel para este canal.';
+  }
+
+  @override
   String get channelNoSendPermissionHint =>
       'No puedes enviar mensajes en este canal.';
 
@@ -18093,6 +18220,31 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   }
 
   @override
+  String chatTextualPreviewRemainingLines(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '... (quedan $count líneas)',
+      one: '... (queda $count línea)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String chatTextualPreviewRemainingRows(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '... (quedan $count filas)',
+      one: '... (queda $count fila)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get chatTextualPreviewViewWholeFile => 'Ver archivo completo';
+
+  @override
   String get chatTextualPreviewChangeLanguage => 'Cambiar idioma';
 
   @override
@@ -18102,10 +18254,23 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   String get chatTextualPreviewSyntaxHighlighting => 'Resaltado de sintaxis';
 
   @override
+  String get chatTextualPreviewNoLanguagesFound =>
+      'No se han encontrado resultados';
+
+  @override
   String get chatTextualPreviewMoreOptions => 'Más opciones';
 
   @override
   String get chatTextualPreviewWrapText => 'Ajustar texto';
+
+  @override
+  String chatTextualPreviewSizeError(int previewLimitKb) {
+    return 'El archivo es demasiado grande para la vista previa integrada (límite de $previewLimitKb KB).';
+  }
+
+  @override
+  String get chatTextualPreviewLoadError =>
+      'No se pudo cargar la vista previa.';
 
   @override
   String get chatTextualPreviewLanguagePlaintext => 'Texto plano';
@@ -18482,7 +18647,29 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
       'Escoge el aspecto oscuro, carbón o claro.';
 
   @override
+  String get lookAndFeelHdrSectionTitle => 'Rango dinámico alto';
+
+  @override
+  String get lookAndFeelHdrSectionDescription =>
+      'Controla cómo se muestran las imágenes HDR en monitores compatibles con HDR.';
+
+  @override
+  String get lookAndFeelHdrFullName => 'Rango dinámico completo';
+
+  @override
+  String get lookAndFeelHdrFullDescription =>
+      'Mostrar las imágenes HDR con el máximo brillo y gama de colores.';
+
+  @override
   String get lookAndFeelHdrStandardName => 'Rango estándar';
+
+  @override
+  String get lookAndFeelHdrStandardDescription =>
+      'Aplicar mapeo de tonos a las imágenes HDR para ajustarlas al rango estándar, reduciendo el brillo máximo.';
+
+  @override
+  String get lookAndFeelHdrDisplayModeLabel =>
+      'Modo de pantalla de rango dinámico alto';
 
   @override
   String get lookAndFeelThemeDark => 'Tema oscuro';
@@ -18546,10 +18733,25 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   }
 
   @override
+  String get lookAndFeelMessageDisplayModeLabel =>
+      'Modo de visualización de mensajes';
+
+  @override
   String get lookAndFeelMessageDisplayComfyName => 'Cómodo';
 
   @override
+  String get lookAndFeelMessageDisplayComfyDescription =>
+      'Diseño espacioso con una clara separación visual entre los mensajes.';
+
+  @override
   String get lookAndFeelMessageDisplayDenseName => 'Denso';
+
+  @override
+  String get lookAndFeelMessageDisplayDenseDescription =>
+      'Maximiza los mensajes visibles con un espaciado mínimo.';
+
+  @override
+  String get lookAndFeelHideUserAvatarsLabel => 'Ocultar avatares de usuario';
 
   @override
   String get lookAndFeelInterfaceTitle => 'Interfaz';
@@ -18667,6 +18869,32 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
     );
     return '$_temp0';
   }
+
+  @override
+  String get communityTemporarilyUnavailable =>
+      'Comunidad temporalmente no disponible';
+
+  @override
+  String get guildUnavailableDescription =>
+      'Algo salió mal. Estamos trabajando en ello.';
+
+  @override
+  String get guildNotFoundTitle => 'Esta no es la comunidad que buscas.';
+
+  @override
+  String get guildNotFoundDescription =>
+      'Es posible que la comunidad que buscas haya sido eliminada o que no tengas acceso a ella.';
+
+  @override
+  String guildStaffOnlyAccessibleNagbar(
+    String communityName,
+    String productName,
+  ) {
+    return 'Actualmente, $communityName solo es accesible para los miembros del personal de $productName';
+  }
+
+  @override
+  String get guildNavbarTemporarilyUnavailable => 'temporalmente no disponible';
 
   @override
   String get lookAndFeelCollapseDMsLabel => 'Colapsar DMs en carpeta';
@@ -18799,10 +19027,35 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   String get favoritesAddToFavorites => 'Añadir a favoritos';
 
   @override
+  String get favoritesAddToSavedMedia =>
+      'Añadir a contenido multimedia guardado';
+
+  @override
+  String get favoritesRemoveFromSavedMedia =>
+      'Quitar de contenido multimedia guardado';
+
+  @override
+  String get favoritesAddToUrlOnlyGifFavorites =>
+      'Añadir a favoritos de GIF solo por URL';
+
+  @override
+  String get favoritesRemoveFromUrlOnlyGifFavorites =>
+      'Quitar de favoritos de GIF solo por URL';
+
+  @override
+  String get savedMediaAddTitle => 'Añadir a contenido multimedia guardado';
+
+  @override
   String get savedMediaFormNameLabel => 'Nombre';
 
   @override
+  String get savedMediaFormNameHint => 'Mis increíbles archivos multimedia';
+
+  @override
   String get savedMediaFormAltTextLabel => 'Texto alternativo';
+
+  @override
+  String get savedMediaFormAltTextHint => 'Describir el contenido multimedia';
 
   @override
   String get savedMediaFormTagsLabel => 'Etiquetas';
@@ -18811,8 +19064,19 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   String get savedMediaFormTagsHint => 'divertido, reacción, trabajo';
 
   @override
+  String get savedMediaSaveError =>
+      'No se pudo actualizar el contenido multimedia guardado.';
+
+  @override
+  String get savedMediaNameRequired => 'El nombre es obligatorio.';
+
+  @override
   String get gifFavoriteFirstTimeTitle =>
       '¿Cómo deberíamos guardar tus GIF favoritos?';
+
+  @override
+  String get gifFavoriteFirstTimeDescription =>
+      'Puedes guardar los GIF destacados como favoritos solo por URL o subirlos a tu contenido multimedia guardado. Elige la opción que mejor se adapte a tu forma de usarlos. Puedes cambiarla en cualquier momento en Ajustes > Avanzado > Multimedia.';
 
   @override
   String get favoritesHideConfirmTitle => 'Ocultar favoritos';

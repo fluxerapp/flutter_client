@@ -12519,7 +12519,7 @@
     "giftSettingsRedeemForYourself": "Canjear para ti",
     "premiumRedeemGiftCode": "Canjear código de regalo",
     "premiumGiftSubscriptionBlocksRecurring": "Actualmente tienes una suscripción de regalo. No se renovará automáticamente. Puedes canjear más códigos de regalo para extenderla. Las suscripciones recurrentes se pueden iniciar una vez que finalice el tiempo de tu regalo.",
-    "systemPermissionPhotosMessage": "Fluxer no tiene acceso a tu galería de fotos. Puedes habilitarlo en la configuración de privacidad de tu dispositivo.",
+    "systemPermissionPhotosMessage": "{productName} no tiene acceso a tu galería de fotos. Puedes habilitarlo en la configuración de privacidad de tu dispositivo.",
     "@systemPermissionPhotosMessage": {
         "description": "Body text when photo library access must be enabled in system settings."
     },
@@ -12583,7 +12583,7 @@
     "@requiredActionTitle": {
         "description": "Title for required action blocking modal."
     },
-    "requiredActionIntroGeneric": "Completa la verificación requerida para seguir usando Fluxer.",
+    "requiredActionIntroGeneric": "Completa la verificación requerida para seguir usando {productName}.",
     "@requiredActionIntroGeneric": {
         "description": "Generic required action intro."
     },
@@ -12591,11 +12591,11 @@
     "@requiredActionIntroPhone": {
         "description": "Phone-only required action intro."
     },
-    "requiredActionIntroEmailOrPhone": "Verifica tu correo electrónico o teléfono para seguir usando Fluxer.",
+    "requiredActionIntroEmailOrPhone": "Verifica tu correo electrónico o teléfono para seguir usando {productName}",
     "@requiredActionIntroEmailOrPhone": {
         "description": "Email or phone required action intro."
     },
-    "requiredActionIntroEmailAndPhone": "Completa los pasos obligatorios de verificación por correo electrónico y teléfono que aparecen a continuación para seguir usando Fluxer.",
+    "requiredActionIntroEmailAndPhone": "Completa los pasos obligatorios de verificación por correo electrónico y teléfono que aparecen a continuación para seguir usando {productName}",
     "@requiredActionIntroEmailAndPhone": {
         "description": "Email and phone required action intro."
     },
@@ -12603,7 +12603,7 @@
     "@requiredActionChooseMethodTitle": {
         "description": "Title when user can pick email or phone."
     },
-    "requiredActionChooseMethodDescription": "Completa una de las rutas de verificación de abajo para seguir usando Fluxer.",
+    "requiredActionChooseMethodDescription": "Completa una de las rutas de verificación de abajo para seguir usando {productName}.",
     "@requiredActionChooseMethodDescription": {
         "description": "Description when user can pick email or phone."
     },
@@ -12867,5 +12867,295 @@
     "gifFavoriteFirstTimeTitle": "¿Cómo deberíamos guardar tus GIF favoritos?",
     "@gifFavoriteFirstTimeTitle": {
         "description": "Title for the first-time GIF favorite storage prompt."
+    },
+    "next": "Siguiente",
+    "@next": {
+        "description": "Generic next button label."
+    },
+    "errorServiceUnavailable": "Esta instancia no está disponible temporalmente. Inténtalo de nuevo en un momento.",
+    "@errorServiceUnavailable": {
+        "description": "Login error when the API returns 502, 503, or 504."
+    },
+    "embedInviteDisabled": "Invitaciones desactivadas",
+    "@embedInviteDisabled": {
+        "description": "Disabled button label on a community invite embed when invites are paused or anti-raid mode is active."
+    },
+    "embedInvitePaused": "Las invitaciones están pausadas para esta comunidad.",
+    "@embedInvitePaused": {
+        "description": "Status message on a community invite embed when invites are paused by community admins."
+    },
+    "embedInvitePausedRaid": "{productName} ha detectado un posible ataque masivo, por lo que los nuevos usuarios no pueden unirse en este momento.",
+    "@embedInvitePausedRaid": {
+        "description": "Anti-raid status message on a community invite embed.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "inviteAcceptInvitesPausedTryAgain": "Esta comunidad ha pausado las invitaciones. Puedes intentarlo más tarde.",
+    "@inviteAcceptInvitesPausedTryAgain": {
+        "description": "Invite modal notice when community admins have paused invites."
+    },
+    "inviteAcceptRaidInvitesPaused": "{productName} ha detectado un posible ataque masivo en esta comunidad. Las invitaciones están pausadas, por lo que los nuevos usuarios no pueden unirse en este momento.",
+    "@inviteAcceptRaidInvitesPaused": {
+        "description": "Invite modal notice when automated raid protection pauses invites.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "gifPickerFavoritesEmptyTitle": "Aún no hay GIF favoritos",
+    "@gifPickerFavoritesEmptyTitle": {
+        "description": "Empty state title for the GIF picker favorites view."
+    },
+    "gifPickerFavoritesEmptyDescription": "Marca un GIF para verlo aquí.",
+    "@gifPickerFavoritesEmptyDescription": {
+        "description": "Empty state description for the GIF picker favorites view."
+    },
+    "relativeTimeWeeks": "{count, plural, =1{hace 1 semana} other{hace {count} semanas}}",
+    "@relativeTimeWeeks": {
+        "description": "Relative time in weeks.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "relativeTimeInMinutes": "{count, plural, =1{en 1 minuto} other{en {count} minutos}}",
+    "@relativeTimeInMinutes": {
+        "description": "Relative time in future minutes.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "relativeTimeInHours": "{count, plural, =1{en 1 hora} other{en {count} horas}}",
+    "@relativeTimeInHours": {
+        "description": "Relative time in future hours.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "relativeTimeInDays": "{count, plural, =1{en 1 día} other{en {count} días}}",
+    "@relativeTimeInDays": {
+        "description": "Relative time in future days.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "relativeTimeInWeeks": "{count, plural, =1{en 1 semana} other{en {count} semanas}}",
+    "@relativeTimeInWeeks": {
+        "description": "Relative time in future weeks.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "relativeTimeInMonths": "{count, plural, =1{en 1 mes} other{en {count} meses}}",
+    "@relativeTimeInMonths": {
+        "description": "Relative time in future months.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "relativeTimeInYears": "{count, plural, =1{en 1 año} other{en {count} años}}",
+    "@relativeTimeInYears": {
+        "description": "Relative time in future years.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "slowmodeTooltipSetImmune": "El modo lento está configurado en {durationLabel}, pero eres inmune.",
+    "@slowmodeTooltipSetImmune": {
+        "description": "Tooltip on the wide composer slowmode indicator when the reader can bypass slowmode.",
+        "placeholders": {
+            "durationLabel": {
+                "type": "String",
+                "example": "30 seconds"
+            }
+        }
+    },
+    "slowmodeTooltipSetWait": "El modo lento está configurado en {durationLabel}. Espera antes de enviar otro mensaje.",
+    "@slowmodeTooltipSetWait": {
+        "description": "Tooltip on the wide composer slowmode indicator while the reader is counting down.",
+        "placeholders": {
+            "durationLabel": {
+                "type": "String",
+                "example": "30 seconds"
+            }
+        }
+    },
+    "slowmodeTooltipSetChannel": "El modo lento está configurado en {durationLabel} para este canal.",
+    "@slowmodeTooltipSetChannel": {
+        "description": "Tooltip on the wide composer slowmode indicator when the reader is free to send.",
+        "placeholders": {
+            "durationLabel": {
+                "type": "String",
+                "example": "30 seconds"
+            }
+        }
+    },
+    "chatTextualPreviewRemainingLines": "{count, plural, one{... (queda {count} línea)} other{... (quedan {count} líneas)}}",
+    "@chatTextualPreviewRemainingLines": {
+        "description": "Suffix when inline textual preview truncates expanded content.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "chatTextualPreviewRemainingRows": "{count, plural, one{... (queda {count} fila)} other{... (quedan {count} filas)}}",
+    "@chatTextualPreviewRemainingRows": {
+        "description": "Suffix when inline CSV preview truncates expanded rows.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "chatTextualPreviewViewWholeFile": "Ver archivo completo",
+    "@chatTextualPreviewViewWholeFile": {
+        "description": "Opens fullscreen textual attachment preview."
+    },
+    "chatTextualPreviewNoLanguagesFound": "No se han encontrado resultados",
+    "@chatTextualPreviewNoLanguagesFound": {
+        "description": "Empty state when language search matches nothing."
+    },
+    "chatTextualPreviewSizeError": "El archivo es demasiado grande para la vista previa integrada (límite de {previewLimitKb} KB).",
+    "@chatTextualPreviewSizeError": {
+        "description": "Error when attachment exceeds textual preview size limit.",
+        "placeholders": {
+            "previewLimitKb": {
+                "type": "int"
+            }
+        }
+    },
+    "chatTextualPreviewLoadError": "No se pudo cargar la vista previa.",
+    "@chatTextualPreviewLoadError": {
+        "description": "Error when textual attachment content cannot be fetched."
+    },
+    "lookAndFeelHdrSectionTitle": "Rango dinámico alto",
+    "@lookAndFeelHdrSectionTitle": {
+        "description": "Appearance section title for HDR image and video display."
+    },
+    "lookAndFeelHdrSectionDescription": "Controla cómo se muestran las imágenes HDR en monitores compatibles con HDR.",
+    "@lookAndFeelHdrSectionDescription": {
+        "description": "Appearance section description for HDR display mode."
+    },
+    "lookAndFeelHdrFullName": "Rango dinámico completo",
+    "@lookAndFeelHdrFullName": {
+        "description": "HDR radio option that keeps full HDR brightness and color."
+    },
+    "lookAndFeelHdrFullDescription": "Mostrar las imágenes HDR con el máximo brillo y gama de colores.",
+    "@lookAndFeelHdrFullDescription": {
+        "description": "Description for the full dynamic range HDR option."
+    },
+    "lookAndFeelHdrStandardDescription": "Aplicar mapeo de tonos a las imágenes HDR para ajustarlas al rango estándar, reduciendo el brillo máximo.",
+    "@lookAndFeelHdrStandardDescription": {
+        "description": "Description for the standard-range HDR option."
+    },
+    "lookAndFeelHdrDisplayModeLabel": "Modo de pantalla de rango dinámico alto",
+    "@lookAndFeelHdrDisplayModeLabel": {
+        "description": "Accessibility label for the HDR display mode radio group."
+    },
+    "lookAndFeelMessageDisplayModeLabel": "Modo de visualización de mensajes",
+    "@lookAndFeelMessageDisplayModeLabel": {
+        "description": "Accessibility label for message display mode radio group."
+    },
+    "lookAndFeelMessageDisplayComfyDescription": "Diseño espacioso con una clara separación visual entre los mensajes.",
+    "@lookAndFeelMessageDisplayComfyDescription": {
+        "description": "Comfy message display mode option description."
+    },
+    "lookAndFeelMessageDisplayDenseDescription": "Maximiza los mensajes visibles con un espaciado mínimo.",
+    "@lookAndFeelMessageDisplayDenseDescription": {
+        "description": "Dense message display mode option description."
+    },
+    "lookAndFeelHideUserAvatarsLabel": "Ocultar avatares de usuario",
+    "@lookAndFeelHideUserAvatarsLabel": {
+        "description": "Toggle to hide user avatars in dense message display mode."
+    },
+    "communityTemporarilyUnavailable": "Comunidad temporalmente no disponible",
+    "@communityTemporarilyUnavailable": {
+        "description": "Title shown when a community is temporarily offline."
+    },
+    "guildUnavailableDescription": "Algo salió mal. Estamos trabajando en ello.",
+    "@guildUnavailableDescription": {
+        "description": "Body shown when a community is temporarily offline."
+    },
+    "guildNotFoundTitle": "Esta no es la comunidad que buscas.",
+    "@guildNotFoundTitle": {
+        "description": "Title shown when the active community is missing."
+    },
+    "guildNotFoundDescription": "Es posible que la comunidad que buscas haya sido eliminada o que no tengas acceso a ella.",
+    "@guildNotFoundDescription": {
+        "description": "Body shown when the active community is missing."
+    },
+    "guildStaffOnlyAccessibleNagbar": "Actualmente, {communityName} solo es accesible para los miembros del personal de {productName}",
+    "@guildStaffOnlyAccessibleNagbar": {
+        "description": "Nagbar shown when a community is only accessible to staff.",
+        "placeholders": {
+            "communityName": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "guildNavbarTemporarilyUnavailable": "temporalmente no disponible",
+    "@guildNavbarTemporarilyUnavailable": {
+        "description": "Accessibility label suffix for unavailable guild icons."
+    },
+    "favoritesAddToSavedMedia": "Añadir a contenido multimedia guardado",
+    "@favoritesAddToSavedMedia": {
+        "description": "Action that adds the selected media to saved media."
+    },
+    "favoritesRemoveFromSavedMedia": "Quitar de contenido multimedia guardado",
+    "@favoritesRemoveFromSavedMedia": {
+        "description": "Action that removes the selected media from saved media."
+    },
+    "favoritesAddToUrlOnlyGifFavorites": "Añadir a favoritos de GIF solo por URL",
+    "@favoritesAddToUrlOnlyGifFavorites": {
+        "description": "Media context menu action that saves a GIF favorite by URL without uploading it."
+    },
+    "favoritesRemoveFromUrlOnlyGifFavorites": "Quitar de favoritos de GIF solo por URL",
+    "@favoritesRemoveFromUrlOnlyGifFavorites": {
+        "description": "Media context menu action that removes a GIF favorite saved by URL."
+    },
+    "savedMediaAddTitle": "Añadir a contenido multimedia guardado",
+    "@savedMediaAddTitle": {
+        "description": "Title for the add saved media form."
+    },
+    "savedMediaFormNameHint": "Mis increíbles archivos multimedia",
+    "@savedMediaFormNameHint": {
+        "description": "Placeholder for saved media name input."
+    },
+    "savedMediaFormAltTextHint": "Describir el contenido multimedia",
+    "@savedMediaFormAltTextHint": {
+        "description": "Placeholder for saved media alt text input."
+    },
+    "savedMediaSaveError": "No se pudo actualizar el contenido multimedia guardado.",
+    "@savedMediaSaveError": {
+        "description": "Error shown when saving saved media fails."
+    },
+    "savedMediaNameRequired": "El nombre es obligatorio.",
+    "@savedMediaNameRequired": {
+        "description": "Validation error when saved media name is empty."
+    },
+    "gifFavoriteFirstTimeDescription": "Puedes guardar los GIF destacados como favoritos solo por URL o subirlos a tu contenido multimedia guardado. Elige la opción que mejor se adapte a tu forma de usarlos. Puedes cambiarla en cualquier momento en Ajustes > Avanzado > Multimedia.",
+    "@gifFavoriteFirstTimeDescription": {
+        "description": "Description for the first-time GIF favorite storage prompt."
     }
 }

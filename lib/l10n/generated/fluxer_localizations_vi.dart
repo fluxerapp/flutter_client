@@ -231,7 +231,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get logInViaBrowser => 'Đăng nhập qua trình duyệt';
 
   @override
-  String get needAccountPrompt => 'Cần tài khoản?';
+  String get needAccountPrompt => 'Cần tài khoản? ';
 
   @override
   String get register => 'Đăng ký';
@@ -604,13 +604,13 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Tôi đồng ý với Điều khoản dịch vụ và Chính sách quyền riêng tư';
 
   @override
-  String get registerConsentPrefix => 'Tôi đồng ý với';
+  String get registerConsentPrefix => 'Tôi đồng ý với ';
 
   @override
   String get registerConsentTerms => 'Điều khoản dịch vụ';
 
   @override
-  String get registerConsentAnd => 'và';
+  String get registerConsentAnd => ' và ';
 
   @override
   String get registerConsentPrivacy => 'Chính sách bảo mật';
@@ -622,7 +622,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get registerSubmit => 'Tạo tài khoản';
 
   @override
-  String get registerHaveAccount => 'Đã có tài khoản?';
+  String get registerHaveAccount => 'Đã có tài khoản? ';
 
   @override
   String get registerPendingApproval =>
@@ -1575,10 +1575,10 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Cấu hình cách xử lý cảnh báo liên kết ngoài.';
 
   @override
-  String get externalLinkWarningTrustPrefix => 'Luôn tin cậy';
+  String get externalLinkWarningTrustPrefix => 'Luôn tin cậy ';
 
   @override
-  String get externalLinkWarningTrustSuffix => '— bỏ qua cảnh báo này lần tới';
+  String get externalLinkWarningTrustSuffix => ' — bỏ qua cảnh báo này lần tới';
 
   @override
   String get externalLinkVisitSite => 'Truy cập trang web';
@@ -3951,7 +3951,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get chatTextualPreviewChangeLanguage => 'Đổi ngôn ngữ';
 
   @override
-  String get chatTextualPreviewSearchLanguage => 'Tìm ngôn ngữ...';
+  String get chatTextualPreviewSearchLanguage => 'Tìm ngôn ngữ…';
 
   @override
   String get chatTextualPreviewSyntaxHighlighting => 'Tô sáng cú pháp';
@@ -7573,7 +7573,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get addGuildCreateGuidelinesBefore =>
-      'Khi tạo cộng đồng, bạn đồng ý tuân thủ và duy trì';
+      'Khi tạo cộng đồng, bạn đồng ý tuân thủ và duy trì ';
 
   @override
   String addGuildCreateGuidelinesLink(String productName) {
@@ -8050,14 +8050,14 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get channelSettingsPermissionsSyncedWithParentPrefix =>
-      'Kênh này được đồng bộ với danh mục cha';
+      'Kênh này được đồng bộ với danh mục cha ';
 
   @override
   String get channelSettingsPermissionsSyncedWithParentSuffix => '.';
 
   @override
   String get channelSettingsPermissionsNotSyncedWithParentPrefix =>
-      'Kênh này không được đồng bộ với danh mục cha';
+      'Kênh này không được đồng bộ với danh mục cha ';
 
   @override
   String get channelSettingsPermissionsNotSyncedWithParentSuffix => '.';
@@ -9328,14 +9328,14 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get premiumSelfServeRefundButton => 'Hoàn tiền giao dịch gần nhất';
 
   @override
-  String get premiumDisclaimerAgreementPrefix => 'Khi mua, bạn đồng ý với';
+  String get premiumDisclaimerAgreementPrefix => 'Khi mua, bạn đồng ý với ';
 
   @override
   String get premiumDisclaimerAgreementPastPrefix =>
-      'Bằng việc mua hàng, bạn đã đồng ý với';
+      'Bằng việc mua hàng, bạn đã đồng ý với ';
 
   @override
-  String get premiumDisclaimerAgreementMiddle => 'và';
+  String get premiumDisclaimerAgreementMiddle => ' và ';
 
   @override
   String premiumActiveUntil(String date) {
@@ -9808,7 +9808,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get notificationsTtsAccessibilityLinkPrefix =>
-      'Điều chỉnh tốc độ phát trong';
+      'Điều chỉnh tốc độ phát trong ';
 
   @override
   String get notificationsTtsAccessibilityLinkLabel => 'Trợ năng';

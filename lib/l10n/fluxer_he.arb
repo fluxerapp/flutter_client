@@ -330,7 +330,7 @@
     "@logInViaBrowser": {
         "description": "Secondary login that opens or uses the system browser."
     },
-    "needAccountPrompt": "צריכים חשבון?",
+    "needAccountPrompt": "צריכים חשבון? ",
     "@needAccountPrompt": {
         "description": "Lead text before a register link; trailing space keeps spacing before the link."
     },
@@ -816,7 +816,7 @@
     "@registerConsent": {
         "description": "Consent checkbox label for registration (plain text fallback)."
     },
-    "registerConsentPrefix": "אני מסכים/ה ל-",
+    "registerConsentPrefix": "אני מסכים/ה ל- ",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
     },
@@ -824,7 +824,7 @@
     "@registerConsentTerms": {
         "description": "Terms of Service link text in the consent checkbox."
     },
-    "registerConsentAnd": "וגם",
+    "registerConsentAnd": " וגם ",
     "@registerConsentAnd": {
         "description": "Conjunction between Terms and Privacy links."
     },
@@ -840,7 +840,7 @@
     "@registerSubmit": {
         "description": "Button to submit the registration form."
     },
-    "registerHaveAccount": "כבר יש לך חשבון?",
+    "registerHaveAccount": "כבר יש לך חשבון? ",
     "@registerHaveAccount": {
         "description": "Text before the login link on the register screen."
     },
@@ -2077,11 +2077,11 @@
     "@externalLinksSectionDescription": {
         "description": "Description for the external links settings section."
     },
-    "externalLinkWarningTrustPrefix": "תמיד לסמוך על",
+    "externalLinkWarningTrustPrefix": "תמיד לסמוך על ",
     "@externalLinkWarningTrustPrefix": {
         "description": "Prefix before the hostname in the trust-domain checkbox label."
     },
-    "externalLinkWarningTrustSuffix": "— דלג על אזהרה זו בפעם הבאה",
+    "externalLinkWarningTrustSuffix": " — דלג על אזהרה זו בפעם הבאה",
     "@externalLinkWarningTrustSuffix": {
         "description": "Suffix after the hostname in the trust-domain checkbox label."
     },
@@ -5102,7 +5102,7 @@
     "@chatTextualPreviewChangeLanguage": {
         "description": "Opens language picker for textual attachment syntax highlighting."
     },
-    "chatTextualPreviewSearchLanguage": "חפש שפה...",
+    "chatTextualPreviewSearchLanguage": "חפש שפה…",
     "@chatTextualPreviewSearchLanguage": {
         "description": "Search field hint in textual preview language picker."
     },
@@ -8454,7 +8454,7 @@
     "@chatMessageSeeTranslation": {
         "description": "Toggles a message back to the stored translation."
     },
-    "chatMessageTranslating": "מתרגם...",
+    "chatMessageTranslating": "מתרגם…",
     "@chatMessageTranslating": {
         "description": "Shown under a message while on-device translation is in progress."
     },
@@ -9517,7 +9517,7 @@
     "@addGuildCreateAnimatedIconUnsupported": {
         "description": "Error when the user picks an animated image for a new community icon."
     },
-    "addGuildCreateGuidelinesBefore": "ביצירת קהילה, אתה מסכים לעקוב אחר",
+    "addGuildCreateGuidelinesBefore": "ביצירת קהילה, אתה מסכים לעקוב אחר ",
     "@addGuildCreateGuidelinesBefore": {
         "description": "Text before the community guidelines link on the create sub-view."
     },
@@ -10147,7 +10147,7 @@
     "@channelSettingsPermissionsTitle": {
         "description": "Page title for the channel permissions settings tab."
     },
-    "channelSettingsPermissionsSyncedWithParentPrefix": "הערוץ הזה מסונכרן עם הקטגוריה הראשית",
+    "channelSettingsPermissionsSyncedWithParentPrefix": "הערוץ הזה מסונכרן עם הקטגוריה הראשית ",
     "@channelSettingsPermissionsSyncedWithParentPrefix": {
         "description": "Prefix for the synced-with-parent banner in channel permissions."
     },
@@ -10155,7 +10155,7 @@
     "@channelSettingsPermissionsSyncedWithParentSuffix": {
         "description": "Suffix for the synced-with-parent banner in channel permissions."
     },
-    "channelSettingsPermissionsNotSyncedWithParentPrefix": "הערוץ הזה לא מסונכרן עם הקטגוריה הראשית",
+    "channelSettingsPermissionsNotSyncedWithParentPrefix": "הערוץ הזה לא מסונכרן עם הקטגוריה הראשית ",
     "@channelSettingsPermissionsNotSyncedWithParentPrefix": {
         "description": "Prefix for the not-synced-with-parent banner in channel permissions."
     },
@@ -11592,9 +11592,9 @@
     "premiumBillingHistory": "היסטוריית חיובים",
     "premiumSelfServeRefundTitle": "החזר כספי בשירות עצמי",
     "premiumSelfServeRefundButton": "החזר רכישה אחרונה",
-    "premiumDisclaimerAgreementPrefix": "במסירת רכישה, אתה מסכים ל",
-    "premiumDisclaimerAgreementPastPrefix": "במסירת רכישה, הסכמת ל",
-    "premiumDisclaimerAgreementMiddle": "וגם",
+    "premiumDisclaimerAgreementPrefix": "במסירת רכישה, אתה מסכים ל ",
+    "premiumDisclaimerAgreementPastPrefix": "במסירת רכישה, הסכמת ל ",
+    "premiumDisclaimerAgreementMiddle": " וגם ",
     "premiumActiveUntil": "פעיל עד {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -12050,7 +12050,7 @@
     "@notificationsTtsEnableCommandDescription": {
         "description": "Toggle description for enabling /tts speech playback."
     },
-    "notificationsTtsAccessibilityLinkPrefix": "התאם את מהירות ההשמעה ב",
+    "notificationsTtsAccessibilityLinkPrefix": "התאם את מהירות ההשמעה ב ",
     "@notificationsTtsAccessibilityLinkPrefix": {
         "description": "Prefix before the Accessibility settings link in TTS notifications settings."
     },
