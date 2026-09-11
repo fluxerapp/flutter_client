@@ -4394,42 +4394,42 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'Adjust the application\'s zoom level.';
 
   @override
-  String get lookAndFeelChatWallpaperTitle => 'Chat Wallpaper';
+  String get lookAndFeelChatWallpaperTitle => 'วอลเปเปอร์แชท';
 
   @override
   String get lookAndFeelChatWallpaperDescription =>
-      'Choose a background for chat. This stays on this device.';
+      'เลือกพื้นหลังสำหรับแชทของคุณ สิ่งนี้จะอยู่ในอุปกรณ์นี้';
 
   @override
   String get lookAndFeelChatWallpaperLocalOnlyTooltip =>
-      'This setting stays on this device';
+      'การตั้งค่านี้จะอยู่ในอุปกรณ์นี้';
 
   @override
   String get lookAndFeelChatWallpaperLocalOnlyToast =>
-      'Chat wallpaper is saved on this device only and does not sync to other devices.';
+      'วอลเปเปอร์แชทจะถูกบันทึกไว้ในอุปกรณ์นี้เท่านั้น และจะไม่ซิงค์ไปยังอุปกรณ์อื่น';
 
   @override
-  String get lookAndFeelChatWallpaperDefaultLabel => 'Default';
+  String get lookAndFeelChatWallpaperDefaultLabel => 'ค่าเริ่มต้น';
 
   @override
-  String get lookAndFeelChatWallpaperCustomLabel => 'Custom image';
+  String get lookAndFeelChatWallpaperCustomLabel => 'รูปภาพที่กำหนดเอง';
 
   @override
   String lookAndFeelChatWallpaperColorLabel(String id) {
-    return 'Color $id';
+    return 'สี $id';
   }
 
   @override
   String lookAndFeelChatWallpaperGradientLabel(String id) {
-    return 'Gradient $id';
+    return 'ไล่เฉดสี $id';
   }
 
   @override
-  String get lookAndFeelChatWallpaperDimLabel => 'Dim wallpaper';
+  String get lookAndFeelChatWallpaperDimLabel => 'ปรับความเข้มวอลเปเปอร์';
 
   @override
   String get lookAndFeelChatWallpaperPickFailed =>
-      'Could not set that image as your wallpaper.';
+      'ไม่สามารถตั้งค่ารูปภาพนั้นเป็นวอลเปเปอร์ของคุณได้';
 
   @override
   String get lookAndFeelMessagesSectionTitle => 'Messages';

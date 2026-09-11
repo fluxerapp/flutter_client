@@ -4426,42 +4426,42 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Adjust the application\'s zoom level.';
 
   @override
-  String get lookAndFeelChatWallpaperTitle => 'Chat Wallpaper';
+  String get lookAndFeelChatWallpaperTitle => 'Keskustelun taustakuva';
 
   @override
   String get lookAndFeelChatWallpaperDescription =>
-      'Choose a background for chat. This stays on this device.';
+      'Valitse tausta keskustelulle. Tämä pysyy tällä laitteella.';
 
   @override
   String get lookAndFeelChatWallpaperLocalOnlyTooltip =>
-      'This setting stays on this device';
+      'Tämä asetus pysyy tällä laitteella';
 
   @override
   String get lookAndFeelChatWallpaperLocalOnlyToast =>
-      'Chat wallpaper is saved on this device only and does not sync to other devices.';
+      'Keskustelun taustakuva tallennetaan vain tähän laitteeseen eikä synkronoidu muihin laitteisiin.';
 
   @override
-  String get lookAndFeelChatWallpaperDefaultLabel => 'Default';
+  String get lookAndFeelChatWallpaperDefaultLabel => 'Oletus';
 
   @override
-  String get lookAndFeelChatWallpaperCustomLabel => 'Custom image';
+  String get lookAndFeelChatWallpaperCustomLabel => 'Mukautettu kuva';
 
   @override
   String lookAndFeelChatWallpaperColorLabel(String id) {
-    return 'Color $id';
+    return 'Väri $id';
   }
 
   @override
   String lookAndFeelChatWallpaperGradientLabel(String id) {
-    return 'Gradient $id';
+    return 'Liukuväri $id';
   }
 
   @override
-  String get lookAndFeelChatWallpaperDimLabel => 'Dim wallpaper';
+  String get lookAndFeelChatWallpaperDimLabel => 'Himmennä taustakuva';
 
   @override
   String get lookAndFeelChatWallpaperPickFailed =>
-      'Could not set that image as your wallpaper.';
+      'Kuvan asettaminen taustakuvaksi epäonnistui.';
 
   @override
   String get lookAndFeelMessagesSectionTitle => 'Messages';

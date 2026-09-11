@@ -4419,42 +4419,42 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'एप्लिकेशन के ज़ूम लेवल को एडजस्ट करें।';
 
   @override
-  String get lookAndFeelChatWallpaperTitle => 'Chat Wallpaper';
+  String get lookAndFeelChatWallpaperTitle => 'चैट वॉलपेपर';
 
   @override
   String get lookAndFeelChatWallpaperDescription =>
-      'Choose a background for chat. This stays on this device.';
+      'चैट के लिए एक बैकग्राउंड चुनें। यह इसी डिवाइस पर रहेगा।';
 
   @override
   String get lookAndFeelChatWallpaperLocalOnlyTooltip =>
-      'This setting stays on this device';
+      'यह सेटिंग इसी डिवाइस पर रहेगी';
 
   @override
   String get lookAndFeelChatWallpaperLocalOnlyToast =>
-      'Chat wallpaper is saved on this device only and does not sync to other devices.';
+      'चैट वॉलपेपर केवल इसी डिवाइस पर सेव होता है और दूसरे डिवाइस पर सिंक नहीं होता है।';
 
   @override
-  String get lookAndFeelChatWallpaperDefaultLabel => 'Default';
+  String get lookAndFeelChatWallpaperDefaultLabel => 'डिफ़ॉल्ट';
 
   @override
-  String get lookAndFeelChatWallpaperCustomLabel => 'Custom image';
+  String get lookAndFeelChatWallpaperCustomLabel => 'कस्टम इमेज';
 
   @override
   String lookAndFeelChatWallpaperColorLabel(String id) {
-    return 'Color $id';
+    return 'रंग $id';
   }
 
   @override
   String lookAndFeelChatWallpaperGradientLabel(String id) {
-    return 'Gradient $id';
+    return 'ग्रेडिएंट $id';
   }
 
   @override
-  String get lookAndFeelChatWallpaperDimLabel => 'Dim wallpaper';
+  String get lookAndFeelChatWallpaperDimLabel => 'वॉलपेपर को डिम करें';
 
   @override
   String get lookAndFeelChatWallpaperPickFailed =>
-      'Could not set that image as your wallpaper.';
+      'उस इमेज को आपके वॉलपेपर के रूप में सेट नहीं किया जा सका।';
 
   @override
   String get lookAndFeelMessagesSectionTitle => 'मैसेज';

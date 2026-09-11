@@ -4436,29 +4436,29 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
       'Adjust the application\'s zoom level.';
 
   @override
-  String get lookAndFeelChatWallpaperTitle => 'Chat Wallpaper';
+  String get lookAndFeelChatWallpaperTitle => 'Tapeta czatu';
 
   @override
   String get lookAndFeelChatWallpaperDescription =>
-      'Choose a background for chat. This stays on this device.';
+      'Wybierz tło dla czatu. Pozostanie na tym urządzeniu.';
 
   @override
   String get lookAndFeelChatWallpaperLocalOnlyTooltip =>
-      'This setting stays on this device';
+      'To ustawienie pozostaje na tym urządzeniu';
 
   @override
   String get lookAndFeelChatWallpaperLocalOnlyToast =>
-      'Chat wallpaper is saved on this device only and does not sync to other devices.';
+      'Tapeta czatu jest zapisana tylko na tym urządzeniu i nie jest synchronizowana z innymi.';
 
   @override
-  String get lookAndFeelChatWallpaperDefaultLabel => 'Default';
+  String get lookAndFeelChatWallpaperDefaultLabel => 'Domyślne';
 
   @override
-  String get lookAndFeelChatWallpaperCustomLabel => 'Custom image';
+  String get lookAndFeelChatWallpaperCustomLabel => 'Niestandardowy obraz';
 
   @override
   String lookAndFeelChatWallpaperColorLabel(String id) {
-    return 'Color $id';
+    return 'Kolor $id';
   }
 
   @override
@@ -4467,11 +4467,11 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   }
 
   @override
-  String get lookAndFeelChatWallpaperDimLabel => 'Dim wallpaper';
+  String get lookAndFeelChatWallpaperDimLabel => 'Przyciemnij tapetę';
 
   @override
   String get lookAndFeelChatWallpaperPickFailed =>
-      'Could not set that image as your wallpaper.';
+      'Nie udało się ustawić tego obrazu jako tapety.';
 
   @override
   String get lookAndFeelMessagesSectionTitle => 'Messages';

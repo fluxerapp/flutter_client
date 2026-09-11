@@ -17683,6 +17683,44 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
       'Adjust the font size in the chat area.';
 
   @override
+  String get lookAndFeelChatWallpaperTitle => 'Chat wallpaper';
+
+  @override
+  String get lookAndFeelChatWallpaperDescription =>
+      'Choose a background for chats. This stays on this device.';
+
+  @override
+  String get lookAndFeelChatWallpaperLocalOnlyTooltip =>
+      'This setting stays on this device';
+
+  @override
+  String get lookAndFeelChatWallpaperLocalOnlyToast =>
+      'Chat wallpaper is saved on this device only and does not sync to other devices.';
+
+  @override
+  String get lookAndFeelChatWallpaperDefaultLabel => 'Default';
+
+  @override
+  String get lookAndFeelChatWallpaperCustomLabel => 'Custom image';
+
+  @override
+  String lookAndFeelChatWallpaperColorLabel(String id) {
+    return 'Colour $id';
+  }
+
+  @override
+  String lookAndFeelChatWallpaperGradientLabel(String id) {
+    return 'Gradient $id';
+  }
+
+  @override
+  String get lookAndFeelChatWallpaperDimLabel => 'Dim wallpaper';
+
+  @override
+  String get lookAndFeelChatWallpaperPickFailed =>
+      'Could not set that image as your wallpaper.';
+
+  @override
   String get lookAndFeelInterfaceTitle => 'Interface';
 
   @override
@@ -24762,6 +24800,44 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   @override
   String get lookAndFeelChatFontScalingDescription =>
       'Adjust the font size in the chat area.';
+
+  @override
+  String get lookAndFeelChatWallpaperTitle => 'Chat Wallpaper';
+
+  @override
+  String get lookAndFeelChatWallpaperDescription =>
+      'Choose a background for chat. This stays on this device.';
+
+  @override
+  String get lookAndFeelChatWallpaperLocalOnlyTooltip =>
+      'This setting stays on this device';
+
+  @override
+  String get lookAndFeelChatWallpaperLocalOnlyToast =>
+      'Chat wallpaper is saved on this device only and does not sync to other devices.';
+
+  @override
+  String get lookAndFeelChatWallpaperDefaultLabel => 'Default';
+
+  @override
+  String get lookAndFeelChatWallpaperCustomLabel => 'Custom image';
+
+  @override
+  String lookAndFeelChatWallpaperColorLabel(String id) {
+    return 'Color $id';
+  }
+
+  @override
+  String lookAndFeelChatWallpaperGradientLabel(String id) {
+    return 'Gradient $id';
+  }
+
+  @override
+  String get lookAndFeelChatWallpaperDimLabel => 'Dim wallpaper';
+
+  @override
+  String get lookAndFeelChatWallpaperPickFailed =>
+      'Could not set that image as your wallpaper.';
 
   @override
   String get lookAndFeelInterfaceTitle => 'Interface';

@@ -4294,42 +4294,40 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       'Adjust the application\'s zoom level.';
 
   @override
-  String get lookAndFeelChatWallpaperTitle => 'Chat Wallpaper';
+  String get lookAndFeelChatWallpaperTitle => '채팅 배경화면';
 
   @override
   String get lookAndFeelChatWallpaperDescription =>
-      'Choose a background for chat. This stays on this device.';
+      '채팅 배경을 선택하세요. 이 배경은 이 기기에 저장됩니다.';
 
   @override
-  String get lookAndFeelChatWallpaperLocalOnlyTooltip =>
-      'This setting stays on this device';
+  String get lookAndFeelChatWallpaperLocalOnlyTooltip => '이 설정은 이 기기에 유지됩니다';
 
   @override
   String get lookAndFeelChatWallpaperLocalOnlyToast =>
-      'Chat wallpaper is saved on this device only and does not sync to other devices.';
+      '채팅 배경화면은 이 기기에만 저장되며 다른 기기로 동기화되지 않습니다.';
 
   @override
-  String get lookAndFeelChatWallpaperDefaultLabel => 'Default';
+  String get lookAndFeelChatWallpaperDefaultLabel => '기본';
 
   @override
-  String get lookAndFeelChatWallpaperCustomLabel => 'Custom image';
+  String get lookAndFeelChatWallpaperCustomLabel => '사용자 지정 이미지';
 
   @override
   String lookAndFeelChatWallpaperColorLabel(String id) {
-    return 'Color $id';
+    return '색상 $id';
   }
 
   @override
   String lookAndFeelChatWallpaperGradientLabel(String id) {
-    return 'Gradient $id';
+    return '그라데이션 $id';
   }
 
   @override
-  String get lookAndFeelChatWallpaperDimLabel => 'Dim wallpaper';
+  String get lookAndFeelChatWallpaperDimLabel => '배경 화면 어둡게';
 
   @override
-  String get lookAndFeelChatWallpaperPickFailed =>
-      'Could not set that image as your wallpaper.';
+  String get lookAndFeelChatWallpaperPickFailed => '이미지를 배경화면으로 설정할 수 없습니다.';
 
   @override
   String get lookAndFeelMessagesSectionTitle => 'Messages';
