@@ -4434,6 +4434,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get lookAndFeelChatWallpaperCustomLabel => 'Ảnh tùy chỉnh';
 
   @override
+  String get lookAndFeelChatWallpaperStarfieldLabel => 'Starfield';
+
+  @override
   String lookAndFeelChatWallpaperColorLabel(String id) {
     return 'Màu $id';
   }

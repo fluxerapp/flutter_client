@@ -177,6 +177,7 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     description: _l((l10n) => l10n.lookAndFeelChatWallpaperDescription),
     keywords: [
       _l((l10n) => l10n.lookAndFeelChatWallpaperCustomLabel),
+      _l((l10n) => l10n.lookAndFeelChatWallpaperStarfieldLabel),
       _l((l10n) => l10n.lookAndFeelChatWallpaperDimLabel),
     ],
   ),

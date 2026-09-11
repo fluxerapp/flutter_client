@@ -4,7 +4,14 @@ import 'dart:io' show File;
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-enum ChatWallpaperKind { defaultTheme, custom, color, gradient, preset }
+enum ChatWallpaperKind {
+  defaultTheme,
+  custom,
+  color,
+  gradient,
+  preset,
+  starfield,
+}
 
 @immutable
 class ChatWallpaperState {
@@ -172,6 +179,7 @@ class ChatWallpaperSnapshot {
         ChatWallpaperCatalog.gradientById(selected.id) != null,
       ChatWallpaperKind.preset =>
         ChatWallpaperCatalog.bundledImageById(selected.id) != null,
+      ChatWallpaperKind.starfield => true,
     };
     return valid ? selected : ChatWallpaperState(dim: selected.dim);
   }
@@ -230,6 +238,8 @@ ChatWallpaperKind? chatWallpaperKindFromJson(String? name) {
       return ChatWallpaperKind.gradient;
     case 'preset':
       return ChatWallpaperKind.preset;
+    case 'starfield':
+      return ChatWallpaperKind.starfield;
     default:
       return null;
   }
@@ -247,6 +257,8 @@ String chatWallpaperKindToJson(ChatWallpaperKind kind) {
       return 'gradient';
     case ChatWallpaperKind.preset:
       return 'preset';
+    case ChatWallpaperKind.starfield:
+      return 'starfield';
   }
 }
 
@@ -362,6 +374,8 @@ ChatWallpaperPaint resolveChatWallpaperPaint({
         fallbackColor: themeBackground,
         imageProvider: AssetImage(preset.assetPath),
       );
+    case ChatWallpaperKind.starfield:
+      return const ChatWallpaperPaint(fallbackColor: Color(0xFF0D0A1C));
   }
 }
 

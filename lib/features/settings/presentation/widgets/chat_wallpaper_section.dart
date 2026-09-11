@@ -77,13 +77,31 @@ class ChatWallpaperSection extends ConsumerWidget {
                     selected: selection.kind == ChatWallpaperKind.custom,
                     dim: selection.dim,
                     processing: snapshot.isProcessingCustom,
-                    footer: _CustomWallpaperFooter(
-                      hasImage: snapshot.hasCustomImage,
+                    footer: _WallpaperCardFooter(
+                      label: l10n.lookAndFeelChatWallpaperCustomLabel,
+                      icon: PhosphorIconsRegular.image,
                       showIcon: selection.kind != ChatWallpaperKind.custom,
+                      scrim: snapshot.hasCustomImage,
                     ),
                     onTap: () =>
                         unawaited(_onCustomTap(context, ref, snapshot)),
                     child: _CustomWallpaperPreview(snapshot: snapshot),
+                  ),
+                  SizedBox(width: layout.s3),
+                  _WallpaperPresetCard(
+                    label: l10n.lookAndFeelChatWallpaperStarfieldLabel,
+                    selected: selection.kind == ChatWallpaperKind.starfield,
+                    dim: selection.dim,
+                    onTap: () => unawaited(
+                      select(kind: ChatWallpaperKind.starfield, clearId: true),
+                    ),
+                    footer: _WallpaperCardFooter(
+                      label: l10n.lookAndFeelChatWallpaperStarfieldLabel,
+                      scrim: true,
+                    ),
+                    child: const IgnorePointer(
+                      child: StarfieldBackground(animate: false),
+                    ),
                   ),
                   for (final ChatWallpaperColorPreset preset
                       in ChatWallpaperCatalog.colors) ...<Widget>[
@@ -348,14 +366,18 @@ class _CustomWallpaperPreview extends StatelessWidget {
   }
 }
 
-class _CustomWallpaperFooter extends StatelessWidget {
-  const _CustomWallpaperFooter({
-    required this.hasImage,
-    required this.showIcon,
+class _WallpaperCardFooter extends StatelessWidget {
+  const _WallpaperCardFooter({
+    required this.label,
+    this.icon,
+    this.showIcon = false,
+    this.scrim = false,
   });
 
-  final bool hasImage;
+  final String label;
+  final IconData? icon;
   final bool showIcon;
+  final bool scrim;
 
   @override
   Widget build(BuildContext context) {
@@ -364,7 +386,7 @@ class _CustomWallpaperFooter extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          if (hasImage)
+          if (scrim)
             const DecoratedBox(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -382,18 +404,12 @@ class _CustomWallpaperFooter extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  if (showIcon) ...<Widget>[
-                    PhosphorIcon(
-                      PhosphorIconsRegular.image,
-                      size: 16,
-                      color: colors.textPrimary,
-                    ),
+                  if (showIcon && icon != null) ...<Widget>[
+                    PhosphorIcon(icon!, size: 16, color: colors.textPrimary),
                     const SizedBox(height: 4),
                   ],
                   Text(
-                    FluxerLocalizations.of(
-                      context,
-                    ).lookAndFeelChatWallpaperCustomLabel,
+                    label,
                     textAlign: TextAlign.center,
                     style: context.textStyles.smallText.copyWith(
                       color: colors.textPrimary,
