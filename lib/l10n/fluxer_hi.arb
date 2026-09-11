@@ -305,7 +305,7 @@
     "@ssoRequired": {
         "description": "Short sign-in note shown when the instance requires single sign-on."
     },
-    "organizationSsoProvider": "अपने संगठन के सिंगल साइन-ऑन प्रोवाइडर से साइन इन करें.",
+    "organizationSsoProvider": "अपने संगठन के सिंगल साइन-ऑन प्रोवाइडर से साइन इन करें।",
     "@organizationSsoProvider": {
         "description": "Description shown when sign-in is restricted to the configured SSO provider."
     },
@@ -330,7 +330,7 @@
     "@logInViaBrowser": {
         "description": "Secondary login that opens or uses the system browser."
     },
-    "needAccountPrompt": "खाता चाहिए?",
+    "needAccountPrompt": "खाता चाहिए? ",
     "@needAccountPrompt": {
         "description": "Lead text before a register link; trailing space keeps spacing before the link."
     },
@@ -452,7 +452,7 @@
     "@accountSelectorTitle": {
         "description": "Title for the account selector on the login screen."
     },
-    "accountSelectorDescription": "जारी रखने के लिए कोई खाता चुनें या कोई दूसरा जोड़ें.",
+    "accountSelectorDescription": "जारी रखने के लिए कोई खाता चुनें या कोई दूसरा जोड़ें।",
     "@accountSelectorDescription": {
         "description": "Description for the account selector."
     },
@@ -696,7 +696,7 @@
     "@suspendedAppealTitle": {
         "description": "Title for the appeal section."
     },
-    "suspendedAppealHint": "अपने निलंबन पर पुनर्विचार करने के कारण बताएं (न्यूनतम 50 अक्षर)...",
+    "suspendedAppealHint": "अपने निलंबन पर पुनर्विचार करने के कारण बताएं (न्यूनतम 50 अक्षर)…",
     "@suspendedAppealHint": {
         "description": "Placeholder text for the appeal textarea."
     },
@@ -816,7 +816,7 @@
     "@registerConsent": {
         "description": "Consent checkbox label for registration (plain text fallback)."
     },
-    "registerConsentPrefix": "मैं सहमत हूँ",
+    "registerConsentPrefix": "मैं सहमत हूँ ",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
     },
@@ -824,7 +824,7 @@
     "@registerConsentTerms": {
         "description": "Terms of Service link text in the consent checkbox."
     },
-    "registerConsentAnd": "और",
+    "registerConsentAnd": " और ",
     "@registerConsentAnd": {
         "description": "Conjunction between Terms and Privacy links."
     },
@@ -840,15 +840,15 @@
     "@registerSubmit": {
         "description": "Button to submit the registration form."
     },
-    "registerHaveAccount": "क्या आपका पहले से कोई खाता है?",
+    "registerHaveAccount": "क्या आपका पहले से कोई खाता है? ",
     "@registerHaveAccount": {
         "description": "Text before the login link on the register screen."
     },
-    "registerPendingApproval": "आपका खाता अनुरोध अनुमोदन की प्रतीक्षा में है। एडमिन द्वारा अनुमोदित किए जाने के बाद आप साइन इन कर सकते हैं.",
+    "registerPendingApproval": "आपका खाता अनुरोध अनुमोदन की प्रतीक्षा में है। एडमिन द्वारा अनुमोदित किए जाने के बाद आप साइन इन कर सकते हैं।",
     "@registerPendingApproval": {
         "description": "Notice shown after registering on an instance that requires admin approval."
     },
-    "registerClosed": "फ़िलहाल पंजीकरण बंद है। खाता बनाने के लिए किसी एडमिन से मिला पंजीकरण लिंक इस्तेमाल करें.",
+    "registerClosed": "फ़िलहाल पंजीकरण बंद है। खाता बनाने के लिए किसी एडमिन से मिला पंजीकरण लिंक इस्तेमाल करें।",
     "@registerClosed": {
         "description": "Notice shown on the register screen when the instance has registration closed."
     },
@@ -930,7 +930,7 @@
     "@embedInviteUnknownTitle": {
         "description": "Title when an invite is expired or invalid."
     },
-    "embedInviteUnknownSubtitle": "नया इनवाइट भेजने के लिए कहें.",
+    "embedInviteUnknownSubtitle": "नया इनवाइट भेजने के लिए कहें।",
     "@embedInviteUnknownSubtitle": {
         "description": "Subtitle when an invite is expired or invalid."
     },
@@ -950,7 +950,7 @@
     "@embedInviteDisabled": {
         "description": "Disabled button label on a community invite embed when invites are paused or anti-raid mode is active."
     },
-    "embedInvitePaused": "इस कम्युनिटी के लिए इनवाइट रोके गए हैं.",
+    "embedInvitePaused": "इस कम्युनिटी के लिए इनवाइट रोके गए हैं।",
     "@embedInvitePaused": {
         "description": "Status message on a community invite embed when invites are paused by community admins."
     },
@@ -963,7 +963,7 @@
             }
         }
     },
-    "inviteAcceptInvitesPausedTryAgain": "इस कम्युनिटी ने इनवाइट रोक दिए हैं. आप बाद में फिर से कोशिश कर सकते हैं.",
+    "inviteAcceptInvitesPausedTryAgain": "इस कम्युनिटी ने इनवाइट रोक दिए हैं. आप बाद में फिर से कोशिश कर सकते हैं।",
     "@inviteAcceptInvitesPausedTryAgain": {
         "description": "Invite modal notice when community admins have paused invites."
     },
@@ -1057,7 +1057,7 @@
     "@channelAccessDeniedTitle": {
         "description": "Title of the modal shown when clicking a jump link to an inaccessible channel."
     },
-    "channelAccessDeniedDescription": "आपके पास उस चैनल का ऐक्सेस नहीं है जहाँ यह मैसेज भेजा गया था.",
+    "channelAccessDeniedDescription": "आपके पास उस चैनल का ऐक्सेस नहीं है जहाँ यह मैसेज भेजा गया था।",
     "@channelAccessDeniedDescription": {
         "description": "Body of the channel access denied modal."
     },
@@ -1238,7 +1238,7 @@
     "@giftRedeemFailedTitle": {
         "description": "Generic gift redeem error modal title."
     },
-    "giftRedeemFailedMessage": "यह उपहार रिडीम नहीं किया जा सका. फिर से कोशिश करें.",
+    "giftRedeemFailedMessage": "यह उपहार रिडीम नहीं किया जा सका. फिर से कोशिश करें।",
     "@giftRedeemFailedMessage": {
         "description": "Generic gift redeem error modal body."
     },
@@ -1412,7 +1412,7 @@
     "@dmDeleteMyMessagesTitle": {
         "description": "Confirmation title for deleting all of the caller's messages in a DM or group DM."
     },
-    "dmDeleteMyMessagesDescription": "इससे इस बातचीत में आपके द्वारा भेजे गए सभी मैसेज हमेशा के लिए मिट जाएंगे. इसे पहले जैसा नहीं किया जा सकता.",
+    "dmDeleteMyMessagesDescription": "इससे इस बातचीत में आपके द्वारा भेजे गए सभी मैसेज हमेशा के लिए मिट जाएंगे. इसे पहले जैसा नहीं किया जा सकता।",
     "@dmDeleteMyMessagesDescription": {
         "description": "Confirmation description for deleting all of the caller's messages in a DM or group DM."
     },
@@ -1717,7 +1717,7 @@
     "@addFriendNoUserFound": {
         "description": "Error when no user matches the entered username."
     },
-    "addFriendInvalidUsername": "एक मान्य उपयोगकर्ता नाम दर्ज करें (Username#0000).",
+    "addFriendInvalidUsername": "एक मान्य उपयोगकर्ता नाम दर्ज करें (Username#0000)।",
     "@addFriendInvalidUsername": {
         "description": "Error when the username format is invalid."
     },
@@ -2077,11 +2077,11 @@
     "@externalLinksSectionDescription": {
         "description": "Description for the external links settings section."
     },
-    "externalLinkWarningTrustPrefix": "हमेशा भरोसा करें",
+    "externalLinkWarningTrustPrefix": "हमेशा भरोसा करें ",
     "@externalLinkWarningTrustPrefix": {
         "description": "Prefix before the hostname in the trust-domain checkbox label."
     },
-    "externalLinkWarningTrustSuffix": "— अगली बार इस चेतावनी को छोड़ें",
+    "externalLinkWarningTrustSuffix": " — अगली बार इस चेतावनी को छोड़ें",
     "@externalLinkWarningTrustSuffix": {
         "description": "Suffix after the hostname in the trust-domain checkbox label."
     },
@@ -2097,7 +2097,7 @@
     "@externalLinkStripTrackingLabel": {
         "description": "Label for the setting that strips tracking parameters from URLs in outgoing messages."
     },
-    "externalLinkStripTrackingDescription": "आपके भेजे गए मैसेज में मौजूद URL से ट्रैकिंग पैरामीटर (जैसे utm_source, fbclid, gclid) अपने आप हटा दिए जाते हैं. लिंक किसी और तक पहुँचने से पहले ही साफ़ हो जाता है.",
+    "externalLinkStripTrackingDescription": "आपके भेजे गए मैसेज में मौजूद URL से ट्रैकिंग पैरामीटर (जैसे utm_source, fbclid, gclid) अपने आप हटा दिए जाते हैं. लिंक किसी और तक पहुँचने से पहले ही साफ़ हो जाता है।",
     "@externalLinkStripTrackingDescription": {
         "description": "Description for the setting that strips tracking parameters from URLs in outgoing messages."
     },
@@ -2105,7 +2105,7 @@
     "@externalLinkTrustAllConfirmTitle": {
         "description": "Title of the confirmation modal for trusting all external links."
     },
-    "externalLinkTrustAllConfirmDescription": "इससे सभी बाहरी लिंक पर भरोसा किया जाएगा और हर डोमेन के लिए चेतावनी को छोड़ दिया जाएगा. आपके मौजूदा भरोसेमंद डोमेन बदल दिए जाएँगे. यह कम सुरक्षित है.",
+    "externalLinkTrustAllConfirmDescription": "इससे सभी बाहरी लिंक पर भरोसा किया जाएगा और हर डोमेन के लिए चेतावनी को छोड़ दिया जाएगा. आपके मौजूदा भरोसेमंद डोमेन बदल दिए जाएँगे. यह कम सुरक्षित है।",
     "@externalLinkTrustAllConfirmDescription": {
         "description": "Description of the confirmation modal for trusting all external links."
     },
@@ -2556,7 +2556,7 @@
     "@profileTypeGlobal": {
         "description": "Option for global profile in profile type selector"
     },
-    "profileTypeGuildDescription": "आप अपनी कम्युनिटी-विशिष्ट प्रोफ़ाइल एडिट कर रहे हैं. यह प्रोफ़ाइल सिर्फ़ इसी कम्युनिटी में दिखेगी और आपकी ग्लोबल प्रोफ़ाइल को ओवरराइड कर देगी.",
+    "profileTypeGuildDescription": "आप अपनी कम्युनिटी-विशिष्ट प्रोफ़ाइल एडिट कर रहे हैं. यह प्रोफ़ाइल सिर्फ़ इसी कम्युनिटी में दिखेगी और आपकी ग्लोबल प्रोफ़ाइल को ओवरराइड कर देगी।",
     "@profileTypeGuildDescription": {
         "description": "Description shown when editing a per-guild profile"
     },
@@ -2564,7 +2564,7 @@
     "@communityNicknameLabel": {
         "description": "Label for the community nickname field"
     },
-    "perGuildPremiumUpsellText": "अपने अवतार, बैनर, एक्सेंट रंग और बायो को अलग-अलग कम्युनिटी के लिए कस्टमाइज़ करने के लिए Plutonium की ज़रूरत होती है. कम्युनिटी का निकनेम और प्रोनाउन सभी के लिए मुफ़्त हैं.",
+    "perGuildPremiumUpsellText": "अपने अवतार, बैनर, एक्सेंट रंग और बायो को अलग-अलग कम्युनिटी के लिए कस्टमाइज़ करने के लिए Plutonium की ज़रूरत होती है. कम्युनिटी का निकनेम और प्रोनाउन सभी के लिए मुफ़्त हैं।",
     "@perGuildPremiumUpsellText": {
         "description": "Upsell text for per-guild premium features"
     },
@@ -3123,7 +3123,7 @@
     "@phoneCountryLabel": {
         "description": "Label for country selector in phone verification."
     },
-    "phoneSearchCountries": "देशों को खोजें...",
+    "phoneSearchCountries": "देशों को खोजें…",
     "@phoneSearchCountries": {
         "description": "Search hint for country selector."
     },
@@ -3155,7 +3155,7 @@
     "@phoneSmsUnavailable": {
         "description": "SMS provider unavailable error."
     },
-    "phoneNotEligible": "इस खाते के लिए फ़ोन सत्यापन उपलब्ध नहीं है. कोई अन्य तरीका इस्तेमाल करें या सहायता से संपर्क करें.",
+    "phoneNotEligible": "इस खाते के लिए फ़ोन सत्यापन उपलब्ध नहीं है. कोई अन्य तरीका इस्तेमाल करें या सहायता से संपर्क करें।",
     "@phoneNotEligible": {
         "description": "Account not eligible for phone verification."
     },
@@ -3295,7 +3295,7 @@
     "@dangerZoneDisableTitle": {
         "description": "Title for account disable."
     },
-    "dangerZoneDisableDescription": "अपना अकाउंट कुछ समय के लिए बंद करें. आप बाद में फिर से साइन इन करके इसे चालू कर सकते हैं.",
+    "dangerZoneDisableDescription": "अपना अकाउंट कुछ समय के लिए बंद करें. आप बाद में फिर से साइन इन करके इसे चालू कर सकते हैं।",
     "@dangerZoneDisableDescription": {
         "description": "Description for account disable."
     },
@@ -3307,7 +3307,7 @@
     "@dangerZoneDeleteTitle": {
         "description": "Title for account delete."
     },
-    "dangerZoneDeleteDescription": "अपना अकाउंट और उससे जुड़ा सारा डेटा हमेशा के लिए मिटा दें. इस कार्रवाई को पहले जैसा नहीं किया जा सकता.",
+    "dangerZoneDeleteDescription": "अपना अकाउंट और उससे जुड़ा सारा डेटा हमेशा के लिए मिटा दें. इस कार्रवाई को पहले जैसा नहीं किया जा सकता।",
     "@dangerZoneDeleteDescription": {
         "description": "Description for account delete."
     },
@@ -3369,7 +3369,7 @@
     "@claimAccountTitle": {
         "description": "Title for claim account sheet."
     },
-    "claimAccountDescription": "ईमेल और पासवर्ड जोड़कर अपना अकाउंट क्लेम करें. पूरा करने से पहले हम आपके ईमेल की पुष्टि करने के लिए एक वेरिफिकेशन कोड भेजेंगे.",
+    "claimAccountDescription": "ईमेल और पासवर्ड जोड़कर अपना अकाउंट क्लेम करें. पूरा करने से पहले हम आपके ईमेल की पुष्टि करने के लिए एक वेरिफिकेशन कोड भेजेंगे।",
     "@claimAccountDescription": {
         "description": "Description for claim account sheet."
     },
@@ -3385,7 +3385,7 @@
     "@claimAccountSendCode": {
         "description": "Button to send verification code."
     },
-    "claimAccountVerifyDescription": "इसे वेरिफ़ाई करने के लिए, हमने आपके ईमेल पर जो कोड भेजा है उसे डालें. कोड कन्फ़र्म होने के बाद आपका पासवर्ड सेट हो जाएगा.",
+    "claimAccountVerifyDescription": "इसे वेरिफ़ाई करने के लिए, हमने आपके ईमेल पर जो कोड भेजा है उसे डालें. कोड कन्फ़र्म होने के बाद आपका पासवर्ड सेट हो जाएगा।",
     "@claimAccountVerifyDescription": {
         "description": "Description for verify step."
     },
@@ -3538,7 +3538,7 @@
     "@authorizedAppsEmptyTitle": {
         "description": "Title shown when the user has no authorized OAuth2 applications."
     },
-    "authorizedAppsEmptyDescription": "आपने अपने खाते को ऐक्सेस करने के लिए किसी भी ऐप्लिकेशन को अनुमति नहीं दी है.",
+    "authorizedAppsEmptyDescription": "आपने अपने खाते को ऐक्सेस करने के लिए किसी भी ऐप्लिकेशन को अनुमति नहीं दी है।",
     "@authorizedAppsEmptyDescription": {
         "description": "Body text shown when the user has no authorized OAuth2 applications."
     },
@@ -3873,7 +3873,7 @@
             }
         }
     },
-    "userProfileNoRolesInCommunity": "इस यूज़र की इस कम्युनिटी में कोई भूमिका नहीं है.",
+    "userProfileNoRolesInCommunity": "इस यूज़र की इस कम्युनिटी में कोई भूमिका नहीं है।",
     "@userProfileNoRolesInCommunity": {
         "description": "Empty state when a member has no assigned roles."
     },
@@ -4312,7 +4312,7 @@
     "@iarReportGuildTitle": {
         "description": "Title of the simple community-report sheet."
     },
-    "iarReportGuildPreconfirmBody": "अगर यह रिपोर्ट इस कम्युनिटी के किसी खास मैसेज के बारे में है, तो उस मैसेज की रिपोर्ट करें. मैसेज रिपोर्ट से हमारी सुरक्षा टीम को सबसे सही जानकारी मिलती है. कमेंट में जानकारी जोड़ने से हमें इसकी तेज़ी से समीक्षा करने में मदद मिल सकती है. कम्युनिटी की पूरी रिपोर्ट तभी करें, जब मैसेज की रिपोर्ट करने से बड़ी समस्या का पता न चल पाए.",
+    "iarReportGuildPreconfirmBody": "अगर यह रिपोर्ट इस कम्युनिटी के किसी खास मैसेज के बारे में है, तो उस मैसेज की रिपोर्ट करें. मैसेज रिपोर्ट से हमारी सुरक्षा टीम को सबसे सही जानकारी मिलती है. कमेंट में जानकारी जोड़ने से हमें इसकी तेज़ी से समीक्षा करने में मदद मिल सकती है. कम्युनिटी की पूरी रिपोर्ट तभी करें, जब मैसेज की रिपोर्ट करने से बड़ी समस्या का पता न चल पाए।",
     "@iarReportGuildPreconfirmBody": {
         "description": "Body shown in the pre-confirm dialog before opening the community report sheet."
     },
@@ -4328,11 +4328,11 @@
     "@iarReasonHarassmentGuildLabel": {
         "description": "Community-report reason label for harassment or targeted abuse."
     },
-    "iarReasonHarassmentGuildDescription": "कम्युनिटी से लोगों का एक साथ हमला करना या जानबूझकर परेशान करना आसान हो जाता है.",
+    "iarReasonHarassmentGuildDescription": "कम्युनिटी से लोगों का एक साथ हमला करना या जानबूझकर परेशान करना आसान हो जाता है।",
     "@iarReasonHarassmentGuildDescription": {
         "description": "Community-report reason description for harassment or targeted abuse."
     },
-    "iarReasonHateGuildDescription": "सुरक्षित समूहों के ख़िलाफ़ नफ़रत को बढ़ावा देता है.",
+    "iarReasonHateGuildDescription": "सुरक्षित समूहों के ख़िलाफ़ नफ़रत को बढ़ावा देता है।",
     "@iarReasonHateGuildDescription": {
         "description": "Community-report reason description for hate speech."
     },
@@ -4360,11 +4360,11 @@
     "@iarReasonRaidLabel": {
         "description": "Community-report reason label for raid coordination."
     },
-    "iarReasonRaidDescription": "लोगों या समुदायों के ख़िलाफ़ रेड, ब्रिगेड या उत्पीड़न का समन्वय करता है.",
+    "iarReasonRaidDescription": "लोगों या समुदायों के ख़िलाफ़ रेड, ब्रिगेड या उत्पीड़न का समन्वय करता है।",
     "@iarReasonRaidDescription": {
         "description": "Community-report reason description for raid coordination."
     },
-    "iarReasonSpamGuildDescription": "समुदाय का इस्तेमाल स्पैम, स्कैम या प्लेटफ़ॉर्म का गलत इस्तेमाल करने के लिए किया जाता है.",
+    "iarReasonSpamGuildDescription": "समुदाय का इस्तेमाल स्पैम, स्कैम या प्लेटफ़ॉर्म का गलत इस्तेमाल करने के लिए किया जाता है।",
     "@iarReasonSpamGuildDescription": {
         "description": "Community-report reason description for spam, scams, or phishing."
     },
@@ -4372,7 +4372,7 @@
     "@iarReasonMalwareGuildLabel": {
         "description": "Community-report reason label for malware distribution."
     },
-    "iarReasonMalwareGuildDescription": "मैलवेयर, क्रेडेंशियल चोरी या नुकसान पहुँचाने वाली फ़ाइलें वितरित करता है.",
+    "iarReasonMalwareGuildDescription": "मैलवेयर, क्रेडेंशियल चोरी या नुकसान पहुँचाने वाली फ़ाइलें वितरित करता है।",
     "@iarReasonMalwareGuildDescription": {
         "description": "Community-report reason description for malware distribution."
     },
@@ -4380,7 +4380,7 @@
     "@iarReasonPrivacyGuildLabel": {
         "description": "Community-report reason label for privacy violation or doxxing."
     },
-    "iarReasonPrivacyGuildDescription": "व्यक्तिगत जानकारी शेयर करता है, यूज़र का पीछा करता है या निजता का गलत इस्तेमाल करता है.",
+    "iarReasonPrivacyGuildDescription": "व्यक्तिगत जानकारी शेयर करता है, यूज़र का पीछा करता है या निजता का गलत इस्तेमाल करता है।",
     "@iarReasonPrivacyGuildDescription": {
         "description": "Community-report reason description for privacy violation or doxxing."
     },
@@ -4388,7 +4388,7 @@
     "@iarReasonSelfHarmGuildLabel": {
         "description": "Community-report reason label for self-harm encouragement."
     },
-    "iarReasonSelfHarmGuildDescription": "आत्महत्या, खुद को नुकसान पहुँचाने या खाने-पीने से जुड़ी बीमारियों को बढ़ावा देता है.",
+    "iarReasonSelfHarmGuildDescription": "आत्महत्या, खुद को नुकसान पहुँचाने या खाने-पीने से जुड़ी बीमारियों को बढ़ावा देता है।",
     "@iarReasonSelfHarmGuildDescription": {
         "description": "Community-report reason description for self-harm encouragement."
     },
@@ -4400,7 +4400,7 @@
     "@iarReasonInappropriateProfileDescription": {
         "description": "Description for the inappropriate-profile user-report reason."
     },
-    "typingIndicatorOne": "{name} टाइप कर रहा है...",
+    "typingIndicatorOne": "{name} टाइप कर रहा है…",
     "@typingIndicatorOne": {
         "description": "Typing indicator shown above the chat input when exactly one other user is typing.",
         "placeholders": {
@@ -4409,7 +4409,7 @@
             }
         }
     },
-    "typingIndicatorTwo": "{name1} और {name2} टाइप कर रहे हैं...",
+    "typingIndicatorTwo": "{name1} और {name2} टाइप कर रहे हैं…",
     "@typingIndicatorTwo": {
         "description": "Typing indicator shown above the chat input when two other users are typing.",
         "placeholders": {
@@ -4421,7 +4421,7 @@
             }
         }
     },
-    "typingIndicatorThree": "{name1}, {name2} और {name3} टाइप कर रहे हैं...",
+    "typingIndicatorThree": "{name1}, {name2} और {name3} टाइप कर रहे हैं…",
     "@typingIndicatorThree": {
         "description": "Typing indicator shown above the chat input when three other users are typing.",
         "placeholders": {
@@ -4436,15 +4436,15 @@
             }
         }
     },
-    "typingIndicatorMultiple": "कई लोग लिख रहे हैं...",
+    "typingIndicatorMultiple": "कई लोग लिख रहे हैं…",
     "@typingIndicatorMultiple": {
         "description": "Typing indicator shown when exactly four other users are typing."
     },
-    "typingIndicatorHandful": "कुछ लोग टाइप कर रहे हैं...",
+    "typingIndicatorHandful": "कुछ लोग टाइप कर रहे हैं…",
     "@typingIndicatorHandful": {
         "description": "Typing indicator shown when 5-9 other users are typing."
     },
-    "typingIndicatorSymphony": "टाइपिंग जारी है...",
+    "typingIndicatorSymphony": "टाइपिंग जारी है…",
     "@typingIndicatorSymphony": {
         "description": "Typing indicator shown when 10-14 other users are typing."
     },
@@ -4802,7 +4802,7 @@
             }
         }
     },
-    "slowmodeTooltipSetImmune": "स्लोमोड {durationLabel} पर सेट है, लेकिन आप इससे मुक्त हैं.",
+    "slowmodeTooltipSetImmune": "स्लोमोड {durationLabel} पर सेट है, लेकिन आप इससे मुक्त हैं।",
     "@slowmodeTooltipSetImmune": {
         "description": "Tooltip on the wide composer slowmode indicator when the reader can bypass slowmode.",
         "placeholders": {
@@ -4812,7 +4812,7 @@
             }
         }
     },
-    "slowmodeTooltipSetWait": "स्लोमोड {durationLabel} पर सेट है. दूसरा मैसेज भेजने से पहले इंतज़ार करें.",
+    "slowmodeTooltipSetWait": "स्लोमोड {durationLabel} पर सेट है. दूसरा मैसेज भेजने से पहले इंतज़ार करें।",
     "@slowmodeTooltipSetWait": {
         "description": "Tooltip on the wide composer slowmode indicator while the reader is counting down.",
         "placeholders": {
@@ -4822,7 +4822,7 @@
             }
         }
     },
-    "slowmodeTooltipSetChannel": "इस चैनल के लिए स्लोमोड {durationLabel} पर सेट है.",
+    "slowmodeTooltipSetChannel": "इस चैनल के लिए स्लोमोड {durationLabel} पर सेट है।",
     "@slowmodeTooltipSetChannel": {
         "description": "Tooltip on the wide composer slowmode indicator when the reader is free to send.",
         "placeholders": {
@@ -4845,7 +4845,7 @@
             }
         }
     },
-    "channelComposerBarrierGuildSendDisabled": "इस कम्युनिटी में मैसेजिंग अस्थायी रूप से रोक दी गई है.",
+    "channelComposerBarrierGuildSendDisabled": "इस कम्युनिटी में मैसेजिंग अस्थायी रूप से रोक दी गई है।",
     "@channelComposerBarrierGuildSendDisabled": {
         "description": "Composer barrier when guild-wide messaging is disabled."
     },
@@ -4857,7 +4857,7 @@
     "@channelComposerBarrierUnclaimedAccount": {
         "description": "Composer barrier when the user must claim their account before messaging."
     },
-    "channelComposerBarrierUnverifiedEmail": "इस कम्युनिटी में मैसेज भेजने के लिए आपको अपना ईमेल वेरिफ़ाई करना होगा.",
+    "channelComposerBarrierUnverifiedEmail": "इस कम्युनिटी में मैसेज भेजने के लिए आपको अपना ईमेल वेरिफ़ाई करना होगा।",
     "@channelComposerBarrierUnverifiedEmail": {
         "description": "Composer barrier when the user must verify their email before messaging."
     },
@@ -4869,7 +4869,7 @@
     "@channelComposerBarrierNotMemberLongEnough": {
         "description": "Composer barrier when the user's guild membership is too recent."
     },
-    "channelComposerBarrierNoPhoneNumber": "इस कम्युनिटी में मैसेज भेजने के लिए आपको फ़ोन नंबर वेरिफ़ाई करना होगा.",
+    "channelComposerBarrierNoPhoneNumber": "इस कम्युनिटी में मैसेज भेजने के लिए आपको फ़ोन नंबर वेरिफ़ाई करना होगा।",
     "@channelComposerBarrierNoPhoneNumber": {
         "description": "Composer barrier when the user must verify a phone number before messaging."
     },
@@ -4946,11 +4946,11 @@
     "@voiceMessageMicInUse": {
         "description": "Shown when the microphone is already used by an active voice call."
     },
-    "voiceMessageRecordingFailed": "रिकॉर्डिंग विफल रही. फिर से कोशिश करें.",
+    "voiceMessageRecordingFailed": "रिकॉर्डिंग विफल रही. फिर से कोशिश करें।",
     "@voiceMessageRecordingFailed": {
         "description": "Shown when voice recording fails."
     },
-    "voiceMessageSendFailed": "वॉइस मैसेज भेजा नहीं जा सका. फिर से कोशिश करें.",
+    "voiceMessageSendFailed": "वॉइस मैसेज भेजा नहीं जा सका. फिर से कोशिश करें।",
     "@voiceMessageSendFailed": {
         "description": "Shown when sending a voice message fails."
     },
@@ -5122,7 +5122,7 @@
     "@chatTextualPreviewWrapText": {
         "description": "Toggle soft-wrapping in textual attachment previews."
     },
-    "chatTextualPreviewSizeError": "फ़ाइल इनलाइन प्रीव्यू के लिए बहुत बड़ी है (सीमा {previewLimitKb} KB).",
+    "chatTextualPreviewSizeError": "फ़ाइल इनलाइन प्रीव्यू के लिए बहुत बड़ी है (सीमा {previewLimitKb} KB)।",
     "@chatTextualPreviewSizeError": {
         "description": "Error when attachment exceeds textual preview size limit.",
         "placeholders": {
@@ -5131,7 +5131,7 @@
             }
         }
     },
-    "chatTextualPreviewLoadError": "पूर्वावलोकन लोड नहीं किया जा सकता.",
+    "chatTextualPreviewLoadError": "पूर्वावलोकन लोड नहीं किया जा सकता।",
     "@chatTextualPreviewLoadError": {
         "description": "Error when textual attachment content cannot be fetched."
     },
@@ -5390,11 +5390,11 @@
     "@connectionRemove": {
         "description": "Label for the remove button on a connection card."
     },
-    "connectionVerifiedLabel": "यह कनेक्शन वेरिफ़ाई हो गया है.",
+    "connectionVerifiedLabel": "यह कनेक्शन वेरिफ़ाई हो गया है।",
     "@connectionVerifiedLabel": {
         "description": "Semantic label / tooltip for the verified badge on a connection card."
     },
-    "connectionUnverifiedLabel": "यह कनेक्शन वेरिफ़ाई नहीं किया गया है.",
+    "connectionUnverifiedLabel": "यह कनेक्शन वेरिफ़ाई नहीं किया गया है।",
     "@connectionUnverifiedLabel": {
         "description": "Semantic label / tooltip for the unverified badge on a connection card."
     },
@@ -5620,7 +5620,7 @@
     "@lookAndFeelHdrStandardName": {
         "description": "HDR radio option that tone-maps HDR content to SDR."
     },
-    "lookAndFeelHdrStandardDescription": "एचडीआर इमेज को सामान्य रेंज में टोन-मैप करें, जिससे पीक ब्राइटनेस कम हो जाएगी.",
+    "lookAndFeelHdrStandardDescription": "एचडीआर इमेज को सामान्य रेंज में टोन-मैप करें, जिससे पीक ब्राइटनेस कम हो जाएगी।",
     "@lookAndFeelHdrStandardDescription": {
         "description": "Description for the standard-range HDR option."
     },
@@ -5684,7 +5684,7 @@
     "@lookAndFeelMessagesSectionTitle": {
         "description": "Section title for message layout settings in Look & Feel."
     },
-    "lookAndFeelMessagesSectionDescription": "चुनें कि चैट चैनलों में मैसेज कैसे दिखते हैं.",
+    "lookAndFeelMessagesSectionDescription": "चुनें कि चैट चैनलों में मैसेज कैसे दिखते हैं।",
     "@lookAndFeelMessagesSectionDescription": {
         "description": "Section description for message layout settings in Look & Feel."
     },
@@ -5717,7 +5717,7 @@
     "@lookAndFeelMessageDisplayDenseName": {
         "description": "Dense message display mode option name."
     },
-    "lookAndFeelMessageDisplayDenseDescription": "कम से कम स्पेस के साथ ज़्यादा से ज़्यादा मैसेज दिखते हैं.",
+    "lookAndFeelMessageDisplayDenseDescription": "कम से कम स्पेस के साथ ज़्यादा से ज़्यादा मैसेज दिखते हैं।",
     "@lookAndFeelMessageDisplayDenseDescription": {
         "description": "Dense message display mode option description."
     },
@@ -5858,7 +5858,7 @@
     "@guildNotFoundTitle": {
         "description": "Title shown when the active community is missing."
     },
-    "guildNotFoundDescription": "आप जिस कम्युनिटी को ढूंढ रहे हैं, हो सकता है उसे डिलीट कर दिया गया हो या आपके पास उस तक ऐक्सेस न हो.",
+    "guildNotFoundDescription": "आप जिस कम्युनिटी को ढूंढ रहे हैं, हो सकता है उसे डिलीट कर दिया गया हो या आपके पास उस तक ऐक्सेस न हो।",
     "@guildNotFoundDescription": {
         "description": "Body shown when the active community is missing."
     },
@@ -5955,7 +5955,7 @@
     "@favoritesWelcomeTitle": {
         "description": "Welcome screen title for favorites."
     },
-    "favoritesWelcomeDescription": "आपके पसंदीदा चैनल, DM और ग्रुप के लिए आपकी निजी जगह. किसी भी चैनल को यहाँ जोड़ने के लिए उस पर स्टार दबाएँ.",
+    "favoritesWelcomeDescription": "आपके पसंदीदा चैनल, DM और ग्रुप के लिए आपकी निजी जगह. किसी भी चैनल को यहाँ जोड़ने के लिए उस पर स्टार दबाएँ।",
     "@favoritesWelcomeDescription": {
         "description": "Welcome screen description for favorites."
     },
@@ -6535,15 +6535,15 @@
     "@accessibilityPlayingDespiteReducedMotion": {
         "description": "Description when an animation setting overrides reduced motion."
     },
-    "accessibilityPausedEmojiByReducedMotion": "कम गति के कारण रोका गया. ऐनिमेटेड इमोजी चलाने के लिए चालू करें.",
+    "accessibilityPausedEmojiByReducedMotion": "कम गति के कारण रोका गया. ऐनिमेटेड इमोजी चलाने के लिए चालू करें।",
     "@accessibilityPausedEmojiByReducedMotion": {
         "description": "Description for emoji toggle while reduced motion is active."
     },
-    "accessibilityPausedGifByReducedMotion": "कम मोशन की वजह से रोका गया. GIF चलाने के लिए इसे चालू करें.",
+    "accessibilityPausedGifByReducedMotion": "कम मोशन की वजह से रोका गया. GIF चलाने के लिए इसे चालू करें।",
     "@accessibilityPausedGifByReducedMotion": {
         "description": "Description for GIF toggle while reduced motion is active."
     },
-    "accessibilityGifDefaultsOffOnMobile": "बैटरी लाइफ़ और डेटा बचाने के लिए मोबाइल पर डिफ़ॉल्ट रूप से बंद रहता है.",
+    "accessibilityGifDefaultsOffOnMobile": "बैटरी लाइफ़ और डेटा बचाने के लिए मोबाइल पर डिफ़ॉल्ट रूप से बंद रहता है।",
     "@accessibilityGifDefaultsOffOnMobile": {
         "description": "Helper text for GIF autoplay default on mobile."
     },
@@ -6611,7 +6611,7 @@
     "@accessibilityReducedMotionOverrideLabel": {
         "description": "Toggle label for reducing motion in Fluxer."
     },
-    "accessibilityReducedMotionOverrideSyncedDescription": "ऐनिमेशन और ट्रांज़िशन बंद करें. यह अभी आपकी सिस्टम सेटिंग से कंट्रोल होता है.",
+    "accessibilityReducedMotionOverrideSyncedDescription": "ऐनिमेशन और ट्रांज़िशन बंद करें. यह अभी आपकी सिस्टम सेटिंग से कंट्रोल होता है।",
     "@accessibilityReducedMotionOverrideSyncedDescription": {
         "description": "Reduce motion description while synced with system."
     },
@@ -7196,7 +7196,7 @@
             }
         }
     },
-    "voiceMeasuringLatency": "लेटेंसी मापी जा रही है...",
+    "voiceMeasuringLatency": "लेटेंसी मापी जा रही है…",
     "@voiceMeasuringLatency": {
         "description": "Tooltip on the latency badge while voice latency is still being sampled."
     },
@@ -7622,11 +7622,11 @@
             }
         }
     },
-    "chatSendFailureUnclaimedDm": "आपका मैसेज डिलीवर नहीं हो पाया. सीधे मैसेज भेजने के लिए आपको अपना अकाउंट क्लेम करना होगा.",
+    "chatSendFailureUnclaimedDm": "आपका मैसेज डिलीवर नहीं हो पाया. सीधे मैसेज भेजने के लिए आपको अपना अकाउंट क्लेम करना होगा।",
     "@chatSendFailureUnclaimedDm": {
         "description": "Fluxerbot system message when an unclaimed account tries to send a DM."
     },
-    "chatSendFailureUnclaimedGeneral": "आपका मैसेज डिलीवर नहीं हो पाया. मैसेज भेजने के लिए आपको अपना अकाउंट क्लेम करना होगा.",
+    "chatSendFailureUnclaimedGeneral": "आपका मैसेज डिलीवर नहीं हो पाया. मैसेज भेजने के लिए आपको अपना अकाउंट क्लेम करना होगा।",
     "@chatSendFailureUnclaimedGeneral": {
         "description": "Fluxerbot system message when an unclaimed account tries to send a message."
     },
@@ -7878,11 +7878,11 @@
     "@privacyDashboardVoiceActivityDisableTitle": {
         "description": "Privacy > Active now: confirmation modal title."
     },
-    "privacyDashboardVoiceActivityEnableDesc": "आप अपनी वॉइस गतिविधि अपने सभी दोस्तों के साथ शेयर करने वाले हैं, जिसमें भविष्य के दोस्त भी शामिल हैं. यह उन सभी को एक अपडेट भेजेगा और इसे 24 घंटों में फिर से बदला जा सकता है.",
+    "privacyDashboardVoiceActivityEnableDesc": "आप अपनी वॉइस गतिविधि अपने सभी दोस्तों के साथ शेयर करने वाले हैं, जिसमें भविष्य के दोस्त भी शामिल हैं. यह उन सभी को एक अपडेट भेजेगा और इसे 24 घंटों में फिर से बदला जा सकता है।",
     "@privacyDashboardVoiceActivityEnableDesc": {
         "description": "Privacy > Active now: confirmation modal body."
     },
-    "privacyDashboardVoiceActivityDisableDesc": "आप अपनी वॉइस गतिविधि को अपने सभी दोस्तों के साथ शेयर करना बंद करने वाले हैं, जिसमें भविष्य के दोस्त भी शामिल हैं. यह उन सभी को एक अपडेट भेजेगा और इसे 24 घंटों में ही फिर से बदला जा सकता है.",
+    "privacyDashboardVoiceActivityDisableDesc": "आप अपनी वॉइस गतिविधि को अपने सभी दोस्तों के साथ शेयर करना बंद करने वाले हैं, जिसमें भविष्य के दोस्त भी शामिल हैं. यह उन सभी को एक अपडेट भेजेगा और इसे 24 घंटों में ही फिर से बदला जा सकता है।",
     "@privacyDashboardVoiceActivityDisableDesc": {
         "description": "Privacy > Active now: confirmation modal body."
     },
@@ -7911,7 +7911,7 @@
     "@privacyDashboardVoiceActivityUpdateFailed": {
         "description": "Privacy > Active now: error message when the mass-update request fails."
     },
-    "privacyDashboardDataExportDesc": "अपने अकाउंट डेटा का डाउनलोड करने लायक आर्काइव बनाएँ, जिसमें मैसेज और अटैचमेंट URL शामिल हैं. ज़्यादातर लोग सब कुछ चाहते हैं, लेकिन आप नीचे दायरे को सीमित कर सकते हैं.",
+    "privacyDashboardDataExportDesc": "अपने अकाउंट डेटा का डाउनलोड करने लायक आर्काइव बनाएँ, जिसमें मैसेज और अटैचमेंट URL शामिल हैं. ज़्यादातर लोग सब कुछ चाहते हैं, लेकिन आप नीचे दायरे को सीमित कर सकते हैं।",
     "@privacyDashboardDataExportDesc": {
         "description": "Description shown on the settings page above the Export my data button."
     },
@@ -7919,7 +7919,7 @@
     "@privacyDashboardExportMyData": {
         "description": "Privacy dashboard data export button label."
     },
-    "privacyDashboardDataDeletionDesc": "आपके द्वारा DMs, ग्रुप DMs और कम्युनिटी में भेजे गए मैसेज को स्थायी रूप से हटा दें. यह काम बैकग्राउंड में चलता है और पूरा होने पर आपको एक DM मिलेगा.",
+    "privacyDashboardDataDeletionDesc": "आपके द्वारा DMs, ग्रुप DMs और कम्युनिटी में भेजे गए मैसेज को स्थायी रूप से हटा दें. यह काम बैकग्राउंड में चलता है और पूरा होने पर आपको एक DM मिलेगा।",
     "@privacyDashboardDataDeletionDesc": {
         "description": "Description shown on the settings page above the Delete my messages button."
     },
@@ -8011,7 +8011,7 @@
     "@privacyDashboardDataRequestExportCustom": {
         "description": "Scope option that lets the user filter what to export."
     },
-    "privacyDashboardDataRequestExportCustomDesc": "आर्काइव में शामिल करने के लिए बातचीत के प्रकार, कम्युनिटी और समय-सीमा चुनें.",
+    "privacyDashboardDataRequestExportCustomDesc": "आर्काइव में शामिल करने के लिए बातचीत के प्रकार, कम्युनिटी और समय-सीमा चुनें।",
     "@privacyDashboardDataRequestExportCustomDesc": {
         "description": "Description for the Custom export option."
     },
@@ -8123,7 +8123,7 @@
     "@privacyDashboardDataRequestExportConfirmCustom": {
         "description": "Confirm-step copy when export scope is custom."
     },
-    "privacyDashboardDataRequestDeleteConfirm": "नीचे दिए गए फ़िल्टर से मेल खाने वाले मैसेज हमेशा के लिए मिटा दें. इसे पहले जैसा नहीं किया जा सकता.",
+    "privacyDashboardDataRequestDeleteConfirm": "नीचे दिए गए फ़िल्टर से मेल खाने वाले मैसेज हमेशा के लिए मिटा दें. इसे पहले जैसा नहीं किया जा सकता।",
     "@privacyDashboardDataRequestDeleteConfirm": {
         "description": "Confirm-step copy for message deletion."
     },
@@ -8346,7 +8346,7 @@
     "@forwardCommentSlowmodeDisabled": {
         "description": "Notice shown in the forward sheet when the optional comment is disabled due to slowmode on a selected destination."
     },
-    "forwardSendSlowmodeBlocked": "एक या ज़्यादा चुने गए चैनलों में स्लोमोड के खत्म होने का इंतज़ार किया जा रहा है.",
+    "forwardSendSlowmodeBlocked": "एक या ज़्यादा चुने गए चैनलों में स्लोमोड के खत्म होने का इंतज़ार किया जा रहा है।",
     "@forwardSendSlowmodeBlocked": {
         "description": "Notice shown in the forward sheet when send is blocked because a selected destination is cooling down."
     },
@@ -8354,7 +8354,7 @@
     "@slowmodeRateLimitedTitle": {
         "description": "Title for the modal shown when slowmode blocks sending a message."
     },
-    "slowmodeRateLimitedMessage": "स्लोमोड चालू है — दूसरा मैसेज भेजने से पहले {duration} इंतज़ार करें.",
+    "slowmodeRateLimitedMessage": "स्लोमोड चालू है — दूसरा मैसेज भेजने से पहले {duration} इंतज़ार करें।",
     "@slowmodeRateLimitedMessage": {
         "description": "Body for the modal shown when slowmode blocks sending a message. {duration} is a formatted countdown.",
         "placeholders": {
@@ -8706,7 +8706,7 @@
     "@iarReasonMalwareLabel": {
         "description": "Rule-reason label for malware / dangerous links in the IAR message flow."
     },
-    "iarReasonMalwareDescription": "मैलवेयर, क्रेडेंशियल चोरी या नुकसान पहुँचाने वाली फ़ाइलें.",
+    "iarReasonMalwareDescription": "मैलवेयर, क्रेडेंशियल चोरी या नुकसान पहुँचाने वाली फ़ाइलें।",
     "@iarReasonMalwareDescription": {
         "description": "Rule-reason description for malware."
     },
@@ -8714,7 +8714,7 @@
     "@iarReasonPrivacyLabel": {
         "description": "Rule-reason label for privacy violations in the IAR message flow."
     },
-    "iarReasonPrivacyDescription": "डॉक्सिंग, निजी जानकारी उजागर करना या पीछा करना.",
+    "iarReasonPrivacyDescription": "डॉक्सिंग, निजी जानकारी उजागर करना या पीछा करना।",
     "@iarReasonPrivacyDescription": {
         "description": "Rule-reason description for privacy violations."
     },
@@ -8722,7 +8722,7 @@
     "@iarReasonImpersonationLabel": {
         "description": "Rule-reason label for impersonation in the IAR message flow."
     },
-    "iarReasonImpersonationMessageDescription": "कोई और होने का दिखावा करना, जिसमें धोखे से जनरेट की गई AI सामग्री भी शामिल है.",
+    "iarReasonImpersonationMessageDescription": "कोई और होने का दिखावा करना, जिसमें धोखे से जनरेट की गई AI सामग्री भी शामिल है।",
     "@iarReasonImpersonationMessageDescription": {
         "description": "Rule-reason description for impersonation in the IAR message flow."
     },
@@ -8785,7 +8785,7 @@
     "@iarActionBlockUserTitle": {
         "description": "Action card title for blocking the reported user."
     },
-    "iarActionBlockUserDescription": "मैसेज और फ्रेंड रिक्वेस्ट रोकें.",
+    "iarActionBlockUserDescription": "मैसेज और फ्रेंड रिक्वेस्ट रोकें।",
     "@iarActionBlockUserDescription": {
         "description": "Action card description for blocking the reported user."
     },
@@ -8797,7 +8797,7 @@
     "@iarActionCopyMessageLinkTitle": {
         "description": "Action card title for copying a link to the reported message so the user can share it with community moderators."
     },
-    "iarActionCopyMessageLinkDescription": "कम्युनिटी मॉडरेटर के साथ शेयर करें.",
+    "iarActionCopyMessageLinkDescription": "कम्युनिटी मॉडरेटर के साथ शेयर करें।",
     "@iarActionCopyMessageLinkDescription": {
         "description": "Action card description for copying a message link."
     },
@@ -8809,7 +8809,7 @@
     "@iarActionCloseDmTitle": {
         "description": "Action card title for closing the DM with the reported user."
     },
-    "iarActionCloseDmDescription": "ब्लॉक नहीं होगा. आप बाद में फिर से खोल सकते हैं.",
+    "iarActionCloseDmDescription": "ब्लॉक नहीं होगा. आप बाद में फिर से खोल सकते हैं।",
     "@iarActionCloseDmDescription": {
         "description": "Action card description for closing the DM."
     },
@@ -8821,7 +8821,7 @@
     "@iarActionLeaveCommunityTitle": {
         "description": "Action card title for leaving the guild the reported message was sent in."
     },
-    "iarActionLeaveCommunityDescription": "इसकी सामग्री और सदस्यों को देखना बंद करें.",
+    "iarActionLeaveCommunityDescription": "इसकी सामग्री और सदस्यों को देखना बंद करें।",
     "@iarActionLeaveCommunityDescription": {
         "description": "Action card description for leaving the community."
     },
@@ -9087,11 +9087,11 @@
     "@chatReplyMentionIgnorePreference": {
         "description": "Confirm button label on the override-mention-preference alert."
     },
-    "chatReplyMentionDisableTooltip": "जिस यूज़र को आप जवाब दे रहे हैं, उसे पिंग करना बंद करने के लिए क्लिक करें.",
+    "chatReplyMentionDisableTooltip": "जिस यूज़र को आप जवाब दे रहे हैं, उसे पिंग करना बंद करने के लिए क्लिक करें।",
     "@chatReplyMentionDisableTooltip": {
         "description": "Tooltip on the reply bar mention toggle when mention-on-reply is currently on."
     },
-    "chatReplyMentionEnableTooltip": "जिस यूज़र को आप जवाब दे रहे हैं, उसे पिंग करने के लिए क्लिक करें.",
+    "chatReplyMentionEnableTooltip": "जिस यूज़र को आप जवाब दे रहे हैं, उसे पिंग करने के लिए क्लिक करें।",
     "@chatReplyMentionEnableTooltip": {
         "description": "Tooltip on the reply bar mention toggle when mention-on-reply is currently off."
     },
@@ -9242,7 +9242,7 @@
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
     },
-    "composerAutocompleteRoleMentionDescription": "इस भूमिका वाले उन यूज़र्स को नोटिफ़ाई करें जिनके पास इस चैनल को देखने की अनुमति है.",
+    "composerAutocompleteRoleMentionDescription": "इस भूमिका वाले उन यूज़र्स को नोटिफ़ाई करें जिनके पास इस चैनल को देखने की अनुमति है।",
     "@composerAutocompleteRoleMentionDescription": {
         "description": "Secondary line in the @ mention autocomplete when the row is a mentionable guild role."
     },
@@ -9310,11 +9310,11 @@
     "@composerCommandUnflipDescription": {
         "description": "Slash-command description for /unflip."
     },
-    "composerCommandMeDescription": "एक कार्रवाई संदेश भेजें (इटैलिक में रैप करता है).",
+    "composerCommandMeDescription": "एक कार्रवाई संदेश भेजें (इटैलिक में रैप करता है)।",
     "@composerCommandMeDescription": {
         "description": "Slash-command description for /me."
     },
-    "composerCommandSpoilerDescription": "स्पॉइलर मैसेज भेजें (स्पॉइलर टैग में रैप करता है).",
+    "composerCommandSpoilerDescription": "स्पॉइलर मैसेज भेजें (स्पॉइलर टैग में रैप करता है)।",
     "@composerCommandSpoilerDescription": {
         "description": "Slash-command description for /spoiler."
     },
@@ -9517,7 +9517,7 @@
     "@addGuildCreateAnimatedIconUnsupported": {
         "description": "Error when the user picks an animated image for a new community icon."
     },
-    "addGuildCreateGuidelinesBefore": "समुदाय बनाकर, आप इनका पालन करने और इन्हें बनाए रखने के लिए सहमत होते हैं",
+    "addGuildCreateGuidelinesBefore": "समुदाय बनाकर, आप इनका पालन करने और इन्हें बनाए रखने के लिए सहमत होते हैं ",
     "@addGuildCreateGuidelinesBefore": {
         "description": "Text before the community guidelines link on the create sub-view."
     },
@@ -10147,19 +10147,19 @@
     "@channelSettingsPermissionsTitle": {
         "description": "Page title for the channel permissions settings tab."
     },
-    "channelSettingsPermissionsSyncedWithParentPrefix": "यह चैनल पैरेंट कैटेगरी के साथ सिंक किया गया है",
+    "channelSettingsPermissionsSyncedWithParentPrefix": "यह चैनल पैरेंट कैटेगरी के साथ सिंक किया गया है ",
     "@channelSettingsPermissionsSyncedWithParentPrefix": {
         "description": "Prefix for the synced-with-parent banner in channel permissions."
     },
-    "channelSettingsPermissionsSyncedWithParentSuffix": ".",
+    "channelSettingsPermissionsSyncedWithParentSuffix": "।",
     "@channelSettingsPermissionsSyncedWithParentSuffix": {
         "description": "Suffix for the synced-with-parent banner in channel permissions."
     },
-    "channelSettingsPermissionsNotSyncedWithParentPrefix": "यह चैनल पैरेंट कैटेगरी के साथ सिंक नहीं है",
+    "channelSettingsPermissionsNotSyncedWithParentPrefix": "यह चैनल पैरेंट कैटेगरी के साथ सिंक नहीं है ",
     "@channelSettingsPermissionsNotSyncedWithParentPrefix": {
         "description": "Prefix for the not-synced-with-parent banner in channel permissions."
     },
-    "channelSettingsPermissionsNotSyncedWithParentSuffix": ".",
+    "channelSettingsPermissionsNotSyncedWithParentSuffix": "।",
     "@channelSettingsPermissionsNotSyncedWithParentSuffix": {
         "description": "Suffix for the not-synced-with-parent banner in channel permissions."
     },
@@ -10344,7 +10344,7 @@
     "@channelMenuDeleteMyMessagesTitle": {
         "description": "Confirmation title for deleting all of the caller's messages in a channel."
     },
-    "channelMenuDeleteMyMessagesDescription": "इससे इस चैनल में आपके द्वारा भेजे गए सभी मैसेज हमेशा के लिए मिट जाएंगे. इसे पहले जैसा नहीं किया जा सकता है.",
+    "channelMenuDeleteMyMessagesDescription": "इससे इस चैनल में आपके द्वारा भेजे गए सभी मैसेज हमेशा के लिए मिट जाएंगे. इसे पहले जैसा नहीं किया जा सकता है।",
     "@channelMenuDeleteMyMessagesDescription": {
         "description": "Confirmation description for deleting all of the caller's messages in a channel."
     },
@@ -11107,7 +11107,7 @@
     "@groupDmCouldntProcessImage": {
         "description": "Title when a cropped group icon cannot be processed."
     },
-    "groupDmFailedToProcessCroppedImage": "काटी गई इमेज को प्रोसेस नहीं किया जा सका. फिर से कोशिश करें.",
+    "groupDmFailedToProcessCroppedImage": "काटी गई इमेज को प्रोसेस नहीं किया जा सका. फिर से कोशिश करें।",
     "@groupDmFailedToProcessCroppedImage": {
         "description": "Body when a cropped group icon cannot be processed."
     },
@@ -11115,7 +11115,7 @@
     "@groupDmInvalidImage": {
         "description": "Title when the selected group icon image cannot be used."
     },
-    "groupDmInvalidImageBody": "यह इमेज अमान्य है. कोई दूसरी इमेज आज़माएँ.",
+    "groupDmInvalidImageBody": "यह इमेज अमान्य है. कोई दूसरी इमेज आज़माएँ।",
     "@groupDmInvalidImageBody": {
         "description": "Body when the selected group icon image cannot be used."
     },
@@ -11191,11 +11191,11 @@
     "@groupDmNoInvitesCreated": {
         "description": "Empty state for group DM invites list."
     },
-    "groupDmLoadingInvites": "आमंत्रण लोड हो रहे हैं...",
+    "groupDmLoadingInvites": "आमंत्रण लोड हो रहे हैं…",
     "@groupDmLoadingInvites": {
         "description": "Loading state for group DM invites list."
     },
-    "groupDmInvitesLoadFailed": "आमंत्रण लोड नहीं हो पाए. फिर से कोशिश करें.",
+    "groupDmInvitesLoadFailed": "आमंत्रण लोड नहीं हो पाए. फिर से कोशिश करें।",
     "@groupDmInvitesLoadFailed": {
         "description": "Inline error when group DM invites fail to load."
     },
@@ -11436,7 +11436,7 @@
     "@userSettingsGroupStaffOnly": {
         "description": "Section heading for staff-only items in user settings navigation."
     },
-    "userSettingsSearchPlaceholder": "सेटिंग्स खोजें...",
+    "userSettingsSearchPlaceholder": "सेटिंग्स खोजें…",
     "@userSettingsSearchPlaceholder": {
         "description": "Placeholder for the user settings search field."
     },
@@ -11474,7 +11474,7 @@
     "giftSettingsRedeemDescription": "अपने खाते के लिए Plutonium रिडीम करने के लिए एक उपहार कोड दर्ज करें।",
     "giftSettingsRedeemPlaceholder": "गिफ्ट कोड डालें…",
     "giftSettingsRedeemButton": "रिडीम करें",
-    "giftSettingsRedeemSuccess": "उपहार सफलतापूर्वक रिडीम हो गया. अपने Plutonium का आनंद लें.",
+    "giftSettingsRedeemSuccess": "उपहार सफलतापूर्वक रिडीम हो गया. अपने Plutonium का आनंद लें।",
     "giftSettingsPurchasedTitle": "खरीदे गए उपहार",
     "giftSettingsPurchasedDescription": "अपने खरीदे गए Plutonium उपहार कोड प्रबंधित करें। उपहार URL किसी खास व्यक्ति के साथ साझा करें या इसे अपने लिए रिडीम करें!",
     "giftSettingsEmptyTitle": "अभी तक कोई उपहार नहीं",
@@ -11592,9 +11592,9 @@
     "premiumBillingHistory": "बिलिंग इतिहास",
     "premiumSelfServeRefundTitle": "सेल्फ-सर्विस रिफंड",
     "premiumSelfServeRefundButton": "पिछली खरीदारी का रिफ़ंड",
-    "premiumDisclaimerAgreementPrefix": "खरीदकर, आप हमारी",
-    "premiumDisclaimerAgreementPastPrefix": "खरीदकर, आपने हमारी",
-    "premiumDisclaimerAgreementMiddle": "और",
+    "premiumDisclaimerAgreementPrefix": "खरीदकर, आप हमारी ",
+    "premiumDisclaimerAgreementPastPrefix": "खरीदकर, आपने हमारी ",
+    "premiumDisclaimerAgreementMiddle": " और ",
     "premiumActiveUntil": "{date} तक सक्रिय",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -11651,7 +11651,7 @@
     "premiumCustomerPortalOpenFailedTitle": "बिलिंग पोर्टल नहीं खुल सका",
     "premiumCustomerPortalOpenFailedBody": "बिलिंग पोर्टल खोलते समय कुछ गड़बड़ हो गई। कृपया कुछ देर में फिर से कोशिश करें।",
     "premiumAlreadyVisionaryTitle": "आप पहले से ही विजनरी हैं",
-    "premiumAlreadyVisionaryBody": "Visionary में पहले से ही परमानेंट ऐक्सेस शामिल है, इसलिए बार-बार सदस्यता लेने की ज़रूरत नहीं है. आप अभी भी दूसरों के लिए गिफ़्ट खरीद सकते हैं.",
+    "premiumAlreadyVisionaryBody": "Visionary में पहले से ही परमानेंट ऐक्सेस शामिल है, इसलिए बार-बार सदस्यता लेने की ज़रूरत नहीं है. आप अभी भी दूसरों के लिए गिफ़्ट खरीद सकते हैं।",
     "premiumExistingSubscriptionTitle": "सदस्यता पहले से मौजूद है",
     "premiumExistingSubscriptionBody": "हमें इस खाते के लिए एक मौजूदा Fluxer Plutonium सदस्यता मिली है। भुगतान विवरण अपडेट करने या नवीनीकरण की स्थिति जांचने के लिए इसे सुरक्षित बिलिंग पोर्टल में प्रबंधित करें। यदि आपने अभी भुगतान किया है, तो एक मिनट प्रतीक्षा करें और इस पृष्ठ को पुनः खोलें।",
     "premiumPurchasesDisabledTitle": "खरीदारी उपलब्ध नहीं है",
@@ -11778,7 +11778,7 @@
     "@audioAndVideoFocusedVoiceLabel": {
         "description": "Voice processing profile optimized for speech."
     },
-    "audioAndVideoFocusedVoiceDescription": "अनुशंसित. स्पष्ट बातचीत के लिए आपके माइक को साफ़ करता है.",
+    "audioAndVideoFocusedVoiceDescription": "अनुशंसित. स्पष्ट बातचीत के लिए आपके माइक को साफ़ करता है।",
     "@audioAndVideoFocusedVoiceDescription": {
         "description": "Description for the focused voice processing profile."
     },
@@ -11968,7 +11968,7 @@
     "@notificationsEnableBrowserNotificationsLabel": {
         "description": "Toggle label for enabling browser notifications."
     },
-    "notificationsEnableBrowserNotificationsDescription": "जब आपको मैसेज मिलें, तो नोटिफ़िकेशन पाएं. आपको अपनी ब्राउज़र सेटिंग में नोटिफ़िकेशन की अनुमति देनी पड़ सकती है. हर चैनल/कम्युनिटी के कंट्रोल के लिए, कम्युनिटी आइकॉन पर राइट-क्लिक करें और नोटिफ़िकेशन सेटिंग खोलें.",
+    "notificationsEnableBrowserNotificationsDescription": "जब आपको मैसेज मिलें, तो नोटिफ़िकेशन पाएं. आपको अपनी ब्राउज़र सेटिंग में नोटिफ़िकेशन की अनुमति देनी पड़ सकती है. हर चैनल/कम्युनिटी के कंट्रोल के लिए, कम्युनिटी आइकॉन पर राइट-क्लिक करें और नोटिफ़िकेशन सेटिंग खोलें।",
     "@notificationsEnableBrowserNotificationsDescription": {
         "description": "Description for the enable browser notifications toggle."
     },
@@ -12050,7 +12050,7 @@
     "@notificationsTtsEnableCommandDescription": {
         "description": "Toggle description for enabling /tts speech playback."
     },
-    "notificationsTtsAccessibilityLinkPrefix": "प्लेबैक स्पीड एडजस्ट करें",
+    "notificationsTtsAccessibilityLinkPrefix": "प्लेबैक स्पीड एडजस्ट करें ",
     "@notificationsTtsAccessibilityLinkPrefix": {
         "description": "Prefix before the Accessibility settings link in TTS notifications settings."
     },
@@ -12058,7 +12058,7 @@
     "@notificationsTtsAccessibilityLinkLabel": {
         "description": "Link label that opens Accessibility settings from TTS notifications settings."
     },
-    "notificationsTtsAccessibilityLinkSuffix": ".",
+    "notificationsTtsAccessibilityLinkSuffix": "।",
     "@notificationsTtsAccessibilityLinkSuffix": {
         "description": "Suffix after the Accessibility settings link in TTS notifications settings."
     },
@@ -12106,7 +12106,7 @@
     "@notificationsMasterVolumeLabel": {
         "description": "Label for the master volume slider."
     },
-    "notificationsMasterVolumeDescription": "हर साउंड इफ़ेक्ट के लिए लेवल सेट करता है. प्रति-साउंड ओवरराइड इसे अनदेखा करते हैं.",
+    "notificationsMasterVolumeDescription": "हर साउंड इफ़ेक्ट के लिए लेवल सेट करता है. प्रति-साउंड ओवरराइड इसे अनदेखा करते हैं।",
     "@notificationsMasterVolumeDescription": {
         "description": "Description for the master volume slider."
     },
@@ -12142,7 +12142,7 @@
     "@notificationsPerSoundVolumeDescription": {
         "description": "Accordion description when no per-sound volume overrides exist."
     },
-    "notificationsPerSoundVolumeOverrideDescription": "सक्रिय कस्टम ध्वनि वॉल्यूम ओवरराइड: {overrideCount}.",
+    "notificationsPerSoundVolumeOverrideDescription": "सक्रिय कस्टम ध्वनि वॉल्यूम ओवरराइड: {overrideCount}।",
     "@notificationsPerSoundVolumeOverrideDescription": {
         "description": "Accordion description when per-sound volume overrides exist.",
         "placeholders": {
@@ -12526,7 +12526,7 @@
     "advancedSettingDefaultTranslatorLabel": "डिफ़ॉल्ट अनुवादक",
     "advancedSettingDefaultTranslatorDescription": "चुने गए टेक्स्ट का अनुवाद करने के लिए डिफ़ॉल्ट रूप से किस अनुवादक का उपयोग किया जाता है, उसे चुनें।",
     "advancedSettingBuiltInTranslatorsLabel": "बिल्ट-इन ट्रांसलेटर",
-    "advancedSettingBuiltInTranslatorsDescription": "बिल्ट-इन ट्रांसलेटर चालू या बंद करें. टेक्स्ट चुने जाने पर मैसेज कॉन्टेक्स्ट मेन्यू में चालू ट्रांसलेटर दिखते हैं.",
+    "advancedSettingBuiltInTranslatorsDescription": "बिल्ट-इन ट्रांसलेटर चालू या बंद करें. टेक्स्ट चुने जाने पर मैसेज कॉन्टेक्स्ट मेन्यू में चालू ट्रांसलेटर दिखते हैं।",
     "advancedSettingCustomTranslatorsLabel": "कस्टम अनुवादक",
     "advancedSettingCustomTranslatorsDescription": "अपने कस्टम यूआरएल पैटर्न के साथ अपने स्वयं के अनुवादक जोड़ें। अनुवाद करने के लिए टेक्स्ट के प्लेसहोल्डर के रूप में '{query}' का उपयोग करें।",
     "advancedSettingAddTranslatorLabel": "अनुवादक जोड़ें",
@@ -12556,7 +12556,7 @@
     "advancedSettingSearchProviderUrlTranslateHint": "'{query}' का उपयोग करें जहाँ अनुवादित टेक्स्ट डाला जाना चाहिए।",
     "advancedSettingSearchProviderUrlImageHint": "'{url}' का उपयोग करें जहाँ इमेज का URL डाला जाना चाहिए।",
     "advancedSettingSearchProviderNameRequired": "नाम ज़रूरी है।",
-    "advancedSettingSearchProviderUrlRequired": "यूआरएल पैटर्न ज़रूरी है.",
+    "advancedSettingSearchProviderUrlRequired": "यूआरएल पैटर्न ज़रूरी है।",
     "advancedSettingSearchProviderUrlMustContainQuery": "URL पैटर्न में '{query}' होना चाहिए।",
     "advancedSettingSearchProviderUrlMustContainUrl": "URL पैटर्न में '{url}' होना चाहिए।",
     "advancedSettingSearchProviderUrlMustBeValid": "यूआरएल पैटर्न एक मान्य यूआरएल होना चाहिए।",
@@ -12644,7 +12644,7 @@
     "@quickSwitcherNoMatchesFound": {
         "description": "Empty state title when quick switcher search has no results."
     },
-    "quickSwitcherEmptyHint": "कोई दूसरा नाम आज़माएँ या नतीजों को फ़िल्टर करने के लिए @ / # / ! / * प्रीफ़िक्स का इस्तेमाल करें.",
+    "quickSwitcherEmptyHint": "कोई दूसरा नाम आज़माएँ या नतीजों को फ़िल्टर करने के लिए @ / # / ! / * प्रीफ़िक्स का इस्तेमाल करें।",
     "@quickSwitcherEmptyHint": {
         "description": "Empty state hint describing quick switcher prefix filters."
     },
@@ -13078,7 +13078,7 @@
     "@discoveryJoinErrorMaxGuildsTitle": {
         "description": "Title when the user is in the maximum number of communities."
     },
-    "discoveryJoinErrorMaxGuildsMessage": "आप अधिकतम कम्युनिटी में हैं. किसी एक को छोड़कर फिर से कोशिश करें.",
+    "discoveryJoinErrorMaxGuildsMessage": "आप अधिकतम कम्युनिटी में हैं. किसी एक को छोड़कर फिर से कोशिश करें।",
     "@discoveryJoinErrorMaxGuildsMessage": {
         "description": "Body when the user is in the maximum number of communities."
     },
@@ -13094,7 +13094,7 @@
     "@discoveryJoinErrorNotAvailableTitle": {
         "description": "Title when a discovery community is no longer joinable."
     },
-    "discoveryJoinErrorNotAvailableMessage": "हो सकता है कि यह डिस्कवरी से हट गया हो या इसमें नए सदस्यों के शामिल होने की सुविधा बंद हो गई हो. पेज रीफ़्रेश करें और यह आपको दोबारा नहीं दिखेगा.",
+    "discoveryJoinErrorNotAvailableMessage": "हो सकता है कि यह डिस्कवरी से हट गया हो या इसमें नए सदस्यों के शामिल होने की सुविधा बंद हो गई हो. पेज रीफ़्रेश करें और यह आपको दोबारा नहीं दिखेगा।",
     "@discoveryJoinErrorNotAvailableMessage": {
         "description": "Body when a discovery community is no longer joinable."
     },
@@ -13894,7 +13894,7 @@
     "@guildSettingsRolesResetHoistOrder": {
         "description": "Button to reset custom hoist order."
     },
-    "guildSettingsRolesHoistOrderHelp": "सदस्य सूची में भूमिकाओं के दिखने का क्रम बदलने के लिए उन्हें खींचें.",
+    "guildSettingsRolesHoistOrderHelp": "सदस्य सूची में भूमिकाओं के दिखने का क्रम बदलने के लिए उन्हें खींचें।",
     "@guildSettingsRolesHoistOrderHelp": {
         "description": "Help text in hoist order mode."
     },
@@ -14069,7 +14069,7 @@
     "@permissionManagePermissionsDescription": {
         "description": "Channel-scoped description for manage permissions permission."
     },
-    "permissionManageWebhooksChannelDescription": "इस चैनल के लिए वेबहुक बनाएं, एडिट करें या मिटाएं.",
+    "permissionManageWebhooksChannelDescription": "इस चैनल के लिए वेबहुक बनाएं, एडिट करें या मिटाएं।",
     "@permissionManageWebhooksChannelDescription": {
         "description": "Channel-scoped description for manage webhooks permission."
     },
@@ -14093,11 +14093,11 @@
     "@permissionOverwriteAllow": {
         "description": "Allow state label for channel permission overwrite controls."
     },
-    "permissionOverwriteSetAllHelp": "सभी अनुमतियां तुरंत सेट करने के लिए इन बटनों का उपयोग करें.",
+    "permissionOverwriteSetAllHelp": "सभी अनुमतियां तुरंत सेट करने के लिए इन बटनों का उपयोग करें।",
     "@permissionOverwriteSetAllHelp": {
         "description": "Helper text above bulk permission state buttons in channel permissions."
     },
-    "permissionManageChannelsDescription": "चैनल और कैटगरी बनाएँ, एडिट करें या मिटाएँ.",
+    "permissionManageChannelsDescription": "चैनल और कैटगरी बनाएँ, एडिट करें या मिटाएँ।",
     "@permissionManageChannelsDescription": {
         "description": "Permission description."
     },
@@ -14133,7 +14133,7 @@
     "@permissionCreateEmojiStickers": {
         "description": "Permission name."
     },
-    "permissionCreateEmojiStickersDescription": "नए इमोजी और स्टिकर अपलोड करें, और अपनी बनाई चीज़ें मैनेज करें.",
+    "permissionCreateEmojiStickersDescription": "नए इमोजी और स्टिकर अपलोड करें, और अपनी बनाई चीज़ें मैनेज करें।",
     "@permissionCreateEmojiStickersDescription": {
         "description": "Permission description."
     },
@@ -14149,7 +14149,7 @@
     "@permissionManageWebhooks": {
         "description": "Permission name."
     },
-    "permissionManageWebhooksDescription": "वेबहुक बनाएं, एडिट करें या मिटाएं.",
+    "permissionManageWebhooksDescription": "वेबहुक बनाएं, एडिट करें या मिटाएं।",
     "@permissionManageWebhooksDescription": {
         "description": "Permission description."
     },
@@ -14169,7 +14169,7 @@
     "@permissionManageMessages": {
         "description": "Permission name."
     },
-    "permissionManageMessagesDescription": "अन्य सदस्यों के मैसेज मिटाएं. पिन करने की सुविधा अलग से कंट्रोल की जाती है.",
+    "permissionManageMessagesDescription": "अन्य सदस्यों के मैसेज मिटाएं. पिन करने की सुविधा अलग से कंट्रोल की जाती है।",
     "@permissionManageMessagesDescription": {
         "description": "Permission description."
     },
@@ -14225,7 +14225,7 @@
     "@permissionTimeOutMembers": {
         "description": "Permission name."
     },
-    "permissionTimeOutMembersDescription": "सदस्यों को एक तय समय के लिए मैसेज भेजने, रिएक्शन देने और वॉइस में शामिल होने से रोकें.",
+    "permissionTimeOutMembersDescription": "सदस्यों को एक तय समय के लिए मैसेज भेजने, रिएक्शन देने और वॉइस में शामिल होने से रोकें।",
     "@permissionTimeOutMembersDescription": {
         "description": "Permission description."
     },
@@ -14326,7 +14326,7 @@
     "@guildSettingsModerationVerificationRolesBypass": {
         "description": "Additional verification guidance in moderation settings."
     },
-    "guildSettingsModerationVerificationDiscoveryNote": "डिस्कवरी में लिस्ट की गई कम्युनिटी के लिए कम से कम वेरिफ़ाइड ईमेल की ज़रूरत होती है. जब तक डिस्कवरी चालू है, तब तक 'कोई नहीं' को नहीं चुना जा सकता.",
+    "guildSettingsModerationVerificationDiscoveryNote": "डिस्कवरी में लिस्ट की गई कम्युनिटी के लिए कम से कम वेरिफ़ाइड ईमेल की ज़रूरत होती है. जब तक डिस्कवरी चालू है, तब तक 'कोई नहीं' को नहीं चुना जा सकता।",
     "@guildSettingsModerationVerificationDiscoveryNote": {
         "description": "Discovery restriction note for verification level."
     },
@@ -14353,7 +14353,7 @@
     "guildSettingsVerificationMedium": "मध्यम",
     "guildSettingsVerificationMediumDescription": "एक सत्यापित ईमेल पते और कम से कम 5 मिनट पुराने खाते की आवश्यकता है।",
     "guildSettingsVerificationHigh": "उच्च",
-    "guildSettingsVerificationHighDescription": "मीडियम में सब कुछ चाहिए, साथ ही कम से कम 10 मिनट के लिए कम्युनिटी का सदस्य होना ज़रूरी है.",
+    "guildSettingsVerificationHighDescription": "मीडियम में सब कुछ चाहिए, साथ ही कम से कम 10 मिनट के लिए कम्युनिटी का सदस्य होना ज़रूरी है।",
     "guildSettingsVerificationHighest": "बहुत ज़्यादा",
     "guildSettingsVerificationHighestDescription": "एक सत्यापित फ़ोन नंबर की आवश्यकता है।",
     "guildSettingsAuditLogDescription": "समुदाय में मॉडरेटर की गतिविधियों को ट्रैक करें।",
@@ -14364,7 +14364,7 @@
     "@guildSettingsAuditLogEmpty": {
         "description": "Empty-state title in the activity log tab when there are no log entries to show."
     },
-    "guildSettingsAuditLogEmptyDescription": "मॉडरेशन ऐक्शन और कम्युनिटी में किए गए बदलाव यहां दिखेंगे.",
+    "guildSettingsAuditLogEmptyDescription": "मॉडरेशन ऐक्शन और कम्युनिटी में किए गए बदलाव यहां दिखेंगे।",
     "@guildSettingsAuditLogEmptyDescription": {
         "description": "Empty-state body in the activity log tab when there are no log entries to show."
     },
@@ -14556,7 +14556,7 @@
     "@auditLogActionMessageUnpin": {
         "description": "Audit log action filter label."
     },
-    "auditLogSummaryGuildUpdate": "{actor} ने कम्युनिटी सेटिंग अपडेट कीं.",
+    "auditLogSummaryGuildUpdate": "{actor} ने कम्युनिटी सेटिंग अपडेट कीं।",
     "@auditLogSummaryGuildUpdate": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -15189,7 +15189,7 @@
             }
         }
     },
-    "auditLogChangeCleared": "{field} साफ़ किया गया (था {oldValue}).",
+    "auditLogChangeCleared": "{field} साफ़ किया गया (था {oldValue})।",
     "@auditLogChangeCleared": {
         "description": "Fallback change detail sentence.",
         "placeholders": {
@@ -15249,7 +15249,7 @@
     "@auditLogChangeEnabledMatureContent": {
         "description": "Channel change detail sentence."
     },
-    "auditLogChangeDisabledMatureContent": "परिपक्व सामग्री अक्षम की गई.",
+    "auditLogChangeDisabledMatureContent": "परिपक्व सामग्री अक्षम की गई।",
     "@auditLogChangeDisabledMatureContent": {
         "description": "Channel change detail sentence."
     },
@@ -15305,7 +15305,7 @@
             }
         }
     },
-    "auditLogOptionChannel": "चैनल: {value}.",
+    "auditLogOptionChannel": "चैनल: {value}।",
     "@auditLogOptionChannel": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -15314,7 +15314,7 @@
             }
         }
     },
-    "auditLogOptionMessage": "मैसेज: {value}.",
+    "auditLogOptionMessage": "मैसेज: {value}।",
     "@auditLogOptionMessage": {
         "description": "Audit log option detail sentence.",
         "placeholders": {
@@ -15366,11 +15366,11 @@
     "@guildSettingsLoadMore": {
         "description": "Button to load more audit log entries."
     },
-    "guildSettingsLoadingMore": "लोड हो रहा है...",
+    "guildSettingsLoadingMore": "लोड हो रहा है…",
     "@guildSettingsLoadingMore": {
         "description": "Loading state for pagination."
     },
-    "guildSettingsWebhooksDescription": "अपनी कम्युनिटी में कॉन्फ़िगर किए गए सभी वेबहुक देखें और मैनेज करें.",
+    "guildSettingsWebhooksDescription": "अपनी कम्युनिटी में कॉन्फ़िगर किए गए सभी वेबहुक देखें और मैनेज करें।",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
     },
@@ -15511,7 +15511,7 @@
     "@guildSettingsDiscoveryCategory": {
         "description": "Label for discovery category dropdown."
     },
-    "guildSettingsDiscoveryCategoryHelp": "वह कैटेगरी चुनें जो आपके समुदाय के लिए सबसे सही हो. आप इसे कभी भी बदल सकते हैं.",
+    "guildSettingsDiscoveryCategoryHelp": "वह कैटेगरी चुनें जो आपके समुदाय के लिए सबसे सही हो. आप इसे कभी भी बदल सकते हैं।",
     "@guildSettingsDiscoveryCategoryHelp": {
         "description": "Help text below the discovery category field."
     },
@@ -15519,7 +15519,7 @@
     "@guildSettingsDiscoveryPrimaryLanguage": {
         "description": "Label for the primary language field on the discovery application form."
     },
-    "guildSettingsDiscoveryPrimaryLanguageHelp": "आपकी कम्युनिटी के ज़्यादातर लोग जिस भाषा में बात करते हैं. डिस्कवरी के नतीजों को फ़िल्टर करने के लिए इस्तेमाल किया जाता है.",
+    "guildSettingsDiscoveryPrimaryLanguageHelp": "आपकी कम्युनिटी के ज़्यादातर लोग जिस भाषा में बात करते हैं. डिस्कवरी के नतीजों को फ़िल्टर करने के लिए इस्तेमाल किया जाता है।",
     "@guildSettingsDiscoveryPrimaryLanguageHelp": {
         "description": "Help text below the primary language field."
     },
@@ -15759,7 +15759,7 @@
     "@guildMembersFilterPast3Months": {
         "description": "Date-range filter option on the community members page."
     },
-    "guildMembersFilterCustomRange": "कस्टम रेंज...",
+    "guildMembersFilterCustomRange": "कस्टम रेंज…",
     "@guildMembersFilterCustomRange": {
         "description": "Date-range filter option that opens a date picker on the community members page."
     },
@@ -15909,7 +15909,7 @@
     "@guildSettingsInvitesTitle": {
         "description": "Title for the invites settings tab."
     },
-    "guildSettingsInvitesDescription": "इस कम्युनिटी के सभी इनवाइट देखें. नया इनवाइट बनाने के लिए, किसी चैनल पर जाएं और इनवाइट बटन का इस्तेमाल करें.",
+    "guildSettingsInvitesDescription": "इस कम्युनिटी के सभी इनवाइट देखें. नया इनवाइट बनाने के लिए, किसी चैनल पर जाएं और इनवाइट बटन का इस्तेमाल करें।",
     "@guildSettingsInvitesDescription": {
         "description": "Description for invites tab."
     },
@@ -15917,7 +15917,7 @@
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state title for invites."
     },
-    "guildSettingsInvitesEmptyDescription": "इस कम्युनिटी में अभी कोई इनवाइट लिंक नहीं है. किसी चैनल पर जाकर लोगों को इनवाइट करने के लिए इनवाइट बनाएं.",
+    "guildSettingsInvitesEmptyDescription": "इस कम्युनिटी में अभी कोई इनवाइट लिंक नहीं है. किसी चैनल पर जाकर लोगों को इनवाइट करने के लिए इनवाइट बनाएं।",
     "@guildSettingsInvitesEmptyDescription": {
         "description": "Empty state description for invites."
     },
@@ -15953,11 +15953,11 @@
     "@guildSettingsInvitesEnableForCommunityTitle": {
         "description": "Confirmation title before enabling invites."
     },
-    "guildSettingsInvitesPauseConfirmDescription": "आमंत्रण रोकें? नए उपयोगकर्ता तब तक आमंत्रण लिंक के ज़रिए शामिल नहीं हो पाएँगे, जब तक आप उन्हें फिर से चालू नहीं करते. मौजूदा सदस्यों पर कोई असर नहीं पड़ेगा.",
+    "guildSettingsInvitesPauseConfirmDescription": "आमंत्रण रोकें? नए उपयोगकर्ता तब तक आमंत्रण लिंक के ज़रिए शामिल नहीं हो पाएँगे, जब तक आप उन्हें फिर से चालू नहीं करते. मौजूदा सदस्यों पर कोई असर नहीं पड़ेगा।",
     "@guildSettingsInvitesPauseConfirmDescription": {
         "description": "Confirmation body before pausing invites."
     },
-    "guildSettingsInvitesEnableConfirmDescription": "आमंत्रण चालू करें? उपयोगकर्ता फिर से आमंत्रण लिंक के ज़रिए इस कम्युनिटी में शामिल हो पाएँगे.",
+    "guildSettingsInvitesEnableConfirmDescription": "आमंत्रण चालू करें? उपयोगकर्ता फिर से आमंत्रण लिंक के ज़रिए इस कम्युनिटी में शामिल हो पाएँगे।",
     "@guildSettingsInvitesEnableConfirmDescription": {
         "description": "Confirmation body before enabling invites."
     },
@@ -15965,7 +15965,7 @@
     "@guildSettingsInvitesPause": {
         "description": "Confirm button to pause invites."
     },
-    "guildSettingsInvitesPausedForCommunity": "इस कम्युनिटी के लिए इनवाइट रोके गए हैं.",
+    "guildSettingsInvitesPausedForCommunity": "इस कम्युनिटी के लिए इनवाइट रोके गए हैं।",
     "@guildSettingsInvitesPausedForCommunity": {
         "description": "Status message when invites are manually paused."
     },
@@ -16055,7 +16055,7 @@
             }
         }
     },
-    "guildSettingsBansDescription": "बैन किए गए यूज़र देखें और मैनेज करें.",
+    "guildSettingsBansDescription": "बैन किए गए यूज़र देखें और मैनेज करें।",
     "@guildSettingsBansDescription": {
         "description": "Description for bans tab."
     },
@@ -16180,7 +16180,7 @@
         "description": "Description for the system and welcome settings section."
     },
     "guildSettingsOverviewNotificationsTitle": "डिफ़ॉल्ट नोटिफ़िकेशन",
-    "guildSettingsOverviewNotificationsLargeGuild": "250 से ज़्यादा लोगों वाले कम्युनिटी में \"सिर्फ़ मेंशन\" सेटिंग लागू होती है. आपकी ओरिजनल सेटिंग सेव कर ली गई है और कम्युनिटी के सदस्यों की संख्या 250 से कम होने पर उसे वापस लागू कर दिया जाएगा.",
+    "guildSettingsOverviewNotificationsLargeGuild": "250 से ज़्यादा लोगों वाले कम्युनिटी में \"सिर्फ़ मेंशन\" सेटिंग लागू होती है. आपकी ओरिजनल सेटिंग सेव कर ली गई है और कम्युनिटी के सदस्यों की संख्या 250 से कम होने पर उसे वापस लागू कर दिया जाएगा।",
     "guildSettingsOverviewAdvancedTitle": "एडवांस",
     "guildSettingsOverviewFlexibleNames": "टेक्स्ट चैनल के नामों को लचीला रखें",
     "guildSettingsOverviewHideOwnerCrown": "कम्युनिटी मालिक का क्राउन छिपाएं",
@@ -16228,7 +16228,7 @@
     "@guildSettingsOverviewInvitePreviewTitle": {
         "description": "Label for invite preview controls."
     },
-    "guildSettingsOverviewInvitePreviewHint": "देखें कि आपका न्योता मेहमानों को कैसा दिखता है.",
+    "guildSettingsOverviewInvitePreviewHint": "देखें कि आपका न्योता मेहमानों को कैसा दिखता है।",
     "@guildSettingsOverviewInvitePreviewHint": {
         "description": "Helper text for invite preview controls."
     },
@@ -16310,7 +16310,7 @@
     "@guildSettingsMessageHistoryThresholdUpdated": {
         "description": "Toast after saving message history threshold."
     },
-    "guildSettingsOverviewFlexibleNamesHint": "टेक्स्ट चैनल के नामों में बड़े अक्षरों और स्पेस की अनुमति दें. बंद करने पर नाम केवल हाइफ़न और अंडरस्कोर के साथ छोटे अक्षरों में सीमित हो जाते हैं.",
+    "guildSettingsOverviewFlexibleNamesHint": "टेक्स्ट चैनल के नामों में बड़े अक्षरों और स्पेस की अनुमति दें. बंद करने पर नाम केवल हाइफ़न और अंडरस्कोर के साथ छोटे अक्षरों में सीमित हो जाते हैं।",
     "@guildSettingsOverviewFlexibleNamesHint": {
         "description": "Description for flexible channel names toggle."
     },
@@ -16381,7 +16381,7 @@
     "guildSettingsModerationDiscoveryNotice": "डिस्कवरी में सूचीबद्ध समुदायों के लिए मॉडरेशन के विकल्प सीमित हैं।",
     "guildSettingsModerationContentFilterTitle": "कंटेंट फ़िल्टरिंग",
     "guildSettingsModerationContentFilterDescription": "परिपक्व सामग्री के लिए चिह्नित नहीं किए गए चैनलों में स्पष्ट सामग्री के लिए संदेशों को स्वचालित रूप से स्क्रीन करें।",
-    "guildSettingsModerationContentFilterDiscoveryNote": "डिस्कवरी में लिस्ट की गई कम्युनिटी के लिए सभी सदस्यों को स्कैन करना ज़रूरी है. डिस्कवरी चालू होने पर यह सेटिंग बदली नहीं जा सकती.",
+    "guildSettingsModerationContentFilterDiscoveryNote": "डिस्कवरी में लिस्ट की गई कम्युनिटी के लिए सभी सदस्यों को स्कैन करना ज़रूरी है. डिस्कवरी चालू होने पर यह सेटिंग बदली नहीं जा सकती।",
     "guildSettingsContentFilterOff": "बंद",
     "guildSettingsContentFilterOffDescription": "समुदाय को खुद मॉडरेट करने दें",
     "guildSettingsContentFilterNoRole": "बिना भूमिका वाले सदस्यों को फ़िल्टर करें",
@@ -16407,7 +16407,7 @@
         "description": "Placeholder example in the custom content warning field."
     },
     "guildSettingsModeration2faTitle": "2FA ज़रूरी",
-    "guildSettingsModeration2faDescription": "मॉडरेटर के बैन करने, किक करने, टाइम आउट करने या मैसेज हटाने से पहले उनके लिए दो-फ़ैक्टर ऑथेंटिकेशन ज़रूरी करें.",
+    "guildSettingsModeration2faDescription": "मॉडरेटर के बैन करने, किक करने, टाइम आउट करने या मैसेज हटाने से पहले उनके लिए दो-फ़ैक्टर ऑथेंटिकेशन ज़रूरी करें।",
     "guildSettingsModeration2faSwitchLabel": "मॉडरेशन ऐक्शन के लिए 2FA ज़रूरी करें",
     "guildSettingsModeration2faOwnerOnlyTooltip": "यह सेटिंग सिर्फ़ कम्युनिटी का मालिक बदल सकता है",
     "guildSettingsModeration2faEnableFirstTooltip": "यह सेटिंग बदलने के लिए अपने अकाउंट पर 2FA एनेबल करें",
@@ -16415,7 +16415,7 @@
     "guildSettingsEmojiUploadTitle": "इमोजी अपलोड करें",
     "guildSettingsEmojiSlotsTitle": "इमोजी स्लॉट",
     "guildSettingsEmojiDropZone": "इमोजी फ़ाइलों को यहां खींचें और छोड़ें",
-    "guildSettingsEmojiLoadFailed": "इमोजी लोड नहीं हो पाए. बाद में फिर से कोशिश करें.",
+    "guildSettingsEmojiLoadFailed": "इमोजी लोड नहीं हो पाए. बाद में फिर से कोशिश करें।",
     "guildSettingsEmojiSearchEmpty": "आपकी खोज से मेल खाने वाले कोई इमोजी नहीं मिले।",
     "guildSettingsEmojiNoSlots": "कोई इमोजी स्लॉट उपलब्ध नहीं",
     "guildSettingsEmojiSlotsFull": "आप इमोजी की अधिकतम संख्या तक पहुँच गए हैं। जगह बनाने के लिए कुछ मौजूदा इमोजी हटाएँ।",
@@ -16436,7 +16436,7 @@
             }
         }
     },
-    "guildSettingsEmojiUploadFailed": "इमोजी अपलोड नहीं हो पाए. फिर से कोशिश करें.",
+    "guildSettingsEmojiUploadFailed": "इमोजी अपलोड नहीं हो पाए. फिर से कोशिश करें।",
     "guildSettingsEmojiSomeFailedTitle": "कुछ इमोजी जोड़े नहीं जा सके",
     "guildSettingsEmojiSomeFailedBody": "इन फ़ाइलों की समीक्षा करें और छोटी या सरल छवियों के साथ फिर से कोशिश करें।",
     "guildSettingsEmojiRenameTitle": "इमोजी का नाम बदलें",
@@ -16600,7 +16600,7 @@
     "@createDmSelectFriends": {
         "description": "Title for the create DM modal or bottom sheet."
     },
-    "createDmChooseFriendsSubtitle": "मैसेज करने के लिए दोस्तों को चुनें.",
+    "createDmChooseFriendsSubtitle": "मैसेज करने के लिए दोस्तों को चुनें।",
     "@createDmChooseFriendsSubtitle": {
         "description": "Subtitle in the create DM flow."
     },
@@ -16616,11 +16616,11 @@
     "@createDmNoFriendsYet": {
         "description": "Empty state when the user has no friends."
     },
-    "createDmClaimToStartDms": "DM शुरू करने के लिए अपना अकाउंट क्लेम करें.",
+    "createDmClaimToStartDms": "DM शुरू करने के लिए अपना अकाउंट क्लेम करें।",
     "@createDmClaimToStartDms": {
         "description": "Blocked state when an unclaimed account cannot start DMs."
     },
-    "createDmVerifyToStartDms": "DM शुरू करने के लिए अपना ईमेल वेरिफ़ाई करें.",
+    "createDmVerifyToStartDms": "DM शुरू करने के लिए अपना ईमेल वेरिफ़ाई करें।",
     "@createDmVerifyToStartDms": {
         "description": "Blocked state when an unverified account cannot start DMs."
     },

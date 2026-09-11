@@ -330,7 +330,7 @@
     "@logInViaBrowser": {
         "description": "Secondary login that opens or uses the system browser."
     },
-    "needAccountPrompt": "Ai nevoie de un cont?",
+    "needAccountPrompt": "Ai nevoie de un cont? ",
     "@needAccountPrompt": {
         "description": "Lead text before a register link; trailing space keeps spacing before the link."
     },
@@ -816,7 +816,7 @@
     "@registerConsent": {
         "description": "Consent checkbox label for registration (plain text fallback)."
     },
-    "registerConsentPrefix": "Sunt de acord cu",
+    "registerConsentPrefix": "Sunt de acord cu ",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
     },
@@ -824,7 +824,7 @@
     "@registerConsentTerms": {
         "description": "Terms of Service link text in the consent checkbox."
     },
-    "registerConsentAnd": "și",
+    "registerConsentAnd": " și ",
     "@registerConsentAnd": {
         "description": "Conjunction between Terms and Privacy links."
     },
@@ -840,7 +840,7 @@
     "@registerSubmit": {
         "description": "Button to submit the registration form."
     },
-    "registerHaveAccount": "Ai deja un cont?",
+    "registerHaveAccount": "Ai deja un cont? ",
     "@registerHaveAccount": {
         "description": "Text before the login link on the register screen."
     },
@@ -2077,11 +2077,11 @@
     "@externalLinksSectionDescription": {
         "description": "Description for the external links settings section."
     },
-    "externalLinkWarningTrustPrefix": "Încredere permanentă",
+    "externalLinkWarningTrustPrefix": "Încredere permanentă ",
     "@externalLinkWarningTrustPrefix": {
         "description": "Prefix before the hostname in the trust-domain checkbox label."
     },
-    "externalLinkWarningTrustSuffix": "— omite acest avertisment data viitoare",
+    "externalLinkWarningTrustSuffix": " — omite acest avertisment data viitoare",
     "@externalLinkWarningTrustSuffix": {
         "description": "Suffix after the hostname in the trust-domain checkbox label."
     },
@@ -9517,7 +9517,7 @@
     "@addGuildCreateAnimatedIconUnsupported": {
         "description": "Error when the user picks an animated image for a new community icon."
     },
-    "addGuildCreateGuidelinesBefore": "Prin crearea unei comunități, ești de acord să respecți și să susții",
+    "addGuildCreateGuidelinesBefore": "Prin crearea unei comunități, ești de acord să respecți și să susții ",
     "@addGuildCreateGuidelinesBefore": {
         "description": "Text before the community guidelines link on the create sub-view."
     },
@@ -10147,7 +10147,7 @@
     "@channelSettingsPermissionsTitle": {
         "description": "Page title for the channel permissions settings tab."
     },
-    "channelSettingsPermissionsSyncedWithParentPrefix": "Acest canal este sincronizat cu categoria părinte",
+    "channelSettingsPermissionsSyncedWithParentPrefix": "Acest canal este sincronizat cu categoria părinte ",
     "@channelSettingsPermissionsSyncedWithParentPrefix": {
         "description": "Prefix for the synced-with-parent banner in channel permissions."
     },
@@ -10155,7 +10155,7 @@
     "@channelSettingsPermissionsSyncedWithParentSuffix": {
         "description": "Suffix for the synced-with-parent banner in channel permissions."
     },
-    "channelSettingsPermissionsNotSyncedWithParentPrefix": "Acest canal nu este sincronizat cu categoria părinte",
+    "channelSettingsPermissionsNotSyncedWithParentPrefix": "Acest canal nu este sincronizat cu categoria părinte ",
     "@channelSettingsPermissionsNotSyncedWithParentPrefix": {
         "description": "Prefix for the not-synced-with-parent banner in channel permissions."
     },
@@ -11592,9 +11592,9 @@
     "premiumBillingHistory": "Istoricul plăților",
     "premiumSelfServeRefundTitle": "Rambursare automată",
     "premiumSelfServeRefundButton": "Restituie ultima achiziție",
-    "premiumDisclaimerAgreementPrefix": "Prin achiziționare, ești de acord cu termenii noștri",
-    "premiumDisclaimerAgreementPastPrefix": "Prin achiziționare, ați fost de acord cu",
-    "premiumDisclaimerAgreementMiddle": "și",
+    "premiumDisclaimerAgreementPrefix": "Prin achiziționare, ești de acord cu termenii noștri ",
+    "premiumDisclaimerAgreementPastPrefix": "Prin achiziționare, ați fost de acord cu ",
+    "premiumDisclaimerAgreementMiddle": " și ",
     "premiumActiveUntil": "Activ până la {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -12050,7 +12050,7 @@
     "@notificationsTtsEnableCommandDescription": {
         "description": "Toggle description for enabling /tts speech playback."
     },
-    "notificationsTtsAccessibilityLinkPrefix": "Ajustează viteza de redare în",
+    "notificationsTtsAccessibilityLinkPrefix": "Ajustează viteza de redare în ",
     "@notificationsTtsAccessibilityLinkPrefix": {
         "description": "Prefix before the Accessibility settings link in TTS notifications settings."
     },

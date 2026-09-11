@@ -330,7 +330,7 @@
     "@logInViaBrowser": {
         "description": "Secondary login that opens or uses the system browser."
     },
-    "needAccountPrompt": "Нуждаете се от акаунт?",
+    "needAccountPrompt": "Нуждаете се от акаунт? ",
     "@needAccountPrompt": {
         "description": "Lead text before a register link; trailing space keeps spacing before the link."
     },
@@ -816,7 +816,7 @@
     "@registerConsent": {
         "description": "Consent checkbox label for registration (plain text fallback)."
     },
-    "registerConsentPrefix": "Съгласен съм с",
+    "registerConsentPrefix": "Съгласен съм с ",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
     },
@@ -824,7 +824,7 @@
     "@registerConsentTerms": {
         "description": "Terms of Service link text in the consent checkbox."
     },
-    "registerConsentAnd": "и",
+    "registerConsentAnd": " и ",
     "@registerConsentAnd": {
         "description": "Conjunction between Terms and Privacy links."
     },
@@ -840,7 +840,7 @@
     "@registerSubmit": {
         "description": "Button to submit the registration form."
     },
-    "registerHaveAccount": "Вече имате акаунт?",
+    "registerHaveAccount": "Вече имате акаунт? ",
     "@registerHaveAccount": {
         "description": "Text before the login link on the register screen."
     },
@@ -2077,11 +2077,11 @@
     "@externalLinksSectionDescription": {
         "description": "Description for the external links settings section."
     },
-    "externalLinkWarningTrustPrefix": "Винаги се доверявай",
+    "externalLinkWarningTrustPrefix": "Винаги се доверявай ",
     "@externalLinkWarningTrustPrefix": {
         "description": "Prefix before the hostname in the trust-domain checkbox label."
     },
-    "externalLinkWarningTrustSuffix": "— пропусни това предупреждение следващия път",
+    "externalLinkWarningTrustSuffix": " — пропусни това предупреждение следващия път",
     "@externalLinkWarningTrustSuffix": {
         "description": "Suffix after the hostname in the trust-domain checkbox label."
     },
@@ -9517,7 +9517,7 @@
     "@addGuildCreateAnimatedIconUnsupported": {
         "description": "Error when the user picks an animated image for a new community icon."
     },
-    "addGuildCreateGuidelinesBefore": "Създавайки общност, вие се съгласявате да следвате и спазвате",
+    "addGuildCreateGuidelinesBefore": "Създавайки общност, вие се съгласявате да следвате и спазвате ",
     "@addGuildCreateGuidelinesBefore": {
         "description": "Text before the community guidelines link on the create sub-view."
     },
@@ -10147,7 +10147,7 @@
     "@channelSettingsPermissionsTitle": {
         "description": "Page title for the channel permissions settings tab."
     },
-    "channelSettingsPermissionsSyncedWithParentPrefix": "Този канал е синхронизиран с родителската категория",
+    "channelSettingsPermissionsSyncedWithParentPrefix": "Този канал е синхронизиран с родителската категория ",
     "@channelSettingsPermissionsSyncedWithParentPrefix": {
         "description": "Prefix for the synced-with-parent banner in channel permissions."
     },
@@ -10155,7 +10155,7 @@
     "@channelSettingsPermissionsSyncedWithParentSuffix": {
         "description": "Suffix for the synced-with-parent banner in channel permissions."
     },
-    "channelSettingsPermissionsNotSyncedWithParentPrefix": "Този канал не е синхронизиран с родителската категория",
+    "channelSettingsPermissionsNotSyncedWithParentPrefix": "Този канал не е синхронизиран с родителската категория ",
     "@channelSettingsPermissionsNotSyncedWithParentPrefix": {
         "description": "Prefix for the not-synced-with-parent banner in channel permissions."
     },
@@ -11592,9 +11592,9 @@
     "premiumBillingHistory": "История на плащанията",
     "premiumSelfServeRefundTitle": "Възстановяване на средства от самообслужване",
     "premiumSelfServeRefundButton": "Възстановяване на последната покупка",
-    "premiumDisclaimerAgreementPrefix": "С покупката се съгласявате с нашите",
-    "premiumDisclaimerAgreementPastPrefix": "С покупката се съгласихте с нашите",
-    "premiumDisclaimerAgreementMiddle": "и",
+    "premiumDisclaimerAgreementPrefix": "С покупката се съгласявате с нашите ",
+    "premiumDisclaimerAgreementPastPrefix": "С покупката се съгласихте с нашите ",
+    "premiumDisclaimerAgreementMiddle": " и ",
     "premiumActiveUntil": "Активно до {date}",
     "@premiumActiveUntil": {
         "placeholders": {
@@ -12050,7 +12050,7 @@
     "@notificationsTtsEnableCommandDescription": {
         "description": "Toggle description for enabling /tts speech playback."
     },
-    "notificationsTtsAccessibilityLinkPrefix": "Регулирайте скоростта на възпроизвеждане в",
+    "notificationsTtsAccessibilityLinkPrefix": "Регулирайте скоростта на възпроизвеждане в ",
     "@notificationsTtsAccessibilityLinkPrefix": {
         "description": "Prefix before the Accessibility settings link in TTS notifications settings."
     },

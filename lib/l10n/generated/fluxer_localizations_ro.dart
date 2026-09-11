@@ -231,7 +231,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get logInViaBrowser => 'Autentificare prin browser';
 
   @override
-  String get needAccountPrompt => 'Ai nevoie de un cont?';
+  String get needAccountPrompt => 'Ai nevoie de un cont? ';
 
   @override
   String get register => 'Înregistrare';
@@ -605,13 +605,13 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Sunt de acord cu Termenii de Serviciu și Politica de Confidențialitate';
 
   @override
-  String get registerConsentPrefix => 'Sunt de acord cu';
+  String get registerConsentPrefix => 'Sunt de acord cu ';
 
   @override
   String get registerConsentTerms => 'Termeni și condiții';
 
   @override
-  String get registerConsentAnd => 'și';
+  String get registerConsentAnd => ' și ';
 
   @override
   String get registerConsentPrivacy => 'Politica de confidențialitate';
@@ -623,7 +623,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get registerSubmit => 'Creează cont';
 
   @override
-  String get registerHaveAccount => 'Ai deja un cont?';
+  String get registerHaveAccount => 'Ai deja un cont? ';
 
   @override
   String get registerPendingApproval =>
@@ -1582,11 +1582,11 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Configure cum sunt gestionate avertismentele pentru linkurile externe.';
 
   @override
-  String get externalLinkWarningTrustPrefix => 'Încredere permanentă';
+  String get externalLinkWarningTrustPrefix => 'Încredere permanentă ';
 
   @override
   String get externalLinkWarningTrustSuffix =>
-      '— omite acest avertisment data viitoare';
+      ' — omite acest avertisment data viitoare';
 
   @override
   String get externalLinkVisitSite => 'Vizitează site-ul';
@@ -7611,7 +7611,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get addGuildCreateGuidelinesBefore =>
-      'Prin crearea unei comunități, ești de acord să respecți și să susții';
+      'Prin crearea unei comunități, ești de acord să respecți și să susții ';
 
   @override
   String addGuildCreateGuidelinesLink(String productName) {
@@ -8094,14 +8094,14 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get channelSettingsPermissionsSyncedWithParentPrefix =>
-      'Acest canal este sincronizat cu categoria părinte';
+      'Acest canal este sincronizat cu categoria părinte ';
 
   @override
   String get channelSettingsPermissionsSyncedWithParentSuffix => '.';
 
   @override
   String get channelSettingsPermissionsNotSyncedWithParentPrefix =>
-      'Acest canal nu este sincronizat cu categoria părinte';
+      'Acest canal nu este sincronizat cu categoria părinte ';
 
   @override
   String get channelSettingsPermissionsNotSyncedWithParentSuffix => '.';
@@ -9388,14 +9388,14 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get premiumDisclaimerAgreementPrefix =>
-      'Prin achiziționare, ești de acord cu termenii noștri';
+      'Prin achiziționare, ești de acord cu termenii noștri ';
 
   @override
   String get premiumDisclaimerAgreementPastPrefix =>
-      'Prin achiziționare, ați fost de acord cu';
+      'Prin achiziționare, ați fost de acord cu ';
 
   @override
-  String get premiumDisclaimerAgreementMiddle => 'și';
+  String get premiumDisclaimerAgreementMiddle => ' și ';
 
   @override
   String premiumActiveUntil(String date) {
@@ -9866,7 +9866,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get notificationsTtsAccessibilityLinkPrefix =>
-      'Ajustează viteza de redare în';
+      'Ajustează viteza de redare în ';
 
   @override
   String get notificationsTtsAccessibilityLinkLabel => 'Accesibilitate';

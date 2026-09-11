@@ -230,7 +230,7 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get logInViaBrowser => 'Влезте през браузъра';
 
   @override
-  String get needAccountPrompt => 'Нуждаете се от акаунт?';
+  String get needAccountPrompt => 'Нуждаете се от акаунт? ';
 
   @override
   String get register => 'Регистрация';
@@ -604,13 +604,13 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       'Съгласен съм с Общите условия и Политиката за поверителност';
 
   @override
-  String get registerConsentPrefix => 'Съгласен съм с';
+  String get registerConsentPrefix => 'Съгласен съм с ';
 
   @override
   String get registerConsentTerms => 'Условия за ползване';
 
   @override
-  String get registerConsentAnd => 'и';
+  String get registerConsentAnd => ' и ';
 
   @override
   String get registerConsentPrivacy => 'Политика за поверителност';
@@ -622,7 +622,7 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get registerSubmit => 'Създаване на профил';
 
   @override
-  String get registerHaveAccount => 'Вече имате акаунт?';
+  String get registerHaveAccount => 'Вече имате акаунт? ';
 
   @override
   String get registerPendingApproval =>
@@ -1583,11 +1583,11 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       'Конфигуриране как се обработват предупрежденията за външни връзки.';
 
   @override
-  String get externalLinkWarningTrustPrefix => 'Винаги се доверявай';
+  String get externalLinkWarningTrustPrefix => 'Винаги се доверявай ';
 
   @override
   String get externalLinkWarningTrustSuffix =>
-      '— пропусни това предупреждение следващия път';
+      ' — пропусни това предупреждение следващия път';
 
   @override
   String get externalLinkVisitSite => 'Посети сайта';
@@ -7637,7 +7637,7 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get addGuildCreateGuidelinesBefore =>
-      'Създавайки общност, вие се съгласявате да следвате и спазвате';
+      'Създавайки общност, вие се съгласявате да следвате и спазвате ';
 
   @override
   String addGuildCreateGuidelinesLink(String productName) {
@@ -8123,14 +8123,14 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get channelSettingsPermissionsSyncedWithParentPrefix =>
-      'Този канал е синхронизиран с родителската категория';
+      'Този канал е синхронизиран с родителската категория ';
 
   @override
   String get channelSettingsPermissionsSyncedWithParentSuffix => '.';
 
   @override
   String get channelSettingsPermissionsNotSyncedWithParentPrefix =>
-      'Този канал не е синхронизиран с родителската категория';
+      'Този канал не е синхронизиран с родителската категория ';
 
   @override
   String get channelSettingsPermissionsNotSyncedWithParentSuffix => '.';
@@ -9415,14 +9415,14 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get premiumDisclaimerAgreementPrefix =>
-      'С покупката се съгласявате с нашите';
+      'С покупката се съгласявате с нашите ';
 
   @override
   String get premiumDisclaimerAgreementPastPrefix =>
-      'С покупката се съгласихте с нашите';
+      'С покупката се съгласихте с нашите ';
 
   @override
-  String get premiumDisclaimerAgreementMiddle => 'и';
+  String get premiumDisclaimerAgreementMiddle => ' и ';
 
   @override
   String premiumActiveUntil(String date) {
@@ -9897,7 +9897,7 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get notificationsTtsAccessibilityLinkPrefix =>
-      'Регулирайте скоростта на възпроизвеждане в';
+      'Регулирайте скоростта на възпроизвеждане в ';
 
   @override
   String get notificationsTtsAccessibilityLinkLabel => 'Достъпност';

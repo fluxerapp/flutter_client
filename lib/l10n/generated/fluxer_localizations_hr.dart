@@ -231,7 +231,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get logInViaBrowser => 'Prijavi se putem preglednika';
 
   @override
-  String get needAccountPrompt => 'Trebaš račun?';
+  String get needAccountPrompt => 'Trebaš račun? ';
 
   @override
   String get register => 'Registracija';
@@ -606,13 +606,13 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Slažem se s Uvjetima pružanja usluge i Pravilima o privatnosti';
 
   @override
-  String get registerConsentPrefix => 'Slažem se s';
+  String get registerConsentPrefix => 'Slažem se s ';
 
   @override
   String get registerConsentTerms => 'Uvjeti pružanja usluge';
 
   @override
-  String get registerConsentAnd => 'i';
+  String get registerConsentAnd => ' i ';
 
   @override
   String get registerConsentPrivacy => 'Pravila o zaštiti privatnosti';
@@ -624,7 +624,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get registerSubmit => 'Izradi račun';
 
   @override
-  String get registerHaveAccount => 'Već imaš račun?';
+  String get registerHaveAccount => 'Već imaš račun? ';
 
   @override
   String get registerPendingApproval =>
@@ -1581,11 +1581,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Konfigurirajte kako se rukuje upozorenjima za vanjske poveznice.';
 
   @override
-  String get externalLinkWarningTrustPrefix => 'Uvijek vjeruj';
+  String get externalLinkWarningTrustPrefix => 'Uvijek vjeruj ';
 
   @override
   String get externalLinkWarningTrustSuffix =>
-      '— preskoči ovo upozorenje sljedeći put';
+      ' — preskoči ovo upozorenje sljedeći put';
 
   @override
   String get externalLinkVisitSite => 'Posjeti web-mjesto';
@@ -7592,7 +7592,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get addGuildCreateGuidelinesBefore =>
-      'Stvaranjem zajednice prihvaćate da ćete slijediti i pridržavati se';
+      'Stvaranjem zajednice prihvaćate da ćete slijediti i pridržavati se ';
 
   @override
   String addGuildCreateGuidelinesLink(String productName) {
@@ -8073,14 +8073,14 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get channelSettingsPermissionsSyncedWithParentPrefix =>
-      'Ovaj kanal je usklađen s nadređenom kategorijom';
+      'Ovaj kanal je usklađen s nadređenom kategorijom ';
 
   @override
   String get channelSettingsPermissionsSyncedWithParentSuffix => '.';
 
   @override
   String get channelSettingsPermissionsNotSyncedWithParentPrefix =>
-      'Ovaj kanal nije usklađen s nadređenom kategorijom';
+      'Ovaj kanal nije usklađen s nadređenom kategorijom ';
 
   @override
   String get channelSettingsPermissionsNotSyncedWithParentSuffix => '.';
@@ -9353,14 +9353,14 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get premiumSelfServeRefundButton => 'Vrati zadnju kupnju';
 
   @override
-  String get premiumDisclaimerAgreementPrefix => 'Kupnjom prihvaćate naše';
+  String get premiumDisclaimerAgreementPrefix => 'Kupnjom prihvaćate naše ';
 
   @override
   String get premiumDisclaimerAgreementPastPrefix =>
-      'Kupnjom ste prihvatili naše';
+      'Kupnjom ste prihvatili naše ';
 
   @override
-  String get premiumDisclaimerAgreementMiddle => 'i';
+  String get premiumDisclaimerAgreementMiddle => ' i ';
 
   @override
   String premiumActiveUntil(String date) {
@@ -9830,7 +9830,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get notificationsTtsAccessibilityLinkPrefix =>
-      'Prilagodi brzinu reprodukcije u';
+      'Prilagodi brzinu reprodukcije u ';
 
   @override
   String get notificationsTtsAccessibilityLinkLabel => 'Pristupačnost';
