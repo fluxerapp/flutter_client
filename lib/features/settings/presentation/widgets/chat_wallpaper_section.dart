@@ -76,6 +76,7 @@ class ChatWallpaperSection extends ConsumerWidget {
                     label: l10n.lookAndFeelChatWallpaperCustomLabel,
                     selected: selection.kind == ChatWallpaperKind.custom,
                     dim: selection.dim,
+                    processing: snapshot.isProcessingCustom,
                     footer: _CustomWallpaperFooter(
                       hasImage: snapshot.hasCustomImage,
                       showIcon: selection.kind != ChatWallpaperKind.custom,
@@ -178,6 +179,9 @@ class ChatWallpaperSection extends ConsumerWidget {
     WidgetRef ref,
     ChatWallpaperSnapshot snapshot,
   ) async {
+    if (snapshot.isProcessingCustom) {
+      return;
+    }
     FluxerHaptics.selection();
     if (snapshot.selection.kind != ChatWallpaperKind.custom &&
         snapshot.hasCustomImage) {
@@ -223,12 +227,14 @@ class _WallpaperPresetCard extends StatelessWidget {
     required this.child,
     this.footer,
     this.applyDim = true,
+    this.processing = false,
   });
 
   final String label;
   final bool selected;
   final double dim;
   final bool applyDim;
+  final bool processing;
   final VoidCallback onTap;
   final Widget child;
   final Widget? footer;
@@ -240,6 +246,7 @@ class _WallpaperPresetCard extends StatelessWidget {
     const double radius = ChatWallpaperSection._cardRadius;
     return FluxerTappable(
       onTap: onTap,
+      enabled: !processing,
       semanticLabel: label,
       selected: selected,
       excludeChildSemantics: true,
@@ -252,10 +259,24 @@ class _WallpaperPresetCard extends StatelessWidget {
             child: Stack(
               fit: StackFit.expand,
               children: <Widget>[
-                child,
+                Positioned.fill(
+                  child: AnimatedScale(
+                    scale: processing ? 1.08 : 1,
+                    duration: motion.slow,
+                    curve: motion.curve,
+                    child: child,
+                  ),
+                ),
                 if (applyDim) ColoredBox(color: chatWallpaperDimColor(dim)),
                 const _WallpaperChatSkeleton(),
                 ?footer,
+                if (processing)
+                  const IgnorePointer(
+                    child: ColoredBox(
+                      color: Color(0x59000000),
+                      child: Center(child: FluxerLoadingSpinner()),
+                    ),
+                  ),
                 Positioned.fill(
                   child: AnimatedContainer(
                     duration: motion.normal,
@@ -318,9 +339,11 @@ class _CustomWallpaperPreview extends StatelessWidget {
       return ColoredBox(color: context.colors.backgroundTertiary);
     }
     return Image(
+      key: ObjectKey(image),
       image: image,
       fit: BoxFit.cover,
       filterQuality: FilterQuality.low,
+      gaplessPlayback: true,
     );
   }
 }
@@ -534,7 +557,7 @@ class ChatWallpaperLocalOnlyButton extends ConsumerWidget {
               FluxerToast(message: l10n.lookAndFeelChatWallpaperLocalOnlyToast),
             );
       },
-      builder: (BuildContext context, Set<WidgetState> states) {
+      builder: (BuildContext context, Set<WidgetState> _) {
         return Padding(
           padding: const EdgeInsets.all(4),
           child: PhosphorIcon(
