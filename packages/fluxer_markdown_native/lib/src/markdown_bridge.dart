@@ -33,59 +33,111 @@ bool _isBlockNode(MdNode node) => switch (node) {
 List<md.Node> _convertBlockChildren(List<MdNode> nodes) {
   final result = <md.Node>[];
   final run = <md.Node>[];
+  var followsBlock = false;
 
-  void flushRun() {
+  void flushRun({required bool precedesBlock}) {
     if (run.isEmpty) {
       return;
     }
-    final paragraph = _paragraphFromRun(run);
+    final blocks = _blocksFromRun(
+      run,
+      followsBlock: followsBlock,
+      precedesBlock: precedesBlock,
+    );
     run.clear();
-    if (paragraph != null) {
-      result.add(paragraph);
-    }
+    result.addAll(blocks);
   }
 
   for (final node in _flatten(nodes)) {
     if (_isBlockNode(node)) {
-      flushRun();
+      flushRun(precedesBlock: true);
       result.add(_convertBlock(node));
+      followsBlock = true;
     } else {
       run.add(_convertInline(node));
     }
   }
-  flushRun();
+  flushRun(precedesBlock: false);
   return result;
 }
 
 final RegExp _leadingNewlines = RegExp(r'^\n+');
 final RegExp _trailingNewlines = RegExp(r'\n+$');
+final RegExp _newlinesOnly = RegExp(r'^\n+$');
 
-// Boundary newlines only separate a run from an adjacent block; the classic
-// pipeline splits on them before parsing and never renders them.
-md.Element? _paragraphFromRun(List<md.Node> run) {
-  final nodes = List<md.Node>.of(run);
+// Blank lines typed next to a block arrive as boundary newlines: N+1 before
+// the block, because one closes the preceding line, and N after it (#545).
+List<md.Node> _blocksFromRun(
+  List<md.Node> run, {
+  required bool followsBlock,
+  required bool precedesBlock,
+}) {
+  final nodes = _mergeAdjacentText(run);
+  final single = nodes.length == 1 ? nodes.first : null;
+  if (single is md.Text && _newlinesOnly.hasMatch(single.text)) {
+    if (followsBlock && precedesBlock) {
+      return [_blankLines(single.text.length)];
+    }
+    return const [];
+  }
+
+  var blankLinesBefore = 0;
+  var blankLinesAfter = 0;
   if (nodes.isNotEmpty) {
     final first = nodes.first;
     if (first is md.Text) {
-      final trimmed = first.text.replaceFirst(_leadingNewlines, '');
-      if (trimmed.isEmpty) {
+      final stripped = first.text.replaceFirst(_leadingNewlines, '');
+      if (followsBlock) {
+        blankLinesBefore = first.text.length - stripped.length;
+      }
+      if (stripped.isEmpty) {
         nodes.removeAt(0);
-      } else if (trimmed != first.text) {
-        nodes[0] = md.Text(trimmed);
+      } else {
+        nodes[0] = md.Text(stripped);
       }
     }
   }
   if (nodes.isNotEmpty) {
     final last = nodes.last;
     if (last is md.Text) {
-      final trimmed = last.text.replaceFirst(_trailingNewlines, '');
-      if (trimmed.isEmpty) {
+      final stripped = last.text.replaceFirst(_trailingNewlines, '');
+      final removed = last.text.length - stripped.length;
+      if (precedesBlock && removed > 1) {
+        blankLinesAfter = removed - 1;
+      }
+      if (stripped.isEmpty) {
         nodes.removeLast();
-      } else if (trimmed != last.text) {
-        nodes[nodes.length - 1] = md.Text(trimmed);
+      } else {
+        nodes[nodes.length - 1] = md.Text(stripped);
       }
     }
   }
+
+  final paragraph = _paragraphFromRun(nodes);
+  return [
+    if (blankLinesBefore > 0) _blankLines(blankLinesBefore),
+    ?paragraph,
+    if (blankLinesAfter > 0) _blankLines(blankLinesAfter),
+  ];
+}
+
+List<md.Node> _mergeAdjacentText(List<md.Node> nodes) {
+  final merged = <md.Node>[];
+  for (final node in nodes) {
+    final previous = merged.isEmpty ? null : merged.last;
+    if (node is md.Text && previous is md.Text) {
+      merged[merged.length - 1] = md.Text(previous.text + node.text);
+    } else {
+      merged.add(node);
+    }
+  }
+  return merged;
+}
+
+md.Element _blankLines(int count) =>
+    md.Element.empty('blank-lines')..attributes['count'] = '$count';
+
+md.Element? _paragraphFromRun(List<md.Node> nodes) {
   if (nodes.isEmpty ||
       nodes.every((node) => node is md.Text && node.text.trim().isEmpty)) {
     return null;

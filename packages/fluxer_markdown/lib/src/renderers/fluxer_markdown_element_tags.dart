@@ -16,6 +16,7 @@ abstract final class FluxerMarkdownElementTags {
   static const String alert = 'alert';
   static const String subtext = 'subtext';
   static const String blockSpoiler = 'block-spoiler';
+  static const String blankLines = 'blank-lines';
 }
 
 const int kFluxerMarkdownMaxListNestingDepth = 9;

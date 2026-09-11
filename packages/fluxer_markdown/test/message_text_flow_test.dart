@@ -680,61 +680,61 @@ void main() {
       expect(renderedText, 'test line one\n\n\ntest line two');
     });
 
-    testWidgets('blank lines around a list have balanced vertical gaps', (
+    testWidgets('renders blank lines typed on both sides of a list', (
       tester,
     ) async {
-      const String input = 'intro\n\n- item\n\ncloser';
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: MediaQuery(
-            data: MediaQueryData(textScaler: TextScaler.noScaling),
-            child: Scaffold(
-              body: Center(
-                child: SizedBox(
-                  width: 320,
-                  child: FluxerMarkdown(
-                    astParser: parseTestMarkdownAst,
-                    data: input,
-                    config: _testMarkdownConfig,
-                    baseStyle: baseStyle,
+      Future<void> pumpInput(String data) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: MediaQuery(
+              data: const MediaQueryData(textScaler: TextScaler.noScaling),
+              child: Scaffold(
+                body: Center(
+                  child: SizedBox(
+                    width: 320,
+                    child: FluxerMarkdown(
+                      astParser: parseTestMarkdownAst,
+                      data: data,
+                      config: _testMarkdownConfig,
+                      baseStyle: baseStyle,
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
+        );
+      }
+
+      final Finder listFinder = find.byWidgetPredicate(
+        (Widget widget) =>
+            widget is Padding &&
+            widget.padding ==
+                const EdgeInsets.only(top: FluxerMarkupSpacing.listBlockMargin),
+      );
+      Finder paragraphFinder(String text) => find.byWidgetPredicate(
+        (Widget widget) =>
+            widget is RichText && widget.text.toPlainText() == text,
       );
 
-      final Finder introFinder = find.textContaining(
-        'intro',
-        findRichText: true,
-      );
-      final Finder itemFinder = find.textContaining('item', findRichText: true);
-      final Finder closerFinder = find.textContaining(
-        'closer',
-        findRichText: true,
-      );
-      expect(introFinder, findsOneWidget);
-      expect(itemFinder, findsOneWidget);
-      expect(closerFinder, findsOneWidget);
+      await pumpInput('intro\n\n\n- one\n- two\n\n\noutro');
+      expect(listFinder, findsOneWidget);
+      final double gapAbove =
+          tester.getTopLeft(listFinder).dy -
+          tester.getBottomLeft(paragraphFinder('intro')).dy;
+      final double gapBelow =
+          tester.getTopLeft(paragraphFinder('outro')).dy -
+          tester.getBottomLeft(listFinder).dy;
 
-      final double introBottom = tester.getBottomLeft(introFinder).dy;
-      final double itemTop = tester.getTopLeft(itemFinder).dy;
-      final double itemBottom = tester.getBottomLeft(itemFinder).dy;
-      final double closerTop = tester.getTopLeft(closerFinder).dy;
+      await pumpInput('intro\n- one\n- two\noutro');
+      final double gapWithoutBlanks =
+          tester.getTopLeft(listFinder).dy -
+          tester.getBottomLeft(paragraphFinder('intro')).dy;
 
-      final double singleLineHeight = 16 * baseStyle.height!;
-      final double gapAboveList = itemTop - introBottom;
-      final double gapBelowList = closerTop - itemBottom;
-
-      // Block spacing carries the separation; neither side may grow to a whole
-      // extra text line, and the two sides must stay within half a line.
-      expect(gapAboveList, lessThan(singleLineHeight));
-      expect(gapBelowList, lessThan(singleLineHeight));
-      expect(
-        (gapAboveList - gapBelowList).abs(),
-        lessThan(singleLineHeight * 0.5),
-      );
+      // Two 22px blank lines plus the 12px block gap the column adds.
+      expect(gapAbove, closeTo(56, 0.5));
+      expect(gapBelow, closeTo(56, 0.5));
+      expect(gapWithoutBlanks, closeTo(FluxerMarkupSpacing.blockGap, 0.5));
     });
 
     testWidgets('list without surrounding blanks has no extra bottom padding', (
