@@ -646,6 +646,7 @@ class _MessageListState extends ConsumerState<MessageList> {
           _anchorFraction = _kUnreadOpenAnchor;
           _anchorEdge = MessageListAnchorEdge.before;
           _scheduleUnderfillBottomReanchor();
+          _scheduleJumpHighlightConfirm(jumpRequestId!);
         } else {
           _anchorId = messages.isEmpty ? null : messages.last.id;
           _anchorFraction = 1.0;
@@ -748,6 +749,7 @@ class _MessageListState extends ConsumerState<MessageList> {
         _demandSource.resetApproachVelocity();
         _scheduleAnchorCenterCorrection(scrollId);
         _scheduleUnderfillBottomReanchor();
+        _scheduleJumpHighlightConfirm(target);
       } else if (messageLoadFailed) {
         // The page that would carry the target will not arrive.
         talker.debug(
@@ -2056,6 +2058,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       }
       talker.debug('[MessageList] pending target $messageId expired');
       _clearPendingScrollTarget();
+      _scheduleJumpHighlightConfirm(messageId);
       _onScroll();
     });
   }
@@ -2362,6 +2365,15 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
   }
 
+  void _scheduleJumpHighlightConfirm(String messageId) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      _confirmJumpHighlightScroll(messageId);
+    });
+  }
+
   void _onScrollToMessage(String messageId) {
     talker.debug(
       '[MessageList] _onScrollToMessage $messageId '
@@ -2411,14 +2423,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
     _clearPendingScrollTarget();
     _reanchor(scrollId, _kUnreadOpenAnchor, edge: MessageListAnchorEdge.before);
-    final int highlightEpoch = _uiEpoch;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _runIfSameEpoch(highlightEpoch, () {
-        // The jump landed atomically this frame: keep the highlight visible
-        // for its full duration from the moment the user can see it.
-        _confirmJumpHighlightScroll(messageId);
-      });
-    });
+    _scheduleJumpHighlightConfirm(messageId);
   }
 
   Widget _buildMessageTile({
