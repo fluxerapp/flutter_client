@@ -6,15 +6,21 @@ enum HorizontalDragAxisLockDecision {
   /// Both axes are still inside [slop].
   pending,
 
-  /// Vertical movement is dominant; drop out of the arena.
+  /// Not clearly horizontal; drop out so the list can scroll, including
+  /// arched / diagonal flicks.
   yieldToVertical,
 
-  /// Rightward movement is dominant; drop out so a parent drawer can win.
+  /// Clearly rightward; drop out so a parent drawer can win.
   yieldToRightward,
 
-  /// Leftward movement is dominant; keep competing / accept.
+  /// Clearly leftward; keep competing / accept.
   keepHorizontal,
 }
+
+/// Horizontal must be at least this multiple of vertical before swipe or
+/// the drawer may claim the pointer. Below that, an arched or diagonal
+/// move is treated as a scroll.
+const double kHorizontalAxisDominanceRatio = 2;
 
 /// Classifies a drag from its start using [slop] (typically [computeHitSlop]).
 HorizontalDragAxisLockDecision resolveHorizontalDragAxisLock({
@@ -26,7 +32,7 @@ HorizontalDragAxisLockDecision resolveHorizontalDragAxisLock({
   if (dx < slop && dy < slop) {
     return HorizontalDragAxisLockDecision.pending;
   }
-  if (dy > dx) {
+  if (dx < dy * kHorizontalAxisDominanceRatio) {
     return HorizontalDragAxisLockDecision.yieldToVertical;
   }
   if (deltaFromStart.dx > 0) {

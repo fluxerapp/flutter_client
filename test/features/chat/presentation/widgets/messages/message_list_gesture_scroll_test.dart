@@ -197,6 +197,25 @@ void main() {
       await disposeMessageList(tester);
     });
 
+    testWidgets('arched diagonal drag still scrolls', (
+      WidgetTester tester,
+    ) async {
+      await _pumpList(tester);
+      await _jumpToMid(tester);
+      final double before = messageListScrollPosition(tester).pixels;
+      final TestGesture gesture = await tester.startGesture(
+        _messageBodyStart(tester),
+      );
+      await gesture.moveBy(const Offset(-16, 12));
+      await gesture.moveBy(const Offset(-8, 40));
+      await gesture.moveBy(const Offset(4, 80));
+      await gesture.up();
+      await tester.pump();
+      expect(messageListScrollPosition(tester).pixels, lessThan(before - 40));
+      expect(_replying(tester), isNull);
+      await disposeMessageList(tester);
+    });
+
     testWidgets('near-equal dx/dy at slop does not freeze later scrolls', (
       WidgetTester tester,
     ) async {

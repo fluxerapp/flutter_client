@@ -260,6 +260,25 @@ void main() {
     expect(_sliderDx(tester), 0);
   });
 
+  testWidgets('arched diagonal drag does not open the drawer', (tester) async {
+    final router = _routerFor('/channels/guild/channel');
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(
+      _buildDrawerApp(container: container, router: router, touchSlop: 8),
+    );
+
+    final gesture = await tester.startGesture(const Offset(200, 400));
+    await gesture.moveBy(const Offset(20, 16));
+    await gesture.moveBy(const Offset(8, 160));
+    await tester.pump();
+    expect(_sliderDx(tester), 0);
+    await gesture.up();
+    await tester.pumpAndSettle();
+    expect(_sliderDx(tester), 0);
+  });
+
   testWidgets('vertical fling does not open the drawer', (tester) async {
     final router = _routerFor('/channels/guild/channel');
     addTearDown(router.dispose);

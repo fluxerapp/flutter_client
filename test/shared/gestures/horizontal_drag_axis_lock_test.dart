@@ -20,7 +20,7 @@ void main() {
       );
     });
 
-    test('yields to vertical when dy is dominant past slop', () {
+    test('yields to vertical when the move is not clearly horizontal', () {
       expect(
         resolveHorizontalDragAxisLock(
           deltaFromStart: const Offset(12, 40),
@@ -44,7 +44,31 @@ void main() {
       );
     });
 
-    test('yields rightward when dx is dominant and positive', () {
+    test('arched and equal-axis moves yield to vertical', () {
+      expect(
+        resolveHorizontalDragAxisLock(
+          deltaFromStart: const Offset(20, 20),
+          slop: 18,
+        ),
+        HorizontalDragAxisLockDecision.yieldToVertical,
+      );
+      expect(
+        resolveHorizontalDragAxisLock(
+          deltaFromStart: const Offset(-30, 20),
+          slop: 8,
+        ),
+        HorizontalDragAxisLockDecision.yieldToVertical,
+      );
+      expect(
+        resolveHorizontalDragAxisLock(
+          deltaFromStart: const Offset(25, 18),
+          slop: 8,
+        ),
+        HorizontalDragAxisLockDecision.yieldToVertical,
+      );
+    });
+
+    test('yields rightward only when clearly rightward', () {
       expect(
         resolveHorizontalDragAxisLock(
           deltaFromStart: const Offset(40, 12),
@@ -54,14 +78,14 @@ void main() {
       );
       expect(
         resolveHorizontalDragAxisLock(
-          deltaFromStart: const Offset(20, 20),
-          slop: 18,
+          deltaFromStart: const Offset(50, 20),
+          slop: 8,
         ),
         HorizontalDragAxisLockDecision.yieldToRightward,
       );
     });
 
-    test('keeps leftward horizontal when dx is dominant and negative', () {
+    test('keeps leftward horizontal only when clearly leftward', () {
       expect(
         resolveHorizontalDragAxisLock(
           deltaFromStart: const Offset(-40, 12),

@@ -2,10 +2,11 @@ import 'package:flutter/gestures.dart';
 import 'package:fluxer_app/shared/gestures/horizontal_drag_axis_lock.dart';
 
 /// [HorizontalDragGestureRecognizer] that leaves the arena on [shouldReject]
-/// (typically vertical-dominant, and for swipe-to-reply also rightward).
+/// (typically not clearly horizontal, and for swipe-to-reply also rightward).
 ///
 /// Once the axis is committed, later moves are not re-classified so a
-/// vertical arc cannot freeze an in-progress drag.
+/// vertical arc cannot freeze an in-progress drag. Once yielded, later
+/// moves are ignored so a leftover dx cannot claim the pointer.
 class AxisLockingHorizontalDragRecognizer
     extends HorizontalDragGestureRecognizer {
   AxisLockingHorizontalDragRecognizer({
@@ -18,6 +19,7 @@ class AxisLockingHorizontalDragRecognizer
 
   final Map<int, Offset> _initialPositions = <int, Offset>{};
   final Set<int> _resolved = <int>{};
+  final Set<int> _yielded = <int>{};
 
   @override
   void addAllowedPointer(PointerDownEvent event) {
@@ -31,6 +33,13 @@ class AxisLockingHorizontalDragRecognizer
 
   @override
   void handleEvent(PointerEvent event) {
+    if (_yielded.contains(event.pointer)) {
+      if (event is PointerMoveEvent) {
+        return;
+      }
+      super.handleEvent(event);
+      return;
+    }
     if (event is PointerMoveEvent && !_resolved.contains(event.pointer)) {
       final Offset? start = _initialPositions[event.pointer];
       if (start != null) {
@@ -40,7 +49,7 @@ class AxisLockingHorizontalDragRecognizer
               slop: computeHitSlop(event.kind, gestureSettings),
             );
         if (shouldReject(decision)) {
-          _resolved.add(event.pointer);
+          _yielded.add(event.pointer);
           resolve(GestureDisposition.rejected);
           return;
         }
@@ -56,6 +65,7 @@ class AxisLockingHorizontalDragRecognizer
   void didStopTrackingLastPointer(int pointer) {
     _initialPositions.remove(pointer);
     _resolved.remove(pointer);
+    _yielded.remove(pointer);
     super.didStopTrackingLastPointer(pointer);
   }
 

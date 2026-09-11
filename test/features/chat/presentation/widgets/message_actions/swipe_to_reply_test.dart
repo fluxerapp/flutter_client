@@ -487,6 +487,35 @@ void main() {
     expect(replyCount, 0);
   });
 
+  testWidgets('arched diagonal drag over swipe scrolls instead of reply', (
+    tester,
+  ) async {
+    var replyCount = 0;
+    await tester.pumpWidget(
+      _buildVerticalScrollApp(
+        SwipeToReply(
+          onReply: () => replyCount++,
+          child: const ColoredBox(color: Color(0xFF112233)),
+        ),
+        touchSlop: 8,
+      ),
+    );
+    await tester.pumpAndSettle();
+    final ScrollPosition position = _parentVerticalPosition(tester);
+    position.jumpTo(300);
+    await tester.pump();
+    final double before = position.pixels;
+    final TestGesture gesture = await tester.startGesture(
+      _swipeBodyStart(tester),
+    );
+    await gesture.moveBy(const Offset(-20, 16));
+    await gesture.moveBy(const Offset(-6, 80));
+    await gesture.up();
+    await tester.pumpAndSettle();
+    expect(position.pixels, lessThan(before - 40));
+    expect(replyCount, 0);
+  });
+
   testWidgets('committed leftward swipe keeps tracking after a vertical arc', (
     tester,
   ) async {
