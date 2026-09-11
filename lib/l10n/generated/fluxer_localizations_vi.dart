@@ -7249,7 +7249,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get chatReplyMentionOn => 'ON';
 
   @override
-  String get chatReplyMentionOff => 'Tắt';
+  String get chatReplyMentionOff => 'OFF';
 
   @override
   String get chatReplyCancel => 'Hủy trả lời';
