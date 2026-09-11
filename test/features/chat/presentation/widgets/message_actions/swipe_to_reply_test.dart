@@ -516,6 +516,34 @@ void main() {
     expect(replyCount, 0);
   });
 
+  testWidgets('noisy first move Offset(36, 10) scrolls instead of reply', (
+    tester,
+  ) async {
+    var replyCount = 0;
+    await tester.pumpWidget(
+      _buildVerticalScrollApp(
+        SwipeToReply(
+          onReply: () => replyCount++,
+          child: const ColoredBox(color: Color(0xFF112233)),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    final ScrollPosition position = _parentVerticalPosition(tester);
+    position.jumpTo(300);
+    await tester.pump();
+    final double before = position.pixels;
+    final TestGesture gesture = await tester.startGesture(
+      _swipeBodyStart(tester),
+    );
+    await gesture.moveBy(const Offset(36, 10));
+    await gesture.moveBy(const Offset(0, 120));
+    await gesture.up();
+    await tester.pumpAndSettle();
+    expect(position.pixels, lessThan(before - 40));
+    expect(replyCount, 0);
+  });
+
   testWidgets('committed leftward swipe keeps tracking after a vertical arc', (
     tester,
   ) async {
