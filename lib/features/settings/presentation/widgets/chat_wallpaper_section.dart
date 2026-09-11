@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/chat/wallpaper/chat_wallpaper.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_app/shared/utils/image_utils.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -31,6 +32,7 @@ class ChatWallpaperSection extends ConsumerWidget {
       String? id,
       bool clearId = false,
     }) {
+      FluxerHaptics.selection();
       return notifier.setSelection(
         selection.copyWith(kind: kind, id: id, clearId: clearId),
       );
@@ -39,93 +41,111 @@ class ChatWallpaperSection extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        SizedBox(
-          height: _cardHeight,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            primary: false,
-            padding: EdgeInsets.only(right: layout.s2),
-            children: <Widget>[
-              _WallpaperPresetCard(
-                label: l10n.lookAndFeelChatWallpaperDefaultLabel,
-                selected: selection.kind == ChatWallpaperKind.defaultTheme,
-                dim: selection.dim,
-                applyDim: false,
-                onTap: () => unawaited(
-                  select(kind: ChatWallpaperKind.defaultTheme, clearId: true),
-                ),
-                child: const _DefaultWallpaperPreview(),
-              ),
-              SizedBox(width: layout.s3),
-              _WallpaperPresetCard(
-                label: l10n.lookAndFeelChatWallpaperCustomLabel,
-                selected: selection.kind == ChatWallpaperKind.custom,
-                dim: selection.dim,
-                footer: _CustomWallpaperFooter(
-                  hasImage: snapshot.hasCustomImage,
-                  showIcon: selection.kind != ChatWallpaperKind.custom,
-                ),
-                onTap: () => unawaited(_onCustomTap(context, ref, snapshot)),
-                child: _CustomWallpaperPreview(snapshot: snapshot),
-              ),
-              for (final ChatWallpaperColorPreset preset
-                  in ChatWallpaperCatalog.colors) ...<Widget>[
-                SizedBox(width: layout.s3),
-                _WallpaperPresetCard(
-                  label: l10n.lookAndFeelChatWallpaperColorLabel(preset.id),
-                  selected:
-                      selection.kind == ChatWallpaperKind.color &&
-                      selection.id == preset.id,
-                  dim: selection.dim,
-                  onTap: () => unawaited(
-                    select(kind: ChatWallpaperKind.color, id: preset.id),
-                  ),
-                  child: ColoredBox(color: preset.color),
-                ),
-              ],
-              for (final ChatWallpaperGradientPreset preset
-                  in ChatWallpaperCatalog.gradients) ...<Widget>[
-                SizedBox(width: layout.s3),
-                _WallpaperPresetCard(
-                  label: l10n.lookAndFeelChatWallpaperGradientLabel(preset.id),
-                  selected:
-                      selection.kind == ChatWallpaperKind.gradient &&
-                      selection.id == preset.id,
-                  dim: selection.dim,
-                  onTap: () => unawaited(
-                    select(kind: ChatWallpaperKind.gradient, id: preset.id),
-                  ),
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: preset.begin,
-                        end: preset.end,
-                        colors: preset.colors,
+        Material(
+          color: context.colors.backgroundSecondaryAlt,
+          surfaceTintColor: Colors.transparent,
+          shape: RoundedRectangleBorder(
+            borderRadius: layout.radiusXl,
+            side: BorderSide(color: context.colors.backgroundModifierAccent),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: layout.s3),
+            child: SizedBox(
+              height: _cardHeight,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                primary: false,
+                padding: EdgeInsets.symmetric(horizontal: layout.s3),
+                children: <Widget>[
+                  _WallpaperPresetCard(
+                    label: l10n.lookAndFeelChatWallpaperDefaultLabel,
+                    selected: selection.kind == ChatWallpaperKind.defaultTheme,
+                    dim: selection.dim,
+                    applyDim: false,
+                    onTap: () => unawaited(
+                      select(
+                        kind: ChatWallpaperKind.defaultTheme,
+                        clearId: true,
                       ),
                     ),
+                    child: const _DefaultWallpaperPreview(),
                   ),
-                ),
-              ],
-              for (final ChatWallpaperImagePreset preset
-                  in ChatWallpaperCatalog.bundledImages) ...<Widget>[
-                SizedBox(width: layout.s3),
-                _WallpaperPresetCard(
-                  label: preset.id,
-                  selected:
-                      selection.kind == ChatWallpaperKind.preset &&
-                      selection.id == preset.id,
-                  dim: selection.dim,
-                  onTap: () => unawaited(
-                    select(kind: ChatWallpaperKind.preset, id: preset.id),
+                  SizedBox(width: layout.s3),
+                  _WallpaperPresetCard(
+                    label: l10n.lookAndFeelChatWallpaperCustomLabel,
+                    selected: selection.kind == ChatWallpaperKind.custom,
+                    dim: selection.dim,
+                    footer: _CustomWallpaperFooter(
+                      hasImage: snapshot.hasCustomImage,
+                      showIcon: selection.kind != ChatWallpaperKind.custom,
+                    ),
+                    onTap: () =>
+                        unawaited(_onCustomTap(context, ref, snapshot)),
+                    child: _CustomWallpaperPreview(snapshot: snapshot),
                   ),
-                  child: Image(
-                    image: AssetImage(preset.assetPath),
-                    fit: BoxFit.cover,
-                    filterQuality: FilterQuality.low,
-                  ),
-                ),
-              ],
-            ],
+                  for (final ChatWallpaperColorPreset preset
+                      in ChatWallpaperCatalog.colors) ...<Widget>[
+                    SizedBox(width: layout.s3),
+                    _WallpaperPresetCard(
+                      label: l10n.lookAndFeelChatWallpaperColorLabel(preset.id),
+                      selected:
+                          selection.kind == ChatWallpaperKind.color &&
+                          selection.id == preset.id,
+                      dim: selection.dim,
+                      onTap: () => unawaited(
+                        select(kind: ChatWallpaperKind.color, id: preset.id),
+                      ),
+                      child: ColoredBox(color: preset.color),
+                    ),
+                  ],
+                  for (final ChatWallpaperGradientPreset preset
+                      in ChatWallpaperCatalog.gradients) ...<Widget>[
+                    SizedBox(width: layout.s3),
+                    _WallpaperPresetCard(
+                      label: l10n.lookAndFeelChatWallpaperGradientLabel(
+                        preset.id,
+                      ),
+                      selected:
+                          selection.kind == ChatWallpaperKind.gradient &&
+                          selection.id == preset.id,
+                      dim: selection.dim,
+                      onTap: () => unawaited(
+                        select(kind: ChatWallpaperKind.gradient, id: preset.id),
+                      ),
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: preset.begin,
+                            end: preset.end,
+                            colors: preset.colors,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                  for (final ChatWallpaperImagePreset preset
+                      in ChatWallpaperCatalog.bundledImages) ...<Widget>[
+                    SizedBox(width: layout.s3),
+                    _WallpaperPresetCard(
+                      label: preset.id,
+                      selected:
+                          selection.kind == ChatWallpaperKind.preset &&
+                          selection.id == preset.id,
+                      dim: selection.dim,
+                      onTap: () => unawaited(
+                        select(kind: ChatWallpaperKind.preset, id: preset.id),
+                      ),
+                      child: Image(
+                        image: AssetImage(preset.assetPath),
+                        fit: BoxFit.cover,
+                        filterQuality: FilterQuality.low,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
           ),
         ),
         SizedBox(height: layout.s5),
@@ -158,6 +178,7 @@ class ChatWallpaperSection extends ConsumerWidget {
     WidgetRef ref,
     ChatWallpaperSnapshot snapshot,
   ) async {
+    FluxerHaptics.selection();
     if (snapshot.selection.kind != ChatWallpaperKind.custom &&
         snapshot.hasCustomImage) {
       await ref
@@ -215,6 +236,7 @@ class _WallpaperPresetCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final motion = context.motion;
     const double radius = ChatWallpaperSection._cardRadius;
     return FluxerTappable(
       onTap: onTap,
@@ -235,7 +257,9 @@ class _WallpaperPresetCard extends StatelessWidget {
                 const _WallpaperChatSkeleton(),
                 ?footer,
                 Positioned.fill(
-                  child: DecoratedBox(
+                  child: AnimatedContainer(
+                    duration: motion.normal,
+                    curve: motion.curve,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(radius),
                       border: Border.all(
@@ -247,16 +271,23 @@ class _WallpaperPresetCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (selected)
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        bottom: footer != null ? 32 : 10,
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: footer != null ? 32 : 10),
+                    child: AnimatedScale(
+                      scale: selected ? 1 : 0.4,
+                      duration: motion.normal,
+                      curve: motion.emphasizedCurve,
+                      child: AnimatedOpacity(
+                        opacity: selected ? 1 : 0,
+                        duration: motion.fast,
+                        curve: motion.curve,
+                        child: const IgnorePointer(child: _SelectionCheck()),
                       ),
-                      child: const _SelectionCheck(),
                     ),
                   ),
+                ),
               ],
             ),
           ),
