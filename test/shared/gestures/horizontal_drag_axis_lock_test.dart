@@ -22,24 +22,24 @@ void main() {
       );
     });
 
-    test('sideways past slop stays pending until a committed swipe', () {
+    test('claims a flat swipe at slop', () {
       expect(
         resolveHorizontalDragAxisLock(
-          deltaFromStart: const Offset(-40, 0),
+          deltaFromStart: const Offset(-20, 0),
           slop: slop,
         ),
-        HorizontalDragAxisLockDecision.pending,
+        HorizontalDragAxisLockDecision.keepHorizontal,
       );
       expect(
         resolveHorizontalDragAxisLock(
-          deltaFromStart: const Offset(40, 0),
+          deltaFromStart: const Offset(20, 4),
           slop: slop,
         ),
-        HorizontalDragAxisLockDecision.pending,
+        HorizontalDragAxisLockDecision.yieldToRightward,
       );
     });
 
-    test('yields to vertical as soon as dy crosses slop', () {
+    test('yields to vertical as soon as dy dominates', () {
       expect(
         resolveHorizontalDragAxisLock(
           deltaFromStart: const Offset(12, 40),
@@ -87,31 +87,34 @@ void main() {
       );
     });
 
-    test('horizontally noisy first sample yields to vertical', () {
+    test('1.5x horizontal with small vertical still swipes at slop', () {
       expect(
         resolveHorizontalDragAxisLock(
-          deltaFromStart: const Offset(36, 10),
+          deltaFromStart: const Offset(-24, 8),
           slop: slop,
         ),
-        HorizontalDragAxisLockDecision.yieldToVertical,
+        HorizontalDragAxisLockDecision.keepHorizontal,
       );
       expect(
         resolveHorizontalDragAxisLock(
-          deltaFromStart: const Offset(-40, 12),
+          deltaFromStart: const Offset(22, 6),
           slop: slop,
         ),
-        HorizontalDragAxisLockDecision.yieldToVertical,
+        HorizontalDragAxisLockDecision.yieldToRightward,
       );
+    });
+
+    test('ambiguous past-slop diagonal yields to vertical', () {
       expect(
         resolveHorizontalDragAxisLock(
-          deltaFromStart: const Offset(40, 12),
-          slop: 8,
+          deltaFromStart: const Offset(20, 16),
+          slop: slop,
         ),
         HorizontalDragAxisLockDecision.yieldToVertical,
       );
     });
 
-    test('yields rightward only when clearly rightward', () {
+    test('yields rightward when clearly rightward', () {
       expect(
         resolveHorizontalDragAxisLock(
           deltaFromStart: const Offset(80, 0),
@@ -128,7 +131,33 @@ void main() {
       );
     });
 
-    test('fast coalesced arc yields even when dy is under slop', () {
+    test('keeps leftward when clearly leftward', () {
+      expect(
+        resolveHorizontalDragAxisLock(
+          deltaFromStart: const Offset(-80, 0),
+          slop: slop,
+        ),
+        HorizontalDragAxisLockDecision.keepHorizontal,
+      );
+      expect(
+        resolveHorizontalDragAxisLock(
+          deltaFromStart: const Offset(-150, 8),
+          slop: slop,
+        ),
+        HorizontalDragAxisLockDecision.keepHorizontal,
+      );
+    });
+  });
+
+  group('coalesced jump vs normal swipe', () {
+    test('coalesced first jump with vertical yields to scroll', () {
+      expect(
+        resolveHorizontalDragAxisLock(
+          deltaFromStart: const Offset(36, 10),
+          slop: slop,
+        ),
+        HorizontalDragAxisLockDecision.yieldToVertical,
+      );
       expect(
         resolveHorizontalDragAxisLock(
           deltaFromStart: const Offset(80, 16),
@@ -147,29 +176,23 @@ void main() {
       );
     });
 
-    test('slow large horizontal swipe is not treated as a fast flick', () {
+    test('fast almost-flat jump still swipes', () {
       expect(
         resolveHorizontalDragAxisLock(
-          deltaFromStart: const Offset(-80, 16),
+          deltaFromStart: const Offset(-80, 8),
           slop: slop,
-          elapsed: const Duration(milliseconds: 200),
+          elapsed: Duration.zero,
         ),
         HorizontalDragAxisLockDecision.keepHorizontal,
       );
     });
 
-    test('keeps leftward only when clearly leftward', () {
+    test('slow large swipe is not treated as a coalesced jump', () {
       expect(
         resolveHorizontalDragAxisLock(
-          deltaFromStart: const Offset(-80, 0),
+          deltaFromStart: const Offset(-80, 16),
           slop: slop,
-        ),
-        HorizontalDragAxisLockDecision.keepHorizontal,
-      );
-      expect(
-        resolveHorizontalDragAxisLock(
-          deltaFromStart: const Offset(-150, 0),
-          slop: slop,
+          elapsed: const Duration(milliseconds: 200),
         ),
         HorizontalDragAxisLockDecision.keepHorizontal,
       );
@@ -182,7 +205,6 @@ void main() {
         resolveHorizontalDragAxisLock(
           deltaFromStart: const Offset(0, 40),
           slop: slop,
-          elapsed: const Duration(milliseconds: 200),
         ),
         HorizontalDragAxisLockDecision.yieldToVertical,
       );
@@ -190,7 +212,6 @@ void main() {
         resolveHorizontalDragAxisLock(
           deltaFromStart: const Offset(0, -40),
           slop: slop,
-          elapsed: const Duration(milliseconds: 200),
         ),
         HorizontalDragAxisLockDecision.yieldToVertical,
       );
@@ -218,7 +239,6 @@ void main() {
         resolveHorizontalDragAxisLock(
           deltaFromStart: const Offset(0, 80),
           slop: slop,
-          elapsed: Duration.zero,
         ),
         HorizontalDragAxisLockDecision.yieldToVertical,
       );
@@ -226,7 +246,6 @@ void main() {
         resolveHorizontalDragAxisLock(
           deltaFromStart: const Offset(8, -90),
           slop: slop,
-          elapsed: const Duration(milliseconds: 16),
         ),
         HorizontalDragAxisLockDecision.yieldToVertical,
       );
@@ -254,7 +273,6 @@ void main() {
         resolveHorizontalDragAxisLock(
           deltaFromStart: const Offset(30, 40),
           slop: slop,
-          elapsed: const Duration(milliseconds: 180),
         ),
         HorizontalDragAxisLockDecision.yieldToVertical,
       );
@@ -262,35 +280,6 @@ void main() {
         resolveHorizontalDragAxisLock(
           deltaFromStart: const Offset(-60, 60),
           slop: slop,
-          elapsed: const Duration(milliseconds: 16),
-        ),
-        HorizontalDragAxisLockDecision.yieldToVertical,
-      );
-    });
-
-    test('sideways start can still become a vertical scroll', () {
-      expect(
-        resolveHorizontalDragAxisLock(
-          deltaFromStart: const Offset(-32, 0),
-          slop: slop,
-        ),
-        HorizontalDragAxisLockDecision.pending,
-      );
-      expect(
-        resolveHorizontalDragAxisLock(
-          deltaFromStart: const Offset(-32, 40),
-          slop: slop,
-        ),
-        HorizontalDragAxisLockDecision.yieldToVertical,
-      );
-    });
-
-    test('medium elapsed mixed move still yields once dy crosses slop', () {
-      expect(
-        resolveHorizontalDragAxisLock(
-          deltaFromStart: const Offset(20, 40),
-          slop: slop,
-          elapsed: const Duration(milliseconds: 50),
         ),
         HorizontalDragAxisLockDecision.yieldToVertical,
       );
