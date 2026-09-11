@@ -156,6 +156,7 @@ class UserPreferencesTable extends Table {
   TextColumn get hdrDisplayMode => text().withDefault(const Constant('full'))();
   TextColumn get defaultWebBrowser =>
       text().withDefault(const Constant('inApp'))();
+  TextColumn get chatWallpaperJson => text().withDefault(const Constant(''))();
 
   @override
   String get tableName => 'user_preferences';

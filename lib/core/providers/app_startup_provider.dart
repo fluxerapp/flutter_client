@@ -30,6 +30,7 @@ import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_gateway_listener_provider.dart';
+import 'package:fluxer_app/features/chat/providers/chat_wallpaper_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_sync_provider.dart';
 import 'package:fluxer_app/features/friends/providers/friend_relationships_sync_provider.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
@@ -246,6 +247,7 @@ class AppStartup extends _$AppStartup {
     await Future.wait<void>([
       ref.read(themePreferenceProvider.notifier).load(session.userId),
       ref.read(appearancePreferencesProvider.notifier).load(session.userId),
+      ref.read(chatWallpaperProvider.notifier).load(session.userId),
       ref.read(chatPreferencesProvider.notifier).load(session.userId),
       ref.read(advancedPreferencesProvider.notifier).load(session.userId),
       ref.read(defaultAppsPreferencesProvider.notifier).load(session.userId),

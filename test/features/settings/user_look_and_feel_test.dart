@@ -17,6 +17,7 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_look_and_feel.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_sync_service.dart';
+import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
@@ -192,11 +193,68 @@ void main() {
     expect(find.text('Theme'), findsOneWidget);
     expect(find.text('High dynamic range'), findsOneWidget);
     expect(find.text('App zoom level'), findsOneWidget);
+    expect(find.text('Chat Wallpaper'), findsOneWidget);
+    expect(
+      find.text('Choose a background for chat. This stays on this device.'),
+      findsOneWidget,
+    );
+    expect(find.text('Dim wallpaper'), findsOneWidget);
     expect(find.text('Messages'), findsOneWidget);
     expect(find.text('Interface'), findsOneWidget);
     expect(find.text('Channel List'), findsOneWidget);
     expect(find.text('Active Now'), findsOneWidget);
     expect(find.text('Favorites'), findsOneWidget);
+  });
+
+  testWidgets('tapping local-only wallpaper icon shows a toast', (
+    tester,
+  ) async {
+    _ignoreSliderOverflows();
+    tester.view.physicalSize = const Size(800, 2000);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(() {
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+    });
+
+    final container = ProviderContainer(
+      overrides: [
+        instanceRuntimeConfigOverride(),
+        fluxerDatabaseProvider.overrideWithValue(db),
+        userSettingsSyncProvider.overrideWith(_NoopUserSettingsSyncService.new),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: MaterialApp(
+          theme: buildFluxerTheme(
+            colorTheme: buildDarkColorTheme(),
+            textTheme: FluxerTextTheme.fromColors(buildDarkColorTheme()),
+            layoutTheme: FluxerLayoutTheme.scaled(),
+          ),
+          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          supportedLocales: FluxerLocalizations.supportedLocales,
+          home: Scaffold(
+            body: UserLookAndFeel(scrollController: ScrollController()),
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    await tester.tap(
+      find.bySemanticsLabel('This setting stays on this device'),
+    );
+    await tester.pump();
+
+    expect(
+      container.read(toastProvider).single.toast.message,
+      'Chat wallpaper is saved on this device only and does not sync to other devices.',
+    );
+    await tester.pump(const Duration(seconds: 5));
   });
 
   testWidgets('tapping light swatch updates theme preference', (tester) async {

@@ -250,7 +250,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		FBBF3E6C2FB7A6FD0080FF5E /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		FBBF3E6C2FB7A6FD0080FF5E /* Exceptions for "NotificationService" folder in "NotificationService" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -260,7 +260,18 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		FBBF3E592FB7A6FD0080FF5E /* NotificationService */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (FBBF3E6C2FB7A6FD0080FF5E /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = NotificationService; sourceTree = "<group>"; };
+		FBBF3E592FB7A6FD0080FF5E /* NotificationService */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				FBBF3E6C2FB7A6FD0080FF5E /* Exceptions for "NotificationService" folder in "NotificationService" target */,
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = NotificationService;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -641,8 +652,8 @@
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
 			packageReferences = (
-				781AD8BC2B33823900A9FFBB /* XCLocalSwiftPackageReference "Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage" */,
-				F1A2B3C4D5E6F708192A3B4E /* XCLocalSwiftPackageReference "Flutter/ephemeral/Packages/.packages/receive_sharing_intent-1.9.0" */,
+				781AD8BC2B33823900A9FFBB /* XCLocalSwiftPackageReference "FlutterGeneratedPluginSwiftPackage" */,
+				F1A2B3C4D5E6F708192A3B4E /* XCLocalSwiftPackageReference "receive_sharing_intent-1.9.0" */,
 			);
 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
 			projectDirPath = "";
@@ -790,13 +801,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3577,11 +3584,11 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		781AD8BC2B33823900A9FFBB /* XCLocalSwiftPackageReference "Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage" */ = {
+		781AD8BC2B33823900A9FFBB /* XCLocalSwiftPackageReference "FlutterGeneratedPluginSwiftPackage" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage;
 		};
-		F1A2B3C4D5E6F708192A3B4E /* XCLocalSwiftPackageReference "Flutter/ephemeral/Packages/.packages/receive_sharing_intent-1.9.0" */ = {
+		F1A2B3C4D5E6F708192A3B4E /* XCLocalSwiftPackageReference "receive_sharing_intent-1.9.0" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = "Flutter/ephemeral/Packages/.packages/receive_sharing_intent-1.9.0";
 		};
@@ -3594,7 +3601,7 @@
 		};
 		FBBBF6E83010D5F7005E613C /* receive-sharing-intent */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = F1A2B3C4D5E6F708192A3B4E /* XCLocalSwiftPackageReference "Flutter/ephemeral/Packages/.packages/receive_sharing_intent-1.9.0" */;
+			package = F1A2B3C4D5E6F708192A3B4E /* XCLocalSwiftPackageReference "receive_sharing_intent-1.9.0" */;
 			productName = "receive-sharing-intent";
 		};
 /* End XCSwiftPackageProductDependency section */

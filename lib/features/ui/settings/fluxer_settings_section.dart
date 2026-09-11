@@ -18,6 +18,7 @@ class FluxerSettingsSection extends StatelessWidget {
     this.isFirst = false,
     this.density = FluxerSettingsSectionDensity.comfortable,
     this.sectionId,
+    this.titleTrailing,
   });
 
   final String title;
@@ -26,6 +27,7 @@ class FluxerSettingsSection extends StatelessWidget {
   final List<Widget> children;
   final FluxerSettingsSectionDensity density;
   final String? sectionId;
+  final Widget? titleTrailing;
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +52,21 @@ class FluxerSettingsSection extends StatelessWidget {
             Divider(color: colors.borderColor),
             SizedBox(height: layout.s8),
           ],
-          Semantics(
-            header: true,
-            child: Text(
-              title,
-              style: textStyles.heading.copyWith(color: colors.textPrimary),
-            ),
+          Row(
+            children: [
+              Expanded(
+                child: Semantics(
+                  header: true,
+                  child: Text(
+                    title,
+                    style: textStyles.heading.copyWith(
+                      color: colors.textPrimary,
+                    ),
+                  ),
+                ),
+              ),
+              ?titleTrailing,
+            ],
           ),
           if (description != null) ...[
             SizedBox(height: layout.s1),

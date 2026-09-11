@@ -37,6 +37,7 @@ Set<String> knownUserSettingsFieldIdsForTab(String tab) {
         'theme',
         'hdr',
         'app-zoom-level',
+        'chat-wallpaper',
         'messages',
         'chat-font-scaling',
         'interface',
@@ -153,6 +154,8 @@ String? _scrollFieldLabel(FluxerLocalizations l10n, String scrollId) {
       return l10n.lookAndFeelMessagesSectionTitle;
     case 'app-zoom-level':
       return l10n.lookAndFeelAppZoomTitle;
+    case 'chat-wallpaper':
+      return l10n.lookAndFeelChatWallpaperTitle;
     case 'interface':
       return l10n.lookAndFeelInterfaceTitle;
     case 'channel-list':

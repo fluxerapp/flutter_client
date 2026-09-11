@@ -5681,6 +5681,56 @@
     "@lookAndFeelAppZoomDescription": {
         "description": "Section description for the app zoom slider."
     },
+    "lookAndFeelChatWallpaperTitle": "Chat Wallpaper",
+    "@lookAndFeelChatWallpaperTitle": {
+        "description": "Look and Feel section title for chat wallpaper presets."
+    },
+    "lookAndFeelChatWallpaperDescription": "Choose a background for chat. This stays on this device.",
+    "@lookAndFeelChatWallpaperDescription": {
+        "description": "Look and Feel section description for chat wallpaper presets."
+    },
+    "lookAndFeelChatWallpaperLocalOnlyTooltip": "This setting stays on this device",
+    "@lookAndFeelChatWallpaperLocalOnlyTooltip": {
+        "description": "Accessibility label for the icon indicating chat wallpaper does not sync."
+    },
+    "lookAndFeelChatWallpaperLocalOnlyToast": "Chat wallpaper is saved on this device only and does not sync to other devices.",
+    "@lookAndFeelChatWallpaperLocalOnlyToast": {
+        "description": "Toast shown when tapping the local-only icon on Chat Wallpaper."
+    },
+    "lookAndFeelChatWallpaperDefaultLabel": "Default",
+    "@lookAndFeelChatWallpaperDefaultLabel": {
+        "description": "Chat wallpaper preset that uses the theme chat background."
+    },
+    "lookAndFeelChatWallpaperCustomLabel": "Custom image",
+    "@lookAndFeelChatWallpaperCustomLabel": {
+        "description": "Chat wallpaper option that picks an image from the gallery."
+    },
+    "lookAndFeelChatWallpaperColorLabel": "Color {id}",
+    "@lookAndFeelChatWallpaperColorLabel": {
+        "description": "Accessibility label for a solid color wallpaper preset.",
+        "placeholders": {
+            "id": {
+                "type": "String"
+            }
+        }
+    },
+    "lookAndFeelChatWallpaperGradientLabel": "Gradient {id}",
+    "@lookAndFeelChatWallpaperGradientLabel": {
+        "description": "Accessibility label for a gradient wallpaper preset.",
+        "placeholders": {
+            "id": {
+                "type": "String"
+            }
+        }
+    },
+    "lookAndFeelChatWallpaperDimLabel": "Dim wallpaper",
+    "@lookAndFeelChatWallpaperDimLabel": {
+        "description": "Slider label for how dark the overlay on the chat wallpaper is."
+    },
+    "lookAndFeelChatWallpaperPickFailed": "Could not set that image as your wallpaper.",
+    "@lookAndFeelChatWallpaperPickFailed": {
+        "description": "Toast shown when a custom wallpaper image cannot be decoded or saved."
+    },
     "lookAndFeelMessagesSectionTitle": "Messages",
     "@lookAndFeelMessagesSectionTitle": {
         "description": "Section title for message layout settings in Look & Feel."

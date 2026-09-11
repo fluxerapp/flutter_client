@@ -58,6 +58,7 @@ import 'package:fluxer_app/features/chat/presentation/'
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/system_message.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
+import 'package:fluxer_app/features/chat/providers/chat_wallpaper_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/core/message_pagination_coordinator.dart';
@@ -67,6 +68,7 @@ import 'package:fluxer_app/features/chat/utils/message_action_permissions.dart';
 import 'package:fluxer_app/features/chat/utils/message_grouping_utils.dart';
 import 'package:fluxer_app/features/chat/utils/message_page_sync.dart';
 import 'package:fluxer_app/features/chat/utils/pinned_system_message_navigation.dart';
+import 'package:fluxer_app/features/chat/wallpaper/chat_wallpaper.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_welcome_section.dart';
@@ -2959,24 +2961,7 @@ class _MessageListState extends ConsumerState<MessageList> {
                 ),
               ],
             ),
-            ColoredBox(
-              color: context.colors.chatBackground,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Text(
-                  formatted,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: context.textStyles.smallText.copyWith(
-                    color: danger,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    height: 1,
-                    letterSpacing: 0,
-                  ),
-                ),
-              ),
-            ),
+            _UnreadDateLabel(formatted: formatted, danger: danger),
           ],
         ),
       ),
@@ -3030,6 +3015,45 @@ class _MessageListState extends ConsumerState<MessageList> {
           ),
           Expanded(child: Divider(color: context.colors.borderColor)),
         ],
+      ),
+    );
+  }
+}
+
+class _UnreadDateLabel extends ConsumerWidget {
+  const _UnreadDateLabel({required this.formatted, required this.danger});
+
+  final String formatted;
+  final Color danger;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bool useOpaqueFill = ref.watch(
+      chatWallpaperProvider.select(
+        (ChatWallpaperSnapshot snapshot) => snapshot.resolved.isThemeBackground,
+      ),
+    );
+    return ColoredBox(
+      color: useOpaqueFill ? context.colors.chatBackground : Colors.transparent,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Text(
+          formatted,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: context.textStyles.smallText.copyWith(
+            color: danger,
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            height: 1,
+            letterSpacing: 0,
+            shadows: useOpaqueFill
+                ? null
+                : const <Shadow>[
+                    Shadow(color: Color(0xCC000000), blurRadius: 4),
+                  ],
+          ),
+        ),
       ),
     );
   }

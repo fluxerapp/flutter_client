@@ -170,6 +170,17 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     ],
   ),
   _UserSettingsSearchOption(
+    id: 'look-and-feel:chat-wallpaper',
+    section: UserSettingsSection.lookAndFeel,
+    fieldId: 'chat-wallpaper',
+    label: _l((l10n) => l10n.lookAndFeelChatWallpaperTitle),
+    description: _l((l10n) => l10n.lookAndFeelChatWallpaperDescription),
+    keywords: [
+      _l((l10n) => l10n.lookAndFeelChatWallpaperCustomLabel),
+      _l((l10n) => l10n.lookAndFeelChatWallpaperDimLabel),
+    ],
+  ),
+  _UserSettingsSearchOption(
     id: 'look-and-feel:chat-font-size',
     section: UserSettingsSection.lookAndFeel,
     fieldId: 'messages',
