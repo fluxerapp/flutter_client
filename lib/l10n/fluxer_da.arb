@@ -3,7 +3,7 @@
     "@reconnectingTitle": {
         "description": "Title on the reconnecting / server error screen."
     },
-    "reconnectingBody": "Der er noget galt med serverne.\nDet burde være fikset om et øjeblik!",
+    "reconnectingBody": "Noget er galt med instansen.\nDet burde være fikset om et øjeblik!",
     "@reconnectingBody": {
         "description": "Subtitle on the reconnecting screen explaining temporary server issues."
     },
@@ -2551,7 +2551,7 @@
     "@phoneAddHint": {
         "description": "Hint for phone input."
     },
-    "phoneAddFooter": "Indtast dit telefonnummer. Vi sender dig en bekræftelseskode via SMS.",
+    "phoneAddFooter": "Vi sender en SMS-kode, når den er tilgængelig. Dit nummer er ikke knyttet til din konto. Vi gemmer kun en krypteret markør, uden bruger-id, for at tillade højst 2 bekræftelser inden for ca. 30 dage.",
     "@phoneAddFooter": {
         "description": "Footer text for phone input."
     },
@@ -2567,7 +2567,7 @@
     "@phoneVerifyDescription": {
         "description": "Description for phone verify step."
     },
-    "phoneAddSuccess": "Telefonnummer tilføjet",
+    "phoneAddSuccess": "Telefonnummer bekræftet",
     "@phoneAddSuccess": {
         "description": "Toast after phone added."
     },
@@ -3892,7 +3892,7 @@
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
     },
-    "voiceMessageHoldHint": "Hold nede for at optage. Træk op for at låse, eller slip for at sende.",
+    "voiceMessageHoldHint": "Hold for at optage. Træk til papirkurven for at slette, skub op for at låse, eller slip for at sende.",
     "@voiceMessageHoldHint": {
         "description": "Hint shown next to the hold-to-record microphone button."
     },
@@ -4006,7 +4006,7 @@
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
     },
-    "chatAttachmentPasteTooltip": "Indsæt billede fra udklipsholder",
+    "chatAttachmentPasteTooltip": "Indsæt fil fra udklipsholder",
     "@chatAttachmentPasteTooltip": {
         "description": "Tooltip for pasting an image attachment from the clipboard."
     },
@@ -5182,7 +5182,7 @@
     "@voiceChannelEmptyDescription": {
         "description": "Empty state body when viewing a guild voice channel while not in the call."
     },
-    "voiceChannelJoin": "Deltag i stemmekanal",
+    "voiceChannelJoin": "Deltag i talechat",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
     },
@@ -6238,11 +6238,11 @@
     "@chatReplyMentionAccessibilityLabel": {
         "description": "Accessibility label for the reply bar mention toggle."
     },
-    "chatReplyMentionOn": "Til",
+    "chatReplyMentionOn": "ON",
     "@chatReplyMentionOn": {
         "description": "On state suffix appended to the reply bar mention toggle label."
     },
-    "chatReplyMentionOff": "Fra",
+    "chatReplyMentionOff": "OFF",
     "@chatReplyMentionOff": {
         "description": "Off state suffix appended to the reply bar mention toggle label."
     },
@@ -6585,7 +6585,7 @@
     "@userSettingsNavFluxerPlutonium": {
         "description": "User settings navigation item for Fluxer Plutonium subscription settings."
     },
-    "userSettingsNavGiftsAndCodes": "Gaver og koder",
+    "userSettingsNavGiftsAndCodes": "Gavers",
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
@@ -7474,11 +7474,11 @@
     "@guildMenuSettingsRoles": {
         "description": "Community settings tab for roles and permissions."
     },
-    "guildMenuSettingsEmoji": "Brugerdefinerede emojis",
+    "guildMenuSettingsEmoji": "Emoji",
     "@guildMenuSettingsEmoji": {
         "description": "Community settings tab for custom emoji."
     },
-    "guildMenuSettingsStickers": "Brugerdefinerede klistermærker",
+    "guildMenuSettingsStickers": "Klistermærker",
     "@guildMenuSettingsStickers": {
         "description": "Community settings tab for custom stickers."
     },
@@ -7506,7 +7506,7 @@
     "@guildMenuSettingsMembers": {
         "description": "Community settings tab for member management."
     },
-    "guildMenuSettingsInviteLinks": "Invitationslinks",
+    "guildMenuSettingsInviteLinks": "Invitationer",
     "@guildMenuSettingsInviteLinks": {
         "description": "Community settings tab for invite links."
     },
@@ -8651,11 +8651,11 @@
     "@guildSettingsLoadingMore": {
         "description": "Loading state for pagination."
     },
-    "guildSettingsWebhooksDescription": "Administrer webhooks, der sender beskeder til kanaler.",
+    "guildSettingsWebhooksDescription": "Se og administrer alle webhooks, der er konfigureret i dit fællesskab.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
     },
-    "guildSettingsWebhooksEmpty": "Ingen webhooks konfigureret.",
+    "guildSettingsWebhooksEmpty": "Ingen webhooks",
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
@@ -8696,11 +8696,11 @@
             }
         }
     },
-    "guildSettingsDiscoveryDescription": "Ansøg om at blive vist i serveropdagelse.",
+    "guildSettingsDiscoveryDescription": "Vis dit fællesskab i Oplev, så andre kan finde og tilmelde sig det.",
     "@guildSettingsDiscoveryDescription": {
         "description": "Description for discovery tab."
     },
-    "guildSettingsDiscoveryNotEligible": "Kræver mindst {count} medlemmer for at ansøge.",
+    "guildSettingsDiscoveryNotEligible": "Dit fællesskab skal have mindst {count} medlemmer, før det kan vises i Opdag.",
     "@guildSettingsDiscoveryNotEligible": {
         "description": "Discovery eligibility message.",
         "placeholders": {
@@ -8721,11 +8721,11 @@
     "@guildSettingsDiscoveryTags": {
         "description": "Label for discovery tags field."
     },
-    "guildSettingsDiscoveryTagsHint": "gaming, kunst, musik",
+    "guildSettingsDiscoveryTagsHint": "Tilføj et tag, og tryk på Enter",
     "@guildSettingsDiscoveryTagsHint": {
         "description": "Hint for discovery tags field."
     },
-    "guildSettingsDiscoveryApply": "Send ansøgning",
+    "guildSettingsDiscoveryApply": "Anvend",
     "@guildSettingsDiscoveryApply": {
         "description": "Button to submit discovery application."
     },
@@ -8737,7 +8737,7 @@
     "@guildSettingsMembersDescription": {
         "description": "Description for members tab."
     },
-    "guildSettingsMembersSearchHint": "Søg efter medlemmer",
+    "guildSettingsMembersSearchHint": "Søg efter brugernavn eller id",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
     },
@@ -8750,11 +8750,11 @@
             }
         }
     },
-    "guildSettingsInvitesDescription": "Se og tilbagekald aktive invitationslinks.",
+    "guildSettingsInvitesDescription": "Se alle invitationer til dette fællesskab. For at oprette en ny invitation skal du gå til en kanal og bruge invitationsknappen.",
     "@guildSettingsInvitesDescription": {
         "description": "Description for invites tab."
     },
-    "guildSettingsInvitesEmpty": "Ingen aktive invitationer.",
+    "guildSettingsInvitesEmpty": "Ingen invitationslinks",
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
@@ -9154,7 +9154,7 @@
         }
     },
     "guildSettingsStickersSearchHint": "Søg efter klistermærker",
-    "guildSettingsWebhooksInfo": "Opret webhooks fra Kanalindstillinger. Rediger dem her.",
+    "guildSettingsWebhooksInfo": "For at oprette en webhook skal du åbne {channelSettingsPath}. Du kan stadig redigere og organisere alle eksisterende webhooks her.",
     "guildSettingsVanityUrlWarning": "Din vanity URL vil ikke virke, medmindre mindst én kanal er synlig for alle.",
     "guildSettingsVanityUrlRemove": "Fjern",
     "guildSettingsBannedUsersTitle": "Bannlyste brugere",

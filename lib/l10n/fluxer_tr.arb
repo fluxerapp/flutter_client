@@ -3,7 +3,7 @@
     "@reconnectingTitle": {
         "description": "Title on the reconnecting / server error screen."
     },
-    "reconnectingBody": "Sunucularda bir sorun var.\nBirazdan düzelir!",
+    "reconnectingBody": "Sunucuda bir sorun var.\nBirazdan düzelecek!",
     "@reconnectingBody": {
         "description": "Subtitle on the reconnecting screen explaining temporary server issues."
     },
@@ -1017,7 +1017,7 @@
     "@dmAddNote": {
         "description": "DM context menu action to add a note about the user."
     },
-    "dmEditGroup": "Grubu Düzenle",
+    "dmEditGroup": "Grubu düzenle",
     "@dmEditGroup": {
         "description": "DM context menu action to edit a group DM."
     },
@@ -2551,7 +2551,7 @@
     "@phoneAddHint": {
         "description": "Hint for phone input."
     },
-    "phoneAddFooter": "Telefon numaranızı girin. SMS ile bir doğrulama kodu göndereceğiz.",
+    "phoneAddFooter": "SMS kodu mevcut olduğunda gönderilecektir. Numaranız hesabınıza bağlı değildir. Yaklaşık 30 gün içinde en fazla 2 doğrulamaya izin vermek için şifrelenmiş bir işaretleyici saklıyoruz, kullanıcı kimliği olmadan.",
     "@phoneAddFooter": {
         "description": "Footer text for phone input."
     },
@@ -2567,7 +2567,7 @@
     "@phoneVerifyDescription": {
         "description": "Description for phone verify step."
     },
-    "phoneAddSuccess": "Telefon numarası eklendi",
+    "phoneAddSuccess": "Telefon numarası doğrulandı",
     "@phoneAddSuccess": {
         "description": "Toast after phone added."
     },
@@ -2862,7 +2862,7 @@
             }
         }
     },
-    "blockedUsersCopyTag": "Fluxer Etiketi Kopyala",
+    "blockedUsersCopyTag": "Kullanıcı adını kopyala",
     "@blockedUsersCopyTag": {
         "description": "Context menu item that copies the user's tag."
     },
@@ -3892,7 +3892,7 @@
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
     },
-    "voiceMessageHoldHint": "Kaydetmek için basılı tut. Kilitlemek için yukarı sürükle veya göndermek için bırak.",
+    "voiceMessageHoldHint": "Kaydetmek için basılı tutun. Silmek için sürükleyin, kilitlemek için yukarı kaydırın veya göndermek için bırakın.",
     "@voiceMessageHoldHint": {
         "description": "Hint shown next to the hold-to-record microphone button."
     },
@@ -4006,7 +4006,7 @@
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
     },
-    "chatAttachmentPasteTooltip": "Panodan resmi yapıştır",
+    "chatAttachmentPasteTooltip": "Panodan dosya yapıştır",
     "@chatAttachmentPasteTooltip": {
         "description": "Tooltip for pasting an image attachment from the clipboard."
     },
@@ -4483,7 +4483,7 @@
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
     },
-    "lookAndFeelChatFontScalingTitle": "Sohbet Yazı Tipi Boyutlandırma",
+    "lookAndFeelChatFontScalingTitle": "Sohbet yazı tipi ölçeklendirmesi",
     "@lookAndFeelChatFontScalingTitle": {
         "description": "Section title for the chat font size slider."
     },
@@ -5182,7 +5182,7 @@
     "@voiceChannelEmptyDescription": {
         "description": "Empty state body when viewing a guild voice channel while not in the call."
     },
-    "voiceChannelJoin": "Sesli Kanala Katıl",
+    "voiceChannelJoin": "Sesli kanala katıl",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
     },
@@ -6238,11 +6238,11 @@
     "@chatReplyMentionAccessibilityLabel": {
         "description": "Accessibility label for the reply bar mention toggle."
     },
-    "chatReplyMentionOn": "Açık",
+    "chatReplyMentionOn": "ON",
     "@chatReplyMentionOn": {
         "description": "On state suffix appended to the reply bar mention toggle label."
     },
-    "chatReplyMentionOff": "Kapalı",
+    "chatReplyMentionOff": "OFF",
     "@chatReplyMentionOff": {
         "description": "Off state suffix appended to the reply bar mention toggle label."
     },
@@ -6585,7 +6585,7 @@
     "@userSettingsNavFluxerPlutonium": {
         "description": "User settings navigation item for Fluxer Plutonium subscription settings."
     },
-    "userSettingsNavGiftsAndCodes": "Hediyeler ve Kodlar",
+    "userSettingsNavGiftsAndCodes": "Hediyeler",
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
@@ -7142,11 +7142,11 @@
     "@guildNavbarGroupDm": {
         "description": "Secondary label for a group DM in the invite recipients list."
     },
-    "guildNavbarCreateChannel": "Kanal Oluştur",
+    "guildNavbarCreateChannel": "Kanal oluştur",
     "@guildNavbarCreateChannel": {
         "description": "Title and confirm label for the create channel modal."
     },
-    "guildNavbarChannelType": "Kanal Türü",
+    "guildNavbarChannelType": "Kanal türü",
     "@guildNavbarChannelType": {
         "description": "Section label for channel type selection in create channel modal."
     },
@@ -7190,11 +7190,11 @@
     "@guildNavbarUrlHint": {
         "description": "Placeholder hint for URL input in link channel creation."
     },
-    "guildNavbarCreateCategory": "Kategori Oluştur",
+    "guildNavbarCreateCategory": "Kategori oluştur",
     "@guildNavbarCreateCategory": {
         "description": "Title and confirm label for the create category modal."
     },
-    "guildNavbarNewCategoryHint": "Yeni Kategori",
+    "guildNavbarNewCategoryHint": "Yeni kategori",
     "@guildNavbarNewCategoryHint": {
         "description": "Placeholder hint for new category name input."
     },
@@ -7474,11 +7474,11 @@
     "@guildMenuSettingsRoles": {
         "description": "Community settings tab for roles and permissions."
     },
-    "guildMenuSettingsEmoji": "Özel Emojiler",
+    "guildMenuSettingsEmoji": "Emoji",
     "@guildMenuSettingsEmoji": {
         "description": "Community settings tab for custom emoji."
     },
-    "guildMenuSettingsStickers": "Özel Çıkartmalar",
+    "guildMenuSettingsStickers": "Çıkartmalar",
     "@guildMenuSettingsStickers": {
         "description": "Community settings tab for custom stickers."
     },
@@ -7506,7 +7506,7 @@
     "@guildMenuSettingsMembers": {
         "description": "Community settings tab for member management."
     },
-    "guildMenuSettingsInviteLinks": "Davet Bağlantıları",
+    "guildMenuSettingsInviteLinks": "Davetler",
     "@guildMenuSettingsInviteLinks": {
         "description": "Community settings tab for invite links."
     },
@@ -7558,7 +7558,7 @@
     "@guildSettingsRolesDescription": {
         "description": "Description for the roles settings tab."
     },
-    "guildSettingsCreateRole": "Rol Oluştur",
+    "guildSettingsCreateRole": "Rol oluştur",
     "@guildSettingsCreateRole": {
         "description": "Button to create a new role."
     },
@@ -8651,11 +8651,11 @@
     "@guildSettingsLoadingMore": {
         "description": "Loading state for pagination."
     },
-    "guildSettingsWebhooksDescription": "Kanallara mesaj gönderen webhook'ları yönetin.",
+    "guildSettingsWebhooksDescription": "Topluluğunuzda yapılandırılmış tüm webhook'ları görüntüleyin ve yönetin.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
     },
-    "guildSettingsWebhooksEmpty": "Yapılandırılmış webhook yok.",
+    "guildSettingsWebhooksEmpty": "Web Kancası yok",
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
@@ -8696,11 +8696,11 @@
             }
         }
     },
-    "guildSettingsDiscoveryDescription": "Sunucu keşfetme listesinde yer almak için başvurun.",
+    "guildSettingsDiscoveryDescription": "Topluluğunuzu Keşfet'te listeleyin, böylece başkaları bulup katılabilsin.",
     "@guildSettingsDiscoveryDescription": {
         "description": "Description for discovery tab."
     },
-    "guildSettingsDiscoveryNotEligible": "Başvurmak için en az {count} üyeye sahip olmanız gerekir.",
+    "guildSettingsDiscoveryNotEligible": "Topluluğunuzun Keşfet'te listelenebilmesi için en az {count} üyeye sahip olması gerekir.",
     "@guildSettingsDiscoveryNotEligible": {
         "description": "Discovery eligibility message.",
         "placeholders": {
@@ -8717,15 +8717,15 @@
     "@guildSettingsDiscoveryDescriptionField": {
         "description": "Label for discovery description field."
     },
-    "guildSettingsDiscoveryTags": "Etiketler",
+    "guildSettingsDiscoveryTags": "Özel etiketler",
     "@guildSettingsDiscoveryTags": {
         "description": "Label for discovery tags field."
     },
-    "guildSettingsDiscoveryTagsHint": "oyun, sanat, müzik",
+    "guildSettingsDiscoveryTagsHint": "Bir etiket ekle ve Enter'a bas",
     "@guildSettingsDiscoveryTagsHint": {
         "description": "Hint for discovery tags field."
     },
-    "guildSettingsDiscoveryApply": "Başvuruyu Gönder",
+    "guildSettingsDiscoveryApply": "Uygula",
     "@guildSettingsDiscoveryApply": {
         "description": "Button to submit discovery application."
     },
@@ -8737,7 +8737,7 @@
     "@guildSettingsMembersDescription": {
         "description": "Description for members tab."
     },
-    "guildSettingsMembersSearchHint": "Üyeleri ara",
+    "guildSettingsMembersSearchHint": "Kullanıcı adına veya kimliğe göre ara",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
     },
@@ -8750,11 +8750,11 @@
             }
         }
     },
-    "guildSettingsInvitesDescription": "Aktif davet bağlantılarını görüntüleyin ve geri alın.",
+    "guildSettingsInvitesDescription": "Bu topluluğun tüm davetlerini görüntüleyin. Yeni bir davet oluşturmak için bir kanala gidin ve davet et düğmesini kullanın.",
     "@guildSettingsInvitesDescription": {
         "description": "Description for invites tab."
     },
-    "guildSettingsInvitesEmpty": "Aktif davet yok.",
+    "guildSettingsInvitesEmpty": "Davet bağlantısı yok",
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
@@ -9136,7 +9136,7 @@
     "guildSettingsModeration2faOwnerOnlyTooltip": "Bu ayarı yalnızca topluluk sahibi değiştirebilir",
     "guildSettingsModeration2faEnableFirstTooltip": "Bu ayarı değiştirmek için hesabınızda iki faktörlü kimlik doğrulamayı etkinleştirin",
     "guildSettingsEmojiSearchHint": "Emoji ara",
-    "guildSettingsEmojiUploadTitle": "Emoji Yükle",
+    "guildSettingsEmojiUploadTitle": "Emoji yükle",
     "guildSettingsNonAnimatedEmoji": "Animasyonsuz emoji ({count})",
     "@guildSettingsNonAnimatedEmoji": {
         "placeholders": {
@@ -9154,7 +9154,7 @@
         }
     },
     "guildSettingsStickersSearchHint": "Çıkartma ara",
-    "guildSettingsWebhooksInfo": "Kanal ayarlarından webhook'lar oluşturun. Bunları buradan düzenleyin.",
+    "guildSettingsWebhooksInfo": "Webhook oluşturmak için {channelSettingsPath} bölümünü açın. Mevcut tüm webhook'ları buradan düzenleyebilir ve organize edebilirsiniz.",
     "guildSettingsVanityUrlWarning": "Vanity URL'niz, en az bir kanal herkese açık olmadıkça çalışmaz.",
     "guildSettingsVanityUrlRemove": "Kaldır",
     "guildSettingsBannedUsersTitle": "Yasaklanan kullanıcılar",

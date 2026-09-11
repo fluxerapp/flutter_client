@@ -8651,11 +8651,11 @@
     "@guildSettingsLoadingMore": {
         "description": "Loading state for pagination."
     },
-    "guildSettingsWebhooksDescription": "Gestiona los webhooks que publican mensajes en los canales.",
+    "guildSettingsWebhooksDescription": "Ve y administra cada webhook configurado en tu comunidad.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
     },
-    "guildSettingsWebhooksEmpty": "No hay webhooks configurados.",
+    "guildSettingsWebhooksEmpty": "No hay webhooks",
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
@@ -8696,11 +8696,11 @@
             }
         }
     },
-    "guildSettingsDiscoveryDescription": "Solicita ser incluido en la lista de descubrimiento de servidores.",
+    "guildSettingsDiscoveryDescription": "Lista tu comunidad en Descubrir para que otros puedan encontrarla y unirse.",
     "@guildSettingsDiscoveryDescription": {
         "description": "Description for discovery tab."
     },
-    "guildSettingsDiscoveryNotEligible": "Se requieren al menos {count} miembros para solicitar.",
+    "guildSettingsDiscoveryNotEligible": "Tu comunidad necesita al menos {count} miembros para poder aparecer en Descubrimiento.",
     "@guildSettingsDiscoveryNotEligible": {
         "description": "Discovery eligibility message.",
         "placeholders": {
@@ -8721,7 +8721,7 @@
     "@guildSettingsDiscoveryTags": {
         "description": "Label for discovery tags field."
     },
-    "guildSettingsDiscoveryTagsHint": "juegos, arte, música",
+    "guildSettingsDiscoveryTagsHint": "Agrega una etiqueta y presiona Intro",
     "@guildSettingsDiscoveryTagsHint": {
         "description": "Hint for discovery tags field."
     },
@@ -8737,7 +8737,7 @@
     "@guildSettingsMembersDescription": {
         "description": "Description for members tab."
     },
-    "guildSettingsMembersSearchHint": "Busca miembros",
+    "guildSettingsMembersSearchHint": "Buscar por nombre de usuario o ID",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
     },
@@ -9154,7 +9154,7 @@
         }
     },
     "guildSettingsStickersSearchHint": "Buscar stickers",
-    "guildSettingsWebhooksInfo": "Crea webhooks desde la configuración del canal. Edítalos aquí.",
+    "guildSettingsWebhooksInfo": "Para crear un webhook, abre {channelSettingsPath}. Aún puedes editar y organizar todos los webhooks existentes aquí.",
     "guildSettingsVanityUrlWarning": "Tu URL personalizada no funcionará a menos que al menos un canal sea visible para todos.",
     "guildSettingsVanityUrlRemove": "Eliminar",
     "guildSettingsBannedUsersTitle": "Usuarios prohibidos",

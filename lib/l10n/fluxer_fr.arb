@@ -3,7 +3,7 @@
     "@reconnectingTitle": {
         "description": "Title on the reconnecting / server error screen."
     },
-    "reconnectingBody": "Il y a un problème avec les serveurs.\nÇa devrait être réglé dans une seconde !",
+    "reconnectingBody": "Un problème est survenu avec l'instance.\nCela devrait être résolu dans une seconde !",
     "@reconnectingBody": {
         "description": "Subtitle on the reconnecting screen explaining temporary server issues."
     },
@@ -2551,7 +2551,7 @@
     "@phoneAddHint": {
         "description": "Hint for phone input."
     },
-    "phoneAddFooter": "Entrez votre numéro de téléphone. Nous vous enverrons un code de vérification par SMS.",
+    "phoneAddFooter": "Nous enverrons un code SMS lorsqu'il sera disponible. Votre numéro n'est pas lié à votre compte. Nous conservons uniquement un marqueur chiffré, sans identifiant utilisateur, pour permettre au plus 2 vérifications sur environ 30 jours.",
     "@phoneAddFooter": {
         "description": "Footer text for phone input."
     },
@@ -2567,7 +2567,7 @@
     "@phoneVerifyDescription": {
         "description": "Description for phone verify step."
     },
-    "phoneAddSuccess": "Numéro de téléphone ajouté",
+    "phoneAddSuccess": "Numéro de téléphone vérifié",
     "@phoneAddSuccess": {
         "description": "Toast after phone added."
     },
@@ -3892,7 +3892,7 @@
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
     },
-    "voiceMessageHoldHint": "Maintenez pour enregistrer. Faites glisser vers le haut pour verrouiller, ou relâchez pour envoyer.",
+    "voiceMessageHoldHint": "Maintenez pour enregistrer. Faites glisser pour supprimer, balayez vers le haut pour verrouiller ou relâchez pour envoyer.",
     "@voiceMessageHoldHint": {
         "description": "Hint shown next to the hold-to-record microphone button."
     },
@@ -4006,7 +4006,7 @@
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
     },
-    "chatAttachmentPasteTooltip": "Coller l'image du presse-papiers",
+    "chatAttachmentPasteTooltip": "Coller le fichier depuis le presse-papiers",
     "@chatAttachmentPasteTooltip": {
         "description": "Tooltip for pasting an image attachment from the clipboard."
     },
@@ -4483,7 +4483,7 @@
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
     },
-    "lookAndFeelChatFontScalingTitle": "Mise à l'échelle des polices de discussion",
+    "lookAndFeelChatFontScalingTitle": "Taille de la police du chat",
     "@lookAndFeelChatFontScalingTitle": {
         "description": "Section title for the chat font size slider."
     },
@@ -6238,11 +6238,11 @@
     "@chatReplyMentionAccessibilityLabel": {
         "description": "Accessibility label for the reply bar mention toggle."
     },
-    "chatReplyMentionOn": "Activé",
+    "chatReplyMentionOn": "ON",
     "@chatReplyMentionOn": {
         "description": "On state suffix appended to the reply bar mention toggle label."
     },
-    "chatReplyMentionOff": "Désactivé",
+    "chatReplyMentionOff": "OFF",
     "@chatReplyMentionOff": {
         "description": "Off state suffix appended to the reply bar mention toggle label."
     },
@@ -6585,7 +6585,7 @@
     "@userSettingsNavFluxerPlutonium": {
         "description": "User settings navigation item for Fluxer Plutonium subscription settings."
     },
-    "userSettingsNavGiftsAndCodes": "Cadeaux et codes",
+    "userSettingsNavGiftsAndCodes": "Cadeaux",
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
@@ -7474,11 +7474,11 @@
     "@guildMenuSettingsRoles": {
         "description": "Community settings tab for roles and permissions."
     },
-    "guildMenuSettingsEmoji": "Émojis personnalisés",
+    "guildMenuSettingsEmoji": "Emoji",
     "@guildMenuSettingsEmoji": {
         "description": "Community settings tab for custom emoji."
     },
-    "guildMenuSettingsStickers": "Autocollants personnalisés",
+    "guildMenuSettingsStickers": "Autocollants",
     "@guildMenuSettingsStickers": {
         "description": "Community settings tab for custom stickers."
     },
@@ -7506,7 +7506,7 @@
     "@guildMenuSettingsMembers": {
         "description": "Community settings tab for member management."
     },
-    "guildMenuSettingsInviteLinks": "Liens d'invitation",
+    "guildMenuSettingsInviteLinks": "Invitations",
     "@guildMenuSettingsInviteLinks": {
         "description": "Community settings tab for invite links."
     },
@@ -8655,7 +8655,7 @@
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
     },
-    "guildSettingsWebhooksEmpty": "Aucun webhook configuré.",
+    "guildSettingsWebhooksEmpty": "Aucun webhook",
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
@@ -8696,11 +8696,11 @@
             }
         }
     },
-    "guildSettingsDiscoveryDescription": "Postulez pour être listé dans la découverte de serveurs.",
+    "guildSettingsDiscoveryDescription": "Répertoriez votre communauté dans Découverte pour que d'autres puissent la trouver et la rejoindre.",
     "@guildSettingsDiscoveryDescription": {
         "description": "Description for discovery tab."
     },
-    "guildSettingsDiscoveryNotEligible": "Nécessite au moins {count} membres pour postuler.",
+    "guildSettingsDiscoveryNotEligible": "Votre communauté doit avoir au moins {count} membres avant de pouvoir être répertoriée dans la Découverte.",
     "@guildSettingsDiscoveryNotEligible": {
         "description": "Discovery eligibility message.",
         "placeholders": {
@@ -8721,11 +8721,11 @@
     "@guildSettingsDiscoveryTags": {
         "description": "Label for discovery tags field."
     },
-    "guildSettingsDiscoveryTagsHint": "jeux, art, musique",
+    "guildSettingsDiscoveryTagsHint": "Ajoutez un tag et appuyez sur Entrée",
     "@guildSettingsDiscoveryTagsHint": {
         "description": "Hint for discovery tags field."
     },
-    "guildSettingsDiscoveryApply": "Soumettre la candidature",
+    "guildSettingsDiscoveryApply": "Appliquer",
     "@guildSettingsDiscoveryApply": {
         "description": "Button to submit discovery application."
     },
@@ -8737,7 +8737,7 @@
     "@guildSettingsMembersDescription": {
         "description": "Description for members tab."
     },
-    "guildSettingsMembersSearchHint": "Rechercher des membres",
+    "guildSettingsMembersSearchHint": "Rechercher par nom d'utilisateur ou ID",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
     },
@@ -8750,7 +8750,7 @@
             }
         }
     },
-    "guildSettingsInvitesDescription": "Visualisez et révoquez les liens d'invitation actifs.",
+    "guildSettingsInvitesDescription": "Voir toutes les invitations pour cette communauté. Pour créer une nouvelle invitation, accédez à un salon et utilisez le bouton d'invitation.",
     "@guildSettingsInvitesDescription": {
         "description": "Description for invites tab."
     },
@@ -9136,7 +9136,7 @@
     "guildSettingsModeration2faOwnerOnlyTooltip": "Seul le propriétaire de la communauté peut modifier ce paramètre",
     "guildSettingsModeration2faEnableFirstTooltip": "Activez l'authentification à deux facteurs sur votre compte pour modifier ce paramètre",
     "guildSettingsEmojiSearchHint": "Rechercher des émojis",
-    "guildSettingsEmojiUploadTitle": "Télécharger un émoji",
+    "guildSettingsEmojiUploadTitle": "Importer un emoji",
     "guildSettingsNonAnimatedEmoji": "Émojis non animés ({count})",
     "@guildSettingsNonAnimatedEmoji": {
         "placeholders": {

@@ -3,7 +3,7 @@
     "@reconnectingTitle": {
         "description": "Title on the reconnecting / server error screen."
     },
-    "reconnectingBody": "サーバーに問題が発生しています。\nすぐに修正されるはずです！",
+    "reconnectingBody": "インスタンスに問題が発生しています。\nすぐに修正されます！",
     "@reconnectingBody": {
         "description": "Subtitle on the reconnecting screen explaining temporary server issues."
     },
@@ -1017,7 +1017,7 @@
     "@dmAddNote": {
         "description": "DM context menu action to add a note about the user."
     },
-    "dmEditGroup": "グループDMを編集",
+    "dmEditGroup": "グループを編集",
     "@dmEditGroup": {
         "description": "DM context menu action to edit a group DM."
     },
@@ -2551,7 +2551,7 @@
     "@phoneAddHint": {
         "description": "Hint for phone input."
     },
-    "phoneAddFooter": "電話番号を入力してください。SMSで確認コードをお送りします。",
+    "phoneAddFooter": "SMSコードを送信します。この番号はアカウントとは紐づけられません。ユーザーIDを含まない暗号化されたマーカーのみを保持し、約30日間で最大2回の認証を許可します。",
     "@phoneAddFooter": {
         "description": "Footer text for phone input."
     },
@@ -2567,7 +2567,7 @@
     "@phoneVerifyDescription": {
         "description": "Description for phone verify step."
     },
-    "phoneAddSuccess": "電話番号を追加しました",
+    "phoneAddSuccess": "電話番号を確認しました",
     "@phoneAddSuccess": {
         "description": "Toast after phone added."
     },
@@ -2862,7 +2862,7 @@
             }
         }
     },
-    "blockedUsersCopyTag": "Fluxerタグをコピー",
+    "blockedUsersCopyTag": "ユーザー名をコピー",
     "@blockedUsersCopyTag": {
         "description": "Context menu item that copies the user's tag."
     },
@@ -3892,7 +3892,7 @@
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
     },
-    "voiceMessageHoldHint": "長押しで録音。上にドラッグしてロックするか、離して送信します。",
+    "voiceMessageHoldHint": "長押しで録音。ドラッグしてゴミ箱へ移動、上にスライドしてロック、または離して送信します。",
     "@voiceMessageHoldHint": {
         "description": "Hint shown next to the hold-to-record microphone button."
     },
@@ -4006,7 +4006,7 @@
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
     },
-    "chatAttachmentPasteTooltip": "クリップボードから画像を貼り付け",
+    "chatAttachmentPasteTooltip": "クリップボードからファイルを貼り付け",
     "@chatAttachmentPasteTooltip": {
         "description": "Tooltip for pasting an image attachment from the clipboard."
     },
@@ -4483,7 +4483,7 @@
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
     },
-    "lookAndFeelChatFontScalingTitle": "チャットフォントの拡大縮小",
+    "lookAndFeelChatFontScalingTitle": "チャットのフォントサイズ",
     "@lookAndFeelChatFontScalingTitle": {
         "description": "Section title for the chat font size slider."
     },
@@ -5182,7 +5182,7 @@
     "@voiceChannelEmptyDescription": {
         "description": "Empty state body when viewing a guild voice channel while not in the call."
     },
-    "voiceChannelJoin": "ボイスチャンネルに参加",
+    "voiceChannelJoin": "音声チャンネルに参加",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
     },
@@ -6238,11 +6238,11 @@
     "@chatReplyMentionAccessibilityLabel": {
         "description": "Accessibility label for the reply bar mention toggle."
     },
-    "chatReplyMentionOn": "オン",
+    "chatReplyMentionOn": "ON",
     "@chatReplyMentionOn": {
         "description": "On state suffix appended to the reply bar mention toggle label."
     },
-    "chatReplyMentionOff": "オフ",
+    "chatReplyMentionOff": "OFF",
     "@chatReplyMentionOff": {
         "description": "Off state suffix appended to the reply bar mention toggle label."
     },
@@ -6585,7 +6585,7 @@
     "@userSettingsNavFluxerPlutonium": {
         "description": "User settings navigation item for Fluxer Plutonium subscription settings."
     },
-    "userSettingsNavGiftsAndCodes": "ギフトとコード",
+    "userSettingsNavGiftsAndCodes": "ギフト",
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
@@ -7190,11 +7190,11 @@
     "@guildNavbarUrlHint": {
         "description": "Placeholder hint for URL input in link channel creation."
     },
-    "guildNavbarCreateCategory": "カテゴリーを作成",
+    "guildNavbarCreateCategory": "カテゴリを作成",
     "@guildNavbarCreateCategory": {
         "description": "Title and confirm label for the create category modal."
     },
-    "guildNavbarNewCategoryHint": "新しいカテゴリー",
+    "guildNavbarNewCategoryHint": "新しいカテゴリ",
     "@guildNavbarNewCategoryHint": {
         "description": "Placeholder hint for new category name input."
     },
@@ -7474,11 +7474,11 @@
     "@guildMenuSettingsRoles": {
         "description": "Community settings tab for roles and permissions."
     },
-    "guildMenuSettingsEmoji": "カスタム絵文字",
+    "guildMenuSettingsEmoji": "絵文字",
     "@guildMenuSettingsEmoji": {
         "description": "Community settings tab for custom emoji."
     },
-    "guildMenuSettingsStickers": "カスタムステッカー",
+    "guildMenuSettingsStickers": "スタンプ",
     "@guildMenuSettingsStickers": {
         "description": "Community settings tab for custom stickers."
     },
@@ -7506,7 +7506,7 @@
     "@guildMenuSettingsMembers": {
         "description": "Community settings tab for member management."
     },
-    "guildMenuSettingsInviteLinks": "招待リンク",
+    "guildMenuSettingsInviteLinks": "招待",
     "@guildMenuSettingsInviteLinks": {
         "description": "Community settings tab for invite links."
     },
@@ -8651,11 +8651,11 @@
     "@guildSettingsLoadingMore": {
         "description": "Loading state for pagination."
     },
-    "guildSettingsWebhooksDescription": "チャンネルにメッセージを投稿するWebhookを管理します。",
+    "guildSettingsWebhooksDescription": "コミュニティに設定されているすべてのウェブフックを表示・管理できます。",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
     },
-    "guildSettingsWebhooksEmpty": "Webhookは設定されていません。",
+    "guildSettingsWebhooksEmpty": "ウェブフックなし",
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
@@ -8696,11 +8696,11 @@
             }
         }
     },
-    "guildSettingsDiscoveryDescription": "サーバーディスカバリーに掲載されるように申請します。",
+    "guildSettingsDiscoveryDescription": "コミュニティを「見つける」に掲載して、他のユーザーに見つけてもらい、参加してもらいましょう。",
     "@guildSettingsDiscoveryDescription": {
         "description": "Description for discovery tab."
     },
-    "guildSettingsDiscoveryNotEligible": "{count} 人以上のメンバーが必要です。",
+    "guildSettingsDiscoveryNotEligible": "コミュニティがディスカバリーに掲載されるには、{count}人以上のメンバーが必要です。",
     "@guildSettingsDiscoveryNotEligible": {
         "description": "Discovery eligibility message.",
         "placeholders": {
@@ -8717,15 +8717,15 @@
     "@guildSettingsDiscoveryDescriptionField": {
         "description": "Label for discovery description field."
     },
-    "guildSettingsDiscoveryTags": "タグ",
+    "guildSettingsDiscoveryTags": "カスタムタグ",
     "@guildSettingsDiscoveryTags": {
         "description": "Label for discovery tags field."
     },
-    "guildSettingsDiscoveryTagsHint": "ゲーム、アート、音楽",
+    "guildSettingsDiscoveryTagsHint": "タグを追加してEnterを押してください",
     "@guildSettingsDiscoveryTagsHint": {
         "description": "Hint for discovery tags field."
     },
-    "guildSettingsDiscoveryApply": "申請を送信",
+    "guildSettingsDiscoveryApply": "適用",
     "@guildSettingsDiscoveryApply": {
         "description": "Button to submit discovery application."
     },
@@ -8737,7 +8737,7 @@
     "@guildSettingsMembersDescription": {
         "description": "Description for members tab."
     },
-    "guildSettingsMembersSearchHint": "メンバーを検索",
+    "guildSettingsMembersSearchHint": "ユーザー名またはIDで検索",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
     },
@@ -8750,11 +8750,11 @@
             }
         }
     },
-    "guildSettingsInvitesDescription": "アクティブな招待リンクを表示および取り消します。",
+    "guildSettingsInvitesDescription": "このコミュニティの招待をすべて表示します。新しい招待を作成するには、チャンネルに移動して招待ボタンを使用してください。",
     "@guildSettingsInvitesDescription": {
         "description": "Description for invites tab."
     },
-    "guildSettingsInvitesEmpty": "アクティブな招待はありません。",
+    "guildSettingsInvitesEmpty": "招待リンクがありません",
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
@@ -9154,7 +9154,7 @@
         }
     },
     "guildSettingsStickersSearchHint": "ステッカーを検索",
-    "guildSettingsWebhooksInfo": "チャンネル設定からWebhookを作成します。ここで編集します。",
+    "guildSettingsWebhooksInfo": "Webhookを作成するには、{channelSettingsPath}を開いてください。既存のすべてのWebhookは、ここで編集および整理できます。",
     "guildSettingsVanityUrlWarning": "少なくとも1つのチャンネルが全員に表示されていないと、カスタムURLは機能しません。",
     "guildSettingsVanityUrlRemove": "削除",
     "guildSettingsBannedUsersTitle": "禁止ユーザー",

@@ -3,7 +3,7 @@
     "@reconnectingTitle": {
         "description": "Title on the reconnecting / server error screen."
     },
-    "reconnectingBody": "服务器出现问题。\n很快就会修复！",
+    "reconnectingBody": "实例出现问题。\n很快就会修复！",
     "@reconnectingBody": {
         "description": "Subtitle on the reconnecting screen explaining temporary server issues."
     },
@@ -2551,7 +2551,7 @@
     "@phoneAddHint": {
         "description": "Hint for phone input."
     },
-    "phoneAddFooter": "请输入您的手机号码。我们将通过短信向您发送验证码。",
+    "phoneAddFooter": "我们将发送短信验证码（如果可用）。您的号码不会与您的帐户关联。我们仅保留一个加密标记，不含用户 ID，以便在约 30 天内最多进行 2 次验证。",
     "@phoneAddFooter": {
         "description": "Footer text for phone input."
     },
@@ -2567,7 +2567,7 @@
     "@phoneVerifyDescription": {
         "description": "Description for phone verify step."
     },
-    "phoneAddSuccess": "手机号码已添加",
+    "phoneAddSuccess": "手机号已验证",
     "@phoneAddSuccess": {
         "description": "Toast after phone added."
     },
@@ -3892,7 +3892,7 @@
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
     },
-    "voiceMessageHoldHint": "按住录制。向上拖动可锁定，松开即可发送。",
+    "voiceMessageHoldHint": "按住录音。拖到垃圾桶可删除，向上滑动可锁定，或松开即可发送。",
     "@voiceMessageHoldHint": {
         "description": "Hint shown next to the hold-to-record microphone button."
     },
@@ -4006,7 +4006,7 @@
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
     },
-    "chatAttachmentPasteTooltip": "从剪贴板粘贴图片",
+    "chatAttachmentPasteTooltip": "从剪贴板粘贴文件",
     "@chatAttachmentPasteTooltip": {
         "description": "Tooltip for pasting an image attachment from the clipboard."
     },
@@ -4483,7 +4483,7 @@
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
     },
-    "lookAndFeelChatFontScalingTitle": "聊天字体缩放",
+    "lookAndFeelChatFontScalingTitle": "聊天字体大小",
     "@lookAndFeelChatFontScalingTitle": {
         "description": "Section title for the chat font size slider."
     },
@@ -6238,11 +6238,11 @@
     "@chatReplyMentionAccessibilityLabel": {
         "description": "Accessibility label for the reply bar mention toggle."
     },
-    "chatReplyMentionOn": "开启",
+    "chatReplyMentionOn": "ON",
     "@chatReplyMentionOn": {
         "description": "On state suffix appended to the reply bar mention toggle label."
     },
-    "chatReplyMentionOff": "关闭",
+    "chatReplyMentionOff": "OFF",
     "@chatReplyMentionOff": {
         "description": "Off state suffix appended to the reply bar mention toggle label."
     },
@@ -6585,7 +6585,7 @@
     "@userSettingsNavFluxerPlutonium": {
         "description": "User settings navigation item for Fluxer Plutonium subscription settings."
     },
-    "userSettingsNavGiftsAndCodes": "礼物与兑换码",
+    "userSettingsNavGiftsAndCodes": "礼物",
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
@@ -7190,11 +7190,11 @@
     "@guildNavbarUrlHint": {
         "description": "Placeholder hint for URL input in link channel creation."
     },
-    "guildNavbarCreateCategory": "创建分类",
+    "guildNavbarCreateCategory": "创建类别",
     "@guildNavbarCreateCategory": {
         "description": "Title and confirm label for the create category modal."
     },
-    "guildNavbarNewCategoryHint": "新分类",
+    "guildNavbarNewCategoryHint": "新建分类",
     "@guildNavbarNewCategoryHint": {
         "description": "Placeholder hint for new category name input."
     },
@@ -7474,11 +7474,11 @@
     "@guildMenuSettingsRoles": {
         "description": "Community settings tab for roles and permissions."
     },
-    "guildMenuSettingsEmoji": "自定义表情",
+    "guildMenuSettingsEmoji": "表情符号",
     "@guildMenuSettingsEmoji": {
         "description": "Community settings tab for custom emoji."
     },
-    "guildMenuSettingsStickers": "自定义贴纸",
+    "guildMenuSettingsStickers": "贴纸",
     "@guildMenuSettingsStickers": {
         "description": "Community settings tab for custom stickers."
     },
@@ -7506,7 +7506,7 @@
     "@guildMenuSettingsMembers": {
         "description": "Community settings tab for member management."
     },
-    "guildMenuSettingsInviteLinks": "邀请链接",
+    "guildMenuSettingsInviteLinks": "邀请",
     "@guildMenuSettingsInviteLinks": {
         "description": "Community settings tab for invite links."
     },
@@ -7558,7 +7558,7 @@
     "@guildSettingsRolesDescription": {
         "description": "Description for the roles settings tab."
     },
-    "guildSettingsCreateRole": "创建角色",
+    "guildSettingsCreateRole": "创建身份组",
     "@guildSettingsCreateRole": {
         "description": "Button to create a new role."
     },
@@ -8651,11 +8651,11 @@
     "@guildSettingsLoadingMore": {
         "description": "Loading state for pagination."
     },
-    "guildSettingsWebhooksDescription": "管理发布消息到频道的 Webhook。",
+    "guildSettingsWebhooksDescription": "查看和管理社群中配置的所有 Webhook。",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
     },
-    "guildSettingsWebhooksEmpty": "未配置 Webhook。",
+    "guildSettingsWebhooksEmpty": "无 Webhook",
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
@@ -8696,11 +8696,11 @@
             }
         }
     },
-    "guildSettingsDiscoveryDescription": "申请在服务器发现中列出。",
+    "guildSettingsDiscoveryDescription": "将你的社群列在\"发现\"中，以便其他人找到并加入。",
     "@guildSettingsDiscoveryDescription": {
         "description": "Description for discovery tab."
     },
-    "guildSettingsDiscoveryNotEligible": "申请需要至少 {count} 名成员。",
+    "guildSettingsDiscoveryNotEligible": "您的社区需要至少有 {count} 名成员才能在发现中列出。",
     "@guildSettingsDiscoveryNotEligible": {
         "description": "Discovery eligibility message.",
         "placeholders": {
@@ -8717,15 +8717,15 @@
     "@guildSettingsDiscoveryDescriptionField": {
         "description": "Label for discovery description field."
     },
-    "guildSettingsDiscoveryTags": "标签",
+    "guildSettingsDiscoveryTags": "自定义标签",
     "@guildSettingsDiscoveryTags": {
         "description": "Label for discovery tags field."
     },
-    "guildSettingsDiscoveryTagsHint": "游戏、艺术、音乐",
+    "guildSettingsDiscoveryTagsHint": "添加标签后按回车键",
     "@guildSettingsDiscoveryTagsHint": {
         "description": "Hint for discovery tags field."
     },
-    "guildSettingsDiscoveryApply": "提交申请",
+    "guildSettingsDiscoveryApply": "应用",
     "@guildSettingsDiscoveryApply": {
         "description": "Button to submit discovery application."
     },
@@ -8737,7 +8737,7 @@
     "@guildSettingsMembersDescription": {
         "description": "Description for members tab."
     },
-    "guildSettingsMembersSearchHint": "搜索成员",
+    "guildSettingsMembersSearchHint": "按用户名或ID搜索",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
     },
@@ -8750,11 +8750,11 @@
             }
         }
     },
-    "guildSettingsInvitesDescription": "查看和撤销活动的邀请链接。",
+    "guildSettingsInvitesDescription": "查看此社群的所有邀请。要创建新邀请，请前往频道并使用邀请按钮。",
     "@guildSettingsInvitesDescription": {
         "description": "Description for invites tab."
     },
-    "guildSettingsInvitesEmpty": "没有活动邀请。",
+    "guildSettingsInvitesEmpty": "没有邀请链接",
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
@@ -9136,7 +9136,7 @@
     "guildSettingsModeration2faOwnerOnlyTooltip": "只有社群所有者可以更改此设置",
     "guildSettingsModeration2faEnableFirstTooltip": "请先在您的账户上启用双重验证，才能更改此设置",
     "guildSettingsEmojiSearchHint": "搜索表情符号",
-    "guildSettingsEmojiUploadTitle": "上传表情符号",
+    "guildSettingsEmojiUploadTitle": "上传表情",
     "guildSettingsNonAnimatedEmoji": "静态表情符号 ({count})",
     "@guildSettingsNonAnimatedEmoji": {
         "placeholders": {
@@ -9154,7 +9154,7 @@
         }
     },
     "guildSettingsStickersSearchHint": "搜索贴纸",
-    "guildSettingsWebhooksInfo": "从频道设置创建 webhook。在此处编辑。",
+    "guildSettingsWebhooksInfo": "要创建 webhook，请打开 {channelSettingsPath}。您仍可在此处编辑和整理所有现有 webhook。",
     "guildSettingsVanityUrlWarning": "除非至少有一个频道对所有人可见，否则您的自定义 URL 将无法正常工作。",
     "guildSettingsVanityUrlRemove": "移除",
     "guildSettingsBannedUsersTitle": "被封禁用户",

@@ -3,7 +3,7 @@
     "@reconnectingTitle": {
         "description": "Title on the reconnecting / server error screen."
     },
-    "reconnectingBody": "Серверы работают некорректно.\nПостараемся исправить в ближайшее время!",
+    "reconnectingBody": "Что-то не так с сервером.\nПостараемся исправить в ближайшее время!",
     "@reconnectingBody": {
         "description": "Subtitle on the reconnecting screen explaining temporary server issues."
     },
@@ -1017,7 +1017,7 @@
     "@dmAddNote": {
         "description": "DM context menu action to add a note about the user."
     },
-    "dmEditGroup": "Редактировать группу",
+    "dmEditGroup": "Изменить группу",
     "@dmEditGroup": {
         "description": "DM context menu action to edit a group DM."
     },
@@ -2551,7 +2551,7 @@
     "@phoneAddHint": {
         "description": "Hint for phone input."
     },
-    "phoneAddFooter": "Введите ваш номер телефона. Мы отправим вам SMS с кодом подтверждения.",
+    "phoneAddFooter": "Мы отправим код по SMS, когда он будет доступен. Ваш номер не будет привязан к вашей учетной записи. Мы сохраним только зашифрованный маркер без идентификатора пользователя, чтобы разрешить не более 2 проверок в течение примерно 30 дней.",
     "@phoneAddFooter": {
         "description": "Footer text for phone input."
     },
@@ -2567,7 +2567,7 @@
     "@phoneVerifyDescription": {
         "description": "Description for phone verify step."
     },
-    "phoneAddSuccess": "Номер телефона добавлен",
+    "phoneAddSuccess": "Номер телефона подтвержден",
     "@phoneAddSuccess": {
         "description": "Toast after phone added."
     },
@@ -3892,7 +3892,7 @@
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
     },
-    "voiceMessageHoldHint": "Удерживайте для записи. Перетащите вверх, чтобы заблокировать, или отпустите для отправки.",
+    "voiceMessageHoldHint": "Удерживайте для записи. Перетащите в корзину, чтобы удалить, проведите вверх, чтобы заблокировать, или отпустите, чтобы отправить.",
     "@voiceMessageHoldHint": {
         "description": "Hint shown next to the hold-to-record microphone button."
     },
@@ -4006,7 +4006,7 @@
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
     },
-    "chatAttachmentPasteTooltip": "Вставить изображение из буфера обмена",
+    "chatAttachmentPasteTooltip": "Вставить файл из буфера обмена",
     "@chatAttachmentPasteTooltip": {
         "description": "Tooltip for pasting an image attachment from the clipboard."
     },
@@ -4483,7 +4483,7 @@
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
     },
-    "lookAndFeelChatFontScalingTitle": "Масштабирование шрифта чата",
+    "lookAndFeelChatFontScalingTitle": "Масштаб шрифта чата",
     "@lookAndFeelChatFontScalingTitle": {
         "description": "Section title for the chat font size slider."
     },
@@ -5182,7 +5182,7 @@
     "@voiceChannelEmptyDescription": {
         "description": "Empty state body when viewing a guild voice channel while not in the call."
     },
-    "voiceChannelJoin": "Подключиться к голосовому каналу",
+    "voiceChannelJoin": "Присоединиться к голосовому каналу",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
     },
@@ -6238,11 +6238,11 @@
     "@chatReplyMentionAccessibilityLabel": {
         "description": "Accessibility label for the reply bar mention toggle."
     },
-    "chatReplyMentionOn": "Вкл.",
+    "chatReplyMentionOn": "ON",
     "@chatReplyMentionOn": {
         "description": "On state suffix appended to the reply bar mention toggle label."
     },
-    "chatReplyMentionOff": "Выкл.",
+    "chatReplyMentionOff": "OFF",
     "@chatReplyMentionOff": {
         "description": "Off state suffix appended to the reply bar mention toggle label."
     },
@@ -6585,7 +6585,7 @@
     "@userSettingsNavFluxerPlutonium": {
         "description": "User settings navigation item for Fluxer Plutonium subscription settings."
     },
-    "userSettingsNavGiftsAndCodes": "Подарки и коды",
+    "userSettingsNavGiftsAndCodes": "Подарки",
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
@@ -7474,11 +7474,11 @@
     "@guildMenuSettingsRoles": {
         "description": "Community settings tab for roles and permissions."
     },
-    "guildMenuSettingsEmoji": "Пользовательские эмодзи",
+    "guildMenuSettingsEmoji": "Эмодзи",
     "@guildMenuSettingsEmoji": {
         "description": "Community settings tab for custom emoji."
     },
-    "guildMenuSettingsStickers": "Пользовательские стикеры",
+    "guildMenuSettingsStickers": "Стикеры",
     "@guildMenuSettingsStickers": {
         "description": "Community settings tab for custom stickers."
     },
@@ -7506,7 +7506,7 @@
     "@guildMenuSettingsMembers": {
         "description": "Community settings tab for member management."
     },
-    "guildMenuSettingsInviteLinks": "Ссылки-приглашения",
+    "guildMenuSettingsInviteLinks": "Приглашения",
     "@guildMenuSettingsInviteLinks": {
         "description": "Community settings tab for invite links."
     },
@@ -8651,11 +8651,11 @@
     "@guildSettingsLoadingMore": {
         "description": "Loading state for pagination."
     },
-    "guildSettingsWebhooksDescription": "Управление веб-хуками, которые отправляют сообщения в каналы.",
+    "guildSettingsWebhooksDescription": "Просматривайте вебхуки, настроенные для вашего сообщества, и управляйте ими.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
     },
-    "guildSettingsWebhooksEmpty": "Веб-хуки не настроены.",
+    "guildSettingsWebhooksEmpty": "Вебхуков нет",
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
@@ -8696,11 +8696,11 @@
             }
         }
     },
-    "guildSettingsDiscoveryDescription": "Подайте заявку на размещение в поиске серверов.",
+    "guildSettingsDiscoveryDescription": "Разместите сообщество в разделе \"Интересное\", чтобы другие могли его найти и присоединиться.",
     "@guildSettingsDiscoveryDescription": {
         "description": "Description for discovery tab."
     },
-    "guildSettingsDiscoveryNotEligible": "Требуется минимум {count} участника для подачи заявки.",
+    "guildSettingsDiscoveryNotEligible": "Вашему сообществу нужно как минимум {count} участников, чтобы оно могло быть добавлено в Discovery.",
     "@guildSettingsDiscoveryNotEligible": {
         "description": "Discovery eligibility message.",
         "placeholders": {
@@ -8717,15 +8717,15 @@
     "@guildSettingsDiscoveryDescriptionField": {
         "description": "Label for discovery description field."
     },
-    "guildSettingsDiscoveryTags": "Теги",
+    "guildSettingsDiscoveryTags": "Пользовательские теги",
     "@guildSettingsDiscoveryTags": {
         "description": "Label for discovery tags field."
     },
-    "guildSettingsDiscoveryTagsHint": "игры, искусство, музыка",
+    "guildSettingsDiscoveryTagsHint": "Добавьте тег и нажмите Enter",
     "@guildSettingsDiscoveryTagsHint": {
         "description": "Hint for discovery tags field."
     },
-    "guildSettingsDiscoveryApply": "Отправить заявку",
+    "guildSettingsDiscoveryApply": "Применить",
     "@guildSettingsDiscoveryApply": {
         "description": "Button to submit discovery application."
     },
@@ -8737,7 +8737,7 @@
     "@guildSettingsMembersDescription": {
         "description": "Description for members tab."
     },
-    "guildSettingsMembersSearchHint": "Поиск участников",
+    "guildSettingsMembersSearchHint": "Поиск по имени пользователя или ID",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
     },
@@ -8750,11 +8750,11 @@
             }
         }
     },
-    "guildSettingsInvitesDescription": "Просматривайте и отзывайте активные ссылки-приглашения.",
+    "guildSettingsInvitesDescription": "Посмотреть все приглашения в это сообщество. Чтобы создать новое приглашение, перейдите в канал и используйте кнопку \"Пригласить\".",
     "@guildSettingsInvitesDescription": {
         "description": "Description for invites tab."
     },
-    "guildSettingsInvitesEmpty": "Нет активных приглашений.",
+    "guildSettingsInvitesEmpty": "Нет ссылок-приглашений",
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
@@ -9154,7 +9154,7 @@
         }
     },
     "guildSettingsStickersSearchHint": "Поиск стикеров",
-    "guildSettingsWebhooksInfo": "Создавайте вебхуки из настроек канала. Редактируйте их здесь.",
+    "guildSettingsWebhooksInfo": "Чтобы создать вебхук, откройте {channelSettingsPath}. Вы можете редактировать и упорядочивать все существующие вебхуки здесь.",
     "guildSettingsVanityUrlWarning": "Ваш пользовательский URL не будет работать, если хотя бы один канал не будет виден всем.",
     "guildSettingsVanityUrlRemove": "Удалить",
     "guildSettingsBannedUsersTitle": "Заблокированные пользователи",
