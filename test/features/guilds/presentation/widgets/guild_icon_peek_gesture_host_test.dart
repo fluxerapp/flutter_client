@@ -17,7 +17,7 @@ void main() {
           child: Scaffold(
             body: GuildIconPeekGestureHost(
               itemId: 'guild-1',
-              peekMenu: GuildIconPeekMenuConfig(
+              content: GuildIconPeekMenuConfig(
                 guildName: 'Test Guild',
                 hasUnread: false,
                 onAction: (_, _) async {},
@@ -63,7 +63,7 @@ void main() {
                 children: <Widget>[
                   GuildIconPeekGestureHost(
                     itemId: 'guild-1',
-                    peekMenu: GuildIconPeekMenuConfig(
+                    content: GuildIconPeekMenuConfig(
                       guildName: 'Test Guild',
                       hasUnread: false,
                       onAction: (_, _) async {},
