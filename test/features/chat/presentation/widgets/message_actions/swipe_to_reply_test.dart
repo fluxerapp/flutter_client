@@ -8,7 +8,9 @@ import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/sw
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/gestures/axis_locking_horizontal_drag_recognizer.dart';
 import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.dart';
+import 'package:fluxer_app/shared/gestures/horizontal_drag_axis_lock.dart';
 import 'package:fluxer_app/shared/markdown/native_markdown_parser.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 
@@ -134,20 +136,12 @@ void main() {
           onReply: () => replyCount++,
           child: const ColoredBox(color: Color(0xFF112233)),
         ),
-        parentGestures: <Type, GestureRecognizerFactory>{
-          HorizontalDragGestureRecognizer:
-              GestureRecognizerFactoryWithHandlers<
-                HorizontalDragGestureRecognizer
-              >(HorizontalDragGestureRecognizer.new, (recognizer) {
-                recognizer
-                  ..onStart = (_) {
-                    parentStartCount++;
-                  }
-                  ..onUpdate = (details) {
-                    parentDeltaX += details.delta.dx;
-                  };
-              }),
-        },
+        parentGestures: _axisLockingParent(
+          onStart: () => parentStartCount++,
+          onUpdate: (DragUpdateDetails details) {
+            parentDeltaX += details.delta.dx;
+          },
+        ),
       ),
     );
     final BuildContext ctx = tester.element(
@@ -180,16 +174,7 @@ void main() {
           onReply: () => replyCount++,
           child: const ColoredBox(color: Color(0xFF112233)),
         ),
-        parentGestures: <Type, GestureRecognizerFactory>{
-          HorizontalDragGestureRecognizer:
-              GestureRecognizerFactoryWithHandlers<
-                HorizontalDragGestureRecognizer
-              >(HorizontalDragGestureRecognizer.new, (recognizer) {
-                recognizer.onStart = (_) {
-                  parentStartCount++;
-                };
-              }),
-        },
+        parentGestures: _axisLockingParent(onStart: () => parentStartCount++),
       ),
     );
     final BuildContext ctx = tester.element(
@@ -544,6 +529,34 @@ void main() {
     expect(replyCount, 0);
   });
 
+  testWidgets('fast coalesced arc Offset(80, 16) scrolls instead of reply', (
+    tester,
+  ) async {
+    var replyCount = 0;
+    await tester.pumpWidget(
+      _buildVerticalScrollApp(
+        SwipeToReply(
+          onReply: () => replyCount++,
+          child: const ColoredBox(color: Color(0xFF112233)),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    final ScrollPosition position = _parentVerticalPosition(tester);
+    position.jumpTo(300);
+    await tester.pump();
+    final double before = position.pixels;
+    final TestGesture gesture = await tester.startGesture(
+      _swipeBodyStart(tester),
+    );
+    await gesture.moveBy(const Offset(80, 16));
+    await gesture.moveBy(const Offset(0, 140));
+    await gesture.up();
+    await tester.pumpAndSettle();
+    expect(position.pixels, lessThan(before - 40));
+    expect(replyCount, 0);
+  });
+
   testWidgets('committed leftward swipe keeps tracking after a vertical arc', (
     tester,
   ) async {
@@ -558,7 +571,7 @@ void main() {
     );
     final Offset start = _swipeBodyStart(tester);
     final TestGesture gesture = await tester.startGesture(start);
-    await gesture.moveBy(const Offset(-40, 0));
+    await gesture.moveBy(const Offset(-80, 0));
     await tester.pump();
     await gesture.moveBy(const Offset(-80, 200));
     await gesture.up();
@@ -613,6 +626,33 @@ void main() {
     expect(position.pixels, lessThan(before - 40));
     expect(replyCount, 1);
   });
+}
+
+Map<Type, GestureRecognizerFactory> _axisLockingParent({
+  VoidCallback? onStart,
+  GestureDragUpdateCallback? onUpdate,
+}) {
+  return <Type, GestureRecognizerFactory>{
+    AxisLockingHorizontalDragRecognizer:
+        GestureRecognizerFactoryWithHandlers<
+          AxisLockingHorizontalDragRecognizer
+        >(
+          () => AxisLockingHorizontalDragRecognizer(
+            shouldDefer: (_) => false,
+            shouldReject: (HorizontalDragAxisLockDecision decision) =>
+                decision == HorizontalDragAxisLockDecision.yieldToVertical,
+          ),
+          (AxisLockingHorizontalDragRecognizer recognizer) {
+            recognizer
+              ..onStart = onStart == null
+                  ? null
+                  : (_) {
+                      onStart();
+                    }
+              ..onUpdate = onUpdate;
+          },
+        ),
+  };
 }
 
 Widget _buildVerticalScrollApp(Widget child, {double touchSlop = 18}) {
