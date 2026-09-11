@@ -7270,7 +7270,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get chatReplyMentionOn => 'ON';
 
   @override
-  String get chatReplyMentionOff => 'Isključeno';
+  String get chatReplyMentionOff => 'OFF';
 
   @override
   String get chatReplyCancel => 'Poništi odgovor';

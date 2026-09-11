@@ -7148,7 +7148,7 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get chatReplyMentionOn => 'ON';
 
   @override
-  String get chatReplyMentionOff => 'כבוי';
+  String get chatReplyMentionOff => 'OFF';
 
   @override
   String get chatReplyCancel => 'ביטול תגובה';
