@@ -92,11 +92,12 @@ class StarfieldBackdrop extends StatelessWidget {
 }
 
 class StarfieldBackground extends StatefulWidget {
-  const StarfieldBackground({this.child, super.key});
+  const StarfieldBackground({this.child, this.animate = true, super.key});
 
   static const Color cutoutSymbolColor = Color(0xFFE2DAFF);
 
   final Widget? child;
+  final bool animate;
 
   @override
   State<StarfieldBackground> createState() => _StarfieldBackgroundState();
@@ -139,6 +140,14 @@ class _StarfieldBackgroundState extends State<StarfieldBackground>
       vsync: this,
       duration: const Duration(seconds: 1),
     )..addListener(_updateParallaxOffset);
+  }
+
+  @override
+  void didUpdateWidget(StarfieldBackground oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.animate != widget.animate) {
+      _syncMotion();
+    }
   }
 
   @override
@@ -185,7 +194,7 @@ class _StarfieldBackgroundState extends State<StarfieldBackground>
   }
 
   void _ensureParallaxTicking() {
-    if (MediaQuery.disableAnimationsOf(context)) {
+    if (!widget.animate || MediaQuery.disableAnimationsOf(context)) {
       return;
     }
     if (_parallaxTick.isAnimating) {
@@ -195,7 +204,7 @@ class _StarfieldBackgroundState extends State<StarfieldBackground>
   }
 
   void _updateParallaxOffset() {
-    if (MediaQuery.disableAnimationsOf(context)) {
+    if (!widget.animate || MediaQuery.disableAnimationsOf(context)) {
       _parallaxTick.stop();
       _parallaxOffset.value = Offset.zero;
       return;
@@ -218,7 +227,8 @@ class _StarfieldBackgroundState extends State<StarfieldBackground>
 
   void _syncMotion({bool? animationsEnabled}) {
     final bool animations =
-        animationsEnabled ?? !MediaQuery.disableAnimationsOf(context);
+        widget.animate &&
+        (animationsEnabled ?? !MediaQuery.disableAnimationsOf(context));
     final AppLifecycleState? lifecycle =
         SchedulerBinding.instance.lifecycleState;
     final bool foreground =
@@ -245,7 +255,8 @@ class _StarfieldBackgroundState extends State<StarfieldBackground>
   }
 
   void _startParallax() {
-    if (!_parallaxSupported ||
+    if (!widget.animate ||
+        !_parallaxSupported ||
         _cancelParallax != null ||
         MediaQuery.disableAnimationsOf(context)) {
       return;
@@ -269,7 +280,9 @@ class _StarfieldBackgroundState extends State<StarfieldBackground>
   }
 
   void _onUserAccelerometerEvent(UserAccelerometerEvent event) {
-    if (!mounted || MediaQuery.disableAnimationsOf(context)) {
+    if (!mounted ||
+        !widget.animate ||
+        MediaQuery.disableAnimationsOf(context)) {
       return;
     }
     _parallaxTarget = _parallaxDeltaFromSensor(
@@ -317,7 +330,8 @@ class _StarfieldBackgroundState extends State<StarfieldBackground>
 
   @override
   Widget build(BuildContext context) {
-    final bool animationsEnabled = !MediaQuery.disableAnimationsOf(context);
+    final bool animationsEnabled =
+        widget.animate && !MediaQuery.disableAnimationsOf(context);
     if (_animationsEnabled != animationsEnabled) {
       _animationsEnabled = animationsEnabled;
       _syncMotion(animationsEnabled: animationsEnabled);

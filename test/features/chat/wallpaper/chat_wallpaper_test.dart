@@ -71,6 +71,11 @@ void main() {
       expect(chatWallpaperFromJson(chatWallpaperToJson(gradient)), gradient);
       expect(chatWallpaperFromJson(chatWallpaperToJson(custom)), custom);
       expect(chatWallpaperFromJson(chatWallpaperToJson(preset)), preset);
+      const ChatWallpaperState starfield = ChatWallpaperState(
+        kind: ChatWallpaperKind.starfield,
+        dim: 0.15,
+      );
+      expect(chatWallpaperFromJson(chatWallpaperToJson(starfield)), starfield);
     });
   });
 
