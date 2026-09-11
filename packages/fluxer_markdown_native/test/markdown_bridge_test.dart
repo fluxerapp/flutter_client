@@ -205,13 +205,7 @@ void main() {
   test('keeps three typed blank lines on each side of a list (#545)', () {
     expect(
       blockShape(bridge('intro\n\n\n\n- one\n- two\n\n\n\noutro')),
-      <String>[
-        'p:intro',
-        'blank-lines:3',
-        'ul',
-        'blank-lines:3',
-        'p:outro',
-      ],
+      <String>['p:intro', 'blank-lines:3', 'ul', 'blank-lines:3', 'p:outro'],
     );
   });
 
