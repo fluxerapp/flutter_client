@@ -45,6 +45,8 @@ import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_list_pin.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_list_placeholder_specs.dart';
+import 'package:fluxer_app/features/chat/presentation/'
+    'widgets/messages/message_list_scroll_metrics.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_skeleton.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_list_unread_review.dart';
@@ -232,6 +234,8 @@ class _MessageListState extends ConsumerState<MessageList> {
   bool _scrollCacheExpansionPending = false;
   bool _messagesWereLoading = false;
   double? _lastViewportDimension;
+  double? _lastMinScrollExtent;
+  double? _lastMaxScrollExtent;
 
   bool _userDragActive = false;
   // A touch-down mid-fling makes Scrollable hold(), which dispatches
@@ -1565,6 +1569,8 @@ class _MessageListState extends ConsumerState<MessageList> {
       _clearPendingScrollTarget();
     }
     _lastViewportDimension = null;
+    _lastMinScrollExtent = null;
+    _lastMaxScrollExtent = null;
     _useCompactScrollCache = true;
     _lastMessageCount = 0;
     _scrollCacheExpansionPending = false;
@@ -1969,32 +1975,42 @@ class _MessageListState extends ConsumerState<MessageList> {
   }
 
   bool _onScrollMetricsNotification(ScrollMetricsNotification notification) {
-    // A dimension change (keyboard, rotation, layout swap) invalidates any
-    // built-up approach velocity and is itself geometry progress.
-    _demandSource.resetApproachVelocity();
-    _publishDemandGeometry();
-    // A re-anchor remount attaches a fresh position without any scroll, so
-    // the read viewport (auto-ack, jump-to-bottom button) must republish
-    // here - the metrics change IS the attach signal.
-    _syncReadViewport();
-    final double viewport = notification.metrics.viewportDimension;
-    final double? previous = _lastViewportDimension;
-    _lastViewportDimension = viewport;
-    if (previous != null && viewport < previous - 0.5 && _pin.pinned) {
-      // Keyboard/viewport shrink while pinned: stay glued to the live tail.
-      _schedulePinnedTailGlue();
-    }
-    // The fraction was measured against content that may since have shrunk
-    // (bulk delete, trim, collapse) or a viewport that grew. Metrics
-    // notifications also fire per scrolling frame (extentBefore/extentAfter
-    // move with pixels), so the condition is pre-read off the notification
-    // instead of arming a post-frame pass on every one.
     final ScrollMetrics metrics = notification.metrics;
+    final double viewport = metrics.viewportDimension;
+    final double minExtent = metrics.minScrollExtent;
+    final double extent = metrics.maxScrollExtent;
+    final double? previousViewport = _lastViewportDimension;
+    final double? previousMinExtent = _lastMinScrollExtent;
+    final double? previousExtent = _lastMaxScrollExtent;
+    final bool pixelOnly = isPixelOnlyScrollMetricsChange(
+      viewportDimension: viewport,
+      minScrollExtent: minExtent,
+      maxScrollExtent: extent,
+      lastViewportDimension: previousViewport,
+      lastMinScrollExtent: previousMinExtent,
+      lastMaxScrollExtent: previousExtent,
+    );
+    _lastViewportDimension = viewport;
+    _lastMinScrollExtent = minExtent;
+    _lastMaxScrollExtent = extent;
+    if (!pixelOnly) {
+      // Keyboard, rotation, content-extent jump, or first attach. Pixel
+      // slides already flow through _onScroll / ScrollUpdate.
+      _demandSource.resetApproachVelocity();
+      _publishDemandGeometry();
+      _syncReadViewport();
+      if (previousViewport != null &&
+          viewport < previousViewport - kMessageListMetricsEpsilon &&
+          _pin.pinned) {
+        _schedulePinnedTailGlue();
+      }
+    }
     if (_anchorId != null &&
         _anchorFraction < 1.0 &&
         !_unreadOpenLayout &&
         metrics.maxScrollExtent <= 0 &&
-        metrics.pixels >= metrics.maxScrollExtent - 0.5) {
+        metrics.pixels >=
+            metrics.maxScrollExtent - kMessageListMetricsEpsilon) {
       _scheduleUnderfillBottomReanchor();
     }
     return false;

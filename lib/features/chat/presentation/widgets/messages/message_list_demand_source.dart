@@ -209,9 +209,10 @@ class MessageListDemandSource {
         _kVelocityEmaAlpha * vInstant + (1 - _kVelocityEmaAlpha) * _vSigned;
   }
 
-  /// Zeroes the approach-velocity EMA. Called on dimension changes
-  /// (ScrollMetricsNotification), re-anchors, and context changes so a stale
-  /// velocity cannot widen a fresh layout's demand horizon.
+  /// Zeroes the approach-velocity EMA. Called on real layout changes
+  /// (viewport resize, content-extent jump), re-anchors, and context
+  /// changes so a stale velocity cannot widen a fresh layout's demand
+  /// horizon. Pixel-only scroll metrics must not call this.
   void resetApproachVelocity() {
     _vSigned = 0;
     _lastDeltaAt = null;
