@@ -14323,6 +14323,11 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   }
 
   @override
+  String systemPermissionPhotosMessage(String productName) {
+    return 'Fluxer no tiene acceso a tu galería de fotos. Puedes habilitarlo en la configuración de privacidad de tu dispositivo.';
+  }
+
+  @override
   String systemPermissionNotificationsMessage(String productName) {
     return '$productName no tiene permiso para enviar notificaciones. Puedes activarlo en la configuración de tu dispositivo.';
   }
@@ -15586,6 +15591,14 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
       'Termina de registrarte para enviar solicitudes de amistad.';
 
   @override
+  String get addFriendVerifyToSend =>
+      'Verifica tu correo electrónico antes de enviar solicitudes de amistad.';
+
+  @override
+  String get addFriendFriendsListFull =>
+      'Tu lista de amigos está llena, o la de la otra persona. Elimina a alguien e inténtalo de nuevo.';
+
+  @override
   String get userTagBot => 'BOT';
 
   @override
@@ -16626,13 +16639,97 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
       'La verificación por SMS no está disponible en este momento. Inténtalo más tarde o contacta con soporte.';
 
   @override
+  String get phoneNotEligible =>
+      'La verificación por teléfono no está disponible para esta cuenta. Usa otro método o contacta con soporte.';
+
+  @override
+  String get phoneCaptchaRequired =>
+      'Se requiere una comprobación del navegador antes de la verificación por teléfono. Vuelve a intentarlo desde la página de inicio de sesión o contacta con soporte.';
+
+  @override
+  String get phoneSomethingWentWrong => 'Algo salió mal. Inténtalo de nuevo.';
+
+  @override
+  String get phoneInboundExpensiveDescription =>
+      'Enviar un SMS a este número de teléfono es muy costoso, por lo que necesitamos que tú nos envíes un SMS en su lugar. También puedes contactar con soporte para que retiremos este requisito de tu cuenta.';
+
+  @override
+  String get phoneInboundDefaultDescription =>
+      'Necesitamos que nos envíes un SMS para verificar tu número de teléfono.';
+
+  @override
+  String get phoneInboundStepOpenMessaging =>
+      'Abre la aplicación de mensajes de tu teléfono y crea un nuevo mensaje de texto.';
+
+  @override
+  String phoneInboundStepSendCode(String code, String number) {
+    return 'Envía el código $code al $number.';
+  }
+
+  @override
+  String get phoneInboundStepWait =>
+      'Espera a que recibamos tu mensaje. Esto puede tardar un minuto.';
+
+  @override
+  String get phoneInboundGetNewCode => 'Obtener nuevo código';
+
+  @override
+  String get phoneInboundChallengeCodeLabel => 'Código a enviar';
+
+  @override
   String get phoneInboundOurNumberLabel => 'Enviar a';
+
+  @override
+  String get requiredActionTitle => 'Se requiere verificación de cuenta';
+
+  @override
+  String requiredActionIntroGeneric(String productName) {
+    return 'Completa la verificación requerida para seguir usando Fluxer.';
+  }
+
+  @override
+  String get requiredActionIntroPhone =>
+      'Tu registro necesita una comprobación anti-spam adicional antes de que puedas continuar.';
+
+  @override
+  String requiredActionIntroEmailOrPhone(String productName) {
+    return 'Verifica tu correo electrónico o teléfono para seguir usando Fluxer.';
+  }
+
+  @override
+  String requiredActionIntroEmailAndPhone(String productName) {
+    return 'Completa los pasos obligatorios de verificación por correo electrónico y teléfono que aparecen a continuación para seguir usando Fluxer.';
+  }
+
+  @override
+  String get requiredActionChooseMethodTitle =>
+      'Elige un método de verificación';
+
+  @override
+  String requiredActionChooseMethodDescription(String productName) {
+    return 'Completa una de las rutas de verificación de abajo para seguir usando Fluxer.';
+  }
 
   @override
   String get requiredActionUseEmail => 'Usar correo';
 
   @override
   String get requiredActionUsePhone => 'Usar teléfono';
+
+  @override
+  String get requiredActionCheckEmailTitle => 'Revisa tu correo electrónico';
+
+  @override
+  String get requiredActionCheckEmailDescription =>
+      'Hemos enviado un enlace de verificación a tu dirección de correo electrónico. Ábrelo para continuar.';
+
+  @override
+  String get requiredActionResendVerificationEmail =>
+      'Reenviar correo de verificación';
+
+  @override
+  String get requiredActionVerificationEmailSent =>
+      'Correo de verificación enviado. Revisa tu bandeja de entrada.';
 
   @override
   String get requiredActionSignOut => 'Cerrar sesión';
@@ -16736,6 +16833,10 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get genericError => 'Ocurrió un error';
+
+  @override
+  String get networkErrorMessage =>
+      'Algo salió mal. Por favor, inténtalo de nuevo.';
 
   @override
   String get invalidCode => 'Código inválido';
@@ -17038,6 +17139,28 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   String get memberRoleAdd => 'Añadir rol';
 
   @override
+  String memberRoleRemove(String roleName) {
+    return 'Eliminar rol $roleName';
+  }
+
+  @override
+  String get userProfileNoRolesInCommunity =>
+      'Este usuario no tiene ningún rol en esta comunidad.';
+
+  @override
+  String memberRolesNoRolesYet(String rolesSettingsPath) {
+    return 'Aún no hay roles. Añade roles en $rolesSettingsPath';
+  }
+
+  @override
+  String get memberRolesNoRolesAvailable => 'No hay roles disponibles';
+
+  @override
+  String memberRolesNoRolesAvailableDescription(String rolesSettingsPath) {
+    return 'No hay roles para asignar en esta comunidad en este momento, pero puedes crear uno nuevo en $rolesSettingsPath.';
+  }
+
+  @override
   String get guildSettingsTitle => 'Ajustes de la comunidad';
 
   @override
@@ -17048,6 +17171,58 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get userProfileLocalTime => 'Hora local';
+
+  @override
+  String get userProfileSameTimeAsYou => 'La misma hora que tú';
+
+  @override
+  String userProfileTimeAheadOfYou(String duration) {
+    return '$duration por delante de ti';
+  }
+
+  @override
+  String userProfileTimeBehindYou(String duration) {
+    return '$duration por detrás de ti';
+  }
+
+  @override
+  String userProfileTimezoneDurationHoursMinutes(int hours, int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours horas',
+      one: '1 hora',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes minutos',
+      one: '1 minuto',
+    );
+    return '$_temp0 $_temp1';
+  }
+
+  @override
+  String userProfileTimezoneDurationHours(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours horas',
+      one: '1 hora',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String userProfileTimezoneDurationMinutes(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes minutos',
+      one: '1 minuto',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get userProfileCopyUsername => 'Copiar nombre de usuario';
@@ -17284,16 +17459,74 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   String get iarReportGuildTitle => 'Reportar comunidad';
 
   @override
+  String get iarReportGuildPreconfirmBody =>
+      'Si este reporte es sobre un mensaje específico de esta comunidad, reporta ese mensaje en su lugar. Los reportes de mensajes proporcionan al equipo de seguridad el contexto más claro, y añadir detalles en los comentarios puede ayudar a que lo revisemos más rápido. Continúa con el reporte de la comunidad en su conjunto únicamente si reportar un mensaje no reflejaría el problema general.';
+
+  @override
+  String get iarContinueToReportCommunity =>
+      'Continuar reportando la comunidad';
+
+  @override
   String get iarPreviewCommunitySubtitle => 'Comunidad';
+
+  @override
+  String get iarReasonHarassmentGuildLabel => 'Acoso o abuso dirigido';
+
+  @override
+  String get iarReasonHarassmentGuildDescription =>
+      'La comunidad facilita ataques masivos o acoso dirigido.';
+
+  @override
+  String get iarReasonTerrorismLabel => 'Terrorismo o extremismo violento';
+
+  @override
+  String get iarReasonTerrorismDescription =>
+      'Promueve, recluta para, o coordina actividad violenta extremista.';
+
+  @override
+  String get iarReasonMatureContentGuildLabel =>
+      'Contenido para adultos o acceso inseguro';
+
+  @override
+  String get iarReasonMatureContentGuildDescription =>
+      'Contenido para adultos sin restricción apropiada.';
+
+  @override
+  String get iarReasonChildSafetyGuildDescription =>
+      'Pone en peligro a menores o aloja contenido de explotación infantil.';
 
   @override
   String get iarReasonRaidLabel => 'Coordinación de raideos';
 
   @override
+  String get iarReasonRaidDescription =>
+      'Coordina ataques masivos, campañas de asedio o acoso contra personas o comunidades.';
+
+  @override
+  String get iarReasonSpamGuildDescription =>
+      'La comunidad existe para hacer spam, estafar o abusar de la plataforma.';
+
+  @override
   String get iarReasonMalwareGuildLabel => 'Distribución de malware';
 
   @override
+  String get iarReasonMalwareGuildDescription =>
+      'Distribuye malware, robo de credenciales o archivos dañinos.';
+
+  @override
+  String get iarReasonPrivacyGuildLabel =>
+      'Violación de la privacidad o doxxing';
+
+  @override
+  String get iarReasonPrivacyGuildDescription =>
+      'Comparte información personal, acosa a usuarios o coordina abusos de privacidad.';
+
+  @override
   String get iarReasonSelfHarmGuildLabel => 'Fomenta la autolesión';
+
+  @override
+  String get iarReasonSelfHarmGuildDescription =>
+      'Fomenta el suicidio, las autolesiones o los trastornos alimentarios.';
 
   @override
   String get iarReasonInappropriateProfile => 'Perfil inapropiado';
@@ -17603,6 +17836,14 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
       'El modo lento está activado, pero eres inmune.';
 
   @override
+  String get slowmodeStatusEnabled => 'El modo lento está activado';
+
+  @override
+  String slowmodeStatusActive(String remaining) {
+    return 'Modo lento activo ($remaining)';
+  }
+
+  @override
   String get channelNoSendPermissionHint =>
       'No puedes enviar mensajes en este canal.';
 
@@ -17764,7 +18005,54 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   String get chatAttachmentDownload => 'Descargar';
 
   @override
+  String get chatAttachmentDownloadedToast => 'Guardado en fotos';
+
+  @override
   String get chatAttachmentExpiredTooltip => 'El archivo adjunto ha caducado';
+
+  @override
+  String chatTextualPreviewExpandLines(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Expandir ($count líneas)',
+      one: 'Expandir ($count línea)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String chatTextualPreviewCollapseLines(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Reducir ($count líneas)',
+      one: 'Reducir ($count línea)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String chatTextualPreviewExpandRows(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Expandir ($count filas)',
+      one: 'Expandir ($count fila)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String chatTextualPreviewCollapseRows(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Reducir ($count filas)',
+      one: 'Reducir ($count fila)',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get chatTextualPreviewChangeLanguage => 'Cambiar idioma';
@@ -18194,7 +18482,25 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
       'Ajusta el tamaño de la fuente en el área de chat.';
 
   @override
+  String get lookAndFeelChatFontSizeLabel => 'Tamaño de fuente del chat';
+
+  @override
+  String get lookAndFeelAppZoomTitle => 'Nivel de zoom de la aplicación';
+
+  @override
+  String get lookAndFeelAppZoomDescription =>
+      'Ajusta el nivel de zoom de la aplicación.';
+
+  @override
   String get lookAndFeelMessagesSectionTitle => 'Mensajes';
+
+  @override
+  String get lookAndFeelMessagesSectionDescription =>
+      'Elige cómo se muestran los mensajes en canales de chat.';
+
+  @override
+  String get lookAndFeelMessageGroupSpacingLabel =>
+      'Espacio entre grupos de mensajes';
 
   @override
   String lookAndFeelMessageGroupSpacingValue(int spacing) {
@@ -18453,6 +18759,22 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get favoritesAddToFavorites => 'Añadir a favoritos';
+
+  @override
+  String get savedMediaFormNameLabel => 'Nombre';
+
+  @override
+  String get savedMediaFormAltTextLabel => 'Texto alternativo';
+
+  @override
+  String get savedMediaFormTagsLabel => 'Etiquetas';
+
+  @override
+  String get savedMediaFormTagsHint => 'divertido, reacción, trabajo';
+
+  @override
+  String get gifFavoriteFirstTimeTitle =>
+      '¿Cómo deberíamos guardar tus GIF favoritos?';
 
   @override
   String get favoritesHideConfirmTitle => 'Ocultar favoritos';

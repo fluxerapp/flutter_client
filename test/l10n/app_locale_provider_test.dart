@@ -144,19 +144,6 @@ void main() {
     );
   });
 
-  test('stored locale without a catalogue follows the system locale', () {
-    final ProviderContainer container = _container(appLocale: sdk.Locale.bg);
-    container.read(systemLocalesProvider.notifier).updateFromPlatform(
-      const <Locale>[Locale('de', 'DE')],
-    );
-
-    expect(container.read(effectiveAppLocaleProvider), const Locale('de'));
-    expect(
-      container.read(appLocalizationsProvider).gatewayConnectedToast,
-      'Verbunden',
-    );
-  });
-
   test('system fallback considers the complete preference list', () {
     final ProviderContainer container = _container();
     container.read(systemLocalesProvider.notifier).updateFromPlatform(

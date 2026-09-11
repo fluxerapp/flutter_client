@@ -25,22 +25,15 @@ void main() {
     expect(tryFlutterLocaleFromSdkLocale(sdk.Locale.de), const Locale('de'));
   });
 
-  test('tryFlutterLocaleFromSdkLocale rejects missing catalogs', () {
-    const List<sdk.Locale> unsupported = <sdk.Locale>[
-      sdk.Locale.bg,
-      sdk.Locale.he,
-      sdk.Locale.hi,
-      sdk.Locale.hr,
-      sdk.Locale.id,
-      sdk.Locale.nl,
-      sdk.Locale.ro,
-      sdk.Locale.vi,
-      sdk.Locale.$unknown,
-    ];
-
-    for (final sdk.Locale locale in unsupported) {
-      expect(tryFlutterLocaleFromSdkLocale(locale), isNull);
+  test('every backend locale has a bundled catalog', () {
+    for (final sdk.Locale locale in sdk.Locale.$valuesDefined) {
+      expect(
+        tryFlutterLocaleFromSdkLocale(locale),
+        isNotNull,
+        reason: locale.toString(),
+      );
     }
+    expect(tryFlutterLocaleFromSdkLocale(sdk.Locale.$unknown), isNull);
   });
 
   test(
