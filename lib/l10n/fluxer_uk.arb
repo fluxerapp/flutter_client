@@ -1646,7 +1646,6 @@
     },
     "cropTouchHint": "Pinch to zoom, drag to reposition",
     "cropMouseHint": "Drag corners to resize, drag inside to move",
-
     "changeYourFluxerTag": "Змінити ваш Ім'я користувача",
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
@@ -9172,5 +9171,55 @@
     "guildSettingsAuditLogFilterAction": "Фільтрувати за дією",
     "@guildSettingsAuditLogFilterAction": {
         "description": "Label of the action-type filter dropdown in the activity log tab."
+    },
+    "lookAndFeelChatWallpaperTitle": "Шпалери чату",
+    "@lookAndFeelChatWallpaperTitle": {
+        "description": "Look and Feel section title for chat wallpaper presets."
+    },
+    "lookAndFeelChatWallpaperDescription": "Виберіть фон для чату. Він залишиться на цьому пристрої.",
+    "@lookAndFeelChatWallpaperDescription": {
+        "description": "Look and Feel section description for chat wallpaper presets."
+    },
+    "lookAndFeelChatWallpaperLocalOnlyTooltip": "Ця настройка залишається на цьому пристрої",
+    "@lookAndFeelChatWallpaperLocalOnlyTooltip": {
+        "description": "Accessibility label for the icon indicating chat wallpaper does not sync."
+    },
+    "lookAndFeelChatWallpaperLocalOnlyToast": "Шпалери чату збережено лише на цьому пристрої й не синхронізуються з іншими.",
+    "@lookAndFeelChatWallpaperLocalOnlyToast": {
+        "description": "Toast shown when tapping the local-only icon on Chat Wallpaper."
+    },
+    "lookAndFeelChatWallpaperDefaultLabel": "Типово",
+    "@lookAndFeelChatWallpaperDefaultLabel": {
+        "description": "Chat wallpaper preset that uses the theme chat background."
+    },
+    "lookAndFeelChatWallpaperCustomLabel": "Власне зображення",
+    "@lookAndFeelChatWallpaperCustomLabel": {
+        "description": "Chat wallpaper option that picks an image from the gallery."
+    },
+    "lookAndFeelChatWallpaperColorLabel": "Колір {id}",
+    "@lookAndFeelChatWallpaperColorLabel": {
+        "description": "Accessibility label for a solid color wallpaper preset.",
+        "placeholders": {
+            "id": {
+                "type": "String"
+            }
+        }
+    },
+    "lookAndFeelChatWallpaperGradientLabel": "Градієнт {id}",
+    "@lookAndFeelChatWallpaperGradientLabel": {
+        "description": "Accessibility label for a gradient wallpaper preset.",
+        "placeholders": {
+            "id": {
+                "type": "String"
+            }
+        }
+    },
+    "lookAndFeelChatWallpaperDimLabel": "Зробити шпалери темнішими",
+    "@lookAndFeelChatWallpaperDimLabel": {
+        "description": "Slider label for how dark the overlay on the chat wallpaper is."
+    },
+    "lookAndFeelChatWallpaperPickFailed": "Не вдалося встановити це зображення як шпалери.",
+    "@lookAndFeelChatWallpaperPickFailed": {
+        "description": "Toast shown when a custom wallpaper image cannot be decoded or saved."
     }
 }

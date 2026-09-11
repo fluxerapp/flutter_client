@@ -1646,7 +1646,6 @@
     },
     "cropTouchHint": "Pinch to zoom, drag to reposition",
     "cropMouseHint": "Drag corners to resize, drag inside to move",
-
     "changeYourFluxerTag": "Pakeisti jūsų Vartotojo vardas",
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
@@ -9389,5 +9388,55 @@
                 "example": "Alice"
             }
         }
+    },
+    "lookAndFeelChatWallpaperTitle": "Pokalbio fonas",
+    "@lookAndFeelChatWallpaperTitle": {
+        "description": "Look and Feel section title for chat wallpaper presets."
+    },
+    "lookAndFeelChatWallpaperDescription": "Pasirinkite pokalbio foną. Jis liks šiame įrenginyje.",
+    "@lookAndFeelChatWallpaperDescription": {
+        "description": "Look and Feel section description for chat wallpaper presets."
+    },
+    "lookAndFeelChatWallpaperLocalOnlyTooltip": "Šis nustatymas lieka šiame įrenginyje",
+    "@lookAndFeelChatWallpaperLocalOnlyTooltip": {
+        "description": "Accessibility label for the icon indicating chat wallpaper does not sync."
+    },
+    "lookAndFeelChatWallpaperLocalOnlyToast": "Pokalbio fono paveikslėlis išsaugotas tik šiame įrenginyje ir nesinchronizuojamas su kitais įrenginiais.",
+    "@lookAndFeelChatWallpaperLocalOnlyToast": {
+        "description": "Toast shown when tapping the local-only icon on Chat Wallpaper."
+    },
+    "lookAndFeelChatWallpaperDefaultLabel": "Numatytasis",
+    "@lookAndFeelChatWallpaperDefaultLabel": {
+        "description": "Chat wallpaper preset that uses the theme chat background."
+    },
+    "lookAndFeelChatWallpaperCustomLabel": "Pasirinktinis vaizdas",
+    "@lookAndFeelChatWallpaperCustomLabel": {
+        "description": "Chat wallpaper option that picks an image from the gallery."
+    },
+    "lookAndFeelChatWallpaperColorLabel": "Spalva {id}",
+    "@lookAndFeelChatWallpaperColorLabel": {
+        "description": "Accessibility label for a solid color wallpaper preset.",
+        "placeholders": {
+            "id": {
+                "type": "String"
+            }
+        }
+    },
+    "lookAndFeelChatWallpaperGradientLabel": "Gradientas {id}",
+    "@lookAndFeelChatWallpaperGradientLabel": {
+        "description": "Accessibility label for a gradient wallpaper preset.",
+        "placeholders": {
+            "id": {
+                "type": "String"
+            }
+        }
+    },
+    "lookAndFeelChatWallpaperDimLabel": "Pritemdinti fono paveikslėlį",
+    "@lookAndFeelChatWallpaperDimLabel": {
+        "description": "Slider label for how dark the overlay on the chat wallpaper is."
+    },
+    "lookAndFeelChatWallpaperPickFailed": "Nepavyko nustatyti šio vaizdo kaip jūsų fono paveikslėlio.",
+    "@lookAndFeelChatWallpaperPickFailed": {
+        "description": "Toast shown when a custom wallpaper image cannot be decoded or saved."
     }
 }

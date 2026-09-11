@@ -1646,7 +1646,6 @@
     },
     "cropTouchHint": "Pinch to zoom, drag to reposition",
     "cropMouseHint": "Drag corners to resize, drag inside to move",
-
     "changeYourFluxerTag": "Deinen Benutzername ändern",
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
@@ -9272,5 +9271,55 @@
     "channelMenuCouldNotDeleteYourMessages": "Deine Nachrichten konnten nicht gelöscht werden",
     "@channelMenuCouldNotDeleteYourMessages": {
         "description": "Error toast when deleting messages in a channel fails."
+    },
+    "lookAndFeelChatWallpaperTitle": "Chat-Hintergrund",
+    "@lookAndFeelChatWallpaperTitle": {
+        "description": "Look and Feel section title for chat wallpaper presets."
+    },
+    "lookAndFeelChatWallpaperDescription": "Wähle einen Hintergrund für Chats. Dieser bleibt auf diesem Gerät.",
+    "@lookAndFeelChatWallpaperDescription": {
+        "description": "Look and Feel section description for chat wallpaper presets."
+    },
+    "lookAndFeelChatWallpaperLocalOnlyTooltip": "Diese Einstellung bleibt auf diesem Gerät",
+    "@lookAndFeelChatWallpaperLocalOnlyTooltip": {
+        "description": "Accessibility label for the icon indicating chat wallpaper does not sync."
+    },
+    "lookAndFeelChatWallpaperLocalOnlyToast": "Das Chat-Hintergrundbild wird nur auf diesem Gerät gespeichert und nicht mit anderen Geräten synchronisiert.",
+    "@lookAndFeelChatWallpaperLocalOnlyToast": {
+        "description": "Toast shown when tapping the local-only icon on Chat Wallpaper."
+    },
+    "lookAndFeelChatWallpaperDefaultLabel": "Standard",
+    "@lookAndFeelChatWallpaperDefaultLabel": {
+        "description": "Chat wallpaper preset that uses the theme chat background."
+    },
+    "lookAndFeelChatWallpaperCustomLabel": "Benutzerdefiniertes Bild",
+    "@lookAndFeelChatWallpaperCustomLabel": {
+        "description": "Chat wallpaper option that picks an image from the gallery."
+    },
+    "lookAndFeelChatWallpaperColorLabel": "Farbe {id}",
+    "@lookAndFeelChatWallpaperColorLabel": {
+        "description": "Accessibility label for a solid color wallpaper preset.",
+        "placeholders": {
+            "id": {
+                "type": "String"
+            }
+        }
+    },
+    "lookAndFeelChatWallpaperGradientLabel": "Verlauf {id}",
+    "@lookAndFeelChatWallpaperGradientLabel": {
+        "description": "Accessibility label for a gradient wallpaper preset.",
+        "placeholders": {
+            "id": {
+                "type": "String"
+            }
+        }
+    },
+    "lookAndFeelChatWallpaperDimLabel": "Hintergrund abdunkeln",
+    "@lookAndFeelChatWallpaperDimLabel": {
+        "description": "Slider label for how dark the overlay on the chat wallpaper is."
+    },
+    "lookAndFeelChatWallpaperPickFailed": "Das Bild konnte nicht als Hintergrund festgelegt werden.",
+    "@lookAndFeelChatWallpaperPickFailed": {
+        "description": "Toast shown when a custom wallpaper image cannot be decoded or saved."
     }
 }
