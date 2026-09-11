@@ -4444,29 +4444,29 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Ajustează nivelul de zoom al aplicației.';
 
   @override
-  String get lookAndFeelChatWallpaperTitle => 'Chat Wallpaper';
+  String get lookAndFeelChatWallpaperTitle => 'Fundal chat';
 
   @override
   String get lookAndFeelChatWallpaperDescription =>
-      'Choose a background for chat. This stays on this device.';
+      'Alege un fundal pentru conversație. Acesta va rămâne pe acest dispozitiv.';
 
   @override
   String get lookAndFeelChatWallpaperLocalOnlyTooltip =>
-      'This setting stays on this device';
+      'Această setare rămâne pe acest dispozitiv';
 
   @override
   String get lookAndFeelChatWallpaperLocalOnlyToast =>
-      'Chat wallpaper is saved on this device only and does not sync to other devices.';
+      'Imaginea de fundal a conversației este salvată doar pe acest dispozitiv și nu se sincronizează cu alte dispozitive.';
 
   @override
-  String get lookAndFeelChatWallpaperDefaultLabel => 'Default';
+  String get lookAndFeelChatWallpaperDefaultLabel => 'Implicit';
 
   @override
-  String get lookAndFeelChatWallpaperCustomLabel => 'Custom image';
+  String get lookAndFeelChatWallpaperCustomLabel => 'Imagine personalizată';
 
   @override
   String lookAndFeelChatWallpaperColorLabel(String id) {
-    return 'Color $id';
+    return 'Culoare $id';
   }
 
   @override
@@ -4475,11 +4475,11 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   }
 
   @override
-  String get lookAndFeelChatWallpaperDimLabel => 'Dim wallpaper';
+  String get lookAndFeelChatWallpaperDimLabel => 'Estompare fundal';
 
   @override
   String get lookAndFeelChatWallpaperPickFailed =>
-      'Could not set that image as your wallpaper.';
+      'Nu am putut seta acea imagine ca fundal.';
 
   @override
   String get lookAndFeelMessagesSectionTitle => 'Mesaje';

@@ -4243,42 +4243,39 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
       'Adjust the application\'s zoom level.';
 
   @override
-  String get lookAndFeelChatWallpaperTitle => 'Chat Wallpaper';
+  String get lookAndFeelChatWallpaperTitle => '聊天背景';
 
   @override
-  String get lookAndFeelChatWallpaperDescription =>
-      'Choose a background for chat. This stays on this device.';
+  String get lookAndFeelChatWallpaperDescription => '为聊天选择背景。此背景将保留在此设备上。';
 
   @override
-  String get lookAndFeelChatWallpaperLocalOnlyTooltip =>
-      'This setting stays on this device';
+  String get lookAndFeelChatWallpaperLocalOnlyTooltip => '此设置保留在此设备上';
 
   @override
   String get lookAndFeelChatWallpaperLocalOnlyToast =>
-      'Chat wallpaper is saved on this device only and does not sync to other devices.';
+      '聊天壁纸仅保存在此设备上，不会同步到其他设备。';
 
   @override
-  String get lookAndFeelChatWallpaperDefaultLabel => 'Default';
+  String get lookAndFeelChatWallpaperDefaultLabel => '默认';
 
   @override
-  String get lookAndFeelChatWallpaperCustomLabel => 'Custom image';
+  String get lookAndFeelChatWallpaperCustomLabel => '自定义图片';
 
   @override
   String lookAndFeelChatWallpaperColorLabel(String id) {
-    return 'Color $id';
+    return '颜色 $id';
   }
 
   @override
   String lookAndFeelChatWallpaperGradientLabel(String id) {
-    return 'Gradient $id';
+    return '渐变 $id';
   }
 
   @override
-  String get lookAndFeelChatWallpaperDimLabel => 'Dim wallpaper';
+  String get lookAndFeelChatWallpaperDimLabel => '壁纸调暗';
 
   @override
-  String get lookAndFeelChatWallpaperPickFailed =>
-      'Could not set that image as your wallpaper.';
+  String get lookAndFeelChatWallpaperPickFailed => '无法将此图片设为你的壁纸。';
 
   @override
   String get lookAndFeelMessagesSectionTitle => 'Messages';
@@ -17081,6 +17078,41 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get lookAndFeelChatFontScalingDescription => '調整聊天區域的字體大小。';
+
+  @override
+  String get lookAndFeelChatWallpaperTitle => '聊天背景';
+
+  @override
+  String get lookAndFeelChatWallpaperDescription => '選擇聊天背景。此設定僅保留在此裝置上。';
+
+  @override
+  String get lookAndFeelChatWallpaperLocalOnlyTooltip => '此設定僅保留在此裝置上';
+
+  @override
+  String get lookAndFeelChatWallpaperLocalOnlyToast =>
+      '聊天背景圖片僅儲存在此裝置，不會同步到其他裝置。';
+
+  @override
+  String get lookAndFeelChatWallpaperDefaultLabel => '預設';
+
+  @override
+  String get lookAndFeelChatWallpaperCustomLabel => '自訂圖片';
+
+  @override
+  String lookAndFeelChatWallpaperColorLabel(String id) {
+    return '顏色 $id';
+  }
+
+  @override
+  String lookAndFeelChatWallpaperGradientLabel(String id) {
+    return '漸層 $id';
+  }
+
+  @override
+  String get lookAndFeelChatWallpaperDimLabel => '調暗背景';
+
+  @override
+  String get lookAndFeelChatWallpaperPickFailed => '無法將該圖片設為您的背景圖片。';
 
   @override
   String get lookAndFeelInterfaceTitle => '介面';

@@ -4419,29 +4419,29 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Adjust the application\'s zoom level.';
 
   @override
-  String get lookAndFeelChatWallpaperTitle => 'Chat Wallpaper';
+  String get lookAndFeelChatWallpaperTitle => 'Tapeta chatu';
 
   @override
   String get lookAndFeelChatWallpaperDescription =>
-      'Choose a background for chat. This stays on this device.';
+      'Vyberte pozadí pro chat. Toto zůstane na tomto zařízení.';
 
   @override
   String get lookAndFeelChatWallpaperLocalOnlyTooltip =>
-      'This setting stays on this device';
+      'Toto nastavení zůstane na tomto zařízení';
 
   @override
   String get lookAndFeelChatWallpaperLocalOnlyToast =>
-      'Chat wallpaper is saved on this device only and does not sync to other devices.';
+      'Tapeta chatu je uložena pouze na tomto zařízení a nesynchronizuje se s ostatními zařízeními.';
 
   @override
-  String get lookAndFeelChatWallpaperDefaultLabel => 'Default';
+  String get lookAndFeelChatWallpaperDefaultLabel => 'Výchozí';
 
   @override
-  String get lookAndFeelChatWallpaperCustomLabel => 'Custom image';
+  String get lookAndFeelChatWallpaperCustomLabel => 'Vlastní obrázek';
 
   @override
   String lookAndFeelChatWallpaperColorLabel(String id) {
-    return 'Color $id';
+    return 'Barva $id';
   }
 
   @override
@@ -4450,11 +4450,11 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   }
 
   @override
-  String get lookAndFeelChatWallpaperDimLabel => 'Dim wallpaper';
+  String get lookAndFeelChatWallpaperDimLabel => 'Ztlumit tapetu';
 
   @override
   String get lookAndFeelChatWallpaperPickFailed =>
-      'Could not set that image as your wallpaper.';
+      'Nepodařilo se nastavit tento obrázek jako tapetu.';
 
   @override
   String get lookAndFeelMessagesSectionTitle => 'Messages';

@@ -4426,42 +4426,42 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
       'Adjust the application\'s zoom level.';
 
   @override
-  String get lookAndFeelChatWallpaperTitle => 'Chat Wallpaper';
+  String get lookAndFeelChatWallpaperTitle => 'Papel de parede do chat';
 
   @override
   String get lookAndFeelChatWallpaperDescription =>
-      'Choose a background for chat. This stays on this device.';
+      'Escolha um plano de fundo para o chat. Ele ficará neste dispositivo.';
 
   @override
   String get lookAndFeelChatWallpaperLocalOnlyTooltip =>
-      'This setting stays on this device';
+      'Esta configuração fica neste dispositivo';
 
   @override
   String get lookAndFeelChatWallpaperLocalOnlyToast =>
-      'Chat wallpaper is saved on this device only and does not sync to other devices.';
+      'O papel de parede do chat é salvo apenas neste dispositivo e não é sincronizado com outros.';
 
   @override
-  String get lookAndFeelChatWallpaperDefaultLabel => 'Default';
+  String get lookAndFeelChatWallpaperDefaultLabel => 'Padrão';
 
   @override
-  String get lookAndFeelChatWallpaperCustomLabel => 'Custom image';
+  String get lookAndFeelChatWallpaperCustomLabel => 'Imagem personalizada';
 
   @override
   String lookAndFeelChatWallpaperColorLabel(String id) {
-    return 'Color $id';
+    return 'Cor $id';
   }
 
   @override
   String lookAndFeelChatWallpaperGradientLabel(String id) {
-    return 'Gradient $id';
+    return 'Gradiente $id';
   }
 
   @override
-  String get lookAndFeelChatWallpaperDimLabel => 'Dim wallpaper';
+  String get lookAndFeelChatWallpaperDimLabel => 'Escurecer papel de parede';
 
   @override
   String get lookAndFeelChatWallpaperPickFailed =>
-      'Could not set that image as your wallpaper.';
+      'Não foi possível definir esta imagem como seu papel de parede.';
 
   @override
   String get lookAndFeelMessagesSectionTitle => 'Messages';
@@ -17718,6 +17718,44 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   @override
   String get lookAndFeelChatFontScalingDescription =>
       'Ajuste o tamanho da fonte na área de chat.';
+
+  @override
+  String get lookAndFeelChatWallpaperTitle => 'Papel de parede do chat';
+
+  @override
+  String get lookAndFeelChatWallpaperDescription =>
+      'Escolha um plano de fundo para o chat. Ele ficará neste dispositivo.';
+
+  @override
+  String get lookAndFeelChatWallpaperLocalOnlyTooltip =>
+      'Esta configuração fica neste dispositivo';
+
+  @override
+  String get lookAndFeelChatWallpaperLocalOnlyToast =>
+      'O papel de parede do chat é salvo apenas neste dispositivo e não é sincronizado com outros.';
+
+  @override
+  String get lookAndFeelChatWallpaperDefaultLabel => 'Padrão';
+
+  @override
+  String get lookAndFeelChatWallpaperCustomLabel => 'Imagem personalizada';
+
+  @override
+  String lookAndFeelChatWallpaperColorLabel(String id) {
+    return 'Cor $id';
+  }
+
+  @override
+  String lookAndFeelChatWallpaperGradientLabel(String id) {
+    return 'Gradiente $id';
+  }
+
+  @override
+  String get lookAndFeelChatWallpaperDimLabel => 'Escurecer papel de parede';
+
+  @override
+  String get lookAndFeelChatWallpaperPickFailed =>
+      'Não foi possível definir esta imagem como seu papel de parede.';
 
   @override
   String get lookAndFeelInterfaceTitle => 'Interface';

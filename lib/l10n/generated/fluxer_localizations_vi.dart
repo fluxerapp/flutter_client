@@ -4413,29 +4413,29 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Điều chỉnh mức thu phóng của ứng dụng.';
 
   @override
-  String get lookAndFeelChatWallpaperTitle => 'Chat Wallpaper';
+  String get lookAndFeelChatWallpaperTitle => 'Hình nền trò chuyện';
 
   @override
   String get lookAndFeelChatWallpaperDescription =>
-      'Choose a background for chat. This stays on this device.';
+      'Chọn hình nền cho cuộc trò chuyện. Hình nền này sẽ được lưu trên thiết bị này.';
 
   @override
   String get lookAndFeelChatWallpaperLocalOnlyTooltip =>
-      'This setting stays on this device';
+      'Cài đặt này chỉ có trên thiết bị này';
 
   @override
   String get lookAndFeelChatWallpaperLocalOnlyToast =>
-      'Chat wallpaper is saved on this device only and does not sync to other devices.';
+      'Hình nền trò chuyện chỉ được lưu trên thiết bị này và không đồng bộ hóa với các thiết bị khác.';
 
   @override
-  String get lookAndFeelChatWallpaperDefaultLabel => 'Default';
+  String get lookAndFeelChatWallpaperDefaultLabel => 'Mặc định';
 
   @override
-  String get lookAndFeelChatWallpaperCustomLabel => 'Custom image';
+  String get lookAndFeelChatWallpaperCustomLabel => 'Ảnh tùy chỉnh';
 
   @override
   String lookAndFeelChatWallpaperColorLabel(String id) {
-    return 'Color $id';
+    return 'Màu $id';
   }
 
   @override
@@ -4444,11 +4444,11 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   }
 
   @override
-  String get lookAndFeelChatWallpaperDimLabel => 'Dim wallpaper';
+  String get lookAndFeelChatWallpaperDimLabel => 'Làm mờ hình nền';
 
   @override
   String get lookAndFeelChatWallpaperPickFailed =>
-      'Could not set that image as your wallpaper.';
+      'Không thể đặt ảnh đó làm hình nền của bạn.';
 
   @override
   String get lookAndFeelMessagesSectionTitle => 'Tin nhắn';
