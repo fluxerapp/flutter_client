@@ -3,7 +3,7 @@
     "@reconnectingTitle": {
         "description": "Title on the reconnecting / server error screen."
     },
-    "reconnectingBody": "C'è un problema con i server.\nDovrebbe risolversi in un attimo!",
+    "reconnectingBody": "C'è un problema con l'istanza.\nDovrebbe risolversi in un attimo!",
     "@reconnectingBody": {
         "description": "Subtitle on the reconnecting screen explaining temporary server issues."
     },
@@ -2551,7 +2551,7 @@
     "@phoneAddHint": {
         "description": "Hint for phone input."
     },
-    "phoneAddFooter": "Inserisci il tuo numero di telefono. Ti invieremo un codice di verifica via SMS.",
+    "phoneAddFooter": "Ti invieremo un codice SMS quando disponibile. Il tuo numero non è collegato al tuo account. Conserviamo solo un marcatore crittografato, senza ID utente, per consentire al massimo 2 verifiche in circa 30 giorni.",
     "@phoneAddFooter": {
         "description": "Footer text for phone input."
     },
@@ -2567,7 +2567,7 @@
     "@phoneVerifyDescription": {
         "description": "Description for phone verify step."
     },
-    "phoneAddSuccess": "Numero di telefono aggiunto",
+    "phoneAddSuccess": "Numero di telefono verificato",
     "@phoneAddSuccess": {
         "description": "Toast after phone added."
     },
@@ -3892,7 +3892,7 @@
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
     },
-    "voiceMessageHoldHint": "Tieni premuto per registrare. Trascina verso l'alto per bloccare, o rilascia per inviare.",
+    "voiceMessageHoldHint": "Tieni premuto per registrare. Trascina nel cestino per eliminare, scorri verso l'alto per bloccare o rilascia per inviare.",
     "@voiceMessageHoldHint": {
         "description": "Hint shown next to the hold-to-record microphone button."
     },
@@ -4006,7 +4006,7 @@
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
     },
-    "chatAttachmentPasteTooltip": "Incolla immagine dagli appunti",
+    "chatAttachmentPasteTooltip": "Incolla file dagli appunti",
     "@chatAttachmentPasteTooltip": {
         "description": "Tooltip for pasting an image attachment from the clipboard."
     },
@@ -4483,7 +4483,7 @@
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
     },
-    "lookAndFeelChatFontScalingTitle": "Ridimensionamento carattere chat",
+    "lookAndFeelChatFontScalingTitle": "Dimensione carattere chat",
     "@lookAndFeelChatFontScalingTitle": {
         "description": "Section title for the chat font size slider."
     },
@@ -5182,7 +5182,7 @@
     "@voiceChannelEmptyDescription": {
         "description": "Empty state body when viewing a guild voice channel while not in the call."
     },
-    "voiceChannelJoin": "Unisciti al canale vocale",
+    "voiceChannelJoin": "Partecipa al canale vocale",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
     },
@@ -6238,11 +6238,11 @@
     "@chatReplyMentionAccessibilityLabel": {
         "description": "Accessibility label for the reply bar mention toggle."
     },
-    "chatReplyMentionOn": "Attivato",
+    "chatReplyMentionOn": "ON",
     "@chatReplyMentionOn": {
         "description": "On state suffix appended to the reply bar mention toggle label."
     },
-    "chatReplyMentionOff": "Disattivato",
+    "chatReplyMentionOff": "OFF",
     "@chatReplyMentionOff": {
         "description": "Off state suffix appended to the reply bar mention toggle label."
     },
@@ -6585,7 +6585,7 @@
     "@userSettingsNavFluxerPlutonium": {
         "description": "User settings navigation item for Fluxer Plutonium subscription settings."
     },
-    "userSettingsNavGiftsAndCodes": "Regali e codici",
+    "userSettingsNavGiftsAndCodes": "Regali",
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
@@ -7474,11 +7474,11 @@
     "@guildMenuSettingsRoles": {
         "description": "Community settings tab for roles and permissions."
     },
-    "guildMenuSettingsEmoji": "Emoji personalizzate",
+    "guildMenuSettingsEmoji": "Emoji",
     "@guildMenuSettingsEmoji": {
         "description": "Community settings tab for custom emoji."
     },
-    "guildMenuSettingsStickers": "Adesivi personalizzati",
+    "guildMenuSettingsStickers": "Sticker",
     "@guildMenuSettingsStickers": {
         "description": "Community settings tab for custom stickers."
     },
@@ -7506,7 +7506,7 @@
     "@guildMenuSettingsMembers": {
         "description": "Community settings tab for member management."
     },
-    "guildMenuSettingsInviteLinks": "Link invito",
+    "guildMenuSettingsInviteLinks": "Inviti",
     "@guildMenuSettingsInviteLinks": {
         "description": "Community settings tab for invite links."
     },
@@ -8651,11 +8651,11 @@
     "@guildSettingsLoadingMore": {
         "description": "Loading state for pagination."
     },
-    "guildSettingsWebhooksDescription": "Gestisci i webhook che inviano messaggi ai canali.",
+    "guildSettingsWebhooksDescription": "Visualizza e gestisci tutti i webhook configurati nella tua community.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
     },
-    "guildSettingsWebhooksEmpty": "Nessun webhook configurato.",
+    "guildSettingsWebhooksEmpty": "Nessun webhook",
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
@@ -8696,11 +8696,11 @@
             }
         }
     },
-    "guildSettingsDiscoveryDescription": "Fai domanda per essere inserito nella ricerca community.",
+    "guildSettingsDiscoveryDescription": "Rendi la tua community visibile in Discovery, così altri potranno trovarla e unirsi.",
     "@guildSettingsDiscoveryDescription": {
         "description": "Description for discovery tab."
     },
-    "guildSettingsDiscoveryNotEligible": "Sono necessari almeno {count} membri per fare domanda.",
+    "guildSettingsDiscoveryNotEligible": "La tua community deve avere almeno {count} membri prima di poter essere inclusa in Scoperta.",
     "@guildSettingsDiscoveryNotEligible": {
         "description": "Discovery eligibility message.",
         "placeholders": {
@@ -8717,15 +8717,15 @@
     "@guildSettingsDiscoveryDescriptionField": {
         "description": "Label for discovery description field."
     },
-    "guildSettingsDiscoveryTags": "Tag",
+    "guildSettingsDiscoveryTags": "Tag personalizzati",
     "@guildSettingsDiscoveryTags": {
         "description": "Label for discovery tags field."
     },
-    "guildSettingsDiscoveryTagsHint": "gaming, arte, musica",
+    "guildSettingsDiscoveryTagsHint": "Aggiungi un tag e premi Invio",
     "@guildSettingsDiscoveryTagsHint": {
         "description": "Hint for discovery tags field."
     },
-    "guildSettingsDiscoveryApply": "Invia domanda",
+    "guildSettingsDiscoveryApply": "Applica",
     "@guildSettingsDiscoveryApply": {
         "description": "Button to submit discovery application."
     },
@@ -8737,7 +8737,7 @@
     "@guildSettingsMembersDescription": {
         "description": "Description for members tab."
     },
-    "guildSettingsMembersSearchHint": "Cerca membri",
+    "guildSettingsMembersSearchHint": "Cerca per nome utente o ID",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
     },
@@ -8750,11 +8750,11 @@
             }
         }
     },
-    "guildSettingsInvitesDescription": "Visualizza e revoca i link di invito attivi.",
+    "guildSettingsInvitesDescription": "Visualizza tutti gli inviti per questa community. Per creare un nuovo invito, vai a un canale e usa il pulsante \"Invita\".",
     "@guildSettingsInvitesDescription": {
         "description": "Description for invites tab."
     },
-    "guildSettingsInvitesEmpty": "Nessun invito attivo.",
+    "guildSettingsInvitesEmpty": "Nessun link di invito",
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
@@ -9154,7 +9154,7 @@
         }
     },
     "guildSettingsStickersSearchHint": "Cerca sticker",
-    "guildSettingsWebhooksInfo": "Crea webhook dalle impostazioni del canale. Modificali qui.",
+    "guildSettingsWebhooksInfo": "Per creare un webhook, apri {channelSettingsPath}. Puoi ancora modificare e organizzare tutti i webhook esistenti qui.",
     "guildSettingsVanityUrlWarning": "Il tuo URL personalizzato non funzionerà a meno che almeno un canale non sia visibile a tutti.",
     "guildSettingsVanityUrlRemove": "Rimuovi",
     "guildSettingsBannedUsersTitle": "Utenti bannati",

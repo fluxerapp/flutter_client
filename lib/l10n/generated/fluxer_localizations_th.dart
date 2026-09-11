@@ -13,7 +13,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get reconnectingBody =>
-      'มีบางอย่างผิดปกติกับเซิร์ฟเวอร์\nจะแก้ไขให้เร็วๆ นี้!';
+      'มีบางอย่างผิดปกติกับอินสแตนซ์\nน่าจะแก้ไขได้ในเร็วๆ นี้!';
 
   @override
   String get gatewayReconnectingToast => 'กำลังเชื่อมต่อใหม่…';
@@ -2360,7 +2360,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get phoneAddFooter =>
-      'ป้อนหมายเลขโทรศัพท์ของคุณ เราจะส่งรหัสยืนยันทาง SMS ไปให้คุณ';
+      'เราจะส่งรหัส SMS ไปให้เมื่อพร้อม หมายเลขของคุณจะไม่เชื่อมโยงกับบัญชีของคุณ เราจะเก็บเฉพาะเครื่องหมายที่เข้ารหัสไว้เท่านั้น โดยไม่มีรหัสผู้ใช้ เพื่อให้สามารถยืนยันได้สูงสุด 2 ครั้งภายในประมาณ 30 วัน';
 
   @override
   String get phoneAddSendCode => 'ส่งรหัส';
@@ -2373,7 +2373,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'ป้อนรหัสยืนยันที่ส่งไปยังหมายเลขโทรศัพท์ของคุณ';
 
   @override
-  String get phoneAddSuccess => 'เพิ่มหมายเลขโทรศัพท์แล้ว';
+  String get phoneAddSuccess => 'ยืนยันเบอร์โทรศัพท์แล้ว';
 
   @override
   String get phoneCountryLabel => 'ประเทศ';
@@ -3761,7 +3761,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get voiceMessageHoldHint =>
-      'กดค้างไว้เพื่อบันทึก ลากขึ้นเพื่อล็อค หรือปล่อยเพื่อส่ง';
+      'กดค้างเพื่อบันทึก ลากไปที่ถังขยะเพื่อลบ เลื่อนขึ้นเพื่อล็อค หรือปล่อยเพื่อส่ง';
 
   @override
   String get voiceMessageDiscard => 'ทิ้งข้อความเสียง';
@@ -3966,7 +3966,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get chatAttachmentSourceBrowse => 'เรียกดูไฟล์';
 
   @override
-  String get chatAttachmentPasteTooltip => 'วางรูปภาพจากคลิปบอร์ด';
+  String get chatAttachmentPasteTooltip => 'วางไฟล์จากคลิปบอร์ด';
 
   @override
   String get chatAttachmentSpoiler => 'สปอยเลอร์';
@@ -4371,7 +4371,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'ไม่สามารถซิงค์ธีมไปยังบัญชีของคุณได้ โปรดลองอีกครั้ง';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => 'การปรับขนาดฟอนต์แชท';
+  String get lookAndFeelChatFontScalingTitle => 'ขนาดตัวอักษรแชท';
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
@@ -7191,10 +7191,10 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get chatReplyMentionAccessibilityLabel => 'Mention ผู้ที่ตอบกลับ';
 
   @override
-  String get chatReplyMentionOn => 'เปิด';
+  String get chatReplyMentionOn => 'ON';
 
   @override
-  String get chatReplyMentionOff => 'ปิด';
+  String get chatReplyMentionOff => 'OFF';
 
   @override
   String get chatReplyCancel => 'ยกเลิกการตอบกลับ';
@@ -9011,7 +9011,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => 'ของขวัญและรหัส';
+  String get userSettingsNavGiftsAndCodes => 'ของขวัญ';
 
   @override
   String get giftSettingsClaimAccountTitle => 'ยืนยันบัญชีของคุณ';
@@ -11369,10 +11369,10 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get guildMenuSettingsRoles => 'บทบาทและสิทธิ์';
 
   @override
-  String get guildMenuSettingsEmoji => 'อิโมจิที่กำหนดเอง';
+  String get guildMenuSettingsEmoji => 'อิโมจิ';
 
   @override
-  String get guildMenuSettingsStickers => 'สติกเกอร์ที่กำหนดเอง';
+  String get guildMenuSettingsStickers => 'สติกเกอร์';
 
   @override
   String get guildMenuSettingsSafetyModeration => 'ความปลอดภัยและการกลั่นกรอง';
@@ -11393,7 +11393,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get guildMenuSettingsMembers => 'สมาชิก';
 
   @override
-  String get guildMenuSettingsInviteLinks => 'ลิงก์เชิญ';
+  String get guildMenuSettingsInviteLinks => 'คำเชิญ';
 
   @override
   String get guildMenuSettingsBans => 'การแบน';
@@ -12523,10 +12523,10 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get guildSettingsWebhooksDescription =>
-      'จัดการเว็บฮุคที่โพสต์ข้อความไปยังช่องต่างๆ';
+      'ดูและจัดการ Webhook ทั้งหมดที่ตั้งค่าไว้ในคอมมูนิตี้ของคุณ';
 
   @override
-  String get guildSettingsWebhooksEmpty => 'ยังไม่มีเว็บฮุคที่กำหนดค่าไว้';
+  String get guildSettingsWebhooksEmpty => 'ไม่มี Webhook';
 
   @override
   String guildSettingsWebhooksEmptyDescription(String channelSettingsPath) {
@@ -12583,14 +12583,14 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'สมัครเพื่อเข้าร่วมการค้นหาเซิร์ฟเวอร์';
+      'แสดงคอมมูนิตี้ของคุณในหน้าค้นหา เพื่อให้คนอื่นหาเจอและเข้าร่วมได้';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle => 'สมาชิกไม่พอ';
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'ต้องมีสมาชิกอย่างน้อย $count คนจึงจะสมัครได้';
+    return 'ชุมชนของคุณต้องมีสมาชิกอย่างน้อย $count คนก่อนจึงจะสามารถแสดงใน Discovery ได้';
   }
 
   @override
@@ -12656,7 +12656,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTags => 'แท็ก';
+  String get guildSettingsDiscoveryTags => 'แท็กที่กำหนดเอง';
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
@@ -12664,7 +12664,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTagsHint => 'เกม, ศิลปะ, ดนตรี';
+  String get guildSettingsDiscoveryTagsHint => 'เพิ่มแท็กแล้วกด Enter';
 
   @override
   String get guildSettingsDiscoveryAddTag => 'เพิ่ม';
@@ -12688,7 +12688,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryApply => 'ส่งใบสมัคร';
+  String get guildSettingsDiscoveryApply => 'ใช้';
 
   @override
   String get guildSettingsDiscoverySave => 'บันทึก';
@@ -12718,7 +12718,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'ค้นหาและจัดการสมาชิกเซิร์ฟเวอร์';
 
   @override
-  String get guildSettingsMembersSearchHint => 'ค้นหาสมาชิก';
+  String get guildSettingsMembersSearchHint => 'ค้นหาด้วยชื่อผู้ใช้หรือ ID';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
@@ -12921,10 +12921,10 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get guildSettingsInvitesDescription =>
-      'ดูและเพิกถอนลิงก์เชิญที่ใช้งานอยู่';
+      'ดูคำเชิญทั้งหมดสำหรับชุมชนนี้ หากต้องการสร้างคำเชิญใหม่ ให้ไปที่ช่องและใช้ปุ่มเชิญ';
 
   @override
-  String get guildSettingsInvitesEmpty => 'ไม่มีคำเชิญที่ใช้งานอยู่';
+  String get guildSettingsInvitesEmpty => 'ไม่มีลิงก์เชิญ';
 
   @override
   String get guildSettingsInvitesEmptyDescription =>
@@ -13723,7 +13723,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String guildSettingsWebhooksInfo(String channelSettingsPath) {
-    return 'สร้างเว็บฮุคจากการตั้งค่าช่อง แก้ไขที่นี่';
+    return 'หากต้องการสร้างเว็ةฮุค ให้เปิดที่ $channelSettingsPath คุณยังสามารถแก้ไขและจัดระเบียบเว็ะฮุคที่มีอยู่ทั้งหมดได้ที่นี่';
   }
 
   @override

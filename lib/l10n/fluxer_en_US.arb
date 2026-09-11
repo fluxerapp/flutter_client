@@ -1017,7 +1017,7 @@
     "@dmAddNote": {
         "description": "DM context menu action to add a note about the user."
     },
-    "dmEditGroup": "Edit Group",
+    "dmEditGroup": "Edit group",
     "@dmEditGroup": {
         "description": "DM context menu action to edit a group DM."
     },
@@ -2551,7 +2551,7 @@
     "@phoneAddHint": {
         "description": "Hint for phone input."
     },
-    "phoneAddFooter": "Enter your phone number. We'll send you a verification code via SMS.",
+    "phoneAddFooter": "We'll send an SMS code when available. Your number is not linked to your account. We keep only an encrypted marker, with no user ID, to allow at most 2 verifications in about 30 days.",
     "@phoneAddFooter": {
         "description": "Footer text for phone input."
     },
@@ -2567,7 +2567,7 @@
     "@phoneVerifyDescription": {
         "description": "Description for phone verify step."
     },
-    "phoneAddSuccess": "Phone number added",
+    "phoneAddSuccess": "Phone number verified",
     "@phoneAddSuccess": {
         "description": "Toast after phone added."
     },
@@ -3896,7 +3896,7 @@
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
     },
-    "voiceMessageHoldHint": "Hold to record. Drag up to lock, or release to send.",
+    "voiceMessageHoldHint": "Hold to record. Drag to trash to delete, slide up to lock, or release to send.",
     "@voiceMessageHoldHint": {
         "description": "Hint shown next to the hold-to-record microphone button."
     },
@@ -4010,7 +4010,7 @@
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
     },
-    "chatAttachmentPasteTooltip": "Paste image from clipboard",
+    "chatAttachmentPasteTooltip": "Paste file from clipboard",
     "@chatAttachmentPasteTooltip": {
         "description": "Tooltip for pasting an image attachment from the clipboard."
     },
@@ -4487,7 +4487,7 @@
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
     },
-    "lookAndFeelChatFontScalingTitle": "Chat Font Scaling",
+    "lookAndFeelChatFontScalingTitle": "Chat font scaling",
     "@lookAndFeelChatFontScalingTitle": {
         "description": "Section title for the chat font size slider."
     },
@@ -5071,19 +5071,19 @@
     "@accessibilityScreenReaderAnnounceNewMessagesLabel": {
         "description": "Toggle label for announcing incoming messages to screen readers."
     },
-    "accessibilityScreenReaderAnnounceNewMessagesDescription": "Read new messages aloud when they arrive in the active channel.",
+    "accessibilityScreenReaderAnnounceNewMessagesDescription": "Let screen readers announce new messages as they arrive in the open channel. Notification sounds are unaffected.",
     "@accessibilityScreenReaderAnnounceNewMessagesDescription": {
         "description": "Toggle description for announcing incoming messages to screen readers."
     },
-    "accessibilitySyncReducedMotionWithSystemLabel": "Sync with system reduced motion",
+    "accessibilitySyncReducedMotionWithSystemLabel": "Sync reduced motion setting with system",
     "@accessibilitySyncReducedMotionWithSystemLabel": {
         "description": "Toggle label for syncing reduced motion with the operating system setting."
     },
-    "accessibilitySyncReducedMotionWithSystemDescription": "Use your device's reduced motion setting to limit animations in Fluxer.",
+    "accessibilitySyncReducedMotionWithSystemDescription": "Use this device's system reduced motion preference, or customize it below.",
     "@accessibilitySyncReducedMotionWithSystemDescription": {
         "description": "Toggle description for syncing reduced motion with the operating system setting."
     },
-    "accessibilityReducedMotionOverrideLabel": "Always reduce motion",
+    "accessibilityReducedMotionOverrideLabel": "Reduce motion",
     "@accessibilityReducedMotionOverrideLabel": {
         "description": "Toggle label for forcing reduced motion in Fluxer."
     },
@@ -5231,7 +5231,7 @@
     "@voiceChannelEmptyDescription": {
         "description": "Empty state body when viewing a guild voice channel while not in the call."
     },
-    "voiceChannelJoin": "Join Voice Channel",
+    "voiceChannelJoin": "Join voice channel",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
     },
@@ -6717,7 +6717,7 @@
     "@userSettingsNavFluxerPlutonium": {
         "description": "User settings navigation item for Fluxer Plutonium subscription settings."
     },
-    "userSettingsNavGiftsAndCodes": "Gifts & Codes",
+    "userSettingsNavGiftsAndCodes": "Gifts",
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
@@ -7315,11 +7315,11 @@
     "@guildNavbarGroupDm": {
         "description": "Secondary label for a group DM in the invite recipients list."
     },
-    "guildNavbarCreateChannel": "Create Channel",
+    "guildNavbarCreateChannel": "Create channel",
     "@guildNavbarCreateChannel": {
         "description": "Title and confirm label for the create channel modal."
     },
-    "guildNavbarChannelType": "Channel Type",
+    "guildNavbarChannelType": "Channel type",
     "@guildNavbarChannelType": {
         "description": "Section label for channel type selection in create channel modal."
     },
@@ -7363,11 +7363,11 @@
     "@guildNavbarUrlHint": {
         "description": "Placeholder hint for URL input in link channel creation."
     },
-    "guildNavbarCreateCategory": "Create Category",
+    "guildNavbarCreateCategory": "Create category",
     "@guildNavbarCreateCategory": {
         "description": "Title and confirm label for the create category modal."
     },
-    "guildNavbarNewCategoryHint": "New Category",
+    "guildNavbarNewCategoryHint": "New category",
     "@guildNavbarNewCategoryHint": {
         "description": "Placeholder hint for new category name input."
     },
@@ -7647,11 +7647,11 @@
     "@guildMenuSettingsRoles": {
         "description": "Community settings tab for roles and permissions."
     },
-    "guildMenuSettingsEmoji": "Custom Emoji",
+    "guildMenuSettingsEmoji": "Emoji",
     "@guildMenuSettingsEmoji": {
         "description": "Community settings tab for custom emoji."
     },
-    "guildMenuSettingsStickers": "Custom Stickers",
+    "guildMenuSettingsStickers": "Stickers",
     "@guildMenuSettingsStickers": {
         "description": "Community settings tab for custom stickers."
     },
@@ -7679,7 +7679,7 @@
     "@guildMenuSettingsMembers": {
         "description": "Community settings tab for member management."
     },
-    "guildMenuSettingsInviteLinks": "Invite Links",
+    "guildMenuSettingsInviteLinks": "Invites",
     "@guildMenuSettingsInviteLinks": {
         "description": "Community settings tab for invite links."
     },
@@ -7731,7 +7731,7 @@
     "@guildSettingsRolesDescription": {
         "description": "Description for the roles settings tab."
     },
-    "guildSettingsCreateRole": "Create Role",
+    "guildSettingsCreateRole": "Create role",
     "@guildSettingsCreateRole": {
         "description": "Button to create a new role."
     },
@@ -8824,11 +8824,11 @@
     "@guildSettingsLoadingMore": {
         "description": "Loading state for pagination."
     },
-    "guildSettingsWebhooksDescription": "Manage webhooks that post messages to channels.",
+    "guildSettingsWebhooksDescription": "View and manage every webhook configured across your community.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
     },
-    "guildSettingsWebhooksEmpty": "No webhooks configured.",
+    "guildSettingsWebhooksEmpty": "No webhooks",
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
@@ -8869,11 +8869,11 @@
             }
         }
     },
-    "guildSettingsDiscoveryDescription": "Apply to be listed in server discovery.",
+    "guildSettingsDiscoveryDescription": "List your community in Discovery so others can find and join it.",
     "@guildSettingsDiscoveryDescription": {
         "description": "Description for discovery tab."
     },
-    "guildSettingsDiscoveryNotEligible": "Requires at least {count} members to apply.",
+    "guildSettingsDiscoveryNotEligible": "Your community needs at least {count} members before it can be listed in Discovery.",
     "@guildSettingsDiscoveryNotEligible": {
         "description": "Discovery eligibility message.",
         "placeholders": {
@@ -8890,15 +8890,15 @@
     "@guildSettingsDiscoveryDescriptionField": {
         "description": "Label for discovery description field."
     },
-    "guildSettingsDiscoveryTags": "Tags",
+    "guildSettingsDiscoveryTags": "Custom tags",
     "@guildSettingsDiscoveryTags": {
         "description": "Label for discovery tags field."
     },
-    "guildSettingsDiscoveryTagsHint": "gaming, art, music",
+    "guildSettingsDiscoveryTagsHint": "Add a tag and press Enter",
     "@guildSettingsDiscoveryTagsHint": {
         "description": "Hint for discovery tags field."
     },
-    "guildSettingsDiscoveryApply": "Submit Application",
+    "guildSettingsDiscoveryApply": "Apply",
     "@guildSettingsDiscoveryApply": {
         "description": "Button to submit discovery application."
     },
@@ -8910,7 +8910,7 @@
     "@guildSettingsMembersDescription": {
         "description": "Description for members tab."
     },
-    "guildSettingsMembersSearchHint": "Search members",
+    "guildSettingsMembersSearchHint": "Search by username or ID",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
     },
@@ -8923,11 +8923,11 @@
             }
         }
     },
-    "guildSettingsInvitesDescription": "View and revoke active invite links.",
+    "guildSettingsInvitesDescription": "View all invites for this community. To create a new invite, go to a channel and use the invite button.",
     "@guildSettingsInvitesDescription": {
         "description": "Description for invites tab."
     },
-    "guildSettingsInvitesEmpty": "No active invites.",
+    "guildSettingsInvitesEmpty": "No invite links",
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
@@ -9309,7 +9309,7 @@
     "guildSettingsModeration2faOwnerOnlyTooltip": "Only the community owner can change this setting",
     "guildSettingsModeration2faEnableFirstTooltip": "Enable 2FA on your account to change this setting",
     "guildSettingsEmojiSearchHint": "Search emojis",
-    "guildSettingsEmojiUploadTitle": "Upload Emoji",
+    "guildSettingsEmojiUploadTitle": "Upload emoji",
     "guildSettingsNonAnimatedEmoji": "Non-animated emoji ({count})",
     "@guildSettingsNonAnimatedEmoji": {
         "placeholders": {
@@ -9327,7 +9327,7 @@
         }
     },
     "guildSettingsStickersSearchHint": "Search stickers",
-    "guildSettingsWebhooksInfo": "Create webhooks from Channel settings. Edit them here.",
+    "guildSettingsWebhooksInfo": "To create a webhook, open {channelSettingsPath}. You can still edit and organize all existing webhooks here.",
     "guildSettingsVanityUrlWarning": "Your vanity URL won't work unless at least one channel is visible to everyone.",
     "guildSettingsVanityUrlRemove": "Remove",
     "guildSettingsBannedUsersTitle": "Banned users",

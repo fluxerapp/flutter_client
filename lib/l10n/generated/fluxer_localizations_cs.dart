@@ -13,7 +13,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get reconnectingBody =>
-      'Něco je špatně se servery.\nMělo by se to za chvilku opravit!';
+      'S instancí je něco v nepořádku.\nMělo by se to za chvilku opravit!';
 
   @override
   String get gatewayReconnectingToast => 'Připojování…';
@@ -2379,7 +2379,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get phoneAddFooter =>
-      'Zadejte své telefonní číslo. Pošleme vám ověřovací kód přes SMS.';
+      'Pošleme SMS kód, jakmile bude dostupný. Vaše číslo není propojeno s vaším účtem. Uchováváme pouze šifrovaný identifikátor bez ID uživatele, abychom umožnili maximálně 2 ověření přibližně za 30 dní.';
 
   @override
   String get phoneAddSendCode => 'Odeslat kód';
@@ -2392,7 +2392,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Zadejte ověřovací kód zaslaný na vaše telefonní číslo.';
 
   @override
-  String get phoneAddSuccess => 'Telefonní číslo přidáno';
+  String get phoneAddSuccess => 'Telefonní číslo ověřeno';
 
   @override
   String get phoneCountryLabel => 'Země';
@@ -3791,7 +3791,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get voiceMessageHoldHint =>
-      'Podržte pro nahrávání. Přetáhněte nahoru pro uzamčení, nebo uvolněte pro odeslání.';
+      'Podržte pro nahrávání. Přetáhněte do koše pro smazání, posuňte nahoru pro uzamčení nebo pusťte pro odeslání.';
 
   @override
   String get voiceMessageDiscard => 'Zahodit hlasovou zprávu';
@@ -4003,7 +4003,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get chatAttachmentSourceBrowse => 'Procházet soubory';
 
   @override
-  String get chatAttachmentPasteTooltip => 'Vložit obrázek ze schránky';
+  String get chatAttachmentPasteTooltip => 'Vložit soubor ze schránky';
 
   @override
   String get chatAttachmentSpoiler => 'Spoiler';
@@ -4409,7 +4409,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Motiv se nepodařilo synchronizovat s vaším účtem. Zkuste to prosím znovu.';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => 'Škálování písma chatu';
+  String get lookAndFeelChatFontScalingTitle => 'Měřítko písma chatu';
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
@@ -7267,10 +7267,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Zmínit uživatele v odpovědi';
 
   @override
-  String get chatReplyMentionOn => 'Zapnuto';
+  String get chatReplyMentionOn => 'ON';
 
   @override
-  String get chatReplyMentionOff => 'Vypnuto';
+  String get chatReplyMentionOff => 'OFF';
 
   @override
   String get chatReplyCancel => 'Zrušit odpověď';
@@ -9116,7 +9116,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => 'Dárky a kódy';
+  String get userSettingsNavGiftsAndCodes => 'Dárky';
 
   @override
   String get giftSettingsClaimAccountTitle => 'Nárokovat účet';
@@ -11497,10 +11497,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get guildMenuSettingsRoles => 'Role a oprávnění';
 
   @override
-  String get guildMenuSettingsEmoji => 'Vlastní emotikony';
+  String get guildMenuSettingsEmoji => 'Emoji';
 
   @override
-  String get guildMenuSettingsStickers => 'Vlastní samolepky';
+  String get guildMenuSettingsStickers => 'Nálepky';
 
   @override
   String get guildMenuSettingsSafetyModeration => 'Bezpečnost a moderování';
@@ -11521,7 +11521,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get guildMenuSettingsMembers => 'Členové';
 
   @override
-  String get guildMenuSettingsInviteLinks => 'Odkazy na pozvánky';
+  String get guildMenuSettingsInviteLinks => 'Pozvánky';
 
   @override
   String get guildMenuSettingsBans => 'Zákazy';
@@ -12660,10 +12660,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get guildSettingsWebhooksDescription =>
-      'Spravujte webhooky, které odesílají zprávy do kanálů.';
+      'Zobrazte a spravujte všechny webhooky nakonfigurované v rámci vaší komunity.';
 
   @override
-  String get guildSettingsWebhooksEmpty => 'Nenastaveny žádné webhooky.';
+  String get guildSettingsWebhooksEmpty => 'Žádné webhooky';
 
   @override
   String guildSettingsWebhooksEmptyDescription(String channelSettingsPath) {
@@ -12722,14 +12722,14 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Požádejte o zařazení do vyhledávání serverů.';
+      'Uveďte svou komunitu v sekci Objevit, aby ji ostatní mohli najít a připojit se k ní.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle => 'Nedostatek členů';
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Pro podání žádosti je potřeba alespoň $count členů.';
+    return 'Vaše komunita musí mít alespoň $count členů, než ji bude možné zařadit do sekce Objevit.';
   }
 
   @override
@@ -12795,7 +12795,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTags => 'Štítky';
+  String get guildSettingsDiscoveryTags => 'Vlastní štítky';
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
@@ -12803,7 +12803,8 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTagsHint => 'hra, umění, hudba';
+  String get guildSettingsDiscoveryTagsHint =>
+      'Přidejte štítek a stiskněte Enter';
 
   @override
   String get guildSettingsDiscoveryAddTag => 'Přidat';
@@ -12828,7 +12829,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryApply => 'Odeslat žádost';
+  String get guildSettingsDiscoveryApply => 'Použít';
 
   @override
   String get guildSettingsDiscoverySave => 'Uložit';
@@ -12861,7 +12862,8 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Vyhledávejte a spravujte členy serveru.';
 
   @override
-  String get guildSettingsMembersSearchHint => 'Vyhledat členy';
+  String get guildSettingsMembersSearchHint =>
+      'Hledat podle uživatelského jména nebo ID';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
@@ -13066,10 +13068,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get guildSettingsInvitesDescription =>
-      'Zobrazte a zrušte platné odkazy pro pozvánky.';
+      'Zobrazit všechny pozvánky pro tuto komunitu. Chcete-li vytvořit novou pozvánku, přejděte na kanál a použijte tlačítko pozvat.';
 
   @override
-  String get guildSettingsInvitesEmpty => 'Žádné aktivní pozvánky.';
+  String get guildSettingsInvitesEmpty => 'Žádné odkazy na pozvánky';
 
   @override
   String get guildSettingsInvitesEmptyDescription =>
@@ -13580,7 +13582,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get guildSettingsEmojiSearchHint => 'Hledat emotikony';
 
   @override
-  String get guildSettingsEmojiUploadTitle => 'Nahrát emotikon';
+  String get guildSettingsEmojiUploadTitle => 'Nahrát emoji';
 
   @override
   String get guildSettingsEmojiSlotsTitle => 'Sloty na emoji';
@@ -13885,7 +13887,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String guildSettingsWebhooksInfo(String channelSettingsPath) {
-    return 'Vytvářejte webhooky z nastavení kanálu. Upravujte je zde.';
+    return 'Chcete-li vytvořit webhook, otevřete $channelSettingsPath. Všechny existující webhooky můžete zde stále upravovat a organizovat.';
   }
 
   @override

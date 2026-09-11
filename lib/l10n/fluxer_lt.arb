@@ -3,7 +3,7 @@
     "@reconnectingTitle": {
         "description": "Title on the reconnecting / server error screen."
     },
-    "reconnectingBody": "Kažkas negerai su serveriais.\nNetrukus turėtų pasitaisyti!",
+    "reconnectingBody": "Sistemoje kilo problemų.\nNetrukus turėtų būti ištaisyta!",
     "@reconnectingBody": {
         "description": "Subtitle on the reconnecting screen explaining temporary server issues."
     },
@@ -2551,7 +2551,7 @@
     "@phoneAddHint": {
         "description": "Hint for phone input."
     },
-    "phoneAddFooter": "Įveskite savo telefono numerį. Atsiųsime SMS su patvirtinimo kodu.",
+    "phoneAddFooter": "Atsiųsime SMS kodą, kai jis bus pasiekiamas. Jūsų numeris nėra susietas su paskyra. Mes saugome tik užšifruotą žymę be vartotojo ID, kad leistume ne daugiau kaip 2 patvirtinimus maždaug per 30 dienų.",
     "@phoneAddFooter": {
         "description": "Footer text for phone input."
     },
@@ -2567,7 +2567,7 @@
     "@phoneVerifyDescription": {
         "description": "Description for phone verify step."
     },
-    "phoneAddSuccess": "Telefono numeris pridėtas",
+    "phoneAddSuccess": "Telefono numeris patvirtintas",
     "@phoneAddSuccess": {
         "description": "Toast after phone added."
     },
@@ -3892,7 +3892,7 @@
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
     },
-    "voiceMessageHoldHint": "Palaikykite, kad įrašytumėte. Vilkite aukštyn, kad užfiksuotumėte, arba atleiskite, kad išsiųstumėte.",
+    "voiceMessageHoldHint": "Laikykite, kad įrašytumėte. Vilkite į šiukšlinę, kad ištrintumėte, slinkite aukštyn, kad užfiksuotumėte, arba atleiskite, kad išsiųstumėte.",
     "@voiceMessageHoldHint": {
         "description": "Hint shown next to the hold-to-record microphone button."
     },
@@ -4483,7 +4483,7 @@
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
     },
-    "lookAndFeelChatFontScalingTitle": "Pokalbių šrifto dydžio keitimas",
+    "lookAndFeelChatFontScalingTitle": "Pokalbių šrifto dydis",
     "@lookAndFeelChatFontScalingTitle": {
         "description": "Section title for the chat font size slider."
     },
@@ -6238,11 +6238,11 @@
     "@chatReplyMentionAccessibilityLabel": {
         "description": "Accessibility label for the reply bar mention toggle."
     },
-    "chatReplyMentionOn": "Įjungta",
+    "chatReplyMentionOn": "ON",
     "@chatReplyMentionOn": {
         "description": "On state suffix appended to the reply bar mention toggle label."
     },
-    "chatReplyMentionOff": "Išjungta",
+    "chatReplyMentionOff": "OFF",
     "@chatReplyMentionOff": {
         "description": "Off state suffix appended to the reply bar mention toggle label."
     },
@@ -6585,7 +6585,7 @@
     "@userSettingsNavFluxerPlutonium": {
         "description": "User settings navigation item for Fluxer Plutonium subscription settings."
     },
-    "userSettingsNavGiftsAndCodes": "Dovanos ir kodai",
+    "userSettingsNavGiftsAndCodes": "Dovanos",
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
@@ -7190,7 +7190,7 @@
     "@guildNavbarUrlHint": {
         "description": "Placeholder hint for URL input in link channel creation."
     },
-    "guildNavbarCreateCategory": "Sukurti kategoriją",
+    "guildNavbarCreateCategory": "Kurti kategoriją",
     "@guildNavbarCreateCategory": {
         "description": "Title and confirm label for the create category modal."
     },
@@ -7474,11 +7474,11 @@
     "@guildMenuSettingsRoles": {
         "description": "Community settings tab for roles and permissions."
     },
-    "guildMenuSettingsEmoji": "Pasirinktiniai jaustukai",
+    "guildMenuSettingsEmoji": "Jaustukai",
     "@guildMenuSettingsEmoji": {
         "description": "Community settings tab for custom emoji."
     },
-    "guildMenuSettingsStickers": "Pasirinktinės lipdukės",
+    "guildMenuSettingsStickers": "Lipdukai",
     "@guildMenuSettingsStickers": {
         "description": "Community settings tab for custom stickers."
     },
@@ -7506,7 +7506,7 @@
     "@guildMenuSettingsMembers": {
         "description": "Community settings tab for member management."
     },
-    "guildMenuSettingsInviteLinks": "Kvietimo nuorodos",
+    "guildMenuSettingsInviteLinks": "Kvietimai",
     "@guildMenuSettingsInviteLinks": {
         "description": "Community settings tab for invite links."
     },
@@ -7558,7 +7558,7 @@
     "@guildSettingsRolesDescription": {
         "description": "Description for the roles settings tab."
     },
-    "guildSettingsCreateRole": "Sukurti vaidmenį",
+    "guildSettingsCreateRole": "Kurti vaidmenį",
     "@guildSettingsCreateRole": {
         "description": "Button to create a new role."
     },
@@ -8651,11 +8651,11 @@
     "@guildSettingsLoadingMore": {
         "description": "Loading state for pagination."
     },
-    "guildSettingsWebhooksDescription": "Tvarkykite webhookus, kurie siunčia žinutes į kanalus.",
+    "guildSettingsWebhooksDescription": "Peržiūrėkite ir tvarkykite visas savo bendruomenėje sukonfigūruotas žiniatinklio jungtis.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
     },
-    "guildSettingsWebhooksEmpty": "Nėra sukonfigūruotų webhookų.",
+    "guildSettingsWebhooksEmpty": "Nėra \"webhook\" nuorodų",
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
@@ -8696,11 +8696,11 @@
             }
         }
     },
-    "guildSettingsDiscoveryDescription": "Taikykitės, kad būtumėte įtraukti į serverių paiešką.",
+    "guildSettingsDiscoveryDescription": "Įtraukite savo bendruomenę į \"Atraskite\", kad kiti galėtų ją rasti ir prisijungti.",
     "@guildSettingsDiscoveryDescription": {
         "description": "Description for discovery tab."
     },
-    "guildSettingsDiscoveryNotEligible": "Norint taikytis, reikia bent {count} narių.",
+    "guildSettingsDiscoveryNotEligible": "Jūsų bendruomenei reikia bent {count} narių, kad ji galėtų būti įtraukta į „Discovery“.",
     "@guildSettingsDiscoveryNotEligible": {
         "description": "Discovery eligibility message.",
         "placeholders": {
@@ -8717,15 +8717,15 @@
     "@guildSettingsDiscoveryDescriptionField": {
         "description": "Label for discovery description field."
     },
-    "guildSettingsDiscoveryTags": "Žymos",
+    "guildSettingsDiscoveryTags": "Pasirinktinės žymės",
     "@guildSettingsDiscoveryTags": {
         "description": "Label for discovery tags field."
     },
-    "guildSettingsDiscoveryTagsHint": "žaidimai, menas, muzika",
+    "guildSettingsDiscoveryTagsHint": "Pridėkite žymę ir paspauskite \"Enter\"",
     "@guildSettingsDiscoveryTagsHint": {
         "description": "Hint for discovery tags field."
     },
-    "guildSettingsDiscoveryApply": "Pateikti paraišką",
+    "guildSettingsDiscoveryApply": "Taikyti",
     "@guildSettingsDiscoveryApply": {
         "description": "Button to submit discovery application."
     },
@@ -8737,7 +8737,7 @@
     "@guildSettingsMembersDescription": {
         "description": "Description for members tab."
     },
-    "guildSettingsMembersSearchHint": "Ieškoti narių",
+    "guildSettingsMembersSearchHint": "Ieškoti pagal vartotojo vardą arba ID",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
     },
@@ -8750,11 +8750,11 @@
             }
         }
     },
-    "guildSettingsInvitesDescription": "Peržiūrėkite ir atšaukite aktyvias kvietimo nuorodas.",
+    "guildSettingsInvitesDescription": "Peržiūrėkite visus šios bendruomenės kvietimus. Norėdami sukurti naują kvietimą, eikite į kanalą ir naudokite kvietimo mygtuką.",
     "@guildSettingsInvitesDescription": {
         "description": "Description for invites tab."
     },
-    "guildSettingsInvitesEmpty": "Nėra aktyvių kvietimų.",
+    "guildSettingsInvitesEmpty": "Nėra kvietimo nuorodų",
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
@@ -9154,7 +9154,7 @@
         }
     },
     "guildSettingsStickersSearchHint": "Ieškoti lipdukų",
-    "guildSettingsWebhooksInfo": "Kurkite webhookus iš kanalo nustatymų. Redaguokite juos čia.",
+    "guildSettingsWebhooksInfo": "Norėdami sukurti webhook, atidarykite {channelSettingsPath}. Čia vis tiek galėsite redaguoti ir tvarkyti visus esamus webhook.",
     "guildSettingsVanityUrlWarning": "Jūsų pasirinktinis URL neveiks, nebent bent vienas kanalas bus matomas visiems.",
     "guildSettingsVanityUrlRemove": "Pašalinti",
     "guildSettingsBannedUsersTitle": "Užblokuoti vartotojai",

@@ -13,7 +13,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get reconnectingBody =>
-      'Valami gond van a szerverekkel.\nMindjárt megjavul!';
+      'Valami hiba történt az instanciával.\nHamarosan javítjuk!';
 
   @override
   String get gatewayReconnectingToast => 'Újracsatlakozás…';
@@ -2398,7 +2398,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get phoneAddFooter =>
-      'Add meg a telefonszámodat. SMS-ben küldünk egy ellenőrző kódot.';
+      'SMS kódot küldünk, amint elérhető lesz. A számod nincs összekapcsolva a fiókoddal. Csak egy titkosított jelölőt tárolunk, felhasználói azonosító nélkül, hogy legfeljebb 2 ellenőrzést engedélyezzünk körülbelül 30 napon belül.';
 
   @override
   String get phoneAddSendCode => 'Kód küldése';
@@ -2411,7 +2411,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Add meg a telefonszámodra küldött ellenőrző kódot.';
 
   @override
-  String get phoneAddSuccess => 'Telefonszám hozzáadva';
+  String get phoneAddSuccess => 'Telefonszám ellenőrizve';
 
   @override
   String get phoneCountryLabel => 'Ország';
@@ -3813,7 +3813,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get voiceMessageHoldHint =>
-      'Tartsd lenyomva a rögzítéshez. Húzd felfelé a rögzítés zárolásához, vagy engedd el a küldéshez.';
+      'Tartsd lenyomva a rögzítéshez. Húzd a kukába a törléshez, csúsztasd felfelé a zároláshoz, vagy engedd el a küldéshez.';
 
   @override
   String get voiceMessageDiscard => 'Hangüzenet elvetése';
@@ -4023,7 +4023,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatAttachmentSourceBrowse => 'Fájlok tallózása';
 
   @override
-  String get chatAttachmentPasteTooltip => 'Kép beillesztése a vágólapról';
+  String get chatAttachmentPasteTooltip => 'Fájl beillesztése a vágólapról';
 
   @override
   String get chatAttachmentSpoiler => 'Spoiler';
@@ -4434,8 +4434,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Nem sikerült szinkronizálni a témát a fiókoddal. Kérlek, próbáld újra.';
 
   @override
-  String get lookAndFeelChatFontScalingTitle =>
-      'Csevegés betűméretének skálázása';
+  String get lookAndFeelChatFontScalingTitle => 'Csevegés betűméretezése';
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
@@ -7293,10 +7292,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Válaszolt felhasználó említése';
 
   @override
-  String get chatReplyMentionOn => 'Be';
+  String get chatReplyMentionOn => 'ON';
 
   @override
-  String get chatReplyMentionOff => 'Ki';
+  String get chatReplyMentionOff => 'OFF';
 
   @override
   String get chatReplyCancel => 'Válasz törlése';
@@ -9155,7 +9154,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => 'Ajándékok és kódok';
+  String get userSettingsNavGiftsAndCodes => 'Ajándékok';
 
   @override
   String get giftSettingsClaimAccountTitle => 'Fiók igénylése';
@@ -11570,10 +11569,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildMenuSettingsRoles => 'Szerepkörök és engedélyek';
 
   @override
-  String get guildMenuSettingsEmoji => 'Egyéni hangulatjelek';
+  String get guildMenuSettingsEmoji => 'Emoji';
 
   @override
-  String get guildMenuSettingsStickers => 'Egyéni matricák';
+  String get guildMenuSettingsStickers => 'Matricák';
 
   @override
   String get guildMenuSettingsSafetyModeration => 'Biztonság és moderálás';
@@ -11594,7 +11593,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildMenuSettingsMembers => 'Tagok';
 
   @override
-  String get guildMenuSettingsInviteLinks => 'Meghívó linkek';
+  String get guildMenuSettingsInviteLinks => 'Meghívók';
 
   @override
   String get guildMenuSettingsBans => 'Tiltások';
@@ -12741,10 +12740,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsWebhooksDescription =>
-      'Webhookok kezelése, amelyek üzeneteket küldenek a csatornákba.';
+      'Az összes közösségedben konfigurált webhook megtekintése és kezelése.';
 
   @override
-  String get guildSettingsWebhooksEmpty => 'Nincsenek beállított webhookok.';
+  String get guildSettingsWebhooksEmpty => 'Nincsenek webhookok';
 
   @override
   String guildSettingsWebhooksEmptyDescription(String channelSettingsPath) {
@@ -12803,14 +12802,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Jelentkezz, hogy felkerülj a szerverek felfedezése közé.';
+      'Tedd közzé a közösségedet a Felfedezésben, hogy mások is megtalálhassák és csatlakozhassanak hozzá.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle => 'Nincs elég tag';
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Legalább $count tagnak kell lennie a jelentkezéshez.';
+    return 'A közösségednek legalább $count taggal kell rendelkeznie, mielőtt felkerülhetne a Felfedezésbe.';
   }
 
   @override
@@ -12877,7 +12876,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTags => 'Címkék';
+  String get guildSettingsDiscoveryTags => 'Egyéni címkék';
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
@@ -12885,7 +12884,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTagsHint => 'játék, művészet, zene';
+  String get guildSettingsDiscoveryTagsHint =>
+      'Adj meg egy címkét, majd nyomd meg az Entert';
 
   @override
   String get guildSettingsDiscoveryAddTag => 'Hozzáadás';
@@ -12910,7 +12910,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryApply => 'Jelentkezés elküldése';
+  String get guildSettingsDiscoveryApply => 'Alkalmaz';
 
   @override
   String get guildSettingsDiscoverySave => 'Mentés';
@@ -12943,7 +12943,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Keresés és kezelés a szer tagjai között.';
 
   @override
-  String get guildSettingsMembersSearchHint => 'Tagok keresése';
+  String get guildSettingsMembersSearchHint =>
+      'Keresés felhasználónév vagy azonosító alapján';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
@@ -13147,10 +13148,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsInvitesDescription =>
-      'Aktív meghívólinkek megtekintése és visszavonása.';
+      'Tekintse meg a közösség összes meghívóját. Új meghívó létrehozásához lépjen egy csatornára, és használja a meghívás gombot.';
 
   @override
-  String get guildSettingsInvitesEmpty => 'Nincsenek aktív meghívók.';
+  String get guildSettingsInvitesEmpty => 'Nincsenek meghívólinkek';
 
   @override
   String get guildSettingsInvitesEmptyDescription =>
@@ -13970,7 +13971,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String guildSettingsWebhooksInfo(String channelSettingsPath) {
-    return 'Hozzon létre webhookokat a Csatorna beállításaiból. Szerkessze őket itt.';
+    return 'Webhook létrehozásához nyissa meg a(z) $channelSettingsPath oldalt. Itt továbbra is szerkeszthet és rendszerezhet minden létező webhookot.';
   }
 
   @override

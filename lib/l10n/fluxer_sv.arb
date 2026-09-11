@@ -3,7 +3,7 @@
     "@reconnectingTitle": {
         "description": "Title on the reconnecting / server error screen."
     },
-    "reconnectingBody": "Något är fel med servrarna.\nBorde vara fixat om en sekund!",
+    "reconnectingBody": "Något är fel med instansen.\nBör vara fixat om en sekund!",
     "@reconnectingBody": {
         "description": "Subtitle on the reconnecting screen explaining temporary server issues."
     },
@@ -2551,7 +2551,7 @@
     "@phoneAddHint": {
         "description": "Hint for phone input."
     },
-    "phoneAddFooter": "Ange ditt telefonnummer. Vi skickar en verifieringskod via SMS.",
+    "phoneAddFooter": "Vi skickar en SMS-kod när den är tillgänglig. Ditt nummer är inte kopplat till ditt konto. Vi behåller endast en krypterad markör, utan användar-ID, för att tillåta högst 2 verifieringar under cirka 30 dagar.",
     "@phoneAddFooter": {
         "description": "Footer text for phone input."
     },
@@ -2567,7 +2567,7 @@
     "@phoneVerifyDescription": {
         "description": "Description for phone verify step."
     },
-    "phoneAddSuccess": "Telefonnummer tillagt",
+    "phoneAddSuccess": "Telefonnummer verifierat",
     "@phoneAddSuccess": {
         "description": "Toast after phone added."
     },
@@ -3892,7 +3892,7 @@
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
     },
-    "voiceMessageHoldHint": "Håll för att spela in. Dra upp för att låsa, eller släpp för att skicka.",
+    "voiceMessageHoldHint": "Håll för att spela in. Dra till papperskorgen för att ta bort, skjut upp för att låsa eller släpp för att skicka.",
     "@voiceMessageHoldHint": {
         "description": "Hint shown next to the hold-to-record microphone button."
     },
@@ -4006,7 +4006,7 @@
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
     },
-    "chatAttachmentPasteTooltip": "Klistra in bild från urklipp",
+    "chatAttachmentPasteTooltip": "Klistra in fil från urklipp",
     "@chatAttachmentPasteTooltip": {
         "description": "Tooltip for pasting an image attachment from the clipboard."
     },
@@ -4483,7 +4483,7 @@
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
     },
-    "lookAndFeelChatFontScalingTitle": "Teckensnittsskalning i chatt",
+    "lookAndFeelChatFontScalingTitle": "Skalning av chatt-typsnitt",
     "@lookAndFeelChatFontScalingTitle": {
         "description": "Section title for the chat font size slider."
     },
@@ -5182,7 +5182,7 @@
     "@voiceChannelEmptyDescription": {
         "description": "Empty state body when viewing a guild voice channel while not in the call."
     },
-    "voiceChannelJoin": "Anslut till röstkanal",
+    "voiceChannelJoin": "Gå med i röstkanalen",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
     },
@@ -6238,11 +6238,11 @@
     "@chatReplyMentionAccessibilityLabel": {
         "description": "Accessibility label for the reply bar mention toggle."
     },
-    "chatReplyMentionOn": "På",
+    "chatReplyMentionOn": "ON",
     "@chatReplyMentionOn": {
         "description": "On state suffix appended to the reply bar mention toggle label."
     },
-    "chatReplyMentionOff": "Av",
+    "chatReplyMentionOff": "OFF",
     "@chatReplyMentionOff": {
         "description": "Off state suffix appended to the reply bar mention toggle label."
     },
@@ -6585,7 +6585,7 @@
     "@userSettingsNavFluxerPlutonium": {
         "description": "User settings navigation item for Fluxer Plutonium subscription settings."
     },
-    "userSettingsNavGiftsAndCodes": "Gåvor och koder",
+    "userSettingsNavGiftsAndCodes": "Gåvor",
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
@@ -7474,11 +7474,11 @@
     "@guildMenuSettingsRoles": {
         "description": "Community settings tab for roles and permissions."
     },
-    "guildMenuSettingsEmoji": "Anpassade emojis",
+    "guildMenuSettingsEmoji": "Emoji",
     "@guildMenuSettingsEmoji": {
         "description": "Community settings tab for custom emoji."
     },
-    "guildMenuSettingsStickers": "Anpassade stickers",
+    "guildMenuSettingsStickers": "Klistermärken",
     "@guildMenuSettingsStickers": {
         "description": "Community settings tab for custom stickers."
     },
@@ -7506,7 +7506,7 @@
     "@guildMenuSettingsMembers": {
         "description": "Community settings tab for member management."
     },
-    "guildMenuSettingsInviteLinks": "Inbjudningslänkar",
+    "guildMenuSettingsInviteLinks": "Inbjudningar",
     "@guildMenuSettingsInviteLinks": {
         "description": "Community settings tab for invite links."
     },
@@ -8651,11 +8651,11 @@
     "@guildSettingsLoadingMore": {
         "description": "Loading state for pagination."
     },
-    "guildSettingsWebhooksDescription": "Hantera webbkrokar som skickar meddelanden till kanaler.",
+    "guildSettingsWebhooksDescription": "Visa och hantera alla webhooks som konfigurerats för din community.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
     },
-    "guildSettingsWebhooksEmpty": "Inga webbkrokar konfigurerade.",
+    "guildSettingsWebhooksEmpty": "Inga webhooks",
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
@@ -8696,11 +8696,11 @@
             }
         }
     },
-    "guildSettingsDiscoveryDescription": "Ansök om att listas i serverutforskaren.",
+    "guildSettingsDiscoveryDescription": "Lista din community i Upptäck så att andra kan hitta och gå med.",
     "@guildSettingsDiscoveryDescription": {
         "description": "Description for discovery tab."
     },
-    "guildSettingsDiscoveryNotEligible": "Kräver minst {count} medlemmar för att ansöka.",
+    "guildSettingsDiscoveryNotEligible": "Din community behöver minst {count} medlemmar innan den kan listas i Upptäck.",
     "@guildSettingsDiscoveryNotEligible": {
         "description": "Discovery eligibility message.",
         "placeholders": {
@@ -8717,15 +8717,15 @@
     "@guildSettingsDiscoveryDescriptionField": {
         "description": "Label for discovery description field."
     },
-    "guildSettingsDiscoveryTags": "Taggar",
+    "guildSettingsDiscoveryTags": "Anpassade taggar",
     "@guildSettingsDiscoveryTags": {
         "description": "Label for discovery tags field."
     },
-    "guildSettingsDiscoveryTagsHint": "spel, konst, musik",
+    "guildSettingsDiscoveryTagsHint": "Lägg till en tagg och tryck på Retur",
     "@guildSettingsDiscoveryTagsHint": {
         "description": "Hint for discovery tags field."
     },
-    "guildSettingsDiscoveryApply": "Skicka ansökan",
+    "guildSettingsDiscoveryApply": "Tillämpa",
     "@guildSettingsDiscoveryApply": {
         "description": "Button to submit discovery application."
     },
@@ -8737,7 +8737,7 @@
     "@guildSettingsMembersDescription": {
         "description": "Description for members tab."
     },
-    "guildSettingsMembersSearchHint": "Sök medlemmar",
+    "guildSettingsMembersSearchHint": "Sök efter användarnamn eller ID",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
     },
@@ -8750,11 +8750,11 @@
             }
         }
     },
-    "guildSettingsInvitesDescription": "Visa och återkalla aktiva inbjudningslänkar.",
+    "guildSettingsInvitesDescription": "Se alla inbjudningar för den här gruppen. För att skapa en ny inbjudan, gå till en kanal och använd inbjudningsknappen.",
     "@guildSettingsInvitesDescription": {
         "description": "Description for invites tab."
     },
-    "guildSettingsInvitesEmpty": "Inga aktiva inbjudningar.",
+    "guildSettingsInvitesEmpty": "Inga inbjudningslänkar",
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
@@ -9154,7 +9154,7 @@
         }
     },
     "guildSettingsStickersSearchHint": "Sök klistermärken",
-    "guildSettingsWebhooksInfo": "Skapa webhooks från kanalinställningar. Redigera dem här.",
+    "guildSettingsWebhooksInfo": "För att skapa en webhook, öppna {channelSettingsPath}. Du kan fortfarande redigera och organisera alla befintliga webhooks här.",
     "guildSettingsVanityUrlWarning": "Din anpassade URL fungerar inte om inte minst en kanal är synlig för alla.",
     "guildSettingsVanityUrlRemove": "Ta bort",
     "guildSettingsBannedUsersTitle": "Bannlysta användare",

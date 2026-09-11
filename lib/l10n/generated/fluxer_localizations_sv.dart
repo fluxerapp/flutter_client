@@ -13,7 +13,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get reconnectingBody =>
-      'Något är fel med servrarna.\nBorde vara fixat om en sekund!';
+      'Något är fel med instansen.\nBör vara fixat om en sekund!';
 
   @override
   String get gatewayReconnectingToast => 'Ansluter igen…';
@@ -2376,7 +2376,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get phoneAddFooter =>
-      'Ange ditt telefonnummer. Vi skickar en verifieringskod via SMS.';
+      'Vi skickar en SMS-kod när den är tillgänglig. Ditt nummer är inte kopplat till ditt konto. Vi behåller endast en krypterad markör, utan användar-ID, för att tillåta högst 2 verifieringar under cirka 30 dagar.';
 
   @override
   String get phoneAddSendCode => 'Skicka kod';
@@ -2389,7 +2389,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'Ange verifieringskoden som skickats till ditt telefonnummer.';
 
   @override
-  String get phoneAddSuccess => 'Telefonnummer tillagt';
+  String get phoneAddSuccess => 'Telefonnummer verifierat';
 
   @override
   String get phoneCountryLabel => 'Land';
@@ -3786,7 +3786,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get voiceMessageHoldHint =>
-      'Håll för att spela in. Dra upp för att låsa, eller släpp för att skicka.';
+      'Håll för att spela in. Dra till papperskorgen för att ta bort, skjut upp för att låsa eller släpp för att skicka.';
 
   @override
   String get voiceMessageDiscard => 'Kassera röstmeddelande';
@@ -3995,7 +3995,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get chatAttachmentSourceBrowse => 'Bläddra bland filer';
 
   @override
-  String get chatAttachmentPasteTooltip => 'Klistra in bild från urklipp';
+  String get chatAttachmentPasteTooltip => 'Klistra in fil från urklipp';
 
   @override
   String get chatAttachmentSpoiler => 'Spoiler';
@@ -4403,7 +4403,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'Kunde inte synkronisera temat till ditt konto. Försök igen.';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => 'Teckensnittsskalning i chatt';
+  String get lookAndFeelChatFontScalingTitle => 'Skalning av chatt-typsnitt';
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
@@ -5535,7 +5535,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'Det här är en röstkanal. Anslut för att börja prata!';
 
   @override
-  String get voiceChannelJoin => 'Anslut till röstkanal';
+  String get voiceChannelJoin => 'Gå med i röstkanalen';
 
   @override
   String get voiceCallJoin => 'Gå med i samtalet';
@@ -7246,10 +7246,10 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get chatReplyMentionAccessibilityLabel => 'Omnämn svarande användare';
 
   @override
-  String get chatReplyMentionOn => 'På';
+  String get chatReplyMentionOn => 'ON';
 
   @override
-  String get chatReplyMentionOff => 'Av';
+  String get chatReplyMentionOff => 'OFF';
 
   @override
   String get chatReplyCancel => 'Avbryt svar';
@@ -9102,7 +9102,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => 'Gåvor och koder';
+  String get userSettingsNavGiftsAndCodes => 'Gåvor';
 
   @override
   String get giftSettingsClaimAccountTitle => 'Gör anspråk på ditt konto';
@@ -11484,10 +11484,10 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get guildMenuSettingsRoles => 'Roller & behörigheter';
 
   @override
-  String get guildMenuSettingsEmoji => 'Anpassade emojis';
+  String get guildMenuSettingsEmoji => 'Emoji';
 
   @override
-  String get guildMenuSettingsStickers => 'Anpassade stickers';
+  String get guildMenuSettingsStickers => 'Klistermärken';
 
   @override
   String get guildMenuSettingsSafetyModeration => 'Säkerhet & moderering';
@@ -11508,7 +11508,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get guildMenuSettingsMembers => 'Medlemmar';
 
   @override
-  String get guildMenuSettingsInviteLinks => 'Inbjudningslänkar';
+  String get guildMenuSettingsInviteLinks => 'Inbjudningar';
 
   @override
   String get guildMenuSettingsBans => 'Avstängningar';
@@ -12648,10 +12648,10 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get guildSettingsWebhooksDescription =>
-      'Hantera webbkrokar som skickar meddelanden till kanaler.';
+      'Visa och hantera alla webhooks som konfigurerats för din community.';
 
   @override
-  String get guildSettingsWebhooksEmpty => 'Inga webbkrokar konfigurerade.';
+  String get guildSettingsWebhooksEmpty => 'Inga webhooks';
 
   @override
   String guildSettingsWebhooksEmptyDescription(String channelSettingsPath) {
@@ -12710,7 +12710,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Ansök om att listas i serverutforskaren.';
+      'Lista din community i Upptäck så att andra kan hitta och gå med.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
@@ -12718,7 +12718,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Kräver minst $count medlemmar för att ansöka.';
+    return 'Din community behöver minst $count medlemmar innan den kan listas i Upptäck.';
   }
 
   @override
@@ -12785,7 +12785,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTags => 'Taggar';
+  String get guildSettingsDiscoveryTags => 'Anpassade taggar';
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
@@ -12793,7 +12793,8 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTagsHint => 'spel, konst, musik';
+  String get guildSettingsDiscoveryTagsHint =>
+      'Lägg till en tagg och tryck på Retur';
 
   @override
   String get guildSettingsDiscoveryAddTag => 'Lägg till';
@@ -12818,7 +12819,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryApply => 'Skicka ansökan';
+  String get guildSettingsDiscoveryApply => 'Tillämpa';
 
   @override
   String get guildSettingsDiscoverySave => 'Spara';
@@ -12851,7 +12852,8 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'Sök och hantera servermedlemmar.';
 
   @override
-  String get guildSettingsMembersSearchHint => 'Sök medlemmar';
+  String get guildSettingsMembersSearchHint =>
+      'Sök efter användarnamn eller ID';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
@@ -13055,10 +13057,10 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get guildSettingsInvitesDescription =>
-      'Visa och återkalla aktiva inbjudningslänkar.';
+      'Se alla inbjudningar för den här gruppen. För att skapa en ny inbjudan, gå till en kanal och använd inbjudningsknappen.';
 
   @override
-  String get guildSettingsInvitesEmpty => 'Inga aktiva inbjudningar.';
+  String get guildSettingsInvitesEmpty => 'Inga inbjudningslänkar';
 
   @override
   String get guildSettingsInvitesEmptyDescription =>
@@ -13873,7 +13875,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String guildSettingsWebhooksInfo(String channelSettingsPath) {
-    return 'Skapa webhooks från kanalinställningar. Redigera dem här.';
+    return 'För att skapa en webhook, öppna $channelSettingsPath. Du kan fortfarande redigera och organisera alla befintliga webhooks här.';
   }
 
   @override

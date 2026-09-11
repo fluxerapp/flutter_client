@@ -13,7 +13,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get reconnectingBody =>
-      'Сервери працюють некоректно.\nМає скоро виправитись!';
+      'Щось не так з інстансом.\nМає виправитись за секунду!';
 
   @override
   String get gatewayReconnectingToast => 'Перепідключення…';
@@ -2389,7 +2389,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get phoneAddFooter =>
-      'Введіть свій номер телефону. Ми надішлемо вам код підтвердження через SMS.';
+      'Ми надішлемо SMS-код, коли він буде доступний. Ваш номер не буде пов’язано з вашим обліковим записом. Ми зберігаємо лише зашифрований маркер без ідентифікатора користувача, щоб дозволити максимум 2 перевірки приблизно за 30 днів.';
 
   @override
   String get phoneAddSendCode => 'Надіслати код';
@@ -2402,7 +2402,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Введіть код підтвердження, надісланий на ваш номер телефону.';
 
   @override
-  String get phoneAddSuccess => 'Номер телефону додано';
+  String get phoneAddSuccess => 'Номер телефону підтверджено';
 
   @override
   String get phoneCountryLabel => 'Країна';
@@ -3808,7 +3808,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get voiceMessageHoldHint =>
-      'Утримуйте, щоб записати. Перетягніть вгору, щоб зафіксувати, або відпустіть, щоб надіслати.';
+      'Утримуйте, щоб записати. Перетягніть до кошика, щоб видалити, проведіть угору, щоб заблокувати, або відпустіть, щоб надіслати.';
 
   @override
   String get voiceMessageDiscard => 'Видалити голосове повідомлення';
@@ -4021,8 +4021,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get chatAttachmentSourceBrowse => 'Переглянути файли';
 
   @override
-  String get chatAttachmentPasteTooltip =>
-      'Вставити зображення з буфера обміну';
+  String get chatAttachmentPasteTooltip => 'Вставити файл із буфера обміну';
 
   @override
   String get chatAttachmentSpoiler => 'Спойлер';
@@ -7307,10 +7306,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Згадати користувача, якому відповідають';
 
   @override
-  String get chatReplyMentionOn => 'Увімкнено';
+  String get chatReplyMentionOn => 'ON';
 
   @override
-  String get chatReplyMentionOff => 'Вимкнено';
+  String get chatReplyMentionOff => 'OFF';
 
   @override
   String get chatReplyCancel => 'Скасувати відповідь';
@@ -9168,7 +9167,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => 'Подарунки та коди';
+  String get userSettingsNavGiftsAndCodes => 'Подарунки';
 
   @override
   String get giftSettingsClaimAccountTitle =>
@@ -11583,10 +11582,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildMenuSettingsRoles => 'Ролі та дозволи';
 
   @override
-  String get guildMenuSettingsEmoji => 'Власні емодзі';
+  String get guildMenuSettingsEmoji => 'Емодзі';
 
   @override
-  String get guildMenuSettingsStickers => 'Власні стікери';
+  String get guildMenuSettingsStickers => 'Стікери';
 
   @override
   String get guildMenuSettingsSafetyModeration => 'Безпека та модерація';
@@ -11607,7 +11606,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildMenuSettingsMembers => 'Учасники';
 
   @override
-  String get guildMenuSettingsInviteLinks => 'Посилання-запрошення';
+  String get guildMenuSettingsInviteLinks => 'Запрошення';
 
   @override
   String get guildMenuSettingsBans => 'Бани';
@@ -12747,10 +12746,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsWebhooksDescription =>
-      'Керуйте вебхуками, які надсилають повідомлення до каналів.';
+      'Переглядайте та керуйте всіма вебхуками, налаштованими у вашій спільноті.';
 
   @override
-  String get guildSettingsWebhooksEmpty => 'Вебхуки не налаштовано.';
+  String get guildSettingsWebhooksEmpty => 'Вебхуків немає';
 
   @override
   String guildSettingsWebhooksEmptyDescription(String channelSettingsPath) {
@@ -12808,7 +12807,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Подайте заявку, щоб потрапити до списку пошуку серверів.';
+      'Додайте свою спільноту до розділу \"Цікаве\", щоб інші могли її знайти та приєднатися.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
@@ -12816,7 +12815,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Потрібно щонайменше $count учасників для подання заявки.';
+    return 'Вашій спільноті потрібно щонайменше $count учасників, щоб її можна було додати до каталогу.';
   }
 
   @override
@@ -12882,7 +12881,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTags => 'Теги';
+  String get guildSettingsDiscoveryTags => 'Власні теги';
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
@@ -12890,7 +12889,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTagsHint => 'ігри, мистецтво, музика';
+  String get guildSettingsDiscoveryTagsHint => 'Додайте тег і натисніть Enter';
 
   @override
   String get guildSettingsDiscoveryAddTag => 'Додати';
@@ -12914,7 +12913,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryApply => 'Надіслати заявку';
+  String get guildSettingsDiscoveryApply => 'Застосувати';
 
   @override
   String get guildSettingsDiscoverySave => 'Зберегти';
@@ -12946,7 +12945,8 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Шукайте учасників сервера та керуйте ними.';
 
   @override
-  String get guildSettingsMembersSearchHint => 'Пошук учасників';
+  String get guildSettingsMembersSearchHint =>
+      'Пошук за іменем користувача або ID';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
@@ -13151,10 +13151,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsInvitesDescription =>
-      'Переглядайте та відкликайте активні посилання для запрошень.';
+      'Переглянути всі запрошення для цієї спільноти. Щоб створити нове запрошення, перейдіть до каналу та скористайтеся кнопкою запрошення.';
 
   @override
-  String get guildSettingsInvitesEmpty => 'Немає активних запрошень.';
+  String get guildSettingsInvitesEmpty => 'Немає посилань-запрошень';
 
   @override
   String get guildSettingsInvitesEmptyDescription =>
@@ -13974,7 +13974,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String guildSettingsWebhooksInfo(String channelSettingsPath) {
-    return 'Створюйте вебхуки з налаштувань каналу. Редагуйте їх тут.';
+    return 'Щоб створити вебхук, відкрийте $channelSettingsPath. Тут ви все ще можете редагувати та впорядковувати всі наявні вебхуки.';
   }
 
   @override

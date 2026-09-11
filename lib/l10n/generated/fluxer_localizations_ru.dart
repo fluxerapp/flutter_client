@@ -13,7 +13,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String get reconnectingBody =>
-      'Серверы работают некорректно.\nПостараемся исправить в ближайшее время!';
+      'Что-то не так с сервером.\nПостараемся исправить в ближайшее время!';
 
   @override
   String get gatewayReconnectingToast => 'Переподключение…';
@@ -1130,7 +1130,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get dmAddNote => 'Добавить заметку';
 
   @override
-  String get dmEditGroup => 'Редактировать группу';
+  String get dmEditGroup => 'Изменить группу';
 
   @override
   String get dmInviteToCommunity => 'Пригласить в сообщество';
@@ -2393,7 +2393,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String get phoneAddFooter =>
-      'Введите ваш номер телефона. Мы отправим вам SMS с кодом подтверждения.';
+      'Мы отправим код по SMS, когда он будет доступен. Ваш номер не будет привязан к вашей учетной записи. Мы сохраним только зашифрованный маркер без идентификатора пользователя, чтобы разрешить не более 2 проверок в течение примерно 30 дней.';
 
   @override
   String get phoneAddSendCode => 'Отправить код';
@@ -2406,7 +2406,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Введите код подтверждения, отправленный на ваш номер телефона.';
 
   @override
-  String get phoneAddSuccess => 'Номер телефона добавлен';
+  String get phoneAddSuccess => 'Номер телефона подтвержден';
 
   @override
   String get phoneCountryLabel => 'Страна';
@@ -3810,7 +3810,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String get voiceMessageHoldHint =>
-      'Удерживайте для записи. Перетащите вверх, чтобы заблокировать, или отпустите для отправки.';
+      'Удерживайте для записи. Перетащите в корзину, чтобы удалить, проведите вверх, чтобы заблокировать, или отпустите, чтобы отправить.';
 
   @override
   String get voiceMessageDiscard => 'Удалить голосовое сообщение';
@@ -4023,8 +4023,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get chatAttachmentSourceBrowse => 'Обзор файлов';
 
   @override
-  String get chatAttachmentPasteTooltip =>
-      'Вставить изображение из буфера обмена';
+  String get chatAttachmentPasteTooltip => 'Вставить файл из буфера обмена';
 
   @override
   String get chatAttachmentSpoiler => 'Спойлер';
@@ -4434,7 +4433,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Не удалось синхронизировать тему с вашей учетной записью. Пожалуйста, попробуйте еще раз.';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => 'Масштабирование шрифта чата';
+  String get lookAndFeelChatFontScalingTitle => 'Масштаб шрифта чата';
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
@@ -5572,7 +5571,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Это голосовой канал. Подключитесь, чтобы начать говорить!';
 
   @override
-  String get voiceChannelJoin => 'Подключиться к голосовому каналу';
+  String get voiceChannelJoin => 'Присоединиться к голосовому каналу';
 
   @override
   String get voiceCallJoin => 'Присоединиться к звонку';
@@ -7309,10 +7308,10 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Упомянуть отвечающего пользователя';
 
   @override
-  String get chatReplyMentionOn => 'Вкл.';
+  String get chatReplyMentionOn => 'ON';
 
   @override
-  String get chatReplyMentionOff => 'Выкл.';
+  String get chatReplyMentionOff => 'OFF';
 
   @override
   String get chatReplyCancel => 'Отменить ответ';
@@ -9164,7 +9163,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => 'Подарки и коды';
+  String get userSettingsNavGiftsAndCodes => 'Подарки';
 
   @override
   String get giftSettingsClaimAccountTitle => 'Заберите свой аккаунт';
@@ -11570,10 +11569,10 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get guildMenuSettingsRoles => 'Роли и разрешения';
 
   @override
-  String get guildMenuSettingsEmoji => 'Пользовательские эмодзи';
+  String get guildMenuSettingsEmoji => 'Эмодзи';
 
   @override
-  String get guildMenuSettingsStickers => 'Пользовательские стикеры';
+  String get guildMenuSettingsStickers => 'Стикеры';
 
   @override
   String get guildMenuSettingsSafetyModeration => 'Безопасность и модерация';
@@ -11595,7 +11594,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get guildMenuSettingsMembers => 'Участники';
 
   @override
-  String get guildMenuSettingsInviteLinks => 'Ссылки-приглашения';
+  String get guildMenuSettingsInviteLinks => 'Приглашения';
 
   @override
   String get guildMenuSettingsBans => 'Баны';
@@ -12738,10 +12737,10 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String get guildSettingsWebhooksDescription =>
-      'Управление веб-хуками, которые отправляют сообщения в каналы.';
+      'Просматривайте вебхуки, настроенные для вашего сообщества, и управляйте ими.';
 
   @override
-  String get guildSettingsWebhooksEmpty => 'Веб-хуки не настроены.';
+  String get guildSettingsWebhooksEmpty => 'Вебхуков нет';
 
   @override
   String guildSettingsWebhooksEmptyDescription(String channelSettingsPath) {
@@ -12800,7 +12799,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Подайте заявку на размещение в поиске серверов.';
+      'Разместите сообщество в разделе \"Интересное\", чтобы другие могли его найти и присоединиться.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
@@ -12808,7 +12807,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Требуется минимум $count участника для подачи заявки.';
+    return 'Вашему сообществу нужно как минимум $count участников, чтобы оно могло быть добавлено в Discovery.';
   }
 
   @override
@@ -12874,7 +12873,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTags => 'Теги';
+  String get guildSettingsDiscoveryTags => 'Пользовательские теги';
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
@@ -12882,7 +12881,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTagsHint => 'игры, искусство, музыка';
+  String get guildSettingsDiscoveryTagsHint => 'Добавьте тег и нажмите Enter';
 
   @override
   String get guildSettingsDiscoveryAddTag => 'Добавить';
@@ -12906,7 +12905,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryApply => 'Отправить заявку';
+  String get guildSettingsDiscoveryApply => 'Применить';
 
   @override
   String get guildSettingsDiscoverySave => 'Сохранить';
@@ -12938,7 +12937,8 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Ищите и управляйте участниками сервера.';
 
   @override
-  String get guildSettingsMembersSearchHint => 'Поиск участников';
+  String get guildSettingsMembersSearchHint =>
+      'Поиск по имени пользователя или ID';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
@@ -13143,10 +13143,10 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String get guildSettingsInvitesDescription =>
-      'Просматривайте и отзывайте активные ссылки-приглашения.';
+      'Посмотреть все приглашения в это сообщество. Чтобы создать новое приглашение, перейдите в канал и используйте кнопку \"Пригласить\".';
 
   @override
-  String get guildSettingsInvitesEmpty => 'Нет активных приглашений.';
+  String get guildSettingsInvitesEmpty => 'Нет ссылок-приглашений';
 
   @override
   String get guildSettingsInvitesEmptyDescription =>
@@ -13966,7 +13966,7 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String guildSettingsWebhooksInfo(String channelSettingsPath) {
-    return 'Создавайте вебхуки из настроек канала. Редактируйте их здесь.';
+    return 'Чтобы создать вебхук, откройте $channelSettingsPath. Вы можете редактировать и упорядочивать все существующие вебхуки здесь.';
   }
 
   @override

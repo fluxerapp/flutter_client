@@ -3,7 +3,7 @@
     "@reconnectingTitle": {
         "description": "Title on the reconnecting / server error screen."
     },
-    "reconnectingBody": "Něco je špatně se servery.\nMělo by se to za chvilku opravit!",
+    "reconnectingBody": "S instancí je něco v nepořádku.\nMělo by se to za chvilku opravit!",
     "@reconnectingBody": {
         "description": "Subtitle on the reconnecting screen explaining temporary server issues."
     },
@@ -2551,7 +2551,7 @@
     "@phoneAddHint": {
         "description": "Hint for phone input."
     },
-    "phoneAddFooter": "Zadejte své telefonní číslo. Pošleme vám ověřovací kód přes SMS.",
+    "phoneAddFooter": "Pošleme SMS kód, jakmile bude dostupný. Vaše číslo není propojeno s vaším účtem. Uchováváme pouze šifrovaný identifikátor bez ID uživatele, abychom umožnili maximálně 2 ověření přibližně za 30 dní.",
     "@phoneAddFooter": {
         "description": "Footer text for phone input."
     },
@@ -2567,7 +2567,7 @@
     "@phoneVerifyDescription": {
         "description": "Description for phone verify step."
     },
-    "phoneAddSuccess": "Telefonní číslo přidáno",
+    "phoneAddSuccess": "Telefonní číslo ověřeno",
     "@phoneAddSuccess": {
         "description": "Toast after phone added."
     },
@@ -3892,7 +3892,7 @@
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
     },
-    "voiceMessageHoldHint": "Podržte pro nahrávání. Přetáhněte nahoru pro uzamčení, nebo uvolněte pro odeslání.",
+    "voiceMessageHoldHint": "Podržte pro nahrávání. Přetáhněte do koše pro smazání, posuňte nahoru pro uzamčení nebo pusťte pro odeslání.",
     "@voiceMessageHoldHint": {
         "description": "Hint shown next to the hold-to-record microphone button."
     },
@@ -4006,7 +4006,7 @@
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
     },
-    "chatAttachmentPasteTooltip": "Vložit obrázek ze schránky",
+    "chatAttachmentPasteTooltip": "Vložit soubor ze schránky",
     "@chatAttachmentPasteTooltip": {
         "description": "Tooltip for pasting an image attachment from the clipboard."
     },
@@ -4483,7 +4483,7 @@
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
     },
-    "lookAndFeelChatFontScalingTitle": "Škálování písma chatu",
+    "lookAndFeelChatFontScalingTitle": "Měřítko písma chatu",
     "@lookAndFeelChatFontScalingTitle": {
         "description": "Section title for the chat font size slider."
     },
@@ -6238,11 +6238,11 @@
     "@chatReplyMentionAccessibilityLabel": {
         "description": "Accessibility label for the reply bar mention toggle."
     },
-    "chatReplyMentionOn": "Zapnuto",
+    "chatReplyMentionOn": "ON",
     "@chatReplyMentionOn": {
         "description": "On state suffix appended to the reply bar mention toggle label."
     },
-    "chatReplyMentionOff": "Vypnuto",
+    "chatReplyMentionOff": "OFF",
     "@chatReplyMentionOff": {
         "description": "Off state suffix appended to the reply bar mention toggle label."
     },
@@ -6585,7 +6585,7 @@
     "@userSettingsNavFluxerPlutonium": {
         "description": "User settings navigation item for Fluxer Plutonium subscription settings."
     },
-    "userSettingsNavGiftsAndCodes": "Dárky a kódy",
+    "userSettingsNavGiftsAndCodes": "Dárky",
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
@@ -7474,11 +7474,11 @@
     "@guildMenuSettingsRoles": {
         "description": "Community settings tab for roles and permissions."
     },
-    "guildMenuSettingsEmoji": "Vlastní emotikony",
+    "guildMenuSettingsEmoji": "Emoji",
     "@guildMenuSettingsEmoji": {
         "description": "Community settings tab for custom emoji."
     },
-    "guildMenuSettingsStickers": "Vlastní samolepky",
+    "guildMenuSettingsStickers": "Nálepky",
     "@guildMenuSettingsStickers": {
         "description": "Community settings tab for custom stickers."
     },
@@ -7506,7 +7506,7 @@
     "@guildMenuSettingsMembers": {
         "description": "Community settings tab for member management."
     },
-    "guildMenuSettingsInviteLinks": "Odkazy na pozvánky",
+    "guildMenuSettingsInviteLinks": "Pozvánky",
     "@guildMenuSettingsInviteLinks": {
         "description": "Community settings tab for invite links."
     },
@@ -8651,11 +8651,11 @@
     "@guildSettingsLoadingMore": {
         "description": "Loading state for pagination."
     },
-    "guildSettingsWebhooksDescription": "Spravujte webhooky, které odesílají zprávy do kanálů.",
+    "guildSettingsWebhooksDescription": "Zobrazte a spravujte všechny webhooky nakonfigurované v rámci vaší komunity.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
     },
-    "guildSettingsWebhooksEmpty": "Nenastaveny žádné webhooky.",
+    "guildSettingsWebhooksEmpty": "Žádné webhooky",
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
@@ -8696,11 +8696,11 @@
             }
         }
     },
-    "guildSettingsDiscoveryDescription": "Požádejte o zařazení do vyhledávání serverů.",
+    "guildSettingsDiscoveryDescription": "Uveďte svou komunitu v sekci Objevit, aby ji ostatní mohli najít a připojit se k ní.",
     "@guildSettingsDiscoveryDescription": {
         "description": "Description for discovery tab."
     },
-    "guildSettingsDiscoveryNotEligible": "Pro podání žádosti je potřeba alespoň {count} členů.",
+    "guildSettingsDiscoveryNotEligible": "Vaše komunita musí mít alespoň {count} členů, než ji bude možné zařadit do sekce Objevit.",
     "@guildSettingsDiscoveryNotEligible": {
         "description": "Discovery eligibility message.",
         "placeholders": {
@@ -8717,15 +8717,15 @@
     "@guildSettingsDiscoveryDescriptionField": {
         "description": "Label for discovery description field."
     },
-    "guildSettingsDiscoveryTags": "Štítky",
+    "guildSettingsDiscoveryTags": "Vlastní štítky",
     "@guildSettingsDiscoveryTags": {
         "description": "Label for discovery tags field."
     },
-    "guildSettingsDiscoveryTagsHint": "hra, umění, hudba",
+    "guildSettingsDiscoveryTagsHint": "Přidejte štítek a stiskněte Enter",
     "@guildSettingsDiscoveryTagsHint": {
         "description": "Hint for discovery tags field."
     },
-    "guildSettingsDiscoveryApply": "Odeslat žádost",
+    "guildSettingsDiscoveryApply": "Použít",
     "@guildSettingsDiscoveryApply": {
         "description": "Button to submit discovery application."
     },
@@ -8737,7 +8737,7 @@
     "@guildSettingsMembersDescription": {
         "description": "Description for members tab."
     },
-    "guildSettingsMembersSearchHint": "Vyhledat členy",
+    "guildSettingsMembersSearchHint": "Hledat podle uživatelského jména nebo ID",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
     },
@@ -8750,11 +8750,11 @@
             }
         }
     },
-    "guildSettingsInvitesDescription": "Zobrazte a zrušte platné odkazy pro pozvánky.",
+    "guildSettingsInvitesDescription": "Zobrazit všechny pozvánky pro tuto komunitu. Chcete-li vytvořit novou pozvánku, přejděte na kanál a použijte tlačítko pozvat.",
     "@guildSettingsInvitesDescription": {
         "description": "Description for invites tab."
     },
-    "guildSettingsInvitesEmpty": "Žádné aktivní pozvánky.",
+    "guildSettingsInvitesEmpty": "Žádné odkazy na pozvánky",
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
@@ -9136,7 +9136,7 @@
     "guildSettingsModeration2faOwnerOnlyTooltip": "Toto nastavení může změnit pouze vlastník komunity",
     "guildSettingsModeration2faEnableFirstTooltip": "Povolte 2FA na svém účtu, abyste mohli toto nastavení změnit",
     "guildSettingsEmojiSearchHint": "Hledat emotikony",
-    "guildSettingsEmojiUploadTitle": "Nahrát emotikon",
+    "guildSettingsEmojiUploadTitle": "Nahrát emoji",
     "guildSettingsNonAnimatedEmoji": "Neanimované emotikony ({count})",
     "@guildSettingsNonAnimatedEmoji": {
         "placeholders": {
@@ -9154,7 +9154,7 @@
         }
     },
     "guildSettingsStickersSearchHint": "Hledat samolepky",
-    "guildSettingsWebhooksInfo": "Vytvářejte webhooky z nastavení kanálu. Upravujte je zde.",
+    "guildSettingsWebhooksInfo": "Chcete-li vytvořit webhook, otevřete {channelSettingsPath}. Všechny existující webhooky můžete zde stále upravovat a organizovat.",
     "guildSettingsVanityUrlWarning": "Vaše vlastní URL nebude fungovat, pokud alespoň jeden kanál nebude viditelný pro všechny.",
     "guildSettingsVanityUrlRemove": "Odstranit",
     "guildSettingsBannedUsersTitle": "Zabanovaní uživatelé",

@@ -3,7 +3,7 @@
     "@reconnectingTitle": {
         "description": "Title on the reconnecting / server error screen."
     },
-    "reconnectingBody": "Valami gond van a szerverekkel.\nMindjárt megjavul!",
+    "reconnectingBody": "Valami hiba történt az instanciával.\nHamarosan javítjuk!",
     "@reconnectingBody": {
         "description": "Subtitle on the reconnecting screen explaining temporary server issues."
     },
@@ -2551,7 +2551,7 @@
     "@phoneAddHint": {
         "description": "Hint for phone input."
     },
-    "phoneAddFooter": "Add meg a telefonszámodat. SMS-ben küldünk egy ellenőrző kódot.",
+    "phoneAddFooter": "SMS kódot küldünk, amint elérhető lesz. A számod nincs összekapcsolva a fiókoddal. Csak egy titkosított jelölőt tárolunk, felhasználói azonosító nélkül, hogy legfeljebb 2 ellenőrzést engedélyezzünk körülbelül 30 napon belül.",
     "@phoneAddFooter": {
         "description": "Footer text for phone input."
     },
@@ -2567,7 +2567,7 @@
     "@phoneVerifyDescription": {
         "description": "Description for phone verify step."
     },
-    "phoneAddSuccess": "Telefonszám hozzáadva",
+    "phoneAddSuccess": "Telefonszám ellenőrizve",
     "@phoneAddSuccess": {
         "description": "Toast after phone added."
     },
@@ -3892,7 +3892,7 @@
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
     },
-    "voiceMessageHoldHint": "Tartsd lenyomva a rögzítéshez. Húzd felfelé a rögzítés zárolásához, vagy engedd el a küldéshez.",
+    "voiceMessageHoldHint": "Tartsd lenyomva a rögzítéshez. Húzd a kukába a törléshez, csúsztasd felfelé a zároláshoz, vagy engedd el a küldéshez.",
     "@voiceMessageHoldHint": {
         "description": "Hint shown next to the hold-to-record microphone button."
     },
@@ -4006,7 +4006,7 @@
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
     },
-    "chatAttachmentPasteTooltip": "Kép beillesztése a vágólapról",
+    "chatAttachmentPasteTooltip": "Fájl beillesztése a vágólapról",
     "@chatAttachmentPasteTooltip": {
         "description": "Tooltip for pasting an image attachment from the clipboard."
     },
@@ -4483,7 +4483,7 @@
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
     },
-    "lookAndFeelChatFontScalingTitle": "Csevegés betűméretének skálázása",
+    "lookAndFeelChatFontScalingTitle": "Csevegés betűméretezése",
     "@lookAndFeelChatFontScalingTitle": {
         "description": "Section title for the chat font size slider."
     },
@@ -6238,11 +6238,11 @@
     "@chatReplyMentionAccessibilityLabel": {
         "description": "Accessibility label for the reply bar mention toggle."
     },
-    "chatReplyMentionOn": "Be",
+    "chatReplyMentionOn": "ON",
     "@chatReplyMentionOn": {
         "description": "On state suffix appended to the reply bar mention toggle label."
     },
-    "chatReplyMentionOff": "Ki",
+    "chatReplyMentionOff": "OFF",
     "@chatReplyMentionOff": {
         "description": "Off state suffix appended to the reply bar mention toggle label."
     },
@@ -6585,7 +6585,7 @@
     "@userSettingsNavFluxerPlutonium": {
         "description": "User settings navigation item for Fluxer Plutonium subscription settings."
     },
-    "userSettingsNavGiftsAndCodes": "Ajándékok és kódok",
+    "userSettingsNavGiftsAndCodes": "Ajándékok",
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
@@ -7474,11 +7474,11 @@
     "@guildMenuSettingsRoles": {
         "description": "Community settings tab for roles and permissions."
     },
-    "guildMenuSettingsEmoji": "Egyéni hangulatjelek",
+    "guildMenuSettingsEmoji": "Emoji",
     "@guildMenuSettingsEmoji": {
         "description": "Community settings tab for custom emoji."
     },
-    "guildMenuSettingsStickers": "Egyéni matricák",
+    "guildMenuSettingsStickers": "Matricák",
     "@guildMenuSettingsStickers": {
         "description": "Community settings tab for custom stickers."
     },
@@ -7506,7 +7506,7 @@
     "@guildMenuSettingsMembers": {
         "description": "Community settings tab for member management."
     },
-    "guildMenuSettingsInviteLinks": "Meghívó linkek",
+    "guildMenuSettingsInviteLinks": "Meghívók",
     "@guildMenuSettingsInviteLinks": {
         "description": "Community settings tab for invite links."
     },
@@ -8651,11 +8651,11 @@
     "@guildSettingsLoadingMore": {
         "description": "Loading state for pagination."
     },
-    "guildSettingsWebhooksDescription": "Webhookok kezelése, amelyek üzeneteket küldenek a csatornákba.",
+    "guildSettingsWebhooksDescription": "Az összes közösségedben konfigurált webhook megtekintése és kezelése.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
     },
-    "guildSettingsWebhooksEmpty": "Nincsenek beállított webhookok.",
+    "guildSettingsWebhooksEmpty": "Nincsenek webhookok",
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
@@ -8696,11 +8696,11 @@
             }
         }
     },
-    "guildSettingsDiscoveryDescription": "Jelentkezz, hogy felkerülj a szerverek felfedezése közé.",
+    "guildSettingsDiscoveryDescription": "Tedd közzé a közösségedet a Felfedezésben, hogy mások is megtalálhassák és csatlakozhassanak hozzá.",
     "@guildSettingsDiscoveryDescription": {
         "description": "Description for discovery tab."
     },
-    "guildSettingsDiscoveryNotEligible": "Legalább {count} tagnak kell lennie a jelentkezéshez.",
+    "guildSettingsDiscoveryNotEligible": "A közösségednek legalább {count} taggal kell rendelkeznie, mielőtt felkerülhetne a Felfedezésbe.",
     "@guildSettingsDiscoveryNotEligible": {
         "description": "Discovery eligibility message.",
         "placeholders": {
@@ -8717,15 +8717,15 @@
     "@guildSettingsDiscoveryDescriptionField": {
         "description": "Label for discovery description field."
     },
-    "guildSettingsDiscoveryTags": "Címkék",
+    "guildSettingsDiscoveryTags": "Egyéni címkék",
     "@guildSettingsDiscoveryTags": {
         "description": "Label for discovery tags field."
     },
-    "guildSettingsDiscoveryTagsHint": "játék, művészet, zene",
+    "guildSettingsDiscoveryTagsHint": "Adj meg egy címkét, majd nyomd meg az Entert",
     "@guildSettingsDiscoveryTagsHint": {
         "description": "Hint for discovery tags field."
     },
-    "guildSettingsDiscoveryApply": "Jelentkezés elküldése",
+    "guildSettingsDiscoveryApply": "Alkalmaz",
     "@guildSettingsDiscoveryApply": {
         "description": "Button to submit discovery application."
     },
@@ -8737,7 +8737,7 @@
     "@guildSettingsMembersDescription": {
         "description": "Description for members tab."
     },
-    "guildSettingsMembersSearchHint": "Tagok keresése",
+    "guildSettingsMembersSearchHint": "Keresés felhasználónév vagy azonosító alapján",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
     },
@@ -8750,11 +8750,11 @@
             }
         }
     },
-    "guildSettingsInvitesDescription": "Aktív meghívólinkek megtekintése és visszavonása.",
+    "guildSettingsInvitesDescription": "Tekintse meg a közösség összes meghívóját. Új meghívó létrehozásához lépjen egy csatornára, és használja a meghívás gombot.",
     "@guildSettingsInvitesDescription": {
         "description": "Description for invites tab."
     },
-    "guildSettingsInvitesEmpty": "Nincsenek aktív meghívók.",
+    "guildSettingsInvitesEmpty": "Nincsenek meghívólinkek",
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
@@ -9154,7 +9154,7 @@
         }
     },
     "guildSettingsStickersSearchHint": "Keresés matricák között",
-    "guildSettingsWebhooksInfo": "Hozzon létre webhookokat a Csatorna beállításaiból. Szerkessze őket itt.",
+    "guildSettingsWebhooksInfo": "Webhook létrehozásához nyissa meg a(z) {channelSettingsPath} oldalt. Itt továbbra is szerkeszthet és rendszerezhet minden létező webhookot.",
     "guildSettingsVanityUrlWarning": "Az egyéni URL-je nem fog működni, hacsak legalább egy csatorna nem látható mindenki számára.",
     "guildSettingsVanityUrlRemove": "Eltávolítás",
     "guildSettingsBannedUsersTitle": "Kitiltott felhasználók",

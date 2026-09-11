@@ -3,7 +3,7 @@
     "@reconnectingTitle": {
         "description": "Title on the reconnecting / server error screen."
     },
-    "reconnectingBody": "伺服器似乎出了點問題。\n應該很快就會修好！",
+    "reconnectingBody": "連線發生問題。\n幾秒鐘內就會修復！",
     "@reconnectingBody": {
         "description": "Subtitle on the reconnecting screen explaining temporary server issues."
     },
@@ -2551,7 +2551,7 @@
     "@phoneAddHint": {
         "description": "Hint for phone input."
     },
-    "phoneAddFooter": "輸入您的電話號碼。我們會透過簡訊傳送驗證碼給您。",
+    "phoneAddFooter": "我們會在收到驗證碼時傳送簡訊。您的號碼不會連結到您的帳號。我們只會保留一個加密標記，不含使用者 ID，以便在約 30 天內最多驗證 2 次。",
     "@phoneAddFooter": {
         "description": "Footer text for phone input."
     },
@@ -2567,7 +2567,7 @@
     "@phoneVerifyDescription": {
         "description": "Description for phone verify step."
     },
-    "phoneAddSuccess": "電話號碼已新增",
+    "phoneAddSuccess": "電話號碼已驗證",
     "@phoneAddSuccess": {
         "description": "Toast after phone added."
     },
@@ -3892,7 +3892,7 @@
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
     },
-    "voiceMessageHoldHint": "按住以錄製。向上拖曳以鎖定，或放開以傳送。",
+    "voiceMessageHoldHint": "按住錄製。拖曳至垃圾桶刪除、向上滑動鎖定，或放開傳送。",
     "@voiceMessageHoldHint": {
         "description": "Hint shown next to the hold-to-record microphone button."
     },
@@ -4006,7 +4006,7 @@
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
     },
-    "chatAttachmentPasteTooltip": "從剪貼簿貼上圖片",
+    "chatAttachmentPasteTooltip": "從剪貼簿貼上檔案",
     "@chatAttachmentPasteTooltip": {
         "description": "Tooltip for pasting an image attachment from the clipboard."
     },
@@ -4483,7 +4483,7 @@
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
     },
-    "lookAndFeelChatFontScalingTitle": "聊天字體縮放",
+    "lookAndFeelChatFontScalingTitle": "聊天字體大小",
     "@lookAndFeelChatFontScalingTitle": {
         "description": "Section title for the chat font size slider."
     },
@@ -6238,11 +6238,11 @@
     "@chatReplyMentionAccessibilityLabel": {
         "description": "Accessibility label for the reply bar mention toggle."
     },
-    "chatReplyMentionOn": "開啟",
+    "chatReplyMentionOn": "ON",
     "@chatReplyMentionOn": {
         "description": "On state suffix appended to the reply bar mention toggle label."
     },
-    "chatReplyMentionOff": "關閉",
+    "chatReplyMentionOff": "OFF",
     "@chatReplyMentionOff": {
         "description": "Off state suffix appended to the reply bar mention toggle label."
     },
@@ -6585,7 +6585,7 @@
     "@userSettingsNavFluxerPlutonium": {
         "description": "User settings navigation item for Fluxer Plutonium subscription settings."
     },
-    "userSettingsNavGiftsAndCodes": "禮物與代碼",
+    "userSettingsNavGiftsAndCodes": "贈禮",
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
@@ -7142,11 +7142,11 @@
     "@guildNavbarGroupDm": {
         "description": "Secondary label for a group DM in the invite recipients list."
     },
-    "guildNavbarCreateChannel": "建立频道",
+    "guildNavbarCreateChannel": "建立頻道",
     "@guildNavbarCreateChannel": {
         "description": "Title and confirm label for the create channel modal."
     },
-    "guildNavbarChannelType": "频道类型",
+    "guildNavbarChannelType": "頻道類型",
     "@guildNavbarChannelType": {
         "description": "Section label for channel type selection in create channel modal."
     },
@@ -7190,11 +7190,11 @@
     "@guildNavbarUrlHint": {
         "description": "Placeholder hint for URL input in link channel creation."
     },
-    "guildNavbarCreateCategory": "建立分类",
+    "guildNavbarCreateCategory": "建立分類",
     "@guildNavbarCreateCategory": {
         "description": "Title and confirm label for the create category modal."
     },
-    "guildNavbarNewCategoryHint": "新分类",
+    "guildNavbarNewCategoryHint": "新增分類",
     "@guildNavbarNewCategoryHint": {
         "description": "Placeholder hint for new category name input."
     },
@@ -7474,11 +7474,11 @@
     "@guildMenuSettingsRoles": {
         "description": "Community settings tab for roles and permissions."
     },
-    "guildMenuSettingsEmoji": "自訂表情符號",
+    "guildMenuSettingsEmoji": "表情符號",
     "@guildMenuSettingsEmoji": {
         "description": "Community settings tab for custom emoji."
     },
-    "guildMenuSettingsStickers": "自訂貼圖",
+    "guildMenuSettingsStickers": "貼圖",
     "@guildMenuSettingsStickers": {
         "description": "Community settings tab for custom stickers."
     },
@@ -7506,7 +7506,7 @@
     "@guildMenuSettingsMembers": {
         "description": "Community settings tab for member management."
     },
-    "guildMenuSettingsInviteLinks": "邀請連結",
+    "guildMenuSettingsInviteLinks": "邀請",
     "@guildMenuSettingsInviteLinks": {
         "description": "Community settings tab for invite links."
     },
@@ -8651,11 +8651,11 @@
     "@guildSettingsLoadingMore": {
         "description": "Loading state for pagination."
     },
-    "guildSettingsWebhooksDescription": "管理將訊息發佈到頻道的網頁掛鉤。",
+    "guildSettingsWebhooksDescription": "檢視並管理社群中設定的所有 Webhook。",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
     },
-    "guildSettingsWebhooksEmpty": "尚未設定任何網頁掛鉤。",
+    "guildSettingsWebhooksEmpty": "沒有網路掛鉤",
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
@@ -8696,11 +8696,11 @@
             }
         }
     },
-    "guildSettingsDiscoveryDescription": "申請列在伺服器探索中。",
+    "guildSettingsDiscoveryDescription": "將你的社群列在探索中，讓其他人可以找到並加入。",
     "@guildSettingsDiscoveryDescription": {
         "description": "Description for discovery tab."
     },
-    "guildSettingsDiscoveryNotEligible": "申請至少需要 {count} 位成員。",
+    "guildSettingsDiscoveryNotEligible": "您的社群需要至少有 {count} 位成員，才能列入探索功能。",
     "@guildSettingsDiscoveryNotEligible": {
         "description": "Discovery eligibility message.",
         "placeholders": {
@@ -8717,15 +8717,15 @@
     "@guildSettingsDiscoveryDescriptionField": {
         "description": "Label for discovery description field."
     },
-    "guildSettingsDiscoveryTags": "標籤",
+    "guildSettingsDiscoveryTags": "自訂標籤",
     "@guildSettingsDiscoveryTags": {
         "description": "Label for discovery tags field."
     },
-    "guildSettingsDiscoveryTagsHint": "遊戲、藝術、音樂",
+    "guildSettingsDiscoveryTagsHint": "新增標籤後按下 Enter 鍵",
     "@guildSettingsDiscoveryTagsHint": {
         "description": "Hint for discovery tags field."
     },
-    "guildSettingsDiscoveryApply": "提交申請",
+    "guildSettingsDiscoveryApply": "套用",
     "@guildSettingsDiscoveryApply": {
         "description": "Button to submit discovery application."
     },
@@ -8737,7 +8737,7 @@
     "@guildSettingsMembersDescription": {
         "description": "Description for members tab."
     },
-    "guildSettingsMembersSearchHint": "搜尋成員",
+    "guildSettingsMembersSearchHint": "依使用者名稱或 ID 搜尋",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
     },
@@ -8750,11 +8750,11 @@
             }
         }
     },
-    "guildSettingsInvitesDescription": "檢視並撤銷有效的邀請連結。",
+    "guildSettingsInvitesDescription": "查看此社群的所有邀請。若要建立新的邀請，請前往頻道並使用邀請按鈕。",
     "@guildSettingsInvitesDescription": {
         "description": "Description for invites tab."
     },
-    "guildSettingsInvitesEmpty": "沒有作用中的邀請。",
+    "guildSettingsInvitesEmpty": "沒有邀請連結",
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
@@ -9154,7 +9154,7 @@
         }
     },
     "guildSettingsStickersSearchHint": "搜尋貼圖",
-    "guildSettingsWebhooksInfo": "從頻道設定建立網頁掛鉤。在此編輯。",
+    "guildSettingsWebhooksInfo": "如要建立網頁掛鉤，請開啟 {channelSettingsPath}。您仍可在此編輯和整理所有現有的網頁掛鉤。",
     "guildSettingsVanityUrlWarning": "除非至少有一個頻道對所有人可見，否則您的自訂網址將無法運作。",
     "guildSettingsVanityUrlRemove": "移除",
     "guildSettingsBannedUsersTitle": "被封鎖的使用者",

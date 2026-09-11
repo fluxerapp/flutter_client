@@ -13,7 +13,7 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String get reconnectingBody =>
-      'Der er noget galt med serverne.\nDet burde være fikset om et øjeblik!';
+      'Noget er galt med instansen.\nDet burde være fikset om et øjeblik!';
 
   @override
   String get gatewayReconnectingToast => 'Genopretter forbindelse…';
@@ -2378,7 +2378,7 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String get phoneAddFooter =>
-      'Indtast dit telefonnummer. Vi sender dig en bekræftelseskode via SMS.';
+      'Vi sender en SMS-kode, når den er tilgængelig. Dit nummer er ikke knyttet til din konto. Vi gemmer kun en krypteret markør, uden bruger-id, for at tillade højst 2 bekræftelser inden for ca. 30 dage.';
 
   @override
   String get phoneAddSendCode => 'Send kode';
@@ -2391,7 +2391,7 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
       'Indtast bekræftelseskoden, der blev sendt til dit telefonnummer.';
 
   @override
-  String get phoneAddSuccess => 'Telefonnummer tilføjet';
+  String get phoneAddSuccess => 'Telefonnummer bekræftet';
 
   @override
   String get phoneCountryLabel => 'Land';
@@ -3786,7 +3786,7 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String get voiceMessageHoldHint =>
-      'Hold nede for at optage. Træk op for at låse, eller slip for at sende.';
+      'Hold for at optage. Træk til papirkurven for at slette, skub op for at låse, eller slip for at sende.';
 
   @override
   String get voiceMessageDiscard => 'Kassér stemmemeddelelse';
@@ -3995,7 +3995,7 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get chatAttachmentSourceBrowse => 'Gennemse filer';
 
   @override
-  String get chatAttachmentPasteTooltip => 'Indsæt billede fra udklipsholder';
+  String get chatAttachmentPasteTooltip => 'Indsæt fil fra udklipsholder';
 
   @override
   String get chatAttachmentSpoiler => 'Spoiler';
@@ -5531,7 +5531,7 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
       'Dette er en stemmekanal. Opret forbindelse for at begynde at tale!';
 
   @override
-  String get voiceChannelJoin => 'Deltag i stemmekanal';
+  String get voiceChannelJoin => 'Deltag i talechat';
 
   @override
   String get voiceCallJoin => 'Deltag i opkald';
@@ -7242,10 +7242,10 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get chatReplyMentionAccessibilityLabel => 'Mention svar-bruger';
 
   @override
-  String get chatReplyMentionOn => 'Til';
+  String get chatReplyMentionOn => 'ON';
 
   @override
-  String get chatReplyMentionOff => 'Fra';
+  String get chatReplyMentionOff => 'OFF';
 
   @override
   String get chatReplyCancel => 'Annuller svar';
@@ -9087,7 +9087,7 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => 'Gaver og koder';
+  String get userSettingsNavGiftsAndCodes => 'Gavers';
 
   @override
   String get giftSettingsClaimAccountTitle => 'Gør krav på din konto';
@@ -11476,10 +11476,10 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get guildMenuSettingsRoles => 'Roller & tilladelser';
 
   @override
-  String get guildMenuSettingsEmoji => 'Brugerdefinerede emojis';
+  String get guildMenuSettingsEmoji => 'Emoji';
 
   @override
-  String get guildMenuSettingsStickers => 'Brugerdefinerede klistermærker';
+  String get guildMenuSettingsStickers => 'Klistermærker';
 
   @override
   String get guildMenuSettingsSafetyModeration => 'Sikkerhed & moderation';
@@ -11501,7 +11501,7 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get guildMenuSettingsMembers => 'Medlemmer';
 
   @override
-  String get guildMenuSettingsInviteLinks => 'Invitationslinks';
+  String get guildMenuSettingsInviteLinks => 'Invitationer';
 
   @override
   String get guildMenuSettingsBans => 'Bans';
@@ -12643,10 +12643,10 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String get guildSettingsWebhooksDescription =>
-      'Administrer webhooks, der sender beskeder til kanaler.';
+      'Se og administrer alle webhooks, der er konfigureret i dit fællesskab.';
 
   @override
-  String get guildSettingsWebhooksEmpty => 'Ingen webhooks konfigureret.';
+  String get guildSettingsWebhooksEmpty => 'Ingen webhooks';
 
   @override
   String guildSettingsWebhooksEmptyDescription(String channelSettingsPath) {
@@ -12705,7 +12705,7 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Ansøg om at blive vist i serveropdagelse.';
+      'Vis dit fællesskab i Oplev, så andre kan finde og tilmelde sig det.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
@@ -12713,7 +12713,7 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Kræver mindst $count medlemmer for at ansøge.';
+    return 'Dit fællesskab skal have mindst $count medlemmer, før det kan vises i Opdag.';
   }
 
   @override
@@ -12788,7 +12788,8 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTagsHint => 'gaming, kunst, musik';
+  String get guildSettingsDiscoveryTagsHint =>
+      'Tilføj et tag, og tryk på Enter';
 
   @override
   String get guildSettingsDiscoveryAddTag => 'Tilføj';
@@ -12812,7 +12813,7 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryApply => 'Send ansøgning';
+  String get guildSettingsDiscoveryApply => 'Anvend';
 
   @override
   String get guildSettingsDiscoverySave => 'Gem';
@@ -12844,7 +12845,7 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
       'Søg og administrer servermedlemmer.';
 
   @override
-  String get guildSettingsMembersSearchHint => 'Søg efter medlemmer';
+  String get guildSettingsMembersSearchHint => 'Søg efter brugernavn eller id';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
@@ -13047,10 +13048,10 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String get guildSettingsInvitesDescription =>
-      'Se og tilbagekald aktive invitationslinks.';
+      'Se alle invitationer til dette fællesskab. For at oprette en ny invitation skal du gå til en kanal og bruge invitationsknappen.';
 
   @override
-  String get guildSettingsInvitesEmpty => 'Ingen aktive invitationer.';
+  String get guildSettingsInvitesEmpty => 'Ingen invitationslinks';
 
   @override
   String get guildSettingsInvitesEmptyDescription =>
@@ -13864,7 +13865,7 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String guildSettingsWebhooksInfo(String channelSettingsPath) {
-    return 'Opret webhooks fra Kanalindstillinger. Rediger dem her.';
+    return 'For at oprette en webhook skal du åbne $channelSettingsPath. Du kan stadig redigere og organisere alle eksisterende webhooks her.';
   }
 
   @override

@@ -3,7 +3,7 @@
     "@reconnectingTitle": {
         "description": "Title on the reconnecting / server error screen."
     },
-    "reconnectingBody": "Palvelimissa on jotain vikaa.\nPäivittyy hetken kuluttua!",
+    "reconnectingBody": "Jotain on vialla tässä instanssissa.\nPitäisi korjaantua hetken kuluttua!",
     "@reconnectingBody": {
         "description": "Subtitle on the reconnecting screen explaining temporary server issues."
     },
@@ -2551,7 +2551,7 @@
     "@phoneAddHint": {
         "description": "Hint for phone input."
     },
-    "phoneAddFooter": "Syötä puhelinnumerosi. Lähetämme sinulle vahvistuskoodin tekstiviestillä.",
+    "phoneAddFooter": "Lähetämme tekstiviestikoodin, kun se on saatavilla. Numerosi ei ole linkitetty tiliisi. Säilytämme vain salatun merkinnän ilman käyttäjätunnusta, jotta voimme tehdä enintään 2 vahvistusta noin 30 päivän aikana.",
     "@phoneAddFooter": {
         "description": "Footer text for phone input."
     },
@@ -2567,7 +2567,7 @@
     "@phoneVerifyDescription": {
         "description": "Description for phone verify step."
     },
-    "phoneAddSuccess": "Puhelinnumero lisätty",
+    "phoneAddSuccess": "Puhelinnumero vahvistettu",
     "@phoneAddSuccess": {
         "description": "Toast after phone added."
     },
@@ -3892,7 +3892,7 @@
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
     },
-    "voiceMessageHoldHint": "Paina ja pidä tallentaaksesi. Vedä ylös lukitaksesi tai vapauta lähettääksesi.",
+    "voiceMessageHoldHint": "Pidä pohjassa tallentaaksesi. Vedä roskakoriin poistaaksesi, liu'uta ylös lukitaksesi tai vapauta lähettääksesi.",
     "@voiceMessageHoldHint": {
         "description": "Hint shown next to the hold-to-record microphone button."
     },
@@ -4006,7 +4006,7 @@
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
     },
-    "chatAttachmentPasteTooltip": "Liitä kuva leikepöydältä",
+    "chatAttachmentPasteTooltip": "Liitä tiedosto leikepöydältä",
     "@chatAttachmentPasteTooltip": {
         "description": "Tooltip for pasting an image attachment from the clipboard."
     },
@@ -5182,7 +5182,7 @@
     "@voiceChannelEmptyDescription": {
         "description": "Empty state body when viewing a guild voice channel while not in the call."
     },
-    "voiceChannelJoin": "Liity äänikanavaan",
+    "voiceChannelJoin": "Liity äänikanavalle",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
     },
@@ -6238,11 +6238,11 @@
     "@chatReplyMentionAccessibilityLabel": {
         "description": "Accessibility label for the reply bar mention toggle."
     },
-    "chatReplyMentionOn": "Päällä",
+    "chatReplyMentionOn": "ON",
     "@chatReplyMentionOn": {
         "description": "On state suffix appended to the reply bar mention toggle label."
     },
-    "chatReplyMentionOff": "Pois päältä",
+    "chatReplyMentionOff": "OFF",
     "@chatReplyMentionOff": {
         "description": "Off state suffix appended to the reply bar mention toggle label."
     },
@@ -6585,7 +6585,7 @@
     "@userSettingsNavFluxerPlutonium": {
         "description": "User settings navigation item for Fluxer Plutonium subscription settings."
     },
-    "userSettingsNavGiftsAndCodes": "Lahjat ja koodit",
+    "userSettingsNavGiftsAndCodes": "Lahjat",
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
@@ -7146,7 +7146,7 @@
     "@guildNavbarCreateChannel": {
         "description": "Title and confirm label for the create channel modal."
     },
-    "guildNavbarChannelType": "Kanavatyyppi",
+    "guildNavbarChannelType": "Kanavan tyyppi",
     "@guildNavbarChannelType": {
         "description": "Section label for channel type selection in create channel modal."
     },
@@ -7474,11 +7474,11 @@
     "@guildMenuSettingsRoles": {
         "description": "Community settings tab for roles and permissions."
     },
-    "guildMenuSettingsEmoji": "Mukautetut emojit",
+    "guildMenuSettingsEmoji": "Emoji",
     "@guildMenuSettingsEmoji": {
         "description": "Community settings tab for custom emoji."
     },
-    "guildMenuSettingsStickers": "Mukautetut tarrat",
+    "guildMenuSettingsStickers": "Tarrat",
     "@guildMenuSettingsStickers": {
         "description": "Community settings tab for custom stickers."
     },
@@ -7506,7 +7506,7 @@
     "@guildMenuSettingsMembers": {
         "description": "Community settings tab for member management."
     },
-    "guildMenuSettingsInviteLinks": "Kutsulinkit",
+    "guildMenuSettingsInviteLinks": "Kutsut",
     "@guildMenuSettingsInviteLinks": {
         "description": "Community settings tab for invite links."
     },
@@ -8651,11 +8651,11 @@
     "@guildSettingsLoadingMore": {
         "description": "Loading state for pagination."
     },
-    "guildSettingsWebhooksDescription": "Hallitse webkoukkuja, jotka julkaisevat viestejä kanaville.",
+    "guildSettingsWebhooksDescription": "Tarkastele ja hallinnoi kaikkia yhteisöösi määritettyjä webhookeja.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
     },
-    "guildSettingsWebhooksEmpty": "Webkoukkuja ei ole määritetty.",
+    "guildSettingsWebhooksEmpty": "Ei webhookeja",
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
@@ -8696,11 +8696,11 @@
             }
         }
     },
-    "guildSettingsDiscoveryDescription": "Hae mukaan palvelimen hakemistoon.",
+    "guildSettingsDiscoveryDescription": "Listaa yhteisösi Löydä-osiossa, jotta muut voivat löytää ja liittyä siihen.",
     "@guildSettingsDiscoveryDescription": {
         "description": "Description for discovery tab."
     },
-    "guildSettingsDiscoveryNotEligible": "Vaatii vähintään {count} jäsentä hakeaksesi.",
+    "guildSettingsDiscoveryNotEligible": "Yhteisössäsi on oltava vähintään {count} jäsentä, ennen kuin se voidaan listata Löydöissä.",
     "@guildSettingsDiscoveryNotEligible": {
         "description": "Discovery eligibility message.",
         "placeholders": {
@@ -8717,15 +8717,15 @@
     "@guildSettingsDiscoveryDescriptionField": {
         "description": "Label for discovery description field."
     },
-    "guildSettingsDiscoveryTags": "Tunnisteet",
+    "guildSettingsDiscoveryTags": "Mukautetut tunnisteet",
     "@guildSettingsDiscoveryTags": {
         "description": "Label for discovery tags field."
     },
-    "guildSettingsDiscoveryTagsHint": "pelaaminen, taide, musiikki",
+    "guildSettingsDiscoveryTagsHint": "Lisää tunniste ja paina Enter",
     "@guildSettingsDiscoveryTagsHint": {
         "description": "Hint for discovery tags field."
     },
-    "guildSettingsDiscoveryApply": "Lähetä hakemus",
+    "guildSettingsDiscoveryApply": "Käytä",
     "@guildSettingsDiscoveryApply": {
         "description": "Button to submit discovery application."
     },
@@ -8737,7 +8737,7 @@
     "@guildSettingsMembersDescription": {
         "description": "Description for members tab."
     },
-    "guildSettingsMembersSearchHint": "Etsi jäseniä",
+    "guildSettingsMembersSearchHint": "Hae käyttäjänimellä tai tunnuksella",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
     },
@@ -8750,11 +8750,11 @@
             }
         }
     },
-    "guildSettingsInvitesDescription": "Näytä ja peruuta aktiiviset kutsulinkit.",
+    "guildSettingsInvitesDescription": "Näytä kaikki tämän yhteisön kutsut. Jos haluat luoda uuden kutsun, siirry kanavalle ja käytä kutsu-painiketta.",
     "@guildSettingsInvitesDescription": {
         "description": "Description for invites tab."
     },
-    "guildSettingsInvitesEmpty": "Ei aktiivisia kutsuja.",
+    "guildSettingsInvitesEmpty": "Ei kutsulinkkejä",
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
@@ -9154,7 +9154,7 @@
         }
     },
     "guildSettingsStickersSearchHint": "Etsi tarroja",
-    "guildSettingsWebhooksInfo": "Luo webhookkeja kanava-asetuksista. Muokkaa niitä täällä.",
+    "guildSettingsWebhooksInfo": "Luo webhook avaamalla {channelSettingsPath}. Voit edelleen muokata ja järjestää kaikki olemassa olevat webhookit täällä.",
     "guildSettingsVanityUrlWarning": "Mukautettu URL-osoitteesi ei toimi, ellei vähintään yksi kanava ole kaikkien nähtävissä.",
     "guildSettingsVanityUrlRemove": "Poista",
     "guildSettingsBannedUsersTitle": "Estetyt käyttäjät",

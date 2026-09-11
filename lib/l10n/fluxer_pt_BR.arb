@@ -3,7 +3,7 @@
     "@reconnectingTitle": {
         "description": "Title on the reconnecting / server error screen."
     },
-    "reconnectingBody": "Algo está errado com os servidores.\nDeve ser consertado em um segundo!",
+    "reconnectingBody": "Algo deu errado com a instância.\nDeve ser corrigido em um segundo!",
     "@reconnectingBody": {
         "description": "Subtitle on the reconnecting screen explaining temporary server issues."
     },
@@ -2551,7 +2551,7 @@
     "@phoneAddHint": {
         "description": "Hint for phone input."
     },
-    "phoneAddFooter": "Digite seu número de telefone. Enviaremos um código de verificação por SMS.",
+    "phoneAddFooter": "Enviaremos um código por SMS quando disponível. Seu número não será vinculado à sua conta. Mantemos apenas um marcador criptografado, sem ID de usuário, para permitir no máximo 2 verificações em cerca de 30 dias.",
     "@phoneAddFooter": {
         "description": "Footer text for phone input."
     },
@@ -2567,7 +2567,7 @@
     "@phoneVerifyDescription": {
         "description": "Description for phone verify step."
     },
-    "phoneAddSuccess": "Número de telefone adicionado",
+    "phoneAddSuccess": "Número de telefone verificado",
     "@phoneAddSuccess": {
         "description": "Toast after phone added."
     },
@@ -3892,7 +3892,7 @@
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
     },
-    "voiceMessageHoldHint": "Segure para gravar. Arraste para cima para travar ou solte para enviar.",
+    "voiceMessageHoldHint": "Mantenha pressionado para gravar. Arraste para a lixeira para excluir, deslize para cima para travar ou solte para enviar.",
     "@voiceMessageHoldHint": {
         "description": "Hint shown next to the hold-to-record microphone button."
     },
@@ -4006,7 +4006,7 @@
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
     },
-    "chatAttachmentPasteTooltip": "Colar imagem da área de transferência",
+    "chatAttachmentPasteTooltip": "Colar arquivo da área de transferência",
     "@chatAttachmentPasteTooltip": {
         "description": "Tooltip for pasting an image attachment from the clipboard."
     },
@@ -4483,7 +4483,7 @@
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
     },
-    "lookAndFeelChatFontScalingTitle": "Dimensionamento de Fonte de Chat",
+    "lookAndFeelChatFontScalingTitle": "Escala da fonte do chat",
     "@lookAndFeelChatFontScalingTitle": {
         "description": "Section title for the chat font size slider."
     },
@@ -5182,7 +5182,7 @@
     "@voiceChannelEmptyDescription": {
         "description": "Empty state body when viewing a guild voice channel while not in the call."
     },
-    "voiceChannelJoin": "Entrar no Canal de Voz",
+    "voiceChannelJoin": "Entrar no canal de voz",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
     },
@@ -6238,11 +6238,11 @@
     "@chatReplyMentionAccessibilityLabel": {
         "description": "Accessibility label for the reply bar mention toggle."
     },
-    "chatReplyMentionOn": "Ativado",
+    "chatReplyMentionOn": "ON",
     "@chatReplyMentionOn": {
         "description": "On state suffix appended to the reply bar mention toggle label."
     },
-    "chatReplyMentionOff": "Desativado",
+    "chatReplyMentionOff": "OFF",
     "@chatReplyMentionOff": {
         "description": "Off state suffix appended to the reply bar mention toggle label."
     },
@@ -6585,7 +6585,7 @@
     "@userSettingsNavFluxerPlutonium": {
         "description": "User settings navigation item for Fluxer Plutonium subscription settings."
     },
-    "userSettingsNavGiftsAndCodes": "Presentes e Códigos",
+    "userSettingsNavGiftsAndCodes": "Presentes",
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
@@ -7142,11 +7142,11 @@
     "@guildNavbarGroupDm": {
         "description": "Secondary label for a group DM in the invite recipients list."
     },
-    "guildNavbarCreateChannel": "Criar Canal",
+    "guildNavbarCreateChannel": "Criar canal",
     "@guildNavbarCreateChannel": {
         "description": "Title and confirm label for the create channel modal."
     },
-    "guildNavbarChannelType": "Tipo de Canal",
+    "guildNavbarChannelType": "Tipo de canal",
     "@guildNavbarChannelType": {
         "description": "Section label for channel type selection in create channel modal."
     },
@@ -7190,11 +7190,11 @@
     "@guildNavbarUrlHint": {
         "description": "Placeholder hint for URL input in link channel creation."
     },
-    "guildNavbarCreateCategory": "Criar Categoria",
+    "guildNavbarCreateCategory": "Criar categoria",
     "@guildNavbarCreateCategory": {
         "description": "Title and confirm label for the create category modal."
     },
-    "guildNavbarNewCategoryHint": "Nova Categoria",
+    "guildNavbarNewCategoryHint": "Nova categoria",
     "@guildNavbarNewCategoryHint": {
         "description": "Placeholder hint for new category name input."
     },
@@ -7474,11 +7474,11 @@
     "@guildMenuSettingsRoles": {
         "description": "Community settings tab for roles and permissions."
     },
-    "guildMenuSettingsEmoji": "Emojis personalizados",
+    "guildMenuSettingsEmoji": "Emoji",
     "@guildMenuSettingsEmoji": {
         "description": "Community settings tab for custom emoji."
     },
-    "guildMenuSettingsStickers": "Stickers personalizados",
+    "guildMenuSettingsStickers": "Adesivos",
     "@guildMenuSettingsStickers": {
         "description": "Community settings tab for custom stickers."
     },
@@ -7506,7 +7506,7 @@
     "@guildMenuSettingsMembers": {
         "description": "Community settings tab for member management."
     },
-    "guildMenuSettingsInviteLinks": "Links de convite",
+    "guildMenuSettingsInviteLinks": "Convites",
     "@guildMenuSettingsInviteLinks": {
         "description": "Community settings tab for invite links."
     },
@@ -7558,7 +7558,7 @@
     "@guildSettingsRolesDescription": {
         "description": "Description for the roles settings tab."
     },
-    "guildSettingsCreateRole": "Criar cargo",
+    "guildSettingsCreateRole": "Criar função",
     "@guildSettingsCreateRole": {
         "description": "Button to create a new role."
     },
@@ -8651,11 +8651,11 @@
     "@guildSettingsLoadingMore": {
         "description": "Loading state for pagination."
     },
-    "guildSettingsWebhooksDescription": "Gerencie webhooks que postam mensagens em canais.",
+    "guildSettingsWebhooksDescription": "Veja e gerencie todos os webhooks configurados na sua comunidade.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
     },
-    "guildSettingsWebhooksEmpty": "Nenhum webhook configurado.",
+    "guildSettingsWebhooksEmpty": "Nenhum webhook",
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
@@ -8696,11 +8696,11 @@
             }
         }
     },
-    "guildSettingsDiscoveryDescription": "Candidate-se para ser listado na descoberta de servidores.",
+    "guildSettingsDiscoveryDescription": "Liste sua comunidade em Descobrir para que outras pessoas possam encontrá-la e participar.",
     "@guildSettingsDiscoveryDescription": {
         "description": "Description for discovery tab."
     },
-    "guildSettingsDiscoveryNotEligible": "Requer pelo menos {count} membros para se candidatar.",
+    "guildSettingsDiscoveryNotEligible": "Sua comunidade precisa de pelo menos {count} membros para ser listada em Descoberta.",
     "@guildSettingsDiscoveryNotEligible": {
         "description": "Discovery eligibility message.",
         "placeholders": {
@@ -8721,11 +8721,11 @@
     "@guildSettingsDiscoveryTags": {
         "description": "Label for discovery tags field."
     },
-    "guildSettingsDiscoveryTagsHint": "jogos, arte, música",
+    "guildSettingsDiscoveryTagsHint": "Adicione uma tag e pressione Enter",
     "@guildSettingsDiscoveryTagsHint": {
         "description": "Hint for discovery tags field."
     },
-    "guildSettingsDiscoveryApply": "Enviar Inscrição",
+    "guildSettingsDiscoveryApply": "Aplicar",
     "@guildSettingsDiscoveryApply": {
         "description": "Button to submit discovery application."
     },
@@ -8737,7 +8737,7 @@
     "@guildSettingsMembersDescription": {
         "description": "Description for members tab."
     },
-    "guildSettingsMembersSearchHint": "Pesquisar membros",
+    "guildSettingsMembersSearchHint": "Pesquisar por nome de usuário ou ID",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
     },
@@ -8750,11 +8750,11 @@
             }
         }
     },
-    "guildSettingsInvitesDescription": "Visualize e revogue links de convite ativos.",
+    "guildSettingsInvitesDescription": "Veja todos os convites desta comunidade. Para criar um novo convite, vá para um canal e use o botão de convite.",
     "@guildSettingsInvitesDescription": {
         "description": "Description for invites tab."
     },
-    "guildSettingsInvitesEmpty": "Nenhum convite ativo.",
+    "guildSettingsInvitesEmpty": "Nenhum link de convite",
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
@@ -9136,7 +9136,7 @@
     "guildSettingsModeration2faOwnerOnlyTooltip": "Apenas o proprietário da comunidade pode alterar esta configuração",
     "guildSettingsModeration2faEnableFirstTooltip": "Ative o 2FA em sua conta para alterar esta configuração",
     "guildSettingsEmojiSearchHint": "Pesquisar emojis",
-    "guildSettingsEmojiUploadTitle": "Carregar Emoji",
+    "guildSettingsEmojiUploadTitle": "Carregar figurinha",
     "guildSettingsNonAnimatedEmoji": "Emoji não animado ({count})",
     "@guildSettingsNonAnimatedEmoji": {
         "placeholders": {
@@ -9154,7 +9154,7 @@
         }
     },
     "guildSettingsStickersSearchHint": "Pesquisar figurinhas",
-    "guildSettingsWebhooksInfo": "Crie webhooks nas configurações do canal. Edite-os aqui.",
+    "guildSettingsWebhooksInfo": "Para criar um webhook, abra {channelSettingsPath}. Você ainda pode editar e organizar todos os webhooks existentes aqui.",
     "guildSettingsVanityUrlWarning": "Sua URL de vaidade não funcionará a menos que pelo menos um canal seja visível para todos.",
     "guildSettingsVanityUrlRemove": "Remover",
     "guildSettingsBannedUsersTitle": "Usuários banidos",

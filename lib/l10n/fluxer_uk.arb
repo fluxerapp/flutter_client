@@ -3,7 +3,7 @@
     "@reconnectingTitle": {
         "description": "Title on the reconnecting / server error screen."
     },
-    "reconnectingBody": "Сервери працюють некоректно.\nМає скоро виправитись!",
+    "reconnectingBody": "Щось не так з інстансом.\nМає виправитись за секунду!",
     "@reconnectingBody": {
         "description": "Subtitle on the reconnecting screen explaining temporary server issues."
     },
@@ -2551,7 +2551,7 @@
     "@phoneAddHint": {
         "description": "Hint for phone input."
     },
-    "phoneAddFooter": "Введіть свій номер телефону. Ми надішлемо вам код підтвердження через SMS.",
+    "phoneAddFooter": "Ми надішлемо SMS-код, коли він буде доступний. Ваш номер не буде пов’язано з вашим обліковим записом. Ми зберігаємо лише зашифрований маркер без ідентифікатора користувача, щоб дозволити максимум 2 перевірки приблизно за 30 днів.",
     "@phoneAddFooter": {
         "description": "Footer text for phone input."
     },
@@ -2567,7 +2567,7 @@
     "@phoneVerifyDescription": {
         "description": "Description for phone verify step."
     },
-    "phoneAddSuccess": "Номер телефону додано",
+    "phoneAddSuccess": "Номер телефону підтверджено",
     "@phoneAddSuccess": {
         "description": "Toast after phone added."
     },
@@ -3892,7 +3892,7 @@
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
     },
-    "voiceMessageHoldHint": "Утримуйте, щоб записати. Перетягніть вгору, щоб зафіксувати, або відпустіть, щоб надіслати.",
+    "voiceMessageHoldHint": "Утримуйте, щоб записати. Перетягніть до кошика, щоб видалити, проведіть угору, щоб заблокувати, або відпустіть, щоб надіслати.",
     "@voiceMessageHoldHint": {
         "description": "Hint shown next to the hold-to-record microphone button."
     },
@@ -4006,7 +4006,7 @@
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
     },
-    "chatAttachmentPasteTooltip": "Вставити зображення з буфера обміну",
+    "chatAttachmentPasteTooltip": "Вставити файл із буфера обміну",
     "@chatAttachmentPasteTooltip": {
         "description": "Tooltip for pasting an image attachment from the clipboard."
     },
@@ -6238,11 +6238,11 @@
     "@chatReplyMentionAccessibilityLabel": {
         "description": "Accessibility label for the reply bar mention toggle."
     },
-    "chatReplyMentionOn": "Увімкнено",
+    "chatReplyMentionOn": "ON",
     "@chatReplyMentionOn": {
         "description": "On state suffix appended to the reply bar mention toggle label."
     },
-    "chatReplyMentionOff": "Вимкнено",
+    "chatReplyMentionOff": "OFF",
     "@chatReplyMentionOff": {
         "description": "Off state suffix appended to the reply bar mention toggle label."
     },
@@ -6585,7 +6585,7 @@
     "@userSettingsNavFluxerPlutonium": {
         "description": "User settings navigation item for Fluxer Plutonium subscription settings."
     },
-    "userSettingsNavGiftsAndCodes": "Подарунки та коди",
+    "userSettingsNavGiftsAndCodes": "Подарунки",
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
@@ -7474,11 +7474,11 @@
     "@guildMenuSettingsRoles": {
         "description": "Community settings tab for roles and permissions."
     },
-    "guildMenuSettingsEmoji": "Власні емодзі",
+    "guildMenuSettingsEmoji": "Емодзі",
     "@guildMenuSettingsEmoji": {
         "description": "Community settings tab for custom emoji."
     },
-    "guildMenuSettingsStickers": "Власні стікери",
+    "guildMenuSettingsStickers": "Стікери",
     "@guildMenuSettingsStickers": {
         "description": "Community settings tab for custom stickers."
     },
@@ -7506,7 +7506,7 @@
     "@guildMenuSettingsMembers": {
         "description": "Community settings tab for member management."
     },
-    "guildMenuSettingsInviteLinks": "Посилання-запрошення",
+    "guildMenuSettingsInviteLinks": "Запрошення",
     "@guildMenuSettingsInviteLinks": {
         "description": "Community settings tab for invite links."
     },
@@ -8651,11 +8651,11 @@
     "@guildSettingsLoadingMore": {
         "description": "Loading state for pagination."
     },
-    "guildSettingsWebhooksDescription": "Керуйте вебхуками, які надсилають повідомлення до каналів.",
+    "guildSettingsWebhooksDescription": "Переглядайте та керуйте всіма вебхуками, налаштованими у вашій спільноті.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
     },
-    "guildSettingsWebhooksEmpty": "Вебхуки не налаштовано.",
+    "guildSettingsWebhooksEmpty": "Вебхуків немає",
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
@@ -8696,11 +8696,11 @@
             }
         }
     },
-    "guildSettingsDiscoveryDescription": "Подайте заявку, щоб потрапити до списку пошуку серверів.",
+    "guildSettingsDiscoveryDescription": "Додайте свою спільноту до розділу \"Цікаве\", щоб інші могли її знайти та приєднатися.",
     "@guildSettingsDiscoveryDescription": {
         "description": "Description for discovery tab."
     },
-    "guildSettingsDiscoveryNotEligible": "Потрібно щонайменше {count} учасників для подання заявки.",
+    "guildSettingsDiscoveryNotEligible": "Вашій спільноті потрібно щонайменше {count} учасників, щоб її можна було додати до каталогу.",
     "@guildSettingsDiscoveryNotEligible": {
         "description": "Discovery eligibility message.",
         "placeholders": {
@@ -8717,15 +8717,15 @@
     "@guildSettingsDiscoveryDescriptionField": {
         "description": "Label for discovery description field."
     },
-    "guildSettingsDiscoveryTags": "Теги",
+    "guildSettingsDiscoveryTags": "Власні теги",
     "@guildSettingsDiscoveryTags": {
         "description": "Label for discovery tags field."
     },
-    "guildSettingsDiscoveryTagsHint": "ігри, мистецтво, музика",
+    "guildSettingsDiscoveryTagsHint": "Додайте тег і натисніть Enter",
     "@guildSettingsDiscoveryTagsHint": {
         "description": "Hint for discovery tags field."
     },
-    "guildSettingsDiscoveryApply": "Надіслати заявку",
+    "guildSettingsDiscoveryApply": "Застосувати",
     "@guildSettingsDiscoveryApply": {
         "description": "Button to submit discovery application."
     },
@@ -8737,7 +8737,7 @@
     "@guildSettingsMembersDescription": {
         "description": "Description for members tab."
     },
-    "guildSettingsMembersSearchHint": "Пошук учасників",
+    "guildSettingsMembersSearchHint": "Пошук за іменем користувача або ID",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
     },
@@ -8750,11 +8750,11 @@
             }
         }
     },
-    "guildSettingsInvitesDescription": "Переглядайте та відкликайте активні посилання для запрошень.",
+    "guildSettingsInvitesDescription": "Переглянути всі запрошення для цієї спільноти. Щоб створити нове запрошення, перейдіть до каналу та скористайтеся кнопкою запрошення.",
     "@guildSettingsInvitesDescription": {
         "description": "Description for invites tab."
     },
-    "guildSettingsInvitesEmpty": "Немає активних запрошень.",
+    "guildSettingsInvitesEmpty": "Немає посилань-запрошень",
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
@@ -9154,7 +9154,7 @@
         }
     },
     "guildSettingsStickersSearchHint": "Пошук стікерів",
-    "guildSettingsWebhooksInfo": "Створюйте вебхуки з налаштувань каналу. Редагуйте їх тут.",
+    "guildSettingsWebhooksInfo": "Щоб створити вебхук, відкрийте {channelSettingsPath}. Тут ви все ще можете редагувати та впорядковувати всі наявні вебхуки.",
     "guildSettingsVanityUrlWarning": "Ваша спеціальна URL-адреса не працюватиме, якщо принаймні один канал не буде видимим для всіх.",
     "guildSettingsVanityUrlRemove": "Видалити",
     "guildSettingsBannedUsersTitle": "Заблоковані користувачі",

@@ -13,7 +13,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get reconnectingBody =>
-      'Κάτι δεν πάει καλά με τους διακομιστές.\nΘα φτιαχτεί σε ένα δευτερόλεπτο!';
+      'Κάτι πήγε στραβά με την παρουσία.\nΘα διορθωθεί σε μια στιγμή!';
 
   @override
   String get gatewayReconnectingToast => 'Επανασύνδεση…';
@@ -2399,7 +2399,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get phoneAddFooter =>
-      'Εισαγάγετε τον αριθμό τηλεφώνου σας. Θα σας στείλουμε έναν κωδικό επαλήθευσης μέσω SMS.';
+      'Θα στείλουμε έναν κωδικό SMS όταν είναι διαθέσιμος. Ο αριθμός σας δεν συνδέεται με τον λογαριασμό σας. Διατηρούμε μόνο έναν κρυπτογραφημένο δείκτη, χωρίς αναγνωριστικό χρήστη, για να επιτρέψουμε το πολύ 2 επαληθεύσεις σε περίπου 30 ημέρες.';
 
   @override
   String get phoneAddSendCode => 'Αποστολή Κωδικού';
@@ -2412,7 +2412,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Εισαγάγετε τον κωδικό επαλήθευσης που στάλθηκε στον αριθμό τηλεφώνου σας.';
 
   @override
-  String get phoneAddSuccess => 'Ο αριθμός τηλεφώνου προστέθηκε';
+  String get phoneAddSuccess => 'Ο αριθμός τηλεφώνου επαληθεύτηκε';
 
   @override
   String get phoneCountryLabel => 'Χώρα';
@@ -3820,7 +3820,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get voiceMessageHoldHint =>
-      'Κρατήστε για εγγραφή. Σύρετε προς τα πάνω για κλείδωμα ή αφήστε για αποστολή.';
+      'Κράτα πατημένο για εγγραφή. Σύρε προς τα σκουπίδια για διαγραφή, σύρε προς τα πάνω για κλείδωμα ή άφησε για αποστολή.';
 
   @override
   String get voiceMessageDiscard => 'Απόρριψη φωνητικού μηνύματος';
@@ -4029,7 +4029,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get chatAttachmentSourceBrowse => 'Περιήγηση αρχείων';
 
   @override
-  String get chatAttachmentPasteTooltip => 'Επικόλληση εικόνας από το πρόχειρο';
+  String get chatAttachmentPasteTooltip => 'Επικόλληση αρχείου από το πρόχειρο';
 
   @override
   String get chatAttachmentSpoiler => 'Spoiler';
@@ -4443,7 +4443,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get lookAndFeelChatFontScalingTitle =>
-      'Κλιμάκωση γραμματοσειράς συνομιλίας';
+      'Μέγεθος γραμματοσειράς συνομιλίας';
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
@@ -5582,7 +5582,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Αυτό είναι ένα φωνητικό κανάλι. Συνδεθείτε για να αρχίσετε να μιλάτε!';
 
   @override
-  String get voiceChannelJoin => 'Σύνδεση στο Φωνητικό Κανάλι';
+  String get voiceChannelJoin => 'Συμμετοχή στο κανάλι φωνητικής συνομιλίας';
 
   @override
   String get voiceCallJoin => 'Συμμετοχή στην κλήση';
@@ -7311,10 +7311,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Αναφορά χρήστη στον οποίο απαντάτε';
 
   @override
-  String get chatReplyMentionOn => 'Ενεργό';
+  String get chatReplyMentionOn => 'ON';
 
   @override
-  String get chatReplyMentionOff => 'Ανενεργό';
+  String get chatReplyMentionOff => 'OFF';
 
   @override
   String get chatReplyCancel => 'Ακύρωση απάντησης';
@@ -9189,7 +9189,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => 'Δώρα & Κωδικοί';
+  String get userSettingsNavGiftsAndCodes => 'Δώρα';
 
   @override
   String get giftSettingsClaimAccountTitle => 'Διεκδίκησε τον λογαριασμό σου';
@@ -11612,10 +11612,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildMenuSettingsRoles => 'Ρόλοι & Δικαιώματα';
 
   @override
-  String get guildMenuSettingsEmoji => 'Προσαρμοσμένα emoji';
+  String get guildMenuSettingsEmoji => 'Emoji';
 
   @override
-  String get guildMenuSettingsStickers => 'Προσαρμοσμένα αυτοκόλλητα';
+  String get guildMenuSettingsStickers => 'Αυτοκόλλητα';
 
   @override
   String get guildMenuSettingsSafetyModeration => 'Ασφάλεια & Εποπτεία';
@@ -11636,7 +11636,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildMenuSettingsMembers => 'Μέλη';
 
   @override
-  String get guildMenuSettingsInviteLinks => 'Σύνδεσμοι πρόσκλησης';
+  String get guildMenuSettingsInviteLinks => 'Προσκλήσεις';
 
   @override
   String get guildMenuSettingsBans => 'Απαγορεύσεις';
@@ -12791,10 +12791,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsWebhooksDescription =>
-      'Διαχείριση webhook που δημοσιεύουν μηνύματα σε κανάλια.';
+      'Δείτε και διαχειριστείτε κάθε webhook που έχει ρυθμιστεί στην κοινότητά σας.';
 
   @override
-  String get guildSettingsWebhooksEmpty => 'Δεν έχουν ρυθμιστεί webhook.';
+  String get guildSettingsWebhooksEmpty => 'Δεν υπάρχουν webhooks';
 
   @override
   String guildSettingsWebhooksEmptyDescription(String channelSettingsPath) {
@@ -12853,7 +12853,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Κάντε αίτηση για να συμπεριληφθείτε στην ανακάλυψη διακομιστών.';
+      'Καταχώρισε την κοινότητά σου στην Ανακάλυψη, ώστε να μπορούν να τη βρουν και να συμμετάσχουν σε αυτήν και άλλοι.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
@@ -12861,7 +12861,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Απαιτούνται τουλάχιστον $count μέλη για την υποβολή αίτησης.';
+    return 'Η κοινότητά σας χρειάζεται τουλάχιστον $count μέλη για να μπορεί να εμφανιστεί στην Ανακάλυψη.';
   }
 
   @override
@@ -12928,7 +12928,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTags => 'Ετικέτες';
+  String get guildSettingsDiscoveryTags => 'Προσαρμοσμένες ετικέτες';
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
@@ -12936,7 +12936,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTagsHint => 'gaming, art, music';
+  String get guildSettingsDiscoveryTagsHint =>
+      'Πρόσθεσε μια ετικέτα και πάτησε Enter';
 
   @override
   String get guildSettingsDiscoveryAddTag => 'Προσθήκη';
@@ -12961,7 +12962,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryApply => 'Υποβολή Αίτησης';
+  String get guildSettingsDiscoveryApply => 'Εφαρμογή';
 
   @override
   String get guildSettingsDiscoverySave => 'Αποθήκευση';
@@ -12994,7 +12995,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Αναζήτηση και διαχείριση μελών διακομιστή.';
 
   @override
-  String get guildSettingsMembersSearchHint => 'Αναζήτηση μελών';
+  String get guildSettingsMembersSearchHint => 'Αναζήτηση με όνομα χρήστη ή ID';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
@@ -13201,10 +13202,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsInvitesDescription =>
-      'Προβολή και ανάκληση ενεργών συνδέσμων πρόσκλησης.';
+      'Δείτε όλες τις προσκλήσεις για αυτήν την κοινότητα. Για να δημιουργήσετε μια νέα πρόσκληση, μεταβείτε σε ένα κανάλι και χρησιμοποιήστε το κουμπί πρόσκλησης.';
 
   @override
-  String get guildSettingsInvitesEmpty => 'Δεν υπάρχουν ενεργές προσκλήσεις.';
+  String get guildSettingsInvitesEmpty => 'Δεν υπάρχουν σύνδεσμοι πρόσκλησης';
 
   @override
   String get guildSettingsInvitesEmptyDescription =>
@@ -13724,7 +13725,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildSettingsEmojiSearchHint => 'Αναζήτηση emoji';
 
   @override
-  String get guildSettingsEmojiUploadTitle => 'Μεταφόρτωση Emoji';
+  String get guildSettingsEmojiUploadTitle => 'Αποστολή emoji';
 
   @override
   String get guildSettingsEmojiSlotsTitle => 'Θέσεις για emoji';
@@ -14031,7 +14032,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String guildSettingsWebhooksInfo(String channelSettingsPath) {
-    return 'Δημιουργήστε webhooks από τις ρυθμίσεις καναλιού. Επεξεργαστείτε τα εδώ.';
+    return 'Για να δημιουργήσεις ένα webhook, άνοιξε το $channelSettingsPath. Μπορείς ακόμα να επεξεργαστείς και να οργανώσεις όλα τα υπάρχοντα webhooks εδώ.';
   }
 
   @override
