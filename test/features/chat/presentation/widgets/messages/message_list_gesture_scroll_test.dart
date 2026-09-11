@@ -197,6 +197,24 @@ void main() {
       await disposeMessageList(tester);
     });
 
+    testWidgets('noisy first move Offset(36, 10) still scrolls', (
+      WidgetTester tester,
+    ) async {
+      await _pumpList(tester);
+      await _jumpToMid(tester);
+      final double before = messageListScrollPosition(tester).pixels;
+      final TestGesture gesture = await tester.startGesture(
+        _messageBodyStart(tester),
+      );
+      await gesture.moveBy(const Offset(36, 10));
+      await gesture.moveBy(const Offset(0, 120));
+      await gesture.up();
+      await tester.pumpAndSettle();
+      expect(messageListScrollPosition(tester).pixels, lessThan(before - 20));
+      expect(_replying(tester), isNull);
+      await disposeMessageList(tester);
+    });
+
     testWidgets('arched diagonal drag still scrolls', (
       WidgetTester tester,
     ) async {

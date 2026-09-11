@@ -20,7 +20,7 @@ void main() {
       );
     });
 
-    test('yields to vertical when the move is not clearly horizontal', () {
+    test('yields to vertical as soon as dy crosses slop', () {
       expect(
         resolveHorizontalDragAxisLock(
           deltaFromStart: const Offset(12, 40),
@@ -68,28 +68,52 @@ void main() {
       );
     });
 
-    test('yields rightward only when clearly rightward', () {
+    test('horizontally noisy first sample yields to vertical', () {
+      expect(
+        resolveHorizontalDragAxisLock(
+          deltaFromStart: const Offset(36, 10),
+          slop: 18,
+        ),
+        HorizontalDragAxisLockDecision.yieldToVertical,
+      );
+      expect(
+        resolveHorizontalDragAxisLock(
+          deltaFromStart: const Offset(-40, 12),
+          slop: 18,
+        ),
+        HorizontalDragAxisLockDecision.yieldToVertical,
+      );
       expect(
         resolveHorizontalDragAxisLock(
           deltaFromStart: const Offset(40, 12),
           slop: 8,
         ),
+        HorizontalDragAxisLockDecision.yieldToVertical,
+      );
+    });
+
+    test('yields rightward only when clearly rightward', () {
+      expect(
+        resolveHorizontalDragAxisLock(
+          deltaFromStart: const Offset(80, 0),
+          slop: 18,
+        ),
         HorizontalDragAxisLockDecision.yieldToRightward,
       );
       expect(
         resolveHorizontalDragAxisLock(
-          deltaFromStart: const Offset(50, 20),
-          slop: 8,
+          deltaFromStart: const Offset(50, 8),
+          slop: 18,
         ),
         HorizontalDragAxisLockDecision.yieldToRightward,
       );
     });
 
-    test('keeps leftward horizontal only when clearly leftward', () {
+    test('keeps leftward only when clearly leftward', () {
       expect(
         resolveHorizontalDragAxisLock(
-          deltaFromStart: const Offset(-40, 12),
-          slop: 8,
+          deltaFromStart: const Offset(-80, 0),
+          slop: 18,
         ),
         HorizontalDragAxisLockDecision.keepHorizontal,
       );
