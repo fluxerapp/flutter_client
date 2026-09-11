@@ -51,6 +51,14 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Resolve package dependencies
+        run: |
+          for pkg in packages/*/; do
+            [ "$pkg" = "packages/fluxer_fcm/" ] && continue
+            [ -f "${pkg}pubspec.yaml" ] || continue
+            flutter pub get --directory "$pkg"
+          done
+
       - name: Verify generated localizations
         run: |
           flutter gen-l10n
