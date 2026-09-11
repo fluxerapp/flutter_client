@@ -2328,8 +2328,13 @@ class ChatViewModel extends _$ChatViewModel {
       );
       if (cached.isNotEmpty && !hasUnread) {
         final bool incompleteCache = cached.length < _kPageSize;
+        // Server never rewinds last_message_id, so only an anchorless latest
+        // page can refute a tail deleted while we were offline (#474).
+        final bool proveTailFromLatestPage = _messagesNeedResync(channelId);
         final bool willRefresh =
-            incompleteCache || _shouldRefreshChannelFromNetwork(channelId);
+            incompleteCache ||
+            proveTailFromLatestPage ||
+            _shouldRefreshChannelFromNetwork(channelId);
         state = _switchedChannelState(
           channelId: channelId,
           messages: _finalizeLoadedMessages(channelId, cached, cacheOrdinal),
@@ -2350,8 +2355,9 @@ class ChatViewModel extends _$ChatViewModel {
           unawaited(
             _refreshMessagesFromNetwork(
               channelId,
-              isDirectLatestLoad: incompleteCache,
-              preserveLoadedWindow: !incompleteCache,
+              isDirectLatestLoad: incompleteCache || proveTailFromLatestPage,
+              preserveLoadedWindow:
+                  !incompleteCache && !proveTailFromLatestPage,
               shouldApplyResult: isCurrentSwitch,
             ),
           );
@@ -2634,6 +2640,7 @@ class ChatViewModel extends _$ChatViewModel {
       final int effectiveLimit = limit;
       final repo = ref.read(messageRepositoryProvider);
       MessageListLoadResult page;
+      bool isLatestPage = false;
       if (preserveLoadedWindow &&
           state.messages.isNotEmpty &&
           effectiveAroundMessageId == null) {
@@ -2650,6 +2657,7 @@ class ChatViewModel extends _$ChatViewModel {
             channelId: channelId,
             limit: effectiveLimit,
           );
+          isLatestPage = true;
         }
       } else {
         page = await repo.loadMessagePage(
@@ -2657,6 +2665,7 @@ class ChatViewModel extends _$ChatViewModel {
           around: effectiveAroundMessageId,
           limit: effectiveLimit,
         );
+        isLatestPage = effectiveAroundMessageId == null;
       }
       if (!stillCurrent() || !ownsSwap()) {
         return;
@@ -2711,6 +2720,7 @@ class ChatViewModel extends _$ChatViewModel {
               page = rescuePage;
               emptyLatestRescued = true;
               effectiveFetchOrdinal = rescueOrdinal;
+              isLatestPage = false;
             }
           } finally {
             // Adopted, empty, or superseded, the rescue's outstanding entry
@@ -2748,11 +2758,13 @@ class ChatViewModel extends _$ChatViewModel {
             ? reconcileStaleDeletionsInLoadedWindow(
                 current: current,
                 networkPage: page.messages,
+                isLatestPage: isLatestPage,
               )
             : reconcileMessagesWithNetworkPage(
                 current: current,
                 networkPage: page.messages,
                 syncBaselineOldestId: current.isEmpty ? null : current.first.id,
+                isLatestPage: isLatestPage,
               );
         return _finalizeLoadedMessages(
           channelId,

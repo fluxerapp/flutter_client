@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/gateway/message_mention_context_cache.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
+import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/chat/domain/api_attachment_metadata.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_attachment_update.dart';
@@ -234,12 +235,18 @@ class MessageRepository {
     String? after,
     String? around,
   }) async {
+    final bool isLatestPage = before == null && after == null && around == null;
     final Stopwatch pageStopwatch = Stopwatch()..start();
     // Cumulative ms marks after each awaited phase, for device-log attribution.
     final List<String> pageMarks = <String>[];
     void mark(String name) {
       pageMarks.add('$name@${pageStopwatch.elapsedMilliseconds}');
     }
+
+    // Rows created while the request is in flight sit above this id (#474).
+    final String? localTailBeforeFetch = isLatestPage
+        ? await _db.messageDao.newestServerMessageId(channelId)
+        : null;
 
     try {
       final List<MessageResponseSchema> data = await _client.channels
@@ -314,7 +321,12 @@ class MessageRepository {
       final List<Message> persisted = await _upsertKeepingTranslations(
         messages,
       );
-      await _pruneStaleMessagesForNetworkPage(channelId, persisted);
+      await _pruneStaleMessagesForNetworkPage(
+        channelId,
+        persisted,
+        isLatestPage: isLatestPage,
+        localTailBeforeFetch: localTailBeforeFetch,
+      );
       mark('persist');
 
       if (persisted.isNotEmpty) {
@@ -415,6 +427,10 @@ class MessageRepository {
     String? after,
     String? around,
   }) async {
+    final bool isLatestPage = before == null && after == null && around == null;
+    final String? localTailBeforeFetch = isLatestPage
+        ? await _db.messageDao.newestServerMessageId(channelId)
+        : null;
     final queryParams = <String, dynamic>{
       'limit': limit,
       'before': ?before,
@@ -534,7 +550,12 @@ class MessageRepository {
       final List<Message> persisted = await _upsertKeepingTranslations(
         messages,
       );
-      await _pruneStaleMessagesForNetworkPage(channelId, persisted);
+      await _pruneStaleMessagesForNetworkPage(
+        channelId,
+        persisted,
+        isLatestPage: isLatestPage,
+        localTailBeforeFetch: localTailBeforeFetch,
+      );
 
       final last = persisted.last;
       await _db.dmChannelDao.updateLastMessage(
@@ -559,8 +580,10 @@ class MessageRepository {
 
   Future<void> _pruneStaleMessagesForNetworkPage(
     String channelId,
-    List<Message> networkPage,
-  ) async {
+    List<Message> networkPage, {
+    required bool isLatestPage,
+    String? localTailBeforeFetch,
+  }) async {
     if (networkPage.isEmpty) {
       return;
     }
@@ -573,6 +596,15 @@ class MessageRepository {
       networkPage: networkPage,
     );
     await _db.messageDao.deleteMessages(staleIds);
+    if (isLatestPage &&
+        localTailBeforeFetch != null &&
+        compareSnowflakeIds(localTailBeforeFetch, newestId) > 0) {
+      await _db.messageDao.deleteServerMessagesBetween(
+        channelId,
+        afterId: newestId,
+        upToId: localTailBeforeFetch,
+      );
+    }
   }
 
   List<String> _mentionedUserIdsFromJson(Map<String, dynamic> map) {

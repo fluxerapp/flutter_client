@@ -24,6 +24,27 @@ void main() {
       expect(scaler.scale(16), 32);
     });
 
+    test('chatMessageTextScaler keeps the 12 setting at 0.75 (#154)', () {
+      final TextScaler scaler = chatMessageTextScaler(
+        TextScaler.noScaling,
+        12 / 16,
+      );
+      expect(scaler.scale(16), 12);
+    });
+
+    test('chatMessageTextScaler leaves the default setting at 1.0', () {
+      final TextScaler scaler = chatMessageTextScaler(TextScaler.noScaling, 1);
+      expect(scaler.scale(16), 16);
+    });
+
+    test('chatMessageTextScaler keeps the 0.8 floor for the system scale', () {
+      final TextScaler scaler = chatMessageTextScaler(
+        const TextScaler.linear(0.5),
+        1,
+      );
+      expect(scaler.scale(16), 12.8);
+    });
+
     test('clampConstrainedUiTextScaler caps at 1.5', () {
       final TextScaler scaler = clampConstrainedUiTextScaler(
         const TextScaler.linear(2.5),
