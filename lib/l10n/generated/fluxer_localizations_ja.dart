@@ -12,7 +12,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get reconnectingTitle => '接続に失敗しました！';
 
   @override
-  String get reconnectingBody => 'サーバーに問題が発生しています。\nすぐに修正されるはずです！';
+  String get reconnectingBody => 'インスタンスに問題が発生しています。\nすぐに修正されます！';
 
   @override
   String get gatewayReconnectingToast => '再接続中…';
@@ -1084,7 +1084,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get dmAddNote => 'メモを追加';
 
   @override
-  String get dmEditGroup => 'グループDMを編集';
+  String get dmEditGroup => 'グループを編集';
 
   @override
   String get dmInviteToCommunity => 'コミュニティに招待';
@@ -2288,7 +2288,8 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get phoneAddHint => '電話番号を入力してください';
 
   @override
-  String get phoneAddFooter => '電話番号を入力してください。SMSで確認コードをお送りします。';
+  String get phoneAddFooter =>
+      'SMSコードを送信します。この番号はアカウントとは紐づけられません。ユーザーIDを含まない暗号化されたマーカーのみを保持し、約30日間で最大2回の認証を許可します。';
 
   @override
   String get phoneAddSendCode => 'コードを送信';
@@ -2300,7 +2301,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get phoneVerifyDescription => 'お使いの電話番号に送信された確認コードを入力してください。';
 
   @override
-  String get phoneAddSuccess => '電話番号を追加しました';
+  String get phoneAddSuccess => '電話番号を確認しました';
 
   @override
   String get phoneCountryLabel => '国';
@@ -2742,7 +2743,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   }
 
   @override
-  String get blockedUsersCopyTag => 'Fluxerタグをコピー';
+  String get blockedUsersCopyTag => 'ユーザー名をコピー';
 
   @override
   String get blockedUsersCopyId => 'ユーザーIDをコピー';
@@ -3657,7 +3658,8 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get voiceMessageTitle => 'ボイスメッセージ';
 
   @override
-  String get voiceMessageHoldHint => '長押しで録音。上にドラッグしてロックするか、離して送信します。';
+  String get voiceMessageHoldHint =>
+      '長押しで録音。ドラッグしてゴミ箱へ移動、上にスライドしてロック、または離して送信します。';
 
   @override
   String get voiceMessageDiscard => 'ボイスメッセージを破棄';
@@ -3861,7 +3863,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get chatAttachmentSourceBrowse => 'ファイルをブラウズ';
 
   @override
-  String get chatAttachmentPasteTooltip => 'クリップボードから画像を貼り付け';
+  String get chatAttachmentPasteTooltip => 'クリップボードからファイルを貼り付け';
 
   @override
   String get chatAttachmentSpoiler => 'ネタバレ';
@@ -4253,7 +4255,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get lookAndFeelThemeSyncFailed => 'テーマをアカウントに同期できませんでした。もう一度お試しください。';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => 'チャットフォントの拡大縮小';
+  String get lookAndFeelChatFontScalingTitle => 'チャットのフォントサイズ';
 
   @override
   String get lookAndFeelChatFontScalingDescription => 'チャットエリアのフォントサイズを調整します。';
@@ -5323,7 +5325,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get voiceChannelEmptyDescription => 'これはボイスチャンネルです。話すには接続してください！';
 
   @override
-  String get voiceChannelJoin => 'ボイスチャンネルに参加';
+  String get voiceChannelJoin => '音声チャンネルに参加';
 
   @override
   String get voiceCallJoin => '通話に参加';
@@ -6947,10 +6949,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get chatReplyMentionAccessibilityLabel => '返信相手をメンション';
 
   @override
-  String get chatReplyMentionOn => 'オン';
+  String get chatReplyMentionOn => 'ON';
 
   @override
-  String get chatReplyMentionOff => 'オフ';
+  String get chatReplyMentionOff => 'OFF';
 
   @override
   String get chatReplyCancel => '返信をキャンセル';
@@ -8703,7 +8705,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => 'ギフトとコード';
+  String get userSettingsNavGiftsAndCodes => 'ギフト';
 
   @override
   String get giftSettingsClaimAccountTitle => 'アカウントを登録';
@@ -10780,10 +10782,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildNavbarChannelTypeSelection => 'チャンネルの種類を選択';
 
   @override
-  String get guildNavbarCreateCategory => 'カテゴリーを作成';
+  String get guildNavbarCreateCategory => 'カテゴリを作成';
 
   @override
-  String get guildNavbarNewCategoryHint => '新しいカテゴリー';
+  String get guildNavbarNewCategoryHint => '新しいカテゴリ';
 
   @override
   String guildNavbarInviteFriendsTo(String communityName) {
@@ -10982,10 +10984,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildMenuSettingsRoles => 'ロールと権限';
 
   @override
-  String get guildMenuSettingsEmoji => 'カスタム絵文字';
+  String get guildMenuSettingsEmoji => '絵文字';
 
   @override
-  String get guildMenuSettingsStickers => 'カスタムステッカー';
+  String get guildMenuSettingsStickers => 'スタンプ';
 
   @override
   String get guildMenuSettingsSafetyModeration => '安全性とモデレーション';
@@ -11006,7 +11008,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildMenuSettingsMembers => 'メンバー';
 
   @override
-  String get guildMenuSettingsInviteLinks => '招待リンク';
+  String get guildMenuSettingsInviteLinks => '招待';
 
   @override
   String get guildMenuSettingsBans => '禁止';
@@ -12109,10 +12111,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get guildSettingsWebhooksDescription =>
-      'チャンネルにメッセージを投稿するWebhookを管理します。';
+      'コミュニティに設定されているすべてのウェブフックを表示・管理できます。';
 
   @override
-  String get guildSettingsWebhooksEmpty => 'Webhookは設定されていません。';
+  String get guildSettingsWebhooksEmpty => 'ウェブフックなし';
 
   @override
   String guildSettingsWebhooksEmptyDescription(String channelSettingsPath) {
@@ -12167,14 +12169,15 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryDescription => 'サーバーディスカバリーに掲載されるように申請します。';
+  String get guildSettingsDiscoveryDescription =>
+      'コミュニティを「見つける」に掲載して、他のユーザーに見つけてもらい、参加してもらいましょう。';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle => 'メンバーが足りません';
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return '$count 人以上のメンバーが必要です。';
+    return 'コミュニティがディスカバリーに掲載されるには、$count人以上のメンバーが必要です。';
   }
 
   @override
@@ -12240,7 +12243,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTags => 'タグ';
+  String get guildSettingsDiscoveryTags => 'カスタムタグ';
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
@@ -12248,7 +12251,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTagsHint => 'ゲーム、アート、音楽';
+  String get guildSettingsDiscoveryTagsHint => 'タグを追加してEnterを押してください';
 
   @override
   String get guildSettingsDiscoveryAddTag => '追加';
@@ -12272,7 +12275,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryApply => '申請を送信';
+  String get guildSettingsDiscoveryApply => '適用';
 
   @override
   String get guildSettingsDiscoverySave => '保存';
@@ -12300,7 +12303,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildSettingsMembersDescription => 'サーバーメンバーを検索して管理します。';
 
   @override
-  String get guildSettingsMembersSearchHint => 'メンバーを検索';
+  String get guildSettingsMembersSearchHint => 'ユーザー名またはIDで検索';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
@@ -12501,10 +12504,11 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildSettingsInvitesTitle => '招待';
 
   @override
-  String get guildSettingsInvitesDescription => 'アクティブな招待リンクを表示および取り消します。';
+  String get guildSettingsInvitesDescription =>
+      'このコミュニティの招待をすべて表示します。新しい招待を作成するには、チャンネルに移動して招待ボタンを使用してください。';
 
   @override
-  String get guildSettingsInvitesEmpty => 'アクティブな招待はありません。';
+  String get guildSettingsInvitesEmpty => '招待リンクがありません';
 
   @override
   String get guildSettingsInvitesEmptyDescription =>
@@ -13266,7 +13270,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String guildSettingsWebhooksInfo(String channelSettingsPath) {
-    return 'チャンネル設定からWebhookを作成します。ここで編集します。';
+    return 'Webhookを作成するには、$channelSettingsPathを開いてください。既存のすべてのWebhookは、ここで編集および整理できます。';
   }
 
   @override

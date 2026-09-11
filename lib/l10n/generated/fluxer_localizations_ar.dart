@@ -13,7 +13,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get reconnectingBody =>
-      'هناك خطأ ما في الخوادم.\nسيتم إصلاحه في لحظة!';
+      'هناك مشكلة في الخادم.\nسيتم إصلاحها في ثانية!';
 
   @override
   String get gatewayReconnectingToast => 'إعادة الاتصال…';
@@ -2365,7 +2365,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get phoneAddFooter =>
-      'أدخل رقم هاتفك. سنرسل لك رمز تحقق عبر الرسائل القصيرة.';
+      'سنرسل رمز SMS عند توفره. رقمك غير مرتبط بحسابك. نحتفظ بمعرّف مشفر فقط، بدون معرف مستخدم، للسماح بـ 2 تحقق كحد أقصى خلال حوالي 30 يومًا.';
 
   @override
   String get phoneAddSendCode => 'إرسال الرمز';
@@ -2377,7 +2377,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get phoneVerifyDescription => 'أدخل رمز التحقق المرسل إلى رقم هاتفك.';
 
   @override
-  String get phoneAddSuccess => 'تمت إضافة رقم الهاتف';
+  String get phoneAddSuccess => 'تم التحقق من رقم الهاتف';
 
   @override
   String get phoneCountryLabel => 'البلد';
@@ -2902,7 +2902,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
     String productName,
     String date,
   ) {
-    return 'Visionary منذ $date';
+    return '$productName رؤيوي منذ $date';
   }
 
   @override
@@ -3765,7 +3765,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get voiceMessageHoldHint =>
-      'اضغط للتسجيل. اسحب للأعلى للقفل، أو أفلت للإرسال.';
+      'اضغط مع الاستمرار للتسجيل. اسحب إلى سلة المهملات للحذف، أو اسحب للأعلى للقفل، أو أفلت للإرسال.';
 
   @override
   String get voiceMessageDiscard => 'تجاهل الرسالة الصوتية';
@@ -3971,7 +3971,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get chatAttachmentSourceBrowse => 'تصفح الملفات';
 
   @override
-  String get chatAttachmentPasteTooltip => 'لصق صورة من الحافظة';
+  String get chatAttachmentPasteTooltip => 'لصق ملف من الحافظة';
 
   @override
   String get chatAttachmentSpoiler => 'محتوى محظور';
@@ -4374,7 +4374,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
       'لم نتمكن من مزامنة السمة إلى حسابك. يرجى المحاولة مرة أخرى.';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => 'توسيع خط الدردشة';
+  String get lookAndFeelChatFontScalingTitle => 'حجم خط الدردشة';
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
@@ -7192,10 +7192,10 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
       'الإشارة إلى المستخدم الذي تم الرد عليه';
 
   @override
-  String get chatReplyMentionOn => 'تشغيل';
+  String get chatReplyMentionOn => 'ON';
 
   @override
-  String get chatReplyMentionOff => 'إيقاف';
+  String get chatReplyMentionOff => 'OFF';
 
   @override
   String get chatReplyCancel => 'إلغاء الرد';
@@ -9012,7 +9012,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => 'الهدايا والرموز';
+  String get userSettingsNavGiftsAndCodes => 'الهدايا';
 
   @override
   String get giftSettingsClaimAccountTitle => 'المطالبة بحسابك';
@@ -11369,10 +11369,10 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get guildMenuSettingsRoles => 'الأدوار والصلاحيات';
 
   @override
-  String get guildMenuSettingsEmoji => 'رموز تعبيرية مخصصة';
+  String get guildMenuSettingsEmoji => 'الرموز التعبيرية';
 
   @override
-  String get guildMenuSettingsStickers => 'ملصقات مخصصة';
+  String get guildMenuSettingsStickers => 'الملصقات';
 
   @override
   String get guildMenuSettingsSafetyModeration => 'السلامة والإشراف';
@@ -11393,7 +11393,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get guildMenuSettingsMembers => 'الأعضاء';
 
   @override
-  String get guildMenuSettingsInviteLinks => 'روابط الدعوة';
+  String get guildMenuSettingsInviteLinks => 'الدعوات';
 
   @override
   String get guildMenuSettingsBans => 'الحظر';
@@ -12522,10 +12522,10 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get guildSettingsWebhooksDescription =>
-      'Manage webhooks that post messages to channels.';
+      'عرض وإدارة جميع خطاطيف الويب (webhooks) التي تم إعدادها عبر مجتمعك.';
 
   @override
-  String get guildSettingsWebhooksEmpty => 'No webhooks configured.';
+  String get guildSettingsWebhooksEmpty => 'لا توجد Webhooks';
 
   @override
   String guildSettingsWebhooksEmptyDescription(String channelSettingsPath) {
@@ -12582,7 +12582,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'تقدم بطلب ليتم إدراجك في اكتشاف الخادم.';
+      'أدرج مجتمعك في \"الاكتشاف\" ليتمكن الآخرون من العثور عليه والانضمام إليه.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
@@ -12590,7 +12590,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'يتطلب ما لا يقل عن $count عضوًا للتقديم.';
+    return 'يحتاج مجتمعك إلى ما لا يقل عن $count عضوًا قبل إدراجه في الاكتشاف.';
   }
 
   @override
@@ -12655,7 +12655,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTags => 'العلامات';
+  String get guildSettingsDiscoveryTags => 'علامات مخصصة';
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
@@ -12663,7 +12663,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTagsHint => 'ألعاب، فن، موسيقى';
+  String get guildSettingsDiscoveryTagsHint => 'أضف علامة واضغط على Enter';
 
   @override
   String get guildSettingsDiscoveryAddTag => 'إضافة';
@@ -12687,7 +12687,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryApply => 'إرسال الطلب';
+  String get guildSettingsDiscoveryApply => 'تطبيق';
 
   @override
   String get guildSettingsDiscoverySave => 'حفظ';
@@ -12717,7 +12717,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
       'البحث عن أعضاء الخادم وإدارتهم.';
 
   @override
-  String get guildSettingsMembersSearchHint => 'البحث عن الأعضاء';
+  String get guildSettingsMembersSearchHint => 'البحث بالاسم أو المعرّف';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
@@ -12920,10 +12920,10 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get guildSettingsInvitesDescription =>
-      'عرض روابط الدعوة النشطة وإلغاؤها.';
+      'عرض جميع دعوات هذا المجتمع. لإنشاء دعوة جديدة، انتقل إلى قناة واستخدم زر الدعوة.';
 
   @override
-  String get guildSettingsInvitesEmpty => 'لا توجد دعوات نشطة.';
+  String get guildSettingsInvitesEmpty => 'لا توجد روابط دعوة';
 
   @override
   String get guildSettingsInvitesEmptyDescription =>
@@ -13426,7 +13426,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get guildSettingsEmojiSearchHint => 'بحث الرموز التعبيرية';
 
   @override
-  String get guildSettingsEmojiUploadTitle => 'تحميل رمز تعبيري';
+  String get guildSettingsEmojiUploadTitle => 'تحميل إيموجي';
 
   @override
   String get guildSettingsEmojiSlotsTitle => 'أماكن الرموز التعبيرية';
@@ -13722,7 +13722,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String guildSettingsWebhooksInfo(String channelSettingsPath) {
-    return 'إنشاء خطافات الويب من إعدادات القناة. قم بتحريرها هنا.';
+    return 'لإنشاء خطاف ويب، افتح $channelSettingsPath. لا يزال بإمكانك تعديل وتنظيم جميع خطافات الويب الموجودة هنا.';
   }
 
   @override

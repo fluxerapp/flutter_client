@@ -13,7 +13,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get reconnectingBody =>
-      'Palvelimissa on jotain vikaa.\nPäivittyy hetken kuluttua!';
+      'Jotain on vialla tässä instanssissa.\nPitäisi korjaantua hetken kuluttua!';
 
   @override
   String get gatewayReconnectingToast => 'Yhdistetään uudelleen…';
@@ -2383,7 +2383,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get phoneAddFooter =>
-      'Syötä puhelinnumerosi. Lähetämme sinulle vahvistuskoodin tekstiviestillä.';
+      'Lähetämme tekstiviestikoodin, kun se on saatavilla. Numerosi ei ole linkitetty tiliisi. Säilytämme vain salatun merkinnän ilman käyttäjätunnusta, jotta voimme tehdä enintään 2 vahvistusta noin 30 päivän aikana.';
 
   @override
   String get phoneAddSendCode => 'Lähetä koodi';
@@ -2396,7 +2396,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Syötä puhelinnumeroosi lähetetty vahvistuskoodi.';
 
   @override
-  String get phoneAddSuccess => 'Puhelinnumero lisätty';
+  String get phoneAddSuccess => 'Puhelinnumero vahvistettu';
 
   @override
   String get phoneCountryLabel => 'Maa';
@@ -3795,7 +3795,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get voiceMessageHoldHint =>
-      'Paina ja pidä tallentaaksesi. Vedä ylös lukitaksesi tai vapauta lähettääksesi.';
+      'Pidä pohjassa tallentaaksesi. Vedä roskakoriin poistaaksesi, liu\'uta ylös lukitaksesi tai vapauta lähettääksesi.';
 
   @override
   String get voiceMessageDiscard => 'Hylkää ääniviesti';
@@ -4004,7 +4004,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get chatAttachmentSourceBrowse => 'Selaa tiedostoja';
 
   @override
-  String get chatAttachmentPasteTooltip => 'Liitä kuva leikepöydältä';
+  String get chatAttachmentPasteTooltip => 'Liitä tiedosto leikepöydältä';
 
   @override
   String get chatAttachmentSpoiler => 'Spoiler';
@@ -5543,7 +5543,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Tämä on äänikanava. Yhdistä aloittaaksesi puhumisen!';
 
   @override
-  String get voiceChannelJoin => 'Liity äänikanavaan';
+  String get voiceChannelJoin => 'Liity äänikanavalle';
 
   @override
   String get voiceCallJoin => 'Liity puheluun';
@@ -7259,10 +7259,10 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get chatReplyMentionAccessibilityLabel => 'Mainitse vastattu käyttäjä';
 
   @override
-  String get chatReplyMentionOn => 'Päällä';
+  String get chatReplyMentionOn => 'ON';
 
   @override
-  String get chatReplyMentionOff => 'Pois päältä';
+  String get chatReplyMentionOff => 'OFF';
 
   @override
   String get chatReplyCancel => 'Peruuta vastaus';
@@ -9109,7 +9109,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => 'Lahjat ja koodit';
+  String get userSettingsNavGiftsAndCodes => 'Lahjat';
 
   @override
   String get giftSettingsClaimAccountTitle => 'Lunasta tilisi';
@@ -11241,7 +11241,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get guildNavbarCreateChannel => 'Luo kanava';
 
   @override
-  String get guildNavbarChannelType => 'Kanavatyyppi';
+  String get guildNavbarChannelType => 'Kanavan tyyppi';
 
   @override
   String get guildNavbarTextChannel => 'Tekstikanava';
@@ -11488,10 +11488,10 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get guildMenuSettingsRoles => 'Roolit ja käyttöoikeudet';
 
   @override
-  String get guildMenuSettingsEmoji => 'Mukautetut emojit';
+  String get guildMenuSettingsEmoji => 'Emoji';
 
   @override
-  String get guildMenuSettingsStickers => 'Mukautetut tarrat';
+  String get guildMenuSettingsStickers => 'Tarrat';
 
   @override
   String get guildMenuSettingsSafetyModeration => 'Turvallisuus ja moderointi';
@@ -11512,7 +11512,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get guildMenuSettingsMembers => 'Jäsenet';
 
   @override
-  String get guildMenuSettingsInviteLinks => 'Kutsulinkit';
+  String get guildMenuSettingsInviteLinks => 'Kutsut';
 
   @override
   String get guildMenuSettingsBans => 'Estot';
@@ -12657,10 +12657,10 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get guildSettingsWebhooksDescription =>
-      'Hallitse webkoukkuja, jotka julkaisevat viestejä kanaville.';
+      'Tarkastele ja hallinnoi kaikkia yhteisöösi määritettyjä webhookeja.';
 
   @override
-  String get guildSettingsWebhooksEmpty => 'Webkoukkuja ei ole määritetty.';
+  String get guildSettingsWebhooksEmpty => 'Ei webhookeja';
 
   @override
   String guildSettingsWebhooksEmptyDescription(String channelSettingsPath) {
@@ -12719,7 +12719,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Hae mukaan palvelimen hakemistoon.';
+      'Listaa yhteisösi Löydä-osiossa, jotta muut voivat löytää ja liittyä siihen.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
@@ -12727,7 +12727,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Vaatii vähintään $count jäsentä hakeaksesi.';
+    return 'Yhteisössäsi on oltava vähintään $count jäsentä, ennen kuin se voidaan listata Löydöissä.';
   }
 
   @override
@@ -12793,7 +12793,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTags => 'Tunnisteet';
+  String get guildSettingsDiscoveryTags => 'Mukautetut tunnisteet';
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
@@ -12801,7 +12801,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTagsHint => 'pelaaminen, taide, musiikki';
+  String get guildSettingsDiscoveryTagsHint => 'Lisää tunniste ja paina Enter';
 
   @override
   String get guildSettingsDiscoveryAddTag => 'Lisää';
@@ -12826,7 +12826,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryApply => 'Lähetä hakemus';
+  String get guildSettingsDiscoveryApply => 'Käytä';
 
   @override
   String get guildSettingsDiscoverySave => 'Tallenna';
@@ -12857,7 +12857,8 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Etsi ja hallitse palvelimen jäseniä.';
 
   @override
-  String get guildSettingsMembersSearchHint => 'Etsi jäseniä';
+  String get guildSettingsMembersSearchHint =>
+      'Hae käyttäjänimellä tai tunnuksella';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
@@ -13061,10 +13062,10 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get guildSettingsInvitesDescription =>
-      'Näytä ja peruuta aktiiviset kutsulinkit.';
+      'Näytä kaikki tämän yhteisön kutsut. Jos haluat luoda uuden kutsun, siirry kanavalle ja käytä kutsu-painiketta.';
 
   @override
-  String get guildSettingsInvitesEmpty => 'Ei aktiivisia kutsuja.';
+  String get guildSettingsInvitesEmpty => 'Ei kutsulinkkejä';
 
   @override
   String get guildSettingsInvitesEmptyDescription =>
@@ -13878,7 +13879,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String guildSettingsWebhooksInfo(String channelSettingsPath) {
-    return 'Luo webhookkeja kanava-asetuksista. Muokkaa niitä täällä.';
+    return 'Luo webhook avaamalla $channelSettingsPath. Voit edelleen muokata ja järjestää kaikki olemassa olevat webhookit täällä.';
   }
 
   @override

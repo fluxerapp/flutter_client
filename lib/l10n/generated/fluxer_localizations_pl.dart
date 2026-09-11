@@ -13,7 +13,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String get reconnectingBody =>
-      'Coś jest nie tak z serwerami.\nZaraz powinno być naprawione!';
+      'Coś jest nie tak z instancją.\nZaraz powinno być naprawione!';
 
   @override
   String get gatewayReconnectingToast => 'Łączenie ponownie…';
@@ -2393,7 +2393,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String get phoneAddFooter =>
-      'Wpisz swój numer telefonu. Wyślemy Ci kod weryfikacyjny SMS-em.';
+      'Wyślemy kod SMS, gdy będzie dostępny. Twój numer nie jest powiązany z Twoim kontem. Przechowujemy jedynie zaszyfrowany identyfikator bez identyfikatora użytkownika, aby umożliwić maksymalnie 2 weryfikacje w ciągu około 30 dni.';
 
   @override
   String get phoneAddSendCode => 'Wyślij kod';
@@ -2406,7 +2406,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
       'Wpisz kod weryfikacyjny wysłany na Twój numer telefonu.';
 
   @override
-  String get phoneAddSuccess => 'Numer telefonu został dodany';
+  String get phoneAddSuccess => 'Numer telefonu zweryfikowany';
 
   @override
   String get phoneCountryLabel => 'Kraj';
@@ -3808,7 +3808,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String get voiceMessageHoldHint =>
-      'Przytrzymaj, aby nagrać. Przeciągnij w górę, aby zablokować, lub puść, aby wysłać.';
+      'Przytrzymaj, aby nagrać. Przeciągnij do kosza, aby usunąć, przesuń w górę, aby zablokować, lub puść, aby wysłać.';
 
   @override
   String get voiceMessageDiscard => 'Odrzuć wiadomość głosową';
@@ -4019,7 +4019,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   String get chatAttachmentSourceBrowse => 'Przeglądaj pliki';
 
   @override
-  String get chatAttachmentPasteTooltip => 'Wklej obraz z schowka';
+  String get chatAttachmentPasteTooltip => 'Wklej plik z schowka';
 
   @override
   String get chatAttachmentSpoiler => 'Spoiler';
@@ -7310,10 +7310,10 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
       'Wzmiankuj odpowiadającego użytkownika';
 
   @override
-  String get chatReplyMentionOn => 'Włączone';
+  String get chatReplyMentionOn => 'ON';
 
   @override
-  String get chatReplyMentionOff => 'Wyłączone';
+  String get chatReplyMentionOff => 'OFF';
 
   @override
   String get chatReplyCancel => 'Anuluj odpowiedź';
@@ -9166,7 +9166,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => 'Prezenty i kody';
+  String get userSettingsNavGiftsAndCodes => 'Prezenty';
 
   @override
   String get giftSettingsClaimAccountTitle => 'Odbierz swoje konto';
@@ -11569,10 +11569,10 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   String get guildMenuSettingsRoles => 'Role i uprawnienia';
 
   @override
-  String get guildMenuSettingsEmoji => 'Niestandardowe emotikony';
+  String get guildMenuSettingsEmoji => 'Emoji';
 
   @override
-  String get guildMenuSettingsStickers => 'Niestandardowe naklejki';
+  String get guildMenuSettingsStickers => 'Naklejki';
 
   @override
   String get guildMenuSettingsSafetyModeration => 'Bezpieczeństwo i moderacja';
@@ -11594,7 +11594,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   String get guildMenuSettingsMembers => 'Członkowie';
 
   @override
-  String get guildMenuSettingsInviteLinks => 'Linki zaproszeń';
+  String get guildMenuSettingsInviteLinks => 'Zaproszenia';
 
   @override
   String get guildMenuSettingsBans => 'Bany';
@@ -12739,11 +12739,10 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String get guildSettingsWebhooksDescription =>
-      'Zarządzaj webhookami, które wysyłają wiadomości na kanały.';
+      'Wyświetlaj wszystkie webhooki skonfigurowane w społeczności i zarządzaj nimi.';
 
   @override
-  String get guildSettingsWebhooksEmpty =>
-      'Nie skonfigurowano żadnych webhooków.';
+  String get guildSettingsWebhooksEmpty => 'Brak webhooków';
 
   @override
   String guildSettingsWebhooksEmptyDescription(String channelSettingsPath) {
@@ -12802,14 +12801,14 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Złóż wniosek o umieszczenie w katalogu serwerów.';
+      'Umieść swoją społeczność w Odkrywaniu, aby inni mogli ją znaleźć i dołączyć.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle => 'Za mało członków';
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Wymagane co najmniej $count członków, aby złożyć wniosek.';
+    return 'Twoja społeczność musi liczyć co najmniej $count członków, aby mogła zostać uwzględniona w funkcji Odkryj.';
   }
 
   @override
@@ -12875,7 +12874,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTags => 'Tagi';
+  String get guildSettingsDiscoveryTags => 'Własne tagi';
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
@@ -12883,7 +12882,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTagsHint => 'gaming, sztuka, muzyka';
+  String get guildSettingsDiscoveryTagsHint => 'Dodaj tag i naciśnij Enter';
 
   @override
   String get guildSettingsDiscoveryAddTag => 'Dodaj';
@@ -12907,7 +12906,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryApply => 'Wyślij aplikację';
+  String get guildSettingsDiscoveryApply => 'Zastosuj';
 
   @override
   String get guildSettingsDiscoverySave => 'Zapisz';
@@ -12940,7 +12939,8 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
       'Wyszukuj i zarządzaj członkami serwera.';
 
   @override
-  String get guildSettingsMembersSearchHint => 'Szukaj członków';
+  String get guildSettingsMembersSearchHint =>
+      'Szukaj po nazwie użytkownika lub ID';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
@@ -13144,10 +13144,10 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String get guildSettingsInvitesDescription =>
-      'Przeglądaj i cofaj aktywne linki zaproszeń.';
+      'Wyświetl wszystkie zaproszenia do tej społeczności. Aby utworzyć nowe zaproszenie, przejdź do kanału i użyj przycisku zaproszenia.';
 
   @override
-  String get guildSettingsInvitesEmpty => 'Brak aktywnych zaproszeń.';
+  String get guildSettingsInvitesEmpty => 'Brak linków z zaproszeniami';
 
   @override
   String get guildSettingsInvitesEmptyDescription =>
@@ -13662,7 +13662,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   String get guildSettingsEmojiSearchHint => 'Szukaj emotikon';
 
   @override
-  String get guildSettingsEmojiUploadTitle => 'Prześlij emotikonę';
+  String get guildSettingsEmojiUploadTitle => 'Prześlij emoji';
 
   @override
   String get guildSettingsEmojiSlotsTitle => 'Miejsca na emoji';
@@ -13966,7 +13966,7 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
 
   @override
   String guildSettingsWebhooksInfo(String channelSettingsPath) {
-    return 'Twórz webhooki z ustawień kanału. Edytuj je tutaj.';
+    return 'Aby utworzyć webhook, otwórz $channelSettingsPath. Możesz tu nadal edytować i organizować wszystkie istniejące webhooki.';
   }
 
   @override

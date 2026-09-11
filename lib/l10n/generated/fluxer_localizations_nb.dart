@@ -13,7 +13,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get reconnectingBody =>
-      'Noe er galt med serverne.\nSkulle vært fikset om et øyeblikk!';
+      'Noe er galt med instansen.\nSkal fikses om et øyeblikk!';
 
   @override
   String get gatewayReconnectingToast => 'Kobler til på nytt…';
@@ -2377,7 +2377,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get phoneAddFooter =>
-      'Skriv inn telefonnummeret ditt. Vi sender deg en bekreftelseskode via SMS.';
+      'Vi sender en SMS-kode når den er tilgjengelig. Nummeret ditt er ikke knyttet til kontoen din. Vi beholder kun en kryptert markør, uten bruker-ID, for å tillate maksimalt 2 bekreftelser på omtrent 30 dager.';
 
   @override
   String get phoneAddSendCode => 'Send kode';
@@ -2390,7 +2390,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
       'Skriv inn bekreftelseskoden som ble sendt til telefonnummeret ditt.';
 
   @override
-  String get phoneAddSuccess => 'Telefonnummer lagt til';
+  String get phoneAddSuccess => 'Telefonnummer bekreftet';
 
   @override
   String get phoneCountryLabel => 'Land';
@@ -3783,7 +3783,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get voiceMessageHoldHint =>
-      'Hold for å ta opp. Dra opp for å låse, eller slipp for å sende.';
+      'Hold for å ta opp. Dra til søppel for å slette, sveip opp for å låse, eller slipp for å sende.';
 
   @override
   String get voiceMessageDiscard => 'Forkast talemelding';
@@ -3992,7 +3992,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get chatAttachmentSourceBrowse => 'Bla gjennom filer';
 
   @override
-  String get chatAttachmentPasteTooltip => 'Lim inn bilde fra utklippstavlen';
+  String get chatAttachmentPasteTooltip => 'Lim inn fil fra utklippstavlen';
 
   @override
   String get chatAttachmentSpoiler => 'Spoiler';
@@ -4399,7 +4399,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
       'Kunne ikke synkronisere tema til kontoen din. Prøv igjen.';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => 'Skalering av chat-skrift';
+  String get lookAndFeelChatFontScalingTitle => 'Skalering av skrift i chat';
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
@@ -5527,7 +5527,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
       'Dette er en stemmekanal. Koble til for å begynne å snakke!';
 
   @override
-  String get voiceChannelJoin => 'Bli med i stemmekanalen';
+  String get voiceChannelJoin => 'Bli med i talekanal';
 
   @override
   String get voiceCallJoin => 'Bli med i samtalen';
@@ -7241,10 +7241,10 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get chatReplyMentionAccessibilityLabel => 'Nevn brukeren som svarer';
 
   @override
-  String get chatReplyMentionOn => 'På';
+  String get chatReplyMentionOn => 'ON';
 
   @override
-  String get chatReplyMentionOff => 'Av';
+  String get chatReplyMentionOff => 'OFF';
 
   @override
   String get chatReplyCancel => 'Avbryt svar';
@@ -9095,7 +9095,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => 'Gaver og koder';
+  String get userSettingsNavGiftsAndCodes => 'Gaver';
 
   @override
   String get giftSettingsClaimAccountTitle => 'Gjør krav på kontoen din';
@@ -11228,7 +11228,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get guildNavbarCreateChannel => 'Opprett kanal';
 
   @override
-  String get guildNavbarChannelType => 'Kanaltype';
+  String get guildNavbarChannelType => 'Kanastype';
 
   @override
   String get guildNavbarTextChannel => 'Tekstkanal';
@@ -11476,10 +11476,10 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get guildMenuSettingsRoles => 'Roller og tillatelser';
 
   @override
-  String get guildMenuSettingsEmoji => 'Egendefinerte emojier';
+  String get guildMenuSettingsEmoji => 'Emoji';
 
   @override
-  String get guildMenuSettingsStickers => 'Egendefinerte klistremerker';
+  String get guildMenuSettingsStickers => 'Klistremerker';
 
   @override
   String get guildMenuSettingsSafetyModeration => 'Sikkerhet og moderering';
@@ -11500,7 +11500,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get guildMenuSettingsMembers => 'Medlemmer';
 
   @override
-  String get guildMenuSettingsInviteLinks => 'Invitasjonslenker';
+  String get guildMenuSettingsInviteLinks => 'Invitasjoner';
 
   @override
   String get guildMenuSettingsBans => 'Utestengelser';
@@ -12642,10 +12642,10 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get guildSettingsWebhooksDescription =>
-      'Administrer webhooks som sender meldinger til kanaler.';
+      'Se og administrer alle webhooks som er konfigurert i fellesskapet ditt.';
 
   @override
-  String get guildSettingsWebhooksEmpty => 'Ingen webhooks konfigurert.';
+  String get guildSettingsWebhooksEmpty => 'Ingen webhooks';
 
   @override
   String guildSettingsWebhooksEmptyDescription(String channelSettingsPath) {
@@ -12704,7 +12704,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Søk om å bli listet i serveroppdagelse.';
+      'Vis fellesskapet ditt i Oppdag, slik at andre kan finne og bli med.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
@@ -12712,7 +12712,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Krever minst $count medlemmer for å søke.';
+    return 'Fellesskapet ditt må ha minst $count medlemmer før det kan listes i Oppdag.';
   }
 
   @override
@@ -12779,7 +12779,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTags => 'Emneknagger';
+  String get guildSettingsDiscoveryTags => 'Egendefinerte tagger';
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
@@ -12787,7 +12787,8 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTagsHint => 'spill, kunst, musikk';
+  String get guildSettingsDiscoveryTagsHint =>
+      'Legg til en tagg og trykk Enter';
 
   @override
   String get guildSettingsDiscoveryAddTag => 'Legg til';
@@ -12811,7 +12812,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryApply => 'Send søknad';
+  String get guildSettingsDiscoveryApply => 'Bruk';
 
   @override
   String get guildSettingsDiscoverySave => 'Lagre';
@@ -12844,7 +12845,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
       'Søk og administrer servermedlemmer.';
 
   @override
-  String get guildSettingsMembersSearchHint => 'Søk etter medlemmer';
+  String get guildSettingsMembersSearchHint => 'Søk etter brukernavn eller ID';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
@@ -13048,10 +13049,10 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get guildSettingsInvitesDescription =>
-      'Se og tilbakekall aktive invitasjonslenker.';
+      'Se alle invitasjoner for dette fellesskapet. For å opprette en ny invitasjon, gå til en kanal og bruk invitasjonsknappen.';
 
   @override
-  String get guildSettingsInvitesEmpty => 'Ingen aktive invitasjoner.';
+  String get guildSettingsInvitesEmpty => 'Ingen invitasjonslenker';
 
   @override
   String get guildSettingsInvitesEmptyDescription =>
@@ -13565,7 +13566,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get guildSettingsEmojiSearchHint => 'Søk etter emojier';
 
   @override
-  String get guildSettingsEmojiUploadTitle => 'Last opp emoji';
+  String get guildSettingsEmojiUploadTitle => 'Last opp emojier';
 
   @override
   String get guildSettingsEmojiSlotsTitle => 'Emozji-plasser';
@@ -13868,7 +13869,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String guildSettingsWebhooksInfo(String channelSettingsPath) {
-    return 'Opprett webhooks fra Kanalinnstillinger. Rediger dem her.';
+    return 'For å opprette en webhook, åpne $channelSettingsPath. Du kan fortsatt redigere og organisere alle eksisterende webhooks her.';
   }
 
   @override

@@ -13,7 +13,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get reconnectingBody =>
-      'Il y a un problème avec les serveurs.\nÇa devrait être réglé dans une seconde !';
+      'Un problème est survenu avec l\'instance.\nCela devrait être résolu dans une seconde !';
 
   @override
   String get gatewayReconnectingToast => 'Reconnexion…';
@@ -2414,7 +2414,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get phoneAddFooter =>
-      'Entrez votre numéro de téléphone. Nous vous enverrons un code de vérification par SMS.';
+      'Nous enverrons un code SMS lorsqu\'il sera disponible. Votre numéro n\'est pas lié à votre compte. Nous conservons uniquement un marqueur chiffré, sans identifiant utilisateur, pour permettre au plus 2 vérifications sur environ 30 jours.';
 
   @override
   String get phoneAddSendCode => 'Envoyer le code';
@@ -2427,7 +2427,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Entrez le code de vérification envoyé à votre numéro de téléphone.';
 
   @override
-  String get phoneAddSuccess => 'Numéro de téléphone ajouté';
+  String get phoneAddSuccess => 'Numéro de téléphone vérifié';
 
   @override
   String get phoneCountryLabel => 'Pays';
@@ -3839,7 +3839,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get voiceMessageHoldHint =>
-      'Maintenez pour enregistrer. Faites glisser vers le haut pour verrouiller, ou relâchez pour envoyer.';
+      'Maintenez pour enregistrer. Faites glisser pour supprimer, balayez vers le haut pour verrouiller ou relâchez pour envoyer.';
 
   @override
   String get voiceMessageDiscard => 'Supprimer le message vocal';
@@ -4049,7 +4049,8 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get chatAttachmentSourceBrowse => 'Parcourir les fichiers';
 
   @override
-  String get chatAttachmentPasteTooltip => 'Coller l\'image du presse-papiers';
+  String get chatAttachmentPasteTooltip =>
+      'Coller le fichier depuis le presse-papiers';
 
   @override
   String get chatAttachmentSpoiler => 'Spoiler';
@@ -4463,8 +4464,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Impossible de synchroniser le thème avec votre compte. Veuillez réessayer.';
 
   @override
-  String get lookAndFeelChatFontScalingTitle =>
-      'Mise à l\'échelle des polices de discussion';
+  String get lookAndFeelChatFontScalingTitle => 'Taille de la police du chat';
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
@@ -7341,10 +7341,10 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Mentionner l\'utilisateur répondu';
 
   @override
-  String get chatReplyMentionOn => 'Activé';
+  String get chatReplyMentionOn => 'ON';
 
   @override
-  String get chatReplyMentionOff => 'Désactivé';
+  String get chatReplyMentionOff => 'OFF';
 
   @override
   String get chatReplyCancel => 'Annuler la réponse';
@@ -9215,7 +9215,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => 'Cadeaux et codes';
+  String get userSettingsNavGiftsAndCodes => 'Cadeaux';
 
   @override
   String get giftSettingsClaimAccountTitle => 'Réclamer votre compte';
@@ -11646,10 +11646,10 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get guildMenuSettingsRoles => 'Rôles et autorisations';
 
   @override
-  String get guildMenuSettingsEmoji => 'Émojis personnalisés';
+  String get guildMenuSettingsEmoji => 'Emoji';
 
   @override
-  String get guildMenuSettingsStickers => 'Autocollants personnalisés';
+  String get guildMenuSettingsStickers => 'Autocollants';
 
   @override
   String get guildMenuSettingsSafetyModeration => 'Sécurité et modération';
@@ -11671,7 +11671,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get guildMenuSettingsMembers => 'Membres';
 
   @override
-  String get guildMenuSettingsInviteLinks => 'Liens d\'invitation';
+  String get guildMenuSettingsInviteLinks => 'Invitations';
 
   @override
   String get guildMenuSettingsBans => 'Bans';
@@ -12830,7 +12830,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Gérer les webhooks qui publient des messages dans les salons.';
 
   @override
-  String get guildSettingsWebhooksEmpty => 'Aucun webhook configuré.';
+  String get guildSettingsWebhooksEmpty => 'Aucun webhook';
 
   @override
   String guildSettingsWebhooksEmptyDescription(String channelSettingsPath) {
@@ -12889,7 +12889,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Postulez pour être listé dans la découverte de serveurs.';
+      'Répertoriez votre communauté dans Découverte pour que d\'autres puissent la trouver et la rejoindre.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
@@ -12897,7 +12897,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Nécessite au moins $count membres pour postuler.';
+    return 'Votre communauté doit avoir au moins $count membres avant de pouvoir être répertoriée dans la Découverte.';
   }
 
   @override
@@ -12972,7 +12972,8 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTagsHint => 'jeux, art, musique';
+  String get guildSettingsDiscoveryTagsHint =>
+      'Ajoutez un tag et appuyez sur Entrée';
 
   @override
   String get guildSettingsDiscoveryAddTag => 'Ajouter';
@@ -12997,7 +12998,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryApply => 'Soumettre la candidature';
+  String get guildSettingsDiscoveryApply => 'Appliquer';
 
   @override
   String get guildSettingsDiscoverySave => 'Enregistrer';
@@ -13030,7 +13031,8 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Recherchez et gérez les membres du serveur.';
 
   @override
-  String get guildSettingsMembersSearchHint => 'Rechercher des membres';
+  String get guildSettingsMembersSearchHint =>
+      'Rechercher par nom d\'utilisateur ou ID';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
@@ -13235,7 +13237,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get guildSettingsInvitesDescription =>
-      'Visualisez et révoquez les liens d\'invitation actifs.';
+      'Voir toutes les invitations pour cette communauté. Pour créer une nouvelle invitation, accédez à un salon et utilisez le bouton d\'invitation.';
 
   @override
   String get guildSettingsInvitesEmpty => 'Aucun lien d\'invitation';
@@ -13760,7 +13762,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get guildSettingsEmojiSearchHint => 'Rechercher des émojis';
 
   @override
-  String get guildSettingsEmojiUploadTitle => 'Télécharger un émoji';
+  String get guildSettingsEmojiUploadTitle => 'Importer un emoji';
 
   @override
   String get guildSettingsEmojiSlotsTitle => 'Emplacements d\'emojis';

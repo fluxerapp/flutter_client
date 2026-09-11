@@ -12,7 +12,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get reconnectingTitle => '서버에 문제가 생겼어요!';
 
   @override
-  String get reconnectingBody => '서버에 문제가 발생했습니다.\n곧 해결될 거예요!';
+  String get reconnectingBody => '인스턴스에 문제가 발생했습니다.\n곧 해결될 것입니다!';
 
   @override
   String get gatewayReconnectingToast => '재연결 중…';
@@ -2285,7 +2285,8 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get phoneAddHint => '전화번호를 입력하세요';
 
   @override
-  String get phoneAddFooter => '전화번호를 입력하세요. SMS로 인증 코드를 보내드립니다.';
+  String get phoneAddFooter =>
+      '코드가 준비되면 SMS로 보내드립니다. 전화번호는 계정에 연결되지 않습니다. 사용자 ID 없이 암호화된 마커만 보관하며, 약 30일 동안 최대 2회 인증할 수 있습니다.';
 
   @override
   String get phoneAddSendCode => '코드 보내기';
@@ -2297,7 +2298,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get phoneVerifyDescription => '전화번호로 전송된 인증 코드를 입력하세요.';
 
   @override
-  String get phoneAddSuccess => '전화번호가 추가되었습니다.';
+  String get phoneAddSuccess => '전화번호 인증 완료';
 
   @override
   String get phoneCountryLabel => '국가';
@@ -2739,7 +2740,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   }
 
   @override
-  String get blockedUsersCopyTag => 'Fluxer 태그 복사';
+  String get blockedUsersCopyTag => '사용자 이름 복사';
 
   @override
   String get blockedUsersCopyId => '사용자 ID 복사';
@@ -3654,7 +3655,8 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get voiceMessageTitle => '음성 메시지';
 
   @override
-  String get voiceMessageHoldHint => '길게 눌러 녹음하세요. 위로 드래그하여 고정하거나, 놓아서 보내세요.';
+  String get voiceMessageHoldHint =>
+      '누르고 있으면 녹음됩니다. 휴지통으로 드래그하면 삭제, 위로 밀면 잠금, 놓으면 전송됩니다.';
 
   @override
   String get voiceMessageDiscard => '음성 메시지 삭제';
@@ -3857,7 +3859,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get chatAttachmentSourceBrowse => '파일 찾아보기';
 
   @override
-  String get chatAttachmentPasteTooltip => '클립보드에서 이미지 붙여넣기';
+  String get chatAttachmentPasteTooltip => '클립보드에서 파일 붙여넣기';
 
   @override
   String get chatAttachmentSpoiler => '스포일러';
@@ -4248,7 +4250,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get lookAndFeelThemeSyncFailed => '테마를 계정으로 동기화할 수 없습니다. 다시 시도해 주세요.';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => '채팅 글꼴 크기 조절';
+  String get lookAndFeelChatFontScalingTitle => '채팅 글자 크기';
 
   @override
   String get lookAndFeelChatFontScalingDescription => '채팅 영역의 글꼴 크기를 조절합니다.';
@@ -6935,10 +6937,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get chatReplyMentionAccessibilityLabel => '답장한 사용자 멘션';
 
   @override
-  String get chatReplyMentionOn => '켬';
+  String get chatReplyMentionOn => 'ON';
 
   @override
-  String get chatReplyMentionOff => '끔';
+  String get chatReplyMentionOff => 'OFF';
 
   @override
   String get chatReplyCancel => '답장 취소';
@@ -8692,7 +8694,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => '선물 및 코드';
+  String get userSettingsNavGiftsAndCodes => '선물';
 
   @override
   String get giftSettingsClaimAccountTitle => '계정 등록하기';
@@ -10967,10 +10969,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get guildMenuSettingsRoles => '역할 및 권한';
 
   @override
-  String get guildMenuSettingsEmoji => '커스텀 이모지';
+  String get guildMenuSettingsEmoji => '이모지';
 
   @override
-  String get guildMenuSettingsStickers => '커스텀 스티커';
+  String get guildMenuSettingsStickers => '스티커';
 
   @override
   String get guildMenuSettingsSafetyModeration => '안전 및 관리';
@@ -10991,7 +10993,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get guildMenuSettingsMembers => '멤버';
 
   @override
-  String get guildMenuSettingsInviteLinks => '초대 링크';
+  String get guildMenuSettingsInviteLinks => '초대';
 
   @override
   String get guildMenuSettingsBans => '차단';
@@ -12095,10 +12097,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get guildSettingsLoadingMore => 'Loading...';
 
   @override
-  String get guildSettingsWebhooksDescription => '채널에 메시지를 게시하는 웹훅을 관리하세요.';
+  String get guildSettingsWebhooksDescription => '커뮤니티에 설정된 모든 웹훅을 확인하고 관리합니다.';
 
   @override
-  String get guildSettingsWebhooksEmpty => '설정된 웹훅이 없습니다.';
+  String get guildSettingsWebhooksEmpty => '웹훅 없음';
 
   @override
   String guildSettingsWebhooksEmptyDescription(String channelSettingsPath) {
@@ -12153,14 +12155,15 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryDescription => '서버 검색에 등록 신청하세요.';
+  String get guildSettingsDiscoveryDescription =>
+      '다른 사람들이 찾아서 참여할 수 있도록 커뮤니티를 디스커버리에 등록하세요.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle => '멤버 부족';
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return '신청하려면 최소 $count명의 멤버가 필요합니다.';
+    return '커뮤니티가 디스커버리에 등록되려면 최소 $count명의 멤버가 필요합니다.';
   }
 
   @override
@@ -12225,7 +12228,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTags => '태그';
+  String get guildSettingsDiscoveryTags => '맞춤 태그';
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
@@ -12233,7 +12236,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryTagsHint => '게임, 예술, 음악';
+  String get guildSettingsDiscoveryTagsHint => '태그를 추가하고 Enter를 누르세요';
 
   @override
   String get guildSettingsDiscoveryAddTag => '추가';
@@ -12257,7 +12260,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryApply => '신청서 제출';
+  String get guildSettingsDiscoveryApply => '적용';
 
   @override
   String get guildSettingsDiscoverySave => '저장';
@@ -12285,7 +12288,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get guildSettingsMembersDescription => '서버 멤버를 검색하고 관리하세요.';
 
   @override
-  String get guildSettingsMembersSearchHint => '멤버 검색';
+  String get guildSettingsMembersSearchHint => '사용자 이름 또는 ID로 검색';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
@@ -12486,10 +12489,11 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get guildSettingsInvitesTitle => '초대';
 
   @override
-  String get guildSettingsInvitesDescription => '활성 초대 링크를 확인하고 취소하세요.';
+  String get guildSettingsInvitesDescription =>
+      '이 커뮤니티의 모든 초대를 확인하세요. 새 초대를 만들려면 채널로 이동하여 초대 버튼을 사용하세요.';
 
   @override
-  String get guildSettingsInvitesEmpty => '활성 초대가 없습니다.';
+  String get guildSettingsInvitesEmpty => '초대 링크 없음';
 
   @override
   String get guildSettingsInvitesEmptyDescription =>
@@ -12969,7 +12973,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get guildSettingsEmojiSearchHint => '이모지 검색';
 
   @override
-  String get guildSettingsEmojiUploadTitle => '이모지 업로드';
+  String get guildSettingsEmojiUploadTitle => '이모티콘 업로드';
 
   @override
   String get guildSettingsEmojiSlotsTitle => '이모티콘 슬롯';
@@ -13244,7 +13248,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String guildSettingsWebhooksInfo(String channelSettingsPath) {
-    return '채널 설정에서 웹훅을 생성합니다. 여기서 편집합니다.';
+    return '웹훅을 만들려면 $channelSettingsPath을(를) 여세요. 여기에 있는 모든 기존 웹훅을 편집하고 정리할 수 있습니다.';
   }
 
   @override
