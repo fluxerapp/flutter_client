@@ -34,6 +34,7 @@ class ChatWallpaperBackdrop extends ConsumerWidget {
             DecoratedBox(decoration: BoxDecoration(gradient: paint.gradient)),
           if (imageProvider != null)
             Image(
+              key: ObjectKey(imageProvider),
               image: ResizeImage(
                 imageProvider,
                 width: cacheWidth,
