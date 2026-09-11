@@ -120,10 +120,10 @@ void main() {
     expect(find.text('Use system locale for time format'), findsOneWidget);
   });
 
-  testWidgets('unsupported saved locale is not exposed as a selection', (
+  testWidgets('unknown saved locale is not exposed as a selection', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(_wrap(const UserLanguageAndTime(), locale: 'bg'));
+    await tester.pumpWidget(_wrap(const UserLanguageAndTime(), locale: 'xx'));
     await tester.pumpAndSettle();
 
     final FluxerSelect<sdk.Locale> select = tester.widget(
@@ -134,7 +134,11 @@ void main() {
     expect(select.value, isNull);
     expect(
       select.items.map((FluxerSelectItem<sdk.Locale> item) => item.value),
-      isNot(contains(sdk.Locale.bg)),
+      isNot(contains(sdk.Locale.$unknown)),
+    );
+    expect(
+      select.items.map((FluxerSelectItem<sdk.Locale> item) => item.value),
+      contains(sdk.Locale.bg),
     );
     expect(
       select.items.map((FluxerSelectItem<sdk.Locale> item) => item.value),
