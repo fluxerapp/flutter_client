@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:fluxer_app/material_ui.dart';
 
 const double kAppTextScaleMin = 0.8;
@@ -78,7 +80,10 @@ TextScaler chatMessageTextScaler(TextScaler systemScaler, double scaleRatio) {
   final double clampedSystem = clampAppTextScaler(systemScaler).scale(1);
   final double product = clampedSystem * scaleRatio;
   return TextScaler.linear(
-    product.clamp(kAppTextScaleMin, kChatMessageTextScaleMax),
+    product.clamp(
+      math.min(kAppTextScaleMin, scaleRatio),
+      kChatMessageTextScaleMax,
+    ),
   );
 }
 
