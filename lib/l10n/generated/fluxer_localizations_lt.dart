@@ -55,132 +55,132 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get splashIncidentHistory => 'Incidentų istorija';
 
   @override
-  String get nagbarLearnMore => 'Learn more';
+  String get nagbarLearnMore => 'Sužinoti daugiau';
 
   @override
   String nagbarMaintenanceScheduled(String localizedTime, String duration) {
-    return 'Maintenance is scheduled for $localizedTime. Expected duration: $duration.';
+    return 'Techninė priežiūra numatyta $localizedTime. Numatoma trukmė: $duration.';
   }
 
   @override
   String nagbarMaintenanceInProgress(String duration) {
-    return 'Maintenance is in progress. Expected duration: $duration.';
+    return 'Vyksta techninė priežiūra. Numatoma trukmė: $duration.';
   }
 
   @override
-  String get nagbarMaintenanceComplete => 'Maintenance is complete.';
+  String get nagbarMaintenanceComplete => 'Techninė priežiūra baigta.';
 
   @override
   String nagbarUnclaimedAccountMessage(String displayName) {
-    return 'Hey $displayName, claim your account to prevent losing access.';
+    return 'Sveiki, $displayName, susikurkite paskyrą, kad neprarastumėte prieigos.';
   }
 
   @override
   String nagbarEmailVerificationMessage(String displayName) {
-    return 'Hey $displayName, please verify your email address.';
+    return 'Sveiki, $displayName, patvirtinkite savo el. pašto adresą.';
   }
 
   @override
-  String get nagbarOpenSettings => 'Open settings';
+  String get nagbarOpenSettings => 'Atidaryti nustatymus';
 
   @override
-  String get systemPermissionSettingsTitle => 'Enable permission';
+  String get systemPermissionSettingsTitle => 'Įgalinti leidimą';
 
   @override
-  String get systemPermissionSettingsOpenSettings => 'Open settings';
+  String get systemPermissionSettingsOpenSettings => 'Atidaryti nustatymus';
 
   @override
   String systemPermissionMicrophoneMessage(String productName) {
-    return '$productName doesn\'t have access to your microphone. You can enable it in your device privacy settings.';
+    return '$productName neturi prieigos prie jūsų mikrofono. Galite jį įjungti savo įrenginio privatumo nustatymuose.';
   }
 
   @override
   String systemPermissionCameraMessage(String productName) {
-    return '$productName doesn\'t have access to your camera. You can enable it in your device privacy settings.';
+    return '$productName neturi prieigos prie jūsų kameros. Galite ją įjungti savo įrenginio privatumo nustatymuose.';
   }
 
   @override
   String systemPermissionPhotosMessage(String productName) {
-    return '$productName doesn\'t have access to your photo library. You can enable it in your device privacy settings.';
+    return '$productName neturi prieigos prie jūsų nuotraukų bibliotekos. Galite ją įjungti įrenginio privatumo nustatymuose.';
   }
 
   @override
   String systemPermissionNotificationsMessage(String productName) {
-    return '$productName doesn\'t have permission to send notifications. You can enable it in your device settings.';
+    return '$productName neturi leidimo siųsti pranešimų. Galite jį įjungti savo įrenginio nustatymuose.';
   }
 
   @override
   String nagbarPremiumGracePeriod(String productName, String graceDate) {
-    return 'Your subscription failed to renew, but you still have access to $productName perks until $graceDate. Take action now or you\'ll lose all perks.';
+    return 'Jūsų prenumerata nebuvo atnaujinta, bet vis dar turite prieigą prie $productName privalumų iki $graceDate. Imkitės veiksmų dabar, kitaip prarasite visus privalumus.';
   }
 
   @override
   String nagbarPremiumExpired(String productName) {
-    return 'Your $productName subscription has expired. Renew now to keep your perks.';
+    return 'Jūsų „$productName“ prenumerata baigėsi. Atnaujinkite dabar, kad išsaugotumėte privalumus.';
   }
 
   @override
-  String get nagbarManageSubscription => 'Manage subscription';
+  String get nagbarManageSubscription => 'Tvarkyti prenumeratą';
 
   @override
   String nagbarPremiumOnboardingDefault(
     String productFullName,
     String productName,
   ) {
-    return 'Welcome to $productFullName. Explore your $productName perks and manage your subscription.';
+    return 'Sveiki atvykę į $productFullName. Naršykite savo $productName privalumus ir tvarkykite savo prenumeratą.';
   }
 
   @override
   String nagbarViewPremiumFeatures(String productName) {
-    return 'View $productName features';
+    return 'Peržiūrėkite „$productName“ funkcijas';
   }
 
   @override
   String get nagbarGiftInventoryOne =>
-      'You have a new gift code waiting in your gift inventory.';
+      'Jūsų dovanų saugykloje laukia naujas dovanos kodas.';
 
   @override
   String nagbarGiftInventoryMany(int count) {
-    return 'You have $count new gift codes waiting in your gift inventory.';
+    return 'Jūsų dovanų saugykloje laukia $count nauji dovanų kodai.';
   }
 
   @override
-  String get nagbarViewGiftInventory => 'View gift inventory';
+  String get nagbarViewGiftInventory => 'Peržiūrėti dovanų atsargas';
 
   @override
   String get nagbarVisionaryMfa =>
-      'Enable two-factor authentication to protect your Visionary account.';
+      'Įjunkite dviejų veiksnių autentifikavimą, kad apsaugotumėte savo „Visionary“ paskyrą.';
 
   @override
-  String get nagbarEnableMfa => 'Enable 2FA';
+  String get nagbarEnableMfa => 'Įjungti 2FA';
 
   @override
   String get nagbarTermsAcceptance =>
-      'We\'ve updated our terms. Please review and accept them to continue.';
+      'Atnaujinome mūsų sąlygas. Peržiūrėkite jas ir sutikite, kad galėtumėte tęsti.';
 
   @override
-  String get nagbarReviewTerms => 'Review terms';
+  String get nagbarReviewTerms => 'Peržiūrėti terminus';
 
   @override
   String nagbarGuildMembershipCta(String communityName) {
-    return 'Join $communityName to chat with the team and stay up to date.';
+    return 'Prisijunkite prie „$communityName\", kad galėtumėte bendrauti su komanda ir gauti naujausią informaciją.';
   }
 
   @override
   String nagbarJoinCommunity(String communityName) {
-    return 'Join $communityName';
+    return 'Prisijungti prie „$communityName\"';
   }
 
   @override
   String get nagbarPushNotification =>
-      'Enable notifications so you don\'t miss messages and mentions.';
+      'Įjunkite pranešimus, kad nepraleistumėte žinučių ir paminėjimų.';
 
   @override
-  String get nagbarEnableNotifications => 'Enable notifications';
+  String get nagbarEnableNotifications => 'Įjungti pranešimus';
 
   @override
   String get nagbarBillingPortalFailed =>
-      'Couldn\'t open the billing portal. Please try again in a moment.';
+      'Nepavyko atidaryti atsiskaitymo portalo. Pabandykite dar kartą po akimirkos.';
 
   @override
   String get welcomeBack => 'Sveiki grįžę';
@@ -291,7 +291,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get back => 'Atgal';
 
   @override
-  String get next => 'Next';
+  String get next => 'Kitas';
 
   @override
   String get mfaTitle => 'Dviejų veiksnių autentifikavimas';
@@ -625,11 +625,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get registerPendingApproval =>
-      'Your account request is pending approval. You can sign in after an admin approves it.';
+      'Jūsų paskyros užklausa laukia patvirtinimo. Prisijungti galėsite, kai administratorius ją patvirtins.';
 
   @override
   String get registerClosed =>
-      'Registration is currently closed. Use a registration link from an admin to create an account.';
+      'Registracija šiuo metu uždaryta. Norėdami sukurti paskyrą, naudokite administratoriaus suteiktą registracijos nuorodą.';
 
   @override
   String get passkeyNoCredentials =>
@@ -664,7 +664,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get errorServiceUnavailable =>
-      'This instance is temporarily unavailable. Try again in a moment.';
+      'Ši instancija laikinai nepasiekiama. Pabandykite dar kartą po akimirkos.';
 
   @override
   String get errorInvalidEmailOrPassword =>
@@ -705,29 +705,29 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get embedInviteUnavailable => 'Kvietimas negalimas';
 
   @override
-  String get embedInviteJoinGroup => 'Join group';
+  String get embedInviteJoinGroup => 'Prisijungti prie grupės';
 
   @override
-  String get embedInviteAlreadyJoined => 'Already joined';
+  String get embedInviteAlreadyJoined => 'Jau prisijungta';
 
   @override
-  String get embedInviteDisabled => 'Invites disabled';
+  String get embedInviteDisabled => 'Kvietimai išjungti';
 
   @override
-  String get embedInvitePaused => 'Invites are paused for this community.';
+  String get embedInvitePaused => 'Kvietimai šiai bendruomenei pristabdyti.';
 
   @override
   String embedInvitePausedRaid(String productName) {
-    return '$productName detected a potential raid, so new users can\'t join right now.';
+    return '$productName aptiko galimą ataką, todėl nauji vartotojai šiuo metu negali prisijungti.';
   }
 
   @override
   String get inviteAcceptInvitesPausedTryAgain =>
-      'This community has paused invites. You can try again later.';
+      'Ši bendruomenė pristabdė kvietimus. Galite bandyti dar kartą vėliau.';
 
   @override
   String inviteAcceptRaidInvitesPaused(String productName) {
-    return '$productName detected a potential raid in this community. Invites are paused, so new users cannot join right now.';
+    return '$productName aptiko galimą ataką šioje bendruomenėje. Kvietimai pristabdyti, todėl nauji vartotojai šiuo metu negali prisijungti.';
   }
 
   @override
@@ -813,7 +813,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
-    return 'Visionary (lifetime $productName)';
+    return 'Visionary (visam laikui $productName)';
   }
 
   @override
@@ -821,8 +821,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count days of $productName',
-      one: '1 day of $productName',
+      other: '$count dienų $productName',
+      one: '1 diena $productName',
     );
     return '$_temp0';
   }
@@ -832,8 +832,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count weeks of $productName',
-      one: '1 week of $productName',
+      other: '$count savaitės $productName',
+      one: '1 savaitė $productName',
     );
     return '$_temp0';
   }
@@ -843,8 +843,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count months of $productName',
-      one: '1 month of $productName',
+      other: '$count mėnesių $productName',
+      one: '1 mėnuo $productName',
     );
     return '$_temp0';
   }
@@ -854,96 +854,98 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count years of $productName',
-      one: '1 year of $productName',
+      other: '$count metai $productName',
+      one: '1 metai $productName',
     );
     return '$_temp0';
   }
 
   @override
   String embedGiftFrom(String creatorTag) {
-    return 'From $creatorTag';
+    return 'Nuo $creatorTag';
   }
 
   @override
-  String get embedGiftClaimHelp => 'Click to claim your gift!';
+  String get embedGiftClaimHelp => 'Spustelėkite, kad atsiimtumėte dovaną!';
 
   @override
-  String get embedGiftAlreadyRedeemed => 'Already redeemed';
+  String get embedGiftAlreadyRedeemed => 'Jau išpirkta';
 
   @override
   String get embedGiftClaimAccountHelp =>
-      'Claim your account to redeem this gift.';
+      'Prisijunkite prie paskyros, kad atsiimtumėte šią dovaną.';
 
   @override
-  String get embedGiftClaim => 'Claim gift';
+  String get embedGiftClaim => 'Atsiimti dovaną';
 
   @override
-  String get embedGiftClaimed => 'Gift claimed';
+  String get embedGiftClaimed => 'Dovana atsiimta';
 
   @override
-  String get embedGiftClaimAccount => 'Claim account to redeem';
+  String get embedGiftClaimAccount =>
+      'Norėdami išpirkti, prisijunkite prie paskyros';
 
   @override
-  String get embedGiftUnknownTitle => 'Unknown gift';
+  String get embedGiftUnknownTitle => 'Nežinoma dovana';
 
   @override
   String get embedGiftUnknownSubtitle =>
-      'This gift code is invalid or already claimed.';
+      'Šis dovanos kodas neteisingas arba jau panaudotas.';
 
   @override
-  String get embedGiftUnavailable => 'Gift unavailable';
+  String get embedGiftUnavailable => 'Dovana nepasiekiama';
 
   @override
   String giftAcceptClaimSubscription(String productName) {
-    return 'Claim your gift to activate your $productName subscription!';
+    return 'Gaukite savo dovaną, kad suaktyvintumėte „$productName“ prenumeratą!';
   }
 
   @override
-  String get giftAcceptAlreadyClaimed => 'This gift has already been claimed.';
+  String get giftAcceptAlreadyClaimed => 'Ši dovana jau atsiimta.';
 
   @override
-  String get giftAcceptMaybeLater => 'Maybe later';
+  String get giftAcceptMaybeLater => 'Galbūt vėliau';
 
   @override
-  String get giftRedeemedToast => 'Gift redeemed!';
+  String get giftRedeemedToast => 'Dovana išpirkta!';
 
   @override
-  String get giftRedeemInvalidTitle => 'Invalid gift code';
+  String get giftRedeemInvalidTitle => 'Neteisingas dovanos kodas';
 
   @override
   String get giftRedeemInvalidMessage =>
-      'This code is invalid or already used.';
+      'Šis kodas neteisingas arba jau panaudotas.';
 
   @override
-  String get giftRedeemAlreadyRedeemedTitle => 'Gift already redeemed';
+  String get giftRedeemAlreadyRedeemedTitle => 'Dovana jau išpirkta';
 
   @override
   String get giftRedeemAlreadyRedeemedMessage =>
-      'This code was already redeemed.';
+      'Šis kodas jau buvo panaudotas.';
 
   @override
-  String get giftRedeemNotFoundTitle => 'Gift not found';
+  String get giftRedeemNotFoundTitle => 'Dovanos nerasta';
 
   @override
-  String get giftRedeemNotFoundMessage => 'This code doesn\'t exist.';
+  String get giftRedeemNotFoundMessage => 'Šio kodo nėra.';
 
   @override
-  String get giftRedeemFailedTitle => 'Failed to redeem gift';
+  String get giftRedeemFailedTitle => 'Nepavyko panaudoti dovanos';
 
   @override
   String get giftRedeemFailedMessage =>
-      'Couldn\'t redeem this gift. Try again.';
+      'Nepavyko išpirkti šios dovanos. Bandykite dar kartą.';
 
   @override
-  String get giftVisionaryCannotRedeemTitle => 'Can\'t redeem this gift';
+  String get giftVisionaryCannotRedeemTitle =>
+      'Nepavyksta panaudoti šios dovanos';
 
   @override
   String get giftVisionaryCannotRedeemMessage =>
-      'Visionary accounts can\'t redeem Plutonium gifts. Copy the link to share it with a friend instead.';
+      '„Visionary“ paskyros negali išpirkti „Plutonium“ dovanų. Vietoj to nukopijuokite nuorodą, kad pasidalintumėte ją su draugu.';
 
   @override
-  String get giftCopyLink => 'Copy gift link';
+  String get giftCopyLink => 'Kopijuoti dovanos nuorodą';
 
   @override
   String get privacySettings => 'Privatumo nustatymai';
@@ -1024,10 +1026,12 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get notificationUnmuteChannel => 'Atšaukti kanalo nutildymą';
 
   @override
-  String get notificationUseCategoryDefault => 'Use Category Default';
+  String get notificationUseCategoryDefault =>
+      'Naudoti numatytuosius kategorijos nustatymus';
 
   @override
-  String get notificationUseCommunityDefault => 'Use Community Default';
+  String get notificationUseCommunityDefault =>
+      'Naudoti bendruomenės numatytuosius nustatymus';
 
   @override
   String get notificationNoCategory => 'Nėra kategorijos';
@@ -1066,11 +1070,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get dmDeleteMyMessagesTitle =>
-      'Delete your messages in this conversation?';
+      'Ištrinti jūsų žinutes šiame pokalbyje?';
 
   @override
   String get dmDeleteMyMessagesDescription =>
-      'This will permanently delete every message you have ever sent in this conversation. This cannot be undone.';
+      'Tai visam laikui ištrins visas žinutes, kurias kada nors išsiuntėte šiame pokalbyje. Šio veiksmo anuliuoti negalima.';
 
   @override
   String get dmCopyChannelId => 'Kopijuoti kanalo ID';
@@ -1389,11 +1393,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get addFriendVerifyToSend =>
-      'Verify your email before sending friend requests.';
+      'Prieš siųsdami draugystės užklausas, patvirtinkite savo el. pašto adresą.';
 
   @override
   String get addFriendFriendsListFull =>
-      'Your friends list is full, or theirs is. Remove someone and try again.';
+      'Jūsų arba jų draugų sąrašas yra pilnas. Pašalinkite ką nors ir bandykite dar kartą.';
 
   @override
   String get userTagBot => 'BOT';
@@ -1412,38 +1416,38 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String emojiInfoDefaultDescription(String productName) {
-    return 'This is a default emoji on $productName.';
+    return 'Tai numatytasis „$productName\" jaustukas.';
   }
 
   @override
   String get emojiInfoCustomGuildDescription =>
-      'This emoji is from this community. You can use it everywhere.';
+      'Ši piktograma yra iš šios bendruomenės. Galite ja naudotis visur.';
 
   @override
   String get emojiInfoCustomUnknownDescription =>
-      'This is a custom emoji from a community.';
+      'Tai bendruomenės sukurtas jaustukas.';
 
   @override
   String get emojiInfoCustomInviteRequiredDescription =>
-      'This is a custom emoji from a community. Ask the author for an invite to use this emoji.';
+      'Tai pasirinktinis jaustukas iš bendruomenės. Norėdami naudoti šį jaustuką, paprašykite autoriaus pakvietimo.';
 
   @override
-  String get emojiInfoFromHeader => 'This emoji is from';
+  String get emojiInfoFromHeader => 'Ši piktograma yra iš';
 
   @override
-  String get emojiInfoDiscoverableCommunity => 'Discoverable community';
+  String get emojiInfoDiscoverableCommunity => 'Atrandama bendruomenė';
 
   @override
-  String get emojiInfoPrivateCommunity => 'Private community';
+  String get emojiInfoPrivateCommunity => 'Privati bendruomenė';
 
   @override
-  String get emojiInfoVerifiedCommunity => 'Verified community';
+  String get emojiInfoVerifiedCommunity => 'Patvirtinta bendruomenė';
 
   @override
-  String get emojiInfoAddToFavorites => 'Add to Favorites';
+  String get emojiInfoAddToFavorites => 'Pridėti prie mėgstamiausių';
 
   @override
-  String get emojiInfoRemoveFromFavorites => 'Remove from Favorites';
+  String get emojiInfoRemoveFromFavorites => 'Pašalinti iš mėgstamiausių';
 
   @override
   String get emojiFrequentlyUsed => 'Dažnai naudojami';
@@ -1476,10 +1480,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get gifPickerFavorites => 'Mėgstamiausi';
 
   @override
-  String get gifPickerFavoritesEmptyTitle => 'No favorite GIFs yet';
+  String get gifPickerFavoritesEmptyTitle => 'Kol kas nėra mėgstamų GIF';
 
   @override
-  String get gifPickerFavoritesEmptyDescription => 'Star a GIF to see it here.';
+  String get gifPickerFavoritesEmptyDescription =>
+      'Pažymėkite GIF, kad pamatytumėte jį čia.';
 
   @override
   String get gifPickerTrending => 'Populiarūs GIF';
@@ -2404,131 +2409,133 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get phoneAddSuccess => 'Telefono numeris pridėtas';
 
   @override
-  String get phoneCountryLabel => 'Country';
+  String get phoneCountryLabel => 'Šalis';
 
   @override
-  String get phoneSearchCountries => 'Search countries...';
+  String get phoneSearchCountries => 'Ieškoti šalių...';
 
   @override
-  String get phoneNumberRequired => 'Phone number is required';
+  String get phoneNumberRequired => 'Reikalingas telefono numeris';
 
   @override
-  String get phoneEnterValidNumber => 'Enter a valid mobile phone number.';
+  String get phoneEnterValidNumber =>
+      'Įveskite galiojantį mobiliojo telefono numerį.';
 
   @override
   String get phoneCannotBeUsed =>
-      'This phone number cannot be used. Try another mobile number or contact support.';
+      'Šio telefono numerio negalima naudoti. Bandykite kitą mobiliojo telefono numerį arba susisiekite su palaikymo komanda.';
 
   @override
   String get phoneAlreadyUsed =>
-      'This phone number has already been used. Try another number or contact support.';
+      'Šis telefono numeris jau buvo naudotas. Bandykite kitą numerį arba susisiekite su palaikymo komanda.';
 
   @override
   String get phoneCodeDidNotWork =>
-      'That code didn\'t work. Check it and try again.';
+      'Šis kodas netiko. Patikrinkite jį ir bandykite dar kartą.';
 
   @override
   String get phoneTooManyAttempts =>
-      'Too many attempts. Wait a bit, then try again.';
+      'Per daug bandymų. Šiek tiek palaukite ir bandykite dar kartą.';
 
   @override
   String get phoneSmsUnavailable =>
-      'SMS verification is unavailable right now. Try again later or contact support.';
+      'Šiuo metu SMS patvirtinimas nepasiekiamas. Bandykite dar kartą vėliau arba susisiekite su palaikymo komanda.';
 
   @override
   String get phoneNotEligible =>
-      'Phone verification is not available for this account. Use another method or contact support.';
+      'Telefono numerio patvirtinimas šiai paskyrai negalimas. Naudokite kitą metodą arba susisiekite su palaikymo komanda.';
 
   @override
   String get phoneCaptchaRequired =>
-      'A browser check is required before phone verification. Try again from the sign-in page or contact support.';
+      'Prieš patvirtinant telefono numerį, reikalingas naršyklės patikrinimas. Bandykite dar kartą prisijungimo puslapyje arba susisiekite su palaikymo komanda.';
 
   @override
-  String get phoneSomethingWentWrong => 'Something went wrong. Try again.';
+  String get phoneSomethingWentWrong => 'Kažkas nepavyko. Bandykite dar kartą.';
 
   @override
   String get phoneInboundExpensiveDescription =>
-      'Sending an SMS to this phone number is too expensive, so we need you to send us an SMS instead. You can also contact support to have us lift this requirement from your account.';
+      'Siųsti SMS į šį telefono numerį yra per brangu, todėl prašome, kad Jūs atsiųstumėte mums SMS. Taip pat galite susisiekti su palaikymo tarnyba, kad šis reikalavimas būtų panaikintas Jūsų paskyroje.';
 
   @override
   String get phoneInboundDefaultDescription =>
-      'We need you to send us an SMS to verify your phone number.';
+      'Turime gauti jūsų SMS žinutę, kad patvirtintume jūsų telefono numerį.';
 
   @override
   String get phoneInboundStepOpenMessaging =>
-      'Open your phone\'s messaging app and create a new text message.';
+      'Atidarykite telefono pranešimų programėlę ir sukurkite naują tekstinį pranešimą.';
 
   @override
   String phoneInboundStepSendCode(String code, String number) {
-    return 'Send the code $code to $number.';
+    return 'Siųskite kodą $code numeriu $number.';
   }
 
   @override
   String get phoneInboundStepWait =>
-      'Wait for us to receive your message. This can take a minute.';
+      'Palaukite, kol gausime jūsų žinutę. Tai gali užtrukti minutę.';
 
   @override
-  String get phoneInboundGetNewCode => 'Get new code';
+  String get phoneInboundGetNewCode => 'Gauti naują kodą';
 
   @override
-  String get phoneInboundChallengeCodeLabel => 'Code to send';
+  String get phoneInboundChallengeCodeLabel => 'Kodas, kurį reikia išsiųsti';
 
   @override
-  String get phoneInboundOurNumberLabel => 'Send to';
+  String get phoneInboundOurNumberLabel => 'Siųsti į';
 
   @override
-  String get requiredActionTitle => 'Account verification required';
+  String get requiredActionTitle => 'Reikalingas paskyros patvirtinimas';
 
   @override
   String requiredActionIntroGeneric(String productName) {
-    return 'Complete the required verification to continue using $productName.';
+    return 'Norėdami toliau naudotis \"$productName\", atlikite reikiamą patvirtinimą.';
   }
 
   @override
   String get requiredActionIntroPhone =>
-      'Your registration needs an extra anti-spam check before you can continue.';
+      'Prieš tęsiant, jūsų registracijai reikalingas papildomas apsaugos nuo brukalų patikrinimas.';
 
   @override
   String requiredActionIntroEmailOrPhone(String productName) {
-    return 'Verify your email or phone to continue using $productName.';
+    return 'Norėdami toliau naudotis \"$productName\", patvirtinkite savo el. paštą arba telefono numerį.';
   }
 
   @override
   String requiredActionIntroEmailAndPhone(String productName) {
-    return 'Complete the required email and phone verification steps below to continue using $productName.';
+    return 'Kad galėtumėte toliau naudotis \"$productName\", atlikite toliau nurodytus el. pašto ir telefono patvirtinimo veiksmus.';
   }
 
   @override
-  String get requiredActionChooseMethodTitle => 'Choose a verification method';
+  String get requiredActionChooseMethodTitle =>
+      'Pasirinkite patvirtinimo metodą';
 
   @override
   String requiredActionChooseMethodDescription(String productName) {
-    return 'Complete one of the verification paths below to continue using $productName.';
+    return 'Norėdami toliau naudotis \"$productName\", atlikite vieną iš toliau nurodytų patvirtinimo veiksmų.';
   }
 
   @override
-  String get requiredActionUseEmail => 'Use email';
+  String get requiredActionUseEmail => 'Naudoti el. paštą';
 
   @override
-  String get requiredActionUsePhone => 'Use phone';
+  String get requiredActionUsePhone => 'Naudoti telefoną';
 
   @override
-  String get requiredActionCheckEmailTitle => 'Check your email';
+  String get requiredActionCheckEmailTitle => 'Patikrinkite savo el. paštą';
 
   @override
   String get requiredActionCheckEmailDescription =>
-      'We sent a verification link to your email address. Open it to continue.';
+      'Atsidarykite savo el. paštą ir spustelėkite gautą patvirtinimo nuorodą, kad tęstumėte.';
 
   @override
   String get requiredActionResendVerificationEmail =>
-      'Resend verification email';
+      'Siųsti patvirtinimo el. laišką iš naujo';
 
   @override
   String get requiredActionVerificationEmailSent =>
-      'Verification email sent. Check your inbox.';
+      'Patvirtinimo el. laiškas išsiųstas. Patikrinkite gautuosius.';
 
   @override
-  String get requiredActionSignOut => 'Sign out';
+  String get requiredActionSignOut => 'Atsijungti';
 
   @override
   String get dangerZoneSectionTitle => 'Pavojinga zona';
@@ -2631,7 +2638,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get genericError => 'Įvyko klaida';
 
   @override
-  String get networkErrorMessage => 'Something went wrong. Please try again.';
+  String get networkErrorMessage =>
+      'Panašu, kad kilo problemų. Pabandykite dar kartą.';
 
   @override
   String get invalidCode => 'Neteisingas kodas';
@@ -2696,8 +2704,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count weeks ago',
-      one: '1 week ago',
+      other: 'prieš $count savaites',
+      one: 'prieš 1 savaitę',
     );
     return '$_temp0';
   }
@@ -2707,8 +2715,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'in $count minutes',
-      one: 'in 1 minute',
+      other: 'po $count minučių',
+      one: 'po 1 minutės',
     );
     return '$_temp0';
   }
@@ -2718,8 +2726,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'in $count hours',
-      one: 'in 1 hour',
+      other: 'po $count valandų',
+      one: 'po 1 valandos',
     );
     return '$_temp0';
   }
@@ -2729,8 +2737,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'in $count days',
-      one: 'in 1 day',
+      other: 'po $count dienų',
+      one: 'po 1 dienos',
     );
     return '$_temp0';
   }
@@ -2740,8 +2748,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'in $count weeks',
-      one: 'in 1 week',
+      other: 'po $count savaičių',
+      one: 'po savaitės',
     );
     return '$_temp0';
   }
@@ -2751,8 +2759,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'in $count months',
-      one: 'in 1 month',
+      other: 'po $count mėnesių',
+      one: 'po 1 mėnesio',
     );
     return '$_temp0';
   }
@@ -2762,8 +2770,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'in $count years',
-      one: 'in 1 year',
+      other: 'po $count metų',
+      one: 'po 1 metų',
     );
     return '$_temp0';
   }
@@ -2871,7 +2879,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get userProfileLoadError => 'Nepavyko įkelti profilio';
 
   @override
-  String get userProfileLoading => 'Loading profile';
+  String get userProfileLoading => 'Įkeliamas profilis';
 
   @override
   String get userProfileRetry => 'Bandyti dar kartą';
@@ -3002,38 +3010,38 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get userProfileAboutMe => 'Apie mane';
 
   @override
-  String get userProfileRoles => 'Roles';
+  String get userProfileRoles => 'Pareigos';
 
   @override
-  String get memberRoleAdd => 'Add role';
+  String get memberRoleAdd => 'Pridėti vaidmenį';
 
   @override
   String memberRoleRemove(String roleName) {
-    return 'Remove role $roleName';
+    return 'Pašalinti vaidmenį \"$roleName\"';
   }
 
   @override
   String get userProfileNoRolesInCommunity =>
-      'This user has no roles in this community.';
+      'Šis vartotojas neturi vaidmenų šioje bendruomenėje.';
 
   @override
   String memberRolesNoRolesYet(String rolesSettingsPath) {
-    return 'No roles yet. Add roles in $rolesSettingsPath';
+    return 'Dar nėra vaidmenų. Pridėkite vaidmenų čia: $rolesSettingsPath';
   }
 
   @override
-  String get memberRolesNoRolesAvailable => 'No roles available';
+  String get memberRolesNoRolesAvailable => 'Nėra vaidmenų';
 
   @override
   String memberRolesNoRolesAvailableDescription(String rolesSettingsPath) {
-    return 'There are no roles to assign in this community at this time, but you can create a new role in $rolesSettingsPath.';
+    return 'Šiuo metu šioje bendruomenėje nėra vaidmenų, kuriuos būtų galima priskirti, tačiau naują vaidmenį galite sukurti čia: $rolesSettingsPath.';
   }
 
   @override
-  String get guildSettingsTitle => 'Community settings';
+  String get guildSettingsTitle => 'Bendruomenės nustatymai';
 
   @override
-  String get guildSettingsRolesTab => 'Roles';
+  String get guildSettingsRolesTab => 'Rolės';
 
   @override
   String get memberRolesConfirmOk => 'OK';
@@ -3327,79 +3335,83 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get iarReportUserTitle => 'Pranešti apie vartotoją';
 
   @override
-  String get iarReportGuildTitle => 'Report community';
+  String get iarReportGuildTitle => 'Pranešti apie bendruomenę';
 
   @override
   String get iarReportGuildPreconfirmBody =>
-      'If this report is about a specific message in this community, report that message instead. Message reports give our safety team the clearest context, and adding details in the comments can help us review it faster. Only continue with reporting the community as a whole if reporting a message would not capture the broader issue.';
+      'Jei šis pranešimas yra apie konkretų pranešimą šioje bendruomenėje, praneškite apie tą pranešimą. Pranešimų ataskaitos suteikia mūsų saugos komandai aiškiausią kontekstą, o išsamesnės informacijos pridėjimas komentaruose gali padėti mums greičiau peržiūrėti. Tęskite pranešimą apie bendruomenę tik tuo atveju, jei pranešimas apie pranešimą neapimtų platesnės problemos.';
 
   @override
-  String get iarContinueToReportCommunity => 'Continue to report community';
+  String get iarContinueToReportCommunity => 'Tęsti bendruomenės pranešimą';
 
   @override
-  String get iarPreviewCommunitySubtitle => 'Community';
+  String get iarPreviewCommunitySubtitle => 'Bendruomenė';
 
   @override
-  String get iarReasonHarassmentGuildLabel => 'Harassment or targeted abuse';
+  String get iarReasonHarassmentGuildLabel =>
+      'Priekabiavimas ar tikslinis piktnaudžiavimas';
 
   @override
   String get iarReasonHarassmentGuildDescription =>
-      'Community facilitates pile-ons or targeted abuse.';
+      'Bendruomenė skatina užsipuldinėjimus arba tikslinį piktnaudžiavimą.';
 
   @override
   String get iarReasonHateGuildDescription =>
-      'Promotes hatred against protected groups.';
+      'Skatina neapykantą saugomoms grupėms.';
 
   @override
-  String get iarReasonTerrorismLabel => 'Terrorism or violent extremism';
+  String get iarReasonTerrorismLabel =>
+      'Terorizmas arba smurtinis ekstremizmas';
 
   @override
   String get iarReasonTerrorismDescription =>
-      'Promotes, recruits for, or coordinates violent extremist activity.';
+      'Propaguoja, verbuoja ar koordinuoja smurtinį ekstremistinį aktyvumą.';
 
   @override
   String get iarReasonMatureContentGuildLabel =>
-      'Mature content or unsafe gating';
+      'Suaugusiesiems skirtas turinys arba nesaugus turinio filtravimas';
 
   @override
   String get iarReasonMatureContentGuildDescription =>
-      'Mature content without proper gating.';
+      'Brandus turinys be tinkamo filtravimo.';
 
   @override
   String get iarReasonChildSafetyGuildDescription =>
-      'Endangers minors or hosts child-exploitation content.';
+      'Kelia pavojų nepilnamečiams arba talpina vaikų išnaudojimo turinį.';
 
   @override
-  String get iarReasonRaidLabel => 'Raid coordination';
+  String get iarReasonRaidLabel => 'Reidų koordinavimas';
 
   @override
   String get iarReasonRaidDescription =>
-      'Coordinates raids, brigading, or harassment against people or communities.';
+      'Koordinuoja reidus, brigadas ar priekabiavimą prieš asmenis ar bendruomenes.';
 
   @override
   String get iarReasonSpamGuildDescription =>
-      'Community exists to spam, scam, or abuse the platform.';
+      'Bendruomenė skirta platformai šiukšlinti, sukčiauti ar ja piktnaudžiauti.';
 
   @override
-  String get iarReasonMalwareGuildLabel => 'Malware distribution';
+  String get iarReasonMalwareGuildLabel =>
+      'Kenksmingos programinės įrangos platinimas';
 
   @override
   String get iarReasonMalwareGuildDescription =>
-      'Distributes malware, credential theft, or harmful files.';
+      'Platina kenkėjiškas programas, kredencialų vagystes ar žalingus failus.';
 
   @override
-  String get iarReasonPrivacyGuildLabel => 'Privacy violation or doxxing';
+  String get iarReasonPrivacyGuildLabel =>
+      'Privatumo pažeidimas arba asmens duomenų atskleidimas';
 
   @override
   String get iarReasonPrivacyGuildDescription =>
-      'Shares personal info, stalks users, or coordinates privacy abuse.';
+      'Bendrina asmeninę informaciją, persekioja naudotojus arba koordinuoja privatumo pažeidimus.';
 
   @override
-  String get iarReasonSelfHarmGuildLabel => 'Encourages self-harm';
+  String get iarReasonSelfHarmGuildLabel => 'Skatina žalotis';
 
   @override
   String get iarReasonSelfHarmGuildDescription =>
-      'Encourages suicide, self-harm, or eating disorders.';
+      'Skatina savižudybę, žalojimąsi ar valgymo sutrikimus.';
 
   @override
   String get iarReasonInappropriateProfile => 'Netinkamas profilis';
@@ -3706,26 +3718,26 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Lėtasis režimas įjungtas, bet esate nuo jo apsaugotas.';
 
   @override
-  String get slowmodeStatusEnabled => 'Slowmode is enabled';
+  String get slowmodeStatusEnabled => 'Lėtasis režimas įjungtas';
 
   @override
   String slowmodeStatusActive(String remaining) {
-    return 'Slowmode is active ($remaining)';
+    return 'Lėtasis režimas aktyvus ($remaining)';
   }
 
   @override
   String slowmodeTooltipSetImmune(String durationLabel) {
-    return 'Slowmode is set to $durationLabel, but you are immune.';
+    return 'Nustatytas lėtasis režimas – $durationLabel, bet jūs jo nepaisote.';
   }
 
   @override
   String slowmodeTooltipSetWait(String durationLabel) {
-    return 'Slowmode is set to $durationLabel. Wait before sending another message.';
+    return 'Nustatytas lėtasis režimas – $durationLabel. Palaukite prieš siųsdami kitą pranešimą.';
   }
 
   @override
   String slowmodeTooltipSetChannel(String durationLabel) {
-    return 'Slowmode is set to $durationLabel for this channel.';
+    return 'Šiame kanale nustatytas lėtasis režimas – $durationLabel.';
   }
 
   @override
@@ -3852,10 +3864,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get voiceMessagePause => 'Pristabdyti';
 
   @override
-  String get voiceMessageSeekForward => 'Seek forward';
+  String get voiceMessageSeekForward => 'Pirmyn';
 
   @override
-  String get voiceMessageSeekBackward => 'Seek backward';
+  String get voiceMessageSeekBackward => 'Atšaukti';
 
   @override
   String voiceMessageSelectionTooShort(num seconds) {
@@ -3890,11 +3902,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get chatAttachmentDownload => 'Atsisiųsti';
 
   @override
-  String get chatAttachmentDownloadedToast => 'Saved to photos';
+  String get chatAttachmentDownloadedToast => 'Įrašyta į nuotraukas';
 
   @override
-  String get chatAttachmentDownloadFailedToast =>
-      'Couldn\'t download attachment';
+  String get chatAttachmentDownloadFailedToast => 'Nepavyko atsisiųsti priedo';
 
   @override
   String get chatAttachmentExpiredTooltip => 'Priedas pasibaigęs';
@@ -3904,8 +3915,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Expand ($count lines)',
-      one: 'Expand ($count line)',
+      other: 'Rodyti ($count eilutės)',
+      one: 'Rodyti ($count eilutė)',
     );
     return '$_temp0';
   }
@@ -3915,8 +3926,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Collapse ($count lines)',
-      one: 'Collapse ($count line)',
+      other: 'Suskleisti ($count eilutės)',
+      one: 'Suskleisti ($count eilutė)',
     );
     return '$_temp0';
   }
@@ -3926,8 +3937,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Expand ($count rows)',
-      one: 'Expand ($count row)',
+      other: 'Rodyti ($count eilutės)',
+      one: 'Rodyti ($count eilutė)',
     );
     return '$_temp0';
   }
@@ -3937,8 +3948,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Collapse ($count rows)',
-      one: 'Collapse ($count row)',
+      other: '$count eilutės',
+      one: '$count eilutė',
     );
     return '$_temp0';
   }
@@ -3948,8 +3959,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '... ($count lines left)',
-      one: '... ($count line left)',
+      other: '... (likusios $count eilutės)',
+      one: '... (likusi $count eilutė)',
     );
     return '$_temp0';
   }
@@ -3959,46 +3970,46 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '... ($count rows left)',
-      one: '... ($count row left)',
+      other: '... (liko $count eilučių)',
+      one: '... (liko $count eilutė)',
     );
     return '$_temp0';
   }
 
   @override
-  String get chatTextualPreviewViewWholeFile => 'View whole file';
+  String get chatTextualPreviewViewWholeFile => 'Peržiūrėti visą failą';
 
   @override
-  String get chatTextualPreviewChangeLanguage => 'Change language';
+  String get chatTextualPreviewChangeLanguage => 'Keisti kalbą';
 
   @override
-  String get chatTextualPreviewSearchLanguage => 'Search language…';
+  String get chatTextualPreviewSearchLanguage => 'Ieškoti kalbos…';
 
   @override
-  String get chatTextualPreviewSyntaxHighlighting => 'Syntax highlighting';
+  String get chatTextualPreviewSyntaxHighlighting => 'Sintaksės paryškinimas';
 
   @override
-  String get chatTextualPreviewNoLanguagesFound => 'No results found';
+  String get chatTextualPreviewNoLanguagesFound => 'Nieko nerasta';
 
   @override
-  String get chatTextualPreviewMoreOptions => 'More options';
+  String get chatTextualPreviewMoreOptions => 'Daugiau parinkčių';
 
   @override
-  String get chatTextualPreviewWrapText => 'Wrap text';
+  String get chatTextualPreviewWrapText => 'Perkelti tekstą į kitą eilutę';
 
   @override
   String chatTextualPreviewSizeError(int previewLimitKb) {
-    return 'File is too large for inline preview (limit $previewLimitKb KB).';
+    return 'Failas per didelis, kad būtų rodoma peržiūra (limitas $previewLimitKb KB).';
   }
 
   @override
-  String get chatTextualPreviewLoadError => 'Unable to load preview.';
+  String get chatTextualPreviewLoadError => 'Nepavyko įkelti peržiūros.';
 
   @override
-  String get chatTextualPreviewLanguagePlaintext => 'Plain text';
+  String get chatTextualPreviewLanguagePlaintext => 'Paprastas tekstas';
 
   @override
-  String get chatTextualPreviewCopy => 'Copy';
+  String get chatTextualPreviewCopy => 'Kopijuoti';
 
   @override
   String get chatAttachmentSourceGallery => 'Galerija';
@@ -4366,29 +4377,29 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Pasirinkite tamsią, anglies arba šviesią išvaizdą.';
 
   @override
-  String get lookAndFeelHdrSectionTitle => 'High dynamic range';
+  String get lookAndFeelHdrSectionTitle => 'Didelis dinaminis diapazonas';
 
   @override
   String get lookAndFeelHdrSectionDescription =>
-      'Control how HDR images are displayed on HDR-capable monitors.';
+      'Valdykite, kaip HDR vaizdai rodomi HDR palaikančiuose monitoriuose.';
 
   @override
-  String get lookAndFeelHdrFullName => 'Full dynamic range';
+  String get lookAndFeelHdrFullName => 'Visas dinaminis diapazonas';
 
   @override
   String get lookAndFeelHdrFullDescription =>
-      'Display HDR images at full brightness and color range.';
+      'Rodyti HDR vaizdus visu ryškumu ir spalvų diapazonu.';
 
   @override
-  String get lookAndFeelHdrStandardName => 'Standard range';
+  String get lookAndFeelHdrStandardName => 'Standartinis diapazonas';
 
   @override
   String get lookAndFeelHdrStandardDescription =>
-      'Tone-map HDR images to standard range, reducing peak brightness.';
+      'Tonuoti HDR vaizdus į standartinį diapazoną, sumažinant didžiausią ryškumą.';
 
   @override
   String get lookAndFeelHdrDisplayModeLabel =>
-      'High dynamic range display mode';
+      'Didelio dinaminio diapazono ekrano režimas';
 
   @override
   String get lookAndFeelThemeDark => 'Tamsi tema';
@@ -4427,14 +4438,14 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Sureguliuokite šrifto dydį pokalbių srityje.';
 
   @override
-  String get lookAndFeelChatFontSizeLabel => 'Chat font size';
+  String get lookAndFeelChatFontSizeLabel => 'Pokalbių šrifto dydis';
 
   @override
-  String get lookAndFeelAppZoomTitle => 'App zoom level';
+  String get lookAndFeelAppZoomTitle => 'Programėlės mastelio lygis';
 
   @override
   String get lookAndFeelAppZoomDescription =>
-      'Adjust the application\'s zoom level.';
+      'Koreguoti programėlės mastelio lygį.';
 
   @override
   String get lookAndFeelChatWallpaperTitle => 'Pokalbio fonas';
@@ -4475,15 +4486,15 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Nepavyko nustatyti šio vaizdo kaip jūsų fono paveikslėlio.';
 
   @override
-  String get lookAndFeelMessagesSectionTitle => 'Messages';
+  String get lookAndFeelMessagesSectionTitle => 'Žinutės';
 
   @override
   String get lookAndFeelMessagesSectionDescription =>
-      'Choose how messages are displayed in chat channels.';
+      'Pasirinkite, kaip pranešimai rodomi pokalbių kanaluose.';
 
   @override
   String get lookAndFeelMessageGroupSpacingLabel =>
-      'Space between message groups';
+      'Tarpas tarp žinučių grupių';
 
   @override
   String lookAndFeelMessageGroupSpacingValue(int spacing) {
@@ -4491,24 +4502,24 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String get lookAndFeelMessageDisplayModeLabel => 'Message display mode';
+  String get lookAndFeelMessageDisplayModeLabel => 'Pranešimų rodymo režimas';
 
   @override
-  String get lookAndFeelMessageDisplayComfyName => 'Comfy';
+  String get lookAndFeelMessageDisplayComfyName => 'Patogus';
 
   @override
   String get lookAndFeelMessageDisplayComfyDescription =>
-      'Spacious layout with clear visual separation between messages.';
+      'Erdvus išdėstymas su aiškiu vizualiniu atskyrimu tarp žinučių.';
 
   @override
-  String get lookAndFeelMessageDisplayDenseName => 'Dense';
+  String get lookAndFeelMessageDisplayDenseName => 'Tankus';
 
   @override
   String get lookAndFeelMessageDisplayDenseDescription =>
-      'Maximizes visible messages with minimal spacing.';
+      'Padidina matomų pranešimų skaičių su minimaliais tarpais.';
 
   @override
-  String get lookAndFeelHideUserAvatarsLabel => 'Hide user avatars';
+  String get lookAndFeelHideUserAvatarsLabel => 'Slėpti naudotojų avatarus';
 
   @override
   String get lookAndFeelInterfaceTitle => 'Sąsaja';
@@ -4629,30 +4640,28 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get communityTemporarilyUnavailable =>
-      'Community temporarily unavailable';
+      'Bendruomenė laikinai nepasiekiama';
 
   @override
-  String get guildUnavailableDescription =>
-      'Something went wrong. We\'re working on it.';
+  String get guildUnavailableDescription => 'Kažkas ne taip. Jau taisome.';
 
   @override
-  String get guildNotFoundTitle =>
-      'This is not the community you\'re looking for.';
+  String get guildNotFoundTitle => 'Tai ne ta bendruomenė, kurios ieškote.';
 
   @override
   String get guildNotFoundDescription =>
-      'The community you\'re looking for may have been deleted or you may not have access to it.';
+      'Ieškoma bendruomenė galėjo būti ištrinta arba neturite prieigos prie jos.';
 
   @override
   String guildStaffOnlyAccessibleNagbar(
     String communityName,
     String productName,
   ) {
-    return '$communityName is currently only accessible to $productName staff members';
+    return '$communityName šiuo metu prieinama tik $productName darbuotojams';
   }
 
   @override
-  String get guildNavbarTemporarilyUnavailable => 'temporarily unavailable';
+  String get guildNavbarTemporarilyUnavailable => '(laikinai nepasiekiama)';
 
   @override
   String get lookAndFeelCollapseDMsLabel => 'Suskleisti DM į aplanką';
@@ -4784,70 +4793,71 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get favoritesAddToFavorites => 'Pridėti prie parankinių';
 
   @override
-  String get favoritesAddToSavedMedia => 'Add to saved media';
+  String get favoritesAddToSavedMedia => 'Įtraukti į išsaugotą mediją';
 
   @override
-  String get favoritesRemoveFromSavedMedia => 'Remove from saved media';
+  String get favoritesRemoveFromSavedMedia => 'Paimkite iš išsaugotos medijos';
 
   @override
   String get favoritesAddToUrlOnlyGifFavorites =>
-      'Add to URL-only GIF favorites';
+      'Pridėti prie URL GIF mėgstamiausių';
 
   @override
   String get favoritesRemoveFromUrlOnlyGifFavorites =>
-      'Remove from URL-only GIF favorites';
+      'Pašalinti iš URL nuorodomis saugomų GIF failų sąrašo';
 
   @override
-  String get savedMediaAddTitle => 'Add to saved media';
+  String get savedMediaAddTitle => 'Įtraukti į išsaugotą mediją';
 
   @override
-  String get savedMediaFormNameLabel => 'Name';
+  String get savedMediaFormNameLabel => 'Pavadinimas';
 
   @override
-  String get savedMediaFormNameHint => 'My awesome media';
+  String get savedMediaFormNameHint => 'Mano nuostabi medija';
 
   @override
-  String get savedMediaFormAltTextLabel => 'Alt text';
+  String get savedMediaFormAltTextLabel => 'Alternatyvusis tekstas';
 
   @override
-  String get savedMediaFormAltTextHint => 'Describe the media';
+  String get savedMediaFormAltTextHint => 'Aprašykite mediją';
 
   @override
-  String get savedMediaFormTagsLabel => 'Tags';
+  String get savedMediaFormTagsLabel => 'Žymos';
 
   @override
-  String get savedMediaFormTagsHint => 'funny, reaction, work';
+  String get savedMediaFormTagsHint => 'juokinga, reakcija, darbas';
 
   @override
-  String get savedMediaSaveError => 'Could not update saved media.';
+  String get savedMediaSaveError => 'Nepavyko atnaujinti išsaugotos medijos.';
 
   @override
-  String get savedMediaNameRequired => 'Name is required.';
+  String get savedMediaNameRequired => 'Būtina nurodyti pavadinimą.';
 
   @override
   String get gifFavoriteFirstTimeTitle =>
-      'How should we save your GIF favorites?';
+      'Kaip turėtume išsaugoti jūsų mėgstamus GIF?';
 
   @override
   String get gifFavoriteFirstTimeDescription =>
-      'You can store starred GIFs as URL-only favorites or upload them to your saved media. Pick the one that fits how you use them. You can change it any time in Settings > Advanced > Media.';
+      'Galite išsaugoti pažymėtus GIF kaip mėgstamiausius tik URL arba įkelti juos į išsaugotą mediją. Pasirinkite tai, kas tinka jūsų naudojimo būdui. Bet kada galite pakeisti tai skiltyje Nustatymai > Papildomi > Medija.';
 
   @override
   String get gifFavoriteFirstTimeUrlOnlyDetails =>
-      'URL-only favorites (default): synced across your devices, no upload, doesn\'t count against saved media. The original media may disappear if its host removes it.';
+      'URL tikri mėgstamiausi (numatytasis): sinchronizuojami visuose jūsų įrenginiuose, neįkeliami, neskaičiuojami į išsaugotą laikmeną. Originali laikmena gali dingti, jei jos priegloba ją pašalins.';
 
   @override
   String get gifFavoriteFirstTimeSavedMediaDetails =>
-      'Saved media: uploaded, taggable, searchable, and persistent, but counts against your saved media limit.';
+      'Išsaugota medija: įkelta, galima žymėti, ieškoti ir nuolatinė, tačiau įskaitoma į jūsų išsaugotos medijos limitą.';
 
   @override
-  String get gifFavoriteFirstTimeHint => 'We\'ll only ask once.';
+  String get gifFavoriteFirstTimeHint => 'Klausiame tik kartą.';
 
   @override
-  String get gifFavoriteFirstTimeUseUrlOnly => 'Use URL-only (recommended)';
+  String get gifFavoriteFirstTimeUseUrlOnly =>
+      'Naudoti tik URL (rekomenduojama)';
 
   @override
-  String get gifFavoriteFirstTimeUseSavedMedia => 'Use saved media';
+  String get gifFavoriteFirstTimeUseSavedMedia => 'Naudoti išsaugotą mediją';
 
   @override
   String get favoritesHideConfirmTitle => 'Slėpti parankinius';
@@ -5031,14 +5041,16 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Automatiškai siųsti GIF failus pasirinkus';
 
   @override
-  String get messagesMediaCameraUploadsSectionTitle => 'Camera uploads';
+  String get messagesMediaCameraUploadsSectionTitle =>
+      'Nuotraukų iš kameros įkėlimas';
 
   @override
   String get messagesMediaCameraUploadsSectionDescription =>
-      'Choose whether photos and videos taken with the in-app camera are kept on your device';
+      'Pasirinkite, ar nuotraukos ir vaizdo įrašai, padaryti naudojant programos kamerą, bus saugomi jūsų įrenginyje';
 
   @override
-  String get messagesMediaCameraUploadsSaveToDeviceLabel => 'Save to device';
+  String get messagesMediaCameraUploadsSaveToDeviceLabel =>
+      'Įrašyti į įrenginį';
 
   @override
   String get messagesMediaAutocompleteSectionTitle =>
@@ -5083,13 +5095,15 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Reguliuokite programėlės temos spalvų sodrumą.';
 
   @override
-  String get accessibilityVisualGroupTitle => 'Visual';
+  String get accessibilityVisualGroupTitle => 'Vaizdas';
 
   @override
-  String get accessibilityAlwaysUnderlineLinksLabel => 'Always underline links';
+  String get accessibilityAlwaysUnderlineLinksLabel =>
+      'Visada pabraukti nuorodas';
 
   @override
-  String get accessibilityDimStrikethroughTextLabel => 'Dim strikethrough text';
+  String get accessibilityDimStrikethroughTextLabel =>
+      'Paryškinti perbrauktą tekstą';
 
   @override
   String get accessibilityDmMessagePreviewGroupTitle =>
@@ -5126,227 +5140,228 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Nėra žinučių peržiūrų tiesioginių žinučių sąraše';
 
   @override
-  String get accessibilityScreenReaderGroupTitle => 'Screen reader';
+  String get accessibilityScreenReaderGroupTitle => 'Ekrano skaitytuvas';
 
   @override
   String accessibilityScreenReaderGroupDescription(String productName) {
-    return 'Control how $productName works with screen readers.';
+    return 'Valdykite, kaip $productName veikia su ekrano skaitytuvais.';
   }
 
   @override
   String get accessibilityScreenReaderAnnounceNewMessagesLabel =>
-      'Announce new messages';
+      'Skelbti naujus pranešimus';
 
   @override
   String get accessibilityScreenReaderAnnounceNewMessagesDescription =>
-      'Let screen readers announce new messages as they arrive in the open channel. Notification sounds are unaffected.';
+      'Leisti ekrano skaitytuvams pranešti apie naujas žinutes, kai jos gaunamos atidarytame kanale. Pranešimų garsai nepaveikiami.';
 
   @override
-  String get accessibilityTtsGroupTitle => 'Text-to-speech';
+  String get accessibilityTtsGroupTitle => 'Tekstas į kalbą';
 
   @override
   String get accessibilityTtsGroupDescription =>
-      'Choose a speed for spoken text.';
+      'Pasirinkite greitį, kuriuo bus skaitomas tekstas.';
 
   @override
   String get accessibilityTtsSpeechPlaybackSpeedLabel =>
-      'Speech playback speed';
+      'Kalbos atkūrimo greitis';
 
   @override
-  String get accessibilityTtsPlaySampleLabel => 'Play sample';
+  String get accessibilityTtsPlaySampleLabel => 'Paleisti pavyzdį';
 
   @override
-  String get accessibilityTtsSilenceSampleLabel => 'Silence sample';
+  String get accessibilityTtsSilenceSampleLabel => 'Tylos pavyzdys';
 
   @override
-  String get accessibilityPreviewButtonLabel => 'Preview button';
+  String get accessibilityPreviewButtonLabel => 'Peržiūros mygtukas';
 
   @override
   String accessibilityPreviewLinksMessage(String linkPreviewExampleUrl) {
-    return 'This shows how links appear: $linkPreviewExampleUrl';
+    return 'Taip atrodo nuorodų peržiūra: $linkPreviewExampleUrl';
   }
 
   @override
-  String get accessibilityPreviewUserName => 'Preview User';
+  String get accessibilityPreviewUserName => 'Peržiūros vartotojas';
 
   @override
-  String get accessibilityKeyboardGroupTitle => 'Keyboard';
+  String get accessibilityKeyboardGroupTitle => 'Klaviatūra';
 
   @override
   String get accessibilityShowTextareaFocusRingLabel =>
-      'Show focus ring on chat textarea';
+      'Rodyti fokusavimo žiedą pokalbio teksto laukelyje';
 
   @override
   String get accessibilityEscapeExitsKeyboardModeLabel =>
-      'Escape key exits keyboard mode';
+      'klavišas \"Esc\" išeina iš klaviatūros režimo';
 
   @override
   String get accessibilityShowContextMenuShortcutsLabel =>
-      'Show context menu shortcuts';
+      'Rodyti kontekstinio meniu nuorodas';
 
   @override
   String get accessibilityConfirmBeforeStartingCallsLabel =>
-      'Confirm before starting calls';
+      'Patvirtinti prieš pradedant skambučius';
 
   @override
-  String get accessibilityAnimationGroupTitle => 'Animation';
+  String get accessibilityAnimationGroupTitle => 'Animacija';
 
   @override
   String get accessibilityReducedMotionActiveNote =>
-      'Reduced motion is on, so content animations are paused by default. You can still turn any of these back on to keep it playing.';
+      'Sumažintas judesys įjungtas, todėl turinio animacijos pagal numatytuosius nustatymus yra pristabdytos. Vis tiek galite jas vėl įjungti, kad jos būtų rodomos.';
 
   @override
-  String get accessibilityPlayAnimatedEmojisLabel => 'Play animated emojis';
+  String get accessibilityPlayAnimatedEmojisLabel =>
+      'Leisti animuotus jaustukus';
 
   @override
-  String get accessibilityAutoPlayGifsMobileLabel => 'Automatically play GIFs';
+  String get accessibilityAutoPlayGifsMobileLabel => 'Automatiškai leisti GIF';
 
   @override
   String accessibilityAutoPlayGifsDesktopLabel(String productName) {
-    return 'Automatically play GIFs when $productName is focused';
+    return 'Automatiškai leisti GIF, kai \"$productName\" yra sufokusuotas';
   }
 
   @override
   String get accessibilityPlayingDespiteReducedMotion =>
-      'Playing despite reduced motion.';
+      'Leidžiama, nepaisant sumažinto judesio.';
 
   @override
   String get accessibilityPausedEmojiByReducedMotion =>
-      'Paused by reduced motion. Turn on to keep animated emojis playing.';
+      'Pristabdyta dėl sumažinto judesio. Įjunkite, kad animuoti jaustukai būtų rodomi.';
 
   @override
   String get accessibilityPausedGifByReducedMotion =>
-      'Paused by reduced motion. Turn on to keep GIFs playing.';
+      'Pristabdyta dėl sumažinto judesio. Įjunkite, kad GIF failai būtų leidžiami.';
 
   @override
   String get accessibilityGifDefaultsOffOnMobile =>
-      'Defaults to off on mobile to preserve battery life and data usage.';
+      'Numatytoji reikšmė mobiliajame įrenginyje yra išjungta, siekiant taupyti baterijos energiją ir duomenų naudojimą.';
 
   @override
-  String get accessibilityStickerAnimationsTitle => 'Sticker animations';
+  String get accessibilityStickerAnimationsTitle => 'Lipdukų animacijos';
 
   @override
   String get accessibilityStickerAnimationPreferenceLabel =>
-      'Sticker animation preference';
+      'Lipdukų animacijos nuostatos';
 
   @override
-  String get accessibilityStickerAlwaysAnimateName => 'Always animate';
+  String get accessibilityStickerAlwaysAnimateName => 'Visada animuoti';
 
   @override
   String get accessibilityStickerAlwaysAnimateDescription =>
-      'Stickers will always animate';
+      'Lipdukai visada bus animuoti';
 
   @override
   String get accessibilityStickerAnimateOnInteractionName =>
-      'Animate on interaction';
+      'Animuoti sąveikaujant';
 
   @override
   String get accessibilityStickerAnimateOnPressDescription =>
-      'Stickers will animate when you press them';
+      'Lipdukai animuosis, kai juos paspausite';
 
   @override
   String get accessibilityStickerAnimateOnHoverDescription =>
-      'Stickers will animate when you hover or interact with them';
+      'Lipdukai animuosis, kai ant jų užvesite pelę arba su jais sąveikausite';
 
   @override
-  String get accessibilityStickerNeverAnimateName => 'Never animate';
+  String get accessibilityStickerNeverAnimateName => 'Niekada neanimuoti';
 
   @override
   String get accessibilityStickerNeverAnimateDescription =>
-      'Stickers will never animate';
+      'Lipdukai niekada nebus animuojami';
 
   @override
   String get accessibilityStickersAlwaysDespiteReducedMotion =>
-      'Always animating despite reduced motion.';
+      'Visada animuojama, nepaisant sumažinto judesio.';
 
   @override
   String get accessibilityStickersReducedMotionHint =>
-      'Reduced motion limits stickers to animate on interaction. Choose always animate to override.';
+      'Sumažintas judesys apriboja lipdukų animaciją iki sąveikos. Pasirinkite „visada animuoti“, kad nepaisytumėte.';
 
   @override
   String get accessibilityStickersDefaultsOnMobile =>
-      'Defaults to animate on interaction on mobile to preserve battery life.';
+      'Numatytoji nuostata – animuoti sąveikaujant mobiliajame įrenginyje, siekiant taupyti baterijos energiją.';
 
   @override
-  String get accessibilityMotionGroupTitle => 'Motion';
+  String get accessibilityMotionGroupTitle => 'Judėjimas';
 
   @override
   String get accessibilitySyncReducedMotionWithSystemLabel =>
-      'Sync reduced motion setting with system';
+      'Sinchronizuoti sumažinto judesio nustatymą su sistema';
 
   @override
   String get accessibilitySyncReducedMotionWithSystemDescription =>
-      'Use this device\'s system reduced motion preference, or customize it below.';
+      'Naudoti šio įrenginio sistemos sumažinto judesio nuostatą arba tinkinti ją toliau.';
 
   @override
-  String get accessibilityReducedMotionOverrideLabel => 'Reduce motion';
+  String get accessibilityReducedMotionOverrideLabel => 'Sumažinti judesį';
 
   @override
   String get accessibilityReducedMotionOverrideSyncedDescription =>
-      'Disable animations and transitions. Currently controlled by your system setting.';
+      'Išjungti animacijas ir perėjimus. Šiuo metu valdoma jūsų sistemos nustatymų.';
 
   @override
   String get accessibilityReducedMotionOverrideManualDescription =>
-      'Disable animations and transitions throughout the app.';
+      'Išjungti animacijas ir perėjimus visoje programėlėje.';
 
   @override
   String get accessibilityReducedMotionAnimationTabHint =>
-      'Animated emojis, GIFs and stickers stay under your control in the Animation tab.';
+      'Animuoti jaustukai, GIF ir lipdukai lieka jūsų valioje animacijos skirtuke.';
 
   @override
-  String get accessibilityConfirmStartCallTitle => 'Start call?';
+  String get accessibilityConfirmStartCallTitle => 'Pradėti skambutį?';
 
   @override
   String get accessibilityConfirmStartCallDescription =>
-      'Are you sure you want to start this call?';
+      'Ar tikrai norite pradėti šį skambutį?';
 
   @override
-  String get accessibilityConfirmStartCallConfirmLabel => 'Start call';
+  String get accessibilityConfirmStartCallConfirmLabel => 'Pradėti skambutį';
 
   @override
   String get accessibilityTtsSampleDescription =>
-      'Hear the sample line spoken with your chosen speed.';
+      'Išklausykite pavyzdinę eilutę pasirinktu greičiu.';
 
   @override
   String get accessibilityTtsSampleText =>
-      'Doc, I\'m from the future. I came here in a time machine that you invented. Now, I need your help to get back to the year 1985.';
+      'Daktare, aš iš ateities. Atkeliavau čia jūsų išrastu laiko aparatu. Dabar man reikia jūsų pagalbos, kad grįžčiau į 1985 metus.';
 
   @override
   String get accessibilityTtsUnsupportedDescription =>
-      'Speech synthesis is unavailable on this device.';
+      'Šiame įrenginyje kalbos sintezė neprieinama.';
 
   @override
   String get accessibilityTtsPlaybackFailedDescription =>
-      'Speech playback failed. Try again, or check that audio output is working.';
+      'Nepavyko atkurti kalbos. Bandykite dar kartą arba patikrinkite, ar veikia garso išvestis.';
 
   @override
-  String get ttsSubstitutionUnknownUser => 'unknown user';
+  String get ttsSubstitutionUnknownUser => 'nežinomas naudotojas';
 
   @override
-  String get ttsSubstitutionUnknownRole => 'unknown role';
+  String get ttsSubstitutionUnknownRole => 'nežinomas vaidmuo';
 
   @override
-  String get ttsSubstitutionUnknownChannel => 'unknown channel';
+  String get ttsSubstitutionUnknownChannel => 'nežinomas kanalas';
 
   @override
-  String get ttsSubstitutionCodeBlock => 'code block';
+  String get ttsSubstitutionCodeBlock => 'kodo blokas';
 
   @override
-  String get ttsSubstitutionSpoiler => 'spoiler';
+  String get ttsSubstitutionSpoiler => 'spoileris';
 
   @override
   String ttsSubstitutionEmoji(String emojiName) {
-    return 'emoji $emojiName';
+    return 'jaustukas \"$emojiName\"';
   }
 
   @override
   String ttsSubstitutionSlashCommand(String commandName) {
-    return 'slash $commandName';
+    return '/ $commandName';
   }
 
   @override
   String ttsAuthorSaid(String authorName, String formatted) {
-    return '$authorName said: $formatted';
+    return '$authorName pasakė: $formatted';
   }
 
   @override
@@ -5355,7 +5370,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String authorName,
     String formatted,
   ) {
-    return 'Replying to $replyAuthorName, $authorName said: $formatted';
+    return 'Atsakant į $replyAuthorName žinutę, $authorName parašė: $formatted';
   }
 
   @override
@@ -5364,22 +5379,22 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String get ttsSentSticker => 'sent a sticker';
+  String get ttsSentSticker => 'išsiuntė lipduką';
 
   @override
-  String get ttsSentAttachment => 'sent an attachment';
+  String get ttsSentAttachment => 'išsiuntė priedą';
 
   @override
   String ttsSentAttachments(int count) {
-    return 'sent $count attachments';
+    return 'atsiųsta $count priedų';
   }
 
   @override
-  String get ttsSentEmbed => 'sent an embed';
+  String get ttsSentEmbed => 'išsiuntė įterptąjį turinį';
 
   @override
   String messageScreenReaderAnnouncement(String author, String summary) {
-    return '$author sent $summary';
+    return '$author išsiuntė $summary';
   }
 
   @override
@@ -5548,7 +5563,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String systemUnknownMessage(String productName) {
-    return 'Update $productName to view this message.';
+    return 'Atnaujinkite „$productName\", kad galėtumėte peržiūrėti šį pranešimą.';
   }
 
   @override
@@ -5579,11 +5594,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Nepadaryti nieko, nenoriu prisijungti';
 
   @override
-  String get voiceJoinFailedTitle => 'Couldn\'t Join Voice';
+  String get voiceJoinFailedTitle => 'Nepavyko prisijungti prie balso';
 
   @override
   String get voiceMultiDeviceDisconnectFailed =>
-      'Couldn\'t disconnect your other devices. Try again in a moment.';
+      'Nepavyko atjungti kitų jūsų įrenginių. Pabandykite dar kartą po akimirkos.';
 
   @override
   String get voiceChannelEmptyDescription =>
@@ -5593,7 +5608,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get voiceChannelJoin => 'Prisijungti prie balso kanalo';
 
   @override
-  String get voiceCallJoin => 'Join call';
+  String get voiceCallJoin => 'Prisijungti prie skambučio';
 
   @override
   String get voiceChannelJoinConnect => 'Prisijungti prie balso';
@@ -5689,7 +5704,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get voiceControlVideo => 'Vaizdo įrašas';
 
   @override
-  String get voiceControlFlipCamera => 'Flip camera';
+  String get voiceControlFlipCamera => 'Apversti kamerą';
 
   @override
   String get voiceControlScreenShare => 'Ekrano bendrinimas';
@@ -5704,78 +5719,78 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get voiceControlDisconnect => 'Atjungti';
 
   @override
-  String get voiceInChat => 'In voice chat';
+  String get voiceInChat => 'Balso pokalbyje';
 
   @override
-  String get voiceConnectionFailed => 'Connection failed';
+  String get voiceConnectionFailed => 'Nepavyko prisijungti';
 
   @override
-  String get voiceConnectionRetry => 'Try again';
+  String get voiceConnectionRetry => 'Bandyti dar kartą';
 
   @override
-  String get voiceConnectionDismiss => 'Dismiss';
+  String get voiceConnectionDismiss => 'Atsisakyti';
 
   @override
-  String get voiceConnectionDisconnected => 'Disconnected';
+  String get voiceConnectionDisconnected => 'Atjungta';
 
   @override
   String voicePingMs(int currentLatency) {
-    return 'Ping: ${currentLatency}ms';
+    return 'Ping: $currentLatency ms';
   }
 
   @override
-  String get voiceMeasuringLatency => 'Measuring latency...';
+  String get voiceMeasuringLatency => 'Matuojamas delsos laikas...';
 
   @override
   String voiceJumpToChannel(String channelSourceLabel) {
-    return 'Jump to $channelSourceLabel';
+    return 'Pereiti į \"$channelSourceLabel\"';
   }
 
   @override
-  String get voiceConnectionTitle => 'Voice connection';
+  String get voiceConnectionTitle => 'Balso ryšys';
 
   @override
-  String get voiceConnectionAdvancedStats => 'Advanced';
+  String get voiceConnectionAdvancedStats => 'Išplėstiniai';
 
   @override
-  String get voiceShowCallAvatars => 'Show call avatars';
+  String get voiceShowCallAvatars => 'Rodyti skambučio avatarus';
 
   @override
-  String get voiceShowConnectionId => 'Show connection ID';
+  String get voiceShowConnectionId => 'Rodyti ryšio ID';
 
   @override
-  String get voiceAudioProcessing => 'Audio processing';
+  String get voiceAudioProcessing => 'Garso apdorojimas';
 
   @override
-  String get voiceConnectionSessionSection => 'Session';
+  String get voiceConnectionSessionSection => 'Seansas';
 
   @override
-  String get voiceConnectionDurationLabel => 'Duration';
+  String get voiceConnectionDurationLabel => 'Trukmė';
 
   @override
-  String get voiceConnectionParticipantsLabel => 'Participants';
+  String get voiceConnectionParticipantsLabel => 'Dalyviai';
 
   @override
-  String get voiceConnectionNetworkSection => 'Network';
+  String get voiceConnectionNetworkSection => 'Tinklas';
 
   @override
-  String get voiceConnectionPingLabel => 'Ping';
+  String get voiceConnectionPingLabel => 'Siųsti pranešimą';
 
   @override
-  String get voiceConnectionJitterLabel => 'Jitter';
+  String get voiceConnectionJitterLabel => 'Virpėjimas';
 
   @override
-  String get voiceConnectionSendLabel => 'Send';
+  String get voiceConnectionSendLabel => 'Siųsti';
 
   @override
-  String get voiceConnectionReceiveLabel => 'Receive';
+  String get voiceConnectionReceiveLabel => 'Gauti';
 
   @override
   String get voiceConnectionUnavailable => '—';
 
   @override
   String voiceConnectionDuration(int minutes, int seconds) {
-    return '${minutes}m ${seconds}s';
+    return '$minutes m $seconds s';
   }
 
   @override
@@ -5794,72 +5809,72 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String get userAreaMuteMicrophone => 'Mute microphone';
+  String get userAreaMuteMicrophone => 'Nutildyti mikrofoną';
 
   @override
-  String get userAreaUnmuteMicrophone => 'Unmute microphone';
+  String get userAreaUnmuteMicrophone => 'Įjungti mikrofoną';
 
   @override
-  String get userAreaUserSettings => 'User settings';
+  String get userAreaUserSettings => 'Naudotojo nustatymai';
 
   @override
-  String get voiceParticipantMenuViewProfile => 'View profile';
+  String get voiceParticipantMenuViewProfile => 'Žiūrėti profilį';
 
   @override
-  String get voiceParticipantMenuFocus => 'Focus this person';
+  String get voiceParticipantMenuFocus => 'Sutelkti dėmesį į šį asmenį';
 
   @override
-  String get voiceParticipantMenuUnfocus => 'Unfocus';
+  String get voiceParticipantMenuUnfocus => 'Nebefokusuoti';
 
   @override
-  String get voiceParticipantMenuCommunityMute => 'Community mute';
+  String get voiceParticipantMenuCommunityMute => 'Nutildyti bendruomenėje';
 
   @override
-  String get voiceParticipantMenuCommunityDeafen => 'Community deafen';
+  String get voiceParticipantMenuCommunityDeafen => 'Nutildyti bendruomenėje';
 
   @override
-  String get voiceParticipantMenuUserVolume => 'User volume';
+  String get voiceParticipantMenuUserVolume => 'Naudotojo garsumas';
 
   @override
-  String get voiceParticipantMenuStreamVolume => 'Stream volume';
+  String get voiceParticipantMenuStreamVolume => 'Srauto garsumas';
 
   @override
-  String get voiceParticipantMenuStopStreaming => 'Stop streaming';
+  String get voiceParticipantMenuStopStreaming => 'Sustabdyti srautą';
 
   @override
   String get voiceParticipantModerationFailed =>
-      'Couldn\'t update that member. Please try again.';
+      'Nepavyko atnaujinti nario. Pabandykite dar kartą.';
 
   @override
   String get voiceControlChat => 'Pokalbis';
 
   @override
-  String get voiceCallViewModeLabel => 'View';
+  String get voiceCallViewModeLabel => 'Žiūrėti';
 
   @override
-  String get voiceCallViewModeGrid => 'Grid';
+  String get voiceCallViewModeGrid => 'Tinklelis';
 
   @override
-  String get voiceCallViewModeFocus => 'Focus';
+  String get voiceCallViewModeFocus => 'Fokusas';
 
   @override
-  String get voicePanelSettingsSectionTitle => 'Voice settings';
+  String get voicePanelSettingsSectionTitle => 'Balso nustatymai';
 
   @override
-  String get voicePanelUseEarpieceLabel => 'Use earpiece';
+  String get voicePanelUseEarpieceLabel => 'Naudoti ausinę';
 
   @override
-  String get voicePanelOnlyShowVideosLabel => 'Only show videos';
+  String get voicePanelOnlyShowVideosLabel => 'Rodyti tik vaizdo įrašus';
 
   @override
   String get voicePanelOnlyShowVideosDescription =>
-      'Only show participants who have their camera on.';
+      'Rodyti tik dalyvius, kurie įjungę kamerą.';
 
   @override
-  String get voicePanelShowOwnCameraLabel => 'Show my own camera';
+  String get voicePanelShowOwnCameraLabel => 'Rodyti mano kamerą';
 
   @override
-  String get voicePrioritizeSpeakersLabel => 'Prioritize speakers';
+  String get voicePrioritizeSpeakersLabel => 'Prioritetas kalbantiesiems';
 
   @override
   String get voiceTextChatShow => 'Rodyti pokalbį';
@@ -6069,464 +6084,473 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get privacyDashboardCommunicationSection => 'Bendravimas';
 
   @override
-  String get privacyDashboardProfilePrivacySection => 'Profile privacy';
+  String get privacyDashboardProfilePrivacySection => 'Profilio privatumas';
 
   @override
   String get privacyDashboardFriendsAndDirectMessagesSection =>
-      'Friends & direct messages';
+      'Draugai ir tiesioginės žinutės';
 
   @override
-  String get privacyDashboardActivitySharingSection => 'Activity sharing';
+  String get privacyDashboardActivitySharingSection => 'Veiklos dalijimasis';
 
   @override
-  String get privacyDashboardSensitiveContentSection => 'Sensitive content';
+  String get privacyDashboardSensitiveContentSection => 'Jautrus turinys';
 
   @override
-  String get privacyDashboardDataExportSection => 'Data export';
+  String get privacyDashboardDataExportSection => 'Duomenų eksportavimas';
 
   @override
-  String get privacyDashboardDataDeletionSection => 'Data deletion';
+  String get privacyDashboardDataDeletionSection => 'Duomenų ištrynimas';
 
   @override
   String get privacyDashboardProfilePrivacyTitle =>
-      'Who can see your full profile';
+      'Kas gali matyti visą jūsų profilį';
 
   @override
   String get privacyDashboardProfilePrivacyAllCommunities =>
-      'Friends and all communities';
+      'Draugai ir visos bendruomenės';
 
   @override
   String get privacyDashboardProfilePrivacyAllCommunitiesDesc =>
-      'Your full profile is visible to friends and to anyone in your communities';
+      'Visas jūsų profilis matomas draugams ir visiems jūsų bendruomenių nariams';
 
   @override
   String get privacyDashboardProfilePrivacySmallCommunities =>
-      'Friends and small communities only';
+      'Tik draugams ir mažoms bendruomenėms';
 
   @override
   String get privacyDashboardProfilePrivacySmallCommunitiesDesc =>
-      'Your full profile is visible to friends and members of your communities with 200 or fewer members';
+      'Visas jūsų profilis matomas draugams ir bendruomenių, turinčių 200 ar mažiau narių, nariams';
 
   @override
-  String get privacyDashboardProfilePrivacyFriendsOnly => 'Friends only';
+  String get privacyDashboardProfilePrivacyFriendsOnly => 'Tik draugai';
 
   @override
   String get privacyDashboardProfilePrivacyFriendsOnlyDesc =>
-      'Your full profile is only visible to your friends';
+      'Visas jūsų profilis matomas tik jūsų draugams';
 
   @override
-  String get privacyDashboardFriendRequestsTitle => 'Friend requests';
+  String get privacyDashboardFriendRequestsTitle => 'Draugų užklausos';
 
   @override
-  String get privacyDashboardFriendRequestsEveryone => 'Everyone';
+  String get privacyDashboardFriendRequestsEveryone => 'Visi';
 
   @override
   String get privacyDashboardFriendRequestsEveryoneDesc =>
-      'Allow anyone to send you friend requests';
+      'Leisti visiems siųsti jums draugų užklausas';
 
   @override
-  String get privacyDashboardFriendRequestsFriendsOfFriends =>
-      'Friends of Friends';
+  String get privacyDashboardFriendRequestsFriendsOfFriends => 'Draugų draugai';
 
   @override
   String get privacyDashboardFriendRequestsFriendsOfFriendsDesc =>
-      'Allow friends of your friends to send you requests';
+      'Leisti draugų draugams siųsti jums užklausas';
 
   @override
   String get privacyDashboardFriendRequestsCommunityMembers =>
-      'Community Members';
+      'Bendruomenės nariai';
 
   @override
   String get privacyDashboardFriendRequestsCommunityMembersDesc =>
-      'Allow members from communities you\'re in to send you requests';
+      'Leisti bendruomenių nariams siųsti jums užklausas';
 
   @override
-  String get privacyDashboardDirectMessagesTitle => 'Direct messages';
+  String get privacyDashboardDirectMessagesTitle => 'Tiesioginiai pranešimai';
 
   @override
   String get privacyDashboardDirectMessagesMembers =>
-      'Allow direct messages from community members';
+      'Leisti tiesioginius pranešimus iš bendruomenės narių';
 
   @override
   String get privacyDashboardDirectMessagesMembersDesc =>
-      'Allow members from communities you\'re in to send you direct messages';
+      'Leisti bendruomenių, kuriose esate, nariams siųsti jums tiesiogines žinutes';
 
   @override
   String get privacyDashboardDirectMessagesBots =>
-      'Allow direct messages from community bots';
+      'Leisti tiesiogines žinutes iš bendruomenės robotų';
 
   @override
   String get privacyDashboardDirectMessagesBotsDesc =>
-      'Allow bots from communities you\'re in to send you direct messages';
+      'Leisti botams iš bendruomenių, kuriose esate, siųsti jums tiesioginius pranešimus';
 
   @override
   String get privacyDashboardConnectionsSectionDesc =>
-      'Control who can send you friend requests and direct messages';
+      'Valdykite, kas gali siųsti jums draugų užklausas ir tiesiogines žinutes';
 
   @override
   String get privacyDashboardCommunicationSectionDesc =>
-      'Control who can call you and add you to group chats';
+      'Valdykite, kas gali jums skambinti ir pridėti jus į grupės pokalbius';
 
   @override
-  String get privacyDashboardIncomingCallsTitle => 'Incoming calls';
+  String get privacyDashboardIncomingCallsTitle => 'Gaunamieji skambučiai';
 
   @override
-  String get privacyDashboardIncomingCallsDesc => 'Control who can call you';
+  String get privacyDashboardIncomingCallsDesc =>
+      'Valdykite, kas gali jums skambinti';
 
   @override
-  String get privacyDashboardAllowedCallers => 'Allowed callers';
+  String get privacyDashboardAllowedCallers => 'Leistini skambinantysiais';
 
   @override
-  String get privacyDashboardIncomingCallNobody => 'Nobody';
+  String get privacyDashboardIncomingCallNobody => 'Niekas';
 
   @override
   String get privacyDashboardIncomingCallNobodyDesc =>
-      'Block all incoming calls';
+      'Blokuoti visus gaunamus skambučius';
 
   @override
-  String get privacyDashboardIncomingCallFriendsOnly => 'Friends Only';
+  String get privacyDashboardIncomingCallFriendsOnly => 'Tik draugams';
 
   @override
   String get privacyDashboardIncomingCallFriendsOnlyDesc =>
-      'Only allow friends to call you (recommended)';
+      'Leiskite skambinti tik draugams (rekomenduojama)';
 
   @override
-  String get privacyDashboardIncomingCallCustom => 'Friends + Custom';
+  String get privacyDashboardIncomingCallCustom => 'Draugai + Pasirinktinai';
 
   @override
   String get privacyDashboardIncomingCallCustomDesc =>
-      'Allow friends plus additional groups you choose';
+      'Leisti draugams ir papildomoms grupėms, kurias pasirenkate';
 
   @override
-  String get privacyDashboardIncomingCallEveryone => 'Everyone';
+  String get privacyDashboardIncomingCallEveryone => 'Visi';
 
   @override
   String get privacyDashboardIncomingCallEveryoneDesc =>
-      'Allow anyone to call you, even strangers';
+      'Leisti visiems skambinti jums, net nepažįstamiems žmonėms';
 
   @override
-  String get privacyDashboardAdditionalGroups => 'Additional Groups';
+  String get privacyDashboardAdditionalGroups => 'Papildomos grupės';
 
   @override
   String get privacyDashboardCallFriendsOfFriendsDesc =>
-      'People who are friends with your friends can call you';
+      'Žmonės, kurie yra jūsų draugų draugai, gali jums skambinti';
 
   @override
   String get privacyDashboardCallGuildMembersDesc =>
-      'People from communities you\'re both in can call you';
+      'Žmonės iš bendruomenių, kuriose esate abu, gali jums skambinti';
 
   @override
-  String get privacyDashboardRingBehavior => 'Ring Behavior';
+  String get privacyDashboardRingBehavior => 'Žiedo elgsena';
 
   @override
-  String get privacyDashboardSilentCalls => 'Silent calls from everyone';
+  String get privacyDashboardSilentCalls => 'Tylūs skambučiai iš visų';
 
   @override
   String get privacyDashboardSilentCallsDesc =>
-      'All calls will notify silently instead of ringing. By default, calls from non-friends are always silent.';
+      'Visi skambučiai bus tylūs, o ne skambės. Numatoma, kad skambučiai iš nepažįstamų žmonių visada bus tylūs.';
 
   @override
-  String get privacyDashboardGroupDmTitle => 'Who Can Add You to Group Chats';
+  String get privacyDashboardGroupDmTitle =>
+      'Kas gali pridėti jus į grupės pokalbius';
 
   @override
   String get privacyDashboardGroupDmDesc =>
-      'Control who can add you to group chats without asking. Anyone can still send you invite links to join.';
+      'Valdykite, kas gali pridėti jus į grupės pokalbius neprašydamas. Kiekvienas vis tiek galės atsiųsti jums kvietimo nuorodas, kad prisijungtumėte.';
 
   @override
-  String get privacyDashboardAllowedInvites => 'Allowed invites';
+  String get privacyDashboardAllowedInvites => 'Leistiniai kvietimai';
 
   @override
   String get privacyDashboardGroupDmNobodyDesc =>
-      'Don\'t let anyone add you to group chats without asking';
+      'Niekas negali jūsų pridėti į grupės pokalbius be jūsų sutikimo';
 
   @override
   String get privacyDashboardGroupDmFriendsOnlyDesc =>
-      'Only allow friends to add you without asking (recommended)';
+      'Leisti tik draugams pridėti jus be prašymo (rekomenduojama)';
 
   @override
   String get privacyDashboardGroupDmCustomDesc =>
-      'Allow friends plus additional groups to add you';
+      'Leisti draugams ir papildomoms grupėms jus pridėti';
 
   @override
   String get privacyDashboardGroupDmEveryoneDesc =>
-      'Allow anyone to add you to group chats without asking';
+      'Leisti bet kam pridėti jus į grupės pokalbius be prašymo';
 
   @override
   String get privacyDashboardGroupDmFriendsOfFriendsDesc =>
-      'People who are friends with your friends can add you to group chats';
+      'Žmonės, kurie yra jūsų draugų draugai, gali pridėti jus prie grupės pokalbių';
 
   @override
   String get privacyDashboardGroupDmGuildMembersDesc =>
-      'People from communities you\'re both in can add you to group chats';
+      'Žmonės iš bendruomenių, kuriose esate abu, gali pridėti jus prie grupinių pokalbių';
 
   @override
   String get privacyDashboardVoiceActivityTitle =>
-      'Voice activity on active now';
+      'Balso aktyvumas skiltyje „Aktyvus dabar\"';
 
   @override
   String get privacyDashboardShareVoiceActivity =>
-      'Share your voice activity with friends';
+      'Bendrinti balso aktyvumą su draugais';
 
   @override
   String get privacyDashboardVoiceActivityEnableTitle =>
-      'Share voice activity with all friends?';
+      'Bendrinti balso aktyvumą su visais draugais?';
 
   @override
   String get privacyDashboardVoiceActivityDisableTitle =>
-      'Stop sharing voice activity with all friends?';
+      'Nebesidalinti balso aktyvumu su visais draugais?';
 
   @override
   String get privacyDashboardVoiceActivityEnableDesc =>
-      'You\'re about to start sharing your voice activity with every friend you have, including future ones. This sends an update to all of them and can only be changed again in 24 hours.';
+      'Netrukus pradėsite bendrinti savo balso aktyvumą su visais savo draugais, įskaitant ir būsimus. Tai išsiųs atnaujinimą visiems ir vėl galės būti pakeista tik po 24 valandų.';
 
   @override
   String get privacyDashboardVoiceActivityDisableDesc =>
-      'You\'re about to stop sharing your voice activity with every friend you have, including future ones. This sends an update to all of them and can only be changed again in 24 hours.';
+      'Ketinate nustoti bendrinti savo balso aktyvumą su visais savo draugais, įskaitant būsimus. Apie tai bus pranešta visiems ir tai vėl galėsite pakeisti tik po 24 valandų.';
 
   @override
   String get privacyDashboardVoiceActivityEnableConfirm =>
-      'Yes, share with all friends';
+      'Taip, bendrinti su visais draugais';
 
   @override
-  String get privacyDashboardVoiceActivityDisableConfirm => 'Yes, stop sharing';
+  String get privacyDashboardVoiceActivityDisableConfirm => 'Taip, nebedalinti';
 
   @override
   String privacyDashboardVoiceActivityCooldown(String time) {
-    return 'Available again in $time';
+    return 'Vėl bus pasiekiama po $time';
   }
 
   @override
   String get privacyDashboardVoiceActivityUpdated =>
-      'Voice activity sharing updated';
+      'Balso aktyvumo bendrinimas atnaujintas';
 
   @override
   String get privacyDashboardVoiceActivityUpdateFailed =>
-      'Couldn\'t update voice activity sharing right now';
+      'Nepavyko atnaujinti balso aktyvumo bendrinimo';
 
   @override
   String get privacyDashboardDataExportDesc =>
-      'Build a downloadable archive of your account data, including messages and attachment URLs. Most people want everything, but you can narrow the scope below.';
+      'Sukursite atsisiunčiamą savo paskyros duomenų, įskaitant pranešimus ir priedų URL, archyvą. Dauguma žmonių nori visko, bet galite susiaurinti apimtį toliau.';
 
   @override
-  String get privacyDashboardExportMyData => 'Export my data';
+  String get privacyDashboardExportMyData => 'Eksportuoti mano duomenis';
 
   @override
   String get privacyDashboardDataDeletionDesc =>
-      'Permanently remove messages you have sent across DMs, group DMs, and communities. The work runs in the background, and you will get a DM when it finishes.';
+      'Visam laikui pašalinkite išsiųstas žinutes iš tiesioginių pokalbių, grupinių tiesioginių pokalbių ir bendruomenių. Darbas vykdomas fone, o baigus gausite tiesioginę žinutę.';
 
   @override
-  String get privacyDashboardDeleteMyMessages => 'Delete my messages';
+  String get privacyDashboardDeleteMyMessages => 'Ištrinti mano žinutes';
 
   @override
   String get privacyDashboardDmConfirmAllowMembersTitle =>
-      'Allow direct messages from community members?';
+      'Leisti tiesioginius pranešimus iš bendruomenės narių?';
 
   @override
   String get privacyDashboardDmConfirmBlockMembersTitle =>
-      'Block direct messages from community members?';
+      'Blokuoti tiesioginius pranešimus iš bendruomenės narių?';
 
   @override
   String get privacyDashboardDmConfirmAllowBotsTitle =>
-      'Allow bots to send you direct messages?';
+      'Leisti robotams siųsti jums tiesiogines žinutes?';
 
   @override
   String get privacyDashboardDmConfirmBlockBotsTitle =>
-      'Block bots from sending you direct messages?';
+      'Blokuoti robotų siunčiamas tiesiogines žinutes?';
 
   @override
   String get privacyDashboardDmConfirmAllowMembersDesc =>
-      'Do you also want to allow direct messages from members of your existing communities?';
+      'Ar norite leisti tiesioginius pranešimus iš esamų bendruomenių narių?';
 
   @override
   String get privacyDashboardDmConfirmBlockMembersDesc =>
-      'Do you also want to block direct messages from members of your existing communities?';
+      'Ar taip pat norite blokuoti tiesioginius pranešimus iš esamų bendruomenių narių?';
 
   @override
   String get privacyDashboardDmConfirmAllowBotsDesc =>
-      'Do you also want to allow bots from your existing communities to send you direct messages?';
+      'Ar taip pat norite leisti robotams iš esamų bendruomenių siųsti jums tiesiogines žinutes?';
 
   @override
   String get privacyDashboardDmConfirmBlockBotsDesc =>
-      'Do you also want to block bots from your existing communities?';
+      'Ar norite blokuoti robotus ir iš esamų bendruomenių?';
 
   @override
   String get privacyDashboardDmConfirmPerCommunityHint =>
-      'You can also change this setting per-community by long-pressing the community name and selecting Privacy Settings.';
+      'Taip pat galite pakeisti šį nustatymą kiekvienai bendruomenei ilgai paspaudę bendruomenės pavadinimą ir pasirinkę „Privatumo nustatymai“.';
 
   @override
-  String get privacyDashboardDmConfirmAllowAll => 'Allow for all communities';
+  String get privacyDashboardDmConfirmAllowAll => 'Leisti visoms bendruomenėms';
 
   @override
-  String get privacyDashboardDmConfirmBlockAll => 'Block for all communities';
+  String get privacyDashboardDmConfirmBlockAll =>
+      'Blokuoti visose bendruomenėse';
 
   @override
-  String get privacyDashboardDmConfirmSkip => 'Skip this step';
+  String get privacyDashboardDmConfirmSkip => 'Praleisti šį veiksmą';
 
   @override
-  String get privacyDashboardDataRequestGoBack => 'Go back';
+  String get privacyDashboardDataRequestGoBack => 'Grįžti atgal';
 
   @override
-  String get privacyDashboardDataRequestExportTitle => 'Export my data';
+  String get privacyDashboardDataRequestExportTitle =>
+      'Eksportuoti mano duomenis';
 
   @override
-  String get privacyDashboardDataRequestDeleteTitle => 'Delete my messages';
+  String get privacyDashboardDataRequestDeleteTitle => 'Ištrinti mano žinutes';
 
   @override
   String get privacyDashboardDataRequestExportSuccess =>
-      'We\'ll process this as soon as possible. You\'ll get an email when your archive is ready.';
+      'Apdorosime tai kuo greičiau. Gausite el. laišką, kai archyvas bus paruoštas.';
 
   @override
   String get privacyDashboardDataRequestDeleteSuccess =>
-      'We\'ll process this as soon as possible. You\'ll get a DM from us when it\'s done.';
+      'Apdorosime tai kuo greičiau. Kai bus atlikta, gausite iš mūsų tiesioginę žinutę.';
 
   @override
-  String get privacyDashboardDataRequestScopeTitle => 'What to include';
+  String get privacyDashboardDataRequestScopeTitle => 'Ką įtraukti';
 
   @override
-  String get privacyDashboardDataRequestExportEverything => 'Everything';
+  String get privacyDashboardDataRequestExportEverything => 'Viskas';
 
   @override
   String get privacyDashboardDataRequestExportEverythingDesc =>
-      'Export every message you have ever sent, plus all of your account settings, memberships, and metadata.';
+      'Eksportuoti visas kada nors išsiųstas žinutes, taip pat visus paskyros nustatymus, narystes ir metaduomenis.';
 
   @override
-  String get privacyDashboardDataRequestExportCustom => 'Custom selection';
+  String get privacyDashboardDataRequestExportCustom =>
+      'Pasirinktinis pasirinkimas';
 
   @override
   String get privacyDashboardDataRequestExportCustomDesc =>
-      'Choose which conversation kinds, communities, and time window to include in the archive.';
+      'Pasirinkite, kokius pokalbių tipus, bendruomenes ir laikotarpį įtraukti į archyvą.';
 
   @override
   String get privacyDashboardDataRequestDeleteSelected =>
-      'Choose what to include';
+      'Pasirinkite, ką įtraukti';
 
   @override
   String get privacyDashboardDataRequestDeleteSelectedDesc =>
-      'Pick which kinds of conversations to clean up.';
+      'Pasirinkite, kokius pokalbius išvalyti.';
 
   @override
   String get privacyDashboardDataRequestDeleteInaccessible =>
-      'Only places I can\'t access anymore';
+      'Tik vietos, kurių nebegaliu pasiekti';
 
   @override
   String get privacyDashboardDataRequestDeleteInaccessibleDesc =>
-      'Only delete messages from communities and group DMs you have left or been removed from.';
+      'Ištrinti pranešimus tik iš bendruomenių ir grupinių tiesioginių žinučių, iš kurių išėjote arba buvote pašalintas.';
 
   @override
-  String get privacyDashboardDataRequestKindsTitle => 'Which conversations';
+  String get privacyDashboardDataRequestKindsTitle => 'Kurie pokalbiai';
 
   @override
   String get privacyDashboardDataRequestKindsBody =>
-      'Toggle the kinds of conversations you want included.';
+      'Nurodykite, kokius pokalbius norite įtraukti.';
 
   @override
-  String get privacyDashboardDataRequestKindDms => 'Open DMs';
+  String get privacyDashboardDataRequestKindDms =>
+      'Atidaryti tiesioginius pranešimus';
 
   @override
-  String get privacyDashboardDataRequestKindDmsClosed => 'Closed DMs';
+  String get privacyDashboardDataRequestKindDmsClosed =>
+      'Uždaryti tiesioginiai pranešimai';
 
   @override
-  String get privacyDashboardDataRequestKindGroupDms => 'Group DMs';
+  String get privacyDashboardDataRequestKindGroupDms => 'Grupės DM';
 
   @override
-  String get privacyDashboardDataRequestKindCommunities => 'Communities';
+  String get privacyDashboardDataRequestKindCommunities => 'Bendruomenės';
 
   @override
-  String get privacyDashboardDataRequestCommunitiesTitle => 'Which communities';
+  String get privacyDashboardDataRequestCommunitiesTitle =>
+      'Kurios bendruomenės';
 
   @override
-  String get privacyDashboardDataRequestGuildFilterMode => 'Community filter';
+  String get privacyDashboardDataRequestGuildFilterMode =>
+      'Bendruomenės filtras';
 
   @override
   String get privacyDashboardDataRequestGuildFilterExclude =>
-      'Include all except selected';
+      'Įtraukti visus, išskyrus pasirinktus';
 
   @override
-  String get privacyDashboardDataRequestGuildFilterInclude =>
-      'Only the selected ones';
+  String get privacyDashboardDataRequestGuildFilterInclude => 'Tik pasirinkti';
 
   @override
   String get privacyDashboardDataRequestCommunitiesEmpty =>
-      'You aren\'t in any communities right now.';
+      'Šiuo metu nesate jokioje bendruomenėje.';
 
   @override
-  String get privacyDashboardDataRequestWhenTitle => 'Time range';
+  String get privacyDashboardDataRequestWhenTitle => 'Laikotarpis';
 
   @override
-  String get privacyDashboardDataRequestDateMode => 'Time range';
+  String get privacyDashboardDataRequestDateMode => 'Laikotarpis';
 
   @override
-  String get privacyDashboardDataRequestAllTime => 'All time';
+  String get privacyDashboardDataRequestAllTime => 'Visas laikotarpis';
 
   @override
-  String get privacyDashboardDataRequestCustomRange => 'Custom range';
+  String get privacyDashboardDataRequestCustomRange =>
+      'Pasirinktinis diapazonas';
 
   @override
-  String get privacyDashboardDataRequestStartDate => 'Start date';
+  String get privacyDashboardDataRequestStartDate => 'Pradžios data';
 
   @override
-  String get privacyDashboardDataRequestEndDate => 'End date';
+  String get privacyDashboardDataRequestEndDate => 'Pabaigos data';
 
   @override
   String get privacyDashboardDataRequestDateHelper =>
-      'Leave either field blank to leave that end of the window unbounded.';
+      'Palikite bet kurį laukelį tuščią, kad lango pabaiga liktų neribota.';
 
   @override
   String get privacyDashboardDataRequestNeedInclusion =>
-      'Pick at least one kind of conversation to include.';
+      'Pasirinkite bent vieną pokalbių tipą, kurį norite įtraukti.';
 
   @override
   String get privacyDashboardDataRequestDateRangeError =>
-      'Start date must be earlier than end date.';
+      'Pradžios data turi būti ankstesnė už pabaigos datą.';
 
   @override
-  String get privacyDashboardDataRequestConfirmTitle => 'Review and confirm';
+  String get privacyDashboardDataRequestConfirmTitle =>
+      'Peržiūrėti ir patvirtinti';
 
   @override
   String get privacyDashboardDataRequestExportConfirmEverything =>
-      'We\'ll build a downloadable archive of every message you have ever sent and email you when it\'s ready. The download link in that email expires after 7 days.';
+      'Sukursime atsisiunčiamą archyvą su visais jūsų kada nors išsiųstais pranešimais ir atsiųsime jums el. laišką, kai jis bus paruoštas. Atsisiuntimo nuoroda tame el. laiške nustos galioti po 7 dienų.';
 
   @override
   String get privacyDashboardDataRequestExportConfirmCustom =>
-      'We\'ll build a downloadable archive that matches the filters below and email you when it\'s ready. The download link in that email expires after 7 days.';
+      'Sukursime atsisiunčiamą archyvą, atitinkantį toliau nurodytus filtrus, ir atsiųsime jums el. laišką, kai jis bus paruoštas. Atsisiuntimo nuoroda tame el. laiške nustos galioti po 7 dienų.';
 
   @override
   String get privacyDashboardDataRequestDeleteConfirm =>
-      'Permanently delete the messages that match the filters below. This cannot be undone.';
+      'Visam laikui ištrinti žinutes, atitinkančias toliau nurodytus filtrus. Šio veiksmo anuliuoti negalima.';
 
   @override
   String get privacyDashboardDataRequestDeleteDanger =>
-      'There is no recovery once this starts. We will DM you when it finishes.';
+      'Kai tik tai prasidės, atkurti nebebus įmanoma. Baigus procesą, atsiųsime jums tiesioginę žinutę.';
 
   @override
-  String get privacyDashboardDataRequestRequestExport => 'Request export';
+  String get privacyDashboardDataRequestRequestExport => 'Prašyti eksportuoti';
 
   @override
-  String get privacyDashboardDataRequestDeleteMessages => 'Delete messages';
+  String get privacyDashboardDataRequestDeleteMessages => 'Ištrinti žinutes';
 
   @override
-  String get privacyDashboardDataRequestSummaryScope => 'Scope';
+  String get privacyDashboardDataRequestSummaryScope => 'Aprėptis';
 
   @override
-  String get privacyDashboardDataRequestSummaryConversations => 'Conversations';
+  String get privacyDashboardDataRequestSummaryConversations => 'Pokalbiai';
 
   @override
-  String get privacyDashboardDataRequestSummaryCommunities => 'Communities';
+  String get privacyDashboardDataRequestSummaryCommunities => 'Bendruomenės';
 
   @override
-  String get privacyDashboardDataRequestSummaryTimeRange => 'Time range';
+  String get privacyDashboardDataRequestSummaryTimeRange => 'Laikotarpis';
 
   @override
-  String get privacyDashboardDataRequestSummaryNone => 'None';
+  String get privacyDashboardDataRequestSummaryNone => 'Nėra';
 
   @override
   String privacyDashboardDataRequestSummaryFrom(String start) {
-    return 'From $start';
+    return 'Nuo $start';
   }
 
   @override
   String privacyDashboardDataRequestSummaryUntil(String end) {
-    return 'Until $end';
+    return 'Iki $end';
   }
 
   @override
@@ -6539,10 +6563,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# communities',
-      one: '# community',
+      other: '# bendruomenes',
+      one: '# bendruomenę',
     );
-    return 'All except $_temp0';
+    return 'Visos, išskyrus $_temp0';
   }
 
   @override
@@ -6550,46 +6574,46 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# communities',
-      one: '# community',
+      other: '# bendruomenės',
+      one: '# bendruomenė',
     );
-    return 'Only $_temp0';
+    return 'Tik $_temp0';
   }
 
   @override
   String get privacyDashboardDataRequestSummaryDmsOpen =>
-      'Open direct messages';
+      'Atviri tiesioginiai pranešimai';
 
   @override
   String get privacyDashboardDataRequestSummaryDmsClosed =>
-      'Closed direct messages';
+      'Uždaryti tiesioginiai pranešimai';
 
   @override
   String get privacyDashboardDataRequestSummaryDmsBoth =>
-      'Direct messages (open and closed)';
+      'Tiesioginiai pranešimai (atidaryti ir uždaryti)';
 
   @override
-  String get privacyDashboardDataRequestSummaryGroupDms => 'Group DMs';
+  String get privacyDashboardDataRequestSummaryGroupDms => 'Grupės DM';
 
   @override
   String get privacyDashboardDataRequestSummaryCommunitiesIncluded =>
-      'Communities';
+      'Bendruomenės';
 
   @override
   String privacyDashboardDurationHoursMinutes(int hours, int minutes) {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# hours',
-      one: '# hour',
+      other: '# valandos',
+      one: '# valanda',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# minutes',
-      one: '# minute',
+      other: '# minutės',
+      one: '# minutė',
     );
-    return '$_temp0 and $_temp1';
+    return '$_temp0 ir $_temp1';
   }
 
   @override
@@ -6597,8 +6621,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '# hours',
-      one: '# hour',
+      other: '# valandų',
+      few: '# valandos',
+      one: '# valanda',
     );
     return '$_temp0';
   }
@@ -6608,8 +6633,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '# minutes',
-      one: '# minute',
+      other: '# minučių',
+      few: '# minutės',
+      one: '# minutė',
     );
     return '$_temp0';
   }
@@ -6619,24 +6645,26 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       seconds,
       locale: localeName,
-      other: '# seconds',
-      one: '# second',
+      other: '# sekundžių',
+      few: '# sekundės',
+      one: '# sekundė',
     );
     return '$_temp0';
   }
 
   @override
-  String get privacyDashboardLoadFailed => 'Failed to load privacy settings';
+  String get privacyDashboardLoadFailed => 'Nepavyko įkelti privatumo nuostatų';
 
   @override
-  String get privacyDashboardRetry => 'Retry';
+  String get privacyDashboardRetry => 'Bandykite dar kartą';
 
   @override
   String get privacyDashboardSensitiveContentSaveFailed =>
-      'Failed to save sensitive content settings.';
+      'Nepavyko įrašyti jautraus turinio nuostatų.';
 
   @override
-  String get privacyDashboardDataRequestFailed => 'Failed to complete request.';
+  String get privacyDashboardDataRequestFailed =>
+      'Nepavyko užbaigti užklausos.';
 
   @override
   String get chatMessageDeleteFailed => 'Nepavyko ištrinti';
@@ -6685,39 +6713,39 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get forwardSendSlowmodeBlocked =>
-      'Waiting for slowmode in one or more selected channels to expire.';
+      'Laukiama, kol pasibaigs lėtasis režimas viename ar keliuose pasirinktuose kanaluose.';
 
   @override
-  String get slowmodeRateLimitedTitle => 'Slowmode active';
+  String get slowmodeRateLimitedTitle => 'Lėtasis režimas aktyvus';
 
   @override
   String slowmodeRateLimitedMessage(String duration) {
-    return 'Slowmode is on — wait $duration before sending another.';
+    return 'Įjungtas lėtasis režimas – prieš siųsdami kitą palaukite $duration.';
   }
 
   @override
   String get chatAttachmentDropSlowmodeDisabled =>
-      'Direct upload is disabled during slowmode.';
+      'Tiesioginis įkėlimas išjungtas lėtojo režimo metu.';
 
   @override
-  String get shareMediaTitle => 'Share to';
+  String get shareMediaTitle => 'Bendrinti su';
 
   @override
-  String get shareMediaMessageHint => 'Add an optional message…';
+  String get shareMediaMessageHint => 'Pridėkite pasirenkamą žinutę…';
 
   @override
-  String get shareMediaSendButton => 'Send';
+  String get shareMediaSendButton => 'Siųsti';
 
   @override
-  String get shareMediaSuccessToast => 'Media shared';
+  String get shareMediaSuccessToast => 'Medija bendrinama';
 
   @override
   String shareMediaPartialSuccessToast(int count) {
-    return 'Shared to $count destinations';
+    return 'Bendrinta į $count paskirties vietas';
   }
 
   @override
-  String get shareMediaFailedToast => 'Failed to share media';
+  String get shareMediaFailedToast => 'Nepavyko bendrinti medijos';
 
   @override
   String get forwardDestinationNoSendPermission =>
@@ -6748,37 +6776,37 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get chatMessageCopyText => 'Kopijuoti žinutę';
 
   @override
-  String get chatMessageCopyEmbedText => 'Copy Embed Text';
+  String get chatMessageCopyEmbedText => 'Nukopijuoti įterptojo teksto turinį';
 
   @override
-  String get chatMessageTranslate => 'Translate';
+  String get chatMessageTranslate => 'Versti';
 
   @override
   String chatMessageTranslatedFrom(String language) {
-    return 'Translated from $language';
+    return 'Išversta iš $language';
   }
 
   @override
-  String get chatMessageSeeOriginal => 'See original';
+  String get chatMessageSeeOriginal => 'Žiūrėti originalą';
 
   @override
-  String get chatMessageSeeTranslation => 'See translation';
+  String get chatMessageSeeTranslation => 'Peržiūrėti vertimą';
 
   @override
-  String get chatMessageTranslating => 'Translating…';
+  String get chatMessageTranslating => 'Verčiama…';
 
   @override
-  String get chatMessageTranslateFailed => 'Couldn\'t translate this message.';
+  String get chatMessageTranslateFailed => 'Nepavyko išversti šio pranešimo.';
 
   @override
   String get chatMessageTranslateUnavailable =>
-      'Translation isn\'t available on this device.';
+      'Vertimas nepasiekiamas šiame įrenginyje.';
 
   @override
-  String get chatMessageSpeak => 'Speak message';
+  String get chatMessageSpeak => 'Perskaityti žinutę';
 
   @override
-  String get chatMessageStopSpeaking => 'Stop speaking';
+  String get chatMessageStopSpeaking => 'Nebekalbėti';
 
   @override
   String get chatMessagePin => 'Smeigti žinutę';
@@ -6802,10 +6830,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get chatMessageCopyMessageLink => 'Kopijuoti žinutės nuorodą';
 
   @override
-  String get chatMessageOpenLink => 'Open link';
+  String get chatMessageOpenLink => 'Atidaryti nuorodą';
 
   @override
-  String get chatMessageCopyLink => 'Copy link';
+  String get chatMessageCopyLink => 'Kopijuoti nuorodą';
 
   @override
   String get chatMessageCopyMessageId => 'Kopijuoti žinutės ID';
@@ -6836,10 +6864,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get chatReactionsSheetEmpty => 'Dar niekas nereagavo.';
 
   @override
-  String get chatReactionAddFailed => 'Failed to add reaction';
+  String get chatReactionAddFailed => 'Nepavyko pridėti reakcijos';
 
   @override
-  String get chatReactionRemoveFailed => 'Failed to remove reaction';
+  String get chatReactionRemoveFailed => 'Nepavyko pašalinti reakcijos';
 
   @override
   String get chatMessageReport => 'Pranešti apie žinutę';
@@ -7210,10 +7238,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Ar tikrai norite ištrinti šią žinutę?';
 
   @override
-  String get chatMessageDeleteAttachment => 'Delete Attachment';
+  String get chatMessageDeleteAttachment => 'Panaikinti priedą';
 
   @override
-  String get chatMessageEditAttachmentAltText => 'Edit Alt Text';
+  String get chatMessageEditAttachmentAltText =>
+      'Redaguoti alternatyvųjį tekstą';
 
   @override
   String get chatMessageMore => 'Daugiau';
@@ -7236,8 +7265,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count blocked messages',
-      one: '1 blocked message',
+      other: '$count užblokuotos žinutės',
+      one: '1 užblokuota žinutė',
     );
     return '$_temp0';
   }
@@ -7247,25 +7276,25 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count potential spammer messages',
-      one: '1 potential spammer message',
+      other: '$count galimi šlamštininko pranešimai',
+      one: '1 galimas šlamštininko pranešimas',
     );
     return '$_temp0';
   }
 
   @override
   String get chatReplyHiddenBlockedAuthor =>
-      'Reply hidden because the original author is blocked.';
+      'Atsakymas paslėptas, nes originalus autorius yra užblokuotas.';
 
   @override
   String get chatReplyHiddenSpammerAuthor =>
-      'Reply hidden because the original author is marked as a spammer.';
+      'Atsakymas paslėptas, nes originalus autorius pažymėtas kaip šlamšto siuntėjas.';
 
   @override
-  String get devMarkAsSpamLocally => 'Mark as spam locally';
+  String get devMarkAsSpamLocally => 'Pažymėti kaip šlamštą (vietoje)';
 
   @override
-  String get devIgnoreSpamFlag => 'Ignore spam flag';
+  String get devIgnoreSpamFlag => 'Nepaisyti šlamšto žymės';
 
   @override
   String get chatMessagesLoadError => 'Nepavyko įkelti žinučių.';
@@ -7343,10 +7372,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get mediaViewerOpenInBrowser => 'Atidaryti naršyklėje';
 
   @override
-  String get mediaViewerOptions => 'Media options';
+  String get mediaViewerOptions => 'Medijos parinktys';
 
   @override
-  String get mediaViewerCopyLink => 'Copy link';
+  String get mediaViewerCopyLink => 'Kopijuoti nuorodą';
 
   @override
   String get mediaViewerForward => 'Persiųsti';
@@ -7370,11 +7399,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String mediaViewerAttachmentThumbnail(int index) {
-    return 'Attachment $index';
+    return 'Priedas $index';
   }
 
   @override
-  String get mediaViewerDismissBackdrop => 'Dismiss';
+  String get mediaViewerDismissBackdrop => 'Atsisakyti';
 
   @override
   String get chatAttachmentVideoToggleControls => 'Perjungti vaizdo valdiklius';
@@ -7402,150 +7431,152 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Pranešti vartotojams su šiuo vaidmeniu, kurie turi leidimą peržiūrėti šį kanalą.';
 
   @override
-  String get composerAutocompleteSuggestions => 'Suggestions';
+  String get composerAutocompleteSuggestions => 'Pasiūlymai';
 
   @override
-  String get composerAutocompleteCommandsHeading => 'Commands';
+  String get composerAutocompleteCommandsHeading => 'Komandos';
 
   @override
-  String get composerAutocompleteChoicesHeading => 'Choices';
+  String get composerAutocompleteChoicesHeading => 'Pasirinkimai';
 
   @override
   String get composerAutocompleteOptionalArgumentsHeading =>
-      'Optional arguments';
+      'Pasirenkami argumentai';
 
   @override
-  String get composerAutocompleteChannelsHeading => 'Channels';
+  String get composerAutocompleteChannelsHeading => 'Kanalai';
 
   @override
-  String get composerAutocompleteMembersHeading => 'Members';
+  String get composerAutocompleteMembersHeading => 'Nariai';
 
   @override
-  String get composerAutocompleteUsersHeading => 'Users';
+  String get composerAutocompleteUsersHeading => 'Vartotojai';
 
   @override
-  String get composerAutocompleteMentionsHeading => 'Mentions';
+  String get composerAutocompleteMentionsHeading => 'Paminėjimai';
 
   @override
-  String get composerAutocompleteRolesHeading => 'Roles';
+  String get composerAutocompleteRolesHeading => 'Rolės';
 
   @override
-  String get composerAutocompleteMediaHeading => 'Media';
+  String get composerAutocompleteMediaHeading => 'Medija';
 
   @override
-  String get composerAutocompleteStickersHeading => 'Stickers';
+  String get composerAutocompleteStickersHeading => 'Lipdukai';
 
   @override
-  String get composerAutocompleteGifsHeading => 'GIFs';
+  String get composerAutocompleteGifsHeading => 'GIF\'ai';
 
   @override
-  String get composerAutocompleteNoGifs => 'No GIFs found';
+  String get composerAutocompleteNoGifs => 'Nepridedu GIF\'ų';
 
   @override
   String get composerCommandShrugDescription =>
-      'Appends ¯\\_(ツ)_/¯ to your message.';
+      'Prideda ¯\\_(ツ)_/¯ prie jūsų žinutės.';
 
   @override
   String get composerCommandTableflipDescription =>
-      'Appends (╯°□°)╯︵ ┻━┻ to your message.';
+      'Prideda (╯°□°)╯︵ ┻━┻ prie jūsų žinutės.';
 
   @override
   String get composerCommandUnflipDescription =>
-      'Appends ┬─┬ ノ( ゜-゜ノ) to your message.';
+      'Prideda ┬─┬ ノ( ゜-゜ノ) prie jūsų žinutės.';
 
   @override
   String get composerCommandMeDescription =>
-      'Send an action message (wraps in italics).';
+      'Siųsti veiksmo pranešimą (apgaubia kursyvu).';
 
   @override
   String get composerCommandSpoilerDescription =>
-      'Send a spoiler message (wraps in spoiler tags).';
+      'Siųsti pranešimą su paslėptu tekstu (įterpia paslėpto teksto žymes).';
 
   @override
-  String get composerCommandTtsDescription => 'Send a text-to-speech message.';
+  String get composerCommandTtsDescription =>
+      'Siųsti teksto į kalbą pranešimą.';
 
   @override
   String get composerCommandNickDescription =>
-      'Change your nickname in this community.';
+      'Pakeiskite savo slapyvardį šioje bendruomenėje.';
 
   @override
   String get composerCommandKickDescription =>
-      'Kick a member from this community.';
+      'Pašalinti narį iš šios bendruomenės.';
 
   @override
   String get composerCommandBanDescription =>
-      'Ban a member from this community.';
+      'Užblokuoti narį šioje bendruomenėje.';
 
   @override
   String get composerCommandMsgDescription =>
-      'Send a direct message to a user.';
+      'Siųsti tiesioginę žinutę vartotojui.';
 
   @override
-  String get composerCommandSavedDescription => 'Send a saved media item.';
+  String get composerCommandSavedDescription =>
+      'Siųsti išsaugotą medijos elementą.';
 
   @override
-  String get composerCommandStickerDescription => 'Send a sticker.';
+  String get composerCommandStickerDescription => 'Siųsti lipduką.';
 
   @override
-  String get composerCommandGifDescription => 'Search for and send a GIF.';
+  String get composerCommandGifDescription => 'Ieškoti ir siųsti GIF.';
 
   @override
-  String get composerCommandMemberOption => 'The member to target.';
+  String get composerCommandMemberOption => 'Narys, į kurį bus nukreipta.';
 
   @override
-  String get composerCommandReasonOption => 'Reason (optional).';
+  String get composerCommandReasonOption => 'Priežastis (pasirenkama).';
 
   @override
-  String get composerCommandMessageOption => 'The message to send.';
+  String get composerCommandMessageOption => 'Žinutė, kurią reikia išsiųsti.';
 
   @override
-  String get composerCommandQueryOption => 'What to search for.';
+  String get composerCommandQueryOption => 'Ko ieškoti.';
 
   @override
   String get composerCommandNicknameOption =>
-      'Your new nickname, or leave blank to reset it.';
+      'Jūsų naujas slapyvardis arba palikite tuščią, kad jį atstatytumėte.';
 
   @override
   String get composerCommandDeleteMessagesOption =>
-      'How much of the member\'s recent message history to delete.';
+      'Kiek nesenos nario žinučių istorijos ištrinti.';
 
   @override
-  String get composerCommandDeleteMessagesNone => 'Don\'t delete any';
+  String get composerCommandDeleteMessagesNone => 'Neištrinti jokių';
 
   @override
   String composerCommandDeleteMessagesDays(int count) {
-    return 'Previous $count days';
+    return 'Ankstesnių $count dienų';
   }
 
   @override
-  String get composerCommandDeleteMessagesOneDay => 'Previous 24 hours';
+  String get composerCommandDeleteMessagesOneDay => 'Ankstesnės 24 valandos';
 
   @override
   String get composerCommandOptionRequired =>
-      'This option is required. Please provide a value.';
+      'Ši parinktis yra privaloma. Prašome pateikti reikšmę.';
 
   @override
-  String get composerCommandClear => 'Clear command';
+  String get composerCommandClear => 'Panaikinti komandą';
 
   @override
   String composerCommandNicknameChanged(
     String previousNickname,
     String newNickname,
   ) {
-    return 'You changed your nickname in this community from **$previousNickname** to **$newNickname**.';
+    return 'Šioje bendruomenėje savo slapyvardį pakeitėte iš **$previousNickname** į **$newNickname**.';
   }
 
   @override
-  String get composerCommandUnknownUser => 'Unknown user';
+  String get composerCommandUnknownUser => 'Nežinomas naudotojas';
 
   @override
   String composerCommandMsgFailed(String username) {
-    return 'Failed to send a message to **$username**. They may have DMs disabled or you may be blocked.';
+    return 'Nepavyko nusiųsti žinutės **$username**. Galbūt jie išjungė tiesioginius pranešimus arba jus užblokavo.';
   }
 
   @override
   String composerCommandOptionalMore(int count) {
-    return '+$count more';
+    return '+$count daugiau';
   }
 
   @override
@@ -7586,84 +7617,84 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Nepavyko prisijungti prie bendruomenės. Pabandykite dar kartą.';
 
   @override
-  String get addGuildCreateTitle => 'Create a community';
+  String get addGuildCreateTitle => 'Sukurti bendruomenę';
 
   @override
   String get addGuildCreateDescription =>
-      'Create a community for you and your friends to chat.';
+      'Sukurkite bendruomenę, kurioje galėsite bendrauti su draugais.';
 
   @override
-  String get addGuildCreateNameLabel => 'Community name';
+  String get addGuildCreateNameLabel => 'Bendruomenės pavadinimas';
 
   @override
-  String get addGuildCreateSubmit => 'Create community';
+  String get addGuildCreateSubmit => 'Kurti bendruomenę';
 
   @override
   String get addGuildCreateFailed =>
-      'Could not create community. Please try again.';
+      'Nepavyko sukurti bendruomenės. Pabandykite dar kartą.';
 
   @override
-  String get addGuildCreateClaimTitle => 'Claim your account';
+  String get addGuildCreateClaimTitle => 'Pasiimkite paskyrą';
 
   @override
   String get addGuildCreateClaimDescription =>
-      'You need to claim your account before you can create a community.';
+      'Prieš kurdami bendruomenę turite patvirtinti savo paskyrą.';
 
   @override
-  String get addGuildCreateVerifyTitle => 'Verify your email';
+  String get addGuildCreateVerifyTitle => 'Patvirtinkite savo el. paštą';
 
   @override
   String get addGuildCreateVerifyDescription =>
-      'You need to verify your email address before you can create a community.';
+      'Prieš kurdami bendruomenę, turite patvirtinti savo el. pašto adresą.';
 
   @override
   String get addGuildCreateAnimatedIconUnsupported =>
-      'Animated icons are not supported when creating a new community. Use a static image.';
+      'Animuotų piktogramų negalima naudoti kuriant naują bendruomenę. Naudokite statinę nuotrauką.';
 
   @override
   String get addGuildCreateGuidelinesBefore =>
-      'By creating a community, you agree to follow and uphold the ';
+      'Kurdamas bendruomenę, sutinki laikytis ir palaikyti ';
 
   @override
   String addGuildCreateGuidelinesLink(String productName) {
-    return '$productName community guidelines';
+    return 'Bendruomenės „$productName“ gairės';
   }
 
   @override
   String get addGuildCreateSingleCommunityBlocked =>
-      'This instance is a single community, so additional communities cannot be created.';
+      'Ši instancija yra vienos bendruomenės, todėl papildomų bendruomenių sukurti negalima.';
 
   @override
-  String get addGuildCreateChangeIcon => 'Change icon';
+  String get addGuildCreateChangeIcon => 'Keisti piktogramą';
 
   @override
-  String get addGuildCreateIconLabel => 'Community icon';
+  String get addGuildCreateIconLabel => 'Bendruomenės piktograma';
 
   @override
   String get addGuildCreateIconHint =>
-      'PNG, JPEG, WebP, AVIF, HEIC, HEIF, JXL, SVG. Max 10MB. Recommended: 512×512px';
+      'PNG, JPEG, WebP, AVIF, HEIC, HEIF, JXL, SVG. Daugiausia 10 MB. Rekomenduojama: 512×512 px';
 
   @override
   String get addGuildImportDescription =>
-      'Paste a Discord template URL to import its structure into a new community.';
+      'Įklijuokite Discord šablono URL, kad importuotumėte jo struktūrą į naują bendruomenę.';
 
   @override
-  String get addGuildImportUrlLabel => 'Template URL';
+  String get addGuildImportUrlLabel => 'Šablono URL';
 
   @override
   String get addGuildImportUrlInvalid =>
-      'Enter a valid Discord template URL or code.';
+      'Įveskite galiojantį „Discord“ šablono URL arba kodą.';
 
   @override
   String get addGuildImportFetchFailed =>
-      'Failed to fetch the community template. The template may not exist or the external service is unavailable.';
+      'Nepavyko gauti bendruomenės šablono. Šablono gali nebūti arba išorinė tarnyba nepasiekiama.';
 
   @override
   String get addGuildImportInvalidResponse =>
-      'This doesn\'t look like a valid template response.';
+      'Tai neatrodo kaip tinkamas šablono atsakymas.';
 
   @override
-  String get addGuildImportTemplateLabel => 'Template';
+  String get addGuildImportTemplateLabel => 'Šablonas';
 
   @override
   String addGuildImportTemplateStats(
@@ -7672,15 +7703,15 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     int categoryCount,
     int roleCount,
   ) {
-    return '$textChannelCount text, $voiceChannelCount voice, $categoryCount categories, $roleCount roles';
+    return '$textChannelCount teksto, $voiceChannelCount balso, $categoryCount kategorijų, $roleCount vaidmenų';
   }
 
   @override
-  String get addGuildImportRemoveIcon => 'Remove icon';
+  String get addGuildImportRemoveIcon => 'Pašalinti piktogramą';
 
   @override
   String get addGuildImportTemplateInvalid =>
-      'The community template data is invalid or malformed.';
+      'Bendruomenės šablono duomenys neteisingi arba sugadinti.';
 
   @override
   String get addGuildPackInstalled => 'Pakuotė sėkmingai įdiegta.';
@@ -7723,128 +7754,128 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Prisegtos žinutės bus rodomos čia.';
 
   @override
-  String get channelDetailsFallbackTitle => 'Details';
+  String get channelDetailsFallbackTitle => 'Išsami informacija';
 
   @override
   String channelDetailsGroupDmSubtitle(int count) {
-    return 'Group DM · $count members';
+    return 'Grupės DM · $count nariai';
   }
 
   @override
   String channelDetailsCloseDmDescription(String name) {
-    return 'Close your conversation with $name?';
+    return 'Uždaryti pokalbį su $name?';
   }
 
   @override
   String channelDetailsLeaveGroupDescription(String name) {
-    return 'Leave $name?';
+    return 'Palikti $name?';
   }
 
   @override
-  String get channelDetailsChannelSettingsTitle => 'Channel settings';
+  String get channelDetailsChannelSettingsTitle => 'Kanalo nustatymai';
 
   @override
-  String get channelDetailsGroupSettingsTitle => 'Group Settings';
+  String get channelDetailsGroupSettingsTitle => 'Grupės nustatymai';
 
   @override
-  String get channelDetailsDmSettingsTitle => 'DM Settings';
+  String get channelDetailsDmSettingsTitle => 'DM nustatymai';
 
   @override
-  String get channelDetailsInvitePeople => 'Invite People';
+  String get channelDetailsInvitePeople => 'Pakviesti žmones';
 
   @override
-  String get channelDetailsCopyLink => 'Copy Link';
+  String get channelDetailsCopyLink => 'Nukopijuoti nuorodą';
 
   @override
-  String get channelMenuCopyChannelLink => 'Copy channel link';
+  String get channelMenuCopyChannelLink => 'Kopijuoti kanalo nuorodą';
 
   @override
-  String get channelMenuCopyRedirectLink => 'Copy redirect link';
+  String get channelMenuCopyRedirectLink => 'Nukopijuoti perkėlimo nuorodą';
 
   @override
-  String get channelDetailsAddFriendsToGroup => 'Add friends to group';
+  String get channelDetailsAddFriendsToGroup => 'Pridėti draugų į grupę';
 
   @override
-  String get channelDetailsGroupInvites => 'Group invites';
+  String get channelDetailsGroupInvites => 'Grupės kvietimai';
 
   @override
-  String get channelDetailsEditChannel => 'Edit channel';
+  String get channelDetailsEditChannel => 'Redaguoti kanalą';
 
   @override
-  String get channelDetailsDeleteChannel => 'Delete channel';
+  String get channelDetailsDeleteChannel => 'Ištrinti kanalą';
 
   @override
-  String get channelSettingsCategorySettingsTitle => 'Category settings';
+  String get channelSettingsCategorySettingsTitle => 'Kategorijos nustatymai';
 
   @override
-  String get channelSettingsEditCategory => 'Edit category';
+  String get channelSettingsEditCategory => 'Redaguoti kategoriją';
 
   @override
-  String get channelSettingsTabOverview => 'Overview';
+  String get channelSettingsTabOverview => 'Apžvalga';
 
   @override
-  String get channelSettingsTabPermissions => 'Permissions';
+  String get channelSettingsTabPermissions => 'Leidimai';
 
   @override
-  String get channelSettingsTabInvites => 'Invites';
+  String get channelSettingsTabInvites => 'Kvietimai';
 
   @override
-  String get channelSettingsTabWebhooks => 'Webhooks';
+  String get channelSettingsTabWebhooks => 'Webhookai';
 
   @override
-  String get channelSettingsDeleteChannel => 'Delete channel';
+  String get channelSettingsDeleteChannel => 'Ištrinti kanalą';
 
   @override
   String channelSettingsDeleteChannelConfirm(String channelName) {
-    return 'Are you sure you want to delete $channelName? This cannot be undone.';
+    return 'Ar tikrai norite ištrinti $channelName? Tai negalima atšaukti.';
   }
 
   @override
   String channelSettingsDeleteCategoryConfirm(String categoryName) {
-    return 'Are you sure you want to delete $categoryName? This cannot be undone.';
+    return 'Ar tikrai norite ištrinti $categoryName? Tai negalima atšaukti.';
   }
 
   @override
-  String get channelSettingsDeleteCategory => 'Delete category';
+  String get channelSettingsDeleteCategory => 'Ištrinti kategoriją';
 
   @override
-  String get channelSettingsChannelUpdated => 'Channel updated';
+  String get channelSettingsChannelUpdated => 'Kanalas atnaujintas';
 
   @override
-  String get channelSettingsChannelName => 'Channel name';
+  String get channelSettingsChannelName => 'Kanalo pavadinimas';
 
   @override
-  String get channelSettingsCategoryName => 'Category name';
+  String get channelSettingsCategoryName => 'Kategorijos pavadinimas';
 
   @override
-  String get channelSettingsMyCategory => 'My category';
+  String get channelSettingsMyCategory => 'Mano kategorija';
 
   @override
-  String get categoryExpandCategory => 'Expand category';
+  String get categoryExpandCategory => 'Išskleisti kategoriją';
 
   @override
-  String get categoryCollapseCategory => 'Collapse category';
+  String get categoryCollapseCategory => 'Sutraukti kategoriją';
 
   @override
-  String get categoryExpandAllCategories => 'Expand all categories';
+  String get categoryExpandAllCategories => 'Išskleisti visas kategorijas';
 
   @override
-  String get categoryCollapseAllCategories => 'Collapse all categories';
+  String get categoryCollapseAllCategories => 'Sutraukti visas kategorijas';
 
   @override
-  String get categoryMuteCategory => 'Mute category';
+  String get categoryMuteCategory => 'Nutildyti kategoriją';
 
   @override
-  String get categoryUnmuteCategory => 'Unmute category';
+  String get categoryUnmuteCategory => 'Įjungti kategorijos garsą';
 
   @override
-  String get categoryCopyCategoryId => 'Copy category ID';
+  String get categoryCopyCategoryId => 'Kopijuoti kategorijos ID';
 
   @override
-  String get categoryIdCopied => 'Category ID copied';
+  String get categoryIdCopied => 'Kategorijos ID nukopijuotas';
 
   @override
-  String get channelSettingsChannelNamePlaceholder => 'general';
+  String get channelSettingsChannelNamePlaceholder => 'bendra';
 
   @override
   String get channelSettingsUrl => 'URL';
@@ -7853,65 +7884,65 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get channelSettingsUrlPlaceholder => 'https://example.com';
 
   @override
-  String get channelSettingsTopic => 'Topic';
+  String get channelSettingsTopic => 'Tema';
 
   @override
-  String get channelSettingsTopicPlaceholder => 'Add a topic to this channel';
+  String get channelSettingsTopicPlaceholder => 'Pridėti temą šiam kanalui';
 
   @override
-  String get channelSettingsInsertEmoji => 'Insert emoji';
+  String get channelSettingsInsertEmoji => 'Įterpti jaustuką';
 
   @override
-  String get channelSettingsTopicTooLongTitle => 'Channel topic is too long.';
+  String get channelSettingsTopicTooLongTitle => 'Kanalo tema per ilga.';
 
   @override
   String get channelSettingsTopicTooLongMessage =>
-      'Shorten the topic and try again.';
+      'Sutrumpinkite temą ir bandykite dar kartą.';
 
   @override
-  String get channelSettingsSlowmode => 'Slowmode';
+  String get channelSettingsSlowmode => 'Lėtasis režimas';
 
   @override
   String channelSettingsSlowmodeDescription(
     String bypassSlowmodePermissionLabel,
   ) {
-    return 'Wait between messages. \"$bypassSlowmodePermissionLabel\" can bypass it.';
+    return 'Laikas tarp pranešimų. „$bypassSlowmodePermissionLabel“ gali jį apeiti.';
   }
 
   @override
-  String get channelSettingsSlowmodeOff => 'Off';
+  String get channelSettingsSlowmodeOff => 'Išjungta';
 
   @override
   String channelSettingsSlowmodeSeconds(int seconds) {
-    return '$seconds seconds';
+    return '$seconds sekundžių';
   }
 
   @override
   String channelSettingsSlowmodeMinutes(int minutes) {
-    return '$minutes minutes';
+    return '$minutes minutės';
   }
 
   @override
   String channelSettingsSlowmodeHours(int hours) {
-    return '$hours hours';
+    return '$hours val.';
   }
 
   @override
   String channelSettingsSlowmodeOneMinute(int oneMinute) {
-    return '$oneMinute minute';
+    return '$oneMinute minutė';
   }
 
   @override
   String channelSettingsSlowmodeOneHour(int oneHour) {
-    return '$oneHour hour';
+    return '$oneHour valanda';
   }
 
   @override
-  String get channelSettingsVoiceQuality => 'Voice quality';
+  String get channelSettingsVoiceQuality => 'Balso kokybė';
 
   @override
   String get channelSettingsVoiceQualityDescription =>
-      'Higher bitrate = better quality and higher bandwidth usage.';
+      'Didels bitreitas = geresnė kokybė ir didesnis pralaidumo naudojimas.';
 
   @override
   String channelSettingsVoiceQualityKbps(int kilobits) {
@@ -7919,639 +7950,649 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String get channelSettingsParticipantLimit => 'Participant limit';
+  String get channelSettingsParticipantLimit => 'Dalyvių skaičiaus limitas';
 
   @override
   String get channelSettingsParticipantLimitDescription =>
-      'Maximum members who can join at once. 0 means unlimited.';
+      'Didžiausias narių skaičius, galintis prisijungti vienu metu. 0 reiškia neribotą.';
 
   @override
   String channelSettingsParticipantLimitValue(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count participants',
-      one: '1 participant',
-      zero: '∞ No limit',
+      other: '$count dalyviai',
+      one: '1 dalyvis',
+      zero: '∞ Joks apribojimas',
     );
     return '$_temp0';
   }
 
   @override
-  String get channelSettingsConnectionLimit => 'Connection limit';
+  String get channelSettingsConnectionLimit => 'Prisijungimų limitas';
 
   @override
   String get channelSettingsConnectionLimitDescription =>
-      'Maximum active connections one member can keep in this channel.';
+      'Didžiausias aktyvių ryšių, kuriuos vienas narys gali palaikyti šiame kanale.';
 
   @override
   String channelSettingsConnectionLimitValue(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count connections',
-      one: '1 connection',
+      other: '$count ryšių',
+      one: '1 ryšys',
     );
     return '$_temp0';
   }
 
   @override
-  String get channelSettingsVoiceRegion => 'Voice region';
+  String get channelSettingsVoiceRegion => 'Balso regionas';
 
   @override
   String get channelSettingsVoiceRegionDescription =>
-      'Select a voice region for this channel. Automatic uses the closest region.';
+      'Pasirinkite šiam kanalui balso regioną. Automatinis naudoja artimiausią regioną.';
 
   @override
-  String get channelSettingsVoiceRegionAutomatic => 'Automatic';
+  String get channelSettingsVoiceRegionAutomatic => 'Automatinis';
 
   @override
   String get channelSettingsVoiceRegionsLoadFailed =>
-      'Couldn\'t load voice regions';
+      'Nepavyko įkelti balso regionų';
 
   @override
   String get channelSettingsVoiceRegionsLoadFailedDescription =>
-      'Try again in a moment.';
+      'Bandyti dar kartą po akimirkos.';
 
   @override
-  String get channelSettingsResetSlider => 'Reset slider to default value';
+  String get channelSettingsResetSlider =>
+      'Grąžinti slankiklį į numatytąją reikšmę';
 
   @override
-  String get channelSettingsAdvanced => 'Advanced';
+  String get channelSettingsAdvanced => 'Išplėstiniai';
 
   @override
-  String get channelSettingsMatureContentOverride => 'Mature content override';
+  String get channelSettingsMatureContentOverride =>
+      'Brandos turinio nepaisymas';
 
   @override
   String channelSettingsMatureContentSectionDescription(String scopeLevel) {
-    return 'Override the $scopeLevel-level setting for this channel. Mature content is shown behind a gate before entry.';
+    return 'Perrašyti šiam kanalui nustatytą $scopeLevel lygio parametrą. Brandus turinys bus rodomas už užtvaros prieš įeinant.';
   }
 
   @override
-  String get channelSettingsMatureContentInherit => 'Inherit';
+  String get channelSettingsMatureContentInherit => 'Paveldėti';
 
   @override
-  String get channelSettingsMatureContentOn => 'On';
+  String get channelSettingsMatureContentOn => 'Įjungta';
 
   @override
-  String get channelSettingsMatureContentOff => 'Off';
+  String get channelSettingsMatureContentOff => 'Išjungta';
 
   @override
   String get channelSettingsMatureContentOnDescription =>
-      'Marks this channel for mature content.';
+      'Žymi šį kanalą kaip skirtą suaugusiems.';
 
   @override
   String get channelSettingsMatureContentOffDescription =>
-      'Leave this channel ungated for mature content.';
+      'Palikite šį kanalą atvirą brandžiam turiniui.';
 
   @override
   String channelSettingsMatureContentInheritsOn(String inheritedSourceLabel) {
-    return 'Inherited from $inheritedSourceLabel: on';
+    return 'Paveldėta iš $inheritedSourceLabel: įjungta';
   }
 
   @override
   String channelSettingsMatureContentInheritsOff(String inheritedSourceLabel) {
-    return 'Inherited from $inheritedSourceLabel: off';
+    return 'Paveldėta iš $inheritedSourceLabel: išjungta';
   }
 
   @override
-  String get channelSettingsMatureContentCategorySource => 'category';
+  String get channelSettingsMatureContentCategorySource => 'kategorija';
 
   @override
-  String get channelSettingsMatureContentCommunitySource => 'community';
+  String get channelSettingsMatureContentCommunitySource => 'bendruomenės';
 
   @override
-  String get channelSettingsMatureContentCategoryScope => 'Category';
+  String get channelSettingsMatureContentCategoryScope => 'Kategorija';
 
   @override
-  String get channelSettingsMatureContentCommunityScope => 'Community';
+  String get channelSettingsMatureContentCommunityScope => 'Bendruomenė';
 
   @override
   String get channelSettingsContentWarningToggle =>
-      'Show a content warning in this channel';
+      'Rodyti įspėjimą apie turinį šiame kanale';
 
   @override
   String get channelSettingsContentWarningToggleDescription =>
-      'Turns on a consent prompt before entering this channel.';
+      'Įjungia sutikimo raginimą prieš įeinant į šį kanalą.';
 
   @override
-  String get channelSettingsContentWarningText => 'Custom warning text';
+  String get channelSettingsContentWarningText =>
+      'Pasirinktinis įspėjimo tekstas';
 
   @override
   String get channelSettingsContentWarningDefault =>
-      'This contains sensitive content.';
+      'Čia yra jautraus turinio.';
 
   @override
   String channelSettingsPermissionsNeedManageChannels(
     String manageChannelsPermissionLabel,
   ) {
-    return 'You need the \"$manageChannelsPermissionLabel\" permission to edit these permissions.';
+    return 'Norėdami redaguoti šiuos leidimus, turite turėti leidimą \"$manageChannelsPermissionLabel\".';
   }
 
   @override
   String channelSettingsPermissionsNeedManageRoles(
     String manageRolesPermissionLabel,
   ) {
-    return 'You need the \"$manageRolesPermissionLabel\" permission to edit these permissions.';
+    return 'Norėdami redaguoti šiuos leidimus, turite turėti leidimą \"$manageRolesPermissionLabel\".';
   }
 
   @override
-  String get channelSettingsUnknownRole => 'Unknown role';
+  String get channelSettingsUnknownRole => 'Nežinomas vaidmuo';
 
   @override
-  String get channelSettingsUnknownUser => 'Unknown user';
+  String get channelSettingsUnknownUser => 'Nežinomas naudotojas';
 
   @override
   String get channelSettingsEveryoneRole => '@everyone';
 
   @override
-  String get channelSettingsPermissionsAccessOverrides => 'Access overrides';
+  String get channelSettingsPermissionsAccessOverrides => 'Prieigos perrašymai';
 
   @override
   String channelSettingsPermissionsEditAccessFor(String name) {
-    return 'Edit access for $name';
+    return 'Redaguoti prieigą $name';
   }
 
   @override
-  String get channelSettingsPermissionsBackToOverrides => 'Back to overrides';
+  String get channelSettingsPermissionsBackToOverrides =>
+      'Grįžti prie perrašymų';
 
   @override
   String get channelSettingsPermissionsConfigureBaseAccess =>
-      'Configure base access for this channel';
+      'Konfigūruoti pagrindinę prieigą šiam kanalui';
 
   @override
   String get channelSettingsPermissionsConfigureRoleOverrides =>
-      'Configure overrides for this role';
+      'Konfigūruoti šio vaidmens perrašymus';
 
   @override
   String get channelSettingsPermissionsConfigureMemberOverrides =>
-      'Configure overrides for this member';
+      'Konfigūruoti šio nario perrašymus';
 
   @override
-  String get channelSettingsPermissionsSearchPlaceholder =>
-      'Search permissions…';
+  String get channelSettingsPermissionsSearchPlaceholder => 'Ieškoti leidimų…';
 
   @override
   String get channelSettingsPermissionsChannelAccessUpdated =>
-      'Channel access updated';
+      'Kanalo prieiga atnaujinta';
 
   @override
-  String get channelSettingsPermissionsTitle => 'Access control';
+  String get channelSettingsPermissionsTitle => 'Valdyti prieigą';
 
   @override
   String get channelSettingsPermissionsSyncedWithParentPrefix =>
-      'This channel is synced with the parent category ';
+      'Šis kanalas sinchronizuotas su pagrindine kategorija ';
 
   @override
   String get channelSettingsPermissionsSyncedWithParentSuffix => '.';
 
   @override
   String get channelSettingsPermissionsNotSyncedWithParentPrefix =>
-      'This channel is not synced with the parent category ';
+      'Šis kanalas nesinchronizuojamas su pagrindine kategorija ';
 
   @override
   String get channelSettingsPermissionsNotSyncedWithParentSuffix => '.';
 
   @override
-  String get channelSettingsPermissionsSyncWithCategory => 'Sync with category';
+  String get channelSettingsPermissionsSyncWithCategory =>
+      'Sinchronizuoti su kategorija';
 
   @override
   String get channelSettingsPermissionsSyncedWithParentToast =>
-      'Channel synced with parent category';
+      'Kanalas sinchronizuotas su pagrindine kategorija';
 
   @override
-  String get channelSettingsPermissionsAddOverride => 'Add override';
+  String get channelSettingsPermissionsAddOverride => 'Pridėti perrašymą';
 
   @override
   String get channelSettingsPermissionsSearchRolesOrMembers =>
-      'Search roles or members…';
+      'Ieškoti vaidmenų ar narių…';
 
   @override
-  String get channelSettingsPermissionsRolesAndMembers => 'Roles and members';
+  String get channelSettingsPermissionsRolesAndMembers => 'Vaidmenys ir nariai';
 
   @override
-  String get channelSettingsDeleteInvite => 'Delete invite';
+  String get channelSettingsDeleteInvite => 'Ištrinti kvietimą';
 
   @override
   String get channelSettingsDeleteInviteConfirm =>
-      'Delete this invite? Can\'t be undone.';
+      'Ištrinti šį kvietimą? Atšaukti nebus galima.';
 
   @override
-  String get channelSettingsCopyInviteCode => 'Copy invite code';
+  String get channelSettingsCopyInviteCode => 'Kopijuoti kvietimo kodą';
 
   @override
-  String get channelSettingsCopyInviteUrl => 'Copy invite URL';
+  String get channelSettingsCopyInviteUrl => 'Kopijuoti kvietimo nuorodą';
 
   @override
-  String get channelSettingsWebhookCreated => 'Webhook created';
+  String get channelSettingsWebhookCreated => 'Žiniatinklio kablys sukurtas';
 
   @override
-  String get channelSettingsWebhookCreateFailed => 'Failed to create webhook';
+  String get channelSettingsWebhookCreateFailed =>
+      'Nepavyko sukurti \"webhook\"';
 
   @override
-  String get channelSettingsCreateWebhook => 'Create webhook';
+  String get channelSettingsCreateWebhook => 'Sukurti \"webhook\"';
 
   @override
   String get channelSettingsInvitesDescription =>
-      'Manage invite links for this channel.';
+      'Tvarkykite šio kanalo kvietimo nuorodas.';
 
   @override
-  String get channelSettingsInvitesCreate => 'Create invite';
+  String get channelSettingsInvitesCreate => 'Kurti kvietimą';
 
   @override
-  String get channelSettingsInvitesEmpty => 'No invite links';
+  String get channelSettingsInvitesEmpty => 'Nėra kvietimo nuorodų';
 
   @override
   String get channelSettingsInvitesEmptyDescription =>
-      'This channel doesn\'t have any invite links yet. Create one to invite people to this channel.';
+      'Šis kanalas dar neturi jokių pakvietimo nuorodų. Sukurkite vieną, kad pakviestumėte žmones į šį kanalą.';
 
   @override
   String get channelSettingsInvitesLoadFailedDescription =>
-      'There was an error loading the invite links for this channel. Try again.';
+      'Įkeliant šio kanalo kvietimo nuorodas įvyko klaida. Bandykite dar kartą.';
 
   @override
   String get channelSettingsWebhooksDescription =>
-      'Manage incoming webhooks that can post messages into this channel.';
+      'Tvarkykite gaunamus \"webhook\'us\", kurie gali skelbti pranešimus šiame kanale.';
 
   @override
-  String get channelSettingsWebhooksEmpty => 'No webhooks';
+  String get channelSettingsWebhooksEmpty => 'Nėra \"webhook\" nuorodų';
 
   @override
   String get channelSettingsWebhooksEmptyDescription =>
-      'There are no webhooks configured for this channel. Create a webhook to allow external applications to post messages.';
+      'Šiam kanalui nėra sukonfigūruotų \"webhook\" nuorodų. Sukurkite \"webhook\" nuorodą, kad išorinės programos galėtų skelbti pranešimus.';
 
   @override
   String get channelSettingsWebhooksUnsupported =>
-      'This channel does not support webhooks.';
+      'Šis kanalas nepalaiko \"webhook\" integravimo.';
 
   @override
   String channelSettingsWebhooksPermissionRequired(String permission) {
-    return 'You need the \"$permission\" permission to view and edit webhooks for this channel.';
+    return 'Norint peržiūrėti ir redaguoti šio kanalo webhookus, jums reikia „$permission“ leidimo.';
   }
 
   @override
   String get channelSettingsWebhooksLoadFailedTitle =>
-      'Failed to load webhooks';
+      'Nepavyko įkelti \"webhook\" nuorodų';
 
   @override
   String get channelSettingsWebhooksLoadFailedDescription =>
-      'There was an error loading the webhooks for this channel. Try again.';
+      'Įkeliant šio kanalo žiniatinklio kabliukus įvyko klaida. Bandykite dar kartą.';
 
   @override
   String channelSettingsWebhooksCreatedBy(String creator, String date) {
-    return 'Created by $creator on $date';
+    return 'Sukurta $creator $date';
   }
 
   @override
-  String get channelSettingsWebhooksUnknownUser => 'Unknown user';
+  String get channelSettingsWebhooksUnknownUser => 'Nežinomas naudotojas';
 
   @override
-  String get channelSettingsWebhooksAvatar => 'Avatar';
+  String get channelSettingsWebhooksAvatar => 'Avataras';
 
   @override
-  String get channelSettingsWebhooksUploadImage => 'Upload image';
+  String get channelSettingsWebhooksUploadImage => 'Įkelti nuotrauką';
 
   @override
-  String get channelSettingsWebhooksRemove => 'Remove';
+  String get channelSettingsWebhooksRemove => 'Pašalinti';
 
   @override
-  String get channelSettingsWebhooksName => 'Name';
+  String get channelSettingsWebhooksName => 'Pavadinimas';
 
   @override
-  String get channelSettingsWebhooksNamePlaceholder => 'Webhook name';
+  String get channelSettingsWebhooksNamePlaceholder => 'Webhook pavadinimas';
 
   @override
-  String get channelSettingsWebhooksChannel => 'Channel';
+  String get channelSettingsWebhooksChannel => 'Kanalas';
 
   @override
-  String get channelSettingsWebhooksUrl => 'Webhook URL';
+  String get channelSettingsWebhooksUrl => 'Žiniatinklio kablio URL';
 
   @override
-  String get channelSettingsWebhooksCopyUrl => 'Copy webhook URL';
+  String get channelSettingsWebhooksCopyUrl => 'Kopijuoti \"webhook\" URL';
 
   @override
-  String get channelSettingsWebhooksDelete => 'Delete webhook';
+  String get channelSettingsWebhooksDelete => 'Ištrinti \"webhook\"';
 
   @override
   String get channelSettingsWebhooksDeleteFailed =>
-      'Couldn\'t delete this webhook';
+      'Nepavyko ištrinti šios žiniatinklio jungties';
 
   @override
   String get channelSettingsWebhooksDeleteConfirm =>
-      'Delete this webhook? Can\'t be undone.';
+      'Ištrinti šį webhook? Negalima atšaukti.';
 
   @override
   String get channelSettingsWebhookTryAgainInAMoment =>
-      'Try again in a moment.';
+      'Bandyti dar kartą po akimirkos.';
 
   @override
-  String get channelMenuOpenChat => 'Open chat';
+  String get channelMenuOpenChat => 'Atidaryti pokalbį';
 
   @override
-  String get channelMenuDuplicateChannel => 'Duplicate channel';
+  String get channelMenuDuplicateChannel => 'Dublikuoti kanalą';
 
   @override
   String get channelMenuResetMatureContentAgreeState =>
-      'Reset mature content agreement state';
+      'Iš naujo nustatyti sutikimo su brandaus turinio taisyklėmis būseną';
 
   @override
   String get channelMenuDeleteMyMessagesTitle =>
-      'Delete your messages in this channel?';
+      'Ištrinti savo žinutes šiame kanale?';
 
   @override
   String get channelMenuDeleteMyMessagesDescription =>
-      'This will permanently delete every message you have ever sent in this channel. This cannot be undone.';
+      'Tai visam laikui ištrins visas žinutes, kurias kada nors išsiuntėte šiame kanale. Šio veiksmo anuliuoti negalima.';
 
   @override
-  String get channelMenuDeleteMyMessagesConfirm => 'Delete My Messages';
+  String get channelMenuDeleteMyMessagesConfirm => 'Ištrinti mano žinutes';
 
   @override
-  String get channelMenuDeletedYourMessages => 'Deleted your messages';
+  String get channelMenuDeletedYourMessages => 'Ištrynei savo žinutes';
 
   @override
   String get channelMenuCouldNotDeleteYourMessages =>
-      'Couldn\'t delete your messages';
+      'Nepavyko ištrinti jūsų žinučių';
 
   @override
-  String get channelDetailsSystemMessage => 'System message';
+  String get channelDetailsSystemMessage => 'Sisteminė žinutė';
 
   @override
-  String get channelDetailsTextChannel => 'Text channel';
+  String get channelDetailsTextChannel => 'Teksto kanalas';
 
   @override
-  String get channelDetailsVoiceChannel => 'Voice channel';
+  String get channelDetailsVoiceChannel => 'Balso kanalas';
 
   @override
-  String get channelDetailsCategory => 'Category';
+  String get channelDetailsCategory => 'Kategorija';
 
   @override
-  String get channelDetailsLinkChannel => 'Link channel';
+  String get channelDetailsLinkChannel => 'Susieti kanalą';
 
   @override
-  String get channelDetailsGenericChannel => 'Channel';
+  String get channelDetailsGenericChannel => 'Kanalas';
 
   @override
-  String get channelDetailsMutedConversation => 'Muted conversation';
+  String get channelDetailsMutedConversation => 'Nutildytas pokalbis';
 
   @override
-  String get channelDetailsUnmutedConversation => 'Unmuted conversation';
+  String get channelDetailsUnmutedConversation => 'Pokalbis įjungtas';
 
   @override
-  String get channelDetailsMutedChannel => 'Muted channel';
+  String get channelDetailsMutedChannel => 'Nutildytas kanalas';
 
   @override
-  String get channelDetailsUnmutedChannel => 'Unmuted channel';
+  String get channelDetailsUnmutedChannel => 'Kanalas nutildytas';
 
   @override
   String get channelDetailsNotificationSettingsUpdated =>
-      'Notification settings updated';
+      'Pranešimų nuostatos atnaujintos';
 
   @override
-  String get channelDetailsTabMembers => 'Members';
+  String get channelDetailsTabMembers => 'Nariai';
 
   @override
-  String get channelDetailsTabPins => 'Pins';
+  String get channelDetailsTabPins => 'Prisegti pranešimai';
 
   @override
-  String get channelDetailsActionMute => 'Mute';
+  String get channelDetailsActionMute => 'Nutildyti';
 
   @override
-  String get channelDetailsActionUnmute => 'Unmute';
+  String get channelDetailsActionUnmute => 'Įjungti garsą';
 
   @override
-  String get channelDetailsActionSearch => 'Search';
+  String get channelDetailsActionSearch => 'Ieškoti';
 
   @override
-  String get channelDetailsActionMore => 'More';
+  String get channelDetailsActionMore => 'Daugiau';
 
   @override
-  String get channelDetailsMembersEmptyTitle => 'No members to show';
+  String get channelDetailsMembersEmptyTitle =>
+      'Nėra narių, kuriuos būtų galima rodyti';
 
   @override
   String get channelDetailsMembersEmptyBody =>
-      'Members will appear here once the community data is loaded.';
+      'Nariai čia pasirodys, kai bus įkelti bendruomenės duomenys.';
 
   @override
-  String get memberListPermissionDeniedTitle => 'You can\'t view members';
+  String get memberListPermissionDeniedTitle => 'Negalite peržiūrėti narių';
 
   @override
   String get memberListPermissionDeniedBody =>
-      'You can\'t view the members of this channel in this community';
+      'Šioje bendruomenėje negalite peržiūrėti šio kanalo narių';
 
   @override
-  String get memberListUnavailableTitle => 'Member list unavailable';
+  String get memberListUnavailableTitle => 'Narių sąrašas nepasiekiamas';
 
   @override
   String get memberListUnavailableBody =>
-      'Member lists are temporarily unavailable in this community';
+      'Šiuo metu bendruomenės narių sąrašai nepasiekiami';
 
   @override
-  String get channelDetailsPinsLoadFailedTitle => 'Pins could not be loaded';
+  String get channelDetailsPinsLoadFailedTitle =>
+      'Nepavyko įkelti prisegtų žinučių';
 
   @override
   String get channelDetailsPinsGuildEndHint =>
-      'Members with the \"Pin Messages\" permission can pin messages for everyone to see.';
+      'Nariai, turintys leidimą „Smeigti pranešimus“, gali smeigti pranešimus, kad juos matytų visi.';
 
   @override
   String get channelDetailsPinsDmEndHint =>
-      'You can pin messages in this conversation for everyone to see.';
+      'Galite prisegti žinutes šiame pokalbyje, kad jas matytų visi.';
 
   @override
-  String get channelDetailsPinsEndReached => 'You\'ve reached the end';
+  String get channelDetailsPinsEndReached => 'Pasiekėte pabaigą';
 
   @override
-  String get channelHeaderOpenDetails => 'Open channel details';
+  String get channelHeaderOpenDetails => 'Atidaryti kanalo informaciją';
 
   @override
-  String get channelHeaderPinnedMessages => 'Pinned messages';
+  String get channelHeaderPinnedMessages => 'Prisegti pranešimai';
 
   @override
-  String get channelHeaderPinnedMessagesUnread => 'Pinned messages, unread';
+  String get channelHeaderPinnedMessagesUnread =>
+      'Smeigtos žinutės, neskaitytos';
 
   @override
-  String get channelHeaderMemberList => 'Member list';
+  String get channelHeaderMemberList => 'Narių sąrašas';
 
   @override
-  String get channelHeaderInbox => 'Inbox';
+  String get channelHeaderInbox => 'Gauta';
 
   @override
   String get channelHeaderNotificationSettingsMuted =>
-      'Notification settings, muted';
+      'Pranešimų nustatymai, nutildyta';
 
   @override
-  String get channelDetailsSearchTitle => 'Search';
+  String get channelDetailsSearchTitle => 'Ieškoti';
 
   @override
-  String get channelDetailsSearchHint => 'Search Messages';
+  String get channelDetailsSearchHint => 'Ieškoti žinučių';
 
   @override
-  String get channelDetailsSearchFilterFrom => 'From';
+  String get channelDetailsSearchFilterFrom => 'Nuo';
 
   @override
-  String get channelDetailsSearchFilterHas => 'Has';
+  String get channelDetailsSearchFilterHas => 'Turi';
 
   @override
-  String get channelDetailsSearchFilterIn => 'In';
+  String get channelDetailsSearchFilterIn => 'Kanale';
 
   @override
-  String get channelDetailsSearchFilterMentions => 'Mentions';
+  String get channelDetailsSearchFilterMentions => 'Paminėjimai';
 
   @override
-  String get channelDetailsSearchFilterMore => 'More';
+  String get channelDetailsSearchFilterMore => 'Daugiau';
 
   @override
-  String get channelDetailsSearchMoreFiltersActive => 'Active';
+  String get channelDetailsSearchMoreFiltersActive => 'Aktyvus';
 
   @override
   String channelDetailsSearchChannelsCount(int count) {
-    return '$count channels';
+    return '$count kanalai';
   }
 
   @override
   String channelDetailsSearchUsersCount(int count) {
-    return '$count users';
+    return '$count naudotojai';
   }
 
   @override
-  String get channelDetailsSearchAuthorTypeUser => 'User';
+  String get channelDetailsSearchAuthorTypeUser => 'Vartotojas';
 
   @override
-  String get channelDetailsSearchAuthorTypeBot => 'Bot';
+  String get channelDetailsSearchAuthorTypeBot => 'robotas';
 
   @override
-  String get channelDetailsSearchAuthorTypeWebhook => 'Webhook';
+  String get channelDetailsSearchAuthorTypeWebhook => 'Žiniatinklio kabliukas';
 
   @override
-  String get channelDetailsSearchFilterByChannel => 'Filter by channel';
+  String get channelDetailsSearchFilterByChannel => 'Filtruoti pagal kanalą';
 
   @override
-  String get channelDetailsSearchChannelsHint => 'Search channels';
+  String get channelDetailsSearchChannelsHint => 'Ieškoti kanalų';
 
   @override
-  String get channelDetailsSearchChannelsEmpty => 'No channels found';
+  String get channelDetailsSearchChannelsEmpty => 'Kanalų nerasta';
 
   @override
-  String get channelDetailsSearchMoreFiltersPinned => 'Pinned';
+  String get channelDetailsSearchMoreFiltersPinned => 'Prikabinti';
 
   @override
-  String get channelDetailsSearchPinnedTrue => 'Pinned only';
+  String get channelDetailsSearchPinnedTrue => 'Tik prisegti';
 
   @override
-  String get channelDetailsSearchPinnedFalse => 'Exclude pinned';
+  String get channelDetailsSearchPinnedFalse => 'Nepaisyti prisegtų';
 
   @override
-  String get channelDetailsSearchClearFilter => 'Clear';
+  String get channelDetailsSearchClearFilter => 'Valyti';
 
   @override
-  String get channelDetailsSearchMoreFiltersAuthorType => 'Author type';
+  String get channelDetailsSearchMoreFiltersAuthorType => 'Autoriaus tipas';
 
   @override
-  String get channelDetailsSearchMoreFiltersDate => 'Date';
+  String get channelDetailsSearchMoreFiltersDate => 'Data';
 
   @override
-  String get channelDetailsSearchMoreFiltersDateMode => 'Date mode';
+  String get channelDetailsSearchMoreFiltersDateMode => 'Data režimas';
 
   @override
-  String get channelDetailsSearchMoreFiltersPickDate => 'Pick a date';
+  String get channelDetailsSearchMoreFiltersPickDate => 'Pasirinkite datą';
 
   @override
-  String get channelDetailsSearchMoreFiltersLink => 'Link hostname';
+  String get channelDetailsSearchMoreFiltersLink =>
+      'Nuorodos pagrindinis domenas';
 
   @override
-  String get channelDetailsSearchMoreFiltersFileName => 'Filename contains';
+  String get channelDetailsSearchMoreFiltersFileName => 'Failo pavadinimas yra';
 
   @override
-  String get channelDetailsSearchMoreFiltersFileType => 'File extension';
+  String get channelDetailsSearchMoreFiltersFileType => 'Failo plėtinys';
 
   @override
-  String get channelDetailsSearchContentPoll => 'Poll';
+  String get channelDetailsSearchContentPoll => 'Apklausa';
 
   @override
   String get channelDetailsSearchContentPollDescription =>
-      'Messages with a poll';
+      'Žinutės su apklausa';
 
   @override
-  String get channelDetailsSearchContentForward => 'Forward';
+  String get channelDetailsSearchContentForward => 'Persiųsti';
 
   @override
   String get channelDetailsSearchContentForwardDescription =>
-      'Forwarded messages';
+      'Persiųsti pranešimai';
 
   @override
-  String get channelDetailsSearchFilterSort => 'Sort';
+  String get channelDetailsSearchFilterSort => 'Rūšiuoti';
 
   @override
-  String get channelHeaderSearchFiltersTitle => 'Search Filters';
+  String get channelHeaderSearchFiltersTitle => 'Ieškoti filtrų';
 
   @override
-  String get channelHeaderSearchRecentTitle => 'Recent Searches';
+  String get channelHeaderSearchRecentTitle => 'Neseniai ieškota';
 
   @override
-  String get channelHeaderSearchUsersTitle => 'Users';
+  String get channelHeaderSearchUsersTitle => 'Vartotojai';
 
   @override
-  String get channelHeaderSearchChannelsTitle => 'Channels';
+  String get channelHeaderSearchChannelsTitle => 'Kanalai';
 
   @override
-  String get channelHeaderSearchValuesTitle => 'Values';
+  String get channelHeaderSearchValuesTitle => 'Reikšmės';
 
   @override
-  String get channelHeaderSearchDatesTitle => 'Dates';
+  String get channelHeaderSearchDatesTitle => 'Datos';
 
   @override
-  String get channelHeaderSearchDefaultBadge => 'Default';
+  String get channelHeaderSearchDefaultBadge => 'Numatytasis';
 
   @override
-  String get channelHeaderSearchClearHistory => 'Clear';
+  String get channelHeaderSearchClearHistory => 'Valyti';
 
   @override
-  String get channelHeaderSearchFilterDescFrom => 'a user';
+  String get channelHeaderSearchFilterDescFrom => 'naudotojas';
 
   @override
-  String get channelHeaderSearchFilterDescMentions => 'a user';
+  String get channelHeaderSearchFilterDescMentions => 'naudotojas';
 
   @override
   String get channelHeaderSearchFilterDescHas =>
-      'link, embed, image, video, sound, file, sticker, …';
+      'nuoroda, įterpinys, vaizdas, vaizdo įrašas, garsas, failas, lipdukas, …';
 
   @override
-  String get channelHeaderSearchFilterDescBefore => 'a date or date range';
+  String get channelHeaderSearchFilterDescBefore => 'data arba datų intervalas';
 
   @override
-  String get channelHeaderSearchFilterDescOn => 'a date or date range';
+  String get channelHeaderSearchFilterDescOn => 'data arba datų intervalas';
 
   @override
-  String get channelHeaderSearchFilterDescDuring => 'a date or date range';
+  String get channelHeaderSearchFilterDescDuring => 'data arba datų intervalas';
 
   @override
-  String get channelHeaderSearchFilterDescAfter => 'a date or date range';
+  String get channelHeaderSearchFilterDescAfter => 'data arba datų intervalas';
 
   @override
-  String get channelHeaderSearchFilterDescIn => 'a channel';
+  String get channelHeaderSearchFilterDescIn => 'kanalas';
 
   @override
-  String get channelHeaderSearchFilterDescPinned => 'true or false';
+  String get channelHeaderSearchFilterDescPinned => 'taip arba ne';
 
   @override
-  String get channelHeaderSearchFilterDescAuthorType => 'user, bot, or webhook';
+  String get channelHeaderSearchFilterDescAuthorType =>
+      'naudotojas, robotas arba \"webhook\"';
 
   @override
   String get channelHeaderSearchFilterDescLinkFrom =>
-      'a hostname, e.g. example.com';
+      'kompiuterio pavadinimas, pvz., example.com';
 
   @override
   String get channelHeaderSearchFilterDescFileName =>
-      'part of an attachment filename';
+      'priedo failo pavadinimo dalis';
 
   @override
   String get channelHeaderSearchFilterDescFileType =>
-      'a file extension, e.g. png';
+      'failo plėtinys, pvz., png';
 
   @override
-  String get channelHeaderSearchFilterDescSort => 'timestamp or relevance';
+  String get channelHeaderSearchFilterDescSort => 'laikas arba tinkamumas';
 
   @override
-  String get channelHeaderSearchFilterDescOrder => 'asc or desc';
+  String get channelHeaderSearchFilterDescOrder => 'did. arba mažėj';
 
   @override
   String channelDetailsSearchResultCount(int count) {
@@ -8562,234 +8603,239 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$countString Results',
-      one: '1 Result',
+      other: '$countString rezultatai',
+      one: '1 rezultatas',
     );
     return '$_temp0';
   }
 
   @override
-  String get channelDetailsSearchFilterByUser => 'Filter by user';
+  String get channelDetailsSearchFilterByUser => 'Filtruoti pagal naudotoją';
 
   @override
-  String get channelDetailsSearchFilterByContent => 'Filter by content';
+  String get channelDetailsSearchFilterByContent => 'Filtruoti pagal turinį';
 
   @override
-  String get channelDetailsSearchSortBy => 'Sort results by';
+  String get channelDetailsSearchSortBy => 'Rūšiuoti rezultatus pagal';
 
   @override
-  String get channelDetailsSearchIn => 'Search In';
+  String get channelDetailsSearchIn => 'Ieškoti kanale';
 
   @override
-  String get channelDetailsSearchEmptyTitle => 'Search this conversation';
+  String get channelDetailsSearchEmptyTitle => 'Ieškoti šioje pokalbyje';
 
   @override
   String get channelDetailsSearchEmptyBody =>
-      'Enter text, an author, or a content filter to find messages.';
+      'Įveskite tekstą, autorių arba turinio filtrą, kad rastumėte žinutes.';
 
   @override
-  String get channelDetailsSearchIndexingTitle => 'Messages are indexing';
+  String get channelDetailsSearchIndexingTitle => 'Pranešimai yra indeksuojami';
 
   @override
   String get channelDetailsSearchIndexingBody =>
-      'Try again shortly once search finishes indexing this scope.';
+      'Pabandykite dar kartą netrukus, kai bus baigta indeksuoti šią sritį.';
 
   @override
-  String get channelDetailsSearchNoResultsTitle => 'No results';
+  String get channelDetailsSearchNoResultsTitle => 'Nėra rezultatų';
 
   @override
   String get channelDetailsSearchNoResultsBody =>
-      'Try different search terms or filters.';
+      'Pabandykite kitų paieškos terminų arba filtrų.';
 
   @override
-  String get channelDetailsMembersOnline => 'Online';
+  String get channelDetailsMembersOnline => 'Prisijungęs';
 
   @override
-  String get channelDetailsMembersOffline => 'Offline';
+  String get channelDetailsMembersOffline => 'Neprisijungęs';
 
   @override
-  String get channelDetailsMemberYou => 'You';
+  String get channelDetailsMemberYou => 'Jūs';
 
   @override
-  String get channelDetailsSearchUsersHint => 'Search users';
+  String get channelDetailsSearchUsersHint => 'Ieškoti naudotojų';
 
   @override
-  String get channelDetailsSearchUsersTypeToSearch => 'Type to search members';
+  String get channelDetailsSearchUsersTypeToSearch =>
+      'Rašykite, kad ieškoti narių';
 
   @override
-  String get channelDetailsSearchUsersEmpty => 'No users found';
+  String get channelDetailsSearchUsersEmpty => 'Vartotojų nerasta';
 
   @override
-  String get channelDetailsSearchUsersNoAvailable => 'No users available';
+  String get channelDetailsSearchUsersNoAvailable => 'Nėra naudotojų';
 
   @override
-  String get channelDetailsDone => 'Done';
+  String get channelDetailsDone => 'Atlikta';
 
   @override
-  String get channelDetailsHasFilterPrompt => 'Show messages that contain:';
+  String get channelDetailsHasFilterPrompt =>
+      'Rodyti pranešimus, kuriuose yra:';
 
   @override
-  String get channelDetailsRetry => 'Retry';
+  String get channelDetailsRetry => 'Bandykite dar kartą';
 
   @override
-  String get channelDetailsPinnedMessageTitle => 'Pinned Message';
+  String get channelDetailsPinnedMessageTitle => 'Prisegtas pranešimas';
 
   @override
-  String get channelDetailsSearchResultTitle => 'Search Result';
+  String get channelDetailsSearchResultTitle => 'Paieškos rezultatas';
 
   @override
-  String get channelDetailsJumpToMessage => 'Jump to Message';
+  String get channelDetailsJumpToMessage => 'Pereiti prie žinutės';
 
   @override
-  String get channelDetailsUnpinMessage => 'Unpin Message';
+  String get channelDetailsUnpinMessage => 'Atsegti žinutę';
 
   @override
-  String get channelDetailsCopyMessageLink => 'Copy Message Link';
+  String get channelDetailsCopyMessageLink => 'Nukopijuoti žinutės nuorodą';
 
   @override
-  String get channelDetailsCopyMessageId => 'Copy Message ID';
+  String get channelDetailsCopyMessageId => 'Nukopijuoti žinutės ID';
 
   @override
-  String get channelDetailsMessageUnpinned => 'Message unpinned';
+  String get channelDetailsMessageUnpinned => 'Žinutė atsegta';
 
   @override
-  String get channelDetailsSearchScopeCurrentCommunity => 'Current Community';
+  String get channelDetailsSearchScopeCurrentCommunity =>
+      'Dabartinė bendruomenė';
 
   @override
-  String get channelDetailsSearchScopeCurrentDm => 'Current DM';
+  String get channelDetailsSearchScopeCurrentDm => 'Šis pokalbis';
 
   @override
-  String get channelDetailsSearchScopeAllCommunities => 'All Communities';
+  String get channelDetailsSearchScopeAllCommunities => 'Visos bendruomenės';
 
   @override
-  String get channelDetailsSearchScopeAllDmsOnlyGuild => 'All DMs Only';
+  String get channelDetailsSearchScopeAllDmsOnlyGuild => 'Tiktai DM';
 
   @override
-  String get channelDetailsSearchScopeAllDms => 'All DMs';
+  String get channelDetailsSearchScopeAllDms => 'Visi tiesioginiai pranešimai';
 
   @override
-  String get channelDetailsSearchScopeOpenDmsOnlyGuild => 'Open DMs Only';
+  String get channelDetailsSearchScopeOpenDmsOnlyGuild => 'Tik atvirieji DM';
 
   @override
-  String get channelDetailsSearchScopeOpenDms => 'Open DMs';
+  String get channelDetailsSearchScopeOpenDms =>
+      'Atidaryti tiesioginius pranešimus';
 
   @override
   String get channelDetailsSearchScopeAllDmsAndCommunities =>
-      'All DMs + Communities';
+      'Visi DM + Bendruomenės';
 
   @override
   String get channelDetailsSearchScopeOpenDmsAndCommunities =>
-      'Open DMs + Communities';
+      'Atviri PM ir bendruomenės';
 
   @override
   String get channelDetailsSearchScopeCurrentCommunityDescription =>
-      'Search only in the current Community';
+      'Ieškoti tik dabartinėje bendruomenėje';
 
   @override
   String get channelDetailsSearchScopeCurrentDmDescription =>
-      'Search only in the current DM';
+      'Ieškoti tik šiame tiesioginiame pranešime';
 
   @override
   String get channelDetailsSearchScopeAllCommunitiesDescription =>
-      'Across all Communities you\'re currently in';
+      'Visose bendruomenėse, kuriose esate dabar';
 
   @override
   String get channelDetailsSearchScopeAllDmsOnlyGuildDescription =>
-      'Across all DMs you\'ve ever been in only';
+      'Tik visuose DM, kuriuose kada nors buvote';
 
   @override
   String get channelDetailsSearchScopeAllDmsDescription =>
-      'Across all DMs you\'ve ever been in';
+      'Visuose DM, kuriuose kada nors dalyvavote';
 
   @override
   String get channelDetailsSearchScopeOpenDmsOnlyGuildDescription =>
-      'Across all DMs you currently have open only';
+      'Visuose jūsų šiuo metu atidarytuose DM tik';
 
   @override
   String get channelDetailsSearchScopeOpenDmsDescription =>
-      'Across all DMs you currently have open';
+      'Visuose jūsų šiuo metu atidarytuose DM';
 
   @override
   String get channelDetailsSearchScopeAllDmsAndCommunitiesDescription =>
-      'Across all DMs you\'ve ever been in + all Communities you\'re currently in';
+      'Visuose jūsų kada nors buvusiuose tiesioginiuose pranešimuose + visose bendruomenėse, kuriose šiuo metu esate';
 
   @override
   String get channelDetailsSearchScopeOpenDmsAndCommunitiesDescription =>
-      'Across all DMs you currently have open + all Communities you\'re currently in';
+      'Visuose jūsų atidarytuose DM + visose bendruomenėse, kuriose esate dabar';
 
   @override
-  String get channelDetailsSearchSortNewest => 'Newest First';
+  String get channelDetailsSearchSortNewest => 'Naujausi pirmiausia';
 
   @override
-  String get channelDetailsSearchSortOldest => 'Oldest First';
+  String get channelDetailsSearchSortOldest => 'Seniausi pirma';
 
   @override
-  String get channelDetailsSearchSortRelevance => 'Most Relevant';
+  String get channelDetailsSearchSortRelevance => 'Labiausiai aktualūs';
 
   @override
   String get channelDetailsSearchSortNewestDescription =>
-      'Show most recent messages first';
+      'Rodyti naujausius pranešimus pirmiausia';
 
   @override
   String get channelDetailsSearchSortOldestDescription =>
-      'Show oldest messages first';
+      'Rodyti seniausias žinutes pirmiausia';
 
   @override
   String get channelDetailsSearchSortRelevanceDescription =>
-      'Show most relevant messages first';
+      'Pirmiausia rodyti tinkamiausius pranešimus';
 
   @override
-  String get channelDetailsSearchContentImage => 'Image Upload';
+  String get channelDetailsSearchContentImage => 'Vaizdo įkėlimas';
 
   @override
-  String get channelDetailsSearchContentVideo => 'Video Upload';
+  String get channelDetailsSearchContentVideo => 'Vaizdo įkėlimas';
 
   @override
-  String get channelDetailsSearchContentAudio => 'Audio Upload';
+  String get channelDetailsSearchContentAudio => 'Garso įkėlimas';
 
   @override
-  String get channelDetailsSearchContentFile => 'File Upload';
+  String get channelDetailsSearchContentFile => 'Failo įkėlimas';
 
   @override
-  String get channelDetailsSearchContentLink => 'Link';
+  String get channelDetailsSearchContentLink => 'Nuoroda';
 
   @override
-  String get channelDetailsSearchContentEmbed => 'Link Preview or Embed';
+  String get channelDetailsSearchContentEmbed =>
+      'Nuorodos peržiūra arba įterpimas';
 
   @override
-  String get channelDetailsSearchContentSticker => 'Sticker';
+  String get channelDetailsSearchContentSticker => 'Lipdukas';
 
   @override
   String get channelDetailsSearchContentImageDescription =>
-      'Uploaded image files only';
+      'Tik įkelti paveikslėliai';
 
   @override
   String get channelDetailsSearchContentVideoDescription =>
-      'Uploaded video files only';
+      'Tik įkelti vaizdo įrašai';
 
   @override
   String get channelDetailsSearchContentAudioDescription =>
-      'Uploaded audio files only';
+      'Tik įkelti garso failai';
 
   @override
   String get channelDetailsSearchContentFileDescription =>
-      'Any uploaded attachment';
+      'Bet koks įkeltas priedas';
 
   @override
   String get channelDetailsSearchContentLinkDescription =>
-      'Typed URL in the message text';
+      'Įvestas URL pranešimo tekste';
 
   @override
   String get channelDetailsSearchContentEmbedDescription =>
-      'Resolved previews and rich embeds, not uploads';
+      'Išspręstos peržiūros ir išplėstiniai įterptiniai elementai, ne įkėlimai';
 
   @override
   String get channelDetailsSearchContentStickerDescription =>
-      'Sticker attached to the message';
+      'Prie žinutės pridėtas lipdukas';
 
   @override
   String channelDetailsSearchContentTypesCount(int count) {
-    return '$count types';
+    return '$count tipai';
   }
 
   @override
@@ -8801,167 +8847,172 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String groupDmWelcome(String displayName) {
-    return 'Welcome to $displayName. Add friends to get the group going.';
+    return 'Sveiki, $displayName. Pakvieskite draugų, kad pradėtumėte pokalbį.';
   }
 
   @override
-  String get groupDmWelcomeEditGroup => 'Edit group';
+  String get groupDmWelcomeEditGroup => 'Redaguoti grupę';
 
   @override
-  String get groupDmWelcomeAddFriends => 'Add friends to group';
+  String get groupDmWelcomeAddFriends => 'Pridėti draugų į grupę';
 
   @override
-  String get dmGroupInvites => 'Invites';
+  String get dmGroupInvites => 'Kvietimai';
 
   @override
-  String get groupDmEditTitle => 'Edit group';
+  String get groupDmEditTitle => 'Redaguoti grupę';
 
   @override
-  String get groupDmEditDetailsTooltip => 'Edit group details';
+  String get groupDmEditDetailsTooltip => 'Redaguoti grupės informaciją';
 
   @override
-  String get groupDmGroupName => 'Group name';
+  String get groupDmGroupName => 'Grupės pavadinimas';
 
   @override
-  String get groupDmMyGroup => 'My group';
+  String get groupDmMyGroup => 'Mano grupė';
 
   @override
   String get groupDmGroupNameMaxLength =>
-      'Group name must not exceed 100 characters';
+      'Grupės pavadinimas negali viršyti 100 simbolių';
 
   @override
-  String get groupDmGroupIcon => 'Group icon';
+  String get groupDmGroupIcon => 'Grupės piktograma';
 
   @override
-  String get groupDmUploadIcon => 'Upload icon';
+  String get groupDmUploadIcon => 'Įkelti piktogramą';
 
   @override
-  String get groupDmChangeIcon => 'Change icon';
+  String get groupDmChangeIcon => 'Keisti piktogramą';
 
   @override
-  String get groupDmRemoveIcon => 'Remove icon';
+  String get groupDmRemoveIcon => 'Pašalinti piktogramą';
 
   @override
-  String get groupDmUpdated => 'Group updated';
+  String get groupDmUpdated => 'Grupė atnaujinta';
 
   @override
-  String get groupDmUpdateFailed => 'Couldn\'t update group. Try again.';
+  String get groupDmUpdateFailed =>
+      'Nepavyko atnaujinti grupės. Pabandykite dar kartą.';
 
   @override
   String get groupDmAnimatedIconNotSupported =>
-      'Animated icons are not supported. Use a static image.';
+      'Animuotų piktogramų nepalaikoma. Naudokite statinę nuotrauką.';
 
   @override
   String get groupDmAnimatedIconNotSupportedTitle =>
-      'Animated icons are not supported';
+      'Animuoti paveikslėliai nepalaikomi';
 
   @override
-  String get groupDmIconFileTooLargeTitle => 'Icon file is too large';
+  String get groupDmIconFileTooLargeTitle => 'Piktogramos failas per didelis';
 
   @override
   String groupDmIconFileTooLargeBody(String maxSize) {
-    return 'Icon file is too large. Choose a file smaller than $maxSize.';
+    return 'Piktogramos failas yra per didelis. Pasirinkite failą, mažesnį nei $maxSize.';
   }
 
   @override
-  String get groupDmUnsupportedIconFormat => 'Unsupported icon format';
+  String get groupDmUnsupportedIconFormat =>
+      'Nepalaikomas piktogramos formatas';
 
   @override
-  String get groupDmUnsupportedIconFormatBody => 'Unsupported file type.';
+  String get groupDmUnsupportedIconFormatBody => 'Nepalaikomas failo tipas.';
 
   @override
-  String get groupDmCouldntProcessImage => 'Couldn\'t process image';
+  String get groupDmCouldntProcessImage => 'Nepavyko apdoroti nuotraukos';
 
   @override
   String get groupDmFailedToProcessCroppedImage =>
-      'Failed to process the cropped image. Try again.';
+      'Nepavyko apdoroti apkarpyto vaizdo. Bandykite dar kartą.';
 
   @override
-  String get groupDmInvalidImage => 'Invalid image';
+  String get groupDmInvalidImage => 'Netinkamas paveikslėlis';
 
   @override
   String get groupDmInvalidImageBody =>
-      'That image is invalid. Try another one.';
+      'Šis paveikslėlis netinkamas. Pabandykite kitą.';
 
   @override
-  String get groupDmAddFriends => 'Add';
+  String get groupDmAddFriends => 'Pridėti';
 
   @override
-  String get groupDmOrSendInvite => 'or send an invite to a friend:';
+  String get groupDmOrSendInvite => 'arba išsiųskite pakvietimą draugui:';
 
   @override
-  String get groupDmGenerateInviteLink => 'Generate invite link';
+  String get groupDmGenerateInviteLink => 'Generuoti kvietimo nuorodą';
 
   @override
-  String get groupDmCreateInvite => 'Create';
+  String get groupDmCreateInvite => 'Kurti';
 
   @override
-  String get groupDmInviteExpires24Hours => 'Your invite expires in 24 hours';
+  String get groupDmInviteExpires24Hours =>
+      'Jūsų kvietimas baigs galioti po 24 val';
 
   @override
   String get groupDmAddFriendFailed =>
-      'Couldn\'t add this friend to the group. Please try again.';
+      'Nepavyko pridėti šio draugo į grupę. Bandykite dar kartą.';
 
   @override
-  String get groupDmAddFailed => 'Couldn\'t add to group';
+  String get groupDmAddFailed => 'Nepavyko pridėti prie grupės';
 
   @override
   String get groupDmGroupFull =>
-      'This group is full. Remove someone before adding more people.';
+      'Ši grupė pilna. Pašalinkite ką nors prieš pridėdami daugiau žmonių.';
 
   @override
   String get groupDmRateLimited =>
-      'You\'re going too fast. Wait a moment and try again.';
+      'Jūs per greitai. Palaukite ir bandykite dar kartą.';
 
   @override
-  String get groupDmCreateInviteFailed => 'Couldn\'t create invite link';
+  String get groupDmCreateInviteFailed => 'Nepavyko sukurti kvietimo nuorodos';
 
   @override
   String get groupDmCreateInviteFailedBody =>
-      'Couldn\'t generate an invite link. Please try again.';
+      'Nepavyko sugeneruoti kvietimo nuorodos. Bandykite dar kartą.';
 
   @override
   String get guildNavbarCreateInviteFailed =>
-      'Couldn\'t create an invite link. Please try again.';
+      'Nepavyko sukurti kvietimo nuorodos. Pabandykite dar kartą.';
 
   @override
   String get guildNavbarCreateInviteMissingPermissions =>
-      'You don\'t have permission to create an invite in this channel.';
+      'Neturite leidimo kurti kvietimo šiame kanale.';
 
   @override
   String get guildNavbarCreateInviteMaxInvites =>
-      'This community has reached its invite limit.';
+      'Ši bendruomenė pasiekė kvietimų limitą.';
 
   @override
   String get guildNavbarCreateInviteTemporarilyDisabled =>
-      'Invite creation is temporarily disabled for this community.';
+      'Svečių kvietimų kūrimas šiai bendruomenei laikinai išjungtas.';
 
   @override
-  String get groupDmCopyInviteFailed => 'Failed to copy invite link';
+  String get groupDmCopyInviteFailed =>
+      'Nepavyko nukopijuoti kvietimo nuorodos';
 
   @override
   String get groupDmInvitesOwnerOnly =>
-      'Only the group owner can manage invites.';
+      'Tik grupės savininkas gali tvarkyti kvietimus.';
 
   @override
-  String get groupDmNoInvitesCreated => 'No invites created';
+  String get groupDmNoInvitesCreated => 'Nėra sukurtų pakvietimų';
 
   @override
-  String get groupDmLoadingInvites => 'Loading invites...';
+  String get groupDmLoadingInvites => 'Įkeliami kvietimai...';
 
   @override
-  String get groupDmInvitesLoadFailed => 'Failed to load invites. Try again.';
+  String get groupDmInvitesLoadFailed =>
+      'Nepavyko įkelti kvietimų. Bandykite dar kartą.';
 
   @override
   String get groupDmInvitesRevokeConfirm =>
-      'Revoke this invite? Can\'t be undone.';
+      'Atšaukti šį kvietimą? Veiksmo anuliuoti nebus galima.';
 
   @override
-  String get groupDmInviteRevoked => 'Invite revoked';
+  String get groupDmInviteRevoked => 'Kvietimas atšauktas';
 
   @override
   String groupDmInviteCreatedByExpires(String name, String time) {
-    return 'Created by $name. Expires in $time.';
+    return 'Sukurta $name. Baigiasi po $time.';
   }
 
   @override
@@ -8999,30 +9050,31 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get composerHint => 'Message';
 
   @override
-  String get composerOpenExpressionPicker => 'Open expression picker';
+  String get composerOpenExpressionPicker =>
+      'Atidaryti jaustukų ir medijos pasirinktuvę';
 
   @override
-  String get composerShowKeyboard => 'Show keyboard';
+  String get composerShowKeyboard => 'Rodyti klaviatūrą';
 
   @override
-  String get composerCloseAttachmentPanel => 'Close attachment picker';
+  String get composerCloseAttachmentPanel => 'Uždaryti priedų pasirinkiklį';
 
   @override
-  String get chatAttachmentPanelPhotos => 'Photos';
+  String get chatAttachmentPanelPhotos => 'Nuotraukos';
 
   @override
-  String get chatAttachmentPanelFiles => 'Files';
+  String get chatAttachmentPanelFiles => 'Failai';
 
   @override
   String get chatAttachmentLibraryPermissionTitle =>
-      'Photo library access needed';
+      'Reikalinga prieiga prie nuotraukų bibliotekos';
 
   @override
   String get chatAttachmentLibraryPermissionBody =>
-      'Allow photo library access to browse and attach recent photos and videos.';
+      'Leiskite prieigą prie nuotraukų bibliotekos, kad galėtumėte peržiūrėti ir pridėti naujausias nuotraukas bei vaizdo įrašus.';
 
   @override
-  String get chatAttachmentLibraryPermissionSettings => 'Open settings';
+  String get chatAttachmentLibraryPermissionSettings => 'Atidaryti nustatymus';
 
   @override
   String messageAccessibilityLabel(String author, String summary) {
@@ -9030,47 +9082,47 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String get messageAccessibilitySendingSuffix => ', sending';
+  String get messageAccessibilitySendingSuffix => ', siunčiama';
 
   @override
-  String get messageAccessibilityFailedSuffix => ', failed to send';
+  String get messageAccessibilityFailedSuffix => ', nepavyko nusiųsti';
 
   @override
-  String get messageAccessibilityAttachmentSummary => 'an attachment';
+  String get messageAccessibilityAttachmentSummary => 'priedas';
 
   @override
   String messageAccessibilityAttachmentsSummary(int count) {
-    return '$count attachments';
+    return '$count priedai';
   }
 
   @override
-  String get messageAccessibilityImageSummary => 'an image';
+  String get messageAccessibilityImageSummary => 'paveikslėlis';
 
   @override
-  String get messageAccessibilityVideoSummary => 'a video';
+  String get messageAccessibilityVideoSummary => 'vaizdo įrašas';
 
   @override
-  String get messageAccessibilityAudioSummary => 'an audio file';
+  String get messageAccessibilityAudioSummary => 'garso failas';
 
   @override
   String messageAccessibilityStickerSummary(String name) {
-    return 'sticker $name';
+    return 'lipdukas $name';
   }
 
   @override
   String messageAccessibilityFileSummary(String filename) {
-    return 'file $filename';
+    return 'failas $filename';
   }
 
   @override
   String get messageAccessibilitySpoilerAttachmentSummary =>
-      'a spoiler attachment';
+      'paslėptas priedas';
 
   @override
-  String get messageAccessibilityEmbedSummary => 'an embed';
+  String get messageAccessibilityEmbedSummary => 'įterptasis elementas';
 
   @override
-  String get messageAccessibilityEmptySummary => 'a message';
+  String get messageAccessibilityEmptySummary => 'žinutė';
 
   @override
   String get personalNotesPrivateSpace => 'Jūsų privati erdvė';
@@ -9113,16 +9165,16 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get userSettingsGroupStaffOnly => 'STAFF-ONLY';
 
   @override
-  String get userSettingsSearchPlaceholder => 'Search settings...';
+  String get userSettingsSearchPlaceholder => 'Ieškoti nustatymų...';
 
   @override
-  String get userSettingsSearchFieldLabel => 'Search settings';
+  String get userSettingsSearchFieldLabel => 'Ieškoti nustatymų';
 
   @override
-  String get userSettingsSearchClear => 'Clear search';
+  String get userSettingsSearchClear => 'Išvalyti paiešką';
 
   @override
-  String get userSettingsSearchNoResults => 'No settings found';
+  String get userSettingsSearchNoResults => 'Nustatymų nerasta';
 
   @override
   String get userSettingsNavProfile => 'Profilis';
@@ -9137,426 +9189,430 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get userSettingsNavGiftsAndCodes => 'Dovanos ir kodai';
 
   @override
-  String get giftSettingsClaimAccountTitle => 'Claim your account';
+  String get giftSettingsClaimAccountTitle => 'Pasiimkite paskyrą';
 
   @override
   String get giftSettingsClaimAccountDescription =>
-      'Claim your account to redeem or manage Plutonium gift codes.';
+      'Susiekite savo paskyrą, kad galėtumėte išpirkti arba tvarkyti „Plutonium“ dovanų kodus.';
 
   @override
-  String get giftSettingsRedeemTitle => 'Redeem a gift';
+  String get giftSettingsRedeemTitle => 'Išpirkti dovaną';
 
   @override
   String get giftSettingsRedeemDescription =>
-      'Enter a gift code to redeem Plutonium for your account.';
+      'Įveskite dovanos kodą, kad aktyvuotumėte „Plutonium“ savo paskyroje.';
 
   @override
-  String get giftSettingsRedeemPlaceholder => 'Enter gift code…';
+  String get giftSettingsRedeemPlaceholder => 'Įveskite dovanos kodą…';
 
   @override
-  String get giftSettingsRedeemButton => 'Redeem';
+  String get giftSettingsRedeemButton => 'Išpirkti';
 
   @override
   String get giftSettingsRedeemSuccess =>
-      'Gift redeemed successfully. Enjoy your Plutonium.';
+      'Dovaną pavyko panaudoti. Mėgaukitės „Plutonium“.';
 
   @override
-  String get giftSettingsPurchasedTitle => 'Purchased gifts';
+  String get giftSettingsPurchasedTitle => 'Įsigytos dovanos';
 
   @override
   String get giftSettingsPurchasedDescription =>
-      'Manage your purchased Plutonium gift codes. Share the gift URL with someone special or redeem it for yourself!';
+      'Tvarkykite įsigytus „Plutonium“ dovanų kodus. Pasidalinkite dovanos URL su ypatingu žmogumi arba išpirkite jį sau!';
 
   @override
-  String get giftSettingsEmptyTitle => 'No gifts yet';
+  String get giftSettingsEmptyTitle => 'Dar nėra dovanų';
 
   @override
   String get giftSettingsEmptyDescription =>
-      'Buy a Plutonium gift from the Plutonium tab to share with friends.';
+      'Pirkite „Plutonium“ dovaną iš „Plutonium“ skirtuko, kad pasidalintumėte su draugais.';
 
   @override
-  String get giftSettingsGoToPlutonium => 'Go to Plutonium';
+  String get giftSettingsGoToPlutonium => 'Eiti į Plutonium';
 
   @override
-  String get giftSettingsLoadFailedTitle => 'Failed to load gift inventory';
+  String get giftSettingsLoadFailedTitle =>
+      'Nepavyko įkelti dovanų inventoriaus';
 
   @override
-  String get giftSettingsLoadFailedDescription => 'Try again later.';
+  String get giftSettingsLoadFailedDescription => 'Bandyti dar kartą vėliau.';
 
   @override
-  String get giftSettingsTryAgain => 'Try again';
+  String get giftSettingsTryAgain => 'Bandyti dar kartą';
 
   @override
-  String get giftSettingsGiftUrl => 'Gift URL';
+  String get giftSettingsGiftUrl => 'Dovanos URL';
 
   @override
-  String get giftSettingsCopy => 'Copy';
+  String get giftSettingsCopy => 'Kopijuoti';
 
   @override
-  String get giftSettingsCopied => 'Copied';
+  String get giftSettingsCopied => 'Nukopijuota';
 
   @override
-  String get giftSettingsGiftUrlCopied => 'Gift URL copied to clipboard!';
+  String get giftSettingsGiftUrlCopied =>
+      'Dovanos URL nukopijuotas į iškarpinę!';
 
   @override
-  String get giftSettingsGiftUrlCopyFailed => 'Couldn\'t copy gift URL';
+  String get giftSettingsGiftUrlCopyFailed =>
+      'Nepavyko nukopijuoti dovanos URL';
 
   @override
   String giftSettingsPurchasedDate(String date) {
-    return 'Purchased $date';
+    return 'Įsigyta $date';
   }
 
   @override
   String giftSettingsRedeemedDate(String date) {
-    return 'Redeemed $date';
+    return 'Panaudota $date';
   }
 
   @override
   String giftSettingsRedeemedBy(String name) {
-    return 'Redeemed by $name';
+    return 'Panaudojo $name';
   }
 
   @override
-  String get giftSettingsAlreadyRedeemed => 'This gift has been redeemed';
+  String get giftSettingsAlreadyRedeemed => 'Ši dovana jau panaudota';
 
   @override
-  String get giftSettingsRedeemForYourself => 'Redeem for yourself';
+  String get giftSettingsRedeemForYourself => 'Išpirkti sau';
 
   @override
-  String get giftSettingsShareWithFriend => 'Share with a friend';
+  String get giftSettingsShareWithFriend => 'Dalintis su draugu';
 
   @override
   String get premiumPlutoniumTagline =>
-      'Unlock higher limits and exclusive features while supporting an independent communication platform.';
+      'Atraskite didesnius limitus ir išskirtines funkcijas, kartu palaikydami nepriklausomą komunikacijos platformą.';
 
   @override
-  String get premiumPurchaseMode => 'Purchase mode';
+  String get premiumPurchaseMode => 'Pirkimo režimas';
 
   @override
-  String get premiumForMe => 'For me';
+  String get premiumForMe => 'Man';
 
   @override
-  String get premiumAsAGift => 'As a gift';
+  String get premiumAsAGift => 'Kaip dovaną';
 
   @override
-  String get premiumMonthly => 'Monthly';
+  String get premiumMonthly => 'Mėnesinis';
 
   @override
-  String get premiumYearly => 'Yearly';
+  String get premiumYearly => 'Metinis';
 
   @override
-  String get premiumPerMonth => 'per month';
+  String get premiumPerMonth => 'per mėnesį';
 
   @override
-  String get premiumPerYear => 'per year';
+  String get premiumPerYear => 'per metus';
 
   @override
-  String get premiumOneTimePurchase => 'one-time purchase';
+  String get premiumOneTimePurchase => 'vienkartinis pirkinys';
 
   @override
-  String get premiumSave17 => 'Save 17%';
+  String get premiumSave17 => 'Sutaupykite 17 %';
 
   @override
-  String get premiumUpgradeNow => 'Upgrade now';
+  String get premiumUpgradeNow => 'Atnaujinti dabar';
 
   @override
-  String get premiumBuyGift => 'Buy gift';
+  String get premiumBuyGift => 'Pirkti dovaną';
 
   @override
-  String get premiumOneYearGift => '1 year gift';
+  String get premiumOneYearGift => '1 metų dovana';
 
   @override
-  String get premiumOneMonthGift => '1 month gift';
+  String get premiumOneMonthGift => '1 mėnesio dovana';
 
   @override
-  String get premiumMostPopular => 'Most popular';
+  String get premiumMostPopular => 'Populiariausias';
 
   @override
   String get premiumScrollPrompt =>
-      'Scroll down to view all the perks included with Plutonium';
+      'Slinkite žemyn, kad pamatytumėte visas „Plutonium“ teikiamas privilegijas';
 
   @override
-  String get premiumFreeVsPlutonium => 'Free vs Plutonium';
+  String get premiumFreeVsPlutonium => 'Nemokama ir Plutonium';
 
   @override
-  String get premiumFreeColumn => 'Free';
+  String get premiumFreeColumn => 'Nemokama';
 
   @override
-  String get premiumGiftSectionTitle => 'Gift Plutonium';
+  String get premiumGiftSectionTitle => 'Padovanok Plutonium';
 
   @override
   String get premiumGiftSectionDescription =>
-      'Share the Plutonium experience with your friends by purchasing a gift subscription.';
+      'Pasidalykite „Plutonium“ patirtimi su draugais, įsigydami dovanų prenumeratą.';
 
   @override
-  String get premiumGiftBannerOne =>
-      'You have a new gift code waiting for you!';
+  String get premiumGiftBannerOne => 'Jūsų laukia naujas dovanų kodas!';
 
   @override
   String premiumGiftBannerMany(int count) {
-    return 'You have $count new gift codes waiting for you!';
+    return 'Jūs turite $count naujų dovanų kodų!';
   }
 
   @override
-  String get premiumViewGifts => 'View gifts';
+  String get premiumViewGifts => 'Peržiūrėti dovanas';
 
   @override
-  String get premiumReadyToUpgrade => 'Ready to upgrade?';
+  String get premiumReadyToUpgrade => 'Pasiruošę atnaujinti?';
 
   @override
-  String get premiumReadyToBuyGift => 'Ready to buy a gift?';
+  String get premiumReadyToBuyGift => 'Pasiruošę pirkti dovaną?';
 
   @override
   String premiumMonthlyPrice(String price) {
-    return 'Monthly $price';
+    return 'Mėnesinis $price';
   }
 
   @override
   String premiumYearlyPrice(String price) {
-    return 'Yearly $price';
+    return 'Metinis $price';
   }
 
   @override
   String premiumOneYearPrice(String price) {
-    return '1 year $price';
+    return '1 metai $price';
   }
 
   @override
   String premiumOneMonthPrice(String price) {
-    return '1 month $price';
+    return '1 mėn. $price';
   }
 
   @override
-  String get premiumManageSubscription => 'Manage subscription';
+  String get premiumManageSubscription => 'Tvarkyti prenumeratą';
 
   @override
-  String get premiumRedeemGiftCode => 'Redeem gift code';
+  String get premiumRedeemGiftCode => 'Išpirkti dovanos kodą';
 
   @override
-  String get premiumGiftBadge => 'Gift';
+  String get premiumGiftBadge => 'Dovana';
 
   @override
-  String get premiumCancelSubscriptionTitle => 'Cancel subscription?';
+  String get premiumCancelSubscriptionTitle => 'Atšaukti prenumeratą?';
 
   @override
   String get premiumCancelSubscriptionBody =>
-      'You keep your perks until your next renewal date, then have a 3-day grace period to resubscribe and keep your subscriber history.';
+      'Privalumai galios iki kito atnaujinimo datos, o tada turėsite 3 dienų pereinamąjį laikotarpį, kad vėl užsiprenumeruotumėte ir išsaugotumėte prenumeratos istoriją.';
 
   @override
-  String get premiumCancelSubscriptionConfirm => 'Cancel subscription';
+  String get premiumCancelSubscriptionConfirm => 'Atšaukti prenumeratą';
 
   @override
-  String get premiumKeepSubscription => 'Keep subscription';
+  String get premiumKeepSubscription => 'Palikti prenumeratą';
 
   @override
-  String get premiumPurchaseHistoryTitle => 'Purchase history';
+  String get premiumPurchaseHistoryTitle => 'Pirkimų istorija';
 
   @override
   String get premiumPurchaseHistoryDescription =>
-      'Your recent invoices. To change the payment method for your subscription, add or choose one in the billing portal and make it the default.';
+      'Jūsų naujausios sąskaitos faktūros. Norėdami pakeisti savo prenumeratos mokėjimo būdą, pridėkite arba pasirinkite jį atsiskaitymo portale ir nustatykite kaip numatytąjį.';
 
   @override
-  String get premiumManagePaymentMethods => 'Manage payment methods';
+  String get premiumManagePaymentMethods => 'Mokėjimo metodų tvarkymas';
 
   @override
-  String get premiumBillingHistory => 'Billing history';
+  String get premiumBillingHistory => 'Atsiskaitymų istorija';
 
   @override
-  String get premiumSelfServeRefundTitle => 'Self-serve refund';
+  String get premiumSelfServeRefundTitle => 'Grąžinimas savitarnos būdu';
 
   @override
-  String get premiumSelfServeRefundButton => 'Refund latest purchase';
+  String get premiumSelfServeRefundButton => 'Grąžinti naujausią pirkinį';
 
   @override
-  String get premiumDisclaimerAgreementPrefix =>
-      'By purchasing, you agree to our ';
+  String get premiumDisclaimerAgreementPrefix => 'Pirkdami sutinkate su mūsų ';
 
   @override
   String get premiumDisclaimerAgreementPastPrefix =>
-      'By purchasing, you agreed to our ';
+      'Pirkdami sutikote su mūsų ';
 
   @override
-  String get premiumDisclaimerAgreementMiddle => ' and ';
+  String get premiumDisclaimerAgreementMiddle => ' ir ';
 
   @override
   String premiumActiveUntil(String date) {
-    return 'Active until $date';
+    return 'Aktyvus iki $date';
   }
 
   @override
-  String get premiumSubscriptionCanceling => 'Canceling';
+  String get premiumSubscriptionCanceling => 'Atšaukiama';
 
   @override
   String premiumCancelsOn(String date) {
-    return 'Cancels on $date. Perks remain active until then.';
+    return 'Atsisakysite paslaugos $date. Privalumai liks aktyvūs iki tol.';
   }
 
   @override
-  String get premiumReactivateSubscription => 'Reactivate';
+  String get premiumReactivateSubscription => 'Suaktyvinti iš naujo';
 
   @override
   String premiumGiftedUntil(String date) {
-    return 'Gifted until $date. Does not renew automatically.';
+    return 'Dovanota iki $date. Automatiškai nepratęsiama.';
   }
 
   @override
-  String get premiumComparisonFeatureColumn => 'Feature';
+  String get premiumComparisonFeatureColumn => 'Funkcija';
 
   @override
   String premiumDisclaimerPurchased(String terms, String privacy) {
-    return 'By purchasing, you agreed to our $terms and $privacy.';
+    return 'Pirkdami sutinkate su mūsų $terms ir $privacy.';
   }
 
   @override
   String get premiumDisclaimerRefund =>
-      'Self-serve refunds available within 3 days of payment, once every 30 days. Refunding a subscription cancels it. EU/EEA buyers waive the 14-day right of withdrawal at checkout to access content immediately. Use the in-app refund button instead of a chargeback. Chargebacks can permanently restrict your account. Stripe handles payment securely. We never see your full card number.';
+      'Pinigų grąžinimas savitarnos būdu galimas per 3 dienas nuo apmokėjimo, kartą per 30 dienų. Grąžinus pinigus už prenumeratą, ji atšaukiama. Pirkėjai iš ES / EEE atsisako 14 dienų atsisakymo teisės atsiskaitydami, kad galėtų nedelsiant pasiekti turinį. Naudokite pinigų grąžinimo mygtuką programėlėje, o ne atšaukimą. Atšaukimai gali visam laikui apriboti jūsų paskyrą. \"Stripe\" saugiai tvarko mokėjimus. Mes niekada nematome viso jūsų kortelės numerio.';
 
   @override
-  String get premiumTermsOfService => 'Terms of service';
+  String get premiumTermsOfService => 'Paslaugų teikimo sąlygos';
 
   @override
-  String get premiumPrivacyPolicy => 'Privacy policy';
+  String get premiumPrivacyPolicy => 'Privatumo politika';
 
   @override
-  String get premiumCheckoutStartFailedTitle => 'Couldn\'t start checkout';
+  String get premiumCheckoutStartFailedTitle => 'Nepavyko pradėti atsiskaitymo';
 
   @override
   String get premiumCheckoutStartFailedBody =>
-      'Something went wrong while starting checkout. Please try again in a moment.';
+      'Nepavyko pradėti atsiskaitymo. Bandykite dar kartą po kurio laiko.';
 
   @override
   String get premiumGiftSubscriptionBlocksRecurring =>
-      'You\'re currently on a gift subscription. It won\'t renew. You can redeem more gift codes to extend it. Recurring subscriptions can be started after your gift time ends.';
+      'Šiuo metu naudojatės dovanų prenumerata. Ji nebus atnaujinta. Galite išpirkti daugiau dovanų kodų, kad ją pratęstumėte. Pasibaigus dovanų prenumeratos laikotarpiui, galėsite pradėti pasikartojančias prenumeratas.';
 
   @override
   String get premiumPlanUnavailable =>
-      'This plan isn\'t available. Contact support.';
+      'Šis planas nepasiekiamas. Susisiekite su palaikymo komanda.';
 
   @override
-  String get premiumCompletePaymentTitle => 'Complete payment';
+  String get premiumCompletePaymentTitle => 'Užbaigti mokėjimą';
 
   @override
   String get premiumCompletePaymentBody =>
-      'You are now navigating to Stripe to complete the payment. Return to Fluxer once you\'ve completed it.';
+      'Dabar būsite nukreipti į „Stripe“, kad užbaigtumėte mokėjimą. Grįžkite į „Fluxer“, kai baigsite.';
 
   @override
-  String get premiumChoosePaymentMethodTitle => 'Choose payment method';
+  String get premiumChoosePaymentMethodTitle => 'Pasirinkite mokėjimo būdą';
 
   @override
   String get premiumPixPaymentPromptDescription =>
-      'Pay with Pix automático to authorize recurring charges directly from your Brazilian bank. Or choose use card to enter a credit card on Stripe\'s next screen.';
+      'Mokėkite „Pix automático“, kad tiesiogiai įgaliotumėte pasikartojančius mokesčius iš savo Brazilijos banko. Arba pasirinkite „naudoti kortelę“, kad kitame „Stripe“ ekrane įvestumėte kredito kortelę.';
 
   @override
-  String get premiumUsePix => 'Use Pix';
+  String get premiumUsePix => 'Naudoti „Pix“';
 
   @override
   String get premiumUpiPaymentPromptDescription =>
-      'Pay with UPI to set up an RBI-compliant e-mandate from your Indian bank. Or choose use card to enter a credit card on Stripe\'s next screen.';
+      'Mokėkite naudodami UPI, kad nustatytumėte Indijos banko RBI reikalavimus atitinkantį elektroninį įgaliojimą. Arba pasirinkite naudoti kortelę, kad kitame „Stripe“ ekrane įvestumėte kredito kortelės duomenis.';
 
   @override
-  String get premiumUseUpi => 'Use UPI';
+  String get premiumUseUpi => 'Naudoti UPI';
 
   @override
-  String get premiumUseCard => 'Use card';
+  String get premiumUseCard => 'Naudoti kortelę';
 
   @override
   String get premiumCustomerPortalOpenFailedTitle =>
-      'Couldn\'t open the billing portal';
+      'Nepavyko atidaryti atsiskaitymo portalo';
 
   @override
   String get premiumCustomerPortalOpenFailedBody =>
-      'Something went wrong while opening the billing portal. Please try again in a moment.';
+      'Kažkas nutiko atidarant atsiskaitymo portalą. Bandykite dar kartą po kelių akimirkų.';
 
   @override
-  String get premiumAlreadyVisionaryTitle => 'You\'re already Visionary';
+  String get premiumAlreadyVisionaryTitle =>
+      'Jūs jau esate \"Visionary\" narys';
 
   @override
   String get premiumAlreadyVisionaryBody =>
-      'Visionary already includes permanent access, so a recurring subscription isn\'t needed. You can still buy gifts for others.';
+      '\"Visionary\" jau apima nuolatinę prieigą, todėl pasikartojanti prenumerata nereikalinga. Vis tiek galite pirkti dovanų kitiems.';
 
   @override
-  String get premiumExistingSubscriptionTitle => 'Subscription already exists';
+  String get premiumExistingSubscriptionTitle => 'Prenumerata jau yra';
 
   @override
   String get premiumExistingSubscriptionBody =>
-      'We found an existing Fluxer Plutonium subscription for this account. Manage it in the secure billing portal to update payment details or check renewal status. If you just paid, wait a minute and reopen this page.';
+      'Jūsų paskyrai radome galiojančią „Fluxer Plutonium“ prenumeratą. Tvarkykite ją saugiame atsiskaitymo portale, kad atnaujintumėte mokėjimo duomenis arba patikrintumėte atnaujinimo būseną. Jei ką tik sumokėjote, palaukite minutę ir iš naujo atidarykite šį puslapį.';
 
   @override
-  String get premiumPurchasesDisabledTitle => 'Purchases unavailable';
+  String get premiumPurchasesDisabledTitle => 'Pirkimai nepasiekiami';
 
   @override
   String get premiumPurchasesDisabledBody =>
-      'Purchases are disabled for this account. Contact support@fluxer.app if this looks wrong.';
+      'Pirkimai šiai paskyrai yra išjungti. Jei manote, kad tai klaida, susisiekite su support@fluxer.app.';
 
   @override
   String get premiumClaimAccountToPurchase =>
-      'Claim your account to purchase Fluxer Plutonium.';
+      'Prisijunkite prie savo paskyros, kad įsigytumėte Fluxer Plutonium.';
 
   @override
   String get premiumVerifyEmailToPurchase =>
-      'You need to verify your email before you can purchase Fluxer Plutonium.';
+      'Norėdami įsigyti „Fluxer Plutonium“, turite patvirtinti savo el. paštą.';
 
   @override
-  String get premiumPerkCustomUsernameTag => 'Custom username tag';
+  String get premiumPerkCustomUsernameTag =>
+      'Pasirinktinis naudotojo vardo žymuo';
 
   @override
-  String get premiumPerkPerCommunityProfiles => 'Per-community profiles';
+  String get premiumPerkPerCommunityProfiles =>
+      'Kiekvienos bendruomenės profiliai';
 
   @override
-  String get premiumPerkMessageScheduling => 'Message scheduling';
+  String get premiumPerkMessageScheduling => 'Pranešimų planavimas';
 
   @override
-  String get premiumPerkProfileBadge => 'Profile badge';
+  String get premiumPerkProfileBadge => 'Profilio ženklelis';
 
   @override
-  String get premiumPerkCustomVideoBackgrounds => 'Custom video backgrounds';
+  String get premiumPerkCustomVideoBackgrounds => 'Pasirinktiniai vaizdo fonai';
 
   @override
-  String get premiumPerkEntranceSounds => 'Entrance sounds';
+  String get premiumPerkEntranceSounds => 'Įėjimo garsai';
 
   @override
-  String get premiumPerkCommunities => 'Communities';
+  String get premiumPerkCommunities => 'Bendruomenės';
 
   @override
-  String get premiumPerkMessageCharacterLimit => 'Message character limit';
+  String get premiumPerkMessageCharacterLimit => 'Žinučių simbolių limitas';
 
   @override
-  String get premiumPerkBookmarkedMessages => 'Bookmarked messages';
+  String get premiumPerkBookmarkedMessages => 'Įsimintos žinutės';
 
   @override
-  String get premiumPerkFileUploadSize => 'File upload size';
+  String get premiumPerkFileUploadSize => 'Įkeliamo failo dydis';
 
   @override
-  String get premiumPerkEmojiStickerPacks => 'Emoji & sticker packs';
+  String get premiumPerkEmojiStickerPacks => 'Emotikonių ir lipdukų rinkiniai';
 
   @override
-  String get premiumPerkSavedMedia => 'Saved media';
+  String get premiumPerkSavedMedia => 'Išsaugota medija';
 
   @override
-  String get premiumPerkUseAnimatedEmojis => 'Use animated emojis';
+  String get premiumPerkUseAnimatedEmojis => 'Naudoti animuotus jaustukus';
 
   @override
   String get premiumPerkGlobalEmojiStickerAccess =>
-      'Global emoji & sticker access';
+      'Prieiga prie jaustukų ir lipdukų visame pasaulyje';
 
   @override
-  String get premiumPerkVideoQuality => 'Video quality';
+  String get premiumPerkVideoQuality => 'Vaizdo kokybė';
 
   @override
   String get premiumPerkAnimatedAvatarsBanners =>
-      'Animated avatars & profile banners';
+      'Animuoti avatarai ir profilio reklamjuostės';
 
   @override
-  String get premiumPerkEarlyAccess => 'Early access to new features';
+  String get premiumPerkEarlyAccess => 'Ankstyvoji prieiga prie naujų funkcijų';
 
   @override
-  String get premiumPerkCustomThemes => 'Custom themes';
+  String get premiumPerkCustomThemes => 'Tinkintos temos';
 
   @override
   String get premiumPerkVideoQualityRestricted => '720p/30fps';
 
   @override
-  String get premiumPerkVideoQualityStock => 'Up to 4K/60fps';
+  String get premiumPerkVideoQualityStock => 'Iki 4K/60 kadr./s';
 
   @override
   String get userSettingsNavPrivacyDashboard =>
@@ -9587,119 +9643,121 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get userSettingsNavAudioAndVideo => 'Garsas ir vaizdas';
 
   @override
-  String get userSettingsNavShortcuts => 'Shortcuts';
+  String get userSettingsNavShortcuts => 'Spartieji klavišai';
 
   @override
-  String get audioAndVideoAudioSectionTitle => 'Audio';
+  String get audioAndVideoAudioSectionTitle => 'Garsas';
 
   @override
   String get audioAndVideoAudioSectionDescription =>
-      'Configure your microphone, speakers, and voice processing.';
+      'Nustatykite mikrofoną, garsiakalbius ir balso apdorojimą.';
 
   @override
-  String get audioAndVideoVideoSectionTitle => 'Video';
+  String get audioAndVideoVideoSectionTitle => 'Vaizdo įrašas';
 
   @override
   String get audioAndVideoVideoSectionDescription =>
-      'Configure your camera and screen sharing quality.';
+      'Nustatykite savo kameros ir ekrano bendrinimo kokybę.';
 
   @override
-  String get audioAndVideoInCallBehaviorSectionTitle => 'In-call behavior';
+  String get audioAndVideoInCallBehaviorSectionTitle =>
+      'Elgesys skambučio metu';
 
   @override
   String get audioAndVideoInCallBehaviorSectionDescription =>
-      'Control confirmation prompts during voice and video calls.';
+      'Valdyti patvirtinimo raginimus balso ir vaizdo skambučiuose.';
 
   @override
-  String get audioAndVideoInputDeviceLabel => 'Input device';
+  String get audioAndVideoInputDeviceLabel => 'Įvesties įrenginys';
 
   @override
-  String get audioAndVideoOutputDeviceLabel => 'Output device';
+  String get audioAndVideoOutputDeviceLabel => 'Išvesties įrenginys';
 
   @override
-  String get audioAndVideoDefaultDeviceLabel => 'Default';
+  String get audioAndVideoDefaultDeviceLabel => 'Numatytasis';
 
   @override
-  String get audioAndVideoUseSpeakerLabel => 'Use speaker';
+  String get audioAndVideoUseSpeakerLabel => 'Naudoti garsiakalbį';
 
   @override
   String get audioAndVideoUseSpeakerDescription =>
-      'When off, audio plays through the earpiece or connected headphones.';
+      'Kai išjungta, garsas bus leidžiamas per ausinę arba prijungtas ausines.';
 
   @override
-  String get audioAndVideoInputVolumeLabel => 'Input volume';
+  String get audioAndVideoInputVolumeLabel => 'Įvesties garsumas';
 
   @override
-  String get audioAndVideoOutputVolumeLabel => 'Output volume';
+  String get audioAndVideoOutputVolumeLabel => 'Išvesties garsumas';
 
   @override
-  String get audioAndVideoVoiceProcessingSectionTitle => 'Voice processing';
+  String get audioAndVideoVoiceProcessingSectionTitle => 'Balso apdorojimas';
 
   @override
-  String get audioAndVideoFocusedVoiceLabel => 'Focused voice';
+  String get audioAndVideoFocusedVoiceLabel => 'Fokusuotas balsas';
 
   @override
   String get audioAndVideoFocusedVoiceDescription =>
-      'Recommended. Cleans up your mic for clear speech.';
+      'Rekomenduojama. Išvalo mikrofoną, kad kalba būtų aiški.';
 
   @override
-  String get audioAndVideoDirectInputLabel => 'Direct input';
+  String get audioAndVideoDirectInputLabel => 'Tiesioginė įvestis';
 
   @override
   String get audioAndVideoDirectInputDescription =>
-      'Sends your audio untouched. Best if you\'re using external audio software.';
+      'Siunčia jūsų garso įrašą nepakeistą. Geriausia, jei naudojate išorinę garso programinę įrangą.';
 
   @override
-  String get audioAndVideoCustomProfileLabel => 'Custom';
+  String get audioAndVideoCustomProfileLabel => 'Pasirinktinis';
 
   @override
   String get audioAndVideoCustomProfileDescription =>
-      'Adjust each setting yourself: noise suppression, echo cancellation, and gain.';
+      'Pritaikykite kiekvieną nustatymą patys: triukšmo slopinimą, aido panaikinimą ir stiprinimą.';
 
   @override
-  String get audioAndVideoNoiseSuppressionSectionTitle => 'Noise suppression';
+  String get audioAndVideoNoiseSuppressionSectionTitle => 'Triukšmo slopinimas';
 
   @override
-  String get audioAndVideoNoiseSuppressionEnhancedLabel => 'Enhanced';
+  String get audioAndVideoNoiseSuppressionEnhancedLabel => 'Patobulinta';
 
   @override
-  String get audioAndVideoNoiseSuppressionStandardLabel => 'Standard';
+  String get audioAndVideoNoiseSuppressionStandardLabel => 'Standartinis';
 
   @override
-  String get audioAndVideoNoiseSuppressionNoneLabel => 'None';
+  String get audioAndVideoNoiseSuppressionNoneLabel => 'Nėra';
 
   @override
-  String get audioAndVideoEchoCancellationLabel => 'Echo cancellation';
+  String get audioAndVideoEchoCancellationLabel => 'Aido slopinimas';
 
   @override
-  String get audioAndVideoAutomaticGainControlLabel => 'Automatic gain control';
+  String get audioAndVideoAutomaticGainControlLabel =>
+      'Automatinis stiprinimo valdymas';
 
   @override
   String get audioAndVideoAutomaticGainControlDescription =>
-      'Evens out your mic volume. Off when enhanced suppression is on.';
+      'Sulygina mikrofono garsumą. Išjungta, kai įjungtas patobulintas slopinimas.';
 
   @override
-  String get audioAndVideoMicTestSectionTitle => 'Mic test';
+  String get audioAndVideoMicTestSectionTitle => 'Mikrofono patikra';
 
   @override
-  String get audioAndVideoMicTestStartLabel => 'Start mic test';
+  String get audioAndVideoMicTestStartLabel => 'Pradėti mikrofono testą';
 
   @override
-  String get audioAndVideoMicTestStopLabel => 'Stop mic test';
+  String get audioAndVideoMicTestStopLabel => 'Sustabdyti mikrofono testą';
 
   @override
   String audioAndVideoMicTestPermissionRequired(String productName) {
-    return '$productName needs microphone access to test your input.';
+    return '„$productName“ reikalinga prieiga prie mikrofono, kad būtų galima patikrinti jūsų garsą.';
   }
 
   @override
-  String get audioAndVideoCameraLabel => 'Camera';
+  String get audioAndVideoCameraLabel => 'Kamera';
 
   @override
-  String get audioAndVideoMirrorCameraLabel => 'Mirror camera';
+  String get audioAndVideoMirrorCameraLabel => 'Atspindėti kamerą';
 
   @override
-  String get audioAndVideoCameraQualitySectionTitle => 'Camera quality';
+  String get audioAndVideoCameraQualitySectionTitle => 'Kameros kokybė';
 
   @override
   String get audioAndVideoCameraQuality480pLabel => '480p';
@@ -9712,381 +9770,390 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get audioAndVideoScreenShareQualitySectionTitle =>
-      'Screen share quality';
+      'Ekrano bendrinimo kokybė';
 
   @override
-  String get audioAndVideoFrameRateSectionTitle => 'Frame rate';
+  String get audioAndVideoFrameRateSectionTitle => 'Kadrų dažnis';
 
   @override
-  String get audioAndVideoFrameRate15Label => '15 FPS';
+  String get audioAndVideoFrameRate15Label => '15 kadrų per sekundę';
 
   @override
-  String get audioAndVideoFrameRate30Label => '30 FPS';
+  String get audioAndVideoFrameRate30Label => '30 kadrų per sekundę';
 
   @override
   String get audioAndVideoFrameRate60Label => '60 FPS';
 
   @override
   String audioAndVideoHigherQualityRequiresPremium(String premiumProductName) {
-    return '1080p and 60 FPS require $premiumProductName.';
+    return '1080p ir 60 FPS reikalauja $premiumProductName.';
   }
 
   @override
   String get audioAndVideoInstanceVideoQualityLimit =>
-      'This instance currently allows screen share up to 720p at 30 FPS.';
+      'Šis serveris šiuo metu leidžia bendrinti ekraną iki 720p raiška ir 30 kadrų per sekundę.';
 
   @override
   String audioAndVideoMicrophonePermissionRequired(String productName) {
-    return '$productName needs microphone access to list your devices.';
+    return 'Kad galėtų rodyti jūsų įrenginius, „$productName\" reikia prieigos prie mikrofono.';
   }
 
   @override
   String audioAndVideoCameraPermissionRequired(String productName) {
-    return '$productName needs camera access to list your devices.';
+    return '$productName reikia prieigos prie kameros, kad būtų galima parodyti jūsų įrenginius.';
   }
 
   @override
   String get audioAndVideoSkipHideOwnCameraConfirmLabel =>
-      'Don\'t ask when hiding my camera';
+      'Neklausti, kai slėpsiu savo kamerą';
 
   @override
   String get audioAndVideoSkipHideOwnScreenshareConfirmLabel =>
-      'Don\'t ask when hiding my screen share';
+      'Neberodyti perspėjimo, kai slėpsiu savo ekrano bendrinimą';
 
   @override
-  String get userSettingsNavNotifications => 'Notifications';
+  String get userSettingsNavNotifications => 'Pranešimai';
 
   @override
-  String get notificationsGeneralSectionTitle => 'General';
+  String get notificationsGeneralSectionTitle => 'Pagrindiniai';
 
   @override
-  String get notificationsEnableNotificationsLabel => 'Enable notifications';
+  String get notificationsEnableNotificationsLabel => 'Įjungti pranešimus';
 
   @override
   String notificationsEnableNotificationsDescription(String productName) {
-    return 'Get notified when you receive messages. You may need to allow notifications for $productName in your device settings. For per-channel/per-community controls, open notification settings from a community\'s menu.';
+    return 'Gaukite pranešimus, kai gaunate žinučių. Gali reikėti leisti \"$productName\" siųsti pranešimus įrenginio nustatymuose. Norėdami valdyti pranešimus pagal kanalą ar bendruomenę, atidarykite pranešimų nustatymus bendruomenės meniu.';
   }
 
   @override
   String get notificationsEnableDesktopNotificationsLabel =>
-      'Enable desktop notifications';
+      'Įjungti darbalaukio pranešimus';
 
   @override
   String get notificationsEnableDesktopNotificationsDescription =>
-      'Uses the OS notification center. For per-channel/per-community controls, right-click a community icon and open notification settings.';
+      'Naudoja OS pranešimų centrą. Norėdami valdyti pranešimus pagal kanalą / bendruomenę, dešiniuoju pelės mygtuku spustelėkite bendruomenės piktogramą ir atidarykite pranešimų nustatymus.';
 
   @override
   String get notificationsEnableBrowserNotificationsLabel =>
-      'Enable browser notifications';
+      'Įjungti naršyklės pranešimus';
 
   @override
   String get notificationsEnableBrowserNotificationsDescription =>
-      'Get notified when you receive messages. You may need to allow notifications in your browser settings. For per-channel/per-community controls, right-click a community icon and open notification settings.';
+      'Gaukite pranešimus, kai gaunate žinučių. Gali reikėti leisti pranešimus naršyklės nustatymuose. Norėdami valdyti pranešimus pagal kanalą / bendruomenę, dešiniuoju pelės mygtuku spustelėkite bendruomenės piktogramą ir atidarykite pranešimų nustatymus.';
 
   @override
   String get notificationsPushInactiveTimeoutLabel =>
-      'Push notification inactive timeout';
+      'Neaktyvių tiesioginių pranešimų skirtasis laikas';
 
   @override
   String notificationsPushInactiveTimeoutDescription(String productName) {
-    return '$productName avoids sending push notifications to your mobile devices when you are at your computer. Choose how long you need to be inactive on desktop before you receive push notifications.';
+    return '„$productName“ nesiunčia pranešimų į jūsų mobilųjį įrenginį, kai esate prie kompiuterio. Nustatykite, po kiek laiko neaktyvumo darbalaukyje turėtų būti pradėti siųsti pranešimai.';
   }
 
   @override
   String notificationsPushInactiveTimeoutOneMinute(int oneMinute) {
-    return '$oneMinute minute';
+    return '$oneMinute minutė';
   }
 
   @override
   String notificationsPushInactiveTimeoutMinutes(int minutes) {
-    return '$minutes minutes';
+    return '$minutes minutės';
   }
 
   @override
-  String get notificationsMentionPreferenceSectionTitle => 'Mention preference';
+  String get notificationsMentionPreferenceSectionTitle =>
+      'Paminėjimo nuostatos';
 
   @override
   String get notificationsReplyMentionPreferenceAriaLabel =>
-      'Reply mention preference';
+      'Atsakymo paminėjimo nuostatos';
 
   @override
-  String get notificationsMentionNoPreferenceName => 'No preference';
+  String get notificationsMentionNoPreferenceName => 'Nėra nuostatų';
 
   @override
   String get notificationsMentionNoPreferenceDescription =>
-      'Respect the sender\'s intent, with no warning when they toggle the @ mention';
+      'Gerbti siuntėjo ketinimus, be įspėjimo, kai jis įjungia @ paminėjimą';
 
   @override
-  String get notificationsMentionPreferMentionName => 'Prefer @mention';
+  String get notificationsMentionPreferMentionName =>
+      'Pageidimas \"@paminėti\"';
 
   @override
   String get notificationsMentionPreferMentionDescription =>
-      'Default replies to @mention you, and warn the sender if they disable it';
+      'Numatytasis atsakymas į @paminėjimą ir įspėjimas siuntėjui, jei jis tai išjungs';
 
   @override
-  String get notificationsMentionPreferNoMentionName => 'Prefer no @mention';
+  String get notificationsMentionPreferNoMentionName =>
+      'Nenurodyti @paminėjimo';
 
   @override
   String get notificationsMentionPreferNoMentionDescription =>
-      'Default replies to omit the @mention, and warn the sender if they enable it';
+      'Numatytieji atsakymai, kad būtų praleistas @paminėjimas ir įspėtas siuntėjas, jei jis jį įgalina';
 
   @override
-  String get notificationsTtsSectionTitle => 'Text-to-speech notifications';
+  String get notificationsTtsSectionTitle => 'Teksto į balsą pranešimai';
 
   @override
   String get notificationsTtsEnableCommandLabel =>
-      'Enable /tts speech playback';
+      'Įjungti /tts kalbos atkūrimą';
 
   @override
   String get notificationsTtsEnableCommandDescription =>
-      'Let /tts read your message aloud. Disabling the setting keeps those commands as regular text.';
+      'Leisti /tts perskaityti jūsų žinutę balsu. Išjungus šį nustatymą, šios komandos liks kaip įprastas tekstas.';
 
   @override
   String get notificationsTtsAccessibilityLinkPrefix =>
-      'Adjust playback speed in ';
+      'Koreguoti atkūrimo greitį čia ';
 
   @override
-  String get notificationsTtsAccessibilityLinkLabel => 'Accessibility';
+  String get notificationsTtsAccessibilityLinkLabel =>
+      'Pritaikymas neįgaliesiems';
 
   @override
   String get notificationsTtsAccessibilityLinkSuffix => '.';
 
   @override
   String get notificationsTtsAutoNarrationTitle =>
-      'Automatic message narration';
+      'Automatinis pranešimų įgarsinimas';
 
   @override
   String get notificationsTtsAutoNarrationDescription =>
-      'Converts incoming content to speech, regardless of whether it came from /tts.';
+      'Konvertuoja gaunamą turinį į kalbą, nepriklausomai nuo to, ar jis gautas iš /tts.';
 
   @override
-  String get notificationsTtsModeAllChannelsName => 'Every channel';
+  String get notificationsTtsModeAllChannelsName => 'Visi kanalai';
 
   @override
   String get notificationsTtsModeAllChannelsDescription =>
-      'Let every incoming message be spoken, regardless of which channel is open.';
+      'Tegul kiekviena gaunama žinutė yra perskaitoma, nepriklausomai nuo to, kuris kanalas atidarytas.';
 
   @override
-  String get notificationsTtsModeCurrentChannelName => 'Active channel only';
+  String get notificationsTtsModeCurrentChannelName => 'Tik aktyvus kanalas';
 
   @override
   String get notificationsTtsModeCurrentChannelDescription =>
-      'Narrates only the channel you\'re viewing. Narration follows you between channels.';
+      'Įgarsina tik kanalą, kurį šiuo metu žiūrite. Įgarsinimas seka jus tarp kanalų.';
 
   @override
-  String get notificationsTtsModeNeverName => 'Never automatically';
+  String get notificationsTtsModeNeverName => 'Niekada automatiškai';
 
   @override
   String get notificationsTtsModeNeverDescription =>
-      'Remain silent unless someone runs /tts manually.';
+      'Tylėti, nebent kas nors rankiniu būdu paleidžia /tts.';
 
   @override
-  String get notificationsTtsModeAriaLabel => 'Speak all messages out loud';
+  String get notificationsTtsModeAriaLabel => 'Skaityti visas žinutes balsu';
 
   @override
-  String get notificationsSoundsSectionTitle => 'Sounds';
+  String get notificationsSoundsSectionTitle => 'Garsai';
 
   @override
-  String get notificationsMasterVolumeLabel => 'Master volume';
+  String get notificationsMasterVolumeLabel => 'Pagrindinis garsumas';
 
   @override
   String get notificationsMasterVolumeDescription =>
-      'Sets the level for every sound effect. Per-sound overrides ignore this.';
+      'Nustato kiekvieno garso efekto lygį. Atskiri garso nustatymai nepaiso šio.';
 
   @override
-  String get notificationsResetToDefaultVolume => 'Reset to default volume';
+  String get notificationsResetToDefaultVolume => 'Atkurti numatytąjį garsumą';
 
   @override
   String get notificationsDisableAllSoundsLabel =>
-      'Disable all notification sounds';
+      'Išjungti visus pranešimų garsus';
 
   @override
   String get notificationsDisableAllSoundsDescription =>
-      'Your existing notification sound settings will be preserved.';
+      'Jūsų esami pranešimų garso nustatymai bus išsaugoti.';
 
   @override
-  String get notificationsShowMoreSoundEffects => 'Show more sound effects';
+  String get notificationsShowMoreSoundEffects => 'Rodyti daugiau garso efektų';
 
   @override
-  String get notificationsShowFewerSoundEffects => 'Show fewer sound effects';
+  String get notificationsShowFewerSoundEffects => 'Rodyti mažiau garso efektų';
 
   @override
-  String get notificationsPreviewSound => 'Preview sound';
+  String get notificationsPreviewSound => 'Peržiūrėti garsą';
 
   @override
-  String get notificationsPerSoundVolumeTitle => 'Per-sound volume';
+  String get notificationsPerSoundVolumeTitle => 'Garsumo lygis';
 
   @override
   String get notificationsPerSoundVolumeDescription =>
-      'Set custom volumes for individual sounds. Sounds without an override follow the master volume.';
+      'Nustatykite pasirinktinius atskirų garsų lygius. Garsams be individualių nustatymų bus taikomas pagrindinis garso lygis.';
 
   @override
   String notificationsPerSoundVolumeOverrideDescription(int overrideCount) {
-    return 'Active custom sound volume overrides: $overrideCount.';
+    return 'Aktyvūs pasirinktinio garso garsumo nustatymų pakeitimai: $overrideCount.';
   }
 
   @override
   String notificationsFollowingMasterVolume(int effectiveValue) {
-    return 'Following master • $effectiveValue%';
+    return 'Pagal pagrindinį • $effectiveValue%';
   }
 
   @override
   String notificationsResetSoundToMasterVolume(String label) {
-    return 'Reset $label to master volume';
+    return 'Atkurti \"$label\" numatytąjį garsumą';
   }
 
   @override
-  String get notificationsResetAllOverrides => 'Reset all overrides';
+  String get notificationsResetAllOverrides => 'Atkurti visus pakeitimus';
 
   @override
   String notificationsMuteSound(String label) {
-    return 'Mute $label';
+    return 'Išjungti garsą $label';
   }
 
   @override
   String notificationsUnmuteSound(String label) {
-    return 'Unmute $label';
+    return 'Įjungti garsą $label';
   }
 
   @override
-  String get notificationsSoundMessage => 'Community message notifications';
+  String get notificationsSoundMessage => 'Bendruomenės žinučių pranešimai';
 
   @override
-  String get notificationsSoundDirectMessage => 'Direct message notifications';
+  String get notificationsSoundDirectMessage =>
+      'Tiesioginių žinučių pranešimai';
 
   @override
   String get notificationsSoundSameChannelMessage =>
-      'Current channel message notifications';
+      'Dabartinio kanalo pranešimai';
 
   @override
-  String get notificationsSoundMute => 'Voice mute';
+  String get notificationsSoundMute => 'Balso nutildymas';
 
   @override
-  String get notificationsSoundUnmute => 'Voice unmute';
+  String get notificationsSoundUnmute => 'Įjungti balsą';
 
   @override
-  String get notificationsSoundDeaf => 'Voice deafen';
+  String get notificationsSoundDeaf => 'Balso išjungimas';
 
   @override
-  String get notificationsSoundUndeaf => 'Voice undeafen';
+  String get notificationsSoundUndeaf => 'Balso atitildymas';
 
   @override
-  String get notificationsSoundUserJoin => 'User joins channel';
+  String get notificationsSoundUserJoin => 'Vartotojas prisijungia prie kanalo';
 
   @override
-  String get notificationsSoundUserLeave => 'User leaves channel';
+  String get notificationsSoundUserLeave => 'Vartotojas palieka kanalą';
 
   @override
-  String get notificationsSoundUserMove => 'User moved channel';
+  String get notificationsSoundUserMove => 'Vartotojas perkėlė kanalą';
 
   @override
-  String get notificationsSoundViewerJoin => 'Viewer joins stream';
+  String get notificationsSoundViewerJoin =>
+      'Žiūrintysis prisijungia prie srauto';
 
   @override
-  String get notificationsSoundViewerLeave => 'Viewer leaves stream';
+  String get notificationsSoundViewerLeave => 'Žiūrintysis palieka srautą';
 
   @override
-  String get notificationsSoundVoiceDisconnect => 'Voice disconnected';
+  String get notificationsSoundVoiceDisconnect => 'Balso ryšys nutrūko';
 
   @override
-  String get notificationsSoundIncomingRing => 'Incoming call';
+  String get notificationsSoundIncomingRing => 'Gaunamas skambutis';
 
   @override
-  String get notificationsSoundCameraOn => 'Camera on';
+  String get notificationsSoundCameraOn => 'Kamera įjungta';
 
   @override
-  String get notificationsSoundCameraOff => 'Camera off';
+  String get notificationsSoundCameraOff => 'Kamera išjungta';
 
   @override
-  String get notificationsSoundScreenShareStart => 'Screen share start';
+  String get notificationsSoundScreenShareStart => 'Ekrano bendrinimo pradžia';
 
   @override
-  String get notificationsSoundScreenShareStop => 'Screen share stop';
+  String get notificationsSoundScreenShareStop =>
+      'Ekrano bendrinimo sustabdymas';
 
   @override
   String get notificationsAfkTimeoutSyncFailed =>
-      'Couldn\'t update push notification timeout. Try again.';
+      'Nepavyko atnaujinti tiesioginių pranešimų laiko limito. Pabandykite dar kartą.';
 
   @override
   String get notificationsMentionPreferenceSyncFailed =>
-      'Couldn\'t update mention preference. Try again.';
+      'Nepavyko atnaujinti minimų nuostatų. Pabandykite dar kartą.';
 
   @override
-  String get notificationsPermissionDeniedTitle => 'Notifications blocked';
+  String get notificationsPermissionDeniedTitle => 'Pranešimai užblokuoti';
 
   @override
   String get notificationsEnableNotificationsPermissionDenied =>
-      'Couldn\'t enable notifications. Allow notification permission to continue.';
+      'Nepavyko įjungti pranešimų. Norėdami tęsti, leiskite pranešimų leidimus.';
 
   @override
   String get userSettingsNavLanguageAndTime => 'Kalba ir laikas';
 
   @override
-  String get languageAndTimeLanguageSectionTitle => 'Interface language';
+  String get languageAndTimeLanguageSectionTitle => 'Sąsajos kalba';
 
   @override
   String get languageAndTimeLanguageSectionDescription =>
-      'Choose the language used throughout the app';
+      'Pasirinkite kalbą, naudojamą visoje programėlėje';
 
   @override
-  String get languageAndTimeOpenLanguageSettings => 'Open language settings';
+  String get languageAndTimeOpenLanguageSettings =>
+      'Atidaryti kalbos nustatymus';
 
   @override
-  String get languageAndTimeTimeFormatSectionTitle => 'Time format';
+  String get languageAndTimeTimeFormatSectionTitle => 'Laiko formatas';
 
   @override
   String get languageAndTimeTimeFormatSectionDescription =>
-      'Choose how times are displayed throughout the app';
+      'Pasirinkite, kaip laikas rodomas programėlėje';
 
   @override
-  String get languageAndTimeTimeFormatSelectionLabel => 'Time format selection';
+  String get languageAndTimeTimeFormatSelectionLabel =>
+      'Laiko formato pasirinkimas';
 
   @override
-  String get languageAndTimeTimeFormatAuto => 'Auto';
+  String get languageAndTimeTimeFormatAuto => 'Automatinis';
 
   @override
-  String get languageAndTimeTimeFormat12Hour => '12-hour';
+  String get languageAndTimeTimeFormat12Hour => '12 valandų';
 
   @override
-  String get languageAndTimeTimeFormat24Hour => '24-hour';
+  String get languageAndTimeTimeFormat24Hour => '24 valandų';
 
   @override
   String languageAndTimeTimeFormatAppLanguage(String format) {
-    return 'App language: $format';
+    return 'Programos kalba: $format';
   }
 
   @override
   String languageAndTimeTimeFormatSystemLocale(String format) {
-    return 'System locale: $format';
+    return 'Sistemos lokalė: $format';
   }
 
   @override
   String get languageAndTimeUseSystemLocaleForTimeFormat =>
-      'Use system locale for time format';
+      'Naudoti sistemos lokalę laiko formatui';
 
   @override
   String get languageAndTimeTimeFormatSyncFailed =>
-      'Failed to update time format';
+      'Nepavyko atnaujinti laiko formato';
 
   @override
-  String get userSettingsNavDefaultApps => 'Default Apps';
+  String get userSettingsNavDefaultApps => 'Numatytosios programos';
 
   @override
-  String get defaultAppsWebBrowserSectionTitle => 'Web Browser';
+  String get defaultAppsWebBrowserSectionTitle => 'Naršyklė';
 
   @override
   String get defaultAppsWebBrowserSectionDescription =>
-      'Choose which browser opens when you tap a link.';
+      'Pasirinkite, kuris naršyklė atsidarys palietus nuorodą.';
 
   @override
   String get defaultAppsWebBrowserNativeAppNote =>
-      'If an app is installed for a site, links will open in that app first.';
+      'Jei svetainei yra įdiegta programa, nuorodos pirmiausia atsidarys toje programoje.';
 
   @override
-  String get defaultAppsWebBrowserInApp => 'In-app browser';
+  String get defaultAppsWebBrowserInApp => 'Naršyklė programoje';
 
   @override
-  String get defaultAppsWebBrowserExternal => 'External browser';
+  String get defaultAppsWebBrowserExternal => 'Išorinė naršyklė';
 
   @override
   String get userSettingsNavAdvanced => 'Išplėstiniai nustatymai';
@@ -10109,310 +10176,321 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String get advancedSettingsConfigure => 'Configure';
+  String get advancedSettingsConfigure => 'Konfigūruoti';
 
   @override
-  String get advancedSettingsCategoryPrivacy => 'Privacy';
+  String get advancedSettingsCategoryPrivacy => 'Privatumas';
 
   @override
-  String get advancedSettingsCategoryAppearance => 'Appearance';
+  String get advancedSettingsCategoryAppearance => 'Išvaizda';
 
   @override
-  String get advancedSettingsCategoryAccessibility => 'Accessibility';
+  String get advancedSettingsCategoryAccessibility =>
+      'Pritaikymas neįgaliesiems';
 
   @override
-  String get advancedSettingsCategoryChat => 'Chat';
+  String get advancedSettingsCategoryChat => 'Pokalbis';
 
   @override
-  String get advancedSettingsCategoryMedia => 'Media';
+  String get advancedSettingsCategoryMedia => 'Medija';
 
   @override
-  String get advancedSettingsCategoryVoice => 'Voice';
+  String get advancedSettingsCategoryVoice => 'Balsas';
 
   @override
-  String get advancedSettingsCategoryDeveloper => 'Developer';
+  String get advancedSettingsCategoryDeveloper => 'Kūrėjas';
 
   @override
-  String get advancedSettingEnableTextSelectionLabel => 'Enable text selection';
+  String get advancedSettingEnableTextSelectionLabel =>
+      'Įjungti teksto žymėjimą';
 
   @override
   String get advancedSettingEnableTextSelectionDescription =>
-      'Allow selecting text in the app';
+      'Leisti pasirinkti tekstą programoje';
 
   @override
   String get advancedSettingVideoSeekThumbnailsLabel =>
-      'Enable video seek thumbnails';
+      'Įjunkite vaizdo įrašų peržiūros miniatiūras';
 
   @override
   String get advancedSettingVideoSeekThumbnailsDescription =>
-      'Thumbnail or live frame while scrubbing video';
+      'Miniatiūra arba tiesioginis kadras, kai peržiūrimas vaizdo įrašas';
 
   @override
-  String get advancedSettingHapticFeedbackLabel => 'Haptic feedback';
+  String get advancedSettingHapticFeedbackLabel => 'Haptinis grįžtamasis ryšys';
 
   @override
   String get advancedSettingHapticFeedbackDescription =>
-      'Vibration feedback for taps and actions. Won\'t sync across devices.';
+      'Vibracijos grįžtamasis ryšys palietus ir atliekant veiksmus. Nesinchronizuojama tarp įrenginių.';
 
   @override
-  String get advancedSettingShowNekoLabel => 'Show Neko';
+  String get advancedSettingShowNekoLabel => 'Rodyti Neko';
 
   @override
   String get advancedSettingShowNekoDescription =>
-      'Neko cat that chases your cursor';
+      'Neko katė, kuri vejasi jūsų žymeklį';
 
   @override
   String get advancedSettingShowNekoDescriptionTouch =>
-      'Show Neko on your chat input';
+      'Rodyti Neko jūsų pokalbio įvestyje';
 
   @override
   String get advancedSettingMobileSplashZoomAnimationLabel =>
-      'Splash zoom animation';
+      'Animacijos mastelio keitimas';
 
   @override
   String get advancedSettingMobileSplashZoomAnimationDescription =>
-      'Zoom the logo out when leaving the splash screen';
+      'Sumažinti logotipą, išeinant iš paleidimo ekrano';
 
   @override
-  String get advancedSettingKeyboardHintsLabel => 'Keyboard hints';
+  String get advancedSettingKeyboardHintsLabel => 'Klaviatūros patarimai';
 
   @override
   String get advancedSettingKeyboardHintsDescription =>
-      'Keyboard shortcut hints in tooltips';
+      'Rodyti klavišų kombinacijų patarimus iššokančiose informacijos priemonėse.';
 
   @override
-  String get advancedSettingEnableFavoritesLabel => 'Enable favorites';
+  String get advancedSettingEnableFavoritesLabel => 'Įjungti parankinius';
 
   @override
   String get advancedSettingEnableFavoritesDescription =>
-      'Show favorites throughout the app';
+      'Rodyti mėgstamiausius elementus visoje programoje';
 
   @override
   String get advancedSettingVoiceChannelJoinBehaviorLabel =>
-      'Voice channel join behavior';
+      'Prisijungimo prie balso kanalo veiksena';
 
   @override
   String get advancedSettingVoiceChannelJoinBehaviorDescription =>
-      'Confirmation or double-click for community voice joins';
+      'Patvirtinimas arba dvigubas paspaudimas, norint prisijungti prie bendruomenės balsinės sesijos.';
 
   @override
   String get advancedSettingRequireDoubleClickJoinLabel =>
-      'Require double-click to join voice channels';
+      'Reikalauti dukart spustelėti norint prisijungti prie balso kanalų';
 
   @override
   String get advancedSettingConfirmBeforeJoiningVoiceLabel =>
-      'Confirm before joining voice channels';
+      'Patvirtinti prieš prisijungiant prie balso kanalų';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
-      'Automatically send GIFs when selected';
+      'Automatiškai siųsti pasirinktus GIF';
 
   @override
   String get advancedSettingAutoSendGifsDescription =>
-      'Automatically send GIFs from the picker without confirmation';
+      'Automatiškai siųsti GIF iš parinkiklio be patvirtinimo';
 
   @override
   String get advancedSettingSaveGifFavoritesLabel =>
-      'Save GIF favorites as saved media';
+      'Įrašyti GIF parankinius kaip išsaugotą mediją';
 
   @override
   String get advancedSettingSaveGifFavoritesDescription =>
-      'Choose how starred GIF favorites are stored';
+      'Pasirinkite, kaip saugomi pažymėti GIF parankiniai';
 
   @override
-  String get advancedSettingMediaButtonsLabel => 'Media buttons';
+  String get advancedSettingMediaButtonsLabel => 'Medijos mygtukai';
 
   @override
   String get advancedSettingMediaButtonsDescription =>
-      'Customize which buttons and indicators appear on media attachments and embeds';
+      'Pritaikykite, kurie mygtukai ir indikatoriai bus rodomi ant multimedijos failų ir įterptinių elementų';
 
   @override
   String get advancedSettingPreuploadAttachmentsLabel =>
-      'Upload attachments before sending';
+      'Įkelkite failus prieš siųsdami';
 
   @override
   String get advancedSettingPreuploadAttachmentsDescription =>
-      'Start uploading attachments as soon as they are added to the message input';
+      'Pradėkite siųsti prisegtukus, kai tik jie bus įtraukti į pranešimo lauką';
 
   @override
   String get advancedSettingStripTrackingLabel =>
-      'Strip tracking parameters from URLs';
+      'Pašalinti sekimo parametrus iš URL';
 
   @override
   String get advancedSettingStripTrackingDescription =>
-      'Automatically remove tracking parameters from URLs in messages you send';
+      'Automatiškai pašalinti sekimo parametrus iš URL nuorodų siunčiamose žinutėse';
 
   @override
-  String get advancedSettingTrustAllLinksLabel => 'Trust all external links';
+  String get advancedSettingTrustAllLinksLabel =>
+      'Pasitikėti visomis išorinėmis nuorodomis';
 
   @override
   String get advancedSettingTrustAllLinksDescription =>
-      'Skip the external link warning for all domains';
+      'Praleisti išorinių nuorodų įspėjimą visiems domenams';
 
   @override
-  String get advancedSettingSearchEnginesLabel => 'Search engines';
+  String get advancedSettingSearchEnginesLabel => 'Paieškos sistemos';
 
   @override
   String get advancedSettingSearchEnginesDescription =>
-      'Configure search engines used from selected text';
+      'Konfigūruokite paieškos sistemas, naudojamas išrinktam tekstui';
 
   @override
-  String get advancedSettingTranslatorsLabel => 'Translators';
+  String get advancedSettingTranslatorsLabel => 'Vertėjai';
 
   @override
   String get advancedSettingTranslatorsDescription =>
-      'Configure translator providers used from selected text';
+      'Konfigūruokite vertėjų paslaugas, naudojamas pasirinktam tekstui';
 
   @override
-  String get advancedSettingReverseImageSearchLabel => 'Reverse image search';
+  String get advancedSettingReverseImageSearchLabel =>
+      'Atvirkštinė vaizdų paieška';
 
   @override
   String get advancedSettingReverseImageSearchDescription =>
-      'Reverse image search providers';
+      'Atsuktinių vaizdų paieškos paslaugų teikėjai';
 
   @override
-  String get advancedSettingMessageActionBarLabel => 'Message action bar';
+  String get advancedSettingMessageActionBarLabel => 'Pranešimo veiksmų juosta';
 
   @override
   String get advancedSettingMessageActionBarDescription =>
-      'Customize the action bar that appears when hovering over messages';
+      'Tinkinti veiksmų juostą, kuri rodoma užvedus pelę ant pranešimų';
 
   @override
   String get advancedSettingExpressionAutocompleteLabel =>
-      'Expression autocomplete';
+      'Išraiškų automatinis pildymas';
 
   @override
   String get advancedSettingExpressionAutocompleteDescription =>
-      'Pick what appears when you type a colon in the message input';
+      'Pasirinkite, kas atvaizduojama įvedant dvitaškį žinutės lauke';
 
   @override
-  String get advancedSettingInputButtonsLabel => 'Message input buttons';
+  String get advancedSettingInputButtonsLabel => 'Pranešimų įvesties mygtukai';
 
   @override
   String get advancedSettingInputButtonsDescription =>
-      'Pick which buttons show in the message input';
+      'Pasirinkite, kurie mygtukai bus rodomi pranešimų įvedimo lauke';
 
   @override
   String get advancedSettingScrollToBottomOnSendLabel =>
-      'Scroll to bottom when sending a message';
+      'Slinkti į apačią išsiunčiant žinutę';
 
   @override
   String get advancedSettingScrollToBottomOnSendDescription =>
-      'Choose how chat moves after you send a message';
+      'Pasirinkite, kaip pokalbis turi vykti po to, kai išsiunčiate pranešimą';
 
   @override
   String get advancedSettingSkipMarkAllAsReadLabel =>
-      'Skip \"Mark all as read\" confirmation';
+      'Praleisti patvirtinimą \"Pažymėti visus kaip perskaitytus\"';
 
   @override
   String get advancedSettingSkipMarkAllAsReadDescription =>
-      'Mark all unread inbox channels as read immediately, without asking to confirm';
+      'Pažymėti visus neskaitytus gautuosius kanalus kaip perskaitytus iškart, neklausiant patvirtinimo';
 
   @override
   String get advancedSettingHideMutedChannelsLabel =>
-      'Hide muted channels by default';
+      'Slėpti nutildytus kanalus pagal numatytuosius nustatymus';
 
   @override
   String get advancedSettingHideMutedChannelsDescription =>
-      'Hide channels you\'ve muted from community sidebars';
+      'Slėpti nutildytus kanalus iš bendruomenės šoninių juostų';
 
   @override
-  String get advancedSettingShowGifIndicatorLabel => 'Show GIF indicator';
+  String get advancedSettingShowGifIndicatorLabel => 'Rodyti GIF indikatorių';
 
   @override
   String get advancedSettingShowAttachmentExpiryLabel =>
-      'Show attachment expiry indicator';
+      'Rodyti priedo galiojimo pabaigos indikatorių';
 
   @override
-  String get advancedSettingShowMediaDeleteLabel => 'Show delete button';
+  String get advancedSettingShowMediaDeleteLabel => 'Rodyti ištrynimo mygtuką';
 
   @override
-  String get advancedSettingShowMediaDownloadLabel => 'Show download button';
+  String get advancedSettingShowMediaDownloadLabel =>
+      'Rodyti atsisiuntimo mygtuką';
 
   @override
-  String get advancedSettingShowMediaFavoriteLabel => 'Show favorite button';
+  String get advancedSettingShowMediaFavoriteLabel =>
+      'Rodyti parankinių mygtuką';
 
   @override
   String get advancedSettingShowSuppressEmbedsLabel =>
-      'Show suppress embeds button';
+      'Rodyti įdėtųjų elementų slopinimo mygtuką';
 
   @override
   String get advancedSettingShowMessageActionBarLabel =>
-      'Show message action bar';
+      'Rodyti pranešimo veiksmų juostą';
 
   @override
-  String get advancedSettingShowOnlyMoreButtonLabel => 'Show only more button';
+  String get advancedSettingShowOnlyMoreButtonLabel =>
+      'Rodyti tik mygtuką \"Daugiau\"';
 
   @override
-  String get advancedSettingShowQuickReactionsLabel => 'Show quick reactions';
+  String get advancedSettingShowQuickReactionsLabel =>
+      'Rodyti greitas reakcijas';
 
   @override
   String get advancedSettingEnableShiftToExpandLabel =>
-      'Enable Shift to expand';
+      'Įjungti \"Shift\", kad išplėstumėte';
 
   @override
   String get advancedSettingShowDefaultEmojisAutocompleteLabel =>
-      'Show default emojis in expression autocomplete';
+      'Rodyti numatytąsias jaustukų išraiškas automatinio užbaigimo metu';
 
   @override
   String get advancedSettingShowCustomEmojisAutocompleteLabel =>
-      'Show custom emojis in expression autocomplete';
+      'Rodyti pasirinktinius jaustukus išraiškų automatinio pildymo funkcijose';
 
   @override
   String get advancedSettingShowStickersAutocompleteLabel =>
-      'Show stickers in expression autocomplete';
+      'Rodyti lipdukus išraiškų automatinio pildymo metu';
 
   @override
   String get advancedSettingShowSavedMediaAutocompleteLabel =>
-      'Show saved media in expression autocomplete';
+      'Rodyti išsaugotą mediją raiškos automatinio pildymo funkcijose';
 
   @override
-  String get advancedSettingShowGifsButtonLabel => 'Show GIFs button';
+  String get advancedSettingShowGifsButtonLabel => 'Rodyti GIF mygtuką';
 
   @override
-  String get advancedSettingShowMediaButtonLabel => 'Show media button';
+  String get advancedSettingShowMediaButtonLabel => 'Rodyti medijos mygtuką';
 
   @override
-  String get advancedSettingShowStickersButtonLabel => 'Show stickers button';
+  String get advancedSettingShowStickersButtonLabel => 'Rodyti lipdukų mygtuką';
 
   @override
-  String get advancedSettingShowEmojiButtonLabel => 'Show emoji button';
+  String get advancedSettingShowEmojiButtonLabel => 'Rodyti jaustukų mygtuką';
 
   @override
-  String get advancedSettingShowSendButtonLabel => 'Show send button';
+  String get advancedSettingShowSendButtonLabel => 'Rodyti siuntimo mygtuką';
 
   @override
-  String get advancedSettingNewDeviceAlertsLabel => 'Show new device alerts';
+  String get advancedSettingNewDeviceAlertsLabel =>
+      'Rodyti naujų įrenginių įspėjimus';
 
   @override
   String get advancedSettingNewDeviceAlertsDescription =>
-      'Prompt for new audio devices';
+      'Naujų garso įrenginių užklausa';
 
   @override
   String get advancedSettingConnectionVolumeControlsLabel =>
-      'Connection volume controls';
+      'Ryšio garsumo valdikliai';
 
   @override
   String get advancedSettingConnectionVolumeControlsDescription =>
-      'Show per-device participant volume sliders in voice menus';
+      'Rodyti dalyvių garsumo slankiklius balsiniuose meniu kiekvienam įrenginiui';
 
   @override
   String get advancedSettingScreenSharePreviewBehaviorLabel =>
-      'Screen share preview behavior';
+      'Ekrano dalijimosi peržiūros elgsena';
 
   @override
   String get advancedSettingScreenSharePreviewBehaviorDescription =>
-      'Preview, popout, and stream thumbnail behavior';
+      'Peržiūrėti, atidaryti išskleistame lange ir srauto miniatiūros';
 
   @override
-  String get advancedSettingScreenShareCodecLabel => 'Screen share codec';
+  String get advancedSettingScreenShareCodecLabel =>
+      'Ekrano bendrinimo kodekas';
 
   @override
   String get advancedSettingScreenShareCodecDescription =>
-      'Video codec for screen sharing';
+      'Vaizdo kodekas ekrano dalijimuisi';
 
   @override
-  String get advancedSettingScreenShareCodecAuto => 'Automatic (recommended)';
+  String get advancedSettingScreenShareCodecAuto =>
+      'Automatinis (rekomenduojama)';
 
   @override
   String get advancedSettingScreenShareCodecAv1 => 'AV1';
@@ -10431,17 +10509,17 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get advancedSettingPauseScreenSharePreviewLabel =>
-      'Pause my screen share preview in the background';
+      'Pristabdyti ekrano bendrinimo peržiūrą fone';
 
   @override
   String get advancedSettingHideStreamPreviewLabel =>
-      'Hide my stream preview thumbnail';
+      'Slėpti mano srauto peržiūros miniatiūrą';
 
   @override
-  String get advancedSettingDeveloperModeLabel => 'Enable developer mode';
+  String get advancedSettingDeveloperModeLabel => 'Įjungti kūrėjo režimą';
 
   @override
-  String get advancedSettingDeveloperModeDescription => 'Enable developer mode';
+  String get advancedSettingDeveloperModeDescription => 'Įjungti kūrėjo režimą';
 
   @override
   String get advancedSettingSearchEngineGoogle => 'Google';
@@ -10453,207 +10531,212 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get advancedSettingSearchEngineBing => 'Bing';
 
   @override
-  String get advancedSettingSearchEngineGoogleLens => 'Google Lens';
+  String get advancedSettingSearchEngineGoogleLens => '„Google Lens“';
 
   @override
   String get advancedSettingSearchEngineTinEye => 'TinEye';
 
   @override
-  String get advancedSettingTranslatorGoogle => 'Google Translate';
+  String get advancedSettingTranslatorGoogle => '„Google“ vertimas';
 
   @override
-  String get advancedSettingTranslatorDeepL => 'DeepL';
+  String get advancedSettingTranslatorDeepL => '„DeepL“';
 
   @override
-  String get advancedSettingDefaultSearchEngineLabel => 'Default search engine';
+  String get advancedSettingDefaultSearchEngineLabel =>
+      'Numatytoji paieškos sistema';
 
   @override
   String get advancedSettingDefaultSearchEngineDescription =>
-      'Choose which search engine is used by default when searching selected text.';
+      'Pasirinkite, kuri paieškos sistema bus naudojama pagal numatytuosius nustatymus ieškant pasirinkto teksto.';
 
   @override
   String get advancedSettingBuiltInSearchEnginesLabel =>
-      'Built-in search engines';
+      'Integruotos paieškos sistemos';
 
   @override
   String get advancedSettingBuiltInSearchEnginesDescription =>
-      'Enable or disable built-in search engines. Enabled engines appear in the message context menu when text is selected.';
+      'Įjunkite arba išjunkite integruotas paieškos sistemas. Įjungtos sistemos rodomos pranešimo kontekstiniame meniu, kai pasirenkamas tekstas.';
 
   @override
-  String get advancedSettingCustomSearchEnginesLabel => 'Custom search engines';
+  String get advancedSettingCustomSearchEnginesLabel =>
+      'Pasirinktinės paieškos sistemos';
 
   @override
   String advancedSettingCustomSearchEnginesDescription(Object query) {
-    return 'Add your own search engines with a custom URL pattern. Use \'$query\' as a placeholder for the search text.';
+    return 'Pridėkite savo paieškos variklius su pasirinktiniu URL šablonu. Naudokite „$query“ kaip paieškos teksto vietos ženklą.';
   }
 
   @override
-  String get advancedSettingAddSearchEngineLabel => 'Add search engine';
+  String get advancedSettingAddSearchEngineLabel => 'Pridėti paieškos variklį';
 
   @override
   String get advancedSettingEnableAtLeastOneSearchEngineLabel =>
-      'Enable at least one search engine below.';
+      'Įjunkite bent vieną paieškos variklį.';
 
   @override
-  String get advancedSettingRemoveSearchEngineLabel => 'Remove search engine';
+  String get advancedSettingRemoveSearchEngineLabel =>
+      'Pašalinti paieškos variklį';
 
   @override
-  String get advancedSettingDefaultTranslatorLabel => 'Default translator';
+  String get advancedSettingDefaultTranslatorLabel => 'Numatytasis vertėjas';
 
   @override
   String get advancedSettingDefaultTranslatorDescription =>
-      'Choose which translator is used by default when translating selected text.';
+      'Pasirinkite, kuris vertėjas bus naudojamas pagal numatytuosius nustatymus verčiant pasirinktą tekstą.';
 
   @override
-  String get advancedSettingBuiltInTranslatorsLabel => 'Built-in translators';
+  String get advancedSettingBuiltInTranslatorsLabel => 'Integruoti vertėjai';
 
   @override
   String get advancedSettingBuiltInTranslatorsDescription =>
-      'Enable or disable built-in translators. Enabled translators appear in the message context menu when text is selected.';
+      'Įjungti arba išjungti integruotus vertėjus. Įjungti vertėjai rodomi pranešimo kontekstiniame meniu, kai pasirenkamas tekstas.';
 
   @override
-  String get advancedSettingCustomTranslatorsLabel => 'Custom translators';
+  String get advancedSettingCustomTranslatorsLabel => 'Pasirinktiniai vertėjai';
 
   @override
   String advancedSettingCustomTranslatorsDescription(Object query) {
-    return 'Add your own translators with a custom URL pattern. Use \'$query\' as a placeholder for the text to translate.';
+    return 'Pridėkite savo vertėjus naudodami pasirinktinį URL modelį. Naudokite \'$query\' kaip teksto, kurį reikia išversti, vietos ženklą.';
   }
 
   @override
-  String get advancedSettingAddTranslatorLabel => 'Add translator';
+  String get advancedSettingAddTranslatorLabel => 'Pridėti vertėją';
 
   @override
   String get advancedSettingEnableAtLeastOneTranslatorLabel =>
-      'Enable at least one translator below.';
+      'Įjunkite bent vieną vertėją.';
 
   @override
-  String get advancedSettingRemoveTranslatorLabel => 'Remove translator';
+  String get advancedSettingRemoveTranslatorLabel => 'Pašalinti vertėją';
 
   @override
   String get advancedSettingDefaultReverseImageSearchLabel =>
-      'Default reverse image search';
+      'Numatytoji atvirkštinė vaizdų paieška';
 
   @override
   String get advancedSettingDefaultReverseImageSearchDescription =>
-      'Choose which reverse image search service is used by default when searching an image.';
+      'Pasirinkite, kuri atvirkštinės vaizdų paieškos paslauga bus naudojama pagal numatytuosius nustatymus ieškant vaizdo.';
 
   @override
   String get advancedSettingBuiltInReverseImageSearchLabel =>
-      'Built-in reverse image search';
+      'Integruota atvirkštinė vaizdų paieška';
 
   @override
   String get advancedSettingBuiltInReverseImageSearchDescription =>
-      'Enable or disable built-in reverse image search providers. Enabled providers appear in the context menu of images, avatars, banners, stickers, and emoji.';
+      'Įjunkite arba išjunkite integruotas atvirkštinės vaizdų paieškos paslaugas. Įjungtos paslaugos rodomos kontekstiniame paveikslėlių, avatarų, reklamjuosčių, lipdukų ir jaustukų meniu.';
 
   @override
   String get advancedSettingCustomReverseImageSearchLabel =>
-      'Custom reverse image search';
+      'Pasirinktinė atvirkštinė vaizdų paieška';
 
   @override
   String advancedSettingCustomReverseImageSearchDescription(Object url) {
-    return 'Add your own reverse image search providers with a custom URL pattern. Use \'$url\' as a placeholder for the image URL.';
+    return 'Pridėkite savo atvirkštinės vaizdo paieškos paslaugų teikėjus su pasirinktiniu URL šablonu. Naudokite \'$url\' kaip vaizdo URL vietos rezervavimo simbolį.';
   }
 
   @override
   String get advancedSettingAddReverseImageSearchLabel =>
-      'Add reverse image search';
+      'Pridėti atvirkštinę vaizdų paiešką';
 
   @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
-      'Enable at least one reverse image search provider below.';
+      'Įjunkite bent vieną atvirkštinės vaizdų paieškos teikėją.';
 
   @override
   String get advancedSettingRemoveReverseImageSearchLabel =>
-      'Remove reverse image search';
+      'Pašalinti atvirkštinę vaizdų paiešką';
 
   @override
-  String get advancedSettingAddSearchEngineTitle => 'Add search engine';
+  String get advancedSettingAddSearchEngineTitle => 'Pridėti paieškos variklį';
 
   @override
-  String get advancedSettingEditSearchEngineTitle => 'Edit search engine';
+  String get advancedSettingEditSearchEngineTitle =>
+      'Redaguoti paieškos variklį';
 
   @override
-  String get advancedSettingAddTranslatorTitle => 'Add translation provider';
+  String get advancedSettingAddTranslatorTitle => 'Pridėti vertimo teikėją';
 
   @override
-  String get advancedSettingEditTranslatorTitle => 'Edit translation provider';
+  String get advancedSettingEditTranslatorTitle => 'Redaguoti vertimo teikėją';
 
   @override
   String get advancedSettingAddReverseImageSearchTitle =>
-      'Add reverse image search engine';
+      'Pridėti atvirkštinės vaizdų paieškos variklį';
 
   @override
   String get advancedSettingEditReverseImageSearchTitle =>
-      'Edit reverse image search engine';
+      'Redaguoti atvirkštinės vaizdų paieškos variklį';
 
   @override
-  String get advancedSettingSearchProviderNameLabel => 'Name';
+  String get advancedSettingSearchProviderNameLabel => 'Pavadinimas';
 
   @override
-  String get advancedSettingSearchProviderUrlLabel => 'URL pattern';
+  String get advancedSettingSearchProviderUrlLabel => 'URL šablonas';
 
   @override
   String get advancedSettingSearchProviderNameTextPlaceholder =>
-      'My search engine';
+      'Mano paieškos variklis';
 
   @override
   String get advancedSettingSearchProviderNameTranslatePlaceholder =>
-      'My translator';
+      'Mano vertėjas';
 
   @override
   String get advancedSettingSearchProviderNameImagePlaceholder =>
-      'My reverse image search';
+      'Mano atvirkštinė vaizdų paieška';
 
   @override
   String advancedSettingSearchProviderUrlTextHint(Object query) {
-    return 'Use \'$query\' where the search text should be inserted.';
+    return 'Naudokite \'$query\', kur turėtų būti įterptas paieškos tekstas.';
   }
 
   @override
   String advancedSettingSearchProviderUrlTranslateHint(Object query) {
-    return 'Use \'$query\' where the text to translate should be inserted.';
+    return 'Naudokite \'$query\', kur turėtų būti įterptas tekstas, kurį norite išversti.';
   }
 
   @override
   String advancedSettingSearchProviderUrlImageHint(Object url) {
-    return 'Use \'$url\' where the image URL should be inserted.';
+    return 'Naudokite \'$url\', kur turėtų būti įterptas vaizdo URL.';
   }
 
   @override
-  String get advancedSettingSearchProviderNameRequired => 'Name is required.';
+  String get advancedSettingSearchProviderNameRequired =>
+      'Būtina nurodyti pavadinimą.';
 
   @override
   String get advancedSettingSearchProviderUrlRequired =>
-      'URL pattern is required.';
+      'Reikalingas URL šablonas.';
 
   @override
   String advancedSettingSearchProviderUrlMustContainQuery(Object query) {
-    return 'URL pattern must contain \'$query\' placeholder.';
+    return 'URL modelis privalo turėti vietą „$query“.';
   }
 
   @override
   String advancedSettingSearchProviderUrlMustContainUrl(Object url) {
-    return 'URL pattern must contain \'$url\' placeholder.';
+    return 'URL modelis turi turėti vietą „$url“.';
   }
 
   @override
   String get advancedSettingSearchProviderUrlMustBeValid =>
-      'URL pattern must be a valid URL.';
+      'URL šablonas turi būti galiojantis URL.';
 
   @override
-  String get advancedSettingAddSearchProviderAction => 'Add';
+  String get advancedSettingAddSearchProviderAction => 'Pridėti';
 
   @override
-  String get advancedSettingEditSearchProviderAction => 'Edit';
+  String get advancedSettingEditSearchProviderAction => 'Redaguoti';
 
   @override
-  String get advancedSettingRemoveSearchProviderConfirmAction => 'Remove';
+  String get advancedSettingRemoveSearchProviderConfirmAction => 'Pašalinti';
 
   @override
   String advancedSettingRemoveSearchProviderConfirmDescription(
     String engineName,
   ) {
-    return 'Are you sure you want to remove $engineName?';
+    return 'Ar tikrai norite pašalinti $engineName?';
   }
 
   @override
@@ -10675,25 +10758,26 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get userSettingsNavWhatsNew => 'Kas naujo';
 
   @override
-  String get userSettingsJoinFluxerLabs => 'Join Fluxer Labs';
+  String get userSettingsJoinFluxerLabs => 'Prisijunkite prie „Fluxer Labs“';
 
   @override
-  String get userSettingsNavAppLicenses => 'App Licenses';
+  String get userSettingsNavAppLicenses => 'Programos licencijos';
 
   @override
   String get userSettingsAppLicensesDescription =>
-      'Open-source software used by this app. This app is built with Flutter.';
+      'Atidaromas atvirasis kodas, naudojamas šioje programoje. Ši programa sukurta naudojant Flutter.';
 
   @override
-  String get userSettingsAppLicensesLoadError => 'Could not load app licenses.';
+  String get userSettingsAppLicensesLoadError =>
+      'Nepavyko įkelti programos licencijų.';
 
   @override
   String userSettingsAppLicensesPackageCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count licenses',
-      one: '1 license',
+      other: '$count licencijų',
+      one: '1 licencija',
     );
     return '$_temp0';
   }
@@ -10758,17 +10842,17 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get quickSwitcherBookmarksLabel => 'Žymės';
 
   @override
-  String get savedMessagesEmptyTitle => 'No bookmarks';
+  String get savedMessagesEmptyTitle => 'Nėra žymių';
 
   @override
   String get savedMessagesEmptyBody =>
-      'Bookmark messages to save them for later.';
+      'Žinutes, kurias norite išsaugoti vėlesniam laikui, pažymėkite.';
 
   @override
-  String get savedMessagesEndBody => 'There\'s nothing more to see here.';
+  String get savedMessagesEndBody => 'Čia daugiau nieko nėra.';
 
   @override
-  String get savedMessagesRemoveTooltip => 'Remove bookmark';
+  String get savedMessagesRemoveTooltip => 'Pašalinti žymę';
 
   @override
   String get quickSwitcherMentionsLabel => 'Paminėjimai';
@@ -10827,25 +10911,25 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get uiLoading => 'Įkeliama';
 
   @override
-  String get uiSearch => 'Search';
+  String get uiSearch => 'Ieškoti';
 
   @override
-  String get uiStartCall => 'Start call';
+  String get uiStartCall => 'Pradėti skambutį';
 
   @override
-  String get uiStartVideoCall => 'Start video call';
+  String get uiStartVideoCall => 'Pradėti vaizdo skambutį';
 
   @override
-  String get uiPlay => 'Play';
+  String get uiPlay => 'Groti';
 
   @override
-  String get uiPause => 'Pause';
+  String get uiPause => 'Pauzė';
 
   @override
-  String get uiDownload => 'Download';
+  String get uiDownload => 'Atsisiųsti';
 
   @override
-  String get uiMoreActions => 'More actions';
+  String get uiMoreActions => 'Daugiau veiksmų';
 
   @override
   String get uiUnsavedChanges => 'Neišsaugoti pakeitimai';
@@ -10886,7 +10970,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String mentionConfirmRoleBody(int count, String roleName) {
-    return 'This will notify $count members with the $roleName role. Continue?';
+    return 'Tai praneš apie $count narius, turinčius $roleName vaidmenį. Tęsti?';
   }
 
   @override
@@ -11097,157 +11181,162 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String get guildNavbarGuildSelected => 'selected';
+  String get guildNavbarGuildSelected => 'pasirinkta';
 
   @override
-  String get guildNavbarGuildUnread => 'unread';
+  String get guildNavbarGuildUnread => 'neskaityta';
 
   @override
   String guildNavbarGuildMentions(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count mentions',
-      one: '1 mention',
+      other: '$count paminėjimų',
+      one: '1 paminėjimas',
     );
     return '$_temp0';
   }
 
   @override
-  String get navigationItemMuted => 'muted';
+  String get navigationItemMuted => 'nutildyta';
 
   @override
-  String get authShowPassword => 'Show password';
+  String get authShowPassword => 'Rodyti slaptažodį';
 
   @override
-  String get authHidePassword => 'Hide password';
+  String get authHidePassword => 'Slėpti slaptažodį';
 
   @override
-  String get chatLoadingMessages => 'Loading messages';
+  String get chatLoadingMessages => 'Įkeliamos žinutės';
 
   @override
-  String get friendsMessageFriend => 'Message';
+  String get friendsMessageFriend => 'Žinutė';
 
   @override
-  String get friendsFriendActions => 'Friend actions';
+  String get friendsFriendActions => 'Veiksmai su draugu';
 
   @override
-  String get friendsAcceptRequest => 'Accept friend request';
+  String get friendsAcceptRequest => 'Priimti draugo užklausą';
 
   @override
-  String get friendsDeclineRequest => 'Decline friend request';
+  String get friendsDeclineRequest => 'Atmesti draugystės prašymą';
 
   @override
-  String get friendsCancelRequest => 'Cancel friend request';
+  String get friendsCancelRequest => 'Atšaukti draugo užklausą';
 
   @override
-  String get friendsOpenInbox => 'Inbox';
+  String get friendsOpenInbox => 'Gauta';
 
   @override
-  String get profileRemoveFriend => 'Remove friend';
+  String get profileRemoveFriend => 'Pašalinti draugą';
 
   @override
-  String get profileUnblockUser => 'Unblock user';
+  String get profileUnblockUser => 'Atblokuoti naudotoją';
 
   @override
-  String get profileAcceptFriendRequest => 'Accept friend request';
+  String get profileAcceptFriendRequest => 'Priimti draugo užklausą';
 
   @override
-  String get profileCancelFriendRequest => 'Cancel friend request';
+  String get profileCancelFriendRequest => 'Atšaukti draugo užklausą';
 
   @override
-  String get profileSendFriendRequest => 'Add friend';
+  String get profileSendFriendRequest => 'Pridėti draugą';
 
   @override
-  String get accountOverflowMenu => 'Account options';
+  String get accountOverflowMenu => 'Paskyros parinktys';
 
   @override
-  String get navHome => 'Home';
+  String get navHome => 'Pagrindinis';
 
   @override
-  String get navNotifications => 'Notifications';
+  String get navNotifications => 'Pranešimai';
 
   @override
-  String get navYou => 'You';
+  String get navYou => 'Jūs';
 
   @override
-  String get guildFolderSettingsTitle => 'Folder settings';
+  String get guildFolderSettingsTitle => 'Aplanko nustatymai';
 
   @override
-  String get guildFolderNameLabel => 'Folder name';
+  String get guildFolderNameLabel => 'Aplanko pavadinimas';
 
   @override
-  String get guildFolderColorLabel => 'Folder color';
+  String get guildFolderColorLabel => 'Aplanko spalva';
 
   @override
-  String get guildFolderShowIconWhenCollapsed => 'Show icon when collapsed';
+  String get guildFolderShowIconWhenCollapsed => 'Rodyti piktogramą sutraukus';
 
   @override
-  String get guildFolderIconLabel => 'Folder icon';
+  String get guildFolderIconLabel => 'Aplanko piktograma';
 
   @override
-  String get guildFolderDelete => 'Delete folder';
+  String get guildFolderDelete => 'Ištrinti aplanką';
 
   @override
-  String get guildFolderIconFolder => 'Folder';
+  String get guildFolderIconFolder => 'Aplankas';
 
   @override
-  String get guildFolderIconStar => 'Star';
+  String get guildFolderIconStar => 'Žvaigždutė';
 
   @override
-  String get guildFolderIconHeart => 'Heart';
+  String get guildFolderIconHeart => 'Širdelė';
 
   @override
-  String get guildFolderIconBookmark => 'Bookmark';
+  String get guildFolderIconBookmark => 'Žymė';
 
   @override
-  String get guildFolderIconGameController => 'Game controller';
+  String get guildFolderIconGameController => 'Žaidimų pultelis';
 
   @override
-  String get guildFolderIconShield => 'Shield';
+  String get guildFolderIconShield => 'Skydas';
 
   @override
-  String get guildFolderIconMusicNote => 'Music note';
+  String get guildFolderIconMusicNote => 'Muzikos nata';
 
   @override
-  String get guildFolderMarkAsRead => 'Mark folder as read';
+  String get guildFolderMarkAsRead => 'Pažymėti aplanką kaip perskaitytą';
 
   @override
-  String get guildBulkMuteCommunities => 'Mute communities';
+  String get guildBulkMuteCommunities => 'Nutildyti bendruomenes';
 
   @override
-  String get guildBulkUnmuteCommunities => 'Unmute communities';
+  String get guildBulkUnmuteCommunities => 'Įjungti bendruomenių garsą';
 
   @override
   String get guildBulkCommunityNotificationSettings =>
-      'Community notification settings';
+      'Bendruomenės pranešimų nustatymai';
 
   @override
-  String get guildBulkCommunityPrivacySettings => 'Community privacy settings';
+  String get guildBulkCommunityPrivacySettings =>
+      'Bendruomenės privatumo nustatymai';
 
   @override
-  String get guildBulkAllowEveryoneAndHere => 'Allow @everyone and @here';
+  String get guildBulkAllowEveryoneAndHere => 'Leisti @everyone ir @here';
 
   @override
-  String get guildBulkAllowRoleMentions => 'Allow role mentions';
+  String get guildBulkAllowRoleMentions => 'Leisti paminėti vaidmenį';
 
   @override
-  String get guildBulkEnableMobilePush => 'Enable mobile push notifications';
+  String get guildBulkEnableMobilePush =>
+      'Įjungti mobiliuosius tiesioginius pranešimus';
 
   @override
-  String get guildBulkDisableMobilePush => 'Disable mobile push notifications';
+  String get guildBulkDisableMobilePush =>
+      'Išjungti mobiliuosius tiesioginius pranešimus';
 
   @override
-  String get guildBulkAllowDirectMessages => 'Allow direct messages';
+  String get guildBulkAllowDirectMessages => 'Leisti tiesioginius pranešimus';
 
   @override
-  String get guildBulkBlockDirectMessages => 'Block direct messages';
+  String get guildBulkBlockDirectMessages => 'Blokuoti tiesioginius pranešimus';
 
   @override
-  String get guildBulkAllowBotDirectMessages => 'Allow bot direct messages';
+  String get guildBulkAllowBotDirectMessages =>
+      'Leisti tiesiogines roboto žinutes';
 
   @override
-  String get guildBulkBlockBotDirectMessages => 'Block bot direct messages';
+  String get guildBulkBlockBotDirectMessages =>
+      'Blokuoti roboto tiesioginius pranešimus';
 
   @override
   String get guildNavbarGroupDm => 'Grupinis DM';
@@ -11292,7 +11381,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get guildNavbarUrlHint => 'https://example.com';
 
   @override
-  String get guildNavbarChannelTypeSelection => 'Channel type selection';
+  String get guildNavbarChannelTypeSelection => 'Kanalo tipo pasirinkimas';
 
   @override
   String get guildNavbarCreateCategory => 'Sukurti kategoriją';
@@ -11534,7 +11623,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get guildMenuSettingsBans => 'Uždrausti nariai';
 
   @override
-  String get guildMenuSettingsChannels => 'Channels';
+  String get guildMenuSettingsChannels => 'Kanalai';
 
   @override
   String get guildSettingsNoPermission =>
@@ -11579,426 +11668,436 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get guildSettingsRolesListTitle => 'Vaidmenys';
 
   @override
-  String get guildSettingsRolesNewRole => 'New role';
+  String get guildSettingsRolesNewRole => 'Naujas vaidmuo';
 
   @override
-  String get guildSettingsRolesDeleteRole => 'Delete role';
+  String get guildSettingsRolesDeleteRole => 'Ištrinti vaidmenį';
 
   @override
-  String get guildSettingsRolesBackToRoles => 'Back to roles';
+  String get guildSettingsRolesBackToRoles => 'Atgal į vaidmenis';
 
   @override
-  String get guildSettingsBackToSettings => 'Back to settings';
+  String get guildSettingsBackToSettings => 'Grįžti į nustatymus';
 
   @override
   String guildSettingsRolesEditTitle(String name) {
-    return 'Edit \"$name\"';
+    return 'Redaguoti \"$name\"';
   }
 
   @override
   String get guildSettingsRolesEditSubtitle =>
-      'Configure role settings and permissions';
+      'Konfigūruoti vaidmens nustatymus ir leidimus';
 
   @override
-  String get guildSettingsRolesDisplaySection => 'Display';
+  String get guildSettingsRolesDisplaySection => 'Rodymas';
 
   @override
-  String get guildSettingsRolesRoleName => 'Role name';
+  String get guildSettingsRolesRoleName => 'Vaidmens pavadinimas';
 
   @override
-  String get guildSettingsRolesRoleColor => 'Role color';
+  String get guildSettingsRolesRoleColor => 'Rolės spalva';
 
   @override
   String get guildSettingsRolesRoleColorHelper =>
-      'Type a color (hex, rgb(), hsl(), or name) or use the picker.';
+      'Įveskite spalvą (šešioliktainis, rgb(), hsl() arba pavadinimas) arba naudokite parinkiklį.';
 
   @override
-  String get guildSettingsRolesShowSeparately => 'Show this role separately';
+  String get guildSettingsRolesShowSeparately => 'Rodyti šį vaidmenį atskirai';
 
   @override
   String get guildSettingsRolesShowSeparatelyHelper =>
-      'Lists members with this role in their own section in the member list.';
+      'Narių sąraše rodo narius, turinčius šį vaidmenį, atskirame skyriuje.';
 
   @override
-  String get guildSettingsRolesAllowMentions => 'Allow mentions for this role';
+  String get guildSettingsRolesAllowMentions =>
+      'Leisti paminėjimus šiam vaidmeniui';
 
   @override
   String guildSettingsRolesAllowMentionsHelper(String permission) {
-    return 'Members with the \"$permission\" permission can always mention roles, regardless of this setting.';
+    return 'Nariai, turintys „$permission“ leidimą, visada gali paminėti vaidmenis, nepaisant šio nustatymo.';
   }
 
   @override
   String get guildSettingsRolesClearPermissionsHelp =>
-      'Use this button to quickly clear all permissions.';
+      'Naudokite šį mygtuką, kad greitai išvalytumėte visus leidimus.';
 
   @override
-  String get guildSettingsRolesClearPermissions => 'Clear permissions';
+  String get guildSettingsRolesClearPermissions => 'Išvalyti leidimus';
 
   @override
-  String get guildSettingsRolesPermissionsSection => 'Permissions';
+  String get guildSettingsRolesPermissionsSection => 'Leidimai';
 
   @override
-  String get guildSettingsRolesSearchPermissions => 'Search permissions';
+  String get guildSettingsRolesSearchPermissions => 'Ieškoti leidimų';
 
   @override
-  String get guildSettingsRolesDenseLayout => 'Dense layout';
+  String get guildSettingsRolesDenseLayout => 'Tankus išdėstymas';
 
   @override
-  String get guildSettingsRolesComfyLayout => 'Comfy layout';
+  String get guildSettingsRolesComfyLayout => 'Patogus išdėstymas';
 
   @override
-  String get guildSettingsRolesSwitchToDenseLayout => 'Switch to dense layout';
+  String get guildSettingsRolesSwitchToDenseLayout =>
+      'Perjungti į tankų išdėstymą';
 
   @override
-  String get guildSettingsRolesSwitchToComfyLayout => 'Switch to comfy layout';
+  String get guildSettingsRolesSwitchToComfyLayout =>
+      'Perjungti į patogų išdėstymą';
 
   @override
-  String get guildSettingsRolesSingleColumn => 'Single column';
+  String get guildSettingsRolesSingleColumn => 'Vienas stulpelis';
 
   @override
-  String get guildSettingsRolesTwoColumns => 'Two columns';
+  String get guildSettingsRolesTwoColumns => 'Du stulpeliai';
 
   @override
   String get guildSettingsRolesSwitchToSingleColumn =>
-      'Switch to single column';
+      'Perjungti į vieną stulpelį';
 
   @override
-  String get guildSettingsRolesSwitchToTwoColumns => 'Switch to two columns';
+  String get guildSettingsRolesSwitchToTwoColumns =>
+      'Perjungti į du stulpelius';
 
   @override
-  String get guildSettingsRolesNoPermissionsFound => 'No permissions found';
+  String get guildSettingsRolesNoPermissionsFound => 'Nėra leidimų';
 
   @override
-  String get guildSettingsRolesCustomHoistOrder => 'Custom hoist order';
+  String get guildSettingsRolesCustomHoistOrder =>
+      'Pasirinktinė iškėlimo tvarka';
 
   @override
-  String get guildSettingsRolesHoistOrder => 'Hoist order';
+  String get guildSettingsRolesHoistOrder => 'Rikiavimo tvarka';
 
   @override
-  String get guildSettingsRolesResetHoistOrder => 'Reset to default';
+  String get guildSettingsRolesResetHoistOrder => 'Atkurti numatytuosius';
 
   @override
   String get guildSettingsRolesHoistOrderHelp =>
-      'Drag roles to customize the order they appear in the member list.';
+      'Vilkite vaidmenis, kad pakeistumėte jų rodymo tvarką narių sąraše.';
 
   @override
   String get guildSettingsRolesNoHoistedRoles =>
-      'No hoisted roles. Enable \"Show this role separately\" on a role to see it here.';
+      'Nėra iškeltų vaidmenų. Įjunkite \"Rodyti šį vaidmenį atskirai\" prie vaidmens, kad jį čia matytumėte.';
 
   @override
   String get guildSettingsRolesLockedTooltip =>
-      'You cannot edit this role because it is your highest role or above you';
+      'Negalite redaguoti šio vaidmens, nes tai yra jūsų aukščiausias vaidmuo arba jis yra aukščiau už jus';
 
   @override
   String guildSettingsRolesNeedManageRolesPermission(String permission) {
-    return 'You need the \"$permission\" permission to edit these permissions';
+    return 'Norint redaguoti šiuos leidimus, reikia turėti „$permission“ leidimą';
   }
 
   @override
   String get guildSettingsRolesCannotEditHigherRole =>
-      'You cannot edit a role at or above your highest role';
+      'Negalite redaguoti vaidmens, kuris yra tokio pat lygio arba aukštesnis už jūsų aukščiausią vaidmenį';
 
   @override
   String get guildSettingsRolesCannotGrantPermission =>
-      'You cannot grant a permission you don\'t have';
+      'Negalite suteikti leidimo, kurio neturite';
 
   @override
   String get guildSettingsRolesCannotRemoveOwnPermission =>
-      'You cannot remove this permission because it would remove it from yourself';
+      'Negalite pašalinti šio leidimo, nes jis būtų pašalintas iš jūsų paties';
 
   @override
-  String get guildSettingsRolesUpdatedSuccess => 'Roles updated successfully';
+  String get guildSettingsRolesUpdatedSuccess =>
+      'Vaidmenys sėkmingai atnaujinti';
 
   @override
-  String get guildSettingsRolesCreatedSuccess => 'Role created successfully';
+  String get guildSettingsRolesCreatedSuccess => 'Vaidmuo sėkmingai sukurtas';
 
   @override
-  String get guildSettingsRolesDeletedSuccess => 'Role deleted successfully';
+  String get guildSettingsRolesDeletedSuccess => 'Vaidmuo sėkmingai ištrintas';
 
   @override
   String get guildSettingsRolesHoistResetSuccess =>
-      'Hoist order reset to default';
+      'Rikiavimo tvarka atkurta į numatytąją';
 
   @override
-  String get guildSettingsRolesNameRequiredTitle => 'Role name is required';
+  String get guildSettingsRolesNameRequiredTitle =>
+      'Reikalingas vaidmens pavadinimas';
 
   @override
   String get guildSettingsRolesNameRequiredBody =>
-      'Give the role a name before saving.';
+      'Prieš išsaugant, suteikite vaidmeniui pavadinimą.';
 
   @override
-  String get guildSettingsRolesCreateFailedTitle => 'Couldn\'t create role';
+  String get guildSettingsRolesCreateFailedTitle => 'Nepavyko sukurti vaidmens';
 
   @override
-  String get guildSettingsRolesUpdateFailedTitle => 'Couldn\'t update roles';
+  String get guildSettingsRolesUpdateFailedTitle =>
+      'Nepavyko atnaujinti vaidmenų';
 
   @override
-  String get guildSettingsRolesDeleteFailedTitle => 'Couldn\'t delete role';
+  String get guildSettingsRolesDeleteFailedTitle =>
+      'Nepavyko ištrinti vaidmens';
 
   @override
   String guildSettingsRolesDeleteFailedBody(String name) {
-    return '\"$name\" wouldn\'t delete. Try again.';
+    return 'Nepavyko ištrinti \"$name\". Pabandykite dar kartą.';
   }
 
   @override
   String get guildSettingsRolesResetHoistFailedTitle =>
-      'Couldn\'t reset hoist order';
+      'Nepavyko atkurti iškėlimo tvarkos';
 
   @override
-  String get guildSettingsRolesTryAgainInAMoment => 'Try again in a moment.';
+  String get guildSettingsRolesTryAgainInAMoment =>
+      'Bandyti dar kartą po akimirkos.';
 
   @override
   String guildSettingsRolesDeleteConfirm(String name) {
-    return 'Are you sure you want to delete the $name role? Any members with this role will no longer have it.';
+    return 'Ar tikrai norite ištrinti $name vaidmenį? Visi nariai, turintys šį vaidmenį, jo neturės.';
   }
 
   @override
-  String get permissionCategoryCommunityWide => 'Community-wide';
+  String get permissionCategoryCommunityWide => 'Visa bendruomenė';
 
   @override
-  String get permissionCategoryMessagesMedia => 'Messages & media';
+  String get permissionCategoryMessagesMedia => 'Žinutės ir medija';
 
   @override
-  String get permissionCategoryModeration => 'Moderation';
+  String get permissionCategoryModeration => 'Moderavimas';
 
   @override
-  String get permissionCategoryChannelAccess => 'Channel access';
+  String get permissionCategoryChannelAccess => 'Prieiga prie kanalo';
 
   @override
-  String get permissionCategoryChannelManagement => 'Channel management';
+  String get permissionCategoryChannelManagement => 'Kanalų valdymas';
 
   @override
-  String get permissionCategoryAudioVideo => 'Audio & video';
+  String get permissionCategoryAudioVideo => 'Garsas ir vaizdas';
 
   @override
-  String get permissionUnknown => 'Unknown permission';
+  String get permissionUnknown => 'Nežinomas leidimas';
 
   @override
-  String get permissionAdministrator => 'Administrator';
+  String get permissionAdministrator => 'Administratorius';
 
   @override
   String get permissionAdministratorDescription =>
-      'Grants all permissions and bypasses channel restrictions. Highly sensitive.';
+      'Suteikia visus leidimus ir apeina kanalo apribojimus. Labai jautru.';
 
   @override
-  String get permissionViewActivityLog => 'View activity log';
+  String get permissionViewActivityLog => 'Peržiūrėti veiklos žurnalą';
 
   @override
   String get permissionViewActivityLogDescription =>
-      'Read the community\'s activity log of changes and moderation actions.';
+      'Skaityti bendruomenės veiklos žurnalą apie pakeitimus ir moderavimo veiksmus.';
 
   @override
-  String get permissionManageCommunity => 'Manage community';
+  String get permissionManageCommunity => 'Tvarkyti bendruomenę';
 
   @override
   String get permissionManageCommunityDescription =>
-      'Edit global settings like name, description, and icon.';
+      'Redaguoti bendruosius nustatymus, pvz., pavadinimą, aprašą ir piktogramą.';
 
   @override
-  String get permissionManageRoles => 'Manage roles';
+  String get permissionManageRoles => 'Tvarkyti vaidmenis';
 
   @override
   String get permissionManageRolesDescription =>
-      'Create, edit, or delete roles below your highest role. Also allows editing channel permission overwrites.';
+      'Kurkite, redaguokite arba ištrinkite vaidmenis, esančius žemiau jūsų aukščiausio vaidmens. Taip pat leidžia redaguoti kanalo leidimų perrašymus.';
 
   @override
-  String get permissionManageChannels => 'Manage channels';
+  String get permissionManageChannels => 'Tvarkyti kanalus';
 
   @override
-  String get permissionManageChannel => 'Manage channel';
+  String get permissionManageChannel => 'Tvarkyti kanalą';
 
   @override
   String get permissionManageChannelDescription =>
-      'Rename and edit this channel\'s settings.';
+      'Pervardyti ir redaguoti šio kanalo nustatymus.';
 
   @override
-  String get permissionManagePermissions => 'Manage permissions';
+  String get permissionManagePermissions => 'Tvarkyti leidimus';
 
   @override
   String get permissionManagePermissionsDescription =>
-      'Edit overwrites for roles and members in this channel.';
+      'Redaguoti šio kanalo vaidmenų ir narių perrašymus.';
 
   @override
   String get permissionManageWebhooksChannelDescription =>
-      'Create, edit, or delete webhooks for this channel.';
+      'Kurkite, redaguokite arba ištrinkite šio kanalo \"webhook\" nuorodas.';
 
   @override
   String get permissionViewChannelMembersChannelDescription =>
-      'See the member list for this channel.';
+      'Peržiūrėti šio kanalo narių sąrašą.';
 
   @override
   String get permissionCreateInviteLinksChannelDescription =>
-      'Manage invite links for this channel.';
+      'Tvarkykite šio kanalo kvietimo nuorodas.';
 
   @override
-  String get permissionOverwriteDeny => 'Deny';
+  String get permissionOverwriteDeny => 'Atmesti';
 
   @override
-  String get permissionOverwriteInherit => 'Neutral (inherit)';
+  String get permissionOverwriteInherit => 'Neutralus (paveldėti)';
 
   @override
-  String get permissionOverwriteAllow => 'Allow';
+  String get permissionOverwriteAllow => 'Leisti';
 
   @override
   String get permissionOverwriteSetAllHelp =>
-      'Use these buttons to quickly set all permissions.';
+      'Šiais mygtukais galite greitai nustatyti visus leidimus.';
 
   @override
   String get permissionManageChannelsDescription =>
-      'Create, edit, or delete channels and categories.';
+      'Kurti, redaguoti arba ištrinti kanalus ir kategorijas.';
 
   @override
-  String get permissionKickMembers => 'Kick members';
+  String get permissionKickMembers => 'Pašalinti narius';
 
   @override
-  String get permissionBanMembers => 'Ban members';
+  String get permissionBanMembers => 'Uždrausti nariams';
 
   @override
-  String get permissionCreateInviteLinks => 'Create invite links';
+  String get permissionCreateInviteLinks => 'Kurti kvietimo nuorodas';
 
   @override
-  String get permissionChangeOwnNickname => 'Change own nickname';
+  String get permissionChangeOwnNickname => 'Keisti savo slapyvardį';
 
   @override
   String get permissionChangeOwnNicknameDescription =>
-      'Update your own nickname.';
+      'Atnaujinkite savo slapyvardį.';
 
   @override
-  String get permissionManageNicknames => 'Manage nicknames';
+  String get permissionManageNicknames => 'Tvarkyti slapyvardžius';
 
   @override
   String get permissionManageNicknamesDescription =>
-      'Change other members\' nicknames.';
+      'Keisti kitų narių slapyvardžius.';
 
   @override
-  String get permissionCreateEmojiStickers => 'Create emoji & stickers';
+  String get permissionCreateEmojiStickers => 'Kurti jaustukus ir lipdukus';
 
   @override
   String get permissionCreateEmojiStickersDescription =>
-      'Upload new emoji and stickers, and manage your own creations.';
+      'Įkelkite naujų jaustukų ir lipdukų bei tvarkykite savo kūrinius.';
 
   @override
-  String get permissionManageEmojiStickers => 'Manage emoji & stickers';
+  String get permissionManageEmojiStickers => 'Tvarkyti jaustukus ir lipdukus';
 
   @override
   String get permissionManageEmojiStickersDescription =>
-      'Edit or delete emoji and stickers created by other members.';
+      'Redaguoti arba ištrinti kitų narių sukurtus jaustukus ir lipdukus.';
 
   @override
-  String get permissionManageWebhooks => 'Manage webhooks';
+  String get permissionManageWebhooks => 'Tvarkyti žiniatinklio kablius';
 
   @override
   String get permissionManageWebhooksDescription =>
-      'Create, edit, or delete webhooks.';
+      'Kurti, redaguoti arba šalinti \"webhook\" nuorodas.';
 
   @override
-  String get permissionSendMessages => 'Send messages';
+  String get permissionSendMessages => 'Siųsti žinutes';
 
   @override
-  String get permissionSendTtsMessages => 'Send TTS messages';
+  String get permissionSendTtsMessages => 'Siųsti TTS žinutes';
 
   @override
   String get permissionSendTtsMessagesDescription =>
-      'Send text-to-speech messages.';
+      'Siųsti tekstinius pranešimus balsu.';
 
   @override
-  String get permissionManageMessages => 'Manage messages';
+  String get permissionManageMessages => 'Tvarkyti pranešimus';
 
   @override
   String get permissionManageMessagesDescription =>
-      'Delete other members\' messages. Pinning is controlled separately.';
+      'Ištrinti kitų narių žinutes. Prisegimas valdomas atskirai.';
 
   @override
-  String get permissionPinMessages => 'Pin messages';
+  String get permissionPinMessages => 'Prisegti žinutes';
 
   @override
-  String get permissionEmbedLinks => 'Embed links';
+  String get permissionEmbedLinks => 'Įterpti nuorodas';
 
   @override
-  String get permissionAttachFiles => 'Attach files';
+  String get permissionAttachFiles => 'Pridėti failus';
 
   @override
-  String get permissionMentionEveryone => 'Use @everyone/@here and @role';
+  String get permissionMentionEveryone => 'Naudokite @everyone/@here ir @role';
 
   @override
   String get permissionMentionEveryoneDescription =>
-      'Mention everyone or any role (even if the role isn\'t set to be mentionable).';
+      'Paminėti visus arba bet kurį vaidmenį (net jei vaidmens nustatymai neleidžia jo minėti).';
 
   @override
-  String get permissionUseExternalEmoji => 'Use external emoji';
+  String get permissionUseExternalEmoji => 'Naudoti išorinius jaustukus';
 
   @override
   String get permissionUseExternalEmojiDescription =>
-      'Use emoji from other communities.';
+      'Naudoti jaustukus iš kitų bendruomenių.';
 
   @override
-  String get permissionUseExternalStickers => 'Use external stickers';
+  String get permissionUseExternalStickers => 'Naudoti išorinius lipdukus';
 
   @override
-  String get permissionAddReactions => 'Add reactions';
+  String get permissionAddReactions => 'Pridėti reakcijas';
 
   @override
   String get permissionAddReactionsDescription =>
-      'Add new reactions to messages.';
+      'Pridėti naujų reakcijų į žinutes.';
 
   @override
-  String get permissionBypassSlowmode => 'Bypass slowmode';
+  String get permissionBypassSlowmode => 'Nepaisyti lėtojo režimo';
 
   @override
   String get permissionBypassSlowmodeDescription =>
-      'Ignore per-channel message rate limits.';
+      'Nepaisyti pranešimų siuntimo apribojimų kanale.';
 
   @override
-  String get permissionTimeOutMembers => 'Time out members';
+  String get permissionTimeOutMembers => 'Laikinai apriboti narius';
 
   @override
   String get permissionTimeOutMembersDescription =>
-      'Prevent members from sending messages, reacting, and joining voice for a duration.';
+      'Neleisti nariams siųsti žinučių, reaguoti ir prisijungti prie balso pokalbių tam tikrą laiką.';
 
   @override
-  String get permissionViewChannel => 'View channel';
+  String get permissionViewChannel => 'Peržiūrėti kanalą';
 
   @override
-  String get permissionViewChannelMembers => 'View channel members';
+  String get permissionViewChannelMembers => 'Peržiūrėti kanalo narius';
 
   @override
   String get permissionViewChannelMembersDescription =>
-      'See the member list for channels in this community.';
+      'Peržiūrėti šios bendruomenės kanalų narių sąrašą.';
 
   @override
-  String get permissionConnect => 'Connect';
+  String get permissionConnect => 'Prijungti';
 
   @override
-  String get permissionSpeak => 'Speak';
+  String get permissionSpeak => 'Kalbėti';
 
   @override
-  String get permissionStreamVideo => 'Stream video';
+  String get permissionStreamVideo => 'Transliuoti vaizdą';
 
   @override
-  String get permissionUseVoiceActivity => 'Use voice activity';
+  String get permissionUseVoiceActivity => 'Naudoti balso aktyvavimą';
 
   @override
   String get permissionUseVoiceActivityDescription =>
-      'Without this permission, push-to-talk is required.';
+      'Be šio leidimo reikalingas \"paspausk ir kalbėk\".';
 
   @override
-  String get permissionPrioritySpeaker => 'Priority speaker';
+  String get permissionPrioritySpeaker => 'Prioritetinis kalbėtojas';
 
   @override
-  String get permissionMuteMembers => 'Mute members';
+  String get permissionMuteMembers => 'Nutildyti narius';
 
   @override
-  String get permissionDeafenMembers => 'Deafen members';
+  String get permissionDeafenMembers => 'Nutildyti narius';
 
   @override
-  String get permissionMoveMembers => 'Move members';
+  String get permissionMoveMembers => 'Perkelti narius';
 
   @override
   String get permissionMoveMembersDescription =>
-      'Drag members between channels they can access.';
+      'Vilkite narius tarp kanalų, į kuriuos jie gali patekti.';
 
   @override
-  String get permissionSetVoiceRegion => 'Set voice region';
+  String get permissionSetVoiceRegion => 'Nustatyti balso regioną';
 
   @override
   String guildSettingsEmojiSlotInfo(int staticCount, int animatedCount) {
@@ -12673,29 +12772,32 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String guildSettingsWebhooksEmptyDescription(String channelSettingsPath) {
-    return 'This community doesn\'t have any webhooks yet. Go to $channelSettingsPath to create one.';
+    return 'Šioje bendruomenėje dar nėra jokių „webhooks“. Eikite į $channelSettingsPath, kad sukurtumėte vieną.';
   }
 
   @override
   String guildSettingsWebhooksPermissionRequired(String permission) {
-    return 'You need the \"$permission\" permission to view and edit webhooks for this community.';
+    return 'Norint peržiūrėti ir redaguoti šios bendruomenės webhookus, jums reikia „$permission“ leidimo.';
   }
 
   @override
-  String get guildSettingsWebhooksLoadFailedTitle => 'Failed to load webhooks';
+  String get guildSettingsWebhooksLoadFailedTitle =>
+      'Nepavyko įkelti \"webhook\" nuorodų';
 
   @override
   String get guildSettingsWebhooksLoadFailedDescription =>
-      'There was an error loading the webhooks. Try again.';
+      'Įkeliant žiniatinklio kablius įvyko klaida. Bandykite dar kartą.';
 
   @override
-  String get guildSettingsWebhooksUpdated => 'Webhooks updated';
+  String get guildSettingsWebhooksUpdated =>
+      'Tinklalapio apdorojimo programos atnaujintos';
 
   @override
-  String get guildSettingsWebhooksUpdateFailed => 'Failed to update webhooks';
+  String get guildSettingsWebhooksUpdateFailed =>
+      'Nepavyko atnaujinti \"webhook\" nuorodų';
 
   @override
-  String get guildSettingsUnknownChannel => 'Unknown channel';
+  String get guildSettingsUnknownChannel => 'Nežinomas kanalas';
 
   @override
   String get guildSettingsCopyUrl => 'Kopijuoti URL';
@@ -12729,8 +12831,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Taikykitės, kad būtumėte įtraukti į serverių paiešką.';
 
   @override
-  String get guildSettingsDiscoveryNotEnoughMembersTitle =>
-      'Not enough members';
+  String get guildSettingsDiscoveryNotEnoughMembersTitle => 'Nepakanka narių';
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
@@ -12738,66 +12839,66 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryStatusLabel => 'Status:';
+  String get guildSettingsDiscoveryStatusLabel => 'Būsena:';
 
   @override
-  String get guildSettingsDiscoveryStatusPending => 'Pending';
+  String get guildSettingsDiscoveryStatusPending => 'Laukiama';
 
   @override
-  String get guildSettingsDiscoveryStatusApproved => 'Approved';
+  String get guildSettingsDiscoveryStatusApproved => 'Patvirtinta';
 
   @override
-  String get guildSettingsDiscoveryStatusRejected => 'Rejected';
+  String get guildSettingsDiscoveryStatusRejected => 'Atmestas';
 
   @override
-  String get guildSettingsDiscoveryStatusRemoved => 'Removed';
+  String get guildSettingsDiscoveryStatusRemoved => 'Pašalinta';
 
   @override
   String guildSettingsDiscoveryReason(String reason) {
-    return 'Reason: $reason';
+    return 'Priežastis: $reason';
   }
 
   @override
   String get guildSettingsDiscoveryApprovedInfo =>
-      'Your community is listed in Discovery. You can update your listing details below or withdraw to remove it.';
+      'Jūsų bendruomenė yra įtraukta į \"Atradimą\". Galite atnaujinti savo įrašo detales žemiau arba atšaukti, kad jį pašalintumėte.';
 
   @override
   String get guildSettingsDiscoveryPendingInfo =>
-      'Your application is pending review. You can still update your listing details or withdraw the application.';
+      'Jūsų paraiška laukia peržiūros. Vis dar galite atnaujinti savo įrašo detales arba atšaukti paraišką.';
 
   @override
   String get guildSettingsDiscoveryCategory => 'Kategorija';
 
   @override
   String get guildSettingsDiscoveryCategoryHelp =>
-      'Choose the category that best describes your community. You can change this any time.';
+      'Pasirinkite kategoriją, kuri geriausiai apibūdina jūsų bendruomenę. Ją galite pakeisti bet kada.';
 
   @override
-  String get guildSettingsDiscoveryPrimaryLanguage => 'Primary language';
+  String get guildSettingsDiscoveryPrimaryLanguage => 'Pagrindinė kalba';
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'The language most of your community speaks. Used to filter Discovery results.';
+      'Kalba, kuria kalba didžioji jūsų bendruomenės dalis. Naudojama filtravimui \"Atraskite\" rezultatuose.';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'Aprašymas';
 
   @override
   String get guildSettingsDiscoveryDescriptionPlaceholder =>
-      'Describe what your community is about';
+      'Apibūdinkite, apie ką yra jūsų bendruomenė';
 
   @override
   String get guildSettingsDiscoveryDescriptionRequired =>
-      'A description is required.';
+      'Aprašas yra privalomas.';
 
   @override
   String guildSettingsDiscoveryDescriptionMinLength(int minLength) {
-    return 'Description must be at least $minLength characters.';
+    return 'Aprašas turi būti bent $minLength simbolių.';
   }
 
   @override
   String guildSettingsDiscoveryDescriptionMaxLength(int maxLength) {
-    return 'Description must be no more than $maxLength characters.';
+    return 'Aprašas negali būti ilgesnis nei $maxLength simbolių.';
   }
 
   @override
@@ -12805,61 +12906,61 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagsHelp(int maxTags) {
-    return 'Up to $maxTags tags help people find your community. They show up in Discovery search.';
+    return 'Iki $maxTags žymų padeda žmonėms rasti jūsų bendruomenę. Jos rodomos „Discovery“ paieškoje.';
   }
 
   @override
   String get guildSettingsDiscoveryTagsHint => 'žaidimai, menas, muzika';
 
   @override
-  String get guildSettingsDiscoveryAddTag => 'Add';
+  String get guildSettingsDiscoveryAddTag => 'Pridėti';
 
   @override
   String guildSettingsDiscoveryRemoveTag(String tag) {
-    return 'Remove tag $tag';
+    return 'Pašalinti žymę \"$tag\"';
   }
 
   @override
-  String get guildSettingsDiscoveryTagErrorTitle => 'Couldn\'t add tag';
+  String get guildSettingsDiscoveryTagErrorTitle => 'Nepavyko pridėti žymos';
 
   @override
   String guildSettingsDiscoveryTagRequirements(int maxLength) {
-    return 'Tags must be 2 to $maxLength characters and alphanumeric.';
+    return 'Žymos turi būti nuo 2 iki $maxLength simbolių ilgio ir sudarytos iš raidžių bei skaičių.';
   }
 
   @override
   String guildSettingsDiscoveryTagLimit(int maxTags) {
-    return 'You can only add up to $maxTags tags.';
+    return 'Galite pridėti ne daugiau kaip $maxTags žymų.';
   }
 
   @override
   String get guildSettingsDiscoveryApply => 'Pateikti paraišką';
 
   @override
-  String get guildSettingsDiscoverySave => 'Save';
+  String get guildSettingsDiscoverySave => 'Išsaugoti';
 
   @override
   String get guildSettingsDiscoveryWithdraw => 'Atšaukti';
 
   @override
   String get guildSettingsDiscoveryApplicationSent =>
-      'Discovery application sent';
+      'Atrankos paraiška išsiųsta';
 
   @override
   String get guildSettingsDiscoveryListingUpdated =>
-      'Discovery listing updated';
+      'Atrankos sąrašas atnaujintas';
 
   @override
   String get guildSettingsDiscoveryApplicationWithdrawn =>
-      'Discovery application withdrawn';
+      'Atrankos paraiška atšaukta';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle =>
-      'Couldn\'t withdraw application';
+      'Nepavyko atšaukti paraiškos';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorDescription =>
-      'Try again in a moment.';
+      'Bandyti dar kartą po akimirkos.';
 
   @override
   String get guildSettingsMembersDescription =>
@@ -12874,165 +12975,167 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String get guildMembersRecentTitle => 'Recent members';
+  String get guildMembersRecentTitle => 'Naujausi nariai';
 
   @override
   String guildMembersShowingCount(int displayedCount, int totalCount) {
-    return 'Showing $displayedCount of $totalCount total members';
+    return 'Rodoma $displayedCount iš $totalCount visų narių';
   }
 
   @override
-  String get guildMembersSort => 'Sort';
+  String get guildMembersSort => 'Rūšiuoti';
 
   @override
   String get guildSettingsMembersSortNewest => 'Naujausi pirmiausia';
 
   @override
-  String get guildMembersSortOldest => 'Oldest first';
+  String get guildMembersSortOldest => 'Pirmiausia seniausi';
 
   @override
-  String get guildMembersColumnName => 'Name';
+  String get guildMembersColumnName => 'Pavadinimas';
 
   @override
-  String get guildMembersColumnMemberSince => 'Member since';
+  String get guildMembersColumnMemberSince => 'Narys nuo';
 
   @override
   String guildMembersColumnJoinedProduct(String productName) {
-    return 'Joined $productName';
+    return 'Prisijungė prie „$productName\"';
   }
 
   @override
-  String get guildMembersColumnJoinMethod => 'Join method';
+  String get guildMembersColumnJoinMethod => 'Prisijungimo būdas';
 
   @override
-  String get guildMembersColumnRoles => 'Roles';
+  String get guildMembersColumnRoles => 'Rolės';
 
   @override
-  String get guildMembersColumnActions => 'Actions';
+  String get guildMembersColumnActions => 'Veiksmai';
 
   @override
-  String get guildMembersFilterMemberSince => 'Filter by member since';
+  String get guildMembersFilterMemberSince => 'Filtruoti pagal narystės datą';
 
   @override
   String get guildMembersFilterJoinedProduct =>
-      'Filter by account creation date';
+      'Filtruoti pagal paskyros sukūrimo datą';
 
   @override
-  String get guildMembersFilterJoinMethod => 'Filter by join method';
+  String get guildMembersFilterJoinMethod =>
+      'Filtruoti pagal prisijungimo būdą';
 
   @override
-  String get guildMembersFilterRoles => 'Filter by roles';
+  String get guildMembersFilterRoles => 'Filtruoti pagal vaidmenis';
 
   @override
-  String get guildMembersFilterAll => 'All';
+  String get guildMembersFilterAll => 'Visi';
 
   @override
-  String get guildMembersFilterPast1Hour => 'Past 1 hour';
+  String get guildMembersFilterPast1Hour => 'Paskutinė valanda';
 
   @override
-  String get guildMembersFilterPast24Hours => 'Past 24 hours';
+  String get guildMembersFilterPast24Hours => 'Per pastarąsias 24 valandas';
 
   @override
-  String get guildMembersFilterPast7Days => 'Past 7 days';
+  String get guildMembersFilterPast7Days => 'Paskutinės 7 dienos';
 
   @override
-  String get guildMembersFilterPast2Weeks => 'Past 2 weeks';
+  String get guildMembersFilterPast2Weeks => 'Per pastarąsias 2 savaites';
 
   @override
-  String get guildMembersFilterPast3Weeks => 'Past 3 weeks';
+  String get guildMembersFilterPast3Weeks => 'Paskutinės 3 savaitės';
 
   @override
-  String get guildMembersFilterPast4Weeks => 'Past 4 weeks';
+  String get guildMembersFilterPast4Weeks => 'Per pastarąsias 4 savaites';
 
   @override
-  String get guildMembersFilterPast3Months => 'Past 3 months';
+  String get guildMembersFilterPast3Months => 'Paskutiniai 3 mėnesiai';
 
   @override
-  String get guildMembersFilterCustomRange => 'Custom range...';
+  String get guildMembersFilterCustomRange => 'Pasirinktinis diapazonas...';
 
   @override
-  String get guildMembersDateRangeTitle => 'Custom date range';
+  String get guildMembersDateRangeTitle => 'Pasirinktinis datos intervalas';
 
   @override
-  String get guildMembersDateAfter => 'After date';
+  String get guildMembersDateAfter => 'Po datos';
 
   @override
-  String get guildMembersDateBefore => 'Before date';
+  String get guildMembersDateBefore => 'Iki datos';
 
   @override
-  String get guildMembersClearAll => 'Clear all';
+  String get guildMembersClearAll => 'Išvalyti viską';
 
   @override
-  String get guildMembersRowsPerPage => 'Rows per page';
+  String get guildMembersRowsPerPage => 'Eilutės puslapyje';
 
   @override
-  String get guildMembersEmptySearch => 'Nobody matches that search.';
+  String get guildMembersEmptySearch => 'Niekas neatitinka paieškos.';
 
   @override
   String get guildMembersLoadError =>
-      'Something went wrong loading members. Try again later.';
+      'Įkeliant narius įvyko klaida. Bandykite dar kartą vėliau.';
 
   @override
-  String get guildMembersIndexing => 'Indexing members…';
+  String get guildMembersIndexing => 'Narių indeksavimas…';
 
   @override
-  String get guildMembersGoToPage => 'Go to page';
+  String get guildMembersGoToPage => 'Eiti į puslapį';
 
   @override
   String guildMembersGoToPageItem(int page) {
-    return 'Go to page $page';
+    return 'Eiti į puslapį \"$page\"';
   }
 
   @override
-  String get guildMembersJumpToPage => 'Jump to page';
+  String get guildMembersJumpToPage => 'Pereiti į puslapį';
 
   @override
-  String get guildMembersJoinSourceCreator => 'Community creator';
+  String get guildMembersJoinSourceCreator => 'Bendruomenės kūrėjas';
 
   @override
-  String get guildMembersJoinSourceInvite => 'Invite';
+  String get guildMembersJoinSourceInvite => 'Kviesti';
 
   @override
   String guildMembersJoinSourceInviteCode(String code) {
-    return 'Invite ($code)';
+    return 'Kvietimas ($code)';
   }
 
   @override
   String guildMembersJoinSourceInvitedBy(String name) {
-    return 'Invited by $name';
+    return 'Pakvietė $name';
   }
 
   @override
-  String get guildMembersJoinSourceVanityUrl => 'Vanity URL';
+  String get guildMembersJoinSourceVanityUrl => 'Nuoroda';
 
   @override
-  String get guildMembersJoinSourceBotInvite => 'Bot invite';
+  String get guildMembersJoinSourceBotInvite => 'Kviesti botą';
 
   @override
-  String get guildMembersJoinSourcePlatformAdmin => 'Platform admin';
+  String get guildMembersJoinSourcePlatformAdmin =>
+      'Platformos administratorius';
 
   @override
-  String get guildMembersJoinSourceDiscovery => 'Discovery';
+  String get guildMembersJoinSourceDiscovery => 'Atradimas';
 
   @override
-  String get guildMembersJoinMethodUnknown => 'Unknown';
+  String get guildMembersJoinMethodUnknown => 'Nežinoma';
 
   @override
-  String get guildMembersCommunityOwner => 'Community owner';
+  String get guildMembersCommunityOwner => 'Bendruomenės savininkas';
 
   @override
-  String get guildMembersViewAllRoles => 'View all roles';
+  String get guildMembersViewAllRoles => 'Peržiūrėti visus vaidmenis';
 
   @override
-  String get guildMembersJoinedJustNow => 'Just now';
+  String get guildMembersJoinedJustNow => 'Ką tik';
 
   @override
   String guildMembersJoinedMinutesAgo(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count minutes ago',
-      one: '1 minute ago',
+      other: 'prieš $count minučių',
+      one: 'prieš 1 minutę',
     );
     return '$_temp0';
   }
@@ -13042,8 +13145,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count hours ago',
-      one: '1 hour ago',
+      other: 'prieš $count valandų',
+      one: 'prieš 1 valandą',
     );
     return '$_temp0';
   }
@@ -13053,20 +13156,20 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count days ago',
-      one: '1 day ago',
+      other: 'prieš # dienų',
+      one: 'prieš 1 dieną',
     );
     return '$_temp0';
   }
 
   @override
-  String get guildMembersChannelListLabel => 'Members';
+  String get guildMembersChannelListLabel => 'Nariai';
 
   @override
-  String get guildMembersChannelListSelected => 'Members, selected';
+  String get guildMembersChannelListSelected => 'Pasirinkti nariai';
 
   @override
-  String get guildSettingsInvitesTitle => 'Invites';
+  String get guildSettingsInvitesTitle => 'Kvietimai';
 
   @override
   String get guildSettingsInvitesDescription =>
@@ -13077,98 +13180,100 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get guildSettingsInvitesEmptyDescription =>
-      'This community doesn\'t have any invite links yet. Go to a channel and create an invite to invite people.';
+      'Ši bendruomenė dar neturi jokių pakvietimo nuorodų. Eikite į kanalą ir sukurkite pakvietimą, kad pakviestumėte žmones.';
 
   @override
-  String get guildSettingsInvitesLoadFailedTitle => 'Failed to load invites';
+  String get guildSettingsInvitesLoadFailedTitle =>
+      'Nepavyko įkelti pakvietimų';
 
   @override
   String get guildSettingsInvitesLoadFailedDescription =>
-      'There was an error loading the invites. Try again.';
+      'Įkeliant pakvietimus įvyko klaida. Bandykite dar kartą.';
 
   @override
-  String get guildSettingsInvitesTryAgain => 'Try again';
+  String get guildSettingsInvitesTryAgain => 'Bandyti dar kartą';
 
   @override
   String get guildSettingsInvitesShowCreatedDate =>
-      'Show creation date instead of expiration date';
+      'Rodyti sukūrimo, o ne galiojimo datą';
 
   @override
-  String get guildSettingsInvitesPauseInvites => 'Pause invites';
+  String get guildSettingsInvitesPauseInvites => 'Pristabdyti kvietimus';
 
   @override
-  String get guildSettingsInvitesEnableInvites => 'Enable invites';
+  String get guildSettingsInvitesEnableInvites => 'Įjungti kvietimus';
 
   @override
   String get guildSettingsInvitesPauseForCommunityTitle =>
-      'Pause invites for this community';
+      'Pristabdyti kvietimus į šią bendruomenę';
 
   @override
   String get guildSettingsInvitesEnableForCommunityTitle =>
-      'Enable invites for this community';
+      'Įjungti kvietimus šiai bendruomenei';
 
   @override
   String get guildSettingsInvitesPauseConfirmDescription =>
-      'Pause invites? New users won\'t be able to join through invite links until you re-enable them. Existing members won\'t be affected.';
+      'Pristabdyti kvietimus? Nauji naudotojai negalės prisijungti per kvietimo nuorodas, kol vėl jų neįjungsite. Esamiems nariams tai neturės įtakos.';
 
   @override
   String get guildSettingsInvitesEnableConfirmDescription =>
-      'Enable invites? Users will be able to join this community through invite links again.';
+      'Įjungti kvietimus? Vartotojai vėl galės prisijungti prie šios bendruomenės naudodami kvietimo nuorodas.';
 
   @override
-  String get guildSettingsInvitesPause => 'Pause';
+  String get guildSettingsInvitesPause => 'Pauzė';
 
   @override
   String get guildSettingsInvitesPausedForCommunity =>
-      'Invites are paused for this community.';
+      'Kvietimai šiai bendruomenei pristabdyti.';
 
   @override
   String guildSettingsInvitesPausedBecauseRaid(String productName) {
-    return 'Invites are paused because $productName detected a potential raid. New users can\'t join right now.';
+    return 'Kvietimai pristabdyti, nes „$productName\" aptiko galimą ataką. Nauji vartotojai šiuo metu negali prisijungti.';
   }
 
   @override
-  String get guildSettingsInvitesLabelInviter => 'Inviter:';
+  String get guildSettingsInvitesLabelInviter => 'Pakvietė:';
 
   @override
-  String get guildSettingsInvitesLabelChannel => 'Channel:';
+  String get guildSettingsInvitesLabelChannel => 'Kanalas:';
 
   @override
-  String get guildSettingsInvitesLabelCode => 'Code:';
+  String get guildSettingsInvitesLabelCode => 'Kodas:';
 
   @override
-  String get guildSettingsInvitesLabelUses => 'Uses:';
+  String get guildSettingsInvitesLabelUses => 'Naudoja:';
 
   @override
-  String get guildSettingsInvitesLabelCreated => 'Created:';
+  String get guildSettingsInvitesLabelCreated => 'Sukurta:';
 
   @override
-  String get guildSettingsInvitesLabelExpires => 'Expires:';
+  String get guildSettingsInvitesLabelExpires => 'Baigiasi:';
 
   @override
-  String get guildSettingsInvitesUnknown => 'Unknown';
+  String get guildSettingsInvitesUnknown => 'Nežinoma';
 
   @override
-  String get guildSettingsInvitesNoCategory => 'No category';
+  String get guildSettingsInvitesNoCategory => 'Be kategorijos';
 
   @override
-  String get guildSettingsInvitesExpired => 'Expired';
+  String get guildSettingsInvitesExpired => 'Baigėsi';
 
   @override
-  String get guildSettingsInvitesNever => 'Never';
+  String get guildSettingsInvitesNever => 'Niekada';
 
   @override
-  String get guildSettingsInvitesCopyLink => 'Copy invite link';
+  String get guildSettingsInvitesCopyLink => 'Kopijuoti kvietimo nuorodą';
 
   @override
-  String get guildSettingsInvitesRevoke => 'Revoke invite';
+  String get guildSettingsInvitesRevoke => 'Atšaukti kvietimą';
 
   @override
-  String get guildSettingsInvitesRevokeFailedTitle => 'Couldn\'t revoke invite';
+  String get guildSettingsInvitesRevokeFailedTitle =>
+      'Nepavyko atšaukti kvietimo';
 
   @override
   String get guildSettingsInvitesRevokeFailedDescription =>
-      'The link may still work. Try again in a moment.';
+      'Nuoroda gali vis dar veikti. Bandykite dar kartą po kurio laiko.';
 
   @override
   String guildSettingsInviteUses(int uses, int maxUses) {
@@ -13590,165 +13695,166 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get guildSettingsEmojiUploadTitle => 'Įkelti jaustuką';
 
   @override
-  String get guildSettingsEmojiSlotsTitle => 'Emoji slots';
+  String get guildSettingsEmojiSlotsTitle => 'Jaustukų vietos';
 
   @override
-  String get guildSettingsEmojiDropZone => 'Drag and drop emoji files here';
+  String get guildSettingsEmojiDropZone => 'Nuvilkite jaustukų failus čia';
 
   @override
   String get guildSettingsEmojiLoadFailed =>
-      'Failed to load emojis. Try again later.';
+      'Nepavyko įkelti jaustukų. Bandykite dar kartą vėliau.';
 
   @override
   String get guildSettingsEmojiSearchEmpty =>
-      'No emojis found matching your search.';
+      'Nerasta jaustukų, atitinkančių jūsų paiešką.';
 
   @override
-  String get guildSettingsEmojiNoSlots => 'No emoji slots available';
+  String get guildSettingsEmojiNoSlots => 'Nėra laisvų jaustukų vietų';
 
   @override
   String get guildSettingsEmojiSlotsFull =>
-      'You\'ve reached the maximum number of emojis. Delete some existing emojis to make room.';
+      'Pasiekėte didžiausią jaustukų skaičių. Ištrinkite kai kuriuos esamus jaustukus, kad atlaisvintumėte vietos.';
 
   @override
   String guildSettingsEmojiUploadRequirements(String maxSize) {
-    return 'Emoji names need at least 2 characters and can use letters, numbers, and underscores. Emojis must be under $maxSize. Static images are resized to 128x128 pixels and compressed automatically. Animated emojis and SVGs must already fit the limit.';
+    return 'Emblemos pavadinimai turi būti bent 2 simboliai ir gali naudoti raides, skaičius bei pabraukimus. Emblemos dydis neturi viršyti $maxSize. Statiniai vaizdai automatiškai keičiami į 128x128 pikselių dydį ir suspaudžiami. Animuoti paveikslėliai ir SVG turi jau atitikti nurodytą dydį.';
   }
 
   @override
-  String get guildSettingsEmojiUploadingTitle => 'Uploading emojis';
+  String get guildSettingsEmojiUploadingTitle => 'Įkeliami jaustukai';
 
   @override
   String guildSettingsEmojiUploadingBody(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# emojis',
-      one: '# emoji',
+      other: '# jaustukai',
+      one: '# jaustukas',
     );
-    return 'Uploading $_temp0. This may take a little while.';
+    return 'Įkeliama $_temp0. Tai gali užtrukti.';
   }
 
   @override
   String get guildSettingsEmojiUploadFailed =>
-      'Failed to upload emojis. Try again.';
+      'Nepavyko įkelti jaustukų. Bandykite dar kartą.';
 
   @override
   String get guildSettingsEmojiSomeFailedTitle =>
-      'Some emojis couldn\'t be added';
+      'Kai kurių jaustukų nepavyko pridėti';
 
   @override
   String get guildSettingsEmojiSomeFailedBody =>
-      'Review these files and try again with smaller or simpler images.';
+      'Peržiūrėkite šiuos failus ir bandykite dar kartą su mažesniais ar paprastesniais vaizdais.';
 
   @override
-  String get guildSettingsEmojiRenameTitle => 'Rename emoji';
+  String get guildSettingsEmojiRenameTitle => 'Pervadinti jaustuką';
 
   @override
   String get guildSettingsEmojiRenameHint =>
-      '2-32 characters, letters, numbers, underscores.';
+      '2–32 simboliai, raidės, skaičiai, pabraukimai.';
 
   @override
-  String get guildSettingsEmojiColumnEmoji => 'Emoji';
+  String get guildSettingsEmojiColumnEmoji => 'Jaustukai';
 
   @override
-  String get guildSettingsEmojiColumnName => 'Name';
+  String get guildSettingsEmojiColumnName => 'Pavadinimas';
 
   @override
-  String get guildSettingsEmojiColumnUploader => 'Uploaded by';
+  String get guildSettingsEmojiColumnUploader => 'Įkėlė';
 
   @override
-  String get guildSettingsEmojiUnknownUploader => 'Unknown';
+  String get guildSettingsEmojiUnknownUploader => 'Nežinoma';
 
   @override
-  String get guildSettingsEmojiDeleteTitle => 'Delete emoji';
+  String get guildSettingsEmojiDeleteTitle => 'Ištrinti jaustuką';
 
   @override
   String guildSettingsEmojiDeleteBody(String name) {
-    return 'Delete :$name:? Can\'t be undone.';
+    return 'Ištrinti :$name:? Negalima atšaukti.';
   }
 
   @override
   String get guildSettingsEmojiPurgeLabel =>
-      'Purge this emoji from storage and CDN';
+      'Išvalyti šį jaustuką iš saugyklos ir CDN';
 
   @override
   String get guildSettingsEmojiNameTooShort =>
-      'Emoji name must be at least 2 characters long';
+      'Jaustuko pavadinimas turi būti bent 2 simbolių ilgio';
 
   @override
   String get guildSettingsEmojiNameTooLong =>
-      'Emoji name must be at most 32 characters long';
+      'Jaustuko pavadinimas turi būti ne ilgesnis nei 32 simboliai';
 
   @override
-  String get guildSettingsEmojiInvalidNameTitle => 'Invalid emoji name';
+  String get guildSettingsEmojiInvalidNameTitle =>
+      'Neteisingas jaustuko pavadinimas';
 
   @override
   String get guildSettingsEmojiRenameFailedTitle =>
-      'Couldn\'t rename this emoji';
+      'Nepavyko pervadinti šio jaustuko';
 
   @override
   String get guildSettingsEmojiRenameFailedBody =>
-      'The name was reverted to what it was before. Please try again in a moment.';
+      'Pavadinimas grąžintas į buvusį. Bandykite dar kartą po akimirkos.';
 
   @override
-  String get guildSettingsEmojiGoneTitle => 'This emoji no longer exists';
+  String get guildSettingsEmojiGoneTitle => 'Šis jaustukas nebeegzistuoja';
 
   @override
   String get guildSettingsEmojiGoneBody =>
-      'It may have been deleted. The name was reverted to what it was before.';
+      'Gali būti, kad jis buvo ištrintas. Pavadinimas grąžintas į buvusį.';
 
   @override
   String get guildSettingsEmojiNoPermissionRenameTitle =>
-      'You can\'t rename this emoji';
+      'Negalite pervadinti šio jaustuko';
 
   @override
   String get guildSettingsEmojiNoPermissionRenameBody =>
-      'You don\'t have permission to rename this emoji. The name was reverted to what it was before.';
+      'Neturite leidimo pervadinti šio jaustuko. Pavadinimas buvo grąžintas į ankstesnį.';
 
   @override
-  String get guildSettingsEmojiRateLimitedTitle => 'You\'re going too fast';
+  String get guildSettingsEmojiRateLimitedTitle => 'Per greitai';
 
   @override
   String get guildSettingsEmojiRateLimitedBody =>
-      'Please wait a moment and try renaming again.';
+      'Palaukite ir bandykite pervadinti dar kartą.';
 
   @override
   String get guildSettingsEmojiDeleteFailedTitle =>
-      'Couldn\'t delete this emoji';
+      'Nepavyko ištrinti šio jaustuko';
 
   @override
   String get guildSettingsEmojiDeleteNoPermissionTitle =>
-      'You can\'t delete this emoji';
+      'Negalite ištrinti šio jaustuko';
 
   @override
   String get guildSettingsCloneEmojiTitle =>
-      'Allow others to clone your emojis';
+      'Leisti kitiems klonuoti jūsų jaustukus';
 
   @override
   String get guildSettingsCloneEmojiDescription =>
-      'When enabled, members of other communities can use the in-app one-click \"Clone\" shortcut on your custom emojis. This does not prevent them from saving the image and uploading it themselves.';
+      'Kai įjungta, kitų bendruomenių nariai gali naudoti programėlės \"Klonuoti\" nuorodą vienu spustelėjimu jūsų pasirinktiniams jaustukams. Tai netrukdo jiems išsaugoti paveikslėlio ir įkelti jį patiems.';
 
   @override
   String get guildSettingsCloneStickerTitle =>
-      'Allow others to clone your stickers';
+      'Leisti kitiems klonuoti jūsų lipdukus';
 
   @override
   String get guildSettingsCloneStickerDescription =>
-      'When enabled, members of other communities can use the in-app one-click \"Clone\" shortcut on your custom stickers. This does not prevent them from saving the image and uploading it themselves.';
+      'Kai įjungta, kitų bendruomenių nariai gali naudoti programėlės \"Klonuoti\" nuorodą vienu paspaudimu jūsų pasirinktiniams lipdukams. Tai netrukdo jiems išsaugoti paveikslėlio ir įkelti jį patiems.';
 
   @override
   String guildSettingsClonePermissionHint(String permission) {
-    return 'Only members with the \"$permission\" permission can change this.';
+    return 'Šią nuostatą gali pakeisti tik nariai, turintys „$permission“ leidimą.';
   }
 
   @override
   String get guildSettingsCloneEmojiUpdateFailed =>
-      'Couldn\'t update emoji cloning';
+      'Nepavyko atnaujinti jaustukų klonavimo';
 
   @override
   String get guildSettingsCloneStickerUpdateFailed =>
-      'Couldn\'t update sticker cloning';
+      'Nepavyko atnaujinti lipdukų klonavimo';
 
   @override
   String guildSettingsNonAnimatedEmoji(int count) {
@@ -13764,127 +13870,128 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get guildSettingsStickersSearchHint => 'Ieškoti lipdukų';
 
   @override
-  String get guildSettingsStickerSlotsTitle => 'Sticker slots';
+  String get guildSettingsStickerSlotsTitle => 'Lipdukų vietos';
 
   @override
-  String get guildSettingsStickerUploadTitle => 'Upload sticker';
+  String get guildSettingsStickerUploadTitle => 'Įkelti lipduką';
 
   @override
   String get guildSettingsStickerDropZone =>
-      'Drag and drop a sticker file here (one at a time)';
+      'Nuvilkite lipduko failą čia (po vieną)';
 
   @override
-  String get guildSettingsStickerDensity => 'Sticker density';
+  String get guildSettingsStickerDensity => 'Lipdukų tankis';
 
   @override
-  String get guildSettingsStickerDensityCozy => 'Cozy';
+  String get guildSettingsStickerDensityCozy => 'Jauku';
 
   @override
-  String get guildSettingsStickerDensityCompact => 'Compact';
+  String get guildSettingsStickerDensityCompact => 'Kompaktiškas';
 
   @override
-  String get guildSettingsStickersLoadFailedTitle => 'Failed to load stickers';
+  String get guildSettingsStickersLoadFailedTitle => 'Nepavyko įkelti lipdukų';
 
   @override
   String get guildSettingsStickersLoadFailedBody =>
-      'There was an error loading the stickers. Try again.';
+      'Įkeliant lipdukus įvyko klaida. Bandykite dar kartą.';
 
   @override
   String get guildSettingsStickersSearchEmpty =>
-      'No stickers found matching your search.';
+      'Nerasta lipdukų, atitinkančių jūsų paiešką.';
 
   @override
-  String get guildSettingsStickersEmptySearch => 'No stickers found';
+  String get guildSettingsStickersEmptySearch => 'Lipdukų nerasta';
 
   @override
-  String get guildSettingsStickerNoSlots => 'No sticker slots available';
+  String get guildSettingsStickerNoSlots => 'Nėra laisvų lipdukų vietų';
 
   @override
   String get guildSettingsStickerSlotsFull =>
-      'You\'ve reached the maximum number of stickers. Delete some existing stickers to make room.';
+      'Pasiekėte didžiausią lipdukų skaičių. Ištrinkite esamus lipdukus, kad atlaisvintumėte vietos.';
 
   @override
   String guildSettingsStickerUploadRequirements(String maxSize) {
-    return 'Stickers are saved at 320x320 pixels and must be under $maxSize. Static images are resized and compressed automatically. Animated stickers and SVGs must already fit the limit.';
+    return 'Lipdukai išsaugomi 320x320 pikselių dydžiu ir turi būti ne didesni nei $maxSize. Statiniai vaizdai automatiškai keičiami į reikiamą dydį ir suspaudžiami. Animuoti lipdukai ir SVG jau turi atitikti nurodytą dydį.';
   }
 
   @override
-  String get guildSettingsStickerUnsupportedTitle => 'Unsupported sticker file';
+  String get guildSettingsStickerUnsupportedTitle =>
+      'Nepalaikomas lipduko failas';
 
   @override
-  String get guildSettingsStickerAddTitle => 'Add sticker';
+  String get guildSettingsStickerAddTitle => 'Pridėti lipduką';
 
   @override
-  String get guildSettingsStickerEditTitle => 'Edit sticker';
+  String get guildSettingsStickerEditTitle => 'Redaguoti lipduką';
 
   @override
-  String get guildSettingsStickerNameLabel => 'Name';
+  String get guildSettingsStickerNameLabel => 'Pavadinimas';
 
   @override
-  String get guildSettingsStickerNameHint => 'My awesome sticker';
+  String get guildSettingsStickerNameHint => 'Mano nuostabus lipdukas';
 
   @override
-  String get guildSettingsStickerDescriptionLabel => 'Description';
+  String get guildSettingsStickerDescriptionLabel => 'Aprašymas';
 
   @override
-  String get guildSettingsStickerDescriptionHint => 'Describe the sticker';
+  String get guildSettingsStickerDescriptionHint => 'Apibūdinkite lipduką';
 
   @override
   String guildSettingsStickerTagsLabel(int count, int limit) {
-    return 'Tags ($count/$limit)';
+    return 'Žymos ($count/$limit)';
   }
 
   @override
-  String get guildSettingsStickerTagHint => 'Add a tag';
+  String get guildSettingsStickerTagHint => 'Pridėti žymę';
 
   @override
-  String get guildSettingsStickerTagAdd => 'Add';
+  String get guildSettingsStickerTagAdd => 'Pridėti';
 
   @override
-  String get guildSettingsStickerNameRequired => 'Name is required';
+  String get guildSettingsStickerNameRequired => 'Būtina nurodyti pavadinimą';
 
   @override
   String get guildSettingsStickerNameTooShort =>
-      'Name must be at least 2 characters';
+      'Pavadinimas turi būti bent 2 simbolių ilgio';
 
   @override
   String get guildSettingsStickerNameTooLong =>
-      'Name must be 30 characters or less';
+      'Pavadinimas turi būti ne ilgesnis nei 30 simbolių';
 
   @override
   String get guildSettingsStickerDescriptionTooLong =>
-      'Description must be 500 characters or less';
+      'Aprašymas turi būti ne ilgesnis nei 500 simbolių';
 
   @override
   String get guildSettingsStickerCreateFailedTitle =>
-      'Couldn\'t create this sticker';
+      'Nepavyko sukurti šio lipduko';
 
   @override
-  String get guildSettingsStickerTooLargeTitle => 'Sticker is too large';
+  String get guildSettingsStickerTooLargeTitle => 'Lipdukas per didelis';
 
   @override
   String get guildSettingsStickerCompressFailedTitle =>
-      'Sticker couldn\'t be compressed enough';
+      'Lipduko nepavyko pakankamai suglaudinti';
 
   @override
-  String get guildSettingsStickerDeleteTitle => 'Delete sticker';
+  String get guildSettingsStickerDeleteTitle => 'Ištrinti lipduką';
 
   @override
   String guildSettingsStickerDeleteBody(String name) {
-    return 'Delete \"$name\"? Can\'t be undone.';
+    return 'Ištrinti „$name“? Negalima atšaukti.';
   }
 
   @override
   String get guildSettingsStickerPurgeLabel =>
-      'Purge this sticker from storage and CDN';
+      'Išvalyti šį lipduką iš saugyklos ir CDN';
 
   @override
   String get guildSettingsStickerDeleteFailedTitle =>
-      'Couldn\'t delete this sticker';
+      'Nepavyko ištrinti šios etiketės';
 
   @override
   String get guildSettingsStickerDeleteNoPermissionTitle =>
-      'You can\'t delete this sticker';
+      'Jūs negalite ištrinti šios etiketės';
 
   @override
   String guildSettingsWebhooksInfo(String channelSettingsPath) {
@@ -13917,7 +14024,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get guildSettingsInvitesTableCreated => 'Sukurta';
 
   @override
-  String get guildSettingsInvitesTableExpires => 'Expires';
+  String get guildSettingsInvitesTableExpires => 'Baigiasi';
 
   @override
   String get guildSettingsAuditLogFilterUser => 'Filtruoti pagal vartotoją';
@@ -13926,331 +14033,351 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get guildSettingsAuditLogFilterAction => 'Filtruoti pagal veiksmą';
 
   @override
-  String get createDm => 'Create DM';
+  String get createDm => 'Kurti tiesioginį pranešimą';
 
   @override
-  String get createGroupDm => 'Create group DM';
+  String get createGroupDm => 'Kurti grupės tiesioginį pranešimą';
 
   @override
-  String get createDmNewMessage => 'New message';
+  String get createDmNewMessage => 'Nauja žinutė';
 
   @override
-  String get createDmSelectFriends => 'Select friends';
+  String get createDmSelectFriends => 'Pasirinkite draugus';
 
   @override
-  String get createDmChooseFriendsSubtitle => 'Choose friends to message.';
+  String get createDmChooseFriendsSubtitle =>
+      'Pasirinkite draugus, kuriems norite parašyti.';
 
   @override
-  String get createDmSearchFriends => 'Search friends';
+  String get createDmSearchFriends => 'Ieškoti draugų';
 
   @override
-  String get createDmNoFriendsFound => 'No friends found';
+  String get createDmNoFriendsFound => 'Draugų nerasta';
 
   @override
-  String get createDmNoFriendsYet => 'You have no friends yet';
+  String get createDmNoFriendsYet => 'Dar neturite draugų';
 
   @override
-  String get createDmClaimToStartDms => 'Claim your account to start DMs.';
+  String get createDmClaimToStartDms =>
+      'Norėdami pradėti tiesioginius pranešimus, prisijunkite prie savo paskyros.';
 
   @override
-  String get createDmVerifyToStartDms => 'Verify your email to start DMs.';
+  String get createDmVerifyToStartDms =>
+      'Patvirtinkite el. paštą, kad galėtumėte pradėti tiesioginius pranešimus.';
 
   @override
-  String get createDmVerifyYourEmail => 'Verify your email';
+  String get createDmVerifyYourEmail => 'Patvirtinkite savo el. paštą';
 
   @override
-  String get createDmNewGroup => 'New group';
+  String get createDmNewGroup => 'Nauja grupė';
 
   @override
   String createDmCreateGroupWithRecipient(String userName) {
-    return 'Create a new group with $userName';
+    return 'Sukurti naują grupę su „$userName\"';
   }
 
   @override
-  String get createDmConfirmNewGroup => 'Confirm new group';
+  String get createDmConfirmNewGroup => 'Patvirtinti naują grupę';
 
   @override
-  String get createDmCreateNewGroup => 'Create new group';
+  String get createDmCreateNewGroup => 'Kurti naują grupę';
 
   @override
   String createDmRemoveFriend(String displayName) {
-    return 'Remove $displayName';
+    return 'Pašalinti \"$displayName\"';
   }
 
   @override
   String get createDmDuplicateGroupDescription =>
-      'You already have a group with these users. Do you really want to create a new one? That\'s fine too!';
+      'Jau turite grupę su šiais naudotojais. Ar tikrai norite sukurti naują? Tai irgi gerai!';
 
   @override
-  String get createDmNoActivityYet => 'No activity yet';
+  String get createDmNoActivityYet => 'Dar nėra veiklos';
 
   @override
-  String get createDmSomeUsersCantBeAdded => 'Some users can\'t be added';
+  String get createDmSomeUsersCantBeAdded =>
+      'Kai kurių naudotojų negalima pridėti';
 
   @override
-  String get createDmCreateWithoutThem => 'Create without them';
+  String get createDmCreateWithoutThem => 'Kurti be jų';
 
   @override
   String get createDmUnaddableIntro =>
-      'The following people can\'t be added to this group DM:';
+      'Šių žmonių negalima pridėti prie šios grupės DM:';
 
   @override
   String createDmUnaddableProceed(int count) {
-    return 'Create the group DM with the remaining $count recipient(s) and skip the others?';
+    return 'Sukurti grupės DM su likusiaisiais $count adresatais ir praleisti kitus?';
   }
 
   @override
   String get createDmUnaddableNoneRemaining =>
-      'No remaining recipients to create a group DM with.';
+      'Nebėra gavėjų, su kuriais būtų galima sukurti grupės tiesioginį pranešimą.';
 
   @override
-  String get createDmUnaddableUserNotFound => 'User not found';
+  String get createDmUnaddableUserNotFound => 'Vartotojas nerastas';
 
   @override
-  String get createDmUnaddableBlocked => 'You can\'t message this user';
+  String get createDmUnaddableBlocked =>
+      'Negalite siųsti žinučių šiam naudotojui';
 
   @override
-  String get createDmUnaddableNotFriends => 'Not on your friends list';
+  String get createDmUnaddableNotFriends => 'Nėra jūsų draugų sąraše';
 
   @override
   String get createDmUnaddableGroupDisabled =>
-      'Doesn\'t allow being added to group DMs';
+      'Negalima pridėti prie grupinių tiesioginių žinučių';
 
   @override
-  String get createDmFailed => 'Couldn\'t create the conversation. Try again.';
+  String get createDmFailed =>
+      'Nepavyko sukurti pokalbio. Pabandykite dar kartą.';
 
   @override
-  String get dmListMessagesTitle => 'Messages';
+  String get dmListMessagesTitle => 'Žinutės';
 
   @override
-  String get dmListDirectMessagesTitle => 'Direct Messages';
+  String get dmListDirectMessagesTitle => 'Tiesioginės žinutės';
 
   @override
-  String get keybindsSearchShortcuts => 'Search shortcuts';
+  String get keybindsSearchShortcuts => 'Ieškoti nuorodų';
 
   @override
-  String get keybindSectionDefaults => 'Defaults';
+  String get keybindSectionDefaults => 'Numatyta';
 
   @override
-  String get keybindSectionMessages => 'Messages';
+  String get keybindSectionMessages => 'Žinutės';
 
   @override
-  String get keybindSectionNavigation => 'Navigation';
+  String get keybindSectionNavigation => 'Naršymas';
 
   @override
-  String get keybindSectionDragAndDrop => 'Drag and drop';
+  String get keybindSectionDragAndDrop => 'Vilkite ir numeskite';
 
   @override
-  String get keybindSectionChat => 'Chat';
+  String get keybindSectionChat => 'Pokalbis';
 
   @override
-  String get keybindSectionVoiceAndVideo => 'Voice and video';
+  String get keybindSectionVoiceAndVideo => 'Balso ir vaizdo skambučiai';
 
   @override
-  String get keybindSectionMisc => 'Miscellaneous';
+  String get keybindSectionMisc => 'Įvairūs';
 
   @override
-  String get keybindActionShowShortcutsList => 'Show keyboard shortcuts list';
+  String get keybindActionShowShortcutsList =>
+      'Rodyti sparčiųjų klavišų sąrašą';
 
   @override
-  String get keybindActionCopyText => 'Copy text';
+  String get keybindActionCopyText => 'Kopijuoti tekstą';
 
   @override
-  String get keybindActionMarkUnread => 'Mark as unread';
+  String get keybindActionMarkUnread => 'Pažymėti kaip neperskaitytą';
 
   @override
-  String get keybindActionFocusTextarea => 'Focus text area';
+  String get keybindActionFocusTextarea => 'Sutelkti teksto sritį';
 
   @override
-  String get keybindActionSwitchCommunities => 'Switch between communities';
+  String get keybindActionSwitchCommunities => 'Perjungti bendruomenes';
 
   @override
-  String get keybindActionSwitchChannels => 'Switch between channels';
+  String get keybindActionSwitchChannels => 'Perjungti kanalus';
 
   @override
   String get keybindActionHistoryBack =>
-      'Move back through viewed channel history';
+      'Grįžti atgal per peržiūrėtą kanalų istoriją';
 
   @override
   String get keybindActionHistoryForward =>
-      'Move forward through viewed channel history';
+      'Judėti pirmyn per peržiūrėtą kanalo istoriją';
 
   @override
-  String get keybindActionJumpUnreadChannels => 'Jump between unread channels';
+  String get keybindActionJumpUnreadChannels =>
+      'Peršokti tarp neskaitytų kanalų';
 
   @override
   String get keybindActionJumpMentionChannels =>
-      'Jump between unread channels with mentions';
+      'Pereiti tarp neskaitytų kanalų su paminėjimais';
 
   @override
-  String get keybindActionJumpCurrentCall => 'Jump to the current call';
+  String get keybindActionJumpCurrentCall =>
+      'Pereiti prie dabartinio skambučio';
 
   @override
   String get keybindActionToggleLastGuildDms =>
-      'Toggle between last community and DMs';
+      'Perjungti tarp paskutinės bendruomenės ir tiesioginių žinučių';
 
   @override
   String get keybindActionPreviousCommunityOrDms =>
-      'Switch to previous community or DMs';
+      'Perjungti į ankstesnę bendruomenę arba tiesioginius pranešimus';
 
   @override
   String get keybindActionNextCommunityOrDms =>
-      'Switch to next community or DMs';
+      'Perjungti į kitą bendruomenę arba tiesioginius pranešimus';
 
   @override
-  String get keybindActionGoToDms => 'Go to Direct Messages';
+  String get keybindActionGoToDms => 'Eiti į tiesioginius pranešimus';
 
   @override
-  String get keybindActionGoToFirstCommunity => 'Go to first community';
+  String get keybindActionGoToFirstCommunity => 'Eiti į pirmą bendruomenę';
 
   @override
-  String get keybindActionGoToSecondCommunity => 'Go to second community';
+  String get keybindActionGoToSecondCommunity => 'Eiti į antrą bendruomenę';
 
   @override
-  String get keybindActionGoToThirdCommunity => 'Go to third community';
+  String get keybindActionGoToThirdCommunity => 'Eiti į trečią bendruomenę';
 
   @override
-  String get keybindActionGoToFourthCommunity => 'Go to fourth community';
+  String get keybindActionGoToFourthCommunity => 'Eiti į ketvirtą bendruomenę';
 
   @override
-  String get keybindActionGoToFifthCommunity => 'Go to fifth community';
+  String get keybindActionGoToFifthCommunity => 'Eiti į penktą bendruomenę';
 
   @override
-  String get keybindActionGoToSixthCommunity => 'Go to sixth community';
+  String get keybindActionGoToSixthCommunity => 'Eiti į šeštą bendruomenę';
 
   @override
-  String get keybindActionGoToSeventhCommunity => 'Go to seventh community';
+  String get keybindActionGoToSeventhCommunity => 'Eiti į septintą bendruomenę';
 
   @override
-  String get keybindActionGoToEighthCommunity => 'Go to eighth community';
+  String get keybindActionGoToEighthCommunity => 'Eiti į aštuntą bendruomenę';
 
   @override
-  String get keybindActionToggleQuickSwitcher => 'Toggle quick switcher';
+  String get keybindActionToggleQuickSwitcher =>
+      'Perjungti greitąjį perjungiklį';
 
   @override
-  String get keybindActionCreateOrJoinCommunity => 'Create or join a community';
+  String get keybindActionCreateOrJoinCommunity =>
+      'Sukurti arba prisijungti prie bendruomenės';
 
   @override
-  String get keybindActionStartDragAndDrop => 'Start drag and drop';
+  String get keybindActionStartDragAndDrop => 'Pradėti vilkti ir mesti';
 
   @override
-  String get keybindActionMove => 'Move';
+  String get keybindActionMove => 'Perkelti';
 
   @override
-  String get keybindActionDropItem => 'Drop item';
+  String get keybindActionDropItem => 'Mesti elementą';
 
   @override
-  String get keybindActionCancel => 'Cancel';
+  String get keybindActionCancel => 'Atšaukti';
 
   @override
-  String get keybindActionMarkCommunityRead => 'Mark community as read';
+  String get keybindActionMarkCommunityRead =>
+      'Pažymėti bendruomenę kaip perskaitytą';
 
   @override
-  String get keybindActionMarkChannelRead => 'Mark channel as read';
+  String get keybindActionMarkChannelRead => 'Pažymėti kanalą kaip perskaitytą';
 
   @override
-  String get keybindActionStartGroupDm => 'Start a group DM';
+  String get keybindActionStartGroupDm => 'Pradėti grupės tiesioginį pranešimą';
 
   @override
-  String get keybindActionTogglePinnedMessages => 'Toggle pinned messages';
+  String get keybindActionTogglePinnedMessages =>
+      'Perjungti prisegtus pranešimus';
 
   @override
-  String get keybindActionToggleInbox => 'Toggle the inbox';
+  String get keybindActionToggleInbox => 'Perjungti gautuosius';
 
   @override
-  String get keybindActionMarkTopInboxRead => 'Mark top inbox channel as read';
+  String get keybindActionMarkTopInboxRead =>
+      'Pažymėti viršutinį gautųjų kanalą kaip perskaitytą';
 
   @override
-  String get keybindActionMarkAllInboxRead => 'Mark all inbox channels as read';
+  String get keybindActionMarkAllInboxRead =>
+      'Pažymėti visus gautuosius kanalus kaip perskaitytus';
 
   @override
   String get keybindActionToggleMemberList =>
-      'Toggle the member list or voice chat';
+      'Perjungti narių sąrašą arba balso pokalbį';
 
   @override
-  String get keybindActionToggleEmojiPicker => 'Toggle the emoji picker';
+  String get keybindActionToggleEmojiPicker =>
+      'Įjungti / išjungti jaustukų parinkiklį';
 
   @override
-  String get keybindActionToggleGifPicker => 'Toggle the GIF picker';
+  String get keybindActionToggleGifPicker => 'Perjungti GIF parinkiklį';
 
   @override
-  String get keybindActionToggleStickerPicker => 'Toggle the sticker picker';
+  String get keybindActionToggleStickerPicker => 'Perjungti lipdukų parinkiklį';
 
   @override
-  String get keybindActionScrollChatUp => 'Scroll chat up';
+  String get keybindActionScrollChatUp => 'Slinkti pokalbį aukštyn';
 
   @override
-  String get keybindActionScrollChatDown => 'Scroll chat down';
+  String get keybindActionScrollChatDown => 'Slinkti pokalbį žemyn';
 
   @override
   String get keybindActionJumpOldestUnread =>
-      'Jump to the oldest unread message';
+      'Pereiti prie seniausios neperskaitytos žinutės';
 
   @override
-  String get keybindActionFocusComposer => 'Focus the text area';
+  String get keybindActionFocusComposer => 'Sutelkti teksto lauką';
 
   @override
-  String get keybindActionUploadFile => 'Upload a file';
+  String get keybindActionUploadFile => 'Įkelti failą';
 
   @override
-  String get keybindActionCopyChannelLink => 'Copy channel link';
+  String get keybindActionCopyChannelLink => 'Kopijuoti kanalo nuorodą';
 
   @override
-  String get keybindActionToggleSavedMedia => 'Toggle saved media';
+  String get keybindActionToggleSavedMedia => 'Perjungti išsaugotą mediją';
 
   @override
-  String get keybindActionSendVoiceMessage => 'Send voice message';
+  String get keybindActionSendVoiceMessage => 'Siųsti balso pranešimą';
 
   @override
-  String get keybindActionAnswerCall => 'Answer the incoming call';
+  String get keybindActionAnswerCall => 'Atsiliepti į gaunamą skambutį';
 
   @override
-  String get keybindActionDeclineCall => 'Decline the incoming call';
+  String get keybindActionDeclineCall => 'Atmesti gaunamą skambutį';
 
   @override
-  String get keybindActionStartDmCall => 'Start a call in a DM or group';
+  String get keybindActionStartDmCall =>
+      'Pradėti skambutį tiesioginiame pokalbyje arba grupėje';
 
   @override
-  String get keybindActionToggleSoundboard => 'Toggle the soundboard';
+  String get keybindActionToggleSoundboard =>
+      'Įjungti / išjungti garso plokštę';
 
   @override
   String get keybindActionToggleCompactCallView =>
-      'Expand or collapse compact call view';
+      'Išskleisti arba sutraukti kompaktišką skambučio rodinį';
 
   @override
-  String get keybindActionPushToTalkPriority => 'Push to talk (priority)';
+  String get keybindActionPushToTalkPriority =>
+      'Kalbėti paspaudus (prioritetinis)';
 
   @override
-  String get keybindActionVoiceActivityPriority => 'Voice activity priority';
+  String get keybindActionVoiceActivityPriority => 'Balso aktyvumo prioritetas';
 
   @override
-  String get keybindActionOpenHelp => 'Open help';
+  String get keybindActionOpenHelp => 'Atidaryti žinyną';
 
   @override
-  String get keybindActionSearchMessages => 'Search messages';
+  String get keybindActionSearchMessages => 'Ieškoti žinučių';
 
   @override
-  String get keybindActionOpenContextMenu => 'Open the context menu';
+  String get keybindActionOpenContextMenu => 'Atidaryti kontekstinį meniu';
 
   @override
-  String get keybindActionOpenSettings => 'Open your settings';
+  String get keybindActionOpenSettings => 'Atidaryti nustatymus';
 
   @override
-  String get keybindActionOpenThemeStudio => 'Open theme studio popout';
+  String get keybindActionOpenThemeStudio =>
+      'Atidaryti temos studijos iššokantįjį langą';
 
   @override
-  String get keybindActionZoomIn => 'Zoom in';
+  String get keybindActionZoomIn => 'Didinti';
 
   @override
-  String get keybindActionZoomOut => 'Zoom out';
+  String get keybindActionZoomOut => 'Mažinti';
 
   @override
-  String get keybindActionZoomReset => 'Reset zoom';
+  String get keybindActionZoomReset => 'Atstatyti mastelį';
 
   @override
   String get clipboardPasteFailed =>
-      'Couldn\'t paste. The clipboard was empty or blocked for this app.';
+      'Nepavyko įklijuoti. Iš leistukės nieko neišėjo nukopijuoti arba ji buvo užblokuota šiai programai.';
 
   @override
-  String get homeQuickActionDms => 'DMs';
+  String get homeQuickActionDms => 'Tiesioginiai pranešimai';
 }

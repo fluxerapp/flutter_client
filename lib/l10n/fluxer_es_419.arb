@@ -13207,5 +13207,3598 @@
     "lookAndFeelChatWallpaperPickFailed": "No se pudo establecer esa imagen como tu fondo de pantalla.",
     "@lookAndFeelChatWallpaperPickFailed": {
         "description": "Toast shown when a custom wallpaper image cannot be decoded or saved."
+    },
+    "iarReasonHateGuildDescription": "Promueve el odio contra grupos protegidos.",
+    "@iarReasonHateGuildDescription": {
+        "description": "Community-report reason description for hate speech."
+    },
+    "chatAttachmentDownloadFailedToast": "No se pudo descargar el archivo adjunto",
+    "@chatAttachmentDownloadFailedToast": {
+        "description": "Toast shown when an attachment download fails."
+    },
+    "privacyDashboardDataRequestAllTime": "Todo el tiempo",
+    "@privacyDashboardDataRequestAllTime": {
+        "description": "Dropdown option for all-time date range."
+    },
+    "shareMediaPartialSuccessToast": "Compartido en {count} destinos",
+    "@shareMediaPartialSuccessToast": {
+        "description": "Toast shown when shared media is sent to some but not all selected destinations.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "shareMediaFailedToast": "No se pudo compartir el contenido multimedia",
+    "@shareMediaFailedToast": {
+        "description": "Toast shown when sharing media to all destinations fails."
+    },
+    "gifFavoriteFirstTimeUrlOnlyDetails": "Favoritos solo con URL (predeterminado): se sincronizan en tus dispositivos, sin carga, no cuentan para el almacenamiento de medios. El medio original puede desaparecer si su host lo elimina.",
+    "@gifFavoriteFirstTimeUrlOnlyDetails": {
+        "description": "Details for URL-only GIF favorite storage option."
+    },
+    "gifFavoriteFirstTimeSavedMediaDetails": "Medios guardados: subidos, etiquetables, buscables y persistentes, pero cuentan para tu límite de medios guardados.",
+    "@gifFavoriteFirstTimeSavedMediaDetails": {
+        "description": "Details for saved media GIF favorite storage option."
+    },
+    "gifFavoriteFirstTimeHint": "Solo te preguntaremos una vez.",
+    "@gifFavoriteFirstTimeHint": {
+        "description": "Hint shown on the first-time GIF favorite storage prompt."
+    },
+    "gifFavoriteFirstTimeUseUrlOnly": "Usar solo URL (recomendado)",
+    "@gifFavoriteFirstTimeUseUrlOnly": {
+        "description": "Primary action on the first-time GIF favorite storage prompt."
+    },
+    "gifFavoriteFirstTimeUseSavedMedia": "Usar medios guardados",
+    "@gifFavoriteFirstTimeUseSavedMedia": {
+        "description": "Secondary action on the first-time GIF favorite storage prompt."
+    },
+    "messagesMediaCameraUploadsSectionTitle": "Cargas de la cámara",
+    "@messagesMediaCameraUploadsSectionTitle": {
+        "description": "Section title for camera capture upload settings."
+    },
+    "messagesMediaCameraUploadsSectionDescription": "Elige si las fotos y videos tomados con la cámara de la app se guardan en tu dispositivo",
+    "@messagesMediaCameraUploadsSectionDescription": {
+        "description": "Section description for camera capture upload settings."
+    },
+    "messagesMediaCameraUploadsSaveToDeviceLabel": "Guardar en el dispositivo",
+    "@messagesMediaCameraUploadsSaveToDeviceLabel": {
+        "description": "Toggle label for saving camera captures to the device gallery."
+    },
+    "accessibilitySaturationDescription": "Ajusta la viveza de los colores del tema en toda la app.",
+    "@accessibilitySaturationDescription": {
+        "description": "Section description for the theme saturation slider on the accessibility settings page."
+    },
+    "accessibilityAlwaysUnderlineLinksLabel": "Subrayar siempre los enlaces",
+    "@accessibilityAlwaysUnderlineLinksLabel": {
+        "description": "Toggle label for always underlining links in messages."
+    },
+    "accessibilityDimStrikethroughTextLabel": "Atenuar texto tachado",
+    "@accessibilityDimStrikethroughTextLabel": {
+        "description": "Toggle label for dimming strikethrough text in messages."
+    },
+    "accessibilityScreenReaderGroupDescription": "Controla cómo {productName} funciona con lectores de pantalla.",
+    "@accessibilityScreenReaderGroupDescription": {
+        "description": "Section description for screen reader accessibility settings.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "accessibilityScreenReaderAnnounceNewMessagesLabel": "Anunciar mensajes nuevos",
+    "@accessibilityScreenReaderAnnounceNewMessagesLabel": {
+        "description": "Toggle label for announcing incoming messages to screen readers."
+    },
+    "accessibilityScreenReaderAnnounceNewMessagesDescription": "Permitir que los lectores de pantalla anuncien los mensajes nuevos a medida que llegan al canal abierto. Los sonidos de notificación no se verán afectados.",
+    "@accessibilityScreenReaderAnnounceNewMessagesDescription": {
+        "description": "Toggle description for announcing incoming messages to screen readers."
+    },
+    "accessibilityTtsGroupDescription": "Elige una velocidad para el texto hablado.",
+    "@accessibilityTtsGroupDescription": {
+        "description": "Description under the speech playback speed label."
+    },
+    "accessibilityTtsSpeechPlaybackSpeedLabel": "Velocidad de reproducción de voz",
+    "@accessibilityTtsSpeechPlaybackSpeedLabel": {
+        "description": "Label for the TTS speech rate selector."
+    },
+    "accessibilityPreviewLinksMessage": "Así se muestran los enlaces: {linkPreviewExampleUrl}",
+    "@accessibilityPreviewLinksMessage": {
+        "description": "Sample message content in the accessibility preview.",
+        "placeholders": {
+            "linkPreviewExampleUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "accessibilityShowTextareaFocusRingLabel": "Mostrar anillo de enfoque en el cuadro de texto del chat",
+    "@accessibilityShowTextareaFocusRingLabel": {
+        "description": "Toggle label for showing a focus ring on the chat textarea."
+    },
+    "accessibilityEscapeExitsKeyboardModeLabel": "La tecla Escape sale del modo teclado",
+    "@accessibilityEscapeExitsKeyboardModeLabel": {
+        "description": "Toggle label for Escape exiting keyboard mode."
+    },
+    "accessibilityShowContextMenuShortcutsLabel": "Mostrar atajos del menú contextual",
+    "@accessibilityShowContextMenuShortcutsLabel": {
+        "description": "Toggle label for showing keyboard shortcuts in context menus."
+    },
+    "accessibilityConfirmBeforeStartingCallsLabel": "Confirmar antes de iniciar llamadas",
+    "@accessibilityConfirmBeforeStartingCallsLabel": {
+        "description": "Toggle label for confirming before starting calls."
+    },
+    "accessibilityReducedMotionActiveNote": "La opción de movimiento reducido está activada, por lo que las animaciones de contenido están en pausa de forma predeterminada. Aún puedes volver a activarlas para que sigan reproduciéndose.",
+    "@accessibilityReducedMotionActiveNote": {
+        "description": "Note shown above animation controls when reduced motion is active."
+    },
+    "accessibilityPlayAnimatedEmojisLabel": "Reproducir emojis animados",
+    "@accessibilityPlayAnimatedEmojisLabel": {
+        "description": "Toggle label for playing animated emojis."
+    },
+    "accessibilityAutoPlayGifsMobileLabel": "Reproducir GIF automáticamente",
+    "@accessibilityAutoPlayGifsMobileLabel": {
+        "description": "Toggle label for GIF autoplay on mobile."
+    },
+    "accessibilityAutoPlayGifsDesktopLabel": "Reproducir GIF automáticamente cuando {productName} esté en foco",
+    "@accessibilityAutoPlayGifsDesktopLabel": {
+        "description": "Toggle label for GIF autoplay on desktop.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "accessibilityPlayingDespiteReducedMotion": "Reproduciendo a pesar del movimiento reducido.",
+    "@accessibilityPlayingDespiteReducedMotion": {
+        "description": "Description when an animation setting overrides reduced motion."
+    },
+    "accessibilityPausedEmojiByReducedMotion": "Pausado por movimiento reducido. Actívalo para que los emojis animados sigan reproduciéndose.",
+    "@accessibilityPausedEmojiByReducedMotion": {
+        "description": "Description for emoji toggle while reduced motion is active."
+    },
+    "accessibilityPausedGifByReducedMotion": "Pausado por movimiento reducido. Actívalo para que los GIF sigan reproduciéndose.",
+    "@accessibilityPausedGifByReducedMotion": {
+        "description": "Description for GIF toggle while reduced motion is active."
+    },
+    "accessibilityGifDefaultsOffOnMobile": "Viene desactivado por defecto en celulares para ahorrar batería y datos.",
+    "@accessibilityGifDefaultsOffOnMobile": {
+        "description": "Helper text for GIF autoplay default on mobile."
+    },
+    "accessibilityStickerAnimationPreferenceLabel": "Preferencia de animación de stickers",
+    "@accessibilityStickerAnimationPreferenceLabel": {
+        "description": "Accessibility label for the sticker animation radio group."
+    },
+    "accessibilityStickerAlwaysAnimateDescription": "Los stickers siempre se animarán",
+    "@accessibilityStickerAlwaysAnimateDescription": {
+        "description": "Description for always animating stickers."
+    },
+    "accessibilityStickerAnimateOnInteractionName": "Animar al interactuar",
+    "@accessibilityStickerAnimateOnInteractionName": {
+        "description": "Radio option for animating stickers on interaction."
+    },
+    "accessibilityStickerAnimateOnPressDescription": "Los stickers se animarán cuando los toques",
+    "@accessibilityStickerAnimateOnPressDescription": {
+        "description": "Description for sticker animate-on-press on touch devices."
+    },
+    "accessibilityStickerAnimateOnHoverDescription": "Los stickers se animarán cuando pases el cursor sobre ellos o interactúes con ellos",
+    "@accessibilityStickerAnimateOnHoverDescription": {
+        "description": "Description for sticker animate-on-hover on desktop."
+    },
+    "accessibilityStickerNeverAnimateDescription": "Los stickers nunca se animarán",
+    "@accessibilityStickerNeverAnimateDescription": {
+        "description": "Description for never animating stickers."
+    },
+    "accessibilityStickersAlwaysDespiteReducedMotion": "Siempre animado a pesar del movimiento reducido.",
+    "@accessibilityStickersAlwaysDespiteReducedMotion": {
+        "description": "Description when stickers always-animate overrides reduced motion."
+    },
+    "accessibilityStickersReducedMotionHint": "La opción de movimiento reducido limita las animaciones de los stickers a la interacción. Elige \"animar siempre\" para anular esta opción.",
+    "@accessibilityStickersReducedMotionHint": {
+        "description": "Description for stickers while reduced motion is active."
+    },
+    "accessibilityStickersDefaultsOnMobile": "Por defecto, las animaciones se activan al interactuar en dispositivos móviles para preservar la batería.",
+    "@accessibilityStickersDefaultsOnMobile": {
+        "description": "Helper text for sticker animation default on mobile."
+    },
+    "accessibilitySyncReducedMotionWithSystemLabel": "Sincronizar el ajuste de movimiento reducido con el sistema",
+    "@accessibilitySyncReducedMotionWithSystemLabel": {
+        "description": "Toggle label for syncing reduced motion with the operating system setting."
+    },
+    "accessibilitySyncReducedMotionWithSystemDescription": "Usa la preferencia de movimiento reducido del sistema de este dispositivo o personalízala a continuación.",
+    "@accessibilitySyncReducedMotionWithSystemDescription": {
+        "description": "Toggle description for syncing reduced motion with the operating system setting."
+    },
+    "accessibilityReducedMotionOverrideSyncedDescription": "Desactivar animaciones y transiciones. Actualmente controlado por la configuración de tu sistema.",
+    "@accessibilityReducedMotionOverrideSyncedDescription": {
+        "description": "Reduce motion description while synced with system."
+    },
+    "accessibilityReducedMotionOverrideManualDescription": "Desactivar animaciones y transiciones en toda la app.",
+    "@accessibilityReducedMotionOverrideManualDescription": {
+        "description": "Reduce motion description when not synced with system."
+    },
+    "accessibilityReducedMotionAnimationTabHint": "Los emojis, GIF y stickers animados permanecen bajo tu control en la pestaña Animación.",
+    "@accessibilityReducedMotionAnimationTabHint": {
+        "description": "Extra hint under reduce motion while reduced motion is active."
+    },
+    "accessibilityConfirmStartCallDescription": "¿Seguro que quieres iniciar esta llamada?",
+    "@accessibilityConfirmStartCallDescription": {
+        "description": "Description for the confirm-before-starting-calls dialog."
+    },
+    "accessibilityTtsSampleDescription": "Escucha la línea de ejemplo pronunciada con la velocidad que elegiste.",
+    "@accessibilityTtsSampleDescription": {
+        "description": "Description for the TTS sample playback controls."
+    },
+    "accessibilityTtsSampleText": "Doc, soy del futuro. Vine en una máquina del tiempo que tú inventaste. Ahora, necesito tu ayuda para volver a 1985.",
+    "@accessibilityTtsSampleText": {
+        "description": "Sample line spoken when previewing TTS speed."
+    },
+    "accessibilityTtsUnsupportedDescription": "La síntesis de voz no está disponible en este dispositivo.",
+    "@accessibilityTtsUnsupportedDescription": {
+        "description": "Shown when TTS preview cannot run on the device."
+    },
+    "accessibilityTtsPlaybackFailedDescription": "Falló la reproducción de voz. Intenta de nuevo o verifica que la salida de audio funcione.",
+    "@accessibilityTtsPlaybackFailedDescription": {
+        "description": "Shown when TTS playback fails."
+    },
+    "ttsAuthorSaid": "{authorName} dijo: {formatted}",
+    "@ttsAuthorSaid": {
+        "description": "TTS sentence for a normal message.",
+        "placeholders": {
+            "authorName": {
+                "type": "String"
+            },
+            "formatted": {
+                "type": "String"
+            }
+        }
+    },
+    "ttsReplyingToSaid": "Respondiendo a {replyAuthorName}, {authorName} dijo: {formatted}",
+    "@ttsReplyingToSaid": {
+        "description": "TTS sentence for a reply message.",
+        "placeholders": {
+            "replyAuthorName": {
+                "type": "String"
+            },
+            "authorName": {
+                "type": "String"
+            },
+            "formatted": {
+                "type": "String"
+            }
+        }
+    },
+    "ttsSentSticker": "envió un sticker",
+    "@ttsSentSticker": {
+        "description": "TTS phrase for sticker-only messages."
+    },
+    "ttsSentAttachment": "envió un archivo adjunto",
+    "@ttsSentAttachment": {
+        "description": "TTS phrase for a single attachment-only message."
+    },
+    "ttsSentAttachments": "enviados {count} archivos adjuntos",
+    "@ttsSentAttachments": {
+        "description": "TTS phrase for multi-attachment messages.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "ttsSentEmbed": "envió un elemento incrustado",
+    "@ttsSentEmbed": {
+        "description": "TTS phrase for embed-only messages."
+    },
+    "messageScreenReaderAnnouncement": "{author} envió {summary}",
+    "@messageScreenReaderAnnouncement": {
+        "description": "Screen reader announcement spoken when a new message arrives.",
+        "placeholders": {
+            "author": {
+                "type": "String"
+            },
+            "summary": {
+                "type": "String"
+            }
+        }
+    },
+    "systemCallJoinTheCall": "Unirse a la llamada",
+    "@systemCallJoinTheCall": {
+        "description": "Call-to-action button label on an in-progress call system message."
+    },
+    "systemCallStartedThatLasted": "{username} inició una llamada que duró {duration}.",
+    "@systemCallStartedThatLasted": {
+        "description": "System message when a call has ended and the viewer participated.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "systemCallDurationFewSeconds": "hace unos segundos",
+    "@systemCallDurationFewSeconds": {
+        "description": "Duration label for a very short elapsed call."
+    },
+    "systemUnknownMessage": "Actualiza {productName} para ver este mensaje.",
+    "@systemUnknownMessage": {
+        "description": "Fallback system message when the client does not recognize the message type.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "voiceJoinFailedTitle": "No se pudo unir a la llamada de voz",
+    "@voiceJoinFailedTitle": {
+        "description": "Title for the modal shown when a voice join attempt fails."
+    },
+    "voiceMultiDeviceDisconnectFailed": "No se pudieron desconectar tus otros dispositivos. Intenta de nuevo en un momento.",
+    "@voiceMultiDeviceDisconnectFailed": {
+        "description": "Shown when switch-to-this-device times out waiting for other sessions to leave."
+    },
+    "voiceInChat": "En el chat de voz",
+    "@voiceInChat": {
+        "description": "Short status label shown when the user is currently connected to voice chat."
+    },
+    "voiceJumpToChannel": "Ir a {channelSourceLabel}",
+    "@voiceJumpToChannel": {
+        "description": "Tooltip on a button that jumps to the channel.",
+        "placeholders": {
+            "channelSourceLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "voiceShowCallAvatars": "Mostrar avatares de la llamada",
+    "@voiceShowCallAvatars": {
+        "description": "Developer voice status menu option for displaying participant avatars."
+    },
+    "voiceShowConnectionId": "Mostrar ID de conexión",
+    "@voiceShowConnectionId": {
+        "description": "Developer voice status menu option for displaying the voice connection identifier."
+    },
+    "userAreaMuteMicrophone": "Silenciar micrófono",
+    "@userAreaMuteMicrophone": {
+        "description": "Tooltip for the mute button in the desktop user area."
+    },
+    "userAreaUnmuteMicrophone": "Activar micrófono",
+    "@userAreaUnmuteMicrophone": {
+        "description": "Tooltip for the unmute button in the desktop user area."
+    },
+    "voiceParticipantMenuFocus": "Enfocar a esta persona",
+    "@voiceParticipantMenuFocus": {
+        "description": "Voice participant context menu item to pin a participant tile in focus layout."
+    },
+    "voiceParticipantMenuStopStreaming": "Dejar de transmitir",
+    "@voiceParticipantMenuStopStreaming": {
+        "description": "Voice screen-share context menu action that stops the current user stream."
+    },
+    "voiceParticipantModerationFailed": "No se pudo actualizar a ese miembro. Inténtalo de nuevo.",
+    "@voiceParticipantModerationFailed": {
+        "description": "Toast shown when a voice participant moderation action fails."
+    },
+    "voiceCallViewModeLabel": "Ver",
+    "@voiceCallViewModeLabel": {
+        "description": "Section header for choosing grid or focus layout during a voice call."
+    },
+    "voiceCallViewModeGrid": "Cuadrícula",
+    "@voiceCallViewModeGrid": {
+        "description": "Voice call layout option that shows participants in a grid."
+    },
+    "voiceCallViewModeFocus": "Enfoque",
+    "@voiceCallViewModeFocus": {
+        "description": "Voice call layout option that enlarges one participant."
+    },
+    "voicePanelOnlyShowVideosLabel": "Mostrar solo videos",
+    "@voicePanelOnlyShowVideosLabel": {
+        "description": "Switch label to hide voice participants who do not have their camera on."
+    },
+    "voicePanelOnlyShowVideosDescription": "Mostrar solo a los participantes que tengan la cámara encendida.",
+    "@voicePanelOnlyShowVideosDescription": {
+        "description": "Description for the only-show-videos switch in the voice call panel."
+    },
+    "voicePanelShowOwnCameraLabel": "Mostrar mi cámara",
+    "@voicePanelShowOwnCameraLabel": {
+        "description": "Switch label to show or hide the local camera tile in the voice call grid."
+    },
+    "privacyDashboardFriendsAndDirectMessagesSection": "Amigos y mensajes directos",
+    "@privacyDashboardFriendsAndDirectMessagesSection": {
+        "description": "Privacy dashboard section label for who can send friend requests and direct messages."
+    },
+    "privacyDashboardDataExportSection": "Exportar datos",
+    "@privacyDashboardDataExportSection": {
+        "description": "Short label in the privacy dashboard."
+    },
+    "privacyDashboardProfilePrivacyTitle": "Quién puede ver tu perfil completo",
+    "@privacyDashboardProfilePrivacyTitle": {
+        "description": "Privacy > Profile privacy: section title."
+    },
+    "privacyDashboardProfilePrivacyAllCommunities": "Amigos y todas las comunidades",
+    "@privacyDashboardProfilePrivacyAllCommunities": {
+        "description": "Privacy > Profile privacy: radio option label."
+    },
+    "privacyDashboardProfilePrivacyAllCommunitiesDesc": "Tu perfil completo es visible para tus amigos y para cualquiera en tus comunidades",
+    "@privacyDashboardProfilePrivacyAllCommunitiesDesc": {
+        "description": "Privacy > Profile privacy: helper text."
+    },
+    "privacyDashboardProfilePrivacySmallCommunities": "Solo amigos y comunidades pequeñas",
+    "@privacyDashboardProfilePrivacySmallCommunities": {
+        "description": "Privacy > Profile privacy: radio option label."
+    },
+    "privacyDashboardProfilePrivacySmallCommunitiesDesc": "Tu perfil completo es visible para tus amigos y miembros de tus comunidades con 200 miembros o menos",
+    "@privacyDashboardProfilePrivacySmallCommunitiesDesc": {
+        "description": "Privacy > Profile privacy: helper text."
+    },
+    "privacyDashboardProfilePrivacyFriendsOnlyDesc": "Tu perfil completo solo es visible para tus amigos",
+    "@privacyDashboardProfilePrivacyFriendsOnlyDesc": {
+        "description": "Privacy > Profile privacy: helper text."
+    },
+    "privacyDashboardFriendRequestsEveryoneDesc": "Permitir que cualquiera te envíe solicitudes de amistad",
+    "@privacyDashboardFriendRequestsEveryoneDesc": {
+        "description": "Privacy dashboard friend request toggle description."
+    },
+    "privacyDashboardFriendRequestsFriendsOfFriends": "Amigos de amigos",
+    "@privacyDashboardFriendRequestsFriendsOfFriends": {
+        "description": "Privacy dashboard friend request toggle label."
+    },
+    "privacyDashboardFriendRequestsFriendsOfFriendsDesc": "Permitir que los amigos de tus amigos te envíen solicitudes",
+    "@privacyDashboardFriendRequestsFriendsOfFriendsDesc": {
+        "description": "Privacy dashboard friend request toggle description."
+    },
+    "privacyDashboardFriendRequestsCommunityMembersDesc": "Permite que los miembros de las comunidades a las que perteneces te envíen solicitudes",
+    "@privacyDashboardFriendRequestsCommunityMembersDesc": {
+        "description": "Privacy dashboard friend request toggle description."
+    },
+    "privacyDashboardDirectMessagesMembers": "Permitir mensajes directos de miembros de la comunidad",
+    "@privacyDashboardDirectMessagesMembers": {
+        "description": "Privacy dashboard DM toggle label."
+    },
+    "privacyDashboardDirectMessagesMembersDesc": "Permite que los miembros de las comunidades a las que perteneces te envíen mensajes directos",
+    "@privacyDashboardDirectMessagesMembersDesc": {
+        "description": "Privacy dashboard DM toggle description."
+    },
+    "privacyDashboardDirectMessagesBots": "Permitir mensajes directos de bots de la comunidad",
+    "@privacyDashboardDirectMessagesBots": {
+        "description": "Privacy dashboard bot DM toggle label."
+    },
+    "privacyDashboardDirectMessagesBotsDesc": "Permitir que los bots de las comunidades en las que participas te envíen mensajes directos",
+    "@privacyDashboardDirectMessagesBotsDesc": {
+        "description": "Privacy dashboard bot DM toggle description."
+    },
+    "privacyDashboardConnectionsSectionDesc": "Controla quién puede enviarte solicitudes de amistad y mensajes directos",
+    "@privacyDashboardConnectionsSectionDesc": {
+        "description": "Privacy dashboard connections section description."
+    },
+    "privacyDashboardCommunicationSectionDesc": "Controla quién puede llamarte y agregarte a chats grupales",
+    "@privacyDashboardCommunicationSectionDesc": {
+        "description": "Privacy dashboard communication section description."
+    },
+    "privacyDashboardIncomingCallsDesc": "Controla quién puede llamarte",
+    "@privacyDashboardIncomingCallsDesc": {
+        "description": "Privacy dashboard incoming calls subsection description."
+    },
+    "privacyDashboardIncomingCallNobodyDesc": "Bloquear todas las llamadas entrantes",
+    "@privacyDashboardIncomingCallNobodyDesc": {
+        "description": "Privacy > Communication: select option description."
+    },
+    "privacyDashboardIncomingCallFriendsOnlyDesc": "Permitir solo a tus amigos llamarte (recomendado)",
+    "@privacyDashboardIncomingCallFriendsOnlyDesc": {
+        "description": "Privacy > Communication: select option description."
+    },
+    "privacyDashboardIncomingCallCustom": "Amigos + Personalizado",
+    "@privacyDashboardIncomingCallCustom": {
+        "description": "Privacy > Communication: radio option label."
+    },
+    "privacyDashboardIncomingCallCustomDesc": "Permitir a amigos más grupos adicionales que elijas",
+    "@privacyDashboardIncomingCallCustomDesc": {
+        "description": "Privacy > Communication: select option description."
+    },
+    "privacyDashboardIncomingCallEveryoneDesc": "Permitir que cualquiera te llame, incluso desconocidos",
+    "@privacyDashboardIncomingCallEveryoneDesc": {
+        "description": "Privacy > Communication: select option description."
+    },
+    "privacyDashboardCallFriendsOfFriendsDesc": "Las personas que son amigas de tus amigos pueden llamarte",
+    "@privacyDashboardCallFriendsOfFriendsDesc": {
+        "description": "Privacy dashboard incoming call custom toggle description."
+    },
+    "privacyDashboardCallGuildMembersDesc": "Las personas de comunidades que ambos comparten pueden llamarte",
+    "@privacyDashboardCallGuildMembersDesc": {
+        "description": "Privacy dashboard incoming call custom toggle description."
+    },
+    "privacyDashboardRingBehavior": "Comportamiento del anillo",
+    "@privacyDashboardRingBehavior": {
+        "description": "Privacy dashboard ring behavior subsection label."
+    },
+    "privacyDashboardSilentCalls": "Silenciar llamadas de todos",
+    "@privacyDashboardSilentCalls": {
+        "description": "Privacy dashboard silent calls toggle label."
+    },
+    "privacyDashboardSilentCallsDesc": "Todas las llamadas notificarán en silencio en lugar de sonar. De forma predeterminada, las llamadas de personas que no son tus amigos siempre son silenciosas.",
+    "@privacyDashboardSilentCallsDesc": {
+        "description": "Privacy dashboard silent calls toggle description."
+    },
+    "privacyDashboardGroupDmTitle": "¿Quién puede agregarte a chats grupales?",
+    "@privacyDashboardGroupDmTitle": {
+        "description": "Privacy dashboard group DM subsection title."
+    },
+    "privacyDashboardGroupDmDesc": "Controla quién puede agregarte a chats grupales sin preguntar. Cualquiera aún puede enviarte enlaces de invitación para unirte.",
+    "@privacyDashboardGroupDmDesc": {
+        "description": "Privacy dashboard group DM subsection description."
+    },
+    "privacyDashboardGroupDmNobodyDesc": "Que nadie te agregue a chats grupales sin preguntar",
+    "@privacyDashboardGroupDmNobodyDesc": {
+        "description": "Privacy > Communication: select option description."
+    },
+    "privacyDashboardGroupDmFriendsOnlyDesc": "Permite que solo tus amigos te agreguen sin pedirte permiso (recomendado)",
+    "@privacyDashboardGroupDmFriendsOnlyDesc": {
+        "description": "Privacy > Communication: select option description."
+    },
+    "privacyDashboardGroupDmCustomDesc": "Permitir que amigos y grupos adicionales te agreguen",
+    "@privacyDashboardGroupDmCustomDesc": {
+        "description": "Privacy > Communication: select option description."
+    },
+    "privacyDashboardGroupDmEveryoneDesc": "Permitir que cualquiera te agregue a chats grupales sin preguntar",
+    "@privacyDashboardGroupDmEveryoneDesc": {
+        "description": "Privacy > Communication: select option description."
+    },
+    "privacyDashboardGroupDmFriendsOfFriendsDesc": "Las personas que son amigas de tus amigos pueden agregarte a chats grupales",
+    "@privacyDashboardGroupDmFriendsOfFriendsDesc": {
+        "description": "Privacy dashboard group DM custom toggle description."
+    },
+    "privacyDashboardGroupDmGuildMembersDesc": "Las personas de comunidades en las que ambos estén pueden agregarte a chats grupales",
+    "@privacyDashboardGroupDmGuildMembersDesc": {
+        "description": "Privacy dashboard group DM custom toggle description."
+    },
+    "privacyDashboardVoiceActivityTitle": "Actividad de voz en \"Activo ahora\"",
+    "@privacyDashboardVoiceActivityTitle": {
+        "description": "Privacy > Active now: settings subsection title."
+    },
+    "privacyDashboardShareVoiceActivity": "Compartir tu actividad de voz con amigos",
+    "@privacyDashboardShareVoiceActivity": {
+        "description": "Privacy > Active now: switch label."
+    },
+    "privacyDashboardVoiceActivityEnableTitle": "¿Compartir actividad de voz con todos los amigos?",
+    "@privacyDashboardVoiceActivityEnableTitle": {
+        "description": "Privacy > Active now: confirmation modal title."
+    },
+    "privacyDashboardVoiceActivityDisableTitle": "¿Dejar de compartir la actividad de voz con todos los amigos?",
+    "@privacyDashboardVoiceActivityDisableTitle": {
+        "description": "Privacy > Active now: confirmation modal title."
+    },
+    "privacyDashboardVoiceActivityEnableDesc": "Estás a punto de empezar a compartir tu actividad de voz con todos tus amigos, incluidos los futuros. Esto les enviará una actualización a todos y solo se podrá cambiar de nuevo en 24 horas.",
+    "@privacyDashboardVoiceActivityEnableDesc": {
+        "description": "Privacy > Active now: confirmation modal body."
+    },
+    "privacyDashboardVoiceActivityDisableDesc": "Estás a punto de dejar de compartir tu actividad de voz con todos tus amigos, incluidos los futuros. Esto les enviará una actualización a todos y solo podrás cambiarlo de nuevo en 24 horas.",
+    "@privacyDashboardVoiceActivityDisableDesc": {
+        "description": "Privacy > Active now: confirmation modal body."
+    },
+    "privacyDashboardVoiceActivityEnableConfirm": "Sí, compartir con todos mis amigos",
+    "@privacyDashboardVoiceActivityEnableConfirm": {
+        "description": "Privacy > Active now: confirm button label."
+    },
+    "privacyDashboardVoiceActivityDisableConfirm": "Sí, dejar de compartir",
+    "@privacyDashboardVoiceActivityDisableConfirm": {
+        "description": "Privacy > Active now: confirm button label."
+    },
+    "privacyDashboardVoiceActivityCooldown": "Disponible de nuevo en {time}",
+    "@privacyDashboardVoiceActivityCooldown": {
+        "description": "Privacy > Active now: helper text under the disabled switch.",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "privacyDashboardVoiceActivityUpdated": "Se actualizó el uso compartido de la actividad de voz",
+    "@privacyDashboardVoiceActivityUpdated": {
+        "description": "Privacy > Active now: toast shown after a successful mass-update."
+    },
+    "privacyDashboardVoiceActivityUpdateFailed": "No se pudo actualizar la opción de compartir actividad de voz en este momento",
+    "@privacyDashboardVoiceActivityUpdateFailed": {
+        "description": "Privacy > Active now: error message when the mass-update request fails."
+    },
+    "privacyDashboardDataExportDesc": "Crea un archivo descargable de los datos de tu cuenta, incluidos los mensajes y las URL de los archivos adjuntos. La mayoría de la gente quiere todo, pero puedes limitar el alcance a continuación.",
+    "@privacyDashboardDataExportDesc": {
+        "description": "Description shown on the settings page above the Export my data button."
+    },
+    "privacyDashboardExportMyData": "Exportar mis datos",
+    "@privacyDashboardExportMyData": {
+        "description": "Privacy dashboard data export button label."
+    },
+    "privacyDashboardDataDeletionDesc": "Elimina permanentemente los mensajes que enviaste en MD, MD grupales y comunidades. El proceso se ejecuta en segundo plano y recibirás un mensaje directo cuando termine.",
+    "@privacyDashboardDataDeletionDesc": {
+        "description": "Description shown on the settings page above the Delete my messages button."
+    },
+    "privacyDashboardDeleteMyMessages": "Eliminar mis mensajes",
+    "@privacyDashboardDeleteMyMessages": {
+        "description": "Privacy dashboard data deletion button label."
+    },
+    "privacyDashboardDmConfirmAllowMembersTitle": "¿Permitir mensajes directos de miembros de la comunidad?",
+    "@privacyDashboardDmConfirmAllowMembersTitle": {
+        "description": "Confirmation prompt in the connections tab."
+    },
+    "privacyDashboardDmConfirmBlockMembersTitle": "¿Bloquear mensajes directos de miembros de la comunidad?",
+    "@privacyDashboardDmConfirmBlockMembersTitle": {
+        "description": "Confirmation prompt in the connections tab."
+    },
+    "privacyDashboardDmConfirmAllowBotsTitle": "¿Permitir que los bots te envíen mensajes directos?",
+    "@privacyDashboardDmConfirmAllowBotsTitle": {
+        "description": "Confirmation prompt in the connections tab."
+    },
+    "privacyDashboardDmConfirmBlockBotsTitle": "¿Bloquear bots para que no te envíen mensajes directos?",
+    "@privacyDashboardDmConfirmBlockBotsTitle": {
+        "description": "Confirmation prompt in the connections tab."
+    },
+    "privacyDashboardDmConfirmAllowMembersDesc": "¿También quieres permitir mensajes directos de miembros de tus comunidades existentes?",
+    "@privacyDashboardDmConfirmAllowMembersDesc": {
+        "description": "Confirmation prompt in the connections tab."
+    },
+    "privacyDashboardDmConfirmBlockMembersDesc": "¿También quieres bloquear los mensajes directos de los miembros de tus comunidades existentes?",
+    "@privacyDashboardDmConfirmBlockMembersDesc": {
+        "description": "Confirmation prompt in the connections tab."
+    },
+    "privacyDashboardDmConfirmAllowBotsDesc": "¿Quieres permitir también que los bots de tus comunidades existentes te envíen mensajes directos?",
+    "@privacyDashboardDmConfirmAllowBotsDesc": {
+        "description": "Confirmation prompt in the connections tab."
+    },
+    "privacyDashboardDmConfirmBlockBotsDesc": "¿También quieres bloquear bots de tus comunidades existentes?",
+    "@privacyDashboardDmConfirmBlockBotsDesc": {
+        "description": "Confirmation prompt in the connections tab."
+    },
+    "privacyDashboardDmConfirmPerCommunityHint": "También puedes cambiar esta configuración por comunidad si mantienes presionado el nombre de la comunidad y seleccionas Configuración de privacidad.",
+    "@privacyDashboardDmConfirmPerCommunityHint": {
+        "description": "Confirmation prompt hint in the connections tab."
+    },
+    "privacyDashboardDmConfirmAllowAll": "Permitir en todas las comunidades",
+    "@privacyDashboardDmConfirmAllowAll": {
+        "description": "Confirmation prompt primary action."
+    },
+    "privacyDashboardDmConfirmBlockAll": "Bloquear en todas las comunidades",
+    "@privacyDashboardDmConfirmBlockAll": {
+        "description": "Confirmation prompt primary action."
+    },
+    "privacyDashboardDmConfirmSkip": "Omitir este paso",
+    "@privacyDashboardDmConfirmSkip": {
+        "description": "Confirmation prompt secondary action."
+    },
+    "privacyDashboardDataRequestExportTitle": "Exportar mis datos",
+    "@privacyDashboardDataRequestExportTitle": {
+        "description": "Privacy > Data export: modal title."
+    },
+    "privacyDashboardDataRequestDeleteTitle": "Eliminar mis mensajes",
+    "@privacyDashboardDataRequestDeleteTitle": {
+        "description": "Privacy > Data deletion: modal title."
+    },
+    "privacyDashboardDataRequestExportSuccess": "Lo procesaremos lo antes posible. Recibirás un correo electrónico cuando tu archivo esté listo.",
+    "@privacyDashboardDataRequestExportSuccess": {
+        "description": "Success toast after a filtered data export job is queued."
+    },
+    "privacyDashboardDataRequestDeleteSuccess": "Lo procesaremos lo antes posible. Te enviaremos un mensaje directo cuando esté listo.",
+    "@privacyDashboardDataRequestDeleteSuccess": {
+        "description": "Success toast after a bulk message deletion job is queued."
+    },
+    "privacyDashboardDataRequestScopeTitle": "Qué incluir",
+    "@privacyDashboardDataRequestScopeTitle": {
+        "description": "Heading of the scope step in the data-request modal."
+    },
+    "privacyDashboardDataRequestExportEverythingDesc": "Exporta todos los mensajes que hayas enviado, además de la configuración de tu cuenta, membresías y metadatos.",
+    "@privacyDashboardDataRequestExportEverythingDesc": {
+        "description": "Description for the Everything export option."
+    },
+    "privacyDashboardDataRequestExportCustomDesc": "Elige qué tipos de conversación, comunidades y período de tiempo incluir en el archivo.",
+    "@privacyDashboardDataRequestExportCustomDesc": {
+        "description": "Description for the Custom export option."
+    },
+    "privacyDashboardDataRequestDeleteSelected": "Elige qué incluir",
+    "@privacyDashboardDataRequestDeleteSelected": {
+        "description": "Scope option for message deletion."
+    },
+    "privacyDashboardDataRequestDeleteSelectedDesc": "Elige qué tipos de conversaciones quieres limpiar.",
+    "@privacyDashboardDataRequestDeleteSelectedDesc": {
+        "description": "Description for the Choose what to include scope option."
+    },
+    "privacyDashboardDataRequestDeleteInaccessible": "Solo lugares a los que ya no puedo acceder",
+    "@privacyDashboardDataRequestDeleteInaccessible": {
+        "description": "Scope option for inaccessible-only deletion."
+    },
+    "privacyDashboardDataRequestDeleteInaccessibleDesc": "Solo eliminar mensajes de comunidades y MD grupales de los que te hayas ido o te hayan eliminado.",
+    "@privacyDashboardDataRequestDeleteInaccessibleDesc": {
+        "description": "Description for the inaccessible-only scope option."
+    },
+    "privacyDashboardDataRequestKindsBody": "Elige los tipos de conversaciones que quieres incluir.",
+    "@privacyDashboardDataRequestKindsBody": {
+        "description": "Subhead under the kinds step."
+    },
+    "privacyDashboardDataRequestGuildFilterExclude": "Incluir todos excepto los seleccionados",
+    "@privacyDashboardDataRequestGuildFilterExclude": {
+        "description": "Dropdown option for exclude mode."
+    },
+    "privacyDashboardDataRequestGuildFilterInclude": "Solo los seleccionados",
+    "@privacyDashboardDataRequestGuildFilterInclude": {
+        "description": "Dropdown option for include-only mode."
+    },
+    "privacyDashboardDataRequestCommunitiesEmpty": "No estás en ninguna comunidad en este momento.",
+    "@privacyDashboardDataRequestCommunitiesEmpty": {
+        "description": "Placeholder when the user has no communities to filter."
+    },
+    "privacyDashboardDataRequestDateHelper": "Deja cualquiera de los campos en blanco para que ese extremo del período no tenga límite.",
+    "@privacyDashboardDataRequestDateHelper": {
+        "description": "Helper text under the custom date range pickers."
+    },
+    "privacyDashboardDataRequestNeedInclusion": "Elige al menos un tipo de conversación para incluir.",
+    "@privacyDashboardDataRequestNeedInclusion": {
+        "description": "Validation error when all inclusion toggles are off."
+    },
+    "privacyDashboardDataRequestDateRangeError": "La fecha de inicio debe ser anterior a la fecha de finalización.",
+    "@privacyDashboardDataRequestDateRangeError": {
+        "description": "Validation error for invalid date range."
+    },
+    "privacyDashboardDataRequestConfirmTitle": "Revisar y confirmar",
+    "@privacyDashboardDataRequestConfirmTitle": {
+        "description": "Heading of the confirm step."
+    },
+    "privacyDashboardDataRequestExportConfirmEverything": "Crearemos un archivo descargable de todos los mensajes que hayas enviado y te enviaremos un correo electrónico cuando esté listo. El enlace de descarga de ese correo electrónico caduca después de 7 días.",
+    "@privacyDashboardDataRequestExportConfirmEverything": {
+        "description": "Confirm-step copy when export scope is everything."
+    },
+    "privacyDashboardDataRequestExportConfirmCustom": "Crearemos un archivo descargable que coincida con los filtros a continuación y te enviaremos un correo electrónico cuando esté listo. El enlace de descarga de ese correo electrónico caduca después de 7 días.",
+    "@privacyDashboardDataRequestExportConfirmCustom": {
+        "description": "Confirm-step copy when export scope is custom."
+    },
+    "privacyDashboardDataRequestDeleteConfirm": "Eliminar permanentemente los mensajes que coincidan con los filtros a continuación. Esto no se puede deshacer.",
+    "@privacyDashboardDataRequestDeleteConfirm": {
+        "description": "Confirm-step copy for message deletion."
+    },
+    "privacyDashboardDataRequestDeleteDanger": "No hay recuperación una vez que esto comienza. Te enviaremos un mensaje directo cuando termine.",
+    "@privacyDashboardDataRequestDeleteDanger": {
+        "description": "Destructive notice on the confirm step of deletion."
+    },
+    "privacyDashboardDataRequestSummaryBetween": "{start} – {end}",
+    "@privacyDashboardDataRequestSummaryBetween": {
+        "description": "Summary value when both dates are set.",
+        "placeholders": {
+            "start": {
+                "type": "String"
+            },
+            "end": {
+                "type": "String"
+            }
+        }
+    },
+    "privacyDashboardDataRequestSummaryGuildExclude": "Todas excepto {count, plural, one {# comunidad} other {# comunidades}}",
+    "@privacyDashboardDataRequestSummaryGuildExclude": {
+        "description": "Summary value when community filter is in exclude mode.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "privacyDashboardDataRequestSummaryGuildInclude": "Solo {count, plural, one {# comunidad} other {# comunidades}}",
+    "@privacyDashboardDataRequestSummaryGuildInclude": {
+        "description": "Summary value when community filter is in include-only mode.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "privacyDashboardDataRequestSummaryDmsOpen": "Mensajes directos abiertos",
+    "@privacyDashboardDataRequestSummaryDmsOpen": {
+        "description": "Summary chip for open DMs only."
+    },
+    "privacyDashboardDataRequestSummaryDmsClosed": "Mensajes directos cerrados",
+    "@privacyDashboardDataRequestSummaryDmsClosed": {
+        "description": "Summary chip for closed DMs only."
+    },
+    "privacyDashboardDataRequestSummaryDmsBoth": "Mensajes directos (abiertos y cerrados)",
+    "@privacyDashboardDataRequestSummaryDmsBoth": {
+        "description": "Summary chip for open and closed DMs."
+    },
+    "privacyDashboardDurationHoursMinutes": "{hours, plural, one {# hora} other {# horas}} y {minutes, plural, one {# minuto} other {# minutos}}",
+    "@privacyDashboardDurationHoursMinutes": {
+        "description": "Duration label with hours and minutes.",
+        "placeholders": {
+            "hours": {
+                "type": "int"
+            },
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "privacyDashboardDurationHours": "{hours, plural, one {# hora} other {# horas}}",
+    "@privacyDashboardDurationHours": {
+        "description": "Duration label with hours only.",
+        "placeholders": {
+            "hours": {
+                "type": "int"
+            }
+        }
+    },
+    "privacyDashboardDurationMinutes": "{minutes, plural, one {# minuto} other {# minutos}}",
+    "@privacyDashboardDurationMinutes": {
+        "description": "Duration label with minutes only.",
+        "placeholders": {
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "privacyDashboardDurationSeconds": "{seconds, plural, one {# segundo} other {# segundos}}",
+    "@privacyDashboardDurationSeconds": {
+        "description": "Duration label with seconds only.",
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "privacyDashboardLoadFailed": "No se pudieron cargar la configuración de privacidad",
+    "@privacyDashboardLoadFailed": {
+        "description": "Error message when privacy settings fail to load."
+    },
+    "privacyDashboardSensitiveContentSaveFailed": "No se pudieron guardar la configuración de contenido sensible.",
+    "@privacyDashboardSensitiveContentSaveFailed": {
+        "description": "Toast when sensitive content save fails."
+    },
+    "privacyDashboardDataRequestFailed": "No se pudo completar la solicitud.",
+    "@privacyDashboardDataRequestFailed": {
+        "description": "Toast when a data export or deletion request fails."
+    },
+    "forwardSendSlowmodeBlocked": "Esperando que el modo lento en uno o más canales seleccionados expire.",
+    "@forwardSendSlowmodeBlocked": {
+        "description": "Notice shown in the forward sheet when send is blocked because a selected destination is cooling down."
+    },
+    "slowmodeRateLimitedMessage": "Modo lento activado: espera {duration} antes de enviar otro mensaje.",
+    "@slowmodeRateLimitedMessage": {
+        "description": "Body for the modal shown when slowmode blocks sending a message. {duration} is a formatted countdown.",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatAttachmentDropSlowmodeDisabled": "La carga directa está desactivada durante el modo lento.",
+    "@chatAttachmentDropSlowmodeDisabled": {
+        "description": "Overlay hint when shift-to-send is blocked because slowmode is active."
+    },
+    "shareMediaMessageHint": "Añade un mensaje opcional…",
+    "@shareMediaMessageHint": {
+        "description": "Placeholder for the optional message field in the share-media sheet."
+    },
+    "chatMessageCopyEmbedText": "Copiar texto incrustado",
+    "@chatMessageCopyEmbedText": {
+        "description": "Action label for copying the text of a message's embeds."
+    },
+    "chatMessageTranslatedFrom": "Traducido de {language}",
+    "@chatMessageTranslatedFrom": {
+        "description": "Footer shown under a translated message.",
+        "placeholders": {
+            "language": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageTranslateFailed": "No se pudo traducir este mensaje.",
+    "@chatMessageTranslateFailed": {
+        "description": "Toast shown when on-device translation fails."
+    },
+    "chatMessageTranslateUnavailable": "La traducción no está disponible en este dispositivo.",
+    "@chatMessageTranslateUnavailable": {
+        "description": "Toast shown when no translation source is available."
+    },
+    "chatMessageOpenLink": "Abrir enlace",
+    "@chatMessageOpenLink": {
+        "description": "Action label in the message actions sheet that opens the long-pressed link."
+    },
+    "chatMessageCopyLink": "Copiar enlace",
+    "@chatMessageCopyLink": {
+        "description": "Action label in the message actions sheet that copies the long-pressed link to the clipboard."
+    },
+    "chatReactionAddFailed": "No se pudo agregar la reacción",
+    "@chatReactionAddFailed": {
+        "description": "Toast shown when the server rejects adding a reaction after an optimistic update."
+    },
+    "chatReactionRemoveFailed": "No se pudo quitar la reacción",
+    "@chatReactionRemoveFailed": {
+        "description": "Toast shown when the server rejects removing a reaction after an optimistic update."
+    },
+    "chatMessageEditAttachmentAltText": "Editar texto alternativo",
+    "@chatMessageEditAttachmentAltText": {
+        "description": "Action label for editing the alt text of a message attachment."
+    },
+    "chatSpammerMessagesCollapsed": "{count, plural, =1{1 mensaje de posible spammer} other{{count} mensajes de posible spammer}}",
+    "@chatSpammerMessagesCollapsed": {
+        "description": "Collapsed summary label for consecutive messages from spammer-flagged users.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "chatReplyHiddenBlockedAuthor": "Respuesta oculta porque el autor original está bloqueado.",
+    "@chatReplyHiddenBlockedAuthor": {
+        "description": "Reply preview placeholder when the referenced author is blocked."
+    },
+    "chatReplyHiddenSpammerAuthor": "Respuesta oculta porque el autor original está marcado como spam.",
+    "@chatReplyHiddenSpammerAuthor": {
+        "description": "Reply preview placeholder when the referenced author is marked as a spammer."
+    },
+    "devMarkAsSpamLocally": "Marcar como spam localmente",
+    "@devMarkAsSpamLocally": {
+        "description": "Developer menu option to locally mark a user as spam."
+    },
+    "devIgnoreSpamFlag": "Ignorar reporte de spam",
+    "@devIgnoreSpamFlag": {
+        "description": "Developer menu option to ignore the server spammer flag for a user."
+    },
+    "composerAutocompleteSuggestions": "Sugerencias",
+    "@composerAutocompleteSuggestions": {
+        "description": "Accessibility label for the composer autocomplete list."
+    },
+    "composerAutocompleteCommandsHeading": "Comandos",
+    "@composerAutocompleteCommandsHeading": {
+        "description": "Section heading in composer autocomplete for slash commands."
+    },
+    "composerAutocompleteChoicesHeading": "Opciones",
+    "@composerAutocompleteChoicesHeading": {
+        "description": "Section heading in composer autocomplete for slash-command argument choices."
+    },
+    "composerAutocompleteOptionalArgumentsHeading": "Argumentos opcionales",
+    "@composerAutocompleteOptionalArgumentsHeading": {
+        "description": "Section heading in composer autocomplete for adding optional slash-command arguments."
+    },
+    "composerAutocompleteChannelsHeading": "Canales",
+    "@composerAutocompleteChannelsHeading": {
+        "description": "Section heading in composer autocomplete for channel suggestions."
+    },
+    "composerAutocompleteMembersHeading": "Miembros",
+    "@composerAutocompleteMembersHeading": {
+        "description": "Section heading in composer autocomplete for member suggestions."
+    },
+    "composerAutocompleteUsersHeading": "Usuarios",
+    "@composerAutocompleteUsersHeading": {
+        "description": "Section heading in composer autocomplete for user suggestions."
+    },
+    "composerAutocompleteMentionsHeading": "Menciones",
+    "@composerAutocompleteMentionsHeading": {
+        "description": "Section heading in composer autocomplete for mixed mention suggestions."
+    },
+    "composerAutocompleteRolesHeading": "Roles",
+    "@composerAutocompleteRolesHeading": {
+        "description": "Section heading in composer autocomplete for role suggestions."
+    },
+    "composerAutocompleteMediaHeading": "Archivos multimedia",
+    "@composerAutocompleteMediaHeading": {
+        "description": "Section heading in composer autocomplete for saved media."
+    },
+    "composerAutocompleteStickersHeading": "Stickers",
+    "@composerAutocompleteStickersHeading": {
+        "description": "Section heading in composer autocomplete for stickers."
+    },
+    "composerAutocompleteGifsHeading": "GIFs",
+    "@composerAutocompleteGifsHeading": {
+        "description": "Heading above GIF autocomplete results."
+    },
+    "composerAutocompleteNoGifs": "No se encontraron GIFs",
+    "@composerAutocompleteNoGifs": {
+        "description": "Empty-state title when GIF autocomplete finds no results."
+    },
+    "composerCommandShrugDescription": "Agrega ¯\\_(ツ)_/¯ a tu mensaje.",
+    "@composerCommandShrugDescription": {
+        "description": "Slash-command description for /shrug."
+    },
+    "composerCommandTableflipDescription": "Agrega (╯°□°)╯︵ ┻━┻ a tu mensaje.",
+    "@composerCommandTableflipDescription": {
+        "description": "Slash-command description for /tableflip."
+    },
+    "composerCommandUnflipDescription": "Agrega ┬─┬ ノ( ゜-゜ノ) a tu mensaje.",
+    "@composerCommandUnflipDescription": {
+        "description": "Slash-command description for /unflip."
+    },
+    "composerCommandMeDescription": "Enviar un mensaje de acción (se envuelve en cursiva).",
+    "@composerCommandMeDescription": {
+        "description": "Slash-command description for /me."
+    },
+    "composerCommandSpoilerDescription": "Enviar un mensaje con spoiler (lo envuelve en etiquetas de spoiler).",
+    "@composerCommandSpoilerDescription": {
+        "description": "Slash-command description for /spoiler."
+    },
+    "composerCommandTtsDescription": "Enviar un mensaje de texto a voz.",
+    "@composerCommandTtsDescription": {
+        "description": "Slash-command description for /tts."
+    },
+    "composerCommandNickDescription": "Cambia tu apodo en esta comunidad.",
+    "@composerCommandNickDescription": {
+        "description": "Slash-command description for /nick."
+    },
+    "composerCommandKickDescription": "Expulsar a un miembro de esta comunidad.",
+    "@composerCommandKickDescription": {
+        "description": "Slash-command description for /kick."
+    },
+    "composerCommandBanDescription": "Expulsar a un miembro de esta comunidad.",
+    "@composerCommandBanDescription": {
+        "description": "Slash-command description for /ban."
+    },
+    "composerCommandMsgDescription": "Enviar un mensaje directo a un usuario.",
+    "@composerCommandMsgDescription": {
+        "description": "Slash-command description for /msg."
+    },
+    "composerCommandSavedDescription": "Enviar un elemento multimedia guardado.",
+    "@composerCommandSavedDescription": {
+        "description": "Slash-command description for /saved."
+    },
+    "composerCommandStickerDescription": "Enviar un sticker.",
+    "@composerCommandStickerDescription": {
+        "description": "Slash-command description for /sticker."
+    },
+    "composerCommandGifDescription": "Busca y envía un GIF.",
+    "@composerCommandGifDescription": {
+        "description": "Slash-command description for /gif."
+    },
+    "composerCommandMemberOption": "El miembro al que apuntar.",
+    "@composerCommandMemberOption": {
+        "description": "Description for the member option of a moderation slash command."
+    },
+    "composerCommandReasonOption": "Razón (opcional).",
+    "@composerCommandReasonOption": {
+        "description": "Description for an optional moderation slash-command reason."
+    },
+    "composerCommandMessageOption": "El mensaje para enviar.",
+    "@composerCommandMessageOption": {
+        "description": "Description for a required message option in a slash command."
+    },
+    "composerCommandQueryOption": "Qué buscar.",
+    "@composerCommandQueryOption": {
+        "description": "Description for a media search slash-command query."
+    },
+    "composerCommandNicknameOption": "Tu nuevo apodo, o déjalo en blanco para restablecerlo.",
+    "@composerCommandNicknameOption": {
+        "description": "Description for the /nick nickname option."
+    },
+    "composerCommandDeleteMessagesOption": "Cuánto del historial de mensajes recientes del miembro se eliminará.",
+    "@composerCommandDeleteMessagesOption": {
+        "description": "Description for the /ban delete_messages option."
+    },
+    "composerCommandDeleteMessagesNone": "No eliminar ninguna",
+    "@composerCommandDeleteMessagesNone": {
+        "description": "Choice label for retaining all messages when banning a member."
+    },
+    "composerCommandDeleteMessagesDays": "Los últimos {count} días",
+    "@composerCommandDeleteMessagesDays": {
+        "description": "Choice label for deleting multiple days of messages when banning a member.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "composerCommandDeleteMessagesOneDay": "Últimas 24 horas",
+    "@composerCommandDeleteMessagesOneDay": {
+        "description": "Choice label for deleting one day of messages when banning a member."
+    },
+    "composerCommandOptionRequired": "Esta opción es obligatoria. Por favor, proporciona un valor.",
+    "@composerCommandOptionRequired": {
+        "description": "Notice shown when a required slash-command argument was left empty."
+    },
+    "composerCommandClear": "Borrar comando",
+    "@composerCommandClear": {
+        "description": "Accessible label for the button that clears the slash command being composed."
+    },
+    "composerCommandNicknameChanged": "Cambiaste tu apodo en esta comunidad de **{previousNickname}** a **{newNickname}**.",
+    "@composerCommandNicknameChanged": {
+        "description": "Local system message after the user changes their community nickname with a slash command.",
+        "placeholders": {
+            "previousNickname": {
+                "type": "String"
+            },
+            "newNickname": {
+                "type": "String"
+            }
+        }
+    },
+    "composerCommandUnknownUser": "Usuario desconocido",
+    "@composerCommandUnknownUser": {
+        "description": "Fallback name in local command system messages when the current user is unavailable."
+    },
+    "composerCommandMsgFailed": "No se pudo enviar un mensaje a **{username}**. Es posible que tenga los mensajes directos desactivados o que te haya bloqueado.",
+    "@composerCommandMsgFailed": {
+        "description": "Local system message when /msg cannot open a DM.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "composerCommandOptionalMore": "+{count} más",
+    "@composerCommandOptionalMore": {
+        "description": "Hint shown after required slash-command slots for remaining optional arguments.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "addGuildCreateTitle": "Crear una comunidad",
+    "@addGuildCreateTitle": {
+        "description": "Title of the create-community sub-view in the add community modal."
+    },
+    "addGuildCreateDescription": "Crea una comunidad para chatear con tus amigos.",
+    "@addGuildCreateDescription": {
+        "description": "Body text on the create-community sub-view."
+    },
+    "addGuildCreateFailed": "No se pudo crear la comunidad. Intenta de nuevo.",
+    "@addGuildCreateFailed": {
+        "description": "Generic error when creating a community fails."
+    },
+    "addGuildCreateVerifyTitle": "Verifica tu correo electrónico",
+    "@addGuildCreateVerifyTitle": {
+        "description": "Gate title when the user must verify email before creating a community."
+    },
+    "addGuildCreateVerifyDescription": "Necesitas verificar tu dirección de correo electrónico antes de poder crear una comunidad.",
+    "@addGuildCreateVerifyDescription": {
+        "description": "Gate description when the user must verify email before creating a community."
+    },
+    "addGuildCreateAnimatedIconUnsupported": "Las animaciones no son compatibles al crear una nueva comunidad. Usa una imagen estática.",
+    "@addGuildCreateAnimatedIconUnsupported": {
+        "description": "Error when the user picks an animated image for a new community icon."
+    },
+    "addGuildCreateGuidelinesBefore": "Al crear una comunidad, aceptas seguir y respetar las ",
+    "@addGuildCreateGuidelinesBefore": {
+        "description": "Text before the community guidelines link on the create sub-view."
+    },
+    "addGuildCreateGuidelinesLink": "directrices de la comunidad de {productName}",
+    "@addGuildCreateGuidelinesLink": {
+        "description": "Link label for community guidelines on the create sub-view.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "addGuildCreateSingleCommunityBlocked": "Esta instancia es una comunidad única, por lo que no se pueden crear comunidades adicionales.",
+    "@addGuildCreateSingleCommunityBlocked": {
+        "description": "Error when creation is blocked because the instance only allows one community."
+    },
+    "addGuildCreateIconHint": "PNG, JPEG, WebP, AVIF, HEIC, HEIF, JXL, SVG. Máx. 10 MB. Recomendado: 512 × 512 px",
+    "@addGuildCreateIconHint": {
+        "description": "Helper text under the community icon upload buttons listing accepted formats and size guidance."
+    },
+    "addGuildImportDescription": "Pega una URL de plantilla de Discord para importar su estructura a una nueva comunidad.",
+    "@addGuildImportDescription": {
+        "description": "Body text on the import Discord template URL step."
+    },
+    "addGuildImportUrlLabel": "URL de la plantilla",
+    "@addGuildImportUrlLabel": {
+        "description": "Label for the Discord template URL or code input."
+    },
+    "addGuildImportUrlInvalid": "Introduce una URL o código de plantilla de Discord válido.",
+    "@addGuildImportUrlInvalid": {
+        "description": "Validation error when the Discord template URL or code cannot be parsed."
+    },
+    "addGuildImportFetchFailed": "No se pudo obtener la plantilla de la comunidad. Es posible que la plantilla no exista o que el servicio externo no esté disponible.",
+    "@addGuildImportFetchFailed": {
+        "description": "Error when fetching a Discord community template from Discord fails."
+    },
+    "addGuildImportInvalidResponse": "Esta no parece ser una respuesta de plantilla válida.",
+    "@addGuildImportInvalidResponse": {
+        "description": "Error when Discord returns a payload that is not a guild template."
+    },
+    "addGuildImportTemplateLabel": "Plantilla",
+    "@addGuildImportTemplateLabel": {
+        "description": "Uppercase-style label above the imported template name in the preview card."
+    },
+    "addGuildImportTemplateStats": "{textChannelCount} de texto, {voiceChannelCount} de voz, {categoryCount} categorías, {roleCount} roles",
+    "@addGuildImportTemplateStats": {
+        "description": "Imported template preview counts for text channels, voice channels, categories, and roles.",
+        "placeholders": {
+            "textChannelCount": {
+                "type": "int"
+            },
+            "voiceChannelCount": {
+                "type": "int"
+            },
+            "categoryCount": {
+                "type": "int"
+            },
+            "roleCount": {
+                "type": "int"
+            }
+        }
+    },
+    "addGuildImportRemoveIcon": "Quitar ícono",
+    "@addGuildImportRemoveIcon": {
+        "description": "Button label to clear the selected community icon on the import-template create step."
+    },
+    "addGuildImportTemplateInvalid": "Los datos de la plantilla de la comunidad no son válidos o están mal formados.",
+    "@addGuildImportTemplateInvalid": {
+        "description": "API error when Fluxer rejects the imported community template payload."
+    },
+    "channelDetailsGroupDmSubtitle": "DM grupal · {count} miembros",
+    "@channelDetailsGroupDmSubtitle": {
+        "description": "Subtitle in channel details for a group DM showing member count.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelMenuCopyChannelLink": "Copiar enlace del canal",
+    "@channelMenuCopyChannelLink": {
+        "description": "Channel menu action to copy a link channel's channel link."
+    },
+    "channelMenuCopyRedirectLink": "Copiar enlace de redirección",
+    "@channelMenuCopyRedirectLink": {
+        "description": "Channel menu action to copy a link channel's redirect URL."
+    },
+    "channelDetailsAddFriendsToGroup": "Agregar amigos al grupo",
+    "@channelDetailsAddFriendsToGroup": {
+        "description": "Group DM menu action to add friends to the group."
+    },
+    "channelSettingsDeleteChannelConfirm": "¿Estás seguro de que quieres eliminar {channelName}? Esta acción no se puede deshacer.",
+    "@channelSettingsDeleteChannelConfirm": {
+        "description": "Destructive confirmation for deleting a channel.",
+        "placeholders": {
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsDeleteCategoryConfirm": "¿Estás seguro de que quieres eliminar {categoryName}? Esta acción no se puede deshacer.",
+    "@channelSettingsDeleteCategoryConfirm": {
+        "description": "Destructive confirmation for deleting a category.",
+        "placeholders": {
+            "categoryName": {
+                "type": "String"
+            }
+        }
+    },
+    "categoryExpandAllCategories": "Expandir todas las categorías",
+    "@categoryExpandAllCategories": {
+        "description": "Context menu action to expand every collapsed channel category."
+    },
+    "categoryCollapseAllCategories": "Contraer todas las categorías",
+    "@categoryCollapseAllCategories": {
+        "description": "Context menu action to collapse every channel category."
+    },
+    "categoryCopyCategoryId": "Copiar ID de la categoría",
+    "@categoryCopyCategoryId": {
+        "description": "Context menu action to copy a category ID to the clipboard."
+    },
+    "categoryIdCopied": "ID de categoría copiado",
+    "@categoryIdCopied": {
+        "description": "Toast confirming the category ID was copied to the clipboard."
+    },
+    "channelSettingsTopicPlaceholder": "Agrega un tema a este canal",
+    "@channelSettingsTopicPlaceholder": {
+        "description": "Placeholder for channel topic field."
+    },
+    "channelSettingsTopicTooLongTitle": "El tema del canal es demasiado largo.",
+    "@channelSettingsTopicTooLongTitle": {
+        "description": "Error modal title when channel topic exceeds maximum length."
+    },
+    "channelSettingsTopicTooLongMessage": "Acorta el tema y vuelve a intentarlo.",
+    "@channelSettingsTopicTooLongMessage": {
+        "description": "Error modal body when channel topic exceeds maximum length."
+    },
+    "channelSettingsSlowmodeDescription": "Tiempo de espera entre mensajes. \"{bypassSlowmodePermissionLabel}\" puede omitirlo.",
+    "@channelSettingsSlowmodeDescription": {
+        "description": "Description under the slowmode select in channel settings.",
+        "placeholders": {
+            "bypassSlowmodePermissionLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsVoiceQualityDescription": "Mayor tasa de bits = mejor calidad y mayor uso de ancho de banda.",
+    "@channelSettingsVoiceQualityDescription": {
+        "description": "Helper text for the voice quality slider in channel settings."
+    },
+    "channelSettingsParticipantLimitDescription": "Miembros máximos que pueden unirse a la vez. 0 significa ilimitado.",
+    "@channelSettingsParticipantLimitDescription": {
+        "description": "Helper text for the voice channel participant limit slider."
+    },
+    "channelSettingsParticipantLimitValue": "{count, plural, =0 {∞ Sin límite} =1 {1 participante} other {{count} participantes}}",
+    "@channelSettingsParticipantLimitValue": {
+        "description": "Displayed value for voice channel participant limit slider.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsConnectionLimitDescription": "Máximo de conexiones activas que un miembro puede mantener en este canal.",
+    "@channelSettingsConnectionLimitDescription": {
+        "description": "Helper text for voice channel connection limit."
+    },
+    "channelSettingsConnectionLimitValue": "{count, plural, =1 {1 conexión} other {{count} conexiones}}",
+    "@channelSettingsConnectionLimitValue": {
+        "description": "Displayed value for voice channel connection limit slider.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsVoiceRegionDescription": "Selecciona una región de voz para este canal. Automático usa la región más cercana.",
+    "@channelSettingsVoiceRegionDescription": {
+        "description": "Helper text for the voice region picker in channel settings."
+    },
+    "channelSettingsVoiceRegionsLoadFailed": "No se pudieron cargar las regiones de voz",
+    "@channelSettingsVoiceRegionsLoadFailed": {
+        "description": "Error modal title when voice regions fail to load."
+    },
+    "channelSettingsVoiceRegionsLoadFailedDescription": "Intenta de nuevo en un momento.",
+    "@channelSettingsVoiceRegionsLoadFailedDescription": {
+        "description": "Error modal body when voice regions fail to load in channel settings."
+    },
+    "channelSettingsResetSlider": "Restablecer el deslizador al valor predeterminado",
+    "@channelSettingsResetSlider": {
+        "description": "Tooltip for reset buttons on channel settings sliders."
+    },
+    "channelSettingsMatureContentOverride": "Anulación de contenido para adultos",
+    "@channelSettingsMatureContentOverride": {
+        "description": "Accessibility label for mature content override control."
+    },
+    "channelSettingsMatureContentSectionDescription": "Anular la configuración de nivel {scopeLevel} para este canal. El contenido para adultos se muestra detrás de una barrera antes de entrar.",
+    "@channelSettingsMatureContentSectionDescription": {
+        "description": "Section description for mature content settings in channel overview.",
+        "placeholders": {
+            "scopeLevel": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsMatureContentOnDescription": "Marca este canal como contenido para adultos.",
+    "@channelSettingsMatureContentOnDescription": {
+        "description": "Description for the mature content on override option."
+    },
+    "channelSettingsMatureContentOffDescription": "Deja este canal sin restricciones para contenido para adultos.",
+    "@channelSettingsMatureContentOffDescription": {
+        "description": "Description for the mature content off override option."
+    },
+    "channelSettingsMatureContentInheritsOn": "Heredado de {inheritedSourceLabel}: activado",
+    "@channelSettingsMatureContentInheritsOn": {
+        "description": "Mature content summary when inherited setting is enabled.",
+        "placeholders": {
+            "inheritedSourceLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsMatureContentInheritsOff": "Heredado de {inheritedSourceLabel}: desactivado",
+    "@channelSettingsMatureContentInheritsOff": {
+        "description": "Mature content summary when inherited setting is disabled.",
+        "placeholders": {
+            "inheritedSourceLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsContentWarningToggle": "Mostrar una advertencia de contenido en este canal",
+    "@channelSettingsContentWarningToggle": {
+        "description": "Toggle for showing content warning in channel."
+    },
+    "channelSettingsContentWarningToggleDescription": "Activa una solicitud de consentimiento antes de entrar a este canal.",
+    "@channelSettingsContentWarningToggleDescription": {
+        "description": "Description for the channel content warning toggle."
+    },
+    "channelSettingsContentWarningText": "Texto de advertencia personalizado",
+    "@channelSettingsContentWarningText": {
+        "description": "Label for custom content warning text field."
+    },
+    "channelSettingsContentWarningDefault": "Esto contiene contenido delicado.",
+    "@channelSettingsContentWarningDefault": {
+        "description": "Default content warning text placeholder."
+    },
+    "channelSettingsPermissionsNeedManageChannels": "Necesitas el permiso \"{manageChannelsPermissionLabel}\" para editar estos permisos.",
+    "@channelSettingsPermissionsNeedManageChannels": {
+        "description": "Error when user lacks manage channels permission for channel permissions tab.",
+        "placeholders": {
+            "manageChannelsPermissionLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsPermissionsNeedManageRoles": "Necesitas el permiso \"{manageRolesPermissionLabel}\" para editar estos permisos.",
+    "@channelSettingsPermissionsNeedManageRoles": {
+        "description": "Error when user lacks manage roles permission for channel permissions tab.",
+        "placeholders": {
+            "manageRolesPermissionLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsPermissionsEditAccessFor": "Editar acceso para {name}",
+    "@channelSettingsPermissionsEditAccessFor": {
+        "description": "Title for channel permission editor panel.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsPermissionsBackToOverrides": "Volver a las anulaciones",
+    "@channelSettingsPermissionsBackToOverrides": {
+        "description": "Mobile back button label on channel permission editor."
+    },
+    "channelSettingsPermissionsConfigureBaseAccess": "Configura el acceso base para este canal",
+    "@channelSettingsPermissionsConfigureBaseAccess": {
+        "description": "Subtitle when editing @everyone channel permissions."
+    },
+    "channelSettingsPermissionsConfigureRoleOverrides": "Configurar anulaciones para este rol",
+    "@channelSettingsPermissionsConfigureRoleOverrides": {
+        "description": "Subtitle when editing a role channel permission overwrite."
+    },
+    "channelSettingsPermissionsConfigureMemberOverrides": "Configurar anulaciones para este miembro",
+    "@channelSettingsPermissionsConfigureMemberOverrides": {
+        "description": "Subtitle when editing a member channel permission overwrite."
+    },
+    "channelSettingsPermissionsChannelAccessUpdated": "Acceso al canal actualizado",
+    "@channelSettingsPermissionsChannelAccessUpdated": {
+        "description": "Success toast after saving channel permission overwrites."
+    },
+    "channelSettingsPermissionsSyncedWithParentPrefix": "Este canal está sincronizado con la categoría principal ",
+    "@channelSettingsPermissionsSyncedWithParentPrefix": {
+        "description": "Prefix for the synced-with-parent banner in channel permissions."
+    },
+    "channelSettingsPermissionsNotSyncedWithParentPrefix": "Este canal no está sincronizado con la categoría principal ",
+    "@channelSettingsPermissionsNotSyncedWithParentPrefix": {
+        "description": "Prefix for the not-synced-with-parent banner in channel permissions."
+    },
+    "channelSettingsPermissionsSyncWithCategory": "Sincronizar con la categoría",
+    "@channelSettingsPermissionsSyncWithCategory": {
+        "description": "Button label to sync channel permissions with the parent category."
+    },
+    "channelSettingsPermissionsSyncedWithParentToast": "Canal sincronizado con la categoría principal",
+    "@channelSettingsPermissionsSyncedWithParentToast": {
+        "description": "Success toast after syncing channel permissions with the parent category."
+    },
+    "channelSettingsPermissionsSearchRolesOrMembers": "Buscar roles o miembros…",
+    "@channelSettingsPermissionsSearchRolesOrMembers": {
+        "description": "Placeholder for the add override search field."
+    },
+    "channelSettingsPermissionsRolesAndMembers": "Roles y miembros",
+    "@channelSettingsPermissionsRolesAndMembers": {
+        "description": "Section title in the add override picker."
+    },
+    "channelSettingsDeleteInviteConfirm": "¿Eliminar esta invitación? No se puede deshacer.",
+    "@channelSettingsDeleteInviteConfirm": {
+        "description": "Confirmation message for deleting a channel invite."
+    },
+    "channelSettingsCopyInviteCode": "Copiar código de invitación",
+    "@channelSettingsCopyInviteCode": {
+        "description": "Action to copy invite code."
+    },
+    "channelSettingsCopyInviteUrl": "Copiar enlace de invitación",
+    "@channelSettingsCopyInviteUrl": {
+        "description": "Action to copy invite URL."
+    },
+    "channelSettingsWebhookCreateFailed": "No se pudo crear el webhook",
+    "@channelSettingsWebhookCreateFailed": {
+        "description": "Error toast when webhook creation fails."
+    },
+    "channelSettingsInvitesDescription": "Administra los enlaces de invitación para este canal.",
+    "@channelSettingsInvitesDescription": {
+        "description": "Description for the channel invites settings tab."
+    },
+    "channelSettingsInvitesEmpty": "No hay enlaces de invitación",
+    "@channelSettingsInvitesEmpty": {
+        "description": "Empty state title for channel invites."
+    },
+    "channelSettingsInvitesEmptyDescription": "Este canal aún no tiene enlaces de invitación. Crea uno para invitar a personas a este canal.",
+    "@channelSettingsInvitesEmptyDescription": {
+        "description": "Empty state description for channel invites."
+    },
+    "channelSettingsInvitesLoadFailedDescription": "Hubo un error al cargar los enlaces de invitación para este canal. Intenta de nuevo.",
+    "@channelSettingsInvitesLoadFailedDescription": {
+        "description": "Error description when channel invites fail to load."
+    },
+    "channelSettingsWebhooksDescription": "Administra los webhooks entrantes que pueden publicar mensajes en este canal.",
+    "@channelSettingsWebhooksDescription": {
+        "description": "Description for the channel webhooks settings tab."
+    },
+    "channelSettingsWebhooksEmptyDescription": "No hay webhooks configurados para este canal. Crea un webhook para permitir que las aplicaciones externas publiquen mensajes.",
+    "@channelSettingsWebhooksEmptyDescription": {
+        "description": "Empty state description for channel webhooks."
+    },
+    "channelSettingsWebhooksUnsupported": "Este canal no admite webhooks.",
+    "@channelSettingsWebhooksUnsupported": {
+        "description": "Message when the channel type does not support webhooks."
+    },
+    "channelSettingsWebhooksPermissionRequired": "Necesitas el permiso \"{permission}\" para ver y editar los webhooks de este canal.",
+    "@channelSettingsWebhooksPermissionRequired": {
+        "description": "Permission denial message on the channel webhooks tab.",
+        "placeholders": {
+            "permission": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsWebhooksLoadFailedTitle": "No se pudieron cargar los webhooks",
+    "@channelSettingsWebhooksLoadFailedTitle": {
+        "description": "Error title when channel webhooks fail to load."
+    },
+    "channelSettingsWebhooksLoadFailedDescription": "Hubo un error al cargar los webhooks de este canal. Intenta de nuevo.",
+    "@channelSettingsWebhooksLoadFailedDescription": {
+        "description": "Error description when channel webhooks fail to load."
+    },
+    "channelSettingsWebhooksCreatedBy": "Creado por {creator} el {date}",
+    "@channelSettingsWebhooksCreatedBy": {
+        "description": "Webhook list metadata line.",
+        "placeholders": {
+            "creator": {
+                "type": "String"
+            },
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsWebhooksCopyUrl": "Copiar URL del webhook",
+    "@channelSettingsWebhooksCopyUrl": {
+        "description": "Button to copy webhook URL."
+    },
+    "channelSettingsWebhooksDeleteFailed": "No se pudo eliminar este webhook",
+    "@channelSettingsWebhooksDeleteFailed": {
+        "description": "Error when webhook deletion fails."
+    },
+    "channelSettingsWebhooksDeleteConfirm": "¿Eliminar este webhook? No se puede deshacer.",
+    "@channelSettingsWebhooksDeleteConfirm": {
+        "description": "Confirmation when deleting a webhook."
+    },
+    "channelSettingsWebhookTryAgainInAMoment": "Intenta de nuevo en un momento.",
+    "@channelSettingsWebhookTryAgainInAMoment": {
+        "description": "Generic retry hint for webhook errors."
+    },
+    "channelMenuResetMatureContentAgreeState": "Restablecer el estado del acuerdo de contenido para adultos",
+    "@channelMenuResetMatureContentAgreeState": {
+        "description": "Developer tool action that forgets a local mature-content gate acknowledgement."
+    },
+    "channelMenuDeleteMyMessagesTitle": "¿Eliminar tus mensajes en este canal?",
+    "@channelMenuDeleteMyMessagesTitle": {
+        "description": "Confirmation title for deleting all of the caller's messages in a channel."
+    },
+    "channelMenuDeleteMyMessagesDescription": "Esto eliminará permanentemente todos los mensajes que hayas enviado en este canal. Esta acción no se puede deshacer.",
+    "@channelMenuDeleteMyMessagesDescription": {
+        "description": "Confirmation description for deleting all of the caller's messages in a channel."
+    },
+    "channelDetailsNotificationSettingsUpdated": "Configuración de notificaciones actualizada",
+    "@channelDetailsNotificationSettingsUpdated": {
+        "description": "Toast after updating notification settings from channel details."
+    },
+    "channelDetailsMembersEmptyTitle": "No hay miembros para mostrar",
+    "@channelDetailsMembersEmptyTitle": {
+        "description": "Empty state title when channel details has no members loaded."
+    },
+    "channelDetailsMembersEmptyBody": "Los miembros aparecerán aquí una vez que se carguen los datos de la comunidad.",
+    "@channelDetailsMembersEmptyBody": {
+        "description": "Empty state body when channel details has no members loaded."
+    },
+    "memberListPermissionDeniedTitle": "No puedes ver a los miembros",
+    "@memberListPermissionDeniedTitle": {
+        "description": "Title when the user lacks permission to view a channel member list."
+    },
+    "memberListPermissionDeniedBody": "No puedes ver a los miembros de este canal en esta comunidad",
+    "@memberListPermissionDeniedBody": {
+        "description": "Body when the user lacks permission to view a channel member list."
+    },
+    "memberListUnavailableTitle": "Lista de miembros no disponible",
+    "@memberListUnavailableTitle": {
+        "description": "Title when member list updates are disabled for the community."
+    },
+    "memberListUnavailableBody": "Las listas de miembros no están disponibles temporalmente en esta comunidad",
+    "@memberListUnavailableBody": {
+        "description": "Body when member list updates are disabled for the community."
+    },
+    "channelDetailsPinsLoadFailedTitle": "No se pudieron cargar los Pines",
+    "@channelDetailsPinsLoadFailedTitle": {
+        "description": "Error title when pinned messages fail to load in channel details."
+    },
+    "channelDetailsPinsGuildEndHint": "Los miembros con el permiso \"Anclar mensajes\" pueden anclar mensajes para que todos los vean.",
+    "@channelDetailsPinsGuildEndHint": {
+        "description": "Footer hint at the end of the pins list in guild channels."
+    },
+    "channelDetailsPinsEndReached": "Llegaste al final",
+    "@channelDetailsPinsEndReached": {
+        "description": "Footer label when the user has scrolled through all pinned messages."
+    },
+    "channelHeaderOpenDetails": "Abrir detalles del canal",
+    "@channelHeaderOpenDetails": {
+        "description": "Accessibility label for the channel header title area."
+    },
+    "channelHeaderPinnedMessagesUnread": "Mensajes fijados, no leídos",
+    "@channelHeaderPinnedMessagesUnread": {
+        "description": "Toolbar button label when pinned messages have unread items."
+    },
+    "channelHeaderNotificationSettingsMuted": "Configuración de notificaciones, silenciado",
+    "@channelHeaderNotificationSettingsMuted": {
+        "description": "Toolbar button label for notification settings when the channel is muted."
+    },
+    "channelDetailsSearchFilterByChannel": "Filtrar por canal",
+    "@channelDetailsSearchFilterByChannel": {
+        "description": "Title for the channel filter sheet in message search."
+    },
+    "channelDetailsSearchChannelsEmpty": "No se encontraron canales",
+    "@channelDetailsSearchChannelsEmpty": {
+        "description": "Empty state in the channel filter sheet."
+    },
+    "channelDetailsSearchMoreFiltersPickDate": "Selecciona una fecha",
+    "@channelDetailsSearchMoreFiltersPickDate": {
+        "description": "Prompt to pick a date in the More filters sheet."
+    },
+    "channelDetailsSearchContentPollDescription": "Mensajes con una encuesta",
+    "@channelDetailsSearchContentPollDescription": {
+        "description": "Poll content filter description."
+    },
+    "channelHeaderSearchFilterDescHas": "enlace, incrustación, imagen, video, sonido, archivo, sticker, …",
+    "@channelHeaderSearchFilterDescHas": {
+        "description": "Description for the has: search filter."
+    },
+    "channelHeaderSearchFilterDescBefore": "una fecha o un rango de fechas",
+    "@channelHeaderSearchFilterDescBefore": {
+        "description": "Description for the before: search filter."
+    },
+    "channelHeaderSearchFilterDescOn": "una fecha o un rango de fechas",
+    "@channelHeaderSearchFilterDescOn": {
+        "description": "Description for the on: search filter."
+    },
+    "channelHeaderSearchFilterDescDuring": "una fecha o un rango de fechas",
+    "@channelHeaderSearchFilterDescDuring": {
+        "description": "Description for the during: search filter."
+    },
+    "channelHeaderSearchFilterDescAfter": "una fecha o un rango de fechas",
+    "@channelHeaderSearchFilterDescAfter": {
+        "description": "Description for the after: search filter."
+    },
+    "channelHeaderSearchFilterDescPinned": "verdadero o falso",
+    "@channelHeaderSearchFilterDescPinned": {
+        "description": "Description for the pinned: search filter."
+    },
+    "channelHeaderSearchFilterDescAuthorType": "usuario, bot o webhook",
+    "@channelHeaderSearchFilterDescAuthorType": {
+        "description": "Description for the author-type: search filter."
+    },
+    "channelHeaderSearchFilterDescLinkFrom": "un nombre de host, por ejemplo, example.com",
+    "@channelHeaderSearchFilterDescLinkFrom": {
+        "description": "Description for the link-from: search filter."
+    },
+    "channelHeaderSearchFilterDescFileName": "parte del nombre de un archivo adjunto",
+    "@channelHeaderSearchFilterDescFileName": {
+        "description": "Description for the file-name: search filter."
+    },
+    "channelHeaderSearchFilterDescFileType": "una extensión de archivo, p. ej., png",
+    "@channelHeaderSearchFilterDescFileType": {
+        "description": "Description for the file-type: search filter."
+    },
+    "channelHeaderSearchFilterDescSort": "fecha o relevancia",
+    "@channelHeaderSearchFilterDescSort": {
+        "description": "Description for the sort: search filter."
+    },
+    "channelHeaderSearchFilterDescOrder": "asc. o desc",
+    "@channelHeaderSearchFilterDescOrder": {
+        "description": "Description for the order: search filter."
+    },
+    "channelDetailsSearchResultCount": "{count, plural, =1{1 resultado} other{{count} resultados}}",
+    "@channelDetailsSearchResultCount": {
+        "description": "Result count label in channel message search.",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "format": "decimalPattern"
+            }
+        }
+    },
+    "channelDetailsSearchFilterByUser": "Filtrar por usuario",
+    "@channelDetailsSearchFilterByUser": {
+        "description": "Title for the author filter sheet in channel message search."
+    },
+    "channelDetailsSearchFilterByContent": "Filtrar por contenido",
+    "@channelDetailsSearchFilterByContent": {
+        "description": "Title for the content filter sheet in channel message search."
+    },
+    "channelDetailsSearchSortBy": "Ordenar resultados por",
+    "@channelDetailsSearchSortBy": {
+        "description": "Title for the sort filter sheet in channel message search."
+    },
+    "channelDetailsSearchEmptyTitle": "Buscar en esta conversación",
+    "@channelDetailsSearchEmptyTitle": {
+        "description": "Empty state title before the user runs a channel message search."
+    },
+    "channelDetailsSearchEmptyBody": "Escribe texto, un autor o un filtro de contenido para encontrar mensajes.",
+    "@channelDetailsSearchEmptyBody": {
+        "description": "Empty state body before the user runs a channel message search."
+    },
+    "channelDetailsSearchIndexingTitle": "Los mensajes se están indexando",
+    "@channelDetailsSearchIndexingTitle": {
+        "description": "Title when channel message search is still indexing."
+    },
+    "channelDetailsSearchIndexingBody": "Inténtalo de nuevo en breve una vez que la búsqueda termine de indexar este ámbito.",
+    "@channelDetailsSearchIndexingBody": {
+        "description": "Body when channel message search is still indexing."
+    },
+    "channelDetailsSearchNoResultsBody": "Prueba con otros términos de búsqueda o filtros.",
+    "@channelDetailsSearchNoResultsBody": {
+        "description": "Body when a channel message search returns no results."
+    },
+    "channelDetailsSearchUsersTypeToSearch": "Escribe para buscar miembros",
+    "@channelDetailsSearchUsersTypeToSearch": {
+        "description": "Prompt shown before the user types in the member search picker."
+    },
+    "channelDetailsSearchUsersEmpty": "No se encontraron usuarios",
+    "@channelDetailsSearchUsersEmpty": {
+        "description": "Empty state when member search returns no results."
+    },
+    "channelDetailsSearchUsersNoAvailable": "No hay usuarios disponibles",
+    "@channelDetailsSearchUsersNoAvailable": {
+        "description": "Empty state when no users are available in the member picker."
+    },
+    "channelDetailsHasFilterPrompt": "Mostrar mensajes que contengan:",
+    "@channelDetailsHasFilterPrompt": {
+        "description": "Prompt above content filter options in channel message search."
+    },
+    "channelDetailsJumpToMessage": "Ir al mensaje",
+    "@channelDetailsJumpToMessage": {
+        "description": "Action to jump to a message from channel details."
+    },
+    "channelDetailsCopyMessageLink": "Copiar enlace del mensaje",
+    "@channelDetailsCopyMessageLink": {
+        "description": "Action to copy a message link from channel details."
+    },
+    "channelDetailsCopyMessageId": "Copiar ID del mensaje",
+    "@channelDetailsCopyMessageId": {
+        "description": "Action to copy a message ID from channel details."
+    },
+    "channelDetailsSearchScopeCurrentCommunityDescription": "Buscar solo en esta comunidad",
+    "@channelDetailsSearchScopeCurrentCommunityDescription": {
+        "description": "Description for the current community search scope."
+    },
+    "channelDetailsSearchScopeAllCommunitiesDescription": "En todas las comunidades en las que te encuentras actualmente",
+    "@channelDetailsSearchScopeAllCommunitiesDescription": {
+        "description": "Description for the all communities search scope."
+    },
+    "channelDetailsSearchSortNewestDescription": "Mostrar los mensajes más recientes primero",
+    "@channelDetailsSearchSortNewestDescription": {
+        "description": "Description for the newest-first sort option."
+    },
+    "channelDetailsSearchSortOldestDescription": "Mostrar los mensajes más antiguos primero",
+    "@channelDetailsSearchSortOldestDescription": {
+        "description": "Description for the oldest-first sort option."
+    },
+    "channelDetailsSearchSortRelevanceDescription": "Mostrar primero los mensajes más relevantes",
+    "@channelDetailsSearchSortRelevanceDescription": {
+        "description": "Description for the relevance sort option."
+    },
+    "channelDetailsSearchContentEmbed": "Vista previa o incrustación de enlace",
+    "@channelDetailsSearchContentEmbed": {
+        "description": "Content filter label for link previews and embeds."
+    },
+    "channelDetailsSearchContentImageDescription": "Solo archivos de imagen subidos",
+    "@channelDetailsSearchContentImageDescription": {
+        "description": "Description for the image content filter."
+    },
+    "channelDetailsSearchContentVideoDescription": "Solo archivos de video subidos",
+    "@channelDetailsSearchContentVideoDescription": {
+        "description": "Description for the video content filter."
+    },
+    "channelDetailsSearchContentAudioDescription": "Solo archivos de audio subidos",
+    "@channelDetailsSearchContentAudioDescription": {
+        "description": "Description for the audio content filter."
+    },
+    "channelDetailsSearchContentFileDescription": "Cualquier archivo adjunto subido",
+    "@channelDetailsSearchContentFileDescription": {
+        "description": "Description for the file content filter."
+    },
+    "channelDetailsSearchContentLinkDescription": "URL escrita en el texto del mensaje",
+    "@channelDetailsSearchContentLinkDescription": {
+        "description": "Description for the link content filter."
+    },
+    "channelDetailsSearchContentEmbedDescription": "Previsualizaciones y contenido enriquecido resueltos, no archivos subidos",
+    "@channelDetailsSearchContentEmbedDescription": {
+        "description": "Description for the embed content filter."
+    },
+    "channelDetailsSearchContentStickerDescription": "Sticker adjunto al mensaje",
+    "@channelDetailsSearchContentStickerDescription": {
+        "description": "Description for the sticker content filter."
+    },
+    "groupDmOrSendInvite": "o envía una invitación a un amigo:",
+    "@groupDmOrSendInvite": {
+        "description": "Label above the invite link field in add friends to group."
+    },
+    "groupDmGenerateInviteLink": "Generar enlace de invitación",
+    "@groupDmGenerateInviteLink": {
+        "description": "Placeholder for the invite link field before generation."
+    },
+    "groupDmInviteExpires24Hours": "Tu invitación vence en 24 horas",
+    "@groupDmInviteExpires24Hours": {
+        "description": "Note below the invite link field in add friends to group."
+    },
+    "groupDmAddFriendFailed": "No se pudo añadir a este amigo al grupo. Intenta de nuevo.",
+    "@groupDmAddFriendFailed": {
+        "description": "Error when adding a single friend to a group DM fails."
+    },
+    "groupDmAddFailed": "No se pudo añadir al grupo",
+    "@groupDmAddFailed": {
+        "description": "Title when adding friends to a group DM fails."
+    },
+    "groupDmGroupFull": "Este grupo está lleno. Elimina a alguien antes de añadir a más personas.",
+    "@groupDmGroupFull": {
+        "description": "Error when the group DM has no remaining member slots."
+    },
+    "groupDmRateLimited": "Vas demasiado rápido. Espera un momento e inténtalo de nuevo.",
+    "@groupDmRateLimited": {
+        "description": "Error when add-friends requests are rate limited."
+    },
+    "groupDmCreateInviteFailed": "No se pudo crear el enlace de invitación",
+    "@groupDmCreateInviteFailed": {
+        "description": "Title when invite link generation fails."
+    },
+    "groupDmCreateInviteFailedBody": "No se pudo generar un enlace de invitación. Intenta de nuevo.",
+    "@groupDmCreateInviteFailedBody": {
+        "description": "Body when invite link generation fails."
+    },
+    "guildNavbarCreateInviteFailed": "No se pudo crear un enlace de invitación. Intenta de nuevo.",
+    "@guildNavbarCreateInviteFailed": {
+        "description": "Fallback error when creating a community invite link fails."
+    },
+    "guildNavbarCreateInviteMissingPermissions": "No tienes permiso para crear una invitación en este canal.",
+    "@guildNavbarCreateInviteMissingPermissions": {
+        "description": "Error when the user lacks CREATE_INSTANT_INVITE on the chosen channel."
+    },
+    "guildNavbarCreateInviteMaxInvites": "Esta comunidad alcanzó su límite de invitaciones.",
+    "@guildNavbarCreateInviteMaxInvites": {
+        "description": "Error when the community is at MAX_INVITES."
+    },
+    "guildNavbarCreateInviteTemporarilyDisabled": "La creación de invitaciones está temporalmente deshabilitada para esta comunidad.",
+    "@guildNavbarCreateInviteTemporarilyDisabled": {
+        "description": "Error when instant invites are temporarily disabled."
+    },
+    "groupDmCopyInviteFailed": "No se pudo copiar el enlace de invitación",
+    "@groupDmCopyInviteFailed": {
+        "description": "Error when copying a group DM invite link fails."
+    },
+    "groupDmInvitesOwnerOnly": "Solo el dueño del grupo puede administrar las invitaciones.",
+    "@groupDmInvitesOwnerOnly": {
+        "description": "Shown when a non-owner opens group invites management."
+    },
+    "groupDmNoInvitesCreated": "No se crearon invitaciones",
+    "@groupDmNoInvitesCreated": {
+        "description": "Empty state for group DM invites list."
+    },
+    "groupDmInvitesLoadFailed": "No se pudieron cargar las invitaciones. Intenta de nuevo.",
+    "@groupDmInvitesLoadFailed": {
+        "description": "Inline error when group DM invites fail to load."
+    },
+    "groupDmInvitesRevokeConfirm": "¿Revocar esta invitación? No se puede deshacer.",
+    "@groupDmInvitesRevokeConfirm": {
+        "description": "Confirmation body when revoking a group DM invite."
+    },
+    "groupDmInviteCreatedByExpires": "Creado por {name}. Caduca en {time}.",
+    "@groupDmInviteCreatedByExpires": {
+        "description": "Mobile group invite row subtitle.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "composerOpenExpressionPicker": "Abrir selector de expresiones",
+    "@composerOpenExpressionPicker": {
+        "description": "Accessibility label for the composer button that opens the emoji and media picker."
+    },
+    "composerCloseAttachmentPanel": "Cerrar selector de archivos adjuntos",
+    "@composerCloseAttachmentPanel": {
+        "description": "Accessibility label for the composer button that closes the attachment gallery panel."
+    },
+    "chatAttachmentPanelPhotos": "Fotos",
+    "@chatAttachmentPanelPhotos": {
+        "description": "Label for the native photo picker action on the attachment panel."
+    },
+    "chatAttachmentPanelFiles": "Archivos",
+    "@chatAttachmentPanelFiles": {
+        "description": "Label for the native file picker action on the attachment panel."
+    },
+    "chatAttachmentLibraryPermissionTitle": "Se necesita acceso a la fototeca",
+    "@chatAttachmentLibraryPermissionTitle": {
+        "description": "Title shown when the attachment gallery cannot read the photo library."
+    },
+    "chatAttachmentLibraryPermissionBody": "Permite el acceso a la fototeca para buscar y adjuntar fotos y videos recientes.",
+    "@chatAttachmentLibraryPermissionBody": {
+        "description": "Body text when the attachment gallery is blocked by photo library permission."
+    },
+    "chatAttachmentLibraryPermissionSettings": "Abrir configuración",
+    "@chatAttachmentLibraryPermissionSettings": {
+        "description": "Button that opens system settings so the user can grant photo library access."
+    },
+    "messageAccessibilityFailedSuffix": ", no se pudo enviar",
+    "@messageAccessibilityFailedSuffix": {
+        "description": "Screen reader suffix when a message failed to send."
+    },
+    "messageAccessibilityAudioSummary": "un archivo de audio",
+    "@messageAccessibilityAudioSummary": {
+        "description": "Screen reader summary for a message with an audio attachment."
+    },
+    "messageAccessibilitySpoilerAttachmentSummary": "un adjunto con spoiler",
+    "@messageAccessibilitySpoilerAttachmentSummary": {
+        "description": "Screen reader summary for a message with a spoiler attachment and no text."
+    },
+    "userSettingsSearchNoResults": "No se encontraron ajustes",
+    "@userSettingsSearchNoResults": {
+        "description": "Empty state shown when user settings search has no matches."
+    },
+    "giftSettingsClaimAccountTitle": "Reclama tu cuenta",
+    "giftSettingsEmptyTitle": "Todavía no tienes regalos",
+    "giftSettingsEmptyDescription": "Compra un regalo de Plutonium desde la pestaña Plutonium para compartir con tus amigos.",
+    "giftSettingsGoToPlutonium": "Ir a Plutonium",
+    "giftSettingsLoadFailedTitle": "No se pudo cargar el inventario de regalos",
+    "giftSettingsLoadFailedDescription": "Intenta de nuevo más tarde.",
+    "giftSettingsGiftUrl": "URL del regalo",
+    "giftSettingsGiftUrlCopied": "¡URL de regalo copiada al portapapeles!",
+    "giftSettingsGiftUrlCopyFailed": "No se pudo copiar la URL del regalo",
+    "giftSettingsShareWithFriend": "Compartir con un amigo",
+    "premiumPlutoniumTagline": "Desbloquea límites más altos y funciones exclusivas mientras apoyas una plataforma de comunicación independiente.",
+    "premiumPurchaseMode": "Modo de compra",
+    "premiumAsAGift": "Para regalar",
+    "premiumOneTimePurchase": "compra única",
+    "premiumOneYearGift": "Regalo de 1 año",
+    "premiumOneMonthGift": "Regalo de 1 mes",
+    "premiumScrollPrompt": "Desplázate hacia abajo para ver todas las ventajas incluidas con Plutonium",
+    "premiumFreeVsPlutonium": "Gratis vs. Plutonium",
+    "premiumGiftSectionDescription": "Comparte la experiencia de Plutonium con tus amigos comprando una suscripción de regalo.",
+    "premiumGiftBannerOne": "¡Tienes un nuevo código de regalo esperándote!",
+    "premiumGiftBannerMany": "¡Tienes {count} nuevos códigos de regalo esperándote!",
+    "@premiumGiftBannerMany": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "premiumReadyToUpgrade": "¿Listo para actualizar?",
+    "premiumReadyToBuyGift": "¿Listo para comprar un regalo?",
+    "premiumOneYearPrice": "1 año {price}",
+    "@premiumOneYearPrice": {
+        "placeholders": {
+            "price": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumOneMonthPrice": "1 mes {price}",
+    "@premiumOneMonthPrice": {
+        "placeholders": {
+            "price": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumCancelSubscriptionBody": "Conservarás tus beneficios hasta la próxima fecha de renovación y luego tendrás un período de gracia de 3 días para volver a suscribirte y mantener tu historial de suscriptor.",
+    "premiumCancelSubscriptionConfirm": "Cancelar suscripción",
+    "premiumPurchaseHistoryDescription": "Tus facturas recientes. Para cambiar el método de pago de tu suscripción, agrega o elige uno en el portal de facturación y haz que sea el predeterminado.",
+    "premiumManagePaymentMethods": "Administrar métodos de pago",
+    "premiumSelfServeRefundButton": "Reembolsar última compra",
+    "premiumDisclaimerAgreementPrefix": "Al comprar, aceptas nuestros ",
+    "premiumDisclaimerAgreementPastPrefix": "Al comprar, aceptaste nuestros ",
+    "premiumActiveUntil": "Activo hasta el {date}",
+    "@premiumActiveUntil": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumCancelsOn": "Se cancela el {date}. Las ventajas permanecen activas hasta entonces.",
+    "@premiumCancelsOn": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumGiftedUntil": "Regalo hasta el {date}. No se renueva automáticamente.",
+    "@premiumGiftedUntil": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumDisclaimerPurchased": "Al comprar, aceptaste nuestros {terms} y {privacy}.",
+    "@premiumDisclaimerPurchased": {
+        "placeholders": {
+            "terms": {
+                "type": "String"
+            },
+            "privacy": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumDisclaimerRefund": "Reembolsos de autoservicio disponibles dentro de los 3 días posteriores al pago, una vez cada 30 días. El reembolso de una suscripción la cancela. Los compradores de la UE/EEE renuncian al derecho de desistimiento de 14 días al finalizar la compra para acceder al contenido de inmediato. Usa el botón de reembolso en la aplicación en lugar de una contracarga. Las contracargas pueden restringir permanentemente tu cuenta. Stripe maneja el pago de forma segura. Nunca vemos el número completo de tu tarjeta.",
+    "premiumTermsOfService": "Condiciones del servicio",
+    "premiumCheckoutStartFailedTitle": "No se pudo iniciar el pago",
+    "premiumCheckoutStartFailedBody": "Algo salió mal al iniciar el proceso de pago. Intenta de nuevo en un momento.",
+    "premiumPlanUnavailable": "Este plan no está disponible. Contacta a soporte.",
+    "premiumCompletePaymentBody": "Ahora serás redirigido a Stripe para completar el pago. Regresa a Fluxer una vez que lo hayas hecho.",
+    "premiumChoosePaymentMethodTitle": "Elige un método de pago",
+    "premiumPixPaymentPromptDescription": "Paga con Pix automático para autorizar cargos recurrentes directamente desde tu banco brasileño. O elige usar tarjeta para ingresar una tarjeta de crédito en la siguiente pantalla de Stripe.",
+    "premiumUpiPaymentPromptDescription": "Paga con UPI para configurar un mandato electrónico que cumple con las normativas del RBI desde tu banco indio. O elige usar tarjeta para ingresar una tarjeta de crédito en la siguiente pantalla de Stripe.",
+    "premiumCustomerPortalOpenFailedTitle": "No se pudo abrir el portal de facturación",
+    "premiumCustomerPortalOpenFailedBody": "Algo salió mal al abrir el portal de facturación. Intenta de nuevo en un momento.",
+    "premiumAlreadyVisionaryTitle": "Ya eres Visionario",
+    "premiumAlreadyVisionaryBody": "Visionary ya incluye acceso permanente, por lo que no necesitas una suscripción recurrente. Aún puedes comprar regalos para otros.",
+    "premiumExistingSubscriptionTitle": "Ya tienes esta suscripción",
+    "premiumExistingSubscriptionBody": "Encontramos una suscripción existente de Fluxer Plutonium para esta cuenta. Administrala en el portal de facturación seguro para actualizar los detalles de pago o verificar el estado de renovación. Si acabas de pagar, espera un minuto y vuelve a abrir esta página.",
+    "premiumPurchasesDisabledBody": "Las compras están deshabilitadas para esta cuenta. Ponte en contacto con support@fluxer.app si esto parece incorrecto.",
+    "premiumClaimAccountToPurchase": "Reclama tu cuenta para comprar Fluxer Plutonium.",
+    "premiumVerifyEmailToPurchase": "Necesitas verificar tu correo electrónico antes de poder comprar Fluxer Plutonium.",
+    "premiumPerkCustomUsernameTag": "Etiqueta de nombre de usuario personalizada",
+    "premiumPerkCustomVideoBackgrounds": "Fondos de video personalizados",
+    "premiumPerkMessageCharacterLimit": "Límite de caracteres por mensaje",
+    "premiumPerkFileUploadSize": "Tamaño de archivo para subir",
+    "premiumPerkEmojiStickerPacks": "Packs de emojis y stickers",
+    "premiumPerkUseAnimatedEmojis": "Usar emojis animados",
+    "premiumPerkGlobalEmojiStickerAccess": "Acceso global a emojis y stickers",
+    "premiumPerkAnimatedAvatarsBanners": "Avatares y banners de perfil animados",
+    "premiumPerkEarlyAccess": "Acceso anticipado a nuevas funciones",
+    "premiumPerkCustomThemes": "Temas personalizados",
+    "premiumPerkVideoQualityStock": "Hasta 4K/60 fps",
+    "audioAndVideoAudioSectionDescription": "Configura tu micrófono, altavoces y procesamiento de voz.",
+    "@audioAndVideoAudioSectionDescription": {
+        "description": "Settings section description for audio settings in the voice and video tab."
+    },
+    "audioAndVideoVideoSectionDescription": "Configura la calidad de tu cámara y de compartir pantalla.",
+    "@audioAndVideoVideoSectionDescription": {
+        "description": "Settings section description for video settings in the voice and video tab."
+    },
+    "audioAndVideoInCallBehaviorSectionDescription": "Controla las indicaciones de confirmación durante las llamadas de voz y video.",
+    "@audioAndVideoInCallBehaviorSectionDescription": {
+        "description": "Settings section description for in-call behavior prompts."
+    },
+    "audioAndVideoUseSpeakerDescription": "Cuando está desactivado, el audio se reproduce a través del auricular o los audífonos conectados.",
+    "@audioAndVideoUseSpeakerDescription": {
+        "description": "Description for the speaker output toggle on mobile."
+    },
+    "audioAndVideoFocusedVoiceDescription": "Recomendado. Limpia tu micrófono para una voz clara.",
+    "@audioAndVideoFocusedVoiceDescription": {
+        "description": "Description for the focused voice processing profile."
+    },
+    "audioAndVideoDirectInputDescription": "Envía tu audio sin modificar. Ideal si usas software de audio externo.",
+    "@audioAndVideoDirectInputDescription": {
+        "description": "Description for the direct input voice processing profile."
+    },
+    "audioAndVideoCustomProfileDescription": "Ajusta cada opción tú mismo: supresión de ruido, cancelación de eco y ganancia.",
+    "@audioAndVideoCustomProfileDescription": {
+        "description": "Description for the custom voice processing profile."
+    },
+    "audioAndVideoAutomaticGainControlLabel": "Control automático de ganancia",
+    "@audioAndVideoAutomaticGainControlLabel": {
+        "description": "Toggle label for automatic gain control."
+    },
+    "audioAndVideoAutomaticGainControlDescription": "Ecualiza el volumen de tu micrófono. Desactivado cuando la supresión mejorada está activada.",
+    "@audioAndVideoAutomaticGainControlDescription": {
+        "description": "Description for automatic gain control toggle."
+    },
+    "audioAndVideoMicTestStartLabel": "Iniciar prueba de micrófono",
+    "@audioAndVideoMicTestStartLabel": {
+        "description": "Button label to start the microphone test."
+    },
+    "audioAndVideoMicTestStopLabel": "Detener prueba de micrófono",
+    "@audioAndVideoMicTestStopLabel": {
+        "description": "Button label to stop the microphone test."
+    },
+    "audioAndVideoMicTestPermissionRequired": "{productName} necesita acceso al micrófono para probar tu entrada.",
+    "@audioAndVideoMicTestPermissionRequired": {
+        "description": "Shown when microphone permission is required for the mic test.",
+        "placeholders": {
+            "productName": {
+                "type": "String",
+                "example": "Fluxer"
+            }
+        }
+    },
+    "audioAndVideoScreenShareQualitySectionTitle": "Calidad de la pantalla compartida",
+    "@audioAndVideoScreenShareQualitySectionTitle": {
+        "description": "Subsection title for screen share resolution selection."
+    },
+    "audioAndVideoHigherQualityRequiresPremium": "1080p y 60 FPS requieren {premiumProductName}.",
+    "@audioAndVideoHigherQualityRequiresPremium": {
+        "description": "Note shown when higher video quality options require premium.",
+        "placeholders": {
+            "premiumProductName": {
+                "type": "String",
+                "example": "Plutonium"
+            }
+        }
+    },
+    "audioAndVideoInstanceVideoQualityLimit": "Esta instancia actualmente permite compartir pantalla hasta 720p a 30 FPS.",
+    "@audioAndVideoInstanceVideoQualityLimit": {
+        "description": "Note shown when instance limits block higher screen share quality."
+    },
+    "audioAndVideoMicrophonePermissionRequired": "{productName} necesita acceso al micrófono para mostrar tus dispositivos.",
+    "@audioAndVideoMicrophonePermissionRequired": {
+        "description": "Shown when microphone permission is required to enumerate audio input devices.",
+        "placeholders": {
+            "productName": {
+                "type": "String",
+                "example": "Fluxer"
+            }
+        }
+    },
+    "audioAndVideoCameraPermissionRequired": "{productName} necesita acceso a la cámara para mostrar tus dispositivos.",
+    "@audioAndVideoCameraPermissionRequired": {
+        "description": "Shown when camera permission is required to enumerate video devices.",
+        "placeholders": {
+            "productName": {
+                "type": "String",
+                "example": "Fluxer"
+            }
+        }
+    },
+    "audioAndVideoSkipHideOwnCameraConfirmLabel": "No preguntar al ocultar mi cámara",
+    "@audioAndVideoSkipHideOwnCameraConfirmLabel": {
+        "description": "Toggle to skip confirmation when hiding own camera during a call."
+    },
+    "audioAndVideoSkipHideOwnScreenshareConfirmLabel": "No preguntar al ocultar mi pantalla compartida",
+    "@audioAndVideoSkipHideOwnScreenshareConfirmLabel": {
+        "description": "Toggle to skip confirmation when hiding own screen share during a call."
+    },
+    "notificationsEnableNotificationsLabel": "Activar notificaciones",
+    "@notificationsEnableNotificationsLabel": {
+        "description": "Toggle label for enabling push or system notifications."
+    },
+    "notificationsEnableNotificationsDescription": "Recibe notificaciones cuando te lleguen mensajes. Puede que tengas que permitir las notificaciones de {productName} en los ajustes de tu dispositivo. Para los controles por canal o por comunidad, abre los ajustes de notificaciones desde el menú de una comunidad.",
+    "@notificationsEnableNotificationsDescription": {
+        "description": "Description for the enable notifications toggle on mobile.",
+        "placeholders": {
+            "productName": {
+                "type": "String",
+                "example": "Fluxer"
+            }
+        }
+    },
+    "notificationsEnableDesktopNotificationsLabel": "Activar notificaciones de escritorio",
+    "@notificationsEnableDesktopNotificationsLabel": {
+        "description": "Toggle label for enabling desktop notifications."
+    },
+    "notificationsEnableDesktopNotificationsDescription": "Usa el centro de notificaciones del sistema operativo. Para controles por canal o comunidad, haz clic derecho en el ícono de una comunidad y abre la configuración de notificaciones.",
+    "@notificationsEnableDesktopNotificationsDescription": {
+        "description": "Description for the enable desktop notifications toggle."
+    },
+    "notificationsEnableBrowserNotificationsLabel": "Activar notificaciones del navegador",
+    "@notificationsEnableBrowserNotificationsLabel": {
+        "description": "Toggle label for enabling browser notifications."
+    },
+    "notificationsEnableBrowserNotificationsDescription": "Recibe notificaciones cuando te lleguen mensajes. Puede que tengas que permitir las notificaciones en la configuración de tu navegador. Para controles por canal o comunidad, haz clic derecho en el ícono de una comunidad y abre la configuración de notificaciones.",
+    "@notificationsEnableBrowserNotificationsDescription": {
+        "description": "Description for the enable browser notifications toggle."
+    },
+    "notificationsPushInactiveTimeoutLabel": "Tiempo de espera de notificaciones push inactivas",
+    "@notificationsPushInactiveTimeoutLabel": {
+        "description": "Label for push notification inactive timeout setting."
+    },
+    "notificationsPushInactiveTimeoutDescription": "{productName} evita enviar notificaciones push a tus dispositivos móviles cuando estás usando tu computadora. Elige cuánto tiempo necesitas estar inactivo en el escritorio antes de que recibas las notificaciones push.",
+    "@notificationsPushInactiveTimeoutDescription": {
+        "description": "Description for push notification inactive timeout setting.",
+        "placeholders": {
+            "productName": {
+                "type": "String",
+                "example": "Fluxer"
+            }
+        }
+    },
+    "notificationsReplyMentionPreferenceAriaLabel": "Preferencia de mención en respuestas",
+    "@notificationsReplyMentionPreferenceAriaLabel": {
+        "description": "Accessibility label for the reply mention preference radio group."
+    },
+    "notificationsMentionNoPreferenceName": "Sin preferencia",
+    "@notificationsMentionNoPreferenceName": {
+        "description": "Mention preference option: no preference."
+    },
+    "notificationsMentionNoPreferenceDescription": "Respetar la intención del remitente, sin advertencia cuando desactive la mención @",
+    "@notificationsMentionNoPreferenceDescription": {
+        "description": "Description for the no preference mention option."
+    },
+    "notificationsMentionPreferMentionDescription": "Por defecto, permite que te mencionen y advierte al remitente si desactiva esta opción",
+    "@notificationsMentionPreferMentionDescription": {
+        "description": "Description for the prefer @mention option."
+    },
+    "notificationsMentionPreferNoMentionName": "Preferir no recibir @menciones",
+    "@notificationsMentionPreferNoMentionName": {
+        "description": "Mention preference option: prefer no @mention."
+    },
+    "notificationsMentionPreferNoMentionDescription": "Las respuestas predeterminadas omiten la @mención y advierten al remitente si la activa",
+    "@notificationsMentionPreferNoMentionDescription": {
+        "description": "Description for the prefer no @mention option."
+    },
+    "notificationsTtsEnableCommandLabel": "Activar la reproducción de voz /tts",
+    "@notificationsTtsEnableCommandLabel": {
+        "description": "Toggle label for enabling /tts speech playback."
+    },
+    "notificationsTtsEnableCommandDescription": "Permite que /tts lea tu mensaje en voz alta. Si desactivas esta opción, esos comandos se mantendrán como texto normal.",
+    "@notificationsTtsEnableCommandDescription": {
+        "description": "Toggle description for enabling /tts speech playback."
+    },
+    "notificationsTtsAccessibilityLinkPrefix": "Ajustar la velocidad de reproducción en ",
+    "@notificationsTtsAccessibilityLinkPrefix": {
+        "description": "Prefix before the Accessibility settings link in TTS notifications settings."
+    },
+    "notificationsTtsAutoNarrationTitle": "Narración automática de mensajes",
+    "@notificationsTtsAutoNarrationTitle": {
+        "description": "Title for automatic TTS narration mode settings."
+    },
+    "notificationsTtsAutoNarrationDescription": "Convierte el contenido entrante en voz, sin importar si proviene de /tts.",
+    "@notificationsTtsAutoNarrationDescription": {
+        "description": "Description for automatic TTS narration mode settings."
+    },
+    "notificationsTtsModeAllChannelsDescription": "Reproducir cada mensaje entrante, sin importar qué canal esté abierto.",
+    "@notificationsTtsModeAllChannelsDescription": {
+        "description": "Description for speaking messages from every channel."
+    },
+    "notificationsTtsModeCurrentChannelName": "Solo canal activo",
+    "@notificationsTtsModeCurrentChannelName": {
+        "description": "TTS narration mode: speak only the active channel."
+    },
+    "notificationsTtsModeCurrentChannelDescription": "Narra solo el canal que estás viendo. La narración te sigue entre canales.",
+    "@notificationsTtsModeCurrentChannelDescription": {
+        "description": "Description for speaking only the active channel."
+    },
+    "notificationsTtsModeNeverDescription": "Permanecer en silencio a menos que alguien ejecute /tts manualmente.",
+    "@notificationsTtsModeNeverDescription": {
+        "description": "Description for never speaking automatically."
+    },
+    "notificationsTtsModeAriaLabel": "Leer todos los mensajes en voz alta",
+    "@notificationsTtsModeAriaLabel": {
+        "description": "Accessibility label for the TTS narration mode radio group."
+    },
+    "notificationsMasterVolumeDescription": "Establece el nivel de todos los efectos de sonido. Las anulaciones por sonido ignoran esto.",
+    "@notificationsMasterVolumeDescription": {
+        "description": "Description for the master volume slider."
+    },
+    "notificationsResetToDefaultVolume": "Restablecer volumen predeterminado",
+    "@notificationsResetToDefaultVolume": {
+        "description": "Accessibility label for resetting master volume to default."
+    },
+    "notificationsDisableAllSoundsLabel": "Desactivar todos los sonidos de notificación",
+    "@notificationsDisableAllSoundsLabel": {
+        "description": "Toggle label for disabling all notification sounds."
+    },
+    "notificationsDisableAllSoundsDescription": "Se conservará tu configuración de sonido de notificaciones actual.",
+    "@notificationsDisableAllSoundsDescription": {
+        "description": "Description for the disable all notification sounds toggle."
+    },
+    "notificationsShowMoreSoundEffects": "Mostrar más efectos de sonido",
+    "@notificationsShowMoreSoundEffects": {
+        "description": "Button label to reveal additional sound effect toggles."
+    },
+    "notificationsShowFewerSoundEffects": "Mostrar menos efectos de sonido",
+    "@notificationsShowFewerSoundEffects": {
+        "description": "Button label to hide additional sound effect toggles."
+    },
+    "notificationsPerSoundVolumeTitle": "Volumen por sonido",
+    "@notificationsPerSoundVolumeTitle": {
+        "description": "Accordion title for per-sound volume overrides."
+    },
+    "notificationsPerSoundVolumeDescription": "Establece volúmenes personalizados para sonidos individuales. Los sonidos sin una anulación siguen el volumen principal.",
+    "@notificationsPerSoundVolumeDescription": {
+        "description": "Accordion description when no per-sound volume overrides exist."
+    },
+    "notificationsPerSoundVolumeOverrideDescription": "Volúmenes de sonidos personalizados activos: {overrideCount}.",
+    "@notificationsPerSoundVolumeOverrideDescription": {
+        "description": "Accordion description when per-sound volume overrides exist.",
+        "placeholders": {
+            "overrideCount": {
+                "type": "int",
+                "example": "3"
+            }
+        }
+    },
+    "notificationsFollowingMasterVolume": "Siguiendo al principal • {effectiveValue}%",
+    "@notificationsFollowingMasterVolume": {
+        "description": "Status text when a sound follows the master volume.",
+        "placeholders": {
+            "effectiveValue": {
+                "type": "int",
+                "example": "100"
+            }
+        }
+    },
+    "notificationsResetSoundToMasterVolume": "Restablecer {label} al volumen principal",
+    "@notificationsResetSoundToMasterVolume": {
+        "description": "Accessibility label for resetting a per-sound volume override.",
+        "placeholders": {
+            "label": {
+                "type": "String",
+                "example": "Voice mute"
+            }
+        }
+    },
+    "notificationsResetAllOverrides": "Restablecer todas las anulaciones",
+    "@notificationsResetAllOverrides": {
+        "description": "Button label to reset all per-sound volume overrides."
+    },
+    "notificationsMuteSound": "Silenciar {label}",
+    "@notificationsMuteSound": {
+        "description": "Accessibility label for muting a sound type.",
+        "placeholders": {
+            "label": {
+                "type": "String",
+                "example": "Voice mute"
+            }
+        }
+    },
+    "notificationsSoundMessage": "Notificaciones de mensajes de la comunidad",
+    "@notificationsSoundMessage": {
+        "description": "Sound toggle label for community message notifications."
+    },
+    "notificationsSoundDirectMessage": "Notificaciones de mensajes directos",
+    "@notificationsSoundDirectMessage": {
+        "description": "Sound toggle label for direct message notifications."
+    },
+    "notificationsSoundSameChannelMessage": "Notificaciones de mensajes del canal actual",
+    "@notificationsSoundSameChannelMessage": {
+        "description": "Sound toggle label for current channel message notifications."
+    },
+    "notificationsSoundUnmute": "Activar audio",
+    "@notificationsSoundUnmute": {
+        "description": "Sound toggle label for voice unmute."
+    },
+    "notificationsSoundUserJoin": "El usuario se une al canal",
+    "@notificationsSoundUserJoin": {
+        "description": "Sound toggle label for user joins channel."
+    },
+    "notificationsSoundUserLeave": "El usuario abandona el canal",
+    "@notificationsSoundUserLeave": {
+        "description": "Sound toggle label for user leaves channel."
+    },
+    "notificationsSoundUserMove": "Usuario movió el canal",
+    "@notificationsSoundUserMove": {
+        "description": "Sound toggle label for user moved channel."
+    },
+    "notificationsSoundViewerJoin": "Espectador se une a la transmisión",
+    "@notificationsSoundViewerJoin": {
+        "description": "Sound toggle label for viewer joins stream."
+    },
+    "notificationsSoundViewerLeave": "Espectador abandona la transmisión",
+    "@notificationsSoundViewerLeave": {
+        "description": "Sound toggle label for viewer leaves stream."
+    },
+    "notificationsSoundVoiceDisconnect": "Voz desconectada",
+    "@notificationsSoundVoiceDisconnect": {
+        "description": "Sound toggle label for voice disconnected."
+    },
+    "notificationsSoundIncomingRing": "Llamada entrante",
+    "@notificationsSoundIncomingRing": {
+        "description": "Sound toggle label for incoming call."
+    },
+    "notificationsSoundCameraOff": "Cámara apagada",
+    "@notificationsSoundCameraOff": {
+        "description": "Sound toggle label for camera off."
+    },
+    "notificationsSoundScreenShareStart": "Inicio de compartir pantalla",
+    "@notificationsSoundScreenShareStart": {
+        "description": "Sound toggle label for screen share start."
+    },
+    "notificationsSoundScreenShareStop": "Detener compartir pantalla",
+    "@notificationsSoundScreenShareStop": {
+        "description": "Sound toggle label for screen share stop."
+    },
+    "notificationsAfkTimeoutSyncFailed": "No se pudo actualizar el tiempo de espera de las notificaciones push. Intenta de nuevo.",
+    "@notificationsAfkTimeoutSyncFailed": {
+        "description": "Toast shown when push inactive timeout sync fails."
+    },
+    "notificationsMentionPreferenceSyncFailed": "No se pudo actualizar la preferencia de menciones. Intenta de nuevo.",
+    "@notificationsMentionPreferenceSyncFailed": {
+        "description": "Toast shown when mention preference update fails."
+    },
+    "notificationsPermissionDeniedTitle": "Notificaciones bloqueadas",
+    "@notificationsPermissionDeniedTitle": {
+        "description": "Banner title when OS notification permission is denied."
+    },
+    "notificationsEnableNotificationsPermissionDenied": "No se pudieron activar las notificaciones. Permite el acceso a las notificaciones para continuar.",
+    "@notificationsEnableNotificationsPermissionDenied": {
+        "description": "Toast shown when enabling notifications fails because permission was denied."
+    },
+    "languageAndTimeLanguageSectionDescription": "Elige el idioma que se usará en toda la app",
+    "@languageAndTimeLanguageSectionDescription": {
+        "description": "Settings section description for interface language preference."
+    },
+    "languageAndTimeOpenLanguageSettings": "Abrir configuración de idioma",
+    "@languageAndTimeOpenLanguageSettings": {
+        "description": "Button that opens the system per-app language settings."
+    },
+    "languageAndTimeTimeFormatSectionDescription": "Elige cómo se muestran las horas en la app",
+    "@languageAndTimeTimeFormatSectionDescription": {
+        "description": "Settings section description for time format preference."
+    },
+    "languageAndTimeTimeFormatSelectionLabel": "Selección de formato de hora",
+    "@languageAndTimeTimeFormatSelectionLabel": {
+        "description": "Accessibility label for the time format radio group."
+    },
+    "languageAndTimeTimeFormatAppLanguage": "Idioma de la aplicación: {format}",
+    "@languageAndTimeTimeFormatAppLanguage": {
+        "description": "Auto time format description using the app interface language.",
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "languageAndTimeTimeFormatSystemLocale": "Idioma del sistema: {format}",
+    "@languageAndTimeTimeFormatSystemLocale": {
+        "description": "Auto time format description using the device system locale.",
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "languageAndTimeUseSystemLocaleForTimeFormat": "Usar la configuración regional del sistema para el formato de hora",
+    "@languageAndTimeUseSystemLocaleForTimeFormat": {
+        "description": "Toggle to use device system locale when auto-detecting time format."
+    },
+    "languageAndTimeTimeFormatSyncFailed": "No se pudo actualizar el formato de hora",
+    "@languageAndTimeTimeFormatSyncFailed": {
+        "description": "Toast shown when saving the time format preference fails."
+    },
+    "defaultAppsWebBrowserSectionDescription": "Elige qué navegador se abre cuando tocas un enlace.",
+    "@defaultAppsWebBrowserSectionDescription": {
+        "description": "Description for the default web browser settings section."
+    },
+    "defaultAppsWebBrowserNativeAppNote": "Si una app está instalada para un sitio, los enlaces se abrirán primero en esa app.",
+    "@defaultAppsWebBrowserNativeAppNote": {
+        "description": "Footnote explaining that installed native apps take priority over the chosen browser."
+    },
+    "defaultAppsWebBrowserInApp": "Navegador en la app",
+    "@defaultAppsWebBrowserInApp": {
+        "description": "Default web browser option for the in-app browser."
+    },
+    "defaultAppsWebBrowserExternal": "Navegador externo",
+    "@defaultAppsWebBrowserExternal": {
+        "description": "Default web browser option for the system default browser."
+    },
+    "advancedSettingEnableTextSelectionLabel": "Habilitar selección de texto",
+    "advancedSettingEnableTextSelectionDescription": "Permite seleccionar texto en la aplicación",
+    "advancedSettingVideoSeekThumbnailsLabel": "Activar miniaturas de vista previa para la búsqueda de videos",
+    "advancedSettingVideoSeekThumbnailsDescription": "Miniatura o fotograma en vivo al reproducir video",
+    "advancedSettingHapticFeedbackLabel": "Respuesta háptica",
+    "@advancedSettingHapticFeedbackLabel": {
+        "description": "Toggle label for enabling haptic feedback in advanced settings."
+    },
+    "advancedSettingHapticFeedbackDescription": "Respuesta háptica para toques y acciones. No se sincronizará entre dispositivos.",
+    "@advancedSettingHapticFeedbackDescription": {
+        "description": "Toggle description for the local-only haptic feedback setting."
+    },
+    "advancedSettingShowNekoLabel": "Mostrar Neko",
+    "advancedSettingShowNekoDescription": "Gato Neko que persigue tu cursor",
+    "advancedSettingShowNekoDescriptionTouch": "Mostrar Neko en la entrada de tu chat",
+    "advancedSettingMobileSplashZoomAnimationLabel": "Animación de zoom al iniciar",
+    "advancedSettingMobileSplashZoomAnimationDescription": "Reduce el tamaño del logo al salir de la pantalla de inicio",
+    "advancedSettingKeyboardHintsDescription": "Muestra sugerencias de atajos de teclado en los consejos",
+    "advancedSettingEnableFavoritesLabel": "Habilitar favoritos",
+    "advancedSettingEnableFavoritesDescription": "Mostrar favoritos en toda la aplicación",
+    "advancedSettingVoiceChannelJoinBehaviorLabel": "Comportamiento al unirse a canales de voz",
+    "advancedSettingVoiceChannelJoinBehaviorDescription": "Confirmación o doble clic para unirse a canales de voz de la comunidad",
+    "advancedSettingRequireDoubleClickJoinLabel": "Requerir doble clic para unirse a canales de voz",
+    "advancedSettingConfirmBeforeJoiningVoiceLabel": "Confirmar antes de unirte a canales de voz",
+    "advancedSettingAutoSendGifsLabel": "Enviar GIFs automáticamente al seleccionarlos",
+    "advancedSettingAutoSendGifsDescription": "Enviar GIFs automáticamente desde el selector sin confirmación",
+    "advancedSettingSaveGifFavoritesLabel": "Guardar GIF favoritos como elementos guardados",
+    "advancedSettingSaveGifFavoritesDescription": "Elige cómo se guardan tus GIF favoritos destacados",
+    "advancedSettingMediaButtonsDescription": "Personaliza qué botones e indicadores se muestran en los archivos multimedia y las incrustaciones",
+    "advancedSettingPreuploadAttachmentsLabel": "Sube archivos adjuntos antes de enviar",
+    "advancedSettingPreuploadAttachmentsDescription": "Comienza a subir los archivos adjuntos tan pronto como se agreguen al campo de entrada del mensaje",
+    "advancedSettingStripTrackingLabel": "Quitar parámetros de seguimiento de las URL",
+    "advancedSettingStripTrackingDescription": "Eliminar automáticamente los parámetros de seguimiento de las URL en los mensajes que envías",
+    "advancedSettingTrustAllLinksLabel": "Confiar en todos los enlaces externos",
+    "advancedSettingTrustAllLinksDescription": "Omitir la advertencia de enlace externo para todos los dominios",
+    "advancedSettingSearchEnginesLabel": "Buscadores",
+    "advancedSettingSearchEnginesDescription": "Configurar los motores de búsqueda que se utilizarán para el texto seleccionado",
+    "advancedSettingTranslatorsDescription": "Configurar los proveedores de traducción que se utilizarán en el texto seleccionado",
+    "advancedSettingReverseImageSearchLabel": "Búsqueda inversa de imágenes",
+    "advancedSettingReverseImageSearchDescription": "Proveedores de búsqueda inversa de imágenes",
+    "advancedSettingMessageActionBarLabel": "Barra de acciones de mensajes",
+    "advancedSettingMessageActionBarDescription": "Personaliza la barra de acciones que aparece al pasar el cursor sobre los mensajes",
+    "advancedSettingExpressionAutocompleteLabel": "Autocompletar expresiones",
+    "advancedSettingExpressionAutocompleteDescription": "Elige qué aparece cuando escribes dos puntos en el campo de entrada del mensaje",
+    "advancedSettingInputButtonsLabel": "Botones de entrada de mensajes",
+    "advancedSettingInputButtonsDescription": "Elige qué botones se muestran en la barra de entrada de mensajes",
+    "advancedSettingScrollToBottomOnSendLabel": "Desplazarse hacia abajo al enviar un mensaje",
+    "advancedSettingScrollToBottomOnSendDescription": "Elige cómo se desplazan los chats después de que envíes un mensaje",
+    "advancedSettingSkipMarkAllAsReadLabel": "Omitir la confirmación de \"Marcar todo como leído\"",
+    "advancedSettingSkipMarkAllAsReadDescription": "Marcar todos los canales no leídos de la bandeja de entrada como leídos inmediatamente, sin pedir confirmación",
+    "advancedSettingHideMutedChannelsLabel": "Ocultar los canales silenciados por defecto",
+    "advancedSettingHideMutedChannelsDescription": "Ocultar los canales silenciados de las barras laterales de la comunidad",
+    "advancedSettingShowGifIndicatorLabel": "Mostrar indicador de GIF",
+    "advancedSettingShowAttachmentExpiryLabel": "Mostrar indicador de vencimiento de archivos adjuntos",
+    "advancedSettingShowMediaDeleteLabel": "Mostrar botón para eliminar",
+    "advancedSettingShowMediaDownloadLabel": "Mostrar botón de descarga",
+    "advancedSettingShowMediaFavoriteLabel": "Mostrar botón de favoritos",
+    "advancedSettingShowSuppressEmbedsLabel": "Mostrar el botón para ocultar previsualizaciones",
+    "advancedSettingShowMessageActionBarLabel": "Mostrar barra de acciones del mensaje",
+    "advancedSettingShowOnlyMoreButtonLabel": "Mostrar solo el botón de más",
+    "advancedSettingShowQuickReactionsLabel": "Mostrar reacciones rápidas",
+    "advancedSettingEnableShiftToExpandLabel": "Habilitar Mayús para expandir",
+    "advancedSettingShowDefaultEmojisAutocompleteLabel": "Mostrar emojis predeterminados en el autocompletado de expresiones",
+    "advancedSettingShowCustomEmojisAutocompleteLabel": "Mostrar emojis personalizados en el autocompletado de expresiones",
+    "advancedSettingShowStickersAutocompleteLabel": "Mostrar stickers en el autocompletado de expresiones",
+    "advancedSettingShowSavedMediaAutocompleteLabel": "Mostrar contenido guardado en el autocompletado de expresiones",
+    "advancedSettingShowGifsButtonLabel": "Mostrar botón de GIF",
+    "advancedSettingShowMediaButtonLabel": "Mostrar botón de contenido multimedia",
+    "advancedSettingShowStickersButtonLabel": "Mostrar botón de stickers",
+    "advancedSettingShowEmojiButtonLabel": "Mostrar botón de emoji",
+    "advancedSettingShowSendButtonLabel": "Mostrar botón de enviar",
+    "advancedSettingNewDeviceAlertsLabel": "Mostrar alertas de dispositivos nuevos",
+    "advancedSettingNewDeviceAlertsDescription": "Solicitar nuevos dispositivos de audio",
+    "advancedSettingConnectionVolumeControlsLabel": "Controles de volumen de conexión",
+    "advancedSettingConnectionVolumeControlsDescription": "Mostrar controles deslizantes de volumen por participante en los menús de voz",
+    "advancedSettingScreenSharePreviewBehaviorLabel": "Comportamiento de la vista previa para compartir pantalla",
+    "advancedSettingScreenSharePreviewBehaviorDescription": "Comportamiento de la vista previa, ventana emergente y miniatura del stream",
+    "advancedSettingScreenShareCodecLabel": "Códec para compartir pantalla",
+    "advancedSettingScreenShareCodecDescription": "Códec de video para compartir pantalla",
+    "advancedSettingPauseScreenSharePreviewLabel": "Pausar la vista previa de mi pantalla compartida en segundo plano",
+    "advancedSettingHideStreamPreviewLabel": "Ocultar la miniatura de la vista previa de mi transmisión",
+    "advancedSettingDeveloperModeLabel": "Activar el modo de desarrollador",
+    "advancedSettingDeveloperModeDescription": "Activar el modo de desarrollador",
+    "advancedSettingSearchEngineGoogleLens": "Google Lens",
+    "advancedSettingDefaultSearchEngineLabel": "Motor de búsqueda predeterminado",
+    "advancedSettingDefaultSearchEngineDescription": "Elige qué motor de búsqueda se usa por defecto al buscar el texto seleccionado.",
+    "advancedSettingBuiltInSearchEnginesLabel": "Buscadores integrados",
+    "advancedSettingBuiltInSearchEnginesDescription": "Activa o desactiva los buscadores integrados. Los buscadores activados aparecen en el menú contextual del mensaje cuando se selecciona texto.",
+    "advancedSettingCustomSearchEnginesLabel": "Motores de búsqueda personalizados",
+    "advancedSettingCustomSearchEnginesDescription": "Agrega tus propios motores de búsqueda con un patrón de URL personalizado. Usa '{query}' como marcador de posición para el texto de búsqueda.",
+    "advancedSettingAddSearchEngineLabel": "Agregar motor de búsqueda",
+    "advancedSettingEnableAtLeastOneSearchEngineLabel": "Habilita al menos un motor de búsqueda a continuación.",
+    "advancedSettingRemoveSearchEngineLabel": "Eliminar buscador",
+    "advancedSettingDefaultTranslatorDescription": "Elige qué traductor se usa por defecto al traducir el texto seleccionado.",
+    "advancedSettingBuiltInTranslatorsDescription": "Activa o desactiva los traductores integrados. Los traductores activados aparecen en el menú contextual del mensaje cuando se selecciona texto.",
+    "advancedSettingCustomTranslatorsDescription": "Agrega tus propios traductores con un patrón de URL personalizado. Usa '{query}' como marcador de posición para el texto a traducir.",
+    "advancedSettingEnableAtLeastOneTranslatorLabel": "Habilita al menos un traductor de abajo.",
+    "advancedSettingDefaultReverseImageSearchLabel": "Búsqueda inversa de imágenes predeterminada",
+    "advancedSettingDefaultReverseImageSearchDescription": "Elige qué servicio de búsqueda inversa de imágenes se usa por defecto al buscar una imagen.",
+    "advancedSettingBuiltInReverseImageSearchLabel": "Búsqueda inversa de imágenes integrada",
+    "advancedSettingBuiltInReverseImageSearchDescription": "Activa o desactiva los proveedores de búsqueda inversa de imágenes integrados. Los proveedores activados aparecen en el menú contextual de imágenes, avatares, banners, stickers y emojis.",
+    "advancedSettingCustomReverseImageSearchLabel": "Búsqueda inversa de imágenes personalizada",
+    "advancedSettingCustomReverseImageSearchDescription": "Agrega tus propios proveedores de búsqueda inversa de imágenes con un patrón de URL personalizado. Usa '{url}' como marcador de posición para la URL de la imagen.",
+    "advancedSettingAddReverseImageSearchLabel": "Agregar búsqueda inversa de imágenes",
+    "advancedSettingEnableAtLeastOneReverseImageSearchLabel": "Habilita al menos un proveedor de búsqueda inversa de imágenes a continuación.",
+    "advancedSettingRemoveReverseImageSearchLabel": "Eliminar búsqueda inversa de imágenes",
+    "advancedSettingAddSearchEngineTitle": "Agregar motor de búsqueda",
+    "advancedSettingEditSearchEngineTitle": "Editar motor de búsqueda",
+    "advancedSettingAddTranslatorTitle": "Añadir proveedor de traducción",
+    "advancedSettingEditTranslatorTitle": "Editar proveedor de traducción",
+    "advancedSettingAddReverseImageSearchTitle": "Agregar motor de búsqueda de imágenes inversas",
+    "advancedSettingEditReverseImageSearchTitle": "Editar motor de búsqueda de imágenes inversas",
+    "advancedSettingSearchProviderNameTextPlaceholder": "Mi buscador",
+    "advancedSettingSearchProviderNameImagePlaceholder": "Mi búsqueda inversa de imágenes",
+    "advancedSettingSearchProviderUrlTextHint": "Usa '{query}' donde deba insertarse el texto de búsqueda.",
+    "advancedSettingSearchProviderUrlTranslateHint": "Usa \"{query}\" donde deba insertarse el texto a traducir.",
+    "advancedSettingSearchProviderUrlImageHint": "Usa '{url}' donde se deba insertar la URL de la imagen.",
+    "advancedSettingSearchProviderNameRequired": "Se requiere un nombre.",
+    "advancedSettingSearchProviderUrlRequired": "El patrón de URL es obligatorio.",
+    "advancedSettingSearchProviderUrlMustContainQuery": "El patrón de URL debe contener el marcador de posición '{query}'.",
+    "advancedSettingSearchProviderUrlMustContainUrl": "El patrón de URL debe contener el marcador de posición '{url}'.",
+    "advancedSettingSearchProviderUrlMustBeValid": "El patrón de URL debe ser una URL válida.",
+    "advancedSettingRemoveSearchProviderConfirmDescription": "¿Estás seguro de que quieres eliminar {engineName}?",
+    "@advancedSettingRemoveSearchProviderConfirmDescription": {
+        "placeholders": {
+            "engineName": {
+                "type": "String"
+            }
+        }
+    },
+    "userSettingsJoinFluxerLabs": "Únete a Fluxer Labs",
+    "@userSettingsJoinFluxerLabs": {
+        "description": "User settings What's New action to join the Fluxer Labs community."
+    },
+    "userSettingsNavAppLicenses": "Licencias de la aplicación",
+    "@userSettingsNavAppLicenses": {
+        "description": "User settings navigation item to open open-source app licenses."
+    },
+    "userSettingsAppLicensesDescription": "Software de código abierto utilizado por esta app. Esta app está creada con Flutter.",
+    "@userSettingsAppLicensesDescription": {
+        "description": "Description shown at the top of the app licenses settings page."
+    },
+    "userSettingsAppLicensesLoadError": "No se pudieron cargar las licencias de la aplicación.",
+    "@userSettingsAppLicensesLoadError": {
+        "description": "Error message when the app licenses list fails to load."
+    },
+    "userSettingsAppLicensesPackageCount": "{count, plural, =1{1 licencia} other{{count} licencias}}",
+    "@userSettingsAppLicensesPackageCount": {
+        "description": "Subtitle on an app licenses list row showing how many license entries apply to a package.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "savedMessagesEmptyBody": "Guarda mensajes para verlos después.",
+    "@savedMessagesEmptyBody": {
+        "description": "Empty-state body on the saved messages page."
+    },
+    "savedMessagesEndBody": "No hay nada más que ver aquí.",
+    "@savedMessagesEndBody": {
+        "description": "End-of-list body on the saved messages page."
+    },
+    "uiSearch": "Buscar",
+    "@uiSearch": {
+        "description": "Accessible label for icon-only search buttons."
+    },
+    "uiStartCall": "Iniciar llamada",
+    "@uiStartCall": {
+        "description": "Accessible label for icon-only voice call buttons."
+    },
+    "uiStartVideoCall": "Iniciar videollamada",
+    "@uiStartVideoCall": {
+        "description": "Accessible label for icon-only video call buttons."
+    },
+    "uiPlay": "Reproducir",
+    "@uiPlay": {
+        "description": "Accessible label for icon-only play buttons."
+    },
+    "uiPause": "Pausar",
+    "@uiPause": {
+        "description": "Accessible label for icon-only pause buttons."
+    },
+    "uiDownload": "Descargar",
+    "@uiDownload": {
+        "description": "Accessible label for icon-only download buttons."
+    },
+    "uiMoreActions": "Más opciones",
+    "@uiMoreActions": {
+        "description": "Accessible label for icon-only overflow menus."
+    },
+    "mentionConfirmRoleBody": "Esto notificará a {count} miembros con el rol de {roleName}. ¿Continuar?",
+    "@mentionConfirmRoleBody": {
+        "description": "Body of the large role mention confirmation dialog.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            },
+            "roleName": {
+                "type": "String"
+            }
+        }
+    },
+    "guildNavbarGuildMentions": "{count, plural, =1{1 mención} other{{count} menciones}}",
+    "@guildNavbarGuildMentions": {
+        "description": "Screen reader suffix when a guild navbar item has mention notifications.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "authHidePassword": "Ocultar contraseña",
+    "@authHidePassword": {
+        "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "chatLoadingMessages": "Cargando mensajes",
+    "@chatLoadingMessages": {
+        "description": "Screen reader label for the chat message list loading skeleton."
+    },
+    "friendsAcceptRequest": "Aceptar solicitud de amistad",
+    "@friendsAcceptRequest": {
+        "description": "Screen reader label for accepting a friend request."
+    },
+    "friendsDeclineRequest": "Rechazar solicitud de amistad",
+    "@friendsDeclineRequest": {
+        "description": "Screen reader label for declining a friend request."
+    },
+    "friendsCancelRequest": "Cancelar solicitud de amistad",
+    "@friendsCancelRequest": {
+        "description": "Screen reader label for canceling an outgoing friend request."
+    },
+    "profileAcceptFriendRequest": "Aceptar solicitud de amistad",
+    "@profileAcceptFriendRequest": {
+        "description": "Screen reader label for accepting a friend request from a profile."
+    },
+    "profileCancelFriendRequest": "Cancelar solicitud de amistad",
+    "@profileCancelFriendRequest": {
+        "description": "Screen reader label for canceling an outgoing friend request from a profile."
+    },
+    "guildFolderShowIconWhenCollapsed": "Mostrar ícono cuando está contraído",
+    "@guildFolderShowIconWhenCollapsed": {
+        "description": "Toggle label for showing the folder icon when collapsed."
+    },
+    "guildFolderMarkAsRead": "Marcar carpeta como leída",
+    "@guildFolderMarkAsRead": {
+        "description": "Context menu action that marks every channel in the folder as read."
+    },
+    "guildBulkCommunityNotificationSettings": "Configuración de notificaciones de la comunidad",
+    "@guildBulkCommunityNotificationSettings": {
+        "description": "Submenu label for bulk notification settings in a folder."
+    },
+    "guildBulkCommunityPrivacySettings": "Ajustes de privacidad de la comunidad",
+    "@guildBulkCommunityPrivacySettings": {
+        "description": "Submenu label for bulk privacy settings in a folder."
+    },
+    "guildBulkAllowEveryoneAndHere": "Permitir @everyone y @here",
+    "@guildBulkAllowEveryoneAndHere": {
+        "description": "Bulk action that allows @everyone and @here mentions."
+    },
+    "guildBulkAllowRoleMentions": "Permitir menciones de roles",
+    "@guildBulkAllowRoleMentions": {
+        "description": "Bulk action that allows role mentions."
+    },
+    "guildBulkEnableMobilePush": "Activar notificaciones push en el móvil",
+    "@guildBulkEnableMobilePush": {
+        "description": "Bulk action that enables mobile push for folder communities."
+    },
+    "guildBulkDisableMobilePush": "Desactivar las notificaciones push en el móvil",
+    "@guildBulkDisableMobilePush": {
+        "description": "Bulk action that disables mobile push for folder communities."
+    },
+    "guildBulkAllowDirectMessages": "Permitir mensajes directos",
+    "@guildBulkAllowDirectMessages": {
+        "description": "Bulk action that allows DMs from folder community members."
+    },
+    "guildBulkBlockDirectMessages": "Bloquear mensajes directos",
+    "@guildBulkBlockDirectMessages": {
+        "description": "Bulk action that blocks DMs from folder community members."
+    },
+    "guildBulkAllowBotDirectMessages": "Permitir mensajes directos de bots",
+    "@guildBulkAllowBotDirectMessages": {
+        "description": "Bulk action that allows bot DMs from folder communities."
+    },
+    "guildBulkBlockBotDirectMessages": "Bloquear mensajes directos del bot",
+    "@guildBulkBlockBotDirectMessages": {
+        "description": "Bulk action that blocks bot DMs from folder communities."
+    },
+    "guildNavbarChannelTypeSelection": "Selección del tipo de canal",
+    "@guildNavbarChannelTypeSelection": {
+        "description": "Accessibility label for channel type radio group in create channel modal."
+    },
+    "guildSettingsRolesBackToRoles": "Volver a roles",
+    "@guildSettingsRolesBackToRoles": {
+        "description": "Button to return to the role list from the editor."
+    },
+    "guildSettingsBackToSettings": "Volver a la configuración",
+    "@guildSettingsBackToSettings": {
+        "description": "Button in community settings that returns from a nested sidebar to the main settings tab list."
+    },
+    "guildSettingsRolesEditSubtitle": "Configurar ajustes y permisos de roles",
+    "@guildSettingsRolesEditSubtitle": {
+        "description": "Subtitle for the role editor panel."
+    },
+    "guildSettingsRolesRoleColorHelper": "Escribe un color (hex, rgb(), hsl() o nombre) o usa el selector.",
+    "@guildSettingsRolesRoleColorHelper": {
+        "description": "Helper text under the role color input."
+    },
+    "guildSettingsRolesShowSeparately": "Mostrar este rol por separado",
+    "@guildSettingsRolesShowSeparately": {
+        "description": "Switch label for the hoist toggle."
+    },
+    "guildSettingsRolesShowSeparatelyHelper": "Muestra a los miembros con este rol en su propia sección en la lista de miembros.",
+    "@guildSettingsRolesShowSeparatelyHelper": {
+        "description": "Helper text under the hoist toggle."
+    },
+    "guildSettingsRolesAllowMentions": "Permitir menciones para este rol",
+    "@guildSettingsRolesAllowMentions": {
+        "description": "Switch label for the mentionable toggle."
+    },
+    "guildSettingsRolesAllowMentionsHelper": "Los miembros con el permiso \"{permission}\" siempre podrán mencionar roles, sin importar esta configuración.",
+    "@guildSettingsRolesAllowMentionsHelper": {
+        "description": "Helper text under the mentionable toggle.",
+        "placeholders": {
+            "permission": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesClearPermissionsHelp": "Usa este botón para borrar rápidamente todos los permisos.",
+    "@guildSettingsRolesClearPermissionsHelp": {
+        "description": "Help text above the clear permissions button."
+    },
+    "guildSettingsRolesSwitchToDenseLayout": "Cambiar a diseño compacto",
+    "@guildSettingsRolesSwitchToDenseLayout": {
+        "description": "Aria label for switching to dense layout."
+    },
+    "guildSettingsRolesSwitchToComfyLayout": "Cambiar a diseño cómodo",
+    "@guildSettingsRolesSwitchToComfyLayout": {
+        "description": "Aria label for switching to comfy layout."
+    },
+    "guildSettingsRolesSwitchToSingleColumn": "Cambiar a una columna",
+    "@guildSettingsRolesSwitchToSingleColumn": {
+        "description": "Aria label for switching to single column."
+    },
+    "guildSettingsRolesSwitchToTwoColumns": "Cambiar a dos columnas",
+    "@guildSettingsRolesSwitchToTwoColumns": {
+        "description": "Aria label for switching to two columns."
+    },
+    "guildSettingsRolesNoPermissionsFound": "No se encontraron permisos",
+    "@guildSettingsRolesNoPermissionsFound": {
+        "description": "Empty state when permission search has no matches."
+    },
+    "guildSettingsRolesCustomHoistOrder": "Orden personalizado para mostrar roles",
+    "@guildSettingsRolesCustomHoistOrder": {
+        "description": "Button to enter custom hoist order mode."
+    },
+    "guildSettingsRolesResetHoistOrder": "Restablecer a predeterminado",
+    "@guildSettingsRolesResetHoistOrder": {
+        "description": "Button to reset custom hoist order."
+    },
+    "guildSettingsRolesHoistOrderHelp": "Arrastra los roles para personalizar el orden en que aparecen en la lista de miembros.",
+    "@guildSettingsRolesHoistOrderHelp": {
+        "description": "Help text in hoist order mode."
+    },
+    "guildSettingsRolesNoHoistedRoles": "No hay roles destacados. Habilita \"Mostrar este rol por separado\" en un rol para verlo aquí.",
+    "@guildSettingsRolesNoHoistedRoles": {
+        "description": "Empty state when no roles are hoisted."
+    },
+    "guildSettingsRolesNeedManageRolesPermission": "Necesitas el permiso \"{permission}\" para editar estos permisos",
+    "@guildSettingsRolesNeedManageRolesPermission": {
+        "description": "Tooltip when user lacks manage roles permission.",
+        "placeholders": {
+            "permission": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesCannotEditHigherRole": "No puedes editar un rol que sea igual o superior a tu rol más alto",
+    "@guildSettingsRolesCannotEditHigherRole": {
+        "description": "Tooltip when role hierarchy blocks editing."
+    },
+    "guildSettingsRolesCannotGrantPermission": "No puedes otorgar un permiso que no tienes",
+    "@guildSettingsRolesCannotGrantPermission": {
+        "description": "Tooltip when user cannot grant a permission."
+    },
+    "guildSettingsRolesCannotRemoveOwnPermission": "No puedes eliminar este permiso porque te lo quitarías a ti mismo",
+    "@guildSettingsRolesCannotRemoveOwnPermission": {
+        "description": "Tooltip when revoking would strip permission from self."
+    },
+    "guildSettingsRolesUpdatedSuccess": "Roles actualizados correctamente",
+    "@guildSettingsRolesUpdatedSuccess": {
+        "description": "Toast after saving role changes."
+    },
+    "guildSettingsRolesCreatedSuccess": "Rol creado con éxito",
+    "@guildSettingsRolesCreatedSuccess": {
+        "description": "Toast after creating a role."
+    },
+    "guildSettingsRolesDeletedSuccess": "Rol eliminado con éxito",
+    "@guildSettingsRolesDeletedSuccess": {
+        "description": "Toast after deleting a role."
+    },
+    "guildSettingsRolesHoistResetSuccess": "Orden de jerarquía restablecida a la predeterminada",
+    "@guildSettingsRolesHoistResetSuccess": {
+        "description": "Toast after resetting hoist order."
+    },
+    "guildSettingsRolesNameRequiredTitle": "El nombre del rol es obligatorio",
+    "@guildSettingsRolesNameRequiredTitle": {
+        "description": "Modal title when role name is blank on save."
+    },
+    "guildSettingsRolesNameRequiredBody": "Asigna un nombre al rol antes de guardar.",
+    "@guildSettingsRolesNameRequiredBody": {
+        "description": "Modal body when role name is blank on save."
+    },
+    "guildSettingsRolesCreateFailedTitle": "No se pudo crear el rol",
+    "@guildSettingsRolesCreateFailedTitle": {
+        "description": "Error modal title when role creation fails."
+    },
+    "guildSettingsRolesUpdateFailedTitle": "No se pudieron actualizar los roles",
+    "@guildSettingsRolesUpdateFailedTitle": {
+        "description": "Error modal title when role update fails."
+    },
+    "guildSettingsRolesDeleteFailedTitle": "No se pudo eliminar el rol",
+    "@guildSettingsRolesDeleteFailedTitle": {
+        "description": "Error modal title when role deletion fails."
+    },
+    "guildSettingsRolesDeleteFailedBody": "No se pudo eliminar \"{name}\". Intenta de nuevo.",
+    "@guildSettingsRolesDeleteFailedBody": {
+        "description": "Error modal body when role deletion fails.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesResetHoistFailedTitle": "No se pudo restablecer el orden de elevación",
+    "@guildSettingsRolesResetHoistFailedTitle": {
+        "description": "Error modal title when hoist reset fails."
+    },
+    "guildSettingsRolesTryAgainInAMoment": "Intenta de nuevo en un momento.",
+    "@guildSettingsRolesTryAgainInAMoment": {
+        "description": "Generic retry message for role errors."
+    },
+    "guildSettingsRolesDeleteConfirm": "¿Seguro que quieres eliminar el rol {name}? Los miembros con este rol ya no lo tendrán.",
+    "@guildSettingsRolesDeleteConfirm": {
+        "description": "Delete role confirmation message.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "permissionCategoryMessagesMedia": "Mensajes y contenido multimedia",
+    "@permissionCategoryMessagesMedia": {
+        "description": "Permission category label."
+    },
+    "permissionCategoryAudioVideo": "Audio y video",
+    "@permissionCategoryAudioVideo": {
+        "description": "Permission category label."
+    },
+    "permissionAdministratorDescription": "Otorga todos los permisos y omite las restricciones del canal. Muy delicado.",
+    "@permissionAdministratorDescription": {
+        "description": "Permission description."
+    },
+    "permissionViewActivityLog": "Ver registro de actividad",
+    "@permissionViewActivityLog": {
+        "description": "Permission name."
+    },
+    "permissionViewActivityLogDescription": "Leer el registro de actividad de la comunidad sobre cambios y acciones de moderación.",
+    "@permissionViewActivityLogDescription": {
+        "description": "Permission description."
+    },
+    "permissionManageCommunityDescription": "Edita la configuración global, como el nombre, la descripción y el ícono.",
+    "@permissionManageCommunityDescription": {
+        "description": "Permission description."
+    },
+    "permissionManageRolesDescription": "Crea, edita o elimina roles por debajo de tu rol más alto. También permite editar la anulación de permisos del canal.",
+    "@permissionManageRolesDescription": {
+        "description": "Permission description."
+    },
+    "permissionManageChannelDescription": "Cambia el nombre y edita los ajustes de este canal.",
+    "@permissionManageChannelDescription": {
+        "description": "Channel-scoped description for manage channel permission."
+    },
+    "permissionManagePermissionsDescription": "Edita los permisos de roles y miembros en este canal.",
+    "@permissionManagePermissionsDescription": {
+        "description": "Channel-scoped description for manage permissions permission."
+    },
+    "permissionManageWebhooksChannelDescription": "Crea, edita o elimina webhooks para este canal.",
+    "@permissionManageWebhooksChannelDescription": {
+        "description": "Channel-scoped description for manage webhooks permission."
+    },
+    "permissionViewChannelMembersChannelDescription": "Ver la lista de miembros de este canal.",
+    "@permissionViewChannelMembersChannelDescription": {
+        "description": "Channel-scoped description for view channel members permission."
+    },
+    "permissionCreateInviteLinksChannelDescription": "Administra los enlaces de invitación para este canal.",
+    "@permissionCreateInviteLinksChannelDescription": {
+        "description": "Channel-scoped description for create invite permission."
+    },
+    "permissionOverwriteSetAllHelp": "Usa estos botones para configurar rápidamente todos los permisos.",
+    "@permissionOverwriteSetAllHelp": {
+        "description": "Helper text above bulk permission state buttons in channel permissions."
+    },
+    "permissionManageChannelsDescription": "Crear, editar o eliminar canales y categorías.",
+    "@permissionManageChannelsDescription": {
+        "description": "Permission description."
+    },
+    "permissionCreateInviteLinks": "Crear enlaces de invitación",
+    "@permissionCreateInviteLinks": {
+        "description": "Permission name."
+    },
+    "permissionChangeOwnNickname": "Cambiar mi apodo",
+    "@permissionChangeOwnNickname": {
+        "description": "Permission name."
+    },
+    "permissionChangeOwnNicknameDescription": "Actualiza tu propio apodo.",
+    "@permissionChangeOwnNicknameDescription": {
+        "description": "Permission description."
+    },
+    "permissionManageNicknamesDescription": "Cambiar los apodos de otros miembros.",
+    "@permissionManageNicknamesDescription": {
+        "description": "Permission description."
+    },
+    "permissionCreateEmojiStickers": "Crear emojis y stickers",
+    "@permissionCreateEmojiStickers": {
+        "description": "Permission name."
+    },
+    "permissionCreateEmojiStickersDescription": "Sube nuevos emojis y stickers, y administra tus propias creaciones.",
+    "@permissionCreateEmojiStickersDescription": {
+        "description": "Permission description."
+    },
+    "permissionManageEmojiStickers": "Administrar emojis y stickers",
+    "@permissionManageEmojiStickers": {
+        "description": "Permission name."
+    },
+    "permissionManageEmojiStickersDescription": "Editar o eliminar emojis y stickers creados por otros miembros.",
+    "@permissionManageEmojiStickersDescription": {
+        "description": "Permission description."
+    },
+    "permissionManageWebhooksDescription": "Crear, editar o eliminar webhooks.",
+    "@permissionManageWebhooksDescription": {
+        "description": "Permission description."
+    },
+    "permissionSendTtsMessages": "Enviar mensajes de texto a voz",
+    "@permissionSendTtsMessages": {
+        "description": "Permission name."
+    },
+    "permissionSendTtsMessagesDescription": "Enviar mensajes de texto a voz.",
+    "@permissionSendTtsMessagesDescription": {
+        "description": "Permission description."
+    },
+    "permissionManageMessagesDescription": "Eliminar mensajes de otros miembros. Fijar mensajes se controla por separado.",
+    "@permissionManageMessagesDescription": {
+        "description": "Permission description."
+    },
+    "permissionMentionEveryone": "Usa @everyone/@here y @rol",
+    "@permissionMentionEveryone": {
+        "description": "Permission name for mention everyone."
+    },
+    "permissionMentionEveryoneDescription": "Mencionar a todos o a cualquier rol (incluso si el rol no está configurado para ser mencionable).",
+    "@permissionMentionEveryoneDescription": {
+        "description": "Permission description."
+    },
+    "permissionUseExternalEmoji": "Usar emojis externos",
+    "@permissionUseExternalEmoji": {
+        "description": "Permission name."
+    },
+    "permissionUseExternalEmojiDescription": "Usar emojis de otras comunidades.",
+    "@permissionUseExternalEmojiDescription": {
+        "description": "Permission description."
+    },
+    "permissionUseExternalStickers": "Usar stickers externos",
+    "@permissionUseExternalStickers": {
+        "description": "Permission name."
+    },
+    "permissionAddReactionsDescription": "Agrega reacciones nuevas a los mensajes.",
+    "@permissionAddReactionsDescription": {
+        "description": "Permission description."
+    },
+    "permissionBypassSlowmodeDescription": "Ignorar límites de mensajes por canal.",
+    "@permissionBypassSlowmodeDescription": {
+        "description": "Permission description."
+    },
+    "permissionTimeOutMembers": "Poner miembros en pausa",
+    "@permissionTimeOutMembers": {
+        "description": "Permission name."
+    },
+    "permissionTimeOutMembersDescription": "Evita que los miembros envíen mensajes, reaccionen y se unan a chats de voz durante un tiempo.",
+    "@permissionTimeOutMembersDescription": {
+        "description": "Permission description."
+    },
+    "permissionViewChannelMembers": "Ver miembros del canal",
+    "@permissionViewChannelMembers": {
+        "description": "Permission name."
+    },
+    "permissionViewChannelMembersDescription": "Ver la lista de miembros de los canales en esta comunidad.",
+    "@permissionViewChannelMembersDescription": {
+        "description": "Permission description."
+    },
+    "permissionUseVoiceActivity": "Usar actividad de voz",
+    "@permissionUseVoiceActivity": {
+        "description": "Permission name."
+    },
+    "permissionUseVoiceActivityDescription": "Sin este permiso, se requiere pulsar para hablar.",
+    "@permissionUseVoiceActivityDescription": {
+        "description": "Permission description."
+    },
+    "permissionMoveMembersDescription": "Arrastra miembros entre canales a los que puedan acceder.",
+    "@permissionMoveMembersDescription": {
+        "description": "Permission description."
+    },
+    "permissionSetVoiceRegion": "Establecer región de voz",
+    "@permissionSetVoiceRegion": {
+        "description": "Permission name."
+    },
+    "guildSettingsWebhooksEmptyDescription": "Esta comunidad aún no tiene webhooks. Ve a {channelSettingsPath} para crear uno.",
+    "@guildSettingsWebhooksEmptyDescription": {
+        "description": "Empty state description for guild webhooks.",
+        "placeholders": {
+            "channelSettingsPath": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsWebhooksPermissionRequired": "Necesitas el permiso \"{permission}\" para ver y editar los webhooks de esta comunidad.",
+    "@guildSettingsWebhooksPermissionRequired": {
+        "description": "Permission notice on guild webhooks tab.",
+        "placeholders": {
+            "permission": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsWebhooksLoadFailedTitle": "No se pudieron cargar los webhooks",
+    "@guildSettingsWebhooksLoadFailedTitle": {
+        "description": "Error title when guild webhooks fail to load."
+    },
+    "guildSettingsWebhooksLoadFailedDescription": "Hubo un error al cargar los webhooks. Intenta de nuevo.",
+    "@guildSettingsWebhooksLoadFailedDescription": {
+        "description": "Error description when guild webhooks fail to load."
+    },
+    "guildSettingsWebhooksUpdateFailed": "No se pudieron actualizar los webhooks",
+    "@guildSettingsWebhooksUpdateFailed": {
+        "description": "Error message when saving guild webhook changes fails."
+    },
+    "guildSettingsDiscoveryNotEnoughMembersTitle": "No hay suficientes miembros",
+    "@guildSettingsDiscoveryNotEnoughMembersTitle": {
+        "description": "Title for the eligibility warning when a community cannot apply for Discovery yet."
+    },
+    "guildSettingsDiscoveryApprovedInfo": "Tu comunidad está en Descubrir. Puedes actualizar los detalles de tu publicación abajo o retirarla para eliminarla.",
+    "@guildSettingsDiscoveryApprovedInfo": {
+        "description": "Info banner when the community is approved and listed in Discovery."
+    },
+    "guildSettingsDiscoveryPendingInfo": "Tu solicitud está pendiente de revisión. Todavía puedes actualizar los detalles de tu anuncio o retirar la solicitud.",
+    "@guildSettingsDiscoveryPendingInfo": {
+        "description": "Info banner when the discovery application is pending review."
+    },
+    "guildSettingsDiscoveryCategoryHelp": "Elige la categoría que mejor describa tu comunidad. Puedes cambiarla en cualquier momento.",
+    "@guildSettingsDiscoveryCategoryHelp": {
+        "description": "Help text below the discovery category field."
+    },
+    "guildSettingsDiscoveryPrimaryLanguageHelp": "El idioma que la mayoría de tu comunidad habla. Se usa para filtrar los resultados de Descubrir.",
+    "@guildSettingsDiscoveryPrimaryLanguageHelp": {
+        "description": "Help text below the primary language field."
+    },
+    "guildSettingsDiscoveryDescriptionPlaceholder": "Describe de qué trata tu comunidad",
+    "@guildSettingsDiscoveryDescriptionPlaceholder": {
+        "description": "Placeholder in the discovery description field."
+    },
+    "guildSettingsDiscoveryDescriptionRequired": "Se requiere una descripción.",
+    "@guildSettingsDiscoveryDescriptionRequired": {
+        "description": "Validation error when the discovery description is empty."
+    },
+    "guildSettingsDiscoveryDescriptionMinLength": "La descripción debe tener al menos {minLength} caracteres.",
+    "@guildSettingsDiscoveryDescriptionMinLength": {
+        "description": "Validation error when the discovery description is too short.",
+        "placeholders": {
+            "minLength": {
+                "type": "int"
+            }
+        }
+    },
+    "guildSettingsDiscoveryDescriptionMaxLength": "La descripción no puede tener más de {maxLength} caracteres.",
+    "@guildSettingsDiscoveryDescriptionMaxLength": {
+        "description": "Validation error when the discovery description is too long.",
+        "placeholders": {
+            "maxLength": {
+                "type": "int"
+            }
+        }
+    },
+    "guildSettingsDiscoveryTagsHelp": "Hasta {maxTags} etiquetas ayudan a la gente a encontrar tu comunidad. Aparecen en la búsqueda de Descubrimiento.",
+    "@guildSettingsDiscoveryTagsHelp": {
+        "description": "Help text below the custom tags field.",
+        "placeholders": {
+            "maxTags": {
+                "type": "int"
+            }
+        }
+    },
+    "guildSettingsDiscoveryRemoveTag": "Eliminar etiqueta {tag}",
+    "@guildSettingsDiscoveryRemoveTag": {
+        "description": "Accessibility label for removing a custom discovery tag.",
+        "placeholders": {
+            "tag": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsDiscoveryTagErrorTitle": "No se pudo añadir la etiqueta",
+    "@guildSettingsDiscoveryTagErrorTitle": {
+        "description": "Error modal title when a custom discovery tag cannot be added."
+    },
+    "guildSettingsDiscoveryTagRequirements": "Las etiquetas deben tener entre 2 y {maxLength} caracteres alfanuméricos.",
+    "@guildSettingsDiscoveryTagRequirements": {
+        "description": "Validation error for invalid custom discovery tags.",
+        "placeholders": {
+            "maxLength": {
+                "type": "int"
+            }
+        }
+    },
+    "guildSettingsDiscoveryTagLimit": "Solo puedes añadir hasta {maxTags} etiquetas.",
+    "@guildSettingsDiscoveryTagLimit": {
+        "description": "Validation error when the custom tag limit is reached.",
+        "placeholders": {
+            "maxTags": {
+                "type": "int"
+            }
+        }
+    },
+    "guildSettingsDiscoveryApplicationSent": "Solicitud de descubrimiento enviada",
+    "@guildSettingsDiscoveryApplicationSent": {
+        "description": "Success toast after submitting a discovery application."
+    },
+    "guildSettingsDiscoveryListingUpdated": "Lista de descubrimiento actualizada",
+    "@guildSettingsDiscoveryListingUpdated": {
+        "description": "Success toast after updating a discovery listing."
+    },
+    "guildSettingsDiscoveryApplicationWithdrawn": "Solicitud de descubrimiento retirada",
+    "@guildSettingsDiscoveryApplicationWithdrawn": {
+        "description": "Success toast after withdrawing a discovery application."
+    },
+    "guildSettingsDiscoveryWithdrawErrorTitle": "No se pudo retirar la solicitud",
+    "@guildSettingsDiscoveryWithdrawErrorTitle": {
+        "description": "Error modal title when withdrawing a discovery application fails."
+    },
+    "guildSettingsDiscoveryWithdrawErrorDescription": "Intenta de nuevo en un momento.",
+    "@guildSettingsDiscoveryWithdrawErrorDescription": {
+        "description": "Error modal body when withdrawing a discovery application fails."
+    },
+    "guildMembersShowingCount": "Mostrando {displayedCount} de {totalCount} miembros en total",
+    "@guildMembersShowingCount": {
+        "description": "Subtitle showing pagination count on the community members page.",
+        "placeholders": {
+            "displayedCount": {
+                "type": "int"
+            },
+            "totalCount": {
+                "type": "int"
+            }
+        }
+    },
+    "guildMembersFilterMemberSince": "Filtrar por antigüedad de miembro",
+    "@guildMembersFilterMemberSince": {
+        "description": "Filter menu label on the community members page."
+    },
+    "guildMembersFilterJoinedProduct": "Filtrar por fecha de creación de cuenta",
+    "@guildMembersFilterJoinedProduct": {
+        "description": "Filter menu label on the community members page."
+    },
+    "guildMembersFilterJoinMethod": "Filtrar por método de unión",
+    "@guildMembersFilterJoinMethod": {
+        "description": "Filter menu label on the community members page."
+    },
+    "guildMembersFilterRoles": "Filtrar por roles",
+    "@guildMembersFilterRoles": {
+        "description": "Filter menu label on the community members page."
+    },
+    "guildMembersFilterPast1Hour": "Última hora",
+    "@guildMembersFilterPast1Hour": {
+        "description": "Date-range filter option on the community members page."
+    },
+    "guildMembersFilterPast24Hours": "Últimas 24 horas",
+    "@guildMembersFilterPast24Hours": {
+        "description": "Date-range filter option on the community members page."
+    },
+    "guildMembersFilterPast7Days": "Últimos 7 días",
+    "@guildMembersFilterPast7Days": {
+        "description": "Date-range filter option on the community members page."
+    },
+    "guildMembersFilterPast2Weeks": "Últimas 2 semanas",
+    "@guildMembersFilterPast2Weeks": {
+        "description": "Date-range filter option on the community members page."
+    },
+    "guildMembersFilterPast3Weeks": "Últimas 3 semanas",
+    "@guildMembersFilterPast3Weeks": {
+        "description": "Date-range filter option on the community members page."
+    },
+    "guildMembersFilterPast4Weeks": "Últimas 4 semanas",
+    "@guildMembersFilterPast4Weeks": {
+        "description": "Date-range filter option on the community members page."
+    },
+    "guildMembersFilterPast3Months": "Últimos 3 meses",
+    "@guildMembersFilterPast3Months": {
+        "description": "Date-range filter option on the community members page."
+    },
+    "guildMembersDateRangeTitle": "Rango de fechas personalizado",
+    "@guildMembersDateRangeTitle": {
+        "description": "Title for the custom date range sheet on the community members page."
+    },
+    "guildMembersDateAfter": "Después de la fecha",
+    "@guildMembersDateAfter": {
+        "description": "Label for the after-date field in the custom date range sheet."
+    },
+    "guildMembersDateBefore": "Antes de la fecha",
+    "@guildMembersDateBefore": {
+        "description": "Label for the before-date field in the custom date range sheet."
+    },
+    "guildMembersRowsPerPage": "Filas por página",
+    "@guildMembersRowsPerPage": {
+        "description": "Pagination page size label on the community members page."
+    },
+    "guildMembersEmptySearch": "Nadie coincide con esa búsqueda.",
+    "@guildMembersEmptySearch": {
+        "description": "Empty state when no members match filters on the community members page."
+    },
+    "guildMembersLoadError": "Hubo un error al cargar a los miembros. Intenta de nuevo más tarde.",
+    "@guildMembersLoadError": {
+        "description": "Error state on the community members page."
+    },
+    "guildMembersIndexing": "Indexando miembros…",
+    "@guildMembersIndexing": {
+        "description": "Banner shown while guild members are being indexed."
+    },
+    "guildMembersGoToPage": "Ir a la página",
+    "@guildMembersGoToPage": {
+        "description": "Pagination jump label on the community members page."
+    },
+    "guildMembersGoToPageItem": "Ir a la página {page}",
+    "@guildMembersGoToPageItem": {
+        "description": "Accessibility label for a pagination page button.",
+        "placeholders": {
+            "page": {
+                "type": "int"
+            }
+        }
+    },
+    "guildMembersJumpToPage": "Ir a la página",
+    "@guildMembersJumpToPage": {
+        "description": "Label for pagination jump input on the community members page."
+    },
+    "guildMembersJoinSourceInviteCode": "Invitar ({code})",
+    "@guildMembersJoinSourceInviteCode": {
+        "description": "Join method label with invite code on the community members page.",
+        "placeholders": {
+            "code": {
+                "type": "String"
+            }
+        }
+    },
+    "guildMembersJoinSourceInvitedBy": "Invitado por {name}",
+    "@guildMembersJoinSourceInvitedBy": {
+        "description": "Join method label with inviter on the community members page.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "guildMembersCommunityOwner": "Propietario de la comunidad",
+    "@guildMembersCommunityOwner": {
+        "description": "Label for the guild owner on the community members page."
+    },
+    "guildMembersViewAllRoles": "Ver todos los roles",
+    "@guildMembersViewAllRoles": {
+        "description": "Tooltip for role overflow on the community members page."
+    },
+    "guildMembersJoinedJustNow": "Justo ahora",
+    "@guildMembersJoinedJustNow": {
+        "description": "Relative join time on the community members page."
+    },
+    "guildMembersJoinedMinutesAgo": "{count, plural, one {hace 1 minuto} other {hace # minutos}}",
+    "@guildMembersJoinedMinutesAgo": {
+        "description": "Relative join time on the community members page.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "guildMembersJoinedHoursAgo": "{count, plural, one {Hace 1 hora} other {Hace # horas}}",
+    "@guildMembersJoinedHoursAgo": {
+        "description": "Relative join time on the community members page.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "guildMembersJoinedDaysAgo": "{count, plural, one {hace 1 día} other {hace # días}}",
+    "@guildMembersJoinedDaysAgo": {
+        "description": "Relative join time on the community members page.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "guildMembersChannelListSelected": "Miembros, seleccionados",
+    "@guildMembersChannelListSelected": {
+        "description": "Accessibility label when the Members channel list item is selected."
+    },
+    "guildSettingsInvitesEmptyDescription": "Esta comunidad aún no tiene enlaces de invitación. Ve a un canal y crea una invitación para invitar a personas.",
+    "@guildSettingsInvitesEmptyDescription": {
+        "description": "Empty state description for invites."
+    },
+    "guildSettingsInvitesLoadFailedTitle": "No se pudieron cargar las invitaciones",
+    "@guildSettingsInvitesLoadFailedTitle": {
+        "description": "Error title when invites fail to load."
+    },
+    "guildSettingsInvitesLoadFailedDescription": "Hubo un error al cargar las invitaciones. Intenta de nuevo.",
+    "@guildSettingsInvitesLoadFailedDescription": {
+        "description": "Error description when invites fail to load."
+    },
+    "guildSettingsInvitesPauseForCommunityTitle": "Pausar invitaciones para esta comunidad",
+    "@guildSettingsInvitesPauseForCommunityTitle": {
+        "description": "Confirmation title before pausing invites."
+    },
+    "guildSettingsInvitesEnableForCommunityTitle": "Habilitar invitaciones para esta comunidad",
+    "@guildSettingsInvitesEnableForCommunityTitle": {
+        "description": "Confirmation title before enabling invites."
+    },
+    "guildSettingsInvitesPauseConfirmDescription": "¿Pausar invitaciones? Los usuarios nuevos no podrán unirse a través de enlaces de invitación hasta que los vuelvas a habilitar. Los miembros existentes no se verán afectados.",
+    "@guildSettingsInvitesPauseConfirmDescription": {
+        "description": "Confirmation body before pausing invites."
+    },
+    "guildSettingsInvitesEnableConfirmDescription": "¿Habilitar invitaciones? Los usuarios podrán unirse a esta comunidad a través de enlaces de invitación de nuevo.",
+    "@guildSettingsInvitesEnableConfirmDescription": {
+        "description": "Confirmation body before enabling invites."
+    },
+    "guildSettingsInvitesPausedForCommunity": "Las invitaciones están pausadas para esta comunidad.",
+    "@guildSettingsInvitesPausedForCommunity": {
+        "description": "Status message when invites are manually paused."
+    },
+    "guildSettingsInvitesPausedBecauseRaid": "Las invitaciones están en pausa porque {productName} detectó un posible ataque. Los usuarios nuevos no pueden unirse en este momento.",
+    "@guildSettingsInvitesPausedBecauseRaid": {
+        "description": "Status message when invites are paused due to raid detection.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsInvitesCopyLink": "Copiar enlace de invitación",
+    "@guildSettingsInvitesCopyLink": {
+        "description": "Action to copy an invite link."
+    },
+    "guildSettingsInvitesRevokeFailedTitle": "No se pudo revocar la invitación",
+    "@guildSettingsInvitesRevokeFailedTitle": {
+        "description": "Error title when revoking an invite fails."
+    },
+    "guildSettingsInvitesRevokeFailedDescription": "Es posible que el enlace siga funcionando. Intenta de nuevo en un momento.",
+    "@guildSettingsInvitesRevokeFailedDescription": {
+        "description": "Error description when revoking an invite fails."
+    },
+    "guildSettingsEmojiSlotsTitle": "Espacios para emojis",
+    "guildSettingsEmojiDropZone": "Arrastra y suelta los archivos de emojis aquí",
+    "guildSettingsEmojiLoadFailed": "No se pudieron cargar los emojis. Intenta de nuevo más tarde.",
+    "guildSettingsEmojiSearchEmpty": "No se encontraron emojis que coincidan con tu búsqueda.",
+    "guildSettingsEmojiNoSlots": "No hay espacios disponibles para emojis",
+    "guildSettingsEmojiSlotsFull": "Alcanzaste el número máximo de emojis. Elimina algunos emojis existentes para hacer espacio.",
+    "guildSettingsEmojiUploadRequirements": "Los nombres de los emojis deben tener al menos 2 caracteres y pueden usar letras, números y guiones bajos. Los emojis deben ser inferiores a {maxSize}. Las imágenes estáticas se redimensionan automáticamente a 128x128 píxeles y se comprimen. Los emojis animados y los SVG ya deben cumplir con el límite.",
+    "@guildSettingsEmojiUploadRequirements": {
+        "placeholders": {
+            "maxSize": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsEmojiUploadingBody": "Subiendo {count, plural, one {# emoji} other {# emojis}}. Esto podría tardar un poco.",
+    "@guildSettingsEmojiUploadingBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "guildSettingsEmojiUploadFailed": "No se pudieron subir los emojis. Intenta de nuevo.",
+    "guildSettingsEmojiSomeFailedTitle": "No se pudieron añadir algunos emojis",
+    "guildSettingsEmojiSomeFailedBody": "Revisa estos archivos e inténtalo de nuevo con imágenes más pequeñas o sencillas.",
+    "guildSettingsEmojiRenameHint": "2-32 caracteres, letras, números, guiones bajos.",
+    "guildSettingsEmojiDeleteBody": "¿Eliminar :{name}:? No se puede deshacer.",
+    "@guildSettingsEmojiDeleteBody": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsEmojiPurgeLabel": "Borrar este emoji del almacenamiento y la CDN",
+    "guildSettingsEmojiNameTooShort": "El nombre del emoji debe tener al menos 2 caracteres",
+    "guildSettingsEmojiNameTooLong": "El nombre del emoji debe tener 32 caracteres como máximo",
+    "guildSettingsEmojiInvalidNameTitle": "Nombre de emoji no válido",
+    "guildSettingsEmojiRenameFailedTitle": "No se pudo cambiar el nombre de este emoji",
+    "guildSettingsEmojiRenameFailedBody": "El nombre se revirtió a como estaba antes. Intenta de nuevo en un momento.",
+    "guildSettingsEmojiGoneTitle": "Este emoji ya no existe",
+    "guildSettingsEmojiGoneBody": "Es posible que se haya eliminado. El nombre volvió a ser el que tenía antes.",
+    "guildSettingsEmojiNoPermissionRenameTitle": "No puedes cambiar el nombre de este emoji",
+    "guildSettingsEmojiNoPermissionRenameBody": "No tienes permiso para cambiar el nombre de este emoji. El nombre se restableció al que tenía antes.",
+    "guildSettingsEmojiRateLimitedTitle": "Vas demasiado rápido",
+    "guildSettingsEmojiRateLimitedBody": "Espera un momento e intenta cambiar el nombre de nuevo.",
+    "guildSettingsEmojiDeleteFailedTitle": "No se pudo eliminar este emoji",
+    "guildSettingsEmojiDeleteNoPermissionTitle": "No puedes eliminar este emoji",
+    "guildSettingsCloneEmojiTitle": "Permitir que otros clonen tus emojis",
+    "guildSettingsCloneEmojiDescription": "Cuando está activado, los miembros de otras comunidades pueden usar el atajo de \"Clonar\" con un solo clic en la app para tus emojis personalizados. Esto no evita que guarden la imagen y la suban ellos mismos.",
+    "guildSettingsCloneStickerTitle": "Permitir que otros clonen tus stickers",
+    "guildSettingsCloneStickerDescription": "Cuando está activado, los miembros de otras comunidades pueden usar el atajo de \"Clonar\" con un solo clic en la app para tus stickers personalizados. Esto no evita que guarden la imagen y la suban ellos mismos.",
+    "guildSettingsClonePermissionHint": "Solo los miembros con el permiso \"{permission}\" pueden cambiar esto.",
+    "@guildSettingsClonePermissionHint": {
+        "placeholders": {
+            "permission": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsCloneEmojiUpdateFailed": "No se pudo actualizar la clonación de emojis",
+    "guildSettingsCloneStickerUpdateFailed": "No se pudo actualizar la clonación de stickers",
+    "guildSettingsStickerDropZone": "Arrastra y suelta un archivo de sticker aquí (uno a la vez)",
+    "guildSettingsStickersLoadFailedTitle": "No se pudieron cargar los stickers",
+    "guildSettingsStickersLoadFailedBody": "Hubo un error al cargar los stickers. Intenta de nuevo.",
+    "guildSettingsStickersSearchEmpty": "No se encontraron stickers que coincidan con tu búsqueda.",
+    "guildSettingsStickersEmptySearch": "No se encontraron stickers",
+    "guildSettingsStickerNoSlots": "No hay espacios disponibles para stickers",
+    "guildSettingsStickerSlotsFull": "Alcanzaste el número máximo de stickers. Elimina algunos stickers existentes para liberar espacio.",
+    "guildSettingsStickerUploadRequirements": "Los stickers se guardan en 320x320 píxeles y deben ser inferiores a {maxSize}. Las imágenes estáticas se redimensionan y comprimen automáticamente. Los stickers animados y los SVG ya deben cumplir con el límite.",
+    "@guildSettingsStickerUploadRequirements": {
+        "placeholders": {
+            "maxSize": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsStickerUnsupportedTitle": "Archivo de sticker no compatible",
+    "guildSettingsStickerNameHint": "Mi sticker increíble",
+    "guildSettingsStickerDescriptionHint": "Describe el sticker",
+    "guildSettingsStickerTagHint": "Agregar una etiqueta",
+    "guildSettingsStickerNameRequired": "Se requiere un nombre",
+    "guildSettingsStickerNameTooShort": "El nombre debe tener al menos 2 caracteres",
+    "guildSettingsStickerNameTooLong": "El nombre debe tener 30 caracteres o menos",
+    "guildSettingsStickerDescriptionTooLong": "La descripción debe tener 500 caracteres o menos",
+    "guildSettingsStickerCreateFailedTitle": "No se pudo crear este sticker",
+    "guildSettingsStickerTooLargeTitle": "El sticker es demasiado grande",
+    "guildSettingsStickerCompressFailedTitle": "No se pudo comprimir el sticker lo suficiente",
+    "guildSettingsStickerDeleteBody": "¿Eliminar \"{name}\"? No se puede deshacer.",
+    "@guildSettingsStickerDeleteBody": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsStickerPurgeLabel": "Eliminar este sticker del almacenamiento y la CDN",
+    "guildSettingsStickerDeleteFailedTitle": "No se pudo eliminar este sticker",
+    "guildSettingsStickerDeleteNoPermissionTitle": "No puedes eliminar esta pegatina",
+    "keybindsSearchShortcuts": "Buscar atajos",
+    "@keybindsSearchShortcuts": {
+        "description": "Placeholder for the shortcuts settings search field."
+    },
+    "keybindSectionDragAndDrop": "Arrastrar y soltar",
+    "keybindSectionVoiceAndVideo": "Voz y video",
+    "keybindActionShowShortcutsList": "Mostrar lista de atajos de teclado",
+    "keybindActionMarkUnread": "Marcar como no leído",
+    "keybindActionFocusTextarea": "Enfocar área de texto",
+    "keybindActionSwitchCommunities": "Cambiar entre comunidades",
+    "keybindActionSwitchChannels": "Cambiar de canal",
+    "keybindActionHistoryBack": "Retroceder en el historial de canales vistos",
+    "keybindActionHistoryForward": "Avanzar en el historial de canales vistos",
+    "keybindActionJumpUnreadChannels": "Saltar entre canales no leídos",
+    "keybindActionJumpMentionChannels": "Saltar entre canales no leídos con menciones",
+    "keybindActionJumpCurrentCall": "Ir a la llamada actual",
+    "keybindActionToggleLastGuildDms": "Alternar entre la última comunidad y los MD",
+    "keybindActionPreviousCommunityOrDms": "Cambiar a la comunidad o MD anteriores",
+    "keybindActionNextCommunityOrDms": "Cambiar a la siguiente comunidad o MD",
+    "keybindActionGoToDms": "Ir a Mensajes directos",
+    "keybindActionGoToFirstCommunity": "Ir a la primera comunidad",
+    "keybindActionGoToSecondCommunity": "Ir a la segunda comunidad",
+    "keybindActionGoToThirdCommunity": "Ir a la tercera comunidad",
+    "keybindActionGoToFourthCommunity": "Ir a la cuarta comunidad",
+    "keybindActionGoToFifthCommunity": "Ir a la quinta comunidad",
+    "keybindActionGoToSixthCommunity": "Ir a la sexta comunidad",
+    "keybindActionGoToSeventhCommunity": "Ir a la séptima comunidad",
+    "keybindActionGoToEighthCommunity": "Ir a la octava comunidad",
+    "keybindActionToggleQuickSwitcher": "Alternar el cambio rápido",
+    "keybindActionCreateOrJoinCommunity": "Crear o unirte a una comunidad",
+    "keybindActionStartDragAndDrop": "Iniciar arrastrar y soltar",
+    "keybindActionDropItem": "Soltar objeto",
+    "keybindActionMarkCommunityRead": "Marcar comunidad como leída",
+    "keybindActionMarkChannelRead": "Marcar canal como leído",
+    "keybindActionStartGroupDm": "Iniciar un chat grupal",
+    "keybindActionTogglePinnedMessages": "Alternar mensajes fijados",
+    "keybindActionToggleInbox": "Alternar la bandeja de entrada",
+    "keybindActionMarkTopInboxRead": "Marcar como leído el canal principal de la bandeja de entrada",
+    "keybindActionMarkAllInboxRead": "Marcar todos los canales de la bandeja de entrada como leídos",
+    "keybindActionToggleMemberList": "Alternar la lista de miembros o el chat de voz",
+    "keybindActionToggleEmojiPicker": "Alternar el selector de emojis",
+    "keybindActionToggleGifPicker": "Alternar el selector de GIF",
+    "keybindActionToggleStickerPicker": "Alternar el selector de stickers",
+    "keybindActionScrollChatUp": "Desplazar el chat hacia arriba",
+    "keybindActionScrollChatDown": "Desplazar el chat hacia abajo",
+    "keybindActionJumpOldestUnread": "Ir al mensaje no leído más antiguo",
+    "keybindActionFocusComposer": "Enfocar el área de texto",
+    "keybindActionUploadFile": "Subir un archivo",
+    "keybindActionCopyChannelLink": "Copiar enlace del canal",
+    "keybindActionToggleSavedMedia": "Alternar contenido guardado",
+    "keybindActionSendVoiceMessage": "Enviar mensaje de voz",
+    "keybindActionAnswerCall": "Responder la llamada entrante",
+    "keybindActionDeclineCall": "Rechazar la llamada entrante",
+    "keybindActionStartDmCall": "Iniciar una llamada en un mensaje directo o grupo",
+    "keybindActionToggleSoundboard": "Activar/desactivar la soundboard",
+    "keybindActionToggleCompactCallView": "Expandir o contraer la vista compacta de la llamada",
+    "keybindActionPushToTalkPriority": "Pulsar para hablar (prioridad)",
+    "keybindActionVoiceActivityPriority": "Prioridad de actividad de voz",
+    "keybindActionOpenContextMenu": "Abrir el menú contextual",
+    "keybindActionOpenSettings": "Abrir tu configuración",
+    "keybindActionOpenThemeStudio": "Abrir ventana emergente de estudio de temas",
+    "keybindActionZoomIn": "Acercar",
+    "keybindActionZoomOut": "Alejar",
+    "keybindActionZoomReset": "Restablecer zoom",
+    "clipboardPasteFailed": "No se pudo pegar. El portapapeles estaba vacío o bloqueado para esta app.",
+    "@clipboardPasteFailed": {
+        "description": "Shown when a context-menu paste finds no readable clipboard text."
+    },
+    "homeQuickActionDms": "Mensajes directos",
+    "@homeQuickActionDms": {
+        "description": "Home screen quick action that opens Direct Messages."
     }
 }
