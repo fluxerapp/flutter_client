@@ -7288,7 +7288,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get chatReplyMentionOn => 'ON';
 
   @override
-  String get chatReplyMentionOff => 'Dezactivat';
+  String get chatReplyMentionOff => 'OFF';
 
   @override
   String get chatReplyCancel => 'Anulează răspunsul';
