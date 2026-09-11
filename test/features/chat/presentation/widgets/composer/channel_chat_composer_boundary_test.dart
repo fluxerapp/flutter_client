@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -67,19 +68,21 @@ void main() {
   ) async {
     final FluxerColorTheme colorTheme = buildDarkColorTheme();
     await tester.pumpWidget(
-      MaterialApp(
-        theme: buildFluxerTheme(
-          colorTheme: colorTheme,
-          textTheme: FluxerTextTheme.fromColors(colorTheme),
-          layoutTheme: FluxerLayoutTheme.scaled(),
-        ),
-        home: const Scaffold(
-          body: SizedBox(
-            height: WideComposerLayout.fadeHeight,
-            width: 400,
-            child: ChannelChatComposerBoundary(
-              leadingStatus: Text('typing'),
-              trailingStatuses: <Widget>[],
+      ProviderScope(
+        child: MaterialApp(
+          theme: buildFluxerTheme(
+            colorTheme: colorTheme,
+            textTheme: FluxerTextTheme.fromColors(colorTheme),
+            layoutTheme: FluxerLayoutTheme.scaled(),
+          ),
+          home: const Scaffold(
+            body: SizedBox(
+              height: WideComposerLayout.fadeHeight,
+              width: 400,
+              child: ChannelChatComposerBoundary(
+                leadingStatus: Text('typing'),
+                trailingStatuses: <Widget>[],
+              ),
             ),
           ),
         ),
@@ -100,19 +103,21 @@ void main() {
 
     final FluxerColorTheme colorTheme = buildDarkColorTheme();
     await tester.pumpWidget(
-      MaterialApp(
-        theme: buildFluxerTheme(
-          colorTheme: colorTheme,
-          textTheme: FluxerTextTheme.fromColors(colorTheme),
-          layoutTheme: FluxerLayoutTheme.scaled(),
-        ),
-        home: const Scaffold(
-          body: SizedBox(
-            height: WideComposerLayout.mobileFadeHeight,
-            width: 390,
-            child: ChannelChatComposerBoundary(
-              leadingStatus: Text('typing'),
-              trailingStatuses: <Widget>[Text('slowmode')],
+      ProviderScope(
+        child: MaterialApp(
+          theme: buildFluxerTheme(
+            colorTheme: colorTheme,
+            textTheme: FluxerTextTheme.fromColors(colorTheme),
+            layoutTheme: FluxerLayoutTheme.scaled(),
+          ),
+          home: const Scaffold(
+            body: SizedBox(
+              height: WideComposerLayout.mobileFadeHeight,
+              width: 390,
+              child: ChannelChatComposerBoundary(
+                leadingStatus: Text('typing'),
+                trailingStatuses: <Widget>[Text('slowmode')],
+              ),
             ),
           ),
         ),
