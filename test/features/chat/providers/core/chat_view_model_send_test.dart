@@ -194,6 +194,55 @@ void main() {
     },
   );
 
+  test(
+    'own send covers the optimistic row with pending auto-ack in the same state',
+    () async {
+      final String serverMessageId = _snowflakeForUtc(
+        DateTime.utc(2026, 12, 1, 12),
+      );
+      final _SendAdapter adapter = _SendAdapter(
+        serverMessageId: serverMessageId,
+      )..holdSend = true;
+      final (container, _, _) = await setUpChannel(adapter: adapter);
+      addTearDown(adapter.releaseSend);
+
+      final List<ChatViewState> sendingStates = <ChatViewState>[];
+      final ProviderSubscription<ChatViewState> subscription = container.listen(
+        chatViewModelProvider,
+        (_, ChatViewState next) {
+          if (next.messages.any(
+            (Message message) =>
+                message.deliveryState == MessageDeliveryState.sending,
+          )) {
+            sendingStates.add(next);
+          }
+        },
+      );
+      addTearDown(subscription.close);
+
+      await container
+          .read(chatViewModelProvider.notifier)
+          .sendMessage(text: 'hi');
+
+      expect(sendingStates, isNotEmpty);
+      for (final ChatViewState sendingState in sendingStates) {
+        final Message optimistic = sendingState.messages.lastWhere(
+          (Message message) =>
+              message.deliveryState == MessageDeliveryState.sending,
+        );
+        expect(sendingState.pendingAutoAckMessageId, optimistic.id);
+        expect(sendingState.stickyUnreadMessageId, isNull);
+      }
+
+      adapter.releaseSend();
+      await _flushAsync();
+
+      final ChatViewState delivered = container.read(chatViewModelProvider);
+      expect(delivered.messages.last.id, serverMessageId);
+      expect(delivered.pendingAutoAckMessageId, serverMessageId);
+    },
+  );
+
   test('gateway echo for an already-delivered message is batched', () async {
     final (container, _, serverMessageId) = await setUpChannel();
     final notifier = container.read(chatViewModelProvider.notifier);
