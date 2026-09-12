@@ -22,7 +22,6 @@ class _GuildFolderWidget extends ConsumerStatefulWidget {
 class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
   var _isHovered = false;
   var _suppressNextFolderTap = false;
-  final GlobalKey _folderMenuAnchorKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -102,19 +101,24 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
               GuildDragWrapper(
                 itemId: folder.id.toString(),
                 isFolder: true,
-                folderMenuAnchorKey: _folderMenuAnchorKey,
                 dragFeedback: GuildFolderDragFeedback(
                   guilds: folder.guilds,
                   folderIcon: folder.icon,
                   showIconWhenCollapsed: folder.showIconWhenCollapsed,
                 ),
-                onFolderLongPressMenu: (Offset position) async {
+                folderPeekMenu: isMobileLayout(context)
+                    ? GuildFolderPeekMenuConfig(
+                        folderName: folder.name ?? _derivedFolderName,
+                        guilds: folder.guilds,
+                        hasUnread: anyUnread,
+                        onAction: (FolderMenuAction action) async {
+                          setState(() => _suppressNextFolderTap = true);
+                          await _handleFolderMenuAction(action);
+                        },
+                      )
+                    : null,
+                onPeekOpened: () {
                   setState(() => _suppressNextFolderTap = true);
-                  await _showFolderContextMenu(
-                    context,
-                    position,
-                    verticallyCenterAtPosition: true,
-                  );
                 },
                 child: _buildFolderButton(
                   context,
@@ -166,7 +170,6 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final String folderName = folder.name ?? _derivedFolderName;
     return SizedBox(
-      key: _folderMenuAnchorKey,
       width: 72,
       child: Stack(
         clipBehavior: Clip.none,

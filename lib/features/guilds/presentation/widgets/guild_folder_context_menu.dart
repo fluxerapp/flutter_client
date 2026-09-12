@@ -4,6 +4,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_folder_context_menu_item.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_folder_menu_data.dart';
+import 'package:fluxer_app/features/guilds/presentation/widgets/guild_icon_peek_menu.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -11,6 +12,55 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 const _kSubmenuGap = 4.0;
+
+Future<FolderMenuAction?> showFolderSubmenuBottomSheet(
+  BuildContext context,
+  FolderMenuSubmenu submenu,
+) {
+  if (submenu.isDisabled) {
+    return Future<FolderMenuAction?>.value();
+  }
+
+  return FluxerBottomSheet.showScrollable<FolderMenuAction>(
+    context,
+    title: submenu.label,
+    onBack: () => Navigator.of(context).pop(),
+    initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
+    builder: (sheetContext, scrollController, close) {
+      final layout = sheetContext.layout;
+      void pop(FolderMenuAction action) =>
+          Navigator.of(sheetContext).pop(action);
+
+      return ListView(
+        controller: scrollController,
+        padding: FluxerBottomSheet.scrollViewPadding(
+          sheetContext,
+          padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+        ),
+        children: [
+          FluxerBottomSheetGroupColumn(
+            children: [
+              for (final group in submenu.groups)
+                if (group.isNotEmpty)
+                  FluxerMenuGroup(
+                    children: [
+                      for (final entry in group)
+                        if (entry is FolderMenuActionEntry)
+                          FluxerBottomSheetMenuItem(
+                            label: entry.label,
+                            icon: entry.icon,
+                            enabled: !entry.isDisabled,
+                            onTap: () => pop(entry.action),
+                          ),
+                    ],
+                  ),
+            ],
+          ),
+        ],
+      );
+    },
+  );
+}
 
 Future<FolderMenuAction?> showFolderContextMenu(
   BuildContext context, {
@@ -155,51 +205,11 @@ class _FolderContextMenuPageState extends State<_FolderContextMenuPage> {
     BuildContext context,
     FolderMenuSubmenu submenu,
   ) {
-    if (submenu.isDisabled) {
-      return;
-    }
-
-    final nav = Navigator.of(context);
+    final NavigatorState nav = Navigator.of(context);
     unawaited(
-      FluxerBottomSheet.showScrollable<FolderMenuAction>(
-        context,
-        title: submenu.label,
-        onBack: () => Navigator.of(context).pop(),
-        initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
-        builder: (sheetContext, scrollController, close) {
-          final layout = sheetContext.layout;
-          void pop(FolderMenuAction action) =>
-              Navigator.of(sheetContext).pop(action);
-
-          return ListView(
-            controller: scrollController,
-            padding: FluxerBottomSheet.scrollViewPadding(
-              sheetContext,
-              padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
-            ),
-            children: [
-              FluxerBottomSheetGroupColumn(
-                children: [
-                  for (final group in submenu.groups)
-                    if (group.isNotEmpty)
-                      FluxerMenuGroup(
-                        children: [
-                          for (final entry in group)
-                            if (entry is FolderMenuActionEntry)
-                              FluxerBottomSheetMenuItem(
-                                label: entry.label,
-                                icon: entry.icon,
-                                enabled: !entry.isDisabled,
-                                onTap: () => pop(entry.action),
-                              ),
-                        ],
-                      ),
-                ],
-              ),
-            ],
-          );
-        },
-      ).then((FolderMenuAction? result) {
+      showFolderSubmenuBottomSheet(context, submenu).then((
+        FolderMenuAction? result,
+      ) {
         if (result != null) {
           nav.pop(result);
         }
@@ -367,5 +377,197 @@ class _FolderContextMenuPageState extends State<_FolderContextMenuPage> {
     }
 
     return items;
+  }
+}
+
+sealed class FolderPeekTarget {
+  const FolderPeekTarget();
+}
+
+class FolderPeekActionTarget extends FolderPeekTarget {
+  const FolderPeekActionTarget(this.action);
+
+  final FolderMenuAction action;
+
+  @override
+  bool operator ==(Object other) {
+    return other is FolderPeekActionTarget && other.action == action;
+  }
+
+  @override
+  int get hashCode => action.hashCode;
+}
+
+class FolderPeekSubmenuTarget extends FolderPeekTarget {
+  const FolderPeekSubmenuTarget(this.submenuKey);
+
+  final String submenuKey;
+
+  @override
+  bool operator ==(Object other) {
+    return other is FolderPeekSubmenuTarget && other.submenuKey == submenuKey;
+  }
+
+  @override
+  int get hashCode => submenuKey.hashCode;
+}
+
+class GuildFolderPeekMenuConfig implements SidebarPeekContent {
+  GuildFolderPeekMenuConfig({
+    required this.folderName,
+    required this.guilds,
+    required this.hasUnread,
+    required this.onAction,
+  });
+
+  final String folderName;
+  final List<Guild> guilds;
+  final bool hasUnread;
+  final Future<void> Function(FolderMenuAction action) onAction;
+  final Map<FolderPeekTarget, GlobalKey> itemKeys =
+      <FolderPeekTarget, GlobalKey>{};
+
+  List<FolderMenuGroup> groupsFor(BuildContext context) {
+    return buildFolderMenuGroups(
+      l10n: FluxerLocalizations.of(context),
+      hasUnread: hasUnread,
+      hasGuilds: guilds.isNotEmpty,
+    );
+  }
+
+  @override
+  Widget buildPanel({
+    required BuildContext context,
+    required ValueChanged<Object> onSelect,
+  }) {
+    return GuildFolderPeekMenuPanel(
+      folderName: folderName,
+      groups: groupsFor(context),
+      itemKeys: itemKeys,
+      onSelect: onSelect,
+    );
+  }
+
+  @override
+  Object? hitTestAction(Offset globalPosition) {
+    return hitTestKeyedPeekTarget<FolderPeekTarget>(
+      globalPosition: globalPosition,
+      itemKeys: itemKeys,
+      visibleKeys: itemKeys.keys,
+    );
+  }
+
+  @override
+  Future<PeekSelection> handleSelection(
+    BuildContext context,
+    Object action,
+  ) async {
+    final FolderPeekTarget target = action as FolderPeekTarget;
+    switch (target) {
+      case FolderPeekActionTarget():
+        await onAction(target.action);
+        return PeekSelection.dismiss;
+      case FolderPeekSubmenuTarget():
+        FolderMenuSubmenu? submenu;
+        for (final FolderMenuGroup group in groupsFor(context)) {
+          for (final FolderMenuEntry entry in group) {
+            if (entry is FolderMenuSubmenu && entry.key == target.submenuKey) {
+              submenu = entry;
+            }
+          }
+        }
+        if (submenu == null || submenu.isDisabled) {
+          return PeekSelection.dismiss;
+        }
+        final FolderMenuAction? result = await showFolderSubmenuBottomSheet(
+          context,
+          submenu,
+        );
+        if (result != null) {
+          await onAction(result);
+          return PeekSelection.dismiss;
+        }
+        return PeekSelection.keepOpen;
+    }
+  }
+}
+
+class GuildFolderPeekMenuPanel extends StatelessWidget {
+  const GuildFolderPeekMenuPanel({
+    required this.folderName,
+    required this.groups,
+    required this.itemKeys,
+    required this.onSelect,
+    super.key,
+  });
+
+  final String folderName;
+  final List<FolderMenuGroup> groups;
+  final Map<FolderPeekTarget, GlobalKey> itemKeys;
+  final ValueChanged<Object> onSelect;
+
+  GlobalKey _keyFor(FolderPeekTarget target) {
+    return itemKeys.putIfAbsent(target, GlobalKey.new);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Widget> items = <Widget>[
+      ContextMenuTitle(title: folderName),
+      const ContextMenuDivider(),
+    ];
+    for (final FolderMenuGroup group in groups) {
+      if (group.isEmpty) {
+        continue;
+      }
+      if (items.length > 2) {
+        items.add(const ContextMenuDivider());
+      }
+      for (final FolderMenuEntry entry in group) {
+        switch (entry) {
+          case FolderMenuActionEntry():
+            final FolderPeekActionTarget target = FolderPeekActionTarget(
+              entry.action,
+            );
+            items.add(
+              KeyedSubtree(
+                key: _keyFor(target),
+                child: GuildFolderContextMenuItem(
+                  entry: entry,
+                  onTap: entry.isDisabled ? () {} : () => onSelect(target),
+                ),
+              ),
+            );
+          case FolderMenuSubmenu():
+            final FolderPeekSubmenuTarget target = FolderPeekSubmenuTarget(
+              entry.key,
+            );
+            items.add(
+              KeyedSubtree(
+                key: _keyFor(target),
+                child: GuildFolderContextSubmenuItem(
+                  entry: entry,
+                  isActive: false,
+                  enableHoverSubmenu: false,
+                  onActivate: () {
+                    if (entry.isDisabled) {
+                      return;
+                    }
+                    onSelect(target);
+                  },
+                  onDeactivate: () {},
+                ),
+              ),
+            );
+        }
+      }
+    }
+
+    return Align(
+      widthFactor: 1,
+      heightFactor: 1,
+      alignment: Alignment.centerLeft,
+      child: ContextMenuPanel(items: items),
+    );
   }
 }
