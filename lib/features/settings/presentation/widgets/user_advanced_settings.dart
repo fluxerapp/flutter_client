@@ -230,13 +230,12 @@ class UserAdvancedSettings extends ConsumerWidget {
                     .read(advancedPreferencesProvider.notifier)
                     .setSaveGifFavoritesAsSavedMedia(value: value),
               ),
-              if (showWideLayoutAdvancedSettings(context))
-                FluxerSettingsConfigureRow(
-                  title: l10n.advancedSettingMediaButtonsLabel,
-                  description: l10n.advancedSettingMediaButtonsDescription,
-                  configureLabel: l10n.advancedSettingsConfigure,
-                  onConfigure: () => showAdvancedMediaButtonsSheet(context),
-                ),
+              FluxerSettingsConfigureRow(
+                title: l10n.advancedSettingMediaButtonsLabel,
+                description: l10n.advancedSettingMediaButtonsDescription,
+                configureLabel: l10n.advancedSettingsConfigure,
+                onConfigure: () => showAdvancedMediaButtonsSheet(context),
+              ),
               FluxerSettingsConfigureRow(
                 title: l10n.advancedSettingSearchEnginesLabel,
                 description: l10n.advancedSettingSearchEnginesDescription,

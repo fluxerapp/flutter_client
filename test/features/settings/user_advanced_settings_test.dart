@@ -42,6 +42,11 @@ class _FakeAdvancedPreferences extends AdvancedPreferences {
   Future<void> setEnableTextSelection({required bool value}) async {
     state = state.copyWith(enableTextSelection: value);
   }
+
+  @override
+  Future<void> setShowAttachmentExpiryIndicator({required bool value}) async {
+    state = state.copyWith(showAttachmentExpiryIndicator: value);
+  }
 }
 
 class _FakeAppearancePreferences extends AppearancePreferences {
@@ -154,6 +159,52 @@ void main() {
     expect(find.text('Privacy'), findsOneWidget);
     expect(find.text('Enable video seek thumbnails'), findsOneWidget);
   });
+
+  testWidgets('shows media buttons on narrow screens', (tester) async {
+    await pumpAdvancedSettings(tester, size: const Size(400, 2000));
+    await tester.scrollUntilVisible(
+      find.text('Media buttons'),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.text('Media buttons'), findsOneWidget);
+  });
+
+  testWidgets(
+    'media buttons sheet includes attachment expiry toggle on narrow screens',
+    (tester) async {
+      await pumpAdvancedSettings(tester, size: const Size(400, 2000));
+      await tester.scrollUntilVisible(
+        find.text('Media buttons'),
+        200,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.tap(find.text('Media buttons'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Show attachment expiry indicator'), findsOneWidget);
+
+      final container = ProviderScope.containerOf(
+        tester.element(find.text('Show attachment expiry indicator')),
+      );
+      expect(
+        container
+            .read(advancedPreferencesProvider)
+            .showAttachmentExpiryIndicator,
+        isTrue,
+      );
+
+      await tester.tap(find.text('Show attachment expiry indicator'));
+      await tester.pumpAndSettle();
+
+      expect(
+        container
+            .read(advancedPreferencesProvider)
+            .showAttachmentExpiryIndicator,
+        isFalse,
+      );
+    },
+  );
 
   testWidgets('shows wide-layout text selection on wide screens', (
     tester,
