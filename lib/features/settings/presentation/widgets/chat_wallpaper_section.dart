@@ -76,13 +76,32 @@ class ChatWallpaperSection extends ConsumerWidget {
                     label: l10n.lookAndFeelChatWallpaperCustomLabel,
                     selected: selection.kind == ChatWallpaperKind.custom,
                     dim: selection.dim,
-                    footer: _CustomWallpaperFooter(
-                      hasImage: snapshot.hasCustomImage,
+                    processing: snapshot.isProcessingCustom,
+                    footer: _WallpaperCardFooter(
+                      label: l10n.lookAndFeelChatWallpaperCustomLabel,
+                      icon: PhosphorIconsRegular.image,
                       showIcon: selection.kind != ChatWallpaperKind.custom,
+                      scrim: snapshot.hasCustomImage,
                     ),
                     onTap: () =>
                         unawaited(_onCustomTap(context, ref, snapshot)),
                     child: _CustomWallpaperPreview(snapshot: snapshot),
+                  ),
+                  SizedBox(width: layout.s3),
+                  _WallpaperPresetCard(
+                    label: l10n.lookAndFeelChatWallpaperStarfieldLabel,
+                    selected: selection.kind == ChatWallpaperKind.starfield,
+                    dim: selection.dim,
+                    onTap: () => unawaited(
+                      select(kind: ChatWallpaperKind.starfield, clearId: true),
+                    ),
+                    footer: _WallpaperCardFooter(
+                      label: l10n.lookAndFeelChatWallpaperStarfieldLabel,
+                      scrim: true,
+                    ),
+                    child: const IgnorePointer(
+                      child: StarfieldBackground(animate: false),
+                    ),
                   ),
                   for (final ChatWallpaperColorPreset preset
                       in ChatWallpaperCatalog.colors) ...<Widget>[
@@ -178,6 +197,9 @@ class ChatWallpaperSection extends ConsumerWidget {
     WidgetRef ref,
     ChatWallpaperSnapshot snapshot,
   ) async {
+    if (snapshot.isProcessingCustom) {
+      return;
+    }
     FluxerHaptics.selection();
     if (snapshot.selection.kind != ChatWallpaperKind.custom &&
         snapshot.hasCustomImage) {
@@ -223,12 +245,14 @@ class _WallpaperPresetCard extends StatelessWidget {
     required this.child,
     this.footer,
     this.applyDim = true,
+    this.processing = false,
   });
 
   final String label;
   final bool selected;
   final double dim;
   final bool applyDim;
+  final bool processing;
   final VoidCallback onTap;
   final Widget child;
   final Widget? footer;
@@ -240,6 +264,7 @@ class _WallpaperPresetCard extends StatelessWidget {
     const double radius = ChatWallpaperSection._cardRadius;
     return FluxerTappable(
       onTap: onTap,
+      enabled: !processing,
       semanticLabel: label,
       selected: selected,
       excludeChildSemantics: true,
@@ -252,10 +277,24 @@ class _WallpaperPresetCard extends StatelessWidget {
             child: Stack(
               fit: StackFit.expand,
               children: <Widget>[
-                child,
+                Positioned.fill(
+                  child: AnimatedScale(
+                    scale: processing ? 1.08 : 1,
+                    duration: motion.slow,
+                    curve: motion.curve,
+                    child: child,
+                  ),
+                ),
                 if (applyDim) ColoredBox(color: chatWallpaperDimColor(dim)),
                 const _WallpaperChatSkeleton(),
                 ?footer,
+                if (processing)
+                  const IgnorePointer(
+                    child: ColoredBox(
+                      color: Color(0x59000000),
+                      child: Center(child: FluxerLoadingSpinner()),
+                    ),
+                  ),
                 Positioned.fill(
                   child: AnimatedContainer(
                     duration: motion.normal,
@@ -318,21 +357,27 @@ class _CustomWallpaperPreview extends StatelessWidget {
       return ColoredBox(color: context.colors.backgroundTertiary);
     }
     return Image(
+      key: ObjectKey(image),
       image: image,
       fit: BoxFit.cover,
       filterQuality: FilterQuality.low,
+      gaplessPlayback: true,
     );
   }
 }
 
-class _CustomWallpaperFooter extends StatelessWidget {
-  const _CustomWallpaperFooter({
-    required this.hasImage,
-    required this.showIcon,
+class _WallpaperCardFooter extends StatelessWidget {
+  const _WallpaperCardFooter({
+    required this.label,
+    this.icon,
+    this.showIcon = false,
+    this.scrim = false,
   });
 
-  final bool hasImage;
+  final String label;
+  final IconData? icon;
   final bool showIcon;
+  final bool scrim;
 
   @override
   Widget build(BuildContext context) {
@@ -341,7 +386,7 @@ class _CustomWallpaperFooter extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          if (hasImage)
+          if (scrim)
             const DecoratedBox(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -359,18 +404,12 @@ class _CustomWallpaperFooter extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  if (showIcon) ...<Widget>[
-                    PhosphorIcon(
-                      PhosphorIconsRegular.image,
-                      size: 16,
-                      color: colors.textPrimary,
-                    ),
+                  if (showIcon && icon != null) ...<Widget>[
+                    PhosphorIcon(icon!, size: 16, color: colors.textPrimary),
                     const SizedBox(height: 4),
                   ],
                   Text(
-                    FluxerLocalizations.of(
-                      context,
-                    ).lookAndFeelChatWallpaperCustomLabel,
+                    label,
                     textAlign: TextAlign.center,
                     style: context.textStyles.smallText.copyWith(
                       color: colors.textPrimary,
@@ -534,7 +573,7 @@ class ChatWallpaperLocalOnlyButton extends ConsumerWidget {
               FluxerToast(message: l10n.lookAndFeelChatWallpaperLocalOnlyToast),
             );
       },
-      builder: (BuildContext context, Set<WidgetState> states) {
+      builder: (BuildContext context, Set<WidgetState> _) {
         return Padding(
           padding: const EdgeInsets.all(4),
           child: PhosphorIcon(

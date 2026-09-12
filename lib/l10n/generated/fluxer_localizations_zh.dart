@@ -4210,6 +4210,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get lookAndFeelChatWallpaperCustomLabel => '自定义图片';
 
   @override
+  String get lookAndFeelChatWallpaperStarfieldLabel => 'Starfield';
+
+  @override
   String lookAndFeelChatWallpaperColorLabel(String id) {
     return '颜色 $id';
   }

@@ -302,7 +302,6 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
       ref: ref,
       plan: plan,
       priceIds: priceIds,
-      pricingMode: PricingModeEnum.localized,
       countryCode: ref
           .read(premiumSettingsStateProvider)
           .value

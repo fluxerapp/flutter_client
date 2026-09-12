@@ -94,6 +94,12 @@ void main() {
       },
     );
 
+    test('coal spoiler overlay uses a light fill on AMOLED black', () {
+      final coal = buildCoalColorTheme();
+      expect(coal.spoilerBackground, const Color(0x14FFFFFF));
+      expect(coal.spoilerOverlayHoverColor, const Color(0x24FFFFFF));
+    });
+
     test('clampSaturationFactor clamps to 0..1', () {
       expect(clampSaturationFactor(-1), 0);
       expect(clampSaturationFactor(2), 1);

@@ -2368,7 +2368,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         _composerScrollController,
         isMounted: () => mounted,
       );
-      _focusNode.requestFocus();
+      if (!_focusNode.hasFocus) {
+        _focusNode.requestFocus();
+      }
     });
   }
 

@@ -4483,6 +4483,9 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get lookAndFeelChatWallpaperCustomLabel => 'Imagen personalizada';
 
   @override
+  String get lookAndFeelChatWallpaperStarfieldLabel => 'Starfield';
+
+  @override
   String lookAndFeelChatWallpaperColorLabel(String id) {
     return 'Color $id';
   }

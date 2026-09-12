@@ -501,7 +501,35 @@ void main() {
     expect(replyCount, 0);
   });
 
-  testWidgets('noisy first move Offset(36, 10) scrolls instead of reply', (
+  testWidgets('ambiguous first move Offset(20, 16) scrolls instead of reply', (
+    tester,
+  ) async {
+    var replyCount = 0;
+    await tester.pumpWidget(
+      _buildVerticalScrollApp(
+        SwipeToReply(
+          onReply: () => replyCount++,
+          child: const ColoredBox(color: Color(0xFF112233)),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    final ScrollPosition position = _parentVerticalPosition(tester);
+    position.jumpTo(300);
+    await tester.pump();
+    final double before = position.pixels;
+    final TestGesture gesture = await tester.startGesture(
+      _swipeBodyStart(tester),
+    );
+    await gesture.moveBy(const Offset(20, 16));
+    await gesture.moveBy(const Offset(0, 120));
+    await gesture.up();
+    await tester.pumpAndSettle();
+    expect(position.pixels, lessThan(before - 40));
+    expect(replyCount, 0);
+  });
+
+  testWidgets('coalesced first jump Offset(36, 10) scrolls instead of reply', (
     tester,
   ) async {
     var replyCount = 0;
@@ -529,7 +557,7 @@ void main() {
     expect(replyCount, 0);
   });
 
-  testWidgets('fast coalesced arc Offset(80, 16) scrolls instead of reply', (
+  testWidgets('coalesced first jump Offset(80, 16) scrolls instead of reply', (
     tester,
   ) async {
     var replyCount = 0;
@@ -557,6 +585,34 @@ void main() {
     expect(replyCount, 0);
   });
 
+  testWidgets('45 degree coalesced jump scrolls instead of reply', (
+    tester,
+  ) async {
+    var replyCount = 0;
+    await tester.pumpWidget(
+      _buildVerticalScrollApp(
+        SwipeToReply(
+          onReply: () => replyCount++,
+          child: const ColoredBox(color: Color(0xFF112233)),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    final ScrollPosition position = _parentVerticalPosition(tester);
+    position.jumpTo(300);
+    await tester.pump();
+    final double before = position.pixels;
+    final TestGesture gesture = await tester.startGesture(
+      _swipeBodyStart(tester),
+    );
+    await gesture.moveBy(const Offset(40, 40));
+    await gesture.moveBy(const Offset(0, 140));
+    await gesture.up();
+    await tester.pumpAndSettle();
+    expect(position.pixels, lessThan(before - 40));
+    expect(replyCount, 0);
+  });
+
   testWidgets('committed leftward swipe keeps tracking after a vertical arc', (
     tester,
   ) async {
@@ -571,7 +627,7 @@ void main() {
     );
     final Offset start = _swipeBodyStart(tester);
     final TestGesture gesture = await tester.startGesture(start);
-    await gesture.moveBy(const Offset(-80, 0));
+    await gesture.moveBy(const Offset(-40, 0));
     await tester.pump();
     await gesture.moveBy(const Offset(-80, 200));
     await gesture.up();

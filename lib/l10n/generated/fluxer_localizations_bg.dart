@@ -4472,6 +4472,9 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       'Персонализирано изображение';
 
   @override
+  String get lookAndFeelChatWallpaperStarfieldLabel => 'Starfield';
+
+  @override
   String lookAndFeelChatWallpaperColorLabel(String id) {
     return 'Цвят $id';
   }

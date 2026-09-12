@@ -4,11 +4,10 @@ import 'package:fluxer_app/shared/gestures/horizontal_drag_axis_lock.dart';
 /// [HorizontalDragGestureRecognizer] that leaves the arena on [shouldReject]
 /// (typically not clearly horizontal, and for swipe-to-reply also rightward).
 ///
-/// Does not accept at the default horizontal slop. That keeps jabs, zigzags,
-/// and catch-flings free to become a vertical scroll. Once committed, later
-/// moves are not re-classified so a vertical arc cannot freeze an in-progress
-/// swipe. Once yielded, later moves are ignored so leftover dx cannot claim
-/// the pointer.
+/// Accepts only after [resolveHorizontalDragAxisLock] commits, not at the
+/// raw horizontal slop. Once committed, later moves are not re-classified
+/// so a vertical arc cannot freeze an in-progress swipe. Once yielded,
+/// later moves are ignored so leftover dx cannot claim the pointer.
 class AxisLockingHorizontalDragRecognizer
     extends HorizontalDragGestureRecognizer {
   AxisLockingHorizontalDragRecognizer({
@@ -78,7 +77,10 @@ class AxisLockingHorizontalDragRecognizer
 
   @override
   void didStopTrackingLastPointer(int pointer) {
-    _clearPointer(pointer);
+    _initialPositions.remove(pointer);
+    _downTimes.remove(pointer);
+    _resolved.remove(pointer);
+    _yielded.remove(pointer);
     super.didStopTrackingLastPointer(pointer);
   }
 
@@ -88,12 +90,5 @@ class AxisLockingHorizontalDragRecognizer
     _downTimes.remove(pointer);
     _resolved.remove(pointer);
     super.rejectGesture(pointer);
-  }
-
-  void _clearPointer(int pointer) {
-    _initialPositions.remove(pointer);
-    _downTimes.remove(pointer);
-    _resolved.remove(pointer);
-    _yielded.remove(pointer);
   }
 }

@@ -2,6 +2,7 @@ import 'dart:io' show Directory, File;
 import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/painting.dart';
 import 'package:image/image.dart' as img;
 import 'package:path/path.dart' as path_lib;
 import 'package:path_provider/path_provider.dart';
@@ -76,6 +77,7 @@ class ChatWallpaperFileStore {
       final File file = File(path);
       await file.parent.create(recursive: true);
       await file.writeAsBytes(bytes, flush: true);
+      await FileImage(file).evict();
       return path;
     } on Object {
       return null;

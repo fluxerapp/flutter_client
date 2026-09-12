@@ -71,6 +71,11 @@ void main() {
       expect(chatWallpaperFromJson(chatWallpaperToJson(gradient)), gradient);
       expect(chatWallpaperFromJson(chatWallpaperToJson(custom)), custom);
       expect(chatWallpaperFromJson(chatWallpaperToJson(preset)), preset);
+      const ChatWallpaperState starfield = ChatWallpaperState(
+        kind: ChatWallpaperKind.starfield,
+        dim: 0.15,
+      );
+      expect(chatWallpaperFromJson(chatWallpaperToJson(starfield)), starfield);
     });
   });
 
@@ -121,6 +126,19 @@ void main() {
       expect(snapshot.hasCustomImage, isTrue);
       expect(snapshot.resolved.kind, ChatWallpaperKind.custom);
       expect(chatWallpaperCustomImageProvider(snapshot), isA<MemoryImage>());
+    });
+
+    test('replacing custom bytes updates equality', () {
+      final ChatWallpaperSnapshot first = ChatWallpaperSnapshot(
+        selection: const ChatWallpaperState(kind: ChatWallpaperKind.custom),
+        customImagePath: '/tmp/wallpaper.jpg',
+        customImageBytes: Uint8List.fromList(<int>[1, 2, 3]),
+      );
+      final ChatWallpaperSnapshot second = first.copyWith(
+        customImageBytes: Uint8List.fromList(<int>[4, 5, 6]),
+      );
+      expect(first == second, isFalse);
+      expect(chatWallpaperCustomImageProvider(second), isA<MemoryImage>());
     });
 
     test('custom without a file falls back to default', () {

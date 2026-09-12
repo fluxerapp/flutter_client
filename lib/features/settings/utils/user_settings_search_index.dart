@@ -177,6 +177,7 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     description: _l((l10n) => l10n.lookAndFeelChatWallpaperDescription),
     keywords: [
       _l((l10n) => l10n.lookAndFeelChatWallpaperCustomLabel),
+      _l((l10n) => l10n.lookAndFeelChatWallpaperStarfieldLabel),
       _l((l10n) => l10n.lookAndFeelChatWallpaperDimLabel),
     ],
   ),
@@ -655,6 +656,12 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-chat',
     label: _l((l10n) => l10n.advancedSettingSaveGifFavoritesLabel),
+  ),
+  _UserSettingsSearchOption(
+    id: 'advanced:media-buttons',
+    section: UserSettingsSection.advanced,
+    fieldId: 'advanced-settings-chat',
+    label: _l((l10n) => l10n.advancedSettingMediaButtonsLabel),
   ),
   _UserSettingsSearchOption(
     id: 'advanced:search-engines',

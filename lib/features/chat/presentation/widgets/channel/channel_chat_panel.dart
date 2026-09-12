@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/slowmode_indicator.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/typing_indicator_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_composer_layout.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/chat_list_keyboard_dismiss.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_unread_review.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/neko_sprite.dart';
@@ -215,10 +216,7 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                         clipBehavior: Clip.none,
                         children: <Widget>[
                           Positioned.fill(
-                            child: Listener(
-                              behavior: HitTestBehavior.translucent,
-                              onPointerDown: (_) =>
-                                  FocusManager.instance.primaryFocus?.unfocus(),
+                            child: ChatListKeyboardDismiss(
                               child: stripKeyboardInsets
                                   ? MediaQuery.removeViewInsets(
                                       context: context,

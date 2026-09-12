@@ -4,7 +4,14 @@ import 'dart:io' show File;
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-enum ChatWallpaperKind { defaultTheme, custom, color, gradient, preset }
+enum ChatWallpaperKind {
+  defaultTheme,
+  custom,
+  color,
+  gradient,
+  preset,
+  starfield,
+}
 
 @immutable
 class ChatWallpaperState {
@@ -121,31 +128,20 @@ abstract final class ChatWallpaperCatalog {
   static const List<ChatWallpaperImagePreset> bundledImages =
       <ChatWallpaperImagePreset>[];
 
-  static ChatWallpaperColorPreset? colorById(String? id) {
-    if (id == null) {
-      return null;
-    }
-    return colors
-        .where((ChatWallpaperColorPreset preset) => preset.id == id)
-        .firstOrNull;
-  }
+  static ChatWallpaperColorPreset? colorById(String? id) =>
+      _byId(colors, id, (ChatWallpaperColorPreset preset) => preset.id);
 
-  static ChatWallpaperGradientPreset? gradientById(String? id) {
-    if (id == null) {
-      return null;
-    }
-    return gradients
-        .where((ChatWallpaperGradientPreset preset) => preset.id == id)
-        .firstOrNull;
-  }
+  static ChatWallpaperGradientPreset? gradientById(String? id) =>
+      _byId(gradients, id, (ChatWallpaperGradientPreset preset) => preset.id);
 
-  static ChatWallpaperImagePreset? bundledImageById(String? id) {
+  static ChatWallpaperImagePreset? bundledImageById(String? id) =>
+      _byId(bundledImages, id, (ChatWallpaperImagePreset preset) => preset.id);
+
+  static T? _byId<T>(List<T> items, String? id, String Function(T item) idOf) {
     if (id == null) {
       return null;
     }
-    return bundledImages
-        .where((ChatWallpaperImagePreset preset) => preset.id == id)
-        .firstOrNull;
+    return items.where((T item) => idOf(item) == id).firstOrNull;
   }
 }
 
@@ -155,11 +151,13 @@ class ChatWallpaperSnapshot {
     this.selection = const ChatWallpaperState(),
     this.customImagePath,
     this.customImageBytes,
+    this.isProcessingCustom = false,
   });
 
   final ChatWallpaperState selection;
   final String? customImagePath;
   final Uint8List? customImageBytes;
+  final bool isProcessingCustom;
 
   bool get hasCustomImage {
     final Uint8List? bytes = customImageBytes;
@@ -181,6 +179,7 @@ class ChatWallpaperSnapshot {
         ChatWallpaperCatalog.gradientById(selected.id) != null,
       ChatWallpaperKind.preset =>
         ChatWallpaperCatalog.bundledImageById(selected.id) != null,
+      ChatWallpaperKind.starfield => true,
     };
     return valid ? selected : ChatWallpaperState(dim: selected.dim);
   }
@@ -189,17 +188,16 @@ class ChatWallpaperSnapshot {
     ChatWallpaperState? selection,
     String? customImagePath,
     Uint8List? customImageBytes,
+    bool? isProcessingCustom,
     bool clearCustomImagePath = false,
-    bool clearCustomImageBytes = false,
   }) {
     return ChatWallpaperSnapshot(
       selection: selection ?? this.selection,
       customImagePath: clearCustomImagePath
           ? null
           : (customImagePath ?? this.customImagePath),
-      customImageBytes: clearCustomImageBytes
-          ? null
-          : (customImageBytes ?? this.customImageBytes),
+      customImageBytes: customImageBytes ?? this.customImageBytes,
+      isProcessingCustom: isProcessingCustom ?? this.isProcessingCustom,
     );
   }
 
@@ -208,6 +206,7 @@ class ChatWallpaperSnapshot {
     return other is ChatWallpaperSnapshot &&
         other.selection == selection &&
         other.customImagePath == customImagePath &&
+        other.isProcessingCustom == isProcessingCustom &&
         identical(other.customImageBytes, customImageBytes);
   }
 
@@ -215,6 +214,7 @@ class ChatWallpaperSnapshot {
   int get hashCode => Object.hash(
     selection,
     customImagePath,
+    isProcessingCustom,
     identityHashCode(customImageBytes),
   );
 }
@@ -238,6 +238,8 @@ ChatWallpaperKind? chatWallpaperKindFromJson(String? name) {
       return ChatWallpaperKind.gradient;
     case 'preset':
       return ChatWallpaperKind.preset;
+    case 'starfield':
+      return ChatWallpaperKind.starfield;
     default:
       return null;
   }
@@ -255,6 +257,8 @@ String chatWallpaperKindToJson(ChatWallpaperKind kind) {
       return 'gradient';
     case ChatWallpaperKind.preset:
       return 'preset';
+    case ChatWallpaperKind.starfield:
+      return 'starfield';
   }
 }
 
@@ -290,7 +294,7 @@ ChatWallpaperState chatWallpaperFromJson(String? raw) {
 String chatWallpaperToJson(ChatWallpaperState state) {
   return jsonEncode(<String, Object?>{
     'kind': chatWallpaperKindToJson(state.kind),
-    if (state.id != null && state.id!.isNotEmpty) 'id': state.id,
+    if (state.id case final String id when id.isNotEmpty) 'id': id,
     'dim': state.dim,
   });
 }
@@ -370,6 +374,8 @@ ChatWallpaperPaint resolveChatWallpaperPaint({
         fallbackColor: themeBackground,
         imageProvider: AssetImage(preset.assetPath),
       );
+    case ChatWallpaperKind.starfield:
+      return const ChatWallpaperPaint(fallbackColor: Color(0xFF0D0A1C));
   }
 }
 

@@ -51,25 +51,28 @@ class ChatWallpaper extends _$ChatWallpaper {
   }
 
   Future<bool> setCustomImage(Uint8List bytes) async {
-    final String? userId = _userId;
-    final Uint8List? encoded = await prepareChatWallpaperBytes(bytes);
-    if (encoded == null) {
-      return false;
-    }
-    if (userId == null) {
-      _setCustomSelection(encoded, path: null);
+    state = state.copyWith(isProcessingCustom: true);
+    try {
+      final Uint8List? encoded = await prepareChatWallpaperBytes(bytes);
+      if (encoded == null) {
+        return false;
+      }
+      String? path;
+      final String? userId = _userId;
+      if (userId != null) {
+        path = await _files.saveForUser(userId: userId, bytes: encoded);
+        if (path == null && !kIsWeb) {
+          return false;
+        }
+      }
+      _setCustomSelection(encoded, path: path);
+      await _persist();
       return true;
+    } finally {
+      if (state.isProcessingCustom) {
+        state = state.copyWith(isProcessingCustom: false);
+      }
     }
-    final String? path = await _files.saveForUser(
-      userId: userId,
-      bytes: encoded,
-    );
-    if (path == null && !kIsWeb) {
-      return false;
-    }
-    _setCustomSelection(encoded, path: path);
-    await _persist();
-    return true;
   }
 
   void _setCustomSelection(Uint8List encoded, {required String? path}) {
@@ -79,9 +82,9 @@ class ChatWallpaper extends _$ChatWallpaper {
         clearId: true,
       ),
       customImagePath: path,
-      customImageBytes: path == null ? encoded : null,
+      customImageBytes: encoded,
+      isProcessingCustom: false,
       clearCustomImagePath: path == null,
-      clearCustomImageBytes: path != null,
     );
   }
 

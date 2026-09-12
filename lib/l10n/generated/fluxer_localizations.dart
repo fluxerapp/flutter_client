@@ -7271,6 +7271,12 @@ abstract class FluxerLocalizations {
   /// **'Custom image'**
   String get lookAndFeelChatWallpaperCustomLabel;
 
+  /// Chat wallpaper preset that uses the static starfield background.
+  ///
+  /// In en, this message translates to:
+  /// **'Starfield'**
+  String get lookAndFeelChatWallpaperStarfieldLabel;
+
   /// Accessibility label for a solid color wallpaper preset.
   ///
   /// In en, this message translates to:

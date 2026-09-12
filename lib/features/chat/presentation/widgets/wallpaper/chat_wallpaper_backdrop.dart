@@ -3,6 +3,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_composer_layout.dart';
 import 'package:fluxer_app/features/chat/providers/chat_wallpaper_provider.dart';
 import 'package:fluxer_app/features/chat/wallpaper/chat_wallpaper.dart';
+import 'package:fluxer_app/features/ui/background/starfield_background.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class ChatWallpaperBackdrop extends ConsumerWidget {
@@ -34,6 +35,7 @@ class ChatWallpaperBackdrop extends ConsumerWidget {
             DecoratedBox(decoration: BoxDecoration(gradient: paint.gradient)),
           if (imageProvider != null)
             Image(
+              key: ObjectKey(imageProvider),
               image: ResizeImage(
                 imageProvider,
                 width: cacheWidth,
@@ -44,6 +46,8 @@ class ChatWallpaperBackdrop extends ConsumerWidget {
               filterQuality: FilterQuality.low,
               gaplessPlayback: true,
             ),
+          if (resolved.kind == ChatWallpaperKind.starfield)
+            const StarfieldBackground(animate: false),
           if (!resolved.isThemeBackground)
             ColoredBox(color: chatWallpaperDimColor(resolved.dim)),
         ],

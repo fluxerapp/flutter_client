@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -27,6 +28,7 @@ const int _kTiredFrames = 8;
 const int _kSleepingEndFrame = 192;
 const int _kSleepingFrameStride = 4;
 const int _kScratchEndFrame = 9;
+const double _kNekoPurrChance = 0.3;
 const Color _kNekoHeartColor = Color(0xFFFF5C8A);
 const double _kNekoHeartOffsetX = 0.5;
 
@@ -131,6 +133,7 @@ class _NekoSpriteState extends ConsumerState<NekoSprite> {
   void initState() {
     super.initState();
     unawaited(_loadSpriteImage());
+    unawaited(FluxerHaptics.warmPurr());
   }
 
   @override
@@ -232,6 +235,9 @@ class _NekoSpriteState extends ConsumerState<NekoSprite> {
     }
     _playShock();
     _spawnHeart();
+    if (_random.nextDouble() < _kNekoPurrChance) {
+      FluxerHaptics.purr();
+    }
   }
 
   void _spawnHeart() {

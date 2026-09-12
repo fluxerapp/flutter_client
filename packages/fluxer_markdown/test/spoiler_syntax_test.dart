@@ -57,6 +57,7 @@ Future<void> _pumpMarkdown(
   String text, {
   FluxerMarkdownConfig config = _testMarkdownConfig,
   FluxerMarkdownContext context = FluxerMarkdownContext.standardWithJumbo,
+  TextStyle baseStyle = _baseStyle,
   double? width,
   int? maxLines,
   TextOverflow? overflow,
@@ -66,7 +67,7 @@ Future<void> _pumpMarkdown(
     data: text,
     config: config,
     context: context,
-    baseStyle: _baseStyle,
+    baseStyle: baseStyle,
     maxLines: maxLines,
     overflow: overflow,
   );
@@ -269,6 +270,38 @@ void main() {
       final TextSpan leafSpan = spoilerSpan.children!.single as TextSpan;
       expect(leafSpan.style?.color, const Color(0x00000000));
       expect(leafSpan.style?.background?.color, isNotNull);
+    });
+
+    testWidgets('hidden spoiler box mixes text color, not a black overlay', (
+      tester,
+    ) async {
+      const Color textColor = Color(0xFFF2F3F5);
+      await _pumpMarkdown(
+        tester,
+        '||secret||',
+        config: const FluxerMarkdownConfig(
+          resolveEmojiShortcode: _resolveEmojiShortcode,
+          unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
+          customEmojiUrlBuilder: _noopCustomEmojiUrl,
+          spoilerBackgroundColor: Color(0x33000000),
+        ),
+        baseStyle: const TextStyle(
+          fontSize: 16,
+          height: 1.375,
+          color: textColor,
+        ),
+      );
+      final RichText richText = tester.widget<RichText>(find.byType(RichText));
+      final TextSpan rootSpan = richText.text as TextSpan;
+      final TextSpan spoilerSpan = rootSpan.children!.single as TextSpan;
+      final TextSpan leafSpan = spoilerSpan.children!.single as TextSpan;
+      final Color? hiddenFill = leafSpan.style?.background?.color;
+      expect(hiddenFill, isNotNull);
+      expect(hiddenFill!.a, closeTo(0.16, 0.001));
+      expect(hiddenFill.r, closeTo(textColor.r, 0.001));
+      expect(hiddenFill.g, closeTo(textColor.g, 0.001));
+      expect(hiddenFill.b, closeTo(textColor.b, 0.001));
+      expect(hiddenFill, isNot(const Color(0x33000000)));
     });
 
     testWidgets('conceals formatted text inside hidden spoiler', (
