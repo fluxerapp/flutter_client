@@ -722,7 +722,7 @@ class _MarkdownBlockRenderer {
   Widget _buildBlockSpoilerElement(md.Element node) {
     return _FluxerSpoilerSpan(
       initiallyRevealed: config.spoilersInitiallyRevealed,
-      spoilerBackgroundColor: config.spoilerBackgroundColor,
+      textColor: baseStyle.color,
       spoilerSyncController: config.spoilerSyncController,
       syncKeys: _collectSpoilerSyncKeys(node, config.spoilerSyncKeyNormalizer),
       child: _buildParagraph(node.children ?? const []),
@@ -1536,7 +1536,7 @@ class _MarkdownInlineRenderer {
         baseline: TextBaseline.alphabetic,
         child: _FluxerSpoilerSpan(
           initiallyRevealed: config.spoilersInitiallyRevealed,
-          spoilerBackgroundColor: config.spoilerBackgroundColor,
+          textColor: effectiveStyle.color,
           spoilerSyncController: config.spoilerSyncController,
           syncKeys: syncKeys,
           child: buildFluxerBoundedRichText(
@@ -1566,7 +1566,10 @@ class _MarkdownInlineRenderer {
       if (revealOpacity >= 1.0) {
         return TextSpan(style: effectiveStyle, children: spoilerChildren);
       }
-      final Color hiddenBackground = _spoilerHiddenBackground(context, config);
+      final Color hiddenBackground = _spoilerHiddenBackground(
+        context,
+        textColor: effectiveStyle.color,
+      );
       return TextSpan(
         style: effectiveStyle,
         children: _applySpoilerRevealOpacity(
@@ -1578,7 +1581,10 @@ class _MarkdownInlineRenderer {
       );
     }
 
-    final Color hiddenBackground = _spoilerHiddenBackground(context, config);
+    final Color hiddenBackground = _spoilerHiddenBackground(
+      context,
+      textColor: effectiveStyle.color,
+    );
     final TextStyle hiddenStyle = _hiddenSpoilerTextStyle(
       effectiveStyle,
       hiddenBackground,
@@ -1888,12 +1894,11 @@ String _inlineSpoilerId(md.Element node, List<String> syncKeys, int index) {
   return '$index:$contentKey';
 }
 
-Color _spoilerHiddenBackground(
-  BuildContext context,
-  FluxerMarkdownConfig config,
-) {
-  return config.spoilerBackgroundColor ??
-      Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.2);
+const double _kSpoilerHiddenColorMix = 0.16;
+
+Color _spoilerHiddenBackground(BuildContext context, {Color? textColor}) {
+  final Color current = textColor ?? Theme.of(context).colorScheme.onSurface;
+  return current.withValues(alpha: current.a * _kSpoilerHiddenColorMix);
 }
 
 const Color _kHiddenSpoilerTextColor = Color(0x00000000);
@@ -2078,13 +2083,13 @@ class _FluxerSpoilerSpan extends StatefulWidget {
     required this.child,
     required this.initiallyRevealed,
     required this.syncKeys,
-    this.spoilerBackgroundColor,
+    this.textColor,
     this.spoilerSyncController,
   });
 
   final Widget child;
   final bool initiallyRevealed;
-  final Color? spoilerBackgroundColor;
+  final Color? textColor;
   final FluxerSpoilerSyncController? spoilerSyncController;
   final List<String> syncKeys;
 
@@ -2163,9 +2168,10 @@ class _FluxerSpoilerSpanState extends State<_FluxerSpoilerSpan>
 
   @override
   Widget build(BuildContext context) {
-    final Color hiddenBackground =
-        widget.spoilerBackgroundColor ??
-        Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.2);
+    final Color hiddenBackground = _spoilerHiddenBackground(
+      context,
+      textColor: widget.textColor,
+    );
     final Widget body = ClipRRect(
       borderRadius: BorderRadius.circular(4),
       child: Stack(
