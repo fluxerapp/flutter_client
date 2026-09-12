@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
+import 'package:fluxer_app/features/ui/input/text_editing_shortcuts.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -83,17 +83,13 @@ class FluxerClipboardScopeState extends State<FluxerClipboardScope> {
   void _bindFocusNode(FocusNode? externalFocusNode) {
     if (externalFocusNode != null) {
       _effectiveFocusNode = externalFocusNode;
-      if (_interceptKeyboardClipboard) {
-        _chainedKeyHandler = externalFocusNode.onKeyEvent;
-        externalFocusNode.onKeyEvent = _handleKeyEvent;
-      }
+      _chainedKeyHandler = externalFocusNode.onKeyEvent;
+      externalFocusNode.onKeyEvent = _handleKeyEvent;
       return;
     }
     _ownedFocusNode = FocusNode();
     _effectiveFocusNode = _ownedFocusNode!;
-    if (_interceptKeyboardClipboard) {
-      _effectiveFocusNode.onKeyEvent = _handleKeyEvent;
-    }
+    _effectiveFocusNode.onKeyEvent = _handleKeyEvent;
   }
 
   void _unbindFocusNode(FocusNode? externalFocusNode) {
@@ -144,37 +140,52 @@ class FluxerClipboardScopeState extends State<FluxerClipboardScope> {
   }
 
   KeyEventResult handleKeyboardShortcut(KeyEvent event) {
-    if (!_interceptKeyboardClipboard) {
+    final TextEditingShortcutKind? shortcut = matchTextEditingShortcut(event);
+    if (shortcut == null) {
       return KeyEventResult.ignored;
     }
-    if (event is! KeyDownEvent) {
+    switch (shortcut) {
+      case TextEditingShortcutKind.selectAll:
+        widget.controller.selection = TextSelection(
+          baseOffset: 0,
+          extentOffset: widget.controller.text.length,
+        );
+        return KeyEventResult.handled;
+      case TextEditingShortcutKind.undo:
+        return _invokeTextIntent(
+          const UndoTextIntent(SelectionChangedCause.keyboard),
+        );
+      case TextEditingShortcutKind.redo:
+        return _invokeTextIntent(
+          const RedoTextIntent(SelectionChangedCause.keyboard),
+        );
+      case TextEditingShortcutKind.copy:
+        if (!_isInlineTokenController) {
+          return KeyEventResult.ignored;
+        }
+        unawaited(handleCopy());
+        return KeyEventResult.handled;
+      case TextEditingShortcutKind.cut:
+        if (!_isInlineTokenController) {
+          return KeyEventResult.ignored;
+        }
+        unawaited(handleCut());
+        return KeyEventResult.handled;
+      case TextEditingShortcutKind.paste:
+        if (!_interceptKeyboardClipboard) {
+          return KeyEventResult.ignored;
+        }
+        unawaited(handlePaste());
+        return KeyEventResult.handled;
+    }
+  }
+
+  KeyEventResult _invokeTextIntent(Intent intent) {
+    final BuildContext? context = _effectiveFocusNode.context;
+    if (context == null || Actions.maybeInvoke(context, intent) == null) {
       return KeyEventResult.ignored;
     }
-    final bool isModifierPressed =
-        HardwareKeyboard.instance.isMetaPressed ||
-        HardwareKeyboard.instance.isControlPressed;
-    if (!isModifierPressed || HardwareKeyboard.instance.isAltPressed) {
-      return KeyEventResult.ignored;
-    }
-    if (event.logicalKey == LogicalKeyboardKey.keyC) {
-      if (!_isInlineTokenController) {
-        return KeyEventResult.ignored;
-      }
-      unawaited(handleCopy());
-      return KeyEventResult.handled;
-    }
-    if (event.logicalKey == LogicalKeyboardKey.keyX) {
-      if (!_isInlineTokenController) {
-        return KeyEventResult.ignored;
-      }
-      unawaited(handleCut());
-      return KeyEventResult.handled;
-    }
-    if (event.logicalKey == LogicalKeyboardKey.keyV) {
-      unawaited(handlePaste());
-      return KeyEventResult.handled;
-    }
-    return KeyEventResult.ignored;
+    return KeyEventResult.handled;
   }
 
   Future<void> _pasteFromContextMenu(

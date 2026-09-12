@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/input/services/keybind_dispatcher.dart';
 import 'package:fluxer_app/features/input/services/keybind_handlers.dart';
 import 'package:fluxer_app/features/quick_switcher/providers/quick_switcher_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/ui/input/text_editing_shortcuts.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
@@ -62,7 +63,7 @@ class _KeybindScopeState extends ConsumerState<KeybindScope> {
       return false;
     }
 
-    if (_isClipboardShortcut(event)) {
+    if (matchTextEditingShortcut(event) != null) {
       return false;
     }
 
@@ -120,19 +121,6 @@ class _KeybindScopeState extends ConsumerState<KeybindScope> {
     }
     nav.focusNext();
     return nav.hasHandlers;
-  }
-
-  bool _isClipboardShortcut(KeyEvent event) {
-    final HardwareKeyboard keyboard = HardwareKeyboard.instance;
-    if (!keyboard.isControlPressed && !keyboard.isMetaPressed) {
-      return false;
-    }
-    if (keyboard.isAltPressed) {
-      return false;
-    }
-    return event.logicalKey == LogicalKeyboardKey.keyC ||
-        event.logicalKey == LogicalKeyboardKey.keyX ||
-        event.logicalKey == LogicalKeyboardKey.keyV;
   }
 
   bool _hasShortcutModifier() {
