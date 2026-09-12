@@ -1206,6 +1206,7 @@ class ChatViewModel extends _$ChatViewModel {
     );
     state = state.copyWith(
       write: (messages: nextMessages, origin: MessagesOrigin.localMutation),
+      pendingAutoAckMessageId: _pendingAutoAckCovering(sent.id),
     );
   }
 
@@ -4443,6 +4444,14 @@ class ChatViewModel extends _$ChatViewModel {
     }
   }
 
+  // MessageList treats this as the ack pointer. Stamp it with own sends so
+  // the NEW divider never appears above a message the user just sent.
+  String? _pendingAutoAckCovering(String messageId) {
+    return compareSnowflakeIds(messageId, state.pendingAutoAckMessageId) > 0
+        ? messageId
+        : state.pendingAutoAckMessageId;
+  }
+
   void clearStickyUnreadFor(String channelId) {
     if (state.channelId != channelId) {
       return;
@@ -4721,8 +4730,9 @@ class ChatViewModel extends _$ChatViewModel {
       ),
       errorMessage: null,
       scrollToBottomSignal: _scrollToBottomSignalAfterSend(),
+      stickyUnreadMessageId: null,
+      pendingAutoAckMessageId: _pendingAutoAckCovering(optimisticMessage.id),
     );
-    clearStickyUnread();
     unawaited(ref.read(readStateRepositoryProvider).clearSticky(channelId));
     _registerInFlightOptimisticSend(optimisticMessage);
     unawaited(
@@ -4890,6 +4900,8 @@ class ChatViewModel extends _$ChatViewModel {
       ),
       errorMessage: null,
       scrollToBottomSignal: _scrollToBottomSignalAfterSend(),
+      stickyUnreadMessageId: null,
+      pendingAutoAckMessageId: _pendingAutoAckCovering(optimisticMessage.id),
     );
     if (clearMessageText) {
       unawaited(
@@ -4899,7 +4911,6 @@ class ChatViewModel extends _$ChatViewModel {
             .deleteDraft(channelId),
       );
     }
-    clearStickyUnread();
     unawaited(ref.read(readStateRepositoryProvider).clearSticky(channelId));
 
     if (!hasPendingAttachments) {
