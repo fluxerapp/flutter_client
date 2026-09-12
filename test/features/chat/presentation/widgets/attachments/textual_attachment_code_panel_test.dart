@@ -1,0 +1,70 @@
+import 'package:flutter_highlight/flutter_highlight.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/theme/fluxer_fonts.dart';
+import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
+import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme.dart';
+import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/attachments/textual_attachment_code_panel.dart';
+import 'package:fluxer_app/features/chat/utils/textual_attachment_content.dart';
+import 'package:fluxer_app/material_ui.dart';
+
+import '../../../../../helpers/rendered_text_test_helpers.dart';
+import '../../../../../helpers/test_l10n.dart';
+
+void main() {
+  testWidgets('plain text preview uses the theme monospace font', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _buildTestApp(
+        child: const TextualAttachmentCodePanel(
+          status: TextualAttachmentPreviewStatus.loaded,
+          visibleLineCount: 4,
+          wrapText: true,
+          textContent: 'hello world',
+        ),
+      ),
+    );
+
+    final Text text = tester.widget<Text>(findAppText('hello world'));
+    expect(text.style?.fontFamily, FluxerFonts.mono);
+  });
+
+  testWidgets('highlighted preview uses the theme monospace font', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _buildTestApp(
+        child: const TextualAttachmentCodePanel(
+          status: TextualAttachmentPreviewStatus.loaded,
+          visibleLineCount: 4,
+          wrapText: true,
+          textContent: 'print("hi")',
+          languageCode: 'python',
+        ),
+      ),
+    );
+
+    final HighlightView view = tester.widget<HighlightView>(
+      find.byType(HighlightView),
+    );
+    expect(view.textStyle?.fontFamily, FluxerFonts.mono);
+    expect(view.theme['root']?.fontFamily, FluxerFonts.mono);
+  });
+}
+
+Widget _buildTestApp({required Widget child}) {
+  final colorTheme = buildDarkColorTheme();
+  return MaterialApp(
+    locale: kTestLocale,
+    localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+    supportedLocales: FluxerLocalizations.supportedLocales,
+    theme: buildFluxerTheme(
+      colorTheme: colorTheme,
+      textTheme: FluxerTextTheme.fromColors(colorTheme),
+      layoutTheme: FluxerLayoutTheme.scaled(),
+    ),
+    home: Scaffold(body: child),
+  );
+}

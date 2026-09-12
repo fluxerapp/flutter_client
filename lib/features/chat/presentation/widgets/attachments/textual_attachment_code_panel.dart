@@ -1,4 +1,6 @@
 import 'package:flutter_highlight/flutter_highlight.dart';
+import 'package:flutter_highlight/themes/github.dart';
+import 'package:flutter_highlight/themes/vs2015.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/textual_attachment_preview_surface.dart';
 import 'package:fluxer_app/features/chat/utils/attachment_preview_utils.dart';
@@ -100,6 +102,7 @@ class _CodeBody extends StatelessWidget {
         color: context.colors.textPrimary,
         height: kTextualPreviewLineHeight / 13,
       ),
+      codeTextStyle: context.textStyles.codeText,
     );
     final String display = remainingSuffix == null
         ? content
@@ -112,9 +115,10 @@ class _CodeBody extends StatelessWidget {
       final Widget highlighted = HighlightView(
         display,
         language: highlightLang,
-        theme: isDark
-            ? kVs2015CodeBlockHighlightTheme
-            : kGithubCodeBlockHighlightTheme,
+        theme: codeBlockHighlightThemeFor(
+          isDark ? vs2015Theme : githubTheme,
+          codeTextStyle: monoStyle,
+        ),
         textStyle: monoStyle,
         padding: wrapText ? kTextualPreviewCodeInset : EdgeInsets.zero,
       );
