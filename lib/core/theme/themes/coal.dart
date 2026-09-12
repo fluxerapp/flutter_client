@@ -438,8 +438,8 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
     embedBackground: backgroundSecondaryAlt,
     embedBorder: borderColorVal,
     mentionBackground: backgroundModifierAccentVal,
-    spoilerBackground: const Color(0x33000000),
-    spoilerOverlayHoverColor: const Color(0x4D000000),
+    spoilerBackground: const Color(0x14FFFFFF),
+    spoilerOverlayHoverColor: const Color(0x24FFFFFF),
     guildBannerGradient: const Color(0x4D000000),
     focusPrimary: const Color(0xFF00B0F4),
     interactiveActive: toneDirect(
