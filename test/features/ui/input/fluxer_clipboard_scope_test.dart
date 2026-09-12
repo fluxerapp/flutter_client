@@ -7,7 +7,9 @@ void main() {
   testWidgets('IME select-all control character selects the field', (
     WidgetTester tester,
   ) async {
-    final TextEditingController controller = TextEditingController(text: 'hello');
+    final TextEditingController controller = TextEditingController(
+      text: 'hello',
+    );
     addTearDown(controller.dispose);
     final FocusNode focusNode = FocusNode();
     addTearDown(focusNode.dispose);

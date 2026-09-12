@@ -62,7 +62,9 @@ void main() {
 
     test('ignores a plain letter', () {
       expect(
-        matchTextEditingShortcut(_down(LogicalKeyboardKey.keyA, character: 'a')),
+        matchTextEditingShortcut(
+          _down(LogicalKeyboardKey.keyA, character: 'a'),
+        ),
         isNull,
       );
     });
@@ -80,10 +82,7 @@ void main() {
           physicalKey: PhysicalKeyboardKey.controlLeft,
         ),
       );
-      expect(
-        matchTextEditingShortcut(_down(LogicalKeyboardKey.keyA)),
-        isNull,
-      );
+      expect(matchTextEditingShortcut(_down(LogicalKeyboardKey.keyA)), isNull);
     });
 
     test('matches held Control plus letter', () {
