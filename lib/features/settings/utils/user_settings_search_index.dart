@@ -658,6 +658,12 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     label: _l((l10n) => l10n.advancedSettingSaveGifFavoritesLabel),
   ),
   _UserSettingsSearchOption(
+    id: 'advanced:media-buttons',
+    section: UserSettingsSection.advanced,
+    fieldId: 'advanced-settings-chat',
+    label: _l((l10n) => l10n.advancedSettingMediaButtonsLabel),
+  ),
+  _UserSettingsSearchOption(
     id: 'advanced:search-engines',
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-settings-chat',
