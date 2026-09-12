@@ -9,9 +9,11 @@ import 'package:gaimon/gaimon.dart';
 // ignore: avoid_classes_with_only_static_members
 abstract final class FluxerHaptics {
   static const String _sendAhapAsset = 'assets/haptics/message_send.ahap';
+  static const String _purrAhapAsset = 'assets/haptics/neko_purr.ahap';
 
-  static String? _sendAhap;
-  static Future<String>? _sendAhapLoad;
+  static final Map<String, String> _ahapCache = <String, String>{};
+  static final Map<String, Future<String>> _ahapLoads =
+      <String, Future<String>>{};
   static bool _enabled = true;
 
   static bool get supportsExpressive =>
@@ -83,41 +85,19 @@ abstract final class FluxerHaptics {
 
   /// Soft flick for sending a message.
   static void send() {
-    if (!_enabled) {
-      return;
-    }
-    if (!supportsExpressive) {
-      Gaimon.soft();
-      return;
-    }
-    final String? cached = _sendAhap;
-    if (cached != null) {
-      try {
-        Gaimon.patternFromData(cached);
-      } on Object {
-        Gaimon.soft();
-      }
-      return;
-    }
-    unawaited(_playSend());
+    _playAhap(_sendAhapAsset, onUnavailable: Gaimon.soft);
   }
 
   /// Preload the send AHAP so the first send feels instant (instead of delayed)
-  static Future<void> warmSend() {
-    if (!_enabled || !supportsExpressive) {
-      return Future<void>.value();
-    }
-    return _loadSendAhap();
+  static Future<void> warmSend() => _warmAhap(_sendAhapAsset);
+
+  /// Soft rumble for petting neko.
+  static void purr() {
+    _playAhap(_purrAhapAsset);
   }
 
-  static Future<void> _playSend() async {
-    try {
-      final String data = await _loadSendAhap();
-      Gaimon.patternFromData(data);
-    } on Object {
-      Gaimon.soft();
-    }
-  }
+  /// Preload the purr AHAP so the first pet feels instant.
+  static Future<void> warmPurr() => _warmAhap(_purrAhapAsset);
 
   /// Play a custom AHAP JSON pattern
   static void pattern(String ahapJson) {
@@ -141,15 +121,54 @@ abstract final class FluxerHaptics {
     action();
   }
 
-  static Future<String> _loadSendAhap() {
-    final String? cached = _sendAhap;
+  static void _playAhap(String asset, {void Function()? onUnavailable}) {
+    if (!_enabled) {
+      return;
+    }
+    if (!supportsExpressive) {
+      onUnavailable?.call();
+      return;
+    }
+    final String? cached = _ahapCache[asset];
+    if (cached != null) {
+      try {
+        Gaimon.patternFromData(cached);
+      } on Object {
+        onUnavailable?.call();
+      }
+      return;
+    }
+    unawaited(_playAhapAsync(asset, onUnavailable: onUnavailable));
+  }
+
+  static Future<void> _playAhapAsync(
+    String asset, {
+    void Function()? onUnavailable,
+  }) async {
+    try {
+      final String data = await _loadAhap(asset);
+      Gaimon.patternFromData(data);
+    } on Object {
+      onUnavailable?.call();
+    }
+  }
+
+  static Future<void> _warmAhap(String asset) {
+    if (!_enabled || !supportsExpressive) {
+      return Future<void>.value();
+    }
+    return _loadAhap(asset);
+  }
+
+  static Future<String> _loadAhap(String asset) {
+    final String? cached = _ahapCache[asset];
     if (cached != null) {
       return Future<String>.value(cached);
     }
-    return _sendAhapLoad ??= rootBundle.loadString(_sendAhapAsset).then((
+    return _ahapLoads[asset] ??= rootBundle.loadString(asset).then((
       String data,
     ) {
-      _sendAhap = data;
+      _ahapCache[asset] = data;
       return data;
     });
   }
