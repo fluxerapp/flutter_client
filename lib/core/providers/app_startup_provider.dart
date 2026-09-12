@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/api/service_unavailable.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/deep_links/deep_link_handler.dart';
+import 'package:fluxer_app/core/observability/fluxer_observability.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
 import 'package:fluxer_app/core/premium/premium_state_sync_provider.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
@@ -57,6 +58,28 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'app_startup_provider.g.dart';
 
 @Riverpod(keepAlive: true)
+void authenticatedSessionBindings(Ref ref) {
+  ref
+    ..read(gatewayConnectBindingProvider)
+    ..read(gatewayEventListenerProvider)
+    ..read(gatewayStateListenerProvider)
+    ..read(gatewayForegroundListenerProvider)
+    ..read(gatewayReconnectBannerListenerProvider)
+    ..read(connectivityListenerProvider)
+    ..read(gatewayEphemeralStateRecoveryListenerProvider)
+    ..read(ackBatcherGatewayListenerProvider)
+    ..read(fluxerSfxIncomingRingBindingProvider)
+    ..read(fluxerMessageSfxBindingProvider)
+    ..read(fluxerTtsBindingProvider)
+    ..read(voiceCallKitCoordinatorProvider)
+    ..read(friendRelationshipsSyncProvider)
+    ..read(guildListSyncProvider)
+    ..read(slowmodeSyncProvider)
+    ..read(statusExpiryBindingProvider)
+    ..read(premiumStateSyncBindingProvider);
+}
+
+@Riverpod(keepAlive: true)
 class AppStartup extends _$AppStartup {
   @override
   Future<void> build() async {
@@ -88,6 +111,7 @@ class AppStartup extends _$AppStartup {
 
   void _invalidateGatewayBindings() {
     ref
+      ..invalidate(authenticatedSessionBindingsProvider)
       ..invalidate(gatewayConnectBindingProvider)
       ..invalidate(gatewayEventListenerProvider)
       ..invalidate(gatewayStateListenerProvider)
@@ -97,71 +121,107 @@ class AppStartup extends _$AppStartup {
   }
 
   void _attachAuthenticatedBindings() {
-    ref
-      ..read(gatewayConnectBindingProvider)
-      ..read(gatewayEventListenerProvider)
-      ..read(gatewayStateListenerProvider)
-      ..read(gatewayForegroundListenerProvider)
-      ..read(gatewayReconnectBannerListenerProvider)
-      ..read(connectivityListenerProvider)
-      ..read(gatewayEphemeralStateRecoveryListenerProvider)
-      ..read(ackBatcherGatewayListenerProvider)
-      ..read(fluxerSfxIncomingRingBindingProvider)
-      ..read(fluxerMessageSfxBindingProvider)
-      ..read(fluxerTtsBindingProvider)
-      ..read(voiceCallKitCoordinatorProvider)
-      ..read(friendRelationshipsSyncProvider)
-      ..read(guildListSyncProvider)
-      ..read(slowmodeSyncProvider)
-      ..read(statusExpiryBindingProvider)
-      ..read(premiumStateSyncBindingProvider);
+    ref.read(authenticatedSessionBindingsProvider);
+  }
+
+  Future<void> _warmLaunchNavigationPlugins() async {
+    if (PushProviderGuard.isFirebaseMessaging && Platform.isAndroid) {
+      ref.read(pendingPushNotificationPathProvider);
+      await LocalPushNotifications().ensureInitialized(
+        onNotificationTap: ref
+            .read(pushNotificationTapHandlerProvider.notifier)
+            .handlePayloadJson,
+      );
+    }
+  }
+
+  Future<void> _flushLaunchNavigation() async {
+    ref.read(deepLinkHandlerProvider.notifier).processPendingDeepLink();
+    ref.read(pendingPushNotificationPathProvider.notifier).flushIfReady();
+    ref.read(pendingHomeQuickActionProvider.notifier).flushIfReady();
+    if (PushProviderGuard.isFirebaseMessaging && Platform.isAndroid) {
+      await FcmPendingNotificationTap.flushToHandler(
+        ref.read(pushNotificationTapHandlerProvider.notifier).handlePayloadJson,
+      );
+    }
   }
 
   Future<void> _validateAndRestore() async {
     final Stopwatch startupStopwatch = Stopwatch()..start();
-    await ref.read(appRuntimeInfoProvider.future);
-    if (!ref.mounted) {
-      return;
-    }
-    final database = ref.read(fluxerDatabaseProvider);
-    final authRepository = ref.read(authRepositoryProvider);
-    await ref
-        .read(activeInstanceProvider.notifier)
-        .restorePersistedSnapshot(
-          authRepository.resolveActiveInstanceSnapshot(),
-        );
+    await FluxerObservability.instance.traceAsync(
+      'startup.session.restore',
+      () async {
+        await ref.read(appRuntimeInfoProvider.future);
+        if (!ref.mounted) {
+          return;
+        }
+        final authRepository = ref.read(authRepositoryProvider);
+        await ref
+            .read(activeInstanceProvider.notifier)
+            .restorePersistedSnapshot(
+              authRepository.resolveActiveInstanceSnapshot(),
+            );
+        if (!ref.mounted) {
+          return;
+        }
+        debugPrint('[AppStartup] Database obtained, migrating legacy tokens…');
+        await authRepository.migrateLegacyTokens();
+        await authRepository.pruneTokenlessSessions();
+      },
+    );
     if (!ref.mounted) {
       return;
     }
 
-    final Future<void> emojiPreload = EmojiRegistry.preload();
+    final database = ref.read(fluxerDatabaseProvider);
+    final authRepository = ref.read(authRepositoryProvider);
+    unawaited(EmojiRegistry.preload());
     unawaited(FluxerHaptics.warmSend());
     unawaited(ref.read(wellKnownProvider.future));
     unawaited(EmojiSpriteSheet.preload());
     unawaited(bootstrapFcmAfterRunApp());
-    debugPrint('[AppStartup] Database obtained, migrating legacy tokens…');
-    await authRepository.migrateLegacyTokens();
-    await authRepository.pruneTokenlessSessions();
-    debugPrint('[AppStartup] Querying session…');
+    final Future<void> restoreIdentifyGuildId = restoreIdentifyInitialGuildId(
+      ref.read(identifyInitialGuildIdProvider.notifier),
+      database,
+    );
 
+    debugPrint('[AppStartup] Querying session…');
     var session = await authRepository.getActiveSession();
     debugPrint('[AppStartup] Session: ${session != null ? 'found' : 'none'}');
 
     if (session == null) {
-      await emojiPreload;
       return;
     }
 
     UserPrivateResponse? validatedUser;
+    var gatewayBound = false;
+    Future<void>? launchPluginWarm;
     while (session != null) {
       if (!ref.mounted) {
         return;
       }
       ref.read(fluxerAuthTokenProvider.notifier).setToken(session.token);
+      ref.read(currentUserIdProvider.notifier).set(session.userId);
+      launchPluginWarm ??= _warmLaunchNavigationPlugins();
+      if (!gatewayBound) {
+        await restoreIdentifyGuildId;
+        if (!ref.mounted) {
+          return;
+        }
+        ref.read(pendingPushNotificationPathProvider);
+        _attachAuthenticatedBindings();
+        gatewayBound = true;
+      } else {
+        _invalidateGatewayBindings();
+        _attachAuthenticatedBindings();
+      }
 
       try {
-        final client = ref.read(fluxerClientProvider);
-        final user = await client.users.getCurrentUser();
+        final UserPrivateResponse user = await FluxerObservability.instance
+            .traceAsync(
+              'startup.auth.validate',
+              () => ref.read(fluxerClientProvider).users.getCurrentUser(),
+            );
         if (!ref.mounted) {
           return;
         }
@@ -200,7 +260,6 @@ class AppStartup extends _$AppStartup {
             return;
           }
           ref.read(authStateProvider.notifier).setAuthenticated(value: true);
-          ref.read(currentUserIdProvider.notifier).set(session.userId);
           throw ServiceUnavailableException(statusCode: e.response?.statusCode);
         }
         debugPrint('[AppStartup] Server unreachable: $e');
@@ -213,7 +272,9 @@ class AppStartup extends _$AppStartup {
     }
     if (session == null) {
       ref.read(fluxerAuthTokenProvider.notifier).setToken(null);
-      await emojiPreload;
+      if (gatewayBound) {
+        _invalidateGatewayBindings();
+      }
       return;
     }
 
@@ -240,19 +301,23 @@ class AppStartup extends _$AppStartup {
     if (token == null || token.isEmpty) {
       talker.error('[AppStartup] Auth token missing before gateway bind');
       ref.read(authStateProvider.notifier).setAuthenticated(value: false);
-      await emojiPreload;
+      if (gatewayBound) {
+        _invalidateGatewayBindings();
+      }
       return;
     }
-    _attachAuthenticatedBindings();
-    await Future.wait<void>([
-      ref.read(themePreferenceProvider.notifier).load(session.userId),
-      ref.read(appearancePreferencesProvider.notifier).load(session.userId),
-      ref.read(chatWallpaperProvider.notifier).load(session.userId),
-      ref.read(chatPreferencesProvider.notifier).load(session.userId),
-      ref.read(advancedPreferencesProvider.notifier).load(session.userId),
-      ref.read(defaultAppsPreferencesProvider.notifier).load(session.userId),
-      ref.read(voiceSettingsProvider.notifier).load(session.userId),
-    ]);
+
+    unawaited(
+      Future.wait<void>([
+        ref.read(themePreferenceProvider.notifier).load(session.userId),
+        ref.read(appearancePreferencesProvider.notifier).load(session.userId),
+        ref.read(chatWallpaperProvider.notifier).load(session.userId),
+        ref.read(chatPreferencesProvider.notifier).load(session.userId),
+        ref.read(advancedPreferencesProvider.notifier).load(session.userId),
+        ref.read(defaultAppsPreferencesProvider.notifier).load(session.userId),
+        ref.read(voiceSettingsProvider.notifier).load(session.userId),
+      ]),
+    );
     if (!ref.mounted) {
       return;
     }
@@ -262,31 +327,21 @@ class AppStartup extends _$AppStartup {
       ref.read(serviceStatusMaintenanceReadProvider.notifier).refresh(),
     );
 
-    ref.read(deepLinkHandlerProvider.notifier).processPendingDeepLink();
-    ref.read(pendingPushNotificationPathProvider.notifier).flushIfReady();
-    ref.read(pendingHomeQuickActionProvider.notifier).flushIfReady();
+    await (launchPluginWarm ?? _warmLaunchNavigationPlugins());
+    if (!ref.mounted) {
+      return;
+    }
+    await _flushLaunchNavigation();
+    if (!ref.mounted) {
+      return;
+    }
 
     debugPrint(
       '[AppStartup] Completed in ${startupStopwatch.elapsedMilliseconds}ms',
     );
 
     if (PushProviderGuard.isFirebaseMessaging && Platform.isAndroid) {
-      ref.read(pendingPushNotificationPathProvider);
-      await LocalPushNotifications().ensureInitialized(
-        onNotificationTap: ref
-            .read(pushNotificationTapHandlerProvider.notifier)
-            .handlePayloadJson,
-      );
-      if (!ref.mounted) {
-        return;
-      }
-      await FcmPendingNotificationTap.flushToHandler(
-        ref.read(pushNotificationTapHandlerProvider.notifier).handlePayloadJson,
-      );
       unawaited(FirebaseMessagingPushService.bootstrapAfterAuth());
-    }
-    if (!ref.mounted) {
-      return;
     }
     if (PushProviderGuard.isFirebaseMessaging) {
       ref.read(fcmMobileDeviceRegistrationProvider);
@@ -294,8 +349,6 @@ class AppStartup extends _$AppStartup {
     if (PushProviderGuard.isUnifiedPush) {
       ref.read(unifiedPushMobileDeviceRegistrationProvider);
     }
-
-    await emojiPreload;
 
     debugPrint(
       '[AppStartup] Session restored '
