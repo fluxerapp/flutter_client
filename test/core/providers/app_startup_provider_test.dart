@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
@@ -196,6 +197,7 @@ void main() {
         fluxerClientProvider.overrideWithValue(
           FluxerClient(dio, baseUrl: 'https://api.fluxer.app/v1'),
         ),
+        authenticatedSessionBindingsProvider.overrideWith((Ref ref) {}),
       ],
     );
     addTearDown(container.dispose);
@@ -212,6 +214,51 @@ void main() {
     expect(container.read(authStateProvider), isTrue);
     expect(container.read(currentUserIdProvider), 'user-1');
     expect(container.read(fluxerAuthTokenProvider), 'token-1');
+  });
+
+  test('binds gateway before getCurrentUser returns', () async {
+    final db = openTestDatabase();
+    final MapAuthTokenStorage tokens = MapAuthTokenStorage();
+    await db.authSessionDao.saveSessionMetadata(userId: 'user-1');
+    await tokens.saveToken(userId: 'user-1', token: 'token-1');
+
+    final Completer<void> releaseUsersMe = Completer<void>();
+    var boundBeforeUsersMe = false;
+    var bindCalled = false;
+
+    final Dio dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+      ..httpClientAdapter = _HoldingUsersMeAdapter(
+        statusCode: 503,
+        release: releaseUsersMe,
+      );
+
+    final container = ProviderContainer(
+      retry: (int retryCount, Object error) => null,
+      overrides: [
+        fluxerDatabaseProvider.overrideWithValue(db),
+        wellKnownProvider.overrideWith(_FakeWellKnown.new),
+        appRuntimeInfoProvider.overrideWith((Ref ref) => _testRuntimeInfo),
+        authTokenStorageProvider.overrideWithValue(tokens),
+        fluxerClientProvider.overrideWithValue(
+          FluxerClient(dio, baseUrl: 'https://api.fluxer.app/v1'),
+        ),
+        authenticatedSessionBindingsProvider.overrideWith((Ref ref) {
+          bindCalled = true;
+          boundBeforeUsersMe = !releaseUsersMe.isCompleted;
+        }),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    final Future<void> startup = container.read(appStartupProvider.future);
+    for (int i = 0; i < 200 && !bindCalled; i++) {
+      await Future<void>.delayed(Duration.zero);
+    }
+    expect(bindCalled, isTrue);
+    expect(boundBeforeUsersMe, isTrue);
+
+    releaseUsersMe.complete();
+    await expectLater(startup, throwsA(isA<ServiceUnavailableException>()));
   });
 }
 
@@ -236,6 +283,33 @@ class _UsersMeAdapter implements HttpClientAdapter {
     Stream<Uint8List>? requestStream,
     Future<void>? cancelFuture,
   ) async {
+    return ResponseBody.fromString(
+      'unavailable',
+      statusCode ?? 503,
+      statusMessage: 'Service Unavailable',
+      headers: <String, List<String>>{
+        Headers.contentTypeHeader: <String>['text/html'],
+      },
+    );
+  }
+
+  @override
+  void close({bool force = false}) {}
+}
+
+class _HoldingUsersMeAdapter implements HttpClientAdapter {
+  _HoldingUsersMeAdapter({required this.release, this.statusCode});
+
+  final Completer<void> release;
+  final int? statusCode;
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    await release.future;
     return ResponseBody.fromString(
       'unavailable',
       statusCode ?? 503,

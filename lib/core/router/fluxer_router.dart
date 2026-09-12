@@ -6,6 +6,8 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/providers/splash_exit_allowed_provider.dart';
+import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dart';
+import 'package:fluxer_app/core/push/pending_push_notification_route.dart';
 import 'package:fluxer_app/core/router/channel_persistence_observer.dart';
 import 'package:fluxer_app/core/router/guild_root_redirect.dart';
 import 'package:fluxer_app/core/router/pre_reconnecting_location_provider.dart';
@@ -260,7 +262,13 @@ GoRouter fluxerRouter(Ref ref) {
         }
         return ref
             .read(preReconnectingLocationProvider.notifier)
-            .takeOrRestore(ref.read(fluxerDatabaseProvider));
+            .takeOrRestore(
+              ref.read(fluxerDatabaseProvider),
+              preferredPath: currentAccountPendingNavigationPath(
+                pending: ref.read(pendingPushNotificationPathProvider),
+                currentUserId: ref.read(currentUserIdProvider),
+              ),
+            );
       }
 
       if (!isAuthenticated) {
@@ -280,7 +288,13 @@ GoRouter fluxerRouter(Ref ref) {
           isGatewayReady) {
         return ref
             .read(preReconnectingLocationProvider.notifier)
-            .takeOrRestore(ref.read(fluxerDatabaseProvider));
+            .takeOrRestore(
+              ref.read(fluxerDatabaseProvider),
+              preferredPath: currentAccountPendingNavigationPath(
+                pending: ref.read(pendingPushNotificationPathProvider),
+                currentUserId: ref.read(currentUserIdProvider),
+              ),
+            );
       }
 
       return null;

@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/gateway/channel_last_message_index.dart';
 import 'package:fluxer_app/core/gateway/gateway_ready_guild_parser.dart';
 import 'package:fluxer_app/core/gateway/message_mention_context_cache.dart';
 import 'package:fluxer_app/core/gateway/presence_update_batcher.dart';
+import 'package:fluxer_app/core/observability/fluxer_observability.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
 import 'package:fluxer_app/features/channels/data/read_state_decisions.dart';
@@ -251,7 +252,10 @@ class GatewayEventHandler {
     }
     switch (event) {
       case ReadyEvent():
-        await _handleReady(event);
+        await FluxerObservability.instance.traceAsync(
+          'gateway.ready.apply',
+          () => _handleReady(event),
+        );
       case ResumedEvent():
         talker.info('[Gateway] RESUMED');
         _emit(onResumed ?? onReady);
