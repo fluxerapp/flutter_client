@@ -1268,6 +1268,7 @@ class _MarkdownInlineRenderer {
         return _buildGuildNavigationMention(node, effectiveStyle);
       case FluxerMarkdownElementTags.timestamp:
         final timestampStyle = effectiveStyle.copyWith(
+          fontSize: FluxerMarkupSpacing.rootFontSize,
           background: Paint()
             ..color =
                 (effectiveStyle.color ??
