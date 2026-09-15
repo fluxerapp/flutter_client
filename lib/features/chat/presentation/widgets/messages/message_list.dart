@@ -10,8 +10,8 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
-import 'package:fluxer_app/features/accessibility/effective_motion_preferences_provider.dart';
-import 'package:fluxer_app/features/accessibility/message_group_spacing.dart';
+import 'package:fluxer_app/features/accessibility/domain/message_group_spacing.dart';
+import 'package:fluxer_app/features/accessibility/providers/effective_motion_preferences_provider.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/chat/data/chat_unread_summary.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -62,12 +62,13 @@ import 'package:fluxer_app/features/chat/providers/chat_wallpaper_provider.dart'
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/core/message_pagination_coordinator.dart';
+import 'package:fluxer_app/features/chat/providers/messages/channel_spoiler_sync_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/spoiler_reveal_provider.dart';
-import 'package:fluxer_app/features/chat/utils/channel_message_stream.dart';
-import 'package:fluxer_app/features/chat/utils/message_action_permissions.dart';
-import 'package:fluxer_app/features/chat/utils/message_grouping_utils.dart';
-import 'package:fluxer_app/features/chat/utils/message_page_sync.dart';
-import 'package:fluxer_app/features/chat/utils/pinned_system_message_navigation.dart';
+import 'package:fluxer_app/features/chat/utils/messages/channel_message_stream.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_action_permissions.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_grouping_utils.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_page_sync.dart';
+import 'package:fluxer_app/features/chat/utils/messages/pinned_system_message_navigation.dart';
 import 'package:fluxer_app/features/chat/wallpaper/chat_wallpaper.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
@@ -81,8 +82,8 @@ import 'package:fluxer_app/features/input/providers/chat_keybind_effects_provide
 import 'package:fluxer_app/features/input/providers/focused_message_provider.dart';
 import 'package:fluxer_app/features/input/providers/keyboard_mode_provider.dart';
 import 'package:fluxer_app/features/input/providers/message_keyboard_navigation_provider.dart';
-import 'package:fluxer_app/features/moderation/iar/iar_flow.dart';
-import 'package:fluxer_app/features/moderation/iar/iar_simple_report_sheet.dart';
+import 'package:fluxer_app/features/moderation/domain/iar_flow.dart';
+import 'package:fluxer_app/features/moderation/presentation/iar_simple_report_sheet.dart';
 import 'package:fluxer_app/features/moderation/providers/local_user_spam_override_provider.dart';
 import 'package:fluxer_app/features/settings/domain/search_provider_engine.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
@@ -479,9 +480,16 @@ class _MessageListState extends ConsumerState<MessageList> {
       chatViewModelProvider.select((ChatViewState s) => s.channelId),
     );
     final String? expectedChannelId = widget.expectedChannelId;
+    final String spoilerChannelId = expectedChannelId ?? channelId;
+    if (spoilerChannelId.isNotEmpty) {
+      ref.watch(channelSpoilerSyncProvider(spoilerChannelId).notifier);
+    }
     if (expectedChannelId != null &&
-        expectedChannelId.isNotEmpty &&
-        channelId != expectedChannelId) {
+        chatWindowMismatchesChannel(
+          expectedChannelId: expectedChannelId,
+          channelId: channelId,
+          messages: messages,
+        )) {
       return const MessageListMismatchPlaceholder();
     }
     final String? stickyUnreadId = ref.watch(
@@ -682,6 +690,9 @@ class _MessageListState extends ConsumerState<MessageList> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted && _uiEpoch == scheduledEpoch) {
           _publishDemandGeometry();
+          if (messages.isEmpty) {
+            _syncReadViewport();
+          }
         }
       });
     }
@@ -2165,7 +2176,26 @@ class _MessageListState extends ConsumerState<MessageList> {
   /// flag that can trigger an auto-ack - is withheld while a jump owns the
   /// viewport, since the position mid-jump is not where the user is reading.
   void _syncReadViewport({bool ignoreJumpTarget = false}) {
-    if (!_anchorResolved || !_scrollController.hasClients) {
+    if (!_anchorResolved) {
+      return;
+    }
+    final ChatViewState chatState = ref.read(chatViewModelProvider);
+    if (chatState.messages.isEmpty) {
+      if (chatState.isLoading || chatState.hasMoreNewerMessages) {
+        return;
+      }
+      // Welcome / empty states do not mount a scroll view, so there is no
+      // metrics callback. Viewing that empty live tail still marks read.
+      _readViewport.updateViewport(
+        channelId: _viewportChannelId,
+        nearLoadedTail: true,
+        distanceFromBottom: 0,
+        viewportHeight: 0,
+        sampledTailId: null,
+      );
+      return;
+    }
+    if (!_scrollController.hasClients) {
       return;
     }
     final bool jumpOwnsViewport = !ignoreJumpTarget && _isJumpOwningViewport();
@@ -2184,9 +2214,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       // advances the tail (terminal newer page, live create) makes this
       // publication stale for auto-ack until post-layout geometry
       // republishes with the fresh token.
-      sampledTailId: newestServerBackedMessageId(
-        ref.read(chatViewModelProvider).messages,
-      ),
+      sampledTailId: newestServerBackedMessageId(chatState.messages),
     );
   }
 
@@ -2524,18 +2552,16 @@ class _MessageListState extends ConsumerState<MessageList> {
                 ? () => requestOpenChannelPins(ref)
                 : null,
             onLongPress: useTouchMessageActions
-                ? () => unawaited(
-                    showSystemMessageActionsSheet(
-                      context,
-                      ref,
-                      message: message,
-                      guildId: guildId,
-                      isDmChannel: isDmChannel,
-                      canDelete: canDelete,
-                      canAddReactions: canAddReactionsForMessage,
-                      canManageMessages: channelCanManageMessages,
-                      currentUserId: currentUserId,
-                    ),
+                ? () => showSystemMessageActionsSheet(
+                    context,
+                    ref,
+                    message: message,
+                    guildId: guildId,
+                    isDmChannel: isDmChannel,
+                    canDelete: canDelete,
+                    canAddReactions: canAddReactionsForMessage,
+                    canManageMessages: channelCanManageMessages,
+                    currentUserId: currentUserId,
                   )
                 : null,
             onSecondaryTapUp: !useTouchMessageActions

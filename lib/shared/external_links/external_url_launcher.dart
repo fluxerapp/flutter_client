@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -33,8 +34,8 @@ class ExternalUrlBrowserStyle {
 
 class FluxerChromeSafariBrowser extends ChromeSafariBrowser {}
 
-final FluxerChromeSafariBrowser _chromeSafariBrowser =
-    FluxerChromeSafariBrowser();
+FluxerChromeSafariBrowser _chromeSafariBrowser = FluxerChromeSafariBrowser();
+Future<void> _androidInAppBrowserQueue = Future<void>.value();
 
 final RegExp _bareEmailPattern = RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$');
 
@@ -99,11 +100,34 @@ Future<void> closeInAppBrowserIfOpen() async {
   }
 }
 
-Future<void> _closeInAppBrowserBestEffort() async {
+Future<T> _enqueueAndroidInAppBrowser<T>(Future<T> Function() action) async {
+  final Future<void> previous = _androidInAppBrowserQueue;
+  final Completer<void> gate = Completer<void>();
+  _androidInAppBrowserQueue = gate.future;
   try {
-    await _chromeSafariBrowser.close();
+    await previous;
   } on Object {
-    // Ignore stale session close errors
+    // Keep the queue moving if a prior open failed
+  }
+  try {
+    return await action();
+  } finally {
+    if (!gate.isCompleted) {
+      gate.complete();
+    }
+  }
+}
+
+void _abandonStaleAndroidInAppBrowser() {
+  if (!_chromeSafariBrowser.isOpened()) {
+    return;
+  }
+  final FluxerChromeSafariBrowser previous = _chromeSafariBrowser;
+  _chromeSafariBrowser = FluxerChromeSafariBrowser();
+  try {
+    previous.dispose();
+  } on Object {
+    // Ignore stale session dispose errors
   }
 }
 
@@ -113,29 +137,24 @@ Future<bool> _openInAppBrowser(
 }) async {
   try {
     final WebUri webUri = WebUri(uri.toString());
+    final ChromeSafariBrowserSettings settings = style != null
+        ? _buildBrowserSettings(style)
+        : ChromeSafariBrowserSettings(
+            barCollapsingEnabled: true,
+            noHistory: Platform.isAndroid,
+          );
     if (Platform.isAndroid) {
-      if (_chromeSafariBrowser.isOpened()) {
-        try {
-          await _chromeSafariBrowser.launchUrl(url: webUri);
-          return true;
-        } on Object {
-          await _closeInAppBrowserBestEffort();
-        }
-      } else {
-        await _closeInAppBrowserBestEffort();
-      }
-    } else if (_chromeSafariBrowser.isOpened()) {
+      return await _enqueueAndroidInAppBrowser(() async {
+        await dismissAndroidInAppBrowserTasks();
+        _abandonStaleAndroidInAppBrowser();
+        await _chromeSafariBrowser.open(url: webUri, settings: settings);
+        return true;
+      });
+    }
+    if (_chromeSafariBrowser.isOpened()) {
       await _chromeSafariBrowser.close();
     }
-    await _chromeSafariBrowser.open(
-      url: webUri,
-      settings: style != null
-          ? _buildBrowserSettings(style)
-          : ChromeSafariBrowserSettings(
-              barCollapsingEnabled: true,
-              noHistory: Platform.isAndroid,
-            ),
-    );
+    await _chromeSafariBrowser.open(url: webUri, settings: settings);
     return true;
   } on Object {
     return launchUrl(uri, mode: LaunchMode.externalApplication);

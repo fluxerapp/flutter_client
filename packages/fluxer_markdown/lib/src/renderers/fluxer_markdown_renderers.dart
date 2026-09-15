@@ -29,7 +29,53 @@ import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-double _blockSpacingForStyle(TextStyle style) => FluxerMarkupSpacing.blockGap;
+enum _BlockSpacingKind {
+  paragraph(0, FluxerMarkupSpacing.blockGap),
+  list(FluxerMarkupSpacing.listBlockMargin, 0),
+  blank(0, 0),
+  padded(0, 0);
+
+  const _BlockSpacingKind(this.marginTop, this.marginBottom);
+
+  final double marginTop;
+  final double marginBottom;
+}
+
+double _collapsedBlockGap(_BlockSpacingKind previous, _BlockSpacingKind next) {
+  return previous.marginBottom > next.marginTop
+      ? previous.marginBottom
+      : next.marginTop;
+}
+
+_BlockSpacingKind _spacingKindFor(md.Node node) {
+  if (node is! md.Element) {
+    return _BlockSpacingKind.paragraph;
+  }
+  return switch (node.tag) {
+    'ul' || 'ol' => _BlockSpacingKind.list,
+    'h1' ||
+    'h2' ||
+    'h3' ||
+    'h4' ||
+    'blockquote' ||
+    'pre' ||
+    'table' ||
+    'alert' => _BlockSpacingKind.padded,
+    _ => _BlockSpacingKind.paragraph,
+  };
+}
+
+class _BlockSlot {
+  const _BlockSlot(this.kind, this.widget) : blankLineCount = 0;
+
+  const _BlockSlot.blank(this.blankLineCount)
+    : kind = _BlockSpacingKind.blank,
+      widget = null;
+
+  final _BlockSpacingKind kind;
+  final Widget? widget;
+  final int blankLineCount;
+}
 
 double _headingFontSize(TextStyle baseStyle, int level) {
   final double fontSize =
@@ -362,53 +408,86 @@ class _MarkdownBlockRenderer {
     }
 
     _hasRenderedBlock = false;
-    final children = <Widget>[];
-    for (final node in nodes) {
-      final widget = buildBlock(node);
-      if (widget != null) {
-        children.add(widget);
-      }
-    }
-
-    if (children.isEmpty) {
-      return const SizedBox.shrink();
-    }
-    if (children.length == 1) {
-      return children.first;
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: _blockSpacingForStyle(baseStyle),
-      children: children,
-    );
+    return _columnFromSlots(_slotsFor(nodes));
   }
 
   Widget buildWithTrailingInlineWidget(List<md.Node> nodes, Widget trailing) {
     _hasRenderedBlock = false;
+    if (nodes.isNotEmpty && _isTrailingParagraphNode(nodes.last)) {
+      return _columnFromSlots([
+        ..._slotsFor(nodes.sublist(0, nodes.length - 1)),
+        _BlockSlot(
+          _BlockSpacingKind.paragraph,
+          _buildTrailingParagraph(nodes.last, trailing),
+        ),
+      ]);
+    }
+    return _columnFromSlots([
+      ..._slotsFor(nodes),
+      _BlockSlot(_BlockSpacingKind.paragraph, trailing),
+    ]);
+  }
+
+  List<_BlockSlot> _slotsFor(List<md.Node> nodes) {
+    final slots = <_BlockSlot>[];
+    for (final node in nodes) {
+      final _BlockSlot? slot = _slotFor(node);
+      if (slot != null) {
+        slots.add(slot);
+      }
+    }
+    return slots;
+  }
+
+  _BlockSlot? _slotFor(md.Node node) {
+    if (node is md.Element &&
+        node.tag == FluxerMarkdownElementTags.blankLines) {
+      return _BlockSlot.blank(
+        int.tryParse(node.attributes['count'] ?? '') ?? 0,
+      );
+    }
+    final Widget? widget = buildBlock(node);
+    if (widget == null) {
+      return null;
+    }
+    return _BlockSlot(_spacingKindFor(node), widget);
+  }
+
+  Widget _columnFromSlots(List<_BlockSlot> slots) {
+    if (slots.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
     final children = <Widget>[];
-    var trailingApplied = false;
-    for (var i = 0; i < nodes.length; i++) {
-      final md.Node node = nodes[i];
-      if (i == nodes.length - 1 && _isTrailingParagraphNode(node)) {
-        children.add(_buildTrailingParagraph(node, trailing));
-        trailingApplied = true;
-        continue;
+    for (var i = 0; i < slots.length; i++) {
+      final double gapBefore = i == 0
+          ? 0
+          : _collapsedBlockGap(slots[i - 1].kind, slots[i].kind);
+      if (gapBefore > 0) {
+        children.add(SizedBox(height: gapBefore));
       }
-      final Widget? widget = buildBlock(node);
-      if (widget != null) {
-        children.add(widget);
+      final _BlockSlot slot = slots[i];
+      if (slot.kind == _BlockSpacingKind.blank) {
+        final double gapAfter = i < slots.length - 1
+            ? _collapsedBlockGap(slot.kind, slots[i + 1].kind)
+            : 0;
+        children.add(
+          _blankLinesBox(
+            slot.blankLineCount,
+            gapBefore: gapBefore,
+            gapAfter: gapAfter,
+          ),
+        );
+      } else {
+        children.add(slot.widget!);
       }
     }
-    if (!trailingApplied) {
-      children.add(trailing);
-    }
+
     if (children.length == 1) {
       return children.first;
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: _blockSpacingForStyle(baseStyle),
       children: children,
     );
   }
@@ -562,8 +641,6 @@ class _MarkdownBlockRenderer {
     switch (node.tag) {
       case 'p':
         return _buildParagraph(node.children ?? const []);
-      case 'blank-lines':
-        return _buildBlankLines(node);
       case 'h1':
         return _buildHeadingParagraph(node.children ?? const [], level: 1);
       case 'h2':
@@ -680,12 +757,15 @@ class _MarkdownBlockRenderer {
     return richText;
   }
 
-  // The enclosing column already contributes one block gap (#545).
-  Widget _buildBlankLines(md.Element node) {
-    final int count = int.tryParse(node.attributes['count'] ?? '') ?? 0;
+  Widget _blankLinesBox(
+    int count, {
+    required double gapBefore,
+    required double gapAfter,
+  }) {
     final double lines =
         count * _textLineHeight(baseStyle, MediaQuery.textScalerOf(context));
-    final double height = lines - _blockSpacingForStyle(baseStyle);
+    final double height =
+        lines + FluxerMarkupSpacing.blockGap - gapBefore - gapAfter;
     return SizedBox(height: height > 0 ? height : 0);
   }
 
@@ -722,7 +802,7 @@ class _MarkdownBlockRenderer {
   Widget _buildBlockSpoilerElement(md.Element node) {
     return _FluxerSpoilerSpan(
       initiallyRevealed: config.spoilersInitiallyRevealed,
-      spoilerBackgroundColor: config.spoilerBackgroundColor,
+      textColor: baseStyle.color,
       spoilerSyncController: config.spoilerSyncController,
       syncKeys: _collectSpoilerSyncKeys(node, config.spoilerSyncKeyNormalizer),
       child: _buildParagraph(node.children ?? const []),
@@ -822,29 +902,20 @@ class _MarkdownBlockRenderer {
       textDirection: Directionality.of(context),
     );
     final markerTextAlign = ordered ? TextAlign.right : TextAlign.start;
-    return Padding(
-      padding: const EdgeInsets.only(top: FluxerMarkupSpacing.listBlockMargin),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          for (var i = 0; i < items.length; i++)
-            Padding(
-              padding: EdgeInsets.only(
-                bottom: i == items.length - 1
-                    ? 0
-                    : FluxerMarkupSpacing.listItemGap,
-              ),
-              child: _buildListItem(
-                items[i],
-                marker: markers[i],
-                markerColumnWidth: markerColumnWidth,
-                markerTextAlign: markerTextAlign,
-                textScaler: textScaler,
-                depth: depth,
-              ),
-            ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: FluxerMarkupSpacing.listItemGap,
+      children: [
+        for (var i = 0; i < items.length; i++)
+          _buildListItem(
+            items[i],
+            marker: markers[i],
+            markerColumnWidth: markerColumnWidth,
+            markerTextAlign: markerTextAlign,
+            textScaler: textScaler,
+            depth: depth,
+          ),
+      ],
     );
   }
 
@@ -1268,6 +1339,7 @@ class _MarkdownInlineRenderer {
         return _buildGuildNavigationMention(node, effectiveStyle);
       case FluxerMarkdownElementTags.timestamp:
         final timestampStyle = effectiveStyle.copyWith(
+          fontSize: FluxerMarkupSpacing.rootFontSize,
           background: Paint()
             ..color =
                 (effectiveStyle.color ??
@@ -1536,7 +1608,7 @@ class _MarkdownInlineRenderer {
         baseline: TextBaseline.alphabetic,
         child: _FluxerSpoilerSpan(
           initiallyRevealed: config.spoilersInitiallyRevealed,
-          spoilerBackgroundColor: config.spoilerBackgroundColor,
+          textColor: effectiveStyle.color,
           spoilerSyncController: config.spoilerSyncController,
           syncKeys: syncKeys,
           child: buildFluxerBoundedRichText(
@@ -1566,7 +1638,10 @@ class _MarkdownInlineRenderer {
       if (revealOpacity >= 1.0) {
         return TextSpan(style: effectiveStyle, children: spoilerChildren);
       }
-      final Color hiddenBackground = _spoilerHiddenBackground(context, config);
+      final Color hiddenBackground = _spoilerHiddenBackground(
+        context,
+        textColor: effectiveStyle.color,
+      );
       return TextSpan(
         style: effectiveStyle,
         children: _applySpoilerRevealOpacity(
@@ -1578,7 +1653,10 @@ class _MarkdownInlineRenderer {
       );
     }
 
-    final Color hiddenBackground = _spoilerHiddenBackground(context, config);
+    final Color hiddenBackground = _spoilerHiddenBackground(
+      context,
+      textColor: effectiveStyle.color,
+    );
     final TextStyle hiddenStyle = _hiddenSpoilerTextStyle(
       effectiveStyle,
       hiddenBackground,
@@ -1888,12 +1966,11 @@ String _inlineSpoilerId(md.Element node, List<String> syncKeys, int index) {
   return '$index:$contentKey';
 }
 
-Color _spoilerHiddenBackground(
-  BuildContext context,
-  FluxerMarkdownConfig config,
-) {
-  return config.spoilerBackgroundColor ??
-      Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.2);
+const double _kSpoilerHiddenColorMix = 0.16;
+
+Color _spoilerHiddenBackground(BuildContext context, {Color? textColor}) {
+  final Color current = textColor ?? Theme.of(context).colorScheme.onSurface;
+  return current.withValues(alpha: current.a * _kSpoilerHiddenColorMix);
 }
 
 const Color _kHiddenSpoilerTextColor = Color(0x00000000);
@@ -2078,13 +2155,13 @@ class _FluxerSpoilerSpan extends StatefulWidget {
     required this.child,
     required this.initiallyRevealed,
     required this.syncKeys,
-    this.spoilerBackgroundColor,
+    this.textColor,
     this.spoilerSyncController,
   });
 
   final Widget child;
   final bool initiallyRevealed;
-  final Color? spoilerBackgroundColor;
+  final Color? textColor;
   final FluxerSpoilerSyncController? spoilerSyncController;
   final List<String> syncKeys;
 
@@ -2163,9 +2240,10 @@ class _FluxerSpoilerSpanState extends State<_FluxerSpoilerSpan>
 
   @override
   Widget build(BuildContext context) {
-    final Color hiddenBackground =
-        widget.spoilerBackgroundColor ??
-        Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.2);
+    final Color hiddenBackground = _spoilerHiddenBackground(
+      context,
+      textColor: widget.textColor,
+    );
     final Widget body = ClipRRect(
       borderRadius: BorderRadius.circular(4),
       child: Stack(
@@ -2527,13 +2605,16 @@ class FluxerEmojiWidget extends StatelessWidget {
       // The text fallback clips inside this box, so a failed animated frame
       // retries the static frame first (issue #776).
       child: animated
-          ? _buildCustomImage(
-              id: id,
-              animated: true,
-              cdnSize: cdnSize,
-              size: size,
-              px: px,
-              errorChild: staticImage,
+          ? _allowImageFrameAnimation(
+              context,
+              _buildCustomImage(
+                id: id,
+                animated: true,
+                cdnSize: cdnSize,
+                size: size,
+                px: px,
+                errorChild: staticImage,
+              ),
             )
           : staticImage,
     );
@@ -2566,6 +2647,17 @@ class FluxerEmojiWidget extends StatelessWidget {
       errorBuilder: (_, _, _) => errorChild,
     );
   }
+}
+
+Widget _allowImageFrameAnimation(BuildContext context, Widget child) {
+  final MediaQueryData data = MediaQuery.of(context);
+  if (!data.disableAnimations) {
+    return child;
+  }
+  return MediaQuery(
+    data: data.copyWith(disableAnimations: false),
+    child: child,
+  );
 }
 
 String? _formatTimestampText(

@@ -1,7 +1,7 @@
 abstract final class InstanceConstants {
   static const int apiCodeVersion = 1;
   static const String defaultApiBaseUrl = 'https://api.fluxer.app/v1';
-  static const String defaultInstanceInputUrl = 'api.fluxer.app/v1';
+  static const String defaultInstanceInputUrl = 'fluxer.app';
   static const String defaultMarketingBaseUrl = 'https://fluxer.app';
   static const String defaultProductName = 'Fluxer';
   static const int maxRecentInstances = 5;

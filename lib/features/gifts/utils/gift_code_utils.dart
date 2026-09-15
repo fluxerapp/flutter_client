@@ -1,5 +1,5 @@
 import 'package:fluxer_app/core/instance/instance_endpoints.dart';
-import 'package:fluxer_app/features/chat/utils/url_sanitization_utils.dart';
+import 'package:fluxer_app/features/chat/utils/messages/url_sanitization_utils.dart';
 
 const int kMaxGiftCodesPerMessage = 10;
 

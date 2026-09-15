@@ -5,6 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/service_unavailable.dart';
 import 'package:fluxer_app/core/providers/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/splash_exit_allowed_provider.dart';
+import 'package:fluxer_app/features/auth/domain/stored_account.dart';
+import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/shell/domain/service_status_incident.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_screen.dart';
 import 'package:fluxer_app/features/shell/providers/service_status_incident_provider.dart';
@@ -40,6 +42,27 @@ class _NoopIncidentRead extends ServiceStatusIncidentRead {
 
   @override
   Future<void> refresh() async {}
+}
+
+class _AccountsPresent extends AccountManager {
+  @override
+  AccountManagerState build() {
+    return AccountManagerState(
+      accounts: <StoredAccount>[
+        StoredAccount(
+          userId: 'u-selfhost',
+          isValid: true,
+          lastActive: DateTime.utc(2026, 1, 2),
+          username: 'alice',
+          displayDomain: 'chat.example.com',
+        ),
+      ],
+      isSwitching: false,
+    );
+  }
+
+  @override
+  Future<void> loadAccounts() async {}
 }
 
 void main() {
@@ -88,6 +111,51 @@ void main() {
     expect(find.text(testL10n.retry), findsOneWidget);
     expect(find.textContaining('Failed to start'), findsNothing);
   });
+
+  testWidgets('503 outage shows switch accounts when other accounts exist', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      pumpFluxerApp(
+        retry: (int retryCount, Object error) => null,
+        overrides: <Override>[
+          appStartupProvider.overrideWith(_UnavailableAppStartup.new),
+          serviceStatusIncidentReadProvider.overrideWith(_NoopIncidentRead.new),
+          accountManagerProvider.overrideWith(_AccountsPresent.new),
+        ],
+        child: const SplashScreen(),
+      ),
+    );
+    await tester.pump();
+    await tester.pump();
+
+    expect(find.text(testL10n.profileTabMenuSwitchAccounts), findsOneWidget);
+    expect(find.text('fluxer.app'), findsOneWidget);
+  });
+
+  testWidgets(
+    'generic startup failure shows switch accounts without requiring auth',
+    (tester) async {
+      await tester.pumpWidget(
+        pumpFluxerApp(
+          retry: (int retryCount, Object error) => null,
+          overrides: <Override>[
+            appStartupProvider.overrideWith(_GenericFailAppStartup.new),
+            serviceStatusIncidentReadProvider.overrideWith(
+              _NoopIncidentRead.new,
+            ),
+            accountManagerProvider.overrideWith(_AccountsPresent.new),
+          ],
+          child: const SplashScreen(),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+
+      expect(find.textContaining('Failed to start'), findsOneWidget);
+      expect(find.text(testL10n.profileTabMenuSwitchAccounts), findsOneWidget);
+    },
+  );
 
   testWidgets(
     'generic startup failure still uses the failed-to-start message',

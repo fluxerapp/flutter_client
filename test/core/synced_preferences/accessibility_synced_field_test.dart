@@ -246,6 +246,7 @@ void main() {
         saturationFactor: 1,
         customThemeCss: null,
         alwaysUnderlineLinks: true,
+        showAltTextOnImages: true,
         dimStrikethroughText: false,
         showTextareaFocusRing: false,
         escapeExitsKeyboardMode: true,
@@ -262,6 +263,7 @@ void main() {
       final proto = AccessibilitySyncedField.toProto(local);
       final restored = AccessibilitySyncedField.fromProto(proto);
       expect(restored.alwaysUnderlineLinks, isTrue);
+      expect(restored.showAltTextOnImages, isTrue);
       expect(restored.dimStrikethroughText, isFalse);
       expect(restored.showTextareaFocusRing, isFalse);
       expect(restored.escapeExitsKeyboardMode, isTrue);

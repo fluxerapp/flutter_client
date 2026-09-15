@@ -86,6 +86,7 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
     $core.bool? dimStrikethroughText,
     $core.bool? sequentialFileSend,
     $core.bool? mobileSplashZoomAnimation,
+    $core.bool? showAltTextOnImages,
   }) {
     final result = create();
     if (saturationFactor != null) result.saturationFactor = saturationFactor;
@@ -207,6 +208,8 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
       result.sequentialFileSend = sequentialFileSend;
     if (mobileSplashZoomAnimation != null)
       result.mobileSplashZoomAnimation = mobileSplashZoomAnimation;
+    if (showAltTextOnImages != null)
+      result.showAltTextOnImages = showAltTextOnImages;
     return result;
   }
 
@@ -297,6 +300,7 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
     ..aOB(62, _omitFieldNames ? '' : 'dimStrikethroughText')
     ..aOB(63, _omitFieldNames ? '' : 'sequentialFileSend')
     ..aOB(64, _omitFieldNames ? '' : 'mobileSplashZoomAnimation')
+    ..aOB(65, _omitFieldNames ? '' : 'showAltTextOnImages')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -905,6 +909,15 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
   $core.bool hasMobileSplashZoomAnimation() => $_has(63);
   @$pb.TagNumber(64)
   void clearMobileSplashZoomAnimation() => $_clearField(64);
+
+  @$pb.TagNumber(65)
+  $core.bool get showAltTextOnImages => $_getBF(64);
+  @$pb.TagNumber(65)
+  set showAltTextOnImages($core.bool value) => $_setBool(64, value);
+  @$pb.TagNumber(65)
+  $core.bool hasShowAltTextOnImages() => $_has(64);
+  @$pb.TagNumber(65)
+  void clearShowAltTextOnImages() => $_clearField(65);
 }
 
 class AccessibilityOverrides extends $pb.GeneratedMessage {

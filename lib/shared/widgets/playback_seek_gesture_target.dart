@@ -29,27 +29,23 @@ class PlaybackSeekGestureTarget extends StatelessWidget {
       builder: (BuildContext context, BoxConstraints constraints) {
         final double width = constraints.maxWidth;
         return SizedBox(
-          key: kPlaybackSeekShellGestureBlockKey,
+          key: enabled ? kPlaybackSeekShellGestureBlockKey : null,
           height: touchTargetHeight,
-          child: FluxerGestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTapDown: enabled
-                ? (TapDownDetails details) {
+          child: enabled
+              ? FluxerGestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTapDown: (TapDownDetails details) {
                     _seekFromLocalDx(details.localPosition.dx, width);
-                  }
-                : null,
-            onHorizontalDragStart: enabled
-                ? (DragStartDetails details) {
+                  },
+                  onHorizontalDragStart: (DragStartDetails details) {
                     _seekFromLocalDx(details.localPosition.dx, width);
-                  }
-                : null,
-            onHorizontalDragUpdate: enabled
-                ? (DragUpdateDetails details) {
+                  },
+                  onHorizontalDragUpdate: (DragUpdateDetails details) {
                     _seekFromLocalDx(details.localPosition.dx, width);
-                  }
-                : null,
-            child: Center(child: child),
-          ),
+                  },
+                  child: Center(child: child),
+                )
+              : Center(child: child),
         );
       },
     );

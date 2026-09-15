@@ -19,7 +19,8 @@ import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_prov
 import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_sync_provider.dart';
-import 'package:fluxer_app/features/chat/utils/bottom_input_slot_layout.dart';
+import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_page_sync.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/dm_call_e2ee_footer.dart';
@@ -204,8 +205,11 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
         );
   }
 
-  void _maybeResyncChannelMismatch(String viewModelChannelId) {
-    if (viewModelChannelId == widget.channelId) {
+  void _maybeResyncChannelMismatch(ChatViewState state) {
+    if (!shouldResyncMismatchedChatWindow(
+      widgetChannelId: widget.channelId,
+      state: state,
+    )) {
       _mismatchResyncChannelId = null;
       return;
     }
@@ -251,22 +255,14 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
       ..listen<bool>(shellHasPopupOverlayProvider, (_, _) {
         _scheduleSyncChannelIfNeeded();
       });
-    final String viewModelChannelId = ref.watch(
-      chatViewModelProvider.select((ChatViewState state) => state.channelId),
-    );
-    ref.listen<String>(
-      chatViewModelProvider.select((ChatViewState state) => state.channelId),
-      (previous, next) {
-        _maybeResyncChannelMismatch(next);
-      },
-    );
     ref.listen<ChatViewState>(chatViewModelProvider, (previous, next) {
+      _maybeResyncChannelMismatch(next);
       _maybeResyncStrandedEmptyChannel(next);
       _maybeConsumeSettledJumpTarget(previous, next);
     });
-    _maybeResyncStrandedEmptyChannel(ref.read(chatViewModelProvider));
-
-    _maybeResyncChannelMismatch(viewModelChannelId);
+    final ChatViewState chatState = ref.read(chatViewModelProvider);
+    _maybeResyncStrandedEmptyChannel(chatState);
+    _maybeResyncChannelMismatch(chatState);
     listenChatViewModelErrors(ref);
     listenSlowmodeRateLimitedAlerts(ref, context);
 
@@ -428,7 +424,10 @@ bool shouldDedupChannelChatSwitchRequest({
   if (lastRequest != request) {
     return false;
   }
-  if (state.channelId != request.channelId) {
+  if (shouldResyncMismatchedChatWindow(
+    widgetChannelId: request.channelId,
+    state: state,
+  )) {
     return false;
   }
   if (state.isLoading || state.isSyncingMessages) {
@@ -444,6 +443,18 @@ bool shouldDedupChannelChatSwitchRequest({
   // every completion rebuilds this widget and schedules the next sync. The
   // latched recovery is shouldResyncStrandedEmptyChannel.
   return !state.messageLoadFailed;
+}
+
+@visibleForTesting
+bool shouldResyncMismatchedChatWindow({
+  required String widgetChannelId,
+  required ChatViewState state,
+}) {
+  return chatWindowMismatchesChannel(
+    expectedChannelId: widgetChannelId,
+    channelId: state.channelId,
+    messages: state.messages,
+  );
 }
 
 @visibleForTesting

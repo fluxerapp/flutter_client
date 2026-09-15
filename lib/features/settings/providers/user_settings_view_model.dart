@@ -862,12 +862,10 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
                   pronouns: user.pronouns,
                   accentColor: user.accentColor,
                   banner: user.banner,
-                  premiumBadgeHidden: user.premiumBadgeHidden ?? false,
-                  premiumBadgeMasked: user.premiumBadgeMasked ?? false,
-                  premiumBadgeTimestampHidden:
-                      user.premiumBadgeTimestampHidden ?? false,
-                  premiumBadgeSequenceHidden:
-                      user.premiumBadgeSequenceHidden ?? false,
+                  premiumBadgeHidden: user.premiumBadgeHidden,
+                  premiumBadgeMasked: user.premiumBadgeMasked,
+                  premiumBadgeTimestampHidden: user.premiumBadgeTimestampHidden,
+                  premiumBadgeSequenceHidden: user.premiumBadgeSequenceHidden,
                 ),
         )
         .distinct()

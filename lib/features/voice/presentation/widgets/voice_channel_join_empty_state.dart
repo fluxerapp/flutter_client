@@ -94,6 +94,7 @@ class VoiceChannelJoinEmptyState extends ConsumerWidget {
                       context: context,
                       guildId: guildId,
                       channelId: channelId,
+                      channel: channel,
                     ),
                   );
                 }

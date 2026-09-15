@@ -268,6 +268,33 @@ void main() {
       await Future<void>.delayed(Duration.zero);
       expect(await db.guildLastChannelDao.getLastChannel('guild-1'), 'chan-1');
     });
+
+    test('prefers a pending push path over last location', () async {
+      await addGuild('guild-1');
+      await addGuildChannel('chan-1', 'guild-1');
+      await addGuild('guild-2');
+      await addGuildChannel('chan-2', 'guild-2');
+      persistAppLocation(db, '/channels/guild-1/chan-1');
+      await Future<void>.delayed(Duration.zero);
+
+      final PendingAppLocation pending = PendingAppLocation(
+        store: _PendingStore(),
+      );
+      addTearDown(pending.dispose);
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+
+      expect(
+        await container
+            .read(preReconnectingLocationProvider.notifier)
+            .takeOrRestore(
+              db,
+              pending: pending,
+              preferredPath: '/channels/guild-2/chan-2',
+            ),
+        '/channels/guild-2/chan-2',
+      );
+    });
   });
 
   group('clearPersistedLocation', () {

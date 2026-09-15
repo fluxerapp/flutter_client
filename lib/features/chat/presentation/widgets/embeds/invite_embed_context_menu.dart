@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:fluxer_app/features/moderation/iar/iar_report_guild.dart';
+import 'package:fluxer_app/features/moderation/presentation/iar_report_guild.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';

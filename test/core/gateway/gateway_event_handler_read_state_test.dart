@@ -333,6 +333,78 @@ void main() {
     expect(readState?.manual, isFalse);
   });
 
+  test(
+    'own created messages arm slowmode after READY even without constructor user id',
+    () async {
+      final db = openTestDatabase();
+      final messageId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+        ),
+      );
+
+      String? armedChannelId;
+      DateTime? armedSentAt;
+      final handler = GatewayEventHandler(
+        database: db,
+        onOwnMessageCreated: (String channelId, DateTime sentAt) {
+          armedChannelId = channelId;
+          armedSentAt = sentAt;
+        },
+      );
+
+      await handler.handle(_readyEvent());
+      await handler.handle(
+        MessageCreateEvent(
+          message: _message(
+            id: messageId,
+            channelId: 'channel-1',
+            authorId: 'me',
+          ),
+        ),
+      );
+
+      expect(armedChannelId, 'channel-1');
+      expect(armedSentAt, dateTimeFromUserSnowflakeOrNull(messageId));
+    },
+  );
+
+  test('other users created messages do not arm slowmode', () async {
+    final db = openTestDatabase();
+    final messageId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-1',
+        guildId: 'guild-1',
+        name: 'general',
+      ),
+    );
+
+    var armed = false;
+    final handler = GatewayEventHandler(
+      database: db,
+      currentUserId: 'me',
+      onOwnMessageCreated: (String channelId, DateTime sentAt) {
+        armed = true;
+      },
+    );
+
+    await handler.handle(
+      MessageCreateEvent(
+        message: _message(
+          id: messageId,
+          channelId: 'channel-1',
+          authorId: 'other',
+        ),
+      ),
+    );
+
+    expect(armed, isFalse);
+  });
+
   test('message ack stores manual state from gateway event', () async {
     final db = openTestDatabase();
     final messageId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));

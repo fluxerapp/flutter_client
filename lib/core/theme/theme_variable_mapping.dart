@@ -116,6 +116,7 @@ const Map<String, String> kThemeCssVariableToProperty = {
   '--server-icon-background': 'serverIconBackground',
   '--server-sidebar-background': 'serverSidebarBackground',
   '--spoiler-background': 'spoilerBackground',
+  '--spoiler-overlay-color': 'spoilerBackground',
   '--spoiler-overlay-hover-color': 'spoilerOverlayHoverColor',
   '--status-danger': 'statusDanger',
   '--status-dnd': 'statusDnd',

@@ -27,7 +27,7 @@ Future<bool> showChannelAccessGateSheet({
     matureGateContextProvider(channelId).future,
   );
   if (gateContext == null) {
-    return true;
+    return false;
   }
   if (!context.mounted) {
     return false;

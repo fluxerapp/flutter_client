@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
@@ -84,6 +85,15 @@ class ChannelListViewModel extends _$ChannelListViewModel {
 
   @override
   ChannelListState build() {
+    ref.listen<String?>(currentUserIdProvider, (
+      String? previous,
+      String? next,
+    ) {
+      if (previous == next) {
+        return;
+      }
+      _categoryCache.clear();
+    });
     ref.onDispose(() {
       unawaited(_subscription?.cancel());
       unawaited(_guildSubscription?.cancel());

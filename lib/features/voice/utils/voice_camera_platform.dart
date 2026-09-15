@@ -4,6 +4,10 @@ bool isMobileVoiceCameraPlatform() {
   return isFluxerMobileOs;
 }
 
+bool isNativeMobileVoiceCameraPlatform() {
+  return isFluxerNativeMobileOs;
+}
+
 bool isNativeVoiceCallKitPlatform() {
   return isFluxerNativeMobileOs;
 }

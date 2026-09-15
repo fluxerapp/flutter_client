@@ -9,7 +9,7 @@ import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_sto
 import 'package:fluxer_app/core/synced_preferences/fields/accessibility_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/privacy_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/sidebar_synced_field.dart';
-import 'package:fluxer_app/features/accessibility/motion_preferences.dart';
+import 'package:fluxer_app/features/accessibility/domain/motion_preferences.dart';
 import 'package:fluxer_app/features/voice/tts/tts_rate_utils.dart';
 import 'package:fluxer_dart/export.dart' show StickerAnimationOptions;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -81,6 +81,7 @@ class AppearancePreferencesState {
     this.enableTtsCommand = true,
     this.ttsRate = kDefaultTtsRate,
     this.alwaysUnderlineLinks = false,
+    this.showAltTextOnImages = false,
     this.dimStrikethroughText = true,
     this.showTextareaFocusRing = true,
     this.escapeExitsKeyboardMode = false,
@@ -122,6 +123,7 @@ class AppearancePreferencesState {
   final bool enableTtsCommand;
   final double ttsRate;
   final bool alwaysUnderlineLinks;
+  final bool showAltTextOnImages;
   final bool dimStrikethroughText;
   final bool showTextareaFocusRing;
   final bool escapeExitsKeyboardMode;
@@ -163,6 +165,7 @@ class AppearancePreferencesState {
     bool? enableTtsCommand,
     double? ttsRate,
     bool? alwaysUnderlineLinks,
+    bool? showAltTextOnImages,
     bool? dimStrikethroughText,
     bool? showTextareaFocusRing,
     bool? escapeExitsKeyboardMode,
@@ -219,6 +222,7 @@ class AppearancePreferencesState {
       enableTtsCommand: enableTtsCommand ?? this.enableTtsCommand,
       ttsRate: ttsRate ?? this.ttsRate,
       alwaysUnderlineLinks: alwaysUnderlineLinks ?? this.alwaysUnderlineLinks,
+      showAltTextOnImages: showAltTextOnImages ?? this.showAltTextOnImages,
       dimStrikethroughText: dimStrikethroughText ?? this.dimStrikethroughText,
       showTextareaFocusRing:
           showTextareaFocusRing ?? this.showTextareaFocusRing,
@@ -301,6 +305,7 @@ class AppearancePreferences extends _$AppearancePreferences {
         enableTtsCommand: prefs.enableTtsCommand,
         ttsRate: prefs.ttsRate,
         alwaysUnderlineLinks: prefs.alwaysUnderlineLinks,
+        showAltTextOnImages: prefs.showAltTextOnImages,
         dimStrikethroughText: prefs.dimStrikethroughText,
         showTextareaFocusRing: prefs.showTextareaFocusRing,
         escapeExitsKeyboardMode: prefs.escapeExitsKeyboardMode,
@@ -350,6 +355,7 @@ class AppearancePreferences extends _$AppearancePreferences {
         enableTtsCommand: value.enableTtsCommand,
         ttsRate: value.ttsRate,
         alwaysUnderlineLinks: value.alwaysUnderlineLinks,
+        showAltTextOnImages: value.showAltTextOnImages,
         dimStrikethroughText: value.dimStrikethroughText,
         showTextareaFocusRing: value.showTextareaFocusRing,
         escapeExitsKeyboardMode: value.escapeExitsKeyboardMode,
@@ -571,6 +577,12 @@ class AppearancePreferences extends _$AppearancePreferences {
     _markAccessibilityDirty();
   }
 
+  Future<void> setShowAltTextOnImages({required bool value}) async {
+    state = state.copyWith(showAltTextOnImages: value);
+    await _persist();
+    _markAccessibilityDirty();
+  }
+
   Future<void> setDimStrikethroughText({required bool value}) async {
     state = state.copyWith(dimStrikethroughText: value);
     await _persist();
@@ -719,6 +731,7 @@ class AppearancePreferences extends _$AppearancePreferences {
         enableTtsCommand: Value(state.enableTtsCommand),
         ttsRate: Value(state.ttsRate),
         alwaysUnderlineLinks: Value(state.alwaysUnderlineLinks),
+        showAltTextOnImages: Value(state.showAltTextOnImages),
         dimStrikethroughText: Value(state.dimStrikethroughText),
         showTextareaFocusRing: Value(state.showTextareaFocusRing),
         escapeExitsKeyboardMode: Value(state.escapeExitsKeyboardMode),

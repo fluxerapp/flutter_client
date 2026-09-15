@@ -47,6 +47,17 @@ String? androidBrowserPackageName(DefaultWebBrowser browser) {
   };
 }
 
+Future<void> dismissAndroidInAppBrowserTasks() async {
+  if (kIsWeb || !Platform.isAndroid) {
+    return;
+  }
+  try {
+    await _browserLaunchChannel.invokeMethod<void>('dismissInAppBrowserTasks');
+  } on Object {
+    // Native bridge may be unavailable in tests
+  }
+}
+
 Future<bool> launchInSpecificBrowser(Uri uri, DefaultWebBrowser browser) async {
   if (kIsWeb) {
     return false;

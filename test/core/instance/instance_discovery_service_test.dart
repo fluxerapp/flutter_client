@@ -154,6 +154,19 @@ void main() {
       },
     );
 
+    test('connectToEndpoint short-circuits fluxer.app without HTTP', () async {
+      final InstanceDiscoveryService service = InstanceDiscoveryService(
+        dio: buildDio(responseJson: buildDiscovery()),
+      );
+
+      final InstanceConfigSnapshot snapshot = await service.connectToEndpoint(
+        'fluxer.app',
+      );
+
+      expect(snapshot.apiBaseUrl, InstanceConstants.defaultApiBaseUrl);
+      expect(snapshot.displayDomain, 'fluxer.app');
+    });
+
     test(
       'connectToEndpoint resolves official api_public from well-known',
       () async {

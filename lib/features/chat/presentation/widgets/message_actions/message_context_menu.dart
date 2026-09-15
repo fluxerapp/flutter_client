@@ -7,7 +7,7 @@ import 'package:fluxer_app/features/chat/presentation/'
     'widgets/message_actions/message_bottom_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_translation_provider.dart';
-import 'package:fluxer_app/features/chat/utils/message_action_permissions.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_action_permissions.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';

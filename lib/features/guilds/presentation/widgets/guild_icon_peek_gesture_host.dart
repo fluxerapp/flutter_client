@@ -11,14 +11,16 @@ import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 class GuildIconPeekGestureHost extends ConsumerStatefulWidget {
   const GuildIconPeekGestureHost({
     required this.itemId,
-    required this.peekMenu,
+    required this.content,
     required this.child,
+    this.onPeekOpened,
     super.key,
   });
 
   final String itemId;
-  final GuildIconPeekMenuConfig peekMenu;
+  final SidebarPeekContent content;
   final Widget child;
+  final VoidCallback? onPeekOpened;
 
   @override
   ConsumerState<GuildIconPeekGestureHost> createState() =>
@@ -28,17 +30,13 @@ class GuildIconPeekGestureHost extends ConsumerStatefulWidget {
 class _GuildIconPeekGestureHostState
     extends ConsumerState<GuildIconPeekGestureHost> {
   final LayerLink _layerLink = LayerLink();
-  final Map<GuildIconPeekAction, GlobalKey> _itemKeys =
-      <GuildIconPeekAction, GlobalKey>{
-        for (final GuildIconPeekAction action in GuildIconPeekAction.values)
-          action: GlobalKey(),
-      };
   Timer? _holdTimer;
   OverlayEntry? _peekOverlay;
   Offset? _pointerDownPosition;
   int? _activePointer;
   bool _suppressPeekForSession = false;
   bool _peekVisible = false;
+  bool _selectingPeekItem = false;
 
   @override
   void dispose() {
@@ -47,13 +45,11 @@ class _GuildIconPeekGestureHostState
     super.dispose();
   }
 
-  List<GuildIconPeekAction> get _visibleActions =>
-      visibleGuildIconPeekActions(hasUnread: widget.peekMenu.hasUnread);
-
   void _removePeekOverlay() {
     _peekOverlay?.remove();
     _peekOverlay = null;
     _peekVisible = false;
+    _selectingPeekItem = false;
   }
 
   Widget _buildPeekMenuOverlay() {
@@ -75,11 +71,9 @@ class _GuildIconPeekGestureHostState
           showWhenUnlinked: false,
           child: ContextMenuEntranceAnimationHost(
             alignment: Alignment.centerLeft,
-            child: GuildIconPeekMenuPanel(
-              guildName: widget.peekMenu.guildName,
-              hasUnread: widget.peekMenu.hasUnread,
-              itemKeys: _itemKeys,
-              onActionTap: (GuildIconPeekAction action) {
+            child: widget.content.buildPanel(
+              context: context,
+              onSelect: (Object action) {
                 unawaited(_handleItemTap(action));
               },
             ),
@@ -90,11 +84,7 @@ class _GuildIconPeekGestureHostState
   }
 
   void _handleOverlayPointerDown(PointerDownEvent event) {
-    final GuildIconPeekAction? action = hitTestPeekAction(
-      globalPosition: event.position,
-      itemKeys: _itemKeys,
-      visibleActions: _visibleActions,
-    );
+    final Object? action = widget.content.hitTestAction(event.position);
     if (action != null) {
       unawaited(_handleItemTap(action));
       return;
@@ -102,25 +92,39 @@ class _GuildIconPeekGestureHostState
     _dismissPeekOverlay();
   }
 
-  Future<void> _handleItemTap(GuildIconPeekAction action) async {
+  Future<void> _handleItemTap(Object action) async {
     if (!mounted) {
       return;
     }
     _dismissPeekOverlay();
-    await widget.peekMenu.onAction(context, action);
+    final PeekSelection result = await widget.content.handleSelection(
+      context,
+      action,
+    );
+    if (!mounted) {
+      return;
+    }
+    if (result == PeekSelection.keepOpen) {
+      _restorePeekOverlay();
+    }
   }
 
-  void _showPeekOverlay() {
+  void _showPeekOverlay({bool playHaptic = true}) {
     if (_peekVisible || _suppressPeekForSession || !mounted) {
       return;
     }
-    FluxerHaptics.medium();
+    if (playHaptic) {
+      FluxerHaptics.medium();
+    }
     _peekOverlay = OverlayEntry(
       builder: (BuildContext overlayContext) =>
           Positioned.fill(child: _buildPeekMenuOverlay()),
     );
     Overlay.of(context, rootOverlay: true).insert(_peekOverlay!);
     setState(() => _peekVisible = true);
+    if (playHaptic) {
+      widget.onPeekOpened?.call();
+    }
   }
 
   void _dismissPeekOverlay({bool suppressSession = false}) {
@@ -133,6 +137,11 @@ class _GuildIconPeekGestureHostState
     }
   }
 
+  void _restorePeekOverlay() {
+    _suppressPeekForSession = false;
+    _showPeekOverlay(playHaptic: false);
+  }
+
   void _handlePointerDown(PointerDownEvent event) {
     if (_peekVisible) {
       return;
@@ -143,6 +152,7 @@ class _GuildIconPeekGestureHostState
     _activePointer = event.pointer;
     _pointerDownPosition = event.position;
     _suppressPeekForSession = false;
+    _selectingPeekItem = false;
     _holdTimer?.cancel();
     _holdTimer = Timer(kGuildPeekHoldDelay, () {
       if (!mounted || _activePointer != event.pointer) {
@@ -160,6 +170,13 @@ class _GuildIconPeekGestureHostState
       return;
     }
     if (_peekVisible) {
+      if (widget.content.hitTestAction(event.position) != null) {
+        _selectingPeekItem = true;
+        return;
+      }
+      if (_selectingPeekItem) {
+        return;
+      }
       if (shouldSuppressPeekForDrag(
         pointerDownPosition: _pointerDownPosition,
         currentPosition: event.position,
@@ -183,11 +200,7 @@ class _GuildIconPeekGestureHostState
     }
     _holdTimer?.cancel();
     if (_peekVisible && !_suppressPeekForSession) {
-      final GuildIconPeekAction? action = hitTestPeekAction(
-        globalPosition: event.position,
-        itemKeys: _itemKeys,
-        visibleActions: _visibleActions,
-      );
+      final Object? action = widget.content.hitTestAction(event.position);
       if (action != null && mounted) {
         await _handleItemTap(action);
       }
@@ -195,6 +208,7 @@ class _GuildIconPeekGestureHostState
     _activePointer = null;
     _pointerDownPosition = null;
     _suppressPeekForSession = false;
+    _selectingPeekItem = false;
   }
 
   void _handlePointerCancel(PointerCancelEvent event) {
@@ -206,6 +220,7 @@ class _GuildIconPeekGestureHostState
     _activePointer = null;
     _pointerDownPosition = null;
     _suppressPeekForSession = false;
+    _selectingPeekItem = false;
   }
 
   @override

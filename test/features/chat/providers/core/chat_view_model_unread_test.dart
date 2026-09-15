@@ -24,7 +24,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provi
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
-import 'package:fluxer_app/features/chat/utils/message_page_sync.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_page_sync.dart';
 import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
@@ -3306,6 +3306,46 @@ void main() {
         ),
         isFalse,
       );
+    },
+  );
+
+  test(
+    'opening an empty DM clears unread after all messages were deleted',
+    () async {
+      final db = openTestDatabase();
+      final deletedId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+      await db.dmChannelDao.upsertDmChannels([
+        DmChannelsCompanion.insert(
+          id: 'dm-1',
+          recipientId: '12345',
+          lastMessageId: Value(deletedId),
+          lastMessageTime: Value(dateTimeFromUserSnowflakeOrNull(deletedId)!),
+          unreadCount: const Value(1),
+        ),
+      ]);
+      await db.readStateDao.upsertReadState(
+        const ReadStatesCompanion(
+          channelId: Value('dm-1'),
+          lastMessageId: Value(null),
+          mentionCount: Value(0),
+        ),
+      );
+      final adapter = _ChatAdapter(messagesByChannel: {'dm-1': []});
+      final container = _container(db, adapter);
+      addTearDown(container.dispose);
+
+      final notifier = container.read(chatViewModelProvider.notifier);
+      await notifier.switchChannel('dm-1');
+      _setViewportActive(container, channelId: 'dm-1');
+      _updateViewport(container, channelId: 'dm-1', nearLoadedTail: true);
+      await _flushAsync();
+
+      final readState = await db.readStateDao.getReadState('dm-1');
+      final dm = await db.dmChannelDao.getDmChannelById('dm-1');
+      expect(container.read(chatViewModelProvider).messages, isEmpty);
+      expect(adapter.ackedMessageIds, <String>[deletedId]);
+      expect(readState?.lastMessageId, deletedId);
+      expect(dm?.unreadCount, 0);
     },
   );
 

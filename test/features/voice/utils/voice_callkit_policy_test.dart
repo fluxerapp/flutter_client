@@ -651,29 +651,29 @@ void main() {
     });
   });
 
-  group('shouldReapplySpeakerOutputOnCallKitAudioSessionActive', () {
-    test('reapplies speaker when CallKit activates during voice', () {
+  group('shouldApplySpeakerOutputWhileInVoice', () {
+    test('applies when CallKit has an active voice session', () {
       expect(
-        shouldReapplySpeakerOutputOnCallKitAudioSessionActive(
-          isAudioSessionActive: true,
+        shouldApplySpeakerOutputWhileInVoice(
+          hasActiveVoiceSession: true,
+          isInVoice: false,
+        ),
+        isTrue,
+      );
+    });
+    test('applies while in voice even without a CallKit session', () {
+      expect(
+        shouldApplySpeakerOutputWhileInVoice(
+          hasActiveVoiceSession: false,
           isInVoice: true,
         ),
         isTrue,
       );
     });
-    test('skips when CallKit audio session is inactive', () {
+    test('skips when not in voice and CallKit is idle', () {
       expect(
-        shouldReapplySpeakerOutputOnCallKitAudioSessionActive(
-          isAudioSessionActive: false,
-          isInVoice: true,
-        ),
-        isFalse,
-      );
-    });
-    test('skips when not in voice', () {
-      expect(
-        shouldReapplySpeakerOutputOnCallKitAudioSessionActive(
-          isAudioSessionActive: true,
+        shouldApplySpeakerOutputWhileInVoice(
+          hasActiveVoiceSession: false,
           isInVoice: false,
         ),
         isFalse,
@@ -681,33 +681,43 @@ void main() {
     });
   });
 
-  group('shouldForceSpeakerOutputForCallKit', () {
-    test('forces speaker when preferred and CallKit owns audio', () {
+  group('shouldReapplySpeakerOutputOnPreferenceChange', () {
+    test('reapplies when the in-call speaker setting changes', () {
       expect(
-        shouldForceSpeakerOutputForCallKit(
-          preferSpeakerOutput: true,
-          callKitOwnsAudioSession: true,
+        shouldReapplySpeakerOutputOnPreferenceChange(
+          isInVoice: true,
+          speakerPreferenceChanged: true,
         ),
         isTrue,
       );
     });
-    test('does not force when speaker is not preferred', () {
+    test('skips when the speaker setting did not change', () {
       expect(
-        shouldForceSpeakerOutputForCallKit(
-          preferSpeakerOutput: false,
-          callKitOwnsAudioSession: true,
+        shouldReapplySpeakerOutputOnPreferenceChange(
+          isInVoice: true,
+          speakerPreferenceChanged: false,
         ),
         isFalse,
       );
     });
-    test('does not force when CallKit does not own audio', () {
+    test('skips when not in a call', () {
       expect(
-        shouldForceSpeakerOutputForCallKit(
-          preferSpeakerOutput: true,
-          callKitOwnsAudioSession: false,
+        shouldReapplySpeakerOutputOnPreferenceChange(
+          isInVoice: false,
+          speakerPreferenceChanged: true,
         ),
         isFalse,
       );
+    });
+  });
+
+  group('kVoiceCallKitSpeakerReapplyDelays', () {
+    test('retries speaker after CallKit takes the session', () {
+      expect(kVoiceCallKitSpeakerReapplyDelays, <Duration>[
+        const Duration(milliseconds: 300),
+        const Duration(milliseconds: 1000),
+        const Duration(milliseconds: 2500),
+      ]);
     });
   });
 }

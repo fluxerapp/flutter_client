@@ -27,6 +27,11 @@ typedef PresenceStatus = UserSettingsUpdateRequestStatusStatus;
 typedef PresenceResetStatus =
     UserSettingsUpdateRequestStatusResetsToStatusResetsTo;
 
+const Map<String, Object?> _clearStatusResetJson = <String, Object?>{
+  'status_resets_at': null,
+  'status_resets_to': null,
+};
+
 class UserStatusService {
   UserStatusService(this._ref);
 
@@ -54,6 +59,9 @@ class UserStatusService {
     await _patchSettings(
       userId: userId,
       request: request,
+      extraJson: duration == null
+          ? _clearStatusResetJson
+          : const <String, Object?>{},
       optimisticStatus: status.json ?? 'online',
       optimisticCustomStatusText: serializeCustomStatus(
         _ref.read(userSettingsStatusProvider)?.customStatus,
@@ -74,6 +82,7 @@ class UserStatusService {
     await _patchSettings(
       userId: userId,
       request: request,
+      extraJson: _clearStatusResetJson,
       optimisticStatus: fallbackStatus.json ?? 'online',
       optimisticCustomStatusText: serializeCustomStatus(
         _ref.read(userSettingsStatusProvider)?.customStatus,
@@ -111,7 +120,6 @@ class UserStatusService {
     );
     await _applyOptimisticUpdate(
       userId: userId,
-      previousSettings: previousSettings,
       optimisticStatus:
           _ref.read(userSettingsStatusProvider)?.status ?? 'online',
       optimisticCustomStatusText: null,
@@ -170,6 +178,7 @@ class UserStatusService {
     required UserSettingsUpdateRequest request,
     required String optimisticStatus,
     required String? optimisticCustomStatusText,
+    Map<String, Object?> extraJson = const <String, Object?>{},
   }) async {
     final FluxerDatabase database = _ref.read(fluxerDatabaseProvider);
     final UserSettingsResponse? previousSettings = _ref.read(
@@ -177,14 +186,18 @@ class UserStatusService {
     );
     await _applyOptimisticUpdate(
       userId: userId,
-      previousSettings: previousSettings,
       optimisticStatus: optimisticStatus,
       optimisticCustomStatusText: optimisticCustomStatusText,
       request: request,
+      extraJson: extraJson,
     );
     try {
-      final client = _ref.read(fluxerClientProvider);
-      await client.users.updateCurrentUserSettings(body: request);
+      await _ref
+          .read(fluxerDioProvider)
+          .patch<dynamic>(
+            '/users/@me/settings',
+            data: <String, Object?>{...request.toJson(), ...extraJson},
+          );
       talker.debug('[UserStatusService] Settings patch succeeded');
     } on Object catch (error, stackTrace) {
       talker.error(
@@ -212,10 +225,10 @@ class UserStatusService {
 
   Future<void> _applyOptimisticUpdate({
     required String userId,
-    required UserSettingsResponse? previousSettings,
     required String optimisticStatus,
     required String? optimisticCustomStatusText,
     required UserSettingsUpdateRequest request,
+    Map<String, Object?> extraJson = const <String, Object?>{},
   }) async {
     final FluxerDatabase database = _ref.read(fluxerDatabaseProvider);
     final UserSettingsTableData? row = await database.userSettingsDao
@@ -233,6 +246,7 @@ class UserStatusService {
     if (request.customStatus != null) {
       merged['custom_status'] = request.customStatus!.toJson();
     }
+    merged.addAll(extraJson);
     await database.userSettingsDao.upsertSettings(
       UserSettingsTableCompanion(
         userId: Value(userId),

@@ -24,6 +24,10 @@ class BrowserLaunchBridge(
                     }
                     result.success(openUrlInBrowser(url, packageName))
                 }
+                METHOD_DISMISS_IN_APP_BROWSER_TASKS -> {
+                    InAppBrowserTasks.dismiss(context)
+                    result.success(null)
+                }
                 else -> result.notImplemented()
             }
         }
@@ -46,6 +50,7 @@ class BrowserLaunchBridge(
     companion object {
         const val CHANNEL_NAME = "fluxer_app/browser_launch"
         const val METHOD_OPEN_URL_IN_BROWSER = "openUrlInBrowser"
+        const val METHOD_DISMISS_IN_APP_BROWSER_TASKS = "dismissInAppBrowserTasks"
         const val ARG_URL = "url"
         const val ARG_PACKAGE_NAME = "packageName"
     }

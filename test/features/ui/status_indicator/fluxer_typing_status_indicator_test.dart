@@ -3,6 +3,7 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/ui/spinner/fluxer_typing_dots.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_typing_status_indicator.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -64,17 +65,15 @@ Widget _wrapPositioned({required bool onScreen}) => buildTestApp(
 );
 
 void main() {
-  const List<double> dotDelays = <double>[0, 0.25, 0.5];
-
-  group('typingDotOpacity', () {
+  group('fluxerTypingDotWave', () {
     test('animates left-to-right', () {
       expect(
-        typingDotOpacity(0, dotDelays[0]),
-        greaterThan(typingDotOpacity(0, dotDelays[2])),
+        fluxerTypingDotWave(0, kFluxerTypingDotDelays[0]),
+        greaterThan(fluxerTypingDotWave(0, kFluxerTypingDotDelays[2])),
       );
       expect(
-        typingDotOpacity(0.6, dotDelays[2]),
-        greaterThan(typingDotOpacity(0.6, dotDelays[0])),
+        fluxerTypingDotWave(0.6, kFluxerTypingDotDelays[2]),
+        greaterThan(fluxerTypingDotWave(0.6, kFluxerTypingDotDelays[0])),
       );
     });
   });
@@ -107,6 +106,7 @@ void main() {
       );
       await tester.pump();
 
+      expect(find.byType(FluxerTypingDots), findsOneWidget);
       expect(_typingPaintFinder(), findsOneWidget);
       expect(
         find.descendant(
@@ -120,6 +120,25 @@ void main() {
       await tester.pump(const Duration(milliseconds: 600));
       final CustomPainter second = _typingPainter(tester);
       expect(second.shouldRepaint(first), isTrue);
+    });
+
+    testWidgets('keeps dots inset from the pill edges', (tester) async {
+      const double width = 22;
+      const double height = 12;
+      await tester.pumpWidget(
+        buildTestApp(
+          const FluxerTypingStatusIndicator(
+            status: 'online',
+            width: width,
+            height: height,
+          ),
+        ),
+      );
+      await tester.pump();
+
+      final Size dotsSize = tester.getSize(find.byType(FluxerTypingDots));
+      expect(dotsSize.width, lessThan(width));
+      expect(dotsSize.height, lessThan(height));
     });
 
     testWidgets('animates dots left-to-right in RTL layouts', (tester) async {
@@ -137,14 +156,14 @@ void main() {
       );
       await tester.pump();
 
-      expect(_typingPaintFinder(), findsOneWidget);
+      expect(find.byType(FluxerTypingDots), findsOneWidget);
       expect(
-        typingDotOpacity(0, dotDelays[0]),
-        greaterThan(typingDotOpacity(0, dotDelays[2])),
+        fluxerTypingDotWave(0, kFluxerTypingDotDelays[0]),
+        greaterThan(fluxerTypingDotWave(0, kFluxerTypingDotDelays[2])),
       );
       expect(
-        typingDotOpacity(0.6, dotDelays[2]),
-        greaterThan(typingDotOpacity(0.6, dotDelays[0])),
+        fluxerTypingDotWave(0.6, kFluxerTypingDotDelays[2]),
+        greaterThan(fluxerTypingDotWave(0.6, kFluxerTypingDotDelays[0])),
       );
     });
 

@@ -15,11 +15,11 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_sea
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_gifs_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/gif_provider.dart';
-import 'package:fluxer_app/features/chat/utils/gif_category_grid_layout.dart';
-import 'package:fluxer_app/features/chat/utils/gif_preview_playback_policy.dart';
-import 'package:fluxer_app/features/chat/utils/klipy_utils.dart';
-import 'package:fluxer_app/features/chat/utils/media_favorite_state.dart';
-import 'package:fluxer_app/features/chat/utils/media_proxy_url.dart';
+import 'package:fluxer_app/features/chat/utils/media/gif_category_grid_layout.dart';
+import 'package:fluxer_app/features/chat/utils/media/gif_preview_playback_policy.dart';
+import 'package:fluxer_app/features/chat/utils/media/klipy_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media/media_favorite_state.dart';
+import 'package:fluxer_app/features/chat/utils/media/media_proxy_url.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';

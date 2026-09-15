@@ -263,7 +263,6 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
     tableRowOddBackgroundColor: context?.colors.bgTableRowOdd,
     tableRowEvenBackgroundColor: context?.colors.bgTableRowEven,
     tableBorderRadius: context?.layout.radiusMd,
-    spoilerBackgroundColor: context?.colors.spoilerBackground,
     internalLinkPattern: buildChannelJumpLinkPattern(channelJumpLinkHosts()),
     userMentionBuilder: _fluxerUserMentionBuilder,
     channelMentionBuilder: _fluxerChannelMentionBuilder,

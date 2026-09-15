@@ -1,5 +1,5 @@
 import 'package:fluxer_app/features/chat/domain/message.dart';
-import 'package:fluxer_app/features/chat/utils/message_page_sync.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_page_sync.dart';
 
 /// Hard cap on the number of messages kept loaded in memory for a channel.
 ///

@@ -3,7 +3,7 @@ import 'package:fluxer_app/features/chat/data/favorite_media_repository.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/saved_media/saved_media_form_content.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
-import 'package:fluxer_app/features/chat/utils/favorite_media_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media/favorite_media_utils.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';

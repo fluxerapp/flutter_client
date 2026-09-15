@@ -5,7 +5,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
-import 'package:fluxer_app/features/chat/utils/mention_reply_preference_utils.dart';
+import 'package:fluxer_app/features/chat/utils/composer/mention_reply_preference_utils.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

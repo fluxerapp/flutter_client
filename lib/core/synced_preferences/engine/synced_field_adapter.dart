@@ -49,6 +49,10 @@ abstract class SyncedFieldAdapter<T> {
   bool hasInboundUpdatesWhileProtected(T local, T remote) {
     return hasRemoteAdditions(local, remote);
   }
+
+  bool ignoreAckedRemoteShrink(T local, T remote) => false;
+
+  bool mergeAckedInbound(T local, T remote) => false;
 }
 
 bool verifyAdapterRoundtrip<T>({

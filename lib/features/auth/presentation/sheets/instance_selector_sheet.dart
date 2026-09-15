@@ -23,7 +23,6 @@ Future<void> showInstanceSelectorSheet(BuildContext context) async {
     builder: (sheetContext, _) => FluxerBottomSheetContent(
       child: InstanceSelectorControl(
         enabled: true,
-        compact: true,
         onConnected: () => Navigator.of(sheetContext).pop(true),
       ),
     ),

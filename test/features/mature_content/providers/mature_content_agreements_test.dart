@@ -41,10 +41,56 @@ void main() {
     );
   });
 
-  test('returns none while agreements are still loading', () {
+  test('requires consent while agreements are still loading', () {
     expect(
       resolveChannelGateReason(
         context: guildContext,
+        nsfwAllowed: true,
+        agreements: const MatureContentAgreementsState(),
+      ),
+      MatureContentGateReason.consentRequired,
+    );
+  });
+
+  test('requires consent for a content warning while agreements load', () {
+    const ResolvedMatureGateContext warningContext = ResolvedMatureGateContext(
+      channelId: 'channel-9',
+      categoryId: null,
+      guildId: 'guild-1',
+      effectiveMatureContent: false,
+      matureContentSource: EffectiveMatureSource.channel,
+      effectiveWarningLevel: contentWarningLevelContentWarning,
+      effectiveWarningText: 'Sensitive',
+      warningSource: EffectiveMatureSource.channel,
+      scope: MatureContentAgreementScope.channel,
+      scopeId: 'channel-9',
+    );
+    expect(
+      resolveChannelGateReason(
+        context: warningContext,
+        nsfwAllowed: true,
+        agreements: const MatureContentAgreementsState(),
+      ),
+      MatureContentGateReason.consentRequired,
+    );
+  });
+
+  test('returns none for ungated channels while agreements load', () {
+    const ResolvedMatureGateContext ungated = ResolvedMatureGateContext(
+      channelId: 'channel-2',
+      categoryId: null,
+      guildId: 'guild-1',
+      effectiveMatureContent: false,
+      matureContentSource: EffectiveMatureSource.none,
+      effectiveWarningLevel: contentWarningLevelInherit,
+      effectiveWarningText: null,
+      warningSource: EffectiveMatureSource.none,
+      scope: MatureContentAgreementScope.channel,
+      scopeId: 'channel-2',
+    );
+    expect(
+      resolveChannelGateReason(
+        context: ungated,
         nsfwAllowed: true,
         agreements: const MatureContentAgreementsState(),
       ),

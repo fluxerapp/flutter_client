@@ -12,8 +12,8 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_m
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/channel_message_stream_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_references_provider.dart';
-import 'package:fluxer_app/features/chat/utils/channel_message_stream.dart';
-import 'package:fluxer_app/features/chat/utils/mention_reply_preference_utils.dart';
+import 'package:fluxer_app/features/chat/utils/composer/mention_reply_preference_utils.dart';
+import 'package:fluxer_app/features/chat/utils/messages/channel_message_stream.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';

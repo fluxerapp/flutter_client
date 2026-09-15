@@ -184,4 +184,28 @@ void main() {
     expect(tester.getTopLeft(_handle).dy, closeTo(restTop, 0.5));
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets('identity header drag resizes the sheet', (tester) async {
+    final FluxerDatabase database = openTestDatabase();
+    final ProviderContainer container = _container(database);
+    addTearDown(container.dispose);
+
+    await _openSheet(
+      tester,
+      container,
+      (context) =>
+          showChannelDetailsSheet(context, channel: _channel, dm: null),
+    );
+
+    final Finder title = find.text('general');
+    expect(title, findsOneWidget);
+    final double restTop = tester.getTopLeft(_handle).dy;
+
+    await tester.drag(title, const Offset(0, 80));
+    await tester.pumpAndSettle();
+
+    expect(tester.getTopLeft(_handle).dy, greaterThan(restTop));
+    expect(_handle, findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
 }

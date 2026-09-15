@@ -10,8 +10,8 @@ import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attach
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/voice_message_player.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_upload_progress.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
-import 'package:fluxer_app/features/chat/utils/uploading_attachment_utils.dart';
-import 'package:fluxer_app/features/chat/utils/voice_message_attachment.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/uploading_attachment_utils.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/voice_message_attachment.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';

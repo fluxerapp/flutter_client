@@ -1,4 +1,4 @@
-import 'package:fluxer_app/features/chat/utils/message_content_stripper.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_content_stripper.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 const int kTtsMaxSpeakLength = 5000;

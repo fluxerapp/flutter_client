@@ -47,6 +47,8 @@ class IpAuthorizationViewModel extends _$IpAuthorizationViewModel {
   Timer? _pollTimer;
   Timer? _countdownTimer;
   int _consecutiveErrors = 0;
+  bool _pollInFlight = false;
+  bool _pollQueued = false;
 
   @override
   IpAuthViewState build(String ticket, int initialResendIn) {
@@ -88,6 +90,11 @@ class IpAuthorizationViewModel extends _$IpAuthorizationViewModel {
   }
 
   Future<void> _poll() async {
+    if (_pollInFlight) {
+      _pollQueued = true;
+      return;
+    }
+    _pollInFlight = true;
     try {
       final result = await ref
           .read(authRepositoryProvider)
@@ -101,7 +108,9 @@ class IpAuthorizationViewModel extends _$IpAuthorizationViewModel {
           state = state.copyWith(pollingState: IpAuthPollingState.expired);
         case IpAuthPending():
           _consecutiveErrors = 0;
-          _pollTimer = Timer(_pollInterval, _poll);
+          if (!_pollQueued) {
+            _pollTimer = Timer(_pollInterval, _poll);
+          }
       }
     } on Exception catch (e) {
       _consecutiveErrors++;
@@ -112,9 +121,23 @@ class IpAuthorizationViewModel extends _$IpAuthorizationViewModel {
           e,
         );
         state = state.copyWith(pollingState: IpAuthPollingState.error);
-      } else {
+      } else if (!_pollQueued) {
         _pollTimer = Timer(_pollInterval, _poll);
       }
+    } finally {
+      _pollInFlight = false;
+      if (!_pollQueued) {
+        return;
+      }
+      _pollQueued = false;
+      if (!ref.mounted) {
+        return;
+      }
+      if (state.pollingState != IpAuthPollingState.polling ||
+          state.completedSession != null) {
+        return;
+      }
+      unawaited(_poll());
     }
   }
 

@@ -17,13 +17,13 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/accessibility/text_scale.dart';
+import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/create_category_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/create_channel_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
-import 'package:fluxer_app/features/chat/utils/delete_my_messages_in_channel_action.dart';
+import 'package:fluxer_app/features/chat/utils/messages/delete_my_messages_in_channel_action.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_navbar_context_menu.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_navbar_item.dart';
@@ -34,7 +34,6 @@ import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
 import 'package:fluxer_app/features/favorites/providers/favorites_unread_provider.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
-import 'package:fluxer_app/features/gateway/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/guilds/data/guild_user_settings_repository.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/domain/invite_people_recipient.dart';
@@ -67,6 +66,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_navbar_scroll_store_p
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_ready_provider.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_voice_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/visible_unavailable_guild_count_provider.dart';
@@ -77,7 +77,7 @@ import 'package:fluxer_app/features/guilds/utils/guild_settings_actions.dart';
 import 'package:fluxer_app/features/guilds/utils/invite_people_actions.dart';
 import 'package:fluxer_app/features/guilds/utils/invite_people_recipients.dart';
 import 'package:fluxer_app/features/guilds/utils/leave_guild_action.dart';
-import 'package:fluxer_app/features/moderation/iar/iar_report_guild.dart';
+import 'package:fluxer_app/features/moderation/presentation/iar_report_guild.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
@@ -100,13 +100,13 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+part 'guild_navbar_dashed_icon.dart';
 part 'guild_navbar_folder.dart';
+part 'guild_navbar_home_buttons.dart';
+part 'guild_navbar_indicators.dart';
 part 'guild_navbar_list_item.dart';
 part 'guild_navbar_list_item_state.dart';
-part 'guild_navbar_home_buttons.dart';
-part 'guild_navbar_dashed_icon.dart';
 part 'guild_navbar_tooltip.dart';
-part 'guild_navbar_indicators.dart';
 
 enum _NavbarListEntryKind {
   directMessages,

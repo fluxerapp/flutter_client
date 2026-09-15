@@ -5,6 +5,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/audio/enums/fluxer_sfx_clip.dart';
+import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
@@ -17,8 +18,8 @@ import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_result.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/core/talker.dart';
-import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
+import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.dart';
 import 'package:fluxer_app/features/settings/providers/sound_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/settings/utils/sound_sfx_playback.dart';
@@ -41,6 +42,7 @@ import 'package:fluxer_app/features/voice/utils/channel_e2ee_status.dart';
 import 'package:fluxer_app/features/voice/utils/entrance_sound_playback.dart';
 import 'package:fluxer_app/features/voice/utils/microphone_permission.dart';
 import 'package:fluxer_app/features/voice/utils/voice_audio_route_recovery.dart';
+import 'package:fluxer_app/features/voice/utils/voice_callkit_policy.dart';
 import 'package:fluxer_app/features/voice/utils/voice_camera_platform.dart';
 import 'package:fluxer_app/features/voice/utils/voice_channel_join_guard.dart';
 import 'package:fluxer_app/features/voice/utils/voice_channel_permissions.dart';
@@ -119,6 +121,7 @@ class VoiceSession extends _$VoiceSession {
   bool _ensuringMicrophone = false;
   StreamSubscription<List<MediaDevice>>? _mediaDeviceChangeSubscription;
   Timer? _audioRouteRecoveryTimer;
+  final List<Timer> _speakerOutputRetryTimers = <Timer>[];
   Set<String>? _lastKnownInputDeviceIds;
   Set<String>? _pendingRecoveryInputIds;
   bool _isRecoveringAudioRoute = false;
@@ -391,6 +394,7 @@ class VoiceSession extends _$VoiceSession {
       guildId: target.guildId,
       channelId: target.channelId,
       forceJoin: true,
+      skipChannelGate: true,
     );
   }
 
@@ -421,6 +425,7 @@ class VoiceSession extends _$VoiceSession {
     bool initialSelfDeaf = false,
     bool initialSelfVideo = false,
     bool forceJoin = false,
+    bool skipChannelGate = false,
   }) async {
     _startWithVideoAfterConnect = false;
     talker.info(
@@ -478,6 +483,17 @@ class VoiceSession extends _$VoiceSession {
         errorMessage: isGuildVoiceJoin
             ? kVoiceSessionErrorNoConnectPermission
             : kVoiceSessionErrorDirectCallNotEligible,
+      );
+      return false;
+    }
+    if (!skipChannelGate &&
+        await isChannelGateBlocking(
+          container: ref.container,
+          channelId: channelId,
+        )) {
+      talker.info(
+        '[Voice] Join aborted: content warning gate required '
+        '(channelId=$channelId).',
       );
       return false;
     }
@@ -1323,6 +1339,7 @@ class VoiceSession extends _$VoiceSession {
     _cancelConnectWatchdog();
     _cancelLiveKitConnectWatchdog();
     _cancelDeferredServerDisconnect();
+    _cancelSpeakerOutputRetry();
     _startWithVideoAfterConnect = false;
     unawaited(
       playFluxerSoundEffect(
@@ -1381,6 +1398,7 @@ class VoiceSession extends _$VoiceSession {
     _cancelConnectWatchdog();
     _cancelLiveKitConnectWatchdog();
     _cancelDeferredServerDisconnect();
+    _cancelSpeakerOutputRetry();
     _detachMediaDeviceChangeListener();
     _detachLocalParticipantListener();
     _detachRoomEventsListener();
@@ -1397,6 +1415,16 @@ class VoiceSession extends _$VoiceSession {
     _intentionalLiveKitTeardown = true;
     final String reasonSuffix = reason == null ? '' : ' after $reason';
     try {
+      final LocalParticipant? localParticipant = room.localParticipant;
+      if (localParticipant != null) {
+        try {
+          await localParticipant.setCameraEnabled(false);
+        } on Object catch (error) {
+          talker.debug(
+            '[Voice] failed to disable camera on disconnect: $error',
+          );
+        }
+      }
       await room.disconnect();
     } on Object catch (e) {
       talker.warning('[Voice] failed to disconnect$reasonSuffix: $e');
@@ -1688,18 +1716,25 @@ class VoiceSession extends _$VoiceSession {
     if (_togglingVideo) {
       return;
     }
-    final VoiceSettingsState settings = ref.read(voiceSettingsProvider);
-    final VoiceCameraFacing nextFacing = settings.cameraFacing.switched();
-    await ref.read(voiceSettingsProvider.notifier).setCameraFacing(nextFacing);
-    final Room? room = s.liveKitRoom;
-    if (room != null) {
+    _togglingVideo = true;
+    try {
+      final VoiceSettingsState settings = ref.read(voiceSettingsProvider);
+      final VoiceCameraFacing nextFacing = settings.cameraFacing.switched();
       await ref
-          .read(voiceSettingsApplicatorProvider)
-          .refreshCamera(
-            room: room,
-            settings: ref.read(voiceSettingsProvider),
-            cameraEnabled: true,
-          );
+          .read(voiceSettingsProvider.notifier)
+          .setCameraFacing(nextFacing);
+      final Room? room = s.liveKitRoom;
+      if (room != null) {
+        await ref
+            .read(voiceSettingsApplicatorProvider)
+            .refreshCamera(
+              room: room,
+              settings: ref.read(voiceSettingsProvider),
+              cameraEnabled: true,
+            );
+      }
+    } finally {
+      _togglingVideo = false;
     }
   }
 
@@ -2285,6 +2320,27 @@ class VoiceSession extends _$VoiceSession {
     await _applyAudioOutputDevice(settings.outputDeviceId);
   }
 
+  void _cancelSpeakerOutputRetry() {
+    for (final Timer timer in _speakerOutputRetryTimers) {
+      timer.cancel();
+    }
+    _speakerOutputRetryTimers.clear();
+  }
+
+  void _scheduleSpeakerOutputRetry() {
+    _cancelSpeakerOutputRetry();
+    for (final Duration delay in kVoiceCallKitSpeakerReapplyDelays) {
+      _speakerOutputRetryTimers.add(
+        Timer(delay, () {
+          if (!state.isInVoice) {
+            return;
+          }
+          unawaited(_applyVoiceOutputRouting(ref.read(voiceSettingsProvider)));
+        }),
+      );
+    }
+  }
+
   Future<void> _applyAudioOutputDevice(String outputDeviceId) async {
     if (outputDeviceId == kDefaultVoiceDeviceId || outputDeviceId.isEmpty) {
       return;
@@ -2312,6 +2368,14 @@ class VoiceSession extends _$VoiceSession {
         previous.preferSpeakerOutput != next.preferSpeakerOutput;
     if (outputRoutingChanged) {
       await _applyVoiceOutputRouting(next);
+      if (shouldReapplySpeakerOutputOnPreferenceChange(
+        isInVoice: state.isInVoice,
+        speakerPreferenceChanged:
+            previous != null &&
+            previous.preferSpeakerOutput != next.preferSpeakerOutput,
+      )) {
+        _scheduleSpeakerOutputRetry();
+      }
     }
     final Room? room = state.liveKitRoom;
     if (room == null || !state.isConnected) {
@@ -2795,8 +2859,7 @@ class VoiceSession extends _$VoiceSession {
     if (lp == null) {
       return;
     }
-    final CameraCaptureOptions opts =
-        room.roomOptions.defaultCameraCaptureOptions;
+    final CameraCaptureOptions opts = _cameraCaptureOptions();
     for (final LocalTrackPublication<LocalVideoTrack> pub
         in lp.videoTrackPublications) {
       if (pub.isScreenShare) {

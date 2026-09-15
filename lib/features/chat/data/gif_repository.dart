@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/utils/bounded_lru_cache.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
-import 'package:fluxer_app/features/chat/utils/gif_media_selection.dart';
+import 'package:fluxer_app/features/chat/utils/media/gif_media_selection.dart';
 import 'package:fluxer_dart/export.dart' as sdk;
 
 // The generated SDK no longer exposes provider-specific KLIPY/Tenor APIs.

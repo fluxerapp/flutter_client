@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
-import 'package:fluxer_app/features/guilds/presentation/widgets/guild_folder_long_press_menu_host.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_icon_peek_gesture_host.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_icon_peek_menu.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_drag_provider.dart';
@@ -143,8 +142,8 @@ class GuildDragWrapper extends ConsumerStatefulWidget {
     this.enabled = true,
     this.allowCombine = true,
     this.peekMenu,
-    this.onFolderLongPressMenu,
-    this.folderMenuAnchorKey,
+    this.folderPeekMenu,
+    this.onPeekOpened,
     super.key,
   });
 
@@ -154,9 +153,9 @@ class GuildDragWrapper extends ConsumerStatefulWidget {
   final bool allowCombine;
   final Widget dragFeedback;
   final Widget child;
-  final GuildIconPeekMenuConfig? peekMenu;
-  final FolderLongPressMenuCallback? onFolderLongPressMenu;
-  final GlobalKey? folderMenuAnchorKey;
+  final SidebarPeekContent? peekMenu;
+  final SidebarPeekContent? folderPeekMenu;
+  final VoidCallback? onPeekOpened;
 
   @override
   ConsumerState<GuildDragWrapper> createState() => _GuildDragWrapperState();
@@ -285,8 +284,7 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper> {
                   ),
             onDragStarted: (double? anchorGlobalCenterX) {
               final bool hasLongPressOverlayHost =
-                  widget.peekMenu != null ||
-                  widget.onFolderLongPressMenu != null;
+                  widget.peekMenu != null || widget.folderPeekMenu != null;
               if (useLongPressDrag && !hasLongPressOverlayHost) {
                 FluxerHaptics.medium();
               }
@@ -317,20 +315,13 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper> {
             child: dragTarget,
           );
 
-    if (widget.onFolderLongPressMenu != null &&
-        widget.folderMenuAnchorKey != null &&
-        isMobileUi) {
-      return GuildFolderLongPressMenuHost(
-        itemId: widget.itemId,
-        menuAnchorKey: widget.folderMenuAnchorKey!,
-        onLongPressMenu: widget.onFolderLongPressMenu!,
-        child: peekHostChild,
-      );
-    }
-    if (widget.peekMenu != null && isMobileUi) {
+    final SidebarPeekContent? peekContent =
+        widget.folderPeekMenu ?? widget.peekMenu;
+    if (peekContent != null && isMobileUi) {
       return GuildIconPeekGestureHost(
         itemId: widget.itemId,
-        peekMenu: widget.peekMenu!,
+        content: peekContent,
+        onPeekOpened: widget.onPeekOpened,
         child: peekHostChild,
       );
     }

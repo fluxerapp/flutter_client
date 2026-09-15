@@ -33,7 +33,8 @@ enum SyncedPreferenceField {
   voicePrompts(109),
   sudoPrompt(110),
   keybinds(111),
-  chatInput(112);
+  chatInput(112),
+  doubleTapReaction(114);
 
   const SyncedPreferenceField(this.fieldNumber);
 

@@ -82,7 +82,7 @@ Future<StartDirectVoiceCallResult> startDirectVoiceCall(
     );
   }
   try {
-    await joinVoiceChannelWithConfirmation(
+    final VoiceJoinResult result = await joinVoiceChannelWithConfirmation(
       ref: ref,
       context: context,
       guildId: null,
@@ -91,6 +91,15 @@ Future<StartDirectVoiceCallResult> startDirectVoiceCall(
       outboundRingRecipients: outboundRingRecipients,
       initialSelfVideo: startWithVideo,
     );
+    if (result != VoiceJoinResult.succeeded) {
+      return (
+        ok: false,
+        microphoneDenied: false,
+        cameraDenied: false,
+        notEligible: false,
+        joinAttemptFailed: result == VoiceJoinResult.failed,
+      );
+    }
   } on Object {
     return (
       ok: false,

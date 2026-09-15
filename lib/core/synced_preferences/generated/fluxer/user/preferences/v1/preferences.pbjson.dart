@@ -355,6 +355,14 @@ const SyncedPreferences$json = {
       '6': '.fluxer.user.preferences.v1.ChatInputSettings',
       '10': 'chatInput'
     },
+    {
+      '1': 'double_tap_reaction',
+      '3': 114,
+      '4': 1,
+      '5': 11,
+      '6': '.fluxer.user.preferences.v1.ReactionEmoji',
+      '10': 'doubleTapReaction'
+    },
   ],
 };
 
@@ -1414,3 +1422,27 @@ final $typed_data.Uint8List chatInputSettingsDescriptor = $convert.base64Decode(
     'J0RW1vdGljb25ziAEBEkcKHnNhdmVfY2FtZXJhX2NhcHR1cmVzX3RvX2RldmljZRgCIAEoCEgB'
     'UhpzYXZlQ2FtZXJhQ2FwdHVyZXNUb0RldmljZYgBAUIUChJfY29udmVydF9lbW90aWNvbnNCIQ'
     'ofX3NhdmVfY2FtZXJhX2NhcHR1cmVzX3RvX2RldmljZQ==');
+
+@$core.Deprecated('Use reactionEmojiDescriptor instead')
+const ReactionEmoji$json = {
+  '1': 'ReactionEmoji',
+  '2': [
+    {
+      '1': 'id',
+      '3': 1,
+      '4': 1,
+      '5': 9,
+      '9': 0,
+      '10': 'id',
+      '17': true
+    },
+    {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
+  ],
+  '8': [
+    {'1': '_id'},
+  ],
+};
+
+final $typed_data.Uint8List reactionEmojiDescriptor = $convert.base64Decode(
+    'Cg1SZWFjdGlvbkVtb2ppEhMKAmlkGAEgASgJSABQAmlpZIgBARISCgRuYW1lGAIgASgJUgRuYW1'
+    'lQgUKA19pZA==');

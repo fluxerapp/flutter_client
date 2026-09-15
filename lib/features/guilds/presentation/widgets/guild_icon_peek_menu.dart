@@ -14,8 +14,21 @@ enum GuildIconPeekAction { markAsRead, notifications, moreOptions }
 typedef GuildIconPeekActionHandler =
     Future<void> Function(BuildContext context, GuildIconPeekAction action);
 
-class GuildIconPeekMenuConfig {
-  const GuildIconPeekMenuConfig({
+enum PeekSelection { dismiss, keepOpen }
+
+abstract class SidebarPeekContent {
+  Widget buildPanel({
+    required BuildContext context,
+    required ValueChanged<Object> onSelect,
+  });
+
+  Object? hitTestAction(Offset globalPosition);
+
+  Future<PeekSelection> handleSelection(BuildContext context, Object action);
+}
+
+class GuildIconPeekMenuConfig implements SidebarPeekContent {
+  GuildIconPeekMenuConfig({
     required this.guildName,
     required this.hasUnread,
     required this.onAction,
@@ -24,6 +37,44 @@ class GuildIconPeekMenuConfig {
   final String guildName;
   final bool hasUnread;
   final GuildIconPeekActionHandler onAction;
+  final Map<GuildIconPeekAction, GlobalKey> itemKeys =
+      <GuildIconPeekAction, GlobalKey>{
+        for (final GuildIconPeekAction action in GuildIconPeekAction.values)
+          action: GlobalKey(),
+      };
+
+  @override
+  Widget buildPanel({
+    required BuildContext context,
+    required ValueChanged<Object> onSelect,
+  }) {
+    return GuildIconPeekMenuPanel(
+      guildName: guildName,
+      hasUnread: hasUnread,
+      itemKeys: itemKeys,
+      onActionTap: (GuildIconPeekAction action) {
+        onSelect(action);
+      },
+    );
+  }
+
+  @override
+  Object? hitTestAction(Offset globalPosition) {
+    return hitTestPeekAction(
+      globalPosition: globalPosition,
+      itemKeys: itemKeys,
+      visibleActions: visibleGuildIconPeekActions(hasUnread: hasUnread),
+    );
+  }
+
+  @override
+  Future<PeekSelection> handleSelection(
+    BuildContext context,
+    Object action,
+  ) async {
+    await onAction(context, action as GuildIconPeekAction);
+    return PeekSelection.dismiss;
+  }
 }
 
 GuildIconPeekMenuConfig? buildGuildPeekMenuConfig(
@@ -82,13 +133,13 @@ Offset sidebarPeekMenuAnchorPosition(RenderBox box) {
   return Offset(topLeft.dx + size.width + 8, topLeft.dy + size.height / 2);
 }
 
-GuildIconPeekAction? hitTestPeekAction({
+T? hitTestKeyedPeekTarget<T extends Object>({
   required Offset globalPosition,
-  required Map<GuildIconPeekAction, GlobalKey> itemKeys,
-  required List<GuildIconPeekAction> visibleActions,
+  required Map<T, GlobalKey> itemKeys,
+  required Iterable<T> visibleKeys,
 }) {
-  for (final GuildIconPeekAction action in visibleActions) {
-    final BuildContext? itemContext = itemKeys[action]?.currentContext;
+  for (final T key in visibleKeys) {
+    final BuildContext? itemContext = itemKeys[key]?.currentContext;
     if (itemContext == null) {
       continue;
     }
@@ -99,10 +150,22 @@ GuildIconPeekAction? hitTestPeekAction({
     final Offset topLeft = box.localToGlobal(Offset.zero);
     final Rect rect = topLeft & box.size;
     if (rect.contains(globalPosition)) {
-      return action;
+      return key;
     }
   }
   return null;
+}
+
+GuildIconPeekAction? hitTestPeekAction({
+  required Offset globalPosition,
+  required Map<GuildIconPeekAction, GlobalKey> itemKeys,
+  required List<GuildIconPeekAction> visibleActions,
+}) {
+  return hitTestKeyedPeekTarget<GuildIconPeekAction>(
+    globalPosition: globalPosition,
+    itemKeys: itemKeys,
+    visibleKeys: visibleActions,
+  );
 }
 
 String peekActionLabel(FluxerLocalizations l10n, GuildIconPeekAction action) {

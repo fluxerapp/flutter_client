@@ -157,6 +157,22 @@ class FavoritesSyncedField extends SyncedFieldAdapter<FavoritesLocalState> {
     return !statesEqual(local, remote);
   }
 
+  @override
+  bool ignoreAckedRemoteShrink(
+    FavoritesLocalState local,
+    FavoritesLocalState remote,
+  ) {
+    return FavoritesStateHelpers.isRemoteShrink(local: local, remote: remote);
+  }
+
+  @override
+  bool mergeAckedInbound(
+    FavoritesLocalState local,
+    FavoritesLocalState remote,
+  ) {
+    return hasInboundUpdatesWhileProtected(local, remote);
+  }
+
   static FavoritesWireDecodeResult decodeFromWireResult(String encoded) {
     if (encoded.isEmpty) {
       return FavoritesWireDecodeResult.empty;

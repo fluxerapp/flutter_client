@@ -11,7 +11,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attach
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/forwarded_message_content.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
-import 'package:fluxer_app/features/chat/utils/save_message_media_favorite.dart';
+import 'package:fluxer_app/features/chat/utils/media/save_message_media_favorite.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart';
 import 'package:fluxer_app/material_ui.dart';

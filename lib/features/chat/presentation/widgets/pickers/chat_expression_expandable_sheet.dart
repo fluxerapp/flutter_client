@@ -13,9 +13,9 @@ import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_pro
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
-import 'package:fluxer_app/features/chat/utils/bottom_input_slot_layout.dart';
-import 'package:fluxer_app/features/chat/utils/inline_expression_panel_layout.dart';
-import 'package:fluxer_app/features/chat/utils/inline_expression_panel_scroll_physics.dart';
+import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout.dart';
+import 'package:fluxer_app/features/chat/utils/composer/inline_expression_panel_layout.dart';
+import 'package:fluxer_app/features/chat/utils/composer/inline_expression_panel_scroll_physics.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/expandable_sheet_gestures.dart';

@@ -53,6 +53,11 @@ class _FakeAppearancePreferences extends AppearancePreferences {
   Future<void> setAlwaysUnderlineLinks({required bool value}) async {
     state = state.copyWith(alwaysUnderlineLinks: value);
   }
+
+  @override
+  Future<void> setShowAltTextOnImages({required bool value}) async {
+    state = state.copyWith(showAltTextOnImages: value);
+  }
 }
 
 class _FakeUserSettingsViewModel extends UserSettingsViewModel {
@@ -135,6 +140,10 @@ void main() {
     expect(find.text(l10n.accessibilityVisualGroupTitle), findsOneWidget);
     expect(
       find.text(l10n.accessibilityAlwaysUnderlineLinksLabel),
+      findsOneWidget,
+    );
+    expect(
+      find.text(l10n.accessibilityShowAltTextOnImagesLabel),
       findsOneWidget,
     );
     expect(

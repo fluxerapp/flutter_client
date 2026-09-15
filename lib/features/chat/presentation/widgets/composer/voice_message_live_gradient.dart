@@ -4,7 +4,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/chat/utils/voice_message_constants.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/voice_message_constants.dart';
 import 'package:fluxer_app/features/ui/animation/animation_controller_visibility_extension.dart';
 import 'package:fluxer_app/material_ui.dart';
 

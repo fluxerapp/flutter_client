@@ -42,7 +42,7 @@ void main() {
       expect(result.merged.favorites.channels.single.channelId, 'local');
     });
 
-    test('mergeIncoming applies acked field mismatch from local', () {
+    test('mergeIncoming keeps local when incoming matches acked wire', () {
       final local = pb.SyncedPreferences(
         sidebar: pb.SidebarPreferences(inlineDmsCollapsed: true),
       );
@@ -62,8 +62,34 @@ void main() {
         syncInFlight: false,
       );
       expect(result.merged.sidebar.inlineDmsCollapsed, isTrue);
-      expect(result.wire.sidebar.inlineDmsCollapsed, isTrue);
+      expect(result.wire.sidebar.inlineDmsCollapsed, isFalse);
     });
+
+    test(
+      'mergeIncoming applies other-session update for a recently acked field',
+      () {
+        final local = pb.SyncedPreferences(
+          sidebar: pb.SidebarPreferences(inlineDmsCollapsed: true),
+        );
+        final wire = pb.SyncedPreferences(
+          sidebar: pb.SidebarPreferences(inlineDmsCollapsed: true),
+        );
+        final incoming = pb.SyncedPreferences(
+          sidebar: pb.SidebarPreferences(inlineDmsCollapsed: false),
+        );
+        final result = SyncedPreferencesEngine.mergeIncoming(
+          local: local,
+          wire: wire,
+          incoming: incoming,
+          protectedFields: {},
+          recentlyAckedFields: {SyncedPreferenceField.sidebar},
+          inFlight: null,
+          syncInFlight: false,
+        );
+        expect(result.merged.sidebar.inlineDmsCollapsed, isFalse);
+        expect(result.wire.sidebar.inlineDmsCollapsed, isFalse);
+      },
+    );
 
     test('changedFields detects field differences', () {
       final left = pb.SyncedPreferences(

@@ -6,11 +6,13 @@ import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_con
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/forward_message_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/media_alt_text.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
-import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
-import 'package:fluxer_app/features/chat/utils/embed_animated_image_url.dart';
-import 'package:fluxer_app/features/chat/utils/hdr_aware_image_url.dart';
-import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
+import 'package:fluxer_app/features/chat/utils/embeds/embed_animated_image_url.dart';
+import 'package:fluxer_app/features/chat/utils/media/hdr_aware_image_url.dart';
+import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart';
@@ -74,94 +76,105 @@ class AttachmentImage extends ConsumerWidget {
     );
     final bool animate = attachment.isAnimated;
     final String effectiveUrl = attachmentEffectiveUrl(attachment);
-    final Widget image = Stack(
-      clipBehavior: Clip.none,
-      children: [
-        Container(
-          margin: const EdgeInsets.only(top: 4, bottom: 3),
+    final Widget image = Padding(
+      padding: const EdgeInsets.only(top: 4, bottom: 3),
+      child: MediaAltText(
+        altText: attachment.description,
+        captionWidth: displaySize?.width ?? dimensions.maxWidth,
+        child: ConstrainedBox(
           constraints: BoxConstraints(
             maxWidth: dimensions.maxWidth,
             maxHeight: dimensions.maxHeight,
           ),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: Semantics(
-              button: gallery.isNotEmpty,
-              image: true,
-              label: _semanticLabel(context),
-              child: FluxerGestureDetector(
-                onTap: gallery.isEmpty
-                    ? null
-                    : () => showAttachmentMediaViewer(
-                        context,
-                        items: gallery.map(_buildMediaViewerItem).toList(),
-                        initialIndex: imageGalleryIndex.clamp(
-                          0,
-                          gallery.length - 1,
-                        ),
-                        channelId: channelId,
-                        onForward: (channelId != null && messageId != null)
-                            ? (int index) => showForwardMediaSheet(
-                                context,
-                                sourceChannelId: channelId!,
-                                sourceMessageId: messageId!,
-                                attachmentIds: <String>[gallery[index].id],
-                              )
-                            : null,
-                        actionScope: mediaActionScope,
-                      ),
-                child: AspectRatio(
-                  aspectRatio: _resolveAspectRatio(),
-                  child: animate
-                      ? EmbedAnimatedImage(
-                          animatedUrl: animatedEmbedImageUrl(effectiveUrl),
-                          staticUrl: staticEmbedImageUrl(effectiveUrl),
-                          visibilityKey:
-                              '${channelId}_${messageId}_${attachment.id}',
-                          fit: BoxFit.contain,
-                          placeholder: _buildImagePlaceholder(context),
-                        )
-                      : _AttachmentStaticImage(
-                          imageUrl: buildHdrAwareImageUrl(
-                            url: effectiveUrl,
-                            mode: hdrDisplayMode,
-                            contentType: attachment.contentType,
+            child: Stack(
+              children: [
+                Semantics(
+                  button: gallery.isNotEmpty,
+                  image: true,
+                  label: _semanticLabel(context),
+                  child: FluxerGestureDetector(
+                    onTap: gallery.isEmpty
+                        ? null
+                        : () => showAttachmentMediaViewer(
+                            context,
+                            items: gallery
+                                .map(AttachmentMediaViewerItem.fromAttachment)
+                                .toList(),
+                            initialIndex: imageGalleryIndex.clamp(
+                              0,
+                              gallery.length - 1,
+                            ),
+                            channelId: channelId,
+                            onForward: (channelId != null && messageId != null)
+                                ? (int index) => showForwardMediaSheet(
+                                    context,
+                                    sourceChannelId: channelId!,
+                                    sourceMessageId: messageId!,
+                                    attachmentIds: <String>[gallery[index].id],
+                                  )
+                                : null,
+                            actionScope: mediaActionScope,
                           ),
-                          displaySize: displaySize,
-                          dimensions: dimensions,
-                          sourceWidth: attachment.width,
-                          sourceHeight: attachment.height,
-                          placeholder: _buildImagePlaceholder(context),
-                        ),
+                    child: AspectRatio(
+                      aspectRatio: _resolveAspectRatio(),
+                      child: animate
+                          ? EmbedAnimatedImage(
+                              animatedUrl: animatedEmbedImageUrl(effectiveUrl),
+                              staticUrl: staticEmbedImageUrl(effectiveUrl),
+                              visibilityKey:
+                                  '${channelId}_${messageId}_${attachment.id}',
+                              fit: BoxFit.contain,
+                              placeholder: _buildImagePlaceholder(context),
+                              errorPlaceholder:
+                                  const MediaLoadErrorPlaceholder(),
+                            )
+                          : _AttachmentStaticImage(
+                              imageUrl: buildHdrAwareImageUrl(
+                                url: effectiveUrl,
+                                mode: hdrDisplayMode,
+                                contentType: attachment.contentType,
+                              ),
+                              displaySize: displaySize,
+                              dimensions: dimensions,
+                              sourceWidth: attachment.width,
+                              sourceHeight: attachment.height,
+                              placeholder: _buildImagePlaceholder(context),
+                            ),
+                    ),
+                  ),
                 ),
-              ),
+                if (showGifIndicator && animate)
+                  Positioned(
+                    left: 8,
+                    bottom: 8,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.72),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
+                        child: Text(
+                          'GIF',
+                          style: context.textStyles.smallText.copyWith(
+                            color: Colors.white,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
         ),
-        if (showGifIndicator && animate)
-          Positioned(
-            left: 8,
-            bottom: 8,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.72),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                child: Text(
-                  'GIF',
-                  style: context.textStyles.smallText.copyWith(
-                    color: Colors.white,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ),
-          ),
-      ],
+      ),
     );
     if (!wrapWithSpoiler) {
       return image;
@@ -174,8 +187,8 @@ class AttachmentImage extends ConsumerWidget {
   }
 
   String _semanticLabel(BuildContext context) {
-    final String? description = attachment.description?.trim();
-    if (description != null && description.isNotEmpty) {
+    final String? description = resolvedMediaAltText(attachment.description);
+    if (description != null) {
       return description;
     }
     final String filename = attachment.filename.trim();
@@ -211,21 +224,6 @@ class AttachmentImage extends ConsumerWidget {
       return const <Attachment>[];
     }
     return <Attachment>[attachment];
-  }
-
-  AttachmentMediaViewerItem _buildMediaViewerItem(Attachment value) {
-    return AttachmentMediaViewerItem(
-      url: value.url,
-      filename: value.filename,
-      width: value.width,
-      height: value.height,
-      isMatureMedia: value.isMatureMedia,
-      attachmentId: value.id,
-      proxyUrl: value.proxyUrl,
-      contentType: value.contentType,
-      isExpired: value.expired ?? false,
-      contentHash: value.contentHash,
-    );
   }
 }
 
@@ -273,12 +271,15 @@ class _AttachmentStaticImage extends StatelessWidget {
         }
         return CachedNetworkImage(
           imageUrl: imageUrl,
+          width: constraints.maxWidth.isFinite ? constraints.maxWidth : null,
+          height: constraints.maxHeight.isFinite ? constraints.maxHeight : null,
           memCacheWidth: memCacheWidth,
           memCacheHeight: memCacheHeight,
           fit: BoxFit.contain,
           fadeInDuration: Duration.zero,
           fadeOutDuration: Duration.zero,
           placeholder: (BuildContext _, String _) => placeholder,
+          errorBuilder: (_, _, _) => const MediaLoadErrorPlaceholder(),
         );
       },
     );

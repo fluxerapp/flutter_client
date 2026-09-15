@@ -11,8 +11,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'user_profile.g.dart';
 
-const Duration _userProfileCacheTtl = Duration(minutes: 1);
-
 class CurrentUserCachedProfile {
   const CurrentUserCachedProfile({
     required this.id,
@@ -66,7 +64,6 @@ Future<UserProfileFullResponse?> userProfile(
       withMutualGuilds: 'true',
     );
     await _cacheUserProfile(database, profile);
-    _keepUserProfileAlive(ref);
     return profile;
   } on Object {
     if (cachedUser != null) {
@@ -74,12 +71,6 @@ Future<UserProfileFullResponse?> userProfile(
     }
     return null;
   }
-}
-
-void _keepUserProfileAlive(Ref ref) {
-  final keepAlive = ref.keepAlive();
-  final Timer timer = Timer(_userProfileCacheTtl, keepAlive.close);
-  ref.onDispose(timer.cancel);
 }
 
 UserProfileFullResponse _userProfileFromCachedUser(User user) {

@@ -36,6 +36,20 @@ void main() {
       );
     });
 
+    test("retries when the loaded window has another channel's messages", () {
+      expect(
+        shouldDedupChannelChatSwitchRequest(
+          lastRequest: switchRequest,
+          request: switchRequest,
+          state: _chatState(
+            channelId: 'channel-1',
+            messages: <Message>[_message(id: 'msg-1', channelId: 'channel-2')],
+          ),
+        ),
+        isFalse,
+      );
+    });
+
     test('dedups when messages are already loaded', () {
       expect(
         shouldDedupChannelChatSwitchRequest(
@@ -382,6 +396,44 @@ void main() {
     });
   });
 
+  group('shouldResyncMismatchedChatWindow', () {
+    test('resyncs when the view model is on another channel', () {
+      expect(
+        shouldResyncMismatchedChatWindow(
+          widgetChannelId: 'channel-1',
+          state: _chatState(channelId: 'channel-2'),
+        ),
+        isTrue,
+      );
+    });
+
+    test('resyncs when messages belong to another channel', () {
+      expect(
+        shouldResyncMismatchedChatWindow(
+          widgetChannelId: 'channel-1',
+          state: _chatState(
+            channelId: 'channel-1',
+            messages: <Message>[_message(id: 'msg-1', channelId: 'channel-2')],
+          ),
+        ),
+        isTrue,
+      );
+    });
+
+    test('skips a matching window', () {
+      expect(
+        shouldResyncMismatchedChatWindow(
+          widgetChannelId: 'channel-1',
+          state: _chatState(
+            channelId: 'channel-1',
+            messages: <Message>[_message(id: 'msg-1')],
+          ),
+        ),
+        isFalse,
+      );
+    });
+  });
+
   group('shouldResyncStrandedEmptyChannel', () {
     test('requests resync for matched empty idle channel', () {
       expect(
@@ -446,10 +498,10 @@ ChatViewState _chatState({
   );
 }
 
-Message _message({required String id}) {
+Message _message({required String id, String channelId = 'channel-1'}) {
   return Message(
     id: id,
-    channelId: 'channel-1',
+    channelId: channelId,
     authorId: 'user-1',
     authorName: 'User',
     content: 'hello',

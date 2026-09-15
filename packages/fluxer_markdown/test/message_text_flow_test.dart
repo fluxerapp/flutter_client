@@ -683,98 +683,50 @@ void main() {
     testWidgets('renders blank lines typed on both sides of a list', (
       tester,
     ) async {
-      Future<void> pumpInput(String data) async {
-        await tester.pumpWidget(
-          MaterialApp(
-            home: MediaQuery(
-              data: const MediaQueryData(textScaler: TextScaler.noScaling),
-              child: Scaffold(
-                body: Center(
-                  child: SizedBox(
-                    width: 320,
-                    child: FluxerMarkdown(
-                      astParser: parseTestMarkdownAst,
-                      data: data,
-                      config: _testMarkdownConfig,
-                      baseStyle: baseStyle,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        );
-      }
+      await _pumpMarkdownFlow(tester, 'intro\n\n\n- one\n- two\n\n\noutro');
+      // Two 22px blank lines plus the 12px collapsed block gap.
+      expect(_verticalGap(tester, 'intro', 'one'), closeTo(56, 0.5));
+      expect(_verticalGap(tester, 'two', 'outro'), closeTo(56, 0.5));
 
-      final Finder listFinder = find.byWidgetPredicate(
-        (Widget widget) =>
-            widget is Padding &&
-            widget.padding ==
-                const EdgeInsets.only(top: FluxerMarkupSpacing.listBlockMargin),
+      await _pumpMarkdownFlow(tester, 'intro\n- one\n- two\noutro');
+      expect(
+        _verticalGap(tester, 'intro', 'one'),
+        closeTo(FluxerMarkupSpacing.blockGap, 0.5),
       );
-      Finder paragraphFinder(String text) => find.byWidgetPredicate(
-        (Widget widget) =>
-            widget is RichText && widget.text.toPlainText() == text,
-      );
-
-      await pumpInput('intro\n\n\n- one\n- two\n\n\noutro');
-      expect(listFinder, findsOneWidget);
-      final double gapAbove =
-          tester.getTopLeft(listFinder).dy -
-          tester.getBottomLeft(paragraphFinder('intro')).dy;
-      final double gapBelow =
-          tester.getTopLeft(paragraphFinder('outro')).dy -
-          tester.getBottomLeft(listFinder).dy;
-
-      await pumpInput('intro\n- one\n- two\noutro');
-      final double gapWithoutBlanks =
-          tester.getTopLeft(listFinder).dy -
-          tester.getBottomLeft(paragraphFinder('intro')).dy;
-
-      // Two 22px blank lines plus the 12px block gap the column adds.
-      expect(gapAbove, closeTo(56, 0.5));
-      expect(gapBelow, closeTo(56, 0.5));
-      expect(gapWithoutBlanks, closeTo(FluxerMarkupSpacing.blockGap, 0.5));
     });
 
     testWidgets('list without surrounding blanks has no extra bottom padding', (
       tester,
     ) async {
-      const String input = '- item\ncloser';
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: MediaQuery(
-            data: MediaQueryData(textScaler: TextScaler.noScaling),
-            child: Scaffold(
-              body: Center(
-                child: SizedBox(
-                  width: 320,
-                  child: FluxerMarkdown(
-                    astParser: parseTestMarkdownAst,
-                    data: input,
-                    config: _testMarkdownConfig,
-                    baseStyle: baseStyle,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
+      await _pumpMarkdownFlow(tester, '- item\ncloser');
+      expect(_verticalGap(tester, 'item', 'closer'), closeTo(0, 0.5));
+    });
+
+    testWidgets('tight list items keep a 4px gap', (tester) async {
+      await _pumpMarkdownFlow(tester, '- first\n- second');
+      expect(
+        _verticalGap(tester, 'first', 'second'),
+        closeTo(FluxerMarkupSpacing.listItemGap, 0.5),
       );
+    });
 
-      final Finder itemFinder = find.textContaining('item', findRichText: true);
-      final Finder closerFinder = find.textContaining(
-        'closer',
-        findRichText: true,
+    testWidgets('text between lists sits flush under the first list', (
+      tester,
+    ) async {
+      await _pumpMarkdownFlow(tester, '- first\nbetween\n- second');
+      expect(_verticalGap(tester, 'first', 'between'), closeTo(0, 0.5));
+      expect(
+        _verticalGap(tester, 'between', 'second'),
+        closeTo(FluxerMarkupSpacing.blockGap, 0.5),
       );
-      expect(itemFinder, findsOneWidget);
-      expect(closerFinder, findsOneWidget);
+    });
 
-      final double itemBottom = tester.getBottomLeft(itemFinder).dy;
-      final double closerTop = tester.getTopLeft(closerFinder).dy;
-      final double singleLineHeight = 16 * baseStyle.height!;
-
-      expect(closerTop - itemBottom, lessThan(singleLineHeight));
+    testWidgets('nested list uses a single 4px top gap', (tester) async {
+      await _pumpMarkdownFlow(tester, '- parent\n  - nested');
+      expect(
+        _verticalGap(tester, 'parent', 'nested'),
+        closeTo(FluxerMarkupSpacing.listNestedTop, 0.5),
+      );
     });
 
     testWidgets('preserves spacing between heading and regular text', (
@@ -1046,4 +998,38 @@ bool _leafTextHasStyle(
     }
   }
   return false;
+}
+
+Finder _exactRichText(String text) {
+  return find.byWidgetPredicate(
+    (Widget widget) => widget is RichText && widget.text.toPlainText() == text,
+  );
+}
+
+double _verticalGap(WidgetTester tester, String above, String below) {
+  return tester.getTopLeft(_exactRichText(below)).dy -
+      tester.getBottomLeft(_exactRichText(above)).dy;
+}
+
+Future<void> _pumpMarkdownFlow(WidgetTester tester, String data) async {
+  await tester.pumpWidget(
+    MaterialApp(
+      home: MediaQuery(
+        data: const MediaQueryData(textScaler: TextScaler.noScaling),
+        child: Scaffold(
+          body: Center(
+            child: SizedBox(
+              width: 320,
+              child: FluxerMarkdown(
+                astParser: parseTestMarkdownAst,
+                data: data,
+                config: _testMarkdownConfig,
+                baseStyle: const TextStyle(fontSize: 16, height: 1.375),
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
 }

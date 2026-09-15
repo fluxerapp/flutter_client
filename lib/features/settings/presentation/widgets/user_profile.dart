@@ -8,7 +8,7 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
-import 'package:fluxer_app/features/chat/service/composer_autocomplete_trigger.dart';
+import 'package:fluxer_app/features/chat/services/composer_autocomplete_trigger.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/settings/domain/guild_asset_mode.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';

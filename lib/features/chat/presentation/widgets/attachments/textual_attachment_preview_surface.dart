@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/chat/utils/attachment_preview_utils.dart';
-import 'package:fluxer_app/features/chat/utils/textual_attachment_content.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/attachment_preview_utils.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/textual_attachment_content.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';

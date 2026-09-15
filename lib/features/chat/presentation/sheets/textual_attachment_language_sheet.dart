@@ -1,5 +1,5 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/chat/utils/preview_language_options.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/preview_language_options.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';

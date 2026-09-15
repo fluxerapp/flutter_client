@@ -8,11 +8,11 @@ import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_play
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
-import 'package:fluxer_app/features/chat/service/voice_message_send.dart';
-import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
-import 'package:fluxer_app/features/chat/utils/media_proxy_url.dart';
-import 'package:fluxer_app/features/chat/utils/voice_message_constants.dart';
-import 'package:fluxer_app/features/chat/utils/voice_message_waveform.dart';
+import 'package:fluxer_app/features/chat/services/voice_message_send.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/voice_message_constants.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/voice_message_waveform.dart';
+import 'package:fluxer_app/features/chat/utils/media/media_proxy_url.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -69,7 +69,7 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
     );
     _sessionReporter = ChatAttachmentAudioSessionReporter(
       binding: _mediaSessionBinding,
-      attachment: widget.attachment,
+      attachment: () => widget.attachment,
       title: () => FluxerLocalizations.of(context).voiceMessageTitle,
       totalDuration: () => _mediaSessionTotalDuration,
       playbackRate: () => _playbackRate,
@@ -430,7 +430,7 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
   }
 
   KeyEventResult _handleWaveformKey(FocusNode node, KeyEvent event) {
-    if (_isLoading || event is! KeyDownEvent) {
+    if (!_isPlaying || _isLoading || event is! KeyDownEvent) {
       return KeyEventResult.ignored;
     }
     const double step = 0.05;
@@ -511,7 +511,7 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
                             increasedValue: l10n.voiceMessageSeekForward,
                             decreasedValue: l10n.voiceMessageSeekBackward,
                             child: PlaybackSeekGestureTarget(
-                              enabled: !_isLoading,
+                              enabled: _isPlaying,
                               onSeekFraction: (double fraction) {
                                 unawaited(_seekToFraction(fraction));
                               },

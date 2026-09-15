@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart' as l10n;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
@@ -10,8 +11,9 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
-import 'package:fluxer_app/features/accessibility/resolve_reduced_motion.dart';
-import 'package:fluxer_app/features/accessibility/text_scale.dart';
+import 'package:fluxer_app/features/accessibility/domain/resolve_reduced_motion.dart';
+import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
+import 'package:fluxer_app/features/accessibility/providers/effective_motion_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/gateway_reconnect_banner.dart';
 import 'package:fluxer_app/features/shell/presentation/native_titlebar.dart';
@@ -85,6 +87,7 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
         );
         darkThemeData = null;
       case FluxerThemeMode.dark:
+      case FluxerThemeMode.darkLegacy:
       case FluxerThemeMode.coal:
         themeMode = ThemeMode.dark;
         theme = buildFluxerTheme(
@@ -149,7 +152,8 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
           );
         }
 
-        final bool platformReducedMotion = MediaQuery.disableAnimationsOf(
+        final bool platformReducedMotion = platformReducedMotionOf(
+          ref,
           context,
         );
         final bool disableAnimations = resolveReducedMotion(
@@ -164,7 +168,16 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
             child: scaled,
           );
         }
-        return scaled;
+        final ThemeData materialTheme = Theme.of(context);
+        return AnnotatedRegion<SystemUiOverlayStyle>(
+          value:
+              materialTheme.appBarTheme.systemOverlayStyle ??
+              fluxerSystemUiOverlayStyle(
+                brightness: materialTheme.brightness,
+                navigationBarColor: materialTheme.scaffoldBackgroundColor,
+              ),
+          child: scaled,
+        );
       },
     );
   }

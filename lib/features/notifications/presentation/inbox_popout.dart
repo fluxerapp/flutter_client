@@ -6,7 +6,7 @@ import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/messaging/presentation/widgets/saved_messages_body.dart';
+import 'package:fluxer_app/features/bookmarks/presentation/widgets/saved_messages_body.dart';
 import 'package:fluxer_app/features/notifications/data/notifications_repository.dart';
 import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_mentions_body.dart';

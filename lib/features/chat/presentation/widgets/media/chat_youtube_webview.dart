@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:fluxer_app/features/chat/utils/embed_youtube_utils.dart';
+import 'package:fluxer_app/features/chat/utils/embeds/embed_youtube_utils.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class ChatYouTubeWebView extends StatelessWidget {

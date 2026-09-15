@@ -18,8 +18,8 @@ import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_video
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
-import 'package:fluxer_app/features/chat/utils/embed_gallery_utils.dart';
-import 'package:fluxer_app/features/chat/utils/spoiler_utils.dart';
+import 'package:fluxer_app/features/chat/utils/embeds/embed_gallery_utils.dart';
+import 'package:fluxer_app/features/chat/utils/messages/spoiler_utils.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/dm/utils/group_dm_display_name.dart';

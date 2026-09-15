@@ -9,7 +9,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
-import 'package:fluxer_app/features/chat/service/composer_autocomplete_trigger.dart';
+import 'package:fluxer_app/features/chat/services/composer_autocomplete_trigger.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/ui/input/emoji_text_editing_controller.dart';

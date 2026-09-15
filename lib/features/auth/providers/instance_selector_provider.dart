@@ -116,10 +116,9 @@ class InstanceSelector extends _$InstanceSelector {
     if (!_isolatesActiveInstance) {
       ref.read(activeInstanceProvider.notifier).resetToOfficialDefault();
     }
-    const String describedUrl = InstanceConstants.defaultInstanceInputUrl;
     state = AsyncData(
       current.copyWith(
-        instanceUrl: describedUrl,
+        instanceUrl: InstanceConstants.defaultInstanceInputUrl,
         status: InstanceDiscoveryStatus.success,
         requiresDiscovery: false,
         clearError: true,
@@ -171,10 +170,9 @@ class InstanceSelector extends _$InstanceSelector {
       if (connectId != _connectSeq) {
         return false;
       }
-      final String describedUrl = _describeUserInstanceInput(url);
       state = AsyncData(
         current.copyWith(
-          instanceUrl: describedUrl,
+          instanceUrl: InstanceConstants.defaultInstanceInputUrl,
           status: InstanceDiscoveryStatus.success,
           requiresDiscovery: false,
           clearError: true,
@@ -345,18 +343,6 @@ class InstanceSelector extends _$InstanceSelector {
       return;
     }
     state = AsyncData(current.copyWith(recentInstances: recentInstances));
-  }
-
-  String _describeUserInstanceInput(String url) {
-    try {
-      return _normalizer.describeApiEndpoint(
-        _normalizer.normalizeEndpoint(url),
-      );
-    } on FormatException {
-      return _normalizer.describeApiEndpoint(
-        InstanceConstants.defaultApiBaseUrl,
-      );
-    }
   }
 }
 

@@ -248,6 +248,7 @@ class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
   }
 
   void _goToLanding() {
+    FocusManager.instance.primaryFocus?.unfocus();
     setState(() {
       _view = _AddGuildModalView.landing;
       _inviteErrorText = null;

@@ -12,7 +12,6 @@ import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.dart';
 import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
-import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_channel_chat_sheet.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_channel_join_bottom_sheet.dart';
 import 'package:fluxer_app/features/voice/providers/voice_join_eligibility_provider.dart';
@@ -20,6 +19,7 @@ import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart'
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_connection_actions.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 /// Opens a channel from the guild sidebar or DM list.
 Future<void> navigateToChannelContent({
@@ -125,6 +125,13 @@ Future<void> navigateToGuildChannelContent({
   );
 }
 
+bool shouldPresentVoiceChannelJoinSheet({
+  required bool isVoiceChannel,
+  required bool isTouchPrimary,
+}) {
+  return isVoiceChannel && isTouchPrimary;
+}
+
 String _guildChannelRoutePath({
   required String guildId,
   required String channelId,
@@ -164,6 +171,7 @@ Future<void> openGuildChannelContent({
       channelId: channel.id,
       guildId: guildId,
       channelType: channel.type,
+      channel: channel,
     );
     if (!context.mounted || !canProceed) {
       return;
@@ -204,6 +212,7 @@ Future<void> openGuildChannelContent({
       context: context,
       guildId: guildId,
       channelId: channel.id,
+      channel: channel,
       initialSelfMute: initialSelfMute,
       initialSelfDeaf: initialSelfDeaf,
     );
@@ -212,7 +221,10 @@ Future<void> openGuildChannelContent({
     }
   }
 
-  if (isVoiceChannel && isMobileLayout(context)) {
+  if (shouldPresentVoiceChannelJoinSheet(
+    isVoiceChannel: isVoiceChannel,
+    isTouchPrimary: ref.read(inputModalityProvider),
+  )) {
     if (isInCurrentVoiceChannel) {
       recordAndNavigate();
       return;
@@ -235,6 +247,7 @@ Future<void> openGuildChannelContent({
           channelId: channel.id,
           guildId: guildId,
           channelType: channel.type,
+          channel: channel,
         );
         if (!context.mounted || !canProceed) {
           return;

@@ -38,6 +38,7 @@ import 'package:fluxer_app/features/profile/providers/user_note_view_model.dart'
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/profile/providers/user_profile_guild_provider.dart';
 import 'package:fluxer_app/features/profile/providers/user_relationship_provider.dart';
+import 'package:fluxer_app/features/profile/utils/premium_badge_visibility.dart';
 import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
@@ -755,6 +756,8 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
               onClose: widget.onCloseRequested,
             );
           }
+          final PremiumBadgeVisibility premiumBadges =
+              PremiumBadgeVisibility.fromSettings(settingsState);
           return _buildLoadedView(
             userId: profile.id,
             username: profile.username,
@@ -784,17 +787,10 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
             guildIconUrl: null,
             memberRoles: const <MemberRole>[],
             flags: profile.publicFlags,
-            hasPlutonium:
-                settingsState.isPremium &&
-                !settingsState.effectivePremiumBadgeHidden,
-            isLifetimePlutonium: settingsState.hasLifetimePremium,
-            premiumSince: settingsState.premiumSince,
-            premiumLifetimeSequence:
-                settingsState.hasLifetimePremium &&
-                    !settingsState.effectivePremiumBadgeMasked &&
-                    !settingsState.effectivePremiumBadgeSequenceHidden
-                ? settingsState.premiumLifetimeSequence
-                : null,
+            hasPlutonium: premiumBadges.hasPlutonium,
+            isLifetimePlutonium: premiumBadges.isLifetimePlutonium,
+            premiumSince: premiumBadges.premiumSince,
+            premiumLifetimeSequence: premiumBadges.premiumLifetimeSequence,
             mutualFriends: const <UserPartialResponse>[],
             mutualCommunities: const <UserProfileFullResponseMutualGuilds>[],
             actionUser: null,
@@ -943,6 +939,13 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
               friendNickname: relationshipAsync.value?.nickname,
               showGlobalProfile: _showGlobalProfile,
             );
+        final PremiumBadgeVisibility premiumBadges = isCurrentProfile
+            ? PremiumBadgeVisibility.fromSettings(settingsState)
+            : PremiumBadgeVisibility.fromProfile(
+                premiumType: response.premiumType,
+                premiumSince: response.premiumSince,
+                premiumLifetimeSequence: response.premiumLifetimeSequence,
+              );
         return _buildLoadedView(
           userId: response.user.id,
           username: response.user.username,
@@ -972,16 +975,10 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
           flags: response.user.flags,
           isBot: response.user.bot ?? false,
           isSystem: response.user.system ?? false,
-          hasPlutonium:
-              response.premiumType != null &&
-              response.premiumType != UserPremiumTypes.none,
-          isLifetimePlutonium:
-              response.premiumType == UserPremiumTypes.lifetime,
-          premiumSince: response.premiumSince,
-          premiumLifetimeSequence:
-              response.premiumType == UserPremiumTypes.lifetime
-              ? response.premiumLifetimeSequence
-              : null,
+          hasPlutonium: premiumBadges.hasPlutonium,
+          isLifetimePlutonium: premiumBadges.isLifetimePlutonium,
+          premiumSince: premiumBadges.premiumSince,
+          premiumLifetimeSequence: premiumBadges.premiumLifetimeSequence,
           mutualFriends: isCurrentProfile
               ? const <UserPartialResponse>[]
               : response.mutualFriends ?? const <UserPartialResponse>[],

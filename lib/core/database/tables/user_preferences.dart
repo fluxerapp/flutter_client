@@ -123,6 +123,8 @@ class UserPreferencesTable extends Table {
       text().withDefault(const Constant('none'))();
   BoolColumn get alwaysUnderlineLinks =>
       boolean().withDefault(const Constant(false))();
+  BoolColumn get showAltTextOnImages =>
+      boolean().withDefault(const Constant(false))();
   BoolColumn get dimStrikethroughText =>
       boolean().withDefault(const Constant(true))();
   BoolColumn get showTextareaFocusRing =>

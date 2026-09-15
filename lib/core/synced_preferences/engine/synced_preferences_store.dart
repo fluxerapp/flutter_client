@@ -29,7 +29,7 @@ const int _kRateLimitBackoffCapMs = 60000;
 const int _kRateLimitRetryAfterMinMs = 250;
 
 Duration syncedPreferencesRateLimitRetryDelay({
-  required int consecutive429s,
+  required int attempt,
   int? retryAfterMs,
 }) {
   if (retryAfterMs != null && retryAfterMs > 0) {
@@ -40,7 +40,7 @@ Duration syncedPreferencesRateLimitRetryDelay({
       ),
     );
   }
-  final int exp = consecutive429s.clamp(1, _kRateLimitMaxAttempts);
+  final int exp = attempt.clamp(1, _kRateLimitMaxAttempts);
   return Duration(
     milliseconds: (1000 * (1 << exp)).clamp(0, _kRateLimitBackoffCapMs),
   );
@@ -62,6 +62,7 @@ class SyncedPreferencesStore {
   String _lastKnownGoodWire = '';
   pb.SyncedPreferences _local = SyncedPreferencesEngine.createEmpty();
   pb.SyncedPreferences _wire = SyncedPreferencesEngine.createEmpty();
+  pb.SyncedPreferences? _hydrateBaselineWire;
   bool _hasHydrated = false;
   bool _isApplyingRemote = false;
   bool _isPushInFlight = false;
@@ -71,9 +72,9 @@ class SyncedPreferencesStore {
   pb.SyncedPreferences? _inFlightSnapshot;
   final Map<SyncedPreferenceField, DateTime> _recentlyAckedUntil = {};
   Timer? _pushTimer;
-  Timer? _rateLimitTimer;
+  Timer? _pushRetryTimer;
   int _pushGeneration = 0;
-  int _rateLimitAttempts = 0;
+  int _pushRetryAttempts = 0;
 
   void registerDefaultAdapters() {
     registerDefaultSyncedFieldAdapters(
@@ -99,6 +100,7 @@ class SyncedPreferencesStore {
     _lastKnownGoodWire = '';
     _local = SyncedPreferencesEngine.createEmpty();
     _wire = SyncedPreferencesEngine.createEmpty();
+    _hydrateBaselineWire = null;
     _hasHydrated = false;
     _isApplyingRemote = false;
     _isPushInFlight = false;
@@ -108,13 +110,16 @@ class SyncedPreferencesStore {
     _inFlightSnapshot = null;
     _recentlyAckedUntil.clear();
     _pushGeneration++;
-    _rateLimitAttempts = 0;
+    _pushRetryAttempts = 0;
   }
 
   void markSessionChanging() {}
 
   void markDirty(SyncedPreferenceField field) {
     _dirtyFields.add(field);
+    _pushRetryAttempts = 0;
+    _pushRetryTimer?.cancel();
+    _pushRetryTimer = null;
     scheduleFlush();
   }
 
@@ -163,16 +168,23 @@ class SyncedPreferencesStore {
     for (final field in mergeResult.dirtyFields) {
       _dirtyFields.add(field);
     }
+    final previousWire = _wire;
     _wire = mergeResult.wire;
     _local = mergeResult.merged;
     if (encoded.isNotEmpty && decodeStatus == _DecodeStatus.success) {
       _lastKnownGoodWire = encoded;
     }
-    await _reconcileRegisteredFields(
-      incoming: incoming,
-      wasFirstHydrate: wasFirstHydrate,
-      protectedFields: protectedFields,
-    );
+    _hydrateBaselineWire = previousWire;
+    try {
+      await _reconcileRegisteredFields(
+        incoming: incoming,
+        wasFirstHydrate: wasFirstHydrate,
+        protectedFields: protectedFields,
+        recentlyAckedFields: recentlyAcked,
+      );
+    } finally {
+      _hydrateBaselineWire = null;
+    }
     if (encoded.isNotEmpty && decodeStatus == _DecodeStatus.success) {
       _clearStaleDirtyForAbsentServerFields(incoming: incoming);
     }
@@ -215,6 +227,7 @@ class SyncedPreferencesStore {
     required pb.SyncedPreferences incoming,
     required bool wasFirstHydrate,
     required Set<SyncedPreferenceField> protectedFields,
+    required Set<SyncedPreferenceField> recentlyAckedFields,
   }) async {
     for (final entry in _adapters.entries) {
       final field = entry.key;
@@ -224,12 +237,34 @@ class SyncedPreferencesStore {
       final hasLocal = adapter.hasLocalData(local);
       final hasRemote = remote != null && adapter.hasRemoteData(remote);
       final isProtected = protectedFields.contains(field);
+      final isRecentlyAcked = recentlyAckedFields.contains(field);
       if (!isProtected && !_dirtyFields.contains(field)) {
         if (remote != null) {
-          if (!_statesEqual(adapter, local, remote)) {
-            await _applyAdapterRemote(adapter, remote);
+          if (isRecentlyAcked &&
+              adapter.ignoreAckedRemoteShrink(local, remote)) {
+            _restoreAckedFieldFromBaseline(adapter, local);
+            continue;
           }
-          _dirtyFields.remove(field);
+          if (isRecentlyAcked && adapter.mergeAckedInbound(local, remote)) {
+            final target = adapter.mergeForMigration(
+              local: local,
+              remote: remote,
+            );
+            if (!_statesEqual(adapter, local, target)) {
+              await _applyAdapterRemote(adapter, target);
+            }
+            if (!_statesEqual(adapter, target, remote)) {
+              _dirtyFields.add(field);
+              scheduleFlush();
+            } else {
+              _dirtyFields.remove(field);
+            }
+          } else if (!_statesEqual(adapter, local, remote)) {
+            await _applyAdapterRemote(adapter, remote);
+            _dirtyFields.remove(field);
+          } else {
+            _dirtyFields.remove(field);
+          }
         } else if (hasLocal && encodedIsEmpty()) {
           _dirtyFields.add(field);
           scheduleFlush();
@@ -314,12 +349,28 @@ class SyncedPreferencesStore {
     await _applyAdapterRemote(adapter, cleared);
   }
 
+  void _restoreAckedFieldFromBaseline(
+    SyncedFieldAdapter<Object?> adapter,
+    Object? local,
+  ) {
+    final baseline = _hydrateBaselineWire;
+    if (baseline == null) {
+      return;
+    }
+    _wire = SyncedPreferencesEngine.copyField(
+      target: _wire,
+      source: baseline,
+      field: adapter.field,
+    );
+    _local = _applyAdapterToProto(_local, adapter, local, wire: baseline);
+  }
+
   FavoritesLocalState? _readSyncedLocalFavorites() {
     final adapter = _adapters[SyncedPreferenceField.favorites];
     if (adapter is! FavoritesSyncedField) {
       return null;
     }
-    return adapter.readFromProto(_local);
+    return adapter.readFromProto(_hydrateBaselineWire ?? _wire);
   }
 
   void _clearStaleDirtyForAbsentServerFields({
@@ -504,7 +555,7 @@ class SyncedPreferencesStore {
       _dirtyFields.addAll(stillChanged);
       _pendingPush = _dirtyFields.isNotEmpty;
       _markFieldsAcked(fieldsInRequest);
-      _rateLimitAttempts = 0;
+      _pushRetryAttempts = 0;
       talker.debug(
         '[SyncedPreferences] Pushed ${fieldsInRequest.length} field(s) '
         '(${encoded.length} bytes, '
@@ -513,13 +564,14 @@ class SyncedPreferencesStore {
       );
     } on SyncedPreferencesWireEncodeException catch (error, stackTrace) {
       talker.error('[SyncedPreferences] Wire encode failed', error, stackTrace);
+      _pendingPush = false;
     } on Object catch (error, stackTrace) {
       if (_isRateLimitError(error)) {
-        _scheduleRateLimitRetry(error);
         talker.warning('[SyncedPreferences] Push rate-limited, will retry');
-        return;
+      } else {
+        talker.error('[SyncedPreferences] Push failed', error, stackTrace);
       }
-      talker.error('[SyncedPreferences] Push failed', error, stackTrace);
+      _schedulePushRetry(error);
     } finally {
       _isPushInFlight = false;
       _inFlightFields.clear();
@@ -686,7 +738,6 @@ class SyncedPreferencesStore {
     if (_pushTimer?.isActive ?? false) {
       protected.addAll(_dirtyFields);
     }
-    protected.addAll(_recentlyAckedFields());
     return protected;
   }
 
@@ -718,7 +769,10 @@ class SyncedPreferencesStore {
   }
 
   void _flushPendingPush() {
-    if (!_pendingPush || _isApplyingRemote || _isPushInFlight) {
+    if (!_pendingPush ||
+        _isApplyingRemote ||
+        _isPushInFlight ||
+        (_pushRetryTimer?.isActive ?? false)) {
       return;
     }
     scheduleFlush();
@@ -735,22 +789,28 @@ class SyncedPreferencesStore {
     });
   }
 
-  void _scheduleRateLimitRetry(Object error) {
-    _pendingPush = true;
+  void _schedulePushRetry(Object error) {
     _pushTimer?.cancel();
-    _rateLimitTimer?.cancel();
-    _rateLimitAttempts = (_rateLimitAttempts + 1).clamp(
+    _pushTimer = null;
+    _pushRetryTimer?.cancel();
+    if (_pushRetryAttempts >= _kRateLimitMaxAttempts) {
+      _pendingPush = false;
+      _pushRetryTimer = null;
+      return;
+    }
+    _pendingPush = true;
+    _pushRetryAttempts = (_pushRetryAttempts + 1).clamp(
       1,
       _kRateLimitMaxAttempts,
     );
-    final int? retryAfterMs = error is DioException
+    final int? retryAfterMs = error is DioException && _isRateLimitError(error)
         ? retryAfterMsFromDioException(error)
         : null;
     final delay = syncedPreferencesRateLimitRetryDelay(
-      consecutive429s: _rateLimitAttempts,
+      attempt: _pushRetryAttempts,
       retryAfterMs: retryAfterMs,
     );
-    _rateLimitTimer = Timer(delay, () {
+    _pushRetryTimer = Timer(delay, () {
       if (!_ref.mounted) {
         return;
       }
@@ -761,8 +821,8 @@ class SyncedPreferencesStore {
   void _cancelScheduledWork() {
     _pushTimer?.cancel();
     _pushTimer = null;
-    _rateLimitTimer?.cancel();
-    _rateLimitTimer = null;
+    _pushRetryTimer?.cancel();
+    _pushRetryTimer = null;
   }
 
   @visibleForTesting
@@ -776,14 +836,20 @@ class SyncedPreferencesStore {
   }
 
   @visibleForTesting
-  void triggerRateLimitRetryForTest() {
-    _rateLimitTimer?.cancel();
-    _rateLimitTimer = null;
+  void triggerPushRetryForTest() {
+    _pushRetryTimer?.cancel();
+    _pushRetryTimer = null;
     if (!_ref.mounted) {
       return;
     }
     unawaited(_flushPush());
   }
+
+  @visibleForTesting
+  bool get hasDebouncedPushScheduledForTest => _pushTimer?.isActive ?? false;
+
+  @visibleForTesting
+  bool get hasPushRetryScheduledForTest => _pushRetryTimer?.isActive ?? false;
 
   bool _isRateLimitError(Object error) {
     if (error is DioException) {

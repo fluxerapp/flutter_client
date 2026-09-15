@@ -4374,6 +4374,9 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get lookAndFeelThemeDark => 'Mørkt tema';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => 'Kullsvart tema';
 
   @override
@@ -5067,6 +5070,14 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   @override
   String get accessibilityAlwaysUnderlineLinksLabel =>
       'Alltid understrek lenker';
+
+  @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
 
   @override
   String get accessibilityDimStrikethroughTextLabel =>
@@ -6588,6 +6599,18 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get chatMessageAddReaction => 'Legg til reaksjon';
 
   @override
+  String get doubleTapReactionHint => 'Double tap a message to';
+
+  @override
+  String get doubleTapReactionEdit => 'Edit';
+
+  @override
+  String get doubleTapReactionEditTitle => 'Edit default';
+
+  @override
+  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+
+  @override
   String get chatMessageEdit => 'Rediger melding';
 
   @override
@@ -7341,6 +7364,9 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get chatVideoPlaybackFailed => 'Kunne ikke spille av denne videoen.';
+
+  @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
@@ -10877,6 +10903,10 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
       'Skriv inn instans-URL (f.eks. fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Tilbakestill til Fluxer';
 
   @override
@@ -10898,9 +10928,6 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'Koble til instans';
-
-  @override
-  String get connectToDifferentInstance => 'Koble til en annen instans';
 
   @override
   String get changeInstance => 'Endre';

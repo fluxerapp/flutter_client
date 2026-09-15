@@ -20,10 +20,10 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_sea
 import 'package:fluxer_app/features/chat/providers/messages/forward_destinations_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_length_limits_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
-import 'package:fluxer_app/features/chat/service/composer_mention_controller.dart';
-import 'package:fluxer_app/features/chat/service/share_media_sender.dart';
-import 'package:fluxer_app/features/chat/utils/slowmode_format.dart';
-import 'package:fluxer_app/features/chat/utils/slowmode_utils.dart';
+import 'package:fluxer_app/features/chat/services/composer_mention_controller.dart';
+import 'package:fluxer_app/features/chat/services/share_media_sender.dart';
+import 'package:fluxer_app/features/chat/utils/composer/slowmode_format.dart';
+import 'package:fluxer_app/features/chat/utils/composer/slowmode_utils.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';

@@ -4153,6 +4153,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get lookAndFeelThemeDark => '深色主题';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => '煤黑色主题';
 
   @override
@@ -4780,6 +4783,14 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get accessibilityAlwaysUnderlineLinksLabel => '始终显示链接下划线';
+
+  @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
 
   @override
   String get accessibilityDimStrikethroughTextLabel => '调暗删除线文本';
@@ -6187,6 +6198,18 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get chatMessageAddReaction => '添加反应';
 
   @override
+  String get doubleTapReactionHint => 'Double tap a message to';
+
+  @override
+  String get doubleTapReactionEdit => 'Edit';
+
+  @override
+  String get doubleTapReactionEditTitle => 'Edit default';
+
+  @override
+  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+
+  @override
   String get chatMessageEdit => '编辑消息';
 
   @override
@@ -6885,6 +6908,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get chatVideoPlaybackFailed => '无法播放此视频。';
+
+  @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
@@ -10177,6 +10203,10 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get instanceUrlPlaceholder => '输入实例 URL（例如 fluxer.app）';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => '重置为 Fluxer';
 
   @override
@@ -10198,9 +10228,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => '连接到实例';
-
-  @override
-  String get connectToDifferentInstance => '连接到其他实例';
 
   @override
   String get changeInstance => '更改';
@@ -23530,9 +23557,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get instanceSheetTitle => '連線到伺服器';
-
-  @override
-  String get connectToDifferentInstance => '連線到其他伺服器';
 
   @override
   String get changeInstance => '變更';

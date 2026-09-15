@@ -1,4 +1,4 @@
-import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
+import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:qr/qr.dart';
 

@@ -1,8 +1,8 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
-import 'package:fluxer_app/features/chat/utils/message_content_stripper.dart';
-import 'package:fluxer_app/features/chat/utils/system_message_text.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_content_stripper.dart';
+import 'package:fluxer_app/features/chat/utils/messages/system_message_text.dart';
 import 'package:fluxer_app/features/settings/domain/tts_notification_mode.dart';
 import 'package:fluxer_app/features/voice/tts/fluxer_tts.dart';
 import 'package:fluxer_app/features/voice/tts/tts_should_speak.dart';

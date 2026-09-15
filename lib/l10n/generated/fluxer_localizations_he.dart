@@ -4332,6 +4332,9 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get lookAndFeelThemeDark => 'ערכת נושא כהה';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => 'ערכת נושא פחם';
 
   @override
@@ -5015,6 +5018,14 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   @override
   String get accessibilityAlwaysUnderlineLinksLabel =>
       'תמיד להדגיש קווים תחתונים בקישורים';
+
+  @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
 
   @override
   String get accessibilityDimStrikethroughTextLabel => 'עמעום טקסט עם קו חוצה';
@@ -6517,6 +6528,18 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get chatMessageAddReaction => 'הוסף תגובה';
 
   @override
+  String get doubleTapReactionHint => 'Double tap a message to';
+
+  @override
+  String get doubleTapReactionEdit => 'Edit';
+
+  @override
+  String get doubleTapReactionEditTitle => 'Edit default';
+
+  @override
+  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+
+  @override
   String get chatMessageEdit => 'עריכת הודעה';
 
   @override
@@ -7245,6 +7268,9 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get chatVideoPlaybackFailed => 'לא ניתן להפעיל את הסרטון הזה.';
+
+  @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
@@ -10721,6 +10747,10 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
       'הזן כתובת URL של מופע (לדוגמה, fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'אפס ל-Fluxer';
 
   @override
@@ -10742,9 +10772,6 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'התחבר למופע';
-
-  @override
-  String get connectToDifferentInstance => 'התחבר למופע אחר';
 
   @override
   String get changeInstance => 'שנה';

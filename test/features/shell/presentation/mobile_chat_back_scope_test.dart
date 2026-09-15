@@ -134,6 +134,55 @@ void main() {
     expect(container.read(shellHasPopupOverlayProvider), isFalse);
     expect(container.read(currentRevealSideProvider), RevealSide.main);
   });
+
+  testWidgets('mobile back dismisses a community menu on the channel list', (
+    tester,
+  ) async {
+    late final ProviderContainer container;
+    final ShellPopupRouteObserver popupObserver = ShellPopupRouteObserver(({
+      required bool hasOverlay,
+    }) {
+      container
+          .read(shellHasPopupOverlayProvider.notifier)
+          .setHasOverlay(value: hasOverlay);
+    });
+    final router = _routerFor(
+      '/channels/guild',
+      navigatorObservers: [popupObserver],
+    );
+    addTearDown(router.dispose);
+    container = _containerFor(router);
+
+    await tester.pumpWidget(_buildBackScopeApp(container, router));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Select a channel'), findsOneWidget);
+
+    final BuildContext listContext = tester.element(
+      find.text('Select a channel'),
+    );
+    unawaited(
+      showModalBottomSheet<void>(
+        context: listContext,
+        builder: (BuildContext context) => const Text('community menu'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('community menu'), findsOneWidget);
+    expect(container.read(shellHasPopupOverlayProvider), isTrue);
+
+    final bool handled = await tester.binding.handlePopRoute();
+    await tester.pumpAndSettle();
+
+    expect(handled, isTrue);
+    expect(find.text('community menu'), findsNothing);
+    expect(container.read(shellHasPopupOverlayProvider), isFalse);
+    expect(
+      router.routerDelegate.currentConfiguration.uri.path,
+      '/channels/guild',
+    );
+  });
 }
 
 GoRouter _routerFor(
@@ -150,7 +199,8 @@ GoRouter _routerFor(
       ),
       GoRoute(
         path: '/channels/:guildId',
-        builder: (context, state) => const Text('Select a channel'),
+        builder: (context, state) =>
+            const MobileChatBackScope(child: Text('Select a channel')),
         routes: [
           GoRoute(
             path: ':channelId',

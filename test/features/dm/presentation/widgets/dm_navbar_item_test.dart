@@ -216,6 +216,9 @@ Widget _buildTestApp({required GoRouter router, DmViewState? dmViewState}) {
           ),
     ),
     userSettingsViewModelProvider.overrideWith(_TestUserSettingsViewModel.new),
+    matureContentAgreementsProvider.overrideWith(
+      _LoadedMatureContentAgreements.new,
+    ),
     matureContentGateReasonProvider(
       '1000000000000000001',
     ).overrideWith((ref) => MatureContentGateReason.none),
@@ -255,6 +258,13 @@ Widget _buildTestApp({required GoRouter router, DmViewState? dmViewState}) {
       routerConfig: router,
     ),
   );
+}
+
+class _LoadedMatureContentAgreements extends MatureContentAgreements {
+  @override
+  MatureContentAgreementsState build() {
+    return const MatureContentAgreementsState(isLoaded: true);
+  }
 }
 
 class _TestUserSettingsViewModel extends UserSettingsViewModel {

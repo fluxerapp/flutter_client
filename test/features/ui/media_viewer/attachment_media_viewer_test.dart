@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
 import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart';
 import 'package:fluxer_app/features/ui/media_viewer/touch_media_viewer_page.dart';
@@ -171,6 +172,26 @@ void main() {
       expect(find.byTooltip('Media options'), findsNothing);
     });
 
+    testWidgets('shows a load-failed placeholder when the image URL is empty', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(400, 800);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+
+      await tester.pumpWidget(
+        _app(
+          const AttachmentMediaViewerShell(
+            items: [AttachmentMediaViewerItem(url: '', filename: 'image.png')],
+            initialIndex: 0,
+          ),
+        ),
+      );
+      await tester.pump();
+
+      expect(find.byType(MediaLoadErrorPlaceholder), findsWidgets);
+    });
+
     testWidgets('keeps desktop buttons on desktop layout', (tester) async {
       tester.view.physicalSize = const Size(1400, 900);
       tester.view.devicePixelRatio = 1.0;
@@ -195,6 +216,58 @@ void main() {
       expect(find.byTooltip('Open in browser'), findsOneWidget);
       expect(find.byTooltip('Close media viewer'), findsOneWidget);
       expect(find.byType(TouchMediaViewerPage), findsNothing);
+    });
+
+    testWidgets('shows attachment description in the desktop info pill', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(1400, 900);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+
+      await tester.pumpWidget(
+        _mouseApp(
+          const AttachmentMediaViewerShell(
+            items: [
+              AttachmentMediaViewerItem(
+                url: _testAttachmentImageUrl,
+                filename: _testAttachmentImageFilename,
+                description: 'A waving cat',
+              ),
+            ],
+            initialIndex: 0,
+          ),
+        ),
+      );
+      await tester.pump();
+
+      expect(find.text('A waving cat'), findsOneWidget);
+    });
+
+    testWidgets('shows attachment description on mobile layouts', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(400, 800);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+
+      await tester.pumpWidget(
+        _touchApp(
+          const AttachmentMediaViewerShell(
+            items: [
+              AttachmentMediaViewerItem(
+                url: _testAttachmentImageUrl,
+                filename: _testAttachmentImageFilename,
+                description: 'A waving cat',
+              ),
+            ],
+            initialIndex: 0,
+          ),
+        ),
+      );
+      await tester.pump();
+
+      expect(find.text('A waving cat'), findsOneWidget);
     });
 
     testWidgets('shows favorite button when message action scope is provided', (

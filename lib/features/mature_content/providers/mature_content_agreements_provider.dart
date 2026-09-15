@@ -5,12 +5,16 @@ import 'package:fluxer_app/core/database/daos/user_preferences_dao.dart'
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
+import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
 import 'package:fluxer_app/features/mature_content/utils/content_warning_utils.dart';
 import 'package:fluxer_app/features/mature_content/utils/mature_media_policy_utils.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'mature_content_agreements_provider.g.dart';
@@ -150,29 +154,26 @@ Future<ResolvedMatureGateContext?> _resolveGateContextForChannel(
   Ref ref,
   String channelId,
 ) async {
-  final db.FluxerDatabase database = ref.watch(fluxerDatabaseProvider);
-  final db.Channel? channelRow = await database.channelDao.getChannelById(
-    channelId,
-  );
-  if (channelRow == null) {
+  final ChannelListState channelList = ref.watch(channelListViewModelProvider);
+  Channel? channel = await ref.watch(channelByIdProvider(channelId).future);
+  channel ??= findChannelById(channelList, channelId);
+  if (channel == null) {
     return null;
   }
-  final Channel channel = Channel.fromRow(channelRow);
-  final db.Server? guildRow = await database.guildDao.getServerById(
-    channel.guildId,
-  );
-  final Guild? guild = guildRow == null ? null : Guild.fromRow(guildRow);
+  Guild? guild;
+  final String guildId = channel.guildId;
+  if (guildId.isNotEmpty) {
+    guild = await ref.watch(guildByIdProvider(guildId).future);
+    final Guild? listedGuild = channelList.guild;
+    guild ??= listedGuild?.id == guildId ? listedGuild : null;
+  }
   Channel? parentCategory;
   final String? parentId = channel.parentId;
   if (parentId != null) {
-    final db.Channel? parentRow = await database.channelDao.getChannelById(
-      parentId,
-    );
-    if (parentRow != null) {
-      final Channel parent = Channel.fromRow(parentRow);
-      if (parent.isCategory) {
-        parentCategory = parent;
-      }
+    Channel? parent = await ref.watch(channelByIdProvider(parentId).future);
+    parent ??= findChannelById(channelList, parentId);
+    if (parent != null && parent.isCategory) {
+      parentCategory = parent;
     }
   }
   return resolveMatureGateContext(
@@ -196,21 +197,13 @@ Future<MatureContentGateReason> matureContentGateReason(
   String channelId,
 ) async {
   final SensitiveContentState settings = ref.watch(sensitiveContentProvider);
-  MatureContentAgreementsState agreements = ref.watch(
+  final MatureContentAgreementsState agreements = ref.watch(
     matureContentAgreementsProvider,
   );
-  final Future<ResolvedMatureGateContext?> contextFuture = ref.watch(
+  final ResolvedMatureGateContext? context = await ref.watch(
     matureGateContextProvider(channelId).future,
   );
-  if (!agreements.isLoaded) {
-    await ref.read(matureContentAgreementsProvider.notifier).ensureLoaded();
-    if (!ref.mounted) {
-      return MatureContentGateReason.none;
-    }
-    agreements = ref.read(matureContentAgreementsProvider);
-  }
-  final ResolvedMatureGateContext? context = await contextFuture;
-  if (!ref.mounted || context == null) {
+  if (context == null) {
     return MatureContentGateReason.none;
   }
   return resolveChannelGateReason(
@@ -225,9 +218,6 @@ Future<bool> shouldShowMatureContentGate(Ref ref, String channelId) async {
   final MatureContentGateReason reason = await ref.watch(
     matureContentGateReasonProvider(channelId).future,
   );
-  if (!ref.mounted) {
-    return false;
-  }
   return reason != MatureContentGateReason.none;
 }
 

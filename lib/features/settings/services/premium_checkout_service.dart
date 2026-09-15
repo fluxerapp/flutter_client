@@ -18,7 +18,6 @@ Future<void> startPremiumCheckout({
   required WidgetRef ref,
   required PremiumCheckoutPlan plan,
   required PriceIdsResponse priceIds,
-  required PricingModeEnum pricingMode,
   required bool isGiftSubscription,
   String? countryCode,
 }) async {
@@ -99,7 +98,6 @@ Future<void> startPremiumCheckout({
     final CreateCheckoutSessionRequest body = CreateCheckoutSessionRequest(
       priceId: priceId,
       countryCode: countryCode,
-      pricingMode: pricingMode,
       paymentMethod: paymentMethod,
     );
     final UrlResponse response = selected.isGift

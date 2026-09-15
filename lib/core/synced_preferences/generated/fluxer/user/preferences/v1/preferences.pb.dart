@@ -60,6 +60,7 @@ class SyncedPreferences extends $pb.GeneratedMessage {
     SudoPromptState? sudoPrompt,
     KeybindSettings? keybinds,
     ChatInputSettings? chatInput,
+    ReactionEmoji? doubleTapReaction,
   }) {
     final result = create();
     if (accessibility != null) result.accessibility = accessibility;
@@ -102,6 +103,7 @@ class SyncedPreferences extends $pb.GeneratedMessage {
     if (sudoPrompt != null) result.sudoPrompt = sudoPrompt;
     if (keybinds != null) result.keybinds = keybinds;
     if (chatInput != null) result.chatInput = chatInput;
+    if (doubleTapReaction != null) result.doubleTapReaction = doubleTapReaction;
     return result;
   }
 
@@ -196,6 +198,8 @@ class SyncedPreferences extends $pb.GeneratedMessage {
         subBuilder: KeybindSettings.create)
     ..aOM<ChatInputSettings>(112, _omitFieldNames ? '' : 'chatInput',
         subBuilder: ChatInputSettings.create)
+    ..aOM<ReactionEmoji>(114, _omitFieldNames ? '' : 'doubleTapReaction',
+        subBuilder: ReactionEmoji.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -605,6 +609,17 @@ class SyncedPreferences extends $pb.GeneratedMessage {
   void clearChatInput() => $_clearField(112);
   @$pb.TagNumber(112)
   ChatInputSettings ensureChatInput() => $_ensure(34);
+
+  @$pb.TagNumber(114)
+  ReactionEmoji get doubleTapReaction => $_getN(35);
+  @$pb.TagNumber(114)
+  set doubleTapReaction(ReactionEmoji value) => $_setField(114, value);
+  @$pb.TagNumber(114)
+  $core.bool hasDoubleTapReaction() => $_has(35);
+  @$pb.TagNumber(114)
+  void clearDoubleTapReaction() => $_clearField(114);
+  @$pb.TagNumber(114)
+  ReactionEmoji ensureDoubleTapReaction() => $_ensure(35);
 }
 
 class SpellcheckSettings extends $pb.GeneratedMessage {
@@ -3044,6 +3059,73 @@ class ChatInputSettings extends $pb.GeneratedMessage {
   $core.bool hasSaveCameraCapturesToDevice() => $_has(1);
   @$pb.TagNumber(2)
   void clearSaveCameraCapturesToDevice() => $_clearField(2);
+}
+
+class ReactionEmoji extends $pb.GeneratedMessage {
+  factory ReactionEmoji({
+    $core.String? id,
+    $core.String? name,
+  }) {
+    final result = create();
+    if (id != null) result.id = id;
+    if (name != null) result.name = name;
+    return result;
+  }
+
+  ReactionEmoji._();
+
+  factory ReactionEmoji.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory ReactionEmoji.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'ReactionEmoji',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
+      createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'id')
+    ..aOS(2, _omitFieldNames ? '' : 'name')
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  ReactionEmoji clone() => deepCopy();
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  ReactionEmoji copyWith(void Function(ReactionEmoji) updates) =>
+      super.copyWith((message) => updates(message as ReactionEmoji))
+          as ReactionEmoji;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static ReactionEmoji create() => ReactionEmoji._();
+  @$core.override
+  ReactionEmoji createEmptyInstance() => create();
+  @$core.pragma('dart2js:noInline')
+  static ReactionEmoji getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<ReactionEmoji>(create);
+  static ReactionEmoji? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String value) => $_setString(0, value);
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => $_clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get name => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set name($core.String value) => $_setString(1, value);
+  @$pb.TagNumber(2)
+  $core.bool hasName() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearName() => $_clearField(2);
 }
 
 const $core.bool _omitFieldNames =

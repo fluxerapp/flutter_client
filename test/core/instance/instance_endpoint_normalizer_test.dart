@@ -94,17 +94,26 @@ void main() {
   });
 
   group('describeApiEndpoint', () {
-    test('hides default /api path segment', () {
+    test('maps official api hosts to fluxer.app', () {
       expect(
         normalizer.describeApiEndpoint('https://api.fluxer.app/api'),
-        'api.fluxer.app',
+        'fluxer.app',
       );
-    });
-
-    test('keeps non-default path segments', () {
       expect(
         normalizer.describeApiEndpoint('https://api.fluxer.app/v1'),
-        'api.fluxer.app/v1',
+        'fluxer.app',
+      );
+      expect(normalizer.describeApiEndpoint('fluxer.app'), 'fluxer.app');
+    });
+
+    test('keeps self-hosted host and non-default path', () {
+      expect(
+        normalizer.describeApiEndpoint('https://chat.example.com/api'),
+        'chat.example.com',
+      );
+      expect(
+        normalizer.describeApiEndpoint('https://chat.example.com/v1'),
+        'chat.example.com/v1',
       );
     });
   });

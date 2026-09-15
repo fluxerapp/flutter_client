@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/features/accessibility/effective_motion_preferences_provider.dart';
+import 'package:fluxer_app/features/accessibility/providers/effective_motion_preferences_provider.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/settings/domain/search_provider_engine.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';

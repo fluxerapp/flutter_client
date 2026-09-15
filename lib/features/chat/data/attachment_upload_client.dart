@@ -3,8 +3,8 @@ import 'dart:typed_data';
 
 import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
-import 'package:fluxer_app/features/chat/utils/file_upload_constants.dart';
-import 'package:fluxer_app/features/chat/utils/multipart_utils.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/file_upload_constants.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/multipart_utils.dart';
 import 'package:fluxer_dart/export.dart';
 
 sealed class AttachmentUploadPlan {

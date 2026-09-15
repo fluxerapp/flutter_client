@@ -4227,6 +4227,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get lookAndFeelThemeDark => '어두운 테마';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => '석탄 테마';
 
   @override
@@ -4877,6 +4880,14 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get accessibilityAlwaysUnderlineLinksLabel => '링크 항상 밑줄 표시';
+
+  @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
 
   @override
   String get accessibilityDimStrikethroughTextLabel => '취소선 텍스트 흐리게 표시';
@@ -6332,6 +6343,18 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get chatMessageAddReaction => '반응 추가';
 
   @override
+  String get doubleTapReactionHint => 'Double tap a message to';
+
+  @override
+  String get doubleTapReactionEdit => 'Edit';
+
+  @override
+  String get doubleTapReactionEditTitle => 'Edit default';
+
+  @override
+  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+
+  @override
   String get chatMessageEdit => '메시지 수정';
 
   @override
@@ -7036,6 +7059,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get chatVideoPlaybackFailed => '이 동영상을 재생할 수 없습니다.';
+
+  @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
@@ -10392,6 +10418,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get instanceUrlPlaceholder => '인스턴스 URL 입력 (예: fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Fluxer로 재설정';
 
   @override
@@ -10413,9 +10443,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => '인스턴스에 연결';
-
-  @override
-  String get connectToDifferentInstance => '다른 인스턴스에 연결';
 
   @override
   String get changeInstance => '변경';

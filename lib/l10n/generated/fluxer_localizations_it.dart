@@ -4395,6 +4395,9 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   String get lookAndFeelThemeDark => 'Tema scuro';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => 'Tema carbone';
 
   @override
@@ -5097,6 +5100,14 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   @override
   String get accessibilityAlwaysUnderlineLinksLabel =>
       'Sottolinea sempre i link';
+
+  @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
 
   @override
   String get accessibilityDimStrikethroughTextLabel =>
@@ -6625,6 +6636,18 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   String get chatMessageAddReaction => 'Aggiungi reazione';
 
   @override
+  String get doubleTapReactionHint => 'Double tap a message to';
+
+  @override
+  String get doubleTapReactionEdit => 'Edit';
+
+  @override
+  String get doubleTapReactionEditTitle => 'Edit default';
+
+  @override
+  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+
+  @override
   String get chatMessageEdit => 'Modifica messaggio';
 
   @override
@@ -7376,6 +7399,9 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
 
   @override
   String get chatVideoPlaybackFailed => 'Impossibile riprodurre questo video.';
+
+  @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
@@ -10940,6 +10966,10 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   String get instanceUrlPlaceholder => 'Inserisci URL istanza (es. fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Ripristina a Fluxer';
 
   @override
@@ -10961,9 +10991,6 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'Connetti all\'istanza';
-
-  @override
-  String get connectToDifferentInstance => 'Connettiti a un\'istanza diversa';
 
   @override
   String get changeInstance => 'Cambia';

@@ -6,6 +6,8 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/providers/splash_exit_allowed_provider.dart';
+import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dart';
+import 'package:fluxer_app/core/push/pending_push_notification_route.dart';
 import 'package:fluxer_app/core/router/channel_persistence_observer.dart';
 import 'package:fluxer_app/core/router/guild_root_redirect.dart';
 import 'package:fluxer_app/core/router/pre_reconnecting_location_provider.dart';
@@ -16,6 +18,7 @@ import 'package:fluxer_app/core/router/shell_transition_page.dart';
 import 'package:fluxer_app/features/auth/presentation/login_screen.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/auth/providers/add_account_instance_guard_provider.dart';
+import 'package:fluxer_app/features/bookmarks/presentation/saved_messages_page.dart';
 import 'package:fluxer_app/features/channels/domain/channel_settings_tab.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/channel_settings_modal.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/channel_settings_nav_page.dart';
@@ -30,7 +33,6 @@ import 'package:fluxer_app/features/guilds/presentation/pages/invite_accept_page
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_root_placeholder.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
 import 'package:fluxer_app/features/members/presentation/pages/guild_members_page.dart';
-import 'package:fluxer_app/features/messaging/presentation/saved_messages_page.dart';
 import 'package:fluxer_app/features/notifications/presentation/notifications_page.dart';
 import 'package:fluxer_app/features/notifications/presentation/recent_mentions_page.dart';
 import 'package:fluxer_app/features/profile/presentation/profile_page.dart';
@@ -260,7 +262,13 @@ GoRouter fluxerRouter(Ref ref) {
         }
         return ref
             .read(preReconnectingLocationProvider.notifier)
-            .takeOrRestore(ref.read(fluxerDatabaseProvider));
+            .takeOrRestore(
+              ref.read(fluxerDatabaseProvider),
+              preferredPath: currentAccountPendingNavigationPath(
+                pending: ref.read(pendingPushNotificationPathProvider),
+                currentUserId: ref.read(currentUserIdProvider),
+              ),
+            );
       }
 
       if (!isAuthenticated) {
@@ -280,7 +288,13 @@ GoRouter fluxerRouter(Ref ref) {
           isGatewayReady) {
         return ref
             .read(preReconnectingLocationProvider.notifier)
-            .takeOrRestore(ref.read(fluxerDatabaseProvider));
+            .takeOrRestore(
+              ref.read(fluxerDatabaseProvider),
+              preferredPath: currentAccountPendingNavigationPath(
+                pending: ref.read(pendingPushNotificationPathProvider),
+                currentUserId: ref.read(currentUserIdProvider),
+              ),
+            );
       }
 
       return null;

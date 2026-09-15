@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/talker.dart';
-import 'package:fluxer_app/features/chat/service/composer_mention_controller.dart';
+import 'package:fluxer_app/features/chat/services/composer_mention_controller.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:super_clipboard/super_clipboard.dart';

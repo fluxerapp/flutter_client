@@ -4386,6 +4386,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get lookAndFeelThemeDark => 'Tumma teema';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => 'Hiiliteema';
 
   @override
@@ -5083,6 +5086,14 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get accessibilityAlwaysUnderlineLinksLabel => 'Alleviivaa linkit aina';
+
+  @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
 
   @override
   String get accessibilityDimStrikethroughTextLabel =>
@@ -6605,6 +6616,18 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get chatMessageAddReaction => 'Lisää reaktio';
 
   @override
+  String get doubleTapReactionHint => 'Double tap a message to';
+
+  @override
+  String get doubleTapReactionEdit => 'Edit';
+
+  @override
+  String get doubleTapReactionEditTitle => 'Edit default';
+
+  @override
+  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+
+  @override
   String get chatMessageEdit => 'Muokkaa viestiä';
 
   @override
@@ -7360,6 +7383,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get chatVideoPlaybackFailed => 'Videota ei voitu toistaa.';
+
+  @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
@@ -10890,6 +10916,10 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Syötä instanssin URL (esim. fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Nollaa Fluxeriin';
 
   @override
@@ -10912,9 +10942,6 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'Yhdistä instanssiin';
-
-  @override
-  String get connectToDifferentInstance => 'Yhdistä toiseen instanssiin';
 
   @override
   String get changeInstance => 'Vaihda';

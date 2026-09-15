@@ -4371,6 +4371,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get lookAndFeelThemeDark => 'Chủ đề tối';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => 'Chủ đề Than';
 
   @override
@@ -5067,6 +5070,14 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   @override
   String get accessibilityAlwaysUnderlineLinksLabel =>
       'Luôn gạch chân liên kết';
+
+  @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
 
   @override
   String get accessibilityDimStrikethroughTextLabel =>
@@ -6597,6 +6608,18 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get chatMessageAddReaction => 'Thêm biểu tượng cảm xúc';
 
   @override
+  String get doubleTapReactionHint => 'Double tap a message to';
+
+  @override
+  String get doubleTapReactionEdit => 'Edit';
+
+  @override
+  String get doubleTapReactionEditTitle => 'Edit default';
+
+  @override
+  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+
+  @override
   String get chatMessageEdit => 'Chỉnh sửa tin nhắn';
 
   @override
@@ -7347,6 +7370,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get chatVideoPlaybackFailed => 'Không thể phát video này.';
+
+  @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
@@ -10884,6 +10910,10 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Nhập URL của phiên bản (ví dụ: fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Đặt lại về Fluxer';
 
   @override
@@ -10905,9 +10935,6 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'Kết nối tới máy chủ';
-
-  @override
-  String get connectToDifferentInstance => 'Kết nối tới một phiên bản khác';
 
   @override
   String get changeInstance => 'Thay đổi';

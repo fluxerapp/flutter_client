@@ -23,8 +23,8 @@ import 'package:fluxer_app/features/chat/providers/messages/message_upload_sessi
 import 'package:fluxer_app/features/chat/providers/upload/attachment_upload_client_provider.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/providers/upload/user_upload_limits_provider.dart';
-import 'package:fluxer_app/features/chat/utils/composer_upload_file.dart';
-import 'package:fluxer_app/features/chat/utils/file_upload_validator.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validator.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 

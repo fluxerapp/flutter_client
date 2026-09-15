@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/features/ui/input/emoji_inline_token.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
@@ -508,7 +509,7 @@ class InlineTokenTextEditingController extends TextEditingController {
         value.isComposingRangeValid;
     final TextRange? composing = useComposing ? value.composing : null;
     final TextStyle? composingStyle = useComposing
-        ? style?.merge(const TextStyle(decoration: TextDecoration.underline))
+        ? _composingStyle(context, style, value)
         : null;
     final List<InlineSpan> children = <InlineSpan>[];
     int plainStart = 0;
@@ -547,6 +548,30 @@ class InlineTokenTextEditingController extends TextEditingController {
       composingStyle,
     );
     return TextSpan(style: style, children: children);
+  }
+
+  /// iOS inline predictions are composing text after the caret.
+  static TextStyle _composingStyle(
+    BuildContext context,
+    TextStyle? style,
+    TextEditingValue value,
+  ) {
+    final bool inlinePrediction =
+        value.selection.isCollapsed &&
+        value.composing.start == value.selection.baseOffset;
+    if (inlinePrediction) {
+      final Color muted =
+          Theme.of(context).extension<FluxerColorTheme>()?.textChatMuted ??
+          style?.color?.withValues(alpha: 0.45) ??
+          Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.45);
+      return (style ?? const TextStyle()).merge(
+        TextStyle(color: muted, decoration: TextDecoration.none),
+      );
+    }
+    return style?.merge(
+          const TextStyle(decoration: TextDecoration.underline),
+        ) ??
+        const TextStyle(decoration: TextDecoration.underline);
   }
 }
 

@@ -26,9 +26,9 @@ import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dar
 import 'package:fluxer_app/features/chat/providers/upload/attachment_upload_client_provider.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/providers/upload/user_upload_limits_provider.dart';
-import 'package:fluxer_app/features/chat/utils/composer_upload_file.dart';
-import 'package:fluxer_app/features/chat/utils/message_page_sync.dart';
-import 'package:fluxer_app/features/chat/utils/message_send_failure_messages.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_page_sync.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_send_failure_messages.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
@@ -191,6 +191,55 @@ void main() {
       expect(delivered.messages.last.deliveryState, MessageDeliveryState.sent);
       // Exactly one bump: optimistic insert (+1); delivery no longer bumps.
       expect(delivered.scrollToBottomSignal, before + 1);
+    },
+  );
+
+  test(
+    'own send covers the optimistic row with pending auto-ack in the same state',
+    () async {
+      final String serverMessageId = _snowflakeForUtc(
+        DateTime.utc(2026, 12, 1, 12),
+      );
+      final _SendAdapter adapter = _SendAdapter(
+        serverMessageId: serverMessageId,
+      )..holdSend = true;
+      final (container, _, _) = await setUpChannel(adapter: adapter);
+      addTearDown(adapter.releaseSend);
+
+      final List<ChatViewState> sendingStates = <ChatViewState>[];
+      final ProviderSubscription<ChatViewState> subscription = container.listen(
+        chatViewModelProvider,
+        (_, ChatViewState next) {
+          if (next.messages.any(
+            (Message message) =>
+                message.deliveryState == MessageDeliveryState.sending,
+          )) {
+            sendingStates.add(next);
+          }
+        },
+      );
+      addTearDown(subscription.close);
+
+      await container
+          .read(chatViewModelProvider.notifier)
+          .sendMessage(text: 'hi');
+
+      expect(sendingStates, isNotEmpty);
+      for (final ChatViewState sendingState in sendingStates) {
+        final Message optimistic = sendingState.messages.lastWhere(
+          (Message message) =>
+              message.deliveryState == MessageDeliveryState.sending,
+        );
+        expect(sendingState.pendingAutoAckMessageId, optimistic.id);
+        expect(sendingState.stickyUnreadMessageId, isNull);
+      }
+
+      adapter.releaseSend();
+      await _flushAsync();
+
+      final ChatViewState delivered = container.read(chatViewModelProvider);
+      expect(delivered.messages.last.id, serverMessageId);
+      expect(delivered.pendingAutoAckMessageId, serverMessageId);
     },
   );
 

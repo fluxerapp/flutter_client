@@ -4,7 +4,7 @@ import 'package:fluxer_app/core/limits/limit_defaults.dart';
 import 'package:fluxer_app/core/limits/limit_evaluator.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/limits/limit_types.dart';
-import 'package:fluxer_app/features/chat/utils/file_upload_constants.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/file_upload_constants.dart';
 
 void main() {
   group('LimitEvaluator', () {
