@@ -1,10 +1,25 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/platform/android_animator_duration_scale.dart';
 import 'package:fluxer_app/features/accessibility/domain/motion_preferences.dart';
+import 'package:fluxer_app/features/accessibility/domain/resolve_reduced_motion.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_dart/export.dart' show StickerAnimationOptions;
+
+final androidAnimatorDurationDisabledProvider = StreamProvider<bool>((ref) {
+  return watchAndroidAnimatorDurationDisabled();
+});
+
+bool platformReducedMotionOf(WidgetRef ref, BuildContext context) {
+  return resolvePlatformReducedMotion(
+    disableAnimations: MediaQuery.disableAnimationsOf(context),
+    androidAnimatorDurationDisabled:
+        ref.watch(androidAnimatorDurationDisabledProvider).value ?? false,
+    useAndroidAnimatorDuration: androidAnimatorDurationScaleSupported,
+  );
+}
 
 typedef MotionAppearanceSlice = ({
   bool syncWithSystem,
@@ -93,7 +108,7 @@ MotionPreferencesModel effectiveMotionOf(WidgetRef ref, BuildContext context) {
     motionPreferencesInputFromSlices(
       appearance: appearance,
       userSettings: userSettings,
-      systemReducedMotion: MediaQuery.disableAnimationsOf(context),
+      systemReducedMotion: platformReducedMotionOf(ref, context),
       isMobile: isMobileLayout(context),
     ),
   );

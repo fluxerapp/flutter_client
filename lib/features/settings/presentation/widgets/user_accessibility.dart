@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/accessibility/domain/resolve_reduced_motion.dart';
+import 'package:fluxer_app/features/accessibility/providers/effective_motion_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/accessibility_saturation_slider.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_accessibility_animation_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_accessibility_keyboard_section.dart';
@@ -29,7 +30,7 @@ class UserAccessibility extends ConsumerWidget {
     final l10n = FluxerLocalizations.of(context);
     final bool showPreview = !isMobileLayout(context);
     final bool showKeyboard = !isTouchPrimaryInput(ref);
-    final bool platformReducedMotion = MediaQuery.disableAnimationsOf(context);
+    final bool platformReducedMotion = platformReducedMotionOf(ref, context);
     final bool reducedMotion = resolveReducedMotion(
       syncReducedMotionWithSystem: appearance.syncReducedMotionWithSystem,
       reducedMotionOverride: appearance.reducedMotionOverride,

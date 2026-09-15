@@ -1,4 +1,5 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
+import 'package:fluxer_app/features/accessibility/presentation/allow_image_frame_animation.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_proxy_url.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -81,20 +82,22 @@ class FluxerAnimatedImage extends StatelessWidget {
           height: constraints.maxHeight.isFinite ? constraints.maxHeight : null,
           child: !_loadAnimated || animatedUrl.isEmpty
               ? loading
-              : TickerMode(
-                  key: const ValueKey<String>('fluxer-animated-image-ticker'),
-                  enabled: playing,
-                  child: CachedNetworkImage(
-                    imageUrl: buildMediaProxyUrl(
-                      animatedUrl,
-                      width: animatedProxySize.width,
-                      height: animatedProxySize.height,
+              : AllowImageFrameAnimation(
+                  child: TickerMode(
+                    key: const ValueKey<String>('fluxer-animated-image-ticker'),
+                    enabled: playing,
+                    child: CachedNetworkImage(
+                      imageUrl: buildMediaProxyUrl(
+                        animatedUrl,
+                        width: animatedProxySize.width,
+                        height: animatedProxySize.height,
+                      ),
+                      fit: fit,
+                      fadeInDuration: Duration.zero,
+                      fadeOutDuration: Duration.zero,
+                      placeholder: (_, _) => loading,
+                      errorBuilder: (_, _, _) => errorChild,
                     ),
-                    fit: fit,
-                    fadeInDuration: Duration.zero,
-                    fadeOutDuration: Duration.zero,
-                    placeholder: (_, _) => loading,
-                    errorBuilder: (_, _, _) => errorChild,
                   ),
                 ),
         );

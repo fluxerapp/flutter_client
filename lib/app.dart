@@ -13,6 +13,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/accessibility/domain/resolve_reduced_motion.dart';
 import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
+import 'package:fluxer_app/features/accessibility/providers/effective_motion_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/gateway_reconnect_banner.dart';
 import 'package:fluxer_app/features/shell/presentation/native_titlebar.dart';
@@ -151,7 +152,8 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
           );
         }
 
-        final bool platformReducedMotion = MediaQuery.disableAnimationsOf(
+        final bool platformReducedMotion = platformReducedMotionOf(
+          ref,
           context,
         );
         final bool disableAnimations = resolveReducedMotion(

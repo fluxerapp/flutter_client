@@ -2,6 +2,7 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/features/accessibility/presentation/allow_image_frame_animation.dart';
 import 'package:fluxer_app/features/accessibility/providers/effective_motion_preferences_provider.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -93,7 +94,7 @@ class _CachedEmojiImageState extends ConsumerState<CachedEmojiImage> {
             cellHeight: widget.size,
             devicePixelRatio: MediaQuery.devicePixelRatioOf(context),
           );
-    return CachedNetworkImage(
+    final Widget image = CachedNetworkImage(
       imageUrl: url,
       // 'a2' bypasses lossy animated entries cached before #776.
       cacheKey:
@@ -114,6 +115,7 @@ class _CachedEmojiImageState extends ConsumerState<CachedEmojiImage> {
           ? (ctx, _, _) => widget.errorBuilder!(ctx)
           : (_, _, _) => SizedBox(width: widget.size, height: widget.size),
     );
+    return animated ? AllowImageFrameAnimation(child: image) : image;
   }
 
   @override

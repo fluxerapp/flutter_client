@@ -2605,13 +2605,16 @@ class FluxerEmojiWidget extends StatelessWidget {
       // The text fallback clips inside this box, so a failed animated frame
       // retries the static frame first (issue #776).
       child: animated
-          ? _buildCustomImage(
-              id: id,
-              animated: true,
-              cdnSize: cdnSize,
-              size: size,
-              px: px,
-              errorChild: staticImage,
+          ? _allowImageFrameAnimation(
+              context,
+              _buildCustomImage(
+                id: id,
+                animated: true,
+                cdnSize: cdnSize,
+                size: size,
+                px: px,
+                errorChild: staticImage,
+              ),
             )
           : staticImage,
     );
@@ -2644,6 +2647,17 @@ class FluxerEmojiWidget extends StatelessWidget {
       errorBuilder: (_, _, _) => errorChild,
     );
   }
+}
+
+Widget _allowImageFrameAnimation(BuildContext context, Widget child) {
+  final MediaQueryData data = MediaQuery.of(context);
+  if (!data.disableAnimations) {
+    return child;
+  }
+  return MediaQuery(
+    data: data.copyWith(disableAnimations: false),
+    child: child,
+  );
 }
 
 String? _formatTimestampText(

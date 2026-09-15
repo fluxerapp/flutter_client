@@ -28,7 +28,7 @@ class UserAccessibilityAnimationSection extends ConsumerWidget {
     final input = motionPreferencesInputFromSlices(
       appearance: appearance,
       userSettings: userSettings,
-      systemReducedMotion: MediaQuery.disableAnimationsOf(context),
+      systemReducedMotion: platformReducedMotionOf(ref, context),
       isMobile: isMobile,
     );
     final model = resolveMotionPreferencesModel(input);

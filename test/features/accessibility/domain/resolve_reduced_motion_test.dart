@@ -41,4 +41,36 @@ void main() {
       );
     });
   });
+
+  group('resolvePlatformReducedMotion', () {
+    test('uses disableAnimations off Android', () {
+      expect(
+        resolvePlatformReducedMotion(
+          disableAnimations: true,
+          androidAnimatorDurationDisabled: false,
+          useAndroidAnimatorDuration: false,
+        ),
+        isTrue,
+      );
+    });
+
+    test('uses animator duration scale on Android', () {
+      expect(
+        resolvePlatformReducedMotion(
+          disableAnimations: true,
+          androidAnimatorDurationDisabled: false,
+          useAndroidAnimatorDuration: true,
+        ),
+        isFalse,
+      );
+      expect(
+        resolvePlatformReducedMotion(
+          disableAnimations: false,
+          androidAnimatorDurationDisabled: true,
+          useAndroidAnimatorDuration: true,
+        ),
+        isTrue,
+      );
+    });
+  });
 }
