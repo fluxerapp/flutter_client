@@ -57,7 +57,7 @@ class _ChannelComposerBarrierState
     if (remaining == null || remaining <= Duration.zero) {
       return;
     }
-    _countdownTimer = Timer.periodic(const Duration(seconds: 1), (_) {
+    _countdownTimer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       if (!mounted) {
         return;
       }
@@ -66,6 +66,10 @@ class _ChannelComposerBarrierState
         return;
       }
       final Duration next = current - const Duration(seconds: 1);
+      if (next <= Duration.zero) {
+        timer.cancel();
+        _countdownTimer = null;
+      }
       setState(() {
         _remaining = next <= Duration.zero ? Duration.zero : next;
       });
