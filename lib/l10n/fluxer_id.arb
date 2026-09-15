@@ -12927,10 +12927,6 @@
     "@instanceSheetTitle": {
         "description": "Title for the self-hosted instance connection bottom sheet."
     },
-    "connectToDifferentInstance": "Hubungkan ke instance lain",
-    "@connectToDifferentInstance": {
-        "description": "Subtle link on the login screen to open the instance connection sheet."
-    },
     "changeInstance": "Ubah",
     "@changeInstance": {
         "description": "Link to change the connected Fluxer instance."

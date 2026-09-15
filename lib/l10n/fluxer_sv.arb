@@ -6934,10 +6934,6 @@
     "@instanceSheetTitle": {
         "description": "Title for the self-hosted instance connection bottom sheet."
     },
-    "connectToDifferentInstance": "Anslut till en annan instans",
-    "@connectToDifferentInstance": {
-        "description": "Subtle link on the login screen to open the instance connection sheet."
-    },
     "changeInstance": "Ändra",
     "@changeInstance": {
         "description": "Link to change the connected Fluxer instance."
