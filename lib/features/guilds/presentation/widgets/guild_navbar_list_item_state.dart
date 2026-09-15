@@ -58,18 +58,54 @@ class _GuildListItemState extends State<_GuildListItem>
     return context.motion.panel;
   }
 
-  Widget _buildBackupIcon(BuildContext context, {required bool isActive}) {
-    final iconColor = isActive
-        ? context.colors.textOnBrandPrimary
-        : context.colors.textPrimary;
+  Widget _buildIconFace(
+    BuildContext context, {
+    required String? iconUrl,
+    required String? activeAnimatedIconUrl,
+  }) {
+    if (widget.isUnavailable) {
+      return Center(
+        child: PhosphorIcon(
+          PhosphorIconsBold.exclamationMark,
+          color: context.colors.textOnBrandPrimary,
+          size: 32,
+        ),
+      );
+    }
+    if (iconUrl != null) {
+      final int cacheSize = _guildNavbarIconMemCache(
+        context,
+        GuildNavbarIconShape.size,
+      );
+      return CachedNetworkImage(
+        imageUrl: iconUrl,
+        fit: BoxFit.cover,
+        width: GuildNavbarIconShape.size,
+        height: GuildNavbarIconShape.size,
+        memCacheWidth: cacheSize,
+        memCacheHeight: cacheSize,
+        fadeInDuration: activeAnimatedIconUrl != null
+            ? context.motion.panel
+            : const Duration(milliseconds: 500),
+        errorBuilder: (context, url, error) => _buildBackupIcon(context),
+        progressIndicatorBuilder: (context, url, progress) =>
+            _buildBackupIcon(context),
+      );
+    }
+    return Builder(builder: _buildBackupIcon);
+  }
+
+  Widget _buildBackupIcon(BuildContext context) {
+    final Color iconColor =
+        IconTheme.of(context).color ?? context.colors.textPrimary;
     final initials = abbreviateGuildName(widget.label);
     final initialsLength = guildNameInitialsLength(widget.label);
     return Center(
       child: widget.svgAsset != null
           ? SvgPicture.asset(
               widget.svgAsset!,
-              width: 44,
-              height: 44,
+              width: GuildNavbarIconShape.size,
+              height: GuildNavbarIconShape.size,
               colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
             )
           : widget.icon != null
@@ -95,15 +131,7 @@ class _GuildListItemState extends State<_GuildListItem>
         ? widget.guild?.animatedIconUrl
         : null;
     final iconUrl = activeAnimatedIconUrl ?? widget.iconUrl;
-    final borderRadius = isActive ? 13.0 : 22.0;
     final hasImage = iconUrl != null && !widget.isUnavailable;
-    final bgColor = widget.isUnavailable
-        ? context.colors.statusDanger
-        : hasImage
-        ? Colors.transparent
-        : isActive
-        ? context.colors.brandPrimary
-        : context.colors.serverIconBackground;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3),
@@ -186,66 +214,14 @@ class _GuildListItemState extends State<_GuildListItem>
                           clipBehavior: Clip.none,
                           children: [
                             Center(
-                              child: AnimatedContainer(
-                                duration: context.motion.hover,
-                                curve: Curves.easeOut,
-                                width: 44,
-                                height: 44,
-                                decoration: BoxDecoration(
-                                  color: bgColor,
-                                  borderRadius: BorderRadius.circular(
-                                    borderRadius,
-                                  ),
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadiusGeometry.circular(
-                                    borderRadius,
-                                  ),
-                                  child: widget.isUnavailable
-                                      ? Center(
-                                          child: PhosphorIcon(
-                                            PhosphorIconsBold.exclamationMark,
-                                            color: context
-                                                .colors
-                                                .textOnBrandPrimary,
-                                            size: 32,
-                                          ),
-                                        )
-                                      : iconUrl != null
-                                      ? CachedNetworkImage(
-                                          imageUrl: iconUrl,
-                                          memCacheWidth:
-                                              _guildNavbarIconMemCache(
-                                                context,
-                                                44,
-                                              ),
-                                          memCacheHeight:
-                                              _guildNavbarIconMemCache(
-                                                context,
-                                                44,
-                                              ),
-                                          fadeInDuration:
-                                              activeAnimatedIconUrl != null
-                                              ? context.motion.panel
-                                              : const Duration(
-                                                  milliseconds: 500,
-                                                ),
-                                          errorBuilder: (context, url, error) =>
-                                              _buildBackupIcon(
-                                                context,
-                                                isActive: isActive,
-                                              ),
-                                          progressIndicatorBuilder:
-                                              (context, url, progress) =>
-                                                  _buildBackupIcon(
-                                                    context,
-                                                    isActive: isActive,
-                                                  ),
-                                        )
-                                      : _buildBackupIcon(
-                                          context,
-                                          isActive: isActive,
-                                        ),
+                              child: GuildNavbarIconShape(
+                                isActive: isActive,
+                                hasImage: hasImage,
+                                isUnavailable: widget.isUnavailable,
+                                child: _buildIconFace(
+                                  context,
+                                  iconUrl: iconUrl,
+                                  activeAnimatedIconUrl: activeAnimatedIconUrl,
                                 ),
                               ),
                             ),
