@@ -1,12 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
-import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
-import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
+import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -54,33 +55,6 @@ void sendVoiceStateDisconnect(
           connectionId: connectionId,
           isMobile: isFluxerMobileOs,
         ),
-      );
-}
-
-Future<bool> _connectToVoiceChannel({
-  required ProviderContainer container,
-  required String? guildId,
-  required String channelId,
-  bool startOutgoingCall = false,
-  bool ringSilently = false,
-  List<String>? outboundRingRecipients,
-  bool initialSelfMute = false,
-  bool initialSelfDeaf = false,
-  bool initialSelfVideo = false,
-  bool forceJoin = false,
-}) {
-  return container
-      .read(voiceSessionProvider.notifier)
-      .connectToVoiceChannel(
-        guildId: guildId,
-        channelId: channelId,
-        startOutgoingCall: startOutgoingCall,
-        ringSilently: ringSilently,
-        outboundRingRecipients: outboundRingRecipients,
-        initialSelfMute: initialSelfMute,
-        initialSelfDeaf: initialSelfDeaf,
-        initialSelfVideo: initialSelfVideo,
-        forceJoin: forceJoin,
       );
 }
 
@@ -204,6 +178,7 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
   required String? guildId,
   required String channelId,
   BuildContext? context,
+  Channel? channel,
   bool startOutgoingCall = false,
   bool ringSilently = false,
   List<String>? outboundRingRecipients,
@@ -238,18 +213,21 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
       return VoiceJoinResult.cancelled;
     }
   }
-  final bool blockedByGate = await container.read(
-    shouldShowMatureContentGateProvider(channelId).future,
+  final bool blockedByGate = await isChannelGateBlocking(
+    container: container,
+    channelId: channelId,
+    channel: channel,
   );
   if (blockedByGate) {
     return VoiceJoinResult.gated;
   }
   final String? currentUserId = container.read(currentUserIdProvider);
   if (currentUserId == null) {
-    final bool joined = await _connectToVoiceChannel(
+    return _connectAndResolveJoinResult(
       container: container,
       guildId: guildId,
       channelId: channelId,
+      channel: channel,
       startOutgoingCall: startOutgoingCall,
       ringSilently: ringSilently,
       outboundRingRecipients: outboundRingRecipients,
@@ -257,11 +235,6 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
       initialSelfDeaf: initialSelfDeaf,
       initialSelfVideo: initialSelfVideo,
     );
-    if (!joined) {
-      await _showJoinFailureIfNeeded(container, null);
-      return VoiceJoinResult.failed;
-    }
-    return VoiceJoinResult.succeeded;
   }
   final VoiceSessionState session = container.read(voiceSessionProvider);
   final Map<String, VoiceState> voiceStates = container.read(
@@ -292,10 +265,11 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
   }
   final List<VoiceState> others = partitioned.otherDevices;
   if (others.isEmpty) {
-    final bool joined = await _connectToVoiceChannel(
+    return _connectAndResolveJoinResult(
       container: container,
       guildId: guildId,
       channelId: channelId,
+      channel: channel,
       startOutgoingCall: startOutgoingCall,
       ringSilently: ringSilently,
       outboundRingRecipients: outboundRingRecipients,
@@ -303,11 +277,6 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
       initialSelfDeaf: initialSelfDeaf,
       initialSelfVideo: initialSelfVideo,
     );
-    if (!joined) {
-      await _showJoinFailureIfNeeded(container, null);
-      return VoiceJoinResult.failed;
-    }
-    return VoiceJoinResult.succeeded;
   }
   if (context == null || !context.mounted) {
     return VoiceJoinResult.failed;
@@ -367,10 +336,11 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
       guildId: guildId,
     );
   }
-  final bool joined = await _connectToVoiceChannel(
+  return _connectAndResolveJoinResult(
     container: container,
     guildId: guildId,
     channelId: channelId,
+    channel: channel,
     startOutgoingCall: startOutgoingCall,
     ringSilently: ringSilently,
     outboundRingRecipients: outboundRingRecipients,
@@ -379,11 +349,46 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
     initialSelfVideo: initialSelfVideo,
     forceJoin: forceJoin,
   );
-  if (!joined) {
-    await _showJoinFailureIfNeeded(container, null);
-    return VoiceJoinResult.failed;
+}
+
+Future<VoiceJoinResult> _connectAndResolveJoinResult({
+  required ProviderContainer container,
+  required String? guildId,
+  required String channelId,
+  Channel? channel,
+  bool startOutgoingCall = false,
+  bool ringSilently = false,
+  List<String>? outboundRingRecipients,
+  bool initialSelfMute = false,
+  bool initialSelfDeaf = false,
+  bool initialSelfVideo = false,
+  bool forceJoin = false,
+}) async {
+  final bool joined = await container
+      .read(voiceSessionProvider.notifier)
+      .connectToVoiceChannel(
+        guildId: guildId,
+        channelId: channelId,
+        startOutgoingCall: startOutgoingCall,
+        ringSilently: ringSilently,
+        outboundRingRecipients: outboundRingRecipients,
+        initialSelfMute: initialSelfMute,
+        initialSelfDeaf: initialSelfDeaf,
+        initialSelfVideo: initialSelfVideo,
+        forceJoin: forceJoin,
+      );
+  if (joined) {
+    return VoiceJoinResult.succeeded;
   }
-  return VoiceJoinResult.succeeded;
+  if (await isChannelGateBlocking(
+    container: container,
+    channelId: channelId,
+    channel: channel,
+  )) {
+    return VoiceJoinResult.gated;
+  }
+  await _showJoinFailureIfNeeded(container, null);
+  return VoiceJoinResult.failed;
 }
 
 Future<void> _showJoinFailureIfNeeded(

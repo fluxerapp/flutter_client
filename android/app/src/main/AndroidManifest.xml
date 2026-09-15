@@ -145,7 +145,13 @@
         </activity>
         <activity
             android:name="com.pichillilorenzo.flutter_inappwebview_android.chrome_custom_tabs.ChromeCustomTabsActivity"
-            android:autoRemoveFromRecents="true" />
+            android:autoRemoveFromRecents="true"
+            android:excludeFromRecents="true" />
+        <activity
+            android:name="com.pichillilorenzo.flutter_inappwebview_android.chrome_custom_tabs.ChromeCustomTabsActivitySingleInstance"
+            android:autoRemoveFromRecents="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance" />
         <activity
             android:name="com.linusu.flutter_web_auth_2.CallbackActivity"
             android:exported="true"

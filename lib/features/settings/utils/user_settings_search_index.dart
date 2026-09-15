@@ -166,6 +166,7 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     ),
     keywords: [
       _l((l10n) => l10n.lookAndFeelThemeDark),
+      _l((l10n) => l10n.lookAndFeelThemeDarkLegacy),
       _l((l10n) => l10n.lookAndFeelThemeLight),
     ],
   ),
@@ -414,6 +415,13 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     section: UserSettingsSection.accessibility,
     fieldId: 'visual',
     label: _l((l10n) => l10n.accessibilityAlwaysUnderlineLinksLabel),
+  ),
+  _UserSettingsSearchOption(
+    id: 'accessibility:alt-text',
+    section: UserSettingsSection.accessibility,
+    fieldId: 'visual',
+    label: _l((l10n) => l10n.accessibilityShowAltTextOnImagesLabel),
+    description: _l((l10n) => l10n.accessibilityShowAltTextOnImagesDescription),
   ),
   _UserSettingsSearchOption(
     id: 'accessibility:strikethrough',
@@ -740,6 +748,7 @@ List<UserSettingsSearchLabel> _extraKeywordsForScrollField(String scrollId) {
     case 'theme':
       return [
         _l((l10n) => l10n.lookAndFeelThemeDark),
+        _l((l10n) => l10n.lookAndFeelThemeDarkLegacy),
         _l((l10n) => l10n.lookAndFeelThemeLight),
         _l((l10n) => l10n.lookAndFeelThemeCoal),
         _l((l10n) => l10n.lookAndFeelThemeSystem),

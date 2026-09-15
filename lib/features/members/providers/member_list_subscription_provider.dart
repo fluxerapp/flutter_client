@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
-import 'package:fluxer_app/features/gateway/providers/guild_sync_provider.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/members/domain/member_list_range_utils.dart';
 import 'package:fluxer_app/features/members/providers/member_list_desired_ranges_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';

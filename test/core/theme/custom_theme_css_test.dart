@@ -4,6 +4,7 @@ import 'package:fluxer_app/core/theme/custom_theme_css.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/themes/coal.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/core/theme/themes/dark_legacy.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 void main() {
@@ -99,6 +100,30 @@ void main() {
       expect(coal.spoilerBackground, const Color(0x14FFFFFF));
       expect(coal.spoilerOverlayHoverColor, const Color(0x24FFFFFF));
     });
+
+    test(
+      'applyCustomThemeCss applies .theme-dark_legacy only in legacy mode',
+      () {
+        const css = '''
+.theme-dark_legacy { --brand-primary: #112233; }
+.theme-dark { --brand-primary: #445566; }
+''';
+        final legacy = applyCustomThemeCss(
+          buildDarkLegacyColorTheme(),
+          css: css,
+          saturationFactor: 1,
+          mode: FluxerThemeMode.darkLegacy,
+        );
+        final dark = applyCustomThemeCss(
+          buildDarkColorTheme(),
+          css: css,
+          saturationFactor: 1,
+          mode: FluxerThemeMode.dark,
+        );
+        expect(legacy.brandPrimary, const Color(0xFF112233));
+        expect(dark.brandPrimary, const Color(0xFF445566));
+      },
+    );
 
     test('clampSaturationFactor clamps to 0..1', () {
       expect(clampSaturationFactor(-1), 0);

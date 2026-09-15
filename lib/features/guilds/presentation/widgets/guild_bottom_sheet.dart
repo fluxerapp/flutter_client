@@ -61,6 +61,7 @@ Future<GuildAction?> showGuildBottomSheet(
     leading: GuildBottomSheetAvatar(guild: guild),
     subtitle: GuildBottomSheetStats(guildId: guild.id, fallbackGuild: guild),
     initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
+    useRootNavigator: true,
     builder: (sheetContext, scrollController, close) {
       final layout = sheetContext.layout;
       void pop(GuildAction action) => Navigator.of(sheetContext).pop(action);
@@ -129,67 +130,22 @@ void _handleSubmenuTap(
 ) {
   switch (submenu.key) {
     case 'communitySettings':
-      Navigator.of(context).pop();
+      Navigator.of(context, rootNavigator: true).pop();
       unawaited(context.push(RoutePaths.guildSettingsPath(guildId)));
-    case 'mute':
-      _openMuteSubmenu(context, submenu);
     default:
-      _openGenericSubmenu(context, submenu);
+      _openSubmenu(context, submenu);
   }
 }
 
-void _openMuteSubmenu(BuildContext context, GuildMenuSubmenu submenu) {
-  final nav = Navigator.of(context);
+void _openSubmenu(BuildContext context, GuildMenuSubmenu submenu) {
+  final NavigatorState nav = Navigator.of(context, rootNavigator: true);
   unawaited(
     FluxerBottomSheet.showScrollable<GuildAction>(
       context,
       title: submenu.label,
-      onBack: () => Navigator.of(context).pop(),
+      onBack: nav.pop,
       initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
-      builder: (sheetContext, scrollController, close) {
-        final layout = sheetContext.layout;
-        void pop(GuildAction action) => Navigator.of(sheetContext).pop(action);
-
-        return ListView(
-          controller: scrollController,
-          padding: FluxerBottomSheet.scrollViewPadding(
-            sheetContext,
-            padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
-          ),
-          children: [
-            FluxerBottomSheetGroupColumn(
-              children: [
-                FluxerMenuGroup(
-                  children: [
-                    for (final entry in submenu.children)
-                      if (entry is GuildMenuAction)
-                        FluxerBottomSheetMenuItem(
-                          label: entry.label,
-                          onTap: () => pop(entry.action),
-                        ),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        );
-      },
-    ).then((result) {
-      if (result != null) {
-        nav.pop(result);
-      }
-    }),
-  );
-}
-
-void _openGenericSubmenu(BuildContext context, GuildMenuSubmenu submenu) {
-  final nav = Navigator.of(context);
-  unawaited(
-    FluxerBottomSheet.showScrollable<GuildAction>(
-      context,
-      title: submenu.label,
-      onBack: () => Navigator.of(context).pop(),
-      initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
+      useRootNavigator: true,
       builder: (sheetContext, scrollController, close) {
         final layout = sheetContext.layout;
         void pop(GuildAction action) => Navigator.of(sheetContext).pop(action);

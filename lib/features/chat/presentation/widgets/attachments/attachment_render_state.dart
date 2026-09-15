@@ -1,5 +1,5 @@
 import 'package:fluxer_app/features/chat/domain/message.dart';
-import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
 
 enum AttachmentRenderType { image, video, audio, file }
 

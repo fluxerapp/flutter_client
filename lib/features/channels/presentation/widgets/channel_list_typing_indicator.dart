@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/providers/channel_typing_provider.dart';
-import 'package:fluxer_app/features/chat/utils/typing_indicator_text.dart';
+import 'package:fluxer_app/features/chat/utils/composer/typing_indicator_text.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';

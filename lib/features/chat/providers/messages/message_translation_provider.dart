@@ -3,7 +3,7 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/chat/data/local_device_translation_source.dart';
 import 'package:fluxer_app/features/chat/data/message_translation_service.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
-import 'package:fluxer_app/features/chat/utils/message_translate_offer.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_translate_offer.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

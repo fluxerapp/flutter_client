@@ -13,7 +13,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/channel/search/cha
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_header_search_provider.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
-import 'package:fluxer_app/features/chat/utils/channel_search_utils.dart';
+import 'package:fluxer_app/features/chat/utils/search/channel_search_utils.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';

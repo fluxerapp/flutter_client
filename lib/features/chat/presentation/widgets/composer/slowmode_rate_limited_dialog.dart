@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_rate_limited_alert_provider.dart';
-import 'package:fluxer_app/features/chat/utils/slowmode_format.dart';
+import 'package:fluxer_app/features/chat/utils/composer/slowmode_format.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';

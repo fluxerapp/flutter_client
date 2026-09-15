@@ -4384,6 +4384,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get lookAndFeelThemeDark => 'Koyu Tema';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => 'Kömür Teması';
 
   @override
@@ -5082,6 +5085,14 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String get accessibilityAlwaysUnderlineLinksLabel =>
       'Bağlantıların her zaman altını çiz';
+
+  @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
 
   @override
   String get accessibilityDimStrikethroughTextLabel =>
@@ -6603,6 +6614,18 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get chatMessageAddReaction => 'Tepki ekle';
 
   @override
+  String get doubleTapReactionHint => 'Double tap a message to';
+
+  @override
+  String get doubleTapReactionEdit => 'Edit';
+
+  @override
+  String get doubleTapReactionEditTitle => 'Edit default';
+
+  @override
+  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+
+  @override
   String get chatMessageEdit => 'Mesajı düzenle';
 
   @override
@@ -7351,6 +7374,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get chatVideoPlaybackFailed => 'Bu video oynatılamadı.';
+
+  @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
@@ -10881,6 +10907,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Sunucu URL\'sini girin (ör. fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Fluxer\'a sıfırla';
 
   @override
@@ -10902,9 +10932,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'Sunucuya bağlan';
-
-  @override
-  String get connectToDifferentInstance => 'Farklı bir sunucuya bağlan';
 
   @override
   String get changeInstance => 'Değiştir';

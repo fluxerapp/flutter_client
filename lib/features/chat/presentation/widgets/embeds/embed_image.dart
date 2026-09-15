@@ -4,11 +4,12 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
-import 'package:fluxer_app/features/chat/utils/embed_animated_image_url.dart';
-import 'package:fluxer_app/features/chat/utils/embed_media_viewer_utils.dart';
-import 'package:fluxer_app/features/chat/utils/hdr_aware_image_url.dart';
-import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
+import 'package:fluxer_app/features/chat/utils/embeds/embed_animated_image_url.dart';
+import 'package:fluxer_app/features/chat/utils/embeds/embed_media_viewer_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media/hdr_aware_image_url.dart';
+import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
@@ -63,11 +64,13 @@ class EmbedImage extends ConsumerWidget {
       height: media.height,
     );
     final bool animate = embed.type == EmbedType.gifv || media.isAnimated;
-    final Widget placeholder = Container(
-      width: displaySize?.width ?? dimensions.maxWidth,
-      height: displaySize?.height ?? kEmbedMediaFallbackHeight,
+    final double cellWidth = displaySize?.width ?? dimensions.maxWidth;
+    final double cellHeight = displaySize?.height ?? kEmbedMediaFallbackHeight;
+    final Widget placeholder = ColoredBox(
       color: context.colors.backgroundSecondaryAlt,
+      child: SizedBox(width: cellWidth, height: cellHeight),
     );
+    const Widget errorPlaceholder = MediaLoadErrorPlaceholder();
     return Container(
       margin: const EdgeInsets.only(top: 4),
       constraints: BoxConstraints(
@@ -101,8 +104,8 @@ class EmbedImage extends ConsumerWidget {
                   : null,
               child: animate
                   ? SizedBox(
-                      width: displaySize?.width,
-                      height: displaySize?.height,
+                      width: cellWidth,
+                      height: cellHeight,
                       child: EmbedAnimatedImage(
                         animatedUrl: animatedEmbedImageUrl(
                           embedMediaEffectiveUrl(media),
@@ -115,6 +118,7 @@ class EmbedImage extends ConsumerWidget {
                             '${embedIndex}_${embed.type.name}',
                         fit: BoxFit.contain,
                         placeholder: placeholder,
+                        errorPlaceholder: errorPlaceholder,
                       ),
                     )
                   : _EmbedStaticImage(
@@ -123,11 +127,12 @@ class EmbedImage extends ConsumerWidget {
                         mode: hdrDisplayMode,
                         contentType: media.contentType,
                       ),
-                      displaySize: displaySize,
-                      dimensions: dimensions,
+                      cellWidth: cellWidth,
+                      cellHeight: cellHeight,
                       sourceWidth: media.width,
                       sourceHeight: media.height,
                       placeholder: placeholder,
+                      errorPlaceholder: errorPlaceholder,
                     ),
             ),
           ),
@@ -140,57 +145,43 @@ class EmbedImage extends ConsumerWidget {
 class _EmbedStaticImage extends StatelessWidget {
   const _EmbedStaticImage({
     required this.imageUrl,
-    required this.displaySize,
-    required this.dimensions,
+    required this.cellWidth,
+    required this.cellHeight,
     required this.sourceWidth,
     required this.sourceHeight,
     required this.placeholder,
+    required this.errorPlaceholder,
   });
 
   final String imageUrl;
-  final Size? displaySize;
-  final FluxerMediaDimensions dimensions;
+  final double cellWidth;
+  final double cellHeight;
   final int? sourceWidth;
   final int? sourceHeight;
   final Widget placeholder;
+  final Widget errorPlaceholder;
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        final double devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
-        final double cellWidth =
-            displaySize?.width ??
-            (constraints.maxWidth.isFinite
-                ? constraints.maxWidth
-                : dimensions.maxWidth);
-        // The no-dims fallback is the SAME fixed height the placeholder and
-        // error states use - all three states must agree or the load shifts
-        // the chat.
-        final double cellHeight =
-            displaySize?.height ?? kEmbedMediaFallbackHeight;
-        final ({int? width, int? height}) cache = containDecodeCacheSize(
-          cellWidth: cellWidth,
-          cellHeight: cellHeight,
-          devicePixelRatio: devicePixelRatio,
-          sourceWidth: sourceWidth,
-          sourceHeight: sourceHeight,
-        );
-        // The box is pinned to the cell in BOTH states (loading and loaded):
-        // without intrinsic dimensions the image must not grow when its
-        // bytes arrive, or the load shifts the chat under the reader.
-        return CachedNetworkImage(
-          imageUrl: imageUrl,
-          width: cellWidth,
-          height: cellHeight,
-          memCacheWidth: cache.width,
-          memCacheHeight: cache.height,
-          fit: BoxFit.contain,
-          fadeInDuration: Duration.zero,
-          fadeOutDuration: Duration.zero,
-          errorBuilder: (_, Object _, StackTrace? _) => placeholder,
-        );
-      },
+    final double devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
+    final ({int? width, int? height}) cache = containDecodeCacheSize(
+      cellWidth: cellWidth,
+      cellHeight: cellHeight,
+      devicePixelRatio: devicePixelRatio,
+      sourceWidth: sourceWidth,
+      sourceHeight: sourceHeight,
+    );
+    return CachedNetworkImage(
+      imageUrl: imageUrl,
+      width: cellWidth,
+      height: cellHeight,
+      memCacheWidth: cache.width,
+      memCacheHeight: cache.height,
+      fit: BoxFit.contain,
+      fadeInDuration: Duration.zero,
+      fadeOutDuration: Duration.zero,
+      placeholder: (_, _) => placeholder,
+      errorBuilder: (_, Object _, StackTrace? _) => errorPlaceholder,
     );
   }
 }

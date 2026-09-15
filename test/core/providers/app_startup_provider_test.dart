@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
 import 'package:fluxer_app/core/providers/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/well_known_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/auth/data/auth_token_storage.dart';
@@ -260,6 +261,54 @@ void main() {
     releaseUsersMe.complete();
     await expectLater(startup, throwsA(isA<ServiceUnavailableException>()));
   });
+
+  test(
+    're-running startup rebinds the session and clears gateway ready',
+    () async {
+      final db = openTestDatabase();
+      final MapAuthTokenStorage tokens = MapAuthTokenStorage();
+      await db.authSessionDao.saveSessionMetadata(userId: 'user-1');
+      await tokens.saveToken(userId: 'user-1', token: 'token-1');
+
+      var bindCount = 0;
+      final Dio dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+        ..httpClientAdapter = const _UsersMeAdapter(statusCode: 503);
+
+      final container = ProviderContainer(
+        retry: (int retryCount, Object error) => null,
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(db),
+          wellKnownProvider.overrideWith(_FakeWellKnown.new),
+          appRuntimeInfoProvider.overrideWith((Ref ref) => _testRuntimeInfo),
+          authTokenStorageProvider.overrideWithValue(tokens),
+          fluxerClientProvider.overrideWithValue(
+            FluxerClient(dio, baseUrl: 'https://api.fluxer.app/v1'),
+          ),
+          authenticatedSessionBindingsProvider.overrideWith((Ref ref) {
+            bindCount++;
+          }),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      await expectLater(
+        container.read(appStartupProvider.future),
+        throwsA(isA<ServiceUnavailableException>()),
+      );
+      expect(bindCount, 1);
+
+      container.read(gatewayReadyProvider.notifier).setReady();
+      expect(container.read(gatewayReadyProvider), isTrue);
+
+      container.invalidate(appStartupProvider);
+      await expectLater(
+        container.read(appStartupProvider.future),
+        throwsA(isA<ServiceUnavailableException>()),
+      );
+      expect(bindCount, 2);
+      expect(container.read(gatewayReadyProvider), isFalse);
+    },
+  );
 }
 
 final AppRuntimeInfo _testRuntimeInfo = AppRuntimeInfo(

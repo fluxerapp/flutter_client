@@ -91,4 +91,49 @@ void main() {
     expect(image.fadeInDuration, Duration.zero);
     expect(image.fadeOutDuration, Duration.zero);
   });
+
+  testWidgets('animated emoji still requests frames when disableAnimations', (
+    tester,
+  ) async {
+    final FluxerMarkdownConfig config = FluxerMarkdownConfig(
+      resolveEmojiShortcode: _noopEmojiShortcode,
+      unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
+      customEmojiUrlBuilder:
+          ({required String id, required bool animated, required int size}) {
+            return 'https://example.com/emojis/$id.webp'
+                '${animated ? '?animated=true' : ''}';
+          },
+    );
+
+    await tester.pumpWidget(
+      MaterialApp(
+        builder: (BuildContext context, Widget? child) {
+          return MediaQuery(
+            data: MediaQuery.of(context).copyWith(disableAnimations: true),
+            child: child!,
+          );
+        },
+        home: Scaffold(
+          body: FluxerMarkdown(
+            astParser: parseTestMarkdownAst,
+            data: '<a:party:111111111111111111>',
+            config: config,
+            baseStyle: const TextStyle(fontSize: 16),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final CachedNetworkImage image = tester.widget(
+      find.byType(CachedNetworkImage),
+    );
+    expect(image.imageUrl, contains('animated=true'));
+    expect(
+      MediaQuery.disableAnimationsOf(
+        tester.element(find.byType(CachedNetworkImage)),
+      ),
+      isFalse,
+    );
+  });
 }

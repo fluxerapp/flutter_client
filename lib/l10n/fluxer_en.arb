@@ -5633,6 +5633,10 @@
     "@lookAndFeelThemeDark": {
         "description": "Label on the dark theme swatch button."
     },
+    "lookAndFeelThemeDarkLegacy": "Dark (Legacy) Theme",
+    "@lookAndFeelThemeDarkLegacy": {
+        "description": "Label on the legacy dark theme swatch button."
+    },
     "lookAndFeelThemeCoal": "Coal Theme",
     "@lookAndFeelThemeCoal": {
         "description": "Label on the coal (pitch-black) theme swatch button."
@@ -6442,6 +6446,14 @@
     "accessibilityAlwaysUnderlineLinksLabel": "Always underline links",
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
+    },
+    "accessibilityShowAltTextOnImagesLabel": "Show alternative text on images",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "Display alternative text below images when it is available.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
     },
     "accessibilityDimStrikethroughTextLabel": "Dim strikethrough text",
     "@accessibilityDimStrikethroughTextLabel": {
@@ -8345,6 +8357,22 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "Double tap a message to",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
+    "doubleTapReactionEdit": "Edit",
+    "@doubleTapReactionEdit": {
+        "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "Edit default",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "Choose double tap emoji",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
+    },
     "chatMessageEdit": "Edit Message",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -9296,6 +9324,10 @@
     "chatVideoPlaybackFailed": "Could not play this video.",
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
+    },
+    "chatImageCouldNotLoad": "Could not load this image.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
     },
     "composerAutocompleteRoleMentionDescription": "Notify users with this role who have permission to view this channel.",
     "@composerAutocompleteRoleMentionDescription": {
@@ -12955,9 +12987,13 @@
     "@instanceUrlLabel": {
         "description": "Label for the self-hosted instance URL input on the login screen."
     },
-    "instanceUrlPlaceholder": "Enter instance URL (e.g. fluxer.app)",
+    "instanceUrlPlaceholder": "fluxer.app",
     "@instanceUrlPlaceholder": {
-        "description": "Placeholder for the self-hosted instance URL input."
+        "description": "Placeholder for the instance URL input."
+    },
+    "instanceUrlHelper": "Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
     },
     "resetToDefaultInstance": "Reset to Fluxer",
     "@resetToDefaultInstance": {
@@ -12991,10 +13027,6 @@
     "instanceSheetTitle": "Connect to instance",
     "@instanceSheetTitle": {
         "description": "Title for the self-hosted instance connection bottom sheet."
-    },
-    "connectToDifferentInstance": "Connect to a different instance",
-    "@connectToDifferentInstance": {
-        "description": "Subtle link on the login screen to open the instance connection sheet."
     },
     "changeInstance": "Change",
     "@changeInstance": {

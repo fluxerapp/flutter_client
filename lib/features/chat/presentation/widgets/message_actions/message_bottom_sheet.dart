@@ -3,25 +3,26 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
+import 'package:fluxer_app/features/bookmarks/data/saved_messages_repository.dart';
+import 'package:fluxer_app/features/bookmarks/providers/saved_messages_sync_provider.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_translation.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/message_debug_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/message_reactions_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/unpin_message_confirm_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/double_tap_reaction_hint.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_translation_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/saved_message_provider.dart';
-import 'package:fluxer_app/features/chat/utils/favorite_media_utils.dart';
-import 'package:fluxer_app/features/chat/utils/media_favorite_state.dart';
-import 'package:fluxer_app/features/chat/utils/message_action_permissions.dart';
-import 'package:fluxer_app/features/chat/utils/message_link.dart';
-import 'package:fluxer_app/features/chat/utils/save_message_media_favorite.dart';
-import 'package:fluxer_app/features/messaging/data/saved_messages_repository.dart';
-import 'package:fluxer_app/features/messaging/providers/saved_messages_sync_provider.dart';
+import 'package:fluxer_app/features/chat/utils/media/favorite_media_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media/media_favorite_state.dart';
+import 'package:fluxer_app/features/chat/utils/media/save_message_media_favorite.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_action_permissions.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_link.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
@@ -717,7 +718,7 @@ class _MessageBottomSheetBody extends ConsumerWidget {
               },
               onAddMore: () => _pop(context, MessageAction.addReaction),
             ),
-            const SizedBox(height: 8),
+            DoubleTapReactionHint(channelId: message.channelId),
           ],
           FluxerBottomSheetGroupColumn(
             children: [if (url != null) _linkGroup(context, url), ...groups],

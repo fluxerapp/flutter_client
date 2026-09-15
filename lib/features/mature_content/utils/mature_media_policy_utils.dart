@@ -66,7 +66,7 @@ MatureContentGateReason resolveChannelGateReason({
     return MatureContentGateReason.none;
   }
   if (!agreements.isLoaded) {
-    return MatureContentGateReason.none;
+    return MatureContentGateReason.consentRequired;
   }
   if (context.effectiveMatureContent && !nsfwAllowed) {
     return MatureContentGateReason.minorBlocked;

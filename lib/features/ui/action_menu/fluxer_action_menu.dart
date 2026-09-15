@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
     show isMobileLayout;
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart'
@@ -15,6 +14,7 @@ import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart'
         FluxerBottomSheetVariant,
         FluxerMenuGroup,
         FluxerMenuRadioIndicator;
+import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/material_ui.dart';

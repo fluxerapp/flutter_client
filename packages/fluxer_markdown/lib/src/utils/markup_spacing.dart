@@ -14,7 +14,6 @@ abstract final class FluxerMarkupSpacing {
   static const double listBlockMargin = 4; // 0.25rem
   static const double listItemGap = 4; // 0.25rem
   static const double listNestedTop = 4; // 0.25rem
-  static const double listIndent = 20; // 1.25rem
 
   static const double quoteMargin = 4; // 0.25rem
   static const double quoteDividerEnd = 12; // 0.75rem

@@ -12,7 +12,7 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
-import 'package:fluxer_app/features/chat/service/message_notification_sfx_gate.dart';
+import 'package:fluxer_app/features/chat/services/message_notification_sfx_gate.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/profile/domain/presence_notification_policy.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';

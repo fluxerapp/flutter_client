@@ -6,7 +6,7 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/domain/composer_slash_command.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/slash_command_param_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_composer_layout.dart';
-import 'package:fluxer_app/features/chat/service/composer_slash_session.dart';
+import 'package:fluxer_app/features/chat/services/composer_slash_session.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 import '../../../../../helpers/test_l10n.dart';

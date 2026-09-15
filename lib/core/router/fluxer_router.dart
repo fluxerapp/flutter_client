@@ -18,6 +18,7 @@ import 'package:fluxer_app/core/router/shell_transition_page.dart';
 import 'package:fluxer_app/features/auth/presentation/login_screen.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/auth/providers/add_account_instance_guard_provider.dart';
+import 'package:fluxer_app/features/bookmarks/presentation/saved_messages_page.dart';
 import 'package:fluxer_app/features/channels/domain/channel_settings_tab.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/channel_settings_modal.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/channel_settings_nav_page.dart';
@@ -32,7 +33,6 @@ import 'package:fluxer_app/features/guilds/presentation/pages/invite_accept_page
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_root_placeholder.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
 import 'package:fluxer_app/features/members/presentation/pages/guild_members_page.dart';
-import 'package:fluxer_app/features/messaging/presentation/saved_messages_page.dart';
 import 'package:fluxer_app/features/notifications/presentation/notifications_page.dart';
 import 'package:fluxer_app/features/notifications/presentation/recent_mentions_page.dart';
 import 'package:fluxer_app/features/profile/presentation/profile_page.dart';

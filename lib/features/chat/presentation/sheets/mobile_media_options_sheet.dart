@@ -7,11 +7,11 @@ import 'package:fluxer_app/features/chat/domain/media_options_launch_context.dar
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/attachment_alt_text_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/message_bottom_sheet.dart';
-import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
-import 'package:fluxer_app/features/chat/utils/attachment_download_service.dart';
-import 'package:fluxer_app/features/chat/utils/favorite_media_utils.dart';
-import 'package:fluxer_app/features/chat/utils/media_favorite_state.dart';
-import 'package:fluxer_app/features/chat/utils/save_message_media_favorite.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/attachment_download_service.dart';
+import 'package:fluxer_app/features/chat/utils/media/favorite_media_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media/media_favorite_state.dart';
+import 'package:fluxer_app/features/chat/utils/media/save_message_media_favorite.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';

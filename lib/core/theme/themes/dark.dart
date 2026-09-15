@@ -52,7 +52,7 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
   final darkSurface = const ColorScale(
     family: FluxerColorFamilies.neutralDark,
     lightnessStart: 5,
-    lightnessEnd: 26,
+    lightnessEnd: 24,
     curve: ScaleCurves.easeOut,
     stops: [
       ScaleStop(name: 'backgroundPrimary', position: 0),
@@ -64,14 +64,14 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
       ScaleStop(name: 'guildListForeground', position: 0.38),
       ScaleStop(name: 'backgroundHeaderSecondary', position: 0.5),
       ScaleStop(name: 'backgroundHeaderPrimary', position: 0.5),
-      ScaleStop(name: 'backgroundTextarea', position: 0.68),
+      ScaleStop(name: 'backgroundTextarea', position: 0.3),
       ScaleStop(name: 'backgroundHeaderPrimaryHover', position: 0.85),
     ],
   ).build(saturationFactor: saturationFactor);
 
   final darkText = const ColorScale(
     family: FluxerColorFamilies.neutralDark,
-    lightnessStart: 52,
+    lightnessStart: 60,
     lightnessEnd: 96,
     curve: ScaleCurves.easeInOut,
     stops: [
@@ -102,22 +102,20 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
   final backgroundTertiary = darkSurface['backgroundTertiary']!;
   final backgroundPrimary = darkSurface['backgroundPrimary']!;
   final borderColorVal = tone(FluxerColorFamilies.neutralDark, 50, alpha: 0.2);
-  final backgroundModifierHoverVal = toneDirect(
-    hue: 220,
-    saturation: 13,
-    lightness: 100,
+  final backgroundModifierHoverVal = tone(
+    FluxerColorFamilies.neutralDark,
+    100,
     alpha: 0.05,
   );
-  final backgroundModifierSelectedVal = toneDirect(
-    hue: 220,
-    saturation: 13,
-    lightness: 100,
+  final backgroundModifierSelectedVal = tone(
+    FluxerColorFamilies.neutralDark,
+    100,
     alpha: 0.1,
   );
-  final backgroundModifierAccentVal = toneDirect(
-    hue: 220,
+  final backgroundModifierAccentVal = tone(
+    FluxerColorFamilies.neutralDark,
+    80,
     saturation: 13,
-    lightness: 80,
     alpha: 0.15,
   );
 
@@ -137,15 +135,15 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
     backgroundHeaderPrimaryHover: darkSurface['backgroundHeaderPrimaryHover']!,
     backgroundHeaderSecondary: darkSurface['backgroundHeaderSecondary']!,
     backgroundChannelHeader: darkSurface['backgroundChannelHeader']!,
-    backgroundFloating: toneDirect(hue: 220, saturation: 13, lightness: 3),
+    backgroundFloating: tone(FluxerColorFamilies.neutralDark, 3),
     guildListForeground: darkSurface['guildListForeground']!,
     backgroundModifierHover: backgroundModifierHoverVal,
     backgroundModifierSelected: backgroundModifierSelectedVal,
     backgroundModifierAccent: backgroundModifierAccentVal,
-    backgroundModifierAccentFocus: toneDirect(
-      hue: 220,
+    backgroundModifierAccentFocus: tone(
+      FluxerColorFamilies.neutralDark,
+      80,
       saturation: 13,
-      lightness: 80,
       alpha: 0.22,
     ),
 
@@ -193,8 +191,8 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
     borderColor: borderColorVal,
     borderColorHover: tone(FluxerColorFamilies.neutralDark, 50, alpha: 0.3),
     borderColorFocus: toneDirect(
-      hue: 210,
-      saturation: 90,
+      hue: 198,
+      saturation: 92,
       lightness: 70,
       alpha: 0.45,
     ),
@@ -354,8 +352,8 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
 
     // Panel Control
     panelControlBg: Color.alphaBlend(
-      backgroundSecondaryAlt.withValues(alpha: 0.8),
-      toneDirect(hue: 220, saturation: 13, lightness: 2),
+      backgroundSecondaryAlt.withValues(alpha: 0.9),
+      tone(FluxerColorFamilies.neutralDark, 2),
     ),
     panelControlBorder: tone(
       FluxerColorFamilies.neutralDark,
@@ -413,8 +411,8 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
 
     // Text Selection
     textSelection: toneDirect(
-      hue: 210,
-      saturation: 90,
+      hue: 198,
+      saturation: 92,
       lightness: 70,
       alpha: 0.35,
     ),
@@ -427,7 +425,7 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
     serverIconActive: brandPrimary,
     channelSidebarBackground: backgroundSecondary,
     memberListBackground: backgroundSecondary,
-    userPanelBackground: toneDirect(hue: 220, saturation: 13, lightness: 10),
+    userPanelBackground: tone(FluxerColorFamilies.neutralDark, 10),
     userAreaDividerColor: backgroundModifierHoverVal.withValues(
       alpha: backgroundModifierHoverVal.a * 0.7,
     ),
@@ -438,14 +436,17 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
     spoilerOverlayHoverColor: const Color(0x4D000000),
     guildBannerGradient: const Color(0x4D000000),
     focusPrimary: const Color(0xFF00B0F4),
-    interactiveActive: toneDirect(
-      hue: 0,
-      saturation: 0,
-      lightness: 100,
-      useSatFactor: false,
-    ),
+    interactiveActive: Color.lerp(
+      toneDirect(hue: 0, saturation: 0, lightness: 100, useSatFactor: false),
+      toneDirect(hue: 245, saturation: 100, lightness: 80),
+      40 / 140,
+    )!,
     interactiveNormal: textSecondary,
     interactiveHover: textPrimary,
-    interactiveMuted: toneDirect(hue: 228, saturation: 10, lightness: 35),
+    interactiveMuted: Color.lerp(
+      toneDirect(hue: 228, saturation: 10, lightness: 35),
+      toneDirect(hue: 245, saturation: 100, lightness: 80),
+      40 / 140,
+    )!,
   );
 }

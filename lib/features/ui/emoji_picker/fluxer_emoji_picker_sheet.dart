@@ -18,6 +18,7 @@ class FluxerEmojiPickerSheet {
     ValueChanged<StickerEntry>? onStickerSelected,
     ValueChanged<FavoriteMemeSelection>? onFavoriteMemeSelected,
     String? title,
+    Widget? subtitle,
     List<ExpressionPickerTab> visibleTabs = const [
       ExpressionPickerTab.gifs,
       ExpressionPickerTab.memes,
@@ -31,6 +32,7 @@ class FluxerEmojiPickerSheet {
     return FluxerBottomSheet.showScrollable<void>(
       context,
       title: title,
+      subtitle: subtitle,
       builder: (context, scrollController, close) {
         return _SheetContent(
           scrollController: scrollController,

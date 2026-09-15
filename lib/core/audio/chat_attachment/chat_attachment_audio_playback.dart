@@ -30,7 +30,7 @@ class ChatAttachmentAudioSessionReporter {
   });
 
   final ChatAttachmentAudioBinding binding;
-  final Attachment attachment;
+  final Attachment Function() attachment;
   final String Function() title;
   final Duration Function() totalDuration;
   final double Function() playbackRate;
@@ -48,7 +48,7 @@ class ChatAttachmentAudioSessionReporter {
     _lastPositionSync = DateTime.now();
     syncChatAttachmentAudioSession(
       binding: binding,
-      attachment: attachment,
+      attachment: attachment(),
       title: title(),
       playing: playing,
       position: position.value,

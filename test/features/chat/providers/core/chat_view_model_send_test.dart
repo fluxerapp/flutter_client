@@ -26,9 +26,9 @@ import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dar
 import 'package:fluxer_app/features/chat/providers/upload/attachment_upload_client_provider.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/providers/upload/user_upload_limits_provider.dart';
-import 'package:fluxer_app/features/chat/utils/composer_upload_file.dart';
-import 'package:fluxer_app/features/chat/utils/message_page_sync.dart';
-import 'package:fluxer_app/features/chat/utils/message_send_failure_messages.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_page_sync.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_send_failure_messages.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';

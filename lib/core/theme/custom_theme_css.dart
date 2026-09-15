@@ -65,6 +65,7 @@ Map<String, String> resolveScopedOverridesForMode(
   final String modeScope = switch (mode) {
     FluxerThemeMode.light => 'light',
     FluxerThemeMode.coal => 'coal',
+    FluxerThemeMode.darkLegacy => 'darkLegacy',
     FluxerThemeMode.dark || FluxerThemeMode.system => 'dark',
   };
   final Map<String, String> merged = <String, String>{}
@@ -126,7 +127,8 @@ String _scopeKeyForSelector(String selector) {
     ':root' => 'root',
     '.theme-light' => 'light',
     '.theme-coal' => 'coal',
-    '.theme-dark' || '.theme-dark_legacy' => 'dark',
+    '.theme-dark' => 'dark',
+    '.theme-dark_legacy' => 'darkLegacy',
     _ => 'root',
   };
 }

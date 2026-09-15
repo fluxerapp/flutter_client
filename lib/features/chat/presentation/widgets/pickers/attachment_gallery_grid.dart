@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/data/attachment_gallery_source.dart';
-import 'package:fluxer_app/features/chat/utils/gallery_attachment_selection.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/gallery_attachment_selection.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';

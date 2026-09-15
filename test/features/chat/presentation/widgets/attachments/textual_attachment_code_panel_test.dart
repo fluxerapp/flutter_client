@@ -6,7 +6,7 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/textual_attachment_code_panel.dart';
-import 'package:fluxer_app/features/chat/utils/textual_attachment_content.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/textual_attachment_content.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/widgets/fluxer_bounded_text_widgets.dart'
     as bounded;

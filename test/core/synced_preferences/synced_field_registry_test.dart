@@ -23,6 +23,7 @@ void main() {
       SyncedPreferenceField.stickerPicker,
       SyncedPreferenceField.favoriteGifs,
       SyncedPreferenceField.chatInput,
+      SyncedPreferenceField.doubleTapReaction,
     });
   });
 }

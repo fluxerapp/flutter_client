@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/composer_slash_command.dart';
-import 'package:fluxer_app/features/chat/service/composer_slash_session.dart';
+import 'package:fluxer_app/features/chat/services/composer_slash_session.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 

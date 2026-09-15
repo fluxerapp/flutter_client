@@ -11,7 +11,7 @@ import 'package:fluxer_app/features/chat/domain/message_window.dart';
 import 'package:fluxer_app/features/chat/domain/pagination_pump_policy.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
-import 'package:fluxer_app/features/chat/utils/message_page_sync.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_page_sync.dart';
 
 import '../../../../helpers/chat_view_model_pagination_test_harness.dart';
 import '../../../../helpers/open_test_database.dart';

@@ -4389,6 +4389,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get lookAndFeelThemeDark => 'Tamna tema';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => 'Tema ugljena';
 
   @override
@@ -5086,6 +5089,14 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   @override
   String get accessibilityAlwaysUnderlineLinksLabel =>
       'Uvijek podcrtaj poveznice';
+
+  @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
 
   @override
   String get accessibilityDimStrikethroughTextLabel =>
@@ -6612,6 +6623,18 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get chatMessageAddReaction => 'Dodaj reakciju';
 
   @override
+  String get doubleTapReactionHint => 'Double tap a message to';
+
+  @override
+  String get doubleTapReactionEdit => 'Edit';
+
+  @override
+  String get doubleTapReactionEditTitle => 'Edit default';
+
+  @override
+  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+
+  @override
   String get chatMessageEdit => 'Uredi poruku';
 
   @override
@@ -7369,6 +7392,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   @override
   String get chatVideoPlaybackFailed =>
       'Ne možemo reproducirati ovaj videozapis.';
+
+  @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
@@ -10904,6 +10930,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get instanceUrlPlaceholder => 'Unesite URL instance (npr. fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Vrati na Fluxer';
 
   @override
@@ -10925,9 +10955,6 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'Poveži se na instancu';
-
-  @override
-  String get connectToDifferentInstance => 'Poveži se na drugu instancu';
 
   @override
   String get changeInstance => 'Promijeni';

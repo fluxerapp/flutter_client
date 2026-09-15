@@ -72,7 +72,7 @@ FluxerColorTheme buildLightColorTheme({double saturationFactor = 1.0}) {
   final lightText = const ColorScale(
     family: FluxerColorFamilies.neutralLight,
     lightnessStart: 15,
-    lightnessEnd: 60,
+    lightnessEnd: 54,
     curve: ScaleCurves.easeOut,
     stops: [
       ScaleStop(name: 'textPrimary', position: 0),
@@ -91,10 +91,14 @@ FluxerColorTheme buildLightColorTheme({double saturationFactor = 1.0}) {
   // ---------------------------------------------------------------------------
 
   final brandPrimary = tone(FluxerColorFamilies.brand, 55);
-  final statusOnline = toneDirect(hue: 142, saturation: 70, lightness: 40);
+  final statusOnline = tone(
+    FluxerColorFamilies.statusOnline,
+    40,
+    saturation: 70,
+  );
   final statusIdle = toneDirect(hue: 45, saturation: 90, lightness: 45);
   final statusDnd = toneDirect(hue: 359, saturation: 70, lightness: 50);
-  final textLink = toneDirect(hue: 210, saturation: 100, lightness: 45);
+  final textLink = tone(FluxerColorFamilies.link, 45);
   final textSecondary = lightText['textSecondary']!;
   final textPrimary = lightText['textPrimary']!;
   final backgroundSecondary = lightSurface['backgroundSecondary']!;
@@ -218,21 +222,16 @@ FluxerColorTheme buildLightColorTheme({double saturationFactor = 1.0}) {
     accentPurple: tone(FluxerColorFamilies.accentPurple, 65),
 
     // Alert
-    alertNote: toneDirect(hue: 210, saturation: 100, lightness: 45),
+    alertNote: tone(FluxerColorFamilies.link, 45),
     alertTip: toneDirect(hue: 150, saturation: 80, lightness: 35),
-    alertImportant: toneDirect(hue: 270, saturation: 80, lightness: 50),
+    alertImportant: tone(FluxerColorFamilies.accentPurple, 50),
     alertWarning: toneDirect(hue: 45, saturation: 90, lightness: 45),
     alertCaution: toneDirect(hue: 358, saturation: 80, lightness: 50),
 
     // Markup
     markupMentionText: textLink,
     markupMentionFill: textLink.withValues(alpha: 0.2),
-    markupMentionBorder: toneDirect(
-      hue: 210,
-      saturation: 100,
-      lightness: 45,
-      alpha: 0.4,
-    ),
+    markupMentionBorder: tone(FluxerColorFamilies.link, 45, alpha: 0.4),
     markupInteractiveHoverText: textLink,
     markupInteractiveHoverFill: textLink.withValues(alpha: 0.3),
     markupJumpLinkText: textLink,

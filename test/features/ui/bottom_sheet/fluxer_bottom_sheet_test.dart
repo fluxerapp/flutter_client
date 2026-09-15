@@ -228,6 +228,132 @@ void main() {
       expect(sheetController.size, lessThan(initialSize));
     });
 
+    testWidgets('scrollable sheet header drag resizes the sheet', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          Builder(
+            builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  unawaited(
+                    FluxerBottomSheet.showScrollable(
+                      context,
+                      title: 'Community Name',
+                      initialChildSize: 0.7,
+                      builder: (context, scrollController, close) {
+                        return ListView.builder(
+                          controller: scrollController,
+                          itemCount: 20,
+                          itemBuilder: (context, index) =>
+                              ListTile(title: Text('Scroll Item $index')),
+                        );
+                      },
+                    ),
+                  );
+                },
+                child: const Text('Open'),
+              );
+            },
+          ),
+        ),
+      );
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+
+      final Finder handle = find.byType(FluxerBottomSheetDragHandle);
+      final double initialTop = tester.getTopLeft(handle).dy;
+
+      await tester.drag(find.text('Community Name'), const Offset(0, 80));
+      await tester.pumpAndSettle();
+
+      expect(tester.getTopLeft(handle).dy, greaterThan(initialTop));
+      expect(find.text('Scroll Item 0'), findsOneWidget);
+    });
+
+    testWidgets('scrollable sheet dismisses from header drag', (tester) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          Builder(
+            builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  unawaited(
+                    FluxerBottomSheet.showScrollable(
+                      context,
+                      title: 'Community Name',
+                      initialChildSize: 0.7,
+                      builder: (context, scrollController, close) {
+                        return ListView.builder(
+                          controller: scrollController,
+                          itemCount: 20,
+                          itemBuilder: (context, index) =>
+                              ListTile(title: Text('Scroll Item $index')),
+                        );
+                      },
+                    ),
+                  );
+                },
+                child: const Text('Open'),
+              );
+            },
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+      expect(find.text('Community Name'), findsOneWidget);
+
+      await tester.drag(find.text('Community Name'), const Offset(0, 300));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Community Name'), findsNothing);
+      expect(find.text('Open'), findsOneWidget);
+    });
+
+    testWidgets('content sheet dismisses from header drag', (tester) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          Builder(
+            builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  unawaited(
+                    FluxerBottomSheet.show(
+                      context,
+                      title: 'Notification Settings',
+                      builder: (context, close) {
+                        return const Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Text('Sheet Content'),
+                        );
+                      },
+                    ),
+                  );
+                },
+                child: const Text('Open'),
+              );
+            },
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+      expect(find.text('Notification Settings'), findsOneWidget);
+
+      await tester.drag(
+        find.text('Notification Settings'),
+        const Offset(0, 200),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('Notification Settings'), findsNothing);
+      expect(find.text('Open'), findsOneWidget);
+    });
+
     testWidgets('scrollable sheet dismisses from handle without double pop', (
       tester,
     ) async {
@@ -421,6 +547,90 @@ void main() {
               },
             ),
             observers: <NavigatorObserver>[observer],
+          ),
+        );
+
+        await tester.tap(find.text('Open'));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 50));
+        expect(find.text('Choose'), findsOneWidget);
+
+        await tester.tap(find.text('Choose'));
+        await tester.pumpAndSettle();
+
+        expect(find.text('Open'), findsOneWidget);
+        expect(find.text('Follow up'), findsOneWidget);
+        expect(observer.pops, 1);
+      },
+    );
+
+    testWidgets(
+      'tapping an action while the sheet is opening does not pop the host route',
+      (tester) async {
+        final _PopCountingObserver observer = _PopCountingObserver();
+        final GlobalKey<NavigatorState> nestedKey = GlobalKey<NavigatorState>();
+
+        await tester.pumpWidget(
+          buildTestApp(
+            Navigator(
+              key: nestedKey,
+              observers: <NavigatorObserver>[observer],
+              onGenerateRoute: (RouteSettings settings) {
+                return MaterialPageRoute<void>(
+                  settings: settings,
+                  builder: (BuildContext context) {
+                    return ElevatedButton(
+                      onPressed: () {
+                        unawaited(() async {
+                          final String? result =
+                              await FluxerBottomSheet.showScrollable<String>(
+                                context,
+                                builder:
+                                    (
+                                      BuildContext sheetContext,
+                                      ScrollController scrollController,
+                                      VoidCallback close,
+                                    ) {
+                                      return ListView(
+                                        controller: scrollController,
+                                        children: <Widget>[
+                                          ListTile(
+                                            title: const Text('Choose'),
+                                            onTap: () => Navigator.pop(
+                                              sheetContext,
+                                              'go',
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                              );
+                          if (result == null || !context.mounted) {
+                            return;
+                          }
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            if (!context.mounted) {
+                              return;
+                            }
+                            unawaited(
+                              FluxerBottomSheet.show(
+                                context,
+                                useRootNavigator: true,
+                                title: 'Follow up',
+                                builder: (BuildContext _, VoidCallback close) {
+                                  return const Text('Follow up body');
+                                },
+                              ),
+                            );
+                          });
+                        }());
+                      },
+                      child: const Text('Open'),
+                    );
+                  },
+                );
+              },
+            ),
           ),
         );
 

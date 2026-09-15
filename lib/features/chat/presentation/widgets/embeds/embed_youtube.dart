@@ -6,9 +6,9 @@ import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_con
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_inline_video_player.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_fullscreen_video.dart';
-import 'package:fluxer_app/features/chat/utils/chat_video_playback_utils.dart';
-import 'package:fluxer_app/features/chat/utils/embed_youtube_utils.dart';
-import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
+import 'package:fluxer_app/features/chat/utils/embeds/embed_youtube_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media/chat_video_playback_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';

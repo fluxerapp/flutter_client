@@ -7,8 +7,8 @@ import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/prefere
     as prefs;
 import 'package:fluxer_app/core/theme/custom_theme_css.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
-import 'package:fluxer_app/features/accessibility/motion_preferences.dart';
-import 'package:fluxer_app/features/accessibility/text_scale.dart';
+import 'package:fluxer_app/features/accessibility/domain/motion_preferences.dart';
+import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/voice/tts/tts_rate_utils.dart';
@@ -40,6 +40,7 @@ class AccessibilityLocalState {
     this.enableTtsCommand = true,
     this.ttsRate = kDefaultTtsRate,
     this.alwaysUnderlineLinks = false,
+    this.showAltTextOnImages = false,
     this.dimStrikethroughText = true,
     this.showTextareaFocusRing = true,
     this.escapeExitsKeyboardMode = false,
@@ -85,6 +86,7 @@ class AccessibilityLocalState {
   final bool enableTtsCommand;
   final double ttsRate;
   final bool alwaysUnderlineLinks;
+  final bool showAltTextOnImages;
   final bool dimStrikethroughText;
   final bool showTextareaFocusRing;
   final bool escapeExitsKeyboardMode;
@@ -144,6 +146,7 @@ class AccessibilitySyncedField
       enableTtsCommand: appearance.enableTtsCommand,
       ttsRate: appearance.ttsRate,
       alwaysUnderlineLinks: appearance.alwaysUnderlineLinks,
+      showAltTextOnImages: appearance.showAltTextOnImages,
       dimStrikethroughText: appearance.dimStrikethroughText,
       showTextareaFocusRing: appearance.showTextareaFocusRing,
       escapeExitsKeyboardMode: appearance.escapeExitsKeyboardMode,
@@ -261,6 +264,7 @@ class AccessibilitySyncedField
         a.enableTtsCommand == b.enableTtsCommand &&
         a.ttsRate == b.ttsRate &&
         a.alwaysUnderlineLinks == b.alwaysUnderlineLinks &&
+        a.showAltTextOnImages == b.showAltTextOnImages &&
         a.dimStrikethroughText == b.dimStrikethroughText &&
         a.showTextareaFocusRing == b.showTextareaFocusRing &&
         a.escapeExitsKeyboardMode == b.escapeExitsKeyboardMode &&
@@ -342,6 +346,7 @@ class AccessibilitySyncedField
       enableTtsCommand: remote.enableTtsCommand,
       ttsRate: remote.ttsRate,
       alwaysUnderlineLinks: remote.alwaysUnderlineLinks,
+      showAltTextOnImages: remote.showAltTextOnImages,
       dimStrikethroughText: remote.dimStrikethroughText,
       showTextareaFocusRing: remote.showTextareaFocusRing,
       escapeExitsKeyboardMode: remote.escapeExitsKeyboardMode,
@@ -482,6 +487,8 @@ class AccessibilitySyncedField
           ? clampTtsRate(proto.ttsRate)
           : kDefaultTtsRate,
       alwaysUnderlineLinks: proto.alwaysUnderlineLinks,
+      showAltTextOnImages:
+          proto.hasShowAltTextOnImages() && proto.showAltTextOnImages,
       dimStrikethroughText:
           !proto.hasDimStrikethroughText() || proto.dimStrikethroughText,
       showTextareaFocusRing:
@@ -562,6 +569,7 @@ class AccessibilitySyncedField
           ..enableTtsCommand = local.enableTtsCommand
           ..ttsRate = local.ttsRate
           ..alwaysUnderlineLinks = local.alwaysUnderlineLinks
+          ..showAltTextOnImages = local.showAltTextOnImages
           ..dimStrikethroughText = local.dimStrikethroughText
           ..showTextareaFocusRing = local.showTextareaFocusRing
           ..escapeExitsKeyboardMode = local.escapeExitsKeyboardMode
@@ -613,6 +621,7 @@ class AccessibilitySyncedField
       enableTtsCommand: local.enableTtsCommand,
       ttsRate: local.ttsRate,
       alwaysUnderlineLinks: local.alwaysUnderlineLinks,
+      showAltTextOnImages: local.showAltTextOnImages,
       dimStrikethroughText: local.dimStrikethroughText,
       showTextareaFocusRing: local.showTextareaFocusRing,
       escapeExitsKeyboardMode: local.escapeExitsKeyboardMode,

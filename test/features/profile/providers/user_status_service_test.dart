@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,34 +14,36 @@ import 'package:fluxer_dart/export.dart';
 
 import '../../../helpers/open_test_database.dart';
 
-class _FakeUsersApi implements UsersApi {
-  UserSettingsUpdateRequest? lastPushBody;
-  Object? pushError;
+class _SettingsAdapter implements HttpClientAdapter {
+  final List<Map<String, Object?>> bodies = <Map<String, Object?>>[];
 
   @override
-  Future<UserSettingsResponse> updateCurrentUserSettings({
-    required UserSettingsUpdateRequest body,
-  }) async {
-    lastPushBody = body;
-    if (pushError != null) {
-      // The fake accepts arbitrary configured failures to exercise error paths.
-      // ignore: only_throw_errors
-      throw pushError!;
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    final BytesBuilder builder = BytesBuilder();
+    if (requestStream != null) {
+      await for (final Uint8List chunk in requestStream) {
+        builder.add(chunk);
+      }
     }
-    return _testUserSettings(status: body.status?.json ?? 'online');
+    final String raw = utf8.decode(builder.takeBytes());
+    if (raw.isNotEmpty) {
+      bodies.add(Map<String, Object?>.from(jsonDecode(raw) as Map));
+    }
+    return ResponseBody.fromString(
+      jsonEncode(_testUserSettings(status: 'online').toJson()),
+      200,
+      headers: <String, List<String>>{
+        Headers.contentTypeHeader: <String>[Headers.jsonContentType],
+      },
+    );
   }
 
   @override
-  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
-}
-
-class _FakeClient extends FluxerClient {
-  _FakeClient(this._usersApi) : super(Dio());
-
-  final UsersApi _usersApi;
-
-  @override
-  UsersApi get users => _usersApi;
+  void close({bool force = false}) {}
 }
 
 UserSettingsResponse _testUserSettings({required String status}) {
@@ -86,12 +89,12 @@ UserSettingsResponse _testUserSettings({required String status}) {
 void main() {
   group('UserStatusService', () {
     late db.FluxerDatabase database;
-    late _FakeUsersApi usersApi;
+    late _SettingsAdapter adapter;
     late ProviderContainer container;
 
     setUp(() async {
       database = openTestDatabase();
-      usersApi = _FakeUsersApi();
+      adapter = _SettingsAdapter();
       await database.userSettingsDao.upsertSettings(
         db.UserSettingsTableCompanion.insert(
           userId: 'user-1',
@@ -101,10 +104,11 @@ void main() {
       await database.userDao.upsertUser(
         db.UsersCompanion.insert(id: 'user-1', username: 'user'),
       );
+      final Dio dio = Dio()..httpClientAdapter = adapter;
       container = ProviderContainer(
         overrides: [
           fluxerDatabaseProvider.overrideWithValue(database),
-          fluxerClientProvider.overrideWithValue(_FakeClient(usersApi)),
+          fluxerDioProvider.overrideWithValue(dio),
           currentUserIdProvider.overrideWith(_FakeCurrentUserId.new),
           userSettingsStatusProvider.overrideWithValue(
             _testUserSettings(status: 'online'),
@@ -119,14 +123,17 @@ void main() {
     });
 
     test(
-      'setPresenceStatus sends permanent status without reset fields',
+      'setPresenceStatus clears reset fields for permanent status',
       () async {
         await container
             .read(userStatusServiceProvider)
-            .setPresenceStatus(status: PresenceStatus.dnd);
-        expect(usersApi.lastPushBody?.status, PresenceStatus.dnd);
-        expect(usersApi.lastPushBody?.statusResetsAt, isNull);
-        expect(usersApi.lastPushBody?.statusResetsTo, isNull);
+            .setPresenceStatus(status: PresenceStatus.invisible);
+        expect(adapter.bodies, hasLength(1));
+        expect(adapter.bodies.single['status'], 'invisible');
+        expect(adapter.bodies.single.containsKey('status_resets_at'), isTrue);
+        expect(adapter.bodies.single['status_resets_at'], isNull);
+        expect(adapter.bodies.single.containsKey('status_resets_to'), isTrue);
+        expect(adapter.bodies.single['status_resets_to'], isNull);
       },
     );
 
@@ -137,18 +144,22 @@ void main() {
             status: PresenceStatus.idle,
             duration: const Duration(hours: 1),
           );
-      expect(usersApi.lastPushBody?.status, PresenceStatus.idle);
-      expect(usersApi.lastPushBody?.statusResetsAt, isNotNull);
-      expect(usersApi.lastPushBody?.statusResetsTo, PresenceResetStatus.online);
+      expect(adapter.bodies, hasLength(1));
+      expect(adapter.bodies.single['status'], 'idle');
+      expect(adapter.bodies.single['status_resets_at'], isNotNull);
+      expect(adapter.bodies.single['status_resets_to'], 'online');
     });
 
     test('applyScheduledStatusReset clears reset fields', () async {
       await container
           .read(userStatusServiceProvider)
           .applyScheduledStatusReset(fallbackStatus: PresenceStatus.online);
-      expect(usersApi.lastPushBody?.status, PresenceStatus.online);
-      expect(usersApi.lastPushBody?.statusResetsAt, isNull);
-      expect(usersApi.lastPushBody?.statusResetsTo, isNull);
+      expect(adapter.bodies, hasLength(1));
+      expect(adapter.bodies.single['status'], 'online');
+      expect(adapter.bodies.single.containsKey('status_resets_at'), isTrue);
+      expect(adapter.bodies.single['status_resets_at'], isNull);
+      expect(adapter.bodies.single.containsKey('status_resets_to'), isTrue);
+      expect(adapter.bodies.single['status_resets_to'], isNull);
     });
   });
 }

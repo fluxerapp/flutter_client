@@ -4455,6 +4455,10 @@
     "@lookAndFeelThemeDark": {
         "description": "Label on the dark theme swatch button."
     },
+    "lookAndFeelThemeDarkLegacy": "Dark (Legacy) Theme",
+    "@lookAndFeelThemeDarkLegacy": {
+        "description": "Label on the legacy dark theme swatch button."
+    },
     "lookAndFeelThemeCoal": "Coal Theme",
     "@lookAndFeelThemeCoal": {
         "description": "Label on the coal (pitch-black) theme swatch button."

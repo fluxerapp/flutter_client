@@ -21,8 +21,10 @@ import 'package:fluxer_app/features/shell/providers/service_status_incident_prov
 import 'package:fluxer_app/features/shell/utils/splash_quotes.dart';
 import 'package:fluxer_app/features/ui/animation/animation_controller_visibility_extension.dart';
 import 'package:fluxer_app/features/ui/background/starfield_background.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/icons/instance_branding_image.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
@@ -508,7 +510,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               const SizedBox(height: 16),
-                              FilledButton(
+                              FluxerButton.primary(
                                 onPressed: () {
                                   if (serviceUnavailable) {
                                     _scheduleOutageRetry();
@@ -519,10 +521,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                                         .retry(),
                                   );
                                 },
-                                style: FilledButton.styleFrom(
-                                  backgroundColor: context.colors.brandPrimary,
-                                ),
-                                child: Text(strings.retry),
+                                label: strings.retry,
+                                fitContent: true,
                               ),
                               const SizedBox(height: 12),
                               const OfflineAccountSwitcherLink(),
@@ -568,14 +568,27 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                         const SizedBox(height: 16),
                       ],
                       if (showConnectionFooter) const SizedBox(height: 16),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          InstanceDomainIcon(isOfficial: isOfficialInstance),
-                          const SizedBox(width: 4),
-                          Text(displayDomain, style: instanceFooterStyle),
-                        ],
+                      FluxerTappable(
+                        onTap: () =>
+                            unawaited(openOfflineInstanceEscape(context, ref)),
+                        semanticLabel: displayDomain,
+                        builder:
+                            (BuildContext context, Set<WidgetState> states) {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  InstanceDomainIcon(
+                                    isOfficial: isOfficialInstance,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    displayDomain,
+                                    style: instanceFooterStyle,
+                                  ),
+                                ],
+                              );
+                            },
                       ),
                     ],
                   ),

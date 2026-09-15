@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
-import 'package:fluxer_app/features/chat/utils/composer_mention_query.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_mention_query.dart';
 import 'package:fluxer_app/features/members/data/member_repository.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/members/providers/guild_member_chunk_waiter.dart';

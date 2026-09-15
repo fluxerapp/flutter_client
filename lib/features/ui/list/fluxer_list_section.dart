@@ -1,6 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/list/fluxer_list_row.dart';
+import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 /// Grouped-list section: optional header above a rounded card of children.

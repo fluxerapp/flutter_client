@@ -1472,6 +1472,18 @@ void main() {
         expect(find.text('Be the first to send a message!'), findsOneWidget);
         expect(find.byType(Scrollable), findsNothing);
 
+        await tester.pump();
+        await tester.pump();
+        final ProviderContainer container = ProviderScope.containerOf(
+          tester.element(find.byType(MessageList)),
+        );
+        final ChatReadViewportState viewport = container.read(
+          chatReadViewportProvider,
+        );
+        expect(viewport.channelId, messageListChannelId);
+        expect(viewport.nearLoadedTail, isTrue);
+        expect(viewport.sampledTailId, isNull);
+
         await disposeMessageList(tester);
       },
     );

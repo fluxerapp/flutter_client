@@ -6,7 +6,7 @@ import 'package:fluxer_app/features/dm/presentation/dm_layout.dart';
 import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
 import 'package:fluxer_app/features/favorites/presentation/widgets/favorites_welcome.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
-import 'package:fluxer_app/features/gateway/providers/guild_sync_provider.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:go_router/go_router.dart';

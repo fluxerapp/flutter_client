@@ -48,6 +48,7 @@ message SyncedPreferences {
   SudoPromptState sudo_prompt = 110;
   KeybindSettings keybinds = 111;
   ChatInputSettings chat_input = 112;
+  ReactionEmoji double_tap_reaction = 114;
 
 }
 
@@ -259,4 +260,9 @@ enum MfaMethod {
 message ChatInputSettings {
   optional bool convert_emoticons = 1;
   optional bool save_camera_captures_to_device = 2;
+}
+
+message ReactionEmoji {
+  optional string id = 1;
+  string name = 2;
 }

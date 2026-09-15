@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/api/service_unavailable.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/deep_links/deep_link_handler.dart';
+import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/observability/fluxer_observability.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
 import 'package:fluxer_app/core/premium/premium_state_sync_provider.dart';
@@ -14,6 +15,7 @@ import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/fluxer_sfx_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/well_known_provider.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_entrypoint.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_mobile_device_registration.dart';
@@ -34,7 +36,7 @@ import 'package:fluxer_app/features/channels/providers/ack_batcher_gateway_liste
 import 'package:fluxer_app/features/chat/providers/chat_wallpaper_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_sync_provider.dart';
 import 'package:fluxer_app/features/friends/providers/friend_relationships_sync_provider.dart';
-import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_sync_provider.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
@@ -110,6 +112,8 @@ class AppStartup extends _$AppStartup {
   }
 
   void _invalidateGatewayBindings() {
+    ref.read(gatewayReadyProvider.notifier).reset();
+    ref.read(guildAvailabilityProvider.notifier).clear();
     ref
       ..invalidate(authenticatedSessionBindingsProvider)
       ..invalidate(gatewayConnectBindingProvider)
@@ -203,18 +207,18 @@ class AppStartup extends _$AppStartup {
       ref.read(fluxerAuthTokenProvider.notifier).setToken(session.token);
       ref.read(currentUserIdProvider.notifier).set(session.userId);
       launchPluginWarm ??= _warmLaunchNavigationPlugins();
-      if (!gatewayBound) {
-        await restoreIdentifyGuildId;
-        if (!ref.mounted) {
-          return;
-        }
-        ref.read(pendingPushNotificationPathProvider);
-        _attachAuthenticatedBindings();
-        gatewayBound = true;
-      } else {
-        _invalidateGatewayBindings();
-        _attachAuthenticatedBindings();
+      await restoreIdentifyGuildId;
+      if (!ref.mounted) {
+        return;
       }
+      ref.read(pendingPushNotificationPathProvider);
+      // keepAlive bindings survive appStartup invalidation. Drop them when
+      // they already exist so account switch cannot reuse the old socket.
+      if (ref.exists(authenticatedSessionBindingsProvider)) {
+        _invalidateGatewayBindings();
+      }
+      _attachAuthenticatedBindings();
+      gatewayBound = true;
 
       try {
         final UserPrivateResponse user = await FluxerObservability.instance

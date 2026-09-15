@@ -4,7 +4,7 @@ import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
-import 'package:fluxer_app/features/chat/utils/klipy_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media/klipy_utils.dart';
 import 'package:fluxer_dart/export.dart' as sdk;
 
 class FavoriteMediaRepository {

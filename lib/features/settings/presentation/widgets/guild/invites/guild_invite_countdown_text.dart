@@ -22,32 +22,32 @@ class GuildInviteCountdownText extends StatefulWidget {
 
   @override
   State<GuildInviteCountdownText> createState() =>
-      _GuildInviteCountdownTextState();
+      GuildInviteCountdownTextState();
 }
 
-class _GuildInviteCountdownTextState extends State<GuildInviteCountdownText> {
+class GuildInviteCountdownTextState extends State<GuildInviteCountdownText> {
   Timer? _timer;
   InviteCountdownState _state = const InviteCountdownState(
     text: null,
     isMonospace: false,
   );
 
+  @visibleForTesting
+  bool get hasActiveTimer => _timer != null;
+
   @override
   void initState() {
     super.initState();
-    _updateCountdown();
-    _timer = Timer.periodic(
-      const Duration(seconds: 1),
-      (_) => _updateCountdown(),
-    );
+    _applyCountdown(notify: false);
   }
 
   @override
   void didUpdateWidget(covariant GuildInviteCountdownText oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.expiresAt != widget.expiresAt ||
-        oldWidget.expiredLabel != widget.expiredLabel) {
-      _updateCountdown();
+        oldWidget.expiredLabel != widget.expiredLabel ||
+        oldWidget.neverLabel != widget.neverLabel) {
+      _applyCountdown(notify: true);
     }
   }
 
@@ -57,22 +57,41 @@ class _GuildInviteCountdownTextState extends State<GuildInviteCountdownText> {
     super.dispose();
   }
 
-  void _updateCountdown() {
-    if (widget.expiresAt == null) {
+  void _applyCountdown({required bool notify}) {
+    final InviteCountdownState next = _resolveState();
+    _syncTimer(next);
+    if (_state.text == next.text && _state.isMonospace == next.isMonospace) {
+      return;
+    }
+    if (notify && mounted) {
       setState(() {
-        _state = InviteCountdownState(
-          text: widget.neverLabel,
-          isMonospace: false,
-        );
+        _state = next;
       });
       return;
     }
-    setState(() {
-      _state = GuildInvitesUtils.resolveCountdown(
-        expiresAt: widget.expiresAt,
-        expiredLabel: widget.expiredLabel,
+    _state = next;
+  }
+
+  InviteCountdownState _resolveState() {
+    if (widget.expiresAt == null) {
+      return InviteCountdownState(text: widget.neverLabel, isMonospace: false);
+    }
+    return GuildInvitesUtils.resolveCountdown(
+      expiresAt: widget.expiresAt,
+      expiredLabel: widget.expiredLabel,
+    );
+  }
+
+  void _syncTimer(InviteCountdownState next) {
+    if (next.isMonospace) {
+      _timer ??= Timer.periodic(
+        const Duration(seconds: 1),
+        (_) => _applyCountdown(notify: true),
       );
-    });
+      return;
+    }
+    _timer?.cancel();
+    _timer = null;
   }
 
   @override

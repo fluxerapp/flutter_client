@@ -4405,6 +4405,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get lookAndFeelThemeDark => 'Tamsi tema';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => 'Anglies tema';
 
   @override
@@ -5102,6 +5105,14 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get accessibilityAlwaysUnderlineLinksLabel =>
       'Visada pabraukti nuorodas';
+
+  @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
 
   @override
   String get accessibilityDimStrikethroughTextLabel =>
@@ -6675,6 +6686,18 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get chatMessageAddReaction => 'Pridėti reakciją';
 
   @override
+  String get doubleTapReactionHint => 'Double tap a message to';
+
+  @override
+  String get doubleTapReactionEdit => 'Edit';
+
+  @override
+  String get doubleTapReactionEditTitle => 'Edit default';
+
+  @override
+  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+
+  @override
   String get chatMessageEdit => 'Redaguoti žinutę';
 
   @override
@@ -7427,6 +7450,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get chatVideoPlaybackFailed => 'Nepavyko paleisti šio vaizdo įrašo.';
+
+  @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
@@ -10990,6 +11016,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Įveskite instance URL (pvz., fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Atstatyti į Fluxer';
 
   @override
@@ -11011,9 +11041,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'Prisijungti prie serverio';
-
-  @override
-  String get connectToDifferentInstance => 'Prisijungti prie kito serverio';
 
   @override
   String get changeInstance => 'Keisti';

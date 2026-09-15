@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
@@ -8,15 +10,19 @@ import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/auth/providers/ip_authorization_view_model.dart';
 
 class _FakeAuthRepository implements AuthRepository {
-  _FakeAuthRepository({this.pollResult, this.pollError});
+  _FakeAuthRepository({this.pollResult, this.pollError, this.pollPending});
 
   final IpAuthPollResult? pollResult;
   final Exception? pollError;
+  final Completer<IpAuthPollResult>? pollPending;
   int pollCount = 0;
 
   @override
   Future<IpAuthPollResult> pollIpAuthorization(String ticket) async {
     pollCount++;
+    if (pollPending != null) {
+      return pollPending!.future;
+    }
     if (pollError != null) {
       throw pollError!;
     }
@@ -101,6 +107,23 @@ void main() {
     container.read(appUiForegroundProvider.notifier).setResumed(true);
     await _pump();
 
+    expect(repo.pollCount, 2);
+  });
+
+  test('does not start a second poll while one is in flight', () async {
+    final Completer<IpAuthPollResult> pending = Completer<IpAuthPollResult>();
+    final repo = _FakeAuthRepository(pollPending: pending);
+    final container = _container(repo);
+    await _pump();
+    expect(repo.pollCount, 1);
+
+    container.read(appUiForegroundProvider.notifier).setResumed(false);
+    container.read(appUiForegroundProvider.notifier).setResumed(true);
+    await _pump();
+    expect(repo.pollCount, 1);
+
+    pending.complete(const IpAuthPending());
+    await _pump();
     expect(repo.pollCount, 2);
   });
 }

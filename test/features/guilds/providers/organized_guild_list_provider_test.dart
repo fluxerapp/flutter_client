@@ -477,6 +477,54 @@ void main() {
       expect((items[0] as GuildNavbarGuild).guild.id, 'a');
     });
 
+    test('combine path creates folder at the drop target slot', () {
+      final ProviderContainer container = _organizedGuildListTestContainer();
+      addTearDown(container.dispose);
+      final OrganizedGuildList notifier =
+          container.read(organizedGuildListProvider.notifier)
+            ..state = [
+              GuildNavbarGuild(guild: _guild('a')),
+              GuildNavbarGuild(guild: _guild('b')),
+              GuildNavbarGuild(guild: _guild('c')),
+            ]
+            ..applyDragDrop(
+              sourceId: 'a',
+              targetId: 'c',
+              targetIsFolder: false,
+              position: DropPosition.combine,
+            );
+
+      final List<GuildNavbarItem> items = notifier.state;
+      expect(items.length, 2);
+      expect((items[0] as GuildNavbarGuild).guild.id, 'b');
+      final GuildNavbarFolder folder = items[1] as GuildNavbarFolder;
+      expect(folder.guilds.map((Guild g) => g.id).toList(), ['c', 'a']);
+    });
+
+    test('combine path keeps folder at target when source is below', () {
+      final ProviderContainer container = _organizedGuildListTestContainer();
+      addTearDown(container.dispose);
+      final OrganizedGuildList notifier =
+          container.read(organizedGuildListProvider.notifier)
+            ..state = [
+              GuildNavbarGuild(guild: _guild('a')),
+              GuildNavbarGuild(guild: _guild('b')),
+              GuildNavbarGuild(guild: _guild('c')),
+            ]
+            ..applyDragDrop(
+              sourceId: 'c',
+              targetId: 'a',
+              targetIsFolder: false,
+              position: DropPosition.combine,
+            );
+
+      final List<GuildNavbarItem> items = notifier.state;
+      expect(items.length, 2);
+      final GuildNavbarFolder folder = items[0] as GuildNavbarFolder;
+      expect(folder.guilds.map((Guild g) => g.id).toList(), ['a', 'c']);
+      expect((items[1] as GuildNavbarGuild).guild.id, 'b');
+    });
+
     test('combine path moves top-level guild into folder', () {
       final ProviderContainer container = _organizedGuildListTestContainer();
       addTearDown(container.dispose);

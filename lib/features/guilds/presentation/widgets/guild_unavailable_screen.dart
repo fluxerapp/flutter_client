@@ -6,7 +6,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/channel/chat_back_
 import 'package:fluxer_app/features/chat/presentation/widgets/chat_loading_spinner.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_back_button_unread_provider.dart';
 import 'package:fluxer_app/features/chat/utils/chat_spinner_debug.dart';
-import 'package:fluxer_app/features/chat/utils/inline_expression_panel_layout.dart';
+import 'package:fluxer_app/features/chat/utils/composer/inline_expression_panel_layout.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_back_handler.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_back_resolver.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';

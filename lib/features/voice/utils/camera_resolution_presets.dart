@@ -39,6 +39,24 @@ CameraPosition liveKitCameraPosition(VoiceCameraFacing facing) {
       : CameraPosition.front;
 }
 
+bool cameraCaptureOptionsMatch(CameraCaptureOptions a, CameraCaptureOptions b) {
+  return a.cameraPosition == b.cameraPosition && _sameCameraInput(a, b);
+}
+
+bool isCameraFacingOnlyChange({
+  required CameraCaptureOptions current,
+  required CameraCaptureOptions next,
+}) {
+  return current.cameraPosition != next.cameraPosition &&
+      _sameCameraInput(current, next);
+}
+
+bool _sameCameraInput(CameraCaptureOptions a, CameraCaptureOptions b) {
+  return a.params == b.params &&
+      a.maxFrameRate == b.maxFrameRate &&
+      a.deviceId == b.deviceId;
+}
+
 CameraCaptureOptions cameraCaptureOptionsFor({
   required CameraResolution resolution,
   String? deviceId,

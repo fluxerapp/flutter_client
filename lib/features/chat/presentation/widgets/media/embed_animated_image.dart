@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/features/accessibility/effective_motion_preferences_provider.dart';
-import 'package:fluxer_app/features/accessibility/motion_preferences.dart';
+import 'package:fluxer_app/features/accessibility/domain/motion_preferences.dart';
+import 'package:fluxer_app/features/accessibility/providers/effective_motion_preferences_provider.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/animated_image_playback_controller.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/fluxer_animated_image.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -16,6 +16,7 @@ class EmbedAnimatedImage extends ConsumerStatefulWidget {
     required this.visibilityKey,
     this.fit = BoxFit.cover,
     this.placeholder,
+    this.errorPlaceholder,
     this.useStickerAnimationPreference = false,
     super.key,
   });
@@ -29,6 +30,8 @@ class EmbedAnimatedImage extends ConsumerStatefulWidget {
   final BoxFit fit;
 
   final Widget? placeholder;
+
+  final Widget? errorPlaceholder;
 
   /// When true, uses [MotionPreferencesModel.effectiveAnimateStickers] instead
   /// of GIF autoplay.
@@ -159,7 +162,9 @@ class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
     }
 
     if (widget.animatedUrl.isEmpty) {
-      return widget.placeholder ?? const SizedBox.shrink();
+      return widget.errorPlaceholder ??
+          widget.placeholder ??
+          const SizedBox.shrink();
     }
     Widget content = VisibilityDetector(
       key: ValueKey<String>('embed-gif-${widget.visibilityKey}'),
@@ -173,6 +178,7 @@ class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
             playing: _playingNotifier.value,
             fit: widget.fit,
             placeholder: widget.placeholder,
+            errorPlaceholder: widget.errorPlaceholder,
           );
         },
       ),

@@ -12,6 +12,8 @@ part 'service_status_maintenance_provider.g.dart';
 @Riverpod(keepAlive: true)
 class ServiceStatusMaintenanceRead extends _$ServiceStatusMaintenanceRead {
   Timer? _pollTimer;
+  bool _refreshInFlight = false;
+  bool _refreshQueued = false;
   final ServiceStatusClient _client = ServiceStatusClient();
 
   @override
@@ -28,22 +30,36 @@ class ServiceStatusMaintenanceRead extends _$ServiceStatusMaintenanceRead {
   }
 
   Future<void> refresh() async {
-    final AsyncValue<WellKnownFluxerResponse> wellKnown = ref.read(
-      wellKnownProvider,
-    );
-    final bool isSelfHosted = wellKnown.maybeWhen(
-      data: (WellKnownFluxerResponse response) => response.features.selfHosted,
-      orElse: () => false,
-    );
-    if (isSelfHosted) {
-      _cancelPoll();
-      state = null;
+    if (_refreshInFlight) {
+      _refreshQueued = true;
       return;
     }
-    final ServiceStatusMaintenance? next = await _client
-        .fetchScheduledMaintenance();
-    state = next;
-    _scheduleNextPoll(next);
+    _refreshInFlight = true;
+    try {
+      final AsyncValue<WellKnownFluxerResponse> wellKnown = ref.read(
+        wellKnownProvider,
+      );
+      final bool isSelfHosted = wellKnown.maybeWhen(
+        data: (WellKnownFluxerResponse response) =>
+            response.features.selfHosted,
+        orElse: () => false,
+      );
+      if (isSelfHosted) {
+        _cancelPoll();
+        state = null;
+        return;
+      }
+      final ServiceStatusMaintenance? next = await _client
+          .fetchScheduledMaintenance();
+      state = next;
+      _scheduleNextPoll(next);
+    } finally {
+      _refreshInFlight = false;
+      if (_refreshQueued && ref.mounted) {
+        _refreshQueued = false;
+        unawaited(refresh());
+      }
+    }
   }
 
   void _scheduleNextPoll(ServiceStatusMaintenance? maintenance) {

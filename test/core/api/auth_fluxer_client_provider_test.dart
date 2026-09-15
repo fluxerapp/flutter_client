@@ -38,7 +38,7 @@ class _OfficialPendingInstanceSelector extends InstanceSelector {
   @override
   Future<InstanceSelectorState> build() async {
     return InstanceSelectorState(
-      instanceUrl: 'api.fluxer.app/v1',
+      instanceUrl: 'fluxer.app',
       status: InstanceDiscoveryStatus.success,
       recentInstances: const <RecentInstance>[],
       requiresDiscovery: false,

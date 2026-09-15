@@ -6,7 +6,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/chat_loading_spinn
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_composer_layout.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/utils/chat_spinner_debug.dart';
-import 'package:fluxer_app/features/chat/utils/typing_indicator_text.dart';
+import 'package:fluxer_app/features/chat/utils/composer/typing_indicator_text.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/settings/providers/blocked_users_view_model.dart';

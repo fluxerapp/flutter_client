@@ -13,6 +13,70 @@ double _guildNavbarInitialsFontSize(int initialsLength) {
 int _guildNavbarIconMemCache(BuildContext context, double logicalSize) =>
     (logicalSize * MediaQuery.devicePixelRatioOf(context)).round();
 
+class GuildNavbarIconShape extends StatelessWidget {
+  const GuildNavbarIconShape({
+    required this.isActive,
+    required this.child,
+    this.hasImage = false,
+    this.isUnavailable = false,
+    super.key,
+  });
+
+  static const double size = 44;
+  static const double idleRadius = size * 0.5;
+  static const double activeRadius = size * 0.3;
+
+  final bool isActive;
+  final bool hasImage;
+  final bool isUnavailable;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final double target = isActive ? 1 : 0;
+    final Color idleBackground = isUnavailable
+        ? colors.statusDanger
+        : hasImage
+        ? Colors.transparent
+        : colors.serverIconBackground;
+    final Color activeBackground = isUnavailable || hasImage
+        ? idleBackground
+        : colors.brandPrimary;
+    final Color idleForeground = isUnavailable
+        ? colors.textOnBrandPrimary
+        : colors.textPrimary;
+    return TweenAnimationBuilder<double>(
+      duration: context.motion.hover,
+      curve: Curves.easeOut,
+      tween: Tween<double>(begin: target, end: target),
+      builder: (BuildContext context, double t, Widget? child) {
+        final Color foreground = Color.lerp(
+          idleForeground,
+          colors.textOnBrandPrimary,
+          t,
+        )!;
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(
+            idleRadius + (activeRadius - idleRadius) * t,
+          ),
+          child: ColoredBox(
+            color: Color.lerp(idleBackground, activeBackground, t)!,
+            child: SizedBox.square(
+              dimension: size,
+              child: IconTheme.merge(
+                data: IconThemeData(color: foreground),
+                child: child!,
+              ),
+            ),
+          ),
+        );
+      },
+      child: child,
+    );
+  }
+}
+
 class _GuildListItem extends StatefulWidget {
   final String label;
   final Guild? guild;

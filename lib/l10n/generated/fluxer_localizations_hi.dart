@@ -4377,6 +4377,9 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get lookAndFeelThemeDark => 'डार्क थीम';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => 'कोल थीम';
 
   @override
@@ -5074,6 +5077,14 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   @override
   String get accessibilityAlwaysUnderlineLinksLabel =>
       'लिंक को हमेशा रेखांकित करें';
+
+  @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
 
   @override
   String get accessibilityDimStrikethroughTextLabel =>
@@ -6589,6 +6600,18 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get chatMessageAddReaction => 'प्रतिक्रिया जोड़ें';
 
   @override
+  String get doubleTapReactionHint => 'Double tap a message to';
+
+  @override
+  String get doubleTapReactionEdit => 'Edit';
+
+  @override
+  String get doubleTapReactionEditTitle => 'Edit default';
+
+  @override
+  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+
+  @override
   String get chatMessageEdit => 'संदेश संपादित करें';
 
   @override
@@ -7337,6 +7360,9 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get chatVideoPlaybackFailed => 'यह वीडियो नहीं चलाया जा सका।';
+
+  @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
@@ -10861,6 +10887,10 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'इंस्टेंस यूआरएल दर्ज करें (जैसे fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Fluxer पर रीसेट करें';
 
   @override
@@ -10882,9 +10912,6 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'इंस्टेंस से कनेक्ट करें';
-
-  @override
-  String get connectToDifferentInstance => 'किसी दूसरे इंस्टेंस से कनेक्ट करें';
 
   @override
   String get changeInstance => 'बदलें';

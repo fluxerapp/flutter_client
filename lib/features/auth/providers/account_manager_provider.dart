@@ -113,8 +113,9 @@ class AccountManager extends _$AccountManager {
     }
   }
 
-  /// Validates a token by calling `GET /users/@me` with the account's own
-  /// token. Returns `false` on 401 or network failure.
+  /// Validates a token by calling `GET /users/@me` against the active
+  /// instance. Returns `false` on 401. Other errors rethrow so a down
+  /// instance does not expire the session.
   Future<bool> _validateToken(String token) async {
     try {
       final baseUrl = ref.read(fluxerBaseUrlProvider);

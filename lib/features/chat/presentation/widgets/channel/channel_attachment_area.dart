@@ -5,8 +5,10 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/attachment_edit_modal.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/alt_text_badge.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/media_alt_text.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
-import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -133,6 +135,7 @@ class _AttachmentChip extends ConsumerWidget {
     final bool isVideo = _isVideoFilename(attachment.filename);
     final bool isSpoiler = (attachment.flags & attachmentFlagIsSpoiler) != 0;
     final String? byteSizeLabel = formatAttachmentByteSize(attachment.size);
+    final String? altText = resolvedMediaAltText(attachment.description);
 
     return SizedBox(
       width: 150,
@@ -181,6 +184,14 @@ class _AttachmentChip extends ConsumerWidget {
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
+                          ),
+                        ),
+                      if (altText != null && !isSpoiler)
+                        Positioned(
+                          right: 6,
+                          bottom: 6,
+                          child: IgnorePointer(
+                            child: AltTextBadge(altText: altText),
                           ),
                         ),
                       if (attachment.status == PendingAttachmentStatus.failed)

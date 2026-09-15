@@ -1,5 +1,5 @@
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_live_gradient.dart';
-import 'package:fluxer_app/features/chat/utils/voice_message_constants.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/voice_message_constants.dart';
 import 'package:test/test.dart';
 
 void main() {

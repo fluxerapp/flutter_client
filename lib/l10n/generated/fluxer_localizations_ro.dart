@@ -4402,6 +4402,9 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get lookAndFeelThemeDark => 'Temă întunecată';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => 'Tema Cărbune';
 
   @override
@@ -5102,6 +5105,14 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   @override
   String get accessibilityAlwaysUnderlineLinksLabel =>
       'Subliniază mereu linkurile';
+
+  @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
 
   @override
   String get accessibilityDimStrikethroughTextLabel =>
@@ -6633,6 +6644,18 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get chatMessageAddReaction => 'Adaugă reacție';
 
   @override
+  String get doubleTapReactionHint => 'Double tap a message to';
+
+  @override
+  String get doubleTapReactionEdit => 'Edit';
+
+  @override
+  String get doubleTapReactionEditTitle => 'Edit default';
+
+  @override
+  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+
+  @override
   String get chatMessageEdit => 'Editează mesajul';
 
   @override
@@ -7386,6 +7409,9 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get chatVideoPlaybackFailed => 'Nu s-a putut reda acest videoclip.';
+
+  @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
@@ -10961,6 +10987,10 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Introdu adresa URL a instanței (ex. fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Resetează la Fluxer';
 
   @override
@@ -10982,9 +11012,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'Conectare la instanță';
-
-  @override
-  String get connectToDifferentInstance => 'Conectează-te la o altă instanță';
 
   @override
   String get changeInstance => 'Schimbă';

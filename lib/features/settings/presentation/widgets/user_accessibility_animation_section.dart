@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
-import 'package:fluxer_app/features/accessibility/effective_motion_preferences_provider.dart';
-import 'package:fluxer_app/features/accessibility/motion_preferences.dart';
+import 'package:fluxer_app/features/accessibility/domain/motion_preferences.dart';
+import 'package:fluxer_app/features/accessibility/providers/effective_motion_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -28,7 +28,7 @@ class UserAccessibilityAnimationSection extends ConsumerWidget {
     final input = motionPreferencesInputFromSlices(
       appearance: appearance,
       userSettings: userSettings,
-      systemReducedMotion: MediaQuery.disableAnimationsOf(context),
+      systemReducedMotion: platformReducedMotionOf(ref, context),
       isMobile: isMobile,
     );
     final model = resolveMotionPreferencesModel(input);

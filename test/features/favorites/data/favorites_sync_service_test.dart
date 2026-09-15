@@ -555,7 +555,7 @@ void main() {
       expect(usersApi.pushCount, 1);
 
       usersApi.pushError = null;
-      await flushSyncedPreferencesRateLimitRetry(syncStore);
+      await flushSyncedPreferencesPushRetry(syncStore);
       expect(usersApi.pushCount, greaterThan(1));
     });
 

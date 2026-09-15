@@ -1,8 +1,29 @@
+import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/material_ui.dart';
+
+/// Status and navigation bar style from the app theme, not the OS mode.
+SystemUiOverlayStyle fluxerSystemUiOverlayStyle({
+  required Brightness brightness,
+  required Color navigationBarColor,
+}) {
+  final Brightness iconBrightness = brightness == Brightness.dark
+      ? Brightness.light
+      : Brightness.dark;
+  return SystemUiOverlayStyle(
+    statusBarColor: const Color(0x00000000),
+    statusBarBrightness: brightness,
+    statusBarIconBrightness: iconBrightness,
+    systemStatusBarContrastEnforced: false,
+    systemNavigationBarColor: navigationBarColor,
+    systemNavigationBarDividerColor: const Color(0x00000000),
+    systemNavigationBarIconBrightness: iconBrightness,
+    systemNavigationBarContrastEnforced: false,
+  );
+}
 
 /// Build Fluxer-styled ThemeData from theme extensions.
 ThemeData buildFluxerTheme({
@@ -54,6 +75,10 @@ ThemeData buildFluxerTheme({
       elevation: 0,
       scrolledUnderElevation: 1,
       shadowColor: colorTheme.backgroundFloating,
+      systemOverlayStyle: fluxerSystemUiOverlayStyle(
+        brightness: brightness,
+        navigationBarColor: colorTheme.backgroundSecondary,
+      ),
     ),
     scrollbarTheme: ScrollbarThemeData(
       thumbColor: WidgetStateProperty.all(colorTheme.scrollbarThumbBg),

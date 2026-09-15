@@ -5,7 +5,7 @@ import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart'
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
-import 'package:fluxer_app/features/accessibility/text_scale.dart';
+import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/chat_wallpaper_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/look_and_feel_messages_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/theme_swatch_button.dart';
@@ -23,10 +23,11 @@ class UserLookAndFeel extends ConsumerWidget {
 
   final ScrollController? scrollController;
 
-  static const _darkSwatch = Color(0xFF1E222C);
-  static const _coalSwatch = Color(0xFF050608);
+  static const _darkSwatch = Color(0xFF1D1C22);
+  static const _darkLegacySwatch = Color(0xFF191B20);
+  static const _coalSwatch = Color(0xFF050506);
   static const _lightSwatch = Color(0xFFFBFBFC);
-  static const _systemDarkSwatch = Color(0xFF0A0B0F);
+  static const _systemDarkSwatch = Color(0xFF0C0B0E);
 
   static const List<double> _appZoomMarkerPercents =
       kAppZoomLevelMarkerPercents;
@@ -99,6 +100,15 @@ class UserLookAndFeel extends ConsumerWidget {
                     enabled: swatchesEnabled,
                     isLoading: inflightMode == FluxerThemeMode.dark,
                     onTap: () => unawaited(changeTheme(FluxerThemeMode.dark)),
+                  ),
+                  ThemeSwatchButton(
+                    label: l10n.lookAndFeelThemeDarkLegacy,
+                    backgroundColor: _darkLegacySwatch,
+                    isSelected: themePref.mode == FluxerThemeMode.darkLegacy,
+                    enabled: swatchesEnabled,
+                    isLoading: inflightMode == FluxerThemeMode.darkLegacy,
+                    onTap: () =>
+                        unawaited(changeTheme(FluxerThemeMode.darkLegacy)),
                   ),
                   ThemeSwatchButton(
                     label: l10n.lookAndFeelThemeCoal,

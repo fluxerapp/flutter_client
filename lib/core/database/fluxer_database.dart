@@ -141,7 +141,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 89;
+  int get schemaVersion => 90;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1343,6 +1343,18 @@ class FluxerDatabase extends _$FluxerDatabase {
           await m.addColumn(
             userPreferencesTable,
             userPreferencesTable.chatWallpaperJson,
+          );
+        }
+      }
+      if (from < 90) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'show_alt_text_on_images',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.showAltTextOnImages,
           );
         }
       }

@@ -41,10 +41,10 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_i
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
-import 'package:fluxer_app/features/chat/utils/channel_search_utils.dart';
-import 'package:fluxer_app/features/chat/utils/composer_mention_query.dart';
-import 'package:fluxer_app/features/chat/utils/delete_my_messages_in_channel_action.dart';
-import 'package:fluxer_app/features/chat/utils/message_link.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_mention_query.dart';
+import 'package:fluxer_app/features/chat/utils/messages/delete_my_messages_in_channel_action.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_link.dart';
+import 'package:fluxer_app/features/chat/utils/search/channel_search_utils.dart';
 import 'package:fluxer_app/features/dm/data/dm_conversation_mapper.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';

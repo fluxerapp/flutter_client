@@ -1,0 +1,451 @@
+import 'package:fluxer_app/core/theme/color_families.dart';
+import 'package:fluxer_app/core/theme/color_generator.dart';
+import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
+import 'package:fluxer_app/material_ui.dart';
+
+/// Builds the legacy dark color theme (original neutral gray palette).
+FluxerColorTheme buildDarkLegacyColorTheme({double saturationFactor = 1.0}) {
+  // ---------------------------------------------------------------------------
+  // Helpers
+  // ---------------------------------------------------------------------------
+
+  Color tone(
+    ColorFamily family,
+    double lightness, {
+    double alpha = 1.0,
+    double? saturation,
+  }) {
+    final sat = saturation ?? family.saturation;
+    final effectiveSat = family.useSaturationFactor
+        ? sat * saturationFactor
+        : sat;
+    return generateTone(
+      hue: family.hue,
+      saturation: effectiveSat,
+      lightness: lightness,
+      opacity: alpha,
+    );
+  }
+
+  Color toneDirect({
+    required double hue,
+    required double saturation,
+    required double lightness,
+    double alpha = 1.0,
+    bool useSatFactor = true,
+  }) {
+    final effectiveSat = useSatFactor
+        ? saturation * saturationFactor
+        : saturation;
+    return generateTone(
+      hue: hue,
+      saturation: effectiveSat,
+      lightness: lightness,
+      opacity: alpha,
+    );
+  }
+
+  // ---------------------------------------------------------------------------
+  // Scales
+  // ---------------------------------------------------------------------------
+
+  final darkSurface = const ColorScale(
+    family: FluxerColorFamilies.legacyDark,
+    lightnessStart: 5,
+    lightnessEnd: 26,
+    curve: ScaleCurves.easeOut,
+    stops: [
+      ScaleStop(name: 'backgroundPrimary', position: 0),
+      ScaleStop(name: 'backgroundSecondary', position: 0.16),
+      ScaleStop(name: 'backgroundSecondaryLighter', position: 0.22),
+      ScaleStop(name: 'backgroundSecondaryAlt', position: 0.28),
+      ScaleStop(name: 'backgroundTertiary', position: 0.4),
+      ScaleStop(name: 'backgroundChannelHeader', position: 0.34),
+      ScaleStop(name: 'guildListForeground', position: 0.38),
+      ScaleStop(name: 'backgroundHeaderSecondary', position: 0.5),
+      ScaleStop(name: 'backgroundHeaderPrimary', position: 0.5),
+      ScaleStop(name: 'backgroundTextarea', position: 0.3),
+      ScaleStop(name: 'backgroundHeaderPrimaryHover', position: 0.85),
+    ],
+  ).build(saturationFactor: saturationFactor);
+
+  final darkText = const ColorScale(
+    family: FluxerColorFamilies.legacyDark,
+    lightnessStart: 52,
+    lightnessEnd: 96,
+    curve: ScaleCurves.easeInOut,
+    stops: [
+      ScaleStop(name: 'textTertiarySecondary', position: 0),
+      ScaleStop(name: 'textTertiaryMuted', position: 0.2),
+      ScaleStop(name: 'textTertiary', position: 0.38),
+      ScaleStop(name: 'textPrimaryMuted', position: 0.55),
+      ScaleStop(name: 'textChatMuted', position: 0.55),
+      ScaleStop(name: 'textSecondary', position: 0.72),
+      ScaleStop(name: 'textChat', position: 0.82),
+      ScaleStop(name: 'textPrimary', position: 1),
+    ],
+  ).build(saturationFactor: saturationFactor);
+
+  // ---------------------------------------------------------------------------
+  // Individual tone tokens
+  // ---------------------------------------------------------------------------
+
+  final brandPrimary = tone(FluxerColorFamilies.brand, 55);
+  final statusOnline = tone(FluxerColorFamilies.legacyStatusOnline, 40);
+  final statusIdle = tone(FluxerColorFamilies.statusIdle, 50);
+  final statusDnd = tone(FluxerColorFamilies.statusDnd, 60);
+  final textLink = tone(FluxerColorFamilies.legacyLink, 70);
+  final textSecondary = darkText['textSecondary']!;
+  final textPrimary = darkText['textPrimary']!;
+  final backgroundSecondary = darkSurface['backgroundSecondary']!;
+  final backgroundSecondaryAlt = darkSurface['backgroundSecondaryAlt']!;
+  final backgroundTertiary = darkSurface['backgroundTertiary']!;
+  final backgroundPrimary = darkSurface['backgroundPrimary']!;
+  final borderColorVal = tone(FluxerColorFamilies.legacyDark, 50, alpha: 0.2);
+  final backgroundModifierHoverVal = toneDirect(
+    hue: 220,
+    saturation: 13,
+    lightness: 100,
+    alpha: 0.05,
+  );
+  final backgroundModifierSelectedVal = toneDirect(
+    hue: 220,
+    saturation: 13,
+    lightness: 100,
+    alpha: 0.1,
+  );
+  final backgroundModifierAccentVal = toneDirect(
+    hue: 220,
+    saturation: 13,
+    lightness: 80,
+    alpha: 0.15,
+  );
+
+  // ---------------------------------------------------------------------------
+  // Assemble theme
+  // ---------------------------------------------------------------------------
+
+  return FluxerColorTheme(
+    // Background (from darkSurface scale)
+    backgroundPrimary: backgroundPrimary,
+    backgroundSecondary: backgroundSecondary,
+    backgroundSecondaryLighter: darkSurface['backgroundSecondaryLighter']!,
+    backgroundSecondaryAlt: backgroundSecondaryAlt,
+    backgroundTertiary: backgroundTertiary,
+    backgroundTextarea: darkSurface['backgroundTextarea']!,
+    backgroundHeaderPrimary: darkSurface['backgroundHeaderPrimary']!,
+    backgroundHeaderPrimaryHover: darkSurface['backgroundHeaderPrimaryHover']!,
+    backgroundHeaderSecondary: darkSurface['backgroundHeaderSecondary']!,
+    backgroundChannelHeader: darkSurface['backgroundChannelHeader']!,
+    backgroundFloating: toneDirect(hue: 220, saturation: 13, lightness: 3),
+    guildListForeground: darkSurface['guildListForeground']!,
+    backgroundModifierHover: backgroundModifierHoverVal,
+    backgroundModifierSelected: backgroundModifierSelectedVal,
+    backgroundModifierAccent: backgroundModifierAccentVal,
+    backgroundModifierAccentFocus: toneDirect(
+      hue: 220,
+      saturation: 13,
+      lightness: 80,
+      alpha: 0.22,
+    ),
+
+    // Brand
+    brandPrimary: brandPrimary,
+    brandSecondary: tone(FluxerColorFamilies.brand, 49, saturation: 60),
+    brandPrimaryLight: toneDirect(hue: 242, saturation: 100, lightness: 84),
+    brandPrimaryFill: toneDirect(
+      hue: 0,
+      saturation: 0,
+      lightness: 100,
+      useSatFactor: false,
+    ),
+
+    // Status
+    statusOnline: statusOnline,
+    statusIdle: statusIdle,
+    statusDnd: statusDnd,
+    statusOffline: tone(FluxerColorFamilies.statusOffline, 65),
+    statusDanger: tone(FluxerColorFamilies.statusDanger, 55),
+    statusWarning: statusIdle,
+
+    // Text (from darkText scale + individual tones)
+    textPrimary: textPrimary,
+    textSecondary: textSecondary,
+    textTertiary: darkText['textTertiary']!,
+    textPrimaryMuted: darkText['textPrimaryMuted']!,
+    textChat: darkText['textChat']!,
+    textChatMuted: darkText['textChatMuted']!,
+    textLink: textLink,
+    textOnBrandPrimary: toneDirect(
+      hue: 0,
+      saturation: 0,
+      lightness: 98,
+      useSatFactor: false,
+    ),
+    textTertiaryMuted: darkText['textTertiaryMuted']!,
+    textTertiarySecondary: darkText['textTertiarySecondary']!,
+    textWarning: tone(FluxerColorFamilies.statusIdle, 55),
+    textDanger: tone(FluxerColorFamilies.statusDanger, 55),
+    textPositive: statusOnline,
+    textCode: tone(FluxerColorFamilies.textCode, 90),
+
+    // Border
+    borderColor: borderColorVal,
+    borderColorHover: tone(FluxerColorFamilies.legacyDark, 50, alpha: 0.3),
+    borderColorFocus: toneDirect(
+      hue: 210,
+      saturation: 90,
+      lightness: 70,
+      alpha: 0.45,
+    ),
+
+    // Accent
+    accentPrimary: brandPrimary,
+    accentSuccess: statusOnline,
+    accentWarning: statusIdle,
+    accentDanger: statusDnd,
+    accentInfo: textLink,
+    accentPurple: tone(FluxerColorFamilies.legacyAccentPurple, 65),
+
+    // Alert
+    alertNote: tone(FluxerColorFamilies.legacyLink, 70),
+    alertTip: tone(FluxerColorFamilies.legacyStatusOnline, 45),
+    alertImportant: tone(FluxerColorFamilies.legacyAccentPurple, 65),
+    alertWarning: tone(FluxerColorFamilies.statusIdle, 55),
+    alertCaution: toneDirect(hue: 359, saturation: 75, lightness: 60),
+
+    // Markup
+    markupMentionText: textLink,
+    markupMentionFill: textLink.withValues(alpha: 0.2),
+    markupMentionBorder: tone(FluxerColorFamilies.legacyLink, 70, alpha: 0.3),
+    markupInteractiveHoverText: textLink,
+    markupInteractiveHoverFill: textLink.withValues(alpha: 0.3),
+    markupJumpLinkText: textLink,
+    markupJumpLinkFill: textLink.withValues(alpha: 0.12),
+    markupJumpLinkHoverFill: textLink.withValues(alpha: 0.2),
+    markupEveryoneText: toneDirect(hue: 250, saturation: 80, lightness: 75),
+    markupEveryoneFill: toneDirect(
+      hue: 250,
+      saturation: 80,
+      lightness: 75,
+      alpha: 0.18,
+    ),
+    markupEveryoneBorder: toneDirect(
+      hue: 250,
+      saturation: 80,
+      lightness: 75,
+      alpha: 0.3,
+    ),
+    markupHereText: toneDirect(hue: 45, saturation: 90, lightness: 70),
+    markupHereFill: toneDirect(
+      hue: 45,
+      saturation: 90,
+      lightness: 70,
+      alpha: 0.18,
+    ),
+    markupHereBorder: toneDirect(
+      hue: 45,
+      saturation: 90,
+      lightness: 70,
+      alpha: 0.3,
+    ),
+
+    // Button
+    buttonPrimaryFill: toneDirect(hue: 139, saturation: 55, lightness: 44),
+    buttonPrimaryActiveFill: toneDirect(
+      hue: 136,
+      saturation: 60,
+      lightness: 38,
+    ),
+    buttonPrimaryText: toneDirect(
+      hue: 0,
+      saturation: 0,
+      lightness: 100,
+      useSatFactor: false,
+    ),
+    buttonSecondaryFill: toneDirect(
+      hue: 0,
+      saturation: 0,
+      lightness: 100,
+      alpha: 0.1,
+      useSatFactor: false,
+    ),
+    buttonSecondaryActiveFill: toneDirect(
+      hue: 0,
+      saturation: 0,
+      lightness: 100,
+      alpha: 0.15,
+      useSatFactor: false,
+    ),
+    buttonSecondaryText: toneDirect(
+      hue: 0,
+      saturation: 0,
+      lightness: 100,
+      useSatFactor: false,
+    ),
+    buttonSecondaryActiveText: toneDirect(
+      hue: 0,
+      saturation: 0,
+      lightness: 100,
+      useSatFactor: false,
+    ),
+    buttonDangerFill: toneDirect(hue: 359, saturation: 70, lightness: 54),
+    buttonDangerActiveFill: toneDirect(hue: 359, saturation: 65, lightness: 45),
+    buttonDangerText: toneDirect(
+      hue: 0,
+      saturation: 0,
+      lightness: 100,
+      useSatFactor: false,
+    ),
+    buttonDangerOutlineBorder: toneDirect(
+      hue: 359,
+      saturation: 70,
+      lightness: 54,
+    ),
+    buttonDangerOutlineText: toneDirect(
+      hue: 0,
+      saturation: 0,
+      lightness: 100,
+      useSatFactor: false,
+    ),
+    buttonDangerOutlineActiveFill: toneDirect(
+      hue: 359,
+      saturation: 65,
+      lightness: 48,
+    ),
+    buttonGhostText: toneDirect(
+      hue: 0,
+      saturation: 0,
+      lightness: 100,
+      useSatFactor: false,
+    ),
+    buttonInvertedFill: toneDirect(
+      hue: 0,
+      saturation: 0,
+      lightness: 100,
+      useSatFactor: false,
+    ),
+    buttonInvertedText: toneDirect(
+      hue: 0,
+      saturation: 0,
+      lightness: 0,
+      useSatFactor: false,
+    ),
+    buttonOutlineBorder: toneDirect(
+      hue: 0,
+      saturation: 0,
+      lightness: 100,
+      alpha: 0.3,
+      useSatFactor: false,
+    ),
+    buttonOutlineText: toneDirect(
+      hue: 0,
+      saturation: 0,
+      lightness: 100,
+      useSatFactor: false,
+    ),
+    buttonOutlineActiveFill: toneDirect(
+      hue: 0,
+      saturation: 0,
+      lightness: 100,
+      alpha: 0.15,
+      useSatFactor: false,
+    ),
+
+    // Panel Control
+    panelControlBg: Color.alphaBlend(
+      backgroundSecondaryAlt.withValues(alpha: 0.8),
+      toneDirect(hue: 220, saturation: 13, lightness: 2),
+    ),
+    panelControlBorder: tone(
+      FluxerColorFamilies.legacyDark,
+      65,
+      saturation: 30,
+      alpha: 0.45,
+    ),
+    panelControlDivider: tone(
+      FluxerColorFamilies.legacyDark,
+      55,
+      saturation: 30,
+      alpha: 0.35,
+    ),
+    panelControlHighlight: const Color(0x0AFFFFFF),
+
+    // Control Button
+    controlButtonNormalBg: Colors.transparent,
+    controlButtonNormalText: darkText['textPrimaryMuted']!,
+    controlButtonHoverBg: tone(FluxerColorFamilies.legacyDark, 22),
+    controlButtonHoverText: textPrimary,
+    controlButtonActiveBg: tone(FluxerColorFamilies.legacyDark, 24),
+    controlButtonActiveText: textPrimary,
+    controlButtonDangerText: toneDirect(hue: 1, saturation: 77, lightness: 60),
+    controlButtonDangerHoverBg: toneDirect(
+      hue: 1,
+      saturation: 77,
+      lightness: 20,
+    ),
+
+    // Switch
+    switchTrackInactive: toneDirect(hue: 220, saturation: 9, lightness: 46),
+    switchThumb: Colors.white,
+    switchThumbCheckedIcon: brandPrimary,
+    switchThumbUncheckedIcon: darkText['textTertiary']!,
+
+    // Menu
+    menuDangerText: toneDirect(hue: 350, saturation: 90, lightness: 65),
+
+    // Content Background
+    bgCode: tone(FluxerColorFamilies.legacyDark, 15, alpha: 0.8),
+    bgCodeBlock: backgroundSecondaryAlt,
+    bgTableHeader: backgroundTertiary,
+    bgTableRowOdd: backgroundPrimary,
+    bgTableRowEven: backgroundSecondary,
+
+    // Interactive Surface
+    surfaceInteractiveHoverBg: backgroundModifierHoverVal,
+    surfaceInteractiveSelectedBg: backgroundModifierSelectedVal,
+    surfaceInteractiveSelectedColor: textPrimary,
+
+    // Scrollbar
+    scrollbarThumbBg: const Color(0x66797A7C),
+    scrollbarThumbBgHover: const Color(0xB3797A7C),
+    scrollbarTrackBg: Colors.transparent,
+
+    // Text Selection
+    textSelection: toneDirect(
+      hue: 210,
+      saturation: 90,
+      lightness: 70,
+      alpha: 0.35,
+    ),
+
+    // UI-specific
+    chatBackground: backgroundSecondary,
+    chatInputBackground: darkSurface['backgroundSecondaryLighter']!,
+    serverSidebarBackground: backgroundSecondary,
+    serverIconBackground: backgroundTertiary,
+    serverIconActive: brandPrimary,
+    channelSidebarBackground: backgroundSecondary,
+    memberListBackground: backgroundSecondary,
+    userPanelBackground: toneDirect(hue: 220, saturation: 13, lightness: 10),
+    userAreaDividerColor: backgroundModifierHoverVal.withValues(
+      alpha: backgroundModifierHoverVal.a * 0.7,
+    ),
+    embedBackground: backgroundPrimary,
+    embedBorder: borderColorVal,
+    mentionBackground: backgroundModifierAccentVal,
+    spoilerBackground: const Color(0x33000000),
+    spoilerOverlayHoverColor: const Color(0x4D000000),
+    guildBannerGradient: const Color(0x4D000000),
+    focusPrimary: const Color(0xFF00B0F4),
+    interactiveActive: toneDirect(
+      hue: 0,
+      saturation: 0,
+      lightness: 100,
+      useSatFactor: false,
+    ),
+    interactiveNormal: textSecondary,
+    interactiveHover: textPrimary,
+    interactiveMuted: toneDirect(hue: 228, saturation: 10, lightness: 35),
+  );
+}

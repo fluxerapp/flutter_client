@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
-import 'package:fluxer_app/features/chat/utils/embed_youtube_utils.dart';
-import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
+import 'package:fluxer_app/features/chat/utils/embeds/embed_youtube_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
 
 class MessageActionCallbacks {
   const MessageActionCallbacks({

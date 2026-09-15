@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
+import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -39,65 +40,67 @@ class ThemeSwatchButton extends StatelessWidget {
 
     final interactive = enabled && !isLoading;
 
-    return Semantics(
-      label: label,
-      selected: isSelected,
-      button: true,
-      enabled: interactive,
-      child: Opacity(
-        opacity: enabled ? 1 : 0.4,
-        child: SizedBox(
-          width: _size,
-          height: _size,
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Positioned.fill(
-                child: Material(
-                  color: backgroundColor,
-                  shape: CircleBorder(
-                    side: BorderSide(color: borderColor, width: 2),
-                  ),
-                  child: InkWell(
-                    onTap: interactive ? onTap : null,
-                    customBorder: const CircleBorder(),
-                    child: isLoading
-                        ? Center(
-                            child: FluxerLoadingSpinner(color: contrastColor),
-                          )
-                        : centerIcon == null
-                        ? const SizedBox.expand()
-                        : Center(
-                            child: PhosphorIcon(
-                              centerIcon!,
-                              size: 24,
-                              color: contrastColor,
+    return FluxerTooltip(
+      message: label,
+      child: Semantics(
+        selected: isSelected,
+        button: true,
+        enabled: interactive,
+        child: Opacity(
+          opacity: enabled ? 1 : 0.4,
+          child: SizedBox(
+            width: _size,
+            height: _size,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Positioned.fill(
+                  child: Material(
+                    color: backgroundColor,
+                    shape: CircleBorder(
+                      side: BorderSide(color: borderColor, width: 2),
+                    ),
+                    child: InkWell(
+                      onTap: interactive ? onTap : null,
+                      customBorder: const CircleBorder(),
+                      child: isLoading
+                          ? Center(
+                              child: FluxerLoadingSpinner(color: contrastColor),
+                            )
+                          : centerIcon == null
+                          ? const SizedBox.expand()
+                          : Center(
+                              child: PhosphorIcon(
+                                centerIcon!,
+                                size: 24,
+                                color: contrastColor,
+                              ),
                             ),
-                          ),
+                    ),
                   ),
                 ),
-              ),
-              if (isSelected && !isLoading)
-                Positioned(
-                  top: -4,
-                  right: -4,
-                  child: Container(
-                    width: _checkmarkSize,
-                    height: _checkmarkSize,
-                    decoration: BoxDecoration(
-                      color: colors.brandPrimary,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: PhosphorIcon(
-                        PhosphorIconsBold.check,
-                        size: 12,
-                        color: colors.textOnBrandPrimary,
+                if (isSelected && !isLoading)
+                  Positioned(
+                    top: -4,
+                    right: -4,
+                    child: Container(
+                      width: _checkmarkSize,
+                      height: _checkmarkSize,
+                      decoration: BoxDecoration(
+                        color: colors.brandPrimary,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: PhosphorIcon(
+                          PhosphorIconsBold.check,
+                          size: 12,
+                          color: colors.textOnBrandPrimary,
+                        ),
                       ),
                     ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -15,8 +15,9 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/themes/coal.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/core/theme/themes/dark_legacy.dart';
 import 'package:fluxer_app/core/theme/themes/light.dart';
-import 'package:fluxer_app/features/accessibility/text_scale.dart';
+import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_sync_service.dart';
 import 'package:fluxer_dart/export.dart';
@@ -29,11 +30,13 @@ const _kInflightSentinel = Object();
 class _BuiltColorThemes {
   const _BuiltColorThemes({
     required this.dark,
+    required this.darkLegacy,
     required this.light,
     required this.coal,
   });
 
   final FluxerColorTheme dark;
+  final FluxerColorTheme darkLegacy;
   final FluxerColorTheme light;
   final FluxerColorTheme coal;
 }
@@ -61,6 +64,12 @@ _BuiltColorThemes _buildColorThemes({
       saturationFactor: saturationFactor,
       customThemeCss: customThemeCss,
     ),
+    darkLegacy: _themedColor(
+      FluxerThemeMode.darkLegacy,
+      buildDarkLegacyColorTheme,
+      saturationFactor: saturationFactor,
+      customThemeCss: customThemeCss,
+    ),
     light: _themedColor(
       FluxerThemeMode.light,
       buildLightColorTheme,
@@ -81,6 +90,7 @@ _BuiltColorThemes _buildActiveColorThemes({
   required double saturationFactor,
   required String? customThemeCss,
   required FluxerColorTheme dark,
+  required FluxerColorTheme darkLegacy,
   required FluxerColorTheme light,
   required FluxerColorTheme coal,
 }) {
@@ -93,12 +103,26 @@ _BuiltColorThemes _buildActiveColorThemes({
           saturationFactor: saturationFactor,
           customThemeCss: customThemeCss,
         ),
+        darkLegacy: darkLegacy,
+        light: light,
+        coal: coal,
+      );
+    case FluxerThemeMode.darkLegacy:
+      return _BuiltColorThemes(
+        dark: dark,
+        darkLegacy: _themedColor(
+          FluxerThemeMode.darkLegacy,
+          buildDarkLegacyColorTheme,
+          saturationFactor: saturationFactor,
+          customThemeCss: customThemeCss,
+        ),
         light: light,
         coal: coal,
       );
     case FluxerThemeMode.light:
       return _BuiltColorThemes(
         dark: dark,
+        darkLegacy: darkLegacy,
         light: _themedColor(
           FluxerThemeMode.light,
           buildLightColorTheme,
@@ -110,6 +134,7 @@ _BuiltColorThemes _buildActiveColorThemes({
     case FluxerThemeMode.coal:
       return _BuiltColorThemes(
         dark: dark,
+        darkLegacy: darkLegacy,
         light: light,
         coal: _themedColor(
           FluxerThemeMode.coal,
@@ -126,6 +151,7 @@ _BuiltColorThemes _buildActiveColorThemes({
           saturationFactor: saturationFactor,
           customThemeCss: customThemeCss,
         ),
+        darkLegacy: darkLegacy,
         light: _themedColor(
           FluxerThemeMode.light,
           buildLightColorTheme,
@@ -160,6 +186,7 @@ class ThemePreferenceState {
       customThemeCss: normalizeCustomThemeCss(customThemeCss),
       inflightTheme: inflightTheme,
       darkColorTheme: themes.dark,
+      darkLegacyColorTheme: themes.darkLegacy,
       lightColorTheme: themes.light,
       coalColorTheme: themes.coal,
       layoutTheme: FluxerLayoutTheme.scaled(scaleFactor: scaleFactor),
@@ -175,6 +202,7 @@ class ThemePreferenceState {
     required this.customThemeCss,
     required this.inflightTheme,
     required this.darkColorTheme,
+    required this.darkLegacyColorTheme,
     required this.lightColorTheme,
     required this.coalColorTheme,
     required this.layoutTheme,
@@ -192,6 +220,7 @@ class ThemePreferenceState {
   final FluxerThemeMode? inflightTheme;
 
   final FluxerColorTheme darkColorTheme;
+  final FluxerColorTheme darkLegacyColorTheme;
   final FluxerColorTheme lightColorTheme;
   final FluxerColorTheme coalColorTheme;
   final FluxerLayoutTheme layoutTheme;
@@ -200,6 +229,7 @@ class ThemePreferenceState {
 
   FluxerColorTheme get colorTheme => switch (mode) {
     FluxerThemeMode.dark => darkColorTheme,
+    FluxerThemeMode.darkLegacy => darkLegacyColorTheme,
     FluxerThemeMode.light => lightColorTheme,
     FluxerThemeMode.coal => coalColorTheme,
     FluxerThemeMode.system => darkColorTheme,
@@ -239,6 +269,7 @@ class ThemePreferenceState {
     if (!themesChanged) {
       themes = _BuiltColorThemes(
         dark: darkColorTheme,
+        darkLegacy: darkLegacyColorTheme,
         light: lightColorTheme,
         coal: coalColorTheme,
       );
@@ -253,6 +284,7 @@ class ThemePreferenceState {
         saturationFactor: nextSaturationFactor,
         customThemeCss: nextCustomThemeCss,
         dark: darkColorTheme,
+        darkLegacy: darkLegacyColorTheme,
         light: lightColorTheme,
         coal: coalColorTheme,
       );
@@ -268,6 +300,7 @@ class ThemePreferenceState {
           ? this.inflightTheme
           : inflightTheme as FluxerThemeMode?,
       darkColorTheme: themes.dark,
+      darkLegacyColorTheme: themes.darkLegacy,
       lightColorTheme: themes.light,
       coalColorTheme: themes.coal,
       layoutTheme: nextScaleFactor == this.scaleFactor
@@ -306,10 +339,8 @@ class ThemePreference extends _$ThemePreference {
     final db = ref.read(fluxerDatabaseProvider);
     final prefs = await db.userPreferencesDao.getPreferences(userId);
     if (prefs != null) {
-      final mode = FluxerThemeMode.values.firstWhere(
-        (m) => m.name == prefs.theme,
-        orElse: () => FluxerThemeMode.dark,
-      );
+      final mode =
+          FluxerThemeMode.fromApiValue(prefs.theme) ?? FluxerThemeMode.dark;
       state = ThemePreferenceState(
         mode: mode,
         scaleFactor: prefs.scaleFactor,
@@ -560,7 +591,7 @@ class ThemePreference extends _$ThemePreference {
       await db.userPreferencesDao.savePreferences(
         UserPreferencesTableCompanion(
           userId: Value(userId),
-          theme: Value(state.mode.name),
+          theme: Value(state.mode.apiValue),
           scaleFactor: Value(state.scaleFactor),
           chatFontSize: Value(state.chatFontSize),
           syncAcrossDevices: Value(state.syncAcrossDevices),
@@ -576,16 +607,13 @@ class ThemePreference extends _$ThemePreference {
   UserSettingsUpdateRequestThemeTheme _toSettingsTheme(FluxerThemeMode mode) =>
       switch (mode) {
         FluxerThemeMode.dark => UserSettingsUpdateRequestThemeTheme.dark,
+        FluxerThemeMode.darkLegacy =>
+          UserSettingsUpdateRequestThemeTheme.darkLegacy,
         FluxerThemeMode.coal => UserSettingsUpdateRequestThemeTheme.coal,
         FluxerThemeMode.light => UserSettingsUpdateRequestThemeTheme.light,
         FluxerThemeMode.system => UserSettingsUpdateRequestThemeTheme.system,
       };
 
-  FluxerThemeMode? _modeFromJson(String raw) => switch (raw) {
-    'dark' => FluxerThemeMode.dark,
-    'coal' => FluxerThemeMode.coal,
-    'light' => FluxerThemeMode.light,
-    'system' => FluxerThemeMode.system,
-    _ => null,
-  };
+  FluxerThemeMode? _modeFromJson(String raw) =>
+      FluxerThemeMode.fromApiValue(raw);
 }

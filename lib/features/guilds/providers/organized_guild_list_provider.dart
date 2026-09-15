@@ -290,12 +290,10 @@ class OrganizedGuildList extends _$OrganizedGuildList {
               .length;
 
     GuildNavbarItem? movingItem;
-    int? removedTopLevelSourceIndex;
 
     final int sourceTopIndex = _findTopLevelIndex(items, sourceId);
     if (sourceTopIndex != -1) {
       movingItem = items.removeAt(sourceTopIndex);
-      removedTopLevelSourceIndex = sourceTopIndex;
     } else if (sourceLocation != null) {
       movingItem = GuildNavbarGuild(guild: sourceLocation.guild);
       _removeGuildFromFolderAt(
@@ -321,12 +319,7 @@ class OrganizedGuildList extends _$OrganizedGuildList {
       if (targetIndex == -1) {
         return;
       }
-      final int adjustedTarget =
-          removedTopLevelSourceIndex != null &&
-              removedTopLevelSourceIndex < targetIndex
-          ? targetIndex - 1
-          : targetIndex;
-      insertIndex = insertAfter ? adjustedTarget + 1 : adjustedTarget;
+      insertIndex = insertAfter ? targetIndex + 1 : targetIndex;
     }
 
     items.insert(insertIndex.clamp(0, items.length), movingItem);
@@ -364,7 +357,6 @@ class OrganizedGuildList extends _$OrganizedGuildList {
     );
 
     // Remove higher index first to avoid shifting.
-    final first = sourceIndex < targetIndex ? sourceIndex : targetIndex;
     if (sourceIndex > targetIndex) {
       items
         ..removeAt(sourceIndex)
@@ -374,7 +366,10 @@ class OrganizedGuildList extends _$OrganizedGuildList {
         ..removeAt(targetIndex)
         ..removeAt(sourceIndex);
     }
-    items.insert(first < items.length ? first : items.length, folder);
+    final int insertIndex = sourceIndex < targetIndex
+        ? targetIndex - 1
+        : targetIndex;
+    items.insert(insertIndex.clamp(0, items.length), folder);
 
     _commitLocalMutation(items);
   }
@@ -465,8 +460,6 @@ class OrganizedGuildList extends _$OrganizedGuildList {
     }
 
     Guild? sourceGuild;
-    int? sourceFolderIndex;
-    int? sourceGuildIndex;
 
     final int sourceTopIndex = _findTopLevelIndex(items, guildId);
     if (sourceTopIndex != -1) {
@@ -484,8 +477,6 @@ class OrganizedGuildList extends _$OrganizedGuildList {
         return;
       }
       sourceGuild = location.guild;
-      sourceFolderIndex = location.folderIndex;
-      sourceGuildIndex = location.guildIndex;
       _removeGuildFromFolderAt(
         items,
         location.folderIndex,
@@ -499,16 +490,12 @@ class OrganizedGuildList extends _$OrganizedGuildList {
     }
     final GuildNavbarFolder folderItem =
         items[folderIndex] as GuildNavbarFolder;
-    var referenceIndex = folderItem.guilds.indexWhere(
+
+    final int referenceIndex = folderItem.guilds.indexWhere(
       (Guild g) => g.id == referenceGuildId,
     );
     if (referenceIndex == -1) {
       return;
-    }
-    if (sourceFolderIndex == folderIndex &&
-        sourceGuildIndex != null &&
-        sourceGuildIndex < referenceIndex) {
-      referenceIndex -= 1;
     }
 
     final int insertIndex = insertAfter ? referenceIndex + 1 : referenceIndex;

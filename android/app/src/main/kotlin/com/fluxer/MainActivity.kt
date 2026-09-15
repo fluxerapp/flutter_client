@@ -40,6 +40,7 @@ class MainActivity : AudioServiceActivity() {
         super.configureFlutterEngine(flutterEngine)
         NotificationCancelBridge(applicationContext).register(flutterEngine)
         BrowserLaunchBridge(applicationContext).register(flutterEngine)
+        AnimatorDurationScaleBridge(applicationContext).register(flutterEngine)
     }
 
     private fun deferOAuthDeepLinkToBrowser(intent: Intent?): Boolean {

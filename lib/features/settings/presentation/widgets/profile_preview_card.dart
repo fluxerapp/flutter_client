@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_badges.dart';
+import 'package:fluxer_app/features/profile/utils/premium_badge_visibility.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -191,20 +192,14 @@ class _ProfilePreviewCardState extends ConsumerState<ProfilePreviewCard> {
     final bool selfHosted = ref.watch(
       instanceRuntimeConfigProvider.select((config) => config.selfHosted),
     );
-    final showPremiumBadge =
-        !selfHosted && s.isPremium && !s.effectivePremiumBadgeHidden;
+    final PremiumBadgeVisibility premiumBadges =
+        PremiumBadgeVisibility.fromSettings(s);
+    final bool showPremiumBadge = !selfHosted && premiumBadges.hasPlutonium;
     final hasBadges = UserProfileBadges.hasBadges(
       flags: s.publicFlags,
       hasPlutonium: showPremiumBadge,
       selfHosted: selfHosted,
     );
-    final premiumLifetimeSequence =
-        showPremiumBadge &&
-            s.hasLifetimePremium &&
-            !s.effectivePremiumBadgeMasked &&
-            !s.effectivePremiumBadgeSequenceHidden
-        ? s.premiumLifetimeSequence
-        : null;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -278,9 +273,10 @@ class _ProfilePreviewCardState extends ConsumerState<ProfilePreviewCard> {
                     child: UserProfileBadges(
                       flags: s.publicFlags,
                       hasPlutonium: showPremiumBadge,
-                      isLifetimePlutonium: s.hasLifetimePremium,
-                      premiumSince: s.premiumSince,
-                      premiumLifetimeSequence: premiumLifetimeSequence,
+                      isLifetimePlutonium: premiumBadges.isLifetimePlutonium,
+                      premiumSince: premiumBadges.premiumSince,
+                      premiumLifetimeSequence:
+                          premiumBadges.premiumLifetimeSequence,
                     ),
                   ),
                 ),

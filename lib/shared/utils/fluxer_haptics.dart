@@ -14,6 +14,7 @@ abstract final class FluxerHaptics {
   static final Map<String, String> _ahapCache = <String, String>{};
   static final Map<String, Future<String>> _ahapLoads =
       <String, Future<String>>{};
+  static final FluxerHapticPurrGate _purrGate = FluxerHapticPurrGate();
   static bool _enabled = true;
 
   static bool get supportsExpressive =>
@@ -93,6 +94,9 @@ abstract final class FluxerHaptics {
 
   /// Soft rumble for petting neko.
   static void purr() {
+    if (!_purrGate.tryAcquire()) {
+      return;
+    }
     _playAhap(_purrAhapAsset);
   }
 
@@ -171,5 +175,34 @@ abstract final class FluxerHaptics {
       _ahapCache[asset] = data;
       return data;
     });
+  }
+}
+
+/// Limits stacked purr patterns so iOS does not mute haptics.
+class FluxerHapticPurrGate {
+  FluxerHapticPurrGate({
+    DateTime Function()? now,
+    this.minInterval = const Duration(seconds: 8),
+    this.window = const Duration(seconds: 45),
+    this.maxInWindow = 3,
+  }) : _now = now ?? DateTime.now;
+
+  final DateTime Function() _now;
+  final Duration minInterval;
+  final Duration window;
+  final int maxInWindow;
+  final List<DateTime> _plays = <DateTime>[];
+
+  bool tryAcquire() {
+    final DateTime now = _now();
+    _plays.removeWhere((DateTime t) => now.difference(t) >= window);
+    if (_plays.length >= maxInWindow) {
+      return false;
+    }
+    if (_plays.isNotEmpty && now.difference(_plays.last) < minInterval) {
+      return false;
+    }
+    _plays.add(now);
+    return true;
   }
 }

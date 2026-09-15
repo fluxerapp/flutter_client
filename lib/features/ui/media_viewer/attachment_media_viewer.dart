@@ -10,9 +10,10 @@ import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_con
 import 'package:fluxer_app/features/chat/domain/media_options_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/mobile_media_options_sheet.dart';
-import 'package:fluxer_app/features/chat/utils/favorite_media_utils.dart';
-import 'package:fluxer_app/features/chat/utils/hdr_aware_image_url.dart';
-import 'package:fluxer_app/features/chat/utils/save_message_media_favorite.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
+import 'package:fluxer_app/features/chat/utils/media/favorite_media_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media/hdr_aware_image_url.dart';
+import 'package:fluxer_app/features/chat/utils/media/save_message_media_favorite.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -39,7 +40,24 @@ class AttachmentMediaViewerItem {
     this.contentType,
     this.isExpired = false,
     this.contentHash,
+    this.description,
   });
+
+  factory AttachmentMediaViewerItem.fromAttachment(Attachment attachment) {
+    return AttachmentMediaViewerItem(
+      url: attachment.url,
+      filename: attachment.filename,
+      width: attachment.width,
+      height: attachment.height,
+      isMatureMedia: attachment.isMatureMedia,
+      attachmentId: attachment.id,
+      proxyUrl: attachment.proxyUrl,
+      contentType: attachment.contentType,
+      isExpired: attachment.expired ?? false,
+      contentHash: attachment.contentHash,
+      description: attachment.description,
+    );
+  }
 
   final String url;
   final String filename;
@@ -52,6 +70,7 @@ class AttachmentMediaViewerItem {
   final String? contentType;
   final bool isExpired;
   final String? contentHash;
+  final String? description;
 }
 
 Future<void> showAttachmentMediaViewer(
@@ -332,6 +351,7 @@ class _AttachmentMediaViewerShellState
                   filename: currentItem.filename,
                   dimensions: _buildDimensionsLabel(currentItem),
                   indexLabel: indexLabel,
+                  description: currentItem.description,
                 ),
               ),
               const SizedBox(width: 8),
@@ -415,15 +435,57 @@ class _AttachmentMediaViewerShellState
 
   Widget _buildBottomChrome({
     required FluxerLocalizations l10n,
+    required bool isMobile,
     required bool useTouchGestures,
     required String indexLabel,
     required double dismissChromeOpacity,
     required bool canGoPrevious,
     required bool canGoNext,
+    required AttachmentMediaViewerItem currentItem,
   }) {
+    final String? altText = currentItem.description?.trim();
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
+        if (altText != null &&
+            altText.isNotEmpty &&
+            (isMobile || _isDesktopZoomed))
+          Opacity(
+            opacity: useTouchGestures ? dismissChromeOpacity : 1,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+              child: IgnorePointer(
+                child: Align(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 420),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: context.colors.backgroundTextarea.withValues(
+                          alpha: 0.92,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 8,
+                        ),
+                        child: Text(
+                          altText,
+                          maxLines: 4,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: context.textStyles.smallText.copyWith(
+                            color: context.colors.textSecondary,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         if (widget.items.length > 1 && (!_isDesktopZoomed || useTouchGestures))
           Opacity(
             opacity: useTouchGestures ? dismissChromeOpacity : 1,
@@ -580,11 +642,13 @@ class _AttachmentMediaViewerShellState
                         const Spacer(),
                         _buildBottomChrome(
                           l10n: l10n,
+                          isMobile: isMobile,
                           useTouchGestures: useTouchGestures,
                           indexLabel: indexLabel,
                           dismissChromeOpacity: dismissChromeOpacity,
                           canGoPrevious: canGoPrevious,
                           canGoNext: canGoNext,
+                          currentItem: currentItem,
                         ),
                       ],
                     )
@@ -610,11 +674,13 @@ class _AttachmentMediaViewerShellState
                         ),
                         _buildBottomChrome(
                           l10n: l10n,
+                          isMobile: isMobile,
                           useTouchGestures: useTouchGestures,
                           indexLabel: indexLabel,
                           dismissChromeOpacity: dismissChromeOpacity,
                           canGoPrevious: canGoPrevious,
                           canGoNext: canGoNext,
+                          currentItem: currentItem,
                         ),
                       ],
                     ),
@@ -651,14 +717,14 @@ class _AttachmentMediaViewerShellState
       mode: hdrDisplayMode,
       contentType: item.contentType,
     );
-    final Widget image = CachedNetworkImage(
-      imageUrl: imageUrl,
-      fit: BoxFit.contain,
-      errorBuilder: (_, _, _) => ColoredBox(
-        color: context.colors.backgroundSecondaryAlt,
-        child: const Center(child: Icon(PhosphorIconsBold.image)),
-      ),
-    );
+    const Widget errorPlaceholder = MediaLoadErrorPlaceholder();
+    final Widget image = imageUrl.isEmpty
+        ? errorPlaceholder
+        : CachedNetworkImage(
+            imageUrl: imageUrl,
+            fit: BoxFit.contain,
+            errorBuilder: (_, _, _) => errorPlaceholder,
+          );
     final Widget media = MatureMediaOverlay(
       channelId: widget.channelId,
       isMatureMedia: item.isMatureMedia,
@@ -769,11 +835,13 @@ class _MediaViewerInfoPill extends StatelessWidget {
     required this.filename,
     required this.dimensions,
     required this.indexLabel,
+    this.description,
   });
 
   final String filename;
   final String? dimensions;
   final String indexLabel;
+  final String? description;
 
   @override
   Widget build(BuildContext context) {
@@ -781,6 +849,7 @@ class _MediaViewerInfoPill extends StatelessWidget {
     if (dimensions != null && dimensions!.isNotEmpty) {
       metaChunks.add(dimensions!);
     }
+    final String? altText = description?.trim();
     return DecoratedBox(
       decoration: BoxDecoration(
         color: context.colors.backgroundTextarea,
@@ -810,6 +879,17 @@ class _MediaViewerInfoPill extends StatelessWidget {
                 color: context.colors.textPrimaryMuted,
               ),
             ),
+            if (altText != null && altText.isNotEmpty) ...[
+              const SizedBox(height: 4),
+              Text(
+                altText,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                style: context.textStyles.smallText.copyWith(
+                  color: context.colors.textSecondary,
+                ),
+              ),
+            ],
           ],
         ),
       ),
@@ -874,15 +954,7 @@ class _MediaViewerThumbnailStrip extends ConsumerWidget {
                             color: context.colors.spoilerBackground,
                             child: const SizedBox.expand(),
                           )
-                        : CachedNetworkImage(
-                            imageUrl: buildHdrAwareDisplayImageUrl(
-                              url: item.url,
-                              proxyUrl: item.proxyUrl,
-                              mode: hdrDisplayMode,
-                              contentType: item.contentType,
-                            ),
-                            fit: BoxFit.cover,
-                          ),
+                        : _thumbnailImage(item, hdrDisplayMode),
                   ),
                 ),
               ),
@@ -892,6 +964,29 @@ class _MediaViewerThumbnailStrip extends ConsumerWidget {
         separatorBuilder: (_, _) => const SizedBox(width: 8),
         itemCount: items.length,
       ),
+    );
+  }
+
+  Widget _thumbnailImage(
+    AttachmentMediaViewerItem item,
+    HdrDisplayMode hdrDisplayMode,
+  ) {
+    final String imageUrl = buildHdrAwareDisplayImageUrl(
+      url: item.url,
+      proxyUrl: item.proxyUrl,
+      mode: hdrDisplayMode,
+      contentType: item.contentType,
+    );
+    if (imageUrl.isEmpty) {
+      return const MediaLoadErrorPlaceholder(showLabel: false);
+    }
+    const Widget errorPlaceholder = MediaLoadErrorPlaceholder(showLabel: false);
+    return CachedNetworkImage(
+      imageUrl: imageUrl,
+      fit: BoxFit.cover,
+      width: double.infinity,
+      height: double.infinity,
+      errorBuilder: (_, _, _) => errorPlaceholder,
     );
   }
 }

@@ -29,21 +29,21 @@ import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/gif_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
-import 'package:fluxer_app/features/chat/service/composer_autocomplete_trigger.dart';
-import 'package:fluxer_app/features/chat/service/composer_mention_controller.dart';
-import 'package:fluxer_app/features/chat/service/composer_slash_session.dart';
-import 'package:fluxer_app/features/chat/utils/composer_command_insertion.dart';
-import 'package:fluxer_app/features/chat/utils/composer_mention_query.dart';
-import 'package:fluxer_app/features/chat/utils/composer_slash_commands.dart';
-import 'package:fluxer_app/features/chat/utils/emoji_autocomplete_search.dart';
-import 'package:fluxer_app/features/chat/utils/klipy_utils.dart';
+import 'package:fluxer_app/features/chat/services/composer_autocomplete_trigger.dart';
+import 'package:fluxer_app/features/chat/services/composer_mention_controller.dart';
+import 'package:fluxer_app/features/chat/services/composer_slash_session.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_command_insertion.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_mention_query.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_slash_commands.dart';
+import 'package:fluxer_app/features/chat/utils/composer/emoji_autocomplete_search.dart';
+import 'package:fluxer_app/features/chat/utils/media/klipy_utils.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
-import 'package:fluxer_app/features/gateway/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/members/data/guild_mention_member_search.dart';
 import 'package:fluxer_app/features/members/data/member_repository.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
@@ -186,6 +186,14 @@ bool get _composerAutocompleteKeyboardEnabled {
 bool isComposerSubmitKey(LogicalKeyboardKey key) {
   return key == LogicalKeyboardKey.enter ||
       key == LogicalKeyboardKey.numpadEnter;
+}
+
+/// Hardware Enter sends on native, and on web when the layout is wide.
+bool composerHardwareEnterSends({
+  required bool isWeb,
+  required bool isWideLayout,
+}) {
+  return !isWeb || isWideLayout;
 }
 
 /// Routes hardware-keyboard navigation keys to an open autocomplete menu.

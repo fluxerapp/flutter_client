@@ -7163,6 +7163,12 @@ abstract class FluxerLocalizations {
   /// **'Dark Theme'**
   String get lookAndFeelThemeDark;
 
+  /// Label on the legacy dark theme swatch button.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark (Legacy) Theme'**
+  String get lookAndFeelThemeDarkLegacy;
+
   /// Label on the coal (pitch-black) theme swatch button.
   ///
   /// In en, this message translates to:
@@ -8323,6 +8329,18 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Always underline links'**
   String get accessibilityAlwaysUnderlineLinksLabel;
+
+  /// Toggle label for showing image alternative text as a caption.
+  ///
+  /// In en, this message translates to:
+  /// **'Show alternative text on images'**
+  String get accessibilityShowAltTextOnImagesLabel;
+
+  /// Description for the show alternative text on images toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Display alternative text below images when it is available.'**
+  String get accessibilityShowAltTextOnImagesDescription;
 
   /// Toggle label for dimming strikethrough text in messages.
   ///
@@ -10720,6 +10738,30 @@ abstract class FluxerLocalizations {
   /// **'Add Reaction'**
   String get chatMessageAddReaction;
 
+  /// Hint under quick reactions explaining double-tap to react.
+  ///
+  /// In en, this message translates to:
+  /// **'Double tap a message to'**
+  String get doubleTapReactionHint;
+
+  /// Button that opens the double-tap default emoji picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get doubleTapReactionEdit;
+
+  /// Title of the double-tap default emoji picker sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit default'**
+  String get doubleTapReactionEditTitle;
+
+  /// Subtitle of the double-tap default emoji picker sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose double tap emoji'**
+  String get doubleTapReactionEditSubtitle;
+
   /// Action label for editing a sent message.
   ///
   /// In en, this message translates to:
@@ -12003,6 +12045,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Could not play this video.'**
   String get chatVideoPlaybackFailed;
+
+  /// Shown when an attached, embedded, or viewed image fails to download or decode.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load this image.'**
+  String get chatImageCouldNotLoad;
 
   /// Secondary line in the @ mention autocomplete when the row is a mentionable guild role.
   ///
@@ -18006,11 +18054,17 @@ abstract class FluxerLocalizations {
   /// **'Instance URL'**
   String get instanceUrlLabel;
 
-  /// Placeholder for the self-hosted instance URL input.
+  /// Placeholder for the instance URL input.
   ///
   /// In en, this message translates to:
-  /// **'Enter instance URL (e.g. fluxer.app)'**
+  /// **'fluxer.app'**
   String get instanceUrlPlaceholder;
+
+  /// Helper text explaining official vs self-hosted instance URLs.
+  ///
+  /// In en, this message translates to:
+  /// **'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.'**
+  String get instanceUrlHelper;
 
   /// Tooltip for the button that resets the instance URL to the official Fluxer instance.
   ///
@@ -18053,12 +18107,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Connect to instance'**
   String get instanceSheetTitle;
-
-  /// Subtle link on the login screen to open the instance connection sheet.
-  ///
-  /// In en, this message translates to:
-  /// **'Connect to a different instance'**
-  String get connectToDifferentInstance;
 
   /// Link to change the connected Fluxer instance.
   ///

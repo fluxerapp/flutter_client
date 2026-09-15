@@ -4,6 +4,7 @@ import 'dart:ui' show BoxWidthStyle;
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
@@ -22,9 +23,9 @@ import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/forward_destinations_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_length_limits_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
-import 'package:fluxer_app/features/chat/service/composer_mention_controller.dart';
-import 'package:fluxer_app/features/chat/utils/slowmode_format.dart';
-import 'package:fluxer_app/features/chat/utils/slowmode_utils.dart';
+import 'package:fluxer_app/features/chat/services/composer_mention_controller.dart';
+import 'package:fluxer_app/features/chat/utils/composer/slowmode_format.dart';
+import 'package:fluxer_app/features/chat/utils/composer/slowmode_utils.dart';
 import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.dart';
 import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
@@ -39,6 +40,21 @@ const int kForwardSelectionLimit = 5;
 /// Whether to open the destination after a successful forward (web parity).
 bool shouldNavigateAfterForward(int destinationCount) {
   return destinationCount == 1;
+}
+
+/// Chat route for a single forward destination.
+String forwardDestinationRoute({required String channelId, String? guildId}) {
+  if (guildId == null || guildId.isEmpty) {
+    return RoutePaths.dmChannel(channelId);
+  }
+  return RoutePaths.guildChannel(guildId, channelId);
+}
+
+class _ForwardNavigationTarget {
+  const _ForwardNavigationTarget({required this.channelId, this.guildId});
+
+  final String channelId;
+  final String? guildId;
 }
 
 /// Opens the mobile-first forward sheet for [message]: a searchable,
@@ -89,21 +105,23 @@ Future<void> _showForwardSheet(
   List<int>? embedIndices,
 }) async {
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-  final String? destinationId = await FluxerBottomSheet.showScrollable<String?>(
-    context,
-    useRootNavigator: true,
-    title: l10n.forwardMessageTitle,
-    builder: (sheetContext, scrollController, _) => _ForwardMessageSheetBody(
-      sourceChannelId: sourceChannelId,
-      sourceMessageId: sourceMessageId,
-      sourceHasEmbeds: sourceHasEmbeds,
-      sourceHasAttachments: sourceHasAttachments,
-      attachmentIds: attachmentIds,
-      embedIndices: embedIndices,
-      scrollController: scrollController,
-    ),
-  );
-  if (destinationId == null || !context.mounted) {
+  final _ForwardNavigationTarget? target =
+      await FluxerBottomSheet.showScrollable<_ForwardNavigationTarget?>(
+        context,
+        useRootNavigator: true,
+        title: l10n.forwardMessageTitle,
+        builder: (sheetContext, scrollController, _) =>
+            _ForwardMessageSheetBody(
+              sourceChannelId: sourceChannelId,
+              sourceMessageId: sourceMessageId,
+              sourceHasEmbeds: sourceHasEmbeds,
+              sourceHasAttachments: sourceHasAttachments,
+              attachmentIds: attachmentIds,
+              embedIndices: embedIndices,
+              scrollController: scrollController,
+            ),
+      );
+  if (target == null || !context.mounted) {
     return;
   }
   final ProviderContainer container = ProviderScope.containerOf(context);
@@ -115,7 +133,7 @@ Future<void> _showForwardSheet(
       _navigateToForwardDestination(
         hostContext: context,
         container: container,
-        channelId: destinationId,
+        target: target,
       ),
     );
   });
@@ -124,15 +142,20 @@ Future<void> _showForwardSheet(
 Future<void> _navigateToForwardDestination({
   required BuildContext hostContext,
   required ProviderContainer container,
-  required String channelId,
+  required _ForwardNavigationTarget target,
 }) async {
   if (!hostContext.mounted) {
     return;
   }
-  final Channel? channel = _channelForDestination(container, channelId);
-  final String? guildId = channel != null && channel.guildId.isNotEmpty
-      ? channel.guildId
-      : null;
+  final String channelId = target.channelId;
+  final Channel? channel = await _channelForDestination(container, channelId);
+  if (!hostContext.mounted) {
+    return;
+  }
+  final String? guildId = _resolvedForwardGuildId(
+    capturedGuildId: target.guildId,
+    channel: channel,
+  );
   final bool canProceed = await promptForChannelGateIfNeeded(
     context: hostContext,
     container: container,
@@ -154,25 +177,35 @@ Future<void> _navigateToForwardDestination({
   }
   navigateToContent(
     hostContext,
-    isDm
-        ? RoutePaths.dmChannel(channelId)
-        : RoutePaths.guildChannel(guildId, channelId),
+    forwardDestinationRoute(channelId: channelId, guildId: guildId),
   );
 }
 
-Channel? _channelForDestination(ProviderContainer container, String channelId) {
-  final Channel? watched = container.read(channelByIdProvider(channelId)).value;
-  if (watched != null) {
-    return watched;
+String? _resolvedForwardGuildId({
+  required String? capturedGuildId,
+  required Channel? channel,
+}) {
+  if (capturedGuildId != null && capturedGuildId.isNotEmpty) {
+    return capturedGuildId;
   }
-  final List<Channel> all =
-      container.read(allChannelsProvider).value ?? const <Channel>[];
-  for (final Channel channel in all) {
-    if (channel.id == channelId) {
-      return channel;
-    }
+  if (channel != null && channel.guildId.isNotEmpty) {
+    return channel.guildId;
   }
   return null;
+}
+
+Future<Channel?> _channelForDestination(
+  ProviderContainer container,
+  String channelId,
+) async {
+  final row = await container
+      .read(fluxerDatabaseProvider)
+      .channelDao
+      .getChannelById(channelId);
+  if (row == null) {
+    return null;
+  }
+  return Channel.fromRow(row);
 }
 
 /// Whether the source [message] carries embeds (directly or via a forwarded
@@ -321,6 +354,30 @@ class _ForwardMessageSheetBodyState
     return channel.guildId;
   }
 
+  String? _guildIdForSelectedDestination(String channelId) {
+    final List<ForwardDestination> destinations =
+        ref
+            .read(
+              forwardDestinationsProvider(
+                sourceChannelId: widget.sourceChannelId,
+                sourceHasEmbeds: widget.sourceHasEmbeds,
+                sourceHasAttachments: widget.sourceHasAttachments,
+              ),
+            )
+            .value ??
+        const <ForwardDestination>[];
+    for (final ForwardDestination destination in destinations) {
+      if (destination.channelId == channelId) {
+        final String? guildId = destination.guildId;
+        if (guildId != null && guildId.isNotEmpty) {
+          return guildId;
+        }
+        return null;
+      }
+    }
+    return null;
+  }
+
   Future<void> _forward(bool commentDisabled) async {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final List<String> destinations = _selected.toList();
@@ -332,6 +389,13 @@ class _ForwardMessageSheetBodyState
         ? null
         : wireComment;
     final String? sourceGuildId = _sourceGuildId();
+    final _ForwardNavigationTarget? navigationTarget =
+        shouldNavigateAfterForward(destinations.length)
+        ? _ForwardNavigationTarget(
+            channelId: destinations.first,
+            guildId: _guildIdForSelectedDestination(destinations.first),
+          )
+        : null;
     try {
       await ref
           .read(messageRepositoryProvider)
@@ -361,11 +425,7 @@ class _ForwardMessageSheetBodyState
               variant: FluxerToastVariant.success,
             ),
           );
-      Navigator.of(context).pop(
-        shouldNavigateAfterForward(destinations.length)
-            ? destinations.first
-            : null,
-      );
+      Navigator.of(context).pop(navigationTarget);
     } on Object catch (error) {
       final SlowmodeTracker tracker = ref.read(
         slowmodeTrackerProvider.notifier,

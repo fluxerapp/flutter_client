@@ -4409,6 +4409,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get lookAndFeelThemeDark => 'Sötét téma';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => 'Szén téma';
 
   @override
@@ -5108,6 +5111,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   @override
   String get accessibilityAlwaysUnderlineLinksLabel =>
       'Mindig aláhúzza a hivatkozásokat';
+
+  @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
 
   @override
   String get accessibilityDimStrikethroughTextLabel =>
@@ -6636,6 +6647,18 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatMessageAddReaction => 'Reakció hozzáadása';
 
   @override
+  String get doubleTapReactionHint => 'Double tap a message to';
+
+  @override
+  String get doubleTapReactionEdit => 'Edit';
+
+  @override
+  String get doubleTapReactionEditTitle => 'Edit default';
+
+  @override
+  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+
+  @override
   String get chatMessageEdit => 'Üzenet szerkesztése';
 
   @override
@@ -7393,6 +7416,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get chatVideoPlaybackFailed => 'A videó nem játszható le.';
+
+  @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
@@ -10966,6 +10992,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Add meg a példány URL-jét (pl. fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Visszaállítás Fluxer-re';
 
   @override
@@ -10987,9 +11017,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'Csatlakozás instanchoz';
-
-  @override
-  String get connectToDifferentInstance => 'Csatlakozás egy másik instanchoz';
 
   @override
   String get changeInstance => 'Váltás';

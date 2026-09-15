@@ -10,8 +10,8 @@ import 'package:fluxer_app/features/friends/presentation/change_friend_nickname.
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/manage_member_roles_picker.dart';
-import 'package:fluxer_app/features/moderation/iar/iar_flow.dart';
-import 'package:fluxer_app/features/moderation/iar/iar_simple_report_sheet.dart';
+import 'package:fluxer_app/features/moderation/domain/iar_flow.dart';
+import 'package:fluxer_app/features/moderation/presentation/iar_simple_report_sheet.dart';
 import 'package:fluxer_app/features/moderation/providers/local_user_spam_override_provider.dart';
 import 'package:fluxer_app/features/profile/presentation/menus/guild_member_moderation_menu_items.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/user_profile_confirmation_sheet.dart';

@@ -6,8 +6,6 @@ import 'package:fluxer_app/material_ui.dart';
 /// Builds the coal (pitch-black AMOLED) color theme.
 ///
 /// Coal starts from the dark theme but uses much darker, flatter surfaces.
-/// The key characteristic is that backgroundSecondary equals backgroundPrimary,
-/// eliminating surface differentiation.
 FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
   // ---------------------------------------------------------------------------
   // Helpers
@@ -53,7 +51,7 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
   // Scales
   // ---------------------------------------------------------------------------
 
-  // Coal surface: much narrower/darker range (L 1-12%) than dark (L 5-26%)
+  // Coal surface: much narrower/darker range (L 1-12%) than dark (L 5-24%)
   final coalSurface = const ColorScale(
     family: FluxerColorFamilies.neutralDark,
     lightnessStart: 1,
@@ -69,7 +67,7 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
       ScaleStop(name: 'guildListForeground', position: 0.38),
       ScaleStop(name: 'backgroundHeaderSecondary', position: 0.5),
       ScaleStop(name: 'backgroundHeaderPrimary', position: 0.5),
-      ScaleStop(name: 'backgroundTextarea', position: 0.68),
+      ScaleStop(name: 'backgroundTextarea', position: 0.3),
       ScaleStop(name: 'backgroundHeaderPrimaryHover', position: 0.85),
     ],
   ).build(saturationFactor: saturationFactor);
@@ -77,7 +75,7 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
   // Text scale: same as dark theme
   final darkText = const ColorScale(
     family: FluxerColorFamilies.neutralDark,
-    lightnessStart: 52,
+    lightnessStart: 60,
     lightnessEnd: 96,
     curve: ScaleCurves.easeInOut,
     stops: [
@@ -113,22 +111,20 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
   final borderColorVal = tone(FluxerColorFamilies.neutralDark, 50, alpha: 0.2);
 
   // Coal: lower alpha values for modifier backgrounds
-  final backgroundModifierHoverVal = toneDirect(
-    hue: 220,
-    saturation: 13,
-    lightness: 100,
+  final backgroundModifierHoverVal = tone(
+    FluxerColorFamilies.neutralDark,
+    100,
     alpha: 0.04,
   );
-  final backgroundModifierSelectedVal = toneDirect(
-    hue: 220,
-    saturation: 13,
-    lightness: 100,
+  final backgroundModifierSelectedVal = tone(
+    FluxerColorFamilies.neutralDark,
+    100,
     alpha: 0.08,
   );
-  final backgroundModifierAccentVal = toneDirect(
-    hue: 220,
+  final backgroundModifierAccentVal = tone(
+    FluxerColorFamilies.neutralDark,
+    65,
     saturation: 10,
-    lightness: 65,
     alpha: 0.18,
   );
 
@@ -148,15 +144,15 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
     backgroundHeaderPrimaryHover: coalSurface['backgroundHeaderPrimaryHover']!,
     backgroundHeaderSecondary: coalSurface['backgroundHeaderSecondary']!,
     backgroundChannelHeader: coalSurface['backgroundChannelHeader']!,
-    backgroundFloating: toneDirect(hue: 220, saturation: 13, lightness: 3),
+    backgroundFloating: tone(FluxerColorFamilies.neutralDark, 3),
     guildListForeground: coalSurface['guildListForeground']!,
     backgroundModifierHover: backgroundModifierHoverVal,
     backgroundModifierSelected: backgroundModifierSelectedVal,
     backgroundModifierAccent: backgroundModifierAccentVal,
-    backgroundModifierAccentFocus: toneDirect(
-      hue: 220,
+    backgroundModifierAccentFocus: tone(
+      FluxerColorFamilies.neutralDark,
+      70,
       saturation: 10,
-      lightness: 70,
       alpha: 0.26,
     ),
 
@@ -204,8 +200,8 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
     borderColor: borderColorVal,
     borderColorHover: tone(FluxerColorFamilies.neutralDark, 50, alpha: 0.3),
     borderColorFocus: toneDirect(
-      hue: 210,
-      saturation: 90,
+      hue: 198,
+      saturation: 92,
       lightness: 70,
       alpha: 0.45,
     ),
@@ -359,7 +355,7 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
     // Panel Control
     panelControlBg: Color.alphaBlend(
       backgroundPrimary.withValues(alpha: 0.9),
-      toneDirect(hue: 220, saturation: 13, lightness: 0),
+      tone(FluxerColorFamilies.neutralDark, 0),
     ),
     panelControlBorder: tone(
       FluxerColorFamilies.neutralDark,
@@ -399,7 +395,7 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
     menuDangerText: toneDirect(hue: 350, saturation: 90, lightness: 65),
 
     // Content Background (coal overrides)
-    bgCode: toneDirect(hue: 220, saturation: 13, lightness: 8),
+    bgCode: tone(FluxerColorFamilies.neutralDark, 8),
     bgCodeBlock: backgroundSecondaryAlt,
     bgTableHeader: backgroundTertiary,
     bgTableRowOdd: backgroundPrimary,
@@ -417,8 +413,8 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
 
     // Text Selection
     textSelection: toneDirect(
-      hue: 210,
-      saturation: 90,
+      hue: 198,
+      saturation: 92,
       lightness: 70,
       alpha: 0.35,
     ),
@@ -431,7 +427,7 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
     serverIconActive: brandPrimary,
     channelSidebarBackground: backgroundSecondary,
     memberListBackground: backgroundSecondary,
-    userPanelBackground: toneDirect(hue: 220, saturation: 13, lightness: 10),
+    userPanelBackground: tone(FluxerColorFamilies.neutralDark, 10),
     userAreaDividerColor: backgroundModifierHoverVal.withValues(
       alpha: backgroundModifierHoverVal.a * 0.7,
     ),
@@ -442,14 +438,17 @@ FluxerColorTheme buildCoalColorTheme({double saturationFactor = 1.0}) {
     spoilerOverlayHoverColor: const Color(0x24FFFFFF),
     guildBannerGradient: const Color(0x4D000000),
     focusPrimary: const Color(0xFF00B0F4),
-    interactiveActive: toneDirect(
-      hue: 0,
-      saturation: 0,
-      lightness: 100,
-      useSatFactor: false,
-    ),
+    interactiveActive: Color.lerp(
+      toneDirect(hue: 0, saturation: 0, lightness: 100, useSatFactor: false),
+      toneDirect(hue: 245, saturation: 100, lightness: 80),
+      40 / 140,
+    )!,
     interactiveNormal: textSecondary,
     interactiveHover: textPrimary,
-    interactiveMuted: toneDirect(hue: 228, saturation: 10, lightness: 35),
+    interactiveMuted: Color.lerp(
+      toneDirect(hue: 228, saturation: 10, lightness: 35),
+      toneDirect(hue: 245, saturation: 100, lightness: 80),
+      40 / 140,
+    )!,
   );
 }

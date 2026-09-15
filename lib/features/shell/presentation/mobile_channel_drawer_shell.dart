@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/desktop_shell_scaffold.dart';
+import 'package:fluxer_app/features/shell/presentation/mobile_chat_back_scope.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_phone_surface.dart';
@@ -62,13 +63,7 @@ class MobileChannelDrawerShell extends ConsumerWidget {
           )
         : bottomNav;
 
-    return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (bool didPop, _) {
-        if (didPop || !drawerLocked) {
-          return;
-        }
-      },
+    return MobileChatBackScope(
       child: Scaffold(
         backgroundColor: isOnChatRoute
             ? context.colors.chatInputBackground

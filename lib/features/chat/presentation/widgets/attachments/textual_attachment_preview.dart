@@ -13,11 +13,11 @@ import 'package:fluxer_app/features/chat/presentation/widgets/attachments/csv_at
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/textual_attachment_code_panel.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/textual_attachment_preview_footer.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/textual_attachment_preview_surface.dart';
-import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
-import 'package:fluxer_app/features/chat/utils/attachment_preview_utils.dart';
-import 'package:fluxer_app/features/chat/utils/csv_attachment_preview_utils.dart';
-import 'package:fluxer_app/features/chat/utils/textual_attachment_content.dart';
-import 'package:fluxer_app/features/chat/utils/textual_attachment_fullscreen.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/attachment_preview_utils.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/csv_attachment_preview_utils.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/textual_attachment_content.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/textual_attachment_fullscreen.dart';
 import 'package:fluxer_app/features/settings/providers/textual_preview_preferences_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';

@@ -17,7 +17,7 @@ import 'package:fluxer_app/features/chat/providers/channel/channel_details_provi
 import 'package:fluxer_app/features/chat/providers/channel/channel_header_search_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
-import 'package:fluxer_app/features/chat/utils/message_link.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_link.dart';
 import 'package:fluxer_app/features/dm/presentation/create_dm_flow.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/guilds/presentation/modals/add_guild_modal.dart';

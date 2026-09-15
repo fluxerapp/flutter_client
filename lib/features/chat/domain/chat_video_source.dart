@@ -1,6 +1,6 @@
 import 'package:fluxer_app/features/chat/domain/message.dart';
-import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
-import 'package:fluxer_app/features/chat/utils/media_proxy_url.dart';
+import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media/media_proxy_url.dart';
 
 class ChatVideoSource {
   const ChatVideoSource({

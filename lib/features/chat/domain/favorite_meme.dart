@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
-import 'package:fluxer_app/features/chat/utils/klipy_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media/klipy_utils.dart';
 import 'package:fluxer_dart/export.dart' as sdk;
 
 enum FavoriteMemeMediaType { image, gif, video, audio, unknown }

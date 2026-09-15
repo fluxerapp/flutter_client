@@ -49,6 +49,15 @@ class UserAppearance extends ConsumerWidget {
               _buildThemeCard(
                 context,
                 ref,
+                label: 'Dark (legacy)',
+                icon: PhosphorIconsFill.moon,
+                mode: FluxerThemeMode.darkLegacy,
+                isSelected: themePref.mode == FluxerThemeMode.darkLegacy,
+              ),
+              const SizedBox(width: 12),
+              _buildThemeCard(
+                context,
+                ref,
                 label: 'Light',
                 icon: PhosphorIconsFill.sun,
                 mode: FluxerThemeMode.light,

@@ -8,9 +8,9 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_blocked_provider.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
-import 'package:fluxer_app/features/chat/utils/composer_upload_file.dart';
-import 'package:fluxer_app/features/chat/utils/file_upload_validation_l10n.dart';
-import 'package:fluxer_app/features/chat/utils/file_upload_validator.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validation_l10n.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validator.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -45,11 +45,6 @@ class _UploadDropOverlayState extends ConsumerState<UploadDropOverlay> {
     if (!_isDesktopFileDropSupported()) {
       return widget.child;
     }
-    final colors = context.colors;
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final bool slowBlocked =
-        ref.watch(isSlowmodeBlockedProvider(widget.channelId)).value ?? false;
-    final bool shiftHeld = HardwareKeyboard.instance.isShiftPressed;
     return DropTarget(
       onDragEntered: (_) {
         setState(() => _isDragging = true);
@@ -89,33 +84,7 @@ class _UploadDropOverlayState extends ConsumerState<UploadDropOverlay> {
           widget.child,
           if (_isDragging)
             Positioned.fill(
-              child: Material(
-                color: colors.backgroundPrimary.withValues(alpha: 0.72),
-                child: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.upload_file,
-                        size: 56,
-                        color: colors.interactiveNormal,
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        slowBlocked && shiftHeld
-                            ? l10n.chatAttachmentDropSlowmodeDisabled
-                            : shiftHeld
-                            ? l10n.chatAttachmentDropToSend
-                            : l10n.chatAttachmentDropToUpload,
-                        style: context.textStyles.channelName.copyWith(
-                          color: colors.textPrimary,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              child: _UploadDropHint(channelId: widget.channelId),
             ),
         ],
       ),
@@ -139,5 +108,43 @@ class _UploadDropOverlayState extends ConsumerState<UploadDropOverlay> {
         .show(
           FluxerToast(message: message, variant: FluxerToastVariant.warning),
         );
+  }
+}
+
+class _UploadDropHint extends ConsumerWidget {
+  const _UploadDropHint({required this.channelId});
+
+  final String channelId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.colors;
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final bool slowBlocked =
+        ref.watch(isSlowmodeBlockedProvider(channelId)).value ?? false;
+    final bool shiftHeld = HardwareKeyboard.instance.isShiftPressed;
+    return Material(
+      color: colors.backgroundPrimary.withValues(alpha: 0.72),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.upload_file, size: 56, color: colors.interactiveNormal),
+            const SizedBox(height: 12),
+            Text(
+              slowBlocked && shiftHeld
+                  ? l10n.chatAttachmentDropSlowmodeDisabled
+                  : shiftHeld
+                  ? l10n.chatAttachmentDropToSend
+                  : l10n.chatAttachmentDropToUpload,
+              style: context.textStyles.channelName.copyWith(
+                color: colors.textPrimary,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

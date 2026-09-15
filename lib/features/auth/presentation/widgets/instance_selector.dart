@@ -8,10 +8,7 @@ import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/instance_domain_icon.dart';
 import 'package:fluxer_app/features/auth/providers/instance_selector_provider.dart';
-import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
-import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
-import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
-import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
+import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -19,13 +16,11 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 class InstanceSelectorControl extends ConsumerStatefulWidget {
   const InstanceSelectorControl({
     required this.enabled,
-    this.compact = false,
     this.onConnected,
     super.key,
   });
 
   final bool enabled;
-  final bool compact;
   final VoidCallback? onConnected;
 
   @override
@@ -37,7 +32,6 @@ class _InstanceSelectorControlState
     extends ConsumerState<InstanceSelectorControl> {
   final TextEditingController _controller = TextEditingController();
   String _draftUrl = '';
-  bool _showRecentInstances = false;
 
   @override
   void initState() {
@@ -140,6 +134,9 @@ class _InstanceSelectorControlState
                 clearError: true,
               )
             : selector;
+        final bool discovering =
+            viewState.status == InstanceDiscoveryStatus.discovering;
+        final bool canSubmit = widget.enabled && !discovering;
         final String? errorText =
             viewState.status == InstanceDiscoveryStatus.error
             ? viewState.errorMessage ?? l10n.instanceConnectFailed
@@ -153,12 +150,13 @@ class _InstanceSelectorControlState
               controller: _controller,
               label: l10n.instanceUrlLabel,
               hint: l10n.instanceUrlPlaceholder,
+              helperText: l10n.instanceUrlHelper,
               enabled: widget.enabled,
               prefixIcon: InstanceDomainIcon(
                 isOfficial: isOfficial && !viewState.requiresDiscovery,
                 size: 20,
               ),
-              suffixIcon: _buildSuffixIcons(context, viewState, isOfficial),
+              suffixIcon: _buildStatusIcon(context, viewState.status),
               onChanged: _handleDraftChanged,
               onSubmitted: (String value) => unawaited(_connectTo(value)),
               errorText: errorText,
@@ -167,98 +165,44 @@ class _InstanceSelectorControlState
               enableSuggestions: false,
               textInputAction: TextInputAction.go,
             ),
-            SizedBox(height: context.layout.s2),
-            Row(
-              children: [
-                Expanded(
-                  child: FluxerButton.secondary(
-                    onPressed:
-                        !widget.enabled ||
-                            viewState.status ==
-                                InstanceDiscoveryStatus.discovering
-                        ? null
-                        : () => unawaited(_connectTo(_draftUrl)),
-                    label:
-                        viewState.status == InstanceDiscoveryStatus.discovering
-                        ? l10n.instanceConnecting
-                        : l10n.instanceConnect,
-                    isLoading:
-                        viewState.status == InstanceDiscoveryStatus.discovering,
-                  ),
-                ),
-                if (selector.recentInstances.isNotEmpty) ...[
-                  SizedBox(width: context.layout.s2),
-                  IconButton(
-                    tooltip: l10n.recentInstances,
-                    onPressed: widget.enabled
-                        ? () => setState(
-                            () => _showRecentInstances = !_showRecentInstances,
-                          )
-                        : null,
-                    icon: PhosphorIcon(
-                      _showRecentInstances
-                          ? PhosphorIconsFill.caretUp
-                          : PhosphorIconsFill.caretDown,
-                      color: context.colors.textPrimaryMuted,
-                    ),
-                  ),
-                ],
-              ],
+            SizedBox(height: context.layout.s3),
+            FluxerButton.primary(
+              onPressed: canSubmit
+                  ? () => unawaited(_connectTo(_draftUrl))
+                  : null,
+              label: discovering
+                  ? l10n.instanceConnecting
+                  : l10n.instanceConnect,
+              isLoading: discovering,
             ),
-            if (_showRecentInstances && selector.recentInstances.isNotEmpty)
+            if (_shouldShowReset(viewState, isOfficial)) ...[
+              SizedBox(height: context.layout.s2),
+              Center(
+                child: FluxerButton.ghost(
+                  onPressed: canSubmit
+                      ? () => unawaited(_resetToOfficialDefault())
+                      : null,
+                  label: l10n.resetToDefaultInstance,
+                  fitContent: true,
+                ),
+              ),
+            ],
+            if (selector.recentInstances.isNotEmpty) ...[
+              SizedBox(height: context.layout.s2),
               _RecentInstancesList(
                 instances: selector.recentInstances,
                 enabled: widget.enabled,
                 onSelect: (RecentInstance instance) {
-                  setState(() => _showRecentInstances = false);
                   unawaited(_connectTo(instance.domain));
                 },
                 onRemove: (String domain) {
                   unawaited(notifier.removeRecentInstance(domain));
                 },
               ),
-            if (!widget.compact) SizedBox(height: context.layout.s6),
+            ],
           ],
         );
       },
-    );
-  }
-
-  Widget? _buildSuffixIcons(
-    BuildContext context,
-    InstanceSelectorState selector,
-    bool isOfficial,
-  ) {
-    final Widget? statusIcon = _buildStatusIcon(context, selector.status);
-    final bool showReset = _shouldShowReset(selector, isOfficial);
-    if (!showReset) {
-      return statusIcon;
-    }
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Tooltip(
-          message: l10n.resetToDefaultInstance,
-          child: IconButton(
-            visualDensity: VisualDensity.compact,
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
-            tooltip: l10n.resetToDefaultInstance,
-            onPressed:
-                !widget.enabled ||
-                    selector.status == InstanceDiscoveryStatus.discovering
-                ? null
-                : () => unawaited(_resetToOfficialDefault()),
-            icon: PhosphorIcon(
-              PhosphorIconsFill.arrowsCounterClockwise,
-              color: context.colors.textPrimaryMuted,
-              size: 20,
-            ),
-          ),
-        ),
-        ?statusIcon,
-      ],
     );
   }
 
@@ -339,17 +283,6 @@ class InstanceSelectorLoginEntry extends ConsumerWidget {
     String displayDomain,
     bool canAuthenticate,
   ) {
-    final TextStyle tertiaryStyle = context.textStyles.bodySmall.copyWith(
-      color: context.colors.textTertiary,
-      fontSize: 12,
-    );
-    void openSheet() {
-      if (!enabled) {
-        return;
-      }
-      onOpenSheet();
-    }
-
     if (!canAuthenticate) {
       final String hint = selector.status == InstanceDiscoveryStatus.error
           ? selector.errorMessage ?? l10n.instanceConnectFailed
@@ -361,48 +294,104 @@ class InstanceSelectorLoginEntry extends ConsumerWidget {
           Text(
             hint,
             textAlign: TextAlign.center,
-            style: tertiaryStyle.copyWith(color: context.colors.textDanger),
-          ),
-          SizedBox(height: context.layout.s1),
-          Center(
-            child: FluxerTextLink(
-              text: l10n.connectToDifferentInstance,
-              onTap: openSheet,
-              style: tertiaryStyle,
-              color: context.colors.textTertiary,
+            style: context.textStyles.bodySmall.copyWith(
+              color: context.colors.textDanger,
             ),
+          ),
+          SizedBox(height: context.layout.s2),
+          _InstanceChangeRow(
+            enabled: enabled,
+            isOfficial: false,
+            displayDomain: displayDomain,
+            isError: true,
+            onOpen: onOpenSheet,
           ),
         ],
       );
     }
 
-    if (!isOfficial) {
-      return Center(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const InstanceDomainIcon(isOfficial: false),
-            SizedBox(width: context.layout.s1),
-            Text(displayDomain, style: tertiaryStyle),
-            Text(' · ', style: tertiaryStyle),
-            FluxerTextLink(
-              text: l10n.changeInstance,
-              onTap: openSheet,
-              style: tertiaryStyle,
-              color: context.colors.textTertiary,
-            ),
-          ],
-        ),
-      );
-    }
+    return _InstanceChangeRow(
+      enabled: enabled,
+      isOfficial: isOfficial,
+      displayDomain: displayDomain,
+      onOpen: onOpenSheet,
+    );
+  }
+}
 
-    return Center(
-      child: FluxerTextLink(
-        text: l10n.connectToDifferentInstance,
-        onTap: openSheet,
-        style: tertiaryStyle,
-        color: context.colors.textTertiary,
-      ),
+class _InstanceChangeRow extends StatelessWidget {
+  const _InstanceChangeRow({
+    required this.enabled,
+    required this.isOfficial,
+    required this.displayDomain,
+    required this.onOpen,
+    this.isError = false,
+  });
+
+  final bool enabled;
+  final bool isOfficial;
+  final String displayDomain;
+  final VoidCallback onOpen;
+  final bool isError;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final layout = context.layout;
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    return FluxerTappable(
+      enabled: enabled,
+      onTap: onOpen,
+      excludeChildSemantics: true,
+      semanticLabel: '$displayDomain, ${l10n.changeInstance}',
+      builder: (BuildContext context, Set<WidgetState> states) {
+        final bool highlighted =
+            states.contains(WidgetState.hovered) ||
+            states.contains(WidgetState.pressed);
+        return AnimatedContainer(
+          duration: context.motion.fast,
+          curve: context.motion.curve,
+          width: double.infinity,
+          constraints: const BoxConstraints(minHeight: 44),
+          padding: EdgeInsets.symmetric(
+            horizontal: layout.s3,
+            vertical: layout.s2,
+          ),
+          decoration: BoxDecoration(
+            color: highlighted
+                ? colors.backgroundModifierHover
+                : colors.backgroundTertiary,
+            borderRadius: layout.radiusLg,
+            border: Border.all(
+              color: isError
+                  ? colors.statusDanger
+                  : colors.backgroundModifierAccent,
+            ),
+          ),
+          child: Row(
+            children: [
+              InstanceDomainIcon(isOfficial: isOfficial, size: 18),
+              SizedBox(width: layout.s2),
+              Expanded(
+                child: Text(
+                  displayDomain,
+                  style: context.textStyles.bodySmall.copyWith(
+                    color: colors.textPrimary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Text(
+                l10n.changeInstance,
+                style: context.textStyles.bodySmall.copyWith(
+                  color: colors.textLink,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
@@ -423,40 +412,27 @@ class _RecentInstancesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    return Padding(
-      padding: EdgeInsets.only(top: context.layout.s2),
-      child: Column(
-        children: instances.map((RecentInstance instance) {
-          final String displayDomain = const InstanceEndpointNormalizer()
-              .formatDisplayDomain(instance.domain);
-          return ListTile(
-            dense: true,
-            contentPadding: EdgeInsets.zero,
-            title: Text(
-              instance.name ?? displayDomain,
-              style: context.textStyles.bodySmall,
-            ),
-            subtitle: instance.name != null
-                ? Text(
-                    displayDomain,
-                    style: context.textStyles.bodySmall.copyWith(
-                      color: context.colors.textTertiary,
-                    ),
-                  )
-                : null,
-            onTap: enabled ? () => onSelect(instance) : null,
-            trailing: IconButton(
-              tooltip: l10n.removeRecentInstance(displayDomain),
-              onPressed: enabled ? () => onRemove(instance.domain) : null,
-              icon: PhosphorIcon(
-                PhosphorIconsFill.trash,
-                color: context.colors.textTertiary,
-                size: 18,
-              ),
-            ),
-          );
-        }).toList(),
-      ),
+    const InstanceEndpointNormalizer normalizer = InstanceEndpointNormalizer();
+    return FluxerListSection(
+      header: l10n.recentInstances,
+      children: instances.map((RecentInstance instance) {
+        final String displayDomain = normalizer.formatDisplayDomain(
+          instance.domain,
+        );
+        return FluxerListRow(
+          leading: const InstanceDomainIcon(isOfficial: false, size: 20),
+          title: instance.name ?? displayDomain,
+          subtitle: instance.name != null ? displayDomain : null,
+          onTap: enabled ? () => onSelect(instance) : null,
+          trailing: FluxerButton.ghost(
+            onPressed: enabled ? () => onRemove(instance.domain) : null,
+            icon: PhosphorIconsFill.trash,
+            isSquare: true,
+            size: FluxerButtonSize.compact,
+            semanticLabel: l10n.removeRecentInstance(displayDomain),
+          ),
+        );
+      }).toList(),
     );
   }
 }

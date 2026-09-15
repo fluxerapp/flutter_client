@@ -645,6 +645,15 @@ const AccessibilitySettings$json = {
       '10': 'mobileSplashZoomAnimation',
       '17': true
     },
+    {
+      '1': 'show_alt_text_on_images',
+      '3': 65,
+      '4': 1,
+      '5': 8,
+      '9': 53,
+      '10': 'showAltTextOnImages',
+      '17': true
+    },
   ],
   '8': [
     {'1': '_saturation_factor'},
@@ -700,6 +709,7 @@ const AccessibilitySettings$json = {
     {'1': '_dim_strikethrough_text'},
     {'1': '_sequential_file_send'},
     {'1': '_mobile_splash_zoom_animation'},
+    {'1': '_show_alt_text_on_images'},
   ],
 };
 

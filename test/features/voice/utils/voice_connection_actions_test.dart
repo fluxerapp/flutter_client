@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -11,7 +12,6 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
-import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
@@ -409,6 +409,7 @@ Future<void> _pumpJoinHarness(
         gatewayConnectionProvider.overrideWithValue(gateway),
         currentUserIdProvider.overrideWithValue(_userId),
         voiceSessionProvider.overrideWith(() => voiceSession),
+        matureContentAgreementsProvider.overrideWith(_LoadedAgreements.new),
         shouldShowMatureContentGateProvider(
           _channelId,
         ).overrideWith((ref) => gateReason != MatureContentGateReason.none),
@@ -501,9 +502,17 @@ class _RecordingVoiceSession extends VoiceSession {
     bool initialSelfDeaf = false,
     bool initialSelfVideo = false,
     bool forceJoin = false,
+    bool skipChannelGate = false,
   }) async {
     connectCallCount++;
     lastForceJoin = forceJoin;
     return true;
+  }
+}
+
+class _LoadedAgreements extends MatureContentAgreements {
+  @override
+  MatureContentAgreementsState build() {
+    return const MatureContentAgreementsState(isLoaded: true);
   }
 }

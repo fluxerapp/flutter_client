@@ -4,7 +4,7 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
-import 'package:fluxer_app/features/chat/service/composer_mention_controller.dart';
+import 'package:fluxer_app/features/chat/services/composer_mention_controller.dart';
 import 'package:fluxer_app/features/ui/input/emoji_inline_token.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';

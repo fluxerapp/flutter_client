@@ -6,7 +6,7 @@ import 'package:fluxer_app/core/limits/limit_types.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
 import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/providers/well_known_provider.dart';
-import 'package:fluxer_app/features/chat/utils/message_length_constants.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_length_constants.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

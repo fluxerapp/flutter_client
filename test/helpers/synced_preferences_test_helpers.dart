@@ -14,9 +14,9 @@ Future<void> flushSyncedPreferencesDebounce(
   await drainAsyncWork();
 }
 
-Future<void> flushSyncedPreferencesRateLimitRetry(
+Future<void> flushSyncedPreferencesPushRetry(
   SyncedPreferencesStore store,
 ) async {
-  store.triggerRateLimitRetryForTest();
+  store.triggerPushRetryForTest();
   await drainAsyncWork();
 }

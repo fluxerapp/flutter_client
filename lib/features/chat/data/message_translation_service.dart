@@ -4,7 +4,7 @@ import 'package:fluxer_app/core/database/daos/message_dao.dart';
 import 'package:fluxer_app/features/chat/data/message_translation_source.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_translation.dart';
-import 'package:fluxer_app/features/chat/utils/message_translate_offer.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_translate_offer.dart';
 
 class MessageTranslationService {
   MessageTranslationService({

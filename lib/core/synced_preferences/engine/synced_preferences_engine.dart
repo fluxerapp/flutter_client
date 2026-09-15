@@ -120,6 +120,9 @@ class SyncedPreferencesEngine {
     final localFields = _indexFieldChunks(
       _parseTopLevelFieldChunks(localBytes),
     );
+    final wireFields = _indexFieldChunks(
+      _parseTopLevelFieldChunks(preferencesToBytes(wire)),
+    );
     final incomingFields = _indexFieldChunks(
       _parseTopLevelFieldChunks(incomingBytes),
     );
@@ -144,7 +147,7 @@ class SyncedPreferencesEngine {
         continue;
       }
       if (ackedSet.contains(field) &&
-          !_chunksEqual(incomingFields[field], localFields[field])) {
+          _chunksEqual(incomingFields[field], wireFields[field])) {
         merged = SyncedPreferencesWireCodec.replaceField(
           target: merged,
           fieldNumber: field,
@@ -153,7 +156,7 @@ class SyncedPreferencesEngine {
         nextWire = SyncedPreferencesWireCodec.replaceField(
           target: nextWire,
           fieldNumber: field,
-          sourceFieldChunks: localFields[field] ?? <Uint8List>[],
+          sourceFieldChunks: wireFields[field] ?? <Uint8List>[],
         );
         continue;
       }

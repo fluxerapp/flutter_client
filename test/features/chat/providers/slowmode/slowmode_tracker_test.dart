@@ -110,7 +110,7 @@ void main() {
     });
 
     test('updateSendTimestamp applies cross-device send time', () {
-      final DateTime sentAt = DateTime.now().subtract(
+      final DateTime sentAt = DateTime.now().toUtc().subtract(
         const Duration(seconds: 2),
       );
 

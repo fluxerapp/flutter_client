@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/chat/utils/guild_composer_barrier_l10n.dart';
+import 'package:fluxer_app/features/chat/utils/composer/guild_composer_barrier_l10n.dart';
 import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/claim_account_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/phone_add_sheet.dart';
@@ -57,7 +57,7 @@ class _ChannelComposerBarrierState
     if (remaining == null || remaining <= Duration.zero) {
       return;
     }
-    _countdownTimer = Timer.periodic(const Duration(seconds: 1), (_) {
+    _countdownTimer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       if (!mounted) {
         return;
       }
@@ -66,6 +66,10 @@ class _ChannelComposerBarrierState
         return;
       }
       final Duration next = current - const Duration(seconds: 1);
+      if (next <= Duration.zero) {
+        timer.cancel();
+        _countdownTimer = null;
+      }
       setState(() {
         _remaining = next <= Duration.zero ? Duration.zero : next;
       });

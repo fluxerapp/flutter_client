@@ -4402,6 +4402,9 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get lookAndFeelThemeDark => 'Темна тема';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => 'Вугільна тема';
 
   @override
@@ -5101,6 +5104,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   @override
   String get accessibilityAlwaysUnderlineLinksLabel =>
       'Завжди підкреслювати посилання';
+
+  @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
 
   @override
   String get accessibilityDimStrikethroughTextLabel =>
@@ -6647,6 +6658,18 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get chatMessageAddReaction => 'Додати реакцію';
 
   @override
+  String get doubleTapReactionHint => 'Double tap a message to';
+
+  @override
+  String get doubleTapReactionEdit => 'Edit';
+
+  @override
+  String get doubleTapReactionEditTitle => 'Edit default';
+
+  @override
+  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+
+  @override
   String get chatMessageEdit => 'Редагувати повідомлення';
 
   @override
@@ -7408,6 +7431,9 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get chatVideoPlaybackFailed => 'Не вдалося відтворити це відео.';
+
+  @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
@@ -10978,6 +11004,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Введіть URL екземпляра (наприклад, fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Скинути до Fluxer';
 
   @override
@@ -10999,9 +11029,6 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'Підключитися до екземпляра';
-
-  @override
-  String get connectToDifferentInstance => 'Підключитися до іншого екземпляра';
 
   @override
   String get changeInstance => 'Змінити';

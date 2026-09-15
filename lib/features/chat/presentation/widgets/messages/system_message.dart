@@ -5,10 +5,11 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/message_reactions_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_long_press_highlight.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_reactions_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_row_layout.dart';
-import 'package:fluxer_app/features/chat/utils/message_timestamp_format.dart';
-import 'package:fluxer_app/features/chat/utils/system_message_text.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_timestamp_format.dart';
+import 'package:fluxer_app/features/chat/utils/messages/system_message_text.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
@@ -36,7 +37,7 @@ class SystemMessage extends ConsumerWidget {
   final String? guildId;
   final VoidCallback? onJumpToPinnedMessage;
   final VoidCallback? onViewAllPins;
-  final VoidCallback? onLongPress;
+  final Future<void> Function()? onLongPress;
   final void Function(Offset position)? onSecondaryTapUp;
   final ReactionToggleCallback? onReaction;
   final bool canAddReactions;
@@ -443,7 +444,7 @@ class _PointerLongPressDetector extends StatefulWidget {
     required this.child,
   });
 
-  final VoidCallback onLongPress;
+  final Future<void> Function() onLongPress;
   final Widget child;
 
   @override
@@ -455,10 +456,12 @@ class _PointerLongPressDetectorState extends State<_PointerLongPressDetector> {
   Timer? _holdTimer;
   Offset? _pointerDownPosition;
   bool _absorbPointers = false;
+  final ValueNotifier<bool> _pressHighlight = ValueNotifier<bool>(false);
 
   @override
   void dispose() {
     _holdTimer?.cancel();
+    _pressHighlight.dispose();
     super.dispose();
   }
 
@@ -473,7 +476,7 @@ class _PointerLongPressDetectorState extends State<_PointerLongPressDetector> {
     _pointerDownPosition = event.position;
     _holdTimer = Timer(_kSystemMessageLongPressDuration, () {
       _holdTimer = null;
-      widget.onLongPress();
+      unawaited(_fireLongPress());
       setState(() => _absorbPointers = true);
       Future<void>.delayed(const Duration(milliseconds: 100), () {
         if (mounted) {
@@ -481,6 +484,17 @@ class _PointerLongPressDetectorState extends State<_PointerLongPressDetector> {
         }
       });
     });
+  }
+
+  Future<void> _fireLongPress() async {
+    _pressHighlight.value = true;
+    try {
+      await widget.onLongPress();
+    } finally {
+      if (mounted) {
+        _pressHighlight.value = false;
+      }
+    }
   }
 
   void _handlePointerMove(PointerMoveEvent event) {
@@ -502,7 +516,19 @@ class _PointerLongPressDetectorState extends State<_PointerLongPressDetector> {
       onPointerMove: _handlePointerMove,
       onPointerUp: (_) => _cancelHold(),
       onPointerCancel: (_) => _cancelHold(),
-      child: AbsorbPointer(absorbing: _absorbPointers, child: widget.child),
+      child: Stack(
+        children: [
+          AbsorbPointer(absorbing: _absorbPointers, child: widget.child),
+          Positioned.fill(
+            child: ValueListenableBuilder<bool>(
+              valueListenable: _pressHighlight,
+              builder: (context, active, _) {
+                return MessageLongPressHighlight(active: active);
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -4,7 +4,7 @@ import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart'
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
-import 'package:fluxer_app/features/chat/utils/composer_mention_query.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_mention_query.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';

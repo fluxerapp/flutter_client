@@ -10,10 +10,11 @@ import 'package:flutter_callkit_incoming/entities/call_event.dart';
 import 'package:flutter_callkit_incoming/entities/call_kit_params.dart';
 import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_session.dart';
+import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
-import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
+import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
@@ -67,6 +68,7 @@ class VoiceCallKitCoordinatorLogic {
   bool _callKitOwnsAudioSession = false;
   DateTime? _suppressUserEndHandlingUntil;
   Timer? _audioSessionRecoveryTimer;
+  final List<Timer> _speakerReapplyTimers = <Timer>[];
 
   void init() {
     _eventSubscription = FlutterCallkitIncoming.onEvent.listen(
@@ -125,11 +127,30 @@ class VoiceCallKitCoordinatorLogic {
         _scheduleSync(
           () => _syncCallKitMuteFromVoiceStates(previous: previous, next: next),
         );
+      })
+      ..listen<VoiceSettingsState>(voiceSettingsProvider, (
+        VoiceSettingsState? previous,
+        VoiceSettingsState next,
+      ) {
+        final VoiceCallKitVoiceSnapshot voice = _voiceCallKitVoiceSnapshot(
+          _ref.read(voiceSessionProvider),
+        );
+        if (!shouldReapplySpeakerOutputOnPreferenceChange(
+          isInVoice: voice.isInVoice,
+          speakerPreferenceChanged:
+              previous?.preferSpeakerOutput != next.preferSpeakerOutput,
+        )) {
+          return;
+        }
+        _scheduleSync(
+          () => _applySpeakerOutputAndRetry(reason: 'speaker setting'),
+        );
       });
   }
 
   void dispose() {
     _cancelAudioSessionRecovery();
+    _cancelSpeakerOutputReapply();
     unawaited(_eventSubscription?.cancel());
     unawaited(_endAllCallKitSessions());
   }
@@ -137,6 +158,28 @@ class VoiceCallKitCoordinatorLogic {
   void _cancelAudioSessionRecovery() {
     _audioSessionRecoveryTimer?.cancel();
     _audioSessionRecoveryTimer = null;
+  }
+
+  void _cancelSpeakerOutputReapply() {
+    for (final Timer timer in _speakerReapplyTimers) {
+      timer.cancel();
+    }
+    _speakerReapplyTimers.clear();
+  }
+
+  void _scheduleSpeakerOutputReapply() {
+    _cancelSpeakerOutputReapply();
+    for (final Duration delay in kVoiceCallKitSpeakerReapplyDelays) {
+      _speakerReapplyTimers.add(
+        Timer(delay, () {
+          _scheduleSync(
+            () => _applySpeakerOutputForCallKitAudioSession(
+              reason: 'speaker reapply',
+            ),
+          );
+        }),
+      );
+    }
   }
 
   void _scheduleAudioSessionRecovery() {
@@ -213,28 +256,20 @@ class VoiceCallKitCoordinatorLogic {
   }
 
   Future<void> _handleToggleAudioSession({required bool isActive}) async {
-    VoiceCallKitVoiceSnapshot? voice;
     if (isActive) {
-      voice = _voiceCallKitVoiceSnapshot(_ref.read(voiceSessionProvider));
-      if (!voice.isConnected) {
+      final VoiceCallKitVoiceSnapshot voice = _voiceCallKitVoiceSnapshot(
+        _ref.read(voiceSessionProvider),
+      );
+      if (!voice.isInVoice) {
         return;
       }
       _cancelAudioSessionRecovery();
       await _enterCallKitAudioOwnership();
-    }
-    await _setEngineAvailabilityForCallKitAudioSession(isActive: isActive);
-    if (isActive) {
-      if (shouldReapplySpeakerOutputOnCallKitAudioSessionActive(
-        isAudioSessionActive: true,
-        isInVoice: voice?.isInVoice ?? false,
-      )) {
-        await _applySpeakerOutputForCallKitAudioSession(
-          reason: 'audio session activate',
-        );
-        _scheduleAudioSessionRecovery();
-      }
+      await _setEngineAvailabilityForCallKitAudioSession(isActive: true);
+      await _applySpeakerOutputAndRetry(reason: 'audio session activate');
       return;
     }
+    await _setEngineAvailabilityForCallKitAudioSession(isActive: false);
     if (shouldScheduleCallKitAudioSessionRecovery(
       isAudioSessionActive: false,
       hasActiveVoiceSession: _sessions.hasActiveVoiceSession,
@@ -262,9 +297,29 @@ class VoiceCallKitCoordinatorLogic {
     }
   }
 
+  bool _shouldApplySpeakerOutput() {
+    return shouldApplySpeakerOutputWhileInVoice(
+      hasActiveVoiceSession: _sessions.hasActiveVoiceSession,
+      isInVoice: _voiceCallKitVoiceSnapshot(
+        _ref.read(voiceSessionProvider),
+      ).isInVoice,
+    );
+  }
+
+  Future<void> _applySpeakerOutputAndRetry({required String reason}) async {
+    if (!_shouldApplySpeakerOutput()) {
+      return;
+    }
+    await _applySpeakerOutputForCallKitAudioSession(reason: reason);
+    _scheduleSpeakerOutputReapply();
+  }
+
   Future<void> _applySpeakerOutputForCallKitAudioSession({
     required String reason,
   }) async {
+    if (!_shouldApplySpeakerOutput()) {
+      return;
+    }
     try {
       await _ref
           .read(voiceSettingsApplicatorProvider)
@@ -391,6 +446,7 @@ class VoiceCallKitCoordinatorLogic {
     VoiceCallKitVoiceSnapshot next,
   ) async {
     if (!next.isInVoice) {
+      _cancelSpeakerOutputReapply();
       ChatAttachmentAudioSession.instance.restoreAfterVoiceCall();
       await _endAllCallKitSessions();
       return;
@@ -535,6 +591,7 @@ class VoiceCallKitCoordinatorLogic {
       await _exitCallKitAudioOwnership();
       return;
     }
+    await _applySpeakerOutputAndRetry(reason: 'startCall');
     if (voice.isConnected) {
       await _markCallConnected(callKitId);
     }
@@ -718,6 +775,7 @@ class VoiceCallKitCoordinatorLogic {
       return;
     }
     await _markCallConnected(params.id);
+    await _applySpeakerOutputAndRetry(reason: 'call start');
   }
 
   Future<void> _handleCallConnectedById(String callKitId) async {
@@ -763,6 +821,7 @@ class VoiceCallKitCoordinatorLogic {
       );
     }
     await _markCallConnected(callKitId);
+    await _applySpeakerOutputAndRetry(reason: 'call accept');
   }
 
   Future<void> _handleDecline(CallKitParams params) async {

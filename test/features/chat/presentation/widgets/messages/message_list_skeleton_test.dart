@@ -319,4 +319,52 @@ void main() {
     expect(find.byType(ChatLoadingSpinner), findsNothing);
     await _disposeWidgetTree(tester);
   });
+
+  testWidgets(
+    'shows mismatch placeholder when messages belong to another channel',
+    (tester) async {
+      final db.FluxerDatabase database = await _openDatabase();
+      addTearDown(database.close);
+      final _LoadingChatViewModel chatViewModel = _LoadingChatViewModel(
+        ChatViewState(
+          channelId: _otherChannelId,
+          messages: <Message>[
+            Message(
+              id: 'stale-1',
+              channelId: _channelId,
+              authorId: 'user-1',
+              authorName: 'User',
+              content: 'stale-from-other-chat',
+              timestamp: DateTime.utc(2026),
+            ),
+          ],
+          replyingTo: null,
+          replyMentioning: false,
+          editingMessage: null,
+          messageText: '',
+          scrollToBottomSignal: 0,
+          isLoading: false,
+          isSyncingMessages: false,
+          isLoadingMore: false,
+          isLoadingNewer: false,
+          hasMoreMessages: false,
+          hasMoreNewerMessages: false,
+          errorMessage: null,
+        ),
+      );
+
+      await tester.pumpWidget(
+        _messageListApp(
+          database: database,
+          chatViewModel: chatViewModel,
+          body: const MessageList(expectedChannelId: _otherChannelId),
+        ),
+      );
+      await tester.pump();
+
+      expect(find.byType(MessageListMismatchPlaceholder), findsOneWidget);
+      expect(find.text('stale-from-other-chat'), findsNothing);
+      await _disposeWidgetTree(tester);
+    },
+  );
 }

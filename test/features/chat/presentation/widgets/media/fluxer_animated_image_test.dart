@@ -131,6 +131,41 @@ void main() {
       expect(ticker.enabled, isTrue);
     });
 
+    testWidgets('advances frames when disableAnimations is set', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          builder: (BuildContext context, Widget? child) {
+            return MediaQuery(
+              data: MediaQuery.of(context).copyWith(disableAnimations: true),
+              child: child!,
+            );
+          },
+          home: const Scaffold(
+            body: SizedBox(
+              width: 160,
+              height: 160,
+              child: FluxerAnimatedImage(
+                animatedUrl: 'https://x/a.webp',
+                playing: true,
+              ),
+            ),
+          ),
+        ),
+      );
+
+      final TickerMode ticker = tester.widget<TickerMode>(_animatedTicker);
+      expect(ticker.enabled, isTrue);
+      final BuildContext imageContext = tester.element(
+        find.descendant(
+          of: _animatedTicker,
+          matching: find.byType(CachedNetworkImage),
+        ),
+      );
+      expect(MediaQuery.disableAnimationsOf(imageContext), isFalse);
+    });
+
     testWidgets('caps decode cache for the static frame', (tester) async {
       tester.view.devicePixelRatio = 2.0;
       addTearDown(tester.view.resetDevicePixelRatio);

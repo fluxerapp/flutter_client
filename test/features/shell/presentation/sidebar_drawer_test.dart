@@ -3,6 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
+import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
+import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme.dart';
+import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
@@ -11,6 +15,7 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.dart';
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
 import 'package:fluxer_app/shared/markdown/native_markdown_parser.dart';
+import 'package:fluxer_app/shared/widgets/playback_seek_gesture_target.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod/src/framework.dart' show Override;
@@ -677,6 +682,40 @@ void main() {
     expect(_sliderDx(tester), 0);
   });
 
+  testWidgets('opens drawer when dragging an inactive playback seek surface', (
+    tester,
+  ) async {
+    final router = GoRouter(
+      initialLocation: '/channels/guild/channel',
+      routes: [
+        GoRoute(
+          path: '/channels/:guildId',
+          builder: (context, state) => _drawerHarnessWithInactivePlaybackSeek(),
+          routes: [
+            GoRoute(
+              path: ':channelId',
+              builder: (context, state) =>
+                  _drawerHarnessWithInactivePlaybackSeek(),
+            ),
+          ],
+        ),
+      ],
+    );
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(
+      _buildDrawerApp(container: container, router: router),
+    );
+    await tester.pumpAndSettle();
+
+    final Offset seekCenter = tester.getCenter(find.byKey(_inactiveSeekKey));
+    await tester.dragFrom(seekCenter, const Offset(200, 0));
+    await tester.pumpAndSettle();
+
+    expect(_sliderDx(tester), 400);
+  });
+
   testWidgets('ignores horizontal drag on the expression panel surface', (
     tester,
   ) async {
@@ -766,6 +805,7 @@ void main() {
 }
 
 const _sliderKey = ValueKey<String>('slider');
+const _inactiveSeekKey = ValueKey<String>('inactive-seek');
 
 GoRouter _routerFor(
   String initialLocation, {
@@ -847,6 +887,45 @@ Widget _drawerHarnessWithPlaybackSeek() {
             ),
           ),
         ],
+      ),
+    ),
+  );
+}
+
+Widget _drawerHarnessWithInactivePlaybackSeek() {
+  final colorTheme = buildDarkColorTheme();
+  return SidebarDrawer(
+    revealDuration: Duration.zero,
+    snapBackDuration: Duration.zero,
+    base: const ColoredBox(color: Colors.blue),
+    slider: Theme(
+      data: buildFluxerTheme(
+        colorTheme: colorTheme,
+        textTheme: FluxerTextTheme.fromColors(colorTheme),
+        layoutTheme: FluxerLayoutTheme.scaled(),
+      ),
+      child: SizedBox(
+        key: _sliderKey,
+        width: 400,
+        height: 600,
+        child: Stack(
+          children: <Widget>[
+            const ColoredBox(color: Colors.red),
+            Positioned(
+              left: 16,
+              right: 16,
+              top: 200,
+              child: PlaybackSeekGestureTarget(
+                enabled: false,
+                onSeekFraction: (double _) {},
+                child: const ColoredBox(
+                  key: _inactiveSeekKey,
+                  color: Colors.orange,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     ),
   );

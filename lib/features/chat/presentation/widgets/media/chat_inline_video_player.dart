@@ -9,11 +9,11 @@ import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_con
 import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_fullscreen_video.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_video_playback_failure_overlay.dart';
-import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
-import 'package:fluxer_app/features/chat/utils/chat_video_hdr_player_config.dart';
-import 'package:fluxer_app/features/chat/utils/chat_video_playback_utils.dart';
-import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
-import 'package:fluxer_app/features/chat/utils/media_kit_player_lifecycle.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media/chat_video_hdr_player_config.dart';
+import 'package:fluxer_app/features/chat/utils/media/chat_video_playback_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media/media_kit_player_lifecycle.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -301,7 +301,11 @@ class _ChatInlineVideoPlayerState extends ConsumerState<ChatInlineVideoPlayer> {
     final Player player = MediaKitPlayerLifecycleCoordinator.instance
         .createPlayer();
     _player = player;
-    unawaited(player.setVolume(_volume));
+    unawaited(
+      player.setVolume(
+        mediaKitPlayerVolume(normalizedVolume: _volume, isMuted: _isMuted),
+      ),
+    );
     unawaited(player.setRate(_playbackRate));
     _controller = mkv.VideoController(player);
     unawaited(
@@ -406,11 +410,9 @@ class _ChatInlineVideoPlayerState extends ConsumerState<ChatInlineVideoPlayer> {
 
   Future<void> _toggleMute() async {
     _isMuted = !_isMuted;
-    if (_isMuted) {
-      await _player?.setVolume(0);
-    } else {
-      await _player?.setVolume(_volume);
-    }
+    await _player?.setVolume(
+      mediaKitPlayerVolume(normalizedVolume: _volume, isMuted: _isMuted),
+    );
     if (mounted) {
       setState(() {});
     }
@@ -420,7 +422,7 @@ class _ChatInlineVideoPlayerState extends ConsumerState<ChatInlineVideoPlayer> {
   Future<void> _setVolume(double value) async {
     _volume = value.clamp(0, 1);
     if (!_isMuted) {
-      await _player?.setVolume(_volume);
+      await _player?.setVolume(mediaKitVolumeFromNormalized(_volume));
     }
     if (mounted) {
       setState(() {});

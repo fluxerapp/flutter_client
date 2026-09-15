@@ -24,11 +24,11 @@ class SlowmodeTracker extends _$SlowmodeTracker {
       return;
     }
     final DateTime now = DateTime.now();
-    final DateTime anchored = sentAt.isAfter(now) ? now : sentAt;
-    final DateTime? existing = _lastSentAt[channelId];
-    if (existing == anchored) {
-      return;
-    }
+    final DateTime incoming = sentAt.toUtc();
+    final DateTime anchored = incoming.isAfter(now.toUtc())
+        ? now.toUtc()
+        : incoming;
+    final DateTime? existing = _lastSentAt[channelId]?.toUtc();
     if (existing != null && !anchored.isAfter(existing)) {
       return;
     }

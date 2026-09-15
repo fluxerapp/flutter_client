@@ -323,6 +323,26 @@ void main() {
     });
   });
 
+  group('forwardDestinationRoute', () {
+    test('uses the guild channel path when a guild id is present', () {
+      expect(
+        forwardDestinationRoute(channelId: 'general', guildId: _guildId),
+        RoutePaths.guildChannel(_guildId, 'general'),
+      );
+    });
+
+    test('uses the DM path when guild id is missing', () {
+      expect(
+        forwardDestinationRoute(channelId: 'dm_alice'),
+        RoutePaths.dmChannel('dm_alice'),
+      );
+      expect(
+        forwardDestinationRoute(channelId: 'dm_alice', guildId: ''),
+        RoutePaths.dmChannel('dm_alice'),
+      );
+    });
+  });
+
   group('showForwardMessageSheet', () {
     testWidgets('renders destinations including the source channel', (
       WidgetTester tester,
@@ -548,15 +568,6 @@ void main() {
             shouldShowMatureContentGateProvider(
               'general',
             ).overrideWith((ref) => false),
-            channelByIdProvider('general').overrideWith(
-              (ref) => Stream<Channel?>.value(
-                const Channel(
-                  id: 'general',
-                  guildId: _guildId,
-                  name: 'general',
-                ),
-              ),
-            ),
           ],
         ),
       );

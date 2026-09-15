@@ -21,10 +21,10 @@ import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_prov
 import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
-import 'package:fluxer_app/features/chat/utils/bottom_input_slot_layout.dart';
-import 'package:fluxer_app/features/chat/utils/composer_panel.dart';
-import 'package:fluxer_app/features/chat/utils/inline_expression_panel_layout.dart';
-import 'package:fluxer_app/features/chat/utils/inline_expression_panel_scroll_physics.dart';
+import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_panel.dart';
+import 'package:fluxer_app/features/chat/utils/composer/inline_expression_panel_layout.dart';
+import 'package:fluxer_app/features/chat/utils/composer/inline_expression_panel_scroll_physics.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/utils/mobile_scaffold_resize_policy.dart';
@@ -110,10 +110,11 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
   Widget _buildStatusOverlay({
     required bool showNeko,
     required bool showSlowmode,
+    required String channelId,
   }) {
     return ChannelChatComposerBoundary(
       leadingStatus: const TypingIndicatorBar(),
-      trailingStatuses: const <Widget>[SlowmodeIndicator()],
+      trailingStatuses: <Widget>[SlowmodeIndicator(channelId: channelId)],
       neko: showNeko ? const NekoSprite() : null,
       nekoBottom: showSlowmode
           ? _kChannelChatNekoBottomAboveSlowmode
@@ -236,6 +237,7 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                             child: _buildStatusOverlay(
                               showNeko: showNeko,
                               showSlowmode: showSlowmode,
+                              channelId: listChannelId,
                             ),
                           ),
                           _ChannelChatScrollOverlay(

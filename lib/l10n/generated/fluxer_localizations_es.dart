@@ -4420,6 +4420,9 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get lookAndFeelThemeDark => 'Tema oscuro';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => 'Tema carbón';
 
   @override
@@ -5122,6 +5125,14 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   @override
   String get accessibilityAlwaysUnderlineLinksLabel =>
       'Subrayar siempre los enlaces';
+
+  @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
 
   @override
   String get accessibilityDimStrikethroughTextLabel => 'Atenuar texto tachado';
@@ -6656,6 +6667,18 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get chatMessageAddReaction => 'Añadir reacción';
 
   @override
+  String get doubleTapReactionHint => 'Double tap a message to';
+
+  @override
+  String get doubleTapReactionEdit => 'Edit';
+
+  @override
+  String get doubleTapReactionEditTitle => 'Edit default';
+
+  @override
+  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+
+  @override
   String get chatMessageEdit => 'Editar mensaje';
 
   @override
@@ -7412,6 +7435,9 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   @override
   String get chatVideoPlaybackFailed =>
       'No se ha podido reproducir este vídeo.';
+
+  @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
@@ -10993,6 +11019,10 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
       'Introduce la URL de la instancia (p. ej., fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Restablecer a Fluxer';
 
   @override
@@ -11014,9 +11044,6 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'Conectar a la instancia';
-
-  @override
-  String get connectToDifferentInstance => 'Conectar a una instancia diferente';
 
   @override
   String get changeInstance => 'Cambiar';
@@ -25405,10 +25432,6 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get instanceSheetTitle => 'Conectarse a la instancia';
-
-  @override
-  String get connectToDifferentInstance =>
-      'Conectarse a una instancia diferente';
 
   @override
   String get changeInstance => 'Cambiar';

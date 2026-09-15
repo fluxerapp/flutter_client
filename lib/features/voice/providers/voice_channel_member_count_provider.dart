@@ -1,4 +1,4 @@
-import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'voice_channel_member_count_provider.g.dart';

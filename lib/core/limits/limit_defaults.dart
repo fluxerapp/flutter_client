@@ -1,5 +1,5 @@
 import 'package:fluxer_app/core/limits/limit_key.dart';
-import 'package:fluxer_app/features/chat/utils/file_upload_constants.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/file_upload_constants.dart';
 
 const int kMaxMessageLengthNonPremium = 2000;
 const int kMaxMessageLengthPremium = 4000;

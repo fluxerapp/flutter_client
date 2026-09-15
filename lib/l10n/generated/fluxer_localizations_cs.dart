@@ -4384,6 +4384,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get lookAndFeelThemeDark => 'Tmavý motiv';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => 'Uhelný motiv';
 
   @override
@@ -5080,6 +5083,14 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get accessibilityAlwaysUnderlineLinksLabel => 'Vždy podtrhávat odkazy';
+
+  @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
 
   @override
   String get accessibilityDimStrikethroughTextLabel =>
@@ -6615,6 +6626,18 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get chatMessageAddReaction => 'Přidat reakci';
 
   @override
+  String get doubleTapReactionHint => 'Double tap a message to';
+
+  @override
+  String get doubleTapReactionEdit => 'Edit';
+
+  @override
+  String get doubleTapReactionEditTitle => 'Edit default';
+
+  @override
+  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+
+  @override
   String get chatMessageEdit => 'Upravit zprávu';
 
   @override
@@ -7368,6 +7391,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get chatVideoPlaybackFailed => 'Toto video se nepodařilo přehrát.';
+
+  @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
@@ -10902,6 +10928,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Zadejte URL instance (např. fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Obnovit na Fluxer';
 
   @override
@@ -10923,9 +10953,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'Připojit k instanci';
-
-  @override
-  String get connectToDifferentInstance => 'Připojit k jiné instanci';
 
   @override
   String get changeInstance => 'Změnit';

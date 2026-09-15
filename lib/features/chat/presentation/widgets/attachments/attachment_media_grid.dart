@@ -9,11 +9,13 @@ import 'package:fluxer_app/features/chat/presentation/sheets/forward_message_she
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_expiry_footnote.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_inline_video_player.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_fullscreen_video.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/media_alt_text.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
-import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
-import 'package:fluxer_app/features/chat/utils/hdr_aware_image_url.dart';
-import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
-import 'package:fluxer_app/features/chat/utils/spoiler_utils.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media/hdr_aware_image_url.dart';
+import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
+import 'package:fluxer_app/features/chat/utils/messages/spoiler_utils.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
@@ -306,24 +308,28 @@ class AttachmentMediaGrid extends ConsumerWidget {
           borderRadius: BorderRadius.circular(8),
           child: FluxerGestureDetector(
             onTap: canOpen ? () => _openMedia(context, attachment) : null,
-            child: Stack(
-              fit: StackFit.expand,
-              children: <Widget>[
-                if (displayUrl.isEmpty)
-                  const ColoredBox(color: Colors.black)
-                else
-                  CachedNetworkImage(
-                    imageUrl: displayUrl,
-                    memCacheWidth: cache.width,
-                    memCacheHeight: cache.height,
-                    fit: BoxFit.cover,
-                    fadeInDuration: Duration.zero,
-                    fadeOutDuration: Duration.zero,
-                    errorBuilder: (_, _, _) =>
-                        const ColoredBox(color: Colors.black),
-                  ),
-                if (isVideo) const VideoPlayButtonOverlay(),
-              ],
+            child: MediaAltText(
+              altText: attachment.description,
+              caption: MediaAltTextCaption.never,
+              child: Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  if (displayUrl.isEmpty)
+                    const MediaLoadErrorPlaceholder()
+                  else
+                    CachedNetworkImage(
+                      imageUrl: displayUrl,
+                      memCacheWidth: cache.width,
+                      memCacheHeight: cache.height,
+                      fit: BoxFit.cover,
+                      fadeInDuration: Duration.zero,
+                      fadeOutDuration: Duration.zero,
+                      errorBuilder: (_, _, _) =>
+                          const MediaLoadErrorPlaceholder(),
+                    ),
+                  if (isVideo) const VideoPlayButtonOverlay(),
+                ],
+              ),
             ),
           ),
         ),
@@ -352,22 +358,7 @@ class AttachmentMediaGrid extends ConsumerWidget {
     unawaited(
       showAttachmentMediaViewer(
         context,
-        items: images
-            .map(
-              (Attachment item) => AttachmentMediaViewerItem(
-                url: item.url,
-                filename: item.filename,
-                width: item.width,
-                height: item.height,
-                isMatureMedia: item.isMatureMedia,
-                attachmentId: item.id,
-                proxyUrl: item.proxyUrl,
-                contentType: item.contentType,
-                isExpired: item.expired ?? false,
-                contentHash: item.contentHash,
-              ),
-            )
-            .toList(),
+        items: images.map(AttachmentMediaViewerItem.fromAttachment).toList(),
         initialIndex: initialIndex < 0 ? 0 : initialIndex,
         channelId: channelId,
         onForward: (channelId != null && messageId != null)

@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/chat/data/channel_pins_repository.dart';
 import 'package:fluxer_app/features/chat/data/channel_search_query_parser.dart';
 import 'package:fluxer_app/features/chat/data/message_search_mature_content.dart';
@@ -11,9 +13,8 @@ import 'package:fluxer_app/features/chat/domain/channel_search_chip_filters.dart
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
-import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
+import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
-import 'package:fluxer_app/features/mature_content/utils/content_warning_utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'channel_details_providers.g.dart';
@@ -424,35 +425,93 @@ class ChannelSearch extends _$ChannelSearch {
   }
 
   Future<bool> _shouldIncludeNsfw(MessageSearchQuery query) async {
-    final Set<String> channelIds = <String>{
+    final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
+    final Guild? guild = await _loadGuild(database, _searchGuildId(query));
+    if (!ref.mounted) {
+      return false;
+    }
+    if (guild?.nsfw ?? false) {
+      return true;
+    }
+    if (await _channelNeedsNsfwFlag(
+      database,
       channelId,
-      ...query.parsed.channelIds,
-    };
-    for (final String targetChannelId in channelIds) {
-      if (await _isConsentedGatedChannel(targetChannelId)) {
-        return true;
-      }
+      fallbackGuild: guild,
+    )) {
+      return true;
+    }
+    for (final String filterChannelId in query.parsed.channelIds) {
       if (!ref.mounted) {
         return false;
+      }
+      if (filterChannelId == channelId) {
+        continue;
+      }
+      if (await _channelNeedsNsfwFlag(
+        database,
+        filterChannelId,
+        fallbackGuild: guild,
+      )) {
+        return true;
       }
     }
     return false;
   }
 
-  Future<bool> _isConsentedGatedChannel(String targetChannelId) async {
-    final ResolvedMatureGateContext? context = await ref.read(
-      matureGateContextProvider(targetChannelId).future,
+  String? _searchGuildId(MessageSearchQuery query) {
+    final String? fromQuery = query.guildId?.trim();
+    if (fromQuery != null && fromQuery.isNotEmpty) {
+      return fromQuery;
+    }
+    final String? fromChannel = guildId?.trim();
+    if (fromChannel != null && fromChannel.isNotEmpty) {
+      return fromChannel;
+    }
+    return null;
+  }
+
+  Future<Guild?> _loadGuild(db.FluxerDatabase database, String? id) async {
+    if (id == null || id.isEmpty) {
+      return null;
+    }
+    final db.Server? row = await database.guildDao.getServerById(id);
+    return row == null ? null : Guild.fromRow(row);
+  }
+
+  Future<bool> _channelNeedsNsfwFlag(
+    db.FluxerDatabase database,
+    String targetChannelId, {
+    Guild? fallbackGuild,
+  }) async {
+    final db.Channel? channelRow = await database.channelDao.getChannelById(
+      targetChannelId,
     );
-    if (!ref.mounted || context == null || !isGatedMatureContent(context)) {
+    if (channelRow == null) {
       return false;
     }
-    final bool showingGate = await ref.read(
-      shouldShowMatureContentGateProvider(targetChannelId).future,
-    );
-    if (!ref.mounted) {
-      return false;
+    final Channel channel = Channel.fromRow(channelRow);
+    Guild? channelGuild = fallbackGuild;
+    if (channelGuild == null || channelGuild.id != channel.guildId) {
+      channelGuild = await _loadGuild(database, channel.guildId);
     }
-    return !showingGate;
+    Channel? parentCategory;
+    final String? parentId = channel.parentId;
+    if (parentId != null) {
+      final db.Channel? parentRow = await database.channelDao.getChannelById(
+        parentId,
+      );
+      if (parentRow != null) {
+        final Channel parent = Channel.fromRow(parentRow);
+        if (parent.isCategory) {
+          parentCategory = parent;
+        }
+      }
+    }
+    return isMatureSearchChannel(
+      channel: channel,
+      guild: channelGuild,
+      parentCategory: parentCategory,
+    );
   }
 }
 

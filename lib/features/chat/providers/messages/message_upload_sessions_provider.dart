@@ -1,6 +1,6 @@
 import 'package:fluxer_app/features/chat/domain/message_upload_session.dart';
 import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
-import 'package:fluxer_app/features/chat/utils/uploading_attachment_utils.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/uploading_attachment_utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'message_upload_sessions_provider.g.dart';

@@ -10,12 +10,12 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/mobile_media_options_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_video_playback_failure_overlay.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_youtube_webview.dart';
-import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
-import 'package:fluxer_app/features/chat/utils/chat_video_hdr_player_config.dart';
-import 'package:fluxer_app/features/chat/utils/chat_video_playback_utils.dart';
-import 'package:fluxer_app/features/chat/utils/favorite_media_utils.dart';
-import 'package:fluxer_app/features/chat/utils/media_kit_player_lifecycle.dart';
-import 'package:fluxer_app/features/chat/utils/save_message_media_favorite.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media/chat_video_hdr_player_config.dart';
+import 'package:fluxer_app/features/chat/utils/media/chat_video_playback_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media/favorite_media_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media/media_kit_player_lifecycle.dart';
+import 'package:fluxer_app/features/chat/utils/media/save_message_media_favorite.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/providers/shell_manual_gesture_block_provider.dart';
 import 'package:fluxer_app/features/ui/media_viewer/media_viewer_dismiss.dart';
@@ -71,7 +71,6 @@ class _ChatMobileFullscreenVideoPage extends ConsumerStatefulWidget {
 class _ChatMobileFullscreenVideoPageState
     extends ConsumerState<_ChatMobileFullscreenVideoPage> {
   static const Duration _hudHideDelay = Duration(seconds: 3);
-  static const double _kUnmutedVolume = 100;
 
   Player? _player;
   mkv.VideoController? _controller;
@@ -133,7 +132,7 @@ class _ChatMobileFullscreenVideoPageState
       final Player player = MediaKitPlayerLifecycleCoordinator.instance
           .createPlayer();
       _player = player;
-      unawaited(player.setVolume(_kUnmutedVolume));
+      unawaited(player.setVolume(kMediaKitMaxVolume));
       _controller = mkv.VideoController(player);
       unawaited(
         applyChatVideoHdrProperties(
@@ -337,7 +336,7 @@ class _ChatMobileFullscreenVideoPageState
     if (_isMuted) {
       await _player?.setVolume(0);
     } else {
-      await _player?.setVolume(_kUnmutedVolume);
+      await _player?.setVolume(kMediaKitMaxVolume);
     }
     if (mounted) {
       setState(() {});

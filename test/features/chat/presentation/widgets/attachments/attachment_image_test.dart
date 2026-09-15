@@ -7,17 +7,29 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_image.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/alt_text_badge.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/fluxer_animated_image.dart';
+import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../../helpers/test_l10n.dart';
 
-Widget _app(Widget child) {
+class _ShowAltTextAppearance extends AppearancePreferences {
+  @override
+  AppearancePreferencesState build() =>
+      const AppearancePreferencesState(showAltTextOnImages: true);
+}
+
+Widget _app(Widget child, {bool showAltText = false}) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
+    overrides: [
+      if (showAltText)
+        appearancePreferencesProvider.overrideWith(_ShowAltTextAppearance.new),
+    ],
     child: MaterialApp(
       locale: kTestLocale,
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
@@ -119,5 +131,61 @@ void main() {
 
     expect(find.byType(EmbedAnimatedImage), findsNothing);
     expect(find.byType(CachedNetworkImage), findsOneWidget);
+    expect(
+      tester
+          .widget<CachedNetworkImage>(find.byType(CachedNetworkImage))
+          .errorBuilder,
+      isNotNull,
+    );
+  });
+
+  testWidgets('shows an ALT badge when the attachment has a description', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _app(
+        const AttachmentImage(
+          attachment: Attachment(
+            id: 'png-2',
+            filename: 'photo.png',
+            url: 'https://cdn.example/photo.png',
+            description: 'A waving cat',
+            width: 400,
+            height: 300,
+          ),
+          wrapWithSpoiler: false,
+        ),
+      ),
+    );
+    await tester.pump();
+
+    expect(find.byType(AltTextBadge), findsOneWidget);
+    expect(find.text('ALT'), findsOneWidget);
+    expect(find.text('A waving cat'), findsNothing);
+  });
+
+  testWidgets('hides the ALT badge when alt text is shown as a caption', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _app(
+        const AttachmentImage(
+          attachment: Attachment(
+            id: 'png-3',
+            filename: 'photo.png',
+            url: 'https://cdn.example/photo.png',
+            description: 'A waving cat',
+            width: 400,
+            height: 300,
+          ),
+          wrapWithSpoiler: false,
+        ),
+        showAltText: true,
+      ),
+    );
+    await tester.pump();
+
+    expect(find.byType(AltTextBadge), findsNothing);
+    expect(find.text('A waving cat'), findsOneWidget);
   });
 }

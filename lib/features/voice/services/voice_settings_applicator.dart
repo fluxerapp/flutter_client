@@ -1,12 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_noise_filter_provider.dart';
 import 'package:fluxer_app/features/voice/utils/camera_resolution_presets.dart';
 import 'package:fluxer_app/features/voice/utils/screen_share_presets.dart';
 import 'package:fluxer_app/features/voice/utils/voice_audio_publish_options.dart';
-import 'package:fluxer_app/features/voice/utils/voice_callkit_policy.dart';
 import 'package:fluxer_app/features/voice/utils/voice_camera_platform.dart';
 import 'package:fluxer_app/features/voice/utils/voice_processing_profile.dart';
+import 'package:fluxer_app/features/voice/utils/voice_speaker_route.dart';
 import 'package:fluxer_app/features/voice/utils/voice_volume_utils.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -17,6 +19,8 @@ class VoiceSettingsApplicator {
   const VoiceSettingsApplicator({required this.noiseFilterSupported});
 
   final bool noiseFilterSupported;
+
+  static Future<void> _cameraRefreshInFlight = Future<void>.value();
 
   RoomOptions buildRoomOptions(
     VoiceSettingsState settings, {
@@ -395,6 +399,28 @@ class VoiceSettingsApplicator {
     required VoiceSettingsState settings,
     required bool cameraEnabled,
   }) async {
+    final Completer<void> done = Completer<void>();
+    final Future<void> previous = _cameraRefreshInFlight;
+    _cameraRefreshInFlight = done.future;
+    try {
+      await previous;
+      await _applyCameraRefresh(
+        room: room,
+        settings: settings,
+        cameraEnabled: cameraEnabled,
+      );
+    } finally {
+      if (!done.isCompleted) {
+        done.complete();
+      }
+    }
+  }
+
+  Future<void> _applyCameraRefresh({
+    required Room room,
+    required VoiceSettingsState settings,
+    required bool cameraEnabled,
+  }) async {
     final LocalParticipant? participant = room.localParticipant;
     if (participant == null) {
       return;
@@ -410,40 +436,52 @@ class VoiceSettingsApplicator {
         ? publication!.track! as LocalVideoTrack
         : null;
     if (track != null) {
-      if (isMobileVoiceCameraPlatform()) {
-        await track.setCameraPosition(
-          liveKitCameraPosition(settings.cameraFacing),
-        );
-        return;
-      }
-      await track.restartTrack(options);
+      await _applyCameraOptionsToTrack(track: track, options: options);
       return;
     }
     await participant.setCameraEnabled(true, cameraCaptureOptions: options);
   }
 
+  Future<void> _applyCameraOptionsToTrack({
+    required LocalVideoTrack track,
+    required CameraCaptureOptions options,
+  }) async {
+    final VideoCaptureOptions current = track.currentOptions;
+    if (current is CameraCaptureOptions) {
+      if (cameraCaptureOptionsMatch(current, options)) {
+        return;
+      }
+      if (isNativeMobileVoiceCameraPlatform() &&
+          isCameraFacingOnlyChange(current: current, next: options)) {
+        try {
+          await Helper.switchCamera(track.mediaStreamTrack);
+          track.currentOptions = current.copyWith(
+            cameraPosition: options.cameraPosition,
+          );
+          return;
+        } on Object catch (_) {}
+      }
+    }
+    if (isMobileVoiceCameraPlatform()) {
+      await track.setCameraPosition(options.cameraPosition);
+      return;
+    }
+    await track.restartTrack(options);
+  }
+
   Future<void> applySpeakerOutput({
     required VoiceSettingsState settings,
   }) async {
-    if (!AudioManager.instance.canSwitchSpeakerphone) {
-      return;
+    if (AudioManager.instance.canSwitchSpeakerphone) {
+      await AudioManager.instance.setSpeakerOutputPreferred(
+        settings.preferSpeakerOutput,
+        force: settings.preferSpeakerOutput,
+      );
+      try {
+        await Helper.setSpeakerphoneOn(settings.preferSpeakerOutput);
+      } on Object catch (_) {}
     }
-    // CallKit stays on earpiece unless speaker is forced.
-    final bool forceSpeaker = shouldForceSpeakerOutputForCallKit(
-      preferSpeakerOutput: settings.preferSpeakerOutput,
-      callKitOwnsAudioSession: _callKitOwnsAudioSession(),
-    );
-    await AudioManager.instance.setSpeakerOutputPreferred(
-      settings.preferSpeakerOutput,
-      force: forceSpeaker,
-    );
-  }
-
-  bool _callKitOwnsAudioSession() {
-    return AudioManager.instance.managementMode ==
-        // LiveKit experimental API.
-        // ignore: experimental_member_use
-        AudioSessionManagementMode.externalCallSystem;
+    await applyIosSpeakerPortOverride(speaker: settings.preferSpeakerOutput);
   }
 
   String? _resolveDeviceId(String deviceId) {

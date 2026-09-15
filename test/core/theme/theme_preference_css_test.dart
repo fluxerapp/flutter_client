@@ -16,6 +16,7 @@ void main() {
         customThemeCss: css,
       );
       expect(state.darkColorTheme.brandPrimary, const Color(0xFFFF5500));
+      expect(state.darkLegacyColorTheme.brandPrimary, const Color(0xFFFF5500));
       expect(state.lightColorTheme.brandPrimary, const Color(0xFFFF5500));
       expect(state.coalColorTheme.brandPrimary, const Color(0xFFFF5500));
       expect(state.colorTheme.brandPrimary, const Color(0xFFFF5500));
