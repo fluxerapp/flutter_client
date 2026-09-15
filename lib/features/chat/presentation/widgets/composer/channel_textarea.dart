@@ -32,11 +32,11 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/blocked_u
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/channel_composer_barrier.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_clipboard_scope.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_send_and_voice_button.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/message_character_counter.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/slash_command_composer.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/slash_command_param_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/system_dm_composer_barrier.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_recorder.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_recording_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_recording_controller.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_composer_layout.dart';
@@ -52,7 +52,6 @@ import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
-import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_blocked_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_indicator_shake_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_rate_limited_alert_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
@@ -73,7 +72,6 @@ import 'package:fluxer_app/features/chat/utils/composer/composer_panel.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_scroll.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_sendable_content.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dart';
-import 'package:fluxer_app/features/chat/utils/composer/composer_voice_button_visibility.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
@@ -1304,7 +1302,6 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
 
   Widget _buildLargeLayout(
     BuildContext context,
-    ChatViewModel chatNotifier,
     ChannelMessagePermissions perms,
   ) {
     final String channelId = ref.watch(
@@ -1397,13 +1394,14 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           recordingChild: VoiceMessageRecordingBar(
             controller: _voiceRecording,
             actionSize: actionSize,
-            trailing: _sendAndVoiceButton(
-              context,
-              chatNotifier,
+            trailing: ComposerSendAndVoiceButton(
               perms: perms,
               hasSendable: false,
               isOverCharacterLimit: false,
               useHoldToRecord: false,
+              voiceRecording: _voiceRecording,
+              onSend: () => unawaited(_onSendPressed()),
+              onNoSendPermission: _showNoSendPermissionToast,
             ),
           ),
           idleChild: ConstrainedBox(
@@ -1476,13 +1474,14 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                             width: 16,
                             thickness: 1,
                           ),
-                        _sendAndVoiceButton(
-                          context,
-                          chatNotifier,
+                        ComposerSendAndVoiceButton(
                           perms: perms,
                           hasSendable: hasSendable,
                           isOverCharacterLimit: isOverCharacterLimit,
                           useHoldToRecord: false,
+                          voiceRecording: _voiceRecording,
+                          onSend: () => unawaited(_onSendPressed()),
+                          onNoSendPermission: _showNoSendPermissionToast,
                         ),
                       ],
                     );
@@ -1678,8 +1677,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         );
       },
       child: isMobileLayout(context)
-          ? _buildMobileLayout(context, chatNotifier, perms)
-          : _buildLargeLayout(context, chatNotifier, perms),
+          ? _buildMobileLayout(context, perms)
+          : _buildLargeLayout(context, perms),
     );
     if (!isMobileLayout(context) || !isPanelOpen) {
       return composerField;
@@ -1689,7 +1688,6 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
 
   Widget _buildMobileLayout(
     BuildContext context,
-    ChatViewModel chatNotifier,
     ChannelMessagePermissions perms,
   ) {
     final String channelId = ref.watch(
@@ -1737,14 +1735,15 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
               VoiceMessageRecordingBar(
                 controller: _voiceRecording,
                 actionSize: FluxerButtonSize.small,
-                trailing: _sendAndVoiceButton(
-                  context,
-                  chatNotifier,
+                trailing: ComposerSendAndVoiceButton(
                   perms: perms,
                   hasSendable: false,
                   isOverCharacterLimit: false,
                   size: FluxerButtonSize.small,
                   useHoldToRecord: true,
+                  voiceRecording: _voiceRecording,
+                  onSend: () => unawaited(_onSendPressed()),
+                  onNoSendPermission: _showNoSendPermissionToast,
                 ),
               ),
               if (!_voiceRecording.isLocked)
@@ -1811,14 +1810,15 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                         _slashSession.isActive;
                     final bool isOverCharacterLimit =
                         _composerContentLength(sendableWire) > maxMessageLength;
-                    return _sendAndVoiceButton(
-                      context,
-                      chatNotifier,
+                    return ComposerSendAndVoiceButton(
                       perms: perms,
                       hasSendable: hasSendable,
                       isOverCharacterLimit: isOverCharacterLimit,
                       size: FluxerButtonSize.small,
                       useHoldToRecord: true,
+                      voiceRecording: _voiceRecording,
+                      onSend: () => unawaited(_onSendPressed()),
+                      onNoSendPermission: _showNoSendPermissionToast,
                     );
                   },
                 ),
@@ -2407,175 +2407,6 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                 }
               },
       ),
-    );
-  }
-
-  Widget _sendAndVoiceButton(
-    BuildContext context,
-    ChatViewModel chatNotifier, {
-    required ChannelMessagePermissions perms,
-    required bool hasSendable,
-    required bool isOverCharacterLimit,
-    required bool useHoldToRecord,
-    FluxerButtonSize size = FluxerButtonSize.compact,
-  }) {
-    final channelId = ref.watch(
-      chatViewModelProvider.select((s) => s.channelId),
-    );
-    final bool isEditing = ref.watch(
-      chatViewModelProvider.select((s) => s.editingMessage != null),
-    );
-    final bool isSlowmodeBlocked =
-        !isEditing &&
-        (ref.watch(isSlowmodeBlockedProvider(channelId)).value ?? false);
-    final bool canUseVoice = perms.isVoiceEnabled && !isSlowmodeBlocked;
-    final bool touchActions = isTouchPrimaryInput(ref);
-    final bool showSendButtonPreference = ref.watch(
-      advancedPreferencesProvider.select(
-        (state) => state.showMessageSendButton,
-      ),
-    );
-    final bool showVoiceButton = shouldShowComposerVoiceButton(
-      permissions: perms,
-      hasSendable: hasSendable,
-      isEditing: isEditing,
-      showMessageSendButtonPreference: showSendButtonPreference,
-      isTouchPrimary: touchActions,
-    );
-    final bool showSendButton =
-        hasSendable ||
-        (!touchActions && showSendButtonPreference) ||
-        shouldShowComposerSendButtonFallback(
-          permissions: perms,
-          hasSendable: hasSendable,
-          isEditing: isEditing,
-          showMessageSendButtonPreference: showSendButtonPreference,
-          isTouchPrimary: touchActions,
-        );
-    final bool voiceDisabled =
-        !canUseVoice || !perms.isComposerEnabled || isOverCharacterLimit;
-    final VoidCallback? sendOnPressed = !hasSendable || isOverCharacterLimit
-        ? null
-        : perms.isComposerEnabled
-        ? () => unawaited(_onSendPressed())
-        : _showNoSendPermissionToast;
-    final bool sendVisuallyEnabled =
-        perms.isComposerEnabled && sendOnPressed != null && !isSlowmodeBlocked;
-    final bool voiceVisuallyEnabled = !voiceDisabled;
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final FluxerButtonSize voiceSize = useHoldToRecord
-        ? size
-        : (touchActions ? FluxerButtonSize.small : FluxerButtonSize.compact);
-    Widget wrapWideAction(Widget child) {
-      if (useHoldToRecord || touchActions) {
-        return child;
-      }
-      return SizedBox(
-        width: _kWideComposerActionExtent,
-        height: _kWideComposerActionExtent,
-        child: child,
-      );
-    }
-
-    if (_voiceRecording.isActive) {
-      if (_voiceRecording.isLocked) {
-        return wrapWideAction(
-          VoiceMessageRecordingSendButton(
-            key: const ValueKey<String>('voice-send'),
-            controller: _voiceRecording,
-            size: voiceSize,
-          ),
-        );
-      }
-      return wrapWideAction(
-        VoiceMessageRecorder(
-          key: const ValueKey<String>('voice'),
-          channelId: channelId,
-          disabled: voiceDisabled,
-          controller: _voiceRecording,
-          holdToRecord: useHoldToRecord,
-          buttonSize: voiceSize,
-        ),
-      );
-    }
-    final Widget voiceMic = _composerOpacity(
-      key: const ValueKey<String>('voice'),
-      enabled: voiceVisuallyEnabled,
-      child: VoiceMessageRecorder(
-        channelId: channelId,
-        disabled: voiceDisabled,
-        controller: _voiceRecording,
-        holdToRecord: useHoldToRecord,
-        buttonSize: voiceSize,
-      ),
-    );
-    if (!useHoldToRecord) {
-      if (touchActions) {
-        return AnimatedSwitcher(
-          duration: context.motion.panel,
-          transitionBuilder: (Widget child, Animation<double> animation) =>
-              FadeTransition(opacity: animation, child: child),
-          child: showSendButton
-              ? _composerOpacity(
-                  key: const ValueKey<String>('send'),
-                  enabled: sendVisuallyEnabled,
-                  child: FluxerButton.circle(
-                    icon: PhosphorIconsBold.arrowUp,
-                    iconSize: 20,
-                    size: FluxerButtonSize.small,
-                    semanticLabel: l10n.permissionSendMessages,
-                    onPressed: sendOnPressed,
-                  ),
-                )
-              : showVoiceButton
-              ? voiceMic
-              : const SizedBox.shrink(key: ValueKey<String>('voice-hidden')),
-        );
-      }
-      return SizedBox(
-        width: _kWideComposerActionExtent,
-        height: _kWideComposerActionExtent,
-        child: AnimatedSwitcher(
-          duration: context.motion.panel,
-          transitionBuilder: (Widget child, Animation<double> animation) =>
-              FadeTransition(opacity: animation, child: child),
-          child: showSendButton
-              ? _composerOpacity(
-                  key: const ValueKey<String>('send'),
-                  enabled: sendVisuallyEnabled,
-                  child: _wideComposerIconButton(
-                    context: context,
-                    icon: PhosphorIconsBold.arrowUp,
-                    iconSize: 20,
-                    tooltip: l10n.permissionSendMessages,
-                    onPressed: sendOnPressed,
-                  ),
-                )
-              : showVoiceButton
-              ? voiceMic
-              : const SizedBox.shrink(key: ValueKey<String>('voice-hidden')),
-        ),
-      );
-    }
-    return AnimatedSwitcher(
-      duration: context.motion.panel,
-      transitionBuilder: (Widget child, Animation<double> animation) =>
-          FadeTransition(opacity: animation, child: child),
-      child: showSendButton
-          ? _composerOpacity(
-              key: const ValueKey<String>('send'),
-              enabled: sendVisuallyEnabled,
-              child: FluxerButton.circle(
-                icon: PhosphorIconsBold.arrowUp,
-                iconSize: 20,
-                size: size,
-                semanticLabel: l10n.permissionSendMessages,
-                onPressed: sendOnPressed,
-              ),
-            )
-          : showVoiceButton
-          ? voiceMic
-          : const SizedBox.shrink(key: ValueKey<String>('voice-hidden')),
     );
   }
 
