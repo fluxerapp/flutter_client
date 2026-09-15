@@ -15,6 +15,7 @@ import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 import 'package:fluxer_app/core/observability/fluxer_observability.dart';
 import 'package:fluxer_app/core/observability/observability_reporting_provider.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
+import 'package:fluxer_app/core/platform/system_navigation_bar.dart';
 import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/providers/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -83,6 +84,12 @@ Future<void> _bootstrapFluxer(List<String> args) async {
   configureFluxerImageCache();
   configureFluxerErrorUi();
   _configureFluxerErrorReporting();
+  unawaited(
+    FluxerObservability.instance.traceAsync(
+      'app.bootstrap.system_navigation_bar',
+      precacheSystemNavigationBarHeight,
+    ),
+  );
 
   if (!kIsWeb) {
     FluxerObservability.instance.traceSync(
