@@ -171,7 +171,10 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
                   key: const ValueKey<String>('send'),
                   enabled: sendVisuallyEnabled,
                   child: IconButton(
-                    icon: const PhosphorIcon(PhosphorIconsBold.arrowUp, size: 20),
+                    icon: const PhosphorIcon(
+                      PhosphorIconsBold.arrowUp,
+                      size: 20,
+                    ),
                     color: context.colors.interactiveNormal,
                     tooltip: l10n.permissionSendMessages,
                     onPressed: sendOnPressed,
