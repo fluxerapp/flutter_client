@@ -650,6 +650,49 @@ void main() {
         expect(textSpans[1].style?.decoration, isNull);
       });
 
+      testWidgets('mutes iOS inline prediction composing without underline', (
+        tester,
+      ) async {
+        const Color typedColor = Color(0xFF1A1A1A);
+        controller
+          ..text = 'hello world'
+          ..value = const TextEditingValue(
+            text: 'hello world',
+            composing: TextRange(start: 5, end: 11),
+            selection: TextSelection.collapsed(offset: 5),
+          );
+        TextSpan? result;
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Builder(
+                builder: (context) {
+                  result = controller.buildTextSpan(
+                    context: context,
+                    style: const TextStyle(color: typedColor),
+                    withComposing: true,
+                  );
+                  return const SizedBox.shrink();
+                },
+              ),
+            ),
+          ),
+        );
+
+        expect(result, isNotNull);
+        final List<TextSpan> textSpans = _flattenInlineSpans(
+          result!,
+        ).whereType<TextSpan>().toList();
+        expect(textSpans.length, 2);
+        expect(textSpans[0].text, 'hello');
+        expect(textSpans[0].style?.decoration, isNull);
+        expect(textSpans[0].style?.color, typedColor);
+        expect(textSpans[1].text, ' world');
+        expect(textSpans[1].style?.decoration, TextDecoration.none);
+        expect(textSpans[1].style?.color, typedColor.withValues(alpha: 0.45));
+      });
+
       testWidgets(
         'keeps emoji chip when composing range spans sentinel offset',
         (tester) async {
