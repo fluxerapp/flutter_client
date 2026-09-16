@@ -247,10 +247,7 @@ void main() {
     profiler.observePacket(
       const PointerDataPacket(
         data: <PointerData>[
-          PointerData(
-            change: PointerChange.down,
-            pointerIdentifier: 9,
-          ),
+          PointerData(change: PointerChange.down, pointerIdentifier: 9),
           PointerData(
             change: PointerChange.move,
             pointerIdentifier: 9,
