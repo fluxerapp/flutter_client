@@ -51,7 +51,7 @@ struct SetCustomStatusIntent: AppIntent {
 
   func perform() async throws -> some IntentResult & ProvidesDialog {
     let value = text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-    .result(dialog: await AssistantCommandRunner.speak([
+    return .result(dialog: await AssistantCommandRunner.speak([
       "type": "presenceSetCustomStatus",
       "text": value,
     ]))
