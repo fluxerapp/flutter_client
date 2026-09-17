@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_l
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_demand_source.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_overlay.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_unread_review.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_viewport.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
@@ -86,6 +87,63 @@ void main() {
         await disposeMessageList(tester);
       },
     );
+
+    testWidgets('unread open does not bounce NEW across the first frames', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(420, 640);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final AroundAckMessageListHarness harness =
+          await createAroundAckMessageListHarness(ackIndex: 42);
+
+      await tester.pumpWidget(
+        messageListApp(
+          database: harness.database,
+          chatViewModel: harness.chatViewModel,
+        ),
+      );
+
+      final Finder firstUnread = messageItemFor(harness.firstUnreadId);
+      final List<_UnreadOpenFrameSample> samples = <_UnreadOpenFrameSample>[];
+      for (int i = 0; i < 4; i += 1) {
+        samples.add(_sampleUnreadOpenFrame(tester, firstUnread));
+        await tester.pump();
+      }
+
+      final _UnreadOpenFrameSample baseline = samples.firstWhere(
+        (_UnreadOpenFrameSample sample) =>
+            sample.hasNew && sample.epoch != null,
+      );
+      for (int i = samples.indexOf(baseline) + 1; i < samples.length; i += 1) {
+        final _UnreadOpenFrameSample sample = samples[i];
+        expect(
+          sample.hasNew,
+          isTrue,
+          reason: 'NEW must stay mounted across open frames $sample',
+        );
+        expect(
+          sample.epoch,
+          baseline.epoch,
+          reason:
+              'unread open must not remount after first layout; frames=$samples',
+        );
+        expect(
+          sample.newCenterY,
+          moreOrLessEquals(baseline.newCenterY!, epsilon: 2),
+          reason: 'NEW jumped after first layout; frames=$samples',
+        );
+        expect(
+          sample.firstUnreadTop,
+          moreOrLessEquals(baseline.firstUnreadTop!, epsilon: 2),
+          reason: 'first unread jumped after first layout; frames=$samples',
+        );
+      }
+
+      await disposeMessageList(tester);
+    });
 
     testWidgets(
       'many unreads keep NEW centered with the newest below the fold',
@@ -1077,6 +1135,69 @@ void main() {
           reason:
               'the last unread should sit near the composer, not over a void',
         );
+
+        await disposeMessageList(tester);
+      },
+    );
+
+    testWidgets(
+      'short unread pack settles once without bouncing back toward mid',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(420, 640);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+
+        final AroundAckMessageListHarness harness =
+            await createAroundAckMessageListHarness(
+              ackIndex: 48,
+              hasMoreNewerMessages: false,
+            );
+
+        await tester.pumpWidget(
+          messageListApp(
+            database: harness.database,
+            chatViewModel: harness.chatViewModel,
+          ),
+        );
+
+        final Finder firstUnread = messageItemFor(harness.firstUnreadId);
+        final List<_UnreadOpenFrameSample> samples = <_UnreadOpenFrameSample>[];
+        for (int i = 0; i < 4; i += 1) {
+          samples.add(_sampleUnreadOpenFrame(tester, firstUnread));
+          await tester.pump();
+        }
+
+        final List<_UnreadOpenFrameSample> withNew = samples
+            .where((_UnreadOpenFrameSample sample) => sample.hasNew)
+            .toList();
+        expect(withNew, isNotEmpty, reason: 'NEW missing on unread open');
+        for (final _UnreadOpenFrameSample sample in withNew) {
+          expect(sample.hasNew, isTrue);
+        }
+
+        var packed = false;
+        var lastCenter = withNew.first.newCenterY!;
+        for (final _UnreadOpenFrameSample sample in withNew.skip(1)) {
+          final double center = sample.newCenterY!;
+          if (packed) {
+            expect(
+              center,
+              moreOrLessEquals(lastCenter, epsilon: 2),
+              reason:
+                  'short unread pack bounced after settling; frames=$samples',
+            );
+          } else if (center > lastCenter + 2) {
+            packed = true;
+          } else {
+            expect(
+              center,
+              moreOrLessEquals(lastCenter, epsilon: 2),
+              reason: 'NEW moved up during short unread open; frames=$samples',
+            );
+          }
+          lastCenter = center;
+        }
 
         await disposeMessageList(tester);
       },
@@ -5180,4 +5301,53 @@ void main() {
       },
     );
   });
+}
+
+class _UnreadOpenFrameSample {
+  const _UnreadOpenFrameSample({
+    required this.hasNew,
+    required this.newCenterY,
+    required this.firstUnreadTop,
+    required this.pixels,
+    required this.epoch,
+    required this.leadingPad,
+  });
+
+  final bool hasNew;
+  final double? newCenterY;
+  final double? firstUnreadTop;
+  final double? pixels;
+  final int? epoch;
+  final double? leadingPad;
+
+  @override
+  String toString() {
+    return 'new=$hasNew y=$newCenterY unreadTop=$firstUnreadTop '
+        'px=$pixels epoch=$epoch pad=$leadingPad';
+  }
+}
+
+_UnreadOpenFrameSample _sampleUnreadOpenFrame(
+  WidgetTester tester,
+  Finder firstUnread,
+) {
+  final bool hasNew = find.text('NEW').evaluate().isNotEmpty;
+  final bool hasViewport = find
+      .byType(MessageListViewport)
+      .evaluate()
+      .isNotEmpty;
+  final bool hasScrollable = messageListScrollable().evaluate().isNotEmpty;
+  final bool hasFirstUnread = firstUnread.evaluate().isNotEmpty;
+  return _UnreadOpenFrameSample(
+    hasNew: hasNew,
+    newCenterY: hasNew ? tester.getRect(find.text('NEW')).center.dy : null,
+    firstUnreadTop: hasFirstUnread ? tester.getRect(firstUnread).top : null,
+    pixels: hasScrollable ? messageListScrollPosition(tester).pixels : null,
+    epoch: hasViewport ? messageListAnchorEpoch(tester) : null,
+    leadingPad: hasViewport
+        ? tester
+              .widget<MessageListViewport>(find.byType(MessageListViewport))
+              .leadingPad
+        : null,
+  );
 }

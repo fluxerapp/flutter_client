@@ -15,6 +15,7 @@
 /// null anchor degrades to the same bottom-anchored layout.
 library;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/chat_loading_spinner.dart';
@@ -59,6 +60,7 @@ class MessageListViewport extends StatelessWidget {
     required this.isLoadingNewer,
     required this.trailingInset,
     this.leadingPad = 0,
+    this.liveLeadingPad,
     this.startOfChannelHeader,
     this.leadingFillerSpecs,
     this.trailingFillerSpecs,
@@ -115,6 +117,9 @@ class MessageListViewport extends StatelessWidget {
   /// park the unread divider at [anchorFraction].
   final double leadingPad;
 
+  /// Live unread-open leading pad. Height updates without rebuilding tiles.
+  final ValueListenable<double>? liveLeadingPad;
+
   final Widget? startOfChannelHeader;
 
   /// Skeleton standing in for unloaded history at each edge: the leading one
@@ -141,9 +146,6 @@ class MessageListViewport extends StatelessWidget {
         : (anchorEdge == MessageListAnchorEdge.before
               ? anchorDataIndex
               : anchorDataIndex + 1);
-    final double effectiveAnchor = anchorDataIndex == null
-        ? 1.0
-        : anchorFraction;
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -158,69 +160,11 @@ class MessageListViewport extends StatelessWidget {
               onNotification: onScrollMetricsNotification,
               child: KeyedSubtree(
                 key: ValueKey<int>(anchorEpoch),
-                child: CustomScrollView(
-                  controller: controller,
-                  center: centerKey,
-                  anchor: effectiveAnchor,
-                  scrollCacheExtent: ScrollCacheExtent.pixels(
-                    scrollCacheExtentPixels,
-                  ),
-                  slivers: [
-                    if (leadingFillerSpecs != null)
-                      SliverToBoxAdapter(
-                        child: MessageListEdgeFiller(
-                          key: const ValueKey<String>('edge-filler-older'),
-                          specs: leadingFillerSpecs!,
-                          alignment: Alignment.bottomCenter,
-                        ),
-                      ),
-                    if (startOfChannelHeader != null)
-                      SliverToBoxAdapter(child: startOfChannelHeader),
-                    if (leadingPad > 0)
-                      SliverToBoxAdapter(child: SizedBox(height: leadingPad)),
-                    SliverPadding(
-                      padding: const EdgeInsets.only(top: 8),
-                      sliver: SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (BuildContext context, int index) =>
-                              itemBuilder(context, splitIndex - 1 - index),
-                          childCount: splitIndex,
-                          findChildIndexCallback: (Key key) => childIndexForKey(
-                            key,
-                            0,
-                            splitIndex,
-                            reverse: true,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SliverToBoxAdapter(
-                      key: centerKey,
-                      child: const SizedBox.shrink(),
-                    ),
-                    SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) =>
-                            itemBuilder(context, splitIndex + index),
-                        childCount: stream.length - splitIndex,
-                        findChildIndexCallback: (Key key) => childIndexForKey(
-                          key,
-                          splitIndex,
-                          stream.length,
-                          reverse: false,
-                        ),
-                      ),
-                    ),
-                    if (trailingFillerSpecs != null)
-                      SliverToBoxAdapter(
-                        child: MessageListEdgeFiller(
-                          key: const ValueKey<String>('edge-filler-newer'),
-                          specs: trailingFillerSpecs!,
-                          alignment: Alignment.topCenter,
-                        ),
-                      ),
-                    SliverToBoxAdapter(child: SizedBox(height: trailingInset)),
-                  ],
+                child: _scrollView(
+                  splitIndex: splitIndex,
+                  effectiveAnchor: anchorDataIndex == null
+                      ? 1.0
+                      : anchorFraction,
                 ),
               ),
             ),
@@ -250,6 +194,76 @@ class MessageListViewport extends StatelessWidget {
               ),
             ),
           ),
+      ],
+    );
+  }
+
+  Widget _scrollView({
+    required int splitIndex,
+    required double effectiveAnchor,
+  }) {
+    return CustomScrollView(
+      controller: controller,
+      center: centerKey,
+      anchor: effectiveAnchor,
+      scrollCacheExtent: ScrollCacheExtent.pixels(scrollCacheExtentPixels),
+      slivers: [
+        if (leadingFillerSpecs != null)
+          SliverToBoxAdapter(
+            child: MessageListEdgeFiller(
+              key: const ValueKey<String>('edge-filler-older'),
+              specs: leadingFillerSpecs!,
+              alignment: Alignment.bottomCenter,
+            ),
+          ),
+        if (startOfChannelHeader != null)
+          SliverToBoxAdapter(child: startOfChannelHeader),
+        if (liveLeadingPad != null)
+          SliverToBoxAdapter(
+            child: ValueListenableBuilder<double>(
+              valueListenable: liveLeadingPad!,
+              builder: (BuildContext context, double pad, Widget? _) {
+                return SizedBox(height: pad);
+              },
+            ),
+          )
+        else if (leadingPad > 0)
+          SliverToBoxAdapter(child: SizedBox(height: leadingPad)),
+        SliverPadding(
+          padding: const EdgeInsets.only(top: 8),
+          sliver: SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) =>
+                  itemBuilder(context, splitIndex - 1 - index),
+              childCount: splitIndex,
+              findChildIndexCallback: (Key key) =>
+                  childIndexForKey(key, 0, splitIndex, reverse: true),
+            ),
+          ),
+        ),
+        SliverToBoxAdapter(key: centerKey, child: const SizedBox.shrink()),
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) =>
+                itemBuilder(context, splitIndex + index),
+            childCount: stream.length - splitIndex,
+            findChildIndexCallback: (Key key) => childIndexForKey(
+              key,
+              splitIndex,
+              stream.length,
+              reverse: false,
+            ),
+          ),
+        ),
+        if (trailingFillerSpecs != null)
+          SliverToBoxAdapter(
+            child: MessageListEdgeFiller(
+              key: const ValueKey<String>('edge-filler-newer'),
+              specs: trailingFillerSpecs!,
+              alignment: Alignment.topCenter,
+            ),
+          ),
+        SliverToBoxAdapter(child: SizedBox(height: trailingInset)),
       ],
     );
   }
