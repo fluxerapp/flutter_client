@@ -2,16 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>AppGroupId</key>
+	<string>$(CUSTOM_GROUP_ID)</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
-	<key>FLTEnableImpeller</key>
-	<true/>
-	<key>FLTEnableWideGamut</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Fluxer</string>
+	<string>$(INFOPLIST_KEY_CFBundleDisplayName)</string>
+	<key>CFBundleSpokenName</key>
+	<string>$(INFOPLIST_KEY_CFBundleDisplayName)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -26,8 +26,6 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>AppGroupId</key>
-	<string>$(CUSTOM_GROUP_ID)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -53,10 +51,12 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>FLTEnableImpeller</key>
+	<true/>
+	<key>FLTEnableWideGamut</key>
+	<true/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>googlechrome</string>
@@ -65,6 +65,8 @@
 		<string>ddgQuickLink</string>
 		<string>qwantbrowser</string>
 	</array>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Take photos to send in a chat.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
@@ -75,10 +77,12 @@
 	<string>Leave voice messages, audio, and video calls.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Add subtle motion to the splash and login backgrounds.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Share photos from your library in a chat.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Save images and videos to your photo library.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Share photos from your library in a chat.</string>
+	<key>NSSiriUsageDescription</key>
+	<string>You can use Siri and Shortcuts with Fluxer to send messages, start calls, join voice, and update your status.</string>
 	<key>RTCAppGroupIdentifier</key>
 	<string>group.com.fluxer</string>
 	<key>RTCScreenSharingExtension</key>

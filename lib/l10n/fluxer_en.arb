@@ -16897,5 +16897,42 @@
     "homeQuickActionDms": "DMs",
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
-    }
+    },
+    "assistantNeedsLogin": "Open Fluxer and sign in first.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "You're not in a call.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer could not find that.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "Direct messages are disabled on this instance.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer could not complete that.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "Muted.",
+    "assistantOkUnmuted": "Unmuted.",
+    "assistantOkLeftVoice": "Left voice.",
+    "assistantOkJoinedVoice": "Joining voice.",
+    "assistantOkStartedCall": "Starting the call.",
+    "assistantOkStatusSet": "Status set to {status}.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Opening Fluxer.",
+    "assistantOkMessageSent": "Message sent.",
+    "assistantOkCustomStatusSet": "Custom status updated.",
+    "assistantOkCustomStatusCleared": "Custom status cleared."
 }

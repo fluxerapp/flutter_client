@@ -1,4 +1,5 @@
 import AVFAudio
+import AppIntents
 import CallKit
 import Flutter
 import UIKit
@@ -14,6 +15,7 @@ import flutter_callkit_incoming
   ) -> Bool {
     let result = super.application(application, didFinishLaunchingWithOptions: launchOptions)
     UNUserNotificationCenter.current().delegate = self
+    AssistantAppShortcuts.updateAppShortcutParameters()
     return result
   }
 
@@ -92,6 +94,7 @@ import flutter_callkit_incoming
   func didInitializeImplicitFlutterEngine(_ engineBridge: FlutterImplicitEngineBridge) {
     GeneratedPluginRegistrant.register(with: engineBridge.pluginRegistry)
     ApplePushBridge.shared.register(engineBridge: engineBridge)
+    AssistantBridge.shared.register(engineBridge: engineBridge)
   }
 
   func onAccept(_ call: Call, _ action: CXAnswerCallAction) {

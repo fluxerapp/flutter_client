@@ -23654,6 +23654,96 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'DMs'**
   String get homeQuickActionDms;
+
+  /// Siri/Shortcuts result when the user is logged out.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Fluxer and sign in first.'**
+  String get assistantNeedsLogin;
+
+  /// Siri/Shortcuts result when mute or leave runs with no live call.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re not in a call.'**
+  String get assistantNotInVoice;
+
+  /// Siri/Shortcuts result when a friend, channel, or community cannot be resolved.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluxer could not find that.'**
+  String get assistantNotFound;
+
+  /// Siri/Shortcuts result when DM actions are blocked by instance config.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct messages are disabled on this instance.'**
+  String get assistantDmsDisabled;
+
+  /// Siri/Shortcuts fallback when an assistant command fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluxer could not complete that.'**
+  String get assistantFailed;
+
+  /// No description provided for @assistantOkMuted.
+  ///
+  /// In en, this message translates to:
+  /// **'Muted.'**
+  String get assistantOkMuted;
+
+  /// No description provided for @assistantOkUnmuted.
+  ///
+  /// In en, this message translates to:
+  /// **'Unmuted.'**
+  String get assistantOkUnmuted;
+
+  /// No description provided for @assistantOkLeftVoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Left voice.'**
+  String get assistantOkLeftVoice;
+
+  /// No description provided for @assistantOkJoinedVoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Joining voice.'**
+  String get assistantOkJoinedVoice;
+
+  /// No description provided for @assistantOkStartedCall.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting the call.'**
+  String get assistantOkStartedCall;
+
+  /// No description provided for @assistantOkStatusSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Status set to {status}.'**
+  String assistantOkStatusSet(String status);
+
+  /// No description provided for @assistantOkOpened.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening Fluxer.'**
+  String get assistantOkOpened;
+
+  /// No description provided for @assistantOkMessageSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Message sent.'**
+  String get assistantOkMessageSent;
+
+  /// No description provided for @assistantOkCustomStatusSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom status updated.'**
+  String get assistantOkCustomStatusSet;
+
+  /// No description provided for @assistantOkCustomStatusCleared.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom status cleared.'**
+  String get assistantOkCustomStatusCleared;
 }
 
 class _FluxerLocalizationsDelegate

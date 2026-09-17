@@ -14278,4 +14278,52 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get homeQuickActionDms => 'Direktmeddelanden';
+
+  @override
+  String get assistantNeedsLogin => 'Open Fluxer and sign in first.';
+
+  @override
+  String get assistantNotInVoice => 'You\'re not in a call.';
+
+  @override
+  String get assistantNotFound => 'Fluxer could not find that.';
+
+  @override
+  String get assistantDmsDisabled =>
+      'Direct messages are disabled on this instance.';
+
+  @override
+  String get assistantFailed => 'Fluxer could not complete that.';
+
+  @override
+  String get assistantOkMuted => 'Muted.';
+
+  @override
+  String get assistantOkUnmuted => 'Unmuted.';
+
+  @override
+  String get assistantOkLeftVoice => 'Left voice.';
+
+  @override
+  String get assistantOkJoinedVoice => 'Joining voice.';
+
+  @override
+  String get assistantOkStartedCall => 'Starting the call.';
+
+  @override
+  String assistantOkStatusSet(String status) {
+    return 'Status set to $status.';
+  }
+
+  @override
+  String get assistantOkOpened => 'Opening Fluxer.';
+
+  @override
+  String get assistantOkMessageSent => 'Message sent.';
+
+  @override
+  String get assistantOkCustomStatusSet => 'Custom status updated.';
+
+  @override
+  String get assistantOkCustomStatusCleared => 'Custom status cleared.';
 }

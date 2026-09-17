@@ -3,3 +3,4 @@
 
 // Match the Podfile simulator architecture exclusions.
 EXCLUDED_ARCHS[sdk=iphonesimulator*]=i386 x86_64
+SWIFT_ENABLE_EMIT_CONST_VALUES = YES
