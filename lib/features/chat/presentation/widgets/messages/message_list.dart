@@ -447,13 +447,11 @@ class _MessageListState extends ConsumerState<MessageList> {
             // tail is history, not the present.
             _pin.onDetached();
           }
-          if (_landAtLatestTailPending &&
-              origin == MessagesOrigin.windowSwap &&
-              !postWrite.hasMoreNewerMessages) {
-            // Only the swap's own write may be read as the jump landing: a
-            // final newer page can flip the flag false while a jump is in
-            // flight, and consuming the pending land on it would pin the
-            // viewport onto a pagination install.
+          if (origin == MessagesOrigin.windowSwap &&
+              !postWrite.hasMoreNewerMessages &&
+              (_landAtLatestTailPending || _shouldRelandLiveTail(next))) {
+            // A terminal newer page can flip the flag while a jump is in
+            // flight; only a swap may consume the pending land.
             _landAtLatestTailPending = false;
             _landAtLatestTail(next);
             return;
@@ -2418,6 +2416,16 @@ class _MessageListState extends ConsumerState<MessageList> {
     if (position.pixels < tail) {
       position.jumpTo(tail);
     }
+  }
+
+  bool _shouldRelandLiveTail(List<Message> next) {
+    return _pin.pinned &&
+        _anchorResolved &&
+        !_unreadOpenLayout &&
+        _anchorFraction >= 1.0 &&
+        _anchorEdge == MessageListAnchorEdge.after &&
+        next.isNotEmpty &&
+        _anchorId != next.last.id;
   }
 
   // Coordinates the latest-window replacement with its tail landing.

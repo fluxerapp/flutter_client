@@ -4955,6 +4955,57 @@ void main() {
       },
     );
 
+    testWidgets(
+      'caught-up window swap onto newer present lands the newest at the composer',
+      (WidgetTester tester) async {
+        final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+          tester,
+          hasMoreNewer: false,
+        );
+        final List<Message> old = chatViewModel.testState.messages;
+        final String previousNewestId = old.last.id;
+        final List<Message> latest = <Message>[
+          ...old,
+          ...newerRows(old, count: 5, label: 'gap'),
+        ];
+        chatViewModel.testState = chatViewModel.testState.copyWith(
+          write: (messages: latest, origin: MessagesOrigin.windowSwap),
+          hasMoreNewerMessages: false,
+        );
+        await tester.pump();
+        await tester.pump();
+
+        final String newestId = latest.last.id;
+        expect(newestId, isNot(previousNewestId));
+        final Finder newest = messageItemFor(newestId);
+        expect(newest, findsOneWidget);
+        final Rect viewport = tester.getRect(messageListScrollable());
+        expect(
+          tester.getRect(newest).bottom,
+          greaterThan(viewport.bottom - 64),
+        );
+        final ScrollPosition position = messageListScrollPosition(tester);
+        expect(
+          position.maxScrollExtent - position.pixels,
+          lessThanOrEqualTo(kMessageListReadBottomThreshold),
+        );
+        final int epoch = messageListAnchorEpoch(tester);
+        await tester.pump();
+        await tester.pump();
+        expect(
+          messageListAnchorEpoch(tester),
+          epoch,
+          reason: 'present landing must not remount after the first land',
+        );
+        expect(
+          tester.getRect(newest).bottom,
+          greaterThan(viewport.bottom - 64),
+        );
+
+        await disposeMessageList(tester);
+      },
+    );
+
     // ---- Phase 3 GATE tests: the unified center-anchored viewport ----
 
     testWidgets(

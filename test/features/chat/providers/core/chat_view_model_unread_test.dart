@@ -609,6 +609,73 @@ void main() {
   });
 
   test(
+    'caught-up stale cache waits for the latest page instead of sealing the tail',
+    () async {
+      final db = openTestDatabase();
+      final cachedId = _snowflakeForUtc(DateTime.utc(2026, 5, 16, 10));
+      final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 16, 12));
+      await db.messageDao.upsertMessage(
+        _cachedMessage(id: cachedId, channelId: 'channel-1', authorId: 'other'),
+      );
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(latestId),
+        ),
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(latestId),
+          mentionCount: const Value(0),
+        ),
+      );
+      final adapter = _ChatAdapter(
+        initialMessages: [
+          _messageJson(id: latestId, channelId: 'channel-1', authorId: 'other'),
+          _messageJson(id: cachedId, channelId: 'channel-1', authorId: 'other'),
+        ],
+      )..holdMessageFetch = true;
+      final container = _container(db, adapter);
+      addTearDown(container.dispose);
+
+      final notifier = container.read(chatViewModelProvider.notifier);
+      final Future<void> load = notifier.switchChannel('channel-1');
+      ChatViewState? loadingState;
+      for (var i = 0; i < 20; i++) {
+        await _flushAsync();
+        final ChatViewState state = container.read(chatViewModelProvider);
+        if (state.channelId == 'channel-1' && state.isLoading) {
+          loadingState = state;
+          expect(state.messages, isEmpty);
+          adapter.releaseMessageFetch();
+          await load;
+          break;
+        }
+      }
+      if (loadingState == null) {
+        fail('expected loading before latest');
+      }
+      ChatViewState? settled;
+      for (var i = 0; i < 20; i++) {
+        await _flushAsync();
+        final ChatViewState state = container.read(chatViewModelProvider);
+        if (!state.isLoading && !state.isSyncingMessages) {
+          settled = state;
+          break;
+        }
+      }
+      if (settled == null) {
+        fail('expected latest window to settle');
+      }
+      expect(settled.messages.map((m) => m.id), [cachedId, latestId]);
+      expect(settled.hasMoreNewerMessages, isFalse);
+    },
+  );
+
+  test(
     'cache-first sync removes deleted messages from memory and drift',
     () async {
       final db = openTestDatabase();

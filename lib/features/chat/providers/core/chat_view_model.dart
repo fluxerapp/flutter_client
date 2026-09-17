@@ -1991,7 +1991,8 @@ class ChatViewModel extends _$ChatViewModel {
         loadMessages &&
         (targetMessageId == null || targetMessageId.isEmpty) &&
         parked != null &&
-        parked.messages.isNotEmpty;
+        parked.messages.isNotEmpty &&
+        _canRestoreParkedWindow(parked, channelId);
     if (restoreParked) {
       _replaceLiveWindow(
         channelId: channelId,
@@ -2408,49 +2409,59 @@ class ChatViewModel extends _$ChatViewModel {
         }
         if (!hasUnread) {
           mark('reads');
-          final bool willRefresh = _shouldRefreshChannelFromNetwork(channelId);
-          if (chatWindowMismatchesChannel(
-            expectedChannelId: channelId,
-            channelId: state.channelId,
-            messages: state.messages,
-          )) {
-            _replaceLiveWindow(
-              channelId: channelId,
-              messages: _finalizeLoadedMessages(
-                channelId,
-                parked.messages,
-                cacheOrdinal,
-              ),
-              isLoading: false,
-              isSyncingMessages: willRefresh,
-              hasMoreMessages: parked.hasMoreMessages,
-              hasMoreNewerMessages: parked.hasMoreNewerMessages,
-            );
-            _invalidateMessageCacheTrust();
-            _deferMessageReferencesLoaded(
-              channelId: channelId,
-              messages: parked.messages,
-            );
-          } else if (willRefresh && !state.isSyncingMessages) {
-            state = state.copyWith(isSyncingMessages: true);
+          final bool restoreParked =
+              _canRestoreParkedWindow(parked, channelId) ||
+              await _loadedWindowIsPresent(parked.messages);
+          if (!isCurrentSwitch()) {
+            return;
           }
-          if (willRefresh) {
-            unawaited(
-              _refreshMessagesFromNetwork(
-                channelId,
-                isDirectLatestLoad: false,
-                preserveLoadedWindow: true,
-                shouldApplyResult: isCurrentSwitch,
-              ),
+          if (restoreParked) {
+            final bool willRefresh = _shouldRefreshChannelFromNetwork(
+              channelId,
             );
+            if (chatWindowMismatchesChannel(
+              expectedChannelId: channelId,
+              channelId: state.channelId,
+              messages: state.messages,
+            )) {
+              _replaceLiveWindow(
+                channelId: channelId,
+                messages: _finalizeLoadedMessages(
+                  channelId,
+                  parked.messages,
+                  cacheOrdinal,
+                ),
+                isLoading: false,
+                isSyncingMessages: willRefresh,
+                hasMoreMessages: parked.hasMoreMessages,
+                hasMoreNewerMessages: parked.hasMoreNewerMessages,
+              );
+              _invalidateMessageCacheTrust();
+              _deferMessageReferencesLoaded(
+                channelId: channelId,
+                messages: parked.messages,
+              );
+            } else if (willRefresh && !state.isSyncingMessages) {
+              state = state.copyWith(isSyncingMessages: true);
+            }
+            if (willRefresh) {
+              unawaited(
+                _refreshMessagesFromNetwork(
+                  channelId,
+                  isDirectLatestLoad: false,
+                  preserveLoadedWindow: true,
+                  shouldApplyResult: isCurrentSwitch,
+                ),
+              );
+            }
+            await _applyReadComposerDraft(
+              channelId: channelId,
+              draftFuture: draftFuture,
+              isCurrentSwitch: isCurrentSwitch,
+              mark: mark,
+            );
+            return;
           }
-          await _applyReadComposerDraft(
-            channelId: channelId,
-            draftFuture: draftFuture,
-            isCurrentSwitch: isCurrentSwitch,
-            mark: mark,
-          );
-          return;
         }
       }
       final (List<Message> cachedRows, bool hasUnread) = await (
@@ -2466,45 +2477,48 @@ class ChatViewModel extends _$ChatViewModel {
         currentUserId: currentUserId,
       );
       if (cached.isNotEmpty && !hasUnread) {
-        final bool incompleteCache = cached.length < _kPageSize;
-        // Server never rewinds last_message_id, so only an anchorless latest
-        // page can refute a tail deleted while we were offline (#474).
-        final bool proveTailFromLatestPage = _messagesNeedResync(channelId);
-        final bool willRefresh =
-            incompleteCache ||
-            proveTailFromLatestPage ||
-            _shouldRefreshChannelFromNetwork(channelId);
-        if (state.channelId != channelId) {
+        final bool cachePresent = await _loadedWindowIsPresent(cached);
+        if (!isCurrentSwitch() || state.channelId != channelId) {
           return;
         }
-        _replaceLiveWindow(
-          channelId: channelId,
-          messages: _finalizeLoadedMessages(channelId, cached, cacheOrdinal),
-          isLoading: false,
-          isSyncingMessages: willRefresh,
-          hasMoreMessages: incompleteCache || cached.length >= _kPageSize,
-          hasMoreNewerMessages: false,
-        );
-        _invalidateMessageCacheTrust();
-        _deferMessageReferencesLoaded(channelId: channelId, messages: cached);
-        if (willRefresh) {
-          unawaited(
-            _refreshMessagesFromNetwork(
-              channelId,
-              isDirectLatestLoad: incompleteCache || proveTailFromLatestPage,
-              preserveLoadedWindow:
-                  !incompleteCache && !proveTailFromLatestPage,
-              shouldApplyResult: isCurrentSwitch,
-            ),
+        if (cachePresent) {
+          final bool incompleteCache = cached.length < _kPageSize;
+          // Server never rewinds last_message_id, so only an anchorless latest
+          // page can refute a tail deleted while we were offline (#474).
+          final bool proveTailFromLatestPage = _messagesNeedResync(channelId);
+          final bool willRefresh =
+              incompleteCache ||
+              proveTailFromLatestPage ||
+              _shouldRefreshChannelFromNetwork(channelId);
+          _replaceLiveWindow(
+            channelId: channelId,
+            messages: _finalizeLoadedMessages(channelId, cached, cacheOrdinal),
+            isLoading: false,
+            isSyncingMessages: willRefresh,
+            hasMoreMessages: incompleteCache || cached.length >= _kPageSize,
+            hasMoreNewerMessages: false,
           );
+          _invalidateMessageCacheTrust();
+          _deferMessageReferencesLoaded(channelId: channelId, messages: cached);
+          if (willRefresh) {
+            unawaited(
+              _refreshMessagesFromNetwork(
+                channelId,
+                isDirectLatestLoad: incompleteCache || proveTailFromLatestPage,
+                preserveLoadedWindow:
+                    !incompleteCache && !proveTailFromLatestPage,
+                shouldApplyResult: isCurrentSwitch,
+              ),
+            );
+          }
+          await _applyReadComposerDraft(
+            channelId: channelId,
+            draftFuture: draftFuture,
+            isCurrentSwitch: isCurrentSwitch,
+            mark: mark,
+          );
+          return;
         }
-        await _applyReadComposerDraft(
-          channelId: channelId,
-          draftFuture: draftFuture,
-          isCurrentSwitch: isCurrentSwitch,
-          mark: mark,
-        );
-        return;
       }
       if (state.channelId != channelId) {
         return;
@@ -3926,6 +3940,19 @@ class ChatViewModel extends _$ChatViewModel {
         .dmChannelDao
         .getDmChannelById(channelId);
     return dmChannel?.lastMessageId;
+  }
+
+  bool _canRestoreParkedWindow(_ParkedChannelWindow parked, String channelId) {
+    return parked.hasMoreNewerMessages || !_messagesNeedResync(channelId);
+  }
+
+  Future<bool> _loadedWindowIsPresent(List<Message> messages) async {
+    if (messages.isEmpty) {
+      return false;
+    }
+    final ({bool hasMoreNewer, bool needsTailProbe}) consult =
+        await _hasNewerMessagesThanChannel(messages.last.id);
+    return !consult.hasMoreNewer;
   }
 
   /// Verdict of the channel-pointer consult.
