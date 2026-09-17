@@ -81,8 +81,6 @@
 	<string>Save images and videos to your photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Share photos from your library in a chat.</string>
-	<key>NSSiriUsageDescription</key>
-	<string>You can use Siri and Shortcuts with Fluxer to send messages, start calls, join voice, and update your status.</string>
 	<key>RTCAppGroupIdentifier</key>
 	<string>group.com.fluxer</string>
 	<key>RTCScreenSharingExtension</key>
