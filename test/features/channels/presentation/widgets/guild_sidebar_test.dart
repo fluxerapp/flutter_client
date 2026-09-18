@@ -281,6 +281,39 @@ void main() {
       expect(dy('Copy Channel ID'), lessThan(dy('Delete My Messages')));
     });
 
+    testWidgets('tablet channel menu opens near the pressed row', (
+      tester,
+    ) async {
+      _setWideSurface(tester);
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            channelListState: _state(),
+            unread: const {'c1': UnreadState(), 'c2': UnreadState()},
+          ),
+        ),
+      );
+      await _pumpSidebar(tester);
+
+      final Offset channelCenter = tester.getCenter(find.text('general'));
+      await tester.longPress(find.text('general'));
+      await _pumpSidebar(tester);
+
+      expect(find.text('Copy Link'), findsOneWidget);
+      expect(
+        find.ancestor(
+          of: find.text('Copy Link'),
+          matching: find.byType(Material),
+        ),
+        findsWidgets,
+      );
+
+      final Offset menuTopLeft = tester.getTopLeft(find.text('Copy Link'));
+      expect(menuTopLeft.dx, greaterThan(channelCenter.dx - 40));
+      expect(menuTopLeft.dy, greaterThan(channelCenter.dy - 40));
+      expect((menuTopLeft - channelCenter).distance, lessThan(280));
+    });
+
     testWidgets('channel menu shows mark as read when channel is unread', (
       tester,
     ) async {

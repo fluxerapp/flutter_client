@@ -22,6 +22,7 @@ import 'package:fluxer_app/features/favorites/providers/favorite_channels_provid
 import 'package:fluxer_app/features/favorites/utils/favorite_entry_subtitle.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -90,7 +91,11 @@ class FavoritesChannelList extends ConsumerWidget {
       },
       onLongPress: isTouchPrimaryInput(ref)
           ? () => unawaited(
-              showFavoritesListMenu(context, ref, position: Offset.zero),
+              showFavoritesListMenu(
+                context,
+                ref,
+                position: contextMenuPositionAtCenter(context),
+              ),
             )
           : null,
       child: ListView(
@@ -399,7 +404,7 @@ class _FavoriteChannelTile extends ConsumerWidget {
           onTap: onTap,
           onSecondaryTapUp: (details) => onContextMenu(details.globalPosition),
           onLongPress: isTouchPrimaryInput(ref)
-              ? () => onContextMenu(Offset.zero)
+              ? () => onContextMenu(contextMenuPositionAtCenter(context))
               : null,
           child: Row(
             children: [
