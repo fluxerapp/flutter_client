@@ -2419,11 +2419,12 @@ class ChatViewModel extends _$ChatViewModel {
             final bool willRefresh = _shouldRefreshChannelFromNetwork(
               channelId,
             );
-            if (chatWindowMismatchesChannel(
-              expectedChannelId: channelId,
-              channelId: state.channelId,
-              messages: state.messages,
-            )) {
+            if (state.messages.isEmpty ||
+                chatWindowMismatchesChannel(
+                  expectedChannelId: channelId,
+                  channelId: state.channelId,
+                  messages: state.messages,
+                )) {
               _replaceLiveWindow(
                 channelId: channelId,
                 messages: _finalizeLoadedMessages(
@@ -2903,7 +2904,8 @@ class ChatViewModel extends _$ChatViewModel {
       // again inside the commit closure against the window as it stands at
       // write time. Only the second result is ever installed.
       List<Message> reduceAgainst(List<Message> current) {
-        final List<Message> reconciled = preserveLoadedWindow
+        final List<Message> reconciled =
+            preserveLoadedWindow && current.isNotEmpty
             ? reconcileStaleDeletionsInLoadedWindow(
                 current: current,
                 networkPage: page.messages,

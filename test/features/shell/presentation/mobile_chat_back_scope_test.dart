@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -114,12 +113,11 @@ void main() {
     await tester.pumpAndSettle();
 
     final BuildContext chatContext = tester.element(find.text('chat'));
-    unawaited(
+    
       showModalBottomSheet<void>(
         context: chatContext,
         builder: (BuildContext context) => const Text('sheet'),
       ),
-    );
     await tester.pumpAndSettle();
 
     expect(find.text('sheet'), findsOneWidget);
@@ -161,12 +159,11 @@ void main() {
     final BuildContext listContext = tester.element(
       find.text('Select a channel'),
     );
-    unawaited(
+    
       showModalBottomSheet<void>(
         context: listContext,
         builder: (BuildContext context) => const Text('community menu'),
       ),
-    );
     await tester.pumpAndSettle();
 
     expect(find.text('community menu'), findsOneWidget);

@@ -1201,7 +1201,13 @@ void main() {
     await _flushAsync();
     container.read(gatewaySessionRecoveryProvider.notifier).bump();
     await notifier.switchChannel('channel-1');
-    await _flushAsync();
+    for (var i = 0; i < 30; i++) {
+      await _flushAsync();
+      final current = container.read(chatViewModelProvider);
+      if (!current.isLoading && !current.isSyncingMessages) {
+        break;
+      }
+    }
 
     final state = container.read(chatViewModelProvider);
     expect(state.isSyncingMessages, isFalse);
