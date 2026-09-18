@@ -44,6 +44,7 @@ class VoiceChannelPageView extends ConsumerStatefulWidget {
 }
 
 const double _kDesktopChatPanelWidth = 360;
+const Key kDesktopVoiceChatToggleKey = Key('desktop-voice-chat-toggle');
 
 class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
   bool _isChatPanelOpen = false;
@@ -103,7 +104,7 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
   void _openChatForJumpIfNeeded({
     required String? jumpTarget,
     required bool textChatSupported,
-    required bool usePhoneVoiceOverlay,
+    required bool useDesktopChat,
     String? channelName,
   }) {
     if (jumpTarget == null) {
@@ -119,7 +120,7 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
       if (!mounted) {
         return;
       }
-      if (usePhoneVoiceOverlay) {
+      if (!useDesktopChat) {
         if (_jumpSheetOpen) {
           return;
         }
@@ -157,6 +158,7 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
       ),
     );
     final bool usePhoneVoiceOverlay = isPhoneVoiceOverlay(context);
+    final bool useDesktopChat = isDesktopLayout(context);
     final bool textChatSupported =
         ref
             .watch(voiceChannelTextChatSupportedProvider(widget.channelId))
@@ -168,13 +170,13 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
     _openChatForJumpIfNeeded(
       jumpTarget: jumpTarget,
       textChatSupported: textChatSupported,
-      usePhoneVoiceOverlay: usePhoneVoiceOverlay,
+      useDesktopChat: useDesktopChat,
       channelName: name,
     );
     final Widget content = inThisChannel
         ? _buildConnected(context, usePhoneVoiceOverlay: usePhoneVoiceOverlay)
         : _buildEmpty(channel: channel);
-    if (usePhoneVoiceOverlay) {
+    if (!useDesktopChat) {
       return content;
     }
     return _wrapWithDesktopChat(
@@ -207,6 +209,7 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
                 top: 12,
                 right: 12,
                 child: _DesktopVoiceChatToggle(
+                  key: kDesktopVoiceChatToggleKey,
                   channelId: widget.channelId,
                   isOpen: _isChatPanelOpen,
                   onTap: () {
@@ -289,6 +292,7 @@ class _DesktopVoiceChatToggle extends StatelessWidget {
     required this.channelId,
     required this.isOpen,
     required this.onTap,
+    super.key,
   });
 
   final String channelId;
