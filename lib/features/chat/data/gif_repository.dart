@@ -232,6 +232,8 @@ class GifRepository {
       proxySrc: previewMedia.proxySrc,
       width: previewMedia.width > 0 ? previewMedia.width : gif.width,
       height: previewMedia.height > 0 ? previewMedia.height : gif.height,
+      slug: gif.slug,
+      media: gif.media,
     );
   }).toList();
 
@@ -329,6 +331,7 @@ class _GifApiGif {
     required this.proxySrc,
     required this.width,
     required this.height,
+    this.slug = '',
     this.media,
   });
 
@@ -340,6 +343,7 @@ class _GifApiGif {
     proxySrc: _requiredString(json, 'proxy_src'),
     width: _requiredInt(json, 'width'),
     height: _requiredInt(json, 'height'),
+    slug: json['slug'] as String? ?? '',
     media: _parseMedia(json['media']),
   );
 
@@ -350,6 +354,7 @@ class _GifApiGif {
   final String proxySrc;
   final int width;
   final int height;
+  final String slug;
   final Map<String, sdk.GifMediaFormat>? media;
 }
 

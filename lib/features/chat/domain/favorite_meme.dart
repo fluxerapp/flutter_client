@@ -239,6 +239,32 @@ String buildTenorShareUrl(String tenorSlugId) {
   return 'https://tenor.com/$path';
 }
 
+String? extractTenorSlugId(String url) {
+  final trimmed = url.trim();
+  if (trimmed.isEmpty) {
+    return null;
+  }
+
+  final parsed = Uri.tryParse(trimmed);
+  final host = parsed?.host.toLowerCase();
+  if (host == 'tenor.com' || host == 'www.tenor.com') {
+    final match = RegExp(
+      '^/(?:[a-z]{2}(?:-[a-z]{2})?/)?view/([^/]+)',
+      caseSensitive: false,
+    ).firstMatch(parsed?.path ?? '');
+    final rawSlug = match?.group(1);
+    if (rawSlug != null) {
+      final slugId = Uri.decodeComponent(rawSlug).trim();
+      if (slugId.isNotEmpty) {
+        return 'view/$slugId';
+      }
+    }
+    return null;
+  }
+
+  return _normalizeTenorSlugId(trimmed);
+}
+
 String? _normalizeTenorSlugId(String value) {
   final trimmed = value.trim();
   if (trimmed.isEmpty) {

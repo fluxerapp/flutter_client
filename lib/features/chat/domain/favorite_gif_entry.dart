@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
+import 'package:fluxer_dart/export.dart' as sdk;
 
 @immutable
 class FavoriteGifMediaFormat {
@@ -10,10 +11,26 @@ class FavoriteGifMediaFormat {
     required this.height,
   });
 
+  factory FavoriteGifMediaFormat.fromSdk(sdk.GifMediaFormat format) {
+    return FavoriteGifMediaFormat(
+      src: format.src,
+      proxySrc: format.proxySrc,
+      width: format.width,
+      height: format.height,
+    );
+  }
+
   final String src;
   final String proxySrc;
   final int width;
   final int height;
+
+  sdk.GifMediaFormat toSdk() => sdk.GifMediaFormat(
+    src: src,
+    proxySrc: proxySrc,
+    width: width,
+    height: height,
+  );
 
   @override
   bool operator ==(Object other) {
@@ -82,10 +99,25 @@ FavoriteGifEntry favoriteGifEntryFromPickerGif(GifPickerGif gif) {
       : gif.src.trim().isNotEmpty
       ? gif.src
       : gif.url;
+  final media = gif.media;
   return FavoriteGifEntry(
     url: favoriteGifUrl(gif),
     proxyUrl: proxyUrl,
     width: gif.width,
     height: gif.height,
+    media: {
+      for (final entry
+          in (media ?? const <String, sdk.GifMediaFormat>{}).entries)
+        entry.key: FavoriteGifMediaFormat.fromSdk(entry.value),
+    },
   );
+}
+
+Map<String, sdk.GifMediaFormat>? sdkMediaFromFavoriteGif(
+  Map<String, FavoriteGifMediaFormat> media,
+) {
+  if (media.isEmpty) {
+    return null;
+  }
+  return {for (final entry in media.entries) entry.key: entry.value.toSdk()};
 }

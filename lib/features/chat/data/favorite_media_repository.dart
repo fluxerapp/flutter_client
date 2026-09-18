@@ -4,6 +4,7 @@ import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
+import 'package:fluxer_app/features/chat/utils/media/gif_media_selection.dart';
 import 'package:fluxer_app/features/chat/utils/media/klipy_utils.dart';
 import 'package:fluxer_dart/export.dart' as sdk;
 
@@ -43,10 +44,16 @@ class FavoriteMediaRepository {
         : gif.title.trim();
     final response = await _client.savedMedia.createMemeFromUrl(
       body: sdk.CreateFavoriteMemeFromUrlBodySchema(
-        url: _bestStoredGifUrl(gif),
+        url: bestStoredGifUrl(
+          url: gif.url,
+          src: gif.src,
+          proxySrc: gif.proxySrc,
+          media: gif.media,
+        ),
         name: title.isEmpty ? null : title,
         gifProvider: gif.provider.name,
         gifSlug: shareId,
+        media: gif.media,
       ),
     );
     return _upsertResponse(response);
@@ -94,20 +101,14 @@ class FavoriteMediaRepository {
 }
 
 String gifShareId(GifPickerGif gif) {
-  if (gif.provider == GifProviderKind.klipy) {
-    return extractKlipySlug(gif.url) ?? gif.id;
+  final slug = gif.slug.trim();
+  if (slug.isNotEmpty) {
+    return slug;
   }
-  return gif.id;
-}
-
-String _bestStoredGifUrl(GifPickerGif gif) {
-  if (gif.proxySrc.trim().isNotEmpty) {
-    return gif.proxySrc;
-  }
-  if (gif.src.trim().isNotEmpty) {
-    return gif.src;
-  }
-  return gif.url;
+  return switch (gif.provider) {
+    GifProviderKind.klipy => extractKlipySlug(gif.url) ?? gif.id,
+    GifProviderKind.tenor => extractTenorSlugId(gif.url) ?? gif.id,
+  };
 }
 
 String? _blankToNull(String? value) {

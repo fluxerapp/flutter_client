@@ -210,12 +210,12 @@ MessageMediaGifInfo? gifInfoForMessageMedia({
     return null;
   }
 
-  final String proxyUrl = (embedMedia.proxyUrl?.trim().isNotEmpty ?? false)
-      ? embedMedia.proxyUrl!.trim()
-      : embedMedia.url;
+  final String pageUrl = embed.url?.trim() ?? '';
+  final String mediaUrl = embedMedia.url.trim();
+  final String proxyUrl = embedMedia.proxyUrl?.trim() ?? '';
   return MessageMediaGifInfo(
-    url: embedMedia.url,
-    proxyUrl: proxyUrl,
+    url: pageUrl.isNotEmpty ? pageUrl : mediaUrl,
+    proxyUrl: proxyUrl.isNotEmpty ? proxyUrl : mediaUrl,
     width: embedMedia.width ?? 0,
     height: embedMedia.height ?? 0,
   );

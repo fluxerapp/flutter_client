@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/chat/providers/pickers/favorite_gifs_provide
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/gif_provider.dart';
 import 'package:fluxer_app/features/chat/utils/media/gif_category_grid_layout.dart';
+import 'package:fluxer_app/features/chat/utils/media/gif_media_selection.dart';
 import 'package:fluxer_app/features/chat/utils/media/gif_preview_playback_policy.dart';
 import 'package:fluxer_app/features/chat/utils/media/klipy_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_favorite_state.dart';
@@ -105,10 +106,6 @@ class GifPickerContent extends ConsumerStatefulWidget {
   });
 
   final VoidCallback onClose;
-
-  /// Fallback for the favorites tile: when GIF favorites are stored as saved
-  /// media and no URL-only favorites exist, the picker defers to the saved
-  /// media surface instead of showing an empty favorites view.
   final VoidCallback? onShowSavedMedia;
   final ValueChanged<FluxerSelectedGif>? onGifSelect;
   final double? searchHorizontalPadding;
@@ -451,26 +448,35 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
 
   GifPickerGif _favoriteEntryToPickerGif(FavoriteGifEntry entry) {
     final String? klipySlug = extractKlipySlug(entry.url);
-    return GifPickerGif(
-      provider: klipySlug != null
-          ? GifProviderKind.klipy
-          : GifProviderKind.tenor,
-      id: klipySlug ?? '',
-      title: '',
-      url: entry.url,
+    final String slug = klipySlug ?? extractTenorSlugId(entry.url) ?? '';
+    final media = sdkMediaFromFavoriteGif(entry.media);
+    final preview = gifPreviewMediaForPicker(
       src: entry.proxyUrl,
       proxySrc: entry.proxyUrl,
       width: entry.width,
       height: entry.height,
+      media: media,
+    );
+    return GifPickerGif(
+      provider: klipySlug != null
+          ? GifProviderKind.klipy
+          : GifProviderKind.tenor,
+      id: slug,
+      title: '',
+      url: entry.url,
+      src: preview.src,
+      proxySrc: preview.proxySrc,
+      width: preview.width > 0 ? preview.width : entry.width,
+      height: preview.height > 0 ? preview.height : entry.height,
+      slug: slug,
+      media: media,
     );
   }
 
   void _selectGif(GifPickerGif gif, sdk.Locale locale) {
-    final shareId = gif.provider == GifProviderKind.klipy
-        ? extractKlipySlug(gif.url) ?? gif.id
-        : gif.id;
+    final shareId = gifShareId(gif);
     final query = _searchController.text.trim();
-    if (shareId.trim().isNotEmpty) {
+    if (shareId.isNotEmpty) {
       unawaited(
         ref
             .read(gifRepositoryProvider)
@@ -489,9 +495,14 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
     final title = gif.title.trim().isEmpty
         ? parseKlipyTitleFromUrl(gif.url)
         : gif.title;
-    final shareUrl = gif.provider == GifProviderKind.klipy
-        ? resolveKlipyShareUrl(url: gif.url, fallbackSlug: shareId)
-        : gif.url;
+    final shareUrl = switch (gif.provider) {
+      GifProviderKind.klipy => resolveKlipyShareUrl(
+        url: gif.url,
+        fallbackSlug: shareId,
+      ),
+      GifProviderKind.tenor =>
+        shareId.isEmpty ? gif.url : buildTenorShareUrl(shareId),
+    };
 
     widget.onGifSelect?.call(
       FluxerSelectedGif(
