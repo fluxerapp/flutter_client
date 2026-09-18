@@ -24,6 +24,7 @@
 		B2B98F9097C589EDA7A0AD0C /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3055A54FF1FA07BFAC97E137 /* ShareViewController.swift */; };
 		FB041B002F4B711E00771E23 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = FB041AFF2F4B711E00771E23 /* AppIcon.icon */; };
 		FB0ADAC52F5C91D70078A4D4 /* ApplePushBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADAC42F5C91D70078A4D4 /* ApplePushBridge.swift */; };
+		FBC1A0022F9E220100EA2F01 /* PhysicalKeyboardBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC1A0012F9E220100EA2F01 /* PhysicalKeyboardBridge.swift */; };
 		FB0ADAC62F5C91D80078A4D4 /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */; };
 		FB0ADAC72F5C91D80078A4D5 /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */; };
 		FB0ADAC92F5C91D80078A4D6 /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */; };
@@ -182,6 +183,7 @@
 		FB041AFF2F4B711E00771E23 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		FB0ADAC12F5C91D50078A4D4 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		FB0ADAC42F5C91D70078A4D4 /* ApplePushBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePushBridge.swift; sourceTree = "<group>"; };
+		FBC1A0012F9E220100EA2F01 /* PhysicalKeyboardBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicalKeyboardBridge.swift; sourceTree = "<group>"; };
 		FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationPayload.swift; sourceTree = "<group>"; };
 		FB0ADACA2F5C91D80078A4D7 /* ForegroundPushNotificationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForegroundPushNotificationPolicy.swift; sourceTree = "<group>"; };
 		FB0ADB002F5C92000078A4E0 /* NotificationImageAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationImageAttachment.swift; sourceTree = "<group>"; };
@@ -408,6 +410,7 @@
 				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
 				74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
 				FB0ADAC42F5C91D70078A4D4 /* ApplePushBridge.swift */,
+				FBC1A0012F9E220100EA2F01 /* PhysicalKeyboardBridge.swift */,
 				FC0A55157A00000100000010 /* Assistant */,
 				7884E8672EC3CC0400C636F2 /* SceneDelegate.swift */,
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
@@ -863,6 +866,7 @@
 			files = (
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				FB0ADAC52F5C91D70078A4D4 /* ApplePushBridge.swift in Sources */,
+				FBC1A0022F9E220100EA2F01 /* PhysicalKeyboardBridge.swift in Sources */,
 				FB0ADAC62F5C91D80078A4D4 /* PushNotificationPayload.swift in Sources */,
 				FB0ADACB2F5C91D80078A4D7 /* ForegroundPushNotificationPolicy.swift in Sources */,
 				FB0ADB042F5C92000078A4E4 /* NotificationImageAttachment.swift in Sources */,

@@ -33,6 +33,7 @@ import 'package:fluxer_app/features/chat/services/composer_autocomplete_trigger.
 import 'package:fluxer_app/features/chat/services/composer_mention_controller.dart';
 import 'package:fluxer_app/features/chat/services/composer_slash_session.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_command_insertion.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_enter_send.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_mention_query.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_slash_commands.dart';
 import 'package:fluxer_app/features/chat/utils/composer/emoji_autocomplete_search.dart';
@@ -180,20 +181,6 @@ bool get _composerAutocompleteKeyboardEnabled {
   return defaultTargetPlatform == TargetPlatform.linux ||
       defaultTargetPlatform == TargetPlatform.macOS ||
       defaultTargetPlatform == TargetPlatform.windows;
-}
-
-/// Whether [key] is the main or numpad Enter/Return key.
-bool isComposerSubmitKey(LogicalKeyboardKey key) {
-  return key == LogicalKeyboardKey.enter ||
-      key == LogicalKeyboardKey.numpadEnter;
-}
-
-/// Hardware Enter sends on native, and on web when the layout is wide.
-bool composerHardwareEnterSends({
-  required bool isWeb,
-  required bool isWideLayout,
-}) {
-  return !isWeb || isWideLayout;
 }
 
 /// Routes hardware-keyboard navigation keys to an open autocomplete menu.

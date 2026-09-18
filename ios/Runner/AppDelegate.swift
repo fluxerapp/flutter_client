@@ -95,6 +95,7 @@ import flutter_callkit_incoming
     GeneratedPluginRegistrant.register(with: engineBridge.pluginRegistry)
     ApplePushBridge.shared.register(engineBridge: engineBridge)
     AssistantBridge.shared.register(engineBridge: engineBridge)
+    PhysicalKeyboardBridge.shared.register(engineBridge: engineBridge)
   }
 
   func onAccept(_ call: Call, _ action: CXAnswerCallAction) {

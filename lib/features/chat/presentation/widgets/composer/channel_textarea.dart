@@ -12,6 +12,7 @@ import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_reads.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
@@ -67,6 +68,7 @@ import 'package:fluxer_app/features/chat/utils/composer/composer_clipboard_paste
 import 'package:fluxer_app/features/chat/utils/composer/composer_command.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_command_execute.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_emoji_resolution.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_enter_send.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_expression_tabs.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_panel.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_scroll.dart';
@@ -83,6 +85,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart'
 import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
 import 'package:fluxer_app/features/input/providers/chat_keybind_effects_provider.dart';
 import 'package:fluxer_app/features/input/providers/composer_focus_coordinator_provider.dart';
+import 'package:fluxer_app/features/input/providers/physical_keyboard_provider.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -251,7 +254,6 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   final _mediaPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
   final _stickerPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
 
-  bool _enterToSendEnabled = false;
   bool _isApplyingWireText = false;
   bool _composerFocused = false;
   String? _lastWireTextPushedToState;
@@ -591,6 +593,14 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     super.dispose();
   }
 
+  bool get _enterSends => composerEnterSends(
+    isWeb: kIsWeb,
+    isWideLayout: isWideLayout(context),
+    isNativeMobileOs: isFluxerNativeMobileOs,
+    physicalKeyboardConnected:
+        ref.read(physicalKeyboardConnectedProvider).value ?? false,
+  );
+
   /// Enter sends, Shift+Enter inserts newline.
   KeyEventResult _handleComposerFieldKeyEvent(FocusNode node, KeyEvent event) {
     if (event is! KeyDownEvent && event is! KeyRepeatEvent) {
@@ -606,7 +616,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       }
       return KeyEventResult.ignored;
     }
-    if (!_enterToSendEnabled) {
+    if (!_enterSends) {
       return KeyEventResult.ignored;
     }
     final KeyEventResult navResult = handleComposerAutocompleteKey(
@@ -747,6 +757,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                                   session: _slashSession,
                                   enabled: perms.isComposerEnabled,
                                   style: context.textStyles.inputText,
+                                  enterSends: _enterSends,
                                   onKeyEvent: (KeyEvent event) =>
                                       handleComposerAutocompleteKey(
                                         _composerFieldKey.currentState,
@@ -840,10 +851,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
 
   @override
   Widget build(BuildContext context) {
-    _enterToSendEnabled = composerHardwareEnterSends(
-      isWeb: kIsWeb,
-      isWideLayout: isWideLayout(context),
-    );
+    if (isFluxerNativeMobileOs) {
+      ref.watch(physicalKeyboardConnectedProvider);
+    }
     ref
       ..listen<String>(
         chatViewModelProvider.select((state) => state.messageText),
