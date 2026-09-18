@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/profile_tab_menu_sheet.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -35,6 +36,26 @@ class AppBottomNavBar extends ConsumerWidget {
     final items = _items(l10n);
     final UserSettingsViewState user = ref.watch(userSettingsViewModelProvider);
 
+    final Widget itemRow = Row(
+      children: [
+        for (var index = 0; index < items.length; index++)
+          Expanded(
+            child: _AppBottomNavItem(
+              config: items[index],
+              isSelected: currentIndex == index,
+              user: user,
+              onTap: () => onBranchSelected(index),
+              onLongPress: index == 2
+                  ? () {
+                      FluxerHaptics.medium();
+                      unawaited(ProfileTabMenuSheet.show(context, ref));
+                    }
+                  : null,
+            ),
+          ),
+      ],
+    );
+
     return Material(
       color: colors.backgroundSecondary,
       child: SafeArea(
@@ -44,24 +65,21 @@ class AppBottomNavBar extends ConsumerWidget {
             constraints: BoxConstraints(
               minHeight: context.layout.mobileBottomNavHeight,
             ),
-            child: Row(
-              children: [
-                for (var index = 0; index < items.length; index++)
-                  Expanded(
-                    child: _AppBottomNavItem(
-                      config: items[index],
-                      isSelected: currentIndex == index,
-                      user: user,
-                      onTap: () => onBranchSelected(index),
-                      onLongPress: index == 2
-                          ? () {
-                              FluxerHaptics.medium();
-                              unawaited(ProfileTabMenuSheet.show(context, ref));
-                            }
-                          : null,
-                    ),
-                  ),
-              ],
+            child: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                if (!isCompactWideMobileLayout(context) ||
+                    !constraints.hasBoundedWidth) {
+                  return itemRow;
+                }
+                final double peekWidth = mobileDrawerPeekWidth(context);
+                if (constraints.maxWidth <= peekWidth) {
+                  return itemRow;
+                }
+                return Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: SizedBox(width: peekWidth, child: itemRow),
+                );
+              },
             ),
           ),
         ),
