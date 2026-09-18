@@ -395,22 +395,28 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
               if (_usesPeekReveal()) {
                 final double t = _peekOverlayT();
                 if (t > 0) {
+                  Widget scrim = ColoredBox(
+                    key: kDrawerPeekInactiveScrimKey,
+                    color: Color.fromRGBO(
+                      0,
+                      0,
+                      0,
+                      kDrawerPeekInactiveScrimOpacity * t,
+                    ),
+                  );
+                  scrim = peek
+                      ? GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          excludeFromSemantics: true,
+                          onTap: () {
+                            unawaited(_moveToState(RevealSide.main));
+                          },
+                          child: scrim,
+                        )
+                      : IgnorePointer(child: scrim);
                   layer = Stack(
                     fit: StackFit.expand,
-                    children: <Widget>[
-                      layer,
-                      IgnorePointer(
-                        child: ColoredBox(
-                          key: kDrawerPeekInactiveScrimKey,
-                          color: Color.fromRGBO(
-                            0,
-                            0,
-                            0,
-                            kDrawerPeekInactiveScrimOpacity * t,
-                          ),
-                        ),
-                      ),
-                    ],
+                    children: <Widget>[layer, scrim],
                   );
                 }
               }

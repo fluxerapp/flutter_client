@@ -539,6 +539,156 @@ void main() {
     expect(_sliderScrimOpacity(tester), kDrawerPeekInactiveScrimOpacity);
   });
 
+  testWidgets('tapping peeked chat restores it without hitting content', (
+    tester,
+  ) async {
+    var sliderTaps = 0;
+    var baseTaps = 0;
+    final router = _routerFor(
+      '/channels/guild/channel',
+      harness: () => _drawerHarnessWithTaps(
+        onBaseTap: () => baseTaps++,
+        onSliderTap: () => sliderTaps++,
+      ),
+    );
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+    const Size compactWideSize = Size(984, 800);
+    const double peekWidth =
+        Breakpoints.guildListWidth + Breakpoints.channelSidebarWidth;
+
+    await tester.pumpWidget(
+      _buildDrawerApp(
+        container: container,
+        router: router,
+        size: compactWideSize,
+      ),
+    );
+    await tester.pump();
+
+    container.read(currentRevealSideProvider.notifier).set(RevealSide.left);
+    await tester.pumpAndSettle();
+
+    expect(_sliderDx(tester), peekWidth);
+
+    await tester.tapAt(const Offset(peekWidth + 80, 400));
+    await tester.pumpAndSettle();
+
+    expect(_sliderDx(tester), 0);
+    expect(sliderTaps, 0);
+    expect(baseTaps, 0);
+
+    await tester.tapAt(const Offset(200, 400));
+    await tester.pump();
+
+    expect(sliderTaps, 1);
+    expect(baseTaps, 0);
+  });
+
+  testWidgets('chat taps work while compact-wide chat is fully open', (
+    tester,
+  ) async {
+    var sliderTaps = 0;
+    var baseTaps = 0;
+    final router = _routerFor(
+      '/channels/guild/channel',
+      harness: () => _drawerHarnessWithTaps(
+        onBaseTap: () => baseTaps++,
+        onSliderTap: () => sliderTaps++,
+      ),
+    );
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(
+      _buildDrawerApp(
+        container: container,
+        router: router,
+        size: const Size(984, 800),
+      ),
+    );
+    await tester.pump();
+
+    expect(_sliderDx(tester), 0);
+
+    await tester.tapAt(const Offset(200, 400));
+    await tester.pump();
+
+    expect(sliderTaps, 1);
+    expect(baseTaps, 0);
+  });
+
+  testWidgets('tapping the peeked sidebar still reaches sidebar content', (
+    tester,
+  ) async {
+    var sliderTaps = 0;
+    var baseTaps = 0;
+    final router = _routerFor(
+      '/channels/guild/channel',
+      harness: () => _drawerHarnessWithTaps(
+        onBaseTap: () => baseTaps++,
+        onSliderTap: () => sliderTaps++,
+      ),
+    );
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+    const Size compactWideSize = Size(984, 800);
+    const double peekWidth =
+        Breakpoints.guildListWidth + Breakpoints.channelSidebarWidth;
+
+    await tester.pumpWidget(
+      _buildDrawerApp(
+        container: container,
+        router: router,
+        size: compactWideSize,
+      ),
+    );
+    await tester.pump();
+
+    container.read(currentRevealSideProvider.notifier).set(RevealSide.left);
+    await tester.pumpAndSettle();
+
+    expect(_sliderDx(tester), peekWidth);
+
+    await tester.tapAt(const Offset(40, 400));
+    await tester.pump();
+
+    expect(_sliderDx(tester), peekWidth);
+    expect(baseTaps, 1);
+    expect(sliderTaps, 0);
+  });
+
+  testWidgets('swiping peeked chat still restores full screen', (tester) async {
+    final router = _routerFor('/channels/guild/channel');
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+    const Size compactWideSize = Size(984, 800);
+    const double peekWidth =
+        Breakpoints.guildListWidth + Breakpoints.channelSidebarWidth;
+
+    await tester.pumpWidget(
+      _buildDrawerApp(
+        container: container,
+        router: router,
+        size: compactWideSize,
+      ),
+    );
+    await tester.pump();
+
+    container.read(currentRevealSideProvider.notifier).set(RevealSide.left);
+    await tester.pumpAndSettle();
+
+    expect(_sliderDx(tester), peekWidth);
+
+    await tester.dragFrom(
+      const Offset(peekWidth + 80, 400),
+      const Offset(-260, 0),
+    );
+    await tester.pumpAndSettle();
+
+    expect(_sliderDx(tester), 0);
+  });
+
   testWidgets('fully reveals when drawer is locked on compact-wide', (
     tester,
   ) async {
@@ -897,6 +1047,26 @@ Widget _drawerHarness() {
     snapBackDuration: Duration.zero,
     base: ColoredBox(color: Colors.blue),
     slider: ColoredBox(key: _sliderKey, color: Colors.red),
+  );
+}
+
+Widget _drawerHarnessWithTaps({
+  required VoidCallback onBaseTap,
+  required VoidCallback onSliderTap,
+}) {
+  return SidebarDrawer(
+    revealDuration: Duration.zero,
+    snapBackDuration: Duration.zero,
+    base: GestureDetector(
+      onTap: onBaseTap,
+      behavior: HitTestBehavior.opaque,
+      child: const ColoredBox(color: Colors.blue),
+    ),
+    slider: GestureDetector(
+      onTap: onSliderTap,
+      behavior: HitTestBehavior.opaque,
+      child: const ColoredBox(key: _sliderKey, color: Colors.red),
+    ),
   );
 }
 
