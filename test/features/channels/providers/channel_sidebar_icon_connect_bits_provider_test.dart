@@ -53,9 +53,6 @@ void main() {
           type: const Value(2),
         ),
       );
-      await db.memberDao.upsertMember(
-        MembersCompanion.insert(userId: userId, guildId: guildId),
-      );
 
       final ProviderContainer container = ProviderContainer(
         overrides: [
