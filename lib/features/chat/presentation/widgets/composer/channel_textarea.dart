@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:ui' show BoxWidthStyle;
 
 import 'package:flutter/foundation.dart';
@@ -28,6 +27,7 @@ import 'package:fluxer_app/features/chat/domain/cloud_composer_attachments.dart'
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/menus/composer_attach_source_menu.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_attachment_area.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/blocked_user_composer_barrier.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/channel_composer_barrier.dart';
@@ -118,10 +118,6 @@ const double _kTouchComposerActionSpacing = 8;
 const double _kDesktopComposerAttachIconSize = 26;
 const double _kWideComposerActionExtent = WideComposerLayout.actionButtonExtent;
 const double _kWideComposerIconSize = 24;
-
-bool _useMobileAttachmentSheet() {
-  return !kIsWeb && (Platform.isIOS || Platform.isAndroid);
-}
 
 Widget _composerOpacity({
   required BuildContext context,
@@ -380,7 +376,17 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         if (!mounted) {
           return;
         }
-        unawaited(_pickAttachments(context));
+        unawaited(
+          _pickAttachments(
+            source:
+                usesInlineAttachmentPanel(
+                  isNativeMobileOs: isFluxerNativeMobileOs,
+                  isMobileLayout: isMobileLayout(context),
+                )
+                ? ComposerAttachSource.gallery
+                : ComposerAttachSource.files,
+          ),
+        );
       },
       where: (ChatKeybindEffect effect) =>
           effect == ChatKeybindEffect.triggerUpload,
@@ -1465,18 +1471,23 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      _buildComposerActionButton(
-                        context: context,
-                        icon: touchActions
-                            ? PhosphorIconsBold.plus
-                            : PhosphorIconsFill.plusCircle,
-                        iconSize: touchActions
-                            ? 20
-                            : _kDesktopComposerAttachIconSize,
-                        tooltip: l10n.chatAttachmentSourceBrowse,
-                        onPressed: perms.isAttachEnabled
-                            ? () => _onAttachPressed(context)
-                            : null,
+                      Builder(
+                        builder: (BuildContext attachContext) {
+                          return _buildComposerActionButton(
+                            context: context,
+                            icon: touchActions
+                                ? PhosphorIconsBold.plus
+                                : PhosphorIconsFill.plusCircle,
+                            iconSize: touchActions
+                                ? 20
+                                : _kDesktopComposerAttachIconSize,
+                            tooltip: l10n.chatAttachmentSourceBrowse,
+                            onPressed: perms.isAttachEnabled
+                                ? () =>
+                                      unawaited(_onAttachPressed(attachContext))
+                                : null,
+                          );
+                        },
                       ),
                       SizedBox(width: leadingGap),
                     ],
@@ -1845,7 +1856,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                                   context,
                                 ).chatAttachmentSourceBrowse,
                           onPressed: perms.isAttachEnabled
-                              ? () => _onAttachPressed(context)
+                              ? () => unawaited(_onAttachPressed(context))
                               : null,
                         ),
                       ),
@@ -2385,7 +2396,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     final MobileKeyboardMetricsState metrics = ref.read(
       mobileKeyboardMetricsProvider,
     );
-    if (metrics.isKeyboardVisible) {
+    if (metrics.isKeyboardVisible &&
+        isImeKeyboardHeight(metrics.liveKeyboardHeight)) {
       final double grossLock = resolveTransitionLockHeight(
         liveKeyboardHeight: metrics.liveKeyboardHeight,
         anchorHeight: metrics.resolveAnchorHeight(),
@@ -2396,19 +2408,29 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     }
   }
 
-  void _onAttachPressed(BuildContext context) {
-    if (!_useMobileAttachmentSheet()) {
-      unawaited(_pickAttachments(context));
+  Future<void> _onAttachPressed(BuildContext context) async {
+    if (usesInlineAttachmentPanel(
+      isNativeMobileOs: isFluxerNativeMobileOs,
+      isMobileLayout: isMobileLayout(context),
+    )) {
+      if (ref.read(attachmentPanelProvider)) {
+        _closeComposerPanelsAndFocusComposer();
+        return;
+      }
+      _prepareComposerPanelFromKeyboard();
+      ref.read(expressionPanelProvider.notifier).close();
+      ref.read(attachmentPanelProvider.notifier).open();
+      FocusScope.of(context).unfocus();
       return;
     }
-    if (ref.read(attachmentPanelProvider)) {
-      _closeComposerPanelsAndFocusComposer();
+    ref.read(attachmentPanelProvider.notifier).close();
+    final ComposerAttachSource? source = await showComposerAttachSourceMenu(
+      context,
+    );
+    if (source == null || !mounted) {
       return;
     }
-    _prepareComposerPanelFromKeyboard();
-    ref.read(expressionPanelProvider.notifier).close();
-    ref.read(attachmentPanelProvider.notifier).open();
-    FocusScope.of(context).unfocus();
+    await _pickAttachments(source: source);
   }
 
   void _focusComposerAfterReplyOrEdit({required bool forEdit}) {
@@ -2493,16 +2515,18 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     }
   }
 
-  Future<void> _pickAttachments(BuildContext context) async {
-    if (_useMobileAttachmentSheet()) {
-      final String channelId = ref.read(chatViewModelProvider).channelId;
-      final int limit = remainingAttachmentPickLimit(
-        ref.read(cloudUploadControllerProvider(channelId)).items.length,
-      );
-      await _addPickedFiles(await pickNativeGalleryUploads(limit: limit));
-      return;
-    }
-    await _addPickedFiles(await pickNativeFileUploads());
+  Future<void> _pickAttachments({required ComposerAttachSource source}) async {
+    final String channelId = ref.read(chatViewModelProvider).channelId;
+    final int limit = remainingAttachmentPickLimit(
+      ref.read(cloudUploadControllerProvider(channelId)).items.length,
+    );
+    final List<ComposerUploadFile> files = switch (source) {
+      ComposerAttachSource.gallery => await pickNativeGalleryUploads(
+        limit: limit,
+      ),
+      ComposerAttachSource.files => await pickNativeFileUploads(),
+    };
+    await _addPickedFiles(files);
   }
 
   void _toastUploadValidation(FileUploadValidationResult result) {

@@ -33,4 +33,33 @@ void main() {
       );
     });
   });
+
+  group('usesInlineAttachmentPanel', () {
+    test('is true on native mobile layout', () {
+      expect(
+        usesInlineAttachmentPanel(isNativeMobileOs: true, isMobileLayout: true),
+        isTrue,
+      );
+    });
+
+    test('is false on tablet or desktop layout', () {
+      expect(
+        usesInlineAttachmentPanel(
+          isNativeMobileOs: true,
+          isMobileLayout: false,
+        ),
+        isFalse,
+      );
+    });
+
+    test('is false on desktop OS even in a compact window', () {
+      expect(
+        usesInlineAttachmentPanel(
+          isNativeMobileOs: false,
+          isMobileLayout: true,
+        ),
+        isFalse,
+      );
+    });
+  });
 }

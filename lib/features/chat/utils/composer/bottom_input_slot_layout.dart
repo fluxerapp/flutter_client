@@ -12,6 +12,7 @@ enum InlineExpressionPanelSnapTarget { close, anchor, expanded }
 
 const double kKeyboardHeightQuantizeThreshold = 1;
 const double kKeyboardAnchorPersistThreshold = 4;
+const double kMinImeKeyboardHeight = 120;
 const double kInlineExpressionPanelAnchorMagneticFraction = 0.12;
 const double kInlineExpressionPanelDismissHeightFraction = 0.55;
 const double kInlineExpressionPanelExpandedSnapMidpointFraction =
@@ -40,11 +41,16 @@ double fallbackKeyboardHeightForScreen({
   );
 }
 
+bool isImeKeyboardHeight(double height) {
+  return height >= kMinImeKeyboardHeight;
+}
+
 double inlineExpressionPanelAnchorHeight({
   required double? anchoredKeyboardHeight,
   required double fallbackHeight,
 }) {
-  if (anchoredKeyboardHeight != null && anchoredKeyboardHeight > 0) {
+  if (anchoredKeyboardHeight != null &&
+      isImeKeyboardHeight(anchoredKeyboardHeight)) {
     return anchoredKeyboardHeight;
   }
   return fallbackHeight;
@@ -206,7 +212,7 @@ double resolveNextAnchoredKeyboardHeight({
   required double nextHeight,
   required bool nextVisible,
 }) {
-  if (!nextVisible || nextHeight <= 0) {
+  if (!nextVisible || !isImeKeyboardHeight(nextHeight)) {
     return currentAnchored ?? 0;
   }
   return math.max(currentAnchored ?? 0, nextHeight);

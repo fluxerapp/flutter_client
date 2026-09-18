@@ -131,7 +131,7 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
         ? _kPortraitAnchorHeightKey
         : _kLandscapeAnchorHeightKey;
     final double stored = preferences.getDouble(key) ?? 0;
-    if (stored <= 0) {
+    if (!isImeKeyboardHeight(stored)) {
       return null;
     }
     return stored;
@@ -246,7 +246,7 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
   }
 
   void captureKeyboardAnchor(double height) {
-    if (!ref.mounted || height <= 0) {
+    if (!ref.mounted || !isImeKeyboardHeight(height)) {
       return;
     }
     final double next = math.max(height, state.anchoredKeyboardHeight ?? 0);

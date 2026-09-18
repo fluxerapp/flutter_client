@@ -175,4 +175,55 @@ void main() {
       },
     );
   });
+
+  test('shortcut bar insets do not become the panel anchor', () async {
+    final ProviderContainer container = ProviderContainer();
+    addTearDown(container.dispose);
+    container
+      ..listen(mobileKeyboardMetricsProvider, (_, _) {})
+      ..listen(bottomInputSlotProvider, (_, _) {});
+    await Future<void>.value();
+
+    container.read(mobileKeyboardMetricsProvider.notifier)
+      ..updateLayout(screenHeight: 800, isPortrait: true, isIos: true)
+      ..syncViewInsets(55, safeAreaBottom: 0)
+      ..captureKeyboardAnchor(55);
+
+    expect(
+      container.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
+      55,
+    );
+    expect(
+      container.read(mobileKeyboardMetricsProvider).isKeyboardVisible,
+      isTrue,
+    );
+    expect(
+      container.read(mobileKeyboardMetricsProvider).anchoredKeyboardHeight,
+      isNull,
+    );
+    expect(
+      container.read(mobileKeyboardMetricsProvider).resolveAnchorHeight(),
+      kIosFallbackKeyboardHeight,
+    );
+  });
+
+  test('ignores a persisted shortcut-bar anchor', () async {
+    SharedPreferences.setMockInitialValues(<String, Object>{
+      'mobile_keyboard_anchor_height_portrait': 55.0,
+    });
+    final ProviderContainer container = ProviderContainer();
+    addTearDown(container.dispose);
+    container.listen(mobileKeyboardMetricsProvider, (_, _) {});
+    await Future<void>.value();
+    await Future<void>.delayed(Duration.zero);
+
+    expect(
+      container.read(mobileKeyboardMetricsProvider).anchoredKeyboardHeight,
+      isNull,
+    );
+    expect(
+      container.read(mobileKeyboardMetricsProvider).resolveAnchorHeight(),
+      kIosFallbackKeyboardHeight,
+    );
+  });
 }

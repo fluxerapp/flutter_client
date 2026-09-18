@@ -4,3 +4,10 @@ bool isComposerPanelOpen({
 }) {
   return expressionPanelOpen || attachmentPanelOpen;
 }
+
+bool usesInlineAttachmentPanel({
+  required bool isNativeMobileOs,
+  required bool isMobileLayout,
+}) {
+  return isNativeMobileOs && isMobileLayout;
+}
