@@ -124,14 +124,31 @@ bool _useMobileAttachmentSheet() {
 }
 
 Widget _composerOpacity({
+  required BuildContext context,
   required bool enabled,
   required Widget child,
   Key? key,
 }) {
-  return Opacity(
+  return AnimatedOpacity(
     key: key,
     opacity: enabled ? 1 : _kComposerDisabledOpacity,
+    duration: context.motion.panel,
+    curve: context.motion.curve,
     child: child,
+  );
+}
+
+Widget _composerSlot({
+  required BuildContext context,
+  required bool visible,
+  required Alignment alignment,
+  required Widget child,
+}) {
+  return AnimatedSize(
+    duration: context.motion.panel,
+    curve: context.motion.curve,
+    alignment: alignment,
+    child: visible ? child : const SizedBox.shrink(),
   );
 }
 
@@ -176,6 +193,7 @@ InputDecoration _composerTouchInputDecoration({
     hintText: hintText,
     hintMaxLines: 1,
     hintStyle: _composerInputHintStyle(context, enabled: enabled),
+    hintFadeDuration: context.motion.panel,
     filled: true,
     fillColor: context.colors.backgroundTertiary,
     contentPadding:
@@ -303,6 +321,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             onPressed: onPressed,
           );
     final Widget wrapped = _composerOpacity(
+      context: context,
       enabled: onPressed != null,
       child: button,
     );
@@ -525,6 +544,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (ref.read(chatViewModelProvider).editingMessage != null) {
       chatNotifier.cancelEdit();
     }
+    ref.read(expressionPanelProvider.notifier).close();
+    ref.read(attachmentPanelProvider.notifier).close();
   }
 
   Future<void> _handleUnblock(
@@ -746,6 +767,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                   clipBehavior: Clip.none,
                   children: [
                     _composerOpacity(
+                      context: context,
                       enabled: perms.isComposerEnabled,
                       child: Semantics(
                         label: _resolveHintText(),
@@ -1001,6 +1023,20 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         }
       },
     );
+    ref.listen(channelMessagePermissionsProvider(channelId), (
+      AsyncValue<ChannelMessagePermissions>? previous,
+      AsyncValue<ChannelMessagePermissions> next,
+    ) {
+      final bool wasEnabled = channelMessagePermissionsForComposer(
+        previous ?? const AsyncValue<ChannelMessagePermissions>.loading(),
+      ).isComposerEnabled;
+      final bool isEnabled = channelMessagePermissionsForComposer(
+        next,
+      ).isComposerEnabled;
+      if (wasEnabled && !isEnabled) {
+        _clearComposerForBlockedAccess();
+      }
+    });
 
     final GuildComposerAccess composerAccess = composerAccessAsync.when(
       skipLoadingOnReload: true,
@@ -1381,6 +1417,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
               context,
               enabled: composerEnabled,
             ),
+            hintFadeDuration: context.motion.panel,
             filled: false,
             border: InputBorder.none,
             enabledBorder: InputBorder.none,
@@ -1421,22 +1458,30 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
-                if (perms.canShowAttachControls) ...<Widget>[
-                  _buildComposerActionButton(
-                    context: context,
-                    icon: touchActions
-                        ? PhosphorIconsBold.plus
-                        : PhosphorIconsFill.plusCircle,
-                    iconSize: touchActions
-                        ? 20
-                        : _kDesktopComposerAttachIconSize,
-                    tooltip: l10n.chatAttachmentSourceBrowse,
-                    onPressed: perms.isAttachEnabled
-                        ? () => _onAttachPressed(context)
-                        : null,
+                _composerSlot(
+                  context: context,
+                  visible: perms.canShowAttachControls,
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      _buildComposerActionButton(
+                        context: context,
+                        icon: touchActions
+                            ? PhosphorIconsBold.plus
+                            : PhosphorIconsFill.plusCircle,
+                        iconSize: touchActions
+                            ? 20
+                            : _kDesktopComposerAttachIconSize,
+                        tooltip: l10n.chatAttachmentSourceBrowse,
+                        onPressed: perms.isAttachEnabled
+                            ? () => _onAttachPressed(context)
+                            : null,
+                      ),
+                      SizedBox(width: leadingGap),
+                    ],
                   ),
-                  SizedBox(width: leadingGap),
-                ],
+                ),
                 Expanded(
                   child: _buildComposerField(
                     context: context,
@@ -1471,12 +1516,17 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                       spacing: touchActions ? _kTouchComposerActionSpacing : 4,
                       children: <Widget>[
                         if (!hasSendable)
-                          _buildLargeExpressionPickerActions(
+                          _composerSlot(
                             context: context,
-                            channelId: channelId,
-                            perms: perms,
-                            composerButtonTabs: composerButtonTabs,
-                            popoutTabs: popoutTabs,
+                            visible: composerButtonTabs.isNotEmpty,
+                            alignment: Alignment.centerRight,
+                            child: _buildLargeExpressionPickerActions(
+                              context: context,
+                              channelId: channelId,
+                              perms: perms,
+                              composerButtonTabs: composerButtonTabs,
+                              popoutTabs: popoutTabs,
+                            ),
                           ),
                         if (!touchActions)
                           VerticalDivider(
@@ -1773,27 +1823,36 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
-                if (perms.canShowAttachControls) ...<Widget>[
-                  _composerOpacity(
-                    enabled: perms.isAttachEnabled,
-                    child: FluxerButton.circleAlt(
-                      icon: isAttachmentPanelOpen
-                          ? PhosphorIconsBold.x
-                          : PhosphorIconsBold.plus,
-                      semanticLabel: isAttachmentPanelOpen
-                          ? FluxerLocalizations.of(
-                              context,
-                            ).composerCloseAttachmentPanel
-                          : FluxerLocalizations.of(
-                              context,
-                            ).chatAttachmentSourceBrowse,
-                      onPressed: perms.isAttachEnabled
-                          ? () => _onAttachPressed(context)
-                          : null,
-                    ),
+                _composerSlot(
+                  context: context,
+                  visible: perms.canShowAttachControls,
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      _composerOpacity(
+                        context: context,
+                        enabled: perms.isAttachEnabled,
+                        child: FluxerButton.circleAlt(
+                          icon: isAttachmentPanelOpen
+                              ? PhosphorIconsBold.x
+                              : PhosphorIconsBold.plus,
+                          semanticLabel: isAttachmentPanelOpen
+                              ? FluxerLocalizations.of(
+                                  context,
+                                ).composerCloseAttachmentPanel
+                              : FluxerLocalizations.of(
+                                  context,
+                                ).chatAttachmentSourceBrowse,
+                          onPressed: perms.isAttachEnabled
+                              ? () => _onAttachPressed(context)
+                              : null,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                    ],
                   ),
-                  const SizedBox(width: 8),
-                ],
+                ),
                 Expanded(
                   child: _buildComposerField(
                     context: context,
@@ -2394,6 +2453,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
 
     return _composerOpacity(
+      context: context,
       enabled: perms.isComposerEnabled,
       child: FluxerButton.ghost(
         icon: isPanelOpen

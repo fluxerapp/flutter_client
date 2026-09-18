@@ -296,47 +296,52 @@ void main() {
   });
 
   group('ChannelPermissionCache', () {
-    test('does not cache bits when guild list is not hydrated', () async {
-      final FluxerDatabase db = openTestDatabase();
-      const String guildId = 'guild_1';
-      const String channelId = 'channel_1';
-      const String userId = 'user_1';
-      await db.guildDao.upsertServer(
-        ServersCompanion.insert(id: guildId, name: 'Guild'),
-      );
-      await db.channelDao.upsertChannel(
-        ChannelsCompanion.insert(
-          id: channelId,
-          guildId: guildId,
-          name: 'general',
-        ),
-      );
-      await db.memberDao.upsertMember(
-        MembersCompanion.insert(userId: userId, guildId: guildId),
-      );
-
-      final ProviderContainer container = ProviderContainer(
-        overrides: [
-          fluxerDatabaseProvider.overrideWithValue(db),
-          guildListViewModelProvider.overrideWith(_EmptyGuildListViewModel.new),
-          userSettingsViewModelProvider.overrideWith(
-            () => _FixedUserSettingsViewModel(userId),
+    test(
+      'caches bits from local server row when guild list is empty',
+      () async {
+        final FluxerDatabase db = openTestDatabase();
+        const String guildId = 'guild_1';
+        const String channelId = 'channel_1';
+        const String userId = 'user_1';
+        await db.guildDao.upsertServer(
+          ServersCompanion.insert(id: guildId, name: 'Guild'),
+        );
+        await db.channelDao.upsertChannel(
+          ChannelsCompanion.insert(
+            id: channelId,
+            guildId: guildId,
+            name: 'general',
           ),
-        ],
-      );
-      addTearDown(container.dispose);
+        );
+        await db.memberDao.upsertMember(
+          MembersCompanion.insert(userId: userId, guildId: guildId),
+        );
 
-      await container
-          .read(channelPermissionCacheProvider.notifier)
-          .rebuildChannel(channelId);
+        final ProviderContainer container = ProviderContainer(
+          overrides: [
+            fluxerDatabaseProvider.overrideWithValue(db),
+            guildListViewModelProvider.overrideWith(
+              _EmptyGuildListViewModel.new,
+            ),
+            userSettingsViewModelProvider.overrideWith(
+              () => _FixedUserSettingsViewModel(userId),
+            ),
+          ],
+        );
+        addTearDown(container.dispose);
 
-      expect(
-        container
+        await container
             .read(channelPermissionCacheProvider.notifier)
-            .getChannelBits(channelId),
-        equals(null),
-      );
-    });
+            .rebuildChannel(channelId);
+
+        expect(
+          container
+              .read(channelPermissionCacheProvider.notifier)
+              .getChannelBits(channelId),
+          isNotNull,
+        );
+      },
+    );
 
     test('does not cache bits when member row is missing', () async {
       final FluxerDatabase db = openTestDatabase();
@@ -426,6 +431,63 @@ void main() {
       expect(outcome.shouldCache, isFalse);
       expect(outcome.value, 0);
     });
+
+    test(
+      'resolves view-only send deny from local rows while guild list is empty',
+      () async {
+        final FluxerDatabase db = openTestDatabase();
+        const String guildId = 'guild_1';
+        const String channelId = 'channel_1';
+        const String userId = 'user_1';
+        await db.guildDao.upsertServer(
+          ServersCompanion.insert(id: guildId, name: 'Guild'),
+        );
+        await db.channelDao.upsertChannel(
+          ChannelsCompanion.insert(
+            id: channelId,
+            guildId: guildId,
+            name: 'announcements',
+          ),
+        );
+        await db.roleDao.upsertRoles([
+          RolesCompanion.insert(
+            id: guildId,
+            guildId: guildId,
+            name: '@everyone',
+            permissions: Value(Permission.viewChannel.value.toString()),
+          ),
+        ]);
+        await db.memberDao.upsertMember(
+          MembersCompanion.insert(userId: userId, guildId: guildId),
+        );
+
+        final ProviderContainer container = ProviderContainer(
+          overrides: [
+            fluxerDatabaseProvider.overrideWithValue(db),
+            guildListViewModelProvider.overrideWith(
+              _EmptyGuildListViewModel.new,
+            ),
+            userSettingsViewModelProvider.overrideWith(
+              () => _FixedUserSettingsViewModel(userId),
+            ),
+          ],
+        );
+        addTearDown(container.dispose);
+
+        final ChannelPermissionBitsOutcome outcome = await container.read(
+          FutureProvider<ChannelPermissionBitsOutcome>(
+            (Ref ref) => computeEffectiveGuildChannelPermissionBitsOutcome(
+              ref: ref,
+              channelId: channelId,
+            ),
+          ).future,
+        );
+
+        expect(outcome.shouldCache, isTrue);
+        expect(hasPermission(outcome.value, Permission.viewChannel), isTrue);
+        expect(hasPermission(outcome.value, Permission.sendMessages), isFalse);
+      },
+    );
 
     test('returns shouldCache false when member row is missing', () async {
       final FluxerDatabase db = openTestDatabase();
@@ -660,5 +722,67 @@ void main() {
       expect(perms.isComposerEnabled, isFalse);
       expect(perms.showsNoSendPermissionHint, isTrue);
     });
+
+    test(
+      'denies send after restart when guild list has not emitted yet',
+      () async {
+        final FluxerDatabase db = openTestDatabase();
+        const String guildId = 'guild_1';
+        const String channelId = 'channel_1';
+        const String userId = 'user_1';
+        await db.guildDao.upsertServer(
+          ServersCompanion.insert(id: guildId, name: 'Guild'),
+        );
+        await db.channelDao.upsertChannel(
+          ChannelsCompanion.insert(
+            id: channelId,
+            guildId: guildId,
+            name: 'announcements',
+          ),
+        );
+        await db.roleDao.upsertRoles([
+          RolesCompanion.insert(
+            id: guildId,
+            guildId: guildId,
+            name: '@everyone',
+            permissions: Value(Permission.viewChannel.value.toString()),
+          ),
+        ]);
+        await db.memberDao.upsertMember(
+          MembersCompanion.insert(userId: userId, guildId: guildId),
+        );
+
+        final ProviderContainer container = ProviderContainer(
+          overrides: [
+            fluxerDatabaseProvider.overrideWithValue(db),
+            dmViewModelProvider.overrideWith(_EmptyDmViewModel.new),
+            currentUserIdProvider.overrideWithValue(userId),
+            guildListViewModelProvider.overrideWith(
+              _EmptyGuildListViewModel.new,
+            ),
+            userSettingsViewModelProvider.overrideWith(
+              () => _FixedUserSettingsViewModel(userId),
+            ),
+          ],
+        );
+        addTearDown(container.dispose);
+
+        final ProviderSubscription<AsyncValue<ChannelMessagePermissions>> sub =
+            container.listen(
+              channelMessagePermissionsProvider(channelId),
+              (_, _) {},
+            );
+        addTearDown(sub.close);
+
+        final ChannelMessagePermissions perms = await container.read(
+          channelMessagePermissionsProvider(channelId).future,
+        );
+
+        expect(perms.isResolved, isTrue);
+        expect(perms.canSendMessages, isFalse);
+        expect(perms.isComposerEnabled, isFalse);
+        expect(perms.showsNoSendPermissionHint, isTrue);
+      },
+    );
   });
 }

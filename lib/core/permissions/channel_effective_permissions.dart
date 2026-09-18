@@ -23,6 +23,27 @@ bool bypassesChannelSlowmode(ChannelPermissionBitsOutcome? outcome) {
   return bypassesSlowmode(outcome.value);
 }
 
+Future<Guild?> _guildForPermissionResolution({
+  required Ref ref,
+  required FluxerDatabase db,
+  required String guildId,
+}) async {
+  final List<Guild> guilds = ref.read(guildListViewModelProvider).guilds;
+  for (final Guild g in guilds) {
+    if (g.id == guildId) {
+      return g;
+    }
+  }
+  if (guilds.isNotEmpty) {
+    return null;
+  }
+  final Server? row = await db.guildDao.getServerById(guildId);
+  if (row == null) {
+    return null;
+  }
+  return Guild.fromRow(row);
+}
+
 Future<ChannelPermissionBitsOutcome>
 computeEffectiveGuildChannelPermissionBitsOutcome({
   required Ref ref,
@@ -41,13 +62,13 @@ computeEffectiveGuildChannelPermissionBitsOutcome({
     return (value: 0, shouldCache: true);
   }
   final String guildId = channelRow.guildId;
-  final List<Guild> guilds = ref.read(guildListViewModelProvider).guilds;
-  Guild? guild;
-  for (final Guild g in guilds) {
-    if (g.id == guildId) {
-      guild = g;
-      break;
-    }
+  final Guild? guild = await _guildForPermissionResolution(
+    ref: ref,
+    db: db,
+    guildId: guildId,
+  );
+  if (!ref.mounted) {
+    return (value: 0, shouldCache: false);
   }
   if (guild == null) {
     return (value: 0, shouldCache: false);
@@ -142,13 +163,13 @@ computeChannelLocalGuildChannelPermissionBitsOutcome({
   if (guildId.isEmpty) {
     return (value: allPermissions, shouldCache: true);
   }
-  final List<Guild> guilds = ref.read(guildListViewModelProvider).guilds;
-  Guild? guild;
-  for (final Guild g in guilds) {
-    if (g.id == guildId) {
-      guild = g;
-      break;
-    }
+  final Guild? guild = await _guildForPermissionResolution(
+    ref: ref,
+    db: db,
+    guildId: guildId,
+  );
+  if (!ref.mounted) {
+    return (value: 0, shouldCache: false);
   }
   if (guild == null) {
     return (value: 0, shouldCache: false);

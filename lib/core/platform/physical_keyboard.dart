@@ -4,9 +4,7 @@ const EventChannel _physicalKeyboardChannel = EventChannel(
   'fluxer_app/physical_keyboard',
 );
 
-Stream<bool> watchPhysicalKeyboardConnected({
-  required bool supported,
-}) {
+Stream<bool> watchPhysicalKeyboardConnected({required bool supported}) {
   if (!supported) {
     return Stream<bool>.value(false);
   }

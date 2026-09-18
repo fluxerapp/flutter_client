@@ -66,7 +66,6 @@ class ChannelMessagePermissions {
 
   bool get showsNoSendPermissionHint => isResolved && !canSendMessages;
 
-  /// Attach controls follow the same send gate as the text field
   bool get canShowAttachControls =>
       isComposerEnabled && (!isResolved || canAttachFiles);
 

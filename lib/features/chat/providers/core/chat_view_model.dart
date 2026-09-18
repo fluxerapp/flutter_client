@@ -4972,24 +4972,26 @@ class ChatViewModel extends _$ChatViewModel {
             ref: ref,
             channelId: channelId,
           );
-      if (permissionOutcome.shouldCache) {
-        ref
-            .read(channelPermissionCacheProvider.notifier)
-            .cacheEffectiveBits(
-              channelId: channelId,
-              outcome: permissionOutcome,
-            );
-        final bool canSendMessages = hasPermission(
-          permissionOutcome.value,
-          Permission.sendMessages,
+      if (!permissionOutcome.shouldCache) {
+        talker.debug(
+          '[ChatViewModel] send blocked: permissions_unresolved channelId=$channelId',
         );
-        if (!canSendMessages) {
-          talker.debug(
-            '[ChatViewModel] send blocked: no_permission channelId=$channelId',
-          );
-          _notifySendBlocked(_SendBlockReason.noPermission);
-          return;
-        }
+        _notifySendBlocked(_SendBlockReason.channelNotReady);
+        return;
+      }
+      ref
+          .read(channelPermissionCacheProvider.notifier)
+          .cacheEffectiveBits(channelId: channelId, outcome: permissionOutcome);
+      final bool canSendMessages = hasPermission(
+        permissionOutcome.value,
+        Permission.sendMessages,
+      );
+      if (!canSendMessages) {
+        talker.debug(
+          '[ChatViewModel] send blocked: no_permission channelId=$channelId',
+        );
+        _notifySendBlocked(_SendBlockReason.noPermission);
+        return;
       }
     }
     final rateLimit = channelRow?.rateLimitPerUser ?? 0;
