@@ -646,18 +646,27 @@ void main() {
             chatViewModel: harness.chatViewModel,
           ),
         );
-        await pumpFluxerFrames(tester);
+        await tester.pump();
         await tester.pump();
 
+        final Finder newest = messageItemFor(harness.newestLoadedId);
+        expect(newest, findsOneWidget);
         final ScrollPosition position = messageListScrollPosition(tester);
         expect(
           position.pixels,
           moreOrLessEquals(position.maxScrollExtent, epsilon: 1),
-          reason: 'read bottom open must scroll into the trailing inset',
+          reason:
+              'read bottom open must sit in the trailing inset on first layout',
+        );
+        final double firstNewestTop = tester.getRect(newest).top;
+        await tester.pump();
+        expect(
+          tester.getRect(newest).top,
+          moreOrLessEquals(firstNewestTop, epsilon: 1),
+          reason:
+              'trailing inset must not lift the newest row after first layout',
         );
 
-        final Finder newest = messageItemFor(harness.newestLoadedId);
-        expect(newest, findsOneWidget);
         final Rect viewport = tester.getRect(messageListScrollable());
         final Rect newestRect = tester.getRect(newest);
         expect(

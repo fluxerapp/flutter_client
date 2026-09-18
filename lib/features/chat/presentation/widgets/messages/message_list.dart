@@ -197,7 +197,8 @@ class MessageList extends ConsumerStatefulWidget {
 }
 
 class _MessageListState extends ConsumerState<MessageList> {
-  final ScrollController _scrollController = ScrollController();
+  final _LiveTailScrollController _scrollController =
+      _LiveTailScrollController();
   final GlobalKey _unreadCenterKey = GlobalKey();
   late final MessageListDemandSource _demandSource;
 
@@ -637,7 +638,6 @@ class _MessageListState extends ConsumerState<MessageList> {
         _anchorEpoch++;
         _pin.pinned = false;
         _followDisarmed = false;
-        var settledReadTailOpen = false;
         if (canAnchorUnread) {
           // Unread open: the split falls BEFORE the first unread's stream
           // item, so the NEW divider - rendered at the top of that tile,
@@ -663,16 +663,12 @@ class _MessageListState extends ConsumerState<MessageList> {
           _anchorFraction = 1;
           _anchorEdge = MessageListAnchorEdge.after;
           if (!hasMoreNewerMessages) {
-            // A bottom-anchored open at the live tail starts pinned.
             _pin.onJumpToPresentLanded();
-            _settlePinnedTailScroll();
-            settledReadTailOpen = true;
+            _scrollController.armedInitialOffset = _statusOverlayInset;
           }
         }
         _expandScrollCacheNow();
-        if (!settledReadTailOpen) {
-          _scheduleBottomViewportSync();
-        }
+        _scheduleBottomViewportSync();
       }
     }
     if (!isLoading && _messagesWereLoading && _anchorResolved) {
@@ -984,7 +980,7 @@ class _MessageListState extends ConsumerState<MessageList> {
                     isLoadingNewer: isLoadingNewer,
                     onPointerDown: _onViewportPointerDown,
                     onPointerUp: _onViewportPointerUp,
-                    trailingInset: _statusOverlayInset(context),
+                    trailingInset: _statusOverlayInset,
                     liveLeadingPad: _unreadOpenLayout ? _openPad : null,
                     startOfChannelHeader: startOfChannelHeader,
                   ),
@@ -1189,6 +1185,9 @@ class _MessageListState extends ConsumerState<MessageList> {
     required MessageListAnchorEdge edge,
     bool rebase = false,
   }) {
+    if (!rebase && fraction >= 1.0 && edge == MessageListAnchorEdge.after) {
+      _scrollController.armedInitialOffset = _statusOverlayInset;
+    }
     setState(() {
       _anchorId = anchorId;
       _anchorFraction = fraction;
@@ -1417,7 +1416,7 @@ class _MessageListState extends ConsumerState<MessageList> {
         : newest.localToGlobal(Offset(0, newest.size.height)).dy;
     final double filledBelow =
         (trailingBottom - firstUnreadTop).clamp(0, viewportHeight) +
-        _statusOverlayInset(context);
+        _statusOverlayInset;
     final double nextFraction = _unreadOpenFraction(
       newestLaidOut: newest != null,
       hasMoreNewer: state.hasMoreNewerMessages,
@@ -1557,7 +1556,7 @@ class _MessageListState extends ConsumerState<MessageList> {
   double _centerLeadingDistance(ScrollPosition position) =>
       position.pixels - position.minScrollExtent - _leadingFillerExtent;
 
-  double _statusOverlayInset(BuildContext context) => isMobileLayout(context)
+  double get _statusOverlayInset => isMobileLayout(context)
       ? _kMessageListStatusOverlayInsetMobile
       : _kMessageListStatusOverlayInsetWide;
 
@@ -1569,7 +1568,7 @@ class _MessageListState extends ConsumerState<MessageList> {
   double _rawTrailingDistance(ScrollPosition position) =>
       position.maxScrollExtent -
       position.pixels -
-      _statusOverlayInset(context) -
+      _statusOverlayInset -
       _trailingFillerExtent;
 
   /// Scroll offset of the newest loaded row's trailing edge: the live-tail
@@ -1968,7 +1967,7 @@ class _MessageListState extends ConsumerState<MessageList> {
   }
 
   /// Re-center policy: a pinned reader with a deep trailing run re-anchors
-  /// to the newest message, then settles into the trailing inset.
+  /// to the newest message.
   void _maybeRecenterPinnedTail(List<Message> messages) {
     final String? anchor = _anchorId;
     if (messages.isEmpty) {
@@ -1996,7 +1995,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
     if (trailing > _kPinnedRecenterTrailingThreshold) {
       _reanchor(newestId, 1, edge: MessageListAnchorEdge.after);
-      _settlePinnedTailScroll();
     }
   }
 
@@ -2301,19 +2299,15 @@ class _MessageListState extends ConsumerState<MessageList> {
       _requestJumpToLatest();
       return;
     }
-    _followDisarmed = false;
-    _pin.onJumpToPresentLanded();
     final List<Message> messages = chatState.messages;
     final String? newestId = messages.isEmpty ? null : messages.last.id;
-    final bool alreadyAtLiveTail =
-        !_unreadOpenLayout &&
-        _anchorFraction >= 1.0 &&
-        _anchorEdge == MessageListAnchorEdge.after &&
-        _anchorId == newestId;
-    if (!alreadyAtLiveTail) {
-      _reanchor(newestId, 1, edge: MessageListAnchorEdge.after);
+    if (_parkedAtLiveTail && _anchorId == newestId) {
+      _followDisarmed = false;
+      _pin.onJumpToPresentLanded();
+      _schedulePinnedTailGlue(ignorePin: true);
+      return;
     }
-    _settlePinnedTailScroll(ignorePin: true);
+    _landAtLatestTail(messages);
   }
 
   /// Only glue can have produced this request: the reader left the tail and
@@ -2408,9 +2402,6 @@ class _MessageListState extends ConsumerState<MessageList> {
     });
   }
 
-  void _settlePinnedTailScroll({bool ignorePin = false}) =>
-      _schedulePinnedTailGlue(ignorePin: ignorePin);
-
   void _jumpToLiveTailExtent(ScrollPosition position) {
     final double tail = _loadedTailExtent(position);
     if (position.pixels < tail) {
@@ -2418,20 +2409,20 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
   }
 
+  bool get _parkedAtLiveTail =>
+      !_unreadOpenLayout &&
+      _anchorFraction >= 1.0 &&
+      _anchorEdge == MessageListAnchorEdge.after;
+
   bool _shouldRelandLiveTail(List<Message> next) {
     return _pin.pinned &&
         _anchorResolved &&
-        !_unreadOpenLayout &&
-        _anchorFraction >= 1.0 &&
-        _anchorEdge == MessageListAnchorEdge.after &&
+        _parkedAtLiveTail &&
         next.isNotEmpty &&
         _anchorId != next.last.id;
   }
 
-  // Coordinates the latest-window replacement with its tail landing.
   void _landAtLatestTail(List<Message> next) {
-    // Jump-to-present landing: re-anchor to the newest at the bottom, engage
-    // the pin, then settle into the trailing inset.
     _pin.onJumpToPresentLanded();
     _followDisarmed = false;
     _reanchor(
@@ -2439,7 +2430,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       1,
       edge: MessageListAnchorEdge.after,
     );
-    _settlePinnedTailScroll();
+    _scheduleBottomViewportSync();
   }
 
   void _onUnreadBarMarkRead() {
@@ -3177,5 +3168,27 @@ class _LiveDouble extends ChangeNotifier implements ValueListenable<double> {
     if (notify) {
       notifyListeners();
     }
+  }
+}
+
+class _LiveTailScrollController extends ScrollController {
+  double armedInitialOffset = 0;
+
+  @override
+  ScrollPosition createScrollPosition(
+    ScrollPhysics physics,
+    ScrollContext context,
+    ScrollPosition? oldPosition,
+  ) {
+    final double initialPixels = armedInitialOffset;
+    armedInitialOffset = 0;
+    return ScrollPositionWithSingleContext(
+      physics: physics,
+      context: context,
+      initialPixels: initialPixels,
+      keepScrollOffset: keepScrollOffset,
+      oldPosition: oldPosition,
+      debugLabel: debugLabel,
+    );
   }
 }
