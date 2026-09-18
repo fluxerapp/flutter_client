@@ -141,7 +141,7 @@ class _CachedEmojiImageState extends ConsumerState<CachedEmojiImage> {
       return _buildImage(context, animated: widget.animated && animateEmoji);
     }
     return VisibilityDetector(
-      key: ValueKey<String>('emoji-vis-${widget.emojiId}'),
+      key: ObjectKey(this),
       onVisibilityChanged: _onVisibilityChanged,
       child: ValueListenableBuilder<bool>(
         valueListenable: _visibleNotifier,
