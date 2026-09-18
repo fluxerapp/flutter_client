@@ -218,6 +218,15 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
     await _moveToState(resolvedSide);
   }
 
+  double _peekOverlayT() {
+    final double width = MediaQuery.sizeOf(context).width;
+    final double maxReveal = _maxRevealTranslate(width);
+    if (maxReveal <= 0) {
+      return 0;
+    }
+    return (_animationController.value / maxReveal).clamp(0.0, 1.0);
+  }
+
   Future<void> _syncTranslateToRevealSide({required bool writeBack}) async {
     if (!mounted) {
       return;
@@ -353,9 +362,32 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
               child: _DrawerSliderLayer(slider: widget.slider),
             ),
             builder: (context, slider) {
+              Widget layer = slider!;
+              if (_usesPeekReveal()) {
+                final double t = _peekOverlayT();
+                if (t > 0) {
+                  layer = Stack(
+                    fit: StackFit.expand,
+                    children: <Widget>[
+                      layer,
+                      IgnorePointer(
+                        child: ColoredBox(
+                          key: kDrawerPeekInactiveScrimKey,
+                          color: Color.fromRGBO(
+                            0,
+                            0,
+                            0,
+                            kDrawerPeekInactiveScrimOpacity * t,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }
+              }
               return Transform.translate(
                 offset: Offset(_animationController.value, 0),
-                child: slider,
+                child: layer,
               );
             },
           ),
@@ -395,6 +427,11 @@ bool isSidebarDrawerLockedForLocation(String location) {
       extractGuildId(location) != null &&
       extractChannelId(location) == null;
 }
+
+@visibleForTesting
+const Key kDrawerPeekInactiveScrimKey = ValueKey<String>('drawer-peek-scrim');
+
+const double kDrawerPeekInactiveScrimOpacity = 0.4;
 
 /// False in compact-wide peek.
 class ChatSwipeToReplyScope extends InheritedWidget {

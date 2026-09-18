@@ -440,6 +440,9 @@ void main() {
 
     expect(_sliderDx(tester), 400);
 
+    expect(_sliderIgnorePointer(tester).ignoring, isFalse);
+    expect(find.byKey(kDrawerPeekInactiveScrimKey), findsNothing);
+
     // Closing drag starts mid-screen, not at the edge.
     await tester.dragFrom(const Offset(240, 400), const Offset(-260, 0));
     await tester.pumpAndSettle();
@@ -477,6 +480,8 @@ void main() {
           .enabled,
       isFalse,
     );
+    expect(_sliderIgnorePointer(tester).ignoring, isTrue);
+    expect(_sliderScrimOpacity(tester), kDrawerPeekInactiveScrimOpacity);
   });
 
   testWidgets('fully reveals when drawer is locked on compact-wide', (
@@ -553,6 +558,8 @@ void main() {
     await tester.pump();
 
     expect(_sliderDx(tester), peekWidth);
+    expect(_sliderIgnorePointer(tester).ignoring, isTrue);
+    expect(_sliderScrimOpacity(tester), kDrawerPeekInactiveScrimOpacity);
   });
 
   testWidgets('ignores horizontal drag while a popup overlay is open', (
@@ -597,6 +604,8 @@ void main() {
           .enabled,
       isTrue,
     );
+    expect(_sliderIgnorePointer(tester).ignoring, isFalse);
+    expect(find.byKey(kDrawerPeekInactiveScrimKey), findsNothing);
   });
 
   testWidgets('wraps drawer layers in repaint boundaries', (tester) async {
@@ -1018,4 +1027,22 @@ double _sliderDx(WidgetTester tester) {
     find.ancestor(of: find.byKey(_sliderKey), matching: find.byType(Transform)),
   );
   return transform.transform.getTranslation().x;
+}
+
+IgnorePointer _sliderIgnorePointer(WidgetTester tester) {
+  return tester.widget<IgnorePointer>(
+    find
+        .ancestor(
+          of: find.byKey(_sliderKey),
+          matching: find.byType(IgnorePointer),
+        )
+        .first,
+  );
+}
+
+double _sliderScrimOpacity(WidgetTester tester) {
+  return tester
+      .widget<ColoredBox>(find.byKey(kDrawerPeekInactiveScrimKey))
+      .color
+      .a;
 }
