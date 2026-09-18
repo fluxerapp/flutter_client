@@ -72,77 +72,34 @@ void main() {
 
   group('VoicePipLayer', () {
     testWidgets('shows collapsed pip off the voice page', (tester) async {
-      final colorTheme = buildDarkColorTheme();
-      await tester.pumpWidget(
-        ProviderScope(
-          overrides: <Override>[
-            voiceSessionProvider.overrideWith(_ConnectedGuildVoice.new),
-            voicePipFeaturedTileIdProvider.overrideWith(_FixedFeatured.new),
-            voicePipCallViewObscuredProvider.overrideWithValue(false),
-            routeStateProvider.overrideWithValue(
-              const RouteState(
-                location: '/channels/g1/text',
-                activeBranchLocation: '/channels/g1/text',
-                activeBranchIndex: 0,
-                kind: RouteKind.chat,
-                guildId: 'g1',
-                channelId: 'text',
-              ),
-            ),
-          ],
-          child: MaterialApp(
-            locale: kTestLocale,
-            localizationsDelegates: FluxerLocalizations.localizationsDelegates,
-            supportedLocales: FluxerLocalizations.supportedLocales,
-            theme: buildFluxerTheme(
-              colorTheme: colorTheme,
-              textTheme: FluxerTextTheme.fromColors(colorTheme),
-              layoutTheme: FluxerLayoutTheme.scaled(),
-            ),
-            home: const VoicePipLayer(child: SizedBox.expand()),
-          ),
-        ),
+      await _pumpCollapsedPip(
+        tester,
+        route: _offCallRoute,
+        callViewObscured: false,
       );
-      await tester.pump();
       expect(find.byKey(kVoiceInAppPipKey), findsOneWidget);
     });
 
     testWidgets('hides collapsed pip on the voice channel route', (
       tester,
     ) async {
-      final colorTheme = buildDarkColorTheme();
-      await tester.pumpWidget(
-        ProviderScope(
-          overrides: <Override>[
-            voiceSessionProvider.overrideWith(_ConnectedGuildVoice.new),
-            voicePipFeaturedTileIdProvider.overrideWith(_FixedFeatured.new),
-            voicePipCallViewObscuredProvider.overrideWithValue(false),
-            routeStateProvider.overrideWithValue(
-              const RouteState(
-                location: '/channels/g1/v1',
-                activeBranchLocation: '/channels/g1/v1',
-                activeBranchIndex: 0,
-                kind: RouteKind.chat,
-                guildId: 'g1',
-                channelId: 'v1',
-              ),
-            ),
-          ],
-          child: MaterialApp(
-            locale: kTestLocale,
-            localizationsDelegates: FluxerLocalizations.localizationsDelegates,
-            supportedLocales: FluxerLocalizations.supportedLocales,
-            theme: buildFluxerTheme(
-              colorTheme: colorTheme,
-              textTheme: FluxerTextTheme.fromColors(colorTheme),
-              layoutTheme: FluxerLayoutTheme.scaled(),
-            ),
-            home: const VoicePipLayer(child: SizedBox.expand()),
-          ),
-        ),
+      await _pumpCollapsedPip(
+        tester,
+        route: _onCallRoute,
+        callViewObscured: false,
       );
-      await tester.pump();
       expect(find.byKey(kVoiceInAppPipKey), findsNothing);
+    });
+
+    testWidgets('shows collapsed pip once the call view is obscured', (
+      tester,
+    ) async {
+      await _pumpCollapsedPip(
+        tester,
+        route: _onCallRoute,
+        callViewObscured: true,
+      );
+      expect(find.byKey(kVoiceInAppPipKey), findsOneWidget);
     });
 
     testWidgets('snaps pip to the nearest edge after a drop', (tester) async {
@@ -314,6 +271,36 @@ class _MutableRoute extends RouteStateNotifier {
     _value = next;
     state = next;
   }
+}
+
+Future<void> _pumpCollapsedPip(
+  WidgetTester tester, {
+  required RouteState route,
+  required bool callViewObscured,
+}) async {
+  final colorTheme = buildDarkColorTheme();
+  await tester.pumpWidget(
+    ProviderScope(
+      overrides: <Override>[
+        voiceSessionProvider.overrideWith(_ConnectedGuildVoice.new),
+        voicePipFeaturedTileIdProvider.overrideWith(_FixedFeatured.new),
+        voicePipCallViewObscuredProvider.overrideWithValue(callViewObscured),
+        routeStateProvider.overrideWithValue(route),
+      ],
+      child: MaterialApp(
+        locale: kTestLocale,
+        localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+        supportedLocales: FluxerLocalizations.supportedLocales,
+        theme: buildFluxerTheme(
+          colorTheme: colorTheme,
+          textTheme: FluxerTextTheme.fromColors(colorTheme),
+          layoutTheme: FluxerLayoutTheme.scaled(),
+        ),
+        home: const VoicePipLayer(child: SizedBox.expand()),
+      ),
+    ),
+  );
+  await tester.pump();
 }
 
 Widget _heroHarness({required _MutableRoute route}) {

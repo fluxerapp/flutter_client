@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
+import 'package:fluxer_app/features/shell/providers/drawer_past_half_screen_provider.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -175,6 +176,30 @@ void main() {
     });
   });
 
+  group('drawerTranslatePastHalfScreen', () {
+    test('is false until the slider passes half the screen', () {
+      expect(
+        drawerTranslatePastHalfScreen(translate: 0, screenWidth: 400),
+        isFalse,
+      );
+      expect(
+        drawerTranslatePastHalfScreen(translate: 200, screenWidth: 400),
+        isFalse,
+      );
+      expect(
+        drawerTranslatePastHalfScreen(translate: 201, screenWidth: 400),
+        isTrue,
+      );
+    });
+
+    test('stays false for a compact-wide peek', () {
+      expect(
+        drawerTranslatePastHalfScreen(translate: 342, screenWidth: 984),
+        isFalse,
+      );
+    });
+  });
+
   testWidgets('tracks opening drags from anywhere on the surface', (
     tester,
   ) async {
@@ -198,6 +223,35 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(_sliderDx(tester), 400);
+    expect(container.read(drawerPastHalfScreenProvider), isTrue);
+  });
+
+  testWidgets('marks past half after the slider crosses mid-screen', (
+    tester,
+  ) async {
+    final router = _routerFor('/channels/guild/channel');
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(
+      _buildDrawerApp(container: container, router: router),
+    );
+
+    final gesture = await tester.startGesture(const Offset(10, 400));
+    await gesture.moveBy(const Offset(180, 0));
+    await tester.pump();
+
+    expect(_sliderDx(tester), 180);
+    expect(container.read(drawerPastHalfScreenProvider), isFalse);
+
+    await gesture.moveBy(const Offset(40, 0));
+    await tester.pump();
+
+    expect(_sliderDx(tester), 220);
+    expect(container.read(drawerPastHalfScreenProvider), isTrue);
+
+    await gesture.up();
+    await tester.pumpAndSettle();
   });
 
   testWidgets('committed drawer drag keeps tracking after a vertical arc', (
@@ -474,6 +528,7 @@ void main() {
 
     expect(_sliderDx(tester), peekWidth);
     expect(_sliderDx(tester), lessThan(compactWideSize.width));
+    expect(container.read(drawerPastHalfScreenProvider), isFalse);
     expect(
       tester
           .widget<ChatSwipeToReplyScope>(find.byType(ChatSwipeToReplyScope))
@@ -502,6 +557,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(_sliderDx(tester), compactWideSize.width);
+    expect(container.read(drawerPastHalfScreenProvider), isTrue);
   });
 
   testWidgets('keeps open progress when width changes', (tester) async {
@@ -560,6 +616,7 @@ void main() {
     expect(_sliderDx(tester), peekWidth);
     expect(_sliderIgnorePointer(tester).ignoring, isTrue);
     expect(_sliderScrimOpacity(tester), kDrawerPeekInactiveScrimOpacity);
+    expect(container.read(drawerPastHalfScreenProvider), isFalse);
   });
 
   testWidgets('ignores horizontal drag while a popup overlay is open', (
