@@ -21,6 +21,8 @@ import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_outage_availability.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_content_channel_gate.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
+import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
+import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/channel_members.dart';
 import 'package:fluxer_app/features/shell/presentation/mobile_chat_back_scope.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -129,7 +131,17 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
     );
     final bool showMatureContentGate = showGateAsync.maybeWhen(
       data: (bool show) => show,
-      orElse: () => isVoiceChannel,
+      orElse: () {
+        if (channel == null) {
+          return true;
+        }
+        return isResolvedChannelGateBlocking(
+          channel: channel,
+          channelList: channelList,
+          nsfwAllowed: ref.read(sensitiveContentProvider).nsfwAllowed,
+          agreements: ref.read(matureContentAgreementsProvider),
+        );
+      },
     );
     final ChannelHeaderSearchState searchState = ref.watch(
       channelHeaderSearchProvider,

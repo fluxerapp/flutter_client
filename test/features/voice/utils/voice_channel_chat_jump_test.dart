@@ -32,7 +32,9 @@ void main() {
                 messageId: 'route-msg',
               ),
             },
-            latestIntentByChannel: const <String, String>{channelId: 'route-msg'},
+            latestIntentByChannel: const <String, String>{
+              channelId: 'route-msg',
+            },
           ),
         ),
         isNull,

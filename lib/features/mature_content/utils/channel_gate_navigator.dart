@@ -45,12 +45,53 @@ Future<bool> promptForChannelGateIfNeeded({
   );
 }
 
+bool isResolvedChannelGateBlocking({
+  required Channel channel,
+  required ChannelListState channelList,
+  required bool nsfwAllowed,
+  required MatureContentAgreementsState agreements,
+}) {
+  Channel? parentCategory;
+  final String? parentId = channel.parentId;
+  if (parentId != null) {
+    final Channel? parent = findChannelById(channelList, parentId);
+    if (parent != null && parent.isCategory) {
+      parentCategory = parent;
+    }
+  }
+  final Guild? listedGuild = channelList.guild;
+  return resolveChannelGateReason(
+        context: resolveMatureGateContext(
+          channel: channel,
+          guild: listedGuild?.id == channel.guildId ? listedGuild : null,
+          parentCategory: parentCategory,
+        ),
+        nsfwAllowed: nsfwAllowed,
+        agreements: agreements,
+      ) !=
+      MatureContentGateReason.none;
+}
+
 Future<bool> isChannelGateBlocking({
   required ProviderContainer container,
   required String channelId,
   Channel? channel,
 }) async {
   await container.read(matureContentAgreementsProvider.notifier).ensureLoaded();
+  final ChannelListState channelList = container.read(
+    channelListViewModelProvider,
+  );
+  final Channel? resolvedChannel =
+      channel ?? findChannelById(channelList, channelId);
+  if (resolvedChannel != null) {
+    return isResolvedChannelGateBlocking(
+      channel: resolvedChannel,
+      channelList: channelList,
+      nsfwAllowed: container.read(sensitiveContentProvider).nsfwAllowed,
+      agreements: container.read(matureContentAgreementsProvider),
+    );
+  }
+
   final ProviderSubscription<AsyncValue<bool>> gateSub = container.listen(
     shouldShowMatureContentGateProvider(channelId),
     (_, _) {},
@@ -64,24 +105,5 @@ Future<bool> isChannelGateBlocking({
   } finally {
     gateSub.close();
   }
-  final ChannelListState channelList = container.read(
-    channelListViewModelProvider,
-  );
-  final Channel? resolvedChannel =
-      channel ?? findChannelById(channelList, channelId);
-  if (resolvedChannel == null) {
-    return false;
-  }
-  final Guild? listedGuild = channelList.guild;
-  return resolveChannelGateReason(
-        context: resolveMatureGateContext(
-          channel: resolvedChannel,
-          guild: listedGuild?.id == resolvedChannel.guildId
-              ? listedGuild
-              : null,
-        ),
-        nsfwAllowed: container.read(sensitiveContentProvider).nsfwAllowed,
-        agreements: container.read(matureContentAgreementsProvider),
-      ) !=
-      MatureContentGateReason.none;
+  return false;
 }

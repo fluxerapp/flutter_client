@@ -17,15 +17,23 @@ Future<bool> showChannelAccessGateSheet({
   String? guildId,
   ChannelType? channelType,
 }) async {
-  final MatureContentGateReason reason = await container.read(
-    matureContentGateReasonProvider(channelId).future,
-  );
-  if (reason == MatureContentGateReason.none) {
-    return true;
+  final ProviderSubscription<AsyncValue<MatureContentGateReason>> reasonSub =
+      container.listen(matureContentGateReasonProvider(channelId), (_, _) {});
+  late final MatureContentGateReason reason;
+  late final ResolvedMatureGateContext? gateContext;
+  try {
+    reason = await container.read(
+      matureContentGateReasonProvider(channelId).future,
+    );
+    if (reason == MatureContentGateReason.none) {
+      return true;
+    }
+    gateContext = await container.read(
+      matureGateContextProvider(channelId).future,
+    );
+  } finally {
+    reasonSub.close();
   }
-  final ResolvedMatureGateContext? gateContext = await container.read(
-    matureGateContextProvider(channelId).future,
-  );
   if (gateContext == null) {
     return false;
   }

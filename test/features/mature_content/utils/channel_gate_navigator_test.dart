@@ -69,13 +69,12 @@ void main() {
   );
 
   test(
-    'blocks from an in-memory channel when gate context is missing',
+    'blocks an in-memory content-warning channel while agreements load',
     () async {
       final ProviderContainer container = ProviderContainer(
         overrides: [
           sensitiveContentProvider.overrideWith(_FakeSensitive.new),
           matureContentAgreementsProvider.overrideWith(_UnloadedAgreements.new),
-          matureGateContextProvider('voice-1').overrideWith((ref) => null),
         ],
       );
       addTearDown(container.dispose);
@@ -125,6 +124,91 @@ void main() {
         channelId: '100000000000000001',
       ).timeout(const Duration(seconds: 3)),
       isFalse,
+    );
+  });
+
+  test(
+    'blocks an in-memory content-warning channel without a database',
+    () async {
+      final ProviderContainer container = ProviderContainer(
+        overrides: [
+          sensitiveContentProvider.overrideWith(_FakeSensitive.new),
+          matureContentAgreementsProvider.overrideWith(_LoadedAgreements.new),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      expect(
+        await isChannelGateBlocking(
+          container: container,
+          channelId: 'warn-1',
+          channel: const Channel(
+            id: 'warn-1',
+            guildId: 'guild-1',
+            name: 'warnings',
+            contentWarningLevel: contentWarningLevelContentWarning,
+            contentWarningText: 'Sensitive',
+          ),
+        ),
+        isTrue,
+      );
+    },
+  );
+
+  test('allows an in-memory channel without a content warning', () async {
+    final ProviderContainer container = ProviderContainer(
+      overrides: [
+        sensitiveContentProvider.overrideWith(_FakeSensitive.new),
+        matureContentAgreementsProvider.overrideWith(_LoadedAgreements.new),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    expect(
+      await isChannelGateBlocking(
+        container: container,
+        channelId: 'general-1',
+        channel: const Channel(
+          id: 'general-1',
+          guildId: 'guild-1',
+          name: 'general',
+        ),
+      ),
+      isFalse,
+    );
+  });
+
+  test('blocks a persisted content-warning channel from drift', () async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    final db.FluxerDatabase database = openTestDatabase();
+    await database.channelDao.upsertChannel(
+      db.ChannelsCompanion.insert(
+        id: '100000000000000002',
+        guildId: '200000000000000001',
+        name: 'nsfw',
+        type: const Value<int>(0),
+        contentWarningLevel: const Value<int>(
+          contentWarningLevelContentWarning,
+        ),
+        contentWarningText: const Value<String>('Sensitive'),
+      ),
+    );
+
+    final ProviderContainer container = ProviderContainer(
+      overrides: [
+        fluxerDatabaseProvider.overrideWithValue(database),
+        sensitiveContentProvider.overrideWith(_FakeSensitive.new),
+        matureContentAgreementsProvider.overrideWith(_LoadedAgreements.new),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    expect(
+      await isChannelGateBlocking(
+        container: container,
+        channelId: '100000000000000002',
+      ).timeout(const Duration(seconds: 3)),
+      isTrue,
     );
   });
 }
