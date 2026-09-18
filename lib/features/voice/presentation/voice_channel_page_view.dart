@@ -1,12 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_chat_panel.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/composer/upload_drop_overlay.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/utils/chat_route_sync_guard.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -14,11 +13,14 @@ import 'package:fluxer_app/features/ui/voice/local_camera_orientation_sync.dart'
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_expandable_sheet.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
+import 'package:fluxer_app/features/voice/presentation/sheets/voice_channel_chat_sheet.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/voice_channel_chat_surface.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_channel_join_empty_state.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_chat_unread_badge.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_text_chat_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/features/voice/utils/voice_channel_chat_jump.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
@@ -28,11 +30,13 @@ class VoiceChannelPageView extends ConsumerStatefulWidget {
   const VoiceChannelPageView({
     required this.guildId,
     required this.channelId,
+    this.messageId,
     super.key,
   });
 
   final String guildId;
   final String channelId;
+  final String? messageId;
 
   @override
   ConsumerState<VoiceChannelPageView> createState() =>
@@ -43,19 +47,15 @@ const double _kDesktopChatPanelWidth = 360;
 
 class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
   bool _isChatPanelOpen = false;
+  bool _jumpSheetOpen = false;
+  String? _openedUnconsumedJumpTarget;
+  String? _chatJumpTarget;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted || !chatRouteShouldSync(context)) {
-        return;
-      }
-      unawaited(
-        ref
-            .read(chatViewModelProvider.notifier)
-            .switchChannel(widget.channelId, loadMessages: false),
-      );
+      _switchOverviewChannelIfNeeded();
     });
   }
 
@@ -63,17 +63,83 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
   void didUpdateWidget(covariant VoiceChannelPageView oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.channelId != widget.channelId) {
+      _openedUnconsumedJumpTarget = null;
+      _chatJumpTarget = null;
+      _isChatPanelOpen = false;
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted || !chatRouteShouldSync(context)) {
-          return;
-        }
-        unawaited(
-          ref
-              .read(chatViewModelProvider.notifier)
-              .switchChannel(widget.channelId, loadMessages: false),
-        );
+        _switchOverviewChannelIfNeeded();
       });
     }
+  }
+
+  void _switchOverviewChannelIfNeeded() {
+    if (!mounted || !chatRouteShouldSync(context)) {
+      return;
+    }
+    if (_resolvedJumpTarget(ref.read(channelJumpTargetLedgerProvider)) !=
+        null) {
+      return;
+    }
+    unawaited(
+      ref
+          .read(chatViewModelProvider.notifier)
+          .switchChannel(widget.channelId, loadMessages: false),
+    );
+  }
+
+  String? _resolvedJumpTarget(ChannelJumpTargetConsumption consumption) {
+    return resolveVoiceChannelChatJumpTarget(
+      channelId: widget.channelId,
+      routeTarget: widget.messageId,
+      consumption: consumption,
+    );
+  }
+
+  void _closeDesktopChat() {
+    _isChatPanelOpen = false;
+    _chatJumpTarget = null;
+  }
+
+  void _openChatForJumpIfNeeded({
+    required String? jumpTarget,
+    required bool textChatSupported,
+    required bool usePhoneVoiceOverlay,
+    String? channelName,
+  }) {
+    if (jumpTarget == null) {
+      _openedUnconsumedJumpTarget = null;
+      return;
+    }
+    if (!textChatSupported || _openedUnconsumedJumpTarget == jumpTarget) {
+      return;
+    }
+    _openedUnconsumedJumpTarget = jumpTarget;
+    _chatJumpTarget = jumpTarget;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      if (usePhoneVoiceOverlay) {
+        if (_jumpSheetOpen) {
+          return;
+        }
+        _jumpSheetOpen = true;
+        unawaited(
+          showVoiceChannelChatSheet(
+            context,
+            channelId: widget.channelId,
+            channelName: channelName,
+            targetMessageId: jumpTarget,
+          ).whenComplete(() {
+            _jumpSheetOpen = false;
+          }),
+        );
+        return;
+      }
+      if (!_isChatPanelOpen) {
+        setState(() => _isChatPanelOpen = true);
+      }
+    });
   }
 
   @override
@@ -91,25 +157,42 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
       ),
     );
     final bool usePhoneVoiceOverlay = isPhoneVoiceOverlay(context);
+    final bool textChatSupported =
+        ref
+            .watch(voiceChannelTextChatSupportedProvider(widget.channelId))
+            .value ??
+        false;
+    final String? jumpTarget = ref.watch(
+      channelJumpTargetLedgerProvider.select(_resolvedJumpTarget),
+    );
+    _openChatForJumpIfNeeded(
+      jumpTarget: jumpTarget,
+      textChatSupported: textChatSupported,
+      usePhoneVoiceOverlay: usePhoneVoiceOverlay,
+      channelName: name,
+    );
     final Widget content = inThisChannel
         ? _buildConnected(context, usePhoneVoiceOverlay: usePhoneVoiceOverlay)
         : _buildEmpty(channel: channel);
     if (usePhoneVoiceOverlay) {
       return content;
     }
-    return _wrapWithDesktopChat(context, content: content, channelName: name);
+    return _wrapWithDesktopChat(
+      context,
+      content: content,
+      channelName: name,
+      textChatSupported: textChatSupported,
+      jumpTarget: jumpTarget,
+    );
   }
 
   Widget _wrapWithDesktopChat(
     BuildContext context, {
     required Widget content,
     required String channelName,
+    required bool textChatSupported,
+    required String? jumpTarget,
   }) {
-    final bool textChatSupported =
-        ref
-            .watch(voiceChannelTextChatSupportedProvider(widget.channelId))
-            .value ??
-        false;
     if (!textChatSupported) {
       return content;
     }
@@ -126,23 +209,27 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
                 child: _DesktopVoiceChatToggle(
                   channelId: widget.channelId,
                   isOpen: _isChatPanelOpen,
-                  onTap: () =>
-                      setState(() => _isChatPanelOpen = !_isChatPanelOpen),
+                  onTap: () {
+                    setState(() {
+                      if (_isChatPanelOpen) {
+                        _closeDesktopChat();
+                      } else {
+                        _isChatPanelOpen = true;
+                      }
+                    });
+                  },
                 ),
               ),
             ],
           ),
         ),
-        AnimatedSize(
-          duration: Duration.zero,
-          child: _isChatPanelOpen
-              ? _DesktopVoiceChatDock(
-                  channelId: widget.channelId,
-                  channelName: channelName,
-                  onClose: () => setState(() => _isChatPanelOpen = false),
-                )
-              : const SizedBox.shrink(),
-        ),
+        if (_isChatPanelOpen)
+          _DesktopVoiceChatDock(
+            channelId: widget.channelId,
+            channelName: channelName,
+            targetMessageId: jumpTarget ?? _chatJumpTarget,
+            onClose: () => setState(_closeDesktopChat),
+          ),
       ],
     );
   }
@@ -249,59 +336,21 @@ class _DesktopVoiceChatToggle extends StatelessWidget {
   }
 }
 
-class _DesktopVoiceChatDock extends ConsumerStatefulWidget {
+class _DesktopVoiceChatDock extends StatelessWidget {
   const _DesktopVoiceChatDock({
     required this.channelId,
     required this.channelName,
     required this.onClose,
+    this.targetMessageId,
   });
 
   final String channelId;
   final String channelName;
+  final String? targetMessageId;
   final VoidCallback onClose;
 
   @override
-  ConsumerState<_DesktopVoiceChatDock> createState() =>
-      _DesktopVoiceChatDockState();
-}
-
-class _DesktopVoiceChatDockState extends ConsumerState<_DesktopVoiceChatDock> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted || !chatRouteShouldSync(context)) {
-        return;
-      }
-      unawaited(
-        ref
-            .read(chatViewModelProvider.notifier)
-            .switchChannel(widget.channelId),
-      );
-    });
-  }
-
-  @override
-  void didUpdateWidget(covariant _DesktopVoiceChatDock oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.channelId == widget.channelId) {
-      return;
-    }
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted || !chatRouteShouldSync(context)) {
-        return;
-      }
-      unawaited(
-        ref
-            .read(chatViewModelProvider.notifier)
-            .switchChannel(widget.channelId),
-      );
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    listenChatViewModelErrors(ref);
     return Container(
       width: _kDesktopChatPanelWidth,
       decoration: BoxDecoration(
@@ -317,8 +366,8 @@ class _DesktopVoiceChatDockState extends ConsumerState<_DesktopVoiceChatDock> {
               children: <Widget>[
                 Expanded(
                   child: Text(
-                    widget.channelName.isNotEmpty
-                        ? widget.channelName
+                    channelName.isNotEmpty
+                        ? channelName
                         : FluxerLocalizations.of(context).voiceControlChat,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -330,7 +379,7 @@ class _DesktopVoiceChatDockState extends ConsumerState<_DesktopVoiceChatDock> {
                 ),
                 IconButton(
                   tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
-                  onPressed: widget.onClose,
+                  onPressed: onClose,
                   icon: PhosphorIcon(
                     PhosphorIconsBold.x,
                     size: 18,
@@ -341,9 +390,10 @@ class _DesktopVoiceChatDockState extends ConsumerState<_DesktopVoiceChatDock> {
             ),
           ),
           Expanded(
-            child: UploadDropOverlay(
-              channelId: widget.channelId,
-              child: ChannelChatPanel(displayChannelId: widget.channelId),
+            child: VoiceChannelChatSurface(
+              channelId: channelId,
+              targetMessageId: targetMessageId,
+              onClose: onClose,
             ),
           ),
         ],

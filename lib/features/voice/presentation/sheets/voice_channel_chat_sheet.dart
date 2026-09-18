@@ -3,13 +3,12 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/router/shell_popup_overlay_sync.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_chat_panel.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/composer/upload_drop_overlay.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/voice_channel_chat_surface.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 const double _kChatSheetMaxHeight = 0.92;
@@ -18,6 +17,7 @@ Future<void> showVoiceChannelChatSheet(
   BuildContext context, {
   required String channelId,
   String? channelName,
+  String? targetMessageId,
   bool useRootNavigator = false,
 }) {
   final ProviderContainer container = ProviderScope.containerOf(context);
@@ -34,7 +34,11 @@ Future<void> showVoiceChannelChatSheet(
     builder: (BuildContext sheetContext, VoidCallback close) {
       return SizedBox(
         width: double.infinity,
-        child: _VoiceChannelChatSheetBody(channelId: channelId, onClose: close),
+        child: _VoiceChannelChatSheetBody(
+          channelId: channelId,
+          targetMessageId: targetMessageId,
+          onClose: close,
+        ),
       );
     },
   ).whenComplete(() {
@@ -66,9 +70,11 @@ class _VoiceChannelChatSheetBody extends ConsumerStatefulWidget {
   const _VoiceChannelChatSheetBody({
     required this.channelId,
     required this.onClose,
+    this.targetMessageId,
   });
 
   final String channelId;
+  final String? targetMessageId;
   final VoidCallback onClose;
 
   @override
@@ -78,7 +84,6 @@ class _VoiceChannelChatSheetBody extends ConsumerStatefulWidget {
 
 class _VoiceChannelChatSheetBodyState
     extends ConsumerState<_VoiceChannelChatSheetBody> {
-  bool _didSwitchChannel = false;
   late final ExpressionPanel _expressionPanelNotifier;
   late final AttachmentPanel _attachmentPanelNotifier;
   late final String _backgroundChannelId;
@@ -89,12 +94,6 @@ class _VoiceChannelChatSheetBodyState
     _backgroundChannelId = ref.read(chatViewModelProvider).channelId;
     _expressionPanelNotifier = ref.read(expressionPanelProvider.notifier);
     _attachmentPanelNotifier = ref.read(attachmentPanelProvider.notifier);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) {
-        return;
-      }
-      unawaited(_switchChannel());
-    });
   }
 
   void _restoreBackgroundChannel() {
@@ -114,18 +113,6 @@ class _VoiceChannelChatSheetBodyState
     );
   }
 
-  Future<void> _switchChannel() async {
-    if (_didSwitchChannel) {
-      return;
-    }
-    _didSwitchChannel = true;
-    _expressionPanelNotifier.close();
-    _attachmentPanelNotifier.close();
-    await ref
-        .read(chatViewModelProvider.notifier)
-        .switchChannel(widget.channelId);
-  }
-
   void _handleClose() {
     _expressionPanelNotifier.close();
     _attachmentPanelNotifier.close();
@@ -135,13 +122,10 @@ class _VoiceChannelChatSheetBodyState
 
   @override
   Widget build(BuildContext context) {
-    listenChatViewModelErrors(ref);
-    return UploadDropOverlay(
+    return VoiceChannelChatSurface(
       channelId: widget.channelId,
-      child: ChannelChatPanel(
-        displayChannelId: widget.channelId,
-        onClose: _handleClose,
-      ),
+      targetMessageId: widget.targetMessageId,
+      onClose: _handleClose,
     );
   }
 }

@@ -180,6 +180,7 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
         ? VoiceChannelPageView(
             guildId: widget.guildId,
             channelId: widget.channelId,
+            messageId: widget.messageId,
           )
         : ChannelChatContent(
             channelId: widget.channelId,
