@@ -25,7 +25,7 @@ dependencies:
   desktop_drop: ^0.8.4
   device_info_plus: ^13.2.0
   dio: ^5.10.0
-  drift: ^2.35.0
+  drift: ^2.34.4
   drift_flutter: ^0.3.1
   file_picker: ^12.2.0
   fixnum: ^1.1.1
@@ -139,7 +139,7 @@ dev_dependencies:
   build_runner: ^2.15.0
   # drift_dev >=2.34.4 and riverpod_generator >=4.0.6 require analyzer ^13, but
   # riverpod_analyzer_utils has not caught up yet. Pin until that chain is aligned.
-  drift_dev: ^2.35.0
+  drift_dev: 2.34.0
   fake_async: ^1.3.3
   flutter_test:
     sdk: flutter
