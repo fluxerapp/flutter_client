@@ -3601,6 +3601,354 @@
     "@authorizedAppsScopeAdmin": {
         "description": "OAuth2 scope description: admin."
     },
+    "applicationsTitle": "Applications",
+    "@applicationsTitle": {
+        "description": "Title for the developer Applications settings tab."
+    },
+    "applicationsCreate": "Create application",
+    "@applicationsCreate": {
+        "description": "Button that opens the create-application sheet."
+    },
+    "applicationsCreateSubmit": "Create",
+    "@applicationsCreateSubmit": {
+        "description": "Primary submit label in the create-application sheet."
+    },
+    "applicationsCreateClaimTooltip": "Claim your account to create applications.",
+    "@applicationsCreateClaimTooltip": {
+        "description": "Tooltip on the disabled create button for unclaimed accounts."
+    },
+    "applicationsDocsLink": "Read the documentation ({domain})",
+    "@applicationsDocsLink": {
+        "description": "Link to developer documentation. domain is the docs host.",
+        "placeholders": {
+            "domain": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsLoadError": "Unable to load applications",
+    "@applicationsLoadError": {
+        "description": "Error title when the applications list fails to load."
+    },
+    "applicationsLoadErrorDescription": "Check your connection and try again.",
+    "@applicationsLoadErrorDescription": {
+        "description": "Error body when the applications list fails to load."
+    },
+    "applicationsEmptyTitle": "No applications yet",
+    "@applicationsEmptyTitle": {
+        "description": "Empty-state title when the user has no developer applications."
+    },
+    "applicationsEmptyDescription": "Create your first application to get started with the {apiName}.",
+    "@applicationsEmptyDescription": {
+        "description": "Empty-state body. apiName is the product API display name.",
+        "placeholders": {
+            "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "Created {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsName": "Application name",
+    "@applicationsName": {
+        "description": "Label for the application name field."
+    },
+    "applicationsNameHint": "My application",
+    "@applicationsNameHint": {
+        "description": "Placeholder for the application name field."
+    },
+    "applicationsNameRequired": "Application name is required",
+    "@applicationsNameRequired": {
+        "description": "Validation error when the application name is empty."
+    },
+    "applicationsBackToList": "Back to list",
+    "@applicationsBackToList": {
+        "description": "Button that returns from application details to the list."
+    },
+    "applicationsDetailLoadError": "Couldn't load this application",
+    "@applicationsDetailLoadError": {
+        "description": "Error title when a single application fails to load."
+    },
+    "applicationsDetailLoadErrorDescription": "Try again or go back to the applications list.",
+    "@applicationsDetailLoadErrorDescription": {
+        "description": "Error body when a single application fails to load."
+    },
+    "applicationsId": "Application ID",
+    "@applicationsId": {
+        "description": "Label for the read-only application ID field."
+    },
+    "applicationsCopyId": "Copy ID",
+    "@applicationsCopyId": {
+        "description": "Button that copies the application ID."
+    },
+    "applicationsSecretsTitle": "Secrets & tokens",
+    "@applicationsSecretsTitle": {
+        "description": "Section title for client secret and bot token."
+    },
+    "applicationsSecretsDescription": "Keep these safe. Regenerating will break existing integrations.",
+    "@applicationsSecretsDescription": {
+        "description": "Section description for secrets and tokens."
+    },
+    "applicationsClientSecret": "Client secret",
+    "@applicationsClientSecret": {
+        "description": "Label for the OAuth2 client secret field."
+    },
+    "applicationsBotToken": "Bot token",
+    "@applicationsBotToken": {
+        "description": "Label for the bot token field."
+    },
+    "applicationsRegenerate": "Regenerate",
+    "@applicationsRegenerate": {
+        "description": "Button that rotates a secret or token."
+    },
+    "applicationsRegenerateClientSecretTitle": "Regenerate client secret?",
+    "@applicationsRegenerateClientSecretTitle": {
+        "description": "Confirmation title when regenerating the client secret."
+    },
+    "applicationsRegenerateBotTokenTitle": "Regenerate bot token?",
+    "@applicationsRegenerateBotTokenTitle": {
+        "description": "Confirmation title when regenerating the bot token."
+    },
+    "applicationsRegenerateClientSecretDescription": "Regenerating will invalidate the current secret. Update any code that uses the old value.",
+    "@applicationsRegenerateClientSecretDescription": {
+        "description": "Confirmation body when regenerating the client secret."
+    },
+    "applicationsRegenerateBotTokenDescription": "Regenerating will invalidate the current token. Update any code that uses the old value.",
+    "@applicationsRegenerateBotTokenDescription": {
+        "description": "Confirmation body when regenerating the bot token."
+    },
+    "applicationsClientSecretRegenerated": "Client secret regenerated. Update any code that uses the old secret.",
+    "@applicationsClientSecretRegenerated": {
+        "description": "Toast after a client secret is rotated."
+    },
+    "applicationsBotTokenRegenerated": "Bot token regenerated. Update any code that uses the old token.",
+    "@applicationsBotTokenRegenerated": {
+        "description": "Toast after a bot token is rotated."
+    },
+    "applicationsRegenerateFailed": "Couldn't regenerate secret",
+    "@applicationsRegenerateFailed": {
+        "description": "Error toast when rotating a secret or token fails."
+    },
+    "applicationsInfoTitle": "Application information",
+    "@applicationsInfoTitle": {
+        "description": "Section title for basic application settings."
+    },
+    "applicationsInfoDescription": "Basic settings and allowed redirect URIs.",
+    "@applicationsInfoDescription": {
+        "description": "Section description for basic application settings."
+    },
+    "applicationsPublicBot": "Public bot",
+    "@applicationsPublicBot": {
+        "description": "Switch label for allowing anyone to invite the bot."
+    },
+    "applicationsPublicBotDescription": "Allow anyone to invite this bot to their communities.",
+    "@applicationsPublicBotDescription": {
+        "description": "Switch description for public bot."
+    },
+    "applicationsRequireCodeGrant": "Require OAuth2 code grant",
+    "@applicationsRequireCodeGrant": {
+        "description": "Switch label for requiring an OAuth2 code grant on invite."
+    },
+    "applicationsRequireCodeGrantDescription": "Requires a redirect URI and an authorization code when inviting this bot.",
+    "@applicationsRequireCodeGrantDescription": {
+        "description": "Switch description for OAuth2 code grant."
+    },
+    "applicationsRedirectUris": "Redirect URIs",
+    "@applicationsRedirectUris": {
+        "description": "Label for the redirect URI list."
+    },
+    "applicationsAddRedirect": "Add redirect",
+    "@applicationsAddRedirect": {
+        "description": "Button that adds another redirect URI row."
+    },
+    "applicationsDeleteRedirect": "Delete redirect URI",
+    "@applicationsDeleteRedirect": {
+        "description": "Accessibility label for removing a redirect URI row."
+    },
+    "applicationsBotProfileTitle": "Bot profile",
+    "@applicationsBotProfileTitle": {
+        "description": "Section title for bot profile settings."
+    },
+    "applicationsBotProfileDescription": "Avatar, tag, and rich profile details for your bot.",
+    "@applicationsBotProfileDescription": {
+        "description": "Section description for bot profile settings."
+    },
+    "applicationsBotAvatar": "Bot avatar",
+    "@applicationsBotAvatar": {
+        "description": "Label for the bot avatar preview."
+    },
+    "applicationsUsernameRequired": "Username is required",
+    "@applicationsUsernameRequired": {
+        "description": "Validation error when the bot username is empty."
+    },
+    "applicationsUsernameTooLong": "Username must be at most 32 characters",
+    "@applicationsUsernameTooLong": {
+        "description": "Validation error when the bot username is too long."
+    },
+    "applicationsUsernameInvalid": "Username can only contain letters, numbers, and underscores",
+    "@applicationsUsernameInvalid": {
+        "description": "Validation error when the bot username has invalid characters."
+    },
+    "applicationsBotUsername": "Bot username",
+    "@applicationsBotUsername": {
+        "description": "Label for the bot username field."
+    },
+    "applicationsDiscriminator": "Discriminator",
+    "@applicationsDiscriminator": {
+        "description": "Label for the read-only bot discriminator."
+    },
+    "applicationsBotBio": "Bot bio",
+    "@applicationsBotBio": {
+        "description": "Label for the bot biography field."
+    },
+    "applicationsBotBioHint": "A helpful bot that does amazing things!",
+    "@applicationsBotBioHint": {
+        "description": "Placeholder for the bot biography field."
+    },
+    "applicationsNoBotBanner": "No bot banner",
+    "@applicationsNoBotBanner": {
+        "description": "Placeholder shown when the bot has no banner."
+    },
+    "applicationsFriendlyBot": "Friendly bot",
+    "@applicationsFriendlyBot": {
+        "description": "Switch label for allowing friend requests to the bot."
+    },
+    "applicationsFriendlyBotDescription": "Allow users to send this bot friend requests for manual approval.",
+    "@applicationsFriendlyBotDescription": {
+        "description": "Switch description for friendly bot."
+    },
+    "applicationsManualFriendApproval": "Require manual friend approval",
+    "@applicationsManualFriendApproval": {
+        "description": "Switch label for requiring manual friend-request approval."
+    },
+    "applicationsManualFriendApprovalDescription": "Friend requests to this bot need manual approval.",
+    "@applicationsManualFriendApprovalDescription": {
+        "description": "Switch description for manual friend approval."
+    },
+    "applicationsOauthBuilderTitle": "OAuth2 URL builder",
+    "@applicationsOauthBuilderTitle": {
+        "description": "Section title for the authorize URL builder."
+    },
+    "applicationsOauthBuilderDescription": "Construct an authorize URL with scopes and permissions.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
+    "applicationsScopes": "Scopes",
+    "@applicationsScopes": {
+        "description": "Label for OAuth2 scope checkboxes."
+    },
+    "applicationsRedirectUri": "Redirect URI",
+    "@applicationsRedirectUri": {
+        "description": "Label for the authorize URL redirect selector."
+    },
+    "applicationsSelectRedirectUri": "Select a redirect URI",
+    "@applicationsSelectRedirectUri": {
+        "description": "Placeholder for the authorize URL redirect selector."
+    },
+    "applicationsRedirectRequiredCodeGrant": "Redirect URI is required because this bot requires OAuth2 code grant.",
+    "@applicationsRedirectRequiredCodeGrant": {
+        "description": "Validation shown when a redirect is required by code grant."
+    },
+    "applicationsRedirectRequiredScopes": "Redirect URI is required when not using only the bot scope.",
+    "@applicationsRedirectRequiredScopes": {
+        "description": "Validation shown when a redirect is required by selected scopes."
+    },
+    "applicationsBotPermissions": "Bot permissions",
+    "@applicationsBotPermissions": {
+        "description": "Label for bot permission checkboxes in the URL builder."
+    },
+    "applicationsAuthorizeUrl": "Authorize URL",
+    "@applicationsAuthorizeUrl": {
+        "description": "Label for the generated authorize URL field."
+    },
+    "applicationsAuthorizeUrlPlaceholder": "Select scopes (and redirect URI if required)",
+    "@applicationsAuthorizeUrlPlaceholder": {
+        "description": "Placeholder when the authorize URL cannot be built yet."
+    },
+    "applicationsCopyAuthorizeUrl": "Copy authorize URL",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
+    "applicationsCopiedUrl": "Copied URL to clipboard",
+    "@applicationsCopiedUrl": {
+        "description": "Toast after copying the authorize URL."
+    },
+    "applicationsDangerTitle": "Danger zone",
+    "@applicationsDangerTitle": {
+        "description": "Section title for deleting an application."
+    },
+    "applicationsDangerSubtitle": "This cannot be undone. Removing the application also deletes its bot.",
+    "@applicationsDangerSubtitle": {
+        "description": "Section subtitle for deleting an application."
+    },
+    "applicationsDangerHelper": "Once deleted, the application and its credentials are permanently removed.",
+    "@applicationsDangerHelper": {
+        "description": "Helper text in the application danger zone."
+    },
+    "applicationsDelete": "Delete application",
+    "@applicationsDelete": {
+        "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "Are you sure you want to delete {name}? This action cannot be undone. All associated data, including the bot user, will be permanently deleted.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsDeleteFailed": "Couldn't delete application",
+    "@applicationsDeleteFailed": {
+        "description": "Error toast when deleting an application fails."
+    },
+    "applicationsUpdated": "Application updated successfully",
+    "@applicationsUpdated": {
+        "description": "Toast after saving application changes."
+    },
+    "applicationsNoChanges": "No changes to save",
+    "@applicationsNoChanges": {
+        "description": "Toast when save is pressed with no dirty fields."
+    },
+    "applicationsSearchBots": "Applications & bots",
+    "@applicationsSearchBots": {
+        "description": "Settings search entry for the Applications tab."
+    },
+    "applicationsSearchBotsDescription": "Create and manage applications and bots for your account",
+    "@applicationsSearchBotsDescription": {
+        "description": "Settings search description for the Applications tab."
+    },
+    "applicationsSearchInfoDescription": "Edit application basics and redirect URIs",
+    "@applicationsSearchInfoDescription": {
+        "description": "Settings search description for application information."
+    },
+    "applicationsSearchBotProfileDescription": "Edit the bot avatar, tag, bio, banner, and friend request behavior",
+    "@applicationsSearchBotProfileDescription": {
+        "description": "Settings search description for bot profile."
+    },
+    "applicationsSearchOauthDescription": "Build an authorization URL with scopes, redirects, and bot permissions",
+    "@applicationsSearchOauthDescription": {
+        "description": "Settings search description for the OAuth2 URL builder."
+    },
+    "applicationsSearchSecretsDescription": "View and regenerate client secrets and bot tokens",
+    "@applicationsSearchSecretsDescription": {
+        "description": "Settings search description for secrets and tokens."
+    },
+    "applicationsSearchBotsKeyword": "Bots",
+    "@applicationsSearchBotsKeyword": {
+        "description": "Settings search synonym for applications."
+    },
+    "applicationsSearchDocumentation": "Documentation",
+    "@applicationsSearchDocumentation": {
+        "description": "Settings search synonym for the applications docs link."
+    },
     "privacyPendingDeletionTitle": "Pending Deletion",
     "@privacyPendingDeletionTitle": {
         "description": "Title of the warning alert shown when a bulk message deletion is pending."

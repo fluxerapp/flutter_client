@@ -2820,6 +2820,290 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get authorizedAppsScopeAdmin => 'प्रशासनिक एंडपॉइंट्स तक पहुँचें';
 
   @override
+  String get applicationsTitle => 'Applications';
+
+  @override
+  String get applicationsCreate => 'Create application';
+
+  @override
+  String get applicationsCreateSubmit => 'Create';
+
+  @override
+  String get applicationsCreateClaimTooltip =>
+      'Claim your account to create applications.';
+
+  @override
+  String applicationsDocsLink(String domain) {
+    return 'Read the documentation ($domain)';
+  }
+
+  @override
+  String get applicationsLoadError => 'Unable to load applications';
+
+  @override
+  String get applicationsLoadErrorDescription =>
+      'Check your connection and try again.';
+
+  @override
+  String get applicationsEmptyTitle => 'No applications yet';
+
+  @override
+  String applicationsEmptyDescription(String apiName) {
+    return 'Create your first application to get started with the $apiName.';
+  }
+
+  @override
+  String applicationsCreated(String date) {
+    return 'Created $date';
+  }
+
+  @override
+  String get applicationsName => 'Application name';
+
+  @override
+  String get applicationsNameHint => 'My application';
+
+  @override
+  String get applicationsNameRequired => 'Application name is required';
+
+  @override
+  String get applicationsBackToList => 'Back to list';
+
+  @override
+  String get applicationsDetailLoadError => 'Couldn\'t load this application';
+
+  @override
+  String get applicationsDetailLoadErrorDescription =>
+      'Try again or go back to the applications list.';
+
+  @override
+  String get applicationsId => 'Application ID';
+
+  @override
+  String get applicationsCopyId => 'Copy ID';
+
+  @override
+  String get applicationsSecretsTitle => 'Secrets & tokens';
+
+  @override
+  String get applicationsSecretsDescription =>
+      'Keep these safe. Regenerating will break existing integrations.';
+
+  @override
+  String get applicationsClientSecret => 'Client secret';
+
+  @override
+  String get applicationsBotToken => 'Bot token';
+
+  @override
+  String get applicationsRegenerate => 'Regenerate';
+
+  @override
+  String get applicationsRegenerateClientSecretTitle =>
+      'Regenerate client secret?';
+
+  @override
+  String get applicationsRegenerateBotTokenTitle => 'Regenerate bot token?';
+
+  @override
+  String get applicationsRegenerateClientSecretDescription =>
+      'Regenerating will invalidate the current secret. Update any code that uses the old value.';
+
+  @override
+  String get applicationsRegenerateBotTokenDescription =>
+      'Regenerating will invalidate the current token. Update any code that uses the old value.';
+
+  @override
+  String get applicationsClientSecretRegenerated =>
+      'Client secret regenerated. Update any code that uses the old secret.';
+
+  @override
+  String get applicationsBotTokenRegenerated =>
+      'Bot token regenerated. Update any code that uses the old token.';
+
+  @override
+  String get applicationsRegenerateFailed => 'Couldn\'t regenerate secret';
+
+  @override
+  String get applicationsInfoTitle => 'Application information';
+
+  @override
+  String get applicationsInfoDescription =>
+      'Basic settings and allowed redirect URIs.';
+
+  @override
+  String get applicationsPublicBot => 'Public bot';
+
+  @override
+  String get applicationsPublicBotDescription =>
+      'Allow anyone to invite this bot to their communities.';
+
+  @override
+  String get applicationsRequireCodeGrant => 'Require OAuth2 code grant';
+
+  @override
+  String get applicationsRequireCodeGrantDescription =>
+      'Requires a redirect URI and an authorization code when inviting this bot.';
+
+  @override
+  String get applicationsRedirectUris => 'Redirect URIs';
+
+  @override
+  String get applicationsAddRedirect => 'Add redirect';
+
+  @override
+  String get applicationsDeleteRedirect => 'Delete redirect URI';
+
+  @override
+  String get applicationsBotProfileTitle => 'Bot profile';
+
+  @override
+  String get applicationsBotProfileDescription =>
+      'Avatar, tag, and rich profile details for your bot.';
+
+  @override
+  String get applicationsBotAvatar => 'Bot avatar';
+
+  @override
+  String get applicationsUsernameRequired => 'Username is required';
+
+  @override
+  String get applicationsUsernameTooLong =>
+      'Username must be at most 32 characters';
+
+  @override
+  String get applicationsUsernameInvalid =>
+      'Username can only contain letters, numbers, and underscores';
+
+  @override
+  String get applicationsBotUsername => 'Bot username';
+
+  @override
+  String get applicationsDiscriminator => 'Discriminator';
+
+  @override
+  String get applicationsBotBio => 'Bot bio';
+
+  @override
+  String get applicationsBotBioHint =>
+      'A helpful bot that does amazing things!';
+
+  @override
+  String get applicationsNoBotBanner => 'No bot banner';
+
+  @override
+  String get applicationsFriendlyBot => 'Friendly bot';
+
+  @override
+  String get applicationsFriendlyBotDescription =>
+      'Allow users to send this bot friend requests for manual approval.';
+
+  @override
+  String get applicationsManualFriendApproval =>
+      'Require manual friend approval';
+
+  @override
+  String get applicationsManualFriendApprovalDescription =>
+      'Friend requests to this bot need manual approval.';
+
+  @override
+  String get applicationsOauthBuilderTitle => 'OAuth2 URL builder';
+
+  @override
+  String get applicationsOauthBuilderDescription =>
+      'Construct an authorize URL with scopes and permissions.';
+
+  @override
+  String get applicationsScopes => 'Scopes';
+
+  @override
+  String get applicationsRedirectUri => 'Redirect URI';
+
+  @override
+  String get applicationsSelectRedirectUri => 'Select a redirect URI';
+
+  @override
+  String get applicationsRedirectRequiredCodeGrant =>
+      'Redirect URI is required because this bot requires OAuth2 code grant.';
+
+  @override
+  String get applicationsRedirectRequiredScopes =>
+      'Redirect URI is required when not using only the bot scope.';
+
+  @override
+  String get applicationsBotPermissions => 'Bot permissions';
+
+  @override
+  String get applicationsAuthorizeUrl => 'Authorize URL';
+
+  @override
+  String get applicationsAuthorizeUrlPlaceholder =>
+      'Select scopes (and redirect URI if required)';
+
+  @override
+  String get applicationsCopyAuthorizeUrl => 'Copy authorize URL';
+
+  @override
+  String get applicationsCopiedUrl => 'Copied URL to clipboard';
+
+  @override
+  String get applicationsDangerTitle => 'Danger zone';
+
+  @override
+  String get applicationsDangerSubtitle =>
+      'This cannot be undone. Removing the application also deletes its bot.';
+
+  @override
+  String get applicationsDangerHelper =>
+      'Once deleted, the application and its credentials are permanently removed.';
+
+  @override
+  String get applicationsDelete => 'Delete application';
+
+  @override
+  String applicationsDeleteConfirmDescription(String name) {
+    return 'Are you sure you want to delete $name? This action cannot be undone. All associated data, including the bot user, will be permanently deleted.';
+  }
+
+  @override
+  String get applicationsDeleteFailed => 'Couldn\'t delete application';
+
+  @override
+  String get applicationsUpdated => 'Application updated successfully';
+
+  @override
+  String get applicationsNoChanges => 'No changes to save';
+
+  @override
+  String get applicationsSearchBots => 'Applications & bots';
+
+  @override
+  String get applicationsSearchBotsDescription =>
+      'Create and manage applications and bots for your account';
+
+  @override
+  String get applicationsSearchInfoDescription =>
+      'Edit application basics and redirect URIs';
+
+  @override
+  String get applicationsSearchBotProfileDescription =>
+      'Edit the bot avatar, tag, bio, banner, and friend request behavior';
+
+  @override
+  String get applicationsSearchOauthDescription =>
+      'Build an authorization URL with scopes, redirects, and bot permissions';
+
+  @override
+  String get applicationsSearchSecretsDescription =>
+      'View and regenerate client secrets and bot tokens';
+
+  @override
+  String get applicationsSearchBotsKeyword => 'Bots';
+
+  @override
+  String get applicationsSearchDocumentation => 'Documentation';
+
+  @override
   String get privacyPendingDeletionTitle => 'हटाया जाना बाकी है';
 
   @override

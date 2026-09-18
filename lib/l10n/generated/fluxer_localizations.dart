@@ -4808,6 +4808,498 @@ abstract class FluxerLocalizations {
   /// **'Access administrative endpoints'**
   String get authorizedAppsScopeAdmin;
 
+  /// Title for the developer Applications settings tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Applications'**
+  String get applicationsTitle;
+
+  /// Button that opens the create-application sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Create application'**
+  String get applicationsCreate;
+
+  /// Primary submit label in the create-application sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get applicationsCreateSubmit;
+
+  /// Tooltip on the disabled create button for unclaimed accounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim your account to create applications.'**
+  String get applicationsCreateClaimTooltip;
+
+  /// Link to developer documentation. domain is the docs host.
+  ///
+  /// In en, this message translates to:
+  /// **'Read the documentation ({domain})'**
+  String applicationsDocsLink(String domain);
+
+  /// Error title when the applications list fails to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load applications'**
+  String get applicationsLoadError;
+
+  /// Error body when the applications list fails to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your connection and try again.'**
+  String get applicationsLoadErrorDescription;
+
+  /// Empty-state title when the user has no developer applications.
+  ///
+  /// In en, this message translates to:
+  /// **'No applications yet'**
+  String get applicationsEmptyTitle;
+
+  /// Empty-state body. apiName is the product API display name.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your first application to get started with the {apiName}.'**
+  String applicationsEmptyDescription(String apiName);
+
+  /// List row subtitle showing when an application was created.
+  ///
+  /// In en, this message translates to:
+  /// **'Created {date}'**
+  String applicationsCreated(String date);
+
+  /// Label for the application name field.
+  ///
+  /// In en, this message translates to:
+  /// **'Application name'**
+  String get applicationsName;
+
+  /// Placeholder for the application name field.
+  ///
+  /// In en, this message translates to:
+  /// **'My application'**
+  String get applicationsNameHint;
+
+  /// Validation error when the application name is empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Application name is required'**
+  String get applicationsNameRequired;
+
+  /// Button that returns from application details to the list.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to list'**
+  String get applicationsBackToList;
+
+  /// Error title when a single application fails to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load this application'**
+  String get applicationsDetailLoadError;
+
+  /// Error body when a single application fails to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again or go back to the applications list.'**
+  String get applicationsDetailLoadErrorDescription;
+
+  /// Label for the read-only application ID field.
+  ///
+  /// In en, this message translates to:
+  /// **'Application ID'**
+  String get applicationsId;
+
+  /// Button that copies the application ID.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy ID'**
+  String get applicationsCopyId;
+
+  /// Section title for client secret and bot token.
+  ///
+  /// In en, this message translates to:
+  /// **'Secrets & tokens'**
+  String get applicationsSecretsTitle;
+
+  /// Section description for secrets and tokens.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep these safe. Regenerating will break existing integrations.'**
+  String get applicationsSecretsDescription;
+
+  /// Label for the OAuth2 client secret field.
+  ///
+  /// In en, this message translates to:
+  /// **'Client secret'**
+  String get applicationsClientSecret;
+
+  /// Label for the bot token field.
+  ///
+  /// In en, this message translates to:
+  /// **'Bot token'**
+  String get applicationsBotToken;
+
+  /// Button that rotates a secret or token.
+  ///
+  /// In en, this message translates to:
+  /// **'Regenerate'**
+  String get applicationsRegenerate;
+
+  /// Confirmation title when regenerating the client secret.
+  ///
+  /// In en, this message translates to:
+  /// **'Regenerate client secret?'**
+  String get applicationsRegenerateClientSecretTitle;
+
+  /// Confirmation title when regenerating the bot token.
+  ///
+  /// In en, this message translates to:
+  /// **'Regenerate bot token?'**
+  String get applicationsRegenerateBotTokenTitle;
+
+  /// Confirmation body when regenerating the client secret.
+  ///
+  /// In en, this message translates to:
+  /// **'Regenerating will invalidate the current secret. Update any code that uses the old value.'**
+  String get applicationsRegenerateClientSecretDescription;
+
+  /// Confirmation body when regenerating the bot token.
+  ///
+  /// In en, this message translates to:
+  /// **'Regenerating will invalidate the current token. Update any code that uses the old value.'**
+  String get applicationsRegenerateBotTokenDescription;
+
+  /// Toast after a client secret is rotated.
+  ///
+  /// In en, this message translates to:
+  /// **'Client secret regenerated. Update any code that uses the old secret.'**
+  String get applicationsClientSecretRegenerated;
+
+  /// Toast after a bot token is rotated.
+  ///
+  /// In en, this message translates to:
+  /// **'Bot token regenerated. Update any code that uses the old token.'**
+  String get applicationsBotTokenRegenerated;
+
+  /// Error toast when rotating a secret or token fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t regenerate secret'**
+  String get applicationsRegenerateFailed;
+
+  /// Section title for basic application settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Application information'**
+  String get applicationsInfoTitle;
+
+  /// Section description for basic application settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic settings and allowed redirect URIs.'**
+  String get applicationsInfoDescription;
+
+  /// Switch label for allowing anyone to invite the bot.
+  ///
+  /// In en, this message translates to:
+  /// **'Public bot'**
+  String get applicationsPublicBot;
+
+  /// Switch description for public bot.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow anyone to invite this bot to their communities.'**
+  String get applicationsPublicBotDescription;
+
+  /// Switch label for requiring an OAuth2 code grant on invite.
+  ///
+  /// In en, this message translates to:
+  /// **'Require OAuth2 code grant'**
+  String get applicationsRequireCodeGrant;
+
+  /// Switch description for OAuth2 code grant.
+  ///
+  /// In en, this message translates to:
+  /// **'Requires a redirect URI and an authorization code when inviting this bot.'**
+  String get applicationsRequireCodeGrantDescription;
+
+  /// Label for the redirect URI list.
+  ///
+  /// In en, this message translates to:
+  /// **'Redirect URIs'**
+  String get applicationsRedirectUris;
+
+  /// Button that adds another redirect URI row.
+  ///
+  /// In en, this message translates to:
+  /// **'Add redirect'**
+  String get applicationsAddRedirect;
+
+  /// Accessibility label for removing a redirect URI row.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete redirect URI'**
+  String get applicationsDeleteRedirect;
+
+  /// Section title for bot profile settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Bot profile'**
+  String get applicationsBotProfileTitle;
+
+  /// Section description for bot profile settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Avatar, tag, and rich profile details for your bot.'**
+  String get applicationsBotProfileDescription;
+
+  /// Label for the bot avatar preview.
+  ///
+  /// In en, this message translates to:
+  /// **'Bot avatar'**
+  String get applicationsBotAvatar;
+
+  /// Validation error when the bot username is empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Username is required'**
+  String get applicationsUsernameRequired;
+
+  /// Validation error when the bot username is too long.
+  ///
+  /// In en, this message translates to:
+  /// **'Username must be at most 32 characters'**
+  String get applicationsUsernameTooLong;
+
+  /// Validation error when the bot username has invalid characters.
+  ///
+  /// In en, this message translates to:
+  /// **'Username can only contain letters, numbers, and underscores'**
+  String get applicationsUsernameInvalid;
+
+  /// Label for the bot username field.
+  ///
+  /// In en, this message translates to:
+  /// **'Bot username'**
+  String get applicationsBotUsername;
+
+  /// Label for the read-only bot discriminator.
+  ///
+  /// In en, this message translates to:
+  /// **'Discriminator'**
+  String get applicationsDiscriminator;
+
+  /// Label for the bot biography field.
+  ///
+  /// In en, this message translates to:
+  /// **'Bot bio'**
+  String get applicationsBotBio;
+
+  /// Placeholder for the bot biography field.
+  ///
+  /// In en, this message translates to:
+  /// **'A helpful bot that does amazing things!'**
+  String get applicationsBotBioHint;
+
+  /// Placeholder shown when the bot has no banner.
+  ///
+  /// In en, this message translates to:
+  /// **'No bot banner'**
+  String get applicationsNoBotBanner;
+
+  /// Switch label for allowing friend requests to the bot.
+  ///
+  /// In en, this message translates to:
+  /// **'Friendly bot'**
+  String get applicationsFriendlyBot;
+
+  /// Switch description for friendly bot.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow users to send this bot friend requests for manual approval.'**
+  String get applicationsFriendlyBotDescription;
+
+  /// Switch label for requiring manual friend-request approval.
+  ///
+  /// In en, this message translates to:
+  /// **'Require manual friend approval'**
+  String get applicationsManualFriendApproval;
+
+  /// Switch description for manual friend approval.
+  ///
+  /// In en, this message translates to:
+  /// **'Friend requests to this bot need manual approval.'**
+  String get applicationsManualFriendApprovalDescription;
+
+  /// Section title for the authorize URL builder.
+  ///
+  /// In en, this message translates to:
+  /// **'OAuth2 URL builder'**
+  String get applicationsOauthBuilderTitle;
+
+  /// Section description for the authorize URL builder.
+  ///
+  /// In en, this message translates to:
+  /// **'Construct an authorize URL with scopes and permissions.'**
+  String get applicationsOauthBuilderDescription;
+
+  /// Label for OAuth2 scope checkboxes.
+  ///
+  /// In en, this message translates to:
+  /// **'Scopes'**
+  String get applicationsScopes;
+
+  /// Label for the authorize URL redirect selector.
+  ///
+  /// In en, this message translates to:
+  /// **'Redirect URI'**
+  String get applicationsRedirectUri;
+
+  /// Placeholder for the authorize URL redirect selector.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a redirect URI'**
+  String get applicationsSelectRedirectUri;
+
+  /// Validation shown when a redirect is required by code grant.
+  ///
+  /// In en, this message translates to:
+  /// **'Redirect URI is required because this bot requires OAuth2 code grant.'**
+  String get applicationsRedirectRequiredCodeGrant;
+
+  /// Validation shown when a redirect is required by selected scopes.
+  ///
+  /// In en, this message translates to:
+  /// **'Redirect URI is required when not using only the bot scope.'**
+  String get applicationsRedirectRequiredScopes;
+
+  /// Label for bot permission checkboxes in the URL builder.
+  ///
+  /// In en, this message translates to:
+  /// **'Bot permissions'**
+  String get applicationsBotPermissions;
+
+  /// Label for the generated authorize URL field.
+  ///
+  /// In en, this message translates to:
+  /// **'Authorize URL'**
+  String get applicationsAuthorizeUrl;
+
+  /// Placeholder when the authorize URL cannot be built yet.
+  ///
+  /// In en, this message translates to:
+  /// **'Select scopes (and redirect URI if required)'**
+  String get applicationsAuthorizeUrlPlaceholder;
+
+  /// Button that copies the generated authorize URL.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy authorize URL'**
+  String get applicationsCopyAuthorizeUrl;
+
+  /// Toast after copying the authorize URL.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied URL to clipboard'**
+  String get applicationsCopiedUrl;
+
+  /// Section title for deleting an application.
+  ///
+  /// In en, this message translates to:
+  /// **'Danger zone'**
+  String get applicationsDangerTitle;
+
+  /// Section subtitle for deleting an application.
+  ///
+  /// In en, this message translates to:
+  /// **'This cannot be undone. Removing the application also deletes its bot.'**
+  String get applicationsDangerSubtitle;
+
+  /// Helper text in the application danger zone.
+  ///
+  /// In en, this message translates to:
+  /// **'Once deleted, the application and its credentials are permanently removed.'**
+  String get applicationsDangerHelper;
+
+  /// Button that deletes the current application.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete application'**
+  String get applicationsDelete;
+
+  /// Confirmation body when deleting an application.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete {name}? This action cannot be undone. All associated data, including the bot user, will be permanently deleted.'**
+  String applicationsDeleteConfirmDescription(String name);
+
+  /// Error toast when deleting an application fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t delete application'**
+  String get applicationsDeleteFailed;
+
+  /// Toast after saving application changes.
+  ///
+  /// In en, this message translates to:
+  /// **'Application updated successfully'**
+  String get applicationsUpdated;
+
+  /// Toast when save is pressed with no dirty fields.
+  ///
+  /// In en, this message translates to:
+  /// **'No changes to save'**
+  String get applicationsNoChanges;
+
+  /// Settings search entry for the Applications tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Applications & bots'**
+  String get applicationsSearchBots;
+
+  /// Settings search description for the Applications tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Create and manage applications and bots for your account'**
+  String get applicationsSearchBotsDescription;
+
+  /// Settings search description for application information.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit application basics and redirect URIs'**
+  String get applicationsSearchInfoDescription;
+
+  /// Settings search description for bot profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit the bot avatar, tag, bio, banner, and friend request behavior'**
+  String get applicationsSearchBotProfileDescription;
+
+  /// Settings search description for the OAuth2 URL builder.
+  ///
+  /// In en, this message translates to:
+  /// **'Build an authorization URL with scopes, redirects, and bot permissions'**
+  String get applicationsSearchOauthDescription;
+
+  /// Settings search description for secrets and tokens.
+  ///
+  /// In en, this message translates to:
+  /// **'View and regenerate client secrets and bot tokens'**
+  String get applicationsSearchSecretsDescription;
+
+  /// Settings search synonym for applications.
+  ///
+  /// In en, this message translates to:
+  /// **'Bots'**
+  String get applicationsSearchBotsKeyword;
+
+  /// Settings search synonym for the applications docs link.
+  ///
+  /// In en, this message translates to:
+  /// **'Documentation'**
+  String get applicationsSearchDocumentation;
+
   /// Title of the warning alert shown when a bulk message deletion is pending.
   ///
   /// In en, this message translates to:
