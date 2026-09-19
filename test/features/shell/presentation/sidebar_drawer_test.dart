@@ -254,6 +254,68 @@ void main() {
     await tester.pumpAndSettle();
   });
 
+  testWidgets('keeps past half when reparented during build', (tester) async {
+    final router = _routerFor('/channels/guild/channel');
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+    var wrapInTransform = true;
+
+    Widget app() {
+      return UncontrolledProviderScope(
+        container: container,
+        child: MaterialApp.router(
+          routerConfig: router,
+          builder: (BuildContext context, Widget? child) {
+            final Widget media = MediaQuery(
+              data: const MediaQueryData(size: Size(400, 800)),
+              child: child ?? const SizedBox.shrink(),
+            );
+            if (!wrapInTransform) {
+              return media;
+            }
+            return Transform.scale(scale: 1.01, child: media);
+          },
+        ),
+      );
+    }
+
+    await tester.pumpWidget(app());
+    await tester.dragFrom(const Offset(10, 400), const Offset(260, 0));
+    await tester.pumpAndSettle();
+    expect(container.read(drawerPastHalfScreenProvider), isTrue);
+
+    wrapInTransform = false;
+    await tester.pumpWidget(app());
+    await tester.pump();
+
+    expect(container.read(drawerPastHalfScreenProvider), isTrue);
+  });
+
+  testWidgets('clears past half after the drawer leaves the tree', (
+    tester,
+  ) async {
+    final router = _routerFor('/channels/guild/channel');
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(
+      _buildDrawerApp(container: container, router: router),
+    );
+    await tester.dragFrom(const Offset(10, 400), const Offset(260, 0));
+    await tester.pumpAndSettle();
+    expect(container.read(drawerPastHalfScreenProvider), isTrue);
+
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: const SizedBox.shrink(),
+      ),
+    );
+    await tester.pump();
+
+    expect(container.read(drawerPastHalfScreenProvider), isFalse);
+  });
+
   testWidgets('committed drawer drag keeps tracking after a vertical arc', (
     tester,
   ) async {

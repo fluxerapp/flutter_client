@@ -93,8 +93,16 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
 
   @override
   void deactivate() {
-    ref.read(drawerPastHalfScreenProvider.notifier).set(pastHalf: false);
+    final DrawerPastHalfScreen notifier = ref.read(
+      drawerPastHalfScreenProvider.notifier,
+    );
     super.deactivate();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        return;
+      }
+      notifier.set(pastHalf: false);
+    });
   }
 
   @override
