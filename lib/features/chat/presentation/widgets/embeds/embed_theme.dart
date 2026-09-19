@@ -1,4 +1,5 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -11,34 +12,36 @@ class EmbedTheme extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = FluxerLocalizations.of(context);
-    return _EmbedCard(
-      icon: _IconCircle(
-        color: context.colors.brandPrimary,
-        child: PhosphorIcon(
-          PhosphorIconsBold.palette,
-          size: 24,
-          color: context.colors.textOnBrandPrimary,
+    return ChatSurfaceTheme(
+      builder: (BuildContext context) => _EmbedCard(
+        icon: _IconCircle(
+          color: context.colors.brandPrimary,
+          child: PhosphorIcon(
+            PhosphorIconsBold.palette,
+            size: 24,
+            color: context.colors.textOnBrandPrimary,
+          ),
         ),
-      ),
-      title: Text(
-        l10n.embedThemeTitle,
-        style: context.textStyles.channelName.copyWith(
-          color: context.colors.textPrimary,
-          fontSize: 15,
-          letterSpacing: -0.1,
+        title: Text(
+          l10n.embedThemeTitle,
+          style: context.textStyles.channelName.copyWith(
+            color: context.colors.textPrimary,
+            fontSize: 15,
+            letterSpacing: -0.1,
+          ),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
         ),
-        overflow: TextOverflow.ellipsis,
-        maxLines: 1,
-      ),
-      subtitle: Text(
-        l10n.embedThemeSubtitle,
-        style: context.textStyles.embedFooter.copyWith(
-          color: context.colors.textTertiaryMuted,
-          height: 1.2,
+        subtitle: Text(
+          l10n.embedThemeSubtitle,
+          style: context.textStyles.embedFooter.copyWith(
+            color: context.colors.textTertiaryMuted,
+            height: 1.2,
+          ),
         ),
-      ),
-      footer: FluxerButton.dangerPrimary(
-        label: l10n.embedThemeUnavailableButton,
+        footer: FluxerButton.dangerPrimary(
+          label: l10n.embedThemeUnavailableButton,
+        ),
       ),
     );
   }

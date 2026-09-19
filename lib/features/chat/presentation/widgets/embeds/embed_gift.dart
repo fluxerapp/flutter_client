@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/gifts/presentation/widgets/gift_icon_circle.dart';
 import 'package:fluxer_app/features/gifts/providers/gift_embed_provider.dart';
 import 'package:fluxer_app/features/gifts/services/gift_redeem_service.dart';
@@ -25,18 +26,20 @@ class EmbedGift extends ConsumerWidget {
     final normalizedCode = extractGiftCode(code);
     final async = ref.watch(giftEmbedProvider(normalizedCode));
 
-    return async.when(
-      loading: () => _GiftLoadingCard(l10n: l10n),
-      error: (_, _) => _GiftNotFound(l10n: l10n),
-      data: (state) => switch (state) {
-        GiftEmbedNotFound() => _GiftNotFound(l10n: l10n),
-        GiftEmbedLoaded(:final gift) => _GiftCard(
-          gift: gift,
-          code: normalizedCode,
-          l10n: l10n,
-          ref: ref,
-        ),
-      },
+    return ChatSurfaceTheme(
+      builder: (BuildContext context) => async.when(
+        loading: () => _GiftLoadingCard(l10n: l10n),
+        error: (_, _) => _GiftNotFound(l10n: l10n),
+        data: (state) => switch (state) {
+          GiftEmbedNotFound() => _GiftNotFound(l10n: l10n),
+          GiftEmbedLoaded(:final gift) => _GiftCard(
+            gift: gift,
+            code: normalizedCode,
+            l10n: l10n,
+            ref: ref,
+          ),
+        },
+      ),
     );
   }
 }

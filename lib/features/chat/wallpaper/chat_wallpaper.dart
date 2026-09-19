@@ -19,6 +19,7 @@ class ChatWallpaperState {
     this.kind = ChatWallpaperKind.defaultTheme,
     this.id,
     this.dim = defaultDim,
+    this.luminance,
   });
 
   static const double defaultDim = 0.2;
@@ -26,6 +27,7 @@ class ChatWallpaperState {
   final ChatWallpaperKind kind;
   final String? id;
   final double dim;
+  final double? luminance;
 
   bool get isThemeBackground => kind == ChatWallpaperKind.defaultTheme;
 
@@ -34,11 +36,14 @@ class ChatWallpaperState {
     String? id,
     bool clearId = false,
     double? dim,
+    double? luminance,
+    bool clearLuminance = false,
   }) {
     return ChatWallpaperState(
       kind: kind ?? this.kind,
       id: clearId ? null : (id ?? this.id),
       dim: dim ?? this.dim,
+      luminance: clearLuminance ? null : (luminance ?? this.luminance),
     );
   }
 
@@ -47,18 +52,24 @@ class ChatWallpaperState {
     return other is ChatWallpaperState &&
         other.kind == kind &&
         other.id == id &&
-        other.dim == dim;
+        other.dim == dim &&
+        other.luminance == luminance;
   }
 
   @override
-  int get hashCode => Object.hash(kind, id, dim);
+  int get hashCode => Object.hash(kind, id, dim, luminance);
 }
 
 class ChatWallpaperColorPreset {
-  const ChatWallpaperColorPreset({required this.id, required this.color});
+  const ChatWallpaperColorPreset({
+    required this.id,
+    required this.color,
+    this.brightness = Brightness.dark,
+  });
 
   final String id;
   final Color color;
+  final Brightness brightness;
 }
 
 class ChatWallpaperGradientPreset {
@@ -67,19 +78,26 @@ class ChatWallpaperGradientPreset {
     required this.colors,
     this.begin = Alignment.topCenter,
     this.end = Alignment.bottomCenter,
+    this.brightness = Brightness.dark,
   });
 
   final String id;
   final List<Color> colors;
   final Alignment begin;
   final Alignment end;
+  final Brightness brightness;
 }
 
 class ChatWallpaperImagePreset {
-  const ChatWallpaperImagePreset({required this.id, required this.assetPath});
+  const ChatWallpaperImagePreset({
+    required this.id,
+    required this.assetPath,
+    this.brightness = Brightness.dark,
+  });
 
   final String id;
   final String assetPath;
+  final Brightness brightness;
 }
 
 // Named catalog for wallpaper fills. Instance state is not needed.
@@ -285,6 +303,7 @@ ChatWallpaperState chatWallpaperFromJson(String? raw) {
       kind: kind,
       id: id,
       dim: clampChatWallpaperDim(map['dim']),
+      luminance: parseChatWallpaperLuminance(map['luminance']),
     );
   } on Object {
     return const ChatWallpaperState();
@@ -296,7 +315,68 @@ String chatWallpaperToJson(ChatWallpaperState state) {
     'kind': chatWallpaperKindToJson(state.kind),
     if (state.id case final String id when id.isNotEmpty) 'id': id,
     'dim': state.dim,
+    if (state.kind == ChatWallpaperKind.custom)
+      if (state.luminance case final double luminance) 'luminance': luminance,
   });
+}
+
+const double kChatWallpaperLuminanceCutoff = 0.179;
+
+double? parseChatWallpaperLuminance(Object? value) {
+  if (value is! num) {
+    return null;
+  }
+  return value.toDouble().clamp(0.0, 1.0);
+}
+
+double chatWallpaperEffectiveLuminance(double luminance, double dim) {
+  return (luminance * (1.0 - clampChatWallpaperDim(dim))).clamp(0.0, 1.0);
+}
+
+Brightness chatWallpaperToneFromLuminance(double effectiveLuminance) {
+  return effectiveLuminance < kChatWallpaperLuminanceCutoff
+      ? Brightness.dark
+      : Brightness.light;
+}
+
+Brightness? resolveChatWallpaperTone(ChatWallpaperState resolved) {
+  if (resolved.isThemeBackground) {
+    return null;
+  }
+  switch (resolved.kind) {
+    case ChatWallpaperKind.defaultTheme:
+      return null;
+    case ChatWallpaperKind.color:
+      return ChatWallpaperCatalog.colorById(resolved.id)?.brightness ??
+          Brightness.dark;
+    case ChatWallpaperKind.gradient:
+      return ChatWallpaperCatalog.gradientById(resolved.id)?.brightness ??
+          Brightness.dark;
+    case ChatWallpaperKind.preset:
+      return ChatWallpaperCatalog.bundledImageById(resolved.id)?.brightness ??
+          Brightness.dark;
+    case ChatWallpaperKind.starfield:
+      return Brightness.dark;
+    case ChatWallpaperKind.custom:
+      final double? luminance = resolved.luminance;
+      if (luminance == null) {
+        return Brightness.dark;
+      }
+      return chatWallpaperToneFromLuminance(
+        chatWallpaperEffectiveLuminance(luminance, resolved.dim),
+      );
+  }
+}
+
+bool shouldOverlayChatWallpaperText({
+  required ChatWallpaperState resolved,
+  required Brightness themeBrightness,
+}) {
+  final Brightness? tone = resolveChatWallpaperTone(resolved);
+  if (tone == null) {
+    return false;
+  }
+  return tone != themeBrightness;
 }
 
 Color chatWallpaperDimColor(double dim) {

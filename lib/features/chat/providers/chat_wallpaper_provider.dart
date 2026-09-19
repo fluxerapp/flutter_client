@@ -28,14 +28,25 @@ class ChatWallpaper extends _$ChatWallpaper {
     if (!kIsWeb) {
       customPath = await _files.existingPathForUser(userId);
     }
-    state = ChatWallpaperSnapshot(
-      selection: selection,
-      customImagePath: customPath,
-    );
+    ChatWallpaperState next = selection;
+    if (selection.kind == ChatWallpaperKind.custom &&
+        selection.luminance == null) {
+      final double? luminance = await _files.sampleExistingLuminance(userId);
+      if (luminance != null) {
+        next = selection.copyWith(luminance: luminance);
+      }
+    }
+    state = ChatWallpaperSnapshot(selection: next, customImagePath: customPath);
+    if (next.luminance != selection.luminance) {
+      await _persist();
+    }
   }
 
   Future<void> setSelection(ChatWallpaperState selection) async {
-    state = state.copyWith(selection: selection);
+    final ChatWallpaperState next = selection.kind == ChatWallpaperKind.custom
+        ? selection
+        : selection.copyWith(clearLuminance: true);
+    state = state.copyWith(selection: next);
     await _persist();
   }
 
@@ -53,19 +64,24 @@ class ChatWallpaper extends _$ChatWallpaper {
   Future<bool> setCustomImage(Uint8List bytes) async {
     state = state.copyWith(isProcessingCustom: true);
     try {
-      final Uint8List? encoded = await prepareChatWallpaperBytes(bytes);
+      final ChatWallpaperEncodedImage? encoded =
+          await prepareChatWallpaperBytes(bytes);
       if (encoded == null) {
         return false;
       }
       String? path;
       final String? userId = _userId;
       if (userId != null) {
-        path = await _files.saveForUser(userId: userId, bytes: encoded);
+        path = await _files.saveForUser(userId: userId, bytes: encoded.bytes);
         if (path == null && !kIsWeb) {
           return false;
         }
       }
-      _setCustomSelection(encoded, path: path);
+      _setCustomSelection(
+        encoded.bytes,
+        path: path,
+        luminance: encoded.luminance,
+      );
       await _persist();
       return true;
     } finally {
@@ -75,11 +91,16 @@ class ChatWallpaper extends _$ChatWallpaper {
     }
   }
 
-  void _setCustomSelection(Uint8List encoded, {required String? path}) {
+  void _setCustomSelection(
+    Uint8List encoded, {
+    required String? path,
+    required double luminance,
+  }) {
     state = state.copyWith(
       selection: state.selection.copyWith(
         kind: ChatWallpaperKind.custom,
         clearId: true,
+        luminance: luminance,
       ),
       customImagePath: path,
       customImageBytes: encoded,

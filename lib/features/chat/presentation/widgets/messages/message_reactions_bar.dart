@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -64,35 +65,37 @@ class MessageReactionsBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 4,
-      runSpacing: 4,
-      children: [
-        for (final reaction in reactions)
-          _ReactionChip(
-            reaction: reaction,
-            onTap: () {
-              FluxerHaptics.selection();
-              onReactionTap(
-                reaction.emoji,
-                emojiId: reaction.emojiId,
-                animated: reaction.animated,
-              );
-            },
-            onLongPress: onReactionLongPress == null
-                ? null
-                : () {
-                    FluxerHaptics.medium();
-                    onReactionLongPress!(reaction);
-                  },
-          ),
-        if (showAddReaction)
-          _InlineAddReactionButton(
-            channelId: channelId,
-            onReaction: onReactionTap,
-            isMobile: isMobile,
-          ),
-      ],
+    return ChatSurfaceTheme(
+      builder: (BuildContext context) => Wrap(
+        spacing: 4,
+        runSpacing: 4,
+        children: [
+          for (final reaction in reactions)
+            _ReactionChip(
+              reaction: reaction,
+              onTap: () {
+                FluxerHaptics.selection();
+                onReactionTap(
+                  reaction.emoji,
+                  emojiId: reaction.emojiId,
+                  animated: reaction.animated,
+                );
+              },
+              onLongPress: onReactionLongPress == null
+                  ? null
+                  : () {
+                      FluxerHaptics.medium();
+                      onReactionLongPress!(reaction);
+                    },
+            ),
+          if (showAddReaction)
+            _InlineAddReactionButton(
+              channelId: channelId,
+              onReaction: onReactionTap,
+              isMobile: isMobile,
+            ),
+        ],
+      ),
     );
   }
 }

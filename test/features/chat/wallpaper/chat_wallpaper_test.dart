@@ -156,4 +156,110 @@ void main() {
       );
     });
   });
+
+  group('chat wallpaper tone', () {
+    test('default wallpaper has no tone and does not overlay', () {
+      const ChatWallpaperState def = ChatWallpaperState();
+      expect(resolveChatWallpaperTone(def), isNull);
+      expect(
+        shouldOverlayChatWallpaperText(
+          resolved: def,
+          themeBrightness: Brightness.light,
+        ),
+        isFalse,
+      );
+      expect(
+        shouldOverlayChatWallpaperText(
+          resolved: def,
+          themeBrightness: Brightness.dark,
+        ),
+        isFalse,
+      );
+    });
+
+    test('every current color, gradient, and starfield is dark', () {
+      for (final ChatWallpaperColorPreset preset
+          in ChatWallpaperCatalog.colors) {
+        expect(
+          resolveChatWallpaperTone(
+            ChatWallpaperState(kind: ChatWallpaperKind.color, id: preset.id),
+          ),
+          Brightness.dark,
+        );
+      }
+      for (final ChatWallpaperGradientPreset preset
+          in ChatWallpaperCatalog.gradients) {
+        expect(
+          resolveChatWallpaperTone(
+            ChatWallpaperState(kind: ChatWallpaperKind.gradient, id: preset.id),
+          ),
+          Brightness.dark,
+        );
+      }
+      expect(
+        resolveChatWallpaperTone(
+          const ChatWallpaperState(kind: ChatWallpaperKind.starfield),
+        ),
+        Brightness.dark,
+      );
+    });
+
+    test('dark wallpaper overlays in light theme and not in dark theme', () {
+      const ChatWallpaperState starfield = ChatWallpaperState(
+        kind: ChatWallpaperKind.starfield,
+      );
+      expect(
+        shouldOverlayChatWallpaperText(
+          resolved: starfield,
+          themeBrightness: Brightness.light,
+        ),
+        isTrue,
+      );
+      expect(
+        shouldOverlayChatWallpaperText(
+          resolved: starfield,
+          themeBrightness: Brightness.dark,
+        ),
+        isFalse,
+      );
+    });
+
+    test('dimmed custom luminance crosses the cutoff', () {
+      expect(chatWallpaperEffectiveLuminance(1, 0.2), closeTo(0.8, 0.0001));
+      expect(chatWallpaperToneFromLuminance(0.8), Brightness.light);
+      expect(
+        chatWallpaperToneFromLuminance(kChatWallpaperLuminanceCutoff - 0.001),
+        Brightness.dark,
+      );
+      expect(
+        resolveChatWallpaperTone(
+          const ChatWallpaperState(
+            kind: ChatWallpaperKind.custom,
+            dim: 0.9,
+            luminance: 0.5,
+          ),
+        ),
+        Brightness.dark,
+      );
+      expect(
+        resolveChatWallpaperTone(
+          const ChatWallpaperState(
+            kind: ChatWallpaperKind.custom,
+            dim: 0,
+            luminance: 0.9,
+          ),
+        ),
+        Brightness.light,
+      );
+    });
+
+    test('round-trips custom luminance', () {
+      const ChatWallpaperState custom = ChatWallpaperState(
+        kind: ChatWallpaperKind.custom,
+        dim: 0.35,
+        luminance: 0.42,
+      );
+      expect(chatWallpaperFromJson(chatWallpaperToJson(custom)), custom);
+    });
+  });
 }

@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/attachment
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_composer_column.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_expression_expandable_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_backdrop.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
@@ -149,11 +150,13 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
       expressionPanelOpen: isExpressionOpen,
       attachmentPanelOpen: isAttachmentOpen,
     );
-    final Widget messageList = MessageList(
-      key: ValueKey<String>(listChannelId),
-      expectedChannelId: listChannelId,
-      targetMessageId: widget.targetMessageId,
-      visible: widget.loadMessages,
+    final Widget messageList = ChatWallpaperTextTheme(
+      child: MessageList(
+        key: ValueKey<String>(listChannelId),
+        expectedChannelId: listChannelId,
+        targetMessageId: widget.targetMessageId,
+        visible: widget.loadMessages,
+      ),
     );
     return Stack(
       fit: StackFit.expand,

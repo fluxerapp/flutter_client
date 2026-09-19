@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/invite_embed_context_menu.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/chat/providers/messages/invite_embed_provider.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
@@ -35,35 +36,37 @@ class EmbedInvite extends ConsumerWidget {
     final l10n = FluxerLocalizations.of(context);
     final async = ref.watch(inviteEmbedProvider(code));
 
-    return async.when(
-      loading: () => _InviteCard(
-        icon: _SkeletonCircle(),
-        title: const _SkeletonBar(width: 120),
-        stats: const _SkeletonBar(width: 160),
-        footer: FluxerButton.primary(label: l10n.embedInviteJoin),
-      ),
-      error: (_, _) => _InviteNotFound(l10n: l10n),
-      data: (state) => switch (state) {
-        InviteEmbedLoading() => _InviteCard(
+    return ChatSurfaceTheme(
+      builder: (BuildContext context) => async.when(
+        loading: () => _InviteCard(
           icon: _SkeletonCircle(),
           title: const _SkeletonBar(width: 120),
           stats: const _SkeletonBar(width: 160),
           footer: FluxerButton.primary(label: l10n.embedInviteJoin),
         ),
-        InviteEmbedNotFound() => _InviteNotFound(l10n: l10n),
-        InviteEmbedGuild(:final invite) => _GuildInviteCard(
-          invite: invite,
-          code: code,
-          l10n: l10n,
-          ref: ref,
-        ),
-        InviteEmbedGroupDm(:final invite) => _GroupDmInviteCard(
-          invite: invite,
-          code: code,
-          l10n: l10n,
-          ref: ref,
-        ),
-      },
+        error: (_, _) => _InviteNotFound(l10n: l10n),
+        data: (state) => switch (state) {
+          InviteEmbedLoading() => _InviteCard(
+            icon: _SkeletonCircle(),
+            title: const _SkeletonBar(width: 120),
+            stats: const _SkeletonBar(width: 160),
+            footer: FluxerButton.primary(label: l10n.embedInviteJoin),
+          ),
+          InviteEmbedNotFound() => _InviteNotFound(l10n: l10n),
+          InviteEmbedGuild(:final invite) => _GuildInviteCard(
+            invite: invite,
+            code: code,
+            l10n: l10n,
+            ref: ref,
+          ),
+          InviteEmbedGroupDm(:final invite) => _GroupDmInviteCard(
+            invite: invite,
+            code: code,
+            l10n: l10n,
+            ref: ref,
+          ),
+        },
+      ),
     );
   }
 }
