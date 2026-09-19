@@ -2,6 +2,7 @@ import 'package:drift/drift.dart' show Value;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
+import 'package:fluxer_app/features/chat/domain/message.dart' as chat;
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 
@@ -67,4 +68,36 @@ void main() {
       );
     },
   );
+
+  test('SAVED_MESSAGE_CREATE notifies listeners after persist', () async {
+    final FluxerDatabase database = openTestDatabase();
+    chat.Message? created;
+
+    await GatewayEventHandler(
+      database: database,
+      currentUserId: 'me',
+      onSavedMessageCreate: (chat.Message message) => created = message,
+    ).handle(
+      SavedMessageCreateEvent(
+        message: _message(id: 'm1', channelId: 'c1', content: 'from desktop'),
+      ),
+    );
+
+    expect(created?.id, 'm1');
+    expect(created?.content, 'from desktop');
+  });
+
+  test('SAVED_MESSAGE_DELETE notifies listeners', () async {
+    final FluxerDatabase database = openTestDatabase();
+    await database.savedMessageDao.addSavedMessage('m1');
+    String? deletedId;
+
+    await GatewayEventHandler(
+      database: database,
+      onSavedMessageDelete: (String messageId) => deletedId = messageId,
+    ).handle(const SavedMessageDeleteEvent(messageId: 'm1'));
+
+    expect(deletedId, 'm1');
+    expect(await database.savedMessageDao.isSaved('m1'), isFalse);
+  });
 }

@@ -21,6 +21,7 @@ import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/auth/providers/current_auth_session_provider.dart';
+import 'package:fluxer_app/features/bookmarks/providers/saved_messages_provider.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/providers/read_state_write_batcher_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
@@ -328,6 +329,13 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     }),
     onChannelDelete: (channelId) => ifMounted(() {
       ref.read(slowmodeTrackerProvider.notifier).clearChannel(channelId);
+      ref.read(savedMessagesProvider.notifier).handleChannelDelete(channelId);
+    }),
+    onSavedMessageCreate: (message) => ifMounted(() {
+      ref.read(savedMessagesProvider.notifier).handleSavedCreate(message);
+    }),
+    onSavedMessageDelete: (messageId) => ifMounted(() {
+      ref.read(savedMessagesProvider.notifier).handleMessageDelete(messageId);
     }),
     onPermissionsClearAll: () => ifMounted(() {
       ref.read(guildPermissionsProvider.notifier).clearAll();

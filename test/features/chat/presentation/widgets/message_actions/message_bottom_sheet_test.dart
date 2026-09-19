@@ -9,7 +9,7 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/bookmarks/data/saved_messages_repository.dart';
-import 'package:fluxer_app/features/bookmarks/providers/saved_messages_sync_provider.dart';
+import 'package:fluxer_app/features/bookmarks/providers/saved_messages_provider.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';

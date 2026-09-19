@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/bookmarks/data/saved_messages_repository.dart';
-import 'package:fluxer_app/features/bookmarks/providers/saved_messages_sync_provider.dart';
+import 'package:fluxer_app/features/bookmarks/providers/saved_messages_provider.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -19,6 +19,7 @@ Future<void> toggleSavedMessageBookmark({
       .read(fluxerDatabaseProvider)
       .savedMessageDao
       .isSaved(messageId)) {
+    ref.read(savedMessagesProvider.notifier).handleMessageDelete(messageId);
     await repository.unsaveMessage(messageId);
     _showBookmarkToast(ref, l10n, added: false);
     return;
@@ -32,6 +33,7 @@ Future<void> unsaveMessageBookmark({
   required FluxerLocalizations l10n,
   required String messageId,
 }) async {
+  ref.read(savedMessagesProvider.notifier).handleMessageDelete(messageId);
   await ref.read(savedMessagesRepositoryProvider).unsaveMessage(messageId);
   _showBookmarkToast(ref, l10n, added: false);
 }

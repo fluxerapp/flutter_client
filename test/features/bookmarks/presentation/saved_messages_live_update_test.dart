@@ -2,8 +2,6 @@
 // ProviderScope written inline in pumpWidget.
 // ignore_for_file: riverpod_lint/scoped_providers_should_specify_dependencies
 
-import 'dart:async';
-
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -15,19 +13,24 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/bookmarks/domain/saved_messages.dart';
 import 'package:fluxer_app/features/bookmarks/presentation/widgets/saved_messages_body.dart';
-import 'package:fluxer_app/features/bookmarks/providers/saved_message_list_provider.dart';
-import 'package:fluxer_app/features/bookmarks/providers/saved_messages_sync_provider.dart';
+import 'package:fluxer_app/features/bookmarks/providers/saved_messages_provider.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
+import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
+import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../helpers/instance_runtime_config_override.dart';
+import '../../../helpers/noop_guild_member_hydration_service.dart';
 import '../../../helpers/open_test_database.dart';
 import '../../../helpers/test_l10n.dart';
 
@@ -36,9 +39,16 @@ const String _channelId = 'chan_1';
 const String _existingId = '1000000000000000000';
 const String _incomingId = '2000000000000000000';
 
-class _FetchedSavedMessagesSync extends SavedMessagesSyncNotifier {
+class _SeededSavedMessages extends SavedMessagesNotifier {
+  _SeededSavedMessages(this._initial);
+
+  final SavedMessagesState _initial;
+
   @override
-  SavedMessagesSyncState build() => const SavedMessagesSyncState(fetched: true);
+  SavedMessagesState build() {
+    super.build();
+    return _initial;
+  }
 }
 
 class _FakeUserSettings extends UserSettingsViewModel {
@@ -73,9 +83,13 @@ Message _localMessage({required String id, required String content}) {
   );
 }
 
-MessageResponseSchema _incomingSchema() {
+MessageResponseSchema _schema({
+  required String id,
+  required String content,
+  DateTime? editedTimestamp,
+}) {
   return MessageResponseSchema(
-    id: _incomingId,
+    id: id,
     channelId: _channelId,
     author: const UserPartialResponse(
       id: '300',
@@ -88,8 +102,9 @@ MessageResponseSchema _incomingSchema() {
     ),
     type: MessageResponseSchemaTypeType.valueDefault,
     flags: 0,
-    content: 'from desktop',
+    content: content,
     timestamp: DateTime.utc(2026, 1, 2),
+    editedTimestamp: editedTimestamp,
     pinned: false,
     mentionEveryone: false,
     tts: false,
@@ -100,12 +115,9 @@ MessageResponseSchema _incomingSchema() {
 
 void main() {
   late FluxerDatabase database;
-  late StreamController<List<String>> ids;
 
   setUp(() async {
     database = openTestDatabase();
-    ids = StreamController<List<String>>();
-    addTearDown(ids.close);
     await database.guildDao.upsertServer(
       ServersCompanion.insert(id: _guildId, name: 'Guild'),
     );
@@ -135,11 +147,20 @@ void main() {
         overrides: <Override>[
           instanceRuntimeConfigOverride(),
           fluxerDatabaseProvider.overrideWithValue(database),
-          savedMessagesSyncProvider.overrideWith(_FetchedSavedMessagesSync.new),
-          savedMessageIdsProvider.overrideWith((Ref ref) async* {
-            yield const <String>[_existingId];
-            yield* ids.stream;
-          }),
+          guildMemberHydrationServiceProvider.overrideWithValue(
+            NoopGuildMemberHydrationService(database: database),
+          ),
+          savedMessagesProvider.overrideWith(
+            () => _SeededSavedMessages(
+              SavedMessagesState(
+                fetched: true,
+                hasMore: false,
+                messages: <Message>[
+                  _localMessage(id: _existingId, content: 'already saved'),
+                ],
+              ),
+            ),
+          ),
           chatPreferencesProvider.overrideWithValue(
             const ChatPreferencesState(),
           ),
@@ -173,15 +194,62 @@ void main() {
     expect(find.text('general'), findsOneWidget);
     expect(find.text(testL10n.notificationsMessageUnavailable), findsNothing);
 
+    final ProviderContainer container = ProviderScope.containerOf(
+      tester.element(find.byType(SavedMessagesBody)),
+    );
     await GatewayEventHandler(
       database: database,
-    ).handle(SavedMessageCreateEvent(message: _incomingSchema()));
-    ids.add(const <String>[_incomingId, _existingId]);
+      onSavedMessageCreate: container
+          .read(savedMessagesProvider.notifier)
+          .handleSavedCreate,
+    ).handle(
+      SavedMessageCreateEvent(
+        message: _schema(id: _incomingId, content: 'from desktop'),
+      ),
+    );
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
 
     expect(find.text('general'), findsNWidgets(2));
     expect(find.text(testL10n.notificationsMessageUnavailable), findsNothing);
+
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump(const Duration(milliseconds: 1));
+  });
+
+  testWidgets('an edit from another client updates an open bookmark list', (
+    WidgetTester tester,
+  ) async {
+    await pumpBody(tester);
+
+    expect(
+      tester.widget<MessageItem>(find.byType(MessageItem)).message.content,
+      'already saved',
+    );
+
+    final ProviderContainer container = ProviderScope.containerOf(
+      tester.element(find.byType(SavedMessagesBody)),
+    );
+    container
+        .read(messageRealtimeBusProvider)
+        .emit(
+          MessageUpdated(
+            MessageUpdateEvent(
+              message: _schema(
+                id: _existingId,
+                content: 'edited on desktop',
+                editedTimestamp: DateTime.utc(2026, 1, 3),
+              ),
+            ),
+          ),
+        );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 1));
+
+    expect(
+      tester.widget<MessageItem>(find.byType(MessageItem)).message.content,
+      'edited on desktop',
+    );
 
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pump(const Duration(milliseconds: 1));

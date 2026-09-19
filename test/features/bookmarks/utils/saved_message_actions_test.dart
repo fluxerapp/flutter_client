@@ -9,7 +9,8 @@ import 'package:fluxer_app/core/database/fluxer_database.dart'
     show FluxerDatabase;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/bookmarks/data/saved_messages_repository.dart';
-import 'package:fluxer_app/features/bookmarks/providers/saved_messages_sync_provider.dart';
+import 'package:fluxer_app/features/bookmarks/domain/saved_messages.dart';
+import 'package:fluxer_app/features/bookmarks/providers/saved_messages_provider.dart';
 import 'package:fluxer_app/features/bookmarks/utils/saved_message_actions.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
@@ -45,6 +46,13 @@ class _FakeSavedMessagesRepository extends SavedMessagesRepository {
   }
 }
 
+class _SilentSavedMessages extends SavedMessagesNotifier {
+  @override
+  SavedMessagesState build() {
+    return const SavedMessagesState(fetched: true, hasMore: false);
+  }
+}
+
 void main() {
   const String channelId = 'channel-1';
   const String messageId = 'msg-1';
@@ -62,6 +70,7 @@ void main() {
           savedMessagesRepositoryProvider.overrideWithValue(
             _FakeSavedMessagesRepository(database),
           ),
+          savedMessagesProvider.overrideWith(_SilentSavedMessages.new),
         ],
         child: Consumer(
           builder: (BuildContext context, WidgetRef ref, Widget? child) {
@@ -97,7 +106,8 @@ void main() {
         );
       },
     );
-    await tester.pump(const Duration(seconds: 5));
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump(const Duration(milliseconds: 1));
   });
 
   testWidgets('removing a bookmark shows a removed toast', (tester) async {
@@ -124,6 +134,7 @@ void main() {
         );
       },
     );
-    await tester.pump(const Duration(seconds: 5));
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump(const Duration(milliseconds: 1));
   });
 }

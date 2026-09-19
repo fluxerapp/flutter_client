@@ -15,10 +15,10 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/bookmarks/domain/saved_messages.dart';
 import 'package:fluxer_app/features/bookmarks/presentation/widgets/bookmarks_sheet.dart';
 import 'package:fluxer_app/features/bookmarks/presentation/widgets/saved_messages_body.dart';
-import 'package:fluxer_app/features/bookmarks/providers/saved_message_list_provider.dart';
-import 'package:fluxer_app/features/bookmarks/providers/saved_messages_sync_provider.dart';
+import 'package:fluxer_app/features/bookmarks/providers/saved_messages_provider.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/messages/saved_message_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
@@ -37,9 +37,15 @@ const String _channelId = 'chan_1';
 const String _messageId = '1000000000000000000';
 const String _targetPath = '/channels/$_guildId/$_channelId/$_messageId';
 
-class _FetchedSavedMessagesSync extends SavedMessagesSyncNotifier {
+class _FetchedSavedMessages extends SavedMessagesNotifier {
+  _FetchedSavedMessages(this._initial);
+
+  final SavedMessagesState _initial;
+
   @override
-  SavedMessagesSyncState build() => const SavedMessagesSyncState(fetched: true);
+  SavedMessagesState build() {
+    return _initial;
+  }
 }
 
 class _FakeUserSettings extends UserSettingsViewModel {
@@ -122,9 +128,24 @@ void main() {
           instanceRuntimeConfigOverride(),
           fluxerDatabaseProvider.overrideWithValue(database),
           fluxerRouterProvider.overrideWithValue(router),
-          savedMessagesSyncProvider.overrideWith(_FetchedSavedMessagesSync.new),
-          savedMessageIdsProvider.overrideWith(
-            (Ref ref) => Stream<List<String>>.value(const <String>[_messageId]),
+          savedMessagesProvider.overrideWith(
+            () => _FetchedSavedMessages(
+              SavedMessagesState(
+                fetched: true,
+                hasMore: false,
+                messages: <Message>[
+                  Message(
+                    id: _messageId,
+                    channelId: _channelId,
+                    authorId: '123456789012345678',
+                    authorName: 'Webhook',
+                    webhookId: 'wh1',
+                    content: 'bookmarked',
+                    timestamp: DateTime.utc(2024),
+                  ),
+                ],
+              ),
+            ),
           ),
           isMessageSavedProvider(
             _messageId,

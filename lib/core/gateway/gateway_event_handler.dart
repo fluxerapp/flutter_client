@@ -45,6 +45,8 @@ typedef VoiceBulkCallback = void Function(List<VoiceState> states);
 typedef CallCreateCallback = void Function(CallCreateEvent event);
 typedef CallUpdateCallback = void Function(CallUpdateEvent event);
 typedef ChannelCallback = void Function(String channelId);
+typedef SavedMessageCreateCallback = void Function(Message message);
+typedef SavedMessageDeleteCallback = void Function(String messageId);
 typedef InviteCreateCallback = void Function(Map<String, dynamic> data);
 typedef InviteDeleteCallback = void Function(String code);
 typedef ReadyCallback = void Function();
@@ -133,6 +135,8 @@ class GatewayEventHandler {
     this.onGuildPermissionsEvict,
     this.onChannelPermissionChanged,
     this.onChannelDelete,
+    this.onSavedMessageCreate,
+    this.onSavedMessageDelete,
     this.onPermissionsClearAll,
     this.onMessageCreate,
     this.onMessageUpdate,
@@ -198,6 +202,8 @@ class GatewayEventHandler {
   final GuildCallback? onGuildPermissionsEvict;
   final ChannelCallback? onChannelPermissionChanged;
   final ChannelCallback? onChannelDelete;
+  final SavedMessageCreateCallback? onSavedMessageCreate;
+  final SavedMessageDeleteCallback? onSavedMessageDelete;
   final void Function()? onPermissionsClearAll;
   final MessageCreateCallback? onMessageCreate;
   final MessageUpdateCallback? onMessageUpdate;
@@ -654,7 +660,8 @@ class GatewayEventHandler {
             '[Gateway] SAVED_MESSAGE_DELETE: ${event.messageId}',
           ),
         );
-        unawaited(database.savedMessageDao.removeSavedMessage(event.messageId));
+        await database.savedMessageDao.removeSavedMessage(event.messageId);
+        _emit(() => onSavedMessageDelete?.call(event.messageId));
       case RecentMentionDeleteEvent():
         _logGatewayDebug(
           () => talker.debug(
@@ -1866,6 +1873,7 @@ class GatewayEventHandler {
       await database.messageDao.upsertMessage(msg.toCompanion());
       await database.savedMessageDao.addSavedMessage(event.message.id);
     });
+    _emit(() => onSavedMessageCreate?.call(msg));
   }
 
   Future<void> _handleMessageUpdate(MessageUpdateEvent event) async {

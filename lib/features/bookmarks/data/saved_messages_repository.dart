@@ -1,8 +1,10 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/features/bookmarks/domain/saved_messages.dart';
+import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_dart/export.dart';
 
-const String _kSavedMessagesFetchLimit = '100';
+const int kSavedMessagesPageSize = 50;
 
 class SavedMessagesRepository {
   SavedMessagesRepository({
@@ -15,26 +17,47 @@ class SavedMessagesRepository {
   final FluxerClient _client;
   final String? _currentUserId;
 
-  Future<void> syncFromApi() async {
+  Future<SavedMessagesFetchPage> fetch({String? before}) async {
     final List<SavedMessageEntryResponse> entries = await _client.users
-        .listSavedMessages(limit: _kSavedMessagesFetchLimit);
-    await _database.savedMessageDao.clearAll();
-    final List<db.MessagesCompanion> messagesToUpsert =
-        <db.MessagesCompanion>[];
-    // Oldest first so newly inserted rows stay at the top of the list.
-    for (final SavedMessageEntryResponse entry in entries.reversed) {
-      await _database.savedMessageDao.addSavedMessage(entry.messageId);
+        .listSavedMessages(limit: '$kSavedMessagesPageSize', before: before);
+    final List<Message> messages = <Message>[];
+    final List<SavedMessageMissingEntry> missing = <SavedMessageMissingEntry>[];
+    final List<db.MessagesCompanion> toUpsert = <db.MessagesCompanion>[];
+    for (final SavedMessageEntryResponse entry in entries) {
       final MessageResponseSchema? schema = entry.message;
       if (entry.status == SavedMessageEntryResponseStatusStatus.available &&
           schema != null) {
-        messagesToUpsert.add(
-          Message.fromSdk(schema, currentUserId: _currentUserId).toCompanion(),
+        final Message message = Message.fromSdk(
+          schema,
+          currentUserId: _currentUserId,
+        );
+        messages.add(message);
+        toUpsert.add(message.toCompanion());
+      } else {
+        missing.add(
+          SavedMessageMissingEntry(
+            id: entry.id,
+            channelId: entry.channelId,
+            messageId: entry.messageId,
+          ),
         );
       }
     }
-    if (messagesToUpsert.isNotEmpty) {
-      await _database.messageDao.upsertMessages(messagesToUpsert);
-    }
+    messages.sort((Message a, Message b) => compareSnowflakeIds(b.id, a.id));
+    await _database.transaction(() async {
+      for (final SavedMessageEntryResponse entry in entries.reversed) {
+        await _database.savedMessageDao.addSavedMessage(entry.messageId);
+      }
+      if (toUpsert.isNotEmpty) {
+        await _database.messageDao.upsertMessages(toUpsert);
+      }
+    });
+    return SavedMessagesFetchPage(
+      messages: messages,
+      missing: missing,
+      hasMore: entries.length == kSavedMessagesPageSize,
+      cursor: entries.isEmpty ? null : entries.last.messageId,
+    );
   }
 
   Future<void> saveMessage({
