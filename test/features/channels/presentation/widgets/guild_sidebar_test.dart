@@ -23,6 +23,7 @@ import 'package:fluxer_app/features/channels/providers/channel_settings_provider
 import 'package:fluxer_app/features/channels/providers/channel_sidebar_icon_connect_bits_provider.dart';
 import 'package:fluxer_app/features/channels/providers/guild_collapsed_categories_provider.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
+import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_scroll_indicator.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
@@ -560,6 +561,82 @@ void main() {
       double dy(String label) => tester.getTopLeft(find.text(label)).dy;
       expect(dy('Open link'), lessThan(dy('Copy redirect link')));
       expect(dy('Copy redirect link'), lessThan(dy('Copy channel link')));
+    });
+
+    testWidgets('adding a favorite from the channel menu shows a toast', (
+      tester,
+    ) async {
+      _setWideSurface(tester);
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            channelListState: _state(),
+            unread: const {'c1': UnreadState(), 'c2': UnreadState()},
+            showFavorites: true,
+          ),
+        ),
+      );
+      await _pumpSidebar(tester);
+
+      await tester.longPress(find.text('general'));
+      await _pumpSidebar(tester);
+      for (int i = 0; i < 4; i += 1) {
+        await tester.pump(const Duration(milliseconds: 100));
+      }
+
+      await tester.tap(find.text(testL10n.favoritesAddToFavorites));
+      await _pumpSidebar(tester);
+      for (int i = 0; i < 4; i += 1) {
+        await tester.pump(const Duration(milliseconds: 100));
+      }
+
+      final List<ToastEntry> toasts = ProviderScope.containerOf(
+        tester.element(find.byType(GuildSidebar)),
+      ).read(toastProvider);
+      expect(toasts.single.toast.message, testL10n.favoritesAddedToast);
+      expect(toasts.single.toast.variant, FluxerToastVariant.success);
+
+      await tester.pump(const Duration(seconds: 5));
+    });
+
+    testWidgets('removing a favorite from the channel menu shows a toast', (
+      tester,
+    ) async {
+      _setWideSurface(tester);
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            channelListState: _state(),
+            unread: const {'c1': UnreadState(), 'c2': UnreadState()},
+            showFavorites: true,
+          ),
+        ),
+      );
+      await _pumpSidebar(tester);
+
+      await ProviderScope.containerOf(tester.element(find.byType(GuildSidebar)))
+          .read(favoriteChannelsRepositoryProvider)
+          .addChannel(channelId: 'c1', guildId: _guildId, nickname: 'general');
+
+      await tester.longPress(find.text('general'));
+      await _pumpSidebar(tester);
+      for (int i = 0; i < 4; i += 1) {
+        await tester.pump(const Duration(milliseconds: 100));
+      }
+
+      await tester.tap(find.text(testL10n.favoritesRemoveFromFavorites));
+      await _pumpSidebar(tester);
+      for (int i = 0; i < 4; i += 1) {
+        await tester.pump(const Duration(milliseconds: 100));
+      }
+
+      final List<ToastEntry> toasts = ProviderScope.containerOf(
+        tester.element(find.byType(GuildSidebar)),
+      ).read(toastProvider);
+      expect(toasts.single.toast.message, testL10n.favoritesRemovedToast);
+      expect(toasts.single.toast.variant, FluxerToastVariant.success);
+
+      await tester.pump(const Duration(seconds: 5));
     });
   });
 
@@ -1118,6 +1195,7 @@ List<Override> _buildOverrides({
   Map<String, int> permissionBits = const {},
   Map<String, int?> sidebarConnectBits = const {},
   bool developerMode = false,
+  bool showFavorites = false,
   VoiceSession Function()? voiceSessionFactory,
   String? Function(Ref ref)? activeGuildIdReader,
   ChannelListViewModel Function()? channelListViewModelFactory,
@@ -1155,7 +1233,9 @@ List<Override> _buildOverrides({
       channelListViewModelFactory ??
           () => _FakeChannelListViewModel(channelListState),
     ),
-    appearancePreferencesProvider.overrideWith(_FakeAppearancePreferences.new),
+    appearancePreferencesProvider.overrideWith(
+      () => _FakeAppearancePreferences(showFavorites: showFavorites),
+    ),
     voiceSessionProvider.overrideWith(
       voiceSessionFactory ?? _FakeVoiceSession.new,
     ),
@@ -1249,9 +1329,13 @@ class _HarnessChannelListViewModel extends ChannelListViewModel {
 }
 
 class _FakeAppearancePreferences extends AppearancePreferences {
+  _FakeAppearancePreferences({this.showFavorites = false});
+
+  final bool showFavorites;
+
   @override
   AppearancePreferencesState build() =>
-      const AppearancePreferencesState(showFavorites: false);
+      AppearancePreferencesState(showFavorites: showFavorites);
 }
 
 class _FakeVoiceSession extends VoiceSession {

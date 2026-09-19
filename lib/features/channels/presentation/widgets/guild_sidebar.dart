@@ -999,7 +999,9 @@ class _ChannelTile extends ConsumerWidget {
         unawaited(_readStateRepository(ref).ackLatest(channel.id));
       case ChannelMenuAction.toggleFavorite:
         close();
-        unawaited(_toggleFavorite(ref, isFavorite: menuState.isFavorite));
+        unawaited(
+          _toggleFavorite(hostContext, ref, isFavorite: menuState.isFavorite),
+        );
       case ChannelMenuAction.invitePeople:
         close();
         unawaited(
@@ -1218,19 +1220,34 @@ class _ChannelTile extends ConsumerWidget {
   }
 
   Future<void> _toggleFavorite(
+    BuildContext context,
     WidgetRef ref, {
     required bool isFavorite,
   }) async {
     final repository = ref.read(favoriteChannelsRepositoryProvider);
     if (isFavorite) {
       await repository.removeChannel(channel.id);
+    } else {
+      await repository.addChannel(
+        channelId: channel.id,
+        guildId: channel.guildId,
+        nickname: channel.name,
+      );
+    }
+    if (!context.mounted) {
       return;
     }
-    await repository.addChannel(
-      channelId: channel.id,
-      guildId: channel.guildId,
-      nickname: channel.name,
-    );
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    ref
+        .read(toastProvider.notifier)
+        .show(
+          FluxerToast(
+            message: isFavorite
+                ? l10n.favoritesRemovedToast
+                : l10n.favoritesAddedToast,
+            variant: FluxerToastVariant.success,
+          ),
+        );
   }
 }
 
