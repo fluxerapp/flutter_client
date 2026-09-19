@@ -49,5 +49,6 @@ void main() {
     final ChatAttachmentAudioController reattached = _controller();
     expect(identical(controller, reattached), isTrue);
     expect(reattached.isPlaying, isTrue);
+    expect(reattached.hasStarted, isTrue);
   });
 }

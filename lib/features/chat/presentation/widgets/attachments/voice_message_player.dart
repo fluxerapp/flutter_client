@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/services.dart';
-import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_binding.dart';
-import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_playback.dart';
+import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_controller.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -31,107 +29,24 @@ class VoiceMessagePlayer extends StatefulWidget {
 }
 
 class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
-  static const Duration _kSeekTimeout = Duration(seconds: 8);
+  late ChatAttachmentAudioController _controller;
+  late List<int> _waveformBars;
+  String _sessionTitle = '';
 
-  AudioPlayer? _player;
-  StreamSubscription<PlayerState>? _playerStateSubscription;
-  StreamSubscription<void>? _playerCompleteSubscription;
-  StreamSubscription<Duration>? _positionSubscription;
-  StreamSubscription<Duration>? _durationSubscription;
-  bool _isPlaying = false;
-  bool _isLoading = false;
-  bool _hasPreparedSource = false;
-  bool _hasStarted = false;
-  bool _playbackFinished = false;
-  final ChatAttachmentAudioPosition _audioPosition =
-      ChatAttachmentAudioPosition();
-  Duration _duration = Duration.zero;
-  double _prePlaySeconds = 0;
-  double? _pendingSeekFraction;
-  double _volume = 1;
-  bool _isMuted = false;
-  double _playbackRate = 1;
-  late final ChatAttachmentAudioBinding _mediaSessionBinding;
-  late final ChatAttachmentAudioSessionReporter _sessionReporter;
-  late List<int> _waveformBars = voiceMessagePlayerWaveformBars(
-    widget.attachment.waveform,
-  );
+  String get _playbackUrl =>
+      buildMediaProxyUrl(attachmentEffectiveUrl(widget.attachment));
 
   @override
   void initState() {
     super.initState();
-    _mediaSessionBinding = ChatAttachmentAudioBinding(
-      hostId: _playbackUrl,
-      pausePlayback: _pauseFromMediaSession,
-      resumePlayback: _resumeFromMediaSession,
-      seekPlayback: _seekFromMediaSession,
-      stopPlayback: _stopFromMediaSession,
-    );
-    _sessionReporter = ChatAttachmentAudioSessionReporter(
-      binding: _mediaSessionBinding,
-      attachment: () => widget.attachment,
-      title: () => FluxerLocalizations.of(context).voiceMessageTitle,
-      totalDuration: () => _mediaSessionTotalDuration,
-      playbackRate: () => _playbackRate,
-      position: _audioPosition,
-    );
+    _waveformBars = voiceMessagePlayerWaveformBars(widget.attachment.waveform);
   }
 
-  Future<void> _pauseFromMediaSession() async {
-    await _player?.pause();
-  }
-
-  Future<void> _resumeFromMediaSession() async {
-    if (_isLoading || !attachmentHasLoadableUrl(widget.attachment)) {
-      return;
-    }
-    final AudioPlayer player = _ensurePlayer();
-    if (_playbackFinished || _isAtEndOfTrack) {
-      await _replayFromStart(player);
-      return;
-    }
-    if (!_hasPreparedSource) {
-      await player.setSourceUrl(_playbackUrl);
-      _hasPreparedSource = true;
-      await _applyPendingSeek(player);
-    }
-    await player.resume();
-  }
-
-  Future<void> _seekFromMediaSession(Duration position) async {
-    final double durationSeconds = _displayDurationSeconds;
-    if (durationSeconds <= 0) {
-      return;
-    }
-    final double relative = position.inMilliseconds / (durationSeconds * 1000);
-    await _seekToFraction(relative);
-  }
-
-  Future<void> _stopFromMediaSession() async {
-    await _player?.stop();
-    if (!mounted) {
-      return;
-    }
-    setState(() {
-      _isPlaying = false;
-      _playbackFinished = false;
-      _hasPreparedSource = false;
-      _hasStarted = false;
-      _prePlaySeconds = 0;
-      _pendingSeekFraction = null;
-    });
-    _audioPosition.update(Duration.zero);
-  }
-
-  Duration get _mediaSessionTotalDuration {
-    if (_duration > Duration.zero) {
-      return _duration;
-    }
-    final double durationSeconds = _displayDurationSeconds;
-    if (durationSeconds <= 0) {
-      return Duration.zero;
-    }
-    return Duration(milliseconds: (durationSeconds * 1000).round());
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _sessionTitle = FluxerLocalizations.of(context).voiceMessageTitle;
+    _controller = _controllerForAttachment();
   }
 
   @override
@@ -142,27 +57,33 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
         widget.attachment.waveform,
       );
     }
+    final ChatAttachmentAudioController next = _controllerForAttachment();
+    if (identical(next, _controller)) {
+      return;
+    }
+    unawaited(_controller.pause());
+    _controller.detach();
+    _controller = next;
   }
 
   @override
   void dispose() {
-    _mediaSessionBinding.release();
-    _audioPosition.dispose();
-    unawaited(_playerStateSubscription?.cancel());
-    unawaited(_playerCompleteSubscription?.cancel());
-    unawaited(_positionSubscription?.cancel());
-    unawaited(_durationSubscription?.cancel());
-    unawaited(_player?.dispose());
+    _controller.detach();
     super.dispose();
   }
 
-  String get _playbackUrl {
-    return buildMediaProxyUrl(attachmentEffectiveUrl(widget.attachment));
+  ChatAttachmentAudioController _controllerForAttachment() {
+    return ChatAttachmentAudioController(
+      sourceUrl: _playbackUrl,
+      attachment: widget.attachment,
+      title: () =>
+          _sessionTitle.isNotEmpty ? _sessionTitle : widget.attachment.filename,
+    );
   }
 
   double get _displayDurationSeconds {
-    if (_duration > Duration.zero) {
-      return _duration.inMilliseconds / 1000;
+    if (_controller.duration > Duration.zero) {
+      return _controller.duration.inMilliseconds / 1000;
     }
     final int? attachmentDuration = widget.attachment.duration;
     if (attachmentDuration != null && attachmentDuration > 0) {
@@ -171,275 +92,39 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
     return 0;
   }
 
-  double get _displayProgressPercent => voiceMessagePlayerProgressPercent(
-    position: _audioPosition.value,
-    trackDuration: _duration,
-    durationSeconds: _displayDurationSeconds,
-    hasStarted: _hasStarted,
-    prePlaySeconds: _prePlaySeconds,
-  );
-
-  bool get _isActive => _isPlaying || (_hasStarted && _isLoading);
-
   Future<void> _togglePlayback() async {
-    if (_isLoading || !attachmentHasLoadableUrl(widget.attachment)) {
+    if (!attachmentHasLoadableUrl(widget.attachment)) {
       return;
     }
-    if (_isPlaying) {
-      await _player?.pause();
-      _sessionReporter.sync(playing: false);
+    final bool prepared = await _controller.togglePlayback();
+    if (prepared || !mounted) {
       return;
     }
-    setState(() {
-      _isLoading = true;
-      _hasStarted = true;
-    });
-    try {
-      final AudioPlayer player = _ensurePlayer();
-      if (_playbackFinished || _isAtEndOfTrack) {
-        await _replayFromStart(player);
-        _sessionReporter.sync(playing: true);
-        return;
-      }
-      if (!_hasPreparedSource) {
-        _sessionReporter.sync(playing: false, loading: true);
-        await player.setSourceUrl(_playbackUrl);
-        _hasPreparedSource = true;
-        await _applyPendingSeek(player);
-      }
-      await player.resume();
-      _sessionReporter.sync(playing: true);
-    } on Object {
-      if (!mounted || _hasPreparedSource) {
-        return;
-      }
-      await handleExternalLinkTap(context, _playbackUrl);
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
-    }
-  }
-
-  bool get _isAtEndOfTrack =>
-      _duration > Duration.zero && _audioPosition.value >= _duration;
-
-  Future<void> _prepareFromStart(AudioPlayer player) async {
-    _playbackFinished = false;
-    if (!_hasPreparedSource) {
-      await player.setSourceUrl(_playbackUrl);
-      _hasPreparedSource = true;
-    } else {
-      final bool seeked = await _safeSeek(player, Duration.zero);
-      if (!seeked) {
-        await player.setSourceUrl(_playbackUrl);
-        _hasPreparedSource = true;
-      }
-    }
-    if (mounted) {
-      _audioPosition.update(Duration.zero);
-      setState(() {
-        _prePlaySeconds = 0;
-        _pendingSeekFraction = null;
-      });
-    }
-  }
-
-  Future<void> _replayFromStart(AudioPlayer player) async {
-    await _prepareFromStart(player);
-    await player.resume();
-  }
-
-  Future<bool> _safeSeek(AudioPlayer player, Duration target) async {
-    try {
-      await player.seek(target).timeout(_kSeekTimeout);
-      return true;
-    } on Object {
-      return false;
-    }
-  }
-
-  Future<void> _applyPendingSeek(AudioPlayer player) async {
-    final double? fraction = _pendingSeekFraction;
-    if (fraction == null) {
-      return;
-    }
-    final double durationSeconds = _displayDurationSeconds;
-    if (durationSeconds <= 0) {
-      return;
-    }
-    final int targetMs = (durationSeconds * 1000 * fraction.clamp(0, 1))
-        .round();
-    final Duration target = Duration(milliseconds: targetMs);
-    if (_playbackFinished) {
-      await _prepareFromStart(player);
-    }
-    final bool seeked = await _safeSeek(player, target);
-    if (!seeked && _hasPreparedSource) {
-      await player.setSourceUrl(_playbackUrl);
-      await _safeSeek(player, target);
-    }
-    if (mounted) {
-      _audioPosition.update(target);
-      setState(() {
-        _prePlaySeconds = target.inMilliseconds / 1000;
-        _pendingSeekFraction = null;
-        _playbackFinished = false;
-      });
-    }
-  }
-
-  AudioPlayer _ensurePlayer() {
-    final AudioPlayer? existingPlayer = _player;
-    if (existingPlayer != null) {
-      return existingPlayer;
-    }
-    final AudioPlayer player = AudioPlayer();
-    _player = player;
-    unawaited(player.setReleaseMode(ReleaseMode.stop));
-    unawaited(player.setVolume(_isMuted ? 0 : _volume));
-    unawaited(player.setPlaybackRate(_playbackRate));
-    _playerStateSubscription = player.onPlayerStateChanged.listen((
-      PlayerState playerState,
-    ) {
-      if (!mounted) {
-        return;
-      }
-      setState(() {
-        _isPlaying = playerState == PlayerState.playing;
-      });
-      _sessionReporter.sync(playing: playerState == PlayerState.playing);
-    });
-    _playerCompleteSubscription = player.onPlayerComplete.listen((_) {
-      if (!mounted) {
-        return;
-      }
-      final Duration endPosition = _duration > Duration.zero
-          ? _duration
-          : Duration.zero;
-      setState(() {
-        _isPlaying = false;
-        _playbackFinished = true;
-      });
-      if (endPosition > Duration.zero) {
-        _audioPosition.update(endPosition);
-      }
-      _sessionReporter.sync(playing: false, completed: true);
-    });
-    _positionSubscription = player.onPositionChanged.listen((
-      Duration position,
-    ) {
-      if (!mounted) {
-        return;
-      }
-      _audioPosition.update(position);
-      if (_isPlaying) {
-        _sessionReporter.syncPositionIfDue(playing: true);
-      }
-    });
-    _durationSubscription = player.onDurationChanged.listen((
-      Duration duration,
-    ) {
-      if (!mounted) {
-        return;
-      }
-      setState(() {
-        _duration = duration;
-      });
-      if (_mediaSessionBinding.isActive) {
-        _sessionReporter.sync(playing: _isPlaying);
-      }
-      if (_pendingSeekFraction != null) {
-        unawaited(_applyPendingSeek(player));
-      }
-    });
-    return player;
-  }
-
-  Future<void> _setVolume(double value) async {
-    final double clamped = value.clamp(0, 1);
-    setState(() {
-      _volume = clamped;
-      if (clamped > 0) {
-        _isMuted = false;
-      }
-    });
-    await _player?.setVolume(_isMuted ? 0 : clamped);
-  }
-
-  Future<void> _toggleMute() async {
-    setState(() {
-      _isMuted = !_isMuted;
-    });
-    await _player?.setVolume(_isMuted ? 0 : _volume);
-  }
-
-  Future<void> _cyclePlaybackRate() async {
-    const List<double> rates = <double>[1, 1.25, 1.5, 2];
-    final int index = rates.indexOf(_playbackRate);
-    final int nextIndex = index < 0 || index == rates.length - 1
-        ? 0
-        : index + 1;
-    final double nextRate = rates[nextIndex];
-    setState(() {
-      _playbackRate = nextRate;
-    });
-    await _player?.setPlaybackRate(nextRate);
-    if (_mediaSessionBinding.isActive) {
-      _sessionReporter.sync(playing: _isPlaying);
-    }
-  }
-
-  Future<void> _seekToFraction(double fraction) async {
-    final double normalized = fraction.clamp(0, 1);
-    final double durationSeconds = _displayDurationSeconds;
-    if (durationSeconds <= 0) {
-      return;
-    }
-    if (!_hasStarted || _duration <= Duration.zero) {
-      setState(() {
-        _prePlaySeconds = durationSeconds * normalized;
-        _pendingSeekFraction = normalized;
-      });
-      return;
-    }
-    final int targetMs = (durationSeconds * 1000 * normalized).round();
-    final Duration target = Duration(milliseconds: targetMs);
-    final AudioPlayer player = _ensurePlayer();
-    if (_playbackFinished) {
-      await _prepareFromStart(player);
-    }
-    if (!_hasPreparedSource) {
-      return;
-    }
-    final bool seeked = await _safeSeek(player, target);
-    if (!seeked) {
-      await player.setSourceUrl(_playbackUrl);
-      _hasPreparedSource = true;
-      await _safeSeek(player, target);
-    }
-    if (mounted) {
-      _audioPosition.update(target);
-      setState(() {
-        _playbackFinished = false;
-      });
-      _sessionReporter.sync(playing: _isPlaying);
-    }
+    await handleExternalLinkTap(context, _playbackUrl);
   }
 
   KeyEventResult _handleWaveformKey(FocusNode node, KeyEvent event) {
-    if (!_isPlaying || _isLoading || event is! KeyDownEvent) {
+    if (!_controller.isPlaying ||
+        _controller.isLoading ||
+        event is! KeyDownEvent) {
       return KeyEventResult.ignored;
     }
     const double step = 0.05;
+    final double progressFraction =
+        voiceMessagePlayerProgressPercent(
+          position: _controller.position.value,
+          trackDuration: _controller.duration,
+          durationSeconds: _displayDurationSeconds,
+          hasStarted: _controller.hasStarted,
+          prePlaySeconds: 0,
+        ) /
+        100;
     if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-      unawaited(_seekToFraction((_displayProgressPercent / 100) - step));
+      unawaited(_controller.seekToRelativePosition(progressFraction - step));
       return KeyEventResult.handled;
     }
     if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-      unawaited(_seekToFraction((_displayProgressPercent / 100) + step));
+      unawaited(_controller.seekToRelativePosition(progressFraction + step));
       return KeyEventResult.handled;
     }
     return KeyEventResult.ignored;
@@ -447,19 +132,52 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
 
   @override
   Widget build(BuildContext context) {
+    return ListenableBuilder(
+      listenable: _controller,
+      builder: (BuildContext context, Widget? child) {
+        return _VoiceMessagePlayerBody(
+          controller: _controller,
+          waveformBars: _waveformBars,
+          displayDurationSeconds: _displayDurationSeconds,
+          onTogglePlayback: _togglePlayback,
+          onWaveformKey: _handleWaveformKey,
+        );
+      },
+    );
+  }
+}
+
+class _VoiceMessagePlayerBody extends StatelessWidget {
+  const _VoiceMessagePlayerBody({
+    required this.controller,
+    required this.waveformBars,
+    required this.displayDurationSeconds,
+    required this.onTogglePlayback,
+    required this.onWaveformKey,
+  });
+
+  final ChatAttachmentAudioController controller;
+  final List<int> waveformBars;
+  final double displayDurationSeconds;
+  final VoidCallback onTogglePlayback;
+  final KeyEventResult Function(FocusNode node, KeyEvent event) onWaveformKey;
+
+  @override
+  Widget build(BuildContext context) {
     final FluxerColorTheme colors = context.colors;
     final Duration animDuration = context.motion.panel;
     final bool isLight = Theme.of(context).brightness == Brightness.light;
+    final bool isActive = controller.isPlaying || controller.isLoading;
     final Color idleBackground = colors.backgroundSecondary;
     final Color activeBackground = colors.brandPrimary;
-    final Color backgroundColor = _isActive ? activeBackground : idleBackground;
-    final Color pastBarColor = _isActive
+    final Color backgroundColor = isActive ? activeBackground : idleBackground;
+    final Color pastBarColor = isActive
         ? colors.textOnBrandPrimary
         : (isLight ? colors.brandPrimary : colors.brandPrimaryLight);
-    final Color defaultBarColor = _isActive
+    final Color defaultBarColor = isActive
         ? colors.textOnBrandPrimary.withValues(alpha: 0.48)
         : colors.textTertiary;
-    final Color timestampColor = _isActive
+    final Color timestampColor = isActive
         ? Color.lerp(colors.textOnBrandPrimary, Colors.transparent, 0.1)!
         : colors.textSecondary;
     final bool showDesktopControls = !isMobileLayout(context);
@@ -479,10 +197,10 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
           child: Row(
             children: [
               _VoicePlayButton(
-                isActive: _isActive,
-                isLoading: _hasStarted && _isLoading,
-                isPlaying: _isPlaying,
-                onPressed: _togglePlayback,
+                isActive: isActive,
+                isLoading: controller.isLoading,
+                isPlaying: controller.isPlaying,
+                onPressed: onTogglePlayback,
                 animDuration: animDuration,
                 colors: colors,
                 playLabel: l10n.voiceMessagePlay,
@@ -491,19 +209,19 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
               const SizedBox(width: 8),
               Expanded(
                 child: ValueListenableBuilder<Duration>(
-                  valueListenable: _audioPosition.notifier,
+                  valueListenable: controller.position.notifier,
                   builder:
                       (BuildContext context, Duration position, Widget? child) {
                         final double progressPercent =
                             voiceMessagePlayerProgressPercent(
                               position: position,
-                              trackDuration: _duration,
-                              durationSeconds: _displayDurationSeconds,
-                              hasStarted: _hasStarted,
-                              prePlaySeconds: _prePlaySeconds,
+                              trackDuration: controller.duration,
+                              durationSeconds: displayDurationSeconds,
+                              hasStarted: controller.hasStarted,
+                              prePlaySeconds: 0,
                             );
                         return Focus(
-                          onKeyEvent: _handleWaveformKey,
+                          onKeyEvent: onWaveformKey,
                           child: Semantics(
                             slider: true,
                             label: l10n.voiceMessageTitle,
@@ -511,12 +229,14 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
                             increasedValue: l10n.voiceMessageSeekForward,
                             decreasedValue: l10n.voiceMessageSeekBackward,
                             child: PlaybackSeekGestureTarget(
-                              enabled: _isPlaying,
+                              enabled: controller.isPlaying,
                               onSeekFraction: (double fraction) {
-                                unawaited(_seekToFraction(fraction));
+                                unawaited(
+                                  controller.seekToRelativePosition(fraction),
+                                );
                               },
                               child: _VoiceMessageWaveform(
-                                waveformBars: _waveformBars,
+                                waveformBars: waveformBars,
                                 progressPercent: progressPercent,
                                 pastBarColor: pastBarColor,
                                 defaultBarColor: defaultBarColor,
@@ -529,11 +249,11 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
               ),
               const SizedBox(width: 8),
               ValueListenableBuilder<Duration>(
-                valueListenable: _audioPosition.notifier,
+                valueListenable: controller.position.notifier,
                 builder: (BuildContext context, Duration position, Widget? child) {
                   final String timestampText =
-                      '${formatVoiceDurationSeconds(voiceMessagePlayerCurrentSeconds(position: position, trackDuration: _duration, durationSeconds: _displayDurationSeconds, hasStarted: _hasStarted, prePlaySeconds: _prePlaySeconds))} / '
-                      '${formatVoiceDurationSeconds(_displayDurationSeconds)}';
+                      '${formatVoiceDurationSeconds(voiceMessagePlayerCurrentSeconds(position: position, trackDuration: controller.duration, durationSeconds: displayDurationSeconds, hasStarted: controller.hasStarted, prePlaySeconds: 0))} / '
+                      '${formatVoiceDurationSeconds(displayDurationSeconds)}';
                   return Text(
                     timestampText,
                     style: context.textStyles.smallText.copyWith(
@@ -550,14 +270,14 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
               if (showDesktopControls) ...<Widget>[
                 const SizedBox(width: 4),
                 TextButton(
-                  onPressed: _cyclePlaybackRate,
+                  onPressed: controller.cyclePlaybackRate,
                   style: TextButton.styleFrom(
                     minimumSize: const Size(36, 28),
                     padding: const EdgeInsets.symmetric(horizontal: 6),
                     foregroundColor: timestampColor,
                   ),
                   child: Text(
-                    '${_playbackRate}x',
+                    '${controller.playbackRate}x',
                     style: context.textStyles.smallText.copyWith(
                       fontSize: 11,
                       fontWeight: FontWeight.w600,
@@ -566,10 +286,10 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
                   ),
                 ),
                 VolumePopoutControl(
-                  volume: _volume,
-                  isMuted: _isMuted,
-                  onVolumeChanged: _setVolume,
-                  onToggleMute: _toggleMute,
+                  volume: controller.volume,
+                  isMuted: controller.isMuted,
+                  onVolumeChanged: controller.setVolume,
+                  onToggleMute: controller.toggleMute,
                   iconSize: 16,
                 ),
               ],
