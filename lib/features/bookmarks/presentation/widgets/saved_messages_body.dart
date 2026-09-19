@@ -27,10 +27,12 @@ class SavedMessagesBody extends ConsumerStatefulWidget {
     super.key,
     this.scrollController,
     this.padding = const EdgeInsets.fromLTRB(12, 8, 12, 12),
+    this.onClose,
   });
 
   final ScrollController? scrollController;
   final EdgeInsets padding;
+  final VoidCallback? onClose;
 
   @override
   ConsumerState<SavedMessagesBody> createState() => _SavedMessagesBodyState();
@@ -42,6 +44,7 @@ class _SavedMessagesBodyState extends ConsumerState<SavedMessagesBody> {
       <String, MentionHeader>{};
   final Map<String, String> _guildIdPreviewByChannelId = <String, String>{};
   bool _hydrating = false;
+  bool _jumping = false;
 
   @override
   void initState() {
@@ -120,28 +123,24 @@ class _SavedMessagesBodyState extends ConsumerState<SavedMessagesBody> {
   }
 
   Future<void> _jumpToMessage(Message message) async {
-    final drift_db.FluxerDatabase db = ref.read(fluxerDatabaseProvider);
+    final ProviderContainer container = ref.container;
+    final drift_db.FluxerDatabase db = container.read(fluxerDatabaseProvider);
     final drift_db.Channel? channel = await db.channelDao.getChannelById(
       message.channelId,
     );
-    if (!mounted) {
+    if (!mounted || _jumping) {
       return;
     }
-    if (channel == null) {
-      navigateToContent(
-        context,
-        RoutePaths.dmChannelMessage(message.channelId, message.id),
-      );
-      return;
-    }
-    navigateToContent(
-      context,
-      RoutePaths.guildChannelMessage(
-        channel.guildId,
-        message.channelId,
-        message.id,
-      ),
-    );
+    _jumping = true;
+    widget.onClose?.call();
+    final String path = channel == null
+        ? RoutePaths.dmChannelMessage(message.channelId, message.id)
+        : RoutePaths.guildChannelMessage(
+            channel.guildId,
+            message.channelId,
+            message.id,
+          );
+    navigateToContentViaContainer(container, path);
   }
 
   @override

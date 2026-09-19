@@ -11,9 +11,9 @@ void main() {
     await db.savedMessageDao.addSavedMessage('newer');
 
     final List<SavedMessage> rows = await db.savedMessageDao.watchAll().first;
-    expect(
-      rows.map((SavedMessage row) => row.messageId).toList(),
-      <String>['newer', 'older'],
-    );
+    expect(rows.map((SavedMessage row) => row.messageId).toList(), <String>[
+      'newer',
+      'older',
+    ]);
   });
 }

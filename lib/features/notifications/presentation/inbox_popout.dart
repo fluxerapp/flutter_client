@@ -345,7 +345,7 @@ class _InboxPopoutState extends ConsumerState<InboxPopout> {
         Expanded(
           child: switch (_activeTab) {
             InboxTab.unreads => const NotificationsUnreadsBody(),
-            InboxTab.bookmarks => const SavedMessagesBody(),
+            InboxTab.bookmarks => SavedMessagesBody(onClose: widget.onClose),
             InboxTab.mentions => NotificationsMentionsBody(
               onOpenFilterInvokerChanged: _onMentionsOpenFilterInvokerChanged,
             ),
