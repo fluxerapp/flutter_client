@@ -21,7 +21,8 @@ class SavedMessagesRepository {
     await _database.savedMessageDao.clearAll();
     final List<db.MessagesCompanion> messagesToUpsert =
         <db.MessagesCompanion>[];
-    for (final SavedMessageEntryResponse entry in entries) {
+    // Oldest first so newly inserted rows stay at the top of the list.
+    for (final SavedMessageEntryResponse entry in entries.reversed) {
       await _database.savedMessageDao.addSavedMessage(entry.messageId);
       final MessageResponseSchema? schema = entry.message;
       if (entry.status == SavedMessageEntryResponseStatusStatus.available &&
