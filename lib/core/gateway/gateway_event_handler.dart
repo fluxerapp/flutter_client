@@ -647,7 +647,7 @@ class GatewayEventHandler {
             '[Gateway] SAVED_MESSAGE_CREATE: ${event.message.id}',
           ),
         );
-        unawaited(database.savedMessageDao.addSavedMessage(event.message.id));
+        await _handleSavedMessageCreate(event);
       case SavedMessageDeleteEvent():
         _logGatewayDebug(
           () => talker.debug(
@@ -1848,6 +1848,24 @@ class GatewayEventHandler {
       settings?.channelOverrides?[channelId],
       now: DateTime.now(),
     );
+  }
+
+  Future<void> _handleSavedMessageCreate(SavedMessageCreateEvent event) async {
+    final Message msg = Message.fromSdk(
+      event.message,
+      currentUserId: _selfUserId,
+    );
+    if (event.message.webhookId == null) {
+      unawaited(
+        database.userDao.upsertUser(userFromPartialSdk(event.message.author)),
+      );
+      unawaited(upsertMentionUsersFromSdk(database, event.message.mentions));
+      unawaited(upsertSupplementalUsersFromSdk(database, event.message.users));
+    }
+    await database.transaction(() async {
+      await database.messageDao.upsertMessage(msg.toCompanion());
+      await database.savedMessageDao.addSavedMessage(event.message.id);
+    });
   }
 
   Future<void> _handleMessageUpdate(MessageUpdateEvent event) async {

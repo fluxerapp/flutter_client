@@ -44,12 +44,22 @@ class _SavedMessagesBodyState extends ConsumerState<SavedMessagesBody> {
   final Map<String, MentionHeader> _headerByChannelId =
       <String, MentionHeader>{};
   final Map<String, String> _guildIdPreviewByChannelId = <String, String>{};
+  int _hydrateGeneration = 0;
   bool _hydrating = false;
   bool _jumping = false;
 
   @override
   void initState() {
     super.initState();
+    ref.listenManual<AsyncValue<List<String>>>(savedMessageIdsProvider, (
+      AsyncValue<List<String>>? previous,
+      AsyncValue<List<String>> next,
+    ) {
+      final List<String>? messageIds = next.asData?.value;
+      if (messageIds != null && mounted) {
+        unawaited(_hydrate(messageIds));
+      }
+    }, fireImmediately: true);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       unawaited(_bootstrapIfNeeded());
     });
@@ -67,35 +77,67 @@ class _SavedMessagesBodyState extends ConsumerState<SavedMessagesBody> {
     await ref.read(savedMessagesSyncProvider.notifier).refresh();
   }
 
+  bool _isStale(int ticket) => ticket != _hydrateGeneration || !mounted;
+
   Future<void> _hydrate(List<String> messageIds) async {
-    if (_hydrating) {
-      return;
-    }
-    _hydrating = true;
-    try {
-      final drift_db.FluxerDatabase db = ref.read(fluxerDatabaseProvider);
-      _messageById.removeWhere(
-        (String key, Message? _) => !messageIds.contains(key),
-      );
-      for (final String messageId in messageIds) {
-        if (_messageById.containsKey(messageId)) {
-          continue;
-        }
-        final drift_db.Message? row = await db.messageDao.getMessage(messageId);
-        if (!mounted) {
-          return;
-        }
-        final Message? message = row == null ? null : Message.fromRow(row);
-        _messageById[messageId] = message;
-        if (message != null) {
-          await _ensureHeader(db, message);
-        }
+    final int ticket = ++_hydrateGeneration;
+    if (messageIds.isEmpty) {
+      if (_isStale(ticket)) {
+        return;
       }
-      if (mounted) {
+      final bool hadItems = _messageById.isNotEmpty;
+      _messageById.clear();
+      _headerByChannelId.clear();
+      _guildIdPreviewByChannelId.clear();
+      if (hadItems) {
         setState(() {});
       }
+      return;
+    }
+    try {
+      if (_messageById.isEmpty) {
+        _hydrating = true;
+      }
+      final drift_db.FluxerDatabase db = ref.read(fluxerDatabaseProvider);
+      final Set<String> wanted = messageIds.toSet();
+      _messageById.removeWhere(
+        (String key, Message? _) => !wanted.contains(key),
+      );
+      final Set<String> usedChannels = <String>{};
+      for (final String messageId in messageIds) {
+        if (_isStale(ticket)) {
+          return;
+        }
+        if (_messageById[messageId] == null) {
+          final drift_db.Message? row = await db.messageDao.getMessage(
+            messageId,
+          );
+          if (_isStale(ticket)) {
+            return;
+          }
+          _messageById[messageId] = row == null ? null : Message.fromRow(row);
+        }
+        final Message? message = _messageById[messageId];
+        if (message == null) {
+          continue;
+        }
+        await _ensureHeader(db, message);
+        if (_isStale(ticket)) {
+          return;
+        }
+        usedChannels.add(message.channelId);
+      }
+      _headerByChannelId.removeWhere(
+        (String key, MentionHeader _) => !usedChannels.contains(key),
+      );
+      _guildIdPreviewByChannelId.removeWhere(
+        (String key, String _) => !usedChannels.contains(key),
+      );
     } finally {
-      _hydrating = false;
+      if (ticket == _hydrateGeneration && mounted) {
+        _hydrating = false;
+        setState(() {});
+      }
     }
   }
 
@@ -168,11 +210,6 @@ class _SavedMessagesBodyState extends ConsumerState<SavedMessagesBody> {
           }
           if (sync.lastError != null) {
             return _buildError(sync.lastError!, l10n);
-          }
-          if (messageIds.isNotEmpty) {
-            unawaited(_hydrate(messageIds));
-          } else {
-            _messageById.clear();
           }
           return _buildList(messageIds, l10n);
         },
@@ -269,11 +306,13 @@ class _SavedMessagesBodyState extends ConsumerState<SavedMessagesBody> {
             int index,
           ) {
             final String messageId = messageIds[index];
+            final bool isCached = _messageById.containsKey(messageId);
             final Message? message = _messageById[messageId];
             final String channelId = message?.channelId ?? '';
             return MentionInboxCard(
               messageId: messageId,
               message: message,
+              isMessageLoading: !isCached,
               header: channelId.isEmpty ? null : _headerByChannelId[channelId],
               previewGuildId: _guildIdPreviewByChannelId[channelId],
               removeTooltip: l10n.savedMessagesRemoveTooltip,
