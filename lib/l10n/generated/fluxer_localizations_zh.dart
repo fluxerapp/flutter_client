@@ -10358,6 +10358,12 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get savedMessagesRemoveTooltip => '取消收藏';
 
   @override
+  String get savedMessagesAddedToast => 'Added to bookmarks';
+
+  @override
+  String get savedMessagesRemovedToast => 'Removed from bookmarks';
+
+  @override
   String get quickSwitcherMentionsLabel => '提及';
 
   @override

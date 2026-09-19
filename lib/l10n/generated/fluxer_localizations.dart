@@ -18306,6 +18306,18 @@ abstract class FluxerLocalizations {
   /// **'Remove bookmark'**
   String get savedMessagesRemoveTooltip;
 
+  /// Toast confirming a message was bookmarked.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to bookmarks'**
+  String get savedMessagesAddedToast;
+
+  /// Toast confirming a message bookmark was removed.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed from bookmarks'**
+  String get savedMessagesRemovedToast;
+
   /// Quick switcher settings entry for mentions.
   ///
   /// In en, this message translates to:

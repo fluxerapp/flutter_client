@@ -11070,6 +11070,12 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get savedMessagesRemoveTooltip => 'Poista kirjanmerkki';
 
   @override
+  String get savedMessagesAddedToast => 'Added to bookmarks';
+
+  @override
+  String get savedMessagesRemovedToast => 'Removed from bookmarks';
+
+  @override
   String get quickSwitcherMentionsLabel => 'Maininnat';
 
   @override

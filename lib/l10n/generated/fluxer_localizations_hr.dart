@@ -11084,6 +11084,12 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get savedMessagesRemoveTooltip => 'Ukloni oznaku';
 
   @override
+  String get savedMessagesAddedToast => 'Added to bookmarks';
+
+  @override
+  String get savedMessagesRemovedToast => 'Removed from bookmarks';
+
+  @override
   String get quickSwitcherMentionsLabel => 'Spominjanja';
 
   @override

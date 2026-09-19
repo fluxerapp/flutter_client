@@ -11146,6 +11146,12 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get savedMessagesRemoveTooltip => 'Удалить из закладок';
 
   @override
+  String get savedMessagesAddedToast => 'Added to bookmarks';
+
+  @override
+  String get savedMessagesRemovedToast => 'Removed from bookmarks';
+
+  @override
   String get quickSwitcherMentionsLabel => 'Упоминания';
 
   @override

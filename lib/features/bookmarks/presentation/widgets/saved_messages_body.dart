@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/bookmarks/presentation/widgets/saved_message
 import 'package:fluxer_app/features/bookmarks/presentation/widgets/saved_messages_end_footer.dart';
 import 'package:fluxer_app/features/bookmarks/providers/saved_message_list_provider.dart';
 import 'package:fluxer_app/features/bookmarks/providers/saved_messages_sync_provider.dart';
+import 'package:fluxer_app/features/bookmarks/utils/saved_message_actions.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/notifications/data/mention_header_loader.dart';
 import 'package:fluxer_app/features/notifications/domain/mention_header.dart';
@@ -115,7 +116,11 @@ class _SavedMessagesBodyState extends ConsumerState<SavedMessagesBody> {
   }
 
   Future<void> _removeBookmark(String messageId) async {
-    await ref.read(savedMessagesRepositoryProvider).unsaveMessage(messageId);
+    await unsaveMessageBookmark(
+      ref: ref,
+      l10n: FluxerLocalizations.of(context),
+      messageId: messageId,
+    );
     _messageById.remove(messageId);
     if (mounted) {
       setState(() {});

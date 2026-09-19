@@ -11182,6 +11182,12 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get savedMessagesRemoveTooltip => 'Κατάργηση σελιδοδείκτη';
 
   @override
+  String get savedMessagesAddedToast => 'Added to bookmarks';
+
+  @override
+  String get savedMessagesRemovedToast => 'Removed from bookmarks';
+
+  @override
   String get quickSwitcherMentionsLabel => 'Αναφορές';
 
   @override

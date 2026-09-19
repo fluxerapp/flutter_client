@@ -10959,6 +10959,12 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get savedMessagesRemoveTooltip => 'ลบบุ๊กมาร์ก';
 
   @override
+  String get savedMessagesAddedToast => 'Added to bookmarks';
+
+  @override
+  String get savedMessagesRemovedToast => 'Removed from bookmarks';
+
+  @override
   String get quickSwitcherMentionsLabel => 'การกล่าวถึง';
 
   @override

@@ -1,9 +1,15 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart'
+    show FluxerDatabase;
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/bookmarks/data/saved_messages_repository.dart';
+import 'package:fluxer_app/features/bookmarks/providers/saved_messages_sync_provider.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -13,10 +19,37 @@ import 'package:fluxer_app/features/chat/providers/messages/saved_message_provid
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_dart/export.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
+import '../../../../../helpers/open_test_database.dart';
 import '../../../../../helpers/test_l10n.dart';
+
+class _FakeSavedMessagesRepository extends SavedMessagesRepository {
+  _FakeSavedMessagesRepository(this._db)
+    : super(
+        database: _db,
+        client: FluxerClient(Dio()),
+        currentUserId: 'user-1',
+      );
+
+  final FluxerDatabase _db;
+
+  @override
+  Future<void> saveMessage({
+    required String channelId,
+    required String messageId,
+  }) async {
+    await _db.savedMessageDao.addSavedMessage(messageId);
+  }
+
+  @override
+  Future<void> unsaveMessage(String messageId) async {
+    await _db.savedMessageDao.removeSavedMessage(messageId);
+  }
+}
 
 void main() {
   final message = Message(
@@ -529,6 +562,56 @@ void main() {
       await tester.pump();
       expect(forwarded, isTrue);
       await dispatched;
+    });
+
+    testWidgets('bookmarking a message shows a success toast', (tester) async {
+      final FluxerDatabase database = openTestDatabase();
+      late WidgetRef capturedRef;
+      late BuildContext capturedContext;
+
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: baseOverrides(
+            message.id,
+            extra: <Override>[
+              fluxerDatabaseProvider.overrideWithValue(database),
+              savedMessagesRepositoryProvider.overrideWithValue(
+                _FakeSavedMessagesRepository(database),
+              ),
+            ],
+          ),
+          child: MaterialApp(
+            locale: kTestLocale,
+            localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+            supportedLocales: FluxerLocalizations.supportedLocales,
+            theme: buildFluxerTheme(
+              colorTheme: buildDarkColorTheme(),
+              textTheme: FluxerTextTheme.fromColors(buildDarkColorTheme()),
+              layoutTheme: FluxerLayoutTheme.scaled(),
+            ),
+            home: Consumer(
+              builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                capturedRef = ref;
+                capturedContext = context;
+                return const SizedBox();
+              },
+            ),
+          ),
+        ),
+      );
+
+      await dispatchMessageAction(
+        ref: capturedRef,
+        context: capturedContext,
+        message: message,
+        action: MessageAction.bookmark,
+        callbacks: const MessageActionCallbacks(),
+      );
+      expect(
+        capturedRef.read(toastProvider).single.toast.message,
+        testL10n.savedMessagesAddedToast,
+      );
+      await tester.pump(const Duration(seconds: 5));
     });
   });
 }

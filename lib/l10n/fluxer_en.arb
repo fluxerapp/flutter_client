@@ -13157,6 +13157,14 @@
     "@savedMessagesRemoveTooltip": {
         "description": "Tooltip for removing a saved message bookmark."
     },
+    "savedMessagesAddedToast": "Added to bookmarks",
+    "@savedMessagesAddedToast": {
+        "description": "Toast confirming a message was bookmarked."
+    },
+    "savedMessagesRemovedToast": "Removed from bookmarks",
+    "@savedMessagesRemovedToast": {
+        "description": "Toast confirming a message bookmark was removed."
+    },
     "quickSwitcherMentionsLabel": "Mentions",
     "@quickSwitcherMentionsLabel": {
         "description": "Quick switcher settings entry for mentions."

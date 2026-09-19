@@ -1,10 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
-import 'package:fluxer_app/features/bookmarks/data/saved_messages_repository.dart';
-import 'package:fluxer_app/features/bookmarks/providers/saved_messages_sync_provider.dart';
+import 'package:fluxer_app/features/bookmarks/utils/saved_message_actions.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_translation.dart';
@@ -163,24 +161,12 @@ Future<void> dispatchMessageAction({
         ),
       );
     case MessageAction.bookmark:
-      final SavedMessagesRepository repository = ref.read(
-        savedMessagesRepositoryProvider,
+      await toggleSavedMessageBookmark(
+        ref: ref,
+        l10n: FluxerLocalizations.of(context),
+        channelId: message.channelId,
+        messageId: message.id,
       );
-      final String messageId = message.id;
-      final String channelId = message.channelId;
-      unawaited(() async {
-        if (await ref
-            .read(fluxerDatabaseProvider)
-            .savedMessageDao
-            .isSaved(messageId)) {
-          await repository.unsaveMessage(messageId);
-        } else {
-          await repository.saveMessage(
-            channelId: channelId,
-            messageId: messageId,
-          );
-        }
-      }());
     case MessageAction.pin:
       final String channelId = message.channelId;
       final String messageId = message.id;

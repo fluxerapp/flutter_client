@@ -11217,6 +11217,12 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get savedMessagesRemoveTooltip => 'Supprimer le signet';
 
   @override
+  String get savedMessagesAddedToast => 'Added to bookmarks';
+
+  @override
+  String get savedMessagesRemovedToast => 'Removed from bookmarks';
+
+  @override
   String get quickSwitcherMentionsLabel => 'Mentions';
 
   @override
