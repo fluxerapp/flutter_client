@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -114,11 +112,10 @@ void main() {
     await tester.pumpAndSettle();
 
     final BuildContext chatContext = tester.element(find.text('chat'));
-    unawaited(
-      showModalBottomSheet<void>(
-        context: chatContext,
-        builder: (BuildContext context) => const Text('sheet'),
-      ),
+
+    showModalBottomSheet<void>(
+      context: chatContext,
+      builder: (BuildContext context) => const Text('sheet'),
     );
     await tester.pumpAndSettle();
 
@@ -161,11 +158,10 @@ void main() {
     final BuildContext listContext = tester.element(
       find.text('Select a channel'),
     );
-    unawaited(
-      showModalBottomSheet<void>(
-        context: listContext,
-        builder: (BuildContext context) => const Text('community menu'),
-      ),
+
+    showModalBottomSheet<void>(
+      context: listContext,
+      builder: (BuildContext context) => const Text('community menu'),
     );
     await tester.pumpAndSettle();
 

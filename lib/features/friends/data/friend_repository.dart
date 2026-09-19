@@ -30,12 +30,16 @@ class FriendRepository {
   Future<List<Friend>> getRelationships() async {
     try {
       final relationships = await _client.users.listUserRelationships();
+      final userCompanions = <db.UsersCompanion>[];
       final companions = <db.RelationshipsCompanion>[];
       for (final rel in relationships) {
-        await _db.userDao.upsertUser(userFromPartialSdk(rel.user));
+        userCompanions.add(userFromPartialSdk(rel.user));
         companions.add(_relationshipToCompanion(rel));
       }
-      await _db.relationshipDao.upsertRelationships(companions);
+      await _db.transaction(() async {
+        await _db.userDao.upsertUsers(userCompanions);
+        await _db.relationshipDao.replaceAll(companions);
+      });
       return relationships.map(Friend.fromSdk).toList();
     } on DioException catch (e) {
       throw Exception(

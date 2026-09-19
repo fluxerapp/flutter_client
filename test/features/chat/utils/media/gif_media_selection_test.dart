@@ -193,4 +193,58 @@ void main() {
     expect(preview.src, 'https://media.tenor.com/excited-ah.gif');
     expect(preview.proxySrc, 'https://cdn.example/excited-ah.gif');
   });
+
+  test('stores the original GIF rendition instead of gifv video media', () {
+    const media = {
+      'webm': sdk.GifMediaFormat(
+        src: 'https://media.tenor.com/excited-ah.webm',
+        proxySrc: 'https://cdn.example/excited-ah.webm',
+        width: 498,
+        height: 498,
+      ),
+      'gif': sdk.GifMediaFormat(
+        src: 'https://media.tenor.com/excited-ah.gif',
+        proxySrc: 'https://cdn.example/excited-ah.gif',
+        width: 498,
+        height: 498,
+      ),
+      'tinygif': sdk.GifMediaFormat(
+        src: 'https://media.tenor.com/excited-ah-small.gif',
+        proxySrc: 'https://cdn.example/excited-ah-small.gif',
+        width: 165,
+        height: 165,
+      ),
+    };
+
+    expect(
+      bestStoredGifUrl(
+        url: 'https://tenor.com/view/excited-ah-gif-1',
+        src: 'https://media.tenor.com/excited-ah.webm',
+        proxySrc: 'https://cdn.example/excited-ah.webm',
+        media: media,
+      ),
+      'https://cdn.example/excited-ah.gif',
+    );
+  });
+
+  test('does not store webm when only video renditions exist', () {
+    const media = {
+      'webm': sdk.GifMediaFormat(
+        src: 'https://media.tenor.com/excited-ah.webm',
+        proxySrc: 'https://cdn.example/excited-ah.webm',
+        width: 498,
+        height: 498,
+      ),
+    };
+
+    expect(
+      bestStoredGifUrl(
+        url: 'https://tenor.com/view/excited-ah-gif-1',
+        src: 'https://media.tenor.com/excited-ah.webm',
+        proxySrc: 'https://cdn.example/excited-ah.webm',
+        media: media,
+      ),
+      'https://tenor.com/view/excited-ah-gif-1',
+    );
+  });
 }

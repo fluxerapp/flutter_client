@@ -12,7 +12,9 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
+import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_backdrop.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
@@ -36,6 +38,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../helpers/open_test_database.dart';
 import '../../../helpers/test_l10n.dart';
+import '../../../helpers/wide_layout_test_sizes.dart';
 
 const String _guildId = 'g1';
 const String _channelId = 'voice-1';
@@ -57,6 +60,7 @@ void main() {
     ) async {
       await _pumpPage(tester);
       expect(find.byType(VoiceChannelJoinEmptyState), findsOneWidget);
+      expect(find.byType(ChatWallpaperBackdrop), findsNothing);
       expect(find.byType(VoiceChannelJoinButton), findsOneWidget);
       expect(find.text('Join voice channel'), findsOneWidget);
       expect(
@@ -194,13 +198,53 @@ void main() {
       );
     });
   });
+
+  group('VoiceChannelPageView desktop chat toggle', () {
+    testWidgets('hides chat toggle on tablet sizes', (
+      WidgetTester tester,
+    ) async {
+      await _pumpPage(
+        tester,
+        size: kTabletLandscapeTestViewportSize,
+        textChatSupported: true,
+      );
+
+      expect(find.byKey(kDesktopVoiceChatToggleKey), findsNothing);
+    });
+
+    testWidgets('hides chat toggle when shortest side is below desktop', (
+      WidgetTester tester,
+    ) async {
+      await _pumpPage(
+        tester,
+        size: kWideTestViewportSize,
+        textChatSupported: true,
+      );
+
+      expect(find.byKey(kDesktopVoiceChatToggleKey), findsNothing);
+    });
+
+    testWidgets('shows chat toggle on desktop sizes', (
+      WidgetTester tester,
+    ) async {
+      await _pumpPage(
+        tester,
+        size: kDesktopTestViewportSize,
+        textChatSupported: true,
+      );
+
+      expect(find.byKey(kDesktopVoiceChatToggleKey), findsOneWidget);
+    });
+  });
 }
 
 Future<void> _pumpPage(
   WidgetTester tester, {
   _MutableVoiceSession? voiceSession,
+  Size size = const Size(390, 844),
+  bool textChatSupported = false,
 }) async {
-  tester.view.physicalSize = const Size(390, 844);
+  tester.view.physicalSize = size;
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.resetPhysicalSize);
   addTearDown(tester.view.resetDevicePixelRatio);
@@ -210,7 +254,11 @@ Future<void> _pumpPage(
   final FluxerColorTheme colorTheme = buildDarkColorTheme();
   await tester.pumpWidget(
     ProviderScope(
-      overrides: _voicePageOverrides(db: db, session: session),
+      overrides: _voicePageOverrides(
+        db: db,
+        session: session,
+        textChatSupported: textChatSupported,
+      ),
       child: MaterialApp(
         locale: kTestLocale,
         localizationsDelegates: FluxerLocalizations.localizationsDelegates,
@@ -232,6 +280,7 @@ Future<void> _pumpPage(
 List<Override> _voicePageOverrides({
   required FluxerDatabase db,
   required _MutableVoiceSession session,
+  bool textChatSupported = false,
 }) {
   const Channel channel = Channel(
     id: _channelId,
@@ -270,7 +319,10 @@ List<Override> _voicePageOverrides({
     ).overrideWith((ref) => const VoiceJoinEligibility(canJoin: true)),
     voiceChannelTextChatSupportedProvider(
       _channelId,
-    ).overrideWith((ref) => false),
+    ).overrideWith((ref) => textChatSupported),
+    channelUnreadProvider(
+      _channelId,
+    ).overrideWith((ref) => Stream<UnreadState>.value(const UnreadState())),
     voiceChannelParticipantsProvider(
       voiceChannelParticipantsFamilyKey(_guildId, _channelId),
     ).overrideWith((ref) => const <VoiceChannelParticipantData>[]),

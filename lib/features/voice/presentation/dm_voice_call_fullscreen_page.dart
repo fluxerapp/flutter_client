@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/utils/chat_route_sync_guard.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
@@ -94,65 +95,71 @@ class _DmVoiceCallFullscreenPageState
             (s.guildId == null || s.guildId!.isEmpty),
       ),
     );
-    final Widget scaffold = Scaffold(
-      backgroundColor: context.colors.chatBackground,
-      extendBodyBehindAppBar: usePhoneVoiceOverlay,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(kToolbarHeight),
-        child: IgnorePointer(
-          ignoring: usePhoneVoiceOverlay && !showsOverlay,
-          child: AnimatedOpacity(
-            duration: const Duration(milliseconds: 240),
-            opacity: showsOverlay ? 1 : 0,
-            child: AppBar(
-              backgroundColor: usePhoneVoiceOverlay
-                  ? Colors.transparent
-                  : context.colors.chatInputBackground,
-              foregroundColor: context.colors.textPrimary,
-              elevation: 0,
-              leading: BackButton(onPressed: () => context.pop()),
-              title: Text(
-                _resolveAppBarTitle(l10n),
-                style: context.textStyles.channelName,
-                overflow: TextOverflow.ellipsis,
-              ),
-              actions: const <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(right: 8),
-                  child: FlipCameraButton(),
+    final Widget scaffold = ChatSurfaceTheme(
+      builder: (BuildContext context) {
+        return Scaffold(
+          backgroundColor: context.colors.chatBackground,
+          extendBodyBehindAppBar: usePhoneVoiceOverlay,
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(kToolbarHeight),
+            child: IgnorePointer(
+              ignoring: usePhoneVoiceOverlay && !showsOverlay,
+              child: AnimatedOpacity(
+                duration: const Duration(milliseconds: 240),
+                opacity: showsOverlay ? 1 : 0,
+                child: AppBar(
+                  backgroundColor: usePhoneVoiceOverlay
+                      ? Colors.transparent
+                      : context.colors.chatInputBackground,
+                  foregroundColor: context.colors.textPrimary,
+                  elevation: 0,
+                  leading: BackButton(onPressed: () => context.pop()),
+                  title: Text(
+                    _resolveAppBarTitle(l10n),
+                    style: context.textStyles.channelName,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  actions: const <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(right: 8),
+                      child: FlipCameraButton(),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
-      body: inThisChannel
-          ? LocalCameraOrientationSync(
-              child: usePhoneVoiceOverlay
-                  ? VoiceCallMobilePageLayout(
-                      channelId: widget.channelId,
-                      child: VoiceChannelParticipantGrid(
-                        channelId: widget.channelId,
-                      ),
-                    )
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Expanded(
+          body: inThisChannel
+              ? LocalCameraOrientationSync(
+                  child: usePhoneVoiceOverlay
+                      ? VoiceCallMobilePageLayout(
+                          channelId: widget.channelId,
                           child: VoiceChannelParticipantGrid(
                             channelId: widget.channelId,
                           ),
+                        )
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Expanded(
+                              child: VoiceChannelParticipantGrid(
+                                channelId: widget.channelId,
+                              ),
+                            ),
+                            VoiceChannelControlBar(channelId: widget.channelId),
+                          ],
                         ),
-                        VoiceChannelControlBar(channelId: widget.channelId),
-                      ],
+                )
+              : VoiceCallJoinEmptyState(
+                  channelId: widget.channelId,
+                  participantPreviewCount: ref.watch(
+                    privateChannelVoiceParticipantCountProvider(
+                      widget.channelId,
                     ),
-            )
-          : VoiceCallJoinEmptyState(
-              channelId: widget.channelId,
-              participantPreviewCount: ref.watch(
-                privateChannelVoiceParticipantCountProvider(widget.channelId),
-              ),
-            ),
+                  ),
+                ),
+        );
+      },
     );
     if (usePhoneVoiceOverlay) {
       return VoiceCallJoinOverlay(child: scaffold);

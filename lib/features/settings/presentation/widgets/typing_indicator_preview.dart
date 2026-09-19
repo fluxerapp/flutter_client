@@ -5,7 +5,7 @@ import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-const _kPreviewAvatarSize = 14.0;
+const _kPreviewAvatarSize = 12.0;
 const _kPreviewMockColors = <Color>[
   Color(0xFF5865F2),
   Color(0xFF57F287),
@@ -63,6 +63,9 @@ class TypingIndicatorPreview extends StatelessWidget {
               SizedBox(width: layout.s1),
               FluxerAvatarStack(
                 size: _kPreviewAvatarSize,
+                maxVisible: 5,
+                outlineWidth: 1,
+                outlineColor: colors.backgroundSecondary,
                 avatars: [
                   for (final color in _kPreviewMockColors)
                     DecoratedBox(

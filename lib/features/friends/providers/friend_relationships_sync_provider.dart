@@ -7,13 +7,13 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'friend_relationships_sync_provider.g.dart';
 
-/// Refreshes relationships from the REST API after each gateway READY.
+/// Refreshes relationships from REST after each gateway READY.
 ///
-/// READY clears the local relationship table and may omit pending requests from
-/// its payload, so a follow up fetch keeps incoming requests consistent.
+/// READY can omit pending requests, so this fetch runs immediately.
 @Riverpod(keepAlive: true)
 class FriendRelationshipsSync extends _$FriendRelationshipsSync {
-  bool _syncScheduled = false;
+  bool _syncInFlight = false;
+  bool _syncQueued = false;
 
   @override
   void build() {
@@ -27,21 +27,27 @@ class FriendRelationshipsSync extends _$FriendRelationshipsSync {
     }
   }
 
-  /// Waits out the first-channel-open window after READY; bumps arriving
-  /// while a sweep is pending collapse into it, since the fetch reflects
-  /// server truth at run time.
   void _scheduleSync() {
-    if (_syncScheduled) {
+    if (_syncInFlight) {
+      _syncQueued = true;
       return;
     }
-    _syncScheduled = true;
+    _syncInFlight = true;
     unawaited(() async {
-      await Future<void>.delayed(kFullRecoverySweepDelay);
-      _syncScheduled = false;
-      if (!ref.mounted) {
-        return;
+      try {
+        do {
+          _syncQueued = false;
+          if (!ref.mounted) {
+            return;
+          }
+          await _sync();
+        } while (_syncQueued);
+      } finally {
+        _syncInFlight = false;
+        if (_syncQueued && ref.mounted) {
+          _scheduleSync();
+        }
       }
-      await _sync();
     }());
   }
 

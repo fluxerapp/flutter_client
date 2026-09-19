@@ -88,9 +88,7 @@ class _EmojiInfoBottomSheetContent extends ConsumerWidget {
     final favoriteKey = resolved.favoriteKey;
     final isFavorite =
         favoriteKey != null && favoriteKeys.contains(favoriteKey);
-    final showGuildSection =
-        resolved.attribution.type == EmojiAttributionType.customGuild &&
-        resolved.attribution.guild != null;
+    final showGuildSection = resolved.attribution.guild != null;
 
     return Padding(
       padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s6),

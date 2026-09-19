@@ -35,13 +35,13 @@ EmojiAttribution resolveEmojiAttribution({
     );
   }
 
-  if (guildId != null && !memberGuildIds.contains(guildId)) {
-    return const EmojiAttribution(
-      type: EmojiAttributionType.customInviteRequired,
-    );
+  if (guildId != null && memberGuildIds.contains(guildId)) {
+    return const EmojiAttribution(type: EmojiAttributionType.customUnknown);
   }
 
-  return const EmojiAttribution(type: EmojiAttributionType.customUnknown);
+  return const EmojiAttribution(
+    type: EmojiAttributionType.customInviteRequired,
+  );
 }
 
 String emojiAttributionDescription(

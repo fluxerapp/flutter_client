@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
-import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
+import 'package:fluxer_app/features/shell/providers/drawer_past_half_screen_provider.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
 import 'package:fluxer_app/features/voice/providers/voice_active_speakers_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
@@ -211,7 +211,7 @@ final voicePipFeaturedHasVideoProvider = Provider<bool>((Ref ref) {
 });
 
 final voicePipCallViewObscuredProvider = Provider<bool>((Ref ref) {
-  return ref.watch(currentRevealSideProvider) == RevealSide.left;
+  return ref.watch(drawerPastHalfScreenProvider);
 });
 
 final voicePipOnSessionCallRouteProvider = Provider<bool>((Ref ref) {

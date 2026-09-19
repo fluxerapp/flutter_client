@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_share
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_youtube.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_inline_video_player.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_gallery_utils.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_media_viewer_utils.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_youtube_utils.dart';
@@ -44,197 +45,208 @@ class EmbedRich extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sideColor = embed.color != null
-        ? Color(0xFF000000 | (embed.color! & 0xFFFFFF))
-        : context.colors.backgroundSecondaryAlt;
+    return ChatSurfaceTheme(
+      builder: (BuildContext context) {
+        final sideColor = embed.color != null
+            ? Color(0xFF000000 | (embed.color! & 0xFFFFFF))
+            : context.colors.backgroundSecondaryAlt;
 
-    final ChatVideoSource? videoSource = embed.video != null
-        ? ChatVideoSource.fromEmbed(embed)
-        : null;
-    final bool isYouTube = isYouTubeEmbed(embed);
-    final ChatFullscreenVideoLaunchContext? youtubeLaunchContext =
-        canRenderYouTubeEmbed(embed)
-        ? ChatFullscreenVideoLaunchContext.fromYouTubeEmbed(
-            embed: embed,
-            embedIndex: embedIndex,
-            actionScope: videoActionScope,
-          )
-        : null;
-    final bool hasYouTubePlayer = youtubeLaunchContext != null;
-    final bool hasVideo =
-        hasYouTubePlayer ||
-        (videoSource != null && videoSource.hasPlayableContent && !isYouTube);
-    final ChatFullscreenVideoLaunchContext? videoLaunchContext =
-        hasVideo && !hasYouTubePlayer
-        ? ChatFullscreenVideoLaunchContext.fromEmbed(
-            embed: embed,
-            embedIndex: embedIndex,
-            actionScope: videoActionScope,
-          )
-        : null;
-    final bool hasImage = embed.image != null;
-    final bool hasThumbnail =
-        !hasVideo &&
-        embed.thumbnail != null &&
-        embed.type != EmbedType.image &&
-        embed.type != EmbedType.gifv;
-    final EmbedGalleryDisplay gallery = galleryIndex.resolveDisplay(
-      embedIndex: embedIndex,
-      hasAnyMedia: hasVideo || hasImage || hasThumbnail,
-    );
-    final bool shouldRenderInlineThumbnail =
-        hasThumbnail && !gallery.showGallery;
+        final ChatVideoSource? videoSource = embed.video != null
+            ? ChatVideoSource.fromEmbed(embed)
+            : null;
+        final bool isYouTube = isYouTubeEmbed(embed);
+        final ChatFullscreenVideoLaunchContext? youtubeLaunchContext =
+            canRenderYouTubeEmbed(embed)
+            ? ChatFullscreenVideoLaunchContext.fromYouTubeEmbed(
+                embed: embed,
+                embedIndex: embedIndex,
+                actionScope: videoActionScope,
+              )
+            : null;
+        final bool hasYouTubePlayer = youtubeLaunchContext != null;
+        final bool hasVideo =
+            hasYouTubePlayer ||
+            (videoSource != null &&
+                videoSource.hasPlayableContent &&
+                !isYouTube);
+        final ChatFullscreenVideoLaunchContext? videoLaunchContext =
+            hasVideo && !hasYouTubePlayer
+            ? ChatFullscreenVideoLaunchContext.fromEmbed(
+                embed: embed,
+                embedIndex: embedIndex,
+                actionScope: videoActionScope,
+              )
+            : null;
+        final bool hasImage = embed.image != null;
+        final bool hasThumbnail =
+            !hasVideo &&
+            embed.thumbnail != null &&
+            embed.type != EmbedType.image &&
+            embed.type != EmbedType.gifv;
+        final EmbedGalleryDisplay gallery = galleryIndex.resolveDisplay(
+          embedIndex: embedIndex,
+          hasAnyMedia: hasVideo || hasImage || hasThumbnail,
+        );
+        final bool shouldRenderInlineThumbnail =
+            hasThumbnail && !gallery.showGallery;
 
-    return Container(
-      margin: const EdgeInsets.only(top: 4),
-      constraints: const BoxConstraints(maxWidth: 440),
-      decoration: BoxDecoration(
-        color: context.colors.embedBackground,
-        border: Border(left: BorderSide(color: sideColor, width: 4)),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (embed.providerName != null)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 4),
-                      child: EmbedInlineText(
-                        text: embed.providerName!,
-                        style: context.textStyles.embedFooter.copyWith(
-                          fontSize: 12,
+        return Container(
+          margin: const EdgeInsets.only(top: 4),
+          constraints: const BoxConstraints(maxWidth: 440),
+          decoration: BoxDecoration(
+            color: context.colors.embedBackground,
+            border: Border(left: BorderSide(color: sideColor, width: 4)),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (embed.providerName != null)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 4),
+                          child: EmbedInlineText(
+                            text: embed.providerName!,
+                            style: context.textStyles.embedFooter.copyWith(
+                              fontSize: 12,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  if (embed.author != null)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 4),
-                      child: EmbedAuthorRow(author: embed.author!),
-                    ),
-                  if (embed.title != null)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 4),
-                      child: EmbedTitle(title: embed.title!, url: embed.url),
-                    ),
-                  if (embed.description != null && !isYouTube)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 6),
-                      child: MessageMarkdown(
-                        data: embed.description!,
-                        baseStyle: context.textStyles.embedDescription,
-                        markdownContext:
-                            FluxerMarkdownContext.restrictedEmbedDescription,
-                        revealSpoilers: revealSpoilers,
-                        spoilerSyncController: spoilerSyncController,
-                      ),
-                    ),
-                  if (embed.fields.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 6),
-                      child: _EmbedFields(
-                        fields: embed.fields,
-                        revealSpoilers: revealSpoilers,
-                        spoilerSyncController: spoilerSyncController,
-                      ),
-                    ),
-                  if (youtubeLaunchContext != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4, bottom: 4),
-                      child: EmbedYouTube(
-                        embed: embed,
-                        launchContext: youtubeLaunchContext,
-                        dimensionSize: dimensionSize,
-                      ),
-                    )
-                  else if (hasVideo)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4, bottom: 4),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
-                        child: ChatInlineVideoPlayer(
-                          source: videoLaunchContext!.source,
-                          launchContext: videoLaunchContext,
-                          dimensionSize: dimensionSize,
-                          posterFit: BoxFit.contain,
+                      if (embed.author != null)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 4),
+                          child: EmbedAuthorRow(author: embed.author!),
                         ),
-                      ),
-                    )
-                  else if (gallery.showGallery)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4, bottom: 4),
-                      child: EmbedGalleryMedia(
-                        embed: embed,
-                        galleryImages: gallery.galleryImages,
-                        embedIndex: embedIndex,
-                        dimensionSize: dimensionSize,
-                        revealSpoilers: revealSpoilers,
-                        channelId: channelId,
-                        messageId: messageId,
-                      ),
-                    )
-                  else if (embed.image != null && !shouldRenderInlineThumbnail)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4, bottom: 4),
-                      child: _EmbedMediaImage(
-                        media: embed.image!,
-                        dimensionSize: dimensionSize,
-                        title: embed.title,
-                        embedIndex: embedIndex,
-                        channelId: channelId,
-                        messageId: messageId,
-                        actionScope: videoActionScope,
-                      ),
-                    ),
-                  if (embed.footer != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: EmbedFooterRow(
-                        footer: embed.footer!,
-                        timestamp: embed.timestamp,
-                      ),
-                    ),
-                ],
-              ),
-            ),
-            if (shouldRenderInlineThumbnail) ...[
-              const SizedBox(width: 12),
-              FluxerGestureDetector(
-                onTap: canOpenEmbedMediaViewer(embed.thumbnail!)
-                    ? () => openEmbedMediaViewer(
-                        context,
-                        media: embed.thumbnail!,
-                        title: embed.title,
-                        embedIndex: embedIndex,
-                        channelId: channelId,
-                        messageId: messageId,
-                        actionScope: videoActionScope,
-                      )
-                    : null,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
-                  child: CachedNetworkImage(
-                    imageUrl: embedMediaEffectiveUrl(embed.thumbnail!),
-                    width: 72,
-                    height: 72,
-                    memCacheWidth: (72 * MediaQuery.devicePixelRatioOf(context))
-                        .round(),
-                    fit: BoxFit.cover,
-                    fadeInDuration: Duration.zero,
-                    fadeOutDuration: Duration.zero,
-                    errorBuilder: (_, e, s) => const SizedBox.shrink(),
+                      if (embed.title != null)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 4),
+                          child: EmbedTitle(
+                            title: embed.title!,
+                            url: embed.url,
+                          ),
+                        ),
+                      if (embed.description != null && !isYouTube)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 6),
+                          child: MessageMarkdown(
+                            data: embed.description!,
+                            baseStyle: context.textStyles.embedDescription,
+                            markdownContext: FluxerMarkdownContext
+                                .restrictedEmbedDescription,
+                            revealSpoilers: revealSpoilers,
+                            spoilerSyncController: spoilerSyncController,
+                          ),
+                        ),
+                      if (embed.fields.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 6),
+                          child: _EmbedFields(
+                            fields: embed.fields,
+                            revealSpoilers: revealSpoilers,
+                            spoilerSyncController: spoilerSyncController,
+                          ),
+                        ),
+                      if (youtubeLaunchContext != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4, bottom: 4),
+                          child: EmbedYouTube(
+                            embed: embed,
+                            launchContext: youtubeLaunchContext,
+                            dimensionSize: dimensionSize,
+                          ),
+                        )
+                      else if (hasVideo)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4, bottom: 4),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(4),
+                            child: ChatInlineVideoPlayer(
+                              source: videoLaunchContext!.source,
+                              launchContext: videoLaunchContext,
+                              dimensionSize: dimensionSize,
+                              posterFit: BoxFit.contain,
+                            ),
+                          ),
+                        )
+                      else if (gallery.showGallery)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4, bottom: 4),
+                          child: EmbedGalleryMedia(
+                            embed: embed,
+                            galleryImages: gallery.galleryImages,
+                            embedIndex: embedIndex,
+                            dimensionSize: dimensionSize,
+                            revealSpoilers: revealSpoilers,
+                            channelId: channelId,
+                            messageId: messageId,
+                          ),
+                        )
+                      else if (embed.image != null &&
+                          !shouldRenderInlineThumbnail)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4, bottom: 4),
+                          child: _EmbedMediaImage(
+                            media: embed.image!,
+                            dimensionSize: dimensionSize,
+                            title: embed.title,
+                            embedIndex: embedIndex,
+                            channelId: channelId,
+                            messageId: messageId,
+                            actionScope: videoActionScope,
+                          ),
+                        ),
+                      if (embed.footer != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4),
+                          child: EmbedFooterRow(
+                            footer: embed.footer!,
+                            timestamp: embed.timestamp,
+                          ),
+                        ),
+                    ],
                   ),
                 ),
-              ),
-            ],
-          ],
-        ),
-      ),
+                if (shouldRenderInlineThumbnail) ...[
+                  const SizedBox(width: 12),
+                  FluxerGestureDetector(
+                    onTap: canOpenEmbedMediaViewer(embed.thumbnail!)
+                        ? () => openEmbedMediaViewer(
+                            context,
+                            media: embed.thumbnail!,
+                            title: embed.title,
+                            embedIndex: embedIndex,
+                            channelId: channelId,
+                            messageId: messageId,
+                            actionScope: videoActionScope,
+                          )
+                        : null,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(4),
+                      child: CachedNetworkImage(
+                        imageUrl: embedMediaEffectiveUrl(embed.thumbnail!),
+                        width: 72,
+                        height: 72,
+                        memCacheWidth:
+                            (72 * MediaQuery.devicePixelRatioOf(context))
+                                .round(),
+                        fit: BoxFit.cover,
+                        fadeInDuration: Duration.zero,
+                        fadeOutDuration: Duration.zero,
+                        errorBuilder: (_, e, s) => const SizedBox.shrink(),
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

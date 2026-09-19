@@ -15,6 +15,7 @@ void main() {
         'GET /gifs/search': [
           {
             'id': 'tenor-1',
+            'slug': 'view/excited-ah-gif-1',
             'title': 'Excited ah',
             'url': 'https://tenor.com/view/excited-ah-gif-1',
             'src': 'https://media.tenor.com/excited-ah.webm',
@@ -52,8 +53,17 @@ void main() {
 
       expect(results, hasLength(1));
       expect(results.single.provider, GifProviderKind.tenor);
+      expect(results.single.slug, 'view/excited-ah-gif-1');
       expect(results.single.src, 'https://media.tenor.com/excited-ah.webp');
       expect(results.single.proxySrc, 'https://cdn.example/excited-ah.webp');
+      expect(
+        results.single.media?['webp']?.src,
+        'https://media.tenor.com/excited-ah.webp',
+      );
+      expect(
+        results.single.media?['webm']?.src,
+        'https://media.tenor.com/excited-ah.webm',
+      );
       expect(adapter.requests.single.path, '/gifs/search');
       expect(adapter.requests.single.query, {
         'q': 'excited',

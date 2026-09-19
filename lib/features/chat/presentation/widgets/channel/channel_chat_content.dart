@@ -344,7 +344,6 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
 /// Deliberately not "the sync was issued": an interrupted first jump must still
 /// be retried, and the C1 loop requires the target to have been loaded at least
 /// once, so arrival is both the safe and the sufficient moment.
-@visibleForTesting
 bool shouldConsumeChannelJumpTarget({
   required String channelId,
   required String? routeTarget,
@@ -374,7 +373,6 @@ bool shouldConsumeChannelJumpTarget({
 
 /// The complete sync request, so target selection lives in exactly one tested
 /// place rather than inline in a widget where it can be silently bypassed.
-@visibleForTesting
 ({String channelId, String? targetMessageId, bool loadMessages})
 buildChannelChatSyncRequest({
   required String channelId,
@@ -392,7 +390,6 @@ buildChannelChatSyncRequest({
   );
 }
 
-@visibleForTesting
 String? resolveEffectiveChannelJumpTarget({
   required String channelId,
   required String? routeTarget,
@@ -413,7 +410,6 @@ String? resolveEffectiveChannelJumpTarget({
   return routeTarget;
 }
 
-@visibleForTesting
 bool shouldDedupChannelChatSwitchRequest({
   required ({String channelId, String? targetMessageId, bool loadMessages})?
   lastRequest,

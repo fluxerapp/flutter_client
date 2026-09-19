@@ -15,7 +15,7 @@ import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 
-const double _kAvatarSize = 13;
+const double _kAvatarSize = 12;
 const int _kMaxVisibleAvatars = 5;
 
 /// Typing indicator shown at the end of a guild channel list row.
@@ -139,6 +139,7 @@ class _TypingAvatarStack extends ConsumerWidget {
       size: _kAvatarSize,
       maxVisible: _kMaxVisibleAvatars,
       outlineWidth: 1,
+      outlineColor: colors.backgroundSecondary,
       avatars: avatars,
       overflowBuilder: (context, remaining) => DecoratedBox(
         decoration: BoxDecoration(

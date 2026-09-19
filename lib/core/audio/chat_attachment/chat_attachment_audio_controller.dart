@@ -89,6 +89,7 @@ class ChatAttachmentAudioController extends ChangeNotifier {
   bool _isPlaying = false;
   bool _isLoading = false;
   bool _hasPreparedSource = false;
+  bool _hasStarted = false;
   bool _playbackFinished = false;
   bool _disposed = false;
   Duration _duration = Duration.zero;
@@ -98,6 +99,7 @@ class ChatAttachmentAudioController extends ChangeNotifier {
 
   bool get isPlaying => _isPlaying;
   bool get isLoading => _isLoading;
+  bool get hasStarted => _hasStarted;
   Duration get duration => _duration;
   double get volume => _volume;
   bool get isMuted => _isMuted;
@@ -138,6 +140,7 @@ class ChatAttachmentAudioController extends ChangeNotifier {
       await pause();
       return true;
     }
+    _hasStarted = true;
     _isLoading = true;
     _notify();
     try {
@@ -197,6 +200,7 @@ class ChatAttachmentAudioController extends ChangeNotifier {
     _isPlaying = false;
     _playbackFinished = false;
     _hasPreparedSource = false;
+    _hasStarted = false;
     position.update(Duration.zero);
     _notify();
     if (!hasListeners) {
@@ -399,5 +403,6 @@ class ChatAttachmentAudioController extends ChangeNotifier {
   @visibleForTesting
   void debugSetPlaying() {
     _isPlaying = true;
+    _hasStarted = true;
   }
 }

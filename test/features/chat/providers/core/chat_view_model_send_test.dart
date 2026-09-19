@@ -122,6 +122,9 @@ void main() {
     final String historicalId = _snowflakeForUtc(DateTime.utc(2026, 6, 14, 12));
     final String latestId = _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12));
     final String deliveredId = _snowflakeForUtc(DateTime.utc(2026, 6, 17, 12));
+    await db.guildDao.upsertServer(
+      ServersCompanion.insert(id: 'guild-1', name: 'Guild'),
+    );
     await db.channelDao.upsertChannel(
       ChannelsCompanion.insert(
         id: 'channel-1',
@@ -129,6 +132,9 @@ void main() {
         name: 'general',
         lastMessageId: Value(latestId),
       ),
+    );
+    await db.memberDao.upsertMember(
+      MembersCompanion.insert(userId: 'me', guildId: 'guild-1'),
     );
     final adapter =
         _SendAdapter(

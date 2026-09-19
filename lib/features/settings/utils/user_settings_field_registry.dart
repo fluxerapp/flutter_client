@@ -83,6 +83,14 @@ Set<String> knownUserSettingsFieldIdsForTab(String tab) {
         ..._advancedCategorySectionIds,
         'advanced-performance',
       };
+    case 'applications':
+      return {
+        'applications-list',
+        'applications-info',
+        'applications-bot-profile',
+        'applications-oauth-builder',
+        'applications-secrets',
+      };
     default:
       return const {};
   }
@@ -226,6 +234,16 @@ String? _scrollFieldLabel(FluxerLocalizations l10n, String scrollId) {
       return l10n.advancedSettingsCategoryDeveloper;
     case 'advanced-performance':
       return l10n.advancedPerformanceReportingTitle;
+    case 'applications-list':
+      return l10n.applicationsTitle;
+    case 'applications-info':
+      return l10n.applicationsInfoTitle;
+    case 'applications-bot-profile':
+      return l10n.applicationsBotProfileTitle;
+    case 'applications-oauth-builder':
+      return l10n.applicationsOauthBuilderTitle;
+    case 'applications-secrets':
+      return l10n.applicationsSecretsTitle;
     default:
       return null;
   }

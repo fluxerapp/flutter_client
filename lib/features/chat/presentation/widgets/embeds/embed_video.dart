@@ -5,6 +5,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_share
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_youtube.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_inline_video_player.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_youtube_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
@@ -44,118 +45,125 @@ class EmbedVideo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isMediaOnly = embed.isMediaOnlyEmbed;
-    final sideColor = embed.color != null
-        ? Color(0xFF000000 | (embed.color! & 0xFFFFFF))
-        : context.colors.backgroundSecondaryAlt;
+    return ChatSurfaceTheme(
+      builder: (BuildContext context) {
+        final bool isMediaOnly = embed.isMediaOnlyEmbed;
+        final sideColor = embed.color != null
+            ? Color(0xFF000000 | (embed.color! & 0xFFFFFF))
+            : context.colors.backgroundSecondaryAlt;
 
-    final dimensions = mediaDimensionsForSize(dimensionSize);
-    final ChatFullscreenVideoLaunchContext? youtubeLaunchContext =
-        canRenderYouTubeEmbed(embed)
-        ? ChatFullscreenVideoLaunchContext.fromYouTubeEmbed(
-            embed: embed,
-            embedIndex: embedIndex,
-            actionScope: videoActionScope,
-          )
-        : null;
-    final ChatFullscreenVideoLaunchContext? launchContext =
-        youtubeLaunchContext == null
-        ? ChatFullscreenVideoLaunchContext.fromEmbed(
-            embed: embed,
-            embedIndex: embedIndex,
-            actionScope: videoActionScope,
-          )
-        : null;
-    final double mediaRadius = isMediaOnly ? 8 : 4;
-    final Widget player = youtubeLaunchContext != null
-        ? EmbedYouTube(
-            embed: embed,
-            launchContext: youtubeLaunchContext,
-            dimensionSize: dimensionSize,
-          )
-        : launchContext == null
-        ? const SizedBox.shrink()
-        : ChatInlineVideoPlayer(
-            source: launchContext.source,
-            launchContext: launchContext,
-            dimensionSize: dimensionSize,
-            posterFit: isMediaOnly ? BoxFit.cover : BoxFit.contain,
-          );
-    final Widget media = SpoilerOverlay(
-      isSpoiler: isSpoiler,
-      initiallyRevealed: revealSpoiler,
-      borderRadius: BorderRadius.circular(mediaRadius),
-      spoilerSyncController: spoilerSyncController,
-      syncKeys: spoilerSyncKeys,
-      child: MatureMediaOverlay(
-        channelId: channelId,
-        isMatureMedia: embed.isMatureMedia,
-        borderRadius: BorderRadius.circular(mediaRadius),
-        child: ClipRRect(
+        final dimensions = mediaDimensionsForSize(dimensionSize);
+        final ChatFullscreenVideoLaunchContext? youtubeLaunchContext =
+            canRenderYouTubeEmbed(embed)
+            ? ChatFullscreenVideoLaunchContext.fromYouTubeEmbed(
+                embed: embed,
+                embedIndex: embedIndex,
+                actionScope: videoActionScope,
+              )
+            : null;
+        final ChatFullscreenVideoLaunchContext? launchContext =
+            youtubeLaunchContext == null
+            ? ChatFullscreenVideoLaunchContext.fromEmbed(
+                embed: embed,
+                embedIndex: embedIndex,
+                actionScope: videoActionScope,
+              )
+            : null;
+        final double mediaRadius = isMediaOnly ? 8 : 4;
+        final Widget player = youtubeLaunchContext != null
+            ? EmbedYouTube(
+                embed: embed,
+                launchContext: youtubeLaunchContext,
+                dimensionSize: dimensionSize,
+              )
+            : launchContext == null
+            ? const SizedBox.shrink()
+            : ChatInlineVideoPlayer(
+                source: launchContext.source,
+                launchContext: launchContext,
+                dimensionSize: dimensionSize,
+                posterFit: isMediaOnly ? BoxFit.cover : BoxFit.contain,
+              );
+        final Widget media = SpoilerOverlay(
+          isSpoiler: isSpoiler,
+          initiallyRevealed: revealSpoiler,
           borderRadius: BorderRadius.circular(mediaRadius),
-          child: player,
-        ),
-      ),
-    );
-
-    if (isMediaOnly) {
-      return Container(
-        margin: const EdgeInsets.only(top: 4, bottom: 3),
-        constraints: BoxConstraints(
-          maxWidth: dimensions.maxWidth,
-          maxHeight: dimensions.maxHeight,
-        ),
-        decoration: BoxDecoration(
-          color: context.colors.backgroundSecondaryAlt,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: media,
-      );
-    }
-
-    return Container(
-      margin: const EdgeInsets.only(top: 4),
-      constraints: BoxConstraints(maxWidth: dimensions.maxWidth),
-      decoration: BoxDecoration(
-        color: context.colors.embedBackground,
-        border: Border(left: BorderSide(color: sideColor, width: 4)),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (_hasHeader)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12, 10, 12, 6),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (embed.providerName != null)
-                    EmbedInlineText(
-                      text: embed.providerName!,
-                      style: context.textStyles.embedFooter.copyWith(
-                        fontSize: 12,
-                      ),
-                    ),
-                  if (embed.author != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 2),
-                      child: EmbedAuthorRow(author: embed.author!),
-                    ),
-                  if (embed.title != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 2),
-                      child: EmbedTitle(title: embed.title!, url: embed.url),
-                    ),
-                ],
-              ),
+          spoilerSyncController: spoilerSyncController,
+          syncKeys: spoilerSyncKeys,
+          child: MatureMediaOverlay(
+            channelId: channelId,
+            isMatureMedia: embed.isMatureMedia,
+            borderRadius: BorderRadius.circular(mediaRadius),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(mediaRadius),
+              child: player,
             ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(12, 0, 12, 10),
-            child: media,
           ),
-        ],
-      ),
+        );
+
+        if (isMediaOnly) {
+          return Container(
+            margin: const EdgeInsets.only(top: 4, bottom: 3),
+            constraints: BoxConstraints(
+              maxWidth: dimensions.maxWidth,
+              maxHeight: dimensions.maxHeight,
+            ),
+            decoration: BoxDecoration(
+              color: context.colors.backgroundSecondaryAlt,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: media,
+          );
+        }
+
+        return Container(
+          margin: const EdgeInsets.only(top: 4),
+          constraints: BoxConstraints(maxWidth: dimensions.maxWidth),
+          decoration: BoxDecoration(
+            color: context.colors.embedBackground,
+            border: Border(left: BorderSide(color: sideColor, width: 4)),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (_hasHeader)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 10, 12, 6),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (embed.providerName != null)
+                        EmbedInlineText(
+                          text: embed.providerName!,
+                          style: context.textStyles.embedFooter.copyWith(
+                            fontSize: 12,
+                          ),
+                        ),
+                      if (embed.author != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2),
+                          child: EmbedAuthorRow(author: embed.author!),
+                        ),
+                      if (embed.title != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2),
+                          child: EmbedTitle(
+                            title: embed.title!,
+                            url: embed.url,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(12, 0, 12, 10),
+                child: media,
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

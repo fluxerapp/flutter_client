@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/horizontal_drag_axis_lock.dart';
+import 'package:fluxer_app/shared/gestures/pointer_delivery_profiler.dart';
 
 /// Dismisses the keyboard on a tap or vertical scroll of the message list.
 ///
@@ -45,11 +46,15 @@ class _ChatListKeyboardDismissState extends State<ChatListKeyboardDismiss> {
         event.pointer != tracked.pointer) {
       return;
     }
+    final int sampleIndex = tracked.sampleCount;
+    tracked.sampleCount += 1;
     final HorizontalDragAxisLockDecision decision =
         resolveHorizontalDragAxisLock(
           deltaFromStart: event.position - tracked.downPosition,
           slop: tracked.slop,
           elapsed: event.timeStamp - tracked.downTime,
+          params: PointerDeliveryProfiler.instance.params,
+          sampleIndex: sampleIndex,
         );
     if (decision == HorizontalDragAxisLockDecision.pending) {
       return;
@@ -102,5 +107,6 @@ class _TrackedPointer {
   final Offset downPosition;
   final Duration downTime;
   final double slop;
+  int sampleCount = 0;
   bool settled = false;
 }

@@ -57,5 +57,15 @@ void main() {
       expect(attribution.type, EmojiAttributionType.customUnknown);
       expect(attribution.guild, isNull);
     });
+
+    test('returns customInviteRequired when source community is unknown', () {
+      final attribution = resolveEmojiAttribution(
+        memberGuildIds: memberGuildIds,
+        emojiId: 'emoji-1',
+      );
+
+      expect(attribution.type, EmojiAttributionType.customInviteRequired);
+      expect(attribution.guild, isNull);
+    });
   });
 }

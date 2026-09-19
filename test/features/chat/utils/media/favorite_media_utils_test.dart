@@ -104,6 +104,24 @@ void main() {
       );
     },
   );
+
+  test('gifv favorites keep the provider page URL, not the video file', () {
+    const embed = Embed(
+      type: EmbedType.gifv,
+      url: 'https://tenor.com/view/wave-gif-1',
+      video: EmbedMedia(
+        url: 'https://media.tenor.com/wave.webm',
+        proxyUrl: 'https://cdn.example/wave.webm',
+        width: 220,
+        height: 180,
+      ),
+    );
+
+    final info = gifInfoForMessageMedia(embed: embed, embedMedia: embed.video);
+
+    expect(info?.url, 'https://tenor.com/view/wave-gif-1');
+    expect(info?.proxyUrl, 'https://cdn.example/wave.webm');
+  });
 }
 
 final Message _messageForFavoriteScopeTest = Message(

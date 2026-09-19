@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/theme/fluxer_color_override_scope.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_composer_layout.dart';
@@ -168,7 +169,8 @@ class _SlowmodePill extends StatelessWidget {
     final isActive = remaining != null;
     final foreground = isActive ? colors.textDanger : colors.textSecondary;
     final Color surfaceColor = composerStatusSurfaceColor(context);
-    final List<Shadow>? shadows = compact
+    final bool wallpaperText = FluxerColorOverrideScope.isActiveOf(context);
+    final List<Shadow>? shadows = compact || wallpaperText
         ? null
         : wideComposerStatusTextShadows(surfaceColor);
     final textStyle = context.textStyles.timestamp.copyWith(

@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/chat_loading_spinn
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/typing_indicator_bar.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
+import 'package:fluxer_app/features/ui/avatar/fluxer_avatar_stack.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
@@ -134,12 +135,46 @@ void main() {
     container.read(typingIndicatorsProvider.notifier).clearAll();
   });
 
+  testWidgets('wide typing indicator uses circular avatar outline rings', (
+    WidgetTester tester,
+  ) async {
+    await _pumpTypingIndicatorBar(tester, compact: false);
+
+    final FluxerAvatarStack stack = tester.widget<FluxerAvatarStack>(
+      find.byType(FluxerAvatarStack),
+    );
+    expect(stack.outlineColor, isNotNull);
+    expect(stack.size, 12);
+    expect(stack.overlap, -4);
+    expect(stack.outlineWidth, 1);
+    expect(
+      tester
+          .widgetList<DecoratedBox>(find.byType(DecoratedBox))
+          .map((DecoratedBox box) => box.decoration)
+          .whereType<BoxDecoration>()
+          .where(
+            (BoxDecoration decoration) =>
+                decoration.shape == BoxShape.circle &&
+                decoration.color == stack.outlineColor,
+          )
+          .length,
+      greaterThan(0),
+    );
+    container.read(typingIndicatorsProvider.notifier).clearAll();
+  });
+
   testWidgets('compact typing indicator keeps the loading spinner', (
     WidgetTester tester,
   ) async {
     await _pumpTypingIndicatorBar(tester, compact: true);
 
     expect(find.byType(ChatLoadingSpinner), findsOneWidget);
+    expect(
+      tester
+          .widget<FluxerAvatarStack>(find.byType(FluxerAvatarStack))
+          .outlineColor,
+      isNotNull,
+    );
     container.read(typingIndicatorsProvider.notifier).clearAll();
   });
 }

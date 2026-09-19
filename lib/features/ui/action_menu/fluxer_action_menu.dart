@@ -186,26 +186,26 @@ class _ActionMenuOverlay extends StatelessWidget {
             delegate: _MenuPositionDelegate(position),
             child: FadeTransition(
               opacity: fadeAnimation,
-              child: IntrinsicWidth(
+              child: Material(
+                color: colors.backgroundFloating,
+                elevation: 8,
+                shadowColor: const Color.fromRGBO(0, 0, 0, 0.2),
+                surfaceTintColor: Colors.transparent,
+                borderRadius: layout.radiusSm,
+                clipBehavior: Clip.antiAlias,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    color: colors.backgroundFloating,
                     borderRadius: layout.radiusSm,
                     border: Border.all(color: colors.backgroundModifierAccent),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color.fromRGBO(0, 0, 0, 0.2),
-                        blurRadius: 8,
-                        offset: Offset(0, 4),
-                      ),
-                    ],
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: layout.s1),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: builder(context, onDismiss),
+                  child: IntrinsicWidth(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: layout.s1),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: builder(context, onDismiss),
+                      ),
                     ),
                   ),
                 ),

@@ -126,6 +126,7 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
       );
     }
     final Widget voiceMic = _opacity(
+      context: context,
       key: const ValueKey<String>('voice'),
       enabled: voiceVisuallyEnabled,
       child: VoiceMessageRecorder(
@@ -144,6 +145,7 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
               FadeTransition(opacity: animation, child: child),
           child: showSendButton
               ? _opacity(
+                  context: context,
                   key: const ValueKey<String>('send'),
                   enabled: sendVisuallyEnabled,
                   child: FluxerButton.circle(
@@ -168,6 +170,7 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
               FadeTransition(opacity: animation, child: child),
           child: showSendButton
               ? _opacity(
+                  context: context,
                   key: const ValueKey<String>('send'),
                   enabled: sendVisuallyEnabled,
                   child: IconButton(
@@ -197,6 +200,7 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
           FadeTransition(opacity: animation, child: child),
       child: showSendButton
           ? _opacity(
+              context: context,
               key: const ValueKey<String>('send'),
               enabled: sendVisuallyEnabled,
               child: FluxerButton.circle(
@@ -214,10 +218,17 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
   }
 }
 
-Widget _opacity({required bool enabled, required Widget child, Key? key}) {
-  return Opacity(
+Widget _opacity({
+  required BuildContext context,
+  required bool enabled,
+  required Widget child,
+  Key? key,
+}) {
+  return AnimatedOpacity(
     key: key,
     opacity: enabled ? 1 : _kDisabledOpacity,
+    duration: context.motion.panel,
+    curve: context.motion.curve,
     child: child,
   );
 }

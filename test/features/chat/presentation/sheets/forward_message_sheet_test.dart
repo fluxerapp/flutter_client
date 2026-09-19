@@ -344,6 +344,30 @@ void main() {
   });
 
   group('showForwardMessageSheet', () {
+    testWidgets('does not throw when the host context is unmounted', (
+      WidgetTester tester,
+    ) async {
+      final FluxerDatabase db = await _seedDb();
+      late BuildContext captured;
+      await tester.pumpWidget(
+        _app(
+          db,
+          _message(channelId: 'source-chan'),
+          onOpen: (BuildContext context) => captured = context,
+        ),
+      );
+      await tester.tap(find.text('Open'));
+      await tester.pump();
+      await tester.pumpWidget(const SizedBox.shrink());
+      await tester.pump();
+
+      await showForwardMessageSheet(
+        captured,
+        message: _message(channelId: 'source-chan'),
+      );
+      expect(find.text(testL10n.forwardMessageTitle), findsNothing);
+    });
+
     testWidgets('renders destinations including the source channel', (
       WidgetTester tester,
     ) async {

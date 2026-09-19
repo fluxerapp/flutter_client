@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:fluxer_dart/export.dart' as sdk;
 
 enum GifProviderKind { klipy, tenor }
 
@@ -13,6 +14,8 @@ class GifPickerGif {
     required this.proxySrc,
     required this.width,
     required this.height,
+    this.slug = '',
+    this.media,
   });
 
   final GifProviderKind provider;
@@ -23,6 +26,8 @@ class GifPickerGif {
   final String proxySrc;
   final int width;
   final int height;
+  final String slug;
+  final Map<String, sdk.GifMediaFormat>? media;
 }
 
 @immutable

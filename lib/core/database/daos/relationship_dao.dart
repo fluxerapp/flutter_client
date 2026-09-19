@@ -48,6 +48,17 @@ class RelationshipDao extends DatabaseAccessor<FluxerDatabase>
     });
   }
 
+  Future<void> replaceAll(List<RelationshipsCompanion> relationshipList) async {
+    await transaction(() async {
+      await delete(relationships).go();
+      await batch((b) {
+        for (final rel in relationshipList) {
+          b.insert(relationships, rel);
+        }
+      });
+    });
+  }
+
   Future<void> deleteRelationship(String userId) =>
       (delete(relationships)..where((r) => r.userId.equals(userId))).go();
 

@@ -164,19 +164,6 @@ Future<void> openGuildChannelContent({
   }
 
   final bool isVoiceChannel = channel.type == ChannelType.guildVoice;
-  if (!isVoiceChannel) {
-    final bool canProceed = await promptForChannelGateIfNeeded(
-      context: context,
-      container: ref.container,
-      channelId: channel.id,
-      guildId: guildId,
-      channelType: channel.type,
-      channel: channel,
-    );
-    if (!context.mounted || !canProceed) {
-      return;
-    }
-  }
 
   final VoiceSessionState voiceSession = ref.read(voiceSessionProvider);
   final bool isInCurrentVoiceChannel =

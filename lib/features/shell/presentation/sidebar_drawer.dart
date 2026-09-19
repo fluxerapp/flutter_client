@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
+import 'package:fluxer_app/features/shell/providers/drawer_past_half_screen_provider.dart';
 import 'package:fluxer_app/features/shell/providers/drawer_reveal_sync_trigger_provider.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/shell/providers/shell_blocks_horizontal_gestures_provider.dart';
@@ -48,6 +49,7 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
 
   RevealSide _currentSide = RevealSide.main;
   bool _initialTranslateSet = false;
+  bool _publishPastHalfScheduled = false;
   double _lastWidth = 0;
 
   Duration _revealDuration(BuildContext context) =>
@@ -63,7 +65,7 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
     _animationController = AnimationController.unbounded(
       vsync: this,
       duration: kHorizontalSwipeRevealDuration,
-    );
+    )..addListener(_schedulePublishPastHalf);
   }
 
   @override
@@ -77,9 +79,9 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
       return;
     }
     if (!_initialTranslateSet) {
+      _lastWidth = width;
       _animationController.value = _goalForSide(_currentSide, width);
       _initialTranslateSet = true;
-      _lastWidth = width;
       return;
     }
     if (_lastWidth == width) {
@@ -90,9 +92,44 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
   }
 
   @override
+  void deactivate() {
+    final DrawerPastHalfScreen notifier = ref.read(
+      drawerPastHalfScreenProvider.notifier,
+    );
+    super.deactivate();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        return;
+      }
+      notifier.set(pastHalf: false);
+    });
+  }
+
+  @override
   void dispose() {
     _animationController.dispose();
     super.dispose();
+  }
+
+  void _schedulePublishPastHalf() {
+    if (_publishPastHalfScheduled) {
+      return;
+    }
+    _publishPastHalfScheduled = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _publishPastHalfScheduled = false;
+      if (!mounted) {
+        return;
+      }
+      ref
+          .read(drawerPastHalfScreenProvider.notifier)
+          .set(
+            pastHalf: drawerTranslatePastHalfScreen(
+              translate: _animationController.value,
+              screenWidth: _lastWidth,
+            ),
+          );
+    });
   }
 
   bool _isSidebarDrawerLocked() {
@@ -216,6 +253,15 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
         ? RevealSide.left
         : targetSide;
     await _moveToState(resolvedSide);
+  }
+
+  double _peekOverlayT() {
+    final double width = MediaQuery.sizeOf(context).width;
+    final double maxReveal = _maxRevealTranslate(width);
+    if (maxReveal <= 0) {
+      return 0;
+    }
+    return (_animationController.value / maxReveal).clamp(0.0, 1.0);
   }
 
   Future<void> _syncTranslateToRevealSide({required bool writeBack}) async {
@@ -353,9 +399,38 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
               child: _DrawerSliderLayer(slider: widget.slider),
             ),
             builder: (context, slider) {
+              Widget layer = slider!;
+              if (_usesPeekReveal()) {
+                final double t = _peekOverlayT();
+                if (t > 0) {
+                  Widget scrim = ColoredBox(
+                    key: kDrawerPeekInactiveScrimKey,
+                    color: Color.fromRGBO(
+                      0,
+                      0,
+                      0,
+                      kDrawerPeekInactiveScrimOpacity * t,
+                    ),
+                  );
+                  scrim = peek
+                      ? GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          excludeFromSemantics: true,
+                          onTap: () {
+                            unawaited(_moveToState(RevealSide.main));
+                          },
+                          child: scrim,
+                        )
+                      : IgnorePointer(child: scrim);
+                  layer = Stack(
+                    fit: StackFit.expand,
+                    children: <Widget>[layer, scrim],
+                  );
+                }
+              }
               return Transform.translate(
                 offset: Offset(_animationController.value, 0),
-                child: slider,
+                child: layer,
               );
             },
           ),
@@ -395,6 +470,11 @@ bool isSidebarDrawerLockedForLocation(String location) {
       extractGuildId(location) != null &&
       extractChannelId(location) == null;
 }
+
+@visibleForTesting
+const Key kDrawerPeekInactiveScrimKey = ValueKey<String>('drawer-peek-scrim');
+
+const double kDrawerPeekInactiveScrimOpacity = 0.4;
 
 /// False in compact-wide peek.
 class ChatSwipeToReplyScope extends InheritedWidget {
@@ -454,4 +534,15 @@ RevealSide sidebarDrawerTargetForDrag({
   return positionFraction >= completionThreshold
       ? RevealSide.left
       : RevealSide.main;
+}
+
+/// True once the chat slider has moved past half the viewport.
+bool drawerTranslatePastHalfScreen({
+  required double translate,
+  required double screenWidth,
+}) {
+  if (screenWidth <= 0) {
+    return false;
+  }
+  return translate > screenWidth * 0.5;
 }

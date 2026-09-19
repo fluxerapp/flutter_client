@@ -15,13 +15,14 @@ class BookmarksSheet {
       minChildSize: 0.5,
       builder:
           (
-            BuildContext sheetContext,
+            BuildContext _,
             ScrollController scrollController,
             VoidCallback close,
           ) {
             return SavedMessagesBody(
               scrollController: scrollController,
               padding: EdgeInsets.zero,
+              onClose: close,
             );
           },
     );

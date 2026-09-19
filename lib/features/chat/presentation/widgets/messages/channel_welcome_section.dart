@@ -1,6 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -27,20 +28,22 @@ class ChannelWelcomeSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Container(
-            width: 80,
-            height: 80,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: context.colors.guildListForeground,
-              shape: BoxShape.circle,
-            ),
-            child: ChannelIcon(
-              type: channel.type,
-              channel: channel,
-              effectivePermissionBits: effectivePermissionBits,
-              size: 48,
-              color: context.colors.textPrimary,
+          ChatSurfaceTheme(
+            builder: (BuildContext context) => Container(
+              width: 80,
+              height: 80,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: context.colors.guildListForeground,
+                shape: BoxShape.circle,
+              ),
+              child: ChannelIcon(
+                type: channel.type,
+                channel: channel,
+                effectivePermissionBits: effectivePermissionBits,
+                size: 48,
+                color: context.colors.textPrimary,
+              ),
             ),
           ),
           const SizedBox(height: 12),

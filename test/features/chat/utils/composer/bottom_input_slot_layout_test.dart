@@ -175,6 +175,67 @@ void main() {
         336,
       );
     });
+
+    test('ignores hardware-keyboard shortcut bar height', () {
+      expect(
+        resolveNextAnchoredKeyboardHeight(
+          currentAnchored: null,
+          nextHeight: 55,
+          nextVisible: true,
+        ),
+        0,
+      );
+      expect(
+        resolveNextAnchoredKeyboardHeight(
+          currentAnchored: 336,
+          nextHeight: 55,
+          nextVisible: true,
+        ),
+        336,
+      );
+    });
+  });
+
+  group('inlineExpressionPanelAnchorHeight', () {
+    test('uses a captured IME height', () {
+      expect(
+        inlineExpressionPanelAnchorHeight(
+          anchoredKeyboardHeight: 336,
+          fallbackHeight: 291,
+        ),
+        336,
+      );
+    });
+
+    test('falls back when the captured height is a shortcut bar', () {
+      expect(
+        inlineExpressionPanelAnchorHeight(
+          anchoredKeyboardHeight: 55,
+          fallbackHeight: 291,
+        ),
+        291,
+      );
+    });
+
+    test('falls back when no keyboard has been measured', () {
+      expect(
+        inlineExpressionPanelAnchorHeight(
+          anchoredKeyboardHeight: null,
+          fallbackHeight: 291,
+        ),
+        291,
+      );
+    });
+  });
+
+  group('isImeKeyboardHeight', () {
+    test('rejects shortcut bars and accepts a real IME', () {
+      expect(isImeKeyboardHeight(0), isFalse);
+      expect(isImeKeyboardHeight(55), isFalse);
+      expect(isImeKeyboardHeight(119), isFalse);
+      expect(isImeKeyboardHeight(120), isTrue);
+      expect(isImeKeyboardHeight(291), isTrue);
+    });
   });
 
   group('resolveNativeImeOnlyHeight', () {

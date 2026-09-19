@@ -150,28 +150,73 @@ class MatureContentAgreements extends _$MatureContentAgreements {
   }
 }
 
+Channel? _listedChannel(Ref ref, String channelId) {
+  return findChannelById(ref.read(channelListViewModelProvider), channelId);
+}
+
+Guild? _listedGuild(Ref ref, String guildId) {
+  final Guild? listedGuild = ref.read(channelListViewModelProvider).guild;
+  return listedGuild?.id == guildId ? listedGuild : null;
+}
+
+Future<T?> _resolveWithFallback<T>(
+  Ref ref, {
+  required AsyncValue<T?> asyncValue,
+  required Future<T?> Function() wait,
+  required T? Function() fallback,
+}) async {
+  final T? current = asyncValue.value ?? fallback();
+  if (current != null || !asyncValue.isLoading) {
+    return current;
+  }
+  final T? loaded = await wait();
+  if (!ref.mounted) {
+    return null;
+  }
+  return loaded ?? fallback();
+}
+
+Future<Channel?> _resolveChannel(Ref ref, String channelId) {
+  return _resolveWithFallback(
+    ref,
+    asyncValue: ref.watch(channelByIdProvider(channelId)),
+    wait: () => ref.watch(channelByIdProvider(channelId).future),
+    fallback: () => _listedChannel(ref, channelId),
+  );
+}
+
+Future<Guild?> _resolveGuild(Ref ref, String guildId) {
+  return _resolveWithFallback(
+    ref,
+    asyncValue: ref.watch(guildByIdProvider(guildId)),
+    wait: () => ref.watch(guildByIdProvider(guildId).future),
+    fallback: () => _listedGuild(ref, guildId),
+  );
+}
+
 Future<ResolvedMatureGateContext?> _resolveGateContextForChannel(
   Ref ref,
   String channelId,
 ) async {
-  final ChannelListState channelList = ref.watch(channelListViewModelProvider);
-  Channel? channel = await ref.watch(channelByIdProvider(channelId).future);
-  channel ??= findChannelById(channelList, channelId);
+  final Channel? channel = await _resolveChannel(ref, channelId);
   if (channel == null) {
     return null;
   }
   Guild? guild;
   final String guildId = channel.guildId;
   if (guildId.isNotEmpty) {
-    guild = await ref.watch(guildByIdProvider(guildId).future);
-    final Guild? listedGuild = channelList.guild;
-    guild ??= listedGuild?.id == guildId ? listedGuild : null;
+    guild = await _resolveGuild(ref, guildId);
+    if (!ref.mounted) {
+      return null;
+    }
   }
   Channel? parentCategory;
   final String? parentId = channel.parentId;
   if (parentId != null) {
-    Channel? parent = await ref.watch(channelByIdProvider(parentId).future);
-    parent ??= findChannelById(channelList, parentId);
+    final Channel? parent = await _resolveChannel(ref, parentId);
+    if (!ref.mounted) {
+      return null;
+    }
     if (parent != null && parent.isCategory) {
       parentCategory = parent;
     }

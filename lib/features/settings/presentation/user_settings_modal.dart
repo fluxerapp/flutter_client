@@ -27,6 +27,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/app_licenses.d
 import 'package:fluxer_app/features/settings/presentation/widgets/settings_sidebar.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_accessibility.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_advanced_settings.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_applications.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_audio_and_video.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_authorized_apps.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_blocked_users.dart';
@@ -871,6 +872,9 @@ Widget _buildUserSettingsSectionContent({
           ? const UserShortcuts()
           : UserShortcuts(scrollController: scrollController);
     case UserSettingsSection.applications:
+      return scrollController == null
+          ? const UserApplications()
+          : UserApplications(scrollController: scrollController);
     case UserSettingsSection.limitsConfig:
     case UserSettingsSection.featureFlags:
     case UserSettingsSection.whatsNew:

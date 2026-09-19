@@ -62,6 +62,7 @@ import 'package:fluxer_app/features/settings/providers/advanced_preferences_prov
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_channel_chat_sheet.dart';
@@ -801,7 +802,7 @@ class _ChannelTile extends ConsumerWidget {
                     context,
                     ref,
                     hasUnread: hasUnread,
-                    position: Offset.zero,
+                    position: contextMenuPositionAtCenter(context),
                   ),
                 )
               : null,
@@ -998,7 +999,9 @@ class _ChannelTile extends ConsumerWidget {
         unawaited(_readStateRepository(ref).ackLatest(channel.id));
       case ChannelMenuAction.toggleFavorite:
         close();
-        unawaited(_toggleFavorite(ref, isFavorite: menuState.isFavorite));
+        unawaited(
+          _toggleFavorite(hostContext, ref, isFavorite: menuState.isFavorite),
+        );
       case ChannelMenuAction.invitePeople:
         close();
         unawaited(
@@ -1217,19 +1220,34 @@ class _ChannelTile extends ConsumerWidget {
   }
 
   Future<void> _toggleFavorite(
+    BuildContext context,
     WidgetRef ref, {
     required bool isFavorite,
   }) async {
     final repository = ref.read(favoriteChannelsRepositoryProvider);
     if (isFavorite) {
       await repository.removeChannel(channel.id);
+    } else {
+      await repository.addChannel(
+        channelId: channel.id,
+        guildId: channel.guildId,
+        nickname: channel.name,
+      );
+    }
+    if (!context.mounted) {
       return;
     }
-    await repository.addChannel(
-      channelId: channel.id,
-      guildId: channel.guildId,
-      nickname: channel.name,
-    );
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    ref
+        .read(toastProvider.notifier)
+        .show(
+          FluxerToast(
+            message: isFavorite
+                ? l10n.favoritesRemovedToast
+                : l10n.favoritesAddedToast,
+            variant: FluxerToastVariant.success,
+          ),
+        );
   }
 }
 
@@ -1267,7 +1285,13 @@ class _CategoryHeader extends ConsumerWidget {
             _showCategoryActions(context, ref, details.globalPosition),
           ),
           onLongPress: isTouchPrimaryInput(ref)
-              ? () => unawaited(_showCategoryActions(context, ref, Offset.zero))
+              ? () => unawaited(
+                  _showCategoryActions(
+                    context,
+                    ref,
+                    contextMenuPositionAtCenter(context),
+                  ),
+                )
               : null,
           child: Padding(
             padding: const EdgeInsets.only(

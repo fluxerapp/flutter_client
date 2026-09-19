@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_prov
 import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
+import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 import '../../../../../helpers/test_l10n.dart';
@@ -250,6 +251,41 @@ void main() {
         expressionHeight,
       );
       expect(container.read(bottomInputSlotProvider).slotHeight, isNot(0));
+    },
+  );
+
+  testWidgets(
+    'attachment panel uses fallback height when only a shortcut bar is visible',
+    (tester) async {
+      final ProviderContainer container = ProviderContainer();
+      addTearDown(container.dispose);
+      container.read(mobileKeyboardMetricsProvider.notifier)
+        ..updateLayout(screenHeight: 800, isPortrait: true, isIos: true)
+        ..syncViewInsets(55, safeAreaBottom: 0);
+      container.read(attachmentPanelProvider.notifier).open();
+
+      await tester.pumpWidget(_buildSpacerHarness(container));
+      await tester.pumpAndSettle();
+
+      expect(
+        container.read(mobileKeyboardMetricsProvider).anchoredKeyboardHeight,
+        isNull,
+      );
+      expect(
+        container.read(bottomInputSlotProvider).slotHeight,
+        kIosFallbackKeyboardHeight,
+      );
+      expect(
+        tester
+            .getSize(
+              find.descendant(
+                of: find.byType(BottomInputSpacer),
+                matching: find.byType(AnimatedContainer),
+              ),
+            )
+            .height,
+        kIosFallbackKeyboardHeight,
+      );
     },
   );
 }

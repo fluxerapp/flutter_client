@@ -47,8 +47,7 @@ class MobileChannelDrawerShell extends ConsumerWidget {
       mobileDrawerPeekWidth(context),
       screenWidth,
     );
-    final bool peekNav = compactWide && !drawerLocked;
-    final double peekContentInset = peekNav
+    final double peekContentInset = compactWide && !drawerLocked
         ? math.max(0, screenWidth - peekWidth)
         : 0;
     final Widget sidebar = mobileSidebarForLocation(
@@ -56,12 +55,6 @@ class MobileChannelDrawerShell extends ConsumerWidget {
       shellLocation,
       peekContentInset: peekContentInset,
     );
-    final Widget nav = peekNav
-        ? Align(
-            alignment: AlignmentDirectional.centerStart,
-            child: SizedBox(width: peekWidth, child: bottomNav),
-          )
-        : bottomNav;
 
     return MobileChatBackScope(
       child: Scaffold(
@@ -73,7 +66,7 @@ class MobileChannelDrawerShell extends ConsumerWidget {
           base: Column(
             children: <Widget>[
               Expanded(child: sidebar),
-              nav,
+              bottomNav,
             ],
           ),
           slider: navigationShell,

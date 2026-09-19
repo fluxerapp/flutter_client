@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/voice/local_camera_orientation_sync.dart';
@@ -50,73 +51,79 @@ class _DmEmbeddedVoiceCallPanelState
         dm?.displayName ??
         dm?.recipientName ??
         l10n.dmVoiceEmbeddedFallbackTitle;
-    return Material(
-      color: context.colors.chatBackground,
-      child: SizedBox(
-        height: _height,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            FluxerGestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onVerticalDragUpdate: (DragUpdateDetails d) {
-                setState(() {
-                  _height = (_height - d.delta.dy).clamp(
-                    _kDmEmbeddedVoiceMinHeight,
-                    _kDmEmbeddedVoiceMaxHeight,
-                  );
-                });
-              },
-              child: Material(
-                color: context.colors.backgroundSecondary,
-                child: SizedBox(
-                  height: 40,
-                  child: Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8),
-                        child: Icon(
-                          PhosphorIconsBold.dotsNine,
-                          size: 20,
-                          color: context.colors.textSecondary,
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          title,
-                          style: context.textStyles.channelName,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      IconButton(
-                        tooltip: l10n.dmVoiceCallFullScreenTooltip,
-                        onPressed: () {
-                          unawaited(
-                            context.push(
-                              RoutePaths.dmChannelCall(widget.channelId),
+    return ChatSurfaceTheme(
+      builder: (BuildContext context) {
+        return Material(
+          color: context.colors.chatBackground,
+          child: SizedBox(
+            height: _height,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                FluxerGestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onVerticalDragUpdate: (DragUpdateDetails d) {
+                    setState(() {
+                      _height = (_height - d.delta.dy).clamp(
+                        _kDmEmbeddedVoiceMinHeight,
+                        _kDmEmbeddedVoiceMaxHeight,
+                      );
+                    });
+                  },
+                  child: Material(
+                    color: context.colors.backgroundSecondary,
+                    child: SizedBox(
+                      height: 40,
+                      child: Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8),
+                            child: Icon(
+                              PhosphorIconsBold.dotsNine,
+                              size: 20,
+                              color: context.colors.textSecondary,
                             ),
-                          );
-                        },
-                        icon: PhosphorIcon(
-                          PhosphorIconsBold.arrowsOut,
-                          color: context.colors.textPrimary,
-                        ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              title,
+                              style: context.textStyles.channelName,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          IconButton(
+                            tooltip: l10n.dmVoiceCallFullScreenTooltip,
+                            onPressed: () {
+                              unawaited(
+                                context.push(
+                                  RoutePaths.dmChannelCall(widget.channelId),
+                                ),
+                              );
+                            },
+                            icon: PhosphorIcon(
+                              PhosphorIconsBold.arrowsOut,
+                              color: context.colors.textPrimary,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
+                Divider(height: 1, color: context.colors.borderColor),
+                Expanded(
+                  child: LocalCameraOrientationSync(
+                    child: VoiceChannelParticipantGrid(
+                      channelId: widget.channelId,
+                    ),
+                  ),
+                ),
+                const VoiceChannelControlBar(),
+              ],
             ),
-            Divider(height: 1, color: context.colors.borderColor),
-            Expanded(
-              child: LocalCameraOrientationSync(
-                child: VoiceChannelParticipantGrid(channelId: widget.channelId),
-              ),
-            ),
-            const VoiceChannelControlBar(),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

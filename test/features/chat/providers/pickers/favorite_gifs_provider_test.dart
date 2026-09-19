@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/favorite_gifs_synced_field.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_gif_entry.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
+import 'package:fluxer_dart/export.dart' as sdk;
 
 void main() {
   group('FavoriteGifsSyncedField', () {
@@ -58,6 +59,39 @@ void main() {
       expect(entry.proxyUrl, gif.proxySrc);
       expect(entry.width, gif.width);
       expect(entry.height, gif.height);
+    });
+
+    test('keeps provider media formats on URL-only favorites', () {
+      const gif = GifPickerGif(
+        provider: GifProviderKind.tenor,
+        id: 'gif-1',
+        title: 'Test',
+        url: 'https://tenor.com/view/test-gif-1',
+        src: 'https://media.tenor.com/test.webp',
+        proxySrc: 'https://cdn.example/test.webp',
+        width: 220,
+        height: 180,
+        slug: 'view/test-gif-1',
+        media: {
+          'gif': sdk.GifMediaFormat(
+            src: 'https://media.tenor.com/test.gif',
+            proxySrc: 'https://cdn.example/test.gif',
+            width: 220,
+            height: 180,
+          ),
+          'webm': sdk.GifMediaFormat(
+            src: 'https://media.tenor.com/test.webm',
+            proxySrc: 'https://cdn.example/test.webm',
+            width: 220,
+            height: 180,
+          ),
+        },
+      );
+
+      final entry = favoriteGifEntryFromPickerGif(gif);
+
+      expect(entry.media['gif']?.src, 'https://media.tenor.com/test.gif');
+      expect(entry.media['webm']?.src, 'https://media.tenor.com/test.webm');
     });
   });
 }

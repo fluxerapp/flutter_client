@@ -17,6 +17,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_rich.
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_video.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_gallery_utils.dart';
 import 'package:fluxer_app/features/chat/utils/messages/spoiler_utils.dart';
@@ -393,44 +394,48 @@ class _ForwardedSourceButtonState
           return const SizedBox.shrink();
         }
 
-        return Align(
-          alignment: Alignment.centerLeft,
-          child: Material(
-            color: context.colors.backgroundSecondary,
-            borderRadius: BorderRadius.circular(6),
-            child: DecoratedBox(
-              decoration: BoxDecoration(
+        return ChatSurfaceTheme(
+          builder: (BuildContext context) {
+            return Align(
+              alignment: Alignment.centerLeft,
+              child: Material(
+                color: context.colors.backgroundSecondary,
                 borderRadius: BorderRadius.circular(6),
-                border: Border.all(
-                  color: context.colors.backgroundModifierAccent,
-                ),
-              ),
-              child: InkWell(
-                borderRadius: BorderRadius.circular(6),
-                onTap: () => _jumpToOriginal(data),
-                hoverColor: context.colors.backgroundSecondaryAlt,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 6,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(
+                      color: context.colors.backgroundModifierAccent,
+                    ),
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Forwarded from',
-                        style: context.textStyles.timestamp.copyWith(
-                          color: context.colors.textPrimaryMuted,
-                        ),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(6),
+                    onTap: () => _jumpToOriginal(data),
+                    hoverColor: context.colors.backgroundSecondaryAlt,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 6,
                       ),
-                      const SizedBox(width: 6),
-                      Flexible(child: _ForwardedSourceInfo(data: data)),
-                    ],
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'Forwarded from',
+                            style: context.textStyles.timestamp.copyWith(
+                              color: context.colors.textPrimaryMuted,
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          Flexible(child: _ForwardedSourceInfo(data: data)),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
+            );
+          },
         );
       },
     );

@@ -6,6 +6,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -33,13 +34,17 @@ class _FakeGuildListViewModel extends GuildListViewModel {
   );
 }
 
-Widget _buildTestApp({required Widget child}) {
+Widget _buildTestApp({
+  required Widget child,
+  String? currentGuildId = 'guild-1',
+}) {
   final colorTheme = buildDarkColorTheme();
 
   return ProviderScope(
     overrides: [
       favoriteEmojiKeysProvider.overrideWith(_FakeFavoriteEmojiKeys.new),
       guildListViewModelProvider.overrideWith(_FakeGuildListViewModel.new),
+      contextualGuildIdProvider.overrideWithValue(currentGuildId),
       guildByIdProvider('guild-1').overrideWith(
         (ref) async => const Guild(
           id: 'guild-1',
@@ -47,6 +52,7 @@ Widget _buildTestApp({required Widget child}) {
           ownerId: 'owner',
         ),
       ),
+      guildByIdProvider('guild-3').overrideWith((ref) async => null),
     ],
     child: MaterialApp(
       locale: kTestLocale,
@@ -141,6 +147,88 @@ void main() {
       find.bySemanticsLabel(testL10n.emojiInfoAddToFavorites),
       findsOneWidget,
     );
+  });
+
+  testWidgets('shows source community instead of this community', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _buildTestApp(
+        currentGuildId: 'guild-2',
+        child: Builder(
+          builder: (context) {
+            return ElevatedButton(
+              onPressed: () {
+                unawaited(
+                  EmojiInfoBottomSheet.show(
+                    context,
+                    emoji: const EmojiInfoData(
+                      id: 'emoji-1',
+                      name: 'party',
+                      guildId: 'guild-1',
+                    ),
+                  ),
+                );
+              },
+              child: const Text('Open'),
+            );
+          },
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('Open'));
+    await tester.pumpAndSettle();
+
+    expect(find.text(testL10n.emojiInfoCustomGuildDescription), findsOneWidget);
+    expect(
+      find.text(testL10n.emojiInfoCustomInviteRequiredDescription),
+      findsNothing,
+    );
+    expect(
+      find.text(testL10n.emojiInfoFromHeader.toUpperCase()),
+      findsOneWidget,
+    );
+    expect(find.text('Test Community'), findsOneWidget);
+  });
+
+  testWidgets('asks for an invite when the source community is unavailable', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _buildTestApp(
+        child: Builder(
+          builder: (context) {
+            return ElevatedButton(
+              onPressed: () {
+                unawaited(
+                  EmojiInfoBottomSheet.show(
+                    context,
+                    emoji: const EmojiInfoData(
+                      id: 'emoji-2',
+                      name: 'secret',
+                      guildId: 'guild-3',
+                    ),
+                  ),
+                );
+              },
+              child: const Text('Open'),
+            );
+          },
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('Open'));
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text(testL10n.emojiInfoCustomInviteRequiredDescription),
+      findsOneWidget,
+    );
+    expect(find.text(testL10n.emojiInfoCustomGuildDescription), findsNothing);
+    expect(find.text(testL10n.emojiInfoFromHeader.toUpperCase()), findsNothing);
+    expect(find.text('Test Community'), findsNothing);
   });
 
   testWidgets('shows favorite toggle for unicode emoji', (tester) async {

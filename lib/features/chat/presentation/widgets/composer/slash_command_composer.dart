@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/composer_slash_command.dart';
 import 'package:fluxer_app/features/chat/services/composer_slash_session.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_enter_send.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -11,6 +12,7 @@ class SlashCommandComposer extends StatefulWidget {
     required this.enabled,
     required this.style,
     required this.onSubmit,
+    this.enterSends = true,
     this.onKeyEvent,
     super.key,
   });
@@ -19,6 +21,7 @@ class SlashCommandComposer extends StatefulWidget {
   final bool enabled;
   final TextStyle style;
   final VoidCallback onSubmit;
+  final bool enterSends;
   final KeyEventResult Function(KeyEvent event)? onKeyEvent;
 
   @override
@@ -143,8 +146,8 @@ class _SlashCommandComposerState extends State<SlashCommandComposer> {
         return KeyEventResult.handled;
       }
     }
-    if ((key == LogicalKeyboardKey.enter ||
-            key == LogicalKeyboardKey.numpadEnter) &&
+    if (isComposerSubmitKey(key) &&
+        widget.enterSends &&
         !HardwareKeyboard.instance.isShiftPressed) {
       if (!widget.session.focusNextSlot()) {
         widget.onSubmit();

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -84,6 +85,48 @@ void main() {
 
       expect(find.text('Edit'), findsOneWidget);
       expect(find.text('Delete'), findsOneWidget);
+    });
+
+    testWidgets('wraps overlay items in Material at the given position', (
+      tester,
+    ) async {
+      useWideSurface(tester);
+
+      await tester.pumpWidget(
+        buildTestApp(
+          Builder(
+            builder: (context) => TextButton(
+              onPressed: () {
+                unawaited(
+                  FluxerActionMenu.show(
+                    context,
+                    position: const Offset(240, 180),
+                    builder: (context, close) => [
+                      FluxerMenuItem(label: 'Edit', onPressed: () {}),
+                    ],
+                  ),
+                );
+              },
+              child: const Text('Open Menu'),
+            ),
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Open Menu'));
+      await tester.pumpAndSettle();
+
+      expect(
+        find.ancestor(of: find.text('Edit'), matching: find.byType(Material)),
+        findsWidgets,
+      );
+
+      final RenderParagraph paragraph = tester.renderObject(find.text('Edit'));
+      expect(paragraph.text.style?.decoration, isNot(TextDecoration.underline));
+
+      final Offset menuTopLeft = tester.getTopLeft(find.text('Edit'));
+      expect(menuTopLeft.dx, closeTo(240, 48));
+      expect(menuTopLeft.dy, closeTo(180, 48));
     });
 
     testWidgets('calls onPressed when menu item is tapped', (tester) async {

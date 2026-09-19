@@ -3,13 +3,10 @@ import 'dart:math' as math;
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-/// Horizontal overlap stack of avatar widgets, mirroring the web app's
-/// `AvatarStack` primitive (Discord-style typing indicator stack, voice
-/// "speaking" pile, etc.).
+/// Horizontal overlap stack of avatar widgets, matching web `AvatarStack`.
 ///
-/// Each non-trailing avatar is clipped with a circular cutout where the
-/// next slot will sit, leaving a [outlineWidth]-wide ring of background
-/// visible between the two -- matching the web look.
+/// Each slot can draw a circular [outlineColor] ring. Non-trailing avatars
+/// clip a cutout so the next slot's ring shows in the overlap.
 class FluxerAvatarStack extends StatelessWidget {
   const FluxerAvatarStack({
     required this.avatars,
@@ -17,6 +14,7 @@ class FluxerAvatarStack extends StatelessWidget {
     this.maxVisible,
     this.overlap,
     this.outlineWidth,
+    this.outlineColor,
     this.overflowBuilder,
     super.key,
   });
@@ -32,12 +30,12 @@ class FluxerAvatarStack extends StatelessWidget {
   /// `round(-0.35 * size)`, matching the web `AvatarStack` default.
   final double? overlap;
 
-  /// Width of the visual gap between overlapping slots. The next slot's
-  /// footprint plus this width is cut out of the previous avatar's right
-  /// edge, revealing the parent background as a ring. Set to 0 to disable
-  /// the cutout. Defaults to `clamp(1, 3, round(size * 0.05))`, matching
-  /// the web outline.
+  /// Width of the ring around each slot and the overlap cutout. Defaults to
+  /// `clamp(1, 3, round(size * 0.05))`, matching the web outline.
   final double? outlineWidth;
+
+  /// Fill for the circular ring around each slot. Cutouts reveal this color.
+  final Color? outlineColor;
 
   /// Optional builder for the overflow chip; receives the count of
   /// avatars that did not fit.
@@ -69,6 +67,10 @@ class FluxerAvatarStack extends StatelessWidget {
     final hasOverflow = remaining > 0;
     final slotCount = visibleAvatars.length + (hasOverflow ? 1 : 0);
     final stackWidth = size + step * (slotCount - 1);
+    final Color? ringColor = outlineColor;
+    final bool paintOutline = ringColor != null && effectiveOutline > 0;
+    final double outlinePad = paintOutline ? effectiveOutline : 0;
+    final double ringSize = size + outlinePad * 2;
 
     final cutoutClipper = effectiveOutline > 0
         ? _StackCutoutClipper(
@@ -87,13 +89,28 @@ class FluxerAvatarStack extends StatelessWidget {
     }
 
     return SizedBox(
-      width: stackWidth,
-      height: size,
+      width: stackWidth + outlinePad * 2,
+      height: ringSize,
       child: Stack(
+        clipBehavior: Clip.none,
         children: [
+          if (paintOutline)
+            for (var i = 0; i < slotCount; i++)
+              Positioned(
+                left: i * step,
+                top: 0,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: ringColor,
+                  ),
+                  child: SizedBox.square(dimension: ringSize),
+                ),
+              ),
           for (var i = 0; i < visibleAvatars.length; i++)
             Positioned(
-              left: i * step,
+              left: i * step + outlinePad,
+              top: outlinePad,
               child: wrapSlot(
                 visibleAvatars[i],
                 isLastSlot: !hasOverflow && i == visibleAvatars.length - 1,
@@ -101,7 +118,8 @@ class FluxerAvatarStack extends StatelessWidget {
             ),
           if (hasOverflow)
             Positioned(
-              left: visibleAvatars.length * step,
+              left: visibleAvatars.length * step + outlinePad,
+              top: outlinePad,
               child: wrapSlot(
                 overflowBuilder?.call(context, remaining) ??
                     _DefaultOverflowChip(remaining: remaining, size: size),

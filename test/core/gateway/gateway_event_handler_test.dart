@@ -138,6 +138,83 @@ void main() {
     expect(bulkCalls.single.single.guildId, '200');
   });
 
+  test('READY keeps pending requests omitted from the payload', () async {
+    final database = openTestDatabase();
+    await database.relationshipDao.upsertRelationships([
+      RelationshipsCompanion.insert(userId: 'pending-out', type: 4),
+      RelationshipsCompanion.insert(userId: 'pending-in', type: 3),
+    ]);
+
+    final handler = GatewayEventHandler(database: database);
+    await handler.handle(
+      ReadyEvent(
+        sessionId: 'session-id',
+        user: _user(),
+        guilds: const [],
+        rawGuilds: const [],
+        privateChannels: const [],
+        relationships: const [],
+        readStates: const [],
+        presences: const [],
+      ),
+    );
+
+    final rows = await database.relationshipDao.getRelationships();
+    expect(rows, hasLength(2));
+    expect(
+      {for (final row in rows) row.userId: row.type},
+      {'pending-out': 4, 'pending-in': 3},
+    );
+  });
+
+  test(
+    'READY upserts relationships from the payload without wiping others',
+    () async {
+      final database = openTestDatabase();
+      await database.relationshipDao.upsertRelationships([
+        RelationshipsCompanion.insert(userId: 'pending-out', type: 4),
+      ]);
+
+      final handler = GatewayEventHandler(database: database);
+      await handler.handle(
+        ReadyEvent(
+          sessionId: 'session-id',
+          user: _user(),
+          guilds: const [],
+          rawGuilds: const [],
+          privateChannels: const [],
+          relationships: [
+            const RelationshipResponse(
+              id: 'friend-1',
+              type: RelationshipTypes.friend,
+              user: UserPartialResponse(
+                id: 'friend-1',
+                username: 'friend',
+                discriminator: '0001',
+                globalName: null,
+                avatar: null,
+                avatarColor: null,
+                flags: 0,
+              ),
+              nickname: null,
+              shareVoiceActivity: true,
+              friendSharesVoiceActivity: true,
+            ),
+          ],
+          readStates: const [],
+          presences: const [],
+        ),
+      );
+
+      final rows = await database.relationshipDao.getRelationships();
+      expect(rows, hasLength(2));
+      expect(
+        {for (final row in rows) row.userId: row.type},
+        {'pending-out': 4, 'friend-1': 1},
+      );
+    },
+  );
+
   test('READY skips post-commit callbacks after dispose', () async {
     final database = openTestDatabase();
     var readyCalled = false;

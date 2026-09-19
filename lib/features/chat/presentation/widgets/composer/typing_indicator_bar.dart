@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
+import 'package:fluxer_app/core/theme/fluxer_color_override_scope.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/providers/channel_typing_provider.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/chat_loading_spinner.dart';
@@ -134,25 +135,23 @@ class _TypingPill extends ConsumerWidget {
       reason: ChatSpinnerReason.typing,
       color: compact ? colors.textSecondary : colors.textChat,
     );
-    final Widget avatarStack = ColoredBox(
-      color: compact ? Colors.transparent : surfaceColor,
-      child: FluxerAvatarStack(
-        size: _kAvatarSize,
-        maxVisible: _kMaxVisibleAvatars,
-        overlap: -4,
-        outlineWidth: 1,
-        avatars: [
-          for (final user in resolvedUsers)
-            FluxerAvatar.user(
-              userId: user.userId,
-              imageUrl: user.display.avatarUrl,
-              fallbackText: user.display.displayName,
-              avatarColor: user.display.avatarColor,
-              size: _kAvatarSize,
-              showStatus: false,
-            ),
-        ],
-      ),
+    final Widget avatarStack = FluxerAvatarStack(
+      size: _kAvatarSize,
+      maxVisible: _kMaxVisibleAvatars,
+      overlap: -4,
+      outlineWidth: 1,
+      outlineColor: surfaceColor,
+      avatars: [
+        for (final user in resolvedUsers)
+          FluxerAvatar.user(
+            userId: user.userId,
+            imageUrl: user.display.avatarUrl,
+            fallbackText: user.display.displayName,
+            avatarColor: user.display.avatarColor,
+            size: _kAvatarSize,
+            showStatus: false,
+          ),
+      ],
     );
     final Widget content = SizedBox(
       height: WideComposerLayout.statusLineHeight,
@@ -219,7 +218,8 @@ class _TypingPill extends ConsumerWidget {
     final l10n = FluxerLocalizations.of(context);
     final colors = context.colors;
     final Color surfaceColor = composerStatusSurfaceColor(context);
-    final List<Shadow>? shadows = compact
+    final bool wallpaperText = FluxerColorOverrideScope.isActiveOf(context);
+    final List<Shadow>? shadows = compact || wallpaperText
         ? null
         : wideComposerStatusTextShadows(surfaceColor);
     final baseStyle = context.textStyles.timestamp.copyWith(

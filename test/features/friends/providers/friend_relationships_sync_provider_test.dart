@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fake_async/fake_async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -9,10 +11,15 @@ import 'package:fluxer_app/features/friends/providers/friend_relationships_sync_
 
 class _RecordingFriendRepository implements FriendRepository {
   int syncCallCount = 0;
+  Completer<void>? gate;
 
   @override
   Future<List<Friend>> getRelationships() async {
     syncCallCount++;
+    final Completer<void>? pending = gate;
+    if (pending != null) {
+      await pending.future;
+    }
     return const [];
   }
 
@@ -21,7 +28,7 @@ class _RecordingFriendRepository implements FriendRepository {
 }
 
 void main() {
-  test('syncs relationships after the post-READY sweep delay', () {
+  test('syncs relationships immediately after READY', () {
     fakeAsync((async) {
       final repo = _RecordingFriendRepository();
       final container =
@@ -30,33 +37,30 @@ void main() {
             )
             ..read(friendRelationshipsSyncProvider)
             ..read(gatewayFullRecoveryProvider.notifier).bump();
-      async.elapse(kFullRecoverySweepDelay - const Duration(seconds: 1));
-      expect(
-        repo.syncCallCount,
-        0,
-        reason: 'the sweep must wait out the first channel open after READY',
-      );
-
-      async.elapse(const Duration(seconds: 1));
+      async.flushMicrotasks();
       expect(repo.syncCallCount, 1);
       container.dispose();
     });
   });
 
-  test('bumps during a pending sweep collapse into one sync', () {
+  test('READY bumps during a fetch run one more sync after', () {
     fakeAsync((async) {
-      final repo = _RecordingFriendRepository();
+      final repo = _RecordingFriendRepository()..gate = Completer<void>();
       final container =
           ProviderContainer(
               overrides: [friendRepositoryProvider.overrideWithValue(repo)],
             )
             ..read(friendRelationshipsSyncProvider)
             ..read(gatewayFullRecoveryProvider.notifier).bump();
-      async.elapse(const Duration(seconds: 1));
-      container.read(gatewayFullRecoveryProvider.notifier).bump();
-      async.elapse(kFullRecoverySweepDelay * 2);
-
+      async.flushMicrotasks();
       expect(repo.syncCallCount, 1);
+
+      container.read(gatewayFullRecoveryProvider.notifier).bump();
+      container.read(gatewayFullRecoveryProvider.notifier).bump();
+      repo.gate!.complete();
+      async.flushMicrotasks();
+
+      expect(repo.syncCallCount, 2);
       container.dispose();
     });
   });
@@ -70,7 +74,7 @@ void main() {
             )
             ..read(friendRelationshipsSyncProvider)
             ..read(gatewaySessionRecoveryProvider.notifier).bump();
-      async.elapse(kFullRecoverySweepDelay * 2);
+      async.flushMicrotasks();
 
       expect(repo.syncCallCount, 0);
       container.dispose();
@@ -86,7 +90,7 @@ void main() {
 
       container.read(gatewayFullRecoveryProvider.notifier).bump();
       container.read(friendRelationshipsSyncProvider);
-      async.elapse(kFullRecoverySweepDelay);
+      async.flushMicrotasks();
 
       expect(repo.syncCallCount, 1);
       container.dispose();

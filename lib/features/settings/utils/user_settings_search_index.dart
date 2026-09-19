@@ -104,6 +104,7 @@ const List<String> _searchableTabs = [
   'notifications',
   'privacy_safety',
   'advanced_settings',
+  'applications',
 ];
 
 UserSettingsSection _sectionForScrollField(String tab, String scrollId) {
@@ -124,6 +125,7 @@ UserSettingsSection _sectionForScrollField(String tab, String scrollId) {
       _ => UserSettingsSection.privacyDashboard,
     },
     'advanced_settings' => UserSettingsSection.advanced,
+    'applications' => UserSettingsSection.applications,
     _ => UserSettingsSection.advanced,
   };
 }
@@ -740,6 +742,70 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
       (l10n, productName) =>
           l10n.advancedPerformanceReportingSectionDescription(productName),
     ),
+  ),
+  _UserSettingsSearchOption(
+    id: 'applications-dev',
+    section: UserSettingsSection.applications,
+    fieldId: 'applications-list',
+    label: _l((l10n) => l10n.applicationsSearchBots),
+    description: _l((l10n) => l10n.applicationsSearchBotsDescription),
+    keywords: [
+      _l((l10n) => l10n.applicationsTitle),
+      _l((l10n) => l10n.applicationsSearchBotsKeyword),
+      _l((l10n) => l10n.userSettingsGroupDeveloper),
+      _l((l10n) => l10n.applicationsCreate),
+      _l((l10n) => l10n.applicationsSearchDocumentation),
+    ],
+  ),
+  _UserSettingsSearchOption(
+    id: 'applications-info',
+    section: UserSettingsSection.applications,
+    fieldId: 'applications-info',
+    label: _l((l10n) => l10n.applicationsInfoTitle),
+    description: _l((l10n) => l10n.applicationsSearchInfoDescription),
+    keywords: [
+      _l((l10n) => l10n.applicationsName),
+      _l((l10n) => l10n.applicationsPublicBot),
+      _l((l10n) => l10n.applicationsRedirectUris),
+      _l((l10n) => l10n.applicationsRequireCodeGrant),
+    ],
+  ),
+  _UserSettingsSearchOption(
+    id: 'applications-bot-profile',
+    section: UserSettingsSection.applications,
+    fieldId: 'applications-bot-profile',
+    label: _l((l10n) => l10n.applicationsBotProfileTitle),
+    description: _l((l10n) => l10n.applicationsSearchBotProfileDescription),
+    keywords: [
+      _l((l10n) => l10n.applicationsBotAvatar),
+      _l((l10n) => l10n.applicationsBotUsername),
+      _l((l10n) => l10n.applicationsBotBio),
+      _l((l10n) => l10n.applicationsFriendlyBot),
+    ],
+  ),
+  _UserSettingsSearchOption(
+    id: 'applications-oauth-builder',
+    section: UserSettingsSection.applications,
+    fieldId: 'applications-oauth-builder',
+    label: _l((l10n) => l10n.applicationsOauthBuilderTitle),
+    description: _l((l10n) => l10n.applicationsSearchOauthDescription),
+    keywords: [
+      _l((l10n) => l10n.applicationsScopes),
+      _l((l10n) => l10n.applicationsBotPermissions),
+      _l((l10n) => l10n.applicationsCopyAuthorizeUrl),
+    ],
+  ),
+  _UserSettingsSearchOption(
+    id: 'applications-secrets',
+    section: UserSettingsSection.applications,
+    fieldId: 'applications-secrets',
+    label: _l((l10n) => l10n.applicationsSecretsTitle),
+    description: _l((l10n) => l10n.applicationsSearchSecretsDescription),
+    keywords: [
+      _l((l10n) => l10n.applicationsClientSecret),
+      _l((l10n) => l10n.applicationsBotToken),
+      _l((l10n) => l10n.applicationsRegenerate),
+    ],
   ),
 ];
 

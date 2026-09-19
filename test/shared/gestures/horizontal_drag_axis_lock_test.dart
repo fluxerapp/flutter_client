@@ -126,6 +126,7 @@ void main() {
         resolveHorizontalDragAxisLock(
           deltaFromStart: const Offset(80, 4),
           slop: slop,
+          sampleIndex: 1,
         ),
         HorizontalDragAxisLockDecision.yieldToRightward,
       );
@@ -143,6 +144,7 @@ void main() {
         resolveHorizontalDragAxisLock(
           deltaFromStart: const Offset(-150, 8),
           slop: slop,
+          sampleIndex: 1,
         ),
         HorizontalDragAxisLockDecision.keepHorizontal,
       );
@@ -176,14 +178,89 @@ void main() {
       );
     });
 
-    test('fast almost-flat jump still swipes', () {
+    test('ambiguous coalesced first MOVE never claims horizontal', () {
+      expect(
+        resolveHorizontalDragAxisLock(
+          deltaFromStart: const Offset(50, 12),
+          slop: slop,
+        ),
+        HorizontalDragAxisLockDecision.yieldToVertical,
+      );
+      expect(
+        resolveHorizontalDragAxisLock(
+          deltaFromStart: const Offset(-50, 12),
+          slop: slop,
+        ),
+        isNot(HorizontalDragAxisLockDecision.keepHorizontal),
+      );
+    });
+
+    test('jump with dy past slop yields immediately', () {
+      expect(
+        resolveHorizontalDragAxisLock(
+          deltaFromStart: const Offset(40, 20),
+          slop: slop,
+        ),
+        HorizontalDragAxisLockDecision.yieldToVertical,
+      );
+    });
+
+    test('perfectly flat jump still swipes on sample 0', () {
+      expect(
+        resolveHorizontalDragAxisLock(
+          deltaFromStart: const Offset(-80, 0),
+          slop: slop,
+          elapsed: Duration.zero,
+        ),
+        HorizontalDragAxisLockDecision.keepHorizontal,
+      );
+      expect(
+        resolveHorizontalDragAxisLock(
+          deltaFromStart: const Offset(80, 0),
+          slop: slop,
+          elapsed: Duration.zero,
+        ),
+        HorizontalDragAxisLockDecision.yieldToRightward,
+      );
+    });
+
+    test('almost-flat jump stays pending on sample 0', () {
       expect(
         resolveHorizontalDragAxisLock(
           deltaFromStart: const Offset(-80, 8),
           slop: slop,
           elapsed: Duration.zero,
         ),
+        HorizontalDragAxisLockDecision.pending,
+      );
+      expect(
+        resolveHorizontalDragAxisLock(
+          deltaFromStart: const Offset(80, 4),
+          slop: slop,
+          elapsed: Duration.zero,
+        ),
+        HorizontalDragAxisLockDecision.pending,
+      );
+    });
+
+    test('almost-flat jump swipes after the confirming sample', () {
+      expect(
+        resolveHorizontalDragAxisLock(
+          deltaFromStart: const Offset(-80, 8),
+          slop: slop,
+          elapsed: Duration.zero,
+          sampleIndex: 1,
+        ),
         HorizontalDragAxisLockDecision.keepHorizontal,
+      );
+      expect(
+        resolveHorizontalDragAxisLock(
+          deltaFromStart: const Offset(80, 4),
+          slop: slop,
+          elapsed: Duration.zero,
+          sampleIndex: 1,
+        ),
+        HorizontalDragAxisLockDecision.yieldToRightward,
       );
     });
 
@@ -195,6 +272,43 @@ void main() {
           elapsed: const Duration(milliseconds: 200),
         ),
         HorizontalDragAxisLockDecision.keepHorizontal,
+      );
+    });
+
+    test('coalesced session params treat a mid-size first MOVE as a jump', () {
+      expect(
+        resolveHorizontalDragAxisLock(
+          deltaFromStart: const Offset(30, 10),
+          slop: slop,
+        ),
+        HorizontalDragAxisLockDecision.yieldToRightward,
+      );
+      expect(
+        resolveHorizontalDragAxisLock(
+          deltaFromStart: const Offset(30, 10),
+          slop: slop,
+          params: AxisLockParams.coalesced,
+        ),
+        HorizontalDragAxisLockDecision.yieldToVertical,
+      );
+    });
+
+    test('isCoalescedJump matches distance and elapsed', () {
+      expect(
+        isCoalescedJump(deltaFromStart: const Offset(36, 10), slop: slop),
+        isTrue,
+      );
+      expect(
+        isCoalescedJump(deltaFromStart: const Offset(-24, 8), slop: slop),
+        isFalse,
+      );
+      expect(
+        isCoalescedJump(
+          deltaFromStart: const Offset(-80, 16),
+          slop: slop,
+          elapsed: const Duration(milliseconds: 200),
+        ),
+        isFalse,
       );
     });
   });

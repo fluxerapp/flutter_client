@@ -77,4 +77,18 @@ void main() {
     await tester.pump();
     expect(focus.hasFocus, isTrue);
   });
+
+  testWidgets('almost-flat jump stays focused until the next sample', (
+    tester,
+  ) async {
+    final FocusNode focus = await pumpFocusedField(tester);
+    final TestGesture gesture = await tester.startGesture(listCenter(tester));
+    await gesture.moveBy(const Offset(-80, 8));
+    await tester.pump();
+    expect(focus.hasFocus, isTrue);
+    await gesture.moveBy(const Offset(0, 40));
+    await tester.pump();
+    expect(focus.hasFocus, isFalse);
+    await gesture.up();
+  });
 }

@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/attachment
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_composer_column.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_expression_expandable_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_backdrop.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
@@ -81,6 +82,7 @@ class ChannelChatPanel extends ConsumerStatefulWidget {
     this.targetMessageId,
     this.loadMessages = true,
     this.showInlineEmojiPicker = true,
+    this.applyWallpaper = true,
     this.onClose,
     super.key,
   });
@@ -89,6 +91,7 @@ class ChannelChatPanel extends ConsumerStatefulWidget {
   final String? targetMessageId;
   final bool loadMessages;
   final bool showInlineEmojiPicker;
+  final bool applyWallpaper;
   final VoidCallback? onClose;
 
   @override
@@ -107,12 +110,20 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
     super.dispose();
   }
 
+  Widget _maybeWallpaperText(Widget child) {
+    if (!widget.applyWallpaper) {
+      return child;
+    }
+    return ChatWallpaperTextTheme(child: child);
+  }
+
   Widget _buildStatusOverlay({
     required bool showNeko,
     required bool showSlowmode,
     required String channelId,
   }) {
     return ChannelChatComposerBoundary(
+      applyWallpaper: widget.applyWallpaper,
       leadingStatus: const TypingIndicatorBar(),
       trailingStatuses: <Widget>[SlowmodeIndicator(channelId: channelId)],
       neko: showNeko ? const NekoSprite() : null,
@@ -158,7 +169,10 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
-        const ChatWallpaperBackdrop(),
+        if (widget.applyWallpaper)
+          const ChatWallpaperBackdrop()
+        else
+          ColoredBox(color: context.colors.chatBackground),
         LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
             double sheetContentHeight = 0;
@@ -217,27 +231,36 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                         clipBehavior: Clip.none,
                         children: <Widget>[
                           Positioned.fill(
-                            child: ChatListKeyboardDismiss(
-                              child: stripKeyboardInsets
-                                  ? MediaQuery.removeViewInsets(
-                                      context: context,
-                                      removeBottom: true,
-                                      child: messageList,
-                                    )
-                                  : messageList,
-                            ),
-                          ),
-                          Positioned(
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            height: WideComposerLayout.fadeHeightFor(
-                              isMobile: isMobile,
-                            ),
-                            child: _buildStatusOverlay(
-                              showNeko: showNeko,
-                              showSlowmode: showSlowmode,
-                              channelId: listChannelId,
+                            child: _maybeWallpaperText(
+                              Stack(
+                                clipBehavior: Clip.none,
+                                children: <Widget>[
+                                  Positioned.fill(
+                                    child: ChatListKeyboardDismiss(
+                                      child: stripKeyboardInsets
+                                          ? MediaQuery.removeViewInsets(
+                                              context: context,
+                                              removeBottom: true,
+                                              child: messageList,
+                                            )
+                                          : messageList,
+                                    ),
+                                  ),
+                                  Positioned(
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    height: WideComposerLayout.fadeHeightFor(
+                                      isMobile: isMobile,
+                                    ),
+                                    child: _buildStatusOverlay(
+                                      showNeko: showNeko,
+                                      showSlowmode: showSlowmode,
+                                      channelId: listChannelId,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           _ChannelChatScrollOverlay(
@@ -398,6 +421,7 @@ class ChannelChatComposerBoundary extends StatelessWidget {
   const ChannelChatComposerBoundary({
     required this.leadingStatus,
     required this.trailingStatuses,
+    this.applyWallpaper = true,
     this.neko,
     this.nekoBottom = _kChannelChatNekoBottom,
     super.key,
@@ -405,6 +429,7 @@ class ChannelChatComposerBoundary extends StatelessWidget {
 
   final Widget leadingStatus;
   final List<Widget> trailingStatuses;
+  final bool applyWallpaper;
   final Widget? neko;
   final double nekoBottom;
 
@@ -416,7 +441,10 @@ class ChannelChatComposerBoundary extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: <Widget>[
-        const ChatWallpaperComposerFade(),
+        if (applyWallpaper)
+          const ChatWallpaperComposerFade()
+        else
+          WideComposerFade(surfaceColor: context.colors.chatBackground),
         Positioned(
           left: statusRailPadding,
           right: statusRailPadding,

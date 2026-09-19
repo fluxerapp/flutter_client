@@ -177,6 +177,57 @@ void main() {
     expect(imageUrl(tester), contains('animated=true'));
   });
 
+  testWidgets(
+    'duplicate on-screen animated emoji keep unique visibility keys',
+    (tester) async {
+      await tester.pumpWidget(
+        const ProviderScope(
+          child: MaterialApp(
+            home: Scaffold(
+              body: Column(
+                children: <Widget>[
+                  CachedEmojiImage(
+                    emojiId: 'same',
+                    animated: true,
+                    requestSize: 48,
+                    size: 32,
+                  ),
+                  CachedEmojiImage(
+                    emojiId: 'same',
+                    animated: true,
+                    requestSize: 48,
+                    size: 32,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+      VisibilityDetectorController.instance.notifyNow();
+      await tester.pump();
+
+      final List<VisibilityDetector> detectors = tester
+          .widgetList<VisibilityDetector>(find.byType(VisibilityDetector))
+          .toList();
+      expect(detectors, hasLength(2));
+      expect(detectors[0].key, isNot(detectors[1].key));
+
+      final List<CachedNetworkImage> images = tester
+          .widgetList<CachedNetworkImage>(find.byType(CachedNetworkImage))
+          .toList();
+      expect(images, hasLength(2));
+      expect(
+        images.every(
+          (CachedNetworkImage image) =>
+              image.imageUrl.contains('animated=true'),
+        ),
+        isTrue,
+      );
+    },
+  );
+
   testWidgets('animated emoji plays when scrolled on-screen', (tester) async {
     await tester.pumpWidget(
       wrapEmoji(

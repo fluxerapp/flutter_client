@@ -171,6 +171,14 @@ void main() {
 
     expect(meme.id, '123');
   });
+
+  test('extractTenorSlugId reads view tokens from Tenor page URLs', () {
+    expect(
+      extractTenorSlugId('https://tenor.com/view/wave-gif-1'),
+      'view/wave-gif-1',
+    );
+    expect(extractTenorSlugId('https://media.tenor.com/wave.webm'), isNull);
+  });
 }
 
 Map<String, Object?> _memeJson() => {

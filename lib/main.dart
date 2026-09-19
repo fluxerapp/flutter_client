@@ -23,6 +23,7 @@ import 'package:fluxer_app/core/push/services/unified_push_service.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/settings/providers/haptics_preferences_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/gestures/pointer_delivery_profiler.dart';
 import 'package:image_picker_android/image_picker_android.dart';
 import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
 import 'package:media_kit/media_kit.dart';
@@ -70,6 +71,7 @@ void _configureFluxerErrorReporting() {
 
 Future<void> _bootstrapFluxer(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
+  PointerDeliveryProfiler.instance.attach();
   assertPushProviderBuildConfig();
   if (!kIsWeb &&
       Platform.isAndroid &&

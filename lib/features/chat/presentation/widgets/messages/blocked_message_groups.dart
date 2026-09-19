@@ -1,6 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_row_layout.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/chat/utils/messages/channel_message_stream.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -44,46 +45,50 @@ class BlockedMessageGroups extends StatelessWidget {
       }
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        if (leadingGroupSpacing > 0) SizedBox(height: leadingGroupSpacing),
-        DecoratedBox(
-          decoration: BoxDecoration(
-            color: context.colors.backgroundSecondary,
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: kMessageRowPaddingHorizontal,
-                  vertical: 4,
-                ),
-                child: FluxerButton.ghost(
-                  onPressed: onToggle,
-                  child: Text(
-                    label,
-                    style: context.textStyles.smallText.copyWith(
-                      color: context.colors.textPrimaryMuted,
-                      fontStyle: FontStyle.italic,
+    return ChatSurfaceTheme(
+      builder: (BuildContext context) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            if (leadingGroupSpacing > 0) SizedBox(height: leadingGroupSpacing),
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: context.colors.backgroundSecondary,
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: kMessageRowPaddingHorizontal,
+                      vertical: 4,
+                    ),
+                    child: FluxerButton.ghost(
+                      onPressed: onToggle,
+                      child: Text(
+                        label,
+                        style: context.textStyles.smallText.copyWith(
+                          color: context.colors.textPrimaryMuted,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  if (revealedMessages.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: revealedMessages,
+                      ),
+                    ),
+                ],
               ),
-              if (revealedMessages.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: revealedMessages,
-                  ),
-                ),
-            ],
-          ),
-        ),
-      ],
+            ),
+          ],
+        );
+      },
     );
   }
 }

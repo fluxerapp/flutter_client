@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_chat_content.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_header.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/search/channel_search_results_panel.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_header_search_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
@@ -21,6 +22,8 @@ import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_outage_availability.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_content_channel_gate.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
+import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
+import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/channel_members.dart';
 import 'package:fluxer_app/features/shell/presentation/mobile_chat_back_scope.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -129,7 +132,17 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
     );
     final bool showMatureContentGate = showGateAsync.maybeWhen(
       data: (bool show) => show,
-      orElse: () => isVoiceChannel,
+      orElse: () {
+        if (channel == null) {
+          return true;
+        }
+        return isResolvedChannelGateBlocking(
+          channel: channel,
+          channelList: channelList,
+          nsfwAllowed: ref.read(sensitiveContentProvider).nsfwAllowed,
+          agreements: ref.read(matureContentAgreementsProvider),
+        );
+      },
     );
     final ChannelHeaderSearchState searchState = ref.watch(
       channelHeaderSearchProvider,
@@ -180,16 +193,24 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
         ? VoiceChannelPageView(
             guildId: widget.guildId,
             channelId: widget.channelId,
+            messageId: widget.messageId,
           )
         : ChannelChatContent(
             channelId: widget.channelId,
             targetMessageId: widget.messageId,
             showTopBar: false,
           );
-    final Widget header = _VoiceChannelHeader(
-      channelId: widget.channelId,
-      forceVoiceCallStyle: forceVoiceCallStyle,
-    );
+    final Widget header = isVoiceChannel
+        ? ChatSurfaceTheme(
+            builder: (BuildContext context) => _VoiceChannelHeader(
+              channelId: widget.channelId,
+              forceVoiceCallStyle: forceVoiceCallStyle,
+            ),
+          )
+        : _VoiceChannelHeader(
+            channelId: widget.channelId,
+            forceVoiceCallStyle: forceVoiceCallStyle,
+          );
     final bool hideableVoiceHeader =
         forceVoiceCallStyle && isPhoneVoiceOverlay(context);
     final bool showsVoiceOverlay =
