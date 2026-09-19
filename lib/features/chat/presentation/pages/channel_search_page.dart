@@ -886,7 +886,15 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
     return ListView.builder(
       controller: _scrollController,
       physics: const AlwaysScrollableScrollPhysics(),
-      padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+      padding: EdgeInsets.fromLTRB(
+        layout.s4,
+        0,
+        layout.s4,
+        layout.s4 +
+            cachedSystemNavigationBarHeight(
+              devicePixelRatio: MediaQuery.devicePixelRatioOf(context),
+            ),
+      ),
       itemCount: state.results.length + (state.isLoadingMore ? 1 : 0),
       itemBuilder: (context, index) {
         if (index >= state.results.length) {
