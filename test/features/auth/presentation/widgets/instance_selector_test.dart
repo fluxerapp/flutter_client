@@ -97,6 +97,43 @@ void main() {
     expect(find.text(testL10n.changeInstance), findsOneWidget);
   });
 
+  testWidgets('login entry shows pending instance while active stays put', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      pumpFluxerApp(
+        overrides: [
+          instanceSelectorProvider.overrideWith(
+            () => _FixedInstanceSelector(
+              const InstanceSelectorState(
+                instanceUrl: 'chat.example.com',
+                status: InstanceDiscoveryStatus.success,
+                recentInstances: <RecentInstance>[],
+                requiresDiscovery: false,
+                pendingSnapshot: InstanceConfigSnapshot(
+                  apiBaseUrl: 'https://chat.example.com/api',
+                  gatewayUrl: '',
+                  displayDomain: 'chat.example.com',
+                ),
+              ),
+            ),
+          ),
+          activeInstanceProvider.overrideWithValue(
+            InstanceConfigSnapshot.officialDefault(),
+          ),
+        ],
+        child: const Scaffold(
+          body: InstanceSelectorLoginEntry(enabled: true, onOpenSheet: _noop),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('chat.example.com'), findsOneWidget);
+    expect(find.text('fluxer.app'), findsNothing);
+    expect(find.text(testL10n.changeInstance), findsOneWidget);
+  });
+
   testWidgets('login entry keeps the error hint and Change', (tester) async {
     await tester.pumpWidget(
       pumpFluxerApp(

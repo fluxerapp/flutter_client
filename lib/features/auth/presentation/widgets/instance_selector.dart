@@ -2,11 +2,12 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
-import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/instance_domain_icon.dart';
+import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
 import 'package:fluxer_app/features/auth/providers/instance_selector_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -119,7 +120,6 @@ class _InstanceSelectorControlState
     final InstanceSelector notifier = ref.read(
       instanceSelectorProvider.notifier,
     );
-    final bool isOfficial = ref.watch(isActiveInstanceOfficialProvider);
 
     return selectorAsync.when(
       loading: () => const SizedBox.shrink(),
@@ -134,6 +134,8 @@ class _InstanceSelectorControlState
                 clearError: true,
               )
             : selector;
+        final bool isOfficial = const InstanceEndpointNormalizer()
+            .isOfficialInstanceInput(viewState.instanceUrl);
         final bool discovering =
             viewState.status == InstanceDiscoveryStatus.discovering;
         final bool canSubmit = widget.enabled && !discovering;
@@ -256,8 +258,16 @@ class InstanceSelectorLoginEntry extends ConsumerWidget {
     final AsyncValue<InstanceSelectorState> selectorAsync = ref.watch(
       instanceSelectorProvider,
     );
-    final bool isOfficial = ref.watch(isActiveInstanceOfficialProvider);
-    final String displayDomain = ref.watch(activeInstanceDisplayDomainProvider);
+    final InstanceConfigSnapshot snapshot = ref.watch(
+      authInstanceSnapshotProvider,
+    );
+    const InstanceEndpointNormalizer normalizer = InstanceEndpointNormalizer();
+    final bool isOfficial = normalizer.isOfficialInstanceInput(
+      snapshot.apiBaseUrl,
+    );
+    final String displayDomain = normalizer.formatDisplayDomain(
+      snapshot.displayDomain,
+    );
     final bool canAuthenticate = ref.watch(
       instanceSelectorCanAuthenticateProvider,
     );
