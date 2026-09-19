@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.da
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
+import 'package:fluxer_app/core/router/shell_navigator_keys.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
@@ -95,6 +96,17 @@ Future<void> showForwardMediaSheet(
   );
 }
 
+BuildContext? _forwardSheetHost(BuildContext? fallback) {
+  final BuildContext? root = rootNavigatorKey.currentContext;
+  if (root != null && root.mounted) {
+    return root;
+  }
+  if (fallback != null && fallback.mounted) {
+    return fallback;
+  }
+  return null;
+}
+
 Future<void> _showForwardSheet(
   BuildContext context, {
   required String sourceChannelId,
@@ -104,10 +116,14 @@ Future<void> _showForwardSheet(
   List<String>? attachmentIds,
   List<int>? embedIndices,
 }) async {
-  final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+  final BuildContext? host = _forwardSheetHost(context);
+  if (host == null) {
+    return;
+  }
+  final FluxerLocalizations l10n = FluxerLocalizations.of(host);
   final _ForwardNavigationTarget? target =
       await FluxerBottomSheet.showScrollable<_ForwardNavigationTarget?>(
-        context,
+        host,
         useRootNavigator: true,
         title: l10n.forwardMessageTitle,
         builder: (sheetContext, scrollController, _) =>
@@ -121,17 +137,17 @@ Future<void> _showForwardSheet(
               scrollController: scrollController,
             ),
       );
-  if (target == null || !context.mounted) {
+  if (target == null || !host.mounted) {
     return;
   }
-  final ProviderContainer container = ProviderScope.containerOf(context);
+  final ProviderContainer container = ProviderScope.containerOf(host);
   WidgetsBinding.instance.addPostFrameCallback((_) {
-    if (!context.mounted) {
+    if (!host.mounted) {
       return;
     }
     unawaited(
       _navigateToForwardDestination(
-        hostContext: context,
+        hostContext: host,
         container: container,
         target: target,
       ),

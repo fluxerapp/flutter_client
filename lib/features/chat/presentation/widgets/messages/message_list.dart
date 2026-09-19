@@ -2615,7 +2615,7 @@ class _MessageListState extends ConsumerState<MessageList> {
                 : null,
             onLongPress: useTouchMessageActions
                 ? () => showSystemMessageActionsSheet(
-                    context,
+                    this.context,
                     ref,
                     message: message,
                     guildId: guildId,
@@ -2629,7 +2629,7 @@ class _MessageListState extends ConsumerState<MessageList> {
             onSecondaryTapUp: !useTouchMessageActions
                 ? (_) => unawaited(
                     showSystemMessageActionsSheet(
-                      context,
+                      this.context,
                       ref,
                       message: message,
                       guildId: guildId,
@@ -2683,20 +2683,21 @@ class _MessageListState extends ConsumerState<MessageList> {
             isSendDisabled: isGuildSendDisabled,
             onReply: () =>
                 ref.read(chatViewModelProvider.notifier).startReply(message),
-            onForward: () =>
-                unawaited(showForwardMessageSheet(context, message: message)),
+            onForward: () => unawaited(
+              showForwardMessageSheet(this.context, message: message),
+            ),
             onEdit: () =>
                 ref.read(chatViewModelProvider.notifier).startEdit(message),
             onRemoveAllReactions: () => unawaited(
               showRemoveAllReactionsConfirmSheet(
-                context,
+                this.context,
                 ref,
                 messageId: message.id,
               ),
             ),
             onDelete: () => unawaited(
               showDeleteMessageConfirmSheet(
-                context,
+                this.context,
                 ref,
                 message: message,
                 guildId: guildId,
@@ -2716,7 +2717,7 @@ class _MessageListState extends ConsumerState<MessageList> {
                 .markMessageUnread(message.id),
             onReport: () => unawaited(
               showSimpleIarReportSheet(
-                context,
+                this.context,
                 iarContext: IarMessageContext(
                   message: message,
                   guildId: guildId,
@@ -2731,7 +2732,7 @@ class _MessageListState extends ConsumerState<MessageList> {
                 ),
             onEditAttachmentAltText: (Attachment attachment) => unawaited(
               editMessageAttachmentAltText(
-                context,
+                this.context,
                 ref,
                 messageId: message.id,
                 attachment: attachment,
