@@ -124,6 +124,7 @@ class ComposerAutocompleteFieldState
     if (oldWidget.channelId != widget.channelId) {
       _stopMentionAutocompleteWatches();
       _setRows(const <_ComposerRow>[]);
+      _scheduleSync();
     }
   }
 
@@ -310,7 +311,7 @@ class ComposerAutocompleteFieldState
         await _syncEmoji(trigger, generation);
         return;
       case ComposerAutocompleteTriggerKind.command:
-        _syncCommands(trigger, generation);
+        await _syncCommands(trigger, generation);
         return;
       case ComposerAutocompleteTriggerKind.gif:
         await _syncGifs(trigger, generation);
@@ -346,8 +347,22 @@ class ComposerAutocompleteFieldState
     );
   }
 
-  Channel? _guildChannel() {
-    return resolveGuildChannel(ref, _channelId);
+  Future<Channel?> _resolveComposerChannel() async {
+    if (_channelId.isEmpty) {
+      return null;
+    }
+    final Channel? cached = resolveGuildChannel(ref, _channelId);
+    if (cached != null) {
+      return cached;
+    }
+    final db.Channel? row = await ref
+        .read(fluxerDatabaseProvider)
+        .channelDao
+        .getChannelById(_channelId);
+    if (row == null) {
+      return null;
+    }
+    return Channel.fromRow(row);
   }
 
   void _warmCustomEmoji() {
@@ -546,34 +561,44 @@ class ComposerAutocompleteFieldState
     ComposerAutocompleteTrigger trigger,
     int generation,
   ) async {
-    final Channel? ch = _guildChannel();
+    final Channel? ch = await _resolveComposerChannel();
+    if (generation != _syncGeneration || !mounted) {
+      return;
+    }
     final String? guildId = ch?.guildId;
     if (guildId == null || guildId.isEmpty) {
       _setRows(const <_ComposerRow>[]);
       return;
     }
     final ChannelListState list = ref.read(channelListViewModelProvider);
-    final List<Channel> flat = <Channel>[];
-    for (final ChannelCategory cat in list.categories) {
-      for (final Channel c in cat.channels) {
-        if (!c.isCategory) {
-          flat.add(c);
-        }
+    List<Channel> fallback = const <Channel>[];
+    if (list.guild?.id != guildId) {
+      final List<db.Channel> rows = await ref
+          .read(fluxerDatabaseProvider)
+          .channelDao
+          .getChannels(guildId);
+      if (generation != _syncGeneration || !mounted) {
+        return;
       }
+      fallback = <Channel>[
+        for (final db.Channel row in rows) Channel.fromRow(row),
+      ];
     }
+    final List<Channel> mentionable = mentionableChannelsForGuild(
+      guildId: guildId,
+      currentList: list,
+      fallbackChannels: fallback,
+    );
     final String q = trigger.matchedText.toLowerCase();
-    List<Channel> filtered = flat;
+    List<Channel> filtered = mentionable;
     if (q.isNotEmpty) {
-      filtered = flat
+      filtered = mentionable
           .where((Channel c) => c.name.toLowerCase().contains(q))
           .toList();
     }
     filtered.sort((Channel a, Channel b) => a.position.compareTo(b.position));
     if (filtered.length > _kChannelLimit) {
       filtered = filtered.sublist(0, _kChannelLimit);
-    }
-    if (generation != _syncGeneration) {
-      return;
     }
     _setRows(
       filtered.map((Channel c) {
@@ -592,7 +617,10 @@ class ComposerAutocompleteFieldState
   ) async {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final ParsedMentionQuery parsed = parseMentionQuery(trigger.matchedText);
-    final Channel? ch = _guildChannel();
+    final Channel? ch = await _resolveComposerChannel();
+    if (generation != _syncGeneration || !mounted) {
+      return;
+    }
     final String? guildId = ch?.guildId;
     final Map<String, String?> friendNicknameById = friendNicknamesById(
       ref.read(dmViewModelProvider).friendsList,
@@ -1069,9 +1097,15 @@ class ComposerAutocompleteFieldState
     _setRows(rows);
   }
 
-  void _syncCommands(ComposerAutocompleteTrigger trigger, int generation) {
+  Future<void> _syncCommands(
+    ComposerAutocompleteTrigger trigger,
+    int generation,
+  ) async {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final Channel? ch = _guildChannel();
+    final Channel? ch = await _resolveComposerChannel();
+    if (generation != _syncGeneration || !mounted) {
+      return;
+    }
     final bool isDirect = isComposerDirectChat(
       channelId: _channelId,
       dmConversations: ref.read(dmViewModelProvider).conversations,
@@ -1091,9 +1125,6 @@ class ComposerAutocompleteFieldState
               );
             })
             .toList(growable: false);
-    if (generation != _syncGeneration) {
-      return;
-    }
     _setRows(
       filtered
           .map(
@@ -1395,7 +1426,10 @@ class ComposerAutocompleteFieldState
   }
 
   Future<void> _syncRoles(ComposerSlashSlotState slot, int generation) async {
-    final Channel? ch = _guildChannel();
+    final Channel? ch = await _resolveComposerChannel();
+    if (generation != _syncGeneration || !mounted) {
+      return;
+    }
     final String? guildId = ch?.guildId;
     if (guildId == null || guildId.isEmpty) {
       _setRows(const <_ComposerRow>[]);

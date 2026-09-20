@@ -334,5 +334,91 @@ void main() {
       expect(images[0].playing, isFalse);
       expect(images[1].playing, isTrue);
     });
+
+    testWidgets('stays playing across a transient hide blip', (tester) async {
+      await tester.pumpWidget(
+        _wrap(
+          const SizedBox(
+            width: 200,
+            height: 200,
+            child: EmbedAnimatedImage(
+              animatedUrl: 'https://x/a.webp',
+              staticUrl: 'https://x/a.png',
+              visibilityKey: 'v-blip',
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+
+      final VisibilityDetector detector = tester.widget<VisibilityDetector>(
+        find.byType(VisibilityDetector),
+      );
+      final Key detectorKey = detector.key!;
+      detector.onVisibilityChanged!(VisibilityInfo(key: detectorKey));
+      detector.onVisibilityChanged!(
+        VisibilityInfo(
+          key: detectorKey,
+          size: const Size(200, 200),
+          visibleBounds: const Rect.fromLTWH(0, 0, 200, 200),
+        ),
+      );
+      await tester.pump();
+
+      final FluxerAnimatedImage image = tester.widget<FluxerAnimatedImage>(
+        find.byType(FluxerAnimatedImage),
+      );
+      expect(image.playing, isTrue);
+      expect(
+        find.byKey(const ValueKey<String>('fluxer-animated-image-ticker')),
+        findsOneWidget,
+      );
+      final List<CachedNetworkImage> images = tester
+          .widgetList<CachedNetworkImage>(find.byType(CachedNetworkImage))
+          .toList();
+      expect(
+        images.any(
+          (CachedNetworkImage networkImage) =>
+              networkImage.imageUrl.contains('a.webp'),
+        ),
+        isTrue,
+      );
+    });
+
+    testWidgets('on-screen gifs keep unique visibility detector keys', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _wrap(
+          const Column(
+            children: <Widget>[
+              SizedBox(
+                height: 200,
+                child: EmbedAnimatedImage(
+                  animatedUrl: 'https://x/a.webp',
+                  staticUrl: 'https://x/a.png',
+                  visibilityKey: 'same',
+                ),
+              ),
+              SizedBox(
+                height: 200,
+                child: EmbedAnimatedImage(
+                  animatedUrl: 'https://x/b.webp',
+                  staticUrl: 'https://x/b.png',
+                  visibilityKey: 'same',
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+      await tester.pump();
+
+      final List<VisibilityDetector> detectors = tester
+          .widgetList<VisibilityDetector>(find.byType(VisibilityDetector))
+          .toList();
+      expect(detectors, hasLength(2));
+      expect(detectors[0].key, isNot(detectors[1].key));
+    });
   });
 }

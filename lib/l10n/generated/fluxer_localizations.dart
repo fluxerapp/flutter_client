@@ -6539,6 +6539,60 @@ abstract class FluxerLocalizations {
   /// **'Unknown Platform'**
   String get linkedDevicesUnknownPlatform;
 
+  /// Tooltip and accessibility label for opening a linked device details modal.
+  ///
+  /// In en, this message translates to:
+  /// **'View details'**
+  String get linkedDevicesViewDetails;
+
+  /// Title of the linked device details modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Device details'**
+  String get linkedDevicesDetailsTitle;
+
+  /// Label for the operating system in the linked device details modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Device'**
+  String get linkedDevicesDetailsDevice;
+
+  /// Label for the client/platform in the linked device details modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Client'**
+  String get linkedDevicesDetailsClient;
+
+  /// Label for the approximate location in the linked device details modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get linkedDevicesDetailsLocation;
+
+  /// Label for the masked IP address in the linked device details modal.
+  ///
+  /// In en, this message translates to:
+  /// **'IP address'**
+  String get linkedDevicesDetailsIp;
+
+  /// Label for last activity time in the linked device details modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Last used'**
+  String get linkedDevicesDetailsLastUsed;
+
+  /// Last-used value shown for the session currently making the request.
+  ///
+  /// In en, this message translates to:
+  /// **'Current session'**
+  String get linkedDevicesCurrentSession;
+
+  /// Fallback when a linked device detail such as last used time is missing.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get linkedDevicesUnknown;
+
   /// Label shown in the slowmode indicator pill when slowmode is enabled for the channel but no cooldown is actively counting down.
   ///
   /// In en, this message translates to:
@@ -13037,6 +13091,18 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to remove all reactions from this message?'**
   String get chatMessageRemoveAllReactionsConfirmDescription;
+
+  /// Confirm button label on the pin message confirmation modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin'**
+  String get chatMessagePinConfirm;
+
+  /// Body text for the pin message confirmation modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin this message to the channel for everyone to see.'**
+  String get chatMessagePinConfirmDescription;
 
   /// Title for the unpin message confirmation sheet.
   ///
@@ -22418,6 +22484,30 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Community Settings'**
   String get guildSettingsCommunitySettings;
+
+  /// Destructive footer button in community settings. Opens the delete-community confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete community'**
+  String get guildSettingsDeleteCommunity;
+
+  /// Confirmation copy for deleting a community.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.'**
+  String get guildSettingsDeleteCommunityConfirm;
+
+  /// Success toast after a community is deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Community deleted'**
+  String get guildSettingsCommunityDeleted;
+
+  /// Error toast when deleting a community fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t delete this community'**
+  String get guildSettingsDeleteCommunityFailed;
 
   /// Sidebar category for emoji and stickers.
   ///

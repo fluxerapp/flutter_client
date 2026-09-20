@@ -381,7 +381,7 @@ class _WallpaperCardFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
+    final Color labelColor = scrim ? Colors.white : context.colors.textPrimary;
     return IgnorePointer(
       child: Stack(
         fit: StackFit.expand,
@@ -405,14 +405,14 @@ class _WallpaperCardFooter extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   if (showIcon && icon != null) ...<Widget>[
-                    PhosphorIcon(icon!, size: 16, color: colors.textPrimary),
+                    PhosphorIcon(icon!, size: 16, color: labelColor),
                     const SizedBox(height: 4),
                   ],
                   Text(
                     label,
                     textAlign: TextAlign.center,
                     style: context.textStyles.smallText.copyWith(
-                      color: colors.textPrimary,
+                      color: labelColor,
                       fontWeight: FontWeight.w600,
                       fontSize: 10,
                       height: 1.1,

@@ -148,6 +148,34 @@ void main() {
       expect(trim.messages.last.id, failed.id);
       expect(trim.droppedNewer, isTrue);
     });
+
+    test('drops a re-appended sending row when the kept slice has it', () {
+      final Message delivered = _message(
+        50,
+      ).copyWith(clientNonce: 'nonce-1', content: 'hi');
+      final Message sending = Message(
+        id: '0300',
+        channelId: 'channel-1',
+        authorId: 'author-1',
+        authorName: 'Author',
+        content: 'hi',
+        timestamp: DateTime.utc(2026).add(const Duration(seconds: 50)),
+        deliveryState: MessageDeliveryState.sending,
+        clientNonce: 'nonce-1',
+      );
+      final List<Message> messages = <Message>[
+        ..._build(50),
+        delivered,
+        ..._range(51, 249),
+        sending,
+      ];
+      final trim = trimMessageWindowAround(messages, aroundId: messages[50].id);
+      expect(
+        trim.messages.where((Message m) => m.clientNonce == 'nonce-1'),
+        hasLength(1),
+      );
+      expect(trim.messages.any((Message m) => m.id == sending.id), isFalse);
+    });
   });
 
   group('window page reducers', () {

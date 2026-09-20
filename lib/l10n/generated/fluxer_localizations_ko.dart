@@ -3838,6 +3838,33 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => '알 수 없는 플랫폼';
 
   @override
+  String get linkedDevicesViewDetails => 'View details';
+
+  @override
+  String get linkedDevicesDetailsTitle => 'Device details';
+
+  @override
+  String get linkedDevicesDetailsDevice => 'Device';
+
+  @override
+  String get linkedDevicesDetailsClient => 'Client';
+
+  @override
+  String get linkedDevicesDetailsLocation => 'Location';
+
+  @override
+  String get linkedDevicesDetailsIp => 'IP address';
+
+  @override
+  String get linkedDevicesDetailsLastUsed => 'Last used';
+
+  @override
+  String get linkedDevicesCurrentSession => 'Current session';
+
+  @override
+  String get linkedDevicesUnknown => 'Unknown';
+
+  @override
   String slowmodeLabel(String duration) {
     return '$duration 느린 모드';
   }
@@ -7620,6 +7647,13 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   @override
   String get chatMessageRemoveAllReactionsConfirmDescription =>
       '이 메시지의 모든 반응을 삭제하시겠습니까?';
+
+  @override
+  String get chatMessagePinConfirm => 'Pin';
+
+  @override
+  String get chatMessagePinConfirmDescription =>
+      'Pin this message to the channel for everyone to see.';
 
   @override
   String get chatMessageUnpinConfirmTitle => '메시지 고정 해제';
@@ -12979,6 +13013,20 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get guildSettingsCommunitySettings => '커뮤니티 설정';
+
+  @override
+  String get guildSettingsDeleteCommunity => 'Delete community';
+
+  @override
+  String get guildSettingsDeleteCommunityConfirm =>
+      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+
+  @override
+  String get guildSettingsCommunityDeleted => 'Community deleted';
+
+  @override
+  String get guildSettingsDeleteCommunityFailed =>
+      'Couldn\'t delete this community';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';

@@ -48,7 +48,17 @@ void configureFluxerMobileDetection() {
   }
   final double devicePixelRatio = view.devicePixelRatio;
   final Size logicalSize = view.physicalSize / devicePixelRatio;
-  _isRuntimeMobileFormFactor = isFluxerMobileFormFactorShortestSide(
+  _isRuntimeMobileFormFactor = isFluxerRuntimeMobileFormFactorFromLogicalSize(
+    logicalSize,
+  );
+}
+
+@visibleForTesting
+bool isFluxerRuntimeMobileFormFactorFromLogicalSize(Size logicalSize) {
+  if (logicalSize.isEmpty) {
+    return false;
+  }
+  return isFluxerMobileFormFactorShortestSide(
     math.min(logicalSize.width, logicalSize.height),
   );
 }

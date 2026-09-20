@@ -46,22 +46,26 @@ String formatUserTime(
   DateTime localDateTime,
   String locale, {
   required bool use12Hour,
+  bool withSeconds = false,
 }) {
-  final DateFormat formatter = use12Hour
-      ? DateFormat.jm(locale)
-      : DateFormat.Hm(locale);
-  return formatter.format(localDateTime);
+  return DateFormat(
+    _timePattern(locale, use12Hour: use12Hour, withSeconds: withSeconds),
+    locale,
+  ).format(localDateTime);
 }
 
 String formatUserDateTime(
   DateTime localDateTime,
   String locale, {
   required bool use12Hour,
+  bool withSeconds = false,
 }) {
-  final DateFormat formatter = use12Hour
-      ? DateFormat.yMd(locale).add_jm()
-      : DateFormat.yMd(locale).add_Hm();
-  return formatter.format(localDateTime);
+  return _withUserTime(
+    DateFormat.yMd(locale),
+    locale,
+    use12Hour: use12Hour,
+    withSeconds: withSeconds,
+  ).format(localDateTime);
 }
 
 String formatUserMediumDate(DateTime localDateTime, String locale) {
@@ -73,8 +77,43 @@ String formatUserMediumDateTime(
   String locale, {
   required bool use12Hour,
 }) {
-  final DateFormat formatter = use12Hour
-      ? DateFormat.yMMMd(locale).add_jm()
-      : DateFormat.yMMMd(locale).add_Hm();
-  return formatter.format(localDateTime);
+  return _withUserTime(
+    DateFormat.yMMMd(locale),
+    locale,
+    use12Hour: use12Hour,
+  ).format(localDateTime);
+}
+
+DateFormat _withUserTime(
+  DateFormat dateFormat,
+  String locale, {
+  required bool use12Hour,
+  bool withSeconds = false,
+}) {
+  return dateFormat.addPattern(
+    _timePattern(locale, use12Hour: use12Hour, withSeconds: withSeconds),
+  );
+}
+
+String _timePattern(
+  String locale, {
+  required bool use12Hour,
+  required bool withSeconds,
+}) {
+  if (!use12Hour) {
+    final DateFormat format = withSeconds
+        ? DateFormat.Hms(locale)
+        : DateFormat.Hm(locale);
+    return format.pattern ?? (withSeconds ? 'HH:mm:ss' : 'HH:mm');
+  }
+  final DateFormat preferred = withSeconds
+      ? DateFormat.jms(locale)
+      : DateFormat.jm(locale);
+  final String pattern =
+      preferred.pattern ?? (withSeconds ? 'h:mm:ss a' : 'h:mm a');
+  // jm follows the locale clock, so en_GB and similar stay 24-hour.
+  if (pattern.contains('H') || pattern.contains('k')) {
+    return withSeconds ? 'h:mm:ss a' : 'h:mm a';
+  }
+  return pattern;
 }

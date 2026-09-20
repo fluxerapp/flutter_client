@@ -18,11 +18,19 @@ Future<void> leaveGuildAndCleanup(WidgetRef ref, String guildId) async {
       .read(fluxerClientProvider)
       .guilds
       .leaveGuild(guildId: guildId, body: const SudoVerificationSchema());
-  await ref.read(guildRepositoryProvider).removeGuildLocally(guildId);
-  ref.read(guildPermissionsProvider.notifier).evict(guildId);
-  unawaited(
-    ref.read(channelPermissionCacheProvider.notifier).evictGuild(guildId),
-  );
+  await removeGuildLocallyAndEvict(ref, guildId);
+}
+
+Future<void> deleteGuildAndCleanup(WidgetRef ref, String guildId) async {
+  if (ref.read(instanceRuntimeConfigProvider).isStockCommunityGuild(guildId)) {
+    talker.info('[Guild] Delete skipped for stock community guild');
+    return;
+  }
+  await ref
+      .read(fluxerClientProvider)
+      .guilds
+      .deleteGuild(guildId: guildId, body: const GuildDeleteRequest());
+  await removeGuildLocallyAndEvict(ref, guildId);
 }
 
 Future<void> removeGuildLocallyAndEvict(WidgetRef ref, String guildId) async {

@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/providers/current_auth_session_provider.dart';
+import 'package:fluxer_app/features/settings/presentation/sheets/device_details_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/linked_devices_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -164,9 +165,12 @@ class _UserLinkedDevicesState extends ConsumerState<UserLinkedDevices> {
         _AuthSessionCard(
           session: current,
           isCurrent: true,
-          selectionMode: false,
+          selectionMode: _selectionMode,
           isSelected: false,
           isRevoking: false,
+          onViewDetails: _selectionMode
+              ? null
+              : () => _showDeviceDetails(current, isCurrent: true),
         ),
       ],
     );
@@ -201,6 +205,9 @@ class _UserLinkedDevicesState extends ConsumerState<UserLinkedDevices> {
               isSelected: _selected.contains(others[i].idHash),
               isRevoking: state.revokingIds.contains(others[i].idHash),
               onTap: _selectionMode ? () => _toggleSelection(others, i) : null,
+              onViewDetails: _selectionMode
+                  ? null
+                  : () => _showDeviceDetails(others[i], isCurrent: false),
               onRevoke: _selectionMode
                   ? null
                   : () => _handleSingleRevoke(others[i], l10n),
@@ -239,6 +246,9 @@ class _UserLinkedDevicesState extends ConsumerState<UserLinkedDevices> {
             icon: _selectionMode
                 ? PhosphorIconsBold.x
                 : PhosphorIconsFill.checkSquare,
+            semanticLabel: _selectionMode
+                ? l10n.linkedDevicesExitSelection
+                : l10n.linkedDevicesEnterSelection,
             onTap: () => setState(() {
               _selectionMode = !_selectionMode;
               if (!_selectionMode) {
@@ -259,6 +269,9 @@ class _UserLinkedDevicesState extends ConsumerState<UserLinkedDevices> {
               icon: _selected.length == others.length
                   ? PhosphorIconsBold.square
                   : PhosphorIconsFill.checkSquare,
+              semanticLabel: _selected.length == others.length
+                  ? l10n.linkedDevicesClearSelection
+                  : l10n.linkedDevicesSelectAll,
               onTap: () => setState(() {
                 if (_selected.length == others.length) {
                   _selected.clear();
@@ -278,11 +291,15 @@ class _UserLinkedDevicesState extends ConsumerState<UserLinkedDevices> {
 
   Widget _iconButton({
     required IconData icon,
+    required String semanticLabel,
     required VoidCallback onTap,
     required FluxerColorTheme colors,
   }) {
     return FluxerTappable(
+      key: ValueKey(semanticLabel),
       onTap: onTap,
+      semanticLabel: semanticLabel,
+      excludeChildSemantics: true,
       builder: (context, states) => Container(
         width: 32,
         height: 32,
@@ -347,6 +364,15 @@ class _UserLinkedDevicesState extends ConsumerState<UserLinkedDevices> {
       }
       _lastToggledIndex = index;
     });
+  }
+
+  void _showDeviceDetails(
+    AuthSessionResponse session, {
+    required bool isCurrent,
+  }) {
+    unawaited(
+      DeviceDetailsSheet.show(context, session: session, isCurrent: isCurrent),
+    );
   }
 
   Future<void> _handleSingleRevoke(
@@ -482,6 +508,7 @@ class _AuthSessionCard extends StatelessWidget {
     required this.isSelected,
     required this.isRevoking,
     this.onTap,
+    this.onViewDetails,
     this.onRevoke,
   });
 
@@ -491,6 +518,7 @@ class _AuthSessionCard extends StatelessWidget {
   final bool isSelected;
   final bool isRevoking;
   final VoidCallback? onTap;
+  final VoidCallback? onViewDetails;
   final VoidCallback? onRevoke;
 
   @override
@@ -512,7 +540,7 @@ class _AuthSessionCard extends StatelessWidget {
           SizedBox(width: layout.s3),
           Expanded(child: _info(context, colors)),
           SizedBox(width: layout.s2),
-          _trailing(colors, l10n),
+          _trailing(context, colors, l10n),
         ],
       ),
     );
@@ -549,7 +577,7 @@ class _AuthSessionCard extends StatelessWidget {
     final clientOs = session.clientInfo?.os ?? l10n.linkedDevicesUnknownOs;
     final platformLabel =
         session.clientInfo?.platform ?? l10n.linkedDevicesUnknownPlatform;
-    final location = _locationLabel(session.clientInfo?.location);
+    final location = authSessionLocationLabel(session.clientInfo?.location);
     final lastUsed = session.approxLastUsedAt;
 
     return Column(
@@ -605,54 +633,152 @@ class _AuthSessionCard extends StatelessWidget {
     ),
   );
 
-  Widget _trailing(FluxerColorTheme colors, FluxerLocalizations l10n) {
-    if (isCurrent) {
-      return const SizedBox.shrink();
-    }
+  Widget _trailing(
+    BuildContext context,
+    FluxerColorTheme colors,
+    FluxerLocalizations l10n,
+  ) {
+    final layout = context.layout;
     if (selectionMode) {
+      if (isCurrent) {
+        return const SizedBox.shrink();
+      }
       return _SelectionCheckbox(checked: isSelected, colors: colors);
     }
-    if (isRevoking) {
-      return const SizedBox(
-        width: 32,
-        height: 32,
-        child: Center(child: FluxerLoadingSpinner()),
-      );
-    }
-    return FluxerTooltip(
-      message: l10n.linkedDevicesRevokeTooltip,
-      child: FluxerTappable(
-        onTap: onRevoke,
-        builder: (context, states) => Container(
-          width: 32,
-          height: 32,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: states.contains(WidgetState.hovered)
-                ? colors.backgroundModifierHover
-                : Colors.transparent,
-            borderRadius: BorderRadius.circular(6),
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      spacing: layout.s3,
+      children: [
+        if (onViewDetails != null)
+          _DeviceActionButton(
+            tooltip: l10n.linkedDevicesViewDetails,
+            icon: PhosphorIconsBold.info,
+            onTap: onViewDetails!,
           ),
-          child: PhosphorIcon(
-            PhosphorIconsBold.x,
-            size: 16,
-            color: colors.textTertiary,
+        if (!isCurrent && isRevoking)
+          const SizedBox(
+            width: _kDeviceActionSize,
+            height: _kDeviceActionSize,
+            child: Center(child: FluxerLoadingSpinner()),
+          )
+        else if (!isCurrent && onRevoke != null)
+          _DeviceActionButton(
+            tooltip: l10n.linkedDevicesRevokeTooltip,
+            icon: PhosphorIconsBold.x,
+            onTap: onRevoke!,
+            danger: true,
+          ),
+      ],
+    );
+  }
+}
+
+const double _kDeviceActionSize = 28;
+const double _kDeviceActionIconSize = 14;
+
+class _DeviceActionButton extends StatefulWidget {
+  _DeviceActionButton({
+    required this.tooltip,
+    required this.icon,
+    required this.onTap,
+    this.danger = false,
+  }) : super(key: ValueKey(tooltip));
+
+  final String tooltip;
+  final IconData icon;
+  final VoidCallback onTap;
+  final bool danger;
+
+  @override
+  State<_DeviceActionButton> createState() => _DeviceActionButtonState();
+}
+
+class _DeviceActionButtonState extends State<_DeviceActionButton> {
+  final ValueNotifier<({bool hovered, bool pressed})> _interaction =
+      ValueNotifier((hovered: false, pressed: false));
+
+  @override
+  void dispose() {
+    _interaction.dispose();
+    super.dispose();
+  }
+
+  void _update({bool? hovered, bool? pressed}) {
+    final current = _interaction.value;
+    final next = (
+      hovered: hovered ?? current.hovered,
+      pressed: pressed ?? current.pressed,
+    );
+    if (next != current) {
+      _interaction.value = next;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final BorderRadius radius = context.layout.radiusSm;
+
+    return FluxerTooltip(
+      message: widget.tooltip,
+      child: Semantics(
+        button: true,
+        label: widget.tooltip,
+        excludeSemantics: true,
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          onEnter: (_) => _update(hovered: true),
+          onExit: (_) => _update(hovered: false, pressed: false),
+          child: Listener(
+            onPointerDown: (_) => _update(pressed: true),
+            onPointerUp: (_) => _update(pressed: false),
+            onPointerCancel: (_) => _update(pressed: false),
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: widget.onTap,
+              child: ValueListenableBuilder<({bool hovered, bool pressed})>(
+                valueListenable: _interaction,
+                builder: (context, interaction, _) {
+                  final hovered = interaction.hovered;
+                  final pressed = interaction.pressed;
+                  final Color background = pressed
+                      ? colors.backgroundModifierSelected
+                      : hovered
+                      ? colors.backgroundModifierHover
+                      : Colors.transparent;
+                  final Color iconColor = pressed && widget.danger
+                      ? colors.buttonDangerFill
+                      : (hovered || pressed)
+                      ? colors.textPrimary
+                      : colors.textTertiary;
+                  final Color borderColor =
+                      FluxerButtonVariant.secondary.borderColor(
+                        colors,
+                        hovered: hovered,
+                      ) ??
+                      colors.backgroundModifierAccent;
+                  return Container(
+                    width: _kDeviceActionSize,
+                    height: _kDeviceActionSize,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: background,
+                      borderRadius: radius,
+                      border: Border.all(color: borderColor),
+                    ),
+                    child: PhosphorIcon(
+                      widget.icon,
+                      size: _kDeviceActionIconSize,
+                      color: iconColor,
+                    ),
+                  );
+                },
+              ),
+            ),
           ),
         ),
       ),
     );
-  }
-
-  static String? _locationLabel(AuthSessionLocation? loc) {
-    if (loc == null) {
-      return null;
-    }
-    final parts = <String>[
-      if (loc.city != null && loc.city!.isNotEmpty) loc.city!,
-      if (loc.region != null && loc.region!.isNotEmpty) loc.region!,
-      if (loc.country != null && loc.country!.isNotEmpty) loc.country!,
-    ];
-    return parts.isEmpty ? null : parts.join(', ');
   }
 }
 

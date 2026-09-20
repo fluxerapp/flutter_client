@@ -73,6 +73,7 @@ class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
 
   @override
   void dispose() {
+    _hideScheduled = false;
     _controller?.removeListener(_onControllerChanged);
     _controller?.unregister(widget.visibilityKey);
     _playingNotifier.dispose();
@@ -118,11 +119,7 @@ class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
     _playingNotifier.value = playing;
   }
 
-  void _onVisibilityChanged(VisibilityInfo info) {
-    final bool visible = info.visibleFraction > 0;
-    if (_localVisible == visible) {
-      return;
-    }
+  void _applyVisibility(VisibilityInfo info, {required bool visible}) {
     _localVisible = visible;
     _controller?.updateVisibility(
       widget.visibilityKey,
@@ -130,21 +127,33 @@ class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
       top: info.visibleBounds.top,
       left: info.visibleBounds.left,
     );
-    if (visible) {
-      _hideScheduled = false;
-      _syncPlaying();
+    _syncPlaying();
+  }
+
+  void _onVisibilityChanged(VisibilityInfo info) {
+    if (!mounted) {
       return;
     }
-    if (_hideScheduled) {
+    final bool visible = info.visibleFraction > 0;
+    if (visible) {
+      _hideScheduled = false;
+      if (!_localVisible) {
+        _applyVisibility(info, visible: true);
+      }
+      return;
+    }
+    if (!_localVisible || _hideScheduled) {
       return;
     }
     _hideScheduled = true;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) {
+      if (!mounted || !_hideScheduled) {
         return;
       }
       _hideScheduled = false;
-      _syncPlaying();
+      if (_localVisible) {
+        _applyVisibility(info, visible: false);
+      }
     });
   }
 
@@ -167,7 +176,7 @@ class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
           const SizedBox.shrink();
     }
     Widget content = VisibilityDetector(
-      key: ValueKey<String>('embed-gif-${widget.visibilityKey}'),
+      key: ObjectKey(this),
       onVisibilityChanged: _onVisibilityChanged,
       child: ListenableBuilder(
         listenable: _playingNotifier,

@@ -15,6 +15,7 @@ Message _message(
   String content = 'body',
   MessageDeliveryState deliveryState = MessageDeliveryState.sent,
   List<Attachment> attachments = const [],
+  String? clientNonce,
 }) {
   return Message(
     id: id,
@@ -25,6 +26,7 @@ Message _message(
     timestamp: dateTimeFromUserSnowflakeOrNull(id)!,
     deliveryState: deliveryState,
     attachments: attachments,
+    clientNonce: clientNonce,
   );
 }
 
@@ -63,6 +65,85 @@ void main() {
       syncBaselineOldestId: idA,
     );
     expect(actual.map((Message m) => m.id), [idOlder, idA, idB]);
+  });
+
+  test(
+    'drops a sending placeholder when the network page has the same nonce',
+    () {
+      final String sendingId = _snowflakeForUtc(
+        DateTime.utc(2026, 5, 10, 10, 0, 1),
+      );
+      final String deliveredId = _snowflakeForUtc(
+        DateTime.utc(2026, 5, 10, 10, 0, 2),
+      );
+      final List<Message> actual = reconcileMessagesWithNetworkPage(
+        current: [
+          _message(idA),
+          _message(
+            sendingId,
+            content: 'hi',
+            deliveryState: MessageDeliveryState.sending,
+            clientNonce: 'nonce-1',
+          ),
+        ],
+        networkPage: [
+          _message(idA),
+          _message(deliveredId, content: 'hi', clientNonce: 'nonce-1'),
+        ],
+      );
+      expect(actual.map((Message m) => m.id), [idA, deliveredId]);
+      expect(actual.last.deliveryState, MessageDeliveryState.sent);
+    },
+  );
+
+  test('drops one sending hi when the page has a no-nonce delivered hi', () {
+    final DateTime t0 = DateTime.utc(2026, 5, 10, 10);
+    final String sendingId = _snowflakeForUtc(t0);
+    final String deliveredId = _snowflakeForUtc(
+      t0.add(const Duration(seconds: 2)),
+    );
+    final List<Message> actual = reconcileMessagesWithNetworkPage(
+      current: [
+        _message(
+          sendingId,
+          content: 'hi',
+          deliveryState: MessageDeliveryState.sending,
+          clientNonce: 'nonce-1',
+        ),
+      ],
+      networkPage: [_message(deliveredId, content: 'hi')],
+    );
+    expect(actual.map((Message m) => m.id), [deliveredId]);
+  });
+
+  test('keeps a second in-flight hi when only one delivered hi is present', () {
+    final DateTime t0 = DateTime.utc(2026, 5, 10, 10);
+    final String sendingA = _snowflakeForUtc(t0);
+    final String sendingB = _snowflakeForUtc(
+      t0.add(const Duration(seconds: 1)),
+    );
+    final String deliveredId = _snowflakeForUtc(
+      t0.add(const Duration(seconds: 2)),
+    );
+    final List<Message> actual = reconcileMessagesWithNetworkPage(
+      current: [
+        _message(
+          sendingA,
+          content: 'hi',
+          deliveryState: MessageDeliveryState.sending,
+          clientNonce: 'nonce-a',
+        ),
+        _message(
+          sendingB,
+          content: 'hi',
+          deliveryState: MessageDeliveryState.failed,
+          clientNonce: 'nonce-b',
+        ),
+      ],
+      networkPage: [_message(deliveredId, content: 'hi')],
+    );
+    expect(actual.where((Message m) => m.content == 'hi'), hasLength(2));
+    expect(actual.where(isLocalSendPlaceholder), hasLength(1));
   });
 
   test('preserves sending and failed placeholders not in network page', () {
@@ -184,6 +265,31 @@ void main() {
     );
     expect(actual.map((Message message) => message.id), [idA, idB, idC]);
     expect(actual[1].deliveryState, MessageDeliveryState.sending);
+  });
+
+  test('loaded-window reconciliation drops a sending row matched by nonce', () {
+    final DateTime t0 = DateTime.utc(2026, 5, 10, 10, 0, 30);
+    final String sendingId = _snowflakeForUtc(t0);
+    final String deliveredId = _snowflakeForUtc(
+      t0.add(const Duration(seconds: 1)),
+    );
+    final List<Message> actual = reconcileStaleDeletionsInLoadedWindow(
+      current: [
+        _message(idA),
+        _message(
+          sendingId,
+          content: 'hi',
+          deliveryState: MessageDeliveryState.sending,
+          clientNonce: 'nonce-1',
+        ),
+        _message(deliveredId, content: 'hi', clientNonce: 'nonce-1'),
+      ],
+      networkPage: [
+        _message(idA),
+        _message(deliveredId, content: 'hi'),
+      ],
+    );
+    expect(actual.map((Message message) => message.id), [idA, deliveredId]);
   });
 
   test('latest page retires a server row past its newest message', () {

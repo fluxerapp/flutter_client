@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
@@ -14,6 +16,7 @@ import 'package:fluxer_app/features/settings/domain/guild/guild_discovery_settin
 import 'package:fluxer_app/features/settings/domain/guild/guild_invites_state.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_details.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
+import 'package:fluxer_app/features/settings/presentation/delete_community_flow.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/audit_log/guild_audit_log_widget.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/bans/guild_bans_widget.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels/guild_channels_settings_widget.dart';
@@ -149,8 +152,15 @@ class _GuildSettingsModalState extends ConsumerState<GuildSettingsModal> {
         }
       });
     }
+    final bool canDelete = canDeleteCommunity(
+      guild: guild,
+      currentUserId: ref.watch(currentUserIdProvider),
+      isStockCommunity: ref
+          .watch(instanceRuntimeConfigProvider)
+          .isStockCommunityGuild(widget.guildId),
+    );
     final List<SettingsSidebarItem> sidebarItems =
-        buildGuildSettingsSidebarItems(l10n, visibleTabs);
+        buildGuildSettingsSidebarItems(l10n, visibleTabs, canDelete: canDelete);
     final int sidebarSelectedIndex = settingsSidebarIndexForLabel(
       sidebarItems,
       guildSettingsTabTitle(l10n, activeTab),
@@ -245,6 +255,18 @@ class _GuildSettingsModalState extends ConsumerState<GuildSettingsModal> {
     required List<GuildSettingsTab> visibleTabs,
     required int index,
   }) {
+    if (index >= 0 &&
+        index < sidebarItems.length &&
+        sidebarItems[index].isDestructive) {
+      unawaited(
+        DeleteCommunityFlow.confirmAndDelete(
+          context,
+          ref,
+          guildId: widget.guildId,
+        ),
+      );
+      return;
+    }
     final String? label = settingsSidebarLabelAtIndex(sidebarItems, index);
     if (label == null) {
       return;

@@ -58,14 +58,25 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
 
   Future<void> upsertMessage(MessagesCompanion message) async {
     String? existingContent;
-    if (message.id.present && message.content.present) {
-      existingContent = (await getTranslationSnapshots(<String>[
-        message.id.value,
-      ]))[message.id.value]?.content;
+    String? existingNonce;
+    if (message.id.present) {
+      if (message.content.present) {
+        existingContent = (await getTranslationSnapshots(<String>[
+          message.id.value,
+        ]))[message.id.value]?.content;
+      }
+      if (!message.clientNonce.present || message.clientNonce.value == null) {
+        existingNonce = (await _clientNoncesById(<String>[
+          message.id.value,
+        ]))[message.id.value];
+      }
     }
-    await into(
-      messages,
-    ).insertOnConflictUpdate(_clearStaleTranslation(message, existingContent));
+    await into(messages).insertOnConflictUpdate(
+      _keepExistingNonce(
+        _clearStaleTranslation(message, existingContent),
+        existingNonce,
+      ),
+    );
   }
 
   Future<void> upsertMessages(
@@ -81,11 +92,23 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
     ];
     final Map<String, MessageTranslationSnapshot> existing =
         snapshots ?? await getTranslationSnapshots(ids);
+    final List<String> nonceLookupIds = <String>[
+      for (final MessagesCompanion message in messageList)
+        if (message.id.present &&
+            (!message.clientNonce.present || message.clientNonce.value == null))
+          message.id.value,
+    ];
+    final Map<String, String> existingNonces = await _clientNoncesById(
+      nonceLookupIds,
+    );
     final List<MessagesCompanion> companions = <MessagesCompanion>[
       for (final MessagesCompanion message in messageList)
-        _clearStaleTranslation(
-          message,
-          message.id.present ? existing[message.id.value]?.content : null,
+        _keepExistingNonce(
+          _clearStaleTranslation(
+            message,
+            message.id.present ? existing[message.id.value]?.content : null,
+          ),
+          message.id.present ? existingNonces[message.id.value] : null,
         ),
     ];
     await batch((b) {
@@ -167,6 +190,38 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
       translationTargetLanguage: const Value(null),
       translationShowOriginal: const Value(false),
     );
+  }
+
+  MessagesCompanion _keepExistingNonce(
+    MessagesCompanion message,
+    String? existingNonce,
+  ) {
+    if (existingNonce == null || existingNonce.isEmpty) {
+      return message;
+    }
+    if (message.clientNonce.present && message.clientNonce.value != null) {
+      return message;
+    }
+    return message.copyWith(clientNonce: Value(existingNonce));
+  }
+
+  Future<Map<String, String>> _clientNoncesById(List<String> ids) async {
+    if (ids.isEmpty) {
+      return const <String, String>{};
+    }
+    final query = selectOnly(messages)
+      ..addColumns([messages.id, messages.clientNonce])
+      ..where(messages.id.isIn(ids) & messages.clientNonce.isNotNull());
+    final List<TypedResult> rows = await query.get();
+    final Map<String, String> nonces = <String, String>{};
+    for (final TypedResult row in rows) {
+      final String? nonce = row.read(messages.clientNonce);
+      if (nonce == null || nonce.isEmpty) {
+        continue;
+      }
+      nonces[row.read(messages.id)!] = nonce;
+    }
+    return nonces;
   }
 
   Future<Message?> getMessage(String id) =>

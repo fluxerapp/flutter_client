@@ -194,10 +194,147 @@ bool jumpTargetWindowSettled({
   return true;
 }
 
+const Duration _kOptimisticSendMatchWindow = Duration(seconds: 30);
+
 bool isLocalOnlyMessage(Message message) =>
     message.isClientSystemMessage ||
     message.deliveryState == MessageDeliveryState.sending ||
     message.deliveryState == MessageDeliveryState.failed;
+
+bool isLocalSendPlaceholder(Message message) =>
+    message.deliveryState == MessageDeliveryState.sending ||
+    message.deliveryState == MessageDeliveryState.failed;
+
+bool _localSendMatchesDeliveredHeuristic(Message local, Message delivered) {
+  if (local.authorId != delivered.authorId) {
+    return false;
+  }
+  if (local.channelId != delivered.channelId) {
+    return false;
+  }
+  if (local.content != delivered.content) {
+    return false;
+  }
+  if (local.replyToId != delivered.replyToId) {
+    return false;
+  }
+  if (local.flags != delivered.flags) {
+    return false;
+  }
+  return delivered.timestamp.difference(local.timestamp).abs() <=
+      _kOptimisticSendMatchWindow;
+}
+
+bool _localSendMatchesDelivered(Message local, Message delivered) {
+  if (!isLocalSendPlaceholder(local)) {
+    return false;
+  }
+  if (isLocalSendPlaceholder(delivered) || delivered.isClientSystemMessage) {
+    return false;
+  }
+  if (local.id == delivered.id) {
+    return false;
+  }
+  if (local.clientNonce != null &&
+      delivered.clientNonce != null &&
+      local.clientNonce == delivered.clientNonce) {
+    return true;
+  }
+  return _localSendMatchesDeliveredHeuristic(local, delivered);
+}
+
+int indexOfLocalSendForDelivered(List<Message> messages, Message delivered) {
+  if (isLocalSendPlaceholder(delivered) || delivered.isClientSystemMessage) {
+    return -1;
+  }
+  int heuristicIndex = -1;
+  for (int i = messages.length - 1; i >= 0; i--) {
+    final Message candidate = messages[i];
+    if (!_localSendMatchesDelivered(candidate, delivered)) {
+      continue;
+    }
+    if (candidate.clientNonce != null &&
+        delivered.clientNonce != null &&
+        candidate.clientNonce == delivered.clientNonce) {
+      return i;
+    }
+    if (heuristicIndex == -1) {
+      heuristicIndex = i;
+    }
+  }
+  return heuristicIndex;
+}
+
+Message? deliveredMatchForLocalSend(List<Message> messages, Message local) {
+  if (!isLocalSendPlaceholder(local)) {
+    return null;
+  }
+  Message? heuristicMatch;
+  for (final Message candidate in messages) {
+    if (!_localSendMatchesDelivered(local, candidate)) {
+      continue;
+    }
+    if (local.clientNonce != null &&
+        candidate.clientNonce != null &&
+        local.clientNonce == candidate.clientNonce) {
+      return candidate;
+    }
+    heuristicMatch ??= candidate;
+  }
+  return heuristicMatch;
+}
+
+List<Message> collapseDeliveredLocalSends(List<Message> messages) {
+  if (messages.length < 2) {
+    return messages;
+  }
+  final List<int> placeholders = <int>[
+    for (int i = 0; i < messages.length; i++)
+      if (isLocalSendPlaceholder(messages[i])) i,
+  ];
+  if (placeholders.isEmpty) {
+    return messages;
+  }
+  final Set<int> drop = <int>{};
+  final Set<int> usedDelivered = <int>{};
+  for (final int localIndex in placeholders) {
+    final Message local = messages[localIndex];
+    int nonceMatch = -1;
+    int heuristicMatch = -1;
+    for (int i = 0; i < messages.length; i++) {
+      if (i == localIndex || usedDelivered.contains(i)) {
+        continue;
+      }
+      final Message delivered = messages[i];
+      if (isLocalSendPlaceholder(delivered) ||
+          delivered.isClientSystemMessage) {
+        continue;
+      }
+      if (local.clientNonce != null &&
+          delivered.clientNonce != null &&
+          local.clientNonce == delivered.clientNonce) {
+        nonceMatch = i;
+        break;
+      }
+      if (heuristicMatch == -1 &&
+          _localSendMatchesDeliveredHeuristic(local, delivered)) {
+        heuristicMatch = i;
+      }
+    }
+    final int match = nonceMatch != -1 ? nonceMatch : heuristicMatch;
+    if (match != -1) {
+      drop.add(localIndex);
+      usedDelivered.add(match);
+    }
+  }
+  if (drop.isEmpty) {
+    return messages;
+  }
+  return <Message>[
+    for (int i = 0; i < messages.length; i++)
+      if (!drop.contains(i)) messages[i],
+  ];
+}
 
 String? newestServerBackedMessageId(List<Message> messages) {
   for (var i = messages.length - 1; i >= 0; i--) {
@@ -274,7 +411,7 @@ List<Message> mergeMessagesSorted(
       }
       return a.timestamp.compareTo(b.timestamp);
     });
-  return merged;
+  return collapseDeliveredLocalSends(merged);
 }
 
 List<Message> reconcileMessagesWithNetworkPage({
@@ -345,7 +482,8 @@ List<Message> reconcileStaleDeletionsInLoadedWindow({
       updated.add(message);
     }
   }
-  return changed ? updated : current;
+  final List<Message> next = changed ? updated : current;
+  return collapseDeliveredLocalSends(next);
 }
 
 /// True when the window's oldest message is strictly newer than the oldest

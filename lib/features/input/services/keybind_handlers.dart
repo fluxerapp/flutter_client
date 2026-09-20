@@ -11,9 +11,10 @@ import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/channels/providers/read_state_repository_provider.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/modals/pin_message_confirm_modal.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/forward_message_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/unpin_message_confirm_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
-import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_header_search_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
@@ -420,10 +421,19 @@ void registerKeybindHandlers({
     })
     ..register(KeybindAction.messagePin, () {
       return withFocusedMessage((Message message) async {
-        final String channelId = ref.read(chatViewModelProvider).channelId;
-        await ref
-            .read(channelPinsRepositoryProvider)
-            .pinMessage(channelId: channelId, messageId: message.id);
+        if (!context.mounted) {
+          return false;
+        }
+        if (message.isPinned) {
+          await showUnpinMessageConfirmSheet(
+            context,
+            ref,
+            channelId: message.channelId,
+            messageId: message.id,
+          );
+        } else {
+          await showPinMessageConfirmModal(context, ref, message: message);
+        }
         return true;
       });
     })

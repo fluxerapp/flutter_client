@@ -85,6 +85,11 @@ class FluxerModal {
         );
 
         Widget buildModalContent({required bool mobileFullscreen}) {
+          final double dialogMaxHeight =
+              mediaQuery.size.height -
+              mediaQuery.viewPadding.top -
+              layout.s2 -
+              keyboardInset;
           final body = Padding(
             padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
             child: SingleChildScrollView(child: builder(dialogContext, close)),
@@ -93,11 +98,7 @@ class FluxerModal {
           return ConstrainedBox(
             constraints: BoxConstraints(
               maxWidth: 400,
-              maxHeight:
-                  mediaQuery.size.height -
-                  mediaQuery.viewPadding.top -
-                  layout.s2 -
-                  keyboardInset,
+              maxHeight: dialogMaxHeight,
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -112,7 +113,15 @@ class FluxerModal {
                     trailing: trailing ?? closeButton,
                   ),
                 ),
-                Flexible(child: body),
+                if (mobileFullscreen)
+                  Flexible(child: body)
+                else
+                  LimitedBox(
+                    maxHeight:
+                        (dialogMaxHeight - layout.headerHeight - layout.s16)
+                            .clamp(0.0, dialogMaxHeight),
+                    child: body,
+                  ),
                 if (footerActions.isNotEmpty)
                   FluxerBottomSheetFooter(
                     showTopBorder: mobileFullscreen,
@@ -221,6 +230,7 @@ class FluxerConfirmModal {
     required String description,
     required VoidCallback onConfirm,
     String? confirmLabel,
+    Widget? body,
     bool isDanger = false,
     bool useRootNavigator = true,
   }) {
@@ -233,10 +243,18 @@ class FluxerConfirmModal {
       centered: true,
       builder: (dialogContext, close) {
         final textStyles = dialogContext.textStyles;
+        final layout = dialogContext.layout;
 
-        return Text(
-          description,
-          style: textStyles.bodySmall.copyWith(height: 1.4),
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              description,
+              style: textStyles.bodySmall.copyWith(height: 1.4),
+            ),
+            if (body != null) ...[SizedBox(height: layout.s4), body],
+          ],
         );
       },
       actionsBuilder: (pop) => [

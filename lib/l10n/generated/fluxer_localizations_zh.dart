@@ -3785,6 +3785,33 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => '未知平台';
 
   @override
+  String get linkedDevicesViewDetails => 'View details';
+
+  @override
+  String get linkedDevicesDetailsTitle => 'Device details';
+
+  @override
+  String get linkedDevicesDetailsDevice => 'Device';
+
+  @override
+  String get linkedDevicesDetailsClient => 'Client';
+
+  @override
+  String get linkedDevicesDetailsLocation => 'Location';
+
+  @override
+  String get linkedDevicesDetailsIp => 'IP address';
+
+  @override
+  String get linkedDevicesDetailsLastUsed => 'Last used';
+
+  @override
+  String get linkedDevicesCurrentSession => 'Current session';
+
+  @override
+  String get linkedDevicesUnknown => 'Unknown';
+
+  @override
   String slowmodeLabel(String duration) {
     return '$duration 慢速模式';
   }
@@ -7462,6 +7489,13 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   @override
   String get chatMessageRemoveAllReactionsConfirmDescription =>
       '您确定要移除此消息的所有反应吗？';
+
+  @override
+  String get chatMessagePinConfirm => 'Pin';
+
+  @override
+  String get chatMessagePinConfirmDescription =>
+      'Pin this message to the channel for everyone to see.';
 
   @override
   String get chatMessageUnpinConfirmTitle => '取消固定消息';
@@ -12732,6 +12766,20 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get guildSettingsCommunitySettings => '社区设置';
+
+  @override
+  String get guildSettingsDeleteCommunity => 'Delete community';
+
+  @override
+  String get guildSettingsDeleteCommunityConfirm =>
+      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+
+  @override
+  String get guildSettingsCommunityDeleted => 'Community deleted';
+
+  @override
+  String get guildSettingsDeleteCommunityFailed =>
+      'Couldn\'t delete this community';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';

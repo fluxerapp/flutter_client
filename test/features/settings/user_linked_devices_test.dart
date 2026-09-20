@@ -76,18 +76,21 @@ AuthSessionResponse _session({
   String os = 'macOS',
   String platform = 'Fluxer Desktop',
   String? browser,
+  String? maskedIp,
+  AuthSessionLocation? location,
   AuthSessionResponseClientInfoDeviceDevice device =
       AuthSessionResponseClientInfoDeviceDevice.desktop,
 }) {
   return AuthSessionResponse(
     idHash: id,
-    maskedIp: null,
+    maskedIp: maskedIp,
     current: current,
     clientInfo: AuthSessionResponseClientInfo(
       device: device,
       os: os,
       platform: platform,
       browser: browser,
+      location: location,
     ),
     approxLastUsedAt: DateTime.now().subtract(const Duration(hours: 2)),
   );
@@ -238,5 +241,77 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('macOS · Chrome'), findsNWidgets(2));
+  });
+
+  testWidgets('shows info button on current and other devices', (tester) async {
+    final api = _FakeAuthApi(
+      sessions: [
+        _session(id: 'a'),
+        _session(id: 'b'),
+      ],
+    );
+    await tester.pumpWidget(
+      _wrap(const UserLinkedDevices(), api: api, currentIdHash: 'a'),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const ValueKey('View details')), findsNWidgets(2));
+  });
+
+  testWidgets('opens device details with extra session fields', (tester) async {
+    final api = _FakeAuthApi(
+      sessions: [
+        _session(
+          id: 'a',
+          maskedIp: '12.34.***.***',
+          location: const AuthSessionLocation(
+            city: 'Berlin',
+            country: 'Germany',
+          ),
+        ),
+      ],
+    );
+    await tester.pumpWidget(
+      _wrap(const UserLinkedDevices(), api: api, currentIdHash: 'a'),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const ValueKey('View details')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Device details'), findsOneWidget);
+    expect(find.text('Device'), findsOneWidget);
+    expect(find.text('Client'), findsOneWidget);
+    expect(find.text('Location'), findsOneWidget);
+    expect(find.text('Berlin, Germany'), findsOneWidget);
+    expect(find.text('IP address'), findsOneWidget);
+    expect(find.text('12.34.***.***'), findsOneWidget);
+    expect(find.text('Last used'), findsOneWidget);
+    expect(find.text('Current session'), findsOneWidget);
+    expect(find.text('macOS'), findsOneWidget);
+    expect(find.text('Fluxer Desktop'), findsWidgets);
+  });
+
+  testWidgets('hides info buttons while selecting other devices', (
+    tester,
+  ) async {
+    final api = _FakeAuthApi(
+      sessions: [
+        _session(id: 'a'),
+        _session(id: 'b'),
+        _session(id: 'c'),
+      ],
+    );
+    await tester.pumpWidget(
+      _wrap(const UserLinkedDevices(), api: api, currentIdHash: 'a'),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const ValueKey('View details')), findsNWidgets(3));
+
+    await tester.tap(find.byKey(const ValueKey('Enter Selection Mode')));
+    await tester.pump();
+
+    expect(find.byKey(const ValueKey('View details')), findsNothing);
   });
 }

@@ -3,9 +3,12 @@ import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
+String _normalize(String value) => value.replaceAll('\u202f', ' ');
+
 void main() {
   setUpAll(() async {
     await initializeDateFormatting('en_US');
+    await initializeDateFormatting('en_GB');
     await initializeDateFormatting('de_DE');
   });
 
@@ -16,6 +19,10 @@ void main() {
 
     test('returns false for de-DE', () {
       expect(localeUses12Hour('de-DE'), isFalse);
+    });
+
+    test('returns false for en-GB', () {
+      expect(localeUses12Hour('en-GB'), isFalse);
     });
   });
 
@@ -74,13 +81,27 @@ void main() {
 
     test('formats 12-hour time', () {
       final String formatted = formatUserTime(sample, 'en_US', use12Hour: true);
-      expect(formatted.replaceAll('\u202f', ' '), '2:30 PM');
+      expect(_normalize(formatted), '2:30 PM');
+    });
+
+    test('formats 12-hour time for British English', () {
+      final String formatted = formatUserTime(sample, 'en_GB', use12Hour: true);
+      expect(_normalize(formatted), '2:30 pm');
     });
 
     test('formats 24-hour time', () {
       final String formatted = formatUserTime(
         sample,
         'en_US',
+        use12Hour: false,
+      );
+      expect(formatted, '14:30');
+    });
+
+    test('formats 24-hour time for British English', () {
+      final String formatted = formatUserTime(
+        sample,
+        'en_GB',
         use12Hour: false,
       );
       expect(formatted, '14:30');

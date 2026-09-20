@@ -51,6 +51,15 @@ String forwardDestinationRoute({required String channelId, String? guildId}) {
   return RoutePaths.guildChannel(guildId, channelId);
 }
 
+/// Mention context for the optional forward comment: the last selected
+/// destination, or null when none is selected.
+String? forwardCommentComposerChannelId(Iterable<String> selectedChannelIds) {
+  if (selectedChannelIds.isEmpty) {
+    return null;
+  }
+  return selectedChannelIds.last;
+}
+
 class _ForwardNavigationTarget {
   const _ForwardNavigationTarget({required this.channelId, this.guildId});
 
@@ -732,7 +741,7 @@ class _ForwardMessageSheetBodyState
                 key: _commentFieldKey,
                 controller: _commentController,
                 focusNode: focusNode,
-                channelId: widget.sourceChannelId,
+                channelId: forwardCommentComposerChannelId(_selected),
                 enabled: !commentDisabled,
                 child: TextField(
                   controller: _commentController,

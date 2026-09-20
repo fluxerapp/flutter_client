@@ -11,6 +11,9 @@
 /// near-tail settles that never disarmed.
 library;
 
+const double kMessageListPinEngageDistance = 8;
+const double kMessageListPinHoldDistance = 64;
+
 class MessageListPin {
   bool pinned = false;
 
@@ -23,7 +26,8 @@ class MessageListPin {
   }) {
     pinned =
         !hasMoreNewer &&
-        (distanceFromLiveTail <= 8 || (pinned && distanceFromLiveTail <= 64));
+        (distanceFromLiveTail <= kMessageListPinEngageDistance ||
+            (pinned && distanceFromLiveTail <= kMessageListPinHoldDistance));
   }
 
   /// A jump-to-present (or an explicit to-tail intent) landed at the tail.

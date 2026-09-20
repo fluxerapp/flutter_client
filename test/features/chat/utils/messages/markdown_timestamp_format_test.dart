@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 void main() {
   setUpAll(() async {
     await initializeDateFormatting('en_US');
+    await initializeDateFormatting('en_GB');
     await initializeDateFormatting('fr');
     await initializeDateFormatting('de');
   });
@@ -61,6 +62,23 @@ void main() {
     expect(
       formatMarkdownTimestamp(dateTime, 'T', englishUs, use12Hour: false),
       '16:05:07',
+    );
+
+    final FluxerLocalizations englishGb = lookupFluxerLocalizations(
+      const Locale('en', 'GB'),
+    );
+    expect(
+      formatMarkdownTimestamp(
+        dateTime,
+        't',
+        englishGb,
+        use12Hour: true,
+      ).replaceAll('\u202f', ' '),
+      '4:05 pm',
+    );
+    expect(
+      formatMarkdownTimestamp(dateTime, 't', englishGb, use12Hour: false),
+      '16:05',
     );
   });
 

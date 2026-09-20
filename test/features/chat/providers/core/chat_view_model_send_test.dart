@@ -580,6 +580,178 @@ void main() {
   });
 
   test(
+    'jump to latest collapses an optimistic send matched by nonce',
+    () async {
+      final (container, adapter, notifier) = await setUpDetachedChannel(
+        holdSend: true,
+      );
+      await notifier.sendMessage(text: 'pending');
+      await _flushAsync();
+      final Message optimistic = container
+          .read(chatViewModelProvider)
+          .messages
+          .firstWhere(
+            (Message message) =>
+                message.deliveryState == MessageDeliveryState.sending,
+          );
+      adapter.latestMessages.add(
+        _messageJson(
+          id: adapter.serverMessageId,
+          channelId: 'channel-1',
+          authorId: 'me',
+          content: 'pending',
+          nonce: optimistic.clientNonce,
+        ),
+      );
+
+      await notifier.jumpToLatestMessages();
+      await _flushAsync();
+
+      final List<Message> pending = container
+          .read(chatViewModelProvider)
+          .messages
+          .where((Message message) => message.content == 'pending')
+          .toList();
+      expect(pending, hasLength(1));
+      expect(pending.single.id, adapter.serverMessageId);
+      expect(pending.single.deliveryState, MessageDeliveryState.sent);
+
+      adapter.releaseSend();
+      await _flushAsync();
+      expect(
+        container
+            .read(chatViewModelProvider)
+            .messages
+            .where((Message message) => message.content == 'pending'),
+        hasLength(1),
+      );
+    },
+  );
+
+  test(
+    'gateway create after a page insert keeps a single delivered row',
+    () async {
+      final (container, adapter, notifier) = await setUpDetachedChannel(
+        holdSend: true,
+      );
+      await notifier.sendMessage(text: 'pending');
+      await _flushAsync();
+      final Message optimistic = container
+          .read(chatViewModelProvider)
+          .messages
+          .firstWhere(
+            (Message message) =>
+                message.deliveryState == MessageDeliveryState.sending,
+          );
+      adapter.latestMessages.add(
+        _messageJson(
+          id: adapter.serverMessageId,
+          channelId: 'channel-1',
+          authorId: 'me',
+          content: 'pending',
+        ),
+      );
+
+      await notifier.jumpToLatestMessages();
+      await _flushAsync();
+
+      container
+          .read(messageRealtimeBusProvider)
+          .emit(
+            testMessageCreated(
+              MessageCreateEvent(
+                message: MessageResponseSchema.fromJson(
+                  _messageJson(
+                    id: adapter.serverMessageId,
+                    channelId: 'channel-1',
+                    authorId: 'me',
+                    content: 'pending',
+                    nonce: optimistic.clientNonce,
+                  ),
+                ),
+              ),
+            ),
+          );
+      await _flushAsync();
+      await _flushAsync();
+
+      final List<Message> pending = container
+          .read(chatViewModelProvider)
+          .messages
+          .where((Message message) => message.content == 'pending')
+          .toList();
+      expect(pending.map((Message message) => message.id).toSet(), {
+        adapter.serverMessageId,
+      });
+      expect(pending, hasLength(1));
+
+      adapter.releaseSend();
+      await _flushAsync();
+    },
+  );
+
+  test(
+    'http failure after gateway replace does not mark the send failed',
+    () async {
+      final String serverMessageId = _snowflakeForUtc(
+        DateTime.utc(2026, 6, 16, 12),
+      );
+      final _SendAdapter adapter = _SendAdapter(
+        serverMessageId: serverMessageId,
+      )..holdSend = true;
+      final (container, _, _) = await setUpChannel(adapter: adapter);
+      final notifier = container.read(chatViewModelProvider.notifier);
+      unawaited(notifier.sendMessage(text: 'hi'));
+      await _flushAsync();
+      final Message optimistic = container
+          .read(chatViewModelProvider)
+          .messages
+          .lastWhere(
+            (Message message) =>
+                message.deliveryState == MessageDeliveryState.sending,
+          );
+
+      container
+          .read(messageRealtimeBusProvider)
+          .emit(
+            testMessageCreated(
+              MessageCreateEvent(
+                message: MessageResponseSchema.fromJson(
+                  _messageJson(
+                    id: serverMessageId,
+                    channelId: 'channel-1',
+                    authorId: 'me',
+                    content: 'hi',
+                    nonce: optimistic.clientNonce,
+                  ),
+                ),
+              ),
+            ),
+          );
+      await _flushAsync();
+      await _flushAsync();
+      expect(
+        container.read(chatViewModelProvider).messages.last.id,
+        serverMessageId,
+      );
+
+      adapter
+        ..failureCode = '0'
+        ..releaseSend();
+      await _flushAsync();
+
+      final ChatViewState state = container.read(chatViewModelProvider);
+      expect(
+        state.messages.where((Message m) => m.content == 'hi'),
+        hasLength(1),
+      );
+      expect(state.messages.last.id, serverMessageId);
+      expect(state.messages.last.deliveryState, MessageDeliveryState.sent);
+      expect(state.messages.last.hasFailed, isFalse);
+    },
+  );
+
+  test(
     'recovery ignores an optimistic tail when checking detached overlap',
     () async {
       final (container, adapter, notifier) = await setUpDetachedChannel(
@@ -752,11 +924,11 @@ class _SendAdapter implements HttpClientAdapter {
     required this.serverMessageId,
     this.failureCode,
     this.aroundMessages = const <Map<String, Object?>>[],
-    this.latestMessages = const <Map<String, Object?>>[],
-  });
+    List<Map<String, Object?>>? latestMessages,
+  }) : latestMessages = latestMessages ?? <Map<String, Object?>>[];
 
   final String serverMessageId;
-  final String? failureCode;
+  String? failureCode;
   final List<Map<String, Object?>> aroundMessages;
   final List<Map<String, Object?>> latestMessages;
   final List<String> ackedMessageIds = <String>[];

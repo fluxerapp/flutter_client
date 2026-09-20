@@ -1,11 +1,18 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
+import 'package:fluxer_app/features/settings/presentation/delete_community_flow.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/guild_settings_page_shell.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_nav_list.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
@@ -48,6 +55,13 @@ class _GuildSettingsNavPageState extends ConsumerState<GuildSettingsNavPage> {
       permissions: permissions,
       guild: guild,
     );
+    final bool canDelete = canDeleteCommunity(
+      guild: guild,
+      currentUserId: ref.watch(currentUserIdProvider),
+      isStockCommunity: ref
+          .watch(instanceRuntimeConfigProvider)
+          .isStockCommunityGuild(widget.guildId),
+    );
     final Color backgroundColor = guildSettingsPageBackgroundColor(context);
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -65,6 +79,27 @@ class _GuildSettingsNavPageState extends ConsumerState<GuildSettingsNavPage> {
       body: FluxerSettingsNavList(
         padding: settingsScrollPadding(context),
         groups: _buildNavGroups(l10n, tabs, context, widget.guildId, ref),
+        footer: canDelete
+            ? Padding(
+                padding: EdgeInsets.only(top: context.layout.s2),
+                child: FluxerMenuGroup(
+                  children: <Widget>[
+                    FluxerBottomSheetMenuItem(
+                      label: l10n.guildSettingsDeleteCommunity,
+                      icon: PhosphorIconsFill.trash,
+                      isDanger: true,
+                      onTap: () => unawaited(
+                        DeleteCommunityFlow.confirmAndDelete(
+                          context,
+                          ref,
+                          guildId: widget.guildId,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : null,
       ),
     );
   }

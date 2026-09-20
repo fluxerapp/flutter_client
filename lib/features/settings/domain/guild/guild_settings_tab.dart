@@ -226,6 +226,16 @@ List<GuildSettingsTab> visibleGuildSettingsTabsForRef({
   );
 }
 
+bool canDeleteCommunity({
+  required Guild? guild,
+  required String? currentUserId,
+  required bool isStockCommunity,
+}) {
+  return currentUserId != null &&
+      guild?.ownerId == currentUserId &&
+      !isStockCommunity;
+}
+
 bool canOpenGuildSettings({
   required int permissions,
   required Guild? guild,

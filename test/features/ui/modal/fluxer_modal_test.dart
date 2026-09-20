@@ -388,5 +388,37 @@ void main() {
 
       expect(confirmed, isTrue);
     });
+
+    testWidgets('renders optional body below the description', (tester) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          Builder(
+            builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  unawaited(
+                    FluxerConfirmModal.show(
+                      context,
+                      title: 'Pin message',
+                      description: 'Pin this message to the channel.',
+                      confirmLabel: 'Pin',
+                      body: const Text('Preview body'),
+                      onConfirm: () {},
+                    ),
+                  );
+                },
+                child: const Text('Open'),
+              );
+            },
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Pin this message to the channel.'), findsOneWidget);
+      expect(find.text('Preview body'), findsOneWidget);
+    });
   });
 }

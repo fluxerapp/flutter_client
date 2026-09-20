@@ -5,6 +5,18 @@ GITHUB_REPOSITORY="${GITHUB_REPOSITORY:?GITHUB_REPOSITORY is required}"
 GITHUB_OUTPUT="${GITHUB_OUTPUT:?GITHUB_OUTPUT is required}"
 
 TAG_PATTERN='^v?([0-9]+\.[0-9]+\.[0-9]+)-beta\.([0-9]+)$'
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BETA_RELEASE_METADATA_PY="$SCRIPT_DIR/beta_release_metadata.py"
+
+normalize_beta_number() {
+  local beta_number="$1"
+  local normalized
+  if ! normalized=$(python3 "$BETA_RELEASE_METADATA_PY" normalize-beta-number "$beta_number"); then
+    echo "::error::Failed to normalize beta number: $beta_number" >&2
+    return 1
+  fi
+  printf '%s' "$normalized"
+}
 
 is_beta_prerelease_tag() {
   local tag="$1"
@@ -28,9 +40,7 @@ normalize_beta_version_name() {
   fi
   local base="${BASH_REMATCH[1]}"
   local beta_number="${BASH_REMATCH[2]}"
-  if [ "$beta_number" -eq 0 ]; then
-    beta_number=1
-  fi
+  beta_number=$(normalize_beta_number "$beta_number")
   printf '%s-beta.%s' "$base" "$beta_number"
 }
 
@@ -43,6 +53,7 @@ increment_beta_tag() {
   local base="${BASH_REMATCH[1]}"
   local beta_number="${BASH_REMATCH[2]}"
   local next_beta_number=$((beta_number + 1))
+  next_beta_number=$(normalize_beta_number "$next_beta_number")
   printf '%s-beta.%s' "$base" "$next_beta_number"
 }
 
@@ -80,14 +91,19 @@ resolve_from_latest_published_prerelease() {
 }
 
 resolve_from_pubspec() {
-  local base_version
+  local base_version beta_number
   base_version=$(read_pubspec_base_version)
-  printf '%s-beta.1' "$base_version"
+  beta_number=$(normalize_beta_number 1)
+  printf '%s-beta.%s' "$base_version" "$beta_number"
 }
 
 main() {
   if ! command -v gh >/dev/null 2>&1; then
     echo "::error::GitHub CLI (gh) is required to resolve beta version names" >&2
+    exit 1
+  fi
+  if ! command -v python3 >/dev/null 2>&1; then
+    echo "::error::Python 3 is required to resolve beta version names" >&2
     exit 1
   fi
   local draft_tags published_prerelease_tags version_name
@@ -116,9 +132,6 @@ main() {
     exit 1
   fi
   local beta_number="${BASH_REMATCH[2]}"
-  if [ "$beta_number" -eq 0 ]; then
-    beta_number=1
-  fi
   {
     printf 'version_name=%s\n' "$version_name"
     printf 'beta_number=%s\n' "$beta_number"

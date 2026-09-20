@@ -231,4 +231,19 @@ void main() {
     );
     expect(parsed.translation?.translatedContent, 'Hello world');
   });
+
+  test('upsert with a null nonce keeps the stored nonce', () async {
+    final db = openTestDatabase();
+    final Message original = _msg(idA).copyWith(clientNonce: 'nonce-1');
+    await db.messageDao.upsertMessage(original.toCompanion());
+
+    await db.messageDao.upsertMessage(
+      original.copyWith(clientNonce: null).toCompanion(),
+    );
+
+    final Message parsed = Message.fromRow(
+      (await db.messageDao.getMessage(idA))!,
+    );
+    expect(parsed.clientNonce, 'nonce-1');
+  });
 }

@@ -1,3 +1,5 @@
+import 'dart:ui' show Size;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_properties.dart';
@@ -12,6 +14,33 @@ void main() {
     test('returns false at or above the mobile breakpoint', () {
       expect(isFluxerMobileFormFactorShortestSide(600), isFalse);
       expect(isFluxerMobileFormFactorShortestSide(1280), isFalse);
+    });
+  });
+
+  group('isFluxerRuntimeMobileFormFactorFromLogicalSize', () {
+    test('treats an empty first-frame size as desktop', () {
+      expect(
+        isFluxerRuntimeMobileFormFactorFromLogicalSize(Size.zero),
+        isFalse,
+      );
+      expect(
+        isFluxerRuntimeMobileFormFactorFromLogicalSize(const Size(0, 800)),
+        isFalse,
+      );
+    });
+
+    test('treats a compact window as mobile form factor', () {
+      expect(
+        isFluxerRuntimeMobileFormFactorFromLogicalSize(const Size(390, 844)),
+        isTrue,
+      );
+    });
+
+    test('treats a wide window as desktop form factor', () {
+      expect(
+        isFluxerRuntimeMobileFormFactorFromLogicalSize(const Size(1280, 720)),
+        isFalse,
+      );
     });
   });
 

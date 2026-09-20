@@ -32,6 +32,7 @@ import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provid
 import 'package:fluxer_app/features/chat/services/composer_autocomplete_trigger.dart';
 import 'package:fluxer_app/features/chat/services/composer_mention_controller.dart';
 import 'package:fluxer_app/features/chat/services/composer_slash_session.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_channel_mentions.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_command_insertion.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_enter_send.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_mention_query.dart';

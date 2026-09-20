@@ -14,8 +14,9 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 List<SettingsSidebarItem> buildGuildSettingsSidebarItems(
   FluxerLocalizations l10n,
-  List<GuildSettingsTab> tabs,
-) {
+  List<GuildSettingsTab> tabs, {
+  bool canDelete = false,
+}) {
   final List<SettingsSidebarItem> items = <SettingsSidebarItem>[];
   String? previousCategory;
   for (final GuildSettingsTab tab in tabs) {
@@ -33,6 +34,17 @@ List<SettingsSidebarItem> buildGuildSettingsSidebarItems(
         isDisabled: isGuildSettingsTabComingSoon(tab),
       ),
     );
+  }
+  if (canDelete) {
+    items
+      ..add(const SettingsSidebarItem.separator())
+      ..add(
+        SettingsSidebarItem(
+          l10n.guildSettingsDeleteCommunity,
+          icon: PhosphorIconsFill.trash,
+          isDestructive: true,
+        ),
+      );
   }
   return items;
 }

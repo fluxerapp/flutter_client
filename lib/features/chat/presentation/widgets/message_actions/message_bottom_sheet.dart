@@ -6,12 +6,12 @@ import 'package:fluxer_app/features/bookmarks/utils/saved_message_actions.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_translation.dart';
+import 'package:fluxer_app/features/chat/presentation/modals/pin_message_confirm_modal.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/message_debug_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/message_reactions_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/unpin_message_confirm_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/double_tap_reaction_hint.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
-import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_translation_provider.dart';
@@ -168,22 +168,23 @@ Future<void> dispatchMessageAction({
         messageId: message.id,
       );
     case MessageAction.pin:
-      final String channelId = message.channelId;
-      final String messageId = message.id;
       if (message.isPinned) {
         unawaited(
           showUnpinMessageConfirmSheet(
             context,
             ref,
-            channelId: channelId,
-            messageId: messageId,
+            channelId: message.channelId,
+            messageId: message.id,
           ),
         );
       } else {
         unawaited(
-          ref
-              .read(channelPinsRepositoryProvider)
-              .pinMessage(channelId: channelId, messageId: messageId),
+          showPinMessageConfirmModal(
+            context,
+            ref,
+            message: message,
+            guildId: previewRoleGuildId ?? ref.read(contextualGuildIdProvider),
+          ),
         );
       }
     case MessageAction.addReaction:

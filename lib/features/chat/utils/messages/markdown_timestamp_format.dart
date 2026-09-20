@@ -13,57 +13,42 @@ String formatMarkdownTimestamp(
   final String locale = l10n.localeName;
   return switch (style) {
     's' => formatUserDateTime(localDateTime, locale, use12Hour: use12Hour),
-    'S' => _dateTimeWithSeconds(localDateTime, locale, use12Hour: use12Hour),
+    'S' => formatUserDateTime(
+      localDateTime,
+      locale,
+      use12Hour: use12Hour,
+      withSeconds: true,
+    ),
     't' => formatUserTime(localDateTime, locale, use12Hour: use12Hour),
-    'T' => _timeWithSeconds(localDateTime, locale, use12Hour: use12Hour),
+    'T' => formatUserTime(
+      localDateTime,
+      locale,
+      use12Hour: use12Hour,
+      withSeconds: true,
+    ),
     'd' => DateFormat.yMd(locale).format(localDateTime),
     'D' => DateFormat.yMMMMd(locale).format(localDateTime),
-    'F' => _fullDateTime(localDateTime, locale, use12Hour: use12Hour),
+    'F' => _dateWithTime(
+      DateFormat.yMMMMEEEEd(locale),
+      localDateTime,
+      locale,
+      use12Hour: use12Hour,
+    ),
     'R' => relativeTimestamp(localDateTime, l10n, now: now ?? DateTime.now()),
-    _ => _longDateTime(localDateTime, locale, use12Hour: use12Hour),
+    _ => _dateWithTime(
+      DateFormat.yMMMMd(locale),
+      localDateTime,
+      locale,
+      use12Hour: use12Hour,
+    ),
   };
 }
 
-String _timeWithSeconds(
+String _dateWithTime(
+  DateFormat dateFormat,
   DateTime localDateTime,
   String locale, {
   required bool use12Hour,
 }) {
-  final DateFormat formatter = use12Hour
-      ? DateFormat.jms(locale)
-      : DateFormat.Hms(locale);
-  return formatter.format(localDateTime);
-}
-
-String _dateTimeWithSeconds(
-  DateTime localDateTime,
-  String locale, {
-  required bool use12Hour,
-}) {
-  final DateFormat formatter = use12Hour
-      ? DateFormat.yMd(locale).add_jms()
-      : DateFormat.yMd(locale).add_Hms();
-  return formatter.format(localDateTime);
-}
-
-String _longDateTime(
-  DateTime localDateTime,
-  String locale, {
-  required bool use12Hour,
-}) {
-  final DateFormat formatter = use12Hour
-      ? DateFormat.yMMMMd(locale).add_jm()
-      : DateFormat.yMMMMd(locale).add_Hm();
-  return formatter.format(localDateTime);
-}
-
-String _fullDateTime(
-  DateTime localDateTime,
-  String locale, {
-  required bool use12Hour,
-}) {
-  final DateFormat formatter = use12Hour
-      ? DateFormat.yMMMMEEEEd(locale).add_jm()
-      : DateFormat.yMMMMEEEEd(locale).add_Hm();
-  return formatter.format(localDateTime);
+  return '${dateFormat.format(localDateTime)} ${formatUserTime(localDateTime, locale, use12Hour: use12Hour)}';
 }

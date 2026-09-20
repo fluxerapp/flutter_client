@@ -1,0 +1,3 @@
+# Prerelease numbers skipped by beta CI (one integer per line).
+67
+69

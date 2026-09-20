@@ -19,6 +19,7 @@ void main() {
     setUpAll(() async {
       l10n = await _loadL10n();
       await initializeDateFormatting('de');
+      await initializeDateFormatting('en_GB');
     });
 
     test('formats today with localized time', () {
@@ -94,11 +95,22 @@ void main() {
         use12Hour: true,
         now: now,
       );
-      final String expected = DateFormat.yMd(
-        germanLocale,
-      ).add_jm().format(timestamp);
-      expect(result, expected);
       expect(result, contains('.'));
+      expect(result, isNot(contains('09:05')));
+    });
+
+    test('formats British English 12-hour times after midday', () {
+      const String locale = 'en_GB';
+      final DateTime timestamp = DateTime(2026, 6, 19, 14);
+      final String result = formatMessageTimestamp(
+        timestamp,
+        l10n,
+        locale,
+        use12Hour: true,
+        now: now,
+      );
+      expect(result.toLowerCase(), contains('2:00 pm'));
+      expect(result, isNot(contains('14:00')));
     });
   });
 }

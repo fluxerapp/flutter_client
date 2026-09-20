@@ -128,7 +128,7 @@ MessageWindowTrim trimMessageWindowAround(
         .where(isLocalOnlyMessage)
         .toList();
     if (localOnly.isNotEmpty) {
-      kept = <Message>[...kept, ...localOnly];
+      kept = collapseDeliveredLocalSends(<Message>[...kept, ...localOnly]);
     }
   }
   return MessageWindowTrim(

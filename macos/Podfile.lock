@@ -10,8 +10,6 @@ PODS:
     - FlutterMacOS
   - super_native_extensions (0.0.1):
     - FlutterMacOS
-  - ua_client_hints (1.7.0):
-    - FlutterMacOS
 
 DEPENDENCIES:
   - flutter_tts (from `Flutter/ephemeral/.symlinks/plugins/flutter_tts/macos`)
@@ -20,7 +18,6 @@ DEPENDENCIES:
   - media_kit_libs_macos_video (from `Flutter/ephemeral/.symlinks/plugins/media_kit_libs_macos_video/macos`)
   - media_kit_video (from `Flutter/ephemeral/.symlinks/plugins/media_kit_video/macos`)
   - super_native_extensions (from `Flutter/ephemeral/.symlinks/plugins/super_native_extensions/macos`)
-  - ua_client_hints (from `Flutter/ephemeral/.symlinks/plugins/ua_client_hints/macos`)
 
 EXTERNAL SOURCES:
   flutter_tts:
@@ -35,8 +32,6 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/media_kit_video/macos
   super_native_extensions:
     :path: Flutter/ephemeral/.symlinks/plugins/super_native_extensions/macos
-  ua_client_hints:
-    :path: Flutter/ephemeral/.symlinks/plugins/ua_client_hints/macos
 
 SPEC CHECKSUMS:
   flutter_tts: ae915565cc6948444b513acc8ee021993281e027
@@ -45,7 +40,6 @@ SPEC CHECKSUMS:
   media_kit_libs_macos_video: 85a23e549b5f480e72cae3e5634b5514bc692f65
   media_kit_video: fa6564e3799a0a28bff39442334817088b7ca758
   super_native_extensions: c2795d6d9aedf4a79fae25cb6160b71b50549189
-  ua_client_hints: bb84da85d9d5d605d40598b3c1ae3bfd2598e201
 
 PODFILE CHECKSUM: 6fcf5e0fd3398a8c44609a40d135bc12c506a4e0
 

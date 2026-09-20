@@ -17,6 +17,7 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/data/message_repository.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -118,10 +119,12 @@ UserSettingsViewState _userSettings() => const UserSettingsViewState(
 );
 
 class _FakeGuilds extends GuildListViewModel {
+  _FakeGuilds(this._guilds);
+
+  final List<Guild> _guilds;
+
   @override
-  GuildListViewState build() => const GuildListViewState(
-    guilds: <Guild>[Guild(id: _guildId, name: 'Owned', ownerId: _userId)],
-  );
+  GuildListViewState build() => GuildListViewState(guilds: _guilds);
 }
 
 class _FakeUser extends UserSettingsViewModel {
@@ -180,6 +183,8 @@ Widget _app(
   Message message, {
   void Function(BuildContext context)? onOpen,
   List<Override> extraOverrides = const <Override>[],
+  List<Channel>? allChannels,
+  List<Guild>? guilds,
 }) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
@@ -189,9 +194,16 @@ Widget _app(
         (ref) => Stream<List<GuildEmojiEntry>>.value(const []),
       ),
       allChannelsProvider.overrideWith(
-        (ref) => Stream<List<Channel>>.value(_seededChannels),
+        (ref) => Stream<List<Channel>>.value(allChannels ?? _seededChannels),
       ),
-      guildListViewModelProvider.overrideWith(_FakeGuilds.new),
+      guildListViewModelProvider.overrideWith(
+        () => _FakeGuilds(
+          guilds ??
+              const <Guild>[
+                Guild(id: _guildId, name: 'Owned', ownerId: _userId),
+              ],
+        ),
+      ),
       userSettingsViewModelProvider.overrideWith(_FakeUser.new),
       dmViewModelProvider.overrideWith(_FakeDms.new),
       maxMessageLengthProvider.overrideWithValue(2000),
@@ -320,6 +332,17 @@ void main() {
     test('is false for no destinations or multiple destinations', () {
       expect(shouldNavigateAfterForward(0), isFalse);
       expect(shouldNavigateAfterForward(2), isFalse);
+    });
+  });
+
+  group('forwardCommentComposerChannelId', () {
+    test('is null when nothing is selected', () {
+      expect(forwardCommentComposerChannelId(const <String>{}), isNull);
+    });
+
+    test('returns the most recently selected destination', () {
+      expect(forwardCommentComposerChannelId(<String>['src', 'dest']), 'dest');
+      expect(forwardCommentComposerChannelId(<String>['dest']), 'dest');
     });
   });
 
@@ -545,6 +568,97 @@ void main() {
       // 1900/2000 leaves 100 remaining, now surfaced by the counter.
       expect(find.text('100'), findsOneWidget);
     });
+  });
+
+  group('comment mention context', () {
+    testWidgets(
+      'uses the selected destination channel, not the source channel',
+      (WidgetTester tester) async {
+        const String destGuildId = 'guild_dest';
+        const Channel destChat = Channel(
+          id: 'dest-chat',
+          guildId: destGuildId,
+          name: 'dest-chat',
+        );
+        const Channel destSecret = Channel(
+          id: 'dest-secret',
+          guildId: destGuildId,
+          name: 'dest-secret',
+        );
+        final FluxerDatabase db = await _seedDb();
+        Future<void> seedDest(Channel channel) => db.channelDao.upsertChannel(
+          ChannelsCompanion.insert(
+            id: channel.id,
+            guildId: destGuildId,
+            name: channel.name,
+            type: const Value(0),
+          ),
+        );
+        await seedDest(destChat);
+        await seedDest(destSecret);
+
+        await tester.pumpWidget(
+          _app(
+            db,
+            _message(channelId: 'source-chan'),
+            allChannels: <Channel>[..._seededChannels, destChat, destSecret],
+            guilds: const <Guild>[
+              Guild(id: _guildId, name: 'Owned', ownerId: _userId),
+              Guild(id: destGuildId, name: 'Other', ownerId: _userId),
+            ],
+            extraOverrides: <Override>[
+              channelListViewModelProvider.overrideWithValue(
+                const ChannelListState(
+                  guild: Guild(id: _guildId, name: 'Owned', ownerId: _userId),
+                  categories: <ChannelCategory>[
+                    ChannelCategory(
+                      id: 'text',
+                      name: 'Text',
+                      channels: _seededChannels,
+                    ),
+                  ],
+                  selectedChannelId: 'source-chan',
+                ),
+              ),
+            ],
+          ),
+        );
+        await tester.tap(find.text('Open'));
+        await tester.pumpAndSettle();
+
+        ComposerAutocompleteField field = tester.widget(
+          find.byType(ComposerAutocompleteField),
+        );
+        expect(field.channelId, isNull);
+
+        await _ensureDestinationVisible(tester, 'dest-chat');
+        await tester.tap(find.text('dest-chat'));
+        await tester.pump();
+
+        field = tester.widget(find.byType(ComposerAutocompleteField));
+        expect(field.channelId, 'dest-chat');
+
+        await tester.enterText(find.byType(TextField).last, '#');
+        await tester.pump(const Duration(milliseconds: 350));
+        await tester.pump();
+
+        expect(find.byType(ComposerAutocompletePanelBody), findsOneWidget);
+        expect(
+          find.descendant(
+            of: find.byType(ComposerAutocompletePanelBody),
+            matching: find.text('dest-secret'),
+          ),
+          findsOneWidget,
+        );
+        expect(
+          find.descendant(
+            of: find.byType(ComposerAutocompletePanelBody),
+            matching: find.text('general'),
+          ),
+          findsNothing,
+        );
+      },
+    );
   });
 
   group('comment emoji picker', () {

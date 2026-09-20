@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       release_id: ${{ steps.release_drafter.outputs.id }}
-      tag_name: ${{ steps.release_drafter.outputs.tag_name }}
+      tag_name: ${{ steps.ensure_beta_release.outputs.tag_name }}
     steps:
       - name: Create token
         id: create-token
@@ -58,6 +58,7 @@ jobs:
           python3 .github/scripts/append_release_direct_commits.py /tmp/release-body.md
 
       - name: Ensure beta release tag and title
+        id: ensure_beta_release
         env:
           RELEASE_ID: ${{ steps.release_drafter.outputs.id }}
           RELEASE_TAG: ${{ steps.release_drafter.outputs.tag_name }}

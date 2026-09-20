@@ -1,6 +1,7 @@
 @Tags(['slow'])
 library;
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_window.dart';
@@ -439,6 +440,42 @@ void main() {
 
       expect(held.vm.trimAroundVisibleCallCount, 1);
       expect(held.vm.userScrollActiveLog.where((bool v) => !v).length, 1);
+      await disposeMessageList(tester);
+    });
+  });
+
+  group('pointer scroll', () {
+    testWidgets('a mouse-wheel burst does not trim or release the scroll lock '
+        'until the pointer stream pauses', (WidgetTester tester) async {
+      final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+        tester,
+        hasMoreNewer: false,
+        count: kMaxLoadedMessages + 30,
+      );
+      chatViewModel.userScrollActiveLog.clear();
+
+      final Offset location = tester.getCenter(messageListScrollable());
+      for (int i = 0; i < 8; i += 1) {
+        await tester.sendEventToBinding(
+          PointerScrollEvent(
+            position: location,
+            scrollDelta: const Offset(0, -40),
+          ),
+        );
+        await tester.pump();
+      }
+
+      expect(chatViewModel.trimAroundVisibleCallCount, 0);
+      expect(chatViewModel.userScrollActiveLog, isNot(contains(false)));
+      expect(
+        messageListScrollPosition(tester).isScrollingNotifier.value,
+        isTrue,
+      );
+
+      await tester.pumpAndSettle();
+
+      expect(chatViewModel.trimAroundVisibleCallCount, 1);
+      expect(chatViewModel.userScrollActiveLog.where((bool v) => !v).length, 1);
       await disposeMessageList(tester);
     });
   });

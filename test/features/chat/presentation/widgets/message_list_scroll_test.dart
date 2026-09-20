@@ -17,8 +17,13 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_l
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_overlay.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_unread_review.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_viewport.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_bottom_input_slot.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
@@ -2090,6 +2095,61 @@ void main() {
       await disposeMessageList(tester);
     });
 
+    testWidgets('at-tail drag then shrink before settle keeps newest visible', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(420, 640);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final AroundAckMessageListHarness harness =
+          await createBottomMessageListHarness();
+      await tester.pumpWidget(
+        messageListApp(
+          database: harness.database,
+          chatViewModel: harness.chatViewModel,
+        ),
+      );
+      await pumpFluxerFrames(tester);
+
+      final ScrollPosition position = messageListScrollPosition(tester);
+      expect(
+        position.maxScrollExtent - position.pixels,
+        lessThanOrEqualTo(kMessageListReadBottomThreshold),
+      );
+      final String newestId = harness.newestLoadedId;
+
+      final TestGesture drag = await tester.startGesture(
+        tester.getCenter(messageListScrollable()),
+      );
+      try {
+        await drag.moveBy(const Offset(0, -40));
+        await tester.pump();
+
+        await shrinkViewportHeight(tester, height: 400);
+
+        expect(messageItemFor(newestId), findsOneWidget);
+        final Rect viewport = tester.getRect(messageListScrollable());
+        final Rect newest = tester.getRect(messageItemFor(newestId));
+        expect(
+          position.pixels,
+          moreOrLessEquals(position.maxScrollExtent, epsilon: 1),
+          reason:
+              'in-flight tail drag then keyboard shrink must glue to the tail',
+        );
+        expect(
+          newest.bottom,
+          lessThanOrEqualTo(viewport.bottom + 8),
+          reason:
+              'newest must stay above the composer after scroll-then-keyboard',
+        );
+      } finally {
+        await drag.up();
+      }
+      await disposeMessageList(tester);
+    });
+
     testWidgets('scrolled-up shrink does not yank to tail', (
       WidgetTester tester,
     ) async {
@@ -2333,6 +2393,138 @@ void main() {
     });
   });
 
+  group('composer panel slot shrink', () {
+    Future<void> pumpListWithBottomSlot(
+      WidgetTester tester,
+      AroundAckMessageListHarness harness,
+    ) async {
+      tester.view.physicalSize = const Size(420, 640);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      await tester.pumpWidget(
+        messageListApp(
+          database: harness.database,
+          chatViewModel: harness.chatViewModel,
+          body: const Column(
+            children: <Widget>[
+              Expanded(
+                child: MessageList(expectedChannelId: messageListChannelId),
+              ),
+              BottomInputSpacer(),
+            ],
+          ),
+        ),
+      );
+      await pumpFluxerFrames(tester);
+    }
+
+    Future<void> openComposerPanel(
+      WidgetTester tester, {
+      required bool attachment,
+    }) async {
+      final ProviderContainer container = ProviderScope.containerOf(
+        tester.element(messageListScrollable()),
+      );
+      container.read(mobileKeyboardMetricsProvider.notifier)
+        ..updateLayout(screenHeight: 640, isPortrait: true, isIos: true)
+        ..syncViewInsets(0, safeAreaBottom: 0);
+      if (attachment) {
+        container.read(attachmentPanelProvider.notifier).open();
+      } else {
+        container.read(expressionPanelProvider.notifier).open();
+      }
+      await tester.pump();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 16));
+      expect(
+        container.read(bottomInputSlotProvider).slotHeight,
+        greaterThan(200),
+      );
+    }
+
+    void expectNewestAboveViewport(
+      WidgetTester tester, {
+      required String newestId,
+      required ScrollPosition position,
+    }) {
+      expect(messageItemFor(newestId), findsOneWidget);
+      final Rect viewport = tester.getRect(messageListScrollable());
+      final Rect newest = tester.getRect(messageItemFor(newestId));
+      expect(
+        position.pixels,
+        moreOrLessEquals(position.maxScrollExtent, epsilon: 1),
+      );
+      expect(
+        newest.bottom,
+        lessThanOrEqualTo(viewport.bottom + 8),
+        reason: 'newest must stay above the composer panel slot',
+      );
+    }
+
+    Future<void> pumpOpenPanelAndExpectNewest(
+      WidgetTester tester, {
+      required bool attachment,
+    }) async {
+      final AroundAckMessageListHarness harness =
+          await createBottomMessageListHarness();
+      await pumpListWithBottomSlot(tester, harness);
+
+      final ScrollPosition position = messageListScrollPosition(tester);
+      expect(
+        position.maxScrollExtent - position.pixels,
+        lessThanOrEqualTo(kMessageListReadBottomThreshold),
+      );
+      final String newestId = harness.newestLoadedId;
+
+      await openComposerPanel(tester, attachment: attachment);
+      expectNewestAboveViewport(tester, newestId: newestId, position: position);
+
+      await disposeMessageList(tester);
+    }
+
+    testWidgets(
+      'expression panel open keeps newest visible',
+      (WidgetTester tester) =>
+          pumpOpenPanelAndExpectNewest(tester, attachment: false),
+    );
+
+    testWidgets(
+      'attachment panel open keeps newest visible',
+      (WidgetTester tester) =>
+          pumpOpenPanelAndExpectNewest(tester, attachment: true),
+    );
+
+    testWidgets(
+      'at-tail drag then expression panel before settle keeps newest visible',
+      (WidgetTester tester) async {
+        final AroundAckMessageListHarness harness =
+            await createBottomMessageListHarness();
+        await pumpListWithBottomSlot(tester, harness);
+
+        final ScrollPosition position = messageListScrollPosition(tester);
+        final String newestId = harness.newestLoadedId;
+        final TestGesture drag = await tester.startGesture(
+          tester.getCenter(messageListScrollable()),
+        );
+        try {
+          await drag.moveBy(const Offset(0, -40));
+          await tester.pump();
+          await openComposerPanel(tester, attachment: false);
+          expectNewestAboveViewport(
+            tester,
+            newestId: newestId,
+            position: position,
+          );
+        } finally {
+          await drag.up();
+        }
+
+        await disposeMessageList(tester);
+      },
+    );
+  });
+
   group('unread scroll-to-newest then keyboard shrink', () {
     Future<void> shrinkViewportHeight(
       WidgetTester tester, {
@@ -2399,6 +2591,73 @@ void main() {
               'newest fully visible',
         );
 
+        await disposeMessageList(tester);
+      },
+    );
+
+    testWidgets(
+      'unread drag-to-newest then shrink before settle keeps newest visible',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(420, 640);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+
+        final AroundAckMessageListHarness harness =
+            await createAroundAckMessageListHarness(
+              ackIndex: 20,
+              messageCount: 55,
+              hasMoreNewerMessages: false,
+            );
+        await tester.pumpWidget(
+          messageListApp(
+            database: harness.database,
+            chatViewModel: harness.chatViewModel,
+          ),
+        );
+        await pumpFluxerFrames(tester);
+        expect(find.text('NEW'), findsOneWidget);
+
+        final String newestId =
+            harness.chatViewModel.testState.messages.last.id;
+        final ScrollPosition position = messageListScrollPosition(tester);
+        final TestGesture drag = await tester.startGesture(
+          tester.getCenter(messageListScrollable()),
+        );
+        try {
+          for (int i = 0; i < 16; i += 1) {
+            await drag.moveBy(const Offset(0, -80));
+            await tester.pump();
+            if (messageListTrailingDistance(position) <=
+                kMessageListReadBottomThreshold) {
+              break;
+            }
+          }
+          expect(
+            messageListTrailingDistance(position),
+            lessThanOrEqualTo(kMessageListReadBottomThreshold),
+            reason: 'drag must reach the live tail before keyboard shrink',
+          );
+
+          await shrinkViewportHeight(tester, height: 400);
+
+          expect(messageItemFor(newestId), findsOneWidget);
+          final Rect viewport = tester.getRect(messageListScrollable());
+          final Rect newest = tester.getRect(messageItemFor(newestId));
+          expect(
+            position.pixels,
+            moreOrLessEquals(position.maxScrollExtent, epsilon: 1),
+          );
+          expect(
+            newest.bottom,
+            lessThanOrEqualTo(viewport.bottom + 8),
+            reason:
+                'unread drag-to-newest then keyboard before settle must keep '
+                'newest fully visible',
+          );
+        } finally {
+          await drag.up();
+        }
         await disposeMessageList(tester);
       },
     );
