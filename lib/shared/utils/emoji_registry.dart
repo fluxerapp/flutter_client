@@ -184,6 +184,9 @@ class EmojiRegistry {
           }
           unicodeSurrogates.add(skinSurrogatesValue);
           surrogateMap.putIfAbsent(skinSurrogatesValue, () => emoji);
+          if (i >= kSkinToneSurrogates.length) {
+            continue;
+          }
           final skinToneName = 'skin-tone-${i + 1}';
           for (final name in names) {
             final skinName = '$name::$skinToneName';
