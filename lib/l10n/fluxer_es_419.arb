@@ -1644,8 +1644,8 @@
     "@crop": {
         "description": "Button to confirm image crop."
     },
-    "cropTouchHint": "Pinch to zoom, drag to reposition",
-    "cropMouseHint": "Drag corners to resize, drag inside to move",
+    "cropTouchHint": "Junta para acercar, arrastra para reposicionar",
+    "cropMouseHint": "Arrastra las esquinas para cambiar el tamaño, arrastra el interior para mover",
     "changeYourFluxerTag": "Cambiar tu usuario",
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
@@ -1757,7 +1757,7 @@
     "@fluxerTagUpdated": {
         "description": "Success toast after username change."
     },
-    "fluxerTagUpdateFailed": "No se pudo actualizar el Nombre de usuario. Por favor, Inténtalo de nuevo.",
+    "fluxerTagUpdateFailed": "No se pudo actualizar el nombre de usuario. Por favor, Inténtalo de nuevo.",
     "@fluxerTagUpdateFailed": {
         "description": "Error message when username update fails."
     },
@@ -1777,7 +1777,7 @@
     "@usernameLabel": {
         "description": "Label for the username field in profile settings."
     },
-    "claimAccountToChangeFluxerTag": "Reclama tu cuenta para cambiar tu Nombre de usuario",
+    "claimAccountToChangeFluxerTag": "Reclama tu cuenta para cambiar tu nombre de usuario",
     "@claimAccountToChangeFluxerTag": {
         "description": "Tooltip when unverified user hovers the disabled Change username button."
     },
@@ -2862,7 +2862,7 @@
             }
         }
     },
-    "blockedUsersCopyTag": "Copiar Nombre de usuario",
+    "blockedUsersCopyTag": "Copiar nombre de usuario",
     "@blockedUsersCopyTag": {
         "description": "Context menu item that copies the user's tag."
     },
@@ -2903,7 +2903,7 @@
             }
         }
     },
-    "userProfileCtpBadgeTooltip": "Equipo de Comunidad de {productName}",
+    "userProfileCtpBadgeTooltip": "Equipo de comunidad de {productName}",
     "@userProfileCtpBadgeTooltip": {
         "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.",
         "placeholders": {
@@ -2930,7 +2930,7 @@
             }
         }
     },
-    "userProfilePlutoniumBadgeTooltip": "Plutonium de {productName}",
+    "userProfilePlutoniumBadgeTooltip": "{productName} Plutonium",
     "@userProfilePlutoniumBadgeTooltip": {
         "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.",
         "placeholders": {
@@ -2939,7 +2939,7 @@
             }
         }
     },
-    "userProfilePlutoniumSubscriberSinceTooltip": "Suscriptor de Plutonium de {productName} desde {date}",
+    "userProfilePlutoniumSubscriberSinceTooltip": "Suscriptor de Plutonium en {productName} desde {date}",
     "@userProfilePlutoniumSubscriberSinceTooltip": {
         "description": "Badge label with a date in the user profile badges popout. Preserve {date}; it is inserted by code. In English, keep \"subscriber since\" lowercase. Other locales should use natural local capitalization.",
         "placeholders": {
@@ -2951,7 +2951,7 @@
             }
         }
     },
-    "userProfileVisionaryBadgeTooltip": "Visionario de {productName}",
+    "userProfileVisionaryBadgeTooltip": "{productName} Visionary",
     "@userProfileVisionaryBadgeTooltip": {
         "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.",
         "placeholders": {
@@ -2960,7 +2960,7 @@
             }
         }
     },
-    "userProfileVisionaryBadgeSinceTooltip": "Visionario de {productName} desde {date}",
+    "userProfileVisionaryBadgeSinceTooltip": "Visionary de {productName} desde {date}",
     "@userProfileVisionaryBadgeSinceTooltip": {
         "description": "Badge title with a date in the user profile badges popout. Preserve {date}; it is inserted by code. English locales use Title Case for the badge title part; other locales should use natural local capitalization.",
         "placeholders": {
@@ -6897,7 +6897,7 @@
     "@instanceUrlLabel": {
         "description": "Label for the self-hosted instance URL input on the login screen."
     },
-    "instanceUrlPlaceholder": "Introduce la URL de la instancia (ej. fluxer.app)",
+    "instanceUrlPlaceholder": "fluxer.app",
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
     },
@@ -6933,10 +6933,6 @@
     "instanceSheetTitle": "Conectarse a la instancia",
     "@instanceSheetTitle": {
         "description": "Title for the self-hosted instance connection bottom sheet."
-    },
-    "connectToDifferentInstance": "Conectarse a una instancia diferente",
-    "@connectToDifferentInstance": {
-        "description": "Subtle link on the login screen to open the instance connection sheet."
     },
     "changeInstance": "Cambiar",
     "@changeInstance": {
@@ -9236,7 +9232,7 @@
     "@permissionManageMessages": {
         "description": "Permission name."
     },
-    "channelDetailsActionUnmute": "Activar notificaciones",
+    "channelDetailsActionUnmute": "Desactivar silencio",
     "@channelDetailsActionUnmute": {
         "description": "Unmute action button label in channel details."
     },
@@ -10671,7 +10667,7 @@
     "@systemPermissionSettingsOpenSettings": {
         "description": "Primary action that opens the device app settings for a blocked permission."
     },
-    "systemPermissionMicrophoneMessage": "{productName} no tiene acceso a tu micrófono. Puedes activarlo en la configuración de privacidad de tu dispositivo.",
+    "systemPermissionMicrophoneMessage": "{productName} no tiene acceso a tu micrófono. Puedes activarlo en los ajustes de privacidad de tu dispositivo.",
     "@systemPermissionMicrophoneMessage": {
         "description": "Body text when microphone access must be enabled in system settings.",
         "placeholders": {
@@ -10680,7 +10676,7 @@
             }
         }
     },
-    "systemPermissionCameraMessage": "{productName} no tiene acceso a tu cámara. Puedes activarla en la configuración de privacidad de tu dispositivo.",
+    "systemPermissionCameraMessage": "{productName} no tiene acceso a tu cámara. Puedes activarla en los ajustes de privacidad de tu dispositivo.",
     "@systemPermissionCameraMessage": {
         "description": "Body text when camera access must be enabled in system settings.",
         "placeholders": {
@@ -10689,7 +10685,7 @@
             }
         }
     },
-    "systemPermissionNotificationsMessage": "{productName} no tiene permiso para enviar notificaciones. Puedes activarlo en la configuración de tu dispositivo.",
+    "systemPermissionNotificationsMessage": "{productName} no tiene permiso para enviar notificaciones. Puedes activarlo en los ajustes de tu dispositivo.",
     "@systemPermissionNotificationsMessage": {
         "description": "Body text when notification permission must be enabled in system settings.",
         "placeholders": {
@@ -11432,7 +11428,7 @@
     "@embedInviteJoinGroup": {
         "description": "Button to join a group DM from an invite embed card."
     },
-    "guildBulkUnmuteCommunities": "Activar sonido de comunidades",
+    "guildBulkUnmuteCommunities": "Desactivar silencio de comunidades",
     "@guildBulkUnmuteCommunities": {
         "description": "Action that unmutes all communities in a folder."
     },
@@ -11520,7 +11516,7 @@
         "description": "Label for the start of a date range."
     },
     "premiumPurchasesDisabledTitle": "Compras no disponibles",
-    "notificationsUnmuteSound": "Remover silencio {label}",
+    "notificationsUnmuteSound": "Desactivar silencio {label}",
     "@notificationsUnmuteSound": {
         "description": "Accessibility label for unmuting a sound type.",
         "placeholders": {
@@ -13718,7 +13714,7 @@
     "@privacyDashboardSilentCallsDesc": {
         "description": "Privacy dashboard silent calls toggle description."
     },
-    "privacyDashboardGroupDmTitle": "¿Quién puede agregarte a chats grupales?",
+    "privacyDashboardGroupDmTitle": "Quién puede agregarte a chats grupales",
     "@privacyDashboardGroupDmTitle": {
         "description": "Privacy dashboard group DM subsection title."
     },
@@ -16800,5 +16796,510 @@
     "homeQuickActionDms": "Mensajes directos",
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
-    }
+    },
+    "applicationsTitle": "Aplicaciones",
+    "@applicationsTitle": {
+        "description": "Title for the developer Applications settings tab."
+    },
+    "applicationsCreate": "Crear aplicación",
+    "@applicationsCreate": {
+        "description": "Button that opens the create-application sheet."
+    },
+    "applicationsCreateSubmit": "Crear",
+    "@applicationsCreateSubmit": {
+        "description": "Primary submit label in the create-application sheet."
+    },
+    "applicationsCreateClaimTooltip": "Reclama tu cuenta para crear aplicaciones.",
+    "@applicationsCreateClaimTooltip": {
+        "description": "Tooltip on the disabled create button for unclaimed accounts."
+    },
+    "applicationsDocsLink": "Leer la documentación ({domain})",
+    "@applicationsDocsLink": {
+        "description": "Link to developer documentation. domain is the docs host.",
+        "placeholders": {
+            "domain": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsLoadError": "No se pueden cargar las aplicaciones",
+    "@applicationsLoadError": {
+        "description": "Error title when the applications list fails to load."
+    },
+    "applicationsLoadErrorDescription": "Comprueba tu conexión e inténtalo de nuevo.",
+    "@applicationsLoadErrorDescription": {
+        "description": "Error body when the applications list fails to load."
+    },
+    "applicationsEmptyDescription": "Crea tu primera aplicación para empezar con {apiName}.",
+    "@applicationsEmptyDescription": {
+        "description": "Empty-state body. apiName is the product API display name.",
+        "placeholders": {
+            "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "Creado el {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsName": "Nombre de la aplicación",
+    "@applicationsName": {
+        "description": "Label for the application name field."
+    },
+    "applicationsNameHint": "Mi aplicación",
+    "@applicationsNameHint": {
+        "description": "Placeholder for the application name field."
+    },
+    "applicationsNameRequired": "El nombre de la aplicación es obligatorio",
+    "@applicationsNameRequired": {
+        "description": "Validation error when the application name is empty."
+    },
+    "applicationsBackToList": "Volver a la lista",
+    "@applicationsBackToList": {
+        "description": "Button that returns from application details to the list."
+    },
+    "applicationsDetailLoadError": "No se pudo cargar esta aplicación",
+    "@applicationsDetailLoadError": {
+        "description": "Error title when a single application fails to load."
+    },
+    "applicationsDetailLoadErrorDescription": "Inténtalo de nuevo o vuelve a la lista de aplicaciones.",
+    "@applicationsDetailLoadErrorDescription": {
+        "description": "Error body when a single application fails to load."
+    },
+    "applicationsId": "ID de la aplicación",
+    "@applicationsId": {
+        "description": "Label for the read-only application ID field."
+    },
+    "applicationsCopyId": "Copiar ID",
+    "@applicationsCopyId": {
+        "description": "Button that copies the application ID."
+    },
+    "applicationsSecretsTitle": "Secretos y tokens",
+    "@applicationsSecretsTitle": {
+        "description": "Section title for client secret and bot token."
+    },
+    "applicationsSecretsDescription": "Mantenlos seguros. Regenerarlos interrumpirá las integraciones existentes.",
+    "@applicationsSecretsDescription": {
+        "description": "Section description for secrets and tokens."
+    },
+    "applicationsClientSecret": "Secreto de cliente",
+    "@applicationsClientSecret": {
+        "description": "Label for the OAuth2 client secret field."
+    },
+    "applicationsBotToken": "Token de bot",
+    "@applicationsBotToken": {
+        "description": "Label for the bot token field."
+    },
+    "applicationsRegenerate": "Regenerar",
+    "@applicationsRegenerate": {
+        "description": "Button that rotates a secret or token."
+    },
+    "applicationsRegenerateClientSecretTitle": "¿Regenerar el secreto de cliente?",
+    "@applicationsRegenerateClientSecretTitle": {
+        "description": "Confirmation title when regenerating the client secret."
+    },
+    "applicationsRegenerateBotTokenTitle": "¿Regenerar el token de bot?",
+    "@applicationsRegenerateBotTokenTitle": {
+        "description": "Confirmation title when regenerating the bot token."
+    },
+    "applicationsRegenerateClientSecretDescription": "Regenerar invalidará el secreto actual. Actualiza cualquier código que utilice el valor anterior.",
+    "@applicationsRegenerateClientSecretDescription": {
+        "description": "Confirmation body when regenerating the client secret."
+    },
+    "applicationsRegenerateBotTokenDescription": "Regenerar invalidará el token actual. Actualiza cualquier código que utilice el valor anterior.",
+    "@applicationsRegenerateBotTokenDescription": {
+        "description": "Confirmation body when regenerating the bot token."
+    },
+    "applicationsClientSecretRegenerated": "Secreto de cliente regenerado. Actualiza cualquier código que utilice el secreto anterior.",
+    "@applicationsClientSecretRegenerated": {
+        "description": "Toast after a client secret is rotated."
+    },
+    "applicationsBotTokenRegenerated": "Token de bot regenerado. Actualiza cualquier código que utilice el token anterior.",
+    "@applicationsBotTokenRegenerated": {
+        "description": "Toast after a bot token is rotated."
+    },
+    "applicationsRegenerateFailed": "No se pudo regenerar el secreto.",
+    "@applicationsRegenerateFailed": {
+        "description": "Error toast when rotating a secret or token fails."
+    },
+    "applicationsInfoTitle": "Información de la aplicación",
+    "@applicationsInfoTitle": {
+        "description": "Section title for basic application settings."
+    },
+    "applicationsInfoDescription": "Configuración básica y URIs de redirección permitidas.",
+    "@applicationsInfoDescription": {
+        "description": "Section description for basic application settings."
+    },
+    "applicationsPublicBot": "Bot público",
+    "@applicationsPublicBot": {
+        "description": "Switch label for allowing anyone to invite the bot."
+    },
+    "applicationsPublicBotDescription": "Permitir que cualquier usuario invite este bot a sus comunidades.",
+    "@applicationsPublicBotDescription": {
+        "description": "Switch description for public bot."
+    },
+    "applicationsRequireCodeGrant": "Requerir concesión de código OAuth2",
+    "@applicationsRequireCodeGrant": {
+        "description": "Switch label for requiring an OAuth2 code grant on invite."
+    },
+    "applicationsRequireCodeGrantDescription": "Requiere una URI de redirección y un código de autorización al invitar este bot.",
+    "@applicationsRequireCodeGrantDescription": {
+        "description": "Switch description for OAuth2 code grant."
+    },
+    "applicationsRedirectUris": "URIs de redirección",
+    "@applicationsRedirectUris": {
+        "description": "Label for the redirect URI list."
+    },
+    "applicationsAddRedirect": "Añadir redirección",
+    "@applicationsAddRedirect": {
+        "description": "Button that adds another redirect URI row."
+    },
+    "applicationsDeleteRedirect": "Eliminar URI de redirección",
+    "@applicationsDeleteRedirect": {
+        "description": "Accessibility label for removing a redirect URI row."
+    },
+    "applicationsBotProfileTitle": "Perfil del bot",
+    "@applicationsBotProfileTitle": {
+        "description": "Section title for bot profile settings."
+    },
+    "applicationsBotProfileDescription": "Avatar, etiqueta y detalles avanzados del perfil para tu bot.",
+    "@applicationsBotProfileDescription": {
+        "description": "Section description for bot profile settings."
+    },
+    "applicationsBotAvatar": "Avatar del bot",
+    "@applicationsBotAvatar": {
+        "description": "Label for the bot avatar preview."
+    },
+    "applicationsUsernameRequired": "El nombre de usuario es obligatorio",
+    "@applicationsUsernameRequired": {
+        "description": "Validation error when the bot username is empty."
+    },
+    "applicationsUsernameTooLong": "El nombre de usuario debe tener como máximo 32 caracteres",
+    "@applicationsUsernameTooLong": {
+        "description": "Validation error when the bot username is too long."
+    },
+    "applicationsUsernameInvalid": "El nombre de usuario solo puede contener letras, números y guiones bajos",
+    "@applicationsUsernameInvalid": {
+        "description": "Validation error when the bot username has invalid characters."
+    },
+    "applicationsBotUsername": "Nombre de usuario del bot",
+    "@applicationsBotUsername": {
+        "description": "Label for the bot username field."
+    },
+    "applicationsDiscriminator": "Discriminator",
+    "@applicationsDiscriminator": {
+        "description": "Label for the read-only bot discriminator."
+    },
+    "applicationsBotBio": "Biografía del bot",
+    "@applicationsBotBio": {
+        "description": "Label for the bot biography field."
+    },
+    "applicationsBotBioHint": "¡Un bot útil que hace cosas increíbles!",
+    "@applicationsBotBioHint": {
+        "description": "Placeholder for the bot biography field."
+    },
+    "applicationsNoBotBanner": "Bot sin banner",
+    "@applicationsNoBotBanner": {
+        "description": "Placeholder shown when the bot has no banner."
+    },
+    "applicationsFriendlyBot": "Bot amistoso",
+    "@applicationsFriendlyBot": {
+        "description": "Switch label for allowing friend requests to the bot."
+    },
+    "applicationsFriendlyBotDescription": "Permitir que los usuarios envíen solicitudes de amistad a este bot para su aprobación manual.",
+    "@applicationsFriendlyBotDescription": {
+        "description": "Switch description for friendly bot."
+    },
+    "applicationsManualFriendApproval": "Requerir aprobación manual de amistad",
+    "@applicationsManualFriendApproval": {
+        "description": "Switch label for requiring manual friend-request approval."
+    },
+    "applicationsManualFriendApprovalDescription": "Las solicitudes de amistad para este bot requieren aprobación manual.",
+    "@applicationsManualFriendApprovalDescription": {
+        "description": "Switch description for manual friend approval."
+    },
+    "applicationsOauthBuilderTitle": "Generador de URLs OAuth2",
+    "@applicationsOauthBuilderTitle": {
+        "description": "Section title for the authorize URL builder."
+    },
+    "applicationsOauthBuilderDescription": "Construye una URL de autorización con ámbitos y permisos.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
+    "applicationsScopes": "Ámbitos",
+    "@applicationsScopes": {
+        "description": "Label for OAuth2 scope checkboxes."
+    },
+    "applicationsRedirectUri": "URI de redirección",
+    "@applicationsRedirectUri": {
+        "description": "Label for the authorize URL redirect selector."
+    },
+    "applicationsSelectRedirectUri": "Selecciona una URI de redirección",
+    "@applicationsSelectRedirectUri": {
+        "description": "Placeholder for the authorize URL redirect selector."
+    },
+    "applicationsRedirectRequiredCodeGrant": "La URI de redirección es obligatoria porque este bot requiere una concesión de código OAuth2.",
+    "@applicationsRedirectRequiredCodeGrant": {
+        "description": "Validation shown when a redirect is required by code grant."
+    },
+    "applicationsRedirectRequiredScopes": "La URI de redirección es obligatoria cuando no se utiliza únicamente el ámbito del bot.",
+    "@applicationsRedirectRequiredScopes": {
+        "description": "Validation shown when a redirect is required by selected scopes."
+    },
+    "applicationsBotPermissions": "Permisos del bot",
+    "@applicationsBotPermissions": {
+        "description": "Label for bot permission checkboxes in the URL builder."
+    },
+    "applicationsAuthorizeUrl": "URL de autorización",
+    "@applicationsAuthorizeUrl": {
+        "description": "Label for the generated authorize URL field."
+    },
+    "applicationsAuthorizeUrlPlaceholder": "Selecciona los ámbitos (y la URI de redirección si es obligatoria)",
+    "@applicationsAuthorizeUrlPlaceholder": {
+        "description": "Placeholder when the authorize URL cannot be built yet."
+    },
+    "applicationsCopyAuthorizeUrl": "Copiar URL de autorización",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
+    "applicationsCopiedUrl": "URL copiada al portapapeles",
+    "@applicationsCopiedUrl": {
+        "description": "Toast after copying the authorize URL."
+    },
+    "applicationsDangerTitle": "Zona de peligro",
+    "@applicationsDangerTitle": {
+        "description": "Section title for deleting an application."
+    },
+    "notificationReplyPlaceholder": "Mensaje",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "No se pudo enviar la respuesta",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
+    },
+    "applicationsDangerSubtitle": "Esto no se puede deshacer. Eliminar la aplicación también borra su bot.",
+    "@applicationsDangerSubtitle": {
+        "description": "Section subtitle for deleting an application."
+    },
+    "applicationsDangerHelper": "Una vez eliminada, la aplicación y sus credenciales se borran de forma permanente.",
+    "@applicationsDangerHelper": {
+        "description": "Helper text in the application danger zone."
+    },
+    "applicationsDelete": "Eliminar aplicación",
+    "@applicationsDelete": {
+        "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "¿Seguro que quieres eliminar {name}? Esta acción no se puede deshacer. Todos los datos asociados, incluido el usuario bot, se eliminarán de forma permanente.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsDeleteFailed": "No se pudo eliminar la aplicación",
+    "@applicationsDeleteFailed": {
+        "description": "Error toast when deleting an application fails."
+    },
+    "applicationsUpdated": "Aplicación actualizada con éxito",
+    "@applicationsUpdated": {
+        "description": "Toast after saving application changes."
+    },
+    "applicationsNoChanges": "No hay cambios que guardar",
+    "@applicationsNoChanges": {
+        "description": "Toast when save is pressed with no dirty fields."
+    },
+    "applicationsSearchBots": "Aplicaciones y bots",
+    "@applicationsSearchBots": {
+        "description": "Settings search entry for the Applications tab."
+    },
+    "applicationsSearchBotsDescription": "Crea y administra aplicaciones y bots para tu cuenta",
+    "@applicationsSearchBotsDescription": {
+        "description": "Settings search description for the Applications tab."
+    },
+    "applicationsSearchInfoDescription": "Edita la información básica de la aplicación y las URI de redirección",
+    "@applicationsSearchInfoDescription": {
+        "description": "Settings search description for application information."
+    },
+    "applicationsSearchBotProfileDescription": "Edita el avatar, la etiqueta, la biografía, el banner y el comportamiento de solicitudes de amistad del bot",
+    "@applicationsSearchBotProfileDescription": {
+        "description": "Settings search description for bot profile."
+    },
+    "applicationsSearchOauthDescription": "Construye una URL de autorización con ámbitos, redirecciones y permisos de bot",
+    "@applicationsSearchOauthDescription": {
+        "description": "Settings search description for the OAuth2 URL builder."
+    },
+    "applicationsSearchSecretsDescription": "Consulta y regenera los secretos de cliente y los tokens de bot",
+    "@applicationsSearchSecretsDescription": {
+        "description": "Settings search description for secrets and tokens."
+    },
+    "applicationsSearchBotsKeyword": "Bots",
+    "@applicationsSearchBotsKeyword": {
+        "description": "Settings search synonym for applications."
+    },
+    "applicationsSearchDocumentation": "Documentación",
+    "@applicationsSearchDocumentation": {
+        "description": "Settings search synonym for the applications docs link."
+    },
+    "linkedDevicesViewDetails": "Ver detalles",
+    "@linkedDevicesViewDetails": {
+        "description": "Tooltip and accessibility label for opening a linked device details modal."
+    },
+    "linkedDevicesDetailsTitle": "Detalles del dispositivo",
+    "@linkedDevicesDetailsTitle": {
+        "description": "Title of the linked device details modal."
+    },
+    "linkedDevicesDetailsDevice": "Dispositivo",
+    "@linkedDevicesDetailsDevice": {
+        "description": "Label for the operating system in the linked device details modal."
+    },
+    "linkedDevicesDetailsClient": "Cliente",
+    "@linkedDevicesDetailsClient": {
+        "description": "Label for the client/platform in the linked device details modal."
+    },
+    "linkedDevicesDetailsLocation": "Ubicación",
+    "@linkedDevicesDetailsLocation": {
+        "description": "Label for the approximate location in the linked device details modal."
+    },
+    "linkedDevicesDetailsIp": "Dirección IP",
+    "@linkedDevicesDetailsIp": {
+        "description": "Label for the masked IP address in the linked device details modal."
+    },
+    "linkedDevicesDetailsLastUsed": "Último uso",
+    "@linkedDevicesDetailsLastUsed": {
+        "description": "Label for last activity time in the linked device details modal."
+    },
+    "linkedDevicesCurrentSession": "Sesión actual",
+    "@linkedDevicesCurrentSession": {
+        "description": "Last-used value shown for the session currently making the request."
+    },
+    "linkedDevicesUnknown": "Desconocido",
+    "@linkedDevicesUnknown": {
+        "description": "Fallback when a linked device detail such as last used time is missing."
+    },
+    "lookAndFeelThemeDarkLegacy": "Tema oscuro (clásico)",
+    "@lookAndFeelThemeDarkLegacy": {
+        "description": "Label on the legacy dark theme swatch button."
+    },
+    "lookAndFeelChatWallpaperStarfieldLabel": "Starfield",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
+    },
+    "accessibilityShowAltTextOnImagesLabel": "Mostrar texto alternativo en las imágenes",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "Muestra texto alternativo debajo de las imágenes cuando esté disponible.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
+    "doubleTapReactionHint": "Pulsa dos veces un mensaje para",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
+    "doubleTapReactionEdit": "Editar",
+    "@doubleTapReactionEdit": {
+        "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "Editar predeterminado",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "Elige el emoji de la doble pulsación",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
+    },
+    "chatImageCouldNotLoad": "No se pudo cargar esta imagen.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
+    },
+    "chatMessagePinConfirm": "Fijar",
+    "@chatMessagePinConfirm": {
+        "description": "Confirm button label on the pin message confirmation modal."
+    },
+    "chatMessagePinConfirmDescription": "Fija este mensaje en el canal para que todos puedan verlo.",
+    "@chatMessagePinConfirmDescription": {
+        "description": "Body text for the pin message confirmation modal."
+    },
+    "userSettingsLogOutConfirmTitle": "¿Cerrar sesión?",
+    "@userSettingsLogOutConfirmTitle": {
+        "description": "Title of the confirmation shown before logging out from user settings."
+    },
+    "userSettingsLogOutConfirmDescription": "Puedes volver a iniciar sesión en cualquier momento.",
+    "@userSettingsLogOutConfirmDescription": {
+        "description": "Body of the confirmation shown before logging out from user settings."
+    },
+    "savedMessagesAddedToast": "Añadido a los marcadores",
+    "@savedMessagesAddedToast": {
+        "description": "Toast confirming a message was bookmarked."
+    },
+    "savedMessagesRemovedToast": "Eliminado de los marcadores",
+    "@savedMessagesRemovedToast": {
+        "description": "Toast confirming a message bookmark was removed."
+    },
+    "instanceUrlHelper": "Usa fluxer.app para la instancia oficial o la URL exacta de una instancia propia.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
+    },
+    "guildSettingsDeleteCommunity": "Eliminar comunidad",
+    "@guildSettingsDeleteCommunity": {
+        "description": "Destructive footer button in community settings. Opens the delete-community confirmation."
+    },
+    "guildSettingsDeleteCommunityConfirm": "¿Seguro que quieres eliminar esta comunidad? Esta acción no se puede deshacer. Todos los canales, mensajes y ajustes se eliminarán de forma permanente.",
+    "@guildSettingsDeleteCommunityConfirm": {
+        "description": "Confirmation copy for deleting a community."
+    },
+    "guildSettingsCommunityDeleted": "Comunidad eliminada",
+    "@guildSettingsCommunityDeleted": {
+        "description": "Success toast after a community is deleted."
+    },
+    "guildSettingsDeleteCommunityFailed": "No se pudo eliminar esta comunidad",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantNeedsLogin": "Abre Fluxer e inicia sesión primero.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "No estás en ninguna llamada.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer no pudo encontrar eso.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "Los mensajes directos están desactivados en esta instancia.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer no pudo completar la acción.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "Silenciado.",
+    "assistantOkUnmuted": "Silenciamiento desactivado",
+    "assistantOkLeftVoice": "Ha salido de la llamada.",
+    "assistantOkJoinedVoice": "Uniéndose a la llamada.",
+    "assistantOkStartedCall": "Iniciando la llamada.",
+    "assistantOkStatusSet": "Estado establecido como {status}.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Abriendo Fluxer.",
+    "assistantOkMessageSent": "Mensaje enviado.",
+    "assistantOkCustomStatusSet": "Estado personalizado actualizado.",
+    "assistantOkCustomStatusCleared": "Estado personalizado borrado."
 }
