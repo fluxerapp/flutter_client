@@ -374,7 +374,7 @@ void main() {
   test('encodes relay path segments', () {
     expect(
       fcmRelayUrl(appId: 'stable', deviceToken: 'abc:def'),
-      'https://push.fluxer.app/relay/v1/fcm/stable/abc%3Adef',
+      'https://push.fluxer.com/relay/v1/fcm/stable/abc%3Adef',
     );
     expect(
       apnsRelayUrl(
@@ -382,7 +382,7 @@ void main() {
         environment: 'production',
         deviceTokenHex: 'ab',
       ),
-      'https://push.fluxer.app/relay/v1/apns/stable/production/ab',
+      'https://push.fluxer.com/relay/v1/apns/stable/production/ab',
     );
   });
 }

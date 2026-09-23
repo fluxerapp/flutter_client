@@ -1,4 +1,4 @@
-const String kPushRelayOrigin = 'https://push.fluxer.app';
+const String kPushRelayOrigin = 'https://push.fluxer.com';
 
 String fcmRelayUrl({required String appId, required String deviceToken}) {
   return '$kPushRelayOrigin/relay/v1/fcm/${_segment(appId)}/${_segment(deviceToken)}';

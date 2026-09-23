@@ -10,11 +10,11 @@ void main() {
       expect(
         shouldSkipWebPushRegistration(
           currentUserId: 'user',
-          relayUrl: 'https://push.fluxer.app/relay/v1/fcm/stable/tok',
+          relayUrl: 'https://push.fluxer.com/relay/v1/fcm/stable/tok',
           publicKey: 'pub',
           lastRegisteredUserId: 'user',
           lastRegisteredRelayUrl:
-              'https://push.fluxer.app/relay/v1/fcm/stable/tok',
+              'https://push.fluxer.com/relay/v1/fcm/stable/tok',
           lastRegisteredPublicKey: 'pub',
         ),
         isTrue,
@@ -25,10 +25,10 @@ void main() {
       expect(
         shouldSkipWebPushRegistration(
           currentUserId: 'user-b',
-          relayUrl: 'https://push.fluxer.app/relay',
+          relayUrl: 'https://push.fluxer.com/relay',
           publicKey: 'pub',
           lastRegisteredUserId: 'user-a',
-          lastRegisteredRelayUrl: 'https://push.fluxer.app/relay',
+          lastRegisteredRelayUrl: 'https://push.fluxer.com/relay',
           lastRegisteredPublicKey: 'pub',
         ),
         isFalse,
@@ -36,10 +36,10 @@ void main() {
       expect(
         shouldSkipWebPushRegistration(
           currentUserId: 'user',
-          relayUrl: 'https://push.fluxer.app/relay',
+          relayUrl: 'https://push.fluxer.com/relay',
           publicKey: 'next',
           lastRegisteredUserId: 'user',
-          lastRegisteredRelayUrl: 'https://push.fluxer.app/relay',
+          lastRegisteredRelayUrl: 'https://push.fluxer.com/relay',
           lastRegisteredPublicKey: 'pub',
         ),
         isFalse,
