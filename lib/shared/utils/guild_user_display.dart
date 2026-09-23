@@ -231,10 +231,7 @@ String? _comparableAvatarHash(String? hash) {
 
 bool messagePrefersPersistedAuthorDisplay(Message message) {
   final String? webhookId = message.webhookId;
-  if (webhookId != null && webhookId.isNotEmpty) {
-    return true;
-  }
-  return message.authorIsBot;
+  return webhookId != null && webhookId.isNotEmpty;
 }
 
 GuildUserDisplay resolveMessageAuthorDisplay({
@@ -263,39 +260,7 @@ GuildUserDisplay resolveMessageAuthorDisplay({
   if (guildDisplay == null) {
     return messageDisplay;
   }
-  final bool treatsAsBot = message.authorIsBot || guildDisplay.isBot;
-  if (!treatsAsBot) {
-    return guildDisplay;
-  }
-  if (message.authorName != guildDisplay.accountDisplayName ||
-      messageAuthorAvatarDiffers(
-        messageAvatarHash: message.authorAvatar,
-        guildAvatarHash: guildDisplay.avatarHash,
-      )) {
-    return messageDisplay;
-  }
-  final String branded = resolveSystemBotDisplayName(
-    userId: message.authorId,
-    fallbackName: guildDisplay.displayName,
-    productName: productName,
-  );
-  if (branded == guildDisplay.displayName) {
-    return guildDisplay;
-  }
-  return GuildUserDisplay(
-    displayName: branded,
-    accountDisplayName: branded,
-    isBot: guildDisplay.isBot,
-    avatarUrl: guildDisplay.avatarUrl,
-    avatarHash: guildDisplay.avatarHash,
-    avatarColor: guildDisplay.avatarColor,
-    bannerUrl: guildDisplay.bannerUrl,
-    bannerColor: guildDisplay.bannerColor,
-    bio: guildDisplay.bio,
-    pronouns: guildDisplay.pronouns,
-    hasGuildProfile: guildDisplay.hasGuildProfile,
-    isShowingGlobalProfile: guildDisplay.isShowingGlobalProfile,
-  );
+  return guildDisplay;
 }
 
 GuildUserDisplay resolveGuildUserDisplayFromProfile({
