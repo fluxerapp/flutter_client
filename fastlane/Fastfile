@@ -12,6 +12,7 @@ end
 
 def github_hosted_xcode_app_paths
   [
+    "/Applications/Xcode_27.app",
     "/Applications/Xcode_27.0.app",
     "/Applications/Xcode.app",
     "/Applications/Xcode_27_Release_Candidate.app"
@@ -31,7 +32,7 @@ def select_required_xcode
   unless xcode_app && File.directory?(xcode_app)
     UI.user_error!(
       "Could not find Xcode 27. On GitHub Actions use runs-on: xcode-27 and set " \
-      "DEVELOPER_DIR to /Applications/Xcode_27.0.app/Contents/Developer, or set XCODE_PATH locally."
+      "DEVELOPER_DIR to /Applications/Xcode_27.app/Contents/Developer, or set XCODE_PATH locally."
     )
   end
   xcode_select(xcode_app)
