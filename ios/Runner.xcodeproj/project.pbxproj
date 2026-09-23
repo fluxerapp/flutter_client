@@ -28,6 +28,9 @@
 		FB0ADAC62F5C91D80078A4D4 /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */; };
 		FB0ADAC72F5C91D80078A4D5 /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */; };
 		FB0ADAC92F5C91D80078A4D6 /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */; };
+		FB0AE0212F5C96000078A521 /* SnowflakeTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0202F5C96000078A520 /* SnowflakeTime.swift */; };
+		FB0AE0222F5C96000078A522 /* SnowflakeTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0202F5C96000078A520 /* SnowflakeTime.swift */; };
+		FB0AE0232F5C96000078A523 /* SnowflakeTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0202F5C96000078A520 /* SnowflakeTime.swift */; };
 		FB0AE0122F5C95000078A512 /* WebPushKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0102F5C95000078A510 /* WebPushKeychain.swift */; };
 		FB0AE0142F5C95000078A514 /* WebPushKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0102F5C95000078A510 /* WebPushKeychain.swift */; };
 		FB0AE0162F5C95000078A516 /* WebPushKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0102F5C95000078A510 /* WebPushKeychain.swift */; };
@@ -192,6 +195,7 @@
 		FB0ADAC42F5C91D70078A4D4 /* ApplePushBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePushBridge.swift; sourceTree = "<group>"; };
 		FBC1A0012F9E220100EA2F01 /* PhysicalKeyboardBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicalKeyboardBridge.swift; sourceTree = "<group>"; };
 		FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationPayload.swift; sourceTree = "<group>"; };
+		FB0AE0202F5C96000078A520 /* SnowflakeTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnowflakeTime.swift; sourceTree = "<group>"; };
 		FB0AE0102F5C95000078A510 /* WebPushKeychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPushKeychain.swift; sourceTree = "<group>"; };
 		FB0AE0112F5C95000078A511 /* WebPushRecordDecryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPushRecordDecryptor.swift; sourceTree = "<group>"; };
 		FB0AE01A2F5C95000078A51A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -474,6 +478,7 @@
 			isa = PBXGroup;
 			children = (
 				FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */,
+				FB0AE0202F5C96000078A520 /* SnowflakeTime.swift */,
 				FB0AE0102F5C95000078A510 /* WebPushKeychain.swift */,
 				FB0AE0112F5C95000078A511 /* WebPushRecordDecryptor.swift */,
 				FB0ADACA2F5C91D80078A4D7 /* ForegroundPushNotificationPolicy.swift */,
@@ -859,6 +864,7 @@
 				A15F1E13F500000000000008 /* AssistantSendAndCallTests.swift in Sources */,
 				331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */,
 				FB0ADAC92F5C91D80078A4D6 /* PushNotificationPayload.swift in Sources */,
+				FB0AE0232F5C96000078A523 /* SnowflakeTime.swift in Sources */,
 				FB0AE0162F5C95000078A516 /* WebPushKeychain.swift in Sources */,
 				FB0AE0172F5C95000078A517 /* WebPushRecordDecryptor.swift in Sources */,
 				FB0ADACD2F5C91D80078A4D9 /* ForegroundPushNotificationPolicy.swift in Sources */,
@@ -884,6 +890,7 @@
 				FB0ADAC52F5C91D70078A4D4 /* ApplePushBridge.swift in Sources */,
 				FBC1A0022F9E220100EA2F01 /* PhysicalKeyboardBridge.swift in Sources */,
 				FB0ADAC62F5C91D80078A4D4 /* PushNotificationPayload.swift in Sources */,
+				FB0AE0222F5C96000078A522 /* SnowflakeTime.swift in Sources */,
 				FB0AE0122F5C95000078A512 /* WebPushKeychain.swift in Sources */,
 				FB0AE0132F5C95000078A513 /* WebPushRecordDecryptor.swift in Sources */,
 				FB0ADACB2F5C91D80078A4D7 /* ForegroundPushNotificationPolicy.swift in Sources */,
@@ -912,6 +919,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB0ADAC72F5C91D80078A4D5 /* PushNotificationPayload.swift in Sources */,
+				FB0AE0212F5C96000078A521 /* SnowflakeTime.swift in Sources */,
 				FB0AE0142F5C95000078A514 /* WebPushKeychain.swift in Sources */,
 				FB0AE0152F5C95000078A515 /* WebPushRecordDecryptor.swift in Sources */,
 				FB0ADACC2F5C91D80078A4D8 /* ForegroundPushNotificationPolicy.swift in Sources */,

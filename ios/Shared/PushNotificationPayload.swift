@@ -47,6 +47,19 @@ enum PushNotificationPayload {
     return nil
   }
 
+  static func resolveMessageSentDate(from userInfo: [AnyHashable: Any]) -> Date? {
+    guard let messageId = replyMessageId(from: userInfo) ?? resolveMessageId(from: userInfo),
+      let sentMs = SnowflakeTime.timestampMs(from: messageId)
+    else {
+      return nil
+    }
+    let nowMs = Int64(Date().timeIntervalSince1970 * 1000)
+    guard sentMs <= nowMs + 60_000 else {
+      return nil
+    }
+    return Date(timeIntervalSince1970: TimeInterval(sentMs) / 1000)
+  }
+
   static func resolveMessageId(from userInfo: [AnyHashable: Any]) -> String? {
     if let messageId = replyMessageId(from: userInfo) {
       return messageId

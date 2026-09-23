@@ -17,6 +17,7 @@ import 'package:fluxer_app/core/push/push_notification_payload.dart';
 import 'package:fluxer_app/core/push/push_notification_permission.dart';
 import 'package:fluxer_app/core/push/push_notification_reply.dart';
 import 'package:fluxer_app/core/push/push_notification_sound.dart';
+import 'package:fluxer_app/core/push/push_notification_time.dart';
 
 const int _kReplyFailedNotificationId = 900001;
 const String _kReplyFailedNotificationTag = 'fluxer_reply_failed';
@@ -337,6 +338,7 @@ final class LocalPushNotifications {
   }) async {
     final String? groupKey = resolvePushGroupTag(payload);
     final String? messageTag = resolvePushDisplayTag(payload);
+    final int? whenMillis = resolvePushNotificationWhenMillis(payload);
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         final AndroidNotificationSound? androidSound =
@@ -376,6 +378,8 @@ final class LocalPushNotifications {
               title: pushReplyActionTitle(),
               hint: pushReplyHint(),
             ),
+            when: whenMillis,
+            showWhen: whenMillis != null,
           ),
         );
       case TargetPlatform.iOS:

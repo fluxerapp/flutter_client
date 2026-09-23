@@ -37,7 +37,7 @@ final class NotificationService: UNNotificationServiceExtension {
         let avatarUrl = NotificationPayloadMedia.resolveAvatarUrl(from: resolved)
         let emojiImageUrl = emojiResult.imageUrls.first
         guard messageImageUrl != nil || emojiImageUrl != nil || avatarUrl != nil else {
-            deliver(content: mutableContent)
+            deliver(content: Self.communicationContent(mutableContent, avatarData: nil))
             return
         }
         downloadMedia(
@@ -166,11 +166,9 @@ private extension NotificationService {
         _ content: UNMutableNotificationContent,
         avatarData: Data?
     ) -> UNNotificationContent {
-        guard let avatarData else {
-            return content
-        }
+        let userInfo = content.userInfo
         let title = content.title.isEmpty ? "Fluxer" : content.title
-        let avatar = INImage(imageData: avatarData)
+        let avatar = avatarData.map { INImage(imageData: $0) }
         let sender = INPerson(
             personHandle: INPersonHandle(value: title, type: .unknown),
             nameComponents: nil,
@@ -191,9 +189,14 @@ private extension NotificationService {
             sender: sender,
             attachments: nil
         )
-        intent.setImage(avatar, forParameterNamed: \.sender)
+        if let avatar {
+            intent.setImage(avatar, forParameterNamed: \.sender)
+        }
         let interaction = INInteraction(intent: intent, response: nil)
         interaction.direction = .incoming
+        if let sentDate = PushNotificationPayload.resolveMessageSentDate(from: userInfo) {
+            interaction.date = sentDate
+        }
         interaction.donate(completion: nil)
         guard let updated = try? content.updating(from: intent).mutableCopy()
           as? UNMutableNotificationContent

@@ -1,12 +1,20 @@
 /// Fluxer snowflake epoch (2015-01-01T00:00:00.000Z) in milliseconds.
 const int kSnowflakeEpochMs = 1420070400000;
 
-DateTime? dateTimeFromUserSnowflakeOrNull(String id) {
-  final parsed = int.tryParse(id);
+/// Unix epoch milliseconds encoded in a Fluxer snowflake id, or null if [id] is not numeric.
+int? snowflakeTimestampMsOrNull(String? id) {
+  final BigInt? parsed = BigInt.tryParse(id ?? '');
   if (parsed == null) {
     return null;
   }
-  final ms = (parsed >> 22) + kSnowflakeEpochMs;
+  return (parsed >> 22).toInt() + kSnowflakeEpochMs;
+}
+
+DateTime? dateTimeFromUserSnowflakeOrNull(String id) {
+  final int? ms = snowflakeTimestampMsOrNull(id);
+  if (ms == null) {
+    return null;
+  }
   return DateTime.fromMillisecondsSinceEpoch(ms, isUtc: true);
 }
 
