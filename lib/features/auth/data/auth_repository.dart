@@ -420,7 +420,9 @@ class AuthRepository {
     try {
       final result = await _client.auth.loginWithWebauthnMfa(
         body: WebAuthnMfaRequest(
-          response: response,
+          response: WebAuthnAuthenticationResponse.fromJson(
+            Map<String, dynamic>.from(response as Map),
+          ),
           challenge: challenge,
           ticket: ticket,
         ),
@@ -485,7 +487,9 @@ class AuthRepository {
     try {
       final result = await _client.auth.authenticateWithWebauthn(
         body: WebAuthnAuthenticateRequest(
-          response: response,
+          response: WebAuthnAuthenticationResponse.fromJson(
+            Map<String, dynamic>.from(response as Map),
+          ),
           challenge: challenge,
         ),
       );

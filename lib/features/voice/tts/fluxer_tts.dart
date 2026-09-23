@@ -160,13 +160,12 @@ class FluxerTts {
     }
   }
 
-  Future<void> _applyRateIfNeeded(double webRate) async {
-    final double clamped = clampTtsRate(webRate);
+  Future<void> _applyRateIfNeeded(double userRate) async {
+    final double clamped = clampTtsRate(userRate);
     if (_lastAppliedRate == clamped) {
       return;
     }
-    final double engineRate = _mapWebRateToEngine(clamped);
-    await _engine.setSpeechRate(engineRate);
+    await _engine.setSpeechRate(engineSpeechRate(clamped, isWeb: kIsWeb));
     _lastAppliedRate = clamped;
   }
 
@@ -184,16 +183,6 @@ class FluxerTts {
     } on Object {
       // Keep the previous locale.
     }
-  }
-
-  double _mapWebRateToEngine(double webRate) {
-    if (kIsWeb) {
-      return webRate;
-    }
-    if (Platform.isIOS || Platform.isMacOS) {
-      return (webRate * 0.5).clamp(0.0, 1.0);
-    }
-    return webRate;
   }
 
   void _setSpeaking(bool value) {

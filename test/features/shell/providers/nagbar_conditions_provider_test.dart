@@ -242,7 +242,7 @@ UserSettingsViewState _defaultSettings() {
 WellKnownFluxerResponse _buildWellKnown({required bool selfHosted}) {
   return WellKnownFluxerResponse(
     apiCodeVersion: 1,
-    endpoints: const WellKnownFluxerResponseEndpoints(
+    endpoints: const InstanceEndpointsSchema(
       api: 'https://example.test/api',
       apiClient: 'https://example.test/api/client',
       apiPublic: 'https://example.test/api/public',
@@ -255,52 +255,52 @@ WellKnownFluxerResponse _buildWellKnown({required bool selfHosted}) {
       gift: 'https://example.test/gift',
       webapp: 'https://example.test/webapp',
     ),
-    captcha: const WellKnownFluxerResponseCaptcha(
-      provider: 'none',
+    captcha: const InstanceCaptchaSchema(
+      provider: InstanceCaptchaProviderSchema.none,
       hcaptchaSiteKey: null,
       turnstileSiteKey: null,
     ),
-    features: WellKnownFluxerResponseFeatures(
+    features: InstanceFeaturesSchema(
       voiceEnabled: true,
       stripeEnabled: false,
       selfHosted: selfHosted,
       presignedAttachmentUploads: false,
       emailsEnabled: true,
     ),
-    gif: const WellKnownFluxerResponseGif(
+    gif: const InstanceGifSchema(
       provider: 'tenor',
       displayName: 'Tenor',
       attributionRequired: false,
     ),
-    sso: const WellKnownFluxerResponseSso(
+    sso: const InstanceSsoSchema(
       enabled: false,
       enforced: false,
       displayName: null,
       redirectUri: 'https://example.test/sso',
     ),
-    registration: const WellKnownFluxerResponseRegistration(
-      mode: WellKnownFluxerResponseRegistrationModeMode.open,
+    registration: const InstanceRegistrationSchema(
+      mode: InstanceRegistrationModeSchema.open,
       adminRegistrationUrlsEnabled: false,
     ),
-    community: const WellKnownFluxerResponseCommunity(
+    community: const InstanceCommunitySchema(
       singleCommunity: false,
       singleCommunityGuildId: null,
       directMessagesDisabled: false,
     ),
-    services: const WellKnownFluxerResponseServices(
+    services: const InstanceServicesSchema(
       gifEnabled: true,
       youtubeEnabled: true,
       blueskyEnabled: false,
     ),
     limits: const WellKnownFluxerResponseLimits(
-      version: WellKnownFluxerResponseLimitsVersionVersion.value2,
+      version: 2,
       traitDefinitions: <String>[],
       defaultsHash: 'test',
       rules: <WellKnownFluxerResponseLimitsRules>[],
     ),
-    push: const WellKnownFluxerResponsePush(publicVapidKey: null),
-    appPublic: const WellKnownFluxerResponseAppPublic(
-      branding: WellKnownFluxerResponseAppPublicBranding(
+    push: const InstancePushSchema(publicVapidKey: null),
+    appPublic: const InstanceAppPublicSchema(
+      branding: InstanceBrandingSchema(
         productName: 'Fluxer',
         iconUrl: null,
         symbolUrl: null,
@@ -308,16 +308,12 @@ WellKnownFluxerResponse _buildWellKnown({required bool selfHosted}) {
         wordmarkUrl: null,
         faviconUrl: null,
         themeColor: null,
+        statusPageUrl: null,
+        statusPageIncidentHistoryUrl: null,
       ),
-      setup: WellKnownFluxerResponseAppPublicSetup(
-        configured: true,
-        adminUrl: null,
-      ),
-      legal: WellKnownFluxerResponseAppPublicLegal(
-        termsUrl: null,
-        privacyUrl: null,
-      ),
-      registration: WellKnownFluxerResponseAppPublicRegistration(
+      setup: InstanceSetupSchema(configured: true, adminUrl: null),
+      legal: InstanceAppPublicSchemaLegal(termsUrl: null, privacyUrl: null),
+      registration: InstanceAppPublicSchemaRegistration(
         collectDateOfBirth: true,
       ),
     ),

@@ -30,6 +30,11 @@ double nearestTtsRate(double rate) {
 
 String formatTtsRateLabel(double rate) => 'x${rate.toStringAsFixed(1)}';
 
+double engineSpeechRate(double userRate, {required bool isWeb}) {
+  final double clamped = clampTtsRate(userRate);
+  return isWeb ? clamped : clamped * 0.5;
+}
+
 /// Parses typed combobox input like `1.2` or `x1.2` into a clamped rate.
 double? parseTtsRateInput(String input) {
   final Match? match = RegExp(

@@ -34,7 +34,7 @@ MessageResponseSchema _message({
   id: id,
   channelId: channelId,
   author: _user(authorId),
-  type: MessageResponseSchemaTypeType.valueDefault,
+  type: MessageType.valueDefault,
   flags: flags,
   content: 'hello',
   timestamp: dateTimeFromUserSnowflakeOrNull(id)!,
@@ -121,7 +121,7 @@ Future<FluxerDatabase> _dmDb({
                   'dm-1': const ChannelOverrides(
                     collapsed: false,
                     muted: true,
-                    messageNotifications: UserNotificationSettings.inherit,
+                    messageNotifications: UserNotificationSettingsInput.inherit,
                     muteConfig: null,
                   ),
                 }

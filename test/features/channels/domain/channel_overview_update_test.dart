@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/domain/channel_overview_update.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/export.dart' hide ChannelType;
 
 void main() {
   const String guildId = 'guild-1';
@@ -103,13 +103,14 @@ void main() {
         voiceConnectionLimit: original.voiceConnectionLimit,
         rtcRegion: original.rtcRegion,
       );
-      final ChannelUpdateRequest request = buildChannelOverviewUpdate(
-        channel: textChannel,
-        current: current,
-        original: original,
-        canManageChannel: true,
-        canUpdateRtcRegion: false,
-      );
+      final ChannelUpdateRequestBodyVariant1 request =
+          buildChannelOverviewUpdate(
+            channel: textChannel,
+            current: current,
+            original: original,
+            canManageChannel: true,
+            canUpdateRtcRegion: false,
+          );
       final Map<String, dynamic> body = channelUpdateRequestToPatchBody(
         request,
       );
@@ -135,13 +136,14 @@ void main() {
         voiceConnectionLimit: original.voiceConnectionLimit,
         rtcRegion: original.rtcRegion,
       );
-      final ChannelUpdateRequest request = buildChannelOverviewUpdate(
-        channel: textChannel,
-        current: current,
-        original: original,
-        canManageChannel: false,
-        canUpdateRtcRegion: false,
-      );
+      final ChannelUpdateRequestBodyVariant1 request =
+          buildChannelOverviewUpdate(
+            channel: textChannel,
+            current: current,
+            original: original,
+            canManageChannel: false,
+            canUpdateRtcRegion: false,
+          );
       final Map<String, dynamic> body = channelUpdateRequestToPatchBody(
         request,
       );
@@ -165,13 +167,14 @@ void main() {
         voiceConnectionLimit: original.voiceConnectionLimit,
         rtcRegion: 'eu-west',
       );
-      final ChannelUpdateRequest request = buildChannelOverviewUpdate(
-        channel: voiceChannel,
-        current: current,
-        original: original,
-        canManageChannel: false,
-        canUpdateRtcRegion: true,
-      );
+      final ChannelUpdateRequestBodyVariant1 request =
+          buildChannelOverviewUpdate(
+            channel: voiceChannel,
+            current: current,
+            original: original,
+            canManageChannel: false,
+            canUpdateRtcRegion: true,
+          );
       final Map<String, dynamic> body = channelUpdateRequestToPatchBody(
         request,
       );
@@ -195,13 +198,14 @@ void main() {
         voiceConnectionLimit: 8,
         rtcRegion: original.rtcRegion,
       );
-      final ChannelUpdateRequest request = buildChannelOverviewUpdate(
-        channel: voiceChannel,
-        current: current,
-        original: original,
-        canManageChannel: true,
-        canUpdateRtcRegion: false,
-      );
+      final ChannelUpdateRequestBodyVariant1 request =
+          buildChannelOverviewUpdate(
+            channel: voiceChannel,
+            current: current,
+            original: original,
+            canManageChannel: true,
+            canUpdateRtcRegion: false,
+          );
       final Map<String, dynamic> body = channelUpdateRequestToPatchBody(
         request,
       );

@@ -24,6 +24,7 @@ class _ComposerRow {
     required this.onApply,
     this.subtitle,
     this.mentionMember,
+    this.mentionAvatarUrl,
     this.titleColor,
     this.channelRowType,
     this.emojiSurrogates,
@@ -39,6 +40,7 @@ class _ComposerRow {
   final VoidCallback onApply;
   final String? subtitle;
   final Member? mentionMember;
+  final String? mentionAvatarUrl;
   final Color? titleColor;
   final ChannelType? channelRowType;
   final String? emojiSurrogates;
@@ -806,6 +808,10 @@ class ComposerAutocompleteFieldState
             subtitle: _composerMentionAutocompleteRightLabel(m, discs),
             onApply: () => _applyUserMention(m),
             mentionMember: m,
+            mentionAvatarUrl: mentionMemberAvatarUrl(
+              member: m,
+              guildId: guildId,
+            ),
           ),
         )
         .toList();
@@ -1544,7 +1550,8 @@ class ComposerAutocompleteFieldState
           userAvatarUserId: m?.id,
           userAvatarImageUrl: m == null
               ? null
-              : FluxerMediaUrl.userAvatar(userId: m.id, hash: m.avatar),
+              : r.mentionAvatarUrl ??
+                    FluxerMediaUrl.userAvatar(userId: m.id, hash: m.avatar),
           userAvatarFallbackText: m != null ? r.title : null,
           userAvatarColor: m?.avatarColor,
           userAvatarStatus: status,

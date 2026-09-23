@@ -13113,6 +13113,14 @@
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."
     },
+    "userSettingsLogOutConfirmTitle": "Sign out?",
+    "@userSettingsLogOutConfirmTitle": {
+        "description": "Title of the confirmation shown before logging out from user settings."
+    },
+    "userSettingsLogOutConfirmDescription": "You can sign back in at any time.",
+    "@userSettingsLogOutConfirmDescription": {
+        "description": "Body of the confirmation shown before logging out from user settings."
+    },
     "quickSwitcherTabSearch": "Search",
     "@quickSwitcherTabSearch": {
         "description": "Quick switcher bottom sheet tab for search results."

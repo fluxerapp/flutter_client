@@ -75,6 +75,13 @@ void listenChatViewModelErrors(WidgetRef ref) {
   );
 }
 
+Widget _attachmentPanelContent(
+  BuildContext _,
+  ScrollController scrollController,
+) {
+  return AttachmentPanelContent(scrollController: scrollController);
+}
+
 /// Shared message list, composer, and overlays for channel chat surfaces.
 class ChannelChatPanel extends ConsumerStatefulWidget {
   const ChannelChatPanel({
@@ -298,14 +305,7 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                       dragHandleHeight: dragHandleHeight,
                       parentHeight: constraints.maxHeight,
                       contentBuilder: isAttachmentOpen
-                          ? (
-                              BuildContext context,
-                              ScrollController controller,
-                            ) {
-                              return AttachmentPanelContent(
-                                scrollController: controller,
-                              );
-                            }
+                          ? _attachmentPanelContent
                           : null,
                     ),
                   ),

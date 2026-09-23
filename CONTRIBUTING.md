@@ -86,14 +86,13 @@ Strings are managed on [Weblate](https://weblate.fluxer.tools/projects/flutter-c
 
 ## Version numbers
 
-> [!NOTE]
-> We will transition to this version method after the V1 update.
-
 Releases use `{year}.{month}.{public release number}`, for example `2026.07.100`.
 
 - **Year** and **month** are when the release was published.
 - **Public release number** is the release counter for that month. It resets at the start of each month.
 - Counters start at **100**, then **200**, **300**, and so on (not 1, 2, 3) so they are not mistaken for a day of the month.
+
+Beta builds use `{year}.{month}.{public release number}-beta.{n}`. The beta counter starts at 1 and resets when year, month, or the public release number changes.
 
 ## Build generated files
 

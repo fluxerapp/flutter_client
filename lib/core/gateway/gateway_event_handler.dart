@@ -29,7 +29,7 @@ import 'package:fluxer_app/features/notifications/data/mention_feed_write_batche
 import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:fluxer_dart/gateway.dart';
 
 void _logGatewayDebug(void Function() log) {
@@ -1371,7 +1371,7 @@ class GatewayEventHandler {
   Map<String, dynamic> _defaultChannelOverrideData() {
     return const ChannelOverrides(
       collapsed: false,
-      messageNotifications: UserNotificationSettings.inherit,
+      messageNotifications: UserNotificationSettingsInput.inherit,
       muted: false,
       muteConfig: null,
     ).toJson();

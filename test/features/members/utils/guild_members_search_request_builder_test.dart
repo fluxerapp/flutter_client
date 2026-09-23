@@ -48,8 +48,8 @@ void main() {
       expect(request.roleIds, <String>['role-1']);
       expect(request.joinedAtGte, 100);
       expect(request.userCreatedAtLte, 200);
-      expect(request.joinSourceType, <JoinSourceType>[
-        JoinSourceType.instantInvite,
+      expect(request.joinSourceType, <JoinSourceTypeInput>[
+        JoinSourceTypeInput.instantInvite,
       ]);
       expect(request.sourceInviteCode, <String>['welcome']);
       expect(request.sortOrder, GuildMemberSearchRequestSortOrderSortOrder.asc);

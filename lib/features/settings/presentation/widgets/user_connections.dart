@@ -311,7 +311,7 @@ class _ConnectionCard extends ConsumerWidget {
         .pendingIds
         .contains(connection.id);
 
-    final platformIcon = connection.type == ConnectionResponseTypeType.bsky
+    final platformIcon = connection.type == ConnectionType.bluesky
         ? const FluxerBlueskyIcon()
         : const PhosphorIcon(
             PhosphorIconsBold.globeSimple,

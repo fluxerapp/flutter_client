@@ -32,7 +32,7 @@ void main() {
     });
 
     expect(
-      entry.media?['webp']?.proxySrc,
+      entry.media['webp']?.proxySrc,
       'https://cdn.example/excited-ah.webp',
     );
   });
@@ -156,6 +156,7 @@ void main() {
       proxyUrl: 'https://cdn.example/excited-ah.gif',
       width: 320,
       height: 228,
+      media: <String, sdk.GifMediaFormat>{},
     );
 
     final preview = resolvedGifPreviewMediaForPicker(entry);

@@ -56,10 +56,14 @@ ChannelOverrides _override({
 }) {
   return ChannelOverrides(
     collapsed: false,
-    messageNotifications: messageNotifications,
+    messageNotifications: UserNotificationSettingsInput.fromJson(
+      messageNotifications.json ?? 0,
+    ),
     muted: muted,
     muteConfig: null,
-    unreadBadges: unreadBadges,
+    unreadBadges: unreadBadges == null
+        ? null
+        : UserNotificationSettingsInput.fromJson(unreadBadges.json ?? 0),
   );
 }
 

@@ -19,7 +19,7 @@ abstract final class InstanceEndpoints {
   static String gateway = '';
 
   static void apply(WellKnownFluxerResponse response) {
-    final WellKnownFluxerResponseEndpoints endpoints = response.endpoints;
+    final InstanceEndpointsSchema endpoints = response.endpoints;
     staticCdn = _normalizeBaseUrl(
       endpoints.staticCdn,
       fallback: defaultStaticCdn,

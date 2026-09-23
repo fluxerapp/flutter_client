@@ -15,7 +15,7 @@ import 'package:fluxer_app/features/channels/domain/channel.dart'
 import 'package:fluxer_app/features/guilds/domain/guild_read_state_contribution.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_ready_provider.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'guild_read_state_provider.g.dart';

@@ -321,7 +321,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     required int? premiumLifetimeSequence,
     required List<UserPartialResponse> mutualFriends,
     required List<UserProfileFullResponseMutualGuilds> mutualCommunities,
-    required UserProfileFullResponseUser? actionUser,
+    required UserPartialResponse? actionUser,
     required List<ConnectionResponse> connections,
     required Friend? relationship,
     required String? pronouns,

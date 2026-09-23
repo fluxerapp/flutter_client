@@ -74,8 +74,7 @@ class InstanceRuntimeConfig {
     if (response == null) {
       return defaults;
     }
-    final WellKnownFluxerResponseAppPublicBranding branding =
-        response.appPublic.branding;
+    final InstanceBrandingSchema branding = response.appPublic.branding;
     final String productName = branding.productName.trim();
     final String gifName = response.gif.displayName.trim();
     final String? singleCommunityGuildId = response
@@ -107,8 +106,7 @@ class InstanceRuntimeConfig {
           : singleCommunityGuildId,
       directMessagesDisabled: response.community.directMessagesDisabled,
       registrationClosed:
-          response.registration.mode ==
-          WellKnownFluxerResponseRegistrationModeMode.closed,
+          response.registration.mode == InstanceRegistrationModeSchema.closed,
       adminRegistrationUrlsEnabled:
           response.registration.adminRegistrationUrlsEnabled,
       collectDateOfBirth: response.appPublic.registration.collectDateOfBirth,

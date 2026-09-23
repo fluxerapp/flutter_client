@@ -26,7 +26,7 @@ MessageResponseSchema _message({
   id: id,
   channelId: channelId,
   author: _author(),
-  type: MessageResponseSchemaTypeType.valueDefault,
+  type: MessageType.valueDefault,
   flags: 0,
   content: content,
   timestamp: DateTime.utc(2026, 1, 2),

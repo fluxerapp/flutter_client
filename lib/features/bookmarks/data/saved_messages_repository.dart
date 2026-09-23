@@ -25,7 +25,7 @@ class SavedMessagesRepository {
     final List<db.MessagesCompanion> toUpsert = <db.MessagesCompanion>[];
     for (final SavedMessageEntryResponse entry in entries) {
       final MessageResponseSchema? schema = entry.message;
-      if (entry.status == SavedMessageEntryResponseStatusStatus.available &&
+      if (entry.status == SavedMessageStatusSchema.available &&
           schema != null) {
         final Message message = Message.fromSdk(
           schema,

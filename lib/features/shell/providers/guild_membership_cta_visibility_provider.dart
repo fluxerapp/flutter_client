@@ -1,6 +1,7 @@
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/providers/well_known_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
+import 'package:fluxer_app/features/guilds/utils/invite_code.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -25,13 +26,13 @@ Future<bool> guildMembershipCtaVisible(Ref ref) async {
     final InviteResponseSchema schema = await client.invites.getInvite(
       inviteCode: kFluxerHqInviteCode,
     );
-    return switch (schema) {
-      InviteResponseSchema0(:final guild) =>
-        // One-off snapshot; read does not retain the autoDispose family.
-        // ignore: riverpod_lint/only_use_keep_alive_inside_keep_alive
-        (await ref.read(guildByIdProvider(guild.id).future)) == null,
-      _ => false,
-    };
+    if (!inviteResponseIsGuild(schema)) {
+      return false;
+    }
+    final String guildId = schema.toGuildInviteResponse().guild.id;
+    // One-off snapshot; read does not retain the autoDispose family.
+    // ignore: riverpod_lint/only_use_keep_alive_inside_keep_alive
+    return (await ref.read(guildByIdProvider(guildId).future)) == null;
   } on Object {
     return false;
   }

@@ -2,7 +2,7 @@ name: fluxer_app
 description: "Official Fluxer Mobile client built on the Flutter framework"
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+1
+version: 2026.09.100+1
 
 environment:
   sdk: ^3.12.0
@@ -24,7 +24,7 @@ dependencies:
   cupertino_ui: ^1.1.0
   desktop_drop: ^0.8.4
   device_info_plus: ^13.2.0
-  dio: ^5.10.0
+  dio: ^5.11.1
   drift: ^2.34.4
   drift_flutter: ^0.3.1
   file_picker: ^12.2.0
@@ -73,11 +73,11 @@ dependencies:
   media_kit_video: ^2.0.1
   opentelemetry: ^0.18.11
   package_info_plus: ^10.2.1
-  passkeys: ^2.22.1
+  passkeys: ^2.23.1
   path: ^1.9.1
   path_provider: ^2.1.5
-  permission_handler: ^13.0.0
-  photo_manager: ^3.8.3
+  permission_handler: ^13.0.2
+  photo_manager: ^3.12.0
   phone_numbers_parser: ^9.0.25
   phosphor_flutter:
     git:
@@ -90,7 +90,7 @@ dependencies:
   riverpod: ^3.4.1
   riverpod_annotation: ^4.0.3
   sensors_plus: ^7.1.0
-  shared_preferences: ^2.5.3
+  shared_preferences: ^2.5.5
   skeletonizer: ^3.0.0
   smart_keyboard_insets: ^0.0.1
   sqlite3: ^3.5.2
@@ -104,7 +104,7 @@ dependencies:
   uuid: ^4.5.1
   visibility_detector: ^0.4.0+2
   web_socket_channel: ^3.0.2
-  window_manager: ^0.5.1
+  window_manager: ^0.5.2
   wakelock_plus: ^1.8.0
 
 dependency_overrides:

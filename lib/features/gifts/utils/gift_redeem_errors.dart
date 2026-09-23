@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
-import 'package:fluxer_dart/export.dart';
 
 enum GiftRedeemFailure {
   invalid,
@@ -11,14 +10,12 @@ enum GiftRedeemFailure {
 }
 
 GiftRedeemFailure giftRedeemFailureFromDio(DioException error) {
-  final ApiErrorCode code = ApiErrorCode.fromJson(
-    apiErrorCodeFromDioException(error) ?? '',
-  );
+  final String? code = apiErrorCodeFromDioException(error);
   return switch (code) {
-    ApiErrorCode.cannotRedeemPlutoniumWithVisionary =>
+    'CANNOT_REDEEM_PLUTONIUM_WITH_VISIONARY' =>
       GiftRedeemFailure.visionaryCannotRedeem,
-    ApiErrorCode.unknownGiftCode => GiftRedeemFailure.invalid,
-    ApiErrorCode.giftCodeAlreadyRedeemed => GiftRedeemFailure.alreadyRedeemed,
+    'UNKNOWN_GIFT_CODE' => GiftRedeemFailure.invalid,
+    'GIFT_CODE_ALREADY_REDEEMED' => GiftRedeemFailure.alreadyRedeemed,
     _ when error.response?.statusCode == 404 => GiftRedeemFailure.notFound,
     _ => GiftRedeemFailure.generic,
   };

@@ -16,22 +16,25 @@ class _FakeInvitesApi implements InvitesApi {
   @override
   Future<InviteMetadataResponseSchema> createChannelInvite({
     required SnowflakeType channelId,
-    required ChannelInviteCreateRequest body,
+    ChannelInviteCreateRequest? body,
   }) async {
     lastChannelId = channelId;
     lastBody = body;
-    return InviteMetadataResponseSchema1(
-      code: 'invite-code',
-      type: GroupDmInviteMetadataResponseTypeType.value1,
-      channel: const ChannelPartialResponse(id: 'group-1', type: 3),
-      inviter: null,
-      memberCount: 3,
-      expiresAt: null,
-      temporary: false,
-      createdAt: DateTime.utc(2026),
-      uses: 0,
-      maxUses: 0,
-    );
+    final InviteMetadataResponseSchemaGroupDmInviteMetadataResponse group =
+        InviteMetadataResponseSchemaGroupDmInviteMetadataResponse(
+          code: 'invite-code',
+          type: 1,
+          channel: const ChannelPartialResponse(
+            id: 'group-1',
+            type: ChannelType.groupDm,
+          ),
+          memberCount: 3,
+          temporary: false,
+          createdAt: DateTime.utc(2026),
+          uses: 0,
+          maxUses: 0,
+        );
+    return InviteMetadataResponseSchema(group.toJson());
   }
 
   @override
@@ -113,12 +116,6 @@ void main() {
       expect(captured?.path, endsWith('/channels/group-1'));
       expect(captured?.data, isA<Map<String, dynamic>>());
       final Map<String, dynamic> body = captured!.data as Map<String, dynamic>;
-      final Object? requestType = body['type'];
-      expect(
-        requestType == 3 ||
-            requestType == GroupDmChannelUpdateRequestTypeType.groupDm,
-        isTrue,
-      );
       expect(body['name'], 'Renamed');
     });
 

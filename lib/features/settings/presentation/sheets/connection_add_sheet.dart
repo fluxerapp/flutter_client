@@ -33,9 +33,9 @@ enum _ConnectionType { bluesky, domain }
 extension _ConnectionTypeApi on _ConnectionType {
   String get apiValue => sdkType.toJson();
 
-  ConnectionResponseTypeType get sdkType => this == _ConnectionType.bluesky
-      ? ConnectionResponseTypeType.bsky
-      : ConnectionResponseTypeType.domain;
+  ConnectionType get sdkType => this == _ConnectionType.bluesky
+      ? ConnectionType.bluesky
+      : ConnectionType.domain;
 }
 
 class ConnectionAddSheet {

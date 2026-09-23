@@ -75,7 +75,7 @@ Future<UserProfileFullResponse?> userProfile(
 
 UserProfileFullResponse _userProfileFromCachedUser(User user) {
   return UserProfileFullResponse(
-    user: UserProfileFullResponseUser(
+    user: UserPartialResponse(
       id: user.id,
       username: user.username,
       discriminator: user.discriminator,

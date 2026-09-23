@@ -39,7 +39,7 @@ class ChannelPinsRepository {
     final response = await _client.channels.listPinnedMessages(
       channelId: channelId,
       limit: kPinnedMessagesPageSize,
-      before: before,
+      before: before?.toUtc().toIso8601String(),
     );
 
     final mentionCtx = await buildMessageMentionContext(

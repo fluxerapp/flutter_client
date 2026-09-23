@@ -16,39 +16,44 @@ Map<String, Object?> _validTemplateJson({
       'roles':
           roles ??
           <Map<String, Object?>>[
-            <String, Object?>{'id': 0, 'name': '@everyone'},
-            <String, Object?>{'id': 1, 'name': 'Mods'},
+            <String, Object?>{'id': '0', 'name': '@everyone'},
+            <String, Object?>{'id': '1', 'name': 'Mods'},
           ],
       'channels':
           channels ??
           <Map<String, Object?>>[
             <String, Object?>{
-              'id': 1,
+              'id': '1',
               'type': 0,
               'name': 'general',
               'position': 0,
             },
             <String, Object?>{
-              'id': 2,
+              'id': '2',
               'type': 2,
               'name': 'voice',
               'position': 1,
             },
-            <String, Object?>{'id': 3, 'type': 4, 'name': 'cat', 'position': 2},
             <String, Object?>{
-              'id': 4,
+              'id': '3',
+              'type': 4,
+              'name': 'cat',
+              'position': 2,
+            },
+            <String, Object?>{
+              'id': '4',
               'type': 5,
               'name': 'announcements',
               'position': 3,
             },
             <String, Object?>{
-              'id': 5,
+              'id': '5',
               'type': 13,
               'name': 'stage',
               'position': 4,
             },
             <String, Object?>{
-              'id': 6,
+              'id': '6',
               'type': 15,
               'name': 'forum',
               'position': 5,

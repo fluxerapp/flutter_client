@@ -17,7 +17,7 @@ class _PendingWellKnown extends WellKnown {
 WellKnownFluxerResponse _selfHostedWellKnown() {
   return const WellKnownFluxerResponse(
     apiCodeVersion: 1,
-    endpoints: WellKnownFluxerResponseEndpoints(
+    endpoints: InstanceEndpointsSchema(
       api: 'https://example.test/api',
       apiClient: 'https://example.test/api/client',
       apiPublic: 'https://example.test/api/public',
@@ -30,45 +30,45 @@ WellKnownFluxerResponse _selfHostedWellKnown() {
       gift: 'https://example.test/gift',
       webapp: 'https://example.test/webapp',
     ),
-    captcha: WellKnownFluxerResponseCaptcha(
-      provider: 'none',
+    captcha: InstanceCaptchaSchema(
+      provider: InstanceCaptchaProviderSchema.none,
       hcaptchaSiteKey: null,
       turnstileSiteKey: null,
     ),
-    features: WellKnownFluxerResponseFeatures(
+    features: InstanceFeaturesSchema(
       voiceEnabled: true,
       stripeEnabled: false,
       selfHosted: true,
       presignedAttachmentUploads: false,
       emailsEnabled: false,
     ),
-    gif: WellKnownFluxerResponseGif(
+    gif: InstanceGifSchema(
       provider: 'tenor',
       displayName: 'Tenor',
       attributionRequired: false,
     ),
-    sso: WellKnownFluxerResponseSso(
+    sso: InstanceSsoSchema(
       enabled: false,
       enforced: false,
       displayName: null,
       redirectUri: 'https://example.test/sso',
     ),
-    registration: WellKnownFluxerResponseRegistration(
-      mode: WellKnownFluxerResponseRegistrationModeMode.open,
+    registration: InstanceRegistrationSchema(
+      mode: InstanceRegistrationModeSchema.open,
       adminRegistrationUrlsEnabled: false,
     ),
-    community: WellKnownFluxerResponseCommunity(
+    community: InstanceCommunitySchema(
       singleCommunity: false,
       singleCommunityGuildId: null,
       directMessagesDisabled: false,
     ),
-    services: WellKnownFluxerResponseServices(
+    services: InstanceServicesSchema(
       gifEnabled: true,
       youtubeEnabled: true,
       blueskyEnabled: false,
     ),
     limits: WellKnownFluxerResponseLimits(
-      version: WellKnownFluxerResponseLimitsVersionVersion.value2,
+      version: 2,
       traitDefinitions: <String>[],
       defaultsHash: 'test',
       rules: <WellKnownFluxerResponseLimitsRules>[
@@ -78,9 +78,9 @@ WellKnownFluxerResponse _selfHostedWellKnown() {
         ),
       ],
     ),
-    push: WellKnownFluxerResponsePush(publicVapidKey: null),
-    appPublic: WellKnownFluxerResponseAppPublic(
-      branding: WellKnownFluxerResponseAppPublicBranding(
+    push: InstancePushSchema(publicVapidKey: null),
+    appPublic: InstanceAppPublicSchema(
+      branding: InstanceBrandingSchema(
         productName: 'Acme',
         iconUrl: null,
         symbolUrl: null,
@@ -88,16 +88,12 @@ WellKnownFluxerResponse _selfHostedWellKnown() {
         wordmarkUrl: null,
         faviconUrl: null,
         themeColor: null,
+        statusPageUrl: null,
+        statusPageIncidentHistoryUrl: null,
       ),
-      setup: WellKnownFluxerResponseAppPublicSetup(
-        configured: true,
-        adminUrl: null,
-      ),
-      legal: WellKnownFluxerResponseAppPublicLegal(
-        termsUrl: null,
-        privacyUrl: null,
-      ),
-      registration: WellKnownFluxerResponseAppPublicRegistration(
+      setup: InstanceSetupSchema(configured: true, adminUrl: null),
+      legal: InstanceAppPublicSchemaLegal(termsUrl: null, privacyUrl: null),
+      registration: InstanceAppPublicSchemaRegistration(
         collectDateOfBirth: true,
       ),
     ),

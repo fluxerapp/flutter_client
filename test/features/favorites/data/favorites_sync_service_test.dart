@@ -32,7 +32,7 @@ class _FakeUsersApi implements UsersApi {
 
   @override
   Future<UserSettingsResponse> updateCurrentUserSettings({
-    required UserSettingsUpdateRequest body,
+    UserSettingsUpdateRequest? body,
   }) async {
     pushCount++;
     lastPushBody = body;
@@ -44,7 +44,7 @@ class _FakeUsersApi implements UsersApi {
       // ignore: only_throw_errors
       throw pushError!;
     }
-    return _testUserSettings(syncedPreferences: body.syncedPreferences ?? '');
+    return _testUserSettings(syncedPreferences: body?.syncedPreferences ?? '');
   }
 
   @override

@@ -135,7 +135,7 @@ void main() {
     }) {
       return ChannelPartialResponse(
         id: '100',
-        type: 3,
+        type: ChannelType.groupDm,
         name: name,
         recipients: recipients,
       );

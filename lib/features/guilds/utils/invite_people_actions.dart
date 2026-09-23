@@ -11,7 +11,7 @@ import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/guilds/utils/invitable_channel.dart';
 import 'package:fluxer_app/features/guilds/utils/invite_code.dart';
 import 'package:fluxer_app/features/settings/utils/guild_invites_utils.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/export.dart' hide ChannelType;
 
 const int kDefaultInviteMaxAgeSeconds = 604800;
 

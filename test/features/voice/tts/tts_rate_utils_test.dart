@@ -26,4 +26,12 @@ void main() {
       expect(nearestTtsRate(1.3), 1.5);
     });
   });
+
+  group('engineSpeechRate', () {
+    test('web uses user rate, native uses half', () {
+      expect(engineSpeechRate(1, isWeb: true), 1);
+      expect(engineSpeechRate(1, isWeb: false), 0.5);
+      expect(engineSpeechRate(2, isWeb: false), 1);
+    });
+  });
 }

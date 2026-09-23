@@ -8,7 +8,7 @@ import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
 import 'package:fluxer_app/features/quick_switcher/data/quick_switcher_unread_utils.dart';
 import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_unread_channel.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/export.dart' hide ChannelType;
 
 Future<List<QuickSwitcherUnreadChannel>> loadQuickSwitcherUnreadChannels({
   required FluxerDatabase db,

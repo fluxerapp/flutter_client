@@ -223,7 +223,7 @@ void main() {
   });
 
   group('resolveGuildMemberAvatarUrl', () {
-    test('uses guild member media url when server avatar is set', () {
+    test('uses guild member media url when guild avatar is set', () {
       final String? actual = resolveGuildMemberAvatarUrl(
         guildId: '10',
         userId: '1',
@@ -256,7 +256,7 @@ void main() {
   });
 
   group('resolveGuildMemberResponseAvatarUrl', () {
-    test('uses guild member media url when server avatar is set', () {
+    test('uses guild member media url when guild avatar is set', () {
       final String? actual = resolveGuildMemberResponseAvatarUrl(
         guildId: '10',
         member: _guildMember(avatar: 'guild_avatar'),
@@ -326,6 +326,17 @@ void main() {
         const <db.Role>[],
       );
       expect(actual.avatar, 'user_avatar');
+      expect(actual.guildAvatar, isNull);
+    });
+
+    test('custom guild avatar stays separate from the user avatar', () {
+      final members.Member actual = members.Member.fromRow(
+        _dbMember(guildAvatar: 'guild_avatar'),
+        _dbUser(),
+        const <db.Role>[],
+      );
+      expect(actual.guildAvatar, 'guild_avatar');
+      expect(actual.avatar, 'guild_avatar');
     });
   });
 
@@ -699,7 +710,7 @@ UserProfileFullResponse _profile({
   String? userPronouns,
 }) {
   return UserProfileFullResponse(
-    user: UserProfileFullResponseUser(
+    user: UserPartialResponse(
       id: '1',
       username: 'user',
       discriminator: '0001',
@@ -774,11 +785,11 @@ db.User _dbUser() {
   );
 }
 
-db.Member _dbMember({int? profileFlags, String? serverAvatar}) {
+db.Member _dbMember({int? profileFlags, String? guildAvatar}) {
   return db.Member(
     userId: '1',
     guildId: '10',
-    serverAvatar: serverAvatar,
+    serverAvatar: guildAvatar,
     roleIdsJson: '[]',
     profileFlags: profileFlags,
   );

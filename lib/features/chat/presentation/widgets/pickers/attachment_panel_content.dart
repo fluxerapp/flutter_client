@@ -52,6 +52,8 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
   bool _hasMore = true;
   bool _isResolvingAsset = false;
   int _page = 0;
+  int _loadGeneration = 0;
+  bool _galleryNeedsRefresh = false;
   Timer? _galleryRefreshDebounce;
   late final AttachmentGallerySource _gallerySource;
 
@@ -83,7 +85,18 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
       unawaited(_bootstrap());
       return;
     }
+    if (!_isGalleryNearTop) {
+      _galleryNeedsRefresh = true;
+      return;
+    }
     unawaited(_loadMore(reset: true));
+  }
+
+  bool get _isGalleryNearTop {
+    if (!widget.scrollController.hasClients) {
+      return _items.isEmpty;
+    }
+    return widget.scrollController.position.pixels <= 8;
   }
 
   void _onGalleryChanged() {
@@ -92,9 +105,14 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
     }
     _galleryRefreshDebounce?.cancel();
     _galleryRefreshDebounce = Timer(const Duration(milliseconds: 300), () {
-      if (mounted) {
-        unawaited(_loadMore(reset: true));
+      if (!mounted) {
+        return;
       }
+      if (_isGalleryNearTop) {
+        unawaited(_loadMore(reset: true));
+        return;
+      }
+      _galleryNeedsRefresh = true;
     });
   }
 
@@ -112,10 +130,16 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
   }
 
   void _onScroll() {
-    if (!_hasMore || _loadingMore || _loading) {
+    if (!widget.scrollController.hasClients) {
       return;
     }
-    if (!widget.scrollController.hasClients) {
+    if (_galleryNeedsRefresh && _isGalleryNearTop) {
+      if (!_loadingMore && !_loading) {
+        unawaited(_loadMore(reset: true));
+      }
+      return;
+    }
+    if (!_hasMore || _loadingMore || _loading) {
       return;
     }
     final ScrollPosition position = widget.scrollController.position;
@@ -149,14 +173,16 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
     if (_loadingMore && !reset) {
       return;
     }
+    final int generation = ++_loadGeneration;
     setState(() {
       _loadingMore = true;
       if (reset) {
-        _loading = true;
+        _galleryNeedsRefresh = false;
         _page = 0;
-        _items.clear();
-        _thumbnailFutures.clear();
         _hasMore = true;
+        if (_items.isEmpty) {
+          _loading = true;
+        }
       }
     });
     try {
@@ -164,11 +190,17 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
         page: _page,
         pageSize: _pageSize,
       );
-      if (!mounted) {
+      if (!mounted || generation != _loadGeneration) {
         return;
       }
       setState(() {
-        _items.addAll(next);
+        if (reset) {
+          _items
+            ..clear()
+            ..addAll(next);
+        } else {
+          _items.addAll(next);
+        }
         _hasMore = next.length >= _pageSize;
         if (next.isNotEmpty) {
           _page += 1;
@@ -177,12 +209,12 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
         _loadingMore = false;
       });
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
+        if (mounted && generation == _loadGeneration) {
           _onScroll();
         }
       });
     } on Object {
-      if (!mounted) {
+      if (!mounted || generation != _loadGeneration) {
         return;
       }
       setState(() {

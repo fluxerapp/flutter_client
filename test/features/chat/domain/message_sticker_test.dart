@@ -38,7 +38,7 @@ void main() {
           avatarColor: null,
           flags: 0,
         ),
-        type: sdk.MessageResponseSchemaTypeType.valueDefault,
+        type: sdk.MessageType.valueDefault,
         flags: 0,
         content: '',
         timestamp: DateTime.utc(2026),

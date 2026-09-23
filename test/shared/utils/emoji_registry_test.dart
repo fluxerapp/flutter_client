@@ -1,5 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
+import 'package:fluxer_app/shared/utils/emoji_utils.dart'
+    show kSkinToneSurrogates;
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -32,18 +34,18 @@ void main() {
   });
 
   test('matches web sprite indices for nature emojis', () {
-    expect(EmojiRegistry.entryByName('dog')?.spriteIndex, 559);
-    expect(EmojiRegistry.entryByName('fox')?.spriteIndex, 565);
-    expect(EmojiRegistry.entryByName('lion_face')?.spriteIndex, 570);
-    expect(EmojiRegistry.entryByName('pig')?.spriteIndex, 586);
-    expect(EmojiRegistry.entryByName('frog')?.spriteIndex, 643);
+    expect(EmojiRegistry.entryByName('dog')?.spriteIndex, 563);
+    expect(EmojiRegistry.entryByName('fox')?.spriteIndex, 569);
+    expect(EmojiRegistry.entryByName('lion_face')?.spriteIndex, 574);
+    expect(EmojiRegistry.entryByName('pig')?.spriteIndex, 590);
+    expect(EmojiRegistry.entryByName('frog')?.spriteIndex, 647);
   });
 
   test('loads synced emoji counts', () {
-    expect(EmojiRegistry.allEmojis.length, 1932);
+    expect(EmojiRegistry.allEmojis.length, 1940);
     expect(
       EmojiRegistry.allEmojis.where((EmojiEntry e) => e.hasDiversity).length,
-      323,
+      330,
     );
   });
 
@@ -56,6 +58,24 @@ void main() {
     );
     expect(toned, isNot(equals(wave.surrogates)));
     expect(toned.contains('\u{1F3FD}'), isTrue);
+  });
+
+  test('resolves skin tones 1-5 to the uniform variants', () {
+    for (final EmojiEntry entry in EmojiRegistry.allEmojis.where(
+      (EmojiEntry e) => e.hasDiversity,
+    )) {
+      for (int i = 0; i < kSkinToneSurrogates.length; i++) {
+        final String toned = EmojiRegistry.resolveSkinToneSurrogates(
+          entry,
+          kSkinToneSurrogates[i],
+        );
+        final Set<String> tones = kSkinToneSurrogates
+            .where(toned.contains)
+            .toSet();
+        expect(tones, {kSkinToneSurrogates[i]}, reason: entry.primaryName);
+      }
+    }
+    expect(EmojiRegistry.resolveSync('handshake::skin-tone-6'), isNull);
   });
 
   test('resolves shortcut aliases', () {

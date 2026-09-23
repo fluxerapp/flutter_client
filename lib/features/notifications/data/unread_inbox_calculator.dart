@@ -6,7 +6,7 @@ import 'package:fluxer_app/features/channels/domain/channel.dart'
     show isGuildCategoryChannelType, isGuildVoiceChannelType;
 import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/export.dart' hide ChannelType;
 
 const Duration _oldMessageThreshold = Duration(days: 7);
 const Duration _recentVisitThreshold = Duration(days: 3);

@@ -50,7 +50,9 @@ jobs:
           repository: fluxerapp/fluxer
           ref: main
           path: upstream/fluxer
-          sparse-checkout: fluxer_app/src/media/data/emojis.json
+          sparse-checkout: |
+            fluxer_app/src/media/data/emojis.json
+            fluxer_app/src/media/images/emoji-sprites
           sparse-checkout-cone-mode: true
 
       - name: Sync emojis.json
@@ -58,6 +60,12 @@ jobs:
           bash .github/scripts/sync_emojis_json_from_web.sh \
             upstream/fluxer/fluxer_app/src/media/data/emojis.json \
             assets/emojis.json
+
+      - name: Sync emoji sprite sheets
+        run: |
+          for sheet in assets/emoji-sprites/spritesheet-*@2x.png; do
+            cp "upstream/fluxer/fluxer_app/src/media/images/emoji-sprites/$(basename "$sheet")" "$sheet"
+          done
 
       - name: Set up Flutter
         uses: axi92/flutter-action@72633a794ba0b23276fa4fc465a6cacb758a90c5
@@ -87,20 +95,20 @@ jobs:
 
           git switch -C "$SYNC_BRANCH"
 
-          if git diff --quiet -- assets/emojis.json; then
-            echo "::notice::emojis.json already matches web; nothing to do."
+          if git diff --quiet -- assets/emojis.json assets/emoji-sprites; then
+            echo "::notice::emojis.json and sprite sheets already match web; nothing to do."
             exit 0
           fi
 
-          git add assets/emojis.json
-          git commit -m "chore(emoji): sync emojis.json from web"
+          git add assets/emojis.json assets/emoji-sprites
+          git commit -m "chore(emoji): sync emojis.json and sprite sheets from web"
           git push --force-with-lease origin "HEAD:refs/heads/$SYNC_BRANCH"
 
           pr="$(gh pr list --repo "$GITHUB_REPOSITORY" --base "$BASE_BRANCH" --head "$SYNC_BRANCH" --state open --json number --jq '.[0].number // empty')"
-          body=$'Syncs `assets/emojis.json` from https://github.com/fluxerapp/fluxer.\n\nSource: `fluxer_app/src/media/data/emojis.json` on `main`.'
+          body=$'Syncs `assets/emojis.json` and `assets/emoji-sprites` from https://github.com/fluxerapp/fluxer.\n\nSource: `fluxer_app/src/media/data/emojis.json` and `fluxer_app/src/media/images/emoji-sprites` on `main`.'
           if [[ -z "$pr" ]]; then
             gh pr create --repo "$GITHUB_REPOSITORY" --base "$BASE_BRANCH" --head "$SYNC_BRANCH" \
-              --title "chore(emoji): sync emojis.json from web" \
+              --title "chore(emoji): sync emojis.json and sprite sheets from web" \
               --body "$body"
           else
             echo "::notice::#$pr already open; new commits are reflected automatically."

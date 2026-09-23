@@ -128,7 +128,7 @@ class ChatExpressionExpandableSheetState
   @override
   void didUpdateWidget(ChatExpressionExpandableSheet oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.contentBuilder != widget.contentBuilder &&
+    if ((oldWidget.contentBuilder == null) != (widget.contentBuilder == null) &&
         _scrollController.hasClients) {
       _scrollController.jumpTo(0);
     }

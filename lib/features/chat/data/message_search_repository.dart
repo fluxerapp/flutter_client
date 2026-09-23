@@ -288,14 +288,9 @@ GlobalSearchMessagesRequest buildGlobalSearchMessagesRequest(
   final ParsedChannelSearchParams parsed = query.parsed;
   final MessageSearchScopeFilter scope = query.scope;
   final MessageSearchSortFilter sort = query.sort;
-  final (
-    GlobalSearchMessagesRequestSortBySortBy,
-    GlobalSearchMessagesRequestSortOrderSortOrder,
-  )
-  sortValues = _messageSort(sort);
+  final (MessageSortField, MessageSortOrder) sortValues = _messageSort(sort);
 
   return GlobalSearchMessagesRequest(
-    hitsPerPage: kMessageSearchPageSize,
     page: query.page,
     maxId: _blankToNull(parsed.maxId),
     minId: _blankToNull(parsed.minId),
@@ -331,7 +326,7 @@ GlobalSearchMessagesRequest buildGlobalSearchMessagesRequest(
     sortOrder: parsed.sortOrder == null
         ? sortValues.$2
         : _parsedSortOrder(parsed.sortOrder!),
-    includeNsfw: parsed.includeNsfw,
+    includeNsfw: parsed.includeNsfw ?? false,
     scope: _messageSearchScope(scope),
     contextChannelId: scope == MessageSearchScopeFilter.current
         ? query.channelId
@@ -357,58 +352,48 @@ List<T>? _nonEmptyList<T>(List<T> values) {
   return values;
 }
 
-GlobalSearchMessagesRequestScopeScope _messageSearchScope(
-  MessageSearchScopeFilter scope,
-) => switch (scope) {
-  MessageSearchScopeFilter.current =>
-    GlobalSearchMessagesRequestScopeScope.current,
-  MessageSearchScopeFilter.openDms =>
-    GlobalSearchMessagesRequestScopeScope.openDms,
-  MessageSearchScopeFilter.allDms =>
-    GlobalSearchMessagesRequestScopeScope.allDms,
-  MessageSearchScopeFilter.allGuilds =>
-    GlobalSearchMessagesRequestScopeScope.allGuilds,
-  MessageSearchScopeFilter.all => GlobalSearchMessagesRequestScopeScope.all,
-  MessageSearchScopeFilter.openDmsAndAllGuilds =>
-    GlobalSearchMessagesRequestScopeScope.openDmsAndAllGuilds,
-};
+MessageSearchScope _messageSearchScope(MessageSearchScopeFilter scope) =>
+    switch (scope) {
+      MessageSearchScopeFilter.current => MessageSearchScope.current,
+      MessageSearchScopeFilter.openDms => MessageSearchScope.openDms,
+      MessageSearchScopeFilter.allDms => MessageSearchScope.allDms,
+      MessageSearchScopeFilter.allGuilds => MessageSearchScope.allGuilds,
+      MessageSearchScopeFilter.all => MessageSearchScope.all,
+      MessageSearchScopeFilter.openDmsAndAllGuilds =>
+        MessageSearchScope.openDmsAndAllGuilds,
+    };
 
-(
-  GlobalSearchMessagesRequestSortBySortBy,
-  GlobalSearchMessagesRequestSortOrderSortOrder,
-)
-_messageSort(MessageSearchSortFilter sort) => switch (sort) {
+(MessageSortField, MessageSortOrder) _messageSort(
+  MessageSearchSortFilter sort,
+) => switch (sort) {
   MessageSearchSortFilter.newest => (
-    GlobalSearchMessagesRequestSortBySortBy.timestamp,
-    GlobalSearchMessagesRequestSortOrderSortOrder.desc,
+    MessageSortField.timestamp,
+    MessageSortOrder.desc,
   ),
   MessageSearchSortFilter.oldest => (
-    GlobalSearchMessagesRequestSortBySortBy.timestamp,
-    GlobalSearchMessagesRequestSortOrderSortOrder.asc,
+    MessageSortField.timestamp,
+    MessageSortOrder.asc,
   ),
   MessageSearchSortFilter.relevance => (
-    GlobalSearchMessagesRequestSortBySortBy.relevance,
-    GlobalSearchMessagesRequestSortOrderSortOrder.desc,
+    MessageSortField.relevance,
+    MessageSortOrder.desc,
   ),
 };
 
-GlobalSearchMessagesRequestSortBySortBy _parsedSortBy(String value) =>
-    switch (value) {
-      'relevance' => GlobalSearchMessagesRequestSortBySortBy.relevance,
-      _ => GlobalSearchMessagesRequestSortBySortBy.timestamp,
-    };
+MessageSortField _parsedSortBy(String value) => switch (value) {
+  'relevance' => MessageSortField.relevance,
+  _ => MessageSortField.timestamp,
+};
 
-GlobalSearchMessagesRequestSortOrderSortOrder _parsedSortOrder(String value) =>
-    switch (value) {
-      'asc' => GlobalSearchMessagesRequestSortOrderSortOrder.asc,
-      _ => GlobalSearchMessagesRequestSortOrderSortOrder.desc,
-    };
+MessageSortOrder _parsedSortOrder(String value) => switch (value) {
+  'asc' => MessageSortOrder.asc,
+  _ => MessageSortOrder.desc,
+};
 
-List<GlobalSearchMessagesRequestHasHas>? _mapHasFilters(List<String> values) {
-  final List<GlobalSearchMessagesRequestHasHas> mapped =
-      <GlobalSearchMessagesRequestHasHas>[];
+List<MessageContentType>? _mapHasFilters(List<String> values) {
+  final List<MessageContentType> mapped = <MessageContentType>[];
   for (final String value in values) {
-    final GlobalSearchMessagesRequestHasHas? item = _hasFilter(value);
+    final MessageContentType? item = _hasFilter(value);
     if (item != null) {
       mapped.add(item);
     }
@@ -416,14 +401,10 @@ List<GlobalSearchMessagesRequestHasHas>? _mapHasFilters(List<String> values) {
   return mapped.isEmpty ? null : mapped;
 }
 
-List<GlobalSearchMessagesRequestExcludeHasExcludeHas>? _mapExcludeHasFilters(
-  List<String> values,
-) {
-  final List<GlobalSearchMessagesRequestExcludeHasExcludeHas> mapped =
-      <GlobalSearchMessagesRequestExcludeHasExcludeHas>[];
+List<MessageContentType>? _mapExcludeHasFilters(List<String> values) {
+  final List<MessageContentType> mapped = <MessageContentType>[];
   for (final String value in values) {
-    final GlobalSearchMessagesRequestExcludeHasExcludeHas? item =
-        _excludeHasFilter(value);
+    final MessageContentType? item = _excludeHasFilter(value);
     if (item != null) {
       mapped.add(item);
     }
@@ -431,46 +412,40 @@ List<GlobalSearchMessagesRequestExcludeHasExcludeHas>? _mapExcludeHasFilters(
   return mapped.isEmpty ? null : mapped;
 }
 
-GlobalSearchMessagesRequestHasHas? _hasFilter(String value) =>
-    switch (value.toLowerCase()) {
-      'image' => GlobalSearchMessagesRequestHasHas.image,
-      'video' => GlobalSearchMessagesRequestHasHas.video,
-      'sound' => GlobalSearchMessagesRequestHasHas.sound,
-      'file' => GlobalSearchMessagesRequestHasHas.file,
-      'link' => GlobalSearchMessagesRequestHasHas.link,
-      'embed' => GlobalSearchMessagesRequestHasHas.embed,
-      'sticker' => GlobalSearchMessagesRequestHasHas.sticker,
-      'poll' => GlobalSearchMessagesRequestHasHas.poll,
-      'snapshot' => GlobalSearchMessagesRequestHasHas.snapshot,
-      _ => null,
-    };
-
-GlobalSearchMessagesRequestExcludeHasExcludeHas? _excludeHasFilter(
-  String value,
-) => switch (value.toLowerCase()) {
-  'image' => GlobalSearchMessagesRequestExcludeHasExcludeHas.image,
-  'video' => GlobalSearchMessagesRequestExcludeHasExcludeHas.video,
-  'sound' => GlobalSearchMessagesRequestExcludeHasExcludeHas.sound,
-  'file' => GlobalSearchMessagesRequestExcludeHasExcludeHas.file,
-  'link' => GlobalSearchMessagesRequestExcludeHasExcludeHas.link,
-  'embed' => GlobalSearchMessagesRequestExcludeHasExcludeHas.embed,
-  'sticker' => GlobalSearchMessagesRequestExcludeHasExcludeHas.sticker,
-  'poll' => GlobalSearchMessagesRequestExcludeHasExcludeHas.poll,
-  'snapshot' => GlobalSearchMessagesRequestExcludeHasExcludeHas.snapshot,
+MessageContentType? _hasFilter(String value) => switch (value.toLowerCase()) {
+  'image' => MessageContentType.image,
+  'video' => MessageContentType.video,
+  'sound' => MessageContentType.sound,
+  'file' => MessageContentType.file,
+  'link' => MessageContentType.link,
+  'embed' => MessageContentType.embed,
+  'sticker' => MessageContentType.sticker,
+  'poll' => MessageContentType.poll,
+  'snapshot' => MessageContentType.snapshot,
   _ => null,
 };
 
-List<GlobalSearchMessagesRequestAuthorTypeAuthorType>? _mapAuthorTypes(
-  List<String> values,
-) {
-  final List<GlobalSearchMessagesRequestAuthorTypeAuthorType> mapped =
-      <GlobalSearchMessagesRequestAuthorTypeAuthorType>[];
+MessageContentType? _excludeHasFilter(String value) =>
+    switch (value.toLowerCase()) {
+      'image' => MessageContentType.image,
+      'video' => MessageContentType.video,
+      'sound' => MessageContentType.sound,
+      'file' => MessageContentType.file,
+      'link' => MessageContentType.link,
+      'embed' => MessageContentType.embed,
+      'sticker' => MessageContentType.sticker,
+      'poll' => MessageContentType.poll,
+      'snapshot' => MessageContentType.snapshot,
+      _ => null,
+    };
+
+List<MessageAuthorType>? _mapAuthorTypes(List<String> values) {
+  final List<MessageAuthorType> mapped = <MessageAuthorType>[];
   for (final String value in values) {
-    final GlobalSearchMessagesRequestAuthorTypeAuthorType? item = switch (value
-        .toLowerCase()) {
-      'user' => GlobalSearchMessagesRequestAuthorTypeAuthorType.user,
-      'bot' => GlobalSearchMessagesRequestAuthorTypeAuthorType.bot,
-      'webhook' => GlobalSearchMessagesRequestAuthorTypeAuthorType.webhook,
+    final MessageAuthorType? item = switch (value.toLowerCase()) {
+      'user' => MessageAuthorType.user,
+      'bot' => MessageAuthorType.bot,
+      'webhook' => MessageAuthorType.webhook,
       _ => null,
     };
     if (item != null) {
@@ -480,18 +455,14 @@ List<GlobalSearchMessagesRequestAuthorTypeAuthorType>? _mapAuthorTypes(
   return mapped.isEmpty ? null : mapped;
 }
 
-List<GlobalSearchMessagesRequestEmbedTypeEmbedType>? _mapEmbedTypes(
-  List<String> values,
-) {
-  final List<GlobalSearchMessagesRequestEmbedTypeEmbedType> mapped =
-      <GlobalSearchMessagesRequestEmbedTypeEmbedType>[];
+List<MessageEmbedType>? _mapEmbedTypes(List<String> values) {
+  final List<MessageEmbedType> mapped = <MessageEmbedType>[];
   for (final String value in values) {
-    final GlobalSearchMessagesRequestEmbedTypeEmbedType? item = switch (value
-        .toLowerCase()) {
-      'image' => GlobalSearchMessagesRequestEmbedTypeEmbedType.image,
-      'video' => GlobalSearchMessagesRequestEmbedTypeEmbedType.video,
-      'sound' => GlobalSearchMessagesRequestEmbedTypeEmbedType.sound,
-      'article' => GlobalSearchMessagesRequestEmbedTypeEmbedType.article,
+    final MessageEmbedType? item = switch (value.toLowerCase()) {
+      'image' => MessageEmbedType.image,
+      'video' => MessageEmbedType.video,
+      'sound' => MessageEmbedType.sound,
+      'article' => MessageEmbedType.article,
       _ => null,
     };
     if (item != null) {
@@ -501,23 +472,16 @@ List<GlobalSearchMessagesRequestEmbedTypeEmbedType>? _mapEmbedTypes(
   return mapped.isEmpty ? null : mapped;
 }
 
-List<GlobalSearchMessagesRequestExcludeEmbedTypeExcludeEmbedType>?
-_mapExcludeEmbedTypes(List<String> values) {
-  final List<GlobalSearchMessagesRequestExcludeEmbedTypeExcludeEmbedType>
-  mapped = <GlobalSearchMessagesRequestExcludeEmbedTypeExcludeEmbedType>[];
+List<MessageEmbedType>? _mapExcludeEmbedTypes(List<String> values) {
+  final List<MessageEmbedType> mapped = <MessageEmbedType>[];
   for (final String value in values) {
-    final GlobalSearchMessagesRequestExcludeEmbedTypeExcludeEmbedType? item =
-        switch (value.toLowerCase()) {
-          'image' =>
-            GlobalSearchMessagesRequestExcludeEmbedTypeExcludeEmbedType.image,
-          'video' =>
-            GlobalSearchMessagesRequestExcludeEmbedTypeExcludeEmbedType.video,
-          'sound' =>
-            GlobalSearchMessagesRequestExcludeEmbedTypeExcludeEmbedType.sound,
-          'article' =>
-            GlobalSearchMessagesRequestExcludeEmbedTypeExcludeEmbedType.article,
-          _ => null,
-        };
+    final MessageEmbedType? item = switch (value.toLowerCase()) {
+      'image' => MessageEmbedType.image,
+      'video' => MessageEmbedType.video,
+      'sound' => MessageEmbedType.sound,
+      'article' => MessageEmbedType.article,
+      _ => null,
+    };
     if (item != null) {
       mapped.add(item);
     }

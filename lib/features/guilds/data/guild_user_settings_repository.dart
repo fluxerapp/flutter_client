@@ -435,10 +435,12 @@ ChannelOverrides _mergeChannelOverride({
       : previous?.muteConfig;
   return ChannelOverrides(
     collapsed: collapsed ?? previous?.collapsed ?? false,
-    messageNotifications:
-        messageNotifications ??
-        previous?.messageNotifications ??
-        UserNotificationSettings.inherit,
+    messageNotifications: messageNotifications == null
+        ? previous?.messageNotifications ??
+              UserNotificationSettingsInput.inherit
+        : UserNotificationSettingsInput.fromJson(
+            messageNotifications.json ?? 0,
+          ),
     muted: resolvedMuted ?? false,
     muteConfig: muteConfig,
     unreadBadges: previous?.unreadBadges,

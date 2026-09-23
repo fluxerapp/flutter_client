@@ -6,7 +6,7 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/export.dart' hide ChannelType;
 
 const String fluxerBotUserId = '0';
 
@@ -117,7 +117,7 @@ db.DmChannelsCompanion? dmChannelCompanionFromChannelResponse(
   ChannelResponse channel, {
   int unreadCount = 0,
 }) {
-  if (isDmPersonalNotesType(channel.type)) {
+  if (isDmPersonalNotesType(channel.type.json ?? 0)) {
     return buildPersonalNotesDmCompanion(
       userId: channel.id,
       lastMessageId: channel.lastMessageId,
@@ -126,7 +126,8 @@ db.DmChannelsCompanion? dmChannelCompanionFromChannelResponse(
       icon: channel.icon,
     );
   }
-  if (!isDmChannelType(channel.type) && !isDmGroupType(channel.type)) {
+  if (!isDmChannelType(channel.type.json ?? 0) &&
+      !isDmGroupType(channel.type.json ?? 0)) {
     return null;
   }
   final recipients = channel.recipients;
@@ -136,7 +137,7 @@ db.DmChannelsCompanion? dmChannelCompanionFromChannelResponse(
   return db.DmChannelsCompanion.insert(
     id: channel.id,
     recipientId: recipients.first.id,
-    type: Value(channel.type),
+    type: Value(channel.type.json ?? 0),
     name: Value(channel.name),
     icon: Value(channel.icon),
     recipientCount: Value(recipients.length + 1),
@@ -178,7 +179,7 @@ Map<String, String> parseDmChannelNicksJson(String json) {
 List<UserPartialResponse> dmRecipientUsersFromChannelResponse(
   ChannelResponse channel,
 ) {
-  if (isDmPersonalNotesType(channel.type)) {
+  if (isDmPersonalNotesType(channel.type.json ?? 0)) {
     return const [];
   }
   return channel.recipients ?? const [];

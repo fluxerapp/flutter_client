@@ -114,7 +114,9 @@ class _PasskeyNameSheetState extends ConsumerState<PasskeyNameSheet> {
         ).register(options);
         await client.users.registerWebauthnCredential(
           body: WebAuthnRegisterRequest(
-            response: ceremony,
+            response: WebAuthnRegistrationResponse.fromJson(
+              Map<String, dynamic>.from(ceremony as Map),
+            ),
             challenge: options['challenge'] as String,
             name: name,
           ),

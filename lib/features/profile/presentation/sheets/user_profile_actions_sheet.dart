@@ -32,7 +32,7 @@ class UserProfileActionsSheet {
     BuildContext context,
     WidgetRef ref, {
     required Friend? relationship,
-    required UserProfileFullResponseUser user,
+    required UserPartialResponse user,
     required bool isCurrentUser,
     required Offset position,
     required String displayName,
@@ -156,7 +156,7 @@ class UserProfileActionsSheet {
                         .guilds
                         .transferGuildOwnership(
                           guildId: guildId,
-                          body: GuildTransferOwnershipRequest(
+                          body: GuildTransferOwnershipWithVerificationRequest(
                             newOwnerId: user.id,
                           ),
                         ),

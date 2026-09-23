@@ -7,7 +7,16 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/export.dart' hide ChannelType;
+
+UserNotificationSettings _storedNotificationLevel(
+  UserNotificationSettingsInput? value,
+) {
+  if (value == null) {
+    return UserNotificationSettings.inherit;
+  }
+  return UserNotificationSettings.fromJson(value.json ?? 0);
+}
 
 class ChannelNotificationMenuState {
   const ChannelNotificationMenuState({
@@ -67,9 +76,9 @@ ChannelNotificationMenuState parseChannelNotificationMenuState(
           );
       final ChannelOverrides? channelOverride =
           settings.channelOverrides?[channel.id];
-      selected =
-          channelOverride?.messageNotifications ??
-          UserNotificationSettings.inherit;
+      selected = _storedNotificationLevel(
+        channelOverride?.messageNotifications,
+      );
       isMuted = channelOverride?.muted ?? false;
       muteConfig = channelOverride?.muteConfig;
       guildDefault = resolveGuildMessageNotificationsFromContext(
@@ -77,11 +86,9 @@ ChannelNotificationMenuState parseChannelNotificationMenuState(
         guildContext: guildContext,
       );
       if (channel.parentId != null) {
-        categoryOverride =
-            settings
-                .channelOverrides?[channel.parentId]
-                ?.messageNotifications ??
-            UserNotificationSettings.inherit;
+        categoryOverride = _storedNotificationLevel(
+          settings.channelOverrides?[channel.parentId]?.messageNotifications,
+        );
       }
     } on Object {
       // Malformed override JSON falls back to defaults.

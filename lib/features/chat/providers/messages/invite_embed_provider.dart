@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
+import 'package:fluxer_app/features/guilds/utils/invite_code.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -15,12 +16,12 @@ class InviteEmbedNotFound extends InviteEmbedState {}
 
 class InviteEmbedGuild extends InviteEmbedState {
   InviteEmbedGuild(this.invite);
-  final InviteResponseSchema0 invite;
+  final InviteResponseSchemaGuildInviteResponse invite;
 }
 
 class InviteEmbedGroupDm extends InviteEmbedState {
   InviteEmbedGroupDm(this.invite);
-  final InviteResponseSchema1 invite;
+  final InviteResponseSchemaGroupDmInviteResponse invite;
 }
 
 @riverpod
@@ -30,10 +31,10 @@ Future<InviteEmbedState> inviteEmbed(Ref ref, String code) async {
     final InviteResponseSchema schema = await client.invites.getInvite(
       inviteCode: code,
     );
-    return switch (schema) {
-      InviteResponseSchema0() => InviteEmbedGuild(schema),
-      InviteResponseSchema1() => InviteEmbedGroupDm(schema),
-    };
+    if (inviteResponseIsGuild(schema)) {
+      return InviteEmbedGuild(schema.toGuildInviteResponse());
+    }
+    return InviteEmbedGroupDm(schema.toGroupDmInviteResponse());
   } on DioException catch (e) {
     if (e.response?.statusCode == 404) {
       return InviteEmbedNotFound();

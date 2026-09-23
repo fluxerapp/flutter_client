@@ -196,14 +196,14 @@ bool _isGuildMuted(UserGuildSettingsResponse? settings, DateTime now) {
   if (settings?.muted != true) {
     return false;
   }
-  return _isMuteActive(settings?.muteConfig?.endTime, now);
+  return _isMuteActive(_muteEndTime(settings?.muteConfig?.endTime), now);
 }
 
 bool _isChannelMuted(ChannelOverrides? override, DateTime now) {
   if (override?.muted != true) {
     return false;
   }
-  return _isMuteActive(override?.muteConfig?.endTime, now);
+  return _isMuteActive(_muteEndTime(override?.muteConfig?.endTime), now);
 }
 
 bool _isMuteActive(String? endTime, DateTime now) {
@@ -214,13 +214,26 @@ bool _isMuteActive(String? endTime, DateTime now) {
   return parsed == null || parsed.isAfter(now);
 }
 
-UserNotificationSettings? _explicitLevel(UserNotificationSettings? level) {
-  if (level == null ||
-      level == UserNotificationSettings.inherit ||
-      level == UserNotificationSettings.$unknown) {
+UserNotificationSettings? _explicitLevel(Object? level) {
+  final UserNotificationSettings? stored = switch (level) {
+    final UserNotificationSettings value => value,
+    final UserNotificationSettingsInput value =>
+      UserNotificationSettings.fromJson(value.json ?? 0),
+    _ => null,
+  };
+  if (stored == null ||
+      stored == UserNotificationSettings.inherit ||
+      stored == UserNotificationSettings.$unknown) {
     return null;
   }
-  return level;
+  return stored;
+}
+
+String? _muteEndTime(dynamic value) {
+  if (value is String && value.isNotEmpty) {
+    return value;
+  }
+  return null;
 }
 
 UserNotificationSettings resolveMessageNotifications({

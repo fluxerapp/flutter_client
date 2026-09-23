@@ -12,7 +12,7 @@ void main() {
     Map<String, num> overrides = const <String, num>{},
   }) {
     return WellKnownFluxerResponseLimits(
-      version: WellKnownFluxerResponseLimitsVersionVersion.value2,
+      version: 2,
       traitDefinitions: const <String>[],
       defaultsHash: 'test',
       rules: <WellKnownFluxerResponseLimitsRules>[

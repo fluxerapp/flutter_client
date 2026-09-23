@@ -74,6 +74,7 @@ class Member {
   final String username;
   final String? globalName;
   final String? avatar;
+  final String? guildAvatar;
   final int? avatarColor;
   final String? nickname;
   final List<MemberRole> roles;
@@ -88,6 +89,7 @@ class Member {
     required this.username,
     this.globalName,
     this.avatar,
+    this.guildAvatar,
     this.avatarColor,
     this.nickname,
     this.roles = const [],
@@ -110,15 +112,19 @@ class Member {
       row.profileFlags,
       guildProfileAvatarUnsetFlag,
     );
-    final String? avatar = isAvatarUnset
-        ? null
-        : row.serverAvatar ?? user?.avatar;
+    final String? rawGuildAvatar = row.serverAvatar;
+    final String? guildAvatar =
+        !isAvatarUnset && rawGuildAvatar != null && rawGuildAvatar.isNotEmpty
+        ? rawGuildAvatar
+        : null;
+    final String? avatar = isAvatarUnset ? null : guildAvatar ?? user?.avatar;
 
     return Member(
       id: row.userId,
       username: user?.username ?? '',
       globalName: user?.globalName,
       avatar: avatar,
+      guildAvatar: guildAvatar,
       avatarColor: user?.avatarColor,
       nickname: row.nick,
       roles: memberRoles,

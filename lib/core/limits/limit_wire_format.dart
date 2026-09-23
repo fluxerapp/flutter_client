@@ -19,7 +19,7 @@ LimitConfigSnapshot expandLimitWireFormat(
       ),
   ];
   return LimitConfigSnapshot(
-    version: wireFormat.version.json,
+    version: wireFormat.version.round(),
     traitDefinitions: wireFormat.traitDefinitions.toList(growable: false),
     rules: rules,
   );

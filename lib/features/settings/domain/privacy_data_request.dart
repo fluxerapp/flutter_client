@@ -109,15 +109,14 @@ class PrivacyDataRequestFilterState {
   HarvestSelfDataRequest toHarvestRequest() {
     final bool guildsActive = includeGuilds;
     return HarvestSelfDataRequest(
-      scope: HarvestSelfDataRequestScopeScope.selected,
       includeDms: includeDms,
       includeDmsClosed: includeDmsClosed,
       includeGroupDms: includeGroupDms,
       includeGuilds: includeGuilds,
       guildFilterMode:
           guildFilterMode == PrivacyDataRequestGuildFilterMode.exclude
-          ? HarvestSelfDataRequestGuildFilterModeGuildFilterMode.exclude
-          : HarvestSelfDataRequestGuildFilterModeGuildFilterMode.includeOnly,
+          ? BulkDeleteSelfMessagesGuildFilterMode.exclude
+          : BulkDeleteSelfMessagesGuildFilterMode.includeOnly,
       excludedGuildIds:
           guildsActive &&
               guildFilterMode == PrivacyDataRequestGuildFilterMode.exclude
@@ -136,33 +135,30 @@ class PrivacyDataRequestFilterState {
   }
 
   BulkDeleteSelfMessagesRequest toDeleteRequest() {
-    final BulkDeleteSelfMessagesRequestScopeScope deleteScope =
+    final BulkDeleteSelfMessagesScope deleteScope =
         scope == PrivacyDataRequestScope.inaccessibleOnly
-        ? BulkDeleteSelfMessagesRequestScopeScope.inaccessibleOnly
-        : BulkDeleteSelfMessagesRequestScopeScope.selected;
+        ? BulkDeleteSelfMessagesScope.inaccessibleOnly
+        : BulkDeleteSelfMessagesScope.selected;
     final bool guildsActive =
-        deleteScope == BulkDeleteSelfMessagesRequestScopeScope.selected &&
-        includeGuilds;
+        deleteScope == BulkDeleteSelfMessagesScope.selected && includeGuilds;
 
     return BulkDeleteSelfMessagesRequest(
       scope: deleteScope,
       includeDms:
-          deleteScope == BulkDeleteSelfMessagesRequestScopeScope.selected &&
-          includeDms,
+          deleteScope == BulkDeleteSelfMessagesScope.selected && includeDms,
       includeDmsClosed:
-          deleteScope == BulkDeleteSelfMessagesRequestScopeScope.selected &&
+          deleteScope == BulkDeleteSelfMessagesScope.selected &&
           includeDmsClosed,
       includeGroupDms:
-          deleteScope == BulkDeleteSelfMessagesRequestScopeScope.selected &&
+          deleteScope == BulkDeleteSelfMessagesScope.selected &&
           includeGroupDms,
       includeGuilds:
-          !(deleteScope == BulkDeleteSelfMessagesRequestScopeScope.selected) ||
+          !(deleteScope == BulkDeleteSelfMessagesScope.selected) ||
           includeGuilds,
       guildFilterMode:
           guildFilterMode == PrivacyDataRequestGuildFilterMode.exclude
-          ? BulkDeleteSelfMessagesRequestGuildFilterModeGuildFilterMode.exclude
-          : BulkDeleteSelfMessagesRequestGuildFilterModeGuildFilterMode
-                .includeOnly,
+          ? BulkDeleteSelfMessagesGuildFilterMode.exclude
+          : BulkDeleteSelfMessagesGuildFilterMode.includeOnly,
       excludedGuildIds:
           guildsActive &&
               guildFilterMode == PrivacyDataRequestGuildFilterMode.exclude

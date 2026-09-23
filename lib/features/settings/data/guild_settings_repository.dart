@@ -81,7 +81,9 @@ class GuildSettingsRepository {
             before: before,
             after: after,
             userId: userId,
-            actionType: actionType,
+            actionType: actionType == null
+                ? null
+                : AuditLogActionTypeInput.fromJson(actionType.json ?? 0),
           );
       return guildAuditLogPageFromSdk(response);
     } on DioException catch (error) {

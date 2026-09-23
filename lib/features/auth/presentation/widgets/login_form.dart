@@ -177,7 +177,7 @@ class _LoginFormState extends ConsumerState<LoginForm>
     );
     final bool canSubmit = vm.canLogin && canAuthenticate;
     final bool isSsoEnabled = ref.watch(isAuthInstanceSsoEnabledProvider);
-    final WellKnownFluxerResponseSso? ssoConfig = ref
+    final InstanceSsoSchema? ssoConfig = ref
         .watch(authInstanceSnapshotProvider)
         .ssoConfig;
     final bool emailsEnabled = ref.watch(

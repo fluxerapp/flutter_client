@@ -7,9 +7,9 @@
 // the backend wire-format category via [iarReasonToMessageCategory].
 //
 // NOTE (SDK migration): the in-app report categories now live on the simple
-// report request types. `ReportMessageRequestCategoryCategory` is now
-// `ReportMessageRequestCategoryCategory` and `ReportUserRequestCategoryCategory` is now
-// `ReportUserRequestCategoryCategory` (the `category` field of the
+// report request types. `MessageReportCategory` is now
+// `MessageReportCategory` and `UserReportCategory` is now
+// `UserReportCategory` (the `category` field of the
 // `ReportMessageRequest` / `ReportUserRequest` bodies submitted by the report
 // sheets). These are distinct from the new `DsaReportRequest` discriminated
 // union, which backs the separate formal EU DSA reporting flow
@@ -127,38 +127,26 @@ const List<IarRuleReason> messageReportReasons = [
 ];
 
 /// Maps a chosen reason onto the backend wire-format
-/// [ReportMessageRequestCategoryCategory]. Mirrors `REPORT_CATEGORY_BY_REASON.message`
+/// [MessageReportCategory]. Mirrors `REPORT_CATEGORY_BY_REASON.message`
 /// from the web.
-ReportMessageRequestCategoryCategory iarReasonToMessageCategory(
-  IarRuleReason reason,
-) {
+MessageReportCategory iarReasonToMessageCategory(IarRuleReason reason) {
   return switch (reason) {
-    IarRuleReason.harassment => ReportMessageRequestCategoryCategory.harassment,
-    IarRuleReason.hate => ReportMessageRequestCategoryCategory.hateSpeech,
-    IarRuleReason.violence =>
-      ReportMessageRequestCategoryCategory.violentContent,
-    IarRuleReason.terrorismExtremism =>
-      ReportMessageRequestCategoryCategory.violentContent,
-    IarRuleReason.matureContent =>
-      ReportMessageRequestCategoryCategory.nsfwViolation,
-    IarRuleReason.childSafety =>
-      ReportMessageRequestCategoryCategory.childSafety,
-    IarRuleReason.harmfulMisinformation =>
-      ReportMessageRequestCategoryCategory.other,
-    IarRuleReason.illegalActivity =>
-      ReportMessageRequestCategoryCategory.illegalActivity,
-    IarRuleReason.spamScams => ReportMessageRequestCategoryCategory.spam,
-    IarRuleReason.malware =>
-      ReportMessageRequestCategoryCategory.maliciousLinks,
-    IarRuleReason.privacy => ReportMessageRequestCategoryCategory.doxxing,
-    IarRuleReason.impersonation =>
-      ReportMessageRequestCategoryCategory.impersonation,
-    IarRuleReason.inappropriateProfile =>
-      ReportMessageRequestCategoryCategory.other,
-    IarRuleReason.raidCoordination =>
-      ReportMessageRequestCategoryCategory.harassment,
-    IarRuleReason.selfHarm => ReportMessageRequestCategoryCategory.selfHarm,
-    IarRuleReason.other => ReportMessageRequestCategoryCategory.other,
+    IarRuleReason.harassment => MessageReportCategory.harassment,
+    IarRuleReason.hate => MessageReportCategory.hateSpeech,
+    IarRuleReason.violence => MessageReportCategory.violentContent,
+    IarRuleReason.terrorismExtremism => MessageReportCategory.violentContent,
+    IarRuleReason.matureContent => MessageReportCategory.nsfwViolation,
+    IarRuleReason.childSafety => MessageReportCategory.childSafety,
+    IarRuleReason.harmfulMisinformation => MessageReportCategory.other,
+    IarRuleReason.illegalActivity => MessageReportCategory.illegalActivity,
+    IarRuleReason.spamScams => MessageReportCategory.spam,
+    IarRuleReason.malware => MessageReportCategory.maliciousLinks,
+    IarRuleReason.privacy => MessageReportCategory.doxxing,
+    IarRuleReason.impersonation => MessageReportCategory.impersonation,
+    IarRuleReason.inappropriateProfile => MessageReportCategory.other,
+    IarRuleReason.raidCoordination => MessageReportCategory.harassment,
+    IarRuleReason.selfHarm => MessageReportCategory.selfHarm,
+    IarRuleReason.other => MessageReportCategory.other,
   };
 }
 
@@ -263,31 +251,27 @@ const List<IarRuleReason> userReportReasons = [
   IarRuleReason.other,
 ];
 
-/// Maps a chosen reason onto the backend wire-format [ReportUserRequestCategoryCategory].
+/// Maps a chosen reason onto the backend wire-format [UserReportCategory].
 /// Mirrors `REPORT_CATEGORY_BY_REASON.user` from the web.
-ReportUserRequestCategoryCategory iarReasonToUserCategory(
-  IarRuleReason reason,
-) {
+UserReportCategory iarReasonToUserCategory(IarRuleReason reason) {
   return switch (reason) {
-    IarRuleReason.harassment => ReportUserRequestCategoryCategory.harassment,
-    IarRuleReason.hate => ReportUserRequestCategoryCategory.hateSpeech,
-    IarRuleReason.violence => ReportUserRequestCategoryCategory.harassment,
-    IarRuleReason.terrorismExtremism => ReportUserRequestCategoryCategory.other,
-    IarRuleReason.matureContent => ReportUserRequestCategoryCategory.harassment,
-    IarRuleReason.childSafety => ReportUserRequestCategoryCategory.underageUser,
-    IarRuleReason.harmfulMisinformation =>
-      ReportUserRequestCategoryCategory.other,
-    IarRuleReason.illegalActivity => ReportUserRequestCategoryCategory.other,
-    IarRuleReason.spamScams => ReportUserRequestCategoryCategory.spamAccount,
-    IarRuleReason.malware => ReportUserRequestCategoryCategory.spamAccount,
-    IarRuleReason.privacy => ReportUserRequestCategoryCategory.harassment,
-    IarRuleReason.impersonation =>
-      ReportUserRequestCategoryCategory.impersonation,
+    IarRuleReason.harassment => UserReportCategory.harassment,
+    IarRuleReason.hate => UserReportCategory.hateSpeech,
+    IarRuleReason.violence => UserReportCategory.harassment,
+    IarRuleReason.terrorismExtremism => UserReportCategory.other,
+    IarRuleReason.matureContent => UserReportCategory.harassment,
+    IarRuleReason.childSafety => UserReportCategory.underageUser,
+    IarRuleReason.harmfulMisinformation => UserReportCategory.other,
+    IarRuleReason.illegalActivity => UserReportCategory.other,
+    IarRuleReason.spamScams => UserReportCategory.spamAccount,
+    IarRuleReason.malware => UserReportCategory.spamAccount,
+    IarRuleReason.privacy => UserReportCategory.harassment,
+    IarRuleReason.impersonation => UserReportCategory.impersonation,
     IarRuleReason.inappropriateProfile =>
-      ReportUserRequestCategoryCategory.inappropriateProfile,
-    IarRuleReason.raidCoordination => ReportUserRequestCategoryCategory.other,
-    IarRuleReason.selfHarm => ReportUserRequestCategoryCategory.other,
-    IarRuleReason.other => ReportUserRequestCategoryCategory.other,
+      UserReportCategory.inappropriateProfile,
+    IarRuleReason.raidCoordination => UserReportCategory.other,
+    IarRuleReason.selfHarm => UserReportCategory.other,
+    IarRuleReason.other => UserReportCategory.other,
   };
 }
 
@@ -308,33 +292,25 @@ const List<IarRuleReason> guildReportReasons = [
 ];
 
 /// Maps a chosen reason onto the backend wire-format
-/// [ReportGuildRequestCategoryCategory]. Mirrors `REPORT_CATEGORY_BY_REASON.guild`
+/// [GuildReportCategory]. Mirrors `REPORT_CATEGORY_BY_REASON.guild`
 /// from the web.
-ReportGuildRequestCategoryCategory iarReasonToGuildCategory(
-  IarRuleReason reason,
-) {
+GuildReportCategory iarReasonToGuildCategory(IarRuleReason reason) {
   return switch (reason) {
-    IarRuleReason.harassment => ReportGuildRequestCategoryCategory.harassment,
-    IarRuleReason.hate => ReportGuildRequestCategoryCategory.hateSpeech,
-    IarRuleReason.violence => ReportGuildRequestCategoryCategory.other,
-    IarRuleReason.terrorismExtremism =>
-      ReportGuildRequestCategoryCategory.extremistCommunity,
-    IarRuleReason.matureContent => ReportGuildRequestCategoryCategory.other,
-    IarRuleReason.childSafety => ReportGuildRequestCategoryCategory.childSafety,
-    IarRuleReason.harmfulMisinformation =>
-      ReportGuildRequestCategoryCategory.other,
-    IarRuleReason.illegalActivity =>
-      ReportGuildRequestCategoryCategory.illegalActivity,
-    IarRuleReason.spamScams => ReportGuildRequestCategoryCategory.spam,
-    IarRuleReason.malware =>
-      ReportGuildRequestCategoryCategory.malwareDistribution,
-    IarRuleReason.privacy => ReportGuildRequestCategoryCategory.harassment,
-    IarRuleReason.impersonation => ReportGuildRequestCategoryCategory.other,
-    IarRuleReason.inappropriateProfile =>
-      ReportGuildRequestCategoryCategory.other,
-    IarRuleReason.raidCoordination =>
-      ReportGuildRequestCategoryCategory.raidCoordination,
-    IarRuleReason.selfHarm => ReportGuildRequestCategoryCategory.other,
-    IarRuleReason.other => ReportGuildRequestCategoryCategory.other,
+    IarRuleReason.harassment => GuildReportCategory.harassment,
+    IarRuleReason.hate => GuildReportCategory.hateSpeech,
+    IarRuleReason.violence => GuildReportCategory.other,
+    IarRuleReason.terrorismExtremism => GuildReportCategory.extremistCommunity,
+    IarRuleReason.matureContent => GuildReportCategory.other,
+    IarRuleReason.childSafety => GuildReportCategory.childSafety,
+    IarRuleReason.harmfulMisinformation => GuildReportCategory.other,
+    IarRuleReason.illegalActivity => GuildReportCategory.illegalActivity,
+    IarRuleReason.spamScams => GuildReportCategory.spam,
+    IarRuleReason.malware => GuildReportCategory.malwareDistribution,
+    IarRuleReason.privacy => GuildReportCategory.harassment,
+    IarRuleReason.impersonation => GuildReportCategory.other,
+    IarRuleReason.inappropriateProfile => GuildReportCategory.other,
+    IarRuleReason.raidCoordination => GuildReportCategory.raidCoordination,
+    IarRuleReason.selfHarm => GuildReportCategory.other,
+    IarRuleReason.other => GuildReportCategory.other,
   };
 }

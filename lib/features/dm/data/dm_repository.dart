@@ -399,12 +399,11 @@ class DmRepository {
     try {
       final ChannelResponse response = await _client.channels.updateChannel(
         channelId: channelId,
-        body: ChannelUpdateRequest3(
-          type: GroupDmChannelUpdateRequestTypeType.groupDm,
-          name: name,
-          icon: removeIcon ? null : icon,
-          ownerId: null,
-          nicks: null,
+        body: ChannelUpdateRequestBody(
+          ChannelUpdateRequestBodyVariant5(
+            name: name,
+            icon: removeIcon ? null : icon,
+          ).toJson(),
         ),
       );
       final db.DmChannelsCompanion? companion = await _buildDmChannelCompanion(
@@ -440,11 +439,7 @@ class DmRepository {
       final InviteMetadataResponseSchema invite = await _client.invites
           .createChannelInvite(
             channelId: channelId,
-            body: const ChannelInviteCreateRequest(
-              maxAge: 86400,
-              maxUses: 0,
-              temporary: false,
-            ),
+            body: const ChannelInviteCreateRequest(maxAge: 86400),
           );
       return inviteCodeOf(invite);
     } on DioException catch (e) {

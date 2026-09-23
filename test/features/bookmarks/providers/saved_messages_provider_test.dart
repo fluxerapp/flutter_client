@@ -93,7 +93,7 @@ MessageResponseSchema _schema({
       avatarColor: null,
       flags: 0,
     ),
-    type: MessageResponseSchemaTypeType.valueDefault,
+    type: MessageType.valueDefault,
     flags: 0,
     content: content,
     timestamp: DateTime.utc(2026, 1, 2),

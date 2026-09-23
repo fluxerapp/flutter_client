@@ -1,6 +1,6 @@
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/export.dart' hide ChannelType;
 
 List<Channel> filterTextChannels(List<Channel> channels) {
   return channels

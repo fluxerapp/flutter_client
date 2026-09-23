@@ -20,6 +20,15 @@ def flutter_marketing_version
   version.to_s.split("+", 2).first
 end
 
+def next_testflight_build_number(api_key:, app_identifier:, platform: "ios")
+  latest_testflight_build_number(
+    api_key: api_key,
+    app_identifier: app_identifier,
+    platform: platform,
+    initial_build_number: 1
+  ) + 1
+end
+
 def wait_for_processed_build(api_key:, app_identifier:, app_version:, build_number:, groups:, changelog:, platform: Spaceship::ConnectAPI::Platform::IOS, internal_only: false)
   jwt = Spaceship::ConnectAPI::Token.from(hash: api_key)
   Spaceship::ConnectAPI.token = jwt
@@ -198,13 +207,10 @@ platform :ios do
 
     app_identifier = "com.fluxer"
     flutter_build_name = flutter_marketing_version
-    latest_build_number = latest_testflight_build_number(
+    flutter_build_number = next_testflight_build_number(
       api_key: api_key,
-      app_identifier: app_identifier,
-      version: flutter_build_name,
-      initial_build_number: 1
+      app_identifier: app_identifier
     )
-    flutter_build_number = latest_build_number + 1
     UI.message("Building #{app_identifier} #{flutter_build_name} (#{flutter_build_number})")
 
     update_project_provisioning(
@@ -332,13 +338,10 @@ platform :ios do
 
     app_identifier = "com.fluxer.canary"
     flutter_build_name = flutter_marketing_version
-    latest_build_number = latest_testflight_build_number(
+    flutter_build_number = next_testflight_build_number(
       api_key: api_key,
-      app_identifier: app_identifier,
-      version: flutter_build_name,
-      initial_build_number: 1
+      app_identifier: app_identifier
     )
-    flutter_build_number = latest_build_number + 1
     UI.message("Building #{app_identifier} #{flutter_build_name} (#{flutter_build_number})")
 
     update_project_provisioning(
@@ -461,13 +464,10 @@ platform :ios do
 
     app_identifier = "com.fluxer"
     flutter_build_name = flutter_marketing_version
-    latest_build_number = latest_testflight_build_number(
+    flutter_build_number = next_testflight_build_number(
       api_key: api_key,
-      app_identifier: app_identifier,
-      version: flutter_build_name,
-      initial_build_number: 1
+      app_identifier: app_identifier
     )
-    flutter_build_number = latest_build_number + 1
     UI.message("Building #{app_identifier} #{flutter_build_name} (#{flutter_build_number})")
 
     update_project_provisioning(
@@ -592,14 +592,11 @@ platform :mac do
 
     app_identifier = "com.fluxer.lite.canary"
     flutter_build_name = flutter_marketing_version
-    latest_build_number = latest_testflight_build_number(
+    flutter_build_number = next_testflight_build_number(
       api_key: api_key,
       app_identifier: app_identifier,
-      version: flutter_build_name,
-      platform: "osx",
-      initial_build_number: 1
+      platform: "osx"
     )
-    flutter_build_number = latest_build_number + 1
     UI.message("Building #{app_identifier} #{flutter_build_name} (#{flutter_build_number})")
 
     update_project_provisioning(

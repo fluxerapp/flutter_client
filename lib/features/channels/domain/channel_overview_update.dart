@@ -1,5 +1,5 @@
 import 'package:fluxer_app/features/channels/domain/channel.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/export.dart' hide ChannelType;
 
 const int kMaxChannelTopicLength = 1024;
 const int kMaxChannelNameLength = 100;
@@ -141,14 +141,14 @@ bool isChannelTopicTooLong(String topic) {
   return topic.length > kMaxChannelTopicLength;
 }
 
-ContentWarningLevel? _contentWarningLevelForPatch(int? value) {
+ContentWarningLevelInput? _contentWarningLevelForPatch(int? value) {
   if (value == null) {
     return null;
   }
-  return ContentWarningLevel.fromJson(value);
+  return ContentWarningLevelInput.fromJson(value);
 }
 
-ChannelUpdateRequest buildChannelOverviewUpdate({
+ChannelUpdateRequestBodyVariant1 buildChannelOverviewUpdate({
   required Channel channel,
   required ChannelOverviewFormState current,
   required ChannelOverviewFormState original,
@@ -180,7 +180,7 @@ ChannelUpdateRequest buildChannelOverviewUpdate({
       canManageChannel && current.nsfwOverride != original.nsfwOverride
       ? current.nsfwOverride
       : null;
-  final ContentWarningLevel? contentWarningLevel =
+  final ContentWarningLevelInput? contentWarningLevel =
       canManageChannel &&
           current.contentWarningLevel != original.contentWarningLevel
       ? _contentWarningLevelForPatch(current.contentWarningLevel)
@@ -215,84 +215,20 @@ ChannelUpdateRequest buildChannelOverviewUpdate({
       ? current.rtcRegion
       : null;
   return switch (channel.type) {
-    ChannelType.guildText => ChannelUpdateRequest0(
+    ChannelType.guildText ||
+    ChannelType.guildVoice ||
+    ChannelType.guildCategory ||
+    ChannelType.guildLink => ChannelUpdateRequestBodyVariant1(
       topic: topic,
       url: url,
-      parentId: null,
       bitrate: bitrate,
       userLimit: userLimit,
       voiceConnectionLimit: voiceConnectionLimit,
-      permissionOverwrites: null,
-      nsfw: null,
       nsfwOverride: nsfwOverride,
       contentWarningLevel: contentWarningLevel,
       contentWarningText: contentWarningText,
       rateLimitPerUser: rateLimitPerUser,
-      icon: null,
-      ownerId: null,
-      nicks: null,
       rtcRegion: rtcRegion,
-      type: GuildTextChannelUpdateRequestTypeType.guildText,
-      name: name,
-    ),
-    ChannelType.guildVoice => ChannelUpdateRequest2(
-      topic: topic,
-      url: url,
-      parentId: null,
-      bitrate: bitrate,
-      userLimit: userLimit,
-      voiceConnectionLimit: voiceConnectionLimit,
-      permissionOverwrites: null,
-      nsfw: null,
-      nsfwOverride: nsfwOverride,
-      contentWarningLevel: contentWarningLevel,
-      contentWarningText: contentWarningText,
-      rateLimitPerUser: rateLimitPerUser,
-      icon: null,
-      ownerId: null,
-      nicks: null,
-      rtcRegion: rtcRegion,
-      type: GuildVoiceChannelUpdateRequestTypeType.guildVoice,
-      name: name,
-    ),
-    ChannelType.guildCategory => ChannelUpdateRequest4(
-      topic: topic,
-      url: url,
-      parentId: null,
-      bitrate: bitrate,
-      userLimit: userLimit,
-      voiceConnectionLimit: voiceConnectionLimit,
-      permissionOverwrites: null,
-      nsfw: null,
-      nsfwOverride: nsfwOverride,
-      contentWarningLevel: contentWarningLevel,
-      contentWarningText: contentWarningText,
-      rateLimitPerUser: rateLimitPerUser,
-      icon: null,
-      ownerId: null,
-      nicks: null,
-      rtcRegion: rtcRegion,
-      type: GuildCategoryChannelUpdateRequestTypeType.guildCategory,
-      name: name,
-    ),
-    ChannelType.guildLink => ChannelUpdateRequest998(
-      topic: topic,
-      url: url,
-      parentId: null,
-      bitrate: bitrate,
-      userLimit: userLimit,
-      voiceConnectionLimit: voiceConnectionLimit,
-      permissionOverwrites: null,
-      nsfw: null,
-      nsfwOverride: nsfwOverride,
-      contentWarningLevel: contentWarningLevel,
-      contentWarningText: contentWarningText,
-      rateLimitPerUser: rateLimitPerUser,
-      icon: null,
-      ownerId: null,
-      nicks: null,
-      rtcRegion: rtcRegion,
-      type: GuildLinkChannelUpdateRequestTypeType.guildLink,
       name: name,
     ),
     _ => throw UnsupportedError(
@@ -325,7 +261,7 @@ Map<String, dynamic> buildChannelOverviewPatchBody({
   required bool canManageChannel,
   required bool canUpdateRtcRegion,
 }) {
-  final ChannelUpdateRequest request = buildChannelOverviewUpdate(
+  final ChannelUpdateRequestBodyVariant1 request = buildChannelOverviewUpdate(
     channel: channel,
     current: current,
     original: original,
@@ -350,7 +286,7 @@ Map<String, dynamic> buildChannelOverviewPatchBody({
 }
 
 Map<String, dynamic> channelUpdateRequestToPatchBody(
-  ChannelUpdateRequest request,
+  ChannelUpdateRequestBodyVariant1 request,
 ) {
   final Map<String, dynamic> body = request.toJson();
   final Map<String, dynamic> patch = <String, dynamic>{};

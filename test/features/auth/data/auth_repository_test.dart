@@ -43,6 +43,7 @@ void main() {
             'allowed_methods': <String>['totp'],
             'totp': true,
             'webauthn': false,
+            'backup_codes': false,
           },
         );
 

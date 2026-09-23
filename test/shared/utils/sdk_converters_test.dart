@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
+import 'package:fluxer_dart/models/channel_type.dart' as sdk;
 
 import '../../helpers/open_test_database.dart';
 
@@ -27,7 +28,7 @@ void main() {
     expect(json['guild_id'], 'g1');
     expect(json['parent_id'], 'cat1');
     expect(json['user_limit'], 5);
-    expect(json['type'], ChannelType.guildVoice.wireValue);
+    expect(json['type'], sdk.ChannelType.guildVoice);
     expect(json['permission_overwrites'], hasLength(1));
     expect(json.containsKey('guildId'), isFalse);
     expect(json.containsKey('parentId'), isFalse);

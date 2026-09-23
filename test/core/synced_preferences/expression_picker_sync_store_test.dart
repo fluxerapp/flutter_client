@@ -23,9 +23,9 @@ const _userId = 'user-1';
 class _FakeUsersApi implements UsersApi {
   @override
   Future<UserSettingsResponse> updateCurrentUserSettings({
-    required UserSettingsUpdateRequest body,
+    UserSettingsUpdateRequest? body,
   }) async {
-    return _testUserSettings(syncedPreferences: body.syncedPreferences ?? '');
+    return _testUserSettings(syncedPreferences: body?.syncedPreferences ?? '');
   }
 
   @override

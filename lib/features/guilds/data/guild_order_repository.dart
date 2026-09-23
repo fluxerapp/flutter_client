@@ -67,11 +67,9 @@ class GuildOrderRepository {
               name: item.name,
               color: item.color,
               flags: item.flags,
-              icon: item.icon != null
-                  ? UserSettingsUpdateRequestGuildFoldersIconIcon.fromJson(
-                      item.icon!,
-                    )
-                  : null,
+              icon: item.icon == null
+                  ? GuildFolderIconType.folder
+                  : GuildFolderIconType.fromJson(item.icon!),
             ),
           );
       }

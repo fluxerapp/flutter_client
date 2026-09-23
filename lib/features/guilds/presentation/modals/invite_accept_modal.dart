@@ -421,7 +421,7 @@ class _GuildInviteContent extends ConsumerWidget {
     required this.onGoTo,
   });
 
-  final InviteResponseSchema0 invite;
+  final InviteResponseSchemaGuildInviteResponse invite;
   final FluxerLocalizations l10n;
   final bool isAccepting;
   final VoidCallback onJoin;
@@ -604,7 +604,7 @@ class _GroupDmInviteContent extends StatelessWidget {
     required this.onJoin,
   });
 
-  final InviteResponseSchema1 invite;
+  final InviteResponseSchemaGroupDmInviteResponse invite;
   final FluxerLocalizations l10n;
   final bool isAccepting;
   final VoidCallback onJoin;

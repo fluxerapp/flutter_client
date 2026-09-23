@@ -77,7 +77,7 @@ import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/navigation_item_semantics.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:fluxer_dart/gateway.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -1270,54 +1270,61 @@ class _CategoryHeader extends ConsumerWidget {
       expanded: !isCollapsed,
       label: category.name,
       child: ExcludeSemantics(
-        child: InkWell(
-          onTap: () {
-            unawaited(
-              ref
-                  .read(guildUserSettingsRepositoryProvider)
-                  .toggleCategoryCollapsed(
-                    guildId: guildId,
-                    categoryId: category.id,
-                  ),
-            );
-          },
-          onSecondaryTapUp: (details) => unawaited(
-            _showCategoryActions(context, ref, details.globalPosition),
-          ),
-          onLongPress: isTouchPrimaryInput(ref)
-              ? () => unawaited(
-                  _showCategoryActions(
-                    context,
-                    ref,
-                    contextMenuPositionAtCenter(context),
-                  ),
-                )
-              : null,
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 12,
-              right: 8,
-              top: 16,
-              bottom: 4,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            splashFactory: NoSplash.splashFactory,
+            highlightColor: Colors.transparent,
+            mouseCursor: SystemMouseCursors.click,
+            hoverColor: context.colors.backgroundModifierHover,
+            onTap: () {
+              unawaited(
+                ref
+                    .read(guildUserSettingsRepositoryProvider)
+                    .toggleCategoryCollapsed(
+                      guildId: guildId,
+                      categoryId: category.id,
+                    ),
+              );
+            },
+            onSecondaryTapUp: (details) => unawaited(
+              _showCategoryActions(context, ref, details.globalPosition),
             ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    category.name,
-                    style: context.textStyles.categoryName,
-                    overflow: TextOverflow.ellipsis,
+            onLongPress: isTouchPrimaryInput(ref)
+                ? () => unawaited(
+                    _showCategoryActions(
+                      context,
+                      ref,
+                      contextMenuPositionAtCenter(context),
+                    ),
+                  )
+                : null,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 12,
+                right: 8,
+                top: 16,
+                bottom: 4,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      category.name,
+                      style: context.textStyles.categoryName,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 4),
-                PhosphorIcon(
-                  isCollapsed
-                      ? PhosphorIconsBold.caretRight
-                      : PhosphorIconsBold.caretDown,
-                  size: 12,
-                  color: context.colors.textPrimaryMuted,
-                ),
-              ],
+                  const SizedBox(width: 4),
+                  PhosphorIcon(
+                    isCollapsed
+                        ? PhosphorIconsBold.caretRight
+                        : PhosphorIconsBold.caretDown,
+                    size: 12,
+                    color: context.colors.textPrimaryMuted,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

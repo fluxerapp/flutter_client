@@ -24,7 +24,7 @@ class SsoButton extends ConsumerWidget {
     final FluxerLocalizations strings = FluxerLocalizations.of(context);
     final LoginViewState vm = ref.watch(loginViewModelProvider);
     final LoginViewModel notifier = ref.read(loginViewModelProvider.notifier);
-    final WellKnownFluxerResponseSso? ssoConfig = ref
+    final InstanceSsoSchema? ssoConfig = ref
         .watch(authInstanceSnapshotProvider)
         .ssoConfig;
     final String providerName = ssoConfig?.displayName ?? 'Single Sign-On';
@@ -76,7 +76,7 @@ class SsoLoginPanel extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final FluxerLocalizations strings = FluxerLocalizations.of(context);
     final LoginViewState vm = ref.watch(loginViewModelProvider);
-    final WellKnownFluxerResponseSso? ssoConfig = ref
+    final InstanceSsoSchema? ssoConfig = ref
         .watch(authInstanceSnapshotProvider)
         .ssoConfig;
     final String providerName = ssoConfig?.displayName ?? 'Single Sign-On';

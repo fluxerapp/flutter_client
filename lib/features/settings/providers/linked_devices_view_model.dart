@@ -70,7 +70,9 @@ class LinkedDevicesViewModel extends _$LinkedDevicesViewModel {
     try {
       final client = ref.read(fluxerClientProvider);
       await client.auth.logoutAllSessions(
-        body: LogoutAuthSessionsRequest(sessionIdHashes: idHashes),
+        body: LogoutAuthSessionsWithVerificationRequest(
+          sessionIdHashes: idHashes,
+        ),
       );
       final removed = idHashes.toSet();
       state = state.copyWith(

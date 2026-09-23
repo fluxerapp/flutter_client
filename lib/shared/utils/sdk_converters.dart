@@ -103,7 +103,7 @@ db.ChannelsCompanion channelFromSdk(ChannelResponse sdk, String guildId) {
     guildId: guildId,
     name: sdk.name ?? '',
     url: Value(sdk.url),
-    type: Value(sdk.type),
+    type: Value(sdk.type.json ?? 0),
     topic: Value(sdk.topic),
     parentId: Value(sdk.parentId),
     position: Value(sdk.position ?? 0),
@@ -128,7 +128,7 @@ ChannelResponse channelResponseFromRow(db.Channel row) {
   final lastPinTimestamp = row.lastPinTimestamp;
   return ChannelResponse(
     id: row.id,
-    type: row.type,
+    type: ChannelType.fromJson(row.type),
     guildId: row.guildId,
     name: row.name,
     topic: row.topic,

@@ -95,7 +95,7 @@ import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -817,18 +817,8 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
                       name: name,
                       type: GuildCategoryChannelCreateRequestTypeType
                           .guildCategory,
-                      topic: null,
-                      url: null,
-                      parentId: null,
-                      bitrate: null,
-                      userLimit: null,
-                      voiceConnectionLimit: null,
                       permissionOverwrites: [],
-                      rateLimitPerUser: null,
-                      nsfw: false,
-                      nsfwOverride: null,
-                      contentWarningLevel: ContentWarningLevel.inherit,
-                      contentWarningText: null,
+                      contentWarningLevel: ContentWarningLevelInput.inherit,
                     ),
                   ),
             );

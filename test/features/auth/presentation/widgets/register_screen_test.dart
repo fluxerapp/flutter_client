@@ -125,10 +125,7 @@ void main() {
     tester,
   ) async {
     final ProviderContainer container = _containerFor(
-      _snapshot(
-        selfHosted: true,
-        mode: WellKnownFluxerResponseRegistrationModeMode.closed,
-      ),
+      _snapshot(selfHosted: true, mode: InstanceRegistrationModeSchema.closed),
     );
     container.read(registrationDraftProvider.notifier).update(_completeDraft);
 
@@ -160,7 +157,7 @@ void main() {
       final ProviderContainer container = _containerFor(
         _snapshot(
           selfHosted: true,
-          mode: WellKnownFluxerResponseRegistrationModeMode.closed,
+          mode: InstanceRegistrationModeSchema.closed,
           adminRegistrationUrlsEnabled: true,
         ),
       );
@@ -181,7 +178,7 @@ void main() {
       final ProviderContainer container = _containerFor(
         _snapshot(
           selfHosted: true,
-          mode: WellKnownFluxerResponseRegistrationModeMode.closed,
+          mode: InstanceRegistrationModeSchema.closed,
         ),
       );
       container.read(pendingRegistrationUrlCodeProvider.notifier).store('abc');
@@ -378,8 +375,7 @@ InstanceConfigSnapshot _snapshot({
   bool selfHosted = false,
   String? termsUrl,
   String? privacyUrl,
-  WellKnownFluxerResponseRegistrationModeMode mode =
-      WellKnownFluxerResponseRegistrationModeMode.open,
+  InstanceRegistrationModeSchema mode = InstanceRegistrationModeSchema.open,
   bool collectDateOfBirth = true,
   bool adminRegistrationUrlsEnabled = false,
 }) {
@@ -389,7 +385,7 @@ InstanceConfigSnapshot _snapshot({
     displayDomain: 'self.example',
     wellKnown: WellKnownFluxerResponse(
       apiCodeVersion: 1,
-      endpoints: const WellKnownFluxerResponseEndpoints(
+      endpoints: const InstanceEndpointsSchema(
         api: 'https://self.example/api',
         apiClient: 'https://self.example/api/client',
         apiPublic: 'https://self.example/api/public',
@@ -402,52 +398,52 @@ InstanceConfigSnapshot _snapshot({
         gift: 'https://self.example/gift',
         webapp: 'https://self.example/webapp',
       ),
-      captcha: const WellKnownFluxerResponseCaptcha(
-        provider: 'none',
+      captcha: const InstanceCaptchaSchema(
+        provider: InstanceCaptchaProviderSchema.none,
         hcaptchaSiteKey: null,
         turnstileSiteKey: null,
       ),
-      features: WellKnownFluxerResponseFeatures(
+      features: InstanceFeaturesSchema(
         voiceEnabled: true,
         stripeEnabled: false,
         selfHosted: selfHosted,
         presignedAttachmentUploads: false,
         emailsEnabled: true,
       ),
-      gif: const WellKnownFluxerResponseGif(
+      gif: const InstanceGifSchema(
         provider: 'tenor',
         displayName: 'Tenor',
         attributionRequired: false,
       ),
-      sso: const WellKnownFluxerResponseSso(
+      sso: const InstanceSsoSchema(
         enabled: false,
         enforced: false,
         displayName: null,
         redirectUri: 'https://self.example/sso',
       ),
-      registration: WellKnownFluxerResponseRegistration(
+      registration: InstanceRegistrationSchema(
         mode: mode,
         adminRegistrationUrlsEnabled: adminRegistrationUrlsEnabled,
       ),
-      community: const WellKnownFluxerResponseCommunity(
+      community: const InstanceCommunitySchema(
         singleCommunity: false,
         singleCommunityGuildId: null,
         directMessagesDisabled: false,
       ),
-      services: const WellKnownFluxerResponseServices(
+      services: const InstanceServicesSchema(
         gifEnabled: true,
         youtubeEnabled: true,
         blueskyEnabled: false,
       ),
       limits: const WellKnownFluxerResponseLimits(
-        version: WellKnownFluxerResponseLimitsVersionVersion.value2,
+        version: 2,
         traitDefinitions: <String>[],
         defaultsHash: 'test',
         rules: <WellKnownFluxerResponseLimitsRules>[],
       ),
-      push: const WellKnownFluxerResponsePush(publicVapidKey: null),
-      appPublic: WellKnownFluxerResponseAppPublic(
-        branding: const WellKnownFluxerResponseAppPublicBranding(
+      push: const InstancePushSchema(publicVapidKey: null),
+      appPublic: InstanceAppPublicSchema(
+        branding: const InstanceBrandingSchema(
           productName: 'Fluxer',
           iconUrl: null,
           symbolUrl: null,
@@ -455,16 +451,15 @@ InstanceConfigSnapshot _snapshot({
           wordmarkUrl: null,
           faviconUrl: null,
           themeColor: null,
+          statusPageUrl: null,
+          statusPageIncidentHistoryUrl: null,
         ),
-        setup: const WellKnownFluxerResponseAppPublicSetup(
-          configured: true,
-          adminUrl: null,
-        ),
-        legal: WellKnownFluxerResponseAppPublicLegal(
+        setup: const InstanceSetupSchema(configured: true, adminUrl: null),
+        legal: InstanceAppPublicSchemaLegal(
           termsUrl: termsUrl,
           privacyUrl: privacyUrl,
         ),
-        registration: WellKnownFluxerResponseAppPublicRegistration(
+        registration: InstanceAppPublicSchemaRegistration(
           collectDateOfBirth: collectDateOfBirth,
         ),
       ),

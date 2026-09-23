@@ -49,16 +49,26 @@ String formatGiftMetadataDuration(
     return l10n.embedGiftVisionaryLifetime(kPremiumProductName);
   }
   return switch (gift.durationType) {
-    GiftCodeMetadataResponseDurationTypeDurationType.days =>
-      l10n.embedGiftDurationDays(gift.durationQuantity, kPremiumProductName),
-    GiftCodeMetadataResponseDurationTypeDurationType.weeks =>
-      l10n.embedGiftDurationWeeks(gift.durationQuantity, kPremiumProductName),
-    GiftCodeMetadataResponseDurationTypeDurationType.months =>
-      l10n.embedGiftDurationMonths(gift.durationQuantity, kPremiumProductName),
-    GiftCodeMetadataResponseDurationTypeDurationType.years =>
-      l10n.embedGiftDurationYears(gift.durationQuantity, kPremiumProductName),
-    GiftCodeMetadataResponseDurationTypeDurationType.$unknown =>
-      l10n.embedGiftDurationMonths(gift.durationQuantity, kPremiumProductName),
+    GiftCodeDurationTypeSchema.days => l10n.embedGiftDurationDays(
+      gift.durationQuantity,
+      kPremiumProductName,
+    ),
+    GiftCodeDurationTypeSchema.weeks => l10n.embedGiftDurationWeeks(
+      gift.durationQuantity,
+      kPremiumProductName,
+    ),
+    GiftCodeDurationTypeSchema.months => l10n.embedGiftDurationMonths(
+      gift.durationQuantity,
+      kPremiumProductName,
+    ),
+    GiftCodeDurationTypeSchema.years => l10n.embedGiftDurationYears(
+      gift.durationQuantity,
+      kPremiumProductName,
+    ),
+    GiftCodeDurationTypeSchema.$unknown => l10n.embedGiftDurationMonths(
+      gift.durationQuantity,
+      kPremiumProductName,
+    ),
   };
 }
 
@@ -66,10 +76,10 @@ String formatPremiumShortDate(DateTime date, String locale) {
   return DateFormat.yMMMd(locale).format(date.toLocal());
 }
 
-String? priceIdsCurrencyCode(PriceIdsResponseCurrencyCurrency currency) {
+String? priceIdsCurrencyCode(PremiumCurrency currency) {
   return currency.json;
 }
 
-String? giftCurrencyCode(PriceIdsResponseGiftCurrencyGiftCurrency currency) {
+String? giftCurrencyCode(PremiumCurrency currency) {
   return currency.json;
 }

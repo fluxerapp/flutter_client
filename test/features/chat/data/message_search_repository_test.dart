@@ -18,17 +18,14 @@ void main() {
       expect(request.hitsPerPage, kMessageSearchPageSize);
       expect(request.page, 1);
       expect(request.content, 'hello');
-      expect(request.scope, GlobalSearchMessagesRequestScopeScope.current);
+      expect(request.scope, MessageSearchScope.current);
       expect(request.contextChannelId, 'channel-1');
       expect(request.contextGuildId, 'guild-1');
-      expect(request.sortBy, GlobalSearchMessagesRequestSortBySortBy.timestamp);
-      expect(
-        request.sortOrder,
-        GlobalSearchMessagesRequestSortOrderSortOrder.desc,
-      );
+      expect(request.sortBy, MessageSortField.timestamp);
+      expect(request.sortOrder, MessageSortOrder.desc);
       expect(request.authorId, isNull);
       expect(request.has, isNull);
-      expect(request.includeNsfw, isNull);
+      expect(request.includeNsfw, isFalse);
     });
 
     test('maps nsfw:true onto includeNsfw', () {
@@ -61,18 +58,12 @@ void main() {
 
       expect(request.page, 7);
       expect(request.authorId, ['user-1', 'user-2']);
-      expect(request.has, [
-        GlobalSearchMessagesRequestHasHas.image,
-        GlobalSearchMessagesRequestHasHas.sound,
-      ]);
-      expect(request.scope, GlobalSearchMessagesRequestScopeScope.allGuilds);
+      expect(request.has, [MessageContentType.image, MessageContentType.sound]);
+      expect(request.scope, MessageSearchScope.allGuilds);
       expect(request.contextChannelId, isNull);
       expect(request.contextGuildId, isNull);
-      expect(request.sortBy, GlobalSearchMessagesRequestSortBySortBy.timestamp);
-      expect(
-        request.sortOrder,
-        GlobalSearchMessagesRequestSortOrderSortOrder.asc,
-      );
+      expect(request.sortBy, MessageSortField.timestamp);
+      expect(request.sortOrder, MessageSortOrder.asc);
     });
 
     test('maps typed header filters including UI aliases', () {
@@ -98,18 +89,13 @@ void main() {
       expect(request.authorId, <String>['user-1']);
       expect(request.channelIds, <String>['channel-9']);
       expect(request.channelId, isNull);
-      expect(request.has, <GlobalSearchMessagesRequestHasHas>[
-        GlobalSearchMessagesRequestHasHas.image,
-      ]);
+      expect(request.has, <MessageContentType>[MessageContentType.image]);
       expect(request.pinned, isTrue);
       expect(request.linkHostname, <String>['example.com']);
       expect(request.attachmentFilename, <String>['report.pdf']);
       expect(request.attachmentExtension, <String>['png']);
-      expect(request.sortBy, GlobalSearchMessagesRequestSortBySortBy.relevance);
-      expect(
-        request.sortOrder,
-        GlobalSearchMessagesRequestSortOrderSortOrder.asc,
-      );
+      expect(request.sortBy, MessageSortField.relevance);
+      expect(request.sortOrder, MessageSortOrder.asc);
     });
 
     test('maps remaining catalog filters onto the search request', () {
@@ -141,9 +127,7 @@ void main() {
       expect(request.maxId, isNotNull);
       expect(request.minId, isNotNull);
       expect(request.mentionEveryone, isTrue);
-      expect(request.has, <GlobalSearchMessagesRequestHasHas>[
-        GlobalSearchMessagesRequestHasHas.snapshot,
-      ]);
+      expect(request.has, <MessageContentType>[MessageContentType.snapshot]);
       expect(request.exactPhrases, <String>['exact phrase']);
     });
   });
@@ -155,7 +139,7 @@ void main() {
           id: 'message-1',
           channelId: 'channel-1',
           author: _author(),
-          type: ChannelPinResponseMessageTypeType.valueDefault,
+          type: MessageType.valueDefault,
           flags: 0,
           content: 'Pinned',
           timestamp: DateTime.utc(2026, 5, 9, 12),
@@ -183,7 +167,7 @@ void main() {
           id: 'message-2',
           channelId: 'channel-2',
           author: _author(id: 'current-user'),
-          type: MessageSearchResultsResponseMessagesTypeType.valueDefault,
+          type: MessageType.valueDefault,
           flags: 0,
           content: 'Result',
           timestamp: DateTime.utc(2026, 5, 9, 13),

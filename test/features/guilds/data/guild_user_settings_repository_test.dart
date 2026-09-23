@@ -32,7 +32,7 @@ class _FakeUsersApi implements UsersApi {
   @override
   Future<UserGuildSettingsResponse> updateGuildSettingsForUser({
     required String guildId,
-    required UserGuildSettingsUpdateRequest body,
+    UserGuildSettingsUpdateRequest? body,
   }) async {
     patchCount++;
     lastRequest = body;
@@ -40,7 +40,7 @@ class _FakeUsersApi implements UsersApi {
       throw Exception('patch failed');
     }
     if (onPatch != null) {
-      return await onPatch!(guildId, body);
+      return await onPatch!(guildId, body!);
     }
     return UserGuildSettingsResponse(
       guildId: guildId,
@@ -51,14 +51,14 @@ class _FakeUsersApi implements UsersApi {
       suppressEveryone: false,
       suppressRoles: false,
       hideMutedChannels: false,
-      channelOverrides: body.channelOverrides,
+      channelOverrides: body?.channelOverrides,
       version: 1,
     );
   }
 
   @override
   Future<UserGuildSettingsResponse> updateDmNotificationSettings({
-    required UserGuildSettingsUpdateRequest body,
+    UserGuildSettingsUpdateRequest? body,
   }) => updateGuildSettingsForUser(guildId: '@me', body: body);
 
   @override
@@ -219,7 +219,7 @@ void main() {
           channelOverrides: {
             mutedChannelId: const ChannelOverrides(
               collapsed: false,
-              messageNotifications: UserNotificationSettings.inherit,
+              messageNotifications: UserNotificationSettingsInput.inherit,
               muted: true,
               muteConfig: null,
             ),
@@ -257,13 +257,13 @@ void main() {
           channelOverrides: {
             categoryA: const ChannelOverrides(
               collapsed: false,
-              messageNotifications: UserNotificationSettings.inherit,
+              messageNotifications: UserNotificationSettingsInput.inherit,
               muted: false,
               muteConfig: null,
             ),
             categoryB: const ChannelOverrides(
               collapsed: true,
-              messageNotifications: UserNotificationSettings.inherit,
+              messageNotifications: UserNotificationSettingsInput.inherit,
               muted: false,
               muteConfig: null,
             ),
@@ -301,13 +301,13 @@ void main() {
           channelOverrides: {
             categoryA: const ChannelOverrides(
               collapsed: true,
-              messageNotifications: UserNotificationSettings.inherit,
+              messageNotifications: UserNotificationSettingsInput.inherit,
               muted: false,
               muteConfig: null,
             ),
             categoryB: const ChannelOverrides(
               collapsed: true,
-              messageNotifications: UserNotificationSettings.inherit,
+              messageNotifications: UserNotificationSettingsInput.inherit,
               muted: false,
               muteConfig: null,
             ),
@@ -342,7 +342,7 @@ void main() {
           channelOverrides: {
             categoryId: const ChannelOverrides(
               collapsed: true,
-              messageNotifications: UserNotificationSettings.inherit,
+              messageNotifications: UserNotificationSettingsInput.inherit,
               muted: false,
               muteConfig: null,
             ),
@@ -378,7 +378,7 @@ void main() {
           channelOverrides: {
             otherChannelId: const ChannelOverrides(
               collapsed: false,
-              messageNotifications: UserNotificationSettings.inherit,
+              messageNotifications: UserNotificationSettingsInput.inherit,
               muted: true,
               muteConfig: null,
             ),
@@ -398,7 +398,7 @@ void main() {
               channelOverrides: {
                 channelId: const ChannelOverrides(
                   collapsed: false,
-                  messageNotifications: UserNotificationSettings.inherit,
+                  messageNotifications: UserNotificationSettingsInput.inherit,
                   muted: true,
                   muteConfig: null,
                 ),

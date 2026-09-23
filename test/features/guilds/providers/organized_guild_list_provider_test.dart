@@ -11,7 +11,7 @@ import 'package:fluxer_dart/export.dart';
 class _FakeUsersApi implements UsersApi {
   @override
   Future<UserSettingsResponse> updateCurrentUserSettings({
-    required UserSettingsUpdateRequest body,
+    UserSettingsUpdateRequest? body,
   }) async {
     return UserSettingsResponse.fromJson({
       'status': 'online',

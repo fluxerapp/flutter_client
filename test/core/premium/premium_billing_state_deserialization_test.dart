@@ -69,8 +69,8 @@ void main() {
             ),
           );
 
-      expect(state.currentSubscriptionPrice, isNull);
-      expect(state.pendingSubscriptionChange, isNull);
+      expect(state.currentSubscriptionPrice.toJson(), isEmpty);
+      expect(state.pendingSubscriptionChange.toJson(), isEmpty);
       expect(state.invoices, isEmpty);
       expect(state.invoicesHasMore, isFalse);
       expect(state.refundEligibility.eligible, isFalse);

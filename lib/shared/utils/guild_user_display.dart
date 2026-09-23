@@ -304,7 +304,7 @@ GuildUserDisplay resolveGuildUserDisplayFromProfile({
   required String? friendNickname,
   bool showGlobalProfile = false,
 }) {
-  final UserProfileFullResponseUser user = response.user;
+  final UserPartialResponse user = response.user;
   final GuildMemberResponse? guildMember = response.guildMember;
   final bool canUseGuildProfile =
       guildId != null &&
@@ -429,7 +429,7 @@ bool hasMemberProfileFlag(int? profileFlags, int flag) {
 }
 
 String resolveGuildProfileDisplayName({
-  required UserProfileFullResponseUser user,
+  required UserPartialResponse user,
   required GuildMemberResponse? guildMember,
   required String? friendNickname,
   required bool useGuildProfile,

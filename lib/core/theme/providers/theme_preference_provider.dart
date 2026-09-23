@@ -604,15 +604,13 @@ class ThemePreference extends _$ThemePreference {
     }
   }
 
-  UserSettingsUpdateRequestThemeTheme _toSettingsTheme(FluxerThemeMode mode) =>
-      switch (mode) {
-        FluxerThemeMode.dark => UserSettingsUpdateRequestThemeTheme.dark,
-        FluxerThemeMode.darkLegacy =>
-          UserSettingsUpdateRequestThemeTheme.darkLegacy,
-        FluxerThemeMode.coal => UserSettingsUpdateRequestThemeTheme.coal,
-        FluxerThemeMode.light => UserSettingsUpdateRequestThemeTheme.light,
-        FluxerThemeMode.system => UserSettingsUpdateRequestThemeTheme.system,
-      };
+  UserThemeType _toSettingsTheme(FluxerThemeMode mode) => switch (mode) {
+    FluxerThemeMode.dark => UserThemeType.dark,
+    FluxerThemeMode.darkLegacy => UserThemeType.darkLegacy,
+    FluxerThemeMode.coal => UserThemeType.coal,
+    FluxerThemeMode.light => UserThemeType.light,
+    FluxerThemeMode.system => UserThemeType.system,
+  };
 
   FluxerThemeMode? _modeFromJson(String raw) =>
       FluxerThemeMode.fromApiValue(raw);

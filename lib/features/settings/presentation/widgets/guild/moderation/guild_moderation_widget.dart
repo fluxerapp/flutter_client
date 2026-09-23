@@ -273,7 +273,7 @@ class _GuildModerationWidgetState extends ConsumerState<GuildModerationWidget> {
           _explicitContentFilter,
         ),
         nsfw: _nsfw,
-        contentWarningLevel: ContentWarningLevel.fromJson(
+        contentWarningLevel: ContentWarningLevelInput.fromJson(
           _showContentWarning ? 1 : 0,
         ),
         contentWarningText: _showContentWarning

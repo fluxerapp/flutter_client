@@ -135,53 +135,59 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
           onTap: () => _showOptions(context),
           semanticLabel: triggerLabel,
           expanded: _isOpen,
-          builder: (context, states) => Container(
-            width: stretch ? double.infinity : null,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            decoration: BoxDecoration(
-              color: colors.backgroundTertiary,
-              borderRadius: layout.radiusLg,
-              border: Border.all(
-                color: errorText != null
-                    ? colors.statusDanger
-                    : colors.backgroundModifierAccent,
+          builder: (context, states) {
+            final bool hovered =
+                enabled && states.contains(WidgetState.hovered);
+            return Container(
+              width: stretch ? double.infinity : null,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              decoration: BoxDecoration(
+                color: hovered
+                    ? colors.backgroundModifierHover
+                    : colors.backgroundTertiary,
+                borderRadius: layout.radiusLg,
+                border: Border.all(
+                  color: errorText != null
+                      ? colors.statusDanger
+                      : colors.backgroundModifierAccent,
+                ),
               ),
-            ),
-            child: Row(
-              mainAxisSize: stretch ? MainAxisSize.max : MainAxisSize.min,
-              children: [
-                if (selectedItem?.leading case final leading?) ...[
-                  SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: Center(child: leading),
+              child: Row(
+                mainAxisSize: stretch ? MainAxisSize.max : MainAxisSize.min,
+                children: [
+                  if (selectedItem?.leading case final leading?) ...[
+                    SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: Center(child: leading),
+                    ),
+                    SizedBox(width: layout.s2),
+                  ],
+                  Flexible(
+                    fit: stretch ? FlexFit.tight : FlexFit.loose,
+                    child: Text(
+                      selectedItem?.label ?? hint ?? '',
+                      style: selectedItem != null
+                          ? textStyles.bodySmall.copyWith(
+                              color: colors.textPrimary,
+                            )
+                          : textStyles.bodySmall.copyWith(
+                              color: colors.textTertiary,
+                            ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
                   ),
                   SizedBox(width: layout.s2),
-                ],
-                Flexible(
-                  fit: stretch ? FlexFit.tight : FlexFit.loose,
-                  child: Text(
-                    selectedItem?.label ?? hint ?? '',
-                    style: selectedItem != null
-                        ? textStyles.bodySmall.copyWith(
-                            color: colors.textPrimary,
-                          )
-                        : textStyles.bodySmall.copyWith(
-                            color: colors.textTertiary,
-                          ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
+                  Icon(
+                    PhosphorIconsBold.caretDown,
+                    size: 16,
+                    color: colors.textSecondary,
                   ),
-                ),
-                SizedBox(width: layout.s2),
-                Icon(
-                  PhosphorIconsBold.caretDown,
-                  size: 16,
-                  color: colors.textSecondary,
-                ),
-              ],
-            ),
-          ),
+                ],
+              ),
+            );
+          },
         ),
         if (description != null)
           Padding(

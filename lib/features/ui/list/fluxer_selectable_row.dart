@@ -1,3 +1,4 @@
+import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class FluxerSelectableRow extends StatelessWidget {
@@ -32,13 +33,22 @@ class FluxerSelectableRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isInteractive =
+        onTap != null || onLongPress != null || onSecondaryTapUp != null;
     final Widget row = Padding(
       padding: margin,
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           borderRadius: borderRadius,
-          hoverColor: hoverColor,
+          splashFactory: NoSplash.splashFactory,
+          highlightColor: Colors.transparent,
+          hoverColor:
+              hoverColor ??
+              (isInteractive ? context.colors.backgroundModifierHover : null),
+          mouseCursor: isInteractive
+              ? SystemMouseCursors.click
+              : MouseCursor.defer,
           onTap: onTap,
           onLongPress: onLongPress,
           onSecondaryTapUp: onSecondaryTapUp,

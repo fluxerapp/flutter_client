@@ -23,7 +23,12 @@ GuildMemberSearchRequest buildGuildMemberSearchRequest({
     userCreatedAtLte: joinedProductFilter.lte,
     joinSourceType: joinMethodFilter.sourceTypes.isEmpty
         ? null
-        : joinMethodFilter.sourceTypes,
+        : joinMethodFilter.sourceTypes
+              .map(
+                (JoinSourceType source) =>
+                    JoinSourceTypeInput.fromJson(source.json!),
+              )
+              .toList(),
     sourceInviteCode: joinMethodFilter.inviteCodes.isEmpty
         ? null
         : joinMethodFilter.inviteCodes,

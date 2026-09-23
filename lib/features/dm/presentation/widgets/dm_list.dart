@@ -1585,7 +1585,7 @@ class _DmBottomSheet extends ConsumerWidget {
 
     final groups = <Widget>[];
 
-    // Relationship constants (match SDK RelationshipTypes values).
+    // Relationship constants (match SDK RelationshipTypesInput values).
     const relFriend = 1;
     const relBlocked = 2;
     const relIncoming = 3;

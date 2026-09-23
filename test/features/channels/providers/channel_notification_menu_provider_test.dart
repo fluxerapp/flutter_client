@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_notification_menu_provider.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/export.dart' hide ChannelType;
 
 void main() {
   group('parseChannelNotificationMenuState', () {

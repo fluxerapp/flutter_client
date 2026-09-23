@@ -374,10 +374,10 @@ void main() {
             channelOverrides: {
               channelId: const ChannelOverrides(
                 collapsed: false,
-                messageNotifications: UserNotificationSettings.inherit,
+                messageNotifications: UserNotificationSettingsInput.inherit,
                 muted: false,
                 muteConfig: null,
-                unreadBadges: UserNotificationSettings.onlyMentions,
+                unreadBadges: UserNotificationSettingsInput.onlyMentions,
               ),
             },
           ).toJson(),
@@ -425,7 +425,7 @@ void main() {
               channelOverrides: {
                 channelId: const ChannelOverrides(
                   collapsed: false,
-                  messageNotifications: UserNotificationSettings.inherit,
+                  messageNotifications: UserNotificationSettingsInput.inherit,
                   muted: true,
                   muteConfig: null,
                 ),
@@ -515,7 +515,7 @@ void main() {
             channelOverrides: {
               'dm-1': const ChannelOverrides(
                 collapsed: false,
-                messageNotifications: UserNotificationSettings.inherit,
+                messageNotifications: UserNotificationSettingsInput.inherit,
                 muted: true,
                 muteConfig: null,
               ),

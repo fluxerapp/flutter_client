@@ -6,7 +6,7 @@ import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/features/ui/radio_group/fluxer_radio_group.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/export.dart' hide ChannelType;
 
 const int kDefaultVoiceConnectionLimit = 5;
 
@@ -31,50 +31,27 @@ class CreateChannelSheet {
       2 => ChannelCreateRequest2(
         name: name,
         type: GuildVoiceChannelCreateRequestTypeType.guildVoice,
-        topic: null,
-        url: null,
         parentId: parentId,
         bitrate: 64000,
         userLimit: 0,
         voiceConnectionLimit: kDefaultVoiceConnectionLimit,
         permissionOverwrites: [],
-        rateLimitPerUser: null,
-        nsfw: false,
-        nsfwOverride: null,
-        contentWarningLevel: ContentWarningLevel.inherit,
-        contentWarningText: null,
+        contentWarningLevel: ContentWarningLevelInput.inherit,
       ),
       998 => ChannelCreateRequest998(
         name: name,
         type: GuildLinkChannelCreateRequestTypeType.guildLink,
-        topic: null,
         url: url.trim(),
         parentId: parentId,
-        bitrate: null,
-        userLimit: null,
-        voiceConnectionLimit: null,
         permissionOverwrites: [],
-        rateLimitPerUser: null,
-        nsfw: false,
-        nsfwOverride: null,
-        contentWarningLevel: ContentWarningLevel.inherit,
-        contentWarningText: null,
+        contentWarningLevel: ContentWarningLevelInput.inherit,
       ),
       _ => ChannelCreateRequest0(
         name: name,
         type: GuildTextChannelCreateRequestTypeType.guildText,
-        topic: null,
-        url: null,
         parentId: parentId,
-        bitrate: null,
-        userLimit: null,
-        voiceConnectionLimit: null,
         permissionOverwrites: [],
-        rateLimitPerUser: null,
-        nsfw: false,
-        nsfwOverride: null,
-        contentWarningLevel: ContentWarningLevel.inherit,
-        contentWarningText: null,
+        contentWarningLevel: ContentWarningLevelInput.inherit,
       ),
     };
   }

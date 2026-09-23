@@ -129,7 +129,7 @@ class FriendRepository {
           .acceptOrUpdateFriendRequest(
             userId: userId,
             body: const RelationshipTypePutRequest(
-              type: RelationshipTypes.blocked,
+              type: RelationshipTypesInput.blocked,
             ),
           );
       await _upsertRelationship(relationship);

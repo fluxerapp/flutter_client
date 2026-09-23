@@ -1,5 +1,5 @@
 import 'package:fluxer_app/features/channels/domain/channel.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/export.dart' hide ChannelType;
 
 const String kDiscordTemplateExampleUrl = 'https://discord.new/abcd1234';
 
@@ -113,7 +113,7 @@ bool isTemplateEveryoneRole(TemplateRole role) {
   if (role.name == '@everyone') {
     return true;
   }
-  final Object? id = role.id;
+  final Object id = role.id;
   return id == 0 || id == '0';
 }
 

@@ -175,8 +175,8 @@ class PhoneVerificationViewModel extends _$PhoneVerificationViewModel {
       final PhoneSendVerificationResponse response = await ref
           .read(phoneVerificationRepositoryProvider)
           .sendVerification(phone: e164);
-      if (response is PhoneSendVerificationResponseInboundChallenge) {
-        _setInboundChallenge(response);
+      if (response.toJson().containsKey('challenge_code')) {
+        _setInboundChallenge(response.toVariant2());
         state = state.copyWith(
           isLoading: false,
           step: PhoneVerificationStep.inboundWaiting,
@@ -291,8 +291,8 @@ class PhoneVerificationViewModel extends _$PhoneVerificationViewModel {
       final PhoneSendVerificationResponse response = await ref
           .read(phoneVerificationRepositoryProvider)
           .sendVerification(phone: e164);
-      if (response is PhoneSendVerificationResponseInboundChallenge) {
-        _setInboundChallenge(response);
+      if (response.toJson().containsKey('challenge_code')) {
+        _setInboundChallenge(response.toVariant2());
         state = state.copyWith(
           isLoading: false,
           step: PhoneVerificationStep.inboundWaiting,
@@ -313,9 +313,7 @@ class PhoneVerificationViewModel extends _$PhoneVerificationViewModel {
     }
   }
 
-  void _setInboundChallenge(
-    PhoneSendVerificationResponseInboundChallenge response,
-  ) {
+  void _setInboundChallenge(PhoneSendVerificationResponseVariant2 response) {
     state = state.copyWith(
       inboundChallenge: InboundChallengeState(
         challengeCode: response.challengeCode,

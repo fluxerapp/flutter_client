@@ -11029,6 +11029,13 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Đăng xuất';
 
   @override
+  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+
+  @override
+  String get userSettingsLogOutConfirmDescription =>
+      'You can sign back in at any time.';
+
+  @override
   String get quickSwitcherTabSearch => 'Tìm kiếm';
 
   @override

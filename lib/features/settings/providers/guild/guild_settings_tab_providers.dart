@@ -8,7 +8,7 @@ import 'package:fluxer_app/features/settings/data/guild_settings_converters.dart
 import 'package:fluxer_app/features/settings/data/guild_settings_repository.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_details.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_repository_provider.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'guild_settings_tab_providers.g.dart';

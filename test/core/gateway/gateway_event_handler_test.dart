@@ -689,7 +689,7 @@ void main() {
         avatarColor: null,
         flags: 0,
       ),
-      type: MessageResponseSchemaTypeType.valueDefault,
+      type: MessageType.valueDefault,
       flags: 0,
       content: 'hello $id',
       timestamp: dateTimeFromUserSnowflakeOrNull(id)!,

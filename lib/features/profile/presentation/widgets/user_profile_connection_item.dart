@@ -14,7 +14,7 @@ class UserProfileConnectionItem extends StatelessWidget {
   final ConnectionResponse connection;
 
   String _buildConnectionUrl() {
-    if (connection.type == ConnectionResponseTypeType.bsky) {
+    if (connection.type == ConnectionType.bluesky) {
       return 'https://bsky.app/profile/${connection.name}';
     }
     return 'https://${connection.name}';
@@ -33,8 +33,7 @@ class UserProfileConnectionItem extends StatelessWidget {
     final layout = context.layout;
     final textStyles = context.textStyles;
     final l10n = FluxerLocalizations.of(context);
-    final Widget platformIcon =
-        connection.type == ConnectionResponseTypeType.bsky
+    final Widget platformIcon = connection.type == ConnectionType.bluesky
         ? const FluxerBlueskyIcon()
         : const PhosphorIcon(
             PhosphorIconsBold.globeSimple,

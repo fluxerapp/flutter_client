@@ -139,7 +139,7 @@ Future<void> _seedMutedChannelOverrides(
             for (final id in channelIds)
               id: const ChannelOverrides(
                 collapsed: false,
-                messageNotifications: UserNotificationSettings.inherit,
+                messageNotifications: UserNotificationSettingsInput.inherit,
                 muted: true,
                 muteConfig: null,
               ),

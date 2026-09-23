@@ -23,7 +23,7 @@ class InstanceConfigSnapshot {
     required WellKnownFluxerResponse wellKnown,
     required InstanceEndpointNormalizer normalizer,
   }) {
-    final WellKnownFluxerResponseEndpoints endpoints = wellKnown.endpoints;
+    final InstanceEndpointsSchema endpoints = wellKnown.endpoints;
     final String apiBaseUrl = _resolveApiBaseUrl(endpoints);
     final String gatewayUrl = endpoints.gateway.trim();
     final String displayDomain = normalizer.extractDisplayDomain(apiBaseUrl);
@@ -91,23 +91,22 @@ class InstanceConfigSnapshot {
     }
   }
 
-  WellKnownFluxerResponseSso? get ssoConfig => wellKnown?.sso;
+  InstanceSsoSchema? get ssoConfig => wellKnown?.sso;
 
   bool get isSsoEnabled => ssoConfig?.enabled ?? false;
 
   bool get isSsoEnforced {
-    final WellKnownFluxerResponseSso? config = ssoConfig;
+    final InstanceSsoSchema? config = ssoConfig;
     return config != null && config.enabled && config.enforced;
   }
 
   bool get isSsoOptional {
-    final WellKnownFluxerResponseSso? config = ssoConfig;
+    final InstanceSsoSchema? config = ssoConfig;
     return config != null && config.enabled && !config.enforced;
   }
 
   bool get isRegistrationClosed =>
-      wellKnown?.registration.mode ==
-      WellKnownFluxerResponseRegistrationModeMode.closed;
+      wellKnown?.registration.mode == InstanceRegistrationModeSchema.closed;
 
   /// Terms of service URL to show during registration, null when this instance
   /// has none to offer.
@@ -164,7 +163,7 @@ class InstanceConfigSnapshot {
     ).canPublicRegister(registrationUrlCode: registrationUrlCode);
   }
 
-  static String _resolveApiBaseUrl(WellKnownFluxerResponseEndpoints endpoints) {
+  static String _resolveApiBaseUrl(InstanceEndpointsSchema endpoints) {
     final String apiPublic = endpoints.apiPublic.trim();
     if (apiPublic.isNotEmpty && _isOfficialApiPublicUrl(apiPublic)) {
       return '${_stripTrailingSlashes(apiPublic)}/v1';

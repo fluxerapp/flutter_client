@@ -29,7 +29,7 @@ class _FakeAuthApi implements AuthApi {
 
   @override
   Future<void> logoutAllSessions({
-    required LogoutAuthSessionsRequest body,
+    required LogoutAuthSessionsWithVerificationRequest body,
   }) async {}
 
   @override

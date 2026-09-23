@@ -1,8 +1,10 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_resolver.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
+import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 
 Member dmRecipientMentionMember({
   required DmConversation dm,
@@ -34,6 +36,18 @@ Member dmGroupParticipantMentionMember({
     status: user?.status ?? 'offline',
     isBot: user?.bot ?? false,
   );
+}
+
+String? mentionMemberAvatarUrl({required Member member, String? guildId}) {
+  if (guildId != null && guildId.isNotEmpty) {
+    return resolveGuildMemberAvatarUrl(
+      guildId: guildId,
+      userId: member.id,
+      memberAvatar: member.guildAvatar,
+      userAvatarHash: member.guildAvatar == null ? member.avatar : null,
+    );
+  }
+  return FluxerMediaUrl.userAvatar(userId: member.id, hash: member.avatar);
 }
 
 class ViewChannelFilterContext {

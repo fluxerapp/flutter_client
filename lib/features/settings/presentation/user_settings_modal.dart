@@ -49,6 +49,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/user_shortcuts
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_modal_frame.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/utils/confirm_user_settings_logout.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_billing_nav.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_billing_utils.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_nav_l10n.dart';
@@ -395,6 +396,10 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
   }
 
   Future<void> _logout() async {
+    if (!await confirmUserSettingsLogout(context) || !mounted) {
+      return;
+    }
+
     final userId = ref.read(currentUserIdProvider) ?? '';
 
     await ref.read(gatewayConnectionProvider).disconnect();
@@ -667,6 +672,10 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
   }
 
   Future<void> _logout() async {
+    if (!await confirmUserSettingsLogout(context) || !mounted) {
+      return;
+    }
+
     final userId = ref.read(currentUserIdProvider) ?? '';
 
     await ref.read(gatewayConnectionProvider).disconnect();

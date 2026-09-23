@@ -18240,6 +18240,18 @@ abstract class FluxerLocalizations {
   /// **'Log Out'**
   String get userSettingsNavLogOut;
 
+  /// Title of the confirmation shown before logging out from user settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out?'**
+  String get userSettingsLogOutConfirmTitle;
+
+  /// Body of the confirmation shown before logging out from user settings.
+  ///
+  /// In en, this message translates to:
+  /// **'You can sign back in at any time.'**
+  String get userSettingsLogOutConfirmDescription;
+
   /// Quick switcher bottom sheet tab for search results.
   ///
   /// In en, this message translates to:

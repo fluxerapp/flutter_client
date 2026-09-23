@@ -124,7 +124,10 @@ class ConnectionsViewModel extends _$ConnectionsViewModel {
     state = state.copyWith(pendingIds: pending);
     try {
       final client = ref.read(fluxerClientProvider);
-      await client.connections.deleteConnection(type: type, connectionId: id);
+      await client.connections.deleteConnection(
+        type: ConnectionType.fromJson(type),
+        connectionId: id,
+      );
       final next = state.connections.where((c) => c.id != id).toList();
       state = state.copyWith(connections: next);
     } on Object catch (e, st) {
@@ -144,7 +147,7 @@ class ConnectionsViewModel extends _$ConnectionsViewModel {
     try {
       final client = ref.read(fluxerClientProvider);
       await client.connections.updateConnection(
-        type: type,
+        type: ConnectionType.fromJson(type),
         connectionId: id,
         body: UpdateConnectionRequest(visibilityFlags: visibilityFlags),
       );
@@ -176,7 +179,7 @@ class ConnectionsViewModel extends _$ConnectionsViewModel {
     try {
       return await client.connections.initiateConnection(
         body: CreateConnectionRequest(
-          type: CreateConnectionRequestTypeType.fromJson(type),
+          type: ConnectionType.fromJson(type),
           identifier: identifier,
         ),
       );

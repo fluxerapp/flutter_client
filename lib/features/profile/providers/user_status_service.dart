@@ -19,13 +19,12 @@ part 'user_status_service.g.dart';
 /// Replaces the `UserStatusType` enum the previous SDK exposed; the regenerated
 /// SDK inlines the enum per request field. Values: online, dnd, idle, invisible
 /// (the backend's settable status set).
-typedef PresenceStatus = UserSettingsUpdateRequestStatusStatus;
+typedef PresenceStatus = UserStatusType;
 
 /// Presence status the account reverts to after a timed status expires
 /// (`UserSettingsUpdateRequest.statusResetsTo`). Same value set as
 /// [PresenceStatus]; the SDK models it as a separate inlined enum.
-typedef PresenceResetStatus =
-    UserSettingsUpdateRequestStatusResetsToStatusResetsTo;
+typedef PresenceResetStatus = UserStatusType;
 
 const Map<String, Object?> _clearStatusResetJson = <String, Object?>{
   'status_resets_at': null,

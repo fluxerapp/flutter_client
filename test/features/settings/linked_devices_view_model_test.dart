@@ -26,7 +26,7 @@ class _FakeAuthApi implements AuthApi {
 
   @override
   Future<void> logoutAllSessions({
-    required LogoutAuthSessionsRequest body,
+    required LogoutAuthSessionsWithVerificationRequest body,
   }) async {
     lastLoggedOutIds = body.sessionIdHashes;
     if (logoutError != null) {

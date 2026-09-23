@@ -35,16 +35,21 @@ class EmojiInlineToken extends InlineToken {
 ///
 /// Custom emoji ([surrogates] beginning with `<`) pass through verbatim;
 /// unicode emoji become a `:name:` shortcode, or `:name::skin-tone-N:` when a
-/// skin-tone modifier is present in [surrogates].
+/// single skin-tone modifier is present in [surrogates]. Mixed skin tones
+/// pass through as raw [surrogates].
 String buildEmojiWireToken(String name, String surrogates) {
   if (surrogates.startsWith('<')) {
     return surrogates;
   }
-  for (final String tone in kSkinToneSurrogates) {
-    if (surrogates.contains(tone)) {
-      final int index = kSkinToneSurrogates.indexOf(tone);
-      return ':$name::skin-tone-${index + 1}:';
-    }
+  final List<int> tones = <int>[
+    for (int i = 0; i < kSkinToneSurrogates.length; i++)
+      if (surrogates.contains(kSkinToneSurrogates[i])) i,
+  ];
+  if (tones.length > 1) {
+    return surrogates;
+  }
+  if (tones.length == 1) {
+    return ':$name::skin-tone-${tones.single + 1}:';
   }
   return ':$name:';
 }

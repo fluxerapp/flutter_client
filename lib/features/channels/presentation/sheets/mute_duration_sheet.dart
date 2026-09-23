@@ -38,7 +38,8 @@ String? formatMutedHintText(ChannelOverridesMuteConfig? config) {
   if (config == null) {
     return null;
   }
-  final endTimeStr = config.endTime;
+  final Object? endTimeValue = config.endTime;
+  final String? endTimeStr = endTimeValue is String ? endTimeValue : null;
   if (endTimeStr == null) {
     return 'Muted';
   }

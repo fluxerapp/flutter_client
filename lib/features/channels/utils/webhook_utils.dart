@@ -47,7 +47,7 @@ String generateWebhookName() {
 }
 
 String resolveWebhookApiPublicBase(WellKnownFluxerResponse? wellKnown) {
-  final WellKnownFluxerResponseEndpoints? endpoints = wellKnown?.endpoints;
+  final InstanceEndpointsSchema? endpoints = wellKnown?.endpoints;
   if (endpoints != null) {
     final String apiPublic = endpoints.apiPublic.trim();
     if (apiPublic.isNotEmpty) {

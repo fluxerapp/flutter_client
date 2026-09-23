@@ -9,18 +9,26 @@ String giftDurationText(FluxerLocalizations l10n, GiftCodeResponse gift) {
     return l10n.embedGiftVisionaryLifetime(kPremiumProductName);
   }
   return switch (gift.durationType) {
-    GiftCodeResponseDurationTypeDurationType.days => l10n.embedGiftDurationDays(
+    GiftCodeDurationTypeSchema.days => l10n.embedGiftDurationDays(
       gift.durationQuantity,
       kPremiumProductName,
     ),
-    GiftCodeResponseDurationTypeDurationType.weeks =>
-      l10n.embedGiftDurationWeeks(gift.durationQuantity, kPremiumProductName),
-    GiftCodeResponseDurationTypeDurationType.months =>
-      l10n.embedGiftDurationMonths(gift.durationQuantity, kPremiumProductName),
-    GiftCodeResponseDurationTypeDurationType.years =>
-      l10n.embedGiftDurationYears(gift.durationQuantity, kPremiumProductName),
-    GiftCodeResponseDurationTypeDurationType.$unknown =>
-      l10n.embedGiftDurationMonths(gift.durationQuantity, kPremiumProductName),
+    GiftCodeDurationTypeSchema.weeks => l10n.embedGiftDurationWeeks(
+      gift.durationQuantity,
+      kPremiumProductName,
+    ),
+    GiftCodeDurationTypeSchema.months => l10n.embedGiftDurationMonths(
+      gift.durationQuantity,
+      kPremiumProductName,
+    ),
+    GiftCodeDurationTypeSchema.years => l10n.embedGiftDurationYears(
+      gift.durationQuantity,
+      kPremiumProductName,
+    ),
+    GiftCodeDurationTypeSchema.$unknown => l10n.embedGiftDurationMonths(
+      gift.durationQuantity,
+      kPremiumProductName,
+    ),
   };
 }
 

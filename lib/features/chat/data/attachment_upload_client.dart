@@ -143,36 +143,36 @@ class AttachmentUploadClient {
   }
 
   AttachmentUploadPlan _planFromSdk(PresignedAttachmentUploadResponseItem raw) {
-    return switch (raw) {
-      final PresignedAttachmentUploadResponseItemSinglepart s =>
-        SingleAttachmentUploadPlan(
-          id: s.id,
-          filename: s.filename,
-          uploadFilename: s.uploadFilename,
-          fileSize: s.fileSize,
-          contentType: s.contentType,
-          uploadUrl: s.uploadUrl,
-        ),
-      final PresignedAttachmentUploadResponseItemMultipart m =>
-        MultipartAttachmentUploadPlan(
-          id: m.id,
-          filename: m.filename,
-          uploadFilename: m.uploadFilename,
-          fileSize: m.fileSize,
-          contentType: m.contentType,
-          uploadId: m.uploadId,
-          partSize: m.partSize,
-          parts: m.parts
-              .map(
-                (MultipartPresignedAttachmentUploadResponseItemParts e) =>
-                    MultipartAttachmentUploadPartPlan(
-                      partNumber: e.partNumber,
-                      uploadUrl: e.uploadUrl,
-                    ),
-              )
-              .toList(),
-        ),
-    };
+    if (raw.toJson()['upload_mode'] == 'multipart') {
+      final m = raw.toMultipartPresignedAttachmentUploadResponseItem();
+      return MultipartAttachmentUploadPlan(
+        id: m.id,
+        filename: m.filename,
+        uploadFilename: m.uploadFilename,
+        fileSize: m.fileSize,
+        contentType: m.contentType,
+        uploadId: m.uploadId,
+        partSize: m.partSize,
+        parts: m.parts
+            .map(
+              (MultipartPresignedAttachmentUploadResponseItemParts e) =>
+                  MultipartAttachmentUploadPartPlan(
+                    partNumber: e.partNumber,
+                    uploadUrl: e.uploadUrl,
+                  ),
+            )
+            .toList(),
+      );
+    }
+    final s = raw.toSinglepartPresignedAttachmentUploadResponseItem();
+    return SingleAttachmentUploadPlan(
+      id: s.id,
+      filename: s.filename,
+      uploadFilename: s.uploadFilename,
+      fileSize: s.fileSize,
+      contentType: s.contentType,
+      uploadUrl: s.uploadUrl,
+    );
   }
 
   Future<AttachmentUploadRemoteState> uploadAttachmentPlan(

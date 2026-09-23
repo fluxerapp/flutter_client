@@ -109,7 +109,7 @@ MessageResponseSchema _message({
   id: id,
   channelId: channelId,
   author: _user(authorId),
-  type: MessageResponseSchemaTypeType.valueDefault,
+  type: MessageType.valueDefault,
   flags: 0,
   content: 'hello',
   timestamp: dateTimeFromUserSnowflakeOrNull(id)!,
@@ -163,7 +163,7 @@ void main() {
             channelOverrides: {
               'dm-1': ChannelOverrides(
                 collapsed: false,
-                messageNotifications: UserNotificationSettings.inherit,
+                messageNotifications: UserNotificationSettingsInput.inherit,
                 muted: true,
                 muteConfig: null,
               ),
@@ -200,10 +200,10 @@ void main() {
             channelOverrides: {
               'channel-1': ChannelOverrides(
                 collapsed: false,
-                messageNotifications: UserNotificationSettings.inherit,
+                messageNotifications: UserNotificationSettingsInput.inherit,
                 muted: false,
                 muteConfig: null,
-                unreadBadges: UserNotificationSettings.onlyMentions,
+                unreadBadges: UserNotificationSettingsInput.onlyMentions,
               ),
             },
             unreadBadges: UserNotificationSettings.allMessages,
@@ -239,12 +239,12 @@ void main() {
     expect(decoded.unreadBadges, UserNotificationSettings.allMessages);
     expect(
       decoded.channelOverrides?['channel-1']?.unreadBadges,
-      UserNotificationSettings.onlyMentions,
+      UserNotificationSettingsInput.onlyMentions,
     );
     expect(decoded.channelOverrides?['channel-2']?.muted, isTrue);
     expect(
       decoded.channelOverrides?['channel-2']?.messageNotifications,
-      UserNotificationSettings.inherit,
+      UserNotificationSettingsInput.inherit,
     );
     expect(decoded.version, 2);
   });
@@ -269,7 +269,7 @@ void main() {
               channelOverrides: {
                 'channel-1': ChannelOverrides(
                   collapsed: false,
-                  messageNotifications: UserNotificationSettings.inherit,
+                  messageNotifications: UserNotificationSettingsInput.inherit,
                   muted: true,
                   muteConfig: null,
                 ),
@@ -979,7 +979,7 @@ void main() {
               channelOverrides: {
                 'dm-1': ChannelOverrides(
                   collapsed: false,
-                  messageNotifications: UserNotificationSettings.inherit,
+                  messageNotifications: UserNotificationSettingsInput.inherit,
                   muted: true,
                   muteConfig: null,
                 ),

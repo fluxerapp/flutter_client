@@ -2,7 +2,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/permissions/channel_permission_resolver.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/export.dart' hide ChannelType;
 
 enum ChannelPermissionState { inherit, allow, deny }
 
@@ -270,158 +270,35 @@ int _compareMemberOverwrites(
   return BigInt.parse(a.id).compareTo(BigInt.parse(b.id));
 }
 
-GuildTextChannelUpdateRequestPermissionOverwritesTypeType
-_textOverwriteTypeForPatch(int type) {
+ChannelUpdateRequestBodyVariant1PermissionOverwritesTypeType
+_overwriteTypeForPatch(int type) {
   return type == 0
-      ? GuildTextChannelUpdateRequestPermissionOverwritesTypeType.role
-      : GuildTextChannelUpdateRequestPermissionOverwritesTypeType.member;
+      ? ChannelUpdateRequestBodyVariant1PermissionOverwritesTypeType.role
+      : ChannelUpdateRequestBodyVariant1PermissionOverwritesTypeType.member;
 }
 
-GuildVoiceChannelUpdateRequestPermissionOverwritesTypeType
-_voiceOverwriteTypeForPatch(int type) {
-  return type == 0
-      ? GuildVoiceChannelUpdateRequestPermissionOverwritesTypeType.role
-      : GuildVoiceChannelUpdateRequestPermissionOverwritesTypeType.member;
-}
-
-GuildCategoryChannelUpdateRequestPermissionOverwritesTypeType
-_categoryOverwriteTypeForPatch(int type) {
-  return type == 0
-      ? GuildCategoryChannelUpdateRequestPermissionOverwritesTypeType.role
-      : GuildCategoryChannelUpdateRequestPermissionOverwritesTypeType.member;
-}
-
-GuildLinkChannelUpdateRequestPermissionOverwritesTypeType
-_linkOverwriteTypeForPatch(int type) {
-  return type == 0
-      ? GuildLinkChannelUpdateRequestPermissionOverwritesTypeType.role
-      : GuildLinkChannelUpdateRequestPermissionOverwritesTypeType.member;
-}
-
-ChannelUpdateRequest buildChannelPermissionOverwritesUpdate({
+ChannelUpdateRequestBodyVariant1 buildChannelPermissionOverwritesUpdate({
   required Channel channel,
   required List<ChannelPermissionOverwriteEntry> overwrites,
 }) {
+  final List<ChannelUpdateRequestBodyVariant1PermissionOverwrites> patch =
+      overwrites
+          .map(
+            (ChannelPermissionOverwriteEntry entry) =>
+                ChannelUpdateRequestBodyVariant1PermissionOverwrites(
+                  id: entry.id,
+                  type: _overwriteTypeForPatch(entry.type),
+                  allow: entry.allow.toString(),
+                  deny: entry.deny.toString(),
+                ),
+          )
+          .toList();
   return switch (channel.type) {
-    ChannelType.guildText => ChannelUpdateRequest0(
-      topic: null,
-      url: null,
-      parentId: null,
-      bitrate: null,
-      userLimit: null,
-      voiceConnectionLimit: null,
-      permissionOverwrites: overwrites
-          .map(
-            (ChannelPermissionOverwriteEntry entry) =>
-                GuildTextChannelUpdateRequestPermissionOverwrites(
-                  id: entry.id,
-                  type: _textOverwriteTypeForPatch(entry.type),
-                  allow: entry.allow.toString(),
-                  deny: entry.deny.toString(),
-                ),
-          )
-          .toList(),
-      nsfw: null,
-      nsfwOverride: null,
-      contentWarningLevel: null,
-      contentWarningText: null,
-      rateLimitPerUser: null,
-      icon: null,
-      ownerId: null,
-      nicks: null,
-      rtcRegion: null,
-      type: GuildTextChannelUpdateRequestTypeType.guildText,
-      name: null,
-    ),
-    ChannelType.guildVoice => ChannelUpdateRequest2(
-      topic: null,
-      url: null,
-      parentId: null,
-      bitrate: null,
-      userLimit: null,
-      voiceConnectionLimit: null,
-      permissionOverwrites: overwrites
-          .map(
-            (ChannelPermissionOverwriteEntry entry) =>
-                GuildVoiceChannelUpdateRequestPermissionOverwrites(
-                  id: entry.id,
-                  type: _voiceOverwriteTypeForPatch(entry.type),
-                  allow: entry.allow.toString(),
-                  deny: entry.deny.toString(),
-                ),
-          )
-          .toList(),
-      nsfw: null,
-      nsfwOverride: null,
-      contentWarningLevel: null,
-      contentWarningText: null,
-      rateLimitPerUser: null,
-      icon: null,
-      ownerId: null,
-      nicks: null,
-      rtcRegion: null,
-      type: GuildVoiceChannelUpdateRequestTypeType.guildVoice,
-      name: null,
-    ),
-    ChannelType.guildCategory => ChannelUpdateRequest4(
-      topic: null,
-      url: null,
-      parentId: null,
-      bitrate: null,
-      userLimit: null,
-      voiceConnectionLimit: null,
-      permissionOverwrites: overwrites
-          .map(
-            (ChannelPermissionOverwriteEntry entry) =>
-                GuildCategoryChannelUpdateRequestPermissionOverwrites(
-                  id: entry.id,
-                  type: _categoryOverwriteTypeForPatch(entry.type),
-                  allow: entry.allow.toString(),
-                  deny: entry.deny.toString(),
-                ),
-          )
-          .toList(),
-      nsfw: null,
-      nsfwOverride: null,
-      contentWarningLevel: null,
-      contentWarningText: null,
-      rateLimitPerUser: null,
-      icon: null,
-      ownerId: null,
-      nicks: null,
-      rtcRegion: null,
-      type: GuildCategoryChannelUpdateRequestTypeType.guildCategory,
-      name: null,
-    ),
-    ChannelType.guildLink => ChannelUpdateRequest998(
-      topic: null,
-      url: null,
-      parentId: null,
-      bitrate: null,
-      userLimit: null,
-      voiceConnectionLimit: null,
-      permissionOverwrites: overwrites
-          .map(
-            (ChannelPermissionOverwriteEntry entry) =>
-                GuildLinkChannelUpdateRequestPermissionOverwrites(
-                  id: entry.id,
-                  type: _linkOverwriteTypeForPatch(entry.type),
-                  allow: entry.allow.toString(),
-                  deny: entry.deny.toString(),
-                ),
-          )
-          .toList(),
-      nsfw: null,
-      nsfwOverride: null,
-      contentWarningLevel: null,
-      contentWarningText: null,
-      rateLimitPerUser: null,
-      icon: null,
-      ownerId: null,
-      nicks: null,
-      rtcRegion: null,
-      type: GuildLinkChannelUpdateRequestTypeType.guildLink,
-      name: null,
+    ChannelType.guildText ||
+    ChannelType.guildVoice ||
+    ChannelType.guildCategory ||
+    ChannelType.guildLink => ChannelUpdateRequestBodyVariant1(
+      permissionOverwrites: patch,
     ),
     _ => throw UnsupportedError(
       'Channel permission overwrites are not supported for ${channel.type}',

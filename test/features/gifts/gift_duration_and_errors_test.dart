@@ -9,7 +9,7 @@ void main() {
   final l10n = testL10n;
 
   GiftCodeResponse gift({
-    required GiftCodeResponseDurationTypeDurationType type,
+    required GiftCodeDurationTypeSchema type,
     required int quantity,
   }) {
     return GiftCodeResponse(
@@ -25,10 +25,7 @@ void main() {
       expect(
         giftDurationText(
           l10n,
-          gift(
-            type: GiftCodeResponseDurationTypeDurationType.months,
-            quantity: 0,
-          ),
+          gift(type: GiftCodeDurationTypeSchema.months, quantity: 0),
         ),
         'Visionary (lifetime Plutonium)',
       );
@@ -38,20 +35,14 @@ void main() {
       expect(
         giftDurationText(
           l10n,
-          gift(
-            type: GiftCodeResponseDurationTypeDurationType.months,
-            quantity: 1,
-          ),
+          gift(type: GiftCodeDurationTypeSchema.months, quantity: 1),
         ),
         '1 month of Plutonium',
       );
       expect(
         giftDurationText(
           l10n,
-          gift(
-            type: GiftCodeResponseDurationTypeDurationType.years,
-            quantity: 2,
-          ),
+          gift(type: GiftCodeDurationTypeSchema.years, quantity: 2),
         ),
         '2 years of Plutonium',
       );

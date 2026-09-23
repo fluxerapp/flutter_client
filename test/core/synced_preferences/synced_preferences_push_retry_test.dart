@@ -16,7 +16,7 @@ class _FakeUsersApi implements UsersApi {
 
   @override
   Future<UserSettingsResponse> updateCurrentUserSettings({
-    required UserSettingsUpdateRequest body,
+    UserSettingsUpdateRequest? body,
   }) async {
     pushCount++;
     if (pushError != null) {
@@ -27,7 +27,7 @@ class _FakeUsersApi implements UsersApi {
       'status': 'online',
       'theme': 'dark',
       'locale': 'en-US',
-      'synced_preferences': body.syncedPreferences ?? '',
+      'synced_preferences': body?.syncedPreferences ?? '',
       'render_embeds': true,
       'profile_privacy': 0,
       'restricted_guilds': <String>[],

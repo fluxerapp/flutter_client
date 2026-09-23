@@ -30,7 +30,8 @@ Stream<Set<String>> mutedChannelIds(Ref ref, String guildId) {
       if (!entry.value.muted) {
         continue;
       }
-      final endTimeStr = entry.value.muteConfig?.endTime;
+      final Object? endTimeValue = entry.value.muteConfig?.endTime;
+      final String? endTimeStr = endTimeValue is String ? endTimeValue : null;
       if (endTimeStr != null) {
         final endTime = DateTime.tryParse(endTimeStr);
         if (endTime != null && endTime.isBefore(DateTime.now())) {

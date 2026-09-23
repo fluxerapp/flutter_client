@@ -91,7 +91,7 @@ class GuildStickerSettings extends _$GuildStickerSettings {
             body: GuildStickerCreateRequest(
               name: name,
               description: description.isEmpty ? null : description,
-              tags: tags.isEmpty ? null : tags,
+              tags: tags,
               image: image,
             ),
           );

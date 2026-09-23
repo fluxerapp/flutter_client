@@ -41,7 +41,7 @@ class _FakeOAuth2Api implements OAuth2Api {
   @override
   Future<void> deleteOauthApplication({
     required String id,
-    required SudoVerificationSchema body,
+    SudoVerificationSchema? body,
   }) async {
     lastDeletedId = id;
     apps = apps.where((app) => app.id != id).toList();

@@ -24,7 +24,7 @@ class _FakeWellKnown extends WellKnown {
   Future<WellKnownFluxerResponse> build() async {
     return const WellKnownFluxerResponse(
       apiCodeVersion: 1,
-      endpoints: WellKnownFluxerResponseEndpoints(
+      endpoints: InstanceEndpointsSchema(
         api: '',
         apiClient: '',
         apiPublic: '',
@@ -37,52 +37,52 @@ class _FakeWellKnown extends WellKnown {
         gift: '',
         webapp: '',
       ),
-      captcha: WellKnownFluxerResponseCaptcha(
-        provider: 'none',
+      captcha: InstanceCaptchaSchema(
+        provider: InstanceCaptchaProviderSchema.none,
         hcaptchaSiteKey: null,
         turnstileSiteKey: null,
       ),
-      features: WellKnownFluxerResponseFeatures(
+      features: InstanceFeaturesSchema(
         voiceEnabled: false,
         stripeEnabled: false,
         selfHosted: false,
         presignedAttachmentUploads: false,
         emailsEnabled: false,
       ),
-      gif: WellKnownFluxerResponseGif(
+      gif: InstanceGifSchema(
         provider: '',
         displayName: '',
         attributionRequired: false,
       ),
-      sso: WellKnownFluxerResponseSso(
+      sso: InstanceSsoSchema(
         enabled: false,
         enforced: false,
         displayName: null,
         redirectUri: '',
       ),
-      registration: WellKnownFluxerResponseRegistration(
-        mode: WellKnownFluxerResponseRegistrationModeMode.open,
+      registration: InstanceRegistrationSchema(
+        mode: InstanceRegistrationModeSchema.open,
         adminRegistrationUrlsEnabled: false,
       ),
-      community: WellKnownFluxerResponseCommunity(
+      community: InstanceCommunitySchema(
         singleCommunity: false,
         singleCommunityGuildId: null,
         directMessagesDisabled: false,
       ),
-      services: WellKnownFluxerResponseServices(
+      services: InstanceServicesSchema(
         gifEnabled: false,
         youtubeEnabled: false,
         blueskyEnabled: false,
       ),
       limits: WellKnownFluxerResponseLimits(
-        version: WellKnownFluxerResponseLimitsVersionVersion.value2,
+        version: 2,
         traitDefinitions: <String>[],
         rules: <WellKnownFluxerResponseLimitsRules>[],
         defaultsHash: '',
       ),
-      push: WellKnownFluxerResponsePush(publicVapidKey: null),
-      appPublic: WellKnownFluxerResponseAppPublic(
-        branding: WellKnownFluxerResponseAppPublicBranding(
+      push: InstancePushSchema(publicVapidKey: null),
+      appPublic: InstanceAppPublicSchema(
+        branding: InstanceBrandingSchema(
           productName: '',
           iconUrl: null,
           symbolUrl: null,
@@ -90,16 +90,12 @@ class _FakeWellKnown extends WellKnown {
           wordmarkUrl: null,
           faviconUrl: null,
           themeColor: null,
+          statusPageUrl: null,
+          statusPageIncidentHistoryUrl: null,
         ),
-        setup: WellKnownFluxerResponseAppPublicSetup(
-          configured: true,
-          adminUrl: null,
-        ),
-        legal: WellKnownFluxerResponseAppPublicLegal(
-          termsUrl: null,
-          privacyUrl: null,
-        ),
-        registration: WellKnownFluxerResponseAppPublicRegistration(
+        setup: InstanceSetupSchema(configured: true, adminUrl: null),
+        legal: InstanceAppPublicSchemaLegal(termsUrl: null, privacyUrl: null),
+        registration: InstanceAppPublicSchemaRegistration(
           collectDateOfBirth: false,
         ),
       ),

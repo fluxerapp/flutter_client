@@ -10540,6 +10540,13 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get userSettingsNavLogOut => '로그아웃';
 
   @override
+  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+
+  @override
+  String get userSettingsLogOutConfirmDescription =>
+      'You can sign back in at any time.';
+
+  @override
   String get quickSwitcherTabSearch => '검색';
 
   @override

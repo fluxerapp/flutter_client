@@ -3,7 +3,7 @@ import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/domain/channel_overview_update.dart';
 import 'package:fluxer_app/features/channels/domain/channel_permission_overwrite_update.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/export.dart' hide ChannelType;
 
 void main() {
   final BigInt viewChannelBit = BigInt.from(Permission.viewChannel.value);
@@ -125,12 +125,12 @@ void main() {
       expect(overwrites, hasLength(1));
       final Map<String, dynamic> firstJson =
           (overwrites.first
-                  as GuildTextChannelUpdateRequestPermissionOverwrites)
+                  as ChannelUpdateRequestBodyVariant1PermissionOverwrites)
               .toJson();
       expect(firstJson['id'], 'role-1');
       expect(
         firstJson['type'],
-        GuildTextChannelUpdateRequestPermissionOverwritesTypeType.role,
+        ChannelUpdateRequestBodyVariant1PermissionOverwritesTypeType.role,
       );
       expect(firstJson['allow'], viewChannelBit.toString());
       expect(firstJson['deny'], '0');

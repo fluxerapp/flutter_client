@@ -271,6 +271,69 @@ void main() {
         greaterThan(dockedContentHeight + 20),
       );
     });
+
+    testWidgets(
+      'parent rebuild with a new contentBuilder keeps gallery scroll',
+      (tester) async {
+        late StateSetter setHostState;
+        await tester.binding.setSurfaceSize(_kMobileViewport);
+        addTearDown(() => tester.binding.setSurfaceSize(null));
+        await tester.pumpWidget(
+          ProviderScope(
+            child: MaterialApp(
+              locale: kTestLocale,
+              localizationsDelegates:
+                  FluxerLocalizations.localizationsDelegates,
+              supportedLocales: FluxerLocalizations.supportedLocales,
+              theme: buildFluxerTheme(
+                colorTheme: colorTheme,
+                textTheme: FluxerTextTheme.fromColors(colorTheme),
+                layoutTheme: FluxerLayoutTheme.scaled(),
+              ),
+              home: Scaffold(
+                body: StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+                    setHostState = setState;
+                    return ChatExpressionExpandableSheet(
+                      collapsedHeight: _kDockedContentHeight,
+                      dragHandleHeight: _kDragHandleHeight,
+                      parentHeight: _kMobileViewport.height,
+                      contentBuilder:
+                          (
+                            BuildContext context,
+                            ScrollController scrollController,
+                          ) {
+                            return ListView(
+                              controller: scrollController,
+                              children: const <Widget>[
+                                SizedBox(
+                                  height: 2000,
+                                  child: ColoredBox(color: Color(0xFF333333)),
+                                ),
+                              ],
+                            );
+                          },
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        final ScrollableState scrollable = tester.state(
+          find.byType(Scrollable).last,
+        );
+        scrollable.position.jumpTo(420);
+        await tester.pump();
+        expect(scrollable.position.pixels, 420);
+
+        setHostState(() {});
+        await tester.pump();
+        expect(scrollable.position.pixels, 420);
+      },
+    );
   });
 }
 
