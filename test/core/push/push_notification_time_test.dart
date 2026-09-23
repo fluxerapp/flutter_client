@@ -29,10 +29,7 @@ void main() {
     test('round-trips snowflakeFromDateTime', () {
       final DateTime utc = DateTime.utc(2026, 9, 24, 10, 15, 30);
       final String messageId = snowflakeFromDateTime(utc);
-      expect(
-        snowflakeTimestampMsOrNull(messageId),
-        utc.millisecondsSinceEpoch,
-      );
+      expect(snowflakeTimestampMsOrNull(messageId), utc.millisecondsSinceEpoch);
     });
 
     test('returns null when message_id is missing', () {

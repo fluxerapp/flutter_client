@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/push/android/android_push_pipeline.dart';
 import 'package:fluxer_fcm/fcm_background_handler.dart';
@@ -10,6 +12,8 @@ import 'package:fluxer_fcm/fluxer_fcm_bootstrap.dart';
 
 @pragma('vm:entry-point')
 Future<void> fcmBackgroundMessageHandlerEntry(RemoteMessage message) async {
+  WidgetsFlutterBinding.ensureInitialized();
+  DartPluginRegistrant.ensureInitialized();
   _configureFcmBootstrap();
   await fcmBackgroundMessageHandler(message);
 }

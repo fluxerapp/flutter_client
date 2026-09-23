@@ -41,9 +41,15 @@ class AndroidPushPipeline {
     if (record == null) {
       return null;
     }
+    final List<WebPushAccountKeys> keys;
+    try {
+      keys = await (keyStore ?? WebPushKeyStore()).readAll();
+    } on Object {
+      return null;
+    }
     final DecryptedWebPush? decrypted = await decryptWebPushForAccounts(
       record: record,
-      keys: await (keyStore ?? WebPushKeyStore()).readAll(),
+      keys: keys,
       fallbackId: webPushFallbackId(),
     );
     if (decrypted == null) {

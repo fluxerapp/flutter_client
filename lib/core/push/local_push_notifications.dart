@@ -83,11 +83,24 @@ final class LocalPushNotifications {
             pushNotificationReplyBackground,
       );
       _initialized = ok ?? false;
-      if (_initialized) {
+      if (!_initialized) {
+        return false;
+      }
+      try {
         await _handleLaunchNotification();
+      } on Object catch (e, st) {
+        if (kDebugMode) {
+          debugPrint('[LocalPushNotifications] launch payload: $e\n$st');
+        }
       }
       if (defaultTargetPlatform == TargetPlatform.android) {
-        await _ensureAndroidChannel();
+        try {
+          await _ensureAndroidChannel();
+        } on Object catch (e, st) {
+          if (kDebugMode) {
+            debugPrint('[LocalPushNotifications] channel: $e\n$st');
+          }
+        }
       }
     } on Object {
       _initialized = false;

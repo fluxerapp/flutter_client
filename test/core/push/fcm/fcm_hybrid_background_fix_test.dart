@@ -68,18 +68,40 @@ void main() {
       final String content = receiver.readAsStringSync();
       expect(content, contains('FlutterFirebaseMessagingBackgroundService'));
       expect(content, contains('FcmMessagingBridge.EXTRA_REMOTE_MESSAGE'));
+      expect(content, contains('goAsync()'));
       expect(content, isNot(contains('putString("title"')));
     });
 
     test('fcm entrypoint decrypts ciphertext in the background isolate', () {
       final String content = entrypointTemplate.readAsStringSync();
       expect(content, contains('fcmBackgroundMessageHandlerEntry'));
+      expect(content, contains('DartPluginRegistrant.ensureInitialized'));
       expect(content, contains('_configureFcmBootstrap'));
       expect(content, contains('FcmCiphertextHooks.onCiphertext'));
       expect(content, contains('AndroidPushPipeline.handleCiphertext'));
       expect(
         content,
         contains('onBackgroundMessage: fcmBackgroundMessageHandlerEntry'),
+      );
+    });
+
+    test('background handler registers dart plugins before decrypt', () {
+      final File handler = File(
+        '${projectRoot.path}/packages/fluxer_fcm/lib/fcm_background_handler.dart',
+      );
+      final String content = handler.readAsStringSync();
+      expect(content, contains('DartPluginRegistrant.ensureInitialized'));
+      expect(content, contains('extractFcmCiphertext'));
+      expect(content, contains('backgroundMode: true'));
+    });
+
+    test('web push key store does not wipe secrets on android read errors', () {
+      final File keyStore = File(
+        '${projectRoot.path}/lib/core/push/web_push/web_push_key_store.dart',
+      );
+      expect(
+        keyStore.readAsStringSync(),
+        contains('AndroidOptions(resetOnError: false)'),
       );
     });
   });

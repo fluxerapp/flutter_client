@@ -32,6 +32,7 @@ class WebPushKeyStore {
             iOptions: IOSOptions(
               accessibility: KeychainAccessibility.first_unlock,
             ),
+            aOptions: AndroidOptions(resetOnError: false),
             mOptions: MacOsOptions(
               accessibility: KeychainAccessibility.first_unlock,
             ),
