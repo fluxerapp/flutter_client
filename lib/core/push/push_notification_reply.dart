@@ -3,9 +3,6 @@ import 'dart:ui' show Locale, PlatformDispatcher;
 import 'package:dio/dio.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluxer_app/core/api/session_authorization_header.dart';
-import 'package:fluxer_app/core/database/fluxer_database.dart';
-import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
-import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/push/push_notification_payload.dart';
 import 'package:fluxer_app/features/auth/data/auth_token_storage.dart';
 import 'package:fluxer_app/features/chat/data/message_repository.dart';
@@ -117,15 +114,20 @@ Future<PushReplyResult> sendPushNotificationReply({
   return PushReplyResult.sent;
 }
 
-Future<PushReplyAccount?> lookupPushReplyAccount(String userId) async {
-  final String? token = await SecureAuthTokenStorage().readToken(userId);
+Future<PushReplyAccount?> lookupPushReplyAccount(
+  String userId, {
+  AuthTokenStorage? tokenStorage,
+}) async {
+  final AuthTokenStorage storage = tokenStorage ?? SecureAuthTokenStorage();
+  final String? token = await storage.readToken(userId);
   if (token == null || token.isEmpty) {
     return null;
   }
-  return PushReplyAccount(
-    token: token,
-    apiBaseUrl: await _apiBaseUrlFor(userId),
-  );
+  final String? stored = await storage.readApiBaseUrl(userId);
+  if (stored == null || stored.isEmpty) {
+    return null;
+  }
+  return PushReplyAccount(token: token, apiBaseUrl: stored);
 }
 
 Future<void> postPushReply(PushReplySend send) async {
@@ -146,23 +148,6 @@ Future<void> postPushReply(PushReplySend send) async {
     await dio.post<void>('/channels/$channelId/messages', data: send.body);
   } finally {
     dio.close();
-  }
-}
-
-Future<String> _apiBaseUrlFor(String userId) async {
-  final FluxerDatabase database = FluxerDatabase();
-  try {
-    final String? raw = await database.authSessionDao.getInstanceSnapshotJson(
-      userId,
-    );
-    if (raw == null || raw.isEmpty) {
-      return InstanceConstants.defaultApiBaseUrl;
-    }
-    return InstanceConfigSnapshot.fromJson(raw).apiBaseUrl;
-  } on Object {
-    return InstanceConstants.defaultApiBaseUrl;
-  } finally {
-    await database.close();
   }
 }
 

@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
+import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/features/auth/data/auth_repository.dart';
 import 'package:fluxer_app/features/auth/data/auth_token_storage.dart';
 import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
@@ -167,11 +168,16 @@ void main() {
       await repository.migrateLegacyTokens();
       await db.authSessionDao.saveSessionMetadata(userId: 'user-1');
       await tokenStorage.saveToken(userId: 'user-1', token: 'token-1');
+      await tokenStorage.saveApiBaseUrl(
+        userId: 'user-1',
+        apiBaseUrl: 'https://chat.example.com/api',
+      );
 
       await repository.removeStoredAccount('user-1');
 
       expect(await db.authSessionDao.getSession('user-1'), isNull);
       expect(await tokenStorage.readToken('user-1'), isNull);
+      expect(await tokenStorage.readApiBaseUrl('user-1'), isNull);
     });
 
     test('pruneTokenlessSessions removes metadata without a token', () async {
@@ -239,6 +245,78 @@ void main() {
       await repository.persistRotatedToken('new-token');
 
       expect(tokenStorage.tokens['user-1'], 'new-token');
+    });
+
+    test('persistInstanceSnapshot stores the api base url', () async {
+      await db.authSessionDao.saveSessionMetadata(userId: 'user-1');
+      await tokenStorage.saveToken(userId: 'user-1', token: 'token-1');
+
+      const InstanceConfigSnapshot snapshot = InstanceConfigSnapshot(
+        apiBaseUrl: 'https://chat.example.com/api',
+        gatewayUrl: 'wss://chat.example.com/gateway',
+        displayDomain: 'chat.example.com',
+      );
+      await repository.persistInstanceSnapshot(snapshot);
+
+      expect(
+        await tokenStorage.readApiBaseUrl('user-1'),
+        'https://chat.example.com/api',
+      );
+    });
+
+    test(
+      'persistApiBaseUrls copies instance urls into secure storage',
+      () async {
+        await db.authSessionDao.saveSessionMetadata(
+          userId: 'user-1',
+          instanceSnapshotJson: const InstanceConfigSnapshot(
+            apiBaseUrl: 'https://chat.example.com/api',
+            gatewayUrl: '',
+            displayDomain: 'chat.example.com',
+          ).toJson(),
+        );
+        await tokenStorage.saveToken(userId: 'user-1', token: 'token-1');
+        await db.authSessionDao.saveSessionMetadata(userId: 'official-user');
+        await tokenStorage.saveToken(userId: 'official-user', token: 'token-o');
+        await db.authSessionDao.saveSessionMetadata(userId: 'orphan-user');
+
+        await repository.persistApiBaseUrls();
+
+        expect(
+          await tokenStorage.readApiBaseUrl('user-1'),
+          'https://chat.example.com/api',
+        );
+        expect(
+          await tokenStorage.readApiBaseUrl('official-user'),
+          InstanceConstants.defaultApiBaseUrl,
+        );
+        expect(await tokenStorage.readApiBaseUrl('orphan-user'), isNull);
+      },
+    );
+
+    test('persistApiBaseUrls ignores a corrupt instance snapshot', () async {
+      await db.authSessionDao.saveSessionMetadata(
+        userId: 'bad-user',
+        instanceSnapshotJson: '{not-json',
+      );
+      await tokenStorage.saveToken(userId: 'bad-user', token: 'token-bad');
+      await db.authSessionDao.saveSessionMetadata(
+        userId: 'user-2',
+        instanceSnapshotJson: const InstanceConfigSnapshot(
+          apiBaseUrl: 'https://chat.example.com/api',
+          gatewayUrl: '',
+          displayDomain: 'chat.example.com',
+        ).toJson(),
+      );
+      await tokenStorage.saveToken(userId: 'user-2', token: 'token-2');
+
+      await repository.persistApiBaseUrls();
+
+      expect(await tokenStorage.readApiBaseUrl('bad-user'), isNull);
+      expect(
+        await tokenStorage.readApiBaseUrl('user-2'),
+        'https://chat.example.com/api',
+      );
     });
 
     test('login surfaces an IP authorization challenge', () async {
@@ -368,6 +446,10 @@ void main() {
       expect(result, isA<IpAuthCompleted>());
       expect((result as IpAuthCompleted).session.token, 'session-token');
       expect(await tokenStorage.readToken('123'), 'session-token');
+      expect(
+        await tokenStorage.readApiBaseUrl('123'),
+        InstanceConstants.defaultApiBaseUrl,
+      );
     });
 
     test('pollIpAuthorization stays pending while not completed', () async {

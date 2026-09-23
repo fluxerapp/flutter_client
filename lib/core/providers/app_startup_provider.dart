@@ -165,6 +165,7 @@ class AppStartup extends _$AppStartup {
         debugPrint('[AppStartup] Database obtained, migrating legacy tokens…');
         await authRepository.migrateLegacyTokens();
         await authRepository.pruneTokenlessSessions();
+        await authRepository.persistApiBaseUrls();
       },
     );
     if (!ref.mounted) {

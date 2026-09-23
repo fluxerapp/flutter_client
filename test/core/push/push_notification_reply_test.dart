@@ -1,6 +1,7 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/push/push_notification_reply.dart';
+import 'package:fluxer_app/features/auth/data/auth_token_storage.dart';
 
 void main() {
   group('pushNotificationCanReply', () {
@@ -158,6 +159,45 @@ void main() {
       );
       expect(result, PushReplyResult.failed);
       expect(posted, isFalse);
+    });
+  });
+
+  group('lookupPushReplyAccount', () {
+    test('reads token and api url from storage', () async {
+      final MapAuthTokenStorage storage = MapAuthTokenStorage();
+      await storage.saveToken(userId: 'user-b', token: 'token-b');
+      await storage.saveApiBaseUrl(
+        userId: 'user-b',
+        apiBaseUrl: 'https://chat.example.com/api',
+      );
+
+      final PushReplyAccount? account = await lookupPushReplyAccount(
+        'user-b',
+        tokenStorage: storage,
+      );
+
+      expect(account?.token, 'token-b');
+      expect(account?.apiBaseUrl, 'https://chat.example.com/api');
+    });
+
+    test('returns null when no api url is stored', () async {
+      final MapAuthTokenStorage storage = MapAuthTokenStorage();
+      await storage.saveToken(userId: 'user-b', token: 'token-b');
+
+      expect(
+        await lookupPushReplyAccount('user-b', tokenStorage: storage),
+        isNull,
+      );
+    });
+
+    test('returns null when that account has no token', () async {
+      expect(
+        await lookupPushReplyAccount(
+          'user-b',
+          tokenStorage: MapAuthTokenStorage(),
+        ),
+        isNull,
+      );
     });
   });
 }
