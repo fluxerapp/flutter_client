@@ -195,7 +195,7 @@ private extension NotificationService {
         let interaction = INInteraction(intent: intent, response: nil)
         interaction.direction = .incoming
         if let sentDate = PushNotificationPayload.resolveMessageSentDate(from: userInfo) {
-            interaction.date = sentDate
+            interaction.dateInterval = DateInterval(start: sentDate, duration: 0)
         }
         interaction.donate(completion: nil)
         guard let updated = try? content.updating(from: intent).mutableCopy()
