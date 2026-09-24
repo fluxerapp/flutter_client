@@ -441,7 +441,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get customStatusPlaceholder => 'Що відбувається?';
 
   @override
-  String get customStatusChooseEmoji => 'Вибрати емодзі';
+  String get customStatusChooseEmoji => 'Вибрати емоджі';
 
   @override
   String get customStatusClearAfter => 'Очистити після';
@@ -774,13 +774,13 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get inviteAcceptSomeone => 'хтось';
 
   @override
-  String get inviteAcceptEmojiPack => 'Набір емодзі';
+  String get inviteAcceptEmojiPack => 'Набір емоджі';
 
   @override
   String get inviteAcceptStickerPack => 'Набір стікерів';
 
   @override
-  String get inviteAcceptInstallEmojiPack => 'Встановити набір емодзі';
+  String get inviteAcceptInstallEmojiPack => 'Встановити набір емоджі';
 
   @override
   String get inviteAcceptInstallStickerPack => 'Встановити набір стікерів';
@@ -1407,33 +1407,33 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get userTagSystem => 'Система';
 
   @override
-  String get emojiSearchPlaceholder => 'Знайдіть емодзі своєї мрії';
+  String get emojiSearchPlaceholder => 'Знайдіть емоджі своєї мрії';
 
   @override
-  String get emojiSearchEmpty => 'Емодзі не знайдено за вашим запитом';
+  String get emojiSearchEmpty => 'Емоджі не знайдено за вашим запитом';
 
   @override
-  String get emojiAutocompleteDefaultLabel => 'Стандартний емодзі';
+  String get emojiAutocompleteDefaultLabel => 'Стандартний емоджі';
 
   @override
   String emojiInfoDefaultDescription(String productName) {
-    return 'Це типовий емодзі у $productName.';
+    return 'Це типовий емоджі у $productName.';
   }
 
   @override
   String get emojiInfoCustomGuildDescription =>
-      'Цей емодзі з цієї спільноти. Ви можете використовувати його всюди.';
+      'Цей емоджі з цієї спільноти. Ви можете використовувати його всюди.';
 
   @override
   String get emojiInfoCustomUnknownDescription =>
-      'Це власний емодзі зі спільноти.';
+      'Це власний емоджі зі спільноти.';
 
   @override
   String get emojiInfoCustomInviteRequiredDescription =>
-      'Це власне емодзі зі спільноти. Щоб використовувати це емодзі, попросіть автора надіслати запрошення.';
+      'Це власне емоджі зі спільноти. Щоб використовувати це емоджі, попросіть автора надіслати запрошення.';
 
   @override
-  String get emojiInfoFromHeader => 'Цей емодзі з';
+  String get emojiInfoFromHeader => 'Цей емоджі з';
 
   @override
   String get emojiInfoDiscoverableCommunity => 'Спільнота, яку можна знайти';
@@ -1463,7 +1463,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get emojiTabStickers => 'Стікери';
 
   @override
-  String get emojiTabEmojis => 'Емодзі';
+  String get emojiTabEmojis => 'Емоджі';
 
   @override
   String get gifPickerSearch => 'Пошук GIF';
@@ -1543,8 +1543,8 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count власних емодзі',
-      one: '1 власний емодзі',
+      other: '$count власних емоджі',
+      one: '1 власний емоджі',
     );
     return '$_temp0';
   }
@@ -1843,10 +1843,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get aboutMeHelperText =>
-      'Ви можете використовувати посилання, емодзі та Markdown.';
+      'Ви можете використовувати посилання, емоджі та Markdown.';
 
   @override
-  String get emojiPickerTitle => 'Емодзі';
+  String get emojiPickerTitle => 'Емоджі';
 
   @override
   String get plutoniumBadgePrivacyTitle => 'Приватність значка Plutonium';
@@ -5282,11 +5282,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get messagesMediaReactionsSectionDescription =>
-      'Налаштуйте реакції емодзі на повідомлення';
+      'Налаштуйте реакції емоджі на повідомлення';
 
   @override
   String get messagesMediaReactionsToggleLabel =>
-      'Показувати реакції емодзі на повідомлення';
+      'Показувати реакції емоджі на повідомлення';
 
   @override
   String get messagesMediaSpoilersSectionTitle => 'Прихований вміст';
@@ -5377,11 +5377,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get messagesMediaAutocompleteDefaultEmojisLabel =>
-      'Показувати стандартні емодзі в автодоповненні виразів';
+      'Показувати стандартні емоджі в автодоповненні виразів';
 
   @override
   String get messagesMediaAutocompleteCustomEmojisLabel =>
-      'Показувати власні емодзі в автодоповненні виразів';
+      'Показувати власні емоджі в автодоповненні виразів';
 
   @override
   String get messagesMediaAutocompleteStickersLabel =>
@@ -5535,7 +5535,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get accessibilityPlayAnimatedEmojisLabel =>
-      'Відтворювати анімовані емодзі';
+      'Відтворювати анімовані емоджі';
 
   @override
   String get accessibilityAutoPlayGifsMobileLabel =>
@@ -5552,7 +5552,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get accessibilityPausedEmojiByReducedMotion =>
-      'Призупинено через зменшення руху. Увімкніть, щоб анімовані емодзі відтворювалися.';
+      'Призупинено через зменшення руху. Увімкніть, щоб анімовані емоджі відтворювалися.';
 
   @override
   String get accessibilityPausedGifByReducedMotion =>
@@ -5631,7 +5631,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get accessibilityReducedMotionAnimationTabHint =>
-      'Анімовані емодзі, GIF-файли та стікери залишаються під вашим контролем на вкладці «Анімація».';
+      'Анімовані емоджі, GIF-файли та стікери залишаються під вашим контролем на вкладці «Анімація».';
 
   @override
   String get accessibilityConfirmStartCallTitle => 'Почати дзвінок?';
@@ -5676,7 +5676,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String ttsSubstitutionEmoji(String emojiName) {
-    return 'емодзі $emojiName';
+    return 'емоджі $emojiName';
   }
 
   @override
@@ -6356,7 +6356,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get chatSendFailureNsfwEmojiSticker =>
-      'Ваше повідомлення не могло бути доставлено, оскільки воно містить недоречні емодзі або стікери, які не дозволені в цьому контексті.';
+      'Ваше повідомлення не могло бути доставлено, оскільки воно містить недоречні емоджі або стікери, які не дозволені в цьому контексті.';
 
   @override
   String get chatClientSystemOnlyYouCanSee =>
@@ -8225,7 +8225,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get channelSettingsTopicPlaceholder => 'Додати тему до цього каналу';
 
   @override
-  String get channelSettingsInsertEmoji => 'Вставити емодзі';
+  String get channelSettingsInsertEmoji => 'Вставити емоджі';
 
   @override
   String get channelSettingsTopicTooLongTitle => 'Тема каналу задовга.';
@@ -9385,7 +9385,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get composerHint => 'Message';
 
   @override
-  String get composerOpenExpressionPicker => 'Відкрити вибір емодзі';
+  String get composerOpenExpressionPicker => 'Відкрити вибір емоджі';
 
   @override
   String get composerShowKeyboard => 'Показати клавіатуру';
@@ -9919,17 +9919,17 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get premiumPerkFileUploadSize => 'Розмір файлу для завантаження';
 
   @override
-  String get premiumPerkEmojiStickerPacks => 'Набори емодзі та стікерів';
+  String get premiumPerkEmojiStickerPacks => 'Набори емоджі та стікерів';
 
   @override
   String get premiumPerkSavedMedia => 'Збережені медіа';
 
   @override
-  String get premiumPerkUseAnimatedEmojis => 'Використовувати анімовані емодзі';
+  String get premiumPerkUseAnimatedEmojis => 'Використовувати анімовані емоджі';
 
   @override
   String get premiumPerkGlobalEmojiStickerAccess =>
-      'Доступ до глобальних емодзі та стікерів';
+      'Доступ до глобальних емоджі та стікерів';
 
   @override
   String get premiumPerkVideoQuality => 'Якість відео';
@@ -10763,11 +10763,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get advancedSettingShowDefaultEmojisAutocompleteLabel =>
-      'Показувати стандартні емодзі в автозавершенні виразів';
+      'Показувати стандартні емоджі в автозавершенні виразів';
 
   @override
   String get advancedSettingShowCustomEmojisAutocompleteLabel =>
-      'Показувати власні емодзі в автозаповненні виразів';
+      'Показувати власні емоджі в автозаповненні виразів';
 
   @override
   String get advancedSettingShowStickersAutocompleteLabel =>
@@ -10788,7 +10788,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Показувати кнопку стікерів';
 
   @override
-  String get advancedSettingShowEmojiButtonLabel => 'Показувати кнопку емодзі';
+  String get advancedSettingShowEmojiButtonLabel => 'Показувати кнопку емоджі';
 
   @override
   String get advancedSettingShowSendButtonLabel =>
@@ -10964,7 +10964,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get advancedSettingBuiltInReverseImageSearchDescription =>
-      'Увімкніть або вимкніть вбудовані провайдери зворотного пошуку зображень. Увімкнені провайдери з\'являтимуться в контекстному меню зображень, аватарів, банерів, стікерів та емодзі.';
+      'Увімкніть або вимкніть вбудовані провайдери зворотного пошуку зображень. Увімкнені провайдери з\'являтимуться в контекстному меню зображень, аватарів, банерів, стікерів та емоджі.';
 
   @override
   String get advancedSettingCustomReverseImageSearchLabel =>
@@ -11331,7 +11331,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get composerEmojiUnavailable =>
-      'Ви не можете використовувати цей емодзі тут.';
+      'Ви не можете використовувати цей емоджі тут.';
 
   @override
   String get instanceUrlLabel => 'URL екземпляра';
@@ -11708,7 +11708,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildNavbarTextChannelDescription =>
-      'Надсилайте повідомлення, зображення, GIF-файли та емодзі';
+      'Надсилайте повідомлення, зображення, GIF-файли та емоджі';
 
   @override
   String get guildNavbarVoiceChannel => 'Голосовий канал';
@@ -11949,7 +11949,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildMenuSettingsRoles => 'Ролі та дозволи';
 
   @override
-  String get guildMenuSettingsEmoji => 'Емодзі';
+  String get guildMenuSettingsEmoji => 'Емоджі';
 
   @override
   String get guildMenuSettingsStickers => 'Стікери';
@@ -12319,18 +12319,18 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Змінювати псевдоніми інших учасників.';
 
   @override
-  String get permissionCreateEmojiStickers => 'Створювати емодзі та стікери';
+  String get permissionCreateEmojiStickers => 'Створювати емоджі та стікери';
 
   @override
   String get permissionCreateEmojiStickersDescription =>
-      'Завантажуйте нові емодзі та стікери, а також керуйте власними творіннями.';
+      'Завантажуйте нові емоджі та стікери, а також керуйте власними творіннями.';
 
   @override
-  String get permissionManageEmojiStickers => 'Керування емодзі та стікерами';
+  String get permissionManageEmojiStickers => 'Керування емоджі та стікерами';
 
   @override
   String get permissionManageEmojiStickersDescription =>
-      'Редагувати або видаляти емодзі та стікери, створені іншими учасниками.';
+      'Редагувати або видаляти емоджі та стікери, створені іншими учасниками.';
 
   @override
   String get permissionManageWebhooks => 'Керувати вебхуками';
@@ -12374,11 +12374,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Згадувати всіх або будь-яку роль (навіть якщо роль не налаштована для згадування).';
 
   @override
-  String get permissionUseExternalEmoji => 'Використовувати зовнішні емодзі';
+  String get permissionUseExternalEmoji => 'Використовувати зовнішні емоджі';
 
   @override
   String get permissionUseExternalEmojiDescription =>
-      'Використовувати емодзі з інших спільнот.';
+      'Використовувати емоджі з інших спільнот.';
 
   @override
   String get permissionUseExternalStickers =>
@@ -12453,11 +12453,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String guildSettingsEmojiSlotInfo(int staticCount, int animatedCount) {
-    return '$staticCount статичних, $animatedCount анімованих слотів для емодзі використано';
+    return '$staticCount статичних, $animatedCount анімованих слотів для емоджі використано';
   }
 
   @override
-  String get guildSettingsEmojiEmpty => 'Ще немає власних емодзі.';
+  String get guildSettingsEmojiEmpty => 'Ще немає власних емоджі.';
 
   @override
   String guildSettingsStickersSlotInfo(int count) {
@@ -12659,13 +12659,13 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get auditLogActionWebhookDelete => 'Вебхук видалено';
 
   @override
-  String get auditLogActionEmojiCreate => 'Емодзі створено';
+  String get auditLogActionEmojiCreate => 'Емоджі створено';
 
   @override
-  String get auditLogActionEmojiUpdate => 'Емодзі оновлено';
+  String get auditLogActionEmojiUpdate => 'Емоджі оновлено';
 
   @override
-  String get auditLogActionEmojiDelete => 'Емодзі видалено';
+  String get auditLogActionEmojiDelete => 'Емоджі видалено';
 
   @override
   String get auditLogActionStickerCreate => 'Стікер створено';
@@ -12883,17 +12883,17 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String auditLogSummaryEmojiCreate(String actor, String target) {
-    return '$actor додав емодзі $target.';
+    return '$actor додав емоджі $target.';
   }
 
   @override
   String auditLogSummaryEmojiUpdate(String actor, String target) {
-    return '$actor оновив емодзі $target.';
+    return '$actor оновив емоджі $target.';
   }
 
   @override
   String auditLogSummaryEmojiDelete(String actor, String target) {
-    return '$actor видалив емодзі $target.';
+    return '$actor видалив емоджі $target.';
   }
 
   @override
@@ -14048,72 +14048,72 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Увімкніть 2FA у своєму обліковому записі, щоб змінити цей параметр';
 
   @override
-  String get guildSettingsEmojiSearchHint => 'Пошук емодзі';
+  String get guildSettingsEmojiSearchHint => 'Пошук емоджі';
 
   @override
-  String get guildSettingsEmojiUploadTitle => 'Завантажити емодзі';
+  String get guildSettingsEmojiUploadTitle => 'Завантажити емоджі';
 
   @override
-  String get guildSettingsEmojiSlotsTitle => 'Слоти для емодзі';
+  String get guildSettingsEmojiSlotsTitle => 'Слоти для емоджі';
 
   @override
-  String get guildSettingsEmojiDropZone => 'Перетягніть файли емодзі сюди';
+  String get guildSettingsEmojiDropZone => 'Перетягніть файли емоджі сюди';
 
   @override
   String get guildSettingsEmojiLoadFailed =>
-      'Не вдалося завантажити емодзі. Спробуйте пізніше.';
+      'Не вдалося завантажити емоджі. Спробуйте пізніше.';
 
   @override
   String get guildSettingsEmojiSearchEmpty =>
-      'Не знайдено емодзі, що відповідають вашому пошуку.';
+      'Не знайдено емоджі, що відповідають вашому пошуку.';
 
   @override
-  String get guildSettingsEmojiNoSlots => 'Немає вільних слотів для емодзі';
+  String get guildSettingsEmojiNoSlots => 'Немає вільних слотів для емоджі';
 
   @override
   String get guildSettingsEmojiSlotsFull =>
-      'Ви досягли максимальної кількості емодзі. Видаліть деякі наявні емодзі, щоб звільнити місце.';
+      'Ви досягли максимальної кількості емоджі. Видаліть деякі наявні емоджі, щоб звільнити місце.';
 
   @override
   String guildSettingsEmojiUploadRequirements(String maxSize) {
-    return 'Назви емодзі повинні містити щонайменше 2 символи та можуть використовувати літери, цифри та підкреслення. Розмір емодзі повинен бути меншим за $maxSize. Статичні зображення автоматично змінюються до розміру 128x128 пікселів і стискаються. Анімовані емодзі та SVG повинні вже відповідати обмеженню.';
+    return 'Назви емоджі повинні містити щонайменше 2 символи та можуть використовувати літери, цифри та підкреслення. Розмір емоджі повинен бути меншим за $maxSize. Статичні зображення автоматично змінюються до розміру 128x128 пікселів і стискаються. Анімовані емоджі та SVG повинні вже відповідати обмеженню.';
   }
 
   @override
-  String get guildSettingsEmojiUploadingTitle => 'Завантаження емодзі';
+  String get guildSettingsEmojiUploadingTitle => 'Завантаження емоджі';
 
   @override
   String guildSettingsEmojiUploadingBody(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# емодзі',
-      one: '# емодзі',
+      other: '# емоджі',
+      one: '# емоджі',
     );
     return 'Завантаження $_temp0. Це може зайняти деякий час.';
   }
 
   @override
   String get guildSettingsEmojiUploadFailed =>
-      'Не вдалося завантажити емодзі. Спробуйте ще раз.';
+      'Не вдалося завантажити емоджі. Спробуйте ще раз.';
 
   @override
   String get guildSettingsEmojiSomeFailedTitle =>
-      'Деякі емодзі не вдалося додати';
+      'Деякі емоджі не вдалося додати';
 
   @override
   String get guildSettingsEmojiSomeFailedBody =>
       'Перегляньте ці файли та спробуйте ще раз із меншими або простішими зображеннями.';
 
   @override
-  String get guildSettingsEmojiRenameTitle => 'Перейменувати емодзі';
+  String get guildSettingsEmojiRenameTitle => 'Перейменувати емоджі';
 
   @override
   String get guildSettingsEmojiRenameHint =>
       '2–32 символи: літери, цифри, підкреслення.';
 
   @override
-  String get guildSettingsEmojiColumnEmoji => 'Емодзі';
+  String get guildSettingsEmojiColumnEmoji => 'Емоджі';
 
   @override
   String get guildSettingsEmojiColumnName => 'Назва';
@@ -14125,7 +14125,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildSettingsEmojiUnknownUploader => 'Невідомо';
 
   @override
-  String get guildSettingsEmojiDeleteTitle => 'Видалити емодзі';
+  String get guildSettingsEmojiDeleteTitle => 'Видалити емоджі';
 
   @override
   String guildSettingsEmojiDeleteBody(String name) {
@@ -14134,29 +14134,29 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsEmojiPurgeLabel =>
-      'Видалити цей емодзі зі сховища та CDN';
+      'Видалити цей емоджі зі сховища та CDN';
 
   @override
   String get guildSettingsEmojiNameTooShort =>
-      'Назва емодзі має містити щонайменше 2 символи';
+      'Назва емоджі має містити щонайменше 2 символи';
 
   @override
   String get guildSettingsEmojiNameTooLong =>
-      'Назва емодзі має бути не довшою ніж 32 символи';
+      'Назва емоджі має бути не довшою ніж 32 символи';
 
   @override
-  String get guildSettingsEmojiInvalidNameTitle => 'Недійсна назва емодзі';
+  String get guildSettingsEmojiInvalidNameTitle => 'Недійсна назва емоджі';
 
   @override
   String get guildSettingsEmojiRenameFailedTitle =>
-      'Не вдалося перейменувати цей емодзі';
+      'Не вдалося перейменувати цей емоджі';
 
   @override
   String get guildSettingsEmojiRenameFailedBody =>
       'Назву було повернено до попередньої. Спробуйте ще раз за мить.';
 
   @override
-  String get guildSettingsEmojiGoneTitle => 'Цього емодзі більше не існує';
+  String get guildSettingsEmojiGoneTitle => 'Цього емоджі більше не існує';
 
   @override
   String get guildSettingsEmojiGoneBody =>
@@ -14164,11 +14164,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsEmojiNoPermissionRenameTitle =>
-      'Ви не можете перейменувати цей емодзі';
+      'Ви не можете перейменувати цей емоджі';
 
   @override
   String get guildSettingsEmojiNoPermissionRenameBody =>
-      'У вас немає дозволу перейменовувати цей емодзі. Назву було повернено до попередньої.';
+      'У вас немає дозволу перейменовувати цей емоджі. Назву було повернено до попередньої.';
 
   @override
   String get guildSettingsEmojiRateLimitedTitle => 'Ви надто поспішаєте';
@@ -14179,19 +14179,19 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsEmojiDeleteFailedTitle =>
-      'Не вдалося видалити цей емодзі';
+      'Не вдалося видалити цей емоджі';
 
   @override
   String get guildSettingsEmojiDeleteNoPermissionTitle =>
-      'Ви не можете видалити цей емодзі';
+      'Ви не можете видалити цей емоджі';
 
   @override
   String get guildSettingsCloneEmojiTitle =>
-      'Дозволити іншим клонувати ваші емодзі';
+      'Дозволити іншим клонувати ваші емоджі';
 
   @override
   String get guildSettingsCloneEmojiDescription =>
-      'Якщо ввімкнено, учасники інших спільнот можуть використовувати ярлик \"Клонувати\" в програмі в один клік для ваших власних емодзі. Це не заважає їм зберігати зображення та завантажувати його самостійно.';
+      'Якщо ввімкнено, учасники інших спільнот можуть використовувати ярлик \"Клонувати\" в програмі в один клік для ваших власних емоджі. Це не заважає їм зберігати зображення та завантажувати його самостійно.';
 
   @override
   String get guildSettingsCloneStickerTitle =>
@@ -14208,7 +14208,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsCloneEmojiUpdateFailed =>
-      'Не вдалося оновити клонування емодзі';
+      'Не вдалося оновити клонування емоджі';
 
   @override
   String get guildSettingsCloneStickerUpdateFailed =>
@@ -14216,12 +14216,12 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String guildSettingsNonAnimatedEmoji(int count) {
-    return 'Неанімовані емодзі ($count)';
+    return 'Неанімовані емоджі ($count)';
   }
 
   @override
   String guildSettingsAnimatedEmoji(int count) {
-    return 'Анімовані емодзі ($count)';
+    return 'Анімовані емоджі ($count)';
   }
 
   @override
@@ -14646,7 +14646,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Перемкнути список учасників або голосовий чат';
 
   @override
-  String get keybindActionToggleEmojiPicker => 'Відкрити/закрити панель емодзі';
+  String get keybindActionToggleEmojiPicker => 'Відкрити/закрити панель емоджі';
 
   @override
   String get keybindActionToggleGifPicker => 'Відкрити/закрити панель GIF';
