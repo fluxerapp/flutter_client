@@ -54,7 +54,7 @@ class FavoriteMeme {
       width: meme.width,
       height: meme.height,
       duration: meme.duration?.toDouble(),
-      isGifv: meme.isGifv ?? false,
+      isGifv: meme.isGifv,
       url: meme.url,
       klipySlug: gifSource.klipySlug,
       tenorSlugId: gifSource.tenorSlugId,

@@ -1,6 +1,11 @@
 /// Payload key storing the message id used when posting a local notification.
 const String kLocalNotificationMessageIdKey = '_local_notification_message_id';
 
+/// Android group-summary id for a conversation [groupKey].
+int pushGroupSummaryNotificationId(String groupKey) {
+  return pushMessageNotificationId('summary:$groupKey');
+}
+
 /// Maps a push message id to a 32-bit notification id for local notifications.
 int pushMessageNotificationId(String messageId) {
   const int maxPositiveInt31 = 0x7FFFFFFF;

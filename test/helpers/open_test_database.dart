@@ -14,7 +14,7 @@ FluxerDatabase openTestDatabase() {
     // releases the sqlite handle and never blocks on stream teardown.
     await database.close().timeout(
       const Duration(seconds: 2),
-      onTimeout: () => database.executor.close(),
+      onTimeout: database.executor.close,
     );
   });
   return database;

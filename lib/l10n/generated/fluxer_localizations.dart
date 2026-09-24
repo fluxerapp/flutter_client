@@ -11320,6 +11320,18 @@ abstract class FluxerLocalizations {
   /// **'Reply'**
   String get chatMessageReply;
 
+  /// Placeholder for the text field on a notification reply action.
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get notificationReplyPlaceholder;
+
+  /// Body of the local notification shown when a notification reply fails to send.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t send reply'**
+  String get notificationReplyFailed;
+
   /// Action label for forwarding a message.
   ///
   /// In en, this message translates to:

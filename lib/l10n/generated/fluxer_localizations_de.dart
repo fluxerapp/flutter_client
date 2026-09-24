@@ -7002,6 +7002,12 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get chatMessageReply => 'Antworten';
 
   @override
+  String get notificationReplyPlaceholder => 'Message';
+
+  @override
+  String get notificationReplyFailed => 'Couldn\'t send reply';
+
+  @override
   String get chatMessageForward => 'Weiterleiten';
 
   @override

@@ -171,5 +171,24 @@ void main() {
       await flushSyncedPreferencesPushRetry(store);
       expect(usersApi.pushCount, 2);
     });
+
+    test('markDirty during a 429 retry keeps the backoff timer', () async {
+      usersApi.pushError = _dioError(statusCode: 429);
+      await container
+          .read(soundPreferencesProvider.notifier)
+          .setMasterVolume(80);
+      await flushSyncedPreferencesDebounce(store);
+
+      expect(usersApi.pushCount, 1);
+      expect(store.hasPushRetryScheduledForTest, isTrue);
+
+      await container
+          .read(soundPreferencesProvider.notifier)
+          .setMasterVolume(40);
+
+      expect(usersApi.pushCount, 1);
+      expect(store.hasDebouncedPushScheduledForTest, isFalse);
+      expect(store.hasPushRetryScheduledForTest, isTrue);
+    });
   });
 }

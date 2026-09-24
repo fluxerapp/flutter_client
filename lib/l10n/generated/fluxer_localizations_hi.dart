@@ -6929,6 +6929,12 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get chatMessageReply => 'रिप्लाई करें';
 
   @override
+  String get notificationReplyPlaceholder => 'Message';
+
+  @override
+  String get notificationReplyFailed => 'Couldn\'t send reply';
+
+  @override
   String get chatMessageForward => 'फ़ॉरवर्ड करें';
 
   @override

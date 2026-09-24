@@ -29,7 +29,6 @@ void main() {
       tester,
       reportKey: 'notifications_scroll',
       scrollTarget: findPrimaryScrollable(),
-      flingCount: 8,
     );
-  });
+  }, semanticsEnabled: false);
 }

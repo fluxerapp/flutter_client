@@ -85,7 +85,6 @@ class CurrentRevealSide extends _$CurrentRevealSide {
   }
 
   // Riverpod notifiers in this app use method-style mutations at call sites.
-  // ignore: use_setters_to_change_properties
   void set(RevealSide side) {
     state = side;
   }

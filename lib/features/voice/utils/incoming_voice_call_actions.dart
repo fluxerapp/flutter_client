@@ -116,7 +116,7 @@ Future<void> executeDeclineIncomingVoiceCall(
   final FluxerLocalizations l10n = FluxerLocalizations.of(ctx);
   final VoiceSessionState voice = ref.read(voiceSessionProvider);
   ref.read(activeCallsProvider.notifier).clearPendingRingForChannel(channelId);
-  if (voice.channelId == channelId && voice.isConnected) {
+  if (voice.channelId == channelId && voice.isInVoice) {
     await ref.read(voiceSessionProvider.notifier).leaveVoice(endCall: false);
   }
   try {
@@ -267,7 +267,7 @@ Future<void> executeDeclineIncomingVoiceCallCore(
 ) async {
   final VoiceSessionState voice = ref.read(voiceSessionProvider);
   ref.read(activeCallsProvider.notifier).clearPendingRingForChannel(channelId);
-  if (voice.channelId == channelId && voice.isConnected) {
+  if (voice.channelId == channelId && voice.isInVoice) {
     await ref.read(voiceSessionProvider.notifier).leaveVoice(endCall: false);
   }
 }

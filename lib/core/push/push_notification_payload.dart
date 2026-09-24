@@ -7,6 +7,42 @@ const String kPushNotificationClearAction = 'clear_channel';
 
 String buildChannelTag(String channelId) => 'channel:$channelId';
 
+bool pushNotificationTagMatchesChannel(String? tag, String channelId) {
+  if (tag == null || tag.isEmpty || channelId.isEmpty) {
+    return false;
+  }
+  final String channelTag = buildChannelTag(channelId);
+  return tag == channelTag || tag.startsWith('$channelTag:');
+}
+
+String? pushMessageIdFromChannelTag(String? tag, String channelId) {
+  if (tag == null || channelId.isEmpty) {
+    return null;
+  }
+  final String prefix = '${buildChannelTag(channelId)}:';
+  if (!tag.startsWith(prefix)) {
+    return null;
+  }
+  final String messageId = tag.substring(prefix.length);
+  if (messageId.isEmpty) {
+    return null;
+  }
+  return messageId;
+}
+
+/// True when [messageId] is included in an ack through [upToMessageId].
+/// A missing ack id covers the whole conversation. A missing message id does
+/// not, so a group summary stays until its messages are gone.
+bool pushMessageIsCoveredByAck(String? messageId, String? upToMessageId) {
+  if (upToMessageId == null || upToMessageId.isEmpty) {
+    return true;
+  }
+  if (messageId == null || messageId.isEmpty) {
+    return false;
+  }
+  return _compareNumericIds(messageId, upToMessageId) <= 0;
+}
+
 bool isDmPushPayload(Map<String, String> payload) {
   final String? guildId = _nonEmpty(payload['guild_id']);
   return guildId == null || guildId == '@me' || guildId == 'null';
@@ -90,6 +126,32 @@ String? resolvePushNotificationTag(Map<String, String> payload) {
   return null;
 }
 
+final RegExp _guildTitlePattern = RegExp(r' \(#([^,]+), .+\)$');
+
+/// Conversation label for a grouped stack. Null for a 1:1 DM so the
+/// caller can use the message title.
+String? resolvePushConversationName(
+  Map<String, String> payload, {
+  String? title,
+}) {
+  final String? messageTitle = _nonEmpty(title) ?? _nonEmpty(payload['title']);
+  if (messageTitle == null) {
+    return null;
+  }
+  if (messageTitle.endsWith(' (Group DM)')) {
+    return 'Group DM';
+  }
+  if (isDmPushPayload(enrichPushPayload(payload))) {
+    return null;
+  }
+  final RegExpMatch? match = _guildTitlePattern.firstMatch(messageTitle);
+  final String? channelName = match?.group(1);
+  if (channelName == null || channelName.isEmpty) {
+    return null;
+  }
+  return channelName;
+}
+
 String? resolvePushGroupTag(Map<String, String> payload) {
   final Map<String, String> enriched = enrichPushPayload(payload);
   final String? notificationTag = _nonEmpty(enriched['notification_tag']);
@@ -171,6 +233,23 @@ bool _isClearValue(String? value) {
   }
   return value == kPushNotificationClearType ||
       value == kPushNotificationClearAction;
+}
+
+int _compareNumericIds(String a, String b) {
+  final String left = _stripLeadingZeros(a);
+  final String right = _stripLeadingZeros(b);
+  if (left.length != right.length) {
+    return left.length < right.length ? -1 : 1;
+  }
+  return left.compareTo(right);
+}
+
+String _stripLeadingZeros(String value) {
+  final String stripped = value.replaceFirst(RegExp('^0+'), '');
+  if (stripped.isEmpty) {
+    return '0';
+  }
+  return stripped;
 }
 
 String? _nonEmpty(String? value) {

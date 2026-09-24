@@ -37,11 +37,7 @@ String? _normalizeReadStateVersion(String? version) {
 }
 
 int snowflakeTimestampMs(String? id) {
-  final parsed = BigInt.tryParse(id ?? '');
-  if (parsed == null) {
-    return 0;
-  }
-  return (parsed >> 22).toInt() + kSnowflakeEpochMs;
+  return snowflakeTimestampMsOrNull(id) ?? 0;
 }
 
 String snowflakeAtPreviousMillisecond(String id) {

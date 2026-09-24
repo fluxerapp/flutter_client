@@ -9,13 +9,48 @@ class VoiceCallKitSessionStore {
 
   bool get isEmpty => _sessionsByCallKitId.isEmpty;
 
+  bool get hasIncomingRing => _sessionsByCallKitId.values.any(
+    (VoiceCallKitSession session) =>
+        session.kind == VoiceCallKitSessionKind.incomingRing,
+  );
+
   bool get hasActiveVoiceSession => _sessionsByCallKitId.values.any(
     (VoiceCallKitSession session) =>
         session.kind == VoiceCallKitSessionKind.activeVoice,
   );
 
+  String? get soleActiveVoiceChannelId {
+    String? channelId;
+    for (final VoiceCallKitSession session in _sessionsByCallKitId.values) {
+      if (session.kind != VoiceCallKitSessionKind.activeVoice) {
+        continue;
+      }
+      if (channelId != null) {
+        return null;
+      }
+      channelId = session.channelId;
+    }
+    return channelId;
+  }
+
   Iterable<MapEntry<String, String>> get channelEntries =>
       _callKitIdByChannelId.entries;
+
+  List<String> incomingRingChannelIdsAbsentFrom(Set<String> liveChannelIds) {
+    final List<String> stale = <String>[];
+    for (final MapEntry<String, String> entry
+        in _callKitIdByChannelId.entries) {
+      final VoiceCallKitSession? session = _sessionsByCallKitId[entry.value];
+      if (session == null ||
+          session.kind != VoiceCallKitSessionKind.incomingRing) {
+        continue;
+      }
+      if (!liveChannelIds.contains(entry.key)) {
+        stale.add(entry.key);
+      }
+    }
+    return stale;
+  }
 
   bool containsChannel(String channelId) =>
       _callKitIdByChannelId.containsKey(channelId);
@@ -43,6 +78,7 @@ class VoiceCallKitSessionStore {
   String registerSession({
     required String channelId,
     required VoiceCallKitSessionKind kind,
+    String? callKitId,
     String? messageId,
     String? connectionId,
   }) {
@@ -50,17 +86,17 @@ class VoiceCallKitSessionStore {
     if (existingId != null) {
       return existingId;
     }
-    final String callKitId = resolveVoiceCallKitSessionId();
+    final String resolvedId = callKitId ?? resolveVoiceCallKitSessionId();
     final VoiceCallKitSession session = VoiceCallKitSession(
-      callKitId: callKitId,
+      callKitId: resolvedId,
       channelId: channelId,
       kind: kind,
       messageId: messageId,
       connectionId: connectionId,
     );
-    _sessionsByCallKitId[callKitId] = session;
-    _callKitIdByChannelId[channelId] = callKitId;
-    return callKitId;
+    _sessionsByCallKitId[resolvedId] = session;
+    _callKitIdByChannelId[channelId] = resolvedId;
+    return resolvedId;
   }
 
   void registerExistingSession(VoiceCallKitSession session) {

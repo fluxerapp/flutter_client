@@ -3,11 +3,14 @@ import 'package:flutter_callkit_incoming/entities/call_kit_params.dart';
 import 'package:flutter_callkit_incoming/entities/ios_params.dart';
 import 'package:flutter_callkit_incoming/entities/notification_params.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/features/voice/utils/voice_call_ring.dart';
 import 'package:fluxer_app/features/voice/utils/voice_callkit_display_info.dart';
 import 'package:fluxer_app/features/voice/utils/voice_callkit_policy.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 const int kVoiceCallKitAudioType = 0;
+const String kVoiceCallKitAndroidRingtone = 'incoming_ring';
+const String kVoiceCallKitIosRingtone = 'incoming_ring.caf';
 const Duration kVoiceCallKitRingDuration = Duration(seconds: 45);
 
 CallKitParams buildVoiceCallKitParams({
@@ -59,7 +62,7 @@ CallKitParams buildVoiceCallKitParams({
       isCustomNotification: true,
       isShowFullLockedScreen: true,
       isCustomSmallExNotification: true,
-      ringtonePath: 'system_ringtone_default',
+      ringtonePath: kVoiceCallKitAndroidRingtone,
       incomingCallNotificationChannelName: display.nameCaller,
       missedCallNotificationChannelName: display.nameCaller,
       textAccept: l10n.incomingVoiceCallAccept,
@@ -68,7 +71,55 @@ CallKitParams buildVoiceCallKitParams({
     ios: const IOSParams(
       handleType: 'generic',
       supportsVideo: false,
-      ringtonePath: 'system_ringtone_default',
+      ringtonePath: kVoiceCallKitIosRingtone,
+      configureAudioSession: false,
+      audioSessionMode: 'videoChat',
+      audioSessionActive: true,
+    ),
+  );
+}
+
+CallKitParams buildIncomingCallRingParams({
+  required String callKitId,
+  required CallRingDisplay display,
+  String? channelId,
+  String? messageId,
+  String acceptLabel = 'Accept',
+  String declineLabel = 'Decline',
+  bool showMissedCall = true,
+}) {
+  return CallKitParams(
+    id: callKitId,
+    nameCaller: display.nameCaller,
+    appName: 'Fluxer',
+    avatar: display.avatar,
+    handle: display.handle,
+    type: kVoiceCallKitAudioType,
+    duration: display.durationMs,
+    missedCallNotification: NotificationParams(
+      showNotification: showMissedCall,
+      isShowCallback: false,
+    ),
+    extra: <String, dynamic>{
+      if (channelId != null && channelId.isNotEmpty)
+        kVoiceCallKitExtraChannelId: channelId,
+      if (messageId != null && messageId.isNotEmpty)
+        kVoiceCallKitExtraMessageId: messageId,
+    },
+    android: AndroidParams(
+      isCustomNotification: true,
+      isShowFullLockedScreen: true,
+      isCustomSmallExNotification: true,
+      ringtonePath: kVoiceCallKitAndroidRingtone,
+      incomingCallNotificationChannelName: display.nameCaller,
+      missedCallNotificationChannelName: display.nameCaller,
+      textAccept: acceptLabel,
+      textDecline: declineLabel,
+    ),
+    ios: const IOSParams(
+      handleType: 'generic',
+      supportsVideo: false,
+      ringtonePath: kVoiceCallKitIosRingtone,
       configureAudioSession: false,
       audioSessionMode: 'videoChat',
       audioSessionActive: true,

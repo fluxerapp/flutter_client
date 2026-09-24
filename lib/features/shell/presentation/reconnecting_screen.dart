@@ -12,9 +12,8 @@ import 'package:fluxer_app/features/shell/providers/service_status_incident_prov
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_dart/gateway.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-
-const Duration _kRetryDelay = Duration(seconds: 3);
 
 class ReconnectingScreen extends ConsumerStatefulWidget {
   const ReconnectingScreen({super.key});
@@ -24,8 +23,7 @@ class ReconnectingScreen extends ConsumerStatefulWidget {
 }
 
 class _ReconnectingScreenState extends ConsumerState<ReconnectingScreen> {
-  Timer? _retryTimer;
-  var _retryInFlight = false;
+  var _nudged = false;
 
   @override
   void initState() {
@@ -34,20 +32,13 @@ class _ReconnectingScreenState extends ConsumerState<ReconnectingScreen> {
       if (!mounted) {
         return;
       }
-      unawaited(_retryConnection());
+      unawaited(_nudgeConnection());
       unawaited(ref.read(serviceStatusIncidentReadProvider.notifier).refresh());
     });
-    _scheduleRetry();
   }
 
-  @override
-  void dispose() {
-    _retryTimer?.cancel();
-    super.dispose();
-  }
-
-  Future<void> _retryConnection() async {
-    if (_retryInFlight) {
+  Future<void> _nudgeConnection() async {
+    if (_nudged) {
       return;
     }
     // A session-expiry sign-out nulls the token and invalidates the gateway
@@ -56,29 +47,23 @@ class _ReconnectingScreenState extends ConsumerState<ReconnectingScreen> {
     if (!ref.read(authStateProvider)) {
       return;
     }
-    _retryInFlight = true;
-    try {
-      final List<ConnectivityResult> results = await Connectivity()
-          .checkConnectivity();
-      final bool hasConnection = results.any(
-        (ConnectivityResult r) => r != ConnectivityResult.none,
-      );
-      if (!hasConnection) {
-        return;
-      }
-      await ref.read(gatewayConnectionProvider).reconnectNow();
-    } finally {
-      _retryInFlight = false;
+    final List<ConnectivityResult> results = await Connectivity()
+        .checkConnectivity();
+    final bool hasConnection = results.any(
+      (ConnectivityResult r) => r != ConnectivityResult.none,
+    );
+    if (!hasConnection || !mounted) {
+      return;
     }
-  }
-
-  void _scheduleRetry() {
-    _retryTimer = Timer(_kRetryDelay, () async {
-      await _retryConnection();
-      if (mounted) {
-        _scheduleRetry();
-      }
-    });
+    final connection = ref.read(gatewayConnectionProvider);
+    final GatewayState state = connection.state;
+    if (state == GatewayState.connecting ||
+        state == GatewayState.reconnecting) {
+      _nudged = true;
+      return;
+    }
+    _nudged = true;
+    await connection.nudgeReconnect();
   }
 
   @override
@@ -86,7 +71,8 @@ class _ReconnectingScreenState extends ConsumerState<ReconnectingScreen> {
     final FluxerLocalizations strings = FluxerLocalizations.of(context);
     ref.listen<bool>(appUiForegroundProvider, (bool? previous, bool next) {
       if (previous == false && next) {
-        unawaited(_retryConnection());
+        _nudged = false;
+        unawaited(_nudgeConnection());
       }
     });
     return Scaffold(

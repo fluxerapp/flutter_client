@@ -15,12 +15,16 @@ enum NotificationImageAttachment {
   static let messageImageIdentifier = "fluxer.message.image"
   static let emojiImageIdentifier = "fluxer.message.emoji"
 
-  static func downloadImage(from url: URL, completion: @escaping (URL?) -> Void) {
+  static func downloadImage(
+    from url: URL,
+    timeout: TimeInterval = 20,
+    completion: @escaping (URL?) -> Void
+  ) {
     var request = URLRequest(url: url)
-    request.timeoutInterval = 20
+    request.timeoutInterval = timeout
     let configuration = URLSessionConfiguration.ephemeral
-    configuration.timeoutIntervalForRequest = 20
-    configuration.timeoutIntervalForResource = 25
+    configuration.timeoutIntervalForRequest = timeout
+    configuration.timeoutIntervalForResource = timeout + 5
     let session = URLSession(configuration: configuration)
     let task = session.dataTask(with: request) { data, response, error in
       session.invalidateAndCancel()

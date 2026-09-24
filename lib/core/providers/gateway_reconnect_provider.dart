@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
@@ -35,7 +37,6 @@ class GatewayResumeReconnectInFlight extends _$GatewayResumeReconnectInFlight {
   bool build() => false;
 
   // Resume reconnect state is toggled by gateway lifecycle callbacks.
-  // ignore: use_setters_to_change_properties
   void setInFlight({required bool value}) {
     state = value;
   }
@@ -60,11 +61,16 @@ Future<void> nudgeGatewayReconnectAfterResume(
     return;
   }
   talker.info('[Gateway] Resume reconnect starting');
-  if (connection.isReconnectSuspended) {
-    await connection.unsuspendAndReconnect();
-  } else {
-    await connection.reconnectNow();
+  if (connection.state == GatewayState.connecting ||
+      connection.state == GatewayState.reconnecting) {
+    onResumeReconnectInFlight?.call(inFlight: false);
+    return;
   }
+  if (connection.state == GatewayState.connected) {
+    await connection.reconnectNow();
+    return;
+  }
+  await connection.nudgeReconnect();
 }
 
 Future<bool> _hasAnyConnectivity() async {
@@ -76,18 +82,92 @@ Future<bool> _hasAnyConnectivity() async {
 bool shouldKeepGatewayConnectedForVoiceFromState({
   required bool isInVoice,
   required List<String> pendingIncomingChannelIds,
+  bool hasCallKitIncoming = false,
 }) {
-  if (isInVoice) {
+  if (isInVoice || hasCallKitIncoming) {
     return true;
   }
   return pendingIncomingChannelIds.isNotEmpty;
 }
 
+class CallKitIncomingHold extends Notifier<bool> {
+  @override
+  bool build() => false;
+
+  void setActive({required bool value}) {
+    if (state == value) {
+      return;
+    }
+    state = value;
+  }
+}
+
+final NotifierProvider<CallKitIncomingHold, bool> callKitIncomingHoldProvider =
+    NotifierProvider<CallKitIncomingHold, bool>(CallKitIncomingHold.new);
+
 bool shouldKeepGatewayConnectedForVoice(Ref ref) {
   return shouldKeepGatewayConnectedForVoiceFromState(
     isInVoice: ref.read(voiceSessionProvider).isInVoice,
     pendingIncomingChannelIds: ref.read(pendingIncomingVoiceChannelIdsProvider),
+    hasCallKitIncoming: ref.read(callKitIncomingHoldProvider),
   );
+}
+
+Future<bool> waitUntilGatewayConnected(
+  GatewayConnection connection, {
+  Duration timeout = const Duration(seconds: 15),
+}) async {
+  if (connection.state == GatewayState.connected) {
+    return true;
+  }
+  try {
+    if (connection.isReconnectSuspended) {
+      await connection.unsuspendAndReconnect();
+    } else if (connection.state != GatewayState.connecting &&
+        connection.state != GatewayState.reconnecting) {
+      await connection.reconnectNow();
+    }
+  } on Object {
+    return false;
+  }
+  final DateTime deadline = DateTime.now().add(timeout);
+  while (DateTime.now().isBefore(deadline)) {
+    if (connection.state == GatewayState.connected) {
+      return true;
+    }
+    await Future<void>.delayed(const Duration(milliseconds: 200));
+  }
+  return connection.state == GatewayState.connected;
+}
+
+Future<bool> waitUntilGatewayReadyForCall(
+  Ref ref, {
+  Duration timeout = const Duration(seconds: 20),
+}) async {
+  final GatewayConnection connection = ref.read(gatewayConnectionProvider);
+  final bool connected = await waitUntilGatewayConnected(
+    connection,
+    timeout: timeout,
+  );
+  if (!connected) {
+    return false;
+  }
+  if (ref.read(gatewayReadyProvider)) {
+    return true;
+  }
+  final DateTime deadline = DateTime.now().add(const Duration(seconds: 10));
+  while (DateTime.now().isBefore(deadline)) {
+    if (ref.read(gatewayReadyProvider) &&
+        connection.state == GatewayState.connected) {
+      return true;
+    }
+    if (connection.state == GatewayState.failed) {
+      return false;
+    }
+    await Future<void>.delayed(const Duration(milliseconds: 200));
+  }
+  return ref.read(gatewayReadyProvider) &&
+      connection.state == GatewayState.connected;
 }
 
 @Riverpod(keepAlive: true)
@@ -96,7 +176,6 @@ class GatewayConnectionFailed extends _$GatewayConnectionFailed {
   bool build() => false;
 
   // Failure state is toggled by gateway lifecycle callbacks.
-  // ignore: use_setters_to_change_properties
   void setFailed({required bool value}) {
     state = value;
   }
@@ -467,10 +546,14 @@ Raw<StreamSubscription<List<ConnectivityResult>>?> connectivityListener(
     clearDebounce();
     debounceTimer = Timer(kConnectivityReconnectDebounce, () {
       debounceTimer = null;
-      if (connection.state != GatewayState.connected) {
-        talker.info('[Gateway] Network restored, reconnecting');
-        unawaited(connection.reconnectNow());
+      final GatewayState state = connection.state;
+      if (state == GatewayState.connected ||
+          state == GatewayState.connecting ||
+          state == GatewayState.reconnecting) {
+        return;
       }
+      talker.info('[Gateway] Network restored, reconnecting');
+      unawaited(connection.nudgeReconnect());
     });
   });
 

@@ -1,10 +1,8 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/gateway/gateway_identify_client_properties.dart';
 import 'package:fluxer_app/core/observability/fluxer_observability.dart';
-import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/router/app_location_persistence.dart';
 import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
@@ -28,7 +26,6 @@ class IdentifyInitialGuildId extends _$IdentifyInitialGuildId {
   String? build() => null;
 
   // Applied from the persisted last location before Identify.
-  // ignore: use_setters_to_change_properties
   void set(String? guildId) {
     state = guildId;
   }
@@ -53,8 +50,7 @@ GatewayConnection gatewayConnection(Ref ref) {
   }
 
   final String token = ref.read(fluxerAuthTokenProvider)!;
-
-  final bool isDesktop = isFluxerDesktopOs;
+  final clientProperties = ref.read(fluxerClientPropertiesProvider);
 
   // /loading has no guild; use the persisted last location on cold start.
   final String? initialGuildId =
@@ -69,18 +65,7 @@ GatewayConnection gatewayConnection(Ref ref) {
     flags: kGatewayDebounceMessageReactions,
     traceAsync: FluxerObservability.instance.traceAsync,
     traceSync: FluxerObservability.instance.traceSync,
-    properties: GatewayIdentifyProperties(
-      os: Platform.operatingSystem,
-      browser: 'fluxer_app',
-      device: Platform.operatingSystem,
-      osVersion: Platform.operatingSystemVersion,
-      locale: Platform.localeName,
-      browserVersion: '1.0.0',
-      desktopAppVersion: isDesktop ? '1.0.0' : null,
-      desktopOs: isDesktop ? Platform.operatingSystem : null,
-      e2eeCapable: true,
-      mobile: isFluxerMobileOs,
-    ),
+    properties: buildGatewayIdentifyProperties(clientProperties),
   );
 
   ref.onDispose(connection.dispose);

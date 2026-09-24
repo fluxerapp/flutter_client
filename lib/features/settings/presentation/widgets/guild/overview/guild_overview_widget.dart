@@ -1014,9 +1014,10 @@ class _GuildOverviewWidgetState extends ConsumerState<GuildOverviewWidget> {
               afkTimeout: _afkTimeout,
               systemChannelId: _systemChannelId,
               systemChannelFlags: systemFlags,
-              defaultMessageNotifications: DefaultMessageNotifications.fromJson(
-                _defaultNotifications,
-              ),
+              defaultMessageNotifications:
+                  DefaultMessageNotificationsInput.fromJson(
+                    _defaultNotifications,
+                  ),
               features: featuresUpdate,
             ),
           );

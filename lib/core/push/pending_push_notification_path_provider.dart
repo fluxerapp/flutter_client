@@ -52,10 +52,10 @@ class PendingPushNotificationPath extends _$PendingPushNotificationPath {
     return null;
   }
 
-  void store(String path) {
+  void store(String path, {String? accountUserId}) {
     state = PendingPushNotificationRoute(
       path: path,
-      accountUserId: ref.read(currentUserIdProvider),
+      accountUserId: accountUserId ?? ref.read(currentUserIdProvider),
     );
     talker.info('[PendingNavigation] Queued path until shell ready: $path');
     flushIfReady();
@@ -79,15 +79,10 @@ class PendingPushNotificationPath extends _$PendingPushNotificationPath {
       return;
     }
     final String? currentUserId = ref.read(currentUserIdProvider);
-    final String? accountUserId = pending.accountUserId;
-    if (accountUserId != null &&
-        accountUserId.isNotEmpty &&
-        accountUserId != currentUserId) {
-      state = null;
-      talker.warning(
-        '[PendingNavigation] Dropped queued path for another account: '
-        '${pending.path}',
-      );
+    if (pendingPushRouteWaitsForAccount(
+      accountUserId: pending.accountUserId,
+      currentUserId: currentUserId,
+    )) {
       return;
     }
     state = null;

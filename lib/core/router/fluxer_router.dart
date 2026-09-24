@@ -77,7 +77,6 @@ class AuthState extends _$AuthState {
   bool build() => false;
 
   // Auth transitions are imperative events from startup/login/logout flows.
-  // ignore: use_setters_to_change_properties
   void setAuthenticated({required bool value}) {
     state = value;
   }
@@ -89,7 +88,6 @@ class CurrentUserId extends _$CurrentUserId {
   String? build() => null;
 
   // The active user id is assigned once a session is restored.
-  // ignore: use_setters_to_change_properties
   void set(String id) {
     state = id;
   }
@@ -101,7 +99,6 @@ class CurrentUserPremiumType extends _$CurrentUserPremiumType {
   int build() => 0;
 
   // Premium type mirrors the current user profile payload.
-  // ignore: use_setters_to_change_properties
   void set(int type) {
     state = type;
   }
@@ -113,7 +110,6 @@ class ServerReachable extends _$ServerReachable {
   bool build() => true;
 
   // Gateway reachability is driven by connection lifecycle events.
-  // ignore: use_setters_to_change_properties
   void setReachable({required bool value}) {
     state = value;
   }

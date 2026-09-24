@@ -171,6 +171,13 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <!-- Impeller picks GLES on PowerVR B-Series, MediaTek vendor-SDK under 32 and Adreno
+             650 or older, re-encoding GL state for half of every raster frame (flutter/flutter#192147).
+             Raster avg 12.6 to 8.5 ms on moto g54, 10.1 to 5.1 ms and late frames 74% to 3% on ruby.
+             Revisit when the GLES backend caches state or the flag is removed. -->
+        <meta-data
+            android:name="io.flutter.embedding.android.EnableImpeller"
+            android:value="false" />
         <meta-data
             android:name="com.fluxer.BUILD_ENVIRONMENT"
             android:value="${buildEnvironment}" />

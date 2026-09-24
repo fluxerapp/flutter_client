@@ -315,11 +315,7 @@ class _IarReportBodyState extends ConsumerState<_IarReportBody> {
       return;
     }
     try {
-      await ref
-          .read(fluxerClientProvider)
-          .guilds
-          .leaveGuild(guildId: guildId, body: const SudoVerificationSchema());
-      await removeGuildLocallyAndEvict(ref, guildId);
+      await leaveGuildAndCleanup(ref, guildId);
     } on Object catch (error, stack) {
       talker.error('[IAR] Failed to leave guild', error, stack);
       if (mounted) {

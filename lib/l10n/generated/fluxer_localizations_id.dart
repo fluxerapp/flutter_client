@@ -6934,6 +6934,12 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get chatMessageReply => 'Balas';
 
   @override
+  String get notificationReplyPlaceholder => 'Message';
+
+  @override
+  String get notificationReplyFailed => 'Couldn\'t send reply';
+
+  @override
   String get chatMessageForward => 'Teruskan';
 
   @override

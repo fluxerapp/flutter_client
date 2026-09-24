@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/badge/app_icon_badge_service.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/push/apns/apns_mobile_device_registration.dart';
+import 'package:fluxer_app/core/push/apns/apns_voip_mobile_device_registration.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_mobile_device_registration.dart';
 import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dart';
 import 'package:fluxer_app/core/push/push_notification_clear.dart';
@@ -24,6 +25,10 @@ final class PushAccountLifecycle {
     if (userId == null || !isAuthenticated) {
       return;
     }
+    if (mode == LeavePushAccountMode.switchAccount) {
+      ref.read(pendingHomeQuickActionProvider.notifier).clear();
+      return;
+    }
     ref.read(pendingPushNotificationPathProvider.notifier).clear();
     ref.read(pendingHomeQuickActionProvider.notifier).clear();
     await AppIconBadgeService.clear();
@@ -31,6 +36,9 @@ final class PushAccountLifecycle {
     if (PushProviderGuard.isApple) {
       await ref
           .read(apnsMobileDeviceRegistrationProvider.notifier)
+          .unregisterCurrentToken();
+      await ref
+          .read(apnsVoipMobileDeviceRegistrationProvider.notifier)
           .unregisterCurrentToken();
     }
     if (PushProviderGuard.isFirebaseMessaging) {

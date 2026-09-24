@@ -9,10 +9,12 @@ import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/push_provider.dart';
-import 'package:fluxer_app/core/push/fcm/fcm_registration_logic.dart';
 import 'package:fluxer_app/core/push/push_notification_permission.dart';
 import 'package:fluxer_app/core/push/push_service.dart';
 import 'package:fluxer_app/core/push/services/firebase_messaging_push_service.dart';
+import 'package:fluxer_app/core/push/web_push/web_push_key_store.dart';
+import 'package:fluxer_app/core/push/web_push/web_push_registration.dart';
+import 'package:fluxer_app/core/push/web_push/web_push_relay.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -24,8 +26,10 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
   static const int _tokenPollAttempts = 30;
   static const Duration _tokenPollDelay = Duration(milliseconds: 200);
   String? _lastRegisteredUserId;
-  String? _lastRegisteredToken;
+  String? _lastRegisteredRelayUrl;
+  String? _lastRegisteredPublicKey;
   bool _syncInFlight = false;
+  final WebPushKeyStore _keyStore = WebPushKeyStore();
 
   @override
   int build() {
@@ -66,24 +70,6 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
       unawaited(sync());
     });
     return 0;
-  }
-
-  static RegisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
-  get _registerProviderEnvironment {
-    return kDebugMode
-        ? RegisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
-              .development
-        : RegisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
-              .production;
-  }
-
-  static UnregisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
-  get _unregisterProviderEnvironment {
-    return kDebugMode
-        ? UnregisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
-              .development
-        : UnregisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
-              .production;
   }
 
   bool get _shouldRun {
@@ -150,11 +136,27 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
       }
       return;
     }
-    if (shouldSkipFcmRegistration(
+    final String relayUrl = fcmRelayUrl(
+      appId: AppBuildConfig.mobilePushAppId,
+      deviceToken: token,
+    );
+    final WebPushAccountKeys keys = await _keyStore.ensureKeys(userId);
+    await unregisterLegacyRawTokenOnce(
+      keyStore: _keyStore,
+      platform: 'android_fcm',
+      userId: userId,
+      unregister: () => _unregisterToken(
+        token!,
+        providerEnvironment: _legacyProviderEnvironment,
+      ),
+    );
+    if (shouldSkipWebPushRegistration(
       currentUserId: userId,
-      token: token,
+      relayUrl: relayUrl,
+      publicKey: keys.publicKey,
       lastRegisteredUserId: _lastRegisteredUserId,
-      lastRegisteredToken: _lastRegisteredToken,
+      lastRegisteredRelayUrl: _lastRegisteredRelayUrl,
+      lastRegisteredPublicKey: _lastRegisteredPublicKey,
     )) {
       return;
     }
@@ -165,17 +167,19 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
           .registerMobilePushDevice(
             body: RegisterMobileDeviceRequest(
               platform: RegisterMobileDeviceRequestPlatformPlatform.androidFcm,
-              token: token,
+              token: relayUrl,
               userAgent: ref.read(fluxerClientPropertiesProvider).userAgent,
               appId: AppBuildConfig.mobilePushAppId,
-              providerEnvironment: _registerProviderEnvironment,
+              encryptionKey: keys.publicKey,
+              authSecret: keys.authSecret,
             ),
           );
       _lastRegisteredUserId = userId;
-      _lastRegisteredToken = token;
+      _lastRegisteredRelayUrl = relayUrl;
+      _lastRegisteredPublicKey = keys.publicKey;
       if (kDebugMode) {
         debugPrint(
-          '[FcmMobileDeviceRegistration] registered token for user $userId',
+          '[FcmMobileDeviceRegistration] registered relay for user $userId',
         );
       }
     } on DioException catch (e, st) {
@@ -189,10 +193,7 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
     if (!_shouldRun) {
       return;
     }
-    String? token = _lastRegisteredToken;
-    if (token == null || token.isEmpty) {
-      token = await ref.read(pushServiceProvider).getToken();
-    }
+    final String? token = await ref.read(pushServiceProvider).getToken();
     if (token == null || token.isEmpty) {
       return;
     }
@@ -200,25 +201,45 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
     if (bearer == null || bearer.isEmpty) {
       return;
     }
+    final String relayUrl =
+        _lastRegisteredRelayUrl ??
+        fcmRelayUrl(appId: AppBuildConfig.mobilePushAppId, deviceToken: token);
     try {
-      await ref
-          .read(fluxerClientProvider)
-          .users
-          .unregisterMobilePushDevice(
-            body: UnregisterMobileDeviceRequest(
-              platform:
-                  UnregisterMobileDeviceRequestPlatformPlatform.androidFcm,
-              token: token,
-              appId: AppBuildConfig.mobilePushAppId,
-              providerEnvironment: _unregisterProviderEnvironment,
-            ),
-          );
+      await _unregisterToken(relayUrl);
       _lastRegisteredUserId = null;
-      _lastRegisteredToken = null;
+      _lastRegisteredRelayUrl = null;
+      _lastRegisteredPublicKey = null;
     } on DioException catch (e, st) {
       if (kDebugMode) {
         debugPrint('[FcmMobileDeviceRegistration] unregister failed: $e\n$st');
       }
     }
+  }
+
+  Future<void> _unregisterToken(
+    String token, {
+    UnregisterMobileDeviceRequestProviderEnvironmentProviderEnvironment?
+    providerEnvironment,
+  }) {
+    return ref
+        .read(fluxerClientProvider)
+        .users
+        .unregisterMobilePushDevice(
+          body: UnregisterMobileDeviceRequest(
+            platform: UnregisterMobileDeviceRequestPlatformPlatform.androidFcm,
+            token: token,
+            appId: AppBuildConfig.mobilePushAppId,
+            providerEnvironment: providerEnvironment,
+          ),
+        );
+  }
+
+  static UnregisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
+  get _legacyProviderEnvironment {
+    return kDebugMode
+        ? UnregisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
+              .development
+        : UnregisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
+              .production;
   }
 }

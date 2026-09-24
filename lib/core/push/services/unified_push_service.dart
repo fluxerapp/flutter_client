@@ -4,12 +4,11 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/push/android/android_push_pipeline.dart';
 import 'package:fluxer_app/core/push/local_push_notifications.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
-import 'package:fluxer_app/core/push/push_notification_clear.dart';
 import 'package:fluxer_app/core/push/push_notification_permission.dart';
 import 'package:fluxer_app/core/push/push_service.dart';
-import 'package:fluxer_app/core/push/unified_push/unified_push_incoming_policy.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_message_mapper.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_vapid_cache.dart';
 import 'package:unifiedpush/unifiedpush.dart' as up;
@@ -20,7 +19,7 @@ const String kFluxerUnifiedPushInstance = 'fluxer';
 const Duration _kEndpointWaitTimeout = Duration(seconds: 12);
 const Duration _kRegistrationRetryDelay = Duration(seconds: 5);
 const Duration _kDecryptionHealCooldown = Duration(seconds: 30);
-const Duration _kBackgroundMessageWait = Duration(seconds: 3);
+const Duration _kBackgroundMessageWait = Duration(seconds: 25);
 
 bool _isUnifiedPushAndroid() =>
     PushProviderGuard.isUnifiedPush && Platform.isAndroid;
@@ -36,7 +35,6 @@ class UnifiedPushService implements PushService {
       StreamController<PushMessage>.broadcast();
   final StreamController<up.PushEndpoint> _endpoints =
       StreamController<up.PushEndpoint>.broadcast();
-  final LocalPushNotifications _localPush = LocalPushNotifications();
 
   up.PushEndpoint? _endpoint;
   bool _initialized = false;
@@ -452,32 +450,28 @@ class UnifiedPushService implements PushService {
       unawaited(_healDecryptionFailure());
       return;
     }
-    final PushMessage mapped = mapUnifiedPushMessage(message);
-    switch (resolveUnifiedPushIncomingAction(
-      instance: instance,
-      expectedInstance: kFluxerUnifiedPushInstance,
-      decrypted: true,
+    final PushMessage mapped;
+    try {
+      mapped = mapUnifiedPushMessage(message);
+    } on FormatException {
+      if (kDebugMode) {
+        debugPrint('[UnifiedPushService] skip invalid push payload');
+      }
+      return;
+    }
+    final PushMessage? emitted = await AndroidPushPipeline.dispatch(
+      message: mapped,
       backgroundMode: _backgroundMode,
-      payload: mapped.payload,
-    )) {
-      case UnifiedPushIncomingAction.ignore:
-      case UnifiedPushIncomingAction.healUndecrypted:
-        return;
-      case UnifiedPushIncomingAction.handleClear:
-        if (kDebugMode) {
-          debugPrint('[UnifiedPushService] clear payload id=${mapped.id}');
-        }
-        await PushNotificationClear.handleClearPayload(mapped.payload);
-      case UnifiedPushIncomingAction.emitToCoordinator:
-        if (kDebugMode) {
-          debugPrint(
-            '[UnifiedPushService] emit push id=${mapped.id} '
-            'title=${mapped.title}',
-          );
-        }
-        _messages.add(mapped);
-      case UnifiedPushIncomingAction.showLocally:
-        await _displayUnifiedPushMessage(mapped);
+      decrypted: true,
+    );
+    if (emitted != null) {
+      if (kDebugMode) {
+        debugPrint(
+          '[UnifiedPushService] emit push id=${emitted.id} '
+          'title=${emitted.title}',
+        );
+      }
+      _messages.add(emitted);
     }
   }
 
@@ -490,23 +484,6 @@ class UnifiedPushService implements PushService {
       return;
     }
     pending.complete();
-  }
-
-  Future<void> _displayUnifiedPushMessage(PushMessage mapped) async {
-    if (kDebugMode) {
-      debugPrint(
-        '[UnifiedPushService] display push id=${mapped.id} '
-        'title=${mapped.title} body=${mapped.body} bg=$_backgroundMode',
-      );
-    }
-    final bool ready = await _localPush.ensureInitialized();
-    if (!ready) {
-      if (kDebugMode) {
-        debugPrint('[UnifiedPushService] local notifications not initialized');
-      }
-      return;
-    }
-    await _localPush.showPushMessage(mapped);
   }
 
   Future<void> _healDecryptionFailure() async {

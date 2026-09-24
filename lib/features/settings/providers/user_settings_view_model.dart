@@ -1588,7 +1588,9 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
     try {
       final client = ref.read(fluxerClientProvider);
       await client.users.updateCurrentUserSettings(
-        body: UserSettingsUpdateRequest(renderSpoilers: value),
+        body: UserSettingsUpdateRequest(
+          renderSpoilers: RenderSpoilersInput.fromJson(value.json ?? 0),
+        ),
       );
     } on Object catch (e, st) {
       state = state.copyWith(renderSpoilers: previous);
@@ -1631,7 +1633,11 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
     try {
       final client = ref.read(fluxerClientProvider);
       await client.users.updateCurrentUserSettings(
-        body: UserSettingsUpdateRequest(animateStickers: value),
+        body: UserSettingsUpdateRequest(
+          animateStickers: StickerAnimationOptionsInput.fromJson(
+            value.json ?? 0,
+          ),
+        ),
       );
     } on Object catch (e, st) {
       state = state.copyWith(animateStickers: previous);

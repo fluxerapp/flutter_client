@@ -134,6 +134,34 @@ void main() {
       );
     });
 
+    test('allows selectable presence statuses', () {
+      for (final String status in <String>[
+        'online',
+        'idle',
+        'dnd',
+        'invisible',
+      ]) {
+        expect(
+          gateAssistantCommand(
+            command: PresenceSetStatusCommand(status: status),
+            snapshot: _snapshot(),
+          ),
+          AssistantCommandGate.proceed,
+          reason: status,
+        );
+      }
+    });
+
+    test('rejects unknown presence statuses', () {
+      expect(
+        gateAssistantCommand(
+          command: const PresenceSetStatusCommand(status: 'offline'),
+          snapshot: _snapshot(),
+        ),
+        AssistantCommandGate.failed,
+      );
+    });
+
     test('allows custom status to be set or cleared', () {
       expect(
         gateAssistantCommand(

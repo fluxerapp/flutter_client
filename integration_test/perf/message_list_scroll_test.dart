@@ -21,13 +21,20 @@ void main() {
     await bootstrapAuthenticatedApp(tester);
     await openGuildChannel(tester);
 
-    expect(find.byType(ListView), findsWidgets);
+    final Finder messageList = find
+        .descendant(
+          of: find.byKey(const ValueKey<String>('message-list')),
+          matching: find.byType(Scrollable),
+        )
+        .first;
+    expect(messageList, findsOneWidget);
 
     await traceScrollPerf(
       binding,
       tester,
       reportKey: 'guild_message_list_scroll',
-      scrollTarget: find.byType(ListView).first,
+      scrollTarget: messageList,
+      direction: const Offset(0, 1200),
     );
-  });
+  }, semanticsEnabled: false);
 }

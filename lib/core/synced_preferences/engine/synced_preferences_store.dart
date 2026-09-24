@@ -117,6 +117,9 @@ class SyncedPreferencesStore {
 
   void markDirty(SyncedPreferenceField field) {
     _dirtyFields.add(field);
+    if (_pushRetryTimer?.isActive ?? false) {
+      return;
+    }
     _pushRetryAttempts = 0;
     _pushRetryTimer?.cancel();
     _pushRetryTimer = null;
@@ -142,6 +145,9 @@ class SyncedPreferencesStore {
     SyncedThemeCustomizationApplier? themeCustomizationApplier,
   }) async {
     final encoded = settings.syncedPreferences;
+    if (_hasHydrated && encoded.isEmpty) {
+      return;
+    }
     _wireBlob = encoded;
     final decodeStatus = await _decodeIncoming(encoded);
     if (decodeStatus == _DecodeStatus.failure) {

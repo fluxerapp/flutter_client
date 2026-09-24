@@ -99,11 +99,21 @@ void main() {
 
   group('playOneShot', () {
     test('uses notification context for message sounds', () async {
-      when(mockOneShotPlayer.setAudioContext(any)).thenAnswer((_) async {});
-      when(mockOneShotPlayer.setReleaseMode(any)).thenAnswer((_) async {});
-      when(mockOneShotPlayer.stop()).thenAnswer((_) async {});
-      when(mockOneShotPlayer.setVolume(any)).thenAnswer((_) async {});
-      when(mockOneShotPlayer.play(any)).thenAnswer((_) async {});
+      when(mockOneShotPlayer.setAudioContext(any)).thenAnswer((_) async {
+        return;
+      });
+      when(mockOneShotPlayer.setReleaseMode(any)).thenAnswer((_) async {
+        return;
+      });
+      when(mockOneShotPlayer.stop()).thenAnswer((_) async {
+        return;
+      });
+      when(mockOneShotPlayer.setVolume(any)).thenAnswer((_) async {
+        return;
+      });
+      when(mockOneShotPlayer.play(any)).thenAnswer((_) async {
+        return;
+      });
 
       await sfx.playOneShot(FluxerSfxClip.message);
 
@@ -113,11 +123,21 @@ void main() {
     });
 
     test('uses session feedback context for voice ui sounds', () async {
-      when(mockOneShotPlayer.setAudioContext(any)).thenAnswer((_) async {});
-      when(mockOneShotPlayer.setReleaseMode(any)).thenAnswer((_) async {});
-      when(mockOneShotPlayer.stop()).thenAnswer((_) async {});
-      when(mockOneShotPlayer.setVolume(any)).thenAnswer((_) async {});
-      when(mockOneShotPlayer.play(any)).thenAnswer((_) async {});
+      when(mockOneShotPlayer.setAudioContext(any)).thenAnswer((_) async {
+        return;
+      });
+      when(mockOneShotPlayer.setReleaseMode(any)).thenAnswer((_) async {
+        return;
+      });
+      when(mockOneShotPlayer.stop()).thenAnswer((_) async {
+        return;
+      });
+      when(mockOneShotPlayer.setVolume(any)).thenAnswer((_) async {
+        return;
+      });
+      when(mockOneShotPlayer.play(any)).thenAnswer((_) async {
+        return;
+      });
 
       await sfx.playOneShot(FluxerSfxClip.mute);
 
@@ -129,11 +149,21 @@ void main() {
 
   group('startLoop', () {
     test('uses incoming ring context for the ring loop', () async {
-      when(mockLoopPlayer.setAudioContext(any)).thenAnswer((_) async {});
-      when(mockLoopPlayer.setReleaseMode(any)).thenAnswer((_) async {});
-      when(mockLoopPlayer.stop()).thenAnswer((_) async {});
-      when(mockLoopPlayer.setVolume(any)).thenAnswer((_) async {});
-      when(mockLoopPlayer.play(any)).thenAnswer((_) async {});
+      when(mockLoopPlayer.setAudioContext(any)).thenAnswer((_) async {
+        return;
+      });
+      when(mockLoopPlayer.setReleaseMode(any)).thenAnswer((_) async {
+        return;
+      });
+      when(mockLoopPlayer.stop()).thenAnswer((_) async {
+        return;
+      });
+      when(mockLoopPlayer.setVolume(any)).thenAnswer((_) async {
+        return;
+      });
+      when(mockLoopPlayer.play(any)).thenAnswer((_) async {
+        return;
+      });
 
       await sfx.startLoop(FluxerSfxClip.incomingRing);
       await sfx.startLoop(FluxerSfxClip.incomingRing);
@@ -150,9 +180,15 @@ void main() {
 
   group('stopLoop', () {
     test('restores app media context after stopping the ring', () async {
-      when(mockLoopPlayer.stop()).thenAnswer((_) async {});
-      when(mockLoopPlayer.setAudioContext(any)).thenAnswer((_) async {});
-      when(mockOneShotPlayer.setAudioContext(any)).thenAnswer((_) async {});
+      when(mockLoopPlayer.stop()).thenAnswer((_) async {
+        return;
+      });
+      when(mockLoopPlayer.setAudioContext(any)).thenAnswer((_) async {
+        return;
+      });
+      when(mockOneShotPlayer.setAudioContext(any)).thenAnswer((_) async {
+        return;
+      });
 
       await sfx.stopLoop();
 
@@ -166,8 +202,12 @@ void main() {
 
   group('dispose', () {
     test('disposes both players', () async {
-      when(mockLoopPlayer.dispose()).thenAnswer((_) async {});
-      when(mockOneShotPlayer.dispose()).thenAnswer((_) async {});
+      when(mockLoopPlayer.dispose()).thenAnswer((_) async {
+        return;
+      });
+      when(mockOneShotPlayer.dispose()).thenAnswer((_) async {
+        return;
+      });
 
       await sfx.dispose();
 

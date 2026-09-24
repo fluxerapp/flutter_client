@@ -158,13 +158,6 @@ void main() {
                       compact: compact,
                       edgeToEdge: edgeToEdge,
                     );
-                final ({double sidePadding, double verticalPadding}) padding =
-                    voiceGridPadding(
-                      containerWidth: width,
-                      containerHeight: height,
-                      compact: compact,
-                      edgeToEdge: edgeToEdge,
-                    );
                 final double gap = voiceGridGap(
                   tileCount: tileCount,
                   compact: compact,

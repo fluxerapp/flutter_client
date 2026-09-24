@@ -35,6 +35,23 @@ void main() {
       );
     });
 
+    test('shows a call ring as an incoming call', () {
+      const Map<String, String> ring = <String, String>{
+        'type': 'call_ring',
+        'channel_id': 'c',
+        'message_id': 'm',
+        'expires_at_ms': '9999999999999',
+      };
+      expect(
+        _resolve(backgroundMode: true, payload: ring),
+        UnifiedPushIncomingAction.showIncomingCall,
+      );
+      expect(
+        _resolve(payload: ring),
+        UnifiedPushIncomingAction.showIncomingCall,
+      );
+    });
+
     test('shows locally on the background isolate', () {
       expect(
         _resolve(backgroundMode: true),

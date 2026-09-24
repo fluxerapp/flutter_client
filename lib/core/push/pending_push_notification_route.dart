@@ -5,6 +5,15 @@ class PendingPushNotificationRoute {
   final String? accountUserId;
 }
 
+bool pendingPushRouteWaitsForAccount({
+  required String? accountUserId,
+  required String? currentUserId,
+}) {
+  return accountUserId != null &&
+      accountUserId.isNotEmpty &&
+      accountUserId != currentUserId;
+}
+
 String? currentAccountPendingNavigationPath({
   required PendingPushNotificationRoute? pending,
   required String? currentUserId,
@@ -12,10 +21,10 @@ String? currentAccountPendingNavigationPath({
   if (pending == null || pending.path.isEmpty) {
     return null;
   }
-  final String? accountUserId = pending.accountUserId;
-  if (accountUserId != null &&
-      accountUserId.isNotEmpty &&
-      accountUserId != currentUserId) {
+  if (pendingPushRouteWaitsForAccount(
+    accountUserId: pending.accountUserId,
+    currentUserId: currentUserId,
+  )) {
     return null;
   }
   return pending.path;

@@ -94,6 +94,35 @@ void main() {
     });
   });
 
+  group('resolvePushConversationName', () {
+    test('uses the channel name from a guild title', () {
+      expect(
+        resolvePushConversationName(const <String, String>{
+          'guild_id': '99',
+        }, title: 'Alice (#general, My Server)'),
+        'general',
+      );
+    });
+
+    test('uses Group DM from a group conversation title', () {
+      expect(
+        resolvePushConversationName(const <String, String>{
+          'guild_id': 'null',
+        }, title: 'Alice (Group DM)'),
+        'Group DM',
+      );
+    });
+
+    test('leaves 1:1 DMs to the message title', () {
+      expect(
+        resolvePushConversationName(const <String, String>{
+          'guild_id': 'null',
+        }, title: 'Alice'),
+        isNull,
+      );
+    });
+  });
+
   group('resolvePushGroupTag', () {
     test('uses notification_tag for Android grouping', () {
       expect(
@@ -183,6 +212,40 @@ void main() {
       );
       expect(normalized['url'], '/channels/10/20/30');
       expect(normalized.containsKey('navigate'), isFalse);
+    });
+  });
+
+  group('pushMessageIsCoveredByAck', () {
+    test('keeps messages newer than the ack', () {
+      expect(pushMessageIsCoveredByAck('200', '100'), isFalse);
+      expect(pushMessageIsCoveredByAck('100', '200'), isTrue);
+      expect(pushMessageIsCoveredByAck('100', '100'), isTrue);
+    });
+
+    test('covers the conversation when the ack id is missing', () {
+      expect(pushMessageIsCoveredByAck('100', null), isTrue);
+    });
+
+    test('leaves a summary without a message id in place', () {
+      expect(pushMessageIsCoveredByAck(null, '100'), isFalse);
+    });
+
+    test('reads the message id from a per-message tag', () {
+      expect(pushMessageIdFromChannelTag('channel:42:900', '42'), '900');
+      expect(pushMessageIdFromChannelTag('channel:42', '42'), isNull);
+    });
+  });
+
+  group('pushNotificationTagMatchesChannel', () {
+    test('matches the channel tag and per-message tags', () {
+      expect(pushNotificationTagMatchesChannel('channel:42', '42'), isTrue);
+      expect(
+        pushNotificationTagMatchesChannel('channel:42:msg-1', '42'),
+        isTrue,
+      );
+      expect(pushNotificationTagMatchesChannel('channel:42', '421'), isFalse);
+      expect(pushNotificationTagMatchesChannel('channel:7:1', '42'), isFalse);
+      expect(pushNotificationTagMatchesChannel(null, '42'), isFalse);
     });
   });
 }

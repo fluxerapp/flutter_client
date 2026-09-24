@@ -6,7 +6,9 @@ import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/push_provider.dart';
 import 'package:fluxer_app/core/providers/well_known_provider.dart';
+import 'package:fluxer_app/core/push/android/android_push_pipeline.dart';
 import 'package:fluxer_app/core/push/apns/apns_mobile_device_registration.dart';
+import 'package:fluxer_app/core/push/apns/apns_voip_mobile_device_registration.dart';
 import 'package:fluxer_app/core/push/apns/apple_push_notification_tap_binding.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_mobile_device_registration.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_notification_tap_binding.dart';
@@ -25,6 +27,7 @@ import 'package:fluxer_app/core/push/unified_push/unified_push_mobile_device_reg
 import 'package:fluxer_app/core/push/unified_push/unified_push_no_distributor_dismissal_provider.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_vapid_cache.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/features/voice/utils/voice_call_ring.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'push_notifications_coordinator.g.dart';
@@ -105,6 +108,9 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
         unawaited(
           ref.read(apnsMobileDeviceRegistrationProvider.notifier).sync(),
         );
+        unawaited(
+          ref.read(apnsVoipMobileDeviceRegistrationProvider.notifier).sync(),
+        );
       }
       if (PushProviderGuard.isFirebaseMessaging) {
         unawaited(
@@ -147,7 +153,15 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
     if (PushProviderGuard.isApple) {
       return;
     }
-    unawaited(_localPush.showPushMessage(message));
+    unawaited(_showAndroidPushIfNotRinging(message));
+  }
+
+  Future<void> _showAndroidPushIfNotRinging(PushMessage message) async {
+    if (isCallRingPayload(message.payload) ||
+        await AndroidPushPipeline.collidesWithVisibleCall(message.payload)) {
+      return;
+    }
+    await _localPush.showPushMessage(message);
   }
 
   Future<void> _initializeUnifiedPush(UnifiedPushService pushService) async {

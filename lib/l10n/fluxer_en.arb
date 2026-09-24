@@ -8765,6 +8765,14 @@
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
     },
+    "notificationReplyPlaceholder": "Message",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "Couldn't send reply",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
+    },
     "chatMessageForward": "Forward",
     "@chatMessageForward": {
         "description": "Action label for forwarding a message."

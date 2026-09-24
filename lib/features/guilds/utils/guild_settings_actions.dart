@@ -284,7 +284,11 @@ Future<void> updateGuildNotificationSetting({
           guildId: guildId,
           body: UserGuildSettingsUpdateRequest(
             muted: pending.muted,
-            messageNotifications: pending.messageNotifications,
+            messageNotifications: pending.messageNotifications == null
+                ? null
+                : UserNotificationSettingsInput.fromJson(
+                    pending.messageNotifications!.json ?? 0,
+                  ),
             suppressEveryone: pending.suppressEveryone,
             suppressRoles: pending.suppressRoles,
             mobilePush: pending.mobilePush,

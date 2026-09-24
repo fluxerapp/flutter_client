@@ -1,7 +1,7 @@
+import 'package:fluxer_app/core/push/android/android_push_pipeline.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_tap_binding_host.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
 import 'package:fluxer_app/core/push/push_service.dart';
-import 'package:fluxer_fcm/fcm_push_message.dart';
 import 'package:fluxer_fcm/fluxer_fcm_push_service.dart';
 
 class FirebaseMessagingPushService implements PushService {
@@ -28,27 +28,20 @@ class FirebaseMessagingPushService implements PushService {
 
   @override
   Stream<PushMessage> watchMessages() {
-    return _delegate.watchMessages().map(_toPushMessage);
-  }
-
-  static PushMessage _toPushMessage(FcmPushMessage message) {
-    return PushMessage(
-      id: message.id,
-      title: message.title,
-      body: message.body,
-      payload: message.payload,
-    );
+    return _delegate.watchCiphertext().asyncExpand((String ciphertext) async* {
+      final PushMessage? message = await AndroidPushPipeline.handleCiphertext(
+        ciphertextBase64: ciphertext,
+        backgroundMode: false,
+      );
+      if (message != null) {
+        yield message;
+      }
+    });
   }
 
   static void configureForegroundMessageFilter(
     bool Function(Map<String, String> payload)? filter,
-  ) {
-    _delegate.setForegroundMessageFilter(
-      filter == null
-          ? null
-          : (FcmPushMessage message) => filter(message.payload),
-    );
-  }
+  ) {}
 }
 
 final class _FcmTapBindingHostAdapter implements FcmTapBindingHost {

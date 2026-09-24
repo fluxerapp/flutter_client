@@ -299,7 +299,11 @@ class FluxerMessageNotificationSfxEvaluator {
         clipKind: MessageNotificationSfxClipKind.directMessage,
       );
     }
-    final Channel guildChannel = channel.guildChannel!;
+    final Channel? guildChannel = channel.guildChannel;
+    if (guildChannel == null) {
+      deduper.release(message.id);
+      return null;
+    }
     final GuildNotificationContext guildContext =
         GuildNotificationContext.fromServer(
           await database.guildDao.getServerById(guildChannel.guildId),

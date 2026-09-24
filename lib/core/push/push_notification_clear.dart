@@ -17,37 +17,43 @@ final class PushNotificationClear {
     'fluxer_app/apple_push',
   );
 
-  static Future<void> handleBackgroundClearPayload(
-    Map<String, String> payload,
-  ) async {
-    final int? badgeCount = parsePushBadgeCount(payload);
-    if (badgeCount != null) {
-      await AppIconBadgeService.update(badgeCount);
-    }
-  }
-
   static Future<void> handleClearPayload(Map<String, String> payload) async {
     final String? channelId = resolvePushChannelId(payload);
-    if (channelId == null) {
-      return;
+    if (channelId != null) {
+      await cancelForChannel(
+        channelId,
+        upToMessageId: _nonEmpty(payload['message_id']),
+      );
     }
-    await cancelForChannel(channelId);
     final int? badgeCount = parsePushBadgeCount(payload);
     if (badgeCount != null) {
       await AppIconBadgeService.update(badgeCount);
     }
   }
 
-  static Future<void> cancelForChannel(String channelId) async {
+  static Future<void> cancelForChannel(
+    String channelId, {
+    String? upToMessageId,
+  }) async {
     if (kIsWeb || channelId.isEmpty) {
       return;
     }
-    await LocalPushNotifications().cancelForChannel(channelId);
+    final String? readThrough = _nonEmpty(upToMessageId);
+    await LocalPushNotifications().cancelForChannel(
+      channelId,
+      upToMessageId: readThrough,
+    );
     if (Platform.isAndroid) {
-      await _cancelAndroidSystemNotifications(channelId);
+      await _cancelAndroidSystemNotifications(
+        channelId,
+        upToMessageId: readThrough,
+      );
     }
     if (Platform.isIOS) {
-      await _cancelIosDeliveredNotifications(channelId);
+      await _cancelIosDeliveredNotifications(
+        channelId,
+        upToMessageId: readThrough,
+      );
     }
   }
 
@@ -95,19 +101,23 @@ final class PushNotificationClear {
   static Future<void> cancelForPayload(Map<String, String> payload) async {
     final String? channelId = resolvePushChannelId(payload);
     if (channelId != null) {
-      await cancelForChannel(channelId);
+      await cancelForChannel(
+        channelId,
+        upToMessageId: _nonEmpty(payload['message_id']),
+      );
       return;
     }
     await LocalPushNotifications().cancelForPayload(payload);
   }
 
   static Future<void> _cancelAndroidSystemNotifications(
-    String channelId,
-  ) async {
+    String channelId, {
+    String? upToMessageId,
+  }) async {
     try {
       await _androidChannel.invokeMethod<Object?>(
         'cancelForChannel',
-        <String, String>{'channelId': channelId},
+        <String, String>{'channelId': channelId, 'messageId': ?upToMessageId},
       );
     } on MissingPluginException {
       return;
@@ -118,11 +128,14 @@ final class PushNotificationClear {
     }
   }
 
-  static Future<void> _cancelIosDeliveredNotifications(String channelId) async {
+  static Future<void> _cancelIosDeliveredNotifications(
+    String channelId, {
+    String? upToMessageId,
+  }) async {
     try {
       await _appleChannel.invokeMethod<Object?>(
         'removeDeliveredNotificationsForChannel',
-        <String, String>{'channelId': channelId},
+        <String, String>{'channelId': channelId, 'messageId': ?upToMessageId},
       );
     } on MissingPluginException {
       return;
@@ -132,4 +145,11 @@ final class PushNotificationClear {
       }
     }
   }
+}
+
+String? _nonEmpty(String? value) {
+  if (value == null || value.isEmpty) {
+    return null;
+  }
+  return value;
 }

@@ -36,7 +36,9 @@ class UserSettingsSyncService {
     final client = _ref.read(fluxerClientProvider);
     try {
       await client.users.updateCurrentUserSettings(
-        body: UserSettingsUpdateRequest(timeFormat: timeFormat),
+        body: UserSettingsUpdateRequest(
+          timeFormat: TimeFormatTypesInput.fromJson(timeFormat.json ?? 0),
+        ),
       );
       talker.debug('[UserSettingsSync] Pushed timeFormat=${timeFormat.json}');
     } on Object catch (e, st) {

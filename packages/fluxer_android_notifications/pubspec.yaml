@@ -1,0 +1,19 @@
+name: fluxer_android_notifications
+description: Cancels Android notification stacks from any Flutter engine.
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ^3.12.0
+  flutter: ">=3.24.0"
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.fluxer.notifications
+        pluginClass: NotificationCancelPlugin
+
+dependencies:
+  flutter:
+    sdk: flutter

@@ -6937,6 +6937,12 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get chatMessageReply => 'Trả lời';
 
   @override
+  String get notificationReplyPlaceholder => 'Message';
+
+  @override
+  String get notificationReplyFailed => 'Couldn\'t send reply';
+
+  @override
   String get chatMessageForward => 'Chuyển tiếp';
 
   @override

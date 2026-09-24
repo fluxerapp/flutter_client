@@ -4,63 +4,26 @@ import 'package:fluxer_fcm/fcm_message_mapper.dart';
 import 'package:fluxer_fcm/fcm_push_message.dart';
 
 void main() {
-  group('mapRemoteMessage', () {
-    test('maps notification and data fields', () {
+  group('extractFcmCiphertext', () {
+    test('reads the data-only ciphertext field', () {
       final RemoteMessage input = RemoteMessage(
         messageId: 'msg-1',
-        data: <String, String>{'channel_id': '2', 'url': '/channels/3/2/1'},
+        data: <String, String>{'v': '1', 'p': 'abc'},
         notification: const RemoteNotification(title: 'alice', body: 'hello'),
       );
+      expect(extractFcmCiphertext(input.data), 'abc');
       final FcmPushMessage message = mapRemoteMessage(input);
-      expect(message.id, 'msg-1');
-      expect(message.title, 'alice');
-      expect(message.body, 'hello');
-      expect(message.payload['channel_id'], '2');
-      expect(message.payload['url'], '/channels/3/2/1');
+      expect(message.payload['p'], 'abc');
+      expect(message.title, isNull);
+      expect(message.body, isNull);
     });
 
-    test('falls back to data title and message_id', () {
+    test('ignores messages without ciphertext', () {
       final RemoteMessage input = RemoteMessage(
-        data: <String, String>{
-          'title': 'from-data',
-          'body': 'body-data',
-          'message_id': '42',
-        },
+        data: <String, String>{'title': 'from-data', 'body': 'body-data'},
       );
-      final FcmPushMessage message = mapRemoteMessage(input);
-      expect(message.id, '42');
-      expect(message.title, 'from-data');
-      expect(message.body, 'body-data');
-    });
-
-    test('unwraps nested data json string for navigation fields', () {
-      final RemoteMessage input = RemoteMessage(
-        messageId: 'msg-nested',
-        data: <String, String>{
-          'title': 'alice',
-          'body': 'hello',
-          'data':
-              '{"message_id":"1","channel_id":"2","guild_id":"@me",'
-              '"url":"/channels/@me/2/1"}',
-        },
-      );
-      final FcmPushMessage message = mapRemoteMessage(input);
-      expect(message.payload['channel_id'], '2');
-      expect(message.payload['message_id'], '1');
-      expect(message.payload['url'], '/channels/@me/2/1');
-      expect(message.payload.containsKey('data'), isFalse);
-    });
-
-    test('maps navigate field to url', () {
-      final RemoteMessage input = RemoteMessage(
-        data: <String, String>{
-          'navigate': '/channels/@me/dm-5/msg-7',
-          'channel_id': 'dm-5',
-          'message_id': 'msg-7',
-        },
-      );
-      final FcmPushMessage message = mapRemoteMessage(input);
-      expect(message.payload['url'], '/channels/@me/dm-5/msg-7');
+      expect(extractFcmCiphertext(input.data), isNull);
+      expect(mapRemoteMessage(input).payload, isEmpty);
     });
   });
 }

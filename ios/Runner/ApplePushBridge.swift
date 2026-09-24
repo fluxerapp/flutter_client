@@ -1,4 +1,5 @@
 import Flutter
+import Intents
 import UIKit
 import UserNotifications
 
@@ -11,6 +12,7 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
   private static let defaultNotificationTitle = "Fluxer"
   private static let defaultNotificationBody = "New message"
   private static let maxPendingPushEvents = 32
+  private static let maxPendingReplies = 8
 
   private var deviceTokenHex: String?
   private var eventSink: FlutterEventSink?
@@ -19,6 +21,10 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
   private var pendingPushEvents: [[String: Any]] = []
   private var isRegisteredWithEngine = false
   private let tapStreamHandler = ApplePushTapStreamHandler()
+  private var methodChannel: FlutterMethodChannel?
+  private var replyHandlerReady = false
+  private var pendingReplies: [PendingReply] = []
+  private var replyCategoryGeneration = 0
 
   private override init() {
     super.init()
@@ -35,6 +41,7 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
       name: Self.methodChannelName,
       binaryMessenger: messenger
     )
+    self.methodChannel = methodChannel
     methodChannel.setMethodCallHandler { call, result in
       Self.shared.handleMethodCall(call, result: result)
     }
@@ -73,45 +80,175 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
     }
   }
 
-  func handleRemoteNotification(
+  func registerReplyCategory() {
+    let reply = UNTextInputNotificationAction(
+      identifier: PushNotificationPayload.messageReplyActionId,
+      title: NSLocalizedString("PUSH_REPLY", comment: ""),
+      options: [],
+      textInputButtonTitle: NSLocalizedString("PUSH_REPLY", comment: ""),
+      textInputPlaceholder: NSLocalizedString("PUSH_REPLY_PLACEHOLDER", comment: "")
+    )
+    let category = UNNotificationCategory(
+      identifier: PushNotificationPayload.messageReplyCategoryId,
+      actions: [reply],
+      intentIdentifiers: ["INSendMessageIntent"],
+      options: []
+    )
+    DispatchQueue.main.async {
+      self.replyCategoryGeneration += 1
+      let generation = self.replyCategoryGeneration
+      UNUserNotificationCenter.current().getNotificationCategories { existing in
+        DispatchQueue.main.async {
+          guard generation == self.replyCategoryGeneration else {
+            return
+          }
+          var categories = existing.filter {
+            $0.identifier != PushNotificationPayload.messageReplyCategoryId
+          }
+          categories.insert(category)
+          UNUserNotificationCenter.current().setNotificationCategories(categories)
+        }
+      }
+    }
+  }
+
+  func handleNotificationReply(
+    text: String,
     userInfo: [AnyHashable: Any],
-    applicationState: UIApplication.State
+    completion: @escaping () -> Void
   ) {
-    if PushNotificationPayload.isClearPayload(from: userInfo) {
-      handleClearPayload(userInfo: userInfo)
+    let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !trimmed.isEmpty else {
+      completion()
       return
     }
-    guard PushNotificationPayload.hasApsAlert(userInfo) else {
+    let resolved = WebPushRecordDecryptor.resolvedUserInfo(userInfo)
+    let args: [String: Any] = [
+      "text": trimmed,
+      "payload": Self.flattenUserInfo(resolved),
+    ]
+    DispatchQueue.main.async {
+      if self.replyHandlerReady, let channel = self.methodChannel {
+        self.invokeReply(channel: channel, args: args, completion: completion)
+        return
+      }
+      self.pendingReplies.append(PendingReply(args: args, completion: completion))
+      let overflow = self.pendingReplies.count - Self.maxPendingReplies
+      if overflow > 0 {
+        let dropped = Array(self.pendingReplies.prefix(overflow))
+        self.pendingReplies.removeFirst(overflow)
+        for reply in dropped {
+          reply.completion()
+        }
+      }
+    }
+  }
+
+  private func flushPendingReplies() {
+    guard replyHandlerReady, let channel = methodChannel, !pendingReplies.isEmpty else {
+      return
+    }
+    let queued = pendingReplies
+    pendingReplies.removeAll()
+    for reply in queued {
+      invokeReply(channel: channel, args: reply.args, completion: reply.completion)
+    }
+  }
+
+  private func invokeReply(
+    channel: FlutterMethodChannel,
+    args: [String: Any],
+    completion: @escaping () -> Void
+  ) {
+    channel.invokeMethod("sendNotificationReply", arguments: args) { _ in
+      DispatchQueue.main.async(execute: completion)
+    }
+  }
+
+  func handleRemoteNotification(
+    userInfo: [AnyHashable: Any],
+    applicationState: UIApplication.State,
+    completion: @escaping (UIBackgroundFetchResult) -> Void
+  ) {
+    let resolved = WebPushRecordDecryptor.resolvedUserInfo(userInfo)
+    if PushNotificationPayload.isClearPayload(from: resolved) {
+      handleClearPayload(userInfo: resolved) {
+        completion(.newData)
+      }
+      return
+    }
+    guard PushNotificationPayload.hasApsAlert(resolved) else {
+      completion(.noData)
       return
     }
     let isAppForeground = applicationState == .active
     if !ForegroundPushNotificationPolicy.shouldProcessAlertPush(
       isAppForeground: isAppForeground
     ) {
+      completion(.noData)
       return
     }
-    emitPushMessage(userInfo: userInfo, messageId: nil)
-    if !isAppForeground {
-      presentLocalNotificationReplacingRemoteDuplicate(userInfo: userInfo)
-    }
+    emitPushMessage(userInfo: resolved, messageId: nil)
+    completion(.newData)
   }
 
   func handleWillPresent(
     notification: UNNotification,
     completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
   ) {
-    let userInfo = notification.request.content.userInfo
-    if PushNotificationPayload.isClearPayload(from: userInfo) {
-      handleClearPayload(userInfo: userInfo)
+    let resolved = WebPushRecordDecryptor.resolvedUserInfo(
+      notification.request.content.userInfo
+    )
+    if PushNotificationPayload.isClearPayload(from: resolved) {
+      handleClearPayload(userInfo: resolved, completion: nil)
       completionHandler([])
       return
     }
     completionHandler([])
   }
 
-  private func handleClearPayload(userInfo: [AnyHashable: Any]) {
-    if let channelId = PushNotificationPayload.resolveChannelId(from: userInfo) {
-      removeDeliveredNotificationsForChannel(channelId: channelId)
+  private func handleClearPayload(
+    userInfo: [AnyHashable: Any],
+    completion: (() -> Void)?
+  ) {
+    let finish = {
+      self.applyBadgeCount(from: userInfo) {
+        completion?()
+      }
+    }
+    guard let channelId = PushNotificationPayload.resolveChannelId(from: userInfo) else {
+      DispatchQueue.main.async(execute: finish)
+      return
+    }
+    removeDeliveredNotificationsForChannel(
+      channelId: channelId,
+      upToMessageId: PushNotificationPayload.resolveMessageId(from: userInfo)
+    ) {
+      DispatchQueue.main.async(execute: finish)
+    }
+  }
+
+  private func applyBadgeCount(
+    from userInfo: [AnyHashable: Any],
+    completion: @escaping () -> Void
+  ) {
+    let raw = userInfo["badge_count"] ?? (userInfo["data"] as? [AnyHashable: Any])?["badge_count"]
+    let count: Int?
+    if let number = raw as? Int {
+      count = number
+    } else if let number = raw as? NSNumber {
+      count = number.intValue
+    } else if let text = raw as? String {
+      count = Int(text)
+    } else {
+      count = nil
+    }
+    guard let count else {
+      completion()
+      return
+    }
+    UNUserNotificationCenter.current().setBadgeCount(max(count, 0)) { _ in
+      DispatchQueue.main.async(execute: completion)
     }
   }
 
@@ -119,8 +256,13 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
     UNUserNotificationCenter.current().removeAllDeliveredNotifications()
   }
 
-  func removeDeliveredNotificationsForChannel(channelId: String) {
+  func removeDeliveredNotificationsForChannel(
+    channelId: String,
+    upToMessageId: String? = nil,
+    completion: (() -> Void)? = nil
+  ) {
     guard !channelId.isEmpty else {
+      completion?()
       return
     }
     UNUserNotificationCenter.current().getDeliveredNotifications { notifications in
@@ -129,12 +271,25 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
         else {
           return nil
         }
+        let messageId = PushNotificationPayload.resolveMessageId(
+          from: notification.request.content.userInfo
+        )
+        guard PushNotificationPayload.messageIsCoveredByAck(
+          messageId: messageId,
+          upToMessageId: upToMessageId
+        ) else {
+          return nil
+        }
         return notification.request.identifier
       }
-      guard !identifiers.isEmpty else {
+      if identifiers.isEmpty {
+        completion?()
         return
       }
-      UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: identifiers)
+      UNUserNotificationCenter.current().removeDeliveredNotifications(
+        withIdentifiers: identifiers
+      )
+      completion?()
     }
   }
 
@@ -178,153 +333,6 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
     }
   }
 
-  private func presentLocalNotificationReplacingRemoteDuplicate(
-    userInfo: [AnyHashable: Any],
-    sourceContent: UNNotificationContent? = nil
-  ) {
-    let identifier = PushNotificationPayload.resolveNotificationIdentifier(from: userInfo)
-    UNUserNotificationCenter.current().getDeliveredNotifications { notifications in
-      var attachments = sourceContent?.attachments ?? []
-      let remoteDuplicateIds = notifications.compactMap { notification -> String? in
-        let requestId = notification.request.identifier
-        if requestId == identifier {
-          return nil
-        }
-        let deliveredUserInfo = notification.request.content.userInfo
-        if let deliveredMessageId = PushNotificationPayload.resolveMessageId(from: deliveredUserInfo),
-          deliveredMessageId == requestId
-        {
-          return nil
-        }
-        if PushNotificationPayload.resolveMessageId(from: deliveredUserInfo) == identifier {
-          if attachments.isEmpty {
-            attachments = notification.request.content.attachments
-          }
-          return requestId
-        }
-        return nil
-      }
-      if !remoteDuplicateIds.isEmpty {
-        UNUserNotificationCenter.current().removeDeliveredNotifications(
-          withIdentifiers: remoteDuplicateIds
-        )
-      }
-      self.scheduleLocalNotification(
-        userInfo: userInfo,
-        identifier: identifier,
-        attachments: attachments
-      )
-    }
-  }
-
-  private func scheduleLocalNotification(
-    userInfo: [AnyHashable: Any],
-    identifier: String,
-    attachments: [UNNotificationAttachment] = []
-  ) {
-    let display = Self.resolveDisplayContent(from: userInfo)
-    let emojiResult = NotificationEmojiDecoder.decode(body: display.body)
-    if !attachments.isEmpty {
-      addLocalNotification(
-        userInfo: userInfo,
-        identifier: identifier,
-        title: display.title,
-        body: emojiResult.body,
-        attachments: attachments
-      )
-      return
-    }
-    if let messageImageUrl = NotificationPayloadMedia.resolveImageUrl(from: userInfo) {
-      downloadAndScheduleLocalNotification(
-        userInfo: userInfo,
-        identifier: identifier,
-        title: display.title,
-        body: emojiResult.body,
-        imageUrl: messageImageUrl,
-        attachmentIdentifier: NotificationImageAttachment.messageImageIdentifier
-      )
-      return
-    }
-    if let emojiImageUrl = emojiResult.imageUrls.first {
-      downloadAndScheduleLocalNotification(
-        userInfo: userInfo,
-        identifier: identifier,
-        title: display.title,
-        body: emojiResult.body,
-        imageUrl: emojiImageUrl,
-        attachmentIdentifier: NotificationImageAttachment.emojiImageIdentifier
-      )
-      return
-    }
-    addLocalNotification(
-      userInfo: userInfo,
-      identifier: identifier,
-      title: display.title,
-      body: emojiResult.body,
-      attachments: []
-    )
-  }
-
-  private func downloadAndScheduleLocalNotification(
-    userInfo: [AnyHashable: Any],
-    identifier: String,
-    title: String,
-    body: String,
-    imageUrl: URL,
-    attachmentIdentifier: String
-  ) {
-    NotificationImageAttachment.downloadImage(from: imageUrl) { localFileUrl in
-      var attachments: [UNNotificationAttachment] = []
-      var tempFilesToRemove: [URL] = []
-      if let fileURL = localFileUrl {
-        let attachmentResult = NotificationImageAttachment.makeImageAttachment(
-          fileURL: fileURL,
-          identifier: attachmentIdentifier
-        )
-        tempFilesToRemove = attachmentResult.filesToRemove
-        if let attachment = attachmentResult.attachment {
-          attachments = [attachment]
-        }
-      }
-      self.addLocalNotification(
-        userInfo: userInfo,
-        identifier: identifier,
-        title: title,
-        body: body,
-        attachments: attachments
-      )
-      for tempURL in tempFilesToRemove {
-        try? FileManager.default.removeItem(at: tempURL)
-      }
-    }
-  }
-
-  private func addLocalNotification(
-    userInfo: [AnyHashable: Any],
-    identifier: String,
-    title: String,
-    body: String,
-    attachments: [UNNotificationAttachment]
-  ) {
-    let content = UNMutableNotificationContent()
-    content.title = title
-    content.body = body
-    content.sound = PushNotificationPayload.resolveNotificationSound(from: userInfo) ?? .default
-    content.userInfo = Self.userInfoDictionary(userInfo)
-    if !attachments.isEmpty {
-      content.attachments = attachments
-    }
-    if let threadId = PushNotificationPayload.resolveChannelThreadIdentifier(from: userInfo) {
-      content.threadIdentifier = threadId
-    }
-    let request = UNNotificationRequest(
-      identifier: identifier,
-      content: content,
-      trigger: nil
-    )
-    UNUserNotificationCenter.current().add(request)
-  }
-
   private static func buildPushEvent(
     userInfo: [AnyHashable: Any],
     messageId: String?
@@ -341,10 +349,6 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
       "notification": notification,
       "data": payload,
     ]
-  }
-
-  private static func hasApsAlert(_ userInfo: [AnyHashable: Any]) -> Bool {
-    PushNotificationPayload.hasApsAlert(userInfo)
   }
 
   private static func resolveDisplayContent(
@@ -378,14 +382,6 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
       title: title ?? defaultNotificationTitle,
       body: body ?? defaultNotificationBody
     )
-  }
-
-  private static func userInfoDictionary(_ userInfo: [AnyHashable: Any]) -> [AnyHashable: Any] {
-    var out: [AnyHashable: Any] = [:]
-    for (key, value) in userInfo {
-      out[key] = value
-    }
-    return out
   }
 
   private static func requestAuthorizationIfNeeded(completion: @escaping () -> Void) {
@@ -440,11 +436,24 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
         )
         return
       }
-      self.removeDeliveredNotificationsForChannel(channelId: channelId)
-      result(nil)
+      let messageId = args["messageId"] as? String
+      self.removeDeliveredNotificationsForChannel(
+        channelId: channelId,
+        upToMessageId: messageId
+      ) {
+        DispatchQueue.main.async {
+          result(nil)
+        }
+      }
     case "removeAllDeliveredNotifications":
       self.removeAllDeliveredNotifications()
       result(nil)
+    case "replyHandlerReady":
+      DispatchQueue.main.async {
+        self.replyHandlerReady = true
+        result(nil)
+        self.flushPendingReplies()
+      }
     default:
       result(FlutterMethodNotImplemented)
     }
@@ -518,6 +527,11 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
     let suffix = token.suffix(4)
     return "\(prefix)...\(suffix)"
   }
+}
+
+private struct PendingReply {
+  let args: [String: Any]
+  let completion: () -> Void
 }
 
 private final class ApplePushTapStreamHandler: NSObject, FlutterStreamHandler {

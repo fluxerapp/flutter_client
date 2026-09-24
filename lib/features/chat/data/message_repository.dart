@@ -314,32 +314,35 @@ class MessageRepository {
           pageUsersById[user.id] = userFromPartialSdk(user);
         }
       }
-      if (pageUsersById.isNotEmpty) {
-        await upsertUsersCompanions(_db, pageUsersById.values);
-      }
-      mark('users');
-      final List<Message> persisted = await _upsertKeepingTranslations(
-        messages,
-      );
-      await _pruneStaleMessagesForNetworkPage(
-        channelId,
-        persisted,
-        isLatestPage: isLatestPage,
-        localTailBeforeFetch: localTailBeforeFetch,
-      );
-      mark('persist');
-
-      if (persisted.isNotEmpty) {
-        final last = persisted.last;
-        await _db.dmChannelDao.updateLastMessage(
+      // One lock and one commit for the page: four separate commits put the
+      // persist at 15 ms median with 30 to 85 ms spikes.
+      late final List<Message> persisted;
+      await _db.transaction(() async {
+        if (pageUsersById.isNotEmpty) {
+          await upsertUsersCompanions(_db, pageUsersById.values);
+        }
+        mark('users');
+        persisted = await _upsertKeepingTranslations(messages);
+        await _pruneStaleMessagesForNetworkPage(
           channelId,
-          last.id,
-          last.content,
-          last.authorId,
-          last.timestamp,
+          persisted,
+          isLatestPage: isLatestPage,
+          localTailBeforeFetch: localTailBeforeFetch,
         );
-      }
-      mark('tail');
+        mark('persist');
+
+        if (persisted.isNotEmpty) {
+          final last = persisted.last;
+          await _db.dmChannelDao.updateLastMessage(
+            channelId,
+            last.id,
+            last.content,
+            last.authorId,
+            last.timestamp,
+          );
+        }
+        mark('tail');
+      });
 
       if (persisted.any((m) => m.isMentioned)) {
         await ReadStateRepository(_client, _db).recomputeMentionsAfterBackfill(

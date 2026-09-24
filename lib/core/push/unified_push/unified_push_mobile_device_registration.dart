@@ -15,6 +15,7 @@ import 'package:fluxer_app/core/providers/well_known_provider.dart';
 import 'package:fluxer_app/core/push/services/unified_push_service.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_registration_logic.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_vapid_cache.dart';
+import 'package:fluxer_app/core/push/web_push/web_push_key_store.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -28,6 +29,7 @@ class UnifiedPushMobileDeviceRegistration
   StreamSubscription<up.PushEndpoint>? _endpointSubscription;
   String? _trackedUserId;
   Future<void>? _authSyncFuture;
+  final WebPushKeyStore _keyStore = WebPushKeyStore();
 
   @override
   int build() {
@@ -205,6 +207,39 @@ class UnifiedPushMobileDeviceRegistration
         .getForUser(userId);
   }
 
+  Future<void> _moveSecretsToSecureStorage(
+    String userId,
+    MobilePushRegistration? persisted,
+  ) async {
+    if (persisted == null) {
+      return;
+    }
+    if (persisted.encryptionKey.isEmpty && persisted.authSecret.isEmpty) {
+      return;
+    }
+    final WebPushAccountKeys? existing = await _keyStore.read(userId);
+    if (existing == null) {
+      await _keyStore.write(
+        WebPushAccountKeys(
+          userId: userId,
+          publicKey: persisted.encryptionKey,
+          authSecret: persisted.authSecret,
+        ),
+      );
+    }
+    await ref
+        .read(fluxerDatabaseProvider)
+        .mobilePushRegistrationDao
+        .upsert(
+          userId: userId,
+          pushSubscriptionId: persisted.pushSubscriptionId,
+          endpointUrl: persisted.endpointUrl,
+          encryptionKey: '',
+          authSecret: '',
+          vapidPublicKey: persisted.vapidPublicKey,
+        );
+  }
+
   Future<void> _registerEndpoint(up.PushEndpoint endpoint) async {
     if (!_shouldRun) {
       return;
@@ -234,6 +269,8 @@ class UnifiedPushMobileDeviceRegistration
     final MobilePushRegistration? persisted = await _loadPersistedForUser(
       userId,
     );
+    await _moveSecretsToSecureStorage(userId, persisted);
+    final WebPushAccountKeys? storedKeys = await _keyStore.read(userId);
     if (shouldSkipMobilePushRegistration(
       currentUserId: userId,
       persistedUserId: persisted?.userId,
@@ -242,8 +279,8 @@ class UnifiedPushMobileDeviceRegistration
       encryptionKey: pubKey,
       authSecret: auth,
       persistedEndpointUrl: persisted?.endpointUrl,
-      persistedEncryptionKey: persisted?.encryptionKey,
-      persistedAuthSecret: persisted?.authSecret,
+      persistedEncryptionKey: storedKeys?.publicKey,
+      persistedAuthSecret: storedKeys?.authSecret,
     )) {
       return;
     }
@@ -252,8 +289,8 @@ class UnifiedPushMobileDeviceRegistration
       encryptionKey: pubKey,
       authSecret: auth,
       persistedEndpointUrl: persisted?.endpointUrl,
-      persistedEncryptionKey: persisted?.encryptionKey,
-      persistedAuthSecret: persisted?.authSecret,
+      persistedEncryptionKey: storedKeys?.publicKey,
+      persistedAuthSecret: storedKeys?.authSecret,
     )) {
       final String? oldSubscriptionId = persisted?.pushSubscriptionId;
       final String? oldEndpointUrl = persisted?.endpointUrl;
@@ -295,10 +332,13 @@ class UnifiedPushMobileDeviceRegistration
             userId: userId,
             pushSubscriptionId: response.deviceId,
             endpointUrl: url,
-            encryptionKey: pubKey,
-            authSecret: auth,
+            encryptionKey: '',
+            authSecret: '',
             vapidPublicKey: vapid,
           );
+      await _keyStore.write(
+        WebPushAccountKeys(userId: userId, publicKey: pubKey, authSecret: auth),
+      );
       if (hasUnifiedPushVapid(vapid)) {
         await UnifiedPushService.instance.applyVapidAndReregisterIfNeeded(
           vapid,

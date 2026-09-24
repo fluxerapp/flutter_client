@@ -10,6 +10,34 @@ def fetchOptionalEnvironmentValue(key, defaultValue)
   return ENV[key] || defaultValue
 end
 
+def github_hosted_xcode_app_paths
+  [
+    "/Applications/Xcode_27.app",
+    "/Applications/Xcode_27.0.app",
+    "/Applications/Xcode.app",
+    "/Applications/Xcode_27_Release_Candidate.app"
+  ]
+end
+
+def select_required_xcode
+  xcode_app = ENV["XCODE_PATH"].to_s.strip
+  if xcode_app.empty?
+    developer_dir = ENV["DEVELOPER_DIR"].to_s.strip
+    if !developer_dir.empty? && File.directory?(developer_dir)
+      xcode_app = File.expand_path("../..", developer_dir)
+    else
+      xcode_app = github_hosted_xcode_app_paths.find { |path| File.directory?(path) }
+    end
+  end
+  unless xcode_app && File.directory?(xcode_app)
+    UI.user_error!(
+      "Could not find Xcode 27. On GitHub Actions use runs-on: xcode-27 and set " \
+      "DEVELOPER_DIR to /Applications/Xcode_27.app/Contents/Developer, or set XCODE_PATH locally."
+    )
+  end
+  xcode_select(xcode_app)
+end
+
 def project_root_path
   File.expand_path("..", __dir__)
 end
@@ -182,6 +210,10 @@ def update_build_changelog(build:, changelog:)
 end
 
 platform :ios do
+  before_all do
+    select_required_xcode
+  end
+
   desc "Build beta archive and upload to TestFlight"
   lane :testflight_beta do
     profile_path = File.expand_path("~/Library/MobileDevice/Provisioning Profiles/profile.mobileprovision")

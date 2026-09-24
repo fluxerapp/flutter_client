@@ -54,18 +54,32 @@ class TextualAttachmentPreviewSurface extends StatelessWidget {
           );
 
     final Color surfaceColor = colors.bgCodeBlock;
+    final EdgeInsets scrollPad = EdgeInsets.only(
+      top: pad.top,
+      bottom: pad.bottom,
+    );
+    // Inline previews stay a fixed height and do not scroll on their own.
+    // A nested vertical scrollable steals the channel drag, and the layout
+    // when a cached file mounts again glues the list back to the tail.
+    final Widget body = fillAvailableSpace
+        ? SingleChildScrollView(
+            primary: false,
+            controller: scrollController,
+            padding: scrollPad,
+            child: scrollChild,
+          )
+        : ClipRect(
+            child: OverflowBox(
+              alignment: Alignment.topLeft,
+              minHeight: 0,
+              maxHeight: double.infinity,
+              child: Padding(padding: scrollPad, child: scrollChild),
+            ),
+          );
 
     final Widget stack = Stack(
       children: [
-        Positioned.fill(
-          child: SelectionArea(
-            child: SingleChildScrollView(
-              controller: scrollController,
-              padding: EdgeInsets.only(top: pad.top, bottom: pad.bottom),
-              child: scrollChild,
-            ),
-          ),
-        ),
+        Positioned.fill(child: SelectionArea(child: body)),
         if (showCopy)
           Positioned(
             top: 4,
@@ -86,11 +100,9 @@ class TextualAttachmentPreviewSurface extends StatelessWidget {
     }
 
     return Container(
-      constraints: BoxConstraints(
-        maxWidth: kTextualPreviewMaxWidth,
-        maxHeight: visibleLineCount * kTextualPreviewLineHeight + 16,
-      ),
+      constraints: const BoxConstraints(maxWidth: kTextualPreviewMaxWidth),
       width: double.infinity,
+      height: visibleLineCount * kTextualPreviewLineHeight + 16,
       decoration: BoxDecoration(
         color: surfaceColor,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),

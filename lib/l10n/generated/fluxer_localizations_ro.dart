@@ -6973,6 +6973,12 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get chatMessageReply => 'Răspunde';
 
   @override
+  String get notificationReplyPlaceholder => 'Message';
+
+  @override
+  String get notificationReplyFailed => 'Couldn\'t send reply';
+
+  @override
   String get chatMessageForward => 'Redirecționează';
 
   @override

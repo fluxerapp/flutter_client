@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/discovery/data/discovery_repository.dart';
 import 'package:fluxer_app/features/discovery/providers/discovery_providers.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
@@ -73,6 +74,9 @@ class DiscoveryController extends _$DiscoveryController {
 
   @override
   DiscoveryState build() {
+    ref.watch(currentUserIdProvider);
+    _debounceTimer?.cancel();
+    _searchToken++;
     ref.onDispose(() {
       _debounceTimer?.cancel();
     });

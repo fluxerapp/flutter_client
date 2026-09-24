@@ -1,10 +1,11 @@
-import 'package:fluxer_app/core/push/push_notification_payload.dart';
+import 'package:fluxer_app/core/push/android/android_push_pipeline.dart';
 
 enum UnifiedPushIncomingAction {
   ignore,
   healUndecrypted,
   handleClear,
   showLocally,
+  showIncomingCall,
   emitToCoordinator,
 }
 
@@ -21,13 +22,21 @@ UnifiedPushIncomingAction resolveUnifiedPushIncomingAction({
   if (!decrypted) {
     return UnifiedPushIncomingAction.healUndecrypted;
   }
-  if (isNotificationClearPayload(payload)) {
-    return backgroundMode
-        ? UnifiedPushIncomingAction.handleClear
-        : UnifiedPushIncomingAction.emitToCoordinator;
+  switch (resolveAndroidPushIncomingAction(
+    decrypted: decrypted,
+    backgroundMode: backgroundMode,
+    payload: payload,
+  )) {
+    case AndroidPushIncomingAction.discard:
+      return UnifiedPushIncomingAction.ignore;
+    case AndroidPushIncomingAction.handleClear:
+      return UnifiedPushIncomingAction.handleClear;
+    case AndroidPushIncomingAction.showLocally:
+      return UnifiedPushIncomingAction.showLocally;
+    case AndroidPushIncomingAction.showIncomingCall:
+    case AndroidPushIncomingAction.showFallbackCall:
+      return UnifiedPushIncomingAction.showIncomingCall;
+    case AndroidPushIncomingAction.emit:
+      return UnifiedPushIncomingAction.emitToCoordinator;
   }
-  if (backgroundMode) {
-    return UnifiedPushIncomingAction.showLocally;
-  }
-  return UnifiedPushIncomingAction.emitToCoordinator;
 }

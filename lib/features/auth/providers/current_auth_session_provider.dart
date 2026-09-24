@@ -28,6 +28,5 @@ class CurrentAuthSessionIdHash extends _$CurrentAuthSessionIdHash {
     return null;
   }
 
-  // ignore: use_setters_to_change_properties -- notifier method convention
   void update(String? idHash) => state = idHash;
 }

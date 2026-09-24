@@ -98,7 +98,25 @@ bool shouldLeaveVoiceFromCallKitEnd({
   required VoiceCallKitVoiceSnapshot voice,
   required String channelId,
 }) {
-  return voice.channelId == channelId && voice.isConnected;
+  return voice.channelId == channelId && voice.isInVoice;
+}
+
+bool shouldIgnoreCallKitUserEndEvent({
+  required bool isEndingProgrammatically,
+  required DateTime? suppressUntil,
+  required DateTime now,
+  required bool isLiveVoiceCall,
+}) {
+  if (isEndingProgrammatically) {
+    return true;
+  }
+  if (isLiveVoiceCall) {
+    return false;
+  }
+  if (suppressUntil == null || !now.isBefore(suppressUntil)) {
+    return false;
+  }
+  return true;
 }
 
 bool didJoinVoiceCall({
@@ -146,8 +164,15 @@ bool shouldDeferMobileCallKitStartCall({
       lifecycleState == AppLifecycleState.hidden;
 }
 
-bool shouldDismissCallKitOnForeground({required bool isInVoice}) {
-  return !isInVoice;
+bool shouldDismissCallKitOnForeground({
+  required bool isInVoice,
+  AppLifecycleState? lifecycleState,
+}) {
+  if (isInVoice) {
+    return false;
+  }
+  // CallKit UI makes the app inactive. Only swap to in-app UI when resumed.
+  return lifecycleState == AppLifecycleState.resumed;
 }
 
 String resolveVoiceCallKitSessionId() {

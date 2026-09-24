@@ -61,20 +61,24 @@ class _NudgeGatewayConnection extends GatewayConnection {
     : super(token: 'test', dio: Dio());
 
   final bool suspended;
+  int nudgeCalls = 0;
   int reconnectNowCalls = 0;
-  int unsuspendCalls = 0;
+  GatewayState current = GatewayState.disconnected;
 
   @override
   bool get isReconnectSuspended => suspended;
 
   @override
-  Future<void> reconnectNow() async {
-    reconnectNowCalls++;
+  GatewayState get state => current;
+
+  @override
+  Future<void> nudgeReconnect() async {
+    nudgeCalls++;
   }
 
   @override
-  Future<void> unsuspendAndReconnect() async {
-    unsuspendCalls++;
+  Future<void> reconnectNow() async {
+    reconnectNowCalls++;
   }
 }
 
@@ -372,6 +376,14 @@ void main() {
       ),
       isFalse,
     );
+    expect(
+      shouldKeepGatewayConnectedForVoiceFromState(
+        isInVoice: false,
+        pendingIncomingChannelIds: const <String>[],
+        hasCallKitIncoming: true,
+      ),
+      isTrue,
+    );
   });
 
   group('isPendingNavigationReady', () {
@@ -425,7 +437,7 @@ void main() {
           ),
         );
         async.flushMicrotasks();
-        expect(connection.reconnectNowCalls, 1);
+        expect(connection.nudgeCalls, 1);
         expect(inFlightLog, [true]);
       });
     });
@@ -441,9 +453,9 @@ void main() {
           ),
         );
         async.flushMicrotasks();
-        expect(connection.reconnectNowCalls, 0);
+        expect(connection.nudgeCalls, 0);
         async.elapse(kResumeReconnectDelay);
-        expect(connection.reconnectNowCalls, 1);
+        expect(connection.nudgeCalls, 1);
         expect(probes, 2);
       });
     });
@@ -461,13 +473,12 @@ void main() {
           ),
         );
         async.elapse(kResumeReconnectDelay);
-        expect(connection.reconnectNowCalls, 0);
-        expect(connection.unsuspendCalls, 0);
+        expect(connection.nudgeCalls, 0);
         expect(inFlightLog, [true, false]);
       });
     });
 
-    test('unsuspends a suspended connection', () {
+    test('nudges a suspended connection without forcing a socket', () {
       fakeAsync((FakeAsync async) {
         final connection = _NudgeGatewayConnection(suspended: true);
         unawaited(
@@ -477,8 +488,38 @@ void main() {
           ),
         );
         async.flushMicrotasks();
-        expect(connection.unsuspendCalls, 1);
-        expect(connection.reconnectNowCalls, 0);
+        expect(connection.nudgeCalls, 1);
+      });
+    });
+
+    test('reconnects a socket that is still marked connected', () {
+      fakeAsync((FakeAsync async) {
+        final connection = _NudgeGatewayConnection()
+          ..current = GatewayState.connected;
+        unawaited(
+          nudgeGatewayReconnectAfterResume(
+            connection,
+            hasConnectivity: () async => true,
+          ),
+        );
+        async.flushMicrotasks();
+        expect(connection.reconnectNowCalls, 1);
+        expect(connection.nudgeCalls, 0);
+      });
+    });
+
+    test('skips when a reconnect is already in progress', () {
+      fakeAsync((FakeAsync async) {
+        final connection = _NudgeGatewayConnection()
+          ..current = GatewayState.reconnecting;
+        unawaited(
+          nudgeGatewayReconnectAfterResume(
+            connection,
+            hasConnectivity: () async => true,
+          ),
+        );
+        async.flushMicrotasks();
+        expect(connection.nudgeCalls, 0);
       });
     });
   });

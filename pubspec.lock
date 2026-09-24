@@ -457,6 +457,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.7"
+  cryptography:
+    dependency: "direct main"
+    description:
+      name: cryptography
+      sha256: "3eda3029d34ec9095a27a198ac9785630fe525c0eb6a49f3d575272f8e792ef0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.9.0"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -794,12 +802,12 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_callkit_incoming
-      sha256: a7ca78008056e2e5031f728ad9707eb6c691c5058c3fa2d8488cbcaa93a96341
+      sha256: "2d47db2e8d32d333e0352d37b0a4e643f606a54f8a541db17af7c42f18c58318"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.5"
+    version: "3.1.6"
   flutter_driver:
-    dependency: transitive
+    dependency: "direct dev"
     description: flutter
     source: sdk
     version: "0.0.0"
@@ -1068,6 +1076,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.6.2+hotfix.3"
+  fluxer_android_notifications:
+    dependency: "direct main"
+    description:
+      path: "packages/fluxer_android_notifications"
+      relative: true
+    source: path
+    version: "0.0.1"
   fluxer_captcha:
     dependency: "direct main"
     description:
@@ -1964,7 +1979,7 @@ packages:
     source: hosted
     version: "0.10.3"
   pointycastle:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: pointycastle
       sha256: "92aa3841d083cc4b0f4709b5c74fd6409a3e6ba833ffc7dc6a8fee096366acf5"

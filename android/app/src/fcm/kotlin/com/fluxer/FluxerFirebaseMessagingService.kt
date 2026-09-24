@@ -1,7 +1,6 @@
 package com.fluxer
 
 import android.content.Intent
-import android.os.Bundle
 import com.google.android.gms.cloudmessaging.CloudMessage
 import com.google.android.gms.cloudmessaging.Rpc
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -23,10 +22,14 @@ class FluxerFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     private fun handleRemoteMessageIntent(intent: Intent) {
-        val extras = intent.extras ?: return
-        val data = Bundle(extras)
-        data.remove("androidx.content.wakelockid")
-        FcmMessageForwarder.enrichNotificationIntoData(data)
+        val extras = intent.extras
+        if (extras != null) {
+            extras.remove("androidx.content.wakelockid")
+            extras.remove("gcm.notification.title")
+            extras.remove("gcm.notification.body")
+            extras.remove("gcm.n.title")
+            extras.remove("gcm.n.body")
+        }
         Rpc(applicationContext).messageHandled(CloudMessage(intent))
     }
 

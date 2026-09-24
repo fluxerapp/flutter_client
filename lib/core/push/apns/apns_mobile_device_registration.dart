@@ -8,9 +8,11 @@ import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/push_provider.dart';
-import 'package:fluxer_app/core/push/apns/apns_registration_logic.dart';
 import 'package:fluxer_app/core/push/push_notification_permission.dart';
 import 'package:fluxer_app/core/push/push_service.dart';
+import 'package:fluxer_app/core/push/web_push/web_push_key_store.dart';
+import 'package:fluxer_app/core/push/web_push/web_push_registration.dart';
+import 'package:fluxer_app/core/push/web_push/web_push_relay.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_dart/export.dart';
@@ -23,8 +25,10 @@ class ApnsMobileDeviceRegistration extends _$ApnsMobileDeviceRegistration {
   static const int _tokenPollAttempts = 30;
   static const Duration _tokenPollDelay = Duration(milliseconds: 200);
   String? _lastRegisteredUserId;
-  String? _lastRegisteredTokenHex;
+  String? _lastRegisteredRelayUrl;
+  String? _lastRegisteredPublicKey;
   bool _syncInFlight = false;
+  final WebPushKeyStore _keyStore = WebPushKeyStore();
 
   @override
   int build() {
@@ -151,28 +155,39 @@ class ApnsMobileDeviceRegistration extends _$ApnsMobileDeviceRegistration {
       );
       return;
     }
-    _logApnsInfo(
-      'APNs device token acquired after $tokenPollAttempts poll(s): '
-      '${_maskApnsToken(hex)}',
+    const String environmentName = kDebugMode ? 'development' : 'production';
+    final String relayUrl = apnsRelayUrl(
+      appId: AppBuildConfig.mobilePushAppId,
+      environment: environmentName,
+      deviceTokenHex: hex,
     );
-    if (shouldSkipApnsRegistration(
+    final WebPushAccountKeys keys = await _keyStore.ensureKeys(userId);
+    await unregisterLegacyRawTokenOnce(
+      keyStore: _keyStore,
+      platform: 'ios_apns',
+      userId: userId,
+      unregister: () => _unregisterToken(
+        hex!,
+        providerEnvironment: _unregisterProviderEnvironment,
+      ),
+    );
+    if (shouldSkipWebPushRegistration(
       currentUserId: userId,
-      tokenHex: hex,
+      relayUrl: relayUrl,
+      publicKey: keys.publicKey,
       lastRegisteredUserId: _lastRegisteredUserId,
-      lastRegisteredTokenHex: _lastRegisteredTokenHex,
+      lastRegisteredRelayUrl: _lastRegisteredRelayUrl,
+      lastRegisteredPublicKey: _lastRegisteredPublicKey,
     )) {
-      _logApnsInfo(
-        'submit skipped: token already registered for user $userId '
-        '(${_maskApnsToken(hex)})',
-      );
+      _logApnsInfo('submit skipped: relay already registered for user $userId');
       return;
     }
     final String appId = AppBuildConfig.mobilePushAppId;
     final RegisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
     environment = _registerProviderEnvironment;
     _logApnsInfo(
-      'submitting APNs registration userId=$userId appId=$appId '
-      'environment=${environment.json ?? environment.toString()} token=${_maskApnsToken(hex)}',
+      'submitting APNs relay userId=$userId appId=$appId '
+      'environment=$environmentName',
     );
     try {
       await ref
@@ -181,19 +196,18 @@ class ApnsMobileDeviceRegistration extends _$ApnsMobileDeviceRegistration {
           .registerMobilePushDevice(
             body: RegisterMobileDeviceRequest(
               platform: RegisterMobileDeviceRequestPlatformPlatform.iosApns,
-              token: hex,
+              token: relayUrl,
               userAgent: ref.read(fluxerClientPropertiesProvider).userAgent,
               appId: appId,
               providerEnvironment: environment,
+              encryptionKey: keys.publicKey,
+              authSecret: keys.authSecret,
             ),
           );
       _lastRegisteredUserId = userId;
-      _lastRegisteredTokenHex = hex;
-      _logApnsInfo(
-        'APNs registration succeeded for user $userId '
-        'appId=$appId environment=${environment.json ?? environment.toString()} '
-        'token=${_maskApnsToken(hex)}',
-      );
+      _lastRegisteredRelayUrl = relayUrl;
+      _lastRegisteredPublicKey = keys.publicKey;
+      _logApnsInfo('APNs relay registration succeeded for user $userId');
     } on DioException catch (e, st) {
       final int? statusCode = e.response?.statusCode;
       final Object? responseData = e.response?.data;
@@ -201,10 +215,7 @@ class ApnsMobileDeviceRegistration extends _$ApnsMobileDeviceRegistration {
         e,
         st,
         '[ApnsMobileDeviceRegistration] APNs registration failed '
-        'userId=$userId appId=$appId '
-        'environment=${environment.json ?? environment.toString()} '
-        'status=$statusCode token=${_maskApnsToken(hex)} '
-        'response=$responseData',
+        'userId=$userId appId=$appId status=$statusCode response=$responseData',
       );
     }
   }
@@ -217,21 +228,11 @@ class ApnsMobileDeviceRegistration extends _$ApnsMobileDeviceRegistration {
     talker.warning('[ApnsMobileDeviceRegistration] $message');
   }
 
-  String _maskApnsToken(String token) {
-    if (token.length <= 12) {
-      return '***';
-    }
-    return '${token.substring(0, 8)}...${token.substring(token.length - 4)}';
-  }
-
   Future<void> unregisterCurrentToken() async {
     if (!_shouldRunOnThisPlatform) {
       return;
     }
-    String? hex = _lastRegisteredTokenHex;
-    if (hex == null || hex.isEmpty) {
-      hex = await ref.read(pushServiceProvider).getToken();
-    }
+    final String? hex = await ref.read(pushServiceProvider).getToken();
     if (hex == null || hex.isEmpty) {
       return;
     }
@@ -239,22 +240,23 @@ class ApnsMobileDeviceRegistration extends _$ApnsMobileDeviceRegistration {
     if (bearer == null || bearer.isEmpty) {
       return;
     }
+    final String relayUrl =
+        _lastRegisteredRelayUrl ??
+        apnsRelayUrl(
+          appId: AppBuildConfig.mobilePushAppId,
+          environment: kDebugMode ? 'development' : 'production',
+          deviceTokenHex: hex,
+        );
     try {
-      _logApnsInfo('unregistering APNs token ${_maskApnsToken(hex)}');
-      await ref
-          .read(fluxerClientProvider)
-          .users
-          .unregisterMobilePushDevice(
-            body: UnregisterMobileDeviceRequest(
-              platform: UnregisterMobileDeviceRequestPlatformPlatform.iosApns,
-              token: hex,
-              appId: AppBuildConfig.mobilePushAppId,
-              providerEnvironment: _unregisterProviderEnvironment,
-            ),
-          );
+      _logApnsInfo('unregistering APNs relay');
+      await _unregisterToken(
+        relayUrl,
+        providerEnvironment: _unregisterProviderEnvironment,
+      );
       _lastRegisteredUserId = null;
-      _lastRegisteredTokenHex = null;
-      _logApnsInfo('APNs unregister succeeded token=${_maskApnsToken(hex)}');
+      _lastRegisteredRelayUrl = null;
+      _lastRegisteredPublicKey = null;
+      _logApnsInfo('APNs unregister succeeded');
     } on DioException catch (e, st) {
       final int? statusCode = e.response?.statusCode;
       final Object? responseData = e.response?.data;
@@ -262,8 +264,26 @@ class ApnsMobileDeviceRegistration extends _$ApnsMobileDeviceRegistration {
         e,
         st,
         '[ApnsMobileDeviceRegistration] APNs unregister failed '
-        'status=$statusCode token=${_maskApnsToken(hex)} response=$responseData',
+        'status=$statusCode response=$responseData',
       );
     }
+  }
+
+  Future<void> _unregisterToken(
+    String token, {
+    required UnregisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
+    providerEnvironment,
+  }) {
+    return ref
+        .read(fluxerClientProvider)
+        .users
+        .unregisterMobilePushDevice(
+          body: UnregisterMobileDeviceRequest(
+            platform: UnregisterMobileDeviceRequestPlatformPlatform.iosApns,
+            token: token,
+            appId: AppBuildConfig.mobilePushAppId,
+            providerEnvironment: providerEnvironment,
+          ),
+        );
   }
 }

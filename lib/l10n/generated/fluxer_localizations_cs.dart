@@ -6955,6 +6955,12 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get chatMessageReply => 'Odpovědět';
 
   @override
+  String get notificationReplyPlaceholder => 'Message';
+
+  @override
+  String get notificationReplyFailed => 'Couldn\'t send reply';
+
+  @override
   String get chatMessageForward => 'Přeposlat';
 
   @override

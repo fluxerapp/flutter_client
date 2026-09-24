@@ -394,7 +394,7 @@
     "@customStatusPlaceholder": {
         "description": "Placeholder for the custom status text field."
     },
-    "customStatusChooseEmoji": "Вибрати емодзі",
+    "customStatusChooseEmoji": "Вибрати емоджі",
     "@customStatusChooseEmoji": {
         "description": "Button to pick an emoji for custom status."
     },
@@ -755,7 +755,7 @@
     "@inviteAcceptSomeone": {
         "description": "Fallback inviter name when the inviter is unknown."
     },
-    "inviteAcceptEmojiPack": "Набір емодзі",
+    "inviteAcceptEmojiPack": "Набір емоджі",
     "@inviteAcceptEmojiPack": {
         "description": "Label for an emoji pack invite."
     },
@@ -763,7 +763,7 @@
     "@inviteAcceptStickerPack": {
         "description": "Label for a sticker pack invite."
     },
-    "inviteAcceptInstallEmojiPack": "Встановити набір емодзі",
+    "inviteAcceptInstallEmojiPack": "Встановити набір емоджі",
     "@inviteAcceptInstallEmojiPack": {
         "description": "Primary action to install an emoji pack from an invite."
     },
@@ -1364,15 +1364,15 @@
     "@userTagSystem": {
         "description": "Tag label shown next to system user names."
     },
-    "emojiSearchPlaceholder": "Знайдіть емодзі своєї мрії",
+    "emojiSearchPlaceholder": "Знайдіть емоджі своєї мрії",
     "@emojiSearchPlaceholder": {
         "description": "Emoji picker search bar placeholder."
     },
-    "emojiSearchEmpty": "Емодзі не знайдено за вашим запитом",
+    "emojiSearchEmpty": "Емоджі не знайдено за вашим запитом",
     "@emojiSearchEmpty": {
         "description": "Emoji picker empty search state."
     },
-    "emojiAutocompleteDefaultLabel": "Стандартний емодзі",
+    "emojiAutocompleteDefaultLabel": "Стандартний емоджі",
     "@emojiAutocompleteDefaultLabel": {
         "description": "Short right-side label in the chat composer emoji autocomplete shown for built-in (unicode) emoji; custom emoji show their guild name instead. Keep it concise."
     },
@@ -1392,7 +1392,7 @@
     "@emojiTabStickers": {
         "description": "Stickers tab."
     },
-    "emojiTabEmojis": "Емодзі",
+    "emojiTabEmojis": "Емоджі",
     "@emojiTabEmojis": {
         "description": "Emojis tab."
     },
@@ -1488,7 +1488,7 @@
     "@emojiPlutoniumUpsellDismiss": {
         "description": "Dismiss link on the Plutonium upsell banner."
     },
-    "emojiPlutoniumUpsellCustomEmoji": "{count, plural, =1{1 власний емодзі} other{{count} власних емодзі}}",
+    "emojiPlutoniumUpsellCustomEmoji": "{count, plural, =1{1 власний емоджі} other{{count} власних емоджі}}",
     "@emojiPlutoniumUpsellCustomEmoji": {
         "description": "Emoji count label in upsell banner.",
         "placeholders": {
@@ -1859,11 +1859,11 @@
     "@aboutMeLabel": {
         "description": "Label for the bio text area."
     },
-    "aboutMeHelperText": "Ви можете використовувати посилання, емодзі та Markdown.",
+    "aboutMeHelperText": "Ви можете використовувати посилання, емоджі та Markdown.",
     "@aboutMeHelperText": {
         "description": "Helper text below the bio text area."
     },
-    "emojiPickerTitle": "Емодзі",
+    "emojiPickerTitle": "Емоджі",
     "@emojiPickerTitle": {
         "description": "Title for the emoji picker sheet."
     },
@@ -4890,11 +4890,11 @@
     "@messagesMediaReactionsSectionTitle": {
         "description": "Section title for reactions settings."
     },
-    "messagesMediaReactionsSectionDescription": "Налаштуйте реакції емодзі на повідомлення",
+    "messagesMediaReactionsSectionDescription": "Налаштуйте реакції емоджі на повідомлення",
     "@messagesMediaReactionsSectionDescription": {
         "description": "Section description for reactions settings."
     },
-    "messagesMediaReactionsToggleLabel": "Показувати реакції емодзі на повідомлення",
+    "messagesMediaReactionsToggleLabel": "Показувати реакції емоджі на повідомлення",
     "@messagesMediaReactionsToggleLabel": {
         "description": "Toggle label for displaying emoji reactions."
     },
@@ -4986,11 +4986,11 @@
     "@messagesMediaAutocompleteSectionDescription": {
         "description": "Section description for expression autocomplete settings."
     },
-    "messagesMediaAutocompleteDefaultEmojisLabel": "Показувати стандартні емодзі в автодоповненні виразів",
+    "messagesMediaAutocompleteDefaultEmojisLabel": "Показувати стандартні емоджі в автодоповненні виразів",
     "@messagesMediaAutocompleteDefaultEmojisLabel": {
         "description": "Toggle label for default emojis in expression autocomplete."
     },
-    "messagesMediaAutocompleteCustomEmojisLabel": "Показувати власні емодзі в автодоповненні виразів",
+    "messagesMediaAutocompleteCustomEmojisLabel": "Показувати власні емоджі в автодоповненні виразів",
     "@messagesMediaAutocompleteCustomEmojisLabel": {
         "description": "Toggle label for custom emojis in expression autocomplete."
     },
@@ -5558,7 +5558,7 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
-    "chatSendFailureNsfwEmojiSticker": "Ваше повідомлення не могло бути доставлено, оскільки воно містить недоречні емодзі або стікери, які не дозволені в цьому контексті.",
+    "chatSendFailureNsfwEmojiSticker": "Ваше повідомлення не могло бути доставлено, оскільки воно містить недоречні емоджі або стікери, які не дозволені в цьому контексті.",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
     },
@@ -6889,7 +6889,7 @@
     "@mentionConfirmButton": {
         "description": "Confirm button label on the mention confirmation dialog."
     },
-    "composerEmojiUnavailable": "Ви не можете використовувати цей емодзі тут.",
+    "composerEmojiUnavailable": "Ви не можете використовувати цей емоджі тут.",
     "@composerEmojiUnavailable": {
         "description": "Toast shown when a message contains a custom emoji the user cannot use in this channel."
     },
@@ -6933,10 +6933,6 @@
     "instanceSheetTitle": "Підключитися до екземпляра",
     "@instanceSheetTitle": {
         "description": "Title for the self-hosted instance connection bottom sheet."
-    },
-    "connectToDifferentInstance": "Підключитися до іншого екземпляра",
-    "@connectToDifferentInstance": {
-        "description": "Subtle link on the login screen to open the instance connection sheet."
     },
     "changeInstance": "Змінити",
     "@changeInstance": {
@@ -7154,7 +7150,7 @@
     "@guildNavbarTextChannel": {
         "description": "Label for the text channel type option."
     },
-    "guildNavbarTextChannelDescription": "Надсилайте повідомлення, зображення, GIF-файли та емодзі",
+    "guildNavbarTextChannelDescription": "Надсилайте повідомлення, зображення, GIF-файли та емоджі",
     "@guildNavbarTextChannelDescription": {
         "description": "Description for the text channel type option."
     },
@@ -7474,7 +7470,7 @@
     "@guildMenuSettingsRoles": {
         "description": "Community settings tab for roles and permissions."
     },
-    "guildMenuSettingsEmoji": "Емодзі",
+    "guildMenuSettingsEmoji": "Емоджі",
     "@guildMenuSettingsEmoji": {
         "description": "Community settings tab for custom emoji."
     },
@@ -7566,7 +7562,7 @@
     "@guildSettingsRolesListTitle": {
         "description": "Title for the roles list section."
     },
-    "guildSettingsEmojiSlotInfo": "{staticCount} статичних, {animatedCount} анімованих слотів для емодзі використано",
+    "guildSettingsEmojiSlotInfo": "{staticCount} статичних, {animatedCount} анімованих слотів для емоджі використано",
     "@guildSettingsEmojiSlotInfo": {
         "description": "Emoji slot usage summary.",
         "placeholders": {
@@ -7578,7 +7574,7 @@
             }
         }
     },
-    "guildSettingsEmojiEmpty": "Ще немає власних емодзі.",
+    "guildSettingsEmojiEmpty": "Ще немає власних емоджі.",
     "@guildSettingsEmojiEmpty": {
         "description": "Empty state for emoji settings."
     },
@@ -7797,15 +7793,15 @@
     "@auditLogActionWebhookDelete": {
         "description": "Audit log action filter label."
     },
-    "auditLogActionEmojiCreate": "Емодзі створено",
+    "auditLogActionEmojiCreate": "Емоджі створено",
     "@auditLogActionEmojiCreate": {
         "description": "Audit log action filter label."
     },
-    "auditLogActionEmojiUpdate": "Емодзі оновлено",
+    "auditLogActionEmojiUpdate": "Емоджі оновлено",
     "@auditLogActionEmojiUpdate": {
         "description": "Audit log action filter label."
     },
-    "auditLogActionEmojiDelete": "Емодзі видалено",
+    "auditLogActionEmojiDelete": "Емоджі видалено",
     "@auditLogActionEmojiDelete": {
         "description": "Audit log action filter label."
     },
@@ -8248,7 +8244,7 @@
             }
         }
     },
-    "auditLogSummaryEmojiCreate": "{actor} додав емодзі {target}.",
+    "auditLogSummaryEmojiCreate": "{actor} додав емоджі {target}.",
     "@auditLogSummaryEmojiCreate": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -8260,7 +8256,7 @@
             }
         }
     },
-    "auditLogSummaryEmojiUpdate": "{actor} оновив емодзі {target}.",
+    "auditLogSummaryEmojiUpdate": "{actor} оновив емоджі {target}.",
     "@auditLogSummaryEmojiUpdate": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -8272,7 +8268,7 @@
             }
         }
     },
-    "auditLogSummaryEmojiDelete": "{actor} видалив емодзі {target}.",
+    "auditLogSummaryEmojiDelete": "{actor} видалив емоджі {target}.",
     "@auditLogSummaryEmojiDelete": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -9135,9 +9131,9 @@
     "guildSettingsModeration2faSwitchLabel": "Вимагати 2FA для дій модерації",
     "guildSettingsModeration2faOwnerOnlyTooltip": "Лише власник спільноти може змінити цей параметр",
     "guildSettingsModeration2faEnableFirstTooltip": "Увімкніть 2FA у своєму обліковому записі, щоб змінити цей параметр",
-    "guildSettingsEmojiSearchHint": "Пошук емодзі",
-    "guildSettingsEmojiUploadTitle": "Завантажити емодзі",
-    "guildSettingsNonAnimatedEmoji": "Неанімовані емодзі ({count})",
+    "guildSettingsEmojiSearchHint": "Пошук емоджі",
+    "guildSettingsEmojiUploadTitle": "Завантажити емоджі",
+    "guildSettingsNonAnimatedEmoji": "Неанімовані емоджі ({count})",
     "@guildSettingsNonAnimatedEmoji": {
         "placeholders": {
             "count": {
@@ -9145,7 +9141,7 @@
             }
         }
     },
-    "guildSettingsAnimatedEmoji": "Анімовані емодзі ({count})",
+    "guildSettingsAnimatedEmoji": "Анімовані емоджі ({count})",
     "@guildSettingsAnimatedEmoji": {
         "placeholders": {
             "count": {
@@ -9786,11 +9782,11 @@
     "@permissionMentionEveryoneDescription": {
         "description": "Permission description."
     },
-    "permissionUseExternalEmoji": "Використовувати зовнішні емодзі",
+    "permissionUseExternalEmoji": "Використовувати зовнішні емоджі",
     "@permissionUseExternalEmoji": {
         "description": "Permission name."
     },
-    "permissionUseExternalEmojiDescription": "Використовувати емодзі з інших спільнот.",
+    "permissionUseExternalEmojiDescription": "Використовувати емоджі з інших спільнот.",
     "@permissionUseExternalEmojiDescription": {
         "description": "Permission description."
     },
@@ -10321,15 +10317,15 @@
     "@permissionChangeOwnNicknameDescription": {
         "description": "Permission description."
     },
-    "permissionCreateEmojiStickersDescription": "Завантажуйте нові емодзі та стікери, а також керуйте власними творіннями.",
+    "permissionCreateEmojiStickersDescription": "Завантажуйте нові емоджі та стікери, а також керуйте власними творіннями.",
     "@permissionCreateEmojiStickersDescription": {
         "description": "Permission description."
     },
-    "permissionManageEmojiStickers": "Керування емодзі та стікерами",
+    "permissionManageEmojiStickers": "Керування емоджі та стікерами",
     "@permissionManageEmojiStickers": {
         "description": "Permission name."
     },
-    "permissionManageEmojiStickersDescription": "Редагувати або видаляти емодзі та стікери, створені іншими учасниками.",
+    "permissionManageEmojiStickersDescription": "Редагувати або видаляти емоджі та стікери, створені іншими учасниками.",
     "@permissionManageEmojiStickersDescription": {
         "description": "Permission description."
     },
@@ -10746,7 +10742,7 @@
     "@permissionManageNicknamesDescription": {
         "description": "Permission description."
     },
-    "permissionCreateEmojiStickers": "Створювати емодзі та стікери",
+    "permissionCreateEmojiStickers": "Створювати емоджі та стікери",
     "@permissionCreateEmojiStickers": {
         "description": "Permission name."
     },
@@ -12314,7 +12310,7 @@
     "@channelSettingsTopicPlaceholder": {
         "description": "Placeholder for channel topic field."
     },
-    "channelSettingsInsertEmoji": "Вставити емодзі",
+    "channelSettingsInsertEmoji": "Вставити емоджі",
     "@channelSettingsInsertEmoji": {
         "description": "Accessibility label for the emoji button on the channel topic field."
     },
@@ -12995,7 +12991,7 @@
     "@addFriendFriendsListFull": {
         "description": "Error when either user's friends list is at the limit."
     },
-    "emojiInfoDefaultDescription": "Це типовий емодзі у {productName}.",
+    "emojiInfoDefaultDescription": "Це типовий емоджі у {productName}.",
     "@emojiInfoDefaultDescription": {
         "description": "Emoji info sheet description for built-in unicode emoji.",
         "placeholders": {
@@ -13004,19 +13000,19 @@
             }
         }
     },
-    "emojiInfoCustomGuildDescription": "Цей емодзі з цієї спільноти. Ви можете використовувати його всюди.",
+    "emojiInfoCustomGuildDescription": "Цей емоджі з цієї спільноти. Ви можете використовувати його всюди.",
     "@emojiInfoCustomGuildDescription": {
         "description": "Emoji info sheet description when the user can use a custom emoji from their community."
     },
-    "emojiInfoCustomUnknownDescription": "Це власний емодзі зі спільноти.",
+    "emojiInfoCustomUnknownDescription": "Це власний емоджі зі спільноти.",
     "@emojiInfoCustomUnknownDescription": {
         "description": "Emoji info sheet description when the source community is unknown."
     },
-    "emojiInfoCustomInviteRequiredDescription": "Це власне емодзі зі спільноти. Щоб використовувати це емодзі, попросіть автора надіслати запрошення.",
+    "emojiInfoCustomInviteRequiredDescription": "Це власне емоджі зі спільноти. Щоб використовувати це емоджі, попросіть автора надіслати запрошення.",
     "@emojiInfoCustomInviteRequiredDescription": {
         "description": "Emoji info sheet description when the user is not in the source community."
     },
-    "emojiInfoFromHeader": "Цей емодзі з",
+    "emojiInfoFromHeader": "Цей емоджі з",
     "@emojiInfoFromHeader": {
         "description": "Section header above the source community in the emoji info sheet."
     },
@@ -13680,7 +13676,7 @@
     "@accessibilityReducedMotionActiveNote": {
         "description": "Note shown above animation controls when reduced motion is active."
     },
-    "accessibilityPlayAnimatedEmojisLabel": "Відтворювати анімовані емодзі",
+    "accessibilityPlayAnimatedEmojisLabel": "Відтворювати анімовані емоджі",
     "@accessibilityPlayAnimatedEmojisLabel": {
         "description": "Toggle label for playing animated emojis."
     },
@@ -13701,7 +13697,7 @@
     "@accessibilityPlayingDespiteReducedMotion": {
         "description": "Description when an animation setting overrides reduced motion."
     },
-    "accessibilityPausedEmojiByReducedMotion": "Призупинено через зменшення руху. Увімкніть, щоб анімовані емодзі відтворювалися.",
+    "accessibilityPausedEmojiByReducedMotion": "Призупинено через зменшення руху. Увімкніть, щоб анімовані емоджі відтворювалися.",
     "@accessibilityPausedEmojiByReducedMotion": {
         "description": "Description for emoji toggle while reduced motion is active."
     },
@@ -13785,7 +13781,7 @@
     "@accessibilityReducedMotionOverrideManualDescription": {
         "description": "Reduce motion description when not synced with system."
     },
-    "accessibilityReducedMotionAnimationTabHint": "Анімовані емодзі, GIF-файли та стікери залишаються під вашим контролем на вкладці «Анімація».",
+    "accessibilityReducedMotionAnimationTabHint": "Анімовані емоджі, GIF-файли та стікери залишаються під вашим контролем на вкладці «Анімація».",
     "@accessibilityReducedMotionAnimationTabHint": {
         "description": "Extra hint under reduce motion while reduced motion is active."
     },
@@ -13837,7 +13833,7 @@
     "@ttsSubstitutionSpoiler": {
         "description": "TTS substitution for spoiler content."
     },
-    "ttsSubstitutionEmoji": "емодзі {emojiName}",
+    "ttsSubstitutionEmoji": "емоджі {emojiName}",
     "@ttsSubstitutionEmoji": {
         "description": "TTS substitution for custom emoji.",
         "placeholders": {
@@ -15338,7 +15334,7 @@
     "@guildNavbarCreateInviteTemporarilyDisabled": {
         "description": "Error when instant invites are temporarily disabled."
     },
-    "composerOpenExpressionPicker": "Відкрити вибір емодзі",
+    "composerOpenExpressionPicker": "Відкрити вибір емоджі",
     "@composerOpenExpressionPicker": {
         "description": "Accessibility label for the composer button that opens the emoji and media picker."
     },
@@ -15665,10 +15661,10 @@
     "premiumPerkMessageCharacterLimit": "Обмеження на кількість символів у повідомленні",
     "premiumPerkBookmarkedMessages": "Збережені повідомлення",
     "premiumPerkFileUploadSize": "Розмір файлу для завантаження",
-    "premiumPerkEmojiStickerPacks": "Набори емодзі та стікерів",
+    "premiumPerkEmojiStickerPacks": "Набори емоджі та стікерів",
     "premiumPerkSavedMedia": "Збережені медіа",
-    "premiumPerkUseAnimatedEmojis": "Використовувати анімовані емодзі",
-    "premiumPerkGlobalEmojiStickerAccess": "Доступ до глобальних емодзі та стікерів",
+    "premiumPerkUseAnimatedEmojis": "Використовувати анімовані емоджі",
+    "premiumPerkGlobalEmojiStickerAccess": "Доступ до глобальних емоджі та стікерів",
     "premiumPerkVideoQuality": "Якість відео",
     "premiumPerkAnimatedAvatarsBanners": "Анімовані аватари та банери профілю",
     "premiumPerkEarlyAccess": "Ранній доступ до нових функцій",
@@ -15839,14 +15835,14 @@
     "advancedSettingShowOnlyMoreButtonLabel": "Показувати лише кнопку \"Більше\"",
     "advancedSettingShowQuickReactionsLabel": "Показувати швидкі реакції",
     "advancedSettingEnableShiftToExpandLabel": "Увімкнути Shift для розгортання",
-    "advancedSettingShowDefaultEmojisAutocompleteLabel": "Показувати стандартні емодзі в автозавершенні виразів",
-    "advancedSettingShowCustomEmojisAutocompleteLabel": "Показувати власні емодзі в автозаповненні виразів",
+    "advancedSettingShowDefaultEmojisAutocompleteLabel": "Показувати стандартні емоджі в автозавершенні виразів",
+    "advancedSettingShowCustomEmojisAutocompleteLabel": "Показувати власні емоджі в автозаповненні виразів",
     "advancedSettingShowStickersAutocompleteLabel": "Показувати стікери в автозаповненні виразів",
     "advancedSettingShowSavedMediaAutocompleteLabel": "Показувати збережені медіа у пропозиціях автозаповнення",
     "advancedSettingShowGifsButtonLabel": "Показувати кнопку GIF",
     "advancedSettingShowMediaButtonLabel": "Показувати кнопку медіа",
     "advancedSettingShowStickersButtonLabel": "Показувати кнопку стікерів",
-    "advancedSettingShowEmojiButtonLabel": "Показувати кнопку емодзі",
+    "advancedSettingShowEmojiButtonLabel": "Показувати кнопку емоджі",
     "advancedSettingShowSendButtonLabel": "Показувати кнопку надсилання",
     "advancedSettingNewDeviceAlertsLabel": "Показувати сповіщення про нові пристрої",
     "advancedSettingNewDeviceAlertsDescription": "Запит на нові аудіопристрої",
@@ -15894,7 +15890,7 @@
     "advancedSettingDefaultReverseImageSearchLabel": "Пошук зображень за замовчуванням",
     "advancedSettingDefaultReverseImageSearchDescription": "Виберіть сервіс зворотного пошуку зображень, який використовуватиметься за замовчуванням під час пошуку зображення.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Вбудований пошук зображень",
-    "advancedSettingBuiltInReverseImageSearchDescription": "Увімкніть або вимкніть вбудовані провайдери зворотного пошуку зображень. Увімкнені провайдери з'являтимуться в контекстному меню зображень, аватарів, банерів, стікерів та емодзі.",
+    "advancedSettingBuiltInReverseImageSearchDescription": "Увімкніть або вимкніть вбудовані провайдери зворотного пошуку зображень. Увімкнені провайдери з'являтимуться в контекстному меню зображень, аватарів, банерів, стікерів та емоджі.",
     "advancedSettingCustomReverseImageSearchLabel": "Власний зворотний пошук зображень",
     "advancedSettingCustomReverseImageSearchDescription": "Додайте власні пошукові системи для зворотного пошуку зображень із шаблоном URL. Використовуйте '{url}' як заповнювач для URL зображення.",
     "advancedSettingAddReverseImageSearchLabel": "Додати зворотний пошук зображень",
@@ -16616,13 +16612,13 @@
     "@guildMembersChannelListSelected": {
         "description": "Accessibility label when the Members channel list item is selected."
     },
-    "guildSettingsEmojiSlotsTitle": "Слоти для емодзі",
-    "guildSettingsEmojiDropZone": "Перетягніть файли емодзі сюди",
-    "guildSettingsEmojiLoadFailed": "Не вдалося завантажити емодзі. Спробуйте пізніше.",
-    "guildSettingsEmojiSearchEmpty": "Не знайдено емодзі, що відповідають вашому пошуку.",
-    "guildSettingsEmojiNoSlots": "Немає вільних слотів для емодзі",
-    "guildSettingsEmojiSlotsFull": "Ви досягли максимальної кількості емодзі. Видаліть деякі наявні емодзі, щоб звільнити місце.",
-    "guildSettingsEmojiUploadRequirements": "Назви емодзі повинні містити щонайменше 2 символи та можуть використовувати літери, цифри та підкреслення. Розмір емодзі повинен бути меншим за {maxSize}. Статичні зображення автоматично змінюються до розміру 128x128 пікселів і стискаються. Анімовані емодзі та SVG повинні вже відповідати обмеженню.",
+    "guildSettingsEmojiSlotsTitle": "Слоти для емоджі",
+    "guildSettingsEmojiDropZone": "Перетягніть файли емоджі сюди",
+    "guildSettingsEmojiLoadFailed": "Не вдалося завантажити емоджі. Спробуйте пізніше.",
+    "guildSettingsEmojiSearchEmpty": "Не знайдено емоджі, що відповідають вашому пошуку.",
+    "guildSettingsEmojiNoSlots": "Немає вільних слотів для емоджі",
+    "guildSettingsEmojiSlotsFull": "Ви досягли максимальної кількості емоджі. Видаліть деякі наявні емоджі, щоб звільнити місце.",
+    "guildSettingsEmojiUploadRequirements": "Назви емоджі повинні містити щонайменше 2 символи та можуть використовувати літери, цифри та підкреслення. Розмір емоджі повинен бути меншим за {maxSize}. Статичні зображення автоматично змінюються до розміру 128x128 пікселів і стискаються. Анімовані емоджі та SVG повинні вже відповідати обмеженню.",
     "@guildSettingsEmojiUploadRequirements": {
         "placeholders": {
             "maxSize": {
@@ -16630,8 +16626,8 @@
             }
         }
     },
-    "guildSettingsEmojiUploadingTitle": "Завантаження емодзі",
-    "guildSettingsEmojiUploadingBody": "Завантаження {count, plural, one {# емодзі} other {# емодзі}}. Це може зайняти деякий час.",
+    "guildSettingsEmojiUploadingTitle": "Завантаження емоджі",
+    "guildSettingsEmojiUploadingBody": "Завантаження {count, plural, one {# емоджі} other {# емоджі}}. Це може зайняти деякий час.",
     "@guildSettingsEmojiUploadingBody": {
         "placeholders": {
             "count": {
@@ -16639,16 +16635,16 @@
             }
         }
     },
-    "guildSettingsEmojiUploadFailed": "Не вдалося завантажити емодзі. Спробуйте ще раз.",
-    "guildSettingsEmojiSomeFailedTitle": "Деякі емодзі не вдалося додати",
+    "guildSettingsEmojiUploadFailed": "Не вдалося завантажити емоджі. Спробуйте ще раз.",
+    "guildSettingsEmojiSomeFailedTitle": "Деякі емоджі не вдалося додати",
     "guildSettingsEmojiSomeFailedBody": "Перегляньте ці файли та спробуйте ще раз із меншими або простішими зображеннями.",
-    "guildSettingsEmojiRenameTitle": "Перейменувати емодзі",
+    "guildSettingsEmojiRenameTitle": "Перейменувати емоджі",
     "guildSettingsEmojiRenameHint": "2–32 символи: літери, цифри, підкреслення.",
-    "guildSettingsEmojiColumnEmoji": "Емодзі",
+    "guildSettingsEmojiColumnEmoji": "Емоджі",
     "guildSettingsEmojiColumnName": "Назва",
     "guildSettingsEmojiColumnUploader": "Завантажено",
     "guildSettingsEmojiUnknownUploader": "Невідомо",
-    "guildSettingsEmojiDeleteTitle": "Видалити емодзі",
+    "guildSettingsEmojiDeleteTitle": "Видалити емоджі",
     "guildSettingsEmojiDeleteBody": "Видалити :{name}:? Це неможливо скасувати.",
     "@guildSettingsEmojiDeleteBody": {
         "placeholders": {
@@ -16657,22 +16653,22 @@
             }
         }
     },
-    "guildSettingsEmojiPurgeLabel": "Видалити цей емодзі зі сховища та CDN",
-    "guildSettingsEmojiNameTooShort": "Назва емодзі має містити щонайменше 2 символи",
-    "guildSettingsEmojiNameTooLong": "Назва емодзі має бути не довшою ніж 32 символи",
-    "guildSettingsEmojiInvalidNameTitle": "Недійсна назва емодзі",
-    "guildSettingsEmojiRenameFailedTitle": "Не вдалося перейменувати цей емодзі",
+    "guildSettingsEmojiPurgeLabel": "Видалити цей емоджі зі сховища та CDN",
+    "guildSettingsEmojiNameTooShort": "Назва емоджі має містити щонайменше 2 символи",
+    "guildSettingsEmojiNameTooLong": "Назва емоджі має бути не довшою ніж 32 символи",
+    "guildSettingsEmojiInvalidNameTitle": "Недійсна назва емоджі",
+    "guildSettingsEmojiRenameFailedTitle": "Не вдалося перейменувати цей емоджі",
     "guildSettingsEmojiRenameFailedBody": "Назву було повернено до попередньої. Спробуйте ще раз за мить.",
-    "guildSettingsEmojiGoneTitle": "Цього емодзі більше не існує",
+    "guildSettingsEmojiGoneTitle": "Цього емоджі більше не існує",
     "guildSettingsEmojiGoneBody": "Можливо, його було видалено. Назву повернуто до попередньої.",
-    "guildSettingsEmojiNoPermissionRenameTitle": "Ви не можете перейменувати цей емодзі",
-    "guildSettingsEmojiNoPermissionRenameBody": "У вас немає дозволу перейменовувати цей емодзі. Назву було повернено до попередньої.",
+    "guildSettingsEmojiNoPermissionRenameTitle": "Ви не можете перейменувати цей емоджі",
+    "guildSettingsEmojiNoPermissionRenameBody": "У вас немає дозволу перейменовувати цей емоджі. Назву було повернено до попередньої.",
     "guildSettingsEmojiRateLimitedTitle": "Ви надто поспішаєте",
     "guildSettingsEmojiRateLimitedBody": "Зачекайте трохи й спробуйте перейменувати ще раз.",
-    "guildSettingsEmojiDeleteFailedTitle": "Не вдалося видалити цей емодзі",
-    "guildSettingsEmojiDeleteNoPermissionTitle": "Ви не можете видалити цей емодзі",
-    "guildSettingsCloneEmojiTitle": "Дозволити іншим клонувати ваші емодзі",
-    "guildSettingsCloneEmojiDescription": "Якщо ввімкнено, учасники інших спільнот можуть використовувати ярлик \"Клонувати\" в програмі в один клік для ваших власних емодзі. Це не заважає їм зберігати зображення та завантажувати його самостійно.",
+    "guildSettingsEmojiDeleteFailedTitle": "Не вдалося видалити цей емоджі",
+    "guildSettingsEmojiDeleteNoPermissionTitle": "Ви не можете видалити цей емоджі",
+    "guildSettingsCloneEmojiTitle": "Дозволити іншим клонувати ваші емоджі",
+    "guildSettingsCloneEmojiDescription": "Якщо ввімкнено, учасники інших спільнот можуть використовувати ярлик \"Клонувати\" в програмі в один клік для ваших власних емоджі. Це не заважає їм зберігати зображення та завантажувати його самостійно.",
     "guildSettingsCloneStickerTitle": "Дозволити іншим клонувати ваші стікери",
     "guildSettingsCloneStickerDescription": "Якщо ввімкнено, учасники інших спільнот зможуть використовувати вбудовану функцію \"Клонувати\" в один клік для ваших стікерів. Це не завадить їм зберігати зображення та завантажувати їх самостійно.",
     "guildSettingsClonePermissionHint": "Лише учасники з дозволом \"{permission}\" можуть це змінити.",
@@ -16683,7 +16679,7 @@
             }
         }
     },
-    "guildSettingsCloneEmojiUpdateFailed": "Не вдалося оновити клонування емодзі",
+    "guildSettingsCloneEmojiUpdateFailed": "Не вдалося оновити клонування емоджі",
     "guildSettingsCloneStickerUpdateFailed": "Не вдалося оновити клонування стікерів",
     "guildSettingsStickerSlotsTitle": "Слоти для стікерів",
     "guildSettingsStickerUploadTitle": "Завантажити стікер",
@@ -16792,7 +16788,7 @@
     "keybindActionMarkTopInboxRead": "Позначити верхній канал вхідних як прочитаний",
     "keybindActionMarkAllInboxRead": "Позначити всі канали вхідних як прочитані",
     "keybindActionToggleMemberList": "Перемкнути список учасників або голосовий чат",
-    "keybindActionToggleEmojiPicker": "Відкрити/закрити панель емодзі",
+    "keybindActionToggleEmojiPicker": "Відкрити/закрити панель емоджі",
     "keybindActionToggleGifPicker": "Відкрити/закрити панель GIF",
     "keybindActionToggleStickerPicker": "Перемкнути панель стікерів",
     "keybindActionScrollChatUp": "Прокрутити чат угору",

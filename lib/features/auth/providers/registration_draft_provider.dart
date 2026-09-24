@@ -66,7 +66,7 @@ class RegistrationDraftNotifier extends _$RegistrationDraftNotifier {
   @override
   RegistrationDraft build() => const RegistrationDraft();
 
-  // ignore: use_setters_to_change_properties, Riverpod notifier method.
+  // ignore: Riverpod notifier method.
   void update(RegistrationDraft draft) => state = draft;
 
   void clear() => state = const RegistrationDraft();

@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:fluxer_app/core/push/fcm/fcm_gcm_notification_enrichment.dart';
 import 'package:test/test.dart';
 
 Directory _findProjectRoot(Directory start) {
@@ -26,92 +24,6 @@ void main() {
   final File messagingService = File(
     '${projectRoot.path}/android/app/src/fcm/kotlin/com/fluxer/FluxerFirebaseMessagingService.kt',
   );
-  final File messageForwarder = File(
-    '${projectRoot.path}/android/app/src/fcm/kotlin/com/fluxer/FcmMessageForwarder.kt',
-  );
-
-  group('enrichGcmNotificationData', () {
-    test('copies gcm notification title and body into data fields', () {
-      final Map<String, String> enriched =
-          enrichGcmNotificationData(<String, String>{
-            kGcmNotificationTitleKey: 'Emptiest (#asdfqwer)',
-            kGcmNotificationBodyKey: 'Pong!',
-            'channel_id': 'dm-1',
-            'url': '/channels/@me/dm-1/msg-9',
-          });
-      expect(enriched['title'], 'Emptiest (#asdfqwer)');
-      expect(enriched['body'], 'Pong!');
-      expect(enriched['channel_id'], 'dm-1');
-      expect(enriched['url'], '/channels/@me/dm-1/msg-9');
-    });
-
-    test('does not overwrite existing title and body in data', () {
-      final Map<String, String> enriched =
-          enrichGcmNotificationData(<String, String>{
-            kGcmNotificationTitleKey: 'from-gcm',
-            kGcmNotificationBodyKey: 'from-gcm-body',
-            'title': 'from-data',
-            'body': 'from-data-body',
-          });
-      expect(enriched['title'], 'from-data');
-      expect(enriched['body'], 'from-data-body');
-    });
-
-    test('ignores blank gcm notification fields', () {
-      final Map<String, String> enriched = enrichGcmNotificationData(
-        <String, String>{
-          kGcmNotificationTitleKey: '   ',
-          kGcmNotificationBodyKey: '',
-        },
-      );
-      expect(enriched.containsKey('title'), isFalse);
-      expect(enriched.containsKey('body'), isFalse);
-    });
-  });
-
-  group('FCM hybrid background regression', () {
-    test('unenriched navigable data alone reproduces generic display text', () {
-      final Map<String, String> data = <String, String>{
-        'channel_id': 'dm-1',
-        'message_id': 'msg-9',
-        'url': '/channels/@me/dm-1/msg-9',
-      };
-      final String title = data['title'] ?? 'Fluxer';
-      final String body = data['body'] ?? 'New message';
-      expect(title, 'Fluxer');
-      expect(body, 'New message');
-    });
-
-    test('enriched navigable data keeps rich display text', () {
-      final Map<String, String> enriched =
-          enrichGcmNotificationData(<String, String>{
-            kGcmNotificationTitleKey: 'Emptiest (#asdfqwer)',
-            kGcmNotificationBodyKey: 'Pong!',
-            'channel_id': 'dm-1',
-            'message_id': 'msg-9',
-            'url': '/channels/@me/dm-1/msg-9',
-          });
-      expect(enriched['title'], isNot('Fluxer'));
-      expect(enriched['body'], isNot('New message'));
-      expect(enriched['url'], '/channels/@me/dm-1/msg-9');
-    });
-
-    test('enriched tap payload json is navigable', () {
-      final Map<String, String> enriched =
-          enrichGcmNotificationData(<String, String>{
-            kGcmNotificationTitleKey: 'Emptiest (#asdfqwer)',
-            kGcmNotificationBodyKey: 'Pong!',
-            'channel_id': 'dm-1',
-            'message_id': 'msg-9',
-            'url': '/channels/@me/dm-1/msg-9',
-          });
-      final String payloadJson = jsonEncode(enriched);
-      final Map<String, dynamic> decoded =
-          jsonDecode(payloadJson) as Map<String, dynamic>;
-      expect(decoded['url'], '/channels/@me/dm-1/msg-9');
-      expect(decoded['channel_id'], 'dm-1');
-    });
-  });
 
   group('FCM Android integration contract', () {
     test('fcm manifest replaces plugin messaging service and receiver', () {
@@ -141,52 +53,55 @@ void main() {
       );
     });
 
-    test(
-      'native messaging service suppresses default notification dispatch',
-      () {
-        final String content = messagingService.readAsStringSync();
-        expect(content, contains('handleRemoteMessageIntent'));
-        expect(
-          content,
-          contains('FcmMessageForwarder.enrichNotificationIntoData'),
-        );
-        expect(content, isNot(contains('forwardMessage')));
-        expect(content, contains('-> handleRemoteMessageIntent(intent)'));
-        expect(content, contains('else -> super.handleIntent(intent)'));
-      },
-    );
-
-    test(
-      'native receiver enriches and forwards to flutter background service',
-      () {
-        final File receiver = File(
-          '${projectRoot.path}/android/app/src/fcm/kotlin/com/fluxer/FluxerFirebaseMessagingReceiver.kt',
-        );
-        final String content = receiver.readAsStringSync();
-        expect(
-          content,
-          contains('FcmMessageForwarder.enrichNotificationIntoData'),
-        );
-        expect(content, contains('FlutterFirebaseMessagingBackgroundService'));
-        expect(content, contains('FcmMessagingBridge.EXTRA_REMOTE_MESSAGE'));
-      },
-    );
-
-    test('native forwarder enriches gcm notification keys', () {
-      final String content = messageForwarder.readAsStringSync();
+    test('native messaging service does not copy gcm notification text', () {
+      final String content = messagingService.readAsStringSync();
+      expect(content, contains('handleRemoteMessageIntent'));
       expect(content, contains('gcm.notification.title'));
-      expect(content, contains('gcm.notification.body'));
+      expect(content, isNot(contains('putString("title"')));
+      expect(content, isNot(contains('forwardMessage')));
     });
 
-    test('fcm entrypoint configures background isolate bootstrap', () {
+    test('native receiver forwards data-only messages', () {
+      final File receiver = File(
+        '${projectRoot.path}/android/app/src/fcm/kotlin/com/fluxer/FluxerFirebaseMessagingReceiver.kt',
+      );
+      final String content = receiver.readAsStringSync();
+      expect(content, contains('FlutterFirebaseMessagingBackgroundService'));
+      expect(content, contains('FcmMessagingBridge.EXTRA_REMOTE_MESSAGE'));
+      expect(content, contains('goAsync()'));
+      expect(content, isNot(contains('putString("title"')));
+    });
+
+    test('fcm entrypoint decrypts ciphertext in the background isolate', () {
       final String content = entrypointTemplate.readAsStringSync();
       expect(content, contains('fcmBackgroundMessageHandlerEntry'));
+      expect(content, contains('DartPluginRegistrant.ensureInitialized'));
       expect(content, contains('_configureFcmBootstrap'));
-      expect(content, contains('shouldDisplayBackgroundLocalNotification'));
-      expect(content, contains('cancelFcmSystemDuplicates'));
+      expect(content, contains('FcmCiphertextHooks.onCiphertext'));
+      expect(content, contains('AndroidPushPipeline.handleCiphertext'));
       expect(
         content,
         contains('onBackgroundMessage: fcmBackgroundMessageHandlerEntry'),
+      );
+    });
+
+    test('background handler registers dart plugins before decrypt', () {
+      final File handler = File(
+        '${projectRoot.path}/packages/fluxer_fcm/lib/fcm_background_handler.dart',
+      );
+      final String content = handler.readAsStringSync();
+      expect(content, contains('DartPluginRegistrant.ensureInitialized'));
+      expect(content, contains('extractFcmCiphertext'));
+      expect(content, contains('backgroundMode: true'));
+    });
+
+    test('web push key store does not wipe secrets on android read errors', () {
+      final File keyStore = File(
+        '${projectRoot.path}/lib/core/push/web_push/web_push_key_store.dart',
+      );
+      expect(
+        keyStore.readAsStringSync(),
+        contains('AndroidOptions(resetOnError: false)'),
       );
     });
   });

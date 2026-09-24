@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/gateway/gateway_ready_guild_parser.dart';
 import 'package:fluxer_app/core/gateway/message_mention_context_cache.dart';
 import 'package:fluxer_app/core/gateway/presence_update_batcher.dart';
 import 'package:fluxer_app/core/observability/fluxer_observability.dart';
+import 'package:fluxer_app/core/push/push_notification_clear.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
 import 'package:fluxer_app/features/channels/data/read_state_decisions.dart';
@@ -1245,7 +1246,15 @@ class GatewayEventHandler {
       customStatus: serializeCustomStatus(event.settings.customStatus),
       mobile: isFluxerMobileClient,
     );
-    _emit(() => onUserSettingsHydrate?.call(event.settings));
+    UserSettingsResponse hydrated = event.settings;
+    if (existing != null) {
+      try {
+        hydrated = UserSettingsResponse.fromJson(merged);
+      } on Object {
+        hydrated = event.settings;
+      }
+    }
+    _emit(() => onUserSettingsHydrate?.call(hydrated));
   }
 
   Future<void> _handleUserGuildSettingsUpdate(
@@ -1552,10 +1561,11 @@ class GatewayEventHandler {
             ),
           )
         : null;
+    final db.Channel? resolvedGuildChannel = channelResolution.guildChannel;
     final UserNotificationSettings notificationLevel =
-        channelResolution.isGuild && channelResolution.guildChannel != null
+        channelResolution.isGuild && resolvedGuildChannel != null
         ? resolveMessageNotifications(
-            channel: channelResolution.guildChannel!,
+            channel: resolvedGuildChannel,
             guildSettings: guildSettings,
             guildContext: guildContext,
           )
@@ -1564,9 +1574,9 @@ class GatewayEventHandler {
             channelId: channelId,
           );
     final bool isChannelMuted =
-        channelResolution.isGuild && channelResolution.guildChannel != null
+        channelResolution.isGuild && resolvedGuildChannel != null
         ? isGuildOrCategoryOrChannelMuted(
-            channel: channelResolution.guildChannel!,
+            channel: resolvedGuildChannel,
             guildSettings: guildSettings,
             now: now,
           )
@@ -2469,6 +2479,14 @@ class GatewayEventHandler {
       ReadStateServerAckKind.applyManualAck => true,
       ReadStateServerAckKind.advanceAck => true,
     };
+    if (decision.kind != ReadStateServerAckKind.ignoreStaleVersion) {
+      unawaited(
+        PushNotificationClear.cancelForChannel(
+          event.channelId,
+          upToMessageId: event.messageId,
+        ),
+      );
+    }
     if (!shouldWrite) {
       return;
     }

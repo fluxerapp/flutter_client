@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/api/service_unavailable.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/deep_links/deep_link_handler.dart';
+import 'package:fluxer_app/core/gateway/gateway_presence_coordinator.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/observability/fluxer_observability.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
@@ -20,7 +21,6 @@ import 'package:fluxer_app/core/providers/well_known_provider.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_entrypoint.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_mobile_device_registration.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_notification_tap_binding.dart';
-import 'package:fluxer_app/core/push/fcm/fcm_pending_notification_tap.dart';
 import 'package:fluxer_app/core/push/local_push_notifications.dart';
 import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dart';
 import 'package:fluxer_app/core/push/push_notification_tap_handler.dart';
@@ -74,6 +74,7 @@ void authenticatedSessionBindings(Ref ref) {
     ..read(fluxerMessageSfxBindingProvider)
     ..read(fluxerTtsBindingProvider)
     ..read(voiceCallKitCoordinatorProvider)
+    ..read(gatewayPresenceCoordinatorProvider)
     ..read(friendRelationshipsSyncProvider)
     ..read(guildListSyncProvider)
     ..read(slowmodeSyncProvider)
@@ -143,11 +144,6 @@ class AppStartup extends _$AppStartup {
     ref.read(deepLinkHandlerProvider.notifier).processPendingDeepLink();
     ref.read(pendingPushNotificationPathProvider.notifier).flushIfReady();
     ref.read(pendingHomeQuickActionProvider.notifier).flushIfReady();
-    if (PushProviderGuard.isFirebaseMessaging && Platform.isAndroid) {
-      await FcmPendingNotificationTap.flushToHandler(
-        ref.read(pushNotificationTapHandlerProvider.notifier).handlePayloadJson,
-      );
-    }
   }
 
   Future<void> _validateAndRestore() async {
@@ -171,6 +167,7 @@ class AppStartup extends _$AppStartup {
         debugPrint('[AppStartup] Database obtained, migrating legacy tokens…');
         await authRepository.migrateLegacyTokens();
         await authRepository.pruneTokenlessSessions();
+        await authRepository.persistApiBaseUrls();
       },
     );
     if (!ref.mounted) {

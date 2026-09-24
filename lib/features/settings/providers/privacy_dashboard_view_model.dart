@@ -219,7 +219,9 @@ class PrivacyDashboardViewModel extends _$PrivacyDashboardViewModel {
     try {
       final client = ref.read(fluxerClientProvider);
       await client.users.updateCurrentUserSettings(
-        body: UserSettingsUpdateRequest(profilePrivacy: value),
+        body: UserSettingsUpdateRequest(
+          profilePrivacy: ProfilePrivacyLevelInput.fromJson(value.json ?? 0),
+        ),
       );
     } on Object catch (e, st) {
       talker.error('Failed to update profile privacy', e, st);
@@ -396,30 +398,26 @@ class PrivacyDashboardViewModel extends _$PrivacyDashboardViewModel {
       if (state.isAdult) {
         await client.users.updateCurrentUserSettings(
           body: UserSettingsUpdateRequest(
-            sensitiveContentFriendDmFilter: SensitiveMediaFilterLevel.values
-                .firstWhere(
-                  (level) => level.json == state.effectiveFriendDmFilter,
-                  orElse: () => SensitiveMediaFilterLevel.valueShow,
+            sensitiveContentFriendDmFilter:
+                SensitiveMediaFilterLevelInput.fromJson(
+                  state.effectiveFriendDmFilter,
                 ),
-            sensitiveContentNonFriendDmFilter: SensitiveMediaFilterLevel.values
-                .firstWhere(
-                  (level) => level.json == state.effectiveNonFriendDmFilter,
-                  orElse: () => SensitiveMediaFilterLevel.valueShow,
+            sensitiveContentNonFriendDmFilter:
+                SensitiveMediaFilterLevelInput.fromJson(
+                  state.effectiveNonFriendDmFilter,
                 ),
-            sensitiveContentGuildFilter: SensitiveMediaGuildFilterLevel.values
-                .firstWhere(
-                  (level) => level.json == state.effectiveGuildFilter,
-                  orElse: () => SensitiveMediaGuildFilterLevel.valueShow,
+            sensitiveContentGuildFilter:
+                SensitiveMediaGuildFilterLevelInput.fromJson(
+                  state.effectiveGuildFilter,
                 ),
           ),
         );
       } else {
         await client.users.updateCurrentUserSettings(
           body: UserSettingsUpdateRequest(
-            sensitiveContentFriendDmFilter: SensitiveMediaFilterLevel.values
-                .firstWhere(
-                  (level) => level.json == state.effectiveFriendDmFilter,
-                  orElse: () => SensitiveMediaFilterLevel.blur,
+            sensitiveContentFriendDmFilter:
+                SensitiveMediaFilterLevelInput.fromJson(
+                  state.effectiveFriendDmFilter,
                 ),
           ),
         );

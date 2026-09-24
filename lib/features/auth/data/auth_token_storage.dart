@@ -1,11 +1,19 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 const String _kAuthTokenKeyPrefix = 'auth_token_';
+const String _kAuthApiBaseKeyPrefix = 'auth_api_base_';
 
 abstract interface class AuthTokenStorage {
   Future<void> saveToken({required String userId, required String token});
 
   Future<String?> readToken(String userId);
+
+  Future<void> saveApiBaseUrl({
+    required String userId,
+    required String apiBaseUrl,
+  });
+
+  Future<String?> readApiBaseUrl(String userId);
 
   Future<void> deleteToken(String userId);
 
@@ -29,6 +37,8 @@ class SecureAuthTokenStorage implements AuthTokenStorage {
 
   String _keyFor(String userId) => '$_kAuthTokenKeyPrefix$userId';
 
+  String _apiBaseKeyFor(String userId) => '$_kAuthApiBaseKeyPrefix$userId';
+
   @override
   Future<void> saveToken({
     required String userId,
@@ -43,8 +53,22 @@ class SecureAuthTokenStorage implements AuthTokenStorage {
   }
 
   @override
-  Future<void> deleteToken(String userId) {
-    return _storage.delete(key: _keyFor(userId));
+  Future<void> saveApiBaseUrl({
+    required String userId,
+    required String apiBaseUrl,
+  }) {
+    return _storage.write(key: _apiBaseKeyFor(userId), value: apiBaseUrl);
+  }
+
+  @override
+  Future<String?> readApiBaseUrl(String userId) {
+    return _storage.read(key: _apiBaseKeyFor(userId));
+  }
+
+  @override
+  Future<void> deleteToken(String userId) async {
+    await _storage.delete(key: _keyFor(userId));
+    await _storage.delete(key: _apiBaseKeyFor(userId));
   }
 
   @override
@@ -55,6 +79,7 @@ class SecureAuthTokenStorage implements AuthTokenStorage {
 
 class MapAuthTokenStorage implements AuthTokenStorage {
   final Map<String, String> tokens = <String, String>{};
+  final Map<String, String> apiBaseUrls = <String, String>{};
 
   @override
   Future<void> saveToken({
@@ -70,12 +95,27 @@ class MapAuthTokenStorage implements AuthTokenStorage {
   }
 
   @override
+  Future<void> saveApiBaseUrl({
+    required String userId,
+    required String apiBaseUrl,
+  }) async {
+    apiBaseUrls[userId] = apiBaseUrl;
+  }
+
+  @override
+  Future<String?> readApiBaseUrl(String userId) async {
+    return apiBaseUrls[userId];
+  }
+
+  @override
   Future<void> deleteToken(String userId) async {
     tokens.remove(userId);
+    apiBaseUrls.remove(userId);
   }
 
   @override
   Future<void> deleteAllTokens() async {
     tokens.clear();
+    apiBaseUrls.clear();
   }
 }

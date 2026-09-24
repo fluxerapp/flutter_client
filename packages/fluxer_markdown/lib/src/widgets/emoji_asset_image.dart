@@ -4,12 +4,14 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_markdown/src/utils/emoji_asset_cache.dart';
 import 'package:fluxer_markdown/src/utils/emoji_asset_format.dart';
+import 'package:fluxer_markdown/src/widgets/emoji_asset_image_provider.dart';
 
 class EmojiAssetImage extends StatelessWidget {
   const EmojiAssetImage({
     required this.bytes,
     required this.size,
     required this.fallback,
+    this.url,
     super.key,
   });
 
@@ -17,11 +19,25 @@ class EmojiAssetImage extends StatelessWidget {
   final double size;
   final Widget fallback;
 
+  /// Source url of [bytes]. When set, raster assets decode through
+  /// [EmojiAssetImageProvider] so identical emoji at one size share a decode.
+  final String? url;
+
   @override
   Widget build(BuildContext context) {
     if (isWebpEmojiAsset(bytes)) {
-      return Image.memory(
-        bytes,
+      final String? source = url;
+      if (source == null) {
+        return Image.memory(
+          bytes,
+          width: size,
+          height: size,
+          filterQuality: FilterQuality.high,
+          errorBuilder: (_, _, _) => fallback,
+        );
+      }
+      return Image(
+        image: EmojiAssetImageProvider(url: source, size: size, bytes: bytes),
         width: size,
         height: size,
         filterQuality: FilterQuality.high,
@@ -91,6 +107,7 @@ class _CachedEmojiAssetImageState extends State<CachedEmojiAssetImage> {
             bytes: snapshot.data!,
             size: widget.size,
             fallback: widget.fallback,
+            url: widget.url,
           );
         },
       ),

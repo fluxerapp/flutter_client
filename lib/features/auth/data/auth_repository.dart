@@ -301,13 +301,15 @@ class AuthRepository {
     String? discriminator,
     String? avatar,
   }) async {
+    final InstanceConfigSnapshot snapshot = _readInstanceSnapshot();
     await _tokenStorage.saveToken(userId: session.userId, token: session.token);
+    await _persistApiBaseUrl(session.userId, snapshot.apiBaseUrl);
     await _db.authSessionDao.saveSessionMetadata(
       userId: session.userId,
       username: username,
       discriminator: discriminator,
       avatar: avatar,
-      instanceSnapshotJson: _readInstanceSnapshot().toJson(),
+      instanceSnapshotJson: snapshot.toJson(),
     );
   }
 
@@ -334,6 +336,39 @@ class AuthRepository {
       avatar: row.avatar,
       instanceSnapshotJson: snapshot.toJson(),
     );
+    await _persistApiBaseUrl(row.userId, snapshot.apiBaseUrl);
+  }
+
+  Future<void> persistApiBaseUrls() async {
+    final sessions = await _db.authSessionDao.getAllSessions();
+    for (final session in sessions) {
+      try {
+        await _persistApiBaseUrlForUser(session.userId);
+      } on Object {
+        // Bad snapshot json should not block startup.
+      }
+    }
+  }
+
+  Future<void> _persistApiBaseUrlForUser(String userId) async {
+    final String? token = await _tokenStorage.readToken(userId);
+    if (token == null || token.isEmpty) {
+      return;
+    }
+    final InstanceConfigSnapshot snapshot =
+        await resolveInstanceSnapshotForUser(userId);
+    await _persistApiBaseUrl(userId, snapshot.apiBaseUrl);
+  }
+
+  Future<void> _persistApiBaseUrl(String userId, String apiBaseUrl) async {
+    if (apiBaseUrl.isEmpty) {
+      return;
+    }
+    final String? existing = await _tokenStorage.readApiBaseUrl(userId);
+    if (existing == apiBaseUrl) {
+      return;
+    }
+    await _tokenStorage.saveApiBaseUrl(userId: userId, apiBaseUrl: apiBaseUrl);
   }
 
   Future<InstanceConfigSnapshot> resolveInstanceSnapshotForUser(

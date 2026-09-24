@@ -81,6 +81,10 @@
 	<string>Save images and videos to your photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Share photos from your library in a chat.</string>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>INSendMessageIntent</string>
+	</array>
 	<key>RTCAppGroupIdentifier</key>
 	<string>group.com.fluxer</string>
 	<key>RTCScreenSharingExtension</key>

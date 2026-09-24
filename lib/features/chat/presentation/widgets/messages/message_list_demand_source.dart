@@ -93,6 +93,10 @@ class MessageListDemandSource {
     required bool hasMoreOlder,
     required bool hasMoreNewer,
     required ContextToken context,
+    // True while an installed older page is still being handed to the
+    // sliver: the loaded edge is real, but asking for the next page before
+    // this one is reachable would fetch a page per frame.
+    bool olderInstallPending = false,
   }) {
     if (context != _context) {
       _context = context;
@@ -113,6 +117,7 @@ class MessageListDemandSource {
       distance: distanceToOlderEdge,
       viewportHeight: viewportHeight,
       hasMore: hasMoreOlder,
+      suppressed: olderInstallPending,
       extentChanged: extentChanged,
     );
     _sampleEdge(
@@ -121,6 +126,7 @@ class MessageListDemandSource {
       distance: distanceToNewerEdge,
       viewportHeight: viewportHeight,
       hasMore: hasMoreNewer,
+      suppressed: false,
       extentChanged: extentChanged,
     );
   }
@@ -131,6 +137,7 @@ class MessageListDemandSource {
     required double distance,
     required double viewportHeight,
     required bool hasMore,
+    required bool suppressed,
     required bool extentChanged,
   }) {
     // Each edge gets ONLY its own lookahead: a fling toward older must not
@@ -138,7 +145,7 @@ class MessageListDemandSource {
     final double lookahead = (_approachVelocity(edge) * _kLookaheadSeconds)
         .clamp(0.0, viewportHeight * _kLookaheadMaxViewports);
     final bool nextActive;
-    if (!hasMore) {
+    if (!hasMore || suppressed) {
       nextActive = false;
     } else if (state.active) {
       nextActive =

@@ -268,8 +268,10 @@ class _GuildModerationWidgetState extends ConsumerState<GuildModerationWidget> {
           currentUserId != null &&
           currentUserId == widget.details.guild.ownerId;
       final GuildUpdateRequest request = GuildUpdateRequest(
-        verificationLevel: GuildVerificationLevel.fromJson(_verificationLevel),
-        explicitContentFilter: GuildExplicitContentFilter.fromJson(
+        verificationLevel: GuildVerificationLevelInput.fromJson(
+          _verificationLevel,
+        ),
+        explicitContentFilter: GuildExplicitContentFilterInput.fromJson(
           _explicitContentFilter,
         ),
         nsfw: _nsfw,
@@ -280,7 +282,7 @@ class _GuildModerationWidgetState extends ConsumerState<GuildModerationWidget> {
             ? _warningTextController.text.trim()
             : '',
         mfaLevel: isGuildOwner && _mfaLevel != widget.details.mfaLevel
-            ? GuildMfaLevel.fromJson(_mfaLevel)
+            ? GuildMfaLevelInput.fromJson(_mfaLevel)
             : null,
       );
       await ref

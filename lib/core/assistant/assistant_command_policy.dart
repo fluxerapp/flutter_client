@@ -100,7 +100,7 @@ AssistantCommandGate gateAssistantCommand({
       return AssistantCommandGate.notFound;
     }
   } else if (command is PresenceSetStatusCommand) {
-    if (command.status != 'online' && command.status != 'dnd') {
+    if (!_settablePresenceStatuses.contains(command.status)) {
       return AssistantCommandGate.failed;
     }
   }
@@ -122,6 +122,13 @@ AssistantCommandStatus statusForAssistantGate(AssistantCommandGate gate) {
     AssistantCommandGate.failed => AssistantCommandStatus.failed,
   };
 }
+
+const Set<String> _settablePresenceStatuses = <String>{
+  'online',
+  'idle',
+  'dnd',
+  'invisible',
+};
 
 bool _hasFriend(String? friendId) {
   return friendId != null && friendId.trim().isNotEmpty;

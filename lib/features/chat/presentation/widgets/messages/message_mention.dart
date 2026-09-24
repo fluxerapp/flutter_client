@@ -678,6 +678,8 @@ class _GuildIcon extends StatelessWidget {
           width: size,
           height: size,
           fit: BoxFit.cover,
+          fadeInDuration: Duration.zero,
+          fadeOutDuration: Duration.zero,
           errorBuilder: (_, _, _) => _GuildInitials(guild: guild, size: size),
         ),
       );

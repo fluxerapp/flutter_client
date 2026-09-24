@@ -422,6 +422,8 @@ Widget buildFluxerNetworkAvatarImage({
       // Skip resize on animated frames; ResizeImage freezes multi-frame decode.
       memCacheWidth: animated ? null : (size * devicePixelRatio).round(),
       fit: BoxFit.cover,
+      fadeInDuration: Duration.zero,
+      fadeOutDuration: Duration.zero,
       errorBuilder: (_, _, _) => onError(),
     );
     if (animated) {

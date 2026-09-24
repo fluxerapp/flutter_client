@@ -6893,6 +6893,12 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get chatMessageReply => 'ตอบกลับ';
 
   @override
+  String get notificationReplyPlaceholder => 'Message';
+
+  @override
+  String get notificationReplyFailed => 'Couldn\'t send reply';
+
+  @override
   String get chatMessageForward => 'ส่งต่อ';
 
   @override

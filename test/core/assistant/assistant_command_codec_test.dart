@@ -13,6 +13,7 @@ void main() {
         VoiceJoinCommand(channelId: 'vc-1', guildId: 'g-1'),
         VoiceStartDmCallCommand(friendId: 'u-1'),
         PresenceSetStatusCommand(status: 'dnd'),
+        PresenceSetStatusCommand(status: 'idle'),
         PresenceSetCustomStatusCommand(text: 'in a meeting'),
         PresenceSetCustomStatusCommand(),
         OpenDmsCommand(),

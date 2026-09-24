@@ -33,22 +33,13 @@ struct AssistantAppShortcuts: AppShortcutsProvider {
       systemImageName: "phone.down"
     )
     AppShortcut(
-      intent: SetOnlineIntent(),
+      intent: SetPresenceStatusIntent(),
       phrases: [
-        "Go online on \(.applicationName)",
-        "Set status to online in \(.applicationName)",
+        "Set status to \(\.$status) in \(.applicationName)",
+        "Set my status to \(\.$status) on \(.applicationName)",
       ],
-      shortTitle: "Set Online",
+      shortTitle: "Set Status",
       systemImageName: "circle.fill"
-    )
-    AppShortcut(
-      intent: SetDoNotDisturbIntent(),
-      phrases: [
-        "Set Do Not Disturb in \(.applicationName)",
-        "Do not disturb on \(.applicationName)",
-      ],
-      shortTitle: "Do Not Disturb",
-      systemImageName: "moon.fill"
     )
     AppShortcut(
       intent: OpenDmsIntent(),

@@ -1,36 +1,38 @@
 import AppIntents
 import Foundation
 
-struct SetOnlineIntent: AppIntent {
-  static var title: LocalizedStringResource = "Set Online"
-  static var description = IntentDescription("Set your Fluxer status to Online.")
-  static var openAppWhenRun = false
+enum PresenceStatusOption: String, AppEnum {
+  case online
+  case idle
+  case dnd
+  case invisible
 
-  static var parameterSummary: some ParameterSummary {
-    Summary("Set Online")
-  }
+  static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Status")
 
-  func perform() async throws -> some IntentResult & ProvidesDialog {
-    .result(dialog: await AssistantCommandRunner.speak([
-      "type": "presenceSetStatus",
-      "status": "online",
-    ]))
-  }
+  static var caseDisplayRepresentations: [PresenceStatusOption: DisplayRepresentation] = [
+    .online: "Online",
+    .idle: "Idle",
+    .dnd: DisplayRepresentation(title: "Do Not Disturb", synonyms: ["DND", "busy"]),
+    .invisible: "Invisible",
+  ]
 }
 
-struct SetDoNotDisturbIntent: AppIntent {
-  static var title: LocalizedStringResource = "Set Do Not Disturb"
-  static var description = IntentDescription("Set your Fluxer status to Do Not Disturb.")
+struct SetPresenceStatusIntent: AppIntent {
+  static var title: LocalizedStringResource = "Set Status"
+  static var description = IntentDescription("Set your Fluxer status.")
   static var openAppWhenRun = false
 
+  @Parameter(title: "Status", requestValueDialog: IntentDialog("Which status?"))
+  var status: PresenceStatusOption
+
   static var parameterSummary: some ParameterSummary {
-    Summary("Set Do Not Disturb")
+    Summary("Set status to \(\.$status)")
   }
 
   func perform() async throws -> some IntentResult & ProvidesDialog {
     .result(dialog: await AssistantCommandRunner.speak([
       "type": "presenceSetStatus",
-      "status": "dnd",
+      "status": status.rawValue,
     ]))
   }
 }

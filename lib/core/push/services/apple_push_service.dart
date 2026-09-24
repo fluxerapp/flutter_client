@@ -2,13 +2,18 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:fluxer_app/core/push/local_push_notifications.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
 import 'package:fluxer_app/core/push/push_notification_permission.dart';
+import 'package:fluxer_app/core/push/push_notification_reply.dart';
 import 'package:fluxer_app/core/push/push_service.dart';
 
 class ApplePushService implements PushService {
   const ApplePushService();
   static const MethodChannel _channel = MethodChannel('fluxer_app/apple_push');
+  static bool _replyHandlerInstalled = false;
+  static bool _replyReadyAnnounced = false;
+  static Future<void>? _replyInstall;
   static const EventChannel _messageChannel = EventChannel(
     'fluxer_app/apple_push/messages',
   );
@@ -27,11 +32,71 @@ class ApplePushService implements PushService {
     await requestPushNotificationPermission();
   }
 
+  static Future<void> installReplyHandler() {
+    if (!_shouldUseNativeChannel() || _replyReadyAnnounced) {
+      return Future<void>.value();
+    }
+    return _replyInstall ??= _announceReplyHandler().whenComplete(() {
+      _replyInstall = null;
+    });
+  }
+
+  static Future<void> _announceReplyHandler() async {
+    if (!_replyHandlerInstalled) {
+      _replyHandlerInstalled = true;
+      _channel.setMethodCallHandler(_onReplyCall);
+    }
+    for (var attempt = 0; attempt < 25; attempt++) {
+      try {
+        await _channel.invokeMethod<void>('replyHandlerReady');
+        _replyReadyAnnounced = true;
+        return;
+      } on MissingPluginException {
+        await Future<void>.delayed(const Duration(milliseconds: 200));
+      } on PlatformException catch (error) {
+        if (error.code != 'notImplemented') {
+          return;
+        }
+        await Future<void>.delayed(const Duration(milliseconds: 200));
+      }
+    }
+  }
+
+  static Future<void> _onReplyCall(MethodCall call) async {
+    if (call.method != 'sendNotificationReply') {
+      return;
+    }
+    final Object? arguments = call.arguments;
+    if (arguments is! Map) {
+      return;
+    }
+    final String? text = arguments['text']?.toString();
+    final Object? rawPayload = arguments['payload'];
+    final Map<String, String> payload = <String, String>{};
+    if (rawPayload is Map) {
+      for (final MapEntry<Object?, Object?> entry in rawPayload.entries) {
+        final String? value = entry.value?.toString();
+        if (value == null || value.isEmpty) {
+          continue;
+        }
+        payload[entry.key.toString()] = value;
+      }
+    }
+    final PushReplyResult result = await sendPushNotificationReply(
+      payload: payload,
+      text: text,
+    );
+    if (result == PushReplyResult.failed) {
+      await LocalPushNotifications().showReplyFailed();
+    }
+  }
+
   @override
   Future<void> initialize() async {
     if (!_shouldUseNativeChannel()) {
       return;
     }
+    unawaited(installReplyHandler());
     try {
       await _channel.invokeMethod<Object?>('registerRemoteNotifications');
     } on MissingPluginException {

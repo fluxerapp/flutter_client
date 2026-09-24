@@ -37,7 +37,6 @@ void main() {
       tester,
       reportKey: 'guild_navbar_scroll',
       scrollTarget: findPrimaryScrollable(),
-      flingCount: 8,
     );
-  });
+  }, semanticsEnabled: false);
 }

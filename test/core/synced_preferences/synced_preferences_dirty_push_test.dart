@@ -186,4 +186,34 @@ void main() {
     );
     expect(pushedFolderChunks, folderChunks);
   });
+
+  test('empty synced_preferences after hydrate does not push', () async {
+    final database = openTestDatabase();
+    final usersApi = _FakeUsersApi();
+    addTearDown(database.close);
+
+    final container = ProviderContainer(
+      overrides: [
+        fluxerDatabaseProvider.overrideWithValue(database),
+        fluxerClientProvider.overrideWithValue(_FakeClient(usersApi)),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    final store = container.read(syncedPreferencesStoreProvider);
+    await store.hydrateFromUserSettings(
+      _testUserSettings(
+        syncedPreferences: _wireWithGuildFoldersAndSound(
+          folderIds: {42},
+          masterVolume: 50,
+        ),
+      ),
+    );
+    await store.hydrateFromUserSettings(
+      _testUserSettings(syncedPreferences: ''),
+    );
+
+    expect(store.hasDebouncedPushScheduledForTest, isFalse);
+    expect(usersApi.pushCount, 0);
+  });
 }

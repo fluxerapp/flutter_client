@@ -19,7 +19,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/chat_loading_spinner.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_placeholder_specs.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_skeleton.dart';
 import 'package:fluxer_app/features/chat/utils/chat_spinner_debug.dart';
 import 'package:fluxer_app/features/chat/utils/messages/channel_message_stream.dart';
@@ -59,11 +58,12 @@ class MessageListViewport extends StatelessWidget {
     required this.isLoadingMore,
     required this.isLoadingNewer,
     required this.trailingInset,
+    this.withheldLeadingCount = 0,
     this.leadingPad = 0,
     this.liveLeadingPad,
     this.startOfChannelHeader,
-    this.leadingFillerSpecs,
-    this.trailingFillerSpecs,
+    this.leadingFiller,
+    this.trailingFiller,
     super.key,
   });
 
@@ -99,6 +99,11 @@ class MessageListViewport extends StatelessWidget {
   childIndexForKey;
 
   final double scrollCacheExtentPixels;
+
+  /// Older rows installed but withheld from the leading sliver, so a page is
+  /// attached over several frames. The anchor split is unaffected.
+  final int withheldLeadingCount;
+
   final bool Function(ScrollNotification notification) onScrollNotification;
   final bool Function(ScrollMetricsNotification notification)
   onScrollMetricsNotification;
@@ -128,12 +133,12 @@ class MessageListViewport extends StatelessWidget {
   /// before [trailingInset]. Null once that edge is loaded. Every
   /// "distance to the loaded tail" the host derives from
   /// [ScrollMetrics.maxScrollExtent] subtracts [trailingFillerExtent].
-  final MessageListPlaceholderSpecs? leadingFillerSpecs;
-  final MessageListPlaceholderSpecs? trailingFillerSpecs;
+  final MessageListEdgeFiller? leadingFiller;
+  final MessageListEdgeFiller? trailingFiller;
 
   /// Extent each filler adds beyond the loaded rows.
-  double get leadingFillerExtent => leadingFillerSpecs?.totalHeight ?? 0;
-  double get trailingFillerExtent => trailingFillerSpecs?.totalHeight ?? 0;
+  double get leadingFillerExtent => leadingFiller?.specs.totalHeight ?? 0;
+  double get trailingFillerExtent => trailingFiller?.specs.totalHeight ?? 0;
 
   @override
   Widget build(BuildContext context) {
@@ -202,20 +207,20 @@ class MessageListViewport extends StatelessWidget {
     required int splitIndex,
     required double effectiveAnchor,
   }) {
+    // A page install attaches every older row inside the scroll cache in one
+    // frame: 32 rows measured at 84 ms on a Motorola g54. Withholding rows
+    // spreads that attach across frames.
+    final int leadingCount = withheldLeadingCount >= splitIndex
+        ? 0
+        : splitIndex - withheldLeadingCount;
     return CustomScrollView(
+      key: const ValueKey<String>('message-list'),
       controller: controller,
       center: centerKey,
       anchor: effectiveAnchor,
       scrollCacheExtent: ScrollCacheExtent.pixels(scrollCacheExtentPixels),
       slivers: [
-        if (leadingFillerSpecs != null)
-          SliverToBoxAdapter(
-            child: MessageListEdgeFiller(
-              key: const ValueKey<String>('edge-filler-older'),
-              specs: leadingFillerSpecs!,
-              alignment: Alignment.bottomCenter,
-            ),
-          ),
+        if (leadingFiller != null) SliverToBoxAdapter(child: leadingFiller),
         if (startOfChannelHeader != null)
           SliverToBoxAdapter(child: startOfChannelHeader),
         if (liveLeadingPad != null)
@@ -235,9 +240,13 @@ class MessageListViewport extends StatelessWidget {
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) =>
                   itemBuilder(context, splitIndex - 1 - index),
-              childCount: splitIndex,
-              findChildIndexCallback: (Key key) =>
-                  childIndexForKey(key, 0, splitIndex, reverse: true),
+              childCount: leadingCount,
+              findChildIndexCallback: (Key key) => childIndexForKey(
+                key,
+                splitIndex - leadingCount,
+                splitIndex,
+                reverse: true,
+              ),
             ),
           ),
         ),
@@ -255,14 +264,7 @@ class MessageListViewport extends StatelessWidget {
             ),
           ),
         ),
-        if (trailingFillerSpecs != null)
-          SliverToBoxAdapter(
-            child: MessageListEdgeFiller(
-              key: const ValueKey<String>('edge-filler-newer'),
-              specs: trailingFillerSpecs!,
-              alignment: Alignment.topCenter,
-            ),
-          ),
+        if (trailingFiller != null) SliverToBoxAdapter(child: trailingFiller),
         SliverToBoxAdapter(child: SizedBox(height: trailingInset)),
       ],
     );

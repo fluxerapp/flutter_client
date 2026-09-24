@@ -1,40 +1,31 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
-import 'package:fluxer_app/core/push/fcm/fcm_android_system_notification_cancel_bridge.dart';
-import 'package:fluxer_app/core/push/fcm/fcm_background_handler_policy.dart';
-import 'package:fluxer_app/core/push/fcm/fcm_pending_notification_tap.dart';
-import 'package:fluxer_app/core/push/fcm/fcm_tap_payload_cache.dart';
-import 'package:fluxer_app/core/push/push_notification_clear.dart';
+import 'package:fluxer_app/core/push/android/android_push_pipeline.dart';
 import 'package:fluxer_fcm/fcm_background_handler.dart';
-import 'package:fluxer_fcm/fcm_notification_clear_hooks.dart';
-import 'package:fluxer_fcm/fcm_push_message.dart';
+import 'package:fluxer_fcm/fcm_ciphertext_hooks.dart';
 import 'package:fluxer_fcm/fluxer_fcm_bootstrap.dart';
 
 @pragma('vm:entry-point')
 Future<void> fcmBackgroundMessageHandlerEntry(RemoteMessage message) async {
+  WidgetsFlutterBinding.ensureInitialized();
+  DartPluginRegistrant.ensureInitialized();
   _configureFcmBootstrap();
   await fcmBackgroundMessageHandler(message);
 }
 
 void _configureFcmBootstrap() {
-  FluxerFcmBootstrap.configure(
-    enrichTapPayload: FcmTapPayloadCache.enrich,
-    shouldSaveTapPayloadCache: shouldSaveFcmTapPayloadCache,
-    saveTapPayloadCache: FcmTapPayloadCache.save,
-    onBackgroundNotificationTap: FcmPendingNotificationTap.save,
-    cancelFcmSystemDuplicates:
-        FcmAndroidSystemNotificationCancelBridge.cancelFcmSystemDuplicates,
-    shouldDisplayBackgroundLocalNotification: _shouldDisplayBackgroundLocal,
-  );
-  FcmNotificationClearHooks.onClear =
-      PushNotificationClear.handleBackgroundClearPayload;
-}
-
-bool _shouldDisplayBackgroundLocal(FcmPushMessage message) {
-  return shouldSaveFcmTapPayloadCache(message.payload);
+  FcmCiphertextHooks.onCiphertext =
+      ({required String ciphertextBase64, required bool backgroundMode}) async {
+        await AndroidPushPipeline.handleCiphertext(
+          ciphertextBase64: ciphertextBase64,
+          backgroundMode: backgroundMode,
+        );
+      };
 }
 
 Future<void> bootstrapFcmIfNeeded() async {

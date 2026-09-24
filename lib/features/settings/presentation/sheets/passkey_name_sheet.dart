@@ -108,7 +108,7 @@ class _PasskeyNameSheetState extends ConsumerState<PasskeyNameSheet> {
           '/users/@me/mfa/webauthn/credentials/registration-options',
           data: <String, dynamic>{},
         );
-        final options = optionsRes.data!;
+        final Map<String, dynamic> options = optionsRes.data!;
         final ceremony = await WebAuthnService(
           PasskeyAuthenticator(),
         ).register(options);

@@ -6893,6 +6893,12 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get chatMessageReply => 'رد';
 
   @override
+  String get notificationReplyPlaceholder => 'Message';
+
+  @override
+  String get notificationReplyFailed => 'Couldn\'t send reply';
+
+  @override
   String get chatMessageForward => 'إعادة توجيه';
 
   @override

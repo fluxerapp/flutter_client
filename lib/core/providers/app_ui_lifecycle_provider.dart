@@ -37,7 +37,7 @@ class AppUiForeground extends _$AppUiForeground {
   }
 
   // Keep the notifier API stable for tests and lifecycle call sites.
-  // ignore: use_setters_to_change_properties, avoid_positional_boolean_parameters
+  // ignore: avoid_positional_boolean_parameters
   void setResumed(bool value) {
     state = value;
   }

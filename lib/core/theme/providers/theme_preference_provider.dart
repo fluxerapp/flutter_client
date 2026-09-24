@@ -328,7 +328,7 @@ class ThemePreference extends _$ThemePreference {
         if (settings == null || _userId == null || currentUserId != _userId) {
           return;
         }
-        unawaited(_applyRemoteUserSettings(settings));
+        unawaited(applyServerSettings(settings));
       },
     );
     return ThemePreferenceState();

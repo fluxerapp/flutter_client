@@ -1,0 +1,115 @@
+import 'dart:convert';
+
+import 'package:fluxer_app/core/push/push_message.dart';
+import 'package:fluxer_app/core/push/push_notification_payload.dart';
+
+const String kWebPushDefaultTitle = 'Fluxer';
+
+const String kWebPushDefaultBody = 'New message';
+
+const Set<String> _kPayloadSkipKeys = <String>{'title', 'body', 'aps', 'data'};
+
+PushMessage mapWebPushEnvelope(String raw, {required String fallbackId}) {
+  final Object? decoded = _tryJsonDecode(raw);
+  if (decoded is Map<String, Object?>) {
+    return _mapJsonPayload(decoded, fallbackId);
+  }
+  if (decoded is Map) {
+    return _mapJsonPayload(Map<String, Object?>.from(decoded), fallbackId);
+  }
+  return PushMessage(
+    id: fallbackId,
+    title: kWebPushDefaultTitle,
+    body: raw.isEmpty ? kWebPushDefaultBody : raw,
+    payload: const <String, String>{},
+  );
+}
+
+Object? _tryJsonDecode(String raw) {
+  try {
+    return jsonDecode(raw);
+  } on FormatException {
+    return null;
+  }
+}
+
+PushMessage _mapJsonPayload(Map<String, Object?> json, String fallbackId) {
+  final Map<String, Object?> data = _readObjectMap(json['data']);
+  final Map<String, Object?> notification = _readObjectMap(
+    json['notification'],
+  );
+  final Map<String, Object?> notificationData = _readObjectMap(
+    notification['data'],
+  );
+  final String? title =
+      _readStringFromMap(json, 'title') ??
+      _readStringFromMap(notification, 'title');
+  final String? body =
+      _readStringFromMap(json, 'body') ??
+      _readStringFromMap(notification, 'body');
+  final String id =
+      _readStringFromMap(json, 'id') ??
+      _readStringFromMap(json, 'message_id') ??
+      _readStringFromMap(data, 'message_id') ??
+      _readStringFromMap(notificationData, 'message_id') ??
+      fallbackId;
+  final Map<String, String> payload = <String, String>{};
+  _mergeIntoPayload(payload, json);
+  _mergeIntoPayload(payload, notification);
+  _mergeIntoPayload(payload, data);
+  _mergeIntoPayload(payload, notificationData);
+  final String? url =
+      _readStringFromMap(data, 'url') ??
+      _readStringFromMap(notificationData, 'url') ??
+      _readStringFromMap(notification, 'navigate');
+  if (url != null) {
+    payload['url'] = url;
+  }
+  return PushMessage(
+    id: id,
+    title: title ?? kWebPushDefaultTitle,
+    body: body ?? kWebPushDefaultBody,
+    payload: enrichPushPayload(payload),
+  );
+}
+
+Map<String, Object?> _readObjectMap(Object? value) {
+  if (value is Map<String, Object?>) {
+    return value;
+  }
+  if (value is Map) {
+    return Map<String, Object?>.from(value);
+  }
+  return const <String, Object?>{};
+}
+
+void _mergeIntoPayload(
+  Map<String, String> payload,
+  Map<String, Object?> source,
+) {
+  for (final MapEntry<String, Object?> entry in source.entries) {
+    if (_kPayloadSkipKeys.contains(entry.key)) {
+      continue;
+    }
+    final Object? value = entry.value;
+    if (value == null) {
+      continue;
+    }
+    if (value is Map || value is List) {
+      payload[entry.key] = jsonEncode(value);
+    } else {
+      payload[entry.key] = value.toString();
+    }
+  }
+}
+
+String? _readStringFromMap(Map<String, Object?> json, String key) {
+  final Object? value = json[key];
+  if (value is String && value.isNotEmpty) {
+    return value;
+  }
+  if (value is num) {
+    return value.toString();
+  }
+  return null;
+}

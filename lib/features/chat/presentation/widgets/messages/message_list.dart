@@ -114,6 +114,10 @@ const _kUnreadDividerHeight = 16.0;
 const _kUnreadDateDividerHeight = 20.0;
 const _kMessageListScrollCacheExtent = 1200.0;
 const _kMessageListCompactScrollCacheExtent = 400.0;
+// Older rows handed to the sliver per frame while revealing an installed
+// page. At 2 rows the worst build frame over a fling measures 25 ms on a
+// Motorola g54, against 55 ms when the page attaches at once.
+const _kOlderRevealRowsPerFrame = 2;
 
 const double _kMessageListStatusOverlayInsetMobile =
     WideComposerLayout.mobileMessageListTrailingInset;
@@ -215,6 +219,12 @@ class _MessageListState extends ConsumerState<MessageList> {
   MessageListAnchorEdge _anchorEdge = MessageListAnchorEdge.after;
   int _anchorEpoch = 0;
   bool _anchorResolved = false;
+  // Counted in stream items, not messages: collapsed groups fold many
+  // messages into one item, so a message count would withhold visible rows.
+  int _pendingOlderReveal = 0;
+  bool _olderRevealScheduled = false;
+  String? _olderRevealBoundaryId;
+  List<ChannelStreamItem> _builtStream = const <ChannelStreamItem>[];
   // True while the open anchor is the unread divider; underfill must not
   // bottom-pin short trailing blocks.
   bool _unreadOpenLayout = false;
@@ -267,6 +277,12 @@ class _MessageListState extends ConsumerState<MessageList> {
   // the reader approaches real history, not when they run out of filler.
   double _leadingFillerExtent = 0;
   double _trailingFillerExtent = 0;
+  MessageListEdgeFiller? _leadingFiller;
+  MessageListEdgeFiller? _trailingFiller;
+  String? _fillerChannelId;
+  bool? _fillerCompact;
+  double? _fillerGroupSpacing;
+  double? _fillerFontSize;
   // Stays true after a user-driven leave of the 8px engage zone until the
   // reader returns to the tail or an explicit jump/send re-engages it.
   // Survives ScrollEnd (including ballistic) so onUserScrollEnd's 64px hold
@@ -425,6 +441,10 @@ class _MessageListState extends ConsumerState<MessageList> {
             // reinstalls - invalidates deferred scroll effects scheduled
             // against the window it replaced.
             _uiEpoch++;
+            _exposeOlderRowsNow();
+          }
+          if (origin == MessagesOrigin.olderPage) {
+            _beginOlderReveal(previous);
           }
           if (origin == MessagesOrigin.olderPage ||
               origin == MessagesOrigin.newerPage) {
@@ -612,6 +632,26 @@ class _MessageListState extends ConsumerState<MessageList> {
       currentUserId: currentUserId,
       blockedUserIds: blockedUserIds,
     );
+    final String? revealBoundaryId = _olderRevealBoundaryId;
+    if (revealBoundaryId != null) {
+      _olderRevealBoundaryId = null;
+      final int? before = findChannelStreamDataIndex(
+        _builtStream,
+        revealBoundaryId,
+      );
+      final int? after = findChannelStreamDataIndex(
+        channelStream,
+        revealBoundaryId,
+      );
+      final int addedItems = before == null || after == null
+          ? 0
+          : after - before;
+      if (addedItems > _kOlderRevealRowsPerFrame) {
+        _pendingOlderReveal = addedItems;
+        _scheduleOlderReveal();
+      }
+    }
+    _builtStream = channelStream;
     final bool hasJumpTarget =
         widget.targetMessageId != null || _pendingScrollTarget != null;
     if (!_anchorResolved && (!isLoading || messages.isNotEmpty)) {
@@ -641,6 +681,7 @@ class _MessageListState extends ConsumerState<MessageList> {
         _anchorResolved = true;
         _anchorEpoch++;
         _pin.pinned = false;
+        _exposeOlderRowsNow();
         _followDisarmed = false;
         if (canAnchorUnread) {
           // Unread open: the split falls BEFORE the first unread's stream
@@ -765,6 +806,7 @@ class _MessageListState extends ConsumerState<MessageList> {
         _anchorEdge = MessageListAnchorEdge.before;
         _anchorEpoch++;
         _uiEpoch++;
+        _exposeOlderRowsNow();
         _demandSource.resetApproachVelocity();
         _scheduleAnchorCenterCorrection(scrollId);
         _scheduleUnderfillBottomReanchor();
@@ -909,20 +951,20 @@ class _MessageListState extends ConsumerState<MessageList> {
                     )
                     .map((ChannelStreamItem item) => 'group-${item.groupKey}'),
               });
-              MessageListPlaceholderSpecs fillerSpecs(String edge) =>
-                  buildMessageListPlaceholderSpecs(
-                    seedKey: '$channelId|$edge',
-                    compact: messageRenderSettings.messageDisplayCompact,
-                    groupSpacing: messageRenderSettings.messageGroupSpacing,
-                    fontSize: chatFontSize.toDouble(),
-                  );
-              final MessageListPlaceholderSpecs? leadingSpecs = hasMoreMessages
-                  ? fillerSpecs('older')
+              _refreshFillers(
+                channelId: channelId,
+                compact: messageRenderSettings.messageDisplayCompact,
+                groupSpacing: messageRenderSettings.messageGroupSpacing,
+                fontSize: chatFontSize.toDouble(),
+              );
+              final MessageListEdgeFiller? leadingFiller = hasMoreMessages
+                  ? _leadingFiller
                   : null;
-              final MessageListPlaceholderSpecs? trailingSpecs =
-                  hasMoreNewerMessages ? fillerSpecs('newer') : null;
-              _leadingFillerExtent = leadingSpecs?.totalHeight ?? 0;
-              _trailingFillerExtent = trailingSpecs?.totalHeight ?? 0;
+              final MessageListEdgeFiller? trailingFiller = hasMoreNewerMessages
+                  ? _trailingFiller
+                  : null;
+              _leadingFillerExtent = leadingFiller?.specs.totalHeight ?? 0;
+              _trailingFillerExtent = trailingFiller?.specs.totalHeight ?? 0;
               body = AnimatedImagePlaybackScope(
                 controller: _animatedImagePlaybackController,
                 child: ListenableBuilder(
@@ -935,13 +977,14 @@ class _MessageListState extends ConsumerState<MessageList> {
                   },
                   child: MessageListViewport(
                     anchorEpoch: _anchorEpoch,
+                    withheldLeadingCount: _pendingOlderReveal,
                     stream: channelStream,
                     anchorId: _anchorId,
                     anchorFraction: _anchorFraction,
                     anchorEdge: _anchorEdge,
                     controller: _scrollController,
-                    leadingFillerSpecs: leadingSpecs,
-                    trailingFillerSpecs: trailingSpecs,
+                    leadingFiller: leadingFiller,
+                    trailingFiller: trailingFiller,
                     centerKey: _unreadCenterKey,
                     itemBuilder: (BuildContext context, int dataIndex) =>
                         _centerStreamTile(
@@ -1184,6 +1227,92 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
   }
 
+  void _beginOlderReveal(List<Message>? previous) {
+    _exposeOlderRowsNow();
+    // The page that ends older history also removes the edge filler, and
+    // that removal already re-lays the list; withholding the rows on top of
+    // it would land the reader a page lower.
+    if (previous == null ||
+        previous.isEmpty ||
+        !ref.read(chatViewModelProvider).hasMoreMessages) {
+      return;
+    }
+    _olderRevealBoundaryId = previous.first.id;
+  }
+
+  void _scheduleOlderReveal() {
+    if (_olderRevealScheduled) {
+      return;
+    }
+    _olderRevealScheduled = true;
+    // Not epoch-gated: every _uiEpoch bump exposes the pending rows, so a
+    // count still pending here belongs to the live window. An epoch gate would
+    // strand it, and olderInstallPending would then block older pagination.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _olderRevealScheduled = false;
+      if (!mounted || _pendingOlderReveal == 0) {
+        return;
+      }
+      final int remaining = _pendingOlderReveal - _kOlderRevealRowsPerFrame;
+      setState(() {
+        _pendingOlderReveal = remaining < 0 ? 0 : remaining;
+      });
+      if (_pendingOlderReveal > 0) {
+        _scheduleOlderReveal();
+      } else {
+        _publishDemandGeometry();
+      }
+    });
+  }
+
+  void _exposeOlderRowsNow() {
+    _pendingOlderReveal = 0;
+    _olderRevealBoundaryId = null;
+  }
+
+  // Rebuilding a filler rebuilds its 26 skeleton groups, and each group's
+  // LayoutBuilder relays out when rebuilt: 52 relayouts per list setState
+  // measured on a Motorola g54, about 2.2 ms of every reveal frame. The
+  // instances are reused until one of these inputs changes.
+  void _refreshFillers({
+    required String channelId,
+    required bool compact,
+    required double groupSpacing,
+    required double fontSize,
+  }) {
+    if (_leadingFiller != null &&
+        _fillerChannelId == channelId &&
+        _fillerCompact == compact &&
+        _fillerGroupSpacing == groupSpacing &&
+        _fillerFontSize == fontSize) {
+      return;
+    }
+    _fillerChannelId = channelId;
+    _fillerCompact = compact;
+    _fillerGroupSpacing = groupSpacing;
+    _fillerFontSize = fontSize;
+    _leadingFiller = MessageListEdgeFiller(
+      key: const ValueKey<String>('edge-filler-older'),
+      specs: buildMessageListPlaceholderSpecs(
+        seedKey: '$channelId|older',
+        compact: compact,
+        groupSpacing: groupSpacing,
+        fontSize: fontSize,
+      ),
+      alignment: Alignment.bottomCenter,
+    );
+    _trailingFiller = MessageListEdgeFiller(
+      key: const ValueKey<String>('edge-filler-newer'),
+      specs: buildMessageListPlaceholderSpecs(
+        seedKey: '$channelId|newer',
+        compact: compact,
+        groupSpacing: groupSpacing,
+        fontSize: fontSize,
+      ),
+      alignment: Alignment.topCenter,
+    );
+  }
+
   void _setUnreadLeadingPad(double next, {bool notify = false}) {
     _openPad.update(next, notify: notify);
   }
@@ -1202,6 +1331,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       _anchorFraction = fraction;
       _anchorEdge = edge;
       _anchorEpoch++;
+      _exposeOlderRowsNow();
       _uiEpoch++;
       if (!rebase) {
         _unreadOpenLayout = false;
@@ -1554,6 +1684,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       distanceToNewerEdge: _centerTrailingDistance(position),
       viewportHeight: position.viewportDimension,
       hasMoreOlder: state.hasMoreMessages,
+      olderInstallPending: _pendingOlderReveal > 0,
       hasMoreNewer: state.hasMoreNewerMessages,
       context: ContextToken(
         channelId: state.channelId,
@@ -1644,6 +1775,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     _anchorFraction = 1;
     _anchorEdge = MessageListAnchorEdge.after;
     _anchorEpoch++;
+    _exposeOlderRowsNow();
     _anchorResolved = false;
     _unreadOpenLayout = false;
     _setUnreadLeadingPad(0);
@@ -2063,6 +2195,13 @@ class _MessageListState extends ConsumerState<MessageList> {
   }
 
   bool _onScrollMetricsNotification(ScrollMetricsNotification notification) {
+    // Nested scrollables in rows (markdown tables, code and CSV attachment
+    // panels) bubble their own metrics here. Read as the list's, a row's
+    // first layout looks like a viewport shrink at pixels 0 and glues the
+    // list to the tail.
+    if (notification.depth != 0) {
+      return false;
+    }
     final ScrollMetrics metrics = notification.metrics;
     final double viewport = metrics.viewportDimension;
     final double minExtent = metrics.minScrollExtent;

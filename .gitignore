@@ -65,3 +65,6 @@ vendor/
 /android/measure.properties
 /ios/Flutter/MeasureSecrets.xcconfig
 ios/build/
+
+# Perf drive credentials (tool/perf_drive.sh)
+.env.perf

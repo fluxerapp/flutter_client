@@ -11,6 +11,8 @@ import 'package:fluxer_app/core/push/push_notification_path_resolver.dart';
 import 'package:fluxer_app/core/push/push_notification_payload.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/features/auth/domain/stored_account.dart';
+import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'push_notification_tap_handler.g.dart';
@@ -57,10 +59,45 @@ class PushNotificationTapHandler extends _$PushNotificationTapHandler {
       );
       return;
     }
-    _navigateToPath(path);
+    unawaited(
+      _navigateToPath(path, targetUserId: normalized['target_user_id']),
+    );
   }
 
-  void _navigateToPath(String path) {
+  Future<void> _navigateToPath(String path, {String? targetUserId}) async {
+    final String? currentUserId = ref.read(currentUserIdProvider);
+    if (targetUserId != null &&
+        targetUserId.isNotEmpty &&
+        targetUserId != currentUserId) {
+      final bool known = ref
+          .read(accountManagerProvider)
+          .accounts
+          .any(
+            (StoredAccount account) =>
+                account.userId == targetUserId && account.isValid,
+          );
+      if (!known) {
+        talker.warning(
+          '[PushNotificationTap] target account is not on this device',
+        );
+        return;
+      }
+      ref
+          .read(pendingPushNotificationPathProvider.notifier)
+          .store(path, accountUserId: targetUserId);
+      try {
+        await ref
+            .read(accountManagerProvider.notifier)
+            .switchToAccount(targetUserId);
+      } on Object catch (error, stackTrace) {
+        talker.handle(
+          error,
+          stackTrace,
+          '[PushNotificationTap] account switch',
+        );
+      }
+      return;
+    }
     final bool ready = isPendingNavigationReady(
       isAuthenticated: ref.read(authStateProvider),
       isGatewayReady: ref.read(gatewayReadyProvider),

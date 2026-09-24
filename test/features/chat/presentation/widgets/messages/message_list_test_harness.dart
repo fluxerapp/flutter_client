@@ -537,6 +537,7 @@ class InstrumentedChatViewModel extends ChatViewModel {
   final ChatViewState _initialState;
   final bool enableTrimToNewestWindow;
   int loadNewerCallCount = 0;
+  int loadMoreCallCount = 0;
   int trimAroundVisibleCallCount = 0;
   final List<bool> userScrollActiveLog = <bool>[];
   String? _latestReplacementNewestId;
@@ -617,11 +618,14 @@ class InstrumentedChatViewModel extends ChatViewModel {
   }
 
   @override
-  Future<PageLoadResult> loadMore() async => stubPageResult(
-    edge: PaginationEdge.older,
-    status: PageLoadStatus.empty,
-    requestCursor: requestCursorFor(PaginationEdge.older),
-  );
+  Future<PageLoadResult> loadMore() async {
+    loadMoreCallCount += 1;
+    return stubPageResult(
+      edge: PaginationEdge.older,
+      status: PageLoadStatus.empty,
+      requestCursor: requestCursorFor(PaginationEdge.older),
+    );
+  }
 
   @override
   Future<void> ackCurrentChannel({bool force = false}) async {}
