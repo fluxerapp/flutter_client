@@ -131,8 +131,8 @@ class _WebauthnFailingAuthRepository implements AuthRepository {
   final Object error;
 
   @override
-  Future<dynamic> getMfaWebauthnOptions({required String ticket}) {
-    return Future<dynamic>.error(error);
+  Future<Map<String, dynamic>> getMfaWebauthnOptions({required String ticket}) {
+    return Future<Map<String, dynamic>>.error(error);
   }
 
   @override

@@ -731,9 +731,7 @@ class LoginViewModel extends _$LoginViewModel {
       final webauthnService = WebAuthnService(PasskeyAuthenticator());
 
       final options = await repo.getPasskeyLoginOptions();
-      final authResponse = await webauthnService.authenticate(
-        options as Map<String, dynamic>,
-      );
+      final authResponse = await webauthnService.authenticate(options);
       final result = await repo.loginWithPasskey(
         response: authResponse,
         challenge: options['challenge'] as String,
@@ -775,7 +773,7 @@ class LoginViewModel extends _$LoginViewModel {
         errorMessage: errorMessage,
         isLoggingIn: false,
       );
-    } on Exception catch (e) {
+    } on Object catch (e) {
       if (ref.read(addAccountInstanceGuardProvider) != null) {
         ref
             .read(addAccountInstanceGuardProvider.notifier)

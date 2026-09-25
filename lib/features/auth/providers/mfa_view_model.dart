@@ -191,9 +191,7 @@ class MfaViewModel extends _$MfaViewModel {
       );
 
       // 2. Trigger platform authenticator.
-      final authResponse = await webauthnService.authenticate(
-        options as Map<String, dynamic>,
-      );
+      final authResponse = await webauthnService.authenticate(options);
 
       // 3. Verify with server.
       final session = await repo.verifyMfaWebauthn(
@@ -219,7 +217,7 @@ class MfaViewModel extends _$MfaViewModel {
         errorType: errorType,
         error: errorMessage,
       );
-    } on Exception catch (e) {
+    } on Object catch (e) {
       talker.error('[MfaViewModel] WebAuthn error: $e');
       state = state.copyWith(
         webauthnLoading: false,

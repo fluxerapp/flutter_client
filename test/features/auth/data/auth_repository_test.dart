@@ -34,6 +34,61 @@ void main() {
       );
     });
 
+    test('passkey login options come back as a plain JSON map', () async {
+      final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+        ..httpClientAdapter = const _JsonResponseAdapter(
+          expectedPath: '/v1/auth/webauthn/authentication-options',
+          responseJson: <String, Object?>{
+            'challenge': 'Y2hhbGxlbmdl',
+            'rpId': 'fluxer.app',
+            'timeout': 60000,
+            'userVerification': 'required',
+          },
+        );
+      final optionsRepository = AuthRepository(
+        FluxerClient(dio),
+        db,
+        tokenStorage,
+        readInstanceSnapshot: InstanceConfigSnapshot.officialDefault,
+      );
+
+      final options = await optionsRepository.getPasskeyLoginOptions();
+
+      expect(options['challenge'], 'Y2hhbGxlbmdl');
+      expect(options['rpId'], 'fluxer.app');
+      expect(options['userVerification'], 'required');
+    });
+
+    test('MFA passkey options come back as a plain JSON map', () async {
+      final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+        ..httpClientAdapter = const _JsonResponseAdapter(
+          expectedPath: '/v1/auth/login/mfa/webauthn/authentication-options',
+          responseJson: <String, Object?>{
+            'challenge': 'Y2hhbGxlbmdl',
+            'rpId': 'fluxer.app',
+            'userVerification': 'preferred',
+            'allowCredentials': <Object?>[
+              <String, Object?>{'id': 'Y3JlZA', 'type': 'public-key'},
+            ],
+          },
+        );
+      final optionsRepository = AuthRepository(
+        FluxerClient(dio),
+        db,
+        tokenStorage,
+        readInstanceSnapshot: InstanceConfigSnapshot.officialDefault,
+      );
+
+      final options = await optionsRepository.getMfaWebauthnOptions(
+        ticket: 'mfa-ticket',
+      );
+
+      expect(options['challenge'], 'Y2hhbGxlbmdl');
+      final allowCredentials = options['allowCredentials'] as List<dynamic>;
+      expect(allowCredentials.single, isA<Map<String, dynamic>>());
+      expect((allowCredentials.single as Map<String, dynamic>)['id'], 'Y3JlZA');
+    });
+
     test('login returns an MFA challenge for MFA-required responses', () async {
       final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
         ..httpClientAdapter = const _JsonResponseAdapter(
