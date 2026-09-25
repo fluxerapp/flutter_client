@@ -68,7 +68,6 @@ Future<FluxerDatabase> _dmDb({
                     collapsed: false,
                     muted: true,
                     messageNotifications: UserNotificationSettingsInput.inherit,
-                    muteConfig: null,
                   ),
                 }
               : null,

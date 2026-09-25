@@ -33,7 +33,7 @@ class UserNoteViewModel extends _$UserNoteViewModel {
           .users
           .setNoteOnUser(
             targetId: userId,
-            body: UserNoteUpdateRequest(note: trimmed),
+            body: UserNoteUpdateRequest(note: JsonNullable.of(trimmed)),
           );
     } on Object catch (error, stackTrace) {
       talker.error('[UserNoteViewModel] Save note failed', error, stackTrace);
@@ -54,7 +54,7 @@ class UserNoteViewModel extends _$UserNoteViewModel {
           .users
           .setNoteOnUser(
             targetId: userId,
-            body: const UserNoteUpdateRequest(note: ''),
+            body: UserNoteUpdateRequest(note: const JsonNullable.of('')),
           );
     } on Object catch (error, stackTrace) {
       talker.error('[UserNoteViewModel] Delete note failed', error, stackTrace);

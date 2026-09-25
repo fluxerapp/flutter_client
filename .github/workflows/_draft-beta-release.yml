@@ -39,12 +39,19 @@ jobs:
           token: ${{ steps.create-token.outputs.token }}
           persist-credentials: false
 
+      - name: Resolve beta version
+        id: resolve_beta_version
+        env:
+          GH_TOKEN: ${{ steps.create-token.outputs.token }}
+        run: bash .github/scripts/resolve_beta_version_name.sh
+
       - id: release_drafter
         uses: release-drafter/release-drafter@693d20e7c1ce1a81d3a41962f85914253b518449
         with:
           config-name: release-drafter-beta.yml
           token: ${{ steps.create-token.outputs.token }}
           commitish: beta
+          version: ${{ steps.resolve_beta_version.outputs.version_name }}
 
       - name: Append direct commits
         env:

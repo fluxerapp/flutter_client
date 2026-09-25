@@ -147,7 +147,7 @@ class GuildRepository {
   }) async {
     final GuildCreateRequest body = GuildCreateRequest(
       name: name.trim(),
-      icon: iconDataUri,
+      icon: JsonNullable.of(iconDataUri),
       template: template,
     );
     final GuildResponse guild = await _client.guilds.createGuild(body: body);

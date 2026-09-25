@@ -327,8 +327,8 @@ class GuildUserSettingsRepository {
       final UserGuildSettingsUpdateRequest body =
           UserGuildSettingsUpdateRequest(
             channelOverrides: channelOverrides.isEmpty
-                ? null
-                : channelOverrides,
+                ? const JsonNullable.undefined()
+                : JsonNullable.of(channelOverrides),
           );
       final UserGuildSettingsResponse response;
       if (guildId == '@me') {

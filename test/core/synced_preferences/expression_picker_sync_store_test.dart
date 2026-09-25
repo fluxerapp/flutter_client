@@ -25,7 +25,9 @@ class _FakeUsersApi implements UsersApi {
   Future<UserSettingsResponse> updateCurrentUserSettings({
     UserSettingsUpdateRequest? body,
   }) async {
-    return _testUserSettings(syncedPreferences: body?.syncedPreferences ?? '');
+    return _testUserSettings(
+      syncedPreferences: body?.syncedPreferences.value ?? '',
+    );
   }
 
   @override

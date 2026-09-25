@@ -26,11 +26,6 @@ typedef PresenceStatus = UserStatusType;
 /// [PresenceStatus]; the SDK models it as a separate inlined enum.
 typedef PresenceResetStatus = UserStatusType;
 
-const Map<String, Object?> _clearStatusResetJson = <String, Object?>{
-  'status_resets_at': null,
-  'status_resets_to': null,
-};
-
 class UserStatusService {
   UserStatusService(this._ref);
 
@@ -52,15 +47,12 @@ class UserStatusService {
         : PresenceResetStatus.online;
     final UserSettingsUpdateRequest request = UserSettingsUpdateRequest(
       status: status,
-      statusResetsAt: resetsAt?.toIso8601String(),
-      statusResetsTo: resetsTo,
+      statusResetsAt: JsonNullable.of(resetsAt?.toIso8601String()),
+      statusResetsTo: JsonNullable.of(resetsTo),
     );
     await _patchSettings(
       userId: userId,
       request: request,
-      extraJson: duration == null
-          ? _clearStatusResetJson
-          : const <String, Object?>{},
       optimisticStatus: status.json ?? 'online',
       optimisticCustomStatusText: serializeCustomStatus(
         _ref.read(userSettingsStatusProvider)?.customStatus,
@@ -77,11 +69,12 @@ class UserStatusService {
     }
     final UserSettingsUpdateRequest request = UserSettingsUpdateRequest(
       status: fallbackStatus,
+      statusResetsAt: const JsonNullable.of(null),
+      statusResetsTo: const JsonNullable.of(null),
     );
     await _patchSettings(
       userId: userId,
       request: request,
-      extraJson: _clearStatusResetJson,
       optimisticStatus: fallbackStatus.json ?? 'online',
       optimisticCustomStatusText: serializeCustomStatus(
         _ref.read(userSettingsStatusProvider)?.customStatus,
@@ -95,7 +88,7 @@ class UserStatusService {
       return;
     }
     final UserSettingsUpdateRequest request = UserSettingsUpdateRequest(
-      customStatus: payload,
+      customStatus: JsonNullable.of(payload),
     );
     await _patchSettings(
       userId: userId,
@@ -113,63 +106,15 @@ class UserStatusService {
     if (userId == null) {
       return;
     }
-    final FluxerDatabase database = _ref.read(fluxerDatabaseProvider);
-    final UserSettingsResponse? previousSettings = _ref.read(
-      userSettingsStatusProvider,
-    );
-    await _applyOptimisticUpdate(
+    await _patchSettings(
       userId: userId,
+      request: UserSettingsUpdateRequest(
+        customStatus: const JsonNullable.of(null),
+      ),
       optimisticStatus:
           _ref.read(userSettingsStatusProvider)?.status ?? 'online',
       optimisticCustomStatusText: null,
-      request: const UserSettingsUpdateRequest(),
     );
-    if (previousSettings != null) {
-      final Map<String, Object?> merged = Map<String, Object?>.from(
-        previousSettings.toJson(),
-      )..['custom_status'] = null;
-      await database.userSettingsDao.upsertSettings(
-        UserSettingsTableCompanion(
-          userId: Value(userId),
-          data: Value(jsonEncode(merged)),
-        ),
-      );
-      await database.userDao.updateUserPresence(
-        userId,
-        status: previousSettings.status,
-        mobile: isFluxerMobileClient,
-      );
-    }
-    try {
-      await _ref
-          .read(fluxerDioProvider)
-          .patch<dynamic>(
-            '/users/@me/settings',
-            data: <String, dynamic>{'custom_status': null},
-          );
-      talker.debug('[UserStatusService] Cleared custom status');
-    } on Object catch (error, stackTrace) {
-      talker.error(
-        '[UserStatusService] Clear custom status failed',
-        error,
-        stackTrace,
-      );
-      if (previousSettings != null) {
-        await database.userSettingsDao.upsertSettings(
-          UserSettingsTableCompanion(
-            userId: Value(userId),
-            data: Value(jsonEncode(previousSettings.toJson())),
-          ),
-        );
-        await database.userDao.updateUserPresence(
-          userId,
-          status: previousSettings.status,
-          customStatus: serializeCustomStatus(previousSettings.customStatus),
-          mobile: isFluxerMobileClient,
-        );
-      }
-      rethrow;
-    }
   }
 
   Future<void> _patchSettings({
@@ -177,7 +122,6 @@ class UserStatusService {
     required UserSettingsUpdateRequest request,
     required String optimisticStatus,
     required String? optimisticCustomStatusText,
-    Map<String, Object?> extraJson = const <String, Object?>{},
   }) async {
     final FluxerDatabase database = _ref.read(fluxerDatabaseProvider);
     final UserSettingsResponse? previousSettings = _ref.read(
@@ -188,15 +132,11 @@ class UserStatusService {
       optimisticStatus: optimisticStatus,
       optimisticCustomStatusText: optimisticCustomStatusText,
       request: request,
-      extraJson: extraJson,
     );
     try {
       await _ref
           .read(fluxerDioProvider)
-          .patch<dynamic>(
-            '/users/@me/settings',
-            data: <String, Object?>{...request.toJson(), ...extraJson},
-          );
+          .patch<dynamic>('/users/@me/settings', data: request.toJson());
       talker.debug('[UserStatusService] Settings patch succeeded');
     } on Object catch (error, stackTrace) {
       talker.error(
@@ -227,7 +167,6 @@ class UserStatusService {
     required String optimisticStatus,
     required String? optimisticCustomStatusText,
     required UserSettingsUpdateRequest request,
-    Map<String, Object?> extraJson = const <String, Object?>{},
   }) async {
     final FluxerDatabase database = _ref.read(fluxerDatabaseProvider);
     final UserSettingsTableData? row = await database.userSettingsDao
@@ -239,13 +178,12 @@ class UserStatusService {
           );
     if (request.status != null) {
       merged['status'] = request.status!.json;
-      merged['status_resets_at'] = request.statusResetsAt;
-      merged['status_resets_to'] = request.statusResetsTo?.json;
+      merged['status_resets_at'] = request.statusResetsAt.value;
+      merged['status_resets_to'] = request.statusResetsTo.value?.json;
     }
-    if (request.customStatus != null) {
-      merged['custom_status'] = request.customStatus!.toJson();
+    if (request.customStatus.isPresent) {
+      merged['custom_status'] = request.customStatus.value?.toJson();
     }
-    merged.addAll(extraJson);
     await database.userSettingsDao.upsertSettings(
       UserSettingsTableCompanion(
         userId: Value(userId),

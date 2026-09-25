@@ -44,7 +44,9 @@ class _FakeUsersApi implements UsersApi {
       // ignore: only_throw_errors
       throw pushError!;
     }
-    return _testUserSettings(syncedPreferences: body?.syncedPreferences ?? '');
+    return _testUserSettings(
+      syncedPreferences: body?.syncedPreferences.value ?? '',
+    );
   }
 
   @override
@@ -158,7 +160,7 @@ void main() {
 
       expect(usersApi.pushCount, 1);
       final pushed = FavoritesStateCodec.decodeFavoritesFromWire(
-        usersApi.lastPushBody!.syncedPreferences!,
+        usersApi.lastPushBody!.syncedPreferences.value!,
       );
       expect(pushed.channels.single.channelId, 'channel-1');
     });
@@ -193,7 +195,7 @@ void main() {
 
       expect(usersApi.pushCount, 1);
       final pushed = FavoritesStateCodec.decodeFavoritesFromWire(
-        usersApi.lastPushBody!.syncedPreferences!,
+        usersApi.lastPushBody!.syncedPreferences.value!,
       );
       expect(
         pushed.channels.map((channel) => channel.channelId),
@@ -227,7 +229,7 @@ void main() {
       await _waitForDebounce(syncStore);
 
       final pushed = FavoritesStateCodec.decodeFavoritesFromWire(
-        usersApi.lastPushBody!.syncedPreferences!,
+        usersApi.lastPushBody!.syncedPreferences.value!,
       );
       expect(pushed.channels.map((channel) => channel.channelId), ['keep']);
     });
@@ -419,7 +421,7 @@ void main() {
         );
         expect(usersApi.pushCount, 1);
         final pushed = FavoritesStateCodec.decodeFavoritesFromWire(
-          usersApi.lastPushBody!.syncedPreferences!,
+          usersApi.lastPushBody!.syncedPreferences.value!,
         );
         expect(
           pushed.channels.map((channel) => channel.channelId),
@@ -591,7 +593,7 @@ void main() {
 
         expect(usersApi.pushCount, greaterThanOrEqualTo(2));
         final pushed = FavoritesStateCodec.decodeFavoritesFromWire(
-          usersApi.lastPushBody!.syncedPreferences!,
+          usersApi.lastPushBody!.syncedPreferences.value!,
         );
         expect(
           pushed.channels.map((channel) => channel.channelId),

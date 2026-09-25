@@ -135,7 +135,7 @@ class ApplicationsViewModel extends _$ApplicationsViewModel {
           .createOauthApplication(
             body: ApplicationCreateRequest(
               name: name,
-              redirectUris: const <String>[],
+              redirectUris: const JsonNullable.of(<String>[]),
             ),
           );
       await openDetail(created.id, seed: created);
@@ -165,31 +165,15 @@ class ApplicationsViewModel extends _$ApplicationsViewModel {
     }
   }
 
-  Future<bool> saveBotProfile({
-    required BotProfileUpdateRequest body,
-    bool clearAvatar = false,
-    bool clearBanner = false,
-  }) async {
+  Future<bool> saveBotProfile({required BotProfileUpdateRequest body}) async {
     final String? appId = state.selectedAppId;
     if (appId == null) {
       return false;
     }
     state = state.copyWith(isSaving: true);
     try {
-      if (clearAvatar || clearBanner) {
-        final Map<String, dynamic> json = body.toJson();
-        if (clearAvatar) {
-          json['avatar'] = null;
-        }
-        if (clearBanner) {
-          json['banner'] = null;
-        }
-        final dio = ref.read(fluxerDioProvider);
-        await dio.patch<dynamic>('/oauth2/applications/$appId/bot', data: json);
-      } else {
-        final client = ref.read(fluxerClientProvider);
-        await client.oAuth2.updateBotProfile(id: appId, body: body);
-      }
+      final client = ref.read(fluxerClientProvider);
+      await client.oAuth2.updateBotProfile(id: appId, body: body);
       await _fetchDetail(appId, showLoading: false);
       state = state.copyWith(isSaving: false);
       return true;

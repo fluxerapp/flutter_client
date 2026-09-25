@@ -51,7 +51,7 @@ class _FakeUsersApi implements UsersApi {
       suppressEveryone: false,
       suppressRoles: false,
       hideMutedChannels: false,
-      channelOverrides: body?.channelOverrides,
+      channelOverrides: body?.channelOverrides.value,
       version: 1,
     );
   }
@@ -152,7 +152,7 @@ void main() {
 
         expect(usersApi.patchCount, 1);
         expect(
-          usersApi.lastRequest?.channelOverrides?[categoryId]?.collapsed,
+          usersApi.lastRequest?.channelOverrides.value?[categoryId]?.collapsed,
           isTrue,
         );
 
@@ -193,7 +193,7 @@ void main() {
       );
 
       expect(
-        usersApi.lastRequest?.channelOverrides?[categoryId]?.collapsed,
+        usersApi.lastRequest?.channelOverrides.value?[categoryId]?.collapsed,
         isFalse,
       );
 
@@ -221,7 +221,6 @@ void main() {
               collapsed: false,
               messageNotifications: UserNotificationSettingsInput.inherit,
               muted: true,
-              muteConfig: null,
             ),
           },
         );
@@ -236,7 +235,7 @@ void main() {
         );
 
         expect(usersApi.patchCount, 1);
-        final overrides = usersApi.lastRequest?.channelOverrides;
+        final overrides = usersApi.lastRequest?.channelOverrides.value;
         expect(overrides, isNotNull);
         expect(overrides!.keys, containsAll([categoryId, mutedChannelId]));
         expect(overrides[mutedChannelId]?.muted, isTrue);
@@ -259,13 +258,11 @@ void main() {
               collapsed: false,
               messageNotifications: UserNotificationSettingsInput.inherit,
               muted: false,
-              muteConfig: null,
             ),
             categoryB: const ChannelOverrides(
               collapsed: true,
               messageNotifications: UserNotificationSettingsInput.inherit,
               muted: false,
-              muteConfig: null,
             ),
           },
         );
@@ -280,7 +277,7 @@ void main() {
         );
 
         expect(usersApi.patchCount, 1);
-        final overrides = usersApi.lastRequest?.channelOverrides;
+        final overrides = usersApi.lastRequest?.channelOverrides.value;
         expect(overrides, isNotNull);
         expect(overrides!.keys, containsAll([categoryA, categoryB, categoryC]));
         expect(overrides[categoryA]?.collapsed, isTrue);
@@ -303,13 +300,11 @@ void main() {
               collapsed: true,
               messageNotifications: UserNotificationSettingsInput.inherit,
               muted: false,
-              muteConfig: null,
             ),
             categoryB: const ChannelOverrides(
               collapsed: true,
               messageNotifications: UserNotificationSettingsInput.inherit,
               muted: false,
-              muteConfig: null,
             ),
           },
         );
@@ -323,7 +318,7 @@ void main() {
           options: _immediateSync,
         );
 
-        final overrides = usersApi.lastRequest?.channelOverrides;
+        final overrides = usersApi.lastRequest?.channelOverrides.value;
         expect(overrides, isNotNull);
         expect(overrides![categoryA]?.collapsed, isFalse);
         expect(overrides[categoryB]?.collapsed, isFalse);
@@ -344,7 +339,6 @@ void main() {
               collapsed: true,
               messageNotifications: UserNotificationSettingsInput.inherit,
               muted: false,
-              muteConfig: null,
             ),
           },
         );
@@ -359,7 +353,7 @@ void main() {
           options: _immediateSync,
         );
 
-        final overrides = usersApi.lastRequest?.channelOverrides;
+        final overrides = usersApi.lastRequest?.channelOverrides.value;
         expect(overrides!.keys, containsAll([categoryId, channelId]));
         expect(overrides[categoryId]?.collapsed, isTrue);
         expect(overrides[channelId]?.muted, isTrue);
@@ -380,7 +374,6 @@ void main() {
               collapsed: false,
               messageNotifications: UserNotificationSettingsInput.inherit,
               muted: true,
-              muteConfig: null,
             ),
           },
         );
@@ -400,7 +393,6 @@ void main() {
                   collapsed: false,
                   messageNotifications: UserNotificationSettingsInput.inherit,
                   muted: true,
-                  muteConfig: null,
                 ),
               },
               version: 42,
@@ -485,7 +477,7 @@ void main() {
         await repo.flushPendingPatches(guildId: guildId);
 
         expect(usersApi.patchCount, 1);
-        final lastOverrides = usersApi.lastRequest?.channelOverrides;
+        final lastOverrides = usersApi.lastRequest?.channelOverrides.value;
         expect(
           lastOverrides?.keys,
           containsAll([channelA, channelB, channelC]),
@@ -510,7 +502,7 @@ void main() {
             suppressEveryone: false,
             suppressRoles: false,
             hideMutedChannels: false,
-            channelOverrides: body.channelOverrides,
+            channelOverrides: body.channelOverrides.value,
             version: 1,
           );
         },
@@ -543,7 +535,7 @@ void main() {
       ]);
 
       expect(usersApi.patchCount, 3);
-      final lastOverrides = usersApi.lastRequest?.channelOverrides;
+      final lastOverrides = usersApi.lastRequest?.channelOverrides.value;
       expect(lastOverrides?.keys, containsAll([channelA, channelB, channelC]));
       expect(lastOverrides?[channelA]?.muted, isTrue);
       expect(lastOverrides?[channelB]?.muted, isTrue);

@@ -336,12 +336,12 @@ Future<void> updateGuildUserSettings(
     case GuildAction.unmute:
       currentData['muted'] = false;
       currentData.remove('mute_config');
-      request = const UserGuildSettingsUpdateRequest(muted: false);
+      request = UserGuildSettingsUpdateRequest(muted: false);
 
     case GuildAction.muteForever:
       currentData['muted'] = true;
       currentData.remove('mute_config');
-      request = const UserGuildSettingsUpdateRequest(muted: true);
+      request = UserGuildSettingsUpdateRequest(muted: true);
 
     case GuildAction.mute15Min:
     case GuildAction.mute30Min:
@@ -361,9 +361,11 @@ Future<void> updateGuildUserSettings(
       };
       request = UserGuildSettingsUpdateRequest(
         muted: true,
-        muteConfig: UserGuildSettingsUpdateRequestMuteConfig(
-          selectedTimeWindow: durationMs,
-          endTime: endTimeIso,
+        muteConfig: JsonNullable.of(
+          UserGuildSettingsUpdateRequestMuteConfig(
+            selectedTimeWindow: durationMs,
+            endTime: endTimeIso,
+          ),
         ),
       );
 
@@ -450,7 +452,7 @@ Future<void> muteGuildForDuration({
   if (durationMs == null) {
     currentData['muted'] = true;
     currentData.remove('mute_config');
-    request = const UserGuildSettingsUpdateRequest(muted: true);
+    request = UserGuildSettingsUpdateRequest(muted: true);
   } else {
     final endTime = DateTime.now().add(Duration(milliseconds: durationMs));
     final endTimeIso = endTime.toUtc().toIso8601String();
@@ -461,9 +463,11 @@ Future<void> muteGuildForDuration({
     };
     request = UserGuildSettingsUpdateRequest(
       muted: true,
-      muteConfig: UserGuildSettingsUpdateRequestMuteConfig(
-        selectedTimeWindow: durationMs,
-        endTime: endTimeIso,
+      muteConfig: JsonNullable.of(
+        UserGuildSettingsUpdateRequestMuteConfig(
+          selectedTimeWindow: durationMs,
+          endTime: endTimeIso,
+        ),
       ),
     );
   }
@@ -502,7 +506,7 @@ Future<void> unmuteGuild({
   unawaited(
     client.users.updateGuildSettingsForUser(
       guildId: guildId,
-      body: const UserGuildSettingsUpdateRequest(muted: false),
+      body: UserGuildSettingsUpdateRequest(muted: false),
     ),
   );
 }

@@ -90,7 +90,9 @@ class GuildStickerSettings extends _$GuildStickerSettings {
             guildId: guildId,
             body: GuildStickerCreateRequest(
               name: name,
-              description: description.isEmpty ? null : description,
+              description: JsonNullable.of(
+                description.isEmpty ? null : description,
+              ),
               tags: tags,
               image: image,
             ),
@@ -139,7 +141,9 @@ class GuildStickerSettings extends _$GuildStickerSettings {
             stickerId: stickerId,
             body: GuildStickerUpdateRequest(
               name: name,
-              description: description.isEmpty ? null : description,
+              description: JsonNullable.of(
+                description.isEmpty ? null : description,
+              ),
               tags: tags,
             ),
           );

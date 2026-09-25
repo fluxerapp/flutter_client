@@ -6,9 +6,7 @@ import 'package:fluxer_dart/export.dart';
 Future<void> clearUnreadGiftInventoryFlag(WidgetRef ref) async {
   final FluxerClient client = ref.read(fluxerClientProvider);
   await client.users.updateCurrentUser(
-    body: const UserUpdateWithVerificationRequest(
-      hasUnreadGiftInventory: false,
-    ),
+    body: UserUpdateWithVerificationRequest(hasUnreadGiftInventory: false),
   );
   await ref.read(currentUserPrivateReadProvider.notifier).refresh();
 }
@@ -16,7 +14,7 @@ Future<void> clearUnreadGiftInventoryFlag(WidgetRef ref) async {
 Future<void> dismissPremiumOnboardingFlag(WidgetRef ref) async {
   final FluxerClient client = ref.read(fluxerClientProvider);
   await client.users.updateCurrentUser(
-    body: const UserUpdateWithVerificationRequest(
+    body: UserUpdateWithVerificationRequest(
       hasDismissedPremiumOnboarding: true,
     ),
   );

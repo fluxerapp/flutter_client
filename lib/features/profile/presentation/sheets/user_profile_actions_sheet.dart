@@ -443,7 +443,7 @@ class UserProfileActionsSheet {
           .guilds
           .updateCurrentGuildMember(
             guildId: guildId,
-            body: MyGuildMemberUpdateRequest(nick: nick),
+            body: MyGuildMemberUpdateRequest(nick: JsonNullable.of(nick)),
           );
       return;
     }

@@ -127,10 +127,12 @@ class PrivacyDataRequestFilterState {
               guildFilterMode == PrivacyDataRequestGuildFilterMode.includeOnly
           ? includedGuildIds.toList()
           : const <String>[],
-      startDate: dateMode == PrivacyDataRequestDateMode.custom
-          ? startDate
-          : null,
-      endDate: dateMode == PrivacyDataRequestDateMode.custom ? endDate : null,
+      startDate: JsonNullable.of(
+        dateMode == PrivacyDataRequestDateMode.custom ? startDate : null,
+      ),
+      endDate: JsonNullable.of(
+        dateMode == PrivacyDataRequestDateMode.custom ? endDate : null,
+      ),
     );
   }
 
@@ -169,10 +171,12 @@ class PrivacyDataRequestFilterState {
               guildFilterMode == PrivacyDataRequestGuildFilterMode.includeOnly
           ? includedGuildIds.toList()
           : const <String>[],
-      startDate: dateMode == PrivacyDataRequestDateMode.custom
-          ? startDate
-          : null,
-      endDate: dateMode == PrivacyDataRequestDateMode.custom ? endDate : null,
+      startDate: JsonNullable.of(
+        dateMode == PrivacyDataRequestDateMode.custom ? startDate : null,
+      ),
+      endDate: JsonNullable.of(
+        dateMode == PrivacyDataRequestDateMode.custom ? endDate : null,
+      ),
     );
   }
 }

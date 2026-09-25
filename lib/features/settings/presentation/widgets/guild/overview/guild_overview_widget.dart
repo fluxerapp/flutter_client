@@ -990,34 +990,34 @@ class _GuildOverviewWidgetState extends ConsumerState<GuildOverviewWidget> {
           .updateGuild(
             GuildUpdateRequest(
               name: _nameController.text.trim(),
-              icon: _resolveImageField(
-                pending: _pendingIconUri,
-                cleared: _iconCleared,
-              ),
-              banner: _resolveImageField(
-                pending: _pendingBannerUri,
-                cleared: _bannerCleared,
-              ),
-              splash: _resolveImageField(
-                pending: _pendingSplashUri,
-                cleared: _splashCleared,
-              ),
-              embedSplash: _resolveImageField(
-                pending: _pendingEmbedSplashUri,
-                cleared: _embedSplashCleared,
-              ),
-              splashCardAlignment:
-                  GuildUpdateRequestSplashCardAlignmentSplashCardAlignment.fromJson(
-                    _splashCardAlignment,
-                  ),
-              afkChannelId: _afkChannelId,
+              afkChannelId: JsonNullable.of(_afkChannelId),
               afkTimeout: _afkTimeout,
-              systemChannelId: _systemChannelId,
+              systemChannelId: JsonNullable.of(_systemChannelId),
               systemChannelFlags: systemFlags,
               defaultMessageNotifications:
                   DefaultMessageNotificationsInput.fromJson(
                     _defaultNotifications,
                   ),
+              splashCardAlignment:
+                  GuildUpdateRequestSplashCardAlignmentSplashCardAlignment.fromJson(
+                    _splashCardAlignment,
+                  ),
+              icon: _guildImagePatch(
+                pendingDataUri: _pendingIconUri,
+                cleared: _iconCleared,
+              ),
+              banner: _guildImagePatch(
+                pendingDataUri: _pendingBannerUri,
+                cleared: _bannerCleared,
+              ),
+              splash: _guildImagePatch(
+                pendingDataUri: _pendingSplashUri,
+                cleared: _splashCleared,
+              ),
+              embedSplash: _guildImagePatch(
+                pendingDataUri: _pendingEmbedSplashUri,
+                cleared: _embedSplashCleared,
+              ),
               features: featuresUpdate,
             ),
           );
@@ -1027,16 +1027,19 @@ class _GuildOverviewWidgetState extends ConsumerState<GuildOverviewWidget> {
       }
     }
   }
+}
 
-  String? _resolveImageField({
-    required String? pending,
-    required bool cleared,
-  }) {
-    if (cleared) {
-      return '';
-    }
-    return pending;
+JsonNullable<String> _guildImagePatch({
+  required String? pendingDataUri,
+  required bool cleared,
+}) {
+  if (cleared) {
+    return const JsonNullable.of(null);
   }
+  if (pendingDataUri != null) {
+    return JsonNullable.of(pendingDataUri);
+  }
+  return const JsonNullable.undefined();
 }
 
 const double _kGuildBannerAspectRatio = 16 / 9;

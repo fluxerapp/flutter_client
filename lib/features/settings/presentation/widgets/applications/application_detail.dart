@@ -255,8 +255,8 @@ class _ApplicationDetailState extends ConsumerState<ApplicationDetail> {
           ApplicationUpdateRequest(
             name: name != app.name ? name : null,
             redirectUris: redirects.join(',') != app.redirectUris.join(',')
-                ? redirects
-                : null,
+                ? JsonNullable.of(redirects)
+                : const JsonNullable.undefined(),
             botPublic: _botPublic != app.botPublic ? _botPublic : null,
             botRequireCodeGrant: _botRequireCodeGrant != app.botRequireCodeGrant
                 ? _botRequireCodeGrant
@@ -271,18 +271,23 @@ class _ApplicationDetailState extends ConsumerState<ApplicationDetail> {
           manualApproval: _manualApproval,
         );
         final String bio = _bioController.text.trim();
+        final bool bioChanged = bio != (bot.bio ?? '').trim();
         await vm.saveBotProfile(
           body: BotProfileUpdateRequest(
             username: username != bot.username ? username : null,
-            bio: bio != (bot.bio ?? '').trim()
-                ? (bio.isEmpty ? null : bio)
-                : null,
-            avatar: _clearedAvatar ? null : _previewAvatar,
-            banner: _clearedBanner ? null : _previewBanner,
+            bio: bioChanged
+                ? JsonNullable.of(bio.isEmpty ? null : bio)
+                : const JsonNullable.undefined(),
+            avatar: _optionalImage(
+              cleared: _clearedAvatar,
+              value: _previewAvatar,
+            ),
+            banner: _optionalImage(
+              cleared: _clearedBanner,
+              value: _previewBanner,
+            ),
             botFlags: nextFlags != bot.flags ? nextFlags : null,
           ),
-          clearAvatar: _clearedAvatar,
-          clearBanner: _clearedBanner,
         );
       }
       if (!mounted) {
@@ -743,4 +748,17 @@ class _DetailError extends StatelessWidget {
       ),
     );
   }
+}
+
+JsonNullable<String> _optionalImage({
+  required bool cleared,
+  required String? value,
+}) {
+  if (cleared) {
+    return const JsonNullable.of(null);
+  }
+  if (value != null) {
+    return JsonNullable.of(value);
+  }
+  return const JsonNullable.undefined();
 }

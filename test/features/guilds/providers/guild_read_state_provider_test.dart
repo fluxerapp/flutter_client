@@ -141,7 +141,6 @@ Future<void> _seedMutedChannelOverrides(
                 collapsed: false,
                 messageNotifications: UserNotificationSettingsInput.inherit,
                 muted: true,
-                muteConfig: null,
               ),
           },
           version: 1,

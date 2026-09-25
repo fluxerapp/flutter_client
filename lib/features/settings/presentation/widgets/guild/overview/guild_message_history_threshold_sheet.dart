@@ -78,7 +78,9 @@ class _GuildMessageHistoryThresholdSheetState
           : null;
       await ref
           .read(guildSettingsOverviewActionsProvider(widget.guildId).notifier)
-          .updateGuild(GuildUpdateRequest(messageHistoryCutoff: cutoff));
+          .updateGuild(
+            GuildUpdateRequest(messageHistoryCutoff: JsonNullable.of(cutoff)),
+          );
       if (!mounted) {
         return;
       }

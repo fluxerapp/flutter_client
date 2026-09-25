@@ -38,7 +38,7 @@ class AuthRepository {
     final request = LoginRequest(
       email: email.trim(),
       password: password,
-      inviteCode: inviteCode,
+      inviteCode: JsonNullable.of(inviteCode),
     );
 
     try {
@@ -181,8 +181,8 @@ class AuthRepository {
           globalName: (displayName?.trim().isNotEmpty ?? false)
               ? displayName!.trim()
               : null,
-          inviteCode: inviteCode,
-          registrationUrlCode: registrationUrlCode,
+          inviteCode: JsonNullable.of(inviteCode),
+          registrationUrlCode: JsonNullable.of(registrationUrlCode),
         ),
       );
 
@@ -484,7 +484,10 @@ class AuthRepository {
   }) async {
     try {
       return await _client.auth.startSso(
-        body: SsoStartRequest(redirectTo: redirectTo, redirectUri: redirectUri),
+        body: SsoStartRequest(
+          redirectTo: JsonNullable.of(redirectTo),
+          redirectUri: JsonNullable.of(redirectUri),
+        ),
       );
     } on DioException catch (error) {
       throw _failureFromDio(error);

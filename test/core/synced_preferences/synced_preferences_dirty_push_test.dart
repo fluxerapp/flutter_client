@@ -166,7 +166,7 @@ void main() {
     await flushSyncedPreferencesDebounce(store);
 
     expect(usersApi.pushCount, 1);
-    final pushedWire = usersApi.lastPushBody!.syncedPreferences!;
+    final pushedWire = usersApi.lastPushBody!.syncedPreferences.value!;
     final pushed = pb.SyncedPreferences.fromBuffer(base64Decode(pushedWire));
 
     expect(pushed.hasSound(), isTrue);

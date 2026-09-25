@@ -10,7 +10,7 @@ void main() {
   });
 
   test('SDK toJson still emits enum object for mention_flags', () {
-    final Map<String, Object?> json = const UserUpdateWithVerificationRequest(
+    final Map<String, Object?> json = UserUpdateWithVerificationRequest(
       mentionFlags: MentionReplyPreferencesInput.preferMention,
     ).toJson();
     expect(json['mention_flags'], MentionReplyPreferencesInput.preferMention);

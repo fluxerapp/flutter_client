@@ -74,7 +74,7 @@ Future<void> executeComposerSideEffect({
             userId: userId,
             body: GuildBanCreateRequest(
               deleteMessageDays: deleteMessageDays,
-              reason: reason,
+              reason: JsonNullable.of(reason),
               banDurationSeconds: 0,
             ),
           );
@@ -116,7 +116,7 @@ Future<void> _executeNick({
       .updateCurrentGuildMember(
         guildId: guildId,
         body: MyGuildMemberUpdateRequest(
-          nick: nickname.isEmpty ? null : nickname,
+          nick: JsonNullable.of(nickname.isEmpty ? null : nickname),
         ),
       );
   final String nextName = nickname.isEmpty ? fallback : nickname;

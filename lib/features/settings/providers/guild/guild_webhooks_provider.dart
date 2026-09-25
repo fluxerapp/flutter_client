@@ -77,8 +77,10 @@ class GuildWebhooks extends _$GuildWebhooks {
           webhookId: webhookId,
           body: WebhookUpdateRequest(
             name: name,
-            avatar: avatar,
             channelId: channelId,
+            avatar: avatar == null
+                ? const JsonNullable.undefined()
+                : JsonNullable.of(avatar.isEmpty ? null : avatar),
           ),
         );
     final List<WebhookResponse>? current = state.value;

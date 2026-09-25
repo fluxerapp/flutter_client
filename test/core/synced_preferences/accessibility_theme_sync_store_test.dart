@@ -216,7 +216,9 @@ void main() {
       await _waitForDebounce(store);
 
       expect(usersApi.pushCount, 1);
-      final bytes = base64Decode(usersApi.lastPushBody!.syncedPreferences!);
+      final bytes = base64Decode(
+        usersApi.lastPushBody!.syncedPreferences.value!,
+      );
       final synced = pb.SyncedPreferences.fromBuffer(bytes);
       expect(synced.hasAccessibility(), isTrue);
       expect(synced.accessibility.customThemeCss, css);
@@ -271,7 +273,9 @@ void main() {
         await _waitForDebounce(store);
 
         expect(usersApi.pushCount, 1);
-        final bytes = base64Decode(usersApi.lastPushBody!.syncedPreferences!);
+        final bytes = base64Decode(
+          usersApi.lastPushBody!.syncedPreferences.value!,
+        );
         final synced = pb.SyncedPreferences.fromBuffer(bytes);
         expect(synced.accessibility.customThemeCss, css);
       },
@@ -381,7 +385,9 @@ void main() {
       await _waitForDebounce(store);
 
       expect(usersApi.pushCount, 1);
-      final bytes = base64Decode(usersApi.lastPushBody!.syncedPreferences!);
+      final bytes = base64Decode(
+        usersApi.lastPushBody!.syncedPreferences.value!,
+      );
       final synced = pb.SyncedPreferences.fromBuffer(bytes);
       expect(synced.accessibility.saturationFactor, closeTo(0.25, 0.001));
     });
@@ -408,7 +414,9 @@ void main() {
         await _waitForDebounce(store);
 
         expect(usersApi.pushCount, 1);
-        final bytes = base64Decode(usersApi.lastPushBody!.syncedPreferences!);
+        final bytes = base64Decode(
+          usersApi.lastPushBody!.syncedPreferences.value!,
+        );
         final synced = pb.SyncedPreferences.fromBuffer(bytes);
         expect(synced.accessibility.showMessageSendButton, isTrue);
         expect(synced.accessibility.hideKeyboardHints, isTrue);
@@ -433,7 +441,9 @@ void main() {
       await _waitForDebounce(store);
 
       expect(usersApi.pushCount, 1);
-      final bytes = base64Decode(usersApi.lastPushBody!.syncedPreferences!);
+      final bytes = base64Decode(
+        usersApi.lastPushBody!.syncedPreferences.value!,
+      );
       final synced = pb.SyncedPreferences.fromBuffer(bytes);
       expect(synced.accessibility.autoSendKlipyGifs, isTrue);
     });

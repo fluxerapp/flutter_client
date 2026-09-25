@@ -278,9 +278,9 @@ class _GuildModerationWidgetState extends ConsumerState<GuildModerationWidget> {
         contentWarningLevel: ContentWarningLevelInput.fromJson(
           _showContentWarning ? 1 : 0,
         ),
-        contentWarningText: _showContentWarning
-            ? _warningTextController.text.trim()
-            : '',
+        contentWarningText: JsonNullable.of(
+          _showContentWarning ? _warningTextController.text.trim() : '',
+        ),
         mfaLevel: isGuildOwner && _mfaLevel != widget.details.mfaLevel
             ? GuildMfaLevelInput.fromJson(_mfaLevel)
             : null,

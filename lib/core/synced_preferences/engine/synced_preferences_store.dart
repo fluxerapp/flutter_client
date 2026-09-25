@@ -461,7 +461,9 @@ class SyncedPreferencesStore {
       }
       final client = _ref.read(fluxerClientProvider);
       await client.users.updateCurrentUserSettings(
-        body: UserSettingsUpdateRequest(syncedPreferences: repairWire),
+        body: UserSettingsUpdateRequest(
+          syncedPreferences: JsonNullable.of(repairWire),
+        ),
       );
       _wireBlob = repairWire;
       _lastKnownGoodWire = repairWire;
@@ -547,7 +549,9 @@ class SyncedPreferencesStore {
       }
       final client = _ref.read(fluxerClientProvider);
       await client.users.updateCurrentUserSettings(
-        body: UserSettingsUpdateRequest(syncedPreferences: encoded),
+        body: UserSettingsUpdateRequest(
+          syncedPreferences: JsonNullable.of(encoded),
+        ),
       );
       if (generation != _pushGeneration || !_ref.mounted) {
         return;

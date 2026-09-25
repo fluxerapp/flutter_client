@@ -28,10 +28,10 @@ class FavoriteMediaRepository {
       messageId: messageId,
       body: sdk.CreateFavoriteMemeBodySchema(
         name: name.trim(),
-        altText: _blankToNull(altText),
+        altText: sdk.JsonNullable.of(_blankToNull(altText)),
         tags: tags.isEmpty ? null : tags,
-        attachmentId: _blankToNull(attachmentId),
-        embedIndex: embedIndex,
+        attachmentId: sdk.JsonNullable.of(_blankToNull(attachmentId)),
+        embedIndex: sdk.JsonNullable.of(embedIndex),
       ),
     );
     return _upsertResponse(response);
@@ -50,10 +50,10 @@ class FavoriteMediaRepository {
           proxySrc: gif.proxySrc,
           media: gif.media,
         ),
-        name: title.isEmpty ? null : title,
-        gifProvider: gif.provider.name,
-        gifSlug: shareId,
-        media: gif.media,
+        name: sdk.JsonNullable.of(title.isEmpty ? null : title),
+        gifProvider: sdk.JsonNullable.of(gif.provider.name),
+        gifSlug: sdk.JsonNullable.of(shareId),
+        media: sdk.JsonNullable.of(_gifMediaInput(gif.media)),
       ),
     );
     return _upsertResponse(response);
@@ -70,8 +70,8 @@ class FavoriteMediaRepository {
       memeId: meme.id,
       body: sdk.UpdateFavoriteMemeBodySchema(
         name: trimmedName.isEmpty ? meme.name : trimmedName,
-        altText: _blankToNull(altText),
-        tags: tags,
+        tags: sdk.JsonNullable.of(tags),
+        altText: sdk.JsonNullable.of(_blankToNull(altText)),
       ),
     );
     return _upsertResponse(response);
@@ -109,6 +109,22 @@ String gifShareId(GifPickerGif gif) {
     GifProviderKind.klipy => extractKlipySlug(gif.url) ?? gif.id,
     GifProviderKind.tenor => extractTenorSlugId(gif.url) ?? gif.id,
   };
+}
+
+Map<String, sdk.GifMediaFormatInput>? _gifMediaInput(
+  Map<String, sdk.GifMediaFormat>? media,
+) {
+  return media?.map(
+    (key, format) => MapEntry(
+      key,
+      sdk.GifMediaFormatInput(
+        src: format.src,
+        proxySrc: format.proxySrc,
+        width: format.width,
+        height: format.height,
+      ),
+    ),
+  );
 }
 
 String? _blankToNull(String? value) {

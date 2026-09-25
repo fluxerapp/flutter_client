@@ -60,7 +60,6 @@ ChannelOverrides _override({
       messageNotifications.json ?? 0,
     ),
     muted: muted,
-    muteConfig: null,
     unreadBadges: unreadBadges == null
         ? null
         : UserNotificationSettingsInput.fromJson(unreadBadges.json ?? 0),

@@ -81,18 +81,12 @@ bool hasVisibleCustomStatus(String? stored) {
 CustomStatusResponse customStatusResponseFromPayload(
   CustomStatusPayload payload,
 ) {
-  final dynamic expiresAt = payload.expiresAt;
-  DateTime? parsedExpiresAt;
-  if (expiresAt is DateTime) {
-    parsedExpiresAt = expiresAt;
-  } else if (expiresAt is String) {
-    parsedExpiresAt = DateTime.tryParse(expiresAt);
-  }
+  final String? expiresAt = payload.expiresAt.value;
   return CustomStatusResponse(
-    text: payload.text,
-    emojiId: payload.emojiId,
-    emojiName: payload.emojiName,
-    expiresAt: parsedExpiresAt,
+    text: payload.text.value,
+    emojiId: payload.emojiId.value,
+    emojiName: payload.emojiName.value,
+    expiresAt: expiresAt == null ? null : DateTime.tryParse(expiresAt),
     emojiAnimated: false,
   );
 }
@@ -123,9 +117,11 @@ CustomStatusPayload buildCustomStatusPayload({
 }) {
   final String? trimmedText = text?.trim();
   return CustomStatusPayload(
-    text: trimmedText == null || trimmedText.isEmpty ? null : trimmedText,
-    emojiId: emojiId,
-    emojiName: emojiId == null ? emojiName : null,
-    expiresAt: expiresAt?.toUtc().toIso8601String(),
+    text: JsonNullable.of(
+      trimmedText == null || trimmedText.isEmpty ? null : trimmedText,
+    ),
+    emojiId: JsonNullable.of(emojiId),
+    emojiName: JsonNullable.of(emojiId == null ? emojiName : null),
+    expiresAt: JsonNullable.of(expiresAt?.toUtc().toIso8601String()),
   );
 }

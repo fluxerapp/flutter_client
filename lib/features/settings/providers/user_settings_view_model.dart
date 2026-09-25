@@ -20,6 +20,7 @@ import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+part 'profile_update_payload.dart';
 part 'user_settings_view_model.g.dart';
 
 const int _kGuildProfileFlagAvatarUnset = 1 << 0;
@@ -1239,65 +1240,16 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
         profileFlags |= _kGuildProfileFlagBannerUnset;
       }
 
-      String? avatarValue;
-      if (s.guildAvatarMode == GuildAssetMode.custom &&
-          s.editedGuildAvatarBase64 != null) {
-        avatarValue = s.editedGuildAvatarBase64;
-      }
-
-      String? bannerValue;
-      if (s.guildBannerMode == GuildAssetMode.custom &&
-          s.editedGuildBannerBase64 != null) {
-        bannerValue = s.editedGuildBannerBase64;
-      }
-
-      final body = MyGuildMemberUpdateRequest(
-        nick: s.canChangeNickname
-            ? (s.isEditedNickSet ? s.editedNick : s.guildNick)
-            : null,
-        avatar:
-            s.guildAvatarMode == GuildAssetMode.inherit ||
-                s.guildAvatarMode == GuildAssetMode.unset
-            ? null
-            : avatarValue,
-        banner:
-            s.guildBannerMode == GuildAssetMode.inherit ||
-                s.guildBannerMode == GuildAssetMode.unset
-            ? null
-            : bannerValue,
-        bio: s.isEditedGuildBioSet ? s.editedGuildBio : s.guildBio,
-        pronouns: s.isEditedGuildPronounsSet
-            ? s.editedGuildPronouns
-            : s.guildPronouns,
-        accentColor: s.isEditedGuildAccentColorSet
-            ? s.editedGuildAccentColor
-            : s.guildAccentColor,
+      final body = buildGuildMemberProfileUpdateRequest(
+        s,
         profileFlags: profileFlags,
       );
 
-      final needsExplicitNulls =
-          s.guildAvatarMode != GuildAssetMode.custom ||
-          s.guildBannerMode != GuildAssetMode.custom;
-
-      if (needsExplicitNulls) {
-        final json = body.toJson();
-        if (s.guildAvatarMode == GuildAssetMode.inherit ||
-            s.guildAvatarMode == GuildAssetMode.unset) {
-          json['avatar'] = null;
-        }
-        if (s.guildBannerMode == GuildAssetMode.inherit ||
-            s.guildBannerMode == GuildAssetMode.unset) {
-          json['banner'] = null;
-        }
-        final dio = ref.read(fluxerDioProvider);
-        await dio.patch<dynamic>('/guilds/$guildId/members/@me', data: json);
-      } else {
-        final client = ref.read(fluxerClientProvider);
-        await client.guilds.updateCurrentGuildMember(
-          guildId: guildId,
-          body: body,
-        );
-      }
+      final client = ref.read(fluxerClientProvider);
+      await client.guilds.updateCurrentGuildMember(
+        guildId: guildId,
+        body: body,
+      );
 
       await selectGuild(guildId);
       await ref
@@ -1349,92 +1301,10 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
 
     try {
       final s = state;
+      final body = buildCurrentUserProfileUpdateRequest(s);
 
-      String? globalName;
-      if (s.isEditedDisplayNameSet && s.editedDisplayName != s.displayName) {
-        globalName = s.editedDisplayName;
-      }
-
-      String? bio;
-      if (s.isEditedBioSet && s.editedBio != s.bio) {
-        bio = s.editedBio;
-      }
-
-      String? pronouns;
-      if (s.isEditedPronounsSet && s.editedPronouns != s.pronouns) {
-        pronouns = s.editedPronouns;
-      }
-
-      int? accentColor;
-      if (s.isEditedAccentColorSet && s.editedAccentColor != s.accentColor) {
-        accentColor = s.editedAccentColor;
-      }
-
-      String? avatarValue;
-      if (s.editedAvatarBase64 != null) {
-        avatarValue = s.editedAvatarBase64;
-      }
-
-      String? bannerValue;
-      if (s.editedBannerBase64 != null) {
-        bannerValue = s.editedBannerBase64;
-      }
-
-      bool? premiumBadgeHidden;
-      if (s.isEditedPremiumBadgeHiddenSet &&
-          s.editedPremiumBadgeHidden != s.premiumBadgeHidden) {
-        premiumBadgeHidden = s.editedPremiumBadgeHidden;
-      }
-
-      bool? premiumBadgeMasked;
-      if (s.isEditedPremiumBadgeMaskedSet &&
-          s.editedPremiumBadgeMasked != s.premiumBadgeMasked) {
-        premiumBadgeMasked = s.editedPremiumBadgeMasked;
-      }
-
-      bool? premiumBadgeTimestampHidden;
-      if (s.isEditedPremiumBadgeTimestampHiddenSet &&
-          s.editedPremiumBadgeTimestampHidden !=
-              s.premiumBadgeTimestampHidden) {
-        premiumBadgeTimestampHidden = s.editedPremiumBadgeTimestampHidden;
-      }
-
-      bool? premiumBadgeSequenceHidden;
-      if (s.isEditedPremiumBadgeSequenceHiddenSet &&
-          s.editedPremiumBadgeSequenceHidden != s.premiumBadgeSequenceHidden) {
-        premiumBadgeSequenceHidden = s.editedPremiumBadgeSequenceHidden;
-      }
-
-      final body = UserUpdateWithVerificationRequest(
-        globalName: globalName,
-        bio: bio,
-        pronouns: pronouns,
-        accentColor: accentColor,
-        avatar: s.avatarCleared ? null : avatarValue,
-        banner: s.bannerCleared ? null : bannerValue,
-        premiumBadgeHidden: premiumBadgeHidden,
-        premiumBadgeMasked: premiumBadgeMasked,
-        premiumBadgeTimestampHidden: premiumBadgeTimestampHidden,
-        premiumBadgeSequenceHidden: premiumBadgeSequenceHidden,
-      );
-
-      if (s.avatarCleared || s.bannerCleared) {
-        // SDK uses @JsonKey(includeIfNull: false) which omits null
-        // fields, but the API needs explicit nulls to clear
-        // avatar/banner on a PATCH request.
-        final json = body.toJson();
-        if (s.avatarCleared) {
-          json['avatar'] = null;
-        }
-        if (s.bannerCleared) {
-          json['banner'] = null;
-        }
-        final dio = ref.read(fluxerDioProvider);
-        await dio.patch<dynamic>('/users/@me', data: json);
-      } else {
-        final client = ref.read(fluxerClientProvider);
-        await client.users.updateCurrentUser(body: body);
-      }
+      final client = ref.read(fluxerClientProvider);
+      await client.users.updateCurrentUser(body: body);
 
       await loadProfile();
       reset();

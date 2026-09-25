@@ -179,7 +179,9 @@ void main() {
       await _waitForDebounce(store);
 
       expect(usersApi.pushCount, 1);
-      final bytes = base64Decode(usersApi.lastPushBody!.syncedPreferences!);
+      final bytes = base64Decode(
+        usersApi.lastPushBody!.syncedPreferences.value!,
+      );
       final synced = pb.SyncedPreferences.fromBuffer(bytes);
       expect(synced.hasGuildFolders(), isTrue);
       expect(synced.guildFolders.expandedFolderIds.map((id) => id.toInt()), [

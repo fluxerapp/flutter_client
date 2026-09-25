@@ -56,9 +56,11 @@ List<VoiceParticipantMenuEntry> buildVoiceParticipantGuildModerationEntries({
                     guildId: guildId,
                     userId: userId,
                     body: GuildMemberUpdateRequest(
-                      nick: currentNick,
-                      communicationDisabledUntil: DateTime.now().toUtc().add(
-                        Duration(seconds: seconds),
+                      nick: currentNick == null
+                          ? const JsonNullable.undefined()
+                          : JsonNullable.of(currentNick),
+                      communicationDisabledUntil: JsonNullable.of(
+                        DateTime.now().toUtc().add(Duration(seconds: seconds)),
                       ),
                     ),
                   ),
@@ -102,7 +104,10 @@ List<VoiceParticipantMenuEntry> buildVoiceParticipantGuildModerationEntries({
                   .updateGuildMember(
                     guildId: guildId,
                     userId: userId,
-                    body: GuildMemberUpdateRequest(nick: currentNick),
+                    body: GuildMemberUpdateRequest(
+                      communicationDisabledUntil:
+                          const JsonNullable<DateTime>.of(null),
+                    ),
                   ),
             );
           }());
@@ -177,7 +182,7 @@ List<VoiceParticipantMenuEntry> buildVoiceParticipantGuildModerationEntries({
                     userId: userId,
                     body: GuildBanCreateRequest(
                       deleteMessageDays: result.deleteMessageDays,
-                      reason: result.reason,
+                      reason: JsonNullable.of(result.reason),
                       banDurationSeconds: result.banDurationSeconds,
                     ),
                   ),

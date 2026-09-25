@@ -1382,7 +1382,6 @@ class GatewayEventHandler {
       collapsed: false,
       messageNotifications: UserNotificationSettingsInput.inherit,
       muted: false,
-      muteConfig: null,
     ).toJson();
   }
 

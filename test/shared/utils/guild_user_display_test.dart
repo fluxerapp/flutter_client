@@ -737,9 +737,9 @@ UserProfileFullResponse _profile({
       bannerColor: 0x445566,
       accentColor: 0x778899,
     ),
+    timezoneOffset: null,
     guildMember: guildMember,
     guildMemberProfile: guildProfile,
-    timezoneOffset: null,
   );
 }
 
