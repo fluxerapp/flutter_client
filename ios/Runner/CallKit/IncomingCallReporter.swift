@@ -272,6 +272,7 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
       NSLog("[CallKit] report failed: \(error.localizedDescription)")
       return
     }
+    NSLog("[CallKit] voip call reported")
     if endAfterReport {
       if calls[uuid]?.answered == true || calls[uuid]?.published == true {
         return
