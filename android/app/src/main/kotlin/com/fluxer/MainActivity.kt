@@ -39,6 +39,7 @@ class MainActivity : AudioServiceActivity() {
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         BrowserLaunchBridge(applicationContext).register(flutterEngine)
+        SystemInsetsBridge(this).register(flutterEngine)
         AnimatorDurationScaleBridge(applicationContext).register(flutterEngine)
         PhysicalKeyboardBridge(applicationContext).register(flutterEngine)
         NotificationReplyBridge(applicationContext).register(flutterEngine)
