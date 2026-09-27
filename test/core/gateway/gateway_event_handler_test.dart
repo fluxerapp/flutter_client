@@ -140,15 +140,27 @@ void main() {
 
   test('READY keeps pending requests omitted from the payload', () async {
     final database = openTestDatabase();
+    final handler = GatewayEventHandler(database: database);
+    await handler.handle(
+      ReadyEvent(
+        sessionId: 'session-id',
+        user: _user(),
+        guilds: const [],
+        rawGuilds: const [],
+        privateChannels: const [],
+        relationships: const [],
+        readStates: const [],
+        presences: const [],
+      ),
+    );
     await database.relationshipDao.upsertRelationships([
       RelationshipsCompanion.insert(userId: 'pending-out', type: 4),
       RelationshipsCompanion.insert(userId: 'pending-in', type: 3),
     ]);
 
-    final handler = GatewayEventHandler(database: database);
     await handler.handle(
       ReadyEvent(
-        sessionId: 'session-id',
+        sessionId: 'session-id-2',
         user: _user(),
         guilds: const [],
         rawGuilds: const [],
@@ -167,18 +179,57 @@ void main() {
     );
   });
 
+  test('READY full wipe drops relationships from a previous account', () async {
+    final database = openTestDatabase();
+    await database.relationshipDao.upsertRelationships([
+      RelationshipsCompanion.insert(userId: 'pending-in', type: 3),
+    ]);
+
+    final handler = GatewayEventHandler(database: database);
+    await handler.handle(
+      ReadyEvent(
+        sessionId: 'session-id',
+        user: UserPrivateResponse.fromJson({
+          ..._user().toJson(),
+          'id': '200',
+          'username': 'other',
+        }),
+        guilds: const [],
+        rawGuilds: const [],
+        privateChannels: const [],
+        relationships: const [],
+        readStates: const [],
+        presences: const [],
+      ),
+    );
+
+    expect(await database.relationshipDao.getRelationships(), isEmpty);
+  });
+
   test(
     'READY upserts relationships from the payload without wiping others',
     () async {
       final database = openTestDatabase();
-      await database.relationshipDao.upsertRelationships([
-        RelationshipsCompanion.insert(userId: 'pending-out', type: 4),
-      ]);
-
       final handler = GatewayEventHandler(database: database);
       await handler.handle(
         ReadyEvent(
           sessionId: 'session-id',
+          user: _user(),
+          guilds: const [],
+          rawGuilds: const [],
+          privateChannels: const [],
+          relationships: const [],
+          readStates: const [],
+          presences: const [],
+        ),
+      );
+      await database.relationshipDao.upsertRelationships([
+        RelationshipsCompanion.insert(userId: 'pending-out', type: 4),
+      ]);
+
+      await handler.handle(
+        ReadyEvent(
+          sessionId: 'session-id-2',
           user: _user(),
           guilds: const [],
           rawGuilds: const [],

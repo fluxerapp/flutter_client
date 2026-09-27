@@ -5,9 +5,8 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/gestures/axis_locking_horizontal_drag_recognizer.dart';
 import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.dart';
-import 'package:fluxer_app/shared/gestures/horizontal_drag_axis_lock.dart';
+import 'package:fluxer_app/shared/gestures/directional_horizontal_drag_recognizer.dart';
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -258,17 +257,15 @@ class _SwipeToReplyState extends State<SwipeToReply>
           child: RawGestureDetector(
             behavior: HitTestBehavior.translucent,
             gestures: <Type, GestureRecognizerFactory>{
-              AxisLockingHorizontalDragRecognizer:
+              DirectionalHorizontalDragRecognizer:
                   GestureRecognizerFactoryWithHandlers<
-                    AxisLockingHorizontalDragRecognizer
+                    DirectionalHorizontalDragRecognizer
                   >(
-                    () => AxisLockingHorizontalDragRecognizer(
+                    () => DirectionalHorizontalDragRecognizer(
+                      directions: () => const <HorizontalClaimDirection>{
+                        HorizontalClaimDirection.left,
+                      },
                       shouldDefer: _shouldDeferToHorizontalScroll,
-                      shouldReject: (HorizontalDragAxisLockDecision decision) =>
-                          decision ==
-                              HorizontalDragAxisLockDecision.yieldToVertical ||
-                          decision ==
-                              HorizontalDragAxisLockDecision.yieldToRightward,
                     ),
                     (recognizer) {
                       recognizer

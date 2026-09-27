@@ -6133,6 +6133,15 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get voicePanelUseEarpieceLabel => 'Gebruik oortelefoon';
 
   @override
+  String get voiceOutputRouteSpeaker => 'Speaker';
+
+  @override
+  String get voiceOutputRouteEarpiece => 'Earpiece';
+
+  @override
+  String get voiceOutputRouteHeadset => 'Headphones';
+
+  @override
   String get voicePanelOnlyShowVideosLabel => 'Alleen video\'s tonen';
 
   @override

@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/api/service_unavailable.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide AuthSession;
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
+import 'package:fluxer_app/core/instance/instance_legacy_endpoint_migrator.dart';
 import 'package:fluxer_app/features/auth/data/auth_token_storage.dart';
 import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
 import 'package:fluxer_app/features/auth/domain/auth_session.dart';
@@ -245,6 +246,82 @@ class AuthRepository {
     await _db.authSessionDao.dropLegacyTokenColumnIfPresent();
   }
 
+  Future<void> migrateLegacyInstanceEndpoints() async {
+    const InstanceLegacyEndpointMigrator migrator =
+        InstanceLegacyEndpointMigrator();
+    final sessions = await _db.authSessionDao.getAllSessions();
+    for (final session in sessions) {
+      await _migrateLegacyInstanceSnapshotForUser(
+        migrator: migrator,
+        userId: session.userId,
+        instanceSnapshotJson: session.instanceSnapshotJson,
+      );
+      await _migrateLegacyStoredApiBaseUrl(
+        migrator: migrator,
+        userId: session.userId,
+      );
+    }
+    final List<RecentInstance> recents = await _db.recentInstancesDao
+        .getRecentInstances();
+    for (final RecentInstance recent in recents) {
+      final String? migratedDomain = migrator
+          .migrateOfficialRecentDomainIfNeeded(recent.domain);
+      if (migratedDomain == null) {
+        continue;
+      }
+      await _db.recentInstancesDao.renameRecentInstanceDomain(
+        fromDomain: recent.domain,
+        toDomain: migratedDomain,
+      );
+    }
+  }
+
+  Future<void> _migrateLegacyInstanceSnapshotForUser({
+    required InstanceLegacyEndpointMigrator migrator,
+    required String userId,
+    String? instanceSnapshotJson,
+  }) async {
+    if (instanceSnapshotJson == null || instanceSnapshotJson.isEmpty) {
+      return;
+    }
+    try {
+      final InstanceConfigSnapshot snapshot = InstanceConfigSnapshot.fromJson(
+        instanceSnapshotJson,
+      );
+      final InstanceConfigSnapshot? migrated = migrator
+          .migrateOfficialSnapshotIfNeeded(snapshot);
+      if (migrated == null) {
+        return;
+      }
+      await _db.authSessionDao.updateInstanceSnapshotJson(
+        userId: userId,
+        instanceSnapshotJson: migrated.toJson(),
+      );
+      await _persistApiBaseUrl(userId, migrated.apiBaseUrl);
+    } on Object {
+      // Bad snapshot json should not block startup.
+    }
+  }
+
+  Future<void> _migrateLegacyStoredApiBaseUrl({
+    required InstanceLegacyEndpointMigrator migrator,
+    required String userId,
+  }) async {
+    final String? token = await _tokenStorage.readToken(userId);
+    if (token == null || token.isEmpty) {
+      return;
+    }
+    final String? stored = await _tokenStorage.readApiBaseUrl(userId);
+    if (stored == null || stored.isEmpty) {
+      return;
+    }
+    final String? migrated = migrator.migrateOfficialApiBaseUrlIfNeeded(stored);
+    if (migrated == null) {
+      return;
+    }
+    await _tokenStorage.saveApiBaseUrl(userId: userId, apiBaseUrl: migrated);
+  }
+
   /// Removes session metadata that has no matching token in secure storage.
   Future<void> pruneTokenlessSessions() async {
     final sessions = await _db.authSessionDao.getAllSessions();
@@ -437,11 +514,14 @@ class AuthRepository {
     }
   }
 
-  Future<dynamic> getMfaWebauthnOptions({required String ticket}) async {
+  Future<Map<String, dynamic>> getMfaWebauthnOptions({
+    required String ticket,
+  }) async {
     try {
-      return await _client.auth.getWebauthnMfaOptions(
+      final options = await _client.auth.getWebauthnMfaOptions(
         body: MfaTicketRequest(ticket: ticket),
       );
+      return jsonDecode(jsonEncode(options)) as Map<String, dynamic>;
     } on DioException catch (error) {
       throw _failureFromDio(error);
     }
@@ -470,9 +550,10 @@ class AuthRepository {
     }
   }
 
-  Future<dynamic> getPasskeyLoginOptions() async {
+  Future<Map<String, dynamic>> getPasskeyLoginOptions() async {
     try {
-      return await _client.auth.getWebauthnAuthenticationOptions();
+      final options = await _client.auth.getWebauthnAuthenticationOptions();
+      return jsonDecode(jsonEncode(options)) as Map<String, dynamic>;
     } on DioException catch (error) {
       throw _failureFromDio(error);
     }

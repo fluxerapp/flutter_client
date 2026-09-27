@@ -6113,6 +6113,15 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get voicePanelUseEarpieceLabel => 'Dùng tai nghe';
 
   @override
+  String get voiceOutputRouteSpeaker => 'Speaker';
+
+  @override
+  String get voiceOutputRouteEarpiece => 'Earpiece';
+
+  @override
+  String get voiceOutputRouteHeadset => 'Headphones';
+
+  @override
   String get voicePanelOnlyShowVideosLabel => 'Chỉ hiển thị video';
 
   @override

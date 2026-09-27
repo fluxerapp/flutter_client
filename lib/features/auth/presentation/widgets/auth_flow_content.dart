@@ -2,8 +2,11 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/auth/presentation/mfa_screen.dart';
+import 'package:fluxer_app/features/auth/presentation/widgets/forgot_password_screen.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/ip_authorization_screen.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/login_form.dart';
+import 'package:fluxer_app/features/auth/presentation/widgets/register_screen.dart';
+import 'package:fluxer_app/features/auth/presentation/widgets/reset_password_screen.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/sso_button.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/suspended_account_screen.dart';
 import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
@@ -19,6 +22,24 @@ class AuthFlowContent extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final LoginViewState vm = ref.watch(loginViewModelProvider);
     final LoginViewModel notifier = ref.read(loginViewModelProvider.notifier);
+
+    if (vm.resetToken != null) {
+      return ResetPasswordScreen(
+        token: vm.resetToken!,
+        onBack: notifier.clearResetToken,
+      );
+    }
+
+    if (vm.showForgotPassword) {
+      return ForgotPasswordScreen(
+        onBack: notifier.backFromForgotPassword,
+        onRegister: notifier.showRegisterScreen,
+      );
+    }
+
+    if (vm.showRegister) {
+      return RegisterScreen(onBack: notifier.backFromRegister);
+    }
 
     if (vm.mfaChallenge != null) {
       return MfaScreen(

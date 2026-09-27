@@ -1,4 +1,3 @@
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/push/push_notification_ids.dart';
 import 'package:fluxer_app/core/push/push_notification_payload.dart';
@@ -34,32 +33,35 @@ void main() {
     });
   });
 
-  group('androidPushReplyActions', () {
-    test('message action stays in the background and clears the spinner', () {
-      final List<AndroidNotificationAction> actions = androidPushReplyActions(
-        <String, String>{'channel_id': 'c', 'message_id': 'm'},
-        title: 'Reply',
-        hint: 'Message',
-      );
-      expect(actions, hasLength(1));
-      expect(actions.single.id, kPushReplyActionId);
-      expect(actions.single.showsUserInterface, isFalse);
-      expect(actions.single.cancelNotification, isTrue);
-      expect(actions.single.inputs.single.label, 'Message');
-    });
-
-    test('clears have no reply action', () {
-      expect(
-        androidPushReplyActions(
-          <String, String>{
-            'action': 'clear_channel',
+  group('androidNotificationReplyTarget', () {
+    test('message replies identify the account without a token', () {
+      final AndroidNotificationReplyTarget? target =
+          androidNotificationReplyTarget(<String, String>{
             'channel_id': 'c',
             'message_id': 'm',
-          },
-          title: 'Reply',
-          hint: 'Message',
-        ),
-        isEmpty,
+            'target_user_id': 'user-b',
+          });
+      expect(target?.channelId, 'c');
+      expect(target?.messageId, 'm');
+      expect(target?.userId, 'user-b');
+    });
+
+    test('clears and missing accounts are not reply targets', () {
+      expect(
+        androidNotificationReplyTarget(<String, String>{
+          'action': 'clear_channel',
+          'channel_id': 'c',
+          'message_id': 'm',
+          'target_user_id': 'user-b',
+        }),
+        isNull,
+      );
+      expect(
+        androidNotificationReplyTarget(<String, String>{
+          'channel_id': 'c',
+          'message_id': 'm',
+        }),
+        isNull,
       );
     });
   });

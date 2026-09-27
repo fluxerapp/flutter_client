@@ -244,6 +244,17 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                                 children: <Widget>[
                                   Positioned.fill(
                                     child: ChatListKeyboardDismiss(
+                                      onDismissPanels: () {
+                                        if (!isPanelOpen) {
+                                          return;
+                                        }
+                                        ref
+                                            .read(
+                                              composerPanelDismissRequestProvider
+                                                  .notifier,
+                                            )
+                                            .requestAnimatedClose();
+                                      },
                                       child: stripKeyboardInsets
                                           ? MediaQuery.removeViewInsets(
                                               context: context,

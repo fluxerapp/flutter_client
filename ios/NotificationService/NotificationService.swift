@@ -28,8 +28,10 @@ final class NotificationService: UNNotificationServiceExtension {
         }
         let resolved = WebPushRecordDecryptor.resolvedUserInfo(request.content.userInfo)
         applyDecryptedFields(to: mutableContent, userInfo: resolved)
-        if PushNotificationPayload.isCallRingPayload(from: resolved) {
-            Self.applyCallRingFields(to: mutableContent, userInfo: resolved)
+        if PushNotificationPayload.isCallAlert(from: resolved) {
+            mutableContent.sound = nil
+            mutableContent.interruptionLevel = .passive
+            mutableContent.relevanceScore = 0
             bestAttemptContent = mutableContent
             deliver(content: mutableContent)
             return
@@ -73,13 +75,16 @@ final class NotificationService: UNNotificationServiceExtension {
         to content: UNMutableNotificationContent,
         userInfo: [AnyHashable: Any]
     ) {
+        let preservedBody = content.body
         content.userInfo = userInfo
         if let title = userInfo["title"] as? String, !title.isEmpty {
             content.title = title
         }
-        if let body = userInfo["body"] as? String, !body.isEmpty {
-            content.body = body
-        }
+        content.body = PushNotificationPayload.resolvedAlertBody(
+            decryptedBody: userInfo["body"] as? String,
+            currentBody: preservedBody,
+            fallback: Self.localizedPushBody()
+        )
     }
 
     private func downloadMedia(messageImageUrl: URL?, imageIdentifier: String, avatarUrl: URL?) {
@@ -182,34 +187,28 @@ private extension NotificationService {
         content.sound = sound
     }
 
-    static func applyCallRingFields(
-        to content: UNMutableNotificationContent,
-        userInfo: [AnyHashable: Any]
-    ) {
-        guard PushNotificationPayload.isCallRingPayload(from: userInfo) else {
-            return
+    static func localizedPushBody() -> String {
+        let appURL = Bundle.main.bundleURL
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+        let bundle = Bundle(url: appURL) ?? .main
+        let text = bundle.localizedString(
+            forKey: "PUSH_NEW_MESSAGE",
+            value: "New message",
+            table: nil
+        )
+        if text.isEmpty || text == "PUSH_NEW_MESSAGE" {
+            return "New message"
         }
-        if content.title.isEmpty {
-            if let callerName = userInfo["caller_name"] as? String, !callerName.isEmpty {
-                content.title = callerName
-            } else {
-                content.title = "Fluxer"
-            }
-        }
-        if content.body.isEmpty {
-            content.body = "Incoming call"
-        }
+        return text
     }
 
     static func communicationContent(
         _ content: UNMutableNotificationContent,
         avatarData: Data?
     ) -> UNNotificationContent {
-        if PushNotificationPayload.isCallRingPayload(from: content.userInfo)
-          || !PushNotificationPayload.hasDisplayableAlert(
-            title: content.title,
-            body: content.body
-          )
+        if PushNotificationPayload.isCallAlert(from: content.userInfo)
+          || content.body.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         {
             return content
         }

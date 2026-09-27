@@ -23,11 +23,8 @@ class BottomInputSpacer extends ConsumerWidget {
       expressionPanelOpen: ref.watch(expressionPanelProvider),
       attachmentPanelOpen: ref.watch(attachmentPanelProvider),
     );
-    final double slotHeight = ref.watch(
-      bottomInputSlotProvider.select(
-        (BottomInputSlotState state) => state.slotHeight,
-      ),
-    );
+    final BottomInputSlotState slotState = ref.watch(bottomInputSlotProvider);
+    final double slotHeight = slotState.slotHeight;
 
     if (isPanelOpen) {
       final ({double? anchoredKeyboardHeight, double fallbackKeyboardHeight})
@@ -47,6 +44,7 @@ class BottomInputSpacer extends ConsumerWidget {
         slotHeight: slotHeight,
         netAnchorHeight: anchorHeight,
         grossAnchorHeight: anchorHeight,
+        useExactSlotHeight: slotState.slotHeightHeld,
       );
       if (reservedHeight <= 0) {
         return const SizedBox.shrink();

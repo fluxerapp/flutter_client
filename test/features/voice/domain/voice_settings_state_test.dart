@@ -1,31 +1,32 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/features/voice/domain/voice_output_route.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 
 void main() {
-  group('VoiceSettingsState preferSpeakerOutput', () {
-    test('defaults to speaker on', () {
-      expect(const VoiceSettingsState().preferSpeakerOutput, isTrue);
+  group('VoiceSettingsState outputRoute', () {
+    test('defaults to speaker', () {
+      expect(const VoiceSettingsState().outputRoute, VoiceOutputRoute.speaker);
     });
 
-    test('fromJson defaults missing preferSpeakerOutput to true', () {
+    test('fromJson defaults a missing route to speaker', () {
       final VoiceSettingsState settings = VoiceSettingsState.fromJson(
         <String, dynamic>{},
       );
-      expect(settings.preferSpeakerOutput, isTrue);
+      expect(settings.outputRoute, VoiceOutputRoute.speaker);
     });
 
-    test('fromJson preserves explicit preferSpeakerOutput false', () {
+    test('fromJson keeps an older earpiece preference', () {
       final VoiceSettingsState settings = VoiceSettingsState.fromJson(
         <String, dynamic>{'preferSpeakerOutput': false},
       );
-      expect(settings.preferSpeakerOutput, isFalse);
+      expect(settings.outputRoute, VoiceOutputRoute.earpiece);
     });
 
-    test('fromJson preserves explicit preferSpeakerOutput true', () {
+    test('fromJson reads the stored route', () {
       final VoiceSettingsState settings = VoiceSettingsState.fromJson(
-        <String, dynamic>{'preferSpeakerOutput': true},
+        <String, dynamic>{'outputRoute': 'headset'},
       );
-      expect(settings.preferSpeakerOutput, isTrue);
+      expect(settings.outputRoute, VoiceOutputRoute.headset);
     });
   });
 

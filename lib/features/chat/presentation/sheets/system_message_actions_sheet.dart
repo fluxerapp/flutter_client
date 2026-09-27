@@ -8,7 +8,6 @@ import 'package:fluxer_app/features/chat/presentation/sheets/message_debug_sheet
 import 'package:fluxer_app/features/chat/presentation/sheets/message_reactions_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/remove_all_reactions_confirm_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/message_bottom_sheet.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_loader.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
@@ -33,14 +32,6 @@ Future<void> showSystemMessageActionsSheet(
   required bool canManageMessages,
   required String? currentUserId,
 }) async {
-  final quickItems = await loadQuickReactionItems(
-    ref,
-    channelId: message.channelId,
-    guildId: guildId,
-  );
-  if (!context.mounted) {
-    return;
-  }
   final developerMode = ref.read(
     userSettingsViewModelProvider.select((s) => s.developerMode),
   );
@@ -56,7 +47,8 @@ Future<void> showSystemMessageActionsSheet(
     canManageMessages: canManageMessages,
     canSendMessages: false,
     developerMode: developerMode,
-    quickItems: quickItems,
+    quickReactionChannelId: message.channelId,
+    quickReactionGuildId: guildId,
     onQuickReaction: (item) => _toggleQuickReaction(ref, message, item),
   );
   if (action == MessageAction.delete) {

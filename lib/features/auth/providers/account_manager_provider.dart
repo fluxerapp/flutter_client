@@ -94,6 +94,8 @@ class AccountManager extends _$AccountManager {
         mode: LeavePushAccountMode.switchAccount,
       );
 
+      await db.relationshipDao.clearAll();
+
       ref.read(syncedPreferencesStoreProvider).reset();
       ref.read(slowmodeTrackerProvider.notifier).reset();
 

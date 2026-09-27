@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_expression_expandable_sheet.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/chat/utils/composer/inline_expression_panel_layout.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -251,6 +252,34 @@ void main() {
       await tester.pumpAndSettle();
     });
 
+    testWidgets('dismiss request animates height before provider teardown', (
+      tester,
+    ) async {
+      final ProviderContainer container = ProviderContainer();
+      addTearDown(container.dispose);
+      await _pumpSheet(tester, colorTheme: colorTheme, container: container);
+      container.read(expressionPanelProvider.notifier).open();
+      await tester.pump();
+
+      final Finder sheet = find.byKey(kChatExpressionSheetKey);
+      container
+          .read(composerPanelDismissRequestProvider.notifier)
+          .requestAnimatedClose();
+      for (final Duration? delay in <Duration?>[
+        null,
+        const Duration(milliseconds: 50),
+      ]) {
+        await tester.pump(delay);
+      }
+      final double midCloseHeight = tester.getSize(sheet).height;
+      expect(midCloseHeight, lessThan(_kAnchorHeight));
+      expect(midCloseHeight, greaterThan(0));
+      expect(find.byKey(kChatExpressionSheetKey), findsOneWidget);
+      await tester.pump(const Duration(milliseconds: 150));
+      expect(find.byKey(kChatExpressionSheetKey), findsOneWidget);
+      await tester.pumpAndSettle();
+    });
+
     testWidgets('keeps sheet mounted when collapsedHeight is zero', (
       tester,
     ) async {
@@ -341,11 +370,17 @@ Future<void> _pumpSheet(
   WidgetTester tester, {
   required FluxerColorTheme colorTheme,
   double collapsedHeight = _kDockedContentHeight,
+  ProviderContainer? container,
 }) async {
   await tester.binding.setSurfaceSize(_kMobileViewport);
   addTearDown(() => tester.binding.setSurfaceSize(null));
+  final ProviderContainer scopeContainer = container ?? ProviderContainer();
+  if (container == null) {
+    addTearDown(scopeContainer.dispose);
+  }
   await tester.pumpWidget(
-    ProviderScope(
+    UncontrolledProviderScope(
+      container: scopeContainer,
       child: MaterialApp(
         locale: kTestLocale,
         localizationsDelegates: FluxerLocalizations.localizationsDelegates,

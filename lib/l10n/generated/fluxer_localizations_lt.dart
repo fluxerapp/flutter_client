@@ -6188,6 +6188,15 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get voicePanelUseEarpieceLabel => 'Naudoti ausinę';
 
   @override
+  String get voiceOutputRouteSpeaker => 'Speaker';
+
+  @override
+  String get voiceOutputRouteEarpiece => 'Earpiece';
+
+  @override
+  String get voiceOutputRouteHeadset => 'Headphones';
+
+  @override
   String get voicePanelOnlyShowVideosLabel => 'Rodyti tik vaizdo įrašus';
 
   @override

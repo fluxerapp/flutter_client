@@ -24,6 +24,14 @@ class ExpressionPanel extends _$ExpressionPanel {
 }
 
 @Riverpod(keepAlive: true)
+class ComposerPanelDismissRequest extends _$ComposerPanelDismissRequest {
+  @override
+  int build() => 0;
+
+  void requestAnimatedClose() => state++;
+}
+
+@Riverpod(keepAlive: true)
 class ExpressionPanelTab extends _$ExpressionPanelTab {
   @override
   ExpressionPickerTab build() => ExpressionPickerTab.emojis;

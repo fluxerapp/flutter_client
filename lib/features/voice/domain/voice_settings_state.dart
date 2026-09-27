@@ -1,3 +1,5 @@
+import 'package:fluxer_app/features/voice/domain/voice_output_route.dart';
+
 enum VoiceProcessingMode {
   voice,
   studio,
@@ -98,7 +100,7 @@ class VoiceSettingsState {
     this.echoCancellation = true,
     this.noiseSuppression = true,
     this.autoGainControl = true,
-    this.preferSpeakerOutput = true,
+    this.outputRoute = VoiceOutputRoute.speaker,
     this.cameraResolution = CameraResolution.medium,
     this.cameraFacing = VoiceCameraFacing.front,
     this.mirrorCamera = true,
@@ -127,7 +129,7 @@ class VoiceSettingsState {
   final bool echoCancellation;
   final bool noiseSuppression;
   final bool autoGainControl;
-  final bool preferSpeakerOutput;
+  final VoiceOutputRoute outputRoute;
   final CameraResolution cameraResolution;
   final VoiceCameraFacing cameraFacing;
   final bool mirrorCamera;
@@ -159,7 +161,7 @@ class VoiceSettingsState {
     bool? echoCancellation,
     bool? noiseSuppression,
     bool? autoGainControl,
-    bool? preferSpeakerOutput,
+    VoiceOutputRoute? outputRoute,
     CameraResolution? cameraResolution,
     VoiceCameraFacing? cameraFacing,
     bool? mirrorCamera,
@@ -188,7 +190,7 @@ class VoiceSettingsState {
       echoCancellation: echoCancellation ?? this.echoCancellation,
       noiseSuppression: noiseSuppression ?? this.noiseSuppression,
       autoGainControl: autoGainControl ?? this.autoGainControl,
-      preferSpeakerOutput: preferSpeakerOutput ?? this.preferSpeakerOutput,
+      outputRoute: outputRoute ?? this.outputRoute,
       cameraResolution: cameraResolution ?? this.cameraResolution,
       cameraFacing: cameraFacing ?? this.cameraFacing,
       mirrorCamera: mirrorCamera ?? this.mirrorCamera,
@@ -230,7 +232,7 @@ class VoiceSettingsState {
       'echoCancellation': echoCancellation,
       'noiseSuppression': noiseSuppression,
       'autoGainControl': autoGainControl,
-      'preferSpeakerOutput': preferSpeakerOutput,
+      'outputRoute': outputRoute.name,
       'cameraResolution': cameraResolution.name,
       'cameraFacing': cameraFacing.name,
       'mirrorCamera': mirrorCamera,
@@ -266,7 +268,7 @@ class VoiceSettingsState {
       echoCancellation: json['echoCancellation'] as bool? ?? true,
       noiseSuppression: json['noiseSuppression'] as bool? ?? true,
       autoGainControl: json['autoGainControl'] as bool? ?? true,
-      preferSpeakerOutput: json['preferSpeakerOutput'] as bool? ?? true,
+      outputRoute: _outputRouteFromJson(json),
       cameraResolution: CameraResolution.fromJson(
         json['cameraResolution'] as String?,
       ),
@@ -323,6 +325,17 @@ Map<String, bool> _parseStreamAudioMuted(Object? value) {
     parsed[streamKey] = entry.value! as bool;
   }
   return parsed;
+}
+
+VoiceOutputRoute _outputRouteFromJson(Map<String, Object?> json) {
+  final Object? storedRoute = json['outputRoute'];
+  if (storedRoute is String) {
+    return voiceOutputRouteFromName(storedRoute);
+  }
+  final Object? storedSpeaker = json['preferSpeakerOutput'];
+  return voiceOutputRouteFromSpeakerPreference(
+    preferSpeaker: storedSpeaker is bool ? storedSpeaker : null,
+  );
 }
 
 Map<String, int> _parseParticipantVolumes(Object? value) {

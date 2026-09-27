@@ -7827,6 +7827,18 @@
     "@voicePanelUseEarpieceLabel": {
         "description": "Switch label to route voice call audio through the phone earpiece instead of the speaker."
     },
+    "voiceOutputRouteSpeaker": "Speaker",
+    "@voiceOutputRouteSpeaker": {
+        "description": "Voice output route that plays call audio through the phone speaker."
+    },
+    "voiceOutputRouteEarpiece": "Earpiece",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
+    "voiceOutputRouteHeadset": "Headphones",
+    "@voiceOutputRouteHeadset": {
+        "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
+    },
     "voicePanelOnlyShowVideosLabel": "Only show videos",
     "@voicePanelOnlyShowVideosLabel": {
         "description": "Switch label to hide voice participants who do not have their camera on."

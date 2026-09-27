@@ -60,8 +60,8 @@ class _FakeAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<dynamic> getPasskeyLoginOptions() {
-    return Future<dynamic>.error(
+  Future<Map<String, dynamic>> getPasskeyLoginOptions() {
+    return Future<Map<String, dynamic>>.error(
       passkeyException ?? const AuthFailure('Unable to start passkey login.'),
     );
   }
@@ -338,6 +338,23 @@ void main() {
       expect(state.errorMessage, isNull);
     },
   );
+
+  test('passkey login stops loading when the flow throws an error', () async {
+    final ProviderContainer container = ProviderContainer(
+      overrides: [
+        authRepositoryProvider.overrideWithValue(
+          _FakeAuthRepository(passkeyException: StateError('bad options')),
+        ),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    await container.read(loginViewModelProvider.notifier).loginWithPasskey();
+
+    final LoginViewState state = container.read(loginViewModelProvider);
+    expect(state.isLoggingIn, isFalse);
+    expect(state.errorType, LoginError.passkeyFailed);
+  });
 }
 
 ProviderContainer _approvalModeContainer() {

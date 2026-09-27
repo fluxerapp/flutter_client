@@ -6113,6 +6113,15 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get voicePanelUseEarpieceLabel => 'Gunakan gagang telepon';
 
   @override
+  String get voiceOutputRouteSpeaker => 'Speaker';
+
+  @override
+  String get voiceOutputRouteEarpiece => 'Earpiece';
+
+  @override
+  String get voiceOutputRouteHeadset => 'Headphones';
+
+  @override
   String get voicePanelOnlyShowVideosLabel => 'Tampilkan video saja';
 
   @override

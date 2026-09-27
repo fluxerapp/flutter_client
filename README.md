@@ -35,7 +35,7 @@ Join here: [Join Link](https://fluxer.gg/fluxer-labs)
 
 **Apple App Store**: Coming when V1 is finished (join the TestFlight for now).
 
-**Google Play Store**: Google Play Early Access (open testing) is coming soon!
+**Google Play Store**: Join the [Early access link](https://play.google.com/store/apps/details?id=com.fluxer)
 
 **Accrescent**: This is something we are interested in doing after V1 and they allow app submissions again.
 

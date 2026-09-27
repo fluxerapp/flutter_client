@@ -6078,6 +6078,15 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get voicePanelUseEarpieceLabel => 'استخدام سماعة الأذن';
 
   @override
+  String get voiceOutputRouteSpeaker => 'Speaker';
+
+  @override
+  String get voiceOutputRouteEarpiece => 'Earpiece';
+
+  @override
+  String get voiceOutputRouteHeadset => 'Headphones';
+
+  @override
   String get voicePanelOnlyShowVideosLabel => 'إظهار مقاطع الفيديو فقط';
 
   @override

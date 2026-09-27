@@ -46,6 +46,32 @@ class RecentInstancesDao extends DatabaseAccessor<FluxerDatabase>
         .go();
   }
 
+  Future<void> renameRecentInstanceDomain({
+    required String fromDomain,
+    required String toDomain,
+  }) async {
+    final String from = fromDomain.trim().toLowerCase();
+    final String to = toDomain.trim().toLowerCase();
+    if (from.isEmpty || to.isEmpty || from == to) {
+      return;
+    }
+    final RecentInstance? row =
+        await (select(recentInstances)
+              ..where((RecentInstances tbl) => tbl.domain.equals(from)))
+            .getSingleOrNull();
+    if (row == null) {
+      return;
+    }
+    await into(recentInstances).insertOnConflictUpdate(
+      RecentInstancesCompanion.insert(
+        domain: to,
+        name: Value(row.name),
+        lastUsed: Value(row.lastUsed),
+      ),
+    );
+    await removeRecentInstance(from);
+  }
+
   Future<void> _trimToMax() async {
     await customStatement('''
       DELETE FROM recent_instances

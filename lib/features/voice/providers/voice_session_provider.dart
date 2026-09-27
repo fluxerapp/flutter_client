@@ -2365,14 +2365,13 @@ class VoiceSession extends _$VoiceSession {
     final bool outputRoutingChanged =
         previous == null ||
         previous.outputDeviceId != next.outputDeviceId ||
-        previous.preferSpeakerOutput != next.preferSpeakerOutput;
+        previous.outputRoute != next.outputRoute;
     if (outputRoutingChanged) {
       await _applyVoiceOutputRouting(next);
       if (shouldReapplySpeakerOutputOnPreferenceChange(
         isInVoice: state.isInVoice,
         speakerPreferenceChanged:
-            previous != null &&
-            previous.preferSpeakerOutput != next.preferSpeakerOutput,
+            previous != null && previous.outputRoute != next.outputRoute,
       )) {
         _scheduleSpeakerOutputRetry();
       }

@@ -156,6 +156,11 @@ class AppStartup extends _$AppStartup {
           return;
         }
         final authRepository = ref.read(authRepositoryProvider);
+        debugPrint('[AppStartup] Database obtained, migrating legacy data…');
+        await authRepository.migrateLegacyTokens();
+        if (!ref.mounted) {
+          return;
+        }
         await ref
             .read(activeInstanceProvider.notifier)
             .restorePersistedSnapshot(
@@ -164,8 +169,6 @@ class AppStartup extends _$AppStartup {
         if (!ref.mounted) {
           return;
         }
-        debugPrint('[AppStartup] Database obtained, migrating legacy tokens…');
-        await authRepository.migrateLegacyTokens();
         await authRepository.pruneTokenlessSessions();
         await authRepository.persistApiBaseUrls();
       },

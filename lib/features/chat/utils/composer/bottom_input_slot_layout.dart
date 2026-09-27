@@ -104,10 +104,10 @@ double resolveBottomInputSlotHeight({
   required double liveKeyboardHeight,
   required bool isKeyboardVisible,
   required double safeAreaBottom,
-  double heldSlotHeight = 0,
+  double? heldSlotHeightOverride,
 }) {
-  if (heldSlotHeight > 0) {
-    return quantizeBottomInputHeight(heldSlotHeight);
+  if (heldSlotHeightOverride != null) {
+    return heldSlotHeightOverride;
   }
   if (transition != BottomInputTransition.idle) {
     return quantizeBottomInputHeight(lockedHeight);
@@ -254,8 +254,9 @@ double resolvePanelReservedLayoutHeight({
   required double slotHeight,
   required double netAnchorHeight,
   required double grossAnchorHeight,
+  bool useExactSlotHeight = false,
 }) {
-  if (slotHeight > 0) {
+  if (useExactSlotHeight || slotHeight > 0) {
     return slotHeight;
   }
   if (netAnchorHeight > 0) {

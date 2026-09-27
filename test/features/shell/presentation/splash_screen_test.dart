@@ -130,7 +130,7 @@ void main() {
     await tester.pump();
 
     expect(find.text(testL10n.profileTabMenuSwitchAccounts), findsOneWidget);
-    expect(find.text('fluxer.app'), findsOneWidget);
+    expect(find.text('fluxer.com'), findsOneWidget);
   });
 
   testWidgets(

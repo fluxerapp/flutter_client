@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_
 import 'package:fluxer_app/features/settings/providers/voice_prompts_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/features/voice/domain/voice_output_route.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_audio_processing_options.dart';
 import 'package:fluxer_app/features/voice/providers/voice_media_devices_provider.dart';
@@ -143,9 +144,13 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
                 FluxerSettingsSwitchItem(
                   label: l10n.audioAndVideoUseSpeakerLabel,
                   description: l10n.audioAndVideoUseSpeakerDescription,
-                  value: settings.preferSpeakerOutput,
+                  value: settings.outputRoute == VoiceOutputRoute.speaker,
                   onChanged: (bool value) => unawaited(
-                    settingsNotifier.setPreferSpeakerOutput(value: value),
+                    settingsNotifier.setOutputRoute(
+                      value
+                          ? VoiceOutputRoute.speaker
+                          : VoiceOutputRoute.earpiece,
+                    ),
                   ),
                 )
               else if (devices.audioOutputs.length > 1)

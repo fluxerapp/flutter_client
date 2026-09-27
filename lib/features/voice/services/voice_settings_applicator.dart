@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'package:fluxer_app/features/voice/domain/voice_output_route.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_noise_filter_provider.dart';
 import 'package:fluxer_app/features/voice/utils/camera_resolution_presets.dart';
@@ -473,15 +474,21 @@ class VoiceSettingsApplicator {
     required VoiceSettingsState settings,
   }) async {
     if (AudioManager.instance.canSwitchSpeakerphone) {
-      await AudioManager.instance.setSpeakerOutputPreferred(
-        settings.preferSpeakerOutput,
-        force: settings.preferSpeakerOutput,
+      final Set<VoiceOutputRoute> available =
+          await readAvailableVoiceOutputRoutes();
+      final VoiceOutputRoute route = resolveVoiceOutputRoute(
+        preference: settings.outputRoute,
+        available: available,
       );
+      final bool speaker = liveKitPrefersSpeaker(route);
       try {
-        await Helper.setSpeakerphoneOn(settings.preferSpeakerOutput);
+        await AudioManager.instance.setSpeakerOutputPreferred(
+          speaker,
+          force: speaker,
+        );
       } on Object catch (_) {}
+      await applyNativeVoiceOutputRoute(route);
     }
-    await applyIosSpeakerPortOverride(speaker: settings.preferSpeakerOutput);
   }
 
   String? _resolveDeviceId(String deviceId) {

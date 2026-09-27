@@ -8,9 +8,8 @@ import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/gestures/axis_locking_horizontal_drag_recognizer.dart';
 import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.dart';
-import 'package:fluxer_app/shared/gestures/horizontal_drag_axis_lock.dart';
+import 'package:fluxer_app/shared/gestures/directional_horizontal_drag_recognizer.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../../helpers/open_test_database.dart';
@@ -283,6 +282,23 @@ void main() {
       );
       await gesture.moveBy(const Offset(20, 16));
       await gesture.moveBy(const Offset(0, 120));
+      await gesture.up();
+      await tester.pumpAndSettle();
+      expect(messageListScrollPosition(tester).pixels, lessThan(before - 20));
+      expect(_replying(tester), isNull);
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('single large vertical move still scrolls', (
+      WidgetTester tester,
+    ) async {
+      await _pumpList(tester);
+      await _jumpToMid(tester);
+      final double before = messageListScrollPosition(tester).pixels;
+      final TestGesture gesture = await tester.startGesture(
+        _messageBodyStart(tester),
+      );
+      await gesture.moveBy(const Offset(8, 80));
       await gesture.up();
       await tester.pumpAndSettle();
       expect(messageListScrollPosition(tester).pixels, lessThan(before - 20));
@@ -720,16 +736,17 @@ Future<void> _pumpList(
 Widget _wrapParentHorizontal(_ParentHorizontalProbe probe, Widget list) {
   return RawGestureDetector(
     gestures: <Type, GestureRecognizerFactory>{
-      AxisLockingHorizontalDragRecognizer:
+      DirectionalHorizontalDragRecognizer:
           GestureRecognizerFactoryWithHandlers<
-            AxisLockingHorizontalDragRecognizer
+            DirectionalHorizontalDragRecognizer
           >(
-            () => AxisLockingHorizontalDragRecognizer(
+            () => DirectionalHorizontalDragRecognizer(
+              directions: () => const <HorizontalClaimDirection>{
+                HorizontalClaimDirection.right,
+              },
               shouldDefer: (_) => false,
-              shouldReject: (HorizontalDragAxisLockDecision decision) =>
-                  decision == HorizontalDragAxisLockDecision.yieldToVertical,
             ),
-            (AxisLockingHorizontalDragRecognizer recognizer) {
+            (DirectionalHorizontalDragRecognizer recognizer) {
               recognizer
                 ..onStart = (_) {
                   probe.starts++;

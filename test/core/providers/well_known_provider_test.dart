@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
 import 'package:fluxer_app/core/instance/instance_endpoints.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/well_known_provider.dart';
@@ -29,8 +30,8 @@ void main() {
       final Completer<void> releaseOfficial = Completer<void>();
       final _HostWellKnownAdapter adapter = _HostWellKnownAdapter(
         official: wellKnownFixture(
-          api: 'https://api.fluxer.app/v1',
-          gateway: 'wss://gateway.fluxer.app',
+          api: 'https://fluxer.com/api/v1',
+          gateway: 'wss://gateway.fluxer.com',
           media: InstanceEndpoints.defaultMedia,
           staticCdn: InstanceEndpoints.defaultStaticCdn,
           selfHosted: false,
@@ -91,7 +92,8 @@ class _HostWellKnownAdapter implements HttpClientAdapter {
     Stream<Uint8List>? requestStream,
     Future<void>? cancelFuture,
   ) async {
-    final bool isOfficial = options.uri.host.contains('fluxer.app');
+    final bool isOfficial = const InstanceEndpointNormalizer()
+        .isOfficialInstanceInput(options.uri.host);
     if (isOfficial) {
       if (!officialStarted.isCompleted) {
         officialStarted.complete();

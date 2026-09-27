@@ -56,10 +56,10 @@ void main() {
       );
     });
 
-    test('uses root well-known for official api host', () {
+    test('uses api well-known for official marketing api path', () {
       expect(
-        normalizer.buildWellKnownUrl('https://api.fluxer.app/v1'),
-        'https://api.fluxer.app/.well-known/fluxer',
+        normalizer.buildWellKnownUrl('https://fluxer.com/api'),
+        'https://fluxer.com/api/.well-known/fluxer',
       );
     });
 
@@ -80,12 +80,8 @@ void main() {
       expect(normalizer.isOfficialInstanceInput('fluxer.app'), isTrue);
     });
 
-    test('matches official api host with path', () {
-      expect(normalizer.isOfficialInstanceInput('api.fluxer.app/v1'), isTrue);
-    });
-
-    test('matches official fluxer.com api host', () {
-      expect(normalizer.isOfficialInstanceInput('api.fluxer.com/v1'), isTrue);
+    test('matches official fluxer.com host', () {
+      expect(normalizer.isOfficialInstanceInput('fluxer.com'), isTrue);
     });
 
     test('rejects self-hosted host', () {
@@ -94,16 +90,13 @@ void main() {
   });
 
   group('describeApiEndpoint', () {
-    test('maps official api hosts to fluxer.app', () {
+    test('maps official hosts to default instance url', () {
+      expect(normalizer.describeApiEndpoint('fluxer.com'), 'fluxer.com');
+      expect(normalizer.describeApiEndpoint('fluxer.app'), 'fluxer.com');
       expect(
-        normalizer.describeApiEndpoint('https://api.fluxer.app/api'),
-        'fluxer.app',
+        normalizer.describeApiEndpoint('https://fluxer.com/api/v1'),
+        'fluxer.com',
       );
-      expect(
-        normalizer.describeApiEndpoint('https://api.fluxer.app/v1'),
-        'fluxer.app',
-      );
-      expect(normalizer.describeApiEndpoint('fluxer.app'), 'fluxer.app');
     });
 
     test('keeps self-hosted host and non-default path', () {

@@ -1,16 +1,20 @@
 import 'package:flutter/gestures.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/gestures/horizontal_drag_axis_lock.dart';
-import 'package:fluxer_app/shared/gestures/pointer_delivery_profiler.dart';
+import 'package:fluxer_app/shared/gestures/directional_horizontal_drag_recognizer.dart';
 
-/// Dismisses the keyboard on a tap or vertical scroll of the message list.
+/// Dismisses the keyboard and optional composer panels on list tap or scroll.
 ///
-/// A leftward swipe (swipe-to-reply) keeps the current focus so the IME
-/// does not hide and restore mid-gesture.
+/// A clear leftward swipe keeps the current focus so the IME does not hide
+/// and restore mid-gesture.
 class ChatListKeyboardDismiss extends StatefulWidget {
-  const ChatListKeyboardDismiss({required this.child, super.key});
+  const ChatListKeyboardDismiss({
+    required this.child,
+    this.onDismissPanels,
+    super.key,
+  });
 
   final Widget child;
+  final VoidCallback? onDismissPanels;
 
   @override
   State<ChatListKeyboardDismiss> createState() =>
@@ -20,8 +24,9 @@ class ChatListKeyboardDismiss extends StatefulWidget {
 class _ChatListKeyboardDismissState extends State<ChatListKeyboardDismiss> {
   _TrackedPointer? _tracked;
 
-  void _dismissKeyboard() {
+  void _handleListInteraction() {
     FocusManager.instance.primaryFocus?.unfocus();
+    widget.onDismissPanels?.call();
   }
 
   void _onPointerDown(PointerDownEvent event) {
@@ -31,7 +36,6 @@ class _ChatListKeyboardDismissState extends State<ChatListKeyboardDismiss> {
     _tracked = _TrackedPointer(
       pointer: event.pointer,
       downPosition: event.position,
-      downTime: event.timeStamp,
       slop: computeHitSlop(
         event.kind,
         MediaQuery.maybeGestureSettingsOf(context),
@@ -46,23 +50,23 @@ class _ChatListKeyboardDismissState extends State<ChatListKeyboardDismiss> {
         event.pointer != tracked.pointer) {
       return;
     }
-    final int sampleIndex = tracked.sampleCount;
-    tracked.sampleCount += 1;
-    final HorizontalDragAxisLockDecision decision =
-        resolveHorizontalDragAxisLock(
-          deltaFromStart: event.position - tracked.downPosition,
-          slop: tracked.slop,
-          elapsed: event.timeStamp - tracked.downTime,
-          params: PointerDeliveryProfiler.instance.params,
-          sampleIndex: sampleIndex,
-        );
-    if (decision == HorizontalDragAxisLockDecision.pending) {
+    final Offset delta = event.position - tracked.downPosition;
+    final double dx = delta.dx.abs();
+    final double dy = delta.dy.abs();
+    if (dx < tracked.slop && dy < tracked.slop) {
       return;
     }
     tracked.settled = true;
-    if (decision != HorizontalDragAxisLockDecision.keepHorizontal) {
-      _dismissKeyboard();
+    if (claimsClearHorizontalDrag(
+      deltaFromStart: delta,
+      slop: tracked.slop,
+      directions: const <HorizontalClaimDirection>{
+        HorizontalClaimDirection.left,
+      },
+    )) {
+      return;
     }
+    _handleListInteraction();
   }
 
   void _onPointerUp(PointerUpEvent event) {
@@ -71,7 +75,7 @@ class _ChatListKeyboardDismissState extends State<ChatListKeyboardDismiss> {
       return;
     }
     if (!tracked.settled) {
-      _dismissKeyboard();
+      _handleListInteraction();
     }
     _tracked = null;
   }
@@ -99,14 +103,11 @@ class _TrackedPointer {
   _TrackedPointer({
     required this.pointer,
     required this.downPosition,
-    required this.downTime,
     required this.slop,
   });
 
   final int pointer;
   final Offset downPosition;
-  final Duration downTime;
   final double slop;
-  int sampleCount = 0;
   bool settled = false;
 }

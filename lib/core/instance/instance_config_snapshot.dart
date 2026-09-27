@@ -38,8 +38,8 @@ class InstanceConfigSnapshot {
   factory InstanceConfigSnapshot.officialDefault() {
     return const InstanceConfigSnapshot(
       apiBaseUrl: InstanceConstants.defaultApiBaseUrl,
-      gatewayUrl: '',
-      displayDomain: 'fluxer.app',
+      gatewayUrl: InstanceConstants.defaultGatewayUrl,
+      displayDomain: InstanceConstants.defaultInstanceInputUrl,
     );
   }
 
@@ -176,10 +176,8 @@ class InstanceConfigSnapshot {
   }
 
   static const Set<String> _officialApiPublicHosts = <String>{
-    'api.fluxer.app',
-    'api.canary.fluxer.app',
-    'api.fluxer.com',
-    'api.canary.fluxer.com',
+    'fluxer.com',
+    'canary.fluxer.com',
   };
 
   static bool _isOfficialApiPublicUrl(String apiPublic) {

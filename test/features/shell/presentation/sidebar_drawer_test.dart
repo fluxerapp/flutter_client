@@ -421,7 +421,7 @@ void main() {
     expect(_sliderDx(tester), 0);
   });
 
-  testWidgets('coalesced first jump Offset(36, 10) does not open the drawer', (
+  testWidgets('large vertical move Offset(8, 80) does not open the drawer', (
     tester,
   ) async {
     final router = _routerFor('/channels/guild/channel');
@@ -433,8 +433,8 @@ void main() {
     );
 
     final gesture = await tester.startGesture(const Offset(200, 400));
-    await gesture.moveBy(const Offset(36, 10));
-    await gesture.moveBy(const Offset(8, 160));
+    await gesture.moveBy(const Offset(8, 80));
+    await gesture.moveBy(const Offset(0, 160));
     await tester.pump();
     expect(_sliderDx(tester), 0);
     await gesture.up();
@@ -442,7 +442,7 @@ void main() {
     expect(_sliderDx(tester), 0);
   });
 
-  testWidgets('coalesced first jump Offset(80, 16) does not open the drawer', (
+  testWidgets('large vertical move Offset(12, 80) does not open the drawer', (
     tester,
   ) async {
     final router = _routerFor('/channels/guild/channel');
@@ -454,8 +454,8 @@ void main() {
     );
 
     final gesture = await tester.startGesture(const Offset(200, 400));
-    await gesture.moveBy(const Offset(80, 16));
-    await gesture.moveBy(const Offset(8, 160));
+    await gesture.moveBy(const Offset(12, 80));
+    await gesture.moveBy(const Offset(0, 160));
     await tester.pump();
     expect(_sliderDx(tester), 0);
     await gesture.up();

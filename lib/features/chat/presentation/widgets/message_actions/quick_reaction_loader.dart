@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
@@ -6,6 +8,7 @@ import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 
 Future<List<QuickReactionItem>?> loadQuickReactionItems(
@@ -15,7 +18,10 @@ Future<List<QuickReactionItem>?> loadQuickReactionItems(
 }) async {
   try {
     final db = ref.read(fluxerDatabaseProvider);
-    final keys = await db.emojiUsageDao.getQuickReactionMixedKeys(12);
+    final keysFuture = db.emojiUsageDao.getQuickReactionMixedKeys(12);
+    final registryFuture = ref.read(emojiRegistryLoadedProvider.future);
+    final keys = await keysFuture;
+    await registryFuture;
     // Same-guild custom emoji, or global expressions plus external emoji.
     final hasGlobalEmojiAccess =
         ref.read(
@@ -81,5 +87,56 @@ Future<List<QuickReactionItem>?> loadQuickReactionItems(
   } on Object catch (e, st) {
     talker.error('Failed to load quick reaction items', e, st);
     return null;
+  }
+}
+
+class MessageQuickReactionRow extends ConsumerStatefulWidget {
+  const MessageQuickReactionRow({
+    required this.channelId,
+    required this.guildId,
+    required this.onReaction,
+    this.onAddMore,
+    super.key,
+  });
+
+  final String channelId;
+  final String? guildId;
+  final ValueChanged<QuickReactionItem> onReaction;
+  final VoidCallback? onAddMore;
+
+  @override
+  ConsumerState<MessageQuickReactionRow> createState() =>
+      _MessageQuickReactionRowState();
+}
+
+class _MessageQuickReactionRowState
+    extends ConsumerState<MessageQuickReactionRow> {
+  List<QuickReactionItem> _items = kQuickReactionDefaults;
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_refreshItems());
+  }
+
+  Future<void> _refreshItems() async {
+    final loaded = await loadQuickReactionItems(
+      ref,
+      channelId: widget.channelId,
+      guildId: widget.guildId,
+    );
+    if (!mounted || loaded == null) {
+      return;
+    }
+    setState(() => _items = loaded);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return QuickReactionRow(
+      items: _items,
+      onReaction: widget.onReaction,
+      onAddMore: widget.onAddMore,
+    );
   }
 }

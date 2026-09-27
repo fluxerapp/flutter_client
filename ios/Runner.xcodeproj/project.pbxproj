@@ -25,10 +25,12 @@
 		B2B98F9097C589EDA7A0AD0C /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3055A54FF1FA07BFAC97E137 /* ShareViewController.swift */; };
 		FB041B002F4B711E00771E23 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = FB041AFF2F4B711E00771E23 /* AppIcon.icon */; };
 		FB0ADAC52F5C91D70078A4D4 /* ApplePushBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADAC42F5C91D70078A4D4 /* ApplePushBridge.swift */; };
-		FB0AF0022F5C97000078A531 /* VoipPushHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AF0012F5C97000078A530 /* VoipPushHandler.swift */; };
 		FB0AF0042F5C97000078A533 /* CallRingPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AF0032F5C97000078A532 /* CallRingPayload.swift */; };
+		FB0AF1022F5C98000078A542 /* CallRingUuid.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AF1012F5C98000078A541 /* CallRingUuid.swift */; };
 		FB0AF0052F5C97000078A534 /* CallRingPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AF0032F5C97000078A532 /* CallRingPayload.swift */; };
+		FB0AF1032F5C98000078A543 /* CallRingUuid.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AF1012F5C98000078A541 /* CallRingUuid.swift */; };
 		FBC1A0022F9E220100EA2F01 /* PhysicalKeyboardBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC1A0012F9E220100EA2F01 /* PhysicalKeyboardBridge.swift */; };
+		FBC1A0042F9E220100EA2F03 /* VoiceSpeakerRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC1A0032F9E220100EA2F02 /* VoiceSpeakerRoute.swift */; };
 		FB0ADAC62F5C91D80078A4D4 /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */; };
 		FB0ADAC72F5C91D80078A4D5 /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */; };
 		FB0ADAC92F5C91D80078A4D6 /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */; };
@@ -199,9 +201,10 @@
 		FB041AFF2F4B711E00771E23 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		FB0ADAC12F5C91D50078A4D4 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		FB0ADAC42F5C91D70078A4D4 /* ApplePushBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePushBridge.swift; sourceTree = "<group>"; };
-		FB0AF0012F5C97000078A530 /* VoipPushHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoipPushHandler.swift; sourceTree = "<group>"; };
 		FB0AF0032F5C97000078A532 /* CallRingPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallRingPayload.swift; sourceTree = "<group>"; };
+		FB0AF1012F5C98000078A541 /* CallRingUuid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallRingUuid.swift; sourceTree = "<group>"; };
 		FBC1A0012F9E220100EA2F01 /* PhysicalKeyboardBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicalKeyboardBridge.swift; sourceTree = "<group>"; };
+		FBC1A0032F9E220100EA2F02 /* VoiceSpeakerRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceSpeakerRoute.swift; sourceTree = "<group>"; };
 		FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationPayload.swift; sourceTree = "<group>"; };
 		FB0AE0202F5C96000078A520 /* SnowflakeTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnowflakeTime.swift; sourceTree = "<group>"; };
 		FB0AE0102F5C95000078A510 /* WebPushKeychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPushKeychain.swift; sourceTree = "<group>"; };
@@ -299,6 +302,17 @@
 			explicitFolders = (
 			);
 			path = NotificationService;
+			sourceTree = "<group>";
+		};
+		FB0AF1002F5C98000078A540 /* CallKit */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = CallKit;
 			sourceTree = "<group>";
 		};
 		FC0A55157A00000100000010 /* Assistant */ = {
@@ -434,9 +448,10 @@
 				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
 				74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
 				FB0ADAC42F5C91D70078A4D4 /* ApplePushBridge.swift */,
-				FB0AF0012F5C97000078A530 /* VoipPushHandler.swift */,
+				FB0AF1002F5C98000078A540 /* CallKit */,
 				FB0AE0182F5C95000078A518 /* Localizable.strings */,
 				FBC1A0012F9E220100EA2F01 /* PhysicalKeyboardBridge.swift */,
+				FBC1A0032F9E220100EA2F02 /* VoiceSpeakerRoute.swift */,
 				FC0A55157A00000100000010 /* Assistant */,
 				7884E8672EC3CC0400C636F2 /* SceneDelegate.swift */,
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
@@ -493,6 +508,7 @@
 				FB0AE0102F5C95000078A510 /* WebPushKeychain.swift */,
 				FB0AE0112F5C95000078A511 /* WebPushRecordDecryptor.swift */,
 				FB0AF0032F5C97000078A532 /* CallRingPayload.swift */,
+				FB0AF1012F5C98000078A541 /* CallRingUuid.swift */,
 				FB0ADACA2F5C91D80078A4D7 /* ForegroundPushNotificationPolicy.swift */,
 				FB0ADB002F5C92000078A4E0 /* NotificationImageAttachment.swift */,
 				FB0ADB012F5C92000078A4E1 /* NotificationEmojiDecoder.swift */,
@@ -570,6 +586,7 @@
 				14244B9B612E0895C7688C9E /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
+				FB0AF1002F5C98000078A540 /* CallKit */,
 				FC0A55157A00000100000010 /* Assistant */,
 			);
 			name = Runner;
@@ -883,6 +900,7 @@
 				FB0AE0162F5C95000078A516 /* WebPushKeychain.swift in Sources */,
 				FB0AE0172F5C95000078A517 /* WebPushRecordDecryptor.swift in Sources */,
 				FB0AF0052F5C97000078A534 /* CallRingPayload.swift in Sources */,
+				FB0AF1032F5C98000078A543 /* CallRingUuid.swift in Sources */,
 				FB0ADACD2F5C91D80078A4D9 /* ForegroundPushNotificationPolicy.swift in Sources */,
 				FB0ADB0C2F5C92000078A4EC /* NotificationImageAttachment.swift in Sources */,
 				FB0ADB0D2F5C92000078A4ED /* NotificationEmojiDecoder.swift in Sources */,
@@ -904,9 +922,10 @@
 			files = (
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				FB0ADAC52F5C91D70078A4D4 /* ApplePushBridge.swift in Sources */,
-				FB0AF0022F5C97000078A531 /* VoipPushHandler.swift in Sources */,
 				FB0AF0042F5C97000078A533 /* CallRingPayload.swift in Sources */,
+				FB0AF1022F5C98000078A542 /* CallRingUuid.swift in Sources */,
 				FBC1A0022F9E220100EA2F01 /* PhysicalKeyboardBridge.swift in Sources */,
+				FBC1A0042F9E220100EA2F03 /* VoiceSpeakerRoute.swift in Sources */,
 				FB0ADAC62F5C91D80078A4D4 /* PushNotificationPayload.swift in Sources */,
 				FB0AE0222F5C96000078A522 /* SnowflakeTime.swift in Sources */,
 				FB0AE0122F5C95000078A512 /* WebPushKeychain.swift in Sources */,

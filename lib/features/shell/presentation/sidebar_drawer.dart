@@ -14,9 +14,8 @@ import 'package:fluxer_app/features/shell/providers/drawer_reveal_sync_trigger_p
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/shell/providers/shell_blocks_horizontal_gestures_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/gestures/axis_locking_horizontal_drag_recognizer.dart';
 import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.dart';
-import 'package:fluxer_app/shared/gestures/horizontal_drag_axis_lock.dart';
+import 'package:fluxer_app/shared/gestures/directional_horizontal_drag_recognizer.dart';
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
 
 /// Compact wide mobile peeks the drawer at the channel list edge.
@@ -357,15 +356,17 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
         blocksHorizontalGestures
         ? <Type, GestureRecognizerFactory>{}
         : <Type, GestureRecognizerFactory>{
-            AxisLockingHorizontalDragRecognizer:
+            DirectionalHorizontalDragRecognizer:
                 GestureRecognizerFactoryWithHandlers<
-                  AxisLockingHorizontalDragRecognizer
+                  DirectionalHorizontalDragRecognizer
                 >(
-                  () => AxisLockingHorizontalDragRecognizer(
+                  () => DirectionalHorizontalDragRecognizer(
+                    directions: () => <HorizontalClaimDirection>{
+                      HorizontalClaimDirection.right,
+                      if (_animationController.value > 0)
+                        HorizontalClaimDirection.left,
+                    },
                     shouldDefer: _shouldDeferDrawerGesture,
-                    shouldReject: (HorizontalDragAxisLockDecision decision) =>
-                        decision ==
-                        HorizontalDragAxisLockDecision.yieldToVertical,
                   ),
                   (recognizer) {
                     recognizer

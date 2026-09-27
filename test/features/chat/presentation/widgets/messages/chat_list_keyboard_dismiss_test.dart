@@ -78,17 +78,109 @@ void main() {
     expect(focus.hasFocus, isTrue);
   });
 
-  testWidgets('almost-flat jump stays focused until the next sample', (
-    tester,
-  ) async {
+  testWidgets('clear leftward move keeps the keyboard focused', (tester) async {
     final FocusNode focus = await pumpFocusedField(tester);
     final TestGesture gesture = await tester.startGesture(listCenter(tester));
     await gesture.moveBy(const Offset(-80, 8));
     await tester.pump();
     expect(focus.hasFocus, isTrue);
-    await gesture.moveBy(const Offset(0, 40));
+    await gesture.up();
+    await tester.pump();
+    expect(focus.hasFocus, isTrue);
+  });
+
+  testWidgets('mostly vertical move dismisses the keyboard', (tester) async {
+    final FocusNode focus = await pumpFocusedField(tester);
+    final TestGesture gesture = await tester.startGesture(listCenter(tester));
+    await gesture.moveBy(const Offset(-20, 40));
     await tester.pump();
     expect(focus.hasFocus, isFalse);
     await gesture.up();
+  });
+
+  testWidgets('tap on the list calls onDismissPanels', (tester) async {
+    int dismissCount = 0;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: ChatListKeyboardDismiss(
+            onDismissPanels: () => dismissCount++,
+            child: const ColoredBox(
+              color: Color(0xFF112233),
+              child: SizedBox.expand(),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.tapAt(listCenter(tester));
+    await tester.pump();
+    expect(dismissCount, 1);
+  });
+
+  testWidgets('vertical drag calls onDismissPanels', (tester) async {
+    int dismissCount = 0;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: ChatListKeyboardDismiss(
+            onDismissPanels: () => dismissCount++,
+            child: const ColoredBox(
+              color: Color(0xFF112233),
+              child: SizedBox.expand(),
+            ),
+          ),
+        ),
+      ),
+    );
+    final TestGesture gesture = await tester.startGesture(listCenter(tester));
+    await gesture.moveBy(const Offset(0, 40));
+    await tester.pump();
+    expect(dismissCount, 1);
+    await gesture.up();
+  });
+
+  testWidgets('leftward swipe does not call onDismissPanels', (tester) async {
+    int dismissCount = 0;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: ChatListKeyboardDismiss(
+            onDismissPanels: () => dismissCount++,
+            child: const ColoredBox(
+              color: Color(0xFF112233),
+              child: SizedBox.expand(),
+            ),
+          ),
+        ),
+      ),
+    );
+    final TestGesture gesture = await tester.startGesture(listCenter(tester));
+    await gesture.moveBy(const Offset(-40, 0));
+    await tester.pump();
+    await gesture.up();
+    await tester.pump();
+    expect(dismissCount, 0);
+  });
+
+  testWidgets('cancelled press does not call onDismissPanels', (tester) async {
+    int dismissCount = 0;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: ChatListKeyboardDismiss(
+            onDismissPanels: () => dismissCount++,
+            child: const ColoredBox(
+              color: Color(0xFF112233),
+              child: SizedBox.expand(),
+            ),
+          ),
+        ),
+      ),
+    );
+    final TestGesture gesture = await tester.startGesture(listCenter(tester));
+    await gesture.cancel();
+    await tester.pump();
+    expect(dismissCount, 0);
   });
 }

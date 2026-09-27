@@ -16,17 +16,17 @@ void main() {
           WellKnownFluxerResponse.fromJson(<String, dynamic>{
             'api_code_version': 1,
             'endpoints': <String, dynamic>{
-              'api': 'https://web.fluxer.app/api',
-              'api_client': 'https://web.fluxer.app/api',
-              'api_public': 'https://api.fluxer.app',
-              'gateway': 'wss://gateway.fluxer.app',
+              'api': 'https://fluxer.com/api',
+              'api_client': 'https://fluxer.com/api/v1',
+              'api_public': 'https://fluxer.com/api',
+              'gateway': 'wss://gateway.fluxer.com',
               'media': 'https://fluxerusercontent.com',
               'static_cdn': 'https://fluxerstatic.com',
-              'marketing': 'https://fluxer.app',
-              'admin': 'https://admin.fluxer.app',
+              'marketing': 'https://fluxer.com',
+              'admin': 'https://admin.fluxer.com',
               'invite': 'https://fluxer.gg',
               'gift': 'https://fluxer.gift',
-              'webapp': 'https://web.fluxer.app',
+              'webapp': 'https://web.fluxer.com',
             },
             'captcha': <String, dynamic>{
               'provider': 'none',
@@ -98,7 +98,8 @@ void main() {
           );
 
       expect(snapshot.apiBaseUrl, InstanceConstants.defaultApiBaseUrl);
-      expect(snapshot.displayDomain, 'fluxer.app');
+      expect(snapshot.gatewayUrl, InstanceConstants.defaultGatewayUrl);
+      expect(snapshot.displayDomain, 'fluxer.com');
     });
   });
 

@@ -28,6 +28,7 @@ class ApnsVoipMobileDeviceRegistration
   String? _lastRegisteredRelayUrl;
   String? _lastRegisteredPublicKey;
   bool _syncInFlight = false;
+  bool _syncQueued = false;
   final WebPushKeyStore _keyStore = WebPushKeyStore(
     keyPrefix: kWebPushVoipKeysPrefix,
   );
@@ -89,14 +90,28 @@ class ApnsVoipMobileDeviceRegistration
   }
 
   Future<void> sync() async {
-    if (!_shouldRunOnThisPlatform || _syncInFlight) {
+    if (!_shouldRunOnThisPlatform) {
+      return;
+    }
+    if (_syncInFlight) {
+      _syncQueued = true;
       return;
     }
     _syncInFlight = true;
     try {
-      await _syncImpl();
+      while (true) {
+        _syncQueued = false;
+        await _syncImpl();
+        if (!_syncQueued) {
+          break;
+        }
+      }
     } finally {
       _syncInFlight = false;
+      if (_syncQueued) {
+        _syncQueued = false;
+        unawaited(sync());
+      }
     }
   }
 

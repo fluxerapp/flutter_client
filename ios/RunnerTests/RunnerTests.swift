@@ -274,6 +274,41 @@ class RunnerTests: XCTestCase {
     XCTAssertFalse(PushNotificationPayload.isCallRingPayload(from: ["channel_id": "c"]))
   }
 
+  func testCallAlertCoversRingsAndEmptyCallMessages() {
+    XCTAssertTrue(
+      PushNotificationPayload.isCallAlert(from: [
+        "type": "call_ring",
+        "message_id": "m",
+      ])
+    )
+    XCTAssertTrue(
+      PushNotificationPayload.isCallAlert(from: [
+        "message_id": "m",
+        "channel_id": "c",
+        "title": "Ada",
+        "body": "",
+      ])
+    )
+    XCTAssertFalse(
+      PushNotificationPayload.isCallAlert(from: [
+        "message_id": "m",
+        "body": "hello",
+      ])
+    )
+    XCTAssertFalse(
+      PushNotificationPayload.isCallAlert(from: [
+        "body": "",
+      ])
+    )
+    XCTAssertFalse(
+      PushNotificationPayload.isCallAlert(from: [
+        "type": "notification_clear",
+        "message_id": "m",
+        "body": "",
+      ])
+    )
+  }
+
   func testCallRingPayloadCannotReplyAndHasNoMessageSound() {
     let userInfo: [AnyHashable: Any] = [
       "type": "call_ring",
@@ -283,6 +318,33 @@ class RunnerTests: XCTestCase {
     ]
     XCTAssertFalse(PushNotificationPayload.canReply(from: userInfo))
     XCTAssertNil(PushNotificationPayload.resolveNotificationSound(from: userInfo))
+  }
+
+  func testResolvedAlertBodyKeepsCallMessageFromGoingBlank() {
+    XCTAssertEqual(
+      PushNotificationPayload.resolvedAlertBody(
+        decryptedBody: "",
+        currentBody: "",
+        fallback: "New message"
+      ),
+      "New message"
+    )
+    XCTAssertEqual(
+      PushNotificationPayload.resolvedAlertBody(
+        decryptedBody: "",
+        currentBody: "New message",
+        fallback: "Incoming call"
+      ),
+      "New message"
+    )
+    XCTAssertEqual(
+      PushNotificationPayload.resolvedAlertBody(
+        decryptedBody: "hello",
+        currentBody: "",
+        fallback: "New message"
+      ),
+      "hello"
+    )
   }
 
   func testHasDisplayableAlertRequiresTitleOrBody() {

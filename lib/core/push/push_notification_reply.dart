@@ -1,7 +1,6 @@
 import 'dart:ui' show Locale, PlatformDispatcher;
 
 import 'package:dio/dio.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluxer_app/core/api/session_authorization_header.dart';
 import 'package:fluxer_app/core/push/push_notification_ids.dart';
 import 'package:fluxer_app/core/push/push_notification_payload.dart';
@@ -50,26 +49,35 @@ bool pushNotificationCanReply(Map<String, String> payload) {
   return channelId != null && messageId != null;
 }
 
-List<AndroidNotificationAction> androidPushReplyActions(
-  Map<String, String> payload, {
-  required String title,
-  required String hint,
-}) {
+class AndroidNotificationReplyTarget {
+  const AndroidNotificationReplyTarget({
+    required this.channelId,
+    required this.messageId,
+    required this.userId,
+  });
+
+  final String channelId;
+  final String messageId;
+  final String userId;
+}
+
+AndroidNotificationReplyTarget? androidNotificationReplyTarget(
+  Map<String, String> payload,
+) {
   if (!pushNotificationCanReply(payload)) {
-    return const <AndroidNotificationAction>[];
+    return null;
   }
-  return <AndroidNotificationAction>[
-    AndroidNotificationAction(
-      kPushReplyActionId,
-      title,
-      // ignore: avoid_redundant_argument_values
-      showsUserInterface: false,
-      semanticAction: SemanticAction.reply,
-      inputs: <AndroidNotificationActionInput>[
-        AndroidNotificationActionInput(label: hint),
-      ],
-    ),
-  ];
+  final String? userId = _nonEmpty(payload['target_user_id']);
+  final String? channelId = _nonEmpty(payload['channel_id']);
+  final String? messageId = _nonEmpty(payload['message_id']);
+  if (userId == null || channelId == null || messageId == null) {
+    return null;
+  }
+  return AndroidNotificationReplyTarget(
+    channelId: channelId,
+    messageId: messageId,
+    userId: userId,
+  );
 }
 
 PushReplyDismissal? pushReplyDismissal({

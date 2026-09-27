@@ -146,9 +146,39 @@ enum PushNotificationPayload {
     return false
   }
 
+  static func isCallAlert(from userInfo: [AnyHashable: Any]) -> Bool {
+    if isCallRingPayload(from: userInfo) {
+      return true
+    }
+    if isClearPayload(from: userInfo) || replyMessageId(from: userInfo) == nil {
+      return false
+    }
+    let body = (userInfo["body"] as? String) ?? ""
+    return body.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+  }
+
   static func hasDisplayableAlert(title: String, body: String) -> Bool {
     return !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
       || !body.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+  }
+
+  static func resolvedAlertBody(
+    decryptedBody: String?,
+    currentBody: String,
+    fallback: String
+  ) -> String {
+    if let decryptedBody {
+      let trimmed = decryptedBody.trimmingCharacters(in: .whitespacesAndNewlines)
+      if !trimmed.isEmpty {
+        return decryptedBody
+      }
+    }
+    let trimmedCurrent = currentBody.trimmingCharacters(in: .whitespacesAndNewlines)
+    if !trimmedCurrent.isEmpty {
+      return currentBody
+    }
+    let trimmedFallback = fallback.trimmingCharacters(in: .whitespacesAndNewlines)
+    return trimmedFallback.isEmpty ? currentBody : fallback
   }
 
   static func isClearPayload(from userInfo: [AnyHashable: Any]) -> Bool {

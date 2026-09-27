@@ -7,9 +7,6 @@ import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/account_selector.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_flow_content.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_viewport.dart';
-import 'package:fluxer_app/features/auth/presentation/widgets/forgot_password_screen.dart';
-import 'package:fluxer_app/features/auth/presentation/widgets/register_screen.dart';
-import 'package:fluxer_app/features/auth/presentation/widgets/reset_password_screen.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -24,24 +21,6 @@ class LoginScreen extends ConsumerWidget {
   Widget _buildAuthContent(BuildContext context, WidgetRef ref) {
     final vm = ref.watch(loginViewModelProvider);
     final notifier = ref.read(loginViewModelProvider.notifier);
-
-    if (vm.resetToken != null) {
-      return ResetPasswordScreen(
-        token: vm.resetToken!,
-        onBack: notifier.clearResetToken,
-      );
-    }
-
-    if (vm.showForgotPassword) {
-      return ForgotPasswordScreen(
-        onBack: notifier.backFromForgotPassword,
-        onRegister: notifier.showRegisterScreen,
-      );
-    }
-
-    if (vm.showRegister) {
-      return RegisterScreen(onBack: notifier.backFromRegister);
-    }
 
     final accountState = ref.watch(accountManagerProvider);
 

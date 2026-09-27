@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
+import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/instance_selector.dart';
 import 'package:fluxer_app/features/auth/providers/instance_selector_provider.dart';
@@ -25,7 +26,7 @@ InstanceSelectorState _officialState({
   String? errorMessage,
 }) {
   return InstanceSelectorState(
-    instanceUrl: 'fluxer.app',
+    instanceUrl: InstanceConstants.defaultInstanceInputUrl,
     status: status,
     recentInstances: recentInstances,
     requiresDiscovery: requiresDiscovery,
@@ -56,7 +57,10 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('fluxer.app'), findsOneWidget);
+    expect(
+      find.text(InstanceConstants.defaultInstanceInputUrl),
+      findsOneWidget,
+    );
     expect(find.text(testL10n.changeInstance), findsOneWidget);
 
     await tester.tap(find.text(testL10n.changeInstance));
@@ -130,7 +134,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('chat.example.com'), findsOneWidget);
-    expect(find.text('fluxer.app'), findsNothing);
+    expect(find.text(InstanceConstants.defaultInstanceInputUrl), findsNothing);
     expect(find.text(testL10n.changeInstance), findsOneWidget);
   });
 
@@ -162,7 +166,7 @@ void main() {
     expect(find.text(testL10n.changeInstance), findsOneWidget);
   });
 
-  testWidgets('control shows helper copy, fluxer.app, and recents', (
+  testWidgets('control shows helper copy, official domain, and recents', (
     tester,
   ) async {
     final DateTime used = DateTime.utc(2026, 1, 2);
@@ -203,7 +207,7 @@ void main() {
     expect(find.text('chat.example.com'), findsOneWidget);
 
     final TextFormField field = tester.widget(find.byType(TextFormField));
-    expect(field.controller?.text, 'fluxer.app');
+    expect(field.controller?.text, InstanceConstants.defaultInstanceInputUrl);
     expect(field.controller?.text.contains('api.fluxer.app'), isFalse);
   });
 }

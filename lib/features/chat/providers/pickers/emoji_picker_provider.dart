@@ -9,6 +9,11 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'emoji_picker_provider.g.dart';
 
+@Riverpod(keepAlive: true)
+Future<void> emojiRegistryLoaded(Ref ref) {
+  return EmojiRegistry.ensureLoaded();
+}
+
 const int kMaxFrecentEmojis = 42;
 
 const int kMaxTrackedEmojiUsageKeys = 200;

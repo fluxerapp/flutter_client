@@ -1,17 +1,22 @@
 import Foundation
 
 enum CallRingOutcome: Equatable {
-  case end
+  case reject(messageId: String?)
   case ring(CallRingFields)
 }
 
 struct CallRingFields: Equatable {
   let channelId: String
   let messageId: String
+  let callerId: String?
   let callerName: String
   let handle: String
   let callerAvatarUrl: String?
   let durationMs: Int
+
+  var callUUID: UUID {
+    CallRingUuid.v5(name: messageId)
+  }
 }
 
 enum CallRingResolver {
@@ -22,52 +27,46 @@ enum CallRingResolver {
   static func resolve(
     plaintext: String?,
     accountUserId: String,
-    nowMs: Int64,
-    ringingMessageIds: Set<String>,
-    isForeground: Bool
+    nowMs: Int64
   ) -> CallRingOutcome {
     guard let plaintext,
       let data = plaintext.data(using: .utf8),
       let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
     else {
-      return .end
+      return .reject(messageId: nil)
     }
     let fields = (json["data"] as? [String: Any]) ?? json
     let type = fields["type"] as? String ?? json["type"] as? String
+    let messageId = text(fields["message_id"])
     guard type == "call_ring" else {
-      return .end
+      return .reject(messageId: nil)
     }
     guard let channelId = text(fields["channel_id"]),
-      let messageId = text(fields["message_id"])
+      let messageId
     else {
-      return .end
+      return .reject(messageId: messageId)
     }
     if let target = text(fields["target_user_id"]),
       !accountUserId.isEmpty,
       target != accountUserId
     {
-      return .end
-    }
-    if isForeground || ringingMessageIds.contains(messageId) {
-      return .end
+      return .reject(messageId: messageId)
     }
     let expires = int64(fields["expires_at_ms"])
     if let expires, expires <= nowMs {
-      return .end
+      return .reject(messageId: messageId)
     }
     let callerName = text(fields["caller_name"])
-    let avatar = text(fields["caller_avatar_url"])
-    let name = callerName ?? fallbackName
     let remaining = expires.map { Int($0 - nowMs) } ?? minimumDurationMs
-    let duration = max(minimumDurationMs, remaining)
     return .ring(
       CallRingFields(
         channelId: channelId,
         messageId: messageId,
-        callerName: name,
+        callerId: text(fields["caller_id"]),
+        callerName: callerName ?? fallbackName,
         handle: callerName ?? fallbackHandle,
-        callerAvatarUrl: avatar,
-        durationMs: duration
+        callerAvatarUrl: text(fields["caller_avatar_url"]),
+        durationMs: max(minimumDurationMs, remaining)
       )
     )
   }

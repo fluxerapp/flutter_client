@@ -1,40 +1,77 @@
-import 'package:audio_session/audio_session.dart';
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/features/voice/domain/voice_output_route.dart';
+import 'package:livekit_client/livekit_client.dart';
 
-AVAudioSessionCategoryOptions iosSpeakerCategoryOptions({
-  required bool speaker,
-}) {
-  final AVAudioSessionCategoryOptions options =
-      AVAudioSessionCategoryOptions.allowBluetooth |
-      AVAudioSessionCategoryOptions.allowBluetoothA2dp |
-      AVAudioSessionCategoryOptions.allowAirPlay;
-  if (!speaker) {
-    return options;
-  }
-  return options | AVAudioSessionCategoryOptions.defaultToSpeaker;
-}
+const MethodChannel _voiceSpeakerRouteChannel = MethodChannel(
+  'fluxer_app/voice_speaker_route',
+);
 
-AVAudioSessionMode iosSpeakerAudioMode({required bool speaker}) {
-  return speaker ? AVAudioSessionMode.videoChat : AVAudioSessionMode.voiceChat;
-}
-
-Future<void> applyIosSpeakerPortOverride({required bool speaker}) async {
-  if (kIsWeb || defaultTargetPlatform != TargetPlatform.iOS) {
+Future<void> applyNativeVoiceOutputRoute(VoiceOutputRoute route) async {
+  if (kIsWeb ||
+      (defaultTargetPlatform != TargetPlatform.android &&
+          defaultTargetPlatform != TargetPlatform.iOS)) {
     return;
   }
   try {
-    final AVAudioSession session = AVAudioSession();
-    await session.setCategory(
-      AVAudioSessionCategory.playAndRecord,
-      iosSpeakerCategoryOptions(speaker: speaker),
-      iosSpeakerAudioMode(speaker: speaker),
-    );
-    await session.overrideOutputAudioPort(
-      speaker
-          ? AVAudioSessionPortOverride.speaker
-          : AVAudioSessionPortOverride.none,
+    await _voiceSpeakerRouteChannel.invokeMethod<void>(
+      'setRoute',
+      <String, Object>{'route': route.name},
     );
   } on Object {
     return;
   }
 }
+
+Future<Set<VoiceOutputRoute>> readAvailableVoiceOutputRoutes() async {
+  if (kIsWeb ||
+      (defaultTargetPlatform != TargetPlatform.android &&
+          defaultTargetPlatform != TargetPlatform.iOS)) {
+    return kPhoneVoiceOutputRoutes;
+  }
+  try {
+    final List<Object?>? names = await _voiceSpeakerRouteChannel
+        .invokeMethod<List<Object?>>('availableRoutes');
+    if (names == null || names.isEmpty) {
+      return kPhoneVoiceOutputRoutes;
+    }
+    return names
+        .map((Object? name) => voiceOutputRouteFromName('$name'))
+        .toSet();
+  } on Object {
+    return kPhoneVoiceOutputRoutes;
+  }
+}
+
+class VoiceAvailableOutputRoutes extends Notifier<Set<VoiceOutputRoute>> {
+  @override
+  Set<VoiceOutputRoute> build() {
+    final StreamSubscription<List<MediaDevice>> subscription = Hardware
+        .instance
+        .onDeviceChange
+        .stream
+        .listen((_) {
+          unawaited(_refresh());
+        });
+    ref.onDispose(subscription.cancel);
+    unawaited(_refresh());
+    return kPhoneVoiceOutputRoutes;
+  }
+
+  Future<void> _refresh() async {
+    final Set<VoiceOutputRoute> routes = await readAvailableVoiceOutputRoutes();
+    if (!ref.mounted) {
+      return;
+    }
+    state = routes;
+  }
+}
+
+final NotifierProvider<VoiceAvailableOutputRoutes, Set<VoiceOutputRoute>>
+voiceAvailableOutputRoutesProvider =
+    NotifierProvider<VoiceAvailableOutputRoutes, Set<VoiceOutputRoute>>(
+      VoiceAvailableOutputRoutes.new,
+    );

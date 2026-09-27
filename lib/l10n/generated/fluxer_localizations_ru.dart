@@ -6155,6 +6155,15 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get voicePanelUseEarpieceLabel => 'Использовать динамик телефона';
 
   @override
+  String get voiceOutputRouteSpeaker => 'Speaker';
+
+  @override
+  String get voiceOutputRouteEarpiece => 'Earpiece';
+
+  @override
+  String get voiceOutputRouteHeadset => 'Headphones';
+
+  @override
   String get voicePanelOnlyShowVideosLabel => 'Показывать только видео';
 
   @override

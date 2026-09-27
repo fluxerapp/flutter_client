@@ -3,8 +3,7 @@ import 'package:fluxer_app/core/instance/instance_constants.dart';
 final RegExp _schemePrefixPattern = RegExp(r'^[a-zA-Z][a-zA-Z0-9+\-.]*://');
 final RegExp _trailingSlashesPattern = RegExp(r'/+$');
 final RegExp _apiPathSuffixPattern = RegExp(r'/api/?$');
-const String _wellKnownPathOfficial = '/.well-known/fluxer';
-const String _wellKnownPathSelfHosted = '/api/.well-known/fluxer';
+const String _wellKnownPath = '/api/.well-known/fluxer';
 
 class InstanceEndpointNormalizer {
   const InstanceEndpointNormalizer();
@@ -33,15 +32,10 @@ class InstanceEndpointNormalizer {
   String buildWellKnownUrl(String apiEndpoint) {
     try {
       final Uri url = Uri.parse(apiEndpoint);
-      final bool isOfficialApiHost =
-          url.host == 'api.fluxer.app' || url.host == 'api.canary.fluxer.app';
-      final String wellKnownPath = isOfficialApiHost
-          ? _wellKnownPathOfficial
-          : _wellKnownPathSelfHosted;
-      return url.replace(path: wellKnownPath).toString();
+      return url.replace(path: _wellKnownPath).toString();
     } on FormatException {
       final String base = apiEndpoint.replaceAll(_apiPathSuffixPattern, '');
-      return '$base$_wellKnownPathSelfHosted';
+      return '$base$_wellKnownPath';
     }
   }
 

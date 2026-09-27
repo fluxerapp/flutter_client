@@ -217,7 +217,6 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
   void initState() {
     super.initState();
     _upsellPreviewSeed = Random().nextInt(0x7fffffff);
-    unawaited(EmojiRegistry.ensureLoaded());
     _preloadSkinToneSpriteSheet();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
@@ -422,6 +421,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
   }
 
   _EmojiPickerData _watchPickerData() {
+    ref.watch(emojiRegistryLoadedProvider);
     final activeGuildId = ref.watch(contextualGuildIdProvider);
     final guilds = _guildsFor(
       organized: ref.watch(organizedGuildListProvider),

@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluxer_app/core/badge/push_badge_count_parser.dart';
+import 'package:fluxer_app/core/push/android_notification_reply_bridge.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
 import 'package:fluxer_app/core/push/push_notification_ids.dart'
     show
@@ -17,6 +16,7 @@ import 'package:fluxer_app/core/push/push_notification_media.dart';
 import 'package:fluxer_app/core/push/push_notification_payload.dart';
 import 'package:fluxer_app/core/push/push_notification_permission.dart';
 import 'package:fluxer_app/core/push/push_notification_reply.dart';
+import 'package:fluxer_app/core/push/push_notification_reply_background.dart';
 import 'package:fluxer_app/core/push/push_notification_sound.dart';
 import 'package:fluxer_app/core/push/push_notification_time.dart';
 
@@ -40,16 +40,6 @@ String _androidChannelName(Map<String, String> payload) {
     return _kDirectMessageChannelName;
   }
   return _kMessageChannelName;
-}
-
-@pragma('vm:entry-point')
-void pushNotificationReplyBackground(NotificationResponse response) {
-  WidgetsFlutterBinding.ensureInitialized();
-  DartPluginRegistrant.ensureInitialized();
-  if (response.actionId != kPushReplyActionId) {
-    return;
-  }
-  unawaited(LocalPushNotifications().handleReplyResponse(response));
 }
 
 final class LocalPushNotifications {
@@ -165,49 +155,24 @@ final class LocalPushNotifications {
     _onNotificationTap?.call(response.payload);
   }
 
-  Future<void> handleReplyResponse(NotificationResponse response) async {
-    final Map<String, String> payload = _payloadFromResponse(response);
-    final Future<void> dismissed = _dismissReplyNotification(
-      response.id,
-      payload,
-    );
-    final PushReplyResult result = await sendPushNotificationReply(
-      payload: payload,
-      text: response.input,
-    );
-    await dismissed;
-    if (result == PushReplyResult.failed) {
-      await showReplyFailed();
-    }
-  }
-
-  Future<void> _dismissReplyNotification(
-    int? notificationId,
-    Map<String, String> payload,
-  ) async {
-    if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) {
+  Future<void> _attachAndroidReply({
+    required int id,
+    required Map<String, String> payload,
+  }) async {
+    final AndroidNotificationReplyTarget? target =
+        androidNotificationReplyTarget(payload);
+    if (target == null) {
       return;
     }
-    final PushReplyDismissal? dismissal = pushReplyDismissal(
-      notificationId: notificationId,
-      payload: payload,
+    await attachAndroidNotificationReply(
+      id: id,
+      tag: resolvePushDisplayTag(payload),
+      channelId: target.channelId,
+      messageId: target.messageId,
+      userId: target.userId,
+      title: pushReplyActionTitle(),
+      hint: pushReplyHint(),
     );
-    if (dismissal == null) {
-      return;
-    }
-    if (!_initialized) {
-      final bool ready = await ensureInitialized();
-      if (!ready) {
-        return;
-      }
-    }
-    try {
-      await _plugin.cancel(id: dismissal.id, tag: dismissal.tag);
-    } on Object catch (e, st) {
-      if (kDebugMode) {
-        debugPrint('[LocalPushNotifications] reply dismiss failed: $e\n$st');
-      }
-    }
   }
 
   Future<void> showReplyFailed() async {
@@ -333,6 +298,7 @@ final class LocalPushNotifications {
         return;
       }
     }
+    await _attachAndroidReply(id: id, payload: enrichedPayload);
     await _showAndroidGroupSummary(
       title: title,
       body: body,
@@ -561,25 +527,6 @@ final class LocalPushNotifications {
     }
   }
 
-  Map<String, String> _payloadFromResponse(NotificationResponse response) {
-    final String? raw = response.payload;
-    if (raw == null || raw.isEmpty) {
-      return const <String, String>{};
-    }
-    try {
-      final Object? decoded = jsonDecode(raw);
-      if (decoded is! Map) {
-        return const <String, String>{};
-      }
-      return decoded.map(
-        (dynamic key, dynamic value) =>
-            MapEntry<String, String>(key.toString(), value?.toString() ?? ''),
-      );
-    } on FormatException {
-      return const <String, String>{};
-    }
-  }
-
   NotificationDetails _notificationDetailsWithoutMedia({
     required String title,
     required String body,
@@ -639,11 +586,6 @@ final class LocalPushNotifications {
       tag: messageTag,
       sound: androidSound,
       playSound: androidSound != null,
-      actions: androidPushReplyActions(
-        payload,
-        title: pushReplyActionTitle(),
-        hint: pushReplyHint(),
-      ),
       when: whenMillis,
       showWhen: whenMillis != null,
     );

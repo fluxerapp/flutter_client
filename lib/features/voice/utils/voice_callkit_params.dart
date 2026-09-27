@@ -58,6 +58,7 @@ CallKitParams buildVoiceCallKitParams({
       kVoiceCallKitExtraMessageId: ?messageId,
       kVoiceCallKitExtraIsDm: display.isDm,
     },
+    headers: const <String, dynamic>{},
     android: AndroidParams(
       isCustomNotification: true,
       isShowFullLockedScreen: true,
@@ -106,6 +107,7 @@ CallKitParams buildIncomingCallRingParams({
       if (messageId != null && messageId.isNotEmpty)
         kVoiceCallKitExtraMessageId: messageId,
     },
+    headers: const <String, dynamic>{},
     android: AndroidParams(
       isCustomNotification: true,
       isShowFullLockedScreen: true,

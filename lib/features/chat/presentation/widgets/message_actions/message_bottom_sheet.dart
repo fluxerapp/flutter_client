@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/chat/presentation/sheets/message_debug_sheet
 import 'package:fluxer_app/features/chat/presentation/sheets/message_reactions_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/unpin_message_confirm_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/double_tap_reaction_hint.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_loader.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
@@ -73,6 +74,8 @@ Future<MessageAction?> showMessageBottomSheet(
   required bool canSendMessages,
   required bool developerMode,
   List<QuickReactionItem>? quickItems,
+  String? quickReactionChannelId,
+  String? quickReactionGuildId,
   ValueChanged<QuickReactionItem>? onQuickReaction,
   MessageActionCallbacks? attachmentCallbacks,
   bool isSendDisabled = false,
@@ -97,7 +100,9 @@ Future<MessageAction?> showMessageBottomSheet(
     builder: (sheetContext, scrollController, _) => _MessageBottomSheetBody(
       message: message,
       permissions: permissions,
-      quickItems: quickItems ?? kQuickReactionDefaults,
+      quickItems: quickItems,
+      quickReactionChannelId: quickReactionChannelId,
+      quickReactionGuildId: quickReactionGuildId,
       onQuickReaction: onQuickReaction,
       attachmentCallbacks: attachmentCallbacks,
       scrollController: scrollController,
@@ -612,9 +617,11 @@ class _MessageBottomSheetBody extends ConsumerWidget {
   const _MessageBottomSheetBody({
     required this.message,
     required this.permissions,
-    required this.quickItems,
     required this.scrollController,
     required this.hostContext,
+    this.quickItems,
+    this.quickReactionChannelId,
+    this.quickReactionGuildId,
     this.onQuickReaction,
     this.attachmentCallbacks,
     this.linkUrl,
@@ -622,7 +629,9 @@ class _MessageBottomSheetBody extends ConsumerWidget {
 
   final Message message;
   final MessageActionPermissions permissions;
-  final List<QuickReactionItem> quickItems;
+  final List<QuickReactionItem>? quickItems;
+  final String? quickReactionChannelId;
+  final String? quickReactionGuildId;
   final ValueChanged<QuickReactionItem>? onQuickReaction;
   final MessageActionCallbacks? attachmentCallbacks;
   final ScrollController scrollController;
@@ -697,14 +706,25 @@ class _MessageBottomSheetBody extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (showQuickReactions) ...[
-            QuickReactionRow(
-              items: quickItems,
-              onReaction: (item) {
-                onQuickReaction?.call(item);
-                Navigator.of(context).pop();
-              },
-              onAddMore: () => _pop(context, MessageAction.addReaction),
-            ),
+            if (quickReactionChannelId != null)
+              MessageQuickReactionRow(
+                channelId: quickReactionChannelId!,
+                guildId: quickReactionGuildId,
+                onReaction: (item) {
+                  onQuickReaction?.call(item);
+                  Navigator.of(context).pop();
+                },
+                onAddMore: () => _pop(context, MessageAction.addReaction),
+              )
+            else
+              QuickReactionRow(
+                items: quickItems ?? kQuickReactionDefaults,
+                onReaction: (item) {
+                  onQuickReaction?.call(item);
+                  Navigator.of(context).pop();
+                },
+                onAddMore: () => _pop(context, MessageAction.addReaction),
+              ),
             DoubleTapReactionHint(channelId: message.channelId),
           ],
           FluxerBottomSheetGroupColumn(

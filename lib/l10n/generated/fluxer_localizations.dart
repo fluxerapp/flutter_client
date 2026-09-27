@@ -10032,6 +10032,24 @@ abstract class FluxerLocalizations {
   /// **'Use earpiece'**
   String get voicePanelUseEarpieceLabel;
 
+  /// Voice output route that plays call audio through the phone speaker.
+  ///
+  /// In en, this message translates to:
+  /// **'Speaker'**
+  String get voiceOutputRouteSpeaker;
+
+  /// Voice output route that plays call audio through the phone earpiece.
+  ///
+  /// In en, this message translates to:
+  /// **'Earpiece'**
+  String get voiceOutputRouteEarpiece;
+
+  /// Voice output route that plays call audio through a connected Bluetooth or wired headset.
+  ///
+  /// In en, this message translates to:
+  /// **'Headphones'**
+  String get voiceOutputRouteHeadset;
+
   /// Switch label to hide voice participants who do not have their camera on.
   ///
   /// In en, this message translates to:

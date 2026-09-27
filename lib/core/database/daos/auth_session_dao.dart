@@ -52,6 +52,13 @@ class AuthSessionDao extends DatabaseAccessor<FluxerDatabase>
     return session?.instanceSnapshotJson;
   }
 
+  Future<void> updateInstanceSnapshotJson({
+    required String userId,
+    required String instanceSnapshotJson,
+  }) => (update(authSessions)..where((t) => t.userId.equals(userId))).write(
+    AuthSessionsCompanion(instanceSnapshotJson: Value(instanceSnapshotJson)),
+  );
+
   /// Marks a session as the active account without rewriting metadata.
   Future<void> touchSession(String userId) =>
       (update(authSessions)..where((t) => t.userId.equals(userId))).write(

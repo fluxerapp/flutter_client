@@ -6076,6 +6076,15 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get voicePanelUseEarpieceLabel => 'ใช้หูฟัง';
 
   @override
+  String get voiceOutputRouteSpeaker => 'Speaker';
+
+  @override
+  String get voiceOutputRouteEarpiece => 'Earpiece';
+
+  @override
+  String get voiceOutputRouteHeadset => 'Headphones';
+
+  @override
   String get voicePanelOnlyShowVideosLabel => 'แสดงเฉพาะวิดีโอ';
 
   @override

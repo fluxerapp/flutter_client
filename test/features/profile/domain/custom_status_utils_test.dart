@@ -138,8 +138,8 @@ void main() {
         emojiName: '☕',
         expiresAt: null,
       );
-      expect(payload.emojiId, '123');
-      expect(payload.emojiName, isNull);
+      expect(payload.emojiId.value, '123');
+      expect(payload.emojiName.value, isNull);
     });
   });
 }

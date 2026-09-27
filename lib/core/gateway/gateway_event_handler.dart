@@ -783,6 +783,7 @@ class GatewayEventHandler {
         await database.dmChannelDao.clearAll();
         await database.memberDao.clearAll();
         await database.roleDao.clearAll();
+        await database.relationshipDao.clearAll();
         await database.readStateDao.clearAll();
         await database.userSettingsDao.clearAll();
         await database.userGuildSettingsDao.clearAll();

@@ -157,8 +157,7 @@ class VoiceCallKitCoordinatorLogic {
         );
         if (!shouldReapplySpeakerOutputOnPreferenceChange(
           isInVoice: voice.isInVoice,
-          speakerPreferenceChanged:
-              previous?.preferSpeakerOutput != next.preferSpeakerOutput,
+          speakerPreferenceChanged: previous?.outputRoute != next.outputRoute,
         )) {
           return;
         }
@@ -481,7 +480,7 @@ class VoiceCallKitCoordinatorLogic {
     if (!next.isInVoice) {
       _cancelSpeakerOutputReapply();
       ChatAttachmentAudioSession.instance.restoreAfterVoiceCall();
-      if (!_sessions.hasIncomingRing) {
+      if ((previous?.isInVoice ?? false) && !_sessions.hasIncomingRing) {
         await _endAllCallKitSessions();
       }
       return;
@@ -512,6 +511,9 @@ class VoiceCallKitCoordinatorLogic {
   Future<void> _syncForegroundChange({required bool isForeground}) async {
     if (isForeground) {
       if (_sessions.hasIncomingRing) {
+        return;
+      }
+      if (Platform.isIOS && await _iosHasUnansweredCall()) {
         return;
       }
       final VoiceCallKitVoiceSnapshot voice = _voiceCallKitVoiceSnapshot(
@@ -774,6 +776,14 @@ class VoiceCallKitCoordinatorLogic {
     );
     if (voice.isConnected) {
       await _markCallConnected(callKitId);
+    }
+  }
+
+  Future<bool> _iosHasUnansweredCall() async {
+    try {
+      return await _iosVoipCallKit.invokeMethod<bool>('hasUnanswered') ?? false;
+    } on Object {
+      return false;
     }
   }
 

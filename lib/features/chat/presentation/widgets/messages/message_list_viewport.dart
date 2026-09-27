@@ -16,6 +16,7 @@
 library;
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/chat_loading_spinner.dart';
@@ -218,6 +219,7 @@ class MessageListViewport extends StatelessWidget {
       controller: controller,
       center: centerKey,
       anchor: effectiveAnchor,
+      dragStartBehavior: DragStartBehavior.down,
       scrollCacheExtent: ScrollCacheExtent.pixels(scrollCacheExtentPixels),
       slivers: [
         if (leadingFiller != null) SliverToBoxAdapter(child: leadingFiller),

@@ -48,7 +48,7 @@ class _FakeUsersApi implements UsersApi {
       'status': 'online',
       'theme': 'dark',
       'locale': 'en-US',
-      'synced_preferences': body?.syncedPreferences ?? '',
+      'synced_preferences': body?.syncedPreferences.value ?? '',
       'render_embeds': true,
       'profile_privacy': 0,
       'restricted_guilds': <String>[],

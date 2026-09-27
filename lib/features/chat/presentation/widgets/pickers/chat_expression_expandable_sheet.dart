@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_prov
 import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
 import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_panel.dart';
 import 'package:fluxer_app/features/chat/utils/composer/inline_expression_panel_layout.dart';
 import 'package:fluxer_app/features/chat/utils/composer/inline_expression_panel_scroll_physics.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
@@ -76,6 +77,7 @@ class ChatExpressionExpandableSheetState
   bool _ignoreContentDrag = false;
   double _contentDragSlopAccumulated = 0;
   Timer? _closeTimer;
+  int _lastHandledDismissRequest = 0;
 
   @override
   void initState() {
@@ -152,6 +154,9 @@ class ChatExpressionExpandableSheetState
   @override
   void dispose() {
     _closeTimer?.cancel();
+    if (_isClosing) {
+      ref.read(bottomInputSlotProvider.notifier).clearHeldSlotHeight();
+    }
     _searchFocusNode
       ..removeListener(_onSearchFocusChanged)
       ..dispose();
@@ -414,26 +419,69 @@ class ChatExpressionExpandableSheetState
     }
   }
 
-  void _beginCloseAnimation() {
+  void _beginCloseAnimation({bool playDismissHaptic = true}) {
+    if (_isClosing) {
+      return;
+    }
     _closeTimer?.cancel();
+
+    final double startContentHeight = _height;
+    final double slotHeight = ref.read(bottomInputSlotProvider).slotHeight;
+    final double animateSlotFrom = slotHeight > 0
+        ? slotHeight
+        : _totalHeightFor(startContentHeight);
+    if (animateSlotFrom > 0) {
+      ref
+          .read(bottomInputSlotProvider.notifier)
+          .holdSlotHeight(animateSlotFrom);
+    }
+
     updateExpandableSheetHeight(heightNotifier: _heightNotifier, nextHeight: 0);
     _isDraggingNotifier.value = false;
     setState(() {
       _isClosing = true;
     });
     _resetDragHaptics();
-    playExpandableSheetDismissHaptic();
-    _closeTimer = Timer(
-      expandableSheetSnapDuration(context, isDragging: false),
-      () {
-        if (!mounted) {
+    if (playDismissHaptic) {
+      playExpandableSheetDismissHaptic();
+    }
+
+    if (animateSlotFrom > 0) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted || !_isClosing) {
           return;
         }
-        setState(() => _isClosing = false);
-        ref.read(expressionPanelProvider.notifier).close();
-        ref.read(attachmentPanelProvider.notifier).close();
-      },
+        ref.read(bottomInputSlotProvider.notifier).holdSlotHeight(0);
+      });
+    }
+
+    final Duration duration = expandableSheetSnapDuration(
+      context,
+      isDragging: false,
     );
+    if (duration == Duration.zero) {
+      _completeCloseAnimation();
+      return;
+    }
+
+    _closeTimer = Timer(duration, () {
+      if (!mounted) {
+        return;
+      }
+      _completeCloseAnimation();
+    });
+  }
+
+  void _completeCloseAnimation() {
+    _closeTimer?.cancel();
+    _closeTimer = null;
+    if (!mounted) {
+      return;
+    }
+    setState(() => _isClosing = false);
+    ref.read(bottomInputSlotProvider.notifier).clearHeldSlotHeight();
+    ref.read(expressionPanelProvider.notifier).close();
+    ref.read(attachmentPanelProvider.notifier).close();
   }
 
   void _closePanel() {
@@ -490,6 +538,21 @@ class ChatExpressionExpandableSheetState
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(expressionPanelProvider);
+    ref.watch(attachmentPanelProvider);
+    ref.listen<int>(composerPanelDismissRequestProvider, (_, int next) {
+      if (next <= _lastHandledDismissRequest || _isClosing) {
+        return;
+      }
+      _lastHandledDismissRequest = next;
+      if (!isComposerPanelOpen(
+        expressionPanelOpen: ref.read(expressionPanelProvider),
+        attachmentPanelOpen: ref.read(attachmentPanelProvider),
+      )) {
+        return;
+      }
+      _beginCloseAnimation(playDismissHaptic: false);
+    });
     final colors = context.colors;
     final Color sheetBackground = colors.chatInputBackground;
     final double homeIndicatorInset = inlineExpressionPanelHomeIndicatorInset(

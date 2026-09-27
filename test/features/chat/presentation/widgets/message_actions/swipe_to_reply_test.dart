@@ -8,9 +8,8 @@ import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/sw
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/gestures/axis_locking_horizontal_drag_recognizer.dart';
 import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.dart';
-import 'package:fluxer_app/shared/gestures/horizontal_drag_axis_lock.dart';
+import 'package:fluxer_app/shared/gestures/directional_horizontal_drag_recognizer.dart';
 import 'package:fluxer_app/shared/markdown/native_markdown_parser.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 
@@ -136,7 +135,7 @@ void main() {
           onReply: () => replyCount++,
           child: const ColoredBox(color: Color(0xFF112233)),
         ),
-        parentGestures: _axisLockingParent(
+        parentGestures: _rightwardParent(
           onStart: () => parentStartCount++,
           onUpdate: (DragUpdateDetails details) {
             parentDeltaX += details.delta.dx;
@@ -174,7 +173,7 @@ void main() {
           onReply: () => replyCount++,
           child: const ColoredBox(color: Color(0xFF112233)),
         ),
-        parentGestures: _axisLockingParent(onStart: () => parentStartCount++),
+        parentGestures: _rightwardParent(onStart: () => parentStartCount++),
       ),
     );
     final BuildContext ctx = tester.element(
@@ -684,21 +683,22 @@ void main() {
   });
 }
 
-Map<Type, GestureRecognizerFactory> _axisLockingParent({
+Map<Type, GestureRecognizerFactory> _rightwardParent({
   VoidCallback? onStart,
   GestureDragUpdateCallback? onUpdate,
 }) {
   return <Type, GestureRecognizerFactory>{
-    AxisLockingHorizontalDragRecognizer:
+    DirectionalHorizontalDragRecognizer:
         GestureRecognizerFactoryWithHandlers<
-          AxisLockingHorizontalDragRecognizer
+          DirectionalHorizontalDragRecognizer
         >(
-          () => AxisLockingHorizontalDragRecognizer(
+          () => DirectionalHorizontalDragRecognizer(
+            directions: () => const <HorizontalClaimDirection>{
+              HorizontalClaimDirection.right,
+            },
             shouldDefer: (_) => false,
-            shouldReject: (HorizontalDragAxisLockDecision decision) =>
-                decision == HorizontalDragAxisLockDecision.yieldToVertical,
           ),
-          (AxisLockingHorizontalDragRecognizer recognizer) {
+          (DirectionalHorizontalDragRecognizer recognizer) {
             recognizer
               ..onStart = onStart == null
                   ? null

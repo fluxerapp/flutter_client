@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/features/voice/domain/voice_output_route.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -97,8 +98,8 @@ class VoiceSettings extends _$VoiceSettings {
     _schedulePersist();
   }
 
-  Future<void> setPreferSpeakerOutput({required bool value}) async {
-    state = state.copyWith(preferSpeakerOutput: value);
+  Future<void> setOutputRoute(VoiceOutputRoute route) async {
+    state = state.copyWith(outputRoute: route);
     _schedulePersist();
   }
 

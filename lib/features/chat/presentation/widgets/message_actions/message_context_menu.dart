@@ -5,6 +5,7 @@ import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_con
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/message_actions/message_bottom_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_loader.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_translation_provider.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_action_permissions.dart';
@@ -26,6 +27,8 @@ Future<MessageAction?> showMessageContextMenu(
   required MessageActionCallbacks callbacks,
   ValueChanged<QuickReactionItem>? onQuickReaction,
   List<QuickReactionItem>? quickItems,
+  String? quickReactionChannelId,
+  String? quickReactionGuildId,
 }) async {
   final overlay = Overlay.of(context).context.findRenderObject() as RenderBox?;
   if (overlay == null) {
@@ -43,6 +46,8 @@ Future<MessageAction?> showMessageContextMenu(
       callbacks: callbacks,
       onQuickReaction: onQuickReaction,
       quickItems: quickItems,
+      quickReactionChannelId: quickReactionChannelId,
+      quickReactionGuildId: quickReactionGuildId,
     ),
   );
 }
@@ -55,6 +60,8 @@ class _ContextMenuRoute extends PopupRoute<MessageAction> {
   final MessageActionCallbacks callbacks;
   final ValueChanged<QuickReactionItem>? onQuickReaction;
   final List<QuickReactionItem>? quickItems;
+  final String? quickReactionChannelId;
+  final String? quickReactionGuildId;
 
   _ContextMenuRoute({
     required this.position,
@@ -64,6 +71,8 @@ class _ContextMenuRoute extends PopupRoute<MessageAction> {
     required this.callbacks,
     this.onQuickReaction,
     this.quickItems,
+    this.quickReactionChannelId,
+    this.quickReactionGuildId,
   });
 
   @override
@@ -92,6 +101,8 @@ class _ContextMenuRoute extends PopupRoute<MessageAction> {
     callbacks: callbacks,
     onQuickReaction: onQuickReaction,
     quickItems: quickItems,
+    quickReactionChannelId: quickReactionChannelId,
+    quickReactionGuildId: quickReactionGuildId,
   );
 }
 
@@ -104,6 +115,8 @@ class _ContextMenuPage extends ConsumerWidget {
   final MessageActionCallbacks callbacks;
   final ValueChanged<QuickReactionItem>? onQuickReaction;
   final List<QuickReactionItem>? quickItems;
+  final String? quickReactionChannelId;
+  final String? quickReactionGuildId;
 
   const _ContextMenuPage({
     required this.position,
@@ -114,6 +127,8 @@ class _ContextMenuPage extends ConsumerWidget {
     required this.callbacks,
     this.onQuickReaction,
     this.quickItems,
+    this.quickReactionChannelId,
+    this.quickReactionGuildId,
   });
 
   @override
@@ -160,7 +175,7 @@ class _ContextMenuPage extends ConsumerWidget {
     for (final item in items) {
       if (item is _MenuDivider) {
         height += 13; // 1px + 6px * 2
-      } else if (item is QuickReactionRow) {
+      } else if (item is QuickReactionRow || item is MessageQuickReactionRow) {
         height += 40; // emoji row
       } else {
         height += 38; // 36px + 1px * 2 margin
@@ -200,13 +215,23 @@ class _ContextMenuPage extends ConsumerWidget {
           (state) => state.showMessageActionBarQuickReactions,
         ),
       ))
-        QuickReactionRow(
-          items: quickItems ?? kQuickReactionDefaults,
-          onReaction: (item) {
-            onQuickReaction?.call(item);
-            Navigator.of(context).pop();
-          },
-        ),
+        if (quickReactionChannelId != null)
+          MessageQuickReactionRow(
+            channelId: quickReactionChannelId!,
+            guildId: quickReactionGuildId,
+            onReaction: (item) {
+              onQuickReaction?.call(item);
+              Navigator.of(context).pop();
+            },
+          )
+        else
+          QuickReactionRow(
+            items: quickItems ?? kQuickReactionDefaults,
+            onReaction: (item) {
+              onQuickReaction?.call(item);
+              Navigator.of(context).pop();
+            },
+          ),
       _MenuItem(
         label: l10n.chatMessageAddReaction,
         icon: PhosphorIconsBold.smiley,
