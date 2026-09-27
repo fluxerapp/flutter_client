@@ -140,12 +140,7 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
           if (!mounted) {
             return;
           }
-          final BuildContext? rootContext = rootNavigatorKey.currentContext;
-          if (rootContext == null || !rootContext.mounted) {
-            return;
-          }
-          ref.read(pushRelayConsentPromptProvider.notifier).clearRequest();
-          unawaited(_presentPushRelayConsent(rootContext));
+          _schedulePushRelayConsentPrompt();
         });
       });
     }
@@ -197,12 +192,48 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
     });
   }
 
-  Future<void> _presentPushRelayConsent(BuildContext rootContext) async {
-    final bool? agreed = await showPushRelayConsentSheet(rootContext);
-    if (!mounted || agreed == null) {
+  void _schedulePushRelayConsentPrompt({int attempt = 0}) {
+    if (!mounted) {
       return;
     }
-    await ref.read(pushRelayConsentProvider.notifier).setEnabled(value: agreed);
+    if (!ref.read(pushRelayConsentPromptProvider)) {
+      return;
+    }
+    final promptNotifier = ref.read(pushRelayConsentPromptProvider.notifier);
+    if (promptNotifier.presentationInFlight) {
+      return;
+    }
+    final BuildContext? rootContext = rootNavigatorKey.currentContext;
+    if (rootContext == null || !rootContext.mounted) {
+      if (attempt >= 60) {
+        return;
+      }
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+        _schedulePushRelayConsentPrompt(attempt: attempt + 1);
+      });
+      return;
+    }
+    promptNotifier.beginPresentation();
+    unawaited(_presentPushRelayConsent(rootContext));
+  }
+
+  Future<void> _presentPushRelayConsent(BuildContext rootContext) async {
+    final promptNotifier = ref.read(pushRelayConsentPromptProvider.notifier);
+    try {
+      final bool? agreed = await showPushRelayConsentSheet(rootContext);
+      if (!mounted) {
+        return;
+      }
+      await recordPushRelayConsentSheetResult(
+        consent: ref.read(pushRelayConsentProvider.notifier),
+        agreed: agreed,
+      );
+    } finally {
+      promptNotifier.endPresentation();
+    }
   }
 
   void _presentHomeQuickAction(HomeQuickAction action, {bool retried = false}) {

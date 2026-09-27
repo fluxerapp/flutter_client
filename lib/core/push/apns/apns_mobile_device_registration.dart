@@ -167,6 +167,10 @@ class ApnsMobileDeviceRegistration extends _$ApnsMobileDeviceRegistration {
       environment: environmentName,
       deviceTokenHex: hex,
     );
+    if (!await ensurePushRelayConsent(ref, relayUrl)) {
+      _logApnsWarning('sync aborted: push relay consent not granted');
+      return;
+    }
     final WebPushAccountKeys keys = await _keyStore.ensureKeys(userId);
     await unregisterLegacyRawTokenOnce(
       keyStore: _keyStore,
@@ -177,10 +181,6 @@ class ApnsMobileDeviceRegistration extends _$ApnsMobileDeviceRegistration {
         providerEnvironment: _unregisterProviderEnvironment,
       ),
     );
-    if (!await ensurePushRelayConsent(ref, relayUrl)) {
-      _logApnsWarning('sync aborted: push relay consent not granted');
-      return;
-    }
     if (shouldSkipWebPushRegistration(
       currentUserId: userId,
       relayUrl: relayUrl,

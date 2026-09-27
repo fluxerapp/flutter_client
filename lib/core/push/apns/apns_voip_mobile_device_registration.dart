@@ -150,13 +150,13 @@ class ApnsVoipMobileDeviceRegistration
       environment: environmentName,
       deviceTokenHex: hex,
     );
-    final WebPushAccountKeys keys = await _keyStore.ensureKeys(userId);
     if (!await ensurePushRelayConsent(ref, relayUrl)) {
       talker.warning(
         '[ApnsVoipMobileDeviceRegistration] push relay consent not granted',
       );
       return;
     }
+    final WebPushAccountKeys keys = await _keyStore.ensureKeys(userId);
     if (shouldSkipWebPushRegistration(
       currentUserId: userId,
       relayUrl: relayUrl,

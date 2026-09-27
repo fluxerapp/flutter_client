@@ -17,13 +17,10 @@ void main() {
         isTrue,
       );
     }
-    expect(
-      choices.map((c) => c.alternateIconName).toList(),
-      <String?>[
-        null,
-        kIosStarfieldAlternateIconName,
-        kIosSwedenAlternateIconName,
-      ],
-    );
+    expect(choices.map((c) => c.alternateIconName).toList(), <String?>[
+      null,
+      kIosStarfieldAlternateIconName,
+      kIosSwedenAlternateIconName,
+    ]);
   });
 }

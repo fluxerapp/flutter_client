@@ -156,7 +156,11 @@ class UserNotificationsSettings extends ConsumerWidget {
                           l10n.notificationsPushRelayConsentDescription,
                       value: ref.watch(pushRelayConsentProvider),
                       onChanged: (bool value) => unawaited(
-                        _handlePushRelayConsentChanged(ref: ref, value: value),
+                        _handlePushRelayConsentChanged(
+                          context: context,
+                          ref: ref,
+                          value: value,
+                        ),
                       ),
                     ),
                     SizedBox(height: layout.s2),
@@ -229,13 +233,30 @@ class UserNotificationsSettings extends ConsumerWidget {
 }
 
 Future<void> _handlePushRelayConsentChanged({
+  required BuildContext context,
   required WidgetRef ref,
   required bool value,
 }) async {
-  await ref.read(pushRelayConsentProvider.notifier).setEnabled(value: value);
-  if (value) {
+  final PushRelayConsent consent = ref.read(pushRelayConsentProvider.notifier);
+  await consent.ensureLoaded();
+
+  if (!value) {
+    await consent.setEnabled(value: false);
+    await _unregisterPushRelayMobileDevices(ref);
     return;
   }
+
+  if (!context.mounted) {
+    return;
+  }
+  final bool? agreed = await showPushRelayConsentSheet(context);
+  if (!context.mounted) {
+    return;
+  }
+  await recordPushRelayConsentSheetResult(consent: consent, agreed: agreed);
+}
+
+Future<void> _unregisterPushRelayMobileDevices(WidgetRef ref) async {
   if (PushProviderGuard.isApple) {
     await ref
         .read(apnsMobileDeviceRegistrationProvider.notifier)

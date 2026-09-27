@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const String kPushRelayNoticeUrl =
     '${InstanceConstants.defaultMarketingBaseUrl}/push-relay';
@@ -29,6 +30,8 @@ Future<bool?> showPushRelayConsentSheet(BuildContext context) {
     return FluxerBottomSheet.show<bool>(
       context,
       useRootNavigator: true,
+      isDismissible: false,
+      enableDrag: false,
       title: l10n.pushRelayConsentTitle,
       subtitle: Text(
         l10n.pushRelayConsentDescription,
@@ -44,6 +47,15 @@ Future<bool?> showPushRelayConsentSheet(BuildContext context) {
     centered: true,
     title: l10n.pushRelayConsentTitle,
     description: l10n.pushRelayConsentDescription,
+    trailing: Opacity(
+      opacity: 0.7,
+      child: FluxerButton.ghost(
+        onPressed: () => Navigator.of(context, rootNavigator: true).pop(false),
+        icon: PhosphorIconsBold.x,
+        isSquare: true,
+        semanticLabel: l10n.uiClose,
+      ),
+    ),
     builder: (dialogContext, close) => buildContent(dialogContext),
   );
 }
@@ -67,41 +79,44 @@ class _PushRelayConsentSheetContent extends StatelessWidget {
       color: colors.textSecondary,
     );
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: layout.s4),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text.rich(
-            TextSpan(
-              style: bodyStyle,
-              children: [
-                TextSpan(text: l10n.pushRelayConsentNoticePrefix),
-                WidgetSpan(
-                  alignment: PlaceholderAlignment.baseline,
-                  baseline: TextBaseline.alphabetic,
-                  child: FluxerTextLink(
-                    text: l10n.pushRelayConsentNoticeLink,
-                    url: kPushRelayNoticeUrl,
-                    style: bodyStyle,
+    return PopScope(
+      canPop: false,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: layout.s4),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text.rich(
+              TextSpan(
+                style: bodyStyle,
+                children: [
+                  TextSpan(text: l10n.pushRelayConsentNoticePrefix),
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.baseline,
+                    baseline: TextBaseline.alphabetic,
+                    child: FluxerTextLink(
+                      text: l10n.pushRelayConsentNoticeLink,
+                      url: kPushRelayNoticeUrl,
+                      style: bodyStyle,
+                    ),
                   ),
-                ),
-                TextSpan(text: l10n.pushRelayConsentNoticeSuffix),
-              ],
+                  TextSpan(text: l10n.pushRelayConsentNoticeSuffix),
+                ],
+              ),
             ),
-          ),
-          SizedBox(height: layout.s4),
-          FluxerButton.primary(
-            onPressed: onAgree,
-            label: l10n.pushRelayConsentAgree,
-          ),
-          SizedBox(height: layout.s2),
-          FluxerButton.secondary(
-            onPressed: onDecline,
-            label: l10n.pushRelayConsentDecline,
-          ),
-        ],
+            SizedBox(height: layout.s4),
+            FluxerButton.primary(
+              onPressed: onAgree,
+              label: l10n.pushRelayConsentAgree,
+            ),
+            SizedBox(height: layout.s2),
+            FluxerButton.secondary(
+              onPressed: onDecline,
+              label: l10n.pushRelayConsentDecline,
+            ),
+          ],
+        ),
       ),
     );
   }

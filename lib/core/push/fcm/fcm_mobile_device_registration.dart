@@ -146,6 +146,14 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
       appId: AppBuildConfig.mobilePushAppId,
       deviceToken: token,
     );
+    if (!await ensurePushRelayConsent(ref, relayUrl)) {
+      if (kDebugMode) {
+        debugPrint(
+          '[FcmMobileDeviceRegistration] push relay consent not granted',
+        );
+      }
+      return;
+    }
     final WebPushAccountKeys keys = await _keyStore.ensureKeys(userId);
     await unregisterLegacyRawTokenOnce(
       keyStore: _keyStore,
@@ -156,14 +164,6 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
         providerEnvironment: _legacyProviderEnvironment,
       ),
     );
-    if (!await ensurePushRelayConsent(ref, relayUrl)) {
-      if (kDebugMode) {
-        debugPrint(
-          '[FcmMobileDeviceRegistration] push relay consent not granted',
-        );
-      }
-      return;
-    }
     if (shouldSkipWebPushRegistration(
       currentUserId: userId,
       relayUrl: relayUrl,

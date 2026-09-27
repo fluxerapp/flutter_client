@@ -47,6 +47,9 @@ class PushRelayConsent extends _$PushRelayConsent {
 
   Future<void> _load() async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
+    if (_isLoaded) {
+      return;
+    }
     final bool? stored = preferences.getBool(_kPushRelayConsentGrantedKey);
     _hasDecision = stored != null;
     state = stored ?? false;
@@ -54,11 +57,11 @@ class PushRelayConsent extends _$PushRelayConsent {
   }
 
   Future<void> setEnabled({required bool value}) async {
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setBool(_kPushRelayConsentGrantedKey, value);
     _hasDecision = true;
     _isLoaded = true;
     state = value;
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setBool(_kPushRelayConsentGrantedKey, value);
   }
 }
 
@@ -80,4 +83,11 @@ Future<bool> ensurePushRelayConsent(Ref ref, String relayUrl) async {
     ref.read(pushRelayConsentPromptProvider.notifier).requestPrompt();
   }
   return false;
+}
+
+Future<void> recordPushRelayConsentSheetResult({
+  required PushRelayConsent consent,
+  required bool? agreed,
+}) async {
+  await consent.setEnabled(value: agreed ?? false);
 }
