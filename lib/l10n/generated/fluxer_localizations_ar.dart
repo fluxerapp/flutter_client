@@ -10258,41 +10258,44 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
       'تعذر تمكين الإشعارات. اسمح بإذن الإشعارات للمتابعة.';
 
   @override
-  String get notificationsPushRelaySectionTitle => 'Push notification relay';
+  String get notificationsPushRelaySectionTitle => 'مُرحِّل الإشعارات الفورية';
 
   @override
-  String get notificationsPushRelaySectionDescription =>
-      'Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.';
+  String notificationsPushRelaySectionDescription(String pushProvider) {
+    return 'لا يوصّل $pushProvider الإشعارات الفورية إلا عبر خدمته الخاصة، لذلك تمر إشعارات هذا الجهاز عبر مُرحِّل Fluxer.';
+  }
 
   @override
-  String get notificationsPushRelayConsentLabel => 'Use the Fluxer push relay';
+  String get notificationsPushRelayConsentLabel =>
+      'استخدام مُرحِّل Fluxer للإشعارات';
 
   @override
   String get notificationsPushRelayConsentDescription =>
-      'Turning this off removes this device\'s push registration, so this device stops receiving push notifications.';
+      'إيقاف هذا الخيار يزيل تسجيل الإشعارات لهذا الجهاز، فيتوقف عن تلقي الإشعارات الفورية.';
 
   @override
-  String get pushRelayConsentTitle => 'Push notification relay';
+  String get pushRelayConsentTitle => 'مُرحِّل الإشعارات الفورية';
 
   @override
-  String get pushRelayConsentDescription =>
-      'Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.';
+  String pushRelayConsentDescription(String pushProvider) {
+    return 'لا يوصّل $pushProvider الإشعارات الفورية إلا عبر خدمته الخاصة، لذلك تمر إشعارات هذا الجهاز عبر مُرحِّل Fluxer.';
+  }
 
   @override
-  String get pushRelayConsentNoticePrefix => 'Agree to the ';
+  String get pushRelayConsentNoticePrefix => 'وافق على ';
 
   @override
-  String get pushRelayConsentNoticeLink => 'Push Relay Privacy Notice';
+  String get pushRelayConsentNoticeLink => 'إشعار خصوصية مُرحِّل الإشعارات';
 
   @override
   String get pushRelayConsentNoticeSuffix =>
-      ' to turn on push notifications on this device. You only need to agree once per device.';
+      ' لتفعيل الإشعارات الفورية على هذا الجهاز. تكفي الموافقة مرة واحدة لكل جهاز.';
 
   @override
-  String get pushRelayConsentAgree => 'Agree and continue';
+  String get pushRelayConsentAgree => 'الموافقة والمتابعة';
 
   @override
-  String get pushRelayConsentDecline => 'Not now';
+  String get pushRelayConsentDecline => 'ليس الآن';
 
   @override
   String get userSettingsNavLanguageAndTime => 'اللغة والوقت';

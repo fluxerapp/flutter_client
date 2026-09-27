@@ -10349,41 +10349,46 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Bildirimler etkinleştirilemedi. Devam etmek için bildirim iznine izin verin.';
 
   @override
-  String get notificationsPushRelaySectionTitle => 'Push notification relay';
+  String get notificationsPushRelaySectionTitle => 'Anlık bildirim aktarıcısı';
 
   @override
-  String get notificationsPushRelaySectionDescription =>
-      'Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.';
+  String notificationsPushRelaySectionDescription(String pushProvider) {
+    return '$pushProvider anlık bildirimleri yalnızca kendi hizmeti üzerinden iletir, bu yüzden bu cihazın bildirimleri Fluxer aktarıcısından geçer.';
+  }
 
   @override
-  String get notificationsPushRelayConsentLabel => 'Use the Fluxer push relay';
+  String get notificationsPushRelayConsentLabel =>
+      'Fluxer anlık bildirim aktarıcısını kullan';
 
   @override
   String get notificationsPushRelayConsentDescription =>
-      'Turning this off removes this device\'s push registration, so this device stops receiving push notifications.';
+      'Bunu kapatırsan bu cihazın bildirim kaydı silinir ve cihaz anlık bildirim almayı bırakır.';
 
   @override
-  String get pushRelayConsentTitle => 'Push notification relay';
+  String get pushRelayConsentTitle => 'Anlık bildirim aktarıcısı';
 
   @override
-  String get pushRelayConsentDescription =>
-      'Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.';
+  String pushRelayConsentDescription(String pushProvider) {
+    return '$pushProvider anlık bildirimleri yalnızca kendi hizmeti üzerinden iletir, bu yüzden bu cihazın bildirimleri Fluxer aktarıcısından geçer.';
+  }
 
   @override
-  String get pushRelayConsentNoticePrefix => 'Agree to the ';
+  String get pushRelayConsentNoticePrefix =>
+      'Bu cihazda anlık bildirimleri açmak için ';
 
   @override
-  String get pushRelayConsentNoticeLink => 'Push Relay Privacy Notice';
+  String get pushRelayConsentNoticeLink =>
+      'anlık bildirim aktarıcısı gizlilik bildirimini';
 
   @override
   String get pushRelayConsentNoticeSuffix =>
-      ' to turn on push notifications on this device. You only need to agree once per device.';
+      ' kabul et. Cihaz başına yalnızca bir kez kabul etmen yeterli.';
 
   @override
-  String get pushRelayConsentAgree => 'Agree and continue';
+  String get pushRelayConsentAgree => 'Kabul et ve devam et';
 
   @override
-  String get pushRelayConsentDecline => 'Not now';
+  String get pushRelayConsentDecline => 'Şimdi değil';
 
   @override
   String get userSettingsNavLanguageAndTime => 'Dil ve Saat';

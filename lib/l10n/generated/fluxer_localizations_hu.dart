@@ -10421,41 +10421,46 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Nem sikerült engedélyezni az értesítéseket. Engedélyezze az értesítési hozzáférést a folytatáshoz.';
 
   @override
-  String get notificationsPushRelaySectionTitle => 'Push notification relay';
+  String get notificationsPushRelaySectionTitle =>
+      'Push-értesítések továbbítója';
 
   @override
-  String get notificationsPushRelaySectionDescription =>
-      'Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.';
+  String notificationsPushRelaySectionDescription(String pushProvider) {
+    return 'A(z) $pushProvider csak a saját szolgáltatásán keresztül kézbesít push-értesítéseket, ezért az eszköz értesítései a Fluxer továbbítóján haladnak át.';
+  }
 
   @override
-  String get notificationsPushRelayConsentLabel => 'Use the Fluxer push relay';
+  String get notificationsPushRelayConsentLabel =>
+      'A Fluxer push-továbbítójának használata';
 
   @override
   String get notificationsPushRelayConsentDescription =>
-      'Turning this off removes this device\'s push registration, so this device stops receiving push notifications.';
+      'Ha ezt kikapcsolod, az eszköz push-regisztrációja törlődik, és az eszköz nem kap több push-értesítést.';
 
   @override
-  String get pushRelayConsentTitle => 'Push notification relay';
+  String get pushRelayConsentTitle => 'Push-értesítések továbbítója';
 
   @override
-  String get pushRelayConsentDescription =>
-      'Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.';
+  String pushRelayConsentDescription(String pushProvider) {
+    return 'A(z) $pushProvider csak a saját szolgáltatásán keresztül kézbesít push-értesítéseket, ezért az eszköz értesítései a Fluxer továbbítóján haladnak át.';
+  }
 
   @override
-  String get pushRelayConsentNoticePrefix => 'Agree to the ';
+  String get pushRelayConsentNoticePrefix => 'Fogadd el a ';
 
   @override
-  String get pushRelayConsentNoticeLink => 'Push Relay Privacy Notice';
+  String get pushRelayConsentNoticeLink =>
+      'push-továbbító adatvédelmi tájékoztatóját';
 
   @override
   String get pushRelayConsentNoticeSuffix =>
-      ' to turn on push notifications on this device. You only need to agree once per device.';
+      ', hogy bekapcsold a push-értesítéseket ezen az eszközön. Eszközönként csak egyszer kell elfogadnod.';
 
   @override
-  String get pushRelayConsentAgree => 'Agree and continue';
+  String get pushRelayConsentAgree => 'Elfogadom és folytatom';
 
   @override
-  String get pushRelayConsentDecline => 'Not now';
+  String get pushRelayConsentDecline => 'Most nem';
 
   @override
   String get userSettingsNavLanguageAndTime => 'Nyelv és idő';

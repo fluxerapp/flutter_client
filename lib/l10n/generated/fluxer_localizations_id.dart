@@ -10345,41 +10345,43 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Tidak dapat mengaktifkan notifikasi. Izinkan izin notifikasi untuk melanjutkan.';
 
   @override
-  String get notificationsPushRelaySectionTitle => 'Push notification relay';
+  String get notificationsPushRelaySectionTitle => 'Relai notifikasi push';
 
   @override
-  String get notificationsPushRelaySectionDescription =>
-      'Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.';
+  String notificationsPushRelaySectionDescription(String pushProvider) {
+    return '$pushProvider hanya mengirim notifikasi push lewat layanannya sendiri, jadi notifikasi untuk perangkat ini melewati relai Fluxer.';
+  }
 
   @override
-  String get notificationsPushRelayConsentLabel => 'Use the Fluxer push relay';
+  String get notificationsPushRelayConsentLabel => 'Gunakan relai push Fluxer';
 
   @override
   String get notificationsPushRelayConsentDescription =>
-      'Turning this off removes this device\'s push registration, so this device stops receiving push notifications.';
+      'Menonaktifkan ini menghapus pendaftaran push perangkat ini, sehingga perangkat berhenti menerima notifikasi push.';
 
   @override
-  String get pushRelayConsentTitle => 'Push notification relay';
+  String get pushRelayConsentTitle => 'Relai notifikasi push';
 
   @override
-  String get pushRelayConsentDescription =>
-      'Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.';
+  String pushRelayConsentDescription(String pushProvider) {
+    return '$pushProvider hanya mengirim notifikasi push lewat layanannya sendiri, jadi notifikasi untuk perangkat ini melewati relai Fluxer.';
+  }
 
   @override
-  String get pushRelayConsentNoticePrefix => 'Agree to the ';
+  String get pushRelayConsentNoticePrefix => 'Setujui ';
 
   @override
-  String get pushRelayConsentNoticeLink => 'Push Relay Privacy Notice';
+  String get pushRelayConsentNoticeLink => 'pemberitahuan privasi relai push';
 
   @override
   String get pushRelayConsentNoticeSuffix =>
-      ' to turn on push notifications on this device. You only need to agree once per device.';
+      ' untuk mengaktifkan notifikasi push di perangkat ini. Kamu hanya perlu menyetujui sekali per perangkat.';
 
   @override
-  String get pushRelayConsentAgree => 'Agree and continue';
+  String get pushRelayConsentAgree => 'Setujui dan lanjutkan';
 
   @override
-  String get pushRelayConsentDecline => 'Not now';
+  String get pushRelayConsentDecline => 'Nanti saja';
 
   @override
   String get userSettingsNavLanguageAndTime => 'Bahasa & Waktu';

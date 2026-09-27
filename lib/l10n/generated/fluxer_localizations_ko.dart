@@ -9918,41 +9918,42 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       '알림을 켤 수 없습니다. 계속하려면 알림 권한을 허용해 주세요.';
 
   @override
-  String get notificationsPushRelaySectionTitle => 'Push notification relay';
+  String get notificationsPushRelaySectionTitle => '푸시 알림 릴레이';
 
   @override
-  String get notificationsPushRelaySectionDescription =>
-      'Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.';
+  String notificationsPushRelaySectionDescription(String pushProvider) {
+    return '$pushProvider은(는) 자사 서비스를 통해서만 푸시 알림을 전달하므로 이 기기의 푸시는 Fluxer 릴레이를 거칩니다.';
+  }
 
   @override
-  String get notificationsPushRelayConsentLabel => 'Use the Fluxer push relay';
+  String get notificationsPushRelayConsentLabel => 'Fluxer 푸시 릴레이 사용';
 
   @override
   String get notificationsPushRelayConsentDescription =>
-      'Turning this off removes this device\'s push registration, so this device stops receiving push notifications.';
+      '이 설정을 끄면 이 기기의 푸시 등록이 삭제되어 푸시 알림을 더 이상 받지 않습니다.';
 
   @override
-  String get pushRelayConsentTitle => 'Push notification relay';
+  String get pushRelayConsentTitle => '푸시 알림 릴레이';
 
   @override
-  String get pushRelayConsentDescription =>
-      'Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.';
+  String pushRelayConsentDescription(String pushProvider) {
+    return '$pushProvider은(는) 자사 서비스를 통해서만 푸시 알림을 전달하므로 이 기기의 푸시는 Fluxer 릴레이를 거칩니다.';
+  }
 
   @override
-  String get pushRelayConsentNoticePrefix => 'Agree to the ';
+  String get pushRelayConsentNoticePrefix => '이 기기에서 푸시 알림을 켜려면 ';
 
   @override
-  String get pushRelayConsentNoticeLink => 'Push Relay Privacy Notice';
+  String get pushRelayConsentNoticeLink => '푸시 릴레이 개인정보 고지';
 
   @override
-  String get pushRelayConsentNoticeSuffix =>
-      ' to turn on push notifications on this device. You only need to agree once per device.';
+  String get pushRelayConsentNoticeSuffix => '에 동의하세요. 기기당 한 번만 동의하면 됩니다.';
 
   @override
-  String get pushRelayConsentAgree => 'Agree and continue';
+  String get pushRelayConsentAgree => '동의하고 계속';
 
   @override
-  String get pushRelayConsentDecline => 'Not now';
+  String get pushRelayConsentDecline => '나중에';
 
   @override
   String get userSettingsNavLanguageAndTime => '언어 및 시간';

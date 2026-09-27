@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
+import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_logic.dart';
 import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_prompt_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -66,12 +67,14 @@ class PushRelayConsent extends _$PushRelayConsent {
 }
 
 Future<bool> ensurePushRelayConsent(Ref ref, String relayUrl) async {
+  final bool isOfficialInstance = ref.read(isActiveInstanceOfficialProvider);
   final PushRelayConsent consent = ref.read(pushRelayConsentProvider.notifier);
   await consent.ensureLoaded();
   final bool isConsentGranted = ref.read(pushRelayConsentProvider);
   if (!isPushRelayConsentRequired(
     relayUrl: relayUrl,
     isConsentGranted: isConsentGranted,
+    isOfficialInstance: isOfficialInstance,
   )) {
     return true;
   }
@@ -79,6 +82,7 @@ Future<bool> ensurePushRelayConsent(Ref ref, String relayUrl) async {
     relayUrl: relayUrl,
     isConsentGranted: isConsentGranted,
     hasDecision: consent.hasDecision,
+    isOfficialInstance: isOfficialInstance,
   )) {
     ref.read(pushRelayConsentPromptProvider.notifier).requestPrompt();
   }

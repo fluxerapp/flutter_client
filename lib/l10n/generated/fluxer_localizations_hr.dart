@@ -10369,41 +10369,46 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Nismo mogli omogućiti obavijesti. Dopustite dopuštenje za obavijesti da biste nastavili.';
 
   @override
-  String get notificationsPushRelaySectionTitle => 'Push notification relay';
+  String get notificationsPushRelaySectionTitle =>
+      'Prijenosnik push obavijesti';
 
   @override
-  String get notificationsPushRelaySectionDescription =>
-      'Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.';
+  String notificationsPushRelaySectionDescription(String pushProvider) {
+    return '$pushProvider isporučuje push obavijesti samo preko vlastite usluge, pa obavijesti za ovaj uređaj idu kroz Fluxerov prijenosnik.';
+  }
 
   @override
-  String get notificationsPushRelayConsentLabel => 'Use the Fluxer push relay';
+  String get notificationsPushRelayConsentLabel =>
+      'Koristi Fluxerov push prijenosnik';
 
   @override
   String get notificationsPushRelayConsentDescription =>
-      'Turning this off removes this device\'s push registration, so this device stops receiving push notifications.';
+      'Ako ovo isključiš, push registracija ovog uređaja se uklanja i uređaj prestaje primati push obavijesti.';
 
   @override
-  String get pushRelayConsentTitle => 'Push notification relay';
+  String get pushRelayConsentTitle => 'Prijenosnik push obavijesti';
 
   @override
-  String get pushRelayConsentDescription =>
-      'Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.';
+  String pushRelayConsentDescription(String pushProvider) {
+    return '$pushProvider isporučuje push obavijesti samo preko vlastite usluge, pa obavijesti za ovaj uređaj idu kroz Fluxerov prijenosnik.';
+  }
 
   @override
-  String get pushRelayConsentNoticePrefix => 'Agree to the ';
+  String get pushRelayConsentNoticePrefix => 'Prihvati ';
 
   @override
-  String get pushRelayConsentNoticeLink => 'Push Relay Privacy Notice';
+  String get pushRelayConsentNoticeLink =>
+      'obavijest o privatnosti push prijenosnika';
 
   @override
   String get pushRelayConsentNoticeSuffix =>
-      ' to turn on push notifications on this device. You only need to agree once per device.';
+      ' kako bi uključio push obavijesti na ovom uređaju. Dovoljno je prihvatiti jednom po uređaju.';
 
   @override
-  String get pushRelayConsentAgree => 'Agree and continue';
+  String get pushRelayConsentAgree => 'Prihvati i nastavi';
 
   @override
-  String get pushRelayConsentDecline => 'Not now';
+  String get pushRelayConsentDecline => 'Ne sada';
 
   @override
   String get userSettingsNavLanguageAndTime => 'Jezik i vrijeme';

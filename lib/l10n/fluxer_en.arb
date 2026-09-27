@@ -12797,9 +12797,14 @@
     "@notificationsPushRelaySectionTitle": {
         "description": "Notification settings section title for the Fluxer push relay."
     },
-    "notificationsPushRelaySectionDescription": "Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.",
+    "notificationsPushRelaySectionDescription": "{pushProvider} only delivers push notifications through their own service, so pushes for this device pass through the Fluxer relay.",
     "@notificationsPushRelaySectionDescription": {
-        "description": "Notification settings section description explaining why the push relay exists."
+        "description": "Notification settings section description explaining why the push relay exists.",
+        "placeholders": {
+            "pushProvider": {
+                "type": "String"
+            }
+        }
     },
     "notificationsPushRelayConsentLabel": "Use the Fluxer push relay",
     "@notificationsPushRelayConsentLabel": {
@@ -12813,9 +12818,14 @@
     "@pushRelayConsentTitle": {
         "description": "Title of the one-time Fluxer push relay consent sheet."
     },
-    "pushRelayConsentDescription": "Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.",
+    "pushRelayConsentDescription": "{pushProvider} only delivers push notifications through their own service, so pushes for this device pass through the Fluxer relay.",
     "@pushRelayConsentDescription": {
-        "description": "Subtitle of the push relay consent sheet explaining why the relay exists."
+        "description": "Subtitle of the push relay consent sheet explaining why the relay exists.",
+        "placeholders": {
+            "pushProvider": {
+                "type": "String"
+            }
+        }
     },
     "pushRelayConsentNoticePrefix": "Agree to the ",
     "@pushRelayConsentNoticePrefix": {

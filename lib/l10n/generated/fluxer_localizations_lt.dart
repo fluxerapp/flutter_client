@@ -10445,41 +10445,46 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Nepavyko įjungti pranešimų. Norėdami tęsti, leiskite pranešimų leidimus.';
 
   @override
-  String get notificationsPushRelaySectionTitle => 'Push notification relay';
+  String get notificationsPushRelaySectionTitle =>
+      'Tiesioginių pranešimų perdavimas';
 
   @override
-  String get notificationsPushRelaySectionDescription =>
-      'Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.';
+  String notificationsPushRelaySectionDescription(String pushProvider) {
+    return '$pushProvider pristato tiesioginius pranešimus tik per savo paslaugą, todėl šio įrenginio pranešimai keliauja per Fluxer perdavimą.';
+  }
 
   @override
-  String get notificationsPushRelayConsentLabel => 'Use the Fluxer push relay';
+  String get notificationsPushRelayConsentLabel =>
+      'Naudoti Fluxer pranešimų perdavimą';
 
   @override
   String get notificationsPushRelayConsentDescription =>
-      'Turning this off removes this device\'s push registration, so this device stops receiving push notifications.';
+      'Išjungus tai, šio įrenginio pranešimų registracija pašalinama ir įrenginys nebegauna tiesioginių pranešimų.';
 
   @override
-  String get pushRelayConsentTitle => 'Push notification relay';
+  String get pushRelayConsentTitle => 'Tiesioginių pranešimų perdavimas';
 
   @override
-  String get pushRelayConsentDescription =>
-      'Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.';
+  String pushRelayConsentDescription(String pushProvider) {
+    return '$pushProvider pristato tiesioginius pranešimus tik per savo paslaugą, todėl šio įrenginio pranešimai keliauja per Fluxer perdavimą.';
+  }
 
   @override
-  String get pushRelayConsentNoticePrefix => 'Agree to the ';
+  String get pushRelayConsentNoticePrefix => 'Sutik su ';
 
   @override
-  String get pushRelayConsentNoticeLink => 'Push Relay Privacy Notice';
+  String get pushRelayConsentNoticeLink =>
+      'pranešimų perdavimo privatumo pranešimu';
 
   @override
   String get pushRelayConsentNoticeSuffix =>
-      ' to turn on push notifications on this device. You only need to agree once per device.';
+      ', kad įjungtum tiesioginius pranešimus šiame įrenginyje. Sutikti reikia tik kartą kiekviename įrenginyje.';
 
   @override
-  String get pushRelayConsentAgree => 'Agree and continue';
+  String get pushRelayConsentAgree => 'Sutinku ir tęsti';
 
   @override
-  String get pushRelayConsentDecline => 'Not now';
+  String get pushRelayConsentDecline => 'Ne dabar';
 
   @override
   String get userSettingsNavLanguageAndTime => 'Kalba ir laikas';

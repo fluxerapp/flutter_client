@@ -10441,41 +10441,46 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
       'No se pudieron activar las notificaciones. Permite el acceso a las notificaciones para continuar.';
 
   @override
-  String get notificationsPushRelaySectionTitle => 'Push notification relay';
+  String get notificationsPushRelaySectionTitle =>
+      'Retransmisión de notificaciones push';
 
   @override
-  String get notificationsPushRelaySectionDescription =>
-      'Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.';
+  String notificationsPushRelaySectionDescription(String pushProvider) {
+    return '$pushProvider solo entrega notificaciones push a través de su propio servicio, así que las de este dispositivo pasan por la retransmisión de Fluxer.';
+  }
 
   @override
-  String get notificationsPushRelayConsentLabel => 'Use the Fluxer push relay';
+  String get notificationsPushRelayConsentLabel =>
+      'Usar la retransmisión push de Fluxer';
 
   @override
   String get notificationsPushRelayConsentDescription =>
-      'Turning this off removes this device\'s push registration, so this device stops receiving push notifications.';
+      'Si lo desactivas, se elimina el registro push de este dispositivo y dejará de recibir notificaciones push.';
 
   @override
-  String get pushRelayConsentTitle => 'Push notification relay';
+  String get pushRelayConsentTitle => 'Retransmisión de notificaciones push';
 
   @override
-  String get pushRelayConsentDescription =>
-      'Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.';
+  String pushRelayConsentDescription(String pushProvider) {
+    return '$pushProvider solo entrega notificaciones push a través de su propio servicio, así que las de este dispositivo pasan por la retransmisión de Fluxer.';
+  }
 
   @override
-  String get pushRelayConsentNoticePrefix => 'Agree to the ';
+  String get pushRelayConsentNoticePrefix => 'Acepta el ';
 
   @override
-  String get pushRelayConsentNoticeLink => 'Push Relay Privacy Notice';
+  String get pushRelayConsentNoticeLink =>
+      'aviso de privacidad de la retransmisión push';
 
   @override
   String get pushRelayConsentNoticeSuffix =>
-      ' to turn on push notifications on this device. You only need to agree once per device.';
+      ' para activar las notificaciones push en este dispositivo. Solo necesitas aceptar una vez por dispositivo.';
 
   @override
-  String get pushRelayConsentAgree => 'Agree and continue';
+  String get pushRelayConsentAgree => 'Aceptar y continuar';
 
   @override
-  String get pushRelayConsentDecline => 'Not now';
+  String get pushRelayConsentDecline => 'Ahora no';
 
   @override
   String get userSettingsNavLanguageAndTime => 'Idioma y hora';
@@ -25327,6 +25332,48 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   @override
   String get notificationsEnableNotificationsPermissionDenied =>
       'No se pudieron activar las notificaciones. Permite el acceso a las notificaciones para continuar.';
+
+  @override
+  String get notificationsPushRelaySectionTitle =>
+      'Retransmisión de notificaciones push';
+
+  @override
+  String notificationsPushRelaySectionDescription(String pushProvider) {
+    return '$pushProvider solo entrega notificaciones push a través de su propio servicio, así que las de este dispositivo pasan por la retransmisión de Fluxer.';
+  }
+
+  @override
+  String get notificationsPushRelayConsentLabel =>
+      'Usar la retransmisión push de Fluxer';
+
+  @override
+  String get notificationsPushRelayConsentDescription =>
+      'Si lo desactivas, se elimina el registro push de este dispositivo y dejará de recibir notificaciones push.';
+
+  @override
+  String get pushRelayConsentTitle => 'Retransmisión de notificaciones push';
+
+  @override
+  String pushRelayConsentDescription(String pushProvider) {
+    return '$pushProvider solo entrega notificaciones push a través de su propio servicio, así que las de este dispositivo pasan por la retransmisión de Fluxer.';
+  }
+
+  @override
+  String get pushRelayConsentNoticePrefix => 'Acepta el ';
+
+  @override
+  String get pushRelayConsentNoticeLink =>
+      'aviso de privacidad de la retransmisión push';
+
+  @override
+  String get pushRelayConsentNoticeSuffix =>
+      ' para activar las notificaciones push en este dispositivo. Solo necesitas aceptar una vez por dispositivo.';
+
+  @override
+  String get pushRelayConsentAgree => 'Aceptar y continuar';
+
+  @override
+  String get pushRelayConsentDecline => 'Ahora no';
 
   @override
   String get userSettingsNavLanguageAndTime => 'Idioma y hora';

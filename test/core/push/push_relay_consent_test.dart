@@ -23,6 +23,7 @@ void main() {
         isPushRelayConsentRequired(
           relayUrl: relayEndpoint,
           isConsentGranted: false,
+          isOfficialInstance: false,
         ),
         isTrue,
       );
@@ -30,6 +31,7 @@ void main() {
         isPushRelayConsentRequired(
           relayUrl: voipRelayEndpoint,
           isConsentGranted: false,
+          isOfficialInstance: false,
         ),
         isTrue,
       );
@@ -40,6 +42,7 @@ void main() {
         isPushRelayConsentRequired(
           relayUrl: relayEndpoint,
           isConsentGranted: true,
+          isOfficialInstance: false,
         ),
         isFalse,
       );
@@ -50,6 +53,7 @@ void main() {
         isPushRelayConsentRequired(
           relayUrl: _kNtfyEndpoint,
           isConsentGranted: false,
+          isOfficialInstance: false,
         ),
         isFalse,
       );
@@ -57,6 +61,7 @@ void main() {
         isPushRelayConsentRequired(
           relayUrl: _kSelfHostedEndpoint,
           isConsentGranted: false,
+          isOfficialInstance: false,
         ),
         isFalse,
       );
@@ -70,6 +75,7 @@ void main() {
           relayUrl: relayEndpoint,
           isConsentGranted: false,
           hasDecision: false,
+          isOfficialInstance: false,
         ),
         isTrue,
       );
@@ -81,6 +87,7 @@ void main() {
           relayUrl: relayEndpoint,
           isConsentGranted: false,
           hasDecision: true,
+          isOfficialInstance: false,
         ),
         isFalse,
       );
@@ -92,6 +99,7 @@ void main() {
           relayUrl: relayEndpoint,
           isConsentGranted: true,
           hasDecision: true,
+          isOfficialInstance: false,
         ),
         isFalse,
       );
@@ -103,6 +111,7 @@ void main() {
           relayUrl: _kNtfyEndpoint,
           isConsentGranted: false,
           hasDecision: false,
+          isOfficialInstance: false,
         ),
         isFalse,
       );
@@ -111,8 +120,53 @@ void main() {
           relayUrl: _kSelfHostedEndpoint,
           isConsentGranted: false,
           hasDecision: false,
+          isOfficialInstance: false,
         ),
         isFalse,
+      );
+    });
+  });
+
+  group('official instance', () {
+    test('never requires consent on the official instance', () {
+      expect(
+        isPushRelayConsentRequired(
+          relayUrl: relayEndpoint,
+          isConsentGranted: false,
+          isOfficialInstance: true,
+        ),
+        isFalse,
+      );
+      expect(
+        isPushRelayConsentRequired(
+          relayUrl: voipRelayEndpoint,
+          isConsentGranted: false,
+          isOfficialInstance: true,
+        ),
+        isFalse,
+      );
+    });
+
+    test('never prompts on the official instance', () {
+      expect(
+        shouldPromptForPushRelayConsent(
+          relayUrl: relayEndpoint,
+          isConsentGranted: false,
+          hasDecision: false,
+          isOfficialInstance: true,
+        ),
+        isFalse,
+      );
+    });
+
+    test('still requires consent on a third party instance', () {
+      expect(
+        isPushRelayConsentRequired(
+          relayUrl: relayEndpoint,
+          isConsentGranted: false,
+          isOfficialInstance: false,
+        ),
+        isTrue,
       );
     });
   });

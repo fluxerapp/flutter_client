@@ -47,3 +47,9 @@ bool isFluxerPushRelayUrl(String token) {
 }
 
 String _segment(String value) => Uri.encodeComponent(value);
+
+const String kPushRelayProviderApple = 'Apple';
+const String kPushRelayProviderGoogle = 'Google';
+
+String pushRelayProviderName({required bool isApple}) =>
+    isApple ? kPushRelayProviderApple : kPushRelayProviderGoogle;

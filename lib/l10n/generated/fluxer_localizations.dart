@@ -17149,8 +17149,8 @@ abstract class FluxerLocalizations {
   /// Notification settings section description explaining why the push relay exists.
   ///
   /// In en, this message translates to:
-  /// **'Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.'**
-  String get notificationsPushRelaySectionDescription;
+  /// **'{pushProvider} only delivers push notifications through their own service, so pushes for this device pass through the Fluxer relay.'**
+  String notificationsPushRelaySectionDescription(String pushProvider);
 
   /// Toggle label for agreeing to the Fluxer push relay on this device.
   ///
@@ -17173,8 +17173,8 @@ abstract class FluxerLocalizations {
   /// Subtitle of the push relay consent sheet explaining why the relay exists.
   ///
   /// In en, this message translates to:
-  /// **'Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.'**
-  String get pushRelayConsentDescription;
+  /// **'{pushProvider} only delivers push notifications through their own service, so pushes for this device pass through the Fluxer relay.'**
+  String pushRelayConsentDescription(String pushProvider);
 
   /// Text before the push relay privacy notice link in the consent sheet.
   ///

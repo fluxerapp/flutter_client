@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/push/web_push/web_push_relay.dart';
+import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/push/apns/apns_mobile_device_registration.dart';
@@ -141,11 +143,14 @@ class UserNotificationsSettings extends ConsumerWidget {
               ],
             ],
           ),
-          if (pushRelayConsentIsAvailable())
+          if (pushRelayConsentIsAvailable() &&
+              !ref.watch(isActiveInstanceOfficialProvider))
             FluxerSettingsSection(
               sectionId: 'push-relay',
               title: l10n.notificationsPushRelaySectionTitle,
-              description: l10n.notificationsPushRelaySectionDescription,
+              description: l10n.notificationsPushRelaySectionDescription(
+                pushRelayProviderName(isApple: PushProviderGuard.isApple),
+              ),
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

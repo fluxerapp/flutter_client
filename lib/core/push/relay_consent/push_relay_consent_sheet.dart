@@ -1,3 +1,5 @@
+import 'package:fluxer_app/core/push/web_push/web_push_relay.dart';
+import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -34,7 +36,9 @@ Future<bool?> showPushRelayConsentSheet(BuildContext context) {
       enableDrag: false,
       title: l10n.pushRelayConsentTitle,
       subtitle: Text(
-        l10n.pushRelayConsentDescription,
+        l10n.pushRelayConsentDescription(
+          pushRelayProviderName(isApple: PushProviderGuard.isApple),
+        ),
         style: textStyles.bodySmall.copyWith(color: colors.textSecondary),
       ),
       builder: (sheetContext, close) => buildContent(sheetContext),
@@ -46,7 +50,9 @@ Future<bool?> showPushRelayConsentSheet(BuildContext context) {
     useRootNavigator: true,
     centered: true,
     title: l10n.pushRelayConsentTitle,
-    description: l10n.pushRelayConsentDescription,
+    description: l10n.pushRelayConsentDescription(
+      pushRelayProviderName(isApple: PushProviderGuard.isApple),
+    ),
     trailing: Opacity(
       opacity: 0.7,
       child: FluxerButton.ghost(

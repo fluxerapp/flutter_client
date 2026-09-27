@@ -9721,41 +9721,42 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
       '无法启用通知。请允许通知权限后继续。';
 
   @override
-  String get notificationsPushRelaySectionTitle => 'Push notification relay';
+  String get notificationsPushRelaySectionTitle => '推送通知中继';
 
   @override
-  String get notificationsPushRelaySectionDescription =>
-      'Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.';
+  String notificationsPushRelaySectionDescription(String pushProvider) {
+    return '$pushProvider 只通过自家服务投递推送通知，因此本设备的推送会经过 Fluxer 中继。';
+  }
 
   @override
-  String get notificationsPushRelayConsentLabel => 'Use the Fluxer push relay';
+  String get notificationsPushRelayConsentLabel => '使用 Fluxer 推送中继';
 
   @override
   String get notificationsPushRelayConsentDescription =>
-      'Turning this off removes this device\'s push registration, so this device stops receiving push notifications.';
+      '关闭后将移除本设备的推送注册，本设备将不再接收推送通知。';
 
   @override
-  String get pushRelayConsentTitle => 'Push notification relay';
+  String get pushRelayConsentTitle => '推送通知中继';
 
   @override
-  String get pushRelayConsentDescription =>
-      'Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.';
+  String pushRelayConsentDescription(String pushProvider) {
+    return '$pushProvider 只通过自家服务投递推送通知，因此本设备的推送会经过 Fluxer 中继。';
+  }
 
   @override
-  String get pushRelayConsentNoticePrefix => 'Agree to the ';
+  String get pushRelayConsentNoticePrefix => '若要在本设备上开启推送通知，请同意';
 
   @override
-  String get pushRelayConsentNoticeLink => 'Push Relay Privacy Notice';
+  String get pushRelayConsentNoticeLink => '推送中继隐私声明';
 
   @override
-  String get pushRelayConsentNoticeSuffix =>
-      ' to turn on push notifications on this device. You only need to agree once per device.';
+  String get pushRelayConsentNoticeSuffix => '。每台设备只需同意一次。';
 
   @override
-  String get pushRelayConsentAgree => 'Agree and continue';
+  String get pushRelayConsentAgree => '同意并继续';
 
   @override
-  String get pushRelayConsentDecline => 'Not now';
+  String get pushRelayConsentDecline => '暂不';
 
   @override
   String get userSettingsNavLanguageAndTime => '语言与时间';
@@ -23185,6 +23186,44 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   @override
   String get notificationsEnableNotificationsPermissionDenied =>
       '無法啟用通知。請允許通知權限以繼續。';
+
+  @override
+  String get notificationsPushRelaySectionTitle => '推播通知中繼';
+
+  @override
+  String notificationsPushRelaySectionDescription(String pushProvider) {
+    return '$pushProvider 只透過自家服務傳送推播通知，因此本裝置的推播會經過 Fluxer 中繼。';
+  }
+
+  @override
+  String get notificationsPushRelayConsentLabel => '使用 Fluxer 推播中繼';
+
+  @override
+  String get notificationsPushRelayConsentDescription =>
+      '關閉後會移除本裝置的推播註冊，本裝置將不再收到推播通知。';
+
+  @override
+  String get pushRelayConsentTitle => '推播通知中繼';
+
+  @override
+  String pushRelayConsentDescription(String pushProvider) {
+    return '$pushProvider 只透過自家服務傳送推播通知，因此本裝置的推播會經過 Fluxer 中繼。';
+  }
+
+  @override
+  String get pushRelayConsentNoticePrefix => '若要在本裝置上開啟推播通知，請同意';
+
+  @override
+  String get pushRelayConsentNoticeLink => '推播中繼隱私權聲明';
+
+  @override
+  String get pushRelayConsentNoticeSuffix => '。每部裝置只需同意一次。';
+
+  @override
+  String get pushRelayConsentAgree => '同意並繼續';
+
+  @override
+  String get pushRelayConsentDecline => '暫不';
 
   @override
   String get userSettingsNavLanguageAndTime => '語言與時間';
