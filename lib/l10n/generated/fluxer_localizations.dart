@@ -17140,6 +17140,72 @@ abstract class FluxerLocalizations {
   /// **'Couldn\'t enable notifications. Allow notification permission to continue.'**
   String get notificationsEnableNotificationsPermissionDenied;
 
+  /// Notification settings section title for the Fluxer push relay.
+  ///
+  /// In en, this message translates to:
+  /// **'Push notification relay'**
+  String get notificationsPushRelaySectionTitle;
+
+  /// Notification settings section description explaining why the push relay exists.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.'**
+  String get notificationsPushRelaySectionDescription;
+
+  /// Toggle label for agreeing to the Fluxer push relay on this device.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the Fluxer push relay'**
+  String get notificationsPushRelayConsentLabel;
+
+  /// Toggle description explaining that revoking push relay consent unregisters the device.
+  ///
+  /// In en, this message translates to:
+  /// **'Turning this off removes this device\'s push registration, so this device stops receiving push notifications.'**
+  String get notificationsPushRelayConsentDescription;
+
+  /// Title of the one-time Fluxer push relay consent sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Push notification relay'**
+  String get pushRelayConsentTitle;
+
+  /// Subtitle of the push relay consent sheet explaining why the relay exists.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.'**
+  String get pushRelayConsentDescription;
+
+  /// Text before the push relay privacy notice link in the consent sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Agree to the '**
+  String get pushRelayConsentNoticePrefix;
+
+  /// Link text for the supplemental push relay privacy notice.
+  ///
+  /// In en, this message translates to:
+  /// **'Push Relay Privacy Notice'**
+  String get pushRelayConsentNoticeLink;
+
+  /// Text after the push relay privacy notice link in the consent sheet.
+  ///
+  /// In en, this message translates to:
+  /// **' to turn on push notifications on this device. You only need to agree once per device.'**
+  String get pushRelayConsentNoticeSuffix;
+
+  /// Button that records agreement to the push relay privacy notice.
+  ///
+  /// In en, this message translates to:
+  /// **'Agree and continue'**
+  String get pushRelayConsentAgree;
+
+  /// Button that declines the push relay privacy notice and leaves push notifications off.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get pushRelayConsentDecline;
+
   /// User settings navigation item for language and time settings.
   ///
   /// In en, this message translates to:

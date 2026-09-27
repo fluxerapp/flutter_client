@@ -278,6 +278,13 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     label: _l((l10n) => l10n.notificationsPushInactiveTimeoutLabel),
   ),
   _UserSettingsSearchOption(
+    id: 'notifications:push-relay',
+    section: UserSettingsSection.notifications,
+    fieldId: 'push-relay',
+    label: _l((l10n) => l10n.notificationsPushRelayConsentLabel),
+    keywords: [_l((l10n) => l10n.notificationsPushRelaySectionTitle)],
+  ),
+  _UserSettingsSearchOption(
     id: 'notifications:mention-preference',
     section: UserSettingsSection.notifications,
     fieldId: 'mention-preference',

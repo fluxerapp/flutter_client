@@ -393,4 +393,67 @@ void main() {
       'https://push.fluxer.com/relay/v1/apns-voip/stable/production/ab',
     );
   });
+
+  test('recognises only relay urls built for the fluxer relay', () {
+    expect(
+      isFluxerPushRelayUrl(fcmRelayUrl(appId: 'stable', deviceToken: 'tok')),
+      isTrue,
+    );
+    expect(
+      isFluxerPushRelayUrl(
+        apnsRelayUrl(
+          appId: 'stable',
+          environment: 'production',
+          deviceTokenHex: 'ab',
+        ),
+      ),
+      isTrue,
+    );
+    expect(
+      isFluxerPushRelayUrl(
+        apnsVoipRelayUrl(
+          appId: 'stable',
+          environment: 'production',
+          deviceTokenHex: 'ab',
+        ),
+      ),
+      isTrue,
+    );
+    expect(isFluxerPushRelayUrl('https://ntfy.sh/xxxx'), isFalse);
+    expect(
+      isFluxerPushRelayUrl('https://push.example.com/relay/v1/fcm/stable/tok'),
+      isFalse,
+    );
+    expect(
+      isFluxerPushRelayUrl('https://up.example/UP?instance=fluxer'),
+      isFalse,
+    );
+    expect(isFluxerPushRelayUrl(''), isFalse);
+  });
+
+  test('rejects relay-shaped urls that are not the fluxer relay', () {
+    expect(
+      isFluxerPushRelayUrl(
+        'https://push.fluxer.com.evil.example/relay/v1/fcm/stable/tok',
+      ),
+      isFalse,
+    );
+    expect(
+      isFluxerPushRelayUrl('http://push.fluxer.com/relay/v1/fcm/stable/tok'),
+      isFalse,
+    );
+    expect(
+      isFluxerPushRelayUrl('https://push.fluxer.com:8443/relay/v1/fcm/s/t'),
+      isFalse,
+    );
+    expect(isFluxerPushRelayUrl('https://push.fluxer.com/relay/v1'), isFalse);
+    expect(
+      isFluxerPushRelayUrl('https://push.fluxer.com/relay/v2/fcm/stable/tok'),
+      isFalse,
+    );
+    expect(
+      isFluxerPushRelayUrl('https://push.fluxer.com/relay/v1/ntfy/stable/tok'),
+      isFalse,
+    );
+  });
 }

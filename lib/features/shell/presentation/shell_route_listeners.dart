@@ -8,6 +8,9 @@ import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/permissions/guild_channel_permission_cleanup.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/push/push_notifications_coordinator.dart';
+import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_prompt_provider.dart';
+import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_provider.dart';
+import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_sheet.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_distributor_setup.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_distributor_ui.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_no_distributor_dismissal_provider.dart';
@@ -125,6 +128,28 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
       });
     }
 
+    if (PushProviderGuard.isApple || PushProviderGuard.isFirebaseMessaging) {
+      ref.listenManual<bool>(pushRelayConsentPromptProvider, (
+        bool? previous,
+        bool next,
+      ) {
+        if (!next) {
+          return;
+        }
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) {
+            return;
+          }
+          final BuildContext? rootContext = rootNavigatorKey.currentContext;
+          if (rootContext == null || !rootContext.mounted) {
+            return;
+          }
+          ref.read(pushRelayConsentPromptProvider.notifier).clearRequest();
+          unawaited(_presentPushRelayConsent(rootContext));
+        });
+      });
+    }
+
     ref.listenManual<HomeQuickAction?>(pendingHomeQuickActionProvider, (
       HomeQuickAction? previous,
       HomeQuickAction? next,
@@ -170,6 +195,14 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
         );
       });
     });
+  }
+
+  Future<void> _presentPushRelayConsent(BuildContext rootContext) async {
+    final bool? agreed = await showPushRelayConsentSheet(rootContext);
+    if (!mounted || agreed == null) {
+      return;
+    }
+    await ref.read(pushRelayConsentProvider.notifier).setEnabled(value: agreed);
   }
 
   void _presentHomeQuickAction(HomeQuickAction action, {bool retried = false}) {

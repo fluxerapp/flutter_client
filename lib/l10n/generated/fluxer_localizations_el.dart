@@ -10453,6 +10453,43 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Δεν ήταν δυνατή η ενεργοποίηση των ειδοποιήσεων. Επιτρέψτε την άδεια ειδοποιήσεων για να συνεχίσετε.';
 
   @override
+  String get notificationsPushRelaySectionTitle => 'Push notification relay';
+
+  @override
+  String get notificationsPushRelaySectionDescription =>
+      'Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.';
+
+  @override
+  String get notificationsPushRelayConsentLabel => 'Use the Fluxer push relay';
+
+  @override
+  String get notificationsPushRelayConsentDescription =>
+      'Turning this off removes this device\'s push registration, so this device stops receiving push notifications.';
+
+  @override
+  String get pushRelayConsentTitle => 'Push notification relay';
+
+  @override
+  String get pushRelayConsentDescription =>
+      'Apple and Google only deliver push notifications through their own services, so pushes for this device pass through the Fluxer relay.';
+
+  @override
+  String get pushRelayConsentNoticePrefix => 'Agree to the ';
+
+  @override
+  String get pushRelayConsentNoticeLink => 'Push Relay Privacy Notice';
+
+  @override
+  String get pushRelayConsentNoticeSuffix =>
+      ' to turn on push notifications on this device. You only need to agree once per device.';
+
+  @override
+  String get pushRelayConsentAgree => 'Agree and continue';
+
+  @override
+  String get pushRelayConsentDecline => 'Not now';
+
+  @override
   String get userSettingsNavLanguageAndTime => 'Γλώσσα & Ώρα';
 
   @override
