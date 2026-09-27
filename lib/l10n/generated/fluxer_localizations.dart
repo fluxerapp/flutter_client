@@ -17326,6 +17326,48 @@ abstract class FluxerLocalizations {
   /// **'External browser'**
   String get defaultAppsWebBrowserExternal;
 
+  /// User settings navigation item for choosing the home screen app icon.
+  ///
+  /// In en, this message translates to:
+  /// **'App Icon'**
+  String get userSettingsNavAppIcon;
+
+  /// Title for the app icon settings section.
+  ///
+  /// In en, this message translates to:
+  /// **'App Icon'**
+  String get appIconSectionTitle;
+
+  /// Description for the app icon settings section.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose which icon appears on your home screen.'**
+  String get appIconSectionDescription;
+
+  /// App icon option for the build default icon (release or canary).
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get appIconOptionDefault;
+
+  /// App icon option for the starfield alternate icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Starfield'**
+  String get appIconOptionStarfield;
+
+  /// App icon option for the Sweden flag alternate icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Sweden'**
+  String get appIconOptionSweden;
+
+  /// Shown when alternate app icons cannot be used on the current platform.
+  ///
+  /// In en, this message translates to:
+  /// **'Changing the app icon is not available on this device.'**
+  String get appIconUnsupported;
+
   /// User settings navigation item for advanced settings.
   ///
   /// In en, this message translates to:

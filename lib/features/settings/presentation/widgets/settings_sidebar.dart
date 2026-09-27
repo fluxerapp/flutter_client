@@ -154,7 +154,13 @@ class SettingsSidebar extends StatelessWidget {
 
     final Widget row = Row(
       children: [
-        if (item.icon != null) ...[
+        if (item.leading != null) ...[
+          IconTheme.merge(
+            data: IconThemeData(color: color, size: 20),
+            child: item.leading!,
+          ),
+          const SizedBox(width: 8),
+        ] else if (item.icon != null) ...[
           PhosphorIcon(item.icon!, size: 20, color: color),
           const SizedBox(width: 8),
         ],
@@ -195,6 +201,7 @@ class SettingsSidebarItem {
   final String label;
   final bool isSeparator;
   final IconData? icon;
+  final Widget? leading;
   final bool isDestructive;
   final bool isDisabled;
   final VoidCallback? onDisabledTap;
@@ -202,6 +209,7 @@ class SettingsSidebarItem {
   const SettingsSidebarItem(
     this.label, {
     this.icon,
+    this.leading,
     this.isSeparator = false,
     this.isDestructive = false,
     this.isDisabled = false,
@@ -211,6 +219,7 @@ class SettingsSidebarItem {
   const SettingsSidebarItem.separator([this.label = ''])
     : isSeparator = true,
       icon = null,
+      leading = null,
       isDestructive = false,
       isDisabled = false,
       onDisabledTap = null;

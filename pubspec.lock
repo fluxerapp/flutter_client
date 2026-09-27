@@ -657,6 +657,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.0"
+  dynamic_app_icon_flutter_plus:
+    dependency: "direct main"
+    description:
+      name: dynamic_app_icon_flutter_plus
+      sha256: eaeacb158dd8f717910d0608407310459e9027d7199b882817a60ffc027a2432
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.1"
   extension_discovery:
     dependency: transitive
     description:

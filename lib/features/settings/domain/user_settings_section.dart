@@ -16,6 +16,7 @@ enum UserSettingsSection {
   notifications,
   languageAndTime,
   defaultApps,
+  appIcon,
   advanced,
   applications,
   developerTools,

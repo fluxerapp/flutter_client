@@ -10595,6 +10595,29 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get defaultAppsWebBrowserExternal => 'Navigateur externe';
 
   @override
+  String get userSettingsNavAppIcon => 'App Icon';
+
+  @override
+  String get appIconSectionTitle => 'App Icon';
+
+  @override
+  String get appIconSectionDescription =>
+      'Choose which icon appears on your home screen.';
+
+  @override
+  String get appIconOptionDefault => 'Default';
+
+  @override
+  String get appIconOptionStarfield => 'Starfield';
+
+  @override
+  String get appIconOptionSweden => 'Sweden';
+
+  @override
+  String get appIconUnsupported =>
+      'Changing the app icon is not available on this device.';
+
+  @override
   String get userSettingsNavAdvanced => 'Avancé';
 
   @override

@@ -1483,6 +1483,7 @@ class FluxerBottomSheetSubmenuItem extends StatelessWidget {
   final String label;
   final String? hint;
   final IconData? icon;
+  final Widget? leading;
   final VoidCallback onTap;
 
   const FluxerBottomSheetSubmenuItem({
@@ -1490,6 +1491,7 @@ class FluxerBottomSheetSubmenuItem extends StatelessWidget {
     required this.onTap,
     this.hint,
     this.icon,
+    this.leading,
     super.key,
   });
 
@@ -1499,6 +1501,7 @@ class FluxerBottomSheetSubmenuItem extends StatelessWidget {
       label: label,
       hint: hint,
       icon: icon,
+      leading: leading,
       onTap: onTap,
       trailing: PhosphorIcon(
         PhosphorIconsFill.caretRight,

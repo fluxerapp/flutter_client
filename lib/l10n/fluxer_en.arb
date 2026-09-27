@@ -12927,6 +12927,34 @@
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
     },
+    "userSettingsNavAppIcon": "App Icon",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "App Icon",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "Choose which icon appears on your home screen.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
+    },
+    "appIconOptionDefault": "Default",
+    "@appIconOptionDefault": {
+        "description": "App icon option for the build default icon (release or canary)."
+    },
+    "appIconOptionStarfield": "Starfield",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
+    "appIconOptionSweden": "Sweden",
+    "@appIconOptionSweden": {
+        "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "Changing the app icon is not available on this device.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
+    },
     "userSettingsNavAdvanced": "Advanced",
     "@userSettingsNavAdvanced": {
         "description": "User settings navigation item for advanced settings."
